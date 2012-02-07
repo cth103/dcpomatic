@@ -52,21 +52,22 @@ main (int argc, char* argv[])
 		}
 	}
 
-	AVCodecContext* codec_context = format_context->streams[video_stream]->codec;
+	AVCodecContext* decoder_context = format_context->streams[video_stream]->codec;
 
-	AVCodec* codec = avcodec_find_decoder (codec_context->codec_id);
-	if (codec == NULL) {
+	AVCodec* decoder = avcodec_find_decoder (decoder_context->codec_id);
+	if (decoder == NULL) {
 		fprintf (stderr, "avcodec_find_decoder failed.\n");
 		return -1;
 	}
 
-	if (avcodec_open2 (codec_context, codec, NULL) < 0) {
+	if (avcodec_open2 (decoder_context, decoder, NULL) < 0) {
 		fprintf (stderr, "avcodec_open failed.\n");
 		return -1;
 	}
 
-	if (codec_context->time_base.num > 1000 && codec_context->time_base.den == 1) {
-		codec_context->time_base.den = 1000;
+	/* XXX */
+	if (decoder_context->time_base.num > 1000 && decoder_context->time_base.den == 1) {
+		decoder_context->time_base.den = 1000;
 	}
 		
 	AVFrame* frame = avcodec_alloc_frame ();
@@ -77,10 +78,10 @@ main (int argc, char* argv[])
 		return -1;
 	}
 
-	int num_bytes = avpicture_get_size (PIX_FMT_RGB24, codec_context->width, codec_context->height);
+	int num_bytes = avpicture_get_size (PIX_FMT_RGB24, decoder_context->width, decoder_context->height);
 	uint8_t* buffer = (uint8_t *) malloc (num_bytes);
 
-	avpicture_fill ((AVPicture *) frame_RGB, buffer, PIX_FMT_RGB24, codec_context->width, codec_context->height);
+	avpicture_fill ((AVPicture *) frame_RGB, buffer, PIX_FMT_RGB24, decoder_context->width, decoder_context->height);
 
 	int i = 0;
 	AVPacket packet;
@@ -89,18 +90,18 @@ main (int argc, char* argv[])
 		int frame_finished;
 
 		if (packet.stream_index == video_stream) {
-			avcodec_decode_video2 (codec_context, frame, &frame_finished, &packet);
+			avcodec_decode_video2 (decoder_context, frame, &frame_finished, &packet);
 
 			if (frame_finished) {
 				static struct SwsContext *img_convert_context;
 
 				if (img_convert_context == NULL) {
-					int w = codec_context->width;
-					int h = codec_context->height;
+					int w = decoder_context->width;
+					int h = decoder_context->height;
 					
 					img_convert_context = sws_getContext (
 						w, h, 
-						codec_context->pix_fmt, 
+						decoder_context->pix_fmt, 
 						w, h, PIX_FMT_RGB24, SWS_BICUBIC,
 						NULL, NULL, NULL
 						);
@@ -113,12 +114,12 @@ main (int argc, char* argv[])
 				
 				sws_scale (
 					img_convert_context, frame->data, frame->linesize, 0, 
-					codec_context->height, frame_RGB->data, frame_RGB->linesize
+					decoder_context->height, frame_RGB->data, frame_RGB->linesize
 					);
 
 				++i;
-				if (i > 100 && i < 150) {
-					save_frame (frame_RGB, codec_context->width, codec_context->height, i);
+				if (i == 200) {
+					save_frame (frame_RGB, decoder_context->width, decoder_context->height, i);
 				}
 			}
 		}
@@ -129,7 +130,7 @@ main (int argc, char* argv[])
 	free (buffer);
 	av_free (frame_RGB);
 	av_free (frame);
-	avcodec_close(codec_context);
+	avcodec_close (decoder_context);
 	avformat_close_input (&format_context);
 	
 	return 0;	
