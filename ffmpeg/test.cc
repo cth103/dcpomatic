@@ -1,6 +1,8 @@
+extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
+}
 
 char const video[] = "/home/carl/Films/A town called panic.divx";//Ghostbusters.avi";
 
