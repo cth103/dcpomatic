@@ -1,10 +1,13 @@
+#include <iostream>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 }
 
-char const video[] = "/home/carl/Films/A town called panic.divx";//Ghostbusters.avi";
+using namespace std;
+
+char const video[] = "./starwars.mpg";//Ghostbusters.avi";
 
 static void
 save_frame (AVFrame *frame, int width, int height, int N)
@@ -69,7 +72,28 @@ main (int argc, char* argv[])
 	if (decoder_context->time_base.num > 1000 && decoder_context->time_base.den == 1) {
 		decoder_context->time_base.den = 1000;
 	}
-		
+
+	AVCodec* encoder = avcodec_find_encoder (CODEC_ID_JPEG2000);
+	if (encoder == NULL) {
+		cerr << "avcodec_find_encoder failed.\n";
+		return -1;
+	}
+
+	AVCodecContext* encoder_context = avcodec_alloc_context3 (encoder);
+
+	cout << decoder_context->width << " x " << decoder_context->height << "\n";
+	encoder_context->width = decoder_context->width;
+	encoder_context->height = decoder_context->height;
+	/* XXX */
+	encoder_context->time_base = (AVRational) {1, 25};
+	encoder_context->pix_fmt = PIX_FMT_YUV420P;
+	encoder_context->compression_level = 0;
+
+	if (avcodec_open2 (encoder_context, encoder, NULL) < 0) {
+		cerr << "avcodec_open failed.\n";
+		return -1;
+	}
+	
 	AVFrame* frame = avcodec_alloc_frame ();
 
 	AVFrame* frame_RGB = avcodec_alloc_frame ();
@@ -78,13 +102,20 @@ main (int argc, char* argv[])
 		return -1;
 	}
 
+	FILE* outfile = fopen ("output", "wb");
+
 	int num_bytes = avpicture_get_size (PIX_FMT_RGB24, decoder_context->width, decoder_context->height);
 	uint8_t* buffer = (uint8_t *) malloc (num_bytes);
 
 	avpicture_fill ((AVPicture *) frame_RGB, buffer, PIX_FMT_RGB24, decoder_context->width, decoder_context->height);
 
-	int i = 0;
+	/* alloc image and output buffer */
+	int outbuf_size = 100000;
+	uint8_t* outbuf = (uint8_t *) malloc (outbuf_size);
+	int out_size = 0;
+	
 	AVPacket packet;
+	int i = 0;
 	while (av_read_frame (format_context, &packet) >= 0) {
 
 		int frame_finished;
@@ -117,20 +148,28 @@ main (int argc, char* argv[])
 					decoder_context->height, frame_RGB->data, frame_RGB->linesize
 					);
 
+				out_size = avcodec_encode_video (encoder_context, outbuf, outbuf_size, frame);
 				++i;
 				if (i == 200) {
-					save_frame (frame_RGB, decoder_context->width, decoder_context->height, i);
+					fwrite (outbuf, 1, out_size, outfile);
 				}
 			}
 		}
 
 		av_free_packet (&packet);
 	}
-	
+
+	while (out_size) {
+		out_size = avcodec_encode_video (encoder_context, outbuf, outbuf_size, NULL);
+		fwrite (outbuf, 1, out_size, outfile);
+	}
+
+	fclose (outfile);
 	free (buffer);
 	av_free (frame_RGB);
 	av_free (frame);
 	avcodec_close (decoder_context);
+	avcodec_close (encoder_context);
 	avformat_close_input (&format_context);
 	
 	return 0;	
