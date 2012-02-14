@@ -5,4 +5,4 @@ experimental/ffmpeg-DVD-to-j2c/dvd_to_j2c
 .lock-waf*
 core
 build
-films
+films-0.1
