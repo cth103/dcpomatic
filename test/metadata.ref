@@ -1,0 +1,24 @@
+name fred
+content 
+dcp_long_name sheila
+guess_dcp_long_name 0
+dcp_content_type Short
+frames_per_second 0
+format 185
+left_crop 1
+right_crop 2
+top_crop 3
+bottom_crop 4
+filter pphb
+filter unsharp
+scaler bicubic
+dcp_frames 42
+dcp_ab 1
+audio_gain 0
+audio_delay 0
+width 0
+height 0
+length 0
+audio_channels 0
+audio_sample_rate 0
+audio_sample_format Unknown

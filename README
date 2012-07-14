@@ -1,0 +1,82 @@
+dvd-o-matic
+-----------
+
+Hello!
+
+
+Building
+--------
+
+./waf configure
+./waf
+sudo ./waf install
+
+
+Dependencies
+------------
+
+You will need these libraries:
+
+    FFmpeg
+    libtiff
+    boost thread and filesystem
+    libopenjpeg
+
+and also the command line tools:
+
+    opendcp_mxf and opendcp_xml (from OpenDCP http://code.google.com/p/opendcp/)
+    vobcopy (if you want to rip DVDs straight into DVD-o-matic)
+
+
+In a nutshell
+-------------
+
+The `dvdomatic' program is a GTK front-end which is probably easiest
+to use.  It will create a directory for a particular project, and write
+its data to that directory.  The basic approach is:
+
+"File->New"; specify a directory.
+Choose "Jobs->Copy from DVD" to read a DVD from your drive, if you have one.
+Fill in the fields in the window (most importantly the `content' field:
+  specify your video, and the `Name' field: give your project [and hence DCP]
+  a name.)
+Move the slider to see thumbnails; adjust crop if necessary.
+Click "Make DCP" and go and make a really strong cup of tea.
+The DCP will be written to the project's directory; copy this to your
+  media server and ingest.
+
+The `Format' field dictates what size your image will be:
+
+- 4:3 within Flat: 1.33:1 images inside a flat (1.85:1) frame; play
+  back using the DCI 1.85 / DCI Flat preset on your projector.
+- Academy: 1.37:1; play using DCI 1.37 if you have such a thing.
+- 16:9 within Flat: 1.78:1 images inside a 1.85:1 frame.
+- Flat: 1.85:1 images to the DCI spec.
+- Scope: 2.39:1 images to the DCI spec.
+
+
+
+Server/client
+-------------
+
+Running the `servomatic' program on a remote machine will make it
+listen on port 6192 (by default) and process requests from a dvdomatic
+instance.  This has been written with no thought to security, so don't
+do it over the public internet!  The connection will probably need to
+be 1 Gb/s to make it worthwhile.
+
+To tell the client about available servers you will need to go to
+Edit->Preferences and add the server's IP address and the number of
+parallel threads that the server should execute (make it equal to the
+number of CPUs or cores).
+
+
+
+Problems
+--------
+
+Email me at cth@carlh.net in the first instance.
+
+
+Carl Hetherington
+July 2012

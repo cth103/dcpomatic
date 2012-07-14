@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=build/src/lib:build/src/gtk:$LD_LIBRARY_PATH
+if [ "$1" == "--debug" ]; then
+    gdb --args build/src/tools/alignomatic $2
+elif [ "$1" == "--valgrind" ]; then
+    valgrind --tool="memcheck" build/src/tools/alignomatic $2
+else
+    build/src/tools/alignomatic "$1"
+fi

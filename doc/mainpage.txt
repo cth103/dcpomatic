@@ -1,0 +1,37 @@
+/** @mainpage DVD-o-matic
+ *
+ *  DVD-o-matic is a tool to create digital cinema packages (DCPs) from
+ *  video files, or from sets of TIFF image files.  It is written in C++
+ *  and distributed under the GPL.
+ *
+ *  Video files are decoded using FFmpeg (http://ffmpeg.org), so any video
+ *  supported by FFmpeg should be usable with DVD-o-matic.  Most testing has, however,
+ *  happened with files from DVD.  DVD-o-matic's output has been tested on Christie
+ *  digital projectors with Doremi servers.
+ *
+ *  DVD-o-matic allows you to crop black borders from movies, scale them to the correct
+ *  aspect ratio and apply FFmpeg filters.  The time-consuming encoding of JPEG2000 files
+ *  can be parallelised amongst any number of processors on the local host and any number
+ *  of servers over a network.
+ * 
+ *  Portions of DVD-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
+ *  written by Terrence Meiczinger, and two of OpenDCP's command-line tools are called
+ *  by DVD-o-matic.
+ *
+ *  DVD-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
+ *  and libsndfile (http://www.mega-nerd.com/libsndfile/) for WAV file manipulation.  It
+ *  also makes heavy use of the boost libraries (http://www.boost.org/).  libtiff
+ *  (http://www.libtiff.org/) is used for TIFF encoding and decoding, and the GUI is
+ *  built using GTK (http://www.gtk.org/) and GTKMM (http://www.gtkmm.org).  It also uses libmhash (http://mhash.sourceforge.net/)
+ *  for debugging purposes.
+ *
+ *  Thanks are due to the authors and communities of all DVD-o-matic's dependencies.
+ * 
+ *  DVD-o-matic is distributed in the hope that there are still cinemas with projectionists
+ *  who might want to use it.  As Mark Kermode says, "if it doesn't have a projectionist
+ *  it's not a cinema - it's a sweetshop with a video-screen."
+ *
+ *  Email correspondance is welcome to cth@carlh.net
+ *
+ *  More details can be found at http://carlh.net/dvdomatic
+ */

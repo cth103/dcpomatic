@@ -1,0 +1,52 @@
+def build(bld):
+    obj = bld(features = 'cxx cxxshlib')
+    obj.name = 'libdvdomatic'
+    obj.export_includes = ['.']
+    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH'
+    if bld.env.DEBUG_HASH:
+        obj.uselib += ' MHASH'
+    obj.source = """
+		 ab_transcode_job.cc
+		 ab_transcoder.cc
+		 config.cc
+		 copy_from_dvd_job.cc
+		 dcp_content_type.cc
+		 dcp_video_frame.cc
+                 decoder.cc
+                 decoder_factory.cc
+                 delay_line.cc
+                 dvd.cc
+		 encoder.cc
+                 encoder_factory.cc
+		 examine_content_job.cc
+                 ffmpeg_decoder.cc
+    	         film.cc
+		 film_state.cc
+		 filter.cc
+		 format.cc
+                 image.cc
+                 imagemagick_decoder.cc
+		 j2k_still_encoder.cc
+		 j2k_wav_encoder.cc
+		 job.cc
+		 job_manager.cc
+		 log.cc
+		 lut.cc
+		 make_dcp_job.cc
+		 make_mxf_job.cc
+                 player.cc
+                 player_manager.cc
+		 scaler.cc
+                 screen.cc
+		 server.cc
+                 scp_dcp_job.cc
+		 shell_command_job.cc
+		 thumbs_job.cc
+                 tiff_decoder.cc
+	         tiff_encoder.cc
+                 timer.cc
+		 transcode_job.cc
+		 transcoder.cc
+		 util.cc
+		 """
+    obj.target = 'dvdomatic'

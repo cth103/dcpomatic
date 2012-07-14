@@ -1,0 +1,30 @@
+#!/usr/bin/python
+
+import os
+import sys
+
+if len(sys.argv) < 2:
+    print 'Syntax: %s <DVD-image>' % sys.argv[0]
+    sys.exit(1)
+
+lsdvd = os.popen('lsdvd -c "%s"' % sys.argv[1])
+lines = lsdvd.readlines()
+
+N = None
+
+for l in lines:
+    w = l.split()
+    if len(w) > 5 and w[4] == 'Chapters:':
+        N = int(w[5][:-1])
+
+if N == None:
+    print 'Could not get chapter count.'
+    sys.exit(1)
+
+for i in range(1, N + 1):
+    os.mkdir('%d' % i)
+    c = 'mplayer dvd:// -chapter %d-%d -dvd-device "%s" -dumpstream -dumpfile %d/%d.vob' % (i, i, sys.argv[1], i, i)
+    print c
+    os.system(c)
+
+

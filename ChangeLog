@@ -1,0 +1,90 @@
+2012-07-15  Carl Hetherington  <cth@carlh.net>
+
+	* Remove code to use `standard' format DCP long names,
+	as in the wild their use seems to be decreasing, and it
+	makes the GUI simpler.
+
+	* Fix some bugs with sending to servomatic introduced
+	in the adjustments to padding.
+
+2012-07-14  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.25 released.
+
+2012-07-14  Carl Hetherington  <cth@carlh.net>
+
+	* Various GUI cleanups.
+
+	* Remove player from the GUI for now.
+
+	* Fix hash down the left-hand side of encoded DCPs.
+
+	* Add option to black-out the end of an encode, in order
+	to remove unwanted frames of video whilst keeping sound.
+
+	* Fixes to copy-to-server.
+
+	* Fix name of 16:9 format.
+
+2012-07-08  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.24 released.
+
+2012-07-08  Carl Hetherington  <cth@carlh.net>
+
+	* Add support for generating static DCPs from single
+	image files.
+
+	* Add option to copy DCP to a remote server (e.g. a TMS)
+	via SCP.
+
+	* Auto-update thumbs when content changes.
+
+2012-06-10  Carl Hetherington  <cth@carlh.net>
+
+	* Fix up bad padding setup when there isn't any.
+
+	* Restore sound to playomatic; add assert for bad format.
+
+2012-05-26  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash on attempting to use a non-existant filter.
+
+	* src/lib/filter.cc: Fix typo in filter name.
+
+	* Allow configuration of the reference scalers and filters in A/B mode.
+
+	* Fix identification of formats in metadata.
+
+2012-05-26  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.23 released.
+
+2012-05-28  Carl Hetherington  <cth@carlh.net>
+
+	* src/lib/player_manager.cc: possible fix to crash when stopping
+	playback.
+
+	* Fix crash in A/B mode.
+
+2012-05-26  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.21 released.
+
+2012-05-25  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to delay audio with respect to video.
+
+	* src/tools/fixlengths.cc: add a few more options.
+
+2012-05-22  Carl Hetherington  <cth@carlh.net>
+
+	* src/tools/dvdomatic.cc: fix website address.
+
+	* test: fix up a few test bits.
+
+	* README: very brief introduction to a few things.
+
+2012-05-22  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.20 released.
