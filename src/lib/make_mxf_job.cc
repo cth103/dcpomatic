@@ -72,7 +72,7 @@ MakeMXFJob::run ()
 		c << "\"" << _opt->frame_out_path () << "\" -o \"" << _fs->file ("video.mxf") << "\"";
 		break;
 	case AUDIO:
-		c << "\"" << _opt->multichannel_audio_out_path () << "\" -o \"" << _fs->file ("audio.mxf") << "\"";
+		c << "\"" << _opt->multichannel_audio_out_path () << "/*\" -o \"" << _fs->file ("audio.mxf") << "\"";
 		break;
 	}
 
