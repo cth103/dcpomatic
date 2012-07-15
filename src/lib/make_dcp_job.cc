@@ -74,7 +74,7 @@ MakeDCPJob::run ()
 	
 	stringstream c;
 	c << "cd \"" << dcp_path << "\" && "
-	  << " opendcp_xml -d -a " << _fs->name
+	  << " opendcp_xml -d -a \"" << _fs->name << "\""
 	  << " -t \"" << _fs->name << "\""
 	  << " -k " << _fs->dcp_content_type->opendcp_name()
 	  << " --reel \"" << _fs->file ("video.mxf") << "\"";
