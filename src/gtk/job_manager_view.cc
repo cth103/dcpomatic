@@ -93,6 +93,7 @@ JobManagerView::update ()
 				r[_columns.text] = st;
 				r[_columns.progress] = p * 100;
 			} else {
+				r[_columns.text] = "Running";
 				r[_columns.progress_unknown] = r[_columns.progress_unknown] + 1;
 			}
 		}
