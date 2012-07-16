@@ -23,6 +23,10 @@
 
 #include "shell_command_job.h"
 
+namespace ASDCP {
+	class WriterInfo;
+}
+
 class FilmState;
 class Options;
 
@@ -43,6 +47,10 @@ public:
 	void run ();
 
 private:
+	void j2k (std::list<std::string> const &, std::string const &);
+	void wav (std::list<std::string> const &, std::string const &);
+	void fill_writer_info (ASDCP::WriterInfo *);
+	
 	Type _type;
 };
 
