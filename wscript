@@ -14,9 +14,6 @@ def configure(conf):
     conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
 
     conf.env.DEBUG_HASH = conf.options.debug_hash
-    if conf.options.debug_hash:
-        conf.env.append_value('CXXFLAGS', '-DDEBUG_HASH')
-        conf.check_cc(msg = 'Checking for library libmhash', function_name = 'mhash_init', header_name = 'mhash.h', lib = 'mhash', uselib_store = 'MHASH')
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', '-g')
@@ -24,10 +21,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O3')
 
     conf.env.DISABLE_GUI = conf.options.disable_gui
-    if conf.options.disable_gui is False:
-        conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
-        conf.check_cfg(package = 'gtkmm-2.4', args = '--cflags --libs', uselib_store = 'GTKMM', mandatory = True)
-        conf.check_cfg(package = 'cairomm-1.0', args = '--cflags --libs', uselib_store = 'CAIROMM', mandatory = True)
 
     conf.check_cfg(package = 'sigc++-2.0', args = '--cflags --libs', uselib_store = 'SIGC++', mandatory = True)
     conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
@@ -65,11 +58,9 @@ def configure(conf):
     			      #include <boost/filesystem.hpp>\n
     			      int main() { boost::filesystem::copy_file ("a", "b"); }\n
 			      """, msg = 'Checking for boost filesystem library', libpath = '/usr/local/lib', lib = ['boost_filesystem', 'boost_system'], uselib_store = 'BOOST_FILESYSTEM')
-    conf.check_cxx(fragment = """
-                              #define BOOST_TEST_MODULE Config test\n
-    			      #include <boost/test/unit_test.hpp>\n
-                              int main() {}
-                              """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework', uselib_store = 'BOOST_TEST')
+
+    conf.recurse('src')
+    conf.recurse('test')
 
 def build(bld):
     bld.recurse('src')

@@ -1,3 +1,8 @@
+def configure(conf):
+    conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
+    conf.check_cfg(package = 'gtkmm-2.4', args = '--cflags --libs', uselib_store = 'GTKMM', mandatory = True)
+    conf.check_cfg(package = 'cairomm-1.0', args = '--cflags --libs', uselib_store = 'CAIROMM', mandatory = True)
+
 def build(bld):
     obj = bld(features = 'cxx cxxshlib')
     obj.name   = 'libdvdomatic-gtk'

@@ -1,3 +1,8 @@
+def configure(conf):
+    if conf.options.debug_hash:
+        conf.env.append_value('CXXFLAGS', '-DDEBUG_HASH')
+        conf.check_cc(msg = 'Checking for library libmhash', function_name = 'mhash_init', header_name = 'mhash.h', lib = 'mhash', uselib_store = 'MHASH')
+
 def build(bld):
     obj = bld(features = 'cxx cxxshlib')
     obj.name = 'libdvdomatic'
