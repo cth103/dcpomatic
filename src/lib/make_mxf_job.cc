@@ -61,32 +61,6 @@ MakeMXFJob::name () const
 	return s.str ();
 }
 
-#if 0
-XXX
-void
-MakeMXFJob::run ()
-{
-	set_progress_unknown ();
-
-	/* We round for DCP: not sure if this is right */
-	float fps = rintf (_fs->frames_per_second);
-	
-	stringstream c;
-	c << "opendcp_mxf -r " << fps << " -i ";
-	switch (_type) {
-	case VIDEO:
-		c << "\"" << _opt->frame_out_path () << "\" -o \"" << _fs->file ("video.mxf") << "\"";
-		break;
-	case AUDIO:
-		c << "\"" << _opt->multichannel_audio_out_path () << "/*\" -o \"" << _fs->file ("audio.mxf") << "\"";
-		break;
-	}
-
-	command (c.str ());
-	set_progress (1);
-}
-#endif
-
 void
 MakeMXFJob::run ()
 {
