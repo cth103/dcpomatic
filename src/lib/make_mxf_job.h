@@ -29,7 +29,7 @@ class Options;
 /** @class MakeMXFJob
  *  @brief A job that creates a MXF file from some data.
  */
-class MakeMXFJob : public ShellCommandJob
+class MakeMXFJob : public Job
 {
 public:
 	enum Type {

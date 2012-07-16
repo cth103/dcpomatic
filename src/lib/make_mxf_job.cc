@@ -22,10 +22,13 @@
  */
 
 #include <iostream>
+#include <boost/filesystem.hpp>
+#include "AS_DCP.h"
 #include "make_mxf_job.h"
 #include "film.h"
 #include "film_state.h"
 #include "options.h"
+#include "exceptions.h"
 
 using namespace std;
 using namespace boost;
@@ -35,7 +38,7 @@ using namespace boost;
  */
 
 MakeMXFJob::MakeMXFJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, Type t)
-	: ShellCommandJob (s, o, l)
+	: Job (s, o, l)
 	, _type (t)
 {
 
@@ -57,6 +60,8 @@ MakeMXFJob::name () const
 	return s.str ();
 }
 
+#if 0
+XXX
 void
 MakeMXFJob::run ()
 {
@@ -77,5 +82,50 @@ MakeMXFJob::run ()
 	}
 
 	command (c.str ());
+	set_progress (1);
+}
+#endif
+
+void
+MakeMXFJob::run ()
+{
+	set_progress (0);
+
+	string dir;
+	switch (_type) {
+	case VIDEO:
+		dir = _opt->frame_out_path ();
+		break;
+	case AUDIO:
+		dir = _opt->multichannel_audio_out_path ();
+		break;
+	}
+
+	std::list<std::string> files;
+        for (filesystem::directory_iterator i = filesystem::directory_iterator (dir); i != filesystem::directory_iterator(); ++i) {
+		files.push_back (filesystem::path (*i).string());
+	}
+
+	if (files.empty ()) {
+		throw EncodeError ("no input files found for MXF");
+	}
+
+	ASDCP::EssenceType_t essence_type;
+	if (ASDCP_FAILURE (ASDCP::RawEssenceType (files.front().c_str(), essence_type))) {
+		throw EncodeError ("could not work out type for MXF");
+	}
+
+	switch (essence_type) {
+	case ASDCP::ESS_JPEG_2000:
+		/* XXX */
+		break;
+	case ASDCP::ESS_PCM_24b_48k:
+	case ASDCP::ESS_PCM_24b_96k:
+		/* XXX */
+		break;
+	default:
+		throw EncodeError ("unknown essence type");
+	}
+	
 	set_progress (1);
 }
