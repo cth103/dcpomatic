@@ -1,10 +1,12 @@
 def configure(conf):
     conf.recurse('lib')
+    conf.recurse('asdcplib')
     if not conf.env.DISABLE_GUI:
         conf.recurse('gtk')
 
 def build(bld):
     bld.recurse('lib')
     bld.recurse('tools')
+    bld.recurse('asdcplib')
     if not bld.env.DISABLE_GUI:
         bld.recurse('gtk')
