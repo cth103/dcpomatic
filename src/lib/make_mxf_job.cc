@@ -136,15 +136,115 @@ MakeMXFJob::run ()
 void
 MakeMXFJob::wav (list<string> const & files, string const & mxf)
 {
+	ASDCP::Rational fps (rintf (_fs->frames_per_second), 1);
+	
+ 	ASDCP::PCM::WAVParser pcm_parser_channel[files.size()];
+	if (pcm_parser_channel[0].OpenRead (files.front().c_str(), fps)) {
+		throw EncodeError ("could not open WAV file for reading");
+	}
+	
+	ASDCP::PCM::AudioDescriptor audio_desc;
+	pcm_parser_channel[0].FillAudioDescriptor (audio_desc);
+	audio_desc.ChannelCount = 0;
+	audio_desc.BlockAlign = 0;
 
+	ASDCP::PCM::FrameBuffer frame_buffer_channel[files.size()];
+	ASDCP::PCM::AudioDescriptor audio_desc_channel[files.size()];
+	
+	int j = 0;
+	for (list<string>::const_iterator i = files.begin(); i != files.end(); ++i) {
+		
+		if (ASDCP_FAILURE (pcm_parser_channel[j].OpenRead (i->c_str(), fps))) {
+			throw EncodeError ("could not open WAV file for reading");
+		}
+
+		pcm_parser_channel[j].FillAudioDescriptor (audio_desc_channel[j]);
+		
+		if (audio_desc_channel[j].AudioSamplingRate != audio_desc.AudioSamplingRate) {
+			throw EncodeError ("mismatched sampling rate");
+		}
+		
+		if (audio_desc_channel[j].QuantizationBits != audio_desc.QuantizationBits) {
+			throw EncodeError ("mismatched bit rate");
+		}
+
+		if (audio_desc_channel[j].ContainerDuration != audio_desc.ContainerDuration) {
+			throw EncodeError ("mismatched duration");
+		}
+
+		frame_buffer_channel[j].Capacity (ASDCP::PCM::CalcFrameBufferSize (audio_desc_channel[j]));
+		++j;
+	}
+
+	j = 0;
+	for (list<string>::const_iterator i = files.begin(); i != files.end(); ++i) {
+		audio_desc.ChannelCount += audio_desc_channel[j].ChannelCount;
+		audio_desc.BlockAlign += audio_desc_channel[j].BlockAlign;
+		++j;
+	}
+
+	audio_desc.EditRate = fps;
+	audio_desc.AvgBps = audio_desc.AvgBps * files.size ();
+
+	ASDCP::PCM::FrameBuffer frame_buffer;
+	frame_buffer.Capacity (ASDCP::PCM::CalcFrameBufferSize (audio_desc));
+	frame_buffer.Size (ASDCP::PCM::CalcFrameBufferSize (audio_desc));
+
+	ASDCP::WriterInfo writer_info;
+	fill_writer_info (&writer_info);
+
+	ASDCP::PCM::MXFWriter mxf_writer;
+	if (ASDCP_FAILURE (mxf_writer.OpenWrite (mxf.c_str(), writer_info, audio_desc))) {
+		throw EncodeError ("could not open audio MXF for writing");
+	}
+
+	for (int i = 0; i < _fs->length; ++i) {
+
+		byte_t *data_s = frame_buffer.Data();
+		byte_t *data_e = data_s + frame_buffer.Capacity();
+		byte_t sample_size = ASDCP::PCM::CalcSampleSize (audio_desc_channel[0]);
+		int offset = 0;
+
+		for (list<string>::size_type j = 0; j < files.size(); ++j) {
+			memset (frame_buffer_channel[j].Data(), 0, frame_buffer_channel[j].Capacity());
+			if (ASDCP_FAILURE (pcm_parser_channel[j].ReadFrame (frame_buffer_channel[j]))) {
+				throw EncodeError ("could not read audio frame");
+			}
+			
+			if (frame_buffer_channel[j].Size() != frame_buffer_channel[j].Capacity()) {
+				throw EncodeError ("short audio frame");
+			}
+		}
+
+		while (data_s < data_e) {
+			for (list<string>::size_type j = 0; j < files.size(); ++j) {
+				byte_t *frame = frame_buffer_channel[j].Data() + offset;
+				memcpy (data_s, frame, sample_size);
+				data_s += sample_size;
+			}
+			offset += sample_size;
+		}
+
+		if (ASDCP_FAILURE (mxf_writer.WriteFrame (frame_buffer, 0, 0))) {
+			throw EncodeError ("could not write audio MXF frame");
+		}
+
+		set_progress (float (i) / _fs->length);
+	}
+
+	
+	/* write footer information */
+	if (ASDCP_FAILURE (mxf_writer.Finalize())) {
+		throw EncodeError ("could not finalise audio MXF");
+	}
+
+	set_progress (1);
+	set_state (FINISHED_OK);
 }
 
 void
 MakeMXFJob::j2k (list<string> const & files, string const & mxf)
 {
-	/* Arbitrarily assume that the J2K MXF will take 90% of the time */
-	descend (0.9);
-
 	ASDCP::JP2K::CodestreamParser j2k_parser;
 	ASDCP::JP2K::FrameBuffer frame_buffer (4 * Kumu::Megabyte);
 	if (ASDCP_FAILURE (j2k_parser.OpenReadFrame (files.front().c_str(), frame_buffer))) {
@@ -183,7 +283,8 @@ MakeMXFJob::j2k (list<string> const & files, string const & mxf)
 		throw EncodeError ("error in finalising video MXF");
 	}
 	
-	ascend ();
+	set_progress (1);
+	set_state (FINISHED_OK);
 }
 
 void
