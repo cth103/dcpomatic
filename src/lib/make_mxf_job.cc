@@ -87,17 +87,11 @@ MakeMXFJob::run ()
 
 	files.sort ();
 
-	ASDCP::EssenceType_t essence_type;
-	if (ASDCP_FAILURE (ASDCP::RawEssenceType (files.front().c_str(), essence_type))) {
-		throw EncodeError ("could not work out type for MXF");
-	}
-
-	switch (essence_type) {
-	case ASDCP::ESS_JPEG_2000:
+	switch (_type) {
+	case VIDEO:
 		j2k (files, _fs->file ("video.mxf"));
 		break;
-	case ASDCP::ESS_PCM_24b_48k:
-	case ASDCP::ESS_PCM_24b_96k:
+	case AUDIO:
 		wav (files, _fs->file ("audio.mxf"));
 		break;
 	default:
@@ -110,6 +104,7 @@ MakeMXFJob::run ()
 void
 MakeMXFJob::wav (list<string> const & files, string const & mxf)
 {
+	/* XXX: we round for DCP: not sure if this is right */
 	ASDCP::Rational fps (rintf (_fs->frames_per_second), 1);
 	
  	ASDCP::PCM::WAVParser pcm_parser_channel[files.size()];
@@ -121,6 +116,8 @@ MakeMXFJob::wav (list<string> const & files, string const & mxf)
 	pcm_parser_channel[0].FillAudioDescriptor (audio_desc);
 	audio_desc.ChannelCount = 0;
 	audio_desc.BlockAlign = 0;
+	audio_desc.EditRate = fps;
+	audio_desc.AvgBps = audio_desc.AvgBps * files.size ();
 
 	ASDCP::PCM::FrameBuffer frame_buffer_channel[files.size()];
 	ASDCP::PCM::AudioDescriptor audio_desc_channel[files.size()];
@@ -133,32 +130,12 @@ MakeMXFJob::wav (list<string> const & files, string const & mxf)
 		}
 
 		pcm_parser_channel[j].FillAudioDescriptor (audio_desc_channel[j]);
-		
-		if (audio_desc_channel[j].AudioSamplingRate != audio_desc.AudioSamplingRate) {
-			throw EncodeError ("mismatched sampling rate");
-		}
-		
-		if (audio_desc_channel[j].QuantizationBits != audio_desc.QuantizationBits) {
-			throw EncodeError ("mismatched bit rate");
-		}
-
-		if (audio_desc_channel[j].ContainerDuration != audio_desc.ContainerDuration) {
-			throw EncodeError ("mismatched duration");
-		}
-
 		frame_buffer_channel[j].Capacity (ASDCP::PCM::CalcFrameBufferSize (audio_desc_channel[j]));
-		++j;
-	}
 
-	j = 0;
-	for (list<string>::const_iterator i = files.begin(); i != files.end(); ++i) {
 		audio_desc.ChannelCount += audio_desc_channel[j].ChannelCount;
 		audio_desc.BlockAlign += audio_desc_channel[j].BlockAlign;
 		++j;
 	}
-
-	audio_desc.EditRate = fps;
-	audio_desc.AvgBps = audio_desc.AvgBps * files.size ();
 
 	ASDCP::PCM::FrameBuffer frame_buffer;
 	frame_buffer.Capacity (ASDCP::PCM::CalcFrameBufferSize (audio_desc));
@@ -192,7 +169,7 @@ MakeMXFJob::wav (list<string> const & files, string const & mxf)
 
 		while (data_s < data_e) {
 			for (list<string>::size_type j = 0; j < files.size(); ++j) {
-				byte_t *frame = frame_buffer_channel[j].Data() + offset;
+				byte_t* frame = frame_buffer_channel[j].Data() + offset;
 				memcpy (data_s, frame, sample_size);
 				data_s += sample_size;
 			}
@@ -206,8 +183,6 @@ MakeMXFJob::wav (list<string> const & files, string const & mxf)
 		set_progress (float (i) / _fs->length);
 	}
 
-	
-	/* write footer information */
 	if (ASDCP_FAILURE (mxf_writer.Finalize())) {
 		throw EncodeError ("could not finalise audio MXF");
 	}
