@@ -26,7 +26,7 @@
 /** @class MakeDCPJob
  *  @brief A job to create DCPs
  */
-class MakeDCPJob : public ShellCommandJob
+class MakeDCPJob : public Job
 {
 public:
 	MakeDCPJob (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *);

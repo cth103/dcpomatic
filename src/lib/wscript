@@ -46,7 +46,6 @@ def build(bld):
                  screen.cc
 		 server.cc
                  scp_dcp_job.cc
-		 shell_command_job.cc
 		 thumbs_job.cc
                  tiff_decoder.cc
 	         tiff_encoder.cc

@@ -38,7 +38,7 @@ using namespace boost;
  *  @param l Log.
  */
 MakeDCPJob::MakeDCPJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: ShellCommandJob (s, o, l)
+	: Job (s, o, l)
 {
 	
 }
@@ -69,26 +69,30 @@ MakeDCPJob::run ()
 	/* Remove any old DCP */
 	filesystem::remove_all (dcp_path);
 
-	/* Re-make the DCP directory */
-	_fs->dir (_fs->name);
-	
-	stringstream c;
-	c << "cd \"" << dcp_path << "\" && "
-	  << " opendcp_xml -d -a \"" << _fs->name << "\""
-	  << " -t \"" << _fs->name << "\""
-	  << " -k " << _fs->dcp_content_type->opendcp_name()
-	  << " --reel \"" << _fs->file ("video.mxf") << "\"";
-	
-	if (have_audio) {
-		c << " \"" << _fs->file ("audio.mxf") << "\"";
-	}
+	DCP dcp (_fs->dir (_fs->name()));
+	dcp.add_asset (
+		shared_ptr<MainPictureAsset> (new MainPictureAsset ("video.mxf", rint (_fs->frames_per_second), _fs->length, _opt->out_size))
+		);
 
-	command (c.str ());
-
-	filesystem::rename (filesystem::path (_fs->file ("video.mxf")), filesystem::path (dcp_path + "/video.mxf"));
-	if (have_audio) {
-		filesystem::rename (filesystem::path (_fs->file ("audio.mxf")), filesystem::path (dcp_path + "/audio.mxf"));
+	if (filesystem::exists (filesystem::path (_fs->file ("audio.mxf")))) {
+		dcp.add_asset (
+			shared_ptr<MainSoundAsset> (new MainSoundAsset ("audio.mxf", rint (_fs->frames_per_second), _fs->length))
+			);
 	}
+								    
+	dcp.write_xml ();
+
+
+	add_pkl ();
+	add_cpl (pkl[0]);
+
+	add_reel (pkl[0].cpl[0]);
+
+	write_cpl ();
+	write_pkl ();
+	write_volindex ();
+	write_assetmap ();
+
 
 	set_progress (1);
 }

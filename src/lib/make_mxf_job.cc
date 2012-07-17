@@ -244,7 +244,7 @@ MakeMXFJob::fill_writer_info (ASDCP::WriterInfo* writer_info)
 	writer_info->ProductName = "dvd-o-matic";
 
 	/* set the label type */
-	writer_info->LabelSetType = ASDCP::LS_MXF_INTEROP;
+	writer_info->LabelSetType = ASDCP::LS_MXF_SMPTE;
 
 	/* generate a random UUID for this essence */
 	Kumu::GenRandomUUID (writer_info->AssetUUID);

@@ -28,9 +28,9 @@ using namespace std;
 
 vector<DCPContentType const *> DCPContentType::_dcp_content_types;
 
-DCPContentType::DCPContentType (string p, string o)
+DCPContentType::DCPContentType (string p, string d)
 	: _pretty_name (p)
-	, _opendcp_name (o)
+	, _dcp_name (d)
 {
 
 }

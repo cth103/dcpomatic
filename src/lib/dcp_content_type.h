@@ -37,9 +37,9 @@ public:
 		return _pretty_name;
 	}
 
-	/** @return name as understood by OpenDCP */
-	std::string opendcp_name () const {
-		return _opendcp_name;
+	/** @return name as written to a DCP */
+	std::string dcp_name () const {
+		return _dcp_name;
 	}
 
 	static DCPContentType const * from_pretty_name (std::string);
@@ -50,7 +50,7 @@ public:
 
 private:
 	std::string _pretty_name;
-	std::string _opendcp_name;
+	std::string _dcp_name;
 
 	/** All available DCP content types */
 	static std::vector<DCPContentType const *> _dcp_content_types;

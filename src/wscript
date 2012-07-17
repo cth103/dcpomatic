@@ -7,6 +7,5 @@ def configure(conf):
 def build(bld):
     bld.recurse('lib')
     bld.recurse('tools')
-    bld.recurse('asdcplib')
     if not bld.env.DISABLE_GUI:
         bld.recurse('gtk')
