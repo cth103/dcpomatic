@@ -7,8 +7,7 @@ def build(bld):
     obj = bld(features = 'cxx cxxshlib')
     obj.name = 'libdvdomatic'
     obj.export_includes = ['.']
-    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH'
-    obj.use = 'libasdcp-dvdomatic'
+    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP'
     if bld.env.DEBUG_HASH:
         obj.uselib += ' MHASH'
     obj.source = """
@@ -39,7 +38,6 @@ def build(bld):
 		 log.cc
 		 lut.cc
 		 make_dcp_job.cc
-		 make_mxf_job.cc
                  player.cc
                  player_manager.cc
 		 scaler.cc

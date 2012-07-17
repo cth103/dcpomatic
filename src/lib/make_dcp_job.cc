@@ -22,6 +22,7 @@
  */
 
 #include <boost/filesystem.hpp>
+#include <libdcp/dcp.h>
 extern "C" {
 #include <libavutil/pixdesc.h>
 }
@@ -29,6 +30,7 @@ extern "C" {
 #include "film_state.h"
 #include "dcp_content_type.h"
 #include "exceptions.h"
+#include "options.h"
 
 using namespace std;
 using namespace boost;
@@ -54,45 +56,43 @@ MakeDCPJob::name () const
 void
 MakeDCPJob::run ()
 {
-	set_progress_unknown ();
-
 	string const dcp_path = _fs->dir (_fs->name);
-	
-	/* Check that we have our prerequisites */
-
-	if (!filesystem::exists (filesystem::path (_fs->file ("video.mxf")))) {
-		throw EncodeError ("missing video.mxf");
-	}
-
-	bool const have_audio = filesystem::exists (filesystem::path (_fs->file ("audio.mxf")));
 
 	/* Remove any old DCP */
 	filesystem::remove_all (dcp_path);
 
-	DCP dcp (_fs->dir (_fs->name()));
-	dcp.add_asset (
-		shared_ptr<MainPictureAsset> (new MainPictureAsset ("video.mxf", rint (_fs->frames_per_second), _fs->length, _opt->out_size))
-		);
+	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_type (), rint (_fs->frames_per_second), _fs->length);
+	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
-	if (filesystem::exists (filesystem::path (_fs->file ("audio.mxf")))) {
-		dcp.add_asset (
-			shared_ptr<MainSoundAsset> (new MainSoundAsset ("audio.mxf", rint (_fs->frames_per_second), _fs->length))
-			);
+	list<string> j2cs;
+	int f = _fs->dcp_frames ? _fs->dcp_frames : _fs->length;
+	for (int i = 0; i < f; ++i) {
+		j2cs.push_back (_opt->frame_out_path (i, false));
 	}
-								    
+
+	descend (0.9);
+	dcp.add_picture_asset (j2cs, _opt->out_size.width, _opt->out_size.height);
+	ascend ();
+
+	list<string> wavs;
+	for (int i = 0; i < _fs->audio_channels; ++i) {
+		wavs.push_back (_opt->multichannel_audio_out_path (i, false));
+	}
+
+	if (!wavs.empty ()) {
+		descend (0.1);
+		dcp.add_sound_asset (wavs);
+		ascend ();
+	}
+
 	dcp.write_xml ();
 
-
-	add_pkl ();
-	add_cpl (pkl[0]);
-
-	add_reel (pkl[0].cpl[0]);
-
-	write_cpl ();
-	write_pkl ();
-	write_volindex ();
-	write_assetmap ();
-
-
 	set_progress (1);
+	set_state (FINISHED_OK);
+}
+
+void
+MakeDCPJob::dcp_progress (float p)
+{
+	set_progress (p);
 }

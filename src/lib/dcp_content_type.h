@@ -23,6 +23,7 @@
 
 #include <string>
 #include <vector>
+#include <libdcp/dcp.h>
 
 /** @class DCPContentType
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
@@ -30,16 +31,15 @@
 class DCPContentType
 {
 public:
-	DCPContentType (std::string, std::string);
+	DCPContentType (std::string, libdcp::DCP::ContentType);
 
 	/** @return user-visible `pretty' name */
 	std::string pretty_name () const {
 		return _pretty_name;
 	}
 
-	/** @return name as written to a DCP */
-	std::string dcp_name () const {
-		return _dcp_name;
+	libdcp::DCP::ContentType libdcp_type () const {
+		return _libdcp_type;
 	}
 
 	static DCPContentType const * from_pretty_name (std::string);
@@ -50,7 +50,7 @@ public:
 
 private:
 	std::string _pretty_name;
-	std::string _dcp_name;
+	libdcp::DCP::ContentType _libdcp_type;
 
 	/** All available DCP content types */
 	static std::vector<DCPContentType const *> _dcp_content_types;

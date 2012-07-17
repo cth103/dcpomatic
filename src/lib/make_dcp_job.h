@@ -21,7 +21,7 @@
  *  @brief A job to create DCPs.
  */
 
-#include "shell_command_job.h"
+#include "job.h"
 
 /** @class MakeDCPJob
  *  @brief A job to create DCPs
@@ -33,5 +33,8 @@ public:
 
 	std::string name () const;
 	void run ();
+
+private:
+	void dcp_progress (float);
 };
 

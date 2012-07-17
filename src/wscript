@@ -1,6 +1,5 @@
 def configure(conf):
     conf.recurse('lib')
-    conf.recurse('asdcplib')
     if not conf.env.DISABLE_GUI:
         conf.recurse('gtk')
 

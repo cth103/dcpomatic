@@ -36,7 +36,6 @@
 #include "job_manager.h"
 #include "ab_transcode_job.h"
 #include "transcode_job.h"
-#include "make_mxf_job.h"
 #include "scp_dcp_job.h"
 #include "copy_from_dvd_job.h"
 #include "make_dcp_job.h"
@@ -518,10 +517,6 @@ Film::make_dcp (bool transcode, int freq)
 		}
 	}
 	
-	JobManager::instance()->add (shared_ptr<Job> (new MakeMXFJob (fs, o, log (), MakeMXFJob::VIDEO)));
-	if (audio_channels() > 0) {
-		JobManager::instance()->add (shared_ptr<Job> (new MakeMXFJob (fs, o, log (), MakeMXFJob::AUDIO)));
-	}
 	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log ())));
 }
 
