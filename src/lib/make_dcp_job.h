@@ -36,5 +36,7 @@ public:
 
 private:
 	void dcp_progress (float);
+	std::string j2c_path (int) const;
+	std::string wav_path (libdcp::Channel) const;
 };
 

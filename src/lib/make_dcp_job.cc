@@ -53,6 +53,18 @@ MakeDCPJob::name () const
 	return s.str ();
 }
 
+string
+MakeDCPJob::j2c_path (int f) const
+{
+	return _opt->frame_out_path (f, false);
+}
+
+string
+MakeDCPJob::wav_path (libdcp::Channel c) const
+{
+	return _opt->multichannel_audio_out_path (int (c), false);
+}
+
 void
 MakeDCPJob::run ()
 {
@@ -61,27 +73,17 @@ MakeDCPJob::run ()
 	/* Remove any old DCP */
 	filesystem::remove_all (dcp_path);
 
-	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_type (), rint (_fs->frames_per_second), _fs->length);
+	int const frames = _fs->dcp_frames ? _fs->dcp_frames : _fs->length;
+	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_type (), rint (_fs->frames_per_second), frames);
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
-	list<string> j2cs;
-	int f = _fs->dcp_frames ? _fs->dcp_frames : _fs->length;
-	for (int i = 0; i < f; ++i) {
-		j2cs.push_back (_opt->frame_out_path (i, false));
-	}
-
 	descend (0.9);
-	dcp.add_picture_asset (j2cs, _opt->out_size.width, _opt->out_size.height);
+	dcp.add_picture_asset (sigc::mem_fun (*this, &MakeDCPJob::j2c_path), _opt->out_size.width, _opt->out_size.height);
 	ascend ();
 
-	list<string> wavs;
-	for (int i = 0; i < _fs->audio_channels; ++i) {
-		wavs.push_back (_opt->multichannel_audio_out_path (i, false));
-	}
-
-	if (!wavs.empty ()) {
+	if (_fs->audio_channels > 0) {
 		descend (0.1);
-		dcp.add_sound_asset (wavs);
+		dcp.add_sound_asset (sigc::mem_fun (*this, &MakeDCPJob::wav_path), _fs->audio_channels);
 		ascend ();
 	}
 
