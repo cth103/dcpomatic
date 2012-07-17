@@ -238,7 +238,7 @@ DCPVideoFrame::encode_locally ()
 	_parameters->tcp_numlayers++;
 	_parameters->cp_disto_alloc = 1;
 	_parameters->cp_rsiz = CINEMA2K;
-	_parameters->cp_comment = strdup ("OpenDCP");
+	_parameters->cp_comment = strdup ("DVD-o-matic");
 	_parameters->cp_cinema = CINEMA2K_24;
 
 	/* 3 components, so use MCT */
