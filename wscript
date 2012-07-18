@@ -1,5 +1,5 @@
 APPNAME = 'dvdomatic'
-VERSION = '0.26pre'
+VERSION = '0.26'
 
 def options(opt):
     opt.load('compiler_cxx')
