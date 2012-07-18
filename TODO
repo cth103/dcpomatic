@@ -8,7 +8,6 @@ Nice error when trying to thumbnail with no content.
 Destroy _buffer_src_context / _buffer_sink_context
 Don't start later jobs when one breaks.
 Compute time remaining based on more recent information.
-Start frame later than ... error?
 Use lexical_cast more
 Do deps better
 
