@@ -22,6 +22,8 @@
  */
 
 #include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
+#include <libdcp/exceptions.h>
 #include "job.h"
 #include "util.h"
 
@@ -62,6 +64,14 @@ Job::run_wrapper ()
 
 		run ();
 
+	} catch (libdcp::FileError& e) {
+		
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+		stringstream s;
+		s << e.what() << "(" << filesystem::path (e.filename()).leaf() << ")";
+		set_error (s.str ());
+		
 	} catch (std::exception& e) {
 
 		set_progress (1);
