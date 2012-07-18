@@ -17,14 +17,14 @@ Dependencies
 
 You will need these libraries:
 
+    libdcp (from http://carlh.net/software/libdcp)
     FFmpeg
     libtiff
     boost thread and filesystem
     libopenjpeg
 
-and also the command line tools:
+and also the command line tool:
 
-    opendcp_mxf and opendcp_xml (from OpenDCP http://code.google.com/p/opendcp/)
     vobcopy (if you want to rip DVDs straight into DVD-o-matic)
 
 
@@ -41,7 +41,7 @@ Fill in the fields in the window (most importantly the `content' field:
   specify your video, and the `Name' field: give your project [and hence DCP]
   a name.)
 Move the slider to see thumbnails; adjust crop if necessary.
-Click "Make DCP" and go and make a really strong cup of tea.
+Select "Jobs->Make DCP" and go and make a really strong cup of tea.
 The DCP will be written to the project's directory; copy this to your
   media server and ingest.
 
