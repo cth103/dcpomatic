@@ -115,7 +115,7 @@ SCPDCPJob::run ()
 	
 	SSHSession ss;
 	
-	set_status ("Connecting");
+	set_status ("connecting");
 	
 	ssh_options_set (ss.session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
 	ssh_options_set (ss.session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
@@ -179,7 +179,7 @@ SCPDCPJob::run ()
 		string const leaf = i->leaf ();
 #endif
 		
-		set_status ("Copying " + leaf);
+		set_status ("copying " + leaf);
 		
 		int to_do = filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
@@ -216,7 +216,9 @@ string
 SCPDCPJob::status () const
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
-	return _status;
+	stringstream s;
+	s << Job::status() << "; " << _status;
+	return s.str ();
 }
 
 void
