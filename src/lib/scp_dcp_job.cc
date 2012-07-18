@@ -111,119 +111,105 @@ SCPDCPJob::name () const
 void
 SCPDCPJob::run ()
 {
-	try {
-		_log->log ("SCP DCP job starting");
-
-		SSHSession ss;
-
-		set_status ("Connecting");
-
-		ssh_options_set (ss.session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
-		ssh_options_set (ss.session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
-		int const port = 22;
-		ssh_options_set (ss.session, SSH_OPTIONS_PORT, &port);
+	_log->log ("SCP DCP job starting");
+	
+	SSHSession ss;
+	
+	set_status ("Connecting");
+	
+	ssh_options_set (ss.session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
+	ssh_options_set (ss.session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
+	int const port = 22;
+	ssh_options_set (ss.session, SSH_OPTIONS_PORT, &port);
+	
+	int r = ss.connect ();
+	if (r != SSH_OK) {
+		stringstream s;
+		s << "Could not connect to server " << Config::instance()->tms_ip() << " (" << ssh_get_error (ss.session) << ")";
+		throw NetworkError (s.str ());
+	}
+	
+	int const state = ssh_is_server_known (ss.session);
+	if (state == SSH_SERVER_ERROR) {
+		stringstream s;
+		s << "SSH error (" << ssh_get_error (ss.session) << ")";
+		throw NetworkError (s.str ());
+	}
+	
+	r = ssh_userauth_password (ss.session, 0, Config::instance()->tms_password().c_str ());
+	if (r != SSH_AUTH_SUCCESS) {
+		stringstream s;
+		s << "Failed to authenticate with server (" << ssh_get_error (ss.session) << ")";
+		throw NetworkError (s.str ());
+	}
+	
+	SSHSCP sc (ss.session);
+	
+	r = ssh_scp_init (sc.scp);
+	if (r != SSH_OK) {
+		stringstream s;
+		s << "Could not start SCP session (" << ssh_get_error (ss.session) << ")";
+		throw NetworkError (s.str ());
+	}
+	
+	r = ssh_scp_push_directory (sc.scp, _fs->name.c_str(), S_IRWXU);
+	if (r != SSH_OK) {
+		stringstream s;
+		s << "Could not create remote directory " << _fs->name << "(" << ssh_get_error (ss.session) << ")";
+		throw NetworkError (s.str ());
+	}
+	
+	string const dcp_dir = _fs->dir (_fs->name);
+	
+	int bytes_to_transfer = 0;
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
+		bytes_to_transfer += filesystem::file_size (*i);
+	}
+	
+	int buffer_size = 64 * 1024;
+	char buffer[buffer_size];
+	int bytes_transferred = 0;
+	
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
 		
-		int r = ss.connect ();
-		if (r != SSH_OK) {
-			stringstream s;
-			s << "Could not connect to server " << Config::instance()->tms_ip() << " (" << ssh_get_error (ss.session) << ")";
-			throw NetworkError (s.str ());
-		}
-
-		int const state = ssh_is_server_known (ss.session);
-		if (state == SSH_SERVER_ERROR) {
-			stringstream s;
-			s << "SSH error (" << ssh_get_error (ss.session) << ")";
-			throw NetworkError (s.str ());
-		}
-
-		r = ssh_userauth_password (ss.session, 0, Config::instance()->tms_password().c_str ());
-		if (r != SSH_AUTH_SUCCESS) {
-			stringstream s;
-			s << "Failed to authenticate with server (" << ssh_get_error (ss.session) << ")";
-			throw NetworkError (s.str ());
-		}
-		
-		SSHSCP sc (ss.session);
-
-		r = ssh_scp_init (sc.scp);
-		if (r != SSH_OK) {
-			stringstream s;
-			s << "Could not start SCP session (" << ssh_get_error (ss.session) << ")";
-			throw NetworkError (s.str ());
-		}
-
-		r = ssh_scp_push_directory (sc.scp, _fs->name.c_str(), S_IRWXU);
-		if (r != SSH_OK) {
-			stringstream s;
-			s << "Could not create remote directory " << _fs->name << "(" << ssh_get_error (ss.session) << ")";
-			throw NetworkError (s.str ());
-		}
-
-		string const dcp_dir = _fs->dir (_fs->name);
-
-		int bytes_to_transfer = 0;
-		for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
-			bytes_to_transfer += filesystem::file_size (*i);
-		}
-		
-		int buffer_size = 64 * 1024;
-		char buffer[buffer_size];
-		int bytes_transferred = 0;
-		
-		for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
-
-			/* Aah, the sweet smell of progress */
+		/* Aah, the sweet smell of progress */
 #if BOOST_FILESYSTEM_VERSION == 3		
-			string const leaf = filesystem::path(*i).leaf().generic_string ();
+		string const leaf = filesystem::path(*i).leaf().generic_string ();
 #else
-			string const leaf = i->leaf ();
+		string const leaf = i->leaf ();
 #endif
+		
+		set_status ("Copying " + leaf);
+		
+		int to_do = filesystem::file_size (*i);
+		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
+		
+		int fd = open (filesystem::path (*i).string().c_str(), O_RDONLY);
+		if (fd == 0) {
+			stringstream s;
+			s << "Could not open " << *i << " to send";
+			throw NetworkError (s.str ());
+		}
 
-			set_status ("Copying " + leaf);
-
-			int to_do = filesystem::file_size (*i);
-			ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
-
-			int fd = open (filesystem::path (*i).string().c_str(), O_RDONLY);
-			if (fd == 0) {
+		while (to_do > 0) {
+			int const t = min (to_do, buffer_size);
+			read (fd, buffer, t);
+			r = ssh_scp_write (sc.scp, buffer, t);
+			if (r != SSH_OK) {
 				stringstream s;
-				s << "Could not open " << *i << " to send";
+				s << "Could not write to remote file (" << ssh_get_error (ss.session) << ")";
 				throw NetworkError (s.str ());
 			}
-
-			while (to_do > 0) {
-				int const t = min (to_do, buffer_size);
-				read (fd, buffer, t);
-				r = ssh_scp_write (sc.scp, buffer, t);
-				if (r != SSH_OK) {
-					stringstream s;
-					s << "Could not write to remote file (" << ssh_get_error (ss.session) << ")";
-					throw NetworkError (s.str ());
-				}
-				to_do -= t;
-				bytes_transferred += t;
-
-				set_progress ((double) bytes_transferred / bytes_to_transfer);
-			}
+			to_do -= t;
+			bytes_transferred += t;
+			
+			set_progress ((double) bytes_transferred / bytes_to_transfer);
 		}
-
-		set_progress (1);
-		set_status ("OK");
-		set_state (FINISHED_OK);
-
-	} catch (std::exception& e) {
-
-		stringstream s;
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-		set_status (e.what ());
-
-		s << "SCP DCP job failed (" << e.what() << ")";
-		_log->log (s.str ());
-
-		throw;
 	}
+	
+	set_progress (1);
+	set_status ("OK");
+	set_state (FINISHED_OK);
 }
 
 string

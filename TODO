@@ -1,5 +1,4 @@
 Standardise j2c/j2k
-Don't start without opendcp tools on path
 Sort out fight between Job::status and overridden versions; a bit ugly
 Format name in ~/.dvdomatic screws up with spaces; use ID or something
 Thumbnails are poorly named
