@@ -1,3 +1,7 @@
+2012-07-18  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.26 released
+
 2012-07-15  Carl Hetherington  <cth@carlh.net>
 
 	* Remove code to use `standard' format DCP long names,
@@ -6,6 +10,12 @@
 
 	* Fix some bugs with sending to servomatic introduced
 	in the adjustments to padding.
+
+	* Write some status text when an unknown-progress
+	job is running.
+
+	* Use new libdcp rather than OpenDCP to generate MXFs
+	and write DCP XML.
 
 2012-07-14  Carl Hetherington  <cth@carlh.net>
 
