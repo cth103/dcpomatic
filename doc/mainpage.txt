@@ -13,10 +13,11 @@
  *  aspect ratio and apply FFmpeg filters.  The time-consuming encoding of JPEG2000 files
  *  can be parallelised amongst any number of processors on the local host and any number
  *  of servers over a network.
+ *
+ *  DVD-o-matic can also make DCPs from still images, for advertisements and such-like.
  * 
  *  Portions of DVD-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
- *  written by Terrence Meiczinger, and two of OpenDCP's command-line tools are called
- *  by DVD-o-matic.
+ *  written by Terrence Meiczinger.
  *
  *  DVD-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
  *  and libsndfile (http://www.mega-nerd.com/libsndfile/) for WAV file manipulation.  It
