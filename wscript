@@ -80,4 +80,4 @@ def build(bld):
 
 
 def dist(ctx):
-    ctx.excl = 'TODO core *~ src/gtk/*~ src/lib/*~ .waf* build'
+    ctx.excl = 'TODO core *~ src/gtk/*~ src/lib/*~ .waf* build .git'
