@@ -39,10 +39,7 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
-#include <libswresample/swresample.h>
 #include <libavfilter/avfiltergraph.h>
-#include <libavfilter/avcodec.h>
-#include <libavfilter/buffersink.h>
 #include <libpostproc/postprocess.h>
 #include <libavutil/pixfmt.h>
 }
@@ -265,7 +262,6 @@ dependency_version_summary ()
 	stringstream s;
 	s << "libopenjpeg " << opj_version () << ", "
 	  << "vobcopy " << vobcopy_version() << ", "
-	  << "libswresample " << ffmpeg_version_to_string (swresample_version()) << ", "
 	  << "libavcodec " << ffmpeg_version_to_string (avcodec_version()) << ", "
 	  << "libavfilter " << ffmpeg_version_to_string (avfilter_version()) << ", "
 	  << "libavformat " << ffmpeg_version_to_string (avformat_version()) << ", "
