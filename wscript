@@ -6,6 +6,7 @@ def options(opt):
     opt.add_option('--debug-hash', action='store_true', default = False, help = 'print hashes of data at various points')
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
+    opt.add_option('--ffmpeg-083', action='store_true', default = False, help = 'Use FFmpeg version in Ubuntu 12.04')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -20,6 +21,9 @@ def configure(conf):
     else:
         conf.env.append_value('CXXFLAGS', '-O3')
 
+    if conf.options.ffmpeg_083:
+        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_FFMPEG_0_8_3')
+
     conf.env.DISABLE_GUI = conf.options.disable_gui
 
     conf.check_cfg(package = 'sigc++-2.0', args = '--cflags --libs', uselib_store = 'SIGC++', mandatory = True)
@@ -28,7 +32,6 @@ def configure(conf):
     conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
     conf.check_cfg(package = 'libavutil', args = '--cflags --libs', uselib_store = 'AVUTIL', mandatory = True)
     conf.check_cfg(package = 'libswscale', args = '--cflags --libs', uselib_store = 'SWSCALE', mandatory = True)
-    conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = True)
     conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'libdcp', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)

@@ -154,8 +154,9 @@ FilmEditor::FilmEditor (Film* f)
 	t->attach (*c, 1, 2, n, n + 1);
 	++n;
 
-	/* VIDEO-only stuff */
 	int const special = n;
+	
+	/* VIDEO-only stuff */
 	t->attach (video_widget (left_aligned_label ("Filters")), 0, 1, n, n + 1);
 	HBox* fb = manage (new HBox);
 	fb->set_spacing (4);
@@ -200,6 +201,8 @@ FilmEditor::FilmEditor (Film* f)
 
 	t->show_all ();
 	_vbox.pack_start (*t, false, false);
+
+	setup_visibility ();
 }
 
 /** @return Our main widget, which contains everything else */
@@ -532,11 +535,11 @@ FilmEditor::still_widget (Widget& w)
 void
 FilmEditor::setup_visibility ()
 {
-	if (!_film) {
-		return;
+	ContentType c = VIDEO;
+
+	if (_film) {
+		c = _film->content_type ();
 	}
-			
-	ContentType const c = _film->content_type ();
 
 	for (list<Widget *>::iterator i = _video_widgets.begin(); i != _video_widgets.end(); ++i) {
 		(*i)->property_visible() = (c == VIDEO);

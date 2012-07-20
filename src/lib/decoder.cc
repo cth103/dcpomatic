@@ -25,8 +25,8 @@
 #include <stdint.h>
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
-#include <libavfilter/buffersink.h>
-#include <libavfilter/avcodec.h>
+#include <libavfilter/vsrc_buffer.h>
+#include <libavformat/avio.h>
 }
 #include "film.h"
 #include "format.h"
@@ -40,6 +40,7 @@ extern "C" {
 #include "decoder.h"
 #include "filter.h"
 #include "delay_line.h"
+#include "ffmpeg_compatibility.h"
 
 using namespace std;
 using namespace boost;
@@ -192,20 +193,51 @@ Decoder::process_video (AVFrame* frame)
 	if (_opt->decode_video_frequency != 0) {
 		gap = _fs->length / _opt->decode_video_frequency;
 	}
-	
+
 	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame % gap) != 0) {
 		++_video_frame;
 		return;
 	}
 
+#ifdef DVDOMATIC_FFMPEG_0_8_3
+	
+	AVRational par;
+	par.num = sample_aspect_ratio_numerator ();
+	par.den = sample_aspect_ratio_denominator ();
+
+	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0, par) < 0) {
+		throw DecodeError ("could not push buffer into filter chain.");
+	}
+
+#else
+
 	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0) < 0) {
 		throw DecodeError ("could not push buffer into filter chain.");
 	}
+
+#endif	
 	
 	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
+
+#ifdef DVDOMATIC_FFMPEG_0_8_3
+
+		int r = avfilter_request_frame (_buffer_sink_context->inputs[0]);
+		if (r < 0) {
+			throw DecodeError ("could not request filtered frame");
+		}
+		
+		AVFilterBufferRef* filter_buffer = _buffer_sink_context->inputs[0]->cur_buf;
+		
+#else
+
 		AVFilterBufferRef* filter_buffer;
-		if (av_buffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) >= 0) {
-			
+		if (avbuffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) < 0) {
+			filter_buffer = 0;
+		}
+
+#endif		
+		
+		if (filter_buffer) {
 			/* This takes ownership of filter_buffer */
 			shared_ptr<Image> image (new FilterBufferImage ((PixelFormat) frame->format, filter_buffer));
 
@@ -246,17 +278,14 @@ Decoder::setup_video_filters ()
 	if (graph == 0) {
 		throw DecodeError ("Could not create filter graph.");
 	}
-	
+
 	AVFilter* buffer_src = avfilter_get_by_name("buffer");
 	if (buffer_src == 0) {
-		throw DecodeError ("Could not create buffer src filter");
+		throw DecodeError ("Could not find buffer src filter");
 	}
-	
-	AVFilter* buffer_sink = avfilter_get_by_name("buffersink");
-	if (buffer_sink == 0) {
-		throw DecodeError ("Could not create buffer sink filter");
-	}
-	
+
+	AVFilter* buffer_sink = get_sink ();
+
 	stringstream a;
 	a << native_size().width << ":"
 	  << native_size().height << ":"
@@ -289,12 +318,19 @@ Decoder::setup_video_filters ()
 	inputs->next = 0;
 
 	_log->log ("Using filter chain `" + filters + "'");
+#ifdef DVDOMATIC_FFMPEG_0_8_3	
+	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
+#else
 	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
+#endif		
+		
 		throw DecodeError ("could not set up filter graph.");
 	}
 
 	if (avfilter_graph_config (graph, 0) < 0) {
 		throw DecodeError ("could not configure filter graph.");
 	}
+
+	/* XXX: leaking `inputs' / `outputs' ? */
 }
 
