@@ -26,6 +26,10 @@
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/vsrc_buffer.h>
+#ifndef DVDOMATIC_FFMPEG_0_8_3
+#include <libavfilter/avcodec.h>
+#include <libavfilter/buffersink.h>
+#endif
 #include <libavformat/avio.h>
 }
 #include "film.h"
@@ -231,7 +235,7 @@ Decoder::process_video (AVFrame* frame)
 #else
 
 		AVFilterBufferRef* filter_buffer;
-		if (avbuffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) < 0) {
+		if (av_buffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) < 0) {
 			filter_buffer = 0;
 		}
 
