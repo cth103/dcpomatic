@@ -45,6 +45,8 @@ static FilmEditor* film_editor = 0;
 static FilmPlayer* film_player = 0;
 static Film* film = 0;
 
+static void set_menu_sensitivity ();
+
 class FilmChangedDialog : public Gtk::MessageDialog
 {
 public:
@@ -105,6 +107,7 @@ file_new ()
 #endif		
 		film_viewer->set_film (film);
 		film_editor->set_film (film);
+		set_menu_sensitivity ();
 	}
 }
 
@@ -123,6 +126,7 @@ file_open ()
 		film = new Film (c.get_filename ());
 		film_viewer->set_film (film);
 		film_editor->set_film (film);
+		set_menu_sensitivity ();
 	}
 }
 
@@ -212,6 +216,32 @@ help_about ()
 	d.run ();
 }
 
+enum Sensitivity {
+	ALWAYS,
+	NEEDS_FILM
+};
+
+map<Gtk::MenuItem *, Sensitivity> menu_items;
+	
+void
+add_item (Gtk::Menu_Helpers::MenuList& items, string text, sigc::slot0<void> handler, Sensitivity sens)
+{
+	items.push_back (Gtk::Menu_Helpers::MenuElem (text, handler));
+	menu_items.insert (make_pair (&items.back(), sens));
+}
+
+void
+set_menu_sensitivity ()
+{
+	for (map<Gtk::MenuItem *, Sensitivity>::iterator i = menu_items.begin(); i != menu_items.end(); ++i) {
+		if (i->second == NEEDS_FILM) {
+			i->first->set_sensitive (film != 0);
+		} else {
+			i->first->set_sensitive (true);
+		}
+	}
+}
+
 void
 setup_menu (Gtk::MenuBar& m)
 {
@@ -219,28 +249,28 @@ setup_menu (Gtk::MenuBar& m)
 
 	Gtk::Menu* file = manage (new Gtk::Menu);
 	MenuList& file_items (file->items ());
-	file_items.push_back (MenuElem ("_New...", sigc::ptr_fun (file_new)));
-	file_items.push_back (MenuElem ("_Open...", sigc::ptr_fun (file_open)));
+	add_item (file_items, "New...", sigc::ptr_fun (file_new), ALWAYS);
+	add_item (file_items, "_Open...", sigc::ptr_fun (file_open), ALWAYS);
 	file_items.push_back (SeparatorElem ());
-	file_items.push_back (MenuElem ("_Save", sigc::ptr_fun (file_save)));
+	add_item (file_items, "_Save", sigc::ptr_fun (file_save), NEEDS_FILM);
 	file_items.push_back (SeparatorElem ());
-	file_items.push_back (MenuElem ("_Quit", sigc::ptr_fun (file_quit)));
+	add_item (file_items, "_Quit", sigc::ptr_fun (file_quit), NEEDS_FILM);
 
 	Gtk::Menu* edit = manage (new Gtk::Menu);
 	MenuList& edit_items (edit->items ());
-	edit_items.push_back (MenuElem ("_Preferences...", sigc::ptr_fun (edit_preferences)));
+	add_item (edit_items, "_Preferences...", sigc::ptr_fun (edit_preferences), ALWAYS);
 
 	Gtk::Menu* jobs = manage (new Gtk::Menu);
 	MenuList& jobs_items (jobs->items ());
-	jobs_items.push_back (MenuElem ("_Make DCP", sigc::ptr_fun (jobs_make_dcp)));
-	jobs_items.push_back (MenuElem ("_Send DCP to TMS", sigc::ptr_fun (jobs_send_dcp_to_tms)));
-	jobs_items.push_back (MenuElem ("Copy from _DVD...", sigc::ptr_fun (jobs_copy_from_dvd)));
-	jobs_items.push_back (MenuElem ("_Examine content", sigc::ptr_fun (jobs_examine_content)));
-	jobs_items.push_back (MenuElem ("Make DCP from _existing transcode", sigc::ptr_fun (jobs_make_dcp_from_existing_transcode)));
+	add_item (jobs_items, "_Make DCP", sigc::ptr_fun (jobs_make_dcp), NEEDS_FILM);
+	add_item (jobs_items, "_Send DCP to TMS", sigc::ptr_fun (jobs_send_dcp_to_tms), NEEDS_FILM);
+	add_item (jobs_items, "Copy from _DVD...", sigc::ptr_fun (jobs_copy_from_dvd), NEEDS_FILM);
+	add_item (jobs_items, "_Examine content", sigc::ptr_fun (jobs_examine_content), NEEDS_FILM);
+	add_item (jobs_items, "Make DCP from _existing transcode", sigc::ptr_fun (jobs_make_dcp_from_existing_transcode), NEEDS_FILM);
 
 	Gtk::Menu* help = manage (new Gtk::Menu);
 	MenuList& help_items (help->items ());
-	help_items.push_back (MenuElem ("_About", sigc::ptr_fun (help_about)));
+	add_item (help_items, "About", sigc::ptr_fun (help_about), ALWAYS);
 	
 	MenuList& items (m.items ());
 	items.push_back (MenuElem ("_File", *file));
@@ -297,6 +327,7 @@ main (int argc, char* argv[])
 	Gtk::MenuBar menu_bar;
 	vbox.pack_start (menu_bar, false, false);
 	setup_menu (menu_bar);
+	set_menu_sensitivity ();
 
 	Gtk::HBox hbox;
 	hbox.set_spacing (12);
