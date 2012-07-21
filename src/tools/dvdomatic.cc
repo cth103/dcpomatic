@@ -234,7 +234,7 @@ setup_menu (Gtk::MenuBar& m)
 	MenuList& jobs_items (jobs->items ());
 	jobs_items.push_back (MenuElem ("_Make DCP", sigc::ptr_fun (jobs_make_dcp)));
 	jobs_items.push_back (MenuElem ("_Send DCP to TMS", sigc::ptr_fun (jobs_send_dcp_to_tms)));
-	jobs_items.push_back (MenuElem ("Copy from _DVD", sigc::ptr_fun (jobs_copy_from_dvd)));
+	jobs_items.push_back (MenuElem ("Copy from _DVD...", sigc::ptr_fun (jobs_copy_from_dvd)));
 	jobs_items.push_back (MenuElem ("_Examine content", sigc::ptr_fun (jobs_examine_content)));
 	jobs_items.push_back (MenuElem ("Make DCP from _existing transcode", sigc::ptr_fun (jobs_make_dcp_from_existing_transcode)));
 
