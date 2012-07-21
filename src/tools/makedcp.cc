@@ -42,7 +42,7 @@ help (string n)
 	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
 	     << "  -h, --help         show this help\n"
 	     << "  -d, --deps         list DVD-o-matic dependency details and quit\n"
-	     << "  -t, --test         run in test mode (repeatable UUID generation and timestamps)\n"
+	     << "  -t, --test         run in test mode (repeatable UUID generation, timestamps etc.)\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
