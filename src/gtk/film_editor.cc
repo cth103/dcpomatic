@@ -333,19 +333,27 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::AUDIO_CHANNELS:
 	case Film::AUDIO_SAMPLE_RATE:
-		s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
-		_audio.set_text (s.str ());
+		if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
+			_audio.set_text ("");
+		} else {
+			s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
+			_audio.set_text (s.str ());
+		}
 		break;
 	case Film::SIZE:
-		s << _film->size().width << " x " << _film->size().height;
-		_original_size.set_text (s.str ());
+		if (_film->size().width == 0 && _film->size().height == 0) {
+			_original_size.set_text ("");
+		} else {
+			s << _film->size().width << " x " << _film->size().height;
+			_original_size.set_text (s.str ());
+		}
 		break;
 	case Film::LENGTH:
-		if (_film->frames_per_second() > 0) {
+		if (_film->frames_per_second() > 0 && _film->length() > 0) {
 			s << _film->length() << " frames; " << seconds_to_hms (_film->length() / _film->frames_per_second());
-		} else {
+		} else if (_film->length() > 0) {
 			s << _film->length() << " frames";
-		}
+		} 
 		_length.set_text (s.str ());
 		break;
 	case Film::DCP_CONTENT_TYPE:
