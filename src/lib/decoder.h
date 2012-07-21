@@ -131,6 +131,8 @@ private:
 	bool _have_setup_video_filters;
 	DelayLine* _delay_line;
 	int _delay_in_bytes;
+
+	int _audio_frames_processed;
 };
 
 #endif

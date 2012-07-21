@@ -70,6 +70,7 @@ Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const 
 	, _have_setup_video_filters (false)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
+	, _audio_frames_processed (0)
 {
 	if (_opt->decode_video_frequency != 0 && _fs->length == 0) {
 		throw DecodeError ("cannot do a partial decode if length == 0");
@@ -88,6 +89,8 @@ Decoder::process_begin ()
 	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * 2 / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
+
+	_audio_frames_processed = 0;
 }
 
 void
@@ -96,7 +99,26 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
+		_audio_frames_processed += _delay_in_bytes / (audio_channels() * 2);
 		Audio (remainder, _delay_in_bytes);
+	}
+
+	/* If we cut the decode off, the audio may be short; push some silence
+	   in to get it to the right length.
+	*/
+
+	int const audio_short_by_frames = (decoding_frames() * _fs->audio_sample_rate / _fs->frames_per_second) - _audio_frames_processed;
+
+	int bytes = audio_short_by_frames * audio_channels() * 2;
+
+	int const silence_size = 64 * 1024;
+	uint8_t silence[silence_size];
+	memset (silence, 0, silence_size);
+
+	while (bytes) {
+		int const t = min (bytes, silence_size);
+		Audio (silence, t);
+		bytes -= t;
 	}
 }
 
@@ -153,6 +175,11 @@ Decoder::pass ()
 void
 Decoder::process_audio (uint8_t* data, int channels, int size)
 {
+	/* Update the number of audio frames we've pushed to the encoder;
+	   2 is the hard-coded (!) number of bytes per sample.
+	*/
+	_audio_frames_processed += size / (channels * 2);
+		
 	if (_fs->audio_gain != 0) {
 		float const linear_gain = pow (10, _fs->audio_gain / 20);
 		uint8_t* p = data;
