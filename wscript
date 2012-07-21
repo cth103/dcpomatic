@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 APPNAME = 'dvdomatic'
 VERSION = '0.30pre'
@@ -89,10 +90,13 @@ def dist(ctx):
     ctx.excl = 'TODO core *~ src/gtk/*~ src/lib/*~ .waf* build .git'
 
 def create_version_cc(version):
-    cmd = "LANG= git log --abbrev HEAD^..HEAD ."
-    output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
-    o = output[0].decode('utf-8')
-    commit = o.replace ("commit ", "")[0:10]
+    if os.path.exists('.git'):
+        cmd = "LANG= git log --abbrev HEAD^..HEAD ."
+        output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
+        o = output[0].decode('utf-8')
+        commit = o.replace ("commit ", "")[0:10]
+    else:
+        commit = 'release'
 
     try:
         text =  '#include "version.h"\n'
