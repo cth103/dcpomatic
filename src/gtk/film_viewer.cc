@@ -128,6 +128,7 @@ FilmViewer::film_changed (Film::Property p)
 		reload_current_thumbnail ();
 	} else if (p == Film::CONTENT) {
 		setup_visibility ();
+		_film->examine_content ();
 		update_thumbs ();
 	}
 }
