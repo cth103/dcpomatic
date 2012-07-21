@@ -1,5 +1,7 @@
+import subprocess
+
 APPNAME = 'dvdomatic'
-VERSION = '0.26'
+VERSION = '0.27pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -67,6 +69,8 @@ def configure(conf):
     conf.recurse('test')
 
 def build(bld):
+    create_version_cc(VERSION)
+
     bld.recurse('src')
     bld.recurse('test')
 
@@ -81,6 +85,23 @@ def build(bld):
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 
-
 def dist(ctx):
     ctx.excl = 'TODO core *~ src/gtk/*~ src/lib/*~ .waf* build .git'
+
+def create_version_cc(version):
+    cmd = "LANG= git log --abbrev HEAD^..HEAD ."
+    output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
+    o = output[0].decode('utf-8')
+    commit = o.replace ("commit ", "")[0:10]
+
+    try:
+        text =  '#include "version.h"\n'
+        text += 'char const * dvdomatic_git_commit = \"%s\";\n' % commit
+        text += 'char const * dvdomatic_version = \"%s\";\n' % version
+        print('Writing version information to src/lib/version.cc')
+        o = open('src/lib/version.cc', 'w')
+        o.write(text)
+        o.close()
+    except IOError:
+        print('Could not open src/lib/version.cc for writing\n')
+        sys.exit(-1)

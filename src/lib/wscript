@@ -52,5 +52,6 @@ def build(bld):
 		 transcode_job.cc
 		 transcoder.cc
 		 util.cc
+		 version.cc
 		 """
     obj.target = 'dvdomatic'

@@ -35,6 +35,7 @@
 #include <magick/MagickCore.h>
 #include <magick/version.h>
 #include <libssh/libssh.h>
+#include <libdcp/version.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -269,7 +270,8 @@ dependency_version_summary ()
 	  << "libpostproc " << ffmpeg_version_to_string (postproc_version()) << ", "
 	  << "libswscale " << ffmpeg_version_to_string (swscale_version()) << ", "
 	  << MagickVersion << ", "
-	  << "libssh " << ssh_version (0);
+	  << "libssh " << ssh_version (0) << ", "
+	  << "libdcp " << libdcp::version << " git " << libdcp::git_commit;
 
 	return s.str ();
 }

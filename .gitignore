@@ -8,3 +8,4 @@ deps/vobcopy-1.2.0/vobcopy
 core
 build
 films-*
+src/lib/version.cc
