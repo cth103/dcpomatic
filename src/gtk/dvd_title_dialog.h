@@ -17,20 +17,16 @@
 
 */
 
-#include <list>
-#include <stdint.h>
+#include <gtkmm.h>
+#include "lib/dvd.h"
 
-class DVDTitle
+class DVDTitleDialog : public Gtk::Dialog
 {
 public:
-	DVDTitle () : number (-1), size (0) {}
-	DVDTitle (int n, int s)	: number (n), size (s) {}
-	
-	int number;
-	uint64_t size;
+	DVDTitleDialog ();
+
+	DVDTitle selected ();
+
+private:
+	std::map<DVDTitle, Gtk::RadioButton *> _buttons;
 };
-
-extern bool operator< (DVDTitle const &, DVDTitle const &);
-
-extern std::list<DVDTitle> dvd_titles (std::string);
-extern std::string find_dvd ();

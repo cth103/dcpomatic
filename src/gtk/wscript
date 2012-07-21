@@ -23,5 +23,6 @@ def build(bld):
 		 job_manager_view.cc
 		 gtk_util.cc
                  job_wrapper.cc
+                 dvd_title_dialog.cc
 		 """
     obj.target = 'dvdomatic-gtk'

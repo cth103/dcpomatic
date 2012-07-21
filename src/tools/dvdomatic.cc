@@ -26,12 +26,15 @@
 #include "gtk/config_dialog.h"
 #include "gtk/gpl.h"
 #include "gtk/job_wrapper.h"
+#include "gtk/dvd_title_dialog.h"
+#include "gtk/gtk_util.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
 #include "lib/filter.h"
 #include "lib/util.h"
 #include "lib/scaler.h"
+#include "lib/exceptions.h"
 
 using namespace std;
 using namespace boost;
@@ -162,7 +165,15 @@ jobs_make_dcp_from_existing_transcode ()
 void
 jobs_copy_from_dvd ()
 {
-	film->copy_from_dvd ();
+	try {
+		DVDTitleDialog d;
+		if (d.run () != Gtk::RESPONSE_OK) {
+			return;
+		}
+		film->copy_from_dvd ();
+	} catch (DVDError& e) {
+		error_dialog (e.what ());
+	}
 }
 
 void
