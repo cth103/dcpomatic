@@ -1,7 +1,5 @@
 name fred
 content 
-dcp_long_name sheila
-guess_dcp_long_name 0
 dcp_content_type Short
 frames_per_second 0
 format 185
@@ -13,9 +11,11 @@ filter pphb
 filter unsharp
 scaler bicubic
 dcp_frames 42
+dcp_trim_action cut
 dcp_ab 1
 audio_gain 0
 audio_delay 0
+still_duration 10
 width 0
 height 0
 length 0
