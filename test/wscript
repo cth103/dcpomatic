@@ -7,17 +7,9 @@ def configure(conf):
 
 def build(bld):
     obj = bld(features = 'cxx cxxprogram')
-    obj.name   = 'short-unit-tests'
+    obj.name   = 'unit-tests'
     obj.uselib = 'BOOST_TEST'
     obj.use    = 'libdvdomatic'
-    obj.source = 'short.cc'
-    obj.target = 'short-unit-tests'
-    obj.install_path = ''
-
-    obj = bld(features = 'cxx cxxprogram')
-    obj.name   = 'long-unit-tests'
-    obj.uselib = 'BOOST_TEST'
-    obj.use    = 'libdvdomatic'
-    obj.source = 'long.cc'
-    obj.target = 'long-unit-tests'
+    obj.source = 'test.cc'
+    obj.target = 'unit-tests'
     obj.install_path = ''
