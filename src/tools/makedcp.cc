@@ -160,6 +160,13 @@ main (int argc, char* argv[])
 			if (!(*i)->finished ()) {
 				all_done = false;
 			}
+
+			if (!progress && (*i)->finished_in_error ()) {
+				/* We won't see this error if we haven't been showing progress,
+				   so show it now.
+				*/
+				cout << (*i)->status() << "\n";
+			}
 		}
 	}
 
