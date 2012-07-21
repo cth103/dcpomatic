@@ -1,3 +1,17 @@
+2012-07-21  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.28 released.
+
+2012-07-21  Carl Hetherington  <cth@carlh.net>
+
+	* Tidy widgets and menus when there is no film loaded.
+
+	* Option to build with Ubuntu 12.04's FFmpeg libraries.
+
+	* Add dialogue box to choose DVD title when ripping.
+
+	* Always do an examine run for new content.
+
 2012-07-18  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.26 released
