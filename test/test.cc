@@ -125,11 +125,20 @@ BOOST_AUTO_TEST_CASE (util_test)
 
 BOOST_AUTO_TEST_CASE (dvd_test)
 {
-	vector<uint64_t> const t = dvd_titles ("test/dvd");
-	BOOST_CHECK_EQUAL (t.size(), 4);
-	BOOST_CHECK_EQUAL (t[1], 0);
-	BOOST_CHECK_EQUAL (t[2], 14);
-	BOOST_CHECK_EQUAL (t[3], 7);
+	list<DVDTitle> const t = dvd_titles ("test/dvd");
+	BOOST_CHECK_EQUAL (t.size(), 3);
+	list<DVDTitle>::const_iterator i = t.begin ();
+	
+	BOOST_CHECK_EQUAL (i->number, 1);
+	BOOST_CHECK_EQUAL (i->size, 0);
+	++i;
+	
+	BOOST_CHECK_EQUAL (i->number, 2);
+	BOOST_CHECK_EQUAL (i->size, 14);
+	++i;
+	
+	BOOST_CHECK_EQUAL (i->number, 3);
+	BOOST_CHECK_EQUAL (i->size, 7);
 }
 
 void

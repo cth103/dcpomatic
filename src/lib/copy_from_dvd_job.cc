@@ -58,7 +58,7 @@ CopyFromDVDJob::run ()
 		set_state (FINISHED_ERROR);
 	}
 
-	vector<uint64_t> const t = dvd_titles (dvd);
+	list<DVDTitle> const t = dvd_titles (dvd);
 	if (t.empty ()) {
 		set_error ("no titles found on DVD");
 		set_state (FINISHED_ERROR);
@@ -66,10 +66,10 @@ CopyFromDVDJob::run ()
 
 	int longest_title = 0;
 	uint64_t longest_size = 0;
-	for (vector<int>::size_type i = 0; i < t.size(); ++i) {
-		if (longest_size < t[i]) {
-			longest_size = t[i];
-			longest_title = i;
+	for (list<DVDTitle>::const_iterator i = t.begin(); i != t.end(); ++i) {
+		if (longest_size < i->size) {
+			longest_size = i->size;
+			longest_title = i->number;
 		}
 	}
 
