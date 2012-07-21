@@ -1,7 +1,7 @@
 import subprocess
 
 APPNAME = 'dvdomatic'
-VERSION = '0.27pre'
+VERSION = '0.28'
 
 def options(opt):
     opt.load('compiler_cxx')
