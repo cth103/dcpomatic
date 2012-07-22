@@ -1,0 +1,110 @@
+!include "MUI2.nsh"
+Name "DVD-o-matic"
+
+RequestExecutionLevel user
+
+outFile "DVD-o-matic @version@.exe"
+!define MUI_ICON "dvdomatic.ico"
+!define MUI_UNICON "dvdomatic.ico"
+!define MUI_SPECIALBITMAP "dvdomatic.bmp"
+
+InstallDir "$PROGRAMFILES\DVD-o-matic"
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "../../COPYING"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
+ 
+!insertmacro MUI_LANGUAGE "English"
+
+Section "install" "Installation info"
+ 
+SetOutPath "$INSTDIR\bin"
+
+File "bin/asdcp-libdcp.dll"
+File "bin/avcodec-54.dll"
+File "bin/avfilter-3.dll"
+File "bin/avformat-54.dll"
+File "bin/avutil-51.dll"
+File "bin/dcp.dll"
+File "bin/dvdomatic-gtk.dll"
+File "bin/dvdomatic.dll"
+File "bin/dvdomatic.exe"
+File "bin/intl.dll"
+File "bin/kumu-libdcp.dll"
+File "bin/libatkmm-1.6-1.dll"
+File "bin/libboost_chrono-mt.dll"
+File "bin/libboost_filesystem-mt.dll"
+File "bin/libboost_system-mt.dll"
+File "bin/libboost_thread_win32-mt.dll"
+File "bin/libcairomm-1.0-1.dll"
+File "bin/libeay32.dll"
+File "bin/libgcc_s_sjlj-1.dll"
+File "bin/libgdk-win32-2.0-0.dll"
+File "bin/libgdkmm-2.4-1.dll"
+File "bin/libgdk_pixbuf-2.0-0.dll"
+File "bin/libgio-2.0-0.dll"
+File "bin/libgiomm-2.4-1.dll"
+File "bin/libglib-2.0-0.dll"
+File "bin/libglibmm-2.4-1.dll"
+File "bin/libgobject-2.0-0.dll"
+File "bin/libgtk-win32-2.0-0.dll"
+File "bin/libgtkmm-2.4-1.dll"
+File "bin/libjpeg-7.dll"
+File "bin/libMagick++-5.dll"
+File "bin/libMagickCore-5.dll"
+File "bin/libMagickWand-5.dll"
+File "bin/libopenjpeg-1.dll"
+File "bin/libpangomm-1.4-1.dll"
+File "bin/libpng14-14.dll"
+File "bin/libsigc-2.0-0.dll"
+File "bin/libsndfile-1.dll"
+File "bin/libssh.dll"
+File "bin/libstdc++-6.dll"
+File "bin/postproc-52.dll"
+File "bin/swresample-0.dll"
+File "bin/swscale-2.dll"
+File "bin/zlib1.dll"
+
+CreateDirectory "$INSTDIR\etc\gtk-2.0"
+SetOutPath "$INSTDIR\etc\gtk-2.0"
+File "etc/gtk-2.0/im-multipress.conf"
+File "etc/gtk-2.0/gtkrc"
+File "etc/gtk-2.0/gtk.immodules"
+
+CreateDirectory "$INSTDIR\etc\pango"
+SetOutPath "$INSTDIR\etc\pango"
+File "etc/pango/pango.modules"
+
+CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
+ 
+CreateDirectory "$SMPROGRAMS\DVD-o-matic"
+CreateShortCut "$SMPROGRAMS\DVD-o-matic\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic.lnk" "$INSTDIR\dvdomatic.exe" "" "$INSTDIR\dvdomatic.exe" 0
+ 
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "DisplayName" "DVD-o-matic (remove only)"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "UninstallString" "$INSTDIR\Uninstall.exe"
+ 
+WriteUninstaller "$INSTDIR\Uninstall.exe"
+ 
+SectionEnd
+ 
+ 
+Section "Uninstall"
+ 
+RMDir /r "$INSTDIR\*.*"    
+RMDir "$INSTDIR"
+Delete "$DESKTOP\DVD-o-matic.lnk"
+Delete "$SMPROGRAMS\DVD-o-matic\*.*"
+RmDir  "$SMPROGRAMS\DVD-o-matic"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DVD-o-matic"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic"
+ 
+SectionEnd
+ 
