@@ -25,6 +25,7 @@
 #include <boost/thread.hpp>
 #include "job_manager.h"
 #include "job.h"
+#include "cross.h"
 
 using namespace std;
 using namespace boost;
@@ -86,7 +87,7 @@ JobManager::scheduler ()
 			}
 		}
 
-		sleep (1);
+		dvdomatic_sleep (1);
 	}
 }
 
