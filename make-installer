@@ -1,0 +1,9 @@
+#!/bin/sh
+
+OUT=../out
+
+cp -r $OUT/* build/windows
+cp windows/dvdomatic.ico build/windows
+cp windows/dvdomatic.bmp build/windows
+cp windows/.gtkrc-2.0 build/windows
+makensis build/windows/installer.nsi
