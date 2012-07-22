@@ -25,7 +25,7 @@
 #include <stdint.h>
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
-#include <libavfilter/vsrc_buffer.h>
+#include <libavfilter/buffersrc.h>
 #ifndef DVDOMATIC_FFMPEG_0_8_3
 #include <libavfilter/avcodec.h>
 #include <libavfilter/buffersink.h>
@@ -242,16 +242,20 @@ Decoder::process_video (AVFrame* frame)
 
 #else
 
-	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0) < 0) {
+	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError ("could not push buffer into filter chain.");
 	}
 
 #endif	
 	
+#ifdef DVDOMATIC_FFMPEG_0_8_3
 	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
+#else
+	while (av_buffersink_read (_buffer_sink_context, 0)) {
+#endif		
 
 #ifdef DVDOMATIC_FFMPEG_0_8_3
-
+		
 		int r = avfilter_request_frame (_buffer_sink_context->inputs[0]);
 		if (r < 0) {
 			throw DecodeError ("could not request filtered frame");
