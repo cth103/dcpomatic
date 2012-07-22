@@ -1,3 +1,4 @@
+Write still j2ks straight to a MXF.
 Standardise j2c/j2k
 Format name in ~/.dvdomatic screws up with spaces; use ID or something
 Thumbnails are poorly named
