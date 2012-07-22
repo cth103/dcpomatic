@@ -45,7 +45,11 @@ DVDTitleDialog::DVDTitleDialog ()
 	for (list<DVDTitle>::const_iterator i = t.begin(); i != t.end(); ++i) {
 		Gtk::RadioButton* b = manage (new Gtk::RadioButton);
 		stringstream s;
+#if HAVE_G_FORMAT_SIZE		
 		s << "Title " << i->number << ": " << g_format_size (i->size);
+#else		
+		s << "Title " << i->number << ": " << g_format_size_for_display (i->size);
+#endif		
 		b->set_label (s.str ());
 		if (i == t.begin ()) {
 			b->set_active ();
