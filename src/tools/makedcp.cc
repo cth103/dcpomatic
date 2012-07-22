@@ -137,13 +137,7 @@ main (int argc, char* argv[])
 	bool first = true;
 	while (!all_done) {
 
-#ifdef DVDOMATIC_POSIX		
-		sleep (5);
-#endif
-
-#ifdef DVDOMATIC_WINDOWS
-		/* XXX */
-#endif		
+		dvdomatic_sleep (5);
 
 		if (!first && progress) {
 			cout << "\033[" << jobs.size() << "A";
