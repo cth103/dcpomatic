@@ -25,6 +25,7 @@
 #include <vector>
 #include <boost/thread/condition.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread.hpp>
 #include <sndfile.h>
 #include "encoder.h"
 
