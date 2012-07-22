@@ -21,7 +21,9 @@
 #include <boost/filesystem.hpp>
 #include "gtk/film_viewer.h"
 #include "gtk/film_editor.h"
+#ifndef DVDOMATIC_DISABLE_PLAYER
 #include "gtk/film_player.h"
+#endif
 #include "gtk/job_manager_view.h"
 #include "gtk/config_dialog.h"
 #include "gtk/gpl.h"
@@ -42,7 +44,9 @@ using namespace boost;
 static Gtk::Window* window = 0;
 static FilmViewer* film_viewer = 0;
 static FilmEditor* film_editor = 0;
+#ifndef DVDOMATIC_DISABLE_PLAYER
 static FilmPlayer* film_player = 0;
+#endif
 static Film* film = 0;
 
 static void set_menu_sensitivity ();
@@ -318,7 +322,9 @@ main (int argc, char* argv[])
 	
 	film_viewer = new FilmViewer (film);
 	film_editor = new FilmEditor (film);
+#ifndef DVDOMATIC_DISABLE_PLAYER
 	film_player = new FilmPlayer (film);
+#endif	
 	JobManagerView jobs_view;
 
 	window->set_title ("DVD-o-matic");
@@ -336,7 +342,9 @@ main (int argc, char* argv[])
 	Gtk::VBox left_vbox;
 	left_vbox.set_spacing (12);
 	left_vbox.pack_start (film_editor->widget (), false, false);
-//	left_vbox.pack_start (film_player->widget (), false, false);
+#ifndef DVDOMATIC_DISABLE_PLAYER	
+	left_vbox.pack_start (film_player->widget (), false, false);
+#endif	
 	hbox.pack_start (left_vbox, false, false);
 
 	Gtk::VBox right_vbox;
@@ -351,7 +359,9 @@ main (int argc, char* argv[])
 
 	/* XXX: calling these here is a bit of a hack */
 	film_editor->setup_visibility ();
+#ifndef DVDOMATIC_DISABLE_PLAYER	
 	film_player->setup_visibility ();
+#endif	
 	film_viewer->setup_visibility ();
 
 	film_editor->FileChanged.connect (ptr_fun (file_changed));
