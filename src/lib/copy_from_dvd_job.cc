@@ -27,6 +27,7 @@
 #include "copy_from_dvd_job.h"
 #include "film_state.h"
 #include "dvd.h"
+#include "cross.h"
 
 using namespace std;
 using namespace boost;
