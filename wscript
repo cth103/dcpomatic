@@ -23,8 +23,12 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_WINDOWS')
         conf.options.disable_player = True
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
+        boost_lib_suffix = '-mt'
+        boost_thread = 'boost_thread_win32-mt'
     else:
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
+        boost_lib_suffix = ''
+        boost_thread = 'boost_thread'
 
     conf.env.DEBUG_HASH = conf.options.debug_hash
     conf.env.TARGET_WINDOWS = conf.options.target_windows
@@ -51,6 +55,7 @@ def configure(conf):
     conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'libdcp', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+    conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
     conf.check_cc(msg = 'Checking for library libtiff', function_name = 'TIFFOpen', header_name = 'tiffio.h', lib = 'tiff', uselib_store = 'TIFF')
     conf.check_cc(fragment  = """
@@ -69,23 +74,27 @@ def configure(conf):
                               return 0;\n
                               }
                               """, msg = 'Checking for library libssh', mandatory = False, lib = 'ssh', uselib_store = 'SSH')
-			      
+
     conf.check_cxx(fragment = """
     			      #include <boost/thread.hpp>\n
     			      int main() { boost::thread t (); }\n
 			      """, msg = 'Checking for boost threading library',
-                              lib = ['boost_thread_win32-mt', 'boost_system-mt'], uselib_store = 'BOOST_THREAD')
+                              lib = [boost_thread, 'boost_system%s' % boost_lib_suffix],
+                              uselib_store = 'BOOST_THREAD')
+
     conf.check_cxx(fragment = """
     			      #include <boost/filesystem.hpp>\n
     			      int main() { boost::filesystem::copy_file ("a", "b"); }\n
 			      """, msg = 'Checking for boost filesystem library',
-                              libpath = '/usr/local/lib', lib = ['boost_filesystem-mt', 'boost_system-mt'], uselib_store = 'BOOST_FILESYSTEM')
+                              libpath = '/usr/local/lib',
+                              lib = ['boost_filesystem%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                              uselib_store = 'BOOST_FILESYSTEM')
 
     conf.check_cc(fragment = """
                              #include <glib.h>
                              int main() { g_format_size (1); }
                              """, msg = 'Checking for g_format_size ()',
-                             lib = 'glib',
+                             uselib = 'GLIB',
                              define_name = 'HAVE_G_FORMAT_SIZE',
                              mandatory = False)
 

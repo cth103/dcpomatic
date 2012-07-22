@@ -18,6 +18,9 @@
 */
 
 #include "cross.h"
+#ifdef DVDOMATIC_POSIX
+#include <unistd.h>
+#endif
 #ifdef DVDOMATIC_WINDOWS
 #include "windows.h"
 #endif

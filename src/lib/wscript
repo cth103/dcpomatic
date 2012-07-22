@@ -55,4 +55,8 @@ def build(bld):
 		 util.cc
 		 version.cc
 		 """
+
+    if not bld.env.DISABLE_PLAYER:
+        obj.source += " player.cc player_manager.cc"
+
     obj.target = 'dvdomatic'
