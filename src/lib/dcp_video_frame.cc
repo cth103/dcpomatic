@@ -38,8 +38,10 @@
 #include <iostream>
 #include <unistd.h>
 #include <errno.h>
+#ifdef DVDOMATIC_POSIX
 #include <netinet/in.h>
 #include <netdb.h>
+#endif
 #include <boost/filesystem.hpp>
 #include "film.h"
 #include "dcp_video_frame.h"
@@ -290,6 +292,7 @@ DCPVideoFrame::encode_locally ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_remotely (Server const * serv)
 {
+#ifdef DVDOMATIC_POSIX	
 	int const fd = socket (AF_INET, SOCK_STREAM, 0);
 	if (fd < 0) {
 		throw NetworkError ("could not create socket");
@@ -376,6 +379,11 @@ DCPVideoFrame::encode_remotely (Server const * serv)
 	
 	close (fd);
 	return e;
+#endif
+
+#ifdef DVDOMATIC_WINDOWS	
+	return shared_ptr<EncodedData> ();
+#endif
 }
 
 /** Write this data to a J2K file.
@@ -400,6 +408,7 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
 	filesystem::rename (tmp_j2k, opt->frame_out_path (frame, false));
 }
 
+#ifdef DVDOMATIC_POSIX	
 /** Send this data to a file descriptor.
  *  @param fd File descriptor.
  */
@@ -411,6 +420,7 @@ EncodedData::send (int fd)
 	socket_write (fd, (uint8_t *) s.str().c_str(), s.str().length() + 1);
 	socket_write (fd, _data, _size);
 }
+#endif	
 
 #ifdef DEBUG_HASH
 void

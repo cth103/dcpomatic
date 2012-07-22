@@ -48,7 +48,9 @@ public:
 
 	virtual ~EncodedData () {}
 
+#ifdef DVDOMATIC_POSIX	
 	void send (int);
+#endif	
 	void write (boost::shared_ptr<const Options>, int);
 
 #ifdef DEBUG_HASH
