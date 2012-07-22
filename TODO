@@ -1,3 +1,6 @@
+Seem to be problems when waiting for (failing) server threads at the end of an encode;
+their frames aren't reprocessed locally.
+
 Standardise j2c/j2k
 Format name in ~/.dvdomatic screws up with spaces; use ID or something
 Thumbnails are poorly named
