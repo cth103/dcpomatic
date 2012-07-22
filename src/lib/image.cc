@@ -24,8 +24,6 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
-#include <execinfo.h>
-#include <cxxabi.h>
 #include <sys/time.h>
 #include <boost/algorithm/string.hpp>
 #include <openjpeg.h>
