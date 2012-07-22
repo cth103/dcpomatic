@@ -35,6 +35,7 @@
 #include "util.h"
 #include "scaler.h"
 #include "version.h"
+#include "cross.h"
 
 using namespace std;
 using namespace boost;
