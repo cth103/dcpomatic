@@ -25,16 +25,18 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#ifdef DVDOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
-#include <signal.h>
 #include <sys/types.h> 
 #include <sys/socket.h>
+#endif
+#include <libssh/libssh.h>
+#include <signal.h>
 #include <boost/algorithm/string.hpp>
 #include <openjpeg.h>
 #include <magick/MagickCore.h>
 #include <magick/version.h>
-#include <libssh/libssh.h>
 #include <libdcp/version.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -122,6 +124,7 @@ seconds_to_approximate_hms (int s)
 	return ap.str ();
 }
 
+#ifdef DVDOMATIC_POSIX
 /** @param l Mangled C++ identifier.
  *  @return Demangled version.
  */
@@ -182,6 +185,7 @@ stacktrace (ostream& out, int levels)
 		free (strings);
 	}
 }
+#endif
 
 /** @param s Sample format.
  *  @return String representation.
@@ -226,17 +230,14 @@ vobcopy_version ()
 	string version = "unknown";
 	
 	while (!feof (f)) {
-		char* buf = 0;
-		size_t n = 0;
-		ssize_t const r = getline (&buf, &n, f);
-		if (r > 0) {
+		char buf[256];
+		if (fgets (buf, sizeof (buf), f)) {
 			string s (buf);
 			vector<string> b;
 			split (b, s, is_any_of (" "));
 			if (b.size() >= 2 && b[0] == "Vobcopy") {
 				version = b[1];
 			}
-			free (buf);
 		}
 	}
 
@@ -276,6 +277,7 @@ dependency_version_summary ()
 	return s.str ();
 }
 
+#ifdef DVDOMATIC_POSIX
 /** Write some data to a socket.
  *  @param fd Socket file descriptor.
  *  @param data Data.
@@ -297,6 +299,7 @@ socket_write (int fd, uint8_t const * data, int size)
 		p += n;
 	}
 }
+#endif
 
 double
 seconds (struct timeval t)
@@ -304,6 +307,7 @@ seconds (struct timeval t)
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
+#ifdef DVDOMATIC_POSIX
 /** @param fd File descriptor to read from */
 SocketReader::SocketReader (int fd)
 	: _fd (fd)
@@ -386,12 +390,15 @@ SocketReader::read_indefinite (uint8_t* data, int size)
 	assert (size >= _buffer_data);
 	memcpy (data, _buffer, size);
 }
+#endif
 
+#ifdef DVDOMATIC_POSIX
 void
 sigchld_handler (int, siginfo_t* info, void *)
 {
 	PlayerManager::instance()->child_exited (info->si_pid);
 }
+#endif
 
 /** Call the required functions to set up DVD-o-matic's static arrays, etc. */
 void
@@ -402,11 +409,13 @@ dvdomatic_setup ()
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();
 
+#ifdef DVDOMATIC_POSIX	
 	struct sigaction sa;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset (&sa.sa_mask);
 	sa.sa_sigaction = sigchld_handler;
 	sigaction (SIGCHLD, &sa, 0);
+#endif	
 }
 
 string
