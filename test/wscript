@@ -3,7 +3,7 @@ def configure(conf):
                               #define BOOST_TEST_MODULE Config test\n
     			      #include <boost/test/unit_test.hpp>\n
                               int main() {}
-                              """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework', uselib_store = 'BOOST_TEST')
+                              """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework-mt', uselib_store = 'BOOST_TEST')
 
 def build(bld):
     obj = bld(features = 'cxx cxxprogram')

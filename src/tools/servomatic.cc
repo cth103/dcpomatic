@@ -24,9 +24,11 @@
 #include <vector>
 #include <unistd.h>
 #include <errno.h>
+#ifdef DVDOMATIC_POSIX
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#endif
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>

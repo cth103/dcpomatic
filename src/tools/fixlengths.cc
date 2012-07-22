@@ -24,6 +24,7 @@
 #include <sndfile.h>
 #include <boost/filesystem.hpp>
 #include "lib/film.h"
+#include "lib/cross.h"
 
 using namespace std;
 using namespace boost;

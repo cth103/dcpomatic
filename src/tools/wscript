@@ -1,5 +1,5 @@
 def build(bld):
-    for t in ['makedcp', 'servomatic', 'servomatictest', 'fixlengths']:
+    for t in ['makedcp', 'fixlengths']:
         obj = bld(features = 'cxx cxxprogram')
     	obj.uselib = 'BOOST_THREAD'
 	obj.includes = ['..']
@@ -8,7 +8,7 @@ def build(bld):
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dvdomatic', 'playomatic', 'alignomatic']:
+        for t in ['dvdomatic', 'alignomatic']:
             obj = bld(features = 'cxx cxxprogram')
             obj.uselib = 'BOOST_THREAD GTKMM'
             obj.includes = ['..']

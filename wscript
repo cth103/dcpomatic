@@ -9,15 +9,30 @@ def options(opt):
     opt.add_option('--debug-hash', action='store_true', default = False, help = 'print hashes of data at various points')
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
+    opt.add_option('--disable-player', action='store_true', default = False, help = 'disable building of the player components')
     opt.add_option('--ffmpeg-083', action='store_true', default = False, help = 'Use FFmpeg version in Ubuntu 12.04')
+    opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
 
 def configure(conf):
     conf.load('compiler_cxx')
 
-    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-Wall'])
+    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
     conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
 
+    if conf.options.target_windows:
+        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_WINDOWS')
+        conf.options.disable_player = True
+        conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
+    else:
+        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
+
     conf.env.DEBUG_HASH = conf.options.debug_hash
+    conf.env.TARGET_WINDOWS = conf.options.target_windows
+    conf.env.DISABLE_GUI = conf.options.disable_gui
+    conf.env.DISABLE_PLAYER = conf.options.disable_player
+
+    if conf.options.disable_player:
+        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_DISABLE_PLAYER')
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', '-g')
@@ -26,8 +41,6 @@ def configure(conf):
 
     if conf.options.ffmpeg_083:
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_FFMPEG_0_8_3')
-
-    conf.env.DISABLE_GUI = conf.options.disable_gui
 
     conf.check_cfg(package = 'sigc++-2.0', args = '--cflags --libs', uselib_store = 'SIGC++', mandatory = True)
     conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
@@ -55,16 +68,26 @@ def configure(conf):
                               ssh_session s = ssh_new ();\n
                               return 0;\n
                               }
-                              """, msg = 'Checking for library libssh', lib = 'ssh', uselib_store = 'SSH')
+                              """, msg = 'Checking for library libssh', mandatory = False, lib = 'ssh', uselib_store = 'SSH')
 			      
     conf.check_cxx(fragment = """
     			      #include <boost/thread.hpp>\n
     			      int main() { boost::thread t (); }\n
-			      """, msg = 'Checking for boost threading library', lib = 'boost_thread', uselib_store = 'BOOST_THREAD')
+			      """, msg = 'Checking for boost threading library',
+                              lib = ['boost_thread_win32-mt', 'boost_system-mt'], uselib_store = 'BOOST_THREAD')
     conf.check_cxx(fragment = """
     			      #include <boost/filesystem.hpp>\n
     			      int main() { boost::filesystem::copy_file ("a", "b"); }\n
-			      """, msg = 'Checking for boost filesystem library', libpath = '/usr/local/lib', lib = ['boost_filesystem', 'boost_system'], uselib_store = 'BOOST_FILESYSTEM')
+			      """, msg = 'Checking for boost filesystem library',
+                              libpath = '/usr/local/lib', lib = ['boost_filesystem-mt', 'boost_system-mt'], uselib_store = 'BOOST_FILESYSTEM')
+
+    conf.check_cc(fragment = """
+                             #include <glib.h>
+                             int main() { g_format_size (1); }
+                             """, msg = 'Checking for g_format_size ()',
+                             lib = 'glib',
+                             define_name = 'HAVE_G_FORMAT_SIZE',
+                             mandatory = False)
 
     conf.recurse('src')
     conf.recurse('test')
