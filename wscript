@@ -6,6 +6,7 @@ VERSION = '0.30pre'
 
 def options(opt):
     opt.load('compiler_cxx')
+    opt.load('winres')
     opt.add_option('--debug-hash', action='store_true', default = False, help = 'print hashes of data at various points')
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
@@ -15,12 +16,14 @@ def options(opt):
 
 def configure(conf):
     conf.load('compiler_cxx')
+    conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
     conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
 
     if conf.options.target_windows:
-        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_WINDOWS')
+        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS'])
+        conf.env.append_value('LINKFLAGS', '-mwindows')
         conf.options.disable_player = True
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
         boost_lib_suffix = '-mt'
@@ -34,6 +37,7 @@ def configure(conf):
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.DISABLE_PLAYER = conf.options.disable_player
+    conf.env.VERSION = VERSION
 
     if conf.options.disable_player:
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_DISABLE_PLAYER')
@@ -106,6 +110,8 @@ def build(bld):
 
     bld.recurse('src')
     bld.recurse('test')
+    if bld.env.TARGET_WINDOWS:
+        bld.recurse('windows')
 
     d = { 'PREFIX' : '${PREFIX' }
 
@@ -141,3 +147,4 @@ def create_version_cc(version):
     except IOError:
         print('Could not open src/lib/version.cc for writing\n')
         sys.exit(-1)
+    
