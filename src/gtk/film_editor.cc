@@ -35,7 +35,6 @@
 #include "lib/filter.h"
 #include "lib/screen.h"
 #include "lib/config.h"
-#include "lib/scp_dcp_job.h"
 #include "filter_dialog.h"
 #include "gtk_util.h"
 #include "film_editor.h"
