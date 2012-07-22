@@ -38,6 +38,7 @@
 #include "server.h"
 #include "filter.h"
 #include "log.h"
+#include "cross.h"
 
 using namespace std;
 using namespace boost;
@@ -197,7 +198,7 @@ J2KWAVEncoder::encoder_thread (Server* server)
 		}
 
 		if (remote_backoff > 0) {
-			sleep (remote_backoff);
+			dvdomatic_sleep (remote_backoff);
 		}
 
 		lock.lock ();

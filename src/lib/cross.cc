@@ -17,8 +17,18 @@
 
 */
 
+#include "cross.h"
 #ifdef DVDOMATIC_WINDOWS
-#define WEXITSTATUS(w) (w)
+#include "windows.h"
 #endif
 
-void dvdomatic_sleep (int);
+void
+dvdomatic_sleep (int s)
+{
+#ifdef DVDOMATIC_POSIX
+	sleep (s);
+#endif
+#ifdef DVDOMATIC_WINDOWS
+	Sleep (s * 1000);
+#endif
+}
