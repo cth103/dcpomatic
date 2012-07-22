@@ -25,6 +25,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 #ifdef DVDOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
@@ -35,6 +36,7 @@
 #include <signal.h>
 #include <boost/algorithm/string.hpp>
 #include <openjpeg.h>
+#include <openssl/md5.h>
 #include <magick/MagickCore.h>
 #include <magick/version.h>
 #include <libdcp/version.h>
@@ -469,3 +471,37 @@ md5_data (string title, void const * data, int size)
 }
 #endif
 
+string
+md5_digest (string file)
+{
+	ifstream f (file.c_str(), ios::binary);
+	if (!f.good ()) {
+		throw OpenFileError (file);
+	}
+	
+	f.seekg (0, ios::end);
+	int bytes = f.tellg ();
+	f.seekg (0, ios::beg);
+
+	int const buffer_size = 64 * 1024;
+	char buffer[buffer_size];
+
+	MD5_CTX md5_context;
+	MD5_Init (&md5_context);
+	while (bytes > 0) {
+		int const t = min (bytes, buffer_size);
+		f.read (buffer, t);
+		MD5_Update (&md5_context, buffer, t);
+		bytes -= t;
+	}
+
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	MD5_Final (digest, &md5_context);
+
+	stringstream s;
+	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
+	}
+
+	return s.str ();
+}

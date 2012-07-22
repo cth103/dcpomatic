@@ -92,6 +92,7 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_channels " << audio_channels << "\n";
 	f << "audio_sample_rate " << audio_sample_rate << "\n";
 	f << "audio_sample_format " << audio_sample_format_to_string (audio_sample_format) << "\n";
+	f << "content_digest " << content_digest << "\n";
 }
 
 /** Read state from a key / value pair.
@@ -161,6 +162,13 @@ FilmState::read_metadata (string k, string v)
 		audio_sample_rate = atoi (v.c_str ());
 	} else if (k == "audio_sample_format") {
 		audio_sample_format = audio_sample_format_from_string (v);
+	} else if (k == "content_digest") {
+		content_digest = v;
+	}
+	
+	/* Itsy bitsy hack: compute digest here if don't have one (for backwards compatibility) */
+	if (content_digest.empty() && !content.empty()) {
+		content_digest = md5_digest (file (content));
 	}
 }
 

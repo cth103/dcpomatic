@@ -193,6 +193,7 @@ Film::set_content (string c)
 	_state.audio_sample_rate = d->audio_sample_rate ();
 	_state.audio_sample_format = d->audio_sample_format ();
 
+	_state.content_digest = md5_digest (c);
 	_state.content = c;
 	
 	signal_changed (SIZE);
@@ -424,7 +425,7 @@ Film::j2k_dir () const
 	   settings.
 	*/
 	s << _state.format->nickname()
-	  << "_" << _state.content
+	  << "_" << _state.content_digest
 	  << "_" << left_crop() << "_" << right_crop() << "_" << top_crop() << "_" << bottom_crop()
 	  << "_" << f.first << "_" << f.second
 	  << "_" << _state.scaler->id();

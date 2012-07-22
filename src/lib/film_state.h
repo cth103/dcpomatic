@@ -147,6 +147,8 @@ public:
 	int audio_sample_rate;
 	/** Format of the audio samples */
 	AVSampleFormat audio_sample_format;
+	/** MD5 digest of our content file */
+	std::string content_digest;
 
 private:
 	std::string thumb_file_for_frame (int) const;
