@@ -8,6 +8,8 @@ def build(bld):
     obj.name = 'libdvdomatic'
     obj.export_includes = ['.']
     obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP'
+    if bld.env.TARGET_WINDOWS:
+        obj.uselib += ' WINSOCK2'
     if bld.env.DEBUG_HASH:
         obj.uselib += ' MHASH'
     obj.source = """
@@ -15,6 +17,7 @@ def build(bld):
 		 ab_transcoder.cc
 		 config.cc
 		 copy_from_dvd_job.cc
+                 cross.cc
 		 dcp_content_type.cc
 		 dcp_video_frame.cc
                  decoder.cc
@@ -39,12 +42,10 @@ def build(bld):
 		 log.cc
 		 lut.cc
 		 make_dcp_job.cc
-                 player.cc
-                 player_manager.cc
+                 scp_dcp_job.cc
 		 scaler.cc
                  screen.cc
 		 server.cc
-                 scp_dcp_job.cc
 		 thumbs_job.cc
                  tiff_decoder.cc
 	         tiff_encoder.cc
