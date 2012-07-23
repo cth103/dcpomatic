@@ -135,7 +135,7 @@ public:
 
 	/* Data which is cached to speed things up */
 
-	/** Vector of frame indices for each of our `thumbnails */
+	/** Vector of frame indices for each of our `thumbnails' */
 	std::vector<int> thumbs;
 	/** Size, in pixels, of the source (ignoring cropping) */
 	Size size;

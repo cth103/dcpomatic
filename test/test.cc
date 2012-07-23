@@ -235,3 +235,16 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 
 	BOOST_CHECK_THROW (md5_digest ("foobar"), OpenFileError);
 }
+
+BOOST_AUTO_TEST_CASE (paths_test)
+{
+	FilmState s;
+	s.directory = "build/test/a/b/c/d/e";
+	s.thumbs.push_back (42);
+	BOOST_CHECK_EQUAL (s.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.tiff");
+
+	s.content = "/foo/bar/baz";
+	BOOST_CHECK_EQUAL (s.content_path(), "/foo/bar/baz");
+	s.content = "foo/bar/baz";
+	BOOST_CHECK_EQUAL (s.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
+}

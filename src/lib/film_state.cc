@@ -190,10 +190,14 @@ string
 FilmState::thumb_file_for_frame (int n) const
 {
 	stringstream s;
-	s << dir ("thumbs") << "/";
 	s.width (8);
 	s << setfill('0') << n << ".tiff";
-	return s.str ();
+	
+	filesystem::path p;
+	p /= dir ("thumbs");
+	p /= s.str ();
+		
+	return p.string ();
 }
 
 
@@ -221,19 +225,21 @@ FilmState::cropped_size (Size s) const
 string
 FilmState::dir (string d) const
 {
-	stringstream s;
-	s << directory << "/" << d;
-	filesystem::create_directories (s.str ());
-	return s.str ();
+	filesystem::path p;
+	p /= directory;
+	p /= d;
+	filesystem::create_directories (p);
+	return p.string ();
 }
 
 /** Given a file or directory name, return its full path within the Film's directory */
 string
 FilmState::file (string f) const
 {
-	stringstream s;
-	s << directory << "/" << f;
-	return s.str ();
+	filesystem::path p;
+	p /= directory;
+	p /= f;
+	return p.string ();
 }
 
 string

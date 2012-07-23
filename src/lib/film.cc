@@ -413,10 +413,11 @@ Film::j2k_dir () const
 {
 	assert (format());
 
-	stringstream s;
+	filesystem::path p;
+
 
 	/* Start with j2c */
-	s << "j2c/";
+	p /= "j2c";
 
 	pair<string, string> f = Filter::ffmpeg_strings (filters ());
 
@@ -424,19 +425,24 @@ Film::j2k_dir () const
 	   so that we don't get confused about J2K files generated using different
 	   settings.
 	*/
+	stringstream s;
 	s << _state.format->nickname()
 	  << "_" << _state.content_digest
 	  << "_" << left_crop() << "_" << right_crop() << "_" << top_crop() << "_" << bottom_crop()
 	  << "_" << f.first << "_" << f.second
 	  << "_" << _state.scaler->id();
 
+	p /= s.str ();
+
 	/* Similarly for the A/B case */
 	if (dcp_ab()) {
+		stringstream s;
 		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
-		s << "/ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
+		s << "ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
+		p /= s.str ();
 	}
 	
-	return _state.dir (s.str ());
+	return _state.dir (p.string ());
 }
 
 /** Handle a change to the Film's metadata */
