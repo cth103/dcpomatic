@@ -86,7 +86,7 @@ CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
  
 CreateDirectory "$SMPROGRAMS\DVD-o-matic"
 CreateShortCut "$SMPROGRAMS\DVD-o-matic\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
-CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic.lnk" "$INSTDIR\dvdomatic.exe" "" "$INSTDIR\dvdomatic.exe" 0
+CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" "" "$INSTDIR\bin\dvdomatic.exe" 0
  
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "DisplayName" "DVD-o-matic (remove only)"
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "UninstallString" "$INSTDIR\Uninstall.exe"
