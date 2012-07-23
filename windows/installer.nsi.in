@@ -82,6 +82,9 @@ CreateDirectory "$INSTDIR\etc\pango"
 SetOutPath "$INSTDIR\etc\pango"
 File "etc/pango/pango.modules"
 
+SetOutPath "$PROFILE"
+File ".gtkrc-2.0"
+
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
  
 CreateDirectory "$SMPROGRAMS\DVD-o-matic"
