@@ -258,7 +258,7 @@ setup_menu (Gtk::MenuBar& m)
 	file_items.push_back (SeparatorElem ());
 	add_item (file_items, "_Save", sigc::ptr_fun (file_save), NEEDS_FILM);
 	file_items.push_back (SeparatorElem ());
-	add_item (file_items, "_Quit", sigc::ptr_fun (file_quit), NEEDS_FILM);
+	add_item (file_items, "_Quit", sigc::ptr_fun (file_quit), ALWAYS);
 
 	Gtk::Menu* edit = manage (new Gtk::Menu);
 	MenuList& edit_items (edit->items ());
