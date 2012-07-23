@@ -1,3 +1,15 @@
+2012-07-22  Carl Hetherington  <cth@carlh.net>
+
+	* Port to Windows.
+
+	* Use MD5 digest to decide on the directory to put J2C files
+	in, rather than the path of the content.
+
+	* Allow building with current FFmpeg git.
+
+	* Fix problems when creating cut videos in that the audio is too
+	short; pad it with silence.
+
 2012-07-21  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.29 released.
