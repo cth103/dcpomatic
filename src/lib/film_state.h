@@ -139,7 +139,7 @@ public:
 	std::vector<int> thumbs;
 	/** Size, in pixels, of the source (ignoring cropping) */
 	Size size;
-	/** Length in frames */
+	/** Length of the source in frames */
 	int length;
 	/** Number of audio channels */
 	int audio_channels;

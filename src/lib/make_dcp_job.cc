@@ -31,6 +31,7 @@ extern "C" {
 #include "dcp_content_type.h"
 #include "exceptions.h"
 #include "options.h"
+#include "imagemagick_decoder.h"
 
 using namespace std;
 using namespace boost;
@@ -73,7 +74,16 @@ MakeDCPJob::run ()
 	/* Remove any old DCP */
 	filesystem::remove_all (dcp_path);
 
-	int const frames = _fs->dcp_frames ? _fs->dcp_frames : _fs->length;
+	int frames = 0;
+	switch (_fs->content_type ()) {
+	case VIDEO:
+		frames = _fs->dcp_frames ? _fs->dcp_frames : _fs->length;
+		break;
+	case STILL:
+		frames = _fs->still_duration * ImageMagickDecoder::static_frames_per_second ();
+		break;
+	}
+	
 	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_type (), rint (_fs->frames_per_second), frames);
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
