@@ -68,6 +68,7 @@ File "%deps%/bin/postproc-52.dll"
 File "%deps%/bin/swresample-0.dll"
 File "%deps%/bin/swscale-2.dll"
 File "%deps%/bin/zlib1.dll"
+File "%deps%/libjpeg-8.dll"
 
 File "%binaries%/src/gtk/dvdomatic-gtk.dll"
 File "%binaries%/src/lib/dvdomatic.dll"

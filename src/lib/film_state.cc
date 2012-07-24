@@ -168,7 +168,7 @@ FilmState::read_metadata (string k, string v)
 	
 	/* Itsy bitsy hack: compute digest here if don't have one (for backwards compatibility) */
 	if (content_digest.empty() && !content.empty()) {
-		content_digest = md5_digest (file (content));
+		content_digest = md5_digest (content_path ());
 	}
 }
 
