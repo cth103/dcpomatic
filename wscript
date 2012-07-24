@@ -8,6 +8,7 @@ VERSION = '0.30pre'
 def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
+
     opt.add_option('--debug-hash', action='store_true', default = False, help = 'print hashes of data at various points')
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
@@ -17,7 +18,8 @@ def options(opt):
 
 def configure(conf):
     conf.load('compiler_cxx')
-    conf.load('winres')
+    if conf.options.target_windows:
+        conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
     conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
