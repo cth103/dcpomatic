@@ -8,6 +8,9 @@ export WINDOWS_PREFIX="/home/carl/src/windows"
 export PKG_CONFIG_LIBDIR=$WINDOWS_PREFIX/lib/pkgconfig
 
 ./waf
+if [ "$?" != "0" ]; then
+  exit 1
+fi
 
 d=`pwd`
 
