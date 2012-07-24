@@ -183,9 +183,9 @@ SCPDCPJob::run ()
 		
 		int to_do = filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
-		
-		int fd = open (filesystem::path (*i).string().c_str(), O_RDONLY);
-		if (fd == 0) {
+
+		FILE* f = fopen (filesystem::path (*i).string().c_str(), "rb");
+		if (f == 0) {
 			stringstream s;
 			s << "Could not open " << *i << " to send";
 			throw NetworkError (s.str ());
@@ -193,7 +193,11 @@ SCPDCPJob::run ()
 
 		while (to_do > 0) {
 			int const t = min (to_do, buffer_size);
-			read (fd, buffer, t);
+			size_t const read = fread (buffer, 1, t, f);
+			if (read != size_t (t)) {
+				throw ReadFileError (filesystem::path (*i).string());
+			}
+			
 			r = ssh_scp_write (sc.scp, buffer, t);
 			if (r != SSH_OK) {
 				stringstream s;
@@ -205,6 +209,8 @@ SCPDCPJob::run ()
 			
 			set_progress ((double) bytes_transferred / bytes_to_transfer);
 		}
+
+		fclose (f);
 	}
 	
 	set_progress (1);

@@ -127,7 +127,7 @@ public:
 	/** @param f File that we were trying to read from.
 	 *  @param e errno value, or 0.
 	 */
-	ReadFileError (std::string f, int e)
+	ReadFileError (std::string f, int e = 0)
 		: FileError ("", f)
 	{
 		std::stringstream s;
