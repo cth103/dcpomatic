@@ -426,7 +426,7 @@ Film::j2k_dir () const
 	   settings.
 	*/
 	stringstream s;
-	s << _state.format->nickname()
+	s << _state.format->id()
 	  << "_" << _state.content_digest
 	  << "_" << left_crop() << "_" << right_crop() << "_" << top_crop() << "_" << bottom_crop()
 	  << "_" << f.first << "_" << f.second
