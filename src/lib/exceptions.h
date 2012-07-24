@@ -117,6 +117,28 @@ public:
 	{}
 };
 
+
+/** @class ReadFileError.
+ *  @brief Indicates that some error occurred when trying to write to a file
+ */
+class ReadFileError : public FileError
+{
+public:
+	/** @param f File that we were trying to read from.
+	 *  @param e errno value, or 0.
+	 */
+	ReadFileError (std::string f, int e)
+		: FileError ("", f)
+	{
+		std::stringstream s;
+		s << "could not read from file " << f;
+		if (e) {
+			s << " (" << strerror (e) << ")";
+		}
+		_what = s.str ();
+	}
+};
+
 /** @class WriteFileError.
  *  @brief Indicates that some error occurred when trying to write to a file
  */
