@@ -17,7 +17,7 @@ CXX=$MINGW_CXX WINRC=$MINGW_WINDRES \
 
 d=`pwd`
 
-cp build/windows/installer.msi build/windows/installer2.msi
+cp build/windows/installer.nsi build/windows/installer2.nsi
 
 sed -i "s~%resources%~$d/windows~g" build/windows/installer2.nsi
 sed -i "s~%deps%~$WINDOWS_PREFIX~g" build/windows/installer2.nsi
