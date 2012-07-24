@@ -2,9 +2,11 @@ def configure(conf):
     conf.recurse('lib')
     if not conf.env.DISABLE_GUI:
         conf.recurse('gtk')
+        conf.recurse('wx')
 
 def build(bld):
     bld.recurse('lib')
     bld.recurse('tools')
     if not bld.env.DISABLE_GUI:
         bld.recurse('gtk')
+        bld.recurse('wx')
