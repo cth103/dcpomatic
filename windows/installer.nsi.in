@@ -71,6 +71,7 @@ File "bin/postproc-52.dll"
 File "bin/swresample-0.dll"
 File "bin/swscale-2.dll"
 File "bin/zlib1.dll"
+File "bin/libjpeg-8.dll"
 
 CreateDirectory "$INSTDIR\etc\gtk-2.0"
 SetOutPath "$INSTDIR\etc\gtk-2.0"
