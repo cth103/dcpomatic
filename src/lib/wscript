@@ -7,7 +7,7 @@ def build(bld):
     obj = bld(features = 'cxx cxxshlib')
     obj.name = 'libdvdomatic'
     obj.export_includes = ['.']
-    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP'
+    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP GLIB'
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
     if bld.env.DEBUG_HASH:

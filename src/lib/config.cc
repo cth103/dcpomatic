@@ -20,6 +20,8 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
+#include <glib.h>
+#include <boost/filesystem.hpp>
 #include "config.h"
 #include "server.h"
 #include "scaler.h"
@@ -93,9 +95,10 @@ Config::Config ()
 string
 Config::file () const
 {
-	stringstream s;
-	s << getenv ("HOME") << "/.dvdomatic";
-	return s.str ();
+	filesystem::path p;
+	p /= g_get_user_config_dir ();
+	p /= ".dvdomatic";
+	return p.string ();
 }
 
 /** @return Singleton instance */
