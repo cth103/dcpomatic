@@ -7,6 +7,12 @@ export WINDOWS_PREFIX="/home/carl/src/windows"
 
 export PKG_CONFIG_LIBDIR=$WINDOWS_PREFIX/lib/pkgconfig
 
+./waf clean
+export PATH=$WINDOWS_PREFIX/bin:$PATH
+CXX=$MINGW_CXX WINRC=$MINGW_WINDRES \
+  CXXFLAGS="-I$WINDOWS_PREFIX/include -I$MINGW_PREFIX/include" \
+  LINKFLAGS="-L$WINDOWS_PREFIX/lib -L$MINGW_PREFIX/lib" \
+  ./waf configure --target-windows
 ./waf
 
 d=`pwd`
