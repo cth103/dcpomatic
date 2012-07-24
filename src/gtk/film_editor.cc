@@ -186,10 +186,13 @@ FilmEditor::FilmEditor (Film* f)
 	t->attach (video_widget (left_aligned_label ("Range")), 0, 1, n, n + 1);
 	Gtk::HBox* db = manage (new Gtk::HBox);
 	db->pack_start (_dcp_range, true, true);
+	video_widget (_dcp_range);
 	db->pack_start (_change_dcp_range_button, false, false);
+	video_widget (_change_dcp_range_button);
 	t->attach (*db, 1, 2, n, n + 1);
 	++n;
 	t->attach (_dcp_ab, 0, 3, n, n + 1);
+	video_widget (_dcp_ab);
 
 	/* STILL-only stuff */
 	n = special;
