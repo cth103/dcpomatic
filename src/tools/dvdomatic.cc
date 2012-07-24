@@ -95,6 +95,9 @@ void
 file_new ()
 {
 	Gtk::FileChooserDialog c (*window, "New Film", Gtk::FILE_CHOOSER_ACTION_CREATE_FOLDER);
+#ifdef POSIX_WINDOWS	
+	c.set_current_folder (g_get_user_data_dir ());
+#endif	
 	c.add_button ("_Cancel", Gtk::RESPONSE_CANCEL);
 	c.add_button ("C_reate", Gtk::RESPONSE_ACCEPT);
 
@@ -119,6 +122,9 @@ void
 file_open ()
 {
 	Gtk::FileChooserDialog c (*window, "Open Film", Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
+#ifdef POSIX_WINDOWS	
+	c.set_current_folder (g_get_user_data_dir ());
+#endif	
 	c.add_button ("_Cancel", Gtk::RESPONSE_CANCEL);
 	c.add_button ("_Open", Gtk::RESPONSE_ACCEPT);
 
