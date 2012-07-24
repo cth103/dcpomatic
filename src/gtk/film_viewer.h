@@ -58,6 +58,5 @@ private:
 	Glib::RefPtr<Gdk::Pixbuf> _cropped_pixbuf;
 	Glib::RefPtr<Gdk::Pixbuf> _scaled_pixbuf;
 	Gtk::HScale _position_slider;
-	Gtk::Button _update_button;
 	Gtk::Allocation _last_scroller_allocation;
 };

@@ -37,20 +37,16 @@ using namespace boost;
 
 FilmViewer::FilmViewer (Film* f)
 	: _film (f)
-	, _update_button ("Update")
 {
 	_scroller.add (_image);
 
 	Gtk::HBox* controls = manage (new Gtk::HBox);
 	controls->set_spacing (6);
-	controls->pack_start (_update_button, false, false);
 	controls->pack_start (_position_slider);
 	
 	_vbox.pack_start (_scroller, true, true);
 	_vbox.pack_start (*controls, false, false);
 	_vbox.set_border_width (12);
-
-	_update_button.signal_clicked().connect (sigc::mem_fun (*this, &FilmViewer::update_thumbs));
 
 	_position_slider.set_digits (0);
 	_position_slider.signal_format_value().connect (sigc::mem_fun (*this, &FilmViewer::format_position_slider_value));
@@ -138,8 +134,6 @@ FilmViewer::set_film (Film* f)
 {
 	_film = f;
 
-	_update_button.set_sensitive (_film != 0);
-	
 	if (!_film) {
 		_image.clear ();
 		return;
@@ -220,6 +214,5 @@ FilmViewer::setup_visibility ()
 	}
 
 	ContentType const c = _film->content_type ();
-	_update_button.property_visible() = (c == VIDEO);
 	_position_slider.property_visible() = (c == VIDEO);
 }
