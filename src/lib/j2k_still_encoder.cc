@@ -62,7 +62,7 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame)
 		e->write (_opt, 0);
 	}
 
-	string const real = _opt->frame_out_path (1, false);
+	string const real = _opt->frame_out_path (0, false);
 	for (int i = 1; i < (_fs->still_duration * ImageMagickDecoder::static_frames_per_second()); ++i) {
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
 			string const link = _opt->frame_out_path (i, false);
