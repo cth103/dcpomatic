@@ -57,13 +57,13 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame)
 		_log
 		);
 
-	if (!boost::filesystem::exists (_opt->frame_out_path (1, false))) {
+	if (!boost::filesystem::exists (_opt->frame_out_path (0, false))) {
 		boost::shared_ptr<EncodedData> e = f->encode_locally ();
-		e->write (_opt, 1);
+		e->write (_opt, 0);
 	}
 
 	string const real = _opt->frame_out_path (1, false);
-	for (int i = 2; i <= (_fs->still_duration * ImageMagickDecoder::static_frames_per_second()); ++i) {
+	for (int i = 1; i < (_fs->still_duration * ImageMagickDecoder::static_frames_per_second()); ++i) {
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
 			string const link = _opt->frame_out_path (i, false);
 #ifdef DVDOMATIC_POSIX			
