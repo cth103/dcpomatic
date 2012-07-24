@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 
 APPNAME = 'dvdomatic'
 VERSION = '0.30pre'
