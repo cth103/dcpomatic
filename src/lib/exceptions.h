@@ -119,7 +119,7 @@ public:
 
 
 /** @class ReadFileError.
- *  @brief Indicates that some error occurred when trying to write to a file
+ *  @brief Indicates that some error occurred when trying to read from a file
  */
 class ReadFileError : public FileError
 {
