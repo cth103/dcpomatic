@@ -33,15 +33,13 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, string t)
 	return m;
 }
 
-#if 0
 void
-error_dialog (string m)
+error_dialog (wxWindow* parent, string m)
 {
-	Gtk::MessageDialog d (m, false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-	d.set_title ("DVD-o-matic");
-	d.run ();
+	wxMessageDialog* d = new wxMessageDialog (parent, std_to_wx (m), wxT ("DVD-o-matic"), wxOK);
+	d->ShowModal ();
+	d->Destroy ();
 }
-#endif
 
 string
 wx_to_std (wxString s)

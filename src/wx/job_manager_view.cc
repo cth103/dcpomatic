@@ -26,34 +26,42 @@
 #include "lib/util.h"
 #include "lib/exceptions.h"
 #include "job_manager_view.h"
-#include "gtk_util.h"
+#include "wx_util.h"
 
 using namespace std;
 using namespace boost;
 
 /** Must be called in the GUI thread */
-JobManagerView::JobManagerView ()
+JobManagerView::JobManagerView (wxWindow* parent)
+	: wxPanel (parent)
 {
-	_scroller.set_policy (Gtk::POLICY_NEVER, Gtk::POLICY_ALWAYS);
-	
-	_store = Gtk::TreeStore::create (_columns);
-	_view.set_model (_store);
-	_view.append_column ("Name", _columns.name);
+	_sizer = new wxFlexGridSizer (2, 6, 6);
+	SetSizer (_sizer);
 
-	Gtk::CellRendererProgress* r = Gtk::manage (new Gtk::CellRendererProgress ());
-	int const n = _view.append_column ("Progress", *r);
-	Gtk::TreeViewColumn* c = _view.get_column (n - 1);
-	c->add_attribute (r->property_value(), _columns.progress);
-	c->add_attribute (r->property_pulse(), _columns.progress_unknown);
-	c->add_attribute (r->property_text(), _columns.text);
+#if 0	
+	add_label_to_sizer (_sizer, this, "Hello world");
+	wxGauge* g = new wxGauge (this, wxID_ANY, 100);
+	_sizer->Add (g, 1, wxEXPAND | wxALL);
 
-	_scroller.add (_view);
-	_scroller.set_size_request (-1, 150);
+	add_label_to_sizer (_sizer, this, "Shit");
+	g = new wxGauge (this, wxID_ANY, 100);
+	_sizer->Add (g, 1, wxEXPAND | wxALL);
+#endif	
 	
+	Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (JobManagerView::periodic), 0, this);
+	_timer.reset (new wxTimer (this));
+	_timer->Start (1000);
+
 	update ();
 }
 
-/** Update the view by examining the state of each jobs.
+void
+JobManagerView::periodic (wxTimerEvent &)
+{
+	update ();
+}
+
+/** Update the view by examining the state of each job.
  *  Must be called in the GUI thread.
  */
 void
@@ -62,26 +70,17 @@ JobManagerView::update ()
 	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 
 	for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
-		Gtk::ListStore::iterator j = _store->children().begin();
-		while (j != _store->children().end()) {
-			Gtk::TreeRow r = *j;
-			shared_ptr<Job> job = r[_columns.job];
-			if (job == *i) {
-				break;
-			}
-			++j;
-		}
+		
+		if (_job_records.find (*i) == _job_records.end ()) {
+			add_label_to_sizer (_sizer, this, (*i)->name ());
 
-		Gtk::TreeRow r;
-		if (j == _store->children().end ()) {
-			j = _store->append ();
-			r = *j;
-			r[_columns.name] = (*i)->name ();
-			r[_columns.job] = *i;
-			r[_columns.progress_unknown] = -1;
-			r[_columns.informed_of_finish] = false;
-		} else {
-			r = *j;
+			JobRecord r;
+			r.gauge = new wxGauge (this, wxID_ANY, 100);
+			r.informed_of_finish = false;
+			
+			_sizer->Add (r.gauge, 1, wxEXPAND);
+			_job_records[*i] = r;
+			_sizer->Layout ();
 		}
 
 		bool inform_of_finish = false;
@@ -90,11 +89,11 @@ JobManagerView::update ()
 		if (!(*i)->finished ()) {
 			float const p = (*i)->overall_progress ();
 			if (p >= 0) {
-				r[_columns.text] = st;
-				r[_columns.progress] = p * 100;
+//				r[_columns.text] = st;
+				_job_records[*i].gauge->SetValue (p * 100);
 			} else {
-				r[_columns.text] = "Running";
-				r[_columns.progress_unknown] = r[_columns.progress_unknown] + 1;
+//				r[_columns.text] = "Running";
+				_job_records[*i].gauge->Pulse ();
 			}
 		}
 		
@@ -104,19 +103,15 @@ JobManagerView::update ()
 		*/
 		
 		if ((*i)->finished_ok ()) {
-			bool i = r[_columns.informed_of_finish];
-			if (!i) {
-				r[_columns.progress_unknown] = -1;
-				r[_columns.progress] = 100;
-				r[_columns.text] = st;
+			if (!_job_records[*i].informed_of_finish) {
+				_job_records[*i].gauge->SetValue (100);
+//				r[_columns.text] = st;
 				inform_of_finish = true;
 			}
 		} else if ((*i)->finished_in_error ()) {
-			bool i = r[_columns.informed_of_finish];
-			if (!i) {
-				r[_columns.progress_unknown] = -1;
-				r[_columns.progress] = 100;
-				r[_columns.text] = st;
+			if (!_job_records[*i].informed_of_finish) {
+				_job_records[*i].gauge->SetValue (100);
+//				r[_columns.text] = st;
 				inform_of_finish = true;
 			}
 		}
@@ -127,9 +122,9 @@ JobManagerView::update ()
 			} catch (OpenFileError& e) {
 				stringstream s;
 				s << "Error: " << e.what();
-				error_dialog (s.str ());
+				error_dialog (this, s.str ());
 			}
-			r[_columns.informed_of_finish] = true;
+			_job_records[*i].informed_of_finish = true;
 		}
 	}
 }

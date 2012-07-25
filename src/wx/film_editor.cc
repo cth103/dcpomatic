@@ -52,7 +52,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	, _film (f)
 {
 	wxSizer* sizer = new wxFlexGridSizer (2, 6, 6);
-	this->SetSizer (sizer);
+	SetSizer (sizer);
 
 	add_label_to_sizer (sizer, this, "Name");
 	_name = new wxTextCtrl (this, wxID_ANY);
@@ -286,9 +286,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 		_content->SetPath (std_to_wx (_film->directory ()));
 		stringstream m;
 		m << "Could not set content: " << e.what() << ".";
-		wxMessageDialog* d = new wxMessageDialog (this, std_to_wx (m.str ()), wxT ("DVD-o-matic"), wxOK);
-		d->ShowModal ();
-		d->Destroy ();
+		error_dialog (this, m.str ());
 	}
 
 	_ignore_changes = false;

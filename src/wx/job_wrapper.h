@@ -17,11 +17,13 @@
 
 */
 
+#include <wx/wx.h>
+
 class Film;
 
 namespace JobWrapper
 {
 
-void make_dcp (Film *, bool);
+void make_dcp (wxWindow *, Film *, bool);
 	
 }

@@ -18,31 +18,37 @@
 */
 
 /** @file src/job_manager_view.h
- *  @brief Class generating a GTK widget to show the progress of jobs.
+ *  @brief Class which is a wxPanel for showing the progress of jobs.
  */
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <gtkmm.h>
+#include <wx/wx.h>
 
 class Job;
 
 /** @class JobManagerView
- *  @brief Class generating a GTK widget to show the progress of jobs.
+ *  @brief Class which is a wxPanel for showing the progress of jobs.
  */
-class JobManagerView
+class JobManagerView : public wxPanel
 {
 public:
-	JobManagerView ();
-
-	/** @return Our main widget, which contains everything else */
-	Gtk::Widget& widget () {
-		return _scroller;
-	}
+	JobManagerView (wxWindow *);
 
 	void update ();
 
 private:
+	void periodic (wxTimerEvent &);
+
+	boost::shared_ptr<wxTimer> _timer;
+	wxFlexGridSizer* _sizer;
+	struct JobRecord {
+		wxGauge* gauge;
+		bool informed_of_finish;
+	};
+		
+	std::map<boost::shared_ptr<Job>, JobRecord> _job_records;
+#if 0	
 	/** Scroller for all our contents */
 	Gtk::ScrolledWindow _scroller;
 	/** View for the jobs */
@@ -80,4 +86,5 @@ private:
 
 	/** The columns for the store */
 	StoreColumns _columns;
+#endif	
 };

@@ -21,12 +21,12 @@
 #include "lib/film.h"
 #include "lib/exceptions.h"
 #include "job_wrapper.h"
-#include "gtk_util.h"
+#include "wx_util.h"
 
 using namespace std;
 
 void
-JobWrapper::make_dcp (Film* film, bool transcode)
+JobWrapper::make_dcp (wxWindow* parent, Film* film, bool transcode)
 {
 	if (!film) {
 		return;
@@ -41,10 +41,10 @@ JobWrapper::make_dcp (Film* film, bool transcode)
 		} else {
 			s << "Bad setting for " << e.setting() << "(" << e.what() << ")";
 		}
-		error_dialog (s.str ());
+		error_dialog (parent, s.str ());
 	} catch (std::exception& e) {
 		stringstream s;
 		s << "Could not make DCP: " << e.what () << ".";
-		error_dialog (s.str ());
+		error_dialog (parent, s.str ());
 	}
 }

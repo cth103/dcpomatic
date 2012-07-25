@@ -12,6 +12,8 @@ def build(bld):
                  film_editor.cc
                  wx_util.cc
                  film_viewer.cc
+                 job_manager_view.cc
+                 job_wrapper.cc
                  """
 
 #                 alignment.cc
@@ -22,8 +24,6 @@ def build(bld):
 #                 filter_dialog.cc
 #                 filter_view.cc
 #                 gpl.cc
-#                 job_manager_view.cc
-#                 job_wrapper.cc
 #                 dvd_title_dialog.cc
 
     if not bld.env.DISABLE_PLAYER:
