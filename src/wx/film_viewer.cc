@@ -38,8 +38,9 @@ using namespace boost;
 class ThumbPanel : public wxPanel
 {
 public:
-	ThumbPanel (wxPanel* parent)
+	ThumbPanel (wxPanel* parent, Film* film)
 		: wxPanel (parent)
+		, _film (film)
 		, _image (0)
 		, _bitmap (0)
 	{
@@ -51,17 +52,33 @@ public:
 			return;
 		}
 
-		int x, y;
-		GetSize (&x, &y);
-		cout << "Render " << x << " " << y << "\n";
-		
 		wxPaintDC dc (this);
 		dc.DrawBitmap (*_bitmap, 0, 0, false);
 	}
 
+	void size_event (wxSizeEvent &)
+	{
+		if (!_image) {
+			return;
+		}
+
+		int vw, vh;
+		GetSize (&vw, &vh);
+
+		float const target = _film->format()->ratio_as_float ();
+
+		delete _bitmap;
+		if ((float (vw) / vh) > target) {
+			/* view is longer (horizontally) than the ratio; fit height */
+			_bitmap = new wxBitmap (_image->Scale (vh * target, vh));
+		} else {
+			/* view is shorter (horizontally) than the ratio; fit width */
+			_bitmap = new wxBitmap (_image->Scale (vw, vw / target));
+		}
+	}
+
 	void load (string f)
 	{
-		cout << "loading " << f << "\n";
 		clear ();
 		_image = new wxImage (wxString (f.c_str(), wxConvUTF8));
 		_bitmap = new wxBitmap (_image->Scale (512, 512));
@@ -78,12 +95,14 @@ public:
 	DECLARE_EVENT_TABLE ();
 
 private:
+	Film* _film;
 	wxImage* _image;
 	wxBitmap* _bitmap;
 };
 
 BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
 EVT_PAINT (ThumbPanel::paint_event)
+EVT_SIZE (ThumbPanel::size_event)
 END_EVENT_TABLE ()
 
 FilmViewer::FilmViewer (Film* f, wxWindow* p)
@@ -93,7 +112,7 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_sizer);
 	
-	_thumb_panel = new ThumbPanel (this);
+	_thumb_panel = new ThumbPanel (this, f);
 	_thumb_panel->Show (true);
 	_sizer->Add (_thumb_panel, 1, wxEXPAND);
 
