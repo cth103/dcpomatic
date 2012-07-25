@@ -1,32 +1,32 @@
 def configure(conf):
-    conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
-    conf.check_cfg(package = 'gtkmm-2.4', args = '--cflags --libs', uselib_store = 'GTKMM', mandatory = True)
-    conf.check_cfg(package = 'cairomm-1.0', args = '--cflags --libs', uselib_store = 'CAIROMM', mandatory = True)
+    conf.check_cfg(package = '', path = 'wx-config', args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
 
 def build(bld):
     obj = bld(features = 'cxx cxxshlib')
-    obj.name   = 'libdvdomatic-gtk'
+    obj.name   = 'libdvdomatic-wx'
     obj.includes = [ '..' ]
     obj.export_includes = ['.']
-    obj.uselib = 'GLIB GTKMM CAIROMM'
+    obj.uselib = 'WXWIDGETS'
     obj.use = 'libdvdomatic'
     obj.source = """
-                 alignment.cc
-                 config_dialog.cc
-                 dcp_range_dialog.cc
                  film_editor.cc
-                 film_list.cc
+                 wx_util.cc
                  film_viewer.cc
-                 filter_dialog.cc
-                 filter_view.cc
-                 gpl.cc
-                 job_manager_view.cc
-                 gtk_util.cc
-                 job_wrapper.cc
-                 dvd_title_dialog.cc
-		 """
+                 """
+
+#                 alignment.cc
+#                 config_dialog.cc
+#                 dcp_range_dialog.cc
+#                 film_editor.cc
+#                 film_list.cc
+#                 filter_dialog.cc
+#                 filter_view.cc
+#                 gpl.cc
+#                 job_manager_view.cc
+#                 job_wrapper.cc
+#                 dvd_title_dialog.cc
 
     if not bld.env.DISABLE_PLAYER:
         obj.source += " film_player.cc"
 
-    obj.target = 'dvdomatic-gtk'
+    obj.target = 'dvdomatic-wx'

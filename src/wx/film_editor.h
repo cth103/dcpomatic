@@ -18,108 +18,123 @@
 */
 
 /** @file src/film_editor.h
- *  @brief A GTK widget to edit a film's metadata, and perform various functions.
+ *  @brief A wx widget to edit a film's metadata, and perform various functions.
  */
 
-#include <gtkmm.h>
+#include <wx/wx.h>
+#include <wx/spinctrl.h>
+#include "lib/trim_action.h"
+#include "lib/film.h"
 
 class Film;
 
 /** @class FilmEditor
- *  @brief A GTK widget to edit a film's metadata, and perform various functions.
+ *  @brief A wx widget to edit a film's metadata, and perform various functions.
  */
-class FilmEditor
+class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (Film *);
-
-	Gtk::Widget& widget ();
+	FilmEditor (Film *, wxWindow *);
 
 	void set_film (Film *);
 	void setup_visibility ();
 
-	sigc::signal1<void, std::string> FileChanged;
+//XXX	sigc::signal1<void, std::string> FileChanged;
 
 private:
 	/* Handle changes to the view */
-	void name_changed ();
-	void left_crop_changed ();
-	void right_crop_changed ();
-	void top_crop_changed ();
-	void bottom_crop_changed ();
-	void content_changed ();
-	void frames_per_second_changed ();
-	void format_changed ();
+	void name_changed (wxCommandEvent &);
+	void left_crop_changed (wxCommandEvent &);
+	void right_crop_changed (wxCommandEvent &);
+	void top_crop_changed (wxCommandEvent &);
+	void bottom_crop_changed (wxCommandEvent &);
+	void content_changed (wxCommandEvent &);
+	void frames_per_second_changed (wxCommandEvent &);
+	void format_changed (wxCommandEvent &);
 	void dcp_range_changed (int, TrimAction);
-	void dcp_content_type_changed ();
-	void dcp_ab_toggled ();
-	void scaler_changed ();
-	void audio_gain_changed ();
-	void audio_delay_changed ();
-	void still_duration_changed ();
+	void dcp_content_type_changed (wxCommandEvent &);
+	void dcp_ab_toggled (wxCommandEvent &);
+	void scaler_changed (wxCommandEvent &);
+	void audio_gain_changed (wxCommandEvent &);
+	void audio_delay_changed (wxCommandEvent &);
+	void still_duration_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
 
 	/* Button clicks */
-	void edit_filters_clicked ();
-	void change_dcp_range_clicked ();
+	void edit_filters_clicked (wxCommandEvent &);
+	void change_dcp_range_clicked (wxCommandEvent &);
 
 	void set_things_sensitive (bool);
 
-	Gtk::Widget & video_widget (Gtk::Widget &);
-	Gtk::Widget & still_widget (Gtk::Widget &);
+	wxControl* video_control (wxControl *);
+	wxControl* still_control (wxControl *);
 
 	/** The film we are editing */
 	Film* _film;
-	/** The overall VBox containing our widget */
-	Gtk::VBox _vbox;
 	/** The Film's name */
-	Gtk::Entry _name;
+	wxTextCtrl* _name;
 	/** The Film's frames per second */
-	Gtk::SpinButton _frames_per_second;
+	wxSpinCtrl* _frames_per_second;
 	/** The Film's format */
-	Gtk::ComboBoxText _format;
+	wxComboBox* _format;
 	/** The Film's content file */
-	Gtk::FileChooserButton _content;
+	wxFileCtrl* _content;
 	/** The Film's left crop */
-	Gtk::SpinButton _left_crop;
+	wxSpinCtrl* _left_crop;
 	/** The Film's right crop */
-	Gtk::SpinButton _right_crop;
+	wxSpinCtrl* _right_crop;
 	/** The Film's top crop */
-	Gtk::SpinButton _top_crop;
+	wxSpinCtrl* _top_crop;
 	/** The Film's bottom crop */
-	Gtk::SpinButton _bottom_crop;
+	wxSpinCtrl* _bottom_crop;
 	/** Currently-applied filters */
-	Gtk::Label _filters;
+	wxStaticText* _filters;
 	/** Button to open the filters dialogue */
-	Gtk::Button _filters_button;
+	wxButton* _filters_button;
 	/** The Film's scaler */
-	Gtk::ComboBoxText _scaler;
+	wxComboBox* _scaler;
 	/** The Film's audio gain */
-	Gtk::SpinButton _audio_gain;
+	wxSpinCtrl* _audio_gain;
 	/** The Film's audio delay */
-	Gtk::SpinButton _audio_delay;
+	wxSpinCtrl* _audio_delay;
 	/** The Film's DCP content type */
-	Gtk::ComboBoxText _dcp_content_type;
+	wxComboBox* _dcp_content_type;
 	/** The Film's original size */
-	Gtk::Label _original_size;
+	wxStaticText* _original_size;
 	/** The Film's length */
-	Gtk::Label _length;
+	wxStaticText* _length;
 	/** The Film's audio details */
-	Gtk::Label _audio;
+	wxStaticText* _audio;
 	/** The Film's duration for still sources */
-	Gtk::SpinButton _still_duration;
+	wxSpinCtrl* _still_duration;
 
-	/** Button to start making a DCP from existing J2K and WAV files */
-	Gtk::Button _make_dcp_from_existing_button;
 	/** Display of the range of frames that will be used */
-	Gtk::Label _dcp_range;
+	wxStaticText* _dcp_range;
 	/** Button to change the range */
-	Gtk::Button _change_dcp_range_button;
+	wxButton* _change_dcp_range_button;
 	/** Selector to generate an A/B comparison DCP */
-	Gtk::CheckButton _dcp_ab;
+	wxCheckBox* _dcp_ab;
 
-	std::list<Gtk::Widget*> _video_widgets;
-	std::list<Gtk::Widget*> _still_widgets;
+	wxFlexGridSizer* _sizer;
+	wxStaticText* _name_label;
+	wxStaticText* _content_label;
+	wxStaticText* _dcp_content_type_label;
+	wxStaticText* _frames_per_second_label;
+	wxStaticText* _format_label;
+	wxStaticText* _crop_label;
+	wxSizer* _crop_sizer;
+	wxPanel* _crop_panel;
+	wxStaticText* _left_crop_label;
+	wxStaticText* _right_crop_label;
+	wxStaticText* _top_crop_label;
+	wxStaticText* _bottom_crop_label;
+	wxStaticText* _filters_label;
+	wxStaticText* _scaler_label;
+
+	std::list<wxControl*> _video_controls;
+	std::list<wxControl*> _still_controls;
+
+	std::list<wxControl*> _labels;
 };

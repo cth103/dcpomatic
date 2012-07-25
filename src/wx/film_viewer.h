@@ -18,23 +18,21 @@
 */
 
 /** @file  src/film_viewer.h
- *  @brief A GTK widget to view `thumbnails' of a Film.
+ *  @brief A wx widget to view `thumbnails' of a Film.
  */
 
-#include <gtkmm.h>
+#include <wx/wx.h>
 #include "lib/film.h"
 
+class ThumbPanel;
+
 /** @class FilmViewer
- *  @brief A GTK widget to view `thumbnails' of a Film.
+ *  @brief A wx widget to view `thumbnails' of a Film.
  */
-class FilmViewer
+class FilmViewer : public wxPanel
 {
 public:
-	FilmViewer (Film *);
-
-	Gtk::Widget& widget () {
-		return _vbox;
-	}
+	FilmViewer (Film *, wxWindow *);
 
 	void set_film (Film *);
 	void setup_visibility ();
@@ -48,15 +46,17 @@ private:
 	void reload_current_thumbnail ();
 	void update_scaled_pixbuf ();
 	std::pair<int, int> scaled_pixbuf_size () const;
-	void scroller_size_allocate (Gtk::Allocation);
+//	void scroller_size_allocate (Gtk::Allocation);
 
 	Film* _film;
-	Gtk::VBox _vbox;
-	Gtk::ScrolledWindow _scroller;
-	Gtk::Image _image;
-	Glib::RefPtr<Gdk::Pixbuf> _pixbuf;
-	Glib::RefPtr<Gdk::Pixbuf> _cropped_pixbuf;
-	Glib::RefPtr<Gdk::Pixbuf> _scaled_pixbuf;
-	Gtk::HScale _position_slider;
-	Gtk::Allocation _last_scroller_allocation;
+	wxBoxSizer* _sizer;
+	ThumbPanel* _thumb_panel;
+//	Gtk::VBox _vbox;
+//	Gtk::ScrolledWindow _scroller;
+//	Gtk::Image _image;
+//	Glib::RefPtr<Gdk::Pixbuf> _pixbuf;
+//	Glib::RefPtr<Gdk::Pixbuf> _cropped_pixbuf;
+//	Glib::RefPtr<Gdk::Pixbuf> _scaled_pixbuf;
+//	Gtk::HScale _position_slider;
+//	Gtk::Allocation _last_scroller_allocation;
 };

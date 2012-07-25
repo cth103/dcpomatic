@@ -17,29 +17,12 @@
 
 */
 
-/** @file src/gtk/util.cc
+#include <list>
+#include <wx/wx.h>
+
+/** @file src/wx/wx_util.h
  *  @brief Some utility functions.
  */
 
-#include <gtkmm.h>
-
-using namespace std;
-
-/** @param t Label text.
- *  @return GTK label containing t, left-aligned (passed through Gtk::manage)
- */
-Gtk::Label &
-left_aligned_label (string t)
-{
-	Gtk::Label* l = Gtk::manage (new Gtk::Label (t));
-	l->set_alignment (0, 0.5);
-	return *l;
-}
-
-void
-error_dialog (string m)
-{
-	Gtk::MessageDialog d (m, false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-	d.set_title ("DVD-o-matic");
-	d.run ();
-}
+extern void error_dialog (std::string);
+extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, std::list<wxControl*>&, std::string);

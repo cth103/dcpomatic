@@ -18,7 +18,7 @@
 */
 
 /** @file  src/film_viewer.cc
- *  @brief A GTK widget to view `thumbnails' of a Film.
+ *  @brief A wx widget to view `thumbnails' of a Film.
  */
 
 #include <iostream>
@@ -35,11 +35,71 @@
 using namespace std;
 using namespace boost;
 
-FilmViewer::FilmViewer (Film* f)
-	: _film (f)
+class ThumbPanel : public wxPanel
 {
-	_scroller.add (_image);
+public:
+	ThumbPanel (wxPanel* parent)
+		: wxPanel (parent)
+		, _image (0)
+		, _bitmap (0)
+	{
+	}
 
+	void paint_event (wxPaintEvent& ev)
+	{
+		if (!_bitmap) {
+			return;
+		}
+
+		int x, y;
+		GetSize (&x, &y);
+		cout << "Render " << x << " " << y << "\n";
+		
+		wxPaintDC dc (this);
+		dc.DrawBitmap (*_bitmap, 0, 0, false);
+	}
+
+	void load (string f)
+	{
+		cout << "loading " << f << "\n";
+		clear ();
+		_image = new wxImage (wxString (f.c_str(), wxConvUTF8));
+		_bitmap = new wxBitmap (_image->Scale (512, 512));
+	}
+
+	void clear ()
+	{
+		delete _bitmap;
+		_bitmap = 0;
+		delete _image;
+		_image = 0;
+	}
+
+	DECLARE_EVENT_TABLE ();
+
+private:
+	wxImage* _image;
+	wxBitmap* _bitmap;
+};
+
+BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
+EVT_PAINT (ThumbPanel::paint_event)
+END_EVENT_TABLE ()
+
+FilmViewer::FilmViewer (Film* f, wxWindow* p)
+	: wxPanel (p)
+	, _film (f)
+{
+	_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (_sizer);
+	
+	_thumb_panel = new ThumbPanel (this);
+	_thumb_panel->Show (true);
+	_sizer->Add (_thumb_panel, 1, wxEXPAND);
+
+#if 0	
+	_scroller.add (_image);
+	
 	Gtk::HBox* controls = manage (new Gtk::HBox);
 	controls->set_spacing (6);
 	controls->pack_start (_position_slider);
@@ -53,8 +113,11 @@ FilmViewer::FilmViewer (Film* f)
 	_position_slider.signal_value_changed().connect (sigc::mem_fun (*this, &FilmViewer::position_slider_changed));
 
 	_scroller.signal_size_allocate().connect (sigc::mem_fun (*this, &FilmViewer::scroller_size_allocate));
+#endif	
 
 	set_film (_film);
+
+	load_thumbnail (42);//XXX
 }
 
 void
@@ -69,19 +132,21 @@ FilmViewer::load_thumbnail (int n)
 	int const top = _film->top_crop ();
 	int const bottom = _film->bottom_crop ();
 
-	_pixbuf = Gdk::Pixbuf::create_from_file (_film->thumb_file (n));
+	_thumb_panel->load (_film->thumb_file(n));
 
-	int const cw = _film->size().width - left - right;
-	int const ch = _film->size().height - top - bottom;
-	_cropped_pixbuf = Gdk::Pixbuf::create_subpixbuf (_pixbuf, left, top, cw, ch);
-	update_scaled_pixbuf ();
-	_image.set (_scaled_pixbuf);
+//	_pixbuf = Gdk::Pixbuf::create_from_file (_film->thumb_file (n));
+
+//	int const cw = _film->size().width - left - right;
+//	int const ch = _film->size().height - top - bottom;
+//	_cropped_pixbuf = Gdk::Pixbuf::create_subpixbuf (_pixbuf, left, top, cw, ch);
+//	update_scaled_pixbuf ();
+//	_image.set (_scaled_pixbuf);
 }
 
 void
 FilmViewer::reload_current_thumbnail ()
 {
-	load_thumbnail (_position_slider.get_value ());
+	load_thumbnail (42);//_position_slider.get_value ());
 }
 
 void
@@ -93,6 +158,7 @@ FilmViewer::position_slider_changed ()
 string
 FilmViewer::format_position_slider_value (double v) const
 {
+#if 0	
 	stringstream s;
 
 	if (_film && int (v) < _film->num_thumbs ()) {
@@ -103,11 +169,13 @@ FilmViewer::format_position_slider_value (double v) const
 	}
 	
 	return s.str ();
+#endif	
 }
 
 void
 FilmViewer::film_changed (Film::Property p)
 {
+#if 0	
 	if (p == Film::LEFT_CROP || p == Film::RIGHT_CROP || p == Film::TOP_CROP || p == Film::BOTTOM_CROP) {
 		reload_current_thumbnail ();
 	} else if (p == Film::THUMBS) {
@@ -127,6 +195,7 @@ FilmViewer::film_changed (Film::Property p)
 		_film->examine_content ();
 		update_thumbs ();
 	}
+#endif	
 }
 
 void
@@ -135,11 +204,11 @@ FilmViewer::set_film (Film* f)
 	_film = f;
 
 	if (!_film) {
-		_image.clear ();
+		_thumb_panel->clear ();
 		return;
 	}
 
-	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
+//	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
 
 	film_changed (Film::THUMBS);
 }
@@ -147,6 +216,7 @@ FilmViewer::set_film (Film* f)
 pair<int, int>
 FilmViewer::scaled_pixbuf_size () const
 {
+#if 0	
 	if (_film == 0) {
 		return make_pair (0, 0);
 	}
@@ -162,22 +232,26 @@ FilmViewer::scaled_pixbuf_size () const
 	Gtk::Allocation const a = _scroller.get_allocation ();
 	float const zoom = min (float (a.get_width()) / (cw * ratio), float (a.get_height()) / cw);
 	return make_pair (cw * zoom * ratio, ch * zoom);
+#endif	
 }
 	
 void
 FilmViewer::update_scaled_pixbuf ()
 {
+#if 0	
 	pair<int, int> const s = scaled_pixbuf_size ();
 
 	if (s.first > 0 && s.second > 0 && _cropped_pixbuf) {
 		_scaled_pixbuf = _cropped_pixbuf->scale_simple (s.first, s.second, Gdk::INTERP_HYPER);
 		_image.set (_scaled_pixbuf);
 	}
+#endif	
 }
 
 void
 FilmViewer::update_thumbs ()
 {
+#if 0	
 	if (!_film) {
 		return;
 	}
@@ -194,25 +268,18 @@ FilmViewer::update_thumbs ()
 	shared_ptr<Job> j (new ThumbsJob (s, o, _film->log ()));
 	j->Finished.connect (sigc::mem_fun (_film, &Film::update_thumbs_post_gui));
 	JobManager::instance()->add (j);
-}
-
-void
-FilmViewer::scroller_size_allocate (Gtk::Allocation a)
-{
-	if (a.get_width() != _last_scroller_allocation.get_width() || a.get_height() != _last_scroller_allocation.get_height()) {
-		update_scaled_pixbuf ();
-	}
-	
-	_last_scroller_allocation = a;
+#endif	
 }
 
 void
 FilmViewer::setup_visibility ()
 {
+#if 0	
 	if (!_film) {
 		return;
 	}
 
 	ContentType const c = _film->content_type ();
 	_position_slider.property_visible() = (c == VIDEO);
+#endif	
 }

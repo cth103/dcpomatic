@@ -1,10 +1,11 @@
 #!/bin/bash
 
-export LD_LIBRARY_PATH=build/src/lib:build/src/gtk:build/src/asdcplib/src:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
     gdb --args build/src/tools/dvdomatic $2
 elif [ "$1" == "--valgrind" ]; then
     valgrind --tool="memcheck" build/src/tools/dvdomatic $2
 else
-    build/src/tools/dvdomatic "$1"
+    build/src/tools/dvdomatic
+# "$1"
 fi

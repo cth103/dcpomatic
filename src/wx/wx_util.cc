@@ -17,11 +17,29 @@
 
 */
 
-#include <gtkmm.h>
-
-/** @file src/gtk/util.h
+/** @file src/wx/wx_util.cc
  *  @brief Some utility functions.
  */
 
-extern void error_dialog (std::string);
-extern Gtk::Label & left_aligned_label (std::string);
+#include "wx_util.h"
+
+using namespace std;
+
+wxStaticText *
+add_label_to_sizer (wxSizer* s, wxWindow* p, list<wxControl*>& c, string t)
+{
+	wxStaticText* m = new wxStaticText (p, wxID_ANY, wxString (t.c_str (), wxConvUTF8));
+	c.push_back (m);
+	s->Add (m, 0, wxALIGN_CENTER_VERTICAL);
+	return m;
+}
+
+#if 0
+void
+error_dialog (string m)
+{
+	Gtk::MessageDialog d (m, false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+	d.set_title ("DVD-o-matic");
+	d.run ();
+}
+#endif

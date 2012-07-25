@@ -56,7 +56,9 @@ extern "C" {
 #include "filter.h"
 #include "screen.h"
 #include "film_state.h"
+#ifndef DVDOMATIC_DISABLE_PLAYER
 #include "player_manager.h"
+#endif
 
 #ifdef DEBUG_HASH
 #include <mhash.h>
@@ -398,7 +400,9 @@ SocketReader::read_indefinite (uint8_t* data, int size)
 void
 sigchld_handler (int, siginfo_t* info, void *)
 {
+#ifndef DVDOMATIC_DISABLE_PLAYER	
 	PlayerManager::instance()->child_exited (info->si_pid);
+#endif	
 }
 #endif
 

@@ -19,17 +19,17 @@
 
 #include <iostream>
 #include <boost/filesystem.hpp>
-#include "gtk/film_viewer.h"
-#include "gtk/film_editor.h"
+#include "wx/film_viewer.h"
+#include "wx/film_editor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
-#include "gtk/film_player.h"
+#include "wx/film_player.h"
 #endif
-#include "gtk/job_manager_view.h"
-#include "gtk/config_dialog.h"
-#include "gtk/gpl.h"
-#include "gtk/job_wrapper.h"
-#include "gtk/dvd_title_dialog.h"
-#include "gtk/gtk_util.h"
+//#include "gtk/job_manager_view.h"
+//#include "gtk/config_dialog.h"
+//#include "gtk/gpl.h"
+//#include "gtk/job_wrapper.h"
+//#include "gtk/dvd_title_dialog.h"
+//#include "gtk/gtk_util.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -41,9 +41,12 @@
 using namespace std;
 using namespace boost;
 
-static Gtk::Window* window = 0;
-static FilmViewer* film_viewer = 0;
 static FilmEditor* film_editor = 0;
+static FilmViewer* film_viewer = 0;
+
+#if 0
+
+static Gtk::Window* window = 0;
 #ifndef DVDOMATIC_DISABLE_PLAYER
 static FilmPlayer* film_player = 0;
 #endif
@@ -312,76 +315,102 @@ file_changed (string f)
 	window->set_title (s.str ());
 }
 
-int
-main (int argc, char* argv[])
+#endif
+
+
+enum {
+	ID_Quit = 1,
+};
+
+class Frame : public wxFrame
 {
-	dvdomatic_setup ();
-	
-	Gtk::Main kit (argc, argv);
+public:
+	Frame (wxString const & title)
+		: wxFrame (NULL, -1, title)
+	{
+		wxMenuBar* bar = new wxMenuBar;
+		bar->Show (true);
+		
+		wxMenu *menu_file = new wxMenu;
+		menu_file->Append (ID_Quit, _("&Quit"));
 
-	if (argc == 2 && boost::filesystem::is_directory (argv[1])) {
-		film = new Film (argv[1]);
+		bar->Append (menu_file, _("&File"));
+
+		SetMenuBar (bar);
+
+		CreateStatusBar ();
+		SetStatusText (_("Welcome to DVD-o-matic!"));
 	}
-
-	window = new Gtk::Window ();
-	window->signal_delete_event().connect (sigc::ptr_fun (window_closed));
 	
-	film_viewer = new FilmViewer (film);
-	film_editor = new FilmEditor (film);
+	void quit (wxCommandEvent& event)
+	{
+		Close (true);
+	}
+};
+
+class App : public wxApp
+{
+	bool OnInit ()
+	{
+		if (!wxApp::OnInit ()) {
+			return false;
+		}
+
+		wxInitAllImageHandlers ();
+		
+		dvdomatic_setup ();
+
+//		if (argc == 2 && boost::filesystem::is_directory (argv[1])) {
+//			film = new Film (argv[1]);
+//		}
+		
+		Film* film = new Film ("/home/carl/DCP/BitHarvest");
+		
+		Frame* frame = new Frame (_("DVD-o-matic"));
+		frame->Show (true);
+		
+		frame->Connect (
+			ID_Quit, wxEVT_COMMAND_MENU_SELECTED,
+			(wxObjectEventFunction) &Frame::quit
+			);
+
+		film_editor = new FilmEditor (film, frame);
+		film_editor->Show (true);
+		film_viewer = new FilmViewer (film, frame);
+		film_viewer->Show (true);
 #ifndef DVDOMATIC_DISABLE_PLAYER
-	film_player = new FilmPlayer (film);
-#endif	
-	JobManagerView jobs_view;
+		film_player = new FilmPlayer (film, frame);
+#endif		
 
-	window->set_title ("DVD-o-matic");
+		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
+		main_sizer->Add (film_editor, 0);
+		main_sizer->Add (film_viewer, 1, wxEXPAND);
+		frame->SetSizer (main_sizer);
 
-	Gtk::VBox vbox;
+		SetTopWindow (frame);
+		frame->Maximize ();
 
-	Gtk::MenuBar menu_bar;
-	vbox.pack_start (menu_bar, false, false);
-	setup_menu (menu_bar);
-	set_menu_sensitivity ();
-
-	Gtk::HBox hbox;
-	hbox.set_spacing (12);
-
-	Gtk::VBox left_vbox;
-	left_vbox.set_spacing (12);
-	left_vbox.pack_start (film_editor->widget (), false, false);
+#if 0
+		/* XXX: calling these here is a bit of a hack */
+		film_editor->setup_visibility ();
 #ifndef DVDOMATIC_DISABLE_PLAYER	
-	left_vbox.pack_start (film_player->widget (), false, false);
+		film_player->setup_visibility ();
 #endif	
-	hbox.pack_start (left_vbox, false, false);
-
-	Gtk::VBox right_vbox;
-	right_vbox.pack_start (film_viewer->widget (), true, true);
-	right_vbox.pack_start (jobs_view.widget(), false, false);
-	hbox.pack_start (right_vbox, true, true);
-
-	vbox.pack_start (hbox, true, true);
-
-	window->add (vbox);
-	window->show_all ();
-
-	/* XXX: calling these here is a bit of a hack */
-	film_editor->setup_visibility ();
-#ifndef DVDOMATIC_DISABLE_PLAYER	
-	film_player->setup_visibility ();
-#endif	
-	film_viewer->setup_visibility ();
-
-	film_editor->FileChanged.connect (ptr_fun (file_changed));
-	if (film) {
-		file_changed (film->directory ());
-	} else {
-		file_changed ("");
+		film_viewer->setup_visibility ();
+		
+		film_editor->FileChanged.connect (ptr_fun (file_changed));
+		if (film) {
+			file_changed (film->directory ());
+		} else {
+			file_changed ("");
+		}
+#endif		
+		
+		/* XXX this should be in JobManagerView, shouldn't it? */
+//XXX		Glib::signal_timeout().connect (sigc::bind_return (sigc::mem_fun (jobs_view, &JobManagerView::update), true), 1000);
+		
+		return true;
 	}
+};
 
-	/* XXX this should be in JobManagerView, shouldn't it? */
-	Glib::signal_timeout().connect (sigc::bind_return (sigc::mem_fun (jobs_view, &JobManagerView::update), true), 1000);
-
-	window->maximize ();
-	Gtk::Main::run (*window);
-
-	return 0;
-}
+IMPLEMENT_APP (App)

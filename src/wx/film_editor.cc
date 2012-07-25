@@ -18,11 +18,11 @@
 */
 
 /** @file src/film_editor.cc
- *  @brief A GTK widget to edit a film's metadata, and perform various functions.
+ *  @brief A wx widget to edit a film's metadata, and perform various functions.
  */
 
 #include <iostream>
-#include <gtkmm.h>
+#include <wx/wx.h>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #include "lib/format.h"
@@ -35,256 +35,281 @@
 #include "lib/filter.h"
 #include "lib/screen.h"
 #include "lib/config.h"
-#include "filter_dialog.h"
-#include "gtk_util.h"
+//#include "filter_dialog.h"
+#include "wx_util.h"
 #include "film_editor.h"
-#include "dcp_range_dialog.h"
+//#include "dcp_range_dialog.h"
 
 using namespace std;
 using namespace boost;
-using namespace Gtk;
 
 /** @param f Film to edit */
-FilmEditor::FilmEditor (Film* f)
-	: _film (f)
-	, _filters_button ("Edit...")
-	, _change_dcp_range_button ("Edit...")
-	, _dcp_ab ("A/B")
+FilmEditor::FilmEditor (Film* f, wxWindow* parent)
+	: wxPanel (parent)
+	, _film (f)
 {
-	_vbox.set_border_width (12);
-	_vbox.set_spacing (12);
+	_name = new wxTextCtrl (this, wxID_ANY);
+	_frames_per_second = new wxSpinCtrl (this);
+	_format = new wxComboBox (this, wxID_ANY);
+//	_content = new wxFileCtrl (this, wxID_ANY, wxT("*.*"), false);
+	_crop_panel = new wxPanel (this);
+	_left_crop = new wxSpinCtrl (_crop_panel);
+	_right_crop = new wxSpinCtrl (_crop_panel);
+	_top_crop = new wxSpinCtrl (_crop_panel);
+	_bottom_crop = new wxSpinCtrl (_crop_panel);
+	_filters = new wxStaticText (this, wxID_ANY, wxT (""));
+	_filters_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
+	_scaler = new wxComboBox (this, wxID_ANY);
+	_audio_gain = new wxSpinCtrl (this);
+	_audio_delay = new wxSpinCtrl (this);
+	_dcp_content_type = new wxComboBox (this, wxID_ANY);
+	_original_size = new wxStaticText (this, wxID_ANY, wxT (""));
+	_change_dcp_range_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
+	_dcp_ab = new wxCheckBox (this, wxID_ANY, wxT ("A/B"));
+
+//XXX	_vbox.set_border_width (12);
+//XXX	_vbox.set_spacing (12);
 	
 	/* Set up our editing widgets */
-	_left_crop.set_range (0, 1024);
-	_left_crop.set_increments (1, 16);
-	_top_crop.set_range (0, 1024);
-	_top_crop.set_increments (1, 16);
-	_right_crop.set_range (0, 1024);
-	_right_crop.set_increments (1, 16);
-	_bottom_crop.set_range (0, 1024);
-	_bottom_crop.set_increments (1, 16);
-	_filters.set_alignment (0, 0.5);
-	_audio_gain.set_range (-60, 60);
-	_audio_gain.set_increments (1, 3);
-	_audio_delay.set_range (-1000, 1000);
-	_audio_delay.set_increments (1, 20);
-	_still_duration.set_range (0, 60 * 60);
-	_still_duration.set_increments (1, 5);
-	_dcp_range.set_alignment (0, 0.5);
+	_left_crop->SetRange (0, 1024);
+//XXX	_left_crop.set_increments (1, 16);
+	_top_crop->SetRange (0, 1024);
+//XXX	_top_crop.set_increments (1, 16);
+	_right_crop->SetRange (0, 1024);
+//XXX	_right_crop.set_increments (1, 16);
+	_bottom_crop->SetRange (0, 1024);
+//XXX	_bottom_crop.set_increments (1, 16);
+//XXX	_filters.set_alignment (0, 0.5);
+	_audio_gain->SetRange (-60, 60);
+//XXX	_audio_gain.set_increments (1, 3);
+	_audio_delay->SetRange (-1000, 1000);
+//XXX	_audio_delay.set_increments (1, 20);
+	_still_duration = new wxSpinCtrl (this);
+	_still_duration->SetRange (0, 60 * 60);
+//XXX	_still_duration.set_increments (1, 5);
+	_dcp_range = new wxStaticText (this, wxID_ANY, wxT (""));
+//	_dcp_range.set_alignment (0, 0.5);
 
 	vector<Format const *> fmt = Format::all ();
 	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
-		_format.append_text ((*i)->name ());
+		_format->Append (wxString ((*i)->name().c_str(), wxConvUTF8));
 	}
 
-	_frames_per_second.set_increments (1, 5);
-	_frames_per_second.set_digits (2);
-	_frames_per_second.set_range (0, 60);
+//XXX	_frames_per_second.set_increments (1, 5);
+//XXX	_frames_per_second.set_digits (2);
+	_frames_per_second->SetRange (0, 60);
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
-		_dcp_content_type.append_text ((*i)->pretty_name ());
+		_dcp_content_type->Append (wxString ((*i)->pretty_name().c_str(), wxConvUTF8));
 	}
 
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_scaler.append_text ((*i)->name ());
+		_scaler->Append (wxString ((*i)->name().c_str(), wxConvUTF8));
 	}
-	
-	_original_size.set_alignment (0, 0.5);
-	_length.set_alignment (0, 0.5);
-	_audio.set_alignment (0, 0.5);
+
+//XXX	_original_size.set_alignment (0, 0.5);
+	_length = new wxStaticText (this, wxID_ANY, wxT (""));
+//XXX	_length.set_alignment (0, 0.5);
+	_audio = new wxStaticText (this, wxID_ANY, wxT (""));
+//XXX	_audio.set_alignment (0, 0.5);
 
 	/* And set their values from the Film */
 	set_film (f);
 	
 	/* Now connect to them, since initial values are safely set */
-	_name.signal_changed().connect (sigc::mem_fun (*this, &FilmEditor::name_changed));
-	_frames_per_second.signal_changed().connect (sigc::mem_fun (*this, &FilmEditor::frames_per_second_changed));
-	_format.signal_changed().connect (sigc::mem_fun (*this, &FilmEditor::format_changed));
-	_content.signal_file_set().connect (sigc::mem_fun (*this, &FilmEditor::content_changed));
-	_left_crop.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::left_crop_changed));
-	_right_crop.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::right_crop_changed));
-	_top_crop.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::top_crop_changed));
-	_bottom_crop.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::bottom_crop_changed));
-	_filters_button.signal_clicked().connect (sigc::mem_fun (*this, &FilmEditor::edit_filters_clicked));
-	_scaler.signal_changed().connect (sigc::mem_fun (*this, &FilmEditor::scaler_changed));
-	_dcp_content_type.signal_changed().connect (sigc::mem_fun (*this, &FilmEditor::dcp_content_type_changed));
-	_dcp_ab.signal_toggled().connect (sigc::mem_fun (*this, &FilmEditor::dcp_ab_toggled));
-	_audio_gain.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::audio_gain_changed));
-	_audio_delay.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::audio_delay_changed));
-	_still_duration.signal_value_changed().connect (sigc::mem_fun (*this, &FilmEditor::still_duration_changed));
-	_change_dcp_range_button.signal_clicked().connect (sigc::mem_fun (*this, &FilmEditor::change_dcp_range_clicked));
+	_name->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (FilmEditor::name_changed), 0, this);
+	_frames_per_second->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::frames_per_second_changed), 0, this);
+	_format->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
+//XXX	_content.signal_file_set().connect (sigc::mem_fun (*this, &FilmEditor::content_changed));
+	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
+	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
+	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
+	_bottom_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::bottom_crop_changed), 0, this);
+	_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_filters_clicked), 0, this);
+	_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
+	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
+	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
+	_audio_gain->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
+	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
+	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
+	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
 
-	/* Set up the table */
 
-	Table* t = manage (new Table);
-	
-	t->set_row_spacings (4);
-	t->set_col_spacings (12);
-	
-	int n = 0;
-	t->attach (left_aligned_label ("Name"), 0, 1, n, n + 1);
-	t->attach (_name, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Content"), 0, 1, n, n + 1);
-	t->attach (_content, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Content Type"), 0, 1, n, n + 1);
-	t->attach (_dcp_content_type, 1, 2, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Frames Per Second")), 0, 1, n, n + 1);
-	t->attach (video_widget (_frames_per_second), 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Format"), 0, 1, n, n + 1);
-	t->attach (_format, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Crop"), 0, 1, n, n + 1);
-	HBox* c = manage (new HBox);
-	c->set_spacing (4);
-	c->pack_start (left_aligned_label ("L"), false, false);
-	c->pack_start (_left_crop, true, true);
-	c->pack_start (left_aligned_label ("R"), false, false);
-	c->pack_start (_right_crop, true, true);
-	c->pack_start (left_aligned_label ("T"), false, false);
-	c->pack_start (_top_crop, true, true);
-	c->pack_start (left_aligned_label ("B"), false, false);
-	c->pack_start (_bottom_crop, true, true);
-	t->attach (*c, 1, 2, n, n + 1);
-	++n;
+	/* Set up the sizer */
+	_sizer = new wxFlexGridSizer (3, 6, 6);
+	this->SetSizer (_sizer);
 
-	int const special = n;
-	
+	_name_label = new wxStaticText (this, wxID_ANY, wxT ("Name"));
+	_name_label->Show (true);
+	_sizer->Add (_name_label, 0, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (_name, 1, wxEXPAND);
+	_sizer->AddSpacer (0);
+
+#if 0	
+	_content_label = new wxStaticText (this, wxID_ANY, wxT ("Content"));
+	_sizer->Add (_content_label, 0, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (_content, 1, wxEXPAND);
+	_sizer->AddSpacer (0);
+#endif	
+
+	_dcp_content_type_label = new wxStaticText (this, wxID_ANY, wxT ("Content Type"));
+	_sizer->Add (_dcp_content_type_label, 0, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (_dcp_content_type);
+	_sizer->AddSpacer (0);
+
+	_frames_per_second_label = new wxStaticText (this, wxID_ANY, wxT ("Frames Per Second"));
+	video_control (_frames_per_second_label);
+	_sizer->Add (_frames_per_second_label, 0, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (video_control (_frames_per_second));
+	_sizer->AddSpacer (0);
+
+	_format_label = new wxStaticText (this, wxID_ANY, wxT ("Format"));
+	_sizer->Add (_format_label, 0, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (_format);
+	_sizer->AddSpacer (0);
+
+	_crop_label = new wxStaticText (this, wxID_ANY, wxT ("Crop"));
+	_sizer->Add (_crop_label, 0, wxALIGN_CENTER_VERTICAL);
+
+	_crop_sizer = new wxBoxSizer (wxHORIZONTAL);
+	_crop_panel->SetSizer (_crop_sizer);
+
+	_left_crop_label = new wxStaticText (_crop_panel, wxID_ANY, wxT ("L"));
+	_crop_sizer->Add (_left_crop_label, 0, wxALIGN_CENTER_VERTICAL);
+	_crop_sizer->Add (_left_crop, 0);
+	_right_crop_label = new wxStaticText (_crop_panel, wxID_ANY, wxT ("R"));
+	_crop_sizer->Add (_right_crop_label, 0, wxALIGN_CENTER_VERTICAL);
+	_crop_sizer->Add (_right_crop, 0);
+	_top_crop_label = new wxStaticText (_crop_panel, wxID_ANY, wxT ("T"));
+	_crop_sizer->Add (_top_crop_label, 0, wxALIGN_CENTER_VERTICAL);
+	_crop_sizer->Add (_top_crop, 0);
+	_bottom_crop_label = new wxStaticText (_crop_panel, wxID_ANY, wxT ("B"));
+	_crop_sizer->Add (_bottom_crop_label, 0, wxALIGN_CENTER_VERTICAL);
+	_crop_sizer->Add (_bottom_crop, 0);
+
+	_sizer->Add (_crop_panel);
+	_sizer->AddSpacer (0);
+
 	/* VIDEO-only stuff */
-	t->attach (video_widget (left_aligned_label ("Filters")), 0, 1, n, n + 1);
-	HBox* fb = manage (new HBox);
-	fb->set_spacing (4);
-	fb->pack_start (video_widget (_filters), true, true);
-	fb->pack_start (video_widget (_filters_button), false, false);
-	t->attach (*fb, 1, 2, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Scaler")), 0, 1, n, n + 1);
-	t->attach (video_widget (_scaler), 1, 2, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Audio Gain")), 0, 1, n, n + 1);
-	t->attach (video_widget (_audio_gain), 1, 2, n, n + 1);
-	t->attach (video_widget (left_aligned_label ("dB")), 2, 3, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Audio Delay")), 0, 1, n, n + 1);
-	t->attach (video_widget (_audio_delay), 1, 2, n, n + 1);
-	t->attach (video_widget (left_aligned_label ("ms")), 2, 3, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Original Size")), 0, 1, n, n + 1);
-	t->attach (video_widget (_original_size), 1, 2, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Length")), 0, 1, n, n + 1);
-	t->attach (video_widget (_length), 1, 2, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Audio")), 0, 1, n, n + 1);
-	t->attach (video_widget (_audio), 1, 2, n, n + 1);
-	++n;
-	t->attach (video_widget (left_aligned_label ("Range")), 0, 1, n, n + 1);
-	Gtk::HBox* db = manage (new Gtk::HBox);
-	db->pack_start (_dcp_range, true, true);
-	video_widget (_dcp_range);
-	db->pack_start (_change_dcp_range_button, false, false);
-	video_widget (_change_dcp_range_button);
-	t->attach (*db, 1, 2, n, n + 1);
-	++n;
-	t->attach (_dcp_ab, 0, 3, n, n + 1);
-	video_widget (_dcp_ab);
+	_filters_label = new wxStaticText (this, wxID_ANY, wxT ("Filters"));
+	video_control (_filters_label);
+	_sizer->Add (_filters_label, 0, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (_filters, 1, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (_filters_button, 0);
+
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Scaler"));
+	_sizer->Add (video_control (_scaler), 1);
+	_sizer->AddSpacer (0);
+
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Audio Gain"));
+	_sizer->Add (video_control (_audio_gain), 1);
+	video_control (add_label_to_sizer (_sizer, this, _labels, "dB"));
+
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Audio Delay"));
+	_sizer->Add (video_control (_audio_delay), 1);
+	video_control (add_label_to_sizer (_sizer, this, _labels, "ms"));
+
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Original Size"));
+	_sizer->Add (video_control (_original_size), 1);
+	_sizer->AddSpacer (0);
+	
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Length"));
+	_sizer->Add (video_control (_length), 1);
+	_sizer->AddSpacer (0);
+
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Audio"));
+	_sizer->Add (video_control (_audio), 1);
+	_sizer->AddSpacer (0);
+
+	video_control (add_label_to_sizer (_sizer, this, _labels, "Range"));
+	_sizer->Add (video_control (_dcp_range));
+	_sizer->Add (video_control (_change_dcp_range_button));
+
+	_sizer->Add (_dcp_ab, 1);
+	_sizer->AddSpacer (0);
+	_sizer->AddSpacer (0);
 
 	/* STILL-only stuff */
-	n = special;
-	t->attach (still_widget (left_aligned_label ("Duration")), 0, 1, n, n + 1);
-	t->attach (still_widget (_still_duration), 1, 2, n, n + 1);
-	t->attach (still_widget (left_aligned_label ("s")), 2, 3, n, n + 1);
-	++n;
-
-	t->show_all ();
-	_vbox.pack_start (*t, false, false);
+	still_control (add_label_to_sizer (_sizer, this, _labels, "Duration"));
+	_sizer->Add (still_control (_still_duration));
+	still_control (add_label_to_sizer (_sizer, this, _labels, "s"));
 
 	setup_visibility ();
 }
 
-/** @return Our main widget, which contains everything else */
-Widget&
-FilmEditor::widget ()
-{
-	return _vbox;
-}
-
 /** Called when the left crop widget has been changed */
 void
-FilmEditor::left_crop_changed ()
+FilmEditor::left_crop_changed (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_left_crop (_left_crop.get_value ());
+		_film->set_left_crop (_left_crop->GetValue ());
 	}
 }
 
 /** Called when the right crop widget has been changed */
 void
-FilmEditor::right_crop_changed ()
+FilmEditor::right_crop_changed (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_right_crop (_right_crop.get_value ());
+		_film->set_right_crop (_right_crop->GetValue ());
 	}
 }
 
 /** Called when the top crop widget has been changed */
 void
-FilmEditor::top_crop_changed ()
+FilmEditor::top_crop_changed (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_top_crop (_top_crop.get_value ());
+		_film->set_top_crop (_top_crop->GetValue ());
 	}
 }
 
 /** Called when the bottom crop value has been changed */
 void
-FilmEditor::bottom_crop_changed ()
+FilmEditor::bottom_crop_changed (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_bottom_crop (_bottom_crop.get_value ());
+		_film->set_bottom_crop (_bottom_crop->GetValue ());
 	}
 }
 
 /** Called when the content filename has been changed */
 void
-FilmEditor::content_changed ()
+FilmEditor::content_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
 	try {
-		_film->set_content (_content.get_filename ());
+//XXX		_film->set_content (_content.get_filename ());
 	} catch (std::exception& e) {
-		_content.set_filename (_film->directory ());
+//XXX		_content.set_filename (_film->directory ());
 		stringstream m;
 		m << "Could not set content: " << e.what() << ".";
-		Gtk::MessageDialog d (m.str(), false, MESSAGE_ERROR);
-		d.set_title ("DVD-o-matic");
-		d.run ();
+//XXX		Gtk::MessageDialog d (m.str(), false, MESSAGE_ERROR);
+//XXX		d.set_title ("DVD-o-matic");
+//XXX		d.run ();
 	}
 }
 
 /** Called when the DCP A/B switch has been toggled */
 void
-FilmEditor::dcp_ab_toggled ()
+FilmEditor::dcp_ab_toggled (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_dcp_ab (_dcp_ab.get_active ());
+		_film->set_dcp_ab (_dcp_ab->GetValue ());
 	}
 }
 
 /** Called when the name widget has been changed */
 void
-FilmEditor::name_changed ()
+FilmEditor::name_changed (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_name (_name.get_text ());
+		_film->set_name (string (_name->GetValue().mb_str()));
 	}
 }
 
@@ -303,51 +328,52 @@ FilmEditor::film_changed (Film::Property p)
 		
 	switch (p) {
 	case Film::CONTENT:
-		_content.set_filename (_film->content ());
+//XXX		_content.set_filename (_film->content ());
 		setup_visibility ();
 		break;
 	case Film::FORMAT:
-		_format.set_active (Format::as_index (_film->format ()));
+		_format->SetSelection (Format::as_index (_film->format ()));
 		break;
 	case Film::LEFT_CROP:
-		_left_crop.set_value (_film->left_crop ());
+		_left_crop->SetValue (_film->left_crop ());
 		break;
 	case Film::RIGHT_CROP:
-		_right_crop.set_value (_film->right_crop ());
+		_right_crop->SetValue (_film->right_crop ());
 		break;
 	case Film::TOP_CROP:
-		_top_crop.set_value (_film->top_crop ());
+		_top_crop->SetValue (_film->top_crop ());
 		break;
 	case Film::BOTTOM_CROP:
-		_bottom_crop.set_value (_film->bottom_crop ());
+		_bottom_crop->SetValue (_film->bottom_crop ());
 		break;
 	case Film::FILTERS:
 	{
 		pair<string, string> p = Filter::ffmpeg_strings (_film->filters ());
-		_filters.set_text (p.first + " " + p.second);
+		string const b = p.first + " " + p.second;
+		_filters->SetLabel (wxString (b.c_str(), wxConvUTF8));
 		break;
 	}
 	case Film::NAME:
-		_name.set_text (_film->name ());
+		_name->SetValue (wxString (_film->name().c_str(), wxConvUTF8));
 		break;
 	case Film::FRAMES_PER_SECOND:
-		_frames_per_second.set_value (_film->frames_per_second ());
+		_frames_per_second->SetValue (_film->frames_per_second ());
 		break;
 	case Film::AUDIO_CHANNELS:
 	case Film::AUDIO_SAMPLE_RATE:
 		if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
-			_audio.set_text ("");
+			_audio->SetLabel (wxT (""));
 		} else {
 			s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
-			_audio.set_text (s.str ());
+			_audio->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
 		}
 		break;
 	case Film::SIZE:
 		if (_film->size().width == 0 && _film->size().height == 0) {
-			_original_size.set_text ("");
+			_original_size->SetLabel (wxT (""));
 		} else {
 			s << _film->size().width << " x " << _film->size().height;
-			_original_size.set_text (s.str ());
+			_original_size->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
 		}
 		break;
 	case Film::LENGTH:
@@ -356,63 +382,67 @@ FilmEditor::film_changed (Film::Property p)
 		} else if (_film->length() > 0) {
 			s << _film->length() << " frames";
 		} 
-		_length.set_text (s.str ());
+		_length->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
 		break;
 	case Film::DCP_CONTENT_TYPE:
-		_dcp_content_type.set_active (DCPContentType::as_index (_film->dcp_content_type ()));
+		_dcp_content_type->SetSelection (DCPContentType::as_index (_film->dcp_content_type ()));
 		break;
 	case Film::THUMBS:
 		break;
 	case Film::DCP_FRAMES:
 		if (_film->dcp_frames() == 0) {
-			_dcp_range.set_text ("Whole film");
+			_dcp_range->SetLabel (wxT ("Whole film"));
 		} else {
 			stringstream s;
 			s << "First " << _film->dcp_frames() << " frames";
-			_dcp_range.set_text (s.str ());
+			_dcp_range->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
 		}
 		break;
 	case Film::DCP_TRIM_ACTION:
 		break;
 	case Film::DCP_AB:
-		_dcp_ab.set_active (_film->dcp_ab ());
+		_dcp_ab->SetValue (_film->dcp_ab ());
 		break;
 	case Film::SCALER:
-		_scaler.set_active (Scaler::as_index (_film->scaler ()));
+		_scaler->SetSelection (Scaler::as_index (_film->scaler ()));
 		break;
 	case Film::AUDIO_GAIN:
-		_audio_gain.set_value (_film->audio_gain ());
+		_audio_gain->SetValue (_film->audio_gain ());
 		break;
 	case Film::AUDIO_DELAY:
-		_audio_delay.set_value (_film->audio_delay ());
+		_audio_delay->SetValue (_film->audio_delay ());
 		break;
 	case Film::STILL_DURATION:
-		_still_duration.set_value (_film->still_duration ());
+		_still_duration->SetValue (_film->still_duration ());
 		break;
 	}
 }
 
 /** Called when the format widget has been changed */
 void
-FilmEditor::format_changed ()
+FilmEditor::format_changed (wxCommandEvent &)
 {
-	if (_film) {
-		int const n = _format.get_active_row_number ();
-		if (n >= 0) {
-			_film->set_format (Format::from_index (n));
-		}
+	if (!_film) {
+		return;
+	}
+
+	int const n = _format->GetSelection ();
+	if (n >= 0) {
+		_film->set_format (Format::from_index (n));
 	}
 }
 
 /** Called when the DCP content type widget has been changed */
 void
-FilmEditor::dcp_content_type_changed ()
+FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 {
-	if (_film) {
-		int const n = _dcp_content_type.get_active_row_number ();
-		if (n >= 0) {
-			_film->set_dcp_content_type (DCPContentType::from_index (n));
-		}
+	if (!_film) {
+		return;
+	}
+	
+	int const n = _dcp_content_type->GetSelection ();
+	if (n >= 0) {
+		_film->set_dcp_content_type (DCPContentType::from_index (n));
 	}
 }
 
@@ -429,9 +459,9 @@ FilmEditor::set_film (Film* f)
 	}
 
 	if (_film) {
-		FileChanged (_film->directory ());
+//		FileChanged (_film->directory ());
 	} else {
-		FileChanged ("");
+//		FileChanged ("");
 	}
 	
 	film_changed (Film::NAME);
@@ -463,83 +493,91 @@ FilmEditor::set_film (Film* f)
 void
 FilmEditor::set_things_sensitive (bool s)
 {
-	_name.set_sensitive (s);
-	_frames_per_second.set_sensitive (s);
-	_format.set_sensitive (s);
-	_content.set_sensitive (s);
-	_left_crop.set_sensitive (s);
-	_right_crop.set_sensitive (s);
-	_top_crop.set_sensitive (s);
-	_bottom_crop.set_sensitive (s);
-	_filters_button.set_sensitive (s);
-	_scaler.set_sensitive (s);
-	_dcp_content_type.set_sensitive (s);
-	_dcp_range.set_sensitive (s);
-	_change_dcp_range_button.set_sensitive (s);
-	_dcp_ab.set_sensitive (s);
-	_audio_gain.set_sensitive (s);
-	_audio_delay.set_sensitive (s);
-	_still_duration.set_sensitive (s);
+	_name->Enable (s);
+	_frames_per_second->Enable (s);
+	_format->Enable (s);
+//	_content->Enable (s);
+	_left_crop->Enable (s);
+	_right_crop->Enable (s);
+	_top_crop->Enable (s);
+	_bottom_crop->Enable (s);
+	_filters_button->Enable (s);
+	_scaler->Enable (s);
+	_dcp_content_type->Enable (s);
+	_dcp_range->Enable (s);
+	_change_dcp_range_button->Enable (s);
+	_dcp_ab->Enable (s);
+	_audio_gain->Enable (s);
+	_audio_delay->Enable (s);
+	_still_duration->Enable (s);
 }
 
 /** Called when the `Edit filters' button has been clicked */
 void
-FilmEditor::edit_filters_clicked ()
+FilmEditor::edit_filters_clicked (wxCommandEvent &)
 {
-	FilterDialog d (_film->filters ());
-	d.ActiveChanged.connect (sigc::mem_fun (*_film, &Film::set_filters));
-	d.run ();
+//	FilterDialog d (_film->filters ());
+//	d.ActiveChanged.connect (sigc::mem_fun (*_film, &Film::set_filters));
+//	d.run ();
 }
 
 /** Called when the scaler widget has been changed */
 void
-FilmEditor::scaler_changed ()
+FilmEditor::scaler_changed (wxCommandEvent &)
 {
-	if (_film) {
-		int const n = _scaler.get_active_row_number ();
-		if (n >= 0) {
-			_film->set_scaler (Scaler::from_index (n));
-		}
+	if (!_film) {
+		return;
+	}
+	
+	int const n = _scaler->GetSelection ();
+	if (n >= 0) {
+		_film->set_scaler (Scaler::from_index (n));
 	}
 }
 
 /** Called when the frames per second widget has been changed */
 void
-FilmEditor::frames_per_second_changed ()
+FilmEditor::frames_per_second_changed (wxCommandEvent &)
 {
-	if (_film) {
-		_film->set_frames_per_second (_frames_per_second.get_value ());
+	if (!_film) {
+		return;
 	}
+	
+	_film->set_frames_per_second (_frames_per_second->GetValue ());
 }
 
 void
-FilmEditor::audio_gain_changed ()
+FilmEditor::audio_gain_changed (wxCommandEvent &)
 {
-	if (_film) {
-		_film->set_audio_gain (_audio_gain.get_value ());
+	if (!_film) {
+		return;
 	}
+	
+	_film->set_audio_gain (_audio_gain->GetValue ());
 }
 
 void
-FilmEditor::audio_delay_changed ()
+FilmEditor::audio_delay_changed (wxCommandEvent &)
 {
-	if (_film) {
-		_film->set_audio_delay (_audio_delay.get_value ());
+	if (!_film) {
+		return;
 	}
+
+	_film->set_audio_delay (_audio_delay->GetValue ());
 }
 
-Widget&
-FilmEditor::video_widget (Widget& w)
+wxControl *
+FilmEditor::video_control (wxControl* c)
 {
-	_video_widgets.push_back (&w);
-	return w;
+	_video_controls.push_back (c);
+	return c;
 }
 
-Widget&
-FilmEditor::still_widget (Widget& w)
+wxControl *
+FilmEditor::still_control (wxControl* c)
 {
-	_still_widgets.push_back (&w);
-	return w;
+	_still_controls.push_back (c);
+	return c;
 }
 
 void
@@ -551,29 +589,29 @@ FilmEditor::setup_visibility ()
 		c = _film->content_type ();
 	}
 
-	for (list<Widget *>::iterator i = _video_widgets.begin(); i != _video_widgets.end(); ++i) {
-		(*i)->property_visible() = (c == VIDEO);
+	for (list<wxControl*>::iterator i = _video_controls.begin(); i != _video_controls.end(); ++i) {
+		(*i)->Show (c == VIDEO);
 	}
 
-	for (list<Widget *>::iterator i = _still_widgets.begin(); i != _still_widgets.end(); ++i) {
-		(*i)->property_visible() = (c == STILL);
+	for (list<wxControl*>::iterator i = _still_controls.begin(); i != _still_controls.end(); ++i) {
+		(*i)->Show (c == STILL);
 	}
 }
 
 void
-FilmEditor::still_duration_changed ()
+FilmEditor::still_duration_changed (wxCommandEvent &)
 {
 	if (_film) {
-		_film->set_still_duration (_still_duration.get_value ());
+		_film->set_still_duration (_still_duration->GetValue ());
 	}
 }
 
 void
-FilmEditor::change_dcp_range_clicked ()
+FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
 {
-	DCPRangeDialog d (_film);
-	d.Changed.connect (sigc::mem_fun (*this, &FilmEditor::dcp_range_changed));
-	d.run ();
+//XXX	DCPRangeDialog d (_film);
+//XXX	d.Changed.connect (sigc::mem_fun (*this, &FilmEditor::dcp_range_changed));
+//XXX	d.run ();
 }
 
 void

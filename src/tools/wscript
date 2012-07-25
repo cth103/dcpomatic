@@ -8,14 +8,15 @@ def build(bld):
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        p = ['dvdomatic', 'alignomatic']
+#        p = ['dvdomatic', 'alignomatic']
+        p = ['dvdomatic']
         if not bld.env.DISABLE_PLAYER:
             p.append('playomatic')
         for t in p:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'BOOST_THREAD GTKMM'
+            obj.uselib = 'BOOST_THREAD WXWIDGETS'
             obj.includes = ['..']
-            obj.use    = ['libdvdomatic', 'libdvdomatic-gtk']
+            obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
                 obj.source += ' ../../windows/icon.rc'
