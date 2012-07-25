@@ -359,7 +359,6 @@ class App : public wxApp
 
 		set_menu_sensitivity ();
 
-#if 0
 		/* XXX: calling these here is a bit of a hack */
 		film_editor->setup_visibility ();
 #ifndef DVDOMATIC_DISABLE_PLAYER	
@@ -373,7 +372,6 @@ class App : public wxApp
 		} else {
 			file_changed ("");
 		}
-#endif		
 		
 		return true;
 	}
