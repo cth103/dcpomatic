@@ -62,8 +62,10 @@ File "%deps%/bin/swresample-0.dll"
 File "%deps%/bin/swscale-2.dll"
 File "%deps%/bin/zlib1.dll"
 File "%deps%/bin/libjpeg-8.dll"
+File "%deps%/bin/wxbase28_gcc_custom.dll"
+File "%deps%/bin/wxmsw28_core_gcc_custom.dll"
 
-File "%binaries%/src/gtk/dvdomatic-gtk.dll"
+File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
 File "%binaries%/src/tools/dvdomatic.exe"
 
