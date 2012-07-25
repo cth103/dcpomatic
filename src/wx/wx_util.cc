@@ -26,10 +26,10 @@
 using namespace std;
 
 wxStaticText *
-add_label_to_sizer (wxSizer* s, wxWindow* p, string t)
+add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
 {
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, wxString (t.c_str (), wxConvUTF8));
-	s->Add (m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	return m;
 }
 

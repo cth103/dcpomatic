@@ -69,7 +69,7 @@ JobManagerView::update ()
 			r.gauge = new wxGauge (this, wxID_ANY, 100);
 			_sizer->Add (r.gauge, 1, wxEXPAND);
 			r.informed_of_finish = false;
-			r.message = add_label_to_sizer (_sizer, this, "");
+			r.message = add_label_to_sizer (_sizer, this, "", 1);
 			
 			_job_records[*i] = r;
 			_sizer->Layout ();
@@ -108,4 +108,6 @@ JobManagerView::update ()
 			_job_records[*i].informed_of_finish = true;
 		}
 	}
+
+	_sizer->Layout ();
 }
