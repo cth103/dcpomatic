@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <boost/filesystem.hpp>
+#include <wx/aboutdlg.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
@@ -26,7 +27,6 @@
 #endif
 #include "wx/job_manager_view.h"
 //#include "gtk/config_dialog.h"
-//#include "gtk/gpl.h"
 #include "wx/job_wrapper.h"
 //#include "gtk/dvd_title_dialog.h"
 #include "wx/wx_util.h"
@@ -289,26 +289,19 @@ public:
 	
 	void help_about (wxCommandEvent &)
 	{
-//	Gtk::AboutDialog d;
-//	d.set_name ("DVD-o-matic");
-//	d.set_version (DVDOMATIC_VERSION);
-		
-//	stringstream s;
-//	s << "DCP generation from arbitrary formats\n\n"
-//	  << "Using " << dependency_version_summary() << "\n";
-//	d.set_comments (s.str ());
-		
-//	vector<string> authors;
-//	authors.push_back ("Carl Hetherington");
-//	authors.push_back ("Terrence Meiczinger");
-//	authors.push_back ("Paul Davis");
-//	d.set_authors (authors);
-
-//	d.set_website ("http://carlh.net/software/dvdomatic");
-//	d.set_license (gpl);
-	
-//	d.run ();
-}
+		wxAboutDialogInfo info;
+		info.SetName (_("DVD-o-matic"));
+		info.SetVersion (wxT (DVDOMATIC_VERSION));
+		info.SetDescription (_("DCP generation from arbitrary formats"));
+		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis"));
+		wxArrayString authors;
+		authors.Add (wxT ("Carl Hetherington"));
+		authors.Add (wxT ("Terrence Meiczinger"));
+		authors.Add (wxT ("Paul Davis"));
+		info.SetDevelopers (authors);
+		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
+		wxAboutBox (info);
+	}
 };
 
 class App : public wxApp
