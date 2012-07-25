@@ -48,59 +48,141 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	: wxPanel (parent)
 	, _film (f)
 {
-	_name = new wxTextCtrl (this, wxID_ANY);
-	_frames_per_second = new wxSpinCtrl (this);
-	_format = new wxComboBox (this, wxID_ANY);
-//	_content = new wxFileCtrl (this, wxID_ANY, wxT("*.*"), false);
-	_crop_panel = new wxPanel (this);
-	_left_crop = new wxSpinCtrl (_crop_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	_right_crop = new wxSpinCtrl (_crop_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	_top_crop = new wxSpinCtrl (_crop_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	_bottom_crop = new wxSpinCtrl (_crop_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	_filters_panel = new wxPanel (this);
-	_filters = new wxStaticText (_filters_panel, wxID_ANY, wxT (""));
-	_filters_button = new wxButton (_filters_panel, wxID_ANY, wxT ("Edit..."));
-	_scaler = new wxComboBox (this, wxID_ANY);
-	_audio_gain_panel = new wxPanel (this);
-	_audio_gain = new wxSpinCtrl (_audio_gain_panel);
-	_audio_delay_panel = new wxPanel (this);
-	_audio_delay = new wxSpinCtrl (_audio_delay_panel);
-	_dcp_content_type = new wxComboBox (this, wxID_ANY);
-	_original_size = new wxStaticText (this, wxID_ANY, wxT (""));
-	_dcp_range_panel = new wxPanel (this);
-	_change_dcp_range_button = new wxButton (_dcp_range_panel, wxID_ANY, wxT ("Edit..."));
-	_dcp_ab = new wxCheckBox (this, wxID_ANY, wxT ("A/B"));
+	wxSizer* sizer = new wxFlexGridSizer (2, 6, 6);
+	this->SetSizer (sizer);
 
-//XXX	_vbox.set_border_width (12);
-//XXX	_vbox.set_spacing (12);
+	add_label_to_sizer (sizer, this, "Name");
+	_name = new wxTextCtrl (this, wxID_ANY);
+	sizer->Add (_name, 1, wxEXPAND);
+
+#if 0
+	add_label_to_sizer (sizer, this, "Content");
+//	_content = new wxFilePickerCtrl (this, wxID_ANY, wxT("*.*"), false);
+	sizer->Add (_content, 1, wxEXPAND);
+#endif	
+
+	add_label_to_sizer (sizer, this, "Content Type");
+	_dcp_content_type = new wxComboBox (this, wxID_ANY);
+	sizer->Add (_dcp_content_type);
+
+	add_label_to_sizer (sizer, this, "Frames Per Second");
+	_frames_per_second = new wxSpinCtrl (this);
+	sizer->Add (video_control (_frames_per_second));
+
+	add_label_to_sizer (sizer, this, "Format");
+	_format = new wxComboBox (this, wxID_ANY);
+	sizer->Add (_format);
+
+	{
+		add_label_to_sizer (sizer, this, "Crop");
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		wxPanel* p = new wxPanel (this);
+		p->SetSizer (s);
+
+		add_label_to_sizer (s, p, "L");
+		_left_crop = new wxSpinCtrl (p, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_left_crop, 0);
+		add_label_to_sizer (s, p, "R");
+		_right_crop = new wxSpinCtrl (p, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_right_crop, 0);
+		add_label_to_sizer (s, p, "T");
+		_top_crop = new wxSpinCtrl (p, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_top_crop, 0);
+		add_label_to_sizer (s, p, "B");
+		_bottom_crop = new wxSpinCtrl (p, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_bottom_crop, 0);
+
+		sizer->Add (p);
+	}
+
+	/* VIDEO-only stuff */
+	{
+		video_control (add_label_to_sizer (sizer, this, "Filters"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		wxPanel* p = new wxPanel (this);
+		p->SetSizer (s);
+		_filters = new wxStaticText (p, wxID_ANY, wxT (""));
+		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+		_filters_button = new wxButton (p, wxID_ANY, wxT ("Edit..."));
+		s->Add (_filters_button, 0);
+		sizer->Add (p, 1);
+	}
+
+	video_control (add_label_to_sizer (sizer, this, "Scaler"));
+	_scaler = new wxComboBox (this, wxID_ANY);
+	sizer->Add (video_control (_scaler), 1);
+
+	{
+		video_control (add_label_to_sizer (sizer, this, "Audio Gain"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		wxPanel* p = new wxPanel (this);
+		p->SetSizer (s);
+		_audio_gain = new wxSpinCtrl (p);
+		s->Add (video_control (_audio_gain), 1);
+		video_control (add_label_to_sizer (s, p, "dB"));
+		sizer->Add (p);
+	}
+
+	{
+		video_control (add_label_to_sizer (sizer, this, "Audio Delay"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		wxPanel* p = new wxPanel (this);
+		p->SetSizer (s);
+		_audio_delay = new wxSpinCtrl (p);
+		s->Add (video_control (_audio_delay), 1);
+		video_control (add_label_to_sizer (s, p, "ms"));
+		sizer->Add (p);
+	}
+
+	video_control (add_label_to_sizer (sizer, this, "Original Size"));
+	_original_size = new wxStaticText (this, wxID_ANY, wxT (""));
+	sizer->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
 	
-	/* Set up our editing widgets */
-	_left_crop->SetRange (0, 1024);
-//XXX	_left_crop.set_increments (1, 16);
-	_top_crop->SetRange (0, 1024);
-//XXX	_top_crop.set_increments (1, 16);
-	_right_crop->SetRange (0, 1024);
-//XXX	_right_crop.set_increments (1, 16);
-	_bottom_crop->SetRange (0, 1024);
-//XXX	_bottom_crop.set_increments (1, 16);
-//XXX	_filters.set_alignment (0, 0.5);
-	_audio_gain->SetRange (-60, 60);
-//XXX	_audio_gain.set_increments (1, 3);
-	_audio_delay->SetRange (-1000, 1000);
-//XXX	_audio_delay.set_increments (1, 20);
+	video_control (add_label_to_sizer (sizer, this, "Length"));
+	_length = new wxStaticText (this, wxID_ANY, wxT (""));
+	sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
+
+	video_control (add_label_to_sizer (sizer, this, "Audio"));
+	_audio = new wxStaticText (this, wxID_ANY, wxT (""));
+	sizer->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL);
+
+	{
+		video_control (add_label_to_sizer (sizer, this, "Range"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		wxPanel* p = new wxPanel (this);
+		p->SetSizer (s);
+		_dcp_range = new wxStaticText (p, wxID_ANY, wxT (""));
+		s->Add (video_control (_dcp_range), 1, wxALIGN_CENTER_VERTICAL);
+		_change_dcp_range_button = new wxButton (p, wxID_ANY, wxT ("Edit..."));
+		s->Add (video_control (_change_dcp_range_button));
+		sizer->Add (p);
+	}
+
+	_dcp_ab = new wxCheckBox (this, wxID_ANY, wxT ("A/B"));
+	sizer->Add (_dcp_ab, 1);
+	sizer->AddSpacer (0);
+
+	/* STILL-only stuff */
+	still_control (add_label_to_sizer (sizer, this, "Duration"));
 	_still_duration = new wxSpinCtrl (this);
+	sizer->Add (still_control (_still_duration));
+	still_control (add_label_to_sizer (sizer, this, "s"));
+
+	/* Set up our editing widgets */
+	
+	_left_crop->SetRange (0, 1024);
+	_top_crop->SetRange (0, 1024);
+	_right_crop->SetRange (0, 1024);
+	_bottom_crop->SetRange (0, 1024);
+	_audio_gain->SetRange (-60, 60);
+	_audio_delay->SetRange (-1000, 1000);
 	_still_duration->SetRange (0, 60 * 60);
-//XXX	_still_duration.set_increments (1, 5);
-	_dcp_range = new wxStaticText (_dcp_range_panel, wxID_ANY, wxT (""));
-//	_dcp_range.set_alignment (0, 0.5);
 
 	vector<Format const *> fmt = Format::all ();
 	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
 		_format->Append (std_to_wx ((*i)->name ()));
 	}
 
-//XXX	_frames_per_second.set_increments (1, 5);
-//XXX	_frames_per_second.set_digits (2);
 	_frames_per_second->SetRange (0, 60);
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -112,12 +194,6 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
-
-//XXX	_original_size.set_alignment (0, 0.5);
-	_length = new wxStaticText (this, wxID_ANY, wxT (""));
-//XXX	_length.set_alignment (0, 0.5);
-	_audio = new wxStaticText (this, wxID_ANY, wxT (""));
-//XXX	_audio.set_alignment (0, 0.5);
 
 	/* And set their values from the Film */
 	set_film (f);
@@ -140,91 +216,6 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
 
-
-	/* Set up the sizer */
-	_sizer = new wxFlexGridSizer (2, 6, 6);
-	this->SetSizer (_sizer);
-
-	add_label_to_sizer (_sizer, this, _labels, "Name");
-	_sizer->Add (_name, 1, wxEXPAND);
-
-#if 0
-	add_label_to_sizer (_sizer, this, _labels, "Content");
-	_sizer->Add (_content, 1, wxEXPAND);
-#endif	
-
-	add_label_to_sizer (_sizer, this, _labels, "Content Type");
-	_sizer->Add (_dcp_content_type);
-
-	add_label_to_sizer (_sizer, this, _labels, "Frames Per Second");
-	_sizer->Add (video_control (_frames_per_second));
-
-	add_label_to_sizer (_sizer, this, _labels, "Format");
-	_sizer->Add (_format);
-
-	add_label_to_sizer (_sizer, this, _labels, "Crop");
-	_crop_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_crop_panel->SetSizer (_crop_sizer);
-
-	add_label_to_sizer (_crop_sizer, _crop_panel, _labels, "L");
-	_crop_sizer->Add (_left_crop, 0);
-	add_label_to_sizer (_crop_sizer, _crop_panel, _labels, "R");
-	_crop_sizer->Add (_right_crop, 0);
-	add_label_to_sizer (_crop_sizer, _crop_panel, _labels, "T");
-	_crop_sizer->Add (_top_crop, 0);
-	add_label_to_sizer (_crop_sizer, _crop_panel, _labels, "B");
-	_crop_sizer->Add (_bottom_crop, 0);
-
-	_sizer->Add (_crop_panel);
-
-	/* VIDEO-only stuff */
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Filters"));
-	_filters_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_filters_panel->SetSizer (_filters_sizer);
-	_filters_sizer->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	_filters_sizer->Add (_filters_button, 0);
-	_sizer->Add (_filters_panel, 1);
-
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Scaler"));
-	_sizer->Add (video_control (_scaler), 1);
-
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Audio Gain"));
-	_audio_gain_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_audio_gain_panel->SetSizer (_audio_gain_sizer);
-	_audio_gain_sizer->Add (video_control (_audio_gain), 1);
-	video_control (add_label_to_sizer (_audio_gain_sizer, _audio_gain_panel, _labels, "dB"));
-	_sizer->Add (_audio_gain_panel);
-
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Audio Delay"));
-	_audio_delay_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_audio_delay_panel->SetSizer (_audio_delay_sizer);
-	_audio_delay_sizer->Add (video_control (_audio_delay), 1);
-	video_control (add_label_to_sizer (_audio_delay_sizer, _audio_delay_panel, _labels, "ms"));
-	_sizer->Add (_audio_delay_panel);
-
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Original Size"));
-	_sizer->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
-	
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Length"));
-	_sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
-
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Audio"));
-	_sizer->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL);
-
-	video_control (add_label_to_sizer (_sizer, this, _labels, "Range"));
-	_dcp_range_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_dcp_range_panel->SetSizer (_dcp_range_sizer);
-	_dcp_range_sizer->Add (video_control (_dcp_range), 1, wxALIGN_CENTER_VERTICAL);
-	_dcp_range_sizer->Add (video_control (_change_dcp_range_button));
-	_sizer->Add (_dcp_range_panel);
-
-	_sizer->Add (_dcp_ab, 1);
-	_sizer->AddSpacer (0);
-
-	/* STILL-only stuff */
-	still_control (add_label_to_sizer (_sizer, this, _labels, "Duration"));
-	_sizer->Add (still_control (_still_duration));
-	still_control (add_label_to_sizer (_sizer, this, _labels, "s"));
 
 	setup_visibility ();
 }

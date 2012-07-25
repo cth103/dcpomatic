@@ -117,20 +117,6 @@ private:
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 
-	wxFlexGridSizer* _sizer;
-	wxPanel* _audio_gain_panel;
-	wxBoxSizer* _audio_gain_sizer;
-	wxPanel* _audio_delay_panel;
-	wxBoxSizer* _audio_delay_sizer;
-	wxPanel* _filters_panel;
-	wxSizer* _filters_sizer;
-	wxSizer* _crop_sizer;
-	wxPanel* _crop_panel;
-	wxPanel* _dcp_range_panel;
-	wxSizer* _dcp_range_sizer;
-
 	std::list<wxControl*> _video_controls;
 	std::list<wxControl*> _still_controls;
-
-	std::list<wxControl*> _labels;
 };

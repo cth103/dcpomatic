@@ -17,7 +17,6 @@
 
 */
 
-#include <list>
 #include <wx/wx.h>
 
 /** @file src/wx/wx_util.h
@@ -25,6 +24,6 @@
  */
 
 extern void error_dialog (std::string);
-extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, std::list<wxControl*>&, std::string);
+extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, std::string);
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
