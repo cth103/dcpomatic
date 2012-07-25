@@ -183,7 +183,7 @@ file_changed (string f)
 	stringstream s;
 	s << "DVD-o-matic";
 	if (!f.empty ()) {
-		s << " — " << f;
+		s << " - " << f;
 	}
 	
 	frame->SetTitle (std_to_wx (s.str()));
