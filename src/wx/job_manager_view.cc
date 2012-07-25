@@ -35,19 +35,10 @@ using namespace boost;
 JobManagerView::JobManagerView (wxWindow* parent)
 	: wxPanel (parent)
 {
-	_sizer = new wxFlexGridSizer (2, 6, 6);
+	_sizer = new wxFlexGridSizer (3, 6, 6);
+	_sizer->AddGrowableCol (1, 1);
 	SetSizer (_sizer);
 
-#if 0	
-	add_label_to_sizer (_sizer, this, "Hello world");
-	wxGauge* g = new wxGauge (this, wxID_ANY, 100);
-	_sizer->Add (g, 1, wxEXPAND | wxALL);
-
-	add_label_to_sizer (_sizer, this, "Shit");
-	g = new wxGauge (this, wxID_ANY, 100);
-	_sizer->Add (g, 1, wxEXPAND | wxALL);
-#endif	
-	
 	Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (JobManagerView::periodic), 0, this);
 	_timer.reset (new wxTimer (this));
 	_timer->Start (1000);
@@ -76,23 +67,23 @@ JobManagerView::update ()
 
 			JobRecord r;
 			r.gauge = new wxGauge (this, wxID_ANY, 100);
-			r.informed_of_finish = false;
-			
 			_sizer->Add (r.gauge, 1, wxEXPAND);
+			r.informed_of_finish = false;
+			r.message = add_label_to_sizer (_sizer, this, "");
+			
 			_job_records[*i] = r;
 			_sizer->Layout ();
 		}
 
-		bool inform_of_finish = false;
 		string const st = (*i)->status ();
 
 		if (!(*i)->finished ()) {
 			float const p = (*i)->overall_progress ();
 			if (p >= 0) {
-//				r[_columns.text] = st;
+				_job_records[*i].message->SetLabel (std_to_wx (st));
 				_job_records[*i].gauge->SetValue (p * 100);
 			} else {
-//				r[_columns.text] = "Running";
+				_job_records[*i].message->SetLabel (wxT ("Running"));
 				_job_records[*i].gauge->Pulse ();
 			}
 		}
@@ -102,21 +93,10 @@ JobManagerView::update ()
 		   from here (the GUI thread).
 		*/
 		
-		if ((*i)->finished_ok ()) {
-			if (!_job_records[*i].informed_of_finish) {
-				_job_records[*i].gauge->SetValue (100);
-//				r[_columns.text] = st;
-				inform_of_finish = true;
-			}
-		} else if ((*i)->finished_in_error ()) {
-			if (!_job_records[*i].informed_of_finish) {
-				_job_records[*i].gauge->SetValue (100);
-//				r[_columns.text] = st;
-				inform_of_finish = true;
-			}
-		}
+		if ((*i)->finished () && !_job_records[*i].informed_of_finish) {
+			_job_records[*i].gauge->SetValue (100);
+			_job_records[*i].message->SetLabel (std_to_wx (st));
 
-		if (inform_of_finish) {
 			try {
 				(*i)->emit_finished ();
 			} catch (OpenFileError& e) {
@@ -124,6 +104,7 @@ JobManagerView::update ()
 				s << "Error: " << e.what();
 				error_dialog (this, s.str ());
 			}
+			
 			_job_records[*i].informed_of_finish = true;
 		}
 	}

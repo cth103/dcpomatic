@@ -64,15 +64,19 @@ public:
 			return;
 		}
 
-		resize ();
+		setup ();
 	}
 
-	void resize ()
+	void setup ()
 	{
+		if (!_film || !_image) {
+			return;
+		}
+		
 		int vw, vh;
 		GetSize (&vw, &vh);
 
-		float const target = _film->format()->ratio_as_float ();
+		float const target = _film->format() ? _film->format()->ratio_as_float () : 1.78;
 
 		_cropped_image = _image->GetSubImage (
 			wxRect (_left_crop, _top_crop, _image->GetWidth() - (_left_crop + _right_crop), _image->GetHeight() - (_top_crop + _bottom_crop))
@@ -96,7 +100,7 @@ public:
 	{
 		delete _image;
 		_image = new wxImage (wxString (f.c_str(), wxConvUTF8));
-		resize ();
+		setup ();
 	}
 
 	void set_crop (int l, int r, int t, int b)
@@ -105,7 +109,17 @@ public:
 		_right_crop = r;
 		_top_crop = t;
 		_bottom_crop = b;
-		resize ();
+		setup ();
+	}
+
+	void set_film (Film* f)
+	{
+		_film = f;
+		if (!_film) {
+			clear ();
+		} else {
+			setup ();
+		}
 	}
 
 	void clear ()
@@ -204,15 +218,15 @@ void
 FilmViewer::set_film (Film* f)
 {
 	_film = f;
+	_thumb_panel->set_film (_film);
 
 	if (!_film) {
-		_thumb_panel->clear ();
 		return;
 	}
 
 	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
-
 	film_changed (Film::THUMBS);
+	reload_current_thumbnail ();
 }
 
 void

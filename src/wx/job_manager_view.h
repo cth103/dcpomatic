@@ -44,6 +44,7 @@ private:
 	wxFlexGridSizer* _sizer;
 	struct JobRecord {
 		wxGauge* gauge;
+		wxStaticText* message;
 		bool informed_of_finish;
 	};
 		
