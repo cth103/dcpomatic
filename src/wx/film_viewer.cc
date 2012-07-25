@@ -52,12 +52,10 @@ public:
 
 	void paint_event (wxPaintEvent& ev)
 	{
-		if (!_bitmap) {
-			return;
-		}
-
 		wxPaintDC dc (this);
-		dc.DrawBitmap (*_bitmap, 0, 0, false);
+		if (_bitmap) {
+			dc.DrawBitmap (*_bitmap, 0, 0, false);
+		}
 	}
 
 	void size_event (wxSizeEvent &)
