@@ -29,7 +29,7 @@
 //#include "gtk/gpl.h"
 //#include "gtk/job_wrapper.h"
 //#include "gtk/dvd_title_dialog.h"
-//#include "gtk/gtk_util.h"
+#include "wx/wx_util.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -41,12 +41,10 @@
 using namespace std;
 using namespace boost;
 
+static wxFrame* frame = 0;
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
 
-#if 0
-
-static Gtk::Window* window = 0;
 #ifndef DVDOMATIC_DISABLE_PLAYER
 static FilmPlayer* film_player = 0;
 #endif
@@ -54,252 +52,129 @@ static Film* film = 0;
 
 static void set_menu_sensitivity ();
 
-class FilmChangedDialog : public Gtk::MessageDialog
+class FilmChangedDialog
 {
 public:
 	FilmChangedDialog ()
-		: Gtk::MessageDialog ("", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE)
 	{
 		stringstream s;
 		s << "Save changes to film \"" << film->name() << "\" before closing?";
-		set_message (s.str ());
-		add_button ("Close _without saving", Gtk::RESPONSE_NO);
-		add_button ("_Cancel", Gtk::RESPONSE_CANCEL);
-		add_button ("_Save", Gtk::RESPONSE_YES);
+		_dialog = new wxMessageDialog (frame, std_to_wx (s.str()), wxT ("Film changed"), wxYES_DEFAULT | wxICON_QUESTION);
 	}
+
+	~FilmChangedDialog ()
+	{
+		_dialog->Destroy ();
+	}
+
+	int run ()
+	{
+		return _dialog->ShowModal ();
+	}
+
+private:	
+	wxMessageDialog* _dialog;
 };
 
-bool
+void
 maybe_save_then_delete_film ()
 {
 	if (!film) {
-		return false;
+		return;
 	}
 			
 	if (film->dirty ()) {
 		FilmChangedDialog d;
 		switch (d.run ()) {
-		case Gtk::RESPONSE_CANCEL:
-			return true;
-		case Gtk::RESPONSE_YES:
+		case wxID_NO:
+			break;
+		case wxID_YES:
 			film->write_metadata ();
 			break;
-		case Gtk::RESPONSE_NO:
-			return false;
 		}
 	}
 	
 	delete film;
 	film = 0;
-	return false;
 }
 
-void
-file_new ()
-{
-	Gtk::FileChooserDialog c (*window, "New Film", Gtk::FILE_CHOOSER_ACTION_CREATE_FOLDER);
-#ifdef DVDOMATIC_WINDOWS	
-	c.set_current_folder (g_get_user_data_dir ());
-#endif	
-	c.add_button ("_Cancel", Gtk::RESPONSE_CANCEL);
-	c.add_button ("C_reate", Gtk::RESPONSE_ACCEPT);
 
-	int const r = c.run ();
-	if (r == Gtk::RESPONSE_ACCEPT) {
-		if (maybe_save_then_delete_film ()) {
-			return;
-		}
-		film = new Film (c.get_filename ());
-#if BOOST_FILESYSTEM_VERSION == 3		
-		film->set_name (filesystem::path (c.get_filename().c_str()).filename().generic_string());
-#else		
-		film->set_name (filesystem::path (c.get_filename().c_str()).filename());
-#endif		
-		film_viewer->set_film (film);
-		film_editor->set_film (film);
-		set_menu_sensitivity ();
-	}
-}
-
-void
-file_open ()
-{
-	Gtk::FileChooserDialog c (*window, "Open Film", Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER);
-#ifdef DVDOMATIC_WINDOWS	
-	c.set_current_folder (g_get_user_data_dir ());
-#endif	
-	c.add_button ("_Cancel", Gtk::RESPONSE_CANCEL);
-	c.add_button ("_Open", Gtk::RESPONSE_ACCEPT);
-
-	int const r = c.run ();
-	if (r == Gtk::RESPONSE_ACCEPT) {
-		if (maybe_save_then_delete_film ()) {
-			return;
-		}
-		film = new Film (c.get_filename ());
-		film_viewer->set_film (film);
-		film_editor->set_film (film);
-		set_menu_sensitivity ();
-	}
-}
-
-void
-file_save ()
-{
-	film->write_metadata ();
-}
-
-void
-file_quit ()
-{
-	if (maybe_save_then_delete_film ()) {
-		return;
-	}
-	
-	Gtk::Main::quit ();
-}
-
-void
-edit_preferences ()
-{
-	ConfigDialog d;
-	d.run ();
-	Config::instance()->write ();
-}
-
-void
-jobs_make_dcp ()
-{
-	JobWrapper::make_dcp (film, true);
-}
-
-void
-jobs_make_dcp_from_existing_transcode ()
-{
-	JobWrapper::make_dcp (film, false);
-}
-
-void
-jobs_copy_from_dvd ()
-{
-	try {
-		DVDTitleDialog d;
-		if (d.run () != Gtk::RESPONSE_OK) {
-			return;
-		}
-		film->copy_from_dvd ();
-	} catch (DVDError& e) {
-		error_dialog (e.what ());
-	}
-}
-
-void
-jobs_send_dcp_to_tms ()
-{
-	film->send_dcp_to_tms ();
-}
-
-void
-jobs_examine_content ()
-{
-	film->examine_content ();
-}
-
-void
-help_about ()
-{
-	Gtk::AboutDialog d;
-	d.set_name ("DVD-o-matic");
-	d.set_version (DVDOMATIC_VERSION);
-
-	stringstream s;
-	s << "DCP generation from arbitrary formats\n\n"
-	  << "Using " << dependency_version_summary() << "\n";
-	d.set_comments (s.str ());
-
-	vector<string> authors;
-	authors.push_back ("Carl Hetherington");
-	authors.push_back ("Terrence Meiczinger");
-	authors.push_back ("Paul Davis");
-	d.set_authors (authors);
-
-	d.set_website ("http://carlh.net/software/dvdomatic");
-	d.set_license (gpl);
-	
-	d.run ();
-}
 
 enum Sensitivity {
 	ALWAYS,
 	NEEDS_FILM
 };
 
-map<Gtk::MenuItem *, Sensitivity> menu_items;
+map<wxMenuItem*, Sensitivity> menu_items;
 	
 void
-add_item (Gtk::Menu_Helpers::MenuList& items, string text, sigc::slot0<void> handler, Sensitivity sens)
+add_item (wxMenu* menu, std::string text, int id, Sensitivity sens)
 {
-	items.push_back (Gtk::Menu_Helpers::MenuElem (text, handler));
-	menu_items.insert (make_pair (&items.back(), sens));
+	wxMenuItem* item = menu->Append (id, std_to_wx (text));
+	menu_items.insert (make_pair (item, sens));
 }
 
 void
 set_menu_sensitivity ()
 {
-	for (map<Gtk::MenuItem *, Sensitivity>::iterator i = menu_items.begin(); i != menu_items.end(); ++i) {
+	for (map<wxMenuItem*, Sensitivity>::iterator i = menu_items.begin(); i != menu_items.end(); ++i) {
 		if (i->second == NEEDS_FILM) {
-			i->first->set_sensitive (film != 0);
+			i->first->Enable (film != 0);
 		} else {
-			i->first->set_sensitive (true);
+			i->first->Enable (true);
 		}
 	}
 }
 
+enum {
+	ID_file_new = 1,
+	ID_file_open,
+	ID_file_save,
+	ID_file_quit,
+	ID_edit_preferences,
+	ID_jobs_make_dcp,
+	ID_jobs_send_dcp_to_tms,
+	ID_jobs_copy_from_dvd,
+	ID_jobs_examine_content,
+	ID_jobs_make_dcp_from_existing_transcode,
+	ID_help_about
+};
+
 void
-setup_menu (Gtk::MenuBar& m)
+setup_menu (wxMenuBar* m)
 {
-	using namespace Gtk::Menu_Helpers;
+	wxMenu* file = new wxMenu;
+	add_item (file, "New...", ID_file_new, ALWAYS);
+	add_item (file, "&Open...", ID_file_open, ALWAYS);
+	file->AppendSeparator ();
+	add_item (file, "&Save", ID_file_save, NEEDS_FILM);
+	file->AppendSeparator ();
+	add_item (file, "&Quit", ID_file_quit, ALWAYS);
 
-	Gtk::Menu* file = manage (new Gtk::Menu);
-	MenuList& file_items (file->items ());
-	add_item (file_items, "New...", sigc::ptr_fun (file_new), ALWAYS);
-	add_item (file_items, "_Open...", sigc::ptr_fun (file_open), ALWAYS);
-	file_items.push_back (SeparatorElem ());
-	add_item (file_items, "_Save", sigc::ptr_fun (file_save), NEEDS_FILM);
-	file_items.push_back (SeparatorElem ());
-	add_item (file_items, "_Quit", sigc::ptr_fun (file_quit), ALWAYS);
+	wxMenu* edit = new wxMenu;
+	add_item (edit, "&Preferences...", ID_edit_preferences, ALWAYS);
 
-	Gtk::Menu* edit = manage (new Gtk::Menu);
-	MenuList& edit_items (edit->items ());
-	add_item (edit_items, "_Preferences...", sigc::ptr_fun (edit_preferences), ALWAYS);
+	wxMenu* jobs = new wxMenu;
+	add_item (jobs, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
+	add_item (jobs, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
+	add_item (jobs, "Copy from &DVD...", ID_jobs_copy_from_dvd, NEEDS_FILM);
+	jobs->AppendSeparator ();
+	add_item (jobs, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
+	add_item (jobs, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
 
-	Gtk::Menu* jobs = manage (new Gtk::Menu);
-	MenuList& jobs_items (jobs->items ());
-	add_item (jobs_items, "_Make DCP", sigc::ptr_fun (jobs_make_dcp), NEEDS_FILM);
-	add_item (jobs_items, "_Send DCP to TMS", sigc::ptr_fun (jobs_send_dcp_to_tms), NEEDS_FILM);
-	add_item (jobs_items, "Copy from _DVD...", sigc::ptr_fun (jobs_copy_from_dvd), NEEDS_FILM);
-	jobs_items.push_back (SeparatorElem ());
-	add_item (jobs_items, "_Examine content", sigc::ptr_fun (jobs_examine_content), NEEDS_FILM);
-	add_item (jobs_items, "Make DCP from _existing transcode", sigc::ptr_fun (jobs_make_dcp_from_existing_transcode), NEEDS_FILM);
+	wxMenu* help = new wxMenu;
+	add_item (help, "About", ID_help_about, ALWAYS);
 
-	Gtk::Menu* help = manage (new Gtk::Menu);
-	MenuList& help_items (help->items ());
-	add_item (help_items, "About", sigc::ptr_fun (help_about), ALWAYS);
-	
-	MenuList& items (m.items ());
-	items.push_back (MenuElem ("_File", *file));
-	items.push_back (MenuElem ("_Edit", *edit));
-	items.push_back (MenuElem ("_Jobs", *jobs));
-	items.push_back (MenuElem ("_Help", *help));
+	m->Append (file, _("&File"));
+	m->Append (edit, _("&Edit"));
+	m->Append (jobs, _("&Jobs"));
+	m->Append (help, _("&Help"));
 }
 
 bool
-window_closed (GdkEventAny *)
+window_closed (wxCommandEvent &)
 {
-	if (maybe_save_then_delete_film ()) {
-		return true;
-	}
-
+	maybe_save_then_delete_film ();
 	return false;
 }
 
@@ -312,15 +187,8 @@ file_changed (string f)
 		s << " — " << f;
 	}
 	
-	window->set_title (s.str ());
+	frame->SetTitle (std_to_wx (s.str()));
 }
-
-#endif
-
-
-enum {
-	ID_Quit = 1,
-};
 
 class Frame : public wxFrame
 {
@@ -329,23 +197,118 @@ public:
 		: wxFrame (NULL, -1, title)
 	{
 		wxMenuBar* bar = new wxMenuBar;
-		bar->Show (true);
-		
-		wxMenu *menu_file = new wxMenu;
-		menu_file->Append (ID_Quit, _("&Quit"));
-
-		bar->Append (menu_file, _("&File"));
-
+		setup_menu (bar);
 		SetMenuBar (bar);
+	}
 
-		CreateStatusBar ();
-		SetStatusText (_("Welcome to DVD-o-matic!"));
+	void file_new (wxCommandEvent &)
+	{
+		wxDirDialog* c = new wxDirDialog (frame, wxT ("New Film"));
+		int const r = c->ShowModal ();
+		c->Destroy ();
+		
+		if (r == wxID_OK) {
+			maybe_save_then_delete_film ();
+			film = new Film (wx_to_std (c->GetPath ()));
+#if BOOST_FILESYSTEM_VERSION == 3		
+			film->set_name (filesystem::path (wx_to_std (c->GetPath())).filename().generic_string());
+#else		
+			film->set_name (filesystem::path (wx_to_std (c->GetPath())).filename());
+#endif		
+			film_viewer->set_film (film);
+			film_editor->set_film (film);
+			set_menu_sensitivity ();
+		}
+	}
+
+	void file_open (wxCommandEvent &)
+	{
+		wxDirDialog* c = new wxDirDialog (frame, wxT ("Open Film"), wxT (""), wxDD_DIR_MUST_EXIST);
+		int const r = c->ShowModal ();
+		c->Destroy ();
+		
+		if (r == wxID_OK) {
+			maybe_save_then_delete_film ();
+			film = new Film (wx_to_std (c->GetPath ()));
+			film_viewer->set_film (film);
+			film_editor->set_film (film);
+			set_menu_sensitivity ();
+		}
+	}
+
+	void file_save (wxCommandEvent &)
+	{
+		film->write_metadata ();
 	}
 	
-	void quit (wxCommandEvent& event)
+	void file_quit (wxCommandEvent &)
 	{
-		Close (true);
+		maybe_save_then_delete_film ();
+		frame->Close (true);
 	}
+
+	void edit_preferences (wxCommandEvent &)
+	{
+//	ConfigDialog d;
+//	d.run ();
+//	Config::instance()->write ();
+	}
+
+	void jobs_make_dcp (wxCommandEvent &)
+	{
+//	JobWrapper::make_dcp (film, true);
+	}
+	
+	void jobs_make_dcp_from_existing_transcode (wxCommandEvent &)
+	{
+//	JobWrapper::make_dcp (film, false);
+	}
+	
+	void jobs_copy_from_dvd (wxCommandEvent &)
+	{
+//	try {
+//		DVDTitleDialog d;
+//		if (d.run () != Gtk::RESPONSE_OK) {
+//			return;
+//		}
+//		film->copy_from_dvd ();
+//	} catch (DVDError& e) {
+//		error_dialog (e.what ());
+//	}
+	}
+	
+	void jobs_send_dcp_to_tms (wxCommandEvent &)
+	{
+		film->send_dcp_to_tms ();
+	}
+	
+	void jobs_examine_content (wxCommandEvent &)
+	{
+		film->examine_content ();
+	}
+	
+	void help_about (wxCommandEvent &)
+	{
+//	Gtk::AboutDialog d;
+//	d.set_name ("DVD-o-matic");
+//	d.set_version (DVDOMATIC_VERSION);
+		
+//	stringstream s;
+//	s << "DCP generation from arbitrary formats\n\n"
+//	  << "Using " << dependency_version_summary() << "\n";
+//	d.set_comments (s.str ());
+		
+//	vector<string> authors;
+//	authors.push_back ("Carl Hetherington");
+//	authors.push_back ("Terrence Meiczinger");
+//	authors.push_back ("Paul Davis");
+//	d.set_authors (authors);
+
+//	d.set_website ("http://carlh.net/software/dvdomatic");
+//	d.set_license (gpl);
+	
+//	d.run ();
+}
 };
 
 class App : public wxApp
@@ -364,15 +327,22 @@ class App : public wxApp
 //			film = new Film (argv[1]);
 //		}
 		
-		Film* film = new Film ("/home/carl/DCP/BitHarvest");
+		film = new Film ("/home/carl/DCP/BitHarvest");
 		
-		Frame* frame = new Frame (_("DVD-o-matic"));
+		frame = new Frame (_("DVD-o-matic"));
 		frame->Show (true);
 		
-		frame->Connect (
-			ID_Quit, wxEVT_COMMAND_MENU_SELECTED,
-			(wxObjectEventFunction) &Frame::quit
-			);
+		frame->Connect (ID_file_new, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_new));
+		frame->Connect (ID_file_open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_open));
+		frame->Connect (ID_file_save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_save));
+		frame->Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
+		frame->Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
+		frame->Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
+		frame->Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
+		frame->Connect (ID_jobs_copy_from_dvd, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_copy_from_dvd));
+		frame->Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
+		frame->Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
+		frame->Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
 		film_editor = new FilmEditor (film, frame);
 		film_editor->Show (true);

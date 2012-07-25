@@ -26,3 +26,5 @@
 
 extern void error_dialog (std::string);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, std::list<wxControl*>&, std::string);
+extern std::string wx_to_std (wxString);
+extern wxString std_to_wx (std::string);

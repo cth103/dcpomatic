@@ -40,24 +40,12 @@ public:
 private:
 	void slider_changed (wxCommandEvent &);
 	void update_thumbs ();
-	std::string format_position_slider_value (double) const;
 	void load_thumbnail (int);
 	void film_changed (Film::Property);
 	void reload_current_thumbnail ();
-	void update_scaled_pixbuf ();
-	std::pair<int, int> scaled_pixbuf_size () const;
-//	void scroller_size_allocate (Gtk::Allocation);
 
 	Film* _film;
 	wxBoxSizer* _sizer;
 	ThumbPanel* _thumb_panel;
 	wxSlider* _slider;
-//	Gtk::VBox _vbox;
-//	Gtk::ScrolledWindow _scroller;
-//	Gtk::Image _image;
-//	Glib::RefPtr<Gdk::Pixbuf> _pixbuf;
-//	Glib::RefPtr<Gdk::Pixbuf> _cropped_pixbuf;
-//	Glib::RefPtr<Gdk::Pixbuf> _scaled_pixbuf;
-//	Gtk::HScale _position_slider;
-//	Gtk::Allocation _last_scroller_allocation;
 };

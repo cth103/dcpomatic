@@ -39,7 +39,7 @@ public:
 	void set_film (Film *);
 	void setup_visibility ();
 
-//XXX	sigc::signal1<void, std::string> FileChanged;
+	sigc::signal1<void, std::string> FileChanged;
 
 private:
 	/* Handle changes to the view */

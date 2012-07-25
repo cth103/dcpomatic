@@ -43,3 +43,15 @@ error_dialog (string m)
 	d.run ();
 }
 #endif
+
+string
+wx_to_std (wxString s)
+{
+	return string (s.mb_str ());
+}
+
+wxString
+std_to_wx (string s)
+{
+	return wxString (s.c_str(), wxConvUTF8);
+}

@@ -43,6 +43,10 @@ public:
 		, _film (film)
 		, _image (0)
 		, _bitmap (0)
+		, _left_crop (0)
+		, _right_crop (0)
+		, _top_crop (0)
+		, _bottom_crop (0)
 	{
 	}
 
@@ -72,14 +76,20 @@ public:
 
 		float const target = _film->format()->ratio_as_float ();
 
-		delete _bitmap;
+		_cropped_image = _image->GetSubImage (
+			wxRect (_left_crop, _top_crop, _image->GetWidth() - (_left_crop + _right_crop), _image->GetHeight() - (_top_crop + _bottom_crop))
+			);
+
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
-			_bitmap = new wxBitmap (_image->Scale (vh * target, vh));
+			_cropped_image.Rescale (vh * target, vh);
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
-			_bitmap = new wxBitmap (_image->Scale (vw, vw / target));
+			_cropped_image.Rescale (vw, vw / target);
 		}
+
+		delete _bitmap;
+		_bitmap = new wxBitmap (_cropped_image);
 
 		Refresh ();
 	}
@@ -88,6 +98,15 @@ public:
 	{
 		delete _image;
 		_image = new wxImage (wxString (f.c_str(), wxConvUTF8));
+		resize ();
+	}
+
+	void set_crop (int l, int r, int t, int b)
+	{
+		_left_crop = l;
+		_right_crop = r;
+		_top_crop = t;
+		_bottom_crop = b;
 		resize ();
 	}
 
@@ -104,7 +123,12 @@ public:
 private:
 	Film* _film;
 	wxImage* _image;
+	wxImage _cropped_image;
 	wxBitmap* _bitmap;
+	int _left_crop;
+	int _right_crop;
+	int _top_crop;
+	int _bottom_crop;
 };
 
 BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
@@ -122,7 +146,7 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	_thumb_panel = new ThumbPanel (this, f);
 	_sizer->Add (_thumb_panel, 1, wxEXPAND);
 
-	int const max = f ? f->num_thumbs() : 0;
+	int const max = f ? f->num_thumbs() - 1 : 0;
 	_slider = new wxSlider (this, wxID_ANY, 0, 0, max);
 	_sizer->Add (_slider, 0, wxEXPAND | wxLEFT | wxRIGHT);
 	load_thumbnail (0);
@@ -139,11 +163,6 @@ FilmViewer::load_thumbnail (int n)
 		return;
 	}
 
-	int const left = _film->left_crop ();
-	int const right = _film->right_crop ();
-	int const top = _film->top_crop ();
-	int const bottom = _film->bottom_crop ();
-
 	_thumb_panel->load (_film->thumb_file(n));
 }
 
@@ -159,38 +178,20 @@ FilmViewer::slider_changed (wxCommandEvent &)
 	reload_current_thumbnail ();
 }
 
-string
-FilmViewer::format_position_slider_value (double v) const
-{
-#if 0	
-	stringstream s;
-
-	if (_film && int (v) < _film->num_thumbs ()) {
-		int const f = _film->thumb_frame (int (v));
-		s << f << " " << seconds_to_hms (f / _film->frames_per_second ());
-	} else {
-		s << "-";
-	}
-	
-	return s.str ();
-#endif	
-}
-
 void
 FilmViewer::film_changed (Film::Property p)
 {
-#if 0	
 	if (p == Film::LEFT_CROP || p == Film::RIGHT_CROP || p == Film::TOP_CROP || p == Film::BOTTOM_CROP) {
-		reload_current_thumbnail ();
+		_thumb_panel->set_crop (_film->left_crop(), _film->right_crop(), _film->top_crop(), _film->bottom_crop ());
 	} else if (p == Film::THUMBS) {
 		if (_film && _film->num_thumbs() > 1) {
-			_position_slider.set_range (0, _film->num_thumbs () - 1);
+			_slider->SetRange (0, _film->num_thumbs () - 1);
 		} else {
-			_image.clear ();
-			_position_slider.set_range (0, 1);
+			_thumb_panel->clear ();
+			_slider->SetRange (0, 1);
 		}
 		
-		_position_slider.set_value (0);
+		_slider->SetValue (0);
 		reload_current_thumbnail ();
 	} else if (p == Film::FORMAT) {
 		reload_current_thumbnail ();
@@ -199,7 +200,6 @@ FilmViewer::film_changed (Film::Property p)
 		_film->examine_content ();
 		update_thumbs ();
 	}
-#endif	
 }
 
 void
@@ -212,50 +212,14 @@ FilmViewer::set_film (Film* f)
 		return;
 	}
 
-//	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
+	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
 
 	film_changed (Film::THUMBS);
-}
-
-pair<int, int>
-FilmViewer::scaled_pixbuf_size () const
-{
-#if 0	
-	if (_film == 0) {
-		return make_pair (0, 0);
-	}
-	
-	int const cw = _film->size().width - _film->left_crop() - _film->right_crop(); 
-	int const ch = _film->size().height - _film->top_crop() - _film->bottom_crop();
-
-	float ratio = 1;
-	if (_film->format()) {
-		ratio = _film->format()->ratio_as_float() * ch / cw;
-	}
-
-	Gtk::Allocation const a = _scroller.get_allocation ();
-	float const zoom = min (float (a.get_width()) / (cw * ratio), float (a.get_height()) / cw);
-	return make_pair (cw * zoom * ratio, ch * zoom);
-#endif	
-}
-	
-void
-FilmViewer::update_scaled_pixbuf ()
-{
-#if 0	
-	pair<int, int> const s = scaled_pixbuf_size ();
-
-	if (s.first > 0 && s.second > 0 && _cropped_pixbuf) {
-		_scaled_pixbuf = _cropped_pixbuf->scale_simple (s.first, s.second, Gdk::INTERP_HYPER);
-		_image.set (_scaled_pixbuf);
-	}
-#endif	
 }
 
 void
 FilmViewer::update_thumbs ()
 {
-#if 0	
 	if (!_film) {
 		return;
 	}
@@ -272,18 +236,15 @@ FilmViewer::update_thumbs ()
 	shared_ptr<Job> j (new ThumbsJob (s, o, _film->log ()));
 	j->Finished.connect (sigc::mem_fun (_film, &Film::update_thumbs_post_gui));
 	JobManager::instance()->add (j);
-#endif	
 }
 
 void
 FilmViewer::setup_visibility ()
 {
-#if 0	
 	if (!_film) {
 		return;
 	}
 
 	ContentType const c = _film->content_type ();
-	_position_slider.property_visible() = (c == VIDEO);
-#endif	
+	_slider->Show (c == VIDEO);
 }

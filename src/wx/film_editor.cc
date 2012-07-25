@@ -96,7 +96,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 
 	vector<Format const *> fmt = Format::all ();
 	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
-		_format->Append (wxString ((*i)->name().c_str(), wxConvUTF8));
+		_format->Append (std_to_wx ((*i)->name ()));
 	}
 
 //XXX	_frames_per_second.set_increments (1, 5);
@@ -105,12 +105,12 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
-		_dcp_content_type->Append (wxString ((*i)->pretty_name().c_str(), wxConvUTF8));
+		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 	}
 
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_scaler->Append (wxString ((*i)->name().c_str(), wxConvUTF8));
+		_scaler->Append (std_to_wx ((*i)->name()));
 	}
 
 //XXX	_original_size.set_alignment (0, 0.5);
@@ -340,11 +340,11 @@ FilmEditor::film_changed (Film::Property p)
 	{
 		pair<string, string> p = Filter::ffmpeg_strings (_film->filters ());
 		string const b = p.first + " " + p.second;
-		_filters->SetLabel (wxString (b.c_str(), wxConvUTF8));
+		_filters->SetLabel (std_to_wx (b));
 		break;
 	}
 	case Film::NAME:
-		_name->SetValue (wxString (_film->name().c_str(), wxConvUTF8));
+		_name->SetValue (std_to_wx (_film->name ()));
 		break;
 	case Film::FRAMES_PER_SECOND:
 		_frames_per_second->SetValue (_film->frames_per_second ());
@@ -355,7 +355,7 @@ FilmEditor::film_changed (Film::Property p)
 			_audio->SetLabel (wxT (""));
 		} else {
 			s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
-			_audio->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
+			_audio->SetLabel (std_to_wx (s.str ()));
 		}
 		break;
 	case Film::SIZE:
@@ -363,7 +363,7 @@ FilmEditor::film_changed (Film::Property p)
 			_original_size->SetLabel (wxT (""));
 		} else {
 			s << _film->size().width << " x " << _film->size().height;
-			_original_size->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
+			_original_size->SetLabel (std_to_wx (s.str ()));
 		}
 		break;
 	case Film::LENGTH:
@@ -372,7 +372,7 @@ FilmEditor::film_changed (Film::Property p)
 		} else if (_film->length() > 0) {
 			s << _film->length() << " frames";
 		} 
-		_length->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
+		_length->SetLabel (std_to_wx (s.str ()));
 		break;
 	case Film::DCP_CONTENT_TYPE:
 		_dcp_content_type->SetSelection (DCPContentType::as_index (_film->dcp_content_type ()));
@@ -385,7 +385,7 @@ FilmEditor::film_changed (Film::Property p)
 		} else {
 			stringstream s;
 			s << "First " << _film->dcp_frames() << " frames";
-			_dcp_range->SetLabel (wxString (s.str().c_str(), wxConvUTF8));
+			_dcp_range->SetLabel (std_to_wx (s.str ()));
 		}
 		break;
 	case Film::DCP_TRIM_ACTION:
@@ -449,9 +449,9 @@ FilmEditor::set_film (Film* f)
 	}
 
 	if (_film) {
-//		FileChanged (_film->directory ());
+		FileChanged (_film->directory ());
 	} else {
-//		FileChanged ("");
+		FileChanged ("");
 	}
 	
 	film_changed (Film::NAME);
