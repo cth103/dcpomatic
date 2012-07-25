@@ -30,7 +30,7 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, list<wxControl*>& c, string t)
 {
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, wxString (t.c_str (), wxConvUTF8));
 	c.push_back (m);
-	s->Add (m, 0, wxALIGN_CENTER_VERTICAL);
+	s->Add (m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	return m;
 }
 

@@ -118,20 +118,16 @@ private:
 	wxCheckBox* _dcp_ab;
 
 	wxFlexGridSizer* _sizer;
-	wxStaticText* _name_label;
-	wxStaticText* _content_label;
-	wxStaticText* _dcp_content_type_label;
-	wxStaticText* _frames_per_second_label;
-	wxStaticText* _format_label;
-	wxStaticText* _crop_label;
+	wxPanel* _audio_gain_panel;
+	wxBoxSizer* _audio_gain_sizer;
+	wxPanel* _audio_delay_panel;
+	wxBoxSizer* _audio_delay_sizer;
+	wxPanel* _filters_panel;
+	wxSizer* _filters_sizer;
 	wxSizer* _crop_sizer;
 	wxPanel* _crop_panel;
-	wxStaticText* _left_crop_label;
-	wxStaticText* _right_crop_label;
-	wxStaticText* _top_crop_label;
-	wxStaticText* _bottom_crop_label;
-	wxStaticText* _filters_label;
-	wxStaticText* _scaler_label;
+	wxPanel* _dcp_range_panel;
+	wxSizer* _dcp_range_sizer;
 
 	std::list<wxControl*> _video_controls;
 	std::list<wxControl*> _still_controls;
