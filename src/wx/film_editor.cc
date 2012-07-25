@@ -55,11 +55,9 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_name = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_name, 1, wxEXPAND);
 
-#if 0
 	add_label_to_sizer (sizer, this, "Content");
-//	_content = new wxFilePickerCtrl (this, wxID_ANY, wxT("*.*"), false);
+	_content = new wxFilePickerCtrl (this, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
 	sizer->Add (_content, 1, wxEXPAND);
-#endif	
 
 	add_label_to_sizer (sizer, this, "Content Type");
 	_dcp_content_type = new wxComboBox (this, wxID_ANY);
@@ -202,7 +200,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_name->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (FilmEditor::name_changed), 0, this);
 	_frames_per_second->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::frames_per_second_changed), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
-//XXX	_content.signal_file_set().connect (sigc::mem_fun (*this, &FilmEditor::content_changed));
+	_content->Connect (wxID_ANY, wxEVT_COMMAND_FILEPICKER_CHANGED, wxCommandEventHandler (FilmEditor::content_changed), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -265,14 +263,14 @@ FilmEditor::content_changed (wxCommandEvent &)
 	}
 
 	try {
-//XXX		_film->set_content (_content.get_filename ());
+		_film->set_content (wx_to_std (_content->GetPath ()));
 	} catch (std::exception& e) {
-//XXX		_content.set_filename (_film->directory ());
+		_content->SetPath (std_to_wx (_film->directory ()));
 		stringstream m;
 		m << "Could not set content: " << e.what() << ".";
-//XXX		Gtk::MessageDialog d (m.str(), false, MESSAGE_ERROR);
-//XXX		d.set_title ("DVD-o-matic");
-//XXX		d.run ();
+		wxMessageDialog* d = new wxMessageDialog (this, std_to_wx (m.str ()), wxT ("DVD-o-matic"), wxOK);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 }
 
@@ -309,7 +307,7 @@ FilmEditor::film_changed (Film::Property p)
 		
 	switch (p) {
 	case Film::CONTENT:
-//XXX		_content.set_filename (_film->content ());
+		_content->SetPath (std_to_wx (_film->content ()));
 		setup_visibility ();
 		break;
 	case Film::FORMAT:

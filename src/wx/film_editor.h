@@ -23,6 +23,7 @@
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include <wx/filepicker.h>
 #include "lib/trim_action.h"
 #include "lib/film.h"
 
@@ -80,7 +81,7 @@ private:
 	/** The Film's format */
 	wxComboBox* _format;
 	/** The Film's content file */
-	wxFileCtrl* _content;
+	wxFilePickerCtrl* _content;
 	/** The Film's left crop */
 	wxSpinCtrl* _left_crop;
 	/** The Film's right crop */
