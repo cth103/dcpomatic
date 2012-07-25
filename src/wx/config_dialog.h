@@ -23,6 +23,7 @@
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include <wx/listctrl.h>
 
 class Screen;
 class Server;
