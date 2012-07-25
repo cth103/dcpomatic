@@ -49,43 +49,4 @@ private:
 	};
 		
 	std::map<boost::shared_ptr<Job>, JobRecord> _job_records;
-#if 0	
-	/** Scroller for all our contents */
-	Gtk::ScrolledWindow _scroller;
-	/** View for the jobs */
-	Gtk::TreeView _view;
-	/** Store for the jobs */
-	Glib::RefPtr<Gtk::TreeStore> _store;
-
-	/** The TreeModelColumnRecord for the store */
-	class StoreColumns : public Gtk::TreeModelColumnRecord
-	{
-	public:
-		StoreColumns ()
-		{
-			add (name);
-			add (job);
-			add (progress);
-			add (progress_unknown);
-			add (text);
-			add (informed_of_finish);
-		}
-
-		/** Job name */
-		Gtk::TreeModelColumn<std::string> name;
-		/** Job */
-		Gtk::TreeModelColumn<boost::shared_ptr<Job> > job;
-		/** Progress */
-		Gtk::TreeModelColumn<float> progress;
-		/** An increasing integer number if the progress is unknown */
-		Gtk::TreeModelColumn<int> progress_unknown;
-		/** Text to write into the progress bar */
-		Gtk::TreeModelColumn<std::string> text;
-		/** true if the job has been informed of its finish */
-		Gtk::TreeModelColumn<bool> informed_of_finish;
-	};
-
-	/** The columns for the store */
-	StoreColumns _columns;
-#endif	
 };
