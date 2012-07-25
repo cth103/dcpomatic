@@ -335,23 +335,20 @@ class App : public wxApp
 		frame->Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		frame->Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
-		wxPanel* rhs = new wxPanel (frame);
-		
 		film_editor = new FilmEditor (film, frame);
-		film_viewer = new FilmViewer (film, rhs);
+		film_viewer = new FilmViewer (film, frame);
 #ifndef DVDOMATIC_DISABLE_PLAYER
 		film_player = new FilmPlayer (film, frame);
 #endif
-		JobManagerView* job_manager_view = new JobManagerView (rhs);
+		JobManagerView* job_manager_view = new JobManagerView (frame);
 
 		wxSizer* rhs_sizer = new wxBoxSizer (wxVERTICAL);
 		rhs_sizer->Add (film_viewer, 3, wxEXPAND | wxALL);
 		rhs_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL);
-		rhs->SetSizer (rhs_sizer);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
 		main_sizer->Add (film_editor, 0, wxALL, 6);
-		main_sizer->Add (rhs, 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (rhs_sizer, 1, wxEXPAND | wxALL, 6);
 		frame->SetSizer (main_sizer);
 
 		SetTopWindow (frame);

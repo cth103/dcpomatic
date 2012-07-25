@@ -92,13 +92,12 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	{
 		add_label_to_sizer (table, this, "Reference filters for A/B");
-		wxPanel* p = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_reference_filters = new wxStaticText (p, wxID_ANY, wxT (""));
+		_reference_filters = new wxStaticText (this, wxID_ANY, wxT (""));
 		s->Add (_reference_filters, 1, wxEXPAND);
-		_reference_filters_button = new wxButton (p, wxID_ANY, _("Edit..."));
+		_reference_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
 		s->Add (_reference_filters_button, 0);
-		table->Add (p, 1, wxEXPAND);
+		table->Add (s, 1, wxEXPAND);
 		table->AddSpacer (0);
 	}
 
@@ -116,14 +115,12 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	table->Add (_servers, 1, wxEXPAND);
 
 	{
-		wxPanel* p = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		p->SetSizer (s);
-		_add_server = new wxButton (p, wxID_ANY, _("Add"));
+		_add_server = new wxButton (this, wxID_ANY, _("Add"));
 		s->Add (_add_server);
-		_remove_server = new wxButton (p, wxID_ANY, _("Remove"));
+		_remove_server = new wxButton (this, wxID_ANY, _("Remove"));
 		s->Add (_remove_server);
-		table->Add (p, 0);
+		table->Add (s, 0);
 	}
 		
 	Config* config = Config::instance ();
