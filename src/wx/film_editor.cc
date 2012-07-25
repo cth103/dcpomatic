@@ -66,8 +66,9 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_dcp_content_type = new wxComboBox (this, wxID_ANY);
 	sizer->Add (_dcp_content_type);
 
-	add_label_to_sizer (sizer, this, "Frames Per Second");
+	video_control (add_label_to_sizer (sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
+	video_control (_frames_per_second);
 	sizer->Add (video_control (_frames_per_second));
 
 	add_label_to_sizer (sizer, this, "Format");
@@ -150,6 +151,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	}
 
 	_dcp_ab = new wxCheckBox (this, wxID_ANY, wxT ("A/B"));
+	video_control (_dcp_ab);
 	sizer->Add (_dcp_ab, 1);
 	sizer->AddSpacer (0);
 

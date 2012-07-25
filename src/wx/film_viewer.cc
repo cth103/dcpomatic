@@ -227,6 +227,7 @@ FilmViewer::set_film (Film* f)
 	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
 	film_changed (Film::THUMBS);
 	reload_current_thumbnail ();
+	setup_visibility ();
 }
 
 void

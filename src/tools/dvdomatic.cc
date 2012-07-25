@@ -198,12 +198,17 @@ public:
 		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
-		film_editor = new FilmEditor (film, this);
-		film_viewer = new FilmViewer (film, this);
+		wxPanel* panel = new wxPanel (this);
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (panel, 1, wxEXPAND);
+		SetSizer (s);
+
+		film_editor = new FilmEditor (film, panel);
+		film_viewer = new FilmViewer (film, panel);
 #ifndef DVDOMATIC_DISABLE_PLAYER
-		film_player = new FilmPlayer (film, this);
+		film_player = new FilmPlayer (film, panel);
 #endif
-		JobManagerView* job_manager_view = new JobManagerView (this);
+		JobManagerView* job_manager_view = new JobManagerView (panel);
 
 		wxSizer* rhs_sizer = new wxBoxSizer (wxVERTICAL);
 		rhs_sizer->Add (film_viewer, 3, wxEXPAND | wxALL);
@@ -212,7 +217,7 @@ public:
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
 		main_sizer->Add (film_editor, 0, wxALL, 6);
 		main_sizer->Add (rhs_sizer, 1, wxEXPAND | wxALL, 6);
-		SetSizer (main_sizer);
+		panel->SetSizer (main_sizer);
 
 		set_menu_sensitivity ();
 
