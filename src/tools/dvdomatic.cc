@@ -59,7 +59,7 @@ public:
 	{
 		stringstream s;
 		s << "Save changes to film \"" << film->name() << "\" before closing?";
-		_dialog = new wxMessageDialog (frame, std_to_wx (s.str()), wxT ("Film changed"), wxYES_DEFAULT | wxICON_QUESTION);
+		_dialog = new wxMessageDialog (frame, std_to_wx (s.str()), wxT ("Film changed"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
 	}
 
 	~FilmChangedDialog ()

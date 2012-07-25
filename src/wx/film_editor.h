@@ -72,12 +72,14 @@ private:
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
 
+	bool _ignore_changes;
+
 	/** The film we are editing */
 	Film* _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
 	/** The Film's frames per second */
-	wxSpinCtrl* _frames_per_second;
+	wxTextCtrl* _frames_per_second;
 	/** The Film's format */
 	wxComboBox* _format;
 	/** The Film's content file */
