@@ -84,10 +84,10 @@ public:
 
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
-			_cropped_image.Rescale (vh * target, vh);
+			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
-			_cropped_image.Rescale (vw, vw / target);
+			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
 		}
 
 		delete _bitmap;
