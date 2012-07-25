@@ -20,6 +20,7 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <wx/aboutdlg.h>
+#include <wx/stdpaths.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
@@ -250,7 +251,7 @@ public:
 	
 	void file_new (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (this, wxT ("New Film"));
+		wxDirDialog* c = new wxDirDialog (this, wxT ("New Film"), wxStandardPaths::Get().GetDocumentsDir());
 		int const r = c->ShowModal ();
 		c->Destroy ();
 		
@@ -270,7 +271,7 @@ public:
 
 	void file_open (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (this, wxT ("Open Film"), wxT (""), wxDD_DIR_MUST_EXIST);
+		wxDirDialog* c = new wxDirDialog (this, wxT ("Open Film"), wxStandardPaths::Get().GetDocumentsDir(), wxDD_DIR_MUST_EXIST);
 		int const r = c->ShowModal ();
 		c->Destroy ();
 		
