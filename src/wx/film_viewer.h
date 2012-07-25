@@ -38,7 +38,7 @@ public:
 	void setup_visibility ();
 
 private:
-	void position_slider_changed ();
+	void slider_changed (wxCommandEvent &);
 	void update_thumbs ();
 	std::string format_position_slider_value (double) const;
 	void load_thumbnail (int);
@@ -51,6 +51,7 @@ private:
 	Film* _film;
 	wxBoxSizer* _sizer;
 	ThumbPanel* _thumb_panel;
+	wxSlider* _slider;
 //	Gtk::VBox _vbox;
 //	Gtk::ScrolledWindow _scroller;
 //	Gtk::Image _image;

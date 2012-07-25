@@ -61,8 +61,8 @@ class App : public wxApp
 		viewer->load_thumbnail (22);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
-		main_sizer->Add (editor, 0);
-		main_sizer->Add (viewer->get_widget (), 1, wxEXPAND);
+		main_sizer->Add (editor, 0, wxALL, 6);
+		main_sizer->Add (viewer->get_widget (), 1, wxEXPAND | wxALL, 6);
 		frame->SetSizer (main_sizer);
 
 //		frame->Add (viewer->get_widget ());

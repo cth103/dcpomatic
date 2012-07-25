@@ -62,6 +62,11 @@ public:
 			return;
 		}
 
+		resize ();
+	}
+
+	void resize ()
+	{
 		int vw, vh;
 		GetSize (&vw, &vh);
 
@@ -75,13 +80,15 @@ public:
 			/* view is shorter (horizontally) than the ratio; fit width */
 			_bitmap = new wxBitmap (_image->Scale (vw, vw / target));
 		}
+
+		Refresh ();
 	}
 
 	void load (string f)
 	{
-		clear ();
+		delete _image;
 		_image = new wxImage (wxString (f.c_str(), wxConvUTF8));
-		_bitmap = new wxBitmap (_image->Scale (512, 512));
+		resize ();
 	}
 
 	void clear ()
@@ -113,30 +120,16 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	SetSizer (_sizer);
 	
 	_thumb_panel = new ThumbPanel (this, f);
-	_thumb_panel->Show (true);
 	_sizer->Add (_thumb_panel, 1, wxEXPAND);
 
-#if 0	
-	_scroller.add (_image);
-	
-	Gtk::HBox* controls = manage (new Gtk::HBox);
-	controls->set_spacing (6);
-	controls->pack_start (_position_slider);
-	
-	_vbox.pack_start (_scroller, true, true);
-	_vbox.pack_start (*controls, false, false);
-	_vbox.set_border_width (12);
+	int const max = f ? f->num_thumbs() : 0;
+	_slider = new wxSlider (this, wxID_ANY, 0, 0, max);
+	_sizer->Add (_slider, 0, wxEXPAND | wxLEFT | wxRIGHT);
+	load_thumbnail (0);
 
-	_position_slider.set_digits (0);
-	_position_slider.signal_format_value().connect (sigc::mem_fun (*this, &FilmViewer::format_position_slider_value));
-	_position_slider.signal_value_changed().connect (sigc::mem_fun (*this, &FilmViewer::position_slider_changed));
-
-	_scroller.signal_size_allocate().connect (sigc::mem_fun (*this, &FilmViewer::scroller_size_allocate));
-#endif	
+	_slider->Connect (wxID_ANY, wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler (FilmViewer::slider_changed), 0, this);
 
 	set_film (_film);
-
-	load_thumbnail (42);//XXX
 }
 
 void
@@ -152,24 +145,16 @@ FilmViewer::load_thumbnail (int n)
 	int const bottom = _film->bottom_crop ();
 
 	_thumb_panel->load (_film->thumb_file(n));
-
-//	_pixbuf = Gdk::Pixbuf::create_from_file (_film->thumb_file (n));
-
-//	int const cw = _film->size().width - left - right;
-//	int const ch = _film->size().height - top - bottom;
-//	_cropped_pixbuf = Gdk::Pixbuf::create_subpixbuf (_pixbuf, left, top, cw, ch);
-//	update_scaled_pixbuf ();
-//	_image.set (_scaled_pixbuf);
 }
 
 void
 FilmViewer::reload_current_thumbnail ()
 {
-	load_thumbnail (42);//_position_slider.get_value ());
+	load_thumbnail (_slider->GetValue ());
 }
 
 void
-FilmViewer::position_slider_changed ()
+FilmViewer::slider_changed (wxCommandEvent &)
 {
 	reload_current_thumbnail ();
 }
