@@ -327,8 +327,6 @@ class App : public wxApp
 //			film = new Film (argv[1]);
 //		}
 		
-		film = new Film ("/home/carl/DCP/BitHarvest");
-		
 		frame = new Frame (_("DVD-o-matic"));
 		frame->Show (true);
 		
