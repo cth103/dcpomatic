@@ -41,7 +41,6 @@
 using namespace std;
 using namespace boost;
 
-static wxFrame* frame = 0;
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
 
@@ -59,7 +58,7 @@ public:
 	{
 		stringstream s;
 		s << "Save changes to film \"" << film->name() << "\" before closing?";
-		_dialog = new wxMessageDialog (frame, std_to_wx (s.str()), wxT ("Film changed"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
+		_dialog = new wxMessageDialog (0, std_to_wx (s.str()), wxT ("Film changed"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
 	}
 
 	~FilmChangedDialog ()
@@ -177,18 +176,6 @@ window_closed (wxCommandEvent &)
 	return false;
 }
 
-void
-file_changed (string f)
-{
-	stringstream s;
-	s << "DVD-o-matic";
-	if (!f.empty ()) {
-		s << " - " << f;
-	}
-	
-	frame->SetTitle (std_to_wx (s.str()));
-}
-
 class Frame : public wxFrame
 {
 public:
@@ -198,11 +185,67 @@ public:
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
+
+		Connect (ID_file_new, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_new));
+		Connect (ID_file_open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_open));
+		Connect (ID_file_save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_save));
+		Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
+		Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
+		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
+		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
+		Connect (ID_jobs_copy_from_dvd, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_copy_from_dvd));
+		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
+		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
+		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
+
+		film_editor = new FilmEditor (film, this);
+		film_viewer = new FilmViewer (film, this);
+#ifndef DVDOMATIC_DISABLE_PLAYER
+		film_player = new FilmPlayer (film, this);
+#endif
+		JobManagerView* job_manager_view = new JobManagerView (this);
+
+		wxSizer* rhs_sizer = new wxBoxSizer (wxVERTICAL);
+		rhs_sizer->Add (film_viewer, 3, wxEXPAND | wxALL);
+		rhs_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL);
+
+		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
+		main_sizer->Add (film_editor, 0, wxALL, 6);
+		main_sizer->Add (rhs_sizer, 1, wxEXPAND | wxALL, 6);
+		SetSizer (main_sizer);
+
+		set_menu_sensitivity ();
+
+		/* XXX: calling these here is a bit of a hack */
+		film_editor->setup_visibility ();
+#ifndef DVDOMATIC_DISABLE_PLAYER	
+		film_player->setup_visibility ();
+#endif	
+		film_viewer->setup_visibility ();
+		
+		film_editor->FileChanged.connect (sigc::mem_fun (*this, &Frame::file_changed));
+		if (film) {
+			file_changed (film->directory ());
+		} else {
+			file_changed ("");
+		}
 	}
 
+	void
+	file_changed (string f)
+	{
+		stringstream s;
+		s << "DVD-o-matic";
+		if (!f.empty ()) {
+			s << " - " << f;
+		}
+		
+		SetTitle (std_to_wx (s.str()));
+	}
+	
 	void file_new (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (frame, wxT ("New Film"));
+		wxDirDialog* c = new wxDirDialog (this, wxT ("New Film"));
 		int const r = c->ShowModal ();
 		c->Destroy ();
 		
@@ -222,7 +265,7 @@ public:
 
 	void file_open (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (frame, wxT ("Open Film"), wxT (""), wxDD_DIR_MUST_EXIST);
+		wxDirDialog* c = new wxDirDialog (this, wxT ("Open Film"), wxT (""), wxDD_DIR_MUST_EXIST);
 		int const r = c->ShowModal ();
 		c->Destroy ();
 		
@@ -243,7 +286,7 @@ public:
 	void file_quit (wxCommandEvent &)
 	{
 		maybe_save_then_delete_film ();
-		frame->Close (true);
+		Close (true);
 	}
 
 	void edit_preferences (wxCommandEvent &)
@@ -319,57 +362,11 @@ class App : public wxApp
 //		if (argc == 2 && boost::filesystem::is_directory (argv[1])) {
 //			film = new Film (argv[1]);
 //		}
-		
-		frame = new Frame (_("DVD-o-matic"));
-		frame->Show (true);
-		
-		frame->Connect (ID_file_new, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_new));
-		frame->Connect (ID_file_open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_open));
-		frame->Connect (ID_file_save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_save));
-		frame->Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
-		frame->Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
-		frame->Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
-		frame->Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
-		frame->Connect (ID_jobs_copy_from_dvd, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_copy_from_dvd));
-		frame->Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
-		frame->Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
-		frame->Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
-		film_editor = new FilmEditor (film, frame);
-		film_viewer = new FilmViewer (film, frame);
-#ifndef DVDOMATIC_DISABLE_PLAYER
-		film_player = new FilmPlayer (film, frame);
-#endif
-		JobManagerView* job_manager_view = new JobManagerView (frame);
-
-		wxSizer* rhs_sizer = new wxBoxSizer (wxVERTICAL);
-		rhs_sizer->Add (film_viewer, 3, wxEXPAND | wxALL);
-		rhs_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL);
-
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
-		main_sizer->Add (film_editor, 0, wxALL, 6);
-		main_sizer->Add (rhs_sizer, 1, wxEXPAND | wxALL, 6);
-		frame->SetSizer (main_sizer);
-
-		SetTopWindow (frame);
-		frame->Maximize ();
-
-		set_menu_sensitivity ();
-
-		/* XXX: calling these here is a bit of a hack */
-		film_editor->setup_visibility ();
-#ifndef DVDOMATIC_DISABLE_PLAYER	
-		film_player->setup_visibility ();
-#endif	
-		film_viewer->setup_visibility ();
-		
-		film_editor->FileChanged.connect (ptr_fun (file_changed));
-		if (film) {
-			file_changed (film->directory ());
-		} else {
-			file_changed ("");
-		}
-		
+		Frame* f = new Frame (_("DVD-o-matic"));
+		SetTopWindow (f);
+		f->Maximize ();
+		f->Show ();
 		return true;
 	}
 };
