@@ -26,7 +26,7 @@
 #include "wx/film_player.h"
 #endif
 #include "wx/job_manager_view.h"
-//#include "gtk/config_dialog.h"
+#include "wx/config_dialog.h"
 #include "wx/job_wrapper.h"
 //#include "gtk/dvd_title_dialog.h"
 #include "wx/wx_util.h"
@@ -76,6 +76,7 @@ private:
 	wxMessageDialog* _dialog;
 };
 
+
 void
 maybe_save_then_delete_film ()
 {
@@ -97,8 +98,6 @@ maybe_save_then_delete_film ()
 	delete film;
 	film = 0;
 }
-
-
 
 enum Sensitivity {
 	ALWAYS,
@@ -249,9 +248,10 @@ public:
 
 	void edit_preferences (wxCommandEvent &)
 	{
-//	ConfigDialog d;
-//	d.run ();
-//	Config::instance()->write ();
+		ConfigDialog* d = new ConfigDialog (this);
+		d->ShowModal ();
+		d->Destroy ();
+		Config::instance()->write ();
 	}
 
 	void jobs_make_dcp (wxCommandEvent &)

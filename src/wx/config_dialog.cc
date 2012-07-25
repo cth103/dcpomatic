@@ -30,334 +30,246 @@
 #include "lib/scaler.h"
 #include "lib/filter.h"
 #include "config_dialog.h"
-#include "gtk_util.h"
-#include "filter_dialog.h"
+#include "wx_util.h"
+//#include "filter_dialog.h"
 
 using namespace std;
 using namespace boost;
 
-ConfigDialog::ConfigDialog ()
-	: Gtk::Dialog ("DVD-o-matic Configuration")
-	, _reference_filters_button ("Edit...")
-	, _add_server ("Add Server")
-	, _remove_server ("Remove Server")
-	, _add_screen ("Add Screen")
-	, _remove_screen ("Remove Screen")
+ConfigDialog::ConfigDialog (wxWindow* parent)
+	: wxDialog (parent, wxID_ANY, _("DVD-o-matic Configuration"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
-	Gtk::Table* t = manage (new Gtk::Table);
-	t->set_row_spacings (6);
-	t->set_col_spacings (6);
-	t->set_border_width (6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
+	table->AddGrowableCol (1, 1);
 
-	Config* config = Config::instance ();
+	add_label_to_sizer (table, this, "TMS IP address");
+	_tms_ip = new wxTextCtrl (this, wxID_ANY);
+	table->Add (_tms_ip, 1, wxEXPAND);
+	table->AddSpacer (0);
 
-	_tms_ip.set_text (config->tms_ip ());
-	_tms_ip.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::tms_ip_changed));
-	_tms_path.set_text (config->tms_path ());
-	_tms_path.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::tms_path_changed));
-	_tms_user.set_text (config->tms_user ());
-	_tms_user.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::tms_user_changed));
-	_tms_password.set_text (config->tms_password ());
-	_tms_password.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::tms_password_changed));
+	add_label_to_sizer (table, this, "TMS target path");
+	_tms_path = new wxTextCtrl (this, wxID_ANY);
+	table->Add (_tms_path, 1, wxEXPAND);
+	table->AddSpacer (0);
 
-	_num_local_encoding_threads.set_range (1, 128);
-	_num_local_encoding_threads.set_increments (1, 4);
-	_num_local_encoding_threads.set_value (config->num_local_encoding_threads ());
-	_num_local_encoding_threads.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::num_local_encoding_threads_changed));
+	add_label_to_sizer (table, this, "TMS user name");
+	_tms_user = new wxTextCtrl (this, wxID_ANY);
+	table->Add (_tms_user, 1, wxEXPAND);
+	table->AddSpacer (0);
 
-	_colour_lut.append_text ("sRGB");
-	_colour_lut.append_text ("Rec 709");
-	_colour_lut.set_active (config->colour_lut_index ());
-	_colour_lut.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::colour_lut_changed));
-	
-	_j2k_bandwidth.set_range (50, 250);
-	_j2k_bandwidth.set_increments (10, 50);
-	_j2k_bandwidth.set_value (config->j2k_bandwidth() / 1e6);
-	_j2k_bandwidth.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::j2k_bandwidth_changed));
+	add_label_to_sizer (table, this, "TMS password");
+	_tms_password = new wxTextCtrl (this, wxID_ANY);
+	table->Add (_tms_password, 1, wxEXPAND);
+	table->AddSpacer (0);
 
+	add_label_to_sizer (table, this, "Threads to use for encoding on this host");
+	_num_local_encoding_threads = new wxSpinCtrl (this);
+	table->Add (_num_local_encoding_threads, 1, wxEXPAND);
+	table->AddSpacer (0);
+
+	add_label_to_sizer (table, this, "Colour look-up table");
+	_colour_lut = new wxComboBox (this, wxID_ANY);
+	_colour_lut->Append (wxT ("sRGB"));
+	_colour_lut->Append (wxT ("Rec 709"));
+	_colour_lut->SetSelection (0);
+	table->Add (_colour_lut, 1, wxEXPAND);
+	table->AddSpacer (0);
+
+	add_label_to_sizer (table, this, "JPEG2000 bandwidth");
+	_j2k_bandwidth = new wxSpinCtrl (this, wxID_ANY);
+	table->Add (_j2k_bandwidth, 1, wxEXPAND);
+	add_label_to_sizer (table, this, "MBps");
+
+	add_label_to_sizer (table, this, "Reference scaler for A/B");
+	_reference_scaler = new wxComboBox (this, wxID_ANY);
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_reference_scaler.append_text ((*i)->name ());
+		_reference_scaler->Append (std_to_wx ((*i)->name ()));
 	}
-	_reference_scaler.set_active (Scaler::as_index (config->reference_scaler ()));
-	_reference_scaler.signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::reference_scaler_changed));
 
-	_reference_filters.set_alignment (0, 0.5);
+	table->Add (_reference_scaler, 1, wxEXPAND);
+	table->AddSpacer (0);
+
+	{
+		add_label_to_sizer (table, this, "Reference filters for A/B");
+		wxPanel* p = new wxPanel (this);
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_reference_filters = new wxStaticText (p, wxID_ANY, wxT (""));
+		s->Add (_reference_filters, 1, wxEXPAND);
+		_reference_filters_button = new wxButton (p, wxID_ANY, _("Edit..."));
+		s->Add (_reference_filters_button, 0);
+		table->Add (p, 1, wxEXPAND);
+		table->AddSpacer (0);
+	}
+
+	add_label_to_sizer (table, this, "Encoding Servers");
+	_servers = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+	wxListItem ip;
+	ip.SetId (0);
+	ip.SetText (_("IP address"));
+	ip.SetWidth (100);
+	_servers->InsertColumn (0, ip);
+	ip.SetId (1);
+	ip.SetText (_("Threads"));
+	ip.SetWidth (90);
+	_servers->InsertColumn (1, ip);
+	table->Add (_servers, 1, wxEXPAND);
+
+	{
+		wxPanel* p = new wxPanel (this);
+		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		p->SetSizer (s);
+		_add_server = new wxButton (p, wxID_ANY, _("Add"));
+		s->Add (_add_server);
+		_remove_server = new wxButton (p, wxID_ANY, _("Remove"));
+		s->Add (_remove_server);
+		table->Add (p, 0);
+	}
+		
+	Config* config = Config::instance ();
+
+	_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
+	_tms_ip->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_ip_changed), 0, this);
+	_tms_path->SetValue (std_to_wx (config->tms_path ()));
+	_tms_path->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_path_changed), 0, this);
+	_tms_user->SetValue (std_to_wx (config->tms_user ()));
+	_tms_user->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_user_changed), 0, this);
+	_tms_password->SetValue (std_to_wx (config->tms_password ()));
+	_tms_password->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_password_changed), 0, this);
+
+	_num_local_encoding_threads->SetRange (1, 128);
+	_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
+	_num_local_encoding_threads->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::num_local_encoding_threads_changed), 0, this);
+
+	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::colour_lut_changed), 0, this);
+	
+	_j2k_bandwidth->SetRange (50, 250);
+	_j2k_bandwidth->SetValue (config->j2k_bandwidth() / 1e6);
+	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::j2k_bandwidth_changed), 0, this);
+
+	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
+	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
+
 	pair<string, string> p = Filter::ffmpeg_strings (config->reference_filters ());
-	_reference_filters.set_text (p.first + " " + p.second);
-	_reference_filters_button.signal_clicked().connect (sigc::mem_fun (*this, &ConfigDialog::edit_reference_filters_clicked));
+	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
+	_reference_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_reference_filters_clicked), 0, this);
 
-	_servers_store = Gtk::ListStore::create (_servers_columns);
 	vector<Server*> servers = config->servers ();
 	for (vector<Server*>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		add_server_to_store (*i);
+		add_server_to_control (*i);
 	}
 	
-	_servers_view.set_model (_servers_store);
-	_servers_view.append_column_editable ("Host Name", _servers_columns._host_name);
-	_servers_view.append_column_editable ("Threads", _servers_columns._threads);
+	_add_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::add_server_clicked), 0, this);
+	_remove_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::remove_server_clicked), 0, this);
 
-	_add_server.signal_clicked().connect (sigc::mem_fun (*this, &ConfigDialog::add_server_clicked));
-	_remove_server.signal_clicked().connect (sigc::mem_fun (*this, &ConfigDialog::remove_server_clicked));
+	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (ConfigDialog::server_selection_changed));
+	wxListEvent ev;
+	server_selection_changed (ev);
 
-	_servers_view.get_selection()->signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::server_selection_changed));
-	server_selection_changed ();
-	
-	_screens_store = Gtk::TreeStore::create (_screens_columns);
-	vector<shared_ptr<Screen> > screens = config->screens ();
-	for (vector<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		add_screen_to_store (*i);
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	overall_sizer->Add (table, 1, wxEXPAND);
+
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	if (buttons) {
+		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	_screens_view.set_model (_screens_store);
-	_screens_view.append_column_editable ("Screen", _screens_columns._name);
-	_screens_view.append_column ("Format", _screens_columns._format_name);
-	_screens_view.append_column_editable ("x", _screens_columns._x);
-	_screens_view.append_column_editable ("y", _screens_columns._y);
-	_screens_view.append_column_editable ("Width", _screens_columns._width);
-	_screens_view.append_column_editable ("Height", _screens_columns._height);
-
-	_add_screen.signal_clicked().connect (sigc::mem_fun (*this, &ConfigDialog::add_screen_clicked));
-	_remove_screen.signal_clicked().connect (sigc::mem_fun (*this, &ConfigDialog::remove_screen_clicked));
-
-	_screens_view.get_selection()->signal_changed().connect (sigc::mem_fun (*this, &ConfigDialog::screen_selection_changed));
-	screen_selection_changed ();
-
-	int n = 0;
-	t->attach (left_aligned_label ("TMS IP address"), 0, 1, n, n + 1);
-	t->attach (_tms_ip, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("TMS target path"), 0, 1, n, n + 1);
-	t->attach (_tms_path, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("TMS user name"), 0, 1, n, n + 1);
-	t->attach (_tms_user, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("TMS password"), 0, 1, n, n + 1);
-	t->attach (_tms_password, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Threads to use for encoding on this host"), 0, 1, n, n + 1);
-	t->attach (_num_local_encoding_threads, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Colour look-up table"), 0, 1, n, n + 1);
-	t->attach (_colour_lut, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("JPEG2000 bandwidth"), 0, 1, n, n + 1);
-	t->attach (_j2k_bandwidth, 1, 2, n, n + 1);
-	t->attach (left_aligned_label ("MBps"), 2, 3, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Reference scaler for A/B"), 0, 1, n, n + 1);
-	t->attach (_reference_scaler, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Reference filters for A/B"), 0, 1, n, n + 1);
-	Gtk::HBox* fb = Gtk::manage (new Gtk::HBox);
-	fb->set_spacing (4);
-	fb->pack_start (_reference_filters, true, true);
-	fb->pack_start (_reference_filters_button, false, false);
-	t->attach (*fb, 1, 2, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Encoding Servers"), 0, 1, n, n + 1);
-	t->attach (_servers_view, 1, 2, n, n + 1);
-	Gtk::VBox* b = manage (new Gtk::VBox);
-	b->pack_start (_add_server, false, false);
-	b->pack_start (_remove_server, false, false);
-	t->attach (*b, 2, 3, n, n + 1);
-	++n;
-	t->attach (left_aligned_label ("Screens"), 0, 1, n, n + 1);
-	t->attach (_screens_view, 1, 2, n, n + 1);
-	b = manage (new Gtk::VBox);
-	b->pack_start (_add_screen, false, false);
-	b->pack_start (_remove_screen, false, false);
-	t->attach (*b, 2, 3, n, n + 1);
-	++n;
-
-	t->show_all ();
-	get_vbox()->pack_start (*t);
-
-	get_vbox()->set_border_width (24);
-
-	add_button ("Close", Gtk::RESPONSE_CLOSE);
+	SetSizer (overall_sizer);
+	overall_sizer->Layout ();
+	overall_sizer->SetSizeHints (this);
 }
 
 void
-ConfigDialog::tms_ip_changed ()
+ConfigDialog::tms_ip_changed (wxCommandEvent &)
 {
-	Config::instance()->set_tms_ip (_tms_ip.get_text ());
+	Config::instance()->set_tms_ip (wx_to_std (_tms_ip->GetValue ()));
 }
 
 void
-ConfigDialog::tms_path_changed ()
+ConfigDialog::tms_path_changed (wxCommandEvent &)
 {
-	Config::instance()->set_tms_path (_tms_path.get_text ());
+	Config::instance()->set_tms_path (wx_to_std (_tms_path->GetValue ()));
 }
 
 void
-ConfigDialog::tms_user_changed ()
+ConfigDialog::tms_user_changed (wxCommandEvent &)
 {
-	Config::instance()->set_tms_user (_tms_user.get_text ());
+	Config::instance()->set_tms_user (wx_to_std (_tms_user->GetValue ()));
 }
 
 void
-ConfigDialog::tms_password_changed ()
+ConfigDialog::tms_password_changed (wxCommandEvent &)
 {
-	Config::instance()->set_tms_password (_tms_password.get_text ());
+	Config::instance()->set_tms_password (wx_to_std (_tms_password->GetValue ()));
 }
 
 
 void
-ConfigDialog::num_local_encoding_threads_changed ()
+ConfigDialog::num_local_encoding_threads_changed (wxCommandEvent &)
 {
-	Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads.get_value ());
+	Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 }
 
 void
-ConfigDialog::colour_lut_changed ()
+ConfigDialog::colour_lut_changed (wxCommandEvent &)
 {
-	Config::instance()->set_colour_lut_index (_colour_lut.get_active_row_number ());
+	Config::instance()->set_colour_lut_index (_colour_lut->GetSelection ());
 }
 
 void
-ConfigDialog::j2k_bandwidth_changed ()
+ConfigDialog::j2k_bandwidth_changed (wxCommandEvent &)
 {
-	Config::instance()->set_j2k_bandwidth (_j2k_bandwidth.get_value() * 1e6);
+	Config::instance()->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1e6);
 }
 
 void
-ConfigDialog::on_response (int r)
+ConfigDialog::add_server_to_control (Server* s)
 {
-	vector<Server*> servers;
-	
-	Gtk::TreeModel::Children c = _servers_store->children ();
-	for (Gtk::TreeModel::Children::iterator i = c.begin(); i != c.end(); ++i) {
-		Gtk::TreeModel::Row r = *i;
-		Server* s = new Server (r[_servers_columns._host_name], r[_servers_columns._threads]);
-		servers.push_back (s);
-	}
-
-	Config::instance()->set_servers (servers);
-
-	vector<shared_ptr<Screen> > screens;
-
-	c = _screens_store->children ();
-	for (Gtk::TreeModel::Children::iterator i = c.begin(); i != c.end(); ++i) {
-
-		Gtk::TreeModel::Row r = *i;
-		shared_ptr<Screen> s (new Screen (r[_screens_columns._name]));
-
-		Gtk::TreeModel::Children cc = r.children ();
-		for (Gtk::TreeModel::Children::iterator j = cc.begin(); j != cc.end(); ++j) {
-			Gtk::TreeModel::Row r = *j;
-			string const x_ = r[_screens_columns._x];
-			string const y_ = r[_screens_columns._y];
-			string const width_ = r[_screens_columns._width];
-			string const height_ = r[_screens_columns._height];
-			s->set_geometry (
-				Format::from_nickname (r[_screens_columns._format_nickname]),
-				Position (lexical_cast<int> (x_), lexical_cast<int> (y_)),
-				Size (lexical_cast<int> (width_), lexical_cast<int> (height_))
-				);
-		}
-
-		screens.push_back (s);
-	}
-	
-	Config::instance()->set_screens (screens);
-	
-	Gtk::Dialog::on_response (r);
+	wxListItem item;
+	int const n = _servers->GetItemCount ();
+	item.SetId (n);
+	_servers->InsertItem (item);
+	_servers->SetItem (n, 0, std_to_wx (s->host_name ()));
+	_servers->SetItem (n, 1, std_to_wx (boost::lexical_cast<string> (s->threads ())));
 }
 
 void
-ConfigDialog::add_server_to_store (Server* s)
-{
-	Gtk::TreeModel::iterator i = _servers_store->append ();
-	Gtk::TreeModel::Row r = *i;
-	r[_servers_columns._host_name] = s->host_name ();
-	r[_servers_columns._threads] = s->threads ();
-}
-
-void
-ConfigDialog::add_server_clicked ()
+ConfigDialog::add_server_clicked (wxCommandEvent &)
 {
 	Server s ("localhost", 1);
-	add_server_to_store (&s);
+	add_server_to_control (&s);
 }
 
 void
-ConfigDialog::remove_server_clicked ()
+ConfigDialog::remove_server_clicked (wxCommandEvent &)
 {
-	Gtk::TreeModel::iterator i = _servers_view.get_selection()->get_selected ();
-	if (i) {
-		_servers_store->erase (i);
+	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (i >= 0) {
+		_servers->DeleteItem (i);
 	}
 }
 
 void
-ConfigDialog::server_selection_changed ()
+ConfigDialog::server_selection_changed (wxListEvent& ev)
 {
-	Gtk::TreeModel::iterator i = _servers_view.get_selection()->get_selected ();
-	_remove_server.set_sensitive (i);
-}
-	
-
-void
-ConfigDialog::add_screen_to_store (shared_ptr<Screen> s)
-{
-	Gtk::TreeModel::iterator i = _screens_store->append ();
-	Gtk::TreeModel::Row r = *i;
-	r[_screens_columns._name] = s->name ();
-
-	Screen::GeometryMap geoms = s->geometries ();
-	for (Screen::GeometryMap::const_iterator j = geoms.begin(); j != geoms.end(); ++j) {
-		i = _screens_store->append (r.children ());
-		Gtk::TreeModel::Row c = *i;
-		c[_screens_columns._format_name] = j->first->name ();
-		c[_screens_columns._format_nickname] = j->first->nickname ();
-		c[_screens_columns._x] = lexical_cast<string> (j->second.position.x);
-		c[_screens_columns._y] = lexical_cast<string> (j->second.position.y);
-		c[_screens_columns._width] = lexical_cast<string> (j->second.size.width);
-		c[_screens_columns._height] = lexical_cast<string> (j->second.size.height);
-	}
+//	_remove_server->Enable (ev.GetIndex() >= 0);
 }
 
 void
-ConfigDialog::add_screen_clicked ()
+ConfigDialog::reference_scaler_changed (wxCommandEvent &)
 {
-	shared_ptr<Screen> s (new Screen ("New Screen"));
-	add_screen_to_store (s);
-}
-
-void
-ConfigDialog::remove_screen_clicked ()
-{
-	Gtk::TreeModel::iterator i = _screens_view.get_selection()->get_selected ();
-	if (i) {
-		_screens_store->erase (i);
-	}
-}
-
-void
-ConfigDialog::screen_selection_changed ()
-{
-	Gtk::TreeModel::iterator i = _screens_view.get_selection()->get_selected ();
-	_remove_screen.set_sensitive (i);
-}
-	
-
-void
-ConfigDialog::reference_scaler_changed ()
-{
-	int const n = _reference_scaler.get_active_row_number ();
+	int const n = _reference_scaler->GetSelection ();
 	if (n >= 0) {
 		Config::instance()->set_reference_scaler (Scaler::from_index (n));
 	}
 }
 
 void
-ConfigDialog::edit_reference_filters_clicked ()
+ConfigDialog::edit_reference_filters_clicked (wxCommandEvent &)
 {
-	FilterDialog d (Config::instance()->reference_filters ());
-	d.ActiveChanged.connect (sigc::mem_fun (*this, &ConfigDialog::reference_filters_changed));
-	d.run ();
+//	FilterDialog d (Config::instance()->reference_filters ());
+//	d.ActiveChanged.connect (sigc::mem_fun (*this, &ConfigDialog::reference_filters_changed));
+//	d.run ();
 }
 
 void
@@ -365,5 +277,5 @@ ConfigDialog::reference_filters_changed (vector<Filter const *> f)
 {
 	Config::instance()->set_reference_filters (f);
 	pair<string, string> p = Filter::ffmpeg_strings (Config::instance()->reference_filters ());
-	_reference_filters.set_text (p.first + " " + p.second);
+	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
 }
