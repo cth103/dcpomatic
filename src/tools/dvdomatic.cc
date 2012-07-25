@@ -357,6 +357,8 @@ class App : public wxApp
 		SetTopWindow (frame);
 		frame->Maximize ();
 
+		set_menu_sensitivity ();
+
 #if 0
 		/* XXX: calling these here is a bit of a hack */
 		film_editor->setup_visibility ();
