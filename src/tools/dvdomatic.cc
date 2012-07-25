@@ -23,9 +23,6 @@
 #include <wx/stdpaths.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
-#ifndef DVDOMATIC_DISABLE_PLAYER
-#include "wx/film_player.h"
-#endif
 #include "wx/job_manager_view.h"
 #include "wx/config_dialog.h"
 #include "wx/job_wrapper.h"
@@ -45,9 +42,6 @@ using namespace boost;
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
 
-#ifndef DVDOMATIC_DISABLE_PLAYER
-static FilmPlayer* film_player = 0;
-#endif
 static Film* film = 0;
 
 static void set_menu_sensitivity ();
@@ -206,9 +200,6 @@ public:
 
 		film_editor = new FilmEditor (film, panel);
 		film_viewer = new FilmViewer (film, panel);
-#ifndef DVDOMATIC_DISABLE_PLAYER
-		film_player = new FilmPlayer (film, panel);
-#endif
 		JobManagerView* job_manager_view = new JobManagerView (panel);
 
 		wxSizer* rhs_sizer = new wxBoxSizer (wxVERTICAL);
@@ -224,9 +215,6 @@ public:
 
 		/* XXX: calling these here is a bit of a hack */
 		film_editor->setup_visibility ();
-#ifndef DVDOMATIC_DISABLE_PLAYER	
-		film_player->setup_visibility ();
-#endif	
 		film_viewer->setup_visibility ();
 		
 		film_editor->FileChanged.connect (sigc::mem_fun (*this, &Frame::file_changed));
