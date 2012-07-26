@@ -17,30 +17,33 @@
 
 */
 
-#include <gtkmm.h>
+#include <wx/wx.h>
+#include <wx/spinctrl.h>
+#include <sigc++/sigc++.h>
 #include "lib/trim_action.h"
 
 class Film;
 
-class DCPRangeDialog : public Gtk::Dialog
+class DCPRangeDialog : public wxDialog
 {
 public:
-	DCPRangeDialog (Film *);
+	DCPRangeDialog (wxWindow *, Film *);
 
 	sigc::signal2<void, int, TrimAction> Changed;
 
 private:
-	void whole_toggled ();
-	void cut_toggled ();
-	void n_frames_changed ();
+	void whole_toggled (wxCommandEvent &);
+	void first_toggled (wxCommandEvent &);
+	void cut_toggled (wxCommandEvent &);
+	void n_frames_changed (wxCommandEvent &);
 	
 	void set_sensitivity ();
 	void emit_changed ();
 	
 	Film* _film;
-	Gtk::RadioButton _whole;
-	Gtk::RadioButton _first;
-	Gtk::SpinButton _n_frames;
-	Gtk::RadioButton _cut;
-	Gtk::RadioButton _black_out;
+	wxRadioButton* _whole;
+	wxRadioButton* _first;
+	wxSpinCtrl* _n_frames;
+	wxRadioButton* _cut;
+	wxRadioButton* _black_out;
 };

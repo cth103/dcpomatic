@@ -40,7 +40,7 @@
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
-//#include "dcp_range_dialog.h"
+#include "dcp_range_dialog.h"
 
 using namespace std;
 using namespace boost;
@@ -143,9 +143,9 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		video_control (add_label_to_sizer (_sizer, this, "Range"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_range = new wxStaticText (this, wxID_ANY, wxT (""));
-		s->Add (video_control (_dcp_range), 1, wxALIGN_CENTER_VERTICAL);
+		s->Add (video_control (_dcp_range), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_change_dcp_range_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
-		s->Add (video_control (_change_dcp_range_button));
+		s->Add (video_control (_change_dcp_range_button), 0, 0, 6);
 		_sizer->Add (s);
 	}
 
@@ -398,6 +398,7 @@ FilmEditor::film_changed (Film::Property p)
 			s << "First " << _film->dcp_frames() << " frames";
 			_dcp_range->SetLabel (std_to_wx (s.str ()));
 		}
+		_sizer->Layout ();
 		break;
 	case Film::DCP_TRIM_ACTION:
 		break;
@@ -627,16 +628,14 @@ FilmEditor::still_duration_changed (wxCommandEvent &)
 void
 FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
 {
-//XXX	DCPRangeDialog d (_film);
-//XXX	d.Changed.connect (sigc::mem_fun (*this, &FilmEditor::dcp_range_changed));
-//XXX	d.run ();
+	DCPRangeDialog* d = new DCPRangeDialog (this, _film);
+	d->Changed.connect (sigc::mem_fun (*this, &FilmEditor::dcp_range_changed));
+	d->ShowModal ();
 }
 
 void
 FilmEditor::dcp_range_changed (int frames, TrimAction action)
 {
-	_ignore_changes = true;
 	_film->set_dcp_frames (frames);
 	_film->set_dcp_trim_action (action);
-	_ignore_changes = false;
 }

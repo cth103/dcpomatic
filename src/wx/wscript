@@ -17,10 +17,10 @@ def build(bld):
                  config_dialog.cc
                  filter_dialog.cc
                  filter_view.cc
+                 dcp_range_dialog.cc
                  """
 
 #                 alignment.cc
-#                 dcp_range_dialog.cc
 #                 film_list.cc
 #                 dvd_title_dialog.cc
 
