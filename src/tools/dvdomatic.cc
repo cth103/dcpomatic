@@ -334,7 +334,7 @@ public:
 		wxAboutDialogInfo info;
 		info.SetName (_("DVD-o-matic"));
 		info.SetVersion (wxT (DVDOMATIC_VERSION));
-		info.SetDescription (_("Free, open-source DCP generation from almost anything"));
+		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
 		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis"));
 		wxArrayString authors;
 		authors.Add (wxT ("Carl Hetherington"));
