@@ -19,6 +19,7 @@ def build(bld):
                  filter_view.cc
                  dcp_range_dialog.cc
                  server_dialog.cc
+                 new_film_dialog.cc
                  """
 
 #                 alignment.cc

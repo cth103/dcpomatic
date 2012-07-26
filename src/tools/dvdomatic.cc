@@ -29,6 +29,7 @@
 #include "wx/job_wrapper.h"
 //#include "gtk/dvd_title_dialog.h"
 #include "wx/wx_util.h"
+#include "wx/new_film_dialog.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -248,20 +249,21 @@ public:
 	
 	void file_new (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (this, wxT ("New Film"), wxStandardPaths::Get().GetDocumentsDir());
-		int const r = c->ShowModal ();
-		c->Destroy ();
+		NewFilmDialog* d = new NewFilmDialog (this);
+		int const r = d->ShowModal ();
 		
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
-			film = new Film (wx_to_std (c->GetPath ()));
+			film = new Film (d->get_path (), false);
 #if BOOST_FILESYSTEM_VERSION == 3		
-			film->set_name (filesystem::path (wx_to_std (c->GetPath())).filename().generic_string());
+			film->set_name (filesystem::path (d->get_path()).filename().generic_string());
 #else		
-			film->set_name (filesystem::path (wx_to_std (c->GetPath())).filename());
+			film->set_name (filesystem::path (d->get_path()).filename());
 #endif
 			set_film ();
 		}
+		
+		d->Destroy ();
 	}
 
 	void file_open (wxCommandEvent &)
