@@ -51,7 +51,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	, _ignore_changes (false)
 	, _film (f)
 {
-	_sizer = new wxFlexGridSizer (2, 6, 6);
+	_sizer = new wxFlexGridSizer (2, 4, 4);
 	SetSizer (_sizer);
 
 	add_label_to_sizer (_sizer, this, "Name");
@@ -94,7 +94,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	{
 		video_control (add_label_to_sizer (_sizer, this, "Filters"));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_filters = new wxStaticText (this, wxID_ANY, wxT (""));
+		_filters = new wxStaticText (this, wxID_ANY, wxT ("None"));
 		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
 		s->Add (_filters_button, 0);
@@ -345,8 +345,12 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::FILTERS:
 	{
 		pair<string, string> p = Filter::ffmpeg_strings (_film->filters ());
-		string const b = p.first + " " + p.second;
-		_filters->SetLabel (std_to_wx (b));
+		if (p.first.empty () && p.second.empty ()) {
+			_filters->SetLabel (_("None"));
+		} else {
+			string const b = p.first + " " + p.second;
+			_filters->SetLabel (std_to_wx (b));
+		}
 		_sizer->Layout ();
 		break;
 	}
