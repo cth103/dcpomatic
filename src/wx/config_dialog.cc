@@ -160,9 +160,11 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	}
 	
 	_add_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::add_server_clicked), 0, this);
+	_edit_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_server_clicked), 0, this);
 	_remove_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::remove_server_clicked), 0, this);
 
-	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (ConfigDialog::server_selection_changed));
+	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (ConfigDialog::server_selection_changed), 0, this);
+	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler (ConfigDialog::server_selection_changed), 0, this);
 	wxListEvent ev;
 	server_selection_changed (ev);
 
@@ -241,6 +243,9 @@ ConfigDialog::add_server_clicked (wxCommandEvent &)
 	d->Destroy ();
 	
 	add_server_to_control (s);
+	vector<Server*> o = Config::instance()->servers ();
+	o.push_back (s);
+	Config::instance()->set_servers (o);
 }
 
 void
@@ -256,7 +261,22 @@ ConfigDialog::edit_server_clicked (wxCommandEvent &)
 	item.SetColumn (0);
 	_servers->GetItem (item);
 
-	/* XXX: partial */
+	vector<Server*> servers = Config::instance()->servers ();
+	vector<Server*>::iterator j = servers.begin();
+	while (j != servers.end() && (*j)->host_name() != wx_to_std (item.GetText ())) {
+		++j;
+	}
+
+	if (j == servers.end()) {
+		return;
+	}
+
+	ServerDialog* d = new ServerDialog (this, *j);
+	d->ShowModal ();
+	d->Destroy ();
+
+	_servers->SetItem (i, 0, std_to_wx ((*j)->host_name ()));
+	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> ((*j)->threads ())));
 }
 
 void
@@ -271,7 +291,9 @@ ConfigDialog::remove_server_clicked (wxCommandEvent &)
 void
 ConfigDialog::server_selection_changed (wxListEvent& ev)
 {
-//	_remove_server->Enable (ev.GetIndex() >= 0);
+	int const i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	_edit_server->Enable (i >= 0);
+	_remove_server->Enable (i >= 0);
 }
 
 void
