@@ -214,6 +214,7 @@ public:
 	void make_dcp (bool, int freq = 0);
 
 	enum Property {
+		NONE,
 		NAME,
 		CONTENT,
 		DCP_CONTENT_TYPE,

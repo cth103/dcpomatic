@@ -72,7 +72,7 @@ private:
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
 
-	bool _ignore_changes;
+	Film::Property _ignore_changes;
 
 	/** The film we are editing */
 	Film* _film;

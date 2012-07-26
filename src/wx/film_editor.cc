@@ -48,7 +48,7 @@ using namespace boost;
 /** @param f Film to edit */
 FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	: wxPanel (parent)
-	, _ignore_changes (false)
+	, _ignore_changes (Film::NONE)
 	, _film (f)
 {
 	_sizer = new wxFlexGridSizer (2, 4, 4);
@@ -224,9 +224,9 @@ FilmEditor::left_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::LEFT_CROP;
 	_film->set_left_crop (_left_crop->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the right crop widget has been changed */
@@ -237,9 +237,9 @@ FilmEditor::right_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::RIGHT_CROP;
 	_film->set_right_crop (_right_crop->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the top crop widget has been changed */
@@ -250,9 +250,9 @@ FilmEditor::top_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::TOP_CROP;
 	_film->set_top_crop (_top_crop->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the bottom crop value has been changed */
@@ -263,9 +263,9 @@ FilmEditor::bottom_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::BOTTOM_CROP;
 	_film->set_bottom_crop (_bottom_crop->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the content filename has been changed */
@@ -276,7 +276,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::CONTENT;
 	
 	try {
 		_film->set_content (wx_to_std (_content->GetPath ()));
@@ -287,7 +287,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 		error_dialog (this, m.str ());
 	}
 
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 
 	setup_visibility ();
 }
@@ -300,9 +300,9 @@ FilmEditor::dcp_ab_toggled (wxCommandEvent &)
 		return;
 	}
 	
-	_ignore_changes = true;
+	_ignore_changes = Film::DCP_AB;
 	_film->set_dcp_ab (_dcp_ab->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the name widget has been changed */
@@ -313,9 +313,9 @@ FilmEditor::name_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::NAME;
 	_film->set_name (string (_name->GetValue().mb_str()));
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the metadata stored in the Film object has changed;
@@ -325,13 +325,15 @@ FilmEditor::name_changed (wxCommandEvent &)
 void
 FilmEditor::film_changed (Film::Property p)
 {
-	if (!_film || _ignore_changes) {
+	if (!_film || _ignore_changes == p) {
 		return;
 	}
 
 	stringstream s;
 		
 	switch (p) {
+	case Film::NONE:
+		break;
 	case Film::CONTENT:
 		_content->SetPath (std_to_wx (_film->content ()));
 		setup_visibility ();
@@ -441,12 +443,12 @@ FilmEditor::format_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::FORMAT;
 	int const n = _format->GetSelection ();
 	if (n >= 0) {
 		_film->set_format (Format::from_index (n));
 	}
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the DCP content type widget has been changed */
@@ -457,12 +459,12 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::DCP_CONTENT_TYPE;
 	int const n = _dcp_content_type->GetSelection ();
 	if (n >= 0) {
 		_film->set_dcp_content_type (DCPContentType::from_index (n));
 	}
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Sets the Film that we are editing */
@@ -549,12 +551,12 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::SCALER;
 	int const n = _scaler->GetSelection ();
 	if (n >= 0) {
 		_film->set_scaler (Scaler::from_index (n));
 	}
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 /** Called when the frames per second widget has been changed */
@@ -565,9 +567,9 @@ FilmEditor::frames_per_second_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::FRAMES_PER_SECOND;
 	_film->set_frames_per_second (boost::lexical_cast<float> (wx_to_std (_frames_per_second->GetValue ())));
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 void
@@ -577,9 +579,9 @@ FilmEditor::audio_gain_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::AUDIO_GAIN;
 	_film->set_audio_gain (_audio_gain->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 void
@@ -589,9 +591,9 @@ FilmEditor::audio_delay_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::AUDIO_DELAY;
 	_film->set_audio_delay (_audio_delay->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 wxControl *
@@ -635,9 +637,9 @@ FilmEditor::still_duration_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = true;
+	_ignore_changes = Film::STILL_DURATION;
 	_film->set_still_duration (_still_duration->GetValue ());
-	_ignore_changes = false;
+	_ignore_changes = Film::NONE;
 }
 
 void
