@@ -119,4 +119,6 @@ struct Position
 
 extern std::string crop_string (Position, Size);
 
+extern int dcp_audio_sample_rate (int);
+
 #endif

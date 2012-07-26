@@ -62,6 +62,7 @@ public:
 	int audio_channels () const;
 	int audio_sample_rate () const;
 	AVSampleFormat audio_sample_format () const;
+	int64_t audio_channel_layout () const;
 
 private:
 

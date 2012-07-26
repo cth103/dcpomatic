@@ -31,6 +31,10 @@ public:
 		return AV_SAMPLE_FMT_NONE;
 	}
 
+	int64_t audio_channel_layout () const {
+		return 0;
+	}
+
 	static float static_frames_per_second () {
 		return 24;
 	}

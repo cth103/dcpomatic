@@ -32,6 +32,7 @@ extern "C" {
 #endif
 #include <libavformat/avio.h>
 }
+#include <samplerate.h>
 #include "film.h"
 #include "format.h"
 #include "job.h"
@@ -67,6 +68,7 @@ Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const 
 	, _video_frame (0)
 	, _buffer_src_context (0)
 	, _buffer_sink_context (0)
+	, _swr_context (0)
 	, _have_setup_video_filters (false)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
@@ -85,6 +87,23 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
+	if (_fs->audio_sample_rate != dcp_audio_sample_rate (_fs->audio_sample_rate)) {
+		_swr_context = swr_alloc_set_opts (
+			0,
+			audio_channel_layout(),
+			audio_sample_format(),
+			dcp_audio_sample_rate (_fs->audio_sample_rate),
+			audio_channel_layout(),
+			audio_sample_format(),
+			_fs->audio_sample_rate,
+			0, 0
+			);
+		
+		swr_init (_swr_context);
+	} else {
+		_swr_context = 0;
+	}
+
 	/* This assumes 2 bytes per sample */
 	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * 2 / 1000;
 	delete _delay_line;
@@ -96,6 +115,35 @@ Decoder::process_begin ()
 void
 Decoder::process_end ()
 {
+	if (_swr_context) {
+
+		int mop = 0;
+		while (1) {
+			uint8_t buffer[256 * 2 * _fs->audio_channels];
+			uint8_t* out[1] = {
+				buffer
+			};
+
+			int const frames = swr_convert (_swr_context, out, 256, 0, 0);
+
+			if (frames < 0) {
+				throw DecodeError ("could not run sample-rate converter");
+			}
+
+			if (frames == 0) {
+				break;
+			}
+
+			mop += frames;
+			int available = _delay_line->feed (buffer, frames * _fs->audio_channels * 2);
+			Audio (buffer, available);
+		}
+
+		cout << "mopped up " << mop << "\n";
+		
+		swr_free (&_swr_context);
+	}
+	
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
@@ -107,7 +155,7 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int const audio_short_by_frames = (decoding_frames() * _fs->audio_sample_rate / _fs->frames_per_second) - _audio_frames_processed;
+	int const audio_short_by_frames = (decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second) - _audio_frames_processed;
 
 	int bytes = audio_short_by_frames * audio_channels() * 2;
 
@@ -175,15 +223,12 @@ Decoder::pass ()
 void
 Decoder::process_audio (uint8_t* data, int channels, int size)
 {
-	/* Update the number of audio frames we've pushed to the encoder;
-	   2 is the hard-coded (!) number of bytes per sample.
-	*/
-	_audio_frames_processed += size / (channels * 2);
-		
+	int const samples = size / 2;
+	int const frames = samples / channels;
+	
 	if (_fs->audio_gain != 0) {
 		float const linear_gain = pow (10, _fs->audio_gain / 20);
 		uint8_t* p = data;
-		int const samples = size / 2;
 		switch (_fs->audio_sample_format) {
 		case AV_SAMPLE_FMT_S16:
 			for (int i = 0; i < samples; ++i) {
@@ -202,6 +247,33 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 		}
 	}
 
+	if (_swr_context) {
+
+		uint8_t const * in[1] = {
+			data
+		};
+
+		int const out_buffer_size_frames = ceil (frames * float (dcp_audio_sample_rate (_fs->audio_sample_rate)) / _fs->audio_sample_rate) + 32;
+		int const out_buffer_size_bytes = out_buffer_size_frames * channels * 2;
+		uint8_t out_buffer[out_buffer_size_bytes];
+
+		uint8_t* out[1] = {
+			out_buffer
+		};
+		
+		int out_frames = swr_convert (_swr_context, out, out_buffer_size_frames, in, frames);
+		if (out_frames < 0) {
+			throw DecodeError ("could not run sample-rate converter");
+		}
+
+		size = out_frames * channels * 2;
+	}
+		
+	/* Update the number of audio frames we've pushed to the encoder;
+	   2 is the hard-coded (!) number of bytes per sample.
+	*/
+	_audio_frames_processed += size / (channels * 2);
+	
 	int available = _delay_line->feed (data, size);
 	Audio (data, available);
 }

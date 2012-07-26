@@ -143,7 +143,7 @@ public:
 	int length;
 	/** Number of audio channels */
 	int audio_channels;
-	/** Sample rate of the audio, in Hz */
+	/** Sample rate of the source audio, in Hz */
 	int audio_sample_rate;
 	/** Format of the audio samples */
 	AVSampleFormat audio_sample_format;

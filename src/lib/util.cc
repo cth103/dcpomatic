@@ -509,3 +509,13 @@ md5_digest (string file)
 
 	return s.str ();
 }
+
+int
+dcp_audio_sample_rate (int fs)
+{
+	if (fs <= 48000) {
+		return 48000;
+	}
+
+	return 96000;
+}

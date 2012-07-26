@@ -218,6 +218,12 @@ FFmpegDecoder::audio_sample_format () const
 	return _audio_codec_context->sample_fmt;
 }
 
+int64_t
+FFmpegDecoder::audio_channel_layout () const
+{
+	return _audio_codec_context->channel_layout;
+}
+
 Size
 FFmpegDecoder::native_size () const
 {

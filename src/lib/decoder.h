@@ -29,6 +29,9 @@
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <sigc++/sigc++.h>
+extern "C" {
+#include <libswresample/swresample.h>
+}	
 #include "util.h"
 
 class Job;
@@ -65,6 +68,7 @@ public:
 	virtual int audio_sample_rate () const = 0;
 	/** @return format of audio samples */
 	virtual AVSampleFormat audio_sample_format () const = 0;
+	virtual int64_t audio_channel_layout () const = 0;
 
 	void process_begin ();
 	bool pass ();
@@ -128,10 +132,15 @@ private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
 
+	SwrContext* _swr_context;
+
 	bool _have_setup_video_filters;
 	DelayLine* _delay_line;
 	int _delay_in_bytes;
 
+	/* Number of audio frames that we have pushed to the encoder
+	   (at the DCP sample rate).
+	*/
 	int _audio_frames_processed;
 };
 

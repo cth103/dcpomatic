@@ -14,7 +14,6 @@ def build(bld):
             p.append('playomatic')
         for t in p:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'BOOST_THREAD WXWIDGETS'
             obj.includes = ['..']
             obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
             obj.source = '%s.cc' % t

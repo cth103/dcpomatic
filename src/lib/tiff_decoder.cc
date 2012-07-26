@@ -130,6 +130,13 @@ TIFFDecoder::audio_sample_format () const
 	return AV_SAMPLE_FMT_NONE;
 }
 
+
+int64_t
+TIFFDecoder::audio_channel_layout () const
+{
+	return 0;
+}
+
 bool
 TIFFDecoder::do_pass ()
 {
@@ -221,4 +228,3 @@ TIFFDecoder::sample_aspect_ratio_denominator () const
 	/* XXX */
 	return 1;
 }
-

@@ -54,7 +54,7 @@ J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const FilmState> s, shared_ptr<const Op
 	*/
 	for (int i = 0; i < _fs->audio_channels; ++i) {
 		SF_INFO sf_info;
-		sf_info.samplerate = _fs->audio_sample_rate;
+		sf_info.samplerate = dcp_audio_sample_rate (_fs->audio_sample_rate);
 		/* We write mono files */
 		sf_info.channels = 1;
 		sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
