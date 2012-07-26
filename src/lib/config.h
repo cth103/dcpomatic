@@ -104,7 +104,7 @@ public:
 	}
 
 	/** @param p New server port */
-	void set_sever_port (int p) {
+	void set_server_port (int p) {
 		_server_port = p;
 		Changed ();
 	}

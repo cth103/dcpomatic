@@ -48,6 +48,7 @@ private:
 	void edit_reference_filters_clicked (wxCommandEvent &);
 	void reference_filters_changed (std::vector<Filter const *>);
 	void add_server_clicked (wxCommandEvent &);
+	void edit_server_clicked (wxCommandEvent &);
 	void remove_server_clicked (wxCommandEvent &);
 	void server_selection_changed (wxListEvent &);
 
@@ -65,6 +66,7 @@ private:
 	wxButton* _reference_filters_button;
 	wxListCtrl* _servers;
 	wxButton* _add_server;
+	wxButton* _edit_server;
 	wxButton* _remove_server;
 };
 

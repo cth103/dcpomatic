@@ -18,6 +18,7 @@ def build(bld):
                  filter_dialog.cc
                  filter_view.cc
                  dcp_range_dialog.cc
+                 server_dialog.cc
                  """
 
 #                 alignment.cc

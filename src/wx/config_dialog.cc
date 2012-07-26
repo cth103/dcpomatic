@@ -32,6 +32,7 @@
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "filter_dialog.h"
+#include "server_dialog.h"
 
 using namespace std;
 using namespace boost;
@@ -118,6 +119,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		_add_server = new wxButton (this, wxID_ANY, _("Add"));
 		s->Add (_add_server);
+		_edit_server = new wxButton (this, wxID_ANY, _("Edit"));
+		s->Add (_edit_server);
 		_remove_server = new wxButton (this, wxID_ANY, _("Remove"));
 		s->Add (_remove_server);
 		table->Add (s, 0);
@@ -200,7 +203,6 @@ ConfigDialog::tms_password_changed (wxCommandEvent &)
 	Config::instance()->set_tms_password (wx_to_std (_tms_password->GetValue ()));
 }
 
-
 void
 ConfigDialog::num_local_encoding_threads_changed (wxCommandEvent &)
 {
@@ -233,8 +235,28 @@ ConfigDialog::add_server_to_control (Server* s)
 void
 ConfigDialog::add_server_clicked (wxCommandEvent &)
 {
-	Server s ("localhost", 1);
-	add_server_to_control (&s);
+	ServerDialog* d = new ServerDialog (this, 0);
+	d->ShowModal ();
+	Server* s = d->server ();
+	d->Destroy ();
+	
+	add_server_to_control (s);
+}
+
+void
+ConfigDialog::edit_server_clicked (wxCommandEvent &)
+{
+	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (i == -1) {
+		return;
+	}
+
+	wxListItem item;
+	item.SetId (i);
+	item.SetColumn (0);
+	_servers->GetItem (item);
+
+	/* XXX: partial */
 }
 
 void

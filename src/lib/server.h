@@ -48,6 +48,14 @@ public:
 		return _threads;
 	}
 
+	void set_host_name (std::string n) {
+		_host_name = n;
+	}
+
+	void set_threads (int t) {
+		_threads = t;
+	}
+
 	std::string as_metadata () const;
 	
 	static Server * create_from_metadata (std::string v);
