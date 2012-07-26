@@ -18,7 +18,11 @@
 */
 
 #include <boost/filesystem.hpp>
+#include <wx/stdpaths.h>
 #include "new_film_dialog.h"
+#ifdef __WXMSW__
+#include "dir_picker_ctrl.h"
+#endif
 #include "wx_util.h"
 
 using namespace std;
@@ -28,6 +32,8 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, wxString (_("New Film")))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (overall_sizer);
+	
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
@@ -37,7 +43,12 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	table->Add (_name, 1, wxEXPAND);
 
 	add_label_to_sizer (table, this, "Create in folder");
+#ifdef __WXMSW__
+	_folder = new DirPickerCtrl (this);
+#else	
 	_folder = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
+#endif
+	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
 	table->Add (_folder, 1, wxEXPAND);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
@@ -45,7 +56,6 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 }
