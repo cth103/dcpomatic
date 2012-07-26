@@ -18,30 +18,30 @@
 */
 
 /** @file  src/filter_view.h
- *  @brief A widget to select FFmpeg filters.
+ *  @brief A panel to select FFmpeg filters.
  */
 
-#include <gtkmm.h>
 #include <vector>
+#include <map>
+#include <sigc++/sigc++.h>
+#include <wx/wx.h>
 
 class Filter;
 
 /** @class FilterView
- *  @brief A widget to select FFmpeg filters.
+ *  @brief A panel to select FFmpeg filters.
  */
-class FilterView
+class FilterView : public wxPanel
 {
 public:
-	FilterView (std::vector<Filter const *> const &);
+	FilterView (wxWindow *, std::vector<Filter const *> const &);
 
-	Gtk::Widget & widget ();
 	std::vector<Filter const *> active () const;
 
 	sigc::signal0<void> ActiveChanged;
 
 private:
-	void filter_toggled (Filter const *);
+	void filter_toggled (wxCommandEvent &);
 
-	Gtk::VBox _box;
-	std::map<Filter const *, bool> _filters;
+	std::map<Filter const *, wxCheckBox *> _filters;
 };

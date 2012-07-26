@@ -6,6 +6,5 @@ if [ "$1" == "--debug" ]; then
 elif [ "$1" == "--valgrind" ]; then
     valgrind --tool="memcheck" build/src/tools/dvdomatic $2
 else
-    build/src/tools/dvdomatic
-# "$1"
+    build/src/tools/dvdomatic "$1"
 fi

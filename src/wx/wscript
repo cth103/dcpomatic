@@ -15,15 +15,13 @@ def build(bld):
                  job_manager_view.cc
                  job_wrapper.cc
                  config_dialog.cc
+                 filter_dialog.cc
+                 filter_view.cc
                  """
 
 #                 alignment.cc
 #                 dcp_range_dialog.cc
-#                 film_editor.cc
 #                 film_list.cc
-#                 filter_dialog.cc
-#                 filter_view.cc
-#                 gpl.cc
 #                 dvd_title_dialog.cc
 
     if not bld.env.DISABLE_PLAYER:

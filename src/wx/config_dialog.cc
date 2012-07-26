@@ -31,7 +31,7 @@
 #include "lib/filter.h"
 #include "config_dialog.h"
 #include "wx_util.h"
-//#include "filter_dialog.h"
+#include "filter_dialog.h"
 
 using namespace std;
 using namespace boost;
@@ -264,9 +264,10 @@ ConfigDialog::reference_scaler_changed (wxCommandEvent &)
 void
 ConfigDialog::edit_reference_filters_clicked (wxCommandEvent &)
 {
-//	FilterDialog d (Config::instance()->reference_filters ());
-//	d.ActiveChanged.connect (sigc::mem_fun (*this, &ConfigDialog::reference_filters_changed));
-//	d.run ();
+	FilterDialog* d = new FilterDialog (this, Config::instance()->reference_filters ());
+	d->ActiveChanged.connect (sigc::mem_fun (*this, &ConfigDialog::reference_filters_changed));
+	d->ShowModal ();
+	d->Destroy ();
 }
 
 void

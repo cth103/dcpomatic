@@ -21,6 +21,7 @@
 #include <boost/filesystem.hpp>
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
+#include <wx/cmdline.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
@@ -223,10 +224,18 @@ public:
 		} else {
 			file_changed ("");
 		}
+		
+		set_film ();
 	}
 
-	void
-	file_changed (string f)
+	void set_film ()
+	{
+		film_viewer->set_film (film);
+		film_editor->set_film (film);
+		set_menu_sensitivity ();
+	}
+
+	void file_changed (string f)
 	{
 		stringstream s;
 		s << "DVD-o-matic";
@@ -250,10 +259,8 @@ public:
 			film->set_name (filesystem::path (wx_to_std (c->GetPath())).filename().generic_string());
 #else		
 			film->set_name (filesystem::path (wx_to_std (c->GetPath())).filename());
-#endif		
-			film_viewer->set_film (film);
-			film_editor->set_film (film);
-			set_menu_sensitivity ();
+#endif
+			set_film ();
 		}
 	}
 
@@ -266,9 +273,7 @@ public:
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
 			film = new Film (wx_to_std (c->GetPath ()));
-			film_viewer->set_film (film);
-			film_editor->set_film (film);
-			set_menu_sensitivity ();
+			set_film ();
 		}
 	}
 
@@ -345,17 +350,13 @@ class App : public wxApp
 {
 	bool OnInit ()
 	{
-		if (!wxApp::OnInit ()) {
-			return false;
-		}
-
 		wxInitAllImageHandlers ();
 		
 		dvdomatic_setup ();
 
-//		if (argc == 2 && boost::filesystem::is_directory (argv[1])) {
-//			film = new Film (argv[1]);
-//		}
+		if (argc == 2 && boost::filesystem::is_directory (wx_to_std (argv[1]))) {
+			film = new Film (wx_to_std (argv[1]));
+		}
 
 		Frame* f = new Frame (_("DVD-o-matic"));
 		SetTopWindow (f);

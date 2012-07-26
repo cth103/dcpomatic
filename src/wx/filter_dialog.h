@@ -21,23 +21,23 @@
  *  @brief A dialog to select FFmpeg filters.
  */
 
-#include <gtkmm.h>
-#include "filter_view.h"
+#include <wx/wx.h>
 
 class Film;
+class FilterView;
 
 /** @class FilterDialog
  *  @brief A dialog to select FFmpeg filters.
  */
-class FilterDialog : public Gtk::Dialog
+class FilterDialog : public wxDialog
 {
 public:
-	FilterDialog (std::vector<Filter const *> const &);
+	FilterDialog (wxWindow *, std::vector<Filter const *> const &);
 
 	sigc::signal1<void, std::vector<Filter const *> > ActiveChanged;
 
 private:
 	void active_changed ();
 	
-	FilterView _filters;
+	FilterView* _filters;
 };

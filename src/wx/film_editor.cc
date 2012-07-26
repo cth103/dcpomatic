@@ -37,7 +37,7 @@
 #include "lib/filter.h"
 #include "lib/screen.h"
 #include "lib/config.h"
-//#include "filter_dialog.h"
+#include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
 //#include "dcp_range_dialog.h"
@@ -51,27 +51,27 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	, _ignore_changes (false)
 	, _film (f)
 {
-	wxSizer* sizer = new wxFlexGridSizer (2, 6, 6);
-	SetSizer (sizer);
+	_sizer = new wxFlexGridSizer (2, 6, 6);
+	SetSizer (_sizer);
 
-	add_label_to_sizer (sizer, this, "Name");
+	add_label_to_sizer (_sizer, this, "Name");
 	_name = new wxTextCtrl (this, wxID_ANY);
-	sizer->Add (_name, 1, wxEXPAND);
+	_sizer->Add (_name, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, this, "Content");
+	add_label_to_sizer (_sizer, this, "Content");
 	_content = new wxFilePickerCtrl (this, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
-	sizer->Add (_content, 1, wxEXPAND);
+	_sizer->Add (_content, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, this, "Content Type");
+	add_label_to_sizer (_sizer, this, "Content Type");
 	_dcp_content_type = new wxComboBox (this, wxID_ANY);
-	sizer->Add (_dcp_content_type);
+	_sizer->Add (_dcp_content_type);
 
-	add_label_to_sizer (sizer, this, "Format");
+	add_label_to_sizer (_sizer, this, "Format");
 	_format = new wxComboBox (this, wxID_ANY);
-	sizer->Add (_format);
+	_sizer->Add (_format);
 
 	{
-		add_label_to_sizer (sizer, this, "Crop");
+		add_label_to_sizer (_sizer, this, "Crop");
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
 		add_label_to_sizer (s, this, "L");
@@ -87,78 +87,78 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		_bottom_crop = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 		s->Add (_bottom_crop, 0);
 
-		sizer->Add (s);
+		_sizer->Add (s);
 	}
 
 	/* VIDEO-only stuff */
 	{
-		video_control (add_label_to_sizer (sizer, this, "Filters"));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		video_control (add_label_to_sizer (_sizer, this, "Filters"));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_filters = new wxStaticText (this, wxID_ANY, wxT (""));
-		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
 		s->Add (_filters_button, 0);
-		sizer->Add (s, 1);
+		_sizer->Add (s, 1);
 	}
 
-	video_control (add_label_to_sizer (sizer, this, "Scaler"));
+	video_control (add_label_to_sizer (_sizer, this, "Scaler"));
 	_scaler = new wxComboBox (this, wxID_ANY);
-	sizer->Add (video_control (_scaler), 1);
+	_sizer->Add (video_control (_scaler), 1);
 
 	{
-		video_control (add_label_to_sizer (sizer, this, "Audio Gain"));
+		video_control (add_label_to_sizer (_sizer, this, "Audio Gain"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_gain = new wxSpinCtrl (this);
 		s->Add (video_control (_audio_gain), 1);
 		video_control (add_label_to_sizer (s, this, "dB"));
-		sizer->Add (s);
+		_sizer->Add (s);
 	}
 
 	{
-		video_control (add_label_to_sizer (sizer, this, "Audio Delay"));
+		video_control (add_label_to_sizer (_sizer, this, "Audio Delay"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_delay = new wxSpinCtrl (this);
 		s->Add (video_control (_audio_delay), 1);
 		video_control (add_label_to_sizer (s, this, "ms"));
-		sizer->Add (s);
+		_sizer->Add (s);
 	}
 
-	video_control (add_label_to_sizer (sizer, this, "Frames Per Second"));
+	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
-	sizer->Add (video_control (_frames_per_second));
+	_sizer->Add (video_control (_frames_per_second));
 	
-	video_control (add_label_to_sizer (sizer, this, "Original Size"));
+	video_control (add_label_to_sizer (_sizer, this, "Original Size"));
 	_original_size = new wxStaticText (this, wxID_ANY, wxT (""));
-	sizer->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
 	
-	video_control (add_label_to_sizer (sizer, this, "Length"));
+	video_control (add_label_to_sizer (_sizer, this, "Length"));
 	_length = new wxStaticText (this, wxID_ANY, wxT (""));
-	sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
 
-	video_control (add_label_to_sizer (sizer, this, "Audio"));
+	video_control (add_label_to_sizer (_sizer, this, "Audio"));
 	_audio = new wxStaticText (this, wxID_ANY, wxT (""));
-	sizer->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL);
+	_sizer->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL);
 
 	{
-		video_control (add_label_to_sizer (sizer, this, "Range"));
+		video_control (add_label_to_sizer (_sizer, this, "Range"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_range = new wxStaticText (this, wxID_ANY, wxT (""));
 		s->Add (video_control (_dcp_range), 1, wxALIGN_CENTER_VERTICAL);
 		_change_dcp_range_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
 		s->Add (video_control (_change_dcp_range_button));
-		sizer->Add (s);
+		_sizer->Add (s);
 	}
 
 	_dcp_ab = new wxCheckBox (this, wxID_ANY, wxT ("A/B"));
 	video_control (_dcp_ab);
-	sizer->Add (_dcp_ab, 1);
-	sizer->AddSpacer (0);
+	_sizer->Add (_dcp_ab, 1);
+	_sizer->AddSpacer (0);
 
 	/* STILL-only stuff */
-	still_control (add_label_to_sizer (sizer, this, "Duration"));
+	still_control (add_label_to_sizer (_sizer, this, "Duration"));
 	_still_duration = new wxSpinCtrl (this);
-	sizer->Add (still_control (_still_duration));
-	still_control (add_label_to_sizer (sizer, this, "s"));
+	_sizer->Add (still_control (_still_duration));
+	still_control (add_label_to_sizer (_sizer, this, "s"));
 
 	/* Set up our editing widgets */
 	
@@ -347,6 +347,7 @@ FilmEditor::film_changed (Film::Property p)
 		pair<string, string> p = Filter::ffmpeg_strings (_film->filters ());
 		string const b = p.first + " " + p.second;
 		_filters->SetLabel (std_to_wx (b));
+		_sizer->Layout ();
 		break;
 	}
 	case Film::NAME:
@@ -520,9 +521,10 @@ FilmEditor::set_things_sensitive (bool s)
 void
 FilmEditor::edit_filters_clicked (wxCommandEvent &)
 {
-//	FilterDialog d (_film->filters ());
-//	d.ActiveChanged.connect (sigc::mem_fun (*_film, &Film::set_filters));
-//	d.run ();
+	FilterDialog* d = new FilterDialog (this, _film->filters ());
+	d->ActiveChanged.connect (sigc::mem_fun (*_film, &Film::set_filters));
+	d->ShowModal ();
+	d->Destroy ();
 }
 
 /** Called when the scaler widget has been changed */

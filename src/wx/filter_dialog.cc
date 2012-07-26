@@ -23,25 +23,32 @@
 
 #include "lib/film.h"
 #include "filter_dialog.h"
+#include "filter_view.h"
 
 using namespace std;
 
-FilterDialog::FilterDialog (vector<Filter const *> const & f)
-	: Gtk::Dialog ("Filters")
-	, _filters (f)
+FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
+	: wxDialog (parent, wxID_ANY, _("Filters"))
+	, _filters (new FilterView (this, f))
 {
-	get_vbox()->pack_start (_filters.widget ());
+	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	sizer->Add (_filters, 1, wxEXPAND);
 
-	_filters.ActiveChanged.connect (sigc::mem_fun (*this, &FilterDialog::active_changed));
+	_filters->ActiveChanged.connect (sigc::mem_fun (*this, &FilterDialog::active_changed));
 
-	add_button ("Close", Gtk::RESPONSE_CLOSE);
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	if (buttons) {
+		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
 
-	show_all ();
+	SetSizer (sizer);
+	sizer->Layout ();
+	sizer->SetSizeHints (this);
 }
 	
 
 void
 FilterDialog::active_changed ()
 {
-	ActiveChanged (_filters.active ());
+	ActiveChanged (_filters->active ());
 }

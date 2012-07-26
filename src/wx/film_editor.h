@@ -122,4 +122,6 @@ private:
 
 	std::list<wxControl*> _video_controls;
 	std::list<wxControl*> _still_controls;
+
+	wxSizer* _sizer;
 };
