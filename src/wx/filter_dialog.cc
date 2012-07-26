@@ -28,7 +28,7 @@
 using namespace std;
 
 FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
-	: wxDialog (parent, wxID_ANY, _("Filters"))
+	: wxDialog (parent, wxID_ANY, wxString (_("Filters")))
 	, _filters (new FilterView (this, f))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);

@@ -22,7 +22,7 @@
 #include "wx_util.h"
 
 DCPRangeDialog::DCPRangeDialog (wxWindow* p, Film* f)
-	: wxDialog (p, wxID_ANY, _("DCP Range"))
+	: wxDialog (p, wxID_ANY, wxString (_("DCP Range")))
 	, _film (f)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
