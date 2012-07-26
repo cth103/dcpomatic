@@ -95,8 +95,10 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		video_control (add_label_to_sizer (_sizer, this, "Filters"));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_filters = new wxStaticText (this, wxID_ANY, wxT ("None"));
+		video_control (_filters);
 		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
+		video_control (_filters_button);
 		s->Add (_filters_button, 0);
 		_sizer->Add (s, 1);
 	}
@@ -155,10 +157,15 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_sizer->AddSpacer (0);
 
 	/* STILL-only stuff */
-	still_control (add_label_to_sizer (_sizer, this, "Duration"));
-	_still_duration = new wxSpinCtrl (this);
-	_sizer->Add (still_control (_still_duration));
-	still_control (add_label_to_sizer (_sizer, this, "s"));
+	{
+		still_control (add_label_to_sizer (_sizer, this, "Duration"));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_still_duration = new wxSpinCtrl (this);
+		still_control (_still_duration);
+		s->Add (_still_duration, 1, wxEXPAND);
+		still_control (add_label_to_sizer (s, this, "s"));
+		_sizer->Add (s);
+	}
 
 	/* Set up our editing widgets */
 	
