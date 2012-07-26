@@ -1,3 +1,6 @@
+upload of (youtube) fails and of normal from windows
+sort out audio channel count mess, assert what we get is what we expect early on.
+
 Write still j2ks straight to a MXF.
 Seem to be problems when waiting for (failing) server threads at the end of an encode;
 their frames aren't reprocessed locally.

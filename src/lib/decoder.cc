@@ -247,18 +247,22 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 		}
 	}
 
+	uint8_t* out_buffer = 0;
+
 	if (_swr_context) {
 
-		uint8_t const * in[1] = {
-			data
+		uint8_t const * in[2] = {
+			data,
+			0
 		};
 
 		int const out_buffer_size_frames = ceil (frames * float (dcp_audio_sample_rate (_fs->audio_sample_rate)) / _fs->audio_sample_rate) + 32;
 		int const out_buffer_size_bytes = out_buffer_size_frames * channels * 2;
-		uint8_t out_buffer[out_buffer_size_bytes];
+		out_buffer = new uint8_t[out_buffer_size_bytes];
 
-		uint8_t* out[1] = {
-			out_buffer
+		uint8_t* out[2] = {
+			out_buffer, 
+			0
 		};
 		
 		int out_frames = swr_convert (_swr_context, out, out_buffer_size_frames, in, frames);
@@ -266,6 +270,7 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 			throw DecodeError ("could not run sample-rate converter");
 		}
 
+		data = out_buffer;
 		size = out_frames * channels * 2;
 	}
 		
@@ -276,6 +281,8 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 	
 	int available = _delay_line->feed (data, size);
 	Audio (data, available);
+
+	delete[] out_buffer;
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
