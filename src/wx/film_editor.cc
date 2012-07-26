@@ -288,6 +288,8 @@ FilmEditor::content_changed (wxCommandEvent &)
 	}
 
 	_ignore_changes = false;
+
+	setup_visibility ();
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -622,6 +624,8 @@ FilmEditor::setup_visibility ()
 	for (list<wxControl*>::iterator i = _still_controls.begin(); i != _still_controls.end(); ++i) {
 		(*i)->Show (c == STILL);
 	}
+
+	_sizer->Layout ();
 }
 
 void
