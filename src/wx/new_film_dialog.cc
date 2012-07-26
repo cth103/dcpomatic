@@ -25,7 +25,7 @@ using namespace std;
 using namespace boost;
 
 NewFilmDialog::NewFilmDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("New Film"))
+	: wxDialog (parent, wxID_ANY, wxString (_("New Film")))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
