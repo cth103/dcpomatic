@@ -109,6 +109,12 @@ public:
 		_image = 0;
 	}
 
+	void refresh ()
+	{
+		setup ();
+		Refresh ();
+	}
+
 	DECLARE_EVENT_TABLE ();
 
 private:
@@ -173,7 +179,7 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	int const max = f ? f->num_thumbs() - 1 : 0;
 	_slider = new wxSlider (this, wxID_ANY, 0, 0, max);
 	_sizer->Add (_slider, 0, wxEXPAND | wxLEFT | wxRIGHT);
-	load_thumbnail (0);
+	set_thumbnail (0);
 
 	_slider->Connect (wxID_ANY, wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler (FilmViewer::slider_changed), 0, this);
 
@@ -181,7 +187,7 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 }
 
 void
-FilmViewer::load_thumbnail (int n)
+FilmViewer::set_thumbnail (int n)
 {
 	if (_film == 0 || _film->num_thumbs() <= n) {
 		return;
@@ -191,15 +197,9 @@ FilmViewer::load_thumbnail (int n)
 }
 
 void
-FilmViewer::reload_current_thumbnail ()
-{
-	load_thumbnail (_slider->GetValue ());
-}
-
-void
 FilmViewer::slider_changed (wxCommandEvent &)
 {
-	reload_current_thumbnail ();
+	set_thumbnail (_slider->GetValue ());
 }
 
 void
@@ -216,9 +216,9 @@ FilmViewer::film_changed (Film::Property p)
 		}
 		
 		_slider->SetValue (0);
-		reload_current_thumbnail ();
+		_thumb_panel->refresh ();
 	} else if (p == Film::FORMAT) {
-		reload_current_thumbnail ();
+		_thumb_panel->refresh ();
 	} else if (p == Film::CONTENT) {
 		setup_visibility ();
 		_film->examine_content ();
@@ -238,7 +238,7 @@ FilmViewer::set_film (Film* f)
 
 	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
 	film_changed (Film::THUMBS);
-	reload_current_thumbnail ();
+	_thumb_panel->refresh ();
 	setup_visibility ();
 }
 
