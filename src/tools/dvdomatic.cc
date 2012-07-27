@@ -268,7 +268,7 @@ public:
 
 	void file_open (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (this, wxT ("Open Film"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog* c = new wxDirDialog (this, wxT ("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		int const r = c->ShowModal ();
 		c->Destroy ();
 		

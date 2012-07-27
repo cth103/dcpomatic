@@ -103,17 +103,17 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	}
 
 	add_label_to_sizer (table, this, "Encoding Servers");
-	_servers = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+	_servers = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (220, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
 	wxListItem ip;
 	ip.SetId (0);
 	ip.SetText (_("IP address"));
-	ip.SetWidth (100);
+	ip.SetWidth (120);
 	_servers->InsertColumn (0, ip);
 	ip.SetId (1);
 	ip.SetText (_("Threads"));
-	ip.SetWidth (90);
+	ip.SetWidth (80);
 	_servers->InsertColumn (1, ip);
-	table->Add (_servers, 1, wxEXPAND);
+	table->Add (_servers, 1, wxEXPAND | wxALL);
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
