@@ -82,6 +82,8 @@ public:
 
 	std::string thumb_file (int) const;
 	int thumb_frame (int) const;
+
+	int bytes_per_sample () const;
 	
 	void write_metadata (std::ofstream &) const;
 	void read_metadata (std::string, std::string);

@@ -104,8 +104,7 @@ Decoder::process_begin ()
 		_swr_context = 0;
 	}
 
-	/* This assumes 2 bytes per sample */
-	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * 2 / 1000;
+	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * _fs->bytes_per_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
 
@@ -119,7 +118,7 @@ Decoder::process_end ()
 
 		int mop = 0;
 		while (1) {
-			uint8_t buffer[256 * 2 * _fs->audio_channels];
+			uint8_t buffer[256 * _fs->bytes_per_sample() * _fs->audio_channels];
 			uint8_t* out[1] = {
 				buffer
 			};
@@ -135,7 +134,7 @@ Decoder::process_end ()
 			}
 
 			mop += frames;
-			int available = _delay_line->feed (buffer, frames * _fs->audio_channels * 2);
+			int available = _delay_line->feed (buffer, frames * _fs->audio_channels * _fs->bytes_per_sample());
 			Audio (buffer, available);
 		}
 
@@ -147,7 +146,7 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (audio_channels() * 2);
+		_audio_frames_processed += _delay_in_bytes / (audio_channels() * _fs->bytes_per_sample());
 		Audio (remainder, _delay_in_bytes);
 	}
 
@@ -157,7 +156,7 @@ Decoder::process_end ()
 
 	int const audio_short_by_frames = (decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second) - _audio_frames_processed;
 
-	int bytes = audio_short_by_frames * audio_channels() * 2;
+	int bytes = audio_short_by_frames * audio_channels() * _fs->bytes_per_sample();
 
 	int const silence_size = 64 * 1024;
 	uint8_t silence[silence_size];
@@ -223,7 +222,7 @@ Decoder::pass ()
 void
 Decoder::process_audio (uint8_t* data, int channels, int size)
 {
-	int const samples = size / 2;
+	int const samples = size / _fs->bytes_per_sample();
 	int const frames = samples / channels;
 	
 	if (_fs->audio_gain != 0) {
@@ -257,7 +256,7 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 		};
 
 		int const out_buffer_size_frames = ceil (frames * float (dcp_audio_sample_rate (_fs->audio_sample_rate)) / _fs->audio_sample_rate) + 32;
-		int const out_buffer_size_bytes = out_buffer_size_frames * channels * 2;
+		int const out_buffer_size_bytes = out_buffer_size_frames * channels * _fs->bytes_per_sample();
 		out_buffer = new uint8_t[out_buffer_size_bytes];
 
 		uint8_t* out[2] = {
@@ -271,13 +270,11 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 		}
 
 		data = out_buffer;
-		size = out_frames * channels * 2;
+		size = out_frames * channels * _fs->bytes_per_sample();
 	}
 		
-	/* Update the number of audio frames we've pushed to the encoder;
-	   2 is the hard-coded (!) number of bytes per sample.
-	*/
-	_audio_frames_processed += size / (channels * 2);
+	/* Update the number of audio frames we've pushed to the encoder */
+	_audio_frames_processed += size / (channels * _fs->bytes_per_sample ());
 	
 	int available = _delay_line->feed (data, size);
 	Audio (data, available);

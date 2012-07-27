@@ -266,3 +266,17 @@ FilmState::content_type () const
 
 	return VIDEO;
 }
+
+/** @return Number of bytes per sample of a single channel */
+int
+FilmState::bytes_per_sample () const
+{
+	switch (audio_sample_format) {
+	case AV_SAMPLE_FMT_S16:
+		return 2;
+	default:
+		assert (false);
+	}
+
+	assert (false);
+}
