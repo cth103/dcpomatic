@@ -152,7 +152,9 @@ setup_menu (wxMenuBar* m)
 	wxMenu* jobs = new wxMenu;
 	add_item (jobs, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
 	add_item (jobs, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
+#ifdef DVDOMATIC_POSIX	
 	add_item (jobs, "Copy from &DVD...", ID_jobs_copy_from_dvd, NEEDS_FILM);
+#endif	
 	jobs->AppendSeparator ();
 	add_item (jobs, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
 	add_item (jobs, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
