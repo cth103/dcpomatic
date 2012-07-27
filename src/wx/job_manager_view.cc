@@ -70,6 +70,7 @@ JobManagerView::update ()
 	for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 		
 		if (_job_records.find (*i) == _job_records.end ()) {
+			add_label_to_sizer (_table, _panel, (*i)->name ());
 			JobRecord r;
 			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
 			_table->Add (r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
