@@ -146,7 +146,7 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (audio_channels() * _fs->bytes_per_sample());
+		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels * _fs->bytes_per_sample());
 		Audio (remainder, _delay_in_bytes);
 	}
 
@@ -154,9 +154,11 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int const audio_short_by_frames = (decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second) - _audio_frames_processed;
+	int const audio_short_by_frames =
+		(decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second)
+		- _audio_frames_processed;
 
-	int bytes = audio_short_by_frames * audio_channels() * _fs->bytes_per_sample();
+	int bytes = audio_short_by_frames * _fs->audio_channels * _fs->bytes_per_sample();
 
 	int const silence_size = 64 * 1024;
 	uint8_t silence[silence_size];
@@ -218,13 +220,22 @@ Decoder::pass ()
 	return do_pass ();
 }
 
-/** Called by subclasses to tell the world that some audio data is ready */
+/** Called by subclasses to tell the world that some audio data is ready
+ *  @param data Interleaved audio data, in FilmState::audio_sample_format.
+ *  @param size Number of bytes of data.
+ */
 void
 Decoder::process_audio (uint8_t* data, int size)
 {
+	/* Here's samples per channel */
 	int const samples = size / _fs->bytes_per_sample();
+
+	/* And here's frames (where 1 frame is a collection of samples, 1 for each channel,
+	   so for 5.1 a frame would be 6 samples)
+	*/
 	int const frames = samples / _fs->audio_channels;
-	
+
+	/* Maybe apply gain */
 	if (_fs->audio_gain != 0) {
 		float const linear_gain = pow (10, _fs->audio_gain / 20);
 		uint8_t* p = data;
@@ -232,10 +243,20 @@ Decoder::process_audio (uint8_t* data, int size)
 		case AV_SAMPLE_FMT_S16:
 			for (int i = 0; i < samples; ++i) {
 				/* XXX: assumes little-endian; also we should probably be dithering here */
+
+				/* unsigned sample */
 				int const ou = p[0] | (p[1] << 8);
+
+				/* signed sample */
 				int const os = ou >= 0x8000 ? (- 0x10000 + ou) : ou;
+
+				/* signed sample with altered gain */
 				int const gs = int (os * linear_gain);
+
+				/* unsigned sample with altered gain */
 				int const gu = gs > 0 ? gs : (0x10000 + gs);
+
+				/* write it back */
 				p[0] = gu & 0xff;
 				p[1] = (gu & 0xff00) >> 8;
 				p += 2;
@@ -246,8 +267,12 @@ Decoder::process_audio (uint8_t* data, int size)
 		}
 	}
 
+	/* This is a buffer we might use if we are sample-rate converting;
+	   it will need freeing if so.
+	*/
 	uint8_t* out_buffer = 0;
 
+	/* Maybe sample-rate convert */
 	if (_swr_context) {
 
 		uint8_t const * in[2] = {
@@ -255,6 +280,7 @@ Decoder::process_audio (uint8_t* data, int size)
 			0
 		};
 
+		/* Compute the resampled frame count and add 32 for luck */
 		int const out_buffer_size_frames = ceil (frames * float (dcp_audio_sample_rate (_fs->audio_sample_rate)) / _fs->audio_sample_rate) + 32;
 		int const out_buffer_size_bytes = out_buffer_size_frames * _fs->audio_channels * _fs->bytes_per_sample();
 		out_buffer = new uint8_t[out_buffer_size_bytes];
@@ -263,22 +289,26 @@ Decoder::process_audio (uint8_t* data, int size)
 			out_buffer, 
 			0
 		};
-		
+
+		/* Resample audio */
 		int out_frames = swr_convert (_swr_context, out, out_buffer_size_frames, in, frames);
 		if (out_frames < 0) {
 			throw DecodeError ("could not run sample-rate converter");
 		}
 
+		/* And point our variables at the resampled audio */
 		data = out_buffer;
 		size = out_frames * _fs->audio_channels * _fs->bytes_per_sample();
 	}
 		
 	/* Update the number of audio frames we've pushed to the encoder */
 	_audio_frames_processed += size / (_fs->audio_channels * _fs->bytes_per_sample ());
-	
+
+	/* Push into the delay line and then tell the world what we've got */
 	int available = _delay_line->feed (data, size);
 	Audio (data, available);
 
+	/* Delete the sample-rate conversion buffer, if it exists */
 	delete[] out_buffer;
 }
 
@@ -362,6 +392,10 @@ Decoder::process_video (AVFrame* frame)
 	}
 }
 
+
+/** Set up a video filtering chain to include cropping and any filters that are specified
+ *  by the Film.
+ */
 void
 Decoder::setup_video_filters ()
 {
