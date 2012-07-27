@@ -78,10 +78,10 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_EQUAL (g.name(), "fred");
 	BOOST_CHECK_EQUAL (g.dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
 	BOOST_CHECK_EQUAL (g.format(), Format::from_nickname ("Flat"));
-	BOOST_CHECK_EQUAL (g.left_crop(), 1);
-	BOOST_CHECK_EQUAL (g.right_crop(), 2);
-	BOOST_CHECK_EQUAL (g.top_crop(), 3);
-	BOOST_CHECK_EQUAL (g.bottom_crop(), 4);
+	BOOST_CHECK_EQUAL (g.crop().left, 1);
+	BOOST_CHECK_EQUAL (g.crop().right, 2);
+	BOOST_CHECK_EQUAL (g.crop().top, 3);
+	BOOST_CHECK_EQUAL (g.crop().bottom, 4);
 	vector<Filter const *> g_filters = g.filters ();
 	BOOST_CHECK_EQUAL (g_filters.size(), 2);
 	BOOST_CHECK_EQUAL (g_filters.front(), Filter::from_id ("pphb"));

@@ -44,10 +44,6 @@ public:
 		, _film (film)
 		, _image (0)
 		, _bitmap (0)
-		, _left_crop (0)
-		, _right_crop (0)
-		, _top_crop (0)
-		, _bottom_crop (0)
 	{
 	}
 
@@ -59,7 +55,12 @@ public:
 			_current_image = _pending_image;
 			setup ();
 		}
-		
+
+		if (_current_crop != _pending_crop) {
+			_current_crop = _pending_crop;
+			setup ();
+		}
+
 		wxPaintDC dc (this);
 		if (_bitmap) {
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
@@ -73,6 +74,7 @@ public:
 		}
 
 		setup ();
+		Refresh ();
 	}
 
 	void set (string f)
@@ -81,13 +83,10 @@ public:
 		Refresh ();
 	}
 
-	void set_crop (int l, int r, int t, int b)
+	void set_crop (Crop c)
 	{
-		_left_crop = l;
-		_right_crop = r;
-		_top_crop = t;
-		_bottom_crop = b;
-		setup ();
+		_pending_crop = c;
+		Refresh ();
 	}
 
 	void set_film (Film* f)
@@ -95,8 +94,10 @@ public:
 		_film = f;
 		if (!_film) {
 			clear ();
+			Refresh ();
 		} else {
 			setup ();
+			Refresh ();
 		}
 	}
 
@@ -124,7 +125,12 @@ private:
 		float const target = _film->format() ? _film->format()->ratio_as_float () : 1.78;
 
 		_cropped_image = _image->GetSubImage (
-			wxRect (_left_crop, _top_crop, _image->GetWidth() - (_left_crop + _right_crop), _image->GetHeight() - (_top_crop + _bottom_crop))
+			wxRect (
+				_current_crop.left,
+				_current_crop.top,
+				_image->GetWidth() - (_current_crop.left + _current_crop.right),
+				_image->GetHeight() - (_current_crop.top + _current_crop.bottom)
+				)
 			);
 
 		if ((float (vw) / vh) > target) {
@@ -137,8 +143,6 @@ private:
 
 		delete _bitmap;
 		_bitmap = new wxBitmap (_cropped_image);
-
-		Refresh ();
 	}
 
 	Film* _film;
@@ -147,10 +151,8 @@ private:
 	std::string _pending_image;
 	wxImage _cropped_image;
 	wxBitmap* _bitmap;
-	int _left_crop;
-	int _right_crop;
-	int _top_crop;
-	int _bottom_crop;
+	Crop _current_crop;
+	Crop _pending_crop;
 };
 
 BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
@@ -203,8 +205,8 @@ FilmViewer::slider_changed (wxCommandEvent &)
 void
 FilmViewer::film_changed (Film::Property p)
 {
-	if (p == Film::LEFT_CROP || p == Film::RIGHT_CROP || p == Film::TOP_CROP || p == Film::BOTTOM_CROP) {
-		_thumb_panel->set_crop (_film->left_crop(), _film->right_crop(), _film->top_crop(), _film->bottom_crop ());
+	if (p == Film::CROP) {
+		_thumb_panel->set_crop (_film->crop ());
 	} else if (p == Film::THUMBS) {
 		if (_film && _film->num_thumbs() > 1) {
 			_slider->SetRange (0, _film->num_thumbs () - 1);

@@ -224,7 +224,7 @@ FilmEditor::left_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::LEFT_CROP;
+	_ignore_changes = Film::CROP;
 	_film->set_left_crop (_left_crop->GetValue ());
 	_ignore_changes = Film::NONE;
 }
@@ -237,7 +237,7 @@ FilmEditor::right_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::RIGHT_CROP;
+	_ignore_changes = Film::CROP;
 	_film->set_right_crop (_right_crop->GetValue ());
 	_ignore_changes = Film::NONE;
 }
@@ -250,7 +250,7 @@ FilmEditor::top_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::TOP_CROP;
+	_ignore_changes = Film::CROP;
 	_film->set_top_crop (_top_crop->GetValue ());
 	_ignore_changes = Film::NONE;
 }
@@ -263,7 +263,7 @@ FilmEditor::bottom_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::BOTTOM_CROP;
+	_ignore_changes = Film::CROP;
 	_film->set_bottom_crop (_bottom_crop->GetValue ());
 	_ignore_changes = Film::NONE;
 }
@@ -341,17 +341,11 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::FORMAT:
 		_format->SetSelection (Format::as_index (_film->format ()));
 		break;
-	case Film::LEFT_CROP:
-		_left_crop->SetValue (_film->left_crop ());
-		break;
-	case Film::RIGHT_CROP:
-		_right_crop->SetValue (_film->right_crop ());
-		break;
-	case Film::TOP_CROP:
-		_top_crop->SetValue (_film->top_crop ());
-		break;
-	case Film::BOTTOM_CROP:
-		_bottom_crop->SetValue (_film->bottom_crop ());
+	case Film::CROP:
+		_left_crop->SetValue (_film->crop().left);
+		_right_crop->SetValue (_film->crop().right);
+		_top_crop->SetValue (_film->crop().top);
+		_bottom_crop->SetValue (_film->crop().bottom);
 		break;
 	case Film::FILTERS:
 	{
@@ -489,10 +483,7 @@ FilmEditor::set_film (Film* f)
 	film_changed (Film::CONTENT);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::FORMAT);
-	film_changed (Film::LEFT_CROP);
-	film_changed (Film::RIGHT_CROP);
-	film_changed (Film::TOP_CROP);
-	film_changed (Film::BOTTOM_CROP);
+	film_changed (Film::CROP);
 	film_changed (Film::FILTERS);
 	film_changed (Film::DCP_FRAMES);
 	film_changed (Film::DCP_TRIM_ACTION);

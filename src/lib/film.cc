@@ -223,48 +223,48 @@ Film::set_dcp_content_type (DCPContentType const * t)
 void
 Film::set_left_crop (int c)
 {
-	if (c == _state.left_crop) {
+	if (c == _state.crop.left) {
 		return;
 	}
 	
-	_state.left_crop = c;
-	signal_changed (LEFT_CROP);
+	_state.crop.left = c;
+	signal_changed (CROP);
 }
 
 /** Set the number of pixels by which to crop the right of the source video */
 void
 Film::set_right_crop (int c)
 {
-	if (c == _state.right_crop) {
+	if (c == _state.crop.right) {
 		return;
 	}
 
-	_state.right_crop = c;
-	signal_changed (RIGHT_CROP);
+	_state.crop.right = c;
+	signal_changed (CROP);
 }
 
 /** Set the number of pixels by which to crop the top of the source video */
 void
 Film::set_top_crop (int c)
 {
-	if (c == _state.top_crop) {
+	if (c == _state.crop.top) {
 		return;
 	}
 	
-	_state.top_crop = c;
-	signal_changed (TOP_CROP);
+	_state.crop.top = c;
+	signal_changed (CROP);
 }
 
 /** Set the number of pixels by which to crop the bottom of the source video */
 void
 Film::set_bottom_crop (int c)
 {
-	if (c == _state.bottom_crop) {
+	if (c == _state.crop.bottom) {
 		return;
 	}
 	
-	_state.bottom_crop = c;
-	signal_changed (BOTTOM_CROP);
+	_state.crop.bottom = c;
+	signal_changed (CROP);
 }
 
 /** Set the filters to apply to the image when generating thumbnails
@@ -425,7 +425,7 @@ Film::j2k_dir () const
 	stringstream s;
 	s << _state.format->id()
 	  << "_" << _state.content_digest
-	  << "_" << left_crop() << "_" << right_crop() << "_" << top_crop() << "_" << bottom_crop()
+	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
 	  << "_" << f.first << "_" << f.second
 	  << "_" << _state.scaler->id();
 

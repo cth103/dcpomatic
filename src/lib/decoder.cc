@@ -401,7 +401,7 @@ Decoder::setup_video_filters ()
 	
 	if (_opt->apply_crop) {
 		size_after_crop = _fs->cropped_size (native_size ());
-		fs << crop_string (Position (_fs->left_crop, _fs->top_crop), size_after_crop);
+		fs << crop_string (Position (_fs->crop.left, _fs->crop.top), size_after_crop);
 	} else {
 		size_after_crop = native_size ();
 		fs << crop_string (Position (0, 0), size_after_crop);

@@ -70,24 +70,9 @@ public:
 		return _state.name;
 	}
 
-	/** @return number of pixels to crop from the top of the original picture */
-	int top_crop () const {
-		return _state.top_crop;
-	}
-
-	/** @return number of pixels to crop from the bottom of the original picture */
-	int bottom_crop () const {
-		return _state.bottom_crop;
-	}
-
-	/** @return number of pixels to crop from the left-hand side of the original picture */
-	int left_crop () const {
-		return _state.left_crop;
-	}
-
-	/** @return number of pixels to crop from the right-hand side of the original picture */
-	int right_crop () const {
-		return _state.right_crop;
+	/** @return number of pixels to crop from the sides of the original picture */
+	Crop crop () const {
+		return _state.crop;
 	}
 
 	/** @return the format to present this film in (flat, scope, etc.) */
@@ -219,10 +204,7 @@ public:
 		CONTENT,
 		DCP_CONTENT_TYPE,
 		FORMAT,
-		LEFT_CROP,
-		RIGHT_CROP,
-		TOP_CROP,
-		BOTTOM_CROP,
+		CROP,
 		FILTERS,
 		SCALER,
 		DCP_FRAMES,

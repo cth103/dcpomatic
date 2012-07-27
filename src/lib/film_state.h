@@ -55,10 +55,6 @@ public:
 		: dcp_content_type (0)
 		, frames_per_second (0)
 		, format (0)
-		, left_crop (0)
-		, right_crop (0)
-		, top_crop (0)
-		, bottom_crop (0)
 		, scaler (Scaler::from_id ("bicubic"))
 		, dcp_frames (0)
 		, dcp_trim_action (CUT)
@@ -106,14 +102,7 @@ public:
 	float frames_per_second;
 	/** The format to present this Film in (flat, scope, etc.) */
 	Format const * format;
-	/** Number of pixels to crop from the left-hand side of the original picture */
-	int left_crop;
-	/** Number of pixels to crop from the right-hand side of the original picture */
-	int right_crop;
-	/** Number of pixels to crop from the top of the original picture */
-	int top_crop;
-	/** Number of pixels to crop from the bottom of the original picture */
-	int bottom_crop;
+	Crop crop;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> filters;
 	/** Scaler algorithm to use */

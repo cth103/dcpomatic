@@ -491,3 +491,13 @@ dcp_audio_sample_rate (int fs)
 
 	return 96000;
 }
+
+bool operator== (Crop const & a, Crop const & b)
+{
+	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
+}
+
+bool operator!= (Crop const & a, Crop const & b)
+{
+	return !(a == b);
+}

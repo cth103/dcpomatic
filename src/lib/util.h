@@ -103,6 +103,19 @@ struct Size
 	int height;
 };
 
+struct Crop
+{
+	Crop () : left (0), right (0), top (0), bottom (0) {}
+	
+	int left;
+	int right;
+	int top;
+	int bottom;
+};
+
+extern bool operator== (Crop const & a, Crop const & b);
+extern bool operator!= (Crop const & a, Crop const & b);
+
 struct Position
 {
 	Position ()

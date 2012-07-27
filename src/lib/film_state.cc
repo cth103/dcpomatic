@@ -55,10 +55,10 @@ FilmState::write_metadata (ofstream& f) const
 	if (format) {
 		f << "format " << format->as_metadata () << "\n";
 	}
-	f << "left_crop " << left_crop << "\n";
-	f << "right_crop " << right_crop << "\n";
-	f << "top_crop " << top_crop << "\n";
-	f << "bottom_crop " << bottom_crop << "\n";
+	f << "left_crop " << crop.left << "\n";
+	f << "right_crop " << crop.right << "\n";
+	f << "top_crop " << crop.top << "\n";
+	f << "bottom_crop " << crop.bottom << "\n";
 	for (vector<Filter const *>::const_iterator i = filters.begin(); i != filters.end(); ++i) {
 		f << "filter " << (*i)->id () << "\n";
 	}
@@ -114,13 +114,13 @@ FilmState::read_metadata (string k, string v)
 	} else if (k == "format") {
 		format = Format::from_metadata (v);
 	} else if (k == "left_crop") {
-		left_crop = atoi (v.c_str ());
+		crop.left = atoi (v.c_str ());
 	} else if (k == "right_crop") {
-		right_crop = atoi (v.c_str ());
+		crop.right = atoi (v.c_str ());
 	} else if (k == "top_crop") {
-		top_crop = atoi (v.c_str ());
+		crop.top = atoi (v.c_str ());
 	} else if (k == "bottom_crop") {
-		bottom_crop = atoi (v.c_str ());
+		crop.bottom = atoi (v.c_str ());
 	} else if (k == "filter") {
 		filters.push_back (Filter::from_id (v));
 	} else if (k == "scaler") {
@@ -214,8 +214,8 @@ FilmState::thumb_frame (int n) const
 Size
 FilmState::cropped_size (Size s) const
 {
-	s.width -= left_crop + right_crop;
-	s.height -= top_crop + bottom_crop;
+	s.width -= crop.left + crop.right;
+	s.height -= crop.top + crop.bottom;
 	return s;
 }
 
