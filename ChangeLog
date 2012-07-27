@@ -1,3 +1,21 @@
+2012-07-27  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.31 released.
+
+2012-07-27  Carl Hetherington  <cth@carlh.net>
+
+	* Speed up thumbnail display.
+
+	* Various improvements to Windows port.
+
+	* Fix TMS transfer with large files.
+
+	* Clean up audio handling code somewhat.
+
+	* Re-sample audio to 48kHz or 96kHz if necessary.
+
+	* Remove player functionality from DVD-o-matic.
+
 2012-07-22  Carl Hetherington  <cth@carlh.net>
 
 	* Port to Windows.
