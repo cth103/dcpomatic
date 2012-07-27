@@ -114,7 +114,7 @@ process (shared_ptr<asio::ip::tcp::socket> socket)
 	
 	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, &log_);
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
-	encoded->send (fd);
+	encoded->send (socket);
 
 #ifdef DEBUG_HASH
 	encoded->hash ("Encoded image (as made by server and as sent back)");
@@ -185,18 +185,10 @@ main ()
 		while (int (queue.size()) >= num_threads * 2) {
 			worker_condition.wait (lock);
 		}
-
-		struct timeval tv;
-		tv.tv_sec = 20;
-		tv.tv_usec = 0;
-		setsockopt (new_fd, SOL_SOCKET, SO_RCVTIMEO, (void *) &tv, sizeof (tv));
-		setsockopt (new_fd, SOL_SOCKET, SO_SNDTIMEO, (void *) &tv, sizeof (tv));
 		
 		queue.push_back (socket);
 		worker_condition.notify_all ();
 	}
 	
-	close (fd);
-
 	return 0;
 }
