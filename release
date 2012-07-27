@@ -1,0 +1,81 @@
+#!/usr/bin/python
+
+import os
+import sys
+import datetime
+import shutil
+
+def command(c):
+    os.system(c)
+    print c
+
+def release_version(s):
+    s = s[1:-1]
+    if s.endswith('pre'):
+        s = s[0:-3]
+    p = s.split('.')
+    return '0.%02d' % int(p[1])
+
+def new_pre_version(s):
+    s = s[1:-1]
+    p = s.split('.')
+    return '0.%02dpre' % (int(p[1]) + 1)
+
+def rewrite_wscript(version_maker):
+    f = open('wscript', 'rw')
+    o = open('wscript.tmp', 'w')
+    while 1:
+        l = f.readline()
+        if l == '':
+            break
+
+        s = l.split()
+        if len(s) == 3 and s[0] == "VERSION":
+            v = version_maker(s[2])
+            print "REWRITE %s -> %s" % (s[2], v)
+            print >>o,"VERSION = '%s'" % v
+        else:
+            print >>o,l,
+    f.close()
+    o.close()
+
+    os.rename('wscript.tmp', 'wscript')
+    return v
+
+def append_to_changelog(version):
+    f = open('ChangeLog', 'r')
+    c = f.read()
+    f.close()
+
+    f = open('ChangeLog', 'w')
+    now = datetime.datetime.now()
+    f.write('%d-%02d-%02d  Carl Hetherington  <cth@carlh.net>\n\n\tVersion %s released.\n\n' % (now.year, now.month, now.day, version))
+    f.write(c)
+
+release_version_string = rewrite_wscript(release_version)
+append_to_changelog(release_version_string)
+
+command("git diff")
+if (raw_input() != "y"):
+    command("git reset --hard")
+    print 'Aborted'
+    sys.exit(1)
+
+command("git commit -a -m \"Bump version\"")
+command("git tag -m \"v%s\" v%s" % (release_version_string, release_version_string))
+command("./waf clean")
+command("./waf")
+command("./waf configure")
+command("./waf dist")
+command("./rebuild-windows")
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s .exe' % release_version_string), '.')
+
+rewrite_wscript(new_pre_version)
+
+command("git diff")
+if (raw_input() != "y"):
+    command("git reset --hard")
+    print 'Aborted'
+    sys.exit(1)
+
+command("git commit -a -m \"Bump version\"")

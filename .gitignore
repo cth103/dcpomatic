@@ -9,3 +9,5 @@ core
 build
 films-*
 src/lib/version.cc
+*.tar.bz2
+*.exe
