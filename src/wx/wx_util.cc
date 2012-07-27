@@ -28,7 +28,7 @@ using namespace std;
 wxStaticText *
 add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
 {
-	wxStaticText* m = new wxStaticText (p, wxID_ANY, wxString (t.c_str (), wxConvUTF8));
+	wxStaticText* m = new wxStaticText (p, wxID_ANY, std_to_wx (t));
 	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	return m;
 }
