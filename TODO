@@ -1,4 +1,5 @@
-upload of (youtube) fails and of normal from windows
+Port network code
+Port DVD rip
 
 Write still j2ks straight to a MXF.
 Seem to be problems when waiting for (failing) server threads at the end of an encode;
