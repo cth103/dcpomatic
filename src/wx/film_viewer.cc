@@ -31,6 +31,7 @@
 #include "lib/film_state.h"
 #include "lib/options.h"
 #include "film_viewer.h"
+#include "wx_util.h"
 
 using namespace std;
 using namespace boost;
@@ -52,6 +53,13 @@ public:
 
 	void paint_event (wxPaintEvent& ev)
 	{
+		if (_current_image != _pending_image) {
+			delete _image;
+			_image = new wxImage (std_to_wx (_pending_image));
+			_current_image = _pending_image;
+			setup ();
+		}
+		
 		wxPaintDC dc (this);
 		if (_bitmap) {
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
@@ -67,40 +75,10 @@ public:
 		setup ();
 	}
 
-	void setup ()
+	void set (string f)
 	{
-		if (!_film || !_image) {
-			return;
-		}
-		
-		int vw, vh;
-		GetSize (&vw, &vh);
-
-		float const target = _film->format() ? _film->format()->ratio_as_float () : 1.78;
-
-		_cropped_image = _image->GetSubImage (
-			wxRect (_left_crop, _top_crop, _image->GetWidth() - (_left_crop + _right_crop), _image->GetHeight() - (_top_crop + _bottom_crop))
-			);
-
-		if ((float (vw) / vh) > target) {
-			/* view is longer (horizontally) than the ratio; fit height */
-			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
-		} else {
-			/* view is shorter (horizontally) than the ratio; fit width */
-			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
-		}
-
-		delete _bitmap;
-		_bitmap = new wxBitmap (_cropped_image);
-
+		_pending_image = f;
 		Refresh ();
-	}
-
-	void load (string f)
-	{
-		delete _image;
-		_image = new wxImage (wxString (f.c_str(), wxConvUTF8));
-		setup ();
 	}
 
 	void set_crop (int l, int r, int t, int b)
@@ -133,8 +111,40 @@ public:
 	DECLARE_EVENT_TABLE ();
 
 private:
+
+	void setup ()
+	{
+		if (!_film || !_image) {
+			return;
+		}
+		
+		int vw, vh;
+		GetSize (&vw, &vh);
+
+		float const target = _film->format() ? _film->format()->ratio_as_float () : 1.78;
+
+		_cropped_image = _image->GetSubImage (
+			wxRect (_left_crop, _top_crop, _image->GetWidth() - (_left_crop + _right_crop), _image->GetHeight() - (_top_crop + _bottom_crop))
+			);
+
+		if ((float (vw) / vh) > target) {
+			/* view is longer (horizontally) than the ratio; fit height */
+			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
+		} else {
+			/* view is shorter (horizontally) than the ratio; fit width */
+			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
+		}
+
+		delete _bitmap;
+		_bitmap = new wxBitmap (_cropped_image);
+
+		Refresh ();
+	}
+
 	Film* _film;
 	wxImage* _image;
+	std::string _current_image;
+	std::string _pending_image;
 	wxImage _cropped_image;
 	wxBitmap* _bitmap;
 	int _left_crop;
@@ -175,7 +185,7 @@ FilmViewer::load_thumbnail (int n)
 		return;
 	}
 
-	_thumb_panel->load (_film->thumb_file(n));
+	_thumb_panel->set (_film->thumb_file(n));
 }
 
 void
