@@ -161,14 +161,14 @@ SCPDCPJob::run ()
 	
 	string const dcp_dir = _fs->dir (_fs->name);
 	
-	int bytes_to_transfer = 0;
+	boost::uintmax_t bytes_to_transfer = 0;
 	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
 		bytes_to_transfer += filesystem::file_size (*i);
 	}
 	
-	int buffer_size = 64 * 1024;
+	boost::uintmax_t buffer_size = 64 * 1024;
 	char buffer[buffer_size];
-	int bytes_transferred = 0;
+	boost::uintmax_t bytes_transferred = 0;
 	
 	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
 		
@@ -181,7 +181,7 @@ SCPDCPJob::run ()
 		
 		set_status ("copying " + leaf);
 		
-		int to_do = filesystem::file_size (*i);
+		boost::uintmax_t to_do = filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
 
 		FILE* f = fopen (filesystem::path (*i).string().c_str(), "rb");
@@ -214,7 +214,7 @@ SCPDCPJob::run ()
 	}
 	
 	set_progress (1);
-	set_status ("OK");
+	set_status ("");
 	set_state (FINISHED_OK);
 }
 
@@ -223,7 +223,10 @@ SCPDCPJob::status () const
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
 	stringstream s;
-	s << Job::status() << "; " << _status;
+	s << Job::status ();
+	if (!_status.empty ()) {
+		s << << "; " << _status;
+	}
 	return s.str ();
 }
 
