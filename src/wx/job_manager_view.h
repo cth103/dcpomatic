@@ -30,7 +30,7 @@ class Job;
 /** @class JobManagerView
  *  @brief Class which is a wxPanel for showing the progress of jobs.
  */
-class JobManagerView : public wxPanel
+class JobManagerView : public wxScrolledWindow
 {
 public:
 	JobManagerView (wxWindow *);
@@ -41,7 +41,8 @@ private:
 	void periodic (wxTimerEvent &);
 
 	boost::shared_ptr<wxTimer> _timer;
-	wxFlexGridSizer* _sizer;
+	wxPanel* _panel;
+	wxFlexGridSizer* _table;
 	struct JobRecord {
 		wxGauge* gauge;
 		wxStaticText* message;

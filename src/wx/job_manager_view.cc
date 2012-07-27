@@ -33,11 +33,18 @@ using namespace boost;
 
 /** Must be called in the GUI thread */
 JobManagerView::JobManagerView (wxWindow* parent)
-	: wxPanel (parent)
+	: wxScrolledWindow (parent)
 {
-	_sizer = new wxFlexGridSizer (3, 6, 6);
-	_sizer->AddGrowableCol (1, 1);
-	SetSizer (_sizer);
+	_panel = new wxPanel (this);
+	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	sizer->Add (_panel, 1, wxEXPAND);
+	SetSizer (sizer);
+	
+	_table = new wxFlexGridSizer (3, 6, 6);
+	_table->AddGrowableCol (1, 1);
+	_panel->SetSizer (_table);
+
+	SetScrollRate (0, 32);
 
 	Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (JobManagerView::periodic), 0, this);
 	_timer.reset (new wxTimer (this));
@@ -63,16 +70,13 @@ JobManagerView::update ()
 	for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 		
 		if (_job_records.find (*i) == _job_records.end ()) {
-			add_label_to_sizer (_sizer, this, (*i)->name ());
-
 			JobRecord r;
-			r.gauge = new wxGauge (this, wxID_ANY, 100);
-			_sizer->Add (r.gauge, 1, wxEXPAND);
+			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
+			_table->Add (r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
 			r.informed_of_finish = false;
-			r.message = add_label_to_sizer (_sizer, this, "", 1);
+			r.message = add_label_to_sizer (_table, _panel, "", 1);
 			
 			_job_records[*i] = r;
-			_sizer->Layout ();
 		}
 
 		string const st = (*i)->status ();
@@ -109,5 +113,6 @@ JobManagerView::update ()
 		}
 	}
 
-	_sizer->Layout ();
+	_table->Layout ();
+	FitInside ();
 }
