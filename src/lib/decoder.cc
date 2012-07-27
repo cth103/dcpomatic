@@ -137,8 +137,6 @@ Decoder::process_end ()
 			Audio (buffer, available);
 		}
 
-		cout << "mopped up " << mop << "\n";
-		
 		swr_free (&_swr_context);
 	}
 	
