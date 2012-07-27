@@ -53,7 +53,11 @@ DirPickerCtrl::SetPath (wxString p)
 	if (_path == wxStandardPaths::Get().GetDocumentsDir()) {
 		_folder->SetLabel (_("My Documents"));
 	} else {
+#if BOOST_FILESYSTEM_VERSION == 3		
 		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
+#else
+		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf()));
+#endif		
 	}
 }
 
