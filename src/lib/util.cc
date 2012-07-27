@@ -29,8 +29,6 @@
 #ifdef DVDOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
-#include <sys/types.h> 
-#include <sys/socket.h>
 #endif
 #include <libssh/libssh.h>
 #include <signal.h>
