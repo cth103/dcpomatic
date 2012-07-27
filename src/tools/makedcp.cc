@@ -22,9 +22,6 @@
 #include <getopt.h>
 #include <libdcp/test_mode.h>
 #include <libdcp/version.h>
-#ifdef DVDOMATIC_WINDOWS
-#include "winsock2.h"
-#endif
 #include "format.h"
 #include "film.h"
 #include "filter.h"

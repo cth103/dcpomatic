@@ -26,9 +26,6 @@
 #include <unistd.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#ifdef DVDOMATIC_WINDOWS
-#include <winsock2.h>
-#endif
 #include "film.h"
 #include "format.h"
 #include "tiff_encoder.h"

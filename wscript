@@ -25,7 +25,7 @@ def configure(conf):
     conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
 
     if conf.options.target_windows:
-        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS'])
+        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN'])
         conf.options.disable_player = True
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
         boost_lib_suffix = '-mt'
