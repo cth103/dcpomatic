@@ -70,19 +70,6 @@ File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
 File "%binaries%/src/tools/dvdomatic.exe"
 
-CreateDirectory "$INSTDIR\etc\gtk-2.0"
-SetOutPath "$INSTDIR\etc\gtk-2.0"
-File "%deps%/etc/gtk-2.0/im-multipress.conf"
-File "%deps%/etc/gtk-2.0/gtkrc"
-File "%deps%/etc/gtk-2.0/gtk.immodules"
-
-CreateDirectory "$INSTDIR\etc\pango"
-SetOutPath "$INSTDIR\etc\pango"
-File "%deps%/etc/pango/pango.modules"
-
-SetOutPath "$PROFILE"
-File "%resources%/.gtkrc-2.0"
-
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
  
 CreateDirectory "$SMPROGRAMS\DVD-o-matic"
@@ -108,4 +95,3 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DVD-o-matic"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic"
  
 SectionEnd
- 

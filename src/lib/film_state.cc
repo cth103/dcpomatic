@@ -279,4 +279,5 @@ FilmState::bytes_per_sample () const
 	}
 
 	assert (false);
+	return 0;
 }

@@ -32,7 +32,6 @@ extern "C" {
 #endif
 #include <libavformat/avio.h>
 }
-#include <samplerate.h>
 #include "film.h"
 #include "format.h"
 #include "job.h"

@@ -225,7 +225,7 @@ SCPDCPJob::status () const
 	stringstream s;
 	s << Job::status ();
 	if (!_status.empty ()) {
-		s << << "; " << _status;
+		s << "; " << _status;
 	}
 	return s.str ();
 }
