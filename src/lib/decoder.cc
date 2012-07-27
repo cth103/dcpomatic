@@ -220,10 +220,10 @@ Decoder::pass ()
 
 /** Called by subclasses to tell the world that some audio data is ready */
 void
-Decoder::process_audio (uint8_t* data, int channels, int size)
+Decoder::process_audio (uint8_t* data, int size)
 {
 	int const samples = size / _fs->bytes_per_sample();
-	int const frames = samples / channels;
+	int const frames = samples / _fs->audio_channels;
 	
 	if (_fs->audio_gain != 0) {
 		float const linear_gain = pow (10, _fs->audio_gain / 20);
@@ -256,7 +256,7 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 		};
 
 		int const out_buffer_size_frames = ceil (frames * float (dcp_audio_sample_rate (_fs->audio_sample_rate)) / _fs->audio_sample_rate) + 32;
-		int const out_buffer_size_bytes = out_buffer_size_frames * channels * _fs->bytes_per_sample();
+		int const out_buffer_size_bytes = out_buffer_size_frames * _fs->audio_channels * _fs->bytes_per_sample();
 		out_buffer = new uint8_t[out_buffer_size_bytes];
 
 		uint8_t* out[2] = {
@@ -270,11 +270,11 @@ Decoder::process_audio (uint8_t* data, int channels, int size)
 		}
 
 		data = out_buffer;
-		size = out_frames * channels * _fs->bytes_per_sample();
+		size = out_frames * _fs->audio_channels * _fs->bytes_per_sample();
 	}
 		
 	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_processed += size / (channels * _fs->bytes_per_sample ());
+	_audio_frames_processed += size / (_fs->audio_channels * _fs->bytes_per_sample ());
 	
 	int available = _delay_line->feed (data, size);
 	Audio (data, available);

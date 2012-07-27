@@ -172,7 +172,8 @@ FFmpegDecoder::do_pass ()
 				0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
 
-			process_audio (_frame->data[0], _audio_codec_context->channels, data_size);
+			assert (_audio_codec_context->channels == _fs->audio_channels);
+			process_audio (_frame->data[0], data_size);
 		}
 	}
 	

@@ -104,7 +104,7 @@ protected:
 	virtual int sample_aspect_ratio_denominator () const = 0;
 	
 	void process_video (AVFrame *);
-	void process_audio (uint8_t *, int, int);
+	void process_audio (uint8_t *, int);
 
 	/** our FilmState */
 	boost::shared_ptr<const FilmState> _fs;
