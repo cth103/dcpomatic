@@ -48,9 +48,7 @@ public:
 
 	virtual ~EncodedData () {}
 
-#ifdef DVDOMATIC_POSIX	
-	void send (int);
-#endif	
+	void send (boost::shared_ptr<boost::asio::ip::tcp::socket>);
 	void write (boost::shared_ptr<const Options>, int);
 
 #ifdef DEBUG_HASH

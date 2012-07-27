@@ -28,6 +28,7 @@
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
+#include <boost/asio.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -41,7 +42,6 @@ extern void stacktrace (std::ostream &, int);
 extern std::string audio_sample_format_to_string (AVSampleFormat);
 extern AVSampleFormat audio_sample_format_from_string (std::string);
 extern std::string dependency_version_summary ();
-extern void socket_write (int, uint8_t const *, int);
 extern double seconds (struct timeval);
 extern void dvdomatic_setup ();
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
@@ -58,19 +58,21 @@ extern void md5_data (std::string, void const *, int);
 
 /** @class SocketReader
  *  @brief A helper class from reading from sockets.
+ *
+ *  You can probably do this stuff directly in boost, but I'm not sure how.
  */
 class SocketReader
 {
 public:
-	SocketReader (int);
+	SocketReader (boost::shared_ptr<boost::asio::ip::tcp::socket>);
 
 	void read_definite_and_consume (uint8_t *, int);
 	void read_indefinite (uint8_t *, int);
 	void consume (int);
 
 private:
-	/** file descriptor we are reading from */
-	int _fd;
+	/** socket we are reading from */
+	boost::shared_ptr<boost::asio::ip::tcp::socket> _socket;
 	/** a buffer for small reads */
 	uint8_t _buffer[256];
 	/** amount of valid data in the buffer */

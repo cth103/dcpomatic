@@ -281,40 +281,15 @@ dependency_version_summary ()
 	return s.str ();
 }
 
-#ifdef DVDOMATIC_POSIX
-/** Write some data to a socket.
- *  @param fd Socket file descriptor.
- *  @param data Data.
- *  @param size Amount to write, in bytes.
- */
-void
-socket_write (int fd, uint8_t const * data, int size)
-{
-	uint8_t const * p = data;
-	while (size) {
-		int const n = send (fd, p, size, MSG_NOSIGNAL);
-		if (n < 0) {
-			stringstream s;
-			s << "could not write (" << strerror (errno) << ")";
-			throw NetworkError (s.str ());
-		}
-
-		size -= n;
-		p += n;
-	}
-}
-#endif
-
 double
 seconds (struct timeval t)
 {
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
-#ifdef DVDOMATIC_POSIX
-/** @param fd File descriptor to read from */
-SocketReader::SocketReader (int fd)
-	: _fd (fd)
+/** @param socket Socket to read from */
+SocketReader::SocketReader (shared_ptr<asio::ip::tcp::socket> socket)
+	: _socket (socket)
 	, _buffer_data (0)
 {
 
@@ -356,7 +331,7 @@ SocketReader::read_definite_and_consume (uint8_t* data, int size)
 
 	/* read() the rest */
 	while (size > 0) {
-		int const n = ::read (_fd, data, size);
+		int const n = asio::read (*_socket, asio::buffer (data, size));
 		if (n <= 0) {
 			throw NetworkError ("could not read");
 		}
@@ -379,7 +354,7 @@ SocketReader::read_indefinite (uint8_t* data, int size)
 	int to_read = size - _buffer_data;
 	while (to_read > 0) {
 		/* read as much of it as we can (into our buffer) */
-		int const n = ::read (_fd, _buffer + _buffer_data, to_read);
+		int const n = asio::read (*_socket, asio::buffer (_buffer + _buffer_data, to_read));
 		if (n <= 0) {
 			throw NetworkError ("could not read");
 		}
@@ -394,7 +369,6 @@ SocketReader::read_indefinite (uint8_t* data, int size)
 	assert (size >= _buffer_data);
 	memcpy (data, _buffer, size);
 }
-#endif
 
 #ifdef DVDOMATIC_POSIX
 void

@@ -38,11 +38,10 @@
 #include <iostream>
 #include <unistd.h>
 #include <errno.h>
-#ifdef DVDOMATIC_POSIX
-#include <netinet/in.h>
-#include <netdb.h>
-#endif
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 #include "film.h"
 #include "dcp_video_frame.h"
 #include "lut.h"
@@ -292,43 +291,13 @@ DCPVideoFrame::encode_locally ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_remotely (Server const * serv)
 {
-#ifdef DVDOMATIC_POSIX	
-	int const fd = socket (AF_INET, SOCK_STREAM, 0);
-	if (fd < 0) {
-		throw NetworkError ("could not create socket");
-	}
+	asio::io_service io_service;
+	asio::ip::tcp::resolver resolver (io_service);
+	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
+	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	struct timeval tv;
-	tv.tv_sec = 20;
-	tv.tv_usec = 0;
-	
-	if (setsockopt (fd, SOL_SOCKET, SO_RCVTIMEO, (void *) &tv, sizeof (tv)) < 0) {
-		close (fd);
-		throw NetworkError ("setsockopt failed");
-	}
-
-	if (setsockopt (fd, SOL_SOCKET, SO_SNDTIMEO, (void *) &tv, sizeof (tv)) < 0) {
-		close (fd);
-		throw NetworkError ("setsockopt failed");
-	}
-	
-	struct hostent* server = gethostbyname (serv->host_name().c_str ());
-	if (server == 0) {
-		close (fd);
-		throw NetworkError ("gethostbyname failed");
-	}
-
-	struct sockaddr_in server_address;
-	memset (&server_address, 0, sizeof (server_address));
-	server_address.sin_family = AF_INET;
-	memcpy (&server_address.sin_addr.s_addr, server->h_addr, server->h_length);
-	server_address.sin_port = htons (Config::instance()->server_port ());
-	if (connect (fd, (struct sockaddr *) &server_address, sizeof (server_address)) < 0) {
-		close (fd);
-		stringstream s;
-		s << "could not connect (" << strerror (errno) << ")";
-		throw NetworkError (s.str());
-	}
+	shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
+	socket->connect (*endpoint_iterator);
 
 #ifdef DEBUG_HASH
 	_input->hash ("Input for remote encoding (before sending)");
@@ -351,13 +320,13 @@ DCPVideoFrame::encode_remotely (Server const * serv)
 		s << _input->line_size()[i] << " ";
 	}
 
-	socket_write (fd, (uint8_t *) s.str().c_str(), s.str().length() + 1);
+	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
 
 	for (int i = 0; i < _input->components(); ++i) {
-		socket_write (fd, _input->data()[i], _input->line_size()[i] * _input->lines(i));
+		asio::write (*socket, asio::buffer (_input->data()[i], _input->line_size()[i] * _input->lines(i)));
 	}
 
-	SocketReader reader (fd);
+	SocketReader reader (socket);
 
 	char buffer[32];
 	reader.read_indefinite ((uint8_t *) buffer, sizeof (buffer));
@@ -377,13 +346,7 @@ DCPVideoFrame::encode_remotely (Server const * serv)
 		_log->log (s.str ());
 	}
 	
-	close (fd);
 	return e;
-#endif
-
-#ifdef DVDOMATIC_WINDOWS	
-	return shared_ptr<EncodedData> ();
-#endif
 }
 
 /** Write this data to a J2K file.
@@ -408,19 +371,17 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
 	filesystem::rename (tmp_j2k, opt->frame_out_path (frame, false));
 }
 
-#ifdef DVDOMATIC_POSIX	
-/** Send this data to a file descriptor.
- *  @param fd File descriptor.
+/** Send this data to a socket.
+ *  @param socket Socket
  */
 void
-EncodedData::send (int fd)
+EncodedData::send (shared_ptr<asio::ip::tcp::socket> socket)
 {
 	stringstream s;
 	s << _size;
-	socket_write (fd, (uint8_t *) s.str().c_str(), s.str().length() + 1);
-	socket_write (fd, _data, _size);
+	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
+	asio::write (*socket, asio::buffer (_data, _size));
 }
-#endif	
 
 #ifdef DEBUG_HASH
 void

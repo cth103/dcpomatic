@@ -24,11 +24,8 @@
 #include <vector>
 #include <unistd.h>
 #include <errno.h>
-#ifdef DVDOMATIC_POSIX
-#include <sys/types.h> 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#endif
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
@@ -49,15 +46,15 @@ using namespace boost;
 
 static vector<thread *> worker_threads;
 
-static std::list<int> queue;
+static std::list<shared_ptr<asio::ip::tcp::socket> > queue;
 static mutex worker_mutex;
 static condition worker_condition;
 static Log log_ ("servomatic.log");
 
 int
-process (int fd)
+process (shared_ptr<asio::ip::tcp::socket> socket)
 {
-	SocketReader reader (fd);
+	SocketReader reader (socket);
 	
 	char buffer[128];
 	reader.read_indefinite ((uint8_t *) buffer, sizeof (buffer));
@@ -68,7 +65,6 @@ process (int fd)
 	string command;
 	s >> command;
 	if (command != "encode") {
-		close (fd);
 		return -1;
 	}
 	
@@ -123,7 +119,6 @@ process (int fd)
 #ifdef DEBUG_HASH
 	encoded->hash ("Encoded image (as made by server and as sent back)");
 #endif		
-
 	
 	return frame;
 }
@@ -137,7 +132,7 @@ worker_thread ()
 			worker_condition.wait (lock);
 		}
 
-		int fd = queue.front ();
+		shared_ptr<asio::ip::tcp::socket> socket = queue.front ();
 		queue.pop_front ();
 		
 		lock.unlock ();
@@ -148,12 +143,12 @@ worker_thread ()
 		gettimeofday (&start, 0);
 		
 		try {
-			frame = process (fd);
+			frame = process (socket);
 		} catch (std::exception& e) {
 			cerr << "Error: " << e.what() << "\n";
 		}
 		
-		close (fd);
+		socket.reset ();
 		
 		lock.lock ();
 
@@ -178,44 +173,11 @@ main ()
 		worker_threads.push_back (new thread (worker_thread));
 	}
 	
-	int fd = socket (AF_INET, SOCK_STREAM, 0);
-	if (fd < 0) {
-		throw NetworkError ("could not open socket");
-	}
-
-	int const o = 1;
-	setsockopt (fd, SOL_SOCKET, SO_REUSEADDR, &o, sizeof (o));
-
-	struct timeval tv;
-	tv.tv_sec = 20;
-	tv.tv_usec = 0;
-	setsockopt (fd, SOL_SOCKET, SO_RCVTIMEO, (void *) &tv, sizeof (tv));
-	setsockopt (fd, SOL_SOCKET, SO_SNDTIMEO, (void *) &tv, sizeof (tv));
-
-	struct sockaddr_in server_address;
-	memset (&server_address, 0, sizeof (server_address));
-	server_address.sin_family = AF_INET;
-	server_address.sin_addr.s_addr = INADDR_ANY;
-	server_address.sin_port = htons (Config::instance()->server_port ());
-	if (::bind (fd, (struct sockaddr *) &server_address, sizeof (server_address)) < 0) {
-		stringstream s;
-		s << "could not bind to port " << Config::instance()->server_port() << " (" << strerror (errno) << ")";
-		throw NetworkError (s.str());
-	}
-
-	listen (fd, BACKLOG);
-
+	asio::io_service io_service;
+	asio::ip::tcp::acceptor acceptor (io_service, asio::ip::tcp::endpoint (asio::ip::tcp::v4(), Config::instance()->server_port ()));
 	while (1) {
-		struct sockaddr_in client_address;
-		socklen_t client_length = sizeof (client_address);
-		int new_fd = accept (fd, (struct sockaddr *) &client_address, &client_length);
-		if (new_fd < 0) {
-			if (errno != EAGAIN && errno != EWOULDBLOCK) {
-				throw NetworkError ("accept failed");
-			}
-
-			continue;
-		}
+		shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
+		acceptor.accept (*socket);
 
 		mutex::scoped_lock lock (worker_mutex);
 		
@@ -230,7 +192,7 @@ main ()
 		setsockopt (new_fd, SOL_SOCKET, SO_RCVTIMEO, (void *) &tv, sizeof (tv));
 		setsockopt (new_fd, SOL_SOCKET, SO_SNDTIMEO, (void *) &tv, sizeof (tv));
 		
-		queue.push_back (new_fd);
+		queue.push_back (socket);
 		worker_condition.notify_all ();
 	}
 	
