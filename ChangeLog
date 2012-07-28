@@ -1,5 +1,9 @@
 2012-07-28  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.37 released.
+
+2012-07-28  Carl Hetherington  <cth@carlh.net>
+
 	* Fix missed frames when encoding caused by server
 	threads that are attempting to access non-responding
 	servers.
