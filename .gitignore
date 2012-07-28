@@ -11,3 +11,5 @@ films-*
 src/lib/version.cc
 *.tar.bz2
 *.exe
+alignment
+sync
