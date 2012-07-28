@@ -41,6 +41,7 @@ static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
+	     << "  -v, --version      show DVD-o-matic version\n"
 	     << "  -h, --help         show this help\n"
 	     << "  -d, --deps         list DVD-o-matic dependency details and quit\n"
 	     << "  -t, --test         run in test mode (repeatable UUID generation, timestamps etc.)\n"
@@ -59,6 +60,7 @@ main (int argc, char* argv[])
 	int option_index = 0;
 	while (1) {
 		static struct option long_options[] = {
+			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "deps", no_argument, 0, 'd'},
 			{ "test", no_argument, 0, 't'},
@@ -73,6 +75,9 @@ main (int argc, char* argv[])
 		}
 
 		switch (c) {
+		case 'v':
+			cout << "dvdomatic version " << DVDOMATIC_VERSION << "\n";
+			exit (EXIT_SUCCESS);
 		case 'h':
 			help (argv[0]);
 			exit (EXIT_SUCCESS);
