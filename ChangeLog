@@ -1,5 +1,9 @@
 2012-07-28  Carl Hetherington  <cth@carlh.net>
 
+	* Fix makedcp parsing of -v option.
+
+2012-07-28  Carl Hetherington  <cth@carlh.net>
+
 	* Version 0.36 released.
 
 2012-07-28  Carl Hetherington  <cth@carlh.net>
