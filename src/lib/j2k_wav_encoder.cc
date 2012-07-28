@@ -174,7 +174,7 @@ J2KWAVEncoder::encoder_thread (Server* server)
 					remote_backoff += 10;
 				}
 				stringstream s;
-				s << "Remote encode on " << server->host_name() << " failed (" << e.what() << "); thread sleeping for " << remote_backoff << "s.";
+				s << "Remote encode of " << vf->frame() << " on " << server->host_name() << " failed (" << e.what() << "); thread sleeping for " << remote_backoff << "s.";
 				_log->log (s.str ());
 			}
 				
@@ -236,6 +236,31 @@ J2KWAVEncoder::process_end ()
 	lock.unlock ();
 	
 	terminate_worker_threads ();
+
+	/* The following sequence of events can occur in the above code:
+	     1. a remote worker takes the last image off the queue
+	     2. the loop above terminates
+	     3. the remote worker fails to encode the image and puts it back on the queue
+	     4. the remote worker is then terminated by terminate_worker_threads
+
+	     So just mop up anything left in the queue here.
+	*/
+
+	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
+		stringstream s;
+		s << "Encode left-over frame " << (*i)->frame();
+		_log->log (s.str ());
+		try {
+			shared_ptr<EncodedData> e = (*i)->encode_locally ();
+			e->write (_opt, (*i)->frame ());
+			frame_done ();
+		} catch (std::exception& e) {
+			stringstream s;
+			s << "Local encode failed " << e.what() << ".";
+			_log->log (s.str ());
+		}
+	}
+	
 	close_sound_files ();
 
 	/* Rename .wav.tmp files to .wav */

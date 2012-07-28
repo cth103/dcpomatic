@@ -1,8 +1,6 @@
 Port DVD rip
 
 Write still j2ks straight to a MXF.
-Seem to be problems when waiting for (failing) server threads at the end of an encode;
-their frames aren't reprocessed locally.
 md5_data to use openssl
 
 Standardise j2c/j2k
