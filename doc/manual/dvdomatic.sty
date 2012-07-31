@@ -1,0 +1,68 @@
+%%
+%% This style is derivated from the docbook one
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ardour}[2007/04/04 My DocBook Style]
+
+%% Just use the original package and pass the options
+\RequirePackageWithOptions{docbook}
+
+% Use a nice font
+\usepackage{lmodern}
+
+% Define \dbend as the dangerous bend sign
+\font\manual=manfnt
+\def\dbend{{\manual\char127}}
+
+% Redefine sidebar environment to use the dangerous bend style
+% Danger, Will Robinson!
+\def\sidebar{\begin{trivlist}\item[]\noindent%
+\begingroup\hangindent=2pc\hangafter=-2%\clubpenalty=10000%
+\def\par{\endgraf\endgroup}%
+\hbox to0pt{\hskip-\hangindent\dbend\hfill}\ignorespaces}
+\def\endsidebar{\par\end{trivlist}}
+
+
+% Futz with the title page; basically a copy of
+% /usr/share/texmf/tex/latex/dblatex/style/dbk_title.sty
+% with authors added.
+
+\def\DBKcover{
+\ifthenelse{\equal{\DBKedition}{}}{\def\edhead{}}{\def\edhead{Ed. \DBKedition}}
+
+\pagestyle{empty}
+
+% interligne double
+\setlength{\oldbaselineskip}{\baselineskip}
+\setlength{\baselineskip}{2\oldbaselineskip}
+\textsf{
+\vfill
+\vspace{2.5cm}
+\begin{center}
+  \huge{\textbf{\DBKtitle}}\\ %
+  \ \\ %
+  \ \\ %
+  \Large{\DBKauthor}\\ %
+  \ifx\DBKsubtitle\relax\else%
+    \underline{\ \ \ \ \ \ \ \ \ \ \ }\\ %
+    \ \\ %
+    \huge{\textbf{\DBKsubtitle}}\\ %
+  \fi
+\end{center}
+\vfill
+\setlength{\baselineskip}{\oldbaselineskip}
+\hspace{1cm}
+\vspace{1cm}
+\begin{center}
+\begin{tabular}{p{7cm} p{7cm}}
+\Large{\DBKreference{} \edhead} & \\
+\end{tabular}
+\end{center}
+}
+
+% Format for the other pages
+\newpage
+\setlength{\baselineskip}{\oldbaselineskip}
+\chead[]{\DBKcheadfront}
+\lfoot[]{}
+}

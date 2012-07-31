@@ -84,7 +84,7 @@ MakeDCPJob::run ()
 		break;
 	}
 	
-	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_type (), rint (_fs->frames_per_second), frames);
+	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_kind (), rint (_fs->frames_per_second), frames);
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
 	descend (0.9);

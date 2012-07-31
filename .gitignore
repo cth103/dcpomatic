@@ -13,3 +13,6 @@ src/lib/version.cc
 *.exe
 alignment
 sync
+doc/manual/html
+doc/manual/pdf
+doc/manual/extensions.ent

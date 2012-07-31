@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book [
+<!ENTITY % sgml.features "IGNORE">
+<!ENTITY % xml.features "INCLUDE">
+<!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.5//EN"
+   "/usr/share/xml/docbook/schema/dtd/4.5/dbcentx.mod">
+%dbcent;
+<!ENTITY % extensions SYSTEM "extensions.ent">
+%extensions;
+]>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+
+<bookinfo>
+<title>DVD-o-matic</title>
+<author><firstname>Carl</firstname><surname>Hetherington</surname></author>
+</bookinfo>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Introduction</title>
+
+<para>
+Hello, and welcome to DVD-o-matic!
+</para>
+
+<section>
+<title>What is DVD-o-matic?</title>
+
+<para>
+DVD-o-matic is a program to generate <ulink
+url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
+Cinema Packages</ulink> (DCPs) from DVDs, Blu-Rays, video files such as MP4
+and AVI, or still images.  The resulting DCPs will play on modern digital
+cinema projectors.
+</para>
+
+<para>
+You might find it useful to make DVDs easier to present, to encode
+independently-shot feature films, or to generate local advertising for
+your cinema.
+</para>
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Installation</title>
+
+<section>
+<title>Windows</title>
+
+<para>
+To install DVD-o-matic on Windows, simply download the installer from
+<ulink url="http://carlh.net/software/dvdomatic">http://carlh.net</ulink>
+and double-click it.  Click through the installer wizard, and
+DVD-o-matic will be installed to your machine.
+</para>
+
+</section>
+
+<section>
+<title>Linux</title>
+
+<para>
+Installation on Linux is currently a little involved, as there are no
+packages available (yet); you will have to compile it from source.
+</para>
+
+<para>
+The following dependencies are required:
+<itemizedlist>
+<listitem><ulink url="http://ffmpeg.org/">FFmpeg</ulink></listitem>
+<listitem><ulink url="http://www.mega-nerd.com/libsndfile/">libsndfile</ulink></listitem>
+<listitem><ulink url="http://www.openssl.org/">OpenSSL</ulink></listitem>
+<listitem><ulink url="http://www.openjpeg.org/">libopenjpeg</ulink></listitem>
+<listitem><ulink url="http://www.imagemagick.org/script/index.php">ImageMagick</ulink></listitem>
+<listitem><ulink url="http://www.boost.org/">Boost</ulink></listitem>
+<listitem><ulink url="http://www.libssh.org/">libssh</ulink></listitem>
+<listitem><ulink url="http://www.gtk.org/">GTK</ulink></listitem>
+<listitem><ulink url="http://www.wxwidgets.org/">wxWidgets</ulink></listitem>
+<listitem><ulink url="http://carlh.net/software/libdcp/">libdcp</ulink></listitem>
+</itemizedlist>
+</para>
+
+<para>
+Once you have installed the development packages for the dependencies,
+download the source code from <ulink
+url="http://carlh.net/software/dvdomatic">http://carlh.net</ulink>,
+unpack it and run the following commands from inside the source
+directory:
+</para>
+
+<programlisting>
+./waf configure
+./waf build
+sudo ./waf install
+</programlisting>
+
+<para>
+With any luck, this will build and install DVD-o-matic on your system.  To run it, enter:
+</para>
+
+<programlisting>
+dvdomatic
+</programlisting>
+
+<para>
+in a shell.
+</para>
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Creating a video DCP with DVD-o-matic</title>
+
+<para>
+In this chapter we will see how to create a video DCP using DVD-o-matic.
+</para>
+
+<section>
+<title>Creating a new film</title>
+
+<para>
+Let's make a very simple DCP to see how DVD-o-matic works.  First, we
+need some content.  Download the low-resolution trailer for the open
+movie <ulink url="http://sintel.org/">Sintel</ulink> from <ulink
+url="http://ftp.nluug.nl/ftp/graphics/blender/apricot/trailer/Sintel_Trailer1.480p.DivX_Plus_HD.mkv">their
+website</ulink>.  Generally, of course, one would want to use the
+highest-resolution material available, but for this test we will use
+the low-resolution version to save everyone's bandwidth bills.
+</para>
+
+<para>
+Now, start DVD-o-matic and its window will open.  First, we will
+create a new film.  A &lsquo;film&rsquo; is how DVD-o-matic refers to
+a piece of content, along with some settings, which we will make into
+a DCP.  DVD-o-matic stores its data in a folder on your disk while it
+creates the DCP.  will use to store its working files while it creates
+your DCP.  You can create a new film by selecting
+<guilabel>New</guilabel> from the <guilabel>File</guilabel> menu, as
+shown in <xref linkend="fig-file-new"/>.
+</para>
+
+<figure id="fig-file-new"> 
+  <title>Creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/file-new&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This will open a dialogue box for the new film, as shown in <xref
+linkend="fig-new-film"/>.
+</para>
+
+<figure id="fig-new-film"> 
+  <title>Dialogue box for creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/new-film&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+In this dialogue box you can choose a name for the DCP.  This will be
+used to name the folder to store its data in, and also as the initial
+name for the DCP itself).  You can also set where you want to create
+the film.  In the example from the figure, DVD-o-matic will create a
+folder called &lsquo;DCP Test&rsquo; inside my home folder (carl) into which it
+will write its working files.
+</para>
+
+</section>
+
+<section>
+<title>Selecting content</title>
+
+<para>
+The next step is to set the content that you want to use.  Click the
+content selector, as shown in <xref
+linkend="fig-click-content-selector"/> and the a file chooser will
+open for you to select the content file to use, as shown in <xref
+linkend="fig-select-content-file"/>.
+</para>
+
+<figure id="fig-click-content-selector">
+  <title>Opening the content selector</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/click-content-selector&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<figure id="fig-select-content-file"> 
+  <title>Selecting the content file</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/select-content-file&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Select your content file and click <guilabel>Open</guilabel>.  In this
+case, we are using the Sintel trailer that we downloaded earlier.
+</para>
+
+<para>
+When you do this, DVD-o-maticw will take a look at your file.  After a
+short while (when the progress bars at the bottom right of the window
+have finished), you can look through your content using the slider to
+the right of the window, as shown in <xref linkend="fig-examine-thumbs"/>.
+</para>
+
+<figure id="fig-examine-thumbs"> 
+  <title>Examining the content</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/examine-thumbs&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Dragging the slider will move through your video.
+</para>
+
+</section>
+
+<section>
+<title>Setting up</title>
+
+<para>
+Now there are a few things to set up to describe how the DCP should be
+created, as shown in <xref linkend="fig-setup"/>.
+</para>
+
+<figure id="fig-setup"> 
+  <title>Setting up</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/setup&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The first thing is the content type.  This can be
+&lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
+required type from the drop-down list.
+</para>
+
+<para>
+Next is the format.  This will govern the shape that DVD-o-matic will
+make your image into.  Select the aspect ratio that your content
+should be presented in.  The &lsquo;4:3 within Flat&rsquo; and
+&lsquo;16:9 within Flat&rsquo; settings will put the image at the
+specified ratio within a Flat (1.85:1) frame, so that you can project
+the DCP using your projector's Flat preset.
+</para>
+
+<para>
+The remaining options can often be left alone, but may sometimes be
+useful.  The &lsquo;crop&rsquo; settings can be used to crop your
+content, which can be useful to remove black borders from round the
+edges of DVD images, for example.  The <guilabel>L</guilabel>,
+<guilabel>R</guilabel>, <guilabel>T</guilabel> and
+<guilabel>B</guilabel> settings correspond to the left, right, top and
+bottom of the image respectively.  The specified number of pixels will
+be trimmed from each edge, and your content image in the right of the
+window will be updated to show the cropping in action.
+</para>
+
+<para>
+The &lsquo;filters&rsquo; settings allow you to apply various video
+filters to the image.  These may be useful to try to improve
+poor-quality sources like DVDs.  We will discuss filtering later in the manual.
+<!-- XXX: link -->
+</para>
+
+<para>
+The &lsquo;scaler&rsquo; is the method that will be used to scale up
+your content to the required size for the DCP, if required.  We will
+discuss the options in more detail later; Bicubic is a fine choice in
+most situations.
+<!-- XXX: link -->
+</para>
+
+<para>
+&lsquo;Audio Gain&rsquo; is used to alter the volume of the
+soundtrack.  The specified gain (in dB) will be applied to each sound
+channel before it is written to the DCP.
+</para>
+
+<para>
+&lsquo;Audio Delay&rsquo; is used to adjust the synchronisation
+between audio and video.  A positive delay will move the audio later
+with respect to the video, and a negative delay will move it earlier.
+</para>
+
+<!-- XXX: I don't think FPS should be editable -->
+
+<!-- XXX: Range -->
+
+</section>
+
+</chapter>
+
+</book>
