@@ -1,3 +1,9 @@
+2012-07-31  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to compute required audio gains to
+	effect the same as a sound processor fader change
+	(currently for Dolby CP750 only).
+
 2012-07-28  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.37 released.
