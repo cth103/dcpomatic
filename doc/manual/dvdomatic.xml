@@ -165,9 +165,9 @@ linkend="fig-new-film"/>.
 </figure>
 
 <para>
-In this dialogue box you can choose a name for the DCP.  This will be
+In this dialogue box you can choose a name for the film.  This will be
 used to name the folder to store its data in, and also as the initial
-name for the DCP itself).  You can also set where you want to create
+name for the DCP itself.  You can also set whereabouts you want to create
 the film.  In the example from the figure, DVD-o-matic will create a
 folder called &lsquo;DCP Test&rsquo; inside my home folder (carl) into which it
 will write its working files.

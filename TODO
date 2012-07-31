@@ -2,6 +2,7 @@ Port DVD rip
 
 Write still j2ks straight to a MXF.
 md5_data to use openssl
+Write all j2ks straight to a MXF?  Possible?
 
 Standardise j2c/j2k
 Format name in ~/.dvdomatic screws up with spaces; use ID or something
