@@ -54,6 +54,7 @@ extern "C" {
 #include "filter.h"
 #include "screen.h"
 #include "film_state.h"
+#include "sound_processor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
 #include "player_manager.h"
 #endif
@@ -386,6 +387,7 @@ dvdomatic_setup ()
 	DCPContentType::setup_dcp_content_types ();
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();
+	SoundProcessor::setup_sound_processors ();
 
 #ifdef DVDOMATIC_POSIX	
 	struct sigaction sa;

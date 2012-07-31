@@ -27,6 +27,7 @@
 #include "scaler.h"
 #include "screen.h"
 #include "filter.h"
+#include "sound_processor.h"
 
 using namespace std;
 using namespace boost;
@@ -41,6 +42,7 @@ Config::Config ()
 	, _j2k_bandwidth (250000000)
 	, _reference_scaler (Scaler::from_id ("bicubic"))
 	, _tms_path (".")
+	, _sound_processor (SoundProcessor::from_id ("dolby_cp750"))
 {
 	ifstream f (file().c_str ());
 	string line;
@@ -85,6 +87,8 @@ Config::Config ()
 			_tms_user = v;
 		} else if (k == "tms_password") {
 			_tms_password = v;
+		} else if (k == "sound_processor") {
+			_sound_processor = SoundProcessor::from_id (v);
 		}
 	}
 
@@ -139,4 +143,5 @@ Config::write () const
 	f << "tms_path " << _tms_path << "\n";
 	f << "tms_user " << _tms_user << "\n";
 	f << "tms_password " << _tms_password << "\n";
+	f << "sound_processor " << _sound_processor->id ();
 }

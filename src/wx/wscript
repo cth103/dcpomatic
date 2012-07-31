@@ -14,6 +14,7 @@ def build(bld):
                  film_viewer.cc
                  job_manager_view.cc
                  job_wrapper.cc
+                 gain_calculator_dialog.cc
                  config_dialog.cc
                  filter_dialog.cc
                  filter_view.cc

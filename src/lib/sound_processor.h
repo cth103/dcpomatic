@@ -17,62 +17,50 @@
 
 */
 
-/** @file src/scaler.h
- *  @brief A class to describe one of FFmpeg's software scalers.
+/** @file src/sound_processor.h
+ *  @brief A class to describe a sound processor.
  */
 
-#ifndef DVDOMATIC_SCALER_H
-#define DVDOMATIC_SCALER_H
+#ifndef DVDOMATIC_SOUND_PROCESSOR_H
+#define DVDOMATIC_SOUND_PROCESSOR_H
 
 #include <string>
 #include <vector>
 
-/** @class Scaler
- *  @brief Class to describe one of FFmpeg's software scalers
+/** @class SoundProcessor
+ *  @brief Class to describe a sound processor.
  */
-class Scaler
+class SoundProcessor
 {
 public:
-	Scaler (int f, int m, std::string i, std::string n);
+	SoundProcessor (std::string i, std::string n);
 
-	/** @return id used for calls to FFmpeg's pp_postprocess */
-	int ffmpeg_id () const {
-		return _ffmpeg_id;
-	}
-
-	/** @return number to use on an mplayer command line */
-	int mplayer_id () const {
-		return _mplayer_id;
-	}
+	virtual float db_for_fader_change (float from, float to) const = 0;
 
 	/** @return id for our use */
 	std::string id () const {
 		return _id;
 	}
 
-	/** @return user-visible name for this scaler */
+	/** @return user-visible name for this sound processor */
 	std::string name () const {
 		return _name;
 	}
 	
-	static std::vector<Scaler const *> all ();
-	static void setup_scalers ();
-	static Scaler const * from_id (std::string id);
-	static Scaler const * from_index (int);
-	static int as_index (Scaler const *);
+	static std::vector<SoundProcessor const *> all ();
+	static void setup_sound_processors ();
+	static SoundProcessor const * from_id (std::string id);
+	static SoundProcessor const * from_index (int);
+	static int as_index (SoundProcessor const *);
 
 private:
-
-	/** id used for calls to FFmpeg's pp_postprocess */
-	int _ffmpeg_id;
-	int _mplayer_id;
 	/** id for our use */
 	std::string _id;
-	/** user-visible name for this scaler */
+	/** user-visible name for this sound processor */
 	std::string _name;
 
-	/** all available scalers */
-	static std::vector<Scaler const *> _scalers;
+	/** sll available sound processors */
+	static std::vector<SoundProcessor const *> _sound_processors;
 };
 
 #endif

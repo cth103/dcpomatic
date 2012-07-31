@@ -32,6 +32,7 @@ class Server;
 class Screen;
 class Scaler;
 class Filter;
+class SoundProcessor;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -95,6 +96,10 @@ public:
 
 	std::string tms_password () const {
 		return _tms_password;
+	}
+
+	SoundProcessor const * sound_processor () const {
+		return _sound_processor;
 	}
 
 	/** @param n New number of local encoding threads */
@@ -199,6 +204,8 @@ private:
 	std::string _tms_path;
 	std::string _tms_user;
 	std::string _tms_password;
+
+	SoundProcessor const * _sound_processor;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

@@ -23,6 +23,7 @@ def build(bld):
                  decoder.cc
                  decoder_factory.cc
                  delay_line.cc
+                 dolby_cp750.cc
                  dvd.cc
 		 encoder.cc
                  encoder_factory.cc
@@ -46,6 +47,7 @@ def build(bld):
 		 scaler.cc
                  screen.cc
 		 server.cc
+                 sound_processor.cc
 		 thumbs_job.cc
                  tiff_decoder.cc
 	         tiff_encoder.cc

@@ -57,6 +57,7 @@ private:
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void audio_gain_changed (wxCommandEvent &);
+	void audio_gain_calculate_button_clicked (wxCommandEvent &);
 	void audio_delay_changed (wxCommandEvent &);
 	void still_duration_changed (wxCommandEvent &);
 
@@ -100,6 +101,7 @@ private:
 	wxComboBox* _scaler;
 	/** The Film's audio gain */
 	wxSpinCtrl* _audio_gain;
+	wxButton* _audio_gain_calculate_button;
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
 	/** The Film's DCP content type */

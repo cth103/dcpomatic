@@ -41,6 +41,8 @@
 #include "wx_util.h"
 #include "film_editor.h"
 #include "dcp_range_dialog.h"
+#include "gain_calculator_dialog.h"
+#include "sound_processor.h"
 
 using namespace std;
 using namespace boost;
@@ -113,6 +115,8 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		_audio_gain = new wxSpinCtrl (this);
 		s->Add (video_control (_audio_gain), 1);
 		video_control (add_label_to_sizer (s, this, "dB"));
+		_audio_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
+		s->Add (_audio_gain_calculate_button, 1, wxEXPAND);
 		_sizer->Add (s);
 	}
 
@@ -209,6 +213,9 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
 	_audio_gain->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
+	_audio_gain_calculate_button->Connect (
+		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
+		);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
@@ -520,6 +527,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_change_dcp_range_button->Enable (s);
 	_dcp_ab->Enable (s);
 	_audio_gain->Enable (s);
+	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);
 	_still_duration->Enable (s);
 }
@@ -646,4 +654,18 @@ FilmEditor::dcp_range_changed (int frames, TrimAction action)
 {
 	_film->set_dcp_frames (frames);
 	_film->set_dcp_trim_action (action);
+}
+
+void
+FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
+{
+	GainCalculatorDialog* d = new GainCalculatorDialog (this);
+	d->ShowModal ();
+	_audio_gain->SetValue (
+		Config::instance()->sound_processor()->db_for_fader_change (
+			d->wanted_fader (),
+			d->actual_fader ()
+			)
+		);
+	d->Destroy ();
 }
