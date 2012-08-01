@@ -1,3 +1,9 @@
+2012-08-01  Carl Hetherington  <cth@carlh.net>
+
+	* Fix a few bugs related to thumbnailing.
+
+	* Update for libdcp version 0.06.
+
 2012-07-31  Carl Hetherington  <cth@carlh.net>
 
 	* Add option to compute required audio gains to
