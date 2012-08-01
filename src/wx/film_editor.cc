@@ -116,6 +116,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		s->Add (video_control (_audio_gain), 1);
 		video_control (add_label_to_sizer (s, this, "dB"));
 		_audio_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
+		video_control (_audio_gain_calculate_button);
 		s->Add (_audio_gain_calculate_button, 1, wxEXPAND);
 		_sizer->Add (s);
 	}
