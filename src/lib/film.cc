@@ -584,13 +584,6 @@ Film::set_scaler (Scaler const * s)
 	signal_changed (SCALER);
 }
 
-void
-Film::set_frames_per_second (float f)
-{
-	_state.frames_per_second = f;
-	signal_changed (FRAMES_PER_SECOND);
-}
-
 /** @return full paths to any audio files that this Film has */
 vector<string>
 Film::audio_files () const

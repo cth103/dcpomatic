@@ -4,7 +4,9 @@ all:	html pdf
 
 DIAGRAMS := 
 
-SCREENSHOTS := file-new.png new-film.png click-content-selector.png select-content-file.png examine-thumbs.png setup.png
+SCREENSHOTS := file-new.png video-new-film.png still-new-film.png click-content-selector.png video-select-content-file.png \
+               still-select-content-file.png examine-thumbs.png video-setup.png still-setup.png range.png \
+               calculate-audio-gain.png prefs.png making-dcp.png filters.png
 
 XML := dvdomatic.xml
 

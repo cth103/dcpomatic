@@ -138,7 +138,6 @@ public:
 	void set_bottom_crop (int);
 	void set_left_crop (int);
 	void set_right_crop (int);
-	void set_frames_per_second (float);
 	void set_format (Format const *);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_audio_gain (float);
