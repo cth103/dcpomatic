@@ -40,6 +40,16 @@ your cinema.
 </para>
 
 </section>
+
+<section>
+<title>Licence</title>
+
+<para>
+DVD-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL</ulink>.
+</para>
+
+
+</section>
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
@@ -52,7 +62,7 @@ your cinema.
 To install DVD-o-matic on Windows, simply download the installer from
 <ulink url="http://carlh.net/software/dvdomatic">http://carlh.net</ulink>
 and double-click it.  Click through the installer wizard, and
-DVD-o-matic will be installed to your machine.
+DVD-o-matic will be installed onto your machine.
 </para>
 
 </section>
@@ -111,10 +121,12 @@ in a shell.
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-<title>Creating a video DCP with DVD-o-matic</title>
+<title>Creating a video DCP</title>
 
 <para>
-In this chapter we will see how to create a video DCP using DVD-o-matic.
+In this chapter we will see how to create a video DCP using
+DVD-o-matic.  We will gloss over some of the finer details, which are
+explained in later chapters.
 </para>
 
 <section>
@@ -132,11 +144,10 @@ the low-resolution version to save everyone's bandwidth bills.
 
 <para>
 Now, start DVD-o-matic and its window will open.  First, we will
-create a new film.  A &lsquo;film&rsquo; is how DVD-o-matic refers to
+create a new &lsquo;film&rsquo;.  A &lsquo;film&rsquo; is how DVD-o-matic refers to
 a piece of content, along with some settings, which we will make into
 a DCP.  DVD-o-matic stores its data in a folder on your disk while it
-creates the DCP.  will use to store its working files while it creates
-your DCP.  You can create a new film by selecting
+creates the DCP.  You can create a new film by selecting
 <guilabel>New</guilabel> from the <guilabel>File</guilabel> menu, as
 shown in <xref linkend="fig-file-new"/>.
 </para>
@@ -152,14 +163,14 @@ shown in <xref linkend="fig-file-new"/>.
 
 <para>
 This will open a dialogue box for the new film, as shown in <xref
-linkend="fig-new-film"/>.
+linkend="fig-video-new-film"/>.
 </para>
 
-<figure id="fig-new-film"> 
+<figure id="fig-video-new-film"> 
   <title>Dialogue box for creating a new film</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/new-film&scs;"/>
+      <imagedata fileref="screenshots/video-new-film&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
@@ -183,7 +194,7 @@ The next step is to set the content that you want to use.  Click the
 content selector, as shown in <xref
 linkend="fig-click-content-selector"/> and the a file chooser will
 open for you to select the content file to use, as shown in <xref
-linkend="fig-select-content-file"/>.
+linkend="fig-video-select-content-file"/>.
 </para>
 
 <figure id="fig-click-content-selector">
@@ -195,11 +206,11 @@ linkend="fig-select-content-file"/>.
   </mediaobject>
 </figure>
 
-<figure id="fig-select-content-file"> 
-  <title>Selecting the content file</title> 
+<figure id="fig-video-select-content-file"> 
+  <title>Selecting a video content file</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/select-content-file&scs;"/>
+      <imagedata fileref="screenshots/video-select-content-file&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
@@ -210,7 +221,7 @@ case, we are using the Sintel trailer that we downloaded earlier.
 </para>
 
 <para>
-When you do this, DVD-o-maticw will take a look at your file.  After a
+When you do this, DVD-o-matic will take a look at your file.  After a
 short while (when the progress bars at the bottom right of the window
 have finished), you can look through your content using the slider to
 the right of the window, as shown in <xref linkend="fig-examine-thumbs"/>.
@@ -236,14 +247,14 @@ Dragging the slider will move through your video.
 
 <para>
 Now there are a few things to set up to describe how the DCP should be
-created, as shown in <xref linkend="fig-setup"/>.
+created, as shown in <xref linkend="fig-video-setup"/>.
 </para>
 
-<figure id="fig-setup"> 
-  <title>Setting up</title>
+<figure id="fig-video-setup"> 
+  <title>Setting up to make a video DCP</title>
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/setup&scs;"/>
+      <imagedata fileref="screenshots/video-setup&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
@@ -266,7 +277,7 @@ the DCP using your projector's Flat preset.
 <para>
 The remaining options can often be left alone, but may sometimes be
 useful.  The &lsquo;crop&rsquo; settings can be used to crop your
-content, which can be useful to remove black borders from round the
+content, which can be used to remove black borders from round the
 edges of DVD images, for example.  The <guilabel>L</guilabel>,
 <guilabel>R</guilabel>, <guilabel>T</guilabel> and
 <guilabel>B</guilabel> settings correspond to the left, right, top and
@@ -297,17 +308,385 @@ channel before it is written to the DCP.
 </para>
 
 <para>
+If you use a sound processor that DVD-o-matic knows about, it can help
+you calculate changes in gain that you should apply.  Say, for
+example, that you make a test DCP and find that you have to run it at
+volume 5 instead of volume 7 to get a good sound level in the screen.
+If this is the case, click the <guilabel>Calculate...</guilabel>
+button next to the audio gain entry, and the dialogue box in <xref
+linkend="fig-calculate-audio-gain"/> will open.
+</para>
+
+<figure id="fig-calculate-audio-gain"> 
+  <title>Calculating audio gain</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/calculate-audio-gain&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+For our example, put 5 in the first box and 7 in the second and click
+<guilabel>OK</guilabel>.  DVD-o-matic will calculate the audio gain
+that it should apply to make this happen.  Then you can re-make the
+DCP (this will be reasonably fast, as the video data will already have
+been done) and it should play back at the correct volume with 7 on
+your sound-rack fader.
+</para>
+
+<para>
+Current versions of DVD-o-matic only know about the Dolby CP750.  If
+you use a different sound processor, and know the gain curve of its
+volume control, <ulink url="mailto:cth@carlh.net">get in
+touch</ulink>.
+</para>
+
+<para>
 &lsquo;Audio Delay&rsquo; is used to adjust the synchronisation
 between audio and video.  A positive delay will move the audio later
 with respect to the video, and a negative delay will move it earlier.
 </para>
 
-<!-- XXX: I don't think FPS should be editable -->
-
-<!-- XXX: Range -->
+<para>
+The <guilabel>Range</guilabel> controls allow you to specify a part of
+your content to encode.  We will discuss this later.
+</para>
 
 </section>
 
+<section>
+<title>Making the DCP</title>
+
+<para>
+Now that we have set everything up, choose <guilabel>Make
+DCP</guilabel> from the <guilabel>Jobs</guilabel> menu.  DVD-o-matic
+will encode your DCP.  This may take some time (many hours in some
+cases).  While the job is in progress, DVD-o-matic will update you on
+how it is getting on with the progress bar in the bottom right hand
+corner of its window, as shown in <xref linkend="fig-making-dcp"/>.
+</para>
+
+<figure id="fig-making-dcp">
+  <title>Making the DCP</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/making-dcp&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+When it has finished, the DCP will end up on your disk inside the
+film's directory.  You can then copy this to a projector via a USB
+stick, hard-drive or network connection.
+</para>
+
+</section>
 </chapter>
+
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Creating a still-image DCP</title>
+
+<para>
+DVD-o-matic can also be used to create DCPs of a still image, perhaps
+for an advertisement or an on-screen announcement.  This chapter shows you
+how to do it.
+</para>
+
+<para>
+As with video DCPs, the first step is to create a new
+&lsquo;Film&rsquo;; select <guilabel>New</guilabel> from the
+<guilabel>File</guilabel> menu and the new film dialogue will open as
+shown in <xref linkend="fig-still-new-film"/>.
+</para>
+
+<figure id="fig-still-new-film"> 
+  <title>Dialogue box for creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/still-new-film&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Enter a name and click <guilabel>OK</guilabel>.  Then we set up the
+content; click the content selector as before, and this time we will
+choose an image file, as shown in <xref
+linkend="fig-still-select-content-file"/>.
+</para>
+
+<figure id="fig-still-select-content-file"> 
+  <title>Selecting a still content file</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/still-select-content-file&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Setting up for a still image DCP is somewhat simpler than for a video;
+the options are shown in <xref linkend="fig-still-setup"/>.
+</para>
+
+<figure id="fig-still-setup"> 
+  <title>Setting up to make a still DCP</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/still-setup&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+As with video, you can select a content type and the format (ratio)
+that your image should be presented in.  It will be scaled to fit the
+selected ratio.  You can also crop your image, if you so choose, and
+then set a duration (in seconds) that the image should appear on
+screen.
+</para>
+
+<para>
+Finally, as with video, you can choose <guilabel>Make DCP</guilabel>
+from the <guilabel>Jobs</guilabel> menu to create your DCP.  This will
+be much quicker than creating a video DCP, as DVD-o-matic only needs
+to encode a single frame which it can then repeat.
+</para>
+
+</chapter>
+
+
+<chapter xml:id="ch-preferences" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Preferences</title>
+
+<para>
+DVD-o-matic provides a few preferences which can be used to modify its
+behaviour.  This chapter explains those options.
+</para>
+
+<section>
+<title>The preferences dialogue</title>
+
+<para>
+The preferences dialogue is opened by choosing
+<guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
+menu.  The dialogue is shown in <xref linkend="fig-prefs"/>.
+</para>
+
+<figure id="fig-prefs"> 
+  <title>Preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<section>
+<title>TMS setup</title>
+
+<para>
+The first part of the dialogue gives some options for specifying
+details about your TMS.  If you do this, and your TMS accepts SSH
+connections, you can upload DCPs directly from DVD-o-matic to the TMS.
+This is discussed in <xref linkend="sec-tms-upload"/>.
+</para>
+
+<para>
+<guilabel>TMS IP address</guilabel> should be set to the IP address of
+your TMS, <guilabel>TMS target path</guilabel> to the place that DCPs
+should be uploaded to (which will be relative to the home directory of
+the SSH user).  Finally, the user name and password are the
+credentials required to log into the TMS via SSH.
+</para>
+</section>
+
+<section>
+<title>Threads</title>
+
+<para>
+When DVD-o-matic is encoding DCPs it can use multiple parallel threads
+to speed things up.  Set this value to the number of threads
+DVD-o-matic should use.  This would typically be set to the number of
+processors (or processor cores) in your machine.
+</para>
+
+</section>
+
+<section>
+<title>Colour look-up table</title>
+
+<para>
+This specifies the colour space that your input content will be
+expected to be in.  If in doubt, leave it set to &lsquo;sRGB&rsquo;.
+</para>
+
+</section>
+
+<section>
+<title>A/B options</title>
+
+<para>
+These options are for DVD-o-matic's special mode of making A/B
+comparison DCPs for checking the performance of video filters.  Their
+use is described in <xref linkend="sec-ab"/>.
+</para>
+
+</section>
+
+<section>
+<title>Encoding servers</title>
+
+<para>
+If you have spare machines sitting around on your network not doing
+much, they can be pressed into service to speed up DCP encodes.  This
+is done by running a small server program on the machine, which will
+encode video sent to it by the &lsquo;master&rsquo; DVD-o-matic.  This
+option is described in more detail in <xref linkend="sec-servers"/>.
+Use these preferences to specify the encoding servers that should be
+used.
+</para>
+
+</section>
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Advanced topics</title>
+
+<para>This chapter describes some parts of DVD-o-matic that are
+probably not essential, but which you might find useful in some
+circumstances.
+</para>
+
+<section>
+<title>Filtering</title>
+
+<para>
+DVD-o-matic offers a variety of filters that can be applied to your
+video content.  You can set up the filters by clicking the
+<guilabel>Edit</guilabel> button next to the filters entry in the
+setup area of the DVD-o-matic window; this opens the filters selector
+as shown in <xref linkend="fig-filters"/>.
+</para>
+
+<figure id="fig-filters"> 
+  <title>Filters selector</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/filters&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+As it stands, these filters are somewhat disorganised!  Work is
+ongoing to test them with various content and choose a selection which
+work well for cinema applications.
+</para>
+
+<para>
+If you want to examine them yourself, you may find the A/B option (see
+<xref linkend="sec-ab"/>) useful.
+</para>
+
+<para>
+After changing the filters setup, you will need to regenerate the DCP
+to see the effect on-screen.
+</para>
+
+</section>
+
+<section>
+<title>Scaling</title>
+
+<para>
+If your source material is not of the DCI-specified size, or if it
+uses non-square pixels, DVD-o-matic will need to scale it.  The
+algorithm used to scale is set up by the <guilabel>Scaler</guilabel>
+entry in the film setup area.  We think &lsquo;Bicubic&rsquo; is the
+best all-round option, but tests are ongoing.
+</para>
+
+</section>
+
+<section xml:id="tms-upload">
+<title>TMS upload</title>
+
+<para>
+If you have configured details of a TMS in the preferences dialogue
+(<xref linkend="ch-preferences"/>) you can upload a completed DCP
+straight to your TMS but choosing <guilabel>Send DCP to TMS</guilabel>
+from the <guilabel>Jobs</guilabel> menu.
+</para>
+
+</section>
+
+
+<section xml:id="sec-ab">
+<title>A/B comparison</title>
+
+<para>
+When evaluating the effects of different filters or scalers on the
+image quality, A/B mode might be useful.  In this mode, DVD-o-matic
+will generate a DCP where the left half of the image uses some
+&lsquo;reference&rsquo; filtering and scaling, and the right half of
+the image uses a different set of filters and a different scaler.
+This DCP can then be played back on a projector and the image quality
+evaluated.
+</para>
+
+<para>
+To enable A/B mode, click the A/B checkbox in the setup area of the
+DVD-o-matic window.  When you generate your DCP, the left half of the
+screen will use the filters and scaler specified in the <xref
+linkend="ch-preferences">preferences</xref> dialogue, and the right
+half will use the filters and scaler specified in the film setup.
+</para>
+
+</section>
+
+
+<section>
+<title>Encode range</title>
+
+<para>
+If you want to encode only a portion of your input content, you can do
+so by clicking the <guilabel>Edit</guilabel> button next to the
+<guilabel>Range</guilabel> entry in the film setup area.  This will
+open the dialogue shown in <xref linkend="fig-range"/>.
+</para>
+
+<figure id="fig-range"> 
+  <title>Range selector</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/range&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Here you can choose to encode the whole film, or just the first
+so-many frames of it.  This can be useful to check the quality of an
+encode before comitting to encoding the whole film &mdash; perhaps
+just encode the first ten minutes, look at it on screen, and check
+that it is ok.
+</para>
+
+<para>
+If you choose to encode only a part of the film, you can set
+DVD-o-matic to black out the rest.  This can be useful to chop a small
+part off the end of a piece of content while letting the audio play
+out.
+</para>
+
+</section>
+</chapter>
+
 
 </book>
