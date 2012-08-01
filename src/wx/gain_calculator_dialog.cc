@@ -24,7 +24,7 @@
 using namespace boost;
 
 GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Gain Calculator"))
+	: wxDialog (parent, wxID_ANY, wxString ("Gain Calculator"))
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
