@@ -50,7 +50,6 @@ private:
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
 	void content_changed (wxCommandEvent &);
-	void frames_per_second_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
 	void dcp_range_changed (int, TrimAction);
 	void dcp_content_type_changed (wxCommandEvent &);
@@ -79,8 +78,6 @@ private:
 	Film* _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
-	/** The Film's frames per second */
-	wxTextCtrl* _frames_per_second;
 	/** The Film's format */
 	wxComboBox* _format;
 	/** The Film's content file */
@@ -101,11 +98,14 @@ private:
 	wxComboBox* _scaler;
 	/** The Film's audio gain */
 	wxSpinCtrl* _audio_gain;
+	/** A button to open the gain calculation dialogue */
 	wxButton* _audio_gain_calculate_button;
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
 	/** The Film's DCP content type */
 	wxComboBox* _dcp_content_type;
+	/** The Film's frames per second */
+	wxStaticText* _frames_per_second;
 	/** The Film's original size */
 	wxStaticText* _original_size;
 	/** The Film's length */

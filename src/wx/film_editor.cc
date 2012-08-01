@@ -130,7 +130,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	}
 
 	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
-	_frames_per_second = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
+	_frames_per_second = new wxStaticText (this, wxID_ANY, wxT (""));
 	_sizer->Add (video_control (_frames_per_second));
 	
 	video_control (add_label_to_sizer (_sizer, this, "Original Size"));
@@ -201,7 +201,6 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	
 	/* Now connect to them, since initial values are safely set */
 	_name->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (FilmEditor::name_changed), 0, this);
-	_frames_per_second->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (FilmEditor::frames_per_second_changed), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
 	_content->Connect (wxID_ANY, wxEVT_COMMAND_FILEPICKER_CHANGED, wxCommandEventHandler (FilmEditor::content_changed), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
@@ -373,7 +372,7 @@ FilmEditor::film_changed (Film::Property p)
 	{
 		stringstream s;
 		s << fixed << setprecision(2) << _film->frames_per_second();
-		_frames_per_second->ChangeValue (std_to_wx (s.str ()));
+		_frames_per_second->SetLabel (std_to_wx (s.str ()));
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
@@ -555,19 +554,6 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 	if (n >= 0) {
 		_film->set_scaler (Scaler::from_index (n));
 	}
-	_ignore_changes = Film::NONE;
-}
-
-/** Called when the frames per second widget has been changed */
-void
-FilmEditor::frames_per_second_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-	_ignore_changes = Film::FRAMES_PER_SECOND;
-	_film->set_frames_per_second (boost::lexical_cast<float> (wx_to_std (_frames_per_second->GetValue ())));
 	_ignore_changes = Film::NONE;
 }
 
