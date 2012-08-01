@@ -216,7 +216,7 @@ FilmViewer::film_changed (Film::Property p)
 		}
 		
 		_slider->SetValue (0);
-		_thumb_panel->refresh ();
+		set_thumbnail (0);
 	} else if (p == Film::FORMAT) {
 		_thumb_panel->refresh ();
 	} else if (p == Film::CONTENT) {
