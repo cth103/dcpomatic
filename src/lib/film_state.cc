@@ -275,9 +275,8 @@ FilmState::bytes_per_sample () const
 	case AV_SAMPLE_FMT_S16:
 		return 2;
 	default:
-		assert (false);
+		return 0;
 	}
 
-	assert (false);
 	return 0;
 }
