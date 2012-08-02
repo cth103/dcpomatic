@@ -256,9 +256,9 @@ DCPVideoFrame::encode_locally ()
 	_cinfo->event_mgr = 0;
 
 #ifdef DEBUG_HASH
-	md5_data ("J2K in X", _image->comps[0].data, size * sizeof (int));
-	md5_data ("J2K in Y", _image->comps[1].data, size * sizeof (int));
-	md5_data ("J2K in Z", _image->comps[2].data, size * sizeof (int));
+	md5_data ("J2K in X frame " + lexical_cast<string> (_frame), _image->comps[0].data, size * sizeof (int));
+	md5_data ("J2K in Y frame " + lexical_cast<string> (_frame), _image->comps[1].data, size * sizeof (int));
+	md5_data ("J2K in Z frame " + lexical_cast<string> (_frame), _image->comps[2].data, size * sizeof (int));
 #endif	
 	
 	/* Setup the encoder parameters using the current image and user parameters */
@@ -272,7 +272,7 @@ DCPVideoFrame::encode_locally ()
 	}
 
 #ifdef DEBUG_HASH
-	md5_data ("J2K out", _cio->buffer, cio_tell (_cio));
+	md5_data ("J2K out frame " + lexical_cast<string> (_frame), _cio->buffer, cio_tell (_cio));
 #endif	
 
 	{
