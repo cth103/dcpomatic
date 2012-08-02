@@ -128,7 +128,7 @@ def build(bld):
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 
 def dist(ctx):
-    ctx.excl = 'TODO core *~ src/wx/*~ src/lib/*~ .waf* build .git deps alignment hacks sync *.tar.bz2 *.exe .lock*'
+    ctx.excl = 'TODO core *~ src/wx/*~ src/lib/*~ .waf* build .git deps alignment hacks sync *.tar.bz2 *.exe .lock* *build-windows doc/manual/pdf doc/manual/html'
 
 def create_version_cc(version):
     if os.path.exists('.git'):
