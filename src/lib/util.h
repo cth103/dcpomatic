@@ -133,7 +133,7 @@ struct Position
 };
 
 extern std::string crop_string (Position, Size);
-
 extern int dcp_audio_sample_rate (int);
+extern std::string colour_lut_index_to_name (int index);
 
 #endif

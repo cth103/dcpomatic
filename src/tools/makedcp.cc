@@ -33,6 +33,7 @@
 #include "scaler.h"
 #include "version.h"
 #include "cross.h"
+#include "config.h"
 
 using namespace std;
 using namespace boost;
@@ -44,6 +45,7 @@ help (string n)
 	     << "  -v, --version      show DVD-o-matic version\n"
 	     << "  -h, --help         show this help\n"
 	     << "  -d, --deps         list DVD-o-matic dependency details and quit\n"
+	     << "  -c, --config       list configuration settings that affect output and quit\n"
 	     << "  -t, --test         run in test mode (repeatable UUID generation, timestamps etc.)\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "\n"
@@ -63,12 +65,13 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "deps", no_argument, 0, 'd'},
+			{ "config", no_argument, 0, 'c'},
 			{ "test", no_argument, 0, 't'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdtn", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdctn", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -90,6 +93,15 @@ main (int argc, char* argv[])
 		case 'n':
 			progress = false;
 			break;
+		case 'c':
+			cout << "Colour LUT " << colour_lut_index_to_name (Config::instance()->colour_lut_index()) << "; "
+			     << "J2K bandwidth " << Config::instance()->j2k_bandwidth() << "; ";
+#ifdef DVDOMATIC_DEBUG
+			cout << "built in debug mode\n";
+#else
+			cout << "built in optimised mode\n";
+#endif			
+			exit (EXIT_SUCCESS);
 		}
 	}
 

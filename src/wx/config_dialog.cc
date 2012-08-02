@@ -70,8 +70,9 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	add_label_to_sizer (table, this, "Colour look-up table");
 	_colour_lut = new wxComboBox (this, wxID_ANY);
-	_colour_lut->Append (wxT ("sRGB"));
-	_colour_lut->Append (wxT ("Rec 709"));
+	for (int i = 0; i < 2; ++i) {
+		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
+	}
 	_colour_lut->SetSelection (0);
 	table->Add (_colour_lut, 1, wxEXPAND);
 	table->AddSpacer (0);

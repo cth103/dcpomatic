@@ -54,7 +54,6 @@ public:
 	/** @return index of colour LUT to use when converting RGB to XYZ.
 	 *  0: sRGB
 	 *  1: Rec 709
-	 *  2: DC28
 	 */
 	int colour_lut_index () const {
 		return _colour_lut_index;
@@ -185,7 +184,7 @@ private:
 	 *  (see colour_lut_index ())
 	 */
 	int _colour_lut_index;
-	/** bandwidth for J2K files in Mb/s */
+	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
 
 	/** J2K encoding servers to use */

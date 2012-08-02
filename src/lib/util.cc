@@ -503,3 +503,20 @@ bool operator!= (Crop const & a, Crop const & b)
 {
 	return !(a == b);
 }
+
+string
+colour_lut_index_to_name (int index)
+{
+	switch (index) {
+	case 0:
+		return "sRGB";
+	case 1:
+		return "Rec 709";
+	}
+
+	assert (false);
+	return "";
+}
+
+		
+			
