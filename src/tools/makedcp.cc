@@ -79,7 +79,7 @@ main (int argc, char* argv[])
 
 		switch (c) {
 		case 'v':
-			cout << "dvdomatic version " << DVDOMATIC_VERSION << "\n";
+			cout << "dvdomatic version " << dvdomatic_version << " " << dvdomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
 			help (argv[0]);
