@@ -1,5 +1,9 @@
 2012-08-04  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.43 released.
+
+2012-08-04  Carl Hetherington  <cth@carlh.net>
+
 	* Use wxwidgets .rc file to make Windows version
 	look nicer.
 
