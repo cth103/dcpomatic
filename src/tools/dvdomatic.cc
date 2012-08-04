@@ -312,15 +312,16 @@ public:
 	
 	void jobs_copy_from_dvd (wxCommandEvent &)
 	{
-//	try {
+		try {
+
 //		DVDTitleDialog d;
 //		if (d.run () != Gtk::RESPONSE_OK) {
 //			return;
 //		}
-//		film->copy_from_dvd ();
-//	} catch (DVDError& e) {
-//		error_dialog (e.what ());
-//	}
+			film->copy_from_dvd ();
+		} catch (DVDError& e) {
+			error_dialog (this, e.what ());
+		}
 	}
 	
 	void jobs_send_dcp_to_tms (wxCommandEvent &)
