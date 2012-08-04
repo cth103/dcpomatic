@@ -28,7 +28,6 @@ def build(bld):
 		 encoder.cc
                  encoder_factory.cc
 		 examine_content_job.cc
-                 ffmpeg_compatibility.cc
                  ffmpeg_decoder.cc
     	         film.cc
 		 film_state.cc

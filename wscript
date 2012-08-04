@@ -13,7 +13,6 @@ def options(opt):
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
     opt.add_option('--disable-player', action='store_true', default = False, help = 'disable building of the player components')
-    opt.add_option('--ffmpeg-083', action='store_true', default = False, help = 'Use FFmpeg version in Ubuntu 12.04')
     opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
 
 def configure(conf):
@@ -51,9 +50,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
     else:
         conf.env.append_value('CXXFLAGS', '-O3')
-
-    if conf.options.ffmpeg_083:
-        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_FFMPEG_0_8_3')
 
     conf.check_cfg(package = 'sigc++-2.0', args = '--cflags --libs', uselib_store = 'SIGC++', mandatory = True)
     conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)

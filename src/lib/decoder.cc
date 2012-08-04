@@ -359,7 +359,6 @@ Decoder::process_video (AVFrame* frame)
 
 #endif	
 	
-//#ifdef DVDOMATIC_FFMPEG_0_8_3
 #if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 23 && LIBAVFILTER_VERSION_MINOR <= 61	
 	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
 #else
@@ -435,7 +434,10 @@ Decoder::setup_video_filters ()
 		throw DecodeError ("Could not find buffer src filter");
 	}
 
-	AVFilter* buffer_sink = get_sink ();
+	AVFilter* buffer_sink = avfilter_get_by_name("buffersink");
+	if (buffer_sink == 0) {
+		throw DecodeError ("Could not create buffer sink filter");
+	}
 
 	stringstream a;
 	a << native_size().width << ":"
@@ -469,12 +471,7 @@ Decoder::setup_video_filters ()
 	inputs->next = 0;
 
 	_log->log ("Using filter chain `" + filters + "'");
-#ifdef DVDOMATIC_FFMPEG_0_8_3	
-	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
-#else
 	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
-#endif		
-		
 		throw DecodeError ("could not set up filter graph.");
 	}
 

@@ -18,14 +18,24 @@ Dependencies
 You will need these libraries:
 
     libdcp (from http://carlh.net/software/libdcp)
-    FFmpeg
+    FFmpeg version 0.9.x or higher
     libtiff
     boost thread and filesystem
     libopenjpeg
+    wxWidgets
+    libsndfile
+    libssh
 
 and also the command line tool:
 
     vobcopy (if you want to rip DVDs straight into DVD-o-matic)
+
+
+Documentation
+-------------
+
+There is a manual available at http://carlh.net/software/dvdomatic
+The DocBook source for this is in doc/manual.
 
 
 In a nutshell
@@ -55,7 +65,6 @@ The `Format' field dictates what size your image will be:
 - Scope: 2.39:1 images to the DCI spec.
 
 
-
 Server/client
 -------------
 
@@ -79,4 +88,4 @@ Email me at cth@carlh.net in the first instance.
 
 
 Carl Hetherington
-July 2012
+August 2012
