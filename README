@@ -4,12 +4,19 @@ dvd-o-matic
 Hello!
 
 
-Building
---------
+Building for Linux
+------------------
 
 ./waf configure
 ./waf
 sudo ./waf install
+
+
+Building for Windows
+--------------------
+
+...is quite involved.  You need to build (or download) all the dependencies.
+I'll put my scripts up at some point.
 
 
 Dependencies
