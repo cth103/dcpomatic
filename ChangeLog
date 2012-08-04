@@ -1,5 +1,9 @@
 2012-08-04  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.41 released.
+
+2012-08-04  Carl Hetherington  <cth@carlh.net>
+
 	* Request admin priviledges on install for Windows 7.
 
 	* Add some missing dependencies to the Windows package.
