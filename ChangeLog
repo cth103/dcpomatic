@@ -2,7 +2,10 @@
 
 	* Use wxwidgets .rc file to make Windows version
 	look nicer.
-	
+
+	* Hopefully improve building against different
+	versions of FFmpeg.
+
 2012-08-04  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.42 released.
