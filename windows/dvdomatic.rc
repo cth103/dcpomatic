@@ -1,0 +1,2 @@
+#include "wx-2.8/wx/msw/wx.rc"
+id ICON "dvdomatic.ico"

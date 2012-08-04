@@ -18,5 +18,5 @@ def build(bld):
             obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../windows/icon.rc'
+                obj.source += ' ../../windows/dvdomatic.rc'
             obj.target = t
