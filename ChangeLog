@@ -1,5 +1,9 @@
 2012-08-04  Carl Hetherington  <cth@carlh.net>
 
+	* Fix bug with content inside the film directory.
+
+2012-08-04  Carl Hetherington  <cth@carlh.net>
+
 	* Version 0.43 released.
 
 2012-08-04  Carl Hetherington  <cth@carlh.net>
