@@ -1,7 +1,7 @@
 !include "MUI2.nsh"
 Name "DVD-o-matic"
 
-RequestExecutionLevel user
+RequestExecutionLevel admin
 
 outFile "DVD-o-matic @version@ Installer.exe"
 !define MUI_ICON "%resources%/dvdomatic.ico"
@@ -65,6 +65,21 @@ File "%deps%/bin/libjpeg-8.dll"
 File "%deps%/bin/wxbase28_gcc_custom.dll"
 File "%deps%/bin/wxmsw28_core_gcc_custom.dll"
 File "%deps%/bin/wxmsw28_adv_gcc_custom.dll"
+File "%deps%/bin/libcairo-2.dll"
+File "%deps%/bin/libfontconfig-1.dll"
+File "%deps%/bin/libexpat-1.dll"
+File "%deps%/bin/freetype6.dll"
+File "%deps%/bin/libgthread-2.0-0.dll"
+File "%deps%/bin/libpango-1.0-0.dll"
+File "%deps%/bin/libgmodule-2.0-0.dll"
+File "%deps%/bin/libpangocairo-1.0-0.dll"
+File "%deps%/bin/libpangoft2-1.0-0.dll"
+File "%deps%/bin/libpangowin32-1.0-0.dll"
+File "%deps%/bin/libtiff3.dll"
+File "%deps%/bin/jpeg62.dll"
+File "%deps%/bin/libglibmm-2.4-1.dll"
+File "%deps%/bin/libxml++-2.6-2.dll"
+File "%deps%/bin/libxml2-2.dll"
 
 File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
