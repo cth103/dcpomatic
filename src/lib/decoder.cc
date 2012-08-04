@@ -26,7 +26,7 @@
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
-#ifndef DVDOMATIC_FFMPEG_0_8_3
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 61	
 #include <libavfilter/avcodec.h>
 #include <libavfilter/buffersink.h>
 #endif
@@ -333,7 +333,15 @@ Decoder::process_video (AVFrame* frame)
 		return;
 	}
 
-#ifdef DVDOMATIC_FFMPEG_0_8_3
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 61
+
+	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0) < 0) {
+		throw DecodeError ("could not push buffer into filter chain.");
+	}
+
+#else	
+
+#if 0
 	
 	AVRational par;
 	par.num = sample_aspect_ratio_numerator ();
@@ -343,7 +351,7 @@ Decoder::process_video (AVFrame* frame)
 		throw DecodeError ("could not push buffer into filter chain.");
 	}
 
-#else
+#endif
 
 	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError ("could not push buffer into filter chain.");
@@ -351,7 +359,8 @@ Decoder::process_video (AVFrame* frame)
 
 #endif	
 	
-#ifdef DVDOMATIC_FFMPEG_0_8_3
+//#ifdef DVDOMATIC_FFMPEG_0_8_3
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 61	
 	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
 #else
 	while (av_buffersink_read (_buffer_sink_context, 0)) {
