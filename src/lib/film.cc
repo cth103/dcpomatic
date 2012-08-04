@@ -190,7 +190,7 @@ Film::set_content (string c)
 	_state.audio_sample_rate = d->audio_sample_rate ();
 	_state.audio_sample_format = d->audio_sample_format ();
 
-	_state.content_digest = md5_digest (c);
+	_state.content_digest = md5_digest (s->content_path ());
 	_state.content = c;
 	
 	signal_changed (SIZE);
