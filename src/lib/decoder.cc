@@ -26,7 +26,7 @@
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 61	
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 61 && LIBAVFILTER_VERSION_MINOR <= 77
 #include <libavfilter/avcodec.h>
 #include <libavfilter/buffersink.h>
 #endif
