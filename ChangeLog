@@ -1,3 +1,11 @@
+2012-08-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug with padding in Scope causing corrupt
+	images.
+
+	* Fix bug when using content file names which
+	start with the name of the film directory.
+
 2012-08-05  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.44 released.
