@@ -168,7 +168,7 @@ Film::set_content (string c)
 	string check = _state.directory;
 
 	filesystem::path slash ("/");
-	string platform_slash = slash.make_preferred().native ();
+	string platform_slash = slash.make_preferred().string ();
 
 	if (!ends_with (check, platform_slash)) {
 		check += platform_slash;
