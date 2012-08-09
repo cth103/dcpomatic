@@ -165,7 +165,16 @@ Film::set_name (string n)
 void
 Film::set_content (string c)
 {
-	if (filesystem::path(c).has_root_directory () && starts_with (c, _state.directory)) {
+	string check = _state.directory;
+
+	filesystem::path slash ("/");
+	string platform_slash = slash.make_preferred().native ();
+
+	if (!ends_with (check, platform_slash)) {
+		check += platform_slash;
+	}
+	
+	if (filesystem::path(c).has_root_directory () && starts_with (c, check)) {
 		c = c.substr (_state.directory.length() + 1);
 	}
 
