@@ -1,5 +1,9 @@
 2012-08-09  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.45 released.
+
+2012-08-09  Carl Hetherington  <cth@carlh.net>
+
 	* Fix bug with padding in Scope causing corrupt
 	images.
 
