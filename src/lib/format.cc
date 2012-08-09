@@ -185,5 +185,12 @@ Format::all ()
 int
 Format::dcp_padding () const
 {
-	return rint ((_dcp_size.width - (_dcp_size.height * _ratio / 100.0)) / 2.0);
+	int p = rint ((_dcp_size.width - (_dcp_size.height * _ratio / 100.0)) / 2.0);
+
+	/* This comes out -ve for Scope; bodge it */
+	if (p < 0) {
+		p = 0;
+	}
+	
+	return p;
 }
