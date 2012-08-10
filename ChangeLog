@@ -1,3 +1,8 @@
+2012-08-10  Carl Hetherington  <cth@carlh.net>
+
+	* Untested fixes for failure to encode
+	content without audio.
+
 2012-08-05  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.44 released.
