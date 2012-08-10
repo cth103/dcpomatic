@@ -107,9 +107,6 @@ FFmpegDecoder::setup_general ()
 	if (_video_stream < 0) {
 		throw DecodeError ("could not find video stream");
 	}
-	if (_audio_stream < 0) {
-		throw DecodeError ("could not find audio stream");
-	}
 
 	_frame = avcodec_alloc_frame ();
 	if (_frame == 0) {
@@ -135,6 +132,10 @@ FFmpegDecoder::setup_video ()
 void
 FFmpegDecoder::setup_audio ()
 {
+	if (_audio_stream < 0) {
+		return;
+	}
+	
 	_audio_codec_context = _format_context->streams[_audio_stream]->codec;
 	_audio_codec = avcodec_find_decoder (_audio_codec_context->codec_id);
 
@@ -162,7 +163,7 @@ FFmpegDecoder::do_pass ()
 			process_video (_frame);
 		}
 
-	} else if (_packet.stream_index == _audio_stream && _opt->decode_audio) {
+	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio) {
 		
 		avcodec_get_frame_defaults (_frame);
 		
@@ -216,12 +217,20 @@ FFmpegDecoder::audio_sample_rate () const
 AVSampleFormat
 FFmpegDecoder::audio_sample_format () const
 {
+	if (_audio_codec_context == 0) {
+		return (AVSampleFormat) 0;
+	}
+	
 	return _audio_codec_context->sample_fmt;
 }
 
 int64_t
 FFmpegDecoder::audio_channel_layout () const
 {
+	if (_audio_codec_context == 0) {
+		return 0;
+	}
+	
 	return _audio_codec_context->channel_layout;
 }
 
