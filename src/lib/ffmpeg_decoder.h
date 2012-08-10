@@ -79,13 +79,13 @@ private:
 
 	AVFormatContext* _format_context;
 	int _video_stream;
-	int _audio_stream;
+	int _audio_stream; ///< may be < 0 if there is no audio
 	AVFrame* _frame;
 	
 	AVCodecContext* _video_codec_context;
 	AVCodec* _video_codec;
-	AVCodecContext* _audio_codec_context;
-	AVCodec* _audio_codec;
+	AVCodecContext* _audio_codec_context; ///< may be 0 if there is no audio
+	AVCodec* _audio_codec;                ///< may be 0 if there is no audio
 
 	AVPacket _packet;
 };
