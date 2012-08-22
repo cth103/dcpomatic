@@ -1,3 +1,11 @@
+2012-08-23  Carl Hetherington  <cth@carlh.net>
+
+	* Add some more formats.
+
+	* Update to use libdcp 0.11.
+
+	* Fix build with boost filesystem version 2.
+
 2012-08-10  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.46 released.
