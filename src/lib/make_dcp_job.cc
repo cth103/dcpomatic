@@ -23,6 +23,9 @@
 
 #include <boost/filesystem.hpp>
 #include <libdcp/dcp.h>
+#include <libdcp/picture_asset.h>
+#include <libdcp/sound_asset.h>
+#include <libdcp/reel.h>
 extern "C" {
 #include <libavutil/pixdesc.h>
 }
@@ -88,15 +91,40 @@ MakeDCPJob::run ()
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
 	descend (0.9);
-	dcp.add_picture_asset (sigc::mem_fun (*this, &MakeDCPJob::j2c_path), _opt->out_size.width, _opt->out_size.height);
+	shared_ptr<libdcp::MonoPictureAsset> pa (
+		new libdcp::MonoPictureAsset (
+			sigc::mem_fun (*this, &MakeDCPJob::j2c_path),
+			_fs->dir (_fs->name),
+			"video.mxf",
+			&dcp.Progress,
+			rint (_fs->frames_per_second),
+			frames,
+			_opt->out_size.width,
+			_opt->out_size.height
+			)
+		);
+	
 	ascend ();
+
+	shared_ptr<libdcp::SoundAsset> sa;
 
 	if (_fs->audio_channels > 0) {
 		descend (0.1);
-		dcp.add_sound_asset (sigc::mem_fun (*this, &MakeDCPJob::wav_path), _fs->audio_channels);
+		sa.reset (
+			new libdcp::SoundAsset (
+				sigc::mem_fun (*this, &MakeDCPJob::wav_path),
+				_fs->dir (_fs->name),
+				"audio.mxf",
+				&dcp.Progress,
+				rint (_fs->frames_per_second),
+				frames,
+				_fs->audio_channels
+				)
+			);
 		ascend ();
 	}
 
+	dcp.add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (pa, sa, shared_ptr<libdcp::SubtitleAsset> ())));
 	dcp.write_xml ();
 
 	set_progress (1);
