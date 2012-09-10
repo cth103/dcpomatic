@@ -87,8 +87,11 @@ MakeDCPJob::run ()
 		break;
 	}
 	
-	libdcp::DCP dcp (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_kind (), rint (_fs->frames_per_second), frames);
+	libdcp::DCP dcp (_fs->dir (_fs->name));
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
+
+	shared_ptr<libdcp::CPL> cpl (new libdcp::CPL (_fs->dir (_fs->name), _fs->name, _fs->dcp_content_type->libdcp_kind (), frames, rint (_fs->frames_per_second)));
+	dcp.add_cpl (cpl);
 
 	descend (0.9);
 	shared_ptr<libdcp::MonoPictureAsset> pa (
@@ -124,7 +127,7 @@ MakeDCPJob::run ()
 		ascend ();
 	}
 
-	dcp.add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (pa, sa, shared_ptr<libdcp::SubtitleAsset> ())));
+	cpl->add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (pa, sa, shared_ptr<libdcp::SubtitleAsset> ())));
 	dcp.write_xml ();
 
 	set_progress (1);
