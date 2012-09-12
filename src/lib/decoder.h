@@ -29,9 +29,11 @@
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <sigc++/sigc++.h>
+#ifdef HAVE_SWRESAMPLE
 extern "C" {
 #include <libswresample/swresample.h>
-}	
+}
+#endif
 #include "util.h"
 
 class Job;
@@ -132,7 +134,9 @@ private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
 
+#if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
+#endif	
 
 	bool _have_setup_video_filters;
 	DelayLine* _delay_line;
