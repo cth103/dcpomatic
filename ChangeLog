@@ -1,3 +1,8 @@
+2012-09-12  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash when FFmpeg doesn't set up the audio channel
+	layout for some reason.
+
 2012-09-01  Carl Hetherington  <cth@carlh.net>
 
 	* Add 1.66-within-flat format.
