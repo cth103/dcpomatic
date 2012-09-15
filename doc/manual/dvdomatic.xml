@@ -117,6 +117,87 @@ dvdomatic
 in a shell.
 </para>
 
+<section>
+<title>Obtaining dependencies on Ubuntu 12.04</title>
+
+<para>
+Ubuntu 12.04 packages most of DVD-o-matic's dependencies, but some are missing.  This section
+describes how to obtain all of the dependencies.
+</para>
+
+<section>
+<title>Packaged dependencies</title>
+
+<para>
+Most of the dependencies can be obtained from Ubuntu's packages using:
+</para>
+
+<programlisting>
+sudo apt-get install libwxgtk2.8-dev libsndfile1-dev libssl-dev libssh-dev
+sudo apt-get install libmagickcore-dev libboost-filesystem-dev libboost-thread-dev
+</programlisting>
+
+</section>
+
+<section>
+<title>Unpackaged dependencies</title>
+</section>
+
+<section>
+<title>FFmpeg</title>
+
+<para>
+Ubuntu does not package FFmpeg, so you will need to build it from source.  The
+following commands should work:
+</para>
+
+<programlisting>
+git clone git://source.ffmpeg.org/ffmpeg.git ffmpeg
+cd ffmpeg
+./configure --enable-shared --enable-postproc --enable-gpl
+make
+sudo make install
+</programlisting>
+
+</section>
+
+<section>
+<title>libdcp</title>
+
+<para>
+You can build libdcp using:
+</para>
+
+<programlisting>
+wget http://carlh.net/software/libdcp-0.20.tar.bz2
+tar xjf libdcp-0.20.tar.bz2
+cd libdcp-0.20
+./waf configure
+./waf build
+sudo ./waf install
+</programlisting>
+
+</section>
+
+<section>
+<title>libopenjpeg</title>
+
+<para>
+Ubuntu does package libopenjpeg, but it is a rather old version.  To build
+the current release:
+</para>
+
+<programlisting>
+wget http://code.google.com/p/openjpeg/downloads/detail?name=openjpeg-1.5.1.tar.gz
+tar xzf openjpeg-1.5.1.tar.gz
+cd openjepg-1.5.1.tar.gz
+./configure
+make
+sudo make install
+</programlisting>
+
+</section>
+</section>
 </section>
 </chapter>
 

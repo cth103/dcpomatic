@@ -28,7 +28,7 @@ You will need these libraries:
     FFmpeg version 0.9.x or higher
     libtiff
     boost thread and filesystem
-    libopenjpeg
+    libopenjpeg 1.5.0 or higher
     wxWidgets
     libsndfile
     libssh
