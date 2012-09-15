@@ -1,3 +1,9 @@
+2012-09-15  Carl Hetherington  <cth@carlh.net>
+
+	* Slightly speculative fix for failure to
+	take note of audio gain changes caused by
+	the Calculate dialogue.
+
 2012-09-12  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash when FFmpeg doesn't set up the audio channel

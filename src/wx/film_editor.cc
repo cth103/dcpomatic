@@ -654,5 +654,12 @@ FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
 			d->actual_fader ()
 			)
 		);
+
+	/* This appears to be necessary, as the change is not signalled,
+	   I think.
+	*/
+	wxCommandEvent dummy;
+	audio_gain_changed (dummy);
+	
 	d->Destroy ();
 }
