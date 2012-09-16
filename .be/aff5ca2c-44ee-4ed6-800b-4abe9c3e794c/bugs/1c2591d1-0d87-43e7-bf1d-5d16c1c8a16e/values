@@ -1,0 +1,17 @@
+creator: Carl Hetherington <cth@carlh.net>
+
+
+reporter: Carl Hetherington <cth@carlh.net>
+
+
+severity: minor
+
+
+status: open
+
+
+summary: Dependent jobs are started when an earlier one fails
+
+
+time: Sun, 16 Sep 2012 12:17:18 +0000
+
