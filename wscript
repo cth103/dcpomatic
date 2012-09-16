@@ -126,6 +126,8 @@ def build(bld):
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 
+    bld.add_post_fun(post)
+
 def dist(ctx):
     ctx.excl = 'TODO core *~ src/wx/*~ src/lib/*~ .waf* build .git deps alignment hacks sync *.tar.bz2 *.exe .lock* *build-windows doc/manual/pdf doc/manual/html'
 
@@ -150,3 +152,6 @@ def create_version_cc(version):
         print('Could not open src/lib/version.cc for writing\n')
         sys.exit(-1)
     
+def post(ctx):
+    if ctx.cmd == 'install':
+        ctx.exec_command('/sbin/ldconfig')
