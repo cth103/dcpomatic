@@ -22,6 +22,7 @@ def build(bld):
                  server_dialog.cc
                  new_film_dialog.cc
                  dir_picker_ctrl.cc
+                 properties_dialog.cc
                  """
 
 #                 alignment.cc
