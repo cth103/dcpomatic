@@ -84,6 +84,7 @@ File "%deps%/bin/libxml2-2.dll"
 File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
 File "%binaries%/src/tools/dvdomatic.exe"
+File "%binaries%/src/tools/servomatic.exe"
 
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
  
