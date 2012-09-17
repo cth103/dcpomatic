@@ -17,23 +17,34 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/spinctrl.h>
+#include "lib/server.h"
+#include <iostream>
+#include <stdexcept>
+#include <sstream>
+#include <cstring>
+#include <vector>
+#include <unistd.h>
+#include <errno.h>
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/condition.hpp>
+#include "config.h"
+#include "dcp_video_frame.h"
+#include "exceptions.h"
+#include "util.h"
+#include "config.h"
+#include "scaler.h"
+#include "image.h"
+#include "log.h"
 
-class ServerDescription;
-
-class ServerDialog : public wxDialog
+int
+main ()
 {
-public:
-	ServerDialog (wxWindow *, ServerDescription *);
-
-	ServerDescription* server () const;
-
-private:
-	void host_changed (wxCommandEvent &);
-	void threads_changed (wxCommandEvent &);
-
-	ServerDescription* _server;
-	wxTextCtrl* _host;
-	wxSpinCtrl* _threads;
-};
+	Scaler::setup_scalers ();
+	Server server;
+	server.run ();
+	return 0;
+}

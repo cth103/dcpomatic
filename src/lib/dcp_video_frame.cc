@@ -289,7 +289,7 @@ DCPVideoFrame::encode_locally ()
  *  @return Encoded data.
  */
 shared_ptr<EncodedData>
-DCPVideoFrame::encode_remotely (Server const * serv)
+DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 {
 	asio::io_service io_service;
 	asio::ip::tcp::resolver resolver (io_service);

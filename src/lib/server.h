@@ -19,21 +19,25 @@
 
 /** @file src/server.h
  *  @brief Class to describe a server to which we can send
- *  encoding work.
+ *  encoding work, and a class to implement such a server.
  */
 
 #include <string>
+#include <boost/thread.hpp>
+#include <boost/asio.hpp>
+#include <boost/thread/condition.hpp>
+#include "log.h"
 
-/** @class Server
+/** @class ServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
  */
-class Server
+class ServerDescription
 {
 public:
 	/** @param h Server host name or IP address in string form.
 	 *  @param t Number of threads to use on the server.
 	 */
-	Server (std::string h, int t)
+	ServerDescription (std::string h, int t)
 		: _host_name (h)
 		, _threads (t)
 	{}
@@ -58,11 +62,29 @@ public:
 
 	std::string as_metadata () const;
 	
-	static Server * create_from_metadata (std::string v);
+	static ServerDescription * create_from_metadata (std::string v);
 
 private:
 	/** server's host name */
 	std::string _host_name;
 	/** number of threads to use on the server */
 	int _threads;
+};
+
+class Server
+{
+public:
+	Server ();
+
+	void run ();
+
+private:
+	void worker_thread ();
+	int process (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	
+	std::vector<boost::thread *> _worker_threads;
+	std::list<boost::shared_ptr<boost::asio::ip::tcp::socket> > _queue;
+	boost::mutex _worker_mutex;
+	boost::condition _worker_condition;
+	Log _log;
 };

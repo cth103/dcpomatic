@@ -155,8 +155,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
 	_reference_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_reference_filters_clicked), 0, this);
 
-	vector<Server*> servers = config->servers ();
-	for (vector<Server*>::iterator i = servers.begin(); i != servers.end(); ++i) {
+	vector<ServerDescription*> servers = config->servers ();
+	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		add_server_to_control (*i);
 	}
 	
@@ -225,7 +225,7 @@ ConfigDialog::j2k_bandwidth_changed (wxCommandEvent &)
 }
 
 void
-ConfigDialog::add_server_to_control (Server* s)
+ConfigDialog::add_server_to_control (ServerDescription* s)
 {
 	wxListItem item;
 	int const n = _servers->GetItemCount ();
@@ -240,11 +240,11 @@ ConfigDialog::add_server_clicked (wxCommandEvent &)
 {
 	ServerDialog* d = new ServerDialog (this, 0);
 	d->ShowModal ();
-	Server* s = d->server ();
+	ServerDescription* s = d->server ();
 	d->Destroy ();
 	
 	add_server_to_control (s);
-	vector<Server*> o = Config::instance()->servers ();
+	vector<ServerDescription*> o = Config::instance()->servers ();
 	o.push_back (s);
 	Config::instance()->set_servers (o);
 }
@@ -262,8 +262,8 @@ ConfigDialog::edit_server_clicked (wxCommandEvent &)
 	item.SetColumn (0);
 	_servers->GetItem (item);
 
-	vector<Server*> servers = Config::instance()->servers ();
-	vector<Server*>::iterator j = servers.begin();
+	vector<ServerDescription*> servers = Config::instance()->servers ();
+	vector<ServerDescription*>::iterator j = servers.begin();
 	while (j != servers.end() && (*j)->host_name() != wx_to_std (item.GetText ())) {
 		++j;
 	}

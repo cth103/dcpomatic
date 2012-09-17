@@ -27,7 +27,7 @@
 
 class FilmState;
 class Options;
-class Server;
+class ServerDescription;
 class Scaler;
 class Image;
 class Log;
@@ -113,7 +113,7 @@ public:
 	virtual ~DCPVideoFrame ();
 
 	boost::shared_ptr<EncodedData> encode_locally ();
-	boost::shared_ptr<EncodedData> encode_remotely (Server const *);
+	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
 
 	int frame () const {
 		return _frame;

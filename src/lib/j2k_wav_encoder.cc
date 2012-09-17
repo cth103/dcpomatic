@@ -130,7 +130,7 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 }
 
 void
-J2KWAVEncoder::encoder_thread (Server* server)
+J2KWAVEncoder::encoder_thread (ServerDescription* server)
 {
 	/* Number of seconds that we currently wait between attempts
 	   to connect to the server; not relevant for localhost
@@ -210,12 +210,12 @@ void
 J2KWAVEncoder::process_begin ()
 {
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, (Server *) 0)));
+		_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, (ServerDescription *) 0)));
 	}
 
-	vector<Server*> servers = Config::instance()->servers ();
+	vector<ServerDescription*> servers = Config::instance()->servers ();
 
-	for (vector<Server*>::iterator i = servers.begin(); i != servers.end(); ++i) {
+	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		for (int j = 0; j < (*i)->threads (); ++j) {
 			_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, *i)));
 		}

@@ -1,5 +1,5 @@
 def build(bld):
-    for t in ['makedcp', 'fixlengths', 'servomatic']:
+    for t in ['makedcp', 'fixlengths', 'servomatic_cli']:
         obj = bld(features = 'cxx cxxprogram')
     	obj.uselib = 'BOOST_THREAD'
 	obj.includes = ['..']

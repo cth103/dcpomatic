@@ -26,7 +26,7 @@
 #include <wx/listctrl.h>
 
 class Screen;
-class Server;
+class ServerDescription;
 
 /** @class ConfigDialog
  *  @brief A dialogue to edit DVD-o-matic configuration.
@@ -52,7 +52,7 @@ private:
 	void remove_server_clicked (wxCommandEvent &);
 	void server_selection_changed (wxListEvent &);
 
-	void add_server_to_control (Server *);
+	void add_server_to_control (ServerDescription *);
 	
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;

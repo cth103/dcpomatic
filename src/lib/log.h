@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_LOG_H
+#define DVDOMATIC_LOG_H
+
 /** @file src/log.h
  *  @brief A very simple logging class.
  */
@@ -53,3 +56,5 @@ private:
 	/** level above which to ignore log messages */
 	Level _level;
 };
+
+#endif

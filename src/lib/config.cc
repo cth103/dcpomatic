@@ -76,7 +76,7 @@ Config::Config ()
 		} else if (k == "reference_filter") {
 			_reference_filters.push_back (Filter::from_id (v));
 		} else if (k == "server") {
-			_servers.push_back (Server::create_from_metadata (v));
+			_servers.push_back (ServerDescription::create_from_metadata (v));
 		} else if (k == "screen") {
 			_screens.push_back (Screen::create_from_metadata (v));
 		} else if (k == "tms_ip") {
@@ -131,7 +131,7 @@ Config::write () const
 		f << "reference_filter " << (*i)->id () << "\n";
 	}
 	
-	for (vector<Server*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
+	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
 		f << "server " << (*i)->as_metadata () << "\n";
 	}
 

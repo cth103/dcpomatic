@@ -21,13 +21,13 @@
 #include "server_dialog.h"
 #include "wx_util.h"
 
-ServerDialog::ServerDialog (wxWindow* parent, Server* server)
+ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 	: wxDialog (parent, wxID_ANY, wxString (_("Server")))
 {
 	if (server) {
 		_server = server;
 	} else {
-		_server = new Server ("localhost", 1);
+		_server = new ServerDescription ("localhost", 1);
 	}
 		
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 4, 4);
@@ -73,7 +73,7 @@ ServerDialog::threads_changed (wxCommandEvent &)
 	_server->set_threads (_threads->GetValue ());
 }
 
-Server *
+ServerDescription *
 ServerDialog::server () const
 {
 	return _server;

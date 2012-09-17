@@ -28,7 +28,7 @@
 #include <boost/shared_ptr.hpp>
 #include <sigc++/signal.h>
 
-class Server;
+class ServerDescription;
 class Screen;
 class Scaler;
 class Filter;
@@ -65,7 +65,7 @@ public:
 	}
 
 	/** @return J2K encoding servers to use */
-	std::vector<Server*> servers () const {
+	std::vector<ServerDescription*> servers () const {
 		return _servers;
 	}
 
@@ -126,7 +126,7 @@ public:
 	}
 
 	/** @param s New list of servers */
-	void set_servers (std::vector<Server*> s) {
+	void set_servers (std::vector<ServerDescription*> s) {
 		_servers = s;
 		Changed ();
 	}
@@ -188,7 +188,7 @@ private:
 	int _j2k_bandwidth;
 
 	/** J2K encoding servers to use */
-	std::vector<Server *> _servers;
+	std::vector<ServerDescription *> _servers;
 
 	/** Screen definitions */
 	std::vector<boost::shared_ptr<Screen> > _screens;
