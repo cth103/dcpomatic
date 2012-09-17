@@ -9,7 +9,7 @@ def build(bld):
 
     if not bld.env.DISABLE_GUI:
 #        p = ['dvdomatic', 'alignomatic']
-        p = ['dvdomatic']
+        p = ['dvdomatic', 'servomatic_gui']
         if not bld.env.DISABLE_PLAYER:
             p.append('playomatic')
         for t in p:
