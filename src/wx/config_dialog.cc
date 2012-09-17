@@ -145,7 +145,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::colour_lut_changed), 0, this);
 	
 	_j2k_bandwidth->SetRange (50, 250);
-	_j2k_bandwidth->SetValue (config->j2k_bandwidth() / 1e6);
+	_j2k_bandwidth->SetValue (rint ((double) config->j2k_bandwidth() / 1e6));
 	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::j2k_bandwidth_changed), 0, this);
 
 	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
