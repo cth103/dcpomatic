@@ -1,5 +1,9 @@
 2012-09-17  Carl Hetherington  <cth@carlh.net>
 
+	* Include servomatic in the Windows install.
+
+2012-09-17  Carl Hetherington  <cth@carlh.net>
+
 	* Version 0.49 released.
 
 2012-09-16  Carl Hetherington  <cth@carlh.net>
