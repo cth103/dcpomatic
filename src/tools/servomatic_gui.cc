@@ -57,13 +57,13 @@ class StatusDialog : public wxDialog
 {
 public:
 	StatusDialog ()
-		: wxDialog (0, wxID_ANY, _("DVD-o-matic encode server"), wxDefaultPosition, wxSize (600, 40), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+		: wxDialog (0, wxID_ANY, _("DVD-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 		, _timer (this, ID_timer)
 	{
 		_sizer = new wxFlexGridSizer (1, 6, 6);
 		_sizer->AddGrowableCol (0, 1);
 
-		_text = new wxTextCtrl (this, wxID_ANY);
+		_text = new wxTextCtrl (this, wxID_ANY, _(""), wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
 		_sizer->Add (_text, 1, wxEXPAND);
 
 		SetSizer (_sizer);
