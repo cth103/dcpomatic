@@ -287,6 +287,10 @@ ConfigDialog::remove_server_clicked (wxCommandEvent &)
 	if (i >= 0) {
 		_servers->DeleteItem (i);
 	}
+
+	vector<ServerDescription*> o = Config::instance()->servers ();
+	o.erase (o.begin() + i);
+	Config::instance()->set_servers (o);
 }
 
 void

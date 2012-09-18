@@ -277,7 +277,7 @@ DCPVideoFrame::encode_locally ()
 
 	{
 		stringstream s;
-		s << "Finished locally-encoded frame " << _frame << " length " << cio_tell (_cio);
+		s << "Finished locally-encoded frame " << _frame;
 		_log->log (s.str ());
 	}
 	
@@ -342,7 +342,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 
 	{
 		stringstream s;
-		s << "Finished remotely-encoded frame " << _frame << " length " << e->size();
+		s << "Finished remotely-encoded frame " << _frame;
 		_log->log (s.str ());
 	}
 	

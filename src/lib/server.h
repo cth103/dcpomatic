@@ -74,7 +74,7 @@ private:
 class Server
 {
 public:
-	Server ();
+	Server (Log* log);
 
 	void run ();
 
@@ -86,5 +86,5 @@ private:
 	std::list<boost::shared_ptr<boost::asio::ip::tcp::socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
-	Log _log;
+	Log* _log;
 };

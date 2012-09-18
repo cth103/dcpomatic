@@ -62,8 +62,8 @@ ServerDescription::as_metadata () const
 	return s.str ();
 }
 
-Server::Server ()
-	: _log ("servomatic.log")
+Server::Server (Log* log)
+	: _log (log)
 {
 
 }
@@ -129,7 +129,7 @@ Server::process (shared_ptr<asio::ip::tcp::socket> socket)
 	image->hash ("Image for encoding (as received by server)");
 #endif		
 	
-	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, &_log);
+	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log);
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	encoded->send (socket);
 

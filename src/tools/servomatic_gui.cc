@@ -24,28 +24,65 @@
 #include "lib/util.h"
 #include "lib/server.h"
 
+using namespace std;
 using namespace boost;
 
 enum {
 	ID_status = 1,
-	ID_quit
+	ID_quit,
+	ID_timer
 };
+
+class MemoryLog : public Log
+{
+public:
+
+	string get () const {
+		boost::mutex::scoped_lock (_mutex);
+		return _log;
+	}
+
+private:
+	void do_log (string m)
+	{
+		_log = m;
+	}
+
+	string _log;	
+};
+
+static MemoryLog memory_log;
 
 class StatusDialog : public wxDialog
 {
 public:
 	StatusDialog ()
-		: wxDialog (0, wxID_ANY, _("DVD-o-matic encode server"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+		: wxDialog (0, wxID_ANY, _("DVD-o-matic encode server"), wxDefaultPosition, wxSize (600, 40), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+		, _timer (this, ID_timer)
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
-		table->AddGrowableCol (1, 1);
+		_sizer = new wxFlexGridSizer (1, 6, 6);
+		_sizer->AddGrowableCol (0, 1);
 
-		add_label_to_sizer (table, this, "Hello");
+		_text = new wxTextCtrl (this, wxID_ANY);
+		_sizer->Add (_text, 1, wxEXPAND);
 
-		SetSizer (table);
-		table->Layout ();
-		table->SetSizeHints (this);
+		SetSizer (_sizer);
+		_sizer->Layout ();
+
+		Connect (ID_timer, wxEVT_TIMER, wxTimerEventHandler (StatusDialog::update));
+		_timer.Start (1000);
 	}
+
+private:
+	void update (wxTimerEvent &)
+	{
+		_text->ChangeValue (std_to_wx (memory_log.get ()));
+		_sizer->Layout ();
+	}
+
+	wxFlexGridSizer* _sizer;
+	wxTextCtrl* _text;
+	wxTimer _timer;
 };
 
 class TaskBarIcon : public wxTaskBarIcon
@@ -103,7 +140,7 @@ private:
 
 	void main_thread ()
 	{
-		Server server;
+		Server server (&memory_log);
 		server.run ();
 	}
 

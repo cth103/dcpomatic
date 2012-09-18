@@ -44,7 +44,8 @@ int
 main ()
 {
 	Scaler::setup_scalers ();
-	Server server;
+	FileLog log ("servomatic.log");
+	Server server (&log);
 	server.run ();
 	return 0;
 }

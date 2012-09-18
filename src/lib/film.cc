@@ -88,7 +88,7 @@ Film::Film (string d, bool must_exist)
 
 	read_metadata ();
 
-	_log = new Log (_state.file ("log"));
+	_log = new FileLog (_state.file ("log"));
 }
 
 /** Copy constructor */
