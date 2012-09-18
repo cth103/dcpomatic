@@ -67,7 +67,10 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame)
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
 			string const link = _opt->frame_out_path (i, false);
 #ifdef DVDOMATIC_POSIX			
-			symlink (real.c_str(), link.c_str());
+			int const r = symlink (real.c_str(), link.c_str());
+			if (r) {
+				throw EncodeError ("could not create symlink");
+			}
 #endif
 #ifdef DVDOMATIC_WINDOWS
 			filesystem::copy_file (real, link);

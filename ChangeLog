@@ -1,3 +1,9 @@
+2012-09-18  Carl Hetherington  <cth@carlh.net>
+
+	* Fix non-working removal of encode servers.
+
+	* Add GUI front-end to encode server.
+
 2012-09-17  Carl Hetherington  <cth@carlh.net>
 
 	* Include servomatic in the Windows install.
