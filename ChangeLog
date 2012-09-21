@@ -1,3 +1,8 @@
+2012-09-22  Carl Hetherington  <cth@carlh.net>
+
+	* Rename servomatic to servomatic_cli and
+	add a very basic system-tray-dwelling GUI server.
+
 2012-09-18  Carl Hetherington  <cth@carlh.net>
 
 	* Fix non-working removal of encode servers.
