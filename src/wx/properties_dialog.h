@@ -30,5 +30,6 @@ private:
 	wxStaticText* _frames;
 	wxStaticText* _disk_for_frames;
 	wxStaticText* _total_disk;
+	wxStaticText* _encoded;
 };
 

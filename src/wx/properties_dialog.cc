@@ -30,20 +30,24 @@ using namespace boost;
 PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	: wxDialog (parent, wxID_ANY, _("Film Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, 3, 6);
 
 	add_label_to_sizer (table, this, "Frames");
 	_frames = new wxStaticText (this, wxID_ANY, std_to_wx (""));
 	table->Add (_frames, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, "Disk space for frames");
+	add_label_to_sizer (table, this, "Disk space required for frames");
 	_disk_for_frames = new wxStaticText (this, wxID_ANY, std_to_wx (""));
 	table->Add (_disk_for_frames, 1, wxALIGN_CENTER_VERTICAL);
 	
-	add_label_to_sizer (table, this, "Total disk space");
+	add_label_to_sizer (table, this, "Total disk space required");
 	_total_disk = new wxStaticText (this, wxID_ANY, std_to_wx (""));
 	table->Add (_total_disk, 1, wxALIGN_CENTER_VERTICAL);
 
+	add_label_to_sizer (table, this, "Frames already encoded");
+	_encoded = new wxStaticText (this, wxID_ANY, std_to_wx (""));
+	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
+	
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (film->length ())));
 	double const disk = ((double) Config::instance()->j2k_bandwidth() / 8) * film->length() / (film->frames_per_second () * 1073741824);
 	stringstream s;
@@ -54,8 +58,15 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	t << fixed << setprecision (1) << (disk * 2) << "Gb";
 	_total_disk->SetLabel (std_to_wx (t.str ()));
 
+	stringstream u;
+	u << film->encoded_frames();
+	if (film->length()) {
+		u << " (" << (film->encoded_frames() * 100 / film->length()) << "%)";
+	}
+	_encoded->SetLabel (std_to_wx (u.str ()));
+
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table);
+	overall_sizer->Add (table, 0, wxALL, 8);
 	
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

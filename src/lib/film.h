@@ -229,6 +229,8 @@ public:
 		return _log;
 	}
 
+	int encoded_frames () const;
+
 	/** Emitted when some metadata property has changed */
 	mutable sigc::signal1<void, Property> Changed;
 	

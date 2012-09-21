@@ -19,6 +19,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <cstdlib>
 #include <sstream>
@@ -429,7 +430,6 @@ Film::j2k_dir () const
 
 	filesystem::path p;
 
-
 	/* Start with j2c */
 	p /= "j2c";
 
@@ -641,3 +641,12 @@ Film::copy_from_dvd ()
 	JobManager::instance()->add (j);
 }
 
+int
+Film::encoded_frames () const
+{
+	if (format() == 0) {
+		return 0;
+	}
+	
+	return distance (filesystem::directory_iterator (j2k_dir()), filesystem::directory_iterator ());
+}

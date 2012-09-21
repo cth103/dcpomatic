@@ -3,6 +3,10 @@
 	* Rename servomatic to servomatic_cli and
 	add a very basic system-tray-dwelling GUI server.
 
+	* Tweak formatting of properties dialogue
+	and add a note of how many J2K frames
+	have already been encoded.
+
 2012-09-18  Carl Hetherington  <cth@carlh.net>
 
 	* Fix non-working removal of encode servers.
