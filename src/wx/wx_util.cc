@@ -65,7 +65,14 @@ ThreadedStaticText::ThreadedStaticText (wxWindow* parent, string initial, functi
 	: wxStaticText (parent, wxID_ANY, std_to_wx (initial))
 {
 	Connect (_update_event_id, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ThreadedStaticText::thread_finished), 0, this);
-	thread t (bind (&ThreadedStaticText::run, this, fn));
+	_thread = new thread (bind (&ThreadedStaticText::run, this, fn));
+}
+
+ThreadedStaticText::~ThreadedStaticText ()
+{
+	/* XXX: this is a bit unfortunate */
+	_thread->join ();
+	delete _thread;
 }
 
 void

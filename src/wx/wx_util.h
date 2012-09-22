@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <boost/function.hpp>
+#include <boost/thread.hpp>
 
 /** @file src/wx/wx_util.h
  *  @brief Some utility functions and classes.
@@ -36,10 +37,13 @@ class ThreadedStaticText : public wxStaticText
 {
 public:
 	ThreadedStaticText (wxWindow* parent, std::string initial, boost::function<std::string ()> fn);
+	~ThreadedStaticText ();
 
 private:
 	void run (boost::function<std::string ()> fn);
 	void thread_finished (wxCommandEvent& ev);
 
+	boost::thread* _thread;
+	
 	static const int _update_event_id;
 };
