@@ -7,6 +7,9 @@
 	and add a note of how many J2K frames
 	have already been encoded.
 
+	* Correctly set up crop in the viewer
+	on reloading a film.
+
 2012-09-18  Carl Hetherington  <cth@carlh.net>
 
 	* Fix non-working removal of encode servers.
