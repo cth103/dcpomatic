@@ -648,6 +648,12 @@ FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);
 	d->ShowModal ();
+
+	if (d->wanted_fader() == 0 || d->actual_fader() == 0) {
+		d->Destroy ();
+		return;
+	}
+	
 	_audio_gain->SetValue (
 		Config::instance()->sound_processor()->db_for_fader_change (
 			d->wanted_fader (),

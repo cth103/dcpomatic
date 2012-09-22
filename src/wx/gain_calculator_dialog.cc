@@ -52,11 +52,19 @@ GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 float
 GainCalculatorDialog::wanted_fader () const
 {
+	if (_wanted->GetValue().IsEmpty()) {
+		return 0;
+	}
+	
 	return lexical_cast<float> (wx_to_std (_wanted->GetValue ()));
 }
 
 float
 GainCalculatorDialog::actual_fader () const
 {
+	if (_actual->GetValue().IsEmpty()) {
+		return 0;
+	}
+
 	return lexical_cast<float> (wx_to_std (_actual->GetValue ()));
 }
