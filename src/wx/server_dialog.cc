@@ -49,7 +49,7 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 	_threads->SetValue (_server->threads ());
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

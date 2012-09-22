@@ -61,7 +61,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	_total_disk->SetLabel (std_to_wx (t.str ()));
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 0, wxALL, 8);
+	overall_sizer->Add (table, 0, wxALL, 6);
 	
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

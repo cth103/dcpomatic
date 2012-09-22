@@ -32,7 +32,7 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
 	, _filters (new FilterView (this, f))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	sizer->Add (_filters, 1, wxEXPAND);
+	sizer->Add (_filters, 1, wxEXPAND | wxALL, 6);
 
 	_filters->ActiveChanged.connect (sigc::mem_fun (*this, &FilterDialog::active_changed));
 

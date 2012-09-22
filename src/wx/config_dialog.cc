@@ -170,7 +170,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	server_selection_changed (ev);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -263,7 +263,7 @@ ConfigDialog::edit_server_clicked (wxCommandEvent &)
 	_servers->GetItem (item);
 
 	vector<ServerDescription*> servers = Config::instance()->servers ();
-	assert (i >= 0 && i < servers.size ());
+	assert (i >= 0 && i < int (servers.size ()));
 
 	ServerDialog* d = new ServerDialog (this, servers[i]);
 	d->ShowModal ();
