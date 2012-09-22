@@ -76,6 +76,6 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame)
 			filesystem::copy_file (real, link);
 #endif			
 		}
-		frame_done ();
+		frame_done (0);
 	}
 }

@@ -126,6 +126,8 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 					  ));
 		
 		_worker_condition.notify_all ();
+	} else {
+		frame_skipped ();
 	}
 }
 
@@ -190,7 +192,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 
 		if (encoded) {
 			encoded->write (_opt, vf->frame ());
-			frame_done ();
+			frame_done (vf->frame ());
 		} else {
 			lock.lock ();
 			_queue.push_front (vf);
@@ -253,7 +255,7 @@ J2KWAVEncoder::process_end ()
 		try {
 			shared_ptr<EncodedData> e = (*i)->encode_locally ();
 			e->write (_opt, (*i)->frame ());
-			frame_done ();
+			frame_done ((*i)->frame ());
 		} catch (std::exception& e) {
 			stringstream s;
 			s << "Local encode failed " << e.what() << ".";

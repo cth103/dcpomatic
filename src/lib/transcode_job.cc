@@ -88,13 +88,30 @@ TranscodeJob::status () const
 	if (!_encoder) {
 		return "0%";
 	}
+
+	if (_encoder->skipping ()) {
+		return "skipping frames already encoded";
+	}
+		
 	
 	float const fps = _encoder->current_frames_per_second ();
 	if (fps == 0) {
 		return Job::status ();
 	}
-		
+
 	stringstream s;
-	s << Job::status () << "; about " << fixed << setprecision (1) << fps << " frames per second.";
+
+	s << Job::status () << "; " << fixed << setprecision (1) << fps << " frames per second";
 	return s.str ();
+}
+
+int
+TranscodeJob::remaining_time () const
+{
+	float fps = _encoder->current_frames_per_second ();
+	if (fps == 0) {
+		return 0;
+	}
+
+	return ((_fs->length - _encoder->last_frame()) / fps);
 }

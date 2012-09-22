@@ -70,6 +70,8 @@ public:
 
 protected:
 
+	virtual int remaining_time () const;
+
 	enum State {
 		NEW,           ///< the job hasn't been started yet
 		RUNNING,       ///< the job is running

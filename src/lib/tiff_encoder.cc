@@ -73,5 +73,5 @@ TIFFEncoder::process_video (shared_ptr<Image> image, int frame)
 	TIFFClose (output);
 
 	boost::filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
-	frame_done ();
+	frame_done (frame);
 }

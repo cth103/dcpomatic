@@ -236,11 +236,12 @@ Job::status () const
 {
 	float const p = overall_progress ();
 	int const t = elapsed_time ();
+	int const r = remaining_time ();
 	
 	stringstream s;
-	if (!finished () && p >= 0 && t > 10) {
-		s << rint (p * 100) << "%; about " << seconds_to_approximate_hms (t / p - t) << " remaining";
-	} else if (!finished () && t <= 10) {
+	if (!finished () && p >= 0 && t > 10 && r > 0) {
+		s << rint (p * 100) << "%; " << seconds_to_approximate_hms (r) << " remaining";
+	} else if (!finished () && (t <= 10 || r == 0)) {
 		s << rint (p * 100) << "%";
 	} else if (finished_ok ()) {
 		s << "OK (ran for " << seconds_to_hms (t) << ")";
@@ -249,4 +250,10 @@ Job::status () const
 	}
 
 	return s.str ();
+}
+
+int
+Job::remaining_time () const
+{
+	return elapsed_time() / overall_progress() - elapsed_time();
 }

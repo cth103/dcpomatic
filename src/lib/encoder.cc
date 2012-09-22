@@ -36,6 +36,8 @@ Encoder::Encoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Lo
 	: _fs (s)
 	, _opt (o)
 	, _log (l)
+	, _just_skipped (false)
+	, _last_frame (0)
 {
 
 }
@@ -58,14 +60,41 @@ Encoder::current_frames_per_second () const
 	return _history_size / (seconds (now) - seconds (_time_history.back ()));
 }
 
+bool
+Encoder::skipping () const
+{
+	boost::mutex::scoped_lock (_history_mutex);
+	return _just_skipped;
+}
+
+int
+Encoder::last_frame () const
+{
+	boost::mutex::scoped_lock (_history_mutex);
+	return _last_frame;
+}
+
 void
-Encoder::frame_done ()
+Encoder::frame_done (int n)
 {
 	boost::mutex::scoped_lock lock (_history_mutex);
+	_just_skipped = false;
+	_last_frame = n;
+	
 	struct timeval tv;
 	gettimeofday (&tv, 0);
 	_time_history.push_front (tv);
 	if (int (_time_history.size()) > _history_size) {
 		_time_history.pop_back ();
 	}
+}
+
+/** Called by a subclass when it has just skipped the processing
+    of a frame because it has already been done.
+*/
+void
+Encoder::frame_skipped ()
+{
+	boost::mutex::scoped_lock lock (_history_mutex);
+	_just_skipped = true;
 }

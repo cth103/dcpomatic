@@ -38,6 +38,9 @@ public:
 	void run ();
 	std::string status () const;
 
+protected:
+	int remaining_time () const;
+
 private:
 	boost::shared_ptr<Encoder> _encoder;
 };
