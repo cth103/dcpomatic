@@ -1,5 +1,12 @@
 2012-09-22  Carl Hetherington  <cth@carlh.net>
 
+	* Fix bug on OK-ing gain calculation
+	dialog without entering any values.
+
+	* Improve spacing in some dialogs.
+
+2012-09-22  Carl Hetherington  <cth@carlh.net>
+
 	* Version 0.51 released.
 
 2012-09-22  Carl Hetherington  <cth@carlh.net>
