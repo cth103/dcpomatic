@@ -6,6 +6,8 @@
 	dialog in a separate thread to improve
 	responsiveness.
 
+	* Fix edit server button on Windows.
+
 2012-09-22  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.50 released.
