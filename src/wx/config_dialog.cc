@@ -263,21 +263,14 @@ ConfigDialog::edit_server_clicked (wxCommandEvent &)
 	_servers->GetItem (item);
 
 	vector<ServerDescription*> servers = Config::instance()->servers ();
-	vector<ServerDescription*>::iterator j = servers.begin();
-	while (j != servers.end() && (*j)->host_name() != wx_to_std (item.GetText ())) {
-		++j;
-	}
+	assert (i >= 0 && i < servers.size ());
 
-	if (j == servers.end()) {
-		return;
-	}
-
-	ServerDialog* d = new ServerDialog (this, *j);
+	ServerDialog* d = new ServerDialog (this, servers[i]);
 	d->ShowModal ();
 	d->Destroy ();
 
-	_servers->SetItem (i, 0, std_to_wx ((*j)->host_name ()));
-	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> ((*j)->threads ())));
+	_servers->SetItem (i, 0, std_to_wx (servers[i]->host_name ()));
+	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> (servers[i]->threads ())));
 }
 
 void
