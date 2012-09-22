@@ -76,7 +76,12 @@ string
 PropertiesDialog::frames_already_encoded () const
 {
 	stringstream u;
-	u << _film->encoded_frames();
+	try {
+		u << _film->encoded_frames ();
+	} catch (thread_interrupted &) {
+		return "";
+	}
+	
 	if (_film->length()) {
 		u << " (" << (_film->encoded_frames() * 100 / _film->length()) << "%)";
 	}

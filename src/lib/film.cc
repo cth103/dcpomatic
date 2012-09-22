@@ -647,6 +647,12 @@ Film::encoded_frames () const
 	if (format() == 0) {
 		return 0;
 	}
-	
-	return distance (filesystem::directory_iterator (j2k_dir()), filesystem::directory_iterator ());
+
+	int N = 0;
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (j2k_dir ()); i != filesystem::directory_iterator(); ++i) {
+		++N;
+		this_thread::interruption_point ();
+	}
+
+	return N;
 }

@@ -70,7 +70,7 @@ ThreadedStaticText::ThreadedStaticText (wxWindow* parent, string initial, functi
 
 ThreadedStaticText::~ThreadedStaticText ()
 {
-	/* XXX: this is a bit unfortunate */
+	_thread->interrupt ();
 	_thread->join ();
 	delete _thread;
 }

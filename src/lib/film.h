@@ -29,6 +29,7 @@
 #include <vector>
 #include <inttypes.h>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread.hpp>
 #include <sigc++/signal.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
