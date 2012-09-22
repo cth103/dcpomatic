@@ -1,5 +1,9 @@
 2012-09-22  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.51 released.
+
+2012-09-22  Carl Hetherington  <cth@carlh.net>
+
 	* Improve transcode job progress reporting.
 
 	* Update the slow bits of the properties
