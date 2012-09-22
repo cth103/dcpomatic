@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iostream>
 #include <boost/algorithm/string.hpp>
 #include "server.h"
 #include "util.h"
