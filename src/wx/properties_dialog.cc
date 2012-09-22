@@ -47,7 +47,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	table->Add (_total_disk, 1, wxALIGN_CENTER_VERTICAL);
 
 	add_label_to_sizer (table, this, "Frames already encoded");
-	_encoded = new ThreadedStaticText (this, "calculating...", boost::bind (&PropertiesDialog::frames_already_encoded, this));
+	_encoded = new ThreadedStaticText (this, "counting...", boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 	
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length ())));
