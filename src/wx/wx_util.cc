@@ -18,12 +18,14 @@
 */
 
 /** @file src/wx/wx_util.cc
- *  @brief Some utility functions.
+ *  @brief Some utility functions and classes.
  */
 
+#include <boost/thread.hpp>
 #include "wx_util.h"
 
 using namespace std;
+using namespace boost;
 
 wxStaticText *
 add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
@@ -51,4 +53,32 @@ wxString
 std_to_wx (string s)
 {
 	return wxString (s.c_str(), wxConvUTF8);
+}
+
+int const ThreadedStaticText::_update_event_id = 10000;
+
+/** @param parent Parent for the wxStaticText.
+ *  @param initial Initial text for the wxStaticText while the computation is being run.
+ *  @param fn Function which works out what the wxStaticText content should be and returns it.
+ */
+ThreadedStaticText::ThreadedStaticText (wxWindow* parent, string initial, function<string ()> fn)
+	: wxStaticText (parent, wxID_ANY, std_to_wx (initial))
+{
+	Connect (_update_event_id, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ThreadedStaticText::thread_finished), 0, this);
+	thread t (bind (&ThreadedStaticText::run, this, fn));
+}
+
+void
+ThreadedStaticText::run (function<string ()> fn)
+{
+	/* Run the thread and post the result to the GUI thread via AddPendingEvent */
+	wxCommandEvent ev (wxEVT_COMMAND_TEXT_UPDATED, _update_event_id);
+	ev.SetString (std_to_wx (fn ()));
+	GetEventHandler()->AddPendingEvent (ev);
+}
+
+void
+ThreadedStaticText::thread_finished (wxCommandEvent& ev)
+{
+	SetLabel (ev.GetString ());
 }

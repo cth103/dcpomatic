@@ -19,6 +19,7 @@
 
 #include <iomanip>
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 #include "lib/film.h"
 #include "lib/config.h"
 #include "properties_dialog.h"
@@ -29,6 +30,7 @@ using namespace boost;
 
 PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	: wxDialog (parent, wxID_ANY, _("Film Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+	, _film (film)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 3, 6);
 
@@ -45,11 +47,11 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	table->Add (_total_disk, 1, wxALIGN_CENTER_VERTICAL);
 
 	add_label_to_sizer (table, this, "Frames already encoded");
-	_encoded = new wxStaticText (this, wxID_ANY, std_to_wx (""));
+	_encoded = new ThreadedStaticText (this, "calculating...", boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 	
-	_frames->SetLabel (std_to_wx (lexical_cast<string> (film->length ())));
-	double const disk = ((double) Config::instance()->j2k_bandwidth() / 8) * film->length() / (film->frames_per_second () * 1073741824);
+	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length ())));
+	double const disk = ((double) Config::instance()->j2k_bandwidth() / 8) * _film->length() / (_film->frames_per_second () * 1073741824);
 	stringstream s;
 	s << fixed << setprecision (1) << disk << "Gb";
 	_disk_for_frames->SetLabel (std_to_wx (s.str ()));
@@ -57,13 +59,6 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 	stringstream t;
 	t << fixed << setprecision (1) << (disk * 2) << "Gb";
 	_total_disk->SetLabel (std_to_wx (t.str ()));
-
-	stringstream u;
-	u << film->encoded_frames();
-	if (film->length()) {
-		u << " (" << (film->encoded_frames() * 100 / film->length()) << "%)";
-	}
-	_encoded->SetLabel (std_to_wx (u.str ()));
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (table, 0, wxALL, 8);
@@ -75,4 +70,15 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
 
 	SetSizer (overall_sizer);
 	overall_sizer->SetSizeHints (this);
+}
+
+string
+PropertiesDialog::frames_already_encoded () const
+{
+	stringstream u;
+	u << _film->encoded_frames();
+	if (_film->length()) {
+		u << " (" << (_film->encoded_frames() * 100 / _film->length()) << "%)";
+	}
+	return u.str ();
 }
