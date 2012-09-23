@@ -27,6 +27,7 @@
 #include <iostream>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 #include <sndfile.h>
 #include <openjpeg.h>
 #include "j2k_wav_encoder.h"
@@ -229,8 +230,11 @@ J2KWAVEncoder::process_end ()
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
+	_log->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
+
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
+		_log->log ("Waking with " + lexical_cast<string> (_queue.size ()));
 		_worker_condition.notify_all ();
 		_worker_condition.wait (lock);
 	}
@@ -238,6 +242,8 @@ J2KWAVEncoder::process_end ()
 	lock.unlock ();
 	
 	terminate_worker_threads ();
+
+	_log->log ("Mopping up " + lexical_cast<string> (_queue.size()));
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
