@@ -181,9 +181,9 @@ Server::worker_thread ()
 }
 
 void
-Server::run ()
+Server::run (int num_threads)
 {
-	int const num_threads = Config::instance()->num_local_encoding_threads ();
+	cout << "Server starting with " << num_threads << " threads.\n";
 	
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));

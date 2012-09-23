@@ -25,6 +25,7 @@
 #include <vector>
 #include <unistd.h>
 #include <errno.h>
+#include <getopt.h>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
@@ -39,13 +40,55 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
+#include "version.h"
+
+using namespace std;
+
+static void
+help (string n)
+{
+	cerr << "Syntax: " << n << " [OPTION]\n"
+	     << "  -v, --version      show DVD-o-matic version\n"
+	     << "  -h, --help         show this help\n"
+	     << "  -t, --threads      number of parallel encoding threads to use\n";
+}
 
 int
-main ()
+main (int argc, char* argv[])
 {
+	int num_threads = Config::instance()->num_local_encoding_threads ();
+
+	int option_index = 0;
+	while (1) {
+		static struct option long_options[] = {
+			{ "version", no_argument, 0, 'v'},
+			{ "help", no_argument, 0, 'h'},
+			{ "threads", required_argument, 0, 't'},
+			{ 0, 0, 0, 0 }
+		};
+
+		int c = getopt_long (argc, argv, "vht:", long_options, &option_index);
+
+		if (c == -1) {
+			break;
+		}
+
+		switch (c) {
+		case 'v':
+			cout << "dvdomatic version " << dvdomatic_version << " " << dvdomatic_git_commit << "\n";
+			exit (EXIT_SUCCESS);
+		case 'h':
+			help (argv[0]);
+			exit (EXIT_SUCCESS);
+		case 't':
+			num_threads = atoi (optarg);
+			break;
+		}
+	}
+
 	Scaler::setup_scalers ();
 	FileLog log ("servomatic.log");
 	Server server (&log);
-	server.run ();
+	server.run (num_threads);
 	return 0;
 }

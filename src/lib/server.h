@@ -76,7 +76,7 @@ class Server
 public:
 	Server (Log* log);
 
-	void run ();
+	void run (int num_threads);
 
 private:
 	void worker_thread ();

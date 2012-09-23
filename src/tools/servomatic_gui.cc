@@ -23,6 +23,7 @@
 #include "wx_util.h"
 #include "lib/util.h"
 #include "lib/server.h"
+#include "lib/config.h"
 
 using namespace std;
 using namespace boost;
@@ -141,7 +142,7 @@ private:
 	void main_thread ()
 	{
 		Server server (&memory_log);
-		server.run ();
+		server.run (Config::instance()->num_local_encoding_threads ());
 	}
 
 	boost::thread* _thread;
