@@ -2,6 +2,10 @@
 
 	* Fix alignment of frames per second count.
 
+	* Use hopefully more robust networking
+	code to survive timeouts during reads and
+	writes.
+
 2012-09-22  Carl Hetherington  <cth@carlh.net>
 
 	* Fix bug on OK-ing gain calculation
