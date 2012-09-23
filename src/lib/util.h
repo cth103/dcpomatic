@@ -131,6 +131,8 @@ public:
 private:
 	void check ();
 
+	DeadlineWrapper (DeadlineWrapper const &);
+
 	boost::asio::io_service& _io_service;
 	boost::asio::deadline_timer _deadline;
 	boost::shared_ptr<boost::asio::ip::tcp::socket> _socket;
