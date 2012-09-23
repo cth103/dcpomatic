@@ -29,6 +29,11 @@
 #include "exceptions.h"
 #include "dvd.h"
 #include "delay_line.h"
+#include "image.h"
+#include "log.h"
+#include "dcp_video_frame.h"
+#include "config.h"
+#include "server.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -247,4 +252,48 @@ BOOST_AUTO_TEST_CASE (paths_test)
 	BOOST_CHECK_EQUAL (s.content_path(), "/foo/bar/baz");
 	s.content = "foo/bar/baz";
 	BOOST_CHECK_EQUAL (s.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
+}
+
+BOOST_AUTO_TEST_CASE (client_server_test)
+{
+	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_RGB24, Size (1998, 1080)));
+	image->set_line_size (0, 1998 * 3);
+
+	uint8_t* p = image->data()[0];
+	
+	for (int y = 0; y < 1080; ++y) {
+		for (int x = 0; x < 1998; ++x) {
+			*p++ = x % 256;
+			*p++ = y % 256;
+			*p++ = (x + y) % 256;
+		}
+	}
+
+	FileLog log ("build/test/client_server_test.log");
+
+	DCPVideoFrame frame (
+		image,
+		Size (1998, 1080),
+		0,
+		Scaler::from_id ("bicubic"),
+		0,
+		24,
+		"",
+		0,
+		200000000,
+		&log
+		);
+
+	shared_ptr<EncodedData> locally_encoded = frame.encode_locally ();
+	
+	Config::instance()->set_server_port (61920);
+	Server server (&log);
+
+	thread t (boost::bind (&Server::run, &server, 1));
+
+	ServerDescription description ("localhost", 1);
+	shared_ptr<EncodedData> remotely_encoded = frame.encode_remotely (&description);
+
+	BOOST_CHECK_EQUAL (locally_encoded->size(), remotely_encoded->size());
+	BOOST_CHECK (memcmp (locally_encoded->data(), remotely_encoded->data(), locally_encoded->size()) == 0);
 }
