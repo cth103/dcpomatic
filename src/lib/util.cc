@@ -517,10 +517,3 @@ colour_lut_index_to_name (int index)
 	assert (false);
 	return "";
 }
-
-int
-read_with_timeout (boost::asio::ip::tcp::socket* socket, uint8_t* data, int size)
-{
-	
-	return asio::read (socket, asio::buffer (data, size));
-}
