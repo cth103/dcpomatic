@@ -287,9 +287,9 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	shared_ptr<EncodedData> locally_encoded = frame.encode_locally ();
 	
 	Config::instance()->set_server_port (61920);
-	Server server (&log);
+	Server* server = new Server (&log);
 
-	thread t (boost::bind (&Server::run, &server, 1));
+	thread t (boost::bind (&Server::run, server, 1));
 
 	ServerDescription description ("localhost", 1);
 	shared_ptr<EncodedData> remotely_encoded = frame.encode_remotely (&description);
