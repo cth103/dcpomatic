@@ -438,7 +438,7 @@ colour_lut_index_to_name (int index)
 	return "";
 }
 
-DeadlineWrapper::DeadlineWrapper ()
+Socket::Socket ()
 	: _deadline (_io_service)
 	, _socket (_io_service)
 	, _buffer_data (0)
@@ -448,18 +448,18 @@ DeadlineWrapper::DeadlineWrapper ()
 }
 
 void
-DeadlineWrapper::check ()
+Socket::check ()
 {
 	if (_deadline.expires_at() <= asio::deadline_timer::traits_type::now ()) {
 		_socket.close ();
 		_deadline.expires_at (posix_time::pos_infin);
 	}
 
-	_deadline.async_wait (boost::bind (&DeadlineWrapper::check, this));
+	_deadline.async_wait (boost::bind (&Socket::check, this));
 }
 
 void
-DeadlineWrapper::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
+Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
 {
 	system::error_code ec = asio::error::would_block;
 	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
@@ -473,7 +473,7 @@ DeadlineWrapper::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & 
 }
 
 void
-DeadlineWrapper::write (uint8_t const * data, int size, int timeout)
+Socket::write (uint8_t const * data, int size, int timeout)
 {
 	_deadline.expires_from_now (posix_time::seconds (timeout));
 	system::error_code ec = asio::error::would_block;
@@ -489,7 +489,7 @@ DeadlineWrapper::write (uint8_t const * data, int size, int timeout)
 }
 
 int
-DeadlineWrapper::read (uint8_t* data, int size, int timeout)
+Socket::read (uint8_t* data, int size, int timeout)
 {
 	_deadline.expires_from_now (posix_time::seconds (timeout));
 	system::error_code ec = asio::error::would_block;
@@ -517,7 +517,7 @@ DeadlineWrapper::read (uint8_t* data, int size, int timeout)
  *  @param size Amount of data to consume, in bytes.
  */
 void
-DeadlineWrapper::consume (int size)
+Socket::consume (int size)
 {
 	assert (_buffer_data >= size);
 	
@@ -534,7 +534,7 @@ DeadlineWrapper::consume (int size)
  *  @param size Number of bytes to read.
  */
 void
-DeadlineWrapper::read_definite_and_consume (uint8_t* data, int size, int timeout)
+Socket::read_definite_and_consume (uint8_t* data, int size, int timeout)
 {
 	int const from_buffer = min (_buffer_data, size);
 	if (from_buffer > 0) {
@@ -563,7 +563,7 @@ DeadlineWrapper::read_definite_and_consume (uint8_t* data, int size, int timeout
  *  @param size Maximum amount of data to read.
  */
 void
-DeadlineWrapper::read_indefinite (uint8_t* data, int size, int timeout)
+Socket::read_indefinite (uint8_t* data, int size, int timeout)
 {
 	assert (size < int (sizeof (_buffer)));
 

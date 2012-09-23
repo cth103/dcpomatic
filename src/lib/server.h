@@ -28,7 +28,7 @@
 #include <boost/thread/condition.hpp>
 #include "log.h"
 
-class DeadlineWrapper;
+class Socket;
 
 /** @class ServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
@@ -82,10 +82,10 @@ public:
 
 private:
 	void worker_thread ();
-	int process (boost::shared_ptr<DeadlineWrapper> wrapper);
+	int process (boost::shared_ptr<Socket> socket);
 
 	std::vector<boost::thread *> _worker_threads;
-	std::list<boost::shared_ptr<DeadlineWrapper> > _queue;
+	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
 	Log* _log;

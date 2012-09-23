@@ -113,10 +113,10 @@ extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
 extern std::string colour_lut_index_to_name (int index);
 
-class DeadlineWrapper
+class Socket
 {
 public:
-	DeadlineWrapper ();
+	Socket ();
 
 	boost::asio::ip::tcp::socket& socket () {
 		return _socket;
@@ -124,7 +124,6 @@ public:
 
 	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint, int timeout);
 	void write (uint8_t const * data, int size, int timeout);
-	int read (uint8_t* data, int size, int timeout);
 	
 	void read_definite_and_consume (uint8_t* data, int size, int timeout);
 	void read_indefinite (uint8_t* data, int size, int timeout);
@@ -132,8 +131,9 @@ public:
 	
 private:
 	void check ();
+	int read (uint8_t* data, int size, int timeout);
 
-	DeadlineWrapper (DeadlineWrapper const &);
+	Socket (Socket const &);
 
 	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;
