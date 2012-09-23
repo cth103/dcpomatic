@@ -486,7 +486,7 @@ void
 DeadlineWrapper::write (uint8_t const * data, int size, int timeout)
 {
 	assert (_socket);
-	
+
 	_deadline.expires_from_now (posix_time::seconds (timeout));
 	system::error_code ec = asio::error::would_block;
 
@@ -515,8 +515,10 @@ DeadlineWrapper::read (uint8_t* data, int size, int timeout)
 		(lambda::var(ec) = lambda::_1, lambda::var(amount_read) = lambda::_2)
 		);
 
-	_io_service.run ();
-
+	do {
+		_io_service.run_one ();
+	} while (ec == asio::error::would_block);
+	
 	if (ec) {
 		amount_read = 0;
 	}
