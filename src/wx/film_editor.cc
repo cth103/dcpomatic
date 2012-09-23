@@ -132,7 +132,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 
 	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxStaticText (this, wxID_ANY, wxT (""));
-	_sizer->Add (video_control (_frames_per_second));
+	_sizer->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
 	
 	video_control (add_label_to_sizer (_sizer, this, "Original Size"));
 	_original_size = new wxStaticText (this, wxID_ANY, wxT (""));

@@ -1,3 +1,7 @@
+2012-09-23  Carl Hetherington  <cth@carlh.net>
+
+	* Fix alignment of frames per second count.
+
 2012-09-22  Carl Hetherington  <cth@carlh.net>
 
 	* Fix bug on OK-ing gain calculation
