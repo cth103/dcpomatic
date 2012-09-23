@@ -325,10 +325,10 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 		s << _input->line_size()[i] << " ";
 	}
 
-	wrapper.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 10);
+	wrapper.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
 	for (int i = 0; i < _input->components(); ++i) {
-		wrapper.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 10);
+		wrapper.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 30);
 	}
 
 	char buffer[32];
