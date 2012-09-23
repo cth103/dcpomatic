@@ -767,6 +767,104 @@ out.
 </para>
 
 </section>
+
+<section xml:id="sec-servers">
+<title>Encoding servers</title>
+
+<para>
+One way to increase the speed of DCP encoding is to use more
+than one machine at the same time.  An instance of DVD-o-matic can
+offload some of the time-consuming JPEG2000 encoding to any number of
+other machines on a network.  To do this, one &lsquo;master&rsquo;
+machine runs DVD-o-matic, and the &lsquo;server&rsquo; machines run
+a small program called &lsquo;servomatic&rsquo;.
+</para>
+
+<section>
+<title>Running the servers</title>
+
+<para>
+There are two options for the encoding server;
+<code>servomatic_cli</code>, which runs on the command line, and
+<code>servomatic_gui</code>, which has a simple GUI.  The command line
+version is well-suited to headless servers, especially on Linux, and
+the GUI version works beston Windows where it will put an icon in the
+system tray.
+</para>
+
+<para>
+To run the command line version, simply enter:
+</para>
+
+<programlisting>
+servomatic_cli
+</programlisting>
+
+<para>
+at a command prompt.  If you are running the program on a machine with
+a multi-core processor, you can run multiple parallel encoding threads
+by doing something like:
+</para>
+
+<programlisting>
+servomatic_cli -t 4
+</programlisting>
+
+<para>
+to run 4 threads in parallel.
+</para>
+
+<para>
+To run the GUI version on windows, run the &lsquo;DVD-o-matic encode
+server&rsquo; from the start menu.  An icon will appear in the system
+tray; right-click it to open a menu from whence you can quit the
+server or open a window to show its status.
+</para>
+
+</section>
+<section>
+<title>Setting up DVD-o-matic</title>
+
+<para>
+Once your servers are running, you need to tell your master
+DVD-o-matic instance about them.  Start DVD-o-matic and open the
+<guilabel>Preferences</guilabel> dialog from the
+<guilabel>Edit</guilabel> menu.  At the bottom of this dialog is a
+section where you can add, edit and remove encoding servers.  For each
+encoding server you need only specify its IP address and the number of
+threads that it is running, so that DVD-o-matic knows how many
+parallel encode jobs to send to the server.
+</para>
+
+<para>
+Once this is done, any encodes that you start will split the workload
+up between the master machine and the servers.
+</para>
+
+</section>
+<section>
+<title>Some notes about encode servers</title>
+
+<para>
+DVD-o-matic does not mind if servers come and go; if a server
+disappears, DVD-o-matic will stop sending work to it, and will check
+it every minute or so in case it has come back online.
+</para>
+
+<para>
+You will probably find that using a 1Gb/s or faster network will
+provide a significant speed-up compared to a 100Mb/s network.
+</para>
+
+<para>
+Making changes to the server configuration in the master DVD-o-matic
+will have no effect while an encode is running; the changes will only
+be noticed when a new encode is started.
+</para>
+
+</section>
+</section>
+
 </chapter>
 
 
