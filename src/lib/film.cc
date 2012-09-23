@@ -123,6 +123,10 @@ Film::read_metadata ()
 			continue;
 		}
 
+		if (line[line.size() - 1] == '\r') {
+			line = line.substr (0, line.size() - 1);
+		}
+
 		size_t const s = line.find (' ');
 		if (s == string::npos) {
 			continue;
