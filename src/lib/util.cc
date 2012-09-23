@@ -438,9 +438,9 @@ colour_lut_index_to_name (int index)
 	return "";
 }
 
-DeadlineWrapper::DeadlineWrapper (asio::io_service& io_service)
-	: _io_service (io_service)
-	, _deadline (io_service)
+DeadlineWrapper::DeadlineWrapper ()
+	: _deadline (_io_service)
+	, _socket (_io_service)
 	, _buffer_data (0)
 {
 	_deadline.expires_at (posix_time::pos_infin);
@@ -448,18 +448,10 @@ DeadlineWrapper::DeadlineWrapper (asio::io_service& io_service)
 }
 
 void
-DeadlineWrapper::set_socket (shared_ptr<asio::ip::tcp::socket> socket)
-{
-	_socket = socket;
-}
-
-void
 DeadlineWrapper::check ()
 {
 	if (_deadline.expires_at() <= asio::deadline_timer::traits_type::now ()) {
-		if (_socket) {
-			_socket->close ();
-		}
+		_socket.close ();
 		_deadline.expires_at (posix_time::pos_infin);
 	}
 
@@ -469,15 +461,13 @@ DeadlineWrapper::check ()
 void
 DeadlineWrapper::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
 {
-	assert (_socket);
-	
 	system::error_code ec = asio::error::would_block;
-	_socket->async_connect (endpoint, lambda::var(ec) = lambda::_1);
+	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
 	do {
 		_io_service.run_one();
 	} while (ec == asio::error::would_block);
 
-	if (ec || !_socket->is_open ()) {
+	if (ec || !_socket.is_open ()) {
 		throw NetworkError ("connect timed out");
 	}
 }
@@ -485,12 +475,10 @@ DeadlineWrapper::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & 
 void
 DeadlineWrapper::write (uint8_t const * data, int size, int timeout)
 {
-	assert (_socket);
-
 	_deadline.expires_from_now (posix_time::seconds (timeout));
 	system::error_code ec = asio::error::would_block;
 
-	asio::async_write (*_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	asio::async_write (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
 	do {
 		_io_service.run_one ();
 	} while (ec == asio::error::would_block);
@@ -503,14 +491,12 @@ DeadlineWrapper::write (uint8_t const * data, int size, int timeout)
 int
 DeadlineWrapper::read (uint8_t* data, int size, int timeout)
 {
-	assert (_socket);
-
 	_deadline.expires_from_now (posix_time::seconds (timeout));
 	system::error_code ec = asio::error::would_block;
 
 	int amount_read = 0;
 
-	_socket->async_read_some (
+	_socket.async_read_some (
 		asio::buffer (data, size),
 		(lambda::var(ec) = lambda::_1, lambda::var(amount_read) = lambda::_2)
 		);

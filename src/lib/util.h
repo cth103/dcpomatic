@@ -116,9 +116,11 @@ extern std::string colour_lut_index_to_name (int index);
 class DeadlineWrapper
 {
 public:
-	DeadlineWrapper (boost::asio::io_service& io_service);
+	DeadlineWrapper ();
 
-	void set_socket (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	boost::asio::ip::tcp::socket& socket () {
+		return _socket;
+	}
 
 	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint, int timeout);
 	void write (uint8_t const * data, int size, int timeout);
@@ -133,9 +135,9 @@ private:
 
 	DeadlineWrapper (DeadlineWrapper const &);
 
-	boost::asio::io_service& _io_service;
+	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;
-	boost::shared_ptr<boost::asio::ip::tcp::socket> _socket;
+	boost::asio::ip::tcp::socket _socket;
 	/** a buffer for small reads */
 	uint8_t _buffer[256];
 	/** amount of valid data in the buffer */

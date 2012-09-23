@@ -306,13 +306,12 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	ServerDescription description ("localhost", 2);
 
-	thread* a = new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded));
-	thread* b = new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded));
-	thread* c = new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded));
-	thread* d = new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded));
+	list<thread*> threads;
+	for (int i = 0; i < 8; ++i) {
+		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded)));
+	}
 
-	a->join ();
-	b->join ();
-	c->join ();
-	d->join ();
+	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
+		(*i)->join ();
+	}
 }

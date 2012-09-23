@@ -70,14 +70,11 @@ Server::Server (Log* log)
 }
 
 int
-Server::process (shared_ptr<asio::ip::tcp::socket> socket)
+Server::process (shared_ptr<DeadlineWrapper> wrapper)
 {
-	DeadlineWrapper wrapper (_io_service);
-	wrapper.set_socket (socket);
-	
 	char buffer[128];
-	wrapper.read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	wrapper.consume (strlen (buffer) + 1);
+	wrapper->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	wrapper->consume (strlen (buffer) + 1);
 	
 	stringstream s (buffer);
 	
@@ -124,7 +121,7 @@ Server::process (shared_ptr<asio::ip::tcp::socket> socket)
 	}
 	
 	for (int i = 0; i < image->components(); ++i) {
-		wrapper.read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
+		wrapper->read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
 	}
 	
 #ifdef DEBUG_HASH
@@ -151,7 +148,7 @@ Server::worker_thread ()
 			_worker_condition.wait (lock);
 		}
 
-		shared_ptr<asio::ip::tcp::socket> socket = _queue.front ();
+		shared_ptr<DeadlineWrapper> wrapper = _queue.front ();
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -162,12 +159,12 @@ Server::worker_thread ()
 		gettimeofday (&start, 0);
 		
 		try {
-			frame = process (socket);
+			frame = process (wrapper);
 		} catch (std::exception& e) {
 			cerr << "Error: " << e.what() << "\n";
 		}
 		
-		socket.reset ();
+		wrapper.reset ();
 		
 		lock.lock ();
 
@@ -193,11 +190,12 @@ Server::run (int num_threads)
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));
 	}
-	
-	asio::ip::tcp::acceptor acceptor (_io_service, asio::ip::tcp::endpoint (asio::ip::tcp::v4(), Config::instance()->server_port ()));
+
+	asio::io_service io_service;
+	asio::ip::tcp::acceptor acceptor (io_service, asio::ip::tcp::endpoint (asio::ip::tcp::v4(), Config::instance()->server_port ()));
 	while (1) {
-		shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (_io_service));
-		acceptor.accept (*socket);
+		shared_ptr<DeadlineWrapper> wrapper (new DeadlineWrapper);
+		acceptor.accept (wrapper->socket ());
 
 		mutex::scoped_lock lock (_worker_mutex);
 		
@@ -206,7 +204,7 @@ Server::run (int num_threads)
 			_worker_condition.wait (lock);
 		}
 		
-		_queue.push_back (socket);
+		_queue.push_back (wrapper);
 		_worker_condition.notify_all ();
 	}
 }

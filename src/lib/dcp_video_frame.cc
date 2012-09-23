@@ -297,10 +297,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
-
-	DeadlineWrapper wrapper (io_service);
-	wrapper.set_socket (socket);
+	DeadlineWrapper wrapper;
 
 	wrapper.connect (*endpoint_iterator, 30);
 
@@ -378,12 +375,12 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
  *  @param socket Socket
  */
 void
-EncodedData::send (DeadlineWrapper& wrapper)
+EncodedData::send (shared_ptr<DeadlineWrapper> wrapper)
 {
 	stringstream s;
 	s << _size;
-	wrapper.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
-	wrapper.write (_data, _size, 30);
+	wrapper->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+	wrapper->write (_data, _size, 30);
 }
 
 #ifdef DEBUG_HASH
