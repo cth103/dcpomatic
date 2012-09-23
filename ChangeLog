@@ -6,6 +6,9 @@
 	code to survive timeouts during reads and
 	writes.
 
+	* Some fixes for bugs when loading Films
+	created on Windows in Linux.
+
 2012-09-22  Carl Hetherington  <cth@carlh.net>
 
 	* Fix bug on OK-ing gain calculation
