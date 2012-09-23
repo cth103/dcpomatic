@@ -69,7 +69,7 @@ Film::Film (string d, bool must_exist)
 	
 	filesystem::path p (filesystem::system_complete (d));
 	filesystem::path result;
-	for(filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
+	for (filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
 		if (*i == "..") {
 			if (filesystem::is_symlink (result) || result.filename() == "..") {
 				result /= *i;
