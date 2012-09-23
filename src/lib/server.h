@@ -81,7 +81,8 @@ public:
 private:
 	void worker_thread ();
 	int process (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
-	
+
+	boost::asio::io_service _io_service;
 	std::vector<boost::thread *> _worker_threads;
 	std::list<boost::shared_ptr<boost::asio::ip::tcp::socket> > _queue;
 	boost::mutex _worker_mutex;

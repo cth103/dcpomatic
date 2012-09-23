@@ -293,11 +293,16 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 {
 	asio::io_service io_service;
 	asio::ip::tcp::resolver resolver (io_service);
+
 	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
-	socket->connect (*endpoint_iterator);
+
+	DeadlineWrapper wrapper (io_service);
+	wrapper.set_socket (socket);
+
+	wrapper.connect (*endpoint_iterator, 30);
 
 #ifdef DEBUG_HASH
 	_input->hash ("Input for remote encoding (before sending)");
@@ -320,21 +325,19 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 		s << _input->line_size()[i] << " ";
 	}
 
-	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
+	wrapper.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 10);
 
 	for (int i = 0; i < _input->components(); ++i) {
-		asio::write (*socket, asio::buffer (_input->data()[i], _input->line_size()[i] * _input->lines(i)));
+		wrapper.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 10);
 	}
 
-	SocketReader reader (socket);
-
 	char buffer[32];
-	reader.read_indefinite ((uint8_t *) buffer, sizeof (buffer));
-	reader.consume (strlen (buffer) + 1);
+	wrapper.read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	wrapper.consume (strlen (buffer) + 1);
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
 
 	/* now read the rest */
-	reader.read_definite_and_consume (e->data(), e->size());
+	wrapper.read_definite_and_consume (e->data(), e->size(), 30);
 
 #ifdef DEBUG_HASH
 	e->hash ("Encoded image (after receiving)");
