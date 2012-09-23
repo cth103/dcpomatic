@@ -296,8 +296,9 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
-	socket->connect (*endpoint_iterator);
+	Socket socket;
+
+	socket.connect (*endpoint_iterator, 30);
 
 #ifdef DEBUG_HASH
 	_input->hash ("Input for remote encoding (before sending)");
@@ -320,21 +321,19 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 		s << _input->line_size()[i] << " ";
 	}
 
-	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
+	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
 	for (int i = 0; i < _input->components(); ++i) {
-		asio::write (*socket, asio::buffer (_input->data()[i], _input->line_size()[i] * _input->lines(i)));
+		socket.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 30);
 	}
 
-	SocketReader reader (socket);
-
 	char buffer[32];
-	reader.read_indefinite ((uint8_t *) buffer, sizeof (buffer));
-	reader.consume (strlen (buffer) + 1);
+	socket.read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	socket.consume (strlen (buffer) + 1);
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
 
 	/* now read the rest */
-	reader.read_definite_and_consume (e->data(), e->size());
+	socket.read_definite_and_consume (e->data(), e->size(), 30);
 
 #ifdef DEBUG_HASH
 	e->hash ("Encoded image (after receiving)");
@@ -375,12 +374,12 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
  *  @param socket Socket
  */
 void
-EncodedData::send (shared_ptr<asio::ip::tcp::socket> socket)
+EncodedData::send (shared_ptr<Socket> socket)
 {
 	stringstream s;
 	s << _size;
-	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
-	asio::write (*socket, asio::buffer (_data, _size));
+	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+	socket->write (_data, _size, 30);
 }
 
 #ifdef DEBUG_HASH

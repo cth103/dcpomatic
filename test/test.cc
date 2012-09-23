@@ -254,6 +254,17 @@ BOOST_AUTO_TEST_CASE (paths_test)
 	BOOST_CHECK_EQUAL (s.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
 }
 
+void
+do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded)
+{
+	shared_ptr<EncodedData> remotely_encoded;
+	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
+	BOOST_CHECK (remotely_encoded);
+	
+	BOOST_CHECK_EQUAL (locally_encoded->size(), remotely_encoded->size());
+	BOOST_CHECK (memcmp (locally_encoded->data(), remotely_encoded->data(), locally_encoded->size()) == 0);
+}
+
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
 	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_RGB24, Size (1998, 1080)));
@@ -271,29 +282,36 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	FileLog log ("build/test/client_server_test.log");
 
-	DCPVideoFrame frame (
-		image,
-		Size (1998, 1080),
-		0,
-		Scaler::from_id ("bicubic"),
-		0,
-		24,
-		"",
-		0,
-		200000000,
-		&log
+	shared_ptr<DCPVideoFrame> frame (
+		new DCPVideoFrame (
+			image,
+			Size (1998, 1080),
+			0,
+			Scaler::from_id ("bicubic"),
+			0,
+			24,
+			"",
+			0,
+			200000000,
+			&log
+			)
 		);
 
-	shared_ptr<EncodedData> locally_encoded = frame.encode_locally ();
+	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
 	
 	Config::instance()->set_server_port (61920);
 	Server* server = new Server (&log);
 
-	thread t (boost::bind (&Server::run, server, 1));
+	new thread (boost::bind (&Server::run, server, 2));
 
-	ServerDescription description ("localhost", 1);
-	shared_ptr<EncodedData> remotely_encoded = frame.encode_remotely (&description);
+	ServerDescription description ("localhost", 2);
 
-	BOOST_CHECK_EQUAL (locally_encoded->size(), remotely_encoded->size());
-	BOOST_CHECK (memcmp (locally_encoded->data(), remotely_encoded->data(), locally_encoded->size()) == 0);
+	list<thread*> threads;
+	for (int i = 0; i < 8; ++i) {
+		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded)));
+	}
+
+	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
+		(*i)->join ();
+	}
 }

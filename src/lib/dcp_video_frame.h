@@ -48,7 +48,7 @@ public:
 
 	virtual ~EncodedData () {}
 
-	void send (boost::shared_ptr<boost::asio::ip::tcp::socket>);
+	void send (boost::shared_ptr<Socket> socket);
 	void write (boost::shared_ptr<const Options>, int);
 
 #ifdef DEBUG_HASH

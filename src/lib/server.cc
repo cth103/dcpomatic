@@ -70,13 +70,11 @@ Server::Server (Log* log)
 }
 
 int
-Server::process (shared_ptr<asio::ip::tcp::socket> socket)
+Server::process (shared_ptr<Socket> socket)
 {
-	SocketReader reader (socket);
-	
 	char buffer[128];
-	reader.read_indefinite ((uint8_t *) buffer, sizeof (buffer));
-	reader.consume (strlen (buffer) + 1);
+	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	socket->consume (strlen (buffer) + 1);
 	
 	stringstream s (buffer);
 	
@@ -123,7 +121,7 @@ Server::process (shared_ptr<asio::ip::tcp::socket> socket)
 	}
 	
 	for (int i = 0; i < image->components(); ++i) {
-		reader.read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i));
+		socket->read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
 	}
 	
 #ifdef DEBUG_HASH
@@ -150,7 +148,7 @@ Server::worker_thread ()
 			_worker_condition.wait (lock);
 		}
 
-		shared_ptr<asio::ip::tcp::socket> socket = _queue.front ();
+		shared_ptr<Socket> socket = _queue.front ();
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -192,12 +190,12 @@ Server::run (int num_threads)
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));
 	}
-	
+
 	asio::io_service io_service;
 	asio::ip::tcp::acceptor acceptor (io_service, asio::ip::tcp::endpoint (asio::ip::tcp::v4(), Config::instance()->server_port ()));
 	while (1) {
-		shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
-		acceptor.accept (*socket);
+		shared_ptr<Socket> socket (new Socket);
+		acceptor.accept (socket->socket ());
 
 		mutex::scoped_lock lock (_worker_mutex);
 		
