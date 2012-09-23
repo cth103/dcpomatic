@@ -378,12 +378,12 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
  *  @param socket Socket
  */
 void
-EncodedData::send (shared_ptr<asio::ip::tcp::socket> socket)
+EncodedData::send (DeadlineWrapper& wrapper)
 {
 	stringstream s;
 	s << _size;
-	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
-	asio::write (*socket, asio::buffer (_data, _size));
+	wrapper.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+	wrapper.write (_data, _size, 30);
 }
 
 #ifdef DEBUG_HASH

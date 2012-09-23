@@ -133,7 +133,7 @@ Server::process (shared_ptr<asio::ip::tcp::socket> socket)
 	
 	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log);
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
-	encoded->send (socket);
+	encoded->send (wrapper);
 
 #ifdef DEBUG_HASH
 	encoded->hash ("Encoded image (as made by server and as sent back)");
