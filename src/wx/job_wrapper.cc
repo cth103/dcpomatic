@@ -36,11 +36,7 @@ JobWrapper::make_dcp (wxWindow* parent, Film* film, bool transcode)
 		film->make_dcp (transcode);
 	} catch (BadSettingError& e) {
 		stringstream s;
-		if (e.setting() == "dcp_long_name") {
-			s << "Could not make DCP: long name is invalid (" << e.what() << ")";
-		} else {
-			s << "Bad setting for " << e.setting() << "(" << e.what() << ")";
-		}
+		s << "Bad setting for " << e.setting() << "(" << e.what() << ")";
 		error_dialog (parent, s.str ());
 	} catch (std::exception& e) {
 		stringstream s;
