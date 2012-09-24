@@ -124,17 +124,9 @@ Server::process (shared_ptr<Socket> socket)
 		socket->read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
 	}
 	
-#ifdef DEBUG_HASH
-	image->hash ("Image for encoding (as received by server)");
-#endif		
-	
 	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log);
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	encoded->send (socket);
-
-#ifdef DEBUG_HASH
-	encoded->hash ("Encoded image (as made by server and as sent back)");
-#endif		
 	
 	return frame;
 }

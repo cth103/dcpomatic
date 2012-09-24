@@ -51,10 +51,6 @@ public:
 	void send (boost::shared_ptr<Socket> socket);
 	void write (boost::shared_ptr<const Options>, int);
 
-#ifdef DEBUG_HASH
-	void hash (std::string) const;
-#endif	
-
 	/** @return data */
 	uint8_t* data () const {
 		return _data;

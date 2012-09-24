@@ -55,10 +55,6 @@
 #include "image.h"
 #include "log.h"
 
-#ifdef DEBUG_HASH
-#include <mhash.h>
-#endif
-
 using namespace std;
 using namespace boost;
 
@@ -255,12 +251,6 @@ DCPVideoFrame::encode_locally ()
 	/* Set event manager to null (openjpeg 1.3 bug) */
 	_cinfo->event_mgr = 0;
 
-#ifdef DEBUG_HASH
-	md5_data ("J2K in X frame " + lexical_cast<string> (_frame), _image->comps[0].data, size * sizeof (int));
-	md5_data ("J2K in Y frame " + lexical_cast<string> (_frame), _image->comps[1].data, size * sizeof (int));
-	md5_data ("J2K in Z frame " + lexical_cast<string> (_frame), _image->comps[2].data, size * sizeof (int));
-#endif	
-	
 	/* Setup the encoder parameters using the current image and user parameters */
 	opj_setup_encoder (_cinfo, _parameters, _image);
 
@@ -270,10 +260,6 @@ DCPVideoFrame::encode_locally ()
 	if (r == 0) {
 		throw EncodeError ("jpeg2000 encoding failed");
 	}
-
-#ifdef DEBUG_HASH
-	md5_data ("J2K out frame " + lexical_cast<string> (_frame), _cio->buffer, cio_tell (_cio));
-#endif	
 
 	{
 		stringstream s;
@@ -299,10 +285,6 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	Socket socket;
 
 	socket.connect (*endpoint_iterator, 30);
-
-#ifdef DEBUG_HASH
-	_input->hash ("Input for remote encoding (before sending)");
-#endif
 
 	stringstream s;
 	s << "encode "
@@ -334,10 +316,6 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 
 	/* now read the rest */
 	socket.read_definite_and_consume (e->data(), e->size(), 30);
-
-#ifdef DEBUG_HASH
-	e->hash ("Encoded image (after receiving)");
-#endif
 
 	{
 		stringstream s;
@@ -381,14 +359,6 @@ EncodedData::send (shared_ptr<Socket> socket)
 	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 	socket->write (_data, _size, 30);
 }
-
-#ifdef DEBUG_HASH
-void
-EncodedData::hash (string n) const
-{
-	md5_data (n, _data, _size);
-}
-#endif		
 
 /** @param s Size of data in bytes */
 RemotelyEncodedData::RemotelyEncodedData (int s)

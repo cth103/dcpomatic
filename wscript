@@ -9,7 +9,6 @@ def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
 
-    opt.add_option('--debug-hash', action='store_true', default = False, help = 'print hashes of data at various points')
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
     opt.add_option('--disable-player', action='store_true', default = False, help = 'disable building of the player components')
@@ -37,7 +36,6 @@ def configure(conf):
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
 
-    conf.env.DEBUG_HASH = conf.options.debug_hash
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.DISABLE_PLAYER = conf.options.disable_player

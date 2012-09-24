@@ -52,9 +52,7 @@ enum ContentType {
 	VIDEO
 };
 
-#ifdef DEBUG_HASH
-extern void md5_data (std::string, void const *, int);
-#endif
+extern std::string md5_hash (void const *, int);
 
 /** @class Size
  *  @brief Representation of the size of something */

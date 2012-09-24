@@ -27,6 +27,7 @@
 #include <sys/time.h>
 #include <boost/algorithm/string.hpp>
 #include <openjpeg.h>
+#include <mhash.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -38,10 +39,6 @@ extern "C" {
 #include "image.h"
 #include "exceptions.h"
 #include "scaler.h"
-
-#ifdef DEBUG_HASH
-#include <mhash.h>
-#endif
 
 using namespace std;
 using namespace boost;
@@ -84,33 +81,6 @@ Image::components () const
 
 	return 0;
 }
-
-#ifdef DEBUG_HASH
-/** Write a MD5 hash of the image's data to stdout.
- *  @param n Title to give the output.
- */
-void
-Image::hash (string n) const
-{
-	MHASH ht = mhash_init (MHASH_MD5);
-	if (ht == MHASH_FAILED) {
-		throw EncodeError ("could not create hash thread");
-	}
-	
-	for (int i = 0; i < components(); ++i) {
-		mhash (ht, data()[i], line_size()[i] * lines(i));
-	}
-	
-	uint8_t hash[16];
-	mhash_deinit (ht, hash);
-	
-	printf ("%s: ", n.c_str ());
-	for (int i = 0; i < int (mhash_get_block_size (MHASH_MD5)); ++i) {
-		printf ("%.2x", hash[i]);
-	}
-	printf ("\n");
-}
-#endif
 
 /** Scale this image to a given size and convert it to RGB.
  *  @param out_size Output image size in pixels.

@@ -40,6 +40,7 @@
 #include <magick/MagickCore.h>
 #include <magick/version.h>
 #include <libdcp/version.h>
+#include <mhash.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -59,10 +60,6 @@ extern "C" {
 #include "sound_processor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
 #include "player_manager.h"
-#endif
-
-#ifdef DEBUG_HASH
-#include <mhash.h>
 #endif
 
 using namespace std;
@@ -347,9 +344,8 @@ split_at_spaces_considering_quotes (string s)
 	return out;
 }
 
-#ifdef DEBUG_HASH
-void
-md5_data (string title, void const * data, int size)
+string
+md5_hash (void const * data, int size)
 {
 	MHASH ht = mhash_init (MHASH_MD5);
 	if (ht == MHASH_FAILED) {
@@ -360,14 +356,16 @@ md5_data (string title, void const * data, int size)
 	
 	uint8_t hash[16];
 	mhash_deinit (ht, hash);
-	
-	printf ("%s [%d]: ", title.c_str (), size);
-	for (int i = 0; i < int (mhash_get_block_size (MHASH_MD5)); ++i) {
-		printf ("%.2x", hash[i]);
+
+	int const N = mhash_get_block_size (MHASH_MD5);
+	stringstream s;
+	s << hex << setfill('0') << setw(2);
+	for (int i = 0; i < N; ++i) {
+		s << ((int) hash[i]);
 	}
-	printf ("\n");
+
+	return s.str ();
 }
-#endif
 
 /** @param file File name.
  *  @return MD5 digest of file's contents.
