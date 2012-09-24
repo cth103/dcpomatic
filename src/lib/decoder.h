@@ -145,7 +145,7 @@ private:
 	/* Number of audio frames that we have pushed to the encoder
 	   (at the DCP sample rate).
 	*/
-	int _audio_frames_processed;
+	int64_t _audio_frames_processed;
 };
 
 #endif
