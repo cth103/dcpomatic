@@ -60,6 +60,7 @@ Encoder::current_frames_per_second () const
 	return _history_size / (seconds (now) - seconds (_time_history.back ()));
 }
 
+/** @return true if the last frame to be processed was skipped as it already existed */
 bool
 Encoder::skipping () const
 {
@@ -67,6 +68,7 @@ Encoder::skipping () const
 	return _just_skipped;
 }
 
+/** @return Index of last frame to be successfully encoded */
 int
 Encoder::last_frame () const
 {
@@ -74,6 +76,9 @@ Encoder::last_frame () const
 	return _last_frame;
 }
 
+/** Should be called when a frame has been encoded successfully.
+ *  @param n Frame index.
+ */
 void
 Encoder::frame_done (int n)
 {

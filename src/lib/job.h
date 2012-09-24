@@ -72,6 +72,7 @@ protected:
 
 	virtual int remaining_time () const;
 
+	/** Description of a job's state */
 	enum State {
 		NEW,           ///< the job hasn't been started yet
 		RUNNING,       ///< the job is running
@@ -82,10 +83,11 @@ protected:
 	void set_state (State);
 	void set_error (std::string e);
 
+	/** FilmState for this job */
 	boost::shared_ptr<const FilmState> _fs;
+	/** options in use for this job */
 	boost::shared_ptr<const Options> _opt;
-
-	/** A log that this job can write to */
+	/** a log that this job can write to */
 	Log* _log;
 
 private:
@@ -94,11 +96,15 @@ private:
 
 	/** mutex for _state and _error */
 	mutable boost::mutex _state_mutex;
+	/** current state of the job */
 	State _state;
+	/** message for an error that has occurred (when state == FINISHED_ERROR) */
 	std::string _error;
 
+	/** time that this job was started */
 	time_t _start_time;
-	
+
+	/** mutex for _stack and _progress_unknown */
 	mutable boost::mutex _progress_mutex;
 
 	struct Level {

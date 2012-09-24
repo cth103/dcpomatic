@@ -30,7 +30,9 @@ extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, std::string, int
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
 
-/** A wxStaticText whose content is computed in a separate thread, to avoid holding
+/** @class ThreadedStaticText
+ *
+ *  @brief A wxStaticText whose content is computed in a separate thread, to avoid holding
  *  up the GUI while work is done.
  */
 class ThreadedStaticText : public wxStaticText
@@ -43,6 +45,7 @@ private:
 	void run (boost::function<std::string ()> fn);
 	void thread_finished (wxCommandEvent& ev);
 
+	/** Thread to do our work in */
 	boost::thread* _thread;
 	
 	static const int _update_event_id;

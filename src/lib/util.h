@@ -80,19 +80,25 @@ struct Size
 	int height;
 };
 
+/** A description of the crop of an image or video. */
 struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
-	
+
+	/** Number of pixels to remove from the left-hand side */
 	int left;
+	/** Number of pixels to remove from the right-hand side */
 	int right;
+	/** Number of pixels to remove from the top */
 	int top;
+	/** Number of pixels to remove from the bottom */
 	int bottom;
 };
 
 extern bool operator== (Crop const & a, Crop const & b);
 extern bool operator!= (Crop const & a, Crop const & b);
 
+/** A position */
 struct Position
 {
 	Position ()
@@ -105,7 +111,9 @@ struct Position
 		, y (y_)
 	{}
 
+	/** x coordinate */
 	int x;
+	/** y coordinate */
 	int y;
 };
 
@@ -113,11 +121,20 @@ extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
 extern std::string colour_lut_index_to_name (int index);
 
+/** @class Socket
+ *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
+ *  that are useful for DVD-o-matic.
+ *
+ *  This class wraps some things that I could not work out how to do with boost;
+ *  most notably, sync read/write calls with timeouts, and the ability to peak into
+ *  data being read.
+ */
 class Socket
 {
 public:
 	Socket ();
 
+	/** @return Our underlying socket */
 	boost::asio::ip::tcp::socket& socket () {
 		return _socket;
 	}

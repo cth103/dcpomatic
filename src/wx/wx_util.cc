@@ -27,6 +27,12 @@
 using namespace std;
 using namespace boost;
 
+/** Add a wxStaticText to a wxSizer, aligning it at vertical centre.
+ *  @param s Sizer to add to.
+ *  @param p Parent window for the wxStaticText.
+ *  @param t Text for the wxStaticText.
+ *  @param prop Properties to pass when calling Add() on the wxSizer.
+ */
 wxStaticText *
 add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
 {
@@ -35,6 +41,10 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
 	return m;
 }
 
+/** Pop up an error dialogue box.
+ *  @param parent Parent.
+ *  @param m Message.
+ */
 void
 error_dialog (wxWindow* parent, string m)
 {
@@ -43,12 +53,18 @@ error_dialog (wxWindow* parent, string m)
 	d->Destroy ();
 }
 
+/** @param s wxWidgets string.
+ *  @return Corresponding STL string.
+ */
 string
 wx_to_std (wxString s)
 {
 	return string (s.mb_str ());
 }
 
+/** @param s STL string.
+ *  @return Corresponding wxWidgets string.
+ */
 wxString
 std_to_wx (string s)
 {
@@ -75,15 +91,16 @@ ThreadedStaticText::~ThreadedStaticText ()
 	delete _thread;
 }
 
+/** Run our thread and post the result to the GUI thread via AddPendingEvent */
 void
 ThreadedStaticText::run (function<string ()> fn)
 {
-	/* Run the thread and post the result to the GUI thread via AddPendingEvent */
 	wxCommandEvent ev (wxEVT_COMMAND_TEXT_UPDATED, _update_event_id);
 	ev.SetString (std_to_wx (fn ()));
 	GetEventHandler()->AddPendingEvent (ev);
 }
 
+/** Called in the GUI thread when our worker thread has finished */
 void
 ThreadedStaticText::thread_finished (wxCommandEvent& ev)
 {

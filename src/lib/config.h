@@ -81,18 +81,22 @@ public:
 		return _reference_filters;
 	}
 
+	/** @return The IP address of a TMS that we can copy DCPs to */
 	std::string tms_ip () const {
 		return _tms_ip;
 	}
 
+	/** @return The path on a TMS that we should write DCPs to */
 	std::string tms_path () const {
 		return _tms_path;
 	}
 
+	/** @return User name to log into the TMS with */
 	std::string tms_user () const {
 		return _tms_user;
 	}
 
+	/** @return Password to log into the TMS with */
 	std::string tms_password () const {
 		return _tms_password;
 	}
@@ -146,21 +150,25 @@ public:
 		Changed ();
 	}
 
+	/** @param i IP address of a TMS that we can copy DCPs to */
 	void set_tms_ip (std::string i) {
 		_tms_ip = i;
 		Changed ();
 	}
 
+	/** @param p Path on a TMS that we should write DCPs to */
 	void set_tms_path (std::string p) {
 		_tms_path = p;
 		Changed ();
 	}
 
+	/** @param u User name to log into the TMS with */
 	void set_tms_user (std::string u) {
 		_tms_user = u;
 		Changed ();
 	}
 
+	/** @param p Password to log into the TMS with */
 	void set_tms_password (std::string p) {
 		_tms_password = p;
 		Changed ();
@@ -189,21 +197,21 @@ private:
 
 	/** J2K encoding servers to use */
 	std::vector<ServerDescription *> _servers;
-
 	/** Screen definitions */
 	std::vector<boost::shared_ptr<Screen> > _screens;
-
 	/** Scaler to use for the "A" part of A/B comparisons */
 	Scaler const * _reference_scaler;
-
 	/** Filters to use for the "A" part of A/B comparisons */
 	std::vector<Filter const *> _reference_filters;
-
+	/** The IP address of a TMS that we can copy DCPs to */
 	std::string _tms_ip;
+	/** The path on a TMS that we should write DCPs to */
 	std::string _tms_path;
+	/** User name to log into the TMS with */
 	std::string _tms_user;
+	/** Password to log into the TMS with */
 	std::string _tms_password;
-
+	/** Our sound processor */
 	SoundProcessor const * _sound_processor;
 
 	/** Singleton instance, or 0 */

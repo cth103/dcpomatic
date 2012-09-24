@@ -87,6 +87,7 @@ Decoder::~Decoder ()
 	delete _delay_line;
 }
 
+/** Start off a decode processing run */
 void
 Decoder::process_begin ()
 {
@@ -120,6 +121,7 @@ Decoder::process_begin ()
 	_audio_frames_processed = 0;
 }
 
+/** Finish off a decode processing run */
 void
 Decoder::process_end ()
 {

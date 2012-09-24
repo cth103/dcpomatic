@@ -223,7 +223,7 @@ Job::set_error (string e)
 	_error = e;
 }
 
-/** Set that this job's progress will always be unknown */
+/** Say that this job's progress will always be unknown */
 void
 Job::set_progress_unknown ()
 {
@@ -231,6 +231,7 @@ Job::set_progress_unknown ()
 	_progress_unknown = true;
 }
 
+/** @return Human-readable status of this job */
 string
 Job::status () const
 {
@@ -252,6 +253,7 @@ Job::status () const
 	return s.str ();
 }
 
+/** @return An estimate of the remaining time for this job, in seconds */
 int
 Job::remaining_time () const
 {

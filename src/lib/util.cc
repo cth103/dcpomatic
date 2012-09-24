@@ -369,6 +369,9 @@ md5_data (string title, void const * data, int size)
 }
 #endif
 
+/** @param file File name.
+ *  @return MD5 digest of file's contents.
+ */
 string
 md5_digest (string file)
 {
@@ -404,6 +407,9 @@ md5_digest (string file)
 	return s.str ();
 }
 
+/** @param An arbitrary sampling rate.
+ *  @return The appropriate DCP-approved sampling rate (48kHz or 96kHz).
+ */
 int
 dcp_audio_sample_rate (int fs)
 {
@@ -424,6 +430,9 @@ bool operator!= (Crop const & a, Crop const & b)
 	return !(a == b);
 }
 
+/** @param index Colour LUT index.
+ *  @return Human-readable name.
+ */
 string
 colour_lut_index_to_name (int index)
 {
@@ -458,6 +467,10 @@ Socket::check ()
 	_deadline.async_wait (boost::bind (&Socket::check, this));
 }
 
+/** Blocking connect with timeout.
+ *  @param endpoint End-point to connect to.
+ *  @param timeout Time-out in seconds.
+ */
 void
 Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
 {
@@ -472,6 +485,11 @@ Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint,
 	}
 }
 
+/** Blocking write with timeout.
+ *  @param data Buffer to write.
+ *  @param size Number of bytes to write.
+ *  @param timeout Time-out, in seconds.
+ */
 void
 Socket::write (uint8_t const * data, int size, int timeout)
 {
@@ -488,6 +506,11 @@ Socket::write (uint8_t const * data, int size, int timeout)
 	}
 }
 
+/** Blocking read with timeout.
+ *  @param data Buffer to read to.
+ *  @param size Number of bytes to read.
+ *  @param timeout Time-out, in seconds.
+ */
 int
 Socket::read (uint8_t* data, int size, int timeout)
 {
