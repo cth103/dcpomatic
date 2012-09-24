@@ -89,7 +89,7 @@ TranscodeJob::status () const
 		return "0%";
 	}
 
-	if (_encoder->skipping ()) {
+	if (_encoder->skipping () && !finished ()) {
 		return "skipping frames already encoded";
 	}
 		
