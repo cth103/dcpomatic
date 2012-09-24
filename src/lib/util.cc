@@ -40,7 +40,6 @@
 #include <magick/MagickCore.h>
 #include <magick/version.h>
 #include <libdcp/version.h>
-#include <mhash.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -345,23 +344,17 @@ split_at_spaces_considering_quotes (string s)
 }
 
 string
-md5_hash (void const * data, int size)
+md5_digest (void const * data, int size)
 {
-	MHASH ht = mhash_init (MHASH_MD5);
-	if (ht == MHASH_FAILED) {
-		throw EncodeError ("could not create hash thread");
-	}
-
-	mhash (ht, data, size);
+	MD5_CTX md5_context;
+	MD5_Init (&md5_context);
+	MD5_Update (&md5_context, data, size);
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	MD5_Final (digest, &md5_context);
 	
-	uint8_t hash[16];
-	mhash_deinit (ht, hash);
-
-	int const N = mhash_get_block_size (MHASH_MD5);
 	stringstream s;
-	s << hex << setfill('0') << setw(2);
-	for (int i = 0; i < N; ++i) {
-		s << ((int) hash[i]);
+	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
 	}
 
 	return s.str ();
