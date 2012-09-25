@@ -8,6 +8,7 @@ def build(bld):
     obj.source = """
 		 ab_transcode_job.cc
 		 ab_transcoder.cc
+                 check_hashes_job.cc
 		 config.cc
 		 copy_from_dvd_job.cc
                  cross.cc

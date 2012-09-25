@@ -36,6 +36,7 @@
 #include <iomanip>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include <errno.h>
 #include <boost/array.hpp>
@@ -344,8 +345,16 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
+	string const real_j2k = opt->frame_out_path (frame, false);
+
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
-	filesystem::rename (tmp_j2k, opt->frame_out_path (frame, false));
+	filesystem::rename (tmp_j2k, real_j2k);
+
+	/* Write a file containing the hash */
+	string const hash = real_j2k + ".md5";
+	ofstream h (hash.c_str());
+	h << md5_digest (_data, _size) << "\n";
+	h.close ();
 }
 
 /** Send this data to a socket.

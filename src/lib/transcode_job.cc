@@ -78,7 +78,6 @@ TranscodeJob::run ()
 		_log->log (s.str ());
 
 		throw;
-
 	}
 }
 

@@ -48,6 +48,7 @@
 #include "scaler.h"
 #include "decoder_factory.h"
 #include "config.h"
+#include "check_hashes_job.h"
 
 using namespace std;
 using namespace boost;
@@ -544,7 +545,8 @@ Film::make_dcp (bool transcode, int freq)
 			JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log ())));
 		}
 	}
-	
+
+	JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (fs, o, log ())));
 	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log ())));
 }
 
