@@ -41,15 +41,23 @@ void
 JobManager::add (shared_ptr<Job> j)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
 	_jobs.push_back (j);
+}
+
+void
+JobManager::add_after (shared_ptr<Job> after, shared_ptr<Job> j)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	list<shared_ptr<Job> >::iterator i = find (_jobs.begin(), _jobs.end(), after);
+	assert (i != _jobs.end ());
+	++i;
+	_jobs.insert (i, j);
 }
 
 list<shared_ptr<Job> >
 JobManager::get () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
 	return _jobs;
 }
 

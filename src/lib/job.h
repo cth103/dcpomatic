@@ -26,6 +26,7 @@
 
 #include <string>
 #include <boost/thread/mutex.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <sigc++/sigc++.h>
 
 class Log;
@@ -35,7 +36,7 @@ class Options;
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
-class Job
+class Job : public boost::enable_shared_from_this<Job>
 {
 public:
 	Job (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);

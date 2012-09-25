@@ -24,6 +24,9 @@
 #include "film_state.h"
 #include "options.h"
 #include "log.h"
+#include "job_manager.h"
+#include "ab_transcode_job.h"
+#include "transcode_job.h"
 
 using namespace std;
 using namespace boost;
@@ -66,6 +69,19 @@ CheckHashesJob::run ()
 		set_progress (float (i) / _fs->length);
 	}
 
+	if (_bad) {
+		shared_ptr<Job> tc;
+
+		if (_fs->dcp_ab) {
+			tc.reset (new ABTranscodeJob (_fs, _opt, _log));
+		} else {
+			tc.reset (new TranscodeJob (_fs, _opt, _log));
+		}
+		
+		JobManager::instance()->add_after (shared_from_this(), tc);
+		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_fs, _opt, _log)));
+	}
+		
 	set_progress (1);
 	set_state (FINISHED_OK);
 }
@@ -74,6 +90,15 @@ string
 CheckHashesJob::status () const
 {
 	stringstream s;
-	s << Job::status () << "; " << _bad << " bad frames found";
+	s << Job::status ();
+	if (overall_progress() > 0) {
+		if (_bad == 0) {
+			s << "; no bad frames found";
+		} else if (_bad == 1) {
+			s << "; 1 bad frame found";
+		} else {
+			s << "; " << _bad << " bad frames found";
+		}
+	}
 	return s.str ();
 }
