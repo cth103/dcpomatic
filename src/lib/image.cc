@@ -27,7 +27,6 @@
 #include <sys/time.h>
 #include <boost/algorithm/string.hpp>
 #include <openjpeg.h>
-#include <mhash.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
