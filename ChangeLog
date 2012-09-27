@@ -3,6 +3,9 @@
 	* Fix unrecognised capital letters on
 	still-image file extensions.
 
+	* Write hashes of frames to disk and
+	check them before making the final DCP.
+
 2012-09-24  Carl Hetherington  <cth@carlh.net>
 
 	* Fix problems with overflow on long films.
