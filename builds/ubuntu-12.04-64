@@ -1,0 +1,36 @@
+#!/bin/bash -e
+
+export DEST=dvdomatic-ubuntu-12.04-64
+export ENV=/home/carl/Environments/ubuntu-12.04-64
+
+#./waf clean
+
+export PATH=$ENV/bin:$PATH
+export PKG_CONFIG_LIBDIR=$ENV/lib/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+
+CXXFLAGS="-I$ENV_PREFIX/include" \
+  LINKFLAGS="-L$ENV_PREFIX/lib" \
+  ./waf configure --enable-debug
+
+./waf
+
+mkdir -p $DEST/bin
+mkdir -p $DEST/lib
+cp build/src/tools/makedcp $DEST/bin/makedcp-bin
+cp build/src/lib/libdvdomatic.so $DEST/lib/
+cp build/src/wx/libdvdomatic-wx.so $DEST/lib/
+cp $ENV/lib/libdcp.so $DEST/lib
+cp $ENV/lib/libasdcp-libdcp.so $DEST/lib
+cp $ENV/lib/libkumu-libdcp.so $DEST/lib
+cp $ENV/lib/libavcodec.so* $DEST/lib
+cp $ENV/lib/libavutil.so* $DEST/lib
+cp $ENV/lib/libavformat.so* $DEST/lib
+cp $ENV/lib/libavfilter.so* $DEST/lib
+cp $ENV/lib/libswscale.so* $DEST/lib
+cp $ENV/lib/libswresample.so* $DEST/lib
+cp $ENV/lib/libopenjpeg.so* $DEST/lib
+cp $ENV/lib/libpostproc.so* $DEST/lib
+cp $ENV/lib/libfaac.so* $DEST/lib
+cp wrapper/makedcp $DEST/bin/
+tar -c $DEST | bzip2 -f -9 > $DEST.tar.bz2
+
