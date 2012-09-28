@@ -464,12 +464,18 @@ Decoder::setup_video_filters ()
 	  << sample_aspect_ratio_denominator();
 
 	int r;
+
 	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph)) < 0) {
 		throw DecodeError ("could not create buffer source");
 	}
 
-	enum PixelFormat pixel_formats[] = { pixel_format(), PIX_FMT_NONE };
-	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, "out", 0, pixel_formats, graph) < 0) {
+	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
+	PixelFormat* pixel_fmts = new PixelFormat[2];
+	pixel_fmts[0] = pixel_format ();
+	pixel_fmts[1] = PIX_FMT_NONE;
+	sink_params->pixel_fmts = pixel_fmts;
+	
+	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, "out", 0, sink_params, graph) < 0) {
 		throw DecodeError ("could not create buffer sink.");
 	}
 
