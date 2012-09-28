@@ -29,7 +29,7 @@
 #include <sndfile.h>
 #include "encoder.h"
 
-class Server;
+class ServerDescription;
 class DCPVideoFrame;
 class Image;
 class Log;
@@ -50,7 +50,7 @@ public:
 
 private:	
 
-	void encoder_thread (Server *);
+	void encoder_thread (ServerDescription *);
 	void close_sound_files ();
 	void terminate_worker_threads ();
 

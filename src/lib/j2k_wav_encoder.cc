@@ -27,6 +27,7 @@
 #include <iostream>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 #include <sndfile.h>
 #include <openjpeg.h>
 #include "j2k_wav_encoder.h"
@@ -126,11 +127,13 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 					  ));
 		
 		_worker_condition.notify_all ();
+	} else {
+		frame_skipped ();
 	}
 }
 
 void
-J2KWAVEncoder::encoder_thread (Server* server)
+J2KWAVEncoder::encoder_thread (ServerDescription* server)
 {
 	/* Number of seconds that we currently wait between attempts
 	   to connect to the server; not relevant for localhost
@@ -190,7 +193,7 @@ J2KWAVEncoder::encoder_thread (Server* server)
 
 		if (encoded) {
 			encoded->write (_opt, vf->frame ());
-			frame_done ();
+			frame_done (vf->frame ());
 		} else {
 			lock.lock ();
 			_queue.push_front (vf);
@@ -210,12 +213,12 @@ void
 J2KWAVEncoder::process_begin ()
 {
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, (Server *) 0)));
+		_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, (ServerDescription *) 0)));
 	}
 
-	vector<Server*> servers = Config::instance()->servers ();
+	vector<ServerDescription*> servers = Config::instance()->servers ();
 
-	for (vector<Server*>::iterator i = servers.begin(); i != servers.end(); ++i) {
+	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		for (int j = 0; j < (*i)->threads (); ++j) {
 			_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, *i)));
 		}
@@ -227,8 +230,11 @@ J2KWAVEncoder::process_end ()
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
+	_log->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
+
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
+		_log->log ("Waking with " + lexical_cast<string> (_queue.size ()));
 		_worker_condition.notify_all ();
 		_worker_condition.wait (lock);
 	}
@@ -236,6 +242,8 @@ J2KWAVEncoder::process_end ()
 	lock.unlock ();
 	
 	terminate_worker_threads ();
+
+	_log->log ("Mopping up " + lexical_cast<string> (_queue.size()));
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
@@ -253,7 +261,7 @@ J2KWAVEncoder::process_end ()
 		try {
 			shared_ptr<EncodedData> e = (*i)->encode_locally ();
 			e->write (_opt, (*i)->frame ());
-			frame_done ();
+			frame_done ((*i)->frame ());
 		} catch (std::exception& e) {
 			stringstream s;
 			s << "Local encode failed " << e.what() << ".";

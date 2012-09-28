@@ -142,9 +142,17 @@ FFmpegDecoder::setup_audio ()
 	if (_audio_codec == 0) {
 		throw DecodeError ("could not find audio decoder");
 	}
-	
+
 	if (avcodec_open2 (_audio_codec_context, _audio_codec, 0) < 0) {
 		throw DecodeError ("could not open audio decoder");
+	}
+
+	/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
+	   so bodge it here.  No idea why we should have to do this.
+	*/
+
+	if (_audio_codec_context->channel_layout == 0) {
+		_audio_codec_context->channel_layout = av_get_default_channel_layout (audio_channels ());
 	}
 }
 
@@ -200,7 +208,7 @@ FFmpegDecoder::audio_channels () const
 	if (_audio_codec_context == 0) {
 		return 0;
 	}
-	
+
 	return _audio_codec_context->channels;
 }
 

@@ -1,0 +1,17 @@
+creator: Carl Hetherington <cth@carlh.net>
+
+
+reporter: Carl Hetherington <cth@carlh.net>
+
+
+severity: minor
+
+
+status: open
+
+
+summary: Re-setting content file runs thumb scan twice?
+
+
+time: Mon, 24 Sep 2012 09:42:18 +0000
+

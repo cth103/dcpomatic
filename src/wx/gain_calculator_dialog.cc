@@ -38,7 +38,7 @@ GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	table->Add (_actual, 1, wxEXPAND);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -52,11 +52,19 @@ GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 float
 GainCalculatorDialog::wanted_fader () const
 {
+	if (_wanted->GetValue().IsEmpty()) {
+		return 0;
+	}
+	
 	return lexical_cast<float> (wx_to_std (_wanted->GetValue ()));
 }
 
 float
 GainCalculatorDialog::actual_fader () const
 {
+	if (_actual->GetValue().IsEmpty()) {
+		return 0;
+	}
+
 	return lexical_cast<float> (wx_to_std (_actual->GetValue ()));
 }

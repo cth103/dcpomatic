@@ -67,15 +67,21 @@ JobManagerView::update ()
 {
 	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 
+	int index = 0;
+
 	for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 		
 		if (_job_records.find (*i) == _job_records.end ()) {
-			add_label_to_sizer (_table, _panel, (*i)->name ());
+			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, std_to_wx ((*i)->name ()));
+			_table->Insert (index, m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			
 			JobRecord r;
 			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
-			_table->Add (r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
+			_table->Insert (index + 1, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
+			
 			r.informed_of_finish = false;
-			r.message = add_label_to_sizer (_table, _panel, "", 1);
+			r.message = new wxStaticText (_panel, wxID_ANY, std_to_wx (""));
+			_table->Insert (index + 2, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 			
 			_job_records[*i] = r;
 		}
@@ -112,6 +118,8 @@ JobManagerView::update ()
 			
 			_job_records[*i].informed_of_finish = true;
 		}
+
+		index += 3;
 	}
 
 	_table->Layout ();

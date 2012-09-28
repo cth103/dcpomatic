@@ -69,7 +69,7 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, Film* f)
 	_n_frames->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (DCPRangeDialog::n_frames_changed), 0, this);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table);
+	overall_sizer->Add (table, 0, wxALL, 6);
 	
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

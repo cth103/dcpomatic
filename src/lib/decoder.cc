@@ -29,6 +29,8 @@ extern "C" {
 #if (LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 53 && LIBAVFILTER_VERSION_MINOR <= 77) || LIBAVFILTER_VERSION_MAJOR == 3
 #include <libavfilter/avcodec.h>
 #include <libavfilter/buffersink.h>
+#elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
+#include <libavfilter/vsrc_buffer.h>
 #endif
 #include <libavformat/avio.h>
 }
@@ -67,7 +69,9 @@ Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const 
 	, _video_frame (0)
 	, _buffer_src_context (0)
 	, _buffer_sink_context (0)
+#if HAVE_SWRESAMPLE	  
 	, _swr_context (0)
+#endif	  
 	, _have_setup_video_filters (false)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
@@ -83,10 +87,12 @@ Decoder::~Decoder ()
 	delete _delay_line;
 }
 
+/** Start off a decode processing run */
 void
 Decoder::process_begin ()
 {
 	if (_fs->audio_sample_rate != dcp_audio_sample_rate (_fs->audio_sample_rate)) {
+#if HAVE_SWRESAMPLE		
 		_swr_context = swr_alloc_set_opts (
 			0,
 			audio_channel_layout(),
@@ -99,8 +105,13 @@ Decoder::process_begin ()
 			);
 		
 		swr_init (_swr_context);
+#else
+		throw DecodeError ("Cannot resample audio as libswresample is not present");
+#endif		
 	} else {
+#if HAVE_SWRESAMPLE		
 		_swr_context = 0;
+#endif		
 	}
 
 	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * _fs->bytes_per_sample() / 1000;
@@ -110,9 +121,11 @@ Decoder::process_begin ()
 	_audio_frames_processed = 0;
 }
 
+/** Finish off a decode processing run */
 void
 Decoder::process_end ()
 {
+#if HAVE_SWRESAMPLE	
 	if (_swr_context) {
 
 		int mop = 0;
@@ -139,6 +152,7 @@ Decoder::process_end ()
 
 		swr_free (&_swr_context);
 	}
+#endif	
 	
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
@@ -151,20 +165,22 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int const audio_short_by_frames =
-		(decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second)
+	int64_t const audio_short_by_frames =
+		((int64_t) decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second)
 		- _audio_frames_processed;
 
-	int bytes = audio_short_by_frames * _fs->audio_channels * _fs->bytes_per_sample();
-
-	int const silence_size = 64 * 1024;
-	uint8_t silence[silence_size];
-	memset (silence, 0, silence_size);
-
-	while (bytes) {
-		int const t = min (bytes, silence_size);
-		Audio (silence, t);
-		bytes -= t;
+	if (audio_short_by_frames >= 0) {
+		int bytes = audio_short_by_frames * _fs->audio_channels * _fs->bytes_per_sample();
+		
+		int const silence_size = 64 * 1024;
+		uint8_t silence[silence_size];
+		memset (silence, 0, silence_size);
+		
+		while (bytes) {
+			int const t = min (bytes, silence_size);
+			Audio (silence, t);
+			bytes -= t;
+		}
 	}
 }
 
@@ -227,10 +243,12 @@ Decoder::process_audio (uint8_t* data, int size)
 	/* Here's samples per channel */
 	int const samples = size / _fs->bytes_per_sample();
 
+#if HAVE_SWRESAMPLE	
 	/* And here's frames (where 1 frame is a collection of samples, 1 for each channel,
 	   so for 5.1 a frame would be 6 samples)
 	*/
 	int const frames = samples / _fs->audio_channels;
+#endif	
 
 	/* Maybe apply gain */
 	if (_fs->audio_gain != 0) {
@@ -270,6 +288,7 @@ Decoder::process_audio (uint8_t* data, int size)
 	uint8_t* out_buffer = 0;
 
 	/* Maybe sample-rate convert */
+#if HAVE_SWRESAMPLE	
 	if (_swr_context) {
 
 		uint8_t const * in[2] = {
@@ -297,6 +316,7 @@ Decoder::process_audio (uint8_t* data, int size)
 		data = out_buffer;
 		size = out_frames * _fs->audio_channels * _fs->bytes_per_sample();
 	}
+#endif	
 		
 	/* Update the number of audio frames we've pushed to the encoder */
 	_audio_frames_processed += size / (_fs->audio_channels * _fs->bytes_per_sample ());
@@ -339,10 +359,8 @@ Decoder::process_video (AVFrame* frame)
 		throw DecodeError ("could not push buffer into filter chain.");
 	}
 
-#else	
+#elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
 
-#if 0
-	
 	AVRational par;
 	par.num = sample_aspect_ratio_numerator ();
 	par.den = sample_aspect_ratio_denominator ();
@@ -351,7 +369,7 @@ Decoder::process_video (AVFrame* frame)
 		throw DecodeError ("could not push buffer into filter chain.");
 	}
 
-#endif
+#else
 
 	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError ("could not push buffer into filter chain.");
@@ -359,13 +377,13 @@ Decoder::process_video (AVFrame* frame)
 
 #endif	
 	
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 23 && LIBAVFILTER_VERSION_MINOR <= 61	
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 15 && LIBAVFILTER_VERSION_MINOR <= 61	
 	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
 #else
 	while (av_buffersink_read (_buffer_sink_context, 0)) {
 #endif		
 
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 53
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 15
 		
 		int r = avfilter_request_frame (_buffer_sink_context->inputs[0]);
 		if (r < 0) {
@@ -434,10 +452,7 @@ Decoder::setup_video_filters ()
 		throw DecodeError ("Could not find buffer src filter");
 	}
 
-	AVFilter* buffer_sink = avfilter_get_by_name("buffersink");
-	if (buffer_sink == 0) {
-		throw DecodeError ("Could not create buffer sink filter");
-	}
+	AVFilter* buffer_sink = get_sink ();
 
 	stringstream a;
 	a << native_size().width << ":"
@@ -449,12 +464,18 @@ Decoder::setup_video_filters ()
 	  << sample_aspect_ratio_denominator();
 
 	int r;
+
 	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph)) < 0) {
 		throw DecodeError ("could not create buffer source");
 	}
 
-	enum PixelFormat pixel_formats[] = { pixel_format(), PIX_FMT_NONE };
-	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, "out", 0, pixel_formats, graph) < 0) {
+	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
+	PixelFormat* pixel_fmts = new PixelFormat[2];
+	pixel_fmts[0] = pixel_format ();
+	pixel_fmts[1] = PIX_FMT_NONE;
+	sink_params->pixel_fmts = pixel_fmts;
+	
+	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, "out", 0, sink_params, graph) < 0) {
 		throw DecodeError ("could not create buffer sink.");
 	}
 
@@ -471,10 +492,17 @@ Decoder::setup_video_filters ()
 	inputs->next = 0;
 
 	_log->log ("Using filter chain `" + filters + "'");
+
+#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
+	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
+		throw DecodeError ("could not set up filter graph.");
+	}
+#else	
 	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
 		throw DecodeError ("could not set up filter graph.");
 	}
-
+#endif	
+	
 	if (avfilter_graph_config (graph, 0) < 0) {
 		throw DecodeError ("could not configure filter graph.");
 	}

@@ -47,6 +47,7 @@ public:
 	{
 	}
 
+	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
 		if (_current_image != _pending_image) {
@@ -67,6 +68,7 @@ public:
 		}
 	}
 
+	/** Handle a size event */
 	void size_event (wxSizeEvent &)
 	{
 		if (!_image) {
@@ -101,6 +103,7 @@ public:
 		}
 	}
 
+	/** Clear our thumbnail image */
 	void clear ()
 	{
 		delete _bitmap;
@@ -237,6 +240,7 @@ FilmViewer::set_film (Film* f)
 	}
 
 	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
+	film_changed (Film::CROP);
 	film_changed (Film::THUMBS);
 	_thumb_panel->refresh ();
 	setup_visibility ();

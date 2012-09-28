@@ -19,6 +19,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <cstdlib>
 #include <sstream>
@@ -47,6 +48,7 @@
 #include "scaler.h"
 #include "decoder_factory.h"
 #include "config.h"
+#include "check_hashes_job.h"
 
 using namespace std;
 using namespace boost;
@@ -68,7 +70,7 @@ Film::Film (string d, bool must_exist)
 	
 	filesystem::path p (filesystem::system_complete (d));
 	filesystem::path result;
-	for(filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
+	for (filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
 		if (*i == "..") {
 			if (filesystem::is_symlink (result) || result.filename() == "..") {
 				result /= *i;
@@ -88,7 +90,7 @@ Film::Film (string d, bool must_exist)
 
 	read_metadata ();
 
-	_log = new Log (_state.file ("log"));
+	_log = new FileLog (_state.file ("log"));
 }
 
 /** Copy constructor */
@@ -120,6 +122,10 @@ Film::read_metadata ()
 		
 		if (line[0] == '#') {
 			continue;
+		}
+
+		if (line[line.size() - 1] == '\r') {
+			line = line.substr (0, line.size() - 1);
 		}
 
 		size_t const s = line.find (' ');
@@ -429,7 +435,6 @@ Film::j2k_dir () const
 
 	filesystem::path p;
 
-
 	/* Start with j2c */
 	p /= "j2c";
 
@@ -540,7 +545,8 @@ Film::make_dcp (bool transcode, int freq)
 			JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log ())));
 		}
 	}
-	
+
+	JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (fs, o, log ())));
 	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log ())));
 }
 
@@ -641,3 +647,18 @@ Film::copy_from_dvd ()
 	JobManager::instance()->add (j);
 }
 
+int
+Film::encoded_frames () const
+{
+	if (format() == 0) {
+		return 0;
+	}
+
+	int N = 0;
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (j2k_dir ()); i != filesystem::directory_iterator(); ++i) {
+		++N;
+		this_thread::interruption_point ();
+	}
+
+	return N;
+}

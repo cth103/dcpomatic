@@ -77,6 +77,9 @@ public:
 class FileError : public StringError
 {
 public:
+	/** @param m Error message.
+	 *  @param f Name of the file that this exception concerns.
+	 */
 	FileError (std::string m, std::string f)
 		: StringError (m)
 		, _file (f)
@@ -84,11 +87,13 @@ public:
 
 	virtual ~FileError () throw () {}
 
+	/** @return name of the file that this exception concerns */
 	std::string file () const {
 		return _file;
 	}
 
 private:
+	/** name of the file that this exception concerns */
 	std::string _file;
 };
 	

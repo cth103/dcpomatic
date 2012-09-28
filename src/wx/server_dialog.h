@@ -20,20 +20,20 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 
-class Server;
+class ServerDescription;
 
 class ServerDialog : public wxDialog
 {
 public:
-	ServerDialog (wxWindow *, Server *);
+	ServerDialog (wxWindow *, ServerDescription *);
 
-	Server* server () const;
+	ServerDescription* server () const;
 
 private:
 	void host_changed (wxCommandEvent &);
 	void threads_changed (wxCommandEvent &);
 
-	Server* _server;
+	ServerDescription* _server;
 	wxTextCtrl* _host;
 	wxSpinCtrl* _threads;
 };

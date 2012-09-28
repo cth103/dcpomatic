@@ -1,5 +1,4 @@
 def configure(conf):
-    conf.recurse('lib')
     if not conf.env.DISABLE_GUI:
         conf.recurse('wx')
 

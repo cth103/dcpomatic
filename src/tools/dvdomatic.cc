@@ -30,6 +30,7 @@
 //#include "gtk/dvd_title_dialog.h"
 #include "wx/wx_util.h"
 #include "wx/new_film_dialog.h"
+#include "wx/properties_dialog.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -125,6 +126,7 @@ enum {
 	ID_file_new = 1,
 	ID_file_open,
 	ID_file_save,
+	ID_file_properties,
 	ID_file_quit,
 	ID_edit_preferences,
 	ID_jobs_make_dcp,
@@ -143,6 +145,8 @@ setup_menu (wxMenuBar* m)
 	add_item (file, "&Open...", ID_file_open, ALWAYS);
 	file->AppendSeparator ();
 	add_item (file, "&Save", ID_file_save, NEEDS_FILM);
+	file->AppendSeparator ();
+	add_item (file, "&Properties...", ID_file_properties, NEEDS_FILM);
 	file->AppendSeparator ();
 	add_item (file, "&Quit", ID_file_quit, ALWAYS);
 
@@ -188,6 +192,7 @@ public:
 		Connect (ID_file_new, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_new));
 		Connect (ID_file_open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_open));
 		Connect (ID_file_save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_save));
+		Connect (ID_file_properties, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_properties));
 		Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
 		Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
 		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
@@ -284,6 +289,13 @@ public:
 	void file_save (wxCommandEvent &)
 	{
 		film->write_metadata ();
+	}
+
+	void file_properties (wxCommandEvent &)
+	{
+		PropertiesDialog* d = new PropertiesDialog (this, film);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 	
 	void file_quit (wxCommandEvent &)

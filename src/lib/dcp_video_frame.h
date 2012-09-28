@@ -27,7 +27,7 @@
 
 class FilmState;
 class Options;
-class Server;
+class ServerDescription;
 class Scaler;
 class Image;
 class Log;
@@ -48,12 +48,8 @@ public:
 
 	virtual ~EncodedData () {}
 
-	void send (boost::shared_ptr<boost::asio::ip::tcp::socket>);
+	void send (boost::shared_ptr<Socket> socket);
 	void write (boost::shared_ptr<const Options>, int);
-
-#ifdef DEBUG_HASH
-	void hash (std::string) const;
-#endif	
 
 	/** @return data */
 	uint8_t* data () const {
@@ -113,7 +109,7 @@ public:
 	virtual ~DCPVideoFrame ();
 
 	boost::shared_ptr<EncodedData> encode_locally ();
-	boost::shared_ptr<EncodedData> encode_remotely (Server const *);
+	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
 
 	int frame () const {
 		return _frame;

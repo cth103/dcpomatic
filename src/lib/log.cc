@@ -27,10 +27,8 @@
 
 using namespace std;
 
-/** @param f Filename to write log to */
-Log::Log (string f)
-	: _file (f)
-	, _level (VERBOSE)
+Log::Log ()
+	: _level (VERBOSE)
 {
 
 }
@@ -45,13 +43,13 @@ Log::log (string m, Level l)
 		return;
 	}
 	
-	ofstream f (_file.c_str(), fstream::app);
-
 	time_t t;
 	time (&t);
 	string a = ctime (&t);
-	
-	f << a.substr (0, a.length() - 1) << ": " << m << "\n";
+
+	stringstream s;
+	s << a.substr (0, a.length() - 1) << ": " << m;
+	do_log (s.str ());
 }
 
 void
@@ -59,5 +57,20 @@ Log::set_level (Level l)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_level = l;
+}
+
+
+/** @param file Filename to write log to */
+FileLog::FileLog (string file)
+	: _file (file)
+{
+
+}
+
+void
+FileLog::do_log (string m)
+{
+	ofstream f (_file.c_str(), fstream::app);
+	f << m << "\n";
 }
 

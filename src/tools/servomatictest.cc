@@ -47,12 +47,8 @@ process_video (shared_ptr<Image> image, int frame)
 	shared_ptr<DCPVideoFrame> local (new DCPVideoFrame (image, Size (1024, 1024), 0, Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_));
 	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image, Size (1024, 1024), 0, Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_));
 
-#if defined(DEBUG_HASH)
-	cout << "Frame " << frame << ":\n";
-#else
 	cout << "Frame " << frame << ": ";
 	cout.flush ();
-#endif	
 
 	shared_ptr<EncodedData> local_encoded = local->encode_locally ();
 	shared_ptr<EncodedData> remote_encoded;
@@ -63,11 +59,6 @@ process_video (shared_ptr<Image> image, int frame)
 	} catch (NetworkError& e) {
 		remote_error = e.what ();
 	}
-
-#if defined(DEBUG_HASH)
-	cout << "Frame " << frame << ": ";
-	cout.flush ();
-#endif	
 
 	if (!remote_error.empty ()) {
 		cout << "\033[0;31mnetwork problem: " << remote_error << "\033[0m\n";

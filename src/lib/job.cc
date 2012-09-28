@@ -223,7 +223,7 @@ Job::set_error (string e)
 	_error = e;
 }
 
-/** Set that this job's progress will always be unknown */
+/** Say that this job's progress will always be unknown */
 void
 Job::set_progress_unknown ()
 {
@@ -231,16 +231,18 @@ Job::set_progress_unknown ()
 	_progress_unknown = true;
 }
 
+/** @return Human-readable status of this job */
 string
 Job::status () const
 {
 	float const p = overall_progress ();
 	int const t = elapsed_time ();
+	int const r = remaining_time ();
 	
 	stringstream s;
-	if (!finished () && p >= 0 && t > 10) {
-		s << rint (p * 100) << "%; about " << seconds_to_approximate_hms (t / p - t) << " remaining";
-	} else if (!finished () && t <= 10) {
+	if (!finished () && p >= 0 && t > 10 && r > 0) {
+		s << rint (p * 100) << "%; " << seconds_to_approximate_hms (r) << " remaining";
+	} else if (!finished () && (t <= 10 || r == 0)) {
 		s << rint (p * 100) << "%";
 	} else if (finished_ok ()) {
 		s << "OK (ran for " << seconds_to_hms (t) << ")";
@@ -249,4 +251,11 @@ Job::status () const
 	}
 
 	return s.str ();
+}
+
+/** @return An estimate of the remaining time for this job, in seconds */
+int
+Job::remaining_time () const
+{
+	return elapsed_time() / overall_progress() - elapsed_time();
 }

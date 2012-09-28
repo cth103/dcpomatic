@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dir=`dirname $0`
+LD_LIBRARY_PATH=$dir/../lib:$LD_LIBRARY_PATH $dir/makedcp-bin $*
+

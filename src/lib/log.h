@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_LOG_H
+#define DVDOMATIC_LOG_H
+
 /** @file src/log.h
  *  @brief A very simple logging class.
  */
@@ -26,15 +29,11 @@
 
 /** @class Log
  *  @brief A very simple logging class.
- *
- *  This class simply accepts log messages and writes them to a file.
- *  Its single nod to complexity is that it has a mutex to prevent
- *  multi-thread logging from clashing.
  */
 class Log
 {
 public:
-	Log (std::string f);
+	Log ();
 
 	enum Level {
 		STANDARD = 0,
@@ -45,11 +44,26 @@ public:
 
 	void set_level (Level l);
 
-private:
-	/** mutex to prevent simultaneous writes to the file */
+protected:	
+	/** mutex to protect the log */
 	boost::mutex _mutex;
-	/** filename to write to */
-	std::string _file;
+	
+private:
+	virtual void do_log (std::string m) = 0;
+	
 	/** level above which to ignore log messages */
 	Level _level;
 };
+
+class FileLog : public Log
+{
+public:
+	FileLog (std::string file);
+
+private:
+	void do_log (std::string m);
+	/** filename to write to */
+	std::string _file;
+};
+
+#endif

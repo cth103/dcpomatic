@@ -29,6 +29,7 @@
 #include <vector>
 #include <inttypes.h>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread.hpp>
 #include <sigc++/signal.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -228,6 +229,8 @@ public:
 	Log* log () const {
 		return _log;
 	}
+
+	int encoded_frames () const;
 
 	/** Emitted when some metadata property has changed */
 	mutable sigc::signal1<void, Property> Changed;

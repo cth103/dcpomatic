@@ -38,6 +38,7 @@ class JobManager
 public:
 
 	void add (boost::shared_ptr<Job>);
+	void add_after (boost::shared_ptr<Job> after, boost::shared_ptr<Job> j);
 	std::list<boost::shared_ptr<Job> > get () const;
 	bool work_to_do () const;
 

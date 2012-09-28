@@ -68,10 +68,6 @@ public:
 	boost::shared_ptr<RGBFrameImage> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
 	boost::shared_ptr<PostProcessImage> post_process (std::string) const;
 	
-#ifdef DEBUG_HASH	
-	void hash (std::string) const;
-#endif
-
 	void make_black ();
 	
 	PixelFormat pixel_format () const {

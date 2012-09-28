@@ -36,6 +36,7 @@
 #include <iomanip>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include <errno.h>
 #include <boost/array.hpp>
@@ -54,10 +55,6 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
-
-#ifdef DEBUG_HASH
-#include <mhash.h>
-#endif
 
 using namespace std;
 using namespace boost;
@@ -255,12 +252,6 @@ DCPVideoFrame::encode_locally ()
 	/* Set event manager to null (openjpeg 1.3 bug) */
 	_cinfo->event_mgr = 0;
 
-#ifdef DEBUG_HASH
-	md5_data ("J2K in X frame " + lexical_cast<string> (_frame), _image->comps[0].data, size * sizeof (int));
-	md5_data ("J2K in Y frame " + lexical_cast<string> (_frame), _image->comps[1].data, size * sizeof (int));
-	md5_data ("J2K in Z frame " + lexical_cast<string> (_frame), _image->comps[2].data, size * sizeof (int));
-#endif	
-	
 	/* Setup the encoder parameters using the current image and user parameters */
 	opj_setup_encoder (_cinfo, _parameters, _image);
 
@@ -271,13 +262,9 @@ DCPVideoFrame::encode_locally ()
 		throw EncodeError ("jpeg2000 encoding failed");
 	}
 
-#ifdef DEBUG_HASH
-	md5_data ("J2K out frame " + lexical_cast<string> (_frame), _cio->buffer, cio_tell (_cio));
-#endif	
-
 	{
 		stringstream s;
-		s << "Finished locally-encoded frame " << _frame << " length " << cio_tell (_cio);
+		s << "Finished locally-encoded frame " << _frame;
 		_log->log (s.str ());
 	}
 	
@@ -289,19 +276,16 @@ DCPVideoFrame::encode_locally ()
  *  @return Encoded data.
  */
 shared_ptr<EncodedData>
-DCPVideoFrame::encode_remotely (Server const * serv)
+DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 {
 	asio::io_service io_service;
 	asio::ip::tcp::resolver resolver (io_service);
 	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<asio::ip::tcp::socket> socket (new asio::ip::tcp::socket (io_service));
-	socket->connect (*endpoint_iterator);
+	Socket socket;
 
-#ifdef DEBUG_HASH
-	_input->hash ("Input for remote encoding (before sending)");
-#endif
+	socket.connect (*endpoint_iterator, 30);
 
 	stringstream s;
 	s << "encode "
@@ -320,29 +304,23 @@ DCPVideoFrame::encode_remotely (Server const * serv)
 		s << _input->line_size()[i] << " ";
 	}
 
-	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
+	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
 	for (int i = 0; i < _input->components(); ++i) {
-		asio::write (*socket, asio::buffer (_input->data()[i], _input->line_size()[i] * _input->lines(i)));
+		socket.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 30);
 	}
 
-	SocketReader reader (socket);
-
 	char buffer[32];
-	reader.read_indefinite ((uint8_t *) buffer, sizeof (buffer));
-	reader.consume (strlen (buffer) + 1);
+	socket.read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	socket.consume (strlen (buffer) + 1);
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
 
 	/* now read the rest */
-	reader.read_definite_and_consume (e->data(), e->size());
-
-#ifdef DEBUG_HASH
-	e->hash ("Encoded image (after receiving)");
-#endif
+	socket.read_definite_and_consume (e->data(), e->size(), 30);
 
 	{
 		stringstream s;
-		s << "Finished remotely-encoded frame " << _frame << " length " << e->size();
+		s << "Finished remotely-encoded frame " << _frame;
 		_log->log (s.str ());
 	}
 	
@@ -367,29 +345,29 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
+	string const real_j2k = opt->frame_out_path (frame, false);
+
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
-	filesystem::rename (tmp_j2k, opt->frame_out_path (frame, false));
+	filesystem::rename (tmp_j2k, real_j2k);
+
+	/* Write a file containing the hash */
+	string const hash = real_j2k + ".md5";
+	ofstream h (hash.c_str());
+	h << md5_digest (_data, _size) << "\n";
+	h.close ();
 }
 
 /** Send this data to a socket.
  *  @param socket Socket
  */
 void
-EncodedData::send (shared_ptr<asio::ip::tcp::socket> socket)
+EncodedData::send (shared_ptr<Socket> socket)
 {
 	stringstream s;
 	s << _size;
-	asio::write (*socket, asio::buffer (s.str().c_str(), s.str().length() + 1));
-	asio::write (*socket, asio::buffer (_data, _size));
+	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+	socket->write (_data, _size, 30);
 }
-
-#ifdef DEBUG_HASH
-void
-EncodedData::hash (string n) const
-{
-	md5_data (n, _data, _size);
-}
-#endif		
 
 /** @param s Size of data in bytes */
 RemotelyEncodedData::RemotelyEncodedData (int s)

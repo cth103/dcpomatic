@@ -46,37 +46,11 @@ extern double seconds (struct timeval);
 extern void dvdomatic_setup ();
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (std::string);
+extern std::string md5_digest (void const *, int);
 
 enum ContentType {
 	STILL,
 	VIDEO
-};
-
-#ifdef DEBUG_HASH
-extern void md5_data (std::string, void const *, int);
-#endif
-
-/** @class SocketReader
- *  @brief A helper class from reading from sockets.
- *
- *  You can probably do this stuff directly in boost, but I'm not sure how.
- */
-class SocketReader
-{
-public:
-	SocketReader (boost::shared_ptr<boost::asio::ip::tcp::socket>);
-
-	void read_definite_and_consume (uint8_t *, int);
-	void read_indefinite (uint8_t *, int);
-	void consume (int);
-
-private:
-	/** socket we are reading from */
-	boost::shared_ptr<boost::asio::ip::tcp::socket> _socket;
-	/** a buffer for small reads */
-	uint8_t _buffer[256];
-	/** amount of valid data in the buffer */
-	int _buffer_data;
 };
 
 /** @class Size
@@ -103,19 +77,25 @@ struct Size
 	int height;
 };
 
+/** A description of the crop of an image or video. */
 struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
-	
+
+	/** Number of pixels to remove from the left-hand side */
 	int left;
+	/** Number of pixels to remove from the right-hand side */
 	int right;
+	/** Number of pixels to remove from the top */
 	int top;
+	/** Number of pixels to remove from the bottom */
 	int bottom;
 };
 
 extern bool operator== (Crop const & a, Crop const & b);
 extern bool operator!= (Crop const & a, Crop const & b);
 
+/** A position */
 struct Position
 {
 	Position ()
@@ -128,12 +108,54 @@ struct Position
 		, y (y_)
 	{}
 
+	/** x coordinate */
 	int x;
+	/** y coordinate */
 	int y;
 };
 
 extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
 extern std::string colour_lut_index_to_name (int index);
+
+/** @class Socket
+ *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
+ *  that are useful for DVD-o-matic.
+ *
+ *  This class wraps some things that I could not work out how to do with boost;
+ *  most notably, sync read/write calls with timeouts, and the ability to peak into
+ *  data being read.
+ */
+class Socket
+{
+public:
+	Socket ();
+
+	/** @return Our underlying socket */
+	boost::asio::ip::tcp::socket& socket () {
+		return _socket;
+	}
+
+	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint, int timeout);
+	void write (uint8_t const * data, int size, int timeout);
+	
+	void read_definite_and_consume (uint8_t* data, int size, int timeout);
+	void read_indefinite (uint8_t* data, int size, int timeout);
+	void consume (int amount);
+	
+private:
+	void check ();
+	int read (uint8_t* data, int size, int timeout);
+
+	Socket (Socket const &);
+
+	boost::asio::io_service _io_service;
+	boost::asio::deadline_timer _deadline;
+	boost::asio::ip::tcp::socket _socket;
+	/** a buffer for small reads */
+	uint8_t _buffer[256];
+	/** amount of valid data in the buffer */
+	int _buffer_data;
+};
 
 #endif

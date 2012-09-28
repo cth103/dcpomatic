@@ -132,7 +132,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 
 	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxStaticText (this, wxID_ANY, wxT (""));
-	_sizer->Add (video_control (_frames_per_second));
+	_sizer->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
 	
 	video_control (add_label_to_sizer (_sizer, this, "Original Size"));
 	_original_size = new wxStaticText (this, wxID_ANY, wxT (""));
@@ -648,11 +648,24 @@ FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);
 	d->ShowModal ();
+
+	if (d->wanted_fader() == 0 || d->actual_fader() == 0) {
+		d->Destroy ();
+		return;
+	}
+	
 	_audio_gain->SetValue (
 		Config::instance()->sound_processor()->db_for_fader_change (
 			d->wanted_fader (),
 			d->actual_fader ()
 			)
 		);
+
+	/* This appears to be necessary, as the change is not signalled,
+	   I think.
+	*/
+	wxCommandEvent dummy;
+	audio_gain_changed (dummy);
+	
 	d->Destroy ();
 }

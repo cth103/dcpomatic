@@ -84,12 +84,16 @@ File "%deps%/bin/libxml2-2.dll"
 File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
 File "%binaries%/src/tools/dvdomatic.exe"
+File "%binaries%/src/tools/servomatic_cli.exe"
+File "%binaries%/src/tools/servomatic_gui.exe"
 
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
+CreateShortCut "$DESKTOP\DVD-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" ""
  
 CreateDirectory "$SMPROGRAMS\DVD-o-matic"
 CreateShortCut "$SMPROGRAMS\DVD-o-matic\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
 CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" "" "$INSTDIR\bin\dvdomatic.exe" 0
+CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" "" "$INSTDIR\bin\servomatic_gui.exe" 0
  
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "DisplayName" "DVD-o-matic (remove only)"
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "UninstallString" "$INSTDIR\Uninstall.exe"
@@ -104,6 +108,7 @@ Section "Uninstall"
 RMDir /r "$INSTDIR\*.*"    
 RMDir "$INSTDIR"
 Delete "$DESKTOP\DVD-o-matic.lnk"
+Delete "$DESKTOP\DVD-o-matic encode server.lnk"
 Delete "$SMPROGRAMS\DVD-o-matic\*.*"
 RmDir  "$SMPROGRAMS\DVD-o-matic"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DVD-o-matic"

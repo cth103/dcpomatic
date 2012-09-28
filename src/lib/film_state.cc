@@ -165,11 +165,6 @@ FilmState::read_metadata (string k, string v)
 	} else if (k == "content_digest") {
 		content_digest = v;
 	}
-	
-	/* Itsy bitsy hack: compute digest here if don't have one (for backwards compatibility) */
-	if (content_digest.empty() && !content.empty()) {
-		content_digest = md5_digest (content_path ());
-	}
 }
 
 
@@ -256,10 +251,13 @@ ContentType
 FilmState::content_type () const
 {
 #if BOOST_FILESYSTEM_VERSION == 3
-	string const ext = filesystem::path(content).extension().string();
+	string ext = filesystem::path(content).extension().string();
 #else
-	string const ext = filesystem::path(content).extension();
+	string ext = filesystem::path(content).extension();
 #endif
+
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	
 	if (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png") {
 		return STILL;
 	}

@@ -16,3 +16,4 @@ sync
 doc/manual/html
 doc/manual/pdf
 doc/manual/extensions.ent
+.be/id-cache

@@ -145,7 +145,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::colour_lut_changed), 0, this);
 	
 	_j2k_bandwidth->SetRange (50, 250);
-	_j2k_bandwidth->SetValue (config->j2k_bandwidth() / 1e6);
+	_j2k_bandwidth->SetValue (rint ((double) config->j2k_bandwidth() / 1e6));
 	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::j2k_bandwidth_changed), 0, this);
 
 	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
@@ -155,8 +155,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
 	_reference_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_reference_filters_clicked), 0, this);
 
-	vector<Server*> servers = config->servers ();
-	for (vector<Server*>::iterator i = servers.begin(); i != servers.end(); ++i) {
+	vector<ServerDescription*> servers = config->servers ();
+	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		add_server_to_control (*i);
 	}
 	
@@ -170,7 +170,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	server_selection_changed (ev);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -225,7 +225,7 @@ ConfigDialog::j2k_bandwidth_changed (wxCommandEvent &)
 }
 
 void
-ConfigDialog::add_server_to_control (Server* s)
+ConfigDialog::add_server_to_control (ServerDescription* s)
 {
 	wxListItem item;
 	int const n = _servers->GetItemCount ();
@@ -240,11 +240,11 @@ ConfigDialog::add_server_clicked (wxCommandEvent &)
 {
 	ServerDialog* d = new ServerDialog (this, 0);
 	d->ShowModal ();
-	Server* s = d->server ();
+	ServerDescription* s = d->server ();
 	d->Destroy ();
 	
 	add_server_to_control (s);
-	vector<Server*> o = Config::instance()->servers ();
+	vector<ServerDescription*> o = Config::instance()->servers ();
 	o.push_back (s);
 	Config::instance()->set_servers (o);
 }
@@ -262,22 +262,15 @@ ConfigDialog::edit_server_clicked (wxCommandEvent &)
 	item.SetColumn (0);
 	_servers->GetItem (item);
 
-	vector<Server*> servers = Config::instance()->servers ();
-	vector<Server*>::iterator j = servers.begin();
-	while (j != servers.end() && (*j)->host_name() != wx_to_std (item.GetText ())) {
-		++j;
-	}
+	vector<ServerDescription*> servers = Config::instance()->servers ();
+	assert (i >= 0 && i < int (servers.size ()));
 
-	if (j == servers.end()) {
-		return;
-	}
-
-	ServerDialog* d = new ServerDialog (this, *j);
+	ServerDialog* d = new ServerDialog (this, servers[i]);
 	d->ShowModal ();
 	d->Destroy ();
 
-	_servers->SetItem (i, 0, std_to_wx ((*j)->host_name ()));
-	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> ((*j)->threads ())));
+	_servers->SetItem (i, 0, std_to_wx (servers[i]->host_name ()));
+	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> (servers[i]->threads ())));
 }
 
 void
@@ -287,6 +280,10 @@ ConfigDialog::remove_server_clicked (wxCommandEvent &)
 	if (i >= 0) {
 		_servers->DeleteItem (i);
 	}
+
+	vector<ServerDescription*> o = Config::instance()->servers ();
+	o.erase (o.begin() + i);
+	Config::instance()->set_servers (o);
 }
 
 void

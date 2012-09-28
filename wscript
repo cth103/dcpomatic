@@ -3,13 +3,12 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.47pre'
+VERSION = '0.54pre'
 
 def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
 
-    opt.add_option('--debug-hash', action='store_true', default = False, help = 'print hashes of data at various points')
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
     opt.add_option('--disable-player', action='store_true', default = False, help = 'disable building of the player components')
@@ -37,7 +36,6 @@ def configure(conf):
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
 
-    conf.env.DEBUG_HASH = conf.options.debug_hash
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.DISABLE_PLAYER = conf.options.disable_player
@@ -57,10 +55,10 @@ def configure(conf):
     conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
     conf.check_cfg(package = 'libavutil', args = '--cflags --libs', uselib_store = 'AVUTIL', mandatory = True)
     conf.check_cfg(package = 'libswscale', args = '--cflags --libs', uselib_store = 'SWSCALE', mandatory = True)
-    conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = True)
+    conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
     conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.11', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.21', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
     conf.check_cc(msg = 'Checking for library libtiff', function_name = 'TIFFOpen', header_name = 'tiffio.h', lib = 'tiff', uselib_store = 'TIFF')
@@ -126,6 +124,8 @@ def build(bld):
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 
+    bld.add_post_fun(post)
+
 def dist(ctx):
     ctx.excl = 'TODO core *~ src/wx/*~ src/lib/*~ .waf* build .git deps alignment hacks sync *.tar.bz2 *.exe .lock* *build-windows doc/manual/pdf doc/manual/html'
 
@@ -150,3 +150,6 @@ def create_version_cc(version):
         print('Could not open src/lib/version.cc for writing\n')
         sys.exit(-1)
     
+def post(ctx):
+    if ctx.cmd == 'install':
+        ctx.exec_command('/sbin/ldconfig')

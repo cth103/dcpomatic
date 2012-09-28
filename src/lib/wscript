@@ -1,8 +1,3 @@
-def configure(conf):
-    if conf.options.debug_hash:
-        conf.env.append_value('CXXFLAGS', '-DDEBUG_HASH')
-        conf.check_cc(msg = 'Checking for library libmhash', function_name = 'mhash_init', header_name = 'mhash.h', lib = 'mhash', uselib_store = 'MHASH')
-
 def build(bld):
     obj = bld(features = 'cxx cxxshlib')
     obj.name = 'libdvdomatic'
@@ -10,11 +5,10 @@ def build(bld):
     obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP GLIB'
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
-    if bld.env.DEBUG_HASH:
-        obj.uselib += ' MHASH'
     obj.source = """
 		 ab_transcode_job.cc
 		 ab_transcoder.cc
+                 check_hashes_job.cc
 		 config.cc
 		 copy_from_dvd_job.cc
                  cross.cc
@@ -28,6 +22,7 @@ def build(bld):
 		 encoder.cc
                  encoder_factory.cc
 		 examine_content_job.cc
+                 ffmpeg_compatibility.cc
                  ffmpeg_decoder.cc
     	         film.cc
 		 film_state.cc

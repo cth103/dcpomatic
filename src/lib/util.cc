@@ -33,6 +33,8 @@
 #include <libssh/libssh.h>
 #include <signal.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/bind.hpp>
+#include <boost/lambda/lambda.hpp>
 #include <openjpeg.h>
 #include <openssl/md5.h>
 #include <magick/MagickCore.h>
@@ -57,10 +59,6 @@ extern "C" {
 #include "sound_processor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
 #include "player_manager.h"
-#endif
-
-#ifdef DEBUG_HASH
-#include <mhash.h>
 #endif
 
 using namespace std;
@@ -286,88 +284,6 @@ seconds (struct timeval t)
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
-/** @param socket Socket to read from */
-SocketReader::SocketReader (shared_ptr<asio::ip::tcp::socket> socket)
-	: _socket (socket)
-	, _buffer_data (0)
-{
-
-}
-
-/** Mark some data as being `consumed', so that it will not be returned
- *  as data again.
- *  @param size Amount of data to consume, in bytes.
- */
-void
-SocketReader::consume (int size)
-{
-	assert (_buffer_data >= size);
-	
-	_buffer_data -= size;
-	if (_buffer_data > 0) {
-		/* Shift still-valid data to the start of the buffer */
-		memmove (_buffer, _buffer + size, _buffer_data);
-	}
-}
-
-/** Read a definite amount of data from our socket, and mark
- *  it as consumed.
- *  @param data Where to put the data.
- *  @param size Number of bytes to read.
- */
-void
-SocketReader::read_definite_and_consume (uint8_t* data, int size)
-{
-	int const from_buffer = min (_buffer_data, size);
-	if (from_buffer > 0) {
-		/* Get data from our buffer */
-		memcpy (data, _buffer, from_buffer);
-		consume (from_buffer);
-		/* Update our output state */
-		data += from_buffer;
-		size -= from_buffer;
-	}
-
-	/* read() the rest */
-	while (size > 0) {
-		int const n = asio::read (*_socket, asio::buffer (data, size));
-		if (n <= 0) {
-			throw NetworkError ("could not read");
-		}
-
-		data += n;
-		size -= n;
-	}
-}
-
-/** Read as much data as is available, up to some limit.
- *  @param data Where to put the data.
- *  @param size Maximum amount of data to read.
- */
-void
-SocketReader::read_indefinite (uint8_t* data, int size)
-{
-	assert (size < int (sizeof (_buffer)));
-
-	/* Amount of extra data we need to read () */
-	int to_read = size - _buffer_data;
-	while (to_read > 0) {
-		/* read as much of it as we can (into our buffer) */
-		int const n = asio::read (*_socket, asio::buffer (_buffer + _buffer_data, to_read));
-		if (n <= 0) {
-			throw NetworkError ("could not read");
-		}
-
-		to_read -= n;
-		_buffer_data += n;
-	}
-
-	assert (_buffer_data >= size);
-
-	/* copy data into the output buffer */
-	assert (size >= _buffer_data);
-	memcpy (data, _buffer, size);
-}
 
 #ifdef DVDOMATIC_POSIX
 void
@@ -427,28 +343,26 @@ split_at_spaces_considering_quotes (string s)
 	return out;
 }
 
-#ifdef DEBUG_HASH
-void
-md5_data (string title, void const * data, int size)
+string
+md5_digest (void const * data, int size)
 {
-	MHASH ht = mhash_init (MHASH_MD5);
-	if (ht == MHASH_FAILED) {
-		throw EncodeError ("could not create hash thread");
+	MD5_CTX md5_context;
+	MD5_Init (&md5_context);
+	MD5_Update (&md5_context, data, size);
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	MD5_Final (digest, &md5_context);
+	
+	stringstream s;
+	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
 	}
 
-	mhash (ht, data, size);
-	
-	uint8_t hash[16];
-	mhash_deinit (ht, hash);
-	
-	printf ("%s [%d]: ", title.c_str (), size);
-	for (int i = 0; i < int (mhash_get_block_size (MHASH_MD5)); ++i) {
-		printf ("%.2x", hash[i]);
-	}
-	printf ("\n");
+	return s.str ();
 }
-#endif
 
+/** @param file File name.
+ *  @return MD5 digest of file's contents.
+ */
 string
 md5_digest (string file)
 {
@@ -484,6 +398,9 @@ md5_digest (string file)
 	return s.str ();
 }
 
+/** @param An arbitrary sampling rate.
+ *  @return The appropriate DCP-approved sampling rate (48kHz or 96kHz).
+ */
 int
 dcp_audio_sample_rate (int fs)
 {
@@ -504,6 +421,9 @@ bool operator!= (Crop const & a, Crop const & b)
 	return !(a == b);
 }
 
+/** @param index Colour LUT index.
+ *  @return Human-readable name.
+ */
 string
 colour_lut_index_to_name (int index)
 {
@@ -518,5 +438,165 @@ colour_lut_index_to_name (int index)
 	return "";
 }
 
-		
-			
+Socket::Socket ()
+	: _deadline (_io_service)
+	, _socket (_io_service)
+	, _buffer_data (0)
+{
+	_deadline.expires_at (posix_time::pos_infin);
+	check ();
+}
+
+void
+Socket::check ()
+{
+	if (_deadline.expires_at() <= asio::deadline_timer::traits_type::now ()) {
+		_socket.close ();
+		_deadline.expires_at (posix_time::pos_infin);
+	}
+
+	_deadline.async_wait (boost::bind (&Socket::check, this));
+}
+
+/** Blocking connect with timeout.
+ *  @param endpoint End-point to connect to.
+ *  @param timeout Time-out in seconds.
+ */
+void
+Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
+{
+	system::error_code ec = asio::error::would_block;
+	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
+	do {
+		_io_service.run_one();
+	} while (ec == asio::error::would_block);
+
+	if (ec || !_socket.is_open ()) {
+		throw NetworkError ("connect timed out");
+	}
+}
+
+/** Blocking write with timeout.
+ *  @param data Buffer to write.
+ *  @param size Number of bytes to write.
+ *  @param timeout Time-out, in seconds.
+ */
+void
+Socket::write (uint8_t const * data, int size, int timeout)
+{
+	_deadline.expires_from_now (posix_time::seconds (timeout));
+	system::error_code ec = asio::error::would_block;
+
+	asio::async_write (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	do {
+		_io_service.run_one ();
+	} while (ec == asio::error::would_block);
+
+	if (ec) {
+		throw NetworkError ("write timed out");
+	}
+}
+
+/** Blocking read with timeout.
+ *  @param data Buffer to read to.
+ *  @param size Number of bytes to read.
+ *  @param timeout Time-out, in seconds.
+ */
+int
+Socket::read (uint8_t* data, int size, int timeout)
+{
+	_deadline.expires_from_now (posix_time::seconds (timeout));
+	system::error_code ec = asio::error::would_block;
+
+	int amount_read = 0;
+
+	_socket.async_read_some (
+		asio::buffer (data, size),
+		(lambda::var(ec) = lambda::_1, lambda::var(amount_read) = lambda::_2)
+		);
+
+	do {
+		_io_service.run_one ();
+	} while (ec == asio::error::would_block);
+	
+	if (ec) {
+		amount_read = 0;
+	}
+
+	return amount_read;
+}
+
+/** Mark some data as being `consumed', so that it will not be returned
+ *  as data again.
+ *  @param size Amount of data to consume, in bytes.
+ */
+void
+Socket::consume (int size)
+{
+	assert (_buffer_data >= size);
+	
+	_buffer_data -= size;
+	if (_buffer_data > 0) {
+		/* Shift still-valid data to the start of the buffer */
+		memmove (_buffer, _buffer + size, _buffer_data);
+	}
+}
+
+/** Read a definite amount of data from our socket, and mark
+ *  it as consumed.
+ *  @param data Where to put the data.
+ *  @param size Number of bytes to read.
+ */
+void
+Socket::read_definite_and_consume (uint8_t* data, int size, int timeout)
+{
+	int const from_buffer = min (_buffer_data, size);
+	if (from_buffer > 0) {
+		/* Get data from our buffer */
+		memcpy (data, _buffer, from_buffer);
+		consume (from_buffer);
+		/* Update our output state */
+		data += from_buffer;
+		size -= from_buffer;
+	}
+
+	/* read() the rest */
+	while (size > 0) {
+		int const n = read (data, size, timeout);
+		if (n <= 0) {
+			throw NetworkError ("could not read");
+		}
+
+		data += n;
+		size -= n;
+	}
+}
+
+/** Read as much data as is available, up to some limit.
+ *  @param data Where to put the data.
+ *  @param size Maximum amount of data to read.
+ */
+void
+Socket::read_indefinite (uint8_t* data, int size, int timeout)
+{
+	assert (size < int (sizeof (_buffer)));
+
+	/* Amount of extra data we need to read () */
+	int to_read = size - _buffer_data;
+	while (to_read > 0) {
+		/* read as much of it as we can (into our buffer) */
+		int const n = read (_buffer + _buffer_data, to_read, timeout);
+		if (n <= 0) {
+			throw NetworkError ("could not read");
+		}
+
+		to_read -= n;
+		_buffer_data += n;
+	}
+
+	assert (_buffer_data >= size);
+
+	/* copy data into the output buffer */
+	assert (size >= _buffer_data);
+	memcpy (data, _buffer, size);
+}
