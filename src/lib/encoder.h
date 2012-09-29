@@ -28,6 +28,9 @@
 #include <boost/thread/mutex.hpp>
 #include <list>
 #include <stdint.h>
+extern "C" {
+#include <libavutil/samplefmt.h>
+}
 
 class FilmState;
 class Options;
@@ -50,7 +53,7 @@ public:
 	Encoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
 
 	/** Called to indicate that a processing run is about to begin */
-	virtual void process_begin () = 0;
+	virtual void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format) = 0;
 
 	/** Called with a frame of video.
 	 *  @param i Video frame image.

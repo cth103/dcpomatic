@@ -69,9 +69,6 @@ Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const 
 	, _video_frame (0)
 	, _buffer_src_context (0)
 	, _buffer_sink_context (0)
-#if HAVE_SWRESAMPLE	  
-	, _swr_context (0)
-#endif	  
 	, _have_setup_video_filters (false)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
@@ -91,29 +88,6 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	if (_fs->audio_sample_rate != dcp_audio_sample_rate (_fs->audio_sample_rate)) {
-#if HAVE_SWRESAMPLE		
-		_swr_context = swr_alloc_set_opts (
-			0,
-			audio_channel_layout(),
-			audio_sample_format(),
-			dcp_audio_sample_rate (_fs->audio_sample_rate),
-			audio_channel_layout(),
-			audio_sample_format(),
-			_fs->audio_sample_rate,
-			0, 0
-			);
-		
-		swr_init (_swr_context);
-#else
-		throw DecodeError ("Cannot resample audio as libswresample is not present");
-#endif		
-	} else {
-#if HAVE_SWRESAMPLE		
-		_swr_context = 0;
-#endif		
-	}
-
 	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * _fs->bytes_per_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
@@ -125,35 +99,6 @@ Decoder::process_begin ()
 void
 Decoder::process_end ()
 {
-#if HAVE_SWRESAMPLE	
-	if (_swr_context) {
-
-		int mop = 0;
-		while (1) {
-			uint8_t buffer[256 * _fs->bytes_per_sample() * _fs->audio_channels];
-			uint8_t* out[1] = {
-				buffer
-			};
-
-			int const frames = swr_convert (_swr_context, out, 256, 0, 0);
-
-			if (frames < 0) {
-				throw DecodeError ("could not run sample-rate converter");
-			}
-
-			if (frames == 0) {
-				break;
-			}
-
-			mop += frames;
-			int available = _delay_line->feed (buffer, frames * _fs->audio_channels * _fs->bytes_per_sample());
-			Audio (buffer, available);
-		}
-
-		swr_free (&_swr_context);
-	}
-#endif	
-	
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
@@ -166,7 +111,7 @@ Decoder::process_end ()
 	*/
 
 	int64_t const audio_short_by_frames =
-		((int64_t) decoding_frames() * dcp_audio_sample_rate (_fs->audio_sample_rate) / _fs->frames_per_second)
+		((int64_t) decoding_frames() * _fs->audio_sample_rate / _fs->frames_per_second)
 		- _audio_frames_processed;
 
 	if (audio_short_by_frames >= 0) {
@@ -240,15 +185,8 @@ Decoder::pass ()
 void
 Decoder::process_audio (uint8_t* data, int size)
 {
-	/* Here's samples per channel */
+	/* Samples per channel */
 	int const samples = size / _fs->bytes_per_sample();
-
-#if HAVE_SWRESAMPLE	
-	/* And here's frames (where 1 frame is a collection of samples, 1 for each channel,
-	   so for 5.1 a frame would be 6 samples)
-	*/
-	int const frames = samples / _fs->audio_channels;
-#endif	
 
 	/* Maybe apply gain */
 	if (_fs->audio_gain != 0) {
@@ -282,51 +220,12 @@ Decoder::process_audio (uint8_t* data, int size)
 		}
 	}
 
-	/* This is a buffer we might use if we are sample-rate converting;
-	   it will need freeing if so.
-	*/
-	uint8_t* out_buffer = 0;
-
-	/* Maybe sample-rate convert */
-#if HAVE_SWRESAMPLE	
-	if (_swr_context) {
-
-		uint8_t const * in[2] = {
-			data,
-			0
-		};
-
-		/* Compute the resampled frame count and add 32 for luck */
-		int const out_buffer_size_frames = ceil (frames * float (dcp_audio_sample_rate (_fs->audio_sample_rate)) / _fs->audio_sample_rate) + 32;
-		int const out_buffer_size_bytes = out_buffer_size_frames * _fs->audio_channels * _fs->bytes_per_sample();
-		out_buffer = new uint8_t[out_buffer_size_bytes];
-
-		uint8_t* out[2] = {
-			out_buffer, 
-			0
-		};
-
-		/* Resample audio */
-		int out_frames = swr_convert (_swr_context, out, out_buffer_size_frames, in, frames);
-		if (out_frames < 0) {
-			throw DecodeError ("could not run sample-rate converter");
-		}
-
-		/* And point our variables at the resampled audio */
-		data = out_buffer;
-		size = out_frames * _fs->audio_channels * _fs->bytes_per_sample();
-	}
-#endif	
-		
 	/* Update the number of audio frames we've pushed to the encoder */
 	_audio_frames_processed += size / (_fs->audio_channels * _fs->bytes_per_sample ());
 
 	/* Push into the delay line and then tell the world what we've got */
 	int available = _delay_line->feed (data, size);
 	Audio (data, available);
-
-	/* Delete the sample-rate conversion buffer, if it exists */
-	delete[] out_buffer;
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
