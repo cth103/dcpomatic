@@ -41,6 +41,7 @@ Job::Job (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
+	, _ran_for (0)
 {
 	assert (_log);
 	
@@ -121,6 +122,10 @@ Job::set_state (State s)
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	_state = s;
+
+	if (_state == FINISHED_OK || _state == FINISHED_ERROR) {
+		_ran_for = elapsed_time ();
+	}
 }
 
 /** A hack to work around our lack of cross-thread
@@ -245,7 +250,7 @@ Job::status () const
 	} else if (!finished () && (t <= 10 || r == 0)) {
 		s << rint (p * 100) << "%";
 	} else if (finished_ok ()) {
-		s << "OK (ran for " << seconds_to_hms (t) << ")";
+		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
 	} else if (finished_in_error ()) {
 		s << "Error (" << error() << ")";
 	}

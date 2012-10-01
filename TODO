@@ -1,7 +1,12 @@
 EC2
 
 Small instance $0.085 ph
-Sintel Trailer 1080p @ 250000 Mbps
+Sintel Trailer 1080p @ 200000 Mbps
+1247 frames @ 24fps ie 51.96s
+Took 1h20 to encode
+
+Transfer in free
+Transfer out $0.120 per GB
 
 
 Port DVD rip
