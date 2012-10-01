@@ -216,7 +216,12 @@ void
 J2KWAVEncoder::process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format)
 {
 	if ((_fs->audio_sample_rate != dcp_audio_sample_rate (_fs->audio_sample_rate)) || (rint (_fs->frames_per_second) != _fs->frames_per_second)) {
-#ifdef HAVE_SWRESAMPLE		
+#ifdef HAVE_SWRESAMPLE
+
+		stringstream s;
+		s << "Will resample audio from " << _fs->audio_sample_rate << " to " << target_sample_rate();
+		_log->log (s.str ());
+		
 		_swr_context = swr_alloc_set_opts (
 			0,
 			audio_channel_layout,
