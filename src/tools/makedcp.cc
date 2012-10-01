@@ -34,6 +34,7 @@
 #include "version.h"
 #include "cross.h"
 #include "config.h"
+#include "log.h"
 
 using namespace std;
 using namespace boost;
@@ -58,6 +59,7 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool test_mode = false;
 	bool progress = true;
+	int log_level = 1;
 
 	int option_index = 0;
 	while (1) {
@@ -68,10 +70,11 @@ main (int argc, char* argv[])
 			{ "config", no_argument, 0, 'c'},
 			{ "test", no_argument, 0, 't'},
 			{ "no-progress", no_argument, 0, 'n'},
+			{ "log-level", required_argument, 0, 'l' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdctn", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdctnl:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -102,6 +105,9 @@ main (int argc, char* argv[])
 			cout << "built in optimised mode\n";
 #endif			
 			exit (EXIT_SUCCESS);
+		case 'l':
+			log_level = atoi (optarg);
+			break;
 		}
 	}
 
@@ -133,6 +139,8 @@ main (int argc, char* argv[])
 		cerr << argv[0] << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
 	}
+
+	film->log()->set_level ((Log::Level) log_level);
 
 	cout << "\nMaking ";
 	if (film->dcp_ab ()) {

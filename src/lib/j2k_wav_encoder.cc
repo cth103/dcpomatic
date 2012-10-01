@@ -108,7 +108,9 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _worker_threads.size() * 2 && !_process_end) {
+		_log->microsecond_log ("Decoder sleeps", Log::TIMING);
 		_worker_condition.wait (lock);
+		_log->microsecond_log ("Decoder wakes", Log::TIMING);
 	}
 
 	if (_process_end) {
@@ -118,6 +120,7 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 	/* Only do the processing if we don't already have a file for this frame */
 	if (!boost::filesystem::exists (_opt->frame_out_path (frame, false))) {
 		pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters);
+		_log->microsecond_log ("Adding to queue of " + boost::lexical_cast<string> (_queue.size ()), Log::TIMING);
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  yuv, _opt->out_size, _opt->padding, _fs->scaler, frame, _fs->frames_per_second, s.second,
@@ -144,7 +147,9 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 	while (1) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty () && !_process_end) {
+			_log->microsecond_log ("Encoder thread sleeps", Log::TIMING);
 			_worker_condition.wait (lock);
+			_log->microsecond_log ("Encoder thread wakes", Log::TIMING);
 		}
 
 		if (_process_end) {
@@ -152,6 +157,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 		}
 
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
+		_log->microsecond_log ("Encoder thread wakes with queue of " + boost::lexical_cast<string> (_queue.size ()), Log::TIMING);
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -183,7 +189,9 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				
 		} else {
 			try {
+				_log->microsecond_log ("Encoder thread begins local encode of " + lexical_cast<string> (vf->frame ()), Log::TIMING);
 				encoded = vf->encode_locally ();
+				_log->microsecond_log ("Encoder thread finishes local encode of " + lexical_cast<string> (vf->frame ()), Log::TIMING);
 			} catch (std::exception& e) {
 				stringstream s;
 				s << "Local encode failed " << e.what() << ".";

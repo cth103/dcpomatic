@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <stdint.h>
+#include <boost/lexical_cast.hpp>
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
@@ -409,6 +410,7 @@ Decoder::process_video (AVFrame* frame)
 				image->make_black ();
 			}
 
+			_log->microsecond_log ("Decoder emits " + lexical_cast<string> (_video_frame), Log::TIMING);
 			Video (image, _video_frame);
 			++_video_frame;
 		}
