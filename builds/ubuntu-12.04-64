@@ -3,14 +3,14 @@
 export DEST=dvdomatic-ubuntu-12.04-64
 export ENV=/home/carl/Environments/ubuntu-12.04-64
 
-#./waf clean
+./waf clean
 
 export PATH=$ENV/bin:$PATH
 export PKG_CONFIG_LIBDIR=$ENV/lib/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig
 
 CXXFLAGS="-I$ENV_PREFIX/include" \
   LINKFLAGS="-L$ENV_PREFIX/lib" \
-  ./waf configure --enable-debug
+  ./waf configure
 
 ./waf
 
