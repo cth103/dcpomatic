@@ -80,6 +80,7 @@ public:
 	int thumb_frame (int) const;
 
 	int bytes_per_sample () const;
+	int target_sample_rate () const;
 	
 	void write_metadata (std::ofstream &) const;
 	void read_metadata (std::string, std::string);

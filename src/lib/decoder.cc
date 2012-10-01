@@ -111,18 +111,23 @@ Decoder::process_end ()
 	*/
 
 	int64_t const audio_short_by_frames =
-		((int64_t) decoding_frames() * _fs->audio_sample_rate / _fs->frames_per_second)
+		((int64_t) decoding_frames() * _fs->target_sample_rate() / _fs->frames_per_second)
 		- _audio_frames_processed;
 
 	if (audio_short_by_frames >= 0) {
-		int bytes = audio_short_by_frames * _fs->audio_channels * _fs->bytes_per_sample();
+
+		stringstream s;
+		s << "Adding " << audio_short_by_frames << " frames of silence to the end.";
+		_log->log (s.str ());
+
+		int64_t bytes = audio_short_by_frames * _fs->audio_channels * _fs->bytes_per_sample();
 		
-		int const silence_size = 64 * 1024;
+		int64_t const silence_size = 64 * 1024;
 		uint8_t silence[silence_size];
 		memset (silence, 0, silence_size);
 		
 		while (bytes) {
-			int const t = min (bytes, silence_size);
+			int64_t const t = min (bytes, silence_size);
 			Audio (silence, t);
 			bytes -= t;
 		}

@@ -55,8 +55,6 @@ public:
 
 private:
 
-	int target_sample_rate () const;
-
 	void write_audio (uint8_t* data, int size);
 	void encoder_thread (ServerDescription *);
 	void close_sound_files ();
