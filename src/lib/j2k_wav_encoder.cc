@@ -145,11 +145,16 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 	int remote_backoff = 0;
 	
 	while (1) {
+
+		{
+			stringstream s;
+			s << "Encoder thread " << pthread_self() << " sleeps.";
+			_log->microsecond_log (s.str(), Log::TIMING);
+		}
+		
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty () && !_process_end) {
-			_log->microsecond_log ("Encoder thread sleeps", Log::TIMING);
 			_worker_condition.wait (lock);
-			_log->microsecond_log ("Encoder thread wakes", Log::TIMING);
 		}
 
 		if (_process_end) {
@@ -157,7 +162,13 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 		}
 
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_log->microsecond_log ("Encoder thread wakes with queue of " + boost::lexical_cast<string> (_queue.size ()), Log::TIMING);
+
+		{
+			stringstream s;
+			s << "Encoder thread " << pthread_self() << " wakes with queue of " << _queue.size();
+			_log->microsecond_log (s.str(), Log::TIMING);
+		}
+		
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -189,9 +200,19 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				
 		} else {
 			try {
-				_log->microsecond_log ("Encoder thread begins local encode of " + lexical_cast<string> (vf->frame ()), Log::TIMING);
+				{
+					stringstream s;
+					s << "Encoder thread " << pthread_self() << " begins local encode of " << vf->frame();
+					_log->microsecond_log (s.str(), Log::TIMING);
+				}
+
 				encoded = vf->encode_locally ();
-				_log->microsecond_log ("Encoder thread finishes local encode of " + lexical_cast<string> (vf->frame ()), Log::TIMING);
+
+				{
+					stringstream s;
+					s << "Encoder thread " << pthread_self() << " finishes local encode of " << vf->frame();
+					_log->microsecond_log (s.str(), Log::TIMING);
+				}
 			} catch (std::exception& e) {
 				stringstream s;
 				s << "Local encode failed " << e.what() << ".";
