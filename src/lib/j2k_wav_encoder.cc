@@ -46,6 +46,9 @@ using namespace boost;
 
 J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
 	: Encoder (s, o, l)
+#ifdef HAVE_SWRESAMPLE	  
+	, _swr_context (0)
+#endif	  
 	, _deinterleave_buffer_size (8192)
 	, _deinterleave_buffer (0)
 	, _process_end (false)
@@ -216,8 +219,36 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 }
 
 void
-J2KWAVEncoder::process_begin ()
+J2KWAVEncoder::process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format)
 {
+	if ((_fs->audio_sample_rate != dcp_audio_sample_rate (_fs->audio_sample_rate)) || (rint (_fs->frames_per_second) != _fs->frames_per_second)) {
+#ifdef HAVE_SWRESAMPLE
+
+		stringstream s;
+		s << "Will resample audio from " << _fs->audio_sample_rate << " to " << _fs->target_sample_rate();
+		_log->log (s.str ());
+		
+		_swr_context = swr_alloc_set_opts (
+			0,
+			audio_channel_layout,
+			audio_sample_format,
+			_fs->target_sample_rate(),
+			audio_channel_layout,
+			audio_sample_format,
+			_fs->audio_sample_rate,
+			0, 0
+			);
+		
+		swr_init (_swr_context);
+#else
+		throw EncodeError ("Cannot resample audio as libswresample is not present");
+#endif
+	} else {
+#ifdef HAVE_SWRESAMPLE
+		_swr_context = 0;
+#endif		
+	}
+	
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
 		_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, (ServerDescription *) 0)));
 	}
@@ -270,6 +301,33 @@ J2KWAVEncoder::process_end ()
 			_log->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
 	}
+
+#if HAVE_SWRESAMPLE	
+	if (_swr_context) {
+
+		while (1) {
+			uint8_t buffer[256 * _fs->bytes_per_sample() * _fs->audio_channels];
+			uint8_t* out[2] = {
+				buffer,
+				0
+			};
+
+			int const frames = swr_convert (_swr_context, out, 256, 0, 0);
+
+			if (frames < 0) {
+				throw EncodeError ("could not run sample-rate converter");
+			}
+
+			if (frames == 0) {
+				break;
+			}
+
+			write_audio (buffer, frames * _fs->bytes_per_sample() * _fs->audio_channels);
+		}
+
+		swr_free (&_swr_context);
+	}
+#endif	
 	
 	close_sound_files ();
 
@@ -283,39 +341,92 @@ J2KWAVEncoder::process_end ()
 }
 
 void
-J2KWAVEncoder::process_audio (uint8_t* data, int data_size)
+J2KWAVEncoder::process_audio (uint8_t* data, int size)
 {
-	/* Size of a sample in bytes */
-	int const sample_size = 2;
-	
-	/* XXX: we are assuming that sample_size is right, the _deinterleave_buffer_size is a multiple
-	   of the sample size and that data_size is a multiple of _fs->audio_channels * sample_size.
+	/* This is a buffer we might use if we are sample-rate converting;
+	   it will need freeing if so.
 	*/
+	uint8_t* out_buffer = 0;
+	
+	/* Maybe sample-rate convert */
+#if HAVE_SWRESAMPLE	
+	if (_swr_context) {
+
+		uint8_t const * in[2] = {
+			data,
+			0
+		};
+
+		/* Here's samples per channel */
+		int const samples = size / _fs->bytes_per_sample();
+		
+		/* And here's frames (where 1 frame is a collection of samples, 1 for each channel,
+		   so for 5.1 a frame would be 6 samples)
+		*/
+		int const frames = samples / _fs->audio_channels;
+
+		/* Compute the resampled frame count and add 32 for luck */
+		int const out_buffer_size_frames = ceil (frames * _fs->target_sample_rate() / _fs->audio_sample_rate) + 32;
+		int const out_buffer_size_bytes = out_buffer_size_frames * _fs->audio_channels * _fs->bytes_per_sample();
+		out_buffer = new uint8_t[out_buffer_size_bytes];
+
+		uint8_t* out[2] = {
+			out_buffer, 
+			0
+		};
+
+		/* Resample audio */
+		int out_frames = swr_convert (_swr_context, out, out_buffer_size_frames, in, frames);
+		if (out_frames < 0) {
+			throw EncodeError ("could not run sample-rate converter");
+		}
+
+		/* And point our variables at the resampled audio */
+		data = out_buffer;
+		size = out_frames * _fs->audio_channels * _fs->bytes_per_sample();
+	}
+#endif
+
+	write_audio (data, size);
+
+	/* Delete the sample-rate conversion buffer, if it exists */
+	delete[] out_buffer;
+}
+
+void
+J2KWAVEncoder::write_audio (uint8_t* data, int size)
+{
+	/* XXX: we are assuming that the _deinterleave_buffer_size is a multiple
+	   of the sample size and that size is a multiple of _fs->audio_channels * sample_size.
+	*/
+
+	assert ((size % (_fs->audio_channels * _fs->bytes_per_sample())) == 0);
+	assert ((_deinterleave_buffer_size % _fs->bytes_per_sample()) == 0);
 	
 	/* XXX: this code is very tricksy and it must be possible to make it simpler ... */
 	
 	/* Number of bytes left to read this time */
-	int remaining = data_size;
+	int remaining = size;
 	/* Our position in the output buffers, in bytes */
 	int position = 0;
 	while (remaining > 0) {
 		/* How many bytes of the deinterleaved data to do this time */
 		int this_time = min (remaining / _fs->audio_channels, _deinterleave_buffer_size);
 		for (int i = 0; i < _fs->audio_channels; ++i) {
-			for (int j = 0; j < this_time; j += sample_size) {
-				for (int k = 0; k < sample_size; ++k) {
+			for (int j = 0; j < this_time; j += _fs->bytes_per_sample()) {
+				for (int k = 0; k < _fs->bytes_per_sample(); ++k) {
 					int const to = j + k;
-					int const from = position + (i * sample_size) + (j * _fs->audio_channels) + k;
+					int const from = position + (i * _fs->bytes_per_sample()) + (j * _fs->audio_channels) + k;
 					_deinterleave_buffer[to] = data[from];
 				}
 			}
 			
 			switch (_fs->audio_sample_format) {
 			case AV_SAMPLE_FMT_S16:
-				sf_write_short (_sound_files[i], (const short *) _deinterleave_buffer, this_time / sample_size);
+				sf_write_short (_sound_files[i], (const short *) _deinterleave_buffer, this_time / _fs->bytes_per_sample());
 				break;
 			default:
-				throw DecodeError ("unknown audio sample format");
+				throw EncodeError ("unknown audio sample format");
 			}
 		}
 		
@@ -323,3 +434,4 @@ J2KWAVEncoder::process_audio (uint8_t* data, int data_size)
 		remaining -= this_time * _fs->audio_channels;
 	}
 }
+
