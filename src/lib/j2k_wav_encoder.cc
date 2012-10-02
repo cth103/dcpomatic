@@ -221,7 +221,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 void
 J2KWAVEncoder::process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format)
 {
-	if ((_fs->audio_sample_rate != dcp_audio_sample_rate (_fs->audio_sample_rate)) || (rint (_fs->frames_per_second) != _fs->frames_per_second)) {
+	if (_fs->audio_sample_rate != _fs->target_sample_rate ()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
