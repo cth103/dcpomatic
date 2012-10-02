@@ -285,8 +285,8 @@ FilmState::target_sample_rate () const
 {
 	double t = dcp_audio_sample_rate (audio_sample_rate);
 	if (rint (frames_per_second) != frames_per_second) {
-		if (fabs (frames_per_second - 23.976) < 1e-6) {
-			/* 24fps drop-frame ie 24 * 1000 / 1001 frames per second;
+		if (fabs (frames_per_second - 23.976) < 1e-6 || (fabs (frames_per_second - 29.97) < 1e-6)) {
+			/* 24fps or 30fps drop-frame ie {24,30} * 1000 / 1001 frames per second;
 			   hence we need to resample the audio to dcp_audio_sample_rate * 1000 / 1001
 			   so that when we play it back at dcp_audio_sample_rate it is sped up
 			   by the same amount that the video is
