@@ -1,5 +1,9 @@
 2012-10-02  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.54 released.
+
+2012-10-02  Carl Hetherington  <cth@carlh.net>
+
 	* When encoding 24 frames per second drop
 	frame (ie 23.976 frames per second) run the
 	video at 24 FPS and resample the audio so
