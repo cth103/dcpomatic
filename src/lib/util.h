@@ -34,6 +34,13 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 
+#ifdef DVDOMATIC_DEBUG
+#include "compose.hpp"
+#define TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
+#else
+#define TIMING(...)
+#endif
+
 class Scaler;
 
 extern std::string seconds_to_hms (int);

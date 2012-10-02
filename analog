@@ -1,0 +1,53 @@
+#!/usr/bin/python
+
+import sys
+
+class Encoder:
+      def __init__(self):
+            self.awake = 0
+            self.asleep = 0
+            self.last_event = 0
+            self.state = None
+
+encoders = dict()
+
+f = open(sys.argv[1], 'r')
+while 1:
+      l = f.readline()
+      if l == '':
+      	 break
+
+      s = l.split()
+      if len(s) == 0:
+            continue
+
+      t = s[0].split(':')
+      if len(t) != 2:
+            continue
+
+      secs = float(t[0]) + float(t[1]) / 1e6
+      if s[1] == 'encoder' and s[2] == 'thread' and s[4] == 'finishes':
+            tid = s[3]
+            if not tid in encoders:
+                  encoders[tid] = Encoder()
+
+            assert(encoders[tid].state == None or encoders[tid].state == 'awake')
+            if encoders[tid].state == 'awake':
+                  encoders[tid].awake += (secs - encoders[tid].last_event)
+
+            encoders[tid].state = 'asleep'
+            encoders[tid].last_event = secs
+
+      elif s[1] == 'encoder' and s[2] == 'thread' and s[4] == 'begins':
+            tid = s[3]
+            if not tid in encoders:
+                  encoders[tid] = Encoder()
+
+            if encoders[tid].state is not None:
+                  encoders[tid].asleep += (secs - encoders[tid].last_event)
+
+            encoders[tid].state = 'awake'
+            encoders[tid].last_event = secs
+
+for k, v in encoders.iteritems():
+      print '%s: awake %f asleep %f' % (k, v.awake, v.asleep)

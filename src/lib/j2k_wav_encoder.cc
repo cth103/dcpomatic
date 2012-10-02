@@ -108,9 +108,9 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _worker_threads.size() * 2 && !_process_end) {
-		_log->microsecond_log ("Decoder sleeps", Log::TIMING);
+		TIMING ("decoder sleeps with queue of %1", _queue.size());
 		_worker_condition.wait (lock);
-		_log->microsecond_log ("Decoder wakes", Log::TIMING);
+		TIMING ("decoder wakes with queue of %1", _queue.size());
 	}
 
 	if (_process_end) {
@@ -120,7 +120,7 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 	/* Only do the processing if we don't already have a file for this frame */
 	if (!boost::filesystem::exists (_opt->frame_out_path (frame, false))) {
 		pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters);
-		_log->microsecond_log ("Adding to queue of " + boost::lexical_cast<string> (_queue.size ()), Log::TIMING);
+		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  yuv, _opt->out_size, _opt->padding, _fs->scaler, frame, _fs->frames_per_second, s.second,
@@ -146,12 +146,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 	
 	while (1) {
 
-		{
-			stringstream s;
-			s << "Encoder thread " << pthread_self() << " sleeps.";
-			_log->microsecond_log (s.str(), Log::TIMING);
-		}
-		
+		TIMING ("encoder thread %1 sleeps", pthread_self ());
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty () && !_process_end) {
 			_worker_condition.wait (lock);
@@ -161,14 +156,8 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 			return;
 		}
 
+		TIMING ("encoder thread %1 wakes with queue of %2", pthread_self(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
-
-		{
-			stringstream s;
-			s << "Encoder thread " << pthread_self() << " wakes with queue of " << _queue.size();
-			_log->microsecond_log (s.str(), Log::TIMING);
-		}
-		
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -200,19 +189,9 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				
 		} else {
 			try {
-				{
-					stringstream s;
-					s << "Encoder thread " << pthread_self() << " begins local encode of " << vf->frame();
-					_log->microsecond_log (s.str(), Log::TIMING);
-				}
-
+				TIMING ("encoder thread %1 begins local encode of %2", pthread_self(), vf->frame());
 				encoded = vf->encode_locally ();
-
-				{
-					stringstream s;
-					s << "Encoder thread " << pthread_self() << " finishes local encode of " << vf->frame();
-					_log->microsecond_log (s.str(), Log::TIMING);
-				}
+				TIMING ("encoder thread %1 finishes local encode of %2", pthread_self(), vf->frame());
 			} catch (std::exception& e) {
 				stringstream s;
 				s << "Local encode failed " << e.what() << ".";

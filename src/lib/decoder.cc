@@ -410,7 +410,7 @@ Decoder::process_video (AVFrame* frame)
 				image->make_black ();
 			}
 
-			_log->microsecond_log ("Decoder emits " + lexical_cast<string> (_video_frame), Log::TIMING);
+			TIMING ("Decoder emits %1", _video_frame);
 			Video (image, _video_frame);
 			++_video_frame;
 		}

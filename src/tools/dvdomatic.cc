@@ -352,11 +352,12 @@ public:
 		info.SetName (_("DVD-o-matic"));
 		info.SetVersion (wxT (DVDOMATIC_VERSION));
 		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
-		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis"));
+		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
 		wxArrayString authors;
 		authors.Add (wxT ("Carl Hetherington"));
 		authors.Add (wxT ("Terrence Meiczinger"));
 		authors.Add (wxT ("Paul Davis"));
+		authors.Add (wxT ("Ole Laursen"));
 		info.SetDevelopers (authors);
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
 		wxAboutBox (info);
