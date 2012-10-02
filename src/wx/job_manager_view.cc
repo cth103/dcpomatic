@@ -111,9 +111,7 @@ JobManagerView::update ()
 			try {
 				(*i)->emit_finished ();
 			} catch (OpenFileError& e) {
-				stringstream s;
-				s << "Error: " << e.what();
-				error_dialog (this, s.str ());
+				error_dialog (this, String::compose ("Error: %1", e.what ()));
 			}
 			
 			_job_records[*i].informed_of_finish = true;

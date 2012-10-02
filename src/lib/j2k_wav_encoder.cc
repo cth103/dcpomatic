@@ -169,9 +169,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				encoded = vf->encode_remotely (server);
 
 				if (remote_backoff > 0) {
-					stringstream s;
-					s << server->host_name() << " was lost, but now she is found; removing backoff";
-					_log->log (s.str ());
+					_log->log (String::compose ("%1 was lost, but now she is found; removing backoff", server->host_name ()));
 				}
 				
 				/* This job succeeded, so remove any backoff */
@@ -182,9 +180,11 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 					/* back off more */
 					remote_backoff += 10;
 				}
-				stringstream s;
-				s << "Remote encode of " << vf->frame() << " on " << server->host_name() << " failed (" << e.what() << "); thread sleeping for " << remote_backoff << "s.";
-				_log->log (s.str ());
+				_log->log (
+					String::compose (
+						"Remote encode of %1 on %2 failed (%3); thread sleeping for %4s",
+						vf->frame(), server->host_name(), e.what(), remote_backoff)
+					);
 			}
 				
 		} else {
@@ -193,9 +193,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				encoded = vf->encode_locally ();
 				TIMING ("encoder thread %1 finishes local encode of %2", pthread_self(), vf->frame());
 			} catch (std::exception& e) {
-				stringstream s;
-				s << "Local encode failed " << e.what() << ".";
-				_log->log (s.str ());
+				_log->log (String::compose ("Local encode failed (%1)", e.what ()));
 			}
 		}
 
@@ -263,17 +261,13 @@ J2KWAVEncoder::process_end ()
 	*/
 
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
-		stringstream s;
-		s << "Encode left-over frame " << (*i)->frame();
-		_log->log (s.str ());
+		_log->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
 		try {
 			shared_ptr<EncodedData> e = (*i)->encode_locally ();
 			e->write (_opt, (*i)->frame ());
 			frame_done ((*i)->frame ());
 		} catch (std::exception& e) {
-			stringstream s;
-			s << "Local encode failed " << e.what() << ".";
-			_log->log (s.str ());
+			_log->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
 	}
 	

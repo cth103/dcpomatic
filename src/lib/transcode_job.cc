@@ -48,9 +48,7 @@ TranscodeJob::TranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Opti
 string
 TranscodeJob::name () const
 {
-	stringstream s;
-	s << "Transcode " << _fs->name;
-	return s.str ();
+	return String::compose ("Transcode %1", _fs->name);
 }
 
 void
@@ -70,12 +68,9 @@ TranscodeJob::run ()
 
 	} catch (std::exception& e) {
 
-		stringstream s;
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-
-		s << "Transcode job failed (" << e.what() << ")";
-		_log->log (s.str ());
+		_log->log (String::compose ("Transcode job failed (%1)", e.what()));
 
 		throw;
 	}

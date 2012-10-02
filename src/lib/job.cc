@@ -69,9 +69,7 @@ Job::run_wrapper ()
 		
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		stringstream s;
-		s << e.what() << "(" << filesystem::path (e.filename()).leaf() << ")";
-		set_error (s.str ());
+		set_error (String::compose ("%1 (%2)", e.what(), filesystem::path (e.filename()).leaf()));
 		
 	} catch (std::exception& e) {
 

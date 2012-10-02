@@ -289,9 +289,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 		_film->set_content (wx_to_std (_content->GetPath ()));
 	} catch (std::exception& e) {
 		_content->SetPath (std_to_wx (_film->directory ()));
-		stringstream m;
-		m << "Could not set content: " << e.what() << ".";
-		error_dialog (this, m.str ());
+		error_dialog (this, String::compose ("Could not set content: %1", e.what ()));
 	}
 
 	_ignore_changes = Film::NONE;

@@ -41,9 +41,7 @@ CheckHashesJob::CheckHashesJob (shared_ptr<const FilmState> s, shared_ptr<const 
 string
 CheckHashesJob::name () const
 {
-	stringstream s;
-	s << "Check hashes of " << _fs->name;
-	return s.str ();
+	return String::compose ("Check hashes of %1", _fs->name);
 }
 
 void
