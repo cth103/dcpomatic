@@ -1,3 +1,7 @@
+2012-10-02  Carl Hetherington  <cth@carlh.net>
+
+	* Some code cleanup.
+
 2012-10-01  Carl Hetherington  <cth@carlh.net>
 
 	* Fix aff/666: thumbnail scan is run twice
