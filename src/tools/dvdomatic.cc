@@ -38,6 +38,7 @@
 #include "lib/util.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
+#include "lib/version.h"
 
 using namespace std;
 using namespace boost;

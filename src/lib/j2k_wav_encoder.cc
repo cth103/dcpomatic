@@ -161,6 +161,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 
 		TIMING ("encoder thread %1 wakes with queue of %2", pthread_self(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
+		_log->log (String::compose ("Encoder thread %1 pops frame %2 from queue", pthread_self(), vf->frame()));
 		_queue.pop_front ();
 		
 		lock.unlock ();
