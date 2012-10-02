@@ -206,6 +206,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 			frame_done (vf->frame ());
 		} else {
 			lock.lock ();
+			_log->log (String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", pthread_self(), vf->frame()));
 			_queue.push_front (vf);
 			lock.unlock ();
 		}
