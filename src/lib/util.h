@@ -33,9 +33,9 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
+#include "compose.hpp"
 
 #ifdef DVDOMATIC_DEBUG
-#include "compose.hpp"
 #define TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
 #else
 #define TIMING(...)
