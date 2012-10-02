@@ -20,7 +20,6 @@ def configure(conf):
         conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
-    conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
 
     # Turn off player for now
     conf.options.disable_player = True

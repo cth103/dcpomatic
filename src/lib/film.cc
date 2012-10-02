@@ -49,6 +49,7 @@
 #include "decoder_factory.h"
 #include "config.h"
 #include "check_hashes_job.h"
+#include "version.h"
 
 using namespace std;
 using namespace boost;
@@ -483,7 +484,7 @@ Film::make_dcp (bool transcode, int freq)
 		throw BadSettingError ("name", "cannot contain slashes");
 	}
 	
-	log()->log (String::compose ("DVD-o-matic %1 using %2", DVDOMATIC_VERSION, dependency_version_summary()));
+	log()->log (String::compose ("DVD-o-matic %1 git %2 using %3", dvdomatic_version, dvdomatic_git_commit, dependency_version_summary()));
 
 	{
 		char buffer[128];
