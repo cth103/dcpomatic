@@ -171,7 +171,7 @@ END_EVENT_TABLE ()
 
 FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	: wxPanel (p)
-	, _film (f)
+	, _film (0)
 {
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_sizer);
@@ -232,6 +232,10 @@ FilmViewer::film_changed (Film::Property p)
 void
 FilmViewer::set_film (Film* f)
 {
+	if (_film == f) {
+		return;
+	}
+	
 	_film = f;
 	_thumb_panel->set_film (_film);
 

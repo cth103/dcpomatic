@@ -78,9 +78,7 @@ public:
 	{
 		scp = ssh_scp_new (s, SSH_SCP_WRITE | SSH_SCP_RECURSIVE, Config::instance()->tms_path().c_str ());
 		if (!scp) {
-			stringstream s;
-			s << "Could not start SCP session (" << ssh_get_error (s) << ")";
-			throw NetworkError (s.str ());
+			throw NetworkError (String::compose ("Could not start SCP session (%1)", ssh_get_error (s)));
 		}
 	}
 
@@ -103,9 +101,7 @@ SCPDCPJob::SCPDCPJob (shared_ptr<const FilmState> s, Log* l)
 string
 SCPDCPJob::name () const
 {
-	stringstream s;
-	s << "Copy DCP to TMS";
-	return s.str ();
+	return "Copy DCP to TMS";
 }
 
 void
@@ -124,39 +120,29 @@ SCPDCPJob::run ()
 	
 	int r = ss.connect ();
 	if (r != SSH_OK) {
-		stringstream s;
-		s << "Could not connect to server " << Config::instance()->tms_ip() << " (" << ssh_get_error (ss.session) << ")";
-		throw NetworkError (s.str ());
+		throw NetworkError (String::compose ("Could not connect to server %1 (%2)", Config::instance()->tms_ip(), ssh_get_error (ss.session)));
 	}
 	
 	int const state = ssh_is_server_known (ss.session);
 	if (state == SSH_SERVER_ERROR) {
-		stringstream s;
-		s << "SSH error (" << ssh_get_error (ss.session) << ")";
-		throw NetworkError (s.str ());
+		throw NetworkError (String::compose ("SSH error (%1)", ssh_get_error (ss.session)));
 	}
 	
 	r = ssh_userauth_password (ss.session, 0, Config::instance()->tms_password().c_str ());
 	if (r != SSH_AUTH_SUCCESS) {
-		stringstream s;
-		s << "Failed to authenticate with server (" << ssh_get_error (ss.session) << ")";
-		throw NetworkError (s.str ());
+		throw NetworkError (String::compose ("Failed to authenticate with server (%1)", ssh_get_error (ss.session)));
 	}
 	
 	SSHSCP sc (ss.session);
 	
 	r = ssh_scp_init (sc.scp);
 	if (r != SSH_OK) {
-		stringstream s;
-		s << "Could not start SCP session (" << ssh_get_error (ss.session) << ")";
-		throw NetworkError (s.str ());
+		throw NetworkError (String::compose ("Could not start SCP session (%1)", ssh_get_error (ss.session)));
 	}
 	
 	r = ssh_scp_push_directory (sc.scp, _fs->name.c_str(), S_IRWXU);
 	if (r != SSH_OK) {
-		stringstream s;
-		s << "Could not create remote directory " << _fs->name << "(" << ssh_get_error (ss.session) << ")";
-		throw NetworkError (s.str ());
+		throw NetworkError (String::compose ("Could not create remote directory %1 (%2)", _fs->name, ssh_get_error (ss.session)));
 	}
 	
 	string const dcp_dir = _fs->dir (_fs->name);
@@ -186,9 +172,7 @@ SCPDCPJob::run ()
 
 		FILE* f = fopen (filesystem::path (*i).string().c_str(), "rb");
 		if (f == 0) {
-			stringstream s;
-			s << "Could not open " << *i << " to send";
-			throw NetworkError (s.str ());
+			throw NetworkError (String::compose ("Could not open %1 to send", *i));
 		}
 
 		while (to_do > 0) {
@@ -200,9 +184,7 @@ SCPDCPJob::run ()
 			
 			r = ssh_scp_write (sc.scp, buffer, t);
 			if (r != SSH_OK) {
-				stringstream s;
-				s << "Could not write to remote file (" << ssh_get_error (ss.session) << ")";
-				throw NetworkError (s.str ());
+				throw NetworkError (String::compose ("Could not write to remote file (%1)", ssh_get_error (ss.session)));
 			}
 			to_do -= t;
 			bytes_transferred += t;

@@ -41,6 +41,7 @@ Job::Job (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
+	, _ran_for (0)
 {
 	assert (_log);
 	
@@ -68,9 +69,7 @@ Job::run_wrapper ()
 		
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		stringstream s;
-		s << e.what() << "(" << filesystem::path (e.filename()).leaf() << ")";
-		set_error (s.str ());
+		set_error (String::compose ("%1 (%2)", e.what(), filesystem::path (e.filename()).leaf()));
 		
 	} catch (std::exception& e) {
 
@@ -121,6 +120,10 @@ Job::set_state (State s)
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	_state = s;
+
+	if (_state == FINISHED_OK || _state == FINISHED_ERROR) {
+		_ran_for = elapsed_time ();
+	}
 }
 
 /** A hack to work around our lack of cross-thread
@@ -245,7 +248,7 @@ Job::status () const
 	} else if (!finished () && (t <= 10 || r == 0)) {
 		s << rint (p * 100) << "%";
 	} else if (finished_ok ()) {
-		s << "OK (ran for " << seconds_to_hms (t) << ")";
+		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
 	} else if (finished_in_error ()) {
 		s << "Error (" << error() << ")";
 	}

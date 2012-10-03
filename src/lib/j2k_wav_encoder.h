@@ -26,6 +26,11 @@
 #include <boost/thread/condition.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
+#ifdef HAVE_SWRESAMPLE
+extern "C" {
+#include <libswresample/swresample.h>
+}
+#endif
 #include <sndfile.h>
 #include "encoder.h"
 
@@ -43,16 +48,21 @@ public:
 	J2KWAVEncoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *);
 	~J2KWAVEncoder ();
 
-	void process_begin ();
+	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format);
 	void process_video (boost::shared_ptr<Image>, int);
 	void process_audio (uint8_t *, int);
 	void process_end ();
 
-private:	
+private:
 
+	void write_audio (uint8_t* data, int size);
 	void encoder_thread (ServerDescription *);
 	void close_sound_files ();
 	void terminate_worker_threads ();
+
+#if HAVE_SWRESAMPLE	
+	SwrContext* _swr_context;
+#endif	
 
 	std::vector<SNDFILE*> _sound_files;
 	int _deinterleave_buffer_size;

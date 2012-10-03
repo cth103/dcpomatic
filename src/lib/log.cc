@@ -42,7 +42,7 @@ Log::log (string m, Level l)
 	if (l > _level) {
 		return;
 	}
-	
+
 	time_t t;
 	time (&t);
 	string a = ctime (&t);
@@ -51,6 +51,23 @@ Log::log (string m, Level l)
 	s << a.substr (0, a.length() - 1) << ": " << m;
 	do_log (s.str ());
 }
+
+void
+Log::microsecond_log (string m, Level l)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if (l > _level) {
+		return;
+	}
+
+	struct timeval tv;
+	gettimeofday (&tv, 0);
+
+	stringstream s;
+	s << tv.tv_sec << ":" << tv.tv_usec << " " << m;
+	do_log (s.str ());
+}	
 
 void
 Log::set_level (Level l)

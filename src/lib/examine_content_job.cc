@@ -43,9 +43,7 @@ ExamineContentJob::~ExamineContentJob ()
 string
 ExamineContentJob::name () const
 {
-	stringstream s;
-	s << "Examine content of " << _fs->name;
-	return s.str ();
+	return String::compose ("Examine content of %1", _fs->name);
 }
 
 void

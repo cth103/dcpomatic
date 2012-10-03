@@ -38,6 +38,7 @@
 #include "lib/util.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
+#include "lib/version.h"
 
 using namespace std;
 using namespace boost;
@@ -350,13 +351,14 @@ public:
 	{
 		wxAboutDialogInfo info;
 		info.SetName (_("DVD-o-matic"));
-		info.SetVersion (wxT (DVDOMATIC_VERSION));
+		info.SetVersion (std_to_wx (String::compose ("DVD-o-matic version %1 git %2", dvdomatic_version, dvdomatic_git_commit)));
 		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
-		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis"));
+		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
 		wxArrayString authors;
 		authors.Add (wxT ("Carl Hetherington"));
 		authors.Add (wxT ("Terrence Meiczinger"));
 		authors.Add (wxT ("Paul Davis"));
+		authors.Add (wxT ("Ole Laursen"));
 		info.SetDevelopers (authors);
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
 		wxAboutBox (info);

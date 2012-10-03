@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.54pre'
+VERSION = '0.55pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -20,7 +20,6 @@ def configure(conf):
         conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
-    conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_VERSION="%s"' % VERSION])
 
     # Turn off player for now
     conf.options.disable_player = True

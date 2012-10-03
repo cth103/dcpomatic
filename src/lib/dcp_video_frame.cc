@@ -262,11 +262,7 @@ DCPVideoFrame::encode_locally ()
 		throw EncodeError ("jpeg2000 encoding failed");
 	}
 
-	{
-		stringstream s;
-		s << "Finished locally-encoded frame " << _frame;
-		_log->log (s.str ());
-	}
+	_log->log (String::compose ("Finished locally-encoded frame %1", _frame));
 	
 	return shared_ptr<EncodedData> (new LocallyEncodedData (_cio->buffer, cio_tell (_cio)));
 }
@@ -318,11 +314,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	/* now read the rest */
 	socket.read_definite_and_consume (e->data(), e->size(), 30);
 
-	{
-		stringstream s;
-		s << "Finished remotely-encoded frame " << _frame;
-		_log->log (s.str ());
-	}
+	_log->log (String::compose ("Finished remotely-encoded frame %1", _frame));
 	
 	return e;
 }

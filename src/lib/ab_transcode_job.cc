@@ -46,9 +46,7 @@ ABTranscodeJob::ABTranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const 
 string
 ABTranscodeJob::name () const
 {
-	stringstream s;
-	s << "A/B transcode " << _fs->name;
-	return s.str ();
+	return String::compose ("A/B transcode %1", _fs->name);
 }
 
 void

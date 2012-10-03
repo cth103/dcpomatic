@@ -52,9 +52,7 @@ MakeDCPJob::MakeDCPJob (shared_ptr<const FilmState> s, shared_ptr<const Options>
 string
 MakeDCPJob::name () const
 {
-	stringstream s;
-	s << "Make DCP for " << _fs->name;
-	return s.str ();
+	return String::compose ("Make DCP for %1", _fs->name);
 }
 
 string

@@ -37,10 +37,12 @@ public:
 
 	enum Level {
 		STANDARD = 0,
-		VERBOSE = 1
+		VERBOSE = 1,
+		TIMING = 2
 	};
 
 	void log (std::string m, Level l = STANDARD);
+	void microsecond_log (std::string m, Level l = STANDARD);
 
 	void set_level (Level l);
 

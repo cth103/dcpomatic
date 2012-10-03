@@ -163,9 +163,7 @@ Server::worker_thread ()
 		if (frame >= 0) {
 			struct timeval end;
 			gettimeofday (&end, 0);
-			stringstream s;
-			s << "Encoded frame " << frame << " in " << (seconds (end) - seconds (start));
-			_log->log (s.str ());
+			_log->log (String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)));
 		}
 		
 		_worker_condition.notify_all ();
@@ -175,9 +173,7 @@ Server::worker_thread ()
 void
 Server::run (int num_threads)
 {
-	stringstream s;
-	s << "Server starting with " << num_threads << " threads.";
-	_log->log (s.str ());
+	_log->log (String::compose ("Server starting with %1 threads", num_threads));
 	
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));

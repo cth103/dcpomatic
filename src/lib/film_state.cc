@@ -35,6 +35,7 @@
 #include "format.h"
 #include "dcp_content_type.h"
 #include "util.h"
+#include "exceptions.h"
 
 using namespace std;
 using namespace boost;
@@ -277,4 +278,24 @@ FilmState::bytes_per_sample () const
 	}
 
 	return 0;
+}
+
+int
+FilmState::target_sample_rate () const
+{
+	double t = dcp_audio_sample_rate (audio_sample_rate);
+	if (rint (frames_per_second) != frames_per_second) {
+		if (fabs (frames_per_second - 23.976) < 1e-6 || (fabs (frames_per_second - 29.97) < 1e-6)) {
+			/* 24fps or 30fps drop-frame ie {24,30} * 1000 / 1001 frames per second;
+			   hence we need to resample the audio to dcp_audio_sample_rate * 1000 / 1001
+			   so that when we play it back at dcp_audio_sample_rate it is sped up
+			   by the same amount that the video is
+			*/
+			t *= double(1000) / 1001;
+		} else {
+			throw EncodeError ("unknown fractional frame rate");
+		}
+	}
+
+	return rint (t);
 }
