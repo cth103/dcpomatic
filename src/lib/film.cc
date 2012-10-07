@@ -534,8 +534,8 @@ Film::make_dcp (bool transcode, int freq)
 	}
 	
 	o->decode_video_frequency = freq;
-	o->padding = format()->dcp_padding ();
-	o->ratio = format()->ratio_as_float ();
+	o->padding = format()->dcp_padding (this);
+	o->ratio = format()->ratio_as_float (this);
 
 	if (transcode) {
 		if (_state.dcp_ab) {

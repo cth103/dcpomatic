@@ -104,11 +104,11 @@ BOOST_AUTO_TEST_CASE (format_test)
 	
 	Format const * f = Format::from_nickname ("Flat");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(), 185);
+	BOOST_CHECK_EQUAL (f->ratio_as_integer(0), 185);
 	
 	f = Format::from_nickname ("Scope");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(), 239);
+	BOOST_CHECK_EQUAL (f->ratio_as_integer(0), 239);
 }
 
 BOOST_AUTO_TEST_CASE (util_test)
@@ -328,7 +328,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	film.set_name ("test_film");
 	film.set_content ("../../../test/test.mp4");
 	film.examine_content ();
-	film.set_format (Format::from_ratio (185));
+	film.set_format (Format::from_nickname ("Flat"));
 	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film.make_dcp (true);
 
@@ -351,7 +351,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	film.set_name ("test_film");
 	film.set_content ("../../../test/test.mp4");
 	film.examine_content ();
-	film.set_format (Format::from_ratio (185));
+	film.set_format (Format::from_nickname ("Flat"));
 	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film.set_dcp_frames (42);
 	film.make_dcp (true);

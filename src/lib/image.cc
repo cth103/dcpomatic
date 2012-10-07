@@ -94,7 +94,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	content_size.width -= (padding * 2);
 
 	shared_ptr<RGBFrameImage> rgb (new RGBFrameImage (content_size));
-	
+
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		content_size.width, content_size.height, PIX_FMT_RGB24,

@@ -18,7 +18,7 @@
 */
 
 /** @file src/format.h
- *  @brief Class to describe a format (aspect ratio) that a Film should
+ *  @brief Classes to describe a format (aspect ratio) that a Film should
  *  be shown in.
  */
 
@@ -26,26 +26,26 @@
 #include <vector>
 #include "util.h"
 
-/** @class Format
- *  @brief Class to describe a format (aspect ratio) that a Film should
- *  be shown in.
- */
+class Film;
+
 class Format
 {
 public:
-	Format (int, Size, std::string, std::string);
+	Format (Size dcp, std::string id, std::string n)
+		: _dcp_size (dcp)
+		, _id (id)
+		, _nickname (n)
+	{}
 
 	/** @return the aspect ratio multiplied by 100
 	 *  (e.g. 239 for Cinemascope 2.39:1)
 	 */
-	int ratio_as_integer () const {
-		return _ratio;
-	}
+	virtual int ratio_as_integer (Film const * f) const = 0;
 
 	/** @return the ratio as a floating point number */
-	float ratio_as_float () const {
-		return _ratio / 100.0;
-	}
+	virtual float ratio_as_float (Film const * f) const = 0;
+
+	int dcp_padding (Film const * f) const;
 
 	/** @return size in pixels of the images that we should
 	 *  put in a DCP for this ratio.  This size will not correspond
@@ -60,7 +60,7 @@ public:
 	}
 
 	/** @return Full name to present to the user */
-	std::string name () const;
+	virtual std::string name () const = 0;
 
 	/** @return Nickname (e.g. Flat, Scope) */
 	std::string nickname () const {
@@ -69,9 +69,6 @@ public:
 
 	std::string as_metadata () const;
 
-	int dcp_padding () const;
-
-	static Format const * from_ratio (int);
 	static Format const * from_nickname (std::string n);
 	static Format const * from_metadata (std::string m);
 	static Format const * from_index (int i);
@@ -79,11 +76,8 @@ public:
 	static int as_index (Format const * f);
 	static std::vector<Format const *> all ();
 	static void setup_formats ();
-	
-private:
 
-	/** Ratio expressed as the actual ratio multiplied by 100 */
-	int _ratio;
+protected:	
 	/** Size in pixels of the images that we should
 	 *  put in a DCP for this ratio.  This size will not correspond
 	 *  to the ratio when we are doing things like 16:9 in a Flat frame.
@@ -94,8 +88,43 @@ private:
 	/** nickname (e.g. Flat, Scope) */
 	std::string _nickname;
 
+private:	
 	/** all available formats */
 	static std::vector<Format const *> _formats;
 };
 
+/** @class FixedFormat
+ *  @brief Class to describe a format whose ratio is fixed regardless
+ *  of source size.
+ */
+class FixedFormat : public Format
+{
+public:
+	FixedFormat (int, Size, std::string, std::string);
+
+	int ratio_as_integer (Film const *) const {
+		return _ratio;
+	}
+
+	float ratio_as_float (Film const *) const {
+		return _ratio / 100.0;
+	}
+
+	std::string name () const;
 	
+private:
+
+	/** Ratio expressed as the actual ratio multiplied by 100 */
+	int _ratio;
+};
+
+class VariableFormat : public Format
+{
+public:
+	VariableFormat (Size, std::string, std::string);
+
+	int ratio_as_integer (Film const * f) const;
+	float ratio_as_float (Film const * f) const;
+
+	std::string name () const;
+};
