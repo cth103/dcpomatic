@@ -107,5 +107,5 @@ TranscodeJob::remaining_time () const
 		return 0;
 	}
 
-	return ((_fs->length - _encoder->last_frame()) / fps);
+	return ((_fs->dcp_length() - _encoder->last_frame()) / fps);
 }

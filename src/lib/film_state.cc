@@ -299,3 +299,15 @@ FilmState::target_sample_rate () const
 
 	return rint (t);
 }
+
+int
+FilmState::dcp_length () const
+{
+	if (dcp_frames) {
+		return dcp_frames;
+	}
+
+	return length;
+}
+
+			

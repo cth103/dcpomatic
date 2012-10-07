@@ -1,3 +1,8 @@
+2012-10-07  Carl Hetherington  <cth@carlh.net>
+
+	* Fix up some bugs when using limited DCP
+	range (reported by Wolfgang Woehl).
+
 2012-10-02  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.54 released.
