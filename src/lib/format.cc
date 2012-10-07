@@ -123,34 +123,6 @@ Format::from_metadata (string m)
 	return from_id (m);
 }
 
-/** @param f A Format.
- *  @return Index of f within our static list, or -1.
- */
-int
-Format::as_index (Format const * f)
-{
-	vector<Format*>::size_type i = 0;
-	while (i < _formats.size() && _formats[i] != f) {
-		++i;
-	}
-
-	if (i == _formats.size ()) {
-		return -1;
-	}
-
-	return i;
-}
-
-/** @param i An index returned from as_index().
- *  @return Corresponding Format.
- */
-Format const *
-Format::from_index (int i)
-{
-	assert (i >= 0 && i < int(_formats.size ()));
-	return _formats[i];
-}
-
 /** @return All available formats */
 vector<Format const *>
 Format::all ()
@@ -205,16 +177,5 @@ VariableFormat::ratio_as_float (Film const * f) const
 string
 VariableFormat::name () const
 {
-	stringstream s;
-	if (!_nickname.empty ()) {
-		s << _nickname << " (";
-	}
-
-	s << "without stretching";
-
-	if (!_nickname.empty ()) {
-		s << ")";
-	}
-
-	return s.str ();
+	return _nickname;
 }

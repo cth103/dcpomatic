@@ -71,9 +71,7 @@ public:
 
 	static Format const * from_nickname (std::string n);
 	static Format const * from_metadata (std::string m);
-	static Format const * from_index (int i);
 	static Format const * from_id (std::string i);
-	static int as_index (Format const * f);
 	static std::vector<Format const *> all ();
 	static void setup_formats ();
 
