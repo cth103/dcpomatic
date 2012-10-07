@@ -17,8 +17,8 @@
 
 */
 
-/** @file  src/j2k_wav_encoder.cc
- *  @brief An encoder which writes JPEG2000 and WAV files.
+/** @file  src/j2k_still_encoder.cc
+ *  @brief An encoder which writes JPEG2000 files for a single still source image.
  */
 
 #include <sstream>
