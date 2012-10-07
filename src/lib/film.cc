@@ -85,8 +85,12 @@ Film::Film (string d, bool must_exist)
 
 	_state.directory = result.string ();
 	
-	if (must_exist && !filesystem::exists (_state.directory)) {
-		throw OpenFileError (_state.directory);
+	if (!filesystem::exists (_state.directory)) {
+		if (must_exist) {
+			throw OpenFileError (_state.directory);
+		} else {
+			filesystem::create_directory (_state.directory);
+		}
 	}
 
 	read_metadata ();
