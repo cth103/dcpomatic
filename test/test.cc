@@ -315,3 +315,50 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		(*i)->join ();
 	}
 }
+
+BOOST_AUTO_TEST_CASE (make_dcp_test)
+{
+	string const test_film = "build/test/film2";
+	
+	if (boost::filesystem::exists (test_film)) {
+		boost::filesystem::remove_all (test_film);
+	}
+	
+	Film film (test_film, false);
+	film.set_name ("test_film");
+	film.set_content ("../../../test/test.mp4");
+	film.examine_content ();
+	film.set_format (Format::from_ratio (185));
+	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film.make_dcp (true);
+
+	while (JobManager::instance()->work_to_do ()) {
+		sleep (1);
+	}
+	
+	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+}
+
+BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
+{
+	string const test_film = "build/test/film3";
+	
+	if (boost::filesystem::exists (test_film)) {
+		boost::filesystem::remove_all (test_film);
+	}
+	
+	Film film (test_film, false);
+	film.set_name ("test_film");
+	film.set_content ("../../../test/test.mp4");
+	film.examine_content ();
+	film.set_format (Format::from_ratio (185));
+	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film.set_dcp_frames (42);
+	film.make_dcp (true);
+
+	while (JobManager::instance()->work_to_do ()) {
+		sleep (1);
+	}
+
+	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+}

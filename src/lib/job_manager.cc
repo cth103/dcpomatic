@@ -73,6 +73,20 @@ JobManager::work_to_do () const
 	return i != _jobs.end ();
 }
 
+bool
+JobManager::errors () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	for (list<shared_ptr<Job> >::const_iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+		if ((*i)->finished_in_error ()) {
+			return true;
+		}
+	}
+
+	return false;
+}	
+
+
 void
 JobManager::scheduler ()
 {
