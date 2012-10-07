@@ -161,11 +161,39 @@ FFmpegDecoder::do_pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
 	if (r < 0) {
+		if (r != AVERROR_EOF) {
+			throw DecodeError ("error on av_read_frame");
+		}
+		
+		/* Get any remaining frames */
+		
+		_packet.data = 0;
+		_packet.size = 0;
+
+		int frame_finished;
+
+		if (_opt->decode_video) {
+			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+				process_video (_frame);
+			}
+		}
+
+		if (_audio_stream >= 0 && _opt->decode_audio) {
+			while (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+				int const data_size = av_samples_get_buffer_size (
+					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
+					);
+				
+				assert (_audio_codec_context->channels == _fs->audio_channels);
+				process_audio (_frame->data[0], data_size);
+			}
+		}
+
 		return true;
 	}
 
 	if (_packet.stream_index == _video_stream && _opt->decode_video) {
-		
+
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 			process_video (_frame);
