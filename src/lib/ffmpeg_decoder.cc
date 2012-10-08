@@ -56,15 +56,20 @@ FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<const FilmState> s, boost::share
 	, _format_context (0)
 	, _video_stream (-1)
 	, _audio_stream (-1)
+	, _subtitle_stream (-1)
 	, _frame (0)
 	, _video_codec_context (0)
 	, _video_codec (0)
 	, _audio_codec_context (0)
 	, _audio_codec (0)
+	, _subtitle_codec_context (0)
+	, _subtitle_codec (0)
+	, _have_subtitle (false)
 {
 	setup_general ();
 	setup_video ();
 	setup_audio ();
+	setup_subtitle ();
 }
 
 FFmpegDecoder::~FFmpegDecoder ()
@@ -75,6 +80,14 @@ FFmpegDecoder::~FFmpegDecoder ()
 	
 	if (_video_codec_context) {
 		avcodec_close (_video_codec_context);
+	}
+
+	if (_have_subtitle) {
+		avsubtitle_free (&_subtitle);
+	}
+
+	if (_subtitle_codec_context) {
+		avcodec_close (_subtitle_codec_context);
 	}
 	
 	av_free (_frame);
@@ -101,6 +114,8 @@ FFmpegDecoder::setup_general ()
 			_video_stream = i;
 		} else if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
 			_audio_stream = i;
+		} else if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+			_subtitle_stream = i;
 		}
 	}
 
@@ -156,6 +171,26 @@ FFmpegDecoder::setup_audio ()
 	}
 }
 
+void
+FFmpegDecoder::setup_subtitle ()
+{
+	if (_subtitle_stream < 0) {
+		return;
+	}
+
+	_subtitle_codec_context = _format_context->streams[_subtitle_stream]->codec;
+	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
+
+	if (_subtitle_codec == 0) {
+		throw DecodeError ("could not find subtitle decoder");
+	}
+	
+	if (avcodec_open2 (_subtitle_codec_context, _subtitle_codec, 0) < 0) {
+		throw DecodeError ("could not open subtitle decoder");
+	}
+}
+
+
 bool
 FFmpegDecoder::do_pass ()
 {
@@ -174,6 +209,7 @@ FFmpegDecoder::do_pass ()
 
 		if (_opt->decode_video) {
 			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+
 				process_video (_frame);
 			}
 		}
@@ -196,6 +232,85 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+			
+			cout << "decoded some video.\n";
+			if (_have_subtitle) {
+				cout << "have a subtitle; " << _subtitle.num_rects << "\n";
+				for (unsigned int i = 0; i < _subtitle.num_rects; ++i) {
+					AVSubtitleRect* rect = _subtitle.rects[i];
+					if (rect->type != SUBTITLE_BITMAP) {
+						cout << "not a bitmap\n";
+						throw DecodeError ("non-bitmap subtitles not yet supported");
+					}
+
+					/* XXX: all this assumes YUV420 in _frame */
+					
+					assert (rect->nb_colors == 4);
+					assert (rect->pict.data[0]);
+
+					/* Start of the first line in the target frame */
+					uint8_t* frame_y_p = _frame->data[0] + rect->y * _frame->linesize[0];
+					uint8_t* frame_u_p = _frame->data[1] + (rect->y / 2) * _frame->linesize[1];
+					uint8_t* frame_v_p = _frame->data[2] + (rect->y / 2) * _frame->linesize[2];
+					
+					/* Start of the first line in the subtitle */
+					uint8_t* sub_p = rect->pict.data[0];
+
+					cout << "frame ls 0 is " << _frame->linesize[0] << "\n";
+					cout << "frame ls 1 is " << _frame->linesize[1] << "\n";
+					cout << "frame ls 2 is " << _frame->linesize[2] << "\n";
+
+					uint32_t* palette = (uint32_t *) rect->pict.data[1];
+					
+					for (int sub_y = 0; sub_y < rect->h; ++sub_y) {
+						uint8_t* sub_line_p = sub_p;
+						uint8_t* frame_line_y_p = frame_y_p + rect->x;
+						uint8_t* frame_line_u_p = frame_u_p + (rect->x / 2);
+						uint8_t* frame_line_v_p = frame_v_p + (rect->x / 2);
+
+						uint8_t current_u = 0;
+						uint8_t current_v = 0;
+						int subsample_step = 0;
+						
+						for (int sub_x = 0; sub_x < rect->w; ++sub_x) {
+
+							uint32_t const val = palette[*sub_line_p++];
+							int const   red = (val &       0xff);
+							int const green = (val &     0xff00) >> 8;
+							int const  blue = (val &   0xff0000) >> 16;
+							int const alpha = (val & 0xff000000) >> 24;
+
+							if (alpha) {
+								*frame_line_y_p = RGB_TO_Y_CCIR (red, green, blue);
+							}
+							frame_line_y_p++;
+							
+							current_u |= ((RGB_TO_U_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
+							current_v |= ((RGB_TO_V_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
+
+							if (subsample_step == 1 && (sub_y % 2) == 0) {
+								if (alpha) {
+									*frame_line_u_p = current_u;
+									*frame_line_v_p = current_v;
+								}
+								frame_line_u_p++;
+								frame_line_v_p++;
+								current_u = current_v = 0;
+							}
+
+							subsample_step = (subsample_step + 1) % 2;
+						}
+
+						sub_p += rect->pict.linesize[0];
+						frame_y_p += _frame->linesize[0];
+						if ((sub_y % 2) == 0) {
+							frame_u_p += _frame->linesize[1];
+							frame_v_p += _frame->linesize[2];
+						}
+					}
+				}
+			}
+			
 			process_video (_frame);
 		}
 
@@ -211,6 +326,19 @@ FFmpegDecoder::do_pass ()
 
 			assert (_audio_codec_context->channels == _fs->audio_channels);
 			process_audio (_frame->data[0], data_size);
+		}
+
+	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream) {
+
+		if (_have_subtitle) {
+			avsubtitle_free (&_subtitle);
+			_have_subtitle = false;
+		}
+
+		int got_subtitle;
+		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &_subtitle, &got_subtitle, &_packet) && got_subtitle) {
+			cout << "got a subtitle.\n";
+			_have_subtitle = true;
 		}
 	}
 	
