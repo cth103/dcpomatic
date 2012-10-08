@@ -209,7 +209,6 @@ FFmpegDecoder::do_pass ()
 
 		if (_opt->decode_video) {
 			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-
 				process_video (_frame);
 			}
 		}
@@ -232,81 +231,7 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			
-			if (_have_subtitle) {
-				for (unsigned int i = 0; i < _subtitle.num_rects; ++i) {
-					AVSubtitleRect* rect = _subtitle.rects[i];
-					if (rect->type != SUBTITLE_BITMAP) {
-						throw DecodeError ("non-bitmap subtitles not yet supported");
-					}
-
-					/* XXX: all this assumes YUV420 in _frame */
-					
-					assert (rect->nb_colors == 4);
-					assert (rect->pict.data[0]);
-
-					/* Start of the first line in the target frame */
-					uint8_t* frame_y_p = _frame->data[0] + rect->y * _frame->linesize[0];
-					uint8_t* frame_u_p = _frame->data[1] + (rect->y / 2) * _frame->linesize[1];
-					uint8_t* frame_v_p = _frame->data[2] + (rect->y / 2) * _frame->linesize[2];
-					
-					/* Start of the first line in the subtitle */
-					uint8_t* sub_p = rect->pict.data[0];
-					/* sub_p looks up into a RGB palette which is here */
-					uint32_t const * palette = (uint32_t *) rect->pict.data[1];
-					
-					for (int sub_y = 0; sub_y < rect->h; ++sub_y) {
-						/* Pointers to the start of this line */
-						uint8_t* sub_line_p = sub_p;
-						uint8_t* frame_line_y_p = frame_y_p + rect->x;
-						uint8_t* frame_line_u_p = frame_u_p + (rect->x / 2);
-						uint8_t* frame_line_v_p = frame_v_p + (rect->x / 2);
-
-						/* U and V are subsampled */
-						uint8_t current_u = 0;
-						uint8_t current_v = 0;
-						int subsample_step = 0;
-						
-						for (int sub_x = 0; sub_x < rect->w; ++sub_x) {
-
-							/* RGB value for this subtitle pixel */
-							uint32_t const val = palette[*sub_line_p++];
-							
-							int const     red =  (val &       0xff);
-							int const   green =  (val &     0xff00) >> 8;
-							int const    blue =  (val &   0xff0000) >> 16;
-							float const alpha = ((val & 0xff000000) >> 24) / 255.0;
-
-							/* Alpha-blend Y */
-							int const cy = *frame_line_y_p;
-							*frame_line_y_p++ = int (cy * (1 - alpha)) + int (RGB_TO_Y_CCIR (red, green, blue) * alpha);
-
-							/* Store up U and V */
-							current_u |= ((RGB_TO_U_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
-							current_v |= ((RGB_TO_V_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
-
-							if (subsample_step == 1 && (sub_y % 2) == 0) {
-								/* We have complete U and V bytes, so alpha-blend them into the frame */
-								int const cu = *frame_line_u_p;
-								int const cv = *frame_line_v_p;
-								*frame_line_u_p++ = int (cu * (1 - alpha)) + int (current_u * alpha);
-								*frame_line_v_p++ = int (cv * (1 - alpha)) + int (current_v * alpha);
-								current_u = current_v = 0;
-							}
-
-							subsample_step = (subsample_step + 1) % 2;
-						}
-
-						sub_p += rect->pict.linesize[0];
-						frame_y_p += _frame->linesize[0];
-						if ((sub_y % 2) == 0) {
-							frame_u_p += _frame->linesize[1];
-							frame_v_p += _frame->linesize[2];
-						}
-					}
-				}
-			}
-			
+			maybe_add_subtitle ();
 			process_video (_frame);
 		}
 
@@ -429,3 +354,95 @@ FFmpegDecoder::sample_aspect_ratio_denominator () const
 	return _video_codec_context->sample_aspect_ratio.den;
 }
 
+void
+FFmpegDecoder::maybe_add_subtitle ()
+{
+	if (!_have_subtitle) {
+		return;
+	}
+	
+	/* subtitle PTS in seconds */
+	float const packet_time = (_subtitle.pts / AV_TIME_BASE) + float (_subtitle.pts % AV_TIME_BASE) / 1e6;
+	/* hence start time for this sub */
+	float const from = packet_time + (float (_subtitle.start_display_time) / 1e3);
+	float const to = packet_time + (float (_subtitle.end_display_time) / 1e3);
+	
+	float const video_frame_time = float (last_video_frame ()) / rint (_fs->frames_per_second);
+	
+	if (from < video_frame_time || video_frame_time > to) {
+		return;
+	}
+	
+	for (unsigned int i = 0; i < _subtitle.num_rects; ++i) {
+		AVSubtitleRect* rect = _subtitle.rects[i];
+		if (rect->type != SUBTITLE_BITMAP) {
+			throw DecodeError ("non-bitmap subtitles not yet supported");
+		}
+		
+		/* XXX: all this assumes YUV420 in _frame */
+		
+		assert (rect->pict.data[0]);
+
+		/* Start of the first line in the target frame */
+		uint8_t* frame_y_p = _frame->data[0] + rect->y * _frame->linesize[0];
+		uint8_t* frame_u_p = _frame->data[1] + (rect->y / 2) * _frame->linesize[1];
+		uint8_t* frame_v_p = _frame->data[2] + (rect->y / 2) * _frame->linesize[2];
+		
+		/* Start of the first line in the subtitle */
+		uint8_t* sub_p = rect->pict.data[0];
+		/* sub_p looks up into a RGB palette which is here */
+		uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+		
+		for (int sub_y = 0; sub_y < rect->h; ++sub_y) {
+			/* Pointers to the start of this line */
+			uint8_t* sub_line_p = sub_p;
+			uint8_t* frame_line_y_p = frame_y_p + rect->x;
+			uint8_t* frame_line_u_p = frame_u_p + (rect->x / 2);
+			uint8_t* frame_line_v_p = frame_v_p + (rect->x / 2);
+			
+			/* U and V are subsampled */
+			uint8_t current_u = 0;
+			uint8_t current_v = 0;
+			int subsample_step = 0;
+			
+			for (int sub_x = 0; sub_x < rect->w; ++sub_x) {
+				
+				/* RGB value for this subtitle pixel */
+				uint32_t const val = palette[*sub_line_p++];
+				
+				int const     red =  (val &       0xff);
+				int const   green =  (val &     0xff00) >> 8;
+				int const    blue =  (val &   0xff0000) >> 16;
+				float const alpha = ((val & 0xff000000) >> 24) / 255.0;
+				
+				/* Alpha-blend Y */
+				int const cy = *frame_line_y_p;
+				*frame_line_y_p++ = int (cy * (1 - alpha)) + int (RGB_TO_Y_CCIR (red, green, blue) * alpha);
+				
+				/* Store up U and V */
+				current_u |= ((RGB_TO_U_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
+				current_v |= ((RGB_TO_V_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
+				
+				if (subsample_step == 1 && (sub_y % 2) == 0) {
+					/* We have complete U and V bytes, so alpha-blend them into the frame */
+					int const cu = *frame_line_u_p;
+					int const cv = *frame_line_v_p;
+					*frame_line_u_p++ = int (cu * (1 - alpha)) + int (current_u * alpha);
+					*frame_line_v_p++ = int (cv * (1 - alpha)) + int (current_v * alpha);
+					current_u = current_v = 0;
+				}
+				
+				subsample_step = (subsample_step + 1) % 2;
+			}
+			
+			sub_p += rect->pict.linesize[0];
+			frame_y_p += _frame->linesize[0];
+			if ((sub_y % 2) == 0) {
+				frame_u_p += _frame->linesize[1];
+				frame_v_p += _frame->linesize[2];
+			}
+		}
+	}
+}
+
+    

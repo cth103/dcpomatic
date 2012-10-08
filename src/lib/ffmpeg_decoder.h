@@ -78,6 +78,8 @@ private:
 	void setup_audio ();
 	void setup_subtitle ();
 
+	void maybe_add_subtitle ();
+
 	AVFormatContext* _format_context;
 	int _video_stream;
 	int _audio_stream; ///< may be < 0 if there is no audio
