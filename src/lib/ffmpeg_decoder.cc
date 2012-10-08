@@ -275,26 +275,24 @@ FFmpegDecoder::do_pass ()
 						for (int sub_x = 0; sub_x < rect->w; ++sub_x) {
 
 							uint32_t const val = palette[*sub_line_p++];
-							int const   red = (val &       0xff);
-							int const green = (val &     0xff00) >> 8;
-							int const  blue = (val &   0xff0000) >> 16;
-							int const alpha = (val & 0xff000000) >> 24;
+							
+							int const     red =  (val &       0xff);
+							int const   green =  (val &     0xff00) >> 8;
+							int const    blue =  (val &   0xff0000) >> 16;
+							float const alpha = ((val & 0xff000000) >> 24) / 255.0;
 
-							if (alpha) {
-								*frame_line_y_p = RGB_TO_Y_CCIR (red, green, blue);
-							}
-							frame_line_y_p++;
+							int const cy = *frame_line_y_p;
+
+							*frame_line_y_p++ = int (cy * (1 - alpha)) + int (RGB_TO_Y_CCIR (red, green, blue) * alpha);
 							
 							current_u |= ((RGB_TO_U_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
 							current_v |= ((RGB_TO_V_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
 
 							if (subsample_step == 1 && (sub_y % 2) == 0) {
-								if (alpha) {
-									*frame_line_u_p = current_u;
-									*frame_line_v_p = current_v;
-								}
-								frame_line_u_p++;
-								frame_line_v_p++;
+								int const cu = *frame_line_u_p;
+								int const cv = *frame_line_v_p;
+								*frame_line_u_p++ = int (cu * (1 - alpha)) + int (current_u * alpha);
+								*frame_line_v_p++ = int (cv * (1 - alpha)) + int (current_v * alpha);
 								current_u = current_v = 0;
 							}
 
