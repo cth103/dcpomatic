@@ -233,13 +233,10 @@ FFmpegDecoder::do_pass ()
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 			
-			cout << "decoded some video.\n";
 			if (_have_subtitle) {
-				cout << "have a subtitle; " << _subtitle.num_rects << "\n";
 				for (unsigned int i = 0; i < _subtitle.num_rects; ++i) {
 					AVSubtitleRect* rect = _subtitle.rects[i];
 					if (rect->type != SUBTITLE_BITMAP) {
-						cout << "not a bitmap\n";
 						throw DecodeError ("non-bitmap subtitles not yet supported");
 					}
 
@@ -255,25 +252,24 @@ FFmpegDecoder::do_pass ()
 					
 					/* Start of the first line in the subtitle */
 					uint8_t* sub_p = rect->pict.data[0];
-
-					cout << "frame ls 0 is " << _frame->linesize[0] << "\n";
-					cout << "frame ls 1 is " << _frame->linesize[1] << "\n";
-					cout << "frame ls 2 is " << _frame->linesize[2] << "\n";
-
-					uint32_t* palette = (uint32_t *) rect->pict.data[1];
+					/* sub_p looks up into a RGB palette which is here */
+					uint32_t const * palette = (uint32_t *) rect->pict.data[1];
 					
 					for (int sub_y = 0; sub_y < rect->h; ++sub_y) {
+						/* Pointers to the start of this line */
 						uint8_t* sub_line_p = sub_p;
 						uint8_t* frame_line_y_p = frame_y_p + rect->x;
 						uint8_t* frame_line_u_p = frame_u_p + (rect->x / 2);
 						uint8_t* frame_line_v_p = frame_v_p + (rect->x / 2);
 
+						/* U and V are subsampled */
 						uint8_t current_u = 0;
 						uint8_t current_v = 0;
 						int subsample_step = 0;
 						
 						for (int sub_x = 0; sub_x < rect->w; ++sub_x) {
 
+							/* RGB value for this subtitle pixel */
 							uint32_t const val = palette[*sub_line_p++];
 							
 							int const     red =  (val &       0xff);
@@ -281,14 +277,16 @@ FFmpegDecoder::do_pass ()
 							int const    blue =  (val &   0xff0000) >> 16;
 							float const alpha = ((val & 0xff000000) >> 24) / 255.0;
 
+							/* Alpha-blend Y */
 							int const cy = *frame_line_y_p;
-
 							*frame_line_y_p++ = int (cy * (1 - alpha)) + int (RGB_TO_Y_CCIR (red, green, blue) * alpha);
-							
+
+							/* Store up U and V */
 							current_u |= ((RGB_TO_U_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
 							current_v |= ((RGB_TO_V_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
 
 							if (subsample_step == 1 && (sub_y % 2) == 0) {
+								/* We have complete U and V bytes, so alpha-blend them into the frame */
 								int const cu = *frame_line_u_p;
 								int const cv = *frame_line_v_p;
 								*frame_line_u_p++ = int (cu * (1 - alpha)) + int (current_u * alpha);
@@ -335,7 +333,6 @@ FFmpegDecoder::do_pass ()
 
 		int got_subtitle;
 		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &_subtitle, &got_subtitle, &_packet) && got_subtitle) {
-			cout << "got a subtitle.\n";
 			_have_subtitle = true;
 		}
 	}

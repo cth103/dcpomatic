@@ -224,7 +224,7 @@ FilmViewer::film_changed (Film::Property p)
 		_thumb_panel->refresh ();
 	} else if (p == Film::CONTENT) {
 		setup_visibility ();
-//		_film->examine_content ();
+		_film->examine_content ();
 		update_thumbs ();
 	}
 }
