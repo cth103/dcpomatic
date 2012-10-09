@@ -39,6 +39,7 @@ public:
 	Options (std::string f, std::string e, std::string m)
 		: padding (0)
 		, apply_crop (true)
+		, black_after (0)
 		, decode_video_frequency (0)
 		, decode_audio (true)
 		, _frame_out_path (f)
