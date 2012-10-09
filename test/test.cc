@@ -34,6 +34,7 @@
 #include "dcp_video_frame.h"
 #include "config.h"
 #include "server.h"
+#include "cross.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -333,7 +334,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	film.make_dcp (true);
 
 	while (JobManager::instance()->work_to_do ()) {
-		sleep (1);
+		dvdomatic_sleep (1);
 	}
 	
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
@@ -357,7 +358,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	film.make_dcp (true);
 
 	while (JobManager::instance()->work_to_do ()) {
-		sleep (1);
+		dvdomatic_sleep (1);
 	}
 
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
