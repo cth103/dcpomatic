@@ -517,18 +517,15 @@ Film::make_dcp (bool transcode, int freq)
 	o->out_size = format()->dcp_size ();
 	if (dcp_frames() == 0) {
 		/* Decode the whole film, no blacking */
-		o->num_frames = 0;
 		o->black_after = 0;
 	} else {
 		switch (dcp_trim_action()) {
 		case CUT:
 			/* Decode only part of the film, no blacking */
-			o->num_frames = dcp_frames ();
 			o->black_after = 0;
 			break;
 		case BLACK_OUT:
 			/* Decode the whole film, but black some frames out */
-			o->num_frames = 0;
 			o->black_after = dcp_frames ();
 		}
 	}

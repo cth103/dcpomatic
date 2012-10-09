@@ -112,7 +112,7 @@ Decoder::process_end ()
 	*/
 
 	int64_t const audio_short_by_frames =
-		((int64_t) decoding_frames() * _fs->target_sample_rate() / _fs->frames_per_second)
+		((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second)
 		- _audio_frames_processed;
 
 	if (audio_short_by_frames >= 0) {
@@ -147,22 +147,11 @@ Decoder::go ()
 
 	while (pass () == false) {
 		if (_job && !_ignore_length) {
-			_job->set_progress (float (_video_frame) / decoding_frames ());
+			_job->set_progress (float (_video_frame) / _fs->dcp_length());
 		}
 	}
 
 	process_end ();
-}
-
-/** @return Number of frames that we will be decoding */
-int
-Decoder::decoding_frames () const
-{
-	if (_opt->num_frames > 0) {
-		return _opt->num_frames;
-	}
-	
-	return _fs->length;
 }
 
 /** Run one pass.  This may or may not generate any actual video / audio data;
@@ -177,7 +166,7 @@ Decoder::pass ()
 		_have_setup_video_filters = true;
 	}
 	
-	if (_opt->num_frames != 0 && _video_frame >= _opt->num_frames) {
+	if (_video_frame >= _fs->dcp_length()) {
 		return true;
 	}
 
