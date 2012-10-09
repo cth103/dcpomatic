@@ -172,10 +172,8 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 
-		if (_opt->decode_video) {
-			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-				process_video (_frame);
-			}
+		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+			process_video (_frame);
 		}
 
 		if (_audio_stream >= 0 && _opt->decode_audio) {
@@ -192,7 +190,7 @@ FFmpegDecoder::do_pass ()
 		return true;
 	}
 
-	if (_packet.stream_index == _video_stream && _opt->decode_video) {
+	if (_packet.stream_index == _video_stream) {
 
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
