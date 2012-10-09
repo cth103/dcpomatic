@@ -362,3 +362,26 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
 }
+
+BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
+{
+	FilmState fs;
+	fs.frames_per_second = 24;
+
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+
+	fs.audio_sample_rate = 44100;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+
+	fs.audio_sample_rate = 80000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 96000);
+
+	fs.frames_per_second = 23.976;
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+
+	fs.frames_per_second = 29.97;
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+}
