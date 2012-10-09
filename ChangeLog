@@ -3,6 +3,9 @@
 	* Fix bug possibly causing randomly-occuring
 	black thumbnails.
 
+	* Fix problems with obtaining frame rate of
+	WMV files (reported by Anders Nordentoft-Madsen).
+
 2012-10-07  Carl Hetherington  <cth@carlh.net>
 
 	* Fix up some bugs when using limited DCP
