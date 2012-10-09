@@ -1,3 +1,8 @@
+2012-10-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug possibly causing randomly-occuring
+	black thumbnails.
+
 2012-10-07  Carl Hetherington  <cth@carlh.net>
 
 	* Fix up some bugs when using limited DCP
