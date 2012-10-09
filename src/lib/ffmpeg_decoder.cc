@@ -225,7 +225,13 @@ FFmpegDecoder::length_in_frames () const
 float
 FFmpegDecoder::frames_per_second () const
 {
-	return av_q2d (_format_context->streams[_video_stream]->avg_frame_rate);
+	AVStream* s = _format_context->streams[_video_stream];
+
+	if (s->avg_frame_rate.num && s->avg_frame_rate.den) {
+		return av_q2d (s->avg_frame_rate);
+	}
+
+	return av_q2d (s->r_frame_rate);
 }
 
 int
