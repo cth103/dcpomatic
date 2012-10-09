@@ -314,6 +314,8 @@ Decoder::process_video (AVFrame* frame)
 				image->make_black ();
 			}
 
+			overlay (image);
+
 			TIMING ("Decoder emits %1", _video_frame);
 			Video (image, _video_frame);
 			++_video_frame;

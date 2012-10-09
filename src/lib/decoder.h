@@ -99,6 +99,7 @@ protected:
 	virtual int time_base_denominator () const = 0;
 	virtual int sample_aspect_ratio_numerator () const = 0;
 	virtual int sample_aspect_ratio_denominator () const = 0;
+	virtual void overlay (boost::shared_ptr<Image> image) const {}
 	
 	void process_video (AVFrame *);
 	void process_audio (uint8_t *, int);

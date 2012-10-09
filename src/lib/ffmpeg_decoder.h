@@ -72,6 +72,7 @@ private:
 	int time_base_denominator () const;
 	int sample_aspect_ratio_numerator () const;
 	int sample_aspect_ratio_denominator () const;
+	void overlay (boost::shared_ptr<Image> image) const;
 
 	void setup_general ();
 	void setup_video ();
