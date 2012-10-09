@@ -58,6 +58,7 @@ private:
 	void audio_gain_changed (wxCommandEvent &);
 	void audio_gain_calculate_button_clicked (wxCommandEvent &);
 	void audio_delay_changed (wxCommandEvent &);
+	void with_subtitles_toggled (wxCommandEvent &);
 	void still_duration_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
@@ -69,6 +70,7 @@ private:
 
 	void set_things_sensitive (bool);
 	void setup_formats ();
+	void setup_subtitle_button ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
@@ -103,6 +105,7 @@ private:
 	wxButton* _audio_gain_calculate_button;
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
+	wxCheckBox* _with_subtitles;
 	/** The Film's DCP content type */
 	wxComboBox* _dcp_content_type;
 	/** The Film's frames per second */

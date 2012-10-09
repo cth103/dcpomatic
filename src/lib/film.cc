@@ -217,6 +217,7 @@ Film::set_content (string c)
 	_state.audio_channels = d->audio_channels ();
 	_state.audio_sample_rate = d->audio_sample_rate ();
 	_state.audio_sample_format = d->audio_sample_format ();
+	_state.has_subtitles = d->has_subtitles ();
 
 	_state.content_digest = md5_digest (s->content_path ());
 	_state.content = c;
@@ -657,4 +658,11 @@ Film::encoded_frames () const
 	}
 
 	return N;
+}
+
+void
+Film::set_with_subtitles (bool w)
+{
+	_state.with_subtitles = w;
+	signal_changed (WITH_SUBTITLES);
 }

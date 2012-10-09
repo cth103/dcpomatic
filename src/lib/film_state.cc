@@ -80,6 +80,7 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_gain " << audio_gain << "\n";
 	f << "audio_delay " << audio_delay << "\n";
 	f << "still_duration " << still_duration << "\n";
+	f << "with_subtitles " << with_subtitles << "\n";
 
 	/* Cached stuff; this is information about our content; we could
 	   look it up each time, but that's slow.
@@ -94,6 +95,7 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_sample_rate " << audio_sample_rate << "\n";
 	f << "audio_sample_format " << audio_sample_format_to_string (audio_sample_format) << "\n";
 	f << "content_digest " << content_digest << "\n";
+	f << "has_subtitles " << has_subtitles << "\n";
 }
 
 /** Read state from a key / value pair.
@@ -142,6 +144,8 @@ FilmState::read_metadata (string k, string v)
 		audio_delay = atoi (v.c_str ());
 	} else if (k == "still_duration") {
 		still_duration = atoi (v.c_str ());
+	} else if (k == "with_subtitles") {
+		with_subtitles = (v == "1");
 	}
 	
 	/* Cached stuff */
@@ -165,6 +169,8 @@ FilmState::read_metadata (string k, string v)
 		audio_sample_format = audio_sample_format_from_string (v);
 	} else if (k == "content_digest") {
 		content_digest = v;
+	} else if (k == "has_subtitles") {
+		has_subtitles = (v == "1");
 	}
 }
 

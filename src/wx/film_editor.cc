@@ -130,6 +130,11 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		_sizer->Add (s);
 	}
 
+	_with_subtitles = new wxCheckBox (this, wxID_ANY, wxT("With Subtitles"));
+	video_control (_with_subtitles);
+	_sizer->Add (_with_subtitles, 1);
+	_sizer->AddSpacer (0);
+
 	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxStaticText (this, wxID_ANY, wxT (""));
 	_sizer->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
@@ -292,6 +297,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 
 	setup_visibility ();
 	setup_formats ();
+	setup_subtitle_button ();
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -340,6 +346,7 @@ FilmEditor::film_changed (Film::Property p)
 		_content->SetPath (std_to_wx (_film->content ()));
 		setup_visibility ();
 		setup_formats ();
+		setup_subtitle_button ();
 		break;
 	case Film::FORMAT:
 	{
@@ -436,6 +443,9 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::STILL_DURATION:
 		_still_duration->SetValue (_film->still_duration ());
+		break;
+	case Film::WITH_SUBTITLES:
+		_with_subtitles->SetValue (_film->with_subtitles ());
 		break;
 	}
 }
@@ -702,3 +712,25 @@ FilmEditor::setup_formats ()
 
 	_sizer->Layout ();
 }
+
+void
+FilmEditor::with_subtitles_toggled (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::WITH_SUBTITLES;
+	_film->set_with_subtitles (_with_subtitles->GetValue ());
+	_ignore_changes = Film::NONE;
+}
+
+void
+FilmEditor::setup_subtitle_button ()
+{
+	_with_subtitles->Enable (_film->has_subtitles ());
+	if (!_film->has_subtitles ()) {
+		_with_subtitles->SetValue (false);
+	}
+}
+

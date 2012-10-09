@@ -35,6 +35,10 @@ public:
 		return 0;
 	}
 
+	bool has_subtitles () const {
+		return false;
+	}
+
 	static float static_frames_per_second () {
 		return 24;
 	}

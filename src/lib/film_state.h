@@ -62,10 +62,12 @@ public:
 		, audio_gain (0)
 		, audio_delay (0)
 		, still_duration (10)
+		, with_subtitles (false)
 		, length (0)
 		, audio_channels (0)
 		, audio_sample_rate (0)
 		, audio_sample_format (AV_SAMPLE_FMT_NONE)
+		, has_subtitles (false)
 	{}
 
 	std::string file (std::string f) const;
@@ -126,6 +128,7 @@ public:
 	int audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int still_duration;
+	bool with_subtitles;
 
 	/* Data which is cached to speed things up */
 
@@ -143,6 +146,8 @@ public:
 	AVSampleFormat audio_sample_format;
 	/** MD5 digest of our content file */
 	std::string content_digest;
+	/** true if the source has subtitles */
+	bool has_subtitles;
 
 private:
 	std::string thumb_file_for_frame (int) const;

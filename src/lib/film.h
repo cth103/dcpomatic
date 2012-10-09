@@ -119,6 +119,10 @@ public:
 	int still_duration () const {
 		return _state.still_duration;
 	}
+
+	bool with_subtitles () const {
+		return _state.with_subtitles;
+	}
 	
 	void set_filters (std::vector<Filter const *> const &);
 
@@ -144,6 +148,7 @@ public:
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_still_duration (int);
+	void set_with_subtitles (bool);
 
 	/** @return size, in pixels, of the source (ignoring cropping) */
 	Size size () const {
@@ -173,6 +178,10 @@ public:
 	/** @return format of the audio samples */
 	AVSampleFormat audio_sample_format () const {
 		return _state.audio_sample_format;
+	}
+
+	bool has_subtitles () const {
+		return _state.has_subtitles;
 	}
 	
 	std::string j2k_dir () const;
@@ -218,7 +227,8 @@ public:
 		FRAMES_PER_SECOND,
 		AUDIO_CHANNELS,
 		AUDIO_SAMPLE_RATE,
-		STILL_DURATION
+		STILL_DURATION,
+		WITH_SUBTITLES,
 	};
 
 	boost::shared_ptr<FilmState> state_copy () const;

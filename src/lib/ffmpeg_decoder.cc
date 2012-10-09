@@ -249,7 +249,7 @@ FFmpegDecoder::do_pass ()
 			process_audio (_frame->data[0], data_size);
 		}
 
-	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream) {
+	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream && _fs->with_subtitles) {
 
 		if (_have_subtitle) {
 			avsubtitle_free (&_subtitle);
@@ -453,3 +453,8 @@ FFmpegDecoder::overlay (shared_ptr<Image> image) const
 	}
 }
     
+bool
+FFmpegDecoder::has_subtitles () const
+{
+	return (_subtitle_stream != -1);
+}

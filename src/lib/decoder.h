@@ -66,6 +66,7 @@ public:
 	/** @return format of audio samples */
 	virtual AVSampleFormat audio_sample_format () const = 0;
 	virtual int64_t audio_channel_layout () const = 0;
+	virtual bool has_subtitles () const = 0;
 
 	void process_begin ();
 	bool pass ();
