@@ -228,7 +228,7 @@ Decoder::process_audio (uint8_t* data, int size)
  *  @param frame to decode; caller manages memory.
  */
 void
-Decoder::process_video (AVFrame* frame)
+Decoder::process_video (AVFrame* frame, shared_ptr<Subtitle> sub)
 {
 	if (_minimal) {
 		++_video_frame;
@@ -303,10 +303,8 @@ Decoder::process_video (AVFrame* frame)
 				image->make_black ();
 			}
 
-			overlay (image);
-
 			TIMING ("Decoder emits %1", _video_frame);
-			Video (image, _video_frame);
+			Video (image, _video_frame, sub);
 			++_video_frame;
 		}
 	}

@@ -37,6 +37,7 @@ class Options;
 class Image;
 class Log;
 class DelayLine;
+class Subtitle;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -81,8 +82,9 @@ public:
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the frame.
 	 *  Second parameter is its index within the content.
+	 *  Third parameter is either 0 or a subtitle that should be on this frame.
 	 */
-	sigc::signal<void, boost::shared_ptr<Image>, int> Video;
+	sigc::signal<void, boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle> > Video;
 
 	/** Emitted when some audio data is ready.
 	 *  First parameter is the interleaved sample data, format is given in the FilmState.
@@ -98,9 +100,8 @@ protected:
 	virtual int time_base_denominator () const = 0;
 	virtual int sample_aspect_ratio_numerator () const = 0;
 	virtual int sample_aspect_ratio_denominator () const = 0;
-	virtual void overlay (boost::shared_ptr<Image> image) const {}
 	
-	void process_video (AVFrame *);
+	void process_video (AVFrame *, boost::shared_ptr<Subtitle>);
 	void process_audio (uint8_t *, int);
 
 	/** our FilmState */

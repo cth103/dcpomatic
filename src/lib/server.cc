@@ -115,16 +115,14 @@ Server::process (shared_ptr<Socket> socket)
 	shared_ptr<SimpleImage> image (new SimpleImage (pixel_format, in_size));
 	
 	for (int i = 0; i < image->components(); ++i) {
-		int line_size;
-		s >> line_size;
-		image->set_line_size (i, line_size);
-	}
-	
-	for (int i = 0; i < image->components(); ++i) {
 		socket->read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
 	}
+
+	/* XXX: subtitle */
+	DCPVideoFrame dcp_video_frame (
+		image, shared_ptr<Subtitle> (), out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log
+		);
 	
-	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log);
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	encoded->send (socket);
 	

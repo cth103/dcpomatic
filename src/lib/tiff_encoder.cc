@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 #include <boost/filesystem.hpp>
 #include <tiffio.h>
 #include "tiff_encoder.h"
@@ -34,6 +35,7 @@
 #include "options.h"
 #include "exceptions.h"
 #include "image.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -49,7 +51,7 @@ TIFFEncoder::TIFFEncoder (shared_ptr<const FilmState> s, shared_ptr<const Option
 }
 
 void
-TIFFEncoder::process_video (shared_ptr<Image> image, int frame)
+TIFFEncoder::process_video (shared_ptr<Image> image, int frame, shared_ptr<Subtitle> sub)
 {
 	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _fs->scaler);
 	string tmp_file = _opt->frame_out_path (frame, true);
@@ -72,6 +74,56 @@ TIFFEncoder::process_video (shared_ptr<Image> image, int frame)
 
 	TIFFClose (output);
 
-	boost::filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
+	filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
+
+	if (sub) {
+		float const x_scale = float (_opt->out_size.width) / _fs->size.width;
+		float const y_scale = float (_opt->out_size.height) / _fs->size.height;
+
+		string tmp_metadata_file = _opt->frame_out_path (frame, false, ".sub");
+		ofstream metadata (tmp_metadata_file.c_str ());
+		
+		list<shared_ptr<SubtitleImage> > images = sub->images ();
+		int n = 0;
+		for (list<shared_ptr<SubtitleImage> >::iterator i = images.begin(); i != images.end(); ++i) {
+			stringstream ext;
+			ext << ".sub." << n << ".tiff";
+			
+			string tmp_sub_file = _opt->frame_out_path (frame, true, ext.str ());
+			output = TIFFOpen (tmp_sub_file.c_str(), "w");
+			if (output == 0) {
+				throw CreateFileError (tmp_file);
+			}
+
+			Size new_size = (*i)->image()->size ();
+			new_size.width *= x_scale;
+			new_size.height *= y_scale;
+			shared_ptr<Image> scaled = (*i)->image()->scale (new_size, _fs->scaler);
+			
+			TIFFSetField (output, TIFFTAG_IMAGEWIDTH, scaled->size().width);
+			TIFFSetField (output, TIFFTAG_IMAGELENGTH, scaled->size().height);
+			TIFFSetField (output, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+			TIFFSetField (output, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+			TIFFSetField (output, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+			TIFFSetField (output, TIFFTAG_BITSPERSAMPLE, 8);
+			TIFFSetField (output, TIFFTAG_SAMPLESPERPIXEL, 4);
+		
+			if (TIFFWriteEncodedStrip (output, 0, scaled->data()[0], scaled->size().width * scaled->size().height * 4) == 0) {
+				throw WriteFileError (tmp_file, 0);
+			}
+		
+			TIFFClose (output);
+			filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ext.str ()));
+
+			metadata << "image " << n << "\n"
+				 << "x " << (*i)->position().x << "\n"
+				 << "y " << (*i)->position().y << "\n";
+
+			metadata.close ();
+			filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
+		}
+
+	}
+	
 	frame_done (frame);
 }

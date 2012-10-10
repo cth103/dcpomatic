@@ -66,6 +66,7 @@ public:
 	int components () const;
 	int lines (int) const;
 	boost::shared_ptr<RGBFrameImage> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
+	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
 	boost::shared_ptr<PostProcessImage> post_process (std::string) const;
 	
 	void make_black ();
@@ -108,8 +109,6 @@ public:
 	int * line_size () const;
 	Size size () const;
 	
-	void set_line_size (int, int);
-
 private:
 	Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components

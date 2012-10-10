@@ -42,6 +42,7 @@ def build(bld):
                  screen.cc
 		 server.cc
                  sound_processor.cc
+                 subtitle.cc
 		 thumbs_job.cc
                  tiff_decoder.cc
 	         tiff_encoder.cc

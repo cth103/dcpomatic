@@ -48,6 +48,7 @@ extern "C" {
 #include "util.h"
 #include "log.h"
 #include "ffmpeg_decoder.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -65,7 +66,6 @@ FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<const FilmState> s, boost::share
 	, _audio_codec (0)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
-	, _have_subtitle (false)
 {
 	setup_general ();
 	setup_video ();
@@ -81,10 +81,6 @@ FFmpegDecoder::~FFmpegDecoder ()
 	
 	if (_video_codec_context) {
 		avcodec_close (_video_codec_context);
-	}
-
-	if (_have_subtitle) {
-		avsubtitle_free (&_subtitle);
 	}
 
 	if (_subtitle_codec_context) {
@@ -209,7 +205,12 @@ FFmpegDecoder::do_pass ()
 		int frame_finished;
 
 		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			process_video (_frame);
+			shared_ptr<Subtitle> s;
+			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
+				s = _subtitle;
+			}
+			
+			process_video (_frame, s);
 		}
 
 		if (_audio_stream >= 0 && _opt->decode_audio) {
@@ -230,7 +231,12 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			process_video (_frame);
+			shared_ptr<Subtitle> s;
+			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
+				s = _subtitle;
+			}
+			
+			process_video (_frame, s);
 		}
 
 	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio) {
@@ -247,16 +253,13 @@ FFmpegDecoder::do_pass ()
 			process_audio (_frame->data[0], data_size);
 		}
 
-	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream && _fs->with_subtitles) {
-
-		if (_have_subtitle) {
-			avsubtitle_free (&_subtitle);
-			_have_subtitle = false;
-		}
+	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream) {
 
 		int got_subtitle;
-		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &_subtitle, &got_subtitle, &_packet) && got_subtitle) {
-			_have_subtitle = true;
+		AVSubtitle sub;
+		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) && got_subtitle) {
+			_subtitle.reset (new Subtitle (sub));
+			avsubtitle_free (&sub);
 		}
 	}
 	
@@ -358,105 +361,6 @@ FFmpegDecoder::sample_aspect_ratio_denominator () const
 	return _video_codec_context->sample_aspect_ratio.den;
 }
 
-void
-FFmpegDecoder::overlay (shared_ptr<Image> image) const
-{
-	if (!_have_subtitle) {
-		return;
-	}
-	
-	/* subtitle PTS in seconds */
-	float const packet_time = (_subtitle.pts / AV_TIME_BASE) + float (_subtitle.pts % AV_TIME_BASE) / 1e6;
-	/* hence start time for this sub */
-	float const from = packet_time + (float (_subtitle.start_display_time) / 1e3);
-	float const to = packet_time + (float (_subtitle.end_display_time) / 1e3);
-	
-	float const video_frame_time = float (last_video_frame ()) / rint (_fs->frames_per_second);
-
-	if (from > video_frame_time || video_frame_time < to) {
-		return;
-	}
-
-	for (unsigned int i = 0; i < _subtitle.num_rects; ++i) {
-		AVSubtitleRect* rect = _subtitle.rects[i];
-		if (rect->type != SUBTITLE_BITMAP) {
-			throw DecodeError ("non-bitmap subtitles not yet supported");
-		}
-
-		/* XXX: all this assumes YUV420 in image */
-		
-		assert (rect->pict.data[0]);
-
-		/* Start of the first line in the target image */
-		uint8_t* frame_y_p = image->data()[0] + rect->y * image->line_size()[0];
-		uint8_t* frame_u_p = image->data()[1] + (rect->y / 2) * image->line_size()[1];
-		uint8_t* frame_v_p = image->data()[2] + (rect->y / 2) * image->line_size()[2];
-
-		int const hlim = min (rect->y + rect->h, image->size().height) - rect->y;
-		
-		/* Start of the first line in the subtitle */
-		uint8_t* sub_p = rect->pict.data[0];
-		/* sub_p looks up into a RGB palette which is here */
-		uint32_t const * palette = (uint32_t *) rect->pict.data[1];
-		
-		for (int sub_y = 0; sub_y < hlim; ++sub_y) {
-			/* Pointers to the start of this line */
-			uint8_t* sub_line_p = sub_p;
-			uint8_t* frame_line_y_p = frame_y_p + rect->x;
-			uint8_t* frame_line_u_p = frame_u_p + (rect->x / 2);
-			uint8_t* frame_line_v_p = frame_v_p + (rect->x / 2);
-			
-			/* U and V are subsampled */
-			uint8_t next_u = 0;
-			uint8_t next_v = 0;
-			int subsample_step = 0;
-			
-			for (int sub_x = 0; sub_x < rect->w; ++sub_x) {
-				
-				/* RGB value for this subtitle pixel */
-				uint32_t const val = palette[*sub_line_p++];
-				
-				int const     red =  (val &       0xff);
-				int const   green =  (val &     0xff00) >> 8;
-				int const    blue =  (val &   0xff0000) >> 16;
-				float const alpha = ((val & 0xff000000) >> 24) / 255.0;
-				
-				/* Alpha-blend Y */
-				int const cy = *frame_line_y_p;
-				*frame_line_y_p++ = int (cy * (1 - alpha)) + int (RGB_TO_Y_CCIR (red, green, blue) * alpha);
-				
-				/* Store up U and V */
-				next_u |= ((RGB_TO_U_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
-				next_v |= ((RGB_TO_V_CCIR (red, green, blue, 0) & 0xf0) >> 4) << (4 * subsample_step);
-				
-				if (subsample_step == 1 && (sub_y % 2) == 0) {
-					int const cu = *frame_line_u_p;
-					int const cv = *frame_line_v_p;
-
-					*frame_line_u_p++ =
-						int (((cu & 0x0f) * (1 - alpha) + (next_u & 0x0f) * alpha)) |
-						int (((cu & 0xf0) * (1 - alpha) + (next_u & 0xf0) * alpha));
-
-					*frame_line_v_p++ = 
-						int (((cv & 0x0f) * (1 - alpha) + (next_v & 0x0f) * alpha)) |
-						int (((cv & 0xf0) * (1 - alpha) + (next_v & 0xf0) * alpha));
-					
-					next_u = next_v = 0;
-				}
-				
-				subsample_step = (subsample_step + 1) % 2;
-			}
-			
-			sub_p += rect->pict.linesize[0];
-			frame_y_p += image->line_size()[0];
-			if ((sub_y % 2) == 0) {
-				frame_u_p += image->line_size()[1];
-				frame_v_p += image->line_size()[2];
-			}
-		}
-	}
-}
-    
 bool
 FFmpegDecoder::has_subtitles () const
 {

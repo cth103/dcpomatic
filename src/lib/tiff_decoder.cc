@@ -179,7 +179,7 @@ TIFFDecoder::do_pass ()
 	_TIFFfree (raster);
 	TIFFClose (t);
 
-	process_video (image.frame ());
+	process_video (image.frame (), shared_ptr<Subtitle> ());
 
 	++_iter;
 	return false;

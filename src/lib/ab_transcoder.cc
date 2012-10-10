@@ -70,7 +70,7 @@ ABTranscoder::~ABTranscoder ()
 }
 
 void
-ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, int index)
+ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub, int index)
 {
 	if (index == 0) {
 		/* Keep this image around until we get the other half */
@@ -92,7 +92,7 @@ ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, int index)
 		}
 			
 		/* And pass it to the encoder */
-		_encoder->process_video (_image, frame);
+		_encoder->process_video (_image, frame, sub);
 		_image.reset ();
 	}
 	

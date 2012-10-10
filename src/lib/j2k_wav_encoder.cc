@@ -105,7 +105,7 @@ J2KWAVEncoder::close_sound_files ()
 }	
 
 void
-J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
+J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub)
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
@@ -126,7 +126,7 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame)
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  yuv, _opt->out_size, _opt->padding, _fs->scaler, frame, _fs->frames_per_second, s.second,
+						  yuv, sub, _opt->out_size, _opt->padding, _fs->scaler, frame, _fs->frames_per_second, s.second,
 						  Config::instance()->colour_lut_index (), Config::instance()->j2k_bandwidth (),
 						  _log
 						  )

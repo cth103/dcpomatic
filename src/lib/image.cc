@@ -57,6 +57,7 @@ Image::lines (int n) const
 		}
 		break;
 	case PIX_FMT_RGB24:
+	case PIX_FMT_RGBA:
 		return size().height;
 	default:
 		assert (false);
@@ -73,12 +74,38 @@ Image::components () const
 	case PIX_FMT_YUV420P:
 		return 3;
 	case PIX_FMT_RGB24:
+	case PIX_FMT_RGBA:
 		return 1;
 	default:
 		assert (false);
 	}
 
 	return 0;
+}
+
+shared_ptr<Image>
+Image::scale (Size out_size, Scaler const * scaler) const
+{
+	assert (scaler);
+
+	shared_ptr<SimpleImage> scaled (new SimpleImage (pixel_format(), out_size));
+
+	struct SwsContext* scale_context = sws_getContext (
+		size().width, size().height, pixel_format(),
+		out_size.width, out_size.height, pixel_format(),
+		scaler->ffmpeg_id (), 0, 0, 0
+		);
+
+	sws_scale (
+		scale_context,
+		data(), line_size(),
+		0, size().height,
+		scaled->data (), scaled->line_size ()
+		);
+
+	sws_freeContext (scale_context);
+
+	return scaled;
 }
 
 /** Scale this image to a given size and convert it to RGB.
@@ -192,10 +219,25 @@ SimpleImage::SimpleImage (PixelFormat p, Size s)
 {
 	_data = (uint8_t **) av_malloc (components() * sizeof (uint8_t *));
 	_line_size = (int *) av_malloc (components() * sizeof (int));
+
+	switch (p) {
+	case PIX_FMT_RGB24:
+		_line_size[0] = s.width * 3;
+		break;
+	case PIX_FMT_RGBA:
+		_line_size[0] = s.width * 4;
+		break;
+	case PIX_FMT_YUV420P:
+		_line_size[0] = s.width;
+		_line_size[1] = s.width / 2;
+		_line_size[2] = s.width / 2;
+		break;
+	default:
+		assert (false);
+	}
 	
 	for (int i = 0; i < components(); ++i) {
-		_data[i] = 0;
-		_line_size[i] = 0;
+		_data[i] = (uint8_t *) av_malloc (_line_size[i] * lines (i));
 	}
 }
 
@@ -208,17 +250,6 @@ SimpleImage::~SimpleImage ()
 
 	av_free (_data);
 	av_free (_line_size);
-}
-
-/** Set the size in bytes of each horizontal line of a given component.
- *  @param i Component index.
- *  @param s Size of line in bytes.
- */
-void
-SimpleImage::set_line_size (int i, int s)
-{
-	_line_size[i] = s;
-	_data[i] = (uint8_t *) av_malloc (s * lines (i));
 }
 
 uint8_t **

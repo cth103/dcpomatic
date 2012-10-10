@@ -44,6 +44,7 @@ class FilmState;
 class Options;
 class Image;
 class Log;
+class Subtitle;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
@@ -73,7 +74,6 @@ private:
 	int time_base_denominator () const;
 	int sample_aspect_ratio_numerator () const;
 	int sample_aspect_ratio_denominator () const;
-	void overlay (boost::shared_ptr<Image> image) const;
 
 	void setup_general ();
 	void setup_video ();
@@ -96,6 +96,5 @@ private:
 	AVCodec* _subtitle_codec;                ///< may be 0 if there is no subtitle
 
 	AVPacket _packet;
-	AVSubtitle _subtitle;
-	bool _have_subtitle;
+	boost::shared_ptr<Subtitle> _subtitle;
 };

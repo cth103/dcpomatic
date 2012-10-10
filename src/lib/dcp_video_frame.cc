@@ -72,8 +72,9 @@ using namespace boost;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<Image> yuv, Size out, int p, Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l)
+	shared_ptr<Image> yuv, shared_ptr<Subtitle> sub, Size out, int p, Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l)
 	: _input (yuv)
+	, _subtitle (sub)
 	, _out_size (out)
 	, _padding (p)
 	, _scaler (s)
@@ -295,10 +296,6 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << (_post_process.empty() ? "none" : _post_process) << " "
 	  << Config::instance()->colour_lut_index () << " "
 	  << Config::instance()->j2k_bandwidth () << " ";
-
-	for (int i = 0; i < _input->components(); ++i) {
-		s << _input->line_size()[i] << " ";
-	}
 
 	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 

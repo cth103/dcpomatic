@@ -270,7 +270,6 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* descriptio
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
 	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_RGB24, Size (1998, 1080)));
-	image->set_line_size (0, 1998 * 3);
 
 	uint8_t* p = image->data()[0];
 	
@@ -287,6 +286,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
 			image,
+			shared_ptr<Subtitle> (),
 			Size (1998, 1080),
 			0,
 			Scaler::from_id ("bicubic"),
