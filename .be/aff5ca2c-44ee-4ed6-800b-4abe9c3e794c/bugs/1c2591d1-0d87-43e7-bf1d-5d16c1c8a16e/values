@@ -7,7 +7,7 @@ reporter: Carl Hetherington <cth@carlh.net>
 severity: minor
 
 
-status: open
+status: fixed
 
 
 summary: Dependent jobs are started when an earlier one fails
