@@ -193,6 +193,7 @@ public:
 	int num_thumbs () const;
 	int thumb_frame (int) const;
 	std::string thumb_file (int) const;
+	std::list<std::pair<Position, std::string> > thumb_subtitles (int) const;
 
 	void copy_from_dvd_post_gui ();
 	void examine_content ();

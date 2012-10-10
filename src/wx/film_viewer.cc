@@ -42,18 +42,24 @@ public:
 	ThumbPanel (wxPanel* parent, Film* film)
 		: wxPanel (parent)
 		, _film (film)
-		, _image (0)
-		, _bitmap (0)
 	{
 	}
 
 	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
-		if (_current_image != _pending_image) {
-			delete _image;
-			_image = new wxImage (std_to_wx (_pending_image));
-			_current_image = _pending_image;
+		if (_current_index != _pending_index) {
+			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_pending_index))));
+			_current_index = _pending_index;
+
+			_subtitles.clear ();
+
+			cout << "=== SUBS for " << _film->thumb_frame (_pending_index) << "\n";
+			list<pair<Position, string> > s = _film->thumb_subtitles (_pending_index);
+			for (list<pair<Position, string> >::iterator i = s.begin(); i != s.end(); ++i) {
+				_subtitles.push_back (SubtitleView (i->first, std_to_wx (i->second)));
+			}
+
 			setup ();
 		}
 
@@ -64,7 +70,13 @@ public:
 
 		wxPaintDC dc (this);
 		if (_bitmap) {
+			cout << "frame bm " << _bitmap->GetWidth() << " " << _bitmap->GetHeight() << "\n";
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
+		}
+
+		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+			dc.DrawBitmap (*i->bitmap, i->position.x, i->position.y, true);
+			cout << "\tsub bm at " << i->position.x << " " << i->position.y << " size " << i->bitmap->GetWidth() << " by " << i->bitmap->GetHeight() << "\n";
 		}
 	}
 
@@ -79,9 +91,10 @@ public:
 		Refresh ();
 	}
 
-	void set (string f)
+	/** @param n Thumbnail index */
+	void set (int n)
 	{
-		_pending_image = f;
+		_pending_index = n;
 		Refresh ();
 	}
 
@@ -106,10 +119,9 @@ public:
 	/** Clear our thumbnail image */
 	void clear ()
 	{
-		delete _bitmap;
-		_bitmap = 0;
-		delete _image;
-		_image = 0;
+		_bitmap.reset ();
+		_image.reset ();
+		_subtitles.clear ();
 	}
 
 	void refresh ()
@@ -127,41 +139,95 @@ private:
 		if (!_film || !_image) {
 			return;
 		}
-		
+
+		/* Size of the view */
 		int vw, vh;
 		GetSize (&vw, &vh);
 
+		/* Cropped rectangle */
+		Rectangle cropped (
+			_current_crop.left,
+			_current_crop.top,
+			_image->GetWidth() - (_current_crop.left + _current_crop.right),
+			_image->GetHeight() - (_current_crop.top + _current_crop.bottom)
+			);
+
+		/* Target ratio */
 		float const target = _film->format() ? _film->format()->ratio_as_float (_film) : 1.78;
 
-		_cropped_image = _image->GetSubImage (
-			wxRect (
-				_current_crop.left,
-				_current_crop.top,
-				_image->GetWidth() - (_current_crop.left + _current_crop.right),
-				_image->GetHeight() - (_current_crop.top + _current_crop.bottom)
-				)
-			);
+		_cropped_image = _image->GetSubImage (wxRect (cropped.x, cropped.y, cropped.w, cropped.h));
+
+		float x_scale = 1;
+		float y_scale = 1;
 
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
 			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
+			x_scale = vh * target / _image->GetWidth ();
+			y_scale = float (vh) / _image->GetHeight ();  
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
 			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
+			x_scale = float (vw) / _image->GetWidth ();
+			y_scale = (vw / target) / _image->GetHeight ();
 		}
 
-		delete _bitmap;
-		_bitmap = new wxBitmap (_cropped_image);
+		_bitmap.reset (new wxBitmap (_cropped_image));
+
+		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+			Rectangle sub_rect (i->position.x, i->position.y, i->image.GetWidth(), i->image.GetHeight());
+			Rectangle cropped_sub_rect = sub_rect.intersection (cropped);
+
+			cout << "sub " << sub_rect.x << " " << sub_rect.y << " " << sub_rect.w << " " << sub_rect.h << "\n";
+			cout << "cropped " << cropped_sub_rect.x << " " << cropped_sub_rect.y << " " << cropped_sub_rect.w << " " << cropped_sub_rect.h << "\n";
+
+			i->cropped_image = i->image.GetSubImage (
+				wxRect (
+					cropped_sub_rect.x - sub_rect.x,
+					cropped_sub_rect.y - sub_rect.y,
+					cropped_sub_rect.w,
+					cropped_sub_rect.h
+					)
+				);
+			
+			i->cropped_image.Rescale (cropped_sub_rect.w * x_scale, cropped_sub_rect.h * y_scale, wxIMAGE_QUALITY_HIGH);
+
+			i->position = Position (
+				cropped_sub_rect.x * x_scale,
+				cropped_sub_rect.y * y_scale
+				);
+
+			cout << "scales are " << x_scale << " " << y_scale << "\n";
+			cout << "scaled to " << (cropped_sub_rect.w * x_scale) << " " << (cropped_sub_rect.h * y_scale) << "\n";
+
+			i->bitmap.reset (new wxBitmap (i->cropped_image));
+		}
 	}
 
 	Film* _film;
-	wxImage* _image;
-	std::string _current_image;
-	std::string _pending_image;
+	shared_ptr<wxImage> _image;
 	wxImage _cropped_image;
-	wxBitmap* _bitmap;
+	/** currently-displayed thumbnail index */
+	int _current_index;
+	int _pending_index;
+	shared_ptr<wxBitmap> _bitmap;
 	Crop _current_crop;
 	Crop _pending_crop;
+
+	struct SubtitleView
+	{
+		SubtitleView (Position p, wxString const & i)
+			: position (p)
+			, image (i)
+		{}
+			      
+		Position position;
+		wxImage image;
+		wxImage cropped_image;
+		shared_ptr<wxBitmap> bitmap;
+	};
+
+	list<SubtitleView> _subtitles;
 };
 
 BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
@@ -196,7 +262,7 @@ FilmViewer::set_thumbnail (int n)
 		return;
 	}
 
-	_thumb_panel->set (_film->thumb_file(n));
+	_thumb_panel->set (n);
 }
 
 void

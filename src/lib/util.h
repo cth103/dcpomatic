@@ -121,6 +121,31 @@ struct Position
 	int y;
 };
 
+/** A rectangle */
+struct Rectangle
+{
+	Rectangle ()
+		: x (0)
+		, y (0)
+		, w (0)
+		, h (0)
+	{}
+
+	Rectangle (int x_, int y_, int w_, int h_)
+		: x (x_)
+		, y (y_)
+		, w (w_)
+		, h (h_)
+	{}
+
+	int x;
+	int y;
+	int w;
+	int h;
+
+	Rectangle intersection (Rectangle const & other) const;
+};
+
 extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
 extern std::string colour_lut_index_to_name (int index);

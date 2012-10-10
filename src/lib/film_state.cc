@@ -191,9 +191,21 @@ FilmState::thumb_file (int n) const
 string
 FilmState::thumb_file_for_frame (int n) const
 {
+	return thumb_base_for_frame(n) + ".tiff";
+}
+
+string
+FilmState::thumb_base (int n) const
+{
+	return thumb_base_for_frame (thumb_frame (n));
+}
+
+string
+FilmState::thumb_base_for_frame (int n) const
+{
 	stringstream s;
 	s.width (8);
-	s << setfill('0') << n << ".tiff";
+	s << setfill('0') << n;
 	
 	filesystem::path p;
 	p /= dir ("thumbs");

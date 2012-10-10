@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "film.h"
 #include "format.h"
 #include "tiff_encoder.h"
@@ -667,4 +668,48 @@ Film::set_with_subtitles (bool w)
 {
 	_state.with_subtitles = w;
 	signal_changed (WITH_SUBTITLES);
+}
+
+list<pair<Position, string> >
+Film::thumb_subtitles (int n) const
+{
+	string sub_file = _state.thumb_base(n) + ".sub";
+	if (!filesystem::exists (sub_file)) {
+		return list<pair<Position, string> > ();
+	}
+
+	ifstream f (sub_file.c_str ());
+	string line;
+
+	int sub_number;
+	int sub_x;
+	list<pair<Position, string> > subs;
+	
+	while (getline (f, line)) {
+		if (line.empty ()) {
+			continue;
+		}
+
+		if (line[line.size() - 1] == '\r') {
+			line = line.substr (0, line.size() - 1);
+		}
+
+		size_t const s = line.find (' ');
+		if (s == string::npos) {
+			continue;
+		}
+
+		string const k = line.substr (0, s);
+		int const v = lexical_cast<int> (line.substr(s + 1));
+
+		if (k == "image") {
+			sub_number = v;
+		} else if (k == "x") {
+			sub_x = v;
+		} else if (k == "y") {
+			subs.push_back (make_pair (Position (sub_x, v), String::compose ("%1.sub.%2.tiff", _state.thumb_base(n), sub_number)));
+		}
+	}
+
+	return subs;
 }

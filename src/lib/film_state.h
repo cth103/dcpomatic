@@ -79,6 +79,7 @@ public:
 	bool content_is_dvd () const;
 
 	std::string thumb_file (int) const;
+	std::string thumb_base (int) const;
 	int thumb_frame (int) const;
 
 	int bytes_per_sample () const;
@@ -151,6 +152,7 @@ public:
 
 private:
 	std::string thumb_file_for_frame (int) const;
+	std::string thumb_base_for_frame (int) const;
 };
 
 #endif
