@@ -39,8 +39,7 @@ public:
 	Options (std::string f, std::string e, std::string m)
 		: padding (0)
 		, apply_crop (true)
-		, num_frames (0)
-		, decode_video (true)
+		, black_after (0)
 		, decode_video_frequency (0)
 		, decode_audio (true)
 		, _frame_out_path (f)
@@ -93,9 +92,7 @@ public:
 	float ratio;                ///< ratio of the wanted output image (not considering padding)
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
 	bool apply_crop;            ///< true to apply cropping
-	int num_frames;             ///< number of video frames to run for, or 0 for all
 	int black_after;            ///< first frame for which to output a black frame, rather than the actual video content, or 0 for none
-	bool decode_video;          ///< true to decode video, otherwise false
 	int decode_video_frequency; ///< skip frames so that this many are decoded in all (or 0) (for generating thumbnails)
 	bool decode_audio;          ///< true to decode audio, otherwise false
 

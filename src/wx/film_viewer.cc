@@ -131,7 +131,7 @@ private:
 		int vw, vh;
 		GetSize (&vw, &vh);
 
-		float const target = _film->format() ? _film->format()->ratio_as_float () : 1.78;
+		float const target = _film->format() ? _film->format()->ratio_as_float (_film) : 1.78;
 
 		_cropped_image = _image->GetSubImage (
 			wxRect (

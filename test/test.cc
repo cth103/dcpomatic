@@ -34,6 +34,7 @@
 #include "dcp_video_frame.h"
 #include "config.h"
 #include "server.h"
+#include "cross.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -104,11 +105,11 @@ BOOST_AUTO_TEST_CASE (format_test)
 	
 	Format const * f = Format::from_nickname ("Flat");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(), 185);
+	BOOST_CHECK_EQUAL (f->ratio_as_integer(0), 185);
 	
 	f = Format::from_nickname ("Scope");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(), 239);
+	BOOST_CHECK_EQUAL (f->ratio_as_integer(0), 239);
 }
 
 BOOST_AUTO_TEST_CASE (util_test)
@@ -314,4 +315,74 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		(*i)->join ();
 	}
+}
+
+BOOST_AUTO_TEST_CASE (make_dcp_test)
+{
+	string const test_film = "build/test/film2";
+	
+	if (boost::filesystem::exists (test_film)) {
+		boost::filesystem::remove_all (test_film);
+	}
+	
+	Film film (test_film, false);
+	film.set_name ("test_film");
+	film.set_content ("../../../test/test.mp4");
+	film.examine_content ();
+	film.set_format (Format::from_nickname ("Flat"));
+	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film.make_dcp (true);
+
+	while (JobManager::instance()->work_to_do ()) {
+		dvdomatic_sleep (1);
+	}
+	
+	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+}
+
+BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
+{
+	string const test_film = "build/test/film3";
+	
+	if (boost::filesystem::exists (test_film)) {
+		boost::filesystem::remove_all (test_film);
+	}
+	
+	Film film (test_film, false);
+	film.set_name ("test_film");
+	film.set_content ("../../../test/test.mp4");
+	film.examine_content ();
+	film.set_format (Format::from_nickname ("Flat"));
+	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film.set_dcp_frames (42);
+	film.make_dcp (true);
+
+	while (JobManager::instance()->work_to_do ()) {
+		dvdomatic_sleep (1);
+	}
+
+	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+}
+
+BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
+{
+	FilmState fs;
+	fs.frames_per_second = 24;
+
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+
+	fs.audio_sample_rate = 44100;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+
+	fs.audio_sample_rate = 80000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 96000);
+
+	fs.frames_per_second = 23.976;
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+
+	fs.frames_per_second = 29.97;
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
 }

@@ -48,8 +48,10 @@ void
 CheckHashesJob::run ()
 {
 	_bad = 0;
+
+	int const N = _fs->dcp_length ();
 	
-	for (int i = 0; i < _fs->length; ++i) {
+	for (int i = 0; i < N; ++i) {
 		string const j2k_file = _opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 

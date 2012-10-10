@@ -112,7 +112,7 @@ ABTranscoder::go ()
 		bool const b = _db->pass ();
 
 		if (_job) {
-			_job->set_progress (float (_last_frame) / _da->decoding_frames ());
+			_job->set_progress (float (_last_frame) / _fs_a->dcp_length());
 		}
 		
 		if (a && b) {

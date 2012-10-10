@@ -28,28 +28,15 @@
 #include <iomanip>
 #include <iostream>
 #include "format.h"
+#include "film.h"
 
 using namespace std;
 
 vector<Format const *> Format::_formats;
 
-/** @param r Ratio multiplied by 100 (e.g. 185)
- *  @param dcp Size (in pixels) of the images that we should put in a DCP.
- *  @param id ID (e.g. 185)
- *  @param n Nick name (e.g. Flat)
- */
-Format::Format (int r, Size dcp, string id, string n)
-	: _ratio (r)
-	, _dcp_size (dcp)
-	, _id (id)
-	, _nickname (n)
-{
-
-}
-
 /** @return A name to be presented to the user */
 string
-Format::name () const
+FixedFormat::name () const
 {
 	stringstream s;
 	if (!_nickname.empty ()) {
@@ -76,34 +63,18 @@ Format::as_metadata () const
 void
 Format::setup_formats ()
 {
-	_formats.push_back (new Format (119, Size (1285, 1080), "119", "1.19"));
-	_formats.push_back (new Format (133, Size (1436, 1080), "133", "1.33"));
-	_formats.push_back (new Format (138, Size (1485, 1080), "138", "1.375"));
-	_formats.push_back (new Format (133, Size (1998, 1080), "133-in-flat", "4:3 within Flat"));
-	_formats.push_back (new Format (137, Size (1480, 1080), "137", "Academy"));
-	_formats.push_back (new Format (166, Size (1793, 1080), "166", "1.66"));
-	_formats.push_back (new Format (166, Size (1998, 1080), "166-in-flat", "1.66 within Flat"));
-	_formats.push_back (new Format (178, Size (1998, 1080), "178-in-flat", "16:9 within Flat"));
-	_formats.push_back (new Format (185, Size (1998, 1080), "185", "Flat"));
-	_formats.push_back (new Format (239, Size (2048, 858), "239", "Scope"));
-}
-
-/** @param r Ratio multiplied by 100.
- *  @return Matching Format, or 0.
- */
-Format const *
-Format::from_ratio (int r)
-{
-	vector<Format const *>::iterator i = _formats.begin ();
-	while (i != _formats.end() && (*i)->ratio_as_integer() != r) {
-		++i;
-	}
-
-	if (i == _formats.end ()) {
-		return 0;
-	}
-
-	return *i;
+	_formats.push_back (new FixedFormat (119, Size (1285, 1080), "119", "1.19"));
+	_formats.push_back (new FixedFormat (133, Size (1436, 1080), "133", "1.33"));
+	_formats.push_back (new FixedFormat (138, Size (1485, 1080), "138", "1.375"));
+	_formats.push_back (new FixedFormat (133, Size (1998, 1080), "133-in-flat", "4:3 within Flat"));
+	_formats.push_back (new FixedFormat (137, Size (1480, 1080), "137", "Academy"));
+	_formats.push_back (new FixedFormat (166, Size (1793, 1080), "166", "1.66"));
+	_formats.push_back (new FixedFormat (166, Size (1998, 1080), "166-in-flat", "1.66 within Flat"));
+	_formats.push_back (new FixedFormat (178, Size (1998, 1080), "178-in-flat", "16:9 within Flat"));
+	_formats.push_back (new FixedFormat (185, Size (1998, 1080), "185", "Flat"));
+	_formats.push_back (new FixedFormat (239, Size (2048, 858), "239", "Scope"));
+	_formats.push_back (new VariableFormat (Size (1998, 1080), "var-185", "Flat"));
+	_formats.push_back (new VariableFormat (Size (2048, 858), "var-239", "Scope"));
 }
 
 /** @param n Nickname.
@@ -152,34 +123,6 @@ Format::from_metadata (string m)
 	return from_id (m);
 }
 
-/** @param f A Format.
- *  @return Index of f within our static list, or -1.
- */
-int
-Format::as_index (Format const * f)
-{
-	vector<Format*>::size_type i = 0;
-	while (i < _formats.size() && _formats[i] != f) {
-		++i;
-	}
-
-	if (i == _formats.size ()) {
-		return -1;
-	}
-
-	return i;
-}
-
-/** @param i An index returned from as_index().
- *  @return Corresponding Format.
- */
-Format const *
-Format::from_index (int i)
-{
-	assert (i >= 0 && i < int(_formats.size ()));
-	return _formats[i];
-}
-
 /** @return All available formats */
 vector<Format const *>
 Format::all ()
@@ -187,10 +130,22 @@ Format::all ()
 	return _formats;
 }
 
-int
-Format::dcp_padding () const
+/** @param r Ratio multiplied by 100 (e.g. 185)
+ *  @param dcp Size (in pixels) of the images that we should put in a DCP.
+ *  @param id ID (e.g. 185)
+ *  @param n Nick name (e.g. Flat)
+ */
+FixedFormat::FixedFormat (int r, Size dcp, string id, string n)
+	: Format (dcp, id, n)
+	, _ratio (r)
 {
-	int p = rint ((_dcp_size.width - (_dcp_size.height * _ratio / 100.0)) / 2.0);
+
+}
+
+int
+Format::dcp_padding (Film const * f) const
+{
+	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(f) / 100.0)) / 2.0);
 
 	/* This comes out -ve for Scope; bodge it */
 	if (p < 0) {
@@ -198,4 +153,29 @@ Format::dcp_padding () const
 	}
 	
 	return p;
+}
+
+VariableFormat::VariableFormat (Size dcp, string id, string n)
+	: Format (dcp, id, n)
+{
+
+}
+
+int
+VariableFormat::ratio_as_integer (Film const * f) const
+{
+	return rint (ratio_as_float (f) * 100);
+}
+
+float
+VariableFormat::ratio_as_float (Film const * f) const
+{
+	return float (f->size().width) / f->size().height;
+}
+
+/** @return A name to be presented to the user */
+string
+VariableFormat::name () const
+{
+	return _nickname;
 }

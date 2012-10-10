@@ -149,7 +149,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 	
 	while (1) {
 
-		TIMING ("encoder thread %1 sleeps", pthread_self ());
+		TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty () && !_process_end) {
 			_worker_condition.wait (lock);
@@ -159,9 +159,9 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 			return;
 		}
 
-		TIMING ("encoder thread %1 wakes with queue of %2", pthread_self(), _queue.size());
+		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_log->log (String::compose ("Encoder thread %1 pops frame %2 from queue", pthread_self(), vf->frame()));
+		_log->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()));
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -193,9 +193,9 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				
 		} else {
 			try {
-				TIMING ("encoder thread %1 begins local encode of %2", pthread_self(), vf->frame());
+				TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->frame());
 				encoded = vf->encode_locally ();
-				TIMING ("encoder thread %1 finishes local encode of %2", pthread_self(), vf->frame());
+				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->frame());
 			} catch (std::exception& e) {
 				_log->log (String::compose ("Local encode failed (%1)", e.what ()));
 			}
@@ -206,7 +206,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 			frame_done (vf->frame ());
 		} else {
 			lock.lock ();
-			_log->log (String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", pthread_self(), vf->frame()));
+			_log->log (String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", boost::this_thread::get_id(), vf->frame()));
 			_queue.push_front (vf);
 			lock.unlock ();
 		}

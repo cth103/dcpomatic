@@ -68,7 +68,8 @@ private:
 	void change_dcp_range_clicked (wxCommandEvent &);
 
 	void set_things_sensitive (bool);
-
+	void setup_formats ();
+	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
 
@@ -124,6 +125,8 @@ private:
 
 	std::list<wxControl*> _video_controls;
 	std::list<wxControl*> _still_controls;
+
+	std::vector<Format const *> _formats;
 
 	wxSizer* _sizer;
 };

@@ -182,11 +182,6 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_audio_delay->SetRange (-1000, 1000);
 	_still_duration->SetRange (0, 60 * 60);
 
-	vector<Format const *> fmt = Format::all ();
-	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
-		_format->Append (std_to_wx ((*i)->name ()));
-	}
-
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
 		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
@@ -221,6 +216,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
 
 	setup_visibility ();
+	setup_formats ();
 }
 
 /** Called when the left crop widget has been changed */
@@ -295,6 +291,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 	_ignore_changes = Film::NONE;
 
 	setup_visibility ();
+	setup_formats ();
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -342,10 +339,19 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::CONTENT:
 		_content->SetPath (std_to_wx (_film->content ()));
 		setup_visibility ();
+		setup_formats ();
 		break;
 	case Film::FORMAT:
-		_format->SetSelection (Format::as_index (_film->format ()));
+	{
+		int n = 0;
+		vector<Format const *>::iterator i = _formats.begin ();
+		while (i != _formats.end() && *i != _film->format ()) {
+			++i;
+			++n;
+		}
+		_format->SetSelection (n);
 		break;
+	}
 	case Film::CROP:
 		_left_crop->SetValue (_film->crop().left);
 		_right_crop->SetValue (_film->crop().right);
@@ -445,7 +451,8 @@ FilmEditor::format_changed (wxCommandEvent &)
 	_ignore_changes = Film::FORMAT;
 	int const n = _format->GetSelection ();
 	if (n >= 0) {
-		_film->set_format (Format::from_index (n));
+		assert (n < int (_formats.size()));
+		_film->set_format (_formats[n]);
 	}
 	_ignore_changes = Film::NONE;
 }
@@ -666,4 +673,32 @@ FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
 	audio_gain_changed (dummy);
 	
 	d->Destroy ();
+}
+
+void
+FilmEditor::setup_formats ()
+{
+	ContentType c = VIDEO;
+
+	if (_film) {
+		c = _film->content_type ();
+	}
+	
+	_formats.clear ();
+
+	vector<Format const *> fmt = Format::all ();
+	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
+		if (c == VIDEO && dynamic_cast<FixedFormat const *> (*i)) {
+			_formats.push_back (*i);
+		} else if (c == STILL && dynamic_cast<VariableFormat const *> (*i)) {
+			_formats.push_back (*i);
+		}
+	}
+
+	_format->Clear ();
+	for (vector<Format const *>::iterator i = _formats.begin(); i != _formats.end(); ++i) {
+		_format->Append (std_to_wx ((*i)->name ()));
+	}
+
+	_sizer->Layout ();
 }

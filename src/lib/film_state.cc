@@ -283,19 +283,27 @@ FilmState::bytes_per_sample () const
 int
 FilmState::target_sample_rate () const
 {
+	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_sample_rate (audio_sample_rate);
+
+	/* Compensate for the fact that video will be rounded to the
+	   nearest integer number of frames per second.
+	*/
 	if (rint (frames_per_second) != frames_per_second) {
-		if (fabs (frames_per_second - 23.976) < 1e-6 || (fabs (frames_per_second - 29.97) < 1e-6)) {
-			/* 24fps or 30fps drop-frame ie {24,30} * 1000 / 1001 frames per second;
-			   hence we need to resample the audio to dcp_audio_sample_rate * 1000 / 1001
-			   so that when we play it back at dcp_audio_sample_rate it is sped up
-			   by the same amount that the video is
-			*/
-			t *= double(1000) / 1001;
-		} else {
-			throw EncodeError ("unknown fractional frame rate");
-		}
+		t *= frames_per_second / rint (frames_per_second);
 	}
 
 	return rint (t);
 }
+
+int
+FilmState::dcp_length () const
+{
+	if (dcp_frames) {
+		return dcp_frames;
+	}
+
+	return length;
+}
+
+			

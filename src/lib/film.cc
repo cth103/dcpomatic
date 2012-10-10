@@ -85,8 +85,12 @@ Film::Film (string d, bool must_exist)
 
 	_state.directory = result.string ();
 	
-	if (must_exist && !filesystem::exists (_state.directory)) {
-		throw OpenFileError (_state.directory);
+	if (!filesystem::exists (_state.directory)) {
+		if (must_exist) {
+			throw OpenFileError (_state.directory);
+		} else {
+			filesystem::create_directory (_state.directory);
+		}
 	}
 
 	read_metadata ();
@@ -513,25 +517,22 @@ Film::make_dcp (bool transcode, int freq)
 	o->out_size = format()->dcp_size ();
 	if (dcp_frames() == 0) {
 		/* Decode the whole film, no blacking */
-		o->num_frames = 0;
 		o->black_after = 0;
 	} else {
 		switch (dcp_trim_action()) {
 		case CUT:
 			/* Decode only part of the film, no blacking */
-			o->num_frames = dcp_frames ();
 			o->black_after = 0;
 			break;
 		case BLACK_OUT:
 			/* Decode the whole film, but black some frames out */
-			o->num_frames = 0;
 			o->black_after = dcp_frames ();
 		}
 	}
 	
 	o->decode_video_frequency = freq;
-	o->padding = format()->dcp_padding ();
-	o->ratio = format()->ratio_as_float ();
+	o->padding = format()->dcp_padding (this);
+	o->ratio = format()->ratio_as_float (this);
 
 	if (transcode) {
 		if (_state.dcp_ab) {

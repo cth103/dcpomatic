@@ -42,7 +42,7 @@ decoder_factory (
 
 	if (fs->content_type() == STILL) {
 		/* Always ignore length of decodes of stills, since the decoder finishes very quickly
-		   and its the encoder that takes the time.
+		   and it's the encoder that takes the time.
 		*/
 		return shared_ptr<Decoder> (new ImageMagickDecoder (fs, o, j, l, minimal, true));
 	}

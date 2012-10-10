@@ -77,8 +77,6 @@ public:
 		return _video_frame;
 	}
 	
-	int decoding_frames () const;
-
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the frame.
 	 *  Second parameter is its index within the content.

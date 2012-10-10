@@ -87,6 +87,8 @@ public:
 
 	Size cropped_size (Size) const;
 
+	int dcp_length () const;
+
 	/** Complete path to directory containing the film metadata;
 	    must not be relative.
 	*/

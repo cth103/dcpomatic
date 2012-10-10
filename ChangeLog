@@ -1,3 +1,23 @@
+2012-10-09  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.55 released.
+
+2012-10-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug possibly causing randomly-occuring
+	black thumbnails.
+
+	* Fix problems with obtaining frame rate of
+	WMV files (reported by Anders Nordentoft-Madsen).
+
+2012-10-07  Carl Hetherington  <cth@carlh.net>
+
+	* Fix up some bugs when using limited DCP
+	range (reported by Wolfgang Woehl).
+
+	* Don't stretch still images for DCPs, just
+	scale them up and pad them as required.
+
 2012-10-02  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.54 released.
