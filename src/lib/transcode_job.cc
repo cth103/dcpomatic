@@ -39,8 +39,8 @@ using namespace boost;
  *  @param o Options.
  *  @param l A log that we can write to.
  */
-TranscodeJob::TranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: Job (s, o, l)
+TranscodeJob::TranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
+	: Job (s, o, l, req)
 {
 	
 }

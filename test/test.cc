@@ -34,6 +34,8 @@
 #include "dcp_video_frame.h"
 #include "config.h"
 #include "server.h"
+#include "cross.h"
+#include "job.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -304,6 +306,9 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	new thread (boost::bind (&Server::run, server, 2));
 
+	/* Let the server get itself ready */
+	dvdomatic_sleep (1);
+
 	ServerDescription description ("localhost", 2);
 
 	list<thread*> threads;
@@ -333,7 +338,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	film.make_dcp (true);
 
 	while (JobManager::instance()->work_to_do ()) {
-		sleep (1);
+		dvdomatic_sleep (1);
 	}
 	
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
@@ -356,9 +361,126 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	film.set_dcp_frames (42);
 	film.make_dcp (true);
 
-	while (JobManager::instance()->work_to_do ()) {
-		sleep (1);
+	while (JobManager::instance()->work_to_do() && !JobManager::instance()->errors()) {
+		dvdomatic_sleep (1);
 	}
 
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+}
+
+BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
+{
+	FilmState fs;
+	fs.frames_per_second = 24;
+
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+
+	fs.audio_sample_rate = 44100;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+
+	fs.audio_sample_rate = 80000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 96000);
+
+	fs.frames_per_second = 23.976;
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+
+	fs.frames_per_second = 29.97;
+	fs.audio_sample_rate = 48000;
+	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+}
+
+class TestJob : public Job
+{
+public:
+	TestJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
+		: Job (s, o, l, req)
+	{
+
+	}
+
+	void set_finished_ok () {
+		set_state (FINISHED_OK);
+	}
+
+	void set_finished_error () {
+		set_state (FINISHED_ERROR);
+	}
+
+	void run ()
+	{
+		while (1) {
+			if (finished ()) {
+				return;
+			}
+		}
+	}
+
+	string name () const {
+		return "";
+	}
+};
+
+BOOST_AUTO_TEST_CASE (job_manager_test)
+{
+	shared_ptr<const FilmState> s;
+	shared_ptr<const Options> o;
+	FileLog log ("build/test/job_manager_test.log");
+
+	/* Single job, no dependency */
+	shared_ptr<TestJob> a (new TestJob (s, o, &log, shared_ptr<Job> ()));
+
+	JobManager::instance()->add (a);
+	dvdomatic_sleep (1);
+	BOOST_CHECK_EQUAL (a->running (), true);
+	a->set_finished_ok ();
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->finished_ok(), true);
+
+	/* Two jobs, no dependency */
+	a.reset (new TestJob (s, o, &log, shared_ptr<Job> ()));
+	shared_ptr<TestJob> b (new TestJob (s, o, &log, shared_ptr<Job> ()));
+
+	JobManager::instance()->add (a);
+	JobManager::instance()->add (b);
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->running (), true);
+	BOOST_CHECK_EQUAL (b->running (), true);
+	a->set_finished_ok ();
+	b->set_finished_ok ();
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->finished_ok (), true);
+	BOOST_CHECK_EQUAL (b->finished_ok (), true);
+
+	/* Two jobs, dependency */
+	a.reset (new TestJob (s, o, &log, shared_ptr<Job> ()));
+	b.reset (new TestJob (s, o, &log, a));
+
+	JobManager::instance()->add (a);
+	JobManager::instance()->add (b);
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->running(), true);
+	BOOST_CHECK_EQUAL (b->running(), false);
+	a->set_finished_ok ();
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->finished_ok(), true);
+	BOOST_CHECK_EQUAL (b->running(), true);
+	b->set_finished_ok ();
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (b->finished_ok(), true);
+
+	/* Two jobs, dependency, first fails */
+	a.reset (new TestJob (s, o, &log, shared_ptr<Job> ()));
+	b.reset (new TestJob (s, o, &log, a));
+
+	JobManager::instance()->add (a);
+	JobManager::instance()->add (b);
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->running(), true);
+	BOOST_CHECK_EQUAL (b->running(), false);
+	a->set_finished_error ();
+	dvdomatic_sleep (2);
+	BOOST_CHECK_EQUAL (a->finished_in_error(), true);
+	BOOST_CHECK_EQUAL (b->running(), false);
 }

@@ -35,8 +35,8 @@ using namespace boost;
 /** @param fs FilmState for the film to write DVD data into.
  *  @param l Log that we can write to.
  */
-CopyFromDVDJob::CopyFromDVDJob (shared_ptr<const FilmState> fs, Log* l)
-	: Job (fs, shared_ptr<Options> (), l)
+CopyFromDVDJob::CopyFromDVDJob (shared_ptr<const FilmState> fs, Log* l, shared_ptr<Job> req)
+	: Job (fs, shared_ptr<Options> (), l, req)
 {
 
 }

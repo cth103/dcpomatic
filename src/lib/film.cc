@@ -535,16 +535,18 @@ Film::make_dcp (bool transcode, int freq)
 	o->padding = format()->dcp_padding (this);
 	o->ratio = format()->ratio_as_float (this);
 
+	shared_ptr<Job> r;
+
 	if (transcode) {
 		if (_state.dcp_ab) {
-			JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (fs, o, log ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (fs, o, log(), shared_ptr<Job> ())));
 		} else {
-			JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log(), shared_ptr<Job> ())));
 		}
 	}
 
-	JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (fs, o, log ())));
-	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log ())));
+	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (fs, o, log(), r)));
+	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log(), r)));
 }
 
 shared_ptr<FilmState>
@@ -583,7 +585,7 @@ Film::examine_content ()
 		return;
 	}
 	
-	_examine_content_job.reset (new ExamineContentJob (state_copy (), log ()));
+	_examine_content_job.reset (new ExamineContentJob (state_copy (), log(), shared_ptr<Job> ()));
 	_examine_content_job->Finished.connect (sigc::mem_fun (*this, &Film::examine_content_post_gui));
 	JobManager::instance()->add (_examine_content_job);
 }
@@ -632,14 +634,14 @@ Film::set_still_duration (int d)
 void
 Film::send_dcp_to_tms ()
 {
-	shared_ptr<Job> j (new SCPDCPJob (state_copy (), log ()));
+	shared_ptr<Job> j (new SCPDCPJob (state_copy (), log(), shared_ptr<Job> ()));
 	JobManager::instance()->add (j);
 }
 
 void
 Film::copy_from_dvd ()
 {
-	shared_ptr<Job> j (new CopyFromDVDJob (state_copy (), log ()));
+	shared_ptr<Job> j (new CopyFromDVDJob (state_copy (), log(), shared_ptr<Job> ()));
 	j->Finished.connect (sigc::mem_fun (*this, &Film::copy_from_dvd_post_gui));
 	JobManager::instance()->add (j);
 }
