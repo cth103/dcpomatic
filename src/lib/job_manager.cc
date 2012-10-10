@@ -37,11 +37,12 @@ JobManager::JobManager ()
 	boost::thread (boost::bind (&JobManager::scheduler, this));
 }
 
-void
+shared_ptr<Job>
 JobManager::add (shared_ptr<Job> j)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_jobs.push_back (j);
+	return j;
 }
 
 void
@@ -93,18 +94,15 @@ JobManager::scheduler ()
 	while (1) {
 		{
 			boost::mutex::scoped_lock lm (_mutex);
-			int running = 0;
-			shared_ptr<Job> first_new;
 			for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
-				if ((*i)->running ()) {
-					++running;
-				} else if (!(*i)->finished () && first_new == 0) {
-					first_new = *i;
-				}
+				if ((*i)->is_new()) {
+					shared_ptr<Job> r = (*i)->required ();
+					if (!r || r->finished_ok ()) {
+						(*i)->start ();
 
-				if (running == 0 && first_new) {
-					first_new->start ();
-					break;
+						/* Only start one job at once */
+						break;
+					}
 				}
 			}
 		}

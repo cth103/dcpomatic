@@ -34,7 +34,7 @@
 class ABTranscodeJob : public Job
 {
 public:
-	ABTranscodeJob (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
+	ABTranscodeJob (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l, boost::shared_ptr<Job> req);
 
 	std::string name () const;
 	void run ();

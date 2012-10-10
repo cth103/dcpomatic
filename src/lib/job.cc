@@ -34,10 +34,11 @@ using namespace boost;
  *  @param o Options.
  *  @param l A log that we can write to.
  */
-Job::Job (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
+Job::Job (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
 	: _fs (s)
 	, _opt (o)
 	, _log (l)
+	, _required (req)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
@@ -78,6 +79,13 @@ Job::run_wrapper ()
 		set_error (e.what ());
 
 	}
+}
+
+bool
+Job::is_new () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _state == NEW;
 }
 
 /** @return true if the job is running */

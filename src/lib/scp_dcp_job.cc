@@ -91,8 +91,8 @@ public:
 };
 
 
-SCPDCPJob::SCPDCPJob (shared_ptr<const FilmState> s, Log* l)
-	: Job (s, shared_ptr<const Options> (), l)
+SCPDCPJob::SCPDCPJob (shared_ptr<const FilmState> s, Log* l, shared_ptr<Job> req)
+	: Job (s, shared_ptr<const Options> (), l, req)
 	, _status ("Waiting")
 {
 
