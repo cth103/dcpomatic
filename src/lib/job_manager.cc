@@ -95,6 +95,11 @@ JobManager::scheduler ()
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+				if ((*i)->running ()) {
+					/* Something is already happening */
+					break;
+				}
+				
 				if ((*i)->is_new()) {
 					shared_ptr<Job> r = (*i)->required ();
 					if (!r || r->finished_ok ()) {
