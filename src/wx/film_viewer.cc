@@ -74,7 +74,7 @@ public:
 
 		if (_film->with_subtitles ()) {
 			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-				dc.DrawBitmap (*i->bitmap, i->position.x, i->position.y, true);
+				dc.DrawBitmap (*i->bitmap, i->cropped_position.x, i->cropped_position.y, true);
 			}
 		}
 	}
@@ -188,7 +188,7 @@ private:
 			
 			i->cropped_image.Rescale (cropped_sub_rect.w * x_scale, cropped_sub_rect.h * y_scale, wxIMAGE_QUALITY_HIGH);
 
-			i->position = Position (
+			i->cropped_position = Position (
 				cropped_sub_rect.x * x_scale,
 				cropped_sub_rect.y * y_scale
 				);
@@ -216,6 +216,7 @@ private:
 			      
 		Position position;
 		wxImage image;
+		Position cropped_position;
 		wxImage cropped_image;
 		shared_ptr<wxBitmap> bitmap;
 	};
