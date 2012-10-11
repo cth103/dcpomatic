@@ -49,6 +49,11 @@ public:
 	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
+		if (!_film) {
+			wxPaintDC dc (this);
+			return;
+		}
+		
 		if (_frame_rebuild_needed) {
 			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_index))));
 
@@ -74,7 +79,7 @@ public:
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
 		}
 
-		if (_film && _film->with_subtitles ()) {
+		if (_film->with_subtitles ()) {
 			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 				dc.DrawBitmap (*i->bitmap, i->cropped_position.x, i->cropped_position.y, true);
 			}
