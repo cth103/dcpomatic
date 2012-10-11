@@ -670,6 +670,20 @@ Film::set_with_subtitles (bool w)
 	signal_changed (WITH_SUBTITLES);
 }
 
+void
+Film::set_subtitle_offset (int o)
+{
+	_state.subtitle_offset = o;
+	signal_changed (SUBTITLE_OFFSET);
+}
+
+void
+Film::set_subtitle_scale (float s)
+{
+	_state.subtitle_scale = s;
+	signal_changed (SUBTITLE_SCALE);
+}
+
 list<pair<Position, string> >
 Film::thumb_subtitles (int n) const
 {

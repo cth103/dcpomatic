@@ -81,6 +81,8 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_delay " << audio_delay << "\n";
 	f << "still_duration " << still_duration << "\n";
 	f << "with_subtitles " << with_subtitles << "\n";
+	f << "subtitle_offset " << subtitle_offset << "\n";
+	f << "subtitle_scale " << subtitle_scale << "\n";
 
 	/* Cached stuff; this is information about our content; we could
 	   look it up each time, but that's slow.
@@ -146,6 +148,10 @@ FilmState::read_metadata (string k, string v)
 		still_duration = atoi (v.c_str ());
 	} else if (k == "with_subtitles") {
 		with_subtitles = (v == "1");
+	} else if (k == "subtitle_offset") {
+		subtitle_offset = atoi (v.c_str ());
+	} else if (k == "subtitle_scale") {
+		subtitle_scale = atof (v.c_str ());
 	}
 	
 	/* Cached stuff */

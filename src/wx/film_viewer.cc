@@ -42,6 +42,10 @@ public:
 	ThumbPanel (wxPanel* parent, Film* film)
 		: wxPanel (parent)
 		, _film (film)
+		, _current_index (-1)
+		, _pending_index (-1)
+		, _current_subtitle_offset (0)
+		, _pending_subtitle_offset (0)
 	{
 	}
 
@@ -64,6 +68,11 @@ public:
 
 		if (_current_crop != _pending_crop) {
 			_current_crop = _pending_crop;
+			setup ();
+		}
+
+		if (_current_subtitle_offset != _pending_subtitle_offset) {
+			_current_subtitle_offset = _pending_subtitle_offset;
 			setup ();
 		}
 
@@ -100,6 +109,12 @@ public:
 	void set_crop (Crop c)
 	{
 		_pending_crop = c;
+		Refresh ();
+	}
+
+	void set_subtitle_offset (int o)
+	{
+		_pending_subtitle_offset = o;
 		Refresh ();
 	}
 
@@ -162,21 +177,25 @@ private:
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
 			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
-			x_scale = vh * target / _image->GetWidth ();
-			y_scale = float (vh) / _image->GetHeight ();  
+			x_scale = vh * target / cropped.w;
+			y_scale = float (vh) / cropped.h;
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
 			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
-			x_scale = float (vw) / _image->GetWidth ();
-			y_scale = (vw / target) / _image->GetHeight ();
+			x_scale = float (vw) / cropped.w;
+			y_scale = (vw / target) / cropped.h;
 		}
 
 		_bitmap.reset (new wxBitmap (_cropped_image));
 
 		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-			Rectangle sub_rect (i->position.x, i->position.y, i->image.GetWidth(), i->image.GetHeight());
+
+			/* Area of the subtitle graphic within the (uncropped) picture frame */
+			Rectangle sub_rect (i->position.x, i->position.y + _current_subtitle_offset, i->image.GetWidth(), i->image.GetHeight());
+			/* Hence the subtitle graphic after it has been cropped */
 			Rectangle cropped_sub_rect = sub_rect.intersection (cropped);
 
+			/* Get the cropped version of the subtitle image */
 			i->cropped_image = i->image.GetSubImage (
 				wxRect (
 					cropped_sub_rect.x - sub_rect.x,
@@ -185,12 +204,12 @@ private:
 					cropped_sub_rect.h
 					)
 				);
-			
+
 			i->cropped_image.Rescale (cropped_sub_rect.w * x_scale, cropped_sub_rect.h * y_scale, wxIMAGE_QUALITY_HIGH);
 
 			i->cropped_position = Position (
 				cropped_sub_rect.x * x_scale,
-				cropped_sub_rect.y * y_scale
+				(cropped_sub_rect.y - _current_crop.top) * y_scale
 				);
 
 			i->bitmap.reset (new wxBitmap (i->cropped_image));
@@ -206,6 +225,8 @@ private:
 	shared_ptr<wxBitmap> _bitmap;
 	Crop _current_crop;
 	Crop _pending_crop;
+	int _current_subtitle_offset;
+	int _pending_subtitle_offset;
 
 	struct SubtitleView
 	{
@@ -293,6 +314,9 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::WITH_SUBTITLES:
 		_thumb_panel->Refresh ();
+		break;
+	case Film::SUBTITLE_OFFSET:
+		_thumb_panel->set_subtitle_offset (_film->subtitle_offset ());
 		break;
 	default:
 		break;

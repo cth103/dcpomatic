@@ -63,6 +63,8 @@ public:
 		, audio_delay (0)
 		, still_duration (10)
 		, with_subtitles (false)
+		, subtitle_offset (0)
+		, subtitle_scale (1)
 		, length (0)
 		, audio_channels (0)
 		, audio_sample_rate (0)
@@ -130,6 +132,11 @@ public:
 	/** Duration to make still-sourced films (in seconds) */
 	int still_duration;
 	bool with_subtitles;
+	/** y offset for placing subtitles, in source pixels; +ve is further down
+	    the frame, -ve is further up.
+	*/
+	int subtitle_offset;
+	float subtitle_scale;
 
 	/* Data which is cached to speed things up */
 

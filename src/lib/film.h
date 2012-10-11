@@ -123,6 +123,14 @@ public:
 	bool with_subtitles () const {
 		return _state.with_subtitles;
 	}
+
+	int subtitle_offset () const {
+		return _state.subtitle_offset;
+	}
+
+	float subtitle_scale () const {
+		return _state.subtitle_scale;
+	}
 	
 	void set_filters (std::vector<Filter const *> const &);
 
@@ -149,6 +157,8 @@ public:
 	void set_audio_delay (int);
 	void set_still_duration (int);
 	void set_with_subtitles (bool);
+	void set_subtitle_offset (int);
+	void set_subtitle_scale (float);
 
 	/** @return size, in pixels, of the source (ignoring cropping) */
 	Size size () const {
@@ -230,6 +240,8 @@ public:
 		AUDIO_SAMPLE_RATE,
 		STILL_DURATION,
 		WITH_SUBTITLES,
+		SUBTITLE_OFFSET,
+		SUBTITLE_SCALE
 	};
 
 	boost::shared_ptr<FilmState> state_copy () const;
