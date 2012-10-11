@@ -54,7 +54,6 @@ public:
 
 			_subtitles.clear ();
 
-			cout << "=== SUBS for " << _film->thumb_frame (_pending_index) << "\n";
 			list<pair<Position, string> > s = _film->thumb_subtitles (_pending_index);
 			for (list<pair<Position, string> >::iterator i = s.begin(); i != s.end(); ++i) {
 				_subtitles.push_back (SubtitleView (i->first, std_to_wx (i->second)));
@@ -70,13 +69,13 @@ public:
 
 		wxPaintDC dc (this);
 		if (_bitmap) {
-			cout << "frame bm " << _bitmap->GetWidth() << " " << _bitmap->GetHeight() << "\n";
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
 		}
 
-		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-			dc.DrawBitmap (*i->bitmap, i->position.x, i->position.y, true);
-			cout << "\tsub bm at " << i->position.x << " " << i->position.y << " size " << i->bitmap->GetWidth() << " by " << i->bitmap->GetHeight() << "\n";
+		if (_film->with_subtitles ()) {
+			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+				dc.DrawBitmap (*i->bitmap, i->position.x, i->position.y, true);
+			}
 		}
 	}
 
@@ -178,9 +177,6 @@ private:
 			Rectangle sub_rect (i->position.x, i->position.y, i->image.GetWidth(), i->image.GetHeight());
 			Rectangle cropped_sub_rect = sub_rect.intersection (cropped);
 
-			cout << "sub " << sub_rect.x << " " << sub_rect.y << " " << sub_rect.w << " " << sub_rect.h << "\n";
-			cout << "cropped " << cropped_sub_rect.x << " " << cropped_sub_rect.y << " " << cropped_sub_rect.w << " " << cropped_sub_rect.h << "\n";
-
 			i->cropped_image = i->image.GetSubImage (
 				wxRect (
 					cropped_sub_rect.x - sub_rect.x,
@@ -196,9 +192,6 @@ private:
 				cropped_sub_rect.x * x_scale,
 				cropped_sub_rect.y * y_scale
 				);
-
-			cout << "scales are " << x_scale << " " << y_scale << "\n";
-			cout << "scaled to " << (cropped_sub_rect.w * x_scale) << " " << (cropped_sub_rect.h * y_scale) << "\n";
 
 			i->bitmap.reset (new wxBitmap (i->cropped_image));
 		}
@@ -274,9 +267,11 @@ FilmViewer::slider_changed (wxCommandEvent &)
 void
 FilmViewer::film_changed (Film::Property p)
 {
-	if (p == Film::CROP) {
+	switch (p) {
+	case Film::CROP:
 		_thumb_panel->set_crop (_film->crop ());
-	} else if (p == Film::THUMBS) {
+		break;
+	case Film::THUMBS:
 		if (_film && _film->num_thumbs() > 1) {
 			_slider->SetRange (0, _film->num_thumbs () - 1);
 		} else {
@@ -286,12 +281,20 @@ FilmViewer::film_changed (Film::Property p)
 		
 		_slider->SetValue (0);
 		set_thumbnail (0);
-	} else if (p == Film::FORMAT) {
+		break;
+	case Film::FORMAT:
 		_thumb_panel->refresh ();
-	} else if (p == Film::CONTENT) {
+		break;
+	case Film::CONTENT:
 		setup_visibility ();
 		_film->examine_content ();
 		update_thumbs ();
+		break;
+	case Film::WITH_SUBTITLES:
+		_thumb_panel->Refresh ();
+		break;
+	default:
+		break;
 	}
 }
 

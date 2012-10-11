@@ -219,6 +219,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
+	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 
 	setup_visibility ();
 	setup_formats ();
