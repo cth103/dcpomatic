@@ -42,38 +42,31 @@ public:
 	ThumbPanel (wxPanel* parent, Film* film)
 		: wxPanel (parent)
 		, _film (film)
-		, _current_index (-1)
-		, _pending_index (-1)
-		, _current_subtitle_offset (0)
-		, _pending_subtitle_offset (0)
-	{
-	}
+		, _frame_rebuild_needed (false)
+		, _composition_needed (false)
+	{}
 
 	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
-		if (_current_index != _pending_index) {
-			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_pending_index))));
-			_current_index = _pending_index;
+		if (_frame_rebuild_needed) {
+			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_index))));
 
 			_subtitles.clear ();
-
-			list<pair<Position, string> > s = _film->thumb_subtitles (_pending_index);
+			list<pair<Position, string> > s = _film->thumb_subtitles (_index);
 			for (list<pair<Position, string> >::iterator i = s.begin(); i != s.end(); ++i) {
 				_subtitles.push_back (SubtitleView (i->first, std_to_wx (i->second)));
 			}
 
-			setup ();
+			_frame_rebuild_needed = false;
+
+			compose ();
+			_composition_needed = false;
 		}
 
-		if (_current_crop != _pending_crop) {
-			_current_crop = _pending_crop;
-			setup ();
-		}
-
-		if (_current_subtitle_offset != _pending_subtitle_offset) {
-			_current_subtitle_offset = _pending_subtitle_offset;
-			setup ();
+		if (_composition_needed) {
+			compose ();
+			_composition_needed = false;
 		}
 
 		wxPaintDC dc (this);
@@ -81,7 +74,7 @@ public:
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
 		}
 
-		if (_film->with_subtitles ()) {
+		if (_film && _film->with_subtitles ()) {
 			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 				dc.DrawBitmap (*i->bitmap, i->cropped_position.x, i->cropped_position.y, true);
 			}
@@ -95,26 +88,14 @@ public:
 			return;
 		}
 
-		setup ();
-		Refresh ();
+		recompose ();
 	}
 
 	/** @param n Thumbnail index */
 	void set (int n)
 	{
-		_pending_index = n;
-		Refresh ();
-	}
-
-	void set_crop (Crop c)
-	{
-		_pending_crop = c;
-		Refresh ();
-	}
-
-	void set_subtitle_offset (int o)
-	{
-		_pending_subtitle_offset = o;
+		_index = n;
+		_frame_rebuild_needed = true;
 		Refresh ();
 	}
 
@@ -123,9 +104,10 @@ public:
 		_film = f;
 		if (!_film) {
 			clear ();
+			_frame_rebuild_needed = true;
 			Refresh ();
 		} else {
-			setup ();
+			_frame_rebuild_needed = true;
 			Refresh ();
 		}
 	}
@@ -138,9 +120,9 @@ public:
 		_subtitles.clear ();
 	}
 
-	void refresh ()
+	void recompose ()
 	{
-		setup ();
+		_composition_needed = true;
 		Refresh ();
 	}
 
@@ -148,7 +130,7 @@ public:
 
 private:
 
-	void setup ()
+	void compose ()
 	{
 		if (!_film || !_image) {
 			return;
@@ -160,10 +142,10 @@ private:
 
 		/* Cropped rectangle */
 		Rectangle cropped (
-			_current_crop.left,
-			_current_crop.top,
-			_image->GetWidth() - (_current_crop.left + _current_crop.right),
-			_image->GetHeight() - (_current_crop.top + _current_crop.bottom)
+			_film->crop().left,
+			_film->crop().top,
+			_image->GetWidth() - (_film->crop().left + _film->crop().right),
+			_image->GetHeight() - (_film->crop().top + _film->crop().bottom)
 			);
 
 		/* Target ratio */
@@ -191,7 +173,7 @@ private:
 		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 
 			/* Area of the subtitle graphic within the (uncropped) picture frame */
-			Rectangle sub_rect (i->position.x, i->position.y + _current_subtitle_offset, i->image.GetWidth(), i->image.GetHeight());
+			Rectangle sub_rect (i->position.x, i->position.y + _film->subtitle_offset(), i->image.GetWidth(), i->image.GetHeight());
 			/* Hence the subtitle graphic after it has been cropped */
 			Rectangle cropped_sub_rect = sub_rect.intersection (cropped);
 
@@ -209,7 +191,7 @@ private:
 
 			i->cropped_position = Position (
 				cropped_sub_rect.x * x_scale,
-				(cropped_sub_rect.y - _current_crop.top) * y_scale
+				(cropped_sub_rect.y - _film->crop().top) * y_scale
 				);
 
 			i->bitmap.reset (new wxBitmap (i->cropped_image));
@@ -220,13 +202,10 @@ private:
 	shared_ptr<wxImage> _image;
 	wxImage _cropped_image;
 	/** currently-displayed thumbnail index */
-	int _current_index;
-	int _pending_index;
+	int _index;
 	shared_ptr<wxBitmap> _bitmap;
-	Crop _current_crop;
-	Crop _pending_crop;
-	int _current_subtitle_offset;
-	int _pending_subtitle_offset;
+	bool _frame_rebuild_needed;
+	bool _composition_needed;
 
 	struct SubtitleView
 	{
@@ -290,9 +269,6 @@ void
 FilmViewer::film_changed (Film::Property p)
 {
 	switch (p) {
-	case Film::CROP:
-		_thumb_panel->set_crop (_film->crop ());
-		break;
 	case Film::THUMBS:
 		if (_film && _film->num_thumbs() > 1) {
 			_slider->SetRange (0, _film->num_thumbs () - 1);
@@ -304,19 +280,17 @@ FilmViewer::film_changed (Film::Property p)
 		_slider->SetValue (0);
 		set_thumbnail (0);
 		break;
-	case Film::FORMAT:
-		_thumb_panel->refresh ();
-		break;
 	case Film::CONTENT:
 		setup_visibility ();
 		_film->examine_content ();
 		update_thumbs ();
 		break;
+	case Film::CROP:
+	case Film::FORMAT:
 	case Film::WITH_SUBTITLES:
-		_thumb_panel->Refresh ();
-		break;
 	case Film::SUBTITLE_OFFSET:
-		_thumb_panel->set_subtitle_offset (_film->subtitle_offset ());
+	case Film::SUBTITLE_SCALE:
+		_thumb_panel->recompose ();
 		break;
 	default:
 		break;
@@ -340,7 +314,6 @@ FilmViewer::set_film (Film* f)
 	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
 	film_changed (Film::CROP);
 	film_changed (Film::THUMBS);
-	_thumb_panel->refresh ();
 	setup_visibility ();
 }
 
