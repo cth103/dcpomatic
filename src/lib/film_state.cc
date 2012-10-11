@@ -191,7 +191,7 @@ FilmState::thumb_file (int n) const
 string
 FilmState::thumb_file_for_frame (int n) const
 {
-	return thumb_base_for_frame(n) + ".tiff";
+	return thumb_base_for_frame(n) + ".png";
 }
 
 string

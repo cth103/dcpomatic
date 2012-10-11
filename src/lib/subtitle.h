@@ -17,27 +17,47 @@
 
 */
 
-/** @file src/tiff_encoder.h
- *  @brief An encoder that writes TIFF files (and does nothing with audio).
- */
+#include <list>
+#include <boost/shared_ptr.hpp>
+#include "util.h"
 
-#include <string>
-#include <sndfile.h>
-#include "encoder.h"
+struct AVSubtitle;
+class SubtitleImage;
+class SimpleImage;
 
-class FilmState;
-class Log;
-
-/** @class TIFFEncoder
- *  @brief An encoder that writes TIFF files (and does nothing with audio).
- */
-class TIFFEncoder : public Encoder
+class Subtitle
 {
 public:
-	TIFFEncoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
+	Subtitle (AVSubtitle const &);
 
-	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format) {}
-	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);
-	void process_audio (uint8_t *, int) {}
-	void process_end () {}
+	bool displayed_at (double t);
+
+	std::list<boost::shared_ptr<SubtitleImage> > images () const {
+		return _images;
+	}
+
+private:
+	/** display from time in seconds from the start of the film */
+	double _from;
+	/** display to time in seconds from the start of the film */
+	double _to;
+	std::list<boost::shared_ptr<SubtitleImage> > _images;
+};
+
+class SubtitleImage
+{
+public:
+	SubtitleImage (AVSubtitleRect const *);
+
+	Position position () const {
+		return _position;
+	}
+	
+	boost::shared_ptr<SimpleImage> image () const {
+		return _image;
+	}
+
+private:
+	Position _position;
+	boost::shared_ptr<SimpleImage> _image;
 };

@@ -326,7 +326,7 @@ FilmViewer::update_thumbs ()
 	_film->update_thumbs_pre_gui ();
 
 	shared_ptr<const FilmState> s = _film->state_copy ();
-	shared_ptr<Options> o (new Options (s->dir ("thumbs"), ".tiff", ""));
+	shared_ptr<Options> o (new Options (s->dir ("thumbs"), ".png", ""));
 	o->out_size = _film->size ();
 	o->apply_crop = false;
 	o->decode_audio = false;

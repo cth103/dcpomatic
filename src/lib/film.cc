@@ -30,7 +30,7 @@
 #include <boost/lexical_cast.hpp>
 #include "film.h"
 #include "format.h"
-#include "tiff_encoder.h"
+#include "imagemagick_encoder.h"
 #include "job.h"
 #include "filter.h"
 #include "transcoder.h"
@@ -397,7 +397,7 @@ Film::update_thumbs_post_gui ()
 		string const l = i->leaf ();
 #endif
 		
-		size_t const d = l.find (".tiff");
+		size_t const d = l.find (".png");
 		if (d != string::npos) {
 			_state.thumbs.push_back (atoi (l.substr (0, d).c_str()));
 		}
@@ -707,7 +707,7 @@ Film::thumb_subtitles (int n) const
 		} else if (k == "x") {
 			sub_x = v;
 		} else if (k == "y") {
-			subs.push_back (make_pair (Position (sub_x, v), String::compose ("%1.sub.%2.tiff", _state.thumb_base(n), sub_number)));
+			subs.push_back (make_pair (Position (sub_x, v), String::compose ("%1.sub.%2.png", _state.thumb_base(n), sub_number)));
 		}
 	}
 
