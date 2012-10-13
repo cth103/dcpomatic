@@ -80,25 +80,44 @@ subtitle_transform (
 {
 	SubtitleTransform tx;
 
+	/* The area of the original subtitle, in the coordinate space of the source video frame */
 	Rectangle sub_area (sub_pos.x, sub_pos.y + fs->subtitle_offset, sub_width, sub_height);
-	
+
+	/* The cropped area of the source video frame, in the same coordinate space */
 	Rectangle cropped_target_area (
 		fs->crop.left,
 		fs->crop.top,
 		target_base_width - (fs->crop.left + fs->crop.right),
 		target_base_height - (fs->crop.top + fs->crop.bottom)
 		);
-	
+
+	/* Hence the area of the cropped subtitle, in the same coordinate space */
 	Rectangle cropped_sub_area = sub_area.intersection (cropped_target_area);
-	
+
+	/* The crop that should be applied to the subtitle, in its coordinate space */
 	tx.crop.x = cropped_sub_area.x - sub_area.x;
 	tx.crop.y = cropped_sub_area.y - sub_area.y;
 	tx.crop.w = cropped_sub_area.w;
 	tx.crop.h = cropped_sub_area.h;
 
+	/* We will scale the subtitle by the same amount as the video frame, and also by the additional
+	   subtitle_scale
+	*/
 	tx.transformed.w = cropped_sub_area.w * target_x_scale * fs->subtitle_scale;
 	tx.transformed.h = cropped_sub_area.h * target_y_scale * fs->subtitle_scale;
 
+	/* Then we need a corrective translation, consisting of two parts:
+	 *
+	 * 1.  that which is the result of the scaling of the subtitle by target_x_scale and target_y_scale; this will be
+	 *     (sub_area.x - fs->crop_left) * target_x_scale and (sub_area.y - fs->crop_top) * target_y_scale.
+	 *
+	 * 2.  that to shift the origin of the scale by fs->subtitle_scale to the centre of the subtitle; this will be
+	 *     (width_before_subtitle_scale * (1 - fs->subtitle_scale) / 2) and
+	 *     (height_before_subtitle_scale * (1 - fs->subtitle_scale) / 2).
+	 *
+	 * Combining these two translations gives these expressions.
+	 */
+	
 	tx.transformed.x = target_x_scale * ((sub_area.x - fs->crop.left) + (cropped_sub_area.w * (1 - fs->subtitle_scale) / 2));
 	tx.transformed.y = target_y_scale * ((sub_area.y - fs->crop.top) + (cropped_sub_area.h * (1 - fs->subtitle_scale) / 2));
 

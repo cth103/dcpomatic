@@ -139,9 +139,14 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_subtitle_offset = new wxSpinCtrl (this);
 	_sizer->Add (video_control (_subtitle_offset), 1);
 
-	video_control (add_label_to_sizer (_sizer, this, "Subtitle Scale"));
-	_subtitle_scale = new wxSpinCtrl (this);
-	_sizer->Add (video_control (_subtitle_scale), 1);
+	{
+		video_control (add_label_to_sizer (_sizer, this, "Subtitle Scale"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_subtitle_scale = new wxSpinCtrl (this);
+		s->Add (video_control (_subtitle_scale));
+		video_control (add_label_to_sizer (s, this, "%"));
+		_sizer->Add (s);
+	}
 	
 	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxStaticText (this, wxID_ANY, wxT (""));
@@ -195,6 +200,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_audio_delay->SetRange (-1000, 1000);
 	_still_duration->SetRange (0, 60 * 60);
 	_subtitle_offset->SetRange (-1024, 1024);
+	_subtitle_scale->SetRange (1, 1000);
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -358,7 +364,7 @@ FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 	}
 
 	_ignore_changes = Film::SUBTITLE_OFFSET;
-	_film->set_subtitle_scale (_subtitle_scale->GetValue ());
+	_film->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
 	_ignore_changes = Film::NONE;
 }
 
@@ -490,7 +496,7 @@ FilmEditor::film_changed (Film::Property p)
 		_subtitle_offset->SetValue (_film->subtitle_offset ());
 		break;
 	case Film::SUBTITLE_SCALE:
-		_subtitle_scale->SetValue (_film->subtitle_scale ());
+		_subtitle_scale->SetValue (_film->subtitle_scale() * 100);
 		break;
 	}
 }
