@@ -30,6 +30,7 @@
 #include "lib/job_manager.h"
 #include "lib/film_state.h"
 #include "lib/options.h"
+#include "lib/subtitle.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -81,7 +82,7 @@ public:
 
 		if (_film->with_subtitles ()) {
 			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-				dc.DrawBitmap (*i->bitmap, i->cropped_position.x, i->cropped_position.y, true);
+				dc.DrawBitmap (*i->bitmap, i->transformed_position.x, i->transformed_position.y, true);
 			}
 		}
 	}
@@ -146,7 +147,7 @@ private:
 		GetSize (&vw, &vh);
 
 		/* Cropped rectangle */
-		Rectangle cropped (
+		Rectangle cropped_area (
 			_film->crop().left,
 			_film->crop().top,
 			_image->GetWidth() - (_film->crop().left + _film->crop().right),
@@ -156,56 +157,44 @@ private:
 		/* Target ratio */
 		float const target = _film->format() ? _film->format()->ratio_as_float (_film) : 1.78;
 
-		_cropped_image = _image->GetSubImage (wxRect (cropped.x, cropped.y, cropped.w, cropped.h));
+		_transformed_image = _image->GetSubImage (wxRect (cropped_area.x, cropped_area.y, cropped_area.w, cropped_area.h));
 
 		float x_scale = 1;
 		float y_scale = 1;
 
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
-			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
-			x_scale = vh * target / cropped.w;
-			y_scale = float (vh) / cropped.h;
+			_transformed_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
+			x_scale = vh * target / cropped_area.w;
+			y_scale = float (vh) / cropped_area.h;
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
-			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
-			x_scale = float (vw) / cropped.w;
-			y_scale = (vw / target) / cropped.h;
+			_transformed_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
+			x_scale = float (vw) / cropped_area.w;
+			y_scale = (vw / target) / cropped_area.h;
 		}
 
-		_bitmap.reset (new wxBitmap (_cropped_image));
+		_bitmap.reset (new wxBitmap (_transformed_image));
 
 		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 
-			/* Area of the subtitle graphic within the (uncropped) picture frame */
-			Rectangle sub_rect (i->position.x, i->position.y + _film->subtitle_offset(), i->image.GetWidth(), i->image.GetHeight());
-			/* Hence the subtitle graphic after it has been cropped */
-			Rectangle cropped_sub_rect = sub_rect.intersection (cropped);
-
-			/* Get the cropped version of the subtitle image */
-			i->cropped_image = i->image.GetSubImage (
-				wxRect (
-					cropped_sub_rect.x - sub_rect.x,
-					cropped_sub_rect.y - sub_rect.y,
-					cropped_sub_rect.w,
-					cropped_sub_rect.h
-					)
+			SubtitleTransform tx = subtitle_transform (
+				_image->GetWidth(), _image->GetHeight(),
+				x_scale, y_scale,
+				i->base_position, i->base_image.GetWidth(), i->base_image.GetHeight(),
+				_film->state_copy()
 				);
 
-			i->cropped_image.Rescale (cropped_sub_rect.w * x_scale, cropped_sub_rect.h * y_scale, wxIMAGE_QUALITY_HIGH);
-
-			i->cropped_position = Position (
-				cropped_sub_rect.x * x_scale,
-				(cropped_sub_rect.y - _film->crop().top) * y_scale
-				);
-
-			i->bitmap.reset (new wxBitmap (i->cropped_image));
+			i->transformed_image = i->base_image.GetSubImage (wxRect (tx.crop.x, tx.crop.y, tx.crop.w, tx.crop.h));
+			i->transformed_image.Rescale (tx.transformed.w, tx.transformed.h, wxIMAGE_QUALITY_HIGH);
+			i->transformed_position = Position (tx.transformed.x, tx.transformed.y);
+			i->bitmap.reset (new wxBitmap (i->transformed_image));
 		}
 	}
 
 	Film* _film;
 	shared_ptr<wxImage> _image;
-	wxImage _cropped_image;
+	wxImage _transformed_image;
 	/** currently-displayed thumbnail index */
 	int _index;
 	shared_ptr<wxBitmap> _bitmap;
@@ -215,14 +204,14 @@ private:
 	struct SubtitleView
 	{
 		SubtitleView (Position p, wxString const & i)
-			: position (p)
-			, image (i)
+			: base_position (p)
+			, base_image (i)
 		{}
-			      
-		Position position;
-		wxImage image;
-		Position cropped_position;
-		wxImage cropped_image;
+
+		Position base_position;
+		Position transformed_position;
+		wxImage base_image;
+		wxImage transformed_image;
 		shared_ptr<wxBitmap> bitmap;
 	};
 

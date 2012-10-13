@@ -36,6 +36,7 @@
 #include "server.h"
 #include "cross.h"
 #include "job.h"
+#include "subtitle.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -248,7 +249,7 @@ BOOST_AUTO_TEST_CASE (paths_test)
 	FilmState s;
 	s.directory = "build/test/a/b/c/d/e";
 	s.thumbs.push_back (42);
-	BOOST_CHECK_EQUAL (s.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.tiff");
+	BOOST_CHECK_EQUAL (s.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
 
 	s.content = "/foo/bar/baz";
 	BOOST_CHECK_EQUAL (s.content_path(), "/foo/bar/baz");
@@ -438,24 +439,9 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	dvdomatic_sleep (2);
 	BOOST_CHECK_EQUAL (a->finished_ok(), true);
 
-	/* Two jobs, no dependency */
-	a.reset (new TestJob (s, o, &log, shared_ptr<Job> ()));
-	shared_ptr<TestJob> b (new TestJob (s, o, &log, shared_ptr<Job> ()));
-
-	JobManager::instance()->add (a);
-	JobManager::instance()->add (b);
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (a->running (), true);
-	BOOST_CHECK_EQUAL (b->running (), true);
-	a->set_finished_ok ();
-	b->set_finished_ok ();
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (a->finished_ok (), true);
-	BOOST_CHECK_EQUAL (b->finished_ok (), true);
-
 	/* Two jobs, dependency */
 	a.reset (new TestJob (s, o, &log, shared_ptr<Job> ()));
-	b.reset (new TestJob (s, o, &log, a));
+	shared_ptr<TestJob> b (new TestJob (s, o, &log, a));
 
 	JobManager::instance()->add (a);
 	JobManager::instance()->add (b);

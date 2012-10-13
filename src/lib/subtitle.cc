@@ -20,6 +20,7 @@
 #include "subtitle.h"
 #include "image.h"
 #include "exceptions.h"
+#include "film_state.h"
 
 using namespace std;
 using namespace boost;
@@ -67,4 +68,39 @@ SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
 		}
 		sub_p += rect->pict.linesize[0];
 	}
+}
+
+SubtitleTransform
+subtitle_transform (
+	int target_base_width, int target_base_height,
+	float target_x_scale, float target_y_scale,
+	Position sub_pos, int sub_width, int sub_height,
+	shared_ptr<FilmState> fs
+	)
+{
+	SubtitleTransform tx;
+
+	Rectangle sub_area (sub_pos.x, sub_pos.y + fs->subtitle_offset, sub_width, sub_height);
+	
+	Rectangle cropped_target_area (
+		fs->crop.left,
+		fs->crop.top,
+		target_base_width - (fs->crop.left + fs->crop.right),
+		target_base_height - (fs->crop.top + fs->crop.bottom)
+		);
+	
+	Rectangle cropped_sub_area = sub_area.intersection (cropped_target_area);
+	
+	tx.crop.x = cropped_sub_area.x - sub_area.x;
+	tx.crop.y = cropped_sub_area.y - sub_area.y;
+	tx.crop.w = cropped_sub_area.w;
+	tx.crop.h = cropped_sub_area.h;
+
+	tx.transformed.w = cropped_sub_area.w * target_x_scale * fs->subtitle_scale;
+	tx.transformed.h = cropped_sub_area.h * target_y_scale * fs->subtitle_scale;
+
+	tx.transformed.x = target_x_scale * ((sub_area.x - fs->crop.left) + (cropped_sub_area.w * (1 - fs->subtitle_scale) / 2));
+	tx.transformed.y = target_y_scale * ((sub_area.y - fs->crop.top) + (cropped_sub_area.h * (1 - fs->subtitle_scale) / 2));
+
+	return tx;
 }

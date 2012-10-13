@@ -24,6 +24,7 @@
 struct AVSubtitle;
 class SubtitleImage;
 class SimpleImage;
+class FilmState;
 
 class Subtitle
 {
@@ -43,6 +44,20 @@ private:
 	double _to;
 	std::list<boost::shared_ptr<SubtitleImage> > _images;
 };
+
+struct SubtitleTransform
+{
+public:
+	Rectangle crop;
+	Rectangle transformed;
+};
+
+extern SubtitleTransform subtitle_transform (
+	int target_base_width, int target_base_height,
+	float target_x_scale, float target_y_scale,
+	Position sub_pos, int sub_width, int sub_height,
+	boost::shared_ptr<FilmState> fs
+	);
 
 class SubtitleImage
 {
