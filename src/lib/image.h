@@ -34,7 +34,7 @@ extern "C" {
 
 class Scaler;
 class RGBFrameImage;
-class PostProcessImage;
+class SimpleImage;
 
 /** @class Image
  *  @brief Parent class for wrappers of some image, in some format, that
@@ -67,7 +67,7 @@ public:
 	int lines (int) const;
 	boost::shared_ptr<RGBFrameImage> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
 	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
-	boost::shared_ptr<PostProcessImage> post_process (std::string) const;
+	boost::shared_ptr<SimpleImage> post_process (std::string) const;
 	
 	void make_black ();
 	
@@ -135,25 +135,6 @@ private:
 	Size _size;
 	AVFrame* _frame;
 	uint8_t* _data;
-};
-
-/** @class PostProcessImage
- *  @brief An image that is the result of an FFmpeg post-processing run.
- */
-class PostProcessImage : public Image
-{
-public:
-	PostProcessImage (PixelFormat, Size);
-	~PostProcessImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	Size size () const;
-
-private:
-	Size _size;
-	uint8_t** _data;
-	int* _line_size;
 };
 
 #endif

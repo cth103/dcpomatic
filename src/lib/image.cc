@@ -167,10 +167,10 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
  *  @param pp Flags for the required set of post processes.
  *  @return Post-processed image.
  */
-shared_ptr<PostProcessImage>
+shared_ptr<SimpleImage>
 Image::post_process (string pp) const
 {
-	shared_ptr<PostProcessImage> out (new PostProcessImage (PIX_FMT_YUV420P, size ()));
+	shared_ptr<SimpleImage> out (new SimpleImage (PIX_FMT_YUV420P, size ()));
 	
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
 	pp_context* context = pp_get_context (size().width, size().height, PP_FORMAT_420 | PP_CPU_CAPS_MMX2);
@@ -341,47 +341,6 @@ RGBFrameImage::line_size () const
 
 Size
 RGBFrameImage::size () const
-{
-	return _size;
-}
-
-PostProcessImage::PostProcessImage (PixelFormat p, Size s)
-	: Image (p)
-	, _size (s)
-{
-	_data = new uint8_t*[4];
-	_line_size = new int[4];
-	
-	for (int i = 0; i < 4; ++i) {
-		_data[i] = (uint8_t *) av_malloc (s.width * s.height);
-		_line_size[i] = s.width;
-	}
-}
-
-PostProcessImage::~PostProcessImage ()
-{
-	for (int i = 0; i < 4; ++i) {
-		av_free (_data[i]);
-	}
-	
-	delete[] _data;
-	delete[] _line_size;
-}
-
-uint8_t **
-PostProcessImage::data () const
-{
-	return _data;
-}
-
-int *
-PostProcessImage::line_size () const
-{
-	return _line_size;
-}
-
-Size
-PostProcessImage::size () const
 {
 	return _size;
 }
