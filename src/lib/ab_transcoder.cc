@@ -80,14 +80,15 @@ ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtit
 		for (int i = 0; i < yuv->components(); ++i) {
 			int const line_size = yuv->line_size()[i];
 			int const half_line_size = line_size / 2;
+			int const stride = yuv->stride()[i];
 
 			uint8_t* p = _image->data()[i];
 			uint8_t* q = yuv->data()[i];
 			
 			for (int j = 0; j < yuv->lines (i); ++j) {
 				memcpy (p + half_line_size, q + half_line_size, half_line_size);
-				p += line_size;
-				q += line_size;
+				p += stride;
+				q += stride;
 			}
 		}
 			

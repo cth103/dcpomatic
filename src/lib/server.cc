@@ -119,7 +119,7 @@ Server::process (shared_ptr<Socket> socket)
 	shared_ptr<Image> image (new SimpleImage (pixel_format, in_size));
 	
 	for (int i = 0; i < image->components(); ++i) {
-		socket->read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
+		socket->read_definite_and_consume (image->data()[i], image->stride()[i] * image->lines(i), 30);
 	}
 
 	/* XXX: subtitle */

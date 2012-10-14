@@ -188,7 +188,7 @@ DCPVideoFrame::encode_locally ()
 
 	int jn = 0;
 	for (int y = 0; y < _out_size.height; ++y) {
-		uint8_t* p = prepared->data()[0] + y * prepared->line_size()[0];
+		uint8_t* p = prepared->data()[0] + y * prepared->stride()[0];
 		for (int x = 0; x < _out_size.width; ++x) {
 
 			/* In gamma LUT (converting 8-bit input to 12-bit) */
@@ -332,7 +332,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
 	for (int i = 0; i < _input->components(); ++i) {
-		socket.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 30);
+		socket.write (_input->data()[i], _input->stride()[i] * _input->lines(i), 30);
 	}
 
 	char buffer[32];

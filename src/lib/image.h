@@ -57,8 +57,11 @@ public:
 	/** @return Array of pointers to arrays of the component data */
 	virtual uint8_t ** data () const = 0;
 
-	/** @return Array of sizes of each line, in pixels */
+	/** @return Array of sizes of the data in each line, in bytes (without any alignment padding bytes) */
 	virtual int * line_size () const = 0;
+
+	/** @return Array of strides for each line (including any alignment padding bytes) */
+	virtual int * stride () const = 0;
 
 	/** @return Size of the image, in pixels */
 	virtual Size size () const = 0;
@@ -91,6 +94,7 @@ public:
 
 	uint8_t ** data () const;
 	int * line_size () const;
+	int * stride () const;
 	Size size () const;
 
 private:
@@ -108,12 +112,15 @@ public:
 
 	uint8_t ** data () const;
 	int * line_size () const;
+	int * stride () const;
 	Size size () const;
 	
 private:
 	Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
-	int* _line_size; ///< array of widths of each line, in bytes
+	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
+	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
+
 };
 
 /** @class RGBFrameImage
@@ -127,6 +134,7 @@ public:
 
 	uint8_t ** data () const;
 	int * line_size () const;
+	int * stride () const;
 	Size size () const;
 	AVFrame * frame () const {
 		return _frame;

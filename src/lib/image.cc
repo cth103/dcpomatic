@@ -98,9 +98,9 @@ Image::scale (Size out_size, Scaler const * scaler) const
 
 	sws_scale (
 		scale_context,
-		data(), line_size(),
+		data(), stride(),
 		0, size().height,
-		scaled->data (), scaled->line_size ()
+		scaled->data(), scaled->stride()
 		);
 
 	sws_freeContext (scale_context);
@@ -131,9 +131,9 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	/* Scale and convert to RGB from whatever its currently in (which may be RGB) */
 	sws_scale (
 		scale_context,
-		data(), line_size(),
+		data(), stride(),
 		0, size().height,
-		rgb->data (), rgb->line_size ()
+		rgb->data(), rgb->stride()
 		);
 
 	/* Put the image in the right place in a black frame if are padding; this is
@@ -151,8 +151,8 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 		uint8_t* q = rgb->data()[0];
 		for (int j = 0; j < rgb->lines(0); ++j) {
 			memcpy (p, q, rgb->line_size()[0]);
-			p += padded_rgb->line_size()[0];
-			q += rgb->line_size()[0];
+			p += padded_rgb->stride()[0];
+			q += rgb->stride()[0];
 		}
 
 		rgb = padded_rgb;
@@ -176,8 +176,8 @@ Image::post_process (string pp) const
 	pp_context* context = pp_get_context (size().width, size().height, PP_FORMAT_420 | PP_CPU_CAPS_MMX2);
 
 	pp_postprocess (
-		(const uint8_t **) data(), line_size(),
-		out->data(), out->line_size(),
+		(const uint8_t **) data(), stride(),
+		out->data(), out->stride(),
 		size().width, size().height,
 		0, 0, mode, context, 0
 		);
@@ -193,13 +193,13 @@ Image::make_black ()
 {
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
-		memset (data()[0], 0, lines(0) * line_size()[0]);
-		memset (data()[1], 0x80, lines(1) * line_size()[1]);
-		memset (data()[2], 0x80, lines(2) * line_size()[2]);
+		memset (data()[0], 0, lines(0) * stride()[0]);
+		memset (data()[1], 0x80, lines(1) * stride()[1]);
+		memset (data()[2], 0x80, lines(2) * stride()[2]);
 		break;
 
 	case PIX_FMT_RGB24:		
-		memset (data()[0], 0, lines(0) * line_size()[0]);
+		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
 
 	default:
@@ -230,8 +230,8 @@ Image::alpha_blend (shared_ptr<Image> other, Position position)
 	}
 
 	for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-		uint8_t* tp = data()[0] + ty * line_size()[0] + position.x * 3;
-		uint8_t* op = other->data()[0] + oy * other->line_size()[0];
+		uint8_t* tp = data()[0] + ty * stride()[0] + position.x * 3;
+		uint8_t* op = other->data()[0] + oy * other->stride()[0];
 		for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 			float const alpha = float (op[3]) / 255;
 			tp[0] = (tp[0] * (1 - alpha)) + op[0] * alpha;
@@ -257,25 +257,28 @@ SimpleImage::SimpleImage (PixelFormat p, Size s)
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
 	_line_size = (int *) av_malloc (4);
 	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
+	_stride = (int *) av_malloc (4);
+	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
 	switch (p) {
 	case PIX_FMT_RGB24:
-		_line_size[0] = round_up (s.width * 3, 32);
+		_line_size[0] = s.width * 3;
 		break;
 	case PIX_FMT_RGBA:
-		_line_size[0] = round_up (s.width * 4, 32);
+		_line_size[0] = s.width * 4;
 		break;
 	case PIX_FMT_YUV420P:
-		_line_size[0] = round_up (s.width, 32);
-		_line_size[1] = round_up (s.width / 2, 32);
-		_line_size[2] = round_up (s.width / 2, 32);
+		_line_size[0] = s.width;
+		_line_size[1] = s.width / 2;
+		_line_size[2] = s.width / 2;
 		break;
 	default:
 		assert (false);
 	}
-	
+
 	for (int i = 0; i < components(); ++i) {
-		_data[i] = (uint8_t *) av_malloc (_line_size[i] * lines (i));
+		_stride[i] = round_up (_line_size[i], 32);
+		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
 	}
 }
 
@@ -288,6 +291,7 @@ SimpleImage::~SimpleImage ()
 
 	av_free (_data);
 	av_free (_line_size);
+	av_free (_stride);
 }
 
 uint8_t **
@@ -300,6 +304,12 @@ int *
 SimpleImage::line_size () const
 {
 	return _line_size;
+}
+
+int *
+SimpleImage::stride () const
+{
+	return _stride;
 }
 
 Size
@@ -330,6 +340,13 @@ FilterBufferImage::data () const
 int *
 FilterBufferImage::line_size () const
 {
+	return _buffer->linesize;
+}
+
+int *
+FilterBufferImage::stride () const
+{
+	/* XXX? */
 	return _buffer->linesize;
 }
 
@@ -375,6 +392,13 @@ int *
 RGBFrameImage::line_size () const
 {
 	return _frame->linesize;
+}
+
+int *
+RGBFrameImage::stride () const
+{
+	/* XXX? */
+	return line_size ();
 }
 
 Size
