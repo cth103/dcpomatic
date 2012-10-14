@@ -176,8 +176,6 @@ DCPVideoFrame::encode_locally ()
 
 	create_openjpeg_container ();
 
-	int const size = _out_size.width * _out_size.height;
-
 	struct {
 		double r, g, b;
 	} s;
@@ -188,27 +186,41 @@ DCPVideoFrame::encode_locally ()
 
 	/* Copy our RGB into the openjpeg container, converting to XYZ in the process */
 
-	uint8_t* p = prepared->data()[0];
-	for (int i = 0; i < size; ++i) {
-		/* In gamma LUT (converting 8-bit input to 12-bit) */
-		s.r = lut_in[_colour_lut_index][*p++ << 4];
-		s.g = lut_in[_colour_lut_index][*p++ << 4];
-		s.b = lut_in[_colour_lut_index][*p++ << 4];
+	int jn = 0;
+	for (int y = 0; y < _out_size.height; ++y) {
+		uint8_t* p = prepared->data()[0] + y * prepared->line_size()[0];
+		for (int x = 0; x < _out_size.width; ++x) {
 
-		/* RGB to XYZ Matrix */
-		d.x = ((s.r * color_matrix[_colour_lut_index][0][0]) + (s.g * color_matrix[_colour_lut_index][0][1]) + (s.b * color_matrix[_colour_lut_index][0][2]));
-		d.y = ((s.r * color_matrix[_colour_lut_index][1][0]) + (s.g * color_matrix[_colour_lut_index][1][1]) + (s.b * color_matrix[_colour_lut_index][1][2]));
-		d.z = ((s.r * color_matrix[_colour_lut_index][2][0]) + (s.g * color_matrix[_colour_lut_index][2][1]) + (s.b * color_matrix[_colour_lut_index][2][2]));
-											     
-		/* DCI companding */
-		d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-		d.y = d.y * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-		d.z = d.z * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			/* In gamma LUT (converting 8-bit input to 12-bit) */
+			s.r = lut_in[_colour_lut_index][*p++ << 4];
+			s.g = lut_in[_colour_lut_index][*p++ << 4];
+			s.b = lut_in[_colour_lut_index][*p++ << 4];
+			
+			/* RGB to XYZ Matrix */
+			d.x = ((s.r * color_matrix[_colour_lut_index][0][0]) +
+			       (s.g * color_matrix[_colour_lut_index][0][1]) +
+			       (s.b * color_matrix[_colour_lut_index][0][2]));
+			
+			d.y = ((s.r * color_matrix[_colour_lut_index][1][0]) +
+			       (s.g * color_matrix[_colour_lut_index][1][1]) +
+			       (s.b * color_matrix[_colour_lut_index][1][2]));
+			
+			d.z = ((s.r * color_matrix[_colour_lut_index][2][0]) +
+			       (s.g * color_matrix[_colour_lut_index][2][1]) +
+			       (s.b * color_matrix[_colour_lut_index][2][2]));
+			
+			/* DCI companding */
+			d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			d.y = d.y * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			d.z = d.z * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			
+			/* Out gamma LUT */
+			_image->comps[0].data[jn] = lut_out[LO_DCI][(int) d.x];
+			_image->comps[1].data[jn] = lut_out[LO_DCI][(int) d.y];
+			_image->comps[2].data[jn] = lut_out[LO_DCI][(int) d.z];
 
-		/* Out gamma LUT */
-		_image->comps[0].data[i] = lut_out[LO_DCI][(int) d.x];
-		_image->comps[1].data[i] = lut_out[LO_DCI][(int) d.y];
-		_image->comps[2].data[i] = lut_out[LO_DCI][(int) d.z];
+			++jn;
+		}
 	}
 
 	/* Set the max image and component sizes based on frame_rate */

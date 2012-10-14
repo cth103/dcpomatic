@@ -260,15 +260,15 @@ SimpleImage::SimpleImage (PixelFormat p, Size s)
 
 	switch (p) {
 	case PIX_FMT_RGB24:
-		_line_size[0] = s.width * 3;
+		_line_size[0] = round_up (s.width * 3, 32);
 		break;
 	case PIX_FMT_RGBA:
-		_line_size[0] = s.width * 4;
+		_line_size[0] = round_up (s.width * 4, 32);
 		break;
 	case PIX_FMT_YUV420P:
-		_line_size[0] = s.width;
-		_line_size[1] = s.width / 2;
-		_line_size[2] = s.width / 2;
+		_line_size[0] = round_up (s.width, 32);
+		_line_size[1] = round_up (s.width / 2, 32);
+		_line_size[2] = round_up (s.width / 2, 32);
 		break;
 	default:
 		assert (false);

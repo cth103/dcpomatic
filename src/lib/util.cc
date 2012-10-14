@@ -613,3 +613,10 @@ Rectangle::intersection (Rectangle const & other) const
 		min (y + h, other.y + other.h) - ty
 		);
 }
+
+int
+round_up (int a, int t)
+{
+	a += (t - 1);
+	return a - (a % t);
+}

@@ -72,6 +72,7 @@ Filter::setup_filters ()
 	_filters.push_back (new Filter ("ppl5", "FIR low-pass deinterlacer", "", "l5"));
 	_filters.push_back (new Filter ("mcdeint", "Motion compensating deinterlacer", "mcdeint", ""));
 	_filters.push_back (new Filter ("kerndeint", "Kernel deinterlacer", "kerndeint", ""));
+	_filters.push_back (new Filter ("yadif", "Yet Another Deinterlacing Filter", "yadif", ""));
 	_filters.push_back (new Filter ("pptn", "Temporal noise reducer", "", "tn"));
 	_filters.push_back (new Filter ("ppfq", "Force quantizer", "", "fq"));
 	_filters.push_back (new Filter ("gradfun", "Gradient debander", "gradfun", ""));

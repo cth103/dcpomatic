@@ -149,6 +149,7 @@ struct Rectangle
 extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
 extern std::string colour_lut_index_to_name (int index);
+extern int round_up (int, int);
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
