@@ -23,7 +23,7 @@
 
 struct AVSubtitle;
 class SubtitleImage;
-class SimpleImage;
+class Image;
 class FilmState;
 
 class Subtitle
@@ -64,11 +64,11 @@ public:
 		return _position;
 	}
 	
-	boost::shared_ptr<SimpleImage> image () const {
+	boost::shared_ptr<Image> image () const {
 		return _image;
 	}
 
 private:
 	Position _position;
-	boost::shared_ptr<SimpleImage> _image;
+	boost::shared_ptr<Image> _image;
 };

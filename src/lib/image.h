@@ -65,9 +65,9 @@ public:
 
 	int components () const;
 	int lines (int) const;
-	boost::shared_ptr<RGBFrameImage> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
+	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
 	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
-	boost::shared_ptr<SimpleImage> post_process (std::string) const;
+	boost::shared_ptr<Image> post_process (std::string) const;
 	
 	void make_black ();
 	

@@ -88,7 +88,7 @@ Image::scale (Size out_size, Scaler const * scaler) const
 {
 	assert (scaler);
 
-	shared_ptr<SimpleImage> scaled (new SimpleImage (pixel_format(), out_size));
+	shared_ptr<Image> scaled (new SimpleImage (pixel_format(), out_size));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -112,7 +112,7 @@ Image::scale (Size out_size, Scaler const * scaler) const
  *  @param out_size Output image size in pixels.
  *  @param scaler Scaler to use.
  */
-shared_ptr<RGBFrameImage>
+shared_ptr<Image>
 Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler) const
 {
 	assert (scaler);
@@ -120,7 +120,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	Size content_size = out_size;
 	content_size.width -= (padding * 2);
 
-	shared_ptr<RGBFrameImage> rgb (new RGBFrameImage (content_size));
+	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -141,7 +141,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	   scheme of things.
 	*/
 	if (padding > 0) {
-		shared_ptr<RGBFrameImage> padded_rgb (new RGBFrameImage (out_size));
+		shared_ptr<Image> padded_rgb (new SimpleImage (PIX_FMT_RGB24, out_size));
 		padded_rgb->make_black ();
 
 		/* XXX: we are cheating a bit here; we know the frame is RGB so we can
@@ -167,10 +167,10 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
  *  @param pp Flags for the required set of post processes.
  *  @return Post-processed image.
  */
-shared_ptr<SimpleImage>
+shared_ptr<Image>
 Image::post_process (string pp) const
 {
-	shared_ptr<SimpleImage> out (new SimpleImage (PIX_FMT_YUV420P, size ()));
+	shared_ptr<Image> out (new SimpleImage (PIX_FMT_YUV420P, size ()));
 	
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
 	pp_context* context = pp_get_context (size().width, size().height, PP_FORMAT_420 | PP_CPU_CAPS_MMX2);
