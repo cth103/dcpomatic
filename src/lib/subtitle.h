@@ -45,17 +45,9 @@ private:
 	std::list<boost::shared_ptr<SubtitleImage> > _images;
 };
 
-struct SubtitleTransform
-{
-public:
-	Rectangle crop;
-	Rectangle transformed;
-};
-
-extern SubtitleTransform subtitle_transform (
-	int target_base_width, int target_base_height,
+extern Rectangle transformed_subtitle_area (
 	float target_x_scale, float target_y_scale,
-	Position sub_pos, int sub_width, int sub_height,
+	Rectangle sub_area,
 	boost::shared_ptr<FilmState> fs
 	);
 
@@ -63,6 +55,10 @@ class SubtitleImage
 {
 public:
 	SubtitleImage (AVSubtitleRect const *);
+
+	void set_position (Position p) {
+		_position = p;
+	}
 
 	Position position () const {
 		return _position;

@@ -50,11 +50,11 @@ public:
 	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
-		if (!_film) {
+		if (!_film || _film->num_thumbs() == 0) {
 			wxPaintDC dc (this);
 			return;
 		}
-		
+
 		if (_frame_rebuild_needed) {
 			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_index))));
 
@@ -82,7 +82,7 @@ public:
 
 		if (_film->with_subtitles ()) {
 			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-				dc.DrawBitmap (*i->bitmap, i->transformed_position.x, i->transformed_position.y, true);
+				dc.DrawBitmap (*i->bitmap, i->transformed_area.x, i->transformed_area.y, true);
 			}
 		}
 	}
@@ -178,16 +178,14 @@ private:
 
 		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 
-			SubtitleTransform tx = subtitle_transform (
-				_image->GetWidth(), _image->GetHeight(),
-				x_scale, y_scale,
-				i->base_position, i->base_image.GetWidth(), i->base_image.GetHeight(),
-				_film->state_copy()
+			i->transformed_area = transformed_subtitle_area (
+				x_scale, y_scale, i->base_area,	_film->state_copy()
 				);
 
-			i->transformed_image = i->base_image.GetSubImage (wxRect (tx.crop.x, tx.crop.y, tx.crop.w, tx.crop.h));
-			i->transformed_image.Rescale (tx.transformed.w, tx.transformed.h, wxIMAGE_QUALITY_HIGH);
-			i->transformed_position = Position (tx.transformed.x, tx.transformed.y);
+			i->transformed_image = i->base_image;
+			i->transformed_image.Rescale (i->transformed_area.w, i->transformed_area.h, wxIMAGE_QUALITY_HIGH);
+			i->transformed_area.x -= _film->crop().left;
+			i->transformed_area.y -= _film->crop().top;
 			i->bitmap.reset (new wxBitmap (i->transformed_image));
 		}
 	}
@@ -204,12 +202,16 @@ private:
 	struct SubtitleView
 	{
 		SubtitleView (Position p, wxString const & i)
-			: base_position (p)
-			, base_image (i)
-		{}
+			: base_image (i)
+		{
+			base_area.x = p.x;
+			base_area.y = p.y;
+			base_area.w = base_image.GetWidth ();
+			base_area.h = base_image.GetHeight ();
+		}
 
-		Position base_position;
-		Position transformed_position;
+		Rectangle base_area;
+		Rectangle transformed_area;
 		wxImage base_image;
 		wxImage transformed_image;
 		shared_ptr<wxBitmap> bitmap;
