@@ -88,6 +88,8 @@ Server::process (shared_ptr<Socket> socket)
 	int pixel_format_int;
 	Size out_size;
 	int padding;
+	int subtitle_offset;
+	int subtitle_scale;
 	string scaler_id;
 	int frame;
 	float frames_per_second;
@@ -99,6 +101,8 @@ Server::process (shared_ptr<Socket> socket)
 	  >> pixel_format_int
 	  >> out_size.width >> out_size.height
 	  >> padding
+	  >> subtitle_offset
+	  >> subtitle_scale
 	  >> scaler_id
 	  >> frame
 	  >> frames_per_second
@@ -112,19 +116,18 @@ Server::process (shared_ptr<Socket> socket)
 		post_process = "";
 	}
 	
-	shared_ptr<SimpleImage> image (new SimpleImage (pixel_format, in_size));
+	shared_ptr<Image> image (new SimpleImage (pixel_format, in_size));
 	
 	for (int i = 0; i < image->components(); ++i) {
-		int line_size;
-		s >> line_size;
-		image->set_line_size (i, line_size);
+		socket->read_definite_and_consume (image->data()[i], image->stride()[i] * image->lines(i), 30);
 	}
+
+	/* XXX: subtitle */
+	DCPVideoFrame dcp_video_frame (
+		image, shared_ptr<Subtitle> (), out_size, padding, subtitle_offset, subtitle_scale,
+		scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log
+		);
 	
-	for (int i = 0; i < image->components(); ++i) {
-		socket->read_definite_and_consume (image->data()[i], image->line_size()[i] * image->lines(i), 30);
-	}
-	
-	DCPVideoFrame dcp_video_frame (image, out_size, padding, scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log);
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	encoded->send (socket);
 	

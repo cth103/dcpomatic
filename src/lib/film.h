@@ -119,6 +119,18 @@ public:
 	int still_duration () const {
 		return _state.still_duration;
 	}
+
+	bool with_subtitles () const {
+		return _state.with_subtitles;
+	}
+
+	int subtitle_offset () const {
+		return _state.subtitle_offset;
+	}
+
+	float subtitle_scale () const {
+		return _state.subtitle_scale;
+	}
 	
 	void set_filters (std::vector<Filter const *> const &);
 
@@ -144,6 +156,9 @@ public:
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_still_duration (int);
+	void set_with_subtitles (bool);
+	void set_subtitle_offset (int);
+	void set_subtitle_scale (float);
 
 	/** @return size, in pixels, of the source (ignoring cropping) */
 	Size size () const {
@@ -174,6 +189,10 @@ public:
 	AVSampleFormat audio_sample_format () const {
 		return _state.audio_sample_format;
 	}
+
+	bool has_subtitles () const {
+		return _state.has_subtitles;
+	}
 	
 	std::string j2k_dir () const;
 
@@ -184,6 +203,7 @@ public:
 	int num_thumbs () const;
 	int thumb_frame (int) const;
 	std::string thumb_file (int) const;
+	std::list<std::pair<Position, std::string> > thumb_subtitles (int) const;
 
 	void copy_from_dvd_post_gui ();
 	void examine_content ();
@@ -218,7 +238,10 @@ public:
 		FRAMES_PER_SECOND,
 		AUDIO_CHANNELS,
 		AUDIO_SAMPLE_RATE,
-		STILL_DURATION
+		STILL_DURATION,
+		WITH_SUBTITLES,
+		SUBTITLE_OFFSET,
+		SUBTITLE_SCALE
 	};
 
 	boost::shared_ptr<FilmState> state_copy () const;

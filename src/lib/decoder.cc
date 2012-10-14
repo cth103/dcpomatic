@@ -48,6 +48,7 @@ extern "C" {
 #include "filter.h"
 #include "delay_line.h"
 #include "ffmpeg_compatibility.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -303,8 +304,13 @@ Decoder::process_video (AVFrame* frame)
 				image->make_black ();
 			}
 
+			shared_ptr<Subtitle> sub;
+			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
+				sub = _subtitle;
+			}
+
 			TIMING ("Decoder emits %1", _video_frame);
-			Video (image, _video_frame);
+			Video (image, _video_frame, sub);
 			++_video_frame;
 		}
 	}
@@ -405,3 +411,16 @@ Decoder::setup_video_filters ()
 	/* XXX: leaking `inputs' / `outputs' ? */
 }
 
+void
+Decoder::process_subtitle (shared_ptr<Subtitle> s)
+{
+	_subtitle = s;
+	
+	if (_opt->apply_crop) {
+		list<shared_ptr<SubtitleImage> > im = _subtitle->images ();
+		for (list<shared_ptr<SubtitleImage> >::iterator i = im.begin(); i != im.end(); ++i) {
+			Position const p = (*i)->position ();
+			(*i)->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
+		}
+	}
+}

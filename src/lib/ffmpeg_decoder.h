@@ -44,6 +44,7 @@ class FilmState;
 class Options;
 class Image;
 class Log;
+class Subtitle;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
@@ -63,6 +64,7 @@ public:
 	int audio_sample_rate () const;
 	AVSampleFormat audio_sample_format () const;
 	int64_t audio_channel_layout () const;
+	bool has_subtitles () const;
 
 private:
 
@@ -76,16 +78,22 @@ private:
 	void setup_general ();
 	void setup_video ();
 	void setup_audio ();
+	void setup_subtitle ();
+
+	void maybe_add_subtitle ();
 
 	AVFormatContext* _format_context;
 	int _video_stream;
 	int _audio_stream; ///< may be < 0 if there is no audio
+	int _subtitle_stream; ///< may be < 0 if there is no subtitle
 	AVFrame* _frame;
 	
 	AVCodecContext* _video_codec_context;
 	AVCodec* _video_codec;
-	AVCodecContext* _audio_codec_context; ///< may be 0 if there is no audio
-	AVCodec* _audio_codec;                ///< may be 0 if there is no audio
+	AVCodecContext* _audio_codec_context;    ///< may be 0 if there is no audio
+	AVCodec* _audio_codec;                   ///< may be 0 if there is no audio
+	AVCodecContext* _subtitle_codec_context; ///< may be 0 if there is no subtitle
+	AVCodec* _subtitle_codec;                ///< may be 0 if there is no subtitle
 
 	AVPacket _packet;
 };

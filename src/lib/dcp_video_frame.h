@@ -31,6 +31,7 @@ class ServerDescription;
 class Scaler;
 class Image;
 class Log;
+class Subtitle;
 
 /** @class EncodedData
  *  @brief Container for J2K-encoded data.
@@ -105,7 +106,7 @@ public:
 class DCPVideoFrame
 {
 public:
-	DCPVideoFrame (boost::shared_ptr<Image>, Size, int, Scaler const *, int, float, std::string, int, int, Log *);
+	DCPVideoFrame (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>, Size, int, int, float, Scaler const *, int, float, std::string, int, int, Log *);
 	virtual ~DCPVideoFrame ();
 
 	boost::shared_ptr<EncodedData> encode_locally ();
@@ -120,8 +121,11 @@ private:
 	void write_encoded (boost::shared_ptr<const Options>, uint8_t *, int);
 
 	boost::shared_ptr<Image> _input; ///< the input image
+	boost::shared_ptr<Subtitle> _subtitle; ///< any subtitle that should be on the image
 	Size _out_size;                  ///< the required size of the output, in pixels
 	int _padding;
+	int _subtitle_offset;
+	float _subtitle_scale;
 	Scaler const * _scaler;          ///< scaler to use
 	int _frame;                      ///< frame index within the Film
 	int _frames_per_second;          ///< Frames per second that we will use for the DCP (rounded)

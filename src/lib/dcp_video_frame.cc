@@ -55,6 +55,7 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -72,10 +73,16 @@ using namespace boost;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<Image> yuv, Size out, int p, Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l)
+	shared_ptr<Image> yuv, shared_ptr<Subtitle> sub,
+	Size out, int p, int subtitle_offset, float subtitle_scale,
+	Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l
+	)
 	: _input (yuv)
+	, _subtitle (sub)
 	, _out_size (out)
 	, _padding (p)
+	, _subtitle_offset (subtitle_offset)
+	, _subtitle_scale (subtitle_scale)
 	, _scaler (s)
 	, _frame (f)
 	  /* we round here; not sure if this is right */
@@ -147,17 +154,27 @@ DCPVideoFrame::~DCPVideoFrame ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	shared_ptr<Image> prepared = _input;
-	
 	if (!_post_process.empty ()) {
-		prepared = prepared->post_process (_post_process);
+		_input = _input->post_process (_post_process);
 	}
 	
-	prepared = prepared->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
+	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
+
+	if (_subtitle) {
+		list<shared_ptr<SubtitleImage> > subs = _subtitle->images ();
+		for (list<shared_ptr<SubtitleImage> >::iterator i = subs.begin(); i != subs.end(); ++i) {
+			Rectangle tx = transformed_subtitle_area (
+				float (_out_size.width) / _input->size().width,
+				float (_out_size.height) / _input->size().height,
+				(*i)->area(), _subtitle_offset, _subtitle_scale
+				);
+
+			shared_ptr<Image> im = (*i)->image()->scale (Size (tx.w, tx.h), _scaler);
+			prepared->alpha_blend (im, Position (tx.x, tx.y));
+		}
+	}
 
 	create_openjpeg_container ();
-
-	int const size = _out_size.width * _out_size.height;
 
 	struct {
 		double r, g, b;
@@ -169,27 +186,41 @@ DCPVideoFrame::encode_locally ()
 
 	/* Copy our RGB into the openjpeg container, converting to XYZ in the process */
 
-	uint8_t* p = prepared->data()[0];
-	for (int i = 0; i < size; ++i) {
-		/* In gamma LUT (converting 8-bit input to 12-bit) */
-		s.r = lut_in[_colour_lut_index][*p++ << 4];
-		s.g = lut_in[_colour_lut_index][*p++ << 4];
-		s.b = lut_in[_colour_lut_index][*p++ << 4];
+	int jn = 0;
+	for (int y = 0; y < _out_size.height; ++y) {
+		uint8_t* p = prepared->data()[0] + y * prepared->stride()[0];
+		for (int x = 0; x < _out_size.width; ++x) {
 
-		/* RGB to XYZ Matrix */
-		d.x = ((s.r * color_matrix[_colour_lut_index][0][0]) + (s.g * color_matrix[_colour_lut_index][0][1]) + (s.b * color_matrix[_colour_lut_index][0][2]));
-		d.y = ((s.r * color_matrix[_colour_lut_index][1][0]) + (s.g * color_matrix[_colour_lut_index][1][1]) + (s.b * color_matrix[_colour_lut_index][1][2]));
-		d.z = ((s.r * color_matrix[_colour_lut_index][2][0]) + (s.g * color_matrix[_colour_lut_index][2][1]) + (s.b * color_matrix[_colour_lut_index][2][2]));
-											     
-		/* DCI companding */
-		d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-		d.y = d.y * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-		d.z = d.z * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			/* In gamma LUT (converting 8-bit input to 12-bit) */
+			s.r = lut_in[_colour_lut_index][*p++ << 4];
+			s.g = lut_in[_colour_lut_index][*p++ << 4];
+			s.b = lut_in[_colour_lut_index][*p++ << 4];
+			
+			/* RGB to XYZ Matrix */
+			d.x = ((s.r * color_matrix[_colour_lut_index][0][0]) +
+			       (s.g * color_matrix[_colour_lut_index][0][1]) +
+			       (s.b * color_matrix[_colour_lut_index][0][2]));
+			
+			d.y = ((s.r * color_matrix[_colour_lut_index][1][0]) +
+			       (s.g * color_matrix[_colour_lut_index][1][1]) +
+			       (s.b * color_matrix[_colour_lut_index][1][2]));
+			
+			d.z = ((s.r * color_matrix[_colour_lut_index][2][0]) +
+			       (s.g * color_matrix[_colour_lut_index][2][1]) +
+			       (s.b * color_matrix[_colour_lut_index][2][2]));
+			
+			/* DCI companding */
+			d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			d.y = d.y * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			d.z = d.z * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			
+			/* Out gamma LUT */
+			_image->comps[0].data[jn] = lut_out[LO_DCI][(int) d.x];
+			_image->comps[1].data[jn] = lut_out[LO_DCI][(int) d.y];
+			_image->comps[2].data[jn] = lut_out[LO_DCI][(int) d.z];
 
-		/* Out gamma LUT */
-		_image->comps[0].data[i] = lut_out[LO_DCI][(int) d.x];
-		_image->comps[1].data[i] = lut_out[LO_DCI][(int) d.y];
-		_image->comps[2].data[i] = lut_out[LO_DCI][(int) d.z];
+			++jn;
+		}
 	}
 
 	/* Set the max image and component sizes based on frame_rate */
@@ -289,6 +320,8 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << _input->pixel_format() << " "
 	  << _out_size.width << " " << _out_size.height << " "
 	  << _padding << " "
+	  << _subtitle_offset << " "
+	  << _subtitle_scale << " "
 	  << _scaler->id () << " "
 	  << _frame << " "
 	  << _frames_per_second << " "
@@ -296,14 +329,10 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << Config::instance()->colour_lut_index () << " "
 	  << Config::instance()->j2k_bandwidth () << " ";
 
-	for (int i = 0; i < _input->components(); ++i) {
-		s << _input->line_size()[i] << " ";
-	}
-
 	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
 	for (int i = 0; i < _input->components(); ++i) {
-		socket.write (_input->data()[i], _input->line_size()[i] * _input->lines(i), 30);
+		socket.write (_input->data()[i], _input->stride()[i] * _input->lines(i), 30);
 	}
 
 	char buffer[32];

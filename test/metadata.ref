@@ -16,6 +16,9 @@ dcp_ab 1
 audio_gain 0
 audio_delay 0
 still_duration 10
+with_subtitles 0
+subtitle_offset 0
+subtitle_scale 1
 width 0
 height 0
 length 0
@@ -23,3 +26,4 @@ audio_channels 0
 audio_sample_rate 0
 audio_sample_format Unknown
 content_digest 
+has_subtitles 0

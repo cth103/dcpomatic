@@ -30,6 +30,7 @@ def build(bld):
 		 format.cc
                  image.cc
                  imagemagick_decoder.cc
+                 imagemagick_encoder.cc
 		 j2k_still_encoder.cc
 		 j2k_wav_encoder.cc
 		 job.cc
@@ -42,9 +43,9 @@ def build(bld):
                  screen.cc
 		 server.cc
                  sound_processor.cc
+                 subtitle.cc
 		 thumbs_job.cc
                  tiff_decoder.cc
-	         tiff_encoder.cc
                  timer.cc
 		 transcode_job.cc
 		 transcoder.cc

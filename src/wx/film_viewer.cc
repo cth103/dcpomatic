@@ -30,6 +30,7 @@
 #include "lib/job_manager.h"
 #include "lib/film_state.h"
 #include "lib/options.h"
+#include "lib/subtitle.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -42,29 +43,47 @@ public:
 	ThumbPanel (wxPanel* parent, Film* film)
 		: wxPanel (parent)
 		, _film (film)
-		, _image (0)
-		, _bitmap (0)
-	{
-	}
+		, _frame_rebuild_needed (false)
+		, _composition_needed (false)
+	{}
 
 	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
-		if (_current_image != _pending_image) {
-			delete _image;
-			_image = new wxImage (std_to_wx (_pending_image));
-			_current_image = _pending_image;
-			setup ();
+		if (!_film || _film->num_thumbs() == 0) {
+			wxPaintDC dc (this);
+			return;
 		}
 
-		if (_current_crop != _pending_crop) {
-			_current_crop = _pending_crop;
-			setup ();
+		if (_frame_rebuild_needed) {
+			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_index))));
+
+			_subtitles.clear ();
+			list<pair<Position, string> > s = _film->thumb_subtitles (_index);
+			for (list<pair<Position, string> >::iterator i = s.begin(); i != s.end(); ++i) {
+				_subtitles.push_back (SubtitleView (i->first, std_to_wx (i->second)));
+			}
+
+			_frame_rebuild_needed = false;
+
+			compose ();
+			_composition_needed = false;
+		}
+
+		if (_composition_needed) {
+			compose ();
+			_composition_needed = false;
 		}
 
 		wxPaintDC dc (this);
 		if (_bitmap) {
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
+		}
+
+		if (_film->with_subtitles ()) {
+			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+				dc.DrawBitmap (*i->bitmap, i->transformed_area.x, i->transformed_area.y, true);
+			}
 		}
 	}
 
@@ -75,19 +94,14 @@ public:
 			return;
 		}
 
-		setup ();
-		Refresh ();
+		recompose ();
 	}
 
-	void set (string f)
+	/** @param n Thumbnail index */
+	void set (int n)
 	{
-		_pending_image = f;
-		Refresh ();
-	}
-
-	void set_crop (Crop c)
-	{
-		_pending_crop = c;
+		_index = n;
+		_frame_rebuild_needed = true;
 		Refresh ();
 	}
 
@@ -96,9 +110,10 @@ public:
 		_film = f;
 		if (!_film) {
 			clear ();
+			_frame_rebuild_needed = true;
 			Refresh ();
 		} else {
-			setup ();
+			_frame_rebuild_needed = true;
 			Refresh ();
 		}
 	}
@@ -106,15 +121,14 @@ public:
 	/** Clear our thumbnail image */
 	void clear ()
 	{
-		delete _bitmap;
-		_bitmap = 0;
-		delete _image;
-		_image = 0;
+		_bitmap.reset ();
+		_image.reset ();
+		_subtitles.clear ();
 	}
 
-	void refresh ()
+	void recompose ()
 	{
-		setup ();
+		_composition_needed = true;
 		Refresh ();
 	}
 
@@ -122,46 +136,88 @@ public:
 
 private:
 
-	void setup ()
+	void compose ()
 	{
 		if (!_film || !_image) {
 			return;
 		}
-		
+
+		/* Size of the view */
 		int vw, vh;
 		GetSize (&vw, &vh);
 
+		/* Cropped rectangle */
+		Rectangle cropped_area (
+			_film->crop().left,
+			_film->crop().top,
+			_image->GetWidth() - (_film->crop().left + _film->crop().right),
+			_image->GetHeight() - (_film->crop().top + _film->crop().bottom)
+			);
+
+		/* Target ratio */
 		float const target = _film->format() ? _film->format()->ratio_as_float (_film) : 1.78;
 
-		_cropped_image = _image->GetSubImage (
-			wxRect (
-				_current_crop.left,
-				_current_crop.top,
-				_image->GetWidth() - (_current_crop.left + _current_crop.right),
-				_image->GetHeight() - (_current_crop.top + _current_crop.bottom)
-				)
-			);
+		_transformed_image = _image->GetSubImage (wxRect (cropped_area.x, cropped_area.y, cropped_area.w, cropped_area.h));
+
+		float x_scale = 1;
+		float y_scale = 1;
 
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
-			_cropped_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
+			_transformed_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
+			x_scale = vh * target / cropped_area.w;
+			y_scale = float (vh) / cropped_area.h;
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
-			_cropped_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
+			_transformed_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
+			x_scale = float (vw) / cropped_area.w;
+			y_scale = (vw / target) / cropped_area.h;
 		}
 
-		delete _bitmap;
-		_bitmap = new wxBitmap (_cropped_image);
+		_bitmap.reset (new wxBitmap (_transformed_image));
+
+		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+
+			i->transformed_area = transformed_subtitle_area (
+				x_scale, y_scale, i->base_area,	_film->subtitle_offset(), _film->subtitle_scale()
+				);
+
+			i->transformed_image = i->base_image;
+			i->transformed_image.Rescale (i->transformed_area.w, i->transformed_area.h, wxIMAGE_QUALITY_HIGH);
+			i->transformed_area.x -= _film->crop().left;
+			i->transformed_area.y -= _film->crop().top;
+			i->bitmap.reset (new wxBitmap (i->transformed_image));
+		}
 	}
 
 	Film* _film;
-	wxImage* _image;
-	std::string _current_image;
-	std::string _pending_image;
-	wxImage _cropped_image;
-	wxBitmap* _bitmap;
-	Crop _current_crop;
-	Crop _pending_crop;
+	shared_ptr<wxImage> _image;
+	wxImage _transformed_image;
+	/** currently-displayed thumbnail index */
+	int _index;
+	shared_ptr<wxBitmap> _bitmap;
+	bool _frame_rebuild_needed;
+	bool _composition_needed;
+
+	struct SubtitleView
+	{
+		SubtitleView (Position p, wxString const & i)
+			: base_image (i)
+		{
+			base_area.x = p.x;
+			base_area.y = p.y;
+			base_area.w = base_image.GetWidth ();
+			base_area.h = base_image.GetHeight ();
+		}
+
+		Rectangle base_area;
+		Rectangle transformed_area;
+		wxImage base_image;
+		wxImage transformed_image;
+		shared_ptr<wxBitmap> bitmap;
+	};
+
+	list<SubtitleView> _subtitles;
 };
 
 BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
@@ -196,7 +252,7 @@ FilmViewer::set_thumbnail (int n)
 		return;
 	}
 
-	_thumb_panel->set (_film->thumb_file(n));
+	_thumb_panel->set (n);
 }
 
 void
@@ -208,9 +264,8 @@ FilmViewer::slider_changed (wxCommandEvent &)
 void
 FilmViewer::film_changed (Film::Property p)
 {
-	if (p == Film::CROP) {
-		_thumb_panel->set_crop (_film->crop ());
-	} else if (p == Film::THUMBS) {
+	switch (p) {
+	case Film::THUMBS:
 		if (_film && _film->num_thumbs() > 1) {
 			_slider->SetRange (0, _film->num_thumbs () - 1);
 		} else {
@@ -220,12 +275,21 @@ FilmViewer::film_changed (Film::Property p)
 		
 		_slider->SetValue (0);
 		set_thumbnail (0);
-	} else if (p == Film::FORMAT) {
-		_thumb_panel->refresh ();
-	} else if (p == Film::CONTENT) {
+		break;
+	case Film::CONTENT:
 		setup_visibility ();
 		_film->examine_content ();
 		update_thumbs ();
+		break;
+	case Film::CROP:
+	case Film::FORMAT:
+	case Film::WITH_SUBTITLES:
+	case Film::SUBTITLE_OFFSET:
+	case Film::SUBTITLE_SCALE:
+		_thumb_panel->recompose ();
+		break;
+	default:
+		break;
 	}
 }
 
@@ -246,7 +310,6 @@ FilmViewer::set_film (Film* f)
 	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
 	film_changed (Film::CROP);
 	film_changed (Film::THUMBS);
-	_thumb_panel->refresh ();
 	setup_visibility ();
 }
 
@@ -260,11 +323,12 @@ FilmViewer::update_thumbs ()
 	_film->update_thumbs_pre_gui ();
 
 	shared_ptr<const FilmState> s = _film->state_copy ();
-	shared_ptr<Options> o (new Options (s->dir ("thumbs"), ".tiff", ""));
+	shared_ptr<Options> o (new Options (s->dir ("thumbs"), ".png", ""));
 	o->out_size = _film->size ();
 	o->apply_crop = false;
 	o->decode_audio = false;
 	o->decode_video_frequency = 128;
+	o->decode_subtitles = true;
 	
 	shared_ptr<Job> j (new ThumbsJob (s, o, _film->log(), shared_ptr<Job> ()));
 	j->Finished.connect (sigc::mem_fun (_film, &Film::update_thumbs_post_gui));
