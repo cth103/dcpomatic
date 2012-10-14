@@ -96,5 +96,4 @@ private:
 	AVCodec* _subtitle_codec;                ///< may be 0 if there is no subtitle
 
 	AVPacket _packet;
-	boost::shared_ptr<Subtitle> _subtitle;
 };

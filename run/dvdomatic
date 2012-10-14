@@ -2,9 +2,11 @@
 
 export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
-    gdb --args build/src/tools/dvdomatic $2
+    shift
+    gdb --args build/src/tools/dvdomatic "$1"
 elif [ "$1" == "--valgrind" ]; then
-    valgrind --tool="memcheck" build/src/tools/dvdomatic $2
+    shift
+    valgrind --tool="memcheck" build/src/tools/dvdomatic "$1"
 else
     build/src/tools/dvdomatic "$1"
 fi

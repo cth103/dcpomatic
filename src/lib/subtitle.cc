@@ -73,34 +73,39 @@ SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
 Rectangle
 transformed_subtitle_area (
 	float target_x_scale, float target_y_scale,
-	Rectangle sub_area,
-	shared_ptr<FilmState> fs
+	Rectangle sub_area, int subtitle_offset, float subtitle_scale
 	)
 {
 	Rectangle tx;
 
-	sub_area.y += fs->subtitle_offset;
+	sub_area.y += subtitle_offset;
 
 	/* We will scale the subtitle by the same amount as the video frame, and also by the additional
 	   subtitle_scale
 	*/
-	tx.w = sub_area.w * target_x_scale * fs->subtitle_scale;
-	tx.h = sub_area.h * target_y_scale * fs->subtitle_scale;
+	tx.w = sub_area.w * target_x_scale * subtitle_scale;
+	tx.h = sub_area.h * target_y_scale * subtitle_scale;
 
 	/* Then we need a corrective translation, consisting of two parts:
 	 *
 	 * 1.  that which is the result of the scaling of the subtitle by target_x_scale and target_y_scale; this will be
 	 *     sub_area.x * target_x_scale and sub_area.y * target_y_scale.
 	 *
-	 * 2.  that to shift the origin of the scale by fs->subtitle_scale to the centre of the subtitle; this will be
-	 *     (width_before_subtitle_scale * (1 - fs->subtitle_scale) / 2) and
-	 *     (height_before_subtitle_scale * (1 - fs->subtitle_scale) / 2).
+	 * 2.  that to shift the origin of the scale by subtitle_scale to the centre of the subtitle; this will be
+	 *     (width_before_subtitle_scale * (1 - subtitle_scale) / 2) and
+	 *     (height_before_subtitle_scale * (1 - subtitle_scale) / 2).
 	 *
 	 * Combining these two translations gives these expressions.
 	 */
 	
-	tx.x = target_x_scale * (sub_area.x + (sub_area.w * (1 - fs->subtitle_scale) / 2));
-	tx.y = target_y_scale * (sub_area.y + (sub_area.h * (1 - fs->subtitle_scale) / 2));
+	tx.x = target_x_scale * (sub_area.x + (sub_area.w * (1 - subtitle_scale) / 2));
+	tx.y = target_y_scale * (sub_area.y + (sub_area.h * (1 - subtitle_scale) / 2));
 
 	return tx;
+}
+
+Rectangle
+SubtitleImage::area () const
+{
+	return Rectangle (_position.x, _position.y, _image->size().width, _image->size().height);
 }

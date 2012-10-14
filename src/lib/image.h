@@ -68,6 +68,7 @@ public:
 	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
 	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
 	boost::shared_ptr<Image> post_process (std::string) const;
+	void alpha_blend (boost::shared_ptr<Image> image, Position pos);
 	
 	void make_black ();
 	

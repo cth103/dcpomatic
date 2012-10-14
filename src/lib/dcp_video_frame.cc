@@ -55,6 +55,7 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -72,11 +73,16 @@ using namespace boost;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<Image> yuv, shared_ptr<Subtitle> sub, Size out, int p, Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l)
+	shared_ptr<Image> yuv, shared_ptr<Subtitle> sub,
+	Size out, int p, int subtitle_offset, float subtitle_scale,
+	Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l
+	)
 	: _input (yuv)
 	, _subtitle (sub)
 	, _out_size (out)
 	, _padding (p)
+	, _subtitle_offset (subtitle_offset)
+	, _subtitle_scale (subtitle_scale)
 	, _scaler (s)
 	, _frame (f)
 	  /* we round here; not sure if this is right */
@@ -148,13 +154,25 @@ DCPVideoFrame::~DCPVideoFrame ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	shared_ptr<Image> prepared = _input;
-	
 	if (!_post_process.empty ()) {
-		prepared = prepared->post_process (_post_process);
+		_input = _input->post_process (_post_process);
 	}
 	
-	prepared = prepared->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
+	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
+
+	if (_subtitle) {
+		list<shared_ptr<SubtitleImage> > subs = _subtitle->images ();
+		for (list<shared_ptr<SubtitleImage> >::iterator i = subs.begin(); i != subs.end(); ++i) {
+			Rectangle tx = transformed_subtitle_area (
+				float (_out_size.width) / _input->size().width,
+				float (_out_size.height) / _input->size().height,
+				(*i)->area(), _subtitle_offset, _subtitle_scale
+				);
+
+			shared_ptr<Image> im = (*i)->image()->scale (Size (tx.w, tx.h), _scaler);
+			prepared->alpha_blend (im, Position (tx.x, tx.y));
+		}
+	}
 
 	create_openjpeg_container ();
 
@@ -290,6 +308,8 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << _input->pixel_format() << " "
 	  << _out_size.width << " " << _out_size.height << " "
 	  << _padding << " "
+	  << _subtitle_offset << " "
+	  << _subtitle_scale << " "
 	  << _scaler->id () << " "
 	  << _frame << " "
 	  << _frames_per_second << " "

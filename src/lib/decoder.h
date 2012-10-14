@@ -101,8 +101,9 @@ protected:
 	virtual int sample_aspect_ratio_numerator () const = 0;
 	virtual int sample_aspect_ratio_denominator () const = 0;
 	
-	void process_video (AVFrame *, boost::shared_ptr<Subtitle>);
+	void process_video (AVFrame *);
 	void process_audio (uint8_t *, int);
+	void process_subtitle (boost::shared_ptr<Subtitle>);
 
 	/** our FilmState */
 	boost::shared_ptr<const FilmState> _fs;
@@ -138,6 +139,8 @@ private:
 	   (at the DCP sample rate).
 	*/
 	int64_t _audio_frames_processed;
+
+	boost::shared_ptr<Subtitle> _subtitle;
 };
 
 #endif

@@ -47,8 +47,7 @@ private:
 
 extern Rectangle transformed_subtitle_area (
 	float target_x_scale, float target_y_scale,
-	Rectangle sub_area,
-	boost::shared_ptr<FilmState> fs
+	Rectangle sub_area, int subtitle_offset, float subtitle_scale
 	);
 
 class SubtitleImage
@@ -67,6 +66,8 @@ public:
 	boost::shared_ptr<Image> image () const {
 		return _image;
 	}
+
+	Rectangle area () const;
 
 private:
 	Position _position;

@@ -126,7 +126,8 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subti
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  yuv, sub, _opt->out_size, _opt->padding, _fs->scaler, frame, _fs->frames_per_second, s.second,
+						  yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset, _fs->subtitle_scale,
+						  _fs->scaler, frame, _fs->frames_per_second, s.second,
 						  Config::instance()->colour_lut_index (), Config::instance()->j2k_bandwidth (),
 						  _log
 						  )

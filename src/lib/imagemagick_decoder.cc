@@ -61,7 +61,7 @@ ImageMagickDecoder::do_pass ()
 
 	}
 	
-	process_video (image.frame (), shared_ptr<Subtitle> ());
+	process_video (image.frame ());
 
 	_done = true;
 	return false;

@@ -207,6 +207,42 @@ Image::make_black ()
 	}
 }
 
+void
+Image::alpha_blend (shared_ptr<Image> other, Position position)
+{
+	/* Only implemented for RGBA onto RGB24 so far */
+	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA);
+
+	int start_tx = position.x;
+	int start_ox = 0;
+
+	if (start_tx < 0) {
+		start_ox = -start_tx;
+		start_tx = 0;
+	}
+
+	int start_ty = position.y;
+	int start_oy = 0;
+
+	if (start_ty < 0) {
+		start_oy = -start_ty;
+		start_ty = 0;
+	}
+
+	for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
+		uint8_t* tp = data()[0] + ty * line_size()[0] + position.x * 3;
+		uint8_t* op = other->data()[0] + oy * other->line_size()[0];
+		for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+			tp[0] = (tp[0] * (1 - alpha)) + op[0] * alpha;
+			tp[1] = (tp[1] * (1 - alpha)) + op[1] * alpha;
+			tp[2] = (tp[2] * (1 - alpha)) + op[2] * alpha;
+			tp += 3;
+			op += 4;
+		}
+	}
+}
+
 /** Construct a SimpleImage of a given size and format, allocating memory
  *  as required.
  *
@@ -217,8 +253,10 @@ SimpleImage::SimpleImage (PixelFormat p, Size s)
 	: Image (p)
 	, _size (s)
 {
-	_data = (uint8_t **) av_malloc (components() * sizeof (uint8_t *));
-	_line_size = (int *) av_malloc (components() * sizeof (int));
+	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
+	_data[0] = _data[1] = _data[2] = _data[3] = 0;
+	_line_size = (int *) av_malloc (4);
+	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
 
 	switch (p) {
 	case PIX_FMT_RGB24:

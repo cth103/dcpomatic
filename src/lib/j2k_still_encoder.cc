@@ -52,7 +52,7 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Sub
 {
 	pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters);
 	DCPVideoFrame* f = new DCPVideoFrame (
-		yuv, sub, _opt->out_size, _opt->padding, _fs->scaler, 0, _fs->frames_per_second, s.second,
+		yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset, _fs->subtitle_scale, _fs->scaler, 0, _fs->frames_per_second, s.second,
 		Config::instance()->colour_lut_index(), Config::instance()->j2k_bandwidth(),
 		_log
 		);

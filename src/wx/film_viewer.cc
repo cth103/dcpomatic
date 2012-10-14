@@ -179,7 +179,7 @@ private:
 		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 
 			i->transformed_area = transformed_subtitle_area (
-				x_scale, y_scale, i->base_area,	_film->state_copy()
+				x_scale, y_scale, i->base_area,	_film->subtitle_offset(), _film->subtitle_scale()
 				);
 
 			i->transformed_image = i->base_image;
@@ -328,6 +328,7 @@ FilmViewer::update_thumbs ()
 	o->apply_crop = false;
 	o->decode_audio = false;
 	o->decode_video_frequency = 128;
+	o->decode_subtitles = true;
 	
 	shared_ptr<Job> j (new ThumbsJob (s, o, _film->log(), shared_ptr<Job> ()));
 	j->Finished.connect (sigc::mem_fun (_film, &Film::update_thumbs_post_gui));

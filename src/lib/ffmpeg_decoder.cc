@@ -205,12 +205,7 @@ FFmpegDecoder::do_pass ()
 		int frame_finished;
 
 		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			shared_ptr<Subtitle> s;
-			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
-				s = _subtitle;
-			}
-			
-			process_video (_frame, s);
+			process_video (_frame);
 		}
 
 		if (_audio_stream >= 0 && _opt->decode_audio) {
@@ -231,12 +226,7 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			shared_ptr<Subtitle> s;
-			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
-				s = _subtitle;
-			}
-			
-			process_video (_frame, s);
+			process_video (_frame);
 		}
 
 	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio) {
@@ -253,12 +243,12 @@ FFmpegDecoder::do_pass ()
 			process_audio (_frame->data[0], data_size);
 		}
 
-	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream) {
+	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream && _opt->decode_subtitles) {
 
 		int got_subtitle;
 		AVSubtitle sub;
 		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) && got_subtitle) {
-			_subtitle.reset (new Subtitle (sub));
+			process_subtitle (shared_ptr<Subtitle> (new Subtitle (sub)));
 			avsubtitle_free (&sub);
 		}
 	}

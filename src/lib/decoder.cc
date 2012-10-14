@@ -229,7 +229,7 @@ Decoder::process_audio (uint8_t* data, int size)
  *  @param frame to decode; caller manages memory.
  */
 void
-Decoder::process_video (AVFrame* frame, shared_ptr<Subtitle> sub)
+Decoder::process_video (AVFrame* frame)
 {
 	if (_minimal) {
 		++_video_frame;
@@ -304,12 +304,9 @@ Decoder::process_video (AVFrame* frame, shared_ptr<Subtitle> sub)
 				image->make_black ();
 			}
 
-			if (sub && _opt->apply_crop) {
-				list<shared_ptr<SubtitleImage> > im = sub->images ();
-				for (list<shared_ptr<SubtitleImage> >::iterator i = im.begin(); i != im.end(); ++i) {
-					Position p = (*i)->position ();
-					(*i)->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
-				}
+			shared_ptr<Subtitle> sub;
+			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
+				sub = _subtitle;
 			}
 
 			TIMING ("Decoder emits %1", _video_frame);
@@ -414,3 +411,16 @@ Decoder::setup_video_filters ()
 	/* XXX: leaking `inputs' / `outputs' ? */
 }
 
+void
+Decoder::process_subtitle (shared_ptr<Subtitle> s)
+{
+	_subtitle = s;
+	
+	if (_opt->apply_crop) {
+		list<shared_ptr<SubtitleImage> > im = _subtitle->images ();
+		for (list<shared_ptr<SubtitleImage> >::iterator i = im.begin(); i != im.end(); ++i) {
+			Position const p = (*i)->position ();
+			(*i)->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
+		}
+	}
+}
