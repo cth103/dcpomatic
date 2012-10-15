@@ -44,7 +44,6 @@ class FilmState;
 class Options;
 class Image;
 class Log;
-class Subtitle;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.

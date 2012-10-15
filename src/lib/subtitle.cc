@@ -25,7 +25,7 @@
 using namespace std;
 using namespace boost;
 
-Subtitle::Subtitle (AVSubtitle const & sub)
+TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 {
 	/* subtitle PTS in seconds */
 	float const packet_time = (sub.pts / AV_TIME_BASE) + float (sub.pts % AV_TIME_BASE) / 1e6;
@@ -44,15 +44,14 @@ Subtitle::Subtitle (AVSubtitle const & sub)
 		throw DecodeError ("non-bitmap subtitles not yet supported");
 	}
 	
-	_position = Position (rect->x, rect->y);
-	_image.reset (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)));
+	shared_ptr<Image> image (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
 	/* sub_p looks up into a RGB palette which is here */
 	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
 	/* Start of the output data */
-	uint32_t* out_p = (uint32_t *) _image->data()[0];
+	uint32_t* out_p = (uint32_t *) image->data()[0];
 	
 	for (int y = 0; y < rect->h; ++y) {
 		uint8_t* sub_line_p = sub_p;
@@ -61,26 +60,26 @@ Subtitle::Subtitle (AVSubtitle const & sub)
 			*out_line_p++ = palette[*sub_line_p++];
 		}
 		sub_p += rect->pict.linesize[0];
-		out_p += _image->stride()[0] / sizeof (uint32_t);
+		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
+
+	_subtitle.reset (new Subtitle (Position (rect->x, rect->y), image));
+}	
+
+/** @param t Time in seconds from the start of the film */
+bool
+TimedSubtitle::displayed_at (double t) const
+{
+	return t >= _from && t <= _to;
 }
 
 Subtitle::Subtitle (Position p, shared_ptr<Image> i)
-	: _from (0)
-	, _to (0)
-	, _position (p)
+	: _position (p)
 	, _image (i)
 {
 
 }
 	
-/** @param t Time in seconds from the start of the film */
-bool
-Subtitle::displayed_at (double t)
-{
-	return t >= _from && t <= _to;
-}
-
 Rectangle
 subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,

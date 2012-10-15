@@ -37,6 +37,7 @@ class Options;
 class Image;
 class Log;
 class DelayLine;
+class TimedSubtitle;
 class Subtitle;
 
 /** @class Decoder.
@@ -103,7 +104,7 @@ protected:
 	
 	void process_video (AVFrame *);
 	void process_audio (uint8_t *, int);
-	void process_subtitle (boost::shared_ptr<Subtitle>);
+	void process_subtitle (boost::shared_ptr<TimedSubtitle>);
 
 	/** our FilmState */
 	boost::shared_ptr<const FilmState> _fs;
@@ -140,7 +141,7 @@ private:
 	*/
 	int64_t _audio_frames_processed;
 
-	boost::shared_ptr<Subtitle> _subtitle;
+	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 };
 
 #endif

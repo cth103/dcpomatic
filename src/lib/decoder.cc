@@ -305,8 +305,8 @@ Decoder::process_video (AVFrame* frame)
 			}
 
 			shared_ptr<Subtitle> sub;
-			if (_subtitle && _subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
-				sub = _subtitle;
+			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
+				sub = _timed_subtitle->subtitle ();
 			}
 
 			TIMING ("Decoder emits %1", _video_frame);
@@ -412,12 +412,12 @@ Decoder::setup_video_filters ()
 }
 
 void
-Decoder::process_subtitle (shared_ptr<Subtitle> s)
+Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 {
-	_subtitle = s;
+	_timed_subtitle = s;
 	
 	if (_opt->apply_crop) {
-		Position const p = _subtitle->position ();
-		_subtitle->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
+		Position const p = _timed_subtitle->subtitle()->position ();
+		_timed_subtitle->subtitle()->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
 	}
 }

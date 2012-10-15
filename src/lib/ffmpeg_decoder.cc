@@ -248,7 +248,7 @@ FFmpegDecoder::do_pass ()
 		int got_subtitle;
 		AVSubtitle sub;
 		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) && got_subtitle) {
-			process_subtitle (shared_ptr<Subtitle> (new Subtitle (sub)));
+			process_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
 			avsubtitle_free (&sub);
 		}
 	}

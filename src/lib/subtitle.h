@@ -27,10 +27,7 @@ class Image;
 class Subtitle
 {
 public:
-	Subtitle (AVSubtitle const &);
 	Subtitle (Position p, boost::shared_ptr<Image> i);
-
-	bool displayed_at (double t);
 
 	void set_position (Position p) {
 		_position = p;
@@ -47,10 +44,6 @@ public:
 	Rectangle area () const;
 	
 private:
-	/** display from time in seconds from the start of the film */
-	double _from;
-	/** display to time in seconds from the start of the film */
-	double _to;
 	Position _position;
 	boost::shared_ptr<Image> _image;
 };
@@ -61,3 +54,22 @@ subtitle_transformed_area (
 	Rectangle sub_area, int subtitle_offset, float subtitle_scale
 	);
 	
+class TimedSubtitle
+{
+public:
+	TimedSubtitle (AVSubtitle const &);
+
+	bool displayed_at (double t) const;
+	
+	boost::shared_ptr<Subtitle> subtitle () const {
+		return _subtitle;
+	}
+
+private:
+	boost::shared_ptr<Subtitle> _subtitle;
+	
+	/** display from time in seconds from the start of the film */
+	double _from;
+	/** display to time in seconds from the start of the film */
+	double _to;
+};
