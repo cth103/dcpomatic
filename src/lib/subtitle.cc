@@ -34,25 +34,18 @@ Subtitle::Subtitle (AVSubtitle const & sub)
 	_from = packet_time + (double (sub.start_display_time) / 1e3);
 	_to = packet_time + (double (sub.end_display_time) / 1e3);
 
-	for (unsigned int i = 0; i < sub.num_rects; ++i) {
-		_images.push_back (shared_ptr<SubtitleImage> (new SubtitleImage (sub.rects[i])));
+	if (sub.num_rects > 1) {
+		throw DecodeError ("multi-part subtitles not yet supported");
 	}
-}
 
-/** @param t Time in seconds from the start of the film */
-bool
-Subtitle::displayed_at (double t)
-{
-	return t >= _from && t <= _to;
-}
+	AVSubtitleRect const * rect = sub.rects[0];
 
-SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
-	: _position (rect->x, rect->y)
-	, _image (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)))
-{
 	if (rect->type != SUBTITLE_BITMAP) {
 		throw DecodeError ("non-bitmap subtitles not yet supported");
 	}
+	
+	_position = Position (rect->x, rect->y);
+	_image.reset (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
@@ -72,8 +65,24 @@ SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
 	}
 }
 
+Subtitle::Subtitle (Position p, shared_ptr<Image> i)
+	: _from (0)
+	, _to (0)
+	, _position (p)
+	, _image (i)
+{
+
+}
+	
+/** @param t Time in seconds from the start of the film */
+bool
+Subtitle::displayed_at (double t)
+{
+	return t >= _from && t <= _to;
+}
+
 Rectangle
-transformed_subtitle_area (
+subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
 	Rectangle sub_area, int subtitle_offset, float subtitle_scale
 	)
@@ -107,7 +116,7 @@ transformed_subtitle_area (
 }
 
 Rectangle
-SubtitleImage::area () const
+Subtitle::area () const
 {
 	return Rectangle (_position.x, _position.y, _image->size().width, _image->size().height);
 }

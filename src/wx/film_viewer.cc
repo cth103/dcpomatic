@@ -58,21 +58,18 @@ public:
 		if (_frame_rebuild_needed) {
 			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_index))));
 
-			_subtitles.clear ();
-			list<pair<Position, string> > s = _film->thumb_subtitles (_index);
-			for (list<pair<Position, string> >::iterator i = s.begin(); i != s.end(); ++i) {
-				_subtitles.push_back (SubtitleView (i->first, std_to_wx (i->second)));
+			_subtitle.reset ();
+			pair<Position, string> s = _film->thumb_subtitle (_index);
+			if (!s.second.empty ()) {
+				_subtitle.reset (new SubtitleView (s.first, std_to_wx (s.second)));
 			}
 
 			_frame_rebuild_needed = false;
-
 			compose ();
-			_composition_needed = false;
 		}
 
 		if (_composition_needed) {
 			compose ();
-			_composition_needed = false;
 		}
 
 		wxPaintDC dc (this);
@@ -80,10 +77,8 @@ public:
 			dc.DrawBitmap (*_bitmap, 0, 0, false);
 		}
 
-		if (_film->with_subtitles ()) {
-			for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-				dc.DrawBitmap (*i->bitmap, i->transformed_area.x, i->transformed_area.y, true);
-			}
+		if (_film->with_subtitles() && _subtitle) {
+			dc.DrawBitmap (*_subtitle->bitmap, _subtitle->transformed_area.x, _subtitle->transformed_area.y, true);
 		}
 	}
 
@@ -123,7 +118,7 @@ public:
 	{
 		_bitmap.reset ();
 		_image.reset ();
-		_subtitles.clear ();
+		_subtitle.reset ();
 	}
 
 	void recompose ()
@@ -138,6 +133,8 @@ private:
 
 	void compose ()
 	{
+		_composition_needed = false;
+		
 		if (!_film || !_image) {
 			return;
 		}
@@ -176,17 +173,17 @@ private:
 
 		_bitmap.reset (new wxBitmap (_transformed_image));
 
-		for (list<SubtitleView>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		if (_subtitle) {
 
-			i->transformed_area = transformed_subtitle_area (
-				x_scale, y_scale, i->base_area,	_film->subtitle_offset(), _film->subtitle_scale()
+			_subtitle->transformed_area = subtitle_transformed_area (
+				x_scale, y_scale, _subtitle->base_area,	_film->subtitle_offset(), _film->subtitle_scale()
 				);
 
-			i->transformed_image = i->base_image;
-			i->transformed_image.Rescale (i->transformed_area.w, i->transformed_area.h, wxIMAGE_QUALITY_HIGH);
-			i->transformed_area.x -= _film->crop().left;
-			i->transformed_area.y -= _film->crop().top;
-			i->bitmap.reset (new wxBitmap (i->transformed_image));
+			_subtitle->transformed_image = _subtitle->base_image;
+			_subtitle->transformed_image.Rescale (_subtitle->transformed_area.w, _subtitle->transformed_area.h, wxIMAGE_QUALITY_HIGH);
+			_subtitle->transformed_area.x -= _film->crop().left;
+			_subtitle->transformed_area.y -= _film->crop().top;
+			_subtitle->bitmap.reset (new wxBitmap (_subtitle->transformed_image));
 		}
 	}
 
@@ -217,7 +214,7 @@ private:
 		shared_ptr<wxBitmap> bitmap;
 	};
 
-	list<SubtitleView> _subtitles;
+	shared_ptr<SubtitleView> _subtitle;
 };
 
 BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)

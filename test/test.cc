@@ -44,9 +44,20 @@
 using namespace std;
 using namespace boost;
 
+void
+setup_test_config ()
+{
+	Config::instance()->set_num_local_encoding_threads (1);
+	Config::instance()->set_colour_lut_index (0);
+	Config::instance()->set_j2k_bandwidth (200000000);
+	Config::instance()->set_servers (vector<ServerDescription*> ());
+	Config::instance()->set_server_port (61920);
+}
+
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
 	dvdomatic_setup ();
+	setup_test_config ();
 	
 	string const test_film = "build/test/film";
 	
@@ -258,7 +269,7 @@ BOOST_AUTO_TEST_CASE (paths_test)
 }
 
 void
-do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded)
+do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded, int N)
 {
 	shared_ptr<EncodedData> remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
@@ -303,8 +314,8 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		);
 
 	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
+	BOOST_ASSERT (locally_encoded);
 	
-	Config::instance()->set_server_port (61920);
 	Server* server = new Server (&log);
 
 	new thread (boost::bind (&Server::run, server, 2));
@@ -316,11 +327,15 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded)));
+		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded, i)));
 	}
 
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		(*i)->join ();
+	}
+
+	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
+		delete *i;
 	}
 }
 

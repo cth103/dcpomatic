@@ -161,17 +161,14 @@ DCPVideoFrame::encode_locally ()
 	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
 
 	if (_subtitle) {
-		list<shared_ptr<SubtitleImage> > subs = _subtitle->images ();
-		for (list<shared_ptr<SubtitleImage> >::iterator i = subs.begin(); i != subs.end(); ++i) {
-			Rectangle tx = transformed_subtitle_area (
-				float (_out_size.width) / _input->size().width,
-				float (_out_size.height) / _input->size().height,
-				(*i)->area(), _subtitle_offset, _subtitle_scale
-				);
+		Rectangle tx = subtitle_transformed_area (
+			float (_out_size.width) / _input->size().width,
+			float (_out_size.height) / _input->size().height,
+			_subtitle->area(), _subtitle_offset, _subtitle_scale
+			);
 
-			shared_ptr<Image> im = (*i)->image()->scale (Size (tx.w, tx.h), _scaler);
-			prepared->alpha_blend (im, Position (tx.x, tx.y));
-		}
+		shared_ptr<Image> im = _subtitle->image()->scale (Size (tx.w, tx.h), _scaler);
+		prepared->alpha_blend (im, Position (tx.x, tx.y));
 	}
 
 	create_openjpeg_container ();
@@ -310,9 +307,9 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	Socket socket;
+	shared_ptr<Socket> socket (new Socket);
 
-	socket.connect (*endpoint_iterator, 30);
+	socket->connect (*endpoint_iterator, 30);
 
 	stringstream s;
 	s << "encode "
@@ -329,19 +326,27 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << Config::instance()->colour_lut_index () << " "
 	  << Config::instance()->j2k_bandwidth () << " ";
 
-	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+	if (_subtitle) {
+		s << _subtitle->position().x << " " << _subtitle->position().y << " "
+		  << _subtitle->image()->size().width << " " << _subtitle->image()->size().height;
+	} else {
+		s << "-1 -1 0 0";
+	}
 
-	for (int i = 0; i < _input->components(); ++i) {
-		socket.write (_input->data()[i], _input->stride()[i] * _input->lines(i), 30);
+	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+
+	_input->write_to_socket (socket);
+	if (_subtitle) {
+		_subtitle->image()->write_to_socket (socket);
 	}
 
 	char buffer[32];
-	socket.read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	socket.consume (strlen (buffer) + 1);
+	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	socket->consume (strlen (buffer) + 1);
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
 
 	/* now read the rest */
-	socket.read_definite_and_consume (e->data(), e->size(), 30);
+	socket->read_definite_and_consume (e->data(), e->size(), 30);
 
 	_log->log (String::compose ("Finished remotely-encoded frame %1", _frame));
 	

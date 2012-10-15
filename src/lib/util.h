@@ -186,7 +186,7 @@ private:
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
 	/** a buffer for small reads */
-	uint8_t _buffer[256];
+	uint8_t _buffer[512];
 	/** amount of valid data in the buffer */
 	int _buffer_data;
 };

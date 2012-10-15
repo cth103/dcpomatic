@@ -33,6 +33,7 @@
 #include "image.h"
 #include "dcp_video_frame.h"
 #include "config.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -72,18 +73,18 @@ Server::Server (Log* log)
 int
 Server::process (shared_ptr<Socket> socket)
 {
-	char buffer[128];
+	char buffer[256];
 	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
 	socket->consume (strlen (buffer) + 1);
 	
 	stringstream s (buffer);
-	
+
 	string command;
 	s >> command;
 	if (command != "encode") {
 		return -1;
 	}
-	
+
 	Size in_size;
 	int pixel_format_int;
 	Size out_size;
@@ -96,6 +97,8 @@ Server::process (shared_ptr<Socket> socket)
 	string post_process;
 	int colour_lut_index;
 	int j2k_bandwidth;
+	Position subtitle_position;
+	Size subtitle_size;
 	
 	s >> in_size.width >> in_size.height
 	  >> pixel_format_int
@@ -108,8 +111,10 @@ Server::process (shared_ptr<Socket> socket)
 	  >> frames_per_second
 	  >> post_process
 	  >> colour_lut_index
-	  >> j2k_bandwidth;
-	
+	  >> j2k_bandwidth
+	  >> subtitle_position.x >> subtitle_position.y
+	  >> subtitle_size.width >> subtitle_size.height;
+
 	PixelFormat pixel_format = (PixelFormat) pixel_format_int;
 	Scaler const * scaler = Scaler::from_id (scaler_id);
 	if (post_process == "none") {
@@ -117,20 +122,24 @@ Server::process (shared_ptr<Socket> socket)
 	}
 	
 	shared_ptr<Image> image (new AlignedImage (pixel_format, in_size));
-	
-	for (int i = 0; i < image->components(); ++i) {
-		socket->read_definite_and_consume (image->data()[i], image->stride()[i] * image->lines(i), 30);
+
+	image->read_from_socket (socket);
+
+	shared_ptr<Subtitle> sub;
+	if (subtitle_position.x != -1) {
+		shared_ptr<Image> subtitle_image (new AlignedImage (pixel_format, subtitle_size));
+		subtitle_image->read_from_socket (socket);
+		sub.reset (new Subtitle (subtitle_position, subtitle_image));
 	}
 
-	/* XXX: subtitle */
 	DCPVideoFrame dcp_video_frame (
-		image, shared_ptr<Subtitle> (), out_size, padding, subtitle_offset, subtitle_scale,
+		image, sub, out_size, padding, subtitle_offset, subtitle_scale,
 		scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	encoded->send (socket);
-	
+
 	return frame;
 }
 

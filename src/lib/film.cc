@@ -685,20 +685,18 @@ Film::set_subtitle_scale (float s)
 	signal_changed (SUBTITLE_SCALE);
 }
 
-list<pair<Position, string> >
-Film::thumb_subtitles (int n) const
+pair<Position, string>
+Film::thumb_subtitle (int n) const
 {
 	string sub_file = _state.thumb_base(n) + ".sub";
 	if (!filesystem::exists (sub_file)) {
-		return list<pair<Position, string> > ();
+		return pair<Position, string> ();
 	}
 
 	ifstream f (sub_file.c_str ());
 	string line;
 
-	int sub_number;
-	int sub_x;
-	list<pair<Position, string> > subs;
+	pair<Position, string> sub;
 	
 	while (getline (f, line)) {
 		if (line.empty ()) {
@@ -717,14 +715,13 @@ Film::thumb_subtitles (int n) const
 		string const k = line.substr (0, s);
 		int const v = lexical_cast<int> (line.substr(s + 1));
 
-		if (k == "image") {
-			sub_number = v;
-		} else if (k == "x") {
-			sub_x = v;
+		if (k == "x") {
+			sub.first.x = v;
 		} else if (k == "y") {
-			subs.push_back (make_pair (Position (sub_x, v), String::compose ("%1.sub.%2.png", _state.thumb_base(n), sub_number)));
+			sub.first.y = v;
+			sub.second = String::compose ("%1.sub.png", _state.thumb_base(n));
 		}
 	}
 
-	return subs;
+	return sub;
 }

@@ -417,10 +417,7 @@ Decoder::process_subtitle (shared_ptr<Subtitle> s)
 	_subtitle = s;
 	
 	if (_opt->apply_crop) {
-		list<shared_ptr<SubtitleImage> > im = _subtitle->images ();
-		for (list<shared_ptr<SubtitleImage> >::iterator i = im.begin(); i != im.end(); ++i) {
-			Position const p = (*i)->position ();
-			(*i)->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
-		}
+		Position const p = _subtitle->position ();
+		_subtitle->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
 	}
 }
