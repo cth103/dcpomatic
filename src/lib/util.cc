@@ -621,3 +621,32 @@ round_up (int a, int t)
 	return a - (a % t);
 }
 
+multimap<string, string>
+read_key_value (istream &s) 
+{
+	multimap<string, string> kv;
+	
+	string line;
+	while (getline (s, line)) {
+		if (line.empty ()) {
+			continue;
+		}
+		
+		if (line[0] == '#') {
+			continue;
+		}
+
+		if (line[line.size() - 1] == '\r') {
+			line = line.substr (0, line.size() - 1);
+		}
+
+		size_t const s = line.find (' ');
+		if (s == string::npos) {
+			continue;
+		}
+
+		kv.insert (make_pair (line.substr (0, s), line.substr (s + 1)));
+	}
+
+	return kv;
+}

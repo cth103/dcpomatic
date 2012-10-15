@@ -120,28 +120,10 @@ void
 Film::read_metadata ()
 {
 	ifstream f (metadata_file().c_str ());
-	string line;
-	while (getline (f, line)) {
-		if (line.empty ()) {
-			continue;
-		}
-		
-		if (line[0] == '#') {
-			continue;
-		}
-
-		if (line[line.size() - 1] == '\r') {
-			line = line.substr (0, line.size() - 1);
-		}
-
-		size_t const s = line.find (' ');
-		if (s == string::npos) {
-			continue;
-		}
-
-		_state.read_metadata (line.substr (0, s), line.substr (s + 1));
+	multimap<string, string> kv = read_key_value (f);
+	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
+		_state.read_metadata (i->first, i->second);
 	}
-
 	_dirty = false;
 }
 
@@ -693,35 +675,18 @@ Film::thumb_subtitle (int n) const
 		return pair<Position, string> ();
 	}
 
-	ifstream f (sub_file.c_str ());
-	string line;
-
 	pair<Position, string> sub;
 	
-	while (getline (f, line)) {
-		if (line.empty ()) {
-			continue;
-		}
-
-		if (line[line.size() - 1] == '\r') {
-			line = line.substr (0, line.size() - 1);
-		}
-
-		size_t const s = line.find (' ');
-		if (s == string::npos) {
-			continue;
-		}
-
-		string const k = line.substr (0, s);
-		int const v = lexical_cast<int> (line.substr(s + 1));
-
-		if (k == "x") {
-			sub.first.x = v;
-		} else if (k == "y") {
-			sub.first.y = v;
+	ifstream f (sub_file.c_str ());
+	multimap<string, string> kv = read_key_value (f);
+	for (map<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
+		if (i->first == "x") {
+			sub.first.x = lexical_cast<int> (i->second);
+		} else if (i->first == "y") {
+			sub.first.y = lexical_cast<int> (i->second);
 			sub.second = String::compose ("%1.sub.png", _state.thumb_base(n));
 		}
 	}
-
+	
 	return sub;
 }
