@@ -116,7 +116,7 @@ Server::process (shared_ptr<Socket> socket)
 		post_process = "";
 	}
 	
-	shared_ptr<Image> image (new SimpleImage (pixel_format, in_size));
+	shared_ptr<Image> image (new AlignedImage (pixel_format, in_size));
 	
 	for (int i = 0; i < image->components(); ++i) {
 		socket->read_definite_and_consume (image->data()[i], image->stride()[i] * image->lines(i), 30);

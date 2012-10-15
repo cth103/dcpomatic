@@ -26,6 +26,7 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -107,7 +108,7 @@ private:
 class SimpleImage : public Image
 {
 public:
-	SimpleImage (PixelFormat, Size);
+	SimpleImage (PixelFormat, Size, boost::function<int (int)> rounder);
 	~SimpleImage ();
 
 	uint8_t ** data () const;
@@ -116,11 +117,24 @@ public:
 	Size size () const;
 	
 private:
+	
 	Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
+};
 
+class AlignedImage : public SimpleImage
+{
+public:
+	AlignedImage (PixelFormat, Size);
+};
+
+class CompactImage : public SimpleImage
+{
+public:
+	CompactImage (PixelFormat, Size);
+	CompactImage (boost::shared_ptr<Image>);
 };
 
 /** @class RGBFrameImage

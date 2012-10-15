@@ -29,6 +29,7 @@
 #include <iomanip>
 #include <sstream>
 #include <boost/filesystem.hpp>
+#include <boost/date_time.hpp>
 #include "film_state.h"
 #include "scaler.h"
 #include "filter.h"
@@ -330,4 +331,64 @@ FilmState::dcp_length () const
 	return length;
 }
 
-			
+string
+FilmState::dci_name () const
+{
+	stringstream d;
+	d << dci_name_prefix << "_";
+
+	if (dcp_content_type) {
+		d << dcp_content_type->dci_name() << "_";
+	}
+
+	if (format) {
+		d << format->dci_name() << "_";
+	}
+
+	if (!audio_language.empty ()) {
+		d << audio_language;
+		if (!subtitle_language.empty ()) {
+			d << "-" << subtitle_language;
+		}
+		d << "_";
+	}
+
+	if (!territory.empty ()) {
+		d << territory;
+		if (!rating.empty ()) {
+			d << "-" << rating;
+		}
+		d << "_";
+	}
+
+	switch (audio_channels) {
+	case 1:
+		d << "1_";
+		break;
+	case 2:
+		d << "2_";
+		break;
+	case 6:
+		d << "51_";
+		break;
+	}
+
+	d << "2K_";
+
+	if (!studio.empty ()) {
+		d << studio << "_";
+	}
+
+	gregorian::date today = gregorian::day_clock::local_day ();
+	d << gregorian::to_iso_extended_string (today) << "_";
+
+	if (!facility.empty ()) {
+		d << facility << "_";
+	}
+
+	if (!package_type.empty ()) {
+		d << package_type;
+	}
+
+	return d.str ();
+}

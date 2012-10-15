@@ -63,18 +63,18 @@ Format::as_metadata () const
 void
 Format::setup_formats ()
 {
-	_formats.push_back (new FixedFormat (119, Size (1285, 1080), "119", "1.19"));
-	_formats.push_back (new FixedFormat (133, Size (1436, 1080), "133", "1.33"));
-	_formats.push_back (new FixedFormat (138, Size (1485, 1080), "138", "1.375"));
-	_formats.push_back (new FixedFormat (133, Size (1998, 1080), "133-in-flat", "4:3 within Flat"));
-	_formats.push_back (new FixedFormat (137, Size (1480, 1080), "137", "Academy"));
-	_formats.push_back (new FixedFormat (166, Size (1793, 1080), "166", "1.66"));
-	_formats.push_back (new FixedFormat (166, Size (1998, 1080), "166-in-flat", "1.66 within Flat"));
-	_formats.push_back (new FixedFormat (178, Size (1998, 1080), "178-in-flat", "16:9 within Flat"));
-	_formats.push_back (new FixedFormat (185, Size (1998, 1080), "185", "Flat"));
-	_formats.push_back (new FixedFormat (239, Size (2048, 858), "239", "Scope"));
-	_formats.push_back (new VariableFormat (Size (1998, 1080), "var-185", "Flat"));
-	_formats.push_back (new VariableFormat (Size (2048, 858), "var-239", "Scope"));
+	_formats.push_back (new FixedFormat (119, Size (1285, 1080), "119", "1.19", "F"));
+	_formats.push_back (new FixedFormat (133, Size (1436, 1080), "133", "1.33", "F"));
+	_formats.push_back (new FixedFormat (138, Size (1485, 1080), "138", "1.375", "F"));
+	_formats.push_back (new FixedFormat (133, Size (1998, 1080), "133-in-flat", "4:3 within Flat", "F"));
+	_formats.push_back (new FixedFormat (137, Size (1480, 1080), "137", "Academy", "F"));
+	_formats.push_back (new FixedFormat (166, Size (1793, 1080), "166", "1.66", "F"));
+	_formats.push_back (new FixedFormat (166, Size (1998, 1080), "166-in-flat", "1.66 within Flat", "F"));
+	_formats.push_back (new FixedFormat (178, Size (1998, 1080), "178-in-flat", "16:9 within Flat", "F"));
+	_formats.push_back (new FixedFormat (185, Size (1998, 1080), "185", "Flat", "F"));
+	_formats.push_back (new FixedFormat (239, Size (2048, 858), "239", "Scope", "S"));
+	_formats.push_back (new VariableFormat (Size (1998, 1080), "var-185", "Flat", "F"));
+	_formats.push_back (new VariableFormat (Size (2048, 858), "var-239", "Scope", "S"));
 }
 
 /** @param n Nickname.
@@ -135,8 +135,8 @@ Format::all ()
  *  @param id ID (e.g. 185)
  *  @param n Nick name (e.g. Flat)
  */
-FixedFormat::FixedFormat (int r, Size dcp, string id, string n)
-	: Format (dcp, id, n)
+FixedFormat::FixedFormat (int r, Size dcp, string id, string n, string d)
+	: Format (dcp, id, n, d)
 	, _ratio (r)
 {
 
@@ -155,8 +155,8 @@ Format::dcp_padding (Film const * f) const
 	return p;
 }
 
-VariableFormat::VariableFormat (Size dcp, string id, string n)
-	: Format (dcp, id, n)
+VariableFormat::VariableFormat (Size dcp, string id, string n, string d)
+	: Format (dcp, id, n, d)
 {
 
 }

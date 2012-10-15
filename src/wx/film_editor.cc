@@ -60,6 +60,11 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_name = new wxTextCtrl (this, wxID_ANY);
 	_sizer->Add (_name, 1, wxEXPAND);
 
+	_use_dci_name = new wxCheckBox (this, wxID_ANY, wxT ("Use DCI name"));
+	_sizer->Add (_use_dci_name, 1, wxEXPAND);
+	_edit_dci_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
+	_sizer->Add (_edit_dci_button, 0);
+
 	add_label_to_sizer (_sizer, this, "Content");
 	_content = new wxFilePickerCtrl (this, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
 	_sizer->Add (_content, 1, wxEXPAND);

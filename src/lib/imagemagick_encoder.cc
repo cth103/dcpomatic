@@ -54,9 +54,10 @@ void
 ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_ptr<Subtitle> sub)
 {
 	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _fs->scaler);
+	shared_ptr<Image> compact (new CompactImage (scaled));
 
 	string tmp_file = _opt->frame_out_path (frame, true);
-	Magick::Image thumb (_opt->out_size.width, _opt->out_size.height, "RGB", MagickCore::CharPixel, scaled->data()[0]);
+	Magick::Image thumb (compact->size().width, compact->size().height, "RGB", MagickCore::CharPixel, compact->data()[0]);
 	thumb.magick ("PNG");
 	thumb.write (tmp_file);
 	filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
@@ -78,9 +79,10 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 			new_size.width *= x_scale;
 			new_size.height *= y_scale;
 			shared_ptr<Image> scaled = (*i)->image()->scale (new_size, _fs->scaler);
+			shared_ptr<Image> compact (new CompactImage (scaled));
 			
 			string tmp_sub_file = _opt->frame_out_path (frame, true, ext.str ());
-			Magick::Image sub_thumb (scaled->size().width, scaled->size().height, "RGBA", MagickCore::CharPixel, scaled->data()[0]);
+			Magick::Image sub_thumb (compact->size().width, compact->size().height, "RGBA", MagickCore::CharPixel, compact->data()[0]);
 			sub_thumb.magick ("PNG");
 			sub_thumb.write (tmp_sub_file);
 			filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ext.str ()));

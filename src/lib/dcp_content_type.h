@@ -31,7 +31,7 @@
 class DCPContentType
 {
 public:
-	DCPContentType (std::string, libdcp::ContentKind);
+	DCPContentType (std::string, libdcp::ContentKind, std::string);
 
 	/** @return user-visible `pretty' name */
 	std::string pretty_name () const {
@@ -40,6 +40,10 @@ public:
 
 	libdcp::ContentKind libdcp_kind () const {
 		return _libdcp_kind;
+	}
+
+	std::string dci_name () const {
+		return _dci_name;
 	}
 
 	static DCPContentType const * from_pretty_name (std::string);
@@ -51,6 +55,7 @@ public:
 private:
 	std::string _pretty_name;
 	libdcp::ContentKind _libdcp_kind;
+	std::string _dci_name;
 
 	/** All available DCP content types */
 	static std::vector<DCPContentType const *> _dcp_content_types;

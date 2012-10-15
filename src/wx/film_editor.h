@@ -24,6 +24,7 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/filepicker.h>
+#include <wx/collpane.h>
 #include "lib/trim_action.h"
 #include "lib/film.h"
 
@@ -83,6 +84,8 @@ private:
 	Film* _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
+	wxCheckBox* _use_dci_name;
+	wxButton* _edit_dci_button;
 	/** The Film's format */
 	wxComboBox* _format;
 	/** The Film's content file */

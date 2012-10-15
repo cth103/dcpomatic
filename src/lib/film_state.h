@@ -91,8 +91,8 @@ public:
 	void read_metadata (std::string, std::string);
 
 	Size cropped_size (Size) const;
-
 	int dcp_length () const;
+	std::string dci_name () const;
 
 	/** Complete path to directory containing the film metadata;
 	    must not be relative.
@@ -137,6 +137,16 @@ public:
 	*/
 	int subtitle_offset;
 	float subtitle_scale;
+
+	/* DCI naming stuff */
+	std::string dci_name_prefix;
+	std::string audio_language;
+	std::string subtitle_language;
+	std::string territory;
+	std::string rating;
+	std::string studio;
+	std::string facility;
+	std::string package_type;
 
 	/* Data which is cached to speed things up */
 

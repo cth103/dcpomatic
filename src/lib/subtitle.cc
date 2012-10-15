@@ -48,7 +48,7 @@ Subtitle::displayed_at (double t)
 
 SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
 	: _position (rect->x, rect->y)
-	, _image (new SimpleImage (PIX_FMT_RGBA, Size (rect->w, rect->h)))
+	, _image (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)))
 {
 	if (rect->type != SUBTITLE_BITMAP) {
 		throw DecodeError ("non-bitmap subtitles not yet supported");
@@ -63,10 +63,12 @@ SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
 	
 	for (int y = 0; y < rect->h; ++y) {
 		uint8_t* sub_line_p = sub_p;
+		uint32_t* out_line_p = out_p;
 		for (int x = 0; x < rect->w; ++x) {
-			*out_p++ = palette[*sub_line_p++];
+			*out_line_p++ = palette[*sub_line_p++];
 		}
 		sub_p += rect->pict.linesize[0];
+		out_p += _image->stride()[0] / sizeof (uint32_t);
 	}
 }
 
