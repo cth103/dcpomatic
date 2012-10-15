@@ -37,6 +37,7 @@ class Options;
 class Image;
 class Log;
 class DelayLine;
+class Subtitle;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -66,6 +67,7 @@ public:
 	/** @return format of audio samples */
 	virtual AVSampleFormat audio_sample_format () const = 0;
 	virtual int64_t audio_channel_layout () const = 0;
+	virtual bool has_subtitles () const = 0;
 
 	void process_begin ();
 	bool pass ();
@@ -80,8 +82,9 @@ public:
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the frame.
 	 *  Second parameter is its index within the content.
+	 *  Third parameter is either 0 or a subtitle that should be on this frame.
 	 */
-	sigc::signal<void, boost::shared_ptr<Image>, int> Video;
+	sigc::signal<void, boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle> > Video;
 
 	/** Emitted when some audio data is ready.
 	 *  First parameter is the interleaved sample data, format is given in the FilmState.
@@ -100,6 +103,7 @@ protected:
 	
 	void process_video (AVFrame *);
 	void process_audio (uint8_t *, int);
+	void process_subtitle (boost::shared_ptr<Subtitle>);
 
 	/** our FilmState */
 	boost::shared_ptr<const FilmState> _fs;
@@ -135,6 +139,8 @@ private:
 	   (at the DCP sample rate).
 	*/
 	int64_t _audio_frames_processed;
+
+	boost::shared_ptr<Subtitle> _subtitle;
 };
 
 #endif

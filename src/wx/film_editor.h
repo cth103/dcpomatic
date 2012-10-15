@@ -24,6 +24,7 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/filepicker.h>
+#include <wx/collpane.h>
 #include "lib/trim_action.h"
 #include "lib/film.h"
 
@@ -58,6 +59,9 @@ private:
 	void audio_gain_changed (wxCommandEvent &);
 	void audio_gain_calculate_button_clicked (wxCommandEvent &);
 	void audio_delay_changed (wxCommandEvent &);
+	void with_subtitles_toggled (wxCommandEvent &);
+	void subtitle_offset_changed (wxCommandEvent &);
+	void subtitle_scale_changed (wxCommandEvent &);
 	void still_duration_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
@@ -69,6 +73,7 @@ private:
 
 	void set_things_sensitive (bool);
 	void setup_formats ();
+	void setup_subtitle_button ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
@@ -79,6 +84,8 @@ private:
 	Film* _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
+	wxCheckBox* _use_dci_name;
+	wxButton* _edit_dci_button;
 	/** The Film's format */
 	wxComboBox* _format;
 	/** The Film's content file */
@@ -103,6 +110,9 @@ private:
 	wxButton* _audio_gain_calculate_button;
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
+	wxCheckBox* _with_subtitles;
+	wxSpinCtrl* _subtitle_offset;
+	wxSpinCtrl* _subtitle_scale;
 	/** The Film's DCP content type */
 	wxComboBox* _dcp_content_type;
 	/** The Film's frames per second */

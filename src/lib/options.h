@@ -42,6 +42,7 @@ public:
 		, black_after (0)
 		, decode_video_frequency (0)
 		, decode_audio (true)
+		, decode_subtitles (false)
 		, _frame_out_path (f)
 		, _frame_out_extension (e)
 		, _multichannel_audio_out_path (m)
@@ -56,11 +57,15 @@ public:
 	 *  @param t true to return a temporary file path, otherwise a permanent one.
 	 *  @return The path to write this video frame to.
 	 */
-	std::string frame_out_path (int f, bool t) const {
+	std::string frame_out_path (int f, bool t, std::string e = "") const {
+		if (e.empty ()) {
+			e = _frame_out_extension;
+		}
+		
 		std::stringstream s;
 		s << _frame_out_path << "/";
 		s.width (8);
-		s << std::setfill('0') << f << _frame_out_extension;
+		s << std::setfill('0') << f << e;
 
 		if (t) {
 			s << ".tmp";
@@ -95,6 +100,7 @@ public:
 	int black_after;            ///< first frame for which to output a black frame, rather than the actual video content, or 0 for none
 	int decode_video_frequency; ///< skip frames so that this many are decoded in all (or 0) (for generating thumbnails)
 	bool decode_audio;          ///< true to decode audio, otherwise false
+	bool decode_subtitles;
 
 private:
 	/** Path of the directory to write video frames to */

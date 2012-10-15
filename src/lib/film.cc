@@ -27,9 +27,10 @@
 #include <unistd.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "film.h"
 #include "format.h"
-#include "tiff_encoder.h"
+#include "imagemagick_encoder.h"
 #include "job.h"
 #include "filter.h"
 #include "transcoder.h"
@@ -217,6 +218,7 @@ Film::set_content (string c)
 	_state.audio_channels = d->audio_channels ();
 	_state.audio_sample_rate = d->audio_sample_rate ();
 	_state.audio_sample_format = d->audio_sample_format ();
+	_state.has_subtitles = d->has_subtitles ();
 
 	_state.content_digest = md5_digest (s->content_path ());
 	_state.content = c;
@@ -395,7 +397,7 @@ Film::update_thumbs_post_gui ()
 		string const l = i->leaf ();
 #endif
 		
-		size_t const d = l.find (".tiff");
+		size_t const d = l.find (".png");
 		if (d != string::npos) {
 			_state.thumbs.push_back (atoi (l.substr (0, d).c_str()));
 		}
@@ -533,17 +535,20 @@ Film::make_dcp (bool transcode, int freq)
 	o->decode_video_frequency = freq;
 	o->padding = format()->dcp_padding (this);
 	o->ratio = format()->ratio_as_float (this);
+	o->decode_subtitles = with_subtitles ();
+
+	shared_ptr<Job> r;
 
 	if (transcode) {
 		if (_state.dcp_ab) {
-			JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (fs, o, log ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (fs, o, log(), shared_ptr<Job> ())));
 		} else {
-			JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log(), shared_ptr<Job> ())));
 		}
 	}
 
-	JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (fs, o, log ())));
-	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log ())));
+	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (fs, o, log(), r)));
+	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log(), r)));
 }
 
 shared_ptr<FilmState>
@@ -582,7 +587,7 @@ Film::examine_content ()
 		return;
 	}
 	
-	_examine_content_job.reset (new ExamineContentJob (state_copy (), log ()));
+	_examine_content_job.reset (new ExamineContentJob (state_copy (), log(), shared_ptr<Job> ()));
 	_examine_content_job->Finished.connect (sigc::mem_fun (*this, &Film::examine_content_post_gui));
 	JobManager::instance()->add (_examine_content_job);
 }
@@ -631,14 +636,14 @@ Film::set_still_duration (int d)
 void
 Film::send_dcp_to_tms ()
 {
-	shared_ptr<Job> j (new SCPDCPJob (state_copy (), log ()));
+	shared_ptr<Job> j (new SCPDCPJob (state_copy (), log(), shared_ptr<Job> ()));
 	JobManager::instance()->add (j);
 }
 
 void
 Film::copy_from_dvd ()
 {
-	shared_ptr<Job> j (new CopyFromDVDJob (state_copy (), log ()));
+	shared_ptr<Job> j (new CopyFromDVDJob (state_copy (), log(), shared_ptr<Job> ()));
 	j->Finished.connect (sigc::mem_fun (*this, &Film::copy_from_dvd_post_gui));
 	JobManager::instance()->add (j);
 }
@@ -657,4 +662,69 @@ Film::encoded_frames () const
 	}
 
 	return N;
+}
+
+void
+Film::set_with_subtitles (bool w)
+{
+	_state.with_subtitles = w;
+	signal_changed (WITH_SUBTITLES);
+}
+
+void
+Film::set_subtitle_offset (int o)
+{
+	_state.subtitle_offset = o;
+	signal_changed (SUBTITLE_OFFSET);
+}
+
+void
+Film::set_subtitle_scale (float s)
+{
+	_state.subtitle_scale = s;
+	signal_changed (SUBTITLE_SCALE);
+}
+
+list<pair<Position, string> >
+Film::thumb_subtitles (int n) const
+{
+	string sub_file = _state.thumb_base(n) + ".sub";
+	if (!filesystem::exists (sub_file)) {
+		return list<pair<Position, string> > ();
+	}
+
+	ifstream f (sub_file.c_str ());
+	string line;
+
+	int sub_number;
+	int sub_x;
+	list<pair<Position, string> > subs;
+	
+	while (getline (f, line)) {
+		if (line.empty ()) {
+			continue;
+		}
+
+		if (line[line.size() - 1] == '\r') {
+			line = line.substr (0, line.size() - 1);
+		}
+
+		size_t const s = line.find (' ');
+		if (s == string::npos) {
+			continue;
+		}
+
+		string const k = line.substr (0, s);
+		int const v = lexical_cast<int> (line.substr(s + 1));
+
+		if (k == "image") {
+			sub_number = v;
+		} else if (k == "x") {
+			sub_x = v;
+		} else if (k == "y") {
+			subs.push_back (make_pair (Position (sub_x, v), String::compose ("%1.sub.%2.png", _state.thumb_base(n), sub_number)));
+		}
+	}
+
+	return subs;
 }

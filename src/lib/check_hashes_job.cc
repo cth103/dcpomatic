@@ -31,8 +31,8 @@
 using namespace std;
 using namespace boost;
 
-CheckHashesJob::CheckHashesJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: Job (s, o, l)
+CheckHashesJob::CheckHashesJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
+	: Job (s, o, l, req)
 	, _bad (0)
 {
 
@@ -73,13 +73,13 @@ CheckHashesJob::run ()
 		shared_ptr<Job> tc;
 
 		if (_fs->dcp_ab) {
-			tc.reset (new ABTranscodeJob (_fs, _opt, _log));
+			tc.reset (new ABTranscodeJob (_fs, _opt, _log, shared_from_this()));
 		} else {
-			tc.reset (new TranscodeJob (_fs, _opt, _log));
+			tc.reset (new TranscodeJob (_fs, _opt, _log, shared_from_this()));
 		}
 		
 		JobManager::instance()->add_after (shared_from_this(), tc);
-		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_fs, _opt, _log)));
+		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_fs, _opt, _log, tc)));
 	}
 		
 	set_progress (1);

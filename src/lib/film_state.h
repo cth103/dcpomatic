@@ -62,10 +62,14 @@ public:
 		, audio_gain (0)
 		, audio_delay (0)
 		, still_duration (10)
+		, with_subtitles (false)
+		, subtitle_offset (0)
+		, subtitle_scale (1)
 		, length (0)
 		, audio_channels (0)
 		, audio_sample_rate (0)
 		, audio_sample_format (AV_SAMPLE_FMT_NONE)
+		, has_subtitles (false)
 	{}
 
 	std::string file (std::string f) const;
@@ -77,6 +81,7 @@ public:
 	bool content_is_dvd () const;
 
 	std::string thumb_file (int) const;
+	std::string thumb_base (int) const;
 	int thumb_frame (int) const;
 
 	int bytes_per_sample () const;
@@ -86,8 +91,8 @@ public:
 	void read_metadata (std::string, std::string);
 
 	Size cropped_size (Size) const;
-
 	int dcp_length () const;
+	std::string dci_name () const;
 
 	/** Complete path to directory containing the film metadata;
 	    must not be relative.
@@ -126,6 +131,22 @@ public:
 	int audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int still_duration;
+	bool with_subtitles;
+	/** y offset for placing subtitles, in source pixels; +ve is further down
+	    the frame, -ve is further up.
+	*/
+	int subtitle_offset;
+	float subtitle_scale;
+
+	/* DCI naming stuff */
+	std::string dci_name_prefix;
+	std::string audio_language;
+	std::string subtitle_language;
+	std::string territory;
+	std::string rating;
+	std::string studio;
+	std::string facility;
+	std::string package_type;
 
 	/* Data which is cached to speed things up */
 
@@ -143,9 +164,12 @@ public:
 	AVSampleFormat audio_sample_format;
 	/** MD5 digest of our content file */
 	std::string content_digest;
+	/** true if the source has subtitles */
+	bool has_subtitles;
 
 private:
 	std::string thumb_file_for_frame (int) const;
+	std::string thumb_base_for_frame (int) const;
 };
 
 #endif

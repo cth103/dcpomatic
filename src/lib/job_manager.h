@@ -28,16 +28,12 @@ class Job;
 
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
- *
- *  JobManager simply keeps a list of pending jobs, and assumes that all the jobs
- *  are sufficiently CPU intensive that there is no point running them in parallel;
- *  so jobs are just run one after the other.
  */
 class JobManager
 {
 public:
 
-	void add (boost::shared_ptr<Job>);
+	boost::shared_ptr<Job> add (boost::shared_ptr<Job>);
 	void add_after (boost::shared_ptr<Job> after, boost::shared_ptr<Job> j);
 	std::list<boost::shared_ptr<Job> > get () const;
 	bool work_to_do () const;

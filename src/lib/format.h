@@ -31,10 +31,11 @@ class Film;
 class Format
 {
 public:
-	Format (Size dcp, std::string id, std::string n)
+	Format (Size dcp, std::string id, std::string n, std::string d)
 		: _dcp_size (dcp)
 		, _id (id)
 		, _nickname (n)
+		, _dci_name (d)
 	{}
 
 	/** @return the aspect ratio multiplied by 100
@@ -67,6 +68,10 @@ public:
 		return _nickname;
 	}
 
+	std::string dci_name () const {
+		return _dci_name;
+	}
+
 	std::string as_metadata () const;
 
 	static Format const * from_nickname (std::string n);
@@ -85,6 +90,7 @@ protected:
 	std::string _id;
 	/** nickname (e.g. Flat, Scope) */
 	std::string _nickname;
+	std::string _dci_name;
 
 private:	
 	/** all available formats */
@@ -98,7 +104,7 @@ private:
 class FixedFormat : public Format
 {
 public:
-	FixedFormat (int, Size, std::string, std::string);
+	FixedFormat (int, Size, std::string, std::string, std::string);
 
 	int ratio_as_integer (Film const *) const {
 		return _ratio;
@@ -119,7 +125,7 @@ private:
 class VariableFormat : public Format
 {
 public:
-	VariableFormat (Size, std::string, std::string);
+	VariableFormat (Size, std::string, std::string, std::string);
 
 	int ratio_as_integer (Film const * f) const;
 	float ratio_as_float (Film const * f) const;

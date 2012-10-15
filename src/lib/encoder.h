@@ -36,6 +36,7 @@ class FilmState;
 class Options;
 class Image;
 class Log;
+class Subtitle;
 
 /** @class Encoder
  *  @brief Parent class for classes which can encode video and audio frames.
@@ -58,8 +59,9 @@ public:
 	/** Called with a frame of video.
 	 *  @param i Video frame image.
 	 *  @param f Frame number within the film.
+	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void process_video (boost::shared_ptr<Image> i, int f) = 0;
+	virtual void process_video (boost::shared_ptr<Image> i, int f, boost::shared_ptr<Subtitle> s) = 0;
 
 	/** Called with some audio data.
 	 *  @param d Data.

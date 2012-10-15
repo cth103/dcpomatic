@@ -70,7 +70,7 @@ ABTranscoder::~ABTranscoder ()
 }
 
 void
-ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, int index)
+ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub, int index)
 {
 	if (index == 0) {
 		/* Keep this image around until we get the other half */
@@ -80,19 +80,20 @@ ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, int index)
 		for (int i = 0; i < yuv->components(); ++i) {
 			int const line_size = yuv->line_size()[i];
 			int const half_line_size = line_size / 2;
+			int const stride = yuv->stride()[i];
 
 			uint8_t* p = _image->data()[i];
 			uint8_t* q = yuv->data()[i];
 			
 			for (int j = 0; j < yuv->lines (i); ++j) {
 				memcpy (p + half_line_size, q + half_line_size, half_line_size);
-				p += line_size;
-				q += line_size;
+				p += stride;
+				q += stride;
 			}
 		}
 			
 		/* And pass it to the encoder */
-		_encoder->process_video (_image, frame);
+		_encoder->process_video (_image, frame, sub);
 		_image.reset ();
 	}
 	

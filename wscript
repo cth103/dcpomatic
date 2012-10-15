@@ -93,6 +93,14 @@ def configure(conf):
                               lib = ['boost_filesystem%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                               uselib_store = 'BOOST_FILESYSTEM')
 
+    conf.check_cxx(fragment = """
+    			      #include <boost/date_time.hpp>\n
+    			      int main() { boost::gregorian::day_clock::local_day(); }\n
+			      """, msg = 'Checking for boost datetime library',
+                              libpath = '/usr/local/lib',
+                              lib = ['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                              uselib_store = 'BOOST_DATETIME')
+
     conf.check_cc(fragment = """
                              #include <glib.h>
                              int main() { g_format_size (1); }

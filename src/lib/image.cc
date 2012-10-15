@@ -26,6 +26,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/bind.hpp>
 #include <openjpeg.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -57,6 +58,7 @@ Image::lines (int n) const
 		}
 		break;
 	case PIX_FMT_RGB24:
+	case PIX_FMT_RGBA:
 		return size().height;
 	default:
 		assert (false);
@@ -73,6 +75,7 @@ Image::components () const
 	case PIX_FMT_YUV420P:
 		return 3;
 	case PIX_FMT_RGB24:
+	case PIX_FMT_RGBA:
 		return 1;
 	default:
 		assert (false);
@@ -81,11 +84,36 @@ Image::components () const
 	return 0;
 }
 
+shared_ptr<Image>
+Image::scale (Size out_size, Scaler const * scaler) const
+{
+	assert (scaler);
+
+	shared_ptr<Image> scaled (new AlignedImage (pixel_format(), out_size));
+
+	struct SwsContext* scale_context = sws_getContext (
+		size().width, size().height, pixel_format(),
+		out_size.width, out_size.height, pixel_format(),
+		scaler->ffmpeg_id (), 0, 0, 0
+		);
+
+	sws_scale (
+		scale_context,
+		data(), stride(),
+		0, size().height,
+		scaled->data(), scaled->stride()
+		);
+
+	sws_freeContext (scale_context);
+
+	return scaled;
+}
+
 /** Scale this image to a given size and convert it to RGB.
  *  @param out_size Output image size in pixels.
  *  @param scaler Scaler to use.
  */
-shared_ptr<RGBFrameImage>
+shared_ptr<Image>
 Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler) const
 {
 	assert (scaler);
@@ -93,7 +121,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	Size content_size = out_size;
 	content_size.width -= (padding * 2);
 
-	shared_ptr<RGBFrameImage> rgb (new RGBFrameImage (content_size));
+	shared_ptr<Image> rgb (new AlignedImage (PIX_FMT_RGB24, content_size));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -104,9 +132,9 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	/* Scale and convert to RGB from whatever its currently in (which may be RGB) */
 	sws_scale (
 		scale_context,
-		data(), line_size(),
+		data(), stride(),
 		0, size().height,
-		rgb->data (), rgb->line_size ()
+		rgb->data(), rgb->stride()
 		);
 
 	/* Put the image in the right place in a black frame if are padding; this is
@@ -114,7 +142,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	   scheme of things.
 	*/
 	if (padding > 0) {
-		shared_ptr<RGBFrameImage> padded_rgb (new RGBFrameImage (out_size));
+		shared_ptr<Image> padded_rgb (new AlignedImage (PIX_FMT_RGB24, out_size));
 		padded_rgb->make_black ();
 
 		/* XXX: we are cheating a bit here; we know the frame is RGB so we can
@@ -124,8 +152,8 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 		uint8_t* q = rgb->data()[0];
 		for (int j = 0; j < rgb->lines(0); ++j) {
 			memcpy (p, q, rgb->line_size()[0]);
-			p += padded_rgb->line_size()[0];
-			q += rgb->line_size()[0];
+			p += padded_rgb->stride()[0];
+			q += rgb->stride()[0];
 		}
 
 		rgb = padded_rgb;
@@ -140,17 +168,17 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
  *  @param pp Flags for the required set of post processes.
  *  @return Post-processed image.
  */
-shared_ptr<PostProcessImage>
+shared_ptr<Image>
 Image::post_process (string pp) const
 {
-	shared_ptr<PostProcessImage> out (new PostProcessImage (PIX_FMT_YUV420P, size ()));
+	shared_ptr<Image> out (new AlignedImage (PIX_FMT_YUV420P, size ()));
 	
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
 	pp_context* context = pp_get_context (size().width, size().height, PP_FORMAT_420 | PP_CPU_CAPS_MMX2);
 
 	pp_postprocess (
-		(const uint8_t **) data(), line_size(),
-		out->data(), out->line_size(),
+		(const uint8_t **) data(), stride(),
+		out->data(), out->stride(),
 		size().width, size().height,
 		0, 0, mode, context, 0
 		);
@@ -166,17 +194,53 @@ Image::make_black ()
 {
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
-		memset (data()[0], 0, lines(0) * line_size()[0]);
-		memset (data()[1], 0x80, lines(1) * line_size()[1]);
-		memset (data()[2], 0x80, lines(2) * line_size()[2]);
+		memset (data()[0], 0, lines(0) * stride()[0]);
+		memset (data()[1], 0x80, lines(1) * stride()[1]);
+		memset (data()[2], 0x80, lines(2) * stride()[2]);
 		break;
 
 	case PIX_FMT_RGB24:		
-		memset (data()[0], 0, lines(0) * line_size()[0]);
+		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
 
 	default:
 		assert (false);
+	}
+}
+
+void
+Image::alpha_blend (shared_ptr<Image> other, Position position)
+{
+	/* Only implemented for RGBA onto RGB24 so far */
+	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA);
+
+	int start_tx = position.x;
+	int start_ox = 0;
+
+	if (start_tx < 0) {
+		start_ox = -start_tx;
+		start_tx = 0;
+	}
+
+	int start_ty = position.y;
+	int start_oy = 0;
+
+	if (start_ty < 0) {
+		start_oy = -start_ty;
+		start_ty = 0;
+	}
+
+	for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
+		uint8_t* tp = data()[0] + ty * stride()[0] + position.x * 3;
+		uint8_t* op = other->data()[0] + oy * other->stride()[0];
+		for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+			tp[0] = (tp[0] * (1 - alpha)) + op[0] * alpha;
+			tp[1] = (tp[1] * (1 - alpha)) + op[1] * alpha;
+			tp[2] = (tp[2] * (1 - alpha)) + op[2] * alpha;
+			tp += 3;
+			op += 4;
+		}
 	}
 }
 
@@ -186,16 +250,38 @@ Image::make_black ()
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-SimpleImage::SimpleImage (PixelFormat p, Size s)
+SimpleImage::SimpleImage (PixelFormat p, Size s, function<int (int)> rounder)
 	: Image (p)
 	, _size (s)
 {
-	_data = (uint8_t **) av_malloc (components() * sizeof (uint8_t *));
-	_line_size = (int *) av_malloc (components() * sizeof (int));
+	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
+	_data[0] = _data[1] = _data[2] = _data[3] = 0;
 	
+	_line_size = (int *) av_malloc (4);
+	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
+	
+	_stride = (int *) av_malloc (4);
+	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
+
+	switch (p) {
+	case PIX_FMT_RGB24:
+		_line_size[0] = s.width * 3;
+		break;
+	case PIX_FMT_RGBA:
+		_line_size[0] = s.width * 4;
+		break;
+	case PIX_FMT_YUV420P:
+		_line_size[0] = s.width;
+		_line_size[1] = s.width / 2;
+		_line_size[2] = s.width / 2;
+		break;
+	default:
+		assert (false);
+	}
+
 	for (int i = 0; i < components(); ++i) {
-		_data[i] = 0;
-		_line_size[i] = 0;
+		_stride[i] = rounder (_line_size[i]);
+		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
 	}
 }
 
@@ -208,17 +294,7 @@ SimpleImage::~SimpleImage ()
 
 	av_free (_data);
 	av_free (_line_size);
-}
-
-/** Set the size in bytes of each horizontal line of a given component.
- *  @param i Component index.
- *  @param s Size of line in bytes.
- */
-void
-SimpleImage::set_line_size (int i, int s)
-{
-	_line_size[i] = s;
-	_data[i] = (uint8_t *) av_malloc (s * lines (i));
+	av_free (_stride);
 }
 
 uint8_t **
@@ -233,12 +309,49 @@ SimpleImage::line_size () const
 	return _line_size;
 }
 
+int *
+SimpleImage::stride () const
+{
+	return _stride;
+}
+
 Size
 SimpleImage::size () const
 {
 	return _size;
 }
 
+AlignedImage::AlignedImage (PixelFormat f, Size s)
+	: SimpleImage (f, s, boost::bind (round_up, _1, 32))
+{
+
+}
+
+CompactImage::CompactImage (PixelFormat f, Size s)
+	: SimpleImage (f, s, boost::bind (round_up, _1, 1))
+{
+
+}
+
+CompactImage::CompactImage (shared_ptr<Image> im)
+	: SimpleImage (im->pixel_format(), im->size(), boost::bind (round_up, _1, 1))
+{
+	assert (components() == im->components());
+
+	for (int c = 0; c < components(); ++c) {
+
+		assert (line_size()[c] == im->line_size()[c]);
+
+		uint8_t* t = data()[c];
+		uint8_t* o = im->data()[c];
+		
+		for (int y = 0; y < lines(c); ++y) {
+			memcpy (t, o, line_size()[c]);
+			t += stride()[c];
+			o += im->stride()[c];
+		}
+	}
+}
 
 FilterBufferImage::FilterBufferImage (PixelFormat p, AVFilterBufferRef* b)
 	: Image (p)
@@ -261,6 +374,13 @@ FilterBufferImage::data () const
 int *
 FilterBufferImage::line_size () const
 {
+	return _buffer->linesize;
+}
+
+int *
+FilterBufferImage::stride () const
+{
+	/* XXX? */
 	return _buffer->linesize;
 }
 
@@ -308,49 +428,15 @@ RGBFrameImage::line_size () const
 	return _frame->linesize;
 }
 
+int *
+RGBFrameImage::stride () const
+{
+	/* XXX? */
+	return line_size ();
+}
+
 Size
 RGBFrameImage::size () const
-{
-	return _size;
-}
-
-PostProcessImage::PostProcessImage (PixelFormat p, Size s)
-	: Image (p)
-	, _size (s)
-{
-	_data = new uint8_t*[4];
-	_line_size = new int[4];
-	
-	for (int i = 0; i < 4; ++i) {
-		_data[i] = (uint8_t *) av_malloc (s.width * s.height);
-		_line_size[i] = s.width;
-	}
-}
-
-PostProcessImage::~PostProcessImage ()
-{
-	for (int i = 0; i < 4; ++i) {
-		av_free (_data[i]);
-	}
-	
-	delete[] _data;
-	delete[] _line_size;
-}
-
-uint8_t **
-PostProcessImage::data () const
-{
-	return _data;
-}
-
-int *
-PostProcessImage::line_size () const
-{
-	return _line_size;
-}
-
-Size
-PostProcessImage::size () const
 {
 	return _size;
 }

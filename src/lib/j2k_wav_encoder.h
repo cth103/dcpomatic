@@ -38,6 +38,7 @@ class ServerDescription;
 class DCPVideoFrame;
 class Image;
 class Log;
+class Subtitle;
 
 /** @class J2KWAVEncoder
  *  @brief An encoder which writes JPEG2000 and WAV files.
@@ -49,7 +50,7 @@ public:
 	~J2KWAVEncoder ();
 
 	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format);
-	void process_video (boost::shared_ptr<Image>, int);
+	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);
 	void process_audio (uint8_t *, int);
 	void process_end ();
 

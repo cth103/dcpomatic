@@ -39,7 +39,7 @@ class Options;
 class Job : public boost::enable_shared_from_this<Job>
 {
 public:
-	Job (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
+	Job (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l, boost::shared_ptr<Job> req);
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;
@@ -48,6 +48,7 @@ public:
 	
 	void start ();
 
+	bool is_new () const;
 	bool running () const;
 	bool finished () const;
 	bool finished_ok () const;
@@ -65,6 +66,10 @@ public:
 	float overall_progress () const;
 
 	void emit_finished ();
+
+	boost::shared_ptr<Job> required () const {
+		return _required;
+	}
 
 	/** Emitted from the GUI thread */
 	sigc::signal0<void> Finished;
@@ -94,6 +99,8 @@ protected:
 private:
 
 	void run_wrapper ();
+
+	boost::shared_ptr<Job> _required;
 
 	/** mutex for _state and _error */
 	mutable boost::mutex _state_mutex;

@@ -600,3 +600,24 @@ Socket::read_indefinite (uint8_t* data, int size, int timeout)
 	assert (size >= _buffer_data);
 	memcpy (data, _buffer, size);
 }
+
+Rectangle
+Rectangle::intersection (Rectangle const & other) const
+{
+	int const tx = max (x, other.x);
+	int const ty = max (y, other.y);
+	
+	return Rectangle (
+		tx, ty,
+		min (x + w, other.x + other.w) - tx,
+		min (y + h, other.y + other.h) - ty
+		);
+}
+
+int
+round_up (int a, int t)
+{
+	a += (t - 1);
+	return a - (a % t);
+}
+

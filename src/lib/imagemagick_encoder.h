@@ -17,8 +17,8 @@
 
 */
 
-/** @file src/tiff_encoder.h
- *  @brief An encoder that writes TIFF files (and does nothing with audio).
+/** @file src/imagemagick_encoder.h
+ *  @brief An encoder that writes image files using ImageMagick (and does nothing with audio).
  */
 
 #include <string>
@@ -28,16 +28,16 @@
 class FilmState;
 class Log;
 
-/** @class TIFFEncoder
- *  @brief An encoder that writes TIFF files (and does nothing with audio).
+/** @class ImageMagickEncoder
+ *  @brief An encoder that writes image files using ImageMagick files (and does nothing with audio).
  */
-class TIFFEncoder : public Encoder
+class ImageMagickEncoder : public Encoder
 {
 public:
-	TIFFEncoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
+	ImageMagickEncoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
 
 	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format) {}
-	void process_video (boost::shared_ptr<Image>, int);
+	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);
 	void process_audio (uint8_t *, int) {}
 	void process_end () {}
 };

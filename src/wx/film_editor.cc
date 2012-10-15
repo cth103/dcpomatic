@@ -60,6 +60,11 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_name = new wxTextCtrl (this, wxID_ANY);
 	_sizer->Add (_name, 1, wxEXPAND);
 
+	_use_dci_name = new wxCheckBox (this, wxID_ANY, wxT ("Use DCI name"));
+	_sizer->Add (_use_dci_name, 1, wxEXPAND);
+	_edit_dci_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
+	_sizer->Add (_edit_dci_button, 0);
+
 	add_label_to_sizer (_sizer, this, "Content");
 	_content = new wxFilePickerCtrl (this, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
 	_sizer->Add (_content, 1, wxEXPAND);
@@ -130,6 +135,24 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 		_sizer->Add (s);
 	}
 
+	_with_subtitles = new wxCheckBox (this, wxID_ANY, wxT("With Subtitles"));
+	video_control (_with_subtitles);
+	_sizer->Add (_with_subtitles, 1);
+	_sizer->AddSpacer (0);
+
+	video_control (add_label_to_sizer (_sizer, this, "Subtitle Offset"));
+	_subtitle_offset = new wxSpinCtrl (this);
+	_sizer->Add (video_control (_subtitle_offset), 1);
+
+	{
+		video_control (add_label_to_sizer (_sizer, this, "Subtitle Scale"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_subtitle_scale = new wxSpinCtrl (this);
+		s->Add (video_control (_subtitle_scale));
+		video_control (add_label_to_sizer (s, this, "%"));
+		_sizer->Add (s);
+	}
+	
 	video_control (add_label_to_sizer (_sizer, this, "Frames Per Second"));
 	_frames_per_second = new wxStaticText (this, wxID_ANY, wxT (""));
 	_sizer->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
@@ -181,6 +204,8 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
 	_still_duration->SetRange (0, 60 * 60);
+	_subtitle_offset->SetRange (-1024, 1024);
+	_subtitle_scale->SetRange (1, 1000);
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -214,6 +239,9 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
+	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
+	_subtitle_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
+	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
 
 	setup_visibility ();
 	setup_formats ();
@@ -292,6 +320,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 
 	setup_visibility ();
 	setup_formats ();
+	setup_subtitle_button ();
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -320,6 +349,31 @@ FilmEditor::name_changed (wxCommandEvent &)
 	_ignore_changes = Film::NONE;
 }
 
+void
+FilmEditor::subtitle_offset_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::SUBTITLE_OFFSET;
+	_film->set_subtitle_offset (_subtitle_offset->GetValue ());
+	_ignore_changes = Film::NONE;
+}
+
+void
+FilmEditor::subtitle_scale_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::SUBTITLE_OFFSET;
+	_film->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
+	_ignore_changes = Film::NONE;
+}
+
+
 /** Called when the metadata stored in the Film object has changed;
  *  so that we can update the GUI.
  *  @param p Property of the Film that has changed.
@@ -340,6 +394,7 @@ FilmEditor::film_changed (Film::Property p)
 		_content->SetPath (std_to_wx (_film->content ()));
 		setup_visibility ();
 		setup_formats ();
+		setup_subtitle_button ();
 		break;
 	case Film::FORMAT:
 	{
@@ -437,6 +492,17 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::STILL_DURATION:
 		_still_duration->SetValue (_film->still_duration ());
 		break;
+	case Film::WITH_SUBTITLES:
+		_with_subtitles->SetValue (_film->with_subtitles ());
+		_subtitle_scale->Enable (_film->with_subtitles ());
+		_subtitle_offset->Enable (_film->with_subtitles ());
+		break;
+	case Film::SUBTITLE_OFFSET:
+		_subtitle_offset->SetValue (_film->subtitle_offset ());
+		break;
+	case Film::SUBTITLE_SCALE:
+		_subtitle_scale->SetValue (_film->subtitle_scale() * 100);
+		break;
 	}
 }
 
@@ -509,6 +575,9 @@ FilmEditor::set_film (Film* f)
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::STILL_DURATION);
+	film_changed (Film::WITH_SUBTITLES);
+	film_changed (Film::SUBTITLE_OFFSET);
+	film_changed (Film::SUBTITLE_SCALE);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -535,6 +604,9 @@ FilmEditor::set_things_sensitive (bool s)
 	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);
 	_still_duration->Enable (s);
+	_with_subtitles->Enable (s);
+	_subtitle_offset->Enable (s);
+	_subtitle_scale->Enable (s);
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -702,3 +774,28 @@ FilmEditor::setup_formats ()
 
 	_sizer->Layout ();
 }
+
+void
+FilmEditor::with_subtitles_toggled (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::WITH_SUBTITLES;
+	_film->set_with_subtitles (_with_subtitles->GetValue ());
+	_ignore_changes = Film::NONE;
+
+	_subtitle_scale->Enable (_film->with_subtitles ());
+	_subtitle_offset->Enable (_film->with_subtitles ());
+}
+
+void
+FilmEditor::setup_subtitle_button ()
+{
+	_with_subtitles->Enable (_film->has_subtitles ());
+	if (!_film->has_subtitles ()) {
+		_with_subtitles->SetValue (false);
+	}
+}
+

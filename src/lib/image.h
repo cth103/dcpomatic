@@ -26,6 +26,7 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -34,7 +35,7 @@ extern "C" {
 
 class Scaler;
 class RGBFrameImage;
-class PostProcessImage;
+class SimpleImage;
 
 /** @class Image
  *  @brief Parent class for wrappers of some image, in some format, that
@@ -57,16 +58,21 @@ public:
 	/** @return Array of pointers to arrays of the component data */
 	virtual uint8_t ** data () const = 0;
 
-	/** @return Array of sizes of each line, in pixels */
+	/** @return Array of sizes of the data in each line, in bytes (without any alignment padding bytes) */
 	virtual int * line_size () const = 0;
+
+	/** @return Array of strides for each line (including any alignment padding bytes) */
+	virtual int * stride () const = 0;
 
 	/** @return Size of the image, in pixels */
 	virtual Size size () const = 0;
 
 	int components () const;
 	int lines (int) const;
-	boost::shared_ptr<RGBFrameImage> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
-	boost::shared_ptr<PostProcessImage> post_process (std::string) const;
+	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
+	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
+	boost::shared_ptr<Image> post_process (std::string) const;
+	void alpha_blend (boost::shared_ptr<Image> image, Position pos);
 	
 	void make_black ();
 	
@@ -89,6 +95,7 @@ public:
 
 	uint8_t ** data () const;
 	int * line_size () const;
+	int * stride () const;
 	Size size () const;
 
 private:
@@ -101,19 +108,33 @@ private:
 class SimpleImage : public Image
 {
 public:
-	SimpleImage (PixelFormat, Size);
+	SimpleImage (PixelFormat, Size, boost::function<int (int)> rounder);
 	~SimpleImage ();
 
 	uint8_t ** data () const;
 	int * line_size () const;
+	int * stride () const;
 	Size size () const;
 	
-	void set_line_size (int, int);
-
 private:
+	
 	Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
-	int* _line_size; ///< array of widths of each line, in bytes
+	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
+	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
+};
+
+class AlignedImage : public SimpleImage
+{
+public:
+	AlignedImage (PixelFormat, Size);
+};
+
+class CompactImage : public SimpleImage
+{
+public:
+	CompactImage (PixelFormat, Size);
+	CompactImage (boost::shared_ptr<Image>);
 };
 
 /** @class RGBFrameImage
@@ -127,6 +148,7 @@ public:
 
 	uint8_t ** data () const;
 	int * line_size () const;
+	int * stride () const;
 	Size size () const;
 	AVFrame * frame () const {
 		return _frame;
@@ -136,25 +158,6 @@ private:
 	Size _size;
 	AVFrame* _frame;
 	uint8_t* _data;
-};
-
-/** @class PostProcessImage
- *  @brief An image that is the result of an FFmpeg post-processing run.
- */
-class PostProcessImage : public Image
-{
-public:
-	PostProcessImage (PixelFormat, Size);
-	~PostProcessImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	Size size () const;
-
-private:
-	Size _size;
-	uint8_t** _data;
-	int* _line_size;
 };
 
 #endif

@@ -32,6 +32,7 @@ class FilmState;
 class Options;
 class Image;
 class Log;
+class Subtitle;
 
 /** @class ABTranscoder
  *  @brief A transcoder which uses one FilmState for the left half of the screen, and a different one
@@ -54,7 +55,7 @@ public:
 	void go ();
 
 private:
-	void process_video (boost::shared_ptr<Image>, int, int);
+	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>, int);
 	
 	boost::shared_ptr<const FilmState> _fs_a;
 	boost::shared_ptr<const FilmState> _fs_b;

@@ -24,7 +24,7 @@
 #include <exception>
 #include "thumbs_job.h"
 #include "film_state.h"
-#include "tiff_encoder.h"
+#include "imagemagick_encoder.h"
 #include "transcoder.h"
 #include "options.h"
 
@@ -35,8 +35,8 @@ using namespace boost;
  *  @param o Options.
  *  @param l A log that we can write to.
  */
-ThumbsJob::ThumbsJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: Job (s, o, l)
+ThumbsJob::ThumbsJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
+	: Job (s, o, l, req)
 {
 	
 }
@@ -51,7 +51,7 @@ void
 ThumbsJob::run ()
 {
 	try {
-		shared_ptr<TIFFEncoder> e (new TIFFEncoder (_fs, _opt, _log));
+		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (_fs, _opt, _log));
 		Transcoder w (_fs, _opt, this, _log, e);
 		w.go ();
 		set_progress (1);

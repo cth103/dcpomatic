@@ -2,7 +2,7 @@ def build(bld):
     obj = bld(features = 'cxx cxxshlib')
     obj.name = 'libdvdomatic'
     obj.export_includes = ['.']
-    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP GLIB'
+    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME OPENJPEG POSTPROC TIFF SIGC++ MAGICK SSH DCP GLIB'
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
     obj.source = """
@@ -30,6 +30,7 @@ def build(bld):
 		 format.cc
                  image.cc
                  imagemagick_decoder.cc
+                 imagemagick_encoder.cc
 		 j2k_still_encoder.cc
 		 j2k_wav_encoder.cc
 		 job.cc
@@ -42,9 +43,9 @@ def build(bld):
                  screen.cc
 		 server.cc
                  sound_processor.cc
+                 subtitle.cc
 		 thumbs_job.cc
                  tiff_decoder.cc
-	         tiff_encoder.cc
                  timer.cc
 		 transcode_job.cc
 		 transcoder.cc
