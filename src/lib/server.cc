@@ -127,7 +127,7 @@ Server::process (shared_ptr<Socket> socket)
 
 	shared_ptr<Subtitle> sub;
 	if (subtitle_position.x != -1) {
-		shared_ptr<Image> subtitle_image (new AlignedImage (pixel_format, subtitle_size));
+		shared_ptr<Image> subtitle_image (new AlignedImage (PIX_FMT_RGBA, subtitle_size));
 		subtitle_image->read_from_socket (socket);
 		sub.reset (new Subtitle (subtitle_position, subtitle_image));
 	}

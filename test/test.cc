@@ -282,7 +282,6 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* descriptio
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
 	shared_ptr<Image> image (new CompactImage (PIX_FMT_RGB24, Size (1998, 1080)));
-
 	uint8_t* p = image->data()[0];
 	
 	for (int y = 0; y < 1080; ++y) {
@@ -293,16 +292,29 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		}
 	}
 
+	shared_ptr<Image> sub_image (new CompactImage (PIX_FMT_RGBA, Size (100, 200)));
+	p = sub_image->data()[0];
+	for (int y = 0; y < 200; ++y) {
+		for (int x = 0; x < 100; ++x) {
+			*p++ = y % 256;
+			*p++ = x % 256;
+			*p++ = (x + y) % 256;
+			*p++ = 1;
+		}
+	}
+
+	shared_ptr<Subtitle> subtitle (new Subtitle (Position (50, 60), sub_image));
+
 	FileLog log ("build/test/client_server_test.log");
 
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
 			image,
-			shared_ptr<Subtitle> (),
+			subtitle,
 			Size (1998, 1080),
 			0,
 			0,
-			0,
+			1,
 			Scaler::from_id ("bicubic"),
 			0,
 			24,
