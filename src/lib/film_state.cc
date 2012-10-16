@@ -367,6 +367,10 @@ FilmState::dci_name () const
 		}
 	}
 
+	if (fixed_name.length() > 14) {
+		fixed_name = fixed_name.substr (0, 14);
+	}
+
 	d << fixed_name << "_";
 
 	if (dcp_content_type) {
