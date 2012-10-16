@@ -417,7 +417,7 @@ FilmState::dci_name () const
 	}
 
 	gregorian::date today = gregorian::day_clock::local_day ();
-	d << gregorian::to_iso_extended_string (today) << "_";
+	d << gregorian::to_iso_string (today) << "_";
 
 	if (!facility.empty ()) {
 		d << facility << "_";
