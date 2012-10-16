@@ -281,10 +281,10 @@ SimpleImage::SimpleImage (PixelFormat p, Size s, function<int (int)> rounder)
 	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
 	
-	_line_size = (int *) av_malloc (4);
+	_line_size = (int *) av_malloc (4 * sizeof (int));
 	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
 	
-	_stride = (int *) av_malloc (4);
+	_stride = (int *) av_malloc (4 * sizeof (int));
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
 	switch (p) {
