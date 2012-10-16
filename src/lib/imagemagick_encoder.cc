@@ -85,7 +85,7 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 			 << "y " << sub->position().y << "\n";
 
 		metadata.close ();
-		filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub.png"));
+		filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
 	}
 	
 	frame_done (frame);

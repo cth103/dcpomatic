@@ -61,6 +61,10 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_name = new wxTextCtrl (this, wxID_ANY);
 	_sizer->Add (_name, 1, wxEXPAND);
 
+	add_label_to_sizer (_sizer, this, "DCP Name");
+	_dcp_name = new wxStaticText (this, wxID_ANY, wxT (""));
+	_sizer->Add (_dcp_name, 0, wxALIGN_CENTER_VERTICAL | wxSHRINK);
+
 	_use_dci_name = new wxCheckBox (this, wxID_ANY, wxT ("Use DCI name"));
 	_sizer->Add (_use_dci_name, 1, wxEXPAND);
 	_edit_dci_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
@@ -350,6 +354,8 @@ FilmEditor::name_changed (wxCommandEvent &)
 	_ignore_changes = Film::NAME;
 	_film->set_name (string (_name->GetValue().mb_str()));
 	_ignore_changes = Film::NONE;
+
+	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 void
@@ -408,6 +414,7 @@ FilmEditor::film_changed (Film::Property p)
 			++n;
 		}
 		_format->SetSelection (n);
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	}
 	case Film::CROP:
@@ -430,6 +437,7 @@ FilmEditor::film_changed (Film::Property p)
 	}
 	case Film::NAME:
 		_name->ChangeValue (std_to_wx (_film->name ()));
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::FRAMES_PER_SECOND:
 	{
@@ -439,6 +447,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 	case Film::AUDIO_SAMPLE_RATE:
 		if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
 			_audio->SetLabel (wxT (""));
@@ -465,6 +474,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::DCP_CONTENT_TYPE:
 		_dcp_content_type->SetSelection (DCPContentType::as_index (_film->dcp_content_type ()));
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::THUMBS:
 		break;
@@ -499,6 +509,7 @@ FilmEditor::film_changed (Film::Property p)
 		_with_subtitles->SetValue (_film->with_subtitles ());
 		_subtitle_scale->Enable (_film->with_subtitles ());
 		_subtitle_offset->Enable (_film->with_subtitles ());
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::SUBTITLE_OFFSET:
 		_subtitle_offset->SetValue (_film->subtitle_offset ());
@@ -508,9 +519,10 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::USE_DCI_NAME:
 		_use_dci_name->SetValue (_film->use_dci_name ());
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::DCI_METADATA:
-		_name->SetValue (std_to_wx (_film->state_copy()->dci_name()));
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	}
 }
@@ -530,6 +542,8 @@ FilmEditor::format_changed (wxCommandEvent &)
 		_film->set_format (_formats[n]);
 	}
 	_ignore_changes = Film::NONE;
+
+	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 /** Called when the DCP content type widget has been changed */
@@ -546,6 +560,8 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 		_film->set_dcp_content_type (DCPContentType::from_index (n));
 	}
 	_ignore_changes = Film::NONE;
+
+	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 /** Sets the Film that we are editing */
@@ -822,6 +838,8 @@ FilmEditor::use_dci_name_toggled (wxCommandEvent &)
 	_ignore_changes = Film::USE_DCI_NAME;
 	_film->set_use_dci_name (_use_dci_name->GetValue ());
 	_ignore_changes = Film::NONE;
+
+	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 void

@@ -86,6 +86,7 @@ private:
 	Film* _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
+	wxStaticText* _dcp_name;
 	wxCheckBox* _use_dci_name;
 	wxButton* _edit_dci_button;
 	/** The Film's format */

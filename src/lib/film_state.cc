@@ -360,7 +360,14 @@ FilmState::dci_name () const
 {
 	stringstream d;
 
-	d << name << "_";
+	string fixed_name = to_upper_copy (name);
+	for (size_t i = 0; i < fixed_name.length(); ++i) {
+		if (fixed_name[i] == ' ') {
+			fixed_name[i] = '-';
+		}
+	}
+
+	d << fixed_name << "_";
 
 	if (dcp_content_type) {
 		d << dcp_content_type->dci_name() << "_";
@@ -372,9 +379,14 @@ FilmState::dci_name () const
 
 	if (!audio_language.empty ()) {
 		d << audio_language;
-		if (!subtitle_language.empty ()) {
-			d << "-" << subtitle_language;
+		if (with_subtitles) {
+			if (!subtitle_language.empty ()) {
+				d << "-" << subtitle_language;
+			} else {
+				d << "-XX";
+			}
 		}
+			
 		d << "_";
 	}
 
@@ -388,10 +400,10 @@ FilmState::dci_name () const
 
 	switch (audio_channels) {
 	case 1:
-		d << "1_";
+		d << "10_";
 		break;
 	case 2:
-		d << "2_";
+		d << "20_";
 		break;
 	case 6:
 		d << "51_";
