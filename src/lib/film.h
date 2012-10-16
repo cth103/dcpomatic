@@ -71,6 +71,15 @@ public:
 		return _state.name;
 	}
 
+	/** @return name to give the DCP */
+	std::string dcp_name () const {
+		return _state.dcp_name ();
+	}
+
+	bool use_dci_name () const {
+		return _state.use_dci_name;
+	}
+
 	/** @return number of pixels to crop from the sides of the original picture */
 	Crop crop () const {
 		return _state.crop;
@@ -146,6 +155,7 @@ public:
 	void set_dcp_ab (bool);
 	
 	void set_name (std::string);
+	void set_use_dci_name (bool);
 	void set_content (std::string);
 	void set_top_crop (int);
 	void set_bottom_crop (int);
@@ -159,6 +169,13 @@ public:
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
+	void set_audio_language (std::string);
+	void set_subtitle_language (std::string);
+	void set_territory (std::string);
+	void set_rating (std::string);
+	void set_studio (std::string);
+	void set_facility (std::string);
+	void set_package_type (std::string);
 
 	/** @return size, in pixels, of the source (ignoring cropping) */
 	Size size () const {
@@ -193,7 +210,35 @@ public:
 	bool has_subtitles () const {
 		return _state.has_subtitles;
 	}
+
+	std::string audio_language () const {
+		return _state.audio_language;
+	}
+
+	std::string subtitle_language () const {
+		return _state.subtitle_language;
+	}
 	
+	std::string territory () const {
+		return _state.territory;
+	}
+
+	std::string rating () const {
+		return _state.rating;
+	}
+
+	std::string studio () const {
+		return _state.studio;
+	}
+
+	std::string facility () const {
+		return _state.facility;
+	}
+
+	std::string package_type () const {
+		return _state.package_type;
+	}
+
 	std::string j2k_dir () const;
 
 	std::vector<std::string> audio_files () const;
@@ -203,7 +248,7 @@ public:
 	int num_thumbs () const;
 	int thumb_frame (int) const;
 	std::string thumb_file (int) const;
-	std::list<std::pair<Position, std::string> > thumb_subtitles (int) const;
+	std::pair<Position, std::string> thumb_subtitle (int) const;
 
 	void copy_from_dvd_post_gui ();
 	void examine_content ();
@@ -241,7 +286,9 @@ public:
 		STILL_DURATION,
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
-		SUBTITLE_SCALE
+		SUBTITLE_SCALE,
+		USE_DCI_NAME,
+		DCI_METADATA
 	};
 
 	boost::shared_ptr<FilmState> state_copy () const;

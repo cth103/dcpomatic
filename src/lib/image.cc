@@ -244,6 +244,30 @@ Image::alpha_blend (shared_ptr<Image> other, Position position)
 	}
 }
 
+void
+Image::read_from_socket (shared_ptr<Socket> socket)
+{
+	for (int i = 0; i < components(); ++i) {
+		uint8_t* p = data()[i];
+		for (int y = 0; y < lines(i); ++y) {
+			socket->read_definite_and_consume (p, line_size()[i], 30);
+			p += stride()[i];
+		}
+	}
+}
+
+void
+Image::write_to_socket (shared_ptr<Socket> socket) const
+{
+	for (int i = 0; i < components(); ++i) {
+		uint8_t* p = data()[i];
+		for (int y = 0; y < lines(i); ++y) {
+			socket->write (p, line_size()[i], 30);
+			p += stride()[i];
+		}
+	}
+}
+
 /** Construct a SimpleImage of a given size and format, allocating memory
  *  as required.
  *

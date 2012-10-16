@@ -44,9 +44,20 @@
 using namespace std;
 using namespace boost;
 
+void
+setup_test_config ()
+{
+	Config::instance()->set_num_local_encoding_threads (1);
+	Config::instance()->set_colour_lut_index (0);
+	Config::instance()->set_j2k_bandwidth (200000000);
+	Config::instance()->set_servers (vector<ServerDescription*> ());
+	Config::instance()->set_server_port (61920);
+}
+
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
 	dvdomatic_setup ();
+	setup_test_config ();
 	
 	string const test_film = "build/test/film";
 	
@@ -258,7 +269,7 @@ BOOST_AUTO_TEST_CASE (paths_test)
 }
 
 void
-do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded)
+do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded, int N)
 {
 	shared_ptr<EncodedData> remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
@@ -271,7 +282,6 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* descriptio
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
 	shared_ptr<Image> image (new CompactImage (PIX_FMT_RGB24, Size (1998, 1080)));
-
 	uint8_t* p = image->data()[0];
 	
 	for (int y = 0; y < 1080; ++y) {
@@ -282,16 +292,29 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		}
 	}
 
+	shared_ptr<Image> sub_image (new CompactImage (PIX_FMT_RGBA, Size (100, 200)));
+	p = sub_image->data()[0];
+	for (int y = 0; y < 200; ++y) {
+		for (int x = 0; x < 100; ++x) {
+			*p++ = y % 256;
+			*p++ = x % 256;
+			*p++ = (x + y) % 256;
+			*p++ = 1;
+		}
+	}
+
+	shared_ptr<Subtitle> subtitle (new Subtitle (Position (50, 60), sub_image));
+
 	FileLog log ("build/test/client_server_test.log");
 
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
 			image,
-			shared_ptr<Subtitle> (),
+			subtitle,
 			Size (1998, 1080),
 			0,
 			0,
-			0,
+			1,
 			Scaler::from_id ("bicubic"),
 			0,
 			24,
@@ -303,8 +326,8 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		);
 
 	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
+	BOOST_ASSERT (locally_encoded);
 	
-	Config::instance()->set_server_port (61920);
 	Server* server = new Server (&log);
 
 	new thread (boost::bind (&Server::run, server, 2));
@@ -316,11 +339,15 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded)));
+		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded, i)));
 	}
 
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		(*i)->join ();
+	}
+
+	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
+		delete *i;
 	}
 }
 

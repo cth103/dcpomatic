@@ -25,7 +25,7 @@
 using namespace std;
 using namespace boost;
 
-Subtitle::Subtitle (AVSubtitle const & sub)
+TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 {
 	/* subtitle PTS in seconds */
 	float const packet_time = (sub.pts / AV_TIME_BASE) + float (sub.pts % AV_TIME_BASE) / 1e6;
@@ -34,32 +34,24 @@ Subtitle::Subtitle (AVSubtitle const & sub)
 	_from = packet_time + (double (sub.start_display_time) / 1e3);
 	_to = packet_time + (double (sub.end_display_time) / 1e3);
 
-	for (unsigned int i = 0; i < sub.num_rects; ++i) {
-		_images.push_back (shared_ptr<SubtitleImage> (new SubtitleImage (sub.rects[i])));
+	if (sub.num_rects > 1) {
+		throw DecodeError ("multi-part subtitles not yet supported");
 	}
-}
 
-/** @param t Time in seconds from the start of the film */
-bool
-Subtitle::displayed_at (double t)
-{
-	return t >= _from && t <= _to;
-}
+	AVSubtitleRect const * rect = sub.rects[0];
 
-SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
-	: _position (rect->x, rect->y)
-	, _image (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)))
-{
 	if (rect->type != SUBTITLE_BITMAP) {
 		throw DecodeError ("non-bitmap subtitles not yet supported");
 	}
+	
+	shared_ptr<Image> image (new AlignedImage (PIX_FMT_RGBA, Size (rect->w, rect->h)));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
 	/* sub_p looks up into a RGB palette which is here */
 	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
 	/* Start of the output data */
-	uint32_t* out_p = (uint32_t *) _image->data()[0];
+	uint32_t* out_p = (uint32_t *) image->data()[0];
 	
 	for (int y = 0; y < rect->h; ++y) {
 		uint8_t* sub_line_p = sub_p;
@@ -68,12 +60,28 @@ SubtitleImage::SubtitleImage (AVSubtitleRect const * rect)
 			*out_line_p++ = palette[*sub_line_p++];
 		}
 		sub_p += rect->pict.linesize[0];
-		out_p += _image->stride()[0] / sizeof (uint32_t);
+		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
+
+	_subtitle.reset (new Subtitle (Position (rect->x, rect->y), image));
+}	
+
+/** @param t Time in seconds from the start of the film */
+bool
+TimedSubtitle::displayed_at (double t) const
+{
+	return t >= _from && t <= _to;
 }
 
+Subtitle::Subtitle (Position p, shared_ptr<Image> i)
+	: _position (p)
+	, _image (i)
+{
+
+}
+	
 Rectangle
-transformed_subtitle_area (
+subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
 	Rectangle sub_area, int subtitle_offset, float subtitle_scale
 	)
@@ -85,8 +93,8 @@ transformed_subtitle_area (
 	/* We will scale the subtitle by the same amount as the video frame, and also by the additional
 	   subtitle_scale
 	*/
-	tx.w = sub_area.w * target_x_scale * subtitle_scale;
-	tx.h = sub_area.h * target_y_scale * subtitle_scale;
+	tx.width = sub_area.width * target_x_scale * subtitle_scale;
+	tx.height = sub_area.height * target_y_scale * subtitle_scale;
 
 	/* Then we need a corrective translation, consisting of two parts:
 	 *
@@ -100,14 +108,14 @@ transformed_subtitle_area (
 	 * Combining these two translations gives these expressions.
 	 */
 	
-	tx.x = target_x_scale * (sub_area.x + (sub_area.w * (1 - subtitle_scale) / 2));
-	tx.y = target_y_scale * (sub_area.y + (sub_area.h * (1 - subtitle_scale) / 2));
+	tx.x = target_x_scale * (sub_area.x + (sub_area.width * (1 - subtitle_scale) / 2));
+	tx.y = target_y_scale * (sub_area.y + (sub_area.height * (1 - subtitle_scale) / 2));
 
 	return tx;
 }
 
 Rectangle
-SubtitleImage::area () const
+Subtitle::area () const
 {
 	return Rectangle (_position.x, _position.y, _image->size().width, _image->size().height);
 }

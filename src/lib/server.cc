@@ -27,12 +27,14 @@
 #include <sstream>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "server.h"
 #include "util.h"
 #include "scaler.h"
 #include "image.h"
 #include "dcp_video_frame.h"
 #include "config.h"
+#include "subtitle.h"
 
 using namespace std;
 using namespace boost;
@@ -72,65 +74,57 @@ Server::Server (Log* log)
 int
 Server::process (shared_ptr<Socket> socket)
 {
-	char buffer[128];
+	char buffer[512];
 	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
 	socket->consume (strlen (buffer) + 1);
 	
 	stringstream s (buffer);
-	
-	string command;
-	s >> command;
-	if (command != "encode") {
+	multimap<string, string> kv = read_key_value (s);
+
+	if (get_required_string (kv, "encode") != "please") {
 		return -1;
 	}
-	
-	Size in_size;
-	int pixel_format_int;
-	Size out_size;
-	int padding;
-	int subtitle_offset;
-	int subtitle_scale;
-	string scaler_id;
-	int frame;
-	float frames_per_second;
-	string post_process;
-	int colour_lut_index;
-	int j2k_bandwidth;
-	
-	s >> in_size.width >> in_size.height
-	  >> pixel_format_int
-	  >> out_size.width >> out_size.height
-	  >> padding
-	  >> subtitle_offset
-	  >> subtitle_scale
-	  >> scaler_id
-	  >> frame
-	  >> frames_per_second
-	  >> post_process
-	  >> colour_lut_index
-	  >> j2k_bandwidth;
-	
+
+	Size in_size (get_required_int (kv, "input_width"), get_required_int (kv, "input_height"));
+	int pixel_format_int = get_required_int (kv, "input_pixel_format");
+	Size out_size (get_required_int (kv, "output_width"), get_required_int (kv, "output_height"));
+	int padding = get_required_int (kv, "padding");
+	int subtitle_offset = get_required_int (kv, "subtitle_offset");
+	int subtitle_scale = get_required_int (kv, "subtitle_scale");
+	string scaler_id = get_required_string (kv, "scaler");
+	int frame = get_required_int (kv, "frame");
+	int frames_per_second = get_required_int (kv, "frames_per_second");
+	string post_process = get_optional_string (kv, "post_process");
+	int colour_lut_index = get_required_int (kv, "colour_lut");
+	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
+	Position subtitle_position (get_optional_int (kv, "subtitle_x"), get_optional_int (kv, "subtitle_y"));
+	Size subtitle_size (get_optional_int (kv, "subtitle_width"), get_optional_int (kv, "subtitle_height"));
+
+	/* This checks that colour_lut_index is within range */
+	colour_lut_index_to_name (colour_lut_index);
+
 	PixelFormat pixel_format = (PixelFormat) pixel_format_int;
 	Scaler const * scaler = Scaler::from_id (scaler_id);
-	if (post_process == "none") {
-		post_process = "";
-	}
 	
 	shared_ptr<Image> image (new AlignedImage (pixel_format, in_size));
-	
-	for (int i = 0; i < image->components(); ++i) {
-		socket->read_definite_and_consume (image->data()[i], image->stride()[i] * image->lines(i), 30);
+
+	image->read_from_socket (socket);
+
+	shared_ptr<Subtitle> sub;
+	if (subtitle_size.width && subtitle_size.height) {
+		shared_ptr<Image> subtitle_image (new AlignedImage (PIX_FMT_RGBA, subtitle_size));
+		subtitle_image->read_from_socket (socket);
+		sub.reset (new Subtitle (subtitle_position, subtitle_image));
 	}
 
-	/* XXX: subtitle */
 	DCPVideoFrame dcp_video_frame (
-		image, shared_ptr<Subtitle> (), out_size, padding, subtitle_offset, subtitle_scale,
+		image, sub, out_size, padding, subtitle_offset, subtitle_scale,
 		scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	encoded->send (socket);
-	
+
 	return frame;
 }
 

@@ -46,6 +46,8 @@ public:
 private:
 	/* Handle changes to the view */
 	void name_changed (wxCommandEvent &);
+	void use_dci_name_toggled (wxCommandEvent &);
+	void edit_dci_button_clicked (wxCommandEvent &);
 	void left_crop_changed (wxCommandEvent &);
 	void right_crop_changed (wxCommandEvent &);
 	void top_crop_changed (wxCommandEvent &);
@@ -84,6 +86,7 @@ private:
 	Film* _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
+	wxStaticText* _dcp_name;
 	wxCheckBox* _use_dci_name;
 	wxButton* _edit_dci_button;
 	/** The Film's format */

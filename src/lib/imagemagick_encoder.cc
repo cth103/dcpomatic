@@ -69,32 +69,23 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 		string tmp_metadata_file = _opt->frame_out_path (frame, false, ".sub");
 		ofstream metadata (tmp_metadata_file.c_str ());
 		
-		list<shared_ptr<SubtitleImage> > images = sub->images ();
-		int n = 0;
-		for (list<shared_ptr<SubtitleImage> >::iterator i = images.begin(); i != images.end(); ++i) {
-			stringstream ext;
-			ext << ".sub." << n << ".png";
+		Size new_size = sub->image()->size ();
+		new_size.width *= x_scale;
+		new_size.height *= y_scale;
+		shared_ptr<Image> scaled = sub->image()->scale (new_size, _fs->scaler);
+		shared_ptr<Image> compact (new CompactImage (scaled));
+		
+		string tmp_sub_file = _opt->frame_out_path (frame, true, ".sub.png");
+		Magick::Image sub_thumb (compact->size().width, compact->size().height, "RGBA", MagickCore::CharPixel, compact->data()[0]);
+		sub_thumb.magick ("PNG");
+		sub_thumb.write (tmp_sub_file);
+		filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ".sub.png"));
 
-			Size new_size = (*i)->image()->size ();
-			new_size.width *= x_scale;
-			new_size.height *= y_scale;
-			shared_ptr<Image> scaled = (*i)->image()->scale (new_size, _fs->scaler);
-			shared_ptr<Image> compact (new CompactImage (scaled));
-			
-			string tmp_sub_file = _opt->frame_out_path (frame, true, ext.str ());
-			Magick::Image sub_thumb (compact->size().width, compact->size().height, "RGBA", MagickCore::CharPixel, compact->data()[0]);
-			sub_thumb.magick ("PNG");
-			sub_thumb.write (tmp_sub_file);
-			filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ext.str ()));
+		metadata << "x " << sub->position().x << "\n"
+			 << "y " << sub->position().y << "\n";
 
-			metadata << "image " << n << "\n"
-				 << "x " << (*i)->position().x << "\n"
-				 << "y " << (*i)->position().y << "\n";
-
-			metadata.close ();
-			filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
-		}
-
+		metadata.close ();
+		filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
 	}
 	
 	frame_done (frame);

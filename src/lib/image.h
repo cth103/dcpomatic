@@ -75,6 +75,9 @@ public:
 	void alpha_blend (boost::shared_ptr<Image> image, Position pos);
 	
 	void make_black ();
+
+	void read_from_socket (boost::shared_ptr<Socket>);
+	void write_to_socket (boost::shared_ptr<Socket>) const;
 	
 	PixelFormat pixel_format () const {
 		return _pixel_format;

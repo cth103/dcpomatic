@@ -161,17 +161,14 @@ DCPVideoFrame::encode_locally ()
 	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
 
 	if (_subtitle) {
-		list<shared_ptr<SubtitleImage> > subs = _subtitle->images ();
-		for (list<shared_ptr<SubtitleImage> >::iterator i = subs.begin(); i != subs.end(); ++i) {
-			Rectangle tx = transformed_subtitle_area (
-				float (_out_size.width) / _input->size().width,
-				float (_out_size.height) / _input->size().height,
-				(*i)->area(), _subtitle_offset, _subtitle_scale
-				);
+		Rectangle tx = subtitle_transformed_area (
+			float (_out_size.width) / _input->size().width,
+			float (_out_size.height) / _input->size().height,
+			_subtitle->area(), _subtitle_offset, _subtitle_scale
+			);
 
-			shared_ptr<Image> im = (*i)->image()->scale (Size (tx.w, tx.h), _scaler);
-			prepared->alpha_blend (im, Position (tx.x, tx.y));
-		}
+		shared_ptr<Image> im = _subtitle->image()->scale (tx.size(), _scaler);
+		prepared->alpha_blend (im, tx.position());
 	}
 
 	create_openjpeg_container ();
@@ -310,38 +307,52 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	Socket socket;
+	shared_ptr<Socket> socket (new Socket);
 
-	socket.connect (*endpoint_iterator, 30);
+	socket->connect (*endpoint_iterator, 30);
 
 	stringstream s;
-	s << "encode "
-	  << _input->size().width << " " << _input->size().height << " "
-	  << _input->pixel_format() << " "
-	  << _out_size.width << " " << _out_size.height << " "
-	  << _padding << " "
-	  << _subtitle_offset << " "
-	  << _subtitle_scale << " "
-	  << _scaler->id () << " "
-	  << _frame << " "
-	  << _frames_per_second << " "
-	  << (_post_process.empty() ? "none" : _post_process) << " "
-	  << Config::instance()->colour_lut_index () << " "
-	  << Config::instance()->j2k_bandwidth () << " ";
+	s << "encode please\n"
+	  << "input_width " << _input->size().width << "\n"
+	  << "input_height " << _input->size().height << "\n"
+	  << "input_pixel_format " << _input->pixel_format() << "\n"
+	  << "output_width " << _out_size.width << "\n"
+	  << "output_height " << _out_size.height << "\n"
+	  << "padding " <<  _padding << "\n"
+	  << "subtitle_offset " << _subtitle_offset << "\n"
+	  << "subtitle_scale " << _subtitle_scale << "\n"
+	  << "scaler " << _scaler->id () << "\n"
+	  << "frame " << _frame << "\n"
+	  << "frames_per_second " << _frames_per_second << "\n";
 
-	socket.write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+	if (!_post_process.empty()) {
+		s << "post_process " << _post_process << "\n";
+	}
+	
+	s << "colour_lut " << Config::instance()->colour_lut_index () << "\n"
+	  << "j2k_bandwidth " << Config::instance()->j2k_bandwidth () << "\n";
 
-	for (int i = 0; i < _input->components(); ++i) {
-		socket.write (_input->data()[i], _input->stride()[i] * _input->lines(i), 30);
+	if (_subtitle) {
+		s << "subtitle_x " << _subtitle->position().x << "\n"
+		  << "subtitle_y " << _subtitle->position().y << "\n"
+		  << "subtitle_width " << _subtitle->image()->size().width << "\n"
+		  << "subtitle_height " << _subtitle->image()->size().height << "\n";
+	}
+
+	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+
+	_input->write_to_socket (socket);
+	if (_subtitle) {
+		_subtitle->image()->write_to_socket (socket);
 	}
 
 	char buffer[32];
-	socket.read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	socket.consume (strlen (buffer) + 1);
+	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
+	socket->consume (strlen (buffer) + 1);
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
 
 	/* now read the rest */
-	socket.read_definite_and_consume (e->data(), e->size(), 30);
+	socket->read_definite_and_consume (e->data(), e->size(), 30);
 
 	_log->log (String::compose ("Finished remotely-encoded frame %1", _frame));
 	

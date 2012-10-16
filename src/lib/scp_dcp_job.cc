@@ -140,12 +140,12 @@ SCPDCPJob::run ()
 		throw NetworkError (String::compose ("Could not start SCP session (%1)", ssh_get_error (ss.session)));
 	}
 	
-	r = ssh_scp_push_directory (sc.scp, _fs->name.c_str(), S_IRWXU);
+	r = ssh_scp_push_directory (sc.scp, _fs->dcp_name().c_str(), S_IRWXU);
 	if (r != SSH_OK) {
-		throw NetworkError (String::compose ("Could not create remote directory %1 (%2)", _fs->name, ssh_get_error (ss.session)));
+		throw NetworkError (String::compose ("Could not create remote directory %1 (%2)", _fs->dcp_name(), ssh_get_error (ss.session)));
 	}
 	
-	string const dcp_dir = _fs->dir (_fs->name);
+	string const dcp_dir = _fs->dir (_fs->dcp_name());
 	
 	boost::uintmax_t bytes_to_transfer = 0;
 	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {

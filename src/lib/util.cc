@@ -35,6 +35,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
+#include <boost/lexical_cast.hpp>
 #include <openjpeg.h>
 #include <openssl/md5.h>
 #include <magick/MagickCore.h>
@@ -609,8 +610,8 @@ Rectangle::intersection (Rectangle const & other) const
 	
 	return Rectangle (
 		tx, ty,
-		min (x + w, other.x + other.w) - tx,
-		min (y + h, other.y + other.h) - ty
+		min (x + width, other.x + other.width) - tx,
+		min (y + height, other.y + other.height) - ty
 		);
 }
 
@@ -621,3 +622,85 @@ round_up (int a, int t)
 	return a - (a % t);
 }
 
+multimap<string, string>
+read_key_value (istream &s) 
+{
+	multimap<string, string> kv;
+	
+	string line;
+	while (getline (s, line)) {
+		if (line.empty ()) {
+			continue;
+		}
+		
+		if (line[0] == '#') {
+			continue;
+		}
+
+		if (line[line.size() - 1] == '\r') {
+			line = line.substr (0, line.size() - 1);
+		}
+
+		size_t const s = line.find (' ');
+		if (s == string::npos) {
+			continue;
+		}
+
+		kv.insert (make_pair (line.substr (0, s), line.substr (s + 1)));
+	}
+
+	return kv;
+}
+
+string
+get_required_string (multimap<string, string> const & kv, string k)
+{
+	if (kv.count (k) > 1) {
+		throw StringError ("unexpected multiple keys in key-value set");
+	}
+
+	multimap<string, string>::const_iterator i = kv.find (k);
+	
+	if (i == kv.end ()) {
+		throw StringError (String::compose ("missing key %1 in key-value set", k));
+	}
+
+	return i->second;
+}
+
+int
+get_required_int (multimap<string, string> const & kv, string k)
+{
+	string const v = get_required_string (kv, k);
+	return lexical_cast<int> (v);
+}
+
+string
+get_optional_string (multimap<string, string> const & kv, string k)
+{
+	if (kv.count (k) > 1) {
+		throw StringError ("unexpected multiple keys in key-value set");
+	}
+
+	multimap<string, string>::const_iterator i = kv.find (k);
+	if (i == kv.end ()) {
+		return "";
+	}
+
+	return i->second;
+}
+
+int
+get_optional_int (multimap<string, string> const & kv, string k)
+{
+	if (kv.count (k) > 1) {
+		throw StringError ("unexpected multiple keys in key-value set");
+	}
+
+	multimap<string, string>::const_iterator i = kv.find (k);
+	if (i == kv.end ()) {
+		return 0;
+	}
+
+	return lexical_cast<int> (i->second);
+}

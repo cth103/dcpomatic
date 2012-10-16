@@ -9,20 +9,21 @@ def build(bld):
     obj.uselib = 'WXWIDGETS'
     obj.use = 'libdvdomatic'
     obj.source = """
-                 film_editor.cc
-                 wx_util.cc
-                 film_viewer.cc
-                 job_manager_view.cc
-                 job_wrapper.cc
-                 gain_calculator_dialog.cc
                  config_dialog.cc
+                 dci_name_dialog.cc
+                 dcp_range_dialog.cc
+                 dir_picker_ctrl.cc
+                 film_editor.cc
+                 film_viewer.cc
                  filter_dialog.cc
                  filter_view.cc
-                 dcp_range_dialog.cc
-                 server_dialog.cc
+                 gain_calculator_dialog.cc
+                 job_manager_view.cc
+                 job_wrapper.cc
                  new_film_dialog.cc
-                 dir_picker_ctrl.cc
                  properties_dialog.cc
+                 server_dialog.cc
+                 wx_util.cc
                  """
 
 #                 alignment.cc

@@ -49,6 +49,7 @@ FilmState::write_metadata (ofstream& f) const
 {
 	/* User stuff */
 	f << "name " << name << "\n";
+	f << "use_dci_name " << use_dci_name << "\n";
 	f << "content " << content << "\n";
 	if (dcp_content_type) {
 		f << "dcp_content_type " << dcp_content_type->pretty_name () << "\n";
@@ -99,6 +100,13 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_sample_format " << audio_sample_format_to_string (audio_sample_format) << "\n";
 	f << "content_digest " << content_digest << "\n";
 	f << "has_subtitles " << has_subtitles << "\n";
+	f << "audio_language " << audio_language << "\n";
+	f << "subtitle_language " << subtitle_language << "\n";
+	f << "territory " << territory << "\n";
+	f << "rating " << rating << "\n";
+	f << "studio " << studio << "\n";
+	f << "facility " << facility << "\n";
+	f << "package_type " << package_type << "\n";
 }
 
 /** Read state from a key / value pair.
@@ -111,6 +119,8 @@ FilmState::read_metadata (string k, string v)
 	/* User-specified stuff */
 	if (k == "name") {
 		name = v;
+	} else if (k == "use_dci_name") {
+		use_dci_name = (v == "1");
 	} else if (k == "content") {
 		content = v;
 	} else if (k == "dcp_content_type") {
@@ -178,6 +188,20 @@ FilmState::read_metadata (string k, string v)
 		content_digest = v;
 	} else if (k == "has_subtitles") {
 		has_subtitles = (v == "1");
+	} else if (k == "audio_language") {
+		audio_language = v;
+	} else if (k == "subtitle_language") {
+		subtitle_language = v;
+	} else if (k == "territory") {
+		territory = v;
+	} else if (k == "rating") {
+		rating = v;
+	} else if (k == "studio") {
+		studio = v;
+	} else if (k == "facility") {
+		facility = v;
+	} else if (k == "package_type") {
+		package_type = v;
 	}
 }
 
@@ -335,7 +359,15 @@ string
 FilmState::dci_name () const
 {
 	stringstream d;
-	d << dci_name_prefix << "_";
+
+	string fixed_name = to_upper_copy (name);
+	for (size_t i = 0; i < fixed_name.length(); ++i) {
+		if (fixed_name[i] == ' ') {
+			fixed_name[i] = '-';
+		}
+	}
+
+	d << fixed_name << "_";
 
 	if (dcp_content_type) {
 		d << dcp_content_type->dci_name() << "_";
@@ -347,9 +379,14 @@ FilmState::dci_name () const
 
 	if (!audio_language.empty ()) {
 		d << audio_language;
-		if (!subtitle_language.empty ()) {
-			d << "-" << subtitle_language;
+		if (with_subtitles) {
+			if (!subtitle_language.empty ()) {
+				d << "-" << subtitle_language;
+			} else {
+				d << "-XX";
+			}
 		}
+			
 		d << "_";
 	}
 
@@ -363,10 +400,10 @@ FilmState::dci_name () const
 
 	switch (audio_channels) {
 	case 1:
-		d << "1_";
+		d << "10_";
 		break;
 	case 2:
-		d << "2_";
+		d << "20_";
 		break;
 	case 6:
 		d << "51_";
@@ -392,3 +429,16 @@ FilmState::dci_name () const
 
 	return d.str ();
 }
+
+/** @return name to give the DCP */
+string
+FilmState::dcp_name () const
+{
+	if (use_dci_name) {
+		return dci_name ();
+	}
+
+	return name;
+}
+
+	       

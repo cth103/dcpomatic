@@ -120,28 +120,10 @@ void
 Film::read_metadata ()
 {
 	ifstream f (metadata_file().c_str ());
-	string line;
-	while (getline (f, line)) {
-		if (line.empty ()) {
-			continue;
-		}
-		
-		if (line[0] == '#') {
-			continue;
-		}
-
-		if (line[line.size() - 1] == '\r') {
-			line = line.substr (0, line.size() - 1);
-		}
-
-		size_t const s = line.find (' ');
-		if (s == string::npos) {
-			continue;
-		}
-
-		_state.read_metadata (line.substr (0, s), line.substr (s + 1));
+	multimap<string, string> kv = read_key_value (f);
+	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
+		_state.read_metadata (i->first, i->second);
 	}
-
 	_dirty = false;
 }
 
@@ -485,8 +467,7 @@ Film::signal_changed (Property p)
 void
 Film::make_dcp (bool transcode, int freq)
 {
-	string const t = name ();
-	if (t.find ("/") != string::npos) {
+	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError ("name", "cannot contain slashes");
 	}
 	
@@ -685,46 +666,82 @@ Film::set_subtitle_scale (float s)
 	signal_changed (SUBTITLE_SCALE);
 }
 
-list<pair<Position, string> >
-Film::thumb_subtitles (int n) const
+pair<Position, string>
+Film::thumb_subtitle (int n) const
 {
 	string sub_file = _state.thumb_base(n) + ".sub";
 	if (!filesystem::exists (sub_file)) {
-		return list<pair<Position, string> > ();
+		return pair<Position, string> ();
 	}
 
-	ifstream f (sub_file.c_str ());
-	string line;
-
-	int sub_number;
-	int sub_x;
-	list<pair<Position, string> > subs;
+	pair<Position, string> sub;
 	
-	while (getline (f, line)) {
-		if (line.empty ()) {
-			continue;
-		}
-
-		if (line[line.size() - 1] == '\r') {
-			line = line.substr (0, line.size() - 1);
-		}
-
-		size_t const s = line.find (' ');
-		if (s == string::npos) {
-			continue;
-		}
-
-		string const k = line.substr (0, s);
-		int const v = lexical_cast<int> (line.substr(s + 1));
-
-		if (k == "image") {
-			sub_number = v;
-		} else if (k == "x") {
-			sub_x = v;
-		} else if (k == "y") {
-			subs.push_back (make_pair (Position (sub_x, v), String::compose ("%1.sub.%2.png", _state.thumb_base(n), sub_number)));
+	ifstream f (sub_file.c_str ());
+	multimap<string, string> kv = read_key_value (f);
+	for (map<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
+		if (i->first == "x") {
+			sub.first.x = lexical_cast<int> (i->second);
+		} else if (i->first == "y") {
+			sub.first.y = lexical_cast<int> (i->second);
+			sub.second = String::compose ("%1.sub.png", _state.thumb_base(n));
 		}
 	}
+	
+	return sub;
+}
 
-	return subs;
+void
+Film::set_audio_language (string v)
+{
+	_state.audio_language = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_subtitle_language (string v)
+{
+	_state.subtitle_language = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_territory (string v)
+{
+	_state.territory = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_rating (string v)
+{
+	_state.rating = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_studio (string v)
+{
+	_state.studio = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_facility (string v)
+{
+	_state.facility = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_package_type (string v)
+{
+	_state.package_type = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_use_dci_name (bool v)
+{
+	_state.use_dci_name = v;
+	signal_changed (USE_DCI_NAME);
 }
