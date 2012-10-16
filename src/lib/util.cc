@@ -615,6 +615,12 @@ Rectangle::intersection (Rectangle const & other) const
 		);
 }
 
+/** Round a number up to the nearest multiple of another number.
+ *  @param a Number to round.
+ *  @param t Multiple to round to.
+ *  @return Rounded number.
+ */
+
 int
 round_up (int a, int t)
 {
@@ -622,6 +628,13 @@ round_up (int a, int t)
 	return a - (a % t);
 }
 
+/** Read a sequence of key / value pairs from a text stream;
+ *  the keys are the first words on the line, and the values are
+ *  the remainder of the line following the key.  Lines beginning
+ *  with # are ignored.
+ *  @param s Stream to read.
+ *  @return key/value pairs.
+ */
 multimap<string, string>
 read_key_value (istream &s) 
 {

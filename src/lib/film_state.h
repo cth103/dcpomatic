@@ -103,6 +103,7 @@ public:
 	std::string directory;
 	/** Name for DVD-o-matic */
 	std::string name;
+	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool use_dci_name;
 	/** File or directory containing content; may be relative to our directory
 	 *  or an absolute path.
@@ -135,11 +136,13 @@ public:
 	int audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int still_duration;
+	/** True if subtitles should be shown for this film */
 	bool with_subtitles;
 	/** y offset for placing subtitles, in source pixels; +ve is further down
 	    the frame, -ve is further up.
 	*/
 	int subtitle_offset;
+	/** scale factor to apply to subtitles */
 	float subtitle_scale;
 
 	/* DCI naming stuff */

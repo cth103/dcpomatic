@@ -355,6 +355,7 @@ FilmState::dcp_length () const
 	return length;
 }
 
+/** @return a DCI-compliant name for a DCP of this film */
 string
 FilmState::dci_name () const
 {
@@ -367,6 +368,7 @@ FilmState::dci_name () const
 		}
 	}
 
+	/* Spec is that the name part should be maximum 14 characters, as I understand it */
 	if (fixed_name.length() > 14) {
 		fixed_name = fixed_name.substr (0, 14);
 	}
