@@ -675,6 +675,13 @@ get_required_int (multimap<string, string> const & kv, string k)
 	return lexical_cast<int> (v);
 }
 
+float
+get_required_float (multimap<string, string> const & kv, string k)
+{
+	string const v = get_required_string (kv, k);
+	return lexical_cast<float> (v);
+}
+
 string
 get_optional_string (multimap<string, string> const & kv, string k)
 {
