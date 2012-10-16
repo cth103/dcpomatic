@@ -67,7 +67,7 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 
 	_use_dci_name = new wxCheckBox (this, wxID_ANY, wxT ("Use DCI name"));
 	_sizer->Add (_use_dci_name, 1, wxEXPAND);
-	_edit_dci_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
+	_edit_dci_button = new wxButton (this, wxID_ANY, wxT ("Details..."));
 	_sizer->Add (_edit_dci_button, 0);
 
 	add_label_to_sizer (_sizer, this, "Content");
