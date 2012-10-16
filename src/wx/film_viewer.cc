@@ -154,7 +154,7 @@ private:
 		/* Target ratio */
 		float const target = _film->format() ? _film->format()->ratio_as_float (_film) : 1.78;
 
-		_transformed_image = _image->GetSubImage (wxRect (cropped_area.x, cropped_area.y, cropped_area.w, cropped_area.h));
+		_transformed_image = _image->GetSubImage (wxRect (cropped_area.x, cropped_area.y, cropped_area.width, cropped_area.height));
 
 		float x_scale = 1;
 		float y_scale = 1;
@@ -162,13 +162,13 @@ private:
 		if ((float (vw) / vh) > target) {
 			/* view is longer (horizontally) than the ratio; fit height */
 			_transformed_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
-			x_scale = vh * target / cropped_area.w;
-			y_scale = float (vh) / cropped_area.h;
+			x_scale = vh * target / cropped_area.width;
+			y_scale = float (vh) / cropped_area.height;
 		} else {
 			/* view is shorter (horizontally) than the ratio; fit width */
 			_transformed_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
-			x_scale = float (vw) / cropped_area.w;
-			y_scale = (vw / target) / cropped_area.h;
+			x_scale = float (vw) / cropped_area.width;
+			y_scale = (vw / target) / cropped_area.height;
 		}
 
 		_bitmap.reset (new wxBitmap (_transformed_image));
@@ -180,7 +180,7 @@ private:
 				);
 
 			_subtitle->transformed_image = _subtitle->base_image;
-			_subtitle->transformed_image.Rescale (_subtitle->transformed_area.w, _subtitle->transformed_area.h, wxIMAGE_QUALITY_HIGH);
+			_subtitle->transformed_image.Rescale (_subtitle->transformed_area.width, _subtitle->transformed_area.height, wxIMAGE_QUALITY_HIGH);
 			_subtitle->transformed_area.x -= _film->crop().left;
 			_subtitle->transformed_area.y -= _film->crop().top;
 			_subtitle->bitmap.reset (new wxBitmap (_subtitle->transformed_image));
@@ -203,8 +203,8 @@ private:
 		{
 			base_area.x = p.x;
 			base_area.y = p.y;
-			base_area.w = base_image.GetWidth ();
-			base_area.h = base_image.GetHeight ();
+			base_area.width = base_image.GetWidth ();
+			base_area.height = base_image.GetHeight ();
 		}
 
 		Rectangle base_area;

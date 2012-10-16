@@ -167,8 +167,8 @@ DCPVideoFrame::encode_locally ()
 			_subtitle->area(), _subtitle_offset, _subtitle_scale
 			);
 
-		shared_ptr<Image> im = _subtitle->image()->scale (Size (tx.w, tx.h), _scaler);
-		prepared->alpha_blend (im, Position (tx.x, tx.y));
+		shared_ptr<Image> im = _subtitle->image()->scale (tx.size(), _scaler);
+		prepared->alpha_blend (im, tx.position());
 	}
 
 	create_openjpeg_container ();
@@ -312,25 +312,31 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	socket->connect (*endpoint_iterator, 30);
 
 	stringstream s;
-	s << "encode "
-	  << _input->size().width << " " << _input->size().height << " "
-	  << _input->pixel_format() << " "
-	  << _out_size.width << " " << _out_size.height << " "
-	  << _padding << " "
-	  << _subtitle_offset << " "
-	  << _subtitle_scale << " "
-	  << _scaler->id () << " "
-	  << _frame << " "
-	  << _frames_per_second << " "
-	  << (_post_process.empty() ? "none" : _post_process) << " "
-	  << Config::instance()->colour_lut_index () << " "
-	  << Config::instance()->j2k_bandwidth () << " ";
+	s << "encode please\n"
+	  << "input_width " << _input->size().width << "\n"
+	  << "input_height " << _input->size().height << "\n"
+	  << "input_pixel_format " << _input->pixel_format() << "\n"
+	  << "output_width " << _out_size.width << "\n"
+	  << "output_height " << _out_size.height << "\n"
+	  << "padding " <<  _padding << "\n"
+	  << "subtitle_offset " << _subtitle_offset << "\n"
+	  << "subtitle_scale " << _subtitle_scale << "\n"
+	  << "scaler " << _scaler->id () << "\n"
+	  << "frame " << _frame << "\n"
+	  << "frames_per_second " << _frames_per_second << "\n";
+
+	if (!_post_process.empty()) {
+		s << "post_process " << _post_process << "\n";
+	}
+	
+	s << "colour_lut " << Config::instance()->colour_lut_index () << "\n"
+	  << "j2k_bandwidth " << Config::instance()->j2k_bandwidth () << "\n";
 
 	if (_subtitle) {
-		s << _subtitle->position().x << " " << _subtitle->position().y << " "
-		  << _subtitle->image()->size().width << " " << _subtitle->image()->size().height;
-	} else {
-		s << "-1 -1 0 0";
+		s << "subtitle_x " << _subtitle->position().x << "\n"
+		  << "subtitle_y " << _subtitle->position().y << "\n"
+		  << "subtitle_width " << _subtitle->image()->size().width << "\n"
+		  << "subtitle_height " << _subtitle->image()->size().height << "\n";
 	}
 
 	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);

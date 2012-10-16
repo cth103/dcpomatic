@@ -93,8 +93,8 @@ subtitle_transformed_area (
 	/* We will scale the subtitle by the same amount as the video frame, and also by the additional
 	   subtitle_scale
 	*/
-	tx.w = sub_area.w * target_x_scale * subtitle_scale;
-	tx.h = sub_area.h * target_y_scale * subtitle_scale;
+	tx.width = sub_area.width * target_x_scale * subtitle_scale;
+	tx.height = sub_area.height * target_y_scale * subtitle_scale;
 
 	/* Then we need a corrective translation, consisting of two parts:
 	 *
@@ -108,8 +108,8 @@ subtitle_transformed_area (
 	 * Combining these two translations gives these expressions.
 	 */
 	
-	tx.x = target_x_scale * (sub_area.x + (sub_area.w * (1 - subtitle_scale) / 2));
-	tx.y = target_y_scale * (sub_area.y + (sub_area.h * (1 - subtitle_scale) / 2));
+	tx.x = target_x_scale * (sub_area.x + (sub_area.width * (1 - subtitle_scale) / 2));
+	tx.y = target_y_scale * (sub_area.y + (sub_area.height * (1 - subtitle_scale) / 2));
 
 	return tx;
 }

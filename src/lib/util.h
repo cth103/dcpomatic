@@ -127,21 +127,29 @@ struct Rectangle
 	Rectangle ()
 		: x (0)
 		, y (0)
-		, w (0)
-		, h (0)
+		, width (0)
+		, height (0)
 	{}
 
 	Rectangle (int x_, int y_, int w_, int h_)
 		: x (x_)
 		, y (y_)
-		, w (w_)
-		, h (h_)
+		, width (w_)
+		, height (h_)
 	{}
 
 	int x;
 	int y;
-	int w;
-	int h;
+	int width;
+	int height;
+
+	Position position () const {
+		return Position (x, y);
+	}
+
+	Size size () const {
+		return Size (width, height);
+	}
 
 	Rectangle intersection (Rectangle const & other) const;
 };
@@ -151,6 +159,10 @@ extern int dcp_audio_sample_rate (int);
 extern std::string colour_lut_index_to_name (int index);
 extern int round_up (int, int);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
+extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
+extern std::string get_required_string (std::multimap<std::string, std::string> const & kv, std::string k);
+extern int get_optional_int (std::multimap<std::string, std::string> const & kv, std::string k);
+extern std::string get_optional_string (std::multimap<std::string, std::string> const & kv, std::string k);
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
@@ -187,7 +199,7 @@ private:
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
 	/** a buffer for small reads */
-	uint8_t _buffer[512];
+	uint8_t _buffer[1024];
 	/** amount of valid data in the buffer */
 	int _buffer_data;
 };
