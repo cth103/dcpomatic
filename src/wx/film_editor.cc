@@ -43,6 +43,7 @@
 #include "dcp_range_dialog.h"
 #include "gain_calculator_dialog.h"
 #include "sound_processor.h"
+#include "dci_name_dialog.h"
 
 using namespace std;
 using namespace boost;
@@ -222,6 +223,8 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	
 	/* Now connect to them, since initial values are safely set */
 	_name->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (FilmEditor::name_changed), 0, this);
+	_use_dci_name->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
+	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
 	_content->Connect (wxID_ANY, wxEVT_COMMAND_FILEPICKER_CHANGED, wxCommandEventHandler (FilmEditor::content_changed), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
@@ -503,6 +506,12 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SUBTITLE_SCALE:
 		_subtitle_scale->SetValue (_film->subtitle_scale() * 100);
 		break;
+	case Film::USE_DCI_NAME:
+		_use_dci_name->SetValue (_film->use_dci_name ());
+		break;
+	case Film::DCI_METADATA:
+		_name->SetValue (std_to_wx (_film->state_copy()->dci_name()));
+		break;
 	}
 }
 
@@ -578,6 +587,8 @@ FilmEditor::set_film (Film* f)
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
+	film_changed (Film::USE_DCI_NAME);
+	film_changed (Film::DCI_METADATA);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -587,6 +598,8 @@ void
 FilmEditor::set_things_sensitive (bool s)
 {
 	_name->Enable (s);
+	_use_dci_name->Enable (s);
+	_edit_dci_button->Enable (s);
 	_frames_per_second->Enable (s);
 	_format->Enable (s);
 	_content->Enable (s);
@@ -799,3 +812,26 @@ FilmEditor::setup_subtitle_button ()
 	}
 }
 
+void
+FilmEditor::use_dci_name_toggled (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::USE_DCI_NAME;
+	_film->set_use_dci_name (_use_dci_name->GetValue ());
+	_ignore_changes = Film::NONE;
+}
+
+void
+FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	DCINameDialog* d = new DCINameDialog (this, _film);
+	d->ShowModal ();
+	d->Destroy ();
+}

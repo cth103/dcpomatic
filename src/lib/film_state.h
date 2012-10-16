@@ -52,7 +52,8 @@ class FilmState
 {
 public:
 	FilmState ()
-		: dcp_content_type (0)
+		: use_dci_name (false)
+		, dcp_content_type (0)
 		, frames_per_second (0)
 		, format (0)
 		, scaler (Scaler::from_id ("bicubic"))
@@ -100,6 +101,7 @@ public:
 	std::string directory;
 	/** Name for DVD-o-matic */
 	std::string name;
+	bool use_dci_name;
 	/** File or directory containing content; may be relative to our directory
 	 *  or an absolute path.
 	 */

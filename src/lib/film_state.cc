@@ -49,6 +49,7 @@ FilmState::write_metadata (ofstream& f) const
 {
 	/* User stuff */
 	f << "name " << name << "\n";
+	f << "use_dci_name " << use_dci_name << "\n";
 	f << "content " << content << "\n";
 	if (dcp_content_type) {
 		f << "dcp_content_type " << dcp_content_type->pretty_name () << "\n";
@@ -99,6 +100,14 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_sample_format " << audio_sample_format_to_string (audio_sample_format) << "\n";
 	f << "content_digest " << content_digest << "\n";
 	f << "has_subtitles " << has_subtitles << "\n";
+	f << "dci_name_prefix " << dci_name_prefix << "\n";
+	f << "audio_language " << audio_language << "\n";
+	f << "subtitle_language " << subtitle_language << "\n";
+	f << "territory " << territory << "\n";
+	f << "rating " << rating << "\n";
+	f << "studio " << studio << "\n";
+	f << "facility " << facility << "\n";
+	f << "package_type " << package_type << "\n";
 }
 
 /** Read state from a key / value pair.
@@ -111,6 +120,8 @@ FilmState::read_metadata (string k, string v)
 	/* User-specified stuff */
 	if (k == "name") {
 		name = v;
+	} else if (k == "use_dci_name") {
+		use_dci_name = (v == "1");
 	} else if (k == "content") {
 		content = v;
 	} else if (k == "dcp_content_type") {
@@ -178,6 +189,22 @@ FilmState::read_metadata (string k, string v)
 		content_digest = v;
 	} else if (k == "has_subtitles") {
 		has_subtitles = (v == "1");
+	} else if (k == "dci_name_prefix") {
+		dci_name_prefix = v;
+	} else if (k == "audio_language") {
+		audio_language = v;
+	} else if (k == "subtitle_language") {
+		subtitle_language = v;
+	} else if (k == "territory") {
+		territory = v;
+	} else if (k == "rating") {
+		rating = v;
+	} else if (k == "studio") {
+		studio = v;
+	} else if (k == "facility") {
+		facility = v;
+	} else if (k == "package_type") {
+		package_type = v;
 	}
 }
 

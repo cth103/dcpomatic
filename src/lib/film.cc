@@ -690,3 +690,66 @@ Film::thumb_subtitle (int n) const
 	
 	return sub;
 }
+
+void
+Film::set_dci_name_prefix (string v)
+{
+	_state.dci_name_prefix = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_audio_language (string v)
+{
+	_state.audio_language = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_subtitle_language (string v)
+{
+	_state.subtitle_language = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_territory (string v)
+{
+	_state.territory = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_rating (string v)
+{
+	_state.rating = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_studio (string v)
+{
+	_state.studio = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_facility (string v)
+{
+	_state.facility = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_package_type (string v)
+{
+	_state.package_type = v;
+	signal_changed (DCI_METADATA);
+}
+
+void
+Film::set_use_dci_name (bool v)
+{
+	_state.use_dci_name = v;
+	signal_changed (USE_DCI_NAME);
+}
