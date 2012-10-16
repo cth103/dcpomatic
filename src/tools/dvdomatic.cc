@@ -351,7 +351,7 @@ public:
 	{
 		wxAboutDialogInfo info;
 		info.SetName (_("DVD-o-matic"));
-		info.SetVersion (std_to_wx (String::compose ("DVD-o-matic version %1 git %2", dvdomatic_version, dvdomatic_git_commit)));
+		info.SetVersion (std_to_wx (String::compose ("version %1 git %2", dvdomatic_version, dvdomatic_git_commit)));
 		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
 		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
 		wxArrayString authors;
