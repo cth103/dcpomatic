@@ -71,6 +71,11 @@ public:
 		return _state.name;
 	}
 
+	/** @return name to give the DCP */
+	std::string dcp_name () const {
+		return _state.dcp_name ();
+	}
+
 	bool use_dci_name () const {
 		return _state.use_dci_name;
 	}
@@ -164,7 +169,6 @@ public:
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
-	void set_dci_name_prefix (std::string);
 	void set_audio_language (std::string);
 	void set_subtitle_language (std::string);
 	void set_territory (std::string);
@@ -205,10 +209,6 @@ public:
 
 	bool has_subtitles () const {
 		return _state.has_subtitles;
-	}
-
-	std::string dci_name_prefix () const {
-		return _state.dci_name_prefix;
 	}
 
 	std::string audio_language () const {

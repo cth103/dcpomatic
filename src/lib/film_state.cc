@@ -100,7 +100,6 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_sample_format " << audio_sample_format_to_string (audio_sample_format) << "\n";
 	f << "content_digest " << content_digest << "\n";
 	f << "has_subtitles " << has_subtitles << "\n";
-	f << "dci_name_prefix " << dci_name_prefix << "\n";
 	f << "audio_language " << audio_language << "\n";
 	f << "subtitle_language " << subtitle_language << "\n";
 	f << "territory " << territory << "\n";
@@ -189,8 +188,6 @@ FilmState::read_metadata (string k, string v)
 		content_digest = v;
 	} else if (k == "has_subtitles") {
 		has_subtitles = (v == "1");
-	} else if (k == "dci_name_prefix") {
-		dci_name_prefix = v;
 	} else if (k == "audio_language") {
 		audio_language = v;
 	} else if (k == "subtitle_language") {
@@ -362,7 +359,8 @@ string
 FilmState::dci_name () const
 {
 	stringstream d;
-	d << dci_name_prefix << "_";
+
+	d << name << "_";
 
 	if (dcp_content_type) {
 		d << dcp_content_type->dci_name() << "_";
@@ -419,3 +417,16 @@ FilmState::dci_name () const
 
 	return d.str ();
 }
+
+/** @return name to give the DCP */
+string
+FilmState::dcp_name () const
+{
+	if (use_dci_name) {
+		return dci_name ();
+	}
+
+	return name;
+}
+
+	       

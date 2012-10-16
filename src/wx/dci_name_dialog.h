@@ -28,7 +28,6 @@ public:
 	DCINameDialog (wxWindow *, Film *);
 
 private:
-	void dci_name_prefix_changed (wxCommandEvent &);
 	void audio_language_changed (wxCommandEvent &);
 	void subtitle_language_changed (wxCommandEvent &);
 	void territory_changed (wxCommandEvent &);
@@ -37,7 +36,6 @@ private:
 	void facility_changed (wxCommandEvent &);
 	void package_type_changed (wxCommandEvent &);
 	
-	wxTextCtrl* _dci_name_prefix;
 	wxTextCtrl* _audio_language;
 	wxTextCtrl* _subtitle_language;
 	wxTextCtrl* _territory;

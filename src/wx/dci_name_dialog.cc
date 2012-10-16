@@ -29,10 +29,6 @@ DCINameDialog::DCINameDialog (wxWindow* parent, Film* film)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, "Short Name (e.g. BLUES-BROS)");
-	_dci_name_prefix = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_dci_name_prefix, 1, wxEXPAND);
-
 	add_label_to_sizer (table, this, "Audio Language (e.g. EN)");
 	_audio_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_audio_language, 1, wxEXPAND);
@@ -61,7 +57,6 @@ DCINameDialog::DCINameDialog (wxWindow* parent, Film* film)
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 
-	_dci_name_prefix->SetValue (std_to_wx (_film->dci_name_prefix ()));
 	_audio_language->SetValue (std_to_wx (_film->audio_language ()));
 	_subtitle_language->SetValue (std_to_wx (_film->subtitle_language ()));
 	_territory->SetValue (std_to_wx (_film->territory ()));
@@ -70,7 +65,6 @@ DCINameDialog::DCINameDialog (wxWindow* parent, Film* film)
 	_facility->SetValue (std_to_wx (_film->facility ()));
 	_package_type->SetValue (std_to_wx (_film->package_type ()));
 	
-	_dci_name_prefix->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::dci_name_prefix_changed), 0, this);
 	_audio_language->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::audio_language_changed), 0, this);
 	_subtitle_language->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::subtitle_language_changed), 0, this);
 	_territory->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::territory_changed), 0, this);
@@ -90,12 +84,6 @@ DCINameDialog::DCINameDialog (wxWindow* parent, Film* film)
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
-}
-
-void
-DCINameDialog::dci_name_prefix_changed (wxCommandEvent &)
-{
-	_film->set_dci_name_prefix (wx_to_std (_dci_name_prefix->GetValue ()));
 }
 
 void

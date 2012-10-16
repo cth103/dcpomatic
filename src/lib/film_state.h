@@ -95,6 +95,8 @@ public:
 	int dcp_length () const;
 	std::string dci_name () const;
 
+	std::string dcp_name () const;
+
 	/** Complete path to directory containing the film metadata;
 	    must not be relative.
 	*/
@@ -141,7 +143,6 @@ public:
 	float subtitle_scale;
 
 	/* DCI naming stuff */
-	std::string dci_name_prefix;
 	std::string audio_language;
 	std::string subtitle_language;
 	std::string territory;

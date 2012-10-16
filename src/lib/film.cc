@@ -467,8 +467,7 @@ Film::signal_changed (Property p)
 void
 Film::make_dcp (bool transcode, int freq)
 {
-	string const t = name ();
-	if (t.find ("/") != string::npos) {
+	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError ("name", "cannot contain slashes");
 	}
 	
@@ -689,13 +688,6 @@ Film::thumb_subtitle (int n) const
 	}
 	
 	return sub;
-}
-
-void
-Film::set_dci_name_prefix (string v)
-{
-	_state.dci_name_prefix = v;
-	signal_changed (DCI_METADATA);
 }
 
 void
