@@ -160,6 +160,7 @@ extern std::string colour_lut_index_to_name (int index);
 extern int round_up (int, int);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
+extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);
 extern std::string get_required_string (std::multimap<std::string, std::string> const & kv, std::string k);
 extern int get_optional_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern std::string get_optional_string (std::multimap<std::string, std::string> const & kv, std::string k);
@@ -169,7 +170,7 @@ extern std::string get_optional_string (std::multimap<std::string, std::string> 
  *  that are useful for DVD-o-matic.
  *
  *  This class wraps some things that I could not work out how to do with boost;
- *  most notably, sync read/write calls with timeouts, and the ability to peak into
+ *  most notably, sync read/write calls with timeouts, and the ability to peek into
  *  data being read.
  */
 class Socket

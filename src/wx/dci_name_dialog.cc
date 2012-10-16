@@ -53,7 +53,7 @@ DCINameDialog::DCINameDialog (wxWindow* parent, Film* film)
 	_facility = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_facility, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Package Type (e.g. OV");
+	add_label_to_sizer (table, this, "Package Type (e.g. OV)");
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 

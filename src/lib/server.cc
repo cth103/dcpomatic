@@ -90,7 +90,7 @@ Server::process (shared_ptr<Socket> socket)
 	Size out_size (get_required_int (kv, "output_width"), get_required_int (kv, "output_height"));
 	int padding = get_required_int (kv, "padding");
 	int subtitle_offset = get_required_int (kv, "subtitle_offset");
-	int subtitle_scale = get_required_int (kv, "subtitle_scale");
+	float subtitle_scale = get_required_float (kv, "subtitle_scale");
 	string scaler_id = get_required_string (kv, "scaler");
 	int frame = get_required_int (kv, "frame");
 	int frames_per_second = get_required_int (kv, "frames_per_second");

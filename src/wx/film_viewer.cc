@@ -232,8 +232,8 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	_thumb_panel = new ThumbPanel (this, f);
 	_sizer->Add (_thumb_panel, 1, wxEXPAND);
 
-	int const max = f ? f->num_thumbs() - 1 : 0;
-	_slider = new wxSlider (this, wxID_ANY, 0, 0, max);
+	int const m = max (1, f ? f->num_thumbs() - 1 : 0);
+	_slider = new wxSlider (this, wxID_ANY, 0, 0, m);
 	_sizer->Add (_slider, 0, wxEXPAND | wxLEFT | wxRIGHT);
 	set_thumbnail (0);
 

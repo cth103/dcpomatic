@@ -76,6 +76,7 @@ public:
 		return _state.dcp_name ();
 	}
 
+	/** @return true to use a DCI-spec name for the DCP */
 	bool use_dci_name () const {
 		return _state.use_dci_name;
 	}
@@ -105,6 +106,7 @@ public:
 		return _state.dcp_frames;
 	}
 
+	/** @return what to do with the end of an encode when trimming */
 	TrimAction dcp_trim_action () const {
 		return _state.dcp_trim_action;
 	}
@@ -117,26 +119,36 @@ public:
 		return _state.dcp_ab;
 	}
 
+	/** @return gain that should be applied to the audio when making a DCP
+	    (in dB).
+	*/
 	float audio_gain () const {
 		return _state.audio_gain;
 	}
 
+	/** @return delay to apply to audio (positive moves audio later) in milliseconds */
 	int audio_delay () const {
 		return _state.audio_delay;
 	}
 
+	/** @return duration to make still-sourced films (in seconds) */
 	int still_duration () const {
 		return _state.still_duration;
 	}
 
+	/** @return true to encode DCP with subtitles, if they are available */
 	bool with_subtitles () const {
 		return _state.with_subtitles;
 	}
 
+	/** @return offset to move subtitles by, in source pixels; +ve moves
+	    them down the image, -ve moves them up.
+	*/
 	int subtitle_offset () const {
 		return _state.subtitle_offset;
 	}
 
+	/** @return scaling factor to apply to subtitle images */
 	float subtitle_scale () const {
 		return _state.subtitle_scale;
 	}

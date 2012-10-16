@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/subtitle.h
+ *  @brief Representations of subtitles.
+ */
+
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include "util.h"
@@ -24,6 +28,7 @@
 struct AVSubtitle;
 class Image;
 
+/** A subtitle, consisting of an image and a position */
 class Subtitle
 {
 public:
@@ -53,7 +58,8 @@ subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
 	Rectangle sub_area, int subtitle_offset, float subtitle_scale
 	);
-	
+
+/** A Subtitle class with details of the time over which it should be shown */
 class TimedSubtitle
 {
 public:
@@ -66,8 +72,8 @@ public:
 	}
 
 private:
+	/** the subtitle */
 	boost::shared_ptr<Subtitle> _subtitle;
-	
 	/** display from time in seconds from the start of the film */
 	double _from;
 	/** display to time in seconds from the start of the film */

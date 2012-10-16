@@ -355,6 +355,7 @@ FilmState::dcp_length () const
 	return length;
 }
 
+/** @return a DCI-compliant name for a DCP of this film */
 string
 FilmState::dci_name () const
 {
@@ -365,6 +366,11 @@ FilmState::dci_name () const
 		if (fixed_name[i] == ' ') {
 			fixed_name[i] = '-';
 		}
+	}
+
+	/* Spec is that the name part should be maximum 14 characters, as I understand it */
+	if (fixed_name.length() > 14) {
+		fixed_name = fixed_name.substr (0, 14);
 	}
 
 	d << fixed_name << "_";
@@ -417,7 +423,7 @@ FilmState::dci_name () const
 	}
 
 	gregorian::date today = gregorian::day_clock::local_day ();
-	d << gregorian::to_iso_extended_string (today) << "_";
+	d << gregorian::to_iso_string (today) << "_";
 
 	if (!facility.empty ()) {
 		d << facility << "_";

@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/subtitle.cc
+ *  @brief Representations of subtitles.
+ */
+
 #include "subtitle.h"
 #include "image.h"
 #include "exceptions.h"
@@ -25,6 +29,10 @@
 using namespace std;
 using namespace boost;
 
+/** Construct a TimedSubtitle.  This is a subtitle image, position,
+ *  and a range of time over which it should be shown.
+ *  @param sub AVSubtitle to read.
+ */
 TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 {
 	/* subtitle PTS in seconds */
@@ -73,13 +81,27 @@ TimedSubtitle::displayed_at (double t) const
 	return t >= _from && t <= _to;
 }
 
+/** Construct a subtitle, which is an image and a position.
+ *  @param p Position within the (uncropped) source frame.
+ *  @param i Image of the subtitle (should be RGBA).
+ */
 Subtitle::Subtitle (Position p, shared_ptr<Image> i)
 	: _position (p)
 	, _image (i)
 {
 
 }
-	
+
+/** Given the area of a subtitle, work out the area it should
+ *  take up when its video frame is scaled up, and it is optionally
+ *  itself scaled and offset.
+ *  @param target_x_scale the x scaling of the video frame that the subtitle is in.
+ *  @param target_y_scale the y scaling of the video frame that the subtitle is in.
+ *  @param sub_area The area of the subtitle within the original source.
+ *  @param subtitle_offset y offset to apply to the subtitle position (+ve is down)
+ *  in the coordinate space of the source.
+ *  @param subtitle_scale scaling factor to apply to the subtitle image.
+ */
 Rectangle
 subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
@@ -114,6 +136,7 @@ subtitle_transformed_area (
 	return tx;
 }
 
+/** @return area that this subtitle take up, in the original uncropped source's coordinate space */
 Rectangle
 Subtitle::area () const
 {
