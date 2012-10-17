@@ -403,12 +403,10 @@ FilmState::dci_name () const
 
 	if (!audio_language.empty ()) {
 		d << audio_language;
-		if (with_subtitles) {
-			if (!subtitle_language.empty ()) {
-				d << "-" << subtitle_language;
-			} else {
-				d << "-XX";
-			}
+		if (!subtitle_language.empty() && with_subtitles) {
+			d << "-" << subtitle_language;
+		} else {
+			d << "-XX";
 		}
 			
 		d << "_";
