@@ -59,8 +59,6 @@ FilmState::write_metadata () const
 		throw CreateFileError (m);
 	}
 
-	/* XXX: reorder this */
-	
 	/* User stuff */
 	f << "name " << _name << "\n";
 	f << "use_dci_name " << _use_dci_name << "\n";
@@ -68,7 +66,6 @@ FilmState::write_metadata () const
 	if (_dcp_content_type) {
 		f << "dcp_content_type " << _dcp_content_type->pretty_name () << "\n";
 	}
-	f << "frames_per_second " << _frames_per_second << "\n";
 	if (_format) {
 		f << "format " << _format->as_metadata () << "\n";
 	}
@@ -97,6 +94,7 @@ FilmState::write_metadata () const
 	f << "audio_gain " << _audio_gain << "\n";
 	f << "audio_delay " << _audio_delay << "\n";
 	f << "still_duration " << _still_duration << "\n";
+	f << "selected_subtitle_stream " << _subtitle_stream << "\n";
 	f << "with_subtitles " << _with_subtitles << "\n";
 	f << "subtitle_offset " << _subtitle_offset << "\n";
 	f << "subtitle_scale " << _subtitle_scale << "\n";
@@ -121,7 +119,6 @@ FilmState::write_metadata () const
 	f << "audio_sample_rate " << _audio_sample_rate << "\n";
 	f << "audio_sample_format " << audio_sample_format_to_string (_audio_sample_format) << "\n";
 	f << "content_digest " << _content_digest << "\n";
-	f << "selected_subtitle_stream " << _subtitle_stream << "\n";
 	f << "has_subtitles " << _has_subtitles << "\n";
 
 	for (vector<Stream>::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
@@ -132,6 +129,8 @@ FilmState::write_metadata () const
 		f << "subtitle_stream " << i->to_string () << "\n";
 	}
 
+	f << "frames_per_second " << _frames_per_second << "\n";
+	
 	_dirty = false;
 }
 
@@ -157,8 +156,6 @@ FilmState::read_metadata ()
 			_content = v;
 		} else if (k == "dcp_content_type") {
 			_dcp_content_type = DCPContentType::from_pretty_name (v);
-		} else if (k == "frames_per_second") {
-			_frames_per_second = atof (v.c_str ());
 		} else if (k == "format") {
 			_format = Format::from_metadata (v);
 		} else if (k == "left_crop") {
@@ -191,14 +188,14 @@ FilmState::read_metadata ()
 			_audio_delay = atoi (v.c_str ());
 		} else if (k == "still_duration") {
 			_still_duration = atoi (v.c_str ());
+		} else if (k == "selected_subtitle_stream") {
+			_subtitle_stream = atoi (v.c_str ());
 		} else if (k == "with_subtitles") {
 			_with_subtitles = (v == "1");
 		} else if (k == "subtitle_offset") {
 			_subtitle_offset = atoi (v.c_str ());
 		} else if (k == "subtitle_scale") {
 			_subtitle_scale = atof (v.c_str ());
-		} else if (k == "selected_subtitle_stream") {
-			_subtitle_stream = atoi (v.c_str ());
 		} else if (k == "audio_language") {
 			_audio_language = v;
 		} else if (k == "subtitle_language") {
@@ -242,6 +239,8 @@ FilmState::read_metadata ()
 			_audio_streams.push_back (Stream (v));
 		} else if (k == "subtitle_stream") {
 			_subtitle_streams.push_back (Stream (v));
+		} else if (k == "frames_per_second") {
+			_frames_per_second = atof (v.c_str ());
 		}
 	}
 		

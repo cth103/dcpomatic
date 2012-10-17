@@ -2,7 +2,6 @@ name fred
 use_dci_name 0
 content 
 dcp_content_type Short
-frames_per_second 0
 format 185
 left_crop 1
 right_crop 2
@@ -18,6 +17,7 @@ selected_audio_stream -1
 audio_gain 0
 audio_delay 0
 still_duration 10
+selected_subtitle_stream -1
 with_subtitles 0
 subtitle_offset 0
 subtitle_scale 1
@@ -35,5 +35,5 @@ audio_channels 0
 audio_sample_rate 0
 audio_sample_format Unknown
 content_digest 
-selected_subtitle_stream -1
 has_subtitles 0
+frames_per_second 0
