@@ -173,10 +173,22 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 shared_ptr<Image>
 Image::post_process (string pp) const
 {
-	shared_ptr<Image> out (new AlignedImage (PIX_FMT_YUV420P, size ()));
-	
+	shared_ptr<Image> out (new AlignedImage (pixel_format(), size ()));
+
+	int pp_format = 0;
+	switch (pixel_format()) {
+	case PIX_FMT_YUV420P:
+		pp_format = PP_FORMAT_420;
+		break;
+	case PIX_FMT_YUV422P10LE:
+		pp_format = PP_FORMAT_422;
+		break;
+	default:
+		assert (false);
+	}
+		
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
-	pp_context* context = pp_get_context (size().width, size().height, PP_FORMAT_420 | PP_CPU_CAPS_MMX2);
+	pp_context* context = pp_get_context (size().width, size().height, pp_format | PP_CPU_CAPS_MMX2);
 
 	pp_postprocess (
 		(const uint8_t **) data(), stride(),
