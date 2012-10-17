@@ -310,11 +310,14 @@ SimpleImage::SimpleImage (PixelFormat p, Size s, function<int (int)> rounder)
 		_line_size[0] = s.width * 4;
 		break;
 	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P10LE:
 		_line_size[0] = s.width;
 		_line_size[1] = s.width / 2;
 		_line_size[2] = s.width / 2;
 		break;
+	case PIX_FMT_YUV422P10LE:
+		_line_size[0] = s.width * 2;
+		_line_size[1] = s.width;
+		_line_size[2] = s.width;
 	default:
 		assert (false);
 	}
