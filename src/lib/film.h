@@ -162,6 +162,22 @@ public:
 		return _state.dcp_content_type;
 	}
 
+	std::vector<Stream> audio_streams () const {
+		return _state.audio_streams;
+	}
+
+	int audio_stream () const {
+		return _state.audio_stream;
+	}
+
+	std::vector<Stream> subtitle_streams () const {
+		return _state.subtitle_streams;
+	}
+
+	int subtitle_stream () const {
+		return _state.subtitle_stream;
+	}
+	
 	void set_dcp_frames (int);
 	void set_dcp_trim_action (TrimAction);
 	void set_dcp_ab (bool);
@@ -287,6 +303,7 @@ public:
 		DCP_FRAMES,
 		DCP_TRIM_ACTION,
 		DCP_AB,
+		AUDIO_STREAM,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
 		THUMBS,
@@ -296,6 +313,7 @@ public:
 		AUDIO_CHANNELS,
 		AUDIO_SAMPLE_RATE,
 		STILL_DURATION,
+		SUBTITLE_STREAM,
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,

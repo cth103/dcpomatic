@@ -76,6 +76,8 @@ private:
 	void set_things_sensitive (bool);
 	void setup_formats ();
 	void setup_subtitle_button ();
+	void setup_streams ();
+	void set_selected_stream (std::vector<Stream> const & streams, int id, wxComboBox* combo) const;
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
@@ -107,6 +109,7 @@ private:
 	wxButton* _filters_button;
 	/** The Film's scaler */
 	wxComboBox* _scaler;
+	wxComboBox* _audio_stream;
 	/** The Film's audio gain */
 	wxSpinCtrl* _audio_gain;
 	/** A button to open the gain calculation dialogue */
@@ -114,6 +117,7 @@ private:
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
 	wxCheckBox* _with_subtitles;
+	wxComboBox* _subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
 	/** The Film's DCP content type */

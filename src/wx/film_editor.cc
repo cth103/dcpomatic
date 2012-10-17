@@ -119,6 +119,10 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_scaler = new wxComboBox (this, wxID_ANY);
 	_sizer->Add (video_control (_scaler), 1);
 
+	video_control (add_label_to_sizer (_sizer, this, "Audio Stream"));
+	_audio_stream = new wxComboBox (this, wxID_ANY);
+	_sizer->Add (_audio_stream);
+
 	{
 		video_control (add_label_to_sizer (_sizer, this, "Audio Gain"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -143,7 +147,9 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_with_subtitles = new wxCheckBox (this, wxID_ANY, wxT("With Subtitles"));
 	video_control (_with_subtitles);
 	_sizer->Add (_with_subtitles, 1);
-	_sizer->AddSpacer (0);
+	
+	_subtitle_stream = new wxComboBox (this, wxID_ANY);
+	_sizer->Add (_subtitle_stream);
 
 	video_control (add_label_to_sizer (_sizer, this, "Subtitle Offset"));
 	_subtitle_offset = new wxSpinCtrl (this);
@@ -328,6 +334,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 	setup_visibility ();
 	setup_formats ();
 	setup_subtitle_button ();
+	setup_streams ();
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -404,6 +411,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_visibility ();
 		setup_formats ();
 		setup_subtitle_button ();
+		setup_streams ();
 		break;
 	case Film::FORMAT:
 	{
@@ -523,6 +531,12 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::DCI_METADATA:
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		break;
+	case Film::AUDIO_STREAM:
+		set_selected_stream (_film->audio_streams(), _film->audio_stream(), _audio_stream);
+		break;
+	case Film::SUBTITLE_STREAM:
+		set_selected_stream (_film->subtitle_streams(), _film->subtitle_stream(), _subtitle_stream);
 		break;
 	}
 }
@@ -852,4 +866,37 @@ FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
 	DCINameDialog* d = new DCINameDialog (this, _film);
 	d->ShowModal ();
 	d->Destroy ();
+}
+
+void
+FilmEditor::setup_streams ()
+{
+	_audio_stream->Clear ();
+	vector<Stream> s = _film->audio_streams ();
+	for (vector<Stream>::iterator i = s.begin(); i != s.end(); ++i) {
+		_audio_stream->Append (std_to_wx (i->name));
+	}
+	set_selected_stream (_film->audio_streams(), _film->audio_stream(), _audio_stream);
+
+	_subtitle_stream->Clear ();
+	s = _film->subtitle_streams ();
+	for (vector<Stream>::iterator i = s.begin(); i != s.end(); ++i) {
+		_subtitle_stream->Append (std_to_wx (i->name));
+	}
+	set_selected_stream (_film->subtitle_streams(), _film->subtitle_stream(), _subtitle_stream);
+}
+
+void
+FilmEditor::set_selected_stream (vector<Stream> const & streams, int id, wxComboBox* combo) const
+{
+	if (id == -1) {
+		return;
+	}
+	
+	size_t n = 0;
+	while (n < streams.size() && streams[n].id != id) {
+		++n;
+	}
+	assert (n < streams.size());
+	combo->SetSelection (n);
 }

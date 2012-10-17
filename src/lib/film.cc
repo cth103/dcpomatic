@@ -201,6 +201,10 @@ Film::set_content (string c)
 	_state.audio_sample_rate = d->audio_sample_rate ();
 	_state.audio_sample_format = d->audio_sample_format ();
 	_state.has_subtitles = d->has_subtitles ();
+	_state.audio_streams = d->audio_streams ();
+	_state.subtitle_streams = d->subtitle_streams ();
+	_state.audio_stream = _state.audio_streams.empty() ? -1 : _state.audio_streams.front().id;
+	_state.subtitle_stream = _state.subtitle_streams.empty() ? -1 : _state.subtitle_streams.front().id;
 
 	_state.content_digest = md5_digest (s->content_path ());
 	_state.content = c;
@@ -211,6 +215,8 @@ Film::set_content (string c)
 	signal_changed (AUDIO_CHANNELS);
 	signal_changed (AUDIO_SAMPLE_RATE);
 	signal_changed (CONTENT);
+	signal_changed (AUDIO_STREAM);
+	signal_changed (SUBTITLE_STREAM);
 }
 
 /** Set the format that this Film should be shown in */

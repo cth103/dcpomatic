@@ -39,6 +39,7 @@ struct AVFormatContext;
 struct AVFrame;
 struct AVBufferContext;
 struct AVCodec;
+struct AVStream;
 class Job;
 class FilmState;
 class Options;
@@ -65,6 +66,12 @@ public:
 	int64_t audio_channel_layout () const;
 	bool has_subtitles () const;
 
+	std::vector<Stream> audio_streams () const;
+	std::vector<Stream> subtitle_streams () const;
+
+	void set_audio_stream (int id);
+	void set_subtitle_stream (int id);
+
 private:
 
 	bool do_pass ();
@@ -81,11 +88,16 @@ private:
 
 	void maybe_add_subtitle ();
 
+	std::string stream_name (AVStream* s) const;
+
 	AVFormatContext* _format_context;
 	int _video_stream;
 	int _audio_stream; ///< may be < 0 if there is no audio
 	int _subtitle_stream; ///< may be < 0 if there is no subtitle
 	AVFrame* _frame;
+
+	std::vector<Stream> _audio_streams;
+	std::vector<Stream> _subtitle_streams;
 	
 	AVCodecContext* _video_codec_context;
 	AVCodec* _video_codec;

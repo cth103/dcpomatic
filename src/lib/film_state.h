@@ -34,6 +34,7 @@ extern "C" {
 #include "scaler.h"
 #include "util.h"
 #include "trim_action.h"
+#include "stream.h"
 
 class Format;
 class DCPContentType;
@@ -60,9 +61,11 @@ public:
 		, dcp_frames (0)
 		, dcp_trim_action (CUT)
 		, dcp_ab (false)
+		, audio_stream (-1)
 		, audio_gain (0)
 		, audio_delay (0)
 		, still_duration (10)
+		, subtitle_stream (-1)
 		, with_subtitles (false)
 		, subtitle_offset (0)
 		, subtitle_scale (1)
@@ -130,12 +133,14 @@ public:
 	    has the specified filters and post-processing.
 	*/
 	bool dcp_ab;
+	int audio_stream;
 	/** Gain to apply to audio in dB */
 	float audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int still_duration;
+	int subtitle_stream;
 	/** True if subtitles should be shown for this film */
 	bool with_subtitles;
 	/** y offset for placing subtitles, in source pixels; +ve is further down
@@ -172,6 +177,8 @@ public:
 	std::string content_digest;
 	/** true if the source has subtitles */
 	bool has_subtitles;
+	std::vector<Stream> audio_streams;
+	std::vector<Stream> subtitle_streams;
 
 private:
 	std::string thumb_file_for_frame (int) const;

@@ -30,6 +30,7 @@
 #include <boost/shared_ptr.hpp>
 #include <sigc++/sigc++.h>
 #include "util.h"
+#include "stream.h"
 
 class Job;
 class FilmState;
@@ -79,6 +80,17 @@ public:
 	int last_video_frame () const {
 		return _video_frame;
 	}
+
+	virtual std::vector<Stream> audio_streams () const {
+		return std::vector<Stream> ();
+	}
+	
+	virtual std::vector<Stream> subtitle_streams () const {
+		return std::vector<Stream> ();
+	}
+
+	virtual void set_audio_stream (Stream s) {}
+	virtual void set_subtitle_stream (Stream s) {}
 	
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the frame.

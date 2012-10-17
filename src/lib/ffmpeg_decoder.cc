@@ -110,9 +110,15 @@ FFmpegDecoder::setup_general ()
 		if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
 			_video_stream = i;
 		} else if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
-			_audio_stream = i;
+			if (_audio_stream == -1) {
+				_audio_stream = i;
+			}
+			_audio_streams.push_back (Stream (stream_name (_format_context->streams[i]), i));
 		} else if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_stream = i;
+			if (_subtitle_stream == -1) {
+				_subtitle_stream = i;
+			}
+			_subtitle_streams.push_back (Stream (stream_name (_format_context->streams[i]), i));
 		}
 	}
 
@@ -355,4 +361,55 @@ bool
 FFmpegDecoder::has_subtitles () const
 {
 	return (_subtitle_stream != -1);
+}
+
+vector<Stream>
+FFmpegDecoder::audio_streams () const
+{
+	return _audio_streams;
+}
+
+vector<Stream>
+FFmpegDecoder::subtitle_streams () const
+{
+	return _subtitle_streams;
+}
+
+void
+FFmpegDecoder::set_audio_stream (int s)
+{
+	_audio_stream = s;
+	setup_audio ();
+}
+
+void
+FFmpegDecoder::set_subtitle_stream (int s)
+{
+	_subtitle_stream = s;
+	setup_subtitle ();
+}
+
+string
+FFmpegDecoder::stream_name (AVStream* s) const
+{
+	stringstream n;
+	
+	AVDictionaryEntry const * lang = av_dict_get (s->metadata, "language", 0, 0);
+	if (lang) {
+		n << lang->value;
+	}
+	
+	AVDictionaryEntry const * title = av_dict_get (s->metadata, "title", 0, 0);
+	if (title) {
+		if (!n.str().empty()) {
+			n << " ";
+		}
+		n << title->value;
+	}
+
+	if (n.str().empty()) {
+		n << "unknown";
+	}
+
+	return n.str ();
 }

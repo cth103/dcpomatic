@@ -79,12 +79,20 @@ FilmState::write_metadata (ofstream& f) const
 	}
 	
 	f << "dcp_ab " << (dcp_ab ? "1" : "0") << "\n";
+	f << "selected_audio_stream " << audio_stream << "\n";
 	f << "audio_gain " << audio_gain << "\n";
 	f << "audio_delay " << audio_delay << "\n";
 	f << "still_duration " << still_duration << "\n";
 	f << "with_subtitles " << with_subtitles << "\n";
 	f << "subtitle_offset " << subtitle_offset << "\n";
 	f << "subtitle_scale " << subtitle_scale << "\n";
+	f << "audio_language " << audio_language << "\n";
+	f << "subtitle_language " << subtitle_language << "\n";
+	f << "territory " << territory << "\n";
+	f << "rating " << rating << "\n";
+	f << "studio " << studio << "\n";
+	f << "facility " << facility << "\n";
+	f << "package_type " << package_type << "\n";
 
 	/* Cached stuff; this is information about our content; we could
 	   look it up each time, but that's slow.
@@ -99,14 +107,16 @@ FilmState::write_metadata (ofstream& f) const
 	f << "audio_sample_rate " << audio_sample_rate << "\n";
 	f << "audio_sample_format " << audio_sample_format_to_string (audio_sample_format) << "\n";
 	f << "content_digest " << content_digest << "\n";
+	f << "selected_subtitle_stream " << subtitle_stream << "\n";
 	f << "has_subtitles " << has_subtitles << "\n";
-	f << "audio_language " << audio_language << "\n";
-	f << "subtitle_language " << subtitle_language << "\n";
-	f << "territory " << territory << "\n";
-	f << "rating " << rating << "\n";
-	f << "studio " << studio << "\n";
-	f << "facility " << facility << "\n";
-	f << "package_type " << package_type << "\n";
+
+	for (vector<Stream>::const_iterator i = audio_streams.begin(); i != audio_streams.end(); ++i) {
+		f << "audio_stream " << i->to_string () << "\n";
+	}
+
+	for (vector<Stream>::const_iterator i = subtitle_streams.begin(); i != subtitle_streams.end(); ++i) {
+		f << "subtitle_stream " << i->to_string () << "\n";
+	}
 }
 
 /** Read state from a key / value pair.
@@ -151,6 +161,8 @@ FilmState::read_metadata (string k, string v)
 		}
 	} else if (k == "dcp_ab") {
 		dcp_ab = (v == "1");
+	} else if (k == "selected_audio_stream") {
+		audio_stream = atoi (v.c_str ());
 	} else if (k == "audio_gain") {
 		audio_gain = atof (v.c_str ());
 	} else if (k == "audio_delay") {
@@ -163,6 +175,22 @@ FilmState::read_metadata (string k, string v)
 		subtitle_offset = atoi (v.c_str ());
 	} else if (k == "subtitle_scale") {
 		subtitle_scale = atof (v.c_str ());
+	} else if (k == "selected_subtitle_stream") {
+		subtitle_stream = atoi (v.c_str ());
+	} else if (k == "audio_language") {
+		audio_language = v;
+	} else if (k == "subtitle_language") {
+		subtitle_language = v;
+	} else if (k == "territory") {
+		territory = v;
+	} else if (k == "rating") {
+		rating = v;
+	} else if (k == "studio") {
+		studio = v;
+	} else if (k == "facility") {
+		facility = v;
+	} else if (k == "package_type") {
+		package_type = v;
 	}
 	
 	/* Cached stuff */
@@ -188,20 +216,10 @@ FilmState::read_metadata (string k, string v)
 		content_digest = v;
 	} else if (k == "has_subtitles") {
 		has_subtitles = (v == "1");
-	} else if (k == "audio_language") {
-		audio_language = v;
-	} else if (k == "subtitle_language") {
-		subtitle_language = v;
-	} else if (k == "territory") {
-		territory = v;
-	} else if (k == "rating") {
-		rating = v;
-	} else if (k == "studio") {
-		studio = v;
-	} else if (k == "facility") {
-		facility = v;
-	} else if (k == "package_type") {
-		package_type = v;
+	} else if (k == "audio_stream") {
+		audio_streams.push_back (Stream (v));
+	} else if (k == "subtitle_stream") {
+		subtitle_streams.push_back (Stream (v));
 	}
 }
 
