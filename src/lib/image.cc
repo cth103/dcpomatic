@@ -59,6 +59,7 @@ Image::lines (int n) const
 		break;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
+	case PIX_FMT_YUV422P10LE:
 		return size().height;
 	default:
 		assert (false);
@@ -73,6 +74,7 @@ Image::components () const
 {
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
+	case PIX_FMT_YUV422P10LE:
 		return 3;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
@@ -194,6 +196,7 @@ Image::make_black ()
 {
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
+	case PIX_FMT_YUV422P10LE:
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		memset (data()[1], 0x80, lines(1) * stride()[1]);
 		memset (data()[2], 0x80, lines(2) * stride()[2]);
@@ -295,6 +298,7 @@ SimpleImage::SimpleImage (PixelFormat p, Size s, function<int (int)> rounder)
 		_line_size[0] = s.width * 4;
 		break;
 	case PIX_FMT_YUV420P:
+	case PIX_FMT_YUV422P10LE:
 		_line_size[0] = s.width;
 		_line_size[1] = s.width / 2;
 		_line_size[2] = s.width / 2;
