@@ -205,7 +205,7 @@ TIFFDecoder::pixel_format () const
 int
 TIFFDecoder::time_base_numerator () const
 {
-	return rint (_fs->frames_per_second);;
+	return rint (_fs->frames_per_second());
 }
 
 

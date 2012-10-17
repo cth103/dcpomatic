@@ -41,7 +41,7 @@ CheckHashesJob::CheckHashesJob (shared_ptr<const FilmState> s, shared_ptr<const 
 string
 CheckHashesJob::name () const
 {
-	return String::compose ("Check hashes of %1", _fs->name);
+	return String::compose ("Check hashes of %1", _fs->name());
 }
 
 void
@@ -66,13 +66,13 @@ CheckHashesJob::run ()
 			++_bad;
 		}
 
-		set_progress (float (i) / _fs->length);
+		set_progress (float (i) / _fs->length());
 	}
 
 	if (_bad) {
 		shared_ptr<Job> tc;
 
-		if (_fs->dcp_ab) {
+		if (_fs->dcp_ab()) {
 			tc.reset (new ABTranscodeJob (_fs, _opt, _log, shared_from_this()));
 		} else {
 			tc.reset (new TranscodeJob (_fs, _opt, _log, shared_from_this()));

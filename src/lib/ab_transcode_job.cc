@@ -39,14 +39,14 @@ ABTranscodeJob::ABTranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const 
 	: Job (s, o, l, req)
 {
 	_fs_b.reset (new FilmState (*_fs));
-	_fs_b->scaler = Config::instance()->reference_scaler ();
-	_fs_b->filters = Config::instance()->reference_filters ();
+	_fs_b->set_scaler (Config::instance()->reference_scaler ());
+	_fs_b->set_filters (Config::instance()->reference_filters ());
 }
 
 string
 ABTranscodeJob::name () const
 {
-	return String::compose ("A/B transcode %1", _fs->name);
+	return String::compose ("A/B transcode %1", _fs->name());
 }
 
 void

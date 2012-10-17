@@ -44,7 +44,7 @@ ThumbsJob::ThumbsJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o
 string
 ThumbsJob::name () const
 {
-	return String::compose ("Update thumbs for %1", _fs->name);
+	return String::compose ("Update thumbs for %1", _fs->name());
 }
 
 void

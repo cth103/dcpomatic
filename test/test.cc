@@ -258,13 +258,15 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 BOOST_AUTO_TEST_CASE (paths_test)
 {
 	FilmState s;
-	s.directory = "build/test/a/b/c/d/e";
-	s.thumbs.push_back (42);
+	s.set_directory ("build/test/a/b/c/d/e");
+	vector<int> thumbs;
+	thumbs.push_back (42);
+	s.set_thumbs (thumbs);
 	BOOST_CHECK_EQUAL (s.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
 
-	s.content = "/foo/bar/baz";
+	s._content = "/foo/bar/baz";
 	BOOST_CHECK_EQUAL (s.content_path(), "/foo/bar/baz");
-	s.content = "foo/bar/baz";
+	s._content = "foo/bar/baz";
 	BOOST_CHECK_EQUAL (s.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
 }
 
@@ -401,23 +403,23 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
 	FilmState fs;
-	fs.frames_per_second = 24;
+	fs.set_frames_per_second (24);
 
-	fs.audio_sample_rate = 48000;
+	fs.set_audio_sample_rate (48000);
 	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
 
-	fs.audio_sample_rate = 44100;
+	fs.set_audio_sample_rate (44100);
 	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
 
-	fs.audio_sample_rate = 80000;
+	fs.set_audio_sample_rate (80000);
 	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 96000);
 
-	fs.frames_per_second = 23.976;
-	fs.audio_sample_rate = 48000;
+	fs.set_frames_per_second (23.976);
+	fs.set_audio_sample_rate (48000);
 	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
 
-	fs.frames_per_second = 29.97;
-	fs.audio_sample_rate = 48000;
+	fs.set_frames_per_second (29.97);
+	fs.set_audio_sample_rate (48000);
 	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
 }
 

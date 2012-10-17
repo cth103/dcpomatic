@@ -220,7 +220,7 @@ FFmpegDecoder::do_pass ()
 					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
 					);
 				
-				assert (_audio_codec_context->channels == _fs->audio_channels);
+				assert (_audio_codec_context->channels == _fs->audio_channels());
 				process_audio (_frame->data[0], data_size);
 			}
 		}
@@ -245,7 +245,7 @@ FFmpegDecoder::do_pass ()
 				0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
 
-			assert (_audio_codec_context->channels == _fs->audio_channels);
+			assert (_audio_codec_context->channels == _fs->audio_channels());
 			process_audio (_frame->data[0], data_size);
 		}
 

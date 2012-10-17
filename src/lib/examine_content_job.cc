@@ -43,7 +43,7 @@ ExamineContentJob::~ExamineContentJob ()
 string
 ExamineContentJob::name () const
 {
-	return String::compose ("Examine content of %1", _fs->name);
+	return String::compose ("Examine content of %1", _fs->name());
 }
 
 void

@@ -56,9 +56,9 @@ J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const FilmState> s, shared_ptr<const Op
 	/* Create sound output files with .tmp suffixes; we will rename
 	   them if and when we complete.
 	*/
-	for (int i = 0; i < _fs->audio_channels; ++i) {
+	for (int i = 0; i < _fs->audio_channels(); ++i) {
 		SF_INFO sf_info;
-		sf_info.samplerate = dcp_audio_sample_rate (_fs->audio_sample_rate);
+		sf_info.samplerate = dcp_audio_sample_rate (_fs->audio_sample_rate());
 		/* We write mono files */
 		sf_info.channels = 1;
 		sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
@@ -122,12 +122,12 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subti
 
 	/* Only do the processing if we don't already have a file for this frame */
 	if (!boost::filesystem::exists (_opt->frame_out_path (frame, false))) {
-		pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters);
+		pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters());
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset, _fs->subtitle_scale,
-						  _fs->scaler, frame, _fs->frames_per_second, s.second,
+						  yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset(), _fs->subtitle_scale(),
+						  _fs->scaler(), frame, _fs->frames_per_second(), s.second,
 						  Config::instance()->colour_lut_index (), Config::instance()->j2k_bandwidth (),
 						  _log
 						  )
@@ -224,11 +224,11 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 void
 J2KWAVEncoder::process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format)
 {
-	if (_fs->audio_sample_rate != _fs->target_sample_rate ()) {
+	if (_fs->audio_sample_rate() != _fs->target_sample_rate()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << "Will resample audio from " << _fs->audio_sample_rate << " to " << _fs->target_sample_rate();
+		s << "Will resample audio from " << _fs->audio_sample_rate() << " to " << _fs->target_sample_rate();
 		_log->log (s.str ());
 		
 		_swr_context = swr_alloc_set_opts (
@@ -238,7 +238,7 @@ J2KWAVEncoder::process_begin (int64_t audio_channel_layout, AVSampleFormat audio
 			_fs->target_sample_rate(),
 			audio_channel_layout,
 			audio_sample_format,
-			_fs->audio_sample_rate,
+			_fs->audio_sample_rate(),
 			0, 0
 			);
 		
@@ -309,7 +309,7 @@ J2KWAVEncoder::process_end ()
 	if (_swr_context) {
 
 		while (1) {
-			uint8_t buffer[256 * _fs->bytes_per_sample() * _fs->audio_channels];
+			uint8_t buffer[256 * _fs->bytes_per_sample() * _fs->audio_channels()];
 			uint8_t* out[2] = {
 				buffer,
 				0
@@ -325,7 +325,7 @@ J2KWAVEncoder::process_end ()
 				break;
 			}
 
-			write_audio (buffer, frames * _fs->bytes_per_sample() * _fs->audio_channels);
+			write_audio (buffer, frames * _fs->bytes_per_sample() * _fs->audio_channels());
 		}
 
 		swr_free (&_swr_context);
@@ -335,7 +335,7 @@ J2KWAVEncoder::process_end ()
 	close_sound_files ();
 
 	/* Rename .wav.tmp files to .wav */
-	for (int i = 0; i < _fs->audio_channels; ++i) {
+	for (int i = 0; i < _fs->audio_channels(); ++i) {
 		if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
 			boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
 		}
@@ -366,11 +366,11 @@ J2KWAVEncoder::process_audio (uint8_t* data, int size)
 		/* And here's frames (where 1 frame is a collection of samples, 1 for each channel,
 		   so for 5.1 a frame would be 6 samples)
 		*/
-		int const frames = samples / _fs->audio_channels;
+		int const frames = samples / _fs->audio_channels();
 
 		/* Compute the resampled frame count and add 32 for luck */
-		int const out_buffer_size_frames = ceil (frames * _fs->target_sample_rate() / _fs->audio_sample_rate) + 32;
-		int const out_buffer_size_bytes = out_buffer_size_frames * _fs->audio_channels * _fs->bytes_per_sample();
+		int const out_buffer_size_frames = ceil (frames * _fs->target_sample_rate() / _fs->audio_sample_rate()) + 32;
+		int const out_buffer_size_bytes = out_buffer_size_frames * _fs->audio_channels() * _fs->bytes_per_sample();
 		out_buffer = new uint8_t[out_buffer_size_bytes];
 
 		uint8_t* out[2] = {
@@ -386,7 +386,7 @@ J2KWAVEncoder::process_audio (uint8_t* data, int size)
 
 		/* And point our variables at the resampled audio */
 		data = out_buffer;
-		size = out_frames * _fs->audio_channels * _fs->bytes_per_sample();
+		size = out_frames * _fs->audio_channels() * _fs->bytes_per_sample();
 	}
 #endif
 
@@ -403,7 +403,7 @@ J2KWAVEncoder::write_audio (uint8_t* data, int size)
 	   of the sample size and that size is a multiple of _fs->audio_channels * sample_size.
 	*/
 
-	assert ((size % (_fs->audio_channels * _fs->bytes_per_sample())) == 0);
+	assert ((size % (_fs->audio_channels() * _fs->bytes_per_sample())) == 0);
 	assert ((_deinterleave_buffer_size % _fs->bytes_per_sample()) == 0);
 	
 	/* XXX: this code is very tricksy and it must be possible to make it simpler ... */
@@ -414,17 +414,17 @@ J2KWAVEncoder::write_audio (uint8_t* data, int size)
 	int position = 0;
 	while (remaining > 0) {
 		/* How many bytes of the deinterleaved data to do this time */
-		int this_time = min (remaining / _fs->audio_channels, _deinterleave_buffer_size);
-		for (int i = 0; i < _fs->audio_channels; ++i) {
+		int this_time = min (remaining / _fs->audio_channels(), _deinterleave_buffer_size);
+		for (int i = 0; i < _fs->audio_channels(); ++i) {
 			for (int j = 0; j < this_time; j += _fs->bytes_per_sample()) {
 				for (int k = 0; k < _fs->bytes_per_sample(); ++k) {
 					int const to = j + k;
-					int const from = position + (i * _fs->bytes_per_sample()) + (j * _fs->audio_channels) + k;
+					int const from = position + (i * _fs->bytes_per_sample()) + (j * _fs->audio_channels()) + k;
 					_deinterleave_buffer[to] = data[from];
 				}
 			}
 			
-			switch (_fs->audio_sample_format) {
+			switch (_fs->audio_sample_format()) {
 			case AV_SAMPLE_FMT_S16:
 				sf_write_short (_sound_files[i], (const short *) _deinterleave_buffer, this_time / _fs->bytes_per_sample());
 				break;
@@ -434,7 +434,7 @@ J2KWAVEncoder::write_audio (uint8_t* data, int size)
 		}
 		
 		position += this_time;
-		remaining -= this_time * _fs->audio_channels;
+		remaining -= this_time * _fs->audio_channels();
 	}
 }
 

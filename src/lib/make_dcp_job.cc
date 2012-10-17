@@ -52,7 +52,7 @@ MakeDCPJob::MakeDCPJob (shared_ptr<const FilmState> s, shared_ptr<const Options>
 string
 MakeDCPJob::name () const
 {
-	return String::compose ("Make DCP for %1", _fs->name);
+	return String::compose ("Make DCP for %1", _fs->name());
 }
 
 string
@@ -78,17 +78,20 @@ MakeDCPJob::run ()
 	int frames = 0;
 	switch (_fs->content_type ()) {
 	case VIDEO:
-		frames = _fs->dcp_frames ? _fs->dcp_frames : _fs->length;
+		frames = _fs->dcp_length ();
 		break;
 	case STILL:
-		frames = _fs->still_duration * ImageMagickDecoder::static_frames_per_second ();
+		frames = _fs->still_duration() * ImageMagickDecoder::static_frames_per_second ();
 		break;
 	}
 	
 	libdcp::DCP dcp (_fs->dir (_fs->dcp_name()));
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
-	shared_ptr<libdcp::CPL> cpl (new libdcp::CPL (_fs->dir (_fs->dcp_name()), _fs->dcp_name(), _fs->dcp_content_type->libdcp_kind (), frames, rint (_fs->frames_per_second)));
+	shared_ptr<libdcp::CPL> cpl (
+		new libdcp::CPL (_fs->dir (_fs->dcp_name()), _fs->dcp_name(), _fs->dcp_content_type()->libdcp_kind (), frames, rint (_fs->frames_per_second()))
+		);
+	
 	dcp.add_cpl (cpl);
 
 	descend (0.9);
@@ -98,7 +101,7 @@ MakeDCPJob::run ()
 			_fs->dir (_fs->dcp_name()),
 			"video.mxf",
 			&dcp.Progress,
-			rint (_fs->frames_per_second),
+			rint (_fs->frames_per_second()),
 			frames,
 			_opt->out_size.width,
 			_opt->out_size.height
@@ -109,7 +112,7 @@ MakeDCPJob::run ()
 
 	shared_ptr<libdcp::SoundAsset> sa;
 
-	if (_fs->audio_channels > 0) {
+	if (_fs->audio_channels() > 0) {
 		descend (0.1);
 		sa.reset (
 			new libdcp::SoundAsset (
@@ -117,9 +120,9 @@ MakeDCPJob::run ()
 				_fs->dir (_fs->dcp_name()),
 				"audio.mxf",
 				&dcp.Progress,
-				rint (_fs->frames_per_second),
+				rint (_fs->frames_per_second()),
 				frames,
-				_fs->audio_channels
+				_fs->audio_channels()
 				)
 			);
 		ascend ();

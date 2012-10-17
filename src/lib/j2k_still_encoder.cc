@@ -50,9 +50,9 @@ J2KStillEncoder::J2KStillEncoder (shared_ptr<const FilmState> s, shared_ptr<cons
 void
 J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub)
 {
-	pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters);
+	pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters());
 	DCPVideoFrame* f = new DCPVideoFrame (
-		yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset, _fs->subtitle_scale, _fs->scaler, 0, _fs->frames_per_second, s.second,
+		yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset(), _fs->subtitle_scale(), _fs->scaler(), 0, _fs->frames_per_second(), s.second,
 		Config::instance()->colour_lut_index(), Config::instance()->j2k_bandwidth(),
 		_log
 		);
@@ -63,7 +63,7 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Sub
 	}
 
 	string const real = _opt->frame_out_path (0, false);
-	for (int i = 1; i < (_fs->still_duration * ImageMagickDecoder::static_frames_per_second()); ++i) {
+	for (int i = 1; i < (_fs->still_duration() * ImageMagickDecoder::static_frames_per_second()); ++i) {
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
 			string const link = _opt->frame_out_path (i, false);
 #ifdef DVDOMATIC_POSIX			

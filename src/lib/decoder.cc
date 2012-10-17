@@ -76,7 +76,7 @@ Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const 
 	, _delay_in_bytes (0)
 	, _audio_frames_processed (0)
 {
-	if (_opt->decode_video_frequency != 0 && _fs->length == 0) {
+	if (_opt->decode_video_frequency != 0 && _fs->length() == 0) {
 		throw DecodeError ("cannot do a partial decode if length == 0");
 	}
 }
@@ -90,7 +90,7 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _fs->audio_delay * _fs->audio_sample_rate * _fs->audio_channels * _fs->bytes_per_sample() / 1000;
+	_delay_in_bytes = _fs->audio_delay() * _fs->audio_sample_rate() * _fs->audio_channels() * _fs->bytes_per_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
 
@@ -104,7 +104,7 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels * _fs->bytes_per_sample());
+		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels() * _fs->bytes_per_sample());
 		Audio (remainder, _delay_in_bytes);
 	}
 
@@ -113,7 +113,7 @@ Decoder::process_end ()
 	*/
 
 	int64_t const audio_short_by_frames =
-		((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second)
+		((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second())
 		- _audio_frames_processed;
 
 	if (audio_short_by_frames >= 0) {
@@ -122,7 +122,7 @@ Decoder::process_end ()
 		s << "Adding " << audio_short_by_frames << " frames of silence to the end.";
 		_log->log (s.str ());
 
-		int64_t bytes = audio_short_by_frames * _fs->audio_channels * _fs->bytes_per_sample();
+		int64_t bytes = audio_short_by_frames * _fs->audio_channels() * _fs->bytes_per_sample();
 		
 		int64_t const silence_size = 64 * 1024;
 		uint8_t silence[silence_size];
@@ -185,10 +185,10 @@ Decoder::process_audio (uint8_t* data, int size)
 	int const samples = size / _fs->bytes_per_sample();
 
 	/* Maybe apply gain */
-	if (_fs->audio_gain != 0) {
-		float const linear_gain = pow (10, _fs->audio_gain / 20);
+	if (_fs->audio_gain() != 0) {
+		float const linear_gain = pow (10, _fs->audio_gain() / 20);
 		uint8_t* p = data;
-		switch (_fs->audio_sample_format) {
+		switch (_fs->audio_sample_format()) {
 		case AV_SAMPLE_FMT_S16:
 			for (int i = 0; i < samples; ++i) {
 				/* XXX: assumes little-endian; also we should probably be dithering here */
@@ -217,7 +217,7 @@ Decoder::process_audio (uint8_t* data, int size)
 	}
 
 	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_processed += size / (_fs->audio_channels * _fs->bytes_per_sample ());
+	_audio_frames_processed += size / (_fs->audio_channels() * _fs->bytes_per_sample());
 
 	/* Push into the delay line and then tell the world what we've got */
 	int available = _delay_line->feed (data, size);
@@ -240,7 +240,7 @@ Decoder::process_video (AVFrame* frame)
 
 	int gap = 0;
 	if (_opt->decode_video_frequency != 0) {
-		gap = _fs->length / _opt->decode_video_frequency;
+		gap = _fs->length() / _opt->decode_video_frequency;
 	}
 
 	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame % gap) != 0) {
@@ -305,7 +305,7 @@ Decoder::process_video (AVFrame* frame)
 			}
 
 			shared_ptr<Subtitle> sub;
-			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second))) {
+			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second()))) {
 				sub = _timed_subtitle->subtitle ();
 			}
 
@@ -328,13 +328,13 @@ Decoder::setup_video_filters ()
 	
 	if (_opt->apply_crop) {
 		size_after_crop = _fs->cropped_size (native_size ());
-		fs << crop_string (Position (_fs->crop.left, _fs->crop.top), size_after_crop);
+		fs << crop_string (Position (_fs->crop().left, _fs->crop().top), size_after_crop);
 	} else {
 		size_after_crop = native_size ();
 		fs << crop_string (Position (0, 0), size_after_crop);
 	}
 
-	string filters = Filter::ffmpeg_strings (_fs->filters).first;
+	string filters = Filter::ffmpeg_strings (_fs->filters()).first;
 	if (!filters.empty ()) {
 		filters += ",";
 	}
@@ -418,6 +418,6 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 	
 	if (_opt->apply_crop) {
 		Position const p = _timed_subtitle->subtitle()->position ();
-		_timed_subtitle->subtitle()->set_position (Position (p.x - _fs->crop.left, p.y - _fs->crop.top));
+		_timed_subtitle->subtitle()->set_position (Position (p.x - _fs->crop().left, p.y - _fs->crop().top));
 	}
 }

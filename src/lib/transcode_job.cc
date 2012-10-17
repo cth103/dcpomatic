@@ -48,7 +48,7 @@ TranscodeJob::TranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Opti
 string
 TranscodeJob::name () const
 {
-	return String::compose ("Transcode %1", _fs->name);
+	return String::compose ("Transcode %1", _fs->name());
 }
 
 void

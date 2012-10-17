@@ -143,7 +143,7 @@ main (int argc, char* argv[])
 	film->log()->set_level ((Log::Level) log_level);
 
 	cout << "\nMaking ";
-	if (film->dcp_ab ()) {
+	if (film->dcp_ab()) {
 		cout << "A/B ";
 	}
 	cout << "DCP for " << film->name() << "\n";

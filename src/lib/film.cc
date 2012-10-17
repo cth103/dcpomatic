@@ -64,9 +64,8 @@ using namespace boost;
  */
 
 Film::Film (string d, bool must_exist)
-	: _dirty (false)
 {
-	/* Make _state.directory a complete path without ..s (where possible)
+	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
 	*/
 	
@@ -84,27 +83,19 @@ Film::Film (string d, bool must_exist)
 		}
 	}
 
-	_state.directory = result.string ();
+	set_directory (result.string ());
 	
-	if (!filesystem::exists (_state.directory)) {
+	if (!filesystem::exists (directory())) {
 		if (must_exist) {
-			throw OpenFileError (_state.directory);
+			throw OpenFileError (directory());
 		} else {
-			filesystem::create_directory (_state.directory);
+			filesystem::create_directory (directory());
 		}
 	}
 
 	read_metadata ();
 
-	_log = new FileLog (_state.file ("log"));
-}
-
-/** Copy constructor */
-Film::Film (Film const & other)
-	: _state (other._state)
-	, _dirty (other._dirty)
-{
-
+	_log = new FileLog (file ("log"));
 }
 
 Film::~Film ()
@@ -112,260 +103,17 @@ Film::~Film ()
 	delete _log;
 }
 	  
-/** Read the `metadata' file inside this Film's directory, and fill the
- *  object's data with its content.
- */
-
-void
-Film::read_metadata ()
-{
-	ifstream f (metadata_file().c_str ());
-	multimap<string, string> kv = read_key_value (f);
-	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
-		_state.read_metadata (i->first, i->second);
-	}
-	_dirty = false;
-}
-
-/** Write our state to a file `metadata' inside the Film's directory */
-void
-Film::write_metadata () const
-{
-	filesystem::create_directories (_state.directory);
-	
-	ofstream f (metadata_file().c_str ());
-	if (!f.good ()) {
-		throw CreateFileError (metadata_file ());
-	}
-
-	_state.write_metadata (f);
-
-	_dirty = false;
-}
-
-/** Set the name by which DVD-o-matic refers to this Film */
-void
-Film::set_name (string n)
-{
-	_state.name = n;
-	signal_changed (NAME);
-}
-
-/** Set the content file for this film.
- *  @param c New content file; if specified as an absolute path, the content should
- *  be within the film's _state.directory; if specified as a relative path, the content
- *  will be assumed to be within the film's _state.directory.
- */
-void
-Film::set_content (string c)
-{
-	string check = _state.directory;
-
-#if BOOST_FILESYSTEM_VERSION == 3
-	filesystem::path slash ("/");
-	string platform_slash = slash.make_preferred().string ();
-#else
-#ifdef DVDOMATIC_WINDOWS
-	string platform_slash = "\\";
-#else
-	string platform_slash = "/";
-#endif
-#endif	
-
-	if (!ends_with (check, platform_slash)) {
-		check += platform_slash;
-	}
-	
-	if (filesystem::path(c).has_root_directory () && starts_with (c, check)) {
-		c = c.substr (_state.directory.length() + 1);
-	}
-
-	if (c == _state.content) {
-		return;
-	}
-	
-	/* Create a temporary decoder so that we can get information
-	   about the content.
-	*/
-	shared_ptr<FilmState> s = state_copy ();
-	s->content = c;
-	shared_ptr<Options> o (new Options ("", "", ""));
-	o->out_size = Size (1024, 1024);
-
-	shared_ptr<Decoder> d = decoder_factory (s, o, 0, _log);
-	
-	_state.size = d->native_size ();
-	_state.length = d->length_in_frames ();
-	_state.frames_per_second = d->frames_per_second ();
-	_state.audio_channels = d->audio_channels ();
-	_state.audio_sample_rate = d->audio_sample_rate ();
-	_state.audio_sample_format = d->audio_sample_format ();
-	_state.has_subtitles = d->has_subtitles ();
-	_state.audio_streams = d->audio_streams ();
-	_state.subtitle_streams = d->subtitle_streams ();
-	_state.audio_stream = _state.audio_streams.empty() ? -1 : _state.audio_streams.front().id;
-	_state.subtitle_stream = _state.subtitle_streams.empty() ? -1 : _state.subtitle_streams.front().id;
-
-	_state.content_digest = md5_digest (s->content_path ());
-	_state.content = c;
-	
-	signal_changed (SIZE);
-	signal_changed (LENGTH);
-	signal_changed (FRAMES_PER_SECOND);
-	signal_changed (AUDIO_CHANNELS);
-	signal_changed (AUDIO_SAMPLE_RATE);
-	signal_changed (CONTENT);
-	signal_changed (AUDIO_STREAM);
-	signal_changed (SUBTITLE_STREAM);
-}
-
-/** Set the format that this Film should be shown in */
-void
-Film::set_format (Format const * f)
-{
-	_state.format = f;
-	signal_changed (FORMAT);
-}
-
-/** Set the type to specify the DCP as having
- *  (feature, trailer etc.)
- */
-void
-Film::set_dcp_content_type (DCPContentType const * t)
-{
-	_state.dcp_content_type = t;
-	signal_changed (DCP_CONTENT_TYPE);
-}
-
-/** Set the number of pixels by which to crop the left of the source video */
-void
-Film::set_left_crop (int c)
-{
-	if (c == _state.crop.left) {
-		return;
-	}
-	
-	_state.crop.left = c;
-	signal_changed (CROP);
-}
-
-/** Set the number of pixels by which to crop the right of the source video */
-void
-Film::set_right_crop (int c)
-{
-	if (c == _state.crop.right) {
-		return;
-	}
-
-	_state.crop.right = c;
-	signal_changed (CROP);
-}
-
-/** Set the number of pixels by which to crop the top of the source video */
-void
-Film::set_top_crop (int c)
-{
-	if (c == _state.crop.top) {
-		return;
-	}
-	
-	_state.crop.top = c;
-	signal_changed (CROP);
-}
-
-/** Set the number of pixels by which to crop the bottom of the source video */
-void
-Film::set_bottom_crop (int c)
-{
-	if (c == _state.crop.bottom) {
-		return;
-	}
-	
-	_state.crop.bottom = c;
-	signal_changed (CROP);
-}
-
-/** Set the filters to apply to the image when generating thumbnails
- *  or a DCP.
- */
-void
-Film::set_filters (vector<Filter const *> const & f)
-{
-	_state.filters = f;
-	signal_changed (FILTERS);
-}
-
-/** Set the number of frames to put in any generated DCP (from
- *  the start of the film).  0 indicates that all frames should
- *  be used.
- */
-void
-Film::set_dcp_frames (int n)
-{
-	_state.dcp_frames = n;
-	signal_changed (DCP_FRAMES);
-}
-
-void
-Film::set_dcp_trim_action (TrimAction a)
-{
-	_state.dcp_trim_action = a;
-	signal_changed (DCP_TRIM_ACTION);
-}
-
-/** Set whether or not to generate a A/B comparison DCP.
- *  Such a DCP has the left half of its frame as the Film
- *  content without any filtering or post-processing; the
- *  right half is rendered with filters and post-processing.
- */
-void
-Film::set_dcp_ab (bool a)
-{
-	_state.dcp_ab = a;
-	signal_changed (DCP_AB);
-}
-
-void
-Film::set_audio_gain (float g)
-{
-	_state.audio_gain = g;
-	signal_changed (AUDIO_GAIN);
-}
-
-void
-Film::set_audio_delay (int d)
-{
-	_state.audio_delay = d;
-	signal_changed (AUDIO_DELAY);
-}
-
-/** @return path of metadata file */
-string
-Film::metadata_file () const
-{
-	return _state.file ("metadata");
-}
-
-/** @return full path of the content (actual video) file
- *  of this Film.
- */
-string
-Film::content () const
-{
-	return _state.content_path ();
-}
-
 /** The pre-processing GUI part of a thumbs update.
  *  Must be called from the GUI thread.
  */
 void
 Film::update_thumbs_pre_gui ()
 {
-	_state.thumbs.clear ();
-	filesystem::remove_all (_state.dir ("thumbs"));
+	set_thumbs (vector<int> ());
+	filesystem::remove_all (dir ("thumbs"));
 
 	/* This call will recreate the directory */
-	_state.dir ("thumbs");
+	dir ("thumbs");
 }
 
 /** The post-processing GUI part of a thumbs update.
@@ -374,7 +122,8 @@ Film::update_thumbs_pre_gui ()
 void
 Film::update_thumbs_post_gui ()
 {
-	string const tdir = _state.dir ("thumbs");
+	string const tdir = dir ("thumbs");
+	vector<int> thumbs;
 	
 	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
 
@@ -387,39 +136,12 @@ Film::update_thumbs_post_gui ()
 		
 		size_t const d = l.find (".png");
 		if (d != string::npos) {
-			_state.thumbs.push_back (atoi (l.substr (0, d).c_str()));
+			thumbs.push_back (atoi (l.substr (0, d).c_str()));
 		}
 	}
 
-	sort (_state.thumbs.begin(), _state.thumbs.end());
-	
-	write_metadata ();
-	signal_changed (THUMBS);
-}
-
-/** @return the number of thumbnail images that we have */
-int
-Film::num_thumbs () const
-{
-	return _state.thumbs.size ();
-}
-
-/** @param n A thumb index.
- *  @return The frame within the Film that it is for.
- */
-int
-Film::thumb_frame (int n) const
-{
-	return _state.thumb_frame (n);
-}
-
-/** @param n A thumb index.
- *  @return The path to the thumb's image file.
- */
-string
-Film::thumb_file (int n) const
-{
-	return _state.thumb_file (n);
+	sort (thumbs.begin(), thumbs.end());
+	set_thumbs (thumbs);
 }
 
 /** @return The path to the directory to write JPEG2000 files to */
@@ -433,18 +155,18 @@ Film::j2k_dir () const
 	/* Start with j2c */
 	p /= "j2c";
 
-	pair<string, string> f = Filter::ffmpeg_strings (filters ());
+	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
 	/* Write stuff to specify the filter / post-processing settings that are in use,
 	   so that we don't get confused about J2K files generated using different
 	   settings.
 	*/
 	stringstream s;
-	s << _state.format->id()
-	  << "_" << _state.content_digest
+	s << format()->id()
+	  << "_" << content_digest()
 	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
 	  << "_" << f.first << "_" << f.second
-	  << "_" << _state.scaler->id();
+	  << "_" << scaler()->id();
 
 	p /= s.str ();
 
@@ -456,15 +178,7 @@ Film::j2k_dir () const
 		p /= s.str ();
 	}
 	
-	return _state.dir (p.string ());
-}
-
-/** Handle a change to the Film's metadata */
-void
-Film::signal_changed (Property p)
-{
-	_dirty = true;
-	Changed (p);
+	return dir (p.string());
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film.
@@ -502,7 +216,7 @@ Film::make_dcp (bool transcode, int freq)
 	}
 
 	shared_ptr<const FilmState> fs = state_copy ();
-	shared_ptr<Options> o (new Options (j2k_dir(), ".j2c", _state.dir ("wavs")));
+	shared_ptr<Options> o (new Options (j2k_dir(), ".j2c", dir ("wavs")));
 	o->out_size = format()->dcp_size ();
 	if (dcp_frames() == 0) {
 		/* Decode the whole film, no blacking */
@@ -527,7 +241,7 @@ Film::make_dcp (bool transcode, int freq)
 	shared_ptr<Job> r;
 
 	if (transcode) {
-		if (_state.dcp_ab) {
+		if (dcp_ab()) {
 			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (fs, o, log(), shared_ptr<Job> ())));
 		} else {
 			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (fs, o, log(), shared_ptr<Job> ())));
@@ -538,16 +252,10 @@ Film::make_dcp (bool transcode, int freq)
 	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (fs, o, log(), r)));
 }
 
-shared_ptr<FilmState>
-Film::state_copy () const
-{
-	return shared_ptr<FilmState> (new FilmState (_state));
-}
-
 void
 Film::copy_from_dvd_post_gui ()
 {
-	const string dvd_dir = _state.dir ("dvd");
+	const string dvd_dir = dir ("dvd");
 
 	string largest_file;
 	uintmax_t largest_size = 0;
@@ -582,42 +290,21 @@ Film::examine_content ()
 void
 Film::examine_content_post_gui ()
 {
-	_state.length = _examine_content_job->last_video_frame ();
-	signal_changed (LENGTH);
-	
+	set_length (_examine_content_job->last_video_frame ());
 	_examine_content_job.reset ();
 }
 
-void
-Film::set_scaler (Scaler const * s)
-{
-	_state.scaler = s;
-	signal_changed (SCALER);
-}
 
 /** @return full paths to any audio files that this Film has */
 vector<string>
 Film::audio_files () const
 {
 	vector<string> f;
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (_state.dir("wavs")); i != filesystem::directory_iterator(); ++i) {
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (dir("wavs")); i != filesystem::directory_iterator(); ++i) {
 		f.push_back (i->path().string ());
 	}
 
 	return f;
-}
-
-ContentType
-Film::content_type () const
-{
-	return _state.content_type ();
-}
-
-void
-Film::set_still_duration (int d)
-{
-	_state.still_duration = d;
-	signal_changed (STILL_DURATION);
 }
 
 void
@@ -651,31 +338,10 @@ Film::encoded_frames () const
 	return N;
 }
 
-void
-Film::set_with_subtitles (bool w)
-{
-	_state.with_subtitles = w;
-	signal_changed (WITH_SUBTITLES);
-}
-
-void
-Film::set_subtitle_offset (int o)
-{
-	_state.subtitle_offset = o;
-	signal_changed (SUBTITLE_OFFSET);
-}
-
-void
-Film::set_subtitle_scale (float s)
-{
-	_state.subtitle_scale = s;
-	signal_changed (SUBTITLE_SCALE);
-}
-
 pair<Position, string>
 Film::thumb_subtitle (int n) const
 {
-	string sub_file = _state.thumb_base(n) + ".sub";
+	string sub_file = thumb_base(n) + ".sub";
 	if (!filesystem::exists (sub_file)) {
 		return pair<Position, string> ();
 	}
@@ -689,79 +355,9 @@ Film::thumb_subtitle (int n) const
 			sub.first.x = lexical_cast<int> (i->second);
 		} else if (i->first == "y") {
 			sub.first.y = lexical_cast<int> (i->second);
-			sub.second = String::compose ("%1.sub.png", _state.thumb_base(n));
+			sub.second = String::compose ("%1.sub.png", thumb_base(n));
 		}
 	}
 	
 	return sub;
-}
-
-void
-Film::set_audio_language (string v)
-{
-	_state.audio_language = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_subtitle_language (string v)
-{
-	_state.subtitle_language = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_territory (string v)
-{
-	_state.territory = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_rating (string v)
-{
-	_state.rating = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_studio (string v)
-{
-	_state.studio = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_facility (string v)
-{
-	_state.facility = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_package_type (string v)
-{
-	_state.package_type = v;
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_use_dci_name (bool v)
-{
-	_state.use_dci_name = v;
-	signal_changed (USE_DCI_NAME);
-}
-
-void
-Film::set_audio_stream (int id)
-{
-	_state.audio_stream = id;
-	signal_changed (AUDIO_STREAM);
-}
-
-void
-Film::set_subtitle_stream (int id)
-{
-	_state.subtitle_stream = id;
-	signal_changed (SUBTITLE_STREAM);
 }

@@ -69,7 +69,7 @@ private:
 	void subtitle_stream_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
-	void film_changed (Film::Property);
+	void film_changed (FilmState::Property);
 
 	/* Button clicks */
 	void edit_filters_clicked (wxCommandEvent &);
@@ -84,7 +84,7 @@ private:
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
 
-	Film::Property _ignore_changes;
+	FilmState::Property _ignore_changes;
 
 	/** The film we are editing */
 	Film* _film;

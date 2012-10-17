@@ -50,7 +50,7 @@ public:
 	/** Handle a paint event */
 	void paint_event (wxPaintEvent& ev)
 	{
-		if (!_film || _film->num_thumbs() == 0) {
+		if (!_film || _film->thumbs().size() == 0) {
 			wxPaintDC dc (this);
 			return;
 		}
@@ -143,12 +143,14 @@ private:
 		int vw, vh;
 		GetSize (&vw, &vh);
 
+		Crop const fc = _film->crop ();
+
 		/* Cropped rectangle */
 		Rect cropped_area (
-			_film->crop().left,
-			_film->crop().top,
-			_image->GetWidth() - (_film->crop().left + _film->crop().right),
-			_image->GetHeight() - (_film->crop().top + _film->crop().bottom)
+			fc.left,
+			fc.top,
+			_image->GetWidth() - (fc.left + fc.right),
+			_image->GetHeight() - (fc.top + fc.bottom)
 			);
 
 		/* Target ratio */
@@ -232,7 +234,7 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 	_thumb_panel = new ThumbPanel (this, f);
 	_sizer->Add (_thumb_panel, 1, wxEXPAND);
 
-	int const m = max (1, f ? f->num_thumbs() - 1 : 0);
+	int const m = max (1LU, f ? f->thumbs().size() - 1 : 0);
 	_slider = new wxSlider (this, wxID_ANY, 0, 0, m);
 	_sizer->Add (_slider, 0, wxEXPAND | wxLEFT | wxRIGHT);
 	set_thumbnail (0);
@@ -245,7 +247,7 @@ FilmViewer::FilmViewer (Film* f, wxWindow* p)
 void
 FilmViewer::set_thumbnail (int n)
 {
-	if (_film == 0 || _film->num_thumbs() <= n) {
+	if (_film == 0 || int (_film->thumbs().size()) <= n) {
 		return;
 	}
 
@@ -259,12 +261,12 @@ FilmViewer::slider_changed (wxCommandEvent &)
 }
 
 void
-FilmViewer::film_changed (Film::Property p)
+FilmViewer::film_changed (FilmState::Property p)
 {
 	switch (p) {
-	case Film::THUMBS:
-		if (_film && _film->num_thumbs() > 1) {
-			_slider->SetRange (0, _film->num_thumbs () - 1);
+	case FilmState::THUMBS:
+		if (_film && _film->thumbs().size() > 1) {
+			_slider->SetRange (0, _film->thumbs().size() - 1);
 		} else {
 			_thumb_panel->clear ();
 			_slider->SetRange (0, 1);
@@ -273,16 +275,16 @@ FilmViewer::film_changed (Film::Property p)
 		_slider->SetValue (0);
 		set_thumbnail (0);
 		break;
-	case Film::CONTENT:
+	case FilmState::CONTENT:
 		setup_visibility ();
 		_film->examine_content ();
 		update_thumbs ();
 		break;
-	case Film::CROP:
-	case Film::FORMAT:
-	case Film::WITH_SUBTITLES:
-	case Film::SUBTITLE_OFFSET:
-	case Film::SUBTITLE_SCALE:
+	case FilmState::CROP:
+	case FilmState::FORMAT:
+	case FilmState::WITH_SUBTITLES:
+	case FilmState::SUBTITLE_OFFSET:
+	case FilmState::SUBTITLE_SCALE:
 		_thumb_panel->recompose ();
 		break;
 	default:
