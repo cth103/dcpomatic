@@ -119,9 +119,15 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_scaler = new wxComboBox (this, wxID_ANY);
 	_sizer->Add (video_control (_scaler), 1);
 
-	video_control (add_label_to_sizer (_sizer, this, "Audio Stream"));
-	_audio_stream = new wxComboBox (this, wxID_ANY);
-	_sizer->Add (_audio_stream);
+	{
+		video_control (add_label_to_sizer (_sizer, this, "Audio Stream"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_audio_stream = new wxComboBox (this, wxID_ANY);
+		s->Add (video_control (_audio_stream), 1);
+		_audio = new wxStaticText (this, wxID_ANY, wxT (""));
+		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
+		_sizer->Add (s, 1, wxEXPAND);
+	}
 
 	{
 		video_control (add_label_to_sizer (_sizer, this, "Audio Gain"));
@@ -176,9 +182,6 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_length = new wxStaticText (this, wxID_ANY, wxT (""));
 	_sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
 
-	video_control (add_label_to_sizer (_sizer, this, "Audio"));
-	_audio = new wxStaticText (this, wxID_ANY, wxT (""));
-	_sizer->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL);
 
 	{
 		video_control (add_label_to_sizer (_sizer, this, "Range"));
