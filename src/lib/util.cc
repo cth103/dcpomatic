@@ -602,13 +602,13 @@ Socket::read_indefinite (uint8_t* data, int size, int timeout)
 	memcpy (data, _buffer, size);
 }
 
-Rectangle
-Rectangle::intersection (Rectangle const & other) const
+Rect
+Rect::intersection (Rect const & other) const
 {
 	int const tx = max (x, other.x);
 	int const ty = max (y, other.y);
 	
-	return Rectangle (
+	return Rect (
 		tx, ty,
 		min (x + width, other.x + other.width) - tx,
 		min (y + height, other.y + other.height) - ty

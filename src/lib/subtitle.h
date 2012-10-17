@@ -46,17 +46,17 @@ public:
 		return _image;
 	}
 
-	Rectangle area () const;
+	Rect area () const;
 	
 private:
 	Position _position;
 	boost::shared_ptr<Image> _image;
 };
 
-Rectangle
+Rect
 subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
-	Rectangle sub_area, int subtitle_offset, float subtitle_scale
+	Rect sub_area, int subtitle_offset, float subtitle_scale
 	);
 
 /** A Subtitle class with details of the time over which it should be shown */

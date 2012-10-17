@@ -144,7 +144,7 @@ private:
 		GetSize (&vw, &vh);
 
 		/* Cropped rectangle */
-		Rectangle cropped_area (
+		Rect cropped_area (
 			_film->crop().left,
 			_film->crop().top,
 			_image->GetWidth() - (_film->crop().left + _film->crop().right),
@@ -207,8 +207,8 @@ private:
 			base_area.height = base_image.GetHeight ();
 		}
 
-		Rectangle base_area;
-		Rectangle transformed_area;
+		Rect base_area;
+		Rect transformed_area;
 		wxImage base_image;
 		wxImage transformed_image;
 		shared_ptr<wxBitmap> bitmap;

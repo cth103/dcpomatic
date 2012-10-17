@@ -161,7 +161,7 @@ DCPVideoFrame::encode_locally ()
 	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
 
 	if (_subtitle) {
-		Rectangle tx = subtitle_transformed_area (
+		Rect tx = subtitle_transformed_area (
 			float (_out_size.width) / _input->size().width,
 			float (_out_size.height) / _input->size().height,
 			_subtitle->area(), _subtitle_offset, _subtitle_scale

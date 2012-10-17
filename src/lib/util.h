@@ -122,16 +122,16 @@ struct Position
 };
 
 /** A rectangle */
-struct Rectangle
+struct Rect
 {
-	Rectangle ()
+	Rect ()
 		: x (0)
 		, y (0)
 		, width (0)
 		, height (0)
 	{}
 
-	Rectangle (int x_, int y_, int w_, int h_)
+	Rect (int x_, int y_, int w_, int h_)
 		: x (x_)
 		, y (y_)
 		, width (w_)
@@ -151,7 +151,7 @@ struct Rectangle
 		return Size (width, height);
 	}
 
-	Rectangle intersection (Rectangle const & other) const;
+	Rect intersection (Rect const & other) const;
 };
 
 extern std::string crop_string (Position, Size);
