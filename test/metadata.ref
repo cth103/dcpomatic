@@ -1,4 +1,5 @@
 name fred
+use_dci_name 0
 content 
 dcp_content_type Short
 frames_per_second 0
@@ -27,3 +28,10 @@ audio_sample_rate 0
 audio_sample_format Unknown
 content_digest 
 has_subtitles 0
+audio_language 
+subtitle_language 
+territory 
+rating 
+studio 
+facility 
+package_type 
