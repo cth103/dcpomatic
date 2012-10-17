@@ -751,3 +751,17 @@ Film::set_use_dci_name (bool v)
 	_state.use_dci_name = v;
 	signal_changed (USE_DCI_NAME);
 }
+
+void
+Film::set_audio_stream (int id)
+{
+	_state.audio_stream = id;
+	signal_changed (AUDIO_STREAM);
+}
+
+void
+Film::set_subtitle_stream (int id)
+{
+	_state.subtitle_stream = id;
+	signal_changed (SUBTITLE_STREAM);
+}

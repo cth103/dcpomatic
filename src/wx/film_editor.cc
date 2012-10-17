@@ -258,6 +258,8 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
+	_audio_stream->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
+	_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
 
 	setup_visibility ();
 	setup_formats ();
@@ -902,4 +904,38 @@ FilmEditor::set_selected_stream (vector<Stream> const & streams, int id, wxCombo
 	}
 	assert (n < streams.size());
 	combo->SetSelection (n);
+}
+
+void
+FilmEditor::audio_stream_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::AUDIO_STREAM;
+	int const n = _audio_stream->GetSelection ();
+	if (n >= 0) {
+		vector<Stream> s = _film->audio_streams ();
+		assert (n < int (s.size ()));
+		_film->set_audio_stream (s[n].id);
+	}
+	_ignore_changes = Film::NONE;
+}
+
+void
+FilmEditor::subtitle_stream_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::SUBTITLE_STREAM;
+	int const n = _subtitle_stream->GetSelection ();
+	if (n >= 0) {
+		vector<Stream> s = _film->subtitle_streams ();
+		assert (n < int (s.size ()));
+		_film->set_subtitle_stream (s[n].id);
+	}
+	_ignore_changes = Film::NONE;
 }

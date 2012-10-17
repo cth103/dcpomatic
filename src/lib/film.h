@@ -204,6 +204,8 @@ public:
 	void set_studio (std::string);
 	void set_facility (std::string);
 	void set_package_type (std::string);
+	void set_audio_stream (int id);
+	void set_subtitle_stream (int id);
 
 	/** @return size, in pixels, of the source (ignoring cropping) */
 	Size size () const {

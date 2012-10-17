@@ -65,6 +65,8 @@ private:
 	void subtitle_offset_changed (wxCommandEvent &);
 	void subtitle_scale_changed (wxCommandEvent &);
 	void still_duration_changed (wxCommandEvent &);
+	void audio_stream_changed (wxCommandEvent &);
+	void subtitle_stream_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
