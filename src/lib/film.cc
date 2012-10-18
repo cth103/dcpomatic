@@ -275,6 +275,7 @@ Film::copy_from_dvd_post_gui ()
 	set_content (largest_file);
 }
 
+/** Start a job to examine our content file */
 void
 Film::examine_content ()
 {
@@ -307,6 +308,7 @@ Film::audio_files () const
 	return f;
 }
 
+/** Start a job to send our DCP to the configured TMS */
 void
 Film::send_dcp_to_tms ()
 {
@@ -322,6 +324,9 @@ Film::copy_from_dvd ()
 	JobManager::instance()->add (j);
 }
 
+/** Count the number of frames that have been encoded for this film.
+ *  @return frame count.
+ */
 int
 Film::encoded_frames () const
 {
@@ -338,6 +343,11 @@ Film::encoded_frames () const
 	return N;
 }
 
+/** Return the filename of a subtitle image if one exists for a given thumb index.
+ *  @param Thumbnail index.
+ *  @return Position of the image within the source frame, and the image filename, if one exists.
+ *  Otherwise the filename will be empty.
+ */
 pair<Position, string>
 Film::thumb_subtitle (int n) const
 {

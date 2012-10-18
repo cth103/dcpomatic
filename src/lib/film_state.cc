@@ -45,9 +45,7 @@
 using namespace std;
 using namespace boost;
 
-/** Write state to a stream.
- *  @param f Stream to write to.
- */
+/** Write state to our `metadata' file */
 void
 FilmState::write_metadata () const
 {
@@ -134,10 +132,7 @@ FilmState::write_metadata () const
 	_dirty = false;
 }
 
-/** Read state from a key / value pair.
- *  @param k Key.
- *  @param v Value.
- */
+/** Read state from our metadata file */
 void
 FilmState::read_metadata ()
 {
