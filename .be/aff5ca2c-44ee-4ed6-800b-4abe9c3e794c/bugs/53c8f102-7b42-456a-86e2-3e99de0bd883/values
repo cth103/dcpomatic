@@ -7,7 +7,7 @@ reporter: Carl Hetherington <cth@carlh.net>
 severity: minor
 
 
-status: open
+status: fixed
 
 
 summary: Add option to select soundtrack if there is more than one
