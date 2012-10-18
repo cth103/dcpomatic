@@ -154,8 +154,6 @@ main (int argc, char* argv[])
 
 	film->make_dcp (true);
 
-	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-
 	bool all_done = false;
 	bool first = true;
 	while (!all_done) {
@@ -170,6 +168,7 @@ main (int argc, char* argv[])
 		first = false;
 		
 		all_done = true;
+		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 			if (progress) {
 				cout << (*i)->name() << ": ";
