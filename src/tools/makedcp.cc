@@ -160,6 +160,8 @@ main (int argc, char* argv[])
 
 		dvdomatic_sleep (5);
 
+		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
+
 		if (!first && progress) {
 			cout << "\033[" << jobs.size() << "A";
 			cout.flush ();
@@ -168,7 +170,6 @@ main (int argc, char* argv[])
 		first = false;
 		
 		all_done = true;
-		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 			if (progress) {
 				cout << (*i)->name() << ": ";
