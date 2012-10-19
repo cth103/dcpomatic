@@ -35,6 +35,8 @@ using namespace boost;
  */
 TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 {
+	assert (sub.rects > 0);
+	
 	/* subtitle PTS in seconds */
 	float const packet_time = (sub.pts / AV_TIME_BASE) + float (sub.pts % AV_TIME_BASE) / 1e6;
 	

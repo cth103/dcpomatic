@@ -254,7 +254,12 @@ FFmpegDecoder::do_pass ()
 		int got_subtitle;
 		AVSubtitle sub;
 		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) && got_subtitle) {
-			process_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
+			/* I'm not entirely sure why, but sometimes we get an AVSubtitle with
+			   no AVSubtitleRects.
+			*/
+			if (sub.num_rects > 0) {
+				process_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
+			}
 			avsubtitle_free (&sub);
 		}
 	}
