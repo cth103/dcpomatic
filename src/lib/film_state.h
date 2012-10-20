@@ -72,7 +72,6 @@ public:
 		, _length (0)
 		, _audio_channels (0)
 		, _audio_sample_rate (0)
-		, _audio_sample_format (AV_SAMPLE_FMT_NONE)
 		, _has_subtitles (false)
 		, _frames_per_second (0)
 		, _dirty (false)
@@ -90,7 +89,6 @@ public:
 	std::string thumb_base (int) const;
 	int thumb_frame (int) const;
 
-	int bytes_per_sample () const;
 	int target_sample_rate () const;
 	
 	void write_metadata () const;
@@ -272,10 +270,6 @@ public:
 		return _audio_sample_rate;
 	}
 	
-	AVSampleFormat audio_sample_format () const {
-		return _audio_sample_format;
-	}
-	
 	std::string content_digest () const {
 		return _content_digest;
 	}
@@ -335,7 +329,6 @@ public:
 	void set_length (int);
 	void set_audio_channels (int);
 	void set_audio_sample_rate (int);
-	void set_audio_sample_format (AVSampleFormat);
 	void set_content_digest (std::string);
 	void set_has_subtitles (bool);
 	void set_audio_streams (std::vector<Stream>);
@@ -422,8 +415,6 @@ private:
 	int _audio_channels;
 	/** Sample rate of the source audio, in Hz */
 	int _audio_sample_rate;
-	/** Format of the audio samples */
-	AVSampleFormat _audio_sample_format;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
 	/** true if the source has subtitles */

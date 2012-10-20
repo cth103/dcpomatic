@@ -189,35 +189,6 @@ stacktrace (ostream& out, int levels)
 }
 #endif
 
-/** @param s Sample format.
- *  @return String representation.
- */
-string
-audio_sample_format_to_string (AVSampleFormat s)
-{
-	/* Our sample format handling is not exactly complete */
-	
-	switch (s) {
-	case AV_SAMPLE_FMT_S16:
-		return "S16";
-	default:
-		assert (false);
-	}
-}
-
-/** @param s String representation of a sample format, as returned from audio_sample_format_to_string().
- *  @return Sample format.
- */
-AVSampleFormat
-audio_sample_format_from_string (string s)
-{
-	if (s == "S16") {
-		return AV_SAMPLE_FMT_S16;
-	}
-
-	assert (false);
-}
-
 /** @return Version of vobcopy that is on the path (and hence that we will use) */
 static string
 vobcopy_version ()
