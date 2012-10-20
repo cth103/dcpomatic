@@ -116,15 +116,14 @@ Decoder::process_end ()
 		((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second())
 		- _audio_frames_processed;
 
-	if (audio_short_by_frames >= 0) {
+	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		stringstream s;
-		s << "Adding " << audio_short_by_frames << " frames of silence to the end.";
-		_log->log (s.str ());
+		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", _fs->dcp_length(), _audio_frames_processed));
+		_log->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		int64_t bytes = audio_short_by_frames * _fs->audio_channels() * bytes_per_audio_sample();
 		
-		int64_t const silence_size = 64 * 1024;
+		int64_t const silence_size = 16 * 1024 * _fs->audio_channels() * bytes_per_audio_sample();
 		uint8_t silence[silence_size];
 		memset (silence, 0, silence_size);
 		
@@ -191,6 +190,8 @@ void
 Decoder::emit_audio (uint8_t* data, int size)
 {
 	/* Deinterleave and convert to float */
+
+	assert ((size % (bytes_per_audio_sample() * _fs->audio_channels())) == 0);
 
 	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _fs->audio_channels();
