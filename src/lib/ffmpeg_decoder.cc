@@ -128,11 +128,11 @@ FFmpegDecoder::setup_general ()
 	/* Now override audio and subtitle streams with those from the Film, if it has any */
 
 	if (_fs->audio_stream_index() != -1) {
-		_audio_stream = _fs->audio_stream_decoder_id ();
+		_audio_stream = _fs->audio_stream().id();
 	}
 
 	if (_fs->subtitle_stream_index() != -1) {
-		_subtitle_stream = _fs->subtitle_stream_decoder_id ();
+		_subtitle_stream = _fs->subtitle_stream().id ();
 	}
 
 	if (_video_stream < 0) {
@@ -232,7 +232,7 @@ FFmpegDecoder::do_pass ()
 				int const data_size = av_samples_get_buffer_size (
 					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
 					);
-				
+
 				assert (_audio_codec_context->channels == _fs->audio_channels());
 				process_audio (_frame->data[0], data_size);
 			}

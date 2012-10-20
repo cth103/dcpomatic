@@ -194,9 +194,9 @@ public:
 		return _audio_stream;
 	}
 
-	int audio_stream_decoder_id () const {
+	AudioStream audio_stream () const {
 		assert (_audio_stream < int (_audio_streams.size()));
-		return _audio_streams[_audio_stream].id ();
+		return _audio_streams[_audio_stream];
 	}
 	
 	float audio_gain () const {
@@ -215,9 +215,9 @@ public:
 		return _subtitle_stream;
 	}
 
-	int subtitle_stream_decoder_id () const {
+	SubtitleStream subtitle_stream () const {
 		assert (_subtitle_stream < int (_subtitle_streams.size()));
-		return _subtitle_streams[_subtitle_stream].id ();
+		return _subtitle_streams[_subtitle_stream];
 	}
 
 	bool with_subtitles () const {
