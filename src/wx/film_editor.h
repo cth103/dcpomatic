@@ -79,7 +79,6 @@ private:
 	void setup_formats ();
 	void setup_subtitle_button ();
 	void setup_streams ();
-	void set_selected_stream (std::vector<Stream> const & streams, int id, wxComboBox* combo) const;
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);

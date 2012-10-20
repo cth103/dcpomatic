@@ -81,17 +81,14 @@ public:
 		return _video_frame;
 	}
 
-	virtual std::vector<Stream> audio_streams () const {
-		return std::vector<Stream> ();
+	virtual std::vector<AudioStream> audio_streams () const {
+		return std::vector<AudioStream> ();
 	}
 	
-	virtual std::vector<Stream> subtitle_streams () const {
-		return std::vector<Stream> ();
+	virtual std::vector<SubtitleStream> subtitle_streams () const {
+		return std::vector<SubtitleStream> ();
 	}
 
-	virtual void set_audio_stream (Stream s) {}
-	virtual void set_subtitle_stream (Stream s) {}
-	
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the frame.
 	 *  Second parameter is its index within the content.

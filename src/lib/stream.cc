@@ -23,19 +23,40 @@
 
 using namespace std;
 
-Stream::Stream (string t)
+AudioStream::AudioStream (string t)
 {
 	stringstream n (t);
-	n >> id;
-	
+	n >> _id >> _channels;
+
+	for (int i = 0; i < 2; ++i) {
+		size_t const s = t.find (' ');
+		if (s != string::npos) {
+			t = t.substr (s + 1);
+		}
+	}
+
+	_name = t;
+}
+
+string
+AudioStream::to_string () const
+{
+	return String::compose ("%1 %2 %3", _id, _channels, _name);
+}
+
+SubtitleStream::SubtitleStream (string t)
+{
+	stringstream n (t);
+	n >> _id;
+
 	size_t const s = t.find (' ');
 	if (s != string::npos) {
-		name = t.substr (s + 1);
+		_name = t.substr (s + 1);
 	}
 }
 
 string
-Stream::to_string () const
+SubtitleStream::to_string () const
 {
-	return String::compose ("%1 %2", id, name);
+	return String::compose ("%1 %2", _id, _name);
 }

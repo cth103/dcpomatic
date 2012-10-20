@@ -36,7 +36,7 @@ class ImageMagickEncoder : public Encoder
 public:
 	ImageMagickEncoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
 
-	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format) {}
+	void process_begin (int64_t audio_channel_layout) {}
 	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);
 	void process_audio (boost::shared_ptr<const AudioBuffers>) {}
 	void process_end () {}

@@ -67,11 +67,8 @@ public:
 	bool has_subtitles () const;
 	int bytes_per_audio_sample () const;
 
-	std::vector<Stream> audio_streams () const;
-	std::vector<Stream> subtitle_streams () const;
-
-	void set_audio_stream (int id);
-	void set_subtitle_stream (int id);
+	std::vector<AudioStream> audio_streams () const;
+	std::vector<SubtitleStream> subtitle_streams () const;
 
 private:
 
@@ -97,8 +94,8 @@ private:
 	int _subtitle_stream; ///< may be < 0 if there is no subtitle
 	AVFrame* _frame;
 
-	std::vector<Stream> _audio_streams;
-	std::vector<Stream> _subtitle_streams;
+	std::vector<AudioStream> _audio_streams;
+	std::vector<SubtitleStream> _subtitle_streams;
 	
 	AVCodecContext* _video_codec_context;
 	AVCodec* _video_codec;

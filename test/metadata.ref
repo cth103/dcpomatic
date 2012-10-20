@@ -31,9 +31,7 @@ package_type
 width 0
 height 0
 length 0
-audio_channels 0
 audio_sample_rate 0
-audio_sample_format Unknown
 content_digest 
 has_subtitles 0
 frames_per_second 0

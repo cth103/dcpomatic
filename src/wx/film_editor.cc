@@ -467,8 +467,6 @@ FilmEditor::film_changed (FilmState::Property p)
 		_frames_per_second->SetLabel (std_to_wx (s.str ()));
 		break;
 	}
-	case FilmState::AUDIO_CHANNELS:
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 	case FilmState::AUDIO_SAMPLE_RATE:
 		if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
 			_audio->SetLabel (wxT (""));
@@ -546,10 +544,11 @@ FilmEditor::film_changed (FilmState::Property p)
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case FilmState::AUDIO_STREAM:
-		set_selected_stream (_film->audio_streams(), _film->audio_stream(), _audio_stream);
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		_audio_stream->SetSelection (_film->audio_stream_index ());
 		break;
 	case FilmState::SUBTITLE_STREAM:
-		set_selected_stream (_film->subtitle_streams(), _film->subtitle_stream(), _subtitle_stream);
+		_subtitle_stream->SetSelection (_film->subtitle_stream_index ());
 		break;
 	}
 }
@@ -621,7 +620,6 @@ FilmEditor::set_film (Film* f)
 	film_changed (FilmState::SIZE);
 	film_changed (FilmState::LENGTH);
 	film_changed (FilmState::FRAMES_PER_SECOND);
-	film_changed (FilmState::AUDIO_CHANNELS);
 	film_changed (FilmState::AUDIO_SAMPLE_RATE);
 	film_changed (FilmState::SCALER);
 	film_changed (FilmState::AUDIO_GAIN);
@@ -885,33 +883,18 @@ void
 FilmEditor::setup_streams ()
 {
 	_audio_stream->Clear ();
-	vector<Stream> s = _film->audio_streams ();
-	for (vector<Stream>::iterator i = s.begin(); i != s.end(); ++i) {
-		_audio_stream->Append (std_to_wx (i->name));
+	vector<AudioStream> a = _film->audio_streams ();
+	for (vector<AudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
+		_audio_stream->Append (std_to_wx (i->name()));
 	}
-	set_selected_stream (_film->audio_streams(), _film->audio_stream(), _audio_stream);
+	_audio_stream->SetSelection (_film->audio_stream_index ());
 
 	_subtitle_stream->Clear ();
-	s = _film->subtitle_streams ();
-	for (vector<Stream>::iterator i = s.begin(); i != s.end(); ++i) {
-		_subtitle_stream->Append (std_to_wx (i->name));
+	vector<SubtitleStream> s = _film->subtitle_streams ();
+	for (vector<SubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
+		_subtitle_stream->Append (std_to_wx (i->name()));
 	}
-	set_selected_stream (_film->subtitle_streams(), _film->subtitle_stream(), _subtitle_stream);
-}
-
-void
-FilmEditor::set_selected_stream (vector<Stream> const & streams, int id, wxComboBox* combo) const
-{
-	if (id == -1) {
-		return;
-	}
-	
-	size_t n = 0;
-	while (n < streams.size() && streams[n].id != id) {
-		++n;
-	}
-	assert (n < streams.size());
-	combo->SetSelection (n);
+	_subtitle_stream->SetSelection (_film->subtitle_stream_index ());
 }
 
 void
@@ -922,12 +905,7 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 	}
 
 	_ignore_changes = Film::AUDIO_STREAM;
-	int const n = _audio_stream->GetSelection ();
-	if (n >= 0) {
-		vector<Stream> s = _film->audio_streams ();
-		assert (n < int (s.size ()));
-		_film->set_audio_stream (s[n].id);
-	}
+	_film->set_audio_stream (_audio_stream->GetSelection ());
 	_ignore_changes = Film::NONE;
 }
 
@@ -939,11 +917,6 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 	}
 
 	_ignore_changes = Film::SUBTITLE_STREAM;
-	int const n = _subtitle_stream->GetSelection ();
-	if (n >= 0) {
-		vector<Stream> s = _film->subtitle_streams ();
-		assert (n < int (s.size ()));
-		_film->set_subtitle_stream (s[n].id);
-	}
+	_film->set_subtitle_stream (_subtitle_stream->GetSelection ());
 	_ignore_changes = Film::NONE;
 }

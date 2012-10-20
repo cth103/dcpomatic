@@ -20,20 +20,63 @@
 #ifndef DVDOMATIC_STREAM_H
 #define DVDOMATIC_STREAM_H
 
-struct Stream
+class Stream
 {
 public:
-	Stream (std::string t);
+	Stream ()
+		: _id (-1)
+	{}
 	
 	Stream (std::string n, int i)
-		: name (n)
-		, id (i)
+		: _name (n)
+		, _id (i)
+	{}
+
+	virtual std::string to_string () const = 0;
+	
+	std::string name () const {
+		return _name;
+	}
+
+	int id () const {
+		return _id;
+	}
+
+protected:
+	std::string _name;
+	int _id;
+};
+
+struct AudioStream : public Stream
+{
+public:
+	AudioStream (std::string t);
+	
+	AudioStream (std::string n, int i, int c)
+		: Stream (n, i)
+		, _channels (c)
 	{}
 
 	std::string to_string () const;
-	
-	std::string name;
-	int id;
+
+	int channels () const {
+		return _channels;
+	}
+
+private:
+	int _channels;
+};
+
+class SubtitleStream : public Stream
+{
+public:
+	SubtitleStream (std::string t);
+
+	SubtitleStream (std::string n, int i)
+		: Stream (n, i)
+	{}
+
+	std::string to_string () const;
 };
 
 #endif
