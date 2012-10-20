@@ -37,6 +37,7 @@ class Options;
 class Image;
 class Log;
 class Subtitle;
+class AudioBuffers;
 
 /** @class Encoder
  *  @brief Parent class for classes which can encode video and audio frames.
@@ -67,7 +68,7 @@ public:
 	 *  @param d Array of pointers to floating point sample data for each channel.
 	 *  @param s Number of frames (ie number of samples in each channel)
 	 */
-	virtual void process_audio (float** d, int s) = 0;
+	virtual void process_audio (boost::shared_ptr<const AudioBuffers>) = 0;
 
 	/** Called when a processing run has finished */
 	virtual void process_end () = 0;

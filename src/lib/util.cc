@@ -693,3 +693,39 @@ get_optional_int (multimap<string, string> const & kv, string k)
 
 	return lexical_cast<int> (i->second);
 }
+
+AudioBuffers::AudioBuffers (int channels, int frames)
+	: _channels (channels)
+	, _frames (frames)
+{
+	_data = new float*[_channels];
+	for (int i = 0; i < _channels; ++i) {
+		_data[i] = new float[frames];
+	}
+}
+
+AudioBuffers::~AudioBuffers ()
+{
+	for (int i = 0; i < _channels; ++i) {
+		delete[] _data[i];
+	}
+
+	delete[] _data;
+}
+
+float*
+AudioBuffers::data (int c) const
+{
+	assert (c >= 0 && c < _channels);
+	return _data[c];
+}
+	
+void
+AudioBuffers::set_frames (int f)
+{
+	assert (f <= _frames);
+	_frames = f;
+}
+
+	
+	

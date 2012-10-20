@@ -303,13 +303,10 @@ J2KWAVEncoder::process_end ()
 #if HAVE_SWRESAMPLE	
 	if (_swr_context) {
 
-		float* out[_fs->audio_channels()];
-		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			out[i] = new float[256];
-		}
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_fs->audio_channels(), 256));
 			
 		while (1) {
-			int const frames = swr_convert (_swr_context, (uint8_t **) out, 256, 0, 0);
+			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
 
 			if (frames < 0) {
 				throw EncodeError ("could not run sample-rate converter");
@@ -319,11 +316,7 @@ J2KWAVEncoder::process_end ()
 				break;
 			}
 
-			write_audio (out, frames);
-		}
-
-		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			delete[] out[i];
+			write_audio (out);
 		}
 
 		swr_free (&_swr_context);
@@ -342,50 +335,43 @@ J2KWAVEncoder::process_end ()
 }
 
 void
-J2KWAVEncoder::process_audio (float** data, int frames)
+J2KWAVEncoder::process_audio (shared_ptr<const AudioBuffers> audio)
 {
-	float* resampled[_fs->audio_channels()];
+	shared_ptr<AudioBuffers> resampled;
 	
-#if HAVE_SWRESAMPLE	
+#if HAVE_SWRESAMPLE
 	/* Maybe sample-rate convert */
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil (frames * _fs->target_sample_rate() / _fs->audio_sample_rate()) + 32;
+		int const max_resampled_frames = ceil (audio->frames() * _fs->target_sample_rate() / _fs->audio_sample_rate()) + 32;
 
-		/* Make a buffer to put the result in */
-		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			resampled[i] = new float[max_resampled_frames];
-		}
+		resampled.reset (new AudioBuffers (_fs->audio_channels(), max_resampled_frames));
 
 		/* Resample audio */
-		int const resampled_frames = swr_convert (_swr_context, (uint8_t **) resampled, max_resampled_frames, (uint8_t const **) data, frames);
+		int const resampled_frames = swr_convert (
+			_swr_context, (uint8_t **) resampled->data(), max_resampled_frames, (uint8_t const **) audio->data(), audio->frames()
+			);
+		
 		if (resampled_frames < 0) {
 			throw EncodeError ("could not run sample-rate converter");
 		}
 
+		resampled->set_frames (resampled_frames);
+		
 		/* And point our variables at the resampled audio */
-		data = resampled;
-		frames = resampled_frames;
+		audio = resampled;
 	}
 #endif
 
-	write_audio (data, frames);
-
-#if HAVE_SWRESAMPLE
-	if (_swr_context) {
-		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			delete[] resampled[i];
-		}
-	}
-#endif	
+	write_audio (audio);
 }
 
 void
-J2KWAVEncoder::write_audio (float** data, int frames)
+J2KWAVEncoder::write_audio (shared_ptr<const AudioBuffers> audio) const
 {
 	for (int i = 0; i < _fs->audio_channels(); ++i) {
-		sf_write_float (_sound_files[i], data[i], frames);
+		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
 	}
 }
 
