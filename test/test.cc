@@ -501,3 +501,16 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	BOOST_CHECK_EQUAL (a->finished_in_error(), true);
 	BOOST_CHECK_EQUAL (b->running(), false);
 }
+
+BOOST_AUTO_TEST_CASE (stream_test)
+{
+	AudioStream a ("4 9 hello there world");
+	BOOST_CHECK_EQUAL (a.id(), 4);
+	BOOST_CHECK_EQUAL (a.channels(), 9);
+	BOOST_CHECK_EQUAL (a.name(), "hello there world");
+	BOOST_CHECK_EQUAL (a.to_string(), "4 9 hello there world");
+
+	SubtitleStream s ("5 a b c");
+	BOOST_CHECK_EQUAL (s.id(), 5);
+	BOOST_CHECK_EQUAL (s.name(), "a b c");
+}

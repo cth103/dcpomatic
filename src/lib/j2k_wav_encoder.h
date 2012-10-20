@@ -50,7 +50,7 @@ public:
 	J2KWAVEncoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *);
 	~J2KWAVEncoder ();
 
-	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format);
+	void process_begin (int64_t audio_channel_layout);
 	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);
 	void process_audio (boost::shared_ptr<const AudioBuffers>);
 	void process_end ();

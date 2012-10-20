@@ -70,7 +70,6 @@ public:
 		, _subtitle_offset (0)
 		, _subtitle_scale (1)
 		, _length (0)
-		, _audio_channels (0)
 		, _audio_sample_rate (0)
 		, _has_subtitles (false)
 		, _frames_per_second (0)
@@ -106,6 +105,8 @@ public:
 		return _dirty;
 	}
 
+	int audio_channels () const;
+
 	enum Property {
 		NONE,
 		NAME,
@@ -131,7 +132,6 @@ public:
 		THUMBS,
 		SIZE,
 		LENGTH,
-		AUDIO_CHANNELS,
 		AUDIO_SAMPLE_RATE,
 		HAS_SUBTITLES,
 		AUDIO_STREAMS,
@@ -190,10 +190,15 @@ public:
 		return _dcp_ab;
 	}
 
-	int audio_stream () const {
+	int audio_stream_index () const {
 		return _audio_stream;
 	}
 
+	int audio_stream_decoder_id () const {
+		assert (_audio_stream < int (_audio_streams.size()));
+		return _audio_streams[_audio_stream].id ();
+	}
+	
 	float audio_gain () const {
 		return _audio_gain;
 	}
@@ -206,8 +211,13 @@ public:
 		return _still_duration;
 	}
 
-	int subtitle_stream () const {
+	int subtitle_stream_index () const {
 		return _subtitle_stream;
+	}
+
+	int subtitle_stream_decoder_id () const {
+		assert (_subtitle_stream < int (_subtitle_streams.size()));
+		return _subtitle_streams[_subtitle_stream].id ();
 	}
 
 	bool with_subtitles () const {
@@ -262,10 +272,6 @@ public:
 		return _length;
 	}
 
-	int audio_channels () const {
-		return _audio_channels;
-	}
-	
 	int audio_sample_rate () const {
 		return _audio_sample_rate;
 	}
@@ -278,11 +284,11 @@ public:
 		return _has_subtitles;
 	}
 
-	std::vector<Stream> audio_streams () const {
+	std::vector<AudioStream> audio_streams () const {
 		return _audio_streams;
 	}
 
-	std::vector<Stream> subtitle_streams () const {
+	std::vector<SubtitleStream> subtitle_streams () const {
 		return _subtitle_streams;
 	}
 	
@@ -331,8 +337,8 @@ public:
 	void set_audio_sample_rate (int);
 	void set_content_digest (std::string);
 	void set_has_subtitles (bool);
-	void set_audio_streams (std::vector<Stream>);
-	void set_subtitle_streams (std::vector<Stream>);
+	void set_audio_streams (std::vector<AudioStream>);
+	void set_subtitle_streams (std::vector<SubtitleStream>);
 	void set_frames_per_second (float);
 
 	/** Emitted when some property has changed */
@@ -375,7 +381,7 @@ private:
 	    has the specified filters and post-processing.
 	*/
 	bool _dcp_ab;
-	/** The decoder's stream ID to use for audio, or -1 if there is none */
+	/** An index into our _audio_streams vector for the stream to use for audio, or -1 if there is none */
 	int _audio_stream;
 	/** Gain to apply to audio in dB */
 	float _audio_gain;
@@ -383,7 +389,7 @@ private:
 	int _audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int _still_duration;
-	/** The decoder's stream ID to use for subtitles, or -1 if there are none */
+	/** An index into our _subtitle_streams vector for the stream to use for subtitles, or -1 if there is none */
 	int _subtitle_stream;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
@@ -411,8 +417,6 @@ private:
 	Size _size;
 	/** Length of the source in frames */
 	int _length;
-	/** Number of audio channels */
-	int _audio_channels;
 	/** Sample rate of the source audio, in Hz */
 	int _audio_sample_rate;
 	/** MD5 digest of our content file */
@@ -420,9 +424,9 @@ private:
 	/** true if the source has subtitles */
 	bool _has_subtitles;
 	/** the audio streams that the source has */
-	std::vector<Stream> _audio_streams;
+	std::vector<AudioStream> _audio_streams;
 	/** the subtitle streams that the source has */
-	std::vector<Stream> _subtitle_streams;
+	std::vector<SubtitleStream> _subtitle_streams;
 	/** Frames per second of the source */
 	float _frames_per_second;
 

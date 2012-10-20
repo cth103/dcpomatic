@@ -57,7 +57,7 @@ Transcoder::Transcoder (shared_ptr<const FilmState> s, shared_ptr<const Options>
 void
 Transcoder::go ()
 {
-	_encoder->process_begin (_decoder->audio_channel_layout(), _decoder->audio_sample_format());
+	_encoder->process_begin (_decoder->audio_channel_layout());
 	try {
 		_decoder->go ();
 	} catch (...) {

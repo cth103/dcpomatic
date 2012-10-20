@@ -113,16 +113,15 @@ FilmState::write_metadata () const
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
 	f << "length " << _length << "\n";
-	f << "audio_channels " << _audio_channels << "\n";
 	f << "audio_sample_rate " << _audio_sample_rate << "\n";
 	f << "content_digest " << _content_digest << "\n";
 	f << "has_subtitles " << _has_subtitles << "\n";
 
-	for (vector<Stream>::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
+	for (vector<AudioStream>::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
 		f << "audio_stream " << i->to_string () << "\n";
 	}
 
-	for (vector<Stream>::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
+	for (vector<SubtitleStream>::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
 		f << "subtitle_stream " << i->to_string () << "\n";
 	}
 
@@ -219,8 +218,6 @@ FilmState::read_metadata ()
 			_size.height = atoi (v.c_str ());
 		} else if (k == "length") {
 			_length = atof (v.c_str ());
-		} else if (k == "audio_channels") {
-			_audio_channels = atoi (v.c_str ());
 		} else if (k == "audio_sample_rate") {
 			_audio_sample_rate = atoi (v.c_str ());
 		} else if (k == "content_digest") {
@@ -228,9 +225,9 @@ FilmState::read_metadata ()
 		} else if (k == "has_subtitles") {
 			_has_subtitles = (v == "1");
 		} else if (k == "audio_stream") {
-			_audio_streams.push_back (Stream (v));
+			_audio_streams.push_back (AudioStream (v));
 		} else if (k == "subtitle_stream") {
-			_subtitle_streams.push_back (Stream (v));
+			_subtitle_streams.push_back (SubtitleStream (v));
 		} else if (k == "frames_per_second") {
 			_frames_per_second = atof (v.c_str ());
 		}
@@ -424,7 +421,7 @@ FilmState::dci_name () const
 		d << "_";
 	}
 
-	switch (_audio_channels) {
+	switch (_audio_streams[_audio_stream].channels()) {
 	case 1:
 		d << "10_";
 		break;
@@ -531,13 +528,12 @@ FilmState::set_content (string c)
 	set_size (d->native_size ());
 	set_length (d->length_in_frames ());
 	set_frames_per_second (d->frames_per_second ());
-	set_audio_channels (d->audio_channels ());
 	set_audio_sample_rate (d->audio_sample_rate ());
 	set_has_subtitles (d->has_subtitles ());
 	set_audio_streams (d->audio_streams ());
 	set_subtitle_streams (d->subtitle_streams ());
-	set_audio_stream (audio_streams().empty() ? -1 : audio_streams().front().id);
-	set_subtitle_stream (subtitle_streams().empty() ? -1 : subtitle_streams().front().id);
+	set_audio_stream (audio_streams().empty() ? -1 : 0);
+	set_subtitle_stream (subtitle_streams().empty() ? -1 : 0);
 	set_content_digest (md5_digest (content_path ()));
 	
 	_content = c;
@@ -771,13 +767,6 @@ FilmState::set_length (int l)
 }
 
 void
-FilmState::set_audio_channels (int c)
-{
-	_audio_channels = c;
-	signal_changed (AUDIO_CHANNELS);
-}
-
-void
 FilmState::set_audio_sample_rate (int r)
 {
 	_audio_sample_rate = r;
@@ -799,14 +788,14 @@ FilmState::set_has_subtitles (bool s)
 }
 
 void
-FilmState::set_audio_streams (vector<Stream> s)
+FilmState::set_audio_streams (vector<AudioStream> s)
 {
 	_audio_streams = s;
 	_dirty = true;
 }
 
 void
-FilmState::set_subtitle_streams (vector<Stream> s)
+FilmState::set_subtitle_streams (vector<SubtitleStream> s)
 {
 	_subtitle_streams = s;
 	_dirty = true;
@@ -831,3 +820,16 @@ FilmState::state_copy () const
 {
 	return shared_ptr<FilmState> (new FilmState (*this));
 }
+
+int
+FilmState::audio_channels () const
+{
+	if (_audio_stream == -1) {
+		return 0;
+	}
+
+	return _audio_streams[_audio_stream].channels ();
+}
+
+
+	

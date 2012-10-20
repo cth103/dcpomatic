@@ -109,43 +109,30 @@ FFmpegDecoder::setup_general ()
 	/* Find video, audio and subtitle streams and choose the first of each */
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+		AVStream* s = _format_context->streams[i];
+		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
 			_video_stream = i;
-		} else if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
+		} else if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
 			if (_audio_stream == -1) {
 				_audio_stream = i;
 			}
-			_audio_streams.push_back (Stream (stream_name (_format_context->streams[i]), i));
-		} else if (_format_context->streams[i]->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+			_audio_streams.push_back (AudioStream (stream_name (s), i, s->codec->channels));
+		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
 			if (_subtitle_stream == -1) {
 				_subtitle_stream = i;
 			}
-			_subtitle_streams.push_back (Stream (stream_name (_format_context->streams[i]), i));
+			_subtitle_streams.push_back (SubtitleStream (stream_name (s), i));
 		}
 	}
 
 	/* Now override audio and subtitle streams with those from the Film, if it has any */
 
-	if (_fs->audio_stream() != -1) {
-		vector<Stream>::iterator i = _audio_streams.begin ();
-		while (i != _audio_streams.end() && i->id != _fs->audio_stream()) {
-			++i;
-		}
-
-		if (i != _audio_streams.end()) {
-			_audio_stream = _fs->audio_stream ();
-		}
+	if (_fs->audio_stream_index() != -1) {
+		_audio_stream = _fs->audio_stream_decoder_id ();
 	}
 
-	if (_fs->subtitle_stream() != -1) {
-		vector<Stream>::iterator i = _subtitle_streams.begin ();
-		while (i != _subtitle_streams.end() && i->id != _fs->subtitle_stream()) {
-			++i;
-		}
-
-		if (i != _subtitle_streams.end()) {
-			_subtitle_stream = _fs->subtitle_stream ();
-		}
+	if (_fs->subtitle_stream_index() != -1) {
+		_subtitle_stream = _fs->subtitle_stream_decoder_id ();
 	}
 
 	if (_video_stream < 0) {
@@ -394,30 +381,16 @@ FFmpegDecoder::has_subtitles () const
 	return (_subtitle_stream != -1);
 }
 
-vector<Stream>
+vector<AudioStream>
 FFmpegDecoder::audio_streams () const
 {
 	return _audio_streams;
 }
 
-vector<Stream>
+vector<SubtitleStream>
 FFmpegDecoder::subtitle_streams () const
 {
 	return _subtitle_streams;
-}
-
-void
-FFmpegDecoder::set_audio_stream (int s)
-{
-	_audio_stream = s;
-	setup_audio ();
-}
-
-void
-FFmpegDecoder::set_subtitle_stream (int s)
-{
-	_subtitle_stream = s;
-	setup_subtitle ();
 }
 
 string
