@@ -222,6 +222,9 @@ public:
 	void set_frames (int f);
 
 private:
+	/* no copy construction */
+	AudioBuffers (AudioBuffers const &);
+	
 	int _channels;
 	int _frames;
 	float** _data;
