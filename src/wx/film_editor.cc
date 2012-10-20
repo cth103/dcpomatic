@@ -461,19 +461,11 @@ FilmEditor::film_changed (FilmState::Property p)
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case FilmState::FRAMES_PER_SECOND:
-	{
-		stringstream s;
 		s << fixed << setprecision(2) << _film->frames_per_second();
 		_frames_per_second->SetLabel (std_to_wx (s.str ()));
 		break;
-	}
 	case FilmState::AUDIO_SAMPLE_RATE:
-		if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
-			_audio->SetLabel (wxT (""));
-		} else {
-			s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
-			_audio->SetLabel (std_to_wx (s.str ()));
-		}
+		setup_audio_details ();
 		break;
 	case FilmState::SIZE:
 		if (_film->size().width == 0 && _film->size().height == 0) {
@@ -546,6 +538,7 @@ FilmEditor::film_changed (FilmState::Property p)
 	case FilmState::AUDIO_STREAM:
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		_audio_stream->SetSelection (_film->audio_stream_index ());
+		setup_audio_details ();
 		break;
 	case FilmState::SUBTITLE_STREAM:
 		_subtitle_stream->SetSelection (_film->subtitle_stream_index ());
@@ -920,3 +913,16 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 	_film->set_subtitle_stream (_subtitle_stream->GetSelection ());
 	_ignore_changes = Film::NONE;
 }
+
+void
+FilmEditor::setup_audio_details ()
+{
+	if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
+		_audio->SetLabel (wxT (""));
+	} else {
+		stringstream s;
+		s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
+		_audio->SetLabel (std_to_wx (s.str ()));
+	}
+}
+

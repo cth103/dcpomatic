@@ -79,6 +79,7 @@ private:
 	void setup_formats ();
 	void setup_subtitle_button ();
 	void setup_streams ();
+	void setup_audio_details ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
