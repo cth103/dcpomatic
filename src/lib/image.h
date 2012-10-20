@@ -49,7 +49,7 @@ class SimpleImage;
 class Image
 {
 public:
-	Image (PixelFormat p)
+	Image (AVPixelFormat p)
 		: _pixel_format (p)
 	{}
 	
@@ -79,12 +79,12 @@ public:
 	void read_from_socket (boost::shared_ptr<Socket>);
 	void write_to_socket (boost::shared_ptr<Socket>) const;
 	
-	PixelFormat pixel_format () const {
+	AVPixelFormat pixel_format () const {
 		return _pixel_format;
 	}
 
 private:
-	PixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
+	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 };
 
 /** @class FilterBufferImage
@@ -93,7 +93,7 @@ private:
 class FilterBufferImage : public Image
 {
 public:
-	FilterBufferImage (PixelFormat, AVFilterBufferRef *);
+	FilterBufferImage (AVPixelFormat, AVFilterBufferRef *);
 	~FilterBufferImage ();
 
 	uint8_t ** data () const;
@@ -111,7 +111,7 @@ private:
 class SimpleImage : public Image
 {
 public:
-	SimpleImage (PixelFormat, Size, boost::function<int (int)> rounder);
+	SimpleImage (AVPixelFormat, Size, boost::function<int (int)> rounder);
 	~SimpleImage ();
 
 	uint8_t ** data () const;
@@ -130,13 +130,13 @@ private:
 class AlignedImage : public SimpleImage
 {
 public:
-	AlignedImage (PixelFormat, Size);
+	AlignedImage (AVPixelFormat, Size);
 };
 
 class CompactImage : public SimpleImage
 {
 public:
-	CompactImage (PixelFormat, Size);
+	CompactImage (AVPixelFormat, Size);
 	CompactImage (boost::shared_ptr<Image>);
 };
 

@@ -201,10 +201,8 @@ audio_sample_format_to_string (AVSampleFormat s)
 	case AV_SAMPLE_FMT_S16:
 		return "S16";
 	default:
-		break;
+		assert (false);
 	}
-
-	return "Unknown";
 }
 
 /** @param s String representation of a sample format, as returned from audio_sample_format_to_string().
@@ -217,7 +215,7 @@ audio_sample_format_from_string (string s)
 		return AV_SAMPLE_FMT_S16;
 	}
 
-	return AV_SAMPLE_FMT_NONE;
+	assert (false);
 }
 
 /** @return Version of vobcopy that is on the path (and hence that we will use) */

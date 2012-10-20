@@ -105,7 +105,7 @@ Decoder::process_end ()
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
 		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels() * _fs->bytes_per_sample());
-		Audio (remainder, _delay_in_bytes);
+		emit_audio (remainder, _delay_in_bytes);
 	}
 
 	/* If we cut the decode off, the audio may be short; push some silence
@@ -130,7 +130,7 @@ Decoder::process_end ()
 		
 		while (bytes) {
 			int64_t const t = min (bytes, silence_size);
-			Audio (silence, t);
+			emit_audio (silence, t);
 			bytes -= t;
 		}
 	}
@@ -175,53 +175,92 @@ Decoder::pass ()
 }
 
 /** Called by subclasses to tell the world that some audio data is ready
- *  @param data Interleaved audio data, in FilmState::audio_sample_format.
+ *  @param data Audio data, in FilmState::audio_sample_format.
  *  @param size Number of bytes of data.
  */
 void
 Decoder::process_audio (uint8_t* data, int size)
 {
-	/* Samples per channel */
-	int const samples = size / _fs->bytes_per_sample();
+	/* Push into the delay line */
+	size = _delay_line->feed (data, size);
+
+	emit_audio (data, size);
+}
+
+void
+Decoder::emit_audio (uint8_t* data, int size)
+{
+	/* Deinterleave and convert to float */
+
+	float* samples[_fs->audio_channels()];
+	int const total_samples = size / _fs->bytes_per_sample();
+	int const frames = total_samples / _fs->audio_channels();
+	for (int i = 0; i < _fs->audio_channels(); ++i) {
+		samples[i] = new float[frames];
+	}
+
+	switch (_fs->audio_sample_format()) {
+	case AV_SAMPLE_FMT_S16:
+	{
+		uint8_t* p = data;
+		int sample = 0;
+		int channel = 0;
+		for (int i = 0; i < total_samples; ++i) {
+			/* unsigned sample */
+			int const ou = p[0] | (p[1] << 8);
+			/* signed sample */
+			int const os = ou >= 0x8000 ? (- 0x10000 + ou) : ou;
+			/* float sample */
+			samples[channel][sample] = float(os) / 0x8000;
+
+			cout << samples[channel][sample] << " from s16\n";
+			
+			++channel;
+			if (channel == _fs->audio_channels()) {
+				channel = 0;
+				++sample;
+			}
+
+			p += 2;
+		}
+	}
+	break;
+
+	case AV_SAMPLE_FMT_FLTP:
+	{
+		float* p = reinterpret_cast<float*> (data);
+		for (int i = 0; i < _fs->audio_channels(); ++i) {
+			for (int j = 0; j < frames; ++j) {
+				samples[i][j] = *p++;
+				cout << samples[i][j] << " from float.\n";
+				++p;
+			}
+		}
+	}
+	break;
+
+	default:
+		assert (false);
+	}
 
 	/* Maybe apply gain */
 	if (_fs->audio_gain() != 0) {
 		float const linear_gain = pow (10, _fs->audio_gain() / 20);
-		uint8_t* p = data;
-		switch (_fs->audio_sample_format()) {
-		case AV_SAMPLE_FMT_S16:
-			for (int i = 0; i < samples; ++i) {
-				/* XXX: assumes little-endian; also we should probably be dithering here */
-
-				/* unsigned sample */
-				int const ou = p[0] | (p[1] << 8);
-
-				/* signed sample */
-				int const os = ou >= 0x8000 ? (- 0x10000 + ou) : ou;
-
-				/* signed sample with altered gain */
-				int const gs = int (os * linear_gain);
-
-				/* unsigned sample with altered gain */
-				int const gu = gs > 0 ? gs : (0x10000 + gs);
-
-				/* write it back */
-				p[0] = gu & 0xff;
-				p[1] = (gu & 0xff00) >> 8;
-				p += 2;
+		for (int i = 0; i < _fs->audio_channels(); ++i) {
+			for (int j = 0; j < frames; ++j) {
+				samples[i][j] *= linear_gain;
 			}
-			break;
-		default:
-			assert (false);
 		}
 	}
 
 	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_processed += size / (_fs->audio_channels() * _fs->bytes_per_sample());
+	_audio_frames_processed += frames;
 
-	/* Push into the delay line and then tell the world what we've got */
-	int available = _delay_line->feed (data, size);
-	Audio (data, available);
+	Audio (samples, frames);
+
+	for (int i = 0; i < _fs->audio_channels(); ++i) {
+		delete[] samples[i];
+	}
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
