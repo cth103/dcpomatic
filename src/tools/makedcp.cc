@@ -49,6 +49,7 @@ help (string n)
 	     << "  -c, --config       list configuration settings that affect output and quit\n"
 	     << "  -t, --test         run in test mode (repeatable UUID generation, timestamps etc.)\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
+	     << "  -r, --no-remote    do not use any remote servers\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
@@ -59,6 +60,7 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool test_mode = false;
 	bool progress = true;
+	bool no_remote = false;
 	int log_level = 1;
 
 	int option_index = 0;
@@ -70,11 +72,12 @@ main (int argc, char* argv[])
 			{ "config", no_argument, 0, 'c'},
 			{ "test", no_argument, 0, 't'},
 			{ "no-progress", no_argument, 0, 'n'},
+			{ "no-remote", no_argument, 0, 'r'},
 			{ "log-level", required_argument, 0, 'l' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdctnl:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdctnrl:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -95,6 +98,9 @@ main (int argc, char* argv[])
 			break;
 		case 'n':
 			progress = false;
+			break;
+		case 'r':
+			no_remote = true;
 			break;
 		case 'c':
 			cout << "Colour LUT " << colour_lut_index_to_name (Config::instance()->colour_lut_index()) << "; "
@@ -119,6 +125,10 @@ main (int argc, char* argv[])
 	film_dir = argv[optind];
 			
 	dvdomatic_setup ();
+
+	if (no_remote) {
+		Config::instance()->set_servers (vector<ServerDescription*> ());
+	}
 
 	cout << "DVD-o-matic " << dvdomatic_version << " git " << dvdomatic_git_commit;
 	char buf[256];
