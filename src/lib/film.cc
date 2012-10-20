@@ -185,7 +185,7 @@ Film::j2k_dir () const
  *  @param true to transcode, false to use the WAV and J2K files that are already there.
  */
 void
-Film::make_dcp (bool transcode, int freq)
+Film::make_dcp (bool transcode)
 {
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError ("name", "cannot contain slashes");
@@ -233,7 +233,6 @@ Film::make_dcp (bool transcode, int freq)
 		}
 	}
 	
-	o->decode_video_frequency = freq;
 	o->padding = format()->dcp_padding (this);
 	o->ratio = format()->ratio_as_float (this);
 	o->decode_subtitles = with_subtitles ();

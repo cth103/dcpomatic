@@ -68,7 +68,7 @@ public:
 	void send_dcp_to_tms ();
 	void copy_from_dvd ();
 
-	void make_dcp (bool, int freq = 0);
+	void make_dcp (bool);
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
