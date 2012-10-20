@@ -138,6 +138,7 @@ protected:
 private:
 	void setup_video_filters ();
 	void emit_audio (uint8_t* data, int size);
+	int bytes_per_audio_sample () const;
 	
 	/** last video frame to be processed */
 	int _video_frame;

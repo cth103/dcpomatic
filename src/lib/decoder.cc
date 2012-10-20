@@ -90,7 +90,7 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _fs->audio_delay() * _fs->audio_sample_rate() * _fs->audio_channels() * _fs->bytes_per_sample() / 1000;
+	_delay_in_bytes = _fs->audio_delay() * _fs->audio_sample_rate() * _fs->audio_channels() * bytes_per_audio_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
 
@@ -104,7 +104,7 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels() * _fs->bytes_per_sample());
+		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels() * bytes_per_audio_sample());
 		emit_audio (remainder, _delay_in_bytes);
 	}
 
@@ -122,7 +122,7 @@ Decoder::process_end ()
 		s << "Adding " << audio_short_by_frames << " frames of silence to the end.";
 		_log->log (s.str ());
 
-		int64_t bytes = audio_short_by_frames * _fs->audio_channels() * _fs->bytes_per_sample();
+		int64_t bytes = audio_short_by_frames * _fs->audio_channels() * bytes_per_audio_sample();
 		
 		int64_t const silence_size = 64 * 1024;
 		uint8_t silence[silence_size];
@@ -193,13 +193,13 @@ Decoder::emit_audio (uint8_t* data, int size)
 	/* Deinterleave and convert to float */
 
 	float* samples[_fs->audio_channels()];
-	int const total_samples = size / _fs->bytes_per_sample();
+	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _fs->audio_channels();
 	for (int i = 0; i < _fs->audio_channels(); ++i) {
 		samples[i] = new float[frames];
 	}
 
-	switch (_fs->audio_sample_format()) {
+	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
 	{
 		uint8_t* p = data;
@@ -213,8 +213,6 @@ Decoder::emit_audio (uint8_t* data, int size)
 			/* float sample */
 			samples[channel][sample] = float(os) / 0x8000;
 
-			cout << samples[channel][sample] << " from s16\n";
-			
 			++channel;
 			if (channel == _fs->audio_channels()) {
 				channel = 0;
@@ -230,11 +228,8 @@ Decoder::emit_audio (uint8_t* data, int size)
 	{
 		float* p = reinterpret_cast<float*> (data);
 		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			for (int j = 0; j < frames; ++j) {
-				samples[i][j] = *p++;
-				cout << samples[i][j] << " from float.\n";
-				++p;
-			}
+			memcpy (samples[i], p, frames * sizeof(float));
+			p += frames;
 		}
 	}
 	break;
@@ -459,4 +454,11 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 		Position const p = _timed_subtitle->subtitle()->position ();
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _fs->crop().left, p.y - _fs->crop().top));
 	}
+}
+
+
+int
+Decoder::bytes_per_audio_sample () const
+{
+	return av_get_bytes_per_sample (audio_sample_format ());
 }

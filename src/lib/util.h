@@ -46,8 +46,6 @@ class Scaler;
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
 extern void stacktrace (std::ostream &, int);
-extern std::string audio_sample_format_to_string (AVSampleFormat);
-extern AVSampleFormat audio_sample_format_from_string (std::string);
 extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
 extern void dvdomatic_setup ();

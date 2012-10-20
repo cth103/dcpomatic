@@ -115,7 +115,6 @@ FilmState::write_metadata () const
 	f << "length " << _length << "\n";
 	f << "audio_channels " << _audio_channels << "\n";
 	f << "audio_sample_rate " << _audio_sample_rate << "\n";
-	f << "audio_sample_format " << audio_sample_format_to_string (_audio_sample_format) << "\n";
 	f << "content_digest " << _content_digest << "\n";
 	f << "has_subtitles " << _has_subtitles << "\n";
 
@@ -224,8 +223,6 @@ FilmState::read_metadata ()
 			_audio_channels = atoi (v.c_str ());
 		} else if (k == "audio_sample_rate") {
 			_audio_sample_rate = atoi (v.c_str ());
-		} else if (k == "audio_sample_format") {
-			_audio_sample_format = audio_sample_format_from_string (v);
 		} else if (k == "content_digest") {
 			_content_digest = v;
 		} else if (k == "has_subtitles") {
@@ -352,13 +349,6 @@ FilmState::content_type () const
 	}
 
 	return VIDEO;
-}
-
-/** @return Number of bytes per sample of a single channel */
-int
-FilmState::bytes_per_sample () const
-{
-	return av_get_bytes_per_sample (_audio_sample_format);
 }
 
 int
@@ -543,7 +533,6 @@ FilmState::set_content (string c)
 	set_frames_per_second (d->frames_per_second ());
 	set_audio_channels (d->audio_channels ());
 	set_audio_sample_rate (d->audio_sample_rate ());
-	set_audio_sample_format (d->audio_sample_format ());
 	set_has_subtitles (d->has_subtitles ());
 	set_audio_streams (d->audio_streams ());
 	set_subtitle_streams (d->subtitle_streams ());
@@ -793,13 +782,6 @@ FilmState::set_audio_sample_rate (int r)
 {
 	_audio_sample_rate = r;
 	signal_changed (AUDIO_SAMPLE_RATE);
-}
-
-void
-FilmState::set_audio_sample_format (AVSampleFormat f)
-{
-	_audio_sample_format = f;
-	_dirty = true;
 }
 
 void

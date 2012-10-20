@@ -351,16 +351,16 @@ J2KWAVEncoder::process_audio (float** data, int frames)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const resampled_frames = ceil (frames * _fs->target_sample_rate() / _fs->audio_sample_rate()) + 32;
+		int const max_resampled_frames = ceil (frames * _fs->target_sample_rate() / _fs->audio_sample_rate()) + 32;
 
 		/* Make a buffer to put the result in */
 		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			resampled[i] = new float[resampled_frames];
+			resampled[i] = new float[max_resampled_frames];
 		}
 
 		/* Resample audio */
-		int out_frames = swr_convert (_swr_context, (uint8_t **) resampled, resampled_frames, (uint8_t const **) data, frames);
-		if (out_frames < 0) {
+		int const resampled_frames = swr_convert (_swr_context, (uint8_t **) resampled, max_resampled_frames, (uint8_t const **) data, frames);
+		if (resampled_frames < 0) {
 			throw EncodeError ("could not run sample-rate converter");
 		}
 
