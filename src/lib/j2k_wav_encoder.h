@@ -39,6 +39,7 @@ class DCPVideoFrame;
 class Image;
 class Log;
 class Subtitle;
+class AudioBuffers;
 
 /** @class J2KWAVEncoder
  *  @brief An encoder which writes JPEG2000 and WAV files.
@@ -51,12 +52,12 @@ public:
 
 	void process_begin (int64_t audio_channel_layout, AVSampleFormat audio_sample_format);
 	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);
-	void process_audio (float**, int);
+	void process_audio (boost::shared_ptr<const AudioBuffers>);
 	void process_end ();
 
 private:
 
-	void write_audio (float** data, int frames);
+	void write_audio (boost::shared_ptr<const AudioBuffers> audio) const;
 	void encoder_thread (ServerDescription *);
 	void close_sound_files ();
 	void terminate_worker_threads ();

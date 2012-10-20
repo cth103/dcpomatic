@@ -99,11 +99,8 @@ public:
 	 */
 	sigc::signal<void, boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle> > Video;
 
-	/** Emitted when some audio data is ready.
-	 *  First parameter is an array of pointers to deinterleaved, floating point sample data for each channel.
-	 *  Second parameter is the size of the data in frames (ie samples on each channel).
-	 */
-	sigc::signal<void, float**, int> Audio;
+	/** Emitted when some audio data is ready */
+	sigc::signal<void, boost::shared_ptr<AudioBuffers> > Audio;
 	
 protected:
 	/** perform a single pass at our content */

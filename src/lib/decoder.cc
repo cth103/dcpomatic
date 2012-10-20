@@ -192,12 +192,9 @@ Decoder::emit_audio (uint8_t* data, int size)
 {
 	/* Deinterleave and convert to float */
 
-	float* samples[_fs->audio_channels()];
 	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _fs->audio_channels();
-	for (int i = 0; i < _fs->audio_channels(); ++i) {
-		samples[i] = new float[frames];
-	}
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (_fs->audio_channels(), frames));
 
 	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
@@ -211,7 +208,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 			/* signed sample */
 			int const os = ou >= 0x8000 ? (- 0x10000 + ou) : ou;
 			/* float sample */
-			samples[channel][sample] = float(os) / 0x8000;
+			audio->data(channel)[sample] = float(os) / 0x8000;
 
 			++channel;
 			if (channel == _fs->audio_channels()) {
@@ -228,7 +225,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 	{
 		float* p = reinterpret_cast<float*> (data);
 		for (int i = 0; i < _fs->audio_channels(); ++i) {
-			memcpy (samples[i], p, frames * sizeof(float));
+			memcpy (audio->data(i), p, frames * sizeof(float));
 			p += frames;
 		}
 	}
@@ -243,7 +240,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 		float const linear_gain = pow (10, _fs->audio_gain() / 20);
 		for (int i = 0; i < _fs->audio_channels(); ++i) {
 			for (int j = 0; j < frames; ++j) {
-				samples[i][j] *= linear_gain;
+				audio->data(i)[j] *= linear_gain;
 			}
 		}
 	}
@@ -251,11 +248,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 	/* Update the number of audio frames we've pushed to the encoder */
 	_audio_frames_processed += frames;
 
-	Audio (samples, frames);
-
-	for (int i = 0; i < _fs->audio_channels(); ++i) {
-		delete[] samples[i];
-	}
+	Audio (audio);
 }
 
 /** Called by subclasses to tell the world that some video data is ready.

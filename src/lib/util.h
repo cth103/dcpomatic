@@ -203,5 +203,29 @@ private:
 	int _buffer_data;
 };
 
+class AudioBuffers
+{
+public:
+	AudioBuffers (int channels, int frames);
+	~AudioBuffers ();
+
+	float** data () const {
+		return _data;
+	}
+	
+	float* data (int) const;
+
+	int frames () const {
+		return _frames;
+	}
+
+	void set_frames (int f);
+
+private:
+	int _channels;
+	int _frames;
+	float** _data;
+};
+
 #endif
 
