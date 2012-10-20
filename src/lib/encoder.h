@@ -64,10 +64,10 @@ public:
 	virtual void process_video (boost::shared_ptr<Image> i, int f, boost::shared_ptr<Subtitle> s) = 0;
 
 	/** Called with some audio data.
-	 *  @param d Data.
-	 *  @param s Size of data (in bytes)
+	 *  @param d Array of pointers to floating point sample data for each channel.
+	 *  @param s Number of frames (ie number of samples in each channel)
 	 */
-	virtual void process_audio (uint8_t* d, int s) = 0;
+	virtual void process_audio (float** d, int s) = 0;
 
 	/** Called when a processing run has finished */
 	virtual void process_end () = 0;

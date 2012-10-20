@@ -293,7 +293,7 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-SimpleImage::SimpleImage (PixelFormat p, Size s, function<int (int)> rounder)
+SimpleImage::SimpleImage (AVPixelFormat p, Size s, function<int (int)> rounder)
 	: Image (p)
 	, _size (s)
 {
@@ -370,13 +370,13 @@ SimpleImage::size () const
 	return _size;
 }
 
-AlignedImage::AlignedImage (PixelFormat f, Size s)
+AlignedImage::AlignedImage (AVPixelFormat f, Size s)
 	: SimpleImage (f, s, boost::bind (round_up, _1, 32))
 {
 
 }
 
-CompactImage::CompactImage (PixelFormat f, Size s)
+CompactImage::CompactImage (AVPixelFormat f, Size s)
 	: SimpleImage (f, s, boost::bind (round_up, _1, 1))
 {
 
@@ -402,7 +402,7 @@ CompactImage::CompactImage (shared_ptr<Image> im)
 	}
 }
 
-FilterBufferImage::FilterBufferImage (PixelFormat p, AVFilterBufferRef* b)
+FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
 	: Image (p)
 	, _buffer (b)
 {

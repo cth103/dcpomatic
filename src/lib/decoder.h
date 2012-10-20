@@ -100,10 +100,10 @@ public:
 	sigc::signal<void, boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle> > Video;
 
 	/** Emitted when some audio data is ready.
-	 *  First parameter is the interleaved sample data, format is given in the FilmState.
-	 *  Second parameter is the size of the data.
+	 *  First parameter is an array of pointers to deinterleaved, floating point sample data for each channel.
+	 *  Second parameter is the size of the data in frames (ie samples on each channel).
 	 */
-	sigc::signal<void, uint8_t *, int> Audio;
+	sigc::signal<void, float**, int> Audio;
 	
 protected:
 	/** perform a single pass at our content */
@@ -137,6 +137,7 @@ protected:
 
 private:
 	void setup_video_filters ();
+	void emit_audio (uint8_t* data, int size);
 	
 	/** last video frame to be processed */
 	int _video_frame;

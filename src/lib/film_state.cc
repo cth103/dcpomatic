@@ -358,14 +358,7 @@ FilmState::content_type () const
 int
 FilmState::bytes_per_sample () const
 {
-	switch (_audio_sample_format) {
-	case AV_SAMPLE_FMT_S16:
-		return 2;
-	default:
-		return 0;
-	}
-
-	return 0;
+	return av_get_bytes_per_sample (_audio_sample_format);
 }
 
 int
