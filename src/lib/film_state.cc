@@ -431,6 +431,9 @@ FilmState::dci_name () const
 	case 6:
 		d << "51_";
 		break;
+	case 8:
+		d << "71_";
+		break;
 	}
 
 	d << "2K_";

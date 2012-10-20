@@ -900,6 +900,9 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 	_ignore_changes = Film::AUDIO_STREAM;
 	_film->set_audio_stream (_audio_stream->GetSelection ());
 	_ignore_changes = Film::NONE;
+
+	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+	setup_audio_details ();
 }
 
 void
@@ -925,4 +928,3 @@ FilmEditor::setup_audio_details ()
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }
-

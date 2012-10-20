@@ -200,27 +200,36 @@ Decoder::emit_audio (uint8_t* data, int size)
 	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
 	{
-		uint8_t* p = data;
+		int16_t* p = (int16_t *) data;
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
-			/* unsigned sample */
-			int const ou = p[0] | (p[1] << 8);
-			/* signed sample */
-			int const os = ou >= 0x8000 ? (- 0x10000 + ou) : ou;
-			/* float sample */
-			audio->data(channel)[sample] = float(os) / 0x8000;
+			audio->data(channel)[sample] = float(*p++) / (1 << 15);
 
 			++channel;
 			if (channel == _fs->audio_channels()) {
 				channel = 0;
 				++sample;
 			}
-
-			p += 2;
 		}
 	}
 	break;
+
+	case AV_SAMPLE_FMT_S32:
+	{
+		int32_t* p = (int32_t *) data;
+		int sample = 0;
+		int channel = 0;
+		for (int i = 0; i < total_samples; ++i) {
+			audio->data(channel)[sample] = float(*p++) / (1 << 31);
+
+			++channel;
+			if (channel == _fs->audio_channels()) {
+				channel = 0;
+				++sample;
+			}
+		}
+	}
 
 	case AV_SAMPLE_FMT_FLTP:
 	{
