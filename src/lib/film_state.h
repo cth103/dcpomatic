@@ -76,6 +76,8 @@ public:
 		, _dirty (false)
 	{}
 
+	virtual ~FilmState () {}
+
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
