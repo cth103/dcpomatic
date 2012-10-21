@@ -55,15 +55,24 @@ CheckHashesJob::run ()
 		string const j2k_file = _opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 
-		ifstream ref (hash_file.c_str ());
-		string hash;
-		ref >> hash;
-
-		if (hash != md5_digest (j2k_file)) {
-			_log->log ("Frame " + lexical_cast<string> (i) + " has wrong hash; deleting.");
-			filesystem::remove (j2k_file);
+		if (!filesystem::exists (j2k_file)) {
+			_log->log (String::compose ("Frame %1 has a missing J2K file.", i));
 			filesystem::remove (hash_file);
 			++_bad;
+		} else if (!filesystem::exists (hash_file)) {
+			_log->log (String::compose ("Frame %1 has a missing hash file.", i));
+			filesystem::remove (j2k_file);
+			++_bad;
+		} else {
+			ifstream ref (hash_file.c_str ());
+			string hash;
+			ref >> hash;
+			if (hash != md5_digest (j2k_file)) {
+				_log->log (String::compose ("Frame %1 has wrong hash; deleting.", i));
+				filesystem::remove (j2k_file);
+				filesystem::remove (hash_file);
+				++_bad;
+			}
 		}
 
 		set_progress (float (i) / _fs->length());

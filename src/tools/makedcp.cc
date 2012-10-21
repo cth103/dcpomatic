@@ -164,9 +164,9 @@ main (int argc, char* argv[])
 
 	film->make_dcp (true);
 
-	bool all_done = false;
+	bool should_stop = false;
 	bool first = true;
-	while (!all_done) {
+	while (!should_stop) {
 
 		dvdomatic_sleep (5);
 
@@ -178,8 +178,10 @@ main (int argc, char* argv[])
 		}
 
 		first = false;
-		
-		all_done = true;
+
+		int unfinished = 0;
+		int finished_in_error = 0;
+
 		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 			if (progress) {
 				cout << (*i)->name() << ": ";
@@ -192,9 +194,15 @@ main (int argc, char* argv[])
 					cout << ": Running           \n";
 				}
 			}
-			
+
 			if (!(*i)->finished ()) {
-				all_done = false;
+				cout << (*i)->name() << " not finished.\n";
+				++unfinished;
+			}
+
+			if ((*i)->finished_in_error ()) {
+				cout << (*i)->name() << " finished in error.\n";
+				++finished_in_error;
 			}
 
 			if (!progress && (*i)->finished_in_error ()) {
@@ -203,6 +211,10 @@ main (int argc, char* argv[])
 				*/
 				cout << (*i)->status() << "\n";
 			}
+		}
+
+		if (unfinished == 0 || finished_in_error != 0) {
+			should_stop = true;
 		}
 	}
 
