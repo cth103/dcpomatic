@@ -85,8 +85,6 @@ ExamineContentJob::run ()
 		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (fs, o, _log));
 		Transcoder w (fs, o, this, _log, e);
 		w.go ();
-		set_progress (1);
-		set_state (FINISHED_OK);
 		
 	} catch (std::exception& e) {
 
@@ -94,6 +92,7 @@ ExamineContentJob::run ()
 		set_progress (1);
 		set_error (e.what ());
 		set_state (FINISHED_ERROR);
+		return;
 		
 	}
 
