@@ -142,7 +142,6 @@ DCPVideoFrame::~DCPVideoFrame ()
 
 	if (_parameters) {
 		free (_parameters->cp_comment);
-		free (_parameters->cp_matrice);
 	}
 	
 	delete _parameters;
@@ -276,6 +275,9 @@ DCPVideoFrame::encode_locally ()
 
 	/* get a J2K compressor handle */
 	_cinfo = opj_create_compress (CODEC_J2K);
+	if (_cinfo == 0) {
+		throw EncodeError ("could not create JPEG2000 encoder");
+	}
 
 	/* Set event manager to null (openjpeg 1.3 bug) */
 	_cinfo->event_mgr = 0;
@@ -284,10 +286,13 @@ DCPVideoFrame::encode_locally ()
 	opj_setup_encoder (_cinfo, _parameters, _image);
 
 	_cio = opj_cio_open ((opj_common_ptr) _cinfo, 0, 0);
+	if (_cio == 0) {
+		throw EncodeError ("could not open JPEG2000 stream");
+	}
 
 	int const r = opj_encode (_cinfo, _cio, _image, 0);
 	if (r == 0) {
-		throw EncodeError ("jpeg2000 encoding failed");
+		throw EncodeError ("JPEG2000 encoding failed");
 	}
 
 	_log->log (String::compose ("Finished locally-encoded frame %1", _frame));
