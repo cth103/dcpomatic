@@ -161,6 +161,7 @@ void
 Job::set_progress (float p)
 {
 	boost::mutex::scoped_lock lm (_progress_mutex);
+	_progress_unknown = false;
 	_stack.back().normalised = p;
 }
 
@@ -232,7 +233,7 @@ Job::set_error (string e)
 	_error = e;
 }
 
-/** Say that this job's progress will always be unknown */
+/** Say that this job's progress will be unknown until further notice */
 void
 Job::set_progress_unknown ()
 {

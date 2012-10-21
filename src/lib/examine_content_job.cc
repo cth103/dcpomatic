@@ -45,6 +45,10 @@ ExamineContentJob::~ExamineContentJob ()
 string
 ExamineContentJob::name () const
 {
+	if (_fs->name().empty ()) {
+		return "Examine content";
+	}
+	
 	return String::compose ("Examine content of %1", _fs->name());
 }
 
