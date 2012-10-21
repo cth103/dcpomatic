@@ -260,7 +260,7 @@ Film::examine_content_post_gui ()
 
 	string const tdir = dir ("thumbs");
 	vector<int> thumbs;
-	
+
 	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
 
 		/* Aah, the sweet smell of progress */
@@ -271,7 +271,8 @@ Film::examine_content_post_gui ()
 #endif
 		
 		size_t const d = l.find (".png");
-		if (d != string::npos) {
+		size_t const t = l.find (".tmp");
+		if (d != string::npos && t == string::npos) {
 			thumbs.push_back (atoi (l.substr (0, d).c_str()));
 		}
 	}
