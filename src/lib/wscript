@@ -45,7 +45,6 @@ def build(bld):
                  sound_processor.cc
                  stream.cc
                  subtitle.cc
-		 thumbs_job.cc
                  tiff_decoder.cc
                  timer.cc
 		 transcode_job.cc

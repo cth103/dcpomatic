@@ -166,7 +166,7 @@ Decoder::pass ()
 		_have_setup_video_filters = true;
 	}
 	
-	if (_video_frame >= _fs->dcp_length()) {
+	if (!_ignore_length && _video_frame >= _fs->dcp_length()) {
 		return true;
 	}
 

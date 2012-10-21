@@ -32,7 +32,6 @@
 #include "lib/transcode_job.h"
 #include "lib/exceptions.h"
 #include "lib/ab_transcode_job.h"
-#include "lib/thumbs_job.h"
 #include "lib/job_manager.h"
 #include "lib/filter.h"
 #include "lib/screen.h"

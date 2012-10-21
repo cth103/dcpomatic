@@ -26,7 +26,6 @@
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/util.h"
-#include "lib/thumbs_job.h"
 #include "lib/job_manager.h"
 #include "lib/film_state.h"
 #include "lib/options.h"
@@ -277,8 +276,6 @@ FilmViewer::film_changed (FilmState::Property p)
 		break;
 	case FilmState::CONTENT:
 		setup_visibility ();
-		_film->examine_content ();
-		update_thumbs ();
 		break;
 	case FilmState::CROP:
 	case FilmState::FORMAT:
@@ -310,28 +307,6 @@ FilmViewer::set_film (Film* f)
 	film_changed (Film::CROP);
 	film_changed (Film::THUMBS);
 	setup_visibility ();
-}
-
-void
-FilmViewer::update_thumbs ()
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->update_thumbs_pre_gui ();
-
-	shared_ptr<const FilmState> s = _film->state_copy ();
-	shared_ptr<Options> o (new Options (s->dir ("thumbs"), ".png", ""));
-	o->out_size = _film->size ();
-	o->apply_crop = false;
-	o->decode_audio = false;
-	o->decode_video_frequency = 128;
-	o->decode_subtitles = true;
-	
-	shared_ptr<Job> j (new ThumbsJob (s, o, _film->log(), shared_ptr<Job> ()));
-	j->Finished.connect (sigc::mem_fun (_film, &Film::update_thumbs_post_gui));
-	JobManager::instance()->add (j);
 }
 
 void

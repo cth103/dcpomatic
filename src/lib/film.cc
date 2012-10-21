@@ -103,47 +103,6 @@ Film::~Film ()
 	delete _log;
 }
 	  
-/** The pre-processing GUI part of a thumbs update.
- *  Must be called from the GUI thread.
- */
-void
-Film::update_thumbs_pre_gui ()
-{
-	set_thumbs (vector<int> ());
-	filesystem::remove_all (dir ("thumbs"));
-
-	/* This call will recreate the directory */
-	dir ("thumbs");
-}
-
-/** The post-processing GUI part of a thumbs update.
- *  Must be called from the GUI thread.
- */
-void
-Film::update_thumbs_post_gui ()
-{
-	string const tdir = dir ("thumbs");
-	vector<int> thumbs;
-	
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
-
-		/* Aah, the sweet smell of progress */
-#if BOOST_FILESYSTEM_VERSION == 3		
-		string const l = filesystem::path(*i).leaf().generic_string();
-#else
-		string const l = i->leaf ();
-#endif
-		
-		size_t const d = l.find (".png");
-		if (d != string::npos) {
-			thumbs.push_back (atoi (l.substr (0, d).c_str()));
-		}
-	}
-
-	sort (thumbs.begin(), thumbs.end());
-	set_thumbs (thumbs);
-}
-
 /** @return The path to the directory to write JPEG2000 files to */
 string
 Film::j2k_dir () const
@@ -281,6 +240,12 @@ Film::examine_content ()
 	if (_examine_content_job) {
 		return;
 	}
+
+	set_thumbs (vector<int> ());
+	filesystem::remove_all (dir ("thumbs"));
+
+	/* This call will recreate the directory */
+	dir ("thumbs");
 	
 	_examine_content_job.reset (new ExamineContentJob (state_copy (), log(), shared_ptr<Job> ()));
 	_examine_content_job->Finished.connect (sigc::mem_fun (*this, &Film::examine_content_post_gui));
@@ -292,6 +257,27 @@ Film::examine_content_post_gui ()
 {
 	set_length (_examine_content_job->last_video_frame ());
 	_examine_content_job.reset ();
+
+	string const tdir = dir ("thumbs");
+	vector<int> thumbs;
+	
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
+
+		/* Aah, the sweet smell of progress */
+#if BOOST_FILESYSTEM_VERSION == 3		
+		string const l = filesystem::path(*i).leaf().generic_string();
+#else
+		string const l = i->leaf ();
+#endif
+		
+		size_t const d = l.find (".png");
+		if (d != string::npos) {
+			thumbs.push_back (atoi (l.substr (0, d).c_str()));
+		}
+	}
+
+	sort (thumbs.begin(), thumbs.end());
+	set_thumbs (thumbs);	
 }
 
 
@@ -369,4 +355,11 @@ Film::thumb_subtitle (int n) const
 	}
 	
 	return sub;
+}
+
+void
+Film::set_content (string c)
+{
+	FilmState::set_content (c);
+	examine_content ();
 }

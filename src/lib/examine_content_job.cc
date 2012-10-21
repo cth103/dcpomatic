@@ -26,6 +26,8 @@
 #include "film_state.h"
 #include "decoder_factory.h"
 #include "decoder.h"
+#include "imagemagick_encoder.h"
+#include "transcoder.h"
 
 using namespace std;
 using namespace boost;
@@ -49,13 +51,49 @@ ExamineContentJob::name () const
 void
 ExamineContentJob::run ()
 {
+	shared_ptr<FilmState> fs = _fs->state_copy ();
+	
+	/* Decode the content to get an accurate length */
+	
 	shared_ptr<Options> o (new Options ("", "", ""));
 	o->out_size = Size (512, 512);
 	o->apply_crop = false;
 
-	_decoder = decoder_factory (_fs, o, this, _log, true, true);
+	descend (0.5);
+
+	_decoder = decoder_factory (fs, o, this, _log, true, true);
 	_decoder->go ();
-	
+	fs->set_length (last_video_frame ());
+
+	ascend ();
+
+	/* Now make thumbnails for it */
+
+	descend (0.5);
+
+	try {
+		o.reset (new Options (fs->dir ("thumbs"), ".png", ""));
+		o->out_size = fs->size ();
+		o->apply_crop = false;
+		o->decode_audio = false;
+		o->decode_video_frequency = 128;
+		o->decode_subtitles = true;
+		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (fs, o, _log));
+		Transcoder w (fs, o, this, _log, e);
+		w.go ();
+		set_progress (1);
+		set_state (FINISHED_OK);
+		
+	} catch (std::exception& e) {
+
+		ascend ();
+		set_progress (1);
+		set_error (e.what ());
+		set_state (FINISHED_ERROR);
+		
+	}
+
+	ascend ();
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

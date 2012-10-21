@@ -55,11 +55,7 @@ public:
 	~Film ();
 
 	std::string j2k_dir () const;
-
 	std::vector<std::string> audio_files () const;
-
-	void update_thumbs_pre_gui ();
-	void update_thumbs_post_gui ();
 	std::pair<Position, std::string> thumb_subtitle (int) const;
 
 	void copy_from_dvd_post_gui ();
@@ -79,7 +75,10 @@ public:
 
 	int encoded_frames () const;
 	
-private:
+	void set_content (std::string);
+
+private:	
+	
 	/** Log to write to */
 	Log* _log;
 

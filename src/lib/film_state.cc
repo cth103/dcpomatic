@@ -529,7 +529,6 @@ FilmState::set_content (string c)
 	shared_ptr<Decoder> d = decoder_factory (s, o, 0, 0);
 	
 	set_size (d->native_size ());
-	set_length (d->length_in_frames ());
 	set_frames_per_second (d->frames_per_second ());
 	set_audio_sample_rate (d->audio_sample_rate ());
 	set_has_subtitles (d->has_subtitles ());
@@ -834,5 +833,3 @@ FilmState::audio_channels () const
 	return _audio_streams[_audio_stream].channels ();
 }
 
-
-	
