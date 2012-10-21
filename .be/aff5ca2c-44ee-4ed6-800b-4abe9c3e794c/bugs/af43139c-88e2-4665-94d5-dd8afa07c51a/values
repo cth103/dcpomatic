@@ -1,0 +1,17 @@
+creator: Carl Hetherington <cth@carlh.net>
+
+
+reporter: Carl Hetherington <cth@carlh.net>
+
+
+severity: minor
+
+
+status: open
+
+
+summary: Allow use of externally-generated audio rather than that from the movie
+
+
+time: Sun, 21 Oct 2012 19:02:08 +0000
+
