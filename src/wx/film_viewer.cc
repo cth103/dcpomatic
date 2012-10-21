@@ -182,8 +182,8 @@ private:
 
 			_subtitle->transformed_image = _subtitle->base_image;
 			_subtitle->transformed_image.Rescale (_subtitle->transformed_area.width, _subtitle->transformed_area.height, wxIMAGE_QUALITY_HIGH);
-			_subtitle->transformed_area.x -= _film->crop().left;
-			_subtitle->transformed_area.y -= _film->crop().top;
+			_subtitle->transformed_area.x -= rint (_film->crop().left * x_scale);
+			_subtitle->transformed_area.y -= rint (_film->crop().top * y_scale);
 			_subtitle->bitmap.reset (new wxBitmap (_subtitle->transformed_image));
 		}
 	}
