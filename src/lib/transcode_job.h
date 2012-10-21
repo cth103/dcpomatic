@@ -42,5 +42,6 @@ protected:
 	int remaining_time () const;
 
 private:
+	boost::shared_ptr<const Options> _opt;
 	boost::shared_ptr<Encoder> _encoder;
 };

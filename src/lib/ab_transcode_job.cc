@@ -36,7 +36,8 @@ using namespace boost;
  *  @Param l A log that we can write to.
  */
 ABTranscodeJob::ABTranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
-	: Job (s, o, l, req)
+	: Job (s, l, req)
+	, _opt (o)
 {
 	_fs_b.reset (new FilmState (*_fs));
 	_fs_b->set_scaler (Config::instance()->reference_scaler ());

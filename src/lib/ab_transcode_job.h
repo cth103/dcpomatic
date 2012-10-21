@@ -40,6 +40,8 @@ public:
 	void run ();
 
 private:
+	boost::shared_ptr<const Options> _opt;
+	
 	/** Copy of our FilmState with filters removed and scaler set back to bicubic;
 	 *  this is the `reference' (left-half-frame) state.
 	 */

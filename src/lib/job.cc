@@ -31,12 +31,10 @@ using namespace std;
 using namespace boost;
 
 /** @param s FilmState for the film that we are operating on.
- *  @param o Options.
  *  @param l A log that we can write to.
  */
-Job::Job (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
+Job::Job (shared_ptr<const FilmState> s, Log* l, shared_ptr<Job> req)
 	: _fs (s)
-	, _opt (o)
 	, _log (l)
 	, _required (req)
 	, _state (NEW)

@@ -29,5 +29,6 @@ public:
 	std::string status () const;
 
 private:
+	boost::shared_ptr<const Options> _opt;
 	int _bad;
 };

@@ -44,7 +44,8 @@ using namespace boost;
  *  @param l Log.
  */
 MakeDCPJob::MakeDCPJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
-	: Job (s, o, l, req)
+	: Job (s, l, req)
+	, _opt (o)
 {
 	
 }

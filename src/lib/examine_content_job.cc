@@ -33,7 +33,7 @@ using namespace std;
 using namespace boost;
 
 ExamineContentJob::ExamineContentJob (shared_ptr<const FilmState> fs, Log* l, shared_ptr<Job> req)
-	: Job (fs, shared_ptr<Options> (), l, req)
+	: Job (fs, l, req)
 {
 
 }

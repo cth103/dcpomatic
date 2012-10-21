@@ -39,7 +39,7 @@ class Options;
 class Job : public boost::enable_shared_from_this<Job>
 {
 public:
-	Job (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l, boost::shared_ptr<Job> req);
+	Job (boost::shared_ptr<const FilmState> s, Log* l, boost::shared_ptr<Job> req);
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;
@@ -91,8 +91,6 @@ protected:
 
 	/** FilmState for this job */
 	boost::shared_ptr<const FilmState> _fs;
-	/** options in use for this job */
-	boost::shared_ptr<const Options> _opt;
 	/** a log that this job can write to */
 	Log* _log;
 
