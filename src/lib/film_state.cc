@@ -536,7 +536,7 @@ FilmState::set_content (string c)
 	set_subtitle_streams (d->subtitle_streams ());
 	set_audio_stream (audio_streams().empty() ? -1 : 0);
 	set_subtitle_stream (subtitle_streams().empty() ? -1 : 0);
-	set_content_digest (md5_digest (content_path ()));
+	set_content_digest (md5_digest (c));
 	
 	_content = c;
 	signal_changed (CONTENT);
