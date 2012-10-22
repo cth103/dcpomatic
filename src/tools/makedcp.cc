@@ -196,12 +196,10 @@ main (int argc, char* argv[])
 			}
 
 			if (!(*i)->finished ()) {
-				cout << (*i)->name() << " not finished.\n";
 				++unfinished;
 			}
 
 			if ((*i)->finished_in_error ()) {
-				cout << (*i)->name() << " finished in error.\n";
 				++finished_in_error;
 			}
 
