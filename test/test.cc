@@ -406,21 +406,21 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	fs.set_frames_per_second (24);
 
 	fs.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 48000);
 
 	fs.set_audio_sample_rate (44100);
-	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 48000);
+	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 48000);
 
 	fs.set_audio_sample_rate (80000);
-	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 96000);
+	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 96000);
 
 	fs.set_frames_per_second (23.976);
 	fs.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 47952);
 
 	fs.set_frames_per_second (29.97);
 	fs.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (fs.target_sample_rate(), 47952);
+	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 47952);
 }
 
 class TestJob : public Job

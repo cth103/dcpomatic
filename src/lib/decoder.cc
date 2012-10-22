@@ -112,7 +112,7 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const video_length_in_audio_frames = ((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second());
+	int64_t const video_length_in_audio_frames = ((int64_t) _fs->dcp_length() * _fs->audio_sample_rate() / _fs->frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_log->log (
@@ -266,7 +266,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 	}
 
 	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_processed += frames;
+	_audio_frames_processed += audio->frames ();
 
 	Audio (audio);
 }

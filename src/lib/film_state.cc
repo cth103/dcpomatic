@@ -348,8 +348,9 @@ FilmState::content_type () const
 	return VIDEO;
 }
 
+/** @return The sampling rate that we will resample the audio to */
 int
-FilmState::target_sample_rate () const
+FilmState::target_audio_sample_rate () const
 {
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_sample_rate (_audio_sample_rate);

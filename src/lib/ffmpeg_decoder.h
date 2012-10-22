@@ -25,6 +25,7 @@
 #include <string>
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/optional.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libpostproc/postprocess.h>
@@ -105,6 +106,6 @@ private:
 
 	AVPacket _packet;
 
-	int64_t _first_video_pts;
-	int64_t _first_audio_pts;
+	boost::optional<double> _first_video;
+	boost::optional<double> _first_audio;
 };

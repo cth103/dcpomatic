@@ -130,7 +130,7 @@ public:
 	std::string thumb_base (int) const;
 	int thumb_frame (int) const;
 
-	int target_sample_rate () const;
+	int target_audio_sample_rate () const;
 	
 	void write_metadata () const;
 	void read_metadata ();

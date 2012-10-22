@@ -222,6 +222,8 @@ public:
 
 	void set_frames (int f);
 
+	void make_silent ();
+
 private:
 	/* no copy construction */
 	AudioBuffers (AudioBuffers const &);

@@ -57,7 +57,7 @@ public:
 
 private:
 
-	void write_audio (boost::shared_ptr<const AudioBuffers> audio) const;
+	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 	void encoder_thread (ServerDescription *);
 	void close_sound_files ();
 	void terminate_worker_threads ();
@@ -67,6 +67,7 @@ private:
 #endif	
 
 	std::vector<SNDFILE*> _sound_files;
+	int64_t _audio_frames_written;
 
 	bool _process_end;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;

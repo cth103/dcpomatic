@@ -49,6 +49,7 @@ J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const FilmState> s, shared_ptr<const Op
 #ifdef HAVE_SWRESAMPLE	  
 	, _swr_context (0)
 #endif	  
+	, _audio_frames_written (0)
 	, _process_end (false)
 {
 	/* Create sound output files with .tmp suffixes; we will rename
@@ -218,11 +219,11 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 void
 J2KWAVEncoder::process_begin (int64_t audio_channel_layout)
 {
-	if (_fs->audio_sample_rate() != _fs->target_sample_rate()) {
+	if (_fs->audio_sample_rate() != _fs->target_audio_sample_rate()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << "Will resample audio from " << _fs->audio_sample_rate() << " to " << _fs->target_sample_rate();
+		s << "Will resample audio from " << _fs->audio_sample_rate() << " to " << _fs->target_audio_sample_rate();
 		_log->log (s.str ());
 
 		/* We will be using planar float data when we call the resampler */
@@ -230,7 +231,7 @@ J2KWAVEncoder::process_begin (int64_t audio_channel_layout)
 			0,
 			audio_channel_layout,
 			AV_SAMPLE_FMT_FLTP,
-			_fs->target_sample_rate(),
+			_fs->target_audio_sample_rate(),
 			audio_channel_layout,
 			AV_SAMPLE_FMT_FLTP,
 			_fs->audio_sample_rate(),
@@ -321,7 +322,13 @@ J2KWAVEncoder::process_end ()
 
 		swr_free (&_swr_context);
 	}
-#endif	
+#endif
+
+	int const dcp_sr = dcp_audio_sample_rate (_fs->audio_sample_rate ());
+	int64_t const extra_audio_frames = dcp_sr - (_audio_frames_written % dcp_sr);
+	shared_ptr<AudioBuffers> silence (new AudioBuffers (_fs->audio_channels(), extra_audio_frames));
+	silence->make_silent ();
+	write_audio (silence);
 	
 	close_sound_files ();
 
@@ -344,7 +351,7 @@ J2KWAVEncoder::process_audio (shared_ptr<const AudioBuffers> audio)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil (audio->frames() * _fs->target_sample_rate() / _fs->audio_sample_rate()) + 32;
+		int const max_resampled_frames = ceil (audio->frames() * _fs->target_audio_sample_rate() / _fs->audio_sample_rate()) + 32;
 
 		resampled.reset (new AudioBuffers (_fs->audio_channels(), max_resampled_frames));
 
@@ -368,10 +375,12 @@ J2KWAVEncoder::process_audio (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-J2KWAVEncoder::write_audio (shared_ptr<const AudioBuffers> audio) const
+J2KWAVEncoder::write_audio (shared_ptr<const AudioBuffers> audio)
 {
 	for (int i = 0; i < _fs->audio_channels(); ++i) {
 		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
 	}
+
+	_audio_frames_written += audio->frames ();
 }
 

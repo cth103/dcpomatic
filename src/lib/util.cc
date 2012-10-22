@@ -735,6 +735,16 @@ AudioBuffers::set_frames (int f)
 }
 
 void
+AudioBuffers::make_silent ()
+{
+	for (int i = 0; i < _channels; ++i) {
+		for (int j = 0; j < _frames; ++j) {
+			_data[i][j] = 0;
+		}
+	}
+}
+
+void
 ensure_ui_thread ()
 {
 	assert (this_thread::get_id() == ui_thread);
