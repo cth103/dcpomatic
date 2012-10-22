@@ -52,6 +52,7 @@ extern void dvdomatic_setup ();
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (std::string);
 extern std::string md5_digest (void const *, int);
+extern void ensure_ui_thread ();
 
 enum ContentType {
 	STILL,

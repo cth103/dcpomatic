@@ -70,7 +70,6 @@ ExamineContentJob::run ()
 	_decoder->go ();
 
 	fs->set_length (_decoder->last_video_frame ());
-	fs->set_audio_delay (-_decoder->audio_to_discard ());
 
 	_log->log (String::compose ("Video length is %1 frames", _decoder->last_video_frame()));
 	_log->log (String::compose ("%1ms of audio to discard", _decoder->audio_to_discard()));
@@ -112,3 +111,10 @@ ExamineContentJob::last_video_frame () const
 {
 	return _decoder->last_video_frame ();
 }
+
+int
+ExamineContentJob::audio_to_discard () const
+{
+	return _decoder->audio_to_discard ();
+}
+

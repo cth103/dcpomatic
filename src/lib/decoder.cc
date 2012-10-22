@@ -105,7 +105,7 @@ Decoder::process_end ()
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
 		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels() * bytes_per_audio_sample());
-		emit_audio (remainder, _delay_in_bytes);
+		emit_audio (remainder, -_delay_in_bytes);
 	}
 
 	/* If we cut the decode off, the audio may be short; push some silence

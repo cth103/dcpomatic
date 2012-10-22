@@ -401,6 +401,8 @@ FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 void
 FilmEditor::film_changed (FilmState::Property p)
 {
+	ensure_ui_thread ();
+	
 	if (!_film || _ignore_changes == p) {
 		return;
 	}

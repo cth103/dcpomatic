@@ -262,6 +262,8 @@ FilmViewer::slider_changed (wxCommandEvent &)
 void
 FilmViewer::film_changed (FilmState::Property p)
 {
+	ensure_ui_thread ();
+	
 	switch (p) {
 	case FilmState::THUMBS:
 		if (_film && _film->thumbs().size() > 1) {

@@ -36,6 +36,7 @@
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/thread.hpp>
 #include <openjpeg.h>
 #include <openssl/md5.h>
 #include <magick/MagickCore.h>
@@ -64,6 +65,8 @@ extern "C" {
 
 using namespace std;
 using namespace boost;
+
+thread::id ui_thread;
 
 /** Convert some number of seconds to a string representation
  *  in hours, minutes and seconds.
@@ -265,7 +268,9 @@ sigchld_handler (int, siginfo_t* info, void *)
 }
 #endif
 
-/** Call the required functions to set up DVD-o-matic's static arrays, etc. */
+/** Call the required functions to set up DVD-o-matic's static arrays, etc.
+ *  Must be called from the UI thread, if there is one.
+ */
 void
 dvdomatic_setup ()
 {
@@ -274,6 +279,8 @@ dvdomatic_setup ()
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();
 	SoundProcessor::setup_sound_processors ();
+
+	ui_thread = this_thread::get_id ();
 
 #ifdef DVDOMATIC_POSIX	
 	struct sigaction sa;
@@ -727,5 +734,8 @@ AudioBuffers::set_frames (int f)
 	_frames = f;
 }
 
-	
-	
+void
+ensure_ui_thread ()
+{
+	assert (this_thread::get_id() == ui_thread);
+}
