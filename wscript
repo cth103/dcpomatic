@@ -26,6 +26,9 @@ def configure(conf):
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN'])
+        if conf.options.enable_debug:
+            conf.env.append_value('CXXFLAGS', ['-mconsole'])
+            conf.env.append_value('LINKFLAGS', ['-mconsole'])
         conf.options.disable_player = True
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
         boost_lib_suffix = '-mt'
