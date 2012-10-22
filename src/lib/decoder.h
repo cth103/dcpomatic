@@ -71,6 +71,11 @@ public:
 	virtual int64_t audio_channel_layout () const = 0;
 	virtual bool has_subtitles () const = 0;
 
+	/** @return amount of extra unwanted audio at the start (or -ve for unwanted video) in milliseconds */
+	virtual int audio_to_discard () const {
+		return 0;
+	}
+
 	void process_begin ();
 	bool pass ();
 	void process_end ();

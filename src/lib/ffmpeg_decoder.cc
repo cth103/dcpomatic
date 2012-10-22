@@ -66,6 +66,7 @@ FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<const FilmState> s, boost::share
 	, _audio_codec (0)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
+	, _first_video_pts (-1)
 {
 	setup_general ();
 	setup_video ();
@@ -221,6 +222,8 @@ FFmpegDecoder::do_pass ()
 		_packet.data = 0;
 		_packet.size = 0;
 
+		/* XXX: should we reset _packet.data and size after each *_decode_* call? */
+
 		int frame_finished;
 
 		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
@@ -245,6 +248,9 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+			if (_first_video_pts == -1) {
+				_first_video_pts = _packet.pts;
+			}
 			process_video (_frame);
 		}
 
@@ -416,4 +422,16 @@ FFmpegDecoder::stream_name (AVStream* s) const
 	}
 
 	return n.str ();
+}
+
+int
+FFmpegDecoder::audio_to_discard () const
+{
+	AVStream* v = _format_context->streams[_video_stream];
+	AVStream* a = _format_context->streams[_audio_stream];
+
+	assert (v->time_base.num == a->time_base.num);
+	assert (v->time_base.den == a->time_base.den);
+
+	return rint (av_q2d (v->time_base) * 1000 * (_first_video_pts - _first_audio_pts));
 }

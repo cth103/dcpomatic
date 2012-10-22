@@ -66,6 +66,7 @@ public:
 	int64_t audio_channel_layout () const;
 	bool has_subtitles () const;
 	int bytes_per_audio_sample () const;
+	int audio_to_discard () const;
 
 	std::vector<AudioStream> audio_streams () const;
 	std::vector<SubtitleStream> subtitle_streams () const;
@@ -105,4 +106,7 @@ private:
 	AVCodec* _subtitle_codec;                ///< may be 0 if there is no subtitle
 
 	AVPacket _packet;
+
+	int64_t _first_video_pts;
+	int64_t _first_audio_pts;
 };
