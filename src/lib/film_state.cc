@@ -126,6 +126,7 @@ FilmState::write_metadata () const
 	}
 
 	f << "frames_per_second " << _frames_per_second << "\n";
+	f << "audio_to_discard " << _audio_to_discard << "\n";
 	
 	_dirty = false;
 }
@@ -230,6 +231,8 @@ FilmState::read_metadata ()
 			_subtitle_streams.push_back (SubtitleStream (v));
 		} else if (k == "frames_per_second") {
 			_frames_per_second = atof (v.c_str ());
+		} else if (k == "audio_to_discard") {
+			_audio_to_discard = atoi (v.c_str ());
 		}
 	}
 		
