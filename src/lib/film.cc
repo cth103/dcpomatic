@@ -256,7 +256,6 @@ void
 Film::examine_content_post_gui ()
 {
 	set_length (_examine_content_job->last_video_frame ());
-	set_audio_to_discard (_examine_content_job->audio_to_discard ());
 	_examine_content_job.reset ();
 
 	string const tdir = dir ("thumbs");

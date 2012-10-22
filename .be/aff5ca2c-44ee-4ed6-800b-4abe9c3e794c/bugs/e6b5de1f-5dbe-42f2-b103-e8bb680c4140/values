@@ -1,0 +1,17 @@
+creator: Carl Hetherington <cth@carlh.net>
+
+
+reporter: Carl Hetherington <cth@carlh.net>
+
+
+severity: minor
+
+
+status: open
+
+
+summary: Decoder should use its own methods more than FilmState
+
+
+time: Mon, 22 Oct 2012 13:28:57 +0000
+

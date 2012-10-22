@@ -65,8 +65,6 @@ public:
 	AVSampleFormat audio_sample_format () const;
 	int64_t audio_channel_layout () const;
 	bool has_subtitles () const;
-	int bytes_per_audio_sample () const;
-	int audio_to_discard () const;
 
 	std::vector<AudioStream> audio_streams () const;
 	std::vector<SubtitleStream> subtitle_streams () const;

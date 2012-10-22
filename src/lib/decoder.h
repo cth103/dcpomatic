@@ -71,11 +71,6 @@ public:
 	virtual int64_t audio_channel_layout () const = 0;
 	virtual bool has_subtitles () const = 0;
 
-	/** @return amount of extra unwanted audio at the start (or -ve for unwanted video) in milliseconds */
-	virtual int audio_to_discard () const {
-		return 0;
-	}
-
 	void process_begin ();
 	bool pass ();
 	void process_end ();
@@ -117,6 +112,8 @@ protected:
 	void process_audio (uint8_t *, int);
 	void process_subtitle (boost::shared_ptr<TimedSubtitle>);
 
+	int bytes_per_audio_sample () const;
+	
 	/** our FilmState */
 	boost::shared_ptr<const FilmState> _fs;
 	/** our options */
@@ -137,7 +134,6 @@ protected:
 private:
 	void setup_video_filters ();
 	void emit_audio (uint8_t* data, int size);
-	int bytes_per_audio_sample () const;
 	
 	/** last video frame to be processed */
 	int _video_frame;

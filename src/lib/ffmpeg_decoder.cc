@@ -67,6 +67,7 @@ FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<const FilmState> s, boost::share
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 	, _first_video_pts (-1)
+	, _first_audio_pts (-1)
 {
 	setup_general ();
 	setup_video ();
@@ -246,16 +247,56 @@ FFmpegDecoder::do_pass ()
 
 	if (_packet.stream_index == _video_stream) {
 
+		if (_first_video_pts == -1) {
+			_first_video_pts = _packet.pts;
+		}
+		
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			if (_first_video_pts == -1) {
-				_first_video_pts = _packet.pts;
-			}
 			process_video (_frame);
 		}
 
-	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio) {
-		
+	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio && (_first_video_pts != -1 && _packet.pts > _first_video_pts)) {
+
+		/* Note: We only decode audio if we've had our first video packet through, and if this
+		   packet comes after it.  Until then it is thrown away.
+		*/
+
+		if (_first_audio_pts == -1) {
+			_first_audio_pts = _packet.pts;
+
+			/* This is our first audio packet, and if we've arrived here we must have had our
+			   first video packet.  Push some silence to make up the gap between our first
+			   video packet and our first audio.
+			*/
+			
+			AVStream* v = _format_context->streams[_video_stream];
+			AVStream* a = _format_context->streams[_audio_stream];
+			
+			assert (v->time_base.num == a->time_base.num);
+			assert (v->time_base.den == a->time_base.den);
+
+			/* samples of silence that we must push */
+			int const s = rint (av_q2d (v->time_base) * (_first_audio_pts - _first_video_pts) * audio_sample_rate ());
+
+			_log->log (
+				String::compose (
+					"First video at %1, first audio at %2, pushing %3 samples of silence",
+					_first_video_pts, _first_audio_pts, s
+					)
+				);
+
+			/* hence bytes */
+			int const b = s * audio_channels() * bytes_per_audio_sample();
+
+			/* XXX: this assumes that it won't be too much, and there are shaky assumptions
+			   that all sound representations are silent with memset()ed zero data.
+			*/
+			uint8_t silence[b];
+			memset (silence, 0, b);
+			process_audio (silence, b);
+		}
+
 		avcodec_get_frame_defaults (_frame);
 		
 		int frame_finished;
@@ -424,14 +465,3 @@ FFmpegDecoder::stream_name (AVStream* s) const
 	return n.str ();
 }
 
-int
-FFmpegDecoder::audio_to_discard () const
-{
-	AVStream* v = _format_context->streams[_video_stream];
-	AVStream* a = _format_context->streams[_audio_stream];
-
-	assert (v->time_base.num == a->time_base.num);
-	assert (v->time_base.den == a->time_base.den);
-
-	return rint (av_q2d (v->time_base) * 1000 * (_first_video_pts - _first_audio_pts));
-}

@@ -90,11 +90,9 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _fs->total_audio_delay() * _fs->audio_sample_rate() * _fs->audio_channels() * bytes_per_audio_sample() / 1000;
+	_delay_in_bytes = _fs->audio_delay() * _fs->audio_sample_rate() * _fs->audio_channels() * bytes_per_audio_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
-
-	_log->log (String::compose ("Decoding audio with total delay of %1", _fs->total_audio_delay()));
 
 	_audio_frames_processed = 0;
 }
@@ -128,6 +126,10 @@ Decoder::process_end ()
 
 		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", _fs->dcp_length(), _audio_frames_processed));
 		_log->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
+
+		/* XXX: this is slightly questionable; does memset () give silence with all
+		   sample formats?
+		*/
 
 		int64_t bytes = audio_short_by_frames * _fs->audio_channels() * bytes_per_audio_sample();
 		

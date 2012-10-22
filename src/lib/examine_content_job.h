@@ -38,7 +38,6 @@ public:
 	void run ();
 
 	int last_video_frame () const;
-	int audio_to_discard () const;
 
 private:
 	boost::shared_ptr<Decoder> _decoder;
