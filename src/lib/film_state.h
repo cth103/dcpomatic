@@ -73,6 +73,7 @@ public:
 		, _audio_sample_rate (0)
 		, _has_subtitles (false)
 		, _frames_per_second (0)
+		, _audio_to_discard (0)
 		, _dirty (false)
 	{}
 
@@ -113,6 +114,7 @@ public:
 		, _audio_streams     (o._audio_streams)
 		, _subtitle_streams  (o._subtitle_streams)
 		, _frames_per_second (o._frames_per_second)
+		, _audio_to_discard  (o._audio_to_discard)
 		, _dirty             (o._dirty)
 	{}
 
@@ -148,6 +150,7 @@ public:
 	}
 
 	int audio_channels () const;
+	int total_audio_delay () const;
 
 	enum Property {
 		NONE,
@@ -179,6 +182,7 @@ public:
 		AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		FRAMES_PER_SECOND,
+		AUDIO_TO_DISCARD
 	};
 
 
@@ -338,6 +342,10 @@ public:
 		return _frames_per_second;
 	}
 
+	int audio_to_discard () const {
+		return _audio_to_discard;
+	}
+
 	
 	/* SET */
 
@@ -382,6 +390,7 @@ public:
 	void set_audio_streams (std::vector<AudioStream>);
 	void set_subtitle_streams (std::vector<SubtitleStream>);
 	void set_frames_per_second (float);
+	void set_audio_to_discard (int);
 
 	/** Emitted when some property has changed */
 	mutable sigc::signal1<void, Property> Changed;
@@ -471,6 +480,10 @@ private:
 	std::vector<SubtitleStream> _subtitle_streams;
 	/** Frames per second of the source */
 	float _frames_per_second;
+	/** Number of milliseconds of audio to discard at the start of this film
+	    in order to sync audio with video.  Can be negative.
+	*/
+	int _audio_to_discard;
 
 	mutable bool _dirty;
 

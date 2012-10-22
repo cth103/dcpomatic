@@ -809,6 +809,13 @@ FilmState::set_frames_per_second (float f)
 	_frames_per_second = f;
 	signal_changed (FRAMES_PER_SECOND);
 }
+
+void
+FilmState::set_audio_to_discard (int a)
+{
+	_audio_to_discard = a;
+	signal_changed (AUDIO_TO_DISCARD);
+}
 	
 void
 FilmState::signal_changed (Property p)
@@ -833,3 +840,8 @@ FilmState::audio_channels () const
 	return _audio_streams[_audio_stream].channels ();
 }
 
+int
+FilmState::total_audio_delay () const
+{
+	return _audio_delay - _audio_to_discard;
+}
