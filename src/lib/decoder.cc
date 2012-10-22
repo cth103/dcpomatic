@@ -112,10 +112,16 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const audio_short_by_frames =
-		((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second())
-		- _audio_frames_processed;
+	int64_t const video_length_in_audio_frames = ((int64_t) _fs->dcp_length() * _fs->target_sample_rate() / _fs->frames_per_second());
+	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
+	_log->log (
+		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
+				 _fs->dcp_length(),
+				 video_length_in_audio_frames,
+				 _audio_frames_processed)
+		);
+	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
 		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", _fs->dcp_length(), _audio_frames_processed));
