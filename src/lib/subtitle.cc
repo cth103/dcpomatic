@@ -32,13 +32,14 @@ using namespace boost;
 /** Construct a TimedSubtitle.  This is a subtitle image, position,
  *  and a range of time over which it should be shown.
  *  @param sub AVSubtitle to read.
+ *  @param c Fractional seconds that should be subtracted from the AVSubtitle's PTS.
  */
-TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
+TimedSubtitle::TimedSubtitle (AVSubtitle const & sub, double c)
 {
 	assert (sub.rects > 0);
 	
 	/* subtitle PTS in seconds */
-	float const packet_time = (sub.pts / AV_TIME_BASE) + float (sub.pts % AV_TIME_BASE) / 1e6;
+	double const packet_time = ((sub.pts / AV_TIME_BASE) + float (sub.pts % AV_TIME_BASE) / 1e6) - c;
 	
 	/* hence start time for this sub */
 	_from = packet_time + (double (sub.start_display_time) / 1e3);

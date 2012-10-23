@@ -352,7 +352,7 @@ Decoder::process_video (AVFrame* frame)
 			}
 
 			shared_ptr<Subtitle> sub;
-			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / rint (_fs->frames_per_second()))) {
+			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / _fs->frames_per_second())) {
 				sub = _timed_subtitle->subtitle ();
 			}
 

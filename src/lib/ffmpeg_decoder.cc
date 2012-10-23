@@ -304,7 +304,7 @@ FFmpegDecoder::do_pass ()
 			process_audio (_frame->data[0], data_size);
 		}
 			
-	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream && _opt->decode_subtitles) {
+	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream && _opt->decode_subtitles && _first_video) {
 
 		int got_subtitle;
 		AVSubtitle sub;
@@ -313,7 +313,7 @@ FFmpegDecoder::do_pass ()
 			   no AVSubtitleRects.
 			*/
 			if (sub.num_rects > 0) {
-				process_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
+				process_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
 			}
 			avsubtitle_free (&sub);
 		}

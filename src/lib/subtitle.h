@@ -63,7 +63,7 @@ subtitle_transformed_area (
 class TimedSubtitle
 {
 public:
-	TimedSubtitle (AVSubtitle const &);
+	TimedSubtitle (AVSubtitle const &, double c);
 
 	bool displayed_at (double t) const;
 	
