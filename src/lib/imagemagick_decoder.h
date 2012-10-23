@@ -28,10 +28,6 @@ class ImageMagickDecoder : public Decoder
 public:
 	ImageMagickDecoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Job *, Log *, bool, bool);
 
-	int length_in_frames () const {
-		return 1;
-	}
-
 	float frames_per_second () const {
 		return static_frames_per_second ();
 	}

@@ -46,7 +46,6 @@ public:
 	TIFFDecoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Job *, Log *, bool, bool);
 
 	/* Methods to query our input video */
-	int length_in_frames () const;
 	float frames_per_second () const;
 	Size native_size () const;
 	int audio_channels () const;

@@ -78,12 +78,6 @@ TIFFDecoder::TIFFDecoder (boost::shared_ptr<const FilmState> fs, boost::shared_p
 
 }
 
-int
-TIFFDecoder::length_in_frames () const
-{
-	return _files.size ();
-}
-
 float
 TIFFDecoder::frames_per_second () const
 {

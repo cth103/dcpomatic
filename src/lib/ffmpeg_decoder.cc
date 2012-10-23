@@ -323,12 +323,6 @@ FFmpegDecoder::do_pass ()
 	return false;
 }
 
-int
-FFmpegDecoder::length_in_frames () const
-{
-	return (_format_context->duration / AV_TIME_BASE) * frames_per_second ();
-}
-
 float
 FFmpegDecoder::frames_per_second () const
 {

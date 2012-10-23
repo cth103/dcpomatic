@@ -56,8 +56,6 @@ public:
 
 	/* Methods to query our input video */
 
-	/** @return length in video frames */
-	virtual int length_in_frames () const = 0;
 	/** @return video frames per second, or 0 if unknown */
 	virtual float frames_per_second () const = 0;
 	/** @return native size in pixels */
