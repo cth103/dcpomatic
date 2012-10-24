@@ -81,8 +81,6 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
-
-
 	std::string content_path () const;
 	ContentType content_type () const;
 	
@@ -144,156 +142,194 @@ public:
 	/* GET */
 
 	std::string directory () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _directory;
 	}
 
 	std::string name () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _name;
 	}
 
 	bool use_dci_name () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _use_dci_name;
 	}
 
 	std::string content () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _content;
 	}
 
 	DCPContentType const * dcp_content_type () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_content_type;
 	}
 
 	Format const * format () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _format;
 	}
 
 	Crop crop () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _crop;
 	}
 
 	std::vector<Filter const *> filters () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _filters;
 	}
 
 	Scaler const * scaler () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _scaler;
 	}
 
 	int dcp_frames () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_frames;
 	}
 
 	TrimAction dcp_trim_action () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_trim_action;
 	}
 
 	bool dcp_ab () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_ab;
 	}
 
 	int audio_stream_index () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_stream;
 	}
 
 	AudioStream audio_stream () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		assert (_audio_stream < int (_audio_streams.size()));
 		return _audio_streams[_audio_stream];
 	}
 	
 	float audio_gain () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_gain;
 	}
 
 	int audio_delay () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_delay;
 	}
 
 	int still_duration () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _still_duration;
 	}
 
 	int subtitle_stream_index () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_stream;
 	}
 
 	SubtitleStream subtitle_stream () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		assert (_subtitle_stream < int (_subtitle_streams.size()));
 		return _subtitle_streams[_subtitle_stream];
 	}
 
 	bool with_subtitles () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _with_subtitles;
 	}
 
 	int subtitle_offset () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_offset;
 	}
 
 	float subtitle_scale () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_scale;
 	}
 
 	std::string audio_language () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_language;
 	}
 	
 	std::string subtitle_language () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_language;
 	}
 	
 	std::string territory () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _territory;
 	}
 	
 	std::string rating () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _rating;
 	}
 	
 	std::string studio () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _studio;
 	}
 	
 	std::string facility () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _facility;
 	}
 	
 	std::string package_type () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _package_type;
 	}
 
 	std::vector<int> thumbs () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _thumbs;
 	}
 	
 	Size size () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _size;
 	}
 
 	int length () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _length;
 	}
 
 	int audio_sample_rate () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_sample_rate;
 	}
 	
 	std::string content_digest () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _content_digest;
 	}
 	
 	bool has_subtitles () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _has_subtitles;
 	}
 
 	std::vector<AudioStream> audio_streams () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_streams;
 	}
 
 	std::vector<SubtitleStream> subtitle_streams () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_streams;
 	}
 	
 	float frames_per_second () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
 		return _frames_per_second;
 	}
 
@@ -355,6 +391,7 @@ private:
 	std::string thumb_file_for_frame (int) const;
 	std::string thumb_base_for_frame (int) const;
 	void signal_changed (Property);
+	std::string file_locked (std::string) const;
 	
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
@@ -437,6 +474,8 @@ private:
 	float _frames_per_second;
 
 	mutable bool _dirty;
+
+	mutable boost::mutex _state_mutex;
 
 	friend class paths_test;
 };

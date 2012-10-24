@@ -425,9 +425,11 @@ Film::thumb_subtitle (int n) const
 void
 Film::write_metadata () const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
+	
 	filesystem::create_directories (directory());
 
-	string const m = file ("metadata");
+	string const m = file_locked ("metadata");
 	ofstream f (m.c_str ());
 	if (!f.good ()) {
 		throw CreateFileError (m);
@@ -510,7 +512,9 @@ Film::write_metadata () const
 void
 Film::read_metadata ()
 {
-	ifstream f (file("metadata").c_str());
+	boost::mutex::scoped_lock lm (_state_mutex);
+	
+	ifstream f (file_locked("metadata").c_str());
 	multimap<string, string> kv = read_key_value (f);
 	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
 		string const k = i->first;
@@ -658,6 +662,7 @@ Film::thumb_base_for_frame (int n) const
 int
 Film::thumb_frame (int n) const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	assert (n < int (_thumbs.size ()));
 	return _thumbs[n];
 }
@@ -665,6 +670,7 @@ Film::thumb_frame (int n) const
 Size
 Film::cropped_size (Size s) const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	s.width -= _crop.left + _crop.right;
 	s.height -= _crop.top + _crop.bottom;
 	return s;
@@ -676,6 +682,7 @@ Film::cropped_size (Size s) const
 string
 Film::dir (string d) const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	filesystem::path p;
 	p /= _directory;
 	p /= d;
@@ -686,6 +693,13 @@ Film::dir (string d) const
 /** Given a file or directory name, return its full path within the Film's directory */
 string
 Film::file (string f) const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return file_locked (f);
+}
+
+string
+Film::file_locked (string f) const
 {
 	filesystem::path p;
 	p /= _directory;
@@ -699,11 +713,12 @@ Film::file (string f) const
 string
 Film::content_path () const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	if (filesystem::path(_content).has_root_directory ()) {
 		return _content;
 	}
 
-	return file (_content);
+	return file_locked (_content);
 }
 
 ContentType
@@ -729,13 +744,13 @@ int
 Film::target_audio_sample_rate () const
 {
 	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_sample_rate (_audio_sample_rate);
+	double t = dcp_audio_sample_rate (audio_sample_rate());
 
 	/* Compensate for the fact that video will be rounded to the
 	   nearest integer number of frames per second.
 	*/
-	if (rint (_frames_per_second) != _frames_per_second) {
-		t *= _frames_per_second / rint (_frames_per_second);
+	if (rint (frames_per_second()) != frames_per_second()) {
+		t *= _frames_per_second / rint (frames_per_second());
 	}
 
 	return rint (t);
@@ -744,17 +759,19 @@ Film::target_audio_sample_rate () const
 int
 Film::dcp_length () const
 {
-	if (_dcp_frames) {
-		return _dcp_frames;
+	if (dcp_frames()) {
+		return dcp_frames();
 	}
 
-	return _length;
+	return length();
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
 string
 Film::dci_name () const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
+	
 	stringstream d;
 
 	string fixed_name = to_upper_copy (_name);
@@ -837,17 +854,18 @@ Film::dci_name () const
 string
 Film::dcp_name () const
 {
-	if (_use_dci_name) {
+	if (use_dci_name()) {
 		return dci_name ();
 	}
 
-	return _name;
+	return name();
 }
 
 
 void
 Film::set_directory (string d)
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	_directory = d;
 	_dirty = true;
 }
@@ -855,21 +873,27 @@ Film::set_directory (string d)
 void
 Film::set_name (string n)
 {
-	_name = n;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_name = n;
+	}
 	signal_changed (NAME);
 }
 
 void
 Film::set_use_dci_name (bool u)
 {
-	_use_dci_name = u;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_use_dci_name = u;
+	}
 	signal_changed (USE_DCI_NAME);
 }
 
 void
 Film::set_content (string c)
 {
-	string check = _directory;
+	string check = directory ();
 
 #if BOOST_FILESYSTEM_VERSION == 3
 	filesystem::path slash ("/");
@@ -890,15 +914,19 @@ Film::set_content (string c)
 		c = c.substr (_directory.length() + 1);
 	}
 
-	if (c == _content) {
-		return;
-	}
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		if (c == _content) {
+			return;
+		}
 
+		_content = c;
+	}
+		
 	/* Create a temporary decoder so that we can get information
 	   about the content.
 	*/
-
-	_content = c;
+	
 
 	shared_ptr<Options> o (new Options ("", "", ""));
 	o->out_size = Size (1024, 1024);
@@ -922,284 +950,397 @@ Film::set_content (string c)
 void
 Film::set_dcp_content_type (DCPContentType const * t)
 {
-	_dcp_content_type = t;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_content_type = t;
+	}
 	signal_changed (DCP_CONTENT_TYPE);
 }
 
 void
 Film::set_format (Format const * f)
 {
-	_format = f;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_format = f;
+	}
 	signal_changed (FORMAT);
 }
 
 void
 Film::set_crop (Crop c)
 {
-	_crop = c;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_crop = c;
+	}
 	signal_changed (CROP);
 }
 
 void
 Film::set_left_crop (int c)
 {
-	if (_crop.left == c) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		
+		if (_crop.left == c) {
+			return;
+		}
+		
+		_crop.left = c;
 	}
-
-	_crop.left = c;
 	signal_changed (CROP);
 }
 
 void
 Film::set_right_crop (int c)
 {
-	if (_crop.right == c) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		if (_crop.right == c) {
+			return;
+		}
+		
+		_crop.right = c;
 	}
-
-	_crop.right = c;
 	signal_changed (CROP);
 }
 
 void
 Film::set_top_crop (int c)
 {
-	if (_crop.top == c) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		if (_crop.top == c) {
+			return;
+		}
+		
+		_crop.top = c;
 	}
-
-	_crop.top = c;
 	signal_changed (CROP);
 }
 
 void
 Film::set_bottom_crop (int c)
 {
-	if (_crop.bottom == c) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		if (_crop.bottom == c) {
+			return;
+		}
+		
+		_crop.bottom = c;
 	}
-
-	_crop.bottom = c;
 	signal_changed (CROP);
 }
 
 void
 Film::set_filters (vector<Filter const *> f)
 {
-	_filters = f;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_filters = f;
+	}
 	signal_changed (FILTERS);
 }
 
 void
 Film::set_scaler (Scaler const * s)
 {
-	_scaler = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_scaler = s;
+	}
 	signal_changed (SCALER);
 }
 
 void
 Film::set_dcp_frames (int f)
 {
-	_dcp_frames = f;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_frames = f;
+	}
 	signal_changed (DCP_FRAMES);
 }
 
 void
 Film::set_dcp_trim_action (TrimAction a)
 {
-	_dcp_trim_action = a;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_trim_action = a;
+	}
 	signal_changed (DCP_TRIM_ACTION);
 }
 
 void
 Film::set_dcp_ab (bool a)
 {
-	_dcp_ab = a;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_ab = a;
+	}
 	signal_changed (DCP_AB);
 }
 
 void
 Film::set_audio_stream (int s)
 {
-	_audio_stream = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_stream = s;
+	}
 	signal_changed (AUDIO_STREAM);
 }
 
 void
 Film::set_audio_gain (float g)
 {
-	_audio_gain = g;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_gain = g;
+	}
 	signal_changed (AUDIO_GAIN);
 }
 
 void
 Film::set_audio_delay (int d)
 {
-	_audio_delay = d;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_delay = d;
+	}
 	signal_changed (AUDIO_DELAY);
 }
 
 void
 Film::set_still_duration (int d)
 {
-	_still_duration = d;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_still_duration = d;
+	}
 	signal_changed (STILL_DURATION);
 }
 
 void
 Film::set_subtitle_stream (int s)
 {
-	_subtitle_stream = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_subtitle_stream = s;
+	}
 	signal_changed (SUBTITLE_STREAM);
 }
 
 void
 Film::set_with_subtitles (bool w)
 {
-	_with_subtitles = w;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_with_subtitles = w;
+	}
 	signal_changed (WITH_SUBTITLES);
 }
 
 void
 Film::set_subtitle_offset (int o)
 {
-	_subtitle_offset = o;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_subtitle_offset = o;
+	}
 	signal_changed (SUBTITLE_OFFSET);
 }
 
 void
 Film::set_subtitle_scale (float s)
 {
-	_subtitle_scale = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_subtitle_scale = s;
+	}
 	signal_changed (SUBTITLE_SCALE);
 }
 
 void
 Film::set_audio_language (string l)
 {
-	_audio_language = l;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_language = l;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_subtitle_language (string l)
 {
-	_subtitle_language = l;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_subtitle_language = l;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_territory (string t)
 {
-	_territory = t;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_territory = t;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_rating (string r)
 {
-	_rating = r;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_rating = r;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_studio (string s)
 {
-	_studio = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_studio = s;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_facility (string f)
 {
-	_facility = f;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_facility = f;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_package_type (string p)
 {
-	_package_type = p;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_package_type = p;
+	}
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_thumbs (vector<int> t)
 {
-	_thumbs = t;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_thumbs = t;
+	}
 	signal_changed (THUMBS);
 }
 
 void
 Film::set_size (Size s)
 {
-	_size = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_size = s;
+	}
 	signal_changed (SIZE);
 }
 
 void
 Film::set_length (int l)
 {
-	_length = l;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_length = l;
+	}
 	signal_changed (LENGTH);
 }
 
 void
 Film::set_audio_sample_rate (int r)
 {
-	_audio_sample_rate = r;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_sample_rate = r;
+	}
 	signal_changed (AUDIO_SAMPLE_RATE);
 }
 
 void
 Film::set_content_digest (string d)
 {
-	_content_digest = d;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_content_digest = d;
+	}
 	_dirty = true;
 }
 
 void
 Film::set_has_subtitles (bool s)
 {
-	_has_subtitles = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_has_subtitles = s;
+	}
 	signal_changed (HAS_SUBTITLES);
 }
 
 void
 Film::set_audio_streams (vector<AudioStream> s)
 {
-	_audio_streams = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_streams = s;
+	}
 	_dirty = true;
 }
 
 void
 Film::set_subtitle_streams (vector<SubtitleStream> s)
 {
-	_subtitle_streams = s;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_subtitle_streams = s;
+	}
 	_dirty = true;
 }
 
 void
 Film::set_frames_per_second (float f)
 {
-	_frames_per_second = f;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_frames_per_second = f;
+	}
 	signal_changed (FRAMES_PER_SECOND);
 }
 	
 void
 Film::signal_changed (Property p)
 {
-	_dirty = true;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dirty = true;
+	}
 	ui_signaller->emit (boost::bind (boost::ref (Changed), p));
 }
 
 int
 Film::audio_channels () const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	if (_audio_stream == -1) {
 		return 0;
 	}
-
+	
 	return _audio_streams[_audio_stream].channels ();
 }
