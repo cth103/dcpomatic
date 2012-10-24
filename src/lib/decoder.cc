@@ -463,7 +463,7 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 {
 	_timed_subtitle = s;
 	
-	if (_opt->apply_crop) {
+	if (_timed_subtitle && _opt->apply_crop) {
 		Position const p = _timed_subtitle->subtitle()->position ();
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _fs->crop().left, p.y - _fs->crop().top));
 	}
