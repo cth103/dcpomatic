@@ -646,7 +646,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_name->Enable (s);
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
-	_frames_per_second->Enable (s);
 	_format->Enable (s);
 	_content->Enable (s);
 	_left_crop->Enable (s);
@@ -655,6 +654,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_bottom_crop->Enable (s);
 	_filters_button->Enable (s);
 	_scaler->Enable (s);
+	_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
 	_dcp_range->Enable (s);
 	_change_dcp_range_button->Enable (s);
@@ -662,10 +662,13 @@ FilmEditor::set_things_sensitive (bool s)
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);
+	_subtitle_stream->Enable (s);
 	_still_duration->Enable (s);
 	_with_subtitles->Enable (s);
 	_subtitle_offset->Enable (s);
 	_subtitle_scale->Enable (s);
+	_frames_per_second->Enable (s);
+	_original_size->Enable (s);
 }
 
 /** Called when the `Edit filters' button has been clicked */
