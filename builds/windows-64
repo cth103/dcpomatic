@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export MINGW_CXX="i686-w64-mingw32-g++"
-export MINGW_WINDRES="i686-w64-mingw32-windres"
-export MINGW_PREFIX="/usr/i686-w64-mingw32"
-export WINDOWS_PREFIX="/home/carl/Environments/windows"
+export MINGW_CXX="x86_64-w64-mingw32-g++"
+export MINGW_WINDRES="x86_64-w64-mingw32-windres"
+export MINGW_PREFIX="/usr/x86_64-w64-mingw32"
+export WINDOWS_PREFIX="/home/carl/Environments/windows-64"
 
 export PKG_CONFIG_LIBDIR=$WINDOWS_PREFIX/lib/pkgconfig
 
@@ -31,5 +31,6 @@ cp build/windows/installer.nsi build/windows/installer2.nsi
 sed -i "s~%resources%~$d/windows~g" build/windows/installer2.nsi
 sed -i "s~%deps%~$WINDOWS_PREFIX~g" build/windows/installer2.nsi
 sed -i "s~%binaries%~$d/build~g" build/windows/installer2.nsi
+sed -i "s~%bits%~64~g" build/windows/installer2.nsi
 
 makensis build/windows/installer2.nsi

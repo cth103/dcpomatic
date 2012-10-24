@@ -3,7 +3,7 @@ Name "DVD-o-matic"
 
 RequestExecutionLevel admin
 
-outFile "DVD-o-matic @version@ Installer.exe"
+outFile "DVD-o-matic @version@ @bits@-bit Installer.exe"
 !define MUI_ICON "%resources%/dvdomatic.ico"
 !define MUI_UNICON "%resources%/dvdomatic.ico"
 !define MUI_SPECIALBITMAP "%resources%/dvdomatic.bmp"

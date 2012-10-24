@@ -1,0 +1,36 @@
+#!/bin/bash
+
+export MINGW_CXX="i686-w64-mingw32-g++"
+export MINGW_WINDRES="i686-w64-mingw32-windres"
+export MINGW_PREFIX="/usr/i686-w64-mingw32"
+export WINDOWS_PREFIX="/home/carl/Environments/windows"
+
+export PKG_CONFIG_LIBDIR=$WINDOWS_PREFIX/lib/pkgconfig
+
+./waf clean
+
+export PATH=$WINDOWS_PREFIX/bin:$PATH
+
+CXX=$MINGW_CXX WINRC=$MINGW_WINDRES \
+  CXXFLAGS="-I$WINDOWS_PREFIX/include -I$MINGW_PREFIX/include" \
+  LINKFLAGS="-L$WINDOWS_PREFIX/lib -L$MINGW_PREFIX/lib" \
+  ./waf configure --target-windows
+if [ "$?" != "0" ]; then
+  exit 1
+fi
+
+./waf
+if [ "$?" != "0" ]; then
+  exit 1
+fi
+
+d=`pwd`
+
+cp build/windows/installer.nsi build/windows/installer2.nsi
+
+sed -i "s~%resources%~$d/windows~g" build/windows/installer2.nsi
+sed -i "s~%deps%~$WINDOWS_PREFIX~g" build/windows/installer2.nsi
+sed -i "s~%binaries%~$d/build~g" build/windows/installer2.nsi
+sed -i "s~%bits%~32~g" build/windows/installer2.nsi
+
+makensis build/windows/installer2.nsi
