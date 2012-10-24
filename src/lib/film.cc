@@ -51,6 +51,7 @@
 #include "config.h"
 #include "check_hashes_job.h"
 #include "version.h"
+#include "ui_signaller.h"
 
 using namespace std;
 using namespace boost;
@@ -1190,7 +1191,7 @@ void
 Film::signal_changed (Property p)
 {
 	_dirty = true;
-	Changed (p);
+	ui_signaller->emit (boost::bind (boost::ref (Changed), p));
 }
 
 int

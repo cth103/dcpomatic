@@ -48,6 +48,7 @@ def build(bld):
                  timer.cc
 		 transcode_job.cc
 		 transcoder.cc
+                 ui_signaller.cc
 		 util.cc
 		 version.cc
 		 """

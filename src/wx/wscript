@@ -24,6 +24,7 @@ def build(bld):
                  properties_dialog.cc
                  server_dialog.cc
                  wx_util.cc
+                 wx_ui_signaller.cc
                  """
 
 #                 alignment.cc

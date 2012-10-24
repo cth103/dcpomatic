@@ -31,6 +31,7 @@
 #include "wx/wx_util.h"
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
+#include "wx/wx_ui_signaller.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -39,6 +40,7 @@
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
 #include "lib/version.h"
+#include "lib/ui_signaller.h"
 
 using namespace std;
 using namespace boost;
@@ -381,7 +383,16 @@ class App : public wxApp
 		SetTopWindow (f);
 		f->Maximize ();
 		f->Show ();
+
+		ui_signaller = new wxUISignaller (this);
+		this->Connect (-1, wxEVT_IDLE, wxIdleEventHandler (App::idle));
+
 		return true;
+	}
+
+	void idle (wxIdleEvent &)
+	{
+		ui_signaller->ui_idle ();
 	}
 };
 
