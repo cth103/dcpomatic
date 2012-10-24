@@ -388,9 +388,11 @@ Film::thumb_subtitle (int n) const
 void
 Film::write_metadata () const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	std::string const dir = directory ();
 	
-	boost::filesystem::create_directories (directory());
+	boost::mutex::scoped_lock lm (_state_mutex);
+
+	boost::filesystem::create_directories (dir);
 
 	string const m = file_locked ("metadata");
 	ofstream f (m.c_str ());
