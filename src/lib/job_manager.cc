@@ -100,6 +100,11 @@ JobManager::scheduler ()
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+
+				if (!(*i)->finished ()) {
+					active_jobs = true;
+				}
+				
 				if ((*i)->running ()) {
 					/* Something is already happening */
 					break;
@@ -113,10 +118,6 @@ JobManager::scheduler ()
 						/* Only start one job at once */
 						break;
 					}
-				}
-
-				if (!(*i)->finished ()) {
-					active_jobs = true;
 				}
 			}
 		}
