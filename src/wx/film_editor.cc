@@ -502,12 +502,10 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::THUMBS:
 		break;
 	case Film::DCP_FRAMES:
-		if (_film->dcp_frames() == 0) {
+		if (!_film->dcp_frames()) {
 			_dcp_range->SetLabel (wxT ("Whole film"));
 		} else {
-			stringstream s;
-			s << "First " << _film->dcp_frames() << " frames";
-			_dcp_range->SetLabel (std_to_wx (s.str ()));
+			_dcp_range->SetLabel (std_to_wx (String::compose ("First %1 frames", _film->dcp_frames().get())));
 		}
 		_sizer->Layout ();
 		break;
