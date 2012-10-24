@@ -41,12 +41,12 @@ public:
 	/** @return the aspect ratio multiplied by 100
 	 *  (e.g. 239 for Cinemascope 2.39:1)
 	 */
-	virtual int ratio_as_integer (Film const * f) const = 0;
+	virtual int ratio_as_integer (boost::shared_ptr<const Film> f) const = 0;
 
 	/** @return the ratio as a floating point number */
-	virtual float ratio_as_float (Film const * f) const = 0;
+	virtual float ratio_as_float (boost::shared_ptr<const Film> f) const = 0;
 
-	int dcp_padding (Film const * f) const;
+	int dcp_padding (boost::shared_ptr<const Film> f) const;
 
 	/** @return size in pixels of the images that we should
 	 *  put in a DCP for this ratio.  This size will not correspond
@@ -106,11 +106,11 @@ class FixedFormat : public Format
 public:
 	FixedFormat (int, Size, std::string, std::string, std::string);
 
-	int ratio_as_integer (Film const *) const {
+	int ratio_as_integer (boost::shared_ptr<const Film>) const {
 		return _ratio;
 	}
 
-	float ratio_as_float (Film const *) const {
+	float ratio_as_float (boost::shared_ptr<const Film>) const {
 		return _ratio / 100.0;
 	}
 
@@ -127,8 +127,8 @@ class VariableFormat : public Format
 public:
 	VariableFormat (Size, std::string, std::string, std::string);
 
-	int ratio_as_integer (Film const * f) const;
-	float ratio_as_float (Film const * f) const;
+	int ratio_as_integer (boost::shared_ptr<const Film> f) const;
+	float ratio_as_float (boost::shared_ptr<const Film> f) const;
 
 	std::string name () const;
 };

@@ -32,9 +32,9 @@ class ThumbPanel;
 class FilmViewer : public wxPanel
 {
 public:
-	FilmViewer (Film *, wxWindow *);
+	FilmViewer (boost::shared_ptr<Film>, wxWindow *);
 
-	void set_film (Film *);
+	void set_film (boost::shared_ptr<Film>);
 	void setup_visibility ();
 
 private:
@@ -42,7 +42,7 @@ private:
 	void set_thumbnail (int);
 	void film_changed (Film::Property);
 
-	Film* _film;
+	boost::shared_ptr<Film> _film;
 	wxBoxSizer* _sizer;
 	ThumbPanel* _thumb_panel;
 	wxSlider* _slider;

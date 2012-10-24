@@ -25,12 +25,12 @@ class ThreadedStaticText;
 class PropertiesDialog : public wxDialog
 {
 public:
-	PropertiesDialog (wxWindow *, Film *);
+	PropertiesDialog (wxWindow *, boost::shared_ptr<Film>);
 
 private:
 	std::string frames_already_encoded () const;
 
-	Film* _film;
+	boost::shared_ptr<Film> _film;
 	wxStaticText* _frames;
 	wxStaticText* _disk_for_frames;
 	wxStaticText* _total_disk;

@@ -19,13 +19,14 @@
 
 #include <wx/dialog.h>
 #include <wx/textctrl.h>
+#include <boost/shared_ptr.hpp>
 
 class Film;
 
 class DCINameDialog : public wxDialog
 {
 public:
-	DCINameDialog (wxWindow *, Film *);
+	DCINameDialog (wxWindow *, boost::shared_ptr<Film>);
 
 private:
 	void audio_language_changed (wxCommandEvent &);
@@ -44,5 +45,5 @@ private:
 	wxTextCtrl* _facility;
 	wxTextCtrl* _package_type;
 
-	Film* _film;
+	boost::shared_ptr<Film> _film;
 };

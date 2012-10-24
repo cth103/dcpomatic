@@ -26,6 +26,7 @@
 #include "job_manager.h"
 #include "job.h"
 #include "cross.h"
+#include "ui_signaller.h"
 
 using std::string;
 using std::list;
@@ -34,6 +35,7 @@ using boost::shared_ptr;
 JobManager* JobManager::_instance = 0;
 
 JobManager::JobManager ()
+	: _last_active_jobs (false)
 {
 	boost::thread (boost::bind (&JobManager::scheduler, this));
 }
@@ -88,11 +90,13 @@ JobManager::errors () const
 	return false;
 }	
 
-
 void
 JobManager::scheduler ()
 {
 	while (1) {
+
+		bool active_jobs = false;
+
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
@@ -110,7 +114,16 @@ JobManager::scheduler ()
 						break;
 					}
 				}
+
+				if (!(*i)->finished ()) {
+					active_jobs = true;
+				}
 			}
+		}
+
+		if (active_jobs != _last_active_jobs) {
+			_last_active_jobs = active_jobs;
+			ui_signaller->emit (boost::bind (boost::ref (ActiveJobsChanged), active_jobs));
 		}
 
 		dvdomatic_sleep (1);

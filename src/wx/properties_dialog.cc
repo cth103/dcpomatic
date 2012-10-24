@@ -25,10 +25,14 @@
 #include "properties_dialog.h"
 #include "wx_util.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::fixed;
+using std::setprecision;
+using boost::shared_ptr;
+using boost::lexical_cast;
 
-PropertiesDialog::PropertiesDialog (wxWindow* parent, Film* film)
+PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("Film Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 	, _film (film)
 {
@@ -83,7 +87,7 @@ PropertiesDialog::frames_already_encoded () const
 	stringstream u;
 	try {
 		u << _film->encoded_frames ();
-	} catch (thread_interrupted &) {
+	} catch (boost::thread_interrupted &) {
 		return "";
 	}
 	

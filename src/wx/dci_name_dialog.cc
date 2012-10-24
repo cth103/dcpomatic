@@ -22,7 +22,9 @@
 #include "wx_util.h"
 #include "film.h"
 
-DCINameDialog::DCINameDialog (wxWindow* parent, Film* film)
+using boost::shared_ptr;
+
+DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("DCI name"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _film (film)
 {

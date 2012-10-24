@@ -23,10 +23,10 @@
 #include "job_wrapper.h"
 #include "wx_util.h"
 
-using namespace std;
+using boost::shared_ptr;
 
 void
-JobWrapper::make_dcp (wxWindow* parent, Film* film, bool transcode)
+JobWrapper::make_dcp (wxWindow* parent, shared_ptr<Film> film, bool transcode)
 {
 	if (!film) {
 		return;

@@ -21,7 +21,9 @@
 #include "dcp_range_dialog.h"
 #include "wx_util.h"
 
-DCPRangeDialog::DCPRangeDialog (wxWindow* p, Film* f)
+using boost::shared_ptr;
+
+DCPRangeDialog::DCPRangeDialog (wxWindow* p, shared_ptr<Film> f)
 	: wxDialog (p, wxID_ANY, wxString (_("DCP Range")))
 	, _film (f)
 {

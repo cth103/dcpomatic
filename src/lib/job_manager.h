@@ -23,6 +23,7 @@
 
 #include <list>
 #include <boost/thread/mutex.hpp>
+#include <boost/signals2.hpp>
 
 class Job;
 
@@ -39,6 +40,8 @@ public:
 	bool work_to_do () const;
 	bool errors () const;
 
+	boost::signals2::signal<void (bool)> ActiveJobsChanged;
+
 	static JobManager* instance ();
 
 private:
@@ -47,6 +50,8 @@ private:
 	
 	mutable boost::mutex _mutex;
 	std::list<boost::shared_ptr<Job> > _jobs;
+
+	bool _last_active_jobs;
 
 	static JobManager* _instance;
 };

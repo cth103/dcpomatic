@@ -40,7 +40,7 @@ using boost::shared_ptr;
 class ThumbPanel : public wxPanel
 {
 public:
-	ThumbPanel (wxPanel* parent, Film* film)
+	ThumbPanel (wxPanel* parent, shared_ptr<Film> film)
 		: wxPanel (parent)
 		, _film (film)
 		, _frame_rebuild_needed (false)
@@ -100,7 +100,7 @@ public:
 		Refresh ();
 	}
 
-	void set_film (Film* f)
+	void set_film (shared_ptr<Film> f)
 	{
 		_film = f;
 		if (!_film) {
@@ -189,7 +189,7 @@ private:
 		}
 	}
 
-	Film* _film;
+	shared_ptr<Film> _film;
 	shared_ptr<wxImage> _image;
 	wxImage _transformed_image;
 	/** currently-displayed thumbnail index */
@@ -224,9 +224,8 @@ EVT_PAINT (ThumbPanel::paint_event)
 EVT_SIZE (ThumbPanel::size_event)
 END_EVENT_TABLE ()
 
-FilmViewer::FilmViewer (Film* f, wxWindow* p)
+FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
-	, _film (0)
 {
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_sizer);
@@ -293,7 +292,7 @@ FilmViewer::film_changed (Film::Property p)
 }
 
 void
-FilmViewer::set_film (Film* f)
+FilmViewer::set_film (shared_ptr<Film> f)
 {
 	if (_film == f) {
 		return;

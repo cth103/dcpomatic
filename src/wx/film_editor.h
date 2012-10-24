@@ -37,9 +37,9 @@ class Film;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (Film *, wxWindow *);
+	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
 
-	void set_film (Film *);
+	void set_film (boost::shared_ptr<Film>);
 	void setup_visibility ();
 
 	boost::signals2::signal<void (std::string)> FileChanged;
@@ -85,10 +85,12 @@ private:
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
 
+	void active_jobs_changed (bool);
+
 	Film::Property _ignore_changes;
 
 	/** The film we are editing */
-	Film* _film;
+	boost::shared_ptr<Film> _film;
 	/** The Film's name */
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;

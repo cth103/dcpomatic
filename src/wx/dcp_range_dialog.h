@@ -27,7 +27,7 @@ class Film;
 class DCPRangeDialog : public wxDialog
 {
 public:
-	DCPRangeDialog (wxWindow *, Film *);
+	DCPRangeDialog (wxWindow *, boost::shared_ptr<Film>);
 
 	boost::signals2::signal<void (int, TrimAction)> Changed;
 
@@ -40,7 +40,7 @@ private:
 	void set_sensitivity ();
 	void emit_changed ();
 	
-	Film* _film;
+	boost::shared_ptr<Film> _film;
 	wxRadioButton* _whole;
 	wxRadioButton* _first;
 	wxSpinCtrl* _n_frames;

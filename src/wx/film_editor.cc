@@ -45,11 +45,17 @@
 #include "dci_name_dialog.h"
 #include "scaler.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::pair;
+using std::fixed;
+using std::setprecision;
+using std::list;
+using std::vector;
+using boost::shared_ptr;
 
 /** @param f Film to edit */
-FilmEditor::FilmEditor (Film* f, wxWindow* parent)
+FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
 	, _ignore_changes (Film::NONE)
 	, _film (f)
@@ -230,6 +236,10 @@ FilmEditor::FilmEditor (Film* f, wxWindow* parent)
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
+
+	JobManager::instance()->ActiveJobsChanged.connect (
+		bind (&FilmEditor::active_jobs_changed, this, _1)
+		);
 
 	/* And set their values from the Film */
 	set_film (f);
@@ -587,7 +597,7 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 
 /** Sets the Film that we are editing */
 void
-FilmEditor::set_film (Film* f)
+FilmEditor::set_film (shared_ptr<Film> f)
 {
 	_film = f;
 
@@ -929,4 +939,10 @@ FilmEditor::setup_audio_details ()
 		s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
+}
+
+void
+FilmEditor::active_jobs_changed (bool a)
+{
+	set_things_sensitive (!a);
 }

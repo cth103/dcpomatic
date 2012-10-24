@@ -266,8 +266,8 @@ Film::make_dcp (bool transcode)
 		}
 	}
 	
-	o->padding = format()->dcp_padding (this);
-	o->ratio = format()->ratio_as_float (this);
+	o->padding = format()->dcp_padding (shared_from_this ());
+	o->ratio = format()->ratio_as_float (shared_from_this ());
 	o->decode_subtitles = with_subtitles ();
 
 	shared_ptr<Job> r;

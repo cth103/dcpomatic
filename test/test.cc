@@ -123,11 +123,11 @@ BOOST_AUTO_TEST_CASE (format_test)
 	
 	Format const * f = Format::from_nickname ("Flat");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(0), 185);
+	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 185);
 	
 	f = Format::from_nickname ("Scope");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(0), 239);
+	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 239);
 }
 
 BOOST_AUTO_TEST_CASE (util_test)

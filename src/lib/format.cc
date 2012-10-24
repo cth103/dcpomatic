@@ -30,7 +30,11 @@
 #include "format.h"
 #include "film.h"
 
-using namespace std;
+using std::string;
+using std::setprecision;
+using std::stringstream;
+using std::vector;
+using boost::shared_ptr;
 
 vector<Format const *> Format::_formats;
 
@@ -143,7 +147,7 @@ FixedFormat::FixedFormat (int r, Size dcp, string id, string n, string d)
 }
 
 int
-Format::dcp_padding (Film const * f) const
+Format::dcp_padding (shared_ptr<const Film> f) const
 {
 	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(f) / 100.0)) / 2.0);
 
@@ -162,13 +166,13 @@ VariableFormat::VariableFormat (Size dcp, string id, string n, string d)
 }
 
 int
-VariableFormat::ratio_as_integer (Film const * f) const
+VariableFormat::ratio_as_integer (shared_ptr<const Film> f) const
 {
 	return rint (ratio_as_float (f) * 100);
 }
 
 float
-VariableFormat::ratio_as_float (Film const * f) const
+VariableFormat::ratio_as_float (shared_ptr<const Film> f) const
 {
 	return float (f->size().width) / f->size().height;
 }

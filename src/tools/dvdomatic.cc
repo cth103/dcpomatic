@@ -42,13 +42,16 @@
 #include "lib/version.h"
 #include "lib/ui_signaller.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::map;
+using std::make_pair;
+using boost::shared_ptr;
 
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
 
-static Film* film = 0;
+static shared_ptr<Film> film;
 
 static void set_menu_sensitivity ();
 
@@ -95,8 +98,7 @@ maybe_save_then_delete_film ()
 		}
 	}
 	
-	delete film;
-	film = 0;
+	film.reset ();
 }
 
 enum Sensitivity {
@@ -264,11 +266,11 @@ public:
 		
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
-			film = new Film (d->get_path (), false);
+			film.reset (new Film (d->get_path (), false));
 #if BOOST_FILESYSTEM_VERSION == 3		
-			film->set_name (filesystem::path (d->get_path()).filename().generic_string());
+			film->set_name (boost::filesystem::path (d->get_path()).filename().generic_string());
 #else		
-			film->set_name (filesystem::path (d->get_path()).filename());
+			film->set_name (boost::filesystem::path (d->get_path()).filename());
 #endif
 			set_film ();
 		}
@@ -284,7 +286,7 @@ public:
 		
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
-			film = new Film (wx_to_std (c->GetPath ()));
+			film.reset (new Film (wx_to_std (c->GetPath ())));
 			set_film ();
 		}
 	}
@@ -376,7 +378,7 @@ class App : public wxApp
 		dvdomatic_setup ();
 
 		if (argc == 2 && boost::filesystem::is_directory (wx_to_std (argv[1]))) {
-			film = new Film (wx_to_std (argv[1]));
+			film.reset (new Film (wx_to_std (argv[1])));
 		}
 
 		Frame* f = new Frame (_("DVD-o-matic"));
