@@ -275,7 +275,7 @@ FFmpegDecoder::do_pass ()
 			/* frames of silence that we must push */
 			int const s = rint ((_first_audio.get() - _first_video.get()) * audio_sample_rate ());
 			
-			_log->log (
+			_film->log()->log (
 				String::compose (
 					"First video at %1, first audio at %2, pushing %3 frames of silence for %4 channels (%5 bytes per sample)",
 					_first_video.get(), _first_audio.get(), s, audio_channels(), bytes_per_audio_sample()

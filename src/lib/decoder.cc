@@ -114,7 +114,7 @@ Decoder::process_end ()
 	int64_t const video_length_in_audio_frames = ((int64_t) last_video_frame() * audio_sample_rate() / frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
-	_log->log (
+	_film->log()->log (
 		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
 				 last_video_frame(),
 				 video_length_in_audio_frames,
@@ -123,8 +123,8 @@ Decoder::process_end ()
 	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", last_video_frame(), _audio_frames_processed));
-		_log->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
+		_film->log()->log (String::compose ("DCP length is %1; %2 frames of audio processed.", last_video_frame(), _audio_frames_processed));
+		_film->log()->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		/* XXX: this is slightly questionable; does memset () give silence with all
 		   sample formats?
@@ -200,11 +200,11 @@ Decoder::emit_audio (uint8_t* data, int size)
 {
 	/* Deinterleave and convert to float */
 
-	assert ((size % (bytes_per_audio_sample() * _film->audio_channels())) == 0);
+	assert ((size % (bytes_per_audio_sample() * audio_channels())) == 0);
 
 	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _film->audio_channels();
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), frames));
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (audio_channels(), frames));
 
 	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
@@ -438,7 +438,7 @@ Decoder::setup_video_filters ()
 	inputs->pad_idx = 0;
 	inputs->next = 0;
 
-	_log->log ("Using filter chain `" + filters + "'");
+	_film->log()->log ("Using filter chain `" + filters + "'");
 
 #if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
 	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {

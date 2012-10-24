@@ -118,8 +118,6 @@ protected:
 	boost::shared_ptr<const Options> _opt;
 	/** associated Job, or 0 */
 	Job* _job;
-	/** log that we can write to */
-	Log* _log;
 
 	/** true to do the bare minimum of work; just run through the content.  Useful for acquiring
 	 *  accurate frame counts as quickly as possible.  This generates no video or audio output.
