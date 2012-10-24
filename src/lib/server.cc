@@ -36,8 +36,16 @@
 #include "config.h"
 #include "subtitle.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::multimap;
+using std::vector;
+using std::cerr;
+using boost::shared_ptr;
+using boost::algorithm::is_any_of;
+using boost::algorithm::split;
+using boost::thread;
+using boost::bind;
 
 /** Create a server description from a string of metadata returned from as_metadata().
  *  @param v Metadata.
@@ -132,7 +140,7 @@ void
 Server::worker_thread ()
 {
 	while (1) {
-		mutex::scoped_lock lock (_worker_mutex);
+		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty ()) {
 			_worker_condition.wait (lock);
 		}
@@ -176,13 +184,13 @@ Server::run (int num_threads)
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));
 	}
 
-	asio::io_service io_service;
-	asio::ip::tcp::acceptor acceptor (io_service, asio::ip::tcp::endpoint (asio::ip::tcp::v4(), Config::instance()->server_port ()));
+	boost::asio::io_service io_service;
+	boost::asio::ip::tcp::acceptor acceptor (io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port ()));
 	while (1) {
 		shared_ptr<Socket> socket (new Socket);
 		acceptor.accept (socket->socket ());
 
-		mutex::scoped_lock lock (_worker_mutex);
+		boost::mutex::scoped_lock lock (_worker_mutex);
 		
 		/* Wait until the queue has gone down a bit */
 		while (int (_queue.size()) >= num_threads * 2) {

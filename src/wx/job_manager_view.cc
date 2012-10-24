@@ -28,8 +28,9 @@
 #include "job_manager_view.h"
 #include "wx_util.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::list;
+using boost::shared_ptr;
 
 /** Must be called in the GUI thread */
 JobManagerView::JobManagerView (wxWindow* parent)

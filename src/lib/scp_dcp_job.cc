@@ -34,8 +34,10 @@
 #include "log.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::min;
+using boost::shared_ptr;
 
 class SSHSession
 {
@@ -149,29 +151,29 @@ SCPDCPJob::run ()
 	string const dcp_dir = _film->dir (_film->dcp_name());
 	
 	boost::uintmax_t bytes_to_transfer = 0;
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
-		bytes_to_transfer += filesystem::file_size (*i);
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
+		bytes_to_transfer += boost::filesystem::file_size (*i);
 	}
 	
 	boost::uintmax_t buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 	boost::uintmax_t bytes_transferred = 0;
 	
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
 		
 		/* Aah, the sweet smell of progress */
 #if BOOST_FILESYSTEM_VERSION == 3		
-		string const leaf = filesystem::path(*i).leaf().generic_string ();
+		string const leaf = boost::filesystem::path(*i).leaf().generic_string ();
 #else
 		string const leaf = i->leaf ();
 #endif
 		
 		set_status ("copying " + leaf);
 		
-		boost::uintmax_t to_do = filesystem::file_size (*i);
+		boost::uintmax_t to_do = boost::filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
 
-		FILE* f = fopen (filesystem::path (*i).string().c_str(), "rb");
+		FILE* f = fopen (boost::filesystem::path (*i).string().c_str(), "rb");
 		if (f == 0) {
 			throw NetworkError (String::compose ("Could not open %1 to send", *i));
 		}
@@ -180,7 +182,7 @@ SCPDCPJob::run ()
 			int const t = min (to_do, buffer_size);
 			size_t const read = fread (buffer, 1, t, f);
 			if (read != size_t (t)) {
-				throw ReadFileError (filesystem::path (*i).string());
+				throw ReadFileError (boost::filesystem::path (*i).string());
 			}
 			
 			r = ssh_scp_write (sc.scp, buffer, t);

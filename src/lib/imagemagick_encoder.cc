@@ -36,8 +36,9 @@
 #include "image.h"
 #include "subtitle.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::ofstream;
+using boost::shared_ptr;
 
 /** @param f Film that we are encoding.
  *  @param o Options.
@@ -58,7 +59,7 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 	Magick::Image thumb (compact->size().width, compact->size().height, "RGB", MagickCore::CharPixel, compact->data()[0]);
 	thumb.magick ("PNG");
 	thumb.write (tmp_file);
-	filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
+	boost::filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
 
 	if (sub) {
 		float const x_scale = float (_opt->out_size.width) / _film->size().width;
@@ -77,13 +78,13 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 		Magick::Image sub_thumb (compact->size().width, compact->size().height, "RGBA", MagickCore::CharPixel, compact->data()[0]);
 		sub_thumb.magick ("PNG");
 		sub_thumb.write (tmp_sub_file);
-		filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ".sub.png"));
+		boost::filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ".sub.png"));
 
 		metadata << "x " << sub->position().x << "\n"
 			 << "y " << sub->position().y << "\n";
 
 		metadata.close ();
-		filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
+		boost::filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
 	}
 	
 	frame_done (frame);

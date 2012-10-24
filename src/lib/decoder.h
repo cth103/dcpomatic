@@ -28,7 +28,7 @@
 #include <string>
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
 #include "util.h"
 #include "stream.h"
 
@@ -92,10 +92,10 @@ public:
 	 *  Second parameter is its index within the content.
 	 *  Third parameter is either 0 or a subtitle that should be on this frame.
 	 */
-	sigc::signal<void, boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle> > Video;
+	boost::signals2::signal<void (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>)> Video;
 
 	/** Emitted when some audio data is ready */
-	sigc::signal<void, boost::shared_ptr<AudioBuffers> > Audio;
+	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>)> Audio;
 	
 protected:
 	/** perform a single pass at our content */

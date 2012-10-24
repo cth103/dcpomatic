@@ -29,8 +29,11 @@
 #include "filter.h"
 #include "sound_processor.h"
 
-using namespace std;
-using namespace boost;
+using std::vector;
+using std::ifstream;
+using std::string;
+using std::ofstream;
+using boost::shared_ptr;
 
 Config* Config::_instance = 0;
 
@@ -99,7 +102,7 @@ Config::Config ()
 string
 Config::file () const
 {
-	filesystem::path p;
+	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
 	p /= ".dvdomatic";
 	return p.string ();

@@ -56,8 +56,10 @@
 #include "log.h"
 #include "subtitle.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::ofstream;
+using boost::shared_ptr;
 
 /** Construct a DCP video frame.
  *  @param input Input image.
@@ -306,10 +308,10 @@ DCPVideoFrame::encode_locally ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 {
-	asio::io_service io_service;
-	asio::ip::tcp::resolver resolver (io_service);
-	asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
-	asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
+	boost::asio::io_service io_service;
+	boost::asio::ip::tcp::resolver resolver (io_service);
+	boost::asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
+	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	shared_ptr<Socket> socket (new Socket);
 
@@ -384,7 +386,7 @@ EncodedData::write (shared_ptr<const Options> opt, int frame)
 	string const real_j2k = opt->frame_out_path (frame, false);
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
-	filesystem::rename (tmp_j2k, real_j2k);
+	boost::filesystem::rename (tmp_j2k, real_j2k);
 
 	/* Write a file containing the hash */
 	string const hash = real_j2k + ".md5";

@@ -25,6 +25,7 @@
 #include <wx/spinctrl.h>
 #include <wx/filepicker.h>
 #include <wx/collpane.h>
+#include <boost/signals2.hpp>
 #include "lib/trim_action.h"
 #include "lib/film.h"
 
@@ -41,7 +42,7 @@ public:
 	void set_film (Film *);
 	void setup_visibility ();
 
-	sigc::signal1<void, std::string> FileChanged;
+	boost::signals2::signal<void (std::string)> FileChanged;
 
 private:
 	/* Handle changes to the view */

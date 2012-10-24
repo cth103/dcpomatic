@@ -43,7 +43,7 @@ FilmList::FilmList (string d)
 	}
 
 	_list.set_headers_visible (false);
-	_list.get_selection()->signal_changed().connect (sigc::mem_fun (*this, &FilmList::selection_changed));
+	_list.get_selection()->signal_changed().connect (bind (&FilmList::selection_changed, this));
 }
 
 Gtk::Widget&

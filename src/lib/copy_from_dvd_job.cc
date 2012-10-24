@@ -29,8 +29,10 @@
 #include "cross.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::list;
+using std::stringstream;
+using boost::shared_ptr;
 
 /** @param f Film to write DVD data into.
  */
@@ -50,7 +52,7 @@ void
 CopyFromDVDJob::run ()
 {
 	/* Remove any old DVD rips */
-	filesystem::remove_all (_film->dir ("dvd"));
+	boost::filesystem::remove_all (_film->dir ("dvd"));
 
 	string const dvd = find_dvd ();
 	if (dvd.empty ()) {
@@ -97,12 +99,12 @@ CopyFromDVDJob::run ()
 
 	string largest_file;
 	uintmax_t largest_size = 0;
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (dvd_dir); i != filesystem::directory_iterator(); ++i) {
-		uintmax_t const s = filesystem::file_size (*i);
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dvd_dir); i != boost::filesystem::directory_iterator(); ++i) {
+		uintmax_t const s = boost::filesystem::file_size (*i);
 		if (s > largest_size) {
 
 #if BOOST_FILESYSTEM_VERSION == 3		
-			largest_file = filesystem::path(*i).generic_string();
+			largest_file = boost::filesystem::path(*i).generic_string();
 #else
 			largest_file = i->string ();
 #endif

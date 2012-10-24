@@ -26,6 +26,7 @@
 #include "filter_view.h"
 
 using namespace std;
+using boost::bind;
 
 FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
 	: wxDialog (parent, wxID_ANY, wxString (_("Filters")))
@@ -34,7 +35,7 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_filters, 1, wxEXPAND | wxALL, 6);
 
-	_filters->ActiveChanged.connect (sigc::mem_fun (*this, &FilterDialog::active_changed));
+	_filters->ActiveChanged.connect (bind (&FilterDialog::active_changed, this));
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

@@ -53,12 +53,24 @@
 #include "version.h"
 #include "ui_signaller.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::multimap;
+using std::pair;
+using std::map;
+using std::vector;
+using std::ifstream;
+using std::ofstream;
+using std::setfill;
+using boost::shared_ptr;
+using boost::lexical_cast;
+using boost::to_upper_copy;
+using boost::ends_with;
+using boost::starts_with;
 
 /** Construct a Film object in a given directory, reading any metadata
  *  file that exists in that directory.  An exception will be thrown if
- *  must_exist is true, and the specified directory does not exist.
+ *  must_exist is true and the specified directory does not exist.
  *
  *  @param d Film directory.
  *  @param must_exist true to throw an exception if does not exist.
@@ -90,11 +102,11 @@ Film::Film (string d, bool must_exist)
 	   (Code swiped from Adam Bowen on stackoverflow)
 	*/
 	
-	filesystem::path p (filesystem::system_complete (d));
-	filesystem::path result;
-	for (filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
+	boost::filesystem::path p (boost::filesystem::system_complete (d));
+	boost::filesystem::path result;
+	for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
 		if (*i == "..") {
-			if (filesystem::is_symlink (result) || result.filename() == "..") {
+			if (boost::filesystem::is_symlink (result) || result.filename() == "..") {
 				result /= *i;
 			} else {
 				result = result.parent_path ();
@@ -106,11 +118,11 @@ Film::Film (string d, bool must_exist)
 
 	set_directory (result.string ());
 	
-	if (!filesystem::exists (directory())) {
+	if (!boost::filesystem::exists (directory())) {
 		if (must_exist) {
 			throw OpenFileError (directory());
 		} else {
-			filesystem::create_directory (directory());
+			boost::filesystem::create_directory (directory());
 		}
 	}
 
@@ -173,7 +185,7 @@ Film::j2k_dir () const
 {
 	assert (format());
 
-	filesystem::path p;
+	boost::filesystem::path p;
 
 	/* Start with j2c */
 	p /= "j2c";
@@ -282,13 +294,13 @@ Film::examine_content ()
 	}
 
 	set_thumbs (vector<int> ());
-	filesystem::remove_all (dir ("thumbs"));
+	boost::filesystem::remove_all (dir ("thumbs"));
 
 	/* This call will recreate the directory */
 	dir ("thumbs");
 	
 	_examine_content_job.reset (new ExamineContentJob (shared_from_this(), shared_ptr<Job> ()));
-	_examine_content_job->Finished.connect (sigc::mem_fun (*this, &Film::examine_content_finished));
+	_examine_content_job->Finished.connect (bind (&Film::examine_content_finished, this));
 	JobManager::instance()->add (_examine_content_job);
 }
 
@@ -303,7 +315,7 @@ vector<string>
 Film::audio_files () const
 {
 	vector<string> f;
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (dir("wavs")); i != filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dir("wavs")); i != boost::filesystem::directory_iterator(); ++i) {
 		f.push_back (i->path().string ());
 	}
 
@@ -336,9 +348,9 @@ Film::encoded_frames () const
 	}
 
 	int N = 0;
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (j2k_dir ()); i != filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (j2k_dir ()); i != boost::filesystem::directory_iterator(); ++i) {
 		++N;
-		this_thread::interruption_point ();
+		boost::this_thread::interruption_point ();
 	}
 
 	return N;
@@ -353,7 +365,7 @@ pair<Position, string>
 Film::thumb_subtitle (int n) const
 {
 	string sub_file = thumb_base(n) + ".sub";
-	if (!filesystem::exists (sub_file)) {
+	if (!boost::filesystem::exists (sub_file)) {
 		return pair<Position, string> ();
 	}
 
@@ -379,7 +391,7 @@ Film::write_metadata () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	
-	filesystem::create_directories (directory());
+	boost::filesystem::create_directories (directory());
 
 	string const m = file_locked ("metadata");
 	ofstream f (m.c_str ());
@@ -541,7 +553,7 @@ Film::read_metadata ()
 		if (k == "thumb") {
 			int const n = atoi (v.c_str ());
 			/* Only add it to the list if it still exists */
-			if (filesystem::exists (thumb_file_for_frame (n))) {
+			if (boost::filesystem::exists (thumb_file_for_frame_locked (n))) {
 				_thumbs.push_back (n);
 			}
 		} else if (k == "width") {
@@ -588,6 +600,12 @@ Film::thumb_file_for_frame (int n) const
 }
 
 string
+Film::thumb_file_for_frame_locked (int n) const
+{
+	return thumb_base_for_frame_locked(n) + ".png";
+}
+
+string
 Film::thumb_base (int n) const
 {
 	return thumb_base_for_frame (thumb_frame (n));
@@ -596,17 +614,23 @@ Film::thumb_base (int n) const
 string
 Film::thumb_base_for_frame (int n) const
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return thumb_base_for_frame_locked (n);
+}
+
+string
+Film::thumb_base_for_frame_locked (int n) const
+{
 	stringstream s;
 	s.width (8);
 	s << setfill('0') << n;
 	
-	filesystem::path p;
-	p /= dir ("thumbs");
+	boost::filesystem::path p;
+	p /= dir_locked ("thumbs");
 	p /= s.str ();
 		
 	return p.string ();
 }
-
 
 /** @param n A thumb index.
  *  @return The frame within the Film that it is for.
@@ -635,10 +659,16 @@ string
 Film::dir (string d) const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	filesystem::path p;
+	return dir_locked (d);
+}
+
+string
+Film::dir_locked (string d) const
+{
+	boost::filesystem::path p;
 	p /= _directory;
 	p /= d;
-	filesystem::create_directories (p);
+	boost::filesystem::create_directories (p);
 	return p.string ();
 }
 
@@ -653,7 +683,7 @@ Film::file (string f) const
 string
 Film::file_locked (string f) const
 {
-	filesystem::path p;
+	boost::filesystem::path p;
 	p /= _directory;
 	p /= f;
 	return p.string ();
@@ -666,7 +696,7 @@ string
 Film::content_path () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	if (filesystem::path(_content).has_root_directory ()) {
+	if (boost::filesystem::path(_content).has_root_directory ()) {
 		return _content;
 	}
 
@@ -677,7 +707,7 @@ ContentType
 Film::content_type () const
 {
 #if BOOST_FILESYSTEM_VERSION == 3
-	string ext = filesystem::path(_content).extension().string();
+	string ext = boost::filesystem::path(_content).extension().string();
 #else
 	string ext = filesystem::path(_content).extension();
 #endif
@@ -788,8 +818,8 @@ Film::dci_name () const
 		d << _studio << "_";
 	}
 
-	gregorian::date today = gregorian::day_clock::local_day ();
-	d << gregorian::to_iso_string (today) << "_";
+	boost::gregorian::date today = boost::gregorian::day_clock::local_day ();
+	d << boost::gregorian::to_iso_string (today) << "_";
 
 	if (!_facility.empty ()) {
 		d << _facility << "_";
@@ -848,7 +878,7 @@ Film::set_content (string c)
 	string check = directory ();
 
 #if BOOST_FILESYSTEM_VERSION == 3
-	filesystem::path slash ("/");
+	boost::filesystem::path slash ("/");
 	string platform_slash = slash.make_preferred().string ();
 #else
 #ifdef DVDOMATIC_WINDOWS
@@ -862,7 +892,7 @@ Film::set_content (string c)
 		check += platform_slash;
 	}
 	
-	if (filesystem::path(c).has_root_directory () && starts_with (c, check)) {
+	if (boost::filesystem::path(c).has_root_directory () && starts_with (c, check)) {
 		c = c.substr (_directory.length() + 1);
 	}
 

@@ -32,8 +32,10 @@
 #include "film_viewer.h"
 #include "wx_util.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::pair;
+using std::max;
+using boost::shared_ptr;
 
 class ThumbPanel : public wxPanel
 {
@@ -304,7 +306,7 @@ FilmViewer::set_film (Film* f)
 		return;
 	}
 
-	_film->Changed.connect (sigc::mem_fun (*this, &FilmViewer::film_changed));
+	_film->Changed.connect (bind (&FilmViewer::film_changed, this, _1));
 	film_changed (Film::CROP);
 	film_changed (Film::THUMBS);
 	setup_visibility ();

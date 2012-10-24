@@ -36,8 +36,8 @@ extern "C" {
 #include "imagemagick_decoder.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using boost::shared_ptr;
 
 /** @param f Film we are making the DCP for.
  *  @param o Options.
@@ -73,7 +73,7 @@ MakeDCPJob::run ()
 	string const dcp_path = _film->dir (_film->dcp_name());
 
 	/* Remove any old DCP */
-	filesystem::remove_all (dcp_path);
+	boost::filesystem::remove_all (dcp_path);
 
 	int frames = 0;
 	switch (_film->content_type ()) {

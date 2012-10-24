@@ -49,8 +49,10 @@ extern "C" {
 #include "ffmpeg_compatibility.h"
 #include "subtitle.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::min;
+using boost::shared_ptr;
 
 /** @param f Film.
  *  @param o Options.

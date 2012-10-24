@@ -30,9 +30,9 @@ public:
 		: _work (_service)
 	{}
 	
-	template <class S>
-	void emit (S signal) {
-		_service.post (boost::bind (boost::ref (signal)));
+	template <typename T>
+	void emit (T f) {
+		_service.post (f);
 	}
 
 	void ui_idle () {

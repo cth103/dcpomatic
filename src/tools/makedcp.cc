@@ -36,8 +36,13 @@
 #include "config.h"
 #include "log.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::cerr;
+using std::cout;
+using std::vector;
+using std::pair;
+using std::list;
+using boost::shared_ptr;
 
 static void
 help (string n)

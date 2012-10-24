@@ -27,15 +27,15 @@
 #include "imagemagick_decoder.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using boost::shared_ptr;
 
 shared_ptr<Decoder>
 decoder_factory (
 	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal = false, bool ignore_length = false
 	)
 {
-	if (filesystem::is_directory (f->content_path ())) {
+	if (boost::filesystem::is_directory (f->content_path ())) {
 		/* Assume a directory contains TIFFs */
 		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j, minimal, ignore_length));
 	}

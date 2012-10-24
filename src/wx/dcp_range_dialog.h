@@ -19,7 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
 #include "lib/trim_action.h"
 
 class Film;
@@ -29,7 +29,7 @@ class DCPRangeDialog : public wxDialog
 public:
 	DCPRangeDialog (wxWindow *, Film *);
 
-	sigc::signal2<void, int, TrimAction> Changed;
+	boost::signals2::signal<void (int, TrimAction)> Changed;
 
 private:
 	void whole_toggled (wxCommandEvent &);

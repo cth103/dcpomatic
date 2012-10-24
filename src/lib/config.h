@@ -26,7 +26,7 @@
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
-#include <sigc++/signal.h>
+#include <boost/signals2.hpp>
 
 class ServerDescription;
 class Screen;
@@ -176,7 +176,7 @@ public:
 	
 	void write () const;
 
-	sigc::signal0<void> Changed;
+	boost::signals2::signal<void()> Changed;
 
 	static Config* instance ();
 

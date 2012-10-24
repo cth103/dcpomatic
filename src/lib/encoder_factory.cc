@@ -26,13 +26,12 @@
 #include "j2k_still_encoder.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using boost::shared_ptr;
 
 shared_ptr<Encoder>
 encoder_factory (shared_ptr<const Film> f, shared_ptr<const Options> o)
 {
-	if (!filesystem::is_directory (f->content_path()) && f->content_type() == STILL) {
+	if (!boost::filesystem::is_directory (f->content_path()) && f->content_type() == STILL) {
 		return shared_ptr<Encoder> (new J2KStillEncoder (f, o));
 	}
 	

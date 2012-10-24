@@ -27,7 +27,7 @@
 #include <string>
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <sigc++/sigc++.h>
+#include <boost/signals2.hpp>
 
 class Film;
 class Options;
@@ -68,7 +68,7 @@ public:
 		return _required;
 	}
 
-	sigc::signal0<void> Finished;
+	boost::signals2::signal<void()> Finished;
 
 protected:
 

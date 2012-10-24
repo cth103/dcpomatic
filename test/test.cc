@@ -42,8 +42,12 @@
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::list;
+using std::stringstream;
+using std::vector;
+using boost::shared_ptr;
+using boost::thread;
 
 void
 setup_test_config ()

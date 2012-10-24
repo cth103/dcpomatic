@@ -22,6 +22,7 @@
  */
 
 #include <wx/wx.h>
+#include <boost/signals2.hpp>
 
 class Film;
 class FilterView;
@@ -34,7 +35,7 @@ class FilterDialog : public wxDialog
 public:
 	FilterDialog (wxWindow *, std::vector<Filter const *> const &);
 
-	sigc::signal1<void, std::vector<Filter const *> > ActiveChanged;
+	boost::signals2::signal<void (std::vector<Filter const *>)> ActiveChanged;
 
 private:
 	void active_changed ();

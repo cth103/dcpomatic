@@ -27,8 +27,10 @@
 #include "job.h"
 #include "util.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::list;
+using std::stringstream;
+using boost::shared_ptr;
 
 /** @param s Film that we are operating on.
  */
@@ -64,7 +66,7 @@ Job::run_wrapper ()
 		
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error (String::compose ("%1 (%2)", e.what(), filesystem::path (e.filename()).leaf()));
+		set_error (String::compose ("%1 (%2)", e.what(), boost::filesystem::path (e.filename()).leaf()));
 		
 	} catch (std::exception& e) {
 

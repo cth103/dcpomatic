@@ -27,8 +27,8 @@
 #include "encoder_factory.h"
 #include "config.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using boost::shared_ptr;
 
 /** @param f Film to compare.
  *  @param o Options.

@@ -31,8 +31,9 @@
 #include "log.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::vector;
+using boost::shared_ptr;
 
 ExamineContentJob::ExamineContentJob (shared_ptr<Film> f, shared_ptr<Job> req)
 	: Job (f, req)
@@ -102,11 +103,11 @@ ExamineContentJob::run ()
 	string const tdir = _film->dir ("thumbs");
 	vector<int> thumbs;
 
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (tdir); i != boost::filesystem::directory_iterator(); ++i) {
 
 		/* Aah, the sweet smell of progress */
 #if BOOST_FILESYSTEM_VERSION == 3		
-		string const l = filesystem::path(*i).leaf().generic_string();
+		string const l = boost::filesystem::path(*i).leaf().generic_string();
 #else
 		string const l = i->leaf ();
 #endif

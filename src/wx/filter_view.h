@@ -21,9 +21,9 @@
  *  @brief A panel to select FFmpeg filters.
  */
 
+#include <boost/signals2.hpp>
 #include <vector>
 #include <map>
-#include <sigc++/sigc++.h>
 #include <wx/wx.h>
 
 class Filter;
@@ -38,7 +38,7 @@ public:
 
 	std::vector<Filter const *> active () const;
 
-	sigc::signal0<void> ActiveChanged;
+	boost::signals2::signal<void()> ActiveChanged;
 
 private:
 	void filter_toggled (wxCommandEvent &);

@@ -594,7 +594,7 @@ FilmEditor::set_film (Film* f)
 	set_things_sensitive (_film != 0);
 
 	if (_film) {
-		_film->Changed.connect (sigc::mem_fun (*this, &FilmEditor::film_changed));
+		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
 	}
 
 	if (_film) {
@@ -663,7 +663,7 @@ void
 FilmEditor::edit_filters_clicked (wxCommandEvent &)
 {
 	FilterDialog* d = new FilterDialog (this, _film->filters());
-	d->ActiveChanged.connect (sigc::mem_fun (*_film, &Film::set_filters));
+	d->ActiveChanged.connect (bind (&Film::set_filters, _film, _1));
 	d->ShowModal ();
 	d->Destroy ();
 }
@@ -758,7 +758,7 @@ void
 FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
 {
 	DCPRangeDialog* d = new DCPRangeDialog (this, _film);
-	d->Changed.connect (sigc::mem_fun (*this, &FilmEditor::dcp_range_changed));
+	d->Changed.connect (bind (&FilmEditor::dcp_range_changed, this, _1, _2));
 	d->ShowModal ();
 }
 

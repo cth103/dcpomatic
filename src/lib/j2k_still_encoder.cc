@@ -38,8 +38,9 @@
 #include "imagemagick_decoder.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::pair;
+using boost::shared_ptr;
 
 J2KStillEncoder::J2KStillEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
 	: Encoder (f, o)

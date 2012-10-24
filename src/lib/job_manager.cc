@@ -27,8 +27,9 @@
 #include "job.h"
 #include "cross.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::list;
+using boost::shared_ptr;
 
 JobManager* JobManager::_instance = 0;
 

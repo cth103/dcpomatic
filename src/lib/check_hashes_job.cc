@@ -28,8 +28,10 @@
 #include "transcode_job.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::ifstream;
+using boost::shared_ptr;
 
 CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
 	: Job (f, req)
@@ -56,13 +58,13 @@ CheckHashesJob::run ()
 		string const j2k_file = _opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 
-		if (!filesystem::exists (j2k_file)) {
+		if (!boost::filesystem::exists (j2k_file)) {
 			_film->log()->log (String::compose ("Frame %1 has a missing J2K file.", i));
-			filesystem::remove (hash_file);
+			boost::filesystem::remove (hash_file);
 			++_bad;
-		} else if (!filesystem::exists (hash_file)) {
+		} else if (!boost::filesystem::exists (hash_file)) {
 			_film->log()->log (String::compose ("Frame %1 has a missing hash file.", i));
-			filesystem::remove (j2k_file);
+			boost::filesystem::remove (j2k_file);
 			++_bad;
 		} else {
 			ifstream ref (hash_file.c_str ());
@@ -70,8 +72,8 @@ CheckHashesJob::run ()
 			ref >> hash;
 			if (hash != md5_digest (j2k_file)) {
 				_film->log()->log (String::compose ("Frame %1 has wrong hash; deleting.", i));
-				filesystem::remove (j2k_file);
-				filesystem::remove (hash_file);
+				boost::filesystem::remove (j2k_file);
+				boost::filesystem::remove (hash_file);
 				++_bad;
 			}
 		}

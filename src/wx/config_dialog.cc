@@ -35,7 +35,7 @@
 #include "server_dialog.h"
 
 using namespace std;
-using namespace boost;
+using boost::bind;
 
 ConfigDialog::ConfigDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("DVD-o-matic Configuration"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
@@ -307,7 +307,7 @@ void
 ConfigDialog::edit_reference_filters_clicked (wxCommandEvent &)
 {
 	FilterDialog* d = new FilterDialog (this, Config::instance()->reference_filters ());
-	d->ActiveChanged.connect (sigc::mem_fun (*this, &ConfigDialog::reference_filters_changed));
+	d->ActiveChanged.connect (boost::bind (&ConfigDialog::reference_filters_changed, this, _1));
 	d->ShowModal ();
 	d->Destroy ();
 }

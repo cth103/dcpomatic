@@ -19,7 +19,6 @@
 
 #include <iostream>
 #include <boost/shared_ptr.hpp>
-#include <sigc++/bind.h>
 #include "ab_transcoder.h"
 #include "film.h"
 #include "decoder.h"
@@ -34,8 +33,8 @@
  *  for the right half (to facilitate A/B comparisons of settings)
  */
 
-using namespace std;
-using namespace boost;
+using std::string;
+using boost::shared_ptr;
 
 /** @param a Film to use for the left half of the screen.
  *  @param b Film to use for the right half of the screen.
@@ -56,9 +55,9 @@ ABTranscoder::ABTranscoder (
 	_da = decoder_factory (_film_a, o, j);
 	_db = decoder_factory (_film_b, o, j);
 
-	_da->Video.connect (sigc::bind (sigc::mem_fun (*this, &ABTranscoder::process_video), 0));
-	_db->Video.connect (sigc::bind (sigc::mem_fun (*this, &ABTranscoder::process_video), 1));
-	_da->Audio.connect (sigc::mem_fun (*e, &Encoder::process_audio));
+	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, _3, 0));
+	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, _3, 1));
+	_da->Audio.connect (bind (&Encoder::process_audio, e, _1));
 }
 
 ABTranscoder::~ABTranscoder ()

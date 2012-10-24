@@ -41,8 +41,14 @@
 #include "cross.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::list;
+using std::vector;
+using std::pair;
+using boost::shared_ptr;
+using boost::thread;
+using boost::lexical_cast;
 
 J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
 	: Encoder (f, o)

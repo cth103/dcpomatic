@@ -31,8 +31,11 @@
 #include "log.h"
 #include "encoder_factory.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::fixed;
+using std::setprecision;
+using boost::shared_ptr;
 
 /** @param s Film to use.
  *  @param o Options.

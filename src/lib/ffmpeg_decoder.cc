@@ -49,10 +49,12 @@ extern "C" {
 #include "ffmpeg_decoder.h"
 #include "subtitle.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::vector;
+using std::stringstream;
+using boost::shared_ptr;
 
-FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal, bool ignore_length)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal, bool ignore_length)
 	: Decoder (f, o, j, minimal, ignore_length)
 	, _format_context (0)
 	, _video_stream (-1)

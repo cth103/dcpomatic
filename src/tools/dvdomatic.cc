@@ -229,7 +229,7 @@ public:
 		film_editor->setup_visibility ();
 		film_viewer->setup_visibility ();
 		
-		film_editor->FileChanged.connect (sigc::mem_fun (*this, &Frame::file_changed));
+		film_editor->FileChanged.connect (bind (&Frame::file_changed, this, _1));
 		if (film) {
 			file_changed (film->directory ());
 		} else {

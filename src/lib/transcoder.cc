@@ -25,13 +25,13 @@
  */
 
 #include <iostream>
-#include <sigc++/signal.h>
+#include <boost/signals2.hpp>
 #include "transcoder.h"
 #include "encoder.h"
 #include "decoder_factory.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using boost::shared_ptr;
 
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
  *  @param f Film that we are transcoding.
@@ -46,8 +46,8 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 {
 	assert (_encoder);
 	
-	_decoder->Video.connect (sigc::mem_fun (*e, &Encoder::process_video));
-	_decoder->Audio.connect (sigc::mem_fun (*e, &Encoder::process_audio));
+	_decoder->Video.connect (bind (&Encoder::process_video, e, _1, _2, _3));
+	_decoder->Audio.connect (bind (&Encoder::process_audio, e, _1));
 }
 
 /** Run the decoder, passing its output to the encoder, until the decoder

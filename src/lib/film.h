@@ -30,6 +30,7 @@
 #include <inttypes.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
+#include <boost/signals2.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
@@ -376,7 +377,7 @@ public:
 	void set_frames_per_second (float);
 
 	/** Emitted when some property has changed */
-	mutable sigc::signal1<void, Property> Changed;
+	mutable boost::signals2::signal<void (Property)> Changed;
 	
 private:
 	
@@ -387,9 +388,12 @@ private:
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
 
 	std::string thumb_file_for_frame (int) const;
+	std::string thumb_file_for_frame_locked (int) const;
 	std::string thumb_base_for_frame (int) const;
+	std::string thumb_base_for_frame_locked (int) const;
 	void signal_changed (Property);
 	std::string file_locked (std::string) const;
+	std::string dir_locked (std::string d) const;
 	void examine_content_finished ();
 	
 	/** Complete path to directory containing the film metadata;
