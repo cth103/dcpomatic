@@ -362,9 +362,8 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	}
 	
 	Film film (test_film, false);
-	film.set_name ("test_film");
+	film.set_name ("test_film2");
 	film.set_content ("../../../test/test.mp4");
-	film.examine_content ();
 	film.set_format (Format::from_nickname ("Flat"));
 	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film.make_dcp (true);
@@ -385,7 +384,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	}
 	
 	Film film (test_film, false);
-	film.set_name ("test_film");
+	film.set_name ("test_film3");
 	film.set_content ("../../../test/test.mp4");
 	film.examine_content ();
 	film.set_format (Format::from_nickname ("Flat"));
