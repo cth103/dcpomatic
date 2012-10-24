@@ -95,7 +95,7 @@ public:
 	void read_metadata ();
 
 	Size cropped_size (Size) const;
-	int dcp_length () const;
+	boost::optional<int> dcp_length () const;
 	std::string dci_name () const;
 	std::string dcp_name () const;
 
@@ -185,7 +185,7 @@ public:
 		return _scaler;
 	}
 
-	int dcp_frames () const {
+	boost::optional<int> dcp_frames () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_frames;
 	}
@@ -297,11 +297,11 @@ public:
 		return _size;
 	}
 
-	int length () const {
+	boost::optional<int> length () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _length;
 	}
-
+	
 	int audio_sample_rate () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_sample_rate;
@@ -369,6 +369,7 @@ public:
 	void set_thumbs (std::vector<int>);
 	void set_size (Size);
 	void set_length (int);
+	void unset_length ();
 	void set_audio_sample_rate (int);
 	void set_content_digest (std::string);
 	void set_has_subtitles (bool);
@@ -418,8 +419,8 @@ private:
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** Number of frames to put in the DCP, or 0 for all */
-	int _dcp_frames;
+	/** Maximum number of frames to put in the DCP, if applicable */
+	boost::optional<int> _dcp_frames;
 	/** What to do with audio when trimming DCPs */
 	TrimAction _dcp_trim_action;
 	/** true to create an A/B comparison DCP, where the left half of the image
@@ -461,8 +462,8 @@ private:
 	std::vector<int> _thumbs;
 	/** Size, in pixels, of the source (ignoring cropping) */
 	Size _size;
-	/** Length of the source in frames */
-	int _length;
+	/** Actual length of the source (in video frames) from examining it */
+	boost::optional<int> _length;
 	/** Sample rate of the source audio, in Hz */
 	int _audio_sample_rate;
 	/** MD5 digest of our content file */

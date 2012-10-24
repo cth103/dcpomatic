@@ -27,6 +27,7 @@
 #include "ab_transcode_job.h"
 #include "transcode_job.h"
 #include "film.h"
+#include "exceptions.h"
 
 using std::string;
 using std::stringstream;
@@ -52,7 +53,11 @@ CheckHashesJob::run ()
 {
 	_bad = 0;
 
-	int const N = _film->dcp_length ();
+	if (!_film->dcp_length()) {
+		throw EncodeError ("cannot check hashes of a DCP with unknown length");
+	}
+	
+	int const N = _film->dcp_length().get();
 	
 	for (int i = 0; i < N; ++i) {
 		string const j2k_file = _opt->frame_out_path (i, false);
@@ -78,7 +83,7 @@ CheckHashesJob::run ()
 			}
 		}
 
-		set_progress (float (i) / _film->length());
+		set_progress (float (i) / N);
 	}
 
 	if (_bad) {

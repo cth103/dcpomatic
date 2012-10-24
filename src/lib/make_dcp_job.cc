@@ -70,6 +70,10 @@ MakeDCPJob::wav_path (libdcp::Channel c) const
 void
 MakeDCPJob::run ()
 {
+	if (!_film->dcp_length()) {
+		throw EncodeError ("cannot make a DCP when the source length is not known");
+	}
+	
 	string const dcp_path = _film->dir (_film->dcp_name());
 
 	/* Remove any old DCP */
@@ -78,7 +82,7 @@ MakeDCPJob::run ()
 	int frames = 0;
 	switch (_film->content_type ()) {
 	case VIDEO:
-		frames = _film->dcp_length ();
+		frames = _film->dcp_length().get();
 		break;
 	case STILL:
 		frames = _film->still_duration() * ImageMagickDecoder::static_frames_per_second ();

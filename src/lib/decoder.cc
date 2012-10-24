@@ -75,8 +75,8 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _delay_in_bytes (0)
 	, _audio_frames_processed (0)
 {
-	if (_opt->decode_video_frequency != 0 && _film->length() == 0) {
-		throw DecodeError ("cannot do a partial decode if length == 0");
+	if (_opt->decode_video_frequency != 0 && !_film->length()) {
+		throw DecodeError ("cannot do a partial decode if length is unknown");
 	}
 }
 
@@ -111,19 +111,19 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const video_length_in_audio_frames = ((int64_t) _film->dcp_length() * audio_sample_rate() / frames_per_second());
+	int64_t const video_length_in_audio_frames = ((int64_t) last_video_frame() * audio_sample_rate() / frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_log->log (
 		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
-				 _film->dcp_length(),
+				 last_video_frame(),
 				 video_length_in_audio_frames,
 				 _audio_frames_processed)
 		);
 	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", _film->dcp_length(), _audio_frames_processed));
+		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", last_video_frame(), _audio_frames_processed));
 		_log->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		/* XXX: this is slightly questionable; does memset () give silence with all
@@ -150,13 +150,13 @@ Decoder::go ()
 {
 	process_begin ();
 
-	if (_job && _ignore_length) {
+	if (_job && !_film->dcp_length()) {
 		_job->set_progress_unknown ();
 	}
 
 	while (pass () == false) {
-		if (_job && !_ignore_length) {
-			_job->set_progress (float (_video_frame) / _film->dcp_length());
+		if (_job && _film->dcp_length()) {
+			_job->set_progress (float (_video_frame) / _film->dcp_length().get());
 		}
 	}
 
@@ -286,7 +286,7 @@ Decoder::process_video (AVFrame* frame)
 
 	int gap = 0;
 	if (_opt->decode_video_frequency != 0) {
-		gap = _film->length() / _opt->decode_video_frequency;
+		gap = _film->length().get() / _opt->decode_video_frequency;
 	}
 
 	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame % gap) != 0) {

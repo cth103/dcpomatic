@@ -478,10 +478,10 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		break;
 	case Film::LENGTH:
-		if (_film->frames_per_second() > 0 && _film->length() > 0) {
-			s << _film->length() << " frames; " << seconds_to_hms (_film->length() / _film->frames_per_second());
-		} else if (_film->length() > 0) {
-			s << _film->length() << " frames";
+		if (_film->frames_per_second() > 0 && _film->length()) {
+			s << _film->length().get() << " frames; " << seconds_to_hms (_film->length().get() / _film->frames_per_second());
+		} else if (_film->length()) {
+			s << _film->length().get() << " frames";
 		} 
 		_length->SetLabel (std_to_wx (s.str ()));
 		break;

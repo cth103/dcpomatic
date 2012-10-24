@@ -50,10 +50,10 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, Film* f)
 	table->Add (_black_out);
 
 	_n_frames->SetRange (1, INT_MAX - 1);
-	if (_film->dcp_frames() > 0) {
+	if (_film->dcp_frames()) {
 		_whole->SetValue (false);
 		_first->SetValue (true);
-		_n_frames->SetValue (_film->dcp_frames ());
+		_n_frames->SetValue (_film->dcp_frames().get());
 	} else {
 		_whole->SetValue (true);
 		_first->SetValue (false);

@@ -62,6 +62,7 @@ using std::vector;
 using std::ifstream;
 using std::ofstream;
 using std::setfill;
+using std::min;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::to_upper_copy;
@@ -81,7 +82,6 @@ Film::Film (string d, bool must_exist)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))
-	, _dcp_frames (0)
 	, _dcp_trim_action (CUT)
 	, _dcp_ab (false)
 	, _audio_stream (-1)
@@ -92,7 +92,6 @@ Film::Film (string d, bool must_exist)
 	, _with_subtitles (false)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
-	, _length (0)
 	, _audio_sample_rate (0)
 	, _has_subtitles (false)
 	, _frames_per_second (0)
@@ -252,7 +251,7 @@ Film::make_dcp (bool transcode)
 
 	shared_ptr<Options> o (new Options (j2k_dir(), ".j2c", dir ("wavs")));
 	o->out_size = format()->dcp_size ();
-	if (dcp_frames() == 0) {
+	if (!dcp_frames()) {
 		/* Decode the whole film, no blacking */
 		o->black_after = 0;
 	} else {
@@ -263,7 +262,7 @@ Film::make_dcp (bool transcode)
 			break;
 		case BLACK_OUT:
 			/* Decode the whole film, but black some frames out */
-			o->black_after = dcp_frames ();
+			o->black_after = dcp_frames().get ();
 		}
 	}
 	
@@ -417,7 +416,7 @@ Film::write_metadata () const
 		f << "filter " << (*i)->id () << "\n";
 	}
 	f << "scaler " << _scaler->id () << "\n";
-	f << "dcp_frames " << _dcp_frames << "\n";
+	f << "dcp_frames " << _dcp_frames.get_value_or(0) << "\n";
 
 	f << "dcp_trim_action ";
 	switch (_dcp_trim_action) {
@@ -454,7 +453,7 @@ Film::write_metadata () const
 	}
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
-	f << "length " << _length << "\n";
+	f << "length " << _length.get_value_or(0) << "\n";
 	f << "audio_sample_rate " << _audio_sample_rate << "\n";
 	f << "content_digest " << _content_digest << "\n";
 	f << "has_subtitles " << _has_subtitles << "\n";
@@ -508,7 +507,10 @@ Film::read_metadata ()
 		} else if (k == "scaler") {
 			_scaler = Scaler::from_id (v);
 		} else if (k == "dcp_frames") {
-			_dcp_frames = atoi (v.c_str ());
+			int const vv = atoi (v.c_str ());
+			if (vv) {
+				_dcp_frames = vv;
+			}
 		} else if (k == "dcp_trim_action") {
 			if (v == "cut") {
 				_dcp_trim_action = CUT;
@@ -561,7 +563,10 @@ Film::read_metadata ()
 		} else if (k == "height") {
 			_size.height = atoi (v.c_str ());
 		} else if (k == "length") {
-			_length = atof (v.c_str ());
+			int const vv = atoi (v.c_str ());
+			if (vv) {
+				_length = vv;
+			}
 		} else if (k == "audio_sample_rate") {
 			_audio_sample_rate = atoi (v.c_str ());
 		} else if (k == "content_digest") {
@@ -738,11 +743,15 @@ Film::target_audio_sample_rate () const
 	return rint (t);
 }
 
-int
+boost::optional<int>
 Film::dcp_length () const
 {
+	if (!length()) {
+		return boost::optional<int> ();
+	}
+
 	if (dcp_frames()) {
-		return dcp_frames();
+		return min (dcp_frames().get(), length().get());
 	}
 
 	return length();
@@ -914,7 +923,7 @@ Film::set_content (string c)
 	o->out_size = Size (1024, 1024);
 	
 	shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0, 0);
-	
+
 	set_size (d->native_size ());
 	set_frames_per_second (d->frames_per_second ());
 	set_audio_sample_rate (d->audio_sample_rate ());
@@ -1245,6 +1254,16 @@ Film::set_length (int l)
 	}
 	signal_changed (LENGTH);
 }
+
+void
+Film::unset_length ()
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_length = boost::none;
+	}
+	signal_changed (LENGTH);
+}	
 
 void
 Film::set_audio_sample_rate (int r)

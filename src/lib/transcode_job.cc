@@ -109,5 +109,6 @@ TranscodeJob::remaining_time () const
 		return 0;
 	}
 
-	return ((_film->dcp_length() - _encoder->last_frame()) / fps);
+	/* We assume that dcp_length() is valid */
+	return ((_film->dcp_length().get() - _encoder->last_frame()) / fps);
 }
