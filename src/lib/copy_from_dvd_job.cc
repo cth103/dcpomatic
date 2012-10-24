@@ -25,18 +25,17 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include "copy_from_dvd_job.h"
-#include "film_state.h"
 #include "dvd.h"
 #include "cross.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-/** @param fs FilmState for the film to write DVD data into.
- *  @param l Log that we can write to.
+/** @param f Film to write DVD data into.
  */
-CopyFromDVDJob::CopyFromDVDJob (shared_ptr<const FilmState> fs, Log* l, shared_ptr<Job> req)
-	: Job (fs, l, req)
+CopyFromDVDJob::CopyFromDVDJob (shared_ptr<Film> f, shared_ptr<Job> req)
+	: Job (f, req)
 {
 
 }
@@ -51,7 +50,7 @@ void
 CopyFromDVDJob::run ()
 {
 	/* Remove any old DVD rips */
-	filesystem::remove_all (_fs->dir ("dvd"));
+	filesystem::remove_all (_film->dir ("dvd"));
 
 	string const dvd = find_dvd ();
 	if (dvd.empty ()) {
@@ -75,7 +74,7 @@ CopyFromDVDJob::run ()
 	}
 
 	stringstream c;
-	c << "vobcopy -n " << longest_title << " -l -o \"" << _fs->dir ("dvd") << "\" 2>&1";
+	c << "vobcopy -n " << longest_title << " -l -o \"" << _film->dir ("dvd") << "\" 2>&1";
 
 	FILE* f = popen (c.str().c_str(), "r");
 	if (f == 0) {

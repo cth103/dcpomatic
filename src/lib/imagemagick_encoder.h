@@ -34,7 +34,7 @@ class Log;
 class ImageMagickEncoder : public Encoder
 {
 public:
-	ImageMagickEncoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
+	ImageMagickEncoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
 
 	void process_begin (int64_t audio_channel_layout) {}
 	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);

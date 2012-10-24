@@ -23,18 +23,18 @@
 
 #include "examine_content_job.h"
 #include "options.h"
-#include "film_state.h"
 #include "decoder_factory.h"
 #include "decoder.h"
 #include "imagemagick_encoder.h"
 #include "transcoder.h"
 #include "log.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-ExamineContentJob::ExamineContentJob (shared_ptr<const FilmState> fs, Log* l, shared_ptr<Job> req)
-	: Job (fs, l, req)
+ExamineContentJob::ExamineContentJob (shared_ptr<Film> f, shared_ptr<Job> req)
+	: Job (f, req)
 {
 
 }
@@ -46,18 +46,16 @@ ExamineContentJob::~ExamineContentJob ()
 string
 ExamineContentJob::name () const
 {
-	if (_fs->name().empty ()) {
+	if (_film->name().empty ()) {
 		return "Examine content";
 	}
 	
-	return String::compose ("Examine content of %1", _fs->name());
+	return String::compose ("Examine content of %1", _film->name());
 }
 
 void
 ExamineContentJob::run ()
 {
-	shared_ptr<FilmState> fs = _fs->state_copy ();
-	
 	/* Decode the content to get an accurate length */
 	
 	shared_ptr<Options> o (new Options ("", "", ""));
@@ -66,12 +64,12 @@ ExamineContentJob::run ()
 
 	descend (0.5);
 
-	_decoder = decoder_factory (fs, o, this, _log, true, true);
+	_decoder = decoder_factory (_film, o, this, true, true);
 	_decoder->go ();
 
-	fs->set_length (_decoder->last_video_frame ());
+	_film->set_length (_decoder->last_video_frame ());
 
-	_log->log (String::compose ("Video length is %1 frames", _decoder->last_video_frame()));
+	_film->log()->log (String::compose ("Video length is %1 frames", _decoder->last_video_frame()));
 
 	ascend ();
 
@@ -80,14 +78,14 @@ ExamineContentJob::run ()
 	descend (0.5);
 
 	try {
-		o.reset (new Options (fs->dir ("thumbs"), ".png", ""));
-		o->out_size = fs->size ();
+		o.reset (new Options (_film->dir ("thumbs"), ".png", ""));
+		o->out_size = _film->size ();
 		o->apply_crop = false;
 		o->decode_audio = false;
 		o->decode_video_frequency = 128;
 		o->decode_subtitles = true;
-		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (fs, o, _log));
-		Transcoder w (fs, o, this, _log, e);
+		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (_film, o));
+		Transcoder w (_film, o, this, e);
 		w.go ();
 		
 	} catch (std::exception& e) {

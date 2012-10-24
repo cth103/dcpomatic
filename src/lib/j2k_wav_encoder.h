@@ -47,7 +47,7 @@ class AudioBuffers;
 class J2KWAVEncoder : public Encoder
 {
 public:
-	J2KWAVEncoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *);
+	J2KWAVEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);
 	~J2KWAVEncoder ();
 
 	void process_begin (int64_t audio_channel_layout);

@@ -34,7 +34,7 @@ class Log;
 class J2KStillEncoder : public Encoder
 {
 public:
-	J2KStillEncoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *);
+	J2KStillEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);
 
 	void process_begin (int64_t audio_channel_layout) {}
 	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>);

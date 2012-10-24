@@ -40,7 +40,7 @@ public:
 private:
 	void slider_changed (wxCommandEvent &);
 	void set_thumbnail (int);
-	void film_changed (FilmState::Property);
+	void film_changed (Film::Property);
 
 	Film* _film;
 	wxBoxSizer* _sizer;

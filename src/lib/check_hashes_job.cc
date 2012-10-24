@@ -21,18 +21,18 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
 #include "check_hashes_job.h"
-#include "film_state.h"
 #include "options.h"
 #include "log.h"
 #include "job_manager.h"
 #include "ab_transcode_job.h"
 #include "transcode_job.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-CheckHashesJob::CheckHashesJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
-	: Job (s, l, req)
+CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
+	: Job (f, req)
 	, _opt (o)
 	, _bad (0)
 {
@@ -42,7 +42,7 @@ CheckHashesJob::CheckHashesJob (shared_ptr<const FilmState> s, shared_ptr<const 
 string
 CheckHashesJob::name () const
 {
-	return String::compose ("Check hashes of %1", _fs->name());
+	return String::compose ("Check hashes of %1", _film->name());
 }
 
 void
@@ -50,18 +50,18 @@ CheckHashesJob::run ()
 {
 	_bad = 0;
 
-	int const N = _fs->dcp_length ();
+	int const N = _film->dcp_length ();
 	
 	for (int i = 0; i < N; ++i) {
 		string const j2k_file = _opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 
 		if (!filesystem::exists (j2k_file)) {
-			_log->log (String::compose ("Frame %1 has a missing J2K file.", i));
+			_film->log()->log (String::compose ("Frame %1 has a missing J2K file.", i));
 			filesystem::remove (hash_file);
 			++_bad;
 		} else if (!filesystem::exists (hash_file)) {
-			_log->log (String::compose ("Frame %1 has a missing hash file.", i));
+			_film->log()->log (String::compose ("Frame %1 has a missing hash file.", i));
 			filesystem::remove (j2k_file);
 			++_bad;
 		} else {
@@ -69,27 +69,27 @@ CheckHashesJob::run ()
 			string hash;
 			ref >> hash;
 			if (hash != md5_digest (j2k_file)) {
-				_log->log (String::compose ("Frame %1 has wrong hash; deleting.", i));
+				_film->log()->log (String::compose ("Frame %1 has wrong hash; deleting.", i));
 				filesystem::remove (j2k_file);
 				filesystem::remove (hash_file);
 				++_bad;
 			}
 		}
 
-		set_progress (float (i) / _fs->length());
+		set_progress (float (i) / _film->length());
 	}
 
 	if (_bad) {
 		shared_ptr<Job> tc;
 
-		if (_fs->dcp_ab()) {
-			tc.reset (new ABTranscodeJob (_fs, _opt, _log, shared_from_this()));
+		if (_film->dcp_ab()) {
+			tc.reset (new ABTranscodeJob (_film, _opt, shared_from_this()));
 		} else {
-			tc.reset (new TranscodeJob (_fs, _opt, _log, shared_from_this()));
+			tc.reset (new TranscodeJob (_film, _opt, shared_from_this()));
 		}
 		
 		JobManager::instance()->add_after (shared_from_this(), tc);
-		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_fs, _opt, _log, tc)));
+		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_film, _opt, tc)));
 	}
 		
 	set_progress (1);

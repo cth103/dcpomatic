@@ -22,9 +22,9 @@
  */
 
 class Encoder;
-class FilmState;
 class Options;
 class Job;
 class Log;
+class Film;
 
-extern boost::shared_ptr<Encoder> encoder_factory (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *);
+extern boost::shared_ptr<Encoder> encoder_factory (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);

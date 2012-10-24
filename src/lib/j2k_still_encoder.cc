@@ -30,19 +30,19 @@
 #include <openjpeg.h>
 #include "j2k_still_encoder.h"
 #include "config.h"
-#include "film_state.h"
 #include "options.h"
 #include "exceptions.h"
 #include "dcp_video_frame.h"
 #include "filter.h"
 #include "log.h"
 #include "imagemagick_decoder.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-J2KStillEncoder::J2KStillEncoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: Encoder (s, o, l)
+J2KStillEncoder::J2KStillEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+	: Encoder (f, o)
 {
 	
 }
@@ -50,11 +50,11 @@ J2KStillEncoder::J2KStillEncoder (shared_ptr<const FilmState> s, shared_ptr<cons
 void
 J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub)
 {
-	pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters());
+	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 	DCPVideoFrame* f = new DCPVideoFrame (
-		yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset(), _fs->subtitle_scale(), _fs->scaler(), 0, _fs->frames_per_second(), s.second,
+		yuv, sub, _opt->out_size, _opt->padding, _film->subtitle_offset(), _film->subtitle_scale(), _film->scaler(), 0, _film->frames_per_second(), s.second,
 		Config::instance()->colour_lut_index(), Config::instance()->j2k_bandwidth(),
-		_log
+		_film->log()
 		);
 
 	if (!boost::filesystem::exists (_opt->frame_out_path (0, false))) {
@@ -63,7 +63,7 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Sub
 	}
 
 	string const real = _opt->frame_out_path (0, false);
-	for (int i = 1; i < (_fs->still_duration() * ImageMagickDecoder::static_frames_per_second()); ++i) {
+	for (int i = 1; i < (_film->still_duration() * ImageMagickDecoder::static_frames_per_second()); ++i) {
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
 			string const link = _opt->frame_out_path (i, false);
 #ifdef DVDOMATIC_POSIX			

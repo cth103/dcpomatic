@@ -24,7 +24,6 @@
 #include "subtitle.h"
 #include "image.h"
 #include "exceptions.h"
-#include "film_state.h"
 
 using namespace std;
 using namespace boost;

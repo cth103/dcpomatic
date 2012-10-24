@@ -24,38 +24,36 @@
 #include "format.h"
 #include "filter.h"
 #include "ab_transcoder.h"
-#include "film_state.h"
 #include "encoder_factory.h"
 #include "config.h"
 
 using namespace std;
 using namespace boost;
 
-/** @param s FilmState to compare (with filters and/or a non-bicubic scaler).
+/** @param f Film to compare.
  *  @param o Options.
- *  @Param l A log that we can write to.
  */
-ABTranscodeJob::ABTranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
-	: Job (s, l, req)
+ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
+	: Job (f, req)
 	, _opt (o)
 {
-	_fs_b.reset (new FilmState (*_fs));
-	_fs_b->set_scaler (Config::instance()->reference_scaler ());
-	_fs_b->set_filters (Config::instance()->reference_filters ());
+	_film_b.reset (new Film (*_film));
+	_film_b->set_scaler (Config::instance()->reference_scaler ());
+	_film_b->set_filters (Config::instance()->reference_filters ());
 }
 
 string
 ABTranscodeJob::name () const
 {
-	return String::compose ("A/B transcode %1", _fs->name());
+	return String::compose ("A/B transcode %1", _film->name());
 }
 
 void
 ABTranscodeJob::run ()
 {
 	try {
-		/* _fs_b is the one with no filters */
-		ABTranscoder w (_fs_b, _fs, _opt, this, _log, encoder_factory (_fs, _opt, _log));
+		/* _film_b is the one with reference filters */
+		ABTranscoder w (_film_b, _film, _opt, this, encoder_factory (_film, _opt));
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);

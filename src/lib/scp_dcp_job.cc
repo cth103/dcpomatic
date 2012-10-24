@@ -27,11 +27,12 @@
 #include <fcntl.h>
 #include <boost/filesystem.hpp>
 #include <libssh/libssh.h>
+#include "compose.hpp"
 #include "scp_dcp_job.h"
 #include "exceptions.h"
 #include "config.h"
 #include "log.h"
-#include "film_state.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
@@ -91,8 +92,8 @@ public:
 };
 
 
-SCPDCPJob::SCPDCPJob (shared_ptr<const FilmState> s, Log* l, shared_ptr<Job> req)
-	: Job (s, l, req)
+SCPDCPJob::SCPDCPJob (shared_ptr<Film> f, shared_ptr<Job> req)
+	: Job (f, req)
 	, _status ("Waiting")
 {
 
@@ -107,7 +108,7 @@ SCPDCPJob::name () const
 void
 SCPDCPJob::run ()
 {
-	_log->log ("SCP DCP job starting");
+	_film->log()->log ("SCP DCP job starting");
 	
 	SSHSession ss;
 	
@@ -140,12 +141,12 @@ SCPDCPJob::run ()
 		throw NetworkError (String::compose ("Could not start SCP session (%1)", ssh_get_error (ss.session)));
 	}
 	
-	r = ssh_scp_push_directory (sc.scp, _fs->dcp_name().c_str(), S_IRWXU);
+	r = ssh_scp_push_directory (sc.scp, _film->dcp_name().c_str(), S_IRWXU);
 	if (r != SSH_OK) {
-		throw NetworkError (String::compose ("Could not create remote directory %1 (%2)", _fs->dcp_name(), ssh_get_error (ss.session)));
+		throw NetworkError (String::compose ("Could not create remote directory %1 (%2)", _film->dcp_name(), ssh_get_error (ss.session)));
 	}
 	
-	string const dcp_dir = _fs->dir (_fs->dcp_name());
+	string const dcp_dir = _film->dir (_film->dcp_name());
 	
 	boost::uintmax_t bytes_to_transfer = 0;
 	for (filesystem::directory_iterator i = filesystem::directory_iterator (dcp_dir); i != filesystem::directory_iterator(); ++i) {

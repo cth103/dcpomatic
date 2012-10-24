@@ -18,7 +18,7 @@
 */
 
 /** @file  src/transcoder.cc
- *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
+ *  @brief A class which takes a Film and some Options, then uses those to transcode the film.
  *
  *  A decoder is selected according to the content type, and the encoder can be specified
  *  as a parameter to the constructor.
@@ -34,16 +34,15 @@ using namespace std;
 using namespace boost;
 
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
- *  @param s FilmState of Film that we are transcoding.
+ *  @param f Film that we are transcoding.
  *  @param o Options.
  *  @param j Job that we are running under, or 0.
- *  @param l Log that we can write to.
  *  @param e Encoder to use.
  */
-Transcoder::Transcoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Job* j, Log* l, shared_ptr<Encoder> e)
+Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, shared_ptr<Encoder> e)
 	: _job (j)
 	, _encoder (e)
-	, _decoder (decoder_factory (s, o, j, l))
+	, _decoder (decoder_factory (f, o, j))
 {
 	assert (_encoder);
 	

@@ -24,17 +24,17 @@
 #include <boost/filesystem.hpp>
 #include "j2k_wav_encoder.h"
 #include "j2k_still_encoder.h"
-#include "film_state.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
 shared_ptr<Encoder>
-encoder_factory (shared_ptr<const FilmState> fs, shared_ptr<const Options> o, Log* l)
+encoder_factory (shared_ptr<const Film> f, shared_ptr<const Options> o)
 {
-	if (!filesystem::is_directory (fs->content_path()) && fs->content_type() == STILL) {
-		return shared_ptr<Encoder> (new J2KStillEncoder (fs, o, l));
+	if (!filesystem::is_directory (f->content_path()) && f->content_type() == STILL) {
+		return shared_ptr<Encoder> (new J2KStillEncoder (f, o));
 	}
 	
-	return shared_ptr<Encoder> (new J2KWAVEncoder (fs, o, l));
+	return shared_ptr<Encoder> (new J2KWAVEncoder (f, o));
 }

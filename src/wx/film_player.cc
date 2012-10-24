@@ -153,7 +153,7 @@ FilmPlayer::play_clicked ()
 	case PlayerManager::QUIESCENT:
 		_last_play_fs = _film->state_copy ();
 		if (_ab.get_active ()) {
-			shared_ptr<FilmState> fs_a = _film->state_copy ();
+			shared_ptr<Film> fs_a = _film->state_copy ();
 			fs_a->filters.clear ();
 			/* This is somewhat arbitrary, but hey ho */
 			fs_a->scaler = Scaler::from_id ("bicubic");

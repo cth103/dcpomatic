@@ -25,39 +25,36 @@
 #include "decoder.h"
 #include "encoder.h"
 #include "job.h"
-#include "film_state.h"
 #include "options.h"
 #include "image.h"
 #include "decoder_factory.h"
 
 /** @file src/ab_transcoder.cc
- *  @brief A transcoder which uses one FilmState for the left half of the screen, and a different one
+ *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
  *  for the right half (to facilitate A/B comparisons of settings)
  */
 
 using namespace std;
 using namespace boost;
 
-/** @param a FilmState to use for the left half of the screen.
- *  @param b FilmState to use for the right half of the screen.
+/** @param a Film to use for the left half of the screen.
+ *  @param b Film to use for the right half of the screen.
  *  @param o Options.
  *  @param j Job that we are associated with.
- *  @param l Log.
  *  @param e Encoder to use.
  */
 
 ABTranscoder::ABTranscoder (
-	shared_ptr<const FilmState> a, shared_ptr<const FilmState> b, shared_ptr<const Options> o, Job* j, Log* l, shared_ptr<Encoder> e)
-	: _fs_a (a)
-	, _fs_b (b)
+	shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<const Options> o, Job* j, shared_ptr<Encoder> e)
+	: _film_a (a)
+	, _film_b (b)
 	, _opt (o)
 	, _job (j)
-	, _log (l)
 	, _encoder (e)
 	, _last_frame (0)
 {
-	_da = decoder_factory (_fs_a, o, j, _log);
-	_db = decoder_factory (_fs_b, o, j, _log);
+	_da = decoder_factory (_film_a, o, j);
+	_db = decoder_factory (_film_b, o, j);
 
 	_da->Video.connect (sigc::bind (sigc::mem_fun (*this, &ABTranscoder::process_video), 0));
 	_db->Video.connect (sigc::bind (sigc::mem_fun (*this, &ABTranscoder::process_video), 1));
@@ -112,10 +109,6 @@ ABTranscoder::go ()
 		bool const a = _da->pass ();
 		bool const b = _db->pass ();
 
-		if (_job) {
-			_job->set_progress (float (_last_frame) / _fs_a->dcp_length());
-		}
-		
 		if (a && b) {
 			break;
 		}

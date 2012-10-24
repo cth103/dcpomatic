@@ -42,7 +42,6 @@ struct AVBufferContext;
 struct AVCodec;
 struct AVStream;
 class Job;
-class FilmState;
 class Options;
 class Image;
 class Log;
@@ -53,7 +52,7 @@ class Log;
 class FFmpegDecoder : public Decoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Job *, Log *, bool, bool);
+	FFmpegDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool, bool);
 	~FFmpegDecoder ();
 
 	/* Methods to query our input video */

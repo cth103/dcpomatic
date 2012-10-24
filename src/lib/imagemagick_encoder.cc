@@ -31,7 +31,6 @@
 #include <Magick++/Image.h>
 #include "imagemagick_encoder.h"
 #include "film.h"
-#include "film_state.h"
 #include "options.h"
 #include "exceptions.h"
 #include "image.h"
@@ -40,12 +39,11 @@
 using namespace std;
 using namespace boost;
 
-/** @param s FilmState of the film that we are encoding.
+/** @param f Film that we are encoding.
  *  @param o Options.
- *  @param l Log.
  */
-ImageMagickEncoder::ImageMagickEncoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: Encoder (s, o, l)
+ImageMagickEncoder::ImageMagickEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+	: Encoder (f, o)
 {
 	
 }
@@ -53,7 +51,7 @@ ImageMagickEncoder::ImageMagickEncoder (shared_ptr<const FilmState> s, shared_pt
 void
 ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_ptr<Subtitle> sub)
 {
-	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _fs->scaler());
+	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _film->scaler());
 	shared_ptr<Image> compact (new CompactImage (scaled));
 
 	string tmp_file = _opt->frame_out_path (frame, true);
@@ -63,8 +61,8 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 	filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
 
 	if (sub) {
-		float const x_scale = float (_opt->out_size.width) / _fs->size().width;
-		float const y_scale = float (_opt->out_size.height) / _fs->size().height;
+		float const x_scale = float (_opt->out_size.width) / _film->size().width;
+		float const y_scale = float (_opt->out_size.height) / _film->size().height;
 
 		string tmp_metadata_file = _opt->frame_out_path (frame, false, ".sub");
 		ofstream metadata (tmp_metadata_file.c_str ());
@@ -72,7 +70,7 @@ ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_pt
 		Size new_size = sub->image()->size ();
 		new_size.width *= x_scale;
 		new_size.height *= y_scale;
-		shared_ptr<Image> scaled = sub->image()->scale (new_size, _fs->scaler());
+		shared_ptr<Image> scaled = sub->image()->scale (new_size, _film->scaler());
 		shared_ptr<Image> compact (new CompactImage (scaled));
 		
 		string tmp_sub_file = _opt->frame_out_path (frame, true, ".sub.png");

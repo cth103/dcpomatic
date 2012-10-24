@@ -30,21 +30,20 @@ extern "C" {
 #include <libavutil/pixdesc.h>
 }
 #include "make_dcp_job.h"
-#include "film_state.h"
 #include "dcp_content_type.h"
 #include "exceptions.h"
 #include "options.h"
 #include "imagemagick_decoder.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-/** @param s FilmState of the Film we are making the DCP for.
+/** @param f Film we are making the DCP for.
  *  @param o Options.
- *  @param l Log.
  */
-MakeDCPJob::MakeDCPJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
-	: Job (s, l, req)
+MakeDCPJob::MakeDCPJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
+	: Job (f, req)
 	, _opt (o)
 {
 	
@@ -53,7 +52,7 @@ MakeDCPJob::MakeDCPJob (shared_ptr<const FilmState> s, shared_ptr<const Options>
 string
 MakeDCPJob::name () const
 {
-	return String::compose ("Make DCP for %1", _fs->name());
+	return String::compose ("Make DCP for %1", _film->name());
 }
 
 string
@@ -71,26 +70,26 @@ MakeDCPJob::wav_path (libdcp::Channel c) const
 void
 MakeDCPJob::run ()
 {
-	string const dcp_path = _fs->dir (_fs->dcp_name());
+	string const dcp_path = _film->dir (_film->dcp_name());
 
 	/* Remove any old DCP */
 	filesystem::remove_all (dcp_path);
 
 	int frames = 0;
-	switch (_fs->content_type ()) {
+	switch (_film->content_type ()) {
 	case VIDEO:
-		frames = _fs->dcp_length ();
+		frames = _film->dcp_length ();
 		break;
 	case STILL:
-		frames = _fs->still_duration() * ImageMagickDecoder::static_frames_per_second ();
+		frames = _film->still_duration() * ImageMagickDecoder::static_frames_per_second ();
 		break;
 	}
 	
-	libdcp::DCP dcp (_fs->dir (_fs->dcp_name()));
+	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
 
 	shared_ptr<libdcp::CPL> cpl (
-		new libdcp::CPL (_fs->dir (_fs->dcp_name()), _fs->dcp_name(), _fs->dcp_content_type()->libdcp_kind (), frames, rint (_fs->frames_per_second()))
+		new libdcp::CPL (_film->dir (_film->dcp_name()), _film->dcp_name(), _film->dcp_content_type()->libdcp_kind (), frames, rint (_film->frames_per_second()))
 		);
 	
 	dcp.add_cpl (cpl);
@@ -99,10 +98,10 @@ MakeDCPJob::run ()
 	shared_ptr<libdcp::MonoPictureAsset> pa (
 		new libdcp::MonoPictureAsset (
 			sigc::mem_fun (*this, &MakeDCPJob::j2c_path),
-			_fs->dir (_fs->dcp_name()),
+			_film->dir (_film->dcp_name()),
 			"video.mxf",
 			&dcp.Progress,
-			rint (_fs->frames_per_second()),
+			rint (_film->frames_per_second()),
 			frames,
 			_opt->out_size.width,
 			_opt->out_size.height
@@ -113,17 +112,17 @@ MakeDCPJob::run ()
 
 	shared_ptr<libdcp::SoundAsset> sa;
 
-	if (_fs->audio_channels() > 0) {
+	if (_film->audio_channels() > 0) {
 		descend (0.1);
 		sa.reset (
 			new libdcp::SoundAsset (
 				sigc::mem_fun (*this, &MakeDCPJob::wav_path),
-				_fs->dir (_fs->dcp_name()),
+				_film->dir (_film->dcp_name()),
 				"audio.mxf",
 				&dcp.Progress,
-				rint (_fs->frames_per_second()),
+				rint (_film->frames_per_second()),
 				frames,
-				_fs->audio_channels()
+				_film->audio_channels()
 				)
 			);
 		ascend ();

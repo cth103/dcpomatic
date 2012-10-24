@@ -38,7 +38,6 @@ extern "C" {
 #include "film.h"
 #include "format.h"
 #include "job.h"
-#include "film_state.h"
 #include "options.h"
 #include "exceptions.h"
 #include "image.h"
@@ -53,19 +52,17 @@ extern "C" {
 using namespace std;
 using namespace boost;
 
-/** @param s FilmState of the Film.
+/** @param f Film.
  *  @param o Options.
  *  @param j Job that we are running within, or 0
- *  @param l Log to use.
  *  @param minimal true to do the bare minimum of work; just run through the content.  Useful for acquiring
  *  accurate frame counts as quickly as possible.  This generates no video or audio output.
  *  @param ignore_length Ignore the content's claimed length when computing progress.
  */
-Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Job* j, Log* l, bool minimal, bool ignore_length)
-	: _fs (s)
+Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal, bool ignore_length)
+	: _film (f)
 	, _opt (o)
 	, _job (j)
-	, _log (l)
 	, _minimal (minimal)
 	, _ignore_length (ignore_length)
 	, _video_frame (0)
@@ -76,7 +73,7 @@ Decoder::Decoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const 
 	, _delay_in_bytes (0)
 	, _audio_frames_processed (0)
 {
-	if (_opt->decode_video_frequency != 0 && _fs->length() == 0) {
+	if (_opt->decode_video_frequency != 0 && _film->length() == 0) {
 		throw DecodeError ("cannot do a partial decode if length == 0");
 	}
 }
@@ -90,7 +87,7 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _fs->audio_delay() * _fs->audio_sample_rate() * _fs->audio_channels() * bytes_per_audio_sample() / 1000;
+	_delay_in_bytes = _film->audio_delay() * _film->audio_sample_rate() * _film->audio_channels() * bytes_per_audio_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
 
@@ -104,7 +101,7 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (_fs->audio_channels() * bytes_per_audio_sample());
+		_audio_frames_processed += _delay_in_bytes / (_film->audio_channels() * bytes_per_audio_sample());
 		emit_audio (remainder, -_delay_in_bytes);
 	}
 
@@ -112,28 +109,28 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const video_length_in_audio_frames = ((int64_t) _fs->dcp_length() * _fs->audio_sample_rate() / _fs->frames_per_second());
+	int64_t const video_length_in_audio_frames = ((int64_t) _film->dcp_length() * _film->audio_sample_rate() / _film->frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_log->log (
 		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
-				 _fs->dcp_length(),
+				 _film->dcp_length(),
 				 video_length_in_audio_frames,
 				 _audio_frames_processed)
 		);
 	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", _fs->dcp_length(), _audio_frames_processed));
+		_log->log (String::compose ("DCP length is %1; %2 frames of audio processed.", _film->dcp_length(), _audio_frames_processed));
 		_log->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		/* XXX: this is slightly questionable; does memset () give silence with all
 		   sample formats?
 		*/
 
-		int64_t bytes = audio_short_by_frames * _fs->audio_channels() * bytes_per_audio_sample();
+		int64_t bytes = audio_short_by_frames * _film->audio_channels() * bytes_per_audio_sample();
 		
-		int64_t const silence_size = 16 * 1024 * _fs->audio_channels() * bytes_per_audio_sample();
+		int64_t const silence_size = 16 * 1024 * _film->audio_channels() * bytes_per_audio_sample();
 		uint8_t silence[silence_size];
 		memset (silence, 0, silence_size);
 		
@@ -157,7 +154,7 @@ Decoder::go ()
 
 	while (pass () == false) {
 		if (_job && !_ignore_length) {
-			_job->set_progress (float (_video_frame) / _fs->dcp_length());
+			_job->set_progress (float (_video_frame) / _film->dcp_length());
 		}
 	}
 
@@ -176,7 +173,7 @@ Decoder::pass ()
 		_have_setup_video_filters = true;
 	}
 	
-	if (!_ignore_length && _video_frame >= _fs->dcp_length()) {
+	if (!_ignore_length && _video_frame >= _film->dcp_length()) {
 		return true;
 	}
 
@@ -184,7 +181,7 @@ Decoder::pass ()
 }
 
 /** Called by subclasses to tell the world that some audio data is ready
- *  @param data Audio data, in FilmState::audio_sample_format.
+ *  @param data Audio data, in Film::audio_sample_format.
  *  @param size Number of bytes of data.
  */
 void
@@ -201,11 +198,11 @@ Decoder::emit_audio (uint8_t* data, int size)
 {
 	/* Deinterleave and convert to float */
 
-	assert ((size % (bytes_per_audio_sample() * _fs->audio_channels())) == 0);
+	assert ((size % (bytes_per_audio_sample() * _film->audio_channels())) == 0);
 
 	int const total_samples = size / bytes_per_audio_sample();
-	int const frames = total_samples / _fs->audio_channels();
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_fs->audio_channels(), frames));
+	int const frames = total_samples / _film->audio_channels();
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), frames));
 
 	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
@@ -217,7 +214,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 			audio->data(channel)[sample] = float(*p++) / (1 << 15);
 
 			++channel;
-			if (channel == _fs->audio_channels()) {
+			if (channel == _film->audio_channels()) {
 				channel = 0;
 				++sample;
 			}
@@ -234,7 +231,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 			audio->data(channel)[sample] = float(*p++) / (1 << 31);
 
 			++channel;
-			if (channel == _fs->audio_channels()) {
+			if (channel == _film->audio_channels()) {
 				channel = 0;
 				++sample;
 			}
@@ -244,7 +241,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		float* p = reinterpret_cast<float*> (data);
-		for (int i = 0; i < _fs->audio_channels(); ++i) {
+		for (int i = 0; i < _film->audio_channels(); ++i) {
 			memcpy (audio->data(i), p, frames * sizeof(float));
 			p += frames;
 		}
@@ -256,9 +253,9 @@ Decoder::emit_audio (uint8_t* data, int size)
 	}
 
 	/* Maybe apply gain */
-	if (_fs->audio_gain() != 0) {
-		float const linear_gain = pow (10, _fs->audio_gain() / 20);
-		for (int i = 0; i < _fs->audio_channels(); ++i) {
+	if (_film->audio_gain() != 0) {
+		float const linear_gain = pow (10, _film->audio_gain() / 20);
+		for (int i = 0; i < _film->audio_channels(); ++i) {
 			for (int j = 0; j < frames; ++j) {
 				audio->data(i)[j] *= linear_gain;
 			}
@@ -283,11 +280,11 @@ Decoder::process_video (AVFrame* frame)
 		return;
 	}
 
-	/* Use FilmState::length here as our one may be wrong */
+	/* Use Film::length here as our one may be wrong */
 
 	int gap = 0;
 	if (_opt->decode_video_frequency != 0) {
-		gap = _fs->length() / _opt->decode_video_frequency;
+		gap = _film->length() / _opt->decode_video_frequency;
 	}
 
 	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame % gap) != 0) {
@@ -352,7 +349,7 @@ Decoder::process_video (AVFrame* frame)
 			}
 
 			shared_ptr<Subtitle> sub;
-			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / _fs->frames_per_second())) {
+			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / _film->frames_per_second())) {
 				sub = _timed_subtitle->subtitle ();
 			}
 
@@ -374,14 +371,14 @@ Decoder::setup_video_filters ()
 	Size size_after_crop;
 	
 	if (_opt->apply_crop) {
-		size_after_crop = _fs->cropped_size (native_size ());
-		fs << crop_string (Position (_fs->crop().left, _fs->crop().top), size_after_crop);
+		size_after_crop = _film->cropped_size (native_size ());
+		fs << crop_string (Position (_film->crop().left, _film->crop().top), size_after_crop);
 	} else {
 		size_after_crop = native_size ();
 		fs << crop_string (Position (0, 0), size_after_crop);
 	}
 
-	string filters = Filter::ffmpeg_strings (_fs->filters()).first;
+	string filters = Filter::ffmpeg_strings (_film->filters()).first;
 	if (!filters.empty ()) {
 		filters += ",";
 	}
@@ -465,7 +462,7 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 	
 	if (_timed_subtitle && _opt->apply_crop) {
 		Position const p = _timed_subtitle->subtitle()->position ();
-		_timed_subtitle->subtitle()->set_position (Position (p.x - _fs->crop().left, p.y - _fs->crop().top));
+		_timed_subtitle->subtitle()->set_position (Position (p.x - _film->crop().left, p.y - _film->crop().top));
 	}
 }
 

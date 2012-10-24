@@ -25,27 +25,27 @@
 #include "ffmpeg_decoder.h"
 #include "tiff_decoder.h"
 #include "imagemagick_decoder.h"
-#include "film_state.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
 shared_ptr<Decoder>
 decoder_factory (
-	shared_ptr<const FilmState> fs, shared_ptr<const Options> o, Job* j, Log* l, bool minimal = false, bool ignore_length = false
+	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal = false, bool ignore_length = false
 	)
 {
-	if (filesystem::is_directory (fs->content_path ())) {
+	if (filesystem::is_directory (f->content_path ())) {
 		/* Assume a directory contains TIFFs */
-		return shared_ptr<Decoder> (new TIFFDecoder (fs, o, j, l, minimal, ignore_length));
+		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j, minimal, ignore_length));
 	}
 
-	if (fs->content_type() == STILL) {
+	if (f->content_type() == STILL) {
 		/* Always ignore length of decodes of stills, since the decoder finishes very quickly
 		   and it's the encoder that takes the time.
 		*/
-		return shared_ptr<Decoder> (new ImageMagickDecoder (fs, o, j, l, minimal, true));
+		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j, minimal, true));
 	}
 	
-	return shared_ptr<Decoder> (new FFmpegDecoder (fs, o, j, l, minimal, ignore_length));
+	return shared_ptr<Decoder> (new FFmpegDecoder (f, o, j, minimal, ignore_length));
 }

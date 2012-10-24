@@ -28,14 +28,12 @@ using namespace boost;
 
 int const Encoder::_history_size = 25;
 
-/** @param s FilmState of the film that we are encoding.
+/** @param f Film that we are encoding.
  *  @param o Options.
- *  @param l Log.
  */
-Encoder::Encoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: _fs (s)
+Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+	: _film (f)
 	, _opt (o)
-	, _log (l)
 	, _just_skipped (false)
 	, _last_frame (0)
 {

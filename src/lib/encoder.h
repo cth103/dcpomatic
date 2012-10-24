@@ -32,12 +32,11 @@ extern "C" {
 #include <libavutil/samplefmt.h>
 }
 
-class FilmState;
 class Options;
 class Image;
-class Log;
 class Subtitle;
 class AudioBuffers;
+class Film;
 
 /** @class Encoder
  *  @brief Parent class for classes which can encode video and audio frames.
@@ -52,7 +51,7 @@ class AudioBuffers;
 class Encoder
 {
 public:
-	Encoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Log* l);
+	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
 
 	/** Called to indicate that a processing run is about to begin */
 	virtual void process_begin (int64_t audio_channel_layout) = 0;
@@ -81,12 +80,10 @@ protected:
 	void frame_done (int n);
 	void frame_skipped ();
 	
-	/** FilmState of the film that we are encoding */
-	boost::shared_ptr<const FilmState> _fs;
+	/** Film that we are encoding */
+	boost::shared_ptr<const Film> _film;
 	/** Options */
 	boost::shared_ptr<const Options> _opt;
-	/** Log */
-	Log* _log;
 
 	/** Mutex for _time_history, _just_skipped and _last_frame */
 	mutable boost::mutex _history_mutex;

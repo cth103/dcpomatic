@@ -31,7 +31,7 @@ class Decoder;
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob (boost::shared_ptr<const FilmState>, Log *, boost::shared_ptr<Job> req);
+	ExamineContentJob (boost::shared_ptr<Film>, boost::shared_ptr<Job> req);
 	~ExamineContentJob ();
 
 	std::string name () const;

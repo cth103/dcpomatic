@@ -33,26 +33,25 @@ extern "C" {
 }
 #include "util.h"
 #include "tiff_decoder.h"
-#include "film_state.h"
 #include "exceptions.h"
 #include "image.h"
 #include "options.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-/** @param fs FilmState of our Film.
+/** @param f Our Film.
  *  @param o Options.
  *  @param j Job that we are associated with, or 0.
- *  @param l Log that we can write to.
  *  @param minimal true to do the bare minimum of work; just run through the content.  Useful for acquiring
  *  accurate frame counts as quickly as possible.  This generates no video or audio output.
  *  @param ignore_length Ignore the content's claimed length when computing progress.
  */
-TIFFDecoder::TIFFDecoder (boost::shared_ptr<const FilmState> fs, boost::shared_ptr<const Options> o, Job* j, Log* l, bool minimal, bool ignore_length)
-	: Decoder (fs, o, j, l, minimal, ignore_length)
+TIFFDecoder::TIFFDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal, bool ignore_length)
+	: Decoder (f, o, j, minimal, ignore_length)
 {
-	string const dir = _fs->content_path ();
+	string const dir = _film->content_path ();
 	
 	if (!filesystem::is_directory (dir)) {
 		throw DecodeError ("TIFF content must be in a directory");
@@ -186,8 +185,8 @@ string
 TIFFDecoder::file_path (string f) const
 {
 	stringstream s;
-	s << _fs->content_path() << "/" << f;
-	return _fs->file (s.str ());
+	s << _film->content_path() << "/" << f;
+	return _film->file (s.str ());
 }
 
 PixelFormat
@@ -199,7 +198,7 @@ TIFFDecoder::pixel_format () const
 int
 TIFFDecoder::time_base_numerator () const
 {
-	return rint (_fs->frames_per_second());
+	return rint (_film->frames_per_second());
 }
 
 

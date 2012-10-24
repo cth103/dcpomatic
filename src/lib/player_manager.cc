@@ -19,7 +19,6 @@
 
 #include "player_manager.h"
 #include "player.h"
-#include "film_state.h"
 #include "screen.h"
 
 using namespace std;
@@ -43,16 +42,16 @@ PlayerManager::instance ()
 }
 
 void
-PlayerManager::setup (shared_ptr<const FilmState> fs, shared_ptr<const Screen> sc)
+PlayerManager::setup (shared_ptr<const Film> f, shared_ptr<const Screen> sc)
 {
 	boost::mutex::scoped_lock lm (_players_mutex);
 	
 	_players.clear ();
-	_players.push_back (shared_ptr<Player> (new Player (fs, sc, Player::SPLIT_NONE)));
+	_players.push_back (shared_ptr<Player> (new Player (f, sc, Player::SPLIT_NONE)));
 }
 
 void
-PlayerManager::setup (shared_ptr<const FilmState> fs_a, shared_ptr<const FilmState> fs_b, shared_ptr<const Screen> sc)
+PlayerManager::setup (shared_ptr<const Film> fs_a, shared_ptr<const Film> fs_b, shared_ptr<const Screen> sc)
 {
 	boost::mutex::scoped_lock lm (_players_mutex);
 	

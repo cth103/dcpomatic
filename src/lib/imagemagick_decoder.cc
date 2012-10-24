@@ -20,18 +20,18 @@
 #include <iostream>
 #include <Magick++/Image.h>
 #include "imagemagick_decoder.h"
-#include "film_state.h"
 #include "image.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
 ImageMagickDecoder::ImageMagickDecoder (
-	boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Job* j, Log* l, bool minimal, bool ignore_length)
-	: Decoder (s, o, j, l, minimal, ignore_length)
+	boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal, bool ignore_length)
+	: Decoder (f, o, j, minimal, ignore_length)
 	, _done (false)
 {
-	_magick_image = new Magick::Image (_fs->content_path ());
+	_magick_image = new Magick::Image (_film->content_path ());
 }
 
 Size

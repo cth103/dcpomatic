@@ -26,7 +26,6 @@
 #include <boost/thread.hpp>
 #include <boost/algorithm/string.hpp>
 #include "player.h"
-#include "film_state.h"
 #include "filter.h"
 #include "screen.h"
 #include "exceptions.h"

@@ -18,7 +18,7 @@
 */
 
 /** @file src/ab_transcoder.h
- *  @brief A transcoder which uses one FilmState for the left half of the screen, and a different one
+ *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
  *  for the right half (to facilitate A/B comparisons of settings)
  */
 
@@ -28,25 +28,24 @@
 class Job;
 class Encoder;
 class Decoder;
-class FilmState;
 class Options;
 class Image;
 class Log;
 class Subtitle;
+class Film;
 
 /** @class ABTranscoder
- *  @brief A transcoder which uses one FilmState for the left half of the screen, and a different one
+ *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
  *  for the right half (to facilitate A/B comparisons of settings)
  */
 class ABTranscoder
 {
 public:
 	ABTranscoder (
-		boost::shared_ptr<const FilmState> a,
-		boost::shared_ptr<const FilmState> b,
+		boost::shared_ptr<Film> a,
+		boost::shared_ptr<Film> b,
 		boost::shared_ptr<const Options> o,
 		Job* j,
-		Log* l,
 		boost::shared_ptr<Encoder> e
 		);
 	
@@ -57,11 +56,10 @@ public:
 private:
 	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>, int);
 	
-	boost::shared_ptr<const FilmState> _fs_a;
-	boost::shared_ptr<const FilmState> _fs_b;
+	boost::shared_ptr<Film> _film_a;
+	boost::shared_ptr<Film> _film_b;
 	boost::shared_ptr<const Options> _opt;
 	Job* _job;
-	Log* _log;
 	boost::shared_ptr<Encoder> _encoder;
 	boost::shared_ptr<Decoder> _da;
 	boost::shared_ptr<Decoder> _db;

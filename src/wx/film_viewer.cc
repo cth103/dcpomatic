@@ -27,7 +27,6 @@
 #include "lib/format.h"
 #include "lib/util.h"
 #include "lib/job_manager.h"
-#include "lib/film_state.h"
 #include "lib/options.h"
 #include "lib/subtitle.h"
 #include "film_viewer.h"
@@ -260,12 +259,12 @@ FilmViewer::slider_changed (wxCommandEvent &)
 }
 
 void
-FilmViewer::film_changed (FilmState::Property p)
+FilmViewer::film_changed (Film::Property p)
 {
 	ensure_ui_thread ();
 	
 	switch (p) {
-	case FilmState::THUMBS:
+	case Film::THUMBS:
 		if (_film && _film->thumbs().size() > 1) {
 			_slider->SetRange (0, _film->thumbs().size() - 1);
 		} else {
@@ -276,14 +275,14 @@ FilmViewer::film_changed (FilmState::Property p)
 		_slider->SetValue (0);
 		set_thumbnail (0);
 		break;
-	case FilmState::CONTENT:
+	case Film::CONTENT:
 		setup_visibility ();
 		break;
-	case FilmState::CROP:
-	case FilmState::FORMAT:
-	case FilmState::WITH_SUBTITLES:
-	case FilmState::SUBTITLE_OFFSET:
-	case FilmState::SUBTITLE_SCALE:
+	case Film::CROP:
+	case Film::FORMAT:
+	case Film::WITH_SUBTITLES:
+	case Film::SUBTITLE_OFFSET:
+	case Film::SUBTITLE_SCALE:
 		_thumb_panel->recompose ();
 		break;
 	default:

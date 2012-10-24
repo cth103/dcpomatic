@@ -29,7 +29,7 @@
 class MakeDCPJob : public Job
 {
 public:
-	MakeDCPJob (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Log *, boost::shared_ptr<Job> req);
+	MakeDCPJob (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, boost::shared_ptr<Job> req);
 
 	std::string name () const;
 	void run ();

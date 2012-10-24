@@ -40,7 +40,7 @@ class FilmState;
 class Transcoder
 {
 public:
-	Transcoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Job* j, Log* l, boost::shared_ptr<Encoder> e);
+	Transcoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, boost::shared_ptr<Encoder> e);
 
 	void go ();
 

@@ -33,13 +33,13 @@
 #include "stream.h"
 
 class Job;
-class FilmState;
 class Options;
 class Image;
 class Log;
 class DelayLine;
 class TimedSubtitle;
 class Subtitle;
+class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -51,7 +51,7 @@ class Subtitle;
 class Decoder
 {
 public:
-	Decoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Job *, Log *, bool, bool);
+	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool, bool);
 	virtual ~Decoder ();
 
 	/* Methods to query our input video */
@@ -112,8 +112,8 @@ protected:
 
 	int bytes_per_audio_sample () const;
 	
-	/** our FilmState */
-	boost::shared_ptr<const FilmState> _fs;
+	/** our Film */
+	boost::shared_ptr<Film> _film;
 	/** our options */
 	boost::shared_ptr<const Options> _opt;
 	/** associated Job, or 0 */

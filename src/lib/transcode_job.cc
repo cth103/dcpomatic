@@ -28,19 +28,17 @@
 #include "film.h"
 #include "format.h"
 #include "transcoder.h"
-#include "film_state.h"
 #include "log.h"
 #include "encoder_factory.h"
 
 using namespace std;
 using namespace boost;
 
-/** @param s FilmState to use.
+/** @param s Film to use.
  *  @param o Options.
- *  @param l A log that we can write to.
  */
-TranscodeJob::TranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l, shared_ptr<Job> req)
-	: Job (s, l, req)
+TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
+	: Job (f, req)
 	, _opt (o)
 {
 	
@@ -49,7 +47,7 @@ TranscodeJob::TranscodeJob (shared_ptr<const FilmState> s, shared_ptr<const Opti
 string
 TranscodeJob::name () const
 {
-	return String::compose ("Transcode %1", _fs->name());
+	return String::compose ("Transcode %1", _film->name());
 }
 
 void
@@ -57,21 +55,21 @@ TranscodeJob::run ()
 {
 	try {
 
-		_log->log ("Transcode job starting");
+		_film->log()->log ("Transcode job starting");
 
-		_encoder = encoder_factory (_fs, _opt, _log);
-		Transcoder w (_fs, _opt, this, _log, _encoder);
+		_encoder = encoder_factory (_film, _opt);
+		Transcoder w (_film, _opt, this, _encoder);
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
 
-		_log->log ("Transcode job completed successfully");
+		_film->log()->log ("Transcode job completed successfully");
 
 	} catch (std::exception& e) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		_log->log (String::compose ("Transcode job failed (%1)", e.what()));
+		_film->log()->log (String::compose ("Transcode job failed (%1)", e.what()));
 
 		throw;
 	}
@@ -108,5 +106,5 @@ TranscodeJob::remaining_time () const
 		return 0;
 	}
 
-	return ((_fs->dcp_length() - _encoder->last_frame()) / fps);
+	return ((_film->dcp_length() - _encoder->last_frame()) / fps);
 }

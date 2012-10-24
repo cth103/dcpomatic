@@ -57,7 +57,6 @@ extern "C" {
 #include "dcp_content_type.h"
 #include "filter.h"
 #include "screen.h"
-#include "film_state.h"
 #include "sound_processor.h"
 #ifndef DVDOMATIC_DISABLE_PLAYER
 #include "player_manager.h"

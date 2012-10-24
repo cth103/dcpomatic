@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_DCP_CONTENT_TYPE_H
+#define DVDOMATIC_DCP_CONTENT_TYPE_H
+
 /** @file src/content_type.h
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
  */
@@ -61,3 +64,4 @@ private:
 	static std::vector<DCPContentType const *> _dcp_content_types;
 };
      
+#endif

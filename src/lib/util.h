@@ -36,7 +36,7 @@ extern "C" {
 #include "compose.hpp"
 
 #ifdef DVDOMATIC_DEBUG
-#define TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
+#define TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
 #else
 #define TIMING(...)
 #endif

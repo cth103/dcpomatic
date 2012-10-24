@@ -29,8 +29,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <sigc++/sigc++.h>
 
-class Log;
-class FilmState;
+class Film;
 class Options;
 
 /** @class Job
@@ -39,7 +38,7 @@ class Options;
 class Job : public boost::enable_shared_from_this<Job>
 {
 public:
-	Job (boost::shared_ptr<const FilmState> s, Log* l, boost::shared_ptr<Job> req);
+	Job (boost::shared_ptr<Film> s, boost::shared_ptr<Job> req);
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;
@@ -89,10 +88,8 @@ protected:
 	void set_state (State);
 	void set_error (std::string e);
 
-	/** FilmState for this job */
-	boost::shared_ptr<const FilmState> _fs;
-	/** a log that this job can write to */
-	Log* _log;
+	/** Film for this job */
+	boost::shared_ptr<Film> _film;
 
 private:
 

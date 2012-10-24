@@ -32,7 +32,6 @@
 #include <openjpeg.h>
 #include "j2k_wav_encoder.h"
 #include "config.h"
-#include "film_state.h"
 #include "options.h"
 #include "exceptions.h"
 #include "dcp_video_frame.h"
@@ -40,12 +39,13 @@
 #include "filter.h"
 #include "log.h"
 #include "cross.h"
+#include "film.h"
 
 using namespace std;
 using namespace boost;
 
-J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const FilmState> s, shared_ptr<const Options> o, Log* l)
-	: Encoder (s, o, l)
+J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+	: Encoder (f, o)
 #ifdef HAVE_SWRESAMPLE	  
 	, _swr_context (0)
 #endif	  
@@ -55,9 +55,9 @@ J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const FilmState> s, shared_ptr<const Op
 	/* Create sound output files with .tmp suffixes; we will rename
 	   them if and when we complete.
 	*/
-	for (int i = 0; i < _fs->audio_channels(); ++i) {
+	for (int i = 0; i < _film->audio_channels(); ++i) {
 		SF_INFO sf_info;
-		sf_info.samplerate = dcp_audio_sample_rate (_fs->audio_sample_rate());
+		sf_info.samplerate = dcp_audio_sample_rate (_film->audio_sample_rate());
 		/* We write mono files */
 		sf_info.channels = 1;
 		sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
@@ -117,14 +117,14 @@ J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subti
 
 	/* Only do the processing if we don't already have a file for this frame */
 	if (!boost::filesystem::exists (_opt->frame_out_path (frame, false))) {
-		pair<string, string> const s = Filter::ffmpeg_strings (_fs->filters());
+		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  yuv, sub, _opt->out_size, _opt->padding, _fs->subtitle_offset(), _fs->subtitle_scale(),
-						  _fs->scaler(), frame, _fs->frames_per_second(), s.second,
+						  yuv, sub, _opt->out_size, _opt->padding, _film->subtitle_offset(), _film->subtitle_scale(),
+						  _film->scaler(), frame, _film->frames_per_second(), s.second,
 						  Config::instance()->colour_lut_index (), Config::instance()->j2k_bandwidth (),
-						  _log
+						  _film->log()
 						  )
 					  ));
 		
@@ -157,7 +157,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 
 		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_log->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()));
+		_film->log()->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()));
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -169,7 +169,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				encoded = vf->encode_remotely (server);
 
 				if (remote_backoff > 0) {
-					_log->log (String::compose ("%1 was lost, but now she is found; removing backoff", server->host_name ()));
+					_film->log()->log (String::compose ("%1 was lost, but now she is found; removing backoff", server->host_name ()));
 				}
 				
 				/* This job succeeded, so remove any backoff */
@@ -180,7 +180,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 					/* back off more */
 					remote_backoff += 10;
 				}
-				_log->log (
+				_film->log()->log (
 					String::compose (
 						"Remote encode of %1 on %2 failed (%3); thread sleeping for %4s",
 						vf->frame(), server->host_name(), e.what(), remote_backoff)
@@ -193,7 +193,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 				encoded = vf->encode_locally ();
 				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->frame());
 			} catch (std::exception& e) {
-				_log->log (String::compose ("Local encode failed (%1)", e.what ()));
+				_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 			}
 		}
 
@@ -202,7 +202,9 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 			frame_done (vf->frame ());
 		} else {
 			lock.lock ();
-			_log->log (String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", boost::this_thread::get_id(), vf->frame()));
+			_film->log()->log (
+				String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", boost::this_thread::get_id(), vf->frame())
+				);
 			_queue.push_front (vf);
 			lock.unlock ();
 		}
@@ -219,22 +221,22 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 void
 J2KWAVEncoder::process_begin (int64_t audio_channel_layout)
 {
-	if (_fs->audio_sample_rate() != _fs->target_audio_sample_rate()) {
+	if (_film->audio_sample_rate() != _film->target_audio_sample_rate()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << "Will resample audio from " << _fs->audio_sample_rate() << " to " << _fs->target_audio_sample_rate();
-		_log->log (s.str ());
+		s << "Will resample audio from " << _film->audio_sample_rate() << " to " << _film->target_audio_sample_rate();
+		_film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the resampler */
 		_swr_context = swr_alloc_set_opts (
 			0,
 			audio_channel_layout,
 			AV_SAMPLE_FMT_FLTP,
-			_fs->target_audio_sample_rate(),
+			_film->target_audio_sample_rate(),
 			audio_channel_layout,
 			AV_SAMPLE_FMT_FLTP,
-			_fs->audio_sample_rate(),
+			_film->audio_sample_rate(),
 			0, 0
 			);
 		
@@ -266,11 +268,11 @@ J2KWAVEncoder::process_end ()
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
-	_log->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
+	_film->log()->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
-		_log->log ("Waking with " + lexical_cast<string> (_queue.size ()));
+		_film->log()->log ("Waking with " + lexical_cast<string> (_queue.size ()));
 		_worker_condition.notify_all ();
 		_worker_condition.wait (lock);
 	}
@@ -279,7 +281,7 @@ J2KWAVEncoder::process_end ()
 	
 	terminate_worker_threads ();
 
-	_log->log ("Mopping up " + lexical_cast<string> (_queue.size()));
+	_film->log()->log ("Mopping up " + lexical_cast<string> (_queue.size()));
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
@@ -291,20 +293,20 @@ J2KWAVEncoder::process_end ()
 	*/
 
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
-		_log->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
+		_film->log()->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
 		try {
 			shared_ptr<EncodedData> e = (*i)->encode_locally ();
 			e->write (_opt, (*i)->frame ());
 			frame_done ((*i)->frame ());
 		} catch (std::exception& e) {
-			_log->log (String::compose ("Local encode failed (%1)", e.what ()));
+			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
 	}
 
 #if HAVE_SWRESAMPLE	
 	if (_swr_context) {
 
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_fs->audio_channels(), 256));
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_channels(), 256));
 			
 		while (1) {
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
@@ -324,16 +326,16 @@ J2KWAVEncoder::process_end ()
 	}
 #endif
 
-	int const dcp_sr = dcp_audio_sample_rate (_fs->audio_sample_rate ());
+	int const dcp_sr = dcp_audio_sample_rate (_film->audio_sample_rate ());
 	int64_t const extra_audio_frames = dcp_sr - (_audio_frames_written % dcp_sr);
-	shared_ptr<AudioBuffers> silence (new AudioBuffers (_fs->audio_channels(), extra_audio_frames));
+	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), extra_audio_frames));
 	silence->make_silent ();
 	write_audio (silence);
 	
 	close_sound_files ();
 
 	/* Rename .wav.tmp files to .wav */
-	for (int i = 0; i < _fs->audio_channels(); ++i) {
+	for (int i = 0; i < _film->audio_channels(); ++i) {
 		if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
 			boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
 		}
@@ -351,9 +353,9 @@ J2KWAVEncoder::process_audio (shared_ptr<const AudioBuffers> audio)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil (audio->frames() * _fs->target_audio_sample_rate() / _fs->audio_sample_rate()) + 32;
+		int const max_resampled_frames = ceil (audio->frames() * _film->target_audio_sample_rate() / _film->audio_sample_rate()) + 32;
 
-		resampled.reset (new AudioBuffers (_fs->audio_channels(), max_resampled_frames));
+		resampled.reset (new AudioBuffers (_film->audio_channels(), max_resampled_frames));
 
 		/* Resample audio */
 		int const resampled_frames = swr_convert (
@@ -377,7 +379,7 @@ J2KWAVEncoder::process_audio (shared_ptr<const AudioBuffers> audio)
 void
 J2KWAVEncoder::write_audio (shared_ptr<const AudioBuffers> audio)
 {
-	for (int i = 0; i < _fs->audio_channels(); ++i) {
+	for (int i = 0; i < _film->audio_channels(); ++i) {
 		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
 	}
 

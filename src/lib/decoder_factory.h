@@ -22,11 +22,11 @@
  */
 
 class Decoder;
-class FilmState;
+class Film;
 class Options;
 class Job;
 class Log;
 
 extern boost::shared_ptr<Decoder> decoder_factory (
-	boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Job *, Log *, bool minimal = false, bool ignore_length = false
+	boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool minimal = false, bool ignore_length = false
 	);

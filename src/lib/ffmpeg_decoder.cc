@@ -41,7 +41,6 @@ extern "C" {
 #include "transcoder.h"
 #include "job.h"
 #include "filter.h"
-#include "film_state.h"
 #include "options.h"
 #include "exceptions.h"
 #include "image.h"
@@ -53,8 +52,8 @@ extern "C" {
 using namespace std;
 using namespace boost;
 
-FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<const FilmState> s, boost::shared_ptr<const Options> o, Job* j, Log* l, bool minimal, bool ignore_length)
-	: Decoder (s, o, j, l, minimal, ignore_length)
+FFmpegDecoder::FFmpegDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal, bool ignore_length)
+	: Decoder (f, o, j, minimal, ignore_length)
 	, _format_context (0)
 	, _video_stream (-1)
 	, _audio_stream (-1)
@@ -98,8 +97,8 @@ FFmpegDecoder::setup_general ()
 	
 	av_register_all ();
 
-	if ((r = avformat_open_input (&_format_context, _fs->content_path().c_str(), 0, 0)) != 0) {
-		throw OpenFileError (_fs->content_path ());
+	if ((r = avformat_open_input (&_format_context, _film->content_path().c_str(), 0, 0)) != 0) {
+		throw OpenFileError (_film->content_path ());
 	}
 
 	if (avformat_find_stream_info (_format_context, 0) < 0) {
@@ -127,12 +126,12 @@ FFmpegDecoder::setup_general ()
 
 	/* Now override audio and subtitle streams with those from the Film, if it has any */
 
-	if (_fs->audio_stream_index() != -1) {
-		_audio_stream = _fs->audio_stream().id();
+	if (_film->audio_stream_index() != -1) {
+		_audio_stream = _film->audio_stream().id();
 	}
 
-	if (_fs->subtitle_stream_index() != -1) {
-		_subtitle_stream = _fs->subtitle_stream().id ();
+	if (_film->subtitle_stream_index() != -1) {
+		_subtitle_stream = _film->subtitle_stream().id ();
 	}
 
 	if (_video_stream < 0) {
@@ -236,7 +235,7 @@ FFmpegDecoder::do_pass ()
 					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
 					);
 
-				assert (_audio_codec_context->channels == _fs->audio_channels());
+				assert (_audio_codec_context->channels == _film->audio_channels());
 				process_audio (_frame->data[0], data_size);
 			}
 		}
@@ -300,7 +299,7 @@ FFmpegDecoder::do_pass ()
 				0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
 			
-			assert (_audio_codec_context->channels == _fs->audio_channels());
+			assert (_audio_codec_context->channels == _film->audio_channels());
 			process_audio (_frame->data[0], data_size);
 		}
 			

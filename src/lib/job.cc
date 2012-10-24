@@ -30,20 +30,16 @@
 using namespace std;
 using namespace boost;
 
-/** @param s FilmState for the film that we are operating on.
- *  @param l A log that we can write to.
+/** @param s Film that we are operating on.
  */
-Job::Job (shared_ptr<const FilmState> s, Log* l, shared_ptr<Job> req)
-	: _fs (s)
-	, _log (l)
+Job::Job (shared_ptr<Film> f, shared_ptr<Job> req)
+	: _film (f)
 	, _required (req)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
 	, _ran_for (0)
 {
-	assert (_log);
-	
 	descend (1);
 }
 

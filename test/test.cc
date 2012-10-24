@@ -37,6 +37,7 @@
 #include "cross.h"
 #include "job.h"
 #include "subtitle.h"
+#include "scaler.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -257,17 +258,17 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 
 BOOST_AUTO_TEST_CASE (paths_test)
 {
-	FilmState s;
-	s.set_directory ("build/test/a/b/c/d/e");
+	Film f ("build/test/film4", false);
+	f.set_directory ("build/test/a/b/c/d/e");
 	vector<int> thumbs;
 	thumbs.push_back (42);
-	s.set_thumbs (thumbs);
-	BOOST_CHECK_EQUAL (s.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
+	f.set_thumbs (thumbs);
+	BOOST_CHECK_EQUAL (f.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
 
-	s._content = "/foo/bar/baz";
-	BOOST_CHECK_EQUAL (s.content_path(), "/foo/bar/baz");
-	s._content = "foo/bar/baz";
-	BOOST_CHECK_EQUAL (s.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
+	f._content = "/foo/bar/baz";
+	BOOST_CHECK_EQUAL (f.content_path(), "/foo/bar/baz");
+	f._content = "foo/bar/baz";
+	BOOST_CHECK_EQUAL (f.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
 }
 
 void
@@ -401,32 +402,32 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
-	FilmState fs;
-	fs.set_frames_per_second (24);
+	Film f ("build/test/test_film5", false);
+	f.set_frames_per_second (24);
 
-	fs.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 48000);
+	f.set_audio_sample_rate (48000);
+	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 48000);
 
-	fs.set_audio_sample_rate (44100);
-	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 48000);
+	f.set_audio_sample_rate (44100);
+	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 48000);
 
-	fs.set_audio_sample_rate (80000);
-	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 96000);
+	f.set_audio_sample_rate (80000);
+	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 96000);
 
-	fs.set_frames_per_second (23.976);
-	fs.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 47952);
+	f.set_frames_per_second (23.976);
+	f.set_audio_sample_rate (48000);
+	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 47952);
 
-	fs.set_frames_per_second (29.97);
-	fs.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (fs.target_audio_sample_rate(), 47952);
+	f.set_frames_per_second (29.97);
+	f.set_audio_sample_rate (48000);
+	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 47952);
 }
 
 class TestJob : public Job
 {
 public:
-	TestJob (shared_ptr<const FilmState> s, Log* l, shared_ptr<Job> req)
-		: Job (s, l, req)
+	TestJob (shared_ptr<Film> f, shared_ptr<Job> req)
+		: Job (f, req)
 	{
 
 	}
@@ -455,11 +456,10 @@ public:
 
 BOOST_AUTO_TEST_CASE (job_manager_test)
 {
-	shared_ptr<const FilmState> s;
-	FileLog log ("build/test/job_manager_test.log");
+	shared_ptr<Film> f;
 
 	/* Single job, no dependency */
-	shared_ptr<TestJob> a (new TestJob (s, &log, shared_ptr<Job> ()));
+	shared_ptr<TestJob> a (new TestJob (f, shared_ptr<Job> ()));
 
 	JobManager::instance()->add (a);
 	dvdomatic_sleep (1);
@@ -469,8 +469,8 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	BOOST_CHECK_EQUAL (a->finished_ok(), true);
 
 	/* Two jobs, dependency */
-	a.reset (new TestJob (s, &log, shared_ptr<Job> ()));
-	shared_ptr<TestJob> b (new TestJob (s, &log, a));
+	a.reset (new TestJob (f, shared_ptr<Job> ()));
+	shared_ptr<TestJob> b (new TestJob (f, a));
 
 	JobManager::instance()->add (a);
 	JobManager::instance()->add (b);
@@ -486,8 +486,8 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	BOOST_CHECK_EQUAL (b->finished_ok(), true);
 
 	/* Two jobs, dependency, first fails */
-	a.reset (new TestJob (s, &log, shared_ptr<Job> ()));
-	b.reset (new TestJob (s, &log, a));
+	a.reset (new TestJob (f, shared_ptr<Job> ()));
+	b.reset (new TestJob (f, a));
 
 	JobManager::instance()->add (a);
 	JobManager::instance()->add (b);

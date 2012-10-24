@@ -35,7 +35,6 @@ class Job;
 class FilmState;
 class Options;
 class Image;
-class Log;
 
 /** @class TIFFDecoder.
  *  @brief A decoder which reads a numbered set of TIFF files, one per frame.
@@ -43,7 +42,7 @@ class Log;
 class TIFFDecoder : public Decoder
 {
 public:
-	TIFFDecoder (boost::shared_ptr<const FilmState>, boost::shared_ptr<const Options>, Job *, Log *, bool, bool);
+	TIFFDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool, bool);
 
 	/* Methods to query our input video */
 	float frames_per_second () const;
