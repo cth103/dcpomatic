@@ -25,7 +25,7 @@ def configure(conf):
     conf.options.disable_player = True
 
     if conf.options.target_windows:
-        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN'])
+        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
         if conf.options.enable_debug:
             conf.env.append_value('CXXFLAGS', ['-mconsole'])
             conf.env.append_value('LINKFLAGS', ['-mconsole'])
