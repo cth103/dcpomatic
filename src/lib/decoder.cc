@@ -89,7 +89,7 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _film->audio_delay() * _film->audio_sample_rate() * _film->audio_channels() * bytes_per_audio_sample() / 1000;
+	_delay_in_bytes = _film->audio_delay() * audio_sample_rate() * audio_channels() * bytes_per_audio_sample() / 1000;
 	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
 
@@ -103,7 +103,7 @@ Decoder::process_end ()
 	if (_delay_in_bytes < 0) {
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (_film->audio_channels() * bytes_per_audio_sample());
+		_audio_frames_processed += _delay_in_bytes / (audio_channels() * bytes_per_audio_sample());
 		emit_audio (remainder, -_delay_in_bytes);
 	}
 
@@ -111,7 +111,7 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const video_length_in_audio_frames = ((int64_t) _film->dcp_length() * _film->audio_sample_rate() / _film->frames_per_second());
+	int64_t const video_length_in_audio_frames = ((int64_t) _film->dcp_length() * audio_sample_rate() / frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_log->log (
