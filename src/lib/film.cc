@@ -714,7 +714,7 @@ Film::content_type () const
 #if BOOST_FILESYSTEM_VERSION == 3
 	string ext = boost::filesystem::path(_content).extension().string();
 #else
-	string ext = filesystem::path(_content).extension();
+	string ext = boost::filesystem::path(_content).extension();
 #endif
 
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
