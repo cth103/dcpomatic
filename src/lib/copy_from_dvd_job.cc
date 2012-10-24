@@ -93,6 +93,25 @@ CopyFromDVDJob::run ()
 		}
 	}
 
+	const string dvd_dir = _film->dir ("dvd");
+
+	string largest_file;
+	uintmax_t largest_size = 0;
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (dvd_dir); i != filesystem::directory_iterator(); ++i) {
+		uintmax_t const s = filesystem::file_size (*i);
+		if (s > largest_size) {
+
+#if BOOST_FILESYSTEM_VERSION == 3		
+			largest_file = filesystem::path(*i).generic_string();
+#else
+			largest_file = i->string ();
+#endif
+			largest_size = s;
+		}
+	}
+
+	_film->set_content (largest_file);
+	
 	int const r = pclose (f);
 	if (WEXITSTATUS (r) != 0) {
 		set_error ("call to vobcopy failed");

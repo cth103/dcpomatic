@@ -21,6 +21,7 @@
  *  @brief A class to run through content at high speed to find its length.
  */
 
+#include <boost/filesystem.hpp>
 #include "examine_content_job.h"
 #include "options.h"
 #include "decoder_factory.h"
@@ -97,6 +98,28 @@ ExamineContentJob::run ()
 		return;
 		
 	}
+
+	string const tdir = _film->dir ("thumbs");
+	vector<int> thumbs;
+
+	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
+
+		/* Aah, the sweet smell of progress */
+#if BOOST_FILESYSTEM_VERSION == 3		
+		string const l = filesystem::path(*i).leaf().generic_string();
+#else
+		string const l = i->leaf ();
+#endif
+		
+		size_t const d = l.find (".png");
+		size_t const t = l.find (".tmp");
+		if (d != string::npos && t == string::npos) {
+			thumbs.push_back (atoi (l.substr (0, d).c_str()));
+		}
+	}
+
+	sort (thumbs.begin(), thumbs.end());
+	_film->set_thumbs (thumbs);	
 
 	ascend ();
 	set_progress (1);

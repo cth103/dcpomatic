@@ -64,13 +64,10 @@ public:
 	void descend (float);
 	float overall_progress () const;
 
-	void emit_finished ();
-
 	boost::shared_ptr<Job> required () const {
 		return _required;
 	}
 
-	/** Emitted from the GUI thread */
 	sigc::signal0<void> Finished;
 
 protected:

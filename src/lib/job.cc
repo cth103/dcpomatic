@@ -125,18 +125,8 @@ Job::set_state (State s)
 
 	if (_state == FINISHED_OK || _state == FINISHED_ERROR) {
 		_ran_for = elapsed_time ();
+		Finished ();
 	}
-}
-
-/** A hack to work around our lack of cross-thread
- *  signalling; this emits Finished, and listeners
- *  assume that it will be emitted in the GUI thread,
- *  so this method must be called from the GUI thread.
- */
-void
-Job::emit_finished ()
-{
-	Finished ();
 }
 
 /** @return Time (in seconds) that this job has been running */

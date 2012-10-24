@@ -61,9 +61,7 @@ public:
 	std::vector<std::string> audio_files () const;
 	std::pair<Position, std::string> thumb_subtitle (int) const;
 
-	void copy_from_dvd_post_gui ();
 	void examine_content ();
-	void examine_content_post_gui ();
 	void send_dcp_to_tms ();
 	void copy_from_dvd ();
 
@@ -392,6 +390,7 @@ private:
 	std::string thumb_base_for_frame (int) const;
 	void signal_changed (Property);
 	std::string file_locked (std::string) const;
+	void examine_content_finished ();
 	
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.

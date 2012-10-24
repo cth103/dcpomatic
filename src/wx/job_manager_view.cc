@@ -79,7 +79,6 @@ JobManagerView::update ()
 			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
 			_table->Insert (index + 1, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
 			
-			r.informed_of_finish = false;
 			r.message = new wxStaticText (_panel, wxID_ANY, std_to_wx (""));
 			_table->Insert (index + 2, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 			
@@ -99,22 +98,9 @@ JobManagerView::update ()
 			}
 		}
 		
-		/* Hack to work around our lack of cross-thread
-		   signalling; we tell the job to emit_finished()
-		   from here (the GUI thread).
-		*/
-		
-		if ((*i)->finished () && !_job_records[*i].informed_of_finish) {
+		if ((*i)->finished()) {
 			_job_records[*i].gauge->SetValue (100);
 			_job_records[*i].message->SetLabel (std_to_wx (st));
-
-			try {
-				(*i)->emit_finished ();
-			} catch (OpenFileError& e) {
-				error_dialog (this, String::compose ("Error: %1", e.what ()));
-			}
-			
-			_job_records[*i].informed_of_finish = true;
 		}
 
 		index += 3;

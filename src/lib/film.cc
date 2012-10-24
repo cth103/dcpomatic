@@ -273,29 +273,6 @@ Film::make_dcp (bool transcode)
 	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (shared_from_this(), o, r)));
 }
 
-void
-Film::copy_from_dvd_post_gui ()
-{
-	const string dvd_dir = dir ("dvd");
-
-	string largest_file;
-	uintmax_t largest_size = 0;
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (dvd_dir); i != filesystem::directory_iterator(); ++i) {
-		uintmax_t const s = filesystem::file_size (*i);
-		if (s > largest_size) {
-
-#if BOOST_FILESYSTEM_VERSION == 3		
-			largest_file = filesystem::path(*i).generic_string();
-#else
-			largest_file = i->string ();
-#endif
-			largest_size = s;
-		}
-	}
-
-	set_content (largest_file);
-}
-
 /** Start a job to examine our content file */
 void
 Film::examine_content ()
@@ -311,39 +288,15 @@ Film::examine_content ()
 	dir ("thumbs");
 	
 	_examine_content_job.reset (new ExamineContentJob (shared_from_this(), shared_ptr<Job> ()));
-	_examine_content_job->Finished.connect (sigc::mem_fun (*this, &Film::examine_content_post_gui));
+	_examine_content_job->Finished.connect (sigc::mem_fun (*this, &Film::examine_content_finished));
 	JobManager::instance()->add (_examine_content_job);
 }
 
 void
-Film::examine_content_post_gui ()
+Film::examine_content_finished ()
 {
-	set_length (_examine_content_job->last_video_frame ());
 	_examine_content_job.reset ();
-
-	string const tdir = dir ("thumbs");
-	vector<int> thumbs;
-
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (tdir); i != filesystem::directory_iterator(); ++i) {
-
-		/* Aah, the sweet smell of progress */
-#if BOOST_FILESYSTEM_VERSION == 3		
-		string const l = filesystem::path(*i).leaf().generic_string();
-#else
-		string const l = i->leaf ();
-#endif
-		
-		size_t const d = l.find (".png");
-		size_t const t = l.find (".tmp");
-		if (d != string::npos && t == string::npos) {
-			thumbs.push_back (atoi (l.substr (0, d).c_str()));
-		}
-	}
-
-	sort (thumbs.begin(), thumbs.end());
-	set_thumbs (thumbs);	
 }
-
 
 /** @return full paths to any audio files that this Film has */
 vector<string>
@@ -369,7 +322,6 @@ void
 Film::copy_from_dvd ()
 {
 	shared_ptr<Job> j (new CopyFromDVDJob (shared_from_this(), shared_ptr<Job> ()));
-	j->Finished.connect (sigc::mem_fun (*this, &Film::copy_from_dvd_post_gui));
 	JobManager::instance()->add (j);
 }
 
