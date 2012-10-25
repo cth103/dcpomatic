@@ -40,7 +40,6 @@ using std::string;
 using std::stringstream;
 using std::multimap;
 using std::vector;
-using std::cerr;
 using boost::shared_ptr;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
@@ -131,7 +130,15 @@ Server::process (shared_ptr<Socket> socket)
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
-	encoded->send (socket);
+	try {
+		encoded->send (socket);
+	} catch (std::exception& e) {
+		_log->log (String::compose (
+				   "Send failed; pixel format %1, size %2x%3, %4 components",
+				   image->pixel_format(), image->size().width, image->size().height, image->components()
+				   )
+			);
+	}
 
 	return frame;
 }
@@ -158,7 +165,7 @@ Server::worker_thread ()
 		try {
 			frame = process (socket);
 		} catch (std::exception& e) {
-			cerr << "Error: " << e.what() << "\n";
+			_log->log (String::compose ("Error: %1", e.what()));
 		}
 		
 		socket.reset ();
