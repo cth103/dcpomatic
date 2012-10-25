@@ -51,7 +51,6 @@ def configure(conf):
     else:
         conf.env.append_value('CXXFLAGS', '-O3')
 
-    conf.check_cfg(package = 'sigc++-2.0', args = '--cflags --libs', uselib_store = 'SIGC++', mandatory = True)
     conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
     conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
     conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
@@ -103,6 +102,13 @@ def configure(conf):
                               libpath = '/usr/local/lib',
                               lib = ['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                               uselib_store = 'BOOST_DATETIME')
+
+    conf.check_cxx(fragment = """
+    			      #include <boost/signals2.hpp>\n
+    			      int main() { boost::signals2::signal<void (int)> x; }\n
+			      """,
+                              msg = 'Checking for boost signals2 library',
+                              uselib_store = 'BOOST_SIGNALS2')
 
     conf.check_cc(fragment = """
                              #include <glib.h>

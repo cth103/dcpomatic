@@ -90,7 +90,7 @@ MakeDCPJob::run ()
 	}
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
-	dcp.Progress.connect (sigc::mem_fun (*this, &MakeDCPJob::dcp_progress));
+	dcp.Progress.connect (boost::bind (&MakeDCPJob::dcp_progress, this, _1));
 
 	shared_ptr<libdcp::CPL> cpl (
 		new libdcp::CPL (_film->dir (_film->dcp_name()), _film->dcp_name(), _film->dcp_content_type()->libdcp_kind (), frames, rint (_film->frames_per_second()))
@@ -101,7 +101,7 @@ MakeDCPJob::run ()
 	descend (0.9);
 	shared_ptr<libdcp::MonoPictureAsset> pa (
 		new libdcp::MonoPictureAsset (
-			sigc::mem_fun (*this, &MakeDCPJob::j2c_path),
+			boost::bind (&MakeDCPJob::j2c_path, this, _1),
 			_film->dir (_film->dcp_name()),
 			"video.mxf",
 			&dcp.Progress,
@@ -120,7 +120,7 @@ MakeDCPJob::run ()
 		descend (0.1);
 		sa.reset (
 			new libdcp::SoundAsset (
-				sigc::mem_fun (*this, &MakeDCPJob::wav_path),
+				boost::bind (&MakeDCPJob::wav_path, this, _1),
 				_film->dir (_film->dcp_name()),
 				"audio.mxf",
 				&dcp.Progress,
