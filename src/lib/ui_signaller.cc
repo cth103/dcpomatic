@@ -19,5 +19,6 @@
 
 #include "ui_signaller.h"
 
+/** Global UISignaller instance */
 UISignaller* ui_signaller = 0;
 
