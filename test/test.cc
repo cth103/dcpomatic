@@ -72,48 +72,48 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	BOOST_CHECK_THROW (new Film ("build/test/film", true), OpenFileError);
 	
-	Film f (test_film, false);
-	BOOST_CHECK (f.format() == 0);
-	BOOST_CHECK (f.dcp_content_type() == 0);
-	BOOST_CHECK (f.filters ().empty());
+	shared_ptr<Film> f (new Film (test_film, false));
+	BOOST_CHECK (f->format() == 0);
+	BOOST_CHECK (f->dcp_content_type() == 0);
+	BOOST_CHECK (f->filters ().empty());
 
-	f.set_name ("fred");
-	BOOST_CHECK_THROW (f.set_content ("jim"), OpenFileError);
-	f.set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
-	f.set_format (Format::from_nickname ("Flat"));
-	f.set_left_crop (1);
-	f.set_right_crop (2);
-	f.set_top_crop (3);
-	f.set_bottom_crop (4);
+	f->set_name ("fred");
+	BOOST_CHECK_THROW (f->set_content ("jim"), OpenFileError);
+	f->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
+	f->set_format (Format::from_nickname ("Flat"));
+	f->set_left_crop (1);
+	f->set_right_crop (2);
+	f->set_top_crop (3);
+	f->set_bottom_crop (4);
 	vector<Filter const *> f_filters;
 	f_filters.push_back (Filter::from_id ("pphb"));
 	f_filters.push_back (Filter::from_id ("unsharp"));
-	f.set_filters (f_filters);
-	f.set_dcp_frames (42);
-	f.set_dcp_ab (true);
-	f.write_metadata ();
+	f->set_filters (f_filters);
+	f->set_dcp_frames (42);
+	f->set_dcp_ab (true);
+	f->write_metadata ();
 
 	stringstream s;
 	s << "diff -u test/metadata.ref " << test_film << "/metadata";
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
 
-	Film g (test_film, true);
+	shared_ptr<Film> g (new Film (test_film, true));
 
-	BOOST_CHECK_EQUAL (g.name(), "fred");
-	BOOST_CHECK_EQUAL (g.dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
-	BOOST_CHECK_EQUAL (g.format(), Format::from_nickname ("Flat"));
-	BOOST_CHECK_EQUAL (g.crop().left, 1);
-	BOOST_CHECK_EQUAL (g.crop().right, 2);
-	BOOST_CHECK_EQUAL (g.crop().top, 3);
-	BOOST_CHECK_EQUAL (g.crop().bottom, 4);
-	vector<Filter const *> g_filters = g.filters ();
+	BOOST_CHECK_EQUAL (g->name(), "fred");
+	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
+	BOOST_CHECK_EQUAL (g->format(), Format::from_nickname ("Flat"));
+	BOOST_CHECK_EQUAL (g->crop().left, 1);
+	BOOST_CHECK_EQUAL (g->crop().right, 2);
+	BOOST_CHECK_EQUAL (g->crop().top, 3);
+	BOOST_CHECK_EQUAL (g->crop().bottom, 4);
+	vector<Filter const *> g_filters = g->filters ();
 	BOOST_CHECK_EQUAL (g_filters.size(), 2);
 	BOOST_CHECK_EQUAL (g_filters.front(), Filter::from_id ("pphb"));
 	BOOST_CHECK_EQUAL (g_filters.back(), Filter::from_id ("unsharp"));
-	BOOST_CHECK_EQUAL (g.dcp_frames(), 42);
-	BOOST_CHECK_EQUAL (g.dcp_ab(), true);
+	BOOST_CHECK_EQUAL (g->dcp_frames(), 42);
+	BOOST_CHECK_EQUAL (g->dcp_ab(), true);
 	
-	g.write_metadata ();
+	g->write_metadata ();
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
 }
 
@@ -262,17 +262,17 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 
 BOOST_AUTO_TEST_CASE (paths_test)
 {
-	Film f ("build/test/film4", false);
-	f.set_directory ("build/test/a/b/c/d/e");
+	shared_ptr<Film> f (new Film ("build/test/film4", false));
+	f->set_directory ("build/test/a/b/c/d/e");
 	vector<int> thumbs;
 	thumbs.push_back (42);
-	f.set_thumbs (thumbs);
-	BOOST_CHECK_EQUAL (f.thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
+	f->set_thumbs (thumbs);
+	BOOST_CHECK_EQUAL (f->thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
 
-	f._content = "/foo/bar/baz";
-	BOOST_CHECK_EQUAL (f.content_path(), "/foo/bar/baz");
-	f._content = "foo/bar/baz";
-	BOOST_CHECK_EQUAL (f.content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
+	f->_content = "/foo/bar/baz";
+	BOOST_CHECK_EQUAL (f->content_path(), "/foo/bar/baz");
+	f->_content = "foo/bar/baz";
+	BOOST_CHECK_EQUAL (f->content_path(), "build/test/a/b/c/d/e/foo/bar/baz");
 }
 
 void
@@ -366,12 +366,12 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 		boost::filesystem::remove_all (test_film);
 	}
 	
-	Film film (test_film, false);
-	film.set_name ("test_film2");
-	film.set_content ("../../../test/test.mp4");
-	film.set_format (Format::from_nickname ("Flat"));
-	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	film.make_dcp (true);
+	shared_ptr<Film> film (new Film (test_film, false));
+	film->set_name ("test_film2");
+	film->set_content ("../../../test/test.mp4");
+	film->set_format (Format::from_nickname ("Flat"));
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->make_dcp (true);
 
 	while (JobManager::instance()->work_to_do ()) {
 		dvdomatic_sleep (1);
@@ -388,14 +388,14 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 		boost::filesystem::remove_all (test_film);
 	}
 	
-	Film film (test_film, false);
-	film.set_name ("test_film3");
-	film.set_content ("../../../test/test.mp4");
-	film.examine_content ();
-	film.set_format (Format::from_nickname ("Flat"));
-	film.set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	film.set_dcp_frames (42);
-	film.make_dcp (true);
+	shared_ptr<Film> film (new Film (test_film, false));
+	film->set_name ("test_film3");
+	film->set_content ("../../../test/test.mp4");
+	film->examine_content ();
+	film->set_format (Format::from_nickname ("Flat"));
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_frames (42);
+	film->make_dcp (true);
 
 	while (JobManager::instance()->work_to_do() && !JobManager::instance()->errors()) {
 		dvdomatic_sleep (1);
@@ -406,25 +406,25 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
-	Film f ("build/test/test_film5", false);
-	f.set_frames_per_second (24);
+	shared_ptr<Film> f (new Film ("build/test/test_film5", false));
+	f->set_frames_per_second (24);
 
-	f.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 48000);
+	f->set_audio_sample_rate (48000);
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
 
-	f.set_audio_sample_rate (44100);
-	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 48000);
+	f->set_audio_sample_rate (44100);
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
 
-	f.set_audio_sample_rate (80000);
-	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 96000);
+	f->set_audio_sample_rate (80000);
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 96000);
 
-	f.set_frames_per_second (23.976);
-	f.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 47952);
+	f->set_frames_per_second (23.976);
+	f->set_audio_sample_rate (48000);
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
 
-	f.set_frames_per_second (29.97);
-	f.set_audio_sample_rate (48000);
-	BOOST_CHECK_EQUAL (f.target_audio_sample_rate(), 47952);
+	f->set_frames_per_second (29.97);
+	f->set_audio_sample_rate (48000);
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
 }
 
 class TestJob : public Job

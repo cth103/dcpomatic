@@ -124,7 +124,9 @@ JobManager::scheduler ()
 
 		if (active_jobs != _last_active_jobs) {
 			_last_active_jobs = active_jobs;
-			ui_signaller->emit (boost::bind (boost::ref (ActiveJobsChanged), active_jobs));
+			if (ui_signaller) {
+				ui_signaller->emit (boost::bind (boost::ref (ActiveJobsChanged), active_jobs));
+			}
 		}
 
 		dvdomatic_sleep (1);

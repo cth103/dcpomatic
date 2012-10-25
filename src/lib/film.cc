@@ -907,39 +907,55 @@ Film::set_content (string c)
 		c = c.substr (_directory.length() + 1);
 	}
 
+	string old_content;
+	
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
 		if (c == _content) {
 			return;
 		}
 
+		old_content = _content;
 		_content = c;
 	}
-		
+
 	/* Create a temporary decoder so that we can get information
 	   about the content.
 	*/
-	
 
-	shared_ptr<Options> o (new Options ("", "", ""));
-	o->out_size = Size (1024, 1024);
-	
-	shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0, 0);
+	try {
+		shared_ptr<Options> o (new Options ("", "", ""));
+		o->out_size = Size (1024, 1024);
+		
+		shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0, 0);
+		
+		set_size (d->native_size ());
+		set_frames_per_second (d->frames_per_second ());
+		set_audio_sample_rate (d->audio_sample_rate ());
+		set_has_subtitles (d->has_subtitles ());
+		set_audio_streams (d->audio_streams ());
+		set_subtitle_streams (d->subtitle_streams ());
+		set_audio_stream (audio_streams().empty() ? -1 : 0);
+		set_subtitle_stream (subtitle_streams().empty() ? -1 : 0);
+		
+		{
+			boost::mutex::scoped_lock lm (_state_mutex);
+			_content = c;
+		}
+		
+		signal_changed (CONTENT);
+		
+		set_content_digest (md5_digest (content_path ()));
+		
+		examine_content ();
 
-	set_size (d->native_size ());
-	set_frames_per_second (d->frames_per_second ());
-	set_audio_sample_rate (d->audio_sample_rate ());
-	set_has_subtitles (d->has_subtitles ());
-	set_audio_streams (d->audio_streams ());
-	set_subtitle_streams (d->subtitle_streams ());
-	set_audio_stream (audio_streams().empty() ? -1 : 0);
-	set_subtitle_stream (subtitle_streams().empty() ? -1 : 0);
-	
-	signal_changed (CONTENT);
+	} catch (...) {
 
-	set_content_digest (md5_digest (content_path ()));
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_content = old_content;
+		throw;
 
-	examine_content ();
+	}
 }
 	       
 void
@@ -1336,7 +1352,10 @@ Film::signal_changed (Property p)
 		boost::mutex::scoped_lock lm (_state_mutex);
 		_dirty = true;
 	}
-	ui_signaller->emit (boost::bind (boost::ref (Changed), p));
+
+	if (ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Changed), p));
+	}
 }
 
 int
