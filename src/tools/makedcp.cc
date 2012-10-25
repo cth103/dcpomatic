@@ -147,9 +147,9 @@ main (int argc, char* argv[])
 		cout << dependency_version_summary() << "\n";
 	}
 
-	Film* film = 0;
+	shared_ptr<Film> film;
 	try {
-		film = new Film (film_dir, true);
+		film.reset (new Film (film_dir, true));
 	} catch (std::exception& e) {
 		cerr << argv[0] << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
