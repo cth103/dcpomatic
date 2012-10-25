@@ -346,8 +346,9 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	}
 
 	_log->log (String::compose (
-			   "Sending to remote; pixel format %1, components %2, line sizes (%3,%4,%5)",
+			   "Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)",
 			   _input->pixel_format(), _input->components(),
+			   _input->lines(0), _input->lines(1), _input->lines(2),
 			   _input->line_size()[0], _input->line_size()[1], _input->line_size()[2]
 			   ));
 	
