@@ -141,7 +141,7 @@ public:
 	/* GET */
 
 	std::string directory () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
+		boost::mutex::scoped_lock lm (_directory_mutex);
 		return _directory;
 	}
 
@@ -390,18 +390,17 @@ private:
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
 
 	std::string thumb_file_for_frame (int) const;
-	std::string thumb_file_for_frame_locked (int) const;
 	std::string thumb_base_for_frame (int) const;
-	std::string thumb_base_for_frame_locked (int) const;
 	void signal_changed (Property);
-	std::string file_locked (std::string) const;
-	std::string dir_locked (std::string d) const;
 	void examine_content_finished ();
 	
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
 	 */
 	std::string _directory;
+	/** Mutex for _directory */
+	mutable boost::mutex _directory_mutex;
+	
 	/** Name for DVD-o-matic */
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
@@ -480,6 +479,7 @@ private:
 
 	mutable bool _dirty;
 
+	/** Mutex for all state except _directory */
 	mutable boost::mutex _state_mutex;
 
 	friend class paths_test;

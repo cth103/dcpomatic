@@ -388,13 +388,11 @@ Film::thumb_subtitle (int n) const
 void
 Film::write_metadata () const
 {
-	std::string const dir = directory ();
-	
 	boost::mutex::scoped_lock lm (_state_mutex);
 
-	boost::filesystem::create_directories (dir);
+	boost::filesystem::create_directories (directory());
 
-	string const m = file_locked ("metadata");
+	string const m = file ("metadata");
 	ofstream f (m.c_str ());
 	if (!f.good ()) {
 		throw CreateFileError (m);
@@ -479,7 +477,7 @@ Film::read_metadata ()
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	
-	ifstream f (file_locked("metadata").c_str());
+	ifstream f (file ("metadata").c_str());
 	multimap<string, string> kv = read_key_value (f);
 	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
 		string const k = i->first;
@@ -557,7 +555,7 @@ Film::read_metadata ()
 		if (k == "thumb") {
 			int const n = atoi (v.c_str ());
 			/* Only add it to the list if it still exists */
-			if (boost::filesystem::exists (thumb_file_for_frame_locked (n))) {
+			if (boost::filesystem::exists (thumb_file_for_frame (n))) {
 				_thumbs.push_back (n);
 			}
 		} else if (k == "width") {
@@ -607,12 +605,6 @@ Film::thumb_file_for_frame (int n) const
 }
 
 string
-Film::thumb_file_for_frame_locked (int n) const
-{
-	return thumb_base_for_frame_locked(n) + ".png";
-}
-
-string
 Film::thumb_base (int n) const
 {
 	return thumb_base_for_frame (thumb_frame (n));
@@ -622,18 +614,13 @@ string
 Film::thumb_base_for_frame (int n) const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return thumb_base_for_frame_locked (n);
-}
 
-string
-Film::thumb_base_for_frame_locked (int n) const
-{
 	stringstream s;
 	s.width (8);
 	s << setfill('0') << n;
 	
 	boost::filesystem::path p;
-	p /= dir_locked ("thumbs");
+	p /= dir ("thumbs");
 	p /= s.str ();
 		
 	return p.string ();
@@ -665,13 +652,7 @@ Film::cropped_size (Size s) const
 string
 Film::dir (string d) const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-	return dir_locked (d);
-}
-
-string
-Film::dir_locked (string d) const
-{
+	boost::mutex::scoped_lock lm (_directory_mutex);
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= d;
@@ -679,17 +660,13 @@ Film::dir_locked (string d) const
 	return p.string ();
 }
 
-/** Given a file or directory name, return its full path within the Film's directory */
+/** Given a file or directory name, return its full path within the Film's directory.
+ *  _directory_mutex must not be locked on entry.
+ */
 string
 Film::file (string f) const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-	return file_locked (f);
-}
-
-string
-Film::file_locked (string f) const
-{
+	boost::mutex::scoped_lock lm (_directory_mutex);
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= f;
@@ -707,7 +684,7 @@ Film::content_path () const
 		return _content;
 	}
 
-	return file_locked (_content);
+	return file (_content);
 }
 
 ContentType
