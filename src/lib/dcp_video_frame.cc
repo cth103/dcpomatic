@@ -345,6 +345,12 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 		  << "subtitle_height " << _subtitle->image()->size().height << "\n";
 	}
 
+	_log->log (String::compose (
+			   "Sending to remote; pixel format %1, components %2, line sizes (%3,%4,%5)",
+			   _input->pixel_format(), _input->components(),
+			   _input->line_size()[0], _input->line_size()[1], _input->line_size()[2]
+			   ));
+	
 	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
 	_input->write_to_socket (socket);
