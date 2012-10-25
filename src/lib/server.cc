@@ -134,8 +134,8 @@ Server::process (shared_ptr<Socket> socket)
 		encoded->send (socket);
 	} catch (std::exception& e) {
 		_log->log (String::compose (
-				   "Send failed; pixel format %1, size %2x%3, %4 components",
-				   image->pixel_format(), image->size().width, image->size().height, image->components()
+				   "Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components",
+				   frame, encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
 				   )
 			);
 		throw;
