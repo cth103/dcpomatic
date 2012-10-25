@@ -138,6 +138,7 @@ Server::process (shared_ptr<Socket> socket)
 				   image->pixel_format(), image->size().width, image->size().height, image->components()
 				   )
 			);
+		throw;
 	}
 
 	return frame;
