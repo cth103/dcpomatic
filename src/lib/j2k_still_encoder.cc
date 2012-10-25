@@ -74,7 +74,7 @@ J2KStillEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Sub
 			}
 #endif
 #ifdef DVDOMATIC_WINDOWS
-			filesystem::copy_file (real, link);
+			boost::filesystem::copy_file (real, link);
 #endif			
 		}
 		frame_done (0);

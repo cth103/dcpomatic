@@ -31,6 +31,7 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
+#include <boost/enable_shared_from_this.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
