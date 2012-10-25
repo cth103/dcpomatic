@@ -22,17 +22,26 @@
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 
 class UISignaller
 {
 public:
+	/** Create a UISignaller.  Must be called from the UI thread */
 	UISignaller ()
 		: _work (_service)
-	{}
+	{
+		_ui_thread = boost::this_thread::get_id ();
+	}
 	
 	template <typename T>
 	void emit (T f) {
-		_service.post (f);
+		if (boost::this_thread::get_id() == _ui_thread) {
+			f ();
+		} else {
+			_service.post (f);
+			wake_ui ();
+		}
 	}
 
 	void ui_idle () {
@@ -44,6 +53,7 @@ public:
 private:
 	boost::asio::io_service _service;
 	boost::asio::io_service::work _work;
+	boost::thread::id _ui_thread;
 };
 
 extern UISignaller* ui_signaller;
