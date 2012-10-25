@@ -9,6 +9,8 @@
 	* Basic support for selection of audio
 	and subtitle streams.
 
+	* Fixes for audio/video sync in some cases.
+
 2012-10-09  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.55 released.

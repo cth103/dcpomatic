@@ -776,7 +776,12 @@ FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
 void
 FilmEditor::dcp_range_changed (int frames, TrimAction action)
 {
-	_film->set_dcp_frames (frames);
+	if (frames == 0) {
+		_film->unset_dcp_frames ();
+	} else {
+		_film->set_dcp_frames (frames);
+	}
+	
 	_film->set_dcp_trim_action (action);
 }
 

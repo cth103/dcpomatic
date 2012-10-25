@@ -349,6 +349,7 @@ public:
 	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
 	void set_dcp_frames (int);
+	void unset_dcp_frames ();
 	void set_dcp_trim_action (TrimAction);
 	void set_dcp_ab (bool);
 	void set_audio_stream (int);

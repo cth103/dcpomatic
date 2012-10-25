@@ -1076,6 +1076,16 @@ Film::set_dcp_frames (int f)
 }
 
 void
+Film::unset_dcp_frames ()
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_frames = boost::none;
+	}
+	signal_changed (DCP_FRAMES);
+}
+
+void
 Film::set_dcp_trim_action (TrimAction a)
 {
 	{
