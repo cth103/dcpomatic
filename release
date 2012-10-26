@@ -67,8 +67,10 @@ command("./waf clean")
 command("./waf")
 command("./waf configure")
 command("./waf dist")
-command("./builds/windows")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s Installer.exe' % release_version_string), '.')
+command("./builds/windows-32")
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 32-bit Installer.exe' % release_version_string), '.')
+command("./builds/windows-64")
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 64-bit Installer.exe' % release_version_string), '.')
 
 rewrite_wscript(new_pre_version)
 

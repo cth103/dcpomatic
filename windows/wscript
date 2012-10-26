@@ -1,3 +1,4 @@
 def build(bld):
-    bld.new_task_gen(features = 'subst', source = 'installer.nsi.in', target = 'installer.nsi', version = bld.env.VERSION)
+    bld.new_task_gen(features = 'subst', source = 'installer.nsi.32.in', target = 'installer.32.nsi', version = bld.env.VERSION)
+    bld.new_task_gen(features = 'subst', source = 'installer.nsi.64.in', target = 'installer.64.nsi', version = bld.env.VERSION)
     

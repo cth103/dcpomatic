@@ -26,11 +26,11 @@ fi
 
 d=`pwd`
 
-cp build/windows/installer.nsi build/windows/installer2.nsi
+cp build/windows/installer.32.nsi build/windows/installer2.32.nsi
 
-sed -i "s~%resources%~$d/windows~g" build/windows/installer2.nsi
-sed -i "s~%deps%~$WINDOWS_PREFIX~g" build/windows/installer2.nsi
-sed -i "s~%binaries%~$d/build~g" build/windows/installer2.nsi
-sed -i "s~%bits%~32~g" build/windows/installer2.nsi
+sed -i "s~%resources%~$d/windows~g" build/windows/installer2.32.nsi
+sed -i "s~%deps%~$WINDOWS_PREFIX~g" build/windows/installer2.32.nsi
+sed -i "s~%binaries%~$d/build~g" build/windows/installer2.32.nsi
+sed -i "s~%bits%~32~g" build/windows/installer2.32.nsi
 
-makensis build/windows/installer2.nsi
+makensis build/windows/installer2.32.nsi
