@@ -607,6 +607,7 @@ Film::thumb_file_for_frame (int n) const
 	return thumb_base_for_frame(n) + ".png";
 }
 
+/** Must not be called with the _state_mutex locked */
 string
 Film::thumb_base (int n) const
 {
@@ -616,8 +617,6 @@ Film::thumb_base (int n) const
 string
 Film::thumb_base_for_frame (int n) const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-
 	stringstream s;
 	s.width (8);
 	s << setfill('0') << n;
@@ -631,6 +630,8 @@ Film::thumb_base_for_frame (int n) const
 
 /** @param n A thumb index.
  *  @return The frame within the Film that it is for.
+ *
+ *  Must not be called with the _state_mutex locked.
  */
 int
 Film::thumb_frame (int n) const

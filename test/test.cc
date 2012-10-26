@@ -59,18 +59,28 @@ setup_test_config ()
 	Config::instance()->set_server_port (61920);
 }
 
+shared_ptr<Film>
+new_test_film (string name)
+{
+	string const d = String::compose ("build/test/%1", name);
+	if (boost::filesystem::exists (d)) {
+		boost::filesystem::remove_all (d);
+	}
+	return shared_ptr<Film> (new Film (d, false));
+}
+
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
 	dvdomatic_setup ();
 	setup_test_config ();
-	
-	string const test_film = "build/test/film";
+
+	string const test_film = "build/test/film_metadata_test";
 	
 	if (boost::filesystem::exists (test_film)) {
 		boost::filesystem::remove_all (test_film);
 	}
 
-	BOOST_CHECK_THROW (new Film ("build/test/film", true), OpenFileError);
+	BOOST_CHECK_THROW (new Film (test_film, true), OpenFileError);
 	
 	shared_ptr<Film> f (new Film (test_film, false));
 	BOOST_CHECK (f->format() == 0);
@@ -262,7 +272,7 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 
 BOOST_AUTO_TEST_CASE (paths_test)
 {
-	shared_ptr<Film> f (new Film ("build/test/film4", false));
+	shared_ptr<Film> f = new_test_film ("paths_test");
 	f->set_directory ("build/test/a/b/c/d/e");
 	vector<int> thumbs;
 	thumbs.push_back (42);
@@ -360,13 +370,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 BOOST_AUTO_TEST_CASE (make_dcp_test)
 {
-	string const test_film = "build/test/film2";
-	
-	if (boost::filesystem::exists (test_film)) {
-		boost::filesystem::remove_all (test_film);
-	}
-	
-	shared_ptr<Film> film (new Film (test_film, false));
+	shared_ptr<Film> film = new_test_film ("make_dcp_test");
 	film->set_name ("test_film2");
 	film->set_content ("../../../test/test.mp4");
 	film->set_format (Format::from_nickname ("Flat"));
@@ -382,13 +386,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 
 BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 {
-	string const test_film = "build/test/film3";
-	
-	if (boost::filesystem::exists (test_film)) {
-		boost::filesystem::remove_all (test_film);
-	}
-	
-	shared_ptr<Film> film (new Film (test_film, false));
+	shared_ptr<Film> film = new_test_film ("make_dcp_with_range_test");
 	film->set_name ("test_film3");
 	film->set_content ("../../../test/test.mp4");
 	film->examine_content ();
@@ -406,7 +404,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
-	shared_ptr<Film> f (new Film ("build/test/test_film5", false));
+	shared_ptr<Film> f = new_test_film ("audio_sampling_rate_test");
 	f->set_frames_per_second (24);
 
 	f->set_audio_sample_rate (48000);
