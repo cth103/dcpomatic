@@ -128,6 +128,7 @@ Film::Film (string d, bool must_exist)
 	read_metadata ();
 
 	_log = new FileLog (file ("log"));
+	set_dci_date_today ();
 }
 
 Film::Film (Film const & o)
@@ -221,6 +222,8 @@ Film::j2k_dir () const
 void
 Film::make_dcp (bool transcode)
 {
+	set_dci_date_today ();
+	
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError ("name", "cannot contain slashes");
 	}
@@ -806,8 +809,7 @@ Film::dci_name () const
 		d << _studio << "_";
 	}
 
-	boost::gregorian::date today = boost::gregorian::day_clock::local_day ();
-	d << boost::gregorian::to_iso_string (today) << "_";
+	d << boost::gregorian::to_iso_string (_dci_date) << "_";
 
 	if (!_facility.empty ()) {
 		d << _facility << "_";
@@ -1354,4 +1356,10 @@ Film::audio_channels () const
 	}
 	
 	return _audio_streams[_audio_stream].channels ();
+}
+
+void
+Film::set_dci_date_today ()
+{
+	_dci_date = boost::gregorian::day_clock::local_day ();
 }

@@ -106,6 +106,8 @@ public:
 
 	int audio_channels () const;
 
+	void set_dci_date_today ();
+
 	enum Property {
 		NONE,
 		NAME,
@@ -389,6 +391,8 @@ private:
 
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
+
+	boost::gregorian::date _dci_date;
 
 	std::string thumb_file_for_frame (int) const;
 	std::string thumb_base_for_frame (int) const;

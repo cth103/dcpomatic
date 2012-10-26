@@ -377,6 +377,7 @@ FilmEditor::name_changed (wxCommandEvent &)
 	_film->set_name (string (_name->GetValue().mb_str()));
 	_ignore_changes = Film::NONE;
 
+	_film->set_dci_date_today ();
 	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
