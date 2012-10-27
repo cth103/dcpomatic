@@ -31,7 +31,6 @@
 #include <boost/signals2.hpp>
 #include "util.h"
 #include "stream.h"
-#include "filter_graph.h"
 
 class Job;
 class Options;
@@ -41,6 +40,7 @@ class DelayLine;
 class TimedSubtitle;
 class Subtitle;
 class Film;
+class FilterGraph;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.

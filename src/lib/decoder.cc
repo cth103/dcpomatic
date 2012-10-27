@@ -33,10 +33,9 @@
 #include "util.h"
 #include "log.h"
 #include "decoder.h"
-#include "filter.h"
 #include "delay_line.h"
-#include "ffmpeg_compatibility.h"
 #include "subtitle.h"
+#include "filter_graph.h"
 
 using std::string;
 using std::stringstream;
