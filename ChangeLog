@@ -4,12 +4,17 @@
 
 	* Re-add DCI naming support.
 
-	* Fix a few bugs.
-
 	* Basic support for selection of audio
 	and subtitle streams.
 
 	* Fixes for audio/video sync in some cases.
+
+	* Cope with videos with varying size and/or
+	pixel format.
+
+	* Fix bug with handling of YUV422-format videos.
+
+	* Various bug fixes and code rearrangement.
 
 2012-10-09  Carl Hetherington  <cth@carlh.net>
 
