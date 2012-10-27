@@ -17,6 +17,8 @@
 
 */
 
+struct AVFilterInOut;
+
 extern AVFilter* get_sink ();
 extern AVFilterInOut* avfilter_inout_alloc ();
 

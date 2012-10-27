@@ -24,17 +24,6 @@
 #include <iostream>
 #include <stdint.h>
 #include <boost/lexical_cast.hpp>
-extern "C" {
-#include <libavfilter/avfiltergraph.h>
-#include <libavfilter/buffersrc.h>
-#if (LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 53 && LIBAVFILTER_VERSION_MINOR <= 77) || LIBAVFILTER_VERSION_MAJOR == 3
-#include <libavfilter/avcodec.h>
-#include <libavfilter/buffersink.h>
-#elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
-#include <libavfilter/vsrc_buffer.h>
-#endif
-#include <libavformat/avio.h>
-}
 #include "film.h"
 #include "format.h"
 #include "job.h"
@@ -52,6 +41,7 @@ extern "C" {
 using std::string;
 using std::stringstream;
 using std::min;
+using std::list;
 using boost::shared_ptr;
 
 /** @param f Film.
@@ -68,9 +58,6 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _minimal (minimal)
 	, _ignore_length (ignore_length)
 	, _video_frame (0)
-	, _buffer_src_context (0)
-	, _buffer_sink_context (0)
-	, _have_setup_video_filters (false)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
 	, _audio_frames_processed (0)
@@ -170,11 +157,6 @@ Decoder::go ()
 bool
 Decoder::pass ()
 {
-	if (!_have_setup_video_filters) {
-		setup_video_filters ();
-		_have_setup_video_filters = true;
-	}
-	
 	if (!_ignore_length && _video_frame >= _film->dcp_length()) {
 		return true;
 	}
@@ -294,167 +276,37 @@ Decoder::process_video (AVFrame* frame)
 		return;
 	}
 
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 53 && LIBAVFILTER_VERSION_MINOR <= 61
+	shared_ptr<FilterGraph> graph;
 
-	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0) < 0) {
-		throw DecodeError ("could not push buffer into filter chain.");
+	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
+	while (i != _filter_graphs.end() && !(*i)->can_process (Size (frame->width, frame->height), (AVPixelFormat) frame->format)) {
+		++i;
 	}
 
-#elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
-
-	AVRational par;
-	par.num = sample_aspect_ratio_numerator ();
-	par.den = sample_aspect_ratio_denominator ();
-
-	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0, par) < 0) {
-		throw DecodeError ("could not push buffer into filter chain.");
-	}
-
-#else
-
-	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
-		throw DecodeError ("could not push buffer into filter chain.");
-	}
-
-#endif	
-	
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 15 && LIBAVFILTER_VERSION_MINOR <= 61	
-	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
-#else
-	while (av_buffersink_read (_buffer_sink_context, 0)) {
-#endif		
-
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 15
-		
-		int r = avfilter_request_frame (_buffer_sink_context->inputs[0]);
-		if (r < 0) {
-			throw DecodeError ("could not request filtered frame");
-		}
-		
-		AVFilterBufferRef* filter_buffer = _buffer_sink_context->inputs[0]->cur_buf;
-		
-#else
-
-		AVFilterBufferRef* filter_buffer;
-		if (av_buffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) < 0) {
-			filter_buffer = 0;
-		}
-
-#endif		
-		
-		if (filter_buffer) {
-			/* This takes ownership of filter_buffer */
-			shared_ptr<Image> image (new FilterBufferImage ((PixelFormat) frame->format, filter_buffer));
-
-			if (_opt->black_after > 0 && _video_frame > _opt->black_after) {
-				image->make_black ();
-			}
-
-			shared_ptr<Subtitle> sub;
-			if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / _film->frames_per_second())) {
-				sub = _timed_subtitle->subtitle ();
-			}
-
-			TIMING ("Decoder emits %1", _video_frame);
-			Video (image, _video_frame, sub);
-			++_video_frame;
-		}
-	}
-}
-
-
-/** Set up a video filtering chain to include cropping and any filters that are specified
- *  by the Film.
- */
-void
-Decoder::setup_video_filters ()
-{
-	stringstream fs;
-	Size size_after_crop;
-	
-	if (_opt->apply_crop) {
-		size_after_crop = _film->cropped_size (native_size ());
-		fs << crop_string (Position (_film->crop().left, _film->crop().top), size_after_crop);
+	if (i == _filter_graphs.end ()) {
+		graph.reset (new FilterGraph (_film, this, _opt->apply_crop, Size (frame->width, frame->height), (AVPixelFormat) frame->format));
+		_filter_graphs.push_back (graph);
+		std::cout << "NEW GRAPH for " << frame->width << "x" << frame->height << " " << frame->format << "\n";
 	} else {
-		size_after_crop = native_size ();
-		fs << crop_string (Position (0, 0), size_after_crop);
+		graph = *i;
 	}
 
-	string filters = Filter::ffmpeg_strings (_film->filters()).first;
-	if (!filters.empty ()) {
-		filters += ",";
+	list<shared_ptr<Image> > images = graph->process (frame);
+
+	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
+		if (_opt->black_after > 0 && _video_frame > _opt->black_after) {
+			(*i)->make_black ();
+		}
+		
+		shared_ptr<Subtitle> sub;
+		if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / _film->frames_per_second())) {
+			sub = _timed_subtitle->subtitle ();
+		}
+		
+		TIMING ("Decoder emits %1", _video_frame);
+		Video ((*i), _video_frame, sub);
+		++_video_frame;
 	}
-
-	filters += fs.str ();
-
-	avfilter_register_all ();
-	
-	AVFilterGraph* graph = avfilter_graph_alloc();
-	if (graph == 0) {
-		throw DecodeError ("Could not create filter graph.");
-	}
-
-	AVFilter* buffer_src = avfilter_get_by_name("buffer");
-	if (buffer_src == 0) {
-		throw DecodeError ("Could not find buffer src filter");
-	}
-
-	AVFilter* buffer_sink = get_sink ();
-
-	stringstream a;
-	a << native_size().width << ":"
-	  << native_size().height << ":"
-	  << pixel_format() << ":"
-	  << time_base_numerator() << ":"
-	  << time_base_denominator() << ":"
-	  << sample_aspect_ratio_numerator() << ":"
-	  << sample_aspect_ratio_denominator();
-
-	int r;
-
-	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph)) < 0) {
-		throw DecodeError ("could not create buffer source");
-	}
-
-	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
-	PixelFormat* pixel_fmts = new PixelFormat[2];
-	pixel_fmts[0] = pixel_format ();
-	pixel_fmts[1] = PIX_FMT_NONE;
-	sink_params->pixel_fmts = pixel_fmts;
-	
-	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, "out", 0, sink_params, graph) < 0) {
-		throw DecodeError ("could not create buffer sink.");
-	}
-
-	AVFilterInOut* outputs = avfilter_inout_alloc ();
-	outputs->name = av_strdup("in");
-	outputs->filter_ctx = _buffer_src_context;
-	outputs->pad_idx = 0;
-	outputs->next = 0;
-
-	AVFilterInOut* inputs = avfilter_inout_alloc ();
-	inputs->name = av_strdup("out");
-	inputs->filter_ctx = _buffer_sink_context;
-	inputs->pad_idx = 0;
-	inputs->next = 0;
-
-	_film->log()->log ("Using filter chain `" + filters + "'");
-
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
-	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
-		throw DecodeError ("could not set up filter graph.");
-	}
-#else	
-	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
-		throw DecodeError ("could not set up filter graph.");
-	}
-#endif	
-	
-	if (avfilter_graph_config (graph, 0) < 0) {
-		throw DecodeError ("could not configure filter graph.");
-	}
-
-	/* XXX: leaking `inputs' / `outputs' ? */
 }
 
 void

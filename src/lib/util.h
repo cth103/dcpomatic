@@ -83,6 +83,8 @@ struct Size
 	int height;
 };
 
+extern bool operator== (Size const & a, Size const & b);
+
 /** A description of the crop of an image or video. */
 struct Crop
 {

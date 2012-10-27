@@ -31,6 +31,7 @@
 #include <boost/signals2.hpp>
 #include "util.h"
 #include "stream.h"
+#include "filter_graph.h"
 
 class Job;
 class Options;
@@ -69,6 +70,11 @@ public:
 	virtual int64_t audio_channel_layout () const = 0;
 	virtual bool has_subtitles () const = 0;
 
+	virtual int time_base_numerator () const = 0;
+	virtual int time_base_denominator () const = 0;
+	virtual int sample_aspect_ratio_numerator () const = 0;
+	virtual int sample_aspect_ratio_denominator () const = 0;
+	
 	void process_begin ();
 	bool pass ();
 	void process_end ();
@@ -96,15 +102,12 @@ public:
 
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>)> Audio;
-	
+
 protected:
+	
 	/** perform a single pass at our content */
 	virtual bool do_pass () = 0;
 	virtual PixelFormat pixel_format () const = 0;
-	virtual int time_base_numerator () const = 0;
-	virtual int time_base_denominator () const = 0;
-	virtual int sample_aspect_ratio_numerator () const = 0;
-	virtual int sample_aspect_ratio_denominator () const = 0;
 	
 	void process_video (AVFrame *);
 	void process_audio (uint8_t *, int);
@@ -128,16 +131,13 @@ protected:
 	bool _ignore_length;
 
 private:
-	void setup_video_filters ();
 	void emit_audio (uint8_t* data, int size);
 	
 	/** last video frame to be processed */
 	int _video_frame;
 
-	AVFilterContext* _buffer_src_context;
-	AVFilterContext* _buffer_sink_context;
+	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 
-	bool _have_setup_video_filters;
 	DelayLine* _delay_line;
 	int _delay_in_bytes;
 
