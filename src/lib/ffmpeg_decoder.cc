@@ -158,7 +158,7 @@ FFmpegDecoder::setup_video ()
 
 	/* I think this prevents problems with green hash on decodes and
 	   "changing frame properties on the fly is not supported by all filters"
-	   messages with some content.
+	   messages with some content.  Although I'm not sure; needs checking.
 	*/
 	AVDictionary* opts = 0;
 	av_dict_set (&opts, "threads", "1", 0);
