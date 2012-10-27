@@ -286,7 +286,7 @@ Decoder::process_video (AVFrame* frame)
 	if (i == _filter_graphs.end ()) {
 		graph.reset (new FilterGraph (_film, this, _opt->apply_crop, Size (frame->width, frame->height), (AVPixelFormat) frame->format));
 		_filter_graphs.push_back (graph);
-		std::cout << "NEW GRAPH for " << frame->width << "x" << frame->height << " " << frame->format << "\n";
+		_film->log()->log (String::compose ("New graph for %1x%2, pixel format %3", frame->width, frame->height, frame->format));
 	} else {
 		graph = *i;
 	}
