@@ -169,9 +169,9 @@ You can build libdcp using:
 </para>
 
 <programlisting>
-wget http://carlh.net/software/libdcp-0.20.tar.bz2
-tar xjf libdcp-0.20.tar.bz2
-cd libdcp-0.20
+wget http://carlh.net/software/libdcp-0.24.tar.bz2
+tar xjf libdcp-0.24.tar.bz2
+cd libdcp-0.24
 ./waf configure
 ./waf build
 sudo ./waf install
