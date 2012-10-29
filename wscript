@@ -37,6 +37,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
+        conf.env.append_value('LINKFLAGS', '-pthread')
 
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
@@ -84,7 +85,7 @@ def configure(conf):
     			      #include <boost/thread.hpp>\n
     			      int main() { boost::thread t (); }\n
 			      """, msg = 'Checking for boost threading library',
-                              lib = [boost_thread, 'boost_system%s' % boost_lib_suffix],
+                              lib = [boost_thread],
                               uselib_store = 'BOOST_THREAD')
 
     conf.check_cxx(fragment = """
