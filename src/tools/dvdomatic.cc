@@ -373,6 +373,10 @@ class App : public wxApp
 {
 	bool OnInit ()
 	{
+#ifdef DVDOMATIC_POSIX		
+		unsetenv ("UBUNTU_MENUPROXY");
+#endif		
+		
 		wxInitAllImageHandlers ();
 		
 		dvdomatic_setup ();
