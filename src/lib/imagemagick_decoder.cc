@@ -18,7 +18,7 @@
 */
 
 #include <iostream>
-#include <Magick++/Image.h>
+#include <Magick++.h>
 #include "imagemagick_decoder.h"
 #include "image.h"
 #include "film.h"
@@ -43,6 +43,8 @@ ImageMagickDecoder::native_size () const
 bool
 ImageMagickDecoder::do_pass ()
 {
+	using namespace MagickCore;
+	
 	if (_done) {
 		return true;
 	}
@@ -54,9 +56,9 @@ ImageMagickDecoder::do_pass ()
 	for (int y = 0; y < size.height; ++y) {
 		for (int x = 0; x < size.width; ++x) {
 			Magick::Color c = _magick_image->pixelColor (x, y);
-			*p++ = c.redQuantum() * 255 / MaxRGB;
-			*p++ = c.greenQuantum() * 255 / MaxRGB;
-			*p++ = c.blueQuantum() * 255 / MaxRGB;
+			*p++ = c.redQuantum() * 255 / QuantumRange;
+			*p++ = c.greenQuantum() * 255 / QuantumRange;
+			*p++ = c.blueQuantum() * 255 / QuantumRange;
 		}
 
 	}
