@@ -61,7 +61,9 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, J
 	, _video_stream (-1)
 	, _audio_stream (-1)
 	, _subtitle_stream (-1)
-	, _frame (0)
+	, _last_video_frame (-1)
+	, _this_video_frame (0)
+	, _audio_frame (0)
 	, _video_codec_context (0)
 	, _video_codec (0)
 	, _audio_codec_context (0)
@@ -69,6 +71,10 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, J
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 {
+	for (int i = 0; i < 2; ++i) {
+		_video_frame[i] = 0;
+	}
+	
 	setup_general ();
 	setup_video ();
 	setup_audio ();
@@ -88,8 +94,13 @@ FFmpegDecoder::~FFmpegDecoder ()
 	if (_subtitle_codec_context) {
 		avcodec_close (_subtitle_codec_context);
 	}
+
+	for (int i = 0; i < 2; ++i) {
+		av_free (_video_frame[i]);
+	}
+
+	av_free (_audio_frame);
 	
-	av_free (_frame);
 	avformat_close_input (&_format_context);
 }	
 
@@ -141,8 +152,15 @@ FFmpegDecoder::setup_general ()
 		throw DecodeError ("could not find video stream");
 	}
 
-	_frame = avcodec_alloc_frame ();
-	if (_frame == 0) {
+	for (int i = 0; i < 2; ++i) {
+		_video_frame[i] = avcodec_alloc_frame ();
+		if (_video_frame[i] == 0) {
+			throw DecodeError ("could not allocate frame");
+		}
+	}
+
+	_audio_frame = avcodec_alloc_frame ();
+	if (_audio_frame == 0) {
 		throw DecodeError ("could not allocate frame");
 	}
 }
@@ -235,18 +253,18 @@ FFmpegDecoder::do_pass ()
 
 		int frame_finished;
 
-		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			process_video (_frame);
+		while (avcodec_decode_video2 (_video_codec_context, _video_frame[_this_video_frame], &frame_finished, &_packet) >= 0 && frame_finished) {
+			process_video (_video_frame[_this_video_frame]);
 		}
 
 		if (_audio_stream >= 0 && _opt->decode_audio) {
-			while (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+			while (avcodec_decode_audio4 (_audio_codec_context, _audio_frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 				int const data_size = av_samples_get_buffer_size (
-					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
+					0, _audio_codec_context->channels, _audio_frame->nb_samples, audio_sample_format (), 1
 					);
 
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				process_audio (_frame->data[0], data_size);
+				process_audio (_audio_frame->data[0], data_size);
 			}
 		}
 
@@ -255,16 +273,16 @@ FFmpegDecoder::do_pass ()
 
 	double const pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base) * _packet.pts;
 
-	avcodec_get_frame_defaults (_frame);
-	
 	if (_packet.stream_index == _video_stream) {
 
+		avcodec_get_frame_defaults (_video_frame[_this_video_frame]);
+		
 		if (!_first_video) {
 			_first_video = pts_seconds;
 		}
 
 		int frame_finished;
-		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+		if (avcodec_decode_video2 (_video_codec_context, _video_frame[_this_video_frame], &frame_finished, &_packet) >= 0 && frame_finished) {
 
 			/* Where we are in the output, in seconds */
 			double const out_pts_seconds = video_frame() / frames_per_second();
@@ -273,22 +291,29 @@ FFmpegDecoder::do_pass ()
 			double const delta = pts_seconds - out_pts_seconds;
 			double const one_frame = 1 / frames_per_second();
 
+			/* Insert the last frame if we have one, otherwise just use this one */
+			int const insert_frame = _last_video_frame == -1 ? _this_video_frame : _last_video_frame;
+
 			/* Insert frames if required to get out_pts_seconds up to pts_seconds */
 			if (delta > one_frame) {
 				int const extra = rint (delta / one_frame);
 				for (int i = 0; i < extra; ++i) {
 					_film->log()->log (String::compose ("Extra frame inserted at %1s", out_pts_seconds));
-					process_video (_frame);
+					process_video (_video_frame[insert_frame]);
 				}
 			}
 
 			if (delta > -one_frame) {
 				/* Process this frame */
-				process_video (_frame);
+				process_video (_video_frame[_this_video_frame]);
 			} else {
 				/* Otherwise we are omitting a frame to keep things right */
 				_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
 			}
+
+			/* Swap over so that we use the alternate video frames next time */
+			_this_video_frame = 1 - _this_video_frame;
+			_last_video_frame = 1 - _this_video_frame;
 		}
 
 	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio && _first_video && _first_video.get() <= pts_seconds) {
@@ -327,13 +352,13 @@ FFmpegDecoder::do_pass ()
 		}
 		
 		int frame_finished;
-		if (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+		if (avcodec_decode_audio4 (_audio_codec_context, _audio_frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 			int const data_size = av_samples_get_buffer_size (
-				0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
+				0, _audio_codec_context->channels, _audio_frame->nb_samples, audio_sample_format (), 1
 				);
 			
 			assert (_audio_codec_context->channels == _film->audio_channels());
-			process_audio (_frame->data[0], data_size);
+			process_audio (_audio_frame->data[0], data_size);
 		}
 			
 	} else if (_subtitle_stream >= 0 && _packet.stream_index == _subtitle_stream && _opt->decode_subtitles && _first_video) {

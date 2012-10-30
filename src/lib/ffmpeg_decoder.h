@@ -89,7 +89,11 @@ private:
 	int _video_stream;
 	int _audio_stream; ///< may be < 0 if there is no audio
 	int _subtitle_stream; ///< may be < 0 if there is no subtitle
-	AVFrame* _frame;
+	
+	AVFrame* _video_frame[2];
+	int _last_video_frame;
+	int _this_video_frame;
+	AVFrame* _audio_frame;
 
 	std::vector<AudioStream> _audio_streams;
 	std::vector<SubtitleStream> _subtitle_streams;
