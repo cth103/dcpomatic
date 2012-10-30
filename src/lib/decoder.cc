@@ -97,19 +97,19 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const video_length_in_audio_frames = ((int64_t) last_video_frame() * audio_sample_rate() / frames_per_second());
+	int64_t const video_length_in_audio_frames = ((int64_t) video_frame() * audio_sample_rate() / frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_film->log()->log (
 		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
-				 last_video_frame(),
+				 video_frame(),
 				 video_length_in_audio_frames,
 				 _audio_frames_processed)
 		);
 	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		_film->log()->log (String::compose ("DCP length is %1; %2 frames of audio processed.", last_video_frame(), _audio_frames_processed));
+		_film->log()->log (String::compose ("DCP length is %1; %2 frames of audio processed.", video_frame(), _audio_frames_processed));
 		_film->log()->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		/* XXX: this is slightly questionable; does memset () give silence with all
@@ -298,7 +298,7 @@ Decoder::process_video (AVFrame* frame)
 		}
 		
 		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (double (last_video_frame()) / _film->frames_per_second())) {
+		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame()) / _film->frames_per_second())) {
 			sub = _timed_subtitle->subtitle ();
 		}
 		

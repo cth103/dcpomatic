@@ -37,8 +37,6 @@ public:
 	std::string name () const;
 	void run ();
 
-	int last_video_frame () const;
-
 private:
 	boost::shared_ptr<Decoder> _decoder;
 };

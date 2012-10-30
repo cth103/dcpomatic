@@ -81,7 +81,7 @@ public:
 	void go ();
 
 	/** @return the index of the last video frame to be processed */
-	int last_video_frame () const {
+	int video_frame () const {
 		return _video_frame;
 	}
 

@@ -69,9 +69,9 @@ ExamineContentJob::run ()
 	_decoder = decoder_factory (_film, o, this, true, true);
 	_decoder->go ();
 
-	_film->set_length (_decoder->last_video_frame ());
+	_film->set_length (_decoder->video_frame ());
 
-	_film->log()->log (String::compose ("Video length is %1 frames", _decoder->last_video_frame()));
+	_film->log()->log (String::compose ("Video length is %1 frames", _decoder->video_frame()));
 
 	ascend ();
 
@@ -125,10 +125,4 @@ ExamineContentJob::run ()
 	ascend ();
 	set_progress (1);
 	set_state (FINISHED_OK);
-}
-
-int
-ExamineContentJob::last_video_frame () const
-{
-	return _decoder->last_video_frame ();
 }
