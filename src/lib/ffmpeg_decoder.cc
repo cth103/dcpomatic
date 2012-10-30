@@ -49,6 +49,7 @@ extern "C" {
 #include "ffmpeg_decoder.h"
 #include "subtitle.h"
 
+using std::cout;
 using std::string;
 using std::vector;
 using std::stringstream;
@@ -253,16 +254,41 @@ FFmpegDecoder::do_pass ()
 	}
 
 	double const pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base) * _packet.pts;
+
+	avcodec_get_frame_defaults (_frame);
 	
 	if (_packet.stream_index == _video_stream) {
 
 		if (!_first_video) {
 			_first_video = pts_seconds;
 		}
-		
+
 		int frame_finished;
 		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			process_video (_frame);
+
+			/* Where we are in the output, in seconds */
+			double const out_pts_seconds = last_video_frame() / frames_per_second();
+
+			/* Difference between where we are and where we should be */
+			double const delta = pts_seconds - out_pts_seconds;
+			double const one_frame = 1 / frames_per_second();
+
+			/* Insert frames if required to get out_pts_seconds up to pts_seconds */
+			if (delta > one_frame) {
+				int const extra = rint (delta / one_frame);
+				for (int i = 0; i < extra; ++i) {
+					_log->log (String::compose ("Extra frame inserted at %1s", out_pts_seconds));
+					process_video (_frame);
+				}
+			}
+
+			if (delta > -one_frame) {
+				/* Process this frame */
+				process_video (_frame);
+			} else {
+				/* Otherwise we are omitting a frame to keep things right */
+				_log->log (String::compose ("Frame removed at %1s", out_pts_seconds));
+			}
 		}
 
 	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio && _first_video && _first_video.get() <= pts_seconds) {
@@ -299,8 +325,6 @@ FFmpegDecoder::do_pass ()
 			memset (silence, 0, b);
 			process_audio (silence, b);
 		}
-		
-		avcodec_get_frame_defaults (_frame);
 		
 		int frame_finished;
 		if (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
