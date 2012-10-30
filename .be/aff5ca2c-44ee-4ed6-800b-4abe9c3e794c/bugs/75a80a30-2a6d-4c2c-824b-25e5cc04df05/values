@@ -1,0 +1,18 @@
+creator: Carl Hetherington <cth@carlh.net>
+
+
+reporter: Carl Hetherington <cth@carlh.net>
+
+
+severity: minor
+
+
+status: open
+
+
+summary: Allow parallel encodes with the content file on the client for low-network-bandwidth
+  situations
+
+
+time: Tue, 30 Oct 2012 01:50:16 +0000
+
