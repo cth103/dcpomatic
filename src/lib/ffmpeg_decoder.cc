@@ -277,7 +277,7 @@ FFmpegDecoder::do_pass ()
 			if (delta > one_frame) {
 				int const extra = rint (delta / one_frame);
 				for (int i = 0; i < extra; ++i) {
-					_log->log (String::compose ("Extra frame inserted at %1s", out_pts_seconds));
+					_film->log()->log (String::compose ("Extra frame inserted at %1s", out_pts_seconds));
 					process_video (_frame);
 				}
 			}
@@ -287,7 +287,7 @@ FFmpegDecoder::do_pass ()
 				process_video (_frame);
 			} else {
 				/* Otherwise we are omitting a frame to keep things right */
-				_log->log (String::compose ("Frame removed at %1s", out_pts_seconds));
+				_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
 			}
 		}
 
