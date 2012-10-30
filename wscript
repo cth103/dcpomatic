@@ -85,7 +85,7 @@ def configure(conf):
     			      #include <boost/thread.hpp>\n
     			      int main() { boost::thread t (); }\n
 			      """, msg = 'Checking for boost threading library',
-                              lib = [boost_thread],
+                              lib = [boost_thread, 'boost_system%s' % boost_lib_suffix],
                               uselib_store = 'BOOST_THREAD')
 
     conf.check_cxx(fragment = """
