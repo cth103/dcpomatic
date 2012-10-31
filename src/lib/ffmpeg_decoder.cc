@@ -326,29 +326,31 @@ FFmpegDecoder::do_pass ()
 			_first_audio = pts_seconds;
 			
 			/* This is our first audio packet, and if we've arrived here we must have had our
-			   first video packet.  Push some silence to make up the gap between our first
+			   first video packet.  Push some silence to make up any gap between our first
 			   video packet and our first audio.
 			*/
 			
 			/* frames of silence that we must push */
 			int const s = rint ((_first_audio.get() - _first_video.get()) * audio_sample_rate ());
-			
+
 			_film->log()->log (
 				String::compose (
 					"First video at %1, first audio at %2, pushing %3 frames of silence for %4 channels (%5 bytes per sample)",
 					_first_video.get(), _first_audio.get(), s, audio_channels(), bytes_per_audio_sample()
 					)
 				);
-			
-			/* hence bytes */
-			int const b = s * audio_channels() * bytes_per_audio_sample();
-			
-			/* XXX: this assumes that it won't be too much, and there are shaky assumptions
-			   that all sound representations are silent with memset()ed zero data.
-			*/
-			uint8_t silence[b];
-			memset (silence, 0, b);
-			process_audio (silence, b);
+
+			if (s) {
+				/* hence bytes */
+				int const b = s * audio_channels() * bytes_per_audio_sample();
+				
+				/* XXX: this assumes that it won't be too much, and there are shaky assumptions
+				   that all sound representations are silent with memset()ed zero data.
+				*/
+				uint8_t silence[b];
+				memset (silence, 0, b);
+				process_audio (silence, b);
+			}
 		}
 		
 		int frame_finished;
