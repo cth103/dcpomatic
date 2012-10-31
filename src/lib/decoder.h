@@ -81,8 +81,8 @@ public:
 	void go ();
 
 	/** @return the index of the last video frame to be processed */
-	int video_frame () const {
-		return _video_frame;
+	int video_frame_index () const {
+		return _video_frame_index;
 	}
 
 	virtual std::vector<AudioStream> audio_streams () const {
@@ -134,7 +134,7 @@ private:
 	void emit_audio (uint8_t* data, int size);
 	
 	/** last video frame to be processed */
-	int _video_frame;
+	int _video_frame_index;
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 

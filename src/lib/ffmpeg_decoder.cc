@@ -285,7 +285,7 @@ FFmpegDecoder::do_pass ()
 		if (avcodec_decode_video2 (_video_codec_context, _video_frame[_this_video_frame], &frame_finished, &_packet) >= 0 && frame_finished) {
 
 			/* Where we are in the output, in seconds */
-			double const out_pts_seconds = video_frame() / frames_per_second();
+			double const out_pts_seconds = video_frame_index() / frames_per_second();
 
 			/* Difference between where we are and where we should be */
 			double const delta = pts_seconds - out_pts_seconds;

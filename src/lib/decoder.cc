@@ -56,7 +56,7 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _job (j)
 	, _minimal (minimal)
 	, _ignore_length (ignore_length)
-	, _video_frame (0)
+	, _video_frame_index (0)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
 	, _audio_frames_processed (0)
@@ -97,19 +97,19 @@ Decoder::process_end ()
 	   in to get it to the right length.
 	*/
 
-	int64_t const video_length_in_audio_frames = ((int64_t) video_frame() * audio_sample_rate() / frames_per_second());
+	int64_t const video_length_in_audio_frames = ((int64_t) video_frame_index() * audio_sample_rate() / frames_per_second());
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_film->log()->log (
 		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
-				 video_frame(),
+				 video_frame_index(),
 				 video_length_in_audio_frames,
 				 _audio_frames_processed)
 		);
 	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		_film->log()->log (String::compose ("DCP length is %1; %2 frames of audio processed.", video_frame(), _audio_frames_processed));
+		_film->log()->log (String::compose ("DCP length is %1; %2 frames of audio processed.", video_frame_index(), _audio_frames_processed));
 		_film->log()->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		/* XXX: this is slightly questionable; does memset () give silence with all
@@ -142,7 +142,7 @@ Decoder::go ()
 
 	while (pass () == false) {
 		if (_job && _film->dcp_length()) {
-			_job->set_progress (float (_video_frame) / _film->dcp_length().get());
+			_job->set_progress (float (_video_frame_index) / _film->dcp_length().get());
 		}
 	}
 
@@ -156,7 +156,7 @@ Decoder::go ()
 bool
 Decoder::pass ()
 {
-	if (!_ignore_length && _video_frame >= _film->dcp_length()) {
+	if (!_ignore_length && _video_frame_index >= _film->dcp_length()) {
 		return true;
 	}
 
@@ -266,7 +266,7 @@ void
 Decoder::process_video (AVFrame* frame)
 {
 	if (_minimal) {
-		++_video_frame;
+		++_video_frame_index;
 		return;
 	}
 
@@ -277,8 +277,8 @@ Decoder::process_video (AVFrame* frame)
 		gap = _film->length().get() / _opt->decode_video_frequency;
 	}
 
-	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame % gap) != 0) {
-		++_video_frame;
+	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame_index % gap) != 0) {
+		++_video_frame_index;
 		return;
 	}
 
@@ -300,18 +300,18 @@ Decoder::process_video (AVFrame* frame)
 	list<shared_ptr<Image> > images = graph->process (frame);
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		if (_opt->black_after > 0 && _video_frame > _opt->black_after) {
+		if (_opt->black_after > 0 && _video_frame_index > _opt->black_after) {
 			(*i)->make_black ();
 		}
 		
 		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame()) / _film->frames_per_second())) {
+		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame_index()) / _film->frames_per_second())) {
 			sub = _timed_subtitle->subtitle ();
 		}
 		
-		TIMING ("Decoder emits %1", _video_frame);
-		Video ((*i), _video_frame, sub);
-		++_video_frame;
+		TIMING ("Decoder emits %1", _video_frame_index);
+		Video ((*i), _video_frame_index, sub);
+		++_video_frame_index;
 	}
 }
 
