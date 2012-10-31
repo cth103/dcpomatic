@@ -310,9 +310,19 @@ Decoder::process_video (AVFrame* frame)
 		}
 		
 		TIMING ("Decoder emits %1", _video_frame_index);
-		Video ((*i), _video_frame_index, sub);
+		Video (*i, _video_frame_index, sub);
 		++_video_frame_index;
+		_last_image = *i;
+		_last_subtitle = sub;
 	}
+}
+
+void
+Decoder::repeat_last_video ()
+{
+	assert (_last_image);
+	Video (_last_image, _video_frame_index, _last_subtitle);
+	++_video_frame_index;
 }
 
 void

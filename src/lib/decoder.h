@@ -112,6 +112,7 @@ protected:
 	void process_video (AVFrame *);
 	void process_audio (uint8_t *, int);
 	void process_subtitle (boost::shared_ptr<TimedSubtitle>);
+	void repeat_last_video ();
 
 	int bytes_per_audio_sample () const;
 	
@@ -147,6 +148,9 @@ private:
 	int64_t _audio_frames_processed;
 
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
+
+	boost::shared_ptr<Image> _last_image;
+	boost::shared_ptr<Subtitle> _last_subtitle;
 };
 
 #endif

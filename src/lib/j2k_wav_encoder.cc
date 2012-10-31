@@ -106,7 +106,7 @@ J2KWAVEncoder::close_sound_files ()
 }	
 
 void
-J2KWAVEncoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub)
+J2KWAVEncoder::process_video (shared_ptr<const Image> yuv, int frame, shared_ptr<Subtitle> sub)
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 

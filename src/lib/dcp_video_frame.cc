@@ -74,7 +74,7 @@ using boost::shared_ptr;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<Image> yuv, shared_ptr<Subtitle> sub,
+	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
 	Size out, int p, int subtitle_offset, float subtitle_scale,
 	Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l
 	)

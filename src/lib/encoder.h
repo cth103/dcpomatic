@@ -61,7 +61,7 @@ public:
 	 *  @param f Frame number within the film.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void process_video (boost::shared_ptr<Image> i, int f, boost::shared_ptr<Subtitle> s) = 0;
+	virtual void process_video (boost::shared_ptr<const Image> i, int f, boost::shared_ptr<Subtitle> s) = 0;
 
 	/** Called with some audio data.
 	 *  @param d Array of pointers to floating point sample data for each channel.

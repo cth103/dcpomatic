@@ -50,7 +50,7 @@ ImageMagickEncoder::ImageMagickEncoder (shared_ptr<const Film> f, shared_ptr<con
 }
 
 void
-ImageMagickEncoder::process_video (shared_ptr<Image> image, int frame, shared_ptr<Subtitle> sub)
+ImageMagickEncoder::process_video (shared_ptr<const Image> image, int frame, shared_ptr<Subtitle> sub)
 {
 	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _film->scaler());
 	shared_ptr<Image> compact (new CompactImage (scaled));
