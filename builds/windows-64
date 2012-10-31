@@ -15,7 +15,7 @@ CXX=$MINGW_CXX WINRC=$MINGW_WINDRES \
   CXXFLAGS="-I$WINDOWS_PREFIX/include -I$MINGW_PREFIX/include" \
   LINKFLAGS="-L$WINDOWS_PREFIX/lib -L$MINGW_PREFIX/lib" \
   PATH=$WINDOWS_PREFIX/bin:$PATH \
-  ./waf configure --target-windows
+  ./waf configure --target-windows $*
 if [ "$?" != "0" ]; then
   exit 1
 fi
