@@ -179,6 +179,13 @@ Decoder::process_audio (uint8_t* data, int size)
 void
 Decoder::emit_audio (uint8_t* data, int size)
 {
+	if (size == 0) {
+		return;
+	}
+	
+	assert (_film->audio_channels());
+	assert (bytes_per_audio_sample());
+	
 	/* Deinterleave and convert to float */
 
 	assert ((size % (bytes_per_audio_sample() * audio_channels())) == 0);
