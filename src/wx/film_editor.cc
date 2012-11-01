@@ -655,7 +655,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_scaler->Enable (s);
 	_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
-	_dcp_range->Enable (s);
 	_change_dcp_range_button->Enable (s);
 	_dcp_ab->Enable (s);
 	_audio_gain->Enable (s);
@@ -666,8 +665,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_with_subtitles->Enable (s);
 	_subtitle_offset->Enable (s);
 	_subtitle_scale->Enable (s);
-	_frames_per_second->Enable (s);
-	_original_size->Enable (s);
 }
 
 /** Called when the `Edit filters' button has been clicked */
