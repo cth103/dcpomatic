@@ -224,7 +224,10 @@ FFmpegDecoder::do_pass ()
 	
 	if (r < 0) {
 		if (r != AVERROR_EOF) {
-			throw DecodeError ("error on av_read_frame");
+			/* Maybe we should fail here, but for now we'll just finish off instead */
+			char buf[256];
+			av_strerror (r, buf, sizeof(buf));
+			_film->log()->log (String::compose ("error on av_read_frame (%1) (%2)", buf, r));
 		}
 		
 		/* Get any remaining frames */
@@ -259,7 +262,12 @@ FFmpegDecoder::do_pass ()
 	if (_packet.stream_index == _video_stream) {
 
 		int frame_finished;
-		if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+		int const r = avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet);
+		if (r >= 0 && frame_finished) {
+
+			if (r != _packet.size) {
+				_film->log()->log (String::compose ("Used only %1 bytes of %2 in packet", r, _packet.size));
+			}
 
 			/* Where we are in the output, in seconds */
 			double const out_pts_seconds = video_frame_index() / frames_per_second();
