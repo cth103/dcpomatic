@@ -320,7 +320,11 @@ Decoder::process_video (AVFrame* frame)
 void
 Decoder::repeat_last_video ()
 {
-	assert (_last_image);
+	if (!_last_image) {
+		_last_image.reset (new CompactImage (pixel_format(), native_size()));
+		_last_image->make_black ();
+	}
+	
 	Video (_last_image, _video_frame_index, _last_subtitle);
 	++_video_frame_index;
 }
