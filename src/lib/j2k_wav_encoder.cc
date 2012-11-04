@@ -325,6 +325,7 @@ J2KWAVEncoder::process_end ()
 				break;
 			}
 
+			out->set_frames (frames);
 			write_audio (out);
 		}
 

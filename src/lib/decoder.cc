@@ -245,16 +245,14 @@ Decoder::process_audio (uint8_t* data, int size)
 			_audio_frames_in + audio->frames()
 			);
 		
-		/* Trim start */
 		if (required_range.first >= this_range.first && required_range.first < this_range.second) {
+			/* Trim start */
 			int64_t const shift = this_range.first - required_range.first;
 			audio->move (shift, 0, audio->frames() - shift);
 			audio->set_frames (audio->frames() - shift);
-		}
-		
-		/* Trim end */
-		if (required_range.second >= this_range.first && required_range.second < this_range.second) {
-			audio->set_frames (this_range.first - required_range.second);
+		} else if (required_range.second >= this_range.first && required_range.second < this_range.second) {
+			/* Trim end */
+			audio->set_frames (required_range.second - this_range.first);
 		}
 	}
 		

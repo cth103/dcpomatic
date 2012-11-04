@@ -59,6 +59,7 @@ TranscodeJob::run ()
 	try {
 
 		_film->log()->log ("Transcode job starting");
+		_film->log()->log (String::compose ("Audio delay is %1ms", _film->audio_delay()));
 
 		_encoder = encoder_factory (_film, _opt);
 		Transcoder w (_film, _opt, this, _encoder);
