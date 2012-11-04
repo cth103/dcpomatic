@@ -58,8 +58,9 @@ CheckHashesJob::run ()
 	}
 	
 	int const N = _film->dcp_length().get();
+	DCPFrameRate const dfr = dcp_frame_rate (_film->frames_per_second ());
 	
-	for (int i = 0; i < N; ++i) {
+	for (int i = 0; i < N; i += dfr.skip) {
 		string const j2k_file = _opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 

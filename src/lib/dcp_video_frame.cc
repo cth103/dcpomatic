@@ -86,8 +86,7 @@ DCPVideoFrame::DCPVideoFrame (
 	, _subtitle_scale (subtitle_scale)
 	, _scaler (s)
 	, _frame (f)
-	  /* we round here; not sure if this is right */
-	, _frames_per_second (rint (fps))
+	, _frames_per_second (dcp_frame_rate(fps).frames_per_second)
 	, _post_process (pp)
 	, _colour_lut_index (clut)
 	, _j2k_bandwidth (bw)

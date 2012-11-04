@@ -54,6 +54,13 @@ extern std::string md5_digest (std::string);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
 
+struct DCPFrameRate
+{
+	int frames_per_second;
+	int skip;
+	bool run_fast;
+};
+
 enum ContentType {
 	STILL,
 	VIDEO
@@ -157,6 +164,7 @@ struct Rect
 
 extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
+extern DCPFrameRate dcp_frame_rate (float);
 extern std::string colour_lut_index_to_name (int index);
 extern int round_up (int, int);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);

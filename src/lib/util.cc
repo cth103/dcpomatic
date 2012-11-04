@@ -374,6 +374,24 @@ md5_digest (string file)
 	return s.str ();
 }
 
+DCPFrameRate
+dcp_frame_rate (float fps)
+{
+	DCPFrameRate dfr;
+
+	dfr.run_fast = (fps != rint (fps));
+	dfr.frames_per_second = rint (fps);
+	dfr.skip = 1;
+
+	/* XXX: somewhat arbitrary */
+	if (fps == 50) {
+		dfr.frames_per_second = 25;
+		dfr.skip = 2;
+	}
+
+	return dfr;
+}
+
 /** @param An arbitrary sampling rate.
  *  @return The appropriate DCP-approved sampling rate (48kHz or 96kHz).
  */

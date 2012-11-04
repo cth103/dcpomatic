@@ -258,6 +258,7 @@ Film::make_dcp (bool transcode)
 	o->padding = format()->dcp_padding (shared_from_this ());
 	o->ratio = format()->ratio_as_float (shared_from_this ());
 	o->decode_subtitles = with_subtitles ();
+	o->decode_video_skip = dcp_frame_rate (frames_per_second()).skip;
 
 	shared_ptr<Job> r;
 
@@ -685,11 +686,13 @@ Film::target_audio_sample_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_sample_rate (audio_sample_rate());
 
+	DCPFrameRate dfr = dcp_frame_rate (frames_per_second ());
+
 	/* Compensate for the fact that video will be rounded to the
 	   nearest integer number of frames per second.
 	*/
-	if (rint (frames_per_second()) != frames_per_second()) {
-		t *= _frames_per_second / rint (frames_per_second());
+	if (dfr.run_fast) {
+		t *= _frames_per_second * dfr.skip / dfr.frames_per_second;
 	}
 
 	return rint (t);

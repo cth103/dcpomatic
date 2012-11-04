@@ -58,7 +58,7 @@ MakeDCPJob::name () const
 string
 MakeDCPJob::j2c_path (int f) const
 {
-	return _opt->frame_out_path (f, false);
+	return _opt->frame_out_path (f * dcp_frame_rate(_film->frames_per_second()).skip, false);
 }
 
 string
@@ -79,21 +79,23 @@ MakeDCPJob::run ()
 	/* Remove any old DCP */
 	boost::filesystem::remove_all (dcp_path);
 
+	DCPFrameRate const dfr = dcp_frame_rate (_film->frames_per_second ());
+
 	int frames = 0;
 	switch (_film->content_type ()) {
 	case VIDEO:
-		frames = _film->dcp_length().get();
+		frames = _film->dcp_length().get() / dfr.skip;
 		break;
 	case STILL:
 		frames = _film->still_duration() * ImageMagickDecoder::static_frames_per_second ();
 		break;
 	}
-	
+
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 	dcp.Progress.connect (boost::bind (&MakeDCPJob::dcp_progress, this, _1));
 
 	shared_ptr<libdcp::CPL> cpl (
-		new libdcp::CPL (_film->dir (_film->dcp_name()), _film->dcp_name(), _film->dcp_content_type()->libdcp_kind (), frames, rint (_film->frames_per_second()))
+		new libdcp::CPL (_film->dir (_film->dcp_name()), _film->dcp_name(), _film->dcp_content_type()->libdcp_kind (), frames, dfr.frames_per_second)
 		);
 	
 	dcp.add_cpl (cpl);
@@ -105,7 +107,7 @@ MakeDCPJob::run ()
 			_film->dir (_film->dcp_name()),
 			"video.mxf",
 			&dcp.Progress,
-			rint (_film->frames_per_second()),
+			dfr.frames_per_second,
 			frames,
 			_opt->out_size.width,
 			_opt->out_size.height
@@ -124,7 +126,7 @@ MakeDCPJob::run ()
 				_film->dir (_film->dcp_name()),
 				"audio.mxf",
 				&dcp.Progress,
-				rint (_film->frames_per_second()),
+				dfr.frames_per_second,
 				frames,
 				_film->audio_channels()
 				)
