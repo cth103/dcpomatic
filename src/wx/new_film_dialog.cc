@@ -19,6 +19,7 @@
 
 #include <boost/filesystem.hpp>
 #include <wx/stdpaths.h>
+#include "lib/config.h"
 #include "new_film_dialog.h"
 #ifdef __WXMSW__
 #include "dir_picker_ctrl.h"
@@ -48,7 +49,7 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 #else	
 	_folder = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
 #endif
-	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
+	_folder->SetPath (std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
 	table->Add (_folder, 1, wxEXPAND);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);

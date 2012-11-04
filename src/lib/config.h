@@ -46,6 +46,12 @@ public:
 		return _num_local_encoding_threads;
 	}
 
+	std::string default_directory () const {
+		return _default_directory;
+	}
+
+	std::string default_directory_or (std::string a) const;
+
 	/** @return port to use for J2K encoding servers */
 	int server_port () const {
 		return _server_port;
@@ -108,6 +114,11 @@ public:
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
+		Changed ();
+	}
+
+	void set_default_directory (std::string d) {
+		_default_directory = d;
 		Changed ();
 	}
 
@@ -186,6 +197,8 @@ private:
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
+	/** default directory to put new films in */
+	std::string _default_directory;
 	/** port to use for J2K encoding servers */
 	int _server_port;
 	/** index of colour LUT to use when converting RGB to XYZ

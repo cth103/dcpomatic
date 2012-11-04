@@ -68,6 +68,8 @@ Config::Config ()
 
 		if (k == "num_local_encoding_threads") {
 			_num_local_encoding_threads = atoi (v.c_str ());
+		} else if (k == "default_directory") {
+			_default_directory = v;
 		} else if (k == "server_port") {
 			_server_port = atoi (v.c_str ());
 		} else if (k == "colour_lut_index") {
@@ -125,6 +127,7 @@ Config::write () const
 {
 	ofstream f (file().c_str ());
 	f << "num_local_encoding_threads " << _num_local_encoding_threads << "\n"
+	  << "default_directory " << _default_directory << "\n"
 	  << "server_port " << _server_port << "\n"
 	  << "colour_lut_index " << _colour_lut_index << "\n"
 	  << "j2k_bandwidth " << _j2k_bandwidth << "\n"
@@ -147,4 +150,14 @@ Config::write () const
 	f << "tms_user " << _tms_user << "\n";
 	f << "tms_password " << _tms_password << "\n";
 	f << "sound_processor " << _sound_processor->id ();
+}
+
+string
+Config::default_directory_or (string a) const
+{
+	if (_default_directory.empty() || !boost::filesystem::exists (_default_directory)) {
+		return a;
+	}
+
+	return _default_directory;
 }

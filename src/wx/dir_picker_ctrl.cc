@@ -40,9 +40,6 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 	SetSizerAndFit (_sizer);
 
 	_browse->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (DirPickerCtrl::browse_clicked), 0, this);
-
-	/* Do this after the fit so that our folder label stays long */
-	SetPath (wxStandardPaths::Get().GetDocumentsDir());
 }
 
 void

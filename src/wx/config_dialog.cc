@@ -23,6 +23,8 @@
 
 #include <iostream>
 #include <boost/lexical_cast.hpp>
+#include <boost/filesystem.hpp>
+#include <wx/stdpaths.h>
 #include "lib/config.h"
 #include "lib/server.h"
 #include "lib/screen.h"
@@ -66,6 +68,15 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	add_label_to_sizer (table, this, "Threads to use for encoding on this host");
 	_num_local_encoding_threads = new wxSpinCtrl (this);
 	table->Add (_num_local_encoding_threads, 1, wxEXPAND);
+	table->AddSpacer (0);
+
+	add_label_to_sizer (table, this, "Default directory for new films");
+#ifdef __WXMSW__
+	_default_directory = new DirPickerCtrl (this);
+#else	
+	_default_directory = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
+#endif
+	table->Add (_default_directory, 1, wxEXPAND);
 	table->AddSpacer (0);
 
 	add_label_to_sizer (table, this, "Colour look-up table");
@@ -142,6 +153,9 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
 	_num_local_encoding_threads->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::num_local_encoding_threads_changed), 0, this);
 
+	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
+	_default_directory->Connect (wxID_ANY, wxEVT_COMMAND_DIRPICKER_CHANGED, wxCommandEventHandler (ConfigDialog::default_directory_changed), 0, this);
+
 	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::colour_lut_changed), 0, this);
 	
 	_j2k_bandwidth->SetRange (50, 250);
@@ -210,6 +224,12 @@ void
 ConfigDialog::num_local_encoding_threads_changed (wxCommandEvent &)
 {
 	Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
+}
+
+void
+ConfigDialog::default_directory_changed (wxCommandEvent &)
+{
+	Config::instance()->set_default_directory (wx_to_std (_default_directory->GetPath ()));
 }
 
 void

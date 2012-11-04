@@ -24,6 +24,9 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/listctrl.h>
+#include <wx/filepicker.h>
+
+class DirPickerCtrl;
 
 class Screen;
 class ServerDescription;
@@ -42,6 +45,7 @@ private:
 	void tms_user_changed (wxCommandEvent &);
 	void tms_password_changed (wxCommandEvent &);
 	void num_local_encoding_threads_changed (wxCommandEvent &);
+	void default_directory_changed (wxCommandEvent &);
 	void colour_lut_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
 	void reference_scaler_changed (wxCommandEvent &);
@@ -59,6 +63,11 @@ private:
 	wxTextCtrl* _tms_user;
 	wxTextCtrl* _tms_password;
 	wxSpinCtrl* _num_local_encoding_threads;
+#ifdef __WXMSW__	
+	DirPickerCtrl* _default_directory;
+#else
+	wxDirPickerCtrl* _default_directory;
+#endif	
 	wxComboBox* _colour_lut;
 	wxSpinCtrl* _j2k_bandwidth;
 	wxComboBox* _reference_scaler;
