@@ -131,7 +131,7 @@ TIFFDecoder::audio_channel_layout () const
 }
 
 bool
-TIFFDecoder::do_pass ()
+TIFFDecoder::pass ()
 {
 	if (_iter == _files.end ()) {
 		return true;

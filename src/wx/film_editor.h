@@ -54,7 +54,7 @@ private:
 	void bottom_crop_changed (wxCommandEvent &);
 	void content_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
-	void dcp_range_changed (int);
+	void dcp_range_changed (int, int);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);

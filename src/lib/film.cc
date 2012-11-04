@@ -82,6 +82,8 @@ Film::Film (string d, bool must_exist)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))
+	, _dcp_trim_start (0)
+	, _dcp_trim_end (0)
 	, _dcp_ab (false)
 	, _audio_stream (-1)
 	, _audio_gain (0)
@@ -141,7 +143,8 @@ Film::Film (Film const & o)
 	, _crop              (o._crop)
 	, _filters           (o._filters)
 	, _scaler            (o._scaler)
-	, _dcp_frames        (o._dcp_frames)
+	, _dcp_trim_start    (o._dcp_trim_start)
+	, _dcp_trim_end      (o._dcp_trim_end)
 	, _dcp_ab            (o._dcp_ab)
 	, _audio_stream      (o._audio_stream)
 	, _audio_gain        (o._audio_gain)
@@ -402,7 +405,8 @@ Film::write_metadata () const
 		f << "filter " << (*i)->id () << "\n";
 	}
 	f << "scaler " << _scaler->id () << "\n";
-	f << "dcp_frames " << _dcp_frames.get_value_or(0) << "\n";
+	f << "dcp_trim_start " << _dcp_trim_start << "\n";
+	f << "dcp_trim_end " << _dcp_trim_end << "\n";
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
 	f << "selected_audio_stream " << _audio_stream << "\n";
 	f << "audio_gain " << _audio_gain << "\n";
@@ -481,11 +485,10 @@ Film::read_metadata ()
 			_filters.push_back (Filter::from_id (v));
 		} else if (k == "scaler") {
 			_scaler = Scaler::from_id (v);
-		} else if (k == "dcp_frames") {
-			int const vv = atoi (v.c_str ());
-			if (vv) {
-				_dcp_frames = vv;
-			}
+		} else if (k == "dcp_trim_start") {
+			_dcp_trim_start = atoi (v.c_str ());
+		} else if (k == "dcp_trim_end") {
+			_dcp_trim_end = atoi (v.c_str ());
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
 		} else if (k == "selected_audio_stream") {
@@ -699,11 +702,7 @@ Film::dcp_length () const
 		return boost::optional<int> ();
 	}
 
-	if (dcp_frames()) {
-		return min (dcp_frames().get(), length().get());
-	}
-
-	return length();
+	return length().get() - dcp_trim_start() - dcp_trim_end();
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
@@ -1012,23 +1011,23 @@ Film::set_scaler (Scaler const * s)
 }
 
 void
-Film::set_dcp_frames (int f)
+Film::set_dcp_trim_start (int t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_frames = f;
+		_dcp_trim_start = t;
 	}
-	signal_changed (DCP_FRAMES);
+	signal_changed (DCP_TRIM_START);
 }
 
 void
-Film::unset_dcp_frames ()
+Film::set_dcp_trim_end (int t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_frames = boost::none;
+		_dcp_trim_end = t;
 	}
-	signal_changed (DCP_FRAMES);
+	signal_changed (DCP_TRIM_END);
 }
 
 void

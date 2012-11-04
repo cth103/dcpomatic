@@ -502,19 +502,22 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::THUMBS:
 		break;
-	case Film::DCP_FRAMES:
-		if (!_film->dcp_frames()) {
-			_dcp_range->SetLabel (wxT ("Whole film"));
-		} else {
-			_dcp_range->SetLabel (std_to_wx (String::compose ("First %1 frames", _film->dcp_frames().get())));
-		}
-		_sizer->Layout ();
-		break;
 	case Film::DCP_AB:
 		_dcp_ab->SetValue (_film->dcp_ab ());
 		break;
 	case Film::SCALER:
 		_scaler->SetSelection (Scaler::as_index (_film->scaler ()));
+		break;
+	case Film::DCP_TRIM_START:
+	case Film::DCP_TRIM_END:
+		if (_film->dcp_trim_start() == 0 && _film->dcp_trim_end() == 0) {
+			_dcp_range->SetLabel (wxT ("Whole film"));
+		} else {
+			_dcp_range->SetLabel (
+				std_to_wx (String::compose ("Trim %1 frames from start and %2 frames from end", _film->dcp_trim_start(), _film->dcp_trim_end()))
+				);
+		}
+		_sizer->Layout ();
 		break;
 	case Film::AUDIO_GAIN:
 		_audio_gain->SetValue (_film->audio_gain ());
@@ -616,7 +619,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::FORMAT);
 	film_changed (Film::CROP);
 	film_changed (Film::FILTERS);
-	film_changed (Film::DCP_FRAMES);
+	film_changed (Film::DCP_TRIM_START);
+	film_changed (Film::DCP_TRIM_END);
 	film_changed (Film::DCP_AB);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
@@ -764,18 +768,15 @@ void
 FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
 {
 	DCPRangeDialog* d = new DCPRangeDialog (this, _film);
-	d->Changed.connect (bind (&FilmEditor::dcp_range_changed, this, _1));
+	d->Changed.connect (bind (&FilmEditor::dcp_range_changed, this, _1, _2));
 	d->ShowModal ();
 }
 
 void
-FilmEditor::dcp_range_changed (int frames)
+FilmEditor::dcp_range_changed (int start, int end)
 {
-	if (frames == 0) {
-		_film->unset_dcp_frames ();
-	} else {
-		_film->set_dcp_frames (frames);
-	}
+	_film->set_dcp_trim_start (start);
+	_film->set_dcp_trim_end (end);
 }
 
 void

@@ -59,7 +59,7 @@ public:
 	}
 
 protected:
-	bool do_pass ();
+	bool pass ();
 	PixelFormat pixel_format () const;
 
 	int time_base_numerator () const {

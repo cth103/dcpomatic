@@ -218,7 +218,7 @@ FFmpegDecoder::setup_subtitle ()
 
 
 bool
-FFmpegDecoder::do_pass ()
+FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
 	

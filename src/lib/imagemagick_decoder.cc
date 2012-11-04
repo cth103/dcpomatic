@@ -41,7 +41,7 @@ ImageMagickDecoder::native_size () const
 }
 
 bool
-ImageMagickDecoder::do_pass ()
+ImageMagickDecoder::pass ()
 {
 	using namespace MagickCore;
 	

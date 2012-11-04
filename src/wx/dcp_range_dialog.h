@@ -28,18 +28,15 @@ class DCPRangeDialog : public wxDialog
 public:
 	DCPRangeDialog (wxWindow *, boost::shared_ptr<Film>);
 
-	boost::signals2::signal<void (int)> Changed;
+	boost::signals2::signal<void (int, int)> Changed;
 
 private:
-	void whole_toggled (wxCommandEvent &);
-	void first_toggled (wxCommandEvent &);
-	void n_frames_changed (wxCommandEvent &);
+	void trim_start_changed (wxCommandEvent &);
+	void trim_end_changed (wxCommandEvent &);
 	
-	void set_sensitivity ();
-	void emit_changed ();
+	void emit_changed (wxCommandEvent &);
 	
 	boost::shared_ptr<Film> _film;
-	wxRadioButton* _whole;
-	wxRadioButton* _first;
-	wxSpinCtrl* _n_frames;
+	wxSpinCtrl* _trim_start;
+	wxSpinCtrl* _trim_end;
 };

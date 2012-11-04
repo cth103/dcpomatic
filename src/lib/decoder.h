@@ -76,7 +76,7 @@ public:
 	virtual int sample_aspect_ratio_denominator () const = 0;
 	
 	void process_begin ();
-	bool pass ();
+	virtual bool pass () = 0;
 	void process_end ();
 	void go ();
 
@@ -105,8 +105,6 @@ public:
 
 protected:
 	
-	/** perform a single pass at our content */
-	virtual bool do_pass () = 0;
 	virtual PixelFormat pixel_format () const = 0;
 	
 	void process_video (AVFrame *);

@@ -142,25 +142,11 @@ Decoder::go ()
 
 	while (pass () == false) {
 		if (_job && _film->dcp_length()) {
-			_job->set_progress (float (_video_frame_index) / _film->dcp_length().get());
+			_job->set_progress (float ((_video_frame_index - _film->dcp_trim_start())) / _film->dcp_length().get());
 		}
 	}
 
 	process_end ();
-}
-
-/** Run one pass.  This may or may not generate any actual video / audio data;
- *  some decoders may require several passes to generate a single frame.
- *  @return true if we have finished processing all data; otherwise false.
- */
-bool
-Decoder::pass ()
-{
-	if (!_ignore_length && _video_frame_index >= _film->dcp_length()) {
-		return true;
-	}
-
-	return do_pass ();
 }
 
 /** Called by subclasses to tell the world that some audio data is ready
@@ -265,6 +251,8 @@ Decoder::emit_audio (uint8_t* data, int size)
 void
 Decoder::process_video (AVFrame* frame)
 {
+	assert (_film->length());
+	
 	if (_minimal) {
 		++_video_frame_index;
 		return;
@@ -278,6 +266,11 @@ Decoder::process_video (AVFrame* frame)
 	}
 
 	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame_index % gap) != 0) {
+		++_video_frame_index;
+		return;
+	}
+
+	if (_film->dcp_trim_start() > _video_frame_index || (_film->length().get() - _film->dcp_trim_end()) < _video_frame_index) {
 		++_video_frame_index;
 		return;
 	}

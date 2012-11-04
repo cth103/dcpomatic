@@ -117,7 +117,8 @@ public:
 		CROP,
 		FILTERS,
 		SCALER,
-		DCP_FRAMES,
+		DCP_TRIM_START,
+		DCP_TRIM_END,
 		DCP_AB,
 		AUDIO_STREAM,
 		AUDIO_GAIN,
@@ -186,11 +187,16 @@ public:
 		return _scaler;
 	}
 
-	boost::optional<int> dcp_frames () const {
+	int dcp_trim_start () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_frames;
+		return _dcp_trim_start;
 	}
 
+	int dcp_trim_end () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _dcp_trim_end;
+	}
+	
 	bool dcp_ab () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_ab;
@@ -344,8 +350,8 @@ public:
 	void set_bottom_crop (int);
 	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
-	void set_dcp_frames (int);
-	void unset_dcp_frames ();
+	void set_dcp_trim_start (int);
+	void set_dcp_trim_end (int);
 	void set_dcp_ab (bool);
 	void set_audio_stream (int);
 	void set_audio_gain (float);
@@ -416,8 +422,8 @@ private:
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** Maximum number of frames to put in the DCP, if applicable */
-	boost::optional<int> _dcp_frames;
+	int _dcp_trim_start;
+	int _dcp_trim_end;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.

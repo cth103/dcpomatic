@@ -27,36 +27,23 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, shared_ptr<Film> f)
 	: wxDialog (p, wxID_ANY, wxString (_("DCP Range")))
 	, _film (f)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
 
-	_whole = new wxRadioButton (this, wxID_ANY, _("Whole film"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	table->Add (_whole, 1);
-	table->AddSpacer (0);
-	
-	_first = new wxRadioButton (this, wxID_ANY, _("First"));
-	table->Add (_first);
-	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_n_frames = new wxSpinCtrl (this, wxID_ANY);
-		s->Add (_n_frames);
-		add_label_to_sizer (s, this, "frames");
-		table->Add (s);
-	}
+	add_label_to_sizer (table, this, "Trim start");
+	_trim_start = new wxSpinCtrl (this, wxID_ANY);
+	table->Add (_trim_start, 1);
+	add_label_to_sizer (table, this, "frames");
 
-	_n_frames->SetRange (1, INT_MAX - 1);
-	if (_film->dcp_frames()) {
-		_whole->SetValue (false);
-		_first->SetValue (true);
-		_n_frames->SetValue (_film->dcp_frames().get());
-	} else {
-		_whole->SetValue (true);
-		_first->SetValue (false);
-		_n_frames->SetValue (24);
-	}
+	add_label_to_sizer (table, this, "Trim end");
+	_trim_end = new wxSpinCtrl (this, wxID_ANY);
+	table->Add (_trim_end, 1);
+	add_label_to_sizer (table, this, "frames");
 
-	_whole->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (DCPRangeDialog::whole_toggled), 0, this);
-	_first->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (DCPRangeDialog::first_toggled), 0, this);
-	_n_frames->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (DCPRangeDialog::n_frames_changed), 0, this);
+	_trim_start->SetValue (_film->dcp_trim_start());
+	_trim_end->SetValue (_film->dcp_trim_end());
+
+	_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (DCPRangeDialog::emit_changed), 0, this);
+	_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (DCPRangeDialog::emit_changed), 0, this);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (table, 0, wxALL, 6);
@@ -68,43 +55,10 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, shared_ptr<Film> f)
 
 	SetSizer (overall_sizer);
 	overall_sizer->SetSizeHints (this);
-
-	set_sensitivity ();
 }
 
 void
-DCPRangeDialog::whole_toggled (wxCommandEvent &)
+DCPRangeDialog::emit_changed (wxCommandEvent &)
 {
-	set_sensitivity ();
-	emit_changed ();
-}
-
-void
-DCPRangeDialog::first_toggled (wxCommandEvent &)
-{
-	set_sensitivity ();
-	emit_changed ();
-}
-
-void
-DCPRangeDialog::set_sensitivity ()
-{
-	_n_frames->Enable (_first->GetValue ());
-}
-
-void
-DCPRangeDialog::n_frames_changed (wxCommandEvent &)
-{
-	emit_changed ();
-}
-
-void
-DCPRangeDialog::emit_changed ()
-{
-	int frames = 0;
-	if (!_whole->GetValue ()) {
-		frames = _n_frames->GetValue ();
-	}
-
-	Changed (frames);
+	Changed (_trim_start->GetValue(), _trim_end->GetValue());
 }
