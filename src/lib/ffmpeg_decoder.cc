@@ -55,8 +55,8 @@ using std::vector;
 using std::stringstream;
 using boost::shared_ptr;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal)
-	: Decoder (f, o, j, minimal)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
+	: Decoder (f, o, j)
 	, _format_context (0)
 	, _video_stream (-1)
 	, _audio_stream (-1)

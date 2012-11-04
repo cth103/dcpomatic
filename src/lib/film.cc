@@ -877,7 +877,7 @@ Film::set_content (string c)
 		shared_ptr<Options> o (new Options ("", "", ""));
 		o->out_size = Size (1024, 1024);
 		
-		shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0, 0);
+		shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0);
 		
 		set_size (d->native_size ());
 		set_frames_per_second (d->frames_per_second ());

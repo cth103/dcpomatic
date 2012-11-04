@@ -44,11 +44,9 @@ using namespace boost;
 /** @param f Our Film.
  *  @param o Options.
  *  @param j Job that we are associated with, or 0.
- *  @param minimal true to do the bare minimum of work; just run through the content.  Useful for acquiring
- *  accurate frame counts as quickly as possible.  This generates no video or audio output.
  */
-TIFFDecoder::TIFFDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal)
-	: Decoder (f, o, j, minimal)
+TIFFDecoder::TIFFDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
+	: Decoder (f, o, j)
 {
 	string const dir = _film->content_path ();
 	

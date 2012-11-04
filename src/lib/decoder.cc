@@ -46,14 +46,11 @@ using boost::shared_ptr;
 /** @param f Film.
  *  @param o Options.
  *  @param j Job that we are running within, or 0
- *  @param minimal true to do the bare minimum of work; just run through the content.  Useful for acquiring
- *  accurate frame counts as quickly as possible.  This generates no video or audio output.
  */
-Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal)
+Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
 	: _film (f)
 	, _opt (o)
 	, _job (j)
-	, _minimal (minimal)
 	, _video_frame_index (0)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
@@ -250,11 +247,6 @@ Decoder::process_video (AVFrame* frame)
 {
 	assert (_film->length());
 	
-	if (_minimal) {
-		++_video_frame_index;
-		return;
-	}
-
 	/* Use Film::length here as our one may be wrong */
 
 	if (_opt->decode_video_skip != 0 && (_video_frame_index % _opt->decode_video_skip) != 0) {

@@ -66,7 +66,7 @@ ExamineContentJob::run ()
 
 	descend (0.5);
 
-	_decoder = decoder_factory (_film, o, this, true);
+	_decoder = decoder_factory (_film, o, this);
 	_decoder->go ();
 
 	_film->set_length (_decoder->video_frame_index());

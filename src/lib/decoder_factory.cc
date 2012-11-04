@@ -31,18 +31,16 @@ using std::string;
 using boost::shared_ptr;
 
 shared_ptr<Decoder>
-decoder_factory (
-	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal = false
-	)
+decoder_factory (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
 {
 	if (boost::filesystem::is_directory (f->content_path ())) {
 		/* Assume a directory contains TIFFs */
-		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j, minimal));
+		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j));
 	}
 
 	if (f->content_type() == STILL) {
-		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j, minimal));
+		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j));
 	}
 	
-	return shared_ptr<Decoder> (new FFmpegDecoder (f, o, j, minimal));
+	return shared_ptr<Decoder> (new FFmpegDecoder (f, o, j));
 }
