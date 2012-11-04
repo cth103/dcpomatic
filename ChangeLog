@@ -1,6 +1,6 @@
 2012-10-14  Carl Hetherington  <cth@carlh.net>
 
-	* Basic support for DVD subtitles.
+	* Basic support for DVD and Blu-Ray subtitles.
 
 	* Re-add DCI naming support.
 
@@ -13,6 +13,13 @@
 	pixel format.
 
 	* Fix bug with handling of YUV422-format videos.
+
+	* Remove options to black-out the video when cropping the end;
+	it complicates the code and is getting a bit close to video
+	editing.
+
+	* Add option to trim from both the start and
+	the end of the input video.
 
 	* Various bug fixes and code rearrangement.
 
