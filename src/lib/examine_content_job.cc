@@ -69,9 +69,9 @@ ExamineContentJob::run ()
 	_decoder = decoder_factory (_film, o, this, true);
 	_decoder->go ();
 
-	_film->set_length (_decoder->video_frame_index());
+	_film->set_length (_decoder->video_frames_in());
 
-	_film->log()->log (String::compose ("Video length is %1 frames", _decoder->video_frame_index()));
+	_film->log()->log (String::compose ("Video length is %1 frames", _film->length()));
 
 	ascend ();
 

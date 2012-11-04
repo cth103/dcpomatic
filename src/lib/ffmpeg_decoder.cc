@@ -270,7 +270,7 @@ FFmpegDecoder::pass ()
 			}
 
 			/* Where we are in the output, in seconds */
-			double const out_pts_seconds = video_frame_index() / frames_per_second();
+			double const out_pts_seconds = video_frames_in() / frames_per_second();
 
 			/* Where we are in the source, in seconds */
 			double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
@@ -291,8 +291,8 @@ FFmpegDecoder::pass ()
 					repeat_last_video ();
 					_film->log()->log (
 						String::compose (
-							"Extra frame inserted at %1s; DCP frame %2, source PTS %3",
-							out_pts_seconds, video_frame_index(), source_pts_seconds
+							"Extra frame inserted at %1s; source frame %2, source PTS %3",
+							out_pts_seconds, video_frames_in(), source_pts_seconds
 							)
 						);
 				}

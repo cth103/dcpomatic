@@ -54,10 +54,12 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _opt (o)
 	, _job (j)
 	, _minimal (minimal)
-	, _video_frame_index (0)
+	, _video_frames_in (0)
+	, _video_frames_out (0)
+	, _audio_frames_in (0)
+	, _audio_frames_out (0)
 	, _delay_line (0)
 	, _delay_in_bytes (0)
-	, _audio_frames_processed (0)
 {
 	
 }
@@ -67,15 +69,14 @@ Decoder::~Decoder ()
 	delete _delay_line;
 }
 
-/** Start off a decode processing run */
+/** Start off a decode processing run.  This should only be called once on
+ *  a given Decoder object.
+ */
 void
 Decoder::process_begin ()
 {
 	_delay_in_bytes = _film->audio_delay() * audio_sample_rate() * audio_channels() * bytes_per_audio_sample() / 1000;
-	delete _delay_line;
 	_delay_line = new DelayLine (_delay_in_bytes);
-
-	_audio_frames_processed = 0;
 }
 
 /** Finish off a decode processing run */
@@ -83,45 +84,65 @@ void
 Decoder::process_end ()
 {
 	if (_delay_in_bytes < 0) {
+		/* Empty the delay line */
 		uint8_t remainder[-_delay_in_bytes];
 		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (audio_channels() * bytes_per_audio_sample());
 		emit_audio (remainder, -_delay_in_bytes);
 	}
 
-	/* If we cut the decode off, the audio may be short; push some silence
-	   in to get it to the right length.
-	*/
+	if (_opt->decode_audio) {
 
-	int64_t const video_length_in_audio_frames = ((int64_t) video_frame_index() * audio_sample_rate() / frames_per_second());
-	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
+		/* Ensure that our video and audio emissions are the same length */
 
-	_film->log()->log (
-		String::compose ("Source length is %1 (%2 audio frames); %3 frames of audio processed.",
-				 video_frame_index(),
-				 video_length_in_audio_frames,
-				 _audio_frames_processed)
-		);
+		int64_t video_frames_out_in_audio_frames = ((int64_t) _video_frames_out * audio_sample_rate() / frames_per_second());
+		int64_t audio_short_by_frames = video_frames_out_in_audio_frames - _audio_frames_out;
+
+		_film->log()->log (
+			String::compose ("Decoder has emitted %1 video frames (which equals %2 audio frames) and %3 audio frames",
+					 _video_frames_out,
+					 video_frames_out_in_audio_frames,
+					 _audio_frames_out)
+			);
+
+		if (audio_short_by_frames < 0) {
+
+			_film->log()->log (String::compose ("Emitted %1 too many audio frames", -audio_short_by_frames));
+			
+			/* We have emitted more audio than video.  Emit enough black video frames so that we reverse this */
+			int const black_video_frames = ceil (-audio_short_by_frames * frames_per_second() / audio_sample_rate());
+
+			_film->log()->log (String::compose ("Emitting %1 frames of black video", black_video_frames));
+
+			shared_ptr<Image> black (new CompactImage (pixel_format(), native_size()));
+			black->make_black ();
+			for (int i = 0; i < black_video_frames; ++i) {
+				emit_video (black, shared_ptr<Subtitle> ());
+			}
+
+			/* Now recompute our check values */
+			video_frames_out_in_audio_frames = ((int64_t) _video_frames_out * audio_sample_rate() / frames_per_second());
+			audio_short_by_frames = video_frames_out_in_audio_frames - _audio_frames_out;
+		}
 	
-	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
+		if (audio_short_by_frames > 0) {
 
-		_film->log()->log (String::compose ("Source length is %1; %2 frames of audio processed.", video_frame_index(), _audio_frames_processed));
-		_film->log()->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
+			_film->log()->log (String::compose ("Emitted %1 too few audio frames", audio_short_by_frames));
 
-		/* XXX: this is slightly questionable; does memset () give silence with all
-		   sample formats?
-		*/
-
-		int64_t bytes = audio_short_by_frames * _film->audio_channels() * bytes_per_audio_sample();
-		
-		int64_t const silence_size = 16 * 1024 * _film->audio_channels() * bytes_per_audio_sample();
-		uint8_t silence[silence_size];
-		memset (silence, 0, silence_size);
-		
-		while (bytes) {
-			int64_t const t = min (bytes, silence_size);
-			emit_audio (silence, t);
-			bytes -= t;
+			/* XXX: this is slightly questionable; does memset () give silence with all
+			   sample formats?
+			*/
+			
+			int64_t bytes = audio_short_by_frames * _film->audio_channels() * bytes_per_audio_sample();
+			
+			int64_t const silence_size = 16 * 1024 * _film->audio_channels() * bytes_per_audio_sample();
+			uint8_t silence[silence_size];
+			memset (silence, 0, silence_size);
+			
+			while (bytes) {
+				int64_t const t = min (bytes, silence_size);
+				emit_audio (silence, t);
+				bytes -= t;
+			}
 		}
 	}
 }
@@ -138,8 +159,7 @@ Decoder::go ()
 
 	while (pass () == false) {
 		if (_job && _film->dcp_length()) {
-			SourceFrame const p = _video_frame_index - _film->dcp_trim_start();
-			_job->set_progress (float (p) / _film->dcp_length().get());
+			_job->set_progress (float (_video_frames_out) / _film->dcp_length().get());
 		}
 	}
 
@@ -236,7 +256,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 	}
 
 	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_processed += audio->frames ();
+	_audio_frames_out += audio->frames ();
 
 	Audio (audio);
 }
@@ -249,21 +269,21 @@ void
 Decoder::process_video (AVFrame* frame)
 {
 	assert (_film->length());
-	
+
 	if (_minimal) {
-		++_video_frame_index;
+		++_video_frames_in;
 		return;
 	}
 
 	/* Use Film::length here as our one may be wrong */
 
-	if (_opt->decode_video_skip != 0 && (_video_frame_index % _opt->decode_video_skip) != 0) {
-		++_video_frame_index;
+	if (_opt->decode_video_skip != 0 && (_video_frames_in % _opt->decode_video_skip) != 0) {
+		++_video_frames_in;
 		return;
 	}
 
-	if (_film->dcp_trim_start() > _video_frame_index || (_film->length().get() - _film->dcp_trim_end()) < _video_frame_index) {
-		++_video_frame_index;
+	if (_film->dcp_trim_start() > _video_frames_in || (_film->length().get() + _film->dcp_trim_start()) < _video_frames_in) {
+		++_video_frames_in;
 		return;
 	}
 
@@ -286,15 +306,11 @@ Decoder::process_video (AVFrame* frame)
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
 		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame_index()) / _film->frames_per_second())) {
+		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frames_in()) / _film->frames_per_second())) {
 			sub = _timed_subtitle->subtitle ();
 		}
-		
-		TIMING ("Decoder emits %1", _video_frame_index);
-		Video (*i, _video_frame_index, sub);
-		++_video_frame_index;
-		_last_image = *i;
-		_last_subtitle = sub;
+
+		emit_video (*i, sub);
 	}
 }
 
@@ -305,9 +321,18 @@ Decoder::repeat_last_video ()
 		_last_image.reset (new CompactImage (pixel_format(), native_size()));
 		_last_image->make_black ();
 	}
-	
-	Video (_last_image, _video_frame_index, _last_subtitle);
-	++_video_frame_index;
+
+	emit_video (_last_image, _last_subtitle);
+}
+
+void
+Decoder::emit_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+{
+	TIMING ("Decoder emits %1", _video_frames_out);
+	Video (image, _video_frames_out, sub);
+	++_video_frames_out;
+	_last_image = image;
+	_last_subtitle = sub;
 }
 
 void

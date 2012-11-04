@@ -80,9 +80,9 @@ public:
 	void process_end ();
 	void go ();
 
-	/** @return the index of the last video frame to be processed */
-	SourceFrame video_frame_index () const {
-		return _video_frame_index;
+	/** @return the number of video frames we got from the source in the last run */
+	SourceFrame video_frames_in () const {
+		return _video_frames_in;
 	}
 
 	virtual std::vector<AudioStream> audio_streams () const {
@@ -127,20 +127,18 @@ protected:
 	bool _minimal;
 
 private:
+	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 	void emit_audio (uint8_t* data, int size);
-	
-	/** last video frame to be processed */
-	SourceFrame _video_frame_index;
 
+	SourceFrame _video_frames_in;
+	SourceFrame _video_frames_out;
+	int64_t _audio_frames_in;
+	int64_t _audio_frames_out;
+	
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 
 	DelayLine* _delay_line;
 	int _delay_in_bytes;
-
-	/* Number of audio frames that we have pushed to the encoder
-	   (at the DCP sample rate).
-	*/
-	int64_t _audio_frames_processed;
 
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 
