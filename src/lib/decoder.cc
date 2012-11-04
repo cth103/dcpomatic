@@ -173,6 +173,11 @@ Decoder::go ()
 void
 Decoder::process_audio (uint8_t* data, int size)
 {
+	int const audio_frames_in_in_video_frames = _audio_frames_in * frames_per_second() / audio_sample_rate();
+	if (!within_range (audio_frames_in_in_video_frames)) {
+		return;
+	}
+	
 	/* Push into the delay line */
 	size = _delay_line->feed (data, size);
 
@@ -282,7 +287,7 @@ Decoder::process_video (AVFrame* frame)
 		return;
 	}
 
-	if (_film->dcp_trim_start() > _video_frames_in || (_film->length().get() + _film->dcp_trim_start()) < _video_frames_in) {
+	if (!within_range (_video_frames_in)) {
 		++_video_frames_in;
 		return;
 	}
@@ -351,4 +356,11 @@ int
 Decoder::bytes_per_audio_sample () const
 {
 	return av_get_bytes_per_sample (audio_sample_format ());
+}
+
+/** @param s A video frame index within the source */
+bool
+Decoder::within_range (SourceFrames s) const
+{
+	return (s >= _film->dcp_trim_start() && s < (_film->length().get() + _film->dcp_trim_start()));
 }
