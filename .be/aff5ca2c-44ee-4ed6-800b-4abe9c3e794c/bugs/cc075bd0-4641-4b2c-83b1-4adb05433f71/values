@@ -7,7 +7,7 @@ reporter: Carl Hetherington <cth@carlh.net>
 severity: minor
 
 
-status: open
+status: fixed
 
 
 summary: Do the delay line in deinterleaved floats to simplify code.

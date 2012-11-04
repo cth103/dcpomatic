@@ -40,6 +40,7 @@
 using std::string;
 using std::stringstream;
 using std::min;
+using std::pair;
 using std::list;
 using boost::shared_ptr;
 
@@ -59,7 +60,7 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _audio_frames_in (0)
 	, _audio_frames_out (0)
 	, _delay_line (0)
-	, _delay_in_bytes (0)
+	, _delay_in_frames (0)
 {
 	
 }
@@ -75,32 +76,30 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _film->audio_delay() * audio_sample_rate() * audio_channels() * bytes_per_audio_sample() / 1000;
-	_delay_line = new DelayLine (_delay_in_bytes);
+	_delay_in_frames = _film->audio_delay() * audio_sample_rate() / 1000;
+	_delay_line = new DelayLine (audio_channels(), _delay_in_frames);
 }
 
 /** Finish off a decode processing run */
 void
 Decoder::process_end ()
 {
-	if (_delay_in_bytes < 0) {
-		/* Empty the delay line */
-		uint8_t remainder[-_delay_in_bytes];
-		_delay_line->get_remaining (remainder);
-		emit_audio (remainder, -_delay_in_bytes);
+	if (_delay_in_frames < 0 && _opt->decode_audio && audio_channels()) {
+		shared_ptr<AudioBuffers> b (new AudioBuffers (audio_channels(), -_delay_in_frames));
+		b->make_silent ();
+		emit_audio (b);
 	}
 
-	if (_opt->decode_audio) {
+	if (_opt->decode_audio && audio_channels()) {
 
 		/* Ensure that our video and audio emissions are the same length */
 
-		int64_t video_frames_out_in_audio_frames = ((int64_t) _video_frames_out * audio_sample_rate() / frames_per_second());
-		int64_t audio_short_by_frames = video_frames_out_in_audio_frames - _audio_frames_out;
+		int64_t audio_short_by_frames = video_frames_to_audio_frames (_video_frames_out) - _audio_frames_out;
 
 		_film->log()->log (
 			String::compose ("Decoder has emitted %1 video frames (which equals %2 audio frames) and %3 audio frames",
 					 _video_frames_out,
-					 video_frames_out_in_audio_frames,
+					 video_frames_to_audio_frames (_video_frames_out),
 					 _audio_frames_out)
 			);
 
@@ -119,30 +118,15 @@ Decoder::process_end ()
 				emit_video (black, shared_ptr<Subtitle> ());
 			}
 
-			/* Now recompute our check values */
-			video_frames_out_in_audio_frames = ((int64_t) _video_frames_out * audio_sample_rate() / frames_per_second());
-			audio_short_by_frames = video_frames_out_in_audio_frames - _audio_frames_out;
+			/* Now recompute our check value */
+			audio_short_by_frames = video_frames_to_audio_frames (_video_frames_out) - _audio_frames_out;
 		}
 	
 		if (audio_short_by_frames > 0) {
-
 			_film->log()->log (String::compose ("Emitted %1 too few audio frames", audio_short_by_frames));
-
-			/* XXX: this is slightly questionable; does memset () give silence with all
-			   sample formats?
-			*/
-			
-			int64_t bytes = audio_short_by_frames * _film->audio_channels() * bytes_per_audio_sample();
-			
-			int64_t const silence_size = 16 * 1024 * _film->audio_channels() * bytes_per_audio_sample();
-			uint8_t silence[silence_size];
-			memset (silence, 0, silence_size);
-			
-			while (bytes) {
-				int64_t const t = min (bytes, silence_size);
-				emit_audio (silence, t);
-				bytes -= t;
-			}
+			shared_ptr<AudioBuffers> b (new AudioBuffers (audio_channels(), audio_short_by_frames));
+			b->make_silent ();
+			emit_audio (b);
 		}
 	}
 }
@@ -172,20 +156,6 @@ Decoder::go ()
  */
 void
 Decoder::process_audio (uint8_t* data, int size)
-{
-	int const audio_frames_in_in_video_frames = _audio_frames_in * frames_per_second() / audio_sample_rate();
-	if (!within_range (audio_frames_in_in_video_frames)) {
-		return;
-	}
-	
-	/* Push into the delay line */
-	size = _delay_line->feed (data, size);
-
-	emit_audio (data, size);
-}
-
-void
-Decoder::emit_audio (uint8_t* data, int size)
 {
 	if (size == 0) {
 		return;
@@ -260,10 +230,42 @@ Decoder::emit_audio (uint8_t* data, int size)
 		}
 	}
 
-	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_out += audio->frames ();
+	_delay_line->feed (audio);
 
+	/* Decode range in audio frames */
+	pair<int64_t, int64_t> required_range (
+		video_frames_to_audio_frames (_film->dcp_trim_start()),
+		video_frames_to_audio_frames (_film->dcp_trim_start() + _film->dcp_length().get())
+		);
+
+	/* Range of this block of data */
+	pair<int64_t, int64_t> this_range (
+		_audio_frames_in,
+		_audio_frames_in + audio->frames()
+		);
+
+	/* Trim start */
+	if (required_range.first >= this_range.first && required_range.first < this_range.second) {
+		int64_t const shift = this_range.first - required_range.first;
+		audio->move (shift, 0, audio->frames() - shift);
+		audio->set_frames (audio->frames() - shift);
+	}
+
+	/* Trim end */
+	if (required_range.second >= this_range.first && required_range.second < this_range.second) {
+		audio->set_frames (this_range.first - required_range.second);
+	}
+
+	if (audio->frames()) {
+		emit_audio (audio);
+	}
+}
+
+void
+Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
+{
 	Audio (audio);
+	_audio_frames_out += audio->frames ();
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
@@ -287,7 +289,7 @@ Decoder::process_video (AVFrame* frame)
 		return;
 	}
 
-	if (!within_range (_video_frames_in)) {
+	if (_video_frames_in < _film->dcp_trim_start() || _video_frames_in > (_film->dcp_trim_start() + _film->length().get())) {
 		++_video_frames_in;
 		return;
 	}
@@ -358,9 +360,8 @@ Decoder::bytes_per_audio_sample () const
 	return av_get_bytes_per_sample (audio_sample_format ());
 }
 
-/** @param s A video frame index within the source */
-bool
-Decoder::within_range (SourceFrames s) const
+int64_t
+Decoder::video_frames_to_audio_frames (SourceFrame v) const
 {
-	return (s >= _film->dcp_trim_start() && s < (_film->length().get() + _film->dcp_trim_start()));
+	return ((int64_t) v * audio_sample_rate() / frames_per_second());
 }

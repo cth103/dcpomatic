@@ -220,6 +220,7 @@ class AudioBuffers
 {
 public:
 	AudioBuffers (int channels, int frames);
+	AudioBuffers (AudioBuffers const &);
 	~AudioBuffers ();
 
 	float** data () const {
@@ -227,6 +228,10 @@ public:
 	}
 	
 	float* data (int) const;
+
+	int channels () const {
+		return _channels;
+	}
 
 	int frames () const {
 		return _frames;
@@ -236,12 +241,13 @@ public:
 
 	void make_silent ();
 
+	void copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset);
+	void move (int from, int to, int frames);
+
 private:
-	/* no copy construction */
-	AudioBuffers (AudioBuffers const &);
-	
 	int _channels;
 	int _frames;
+	int _allocated_frames;
 	float** _data;
 };
 

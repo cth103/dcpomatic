@@ -128,8 +128,10 @@ protected:
 
 private:
 	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
-	void emit_audio (uint8_t* data, int size);
+	void emit_audio (boost::shared_ptr<AudioBuffers>);
 
+	int64_t video_frames_to_audio_frames (SourceFrame v) const;
+	
 	SourceFrame _video_frames_in;
 	SourceFrame _video_frames_out;
 	int64_t _audio_frames_in;
@@ -138,7 +140,7 @@ private:
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 
 	DelayLine* _delay_line;
-	int _delay_in_bytes;
+	int _delay_in_frames;
 
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 
