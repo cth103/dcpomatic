@@ -282,13 +282,14 @@ public:
 	{
 		wxDirDialog* c = new wxDirDialog (this, wxT ("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		int const r = c->ShowModal ();
-		c->Destroy ();
 		
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
 			film.reset (new Film (wx_to_std (c->GetPath ())));
 			set_film ();
 		}
+
+		c->Destroy ();
 	}
 
 	void file_save (wxCommandEvent &)
