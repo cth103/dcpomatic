@@ -176,10 +176,10 @@ BOOST_AUTO_TEST_CASE (dvd_test)
 }
 
 void
-do_positive_delay_line_test (int delay_length, int block_length)
+do_positive_delay_line_test (int delay_length, int data_length)
 {
-	DelayLine d (delay_length);
-	uint8_t data[block_length];
+	DelayLine d (6, delay_length);
+	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
 
 	int in = 0;
 	int out = 0;
@@ -187,64 +187,66 @@ do_positive_delay_line_test (int delay_length, int block_length)
 	int zeros = 0;
 	
 	for (int i = 0; i < 64; ++i) {
-		for (int j = 0; j < block_length; ++j) {
-			data[j] = in;
-			++in;
+		for (int j = 0; j < data_length; ++j) {
+			for (int c = 0; c < 6; ++c ) {
+				data->data(c)[j] = in;
+				++in;
+			}
 		}
 
-		int const a = d.feed (data, block_length);
-		returned += a;
+		d.feed (data);
+		returned += data->frames ();
 
-		for (int j = 0; j < a; ++j) {
+		for (int j = 0; j < data->frames(); ++j) {
 			if (zeros < delay_length) {
-				BOOST_CHECK_EQUAL (data[j], 0);
+				for (int c = 0; c < 6; ++c) {
+					BOOST_CHECK_EQUAL (data->data(c)[j], 0);
+				}
 				++zeros;
 			} else {
-				BOOST_CHECK_EQUAL (data[j], out & 0xff);
+				for (int c = 0; c < 6; ++c) {
+					BOOST_CHECK_EQUAL (data->data(c)[j], out);
+					++out;
+				}
+			}
+		}
+	}
+
+	BOOST_CHECK_EQUAL (returned, 64 * data_length);
+}
+
+void
+do_negative_delay_line_test (int delay_length, int data_length)
+{
+	DelayLine d (6, delay_length);
+	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
+
+	int in = 0;
+	int out = -delay_length * 6;
+	int returned = 0;
+	
+	for (int i = 0; i < 256; ++i) {
+		data->set_frames (data_length);
+		for (int j = 0; j < data_length; ++j) {
+			for (int c = 0; c < 6; ++c) {
+				data->data(c)[j] = in;
+				++in;
+			}
+		}
+
+		d.feed (data);
+		returned += data->frames ();
+
+		for (int j = 0; j < data->frames(); ++j) {
+			for (int c = 0; c < 6; ++c) {
+				BOOST_CHECK_EQUAL (data->data(c)[j], out);
 				++out;
 			}
 		}
 	}
 
-	BOOST_CHECK_EQUAL (returned, 64 * block_length);
-}
-
-void
-do_negative_delay_line_test (int delay_length, int block_length)
-{
-	DelayLine d (delay_length);
-	uint8_t data[block_length];
-
-	int in = 0;
-	int out = -delay_length;
-	int returned = 0;
-	
-	for (int i = 0; i < 256; ++i) {
-		for (int j = 0; j < block_length; ++j) {
-			data[j] = in;
-			++in;
-		}
-
-		int const a = d.feed (data, block_length);
-		returned += a;
-
-		for (int j = 0; j < a; ++j) {
-			BOOST_CHECK_EQUAL (data[j], out & 0xff);
-			++out;
-		}
-	}
-
-	uint8_t remainder[-delay_length];
-	d.get_remaining (remainder);
 	returned += -delay_length;
-
-	for (int i = 0; i < -delay_length; ++i) {
-		BOOST_CHECK_EQUAL (remainder[i], 0);
-		++out;
-	}
-
-	BOOST_CHECK_EQUAL (returned, 256 * block_length);
-	
+	BOOST_CHECK_EQUAL (returned, 256 * data_length);
 }
 
 BOOST_AUTO_TEST_CASE (delay_line_test)

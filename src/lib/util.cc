@@ -726,10 +726,23 @@ get_optional_int (multimap<string, string> const & kv, string k)
 AudioBuffers::AudioBuffers (int channels, int frames)
 	: _channels (channels)
 	, _frames (frames)
+	, _allocated_frames (frames)
 {
 	_data = new float*[_channels];
 	for (int i = 0; i < _channels; ++i) {
 		_data[i] = new float[frames];
+	}
+}
+
+AudioBuffers::AudioBuffers (AudioBuffers const & other)
+	: _channels (other._channels)
+	, _frames (other._frames)
+	, _allocated_frames (other._frames)
+{
+	_data = new float*[_channels];
+	for (int i = 0; i < _channels; ++i) {
+		_data[i] = new float[_frames];
+		memcpy (_data[i], other._data[i], _frames * sizeof (float));
 	}
 }
 
@@ -752,7 +765,7 @@ AudioBuffers::data (int c) const
 void
 AudioBuffers::set_frames (int f)
 {
-	assert (f <= _frames);
+	assert (f <= _allocated_frames);
 	_frames = f;
 }
 
@@ -763,6 +776,24 @@ AudioBuffers::make_silent ()
 		for (int j = 0; j < _frames; ++j) {
 			_data[i][j] = 0;
 		}
+	}
+}
+
+void
+AudioBuffers::copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset)
+{
+	assert (from->channels() == channels());
+
+	for (int i = 0; i < _channels; ++i) {
+		memcpy (_data[i] + write_offset, from->_data[i] + read_offset, frames_to_copy * sizeof(float));
+	}
+}
+
+void
+AudioBuffers::move (int from, int to, int frames)
+{
+	for (int i = 0; i < _channels; ++i) {
+		memmove (_data[i] + to, _data[i] + from, frames * sizeof(float));
 	}
 }
 

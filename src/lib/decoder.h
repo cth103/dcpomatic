@@ -132,7 +132,7 @@ protected:
 	bool _ignore_length;
 
 private:
-	void emit_audio (uint8_t* data, int size);
+	void emit_audio (boost::shared_ptr<AudioBuffers>);
 	
 	/** last video frame to be processed */
 	int _video_frame_index;
@@ -140,7 +140,7 @@ private:
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 
 	DelayLine* _delay_line;
-	int _delay_in_bytes;
+	int _delay_in_frames;
 
 	/* Number of audio frames that we have pushed to the encoder
 	   (at the DCP sample rate).

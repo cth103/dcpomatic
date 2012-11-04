@@ -17,20 +17,20 @@
 
 */
 
-/** A class which can be fed a stream of bytes and which can
- *  delay them by a positive or negative amount.
- */
+#include <boost/shared_ptr.hpp>
+
+class AudioBuffers;
+
+/** A delay line for audio */
 class DelayLine
 {
 public:
-	DelayLine (int);
+	DelayLine (int channels, int frames);
 	~DelayLine ();
 	
-	int feed (uint8_t *, int);
-	void get_remaining (uint8_t *);
+	void feed (boost::shared_ptr<AudioBuffers>);
 
 private:
-	int _delay; ///< delay in bytes, +ve to move data later
-	uint8_t* _buffer; ///< buffer for +ve delays, or 0
-	int _negative_delay_remaining; ///< number of bytes of negative delay that remain to emit
+	boost::shared_ptr<AudioBuffers> _buffers;
+	int _negative_delay_remaining; ///< number of frames of negative delay that remain to emit
 };

@@ -58,7 +58,7 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _ignore_length (ignore_length)
 	, _video_frame_index (0)
 	, _delay_line (0)
-	, _delay_in_bytes (0)
+	, _delay_in_frames (0)
 	, _audio_frames_processed (0)
 {
 	
@@ -73,9 +73,9 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_bytes = _film->audio_delay() * audio_sample_rate() * audio_channels() * bytes_per_audio_sample() / 1000;
+	_delay_in_frames = _film->audio_delay() * audio_sample_rate() / 1000;
 	delete _delay_line;
-	_delay_line = new DelayLine (_delay_in_bytes);
+	_delay_line = new DelayLine (audio_channels(), _delay_in_frames);
 
 	_audio_frames_processed = 0;
 }
@@ -84,11 +84,10 @@ Decoder::process_begin ()
 void
 Decoder::process_end ()
 {
-	if (_delay_in_bytes < 0) {
-		uint8_t remainder[-_delay_in_bytes];
-		_delay_line->get_remaining (remainder);
-		_audio_frames_processed += _delay_in_bytes / (audio_channels() * bytes_per_audio_sample());
-		emit_audio (remainder, -_delay_in_bytes);
+	if (_delay_in_frames < 0 && _opt->decode_audio && audio_channels()) {
+		shared_ptr<AudioBuffers> b (new AudioBuffers (audio_channels(), -_delay_in_frames));
+		b->make_silent ();
+		emit_audio (b);
 	}
 
 	/* If we cut the decode off, the audio may be short; push some silence
@@ -105,26 +104,14 @@ Decoder::process_end ()
 				 _audio_frames_processed)
 		);
 	
-	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
+	if (audio_short_by_frames > 0 && _opt->decode_audio && audio_channels()) {
 
 		_film->log()->log (String::compose ("Source length is %1; %2 frames of audio processed.", video_frame_index(), _audio_frames_processed));
 		_film->log()->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
-		/* XXX: this is slightly questionable; does memset () give silence with all
-		   sample formats?
-		*/
-
-		int64_t bytes = audio_short_by_frames * _film->audio_channels() * bytes_per_audio_sample();
-		
-		int64_t const silence_size = 16 * 1024 * _film->audio_channels() * bytes_per_audio_sample();
-		uint8_t silence[silence_size];
-		memset (silence, 0, silence_size);
-		
-		while (bytes) {
-			int64_t const t = min (bytes, silence_size);
-			emit_audio (silence, t);
-			bytes -= t;
-		}
+		shared_ptr<AudioBuffers> b (new AudioBuffers (audio_channels(), audio_short_by_frames));
+		b->make_silent ();
+		emit_audio (b);
 	}
 }
 
@@ -167,15 +154,6 @@ Decoder::pass ()
  */
 void
 Decoder::process_audio (uint8_t* data, int size)
-{
-	/* Push into the delay line */
-	size = _delay_line->feed (data, size);
-
-	emit_audio (data, size);
-}
-
-void
-Decoder::emit_audio (uint8_t* data, int size)
 {
 	if (size == 0) {
 		return;
@@ -250,10 +228,15 @@ Decoder::emit_audio (uint8_t* data, int size)
 		}
 	}
 
-	/* Update the number of audio frames we've pushed to the encoder */
-	_audio_frames_processed += audio->frames ();
+	_delay_line->feed (audio);
+	emit_audio (audio);
+}
 
+void
+Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
+{
 	Audio (audio);
+	_audio_frames_processed += audio->frames ();
 }
 
 /** Called by subclasses to tell the world that some video data is ready.

@@ -22,89 +22,72 @@
 #include <algorithm>
 #include <iostream>
 #include "delay_line.h"
+#include "util.h"
 
-using namespace std;
+using std::min;
+using boost::shared_ptr;
 
-/** Construct a DelayLine delaying by some number of bytes.
- *  @param d Number of bytes to delay by; +ve moves data later.
+/** @param channels Number of channels of audio.
+ *  @param frames Delay in frames, +ve to move audio later.
  */
-DelayLine::DelayLine (int d)
-	: _delay (d)
-	, _buffer (0)
-	, _negative_delay_remaining (0)
+DelayLine::DelayLine (int channels, int frames)
 {
-	if (d > 0) {
+	if (frames > 0) {
 		/* We need a buffer to keep some data in */
-		_buffer = new uint8_t[d];
-		memset (_buffer, 0, d);
-	} else if (d < 0) {
+		_buffers.reset (new AudioBuffers (channels, frames));
+		_buffers->make_silent ();
+	} else if (frames < 0) {
 		/* We can do -ve delays just by chopping off
 		   the start, so no buffer needed.
 		*/
-		_negative_delay_remaining = -d;
+		_negative_delay_remaining = -frames;
 	}
 }
 
 DelayLine::~DelayLine ()
 {
-	delete[] _buffer;
+
 }
 
-int
-DelayLine::feed (uint8_t* data, int size)
+void
+DelayLine::feed (shared_ptr<AudioBuffers> data)
 {
-	int available = size;
+	if (_buffers) {
+		/* We have some buffers, so we are moving the audio later */
 
-	if (_delay > 0) {
-		
 		/* Copy the input data */
-		uint8_t input[size];
-		memcpy (input, data, size);
+		AudioBuffers input (*data.get ());
 
-		int to_do = size;
+		int to_do = data->frames ();
 
 		/* Write some of our buffer to the output */
-		int const from_buffer = min (to_do, _delay);
-		memcpy (data, _buffer, from_buffer);
+		int const from_buffer = min (to_do, _buffers->frames());
+		data->copy_from (_buffers.get(), from_buffer, 0, 0);
 		to_do -= from_buffer;
 
 		/* Write some of the input to the output */
-		int const from_input = min (to_do, size);
-		memcpy (data + from_buffer, input, from_input);
+		int const from_input = to_do;
+		data->copy_from (&input, from_input, 0, from_buffer);
 
-		int const left_in_buffer = _delay - from_buffer;
-		
+		int const left_in_buffer = _buffers->frames() - from_buffer;
+
 		/* Shuffle our buffer down */
-		memmove (_buffer, _buffer + from_buffer, left_in_buffer);
+		_buffers->move (from_buffer, 0, left_in_buffer);
 
 		/* Copy remaining input data to our buffer */
-		memcpy (_buffer + left_in_buffer, input + from_input, size - from_input);
+		_buffers->copy_from (&input, input.frames() - from_input, from_input, left_in_buffer);
 
-	} else if (_delay < 0) {
+	} else {
 
 		/* Chop the initial data off until _negative_delay_remaining
 		   is zero, then just pass data.
 		*/
 
-		int const to_do = min (size, _negative_delay_remaining);
-		available = size - to_do;
-		memmove (data, data + to_do, available);
-		_negative_delay_remaining -= to_do;
-
+		int const to_do = min (data->frames(), _negative_delay_remaining);
+		if (to_do) {
+			data->move (to_do, 0, data->frames() - to_do);
+			data->set_frames (data->frames() - to_do);
+			_negative_delay_remaining -= to_do;
+		}
 	}
-
-	return available;
-}
-
-/** With -ve delays, the DelayLine will have data to give after
- *  all input data has been passed to ::feed().
- *  Call this method after passing all input data.
- *
- *  @param buffer Pointer to buffer of _delay bytes in length,
- *  which will be filled with remaining data.
- */
-void
-DelayLine::get_remaining (uint8_t* buffer)
-{
-	memset (buffer, 0, -_delay);
 }
