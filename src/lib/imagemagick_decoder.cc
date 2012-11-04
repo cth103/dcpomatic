@@ -27,8 +27,8 @@ using namespace std;
 using namespace boost;
 
 ImageMagickDecoder::ImageMagickDecoder (
-	boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
-	: Decoder (f, o, j)
+	boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal)
+	: Decoder (f, o, j, minimal)
 	, _done (false)
 {
 	_magick_image = new Magick::Image (_film->content_path ());

@@ -52,7 +52,7 @@ class Log;
 class FFmpegDecoder : public Decoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
+	FFmpegDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool);
 	~FFmpegDecoder ();
 
 	/* Methods to query our input video */

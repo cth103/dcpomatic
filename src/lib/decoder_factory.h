@@ -25,5 +25,8 @@ class Decoder;
 class Film;
 class Options;
 class Job;
+class Log;
 
-extern boost::shared_ptr<Decoder> decoder_factory (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
+extern boost::shared_ptr<Decoder> decoder_factory (
+	boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool minimal = false
+	);
