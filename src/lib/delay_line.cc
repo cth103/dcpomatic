@@ -31,6 +31,7 @@ using boost::shared_ptr;
  *  @param frames Delay in frames, +ve to move audio later.
  */
 DelayLine::DelayLine (int channels, int frames)
+	: _negative_delay_remaining (0)
 {
 	if (frames > 0) {
 		/* We need a buffer to keep some data in */

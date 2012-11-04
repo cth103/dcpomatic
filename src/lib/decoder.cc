@@ -320,6 +320,8 @@ Decoder::process_video (AVFrame* frame)
 
 		emit_video (*i, sub);
 	}
+
+	++_video_frames_in;
 }
 
 void
@@ -337,7 +339,7 @@ void
 Decoder::emit_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	TIMING ("Decoder emits %1", _video_frames_out);
-	Video (image, _video_frames_out, sub);
+	Video (image, _video_frames_in, sub);
 	++_video_frames_out;
 	_last_image = image;
 	_last_subtitle = sub;

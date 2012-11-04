@@ -792,6 +792,19 @@ AudioBuffers::copy_from (AudioBuffers* from, int frames_to_copy, int read_offset
 void
 AudioBuffers::move (int from, int to, int frames)
 {
+	if (frames == 0) {
+		return;
+	}
+	
+	assert (from >= 0);
+	assert (from < _frames);
+	assert (to >= 0);
+	assert (to < _frames);
+	assert (frames > 0);
+	assert (frames <= _frames);
+	assert ((from + frames) <= _frames);
+	assert ((to + frames) <= _frames);
+	
 	for (int i = 0; i < _channels; ++i) {
 		memmove (_data[i] + to, _data[i] + from, frames * sizeof(float));
 	}
