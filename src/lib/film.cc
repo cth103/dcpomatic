@@ -63,6 +63,7 @@ using std::ifstream;
 using std::ofstream;
 using std::setfill;
 using std::min;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::to_upper_copy;
@@ -257,6 +258,9 @@ Film::make_dcp (bool transcode)
 	o->out_size = format()->dcp_size ();
 	o->padding = format()->dcp_padding (shared_from_this ());
 	o->ratio = format()->ratio_as_float (shared_from_this ());
+	if (dcp_length ()) {
+		o->decode_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
+	}
 	o->decode_subtitles = with_subtitles ();
 	o->decode_video_skip = dcp_frame_rate (frames_per_second()).skip;
 

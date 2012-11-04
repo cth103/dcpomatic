@@ -96,6 +96,10 @@ public:
 	float ratio;                ///< ratio of the wanted output image (not considering padding)
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
 	bool apply_crop;            ///< true to apply cropping
+
+	/** Range of video frames to decode */
+	boost::optional<std::pair<SourceFrame, SourceFrame> > decode_range;
+
 	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
 	 *  1 for every frame, 2 for every other frame, etc.
 	 */

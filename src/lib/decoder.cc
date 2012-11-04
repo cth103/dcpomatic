@@ -232,30 +232,32 @@ Decoder::process_audio (uint8_t* data, int size)
 
 	_delay_line->feed (audio);
 
-	/* Decode range in audio frames */
-	pair<int64_t, int64_t> required_range (
-		video_frames_to_audio_frames (_film->dcp_trim_start()),
-		video_frames_to_audio_frames (_film->dcp_trim_start() + _film->dcp_length().get())
-		);
-
-	/* Range of this block of data */
-	pair<int64_t, int64_t> this_range (
-		_audio_frames_in,
-		_audio_frames_in + audio->frames()
-		);
-
-	/* Trim start */
-	if (required_range.first >= this_range.first && required_range.first < this_range.second) {
-		int64_t const shift = this_range.first - required_range.first;
-		audio->move (shift, 0, audio->frames() - shift);
-		audio->set_frames (audio->frames() - shift);
+	if (_opt->decode_range) {
+		/* Decode range in audio frames */
+		pair<int64_t, int64_t> required_range (
+			video_frames_to_audio_frames (_opt->decode_range.get().first),
+			video_frames_to_audio_frames (_opt->decode_range.get().second)
+			);
+		
+		/* Range of this block of data */
+		pair<int64_t, int64_t> this_range (
+			_audio_frames_in,
+			_audio_frames_in + audio->frames()
+			);
+		
+		/* Trim start */
+		if (required_range.first >= this_range.first && required_range.first < this_range.second) {
+			int64_t const shift = this_range.first - required_range.first;
+			audio->move (shift, 0, audio->frames() - shift);
+			audio->set_frames (audio->frames() - shift);
+		}
+		
+		/* Trim end */
+		if (required_range.second >= this_range.first && required_range.second < this_range.second) {
+			audio->set_frames (this_range.first - required_range.second);
+		}
 	}
-
-	/* Trim end */
-	if (required_range.second >= this_range.first && required_range.second < this_range.second) {
-		audio->set_frames (this_range.first - required_range.second);
-	}
-
+		
 	if (audio->frames()) {
 		emit_audio (audio);
 	}
@@ -275,23 +277,22 @@ Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
 void
 Decoder::process_video (AVFrame* frame)
 {
-	assert (_film->length());
-
 	if (_minimal) {
 		++_video_frames_in;
 		return;
 	}
-
-	/* Use Film::length here as our one may be wrong */
 
 	if (_opt->decode_video_skip != 0 && (_video_frames_in % _opt->decode_video_skip) != 0) {
 		++_video_frames_in;
 		return;
 	}
 
-	if (_video_frames_in < _film->dcp_trim_start() || _video_frames_in > (_film->dcp_trim_start() + _film->length().get())) {
-		++_video_frames_in;
-		return;
+	if (_opt->decode_range) {
+		pair<SourceFrame, SourceFrame> r = _opt->decode_range.get();
+		if (_video_frames_in < r.first || _video_frames_in >= r.second) {
+			++_video_frames_in;
+			return;
+		}
 	}
 
 	shared_ptr<FilterGraph> graph;
