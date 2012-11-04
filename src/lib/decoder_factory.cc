@@ -32,20 +32,17 @@ using boost::shared_ptr;
 
 shared_ptr<Decoder>
 decoder_factory (
-	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal = false, bool ignore_length = false
+	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal = false
 	)
 {
 	if (boost::filesystem::is_directory (f->content_path ())) {
 		/* Assume a directory contains TIFFs */
-		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j, minimal, ignore_length));
+		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j, minimal));
 	}
 
 	if (f->content_type() == STILL) {
-		/* Always ignore length of decodes of stills, since the decoder finishes very quickly
-		   and it's the encoder that takes the time.
-		*/
-		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j, minimal, true));
+		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j, minimal));
 	}
 	
-	return shared_ptr<Decoder> (new FFmpegDecoder (f, o, j, minimal, ignore_length));
+	return shared_ptr<Decoder> (new FFmpegDecoder (f, o, j, minimal));
 }

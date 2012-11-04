@@ -42,7 +42,7 @@ class Image;
 class TIFFDecoder : public Decoder
 {
 public:
-	TIFFDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool, bool);
+	TIFFDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool);
 
 	/* Methods to query our input video */
 	float frames_per_second () const;

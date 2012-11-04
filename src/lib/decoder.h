@@ -52,7 +52,7 @@ class FilterGraph;
 class Decoder
 {
 public:
-	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool, bool);
+	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool);
 	virtual ~Decoder ();
 
 	/* Methods to query our input video */
@@ -125,9 +125,6 @@ protected:
 	 *  accurate frame counts as quickly as possible.  This generates no video or audio output.
 	 */
 	bool _minimal;
-
-	/** ignore_length Ignore the content's claimed length when computing progress */
-	bool _ignore_length;
 
 private:
 	void emit_audio (uint8_t* data, int size);
