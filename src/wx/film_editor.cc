@@ -510,8 +510,6 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		_sizer->Layout ();
 		break;
-	case Film::DCP_TRIM_ACTION:
-		break;
 	case Film::DCP_AB:
 		_dcp_ab->SetValue (_film->dcp_ab ());
 		break;
@@ -619,7 +617,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CROP);
 	film_changed (Film::FILTERS);
 	film_changed (Film::DCP_FRAMES);
-	film_changed (Film::DCP_TRIM_ACTION);
 	film_changed (Film::DCP_AB);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
@@ -767,20 +764,18 @@ void
 FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
 {
 	DCPRangeDialog* d = new DCPRangeDialog (this, _film);
-	d->Changed.connect (bind (&FilmEditor::dcp_range_changed, this, _1, _2));
+	d->Changed.connect (bind (&FilmEditor::dcp_range_changed, this, _1));
 	d->ShowModal ();
 }
 
 void
-FilmEditor::dcp_range_changed (int frames, TrimAction action)
+FilmEditor::dcp_range_changed (int frames)
 {
 	if (frames == 0) {
 		_film->unset_dcp_frames ();
 	} else {
 		_film->set_dcp_frames (frames);
 	}
-	
-	_film->set_dcp_trim_action (action);
 }
 
 void

@@ -38,7 +38,6 @@ extern "C" {
 #include "dcp_content_type.h"
 #include "util.h"
 #include "stream.h"
-#include "trim_action.h"
 
 class Format;
 class Job;
@@ -119,7 +118,6 @@ public:
 		FILTERS,
 		SCALER,
 		DCP_FRAMES,
-		DCP_TRIM_ACTION,
 		DCP_AB,
 		AUDIO_STREAM,
 		AUDIO_GAIN,
@@ -191,11 +189,6 @@ public:
 	boost::optional<int> dcp_frames () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_frames;
-	}
-
-	TrimAction dcp_trim_action () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_trim_action;
 	}
 
 	bool dcp_ab () const {
@@ -353,7 +346,6 @@ public:
 	void set_scaler (Scaler const *);
 	void set_dcp_frames (int);
 	void unset_dcp_frames ();
-	void set_dcp_trim_action (TrimAction);
 	void set_dcp_ab (bool);
 	void set_audio_stream (int);
 	void set_audio_gain (float);
@@ -426,8 +418,6 @@ private:
 	Scaler const * _scaler;
 	/** Maximum number of frames to put in the DCP, if applicable */
 	boost::optional<int> _dcp_frames;
-	/** What to do with audio when trimming DCPs */
-	TrimAction _dcp_trim_action;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.

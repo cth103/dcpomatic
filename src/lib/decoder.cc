@@ -300,10 +300,6 @@ Decoder::process_video (AVFrame* frame)
 	list<shared_ptr<Image> > images = graph->process (frame);
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		if (_opt->black_after > 0 && _video_frame_index > _opt->black_after) {
-			(*i)->make_black ();
-		}
-		
 		shared_ptr<Subtitle> sub;
 		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame_index()) / _film->frames_per_second())) {
 			sub = _timed_subtitle->subtitle ();

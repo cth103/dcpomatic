@@ -43,14 +43,6 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, shared_ptr<Film> f)
 		table->Add (s);
 	}
 
-	table->AddSpacer (0);
-	_cut = new wxRadioButton (this, wxID_ANY, _("Cut remainder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	table->Add (_cut);
-
-	table->AddSpacer (0);
-	_black_out = new wxRadioButton (this, wxID_ANY, _("Black-out remainder"));
-	table->Add (_black_out);
-
 	_n_frames->SetRange (1, INT_MAX - 1);
 	if (_film->dcp_frames()) {
 		_whole->SetValue (false);
@@ -62,12 +54,8 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, shared_ptr<Film> f)
 		_n_frames->SetValue (24);
 	}
 
-	_black_out->Enable (_film->dcp_trim_action() == BLACK_OUT);
-	_cut->Enable (_film->dcp_trim_action() == CUT);
-
 	_whole->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (DCPRangeDialog::whole_toggled), 0, this);
 	_first->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (DCPRangeDialog::first_toggled), 0, this);
-	_cut->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (DCPRangeDialog::cut_toggled), 0, this);
 	_n_frames->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (DCPRangeDialog::n_frames_changed), 0, this);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -102,15 +90,6 @@ void
 DCPRangeDialog::set_sensitivity ()
 {
 	_n_frames->Enable (_first->GetValue ());
-	_black_out->Enable (_first->GetValue ());
-	_cut->Enable (_first->GetValue ());
-}
-
-void
-DCPRangeDialog::cut_toggled (wxCommandEvent &)
-{
-	set_sensitivity ();
-	emit_changed ();
 }
 
 void
@@ -127,10 +106,5 @@ DCPRangeDialog::emit_changed ()
 		frames = _n_frames->GetValue ();
 	}
 
-	TrimAction action = CUT;
-	if (_black_out->GetValue ()) {
-		action = BLACK_OUT;
-	}
-
-	Changed (frames, action);
+	Changed (frames);
 }

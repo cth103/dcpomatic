@@ -26,7 +26,6 @@
 #include <wx/filepicker.h>
 #include <wx/collpane.h>
 #include <boost/signals2.hpp>
-#include "lib/trim_action.h"
 #include "lib/film.h"
 
 class Film;
@@ -55,7 +54,7 @@ private:
 	void bottom_crop_changed (wxCommandEvent &);
 	void content_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
-	void dcp_range_changed (int, TrimAction);
+	void dcp_range_changed (int);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);

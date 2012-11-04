@@ -20,7 +20,6 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <boost/signals2.hpp>
-#include "lib/trim_action.h"
 
 class Film;
 
@@ -29,12 +28,11 @@ class DCPRangeDialog : public wxDialog
 public:
 	DCPRangeDialog (wxWindow *, boost::shared_ptr<Film>);
 
-	boost::signals2::signal<void (int, TrimAction)> Changed;
+	boost::signals2::signal<void (int)> Changed;
 
 private:
 	void whole_toggled (wxCommandEvent &);
 	void first_toggled (wxCommandEvent &);
-	void cut_toggled (wxCommandEvent &);
 	void n_frames_changed (wxCommandEvent &);
 	
 	void set_sensitivity ();
@@ -44,6 +42,4 @@ private:
 	wxRadioButton* _whole;
 	wxRadioButton* _first;
 	wxSpinCtrl* _n_frames;
-	wxRadioButton* _cut;
-	wxRadioButton* _black_out;
 };

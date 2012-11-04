@@ -82,7 +82,6 @@ Film::Film (string d, bool must_exist)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))
-	, _dcp_trim_action (CUT)
 	, _dcp_ab (false)
 	, _audio_stream (-1)
 	, _audio_gain (0)
@@ -143,7 +142,6 @@ Film::Film (Film const & o)
 	, _filters           (o._filters)
 	, _scaler            (o._scaler)
 	, _dcp_frames        (o._dcp_frames)
-	, _dcp_trim_action   (o._dcp_trim_action)
 	, _dcp_ab            (o._dcp_ab)
 	, _audio_stream      (o._audio_stream)
 	, _audio_gain        (o._audio_gain)
@@ -254,21 +252,6 @@ Film::make_dcp (bool transcode)
 
 	shared_ptr<Options> o (new Options (j2k_dir(), ".j2c", dir ("wavs")));
 	o->out_size = format()->dcp_size ();
-	if (!dcp_frames()) {
-		/* Decode the whole film, no blacking */
-		o->black_after = 0;
-	} else {
-		switch (dcp_trim_action()) {
-		case CUT:
-			/* Decode only part of the film, no blacking */
-			o->black_after = 0;
-			break;
-		case BLACK_OUT:
-			/* Decode the whole film, but black some frames out */
-			o->black_after = dcp_frames().get ();
-		}
-	}
-	
 	o->padding = format()->dcp_padding (shared_from_this ());
 	o->ratio = format()->ratio_as_float (shared_from_this ());
 	o->decode_subtitles = with_subtitles ();
@@ -420,17 +403,6 @@ Film::write_metadata () const
 	}
 	f << "scaler " << _scaler->id () << "\n";
 	f << "dcp_frames " << _dcp_frames.get_value_or(0) << "\n";
-
-	f << "dcp_trim_action ";
-	switch (_dcp_trim_action) {
-	case CUT:
-		f << "cut\n";
-		break;
-	case BLACK_OUT:
-		f << "black_out\n";
-		break;
-	}
-	
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
 	f << "selected_audio_stream " << _audio_stream << "\n";
 	f << "audio_gain " << _audio_gain << "\n";
@@ -513,12 +485,6 @@ Film::read_metadata ()
 			int const vv = atoi (v.c_str ());
 			if (vv) {
 				_dcp_frames = vv;
-			}
-		} else if (k == "dcp_trim_action") {
-			if (v == "cut") {
-				_dcp_trim_action = CUT;
-			} else if (v == "black_out") {
-				_dcp_trim_action = BLACK_OUT;
 			}
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
@@ -1063,16 +1029,6 @@ Film::unset_dcp_frames ()
 		_dcp_frames = boost::none;
 	}
 	signal_changed (DCP_FRAMES);
-}
-
-void
-Film::set_dcp_trim_action (TrimAction a)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_trim_action = a;
-	}
-	signal_changed (DCP_TRIM_ACTION);
 }
 
 void
