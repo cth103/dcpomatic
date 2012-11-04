@@ -163,7 +163,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 
 		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_film->log()->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()));
+		_film->log()->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -278,7 +278,7 @@ J2KWAVEncoder::process_end ()
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
-		_film->log()->log ("Waking with " + lexical_cast<string> (_queue.size ()));
+		_film->log()->log ("Waking with " + lexical_cast<string> (_queue.size ()), Log::VERBOSE);
 		_worker_condition.notify_all ();
 		_worker_condition.wait (lock);
 	}

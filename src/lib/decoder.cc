@@ -116,6 +116,11 @@ Decoder::process_end ()
 			black->make_black ();
 			for (int i = 0; i < black_video_frames; ++i) {
 				emit_video (black, shared_ptr<Subtitle> ());
+
+				/* This is a bit of a hack, but you can sort-of justify it if you squint at it right.
+				   It's important because the encoder will probably use this to name its output frame.
+				*/
+				++_video_frames_in;
 			}
 
 			/* Now recompute our check value */
@@ -232,6 +237,8 @@ Decoder::process_audio (uint8_t* data, int size)
 
 	_delay_line->feed (audio);
 
+	int const in_frames = audio->frames ();
+
 	if (_opt->decode_range) {
 		/* Decode range in audio frames */
 		pair<int64_t, int64_t> required_range (
@@ -244,10 +251,13 @@ Decoder::process_audio (uint8_t* data, int size)
 			_audio_frames_in,
 			_audio_frames_in + audio->frames()
 			);
-		
-		if (required_range.first >= this_range.first && required_range.first < this_range.second) {
+
+		if (this_range.second < required_range.first || required_range.second < this_range.first) {
+			/* No part of this audio is within the required range */
+			audio->set_frames (0);
+		} else if (required_range.first >= this_range.first && required_range.first < this_range.second) {
 			/* Trim start */
-			int64_t const shift = this_range.first - required_range.first;
+			int64_t const shift = required_range.first - this_range.first;
 			audio->move (shift, 0, audio->frames() - shift);
 			audio->set_frames (audio->frames() - shift);
 		} else if (required_range.second >= this_range.first && required_range.second < this_range.second) {
@@ -259,6 +269,8 @@ Decoder::process_audio (uint8_t* data, int size)
 	if (audio->frames()) {
 		emit_audio (audio);
 	}
+
+	_audio_frames_in += in_frames;
 }
 
 void
@@ -317,9 +329,8 @@ Decoder::process_video (AVFrame* frame)
 		}
 
 		emit_video (*i, sub);
+		++_video_frames_in;
 	}
-
-	++_video_frames_in;
 }
 
 void
@@ -331,6 +342,7 @@ Decoder::repeat_last_video ()
 	}
 
 	emit_video (_last_image, _last_subtitle);
+	++_video_frames_in;
 }
 
 void

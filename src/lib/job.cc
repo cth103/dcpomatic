@@ -236,7 +236,7 @@ Job::status () const
 	float const p = overall_progress ();
 	int const t = elapsed_time ();
 	int const r = remaining_time ();
-	
+
 	stringstream s;
 	if (!finished () && p >= 0 && t > 10 && r > 0) {
 		s << rint (p * 100) << "%; " << seconds_to_approximate_hms (r) << " remaining";

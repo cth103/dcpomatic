@@ -111,6 +111,6 @@ TranscodeJob::remaining_time () const
 	}
 
 	/* We assume that dcp_length() is valid */
-	SourceFrame const left = _film->dcp_length().get() - _encoder->last_frame() - _film->dcp_trim_start();
+	SourceFrame const left = _film->dcp_trim_start() + _film->dcp_length().get() - _encoder->last_frame();
 	return left / fps;
 }
