@@ -54,6 +54,8 @@ extern std::string md5_digest (std::string);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
 
+typedef int SourceFrame;
+
 struct DCPFrameRate
 {
 	int frames_per_second;

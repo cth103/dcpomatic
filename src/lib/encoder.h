@@ -31,6 +31,7 @@
 extern "C" {
 #include <libavutil/samplefmt.h>
 }
+#include "util.h"
 
 class Options;
 class Image;
@@ -58,10 +59,10 @@ public:
 
 	/** Called with a frame of video.
 	 *  @param i Video frame image.
-	 *  @param f Frame number within the film.
+	 *  @param f Frame number within the film's source.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void process_video (boost::shared_ptr<const Image> i, int f, boost::shared_ptr<Subtitle> s) = 0;
+	virtual void process_video (boost::shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s) = 0;
 
 	/** Called with some audio data.
 	 *  @param d Array of pointers to floating point sample data for each channel.
@@ -74,10 +75,10 @@ public:
 
 	float current_frames_per_second () const;
 	bool skipping () const;
-	int last_frame () const;
+	SourceFrame last_frame () const;
 
 protected:
-	void frame_done (int n);
+	void frame_done (SourceFrame n);
 	void frame_skipped ();
 	
 	/** Film that we are encoding */
@@ -95,8 +96,8 @@ protected:
 	static int const _history_size;
 	/** true if the last frame we processed was skipped (because it was already done) */
 	bool _just_skipped;
-	/** Index of the last frame to be processed */
-	int _last_frame;
+	/** Source index of the last frame to be processed */
+	SourceFrame _last_frame;
 };
 
 #endif

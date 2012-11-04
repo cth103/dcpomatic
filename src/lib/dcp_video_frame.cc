@@ -76,7 +76,7 @@ using boost::shared_ptr;
 DCPVideoFrame::DCPVideoFrame (
 	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
 	Size out, int p, int subtitle_offset, float subtitle_scale,
-	Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l
+	Scaler const * s, SourceFrame f, float fps, string pp, int clut, int bw, Log* l
 	)
 	: _input (yuv)
 	, _subtitle (sub)
@@ -376,7 +376,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
  *  @param frame Frame index.
  */
 void
-EncodedData::write (shared_ptr<const Options> opt, int frame)
+EncodedData::write (shared_ptr<const Options> opt, SourceFrame frame)
 {
 	string const tmp_j2k = opt->frame_out_path (frame, true);
 

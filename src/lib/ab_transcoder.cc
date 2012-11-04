@@ -66,7 +66,7 @@ ABTranscoder::~ABTranscoder ()
 }
 
 void
-ABTranscoder::process_video (shared_ptr<Image> yuv, int frame, shared_ptr<Subtitle> sub, int index)
+ABTranscoder::process_video (shared_ptr<Image> yuv, SourceFrame frame, shared_ptr<Subtitle> sub, int index)
 {
 	if (index == 0) {
 		/* Keep this image around until we get the other half */

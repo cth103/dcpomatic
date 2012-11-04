@@ -87,7 +87,7 @@ public:
 
 	std::string thumb_file (int) const;
 	std::string thumb_base (int) const;
-	int thumb_frame (int) const;
+	SourceFrame thumb_frame (int) const;
 
 	int target_audio_sample_rate () const;
 	
@@ -95,7 +95,7 @@ public:
 	void read_metadata ();
 
 	Size cropped_size (Size) const;
-	boost::optional<int> dcp_length () const;
+	boost::optional<SourceFrame> dcp_length () const;
 	std::string dci_name () const;
 	std::string dcp_name () const;
 
@@ -187,12 +187,12 @@ public:
 		return _scaler;
 	}
 
-	int dcp_trim_start () const {
+	SourceFrame dcp_trim_start () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_trim_start;
 	}
 
-	int dcp_trim_end () const {
+	SourceFrame dcp_trim_end () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_trim_end;
 	}
@@ -289,7 +289,7 @@ public:
 		return _package_type;
 	}
 
-	std::vector<int> thumbs () const {
+	std::vector<SourceFrame> thumbs () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _thumbs;
 	}
@@ -299,7 +299,7 @@ public:
 		return _size;
 	}
 
-	boost::optional<int> length () const {
+	boost::optional<SourceFrame> length () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _length;
 	}
@@ -368,9 +368,9 @@ public:
 	void set_studio (std::string);
 	void set_facility (std::string);
 	void set_package_type (std::string);
-	void set_thumbs (std::vector<int>);
+	void set_thumbs (std::vector<SourceFrame>);
 	void set_size (Size);
-	void set_length (int);
+	void set_length (SourceFrame);
 	void unset_length ();
 	void set_audio_sample_rate (int);
 	void set_content_digest (std::string);
@@ -392,8 +392,8 @@ private:
 
 	boost::gregorian::date _dci_date;
 
-	std::string thumb_file_for_frame (int) const;
-	std::string thumb_base_for_frame (int) const;
+	std::string thumb_file_for_frame (SourceFrame) const;
+	std::string thumb_base_for_frame (SourceFrame) const;
 	void signal_changed (Property);
 	void examine_content_finished ();
 	
@@ -422,8 +422,8 @@ private:
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	int _dcp_trim_start;
-	int _dcp_trim_end;
+	SourceFrame _dcp_trim_start;
+	SourceFrame _dcp_trim_end;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.
@@ -460,11 +460,11 @@ private:
 	/* Data which are cached to speed things up */
 
 	/** Vector of frame indices for each of our `thumbnails' */
-	std::vector<int> _thumbs;
+	std::vector<SourceFrame> _thumbs;
 	/** Size, in pixels, of the source (ignoring cropping) */
 	Size _size;
 	/** Actual length of the source (in video frames) from examining it */
-	boost::optional<int> _length;
+	boost::optional<SourceFrame> _length;
 	/** Sample rate of the source audio, in Hz */
 	int _audio_sample_rate;
 	/** MD5 digest of our content file */

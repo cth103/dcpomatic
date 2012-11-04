@@ -67,7 +67,7 @@ Encoder::skipping () const
 }
 
 /** @return Index of last frame to be successfully encoded */
-int
+SourceFrame
 Encoder::last_frame () const
 {
 	boost::mutex::scoped_lock (_history_mutex);
@@ -75,10 +75,10 @@ Encoder::last_frame () const
 }
 
 /** Should be called when a frame has been encoded successfully.
- *  @param n Frame index.
+ *  @param n Source frame index.
  */
 void
-Encoder::frame_done (int n)
+Encoder::frame_done (SourceFrame n)
 {
 	boost::mutex::scoped_lock lock (_history_mutex);
 	_just_skipped = false;

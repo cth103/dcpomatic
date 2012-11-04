@@ -39,6 +39,11 @@ DCPRangeDialog::DCPRangeDialog (wxWindow* p, shared_ptr<Film> f)
 	table->Add (_trim_end, 1);
 	add_label_to_sizer (table, this, "frames");
 
+	if (_film->length()) {
+		_trim_start->SetRange (0, _film->length().get());
+		_trim_end->SetRange (0, _film->length().get());
+	}
+
 	_trim_start->SetValue (_film->dcp_trim_start());
 	_trim_end->SetValue (_film->dcp_trim_end());
 

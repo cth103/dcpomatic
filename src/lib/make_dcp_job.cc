@@ -55,10 +55,12 @@ MakeDCPJob::name () const
 	return String::compose ("Make DCP for %1", _film->name());
 }
 
+/** @param f DCP frame index */
 string
 MakeDCPJob::j2c_path (int f) const
 {
-	return _opt->frame_out_path (f * dcp_frame_rate(_film->frames_per_second()).skip, false);
+	SourceFrame const s = (f * dcp_frame_rate(_film->frames_per_second()).skip) + _film->dcp_trim_start();
+	return _opt->frame_out_path (s, false);
 }
 
 string
@@ -84,6 +86,7 @@ MakeDCPJob::run ()
 	int frames = 0;
 	switch (_film->content_type ()) {
 	case VIDEO:
+		/* Source frames -> DCP frames */
 		frames = _film->dcp_length().get() / dfr.skip;
 		break;
 	case STILL:

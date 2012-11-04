@@ -81,7 +81,7 @@ public:
 	void go ();
 
 	/** @return the index of the last video frame to be processed */
-	int video_frame_index () const {
+	SourceFrame video_frame_index () const {
 		return _video_frame_index;
 	}
 
@@ -94,11 +94,11 @@ public:
 	}
 
 	/** Emitted when a video frame is ready.
-	 *  First parameter is the frame.
+	 *  First parameter is the frame within the source.
 	 *  Second parameter is its index within the content.
 	 *  Third parameter is either 0 or a subtitle that should be on this frame.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<Image>, SourceFrame, boost::shared_ptr<Subtitle>)> Video;
 
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>)> Audio;
@@ -133,7 +133,7 @@ private:
 	void emit_audio (uint8_t* data, int size);
 	
 	/** last video frame to be processed */
-	int _video_frame_index;
+	SourceFrame _video_frame_index;
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 

@@ -140,7 +140,8 @@ Decoder::go ()
 
 	while (pass () == false) {
 		if (_job && _film->dcp_length()) {
-			_job->set_progress (float ((_video_frame_index - _film->dcp_trim_start())) / _film->dcp_length().get());
+			SourceFrame const p = _video_frame_index - _film->dcp_trim_start();
+			_job->set_progress (float (p) / _film->dcp_length().get());
 		}
 	}
 

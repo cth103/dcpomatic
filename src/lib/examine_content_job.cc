@@ -105,7 +105,7 @@ ExamineContentJob::run ()
 	}
 
 	string const tdir = _film->dir ("thumbs");
-	vector<int> thumbs;
+	vector<SourceFrame> thumbs;
 
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (tdir); i != boost::filesystem::directory_iterator(); ++i) {
 

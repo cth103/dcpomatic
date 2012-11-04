@@ -282,7 +282,7 @@ Film::examine_content ()
 		return;
 	}
 
-	set_thumbs (vector<int> ());
+	set_thumbs (vector<SourceFrame> ());
 	boost::filesystem::remove_all (dir ("thumbs"));
 
 	/* This call will recreate the directory */
@@ -428,7 +428,7 @@ Film::write_metadata () const
 	/* Cached stuff; this is information about our content; we could
 	   look it up each time, but that's slow.
 	*/
-	for (vector<int>::const_iterator i = _thumbs.begin(); i != _thumbs.end(); ++i) {
+	for (vector<SourceFrame>::const_iterator i = _thumbs.begin(); i != _thumbs.end(); ++i) {
 		f << "thumb " << *i << "\n";
 	}
 	f << "width " << _size.width << "\n";
@@ -567,17 +567,19 @@ Film::thumb_file (int n) const
 	return thumb_file_for_frame (thumb_frame (n));
 }
 
-/** @param n A frame index within the Film.
+/** @param n A frame index within the Film's source.
  *  @return The path to the thumb's image file for this frame;
  *  we assume that it exists.
  */
 string
-Film::thumb_file_for_frame (int n) const
+Film::thumb_file_for_frame (SourceFrame n) const
 {
 	return thumb_base_for_frame(n) + ".png";
 }
 
-/** Must not be called with the _state_mutex locked */
+/** @param n Thumb index.
+ *  Must not be called with the _state_mutex locked.
+ */
 string
 Film::thumb_base (int n) const
 {
@@ -585,7 +587,7 @@ Film::thumb_base (int n) const
 }
 
 string
-Film::thumb_base_for_frame (int n) const
+Film::thumb_base_for_frame (SourceFrame n) const
 {
 	stringstream s;
 	s.width (8);
@@ -599,11 +601,11 @@ Film::thumb_base_for_frame (int n) const
 }
 
 /** @param n A thumb index.
- *  @return The frame within the Film that it is for.
+ *  @return The frame within the Film's source that it is for.
  *
  *  Must not be called with the _state_mutex locked.
  */
-int
+SourceFrame
 Film::thumb_frame (int n) const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
@@ -698,11 +700,11 @@ Film::target_audio_sample_rate () const
 	return rint (t);
 }
 
-boost::optional<int>
+boost::optional<SourceFrame>
 Film::dcp_length () const
 {
 	if (!length()) {
-		return boost::optional<int> ();
+		return boost::optional<SourceFrame> ();
 	}
 
 	return length().get() - dcp_trim_start() - dcp_trim_end();
@@ -1194,7 +1196,7 @@ Film::set_package_type (string p)
 }
 
 void
-Film::set_thumbs (vector<int> t)
+Film::set_thumbs (vector<SourceFrame> t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
@@ -1214,7 +1216,7 @@ Film::set_size (Size s)
 }
 
 void
-Film::set_length (int l)
+Film::set_length (SourceFrame l)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);

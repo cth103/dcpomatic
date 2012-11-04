@@ -57,10 +57,10 @@ CheckHashesJob::run ()
 		throw EncodeError ("cannot check hashes of a DCP with unknown length");
 	}
 	
-	int const N = _film->dcp_length().get();
+	SourceFrame const N = _film->dcp_trim_start() + _film->dcp_length().get();
 	DCPFrameRate const dfr = dcp_frame_rate (_film->frames_per_second ());
 	
-	for (int i = 0; i < N; i += dfr.skip) {
+	for (SourceFrame i = _film->dcp_trim_start(); i < N; i += dfr.skip) {
 		string const j2k_file = _opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 

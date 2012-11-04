@@ -24,6 +24,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <stdint.h>
+#include "util.h"
 
 class Job;
 class Encoder;
@@ -54,7 +55,7 @@ public:
 	void go ();
 
 private:
-	void process_video (boost::shared_ptr<Image>, int, boost::shared_ptr<Subtitle>, int);
+	void process_video (boost::shared_ptr<Image>, SourceFrame, boost::shared_ptr<Subtitle>, int);
 	
 	boost::shared_ptr<Film> _film_a;
 	boost::shared_ptr<Film> _film_b;
@@ -63,6 +64,6 @@ private:
 	boost::shared_ptr<Encoder> _encoder;
 	boost::shared_ptr<Decoder> _da;
 	boost::shared_ptr<Decoder> _db;
-	int _last_frame;
+	SourceFrame _last_frame;
 	boost::shared_ptr<Image> _image;
 };

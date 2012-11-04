@@ -52,11 +52,11 @@ public:
 		return _frame_out_path;
 	}
 
-	/** @param f Frame index.
+	/** @param f Source frame index.
 	 *  @param t true to return a temporary file path, otherwise a permanent one.
 	 *  @return The path to write this video frame to.
 	 */
-	std::string frame_out_path (int f, bool t, std::string e = "") const {
+	std::string frame_out_path (SourceFrame f, bool t, std::string e = "") const {
 		if (e.empty ()) {
 			e = _frame_out_extension;
 		}
@@ -96,8 +96,10 @@ public:
 	float ratio;                ///< ratio of the wanted output image (not considering padding)
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
 	bool apply_crop;            ///< true to apply cropping
-	int decode_video_skip;      ///< skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
-	                            ///< 1 for every frame, 2 for every other frame, etc.
+	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
+	 *  1 for every frame, 2 for every other frame, etc.
+	 */
+	SourceFrame decode_video_skip; 
 	bool decode_audio;          ///< true to decode audio, otherwise false
 	bool decode_subtitles;
 

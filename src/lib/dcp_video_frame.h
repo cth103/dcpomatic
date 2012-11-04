@@ -50,7 +50,7 @@ public:
 	virtual ~EncodedData () {}
 
 	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const Options>, int);
+	void write (boost::shared_ptr<const Options>, SourceFrame);
 
 	/** @return data */
 	uint8_t* data () const {
@@ -106,13 +106,17 @@ public:
 class DCPVideoFrame
 {
 public:
-	DCPVideoFrame (boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, Size, int, int, float, Scaler const *, int, float, std::string, int, int, Log *);
+	DCPVideoFrame (
+		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, Size,
+		int, int, float, Scaler const *, SourceFrame, float, std::string, int, int, Log *
+		);
+	
 	virtual ~DCPVideoFrame ();
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
 
-	int frame () const {
+	SourceFrame frame () const {
 		return _frame;
 	}
 	
@@ -127,7 +131,7 @@ private:
 	int _subtitle_offset;
 	float _subtitle_scale;
 	Scaler const * _scaler;          ///< scaler to use
-	int _frame;                      ///< frame index within the Film
+	SourceFrame _frame;              ///< frame index within the Film's source
 	int _frames_per_second;          ///< Frames per second that we will use for the DCP (rounded)
 	std::string _post_process;       ///< FFmpeg post-processing string to use
 	int _colour_lut_index;           ///< Colour look-up table to use (see Config::colour_lut_index ())
