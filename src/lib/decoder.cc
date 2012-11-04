@@ -61,9 +61,7 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _delay_in_bytes (0)
 	, _audio_frames_processed (0)
 {
-	if (_opt->decode_video_frequency != 0 && !_film->length()) {
-		throw DecodeError ("cannot do a partial decode if length is unknown");
-	}
+	
 }
 
 Decoder::~Decoder ()
@@ -101,7 +99,7 @@ Decoder::process_end ()
 	int64_t const audio_short_by_frames = video_length_in_audio_frames - _audio_frames_processed;
 
 	_film->log()->log (
-		String::compose ("DCP length is %1 (%2 audio frames); %3 frames of audio processed.",
+		String::compose ("Source length is %1 (%2 audio frames); %3 frames of audio processed.",
 				 video_frame_index(),
 				 video_length_in_audio_frames,
 				 _audio_frames_processed)
@@ -109,7 +107,7 @@ Decoder::process_end ()
 	
 	if (audio_short_by_frames >= 0 && _opt->decode_audio) {
 
-		_film->log()->log (String::compose ("DCP length is %1; %2 frames of audio processed.", video_frame_index(), _audio_frames_processed));
+		_film->log()->log (String::compose ("Source length is %1; %2 frames of audio processed.", video_frame_index(), _audio_frames_processed));
 		_film->log()->log (String::compose ("Adding %1 frames of silence to the end.", audio_short_by_frames));
 
 		/* XXX: this is slightly questionable; does memset () give silence with all
@@ -272,12 +270,7 @@ Decoder::process_video (AVFrame* frame)
 
 	/* Use Film::length here as our one may be wrong */
 
-	int gap = 0;
-	if (_opt->decode_video_frequency != 0) {
-		gap = _film->length().get() / _opt->decode_video_frequency;
-	}
-
-	if (_opt->decode_video_frequency != 0 && gap != 0 && (_video_frame_index % gap) != 0) {
+	if (_opt->decode_video_skip != 0 && (_video_frame_index % _opt->decode_video_skip) != 0) {
 		++_video_frame_index;
 		return;
 	}

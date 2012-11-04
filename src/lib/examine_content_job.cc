@@ -84,7 +84,11 @@ ExamineContentJob::run ()
 		o->out_size = _film->size ();
 		o->apply_crop = false;
 		o->decode_audio = false;
-		o->decode_video_frequency = 128;
+		if (_film->length() > 0) {
+			o->decode_video_skip = _film->length().get() / 128;
+		} else {
+			o->decode_video_skip = 0;
+		}
 		o->decode_subtitles = true;
 		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (_film, o));
 		Transcoder w (_film, o, this, e);
