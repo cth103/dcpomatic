@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	f_filters.push_back (Filter::from_id ("unsharp"));
 	f->set_filters (f_filters);
 	f->set_dcp_trim_start (42);
-	f->set_dcp_trim_start (99);
+	f->set_dcp_trim_end (99);
 	f->set_dcp_ab (true);
 	f->write_metadata ();
 

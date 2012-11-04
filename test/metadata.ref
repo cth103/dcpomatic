@@ -10,8 +10,8 @@ bottom_crop 4
 filter pphb
 filter unsharp
 scaler bicubic
-dcp_frames 42
-dcp_trim_action cut
+dcp_trim_start 42
+dcp_trim_end 99
 dcp_ab 1
 selected_audio_stream -1
 audio_gain 0

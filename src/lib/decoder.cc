@@ -251,7 +251,7 @@ Decoder::emit_audio (uint8_t* data, int size)
 void
 Decoder::process_video (AVFrame* frame)
 {
-	assert (_film->length());
+	assert (_ignore_length || _film->length());
 	
 	if (_minimal) {
 		++_video_frame_index;
