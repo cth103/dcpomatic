@@ -815,3 +815,9 @@ ensure_ui_thread ()
 {
 	assert (this_thread::get_id() == ui_thread);
 }
+
+int64_t
+video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second)
+{
+	return ((int64_t) v * audio_sample_rate / frames_per_second);
+}

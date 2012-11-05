@@ -26,7 +26,7 @@ namespace Magick {
 class ImageMagickDecoder : public Decoder
 {
 public:
-	ImageMagickDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool);
+	ImageMagickDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
 
 	float frames_per_second () const {
 		return static_frames_per_second ();

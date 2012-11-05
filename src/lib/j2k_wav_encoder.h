@@ -51,12 +51,13 @@ public:
 	~J2KWAVEncoder ();
 
 	void process_begin (int64_t audio_channel_layout);
-	void process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
-	void process_audio (boost::shared_ptr<const AudioBuffers>);
 	void process_end ();
 
 private:
 
+	void do_process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
+	void do_process_audio (boost::shared_ptr<const AudioBuffers>);
+	
 	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 	void encoder_thread (ServerDescription *);
 	void close_sound_files ();

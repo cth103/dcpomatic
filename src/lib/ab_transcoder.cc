@@ -57,7 +57,7 @@ ABTranscoder::ABTranscoder (
 
 	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, _3, 0));
 	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, _3, 1));
-	_da->Audio.connect (bind (&Encoder::process_audio, e, _1));
+	_da->Audio.connect (bind (&Encoder::process_audio, e, _1, _2));
 }
 
 ABTranscoder::~ABTranscoder ()

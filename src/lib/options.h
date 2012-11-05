@@ -24,6 +24,7 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <boost/optional.hpp>
 #include "util.h"
 
 /** @class Options
@@ -98,8 +99,10 @@ public:
 	bool apply_crop;            ///< true to apply cropping
 
 	/** Range of video frames to decode */
-	boost::optional<std::pair<SourceFrame, SourceFrame> > decode_range;
-
+	boost::optional<std::pair<SourceFrame, SourceFrame> > video_decode_range;
+	/** Range of audio frames to decode */
+	boost::optional<std::pair<int64_t, int64_t> > audio_decode_range;
+	
 	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
 	 *  1 for every frame, 2 for every other frame, etc.
 	 */

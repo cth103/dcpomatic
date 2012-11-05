@@ -47,7 +47,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 	assert (_encoder);
 	
 	_decoder->Video.connect (bind (&Encoder::process_video, e, _1, _2, _3));
-	_decoder->Audio.connect (bind (&Encoder::process_audio, e, _1));
+	_decoder->Audio.connect (bind (&Encoder::process_audio, e, _1, _2));
 }
 
 /** Run the decoder, passing its output to the encoder, until the decoder

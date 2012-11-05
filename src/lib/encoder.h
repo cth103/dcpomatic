@@ -57,18 +57,15 @@ public:
 	/** Called to indicate that a processing run is about to begin */
 	virtual void process_begin (int64_t audio_channel_layout) = 0;
 
-	/** Called with a frame of video.
+	/** Call with a frame of video.
 	 *  @param i Video frame image.
 	 *  @param f Frame number within the film's source.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void process_video (boost::shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s) = 0;
+	void process_video (boost::shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s);
 
-	/** Called with some audio data.
-	 *  @param d Array of pointers to floating point sample data for each channel.
-	 *  @param s Number of frames (ie number of samples in each channel)
-	 */
-	virtual void process_audio (boost::shared_ptr<const AudioBuffers>) = 0;
+	/** Call with some audio data */
+	void process_audio (boost::shared_ptr<const AudioBuffers>, int64_t);
 
 	/** Called when a processing run has finished */
 	virtual void process_end () = 0;
@@ -78,6 +75,17 @@ public:
 	SourceFrame last_frame () const;
 
 protected:
+
+	/** Called with a frame of video.
+	 *  @param i Video frame image.
+	 *  @param f Frame number within the film's source.
+	 *  @param s A subtitle that should be on this frame, or 0.
+	 */
+	virtual void do_process_video (boost::shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s) = 0;
+	
+	/** Called with some audio data */
+	virtual void do_process_audio (boost::shared_ptr<const AudioBuffers>) = 0;
+	
 	void frame_done (SourceFrame n);
 	void frame_skipped ();
 	

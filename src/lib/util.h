@@ -251,5 +251,7 @@ private:
 	float** _data;
 };
 
+extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second);
+
 #endif
 

@@ -55,8 +55,8 @@ using std::vector;
 using std::stringstream;
 using boost::shared_ptr;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, bool minimal)
-	: Decoder (f, o, j, minimal)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
+	: Decoder (f, o, j)
 	, _format_context (0)
 	, _video_stream (-1)
 	, _audio_stream (-1)
@@ -270,7 +270,7 @@ FFmpegDecoder::pass ()
 			}
 
 			/* Where we are in the output, in seconds */
-			double const out_pts_seconds = video_frames_in() / frames_per_second();
+			double const out_pts_seconds = video_frame() / frames_per_second();
 
 			/* Where we are in the source, in seconds */
 			double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
@@ -292,7 +292,7 @@ FFmpegDecoder::pass ()
 					_film->log()->log (
 						String::compose (
 							"Extra frame inserted at %1s; source frame %2, source PTS %3",
-							out_pts_seconds, video_frames_in(), source_pts_seconds
+							out_pts_seconds, video_frame(), source_pts_seconds
 							)
 						);
 				}

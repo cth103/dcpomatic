@@ -106,7 +106,7 @@ J2KWAVEncoder::close_sound_files ()
 }	
 
 void
-J2KWAVEncoder::process_video (shared_ptr<const Image> yuv, SourceFrame frame, shared_ptr<Subtitle> sub)
+J2KWAVEncoder::do_process_video (shared_ptr<const Image> yuv, SourceFrame frame, shared_ptr<Subtitle> sub)
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
@@ -351,7 +351,7 @@ J2KWAVEncoder::process_end ()
 }
 
 void
-J2KWAVEncoder::process_audio (shared_ptr<const AudioBuffers> audio)
+J2KWAVEncoder::do_process_audio (shared_ptr<const AudioBuffers> audio)
 {
 	shared_ptr<AudioBuffers> resampled;
 	

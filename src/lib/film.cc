@@ -259,7 +259,12 @@ Film::make_dcp (bool transcode)
 	o->padding = format()->dcp_padding (shared_from_this ());
 	o->ratio = format()->ratio_as_float (shared_from_this ());
 	if (dcp_length ()) {
-		o->decode_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
+		o->video_decode_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
+		o->audio_decode_range = make_pair (
+			video_frames_to_audio_frames (o->video_decode_range.get().first, audio_sample_rate(), frames_per_second()),
+			video_frames_to_audio_frames (o->video_decode_range.get().second, audio_sample_rate(), frames_per_second())
+			);
+			
 	}
 	o->decode_subtitles = with_subtitles ();
 	o->decode_video_skip = dcp_frame_rate (frames_per_second()).skip;
@@ -881,7 +886,7 @@ Film::set_content (string c)
 		shared_ptr<Options> o (new Options ("", "", ""));
 		o->out_size = Size (1024, 1024);
 		
-		shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0, 0);
+		shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0);
 		
 		set_size (d->native_size ());
 		set_frames_per_second (d->frames_per_second ());
@@ -1328,3 +1333,4 @@ Film::set_dci_date_today ()
 {
 	_dci_date = boost::gregorian::day_clock::local_day ();
 }
+

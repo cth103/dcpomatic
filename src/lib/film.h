@@ -396,7 +396,7 @@ private:
 	std::string thumb_base_for_frame (SourceFrame) const;
 	void signal_changed (Property);
 	void examine_content_finished ();
-	
+
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
 	 */

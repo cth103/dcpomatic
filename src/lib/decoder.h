@@ -52,7 +52,7 @@ class FilterGraph;
 class Decoder
 {
 public:
-	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *, bool);
+	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
 	virtual ~Decoder ();
 
 	/* Methods to query our input video */
@@ -80,9 +80,8 @@ public:
 	void process_end ();
 	void go ();
 
-	/** @return the number of video frames we got from the source in the last run */
-	SourceFrame video_frames_in () const {
-		return _video_frames_in;
+	SourceFrame video_frame () const {
+		return _video_frame;
 	}
 
 	virtual std::vector<AudioStream> audio_streams () const {
@@ -101,7 +100,7 @@ public:
 	boost::signals2::signal<void (boost::shared_ptr<Image>, SourceFrame, boost::shared_ptr<Subtitle>)> Video;
 
 	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, int64_t)> Audio;
 
 protected:
 	
@@ -121,21 +120,12 @@ protected:
 	/** associated Job, or 0 */
 	Job* _job;
 
-	/** true to do the bare minimum of work; just run through the content.  Useful for acquiring
-	 *  accurate frame counts as quickly as possible.  This generates no video or audio output.
-	 */
-	bool _minimal;
-
 private:
 	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 	void emit_audio (boost::shared_ptr<AudioBuffers>);
 
-	int64_t video_frames_to_audio_frames (SourceFrame v) const;
-	
-	SourceFrame _video_frames_in;
-	SourceFrame _video_frames_out;
-	int64_t _audio_frames_in;
-	int64_t _audio_frames_out;
+	SourceFrame _video_frame;
+	int64_t _audio_frame;
 	
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 

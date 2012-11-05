@@ -631,6 +631,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::STILL_DURATION);
 	film_changed (Film::WITH_SUBTITLES);
+	film_changed (Film::HAS_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
 	film_changed (Film::USE_DCI_NAME);

@@ -50,15 +50,12 @@ using boost::shared_ptr;
  *  @param minimal true to do the bare minimum of work; just run through the content.  Useful for acquiring
  *  accurate frame counts as quickly as possible.  This generates no video or audio output.
  */
-Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j, bool minimal)
+Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
 	: _film (f)
 	, _opt (o)
 	, _job (j)
-	, _minimal (minimal)
-	, _video_frames_in (0)
-	, _video_frames_out (0)
-	, _audio_frames_in (0)
-	, _audio_frames_out (0)
+	, _video_frame (0)
+	, _audio_frame (0)
 	, _delay_line (0)
 	, _delay_in_frames (0)
 {
@@ -94,13 +91,15 @@ Decoder::process_end ()
 
 		/* Ensure that our video and audio emissions are the same length */
 
-		int64_t audio_short_by_frames = video_frames_to_audio_frames (_video_frames_out) - _audio_frames_out;
+		int64_t audio_short_by_frames = video_frames_to_audio_frames (_video_frame, audio_sample_rate(), frames_per_second()) - _audio_frame;
 
 		_film->log()->log (
-			String::compose ("Decoder has emitted %1 video frames (which equals %2 audio frames) and %3 audio frames",
-					 _video_frames_out,
-					 video_frames_to_audio_frames (_video_frames_out),
-					 _audio_frames_out)
+			String::compose (
+				"Decoder has emitted %1 video frames (which equals %2 audio frames) and %3 audio frames",
+				_video_frame,
+				video_frames_to_audio_frames (_video_frame, audio_sample_rate(), frames_per_second()),
+				_audio_frame
+				)
 			);
 
 		if (audio_short_by_frames < 0) {
@@ -116,15 +115,10 @@ Decoder::process_end ()
 			black->make_black ();
 			for (int i = 0; i < black_video_frames; ++i) {
 				emit_video (black, shared_ptr<Subtitle> ());
-
-				/* This is a bit of a hack, but you can sort-of justify it if you squint at it right.
-				   It's important because the encoder will probably use this to name its output frame.
-				*/
-				++_video_frames_in;
 			}
 
 			/* Now recompute our check value */
-			audio_short_by_frames = video_frames_to_audio_frames (_video_frames_out) - _audio_frames_out;
+			audio_short_by_frames = video_frames_to_audio_frames (_video_frame, audio_sample_rate(), frames_per_second()) - _audio_frame;
 		}
 	
 		if (audio_short_by_frames > 0) {
@@ -147,8 +141,8 @@ Decoder::go ()
 	}
 
 	while (pass () == false) {
-		if (_job && _film->dcp_length()) {
-			_job->set_progress (float (_video_frames_out) / _film->dcp_length().get());
+		if (_job) {
+			_job->set_progress (float (_video_frame) / _film->length().get());
 		}
 	}
 
@@ -162,6 +156,7 @@ Decoder::go ()
 void
 Decoder::process_audio (uint8_t* data, int size)
 {
+	/* XXX: could this be removed? */
 	if (size == 0) {
 		return;
 	}
@@ -236,48 +231,7 @@ Decoder::process_audio (uint8_t* data, int size)
 	}
 
 	_delay_line->feed (audio);
-
-	int const in_frames = audio->frames ();
-
-	if (_opt->decode_range) {
-		/* Decode range in audio frames */
-		pair<int64_t, int64_t> required_range (
-			video_frames_to_audio_frames (_opt->decode_range.get().first),
-			video_frames_to_audio_frames (_opt->decode_range.get().second)
-			);
-		
-		/* Range of this block of data */
-		pair<int64_t, int64_t> this_range (
-			_audio_frames_in,
-			_audio_frames_in + audio->frames()
-			);
-
-		if (this_range.second < required_range.first || required_range.second < this_range.first) {
-			/* No part of this audio is within the required range */
-			audio->set_frames (0);
-		} else if (required_range.first >= this_range.first && required_range.first < this_range.second) {
-			/* Trim start */
-			int64_t const shift = required_range.first - this_range.first;
-			audio->move (shift, 0, audio->frames() - shift);
-			audio->set_frames (audio->frames() - shift);
-		} else if (required_range.second >= this_range.first && required_range.second < this_range.second) {
-			/* Trim end */
-			audio->set_frames (required_range.second - this_range.first);
-		}
-	}
-		
-	if (audio->frames()) {
-		emit_audio (audio);
-	}
-
-	_audio_frames_in += in_frames;
-}
-
-void
-Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
-{
-	Audio (audio);
-	_audio_frames_out += audio->frames ();
+	emit_audio (audio);
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
@@ -287,24 +241,6 @@ Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
 void
 Decoder::process_video (AVFrame* frame)
 {
-	if (_minimal) {
-		++_video_frames_in;
-		return;
-	}
-
-	if (_opt->decode_video_skip != 0 && (_video_frames_in % _opt->decode_video_skip) != 0) {
-		++_video_frames_in;
-		return;
-	}
-
-	if (_opt->decode_range) {
-		pair<SourceFrame, SourceFrame> r = _opt->decode_range.get();
-		if (_video_frames_in < r.first || _video_frames_in >= r.second) {
-			++_video_frames_in;
-			return;
-		}
-	}
-
 	shared_ptr<FilterGraph> graph;
 
 	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
@@ -324,12 +260,11 @@ Decoder::process_video (AVFrame* frame)
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
 		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frames_in()) / _film->frames_per_second())) {
+		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame()) / _film->frames_per_second())) {
 			sub = _timed_subtitle->subtitle ();
 		}
 
 		emit_video (*i, sub);
-		++_video_frames_in;
 	}
 }
 
@@ -342,17 +277,24 @@ Decoder::repeat_last_video ()
 	}
 
 	emit_video (_last_image, _last_subtitle);
-	++_video_frames_in;
 }
 
 void
 Decoder::emit_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
-	TIMING ("Decoder emits %1", _video_frames_out);
-	Video (image, _video_frames_in, sub);
-	++_video_frames_out;
+	TIMING ("Decoder emits %1", _video_frame);
+	Video (image, _video_frame, sub);
+	++_video_frame;
+
 	_last_image = image;
 	_last_subtitle = sub;
+}
+
+void
+Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
+{
+	Audio (audio, _audio_frame);
+	_audio_frame += audio->frames ();
 }
 
 void
@@ -366,15 +308,8 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 	}
 }
 
-
 int
 Decoder::bytes_per_audio_sample () const
 {
 	return av_get_bytes_per_sample (audio_sample_format ());
-}
-
-int64_t
-Decoder::video_frames_to_audio_frames (SourceFrame v) const
-{
-	return ((int64_t) v * audio_sample_rate() / frames_per_second());
 }

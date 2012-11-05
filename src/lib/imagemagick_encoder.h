@@ -37,7 +37,9 @@ public:
 	ImageMagickEncoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
 
 	void process_begin (int64_t audio_channel_layout) {}
-	void process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
-	void process_audio (boost::shared_ptr<const AudioBuffers>) {}
 	void process_end () {}
+
+private:	
+	void do_process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
+	void do_process_audio (boost::shared_ptr<const AudioBuffers>) {}
 };
