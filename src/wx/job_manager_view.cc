@@ -77,6 +77,7 @@ JobManagerView::update ()
 			_table->Insert (index, m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 			
 			JobRecord r;
+			r.finalised = false;
 			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
 			_table->Insert (index + 1, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
 			
@@ -99,9 +100,10 @@ JobManagerView::update ()
 			}
 		}
 		
-		if ((*i)->finished()) {
+		if ((*i)->finished() && !_job_records[*i].finalised) {
 			_job_records[*i].gauge->SetValue (100);
 			_job_records[*i].message->SetLabel (std_to_wx (st));
+			_job_records[*i].finalised = true;
 		}
 
 		index += 3;

@@ -98,7 +98,12 @@ TranscodeJob::status () const
 
 	stringstream s;
 
-	s << Job::status () << "; " << fixed << setprecision (1) << fps << " frames per second";
+	s << Job::status ();
+
+	if (!finished ()) {
+		s << "; " << fixed << setprecision (1) << fps << " frames per second";
+	}
+	
 	return s.str ();
 }
 

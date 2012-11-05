@@ -46,6 +46,7 @@ private:
 	struct JobRecord {
 		wxGauge* gauge;
 		wxStaticText* message;
+		bool finalised;
 	};
 		
 	std::map<boost::shared_ptr<Job>, JobRecord> _job_records;
