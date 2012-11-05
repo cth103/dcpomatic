@@ -54,7 +54,8 @@ private:
 	void bottom_crop_changed (wxCommandEvent &);
 	void content_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
-	void dcp_range_changed (int, int);
+	void dcp_trim_start_changed (wxCommandEvent &);
+	void dcp_trim_end_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
@@ -137,10 +138,8 @@ private:
 	/** The Film's duration for still sources */
 	wxSpinCtrl* _still_duration;
 
-	/** Display of the range of frames that will be used */
-	wxStaticText* _dcp_range;
-	/** Button to change the range */
-	wxButton* _change_dcp_range_button;
+	wxSpinCtrl* _dcp_trim_start;
+	wxSpinCtrl* _dcp_trim_end;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 

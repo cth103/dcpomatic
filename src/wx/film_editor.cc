@@ -39,7 +39,6 @@
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
-#include "dcp_range_dialog.h"
 #include "gain_calculator_dialog.h"
 #include "sound_processor.h"
 #include "dci_name_dialog.h"
@@ -190,12 +189,15 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 
 
 	{
-		video_control (add_label_to_sizer (_sizer, this, "Range"));
+		video_control (add_label_to_sizer (_sizer, this, "Trim frames"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_dcp_range = new wxStaticText (this, wxID_ANY, wxT (""));
-		s->Add (video_control (_dcp_range), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-		_change_dcp_range_button = new wxButton (this, wxID_ANY, wxT ("Edit..."));
-		s->Add (video_control (_change_dcp_range_button), 0, 0, 6);
+		add_label_to_sizer (s, this, "Start");
+		_dcp_trim_start = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_dcp_trim_start);
+		add_label_to_sizer (s, this, "End");
+		_dcp_trim_end = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_dcp_trim_end);
+
 		_sizer->Add (s);
 	}
 
@@ -226,6 +228,8 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	_still_duration->SetRange (0, 60 * 60);
 	_subtitle_offset->SetRange (-1024, 1024);
 	_subtitle_scale->SetRange (1, 1000);
+	_dcp_trim_start->SetRange (0, 100);
+	_dcp_trim_end->SetRange (0, 100);
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -264,7 +268,8 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 		);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
-	_change_dcp_range_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::change_dcp_range_clicked), 0, this);
+	_dcp_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_start_changed), 0, this);
+	_dcp_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_end_changed), 0, this);
 	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
@@ -495,6 +500,10 @@ FilmEditor::film_changed (Film::Property p)
 			s << _film->length().get() << " frames";
 		} 
 		_length->SetLabel (std_to_wx (s.str ()));
+		if (_film->length()) {
+			_dcp_trim_start->SetRange (0, _film->length().get());
+			_dcp_trim_end->SetRange (0, _film->length().get());
+		}
 		break;
 	case Film::DCP_CONTENT_TYPE:
 		_dcp_content_type->SetSelection (DCPContentType::as_index (_film->dcp_content_type ()));
@@ -509,15 +518,10 @@ FilmEditor::film_changed (Film::Property p)
 		_scaler->SetSelection (Scaler::as_index (_film->scaler ()));
 		break;
 	case Film::DCP_TRIM_START:
+		_dcp_trim_start->SetValue (_film->dcp_trim_start());
+		break;
 	case Film::DCP_TRIM_END:
-		if (_film->dcp_trim_start() == 0 && _film->dcp_trim_end() == 0) {
-			_dcp_range->SetLabel (wxT ("Whole film"));
-		} else {
-			_dcp_range->SetLabel (
-				std_to_wx (String::compose ("Trim %1 frames from start and %2 frames from end", _film->dcp_trim_start(), _film->dcp_trim_end()))
-				);
-		}
-		_sizer->Layout ();
+		_dcp_trim_end->SetValue (_film->dcp_trim_end());
 		break;
 	case Film::AUDIO_GAIN:
 		_audio_gain->SetValue (_film->audio_gain ());
@@ -657,7 +661,8 @@ FilmEditor::set_things_sensitive (bool s)
 	_scaler->Enable (s);
 	_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
-	_change_dcp_range_button->Enable (s);
+	_dcp_trim_start->Enable (s);
+	_dcp_trim_end->Enable (s);
 	_dcp_ab->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
@@ -766,18 +771,27 @@ FilmEditor::still_duration_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::change_dcp_range_clicked (wxCommandEvent &)
+FilmEditor::dcp_trim_start_changed (wxCommandEvent &)
 {
-	DCPRangeDialog* d = new DCPRangeDialog (this, _film);
-	d->Changed.connect (bind (&FilmEditor::dcp_range_changed, this, _1, _2));
-	d->ShowModal ();
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::DCP_TRIM_START;
+	_film->set_dcp_trim_start (_dcp_trim_start->GetValue ());
+	_ignore_changes = Film::NONE;
 }
 
 void
-FilmEditor::dcp_range_changed (int start, int end)
+FilmEditor::dcp_trim_end_changed (wxCommandEvent &)
 {
-	_film->set_dcp_trim_start (start);
-	_film->set_dcp_trim_end (end);
+	if (!_film) {
+		return;
+	}
+
+	_ignore_changes = Film::DCP_TRIM_END;
+	_film->set_dcp_trim_end (_dcp_trim_end->GetValue ());
+	_ignore_changes = Film::NONE;
 }
 
 void
