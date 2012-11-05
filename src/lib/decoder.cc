@@ -141,7 +141,7 @@ Decoder::go ()
 	}
 
 	while (pass () == false) {
-		if (_job) {
+		if (_job && _film->dcp_length()) {
 			_job->set_progress (float (_video_frame) / _film->length().get());
 		}
 	}
