@@ -390,6 +390,7 @@ private:
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
 
+	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
 
 	std::string thumb_file_for_frame (SourceFrame) const;
@@ -422,7 +423,9 @@ private:
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
+	/** Frames to trim off the start of the source */
 	SourceFrame _dcp_trim_start;
+	/** Frames to trim off the end of the source */
 	SourceFrame _dcp_trim_end;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
