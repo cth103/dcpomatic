@@ -7,7 +7,7 @@ reporter: Carl Hetherington <cth@carlh.net>
 severity: minor
 
 
-status: open
+status: fixed
 
 
 summary: UI and model go out of sync when creating a new film after having another

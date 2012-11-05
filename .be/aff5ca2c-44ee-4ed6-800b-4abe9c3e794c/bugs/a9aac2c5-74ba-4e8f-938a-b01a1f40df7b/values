@@ -7,7 +7,7 @@ reporter: Carl Hetherington <cth@carlh.net>
 severity: minor
 
 
-status: open
+status: fixed
 
 
 summary: Subtitle checkbox sensitivity not setup on creating a new film, perhaps
