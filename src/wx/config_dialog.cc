@@ -35,6 +35,7 @@
 #include "wx_util.h"
 #include "filter_dialog.h"
 #include "server_dialog.h"
+#include "dir_picker_ctrl.h"
 
 using namespace std;
 using boost::bind;
