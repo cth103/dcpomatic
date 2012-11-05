@@ -22,6 +22,8 @@
  */
 
 #include <boost/thread.hpp>
+#include <wx/filepicker.h>
+#include <wx/spinctrl.h>
 #include "wx_util.h"
 
 using namespace std;
@@ -105,4 +107,44 @@ void
 ThreadedStaticText::thread_finished (wxCommandEvent& ev)
 {
 	SetLabel (ev.GetString ());
+}
+
+void
+checked_set (wxFilePickerCtrl* widget, string value)
+{
+	if (widget->GetPath() != std_to_wx (value)) {
+		widget->SetPath (std_to_wx (value));
+	}
+}
+
+void
+checked_set (wxSpinCtrl* widget, int value)
+{
+	if (widget->GetValue() != value) {
+		widget->SetValue (value);
+	}
+}
+
+void
+checked_set (wxComboBox* widget, int value)
+{
+	if (widget->GetSelection() != value) {
+		widget->SetSelection (value);
+	}
+}
+
+void
+checked_set (wxTextCtrl* widget, string value)
+{
+	if (widget->GetValue() != std_to_wx (value)) {
+		widget->ChangeValue (std_to_wx (value));
+	}
+}
+
+void
+checked_set (wxCheckBox* widget, bool value)
+{
+	if (widget->GetValue() != value) {
+		widget->SetValue (value);
+	}
 }

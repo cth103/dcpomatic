@@ -78,7 +78,7 @@ private:
 
 	void set_things_sensitive (bool);
 	void setup_formats ();
-	void setup_subtitle_button ();
+	void setup_subtitle_control_sensitivity ();
 	void setup_streams ();
 	void setup_audio_details ();
 	
@@ -86,8 +86,6 @@ private:
 	wxControl* still_control (wxControl *);
 
 	void active_jobs_changed (bool);
-
-	Film::Property _ignore_changes;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;

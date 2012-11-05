@@ -21,6 +21,9 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 
+class wxFilePickerCtrl;
+class wxSpinCtrl;
+
 /** @file src/wx/wx_util.h
  *  @brief Some utility functions and classes.
  */
@@ -50,3 +53,9 @@ private:
 	
 	static const int _update_event_id;
 };
+
+extern void checked_set (wxFilePickerCtrl* widget, std::string value);
+extern void checked_set (wxSpinCtrl* widget, int value);
+extern void checked_set (wxComboBox* widget, int value);
+extern void checked_set (wxTextCtrl* widget, std::string value);
+extern void checked_set (wxCheckBox* widget, bool value);

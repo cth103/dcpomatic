@@ -56,7 +56,6 @@ using boost::shared_ptr;
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
-	, _ignore_changes (Film::NONE)
 	, _film (f)
 {
 	_sizer = new wxFlexGridSizer (2, 4, 4);
@@ -288,9 +287,7 @@ FilmEditor::left_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::CROP;
 	_film->set_left_crop (_left_crop->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 /** Called when the right crop widget has been changed */
@@ -301,9 +298,7 @@ FilmEditor::right_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::CROP;
 	_film->set_right_crop (_right_crop->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 /** Called when the top crop widget has been changed */
@@ -314,9 +309,7 @@ FilmEditor::top_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::CROP;
 	_film->set_top_crop (_top_crop->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 /** Called when the bottom crop value has been changed */
@@ -327,9 +320,7 @@ FilmEditor::bottom_crop_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::CROP;
 	_film->set_bottom_crop (_bottom_crop->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 /** Called when the content filename has been changed */
@@ -340,21 +331,12 @@ FilmEditor::content_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::CONTENT;
-	
 	try {
 		_film->set_content (wx_to_std (_content->GetPath ()));
 	} catch (std::exception& e) {
 		_content->SetPath (std_to_wx (_film->directory ()));
 		error_dialog (this, String::compose ("Could not set content: %1", e.what ()));
 	}
-
-	_ignore_changes = Film::NONE;
-
-	setup_visibility ();
-	setup_formats ();
-	setup_subtitle_button ();
-	setup_streams ();
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -365,9 +347,7 @@ FilmEditor::dcp_ab_toggled (wxCommandEvent &)
 		return;
 	}
 	
-	_ignore_changes = Film::DCP_AB;
 	_film->set_dcp_ab (_dcp_ab->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 /** Called when the name widget has been changed */
@@ -378,12 +358,7 @@ FilmEditor::name_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::NAME;
 	_film->set_name (string (_name->GetValue().mb_str()));
-	_ignore_changes = Film::NONE;
-
-	_film->set_dci_date_today ();
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 void
@@ -393,9 +368,7 @@ FilmEditor::subtitle_offset_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::SUBTITLE_OFFSET;
 	_film->set_subtitle_offset (_subtitle_offset->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 void
@@ -405,9 +378,7 @@ FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::SUBTITLE_OFFSET;
 	_film->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
-	_ignore_changes = Film::NONE;
 }
 
 
@@ -420,7 +391,7 @@ FilmEditor::film_changed (Film::Property p)
 {
 	ensure_ui_thread ();
 	
-	if (!_film || _ignore_changes == p) {
+	if (!_film) {
 		return;
 	}
 
@@ -430,14 +401,14 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::NONE:
 		break;
 	case Film::CONTENT:
-		_content->SetPath (std_to_wx (_film->content ()));
+		checked_set (_content, _film->content ());
 		setup_visibility ();
 		setup_formats ();
-		setup_subtitle_button ();
+		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		break;
 	case Film::HAS_SUBTITLES:
-		setup_subtitle_button ();
+		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		break;
 	case Film::AUDIO_STREAMS:
@@ -452,15 +423,15 @@ FilmEditor::film_changed (Film::Property p)
 			++i;
 			++n;
 		}
-		_format->SetSelection (n);
+		checked_set (_format, n);
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	}
 	case Film::CROP:
-		_left_crop->SetValue (_film->crop().left);
-		_right_crop->SetValue (_film->crop().right);
-		_top_crop->SetValue (_film->crop().top);
-		_bottom_crop->SetValue (_film->crop().bottom);
+		checked_set (_left_crop, _film->crop().left);
+		checked_set (_right_crop, _film->crop().right);
+		checked_set (_top_crop, _film->crop().top);
+		checked_set (_bottom_crop, _film->crop().bottom);
 		break;
 	case Film::FILTERS:
 	{
@@ -475,7 +446,8 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	}
 	case Film::NAME:
-		_name->ChangeValue (std_to_wx (_film->name ()));
+		checked_set (_name, _film->name());
+		_film->set_dci_date_today ();
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::FRAMES_PER_SECOND:
@@ -506,58 +478,58 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		break;
 	case Film::DCP_CONTENT_TYPE:
-		_dcp_content_type->SetSelection (DCPContentType::as_index (_film->dcp_content_type ()));
+		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::THUMBS:
 		break;
 	case Film::DCP_AB:
-		_dcp_ab->SetValue (_film->dcp_ab ());
+		checked_set (_dcp_ab, _film->dcp_ab ());
 		break;
 	case Film::SCALER:
-		_scaler->SetSelection (Scaler::as_index (_film->scaler ()));
+		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
 		break;
 	case Film::DCP_TRIM_START:
-		_dcp_trim_start->SetValue (_film->dcp_trim_start());
+		checked_set (_dcp_trim_start, _film->dcp_trim_start());
 		break;
 	case Film::DCP_TRIM_END:
-		_dcp_trim_end->SetValue (_film->dcp_trim_end());
+		checked_set (_dcp_trim_end, _film->dcp_trim_end());
 		break;
 	case Film::AUDIO_GAIN:
-		_audio_gain->SetValue (_film->audio_gain ());
+		checked_set (_audio_gain, _film->audio_gain ());
 		break;
 	case Film::AUDIO_DELAY:
-		_audio_delay->SetValue (_film->audio_delay ());
+		checked_set (_audio_delay, _film->audio_delay ());
 		break;
 	case Film::STILL_DURATION:
-		_still_duration->SetValue (_film->still_duration ());
+		checked_set (_still_duration, _film->still_duration ());
 		break;
 	case Film::WITH_SUBTITLES:
-		_with_subtitles->SetValue (_film->with_subtitles ());
+		checked_set (_with_subtitles, _film->with_subtitles ());
 		_subtitle_scale->Enable (_film->with_subtitles ());
 		_subtitle_offset->Enable (_film->with_subtitles ());
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::SUBTITLE_OFFSET:
-		_subtitle_offset->SetValue (_film->subtitle_offset ());
+		checked_set (_subtitle_offset, _film->subtitle_offset ());
 		break;
 	case Film::SUBTITLE_SCALE:
-		_subtitle_scale->SetValue (_film->subtitle_scale() * 100);
+		checked_set (_subtitle_scale, _film->subtitle_scale() * 100);
 		break;
 	case Film::USE_DCI_NAME:
-		_use_dci_name->SetValue (_film->use_dci_name ());
+		checked_set (_use_dci_name, _film->use_dci_name ());
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::DCI_METADATA:
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::AUDIO_STREAM:
+		checked_set (_audio_stream, _film->audio_stream_index ());
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
-		_audio_stream->SetSelection (_film->audio_stream_index ());
 		setup_audio_details ();
 		break;
 	case Film::SUBTITLE_STREAM:
-		_subtitle_stream->SetSelection (_film->subtitle_stream_index ());
+		checked_set (_subtitle_stream, _film->subtitle_stream_index ());
 		break;
 	}
 }
@@ -570,15 +542,11 @@ FilmEditor::format_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::FORMAT;
 	int const n = _format->GetSelection ();
 	if (n >= 0) {
 		assert (n < int (_formats.size()));
 		_film->set_format (_formats[n]);
 	}
-	_ignore_changes = Film::NONE;
-
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 /** Called when the DCP content type widget has been changed */
@@ -589,14 +557,10 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::DCP_CONTENT_TYPE;
 	int const n = _dcp_content_type->GetSelection ();
 	if (n >= 0) {
 		_film->set_dcp_content_type (DCPContentType::from_index (n));
 	}
-	_ignore_changes = Film::NONE;
-
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 /** Sets the Film that we are editing */
@@ -667,11 +631,9 @@ FilmEditor::set_things_sensitive (bool s)
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);
-	_subtitle_stream->Enable (s);
 	_still_duration->Enable (s);
-	_with_subtitles->Enable (s);
-	_subtitle_offset->Enable (s);
-	_subtitle_scale->Enable (s);
+
+	setup_subtitle_control_sensitivity ();
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -692,12 +654,10 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::SCALER;
 	int const n = _scaler->GetSelection ();
 	if (n >= 0) {
 		_film->set_scaler (Scaler::from_index (n));
 	}
-	_ignore_changes = Film::NONE;
 }
 
 void
@@ -707,9 +667,7 @@ FilmEditor::audio_gain_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::AUDIO_GAIN;
 	_film->set_audio_gain (_audio_gain->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 void
@@ -719,9 +677,7 @@ FilmEditor::audio_delay_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::AUDIO_DELAY;
 	_film->set_audio_delay (_audio_delay->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 wxControl *
@@ -765,9 +721,7 @@ FilmEditor::still_duration_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::STILL_DURATION;
 	_film->set_still_duration (_still_duration->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 void
@@ -777,9 +731,7 @@ FilmEditor::dcp_trim_start_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::DCP_TRIM_START;
 	_film->set_dcp_trim_start (_dcp_trim_start->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 void
@@ -789,9 +741,7 @@ FilmEditor::dcp_trim_end_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::DCP_TRIM_END;
 	_film->set_dcp_trim_end (_dcp_trim_end->GetValue ());
-	_ignore_changes = Film::NONE;
 }
 
 void
@@ -856,21 +806,17 @@ FilmEditor::with_subtitles_toggled (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::WITH_SUBTITLES;
 	_film->set_with_subtitles (_with_subtitles->GetValue ());
-	_ignore_changes = Film::NONE;
-
-	_subtitle_scale->Enable (_film->with_subtitles ());
-	_subtitle_offset->Enable (_film->with_subtitles ());
 }
 
 void
-FilmEditor::setup_subtitle_button ()
+FilmEditor::setup_subtitle_control_sensitivity ()
 {
-	_with_subtitles->Enable (_film->has_subtitles ());
-	if (!_film->has_subtitles ()) {
-		_with_subtitles->SetValue (false);
-	}
+	bool const h = _film ? _film->has_subtitles() : false;
+	_with_subtitles->Enable (h);
+	_subtitle_stream->Enable (h);
+	_subtitle_offset->Enable (h);
+	_subtitle_scale->Enable (h);
 }
 
 void
@@ -880,11 +826,7 @@ FilmEditor::use_dci_name_toggled (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::USE_DCI_NAME;
 	_film->set_use_dci_name (_use_dci_name->GetValue ());
-	_ignore_changes = Film::NONE;
-
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 }
 
 void
@@ -924,12 +866,7 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::AUDIO_STREAM;
 	_film->set_audio_stream (_audio_stream->GetSelection ());
-	_ignore_changes = Film::NONE;
-
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
-	setup_audio_details ();
 }
 
 void
@@ -939,9 +876,7 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_ignore_changes = Film::SUBTITLE_STREAM;
 	_film->set_subtitle_stream (_subtitle_stream->GetSelection ());
-	_ignore_changes = Film::NONE;
 }
 
 void
