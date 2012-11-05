@@ -147,4 +147,6 @@ private:
 	std::vector<Format const *> _formats;
 
 	wxSizer* _sizer;
+
+	bool _generally_sensitive;
 };

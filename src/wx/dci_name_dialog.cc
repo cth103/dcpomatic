@@ -43,7 +43,7 @@ DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	_territory = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_territory, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Rating (e.g. 15");
+	add_label_to_sizer (table, this, "Rating (e.g. 15)");
 	_rating = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_rating, 1, wxEXPAND);
 

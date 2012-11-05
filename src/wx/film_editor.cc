@@ -57,6 +57,7 @@ using boost::shared_ptr;
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
 	, _film (f)
+	, _generally_sensitive (true)
 {
 	_sizer = new wxFlexGridSizer (2, 4, 4);
 	SetSizer (_sizer);
@@ -506,6 +507,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::WITH_SUBTITLES:
 		checked_set (_with_subtitles, _film->with_subtitles ());
+		_subtitle_stream->Enable (_film->with_subtitles ());
 		_subtitle_scale->Enable (_film->with_subtitles ());
 		_subtitle_offset->Enable (_film->with_subtitles ());
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
@@ -612,6 +614,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 void
 FilmEditor::set_things_sensitive (bool s)
 {
+	_generally_sensitive = s;
+	
 	_name->Enable (s);
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
@@ -812,7 +816,11 @@ FilmEditor::with_subtitles_toggled (wxCommandEvent &)
 void
 FilmEditor::setup_subtitle_control_sensitivity ()
 {
-	bool const h = _film ? _film->has_subtitles() : false;
+	bool h = false;
+	if (_generally_sensitive && _film) {
+		h = _film->has_subtitles();
+	}
+	
 	_with_subtitles->Enable (h);
 	_subtitle_stream->Enable (h);
 	_subtitle_offset->Enable (h);
