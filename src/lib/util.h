@@ -41,6 +41,8 @@ extern "C" {
 #define TIMING(...)
 #endif
 
+#define MAX_AUDIO_CHANNELS 6
+
 class Scaler;
 
 extern std::string seconds_to_hms (int);

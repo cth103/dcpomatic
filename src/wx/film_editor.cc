@@ -192,6 +192,11 @@ FilmEditor::connect_to_widgets ()
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_use_source_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
 	_use_external_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		_external_audio[i]->Connect (
+			wxID_ANY, wxEVT_COMMAND_FILEPICKER_CHANGED, wxCommandEventHandler (FilmEditor::external_audio_changed), 0, this
+			);
+	}
 }
 
 void
@@ -299,6 +304,8 @@ FilmEditor::make_audio_panel ()
 	_audio_sizer->Add (video_control (_use_external_audio));
 	_audio_sizer->AddSpacer (0);
 
+	assert (MAX_AUDIO_CHANNELS == 6);
+
 	char const * channels[] = {
 		"L",
 		"R",
@@ -308,10 +315,10 @@ FilmEditor::make_audio_panel ()
 		"Rs"
 	};
 
-	for (int i = 0; i < 6; ++i) {
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]);
-		_external_audio_channel[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), wxT ("Select Audio File"), wxT ("*.wav"));
-		_audio_sizer->Add (video_control (_external_audio_channel[i]), 1, wxEXPAND);
+		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), wxT ("Select Audio File"), wxT ("*.wav"));
+		_audio_sizer->Add (video_control (_external_audio[i]), 1, wxEXPAND);
 	}
 
 	_audio_gain->SetRange (-60, 60);
@@ -602,6 +609,19 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SUBTITLE_STREAM:
 		checked_set (_subtitle_stream, _film->subtitle_stream_index ());
 		break;
+	case Film::USE_SOURCE_AUDIO:
+		checked_set (_use_source_audio, _film->use_source_audio ());
+		checked_set (_use_external_audio, !_film->use_source_audio ());
+		setup_audio_control_sensitivity ();
+		break;
+	case Film::EXTERNAL_AUDIO:
+	{
+		vector<string> a = _film->external_audio ();
+		for (size_t i = 0; i < a.size() && i < MAX_AUDIO_CHANNELS; ++i) {
+			checked_set (_external_audio[i], a[i]);
+		}
+		break;
+	}
 	}
 }
 
@@ -661,6 +681,9 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_TRIM_START);
 	film_changed (Film::DCP_TRIM_END);
 	film_changed (Film::DCP_AB);
+	film_changed (Film::USE_SOURCE_AUDIO);
+	film_changed (Film::AUDIO_STREAM);
+	film_changed (Film::EXTERNAL_AUDIO);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
 	film_changed (Film::FRAMES_PER_SECOND);
@@ -907,8 +930,8 @@ FilmEditor::setup_audio_control_sensitivity ()
 	bool const external = _generally_sensitive && _use_external_audio->GetValue();
 
 	_audio_stream->Enable (source);
-	for (int i = 0; i < 6; ++i) {
-		_external_audio_channel[i]->Enable (external);
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		_external_audio[i]->Enable (external);
 	}
 }
 
@@ -993,5 +1016,17 @@ FilmEditor::active_jobs_changed (bool a)
 void
 FilmEditor::use_audio_changed (wxCommandEvent &)
 {
+	_film->set_use_source_audio (_use_source_audio->GetValue ());
 	setup_audio_control_sensitivity ();
+}
+
+void
+FilmEditor::external_audio_changed (wxCommandEvent &)
+{
+	vector<string> a;
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		a.push_back (wx_to_std (_external_audio[i]->GetPath()));
+	}
+
+	_film->set_external_audio (a);
 }

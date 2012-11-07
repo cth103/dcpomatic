@@ -120,7 +120,9 @@ public:
 		DCP_TRIM_START,
 		DCP_TRIM_END,
 		DCP_AB,
+		USE_SOURCE_AUDIO,
 		AUDIO_STREAM,
+		EXTERNAL_AUDIO,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
 		STILL_DURATION,
@@ -202,6 +204,11 @@ public:
 		return _dcp_ab;
 	}
 
+	bool use_source_audio () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _use_source_audio;
+	}
+
 	int audio_stream_index () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_stream;
@@ -211,6 +218,11 @@ public:
 		boost::mutex::scoped_lock lm (_state_mutex);
 		assert (_audio_stream < int (_audio_streams.size()));
 		return _audio_streams[_audio_stream];
+	}
+
+	std::vector<std::string> external_audio () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _external_audio;
 	}
 	
 	float audio_gain () const {
@@ -353,7 +365,9 @@ public:
 	void set_dcp_trim_start (int);
 	void set_dcp_trim_end (int);
 	void set_dcp_ab (bool);
+	void set_use_source_audio (bool);
 	void set_audio_stream (int);
+	void set_external_audio (std::vector<std::string>);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_still_duration (int);
@@ -432,8 +446,10 @@ private:
 	    has the specified filters and post-processing.
 	*/
 	bool _dcp_ab;
+	bool _use_source_audio;
 	/** An index into our _audio_streams vector for the stream to use for audio, or -1 if there is none */
 	int _audio_stream;
+	std::vector<std::string> _external_audio;
 	/** Gain to apply to audio in dB */
 	float _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */

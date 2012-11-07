@@ -86,6 +86,7 @@ Film::Film (string d, bool must_exist)
 	, _dcp_trim_start (0)
 	, _dcp_trim_end (0)
 	, _dcp_ab (false)
+	, _use_source_audio (true)
 	, _audio_stream (-1)
 	, _audio_gain (0)
 	, _audio_delay (0)
@@ -147,7 +148,9 @@ Film::Film (Film const & o)
 	, _dcp_trim_start    (o._dcp_trim_start)
 	, _dcp_trim_end      (o._dcp_trim_end)
 	, _dcp_ab            (o._dcp_ab)
+	, _use_source_audio  (o._use_source_audio)
 	, _audio_stream      (o._audio_stream)
+	, _external_audio    (o._external_audio)
 	, _audio_gain        (o._audio_gain)
 	, _audio_delay       (o._audio_delay)
 	, _still_duration    (o._still_duration)
@@ -418,7 +421,11 @@ Film::write_metadata () const
 	f << "dcp_trim_start " << _dcp_trim_start << "\n";
 	f << "dcp_trim_end " << _dcp_trim_end << "\n";
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
+	f << "use_source_audio " << (_use_source_audio ? "1" : "0") << "\n";
 	f << "selected_audio_stream " << _audio_stream << "\n";
+	for (vector<string>::const_iterator i = _external_audio.begin(); i != _external_audio.end(); ++i) {
+		f << "external_audio " << *i << "\n";
+	}
 	f << "audio_gain " << _audio_gain << "\n";
 	f << "audio_delay " << _audio_delay << "\n";
 	f << "still_duration " << _still_duration << "\n";
@@ -465,6 +472,11 @@ void
 Film::read_metadata ()
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
+
+	_external_audio.clear ();
+	_thumbs.clear ();
+	_audio_streams.clear ();
+	_subtitle_streams.clear ();
 	
 	ifstream f (file ("metadata").c_str());
 	multimap<string, string> kv = read_key_value (f);
@@ -501,8 +513,12 @@ Film::read_metadata ()
 			_dcp_trim_end = atoi (v.c_str ());
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
+		} else if (k == "use_source_audio") {
+			_use_source_audio = (v == "1");
 		} else if (k == "selected_audio_stream") {
 			_audio_stream = atoi (v.c_str ());
+		} else if (k == "external_audio") {
+			_external_audio.push_back (v);
 		} else if (k == "audio_gain") {
 			_audio_gain = atof (v.c_str ());
 		} else if (k == "audio_delay") {
@@ -723,11 +739,9 @@ Film::dcp_length () const
 string
 Film::dci_name () const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-	
 	stringstream d;
 
-	string fixed_name = to_upper_copy (_name);
+	string fixed_name = to_upper_copy (name());
 	for (size_t i = 0; i < fixed_name.length(); ++i) {
 		if (fixed_name[i] == ' ') {
 			fixed_name[i] = '-';
@@ -741,18 +755,18 @@ Film::dci_name () const
 
 	d << fixed_name << "_";
 
-	if (_dcp_content_type) {
-		d << _dcp_content_type->dci_name() << "_";
+	if (dcp_content_type()) {
+		d << dcp_content_type()->dci_name() << "_";
 	}
 
-	if (_format) {
-		d << _format->dci_name() << "_";
+	if (format()) {
+		d << format()->dci_name() << "_";
 	}
 
-	if (!_audio_language.empty ()) {
-		d << _audio_language;
-		if (!_subtitle_language.empty() && _with_subtitles) {
-			d << "-" << _subtitle_language;
+	if (!audio_language().empty ()) {
+		d << audio_language();
+		if (!subtitle_language().empty() && with_subtitles()) {
+			d << "-" << subtitle_language();
 		} else {
 			d << "-XX";
 		}
@@ -760,15 +774,15 @@ Film::dci_name () const
 		d << "_";
 	}
 
-	if (!_territory.empty ()) {
-		d << _territory;
-		if (!_rating.empty ()) {
-			d << "-" << _rating;
+	if (!territory().empty ()) {
+		d << territory();
+		if (!rating().empty ()) {
+			d << "-" << rating();
 		}
 		d << "_";
 	}
 
-	switch (_audio_streams[_audio_stream].channels()) {
+	switch (audio_channels()) {
 	case 1:
 		d << "10_";
 		break;
@@ -785,18 +799,18 @@ Film::dci_name () const
 
 	d << "2K_";
 
-	if (!_studio.empty ()) {
-		d << _studio << "_";
+	if (!studio().empty ()) {
+		d << studio() << "_";
 	}
 
 	d << boost::gregorian::to_iso_string (_dci_date) << "_";
 
-	if (!_facility.empty ()) {
-		d << _facility << "_";
+	if (!facility().empty ()) {
+		d << facility() << "_";
 	}
 
-	if (!_package_type.empty ()) {
-		d << _package_type;
+	if (!package_type().empty ()) {
+		d << package_type();
 	}
 
 	return d.str ();
@@ -1055,6 +1069,16 @@ Film::set_dcp_ab (bool a)
 }
 
 void
+Film::set_use_source_audio (bool s)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_use_source_audio = s;
+	}
+	signal_changed (USE_SOURCE_AUDIO);
+}
+
+void
 Film::set_audio_stream (int s)
 {
 	{
@@ -1062,6 +1086,16 @@ Film::set_audio_stream (int s)
 		_audio_stream = s;
 	}
 	signal_changed (AUDIO_STREAM);
+}
+
+void
+Film::set_external_audio (vector<string> a)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_external_audio = a;
+	}
+	signal_changed (EXTERNAL_AUDIO);
 }
 
 void
@@ -1321,11 +1355,23 @@ int
 Film::audio_channels () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	if (_audio_stream == -1) {
-		return 0;
-	}
 	
-	return _audio_streams[_audio_stream].channels ();
+	if (_use_source_audio) {
+		if (_audio_stream >= 0) {
+			return _audio_streams[_audio_stream].channels ();
+		}
+	} else {
+		int last_filled = -1;
+		for (size_t i = 0; i < _external_audio.size(); ++i) {
+			if (!_external_audio[i].empty()) {
+				last_filled = i;
+			}
+		}
+		
+		return last_filled + 1;
+	}
+
+	return 0;
 }
 
 void

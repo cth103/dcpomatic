@@ -148,3 +148,11 @@ checked_set (wxCheckBox* widget, bool value)
 		widget->SetValue (value);
 	}
 }
+
+void
+checked_set (wxRadioButton* widget, bool value)
+{
+	if (widget->GetValue() != value) {
+		widget->SetValue (value);
+	}
+}
