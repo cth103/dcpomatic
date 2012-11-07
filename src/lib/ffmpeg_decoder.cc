@@ -243,7 +243,7 @@ FFmpegDecoder::pass ()
 			process_video (_frame);
 		}
 
-		if (_audio_stream >= 0 && _opt->decode_audio) {
+		if (_audio_stream >= 0 && _opt->decode_audio && _film->use_source_audio()) {
 			while (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 				int const data_size = av_samples_get_buffer_size (
 					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
@@ -307,7 +307,7 @@ FFmpegDecoder::pass ()
 			}
 		}
 
-	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio) {
+	} else if (_audio_stream >= 0 && _packet.stream_index == _audio_stream && _opt->decode_audio && _film->use_source_audio()) {
 
 		int frame_finished;
 		if (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
