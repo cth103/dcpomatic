@@ -42,10 +42,6 @@ public:
 		return 0;
 	}
 
-	AVSampleFormat audio_sample_format () const {
-		return AV_SAMPLE_FMT_NONE;
-	}
-
 	int64_t audio_channel_layout () const {
 		return 0;
 	}

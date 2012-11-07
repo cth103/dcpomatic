@@ -573,3 +573,8 @@ FFmpegDecoder::stream_name (AVStream* s) const
 	return n.str ();
 }
 
+int
+FFmpegDecoder::bytes_per_audio_sample () const
+{
+	return av_get_bytes_per_sample (audio_sample_format ());
+}

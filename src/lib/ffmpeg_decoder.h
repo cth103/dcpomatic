@@ -60,7 +60,6 @@ public:
 	Size native_size () const;
 	int audio_channels () const;
 	int audio_sample_rate () const;
-	AVSampleFormat audio_sample_format () const;
 	int64_t audio_channel_layout () const;
 	bool has_subtitles () const;
 
@@ -75,6 +74,8 @@ private:
 	int time_base_denominator () const;
 	int sample_aspect_ratio_numerator () const;
 	int sample_aspect_ratio_denominator () const;
+	AVSampleFormat audio_sample_format () const;
+	int bytes_per_audio_sample () const;
 
 	void setup_general ();
 	void setup_video ();

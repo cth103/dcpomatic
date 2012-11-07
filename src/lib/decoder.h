@@ -65,8 +65,6 @@ public:
 	virtual int audio_channels () const = 0;
 	/** @return audio sampling rate in Hz */
 	virtual int audio_sample_rate () const = 0;
-	/** @return format of audio samples */
-	virtual AVSampleFormat audio_sample_format () const = 0;
 	virtual int64_t audio_channel_layout () const = 0;
 	virtual bool has_subtitles () const = 0;
 
@@ -111,8 +109,6 @@ protected:
 	void process_subtitle (boost::shared_ptr<TimedSubtitle>);
 	void repeat_last_video ();
 
-	int bytes_per_audio_sample () const;
-	
 	/** our Film */
 	boost::shared_ptr<Film> _film;
 	/** our options */

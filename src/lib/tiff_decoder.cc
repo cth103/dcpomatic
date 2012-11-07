@@ -114,13 +114,6 @@ TIFFDecoder::audio_sample_rate () const
 	return 0;
 }
 
-AVSampleFormat
-TIFFDecoder::audio_sample_format () const
-{
-	return AV_SAMPLE_FMT_NONE;
-}
-
-
 int64_t
 TIFFDecoder::audio_channel_layout () const
 {

@@ -243,9 +243,3 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _film->crop().left, p.y - _film->crop().top));
 	}
 }
-
-int
-Decoder::bytes_per_audio_sample () const
-{
-	return av_get_bytes_per_sample (audio_sample_format ());
-}
