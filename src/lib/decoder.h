@@ -107,7 +107,7 @@ protected:
 	virtual PixelFormat pixel_format () const = 0;
 	
 	void process_video (AVFrame *);
-	void process_audio (uint8_t *, int);
+	void process_audio (boost::shared_ptr<AudioBuffers>);
 	void process_subtitle (boost::shared_ptr<TimedSubtitle>);
 	void repeat_last_video ();
 

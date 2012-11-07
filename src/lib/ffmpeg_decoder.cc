@@ -250,7 +250,7 @@ FFmpegDecoder::pass ()
 					);
 
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				process_audio (_frame->data[0], data_size);
+				process_audio (deinterleave_audio (_frame->data[0], data_size));
 			}
 		}
 
@@ -341,15 +341,9 @@ FFmpegDecoder::pass ()
 						);
 					
 					if (s) {
-						/* hence bytes */
-						int const b = s * audio_channels() * bytes_per_audio_sample();
-						
-						/* XXX: this assumes that it won't be too much, and there are shaky assumptions
-						   that all sound representations are silent with memset()ed zero data.
-						*/
-						uint8_t silence[b];
-						memset (silence, 0, b);
-						process_audio (silence, b);
+						shared_ptr<AudioBuffers> audio (new AudioBuffers (audio_channels(), s));
+						audio->make_silent ();
+						process_audio (audio);
 					}
 				}
 
@@ -358,7 +352,7 @@ FFmpegDecoder::pass ()
 					);
 				
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				process_audio (_frame->data[0], data_size);
+				process_audio (deinterleave_audio (_frame->data[0], data_size));
 			}
 		}
 			
@@ -381,6 +375,71 @@ FFmpegDecoder::pass ()
 	
 	av_free_packet (&_packet);
 	return false;
+}
+
+shared_ptr<AudioBuffers>
+FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
+{
+	assert (_film->audio_channels());
+	assert (bytes_per_audio_sample());
+	
+	/* Deinterleave and convert to float */
+
+	assert ((size % (bytes_per_audio_sample() * audio_channels())) == 0);
+
+	int const total_samples = size / bytes_per_audio_sample();
+	int const frames = total_samples / _film->audio_channels();
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (audio_channels(), frames));
+
+	switch (audio_sample_format()) {
+	case AV_SAMPLE_FMT_S16:
+	{
+		int16_t* p = (int16_t *) data;
+		int sample = 0;
+		int channel = 0;
+		for (int i = 0; i < total_samples; ++i) {
+			audio->data(channel)[sample] = float(*p++) / (1 << 15);
+
+			++channel;
+			if (channel == _film->audio_channels()) {
+				channel = 0;
+				++sample;
+			}
+		}
+	}
+	break;
+
+	case AV_SAMPLE_FMT_S32:
+	{
+		int32_t* p = (int32_t *) data;
+		int sample = 0;
+		int channel = 0;
+		for (int i = 0; i < total_samples; ++i) {
+			audio->data(channel)[sample] = float(*p++) / (1 << 31);
+
+			++channel;
+			if (channel == _film->audio_channels()) {
+				channel = 0;
+				++sample;
+			}
+		}
+	}
+
+	case AV_SAMPLE_FMT_FLTP:
+	{
+		float* p = reinterpret_cast<float*> (data);
+		for (int i = 0; i < _film->audio_channels(); ++i) {
+			memcpy (audio->data(i), p, frames * sizeof(float));
+			p += frames;
+		}
+	}
+	break;
+
+	default:
+		assert (false);
+	}
+
+	return audio;
 }
 
 float

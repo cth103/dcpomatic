@@ -154,77 +154,13 @@ Decoder::go ()
  *  @param size Number of bytes of data.
  */
 void
-Decoder::process_audio (uint8_t* data, int size)
+Decoder::process_audio (shared_ptr<AudioBuffers> audio)
 {
-	/* XXX: could this be removed? */
-	if (size == 0) {
-		return;
-	}
-	
-	assert (_film->audio_channels());
-	assert (bytes_per_audio_sample());
-	
-	/* Deinterleave and convert to float */
-
-	assert ((size % (bytes_per_audio_sample() * audio_channels())) == 0);
-
-	int const total_samples = size / bytes_per_audio_sample();
-	int const frames = total_samples / _film->audio_channels();
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (audio_channels(), frames));
-
-	switch (audio_sample_format()) {
-	case AV_SAMPLE_FMT_S16:
-	{
-		int16_t* p = (int16_t *) data;
-		int sample = 0;
-		int channel = 0;
-		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = float(*p++) / (1 << 15);
-
-			++channel;
-			if (channel == _film->audio_channels()) {
-				channel = 0;
-				++sample;
-			}
-		}
-	}
-	break;
-
-	case AV_SAMPLE_FMT_S32:
-	{
-		int32_t* p = (int32_t *) data;
-		int sample = 0;
-		int channel = 0;
-		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = float(*p++) / (1 << 31);
-
-			++channel;
-			if (channel == _film->audio_channels()) {
-				channel = 0;
-				++sample;
-			}
-		}
-	}
-
-	case AV_SAMPLE_FMT_FLTP:
-	{
-		float* p = reinterpret_cast<float*> (data);
-		for (int i = 0; i < _film->audio_channels(); ++i) {
-			memcpy (audio->data(i), p, frames * sizeof(float));
-			p += frames;
-		}
-	}
-	break;
-
-	default:
-		assert (false);
-	}
-
 	/* Maybe apply gain */
 	if (_film->audio_gain() != 0) {
 		float const linear_gain = pow (10, _film->audio_gain() / 20);
-		for (int i = 0; i < _film->audio_channels(); ++i) {
-			for (int j = 0; j < frames; ++j) {
+		for (int i = 0; i < audio->channels(); ++i) {
+			for (int j = 0; j < audio->frames(); ++j) {
 				audio->data(i)[j] *= linear_gain;
 			}
 		}
