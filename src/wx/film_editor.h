@@ -76,17 +76,18 @@ private:
 	void still_duration_changed (wxCommandEvent &);
 	void audio_stream_changed (wxCommandEvent &);
 	void subtitle_stream_changed (wxCommandEvent &);
+	void use_audio_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
 
 	/* Button clicks */
 	void edit_filters_clicked (wxCommandEvent &);
-	void change_dcp_range_clicked (wxCommandEvent &);
 
 	void set_things_sensitive (bool);
 	void setup_formats ();
 	void setup_subtitle_control_sensitivity ();
+	void setup_audio_control_sensitivity ();
 	void setup_streams ();
 	void setup_audio_details ();
 	
@@ -130,7 +131,10 @@ private:
 	wxButton* _filters_button;
 	/** The Film's scaler */
 	wxComboBox* _scaler;
+	wxRadioButton* _use_source_audio;
 	wxComboBox* _audio_stream;
+	wxRadioButton* _use_external_audio;
+	wxFilePickerCtrl* _external_audio_channel[6];
 	/** The Film's audio gain */
 	wxSpinCtrl* _audio_gain;
 	/** A button to open the gain calculation dialogue */

@@ -190,6 +190,8 @@ FilmEditor::connect_to_widgets ()
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
 		);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
+	_use_source_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
+	_use_external_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
 }
 
 void
@@ -262,16 +264,6 @@ FilmEditor::make_audio_panel ()
 	_audio_panel->SetSizer (_audio_sizer);
 
 	{
-		video_control (add_label_to_sizer (_audio_sizer, _audio_panel, "Audio Stream"));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_audio_stream = new wxComboBox (_audio_panel, wxID_ANY);
-		s->Add (video_control (_audio_stream), 1);
-		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
-		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
-		_audio_sizer->Add (s, 1, wxEXPAND);
-	}
-
-	{
 		video_control (add_label_to_sizer (_audio_sizer, _audio_panel, "Audio Gain"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_gain = new wxSpinCtrl (_audio_panel);
@@ -290,6 +282,36 @@ FilmEditor::make_audio_panel ()
 		s->Add (video_control (_audio_delay), 1);
 		video_control (add_label_to_sizer (s, _audio_panel, "ms"));
 		_audio_sizer->Add (s);
+	}
+
+	{
+		_use_source_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use source audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+		_audio_sizer->Add (video_control (_use_source_audio));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_audio_stream = new wxComboBox (_audio_panel, wxID_ANY);
+		s->Add (video_control (_audio_stream), 1);
+		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
+		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
+		_audio_sizer->Add (s, 1, wxEXPAND);
+	}
+
+	_use_external_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use external audio"));
+	_audio_sizer->Add (video_control (_use_external_audio));
+	_audio_sizer->AddSpacer (0);
+
+	char const * channels[] = {
+		"L",
+		"R",
+		"C",
+		"Lfe",
+		"Ls",
+		"Rs"
+	};
+
+	for (int i = 0; i < 6; ++i) {
+		add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]);
+		_external_audio_channel[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), wxT ("Select Audio File"), wxT ("*.wav"));
+		_audio_sizer->Add (video_control (_external_audio_channel[i]), 1, wxEXPAND);
 	}
 
 	_audio_gain->SetRange (-60, 60);
@@ -685,6 +707,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_still_duration->Enable (s);
 
 	setup_subtitle_control_sensitivity ();
+	setup_audio_control_sensitivity ();
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -875,6 +898,21 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 }
 
 void
+FilmEditor::setup_audio_control_sensitivity ()
+{
+	_use_source_audio->Enable (_generally_sensitive);
+	_use_external_audio->Enable (_generally_sensitive);
+	
+	bool const source = _generally_sensitive && _use_source_audio->GetValue();
+	bool const external = _generally_sensitive && _use_external_audio->GetValue();
+
+	_audio_stream->Enable (source);
+	for (int i = 0; i < 6; ++i) {
+		_external_audio_channel[i]->Enable (external);
+	}
+}
+
+void
 FilmEditor::use_dci_name_toggled (wxCommandEvent &)
 {
 	if (!_film) {
@@ -950,4 +988,10 @@ void
 FilmEditor::active_jobs_changed (bool a)
 {
 	set_things_sensitive (!a);
+}
+
+void
+FilmEditor::use_audio_changed (wxCommandEvent &)
+{
+	setup_audio_control_sensitivity ();
 }
