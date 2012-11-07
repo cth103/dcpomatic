@@ -28,6 +28,8 @@
 #include <boost/signals2.hpp>
 #include "lib/film.h"
 
+class wxNotebook;
+
 class Film;
 
 /** @class FilmEditor
@@ -44,6 +46,11 @@ public:
 	boost::signals2::signal<void (std::string)> FileChanged;
 
 private:
+	void make_general_panel ();
+	void make_audio_panel ();
+	void make_subtitle_panel ();
+	void connect_to_widgets ();
+	
 	/* Handle changes to the view */
 	void name_changed (wxCommandEvent &);
 	void use_dci_name_toggled (wxCommandEvent &);
@@ -86,6 +93,14 @@ private:
 	wxControl* still_control (wxControl *);
 
 	void active_jobs_changed (bool);
+
+	wxNotebook* _notebook;
+	wxPanel* _general_panel;
+	wxSizer* _general_sizer;
+	wxPanel* _audio_panel;
+	wxSizer* _audio_sizer;
+	wxPanel* _subtitle_panel;
+	wxSizer* _subtitle_sizer;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -145,8 +160,6 @@ private:
 	std::list<wxControl*> _still_controls;
 
 	std::vector<Format const *> _formats;
-
-	wxSizer* _sizer;
 
 	bool _generally_sensitive;
 };
