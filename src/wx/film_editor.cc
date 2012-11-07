@@ -65,8 +65,10 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	_notebook = new wxNotebook (this, wxID_ANY);
 	s->Add (_notebook, 1);
 	
-	make_general_panel ();
-	_notebook->AddPage (_general_panel, _("General"), true);
+	make_film_panel ();
+	_notebook->AddPage (_film_panel, _("Film"), true);
+	make_video_panel ();
+	_notebook->AddPage (_video_panel, _("Video"), false);
 	make_audio_panel ();
 	_notebook->AddPage (_audio_panel, _("Audio"), false);
 	make_subtitle_panel ();
@@ -74,145 +76,89 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 
 	set_film (_film);
 	connect_to_widgets ();
+
+	JobManager::instance()->ActiveJobsChanged.connect (
+		bind (&FilmEditor::active_jobs_changed, this, _1)
+		);
 	
 	setup_visibility ();
 	setup_formats ();
 }
 
 void
-FilmEditor::make_general_panel ()
+FilmEditor::make_film_panel ()
 {
-	_general_panel = new wxPanel (_notebook);
-	_general_sizer = new wxFlexGridSizer (2, 4, 4);
-	_general_panel->SetSizer (_general_sizer);
+	_film_panel = new wxPanel (_notebook);
+	_film_sizer = new wxFlexGridSizer (2, 4, 4);
+	_film_panel->SetSizer (_film_sizer);
 
-	add_label_to_sizer (_general_sizer, _general_panel, "Name");
-	_name = new wxTextCtrl (_general_panel, wxID_ANY);
-	_general_sizer->Add (_name, 1, wxEXPAND);
+	add_label_to_sizer (_film_sizer, _film_panel, "Name");
+	_name = new wxTextCtrl (_film_panel, wxID_ANY);
+	_film_sizer->Add (_name, 1, wxEXPAND);
 
-	add_label_to_sizer (_general_sizer, _general_panel, "DCP Name");
-	_dcp_name = new wxStaticText (_general_panel, wxID_ANY, wxT (""));
-	_general_sizer->Add (_dcp_name, 0, wxALIGN_CENTER_VERTICAL | wxSHRINK);
+	add_label_to_sizer (_film_sizer, _film_panel, "DCP Name");
+	_dcp_name = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
+	_film_sizer->Add (_dcp_name, 0, wxALIGN_CENTER_VERTICAL | wxSHRINK);
 
-	_use_dci_name = new wxCheckBox (_general_panel, wxID_ANY, wxT ("Use DCI name"));
-	_general_sizer->Add (_use_dci_name, 1, wxEXPAND);
-	_edit_dci_button = new wxButton (_general_panel, wxID_ANY, wxT ("Details..."));
-	_general_sizer->Add (_edit_dci_button, 0);
+	_use_dci_name = new wxCheckBox (_film_panel, wxID_ANY, wxT ("Use DCI name"));
+	_film_sizer->Add (_use_dci_name, 1, wxEXPAND);
+	_edit_dci_button = new wxButton (_film_panel, wxID_ANY, wxT ("Details..."));
+	_film_sizer->Add (_edit_dci_button, 0);
 
-	add_label_to_sizer (_general_sizer, _general_panel, "Content");
-	_content = new wxFilePickerCtrl (_general_panel, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
-	_general_sizer->Add (_content, 1, wxEXPAND);
+	add_label_to_sizer (_film_sizer, _film_panel, "Content");
+	_content = new wxFilePickerCtrl (_film_panel, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
+	_film_sizer->Add (_content, 1, wxEXPAND);
 
-	add_label_to_sizer (_general_sizer, _general_panel, "Content Type");
-	_dcp_content_type = new wxComboBox (_general_panel, wxID_ANY);
-	_general_sizer->Add (_dcp_content_type);
+	add_label_to_sizer (_film_sizer, _film_panel, "Content Type");
+	_dcp_content_type = new wxComboBox (_film_panel, wxID_ANY);
+	_film_sizer->Add (_dcp_content_type);
 
-	add_label_to_sizer (_general_sizer, _general_panel, "Format");
-	_format = new wxComboBox (_general_panel, wxID_ANY);
-	_general_sizer->Add (_format);
-
-	{
-		add_label_to_sizer (_general_sizer, _general_panel, "Crop");
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-
-		add_label_to_sizer (s, _general_panel, "L");
-		_left_crop = new wxSpinCtrl (_general_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_left_crop, 0);
-		add_label_to_sizer (s, _general_panel, "R");
-		_right_crop = new wxSpinCtrl (_general_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_right_crop, 0);
-		add_label_to_sizer (s, _general_panel, "T");
-		_top_crop = new wxSpinCtrl (_general_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_top_crop, 0);
-		add_label_to_sizer (s, _general_panel, "B");
-		_bottom_crop = new wxSpinCtrl (_general_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_bottom_crop, 0);
-
-		_general_sizer->Add (s);
-	}
-
-	/* VIDEO-only stuff */
-	{
-		video_control (add_label_to_sizer (_general_sizer, _general_panel, "Filters"));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_filters = new wxStaticText (_general_panel, wxID_ANY, wxT ("None"));
-		video_control (_filters);
-		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-		_filters_button = new wxButton (_general_panel, wxID_ANY, wxT ("Edit..."));
-		video_control (_filters_button);
-		s->Add (_filters_button, 0);
-		_general_sizer->Add (s, 1);
-	}
-
-	video_control (add_label_to_sizer (_general_sizer, _general_panel, "Scaler"));
-	_scaler = new wxComboBox (_general_panel, wxID_ANY);
-	_general_sizer->Add (video_control (_scaler), 1);
-
-	video_control (add_label_to_sizer (_general_sizer, _general_panel, "Frames Per Second"));
-	_frames_per_second = new wxStaticText (_general_panel, wxID_ANY, wxT (""));
-	_general_sizer->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
+	video_control (add_label_to_sizer (_film_sizer, _film_panel, "Frames Per Second"));
+	_frames_per_second = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
+	_film_sizer->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
 	
-	video_control (add_label_to_sizer (_general_sizer, _general_panel, "Original Size"));
-	_original_size = new wxStaticText (_general_panel, wxID_ANY, wxT (""));
-	_general_sizer->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
+	video_control (add_label_to_sizer (_film_sizer, _film_panel, "Original Size"));
+	_original_size = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
+	_film_sizer->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
 	
-	video_control (add_label_to_sizer (_general_sizer, _general_panel, "Length"));
-	_length = new wxStaticText (_general_panel, wxID_ANY, wxT (""));
-	_general_sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
+	video_control (add_label_to_sizer (_film_sizer, _film_panel, "Length"));
+	_length = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
+	_film_sizer->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
 
 
 	{
-		video_control (add_label_to_sizer (_general_sizer, _general_panel, "Trim frames"));
+		video_control (add_label_to_sizer (_film_sizer, _film_panel, "Trim frames"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		add_label_to_sizer (s, _general_panel, "Start");
-		_dcp_trim_start = new wxSpinCtrl (_general_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		add_label_to_sizer (s, _film_panel, "Start");
+		_dcp_trim_start = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 		s->Add (_dcp_trim_start);
-		add_label_to_sizer (s, _general_panel, "End");
-		_dcp_trim_end = new wxSpinCtrl (_general_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		add_label_to_sizer (s, _film_panel, "End");
+		_dcp_trim_end = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 		s->Add (_dcp_trim_end);
 
-		_general_sizer->Add (s);
+		_film_sizer->Add (s);
 	}
 
-	_dcp_ab = new wxCheckBox (_general_panel, wxID_ANY, wxT ("A/B"));
+	_dcp_ab = new wxCheckBox (_film_panel, wxID_ANY, wxT ("A/B"));
 	video_control (_dcp_ab);
-	_general_sizer->Add (_dcp_ab, 1);
-	_general_sizer->AddSpacer (0);
+	_film_sizer->Add (_dcp_ab, 1);
+	_film_sizer->AddSpacer (0);
 
 	/* STILL-only stuff */
 	{
-		still_control (add_label_to_sizer (_general_sizer, _general_panel, "Duration"));
+		still_control (add_label_to_sizer (_film_sizer, _film_panel, "Duration"));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_still_duration = new wxSpinCtrl (_general_panel);
+		_still_duration = new wxSpinCtrl (_film_panel);
 		still_control (_still_duration);
 		s->Add (_still_duration, 1, wxEXPAND);
-		still_control (add_label_to_sizer (s, _general_panel, "s"));
-		_general_sizer->Add (s);
+		still_control (add_label_to_sizer (s, _film_panel, "s"));
+		_film_sizer->Add (s);
 	}
-
-	/* Set up our editing widgets */
-	
-	_left_crop->SetRange (0, 1024);
-	_top_crop->SetRange (0, 1024);
-	_right_crop->SetRange (0, 1024);
-	_bottom_crop->SetRange (0, 1024);
-	_still_duration->SetRange (0, 60 * 60);
-	_dcp_trim_start->SetRange (0, 100);
-	_dcp_trim_end->SetRange (0, 100);
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
 		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 	}
-
-	vector<Scaler const *> const sc = Scaler::all ();
-	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_scaler->Append (std_to_wx ((*i)->name()));
-	}
-
-	JobManager::instance()->ActiveJobsChanged.connect (
-		bind (&FilmEditor::active_jobs_changed, this, _1)
-		);
 }
 
 void
@@ -244,6 +190,68 @@ FilmEditor::connect_to_widgets ()
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
 		);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
+}
+
+void
+FilmEditor::make_video_panel ()
+{
+	_video_panel = new wxPanel (_notebook);
+	_video_sizer = new wxFlexGridSizer (2, 4, 4);
+	_video_panel->SetSizer (_video_sizer);
+
+	add_label_to_sizer (_video_sizer, _video_panel, "Format");
+	_format = new wxComboBox (_video_panel, wxID_ANY);
+	_video_sizer->Add (_format);
+
+	{
+		add_label_to_sizer (_video_sizer, _video_panel, "Crop");
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+
+		add_label_to_sizer (s, _video_panel, "L");
+		_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_left_crop, 0);
+		add_label_to_sizer (s, _video_panel, "R");
+		_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_right_crop, 0);
+		add_label_to_sizer (s, _video_panel, "T");
+		_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_top_crop, 0);
+		add_label_to_sizer (s, _video_panel, "B");
+		_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (_bottom_crop, 0);
+
+		_video_sizer->Add (s);
+	}
+
+	/* VIDEO-only stuff */
+	{
+		video_control (add_label_to_sizer (_video_sizer, _video_panel, "Filters"));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_filters = new wxStaticText (_video_panel, wxID_ANY, wxT ("None"));
+		video_control (_filters);
+		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		_filters_button = new wxButton (_video_panel, wxID_ANY, wxT ("Edit..."));
+		video_control (_filters_button);
+		s->Add (_filters_button, 0);
+		_video_sizer->Add (s, 1);
+	}
+
+	video_control (add_label_to_sizer (_video_sizer, _video_panel, "Scaler"));
+	_scaler = new wxComboBox (_video_panel, wxID_ANY);
+	_video_sizer->Add (video_control (_scaler), 1);
+
+	vector<Scaler const *> const sc = Scaler::all ();
+	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
+		_scaler->Append (std_to_wx ((*i)->name()));
+	}
+
+	_left_crop->SetRange (0, 1024);
+	_top_crop->SetRange (0, 1024);
+	_right_crop->SetRange (0, 1024);
+	_bottom_crop->SetRange (0, 1024);
+	_still_duration->SetRange (0, 60 * 60);
+	_dcp_trim_start->SetRange (0, 100);
+	_dcp_trim_end->SetRange (0, 100);
 }
 
 void
@@ -482,7 +490,7 @@ FilmEditor::film_changed (Film::Property p)
 			string const b = p.first + " " + p.second;
 			_filters->SetLabel (std_to_wx (b));
 		}
-		_general_sizer->Layout ();
+		_film_sizer->Layout ();
 		break;
 	}
 	case Film::NAME:
@@ -754,7 +762,7 @@ FilmEditor::setup_visibility ()
 		(*i)->Show (c == STILL);
 	}
 
-	_general_sizer->Layout ();
+	_film_sizer->Layout ();
 }
 
 void
@@ -839,7 +847,7 @@ FilmEditor::setup_formats ()
 		_format->Append (std_to_wx ((*i)->name ()));
 	}
 
-	_general_sizer->Layout ();
+	_film_sizer->Layout ();
 }
 
 void

@@ -46,7 +46,8 @@ public:
 	boost::signals2::signal<void (std::string)> FileChanged;
 
 private:
-	void make_general_panel ();
+	void make_film_panel ();
+	void make_video_panel ();
 	void make_audio_panel ();
 	void make_subtitle_panel ();
 	void connect_to_widgets ();
@@ -95,8 +96,10 @@ private:
 	void active_jobs_changed (bool);
 
 	wxNotebook* _notebook;
-	wxPanel* _general_panel;
-	wxSizer* _general_sizer;
+	wxPanel* _film_panel;
+	wxSizer* _film_sizer;
+	wxPanel* _video_panel;
+	wxSizer* _video_sizer;
 	wxPanel* _audio_panel;
 	wxSizer* _audio_sizer;
 	wxPanel* _subtitle_panel;
