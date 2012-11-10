@@ -36,9 +36,6 @@ class J2KStillEncoder : public Encoder
 public:
 	J2KStillEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);
 
-	void process_begin (int64_t audio_channel_layout) {}
-	void process_end () {}
-
 private:
 	void do_process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
 	void do_process_audio (boost::shared_ptr<const AudioBuffers>) {}

@@ -26,7 +26,7 @@ using namespace std;
 AudioStream::AudioStream (string t)
 {
 	stringstream n (t);
-	n >> _id >> _channels;
+	n >> _id >> _sample_rate >> _channel_layout;
 
 	for (int i = 0; i < 2; ++i) {
 		size_t const s = t.find (' ');
@@ -41,7 +41,7 @@ AudioStream::AudioStream (string t)
 string
 AudioStream::to_string () const
 {
-	return String::compose ("%1 %2 %3", _id, _channels, _name);
+	return String::compose ("%1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
 }
 
 SubtitleStream::SubtitleStream (string t)

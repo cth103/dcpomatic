@@ -55,7 +55,7 @@ public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
 
 	/** Called to indicate that a processing run is about to begin */
-	virtual void process_begin (int64_t audio_channel_layout) = 0;
+	virtual void process_begin () {}
 
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
@@ -68,7 +68,7 @@ public:
 	void process_audio (boost::shared_ptr<const AudioBuffers>, int64_t);
 
 	/** Called when a processing run has finished */
-	virtual void process_end () = 0;
+	virtual void process_end () {}
 
 	float current_frames_per_second () const;
 	bool skipping () const;

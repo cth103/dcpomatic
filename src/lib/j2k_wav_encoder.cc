@@ -58,20 +58,22 @@ J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const Options
 	, _audio_frames_written (0)
 	, _process_end (false)
 {
-	/* Create sound output files with .tmp suffixes; we will rename
-	   them if and when we complete.
-	*/
-	for (int i = 0; i < _film->audio_channels(); ++i) {
-		SF_INFO sf_info;
-		sf_info.samplerate = dcp_audio_sample_rate (_film->audio_sample_rate());
-		/* We write mono files */
-		sf_info.channels = 1;
-		sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
-		SNDFILE* f = sf_open (_opt->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
-		if (f == 0) {
-			throw CreateFileError (_opt->multichannel_audio_out_path (i, true));
+	if (_film->audio_stream()) {
+		/* Create sound output files with .tmp suffixes; we will rename
+		   them if and when we complete.
+		*/
+		for (int i = 0; i < _film->audio_channels(); ++i) {
+			SF_INFO sf_info;
+			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream().get().sample_rate());
+			/* We write mono files */
+			sf_info.channels = 1;
+			sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
+			SNDFILE* f = sf_open (_opt->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
+			if (f == 0) {
+				throw CreateFileError (_opt->multichannel_audio_out_path (i, true));
+			}
+			_sound_files.push_back (f);
 		}
-		_sound_files.push_back (f);
 	}
 }
 
@@ -225,24 +227,24 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 }
 
 void
-J2KWAVEncoder::process_begin (int64_t audio_channel_layout)
+J2KWAVEncoder::process_begin ()
 {
-	if (_film->audio_sample_rate() != _film->target_audio_sample_rate()) {
+	if (_film->audio_stream() && _film->audio_stream().get().sample_rate() != _film->target_audio_sample_rate()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << "Will resample audio from " << _film->audio_sample_rate() << " to " << _film->target_audio_sample_rate();
+		s << "Will resample audio from " << _film->audio_stream().get().sample_rate() << " to " << _film->target_audio_sample_rate();
 		_film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the resampler */
 		_swr_context = swr_alloc_set_opts (
 			0,
-			audio_channel_layout,
+			_film->audio_stream().get().channel_layout(),
 			AV_SAMPLE_FMT_FLTP,
 			_film->target_audio_sample_rate(),
-			audio_channel_layout,
+			_film->audio_stream().get().channel_layout(),
 			AV_SAMPLE_FMT_FLTP,
-			_film->audio_sample_rate(),
+			_film->audio_stream().get().sample_rate(),
 			0, 0
 			);
 		
@@ -310,9 +312,9 @@ J2KWAVEncoder::process_end ()
 	}
 
 #if HAVE_SWRESAMPLE	
-	if (_swr_context) {
+	if (_film->audio_stream() && _swr_context) {
 
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_channels(), 256));
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream().get().channels(), 256));
 			
 		while (1) {
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
@@ -333,20 +335,22 @@ J2KWAVEncoder::process_end ()
 	}
 #endif
 
-	int const dcp_sr = dcp_audio_sample_rate (_film->audio_sample_rate ());
-	int64_t const extra_audio_frames = dcp_sr - (_audio_frames_written % dcp_sr);
-	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), extra_audio_frames));
-	silence->make_silent ();
-	write_audio (silence);
-	
-	close_sound_files ();
-
-	/* Rename .wav.tmp files to .wav */
-	for (int i = 0; i < _film->audio_channels(); ++i) {
-		if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
-			boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
+	if (_film->audio_stream()) {
+		int const dcp_sr = dcp_audio_sample_rate (_film->audio_stream().get().sample_rate ());
+		int64_t const extra_audio_frames = dcp_sr - (_audio_frames_written % dcp_sr);
+		shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_stream().get().channels(), extra_audio_frames));
+		silence->make_silent ();
+		write_audio (silence);
+		
+		close_sound_files ();
+		
+		/* Rename .wav.tmp files to .wav */
+		for (int i = 0; i < _film->audio_channels(); ++i) {
+			if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
+				boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
+			}
+			boost::filesystem::rename (_opt->multichannel_audio_out_path (i, true), _opt->multichannel_audio_out_path (i, false));
 		}
-		boost::filesystem::rename (_opt->multichannel_audio_out_path (i, true), _opt->multichannel_audio_out_path (i, false));
 	}
 }
 
@@ -360,9 +364,9 @@ J2KWAVEncoder::do_process_audio (shared_ptr<const AudioBuffers> audio)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil (audio->frames() * _film->target_audio_sample_rate() / _film->audio_sample_rate()) + 32;
+		int const max_resampled_frames = ceil (audio->frames() * _film->target_audio_sample_rate() / _film->audio_stream().get().sample_rate()) + 32;
 
-		resampled.reset (new AudioBuffers (_film->audio_channels(), max_resampled_frames));
+		resampled.reset (new AudioBuffers (_film->audio_stream().get().channels(), max_resampled_frames));
 
 		/* Resample audio */
 		int const resampled_frames = swr_convert (

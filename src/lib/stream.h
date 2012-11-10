@@ -20,6 +20,11 @@
 #ifndef DVDOMATIC_STREAM_H
 #define DVDOMATIC_STREAM_H
 
+#include <stdint.h>
+extern "C" {
+#include <libavutil/audioconvert.h>
+}
+
 class Stream
 {
 public:
@@ -52,19 +57,29 @@ struct AudioStream : public Stream
 public:
 	AudioStream (std::string t);
 	
-	AudioStream (std::string n, int i, int c)
-		: Stream (n, i)
-		, _channels (c)
+	AudioStream (std::string n, int id, int r, int64_t l)
+		: Stream (n, id)
+		, _sample_rate (r)
+		, _channel_layout (l)
 	{}
 
 	std::string to_string () const;
 
 	int channels () const {
-		return _channels;
+		return av_get_channel_layout_nb_channels (_channel_layout);
+	}
+
+	int sample_rate () const {
+		return _sample_rate;
+	}
+
+	int64_t channel_layout () const {
+		return _channel_layout;
 	}
 
 private:
-	int _channels;
+	int _sample_rate;
+	int64_t _channel_layout;
 };
 
 class SubtitleStream : public Stream

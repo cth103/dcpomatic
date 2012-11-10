@@ -29,6 +29,7 @@
 #include "transcoder.h"
 #include "encoder.h"
 #include "decoder_factory.h"
+#include "film.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -45,6 +46,10 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 	, _decoder (decoder_factory (f, o, j))
 {
 	assert (_encoder);
+
+	/* Set up the decoder to use the film's set streams */
+	_decoder->set_audio_stream (f->audio_stream ());
+	_decoder->set_subtitle_stream (f->subtitle_stream ());
 	
 	_decoder->Video.connect (bind (&Encoder::process_video, e, _1, _2, _3));
 	_decoder->Audio.connect (bind (&Encoder::process_audio, e, _1, _2));
@@ -56,7 +61,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 void
 Transcoder::go ()
 {
-	_encoder->process_begin (_decoder->audio_channel_layout());
+	_encoder->process_begin ();
 	try {
 		_decoder->go ();
 	} catch (...) {

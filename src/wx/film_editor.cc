@@ -46,6 +46,7 @@
 #include "scaler.h"
 
 using std::string;
+using std::cout;
 using std::stringstream;
 using std::pair;
 using std::fixed;
@@ -484,12 +485,9 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		break;
-	case Film::HAS_SUBTITLES:
-		setup_subtitle_control_sensitivity ();
-		setup_streams ();
-		break;
 	case Film::AUDIO_STREAMS:
 	case Film::SUBTITLE_STREAMS:
+		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		break;
 	case Film::FORMAT:
@@ -530,9 +528,6 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::FRAMES_PER_SECOND:
 		s << fixed << setprecision(2) << _film->frames_per_second();
 		_frames_per_second->SetLabel (std_to_wx (s.str ()));
-		break;
-	case Film::AUDIO_SAMPLE_RATE:
-		setup_audio_details ();
 		break;
 	case Film::SIZE:
 		if (_film->size().width == 0 && _film->size().height == 0) {
@@ -602,12 +597,16 @@ FilmEditor::film_changed (Film::Property p)
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::AUDIO_STREAM:
-		checked_set (_audio_stream, _film->audio_stream_index ());
+		if (_film->audio_stream()) {
+			checked_set (_audio_stream, _film->audio_stream().get().to_string());
+		}
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		setup_audio_details ();
 		break;
 	case Film::SUBTITLE_STREAM:
-		checked_set (_subtitle_stream, _film->subtitle_stream_index ());
+		if (_film->subtitle_stream()) {
+			checked_set (_subtitle_stream, _film->subtitle_stream().get().to_string());
+		}
 		break;
 	case Film::USE_SOURCE_AUDIO:
 		checked_set (_use_source_audio, _film->use_source_audio ());
@@ -687,13 +686,11 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
 	film_changed (Film::FRAMES_PER_SECOND);
-	film_changed (Film::AUDIO_SAMPLE_RATE);
 	film_changed (Film::SCALER);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::STILL_DURATION);
 	film_changed (Film::WITH_SUBTITLES);
-	film_changed (Film::HAS_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
 	film_changed (Film::USE_DCI_NAME);
@@ -911,7 +908,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 {
 	bool h = false;
 	if (_generally_sensitive && _film) {
-		h = _film->has_subtitles();
+		h = !_film->subtitle_streams().empty();
 	}
 	
 	_with_subtitles->Enable (h);
@@ -963,16 +960,21 @@ FilmEditor::setup_streams ()
 	_audio_stream->Clear ();
 	vector<AudioStream> a = _film->audio_streams ();
 	for (vector<AudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
-		_audio_stream->Append (std_to_wx (i->name()));
+		_audio_stream->Append (std_to_wx (i->name()), new wxStringClientData (std_to_wx (i->to_string ())));
 	}
-	_audio_stream->SetSelection (_film->audio_stream_index ());
+	
+	if (_film->audio_stream()) {
+		checked_set (_audio_stream, _film->audio_stream().get().to_string());
+	}
 
 	_subtitle_stream->Clear ();
 	vector<SubtitleStream> s = _film->subtitle_streams ();
 	for (vector<SubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
-		_subtitle_stream->Append (std_to_wx (i->name()));
+		_subtitle_stream->Append (std_to_wx (i->name()), new wxStringClientData (std_to_wx (i->to_string ())));
 	}
-	_subtitle_stream->SetSelection (_film->subtitle_stream_index ());
+	if (_film->subtitle_stream()) {
+		checked_set (_subtitle_stream, _film->subtitle_stream().get().to_string());
+	}
 }
 
 void
@@ -982,7 +984,7 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_film->set_audio_stream (_audio_stream->GetSelection ());
+	_film->set_audio_stream (AudioStream (string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ()))));
 }
 
 void
@@ -992,17 +994,17 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_film->set_subtitle_stream (_subtitle_stream->GetSelection ());
+	_film->set_subtitle_stream (SubtitleStream (string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ()))));
 }
 
 void
 FilmEditor::setup_audio_details ()
 {
-	if (_film->audio_channels() == 0 && _film->audio_sample_rate() == 0) {
+	if (!_film->audio_stream()) {
 		_audio->SetLabel (wxT (""));
 	} else {
 		stringstream s;
-		s << _film->audio_channels () << " channels, " << _film->audio_sample_rate() << "Hz";
+		s << _film->audio_stream().get().channels () << " channels, " << _film->audio_stream().get().sample_rate() << "Hz";
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }

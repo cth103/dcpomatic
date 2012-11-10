@@ -61,12 +61,6 @@ public:
 	virtual float frames_per_second () const = 0;
 	/** @return native size in pixels */
 	virtual Size native_size () const = 0;
-	/** @return number of audio channels */
-	virtual int audio_channels () const = 0;
-	/** @return audio sampling rate in Hz */
-	virtual int audio_sample_rate () const = 0;
-	virtual int64_t audio_channel_layout () const = 0;
-	virtual bool has_subtitles () const = 0;
 
 	virtual int time_base_numerator () const = 0;
 	virtual int time_base_denominator () const = 0;
@@ -82,12 +76,23 @@ public:
 		return _video_frame;
 	}
 
-	virtual std::vector<AudioStream> audio_streams () const {
-		return std::vector<AudioStream> ();
+	virtual void set_audio_stream (boost::optional<AudioStream>);
+	virtual void set_subtitle_stream (boost::optional<SubtitleStream>);
+
+	boost::optional<AudioStream> audio_stream () const {
+		return _audio_stream;
+	}
+
+	boost::optional<SubtitleStream> subtitle_stream () const {
+		return _subtitle_stream;
+	}
+
+	std::vector<AudioStream> audio_streams () const {
+		return _audio_streams;
 	}
 	
-	virtual std::vector<SubtitleStream> subtitle_streams () const {
-		return std::vector<SubtitleStream> ();
+	std::vector<SubtitleStream> subtitle_streams () const {
+		return _subtitle_streams;
 	}
 
 	/** Emitted when a video frame is ready.
@@ -116,13 +121,19 @@ protected:
 	/** associated Job, or 0 */
 	Job* _job;
 
+	boost::optional<AudioStream> _audio_stream;
+	boost::optional<SubtitleStream> _subtitle_stream;
+
+	std::vector<AudioStream> _audio_streams;
+	std::vector<SubtitleStream> _subtitle_streams;
+	
 private:
 	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 	void emit_audio (boost::shared_ptr<AudioBuffers>);
 
 	SourceFrame _video_frame;
 	int64_t _audio_frame;
-	
+
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 
 	DelayLine* _delay_line;

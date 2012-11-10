@@ -411,21 +411,21 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	shared_ptr<Film> f = new_test_film ("audio_sampling_rate_test");
 	f->set_frames_per_second (24);
 
-	f->set_audio_sample_rate (48000);
+	f->set_audio_stream (AudioStream ("a", 42, 48000, 0));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
 
-	f->set_audio_sample_rate (44100);
+	f->set_audio_stream (AudioStream ("a", 42, 44100, 0));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
 
-	f->set_audio_sample_rate (80000);
+	f->set_audio_stream (AudioStream ("a", 42, 80000, 0));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 96000);
 
 	f->set_frames_per_second (23.976);
-	f->set_audio_sample_rate (48000);
+	f->set_audio_stream (AudioStream ("a", 42, 48000, 0));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
 
 	f->set_frames_per_second (29.97);
-	f->set_audio_sample_rate (48000);
+	f->set_audio_stream (AudioStream ("a", 42, 48000, 0));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
 }
 

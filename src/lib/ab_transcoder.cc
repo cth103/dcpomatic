@@ -100,7 +100,7 @@ ABTranscoder::process_video (shared_ptr<Image> yuv, SourceFrame frame, shared_pt
 void
 ABTranscoder::go ()
 {
-	_encoder->process_begin (_da->audio_channel_layout());
+	_encoder->process_begin ();
 	_da->process_begin ();
 	_db->process_begin ();
 	

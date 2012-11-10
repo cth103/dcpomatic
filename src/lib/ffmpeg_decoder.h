@@ -58,13 +58,9 @@ public:
 	/* Methods to query our input video */
 	float frames_per_second () const;
 	Size native_size () const;
-	int audio_channels () const;
-	int audio_sample_rate () const;
-	int64_t audio_channel_layout () const;
-	bool has_subtitles () const;
 
-	std::vector<AudioStream> audio_streams () const;
-	std::vector<SubtitleStream> subtitle_streams () const;
+	void set_audio_stream (boost::optional<AudioStream>);
+	void set_subtitle_stream (boost::optional<SubtitleStream>);
 
 private:
 
@@ -89,14 +85,9 @@ private:
 
 	AVFormatContext* _format_context;
 	int _video_stream;
-	int _audio_stream; ///< may be < 0 if there is no audio
-	int _subtitle_stream; ///< may be < 0 if there is no subtitle
 	
 	AVFrame* _frame;
 
-	std::vector<AudioStream> _audio_streams;
-	std::vector<SubtitleStream> _subtitle_streams;
-	
 	AVCodecContext* _video_codec_context;
 	AVCodec* _video_codec;
 	AVCodecContext* _audio_codec_context;    ///< may be 0 if there is no audio

@@ -43,6 +43,7 @@ using std::min;
 using std::pair;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
 
 /** @param f Film.
  *  @param o Options.
@@ -73,31 +74,33 @@ Decoder::~Decoder ()
 void
 Decoder::process_begin ()
 {
-	_delay_in_frames = _film->audio_delay() * audio_sample_rate() / 1000;
-	_delay_line = new DelayLine (audio_channels(), _delay_in_frames);
+	if (_audio_stream) {
+		_delay_in_frames = _film->audio_delay() * _audio_stream.get().sample_rate() / 1000;
+		_delay_line = new DelayLine (_audio_stream.get().channels(), _delay_in_frames);
+	}
 }
 
 /** Finish off a decode processing run */
 void
 Decoder::process_end ()
 {
-	if (_delay_in_frames < 0 && _opt->decode_audio && audio_channels()) {
-		shared_ptr<AudioBuffers> b (new AudioBuffers (audio_channels(), -_delay_in_frames));
+	if (_delay_in_frames < 0 && _opt->decode_audio && _audio_stream) {
+		shared_ptr<AudioBuffers> b (new AudioBuffers (_audio_stream.get().channels(), -_delay_in_frames));
 		b->make_silent ();
 		emit_audio (b);
 	}
 
-	if (_opt->decode_audio && audio_channels()) {
+	if (_opt->decode_audio && _audio_stream) {
 
 		/* Ensure that our video and audio emissions are the same length */
 
-		int64_t audio_short_by_frames = video_frames_to_audio_frames (_video_frame, audio_sample_rate(), frames_per_second()) - _audio_frame;
+		int64_t audio_short_by_frames = video_frames_to_audio_frames (_video_frame, _audio_stream.get().sample_rate(), frames_per_second()) - _audio_frame;
 
 		_film->log()->log (
 			String::compose (
 				"Decoder has emitted %1 video frames (which equals %2 audio frames) and %3 audio frames",
 				_video_frame,
-				video_frames_to_audio_frames (_video_frame, audio_sample_rate(), frames_per_second()),
+				video_frames_to_audio_frames (_video_frame, _audio_stream.get().sample_rate(), frames_per_second()),
 				_audio_frame
 				)
 			);
@@ -107,7 +110,7 @@ Decoder::process_end ()
 			_film->log()->log (String::compose ("Emitted %1 too many audio frames", -audio_short_by_frames));
 			
 			/* We have emitted more audio than video.  Emit enough black video frames so that we reverse this */
-			int const black_video_frames = ceil (-audio_short_by_frames * frames_per_second() / audio_sample_rate());
+			int const black_video_frames = ceil (-audio_short_by_frames * frames_per_second() / _audio_stream.get().sample_rate());
 
 			_film->log()->log (String::compose ("Emitting %1 frames of black video", black_video_frames));
 
@@ -118,12 +121,12 @@ Decoder::process_end ()
 			}
 
 			/* Now recompute our check value */
-			audio_short_by_frames = video_frames_to_audio_frames (_video_frame, audio_sample_rate(), frames_per_second()) - _audio_frame;
+			audio_short_by_frames = video_frames_to_audio_frames (_video_frame, _audio_stream.get().sample_rate(), frames_per_second()) - _audio_frame;
 		}
 	
 		if (audio_short_by_frames > 0) {
 			_film->log()->log (String::compose ("Emitted %1 too few audio frames", audio_short_by_frames));
-			shared_ptr<AudioBuffers> b (new AudioBuffers (audio_channels(), audio_short_by_frames));
+			shared_ptr<AudioBuffers> b (new AudioBuffers (_audio_stream.get().channels(), audio_short_by_frames));
 			b->make_silent ();
 			emit_audio (b);
 		}
@@ -242,4 +245,16 @@ Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
 		Position const p = _timed_subtitle->subtitle()->position ();
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _film->crop().left, p.y - _film->crop().top));
 	}
+}
+
+void
+Decoder::set_audio_stream (optional<AudioStream> s)
+{
+	_audio_stream = s;
+}
+
+void
+Decoder::set_subtitle_stream (optional<SubtitleStream> s)
+{
+	_subtitle_stream = s;
 }

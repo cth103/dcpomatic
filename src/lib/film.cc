@@ -69,6 +69,7 @@ using boost::lexical_cast;
 using boost::to_upper_copy;
 using boost::ends_with;
 using boost::starts_with;
+using boost::optional;
 
 /** Construct a Film object in a given directory, reading any metadata
  *  file that exists in that directory.  An exception will be thrown if
@@ -87,16 +88,12 @@ Film::Film (string d, bool must_exist)
 	, _dcp_trim_end (0)
 	, _dcp_ab (false)
 	, _use_source_audio (true)
-	, _audio_stream (-1)
 	, _audio_gain (0)
 	, _audio_delay (0)
 	, _still_duration (10)
-	, _subtitle_stream (-1)
 	, _with_subtitles (false)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
-	, _audio_sample_rate (0)
-	, _has_subtitles (false)
 	, _frames_per_second (0)
 	, _dirty (false)
 {
@@ -168,9 +165,7 @@ Film::Film (Film const & o)
 	, _thumbs            (o._thumbs)
 	, _size              (o._size)
 	, _length            (o._length)
-	, _audio_sample_rate (o._audio_sample_rate)
 	, _content_digest    (o._content_digest)
-	, _has_subtitles     (o._has_subtitles)
 	, _audio_streams     (o._audio_streams)
 	, _subtitle_streams  (o._subtitle_streams)
 	, _frames_per_second (o._frames_per_second)
@@ -263,10 +258,12 @@ Film::make_dcp (bool transcode)
 	o->ratio = format()->ratio_as_float (shared_from_this ());
 	if (dcp_length ()) {
 		o->video_decode_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
-		o->audio_decode_range = make_pair (
-			video_frames_to_audio_frames (o->video_decode_range.get().first, audio_sample_rate(), frames_per_second()),
-			video_frames_to_audio_frames (o->video_decode_range.get().second, audio_sample_rate(), frames_per_second())
-			);
+		if (audio_stream()) {
+			o->audio_decode_range = make_pair (
+				video_frames_to_audio_frames (o->video_decode_range.get().first, audio_stream().get().sample_rate(), frames_per_second()),
+				video_frames_to_audio_frames (o->video_decode_range.get().second, audio_stream().get().sample_rate(), frames_per_second())
+				);
+		}
 			
 	}
 	o->decode_subtitles = with_subtitles ();
@@ -422,14 +419,18 @@ Film::write_metadata () const
 	f << "dcp_trim_end " << _dcp_trim_end << "\n";
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
 	f << "use_source_audio " << (_use_source_audio ? "1" : "0") << "\n";
-	f << "selected_audio_stream " << _audio_stream << "\n";
+	if (_audio_stream) {
+		f << "selected_audio_stream " << _audio_stream.get().to_string() << "\n";
+	}
 	for (vector<string>::const_iterator i = _external_audio.begin(); i != _external_audio.end(); ++i) {
 		f << "external_audio " << *i << "\n";
 	}
 	f << "audio_gain " << _audio_gain << "\n";
 	f << "audio_delay " << _audio_delay << "\n";
 	f << "still_duration " << _still_duration << "\n";
-	f << "selected_subtitle_stream " << _subtitle_stream << "\n";
+	if (_subtitle_stream) {
+		f << "selected_subtitle_stream " << _subtitle_stream.get().to_string() << "\n";
+	}
 	f << "with_subtitles " << _with_subtitles << "\n";
 	f << "subtitle_offset " << _subtitle_offset << "\n";
 	f << "subtitle_scale " << _subtitle_scale << "\n";
@@ -450,9 +451,7 @@ Film::write_metadata () const
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
 	f << "length " << _length.get_value_or(0) << "\n";
-	f << "audio_sample_rate " << _audio_sample_rate << "\n";
 	f << "content_digest " << _content_digest << "\n";
-	f << "has_subtitles " << _has_subtitles << "\n";
 
 	for (vector<AudioStream>::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
 		f << "audio_stream " << i->to_string () << "\n";
@@ -516,7 +515,7 @@ Film::read_metadata ()
 		} else if (k == "use_source_audio") {
 			_use_source_audio = (v == "1");
 		} else if (k == "selected_audio_stream") {
-			_audio_stream = atoi (v.c_str ());
+			_audio_stream = AudioStream (v);
 		} else if (k == "external_audio") {
 			_external_audio.push_back (v);
 		} else if (k == "audio_gain") {
@@ -526,7 +525,7 @@ Film::read_metadata ()
 		} else if (k == "still_duration") {
 			_still_duration = atoi (v.c_str ());
 		} else if (k == "selected_subtitle_stream") {
-			_subtitle_stream = atoi (v.c_str ());
+			_subtitle_stream = SubtitleStream (v);
 		} else if (k == "with_subtitles") {
 			_with_subtitles = (v == "1");
 		} else if (k == "subtitle_offset") {
@@ -565,12 +564,8 @@ Film::read_metadata ()
 			if (vv) {
 				_length = vv;
 			}
-		} else if (k == "audio_sample_rate") {
-			_audio_sample_rate = atoi (v.c_str ());
 		} else if (k == "content_digest") {
 			_content_digest = v;
-		} else if (k == "has_subtitles") {
-			_has_subtitles = (v == "1");
 		} else if (k == "audio_stream") {
 			_audio_streams.push_back (AudioStream (v));
 		} else if (k == "subtitle_stream") {
@@ -711,7 +706,7 @@ int
 Film::target_audio_sample_rate () const
 {
 	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_sample_rate (audio_sample_rate());
+	double t = dcp_audio_sample_rate (audio_stream().get().sample_rate());
 
 	DCPFrameRate dfr = dcp_frame_rate (frames_per_second ());
 
@@ -892,6 +887,9 @@ Film::set_content (string c)
 		_content = c;
 	}
 
+	_audio_stream = optional<AudioStream> ();
+	_subtitle_stream = optional<SubtitleStream> ();
+
 	/* Create a temporary decoder so that we can get information
 	   about the content.
 	*/
@@ -904,12 +902,17 @@ Film::set_content (string c)
 		
 		set_size (d->native_size ());
 		set_frames_per_second (d->frames_per_second ());
-		set_audio_sample_rate (d->audio_sample_rate ());
-		set_has_subtitles (d->has_subtitles ());
 		set_audio_streams (d->audio_streams ());
 		set_subtitle_streams (d->subtitle_streams ());
-		set_audio_stream (audio_streams().empty() ? -1 : 0);
-		set_subtitle_stream (subtitle_streams().empty() ? -1 : 0);
+
+		/* Start off with the first audio and subtitle streams */
+		if (!d->audio_streams().empty()) {
+			set_audio_stream (d->audio_streams().front());
+		}
+		
+		if (!d->subtitle_streams().empty()) {
+			set_subtitle_stream (d->subtitle_streams().front());
+		}
 		
 		{
 			boost::mutex::scoped_lock lm (_state_mutex);
@@ -1079,7 +1082,7 @@ Film::set_use_source_audio (bool s)
 }
 
 void
-Film::set_audio_stream (int s)
+Film::set_audio_stream (optional<AudioStream> s)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
@@ -1129,7 +1132,7 @@ Film::set_still_duration (int d)
 }
 
 void
-Film::set_subtitle_stream (int s)
+Film::set_subtitle_stream (optional<SubtitleStream> s)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
@@ -1279,16 +1282,6 @@ Film::unset_length ()
 }	
 
 void
-Film::set_audio_sample_rate (int r)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_audio_sample_rate = r;
-	}
-	signal_changed (AUDIO_SAMPLE_RATE);
-}
-
-void
 Film::set_content_digest (string d)
 {
 	{
@@ -1296,16 +1289,6 @@ Film::set_content_digest (string d)
 		_content_digest = d;
 	}
 	_dirty = true;
-}
-
-void
-Film::set_has_subtitles (bool s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_has_subtitles = s;
-	}
-	signal_changed (HAS_SUBTITLES);
 }
 
 void
@@ -1357,8 +1340,8 @@ Film::audio_channels () const
 	boost::mutex::scoped_lock lm (_state_mutex);
 	
 	if (_use_source_audio) {
-		if (_audio_stream >= 0) {
-			return _audio_streams[_audio_stream].channels ();
+		if (_audio_stream) {
+			return _audio_stream.get().channels ();
 		}
 	} else {
 		int last_filled = -1;

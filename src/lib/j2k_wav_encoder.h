@@ -50,7 +50,7 @@ public:
 	J2KWAVEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);
 	~J2KWAVEncoder ();
 
-	void process_begin (int64_t audio_channel_layout);
+	void process_begin ();
 	void process_end ();
 
 private:

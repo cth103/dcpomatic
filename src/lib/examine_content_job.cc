@@ -59,10 +59,16 @@ void
 ExamineContentJob::run ()
 {
 	/* Decode the content to get an accurate length */
+
+	/* We don't want to use any existing length here, as progress
+	   will be messed up.
+	*/
+	_film->unset_length ();
 	
 	shared_ptr<Options> o (new Options ("", "", ""));
 	o->out_size = Size (512, 512);
 	o->apply_crop = false;
+	o->decode_audio = false;
 
 	descend (0.5);
 

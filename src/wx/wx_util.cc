@@ -109,6 +109,12 @@ ThreadedStaticText::thread_finished (wxCommandEvent& ev)
 	SetLabel (ev.GetString ());
 }
 
+string
+string_client_data (wxClientData* o)
+{
+	return wx_to_std (dynamic_cast<wxStringClientData*>(o)->GetData());
+}
+
 void
 checked_set (wxFilePickerCtrl* widget, string value)
 {
@@ -130,6 +136,20 @@ checked_set (wxComboBox* widget, int value)
 {
 	if (widget->GetSelection() != value) {
 		widget->SetSelection (value);
+	}
+}
+
+void
+checked_set (wxComboBox* widget, string value)
+{
+	wxClientData* o = widget->GetClientObject (widget->GetSelection ());
+	
+	if (!o || string_client_data(o) != value) {
+		for (unsigned int i = 0; i < widget->GetCount(); ++i) {
+			if (string_client_data (widget->GetClientObject (i)) == value) {
+				widget->SetSelection (i);
+			}
+		}
 	}
 }
 

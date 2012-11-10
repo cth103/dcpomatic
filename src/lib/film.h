@@ -134,8 +134,6 @@ public:
 		THUMBS,
 		SIZE,
 		LENGTH,
-		AUDIO_SAMPLE_RATE,
-		HAS_SUBTITLES,
 		AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		FRAMES_PER_SECOND,
@@ -209,15 +207,9 @@ public:
 		return _use_source_audio;
 	}
 
-	int audio_stream_index () const {
+	boost::optional<AudioStream> audio_stream () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_stream;
-	}
-
-	AudioStream audio_stream () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		assert (_audio_stream < int (_audio_streams.size()));
-		return _audio_streams[_audio_stream];
 	}
 
 	std::vector<std::string> external_audio () const {
@@ -240,15 +232,9 @@ public:
 		return _still_duration;
 	}
 
-	int subtitle_stream_index () const {
+	boost::optional<SubtitleStream> subtitle_stream () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_stream;
-	}
-
-	SubtitleStream subtitle_stream () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		assert (_subtitle_stream < int (_subtitle_streams.size()));
-		return _subtitle_streams[_subtitle_stream];
 	}
 
 	bool with_subtitles () const {
@@ -316,21 +302,11 @@ public:
 		return _length;
 	}
 	
-	int audio_sample_rate () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_sample_rate;
-	}
-	
 	std::string content_digest () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _content_digest;
 	}
 	
-	bool has_subtitles () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _has_subtitles;
-	}
-
 	std::vector<AudioStream> audio_streams () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_streams;
@@ -366,12 +342,12 @@ public:
 	void set_dcp_trim_end (int);
 	void set_dcp_ab (bool);
 	void set_use_source_audio (bool);
-	void set_audio_stream (int);
+	void set_audio_stream (boost::optional<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_still_duration (int);
-	void set_subtitle_stream (int);
+	void set_subtitle_stream (boost::optional<SubtitleStream>);
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
@@ -386,9 +362,7 @@ public:
 	void set_size (Size);
 	void set_length (SourceFrame);
 	void unset_length ();
-	void set_audio_sample_rate (int);
 	void set_content_digest (std::string);
-	void set_has_subtitles (bool);
 	void set_audio_streams (std::vector<AudioStream>);
 	void set_subtitle_streams (std::vector<SubtitleStream>);
 	void set_frames_per_second (float);
@@ -447,8 +421,7 @@ private:
 	*/
 	bool _dcp_ab;
 	bool _use_source_audio;
-	/** An index into our _audio_streams vector for the stream to use for audio, or -1 if there is none */
-	int _audio_stream;
+	boost::optional<AudioStream> _audio_stream;
 	std::vector<std::string> _external_audio;
 	/** Gain to apply to audio in dB */
 	float _audio_gain;
@@ -456,8 +429,7 @@ private:
 	int _audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int _still_duration;
-	/** An index into our _subtitle_streams vector for the stream to use for subtitles, or -1 if there is none */
-	int _subtitle_stream;
+	boost::optional<SubtitleStream> _subtitle_stream;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
 	/** y offset for placing subtitles, in source pixels; +ve is further down
@@ -484,12 +456,8 @@ private:
 	Size _size;
 	/** Actual length of the source (in video frames) from examining it */
 	boost::optional<SourceFrame> _length;
-	/** Sample rate of the source audio, in Hz */
-	int _audio_sample_rate;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
-	/** true if the source has subtitles */
-	bool _has_subtitles;
 	/** the audio streams that the source has */
 	std::vector<AudioStream> _audio_streams;
 	/** the subtitle streams that the source has */
