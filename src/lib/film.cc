@@ -768,19 +768,21 @@ Film::dci_name () const
 		d << "_";
 	}
 
-	switch (_audio_streams[_audio_stream].channels()) {
-	case 1:
-		d << "10_";
-		break;
-	case 2:
-		d << "20_";
-		break;
-	case 6:
-		d << "51_";
-		break;
-	case 8:
-		d << "71_";
-		break;
+	if (_audio_stream != -1) {
+		switch (_audio_streams[_audio_stream].channels()) {
+		case 1:
+			d << "10_";
+			break;
+		case 2:
+			d << "20_";
+			break;
+		case 6:
+			d << "51_";
+			break;
+		case 8:
+			d << "71_";
+			break;
+		}
 	}
 
 	d << "2K_";
