@@ -52,6 +52,8 @@ def append_to_changelog(version):
     f.write('%d-%02d-%02d  Carl Hetherington  <cth@carlh.net>\n\n\t* Version %s released.\n\n' % (now.year, now.month, now.day, version))
     f.write(c)
 
+command("git checkout master")
+
 release_version_string = rewrite_wscript(release_version)
 append_to_changelog(release_version_string)
 
