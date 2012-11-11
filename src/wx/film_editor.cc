@@ -111,7 +111,7 @@ FilmEditor::make_film_panel ()
 	_film_sizer->Add (_content, 1, wxEXPAND);
 
 	add_label_to_sizer (_film_sizer, _film_panel, "Content Type");
-	_dcp_content_type = new wxComboBox (_film_panel, wxID_ANY);
+	_dcp_content_type = new wxComboBox (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 	_film_sizer->Add (_dcp_content_type);
 
 	video_control (add_label_to_sizer (_film_sizer, _film_panel, "Frames Per Second"));
@@ -208,7 +208,7 @@ FilmEditor::make_video_panel ()
 	_video_panel->SetSizer (_video_sizer);
 
 	add_label_to_sizer (_video_sizer, _video_panel, "Format");
-	_format = new wxComboBox (_video_panel, wxID_ANY);
+	_format = new wxComboBox (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 	_video_sizer->Add (_format);
 
 	{
@@ -245,7 +245,7 @@ FilmEditor::make_video_panel ()
 	}
 
 	video_control (add_label_to_sizer (_video_sizer, _video_panel, "Scaler"));
-	_scaler = new wxComboBox (_video_panel, wxID_ANY);
+	_scaler = new wxComboBox (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 	_video_sizer->Add (video_control (_scaler), 1);
 
 	vector<Scaler const *> const sc = Scaler::all ();
@@ -294,7 +294,7 @@ FilmEditor::make_audio_panel ()
 		_use_source_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use source audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 		_audio_sizer->Add (video_control (_use_source_audio));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_audio_stream = new wxComboBox (_audio_panel, wxID_ANY);
+		_audio_stream = new wxComboBox (_audio_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 		s->Add (video_control (_audio_stream), 1);
 		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
 		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
@@ -337,7 +337,7 @@ FilmEditor::make_subtitle_panel ()
 	video_control (_with_subtitles);
 	_subtitle_sizer->Add (_with_subtitles, 1);
 	
-	_subtitle_stream = new wxComboBox (_subtitle_panel, wxID_ANY);
+	_subtitle_stream = new wxComboBox (_subtitle_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 	_subtitle_sizer->Add (_subtitle_stream);
 
 	video_control (add_label_to_sizer (_subtitle_sizer, _subtitle_panel, "Subtitle Offset"));
@@ -498,7 +498,11 @@ FilmEditor::film_changed (Film::Property p)
 			++i;
 			++n;
 		}
-		checked_set (_format, n);
+		if (i != _formats.end()) {
+			checked_set (_format, -1);
+		} else {
+			checked_set (_format, n);
+		}
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	}
@@ -599,6 +603,8 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::AUDIO_STREAM:
 		if (_film->audio_stream()) {
 			checked_set (_audio_stream, _film->audio_stream().get().to_string());
+		} else {
+			checked_set (_audio_stream, wxNOT_FOUND);
 		}
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		setup_audio_details ();
@@ -648,7 +654,7 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 	}
 
 	int const n = _dcp_content_type->GetSelection ();
-	if (n >= 0) {
+	if (n != wxNOT_FOUND) {
 		_film->set_dcp_content_type (DCPContentType::from_index (n));
 	}
 }
@@ -672,29 +678,30 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	}
 	
 	film_changed (Film::NAME);
+	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::CONTENT);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::FORMAT);
 	film_changed (Film::CROP);
 	film_changed (Film::FILTERS);
+	film_changed (Film::SCALER);
 	film_changed (Film::DCP_TRIM_START);
 	film_changed (Film::DCP_TRIM_END);
 	film_changed (Film::DCP_AB);
 	film_changed (Film::USE_SOURCE_AUDIO);
 	film_changed (Film::AUDIO_STREAM);
 	film_changed (Film::EXTERNAL_AUDIO);
-	film_changed (Film::SIZE);
-	film_changed (Film::LENGTH);
-	film_changed (Film::FRAMES_PER_SECOND);
-	film_changed (Film::SCALER);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
-	film_changed (Film::STILL_DURATION);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
-	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::DCI_METADATA);
+	film_changed (Film::SIZE);
+	film_changed (Film::LENGTH);
+	film_changed (Film::AUDIO_STREAMS);
+	film_changed (Film::SUBTITLE_STREAMS);
+	film_changed (Film::FRAMES_PER_SECOND);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -965,6 +972,8 @@ FilmEditor::setup_streams ()
 	
 	if (_film->audio_stream()) {
 		checked_set (_audio_stream, _film->audio_stream().get().to_string());
+	} else {
+		_audio_stream->SetValue (wxT (""));
 	}
 
 	_subtitle_stream->Clear ();
@@ -974,6 +983,8 @@ FilmEditor::setup_streams ()
 	}
 	if (_film->subtitle_stream()) {
 		checked_set (_subtitle_stream, _film->subtitle_stream().get().to_string());
+	} else {
+		_subtitle_stream->SetValue (wxT (""));
 	}
 }
 

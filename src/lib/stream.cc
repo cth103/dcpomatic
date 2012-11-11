@@ -28,7 +28,7 @@ AudioStream::AudioStream (string t)
 	stringstream n (t);
 	n >> _id >> _sample_rate >> _channel_layout;
 
-	for (int i = 0; i < 2; ++i) {
+	for (int i = 0; i < 3; ++i) {
 		size_t const s = t.find (' ');
 		if (s != string::npos) {
 			t = t.substr (s + 1);

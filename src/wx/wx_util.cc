@@ -119,6 +119,12 @@ void
 checked_set (wxFilePickerCtrl* widget, string value)
 {
 	if (widget->GetPath() != std_to_wx (value)) {
+		if (value.empty()) {
+			/* Hack to make wxWidgets clear the control when we are passed
+			   an empty value.
+			*/
+			value = " ";
+		}
 		widget->SetPath (std_to_wx (value));
 	}
 }
@@ -135,7 +141,14 @@ void
 checked_set (wxComboBox* widget, int value)
 {
 	if (widget->GetSelection() != value) {
-		widget->SetSelection (value);
+		if (value == wxNOT_FOUND) {
+			/* Work around an apparent wxWidgets bug; SetSelection (wxNOT_FOUND)
+			   appears not to work sometimes.
+			*/
+			widget->SetValue (wxT (""));
+		} else {
+			widget->SetSelection (value);
+		}
 	}
 }
 

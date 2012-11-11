@@ -265,6 +265,12 @@ public:
 		int const r = d->ShowModal ();
 		
 		if (r == wxID_OK) {
+
+			if (boost::filesystem::exists (d->get_path())) {
+				error_dialog (this, String::compose ("The directory %1 already exists.", d->get_path()));
+				return;
+			}
+			
 			maybe_save_then_delete_film ();
 			film.reset (new Film (d->get_path (), false));
 #if BOOST_FILESYSTEM_VERSION == 3		
