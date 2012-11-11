@@ -191,7 +191,7 @@ FilmEditor::connect_to_widgets ()
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
 		);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
-	_use_source_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
+	_use_content_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
 	_use_external_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_external_audio[i]->Connect (
@@ -291,8 +291,8 @@ FilmEditor::make_audio_panel ()
 	}
 
 	{
-		_use_source_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use source audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-		_audio_sizer->Add (video_control (_use_source_audio));
+		_use_content_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use content's audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+		_audio_sizer->Add (video_control (_use_content_audio));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_stream = new wxComboBox (_audio_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 		s->Add (video_control (_audio_stream), 1);
@@ -614,9 +614,9 @@ FilmEditor::film_changed (Film::Property p)
 			checked_set (_subtitle_stream, _film->subtitle_stream().get().to_string());
 		}
 		break;
-	case Film::USE_SOURCE_AUDIO:
-		checked_set (_use_source_audio, _film->use_source_audio ());
-		checked_set (_use_external_audio, !_film->use_source_audio ());
+	case Film::USE_CONTENT_AUDIO:
+		checked_set (_use_content_audio, _film->use_content_audio ());
+		checked_set (_use_external_audio, !_film->use_content_audio ());
 		setup_audio_control_sensitivity ();
 		break;
 	case Film::EXTERNAL_AUDIO:
@@ -688,7 +688,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_TRIM_START);
 	film_changed (Film::DCP_TRIM_END);
 	film_changed (Film::DCP_AB);
-	film_changed (Film::USE_SOURCE_AUDIO);
+	film_changed (Film::USE_CONTENT_AUDIO);
 	film_changed (Film::AUDIO_STREAM);
 	film_changed (Film::EXTERNAL_AUDIO);
 	film_changed (Film::AUDIO_GAIN);
@@ -927,10 +927,10 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 void
 FilmEditor::setup_audio_control_sensitivity ()
 {
-	_use_source_audio->Enable (_generally_sensitive);
+	_use_content_audio->Enable (_generally_sensitive);
 	_use_external_audio->Enable (_generally_sensitive);
 	
-	bool const source = _generally_sensitive && _use_source_audio->GetValue();
+	bool const source = _generally_sensitive && _use_content_audio->GetValue();
 	bool const external = _generally_sensitive && _use_external_audio->GetValue();
 
 	_audio_stream->Enable (source);
@@ -1029,7 +1029,7 @@ FilmEditor::active_jobs_changed (bool a)
 void
 FilmEditor::use_audio_changed (wxCommandEvent &)
 {
-	_film->set_use_source_audio (_use_source_audio->GetValue ());
+	_film->set_use_content_audio (_use_content_audio->GetValue ());
 	setup_audio_control_sensitivity ();
 }
 

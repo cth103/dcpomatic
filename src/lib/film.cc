@@ -87,7 +87,7 @@ Film::Film (string d, bool must_exist)
 	, _dcp_trim_start (0)
 	, _dcp_trim_end (0)
 	, _dcp_ab (false)
-	, _use_source_audio (true)
+	, _use_content_audio (true)
 	, _audio_gain (0)
 	, _audio_delay (0)
 	, _still_duration (10)
@@ -145,7 +145,7 @@ Film::Film (Film const & o)
 	, _dcp_trim_start    (o._dcp_trim_start)
 	, _dcp_trim_end      (o._dcp_trim_end)
 	, _dcp_ab            (o._dcp_ab)
-	, _use_source_audio  (o._use_source_audio)
+	, _use_content_audio (o._use_content_audio)
 	, _audio_stream      (o._audio_stream)
 	, _external_audio    (o._external_audio)
 	, _audio_gain        (o._audio_gain)
@@ -418,7 +418,7 @@ Film::write_metadata () const
 	f << "dcp_trim_start " << _dcp_trim_start << "\n";
 	f << "dcp_trim_end " << _dcp_trim_end << "\n";
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
-	f << "use_source_audio " << (_use_source_audio ? "1" : "0") << "\n";
+	f << "use_content_audio " << (_use_content_audio ? "1" : "0") << "\n";
 	if (_audio_stream) {
 		f << "selected_audio_stream " << _audio_stream.get().to_string() << "\n";
 	}
@@ -512,8 +512,8 @@ Film::read_metadata ()
 			_dcp_trim_end = atoi (v.c_str ());
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
-		} else if (k == "use_source_audio") {
-			_use_source_audio = (v == "1");
+		} else if (k == "use_content_audio") {
+			_use_content_audio = (v == "1");
 		} else if (k == "selected_audio_stream") {
 			_audio_stream = AudioStream (v);
 		} else if (k == "external_audio") {
@@ -1072,13 +1072,13 @@ Film::set_dcp_ab (bool a)
 }
 
 void
-Film::set_use_source_audio (bool s)
+Film::set_use_content_audio (bool s)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_use_source_audio = s;
+		_use_content_audio = s;
 	}
-	signal_changed (USE_SOURCE_AUDIO);
+	signal_changed (USE_CONTENT_AUDIO);
 }
 
 void
@@ -1339,7 +1339,7 @@ Film::audio_channels () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	
-	if (_use_source_audio) {
+	if (_use_content_audio) {
 		if (_audio_stream) {
 			return _audio_stream.get().channels ();
 		}

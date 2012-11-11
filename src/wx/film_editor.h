@@ -132,7 +132,7 @@ private:
 	wxButton* _filters_button;
 	/** The Film's scaler */
 	wxComboBox* _scaler;
-	wxRadioButton* _use_source_audio;
+	wxRadioButton* _use_content_audio;
 	wxComboBox* _audio_stream;
 	wxRadioButton* _use_external_audio;
 	wxFilePickerCtrl* _external_audio[MAX_AUDIO_CHANNELS];

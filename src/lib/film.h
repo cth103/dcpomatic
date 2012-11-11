@@ -120,7 +120,7 @@ public:
 		DCP_TRIM_START,
 		DCP_TRIM_END,
 		DCP_AB,
-		USE_SOURCE_AUDIO,
+		USE_CONTENT_AUDIO,
 		AUDIO_STREAM,
 		EXTERNAL_AUDIO,
 		AUDIO_GAIN,
@@ -202,9 +202,9 @@ public:
 		return _dcp_ab;
 	}
 
-	bool use_source_audio () const {
+	bool use_content_audio () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _use_source_audio;
+		return _use_content_audio;
 	}
 
 	boost::optional<AudioStream> audio_stream () const {
@@ -341,7 +341,7 @@ public:
 	void set_dcp_trim_start (int);
 	void set_dcp_trim_end (int);
 	void set_dcp_ab (bool);
-	void set_use_source_audio (bool);
+	void set_use_content_audio (bool);
 	void set_audio_stream (boost::optional<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
 	void set_audio_gain (float);
@@ -420,7 +420,8 @@ private:
 	    has the specified filters and post-processing.
 	*/
 	bool _dcp_ab;
-	bool _use_source_audio;
+	/** true to use the audio from the content file, false to use external audio */
+	bool _use_content_audio;
 	boost::optional<AudioStream> _audio_stream;
 	std::vector<std::string> _external_audio;
 	/** Gain to apply to audio in dB */
