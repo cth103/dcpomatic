@@ -152,9 +152,8 @@ Decoder::go ()
 	process_end ();
 }
 
-/** Called by subclasses to tell the world that some audio data is ready
- *  @param data Audio data, in Film::audio_sample_format.
- *  @param size Number of bytes of data.
+/** Called to tell the world that some audio data is ready
+ *  @param audio Audio data.
  */
 void
 Decoder::process_audio (shared_ptr<AudioBuffers> audio)
