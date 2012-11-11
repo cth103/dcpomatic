@@ -308,12 +308,12 @@ FilmEditor::make_audio_panel ()
 	assert (MAX_AUDIO_CHANNELS == 6);
 
 	char const * channels[] = {
-		"L",
-		"R",
-		"C",
-		"Lfe",
-		"Ls",
-		"Rs"
+		"Left",
+		"Right",
+		"Centre",
+		"Lfe (sub)",
+		"Left surround",
+		"Right surround"
 	};
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
