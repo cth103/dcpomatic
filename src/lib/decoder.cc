@@ -48,8 +48,6 @@ using boost::optional;
 /** @param f Film.
  *  @param o Options.
  *  @param j Job that we are running within, or 0
- *  @param minimal true to do the bare minimum of work; just run through the content.  Useful for acquiring
- *  accurate frame counts as quickly as possible.  This generates no video or audio output.
  */
 Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
 	: _film (f)
