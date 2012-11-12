@@ -138,29 +138,15 @@ class CompactImage : public SimpleImage
 public:
 	CompactImage (AVPixelFormat, Size);
 	CompactImage (boost::shared_ptr<Image>);
-};
 
-/** @class RGBFrameImage
- *  @brief An RGB image that is held within an AVFrame.
- */
-class RGBFrameImage : public Image
-{
-public:
-	RGBFrameImage (Size);
-	~RGBFrameImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	int * stride () const;
-	Size size () const;
-	AVFrame * frame () const {
-		return _frame;
+	AVPicture const * picture () const {
+		return &_picture;
 	}
 
 private:
-	Size _size;
-	AVFrame* _frame;
-	uint8_t* _data;
+	void setup_picture ();
+	
+	AVPicture _picture;
 };
 
 #endif

@@ -147,7 +147,7 @@ TIFFDecoder::pass ()
 		throw DecodeError ("could not read TIFF data");
 	}
 
-	RGBFrameImage image (Size (width, height));
+	CompactImage image (PIX_FMT_RGB24, Size (width, height));
 
 	uint8_t* p = image.data()[0];
 	for (uint32_t y = 0; y < height; ++y) {
@@ -162,7 +162,7 @@ TIFFDecoder::pass ()
 	_TIFFfree (raster);
 	TIFFClose (t);
 
-	process_video (image.frame ());
+	process_video ((AVFrame const *) image.picture ());
 
 	++_iter;
 	return false;

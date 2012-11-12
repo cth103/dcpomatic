@@ -134,7 +134,7 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, Decoder* decoder, bool crop, Si
 }
 
 list<shared_ptr<Image> >
-FilterGraph::process (AVFrame* frame)
+FilterGraph::process (AVFrame const * frame)
 {
 	list<shared_ptr<Image> > images;
 	

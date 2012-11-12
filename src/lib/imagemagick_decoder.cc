@@ -50,7 +50,7 @@ ImageMagickDecoder::pass ()
 	}
 
 	Size size = native_size ();
-	RGBFrameImage image (size);
+	CompactImage image (PIX_FMT_RGB24, size);
 
 	uint8_t* p = image.data()[0];
 	for (int y = 0; y < size.height; ++y) {
@@ -63,7 +63,7 @@ ImageMagickDecoder::pass ()
 
 	}
 	
-	process_video (image.frame ());
+	process_video ((AVFrame const *) image.picture());
 
 	_done = true;
 	return false;

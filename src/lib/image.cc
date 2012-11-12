@@ -379,7 +379,7 @@ AlignedImage::AlignedImage (AVPixelFormat f, Size s)
 CompactImage::CompactImage (AVPixelFormat f, Size s)
 	: SimpleImage (f, s, boost::bind (round_up, _1, 1))
 {
-
+	setup_picture ();
 }
 
 CompactImage::CompactImage (shared_ptr<Image> im)
@@ -399,6 +399,17 @@ CompactImage::CompactImage (shared_ptr<Image> im)
 			t += stride()[c];
 			o += im->stride()[c];
 		}
+	}
+
+	setup_picture ();
+}
+
+void
+CompactImage::setup_picture ()
+{
+	for (int c = 0; c < components(); ++c) {
+		_picture.data[c] = data()[c];
+		_picture.linesize[c] = line_size()[c];
 	}
 }
 
@@ -439,53 +450,3 @@ FilterBufferImage::size () const
 	return Size (_buffer->video->w, _buffer->video->h);
 }
 
-/** XXX: this could be generalised to use any format, but I don't
- *  understand how avpicture_fill is supposed to be called with
- *  multi-planar images.
- */
-RGBFrameImage::RGBFrameImage (Size s)
-	: Image (PIX_FMT_RGB24)
-	, _size (s)
-{
-	_frame = avcodec_alloc_frame ();
-	if (_frame == 0) {
-		throw EncodeError ("could not allocate frame");
-	}
-
-	_data = (uint8_t *) av_malloc (size().width * size().height * 3);
-	avpicture_fill ((AVPicture *) _frame, _data, PIX_FMT_RGB24, size().width, size().height);
-	_frame->width = size().width;
-	_frame->height = size().height;
-	_frame->format = PIX_FMT_RGB24;
-}
-
-RGBFrameImage::~RGBFrameImage ()
-{
-	av_free (_data);
-	av_free (_frame);
-}
-
-uint8_t **
-RGBFrameImage::data () const
-{
-	return _frame->data;
-}
-
-int *
-RGBFrameImage::line_size () const
-{
-	return _frame->linesize;
-}
-
-int *
-RGBFrameImage::stride () const
-{
-	/* XXX? */
-	return line_size ();
-}
-
-Size
-RGBFrameImage::size () const
-{
-	return _size;
-}

@@ -97,7 +97,7 @@ Decoder::process_audio (shared_ptr<AudioBuffers> audio)
  *  @param frame to decode; caller manages memory.
  */
 void
-Decoder::process_video (AVFrame* frame)
+Decoder::process_video (AVFrame const * frame)
 {
 	shared_ptr<FilterGraph> graph;
 
