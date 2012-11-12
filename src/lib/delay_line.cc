@@ -30,28 +30,25 @@ using boost::shared_ptr;
 /** @param channels Number of channels of audio.
  *  @param frames Delay in frames, +ve to move audio later.
  */
-DelayLine::DelayLine (int channels, int frames)
-	: _negative_delay_remaining (0)
+DelayLine::DelayLine (Log* log, int channels, int frames)
+	: AudioProcessor (log)
+	, _negative_delay_remaining (0)
+	, _frames (frames)
 {
-	if (frames > 0) {
+	if (_frames > 0) {
 		/* We need a buffer to keep some data in */
-		_buffers.reset (new AudioBuffers (channels, frames));
+		_buffers.reset (new AudioBuffers (channels, _frames));
 		_buffers->make_silent ();
-	} else if (frames < 0) {
+	} else if (_frames < 0) {
 		/* We can do -ve delays just by chopping off
 		   the start, so no buffer needed.
 		*/
-		_negative_delay_remaining = -frames;
+		_negative_delay_remaining = -_frames;
 	}
 }
 
-DelayLine::~DelayLine ()
-{
-
-}
-
 void
-DelayLine::feed (shared_ptr<AudioBuffers> data)
+DelayLine::process_audio (shared_ptr<AudioBuffers> data)
 {
 	if (_buffers) {
 		/* We have some buffers, so we are moving the audio later */
@@ -90,5 +87,16 @@ DelayLine::feed (shared_ptr<AudioBuffers> data)
 			data->set_frames (data->frames() - to_do);
 			_negative_delay_remaining -= to_do;
 		}
+	}
+
+	Audio (data);
+}
+
+void
+DelayLine::process_end ()
+{
+	if (_frames < 0) {
+		_buffers->make_silent ();
+		Audio (_buffers);
 	}
 }

@@ -56,89 +56,14 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 	, _opt (o)
 	, _job (j)
 	, _video_frame (0)
-	, _audio_frame (0)
-	, _delay_line (0)
-	, _delay_in_frames (0)
 {
 	
-}
-
-Decoder::~Decoder ()
-{
-	delete _delay_line;
-}
-
-/** Start off a decode processing run.  This should only be called once on
- *  a given Decoder object.
- */
-void
-Decoder::process_begin ()
-{
-	if (_audio_stream) {
-		_delay_in_frames = _film->audio_delay() * _audio_stream.get().sample_rate() / 1000;
-		_delay_line = new DelayLine (_audio_stream.get().channels(), _delay_in_frames);
-	}
-}
-
-/** Finish off a decode processing run */
-void
-Decoder::process_end ()
-{
-	if (_delay_in_frames < 0 && _opt->decode_audio && _audio_stream) {
-		shared_ptr<AudioBuffers> b (new AudioBuffers (_audio_stream.get().channels(), -_delay_in_frames));
-		b->make_silent ();
-		emit_audio (b);
-	}
-
-	if (_opt->decode_audio && _audio_stream) {
-
-		/* Ensure that our video and audio emissions are the same length */
-
-		int64_t audio_short_by_frames = video_frames_to_audio_frames (_video_frame, _audio_stream.get().sample_rate(), frames_per_second()) - _audio_frame;
-
-		_film->log()->log (
-			String::compose (
-				"Decoder has emitted %1 video frames (which equals %2 audio frames) and %3 audio frames",
-				_video_frame,
-				video_frames_to_audio_frames (_video_frame, _audio_stream.get().sample_rate(), frames_per_second()),
-				_audio_frame
-				)
-			);
-
-		if (audio_short_by_frames < 0) {
-
-			_film->log()->log (String::compose ("Emitted %1 too many audio frames", -audio_short_by_frames));
-			
-			/* We have emitted more audio than video.  Emit enough black video frames so that we reverse this */
-			int const black_video_frames = ceil (-audio_short_by_frames * frames_per_second() / _audio_stream.get().sample_rate());
-
-			_film->log()->log (String::compose ("Emitting %1 frames of black video", black_video_frames));
-
-			shared_ptr<Image> black (new CompactImage (pixel_format(), native_size()));
-			black->make_black ();
-			for (int i = 0; i < black_video_frames; ++i) {
-				emit_video (black, shared_ptr<Subtitle> ());
-			}
-
-			/* Now recompute our check value */
-			audio_short_by_frames = video_frames_to_audio_frames (_video_frame, _audio_stream.get().sample_rate(), frames_per_second()) - _audio_frame;
-		}
-	
-		if (audio_short_by_frames > 0) {
-			_film->log()->log (String::compose ("Emitted %1 too few audio frames", audio_short_by_frames));
-			shared_ptr<AudioBuffers> b (new AudioBuffers (_audio_stream.get().channels(), audio_short_by_frames));
-			b->make_silent ();
-			emit_audio (b);
-		}
-	}
 }
 
 /** Start decoding */
 void
 Decoder::go ()
 {
-	process_begin ();
-
 	if (_job && !_film->dcp_length()) {
 		_job->set_progress_unknown ();
 	}
@@ -148,8 +73,6 @@ Decoder::go ()
 			_job->set_progress (float (_video_frame) / _film->length().get());
 		}
 	}
-
-	process_end ();
 }
 
 /** Called to tell the world that some audio data is ready
@@ -168,8 +91,7 @@ Decoder::process_audio (shared_ptr<AudioBuffers> audio)
 		}
 	}
 
-	_delay_line->feed (audio);
-	emit_audio (audio);
+	Audio (audio);
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
@@ -221,18 +143,11 @@ void
 Decoder::emit_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	TIMING ("Decoder emits %1", _video_frame);
-	Video (image, _video_frame, sub);
+	Video (image, sub);
 	++_video_frame;
 
 	_last_image = image;
 	_last_subtitle = sub;
-}
-
-void
-Decoder::emit_audio (shared_ptr<AudioBuffers> audio)
-{
-	Audio (audio, _audio_frame);
-	_audio_frame += audio->frames ();
 }
 
 void

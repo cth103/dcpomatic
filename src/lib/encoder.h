@@ -32,6 +32,8 @@ extern "C" {
 #include <libavutil/samplefmt.h>
 }
 #include "util.h"
+#include "video_sink.h"
+#include "audio_sink.h"
 
 class Options;
 class Image;
@@ -49,7 +51,7 @@ class Film;
  *  some way and write it to disk.
  */
 
-class Encoder
+class Encoder : public VideoSink, public AudioSink
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
@@ -59,34 +61,32 @@ public:
 
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
-	 *  @param f Frame number within the film's source.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	void process_video (boost::shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s);
+	void process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s);
 
 	/** Call with some audio data */
-	void process_audio (boost::shared_ptr<const AudioBuffers>, int64_t);
+	void process_audio (boost::shared_ptr<AudioBuffers>);
 
 	/** Called when a processing run has finished */
 	virtual void process_end () {}
 
 	float current_frames_per_second () const;
 	bool skipping () const;
-	SourceFrame last_frame () const;
+	SourceFrame video_frame () const;
 
 protected:
 
 	/** Called with a frame of video.
 	 *  @param i Video frame image.
-	 *  @param f Frame number within the film's source.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void do_process_video (boost::shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s) = 0;
+	virtual void do_process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s) = 0;
 	
 	/** Called with some audio data */
-	virtual void do_process_audio (boost::shared_ptr<const AudioBuffers>) = 0;
+	virtual void do_process_audio (boost::shared_ptr<AudioBuffers>) = 0;
 	
-	void frame_done (SourceFrame n);
+	void frame_done ();
 	void frame_skipped ();
 	
 	/** Film that we are encoding */
@@ -104,8 +104,11 @@ protected:
 	static int const _history_size;
 	/** true if the last frame we processed was skipped (because it was already done) */
 	bool _just_skipped;
-	/** Source index of the last frame to be processed */
-	SourceFrame _last_frame;
+
+	/** Number of video frames received so far */
+	SourceFrame _video_frame;
+	/** Number of audio frames received so far */
+	int64_t _audio_frame;
 };
 
 #endif

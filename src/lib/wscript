@@ -8,6 +8,7 @@ def build(bld):
     obj.source = """
 		 ab_transcode_job.cc
 		 ab_transcoder.cc
+                 audio_source.cc
                  check_hashes_job.cc
 		 config.cc
 		 copy_from_dvd_job.cc
@@ -38,6 +39,7 @@ def build(bld):
 		 log.cc
 		 lut.cc
 		 make_dcp_job.cc
+                 matcher.cc
                  scp_dcp_job.cc
 		 scaler.cc
                  screen.cc
@@ -52,6 +54,7 @@ def build(bld):
                  ui_signaller.cc
 		 util.cc
 		 version.cc
+                 video_source.cc
 		 """
 
     if not bld.env.DISABLE_PLAYER:

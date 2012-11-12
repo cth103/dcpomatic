@@ -18,19 +18,21 @@
 */
 
 #include <boost/shared_ptr.hpp>
+#include "processor.h"
 
 class AudioBuffers;
 
 /** A delay line for audio */
-class DelayLine
+class DelayLine : public AudioProcessor
 {
 public:
-	DelayLine (int channels, int frames);
-	~DelayLine ();
+	DelayLine (Log* log, int channels, int frames);
 	
-	void feed (boost::shared_ptr<AudioBuffers>);
+	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_end ();
 
 private:
 	boost::shared_ptr<AudioBuffers> _buffers;
 	int _negative_delay_remaining; ///< number of frames of negative delay that remain to emit
+	int _frames;
 };

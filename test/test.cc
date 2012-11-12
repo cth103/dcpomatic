@@ -177,10 +177,18 @@ BOOST_AUTO_TEST_CASE (dvd_test)
 	BOOST_CHECK_EQUAL (i->size, 7);
 }
 
+class NullLog : public Log
+{
+public:
+	void do_log (string) {}
+};
+
 void
 do_positive_delay_line_test (int delay_length, int data_length)
 {
-	DelayLine d (6, delay_length);
+	NullLog log;
+	
+	DelayLine d (&log, 6, delay_length);
 	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
 
 	int in = 0;
@@ -196,7 +204,8 @@ do_positive_delay_line_test (int delay_length, int data_length)
 			}
 		}
 
-		d.feed (data);
+		/* This only works because the delay line modifies the parameter */
+		d.process_audio (data);
 		returned += data->frames ();
 
 		for (int j = 0; j < data->frames(); ++j) {
@@ -220,7 +229,9 @@ do_positive_delay_line_test (int delay_length, int data_length)
 void
 do_negative_delay_line_test (int delay_length, int data_length)
 {
-	DelayLine d (6, delay_length);
+	NullLog log;
+
+	DelayLine d (&log, 6, delay_length);
 	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
 
 	int in = 0;
@@ -236,7 +247,8 @@ do_negative_delay_line_test (int delay_length, int data_length)
 			}
 		}
 
-		d.feed (data);
+		/* This only works because the delay line modifies the parameter */
+		d.process_audio (data);
 		returned += data->frames ();
 
 		for (int j = 0; j < data->frames(); ++j) {

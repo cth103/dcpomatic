@@ -108,7 +108,7 @@ J2KWAVEncoder::close_sound_files ()
 }	
 
 void
-J2KWAVEncoder::do_process_video (shared_ptr<const Image> yuv, SourceFrame frame, shared_ptr<Subtitle> sub)
+J2KWAVEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub)
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
@@ -124,13 +124,13 @@ J2KWAVEncoder::do_process_video (shared_ptr<const Image> yuv, SourceFrame frame,
 	}
 
 	/* Only do the processing if we don't already have a file for this frame */
-	if (!boost::filesystem::exists (_opt->frame_out_path (frame, false))) {
+	if (!boost::filesystem::exists (_opt->frame_out_path (_video_frame, false))) {
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  yuv, sub, _opt->out_size, _opt->padding, _film->subtitle_offset(), _film->subtitle_scale(),
-						  _film->scaler(), frame, _film->frames_per_second(), s.second,
+						  _film->scaler(), _video_frame, _film->frames_per_second(), s.second,
 						  Config::instance()->colour_lut_index (), Config::instance()->j2k_bandwidth (),
 						  _film->log()
 						  )
@@ -207,7 +207,7 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 
 		if (encoded) {
 			encoded->write (_opt, vf->frame ());
-			frame_done (vf->frame ());
+			frame_done ();
 		} else {
 			lock.lock ();
 			_film->log()->log (
@@ -305,7 +305,7 @@ J2KWAVEncoder::process_end ()
 		try {
 			shared_ptr<EncodedData> e = (*i)->encode_locally ();
 			e->write (_opt, (*i)->frame ());
-			frame_done ((*i)->frame ());
+			frame_done ();
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
@@ -355,7 +355,7 @@ J2KWAVEncoder::process_end ()
 }
 
 void
-J2KWAVEncoder::do_process_audio (shared_ptr<const AudioBuffers> audio)
+J2KWAVEncoder::do_process_audio (shared_ptr<AudioBuffers> audio)
 {
 	shared_ptr<AudioBuffers> resampled;
 	

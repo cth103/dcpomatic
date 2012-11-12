@@ -50,14 +50,13 @@ ABTranscoder::ABTranscoder (
 	, _opt (o)
 	, _job (j)
 	, _encoder (e)
-	, _last_frame (0)
 {
 	_da = decoder_factory (_film_a, o, j);
 	_db = decoder_factory (_film_b, o, j);
 
-	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, _3, 0));
-	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, _3, 1));
-	_da->Audio.connect (bind (&Encoder::process_audio, e, _1, _2));
+	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 0));
+	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 1));
+	_da->Audio.connect (bind (&Encoder::process_audio, e, _1));
 }
 
 ABTranscoder::~ABTranscoder ()
@@ -66,7 +65,7 @@ ABTranscoder::~ABTranscoder ()
 }
 
 void
-ABTranscoder::process_video (shared_ptr<Image> yuv, SourceFrame frame, shared_ptr<Subtitle> sub, int index)
+ABTranscoder::process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub, int index)
 {
 	if (index == 0) {
 		/* Keep this image around until we get the other half */
@@ -89,11 +88,9 @@ ABTranscoder::process_video (shared_ptr<Image> yuv, SourceFrame frame, shared_pt
 		}
 			
 		/* And pass it to the encoder */
-		_encoder->process_video (_image, frame, sub);
+		_encoder->process_video (_image, sub);
 		_image.reset ();
 	}
-	
-	_last_frame = frame;
 }
 
 
@@ -101,8 +98,6 @@ void
 ABTranscoder::go ()
 {
 	_encoder->process_begin ();
-	_da->process_begin ();
-	_db->process_begin ();
 	
 	while (1) {
 		bool const a = _da->pass ();
@@ -114,7 +109,5 @@ ABTranscoder::go ()
 	}
 
 	_encoder->process_end ();
-	_da->process_end ();
-	_db->process_end ();
 }
 			    

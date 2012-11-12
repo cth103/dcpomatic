@@ -30,6 +30,7 @@ class Film;
 class Job;
 class Encoder;
 class FilmState;
+class Matcher;
 
 /** @class Transcoder
  *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
@@ -56,4 +57,6 @@ protected:
 	boost::shared_ptr<Encoder> _encoder;
 	/** The decoder that we will use */
 	boost::shared_ptr<Decoder> _decoder;
+	boost::shared_ptr<Matcher> _matcher;
+	boost::shared_ptr<DelayLine> _delay_line;
 };

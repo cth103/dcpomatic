@@ -37,6 +37,6 @@ public:
 	J2KStillEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);
 
 private:
-	void do_process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
-	void do_process_audio (boost::shared_ptr<const AudioBuffers>) {}
+	void do_process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
+	void do_process_audio (boost::shared_ptr<AudioBuffers>) {}
 };

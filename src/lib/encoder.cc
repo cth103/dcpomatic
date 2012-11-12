@@ -37,7 +37,8 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
 	: _film (f)
 	, _opt (o)
 	, _just_skipped (false)
-	, _last_frame (0)
+	, _video_frame (0)
+	, _audio_frame (0)
 {
 
 }
@@ -68,23 +69,22 @@ Encoder::skipping () const
 	return _just_skipped;
 }
 
-/** @return Index of last frame to be successfully encoded */
+/** @return Number of video frames that have been received */
 SourceFrame
-Encoder::last_frame () const
+Encoder::video_frame () const
 {
 	boost::mutex::scoped_lock (_history_mutex);
-	return _last_frame;
+	return _video_frame;
 }
 
 /** Should be called when a frame has been encoded successfully.
  *  @param n Source frame index.
  */
 void
-Encoder::frame_done (SourceFrame n)
+Encoder::frame_done ()
 {
 	boost::mutex::scoped_lock lock (_history_mutex);
 	_just_skipped = false;
-	_last_frame = n;
 	
 	struct timeval tv;
 	gettimeofday (&tv, 0);
@@ -105,24 +105,27 @@ Encoder::frame_skipped ()
 }
 
 void
-Encoder::process_video (shared_ptr<const Image> i, SourceFrame f, boost::shared_ptr<Subtitle> s)
+Encoder::process_video (shared_ptr<Image> i, boost::shared_ptr<Subtitle> s)
 {
-	if (_opt->decode_video_skip != 0 && (f % _opt->decode_video_skip) != 0) {
+	if (_opt->decode_video_skip != 0 && (_video_frame % _opt->decode_video_skip) != 0) {
+		++_video_frame;
 		return;
 	}
 
 	if (_opt->video_decode_range) {
 		pair<SourceFrame, SourceFrame> const r = _opt->video_decode_range.get();
-		if (f < r.first || f >= r.second) {
+		if (_video_frame < r.first || _video_frame >= r.second) {
+			++_video_frame;
 			return;
 		}
 	}
 
-	do_process_video (i, f, s);
+	do_process_video (i, s);
+	++_video_frame;
 }
 
 void
-Encoder::process_audio (shared_ptr<const AudioBuffers> data, int64_t f)
+Encoder::process_audio (shared_ptr<AudioBuffers> data)
 {
 	if (_opt->audio_decode_range) {
 
@@ -131,7 +134,7 @@ Encoder::process_audio (shared_ptr<const AudioBuffers> data, int64_t f)
 		/* Range that we are encoding */
 		pair<int64_t, int64_t> required_range = _opt->audio_decode_range.get();
 		/* Range of this block of data */
-		pair<int64_t, int64_t> this_range (f, f + trimmed->frames());
+		pair<int64_t, int64_t> this_range (_audio_frame, _audio_frame + trimmed->frames());
 
 		if (this_range.second < required_range.first || required_range.second < this_range.first) {
 			/* No part of this audio is within the required range */
@@ -150,4 +153,6 @@ Encoder::process_audio (shared_ptr<const AudioBuffers> data, int64_t f)
 	}
 
 	do_process_audio (data);
+
+	_audio_frame += data->frames ();
 }

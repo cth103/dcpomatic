@@ -55,8 +55,8 @@ public:
 
 private:
 
-	void do_process_video (boost::shared_ptr<const Image>, SourceFrame, boost::shared_ptr<Subtitle>);
-	void do_process_audio (boost::shared_ptr<const AudioBuffers>);
+	void do_process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
+	void do_process_audio (boost::shared_ptr<AudioBuffers>);
 	
 	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 	void encoder_thread (ServerDescription *);

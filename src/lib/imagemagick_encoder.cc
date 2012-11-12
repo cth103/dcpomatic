@@ -50,22 +50,22 @@ ImageMagickEncoder::ImageMagickEncoder (shared_ptr<const Film> f, shared_ptr<con
 }
 
 void
-ImageMagickEncoder::do_process_video (shared_ptr<const Image> image, SourceFrame frame, shared_ptr<Subtitle> sub)
+ImageMagickEncoder::do_process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _film->scaler());
 	shared_ptr<Image> compact (new CompactImage (scaled));
 
-	string tmp_file = _opt->frame_out_path (frame, true);
+	string tmp_file = _opt->frame_out_path (_video_frame, true);
 	Magick::Image thumb (compact->size().width, compact->size().height, "RGB", MagickCore::CharPixel, compact->data()[0]);
 	thumb.magick ("PNG");
 	thumb.write (tmp_file);
-	boost::filesystem::rename (tmp_file, _opt->frame_out_path (frame, false));
+	boost::filesystem::rename (tmp_file, _opt->frame_out_path (_video_frame, false));
 
 	if (sub) {
 		float const x_scale = float (_opt->out_size.width) / _film->size().width;
 		float const y_scale = float (_opt->out_size.height) / _film->size().height;
 
-		string tmp_metadata_file = _opt->frame_out_path (frame, false, ".sub");
+		string tmp_metadata_file = _opt->frame_out_path (_video_frame, false, ".sub");
 		ofstream metadata (tmp_metadata_file.c_str ());
 		
 		Size new_size = sub->image()->size ();
@@ -74,18 +74,18 @@ ImageMagickEncoder::do_process_video (shared_ptr<const Image> image, SourceFrame
 		shared_ptr<Image> scaled = sub->image()->scale (new_size, _film->scaler());
 		shared_ptr<Image> compact (new CompactImage (scaled));
 		
-		string tmp_sub_file = _opt->frame_out_path (frame, true, ".sub.png");
+		string tmp_sub_file = _opt->frame_out_path (_video_frame, true, ".sub.png");
 		Magick::Image sub_thumb (compact->size().width, compact->size().height, "RGBA", MagickCore::CharPixel, compact->data()[0]);
 		sub_thumb.magick ("PNG");
 		sub_thumb.write (tmp_sub_file);
-		boost::filesystem::rename (tmp_sub_file, _opt->frame_out_path (frame, false, ".sub.png"));
+		boost::filesystem::rename (tmp_sub_file, _opt->frame_out_path (_video_frame, false, ".sub.png"));
 
 		metadata << "x " << sub->position().x << "\n"
 			 << "y " << sub->position().y << "\n";
 
 		metadata.close ();
-		boost::filesystem::rename (tmp_metadata_file, _opt->frame_out_path (frame, false, ".sub"));
+		boost::filesystem::rename (tmp_metadata_file, _opt->frame_out_path (_video_frame, false, ".sub"));
 	}
 	
-	frame_done (frame);
+	frame_done ();
 }

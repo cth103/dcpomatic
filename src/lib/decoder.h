@@ -31,6 +31,8 @@
 #include <boost/signals2.hpp>
 #include "util.h"
 #include "stream.h"
+#include "video_source.h"
+#include "audio_source.h"
 
 class Job;
 class Options;
@@ -49,11 +51,11 @@ class FilterGraph;
  *  (by calling ::go), and they emit signals when video or audio data is ready for something else
  *  to process.
  */
-class Decoder
+class Decoder : public VideoSource, public AudioSource
 {
 public:
 	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
-	virtual ~Decoder ();
+	virtual ~Decoder () {}
 
 	/* Methods to query our input video */
 
@@ -67,9 +69,7 @@ public:
 	virtual int sample_aspect_ratio_numerator () const = 0;
 	virtual int sample_aspect_ratio_denominator () const = 0;
 	
-	void process_begin ();
 	virtual bool pass () = 0;
-	void process_end ();
 	void go ();
 
 	SourceFrame video_frame () const {
@@ -95,16 +95,6 @@ public:
 		return _subtitle_streams;
 	}
 
-	/** Emitted when a video frame is ready.
-	 *  First parameter is the frame within the source.
-	 *  Second parameter is its index within the content.
-	 *  Third parameter is either 0 or a subtitle that should be on this frame.
-	 */
-	boost::signals2::signal<void (boost::shared_ptr<Image>, SourceFrame, boost::shared_ptr<Subtitle>)> Video;
-
-	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, int64_t)> Audio;
-
 protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
@@ -129,15 +119,10 @@ protected:
 	
 private:
 	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
-	void emit_audio (boost::shared_ptr<AudioBuffers>);
 
 	SourceFrame _video_frame;
-	int64_t _audio_frame;
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
-
-	DelayLine* _delay_line;
-	int _delay_in_frames;
 
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 

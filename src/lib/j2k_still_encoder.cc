@@ -49,7 +49,7 @@ J2KStillEncoder::J2KStillEncoder (shared_ptr<const Film> f, shared_ptr<const Opt
 }
 
 void
-J2KStillEncoder::do_process_video (shared_ptr<const Image> yuv, SourceFrame frame, shared_ptr<Subtitle> sub)
+J2KStillEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub)
 {
 	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 	DCPVideoFrame* f = new DCPVideoFrame (
@@ -77,6 +77,6 @@ J2KStillEncoder::do_process_video (shared_ptr<const Image> yuv, SourceFrame fram
 			boost::filesystem::copy_file (real, link);
 #endif			
 		}
-		frame_done (0);
+		frame_done ();
 	}
 }
