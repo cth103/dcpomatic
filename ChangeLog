@@ -1,5 +1,9 @@
 2012-11-10  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.57 released.
+
+2012-11-10  Carl Hetherington  <cth@carlh.net>
+
 	* Fix crash when trying to use a DCI name when there
 	is no soundtrack (yet) (reported by Wolfgang Woehl).
 
