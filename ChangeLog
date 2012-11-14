@@ -1,3 +1,9 @@
+2012-11-14  Carl Hetherington  <cth@carlh.net>
+
+	* Rearrange the GUI a bit to tidy things up.
+
+	* Some internal reorganisation.
+
 2012-11-10  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.57 released.
