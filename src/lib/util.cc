@@ -620,10 +620,16 @@ Rect::intersection (Rect const & other) const
  */
 
 int
-round_up (int a, int t)
+stride_round_up (int c, int const * stride, int t)
 {
-	a += (t - 1);
+	int const a = stride[c] + (t - 1);
 	return a - (a % t);
+}
+
+int
+stride_lookup (int c, int const * stride)
+{
+	return stride[c];
 }
 
 /** Read a sequence of key / value pairs from a text stream;

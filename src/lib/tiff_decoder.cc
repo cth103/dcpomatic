@@ -38,8 +38,10 @@ extern "C" {
 #include "options.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::cout;
+using std::string;
+using std::stringstream;
+using boost::shared_ptr;
 
 /** @param f Our Film.
  *  @param o Options.
@@ -50,17 +52,17 @@ TIFFDecoder::TIFFDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Opt
 {
 	string const dir = _film->content_path ();
 	
-	if (!filesystem::is_directory (dir)) {
+	if (!boost::filesystem::is_directory (dir)) {
 		throw DecodeError ("TIFF content must be in a directory");
 	}
 
-	for (filesystem::directory_iterator i = filesystem::directory_iterator (dir); i != filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dir); i != boost::filesystem::directory_iterator(); ++i) {
 		/* Aah, the sweet smell of progress */
 #if BOOST_FILESYSTEM_VERSION == 3
-		string const ext = filesystem::path(*i).extension().string();
-		string const l = filesystem::path(*i).leaf().generic_string();
+		string const ext = boost::filesystem::path(*i).extension().string();
+		string const l = boost::filesystem::path(*i).leaf().generic_string();
 #else
-		string const ext = filesystem::path(*i).extension();
+		string const ext = boost::filesystem::path(*i).extension();
 		string const l = i->leaf ();
 #endif
 		if (ext == ".tif" || ext == ".tiff") {
@@ -71,7 +73,6 @@ TIFFDecoder::TIFFDecoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Opt
 	_files.sort ();
 
 	_iter = _files.begin ();
-
 }
 
 float
@@ -147,9 +148,9 @@ TIFFDecoder::pass ()
 		throw DecodeError ("could not read TIFF data");
 	}
 
-	CompactImage image (PIX_FMT_RGB24, Size (width, height));
+	shared_ptr<CompactImage> image (new CompactImage (PIX_FMT_RGB24, Size (width, height)));
 
-	uint8_t* p = image.data()[0];
+	uint8_t* p = image->data()[0];
 	for (uint32_t y = 0; y < height; ++y) {
 		for (uint32_t x = 0; x < width; ++x) {
 			uint32_t const i = (height - y - 1) * width + x;
@@ -162,7 +163,7 @@ TIFFDecoder::pass ()
 	_TIFFfree (raster);
 	TIFFClose (t);
 
-	process_video ((AVFrame const *) image.picture ());
+	emit_video (image);
 
 	++_iter;
 	return false;

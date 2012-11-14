@@ -29,6 +29,7 @@ def build(bld):
     	         film.cc
 		 filter.cc
 		 format.cc
+                 gain.cc
                  image.cc
                  imagemagick_decoder.cc
                  imagemagick_encoder.cc

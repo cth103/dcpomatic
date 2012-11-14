@@ -58,6 +58,10 @@ public:
 	/* Methods to query our input video */
 	float frames_per_second () const;
 	Size native_size () const;
+	int time_base_numerator () const;
+	int time_base_denominator () const;
+	int sample_aspect_ratio_numerator () const;
+	int sample_aspect_ratio_denominator () const;
 
 	void set_audio_stream (boost::optional<AudioStream>);
 	void set_subtitle_stream (boost::optional<SubtitleStream>);
@@ -66,12 +70,10 @@ private:
 
 	bool pass ();
 	PixelFormat pixel_format () const;
-	int time_base_numerator () const;
-	int time_base_denominator () const;
-	int sample_aspect_ratio_numerator () const;
-	int sample_aspect_ratio_denominator () const;
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
+
+	void filter_and_emit_video (AVFrame *);
 
 	void setup_general ();
 	void setup_video ();
@@ -99,4 +101,6 @@ private:
 
 	boost::optional<double> _first_video;
 	boost::optional<double> _first_audio;
+
+	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 };

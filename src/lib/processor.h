@@ -38,4 +38,12 @@ public:
 	{}
 };
 
+class VideoProcessor : public Processor, public VideoSource, public VideoSink
+{
+public:
+	VideoProcessor (Log* log)
+		: Processor (log)
+	{}
+};
+
 #endif

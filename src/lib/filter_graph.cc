@@ -28,42 +28,36 @@ extern "C" {
 #endif
 #include <libavformat/avio.h>
 }
-#include "film.h"
 #include "decoder.h"
 #include "filter_graph.h"
 #include "ffmpeg_compatibility.h"
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
+#include "film.h"
+#include "ffmpeg_decoder.h"
 
 using std::stringstream;
 using std::string;
 using std::list;
 using boost::shared_ptr;
 
-FilterGraph::FilterGraph (shared_ptr<Film> film, Decoder* decoder, bool crop, Size s, AVPixelFormat p)
+FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, bool crop, Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)
 	, _pixel_format (p)
 {
-	stringstream fs;
-	Size size_after_crop;
-	
-	if (crop) {
-		size_after_crop = film->cropped_size (decoder->native_size ());
-		fs << crop_string (Position (film->crop().left, film->crop().top), size_after_crop);
-	} else {
-		size_after_crop = decoder->native_size ();
-		fs << crop_string (Position (0, 0), size_after_crop);
-	}
-
 	string filters = Filter::ffmpeg_strings (film->filters()).first;
 	if (!filters.empty ()) {
 		filters += ",";
 	}
 
-	filters += fs.str ();
+	if (crop) {
+		filters += crop_string (Position (film->crop().left, film->crop().top), film->cropped_size (decoder->native_size()));
+	} else {
+		filters += crop_string (Position (0, 0), decoder->native_size());
+	}
 
 	avfilter_register_all ();
 	

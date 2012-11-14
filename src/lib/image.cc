@@ -293,7 +293,7 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-SimpleImage::SimpleImage (AVPixelFormat p, Size s, function<int (int)> rounder)
+SimpleImage::SimpleImage (AVPixelFormat p, Size s, function<int (int, int const *)> stride_computer)
 	: Image (p)
 	, _size (s)
 {
@@ -329,7 +329,7 @@ SimpleImage::SimpleImage (AVPixelFormat p, Size s, function<int (int)> rounder)
 	}
 
 	for (int i = 0; i < components(); ++i) {
-		_stride[i] = rounder (_line_size[i]);
+		_stride[i] = stride_computer (i, _line_size);
 		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
 	}
 }
@@ -371,19 +371,13 @@ SimpleImage::size () const
 }
 
 AlignedImage::AlignedImage (AVPixelFormat f, Size s)
-	: SimpleImage (f, s, boost::bind (round_up, _1, 32))
+	: SimpleImage (f, s, boost::bind (stride_round_up, _1, _2, 32))
 {
 
 }
 
-CompactImage::CompactImage (AVPixelFormat f, Size s)
-	: SimpleImage (f, s, boost::bind (round_up, _1, 1))
-{
-	setup_picture ();
-}
-
-CompactImage::CompactImage (shared_ptr<Image> im)
-	: SimpleImage (im->pixel_format(), im->size(), boost::bind (round_up, _1, 1))
+AlignedImage::AlignedImage (shared_ptr<Image> im)
+	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
 {
 	assert (components() == im->components());
 
@@ -400,16 +394,31 @@ CompactImage::CompactImage (shared_ptr<Image> im)
 			o += im->stride()[c];
 		}
 	}
-
-	setup_picture ();
 }
 
-void
-CompactImage::setup_picture ()
+CompactImage::CompactImage (AVPixelFormat f, Size s)
+	: SimpleImage (f, s, boost::bind (stride_round_up, _1, _2, 1))
 {
+
+}
+
+CompactImage::CompactImage (shared_ptr<Image> im)
+	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
+{
+	assert (components() == im->components());
+
 	for (int c = 0; c < components(); ++c) {
-		_picture.data[c] = data()[c];
-		_picture.linesize[c] = line_size()[c];
+
+		assert (line_size()[c] == im->line_size()[c]);
+
+		uint8_t* t = data()[c];
+		uint8_t* o = im->data()[c];
+		
+		for (int y = 0; y < lines(c); ++y) {
+			memcpy (t, o, line_size()[c]);
+			t += stride()[c];
+			o += im->stride()[c];
+		}
 	}
 }
 

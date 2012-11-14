@@ -47,12 +47,14 @@ extern "C" {
 #include "util.h"
 #include "log.h"
 #include "ffmpeg_decoder.h"
+#include "filter_graph.h"
 #include "subtitle.h"
 
 using std::cout;
 using std::string;
 using std::vector;
 using std::stringstream;
+using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -223,7 +225,7 @@ FFmpegDecoder::pass ()
 		int frame_finished;
 
 		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			process_video (_frame);
+			filter_and_emit_video (_frame);
 		}
 
 		if (_audio_stream && _opt->decode_audio && _film->use_content_audio()) {
@@ -233,7 +235,7 @@ FFmpegDecoder::pass ()
 					);
 
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				process_audio (deinterleave_audio (_frame->data[0], data_size));
+				Audio (deinterleave_audio (_frame->data[0], data_size));
 			}
 		}
 
@@ -283,7 +285,7 @@ FFmpegDecoder::pass ()
 
 			if (delta > -one_frame) {
 				/* Process this frame */
-				process_video (_frame);
+				filter_and_emit_video (_frame);
 			} else {
 				/* Otherwise we are omitting a frame to keep things right */
 				_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
@@ -326,7 +328,7 @@ FFmpegDecoder::pass ()
 					if (s) {
 						shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream.get().channels(), s));
 						audio->make_silent ();
-						process_audio (audio);
+						Audio (audio);
 					}
 				}
 
@@ -335,7 +337,7 @@ FFmpegDecoder::pass ()
 					);
 				
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				process_audio (deinterleave_audio (_frame->data[0], data_size));
+				Audio (deinterleave_audio (_frame->data[0], data_size));
 			}
 		}
 			
@@ -348,9 +350,9 @@ FFmpegDecoder::pass ()
 			   indicate that the previous subtitle should stop.
 			*/
 			if (sub.num_rects > 0) {
-				process_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
+				emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
 			} else {
-				process_subtitle (shared_ptr<TimedSubtitle> ());
+				emit_subtitle (shared_ptr<TimedSubtitle> ());
 			}
 			avsubtitle_free (&sub);
 		}
@@ -526,4 +528,29 @@ FFmpegDecoder::set_subtitle_stream (optional<SubtitleStream> s)
 {
 	Decoder::set_subtitle_stream (s);
 	setup_subtitle ();
+}
+
+void
+FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
+{
+	shared_ptr<FilterGraph> graph;
+
+	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
+	while (i != _filter_graphs.end() && !(*i)->can_process (Size (frame->width, frame->height), (AVPixelFormat) frame->format)) {
+		++i;
+	}
+
+	if (i == _filter_graphs.end ()) {
+		graph.reset (new FilterGraph (_film, this, _opt->apply_crop, Size (frame->width, frame->height), (AVPixelFormat) frame->format));
+		_filter_graphs.push_back (graph);
+		_film->log()->log (String::compose ("New graph for %1x%2, pixel format %3", frame->width, frame->height, frame->format));
+	} else {
+		graph = *i;
+	}
+
+	list<shared_ptr<Image> > images = graph->process (frame);
+
+	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
+		emit_video (*i);
+	}
 }

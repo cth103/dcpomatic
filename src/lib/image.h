@@ -111,7 +111,7 @@ private:
 class SimpleImage : public Image
 {
 public:
-	SimpleImage (AVPixelFormat, Size, boost::function<int (int)> rounder);
+	SimpleImage (AVPixelFormat, Size, boost::function<int (int, int const *)> rounder);
 	~SimpleImage ();
 
 	uint8_t ** data () const;
@@ -131,6 +131,7 @@ class AlignedImage : public SimpleImage
 {
 public:
 	AlignedImage (AVPixelFormat, Size);
+	AlignedImage (boost::shared_ptr<Image>);
 };
 
 class CompactImage : public SimpleImage
@@ -138,15 +139,6 @@ class CompactImage : public SimpleImage
 public:
 	CompactImage (AVPixelFormat, Size);
 	CompactImage (boost::shared_ptr<Image>);
-
-	AVPicture const * picture () const {
-		return &_picture;
-	}
-
-private:
-	void setup_picture ();
-	
-	AVPicture _picture;
 };
 
 #endif

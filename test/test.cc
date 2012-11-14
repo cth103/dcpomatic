@@ -520,11 +520,12 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 
 BOOST_AUTO_TEST_CASE (stream_test)
 {
-	AudioStream a ("4 9 hello there world");
+	AudioStream a ("4 44100 1 hello there world");
 	BOOST_CHECK_EQUAL (a.id(), 4);
-	BOOST_CHECK_EQUAL (a.channels(), 9);
+	BOOST_CHECK_EQUAL (a.sample_rate(), 44100);
+	BOOST_CHECK_EQUAL (a.channel_layout(), 1);
 	BOOST_CHECK_EQUAL (a.name(), "hello there world");
-	BOOST_CHECK_EQUAL (a.to_string(), "4 9 hello there world");
+	BOOST_CHECK_EQUAL (a.to_string(), "4 44100 1 hello there world");
 
 	SubtitleStream s ("5 a b c");
 	BOOST_CHECK_EQUAL (s.id(), 5);

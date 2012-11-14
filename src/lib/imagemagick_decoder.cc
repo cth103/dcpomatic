@@ -23,8 +23,8 @@
 #include "image.h"
 #include "film.h"
 
-using namespace std;
-using namespace boost;
+using std::cout;
+using boost::shared_ptr;
 
 ImageMagickDecoder::ImageMagickDecoder (
 	boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
@@ -50,9 +50,9 @@ ImageMagickDecoder::pass ()
 	}
 
 	Size size = native_size ();
-	CompactImage image (PIX_FMT_RGB24, size);
+	shared_ptr<CompactImage> image (new CompactImage (PIX_FMT_RGB24, size));
 
-	uint8_t* p = image.data()[0];
+	uint8_t* p = image->data()[0];
 	for (int y = 0; y < size.height; ++y) {
 		for (int x = 0; x < size.width; ++x) {
 			Magick::Color c = _magick_image->pixelColor (x, y);
@@ -63,7 +63,7 @@ ImageMagickDecoder::pass ()
 
 	}
 	
-	process_video ((AVFrame const *) image.picture());
+	emit_video (image);
 
 	_done = true;
 	return false;

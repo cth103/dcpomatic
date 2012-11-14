@@ -73,57 +73,19 @@ Decoder::go ()
 	}
 }
 
-/** Called to tell the world that some audio data is ready
- *  @param audio Audio data.
- */
-void
-Decoder::process_audio (shared_ptr<AudioBuffers> audio)
-{
-	/* Maybe apply gain */
-	if (_film->audio_gain() != 0) {
-		float const linear_gain = pow (10, _film->audio_gain() / 20);
-		for (int i = 0; i < audio->channels(); ++i) {
-			for (int j = 0; j < audio->frames(); ++j) {
-				audio->data(i)[j] *= linear_gain;
-			}
-		}
-	}
-
-	Audio (audio);
-}
-
 /** Called by subclasses to tell the world that some video data is ready.
  *  We do some post-processing / filtering then emit it for listeners.
  *  @param frame to decode; caller manages memory.
  */
 void
-Decoder::process_video (AVFrame const * frame)
+Decoder::emit_video (shared_ptr<Image> image)
 {
-	shared_ptr<FilterGraph> graph;
-
-	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process (Size (frame->width, frame->height), (AVPixelFormat) frame->format)) {
-		++i;
+	shared_ptr<Subtitle> sub;
+	if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame()) / _film->frames_per_second())) {
+		sub = _timed_subtitle->subtitle ();
 	}
 
-	if (i == _filter_graphs.end ()) {
-		graph.reset (new FilterGraph (_film, this, _opt->apply_crop, Size (frame->width, frame->height), (AVPixelFormat) frame->format));
-		_filter_graphs.push_back (graph);
-		_film->log()->log (String::compose ("New graph for %1x%2, pixel format %3", frame->width, frame->height, frame->format));
-	} else {
-		graph = *i;
-	}
-
-	list<shared_ptr<Image> > images = graph->process (frame);
-
-	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame()) / _film->frames_per_second())) {
-			sub = _timed_subtitle->subtitle ();
-		}
-
-		emit_video (*i, sub);
-	}
+	Video (image, sub);
 }
 
 void
@@ -149,7 +111,7 @@ Decoder::emit_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 }
 
 void
-Decoder::process_subtitle (shared_ptr<TimedSubtitle> s)
+Decoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 {
 	_timed_subtitle = s;
 	

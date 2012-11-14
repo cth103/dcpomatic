@@ -22,14 +22,14 @@
 
 #include "util.h"
 
-class Decoder;
 class Image;
-class Film;
+class VideoFilter;
+class FFmpegDecoder;
 
 class FilterGraph
 {
 public:
-	FilterGraph (boost::shared_ptr<Film> film, Decoder* decoder, bool crop, Size s, AVPixelFormat p);
+	FilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, bool crop, Size s, AVPixelFormat p);
 
 	bool can_process (Size s, AVPixelFormat p) const;
 	std::list<boost::shared_ptr<Image> > process (AVFrame const * frame);

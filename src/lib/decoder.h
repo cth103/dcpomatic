@@ -99,9 +99,8 @@ protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
 	
-	void process_video (AVFrame const *);
-	void process_audio (boost::shared_ptr<AudioBuffers>);
-	void process_subtitle (boost::shared_ptr<TimedSubtitle>);
+	void emit_video (boost::shared_ptr<Image>);
+	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 	void repeat_last_video ();
 
 	/** our Film */
@@ -121,8 +120,6 @@ private:
 	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 
 	SourceFrame _video_frame;
-
-	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 

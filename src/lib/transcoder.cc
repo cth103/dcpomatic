@@ -32,6 +32,8 @@
 #include "film.h"
 #include "matcher.h"
 #include "delay_line.h"
+#include "options.h"
+#include "gain.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -49,21 +51,30 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 {
 	assert (_encoder);
 
-	AudioStream st = f->audio_stream().get();
-
-	_matcher.reset (new Matcher (f->log(), st.sample_rate(), f->frames_per_second()));
-	_delay_line.reset (new DelayLine (f->log(), st.channels(), f->audio_delay() * st.sample_rate() / 1000));
+	if (f->audio_stream()) {
+		AudioStream st = f->audio_stream().get();
+		_matcher.reset (new Matcher (f->log(), st.sample_rate(), f->frames_per_second()));
+		_delay_line.reset (new DelayLine (f->log(), st.channels(), f->audio_delay() * st.sample_rate() / 1000));
+		_gain.reset (new Gain (f->log(), f->audio_gain()));
+	}
 
 	/* Set up the decoder to use the film's set streams */
 	_decoder->set_audio_stream (f->audio_stream ());
 	_decoder->set_subtitle_stream (f->subtitle_stream ());
 
-	_decoder->connect_video (_matcher);
-	_matcher->connect_video (_encoder);
-
-	_decoder->connect_audio (_delay_line);
-	_delay_line->connect_audio (_matcher);
-	_matcher->connect_audio (_delay_line);
+	if (_matcher) {
+		_decoder->connect_video (_matcher);
+		_matcher->connect_video (_encoder);
+	} else {
+		_decoder->connect_video (_encoder);
+	}
+	
+	if (_matcher && _delay_line) {
+		_decoder->connect_audio (_delay_line);
+		_delay_line->connect_audio (_matcher);
+		_matcher->connect_audio (_gain);
+		_gain->connect_audio (_encoder);
+	}
 }
 
 /** Run the decoder, passing its output to the encoder, until the decoder
