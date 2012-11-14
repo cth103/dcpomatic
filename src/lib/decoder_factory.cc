@@ -23,7 +23,6 @@
 
 #include <boost/filesystem.hpp>
 #include "ffmpeg_decoder.h"
-#include "tiff_decoder.h"
 #include "imagemagick_decoder.h"
 #include "film.h"
 
@@ -35,12 +34,8 @@ decoder_factory (
 	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j
 	)
 {
-	if (boost::filesystem::is_directory (f->content_path ())) {
-		/* Assume a directory contains TIFFs */
-		return shared_ptr<Decoder> (new TIFFDecoder (f, o, j));
-	}
-
-	if (f->content_type() == STILL) {
+	if (boost::filesystem::is_directory (f->content_path()) || f->content_type() == STILL) {
+		/* A single image file, or a directory of them */
 		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j));
 	}
 	

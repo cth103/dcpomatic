@@ -64,7 +64,7 @@ J2KStillEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> s
 	}
 
 	string const real = _opt->frame_out_path (0, false);
-	for (int i = 1; i < (_film->still_duration() * ImageMagickDecoder::static_frames_per_second()); ++i) {
+	for (int i = 1; i < (_film->still_duration() * 24); ++i) {
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
 			string const link = _opt->frame_out_path (i, false);
 #ifdef DVDOMATIC_POSIX			

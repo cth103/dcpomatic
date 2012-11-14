@@ -63,7 +63,6 @@ def configure(conf):
     conf.check_cfg(package = 'libdcp', atleast_version = '0.24', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
-    conf.check_cc(msg = 'Checking for library libtiff', function_name = 'TIFFOpen', header_name = 'tiffio.h', lib = 'tiff', uselib_store = 'TIFF')
     conf.check_cc(fragment  = """
     			      #include <stdio.h>\n
 			      #include <openjpeg.h>\n

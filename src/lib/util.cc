@@ -37,6 +37,7 @@
 #include <boost/lambda/lambda.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
 #include <openjpeg.h>
 #include <openssl/md5.h>
 #include <magick/MagickCore.h>
@@ -826,4 +827,18 @@ int64_t
 video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second)
 {
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
+}
+
+bool
+still_image_file (string f)
+{
+#if BOOST_FILESYSTEM_VERSION == 3
+	string ext = boost::filesystem::path(f).extension().string();
+#else
+	string ext = boost::filesystem::path(f).extension();
+#endif
+
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	
+	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png");
 }

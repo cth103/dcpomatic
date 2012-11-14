@@ -29,7 +29,8 @@ public:
 	ImageMagickDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
 
 	float frames_per_second () const {
-		return static_frames_per_second ();
+		/* We don't know */
+		return 0;
 	}
 
 	Size native_size () const;
@@ -48,10 +49,6 @@ public:
 
 	bool has_subtitles () const {
 		return false;
-	}
-
-	static float static_frames_per_second () {
-		return 24;
 	}
 
 protected:
@@ -77,6 +74,6 @@ protected:
 	}
 
 private:
-	Magick::Image* _magick_image;
-	bool _done;
+	std::list<std::string> _files;
+	std::list<std::string>::iterator _iter;
 };

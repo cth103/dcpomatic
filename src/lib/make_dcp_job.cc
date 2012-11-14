@@ -90,7 +90,7 @@ MakeDCPJob::run ()
 		frames = _film->dcp_length().get() / dfr.skip;
 		break;
 	case STILL:
-		frames = _film->still_duration() * ImageMagickDecoder::static_frames_per_second ();
+		frames = _film->still_duration() * 24;
 		break;
 	}
 

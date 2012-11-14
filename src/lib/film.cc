@@ -686,15 +686,12 @@ Film::content_path () const
 ContentType
 Film::content_type () const
 {
-#if BOOST_FILESYSTEM_VERSION == 3
-	string ext = boost::filesystem::path(_content).extension().string();
-#else
-	string ext = boost::filesystem::path(_content).extension();
-#endif
+	if (boost::filesystem::is_directory (_content)) {
+		/* Directory of images, we assume */
+		return VIDEO;
+	}
 
-	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
-	
-	if (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png") {
+	if (still_image_file (_content)) {
 		return STILL;
 	}
 
