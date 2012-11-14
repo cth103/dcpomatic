@@ -71,6 +71,8 @@ using boost::ends_with;
 using boost::starts_with;
 using boost::optional;
 
+int const Film::state_version = 1;
+
 /** Construct a Film object in a given directory, reading any metadata
  *  file that exists in that directory.  An exception will be thrown if
  *  must_exist is true and the specified directory does not exist.
@@ -397,6 +399,8 @@ Film::write_metadata () const
 		throw CreateFileError (m);
 	}
 
+	f << "version " << state_version << "\n";
+
 	/* User stuff */
 	f << "name " << _name << "\n";
 	f << "use_dci_name " << _use_dci_name << "\n";
@@ -476,12 +480,21 @@ Film::read_metadata ()
 	_thumbs.clear ();
 	_audio_streams.clear ();
 	_subtitle_streams.clear ();
+
+	boost::optional<int> version;
+	boost::optional<int> audio_sample_rate;
 	
 	ifstream f (file ("metadata").c_str());
 	multimap<string, string> kv = read_key_value (f);
 	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
 		string const k = i->first;
 		string const v = i->second;
+
+		if (k == "version") {
+			version = atoi (v.c_str());
+		} else if (k == "audio_sample_rate") {
+			audio_sample_rate = atoi (v.c_str());
+		}
 
 		/* User-specified stuff */
 		if (k == "name") {
@@ -515,10 +528,9 @@ Film::read_metadata ()
 		} else if (k == "use_content_audio") {
 			_use_content_audio = (v == "1");
 		} else if (k == "selected_audio_stream") {
-			AudioStream st (v);
 			/* check for -1 for backwards compatibility */
-			if (st.id() != -1) {
-				_audio_stream = AudioStream (v);
+			if (atoi(v.c_str()) != -1) {
+				_audio_stream = AudioStream (v, version);
 			}
 		} else if (k == "external_audio") {
 			_external_audio.push_back (v);
@@ -529,10 +541,9 @@ Film::read_metadata ()
 		} else if (k == "still_duration") {
 			_still_duration = atoi (v.c_str ());
 		} else if (k == "selected_subtitle_stream") {
-			SubtitleStream st (v);
 			/* check for -1 for backwards compatibility */
-			if (st.id() != -1) {
-				_subtitle_stream = st;
+			if (atoi(v.c_str()) != -1) {
+				_subtitle_stream = SubtitleStream (v);
 			}
 		} else if (k == "with_subtitles") {
 			_with_subtitles = (v == "1");
@@ -575,11 +586,18 @@ Film::read_metadata ()
 		} else if (k == "content_digest") {
 			_content_digest = v;
 		} else if (k == "audio_stream") {
-			_audio_streams.push_back (AudioStream (v));
+			_audio_streams.push_back (AudioStream (v, version));
 		} else if (k == "subtitle_stream") {
 			_subtitle_streams.push_back (SubtitleStream (v));
 		} else if (k == "frames_per_second") {
 			_frames_per_second = atof (v.c_str ());
+		}
+	}
+
+	if (!version && audio_sample_rate) {
+		/* version < 1 didn't specify sample rate in the audio streams, so fill it in here */
+		for (vector<AudioStream>::iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
+			i->set_sample_rate (audio_sample_rate.get());
 		}
 	}
 		

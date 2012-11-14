@@ -995,7 +995,12 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_film->set_audio_stream (AudioStream (string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ()))));
+	_film->set_audio_stream (
+		AudioStream (
+			string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ())),
+			Film::state_version
+			)
+		);
 }
 
 void

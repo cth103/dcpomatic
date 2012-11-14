@@ -369,7 +369,9 @@ public:
 
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
-	
+
+	static int const state_version;
+
 private:
 	
 	/** Log to write to */

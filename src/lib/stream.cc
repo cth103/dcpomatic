@@ -22,13 +22,25 @@
 #include "stream.h"
 
 using namespace std;
+using boost::optional;
 
-AudioStream::AudioStream (string t)
+AudioStream::AudioStream (string t, optional<int> version)
 {
 	stringstream n (t);
-	n >> _id >> _sample_rate >> _channel_layout;
+	
+	int name_index = 3;
+	if (!version) {
+		name_index = 2;
+		int channels;
+		n >> _id >> channels;
+		_channel_layout = av_get_default_channel_layout (channels);
+		_sample_rate = 0;
+	} else {
+		/* Current (marked version 1) */
+		n >> _id >> _sample_rate >> _channel_layout;
+	}
 
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < name_index; ++i) {
 		size_t const s = t.find (' ');
 		if (s != string::npos) {
 			t = t.substr (s + 1);

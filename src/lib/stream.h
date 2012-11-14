@@ -21,6 +21,7 @@
 #define DVDOMATIC_STREAM_H
 
 #include <stdint.h>
+#include <boost/optional.hpp>
 extern "C" {
 #include <libavutil/audioconvert.h>
 }
@@ -55,13 +56,18 @@ protected:
 struct AudioStream : public Stream
 {
 public:
-	AudioStream (std::string t);
+	AudioStream (std::string t, boost::optional<int> v);
 	
 	AudioStream (std::string n, int id, int r, int64_t l)
 		: Stream (n, id)
 		, _sample_rate (r)
 		, _channel_layout (l)
 	{}
+
+	/** Only used for state file version < 1 compatibility */
+	void set_sample_rate (int r) {
+		_sample_rate = r;
+	}
 
 	std::string to_string () const;
 
