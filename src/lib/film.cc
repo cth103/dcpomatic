@@ -515,7 +515,11 @@ Film::read_metadata ()
 		} else if (k == "use_content_audio") {
 			_use_content_audio = (v == "1");
 		} else if (k == "selected_audio_stream") {
-			_audio_stream = AudioStream (v);
+			AudioStream st (v);
+			/* check for -1 for backwards compatibility */
+			if (st.id() != -1) {
+				_audio_stream = AudioStream (v);
+			}
 		} else if (k == "external_audio") {
 			_external_audio.push_back (v);
 		} else if (k == "audio_gain") {
@@ -525,7 +529,11 @@ Film::read_metadata ()
 		} else if (k == "still_duration") {
 			_still_duration = atoi (v.c_str ());
 		} else if (k == "selected_subtitle_stream") {
-			_subtitle_stream = SubtitleStream (v);
+			SubtitleStream st (v);
+			/* check for -1 for backwards compatibility */
+			if (st.id() != -1) {
+				_subtitle_stream = st;
+			}
 		} else if (k == "with_subtitles") {
 			_with_subtitles = (v == "1");
 		} else if (k == "subtitle_offset") {
