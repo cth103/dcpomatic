@@ -74,7 +74,7 @@ Decoder::go ()
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
- *  We do some post-processing / filtering then emit it for listeners.
+ *  We find a subtitle then emit it for listeners.
  *  @param frame to decode; caller manages memory.
  */
 void
@@ -85,7 +85,7 @@ Decoder::emit_video (shared_ptr<Image> image)
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	Video (image, sub);
+	signal_video (image, sub);
 }
 
 void
@@ -96,11 +96,11 @@ Decoder::repeat_last_video ()
 		_last_image->make_black ();
 	}
 
-	emit_video (_last_image, _last_subtitle);
+	signal_video (_last_image, _last_subtitle);
 }
 
 void
-Decoder::emit_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+Decoder::signal_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	TIMING ("Decoder emits %1", _video_frame);
 	Video (image, sub);

@@ -117,7 +117,7 @@ protected:
 	std::vector<SubtitleStream> _subtitle_streams;
 	
 private:
-	void emit_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
+	void signal_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 
 	SourceFrame _video_frame;
 
