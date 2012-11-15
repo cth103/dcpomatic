@@ -8,6 +8,7 @@ def build(bld):
     obj.source = """
 		 ab_transcode_job.cc
 		 ab_transcoder.cc
+                 audio_decoder.cc
                  audio_source.cc
                  check_hashes_job.cc
 		 config.cc
@@ -23,6 +24,7 @@ def build(bld):
 		 encoder.cc
                  encoder_factory.cc
 		 examine_content_job.cc
+		 external_audio_decoder.cc
                  filter_graph.cc
                  ffmpeg_compatibility.cc
                  ffmpeg_decoder.cc
@@ -54,6 +56,7 @@ def build(bld):
                  ui_signaller.cc
 		 util.cc
 		 version.cc
+                 video_decoder.cc
                  video_source.cc
 		 """
 

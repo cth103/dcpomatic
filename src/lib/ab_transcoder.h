@@ -28,7 +28,8 @@
 
 class Job;
 class Encoder;
-class Decoder;
+class VideoDecoder;
+class AudioDecoder;
 class Options;
 class Image;
 class Log;
@@ -62,7 +63,7 @@ private:
 	boost::shared_ptr<const Options> _opt;
 	Job* _job;
 	boost::shared_ptr<Encoder> _encoder;
-	boost::shared_ptr<Decoder> _da;
-	boost::shared_ptr<Decoder> _db;
+	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _da;
+	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _db;
 	boost::shared_ptr<Image> _image;
 };

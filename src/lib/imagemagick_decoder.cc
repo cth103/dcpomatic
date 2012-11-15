@@ -31,6 +31,7 @@ using boost::shared_ptr;
 ImageMagickDecoder::ImageMagickDecoder (
 	boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
 	: Decoder (f, o, j)
+	, VideoDecoder (f, o, j)
 {
 	if (boost::filesystem::is_directory (_film->content_path())) {
 		for (

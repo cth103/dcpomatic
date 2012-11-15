@@ -780,9 +780,15 @@ void
 AudioBuffers::make_silent ()
 {
 	for (int i = 0; i < _channels; ++i) {
-		for (int j = 0; j < _frames; ++j) {
-			_data[i][j] = 0;
-		}
+		make_silent (i);
+	}
+}
+
+void
+AudioBuffers::make_silent (int c)
+{
+	for (int i = 0; i < _frames; ++i) {
+		_data[c][i] = 0;
 	}
 }
 

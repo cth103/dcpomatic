@@ -18,15 +18,15 @@
 */
 
 /** @file  src/decoder_factory.h
- *  @brief A method to create an appropriate decoder for some content.
+ *  @brief A method to create appropriate decoders for some content.
  */
 
-class Decoder;
 class Film;
 class Options;
 class Job;
-class Log;
+class VideoDecoder;
+class AudioDecoder;
 
-extern boost::shared_ptr<Decoder> decoder_factory (
+extern std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > decoder_factory (
 	boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *
 	);

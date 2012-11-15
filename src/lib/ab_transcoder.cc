@@ -21,7 +21,8 @@
 #include <boost/shared_ptr.hpp>
 #include "ab_transcoder.h"
 #include "film.h"
-#include "decoder.h"
+#include "video_decoder.h"
+#include "audio_decoder.h"
 #include "encoder.h"
 #include "job.h"
 #include "options.h"
@@ -54,9 +55,11 @@ ABTranscoder::ABTranscoder (
 	_da = decoder_factory (_film_a, o, j);
 	_db = decoder_factory (_film_b, o, j);
 
-	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 0));
-	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 1));
-	_da->Audio.connect (bind (&Encoder::process_audio, e, _1));
+	/* XXX */
+
+//	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 0));
+//	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 1));
+//	_da->Audio.connect (bind (&Encoder::process_audio, e, _1));
 }
 
 ABTranscoder::~ABTranscoder ()
@@ -100,10 +103,11 @@ ABTranscoder::go ()
 	_encoder->process_begin ();
 	
 	while (1) {
-		bool const a = _da->pass ();
-		bool const b = _db->pass ();
+		bool const va = _da.first->pass ();
+		bool const vb = _db.first->pass ();
+		bool const a = _da.first->pass ();
 
-		if (a && b) {
+		if (va && vb && a) {
 			break;
 		}
 	}

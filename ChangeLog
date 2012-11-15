@@ -2,6 +2,9 @@
 
 	* Default to using a DCI name.
 
+	* Support for using external sound files instead
+	of the ones in the video source.
+
 2012-11-14  Carl Hetherington  <cth@carlh.net>
 
 	* Rearrange the GUI a bit to tidy things up.

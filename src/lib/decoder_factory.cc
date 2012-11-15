@@ -25,19 +25,30 @@
 #include "ffmpeg_decoder.h"
 #include "imagemagick_decoder.h"
 #include "film.h"
+#include "external_audio_decoder.h"
 
 using std::string;
+using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 
-shared_ptr<Decoder>
+pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> >
 decoder_factory (
 	shared_ptr<Film> f, shared_ptr<const Options> o, Job* j
 	)
 {
 	if (boost::filesystem::is_directory (f->content_path()) || f->content_type() == STILL) {
 		/* A single image file, or a directory of them */
-		return shared_ptr<Decoder> (new ImageMagickDecoder (f, o, j));
+		return make_pair (
+			shared_ptr<VideoDecoder> (new ImageMagickDecoder (f, o, j)),
+			shared_ptr<AudioDecoder> ()
+			);
+	}
+
+	shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (f, o, j));
+	if (f->use_content_audio()) {
+		return make_pair (fd, fd);
 	}
 	
-	return shared_ptr<Decoder> (new FFmpegDecoder (f, o, j));
+	return make_pair (fd, shared_ptr<AudioDecoder> (new ExternalAudioDecoder (f, o, j)));
 }

@@ -23,8 +23,6 @@
 
 #include "job.h"
 
-class Decoder;
-
 /** @class ExamineContentJob
  *  @brief A class to run through content at high speed to find its length.
  */
@@ -36,8 +34,5 @@ public:
 
 	std::string name () const;
 	void run ();
-
-private:
-	boost::shared_ptr<Decoder> _decoder;
 };
 

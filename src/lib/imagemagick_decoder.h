@@ -17,13 +17,13 @@
 
 */
 
-#include "decoder.h"
+#include "video_decoder.h"
 
 namespace Magick {
 	class Image;
 }
 
-class ImageMagickDecoder : public Decoder
+class ImageMagickDecoder : public VideoDecoder
 {
 public:
 	ImageMagickDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);

@@ -32,6 +32,8 @@ extern "C" {
 }
 #include "util.h"
 #include "decoder.h"
+#include "video_decoder.h"
+#include "audio_decoder.h"
 
 struct AVFilterGraph;
 struct AVCodecContext;
@@ -49,13 +51,12 @@ class Log;
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
  */
-class FFmpegDecoder : public Decoder
+class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
 	FFmpegDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
 	~FFmpegDecoder ();
 
-	/* Methods to query our input video */
 	float frames_per_second () const;
 	Size native_size () const;
 	int time_base_numerator () const;

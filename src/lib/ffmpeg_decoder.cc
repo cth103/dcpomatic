@@ -60,6 +60,8 @@ using boost::optional;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
 	: Decoder (f, o, j)
+	, VideoDecoder (f, o, j)
+	, AudioDecoder (f, o, j)
 	, _format_context (0)
 	, _video_stream (-1)
 	, _frame (0)
@@ -519,14 +521,14 @@ FFmpegDecoder::bytes_per_audio_sample () const
 void
 FFmpegDecoder::set_audio_stream (optional<AudioStream> s)
 {
-	Decoder::set_audio_stream (s);
+	AudioDecoder::set_audio_stream (s);
 	setup_audio ();
 }
 
 void
 FFmpegDecoder::set_subtitle_stream (optional<SubtitleStream> s)
 {
-	Decoder::set_subtitle_stream (s);
+	VideoDecoder::set_subtitle_stream (s);
 	setup_subtitle ();
 }
 

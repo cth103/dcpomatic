@@ -34,9 +34,12 @@
 #include "delay_line.h"
 #include "options.h"
 #include "gain.h"
+#include "video_decoder.h"
+#include "audio_decoder.h"
 
 using std::string;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
  *  @param f Film that we are transcoding.
@@ -47,7 +50,7 @@ using boost::shared_ptr;
 Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, shared_ptr<Encoder> e)
 	: _job (j)
 	, _encoder (e)
-	, _decoder (decoder_factory (f, o, j))
+	, _decoders (decoder_factory (f, o, j))
 {
 	assert (_encoder);
 
@@ -59,18 +62,18 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 	}
 
 	/* Set up the decoder to use the film's set streams */
-	_decoder->set_audio_stream (f->audio_stream ());
-	_decoder->set_subtitle_stream (f->subtitle_stream ());
+	_decoders.first->set_subtitle_stream (f->subtitle_stream ());
+	_decoders.second->set_audio_stream (f->audio_stream ());
 
 	if (_matcher) {
-		_decoder->connect_video (_matcher);
+		_decoders.first->connect_video (_matcher);
 		_matcher->connect_video (_encoder);
 	} else {
-		_decoder->connect_video (_encoder);
+		_decoders.first->connect_video (_encoder);
 	}
 	
 	if (_matcher && _delay_line) {
-		_decoder->connect_audio (_delay_line);
+		_decoders.second->connect_audio (_delay_line);
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
 		_gain->connect_audio (_encoder);
@@ -85,7 +88,19 @@ Transcoder::go ()
 {
 	_encoder->process_begin ();
 	try {
-		_decoder->go ();
+		while (1) {
+			bool const v = _decoders.first->pass ();
+
+			bool a = false;
+			if (dynamic_pointer_cast<Decoder> (_decoders.second) != dynamic_pointer_cast<Decoder> (_decoders.first)) {
+				a = _decoders.second->pass ();
+			}
+
+			if (v && a) {
+				break;
+			}
+		}
+		
 	} catch (...) {
 		/* process_end() is important as the decoder may have worker
 		   threads that need to be cleaned up.

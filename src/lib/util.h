@@ -243,6 +243,7 @@ public:
 	void set_frames (int f);
 
 	void make_silent ();
+	void make_silent (int c);
 
 	void copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset);
 	void move (int from, int to, int frames);

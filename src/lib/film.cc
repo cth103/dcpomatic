@@ -52,6 +52,8 @@
 #include "check_hashes_job.h"
 #include "version.h"
 #include "ui_signaller.h"
+#include "video_decoder.h"
+#include "audio_decoder.h"
 
 using std::string;
 using std::stringstream;
@@ -939,20 +941,20 @@ Film::set_content (string c)
 		shared_ptr<Options> o (new Options ("", "", ""));
 		o->out_size = Size (1024, 1024);
 		
-		shared_ptr<Decoder> d = decoder_factory (shared_from_this(), o, 0);
+		pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > d = decoder_factory (shared_from_this(), o, 0);
 		
-		set_size (d->native_size ());
-		set_frames_per_second (d->frames_per_second ());
-		set_audio_streams (d->audio_streams ());
-		set_subtitle_streams (d->subtitle_streams ());
+		set_size (d.first->native_size ());
+		set_frames_per_second (d.first->frames_per_second ());
+		set_subtitle_streams (d.first->subtitle_streams ());
+		set_audio_streams (d.second->audio_streams ());
 
 		/* Start off with the first audio and subtitle streams */
-		if (!d->audio_streams().empty()) {
-			set_audio_stream (d->audio_streams().front());
+		if (!d.second->audio_streams().empty()) {
+			set_audio_stream (d.second->audio_streams().front());
 		}
 		
-		if (!d->subtitle_streams().empty()) {
-			set_subtitle_stream (d->subtitle_streams().front());
+		if (!d.first->subtitle_streams().empty()) {
+			set_subtitle_stream (d.first->subtitle_streams().front());
 		}
 		
 		{

@@ -30,9 +30,11 @@
 #include "transcoder.h"
 #include "log.h"
 #include "film.h"
+#include "video_decoder.h"
 
 using std::string;
 using std::vector;
+using std::pair;
 using boost::shared_ptr;
 
 ExamineContentJob::ExamineContentJob (shared_ptr<Film> f, shared_ptr<Job> req)
@@ -72,10 +74,14 @@ ExamineContentJob::run ()
 
 	descend (0.5);
 
-	_decoder = decoder_factory (_film, o, this);
-	_decoder->go ();
+	pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > decoders = decoder_factory (_film, o, this);
 
-	_film->set_length (_decoder->video_frame());
+	set_progress_unknown ();
+	while (!decoders.first->pass()) {
+		/* keep going */
+	}
+
+	_film->set_length (decoders.first->video_frame());
 
 	_film->log()->log (String::compose ("Video length is %1 frames", _film->length()));
 
