@@ -482,7 +482,11 @@ Film::read_metadata ()
 	_subtitle_streams.clear ();
 
 	boost::optional<int> version;
+
+	/* Backward compatibility things */
 	boost::optional<int> audio_sample_rate;
+	boost::optional<int> audio_stream_index;
+	boost::optional<int> subtitle_stream_index;
 	
 	ifstream f (file ("metadata").c_str());
 	multimap<string, string> kv = read_key_value (f);
@@ -528,8 +532,9 @@ Film::read_metadata ()
 		} else if (k == "use_content_audio") {
 			_use_content_audio = (v == "1");
 		} else if (k == "selected_audio_stream") {
-			/* check for -1 for backwards compatibility */
-			if (atoi(v.c_str()) != -1) {
+			if (!version) {
+				audio_stream_index = atoi (v.c_str ());
+			} else {
 				_audio_stream = AudioStream (v, version);
 			}
 		} else if (k == "external_audio") {
@@ -541,8 +546,9 @@ Film::read_metadata ()
 		} else if (k == "still_duration") {
 			_still_duration = atoi (v.c_str ());
 		} else if (k == "selected_subtitle_stream") {
-			/* check for -1 for backwards compatibility */
-			if (atoi(v.c_str()) != -1) {
+			if (!version) {
+				subtitle_stream_index = atoi (v.c_str ());
+			} else {
 				_subtitle_stream = SubtitleStream (v);
 			}
 		} else if (k == "with_subtitles") {
@@ -594,10 +600,22 @@ Film::read_metadata ()
 		}
 	}
 
-	if (!version && audio_sample_rate) {
-		/* version < 1 didn't specify sample rate in the audio streams, so fill it in here */
-		for (vector<AudioStream>::iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
-			i->set_sample_rate (audio_sample_rate.get());
+	if (!version) {
+		if (audio_sample_rate) {
+			/* version < 1 didn't specify sample rate in the audio streams, so fill it in here */
+			for (vector<AudioStream>::iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
+				i->set_sample_rate (audio_sample_rate.get());
+			}
+		}
+
+		/* also the selected stream was specified as an index */
+		if (audio_stream_index && audio_stream_index.get() >= 0 && audio_stream_index.get() < (int) _audio_streams.size()) {
+			_audio_stream = _audio_streams[audio_stream_index.get()];
+		}
+
+		/* similarly the subtitle */
+		if (subtitle_stream_index && subtitle_stream_index.get() >= 0 && subtitle_stream_index.get() < (int) _subtitle_streams.size()) {
+			_subtitle_stream = _subtitle_streams[subtitle_stream_index.get()];
 		}
 	}
 		
