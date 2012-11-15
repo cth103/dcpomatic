@@ -82,7 +82,7 @@ int const Film::state_version = 1;
  */
 
 Film::Film (string d, bool must_exist)
-	: _use_dci_name (false)
+	: _use_dci_name (true)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))

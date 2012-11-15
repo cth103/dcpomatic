@@ -1,3 +1,7 @@
+2012-11-15  Carl Hetherington  <cth@carlh.net>
+
+	* Default to using a DCI name.
+
 2012-11-14  Carl Hetherington  <cth@carlh.net>
 
 	* Rearrange the GUI a bit to tidy things up.
