@@ -35,6 +35,10 @@ class Image;
 class Log;
 class Subtitle;
 class Film;
+class Matcher;
+class DelayLine;
+class Gain;
+class Combiner;
 
 /** @class ABTranscoder
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -51,13 +55,9 @@ public:
 		boost::shared_ptr<Encoder> e
 		);
 	
-	~ABTranscoder ();
-
 	void go ();
 
 private:
-	void process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>, int);
-	
 	boost::shared_ptr<Film> _film_a;
 	boost::shared_ptr<Film> _film_b;
 	boost::shared_ptr<const Options> _opt;
@@ -65,5 +65,9 @@ private:
 	boost::shared_ptr<Encoder> _encoder;
 	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _da;
 	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _db;
+	boost::shared_ptr<Combiner> _combiner;
+	boost::shared_ptr<Matcher> _matcher;
+	boost::shared_ptr<DelayLine> _delay_line;
+	boost::shared_ptr<Gain> _gain;
 	boost::shared_ptr<Image> _image;
 };

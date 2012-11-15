@@ -28,6 +28,10 @@
 #include "options.h"
 #include "image.h"
 #include "decoder_factory.h"
+#include "matcher.h"
+#include "delay_line.h"
+#include "gain.h"
+#include "combiner.h"
 
 /** @file src/ab_transcoder.cc
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -55,47 +59,35 @@ ABTranscoder::ABTranscoder (
 	_da = decoder_factory (_film_a, o, j);
 	_db = decoder_factory (_film_b, o, j);
 
-	/* XXX */
+	if (_film_a->audio_stream()) {
+		AudioStream st = _film_a->audio_stream().get();
+		_matcher.reset (new Matcher (_film_a->log(), st.sample_rate(), _film_a->frames_per_second()));
+		_delay_line.reset (new DelayLine (_film_a->log(), st.channels(), _film_a->audio_delay() * st.sample_rate() / 1000));
+		_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
+	}
 
-//	_da->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 0));
-//	_db->Video.connect (bind (&ABTranscoder::process_video, this, _1, _2, 1));
-//	_da->Audio.connect (bind (&Encoder::process_audio, e, _1));
-}
+	/* Set up the decoder to use the film's set streams */
+	_da.first->set_subtitle_stream (_film_a->subtitle_stream ());
+	_db.first->set_subtitle_stream (_film_a->subtitle_stream ());
+	_da.second->set_audio_stream (_film_a->audio_stream ());
 
-ABTranscoder::~ABTranscoder ()
-{
+	_da.first->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2));
+	_db.first->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2));
 
-}
-
-void
-ABTranscoder::process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub, int index)
-{
-	if (index == 0) {
-		/* Keep this image around until we get the other half */
-		_image = yuv;
+	if (_matcher) {
+		_combiner->connect_video (_matcher);
+		_matcher->connect_video (_encoder);
 	} else {
-		/* Copy the right half of yuv into _image */
-		for (int i = 0; i < yuv->components(); ++i) {
-			int const line_size = yuv->line_size()[i];
-			int const half_line_size = line_size / 2;
-			int const stride = yuv->stride()[i];
-
-			uint8_t* p = _image->data()[i];
-			uint8_t* q = yuv->data()[i];
-			
-			for (int j = 0; j < yuv->lines (i); ++j) {
-				memcpy (p + half_line_size, q + half_line_size, half_line_size);
-				p += stride;
-				q += stride;
-			}
-		}
-			
-		/* And pass it to the encoder */
-		_encoder->process_video (_image, sub);
-		_image.reset ();
+		_combiner->connect_video (_encoder);
+	}
+	
+	if (_matcher && _delay_line) {
+		_da.second->connect_audio (_delay_line);
+		_delay_line->connect_audio (_matcher);
+		_matcher->connect_audio (_gain);
+		_gain->connect_audio (_encoder);
 	}
 }
-
 
 void
 ABTranscoder::go ()

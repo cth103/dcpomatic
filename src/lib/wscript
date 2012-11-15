@@ -13,6 +13,7 @@ def build(bld):
                  check_hashes_job.cc
 		 config.cc
 		 copy_from_dvd_job.cc
+                 combiner.cc
                  cross.cc
 		 dcp_content_type.cc
 		 dcp_video_frame.cc
