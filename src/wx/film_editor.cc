@@ -498,7 +498,7 @@ FilmEditor::film_changed (Film::Property p)
 			++i;
 			++n;
 		}
-		if (i != _formats.end()) {
+		if (i == _formats.end()) {
 			checked_set (_format, -1);
 		} else {
 			checked_set (_format, n);
