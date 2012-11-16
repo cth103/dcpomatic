@@ -99,6 +99,8 @@ ABTranscoder::go ()
 		bool const vb = _db.first->pass ();
 		bool const a = _da.first->pass ();
 
+		_da.first->set_progress ();
+
 		if (va && vb && a) {
 			break;
 		}

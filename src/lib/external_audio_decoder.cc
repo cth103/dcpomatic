@@ -25,6 +25,7 @@
 using std::vector;
 using std::string;
 using std::min;
+using std::cout;
 using boost::shared_ptr;
 
 ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
@@ -100,6 +101,10 @@ ExternalAudioDecoder::pass ()
 
 		Audio (audio);
 		frames -= this_time;
+	}
+
+	for (size_t i = 0; i < sndfiles.size(); ++i) {
+		sf_close (sndfiles[i]);
 	}
 	
 	return true;

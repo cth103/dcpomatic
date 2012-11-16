@@ -41,6 +41,8 @@ public:
 
 	virtual void set_subtitle_stream (boost::optional<SubtitleStream>);
 
+	void set_progress () const;
+	
 	SourceFrame video_frame () const {
 		return _video_frame;
 	}
@@ -56,7 +58,6 @@ public:
 protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
-	void set_progress () const;
 
 	void emit_video (boost::shared_ptr<Image>);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);

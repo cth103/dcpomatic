@@ -38,6 +38,7 @@
 #include "audio_decoder.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -88,15 +89,21 @@ Transcoder::go ()
 {
 	_encoder->process_begin ();
 	try {
+		bool done[2] = { false, false };
+		
 		while (1) {
-			bool const v = _decoders.first->pass ();
-
-			bool a = true;
-			if (dynamic_pointer_cast<Decoder> (_decoders.second) != dynamic_pointer_cast<Decoder> (_decoders.first)) {
-				a = _decoders.second->pass ();
+			if (!done[0]) {
+				done[0] = _decoders.first->pass ();
+				_decoders.first->set_progress ();
 			}
 
-			if (v && a) {
+			if (!done[1] && dynamic_pointer_cast<Decoder> (_decoders.second) != dynamic_pointer_cast<Decoder> (_decoders.first)) {
+				done[1] = _decoders.second->pass ();
+			} else {
+				done[1] = true;
+			}
+
+			if (done[0] && done[1]) {
 				break;
 			}
 		}

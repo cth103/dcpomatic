@@ -60,8 +60,6 @@ public:
 	virtual bool pass () = 0;
 
 protected:
-	virtual void set_progress () const {}
-	
 	/** our Film */
 	boost::shared_ptr<Film> _film;
 	/** our options */
