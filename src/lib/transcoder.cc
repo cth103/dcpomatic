@@ -91,7 +91,7 @@ Transcoder::go ()
 		while (1) {
 			bool const v = _decoders.first->pass ();
 
-			bool a = false;
+			bool a = true;
 			if (dynamic_pointer_cast<Decoder> (_decoders.second) != dynamic_pointer_cast<Decoder> (_decoders.first)) {
 				a = _decoders.second->pass ();
 			}
