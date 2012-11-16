@@ -54,12 +54,12 @@ ExternalAudioDecoder::pass ()
 	sf_count_t frames = 0;
 	
 	vector<SNDFILE*> sndfiles;
-	for (vector<string>::const_iterator i = files.begin(); i != files.end(); ++i) {
-		if (i->empty ()) {
+	for (size_t i = 0; i < (size_t) N; ++i) {
+		if (files[i].empty ()) {
 			sndfiles.push_back (0);
 		} else {
 			SF_INFO info;
-			SNDFILE* s = sf_open (i->c_str(), SFM_READ, &info);
+			SNDFILE* s = sf_open (files[i].c_str(), SFM_READ, &info);
 			if (!s) {
 				throw DecodeError ("could not open external audio file for reading");
 			}
@@ -72,7 +72,7 @@ ExternalAudioDecoder::pass ()
 
 			if (first) {
 				/* XXX: nasty magic value */
-				AudioStream st ("DVDOMATIC-EXTERNAL", -1, info.samplerate, av_get_default_channel_layout (info.channels));
+				AudioStream st ("DVDOMATIC-EXTERNAL", -1, info.samplerate, av_get_default_channel_layout (N));
 				_audio_streams.push_back (st);
 				_audio_stream = st;
 				frames = info.frames;
