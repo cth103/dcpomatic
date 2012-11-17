@@ -48,6 +48,36 @@ class Options;
 class Image;
 class Log;
 
+class FFmpegAudioStream : public AudioStream
+{
+public:
+	FFmpegAudioStream (std::string n, int i, int s, int64_t c)
+		: AudioStream (s, c)
+		, _name (n)
+		, _id (i)
+	{}
+		  
+	std::string to_string () const;
+
+	std::string name () const {
+		return _name;
+	}
+
+	int id () const {
+		return _id;
+	}
+
+	static boost::shared_ptr<FFmpegAudioStream> create (std::string t, boost::optional<int> v);
+
+private:
+	friend class stream_test;
+	
+	FFmpegAudioStream (std::string t, boost::optional<int> v);
+	
+	std::string _name;
+	int _id;
+};
+
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
  */
@@ -64,8 +94,8 @@ public:
 	int sample_aspect_ratio_numerator () const;
 	int sample_aspect_ratio_denominator () const;
 
-	void set_audio_stream (boost::optional<AudioStream>);
-	void set_subtitle_stream (boost::optional<SubtitleStream>);
+	void set_audio_stream (boost::shared_ptr<AudioStream>);
+	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 
 private:
 

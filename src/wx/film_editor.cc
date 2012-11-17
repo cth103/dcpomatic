@@ -37,6 +37,8 @@
 #include "lib/filter.h"
 #include "lib/screen.h"
 #include "lib/config.h"
+#include "lib/ffmpeg_decoder.h"
+#include "lib/external_audio_decoder.h"
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -54,6 +56,7 @@ using std::setprecision;
 using std::list;
 using std::vector;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
@@ -485,9 +488,11 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		break;
-	case Film::AUDIO_STREAMS:
 	case Film::SUBTITLE_STREAMS:
 		setup_subtitle_control_sensitivity ();
+		setup_streams ();
+		break;
+	case Film::CONTENT_AUDIO_STREAMS:
 		setup_streams ();
 		break;
 	case Film::FORMAT:
@@ -600,24 +605,25 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::DCI_METADATA:
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
-	case Film::AUDIO_STREAM:
-		if (_film->audio_stream()) {
-			checked_set (_audio_stream, _film->audio_stream().get().to_string());
-		} else {
-			checked_set (_audio_stream, wxNOT_FOUND);
+	case Film::CONTENT_AUDIO_STREAM:
+		if (_film->content_audio_stream()) {
+			checked_set (_audio_stream, _film->content_audio_stream()->to_string());
 		}
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		setup_audio_details ();
+		setup_audio_control_sensitivity ();
+		break;
+	case Film::USE_CONTENT_AUDIO:
+		checked_set (_use_content_audio, _film->use_content_audio());
+		checked_set (_use_external_audio, !_film->use_content_audio());
+		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_audio_details ();
+		setup_audio_control_sensitivity ();
 		break;
 	case Film::SUBTITLE_STREAM:
 		if (_film->subtitle_stream()) {
-			checked_set (_subtitle_stream, _film->subtitle_stream().get().to_string());
+			checked_set (_subtitle_stream, _film->subtitle_stream()->to_string());
 		}
-		break;
-	case Film::USE_CONTENT_AUDIO:
-		checked_set (_use_content_audio, _film->use_content_audio ());
-		checked_set (_use_external_audio, !_film->use_content_audio ());
-		setup_audio_control_sensitivity ();
 		break;
 	case Film::EXTERNAL_AUDIO:
 	{
@@ -625,6 +631,7 @@ FilmEditor::film_changed (Film::Property p)
 		for (size_t i = 0; i < a.size() && i < MAX_AUDIO_CHANNELS; ++i) {
 			checked_set (_external_audio[i], a[i]);
 		}
+		setup_audio_details ();
 		break;
 	}
 	}
@@ -688,9 +695,9 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_TRIM_START);
 	film_changed (Film::DCP_TRIM_END);
 	film_changed (Film::DCP_AB);
-	film_changed (Film::USE_CONTENT_AUDIO);
-	film_changed (Film::AUDIO_STREAM);
+	film_changed (Film::CONTENT_AUDIO_STREAM);
 	film_changed (Film::EXTERNAL_AUDIO);
+	film_changed (Film::USE_CONTENT_AUDIO);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::WITH_SUBTITLES);
@@ -699,7 +706,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
-	film_changed (Film::AUDIO_STREAMS);
+	film_changed (Film::CONTENT_AUDIO_STREAMS);
 	film_changed (Film::SUBTITLE_STREAMS);
 	film_changed (Film::FRAMES_PER_SECOND);
 }
@@ -965,24 +972,23 @@ void
 FilmEditor::setup_streams ()
 {
 	_audio_stream->Clear ();
-	vector<AudioStream> a = _film->audio_streams ();
-	for (vector<AudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
-		_audio_stream->Append (std_to_wx (i->name()), new wxStringClientData (std_to_wx (i->to_string ())));
+	vector<shared_ptr<AudioStream> > a = _film->content_audio_streams ();
+	for (vector<shared_ptr<AudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
+		shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (*i);
+		_audio_stream->Append (std_to_wx (ffa->name()), new wxStringClientData (std_to_wx (ffa->to_string ())));
 	}
 	
-	if (_film->audio_stream()) {
-		checked_set (_audio_stream, _film->audio_stream().get().to_string());
-	} else {
-		_audio_stream->SetValue (wxT (""));
+	if (_film->use_content_audio() && _film->audio_stream()) {
+		checked_set (_audio_stream, _film->audio_stream()->to_string());
 	}
 
 	_subtitle_stream->Clear ();
-	vector<SubtitleStream> s = _film->subtitle_streams ();
-	for (vector<SubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
-		_subtitle_stream->Append (std_to_wx (i->name()), new wxStringClientData (std_to_wx (i->to_string ())));
+	vector<shared_ptr<SubtitleStream> > s = _film->subtitle_streams ();
+	for (vector<shared_ptr<SubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
+		_subtitle_stream->Append (std_to_wx ((*i)->name()), new wxStringClientData (std_to_wx ((*i)->to_string ())));
 	}
 	if (_film->subtitle_stream()) {
-		checked_set (_subtitle_stream, _film->subtitle_stream().get().to_string());
+		checked_set (_subtitle_stream, _film->subtitle_stream()->to_string());
 	} else {
 		_subtitle_stream->SetValue (wxT (""));
 	}
@@ -995,8 +1001,8 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_film->set_audio_stream (
-		AudioStream (
+	_film->set_content_audio_stream (
+		audio_stream_factory (
 			string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ())),
 			Film::state_version
 			)
@@ -1010,7 +1016,12 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-	_film->set_subtitle_stream (SubtitleStream (string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ()))));
+	_film->set_subtitle_stream (
+		subtitle_stream_factory (
+			string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ())),
+			Film::state_version
+			)
+		);
 }
 
 void
@@ -1020,7 +1031,7 @@ FilmEditor::setup_audio_details ()
 		_audio->SetLabel (wxT (""));
 	} else {
 		stringstream s;
-		s << _film->audio_stream().get().channels () << " channels, " << _film->audio_stream().get().sample_rate() << "Hz";
+		s << _film->audio_stream()->channels () << " channels, " << _film->audio_stream()->sample_rate() << "Hz";
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }
@@ -1034,8 +1045,7 @@ FilmEditor::active_jobs_changed (bool a)
 void
 FilmEditor::use_audio_changed (wxCommandEvent &)
 {
-	_film->set_use_content_audio (_use_content_audio->GetValue ());
-	setup_audio_control_sensitivity ();
+	_film->set_use_content_audio (_use_content_audio->GetValue());
 }
 
 void

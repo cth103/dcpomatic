@@ -650,7 +650,7 @@ read_key_value (istream &s)
 		if (line.empty ()) {
 			continue;
 		}
-		
+
 		if (line[0] == '#') {
 			continue;
 		}

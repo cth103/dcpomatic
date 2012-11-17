@@ -1,5 +1,6 @@
+version 1
 name fred
-use_dci_name 0
+use_dci_name 1
 content 
 dcp_content_type Short
 format 185
@@ -31,4 +32,5 @@ width 0
 height 0
 length 0
 content_digest 
+external_audio_stream external 0 0
 frames_per_second 0

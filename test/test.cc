@@ -38,6 +38,8 @@
 #include "job.h"
 #include "subtitle.h"
 #include "scaler.h"
+#include "ffmpeg_decoder.h"
+#include "external_audio_decoder.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -48,6 +50,7 @@ using std::stringstream;
 using std::vector;
 using boost::shared_ptr;
 using boost::thread;
+using boost::dynamic_pointer_cast;
 
 void
 setup_test_config ()
@@ -127,6 +130,39 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	
 	g->write_metadata ();
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
+}
+
+BOOST_AUTO_TEST_CASE (stream_test)
+{
+	FFmpegAudioStream a ("ffmpeg 4 44100 1 hello there world", boost::optional<int> (1));
+	BOOST_CHECK_EQUAL (a.id(), 4);
+	BOOST_CHECK_EQUAL (a.sample_rate(), 44100);
+	BOOST_CHECK_EQUAL (a.channel_layout(), 1);
+	BOOST_CHECK_EQUAL (a.name(), "hello there world");
+	BOOST_CHECK_EQUAL (a.to_string(), "ffmpeg 4 44100 1 hello there world");
+
+	ExternalAudioStream e ("external 44100 1", boost::optional<int> (1));
+	BOOST_CHECK_EQUAL (e.sample_rate(), 44100);
+	BOOST_CHECK_EQUAL (e.channel_layout(), 1);
+	BOOST_CHECK_EQUAL (e.to_string(), "external 44100 1");
+
+	SubtitleStream s ("5 a b c", boost::optional<int> (1));
+	BOOST_CHECK_EQUAL (s.id(), 5);
+	BOOST_CHECK_EQUAL (s.name(), "a b c");
+
+	shared_ptr<AudioStream> ff = audio_stream_factory ("ffmpeg 4 44100 1 hello there world", boost::optional<int> (1));
+	shared_ptr<FFmpegAudioStream> cff = dynamic_pointer_cast<FFmpegAudioStream> (ff);
+	BOOST_CHECK (cff);
+	BOOST_CHECK_EQUAL (cff->id(), 4);
+	BOOST_CHECK_EQUAL (cff->sample_rate(), 44100);
+	BOOST_CHECK_EQUAL (cff->channel_layout(), 1);
+	BOOST_CHECK_EQUAL (cff->name(), "hello there world");
+	BOOST_CHECK_EQUAL (cff->to_string(), "ffmpeg 4 44100 1 hello there world");
+
+	shared_ptr<AudioStream> fe = audio_stream_factory ("external 44100 1", boost::optional<int> (1));
+	BOOST_CHECK_EQUAL (fe->sample_rate(), 44100);
+	BOOST_CHECK_EQUAL (fe->channel_layout(), 1);
+	BOOST_CHECK_EQUAL (fe->to_string(), "external 44100 1");
 }
 
 BOOST_AUTO_TEST_CASE (format_test)
@@ -423,21 +459,21 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	shared_ptr<Film> f = new_test_film ("audio_sampling_rate_test");
 	f->set_frames_per_second (24);
 
-	f->set_audio_stream (AudioStream ("a", 42, 48000, 0));
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
 
-	f->set_audio_stream (AudioStream ("a", 42, 44100, 0));
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
 
-	f->set_audio_stream (AudioStream ("a", 42, 80000, 0));
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 80000, 0)));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 96000);
 
 	f->set_frames_per_second (23.976);
-	f->set_audio_stream (AudioStream ("a", 42, 48000, 0));
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
 
 	f->set_frames_per_second (29.97);
-	f->set_audio_stream (AudioStream ("a", 42, 48000, 0));
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
 }
 
@@ -518,16 +554,3 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	BOOST_CHECK_EQUAL (b->running(), false);
 }
 
-BOOST_AUTO_TEST_CASE (stream_test)
-{
-	AudioStream a ("4 44100 1 hello there world", boost::optional<int> (1));
-	BOOST_CHECK_EQUAL (a.id(), 4);
-	BOOST_CHECK_EQUAL (a.sample_rate(), 44100);
-	BOOST_CHECK_EQUAL (a.channel_layout(), 1);
-	BOOST_CHECK_EQUAL (a.name(), "hello there world");
-	BOOST_CHECK_EQUAL (a.to_string(), "4 44100 1 hello there world");
-
-	SubtitleStream s ("5 a b c");
-	BOOST_CHECK_EQUAL (s.id(), 5);
-	BOOST_CHECK_EQUAL (s.name(), "a b c");
-}

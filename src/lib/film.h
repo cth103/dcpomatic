@@ -44,6 +44,7 @@ class Job;
 class Filter;
 class Log;
 class ExamineContentJob;
+class ExternalAudioStream;
 
 /** @class Film
  *  @brief A representation of a video with sound.
@@ -120,9 +121,9 @@ public:
 		DCP_TRIM_START,
 		DCP_TRIM_END,
 		DCP_AB,
-		USE_CONTENT_AUDIO,
-		AUDIO_STREAM,
+		CONTENT_AUDIO_STREAM,
 		EXTERNAL_AUDIO,
+		USE_CONTENT_AUDIO,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
 		STILL_DURATION,
@@ -134,7 +135,7 @@ public:
 		THUMBS,
 		SIZE,
 		LENGTH,
-		AUDIO_STREAMS,
+		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		FRAMES_PER_SECOND,
 	};
@@ -202,19 +203,19 @@ public:
 		return _dcp_ab;
 	}
 
-	bool use_content_audio () const {
+	boost::shared_ptr<AudioStream> content_audio_stream () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _use_content_audio;
-	}
-
-	boost::optional<AudioStream> audio_stream () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_stream;
+		return _content_audio_stream;
 	}
 
 	std::vector<std::string> external_audio () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _external_audio;
+	}
+
+	bool use_content_audio () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _use_content_audio;
 	}
 	
 	float audio_gain () const {
@@ -232,7 +233,7 @@ public:
 		return _still_duration;
 	}
 
-	boost::optional<SubtitleStream> subtitle_stream () const {
+	boost::shared_ptr<SubtitleStream> subtitle_stream () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_stream;
 	}
@@ -307,12 +308,12 @@ public:
 		return _content_digest;
 	}
 	
-	std::vector<AudioStream> audio_streams () const {
+	std::vector<boost::shared_ptr<AudioStream> > content_audio_streams () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_streams;
+		return _content_audio_streams;
 	}
 
-	std::vector<SubtitleStream> subtitle_streams () const {
+	std::vector<boost::shared_ptr<SubtitleStream> > subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _subtitle_streams;
 	}
@@ -322,7 +323,9 @@ public:
 		return _frames_per_second;
 	}
 
+	boost::shared_ptr<AudioStream> audio_stream () const;
 
+	
 	/* SET */
 
 	void set_directory (std::string);
@@ -341,13 +344,13 @@ public:
 	void set_dcp_trim_start (int);
 	void set_dcp_trim_end (int);
 	void set_dcp_ab (bool);
-	void set_use_content_audio (bool);
-	void set_audio_stream (boost::optional<AudioStream>);
+	void set_content_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
+	void set_use_content_audio (bool);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_still_duration (int);
-	void set_subtitle_stream (boost::optional<SubtitleStream>);
+	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
@@ -363,8 +366,8 @@ public:
 	void set_length (SourceFrame);
 	void unset_length ();
 	void set_content_digest (std::string);
-	void set_audio_streams (std::vector<AudioStream>);
-	void set_subtitle_streams (std::vector<SubtitleStream>);
+	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
+	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
 	void set_frames_per_second (float);
 
 	/** Emitted when some property has changed */
@@ -422,17 +425,16 @@ private:
 	    has the specified filters and post-processing.
 	*/
 	bool _dcp_ab;
-	/** true to use the audio from the content file, false to use external audio */
-	bool _use_content_audio;
-	boost::optional<AudioStream> _audio_stream;
+	boost::shared_ptr<AudioStream> _content_audio_stream;
 	std::vector<std::string> _external_audio;
+	bool _use_content_audio;
 	/** Gain to apply to audio in dB */
 	float _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _audio_delay;
 	/** Duration to make still-sourced films (in seconds) */
 	int _still_duration;
-	boost::optional<SubtitleStream> _subtitle_stream;
+	boost::shared_ptr<SubtitleStream> _subtitle_stream;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
 	/** y offset for placing subtitles, in source pixels; +ve is further down
@@ -461,10 +463,11 @@ private:
 	boost::optional<SourceFrame> _length;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
-	/** the audio streams that the source has */
-	std::vector<AudioStream> _audio_streams;
-	/** the subtitle streams that the source has */
-	std::vector<SubtitleStream> _subtitle_streams;
+	/** the audio streams in our content */
+	std::vector<boost::shared_ptr<AudioStream> > _content_audio_streams;
+	boost::shared_ptr<AudioStream> _external_audio_stream;
+	/** the subtitle streams that we can use */
+	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 	/** Frames per second of the source */
 	float _frames_per_second;
 

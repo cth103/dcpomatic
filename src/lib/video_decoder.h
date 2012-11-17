@@ -39,7 +39,7 @@ public:
 	virtual int sample_aspect_ratio_numerator () const = 0;
 	virtual int sample_aspect_ratio_denominator () const = 0;
 
-	virtual void set_subtitle_stream (boost::optional<SubtitleStream>);
+	virtual void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 
 	void set_progress () const;
 	
@@ -47,11 +47,11 @@ public:
 		return _video_frame;
 	}
 
-	boost::optional<SubtitleStream> subtitle_stream () const {
+	boost::shared_ptr<SubtitleStream> subtitle_stream () const {
 		return _subtitle_stream;
 	}
 
-	std::vector<SubtitleStream> subtitle_streams () const {
+	std::vector<boost::shared_ptr<SubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;
 	}
 
@@ -63,8 +63,8 @@ protected:
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 	void repeat_last_video ();
 
-	boost::optional<SubtitleStream> _subtitle_stream;
-	std::vector<SubtitleStream> _subtitle_streams;
+	boost::shared_ptr<SubtitleStream> _subtitle_stream;
+	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 
 private:
 	void signal_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);

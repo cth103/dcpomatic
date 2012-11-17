@@ -20,43 +20,15 @@
 #include <sstream>
 #include "compose.hpp"
 #include "stream.h"
+#include "ffmpeg_decoder.h"
+#include "external_audio_decoder.h"
 
-using namespace std;
+using std::string;
+using std::stringstream;
+using boost::shared_ptr;
 using boost::optional;
 
-AudioStream::AudioStream (string t, optional<int> version)
-{
-	stringstream n (t);
-	
-	int name_index = 3;
-	if (!version) {
-		name_index = 2;
-		int channels;
-		n >> _id >> channels;
-		_channel_layout = av_get_default_channel_layout (channels);
-		_sample_rate = 0;
-	} else {
-		/* Current (marked version 1) */
-		n >> _id >> _sample_rate >> _channel_layout;
-	}
-
-	for (int i = 0; i < name_index; ++i) {
-		size_t const s = t.find (' ');
-		if (s != string::npos) {
-			t = t.substr (s + 1);
-		}
-	}
-
-	_name = t;
-}
-
-string
-AudioStream::to_string () const
-{
-	return String::compose ("%1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
-}
-
-SubtitleStream::SubtitleStream (string t)
+SubtitleStream::SubtitleStream (string t, boost::optional<int>)
 {
 	stringstream n (t);
 	n >> _id;
@@ -71,4 +43,29 @@ string
 SubtitleStream::to_string () const
 {
 	return String::compose ("%1 %2", _id, _name);
+}
+
+shared_ptr<SubtitleStream>
+SubtitleStream::create (string t, optional<int> v)
+{
+	return shared_ptr<SubtitleStream> (new SubtitleStream (t, v));
+}
+
+shared_ptr<AudioStream>
+audio_stream_factory (string t, optional<int> v)
+{
+	shared_ptr<AudioStream> s;
+
+	s = FFmpegAudioStream::create (t, v);
+	if (!s) {
+		s = ExternalAudioStream::create (t, v);
+	}
+
+	return s;
+}
+
+shared_ptr<SubtitleStream>
+subtitle_stream_factory (string t, optional<int> v)
+{
+	return SubtitleStream::create (t, v);
 }

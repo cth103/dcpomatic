@@ -17,8 +17,29 @@
 
 */
 
+#include <sndfile.h>
 #include "decoder.h"
 #include "audio_decoder.h"
+#include "stream.h"
+
+class ExternalAudioStream : public AudioStream
+{
+public:
+	ExternalAudioStream (int sample_rate, int64_t layout)
+		: AudioStream (sample_rate, layout)
+	{}
+			       
+	std::string to_string () const;
+
+	static boost::shared_ptr<ExternalAudioStream> create ();
+	static boost::shared_ptr<ExternalAudioStream> create (std::string t, boost::optional<int> v);
+
+private:
+	friend class stream_test;
+	
+	ExternalAudioStream ();
+	ExternalAudioStream (std::string t, boost::optional<int> v);
+};
 
 class ExternalAudioDecoder : public AudioDecoder
 {
@@ -26,4 +47,8 @@ public:
 	ExternalAudioDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
 
 	bool pass ();
+
+private:
+	std::vector<SNDFILE*> open_files (sf_count_t &);
+	void close_files (std::vector<SNDFILE*> const &);
 };

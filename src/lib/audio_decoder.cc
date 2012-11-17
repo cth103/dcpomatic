@@ -30,7 +30,7 @@ AudioDecoder::AudioDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job
 }
 
 void
-AudioDecoder::set_audio_stream (optional<AudioStream> s)
+AudioDecoder::set_audio_stream (shared_ptr<AudioStream> s)
 {
 	_audio_stream = s;
 }

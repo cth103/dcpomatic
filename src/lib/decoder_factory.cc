@@ -31,6 +31,7 @@ using std::string;
 using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> >
 decoder_factory (
@@ -49,6 +50,6 @@ decoder_factory (
 	if (f->use_content_audio()) {
 		return make_pair (fd, fd);
 	}
-	
+
 	return make_pair (fd, shared_ptr<AudioDecoder> (new ExternalAudioDecoder (f, o, j)));
 }

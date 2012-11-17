@@ -29,19 +29,19 @@ class AudioDecoder : public AudioSource, public virtual Decoder
 public:
 	AudioDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
 
-	virtual void set_audio_stream (boost::optional<AudioStream>);
+	virtual void set_audio_stream (boost::shared_ptr<AudioStream>);
 
-	boost::optional<AudioStream> audio_stream () const {
+	boost::shared_ptr<AudioStream> audio_stream () const {
 		return _audio_stream;
 	}
 
-	std::vector<AudioStream> audio_streams () const {
+	std::vector<boost::shared_ptr<AudioStream> > audio_streams () const {
 		return _audio_streams;
 	}
 
 protected:
-	boost::optional<AudioStream> _audio_stream;
-	std::vector<AudioStream> _audio_streams;
+	boost::shared_ptr<AudioStream> _audio_stream;
+	std::vector<boost::shared_ptr<AudioStream> > _audio_streams;
 };
 
 #endif

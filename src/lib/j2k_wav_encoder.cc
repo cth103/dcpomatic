@@ -46,6 +46,7 @@ using std::stringstream;
 using std::list;
 using std::vector;
 using std::pair;
+using std::cout;
 using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
@@ -64,7 +65,7 @@ J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const Options
 		*/
 		for (int i = 0; i < _film->audio_channels(); ++i) {
 			SF_INFO sf_info;
-			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream().get().sample_rate());
+			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream()->sample_rate());
 			/* We write mono files */
 			sf_info.channels = 1;
 			sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
@@ -229,22 +230,22 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 void
 J2KWAVEncoder::process_begin ()
 {
-	if (_film->audio_stream() && _film->audio_stream().get().sample_rate() != _film->target_audio_sample_rate()) {
+	if (_film->audio_stream() && _film->audio_stream()->sample_rate() != _film->target_audio_sample_rate()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << "Will resample audio from " << _film->audio_stream().get().sample_rate() << " to " << _film->target_audio_sample_rate();
+		s << "Will resample audio from " << _film->audio_stream()->sample_rate() << " to " << _film->target_audio_sample_rate();
 		_film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the resampler */
 		_swr_context = swr_alloc_set_opts (
 			0,
-			_film->audio_stream().get().channel_layout(),
+			_film->audio_stream()->channel_layout(),
 			AV_SAMPLE_FMT_FLTP,
 			_film->target_audio_sample_rate(),
-			_film->audio_stream().get().channel_layout(),
+			_film->audio_stream()->channel_layout(),
 			AV_SAMPLE_FMT_FLTP,
-			_film->audio_stream().get().sample_rate(),
+			_film->audio_stream()->sample_rate(),
 			0, 0
 			);
 		
@@ -314,7 +315,7 @@ J2KWAVEncoder::process_end ()
 #if HAVE_SWRESAMPLE	
 	if (_film->audio_stream() && _swr_context) {
 
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream().get().channels(), 256));
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream()->channels(), 256));
 			
 		while (1) {
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
@@ -336,9 +337,9 @@ J2KWAVEncoder::process_end ()
 #endif
 
 	if (_film->audio_stream()) {
-		int const dcp_sr = dcp_audio_sample_rate (_film->audio_stream().get().sample_rate ());
+		int const dcp_sr = dcp_audio_sample_rate (_film->audio_stream()->sample_rate ());
 		int64_t const extra_audio_frames = dcp_sr - (_audio_frames_written % dcp_sr);
-		shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_stream().get().channels(), extra_audio_frames));
+		shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_stream()->channels(), extra_audio_frames));
 		silence->make_silent ();
 		write_audio (silence);
 		
@@ -364,9 +365,9 @@ J2KWAVEncoder::do_process_audio (shared_ptr<AudioBuffers> audio)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil (audio->frames() * _film->target_audio_sample_rate() / _film->audio_stream().get().sample_rate()) + 32;
+		int const max_resampled_frames = ceil ((int64_t) audio->frames() * _film->target_audio_sample_rate() / _film->audio_stream()->sample_rate()) + 32;
 
-		resampled.reset (new AudioBuffers (_film->audio_stream().get().channels(), max_resampled_frames));
+		resampled.reset (new AudioBuffers (_film->audio_stream()->channels(), max_resampled_frames));
 
 		/* Resample audio */
 		int const resampled_frames = swr_convert (

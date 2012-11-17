@@ -24,19 +24,23 @@
 
 using std::vector;
 using std::string;
+using std::stringstream;
 using std::min;
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 
 ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
 	: Decoder (f, o, j)
 	, AudioDecoder (f, o, j)
 {
-
+	sf_count_t frames;
+	vector<SNDFILE*> sf = open_files (frames);
+	close_files (sf);
 }
 
-bool
-ExternalAudioDecoder::pass ()
+vector<SNDFILE*>
+ExternalAudioDecoder::open_files (sf_count_t & frames)
 {
 	vector<string> const files = _film->external_audio ();
 
@@ -48,11 +52,11 @@ ExternalAudioDecoder::pass ()
 	}
 
 	if (N == 0) {
-		return true;
+		return vector<SNDFILE*> ();
 	}
 
 	bool first = true;
-	sf_count_t frames = 0;
+	frames = 0;
 	
 	vector<SNDFILE*> sndfiles;
 	for (size_t i = 0; i < (size_t) N; ++i) {
@@ -72,8 +76,12 @@ ExternalAudioDecoder::pass ()
 			sndfiles.push_back (s);
 
 			if (first) {
-				/* XXX: nasty magic value */
-				AudioStream st ("DVDOMATIC-EXTERNAL", -1, info.samplerate, av_get_default_channel_layout (N));
+				shared_ptr<ExternalAudioStream> st (
+					new ExternalAudioStream (
+						info.samplerate, av_get_default_channel_layout (N)
+						)
+					);
+				
 				_audio_streams.push_back (st);
 				_audio_stream = st;
 				frames = info.frames;
@@ -86,9 +94,23 @@ ExternalAudioDecoder::pass ()
 		}
 	}
 
+	return sndfiles;
+}
+
+bool
+ExternalAudioDecoder::pass ()
+{
+	sf_count_t frames;
+	vector<SNDFILE*> sndfiles = open_files (frames);
+	if (sndfiles.empty()) {
+		return true;
+	}
+
 	sf_count_t const block = 65536;
 
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream.get().channels(), block));
+	cout << frames << " audio frames.\n";
+
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
 	while (frames > 0) {
 		sf_count_t const this_time = min (block, frames);
 		for (size_t i = 0; i < sndfiles.size(); ++i) {
@@ -103,9 +125,59 @@ ExternalAudioDecoder::pass ()
 		frames -= this_time;
 	}
 
+	close_files (sndfiles);
+
+	return true;
+}
+
+void
+ExternalAudioDecoder::close_files (vector<SNDFILE*> const & sndfiles)
+{
 	for (size_t i = 0; i < sndfiles.size(); ++i) {
 		sf_close (sndfiles[i]);
 	}
-	
-	return true;
+}
+
+shared_ptr<ExternalAudioStream>
+ExternalAudioStream::create ()
+{
+	return shared_ptr<ExternalAudioStream> (new ExternalAudioStream);
+}
+
+shared_ptr<ExternalAudioStream>
+ExternalAudioStream::create (string t, optional<int> v)
+{
+	if (!v) {
+		/* version < 1; no type in the string, and there's only FFmpeg streams anyway */
+		return shared_ptr<ExternalAudioStream> ();
+	}
+
+	stringstream s (t);
+	string type;
+	s >> type;
+	if (type != "external") {
+		return shared_ptr<ExternalAudioStream> ();
+	}
+
+	return shared_ptr<ExternalAudioStream> (new ExternalAudioStream (t, v));
+}
+
+ExternalAudioStream::ExternalAudioStream (string t, optional<int> v)
+{
+	assert (v);
+
+	stringstream s (t);
+	string type;
+	s >> type >> _sample_rate >> _channel_layout;
+}
+
+ExternalAudioStream::ExternalAudioStream ()
+{
+
+}
+
+string
+ExternalAudioStream::to_string () const
+{
+	return String::compose ("external %1 %2", _sample_rate, _channel_layout);
 }

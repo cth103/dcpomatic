@@ -57,6 +57,7 @@ using std::stringstream;
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
 	: Decoder (f, o, j)
@@ -119,9 +120,17 @@ FFmpegDecoder::setup_general ()
 		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
 			_video_stream = i;
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
-			_audio_streams.push_back (AudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channel_layout));
+			_audio_streams.push_back (
+				shared_ptr<AudioStream> (
+					new FFmpegAudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channel_layout)
+					)
+				);
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (SubtitleStream (stream_name (s), i));
+			_subtitle_streams.push_back (
+				shared_ptr<SubtitleStream> (
+					new SubtitleStream (stream_name (s), i)
+					)
+				);
 		}
 	}
 
@@ -163,8 +172,11 @@ FFmpegDecoder::setup_audio ()
 	if (!_audio_stream) {
 		return;
 	}
+
+	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
+	assert (ffa);
 	
-	_audio_codec_context = _format_context->streams[_audio_stream.get().id()]->codec;
+	_audio_codec_context = _format_context->streams[ffa->id()]->codec;
 	_audio_codec = avcodec_find_decoder (_audio_codec_context->codec_id);
 
 	if (_audio_codec == 0) {
@@ -180,7 +192,7 @@ FFmpegDecoder::setup_audio ()
 	*/
 
 	if (_audio_codec_context->channel_layout == 0) {
-		_audio_codec_context->channel_layout = av_get_default_channel_layout (_audio_stream.get().channels());
+		_audio_codec_context->channel_layout = av_get_default_channel_layout (ffa->channels());
 	}
 }
 
@@ -191,7 +203,7 @@ FFmpegDecoder::setup_subtitle ()
 		return;
 	}
 
-	_subtitle_codec_context = _format_context->streams[_subtitle_stream.get().id()]->codec;
+	_subtitle_codec_context = _format_context->streams[_subtitle_stream->id()]->codec;
 	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
 
 	if (_subtitle_codec == 0) {
@@ -230,7 +242,7 @@ FFmpegDecoder::pass ()
 			filter_and_emit_video (_frame);
 		}
 
-		if (_audio_stream && _opt->decode_audio && _film->use_content_audio()) {
+		if (_audio_stream && _opt->decode_audio) {
 			while (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 				int const data_size = av_samples_get_buffer_size (
 					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
@@ -245,6 +257,8 @@ FFmpegDecoder::pass ()
 	}
 
 	avcodec_get_frame_defaults (_frame);
+
+	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
 	
 	if (_packet.stream_index == _video_stream) {
 
@@ -294,7 +308,7 @@ FFmpegDecoder::pass ()
 			}
 		}
 
-	} else if (_audio_stream && _packet.stream_index == _audio_stream.get().id() && _opt->decode_audio && _film->use_content_audio()) {
+	} else if (ffa && _packet.stream_index == ffa->id() && _opt->decode_audio) {
 
 		int frame_finished;
 		if (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
@@ -318,17 +332,17 @@ FFmpegDecoder::pass ()
 					*/
 			
 					/* frames of silence that we must push */
-					int const s = rint ((_first_audio.get() - _first_video.get()) * _audio_stream.get().sample_rate ());
+					int const s = rint ((_first_audio.get() - _first_video.get()) * ffa->sample_rate ());
 					
 					_film->log()->log (
 						String::compose (
 							"First video at %1, first audio at %2, pushing %3 frames of silence for %4 channels (%5 bytes per sample)",
-							_first_video.get(), _first_audio.get(), s, _audio_stream.get().channels(), bytes_per_audio_sample()
+							_first_video.get(), _first_audio.get(), s, ffa->channels(), bytes_per_audio_sample()
 							)
 						);
 					
 					if (s) {
-						shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream.get().channels(), s));
+						shared_ptr<AudioBuffers> audio (new AudioBuffers (ffa->channels(), s));
 						audio->make_silent ();
 						Audio (audio);
 					}
@@ -343,7 +357,7 @@ FFmpegDecoder::pass ()
 			}
 		}
 			
-	} else if (_subtitle_stream && _packet.stream_index == _subtitle_stream.get().id() && _opt->decode_subtitles && _first_video) {
+	} else if (_subtitle_stream && _packet.stream_index == _subtitle_stream->id() && _opt->decode_subtitles && _first_video) {
 
 		int got_subtitle;
 		AVSubtitle sub;
@@ -369,14 +383,17 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 {
 	assert (_film->audio_channels());
 	assert (bytes_per_audio_sample());
+
+	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
+	assert (ffa);
 	
 	/* Deinterleave and convert to float */
 
-	assert ((size % (bytes_per_audio_sample() * _audio_stream.get().channels())) == 0);
+	assert ((size % (bytes_per_audio_sample() * ffa->channels())) == 0);
 
 	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _film->audio_channels();
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream.get().channels(), frames));
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (ffa->channels(), frames));
 
 	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
@@ -519,14 +536,14 @@ FFmpegDecoder::bytes_per_audio_sample () const
 }
 
 void
-FFmpegDecoder::set_audio_stream (optional<AudioStream> s)
+FFmpegDecoder::set_audio_stream (shared_ptr<AudioStream> s)
 {
 	AudioDecoder::set_audio_stream (s);
 	setup_audio ();
 }
 
 void
-FFmpegDecoder::set_subtitle_stream (optional<SubtitleStream> s)
+FFmpegDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 {
 	VideoDecoder::set_subtitle_stream (s);
 	setup_subtitle ();
@@ -556,3 +573,56 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 		emit_video (*i);
 	}
 }
+
+shared_ptr<FFmpegAudioStream>
+FFmpegAudioStream::create (string t, optional<int> v)
+{
+	if (!v) {
+		/* version < 1; no type in the string, and there's only FFmpeg streams anyway */
+		return shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (t, v));
+	}
+
+	stringstream s (t);
+	string type;
+	s >> type;
+	if (type != "ffmpeg") {
+		return shared_ptr<FFmpegAudioStream> ();
+	}
+
+	return shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (t, v));
+}
+
+FFmpegAudioStream::FFmpegAudioStream (string t, optional<int> version)
+{
+	stringstream n (t);
+	
+	int name_index = 4;
+	if (!version) {
+		name_index = 2;
+		int channels;
+		n >> _id >> channels;
+		_channel_layout = av_get_default_channel_layout (channels);
+		_sample_rate = 0;
+	} else {
+		string type;
+		/* Current (marked version 1) */
+		n >> type >> _id >> _sample_rate >> _channel_layout;
+		assert (type == "ffmpeg");
+	}
+
+	for (int i = 0; i < name_index; ++i) {
+		size_t const s = t.find (' ');
+		if (s != string::npos) {
+			t = t.substr (s + 1);
+		}
+	}
+
+	_name = t;
+}
+
+string
+FFmpegAudioStream::to_string () const
+{
+	return String::compose ("ffmpeg %1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
+}
+

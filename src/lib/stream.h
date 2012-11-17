@@ -21,6 +21,7 @@
 #define DVDOMATIC_STREAM_H
 
 #include <stdint.h>
+#include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 extern "C" {
 #include <libavutil/audioconvert.h>
@@ -29,47 +30,21 @@ extern "C" {
 class Stream
 {
 public:
-	Stream ()
-		: _id (-1)
-	{}
-	
-	Stream (std::string n, int i)
-		: _name (n)
-		, _id (i)
-	{}
-
 	virtual std::string to_string () const = 0;
-	
-	std::string name () const {
-		return _name;
-	}
-
-	int id () const {
-		return _id;
-	}
-
-protected:
-	std::string _name;
-	int _id;
 };
 
 struct AudioStream : public Stream
 {
 public:
-	AudioStream (std::string t, boost::optional<int> v);
-	
-	AudioStream (std::string n, int id, int r, int64_t l)
-		: Stream (n, id)
-		, _sample_rate (r)
+	AudioStream (int r, int64_t l)
+		: _sample_rate (r)
 		, _channel_layout (l)
 	{}
 
-	/** Only used for state file version < 1 compatibility */
-	void set_sample_rate (int r) {
-		_sample_rate = r;
+	/* Only used for backwards compatibility for state file version < 1 */
+	void set_sample_rate (int s) {
+		_sample_rate = s;
 	}
-
-	std::string to_string () const;
 
 	int channels () const {
 		return av_get_channel_layout_nb_channels (_channel_layout);
@@ -83,7 +58,12 @@ public:
 		return _channel_layout;
 	}
 
-private:
+protected:
+	AudioStream ()
+		: _sample_rate (0)
+		, _channel_layout (0)
+	{}
+
 	int _sample_rate;
 	int64_t _channel_layout;
 };
@@ -91,13 +71,33 @@ private:
 class SubtitleStream : public Stream
 {
 public:
-	SubtitleStream (std::string t);
-
 	SubtitleStream (std::string n, int i)
-		: Stream (n, i)
+		: _name (n)
+		, _id (i)
 	{}
 
 	std::string to_string () const;
+
+	std::string name () const {
+		return _name;
+	}
+
+	int id () const {
+		return _id;
+	}
+
+	static boost::shared_ptr<SubtitleStream> create (std::string t, boost::optional<int> v);
+
+private:
+	friend class stream_test;
+	
+	SubtitleStream (std::string t, boost::optional<int> v);
+	
+	std::string _name;
+	int _id;
 };
+
+boost::shared_ptr<AudioStream> audio_stream_factory (std::string t, boost::optional<int> version);
+boost::shared_ptr<SubtitleStream> subtitle_stream_factory (std::string t, boost::optional<int> version);
 
 #endif

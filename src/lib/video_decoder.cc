@@ -84,7 +84,7 @@ VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 }
 
 void
-VideoDecoder::set_subtitle_stream (optional<SubtitleStream> s)
+VideoDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 {
 	_subtitle_stream = s;
 }
