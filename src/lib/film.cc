@@ -543,7 +543,7 @@ Film::read_metadata ()
 			_dcp_trim_end = atoi (v.c_str ());
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
-		} else if (k == "selected_content_audio_stream" || (!version && k == "content_audio_stream")) {
+		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
 			if (!version) {
 				audio_stream_index = atoi (v.c_str ());
 			} else {
