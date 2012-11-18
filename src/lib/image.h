@@ -127,6 +127,9 @@ private:
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
 };
 
+/** @class AlignedImage
+ *  @brief An image whose pixel data is padded so that rows always start on 32-byte boundaries.
+ */
 class AlignedImage : public SimpleImage
 {
 public:
@@ -134,6 +137,9 @@ public:
 	AlignedImage (boost::shared_ptr<Image>);
 };
 
+/** @class CompactImage
+ *  @brief An image whose pixel data is not padded, so rows may start at any pixel alignment.
+ */
 class CompactImage : public SimpleImage
 {
 public:

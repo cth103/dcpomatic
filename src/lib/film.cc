@@ -948,6 +948,7 @@ Film::set_content (string c)
 		_content = c;
 	}
 
+	/* Reset streams here in case the new content doesn't have one or the other */
 	_content_audio_stream = shared_ptr<AudioStream> ();
 	_subtitle_stream = shared_ptr<SubtitleStream> ();
 

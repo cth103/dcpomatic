@@ -28,16 +28,25 @@ Combiner::Combiner (Log* log)
 
 }
 
+/** Process video for the left half of the frame.
+ *  @param image Frame image.
+ *  @param sub Subtitle (which will be ignored)
+ */
 void
 Combiner::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	_image = image;
 }
 
+/** Process video for the right half of the frame.
+ *  @param image Frame image.
+ *  @param sub Subtitle (which will be put onto the whole frame)
+ */
 void
 Combiner::process_video_b (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	/* Copy the right half of this image into our _image */
+	/* XXX: this should probably be in the Image class */
 	for (int i = 0; i < image->components(); ++i) {
 		int const line_size = image->line_size()[i];
 		int const half_line_size = line_size / 2;

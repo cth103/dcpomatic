@@ -5,9 +5,8 @@
  *  and distributed under the GPL.
  *
  *  Video files are decoded using FFmpeg (http://ffmpeg.org), so any video
- *  supported by FFmpeg should be usable with DVD-o-matic.  Most testing has, however,
- *  happened with files from DVD.  DVD-o-matic's output has been tested on Christie
- *  digital projectors with Doremi servers.
+ *  supported by FFmpeg should be usable with DVD-o-matic.  DVD-o-matic's output has been
+ *  tested on numerous digital projectors.
  *
  *  DVD-o-matic allows you to crop black borders from movies, scale them to the correct
  *  aspect ratio and apply FFmpeg filters.  The time-consuming encoding of JPEG2000 files
@@ -16,13 +15,13 @@
  *
  *  DVD-o-matic can also make DCPs from still images, for advertisements and such-like.
  * 
- *  Portions of DVD-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
+ *  Parts of DVD-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
  *  written by Terrence Meiczinger.
  *
  *  DVD-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
  *  and libsndfile (http://www.mega-nerd.com/libsndfile/) for WAV file manipulation.  It
- *  also makes heavy use of the boost libraries (http://www.boost.org/).  libtiff
- *  (http://www.libtiff.org/) is used for TIFF encoding and decoding, and the GUI is
+ *  also makes heavy use of the boost libraries (http://www.boost.org/).  ImageMagick
+ *  (http://www.imagemagick.org/) is used for still-image encoding and decoding, and the GUI is
  *  built using wxWidgets (http://wxwidgets.org/).  It also uses libmhash (http://mhash.sourceforge.net/)
  *  for debugging purposes.
  *

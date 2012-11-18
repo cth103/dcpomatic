@@ -377,7 +377,7 @@ AlignedImage::AlignedImage (AVPixelFormat f, Size s)
 }
 
 AlignedImage::AlignedImage (shared_ptr<Image> im)
-	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
+	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 32))
 {
 	assert (components() == im->components());
 

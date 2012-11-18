@@ -373,6 +373,7 @@ public:
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
 
+	/** Current version number of the state file */
 	static int const state_version;
 
 private:
@@ -425,8 +426,13 @@ private:
 	    has the specified filters and post-processing.
 	*/
 	bool _dcp_ab;
+	/** The audio stream to use from our content */
 	boost::shared_ptr<AudioStream> _content_audio_stream;
+	/** List of filenames of external audio files, in channel order
+	    (L, R, C, Lfe, Ls, Rs)
+	*/
 	std::vector<std::string> _external_audio;
+	/** true to use audio from our content file; false to use external audio */
 	bool _use_content_audio;
 	/** Gain to apply to audio in dB */
 	float _audio_gain;
@@ -463,14 +469,16 @@ private:
 	boost::optional<SourceFrame> _length;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
-	/** the audio streams in our content */
+	/** The audio streams in our content */
 	std::vector<boost::shared_ptr<AudioStream> > _content_audio_streams;
+	/** A stream to represent possible external audio (will always exist) */
 	boost::shared_ptr<AudioStream> _external_audio_stream;
 	/** the subtitle streams that we can use */
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 	/** Frames per second of the source */
 	float _frames_per_second;
 
+	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
 
 	/** Mutex for all state except _directory */

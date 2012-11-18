@@ -219,6 +219,9 @@ private:
 	int _buffer_data;
 };
 
+/** @class AudioBuffers
+ *  @brief A class to hold multi-channel audio data in float format.
+ */
 class AudioBuffers
 {
 public:
@@ -249,9 +252,13 @@ public:
 	void move (int from, int to, int frames);
 
 private:
+	/** Number of channels */
 	int _channels;
+	/** Number of frames (where a frame is one sample across all channels) */
 	int _frames;
+	/** Number of frames that _data can hold */
 	int _allocated_frames;
+	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
 	float** _data;
 };
 

@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/video_source.h
+ *  @brief Parent class for classes which emit video data.
+ */
+
 #ifndef DVDOMATIC_VIDEO_SOURCE_H
 #define DVDOMATIC_VIDEO_SOURCE_H
 
@@ -28,12 +32,15 @@ class VideoSink;
 class Subtitle;
 class Image;
 
+/** @class VideoSink
+ *  @param A class that emits video data.
+ */
 class VideoSource
 {
 public:
 
 	/** Emitted when a video frame is ready.
-	 *  First parameter is the frame within the source.
+	 *  First parameter is the video image.
 	 *  Second parameter is either 0 or a subtitle that should be on this frame.
 	 */
 	boost::signals2::signal<void (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>)> Video;

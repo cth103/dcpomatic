@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/processor.h
+ *  @brief Parent class for classes which accept and then emit video or audio data.
+ */
+
 #ifndef DVDOMATIC_PROCESSOR_H
 #define DVDOMATIC_PROCESSOR_H
 
@@ -27,6 +31,9 @@
 
 class Log;
 
+/** @class Processor
+ *  @brief Base class for processors.
+ */
 class Processor
 {
 public:
@@ -41,6 +48,9 @@ protected:
 	Log* _log;
 };
 
+/** @class AudioVideoProcessor
+ *  @brief A processor which handles both video and audio data.
+ */
 class AudioVideoProcessor : public Processor, public VideoSource, public VideoSink, public AudioSource, public AudioSink
 {
 public:
@@ -49,6 +59,9 @@ public:
 	{}
 };
 
+/** @class AudioProcessor
+ *  @brief A processor which handles just audio data.
+ */
 class AudioProcessor : public Processor, public AudioSource, public AudioSink
 {
 public:
@@ -57,6 +70,9 @@ public:
 	{}
 };
 
+/** @class VideoProcessor
+ *  @brief A processor which handles just video data.
+ */
 class VideoProcessor : public Processor, public VideoSource, public VideoSink
 {
 public:

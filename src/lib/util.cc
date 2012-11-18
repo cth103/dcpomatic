@@ -730,6 +730,10 @@ get_optional_int (multimap<string, string> const & kv, string k)
 	return lexical_cast<int> (i->second);
 }
 
+/** Construct an AudioBuffers.  Audio data is undefined after this constructor.
+ *  @param channels Number of channels.
+ *  @param frames Number of frames to reserve space for.
+ */
 AudioBuffers::AudioBuffers (int channels, int frames)
 	: _channels (channels)
 	, _frames (frames)
@@ -741,6 +745,9 @@ AudioBuffers::AudioBuffers (int channels, int frames)
 	}
 }
 
+/** Copy constructor.
+ *  @param other Other AudioBuffers; data is copied.
+ */
 AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	: _channels (other._channels)
 	, _frames (other._frames)
@@ -762,13 +769,20 @@ AudioBuffers::~AudioBuffers ()
 	delete[] _data;
 }
 
+/** @param c Channel index.
+ *  @return Buffer for this channel.
+ */
 float*
 AudioBuffers::data (int c) const
 {
 	assert (c >= 0 && c < _channels);
 	return _data[c];
 }
-	
+
+/** Set the number of frames that these AudioBuffers will report themselves
+ *  as having.
+ *  @param f Frames; must be less than or equal to the number of allocated frames.
+ */
 void
 AudioBuffers::set_frames (int f)
 {
@@ -776,6 +790,7 @@ AudioBuffers::set_frames (int f)
 	_frames = f;
 }
 
+/** Make all samples on all channels silent */
 void
 AudioBuffers::make_silent ()
 {
@@ -784,24 +799,45 @@ AudioBuffers::make_silent ()
 	}
 }
 
+/** Make all samples on a given channel silent.
+ *  @param c Channel.
+ */
 void
 AudioBuffers::make_silent (int c)
 {
+	assert (c >= 0 && c < _channels);
+	
 	for (int i = 0; i < _frames; ++i) {
 		_data[c][i] = 0;
 	}
 }
 
+/** Copy data from another AudioBuffers to this one.  All channels are copied.
+ *  @param from AudioBuffers to copy from; must have the same number of channels as this.
+ *  @param frames_to_copy Number of frames to copy.
+ *  @param read_offset Offset to read from in `from'.
+ *  @param write_offset Offset to write to in `to'.
+ */
 void
 AudioBuffers::copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset)
 {
 	assert (from->channels() == channels());
+
+	assert (from);
+	assert (read_offset >= 0 && (read_offset + frames_to_copy) <= from->_allocated_frames);
+	assert (write_offset >= 0 && (write_offset + frames_to_copy) <= _allocated_frames);
 
 	for (int i = 0; i < _channels; ++i) {
 		memcpy (_data[i] + write_offset, from->_data[i] + read_offset, frames_to_copy * sizeof(float));
 	}
 }
 
+/** Move audio data around.
+ *  @param from Offset to move from.
+ *  @param to Offset to move to.
+ *  @param frames Number of frames to move.
+ */
+    
 void
 AudioBuffers::move (int from, int to, int frames)
 {
@@ -823,18 +859,27 @@ AudioBuffers::move (int from, int to, int frames)
 	}
 }
 
+/** Trip an assert if the caller is not in the UI thread */
 void
 ensure_ui_thread ()
 {
 	assert (this_thread::get_id() == ui_thread);
 }
 
+/** @param v Source video frame.
+ *  @param audio_sample_rate Source audio sample rate.
+ *  @param frames_per_second Number of video frames per second.
+ *  @return Equivalent number of audio frames for `v'.
+ */
 int64_t
 video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second)
 {
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
 }
 
+/** @param f Filename.
+ *  @return true if this file is a still image, false if it is something else.
+ */
 bool
 still_image_file (string f)
 {

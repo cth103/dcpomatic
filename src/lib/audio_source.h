@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/audio_source.h
+ *  @brief Parent class for classes which emit audio data.
+ */
+
 #ifndef DVDOMATIC_AUDIO_SOURCE_H
 #define DVDOMATIC_AUDIO_SOURCE_H
 
@@ -25,6 +29,7 @@
 class AudioBuffers;
 class AudioSink;
 
+/** A class that emits audio data */
 class AudioSource
 {
 public:

@@ -17,8 +17,17 @@
 
 */
 
+/** @file src/lib/combiner.h
+ *  @brief Class for combining two video streams.
+ */
+
 #include "processor.h"
 
+/** @class Combiner
+ *  @brief A class which can combine two video streams into one, with
+ *  one image used for the left half of the screen and the other for
+ *  the right.
+ */
 class Combiner : public VideoProcessor
 {
 public:
@@ -28,5 +37,6 @@ public:
 	void process_video_b (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s);
 
 private:
+	/** The image that we are currently working on */
 	boost::shared_ptr<Image> _image;
 };
