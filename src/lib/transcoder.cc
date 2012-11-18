@@ -109,12 +109,18 @@ Transcoder::go ()
 		}
 		
 	} catch (...) {
-		/* process_end() is important as the decoder may have worker
-		   threads that need to be cleaned up.
-		*/
 		_encoder->process_end ();
 		throw;
 	}
-
+	
+	if (_delay_line) {
+		_delay_line->process_end ();
+	}
+	if (_matcher) {
+		_matcher->process_end ();
+	}
+	if (_gain) {
+		_gain->process_end ();
+	}
 	_encoder->process_end ();
 }

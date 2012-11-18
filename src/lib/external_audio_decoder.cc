@@ -106,9 +106,10 @@ ExternalAudioDecoder::pass ()
 		return true;
 	}
 
-	sf_count_t const block = 65536;
-
-	cout << frames << " audio frames.\n";
+	/* Do things in half second blocks as I think there may be limits
+	   to what FFmpeg (and in particular the resampler) can cope with.
+	*/
+	sf_count_t const block = _audio_stream->sample_rate() / 2;
 
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
 	while (frames > 0) {
@@ -121,6 +122,7 @@ ExternalAudioDecoder::pass ()
 			}
 		}
 
+		audio->set_frames (this_time);
 		Audio (audio);
 		frames -= this_time;
 	}

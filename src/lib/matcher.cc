@@ -21,6 +21,7 @@
 #include "image.h"
 #include "log.h"
 
+using std::min;
 using boost::shared_ptr;
 
 Matcher::Matcher (Log* log, int sample_rate, float frames_per_second)
@@ -92,9 +93,21 @@ Matcher::process_end ()
 	
 	if (audio_short_by_frames > 0) {
 		_log->log (String::compose ("Emitted %1 too few audio frames", audio_short_by_frames));
-		shared_ptr<AudioBuffers> b (new AudioBuffers (_channels.get(), audio_short_by_frames));
+
+		/* Do things in half second blocks as I think there may be limits
+		   to what FFmpeg (and in particular the resampler) can cope with.
+		*/
+		int64_t const block = _sample_rate / 2;
+		shared_ptr<AudioBuffers> b (new AudioBuffers (_channels.get(), block));
 		b->make_silent ();
-		Audio (b);
-		_audio_frames += b->frames ();
+		
+		int64_t to_do = audio_short_by_frames;
+		while (to_do > 0) {
+			int64_t const this_time = min (to_do, block);
+			b->set_frames (this_time);
+			Audio (b);
+			_audio_frames += b->frames ();
+			to_do -= this_time;
+		}
 	}
 }

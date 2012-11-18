@@ -337,12 +337,6 @@ J2KWAVEncoder::process_end ()
 #endif
 
 	if (_film->audio_stream()) {
-		int const dcp_sr = dcp_audio_sample_rate (_film->audio_stream()->sample_rate ());
-		int64_t const extra_audio_frames = dcp_sr - (_audio_frames_written % dcp_sr);
-		shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_stream()->channels(), extra_audio_frames));
-		silence->make_silent ();
-		write_audio (silence);
-		
 		close_sound_files ();
 		
 		/* Rename .wav.tmp files to .wav */
