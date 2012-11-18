@@ -106,6 +106,15 @@ ABTranscoder::go ()
 		}
 	}
 
+	if (_delay_line) {
+		_delay_line->process_end ();
+	}
+	if (_matcher) {
+		_matcher->process_end ();
+	}
+	if (_gain) {
+		_gain->process_end ();
+	}
 	_encoder->process_end ();
 }
 			    
