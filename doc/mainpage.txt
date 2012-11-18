@@ -33,5 +33,5 @@
  *
  *  Email correspondance is welcome to cth@carlh.net
  *
- *  More details can be found at http://carlh.net/dvdomatic
+ *  More details can be found at http://carlh.net/software/dvdomatic
  */
