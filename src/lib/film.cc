@@ -40,7 +40,6 @@
 #include "ab_transcode_job.h"
 #include "transcode_job.h"
 #include "scp_dcp_job.h"
-#include "copy_from_dvd_job.h"
 #include "make_dcp_job.h"
 #include "log.h"
 #include "options.h"
@@ -334,13 +333,6 @@ void
 Film::send_dcp_to_tms ()
 {
 	shared_ptr<Job> j (new SCPDCPJob (shared_from_this(), shared_ptr<Job> ()));
-	JobManager::instance()->add (j);
-}
-
-void
-Film::copy_from_dvd ()
-{
-	shared_ptr<Job> j (new CopyFromDVDJob (shared_from_this(), shared_ptr<Job> ()));
 	JobManager::instance()->add (j);
 }
 

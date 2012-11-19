@@ -27,7 +27,6 @@
 #include "wx/job_manager_view.h"
 #include "wx/config_dialog.h"
 #include "wx/job_wrapper.h"
-//#include "gtk/dvd_title_dialog.h"
 #include "wx/wx_util.h"
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
@@ -136,7 +135,6 @@ enum {
 	ID_edit_preferences,
 	ID_jobs_make_dcp,
 	ID_jobs_send_dcp_to_tms,
-	ID_jobs_copy_from_dvd,
 	ID_jobs_examine_content,
 	ID_jobs_make_dcp_from_existing_transcode,
 	ID_help_about
@@ -161,9 +159,6 @@ setup_menu (wxMenuBar* m)
 	wxMenu* jobs = new wxMenu;
 	add_item (jobs, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
 	add_item (jobs, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
-#ifdef DVDOMATIC_POSIX	
-	add_item (jobs, "Copy from &DVD...", ID_jobs_copy_from_dvd, NEEDS_FILM);
-#endif	
 	jobs->AppendSeparator ();
 	add_item (jobs, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
 	add_item (jobs, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
@@ -202,7 +197,6 @@ public:
 		Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
 		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
-		Connect (ID_jobs_copy_from_dvd, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_copy_from_dvd));
 		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
 		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
@@ -332,20 +326,6 @@ public:
 	void jobs_make_dcp_from_existing_transcode (wxCommandEvent &)
 	{
 		JobWrapper::make_dcp (this, film, false);
-	}
-	
-	void jobs_copy_from_dvd (wxCommandEvent &)
-	{
-		try {
-
-//		DVDTitleDialog d;
-//		if (d.run () != Gtk::RESPONSE_OK) {
-//			return;
-//		}
-			film->copy_from_dvd ();
-		} catch (DVDError& e) {
-			error_dialog (this, e.what ());
-		}
 	}
 	
 	void jobs_send_dcp_to_tms (wxCommandEvent &)

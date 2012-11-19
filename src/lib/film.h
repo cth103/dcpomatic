@@ -65,7 +65,6 @@ public:
 
 	void examine_content ();
 	void send_dcp_to_tms ();
-	void copy_from_dvd ();
 
 	void make_dcp (bool);
 

@@ -12,7 +12,6 @@ def build(bld):
                  audio_source.cc
                  check_hashes_job.cc
 		 config.cc
-		 copy_from_dvd_job.cc
                  combiner.cc
                  cross.cc
 		 dcp_content_type.cc
@@ -21,7 +20,6 @@ def build(bld):
                  decoder_factory.cc
                  delay_line.cc
                  dolby_cp750.cc
-                 dvd.cc
 		 encoder.cc
                  encoder_factory.cc
 		 examine_content_job.cc
