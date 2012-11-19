@@ -17,6 +17,14 @@
 
 */
 
+/** @file src/lib/stream.h
+ *  @brief Representations of audio and subtitle streams.
+ *
+ *  Some content may have multiple `streams' of audio and/or subtitles; perhaps
+ *  for multiple languages, or for stereo / surround mixes.  These classes represent
+ *  those streams, and know about their details.
+ */
+
 #ifndef DVDOMATIC_STREAM_H
 #define DVDOMATIC_STREAM_H
 
@@ -27,12 +35,18 @@ extern "C" {
 #include <libavutil/audioconvert.h>
 }
 
+/** @class Stream
+ *  @brief Parent class for streams.
+ */
 class Stream
 {
 public:
 	virtual std::string to_string () const = 0;
 };
 
+/** @class AudioStream
+ *  @brief A stream of audio data.
+ */
 struct AudioStream : public Stream
 {
 public:
@@ -68,6 +82,9 @@ protected:
 	int64_t _channel_layout;
 };
 
+/** @class SubtitleStream
+ *  @brief A stream of subtitle data.
+ */
 class SubtitleStream : public Stream
 {
 public:

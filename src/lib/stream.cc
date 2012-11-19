@@ -28,6 +28,10 @@ using std::stringstream;
 using boost::shared_ptr;
 using boost::optional;
 
+/** Construct a SubtitleStream from a value returned from to_string().
+ *  @param t String returned from to_string().
+ *  @param v State file version.
+ */
 SubtitleStream::SubtitleStream (string t, boost::optional<int>)
 {
 	stringstream n (t);
@@ -39,18 +43,28 @@ SubtitleStream::SubtitleStream (string t, boost::optional<int>)
 	}
 }
 
+/** @return A canonical string representation of this stream */
 string
 SubtitleStream::to_string () const
 {
 	return String::compose ("%1 %2", _id, _name);
 }
 
+/** Create a SubtitleStream from a value returned from to_string().
+ *  @param t String returned from to_string().
+ *  @param v State file version.
+ */
 shared_ptr<SubtitleStream>
 SubtitleStream::create (string t, optional<int> v)
 {
 	return shared_ptr<SubtitleStream> (new SubtitleStream (t, v));
 }
 
+/** Create an AudioStream from a string returned from to_string().
+ *  @param t String returned from to_string().
+ *  @param v State file version.
+ *  @return AudioStream, or 0.
+ */
 shared_ptr<AudioStream>
 audio_stream_factory (string t, optional<int> v)
 {
@@ -64,6 +78,11 @@ audio_stream_factory (string t, optional<int> v)
 	return s;
 }
 
+/** Create a SubtitleStream from a string returned from to_string().
+ *  @param t String returned from to_string().
+ *  @param v State file version.
+ *  @return SubtitleStream, or 0.
+ */
 shared_ptr<SubtitleStream>
 subtitle_stream_factory (string t, optional<int> v)
 {

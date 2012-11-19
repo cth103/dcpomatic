@@ -17,6 +17,10 @@
 
 */
 
+/** @file src/lib/filter_graph.h
+ *  @brief A graph of FFmpeg filters.
+ */
+
 #ifndef DVDOMATIC_FILTER_GRAPH_H
 #define DVDOMATIC_FILTER_GRAPH_H
 
@@ -26,6 +30,9 @@ class Image;
 class VideoFilter;
 class FFmpegDecoder;
 
+/** @class FilterGraph
+ *  @brief A graph of FFmpeg filters.
+ */
 class FilterGraph
 {
 public:
@@ -37,8 +44,8 @@ public:
 private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
-	Size _size;
-	AVPixelFormat _pixel_format;
+	Size _size; ///< size of the images that this chain can process
+	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
 };
 
 #endif

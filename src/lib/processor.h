@@ -37,15 +37,18 @@ class Log;
 class Processor
 {
 public:
+	/** Construct a Processor.
+	 *  @param log Log to use.
+	 */
 	Processor (Log* log)
 		: _log (log)
 	{}
-	
-	virtual void process_begin () {}
+
+	/** Will be called at the end of a processing run */
 	virtual void process_end () {}
 
 protected:
-	Log* _log;
+	Log* _log; ///< log to write to
 };
 
 /** @class AudioVideoProcessor
@@ -54,6 +57,9 @@ protected:
 class AudioVideoProcessor : public Processor, public VideoSource, public VideoSink, public AudioSource, public AudioSink
 {
 public:
+	/** Construct an AudioVideoProcessor.
+	 *  @param log Log to write to.
+	 */
 	AudioVideoProcessor (Log* log)
 		: Processor (log)
 	{}
@@ -65,6 +71,9 @@ public:
 class AudioProcessor : public Processor, public AudioSource, public AudioSink
 {
 public:
+	/** Construct an AudioProcessor.
+	 *  @param log Log to write to.
+	 */
 	AudioProcessor (Log* log)
 		: Processor (log)
 	{}
@@ -76,6 +85,9 @@ public:
 class VideoProcessor : public Processor, public VideoSource, public VideoSink
 {
 public:
+	/** Construct an VideoProcessor.
+	 *  @param log Log to write to.
+	 */
 	VideoProcessor (Log* log)
 		: Processor (log)
 	{}

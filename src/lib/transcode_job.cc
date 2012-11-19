@@ -39,6 +39,7 @@ using boost::shared_ptr;
 
 /** @param s Film to use.
  *  @param o Options.
+ *  @param req Job that must be completed before this job is run.
  */
 TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
 	: Job (f, req)

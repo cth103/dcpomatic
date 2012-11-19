@@ -33,6 +33,7 @@ using std::stringstream;
 using boost::shared_ptr;
 
 /** @param s Film that we are operating on.
+ *  @param req Job that must be completed before this job is run.
  */
 Job::Job (shared_ptr<Film> f, shared_ptr<Job> req)
 	: _film (f)
@@ -77,6 +78,7 @@ Job::run_wrapper ()
 	}
 }
 
+/** @return true if this job is new (ie has not started running) */
 bool
 Job::is_new () const
 {

@@ -41,6 +41,7 @@ extern "C" {
 #define TIMING(...)
 #endif
 
+/** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 
 class Scaler;
@@ -60,14 +61,21 @@ typedef int SourceFrame;
 
 struct DCPFrameRate
 {
+	/** frames per second for the DCP */
 	int frames_per_second;
+	/** Skip every `skip' frames.  e.g. if this is 1, we skip nothing;
+	 *  if it's 2, we skip every other frame.
+	 */
 	int skip;
+	/** true if this DCP will run its video faster than the source
+	 *  (e.g. if the source is 29.97fps and we will run the DCP at 30fps)
+	 */
 	bool run_fast;
 };
 
 enum ContentType {
-	STILL,
-	VIDEO
+	STILL, ///< content is still images
+	VIDEO  ///< content is a video
 };
 
 /** @class Size
@@ -96,7 +104,9 @@ struct Size
 
 extern bool operator== (Size const & a, Size const & b);
 
-/** A description of the crop of an image or video. */
+/** @struct Crop
+ *  @brief A description of the crop of an image or video.
+ */
 struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
@@ -114,7 +124,9 @@ struct Crop
 extern bool operator== (Crop const & a, Crop const & b);
 extern bool operator!= (Crop const & a, Crop const & b);
 
-/** A position */
+/** @struct Position
+ *  @brief A position.
+ */
 struct Position
 {
 	Position ()
@@ -133,7 +145,9 @@ struct Position
 	int y;
 };
 
-/** A rectangle */
+/** @struct Rect
+ *  @brief A rectangle.
+ */
 struct Rect
 {
 	Rect ()

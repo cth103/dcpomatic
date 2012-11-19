@@ -63,7 +63,9 @@ protected:
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 	void repeat_last_video ();
 
+	/** Subtitle stream to use when decoding */
 	boost::shared_ptr<SubtitleStream> _subtitle_stream;
+	/** Subtitle streams that this decoder's content has */
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 
 private:

@@ -291,6 +291,10 @@ dvdomatic_setup ()
 #endif	
 }
 
+/** @param start Start position for the crop within the image.
+ *  @param size Size of the cropped area.
+ *  @return FFmpeg crop filter string.
+ */
 string
 crop_string (Position start, Size size)
 {
@@ -299,6 +303,9 @@ crop_string (Position start, Size size)
 	return s.str ();
 }
 
+/** @param s A string.
+ *  @return Parts of the string split at spaces, except when a space is within quotation marks.
+ */
 vector<string>
 split_at_spaces_considering_quotes (string s)
 {
@@ -375,6 +382,9 @@ md5_digest (string file)
 	return s.str ();
 }
 
+/** @param fps Arbitrary frames-per-second value.
+ *  @return DCPFrameRate for this frames-per-second.
+ */
 DCPFrameRate
 dcp_frame_rate (float fps)
 {
@@ -601,6 +611,9 @@ Socket::read_indefinite (uint8_t* data, int size, int timeout)
 	memcpy (data, _buffer, size);
 }
 
+/** @param other A Rect.
+ *  @return The intersection of this with `other'.
+ */
 Rect
 Rect::intersection (Rect const & other) const
 {
@@ -619,7 +632,6 @@ Rect::intersection (Rect const & other) const
  *  @param t Multiple to round to.
  *  @return Rounded number.
  */
-
 int
 stride_round_up (int c, int const * stride, int t)
 {
@@ -760,6 +772,7 @@ AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	}
 }
 
+/** AudioBuffers destructor */
 AudioBuffers::~AudioBuffers ()
 {
 	for (int i = 0; i < _channels; ++i) {

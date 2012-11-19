@@ -17,6 +17,10 @@
 
 */
 
+/** @file src/lib/filter_graph.cc
+ *  @brief A graph of FFmpeg filters.
+ */
+
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
@@ -42,6 +46,13 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 
+/** Construct a FilterGraph for the settings in a film.
+ *  @param film Film.
+ *  @param decoder Decoder that we are using.
+ *  @param crop true to apply crop, otherwise false.
+ *  @param s Size of the images to process.
+ *  @param p Pixel format of the images to process.
+ */
 FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, bool crop, Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
@@ -127,6 +138,9 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, bool cr
 	/* XXX: leaking `inputs' / `outputs' ? */
 }
 
+/** Take an AVFrame and process it using our configured filters, returning a
+ *  set of Images.
+ */
 list<shared_ptr<Image> >
 FilterGraph::process (AVFrame const * frame)
 {
@@ -189,6 +203,10 @@ FilterGraph::process (AVFrame const * frame)
 	return images;
 }
 
+/** @param s Image size.
+ *  @param p Pixel format.
+ *  @return true if this chain can process images with `s' and `p', otherwise false.
+ */
 bool
 FilterGraph::can_process (Size s, AVPixelFormat p) const
 {

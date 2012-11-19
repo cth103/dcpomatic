@@ -107,6 +107,7 @@ public:
 		return _tms_password;
 	}
 
+	/** @return The sound processor that we are using */
 	SoundProcessor const * sound_processor () const {
 		return _sound_processor;
 	}
