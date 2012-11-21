@@ -96,8 +96,6 @@ Config::Config ()
 			_sound_processor = SoundProcessor::from_id (v);
 		}
 	}
-
-	Changed ();
 }
 
 /** @return Filename to write configuration to */
