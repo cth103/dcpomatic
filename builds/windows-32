@@ -3,7 +3,7 @@
 export MINGW_CXX="i686-w64-mingw32-g++"
 export MINGW_WINDRES="i686-w64-mingw32-windres"
 export MINGW_PREFIX="/usr/i686-w64-mingw32"
-export WINDOWS_PREFIX="/home/carl/Environments/windows"
+export WINDOWS_PREFIX="/home/carl/Environments/windows/32"
 
 export PKG_CONFIG_LIBDIR=$WINDOWS_PREFIX/lib/pkgconfig
 
