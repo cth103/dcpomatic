@@ -2,14 +2,18 @@
 
 export MINGW_CXX="x86_64-w64-mingw32-g++"
 export MINGW_WINDRES="x86_64-w64-mingw32-windres"
-export MINGW_PREFIX="/usr/x86_64-w64-mingw32"
-export WINDOWS_PREFIX="/home/carl/Environments/windows-64"
+export MINGW_PREFIX="/home/carl/mingw/x86_64-w64-mingw32"
+export MINGW_PATH="/home/carl/mingw/bin"
+export WINDOWS_PREFIX="/home/carl/Environments/windows/64"
 
 export PKG_CONFIG_LIBDIR=$WINDOWS_PREFIX/lib/pkgconfig
 
 ./waf clean
 
-export PATH=$WINDOWS_PREFIX/bin:$PATH
+export PATH=$WINDOWS_PREFIX/bin:$MINGW_PATH:$PATH
+
+echo -n "USING COMPILER "
+which x86_64-w64-mingw32-g++
 
 CXX=$MINGW_CXX WINRC=$MINGW_WINDRES \
   CXXFLAGS="-I$WINDOWS_PREFIX/include -I$MINGW_PREFIX/include" \

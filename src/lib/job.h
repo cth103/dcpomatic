@@ -39,6 +39,7 @@ class Job : public boost::enable_shared_from_this<Job>
 {
 public:
 	Job (boost::shared_ptr<Film> s, boost::shared_ptr<Job> req);
+	virtual ~Job() {}
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;
