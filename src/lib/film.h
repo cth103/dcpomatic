@@ -340,7 +340,7 @@ public:
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
-	virtual void set_content (std::string);
+	void set_content (std::string);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
 	void set_crop (Crop);
