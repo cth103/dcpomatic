@@ -53,6 +53,7 @@ class Encoder
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
+	virtual ~Encoder () {}
 
 	/** Called to indicate that a processing run is about to begin */
 	virtual void process_begin (int64_t audio_channel_layout) = 0;
