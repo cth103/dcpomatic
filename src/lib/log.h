@@ -34,6 +34,7 @@ class Log
 {
 public:
 	Log ();
+	virtual ~Log () {}
 
 	enum Level {
 		STANDARD = 0,
