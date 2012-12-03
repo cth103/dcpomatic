@@ -50,7 +50,7 @@ def configure(conf):
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
     else:
-        conf.env.append_value('CXXFLAGS', '-O3')
+        conf.env.append_value('CXXFLAGS', '-O2')
 
     conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
     conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
