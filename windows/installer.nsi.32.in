@@ -82,6 +82,11 @@ File "%binaries%/src/tools/dvdomatic.exe"
 File "%binaries%/src/tools/servomatic_cli.exe"
 File "%binaries%/src/tools/servomatic_gui.exe"
 
+# I don't know why, but sometimes it seems that 
+# delegates.xml must be in with the binaries, and
+# sometimes in the $PROFILE.  Meh.
+File "%deps%/etc/ImageMagick/delegates.xml"
+SetOutPath "$PROFILE\.magick"
 File "%deps%/etc/ImageMagick/delegates.xml"
 
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
