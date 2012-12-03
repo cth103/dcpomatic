@@ -26,6 +26,9 @@ def configure(conf):
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
+        wxrc = os.popen('wx-config --rescomp').read().split()[1:]
+        print wxrc
+        conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
             conf.env.append_value('CXXFLAGS', ['-mconsole'])
             conf.env.append_value('LINKFLAGS', ['-mconsole'])
