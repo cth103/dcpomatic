@@ -26,11 +26,4 @@ def build(bld):
                  wx_ui_signaller.cc
                  """
 
-#                 alignment.cc
-#                 film_list.cc
-#                 dvd_title_dialog.cc
-
-    if not bld.env.DISABLE_PLAYER:
-        obj.source += " film_player.cc"
-
     obj.target = 'dvdomatic-wx'

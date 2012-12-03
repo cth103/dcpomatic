@@ -56,11 +56,7 @@ extern "C" {
 #include "format.h"
 #include "dcp_content_type.h"
 #include "filter.h"
-#include "screen.h"
 #include "sound_processor.h"
-#ifndef DVDOMATIC_DISABLE_PLAYER
-#include "player_manager.h"
-#endif
 
 using namespace std;
 using namespace boost;
@@ -191,34 +187,6 @@ stacktrace (ostream& out, int levels)
 }
 #endif
 
-/** @return Version of vobcopy that is on the path (and hence that we will use) */
-static string
-vobcopy_version ()
-{
-	FILE* f = popen ("vobcopy -V 2>&1", "r");
-	if (f == 0) {
-		throw EncodeError ("could not run vobcopy to check version");
-	}
-
-	string version = "unknown";
-	
-	while (!feof (f)) {
-		char buf[256];
-		if (fgets (buf, sizeof (buf), f)) {
-			string s (buf);
-			vector<string> b;
-			split (b, s, is_any_of (" "));
-			if (b.size() >= 2 && b[0] == "Vobcopy") {
-				version = b[1];
-			}
-		}
-	}
-
-	pclose (f);
-
-	return version;
-}
-
 /** @param v Version as used by FFmpeg.
  *  @return A string representation of v.
  */
@@ -236,7 +204,6 @@ dependency_version_summary ()
 {
 	stringstream s;
 	s << "libopenjpeg " << opj_version () << ", "
-	  << "vobcopy " << vobcopy_version() << ", "
 	  << "libavcodec " << ffmpeg_version_to_string (avcodec_version()) << ", "
 	  << "libavfilter " << ffmpeg_version_to_string (avfilter_version()) << ", "
 	  << "libavformat " << ffmpeg_version_to_string (avformat_version()) << ", "
@@ -256,17 +223,6 @@ seconds (struct timeval t)
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
-
-#ifdef DVDOMATIC_POSIX
-void
-sigchld_handler (int, siginfo_t* info, void *)
-{
-#ifndef DVDOMATIC_DISABLE_PLAYER	
-	PlayerManager::instance()->child_exited (info->si_pid);
-#endif	
-}
-#endif
-
 /** Call the required functions to set up DVD-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
@@ -280,14 +236,6 @@ dvdomatic_setup ()
 	SoundProcessor::setup_sound_processors ();
 
 	ui_thread = this_thread::get_id ();
-
-#ifdef DVDOMATIC_POSIX	
-	struct sigaction sa;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset (&sa.sa_mask);
-	sa.sa_sigaction = sigchld_handler;
-	sigaction (SIGCHLD, &sa, 0);
-#endif	
 }
 
 string

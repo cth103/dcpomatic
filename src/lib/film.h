@@ -64,7 +64,6 @@ public:
 
 	void examine_content ();
 	void send_dcp_to_tms ();
-	void copy_from_dvd ();
 
 	void make_dcp (bool);
 
@@ -83,8 +82,6 @@ public:
 	std::string content_path () const;
 	ContentType content_type () const;
 	
-	bool content_is_dvd () const;
-
 	std::string thumb_file (int) const;
 	std::string thumb_base (int) const;
 	SourceFrame thumb_frame (int) const;

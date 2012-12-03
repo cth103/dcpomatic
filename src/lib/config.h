@@ -29,7 +29,6 @@
 #include <boost/signals2.hpp>
 
 class ServerDescription;
-class Screen;
 class Scaler;
 class Filter;
 class SoundProcessor;
@@ -73,10 +72,6 @@ public:
 	/** @return J2K encoding servers to use */
 	std::vector<ServerDescription*> servers () const {
 		return _servers;
-	}
-
-	std::vector<boost::shared_ptr<Screen> > screens () const {
-		return _screens;
 	}
 
 	Scaler const * reference_scaler () const {
@@ -140,10 +135,6 @@ public:
 		_servers = s;
 	}
 
-	void set_screens (std::vector<boost::shared_ptr<Screen> > s) {
-		_screens = s;
-	}
-
 	void set_reference_scaler (Scaler const * s) {
 		_reference_scaler = s;
 	}
@@ -195,8 +186,6 @@ private:
 
 	/** J2K encoding servers to use */
 	std::vector<ServerDescription *> _servers;
-	/** Screen definitions */
-	std::vector<boost::shared_ptr<Screen> > _screens;
 	/** Scaler to use for the "A" part of A/B comparisons */
 	Scaler const * _reference_scaler;
 	/** Filters to use for the "A" part of A/B comparisons */

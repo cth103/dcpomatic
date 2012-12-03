@@ -34,7 +34,6 @@
 #include "lib/ab_transcode_job.h"
 #include "lib/job_manager.h"
 #include "lib/filter.h"
-#include "lib/screen.h"
 #include "lib/config.h"
 #include "filter_dialog.h"
 #include "wx_util.h"

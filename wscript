@@ -11,7 +11,6 @@ def options(opt):
 
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
-    opt.add_option('--disable-player', action='store_true', default = False, help = 'disable building of the player components')
     opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
 
 def configure(conf):
@@ -21,9 +20,6 @@ def configure(conf):
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
 
-    # Turn off player for now
-    conf.options.disable_player = True
-
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
@@ -32,7 +28,6 @@ def configure(conf):
         if conf.options.enable_debug:
             conf.env.append_value('CXXFLAGS', ['-mconsole'])
             conf.env.append_value('LINKFLAGS', ['-mconsole'])
-        conf.options.disable_player = True
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
@@ -44,11 +39,7 @@ def configure(conf):
 
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
-    conf.env.DISABLE_PLAYER = conf.options.disable_player
     conf.env.VERSION = VERSION
-
-    if conf.options.disable_player:
-        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_DISABLE_PLAYER')
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
