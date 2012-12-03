@@ -82,8 +82,6 @@ File "%binaries%/src/tools/dvdomatic.exe"
 File "%binaries%/src/tools/servomatic_cli.exe"
 File "%binaries%/src/tools/servomatic_gui.exe"
 
-SetOutPath "$PROFILE\.magick"
-
 File "%deps%/etc/ImageMagick/delegates.xml"
 
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
