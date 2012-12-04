@@ -27,7 +27,6 @@
 #include <wx/stdpaths.h>
 #include "lib/config.h"
 #include "lib/server.h"
-#include "lib/screen.h"
 #include "lib/format.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"

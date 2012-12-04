@@ -28,7 +28,6 @@
 
 class DirPickerCtrl;
 
-class Screen;
 class ServerDescription;
 
 /** @class ConfigDialog

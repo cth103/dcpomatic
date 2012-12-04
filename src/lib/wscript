@@ -10,7 +10,6 @@ def build(bld):
 		 ab_transcoder.cc
                  check_hashes_job.cc
 		 config.cc
-		 copy_from_dvd_job.cc
                  cross.cc
 		 dcp_content_type.cc
 		 dcp_video_frame.cc
@@ -18,7 +17,6 @@ def build(bld):
                  decoder_factory.cc
                  delay_line.cc
                  dolby_cp750.cc
-                 dvd.cc
 		 encoder.cc
                  encoder_factory.cc
 		 examine_content_job.cc
@@ -40,7 +38,6 @@ def build(bld):
 		 make_dcp_job.cc
                  scp_dcp_job.cc
 		 scaler.cc
-                 screen.cc
 		 server.cc
                  sound_processor.cc
                  stream.cc
@@ -53,8 +50,5 @@ def build(bld):
 		 util.cc
 		 version.cc
 		 """
-
-    if not bld.env.DISABLE_PLAYER:
-        obj.source += " player.cc player_manager.cc"
 
     obj.target = 'dvdomatic'
