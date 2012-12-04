@@ -33,13 +33,11 @@ using namespace std;
 vector<Scaler const *> Scaler::_scalers;
 
 /** @param f FFmpeg id.
- *  @param m mplayer command line id.
  *  @param i Our id.
  *  @param n User-visible name.
  */
-Scaler::Scaler (int f, int m, string i, string n)
+Scaler::Scaler (int f, string i, string n)
 	: _ffmpeg_id (f)
-	, _mplayer_id (m)
 	, _id (i)
 	, _name (n)
 {
@@ -59,15 +57,15 @@ Scaler::all ()
 void
 Scaler::setup_scalers ()
 {
-	_scalers.push_back (new Scaler (SWS_BICUBIC, 2, "bicubic", "Bicubic"));
-	_scalers.push_back (new Scaler (SWS_X, 3, "x", "X"));
-	_scalers.push_back (new Scaler (SWS_AREA, 5, "area", "Area"));
-	_scalers.push_back (new Scaler (SWS_GAUSS, 7, "gauss", "Gaussian"));
-	_scalers.push_back (new Scaler (SWS_LANCZOS, 9, "lanczos", "Lanczos"));
-	_scalers.push_back (new Scaler (SWS_SINC, 8, "sinc", "Sinc"));
-	_scalers.push_back (new Scaler (SWS_SPLINE, 10, "spline", "Spline"));
-	_scalers.push_back (new Scaler (SWS_BILINEAR, 1, "bilinear", "Bilinear"));
-	_scalers.push_back (new Scaler (SWS_FAST_BILINEAR, 0, "fastbilinear", "Fast Bilinear"));
+	_scalers.push_back (new Scaler (SWS_BICUBIC, "bicubic", "Bicubic"));
+	_scalers.push_back (new Scaler (SWS_X, "x", "X"));
+	_scalers.push_back (new Scaler (SWS_AREA, "area", "Area"));
+	_scalers.push_back (new Scaler (SWS_GAUSS, "gauss", "Gaussian"));
+	_scalers.push_back (new Scaler (SWS_LANCZOS, "lanczos", "Lanczos"));
+	_scalers.push_back (new Scaler (SWS_SINC, "sinc", "Sinc"));
+	_scalers.push_back (new Scaler (SWS_SPLINE, "spline", "Spline"));
+	_scalers.push_back (new Scaler (SWS_BILINEAR, "bilinear", "Bilinear"));
+	_scalers.push_back (new Scaler (SWS_FAST_BILINEAR, "fastbilinear", "Fast Bilinear"));
 }
 
 /** @param id One of our ids.

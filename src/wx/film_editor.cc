@@ -35,7 +35,6 @@
 #include "lib/ab_transcode_job.h"
 #include "lib/job_manager.h"
 #include "lib/filter.h"
-#include "lib/screen.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_decoder.h"
 #include "lib/external_audio_decoder.h"

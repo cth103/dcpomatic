@@ -29,7 +29,6 @@
 #include <boost/signals2.hpp>
 
 class ServerDescription;
-class Screen;
 class Scaler;
 class Filter;
 class SoundProcessor;
@@ -75,10 +74,6 @@ public:
 		return _servers;
 	}
 
-	std::vector<boost::shared_ptr<Screen> > screens () const {
-		return _screens;
-	}
-
 	Scaler const * reference_scaler () const {
 		return _reference_scaler;
 	}
@@ -115,80 +110,61 @@ public:
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
-		Changed ();
 	}
 
 	void set_default_directory (std::string d) {
 		_default_directory = d;
-		Changed ();
 	}
 
 	/** @param p New server port */
 	void set_server_port (int p) {
 		_server_port = p;
-		Changed ();
 	}
 
 	/** @param i New colour LUT index */
 	void set_colour_lut_index (int i) {
 		_colour_lut_index = i;
-		Changed ();
 	}
 
 	/** @param b New J2K bandwidth */
 	void set_j2k_bandwidth (int b) {
 		_j2k_bandwidth = b;
-		Changed ();
 	}
 
 	/** @param s New list of servers */
 	void set_servers (std::vector<ServerDescription*> s) {
 		_servers = s;
-		Changed ();
-	}
-
-	void set_screens (std::vector<boost::shared_ptr<Screen> > s) {
-		_screens = s;
-		Changed ();
 	}
 
 	void set_reference_scaler (Scaler const * s) {
 		_reference_scaler = s;
-		Changed ();
 	}
 	
 	void set_reference_filters (std::vector<Filter const *> const & f) {
 		_reference_filters = f;
-		Changed ();
 	}
 
 	/** @param i IP address of a TMS that we can copy DCPs to */
 	void set_tms_ip (std::string i) {
 		_tms_ip = i;
-		Changed ();
 	}
 
 	/** @param p Path on a TMS that we should write DCPs to */
 	void set_tms_path (std::string p) {
 		_tms_path = p;
-		Changed ();
 	}
 
 	/** @param u User name to log into the TMS with */
 	void set_tms_user (std::string u) {
 		_tms_user = u;
-		Changed ();
 	}
 
 	/** @param p Password to log into the TMS with */
 	void set_tms_password (std::string p) {
 		_tms_password = p;
-		Changed ();
 	}
 	
 	void write () const;
-
-	boost::signals2::signal<void()> Changed;
 
 	static Config* instance ();
 
@@ -211,8 +187,6 @@ private:
 
 	/** J2K encoding servers to use */
 	std::vector<ServerDescription *> _servers;
-	/** Screen definitions */
-	std::vector<boost::shared_ptr<Screen> > _screens;
 	/** Scaler to use for the "A" part of A/B comparisons */
 	Scaler const * _reference_scaler;
 	/** Filters to use for the "A" part of A/B comparisons */

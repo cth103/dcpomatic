@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.58pre'
+VERSION = '0.59pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -11,7 +11,6 @@ def options(opt):
 
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
-    opt.add_option('--disable-player', action='store_true', default = False, help = 'disable building of the player components')
     opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
 
 def configure(conf):
@@ -21,15 +20,14 @@ def configure(conf):
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
 
-    # Turn off player for now
-    conf.options.disable_player = True
-
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
+        wxrc = os.popen('wx-config --rescomp').read().split()[1:]
+        print wxrc
+        conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
             conf.env.append_value('CXXFLAGS', ['-mconsole'])
             conf.env.append_value('LINKFLAGS', ['-mconsole'])
-        conf.options.disable_player = True
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
@@ -41,16 +39,12 @@ def configure(conf):
 
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
-    conf.env.DISABLE_PLAYER = conf.options.disable_player
     conf.env.VERSION = VERSION
-
-    if conf.options.disable_player:
-        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_DISABLE_PLAYER')
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
     else:
-        conf.env.append_value('CXXFLAGS', '-O3')
+        conf.env.append_value('CXXFLAGS', '-O2')
 
     conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
     conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
@@ -60,7 +54,7 @@ def configure(conf):
     conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
     conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.24', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.32', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
     conf.check_cc(fragment  = """

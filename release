@@ -83,3 +83,4 @@ if (raw_input() != "y"):
     sys.exit(1)
 
 command("git commit -a -m \"Bump version\"")
+command("cp DVD-o-matic*.exe dvdomatic-*.tar.bz2 /home/carl/public_html/carlh.net/software/dvdomatic")

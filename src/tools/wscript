@@ -8,11 +8,7 @@ def build(bld):
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-#        p = ['dvdomatic', 'alignomatic']
-        p = ['dvdomatic', 'servomatic_gui']
-        if not bld.env.DISABLE_PLAYER:
-            p.append('playomatic')
-        for t in p:
+        for t in ['dvdomatic', 'servomatic_gui']:
             obj = bld(features = 'cxx cxxprogram')
             obj.includes = ['..']
             obj.use    = ['libdvdomatic', 'libdvdomatic-wx']

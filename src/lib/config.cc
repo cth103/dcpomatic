@@ -25,7 +25,6 @@
 #include "config.h"
 #include "server.h"
 #include "scaler.h"
-#include "screen.h"
 #include "filter.h"
 #include "sound_processor.h"
 
@@ -82,8 +81,6 @@ Config::Config ()
 			_reference_filters.push_back (Filter::from_id (v));
 		} else if (k == "server") {
 			_servers.push_back (ServerDescription::create_from_metadata (v));
-		} else if (k == "screen") {
-			_screens.push_back (Screen::create_from_metadata (v));
 		} else if (k == "tms_ip") {
 			_tms_ip = v;
 		} else if (k == "tms_path") {
@@ -96,8 +93,6 @@ Config::Config ()
 			_sound_processor = SoundProcessor::from_id (v);
 		}
 	}
-
-	Changed ();
 }
 
 /** @return Filename to write configuration to */
@@ -139,10 +134,6 @@ Config::write () const
 	
 	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
 		f << "server " << (*i)->as_metadata () << "\n";
-	}
-
-	for (vector<shared_ptr<Screen> >::const_iterator i = _screens.begin(); i != _screens.end(); ++i) {
-		f << "screen " << (*i)->as_metadata () << "\n";
 	}
 
 	f << "tms_ip " << _tms_ip << "\n";

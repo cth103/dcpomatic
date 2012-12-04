@@ -55,6 +55,7 @@ class Encoder : public VideoSink, public AudioSink
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const Options> o);
+	virtual ~Encoder () {}
 
 	/** Called to indicate that a processing run is about to begin */
 	virtual void process_begin () {}

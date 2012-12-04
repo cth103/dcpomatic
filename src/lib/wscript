@@ -44,7 +44,6 @@ def build(bld):
                  matcher.cc
                  scp_dcp_job.cc
 		 scaler.cc
-                 screen.cc
 		 server.cc
                  sound_processor.cc
                  stream.cc
@@ -58,8 +57,5 @@ def build(bld):
                  video_decoder.cc
                  video_source.cc
 		 """
-
-    if not bld.env.DISABLE_PLAYER:
-        obj.source += " player.cc player_manager.cc"
 
     obj.target = 'dvdomatic'

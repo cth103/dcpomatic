@@ -83,8 +83,6 @@ public:
 	std::string content_path () const;
 	ContentType content_type () const;
 	
-	bool content_is_dvd () const;
-
 	std::string thumb_file (int) const;
 	std::string thumb_base (int) const;
 	SourceFrame thumb_frame (int) const;
@@ -330,7 +328,7 @@ public:
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
-	virtual void set_content (std::string);
+	void set_content (std::string);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
 	void set_crop (Crop);

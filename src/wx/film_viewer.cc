@@ -43,6 +43,7 @@ public:
 	ThumbPanel (wxPanel* parent, shared_ptr<Film> film)
 		: wxPanel (parent)
 		, _film (film)
+		, _index (0)
 		, _frame_rebuild_needed (false)
 		, _composition_needed (false)
 	{}
