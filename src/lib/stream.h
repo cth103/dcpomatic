@@ -41,6 +41,7 @@ extern "C" {
 class Stream
 {
 public:
+	virtual ~Stream () {}
 	virtual std::string to_string () const = 0;
 };
 
