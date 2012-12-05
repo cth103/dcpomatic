@@ -30,7 +30,7 @@ def check_diff_with_user():
         print 'Aborted'
         sys.exit(1)
 
-if os.popen('git status -s').read() != '':
+if not args.debug and os.popen('git status -s').read() != '':
     print '%s: uncommitted changes exist.' % sys.argv[0]
     sys.exit(1)
 
@@ -55,13 +55,9 @@ check_diff_with_user()
 command("git commit -a -m \"Bump version\"")
 command("git tag -m \"v%s\" v%s" % (new_version, new_version))
 
-m = version.Version.bump_and_to_pre
-if args.beta:
-    m = version.Version.to_pre
-version.rewrite_wscript(m)
-
-check_diff_with_user()
-
-command("git commit -a -m \"Bump version\"")
+if args.release:
+    version.rewrite_wscript(version.Version.bump_and_to_pre)
+    check_diff_with_user()
+    command("git commit -a -m \"Bump version\"")
 
 command("cp DVD-o-matic*.exe dvdomatic-*.tar.bz2 /home/carl/public_html/carlh.net/software/dvdomatic")

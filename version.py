@@ -23,6 +23,7 @@ class Version:
         b = s.find("beta")
         if b != -1:
             self.beta = int(s[b+4:])
+            s = s[0:b]
 
         p = s.split('.')
         self.major = int(p[0])
