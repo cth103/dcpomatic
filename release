@@ -34,7 +34,11 @@ if os.popen('git status -s').read() != '':
     print '%s: uncommitted changes exist.' % sys.argv[0]
     sys.exit(1)
 
-new_version = version.rewrite_wscript(version.Version.to_release)
+m = Version.to_release
+if args.beta:
+    m = Version.to_beta
+
+new_version = version.rewrite_wscript(m)
 version.append_to_changelog(new_version)
 
 command("./waf clean")
@@ -51,7 +55,10 @@ check_diff_with_user()
 command("git commit -a -m \"Bump version\"")
 command("git tag -m \"v%s\" v%s" % (new_version, new_version))
 
-version.rewrite_wscript(version.Version.bump_and_to_pre)
+m = Version.bump_and_to_pre
+if args.beta:
+    m = Version.to_pre
+version.rewrite_wscript(m)
 
 check_diff_with_user()
 

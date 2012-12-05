@@ -33,6 +33,10 @@ class Version:
         self.pre = False
         self.beta = None
 
+    def to_pre(self):
+        self.pre = True
+        self.beta = None
+
     def bump_and_to_pre(self):
         self.bump()
         self.pre = True
