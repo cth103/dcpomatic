@@ -77,14 +77,6 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_subtitle_panel ();
 	_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
 
-	wxColour col = _notebook->GetThemeBackgroundColour();
-	if (col.Ok()) {
-		_film_panel->SetBackgroundColour (col);
-		_video_panel->SetBackgroundColour (col);
-		_audio_panel->SetBackgroundColour (col);
-		_subtitle_panel->SetBackgroundColour (col);
-	}
-	
 	set_film (_film);
 	connect_to_widgets ();
 
@@ -101,7 +93,9 @@ FilmEditor::make_film_panel ()
 {
 	_film_panel = new wxPanel (_notebook);
 	_film_sizer = new wxFlexGridSizer (2, 4, 4);
-	_film_panel->SetSizer (_film_sizer);
+	wxBoxSizer* pad = new wxBoxSizer (wxVERTICAL);
+	pad->Add (_film_sizer, 0, wxALL, 8);
+	_film_panel->SetSizer (pad);
 
 	add_label_to_sizer (_film_sizer, _film_panel, "Name");
 	_name = new wxTextCtrl (_film_panel, wxID_ANY);
@@ -215,7 +209,9 @@ FilmEditor::make_video_panel ()
 {
 	_video_panel = new wxPanel (_notebook);
 	_video_sizer = new wxFlexGridSizer (2, 4, 4);
-	_video_panel->SetSizer (_video_sizer);
+	wxBoxSizer* pad = new wxBoxSizer (wxVERTICAL);
+	pad->Add (_video_sizer, 0, wxALL, 8);
+	_video_panel->SetSizer (pad);
 
 	add_label_to_sizer (_video_sizer, _video_panel, "Format");
 	_format = new wxComboBox (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
@@ -277,7 +273,9 @@ FilmEditor::make_audio_panel ()
 {
 	_audio_panel = new wxPanel (_notebook);
 	_audio_sizer = new wxFlexGridSizer (2, 4, 4);
-	_audio_panel->SetSizer (_audio_sizer);
+	wxBoxSizer* pad = new wxBoxSizer (wxVERTICAL);
+	pad->Add (_audio_sizer, 0, wxALL, 8);
+	_audio_panel->SetSizer (pad);
 
 	{
 		video_control (add_label_to_sizer (_audio_sizer, _audio_panel, "Audio Gain"));
@@ -341,7 +339,9 @@ FilmEditor::make_subtitle_panel ()
 {
 	_subtitle_panel = new wxPanel (_notebook);
 	_subtitle_sizer = new wxFlexGridSizer (2, 4, 4);
-	_subtitle_panel->SetSizer (_subtitle_sizer);
+	wxBoxSizer* pad = new wxBoxSizer (wxVERTICAL);
+	pad->Add (_subtitle_sizer, 0, wxALL, 8);
+	_subtitle_panel->SetSizer (pad);
 
 	_with_subtitles = new wxCheckBox (_subtitle_panel, wxID_ANY, wxT("With Subtitles"));
 	video_control (_with_subtitles);
