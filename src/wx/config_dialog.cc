@@ -40,7 +40,7 @@ using namespace std;
 using boost::bind;
 
 ConfigDialog::ConfigDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("DVD-o-matic Configuration"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog (parent, wxID_ANY, _("DVD-o-matic Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
 	table->AddGrowableCol (1, 1);
