@@ -12,8 +12,8 @@ def command(c):
 
 command("git checkout master")
     
-release_version_string = version.rewrite_wscript(version.Version.to_release)
-version.append_to_changelog(release_version_string)
+release_version = version.rewrite_wscript(version.Version.to_release)
+version.append_to_changelog(release_version)
 
 command("git diff")
 if (raw_input() != "y"):
@@ -22,15 +22,15 @@ if (raw_input() != "y"):
     sys.exit(1)
 
 command("git commit -a -m \"Bump version\"")
-command("git tag -m \"v%s\" v%s" % (release_version_string, release_version_string))
+command("git tag -m \"v%s\" v%s" % (release_version, release_version))
 command("./waf clean")
 command("./waf")
 command("./waf configure")
 command("./waf dist")
 command("./builds/windows-32")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 32-bit Installer.exe' % release_version_string), '.')
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 32-bit Installer.exe' % release_version), '.')
 command("./builds/windows-64")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 64-bit Installer.exe' % release_version_string), '.')
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 64-bit Installer.exe' % release_version), '.')
 
 version.rewrite_wscript(version.Version.bump_and_to_pre)
 
