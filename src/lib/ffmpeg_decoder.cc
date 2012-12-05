@@ -366,7 +366,12 @@ FFmpegDecoder::pass ()
 			   indicate that the previous subtitle should stop.
 			*/
 			if (sub.num_rects > 0) {
-				emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
+				shared_ptr<TimedSubtitle> ts;
+				try {
+					emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
+				} catch (...) {
+					/* some problem with the subtitle; we probably didn't understand it */
+				}
 			} else {
 				emit_subtitle (shared_ptr<TimedSubtitle> ());
 			}
