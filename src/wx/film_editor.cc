@@ -65,7 +65,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 {
 	wxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
-	_notebook = new wxNotebook (this, wxID_ANY);
+	_notebook = new wxNotebook (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_NOPAGETHEME);
 	s->Add (_notebook, 1);
 	
 	make_film_panel ();
