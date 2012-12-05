@@ -34,7 +34,7 @@ if os.popen('git status -s').read() != '':
     print '%s: uncommitted changes exist.' % sys.argv[0]
     sys.exit(1)
 
-m = Version.to_release
+m = version.to_release
 if args.beta:
     m = Version.to_beta
 
