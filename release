@@ -5,40 +5,54 @@ import sys
 import datetime
 import shutil
 import version
+import argparse
+
+parser = argparse.ArgumentParser(description = "Build and tag a release.")
+parser.add_argument('-f', '--full', dest='full', action='store_const', const=True, help="full release", default=False)
+parser.add_argument('-b', '--beta', dest='beta', action='store_const', const=True, help="beta release", default=False)
+parser.add_argument('-d', '--debug', dest='debug', action='store_const', const=True, help="show commands but don't do anything", default=False)
+args = parser.parse_args()
+
+if not args.full and not args.beta:
+    print "%s: must specify --full or --beta" % sys.argv[0]
+    sys.exit(1)
 
 def command(c):
-    os.system(c)
+    if not args.debug:
+        os.system(c)
     print c
+
+def check_diff_with_user():
+    print "Planning to commit... ok? [y/n]"
+    command("git diff")
+    if (raw_input() != "y"):
+        command("git reset --hard")
+        print 'Aborted'
+        sys.exit(1)
 
 command("git checkout master")
     
-release_version = version.rewrite_wscript(version.Version.to_release)
-version.append_to_changelog(release_version)
+new_version = version.rewrite_wscript(version.Version.to_release)
+version.append_to_changelog(new_version)
 
-command("git diff")
-if (raw_input() != "y"):
-    command("git reset --hard")
-    print 'Aborted'
-    sys.exit(1)
-
-command("git commit -a -m \"Bump version\"")
-command("git tag -m \"v%s\" v%s" % (release_version, release_version))
 command("./waf clean")
 command("./waf")
 command("./waf configure")
 command("./waf dist")
 command("./builds/windows-32")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 32-bit Installer.exe' % release_version), '.')
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 32-bit Installer.exe' % new_version), '.')
 command("./builds/windows-64")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 64-bit Installer.exe' % release_version), '.')
+shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 64-bit Installer.exe' % new_version), '.')
+
+check_diff_with_user()
+
+command("git commit -a -m \"Bump version\"")
+command("git tag -m \"v%s\" v%s" % (new_version, new_version))
 
 version.rewrite_wscript(version.Version.bump_and_to_pre)
 
-command("git diff")
-if (raw_input() != "y"):
-    command("git reset --hard")
-    print 'Aborted'
-    sys.exit(1)
+check_diff_with_user()
 
 command("git commit -a -m \"Bump version\"")
+
 command("cp DVD-o-matic*.exe dvdomatic-*.tar.bz2 /home/carl/public_html/carlh.net/software/dvdomatic")
