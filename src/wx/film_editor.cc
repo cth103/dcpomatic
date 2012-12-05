@@ -65,9 +65,9 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 {
 	wxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
-	_notebook = new wxNotebook (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_NOPAGETHEME);
+	_notebook = new wxNotebook (this, wxID_ANY);
 	s->Add (_notebook, 1);
-	
+
 	make_film_panel ();
 	_notebook->AddPage (_film_panel, _("Film"), true);
 	make_video_panel ();
@@ -77,6 +77,14 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_subtitle_panel ();
 	_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
 
+	wxColour col = _notebook->GetThemeBackgroundColour();
+	if (col.Ok()) {
+		_film_panel->SetBackgroundColour (col);
+		_video_panel->SetBackgroundColour (col);
+		_audio_panel->SetBackgroundColour (col);
+		_subtitle_panel->SetBackgroundColour (col);
+	}
+	
 	set_film (_film);
 	connect_to_widgets ();
 
