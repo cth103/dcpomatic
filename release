@@ -30,8 +30,10 @@ def check_diff_with_user():
         print 'Aborted'
         sys.exit(1)
 
-command("git checkout master")
-    
+if os.popen('git status -s').read() != '':
+    print '%s: uncommitted changes exist.' % sys.argv[0]
+    sys.exit(1)
+
 new_version = version.rewrite_wscript(version.Version.to_release)
 version.append_to_changelog(new_version)
 
