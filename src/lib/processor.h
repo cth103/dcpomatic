@@ -44,6 +44,8 @@ public:
 		: _log (log)
 	{}
 
+	virtual ~Processor() {}
+
 	/** Will be called at the end of a processing run */
 	virtual void process_end () {}
 
