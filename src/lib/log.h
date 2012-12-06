@@ -37,9 +37,10 @@ public:
 	virtual ~Log () {}
 
 	enum Level {
-		STANDARD = 0,
+		SILENT = 0,
 		VERBOSE = 1,
-		TIMING = 2
+		DEBUG = 2,
+		TIMING = 3
 	};
 
 	void log (std::string m, Level l = STANDARD);

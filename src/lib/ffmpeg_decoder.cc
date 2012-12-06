@@ -277,6 +277,11 @@ FFmpegDecoder::pass ()
 			double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
 				* av_frame_get_best_effort_timestamp(_frame);
 
+			_film->log()->log (
+				String::compose ("Source video frame ready; source at %1, output at %2", source_pts_seconds, out_pts_seconds),
+				Log::DEBUG
+				);
+
 			if (!_first_video) {
 				_first_video = source_pts_seconds;
 			}
