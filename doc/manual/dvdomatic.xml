@@ -65,6 +65,15 @@ and double-click it.  Click through the installer wizard, and
 DVD-o-matic will be installed onto your machine.
 </para>
 
+<para>
+If you are using a 32-bit version of Windows, you will need the 32-bit
+installer.  For 64-bit Windows, either installer will work, but I
+suggest you used the 64-bit version as it will allow DVD-o-matic to
+use more memory.  You may find that DVD-o-matic crashes if you run
+many parallel encoding threads (more than 4) on the 32-bit
+version.
+</para>
+
 </section>
 
 <section>
@@ -169,9 +178,9 @@ You can build libdcp using:
 </para>
 
 <programlisting>
-wget http://carlh.net/software/libdcp-0.24.tar.bz2
-tar xjf libdcp-0.24.tar.bz2
-cd libdcp-0.24
+wget http://carlh.net/software/libdcp-0.32.tar.bz2
+tar xjf libdcp-0.32.tar.bz2
+cd libdcp-0.32
 ./waf configure
 ./waf build
 sudo ./waf install
@@ -259,10 +268,17 @@ linkend="fig-video-new-film"/>.
 <para>
 In this dialogue box you can choose a name for the film.  This will be
 used to name the folder to store its data in, and also as the initial
-name for the DCP itself.  You can also set whereabouts you want to create
+name for the DCP itself.  You can also choose whereabouts you want to create
 the film.  In the example from the figure, DVD-o-matic will create a
 folder called &lsquo;DCP Test&rsquo; inside my home folder (carl) into which it
 will write its working files.
+</para>
+
+<para>
+If you always create your DCPs in a particular folder, you can use
+DVD-o-matic's <guilabel>Preferences</guilabel> to make life a little
+easier by setting the default folder that DVD-o-matic will offer in this dialogue.
+See <xref linkend="ch-preferences"/>.
 </para>
 
 </section>
@@ -273,7 +289,7 @@ will write its working files.
 <para>
 The next step is to set the content that you want to use.  Click the
 content selector, as shown in <xref
-linkend="fig-click-content-selector"/> and the a file chooser will
+linkend="fig-click-content-selector"/>, and a file chooser will
 open for you to select the content file to use, as shown in <xref
 linkend="fig-video-select-content-file"/>.
 </para>
@@ -298,13 +314,13 @@ linkend="fig-video-select-content-file"/>.
 
 <para>
 Select your content file and click <guilabel>Open</guilabel>.  In this
-case, we are using the Sintel trailer that we downloaded earlier.
+case we are using the Sintel trailer that we downloaded earlier.
 </para>
 
 <para>
 When you do this, DVD-o-matic will take a look at your file.  After a
-short while (when the progress bars at the bottom right of the window
-have finished), you can look through your content using the slider to
+short while (when the progress bar at the bottom right of the window
+has finished), you can look through your content using the slider to
 the right of the window, as shown in <xref linkend="fig-examine-thumbs"/>.
 </para>
 
@@ -328,23 +344,55 @@ Dragging the slider will move through your video.
 
 <para>
 Now there are a few things to set up to describe how the DCP should be
-created, as shown in <xref linkend="fig-video-setup"/>.
+created.  The settings are divided into four tabs: film, video, audio and subtitles.
 </para>
 
-<figure id="fig-video-setup"> 
-  <title>Setting up to make a video DCP</title>
+<section>
+<title>Film tab</title>
+
+<para>
+The &lsquo;film&rsquo; tab contains settings that pertain to the whole film, as shown in <xref linkend="fig-film-tab"/>.
+</para>
+
+<figure id="fig-film-tab"> 
+  <title>Film settings tab</title>
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/video-setup&scs;"/>
+      <imagedata fileref="screenshots/film-tab&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
 
 <para>
-The first thing is the content type.  This can be
+The first thing here is the name.  This is generally set to the title
+of the film that is being encoded.  If <guilabel>Use DCI
+name</guilabel> is not ticked, the name that you specify will be used
+as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
+is ticked, the name that you enter will be used as part of a
+DCI-compliant name.
+</para>
+
+<para>
+Underneath the name field is a preview of the name that the DCP will
+get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
+name</guilabel> checkbox.  The DCI name will be composed using details
+of your content's soundtrack, the current date and other things that
+can be specified in the DCI name details dialogue box, which you can
+open by clicking on the <guilabel>Details</guilabel> button.
+</para>
+
+<para>
+Next up is the content type.  This can be
 &lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
 required type from the drop-down list.
 </para>
+
+<para>
+
+</section>
+
+
+<!-- from here needs moving around a bit -->
 
 <para>
 Next is the format.  This will govern the shape that DVD-o-matic will
@@ -461,6 +509,12 @@ corner of its window, as shown in <xref linkend="fig-making-dcp"/>.
 When it has finished, the DCP will end up on your disk inside the
 film's directory.  You can then copy this to a projector via a USB
 stick, hard-drive or network connection.
+</para>
+
+<para>
+Alternatively, if you have a projector or TMS that is accessible via
+SCP across your network, you can upload the content directly from
+DVD-o-matic.  See <xref linkend="sec-tms-upload"/>.
 </para>
 
 </section>
@@ -695,7 +749,7 @@ best all-round option, but tests are ongoing.
 
 </section>
 
-<section xml:id="tms-upload">
+<section xml:id="sec-tms-upload">
 <title>TMS upload</title>
 
 <para>
