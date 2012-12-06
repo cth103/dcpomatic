@@ -40,7 +40,9 @@
 #include "lib/exceptions.h"
 #include "lib/version.h"
 #include "lib/ui_signaller.h"
+#include "lib/log.h"
 
+using std::cout;
 using std::string;
 using std::stringstream;
 using std::map;
@@ -49,8 +51,9 @@ using boost::shared_ptr;
 
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
-
 static shared_ptr<Film> film;
+static std::string log_level;
+static std::string film_to_load;
 
 static void set_menu_sensitivity ();
 
@@ -267,6 +270,7 @@ public:
 			
 			maybe_save_then_delete_film ();
 			film.reset (new Film (d->get_path (), false));
+			film->log()->set_level (log_level);
 #if BOOST_FILESYSTEM_VERSION == 3		
 			film->set_name (boost::filesystem::path (d->get_path()).filename().generic_string());
 #else		
@@ -286,6 +290,7 @@ public:
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
 			film.reset (new Film (wx_to_std (c->GetPath ())));
+			film->log()->set_level (log_level);
 			set_film ();
 		}
 
@@ -356,10 +361,20 @@ public:
 	}
 };
 
+static const wxCmdLineEntryDesc command_line_description[] = {
+	{ wxCMD_LINE_OPTION, wxT("l"), wxT("log"), wxT("set log level (silent, verbose or timing)"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+        { wxCMD_LINE_PARAM, 0, 0, wxT("film to load"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_NONE }
+};
+
 class App : public wxApp
 {
 	bool OnInit ()
 	{
+		if (!wxApp::OnInit()) {
+			return false;
+		}
+		
 #ifdef DVDOMATIC_POSIX		
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif		
@@ -368,8 +383,9 @@ class App : public wxApp
 		
 		dvdomatic_setup ();
 
-		if (argc == 2 && boost::filesystem::is_directory (wx_to_std (argv[1]))) {
-			film.reset (new Film (wx_to_std (argv[1])));
+		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
+			film.reset (new Film (film_to_load));
+			film->log()->set_level (log_level);
 		}
 
 		Frame* f = new Frame (_("DVD-o-matic"));
@@ -379,6 +395,26 @@ class App : public wxApp
 
 		ui_signaller = new wxUISignaller (this);
 		this->Connect (-1, wxEVT_IDLE, wxIdleEventHandler (App::idle));
+
+		return true;
+	}
+
+	void OnInitCmdLine (wxCmdLineParser& parser)
+	{
+		parser.SetDesc (command_line_description);
+		parser.SetSwitchChars (wxT ("-"));
+	}
+
+	bool OnCmdLineParsed (wxCmdLineParser& parser)
+	{
+		if (parser.GetParamCount() > 0) {
+			film_to_load = wx_to_std (parser.GetParam(0));
+		}
+
+		wxString log;
+		if (parser.Found(wxT("log"), &log)) {
+			log_level = wx_to_std (log);
+		}
 
 		return true;
 	}

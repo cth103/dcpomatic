@@ -37,16 +37,16 @@ public:
 	virtual ~Log () {}
 
 	enum Level {
-		SILENT = 0,
+		STANDARD = 0,
 		VERBOSE = 1,
-		DEBUG = 2,
-		TIMING = 3
+		TIMING = 2
 	};
 
 	void log (std::string m, Level l = STANDARD);
 	void microsecond_log (std::string m, Level l = STANDARD);
 
 	void set_level (Level l);
+	void set_level (std::string l);
 
 protected:	
 	/** mutex to protect the log */

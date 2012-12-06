@@ -54,7 +54,7 @@ def configure(conf):
     conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
     conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.32', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.33', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
     conf.check_cc(fragment  = """

@@ -279,7 +279,7 @@ FFmpegDecoder::pass ()
 
 			_film->log()->log (
 				String::compose ("Source video frame ready; source at %1, output at %2", source_pts_seconds, out_pts_seconds),
-				Log::DEBUG
+				Log::VERBOSE
 				);
 
 			if (!_first_video) {

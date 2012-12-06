@@ -76,6 +76,19 @@ Log::set_level (Level l)
 	_level = l;
 }
 
+void
+Log::set_level (string l)
+{
+	if (l == "verbose") {
+		set_level (VERBOSE);
+		return;
+	} else if (l == "timing") {
+		set_level (TIMING);
+		return;
+	}
+
+	set_level (STANDARD);
+}
 
 /** @param file Filename to write log to */
 FileLog::FileLog (string file)
