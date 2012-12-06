@@ -292,8 +292,8 @@ FFmpegDecoder::pass ()
 					repeat_last_video ();
 					_film->log()->log (
 						String::compose (
-							"Extra frame inserted at %1s; source frame %2, source PTS %3",
-							out_pts_seconds, video_frame(), source_pts_seconds
+							"Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)",
+							out_pts_seconds, video_frame(), source_pts_seconds, frames_per_second()
 							)
 						);
 				}
@@ -336,7 +336,7 @@ FFmpegDecoder::pass ()
 					
 					_film->log()->log (
 						String::compose (
-							"First video at %1, first audio at %2, pushing %3 frames of silence for %4 channels (%5 bytes per sample)",
+							"First video at %1, first audio at %2, pushing %3 audio frames of silence for %4 channels (%5 bytes per sample)",
 							_first_video.get(), _first_audio.get(), s, ffa->channels(), bytes_per_audio_sample()
 							)
 						);
