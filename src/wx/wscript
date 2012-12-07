@@ -2,7 +2,11 @@ def configure(conf):
     conf.check_cfg(package = '', path = 'wx-config', args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
 
 def build(bld):
-    obj = bld(features = 'cxx cxxshlib')
+    if bld.env.STATIC:
+        obj = bld(features = 'cxx cxxstlib')
+    else:
+        obj = bld(features = 'cxx cxxshlib')
+
     obj.name   = 'libdvdomatic-wx'
     obj.includes = [ '..' ]
     obj.export_includes = ['.']

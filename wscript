@@ -12,6 +12,7 @@ def options(opt):
     opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
     opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
+    opt.add_option('--static', action='store_true', default = False, help = 'build statically, and link statically to libdcp and FFmpeg')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -19,6 +20,8 @@ def configure(conf):
         conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
+    # libxml2 seems to be linked against this on Ubuntu, but it doesn't mention it in its .pc file
+    conf.env.append_value('LIB', 'lzma')
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
@@ -39,6 +42,7 @@ def configure(conf):
 
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
+    conf.env.STATIC = conf.options.static
     conf.env.VERSION = VERSION
 
     if conf.options.enable_debug:
@@ -54,7 +58,10 @@ def configure(conf):
     conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
     conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.33', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+    libdcp_args = '--cflags --libs'
+    if conf.options.static:
+        libdcp_args += ' --static'
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.33', args = libdcp_args, uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
     conf.check_cc(fragment  = """

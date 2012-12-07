@@ -1,5 +1,9 @@
 def build(bld):
-    obj = bld(features = 'cxx cxxshlib')
+    if bld.env.STATIC:
+        obj = bld(features = 'cxx cxxstlib')
+    else:
+        obj = bld(features = 'cxx cxxshlib')
+
     obj.name = 'libdvdomatic'
     obj.export_includes = ['.']
     obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 OPENJPEG POSTPROC TIFF MAGICK SSH DCP GLIB'
