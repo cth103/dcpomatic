@@ -1,7 +1,7 @@
 def build(bld):
     for t in ['makedcp', 'fixlengths', 'servomatic_cli']:
         obj = bld(features = 'cxx cxxprogram')
-    	obj.uselib = 'BOOST_THREAD DCP'
+    	obj.uselib = 'BOOST_THREAD OPENJPEG DCP AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
 	obj.includes = ['..']
         obj.use    = ['libdvdomatic']
         obj.source = '%s.cc' % t
@@ -10,7 +10,7 @@ def build(bld):
     if not bld.env.DISABLE_GUI:
         for t in ['dvdomatic', 'servomatic_gui']:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'DCP'
+            obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
             obj.includes = ['..']
             obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
             obj.source = '%s.cc' % t
