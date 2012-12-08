@@ -20,8 +20,6 @@ def configure(conf):
         conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
-    # libxml2 seems to be linked against this on Ubuntu, but it doesn't mention it in its .pc file
-    conf.env.append_value('LIB', 'lzma')
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
@@ -39,6 +37,8 @@ def configure(conf):
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
+        # libxml2 seems to be linked against this on Ubuntu, but it doesn't mention it in its .pc file
+        conf.env.append_value('LIB', 'lzma')
 
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
