@@ -5,8 +5,6 @@ Maintainer: Carl Hetherington <cth@carlh.net>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.3
 Homepage: http://carlh.net/software/dvdomatic
-#Vcs-Git: git://git.debian.org/collab-maint/dvdomatic.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/dvdomatic.git;a=summary
 
 Package: dvdomatic
 Architecture: any
