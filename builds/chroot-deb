@@ -1,6 +1,12 @@
 #!/bin/bash -e
 
-cp builds/control-12.04 debian/
+UBUNTU_VERSION=$1
+if [ "$UBUNTU_VERSION" == "" ]; then
+  echo "Syntax: $0 <ubuntu version>"
+  exit 1
+fi
+
+cp builds/control-$UBUNTU_VERSION debian/control
 ./waf dist
 TARBALL=`ls -1 *.tar.bz2`
 VERSION=`echo $TARBALL | sed -e 's/^dvdomatic-\(.*\).tar.bz2/\1/'`
@@ -19,4 +25,3 @@ cd dvdomatic-*
 dpkg-source -b .
 dpkg-buildpackage
 cp ../*.deb ../../../
-
