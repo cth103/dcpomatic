@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+cp -r builds/debian-12.04 debian
 ./waf dist
 TARBALL=`ls -1 *.tar.bz2`
 VERSION=`echo $TARBALL | sed -e 's/^dvdomatic-\(.*\).tar.bz2/\1/'`
