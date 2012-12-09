@@ -50,28 +50,37 @@ def configure(conf):
     else:
         conf.env.append_value('CXXFLAGS', '-O2')
 
-    conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
-    conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
-    conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
-    conf.check_cfg(package = 'libavutil', args = '--cflags --libs', uselib_store = 'AVUTIL', mandatory = True)
-    conf.check_cfg(package = 'libswscale', args = '--cflags --libs', uselib_store = 'SWSCALE', mandatory = True)
-    conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
-    conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
-    conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
-    libdcp_args = '--cflags --libs'
+    # Arguments to pkg-config for things that we might want to link statically
+    pkgconfig_args = '--cflags --libs'
     if conf.options.static:
-        libdcp_args += ' --static'
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.34', args = libdcp_args, uselib_store = 'DCP', mandatory = True)
+        pkgconfig_args += ' --static'
+
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.34', args = pkgconfig_args, uselib_store = 'DCP', mandatory = True)
+    conf.check_cfg(package = 'libavformat', args = pkgconfig_args, uselib_store = 'AVFORMAT', mandatory = True)
+    conf.check_cfg(package = 'libavfilter', args = pkgconfig_args, uselib_store = 'AVFILTER', mandatory = True)
+    conf.check_cfg(package = 'libavcodec', args = pkgconfig_args, uselib_store = 'AVCODEC', mandatory = True)
+    conf.check_cfg(package = 'libavutil', args = pkgconfig_args, uselib_store = 'AVUTIL', mandatory = True)
+    conf.check_cfg(package = 'libswscale', args = pkgconfig_args, uselib_store = 'SWSCALE', mandatory = True)
+    conf.check_cfg(package = 'libswresample', args = pkgconfig_args, uselib_store = 'SWRESAMPLE', mandatory = False)
+    conf.check_cfg(package = 'libpostproc', args = pkgconfig_args, uselib_store = 'POSTPROC', mandatory = True)
+    conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.33', args = pkgconfig_args, uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
-    conf.check_cc(fragment  = """
-    			      #include <stdio.h>\n
-			      #include <openjpeg.h>\n
-			      int main () {\n
-			      void* p = (void *) opj_image_create;\n
-			      return 0;\n
-			      }
-			      """, msg = 'Checking for library openjpeg', lib = 'openjpeg', uselib_store = 'OPENJPEG')
+
+    openjpeg_fragment = """
+    			#include <stdio.h>\n
+			#include <openjpeg.h>\n
+			int main () {\n
+			void* p = (void *) opj_image_create;\n
+			return 0;\n
+			}
+			"""
+
+    if conf.options.static:
+        conf.check_cc(fragment  = openjpeg_fragment, msg = 'Checking for library openjpeg', stlib = 'openjpeg', uselib_store = 'OPENJPEG')
+    else:
+        conf.check_cc(fragment  = openjpeg_fragment, msg = 'Checking for library openjpeg', lib = 'openjpeg', uselib_store = 'OPENJPEG')
 
     conf.check_cc(fragment  = """
                               #include <libssh/libssh.h>\n
