@@ -20,5 +20,6 @@ echo "version: $VERSION"
 sudo cp *.tar.bz2 $CHROOT/root/
 sudo schroot -c "ubuntu-$ID" -d /root -u root -- /bin/sh -c "tar xjf dvdomatic-$VERSION.tar.bz2 && cd dvdomatic-$VERSION && builds/chroot-deb $UBUNTU_VERSION"
 mkdir -p build/deb/$ID/
+echo "Copying $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_i386.deb to build/deb/$ID"
 sudo cp $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_i386.deb build/deb/$ID
 
