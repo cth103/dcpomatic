@@ -61,7 +61,7 @@ def configure(conf):
     libdcp_args = '--cflags --libs'
     if conf.options.static:
         libdcp_args += ' --static'
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.33', args = libdcp_args, uselib_store = 'DCP', mandatory = True)
+    conf.check_cfg(package = 'libdcp', atleast_version = '0.34', args = libdcp_args, uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
     conf.check_cc(fragment  = """
