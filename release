@@ -42,8 +42,6 @@ new_version = version.rewrite_wscript(m)
 version.append_to_changelog(new_version)
 
 command("./waf clean")
-command("./waf configure")
-command("./waf")
 command("./waf dist")
 
 check_diff_with_user()
@@ -51,7 +49,7 @@ check_diff_with_user()
 command("git commit -a -m \"Bump version\"")
 command("git tag -m \"v%s\" v%s" % (new_version, new_version))
 
-if args.release:
+if args.full:
     version.rewrite_wscript(version.Version.bump_and_to_pre)
     check_diff_with_user()
     command("git commit -a -m \"Bump version\"")
