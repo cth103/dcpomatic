@@ -45,10 +45,6 @@ command("./waf clean")
 command("./waf configure")
 command("./waf")
 command("./waf dist")
-command("./builds/windows-32")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 32-bit Installer.exe' % new_version), '.')
-command("./builds/windows-64")
-shutil.copy(os.path.join('build', 'windows', 'DVD-o-matic %s 64-bit Installer.exe' % new_version), '.')
 
 check_diff_with_user()
 
@@ -59,5 +55,3 @@ if args.release:
     version.rewrite_wscript(version.Version.bump_and_to_pre)
     check_diff_with_user()
     command("git commit -a -m \"Bump version\"")
-
-command("cp DVD-o-matic*.exe dvdomatic-*.tar.bz2 /home/carl/public_html/carlh.net/software/dvdomatic")
