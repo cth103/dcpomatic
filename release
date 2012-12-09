@@ -40,7 +40,7 @@ if args.beta:
 
 new_version = version.rewrite_wscript(m)
 version.append_to_changelog(new_version)
-command("dch -v %s \"New upstream release.\"", version)
+command("dch -v %s \"New upstream release.\"" % version)
 
 command("./waf clean")
 command("./waf dist")
