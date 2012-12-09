@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cp -r builds/debian-12.10 debian
+./waf dist
+rm -rf build/deb
+mkdir build/deb
+cd build/deb
+mv ../../*.tar.bz2 .
+TARBALL=`ls -1 *.tar.bz2`
+DEB_TARBALL=`echo $TARBALL | sed -e "s/dvdomatic-/dvdomatic_/" | sed -e "s/.tar.bz2/.orig.tar.bz2/"`
+echo "Renaming $TARBALL to $DEB_TARBALL"
+mv $TARBALL $DEB_TARBALL
+tar xjf $DEB_TARBALL
+cd dvdomatic-*
+dpkg-source -b .
+dpkg-buildpackage
+cp ../*.deb ../../../
+
