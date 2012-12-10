@@ -7,6 +7,12 @@ if [ "$UBUNTU_VERSION" == "" -o "$BITS" == "" ]; then
   exit 1
 fi
 
+if [ "$BITS" == 32 ]; then
+  CPU=i386
+else
+  CPU=amd64
+fi
+
 ID=$UBUNTU_VERSION-$BITS
 CHROOT=/home/carl/Environments/ubuntu-$ID
 TARBALL=`ls -1 *.tar.bz2`
@@ -18,9 +24,9 @@ echo "tarball: $TARBALL"
 echo "version: $VERSION"
 
 sudo cp *.tar.bz2 $CHROOT/root/
-sudo schroot -c "ubuntu-$ID" -d /root -u root -- /bin/sh -c "tar xjf dvdomatic-$VERSION.tar.bz2 && cd dvdomatic-$VERSION && builds/chroot-deb $UBUNTU_VERSION"
+sudo schroot -c "ubuntu-$ID" -d /root -u root -- /bin/sh -c "tar xjf dvdomatic-$VERSION.tar.bz2 && cd dvdomatic-$VERSION && builds/chroot-deb $UBUNTU_VERSION $BITS"
 mkdir -p build/deb/$ID/
-echo "Copying $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_i386.deb to build/deb/$ID"
-sudo ls -lh $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_i386.deb
-sudo cp -v $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_i386.deb build/deb/$ID/
+echo "Copying $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_$CPU.deb to build/deb/$ID"
+sudo ls -lh $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_$CPU.deb
+sudo cp -v $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_$CPU.deb build/deb/$ID/
 

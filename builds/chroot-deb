@@ -1,9 +1,16 @@
 #!/bin/bash -e
 
 UBUNTU_VERSION=$1
-if [ "$UBUNTU_VERSION" == "" ]; then
-  echo "Syntax: $0 <ubuntu version>"
+BITS=$2
+if [ "$UBUNTU_VERSION" == "" -o "$BITS" == "" ]; then
+  echo "Syntax: $0 <ubuntu version> <bits>"
   exit 1
+fi
+
+if [ "$BITS" == 32 ]; then
+  CPU=i386
+else
+  CPU=amd64
 fi
 
 cp builds/control-$UBUNTU_VERSION debian/control
@@ -11,7 +18,7 @@ cp builds/control-$UBUNTU_VERSION debian/control
 TARBALL=`ls -1 *.tar.bz2`
 VERSION=`echo $TARBALL | sed -e 's/^dvdomatic-\(.*\).tar.bz2/\1/'`
 
-echo "dvdomatic_$VERSION-1_i386.deb video extra" > debian/files
+echo "dvdomatic_$VERSION-1_$CPU.deb video extra" > debian/files
 
 rm -rf build/deb
 mkdir -p build/deb
