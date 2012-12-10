@@ -29,4 +29,5 @@ mkdir -p build/deb/$ID/
 echo "Copying $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_$CPU.deb to build/deb/$ID"
 sudo ls -lh $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_$CPU.deb
 sudo cp -v $CHROOT/root/dvdomatic-$VERSION/build/deb/dvdomatic_$VERSION-1_$CPU.deb build/deb/$ID/
+ls -lh build/deb/$ID
 
