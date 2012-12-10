@@ -154,13 +154,6 @@ FFmpegDecoder::setup_video ()
 		throw DecodeError ("could not find video decoder");
 	}
 
-	/* I think this prevents problems with green hash on decodes and
-	   "changing frame properties on the fly is not supported by all filters"
-	   messages with some content.  Although I'm not sure; needs checking.
-	*/
-	AVDictionary* opts = 0;
-	av_dict_set (&opts, "threads", "1", 0);
-	
 	if (avcodec_open2 (_video_codec_context, _video_codec, &opts) < 0) {
 		throw DecodeError ("could not open video decoder");
 	}
