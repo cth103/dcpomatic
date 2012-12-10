@@ -154,7 +154,7 @@ FFmpegDecoder::setup_video ()
 		throw DecodeError ("could not find video decoder");
 	}
 
-	if (avcodec_open2 (_video_codec_context, _video_codec, &opts) < 0) {
+	if (avcodec_open2 (_video_codec_context, _video_codec, 0) < 0) {
 		throw DecodeError ("could not open video decoder");
 	}
 }
