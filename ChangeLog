@@ -7,6 +7,10 @@
 	Trusting the header will speed up the "Examine Content" job by
 	a factor of about 2, which is handy for large films.
 
+2012-12-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.59 released.
+
 2012-12-09  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.59beta5 released.
