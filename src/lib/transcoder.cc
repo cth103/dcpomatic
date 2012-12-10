@@ -64,7 +64,9 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 
 	/* Set up the decoder to use the film's set streams */
 	_decoders.first->set_subtitle_stream (f->subtitle_stream ());
-	_decoders.second->set_audio_stream (f->audio_stream ());
+	if (_decoders.second) {
+		_decoders.second->set_audio_stream (f->audio_stream ());
+	}
 
 	if (_matcher) {
 		_decoders.first->connect_video (_matcher);
@@ -73,7 +75,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j,
 		_decoders.first->connect_video (_encoder);
 	}
 	
-	if (_matcher && _delay_line) {
+	if (_matcher && _delay_line && _decoders.second) {
 		_decoders.second->connect_audio (_delay_line);
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
@@ -97,7 +99,7 @@ Transcoder::go ()
 				_decoders.first->set_progress ();
 			}
 
-			if (!done[1] && dynamic_pointer_cast<Decoder> (_decoders.second) != dynamic_pointer_cast<Decoder> (_decoders.first)) {
+			if (!done[1] && _decoders.second && dynamic_pointer_cast<Decoder> (_decoders.second) != dynamic_pointer_cast<Decoder> (_decoders.first)) {
 				done[1] = _decoders.second->pass ();
 			} else {
 				done[1] = true;

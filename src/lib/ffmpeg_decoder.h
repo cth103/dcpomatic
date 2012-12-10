@@ -56,7 +56,7 @@ public:
 		, _name (n)
 		, _id (i)
 	{}
-		  
+
 	std::string to_string () const;
 
 	std::string name () const {
@@ -89,6 +89,7 @@ public:
 
 	float frames_per_second () const;
 	Size native_size () const;
+	SourceFrame length () const;
 	int time_base_numerator () const;
 	int time_base_denominator () const;
 	int sample_aspect_ratio_numerator () const;

@@ -35,6 +35,11 @@ public:
 
 	Size native_size () const;
 
+	SourceFrame length () const {
+		/* We don't know */
+		return 0;
+	}
+
 	int audio_channels () const {
 		return 0;
 	}

@@ -60,51 +60,78 @@ ExamineContentJob::name () const
 void
 ExamineContentJob::run ()
 {
-	/* Decode the content to get an accurate length */
+	float progress_remaining = 1;
 
-	/* We don't want to use any existing length here, as progress
-	   will be messed up.
+	/* Set the film's length to either
+	   a) a length judged by running through the content or
+	   b) the length from a decoder's header.
 	*/
-	_film->unset_length ();
+
+	if (!_film->trust_content_header()) {
+		/* Decode the content to get an accurate length */
+		
+		/* We don't want to use any existing length here, as progress
+		   will be messed up.
+		*/
+		_film->unset_length ();
+		
+		shared_ptr<Options> o (new Options ("", "", ""));
+		o->out_size = Size (512, 512);
+		o->apply_crop = false;
+		o->decode_audio = false;
+		
+		descend (0.5);
+		
+		pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > decoders = decoder_factory (_film, o, this);
+		
+		set_progress_unknown ();
+		while (!decoders.first->pass()) {
+			/* keep going */
+		}
+		
+		_film->set_length (decoders.first->video_frame());
+		
+		_film->log()->log (String::compose ("Video length examined as %1 frames", _film->length().get()));
+		
+		ascend ();
+		
+		progress_remaining -= 0.5;
+		
+	} else {
+
+		/* Get a quick decoder to get the content's length from its header.
+		   It would have been nice to just use the thumbnail transcoder's decoder,
+		   but that's a bit fiddly, and this isn't too expensive.
+		*/
+		
+		shared_ptr<Options> o (new Options ("", "", ""));
+		o->out_size = Size (1024, 1024);
+		pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > d = decoder_factory (_film, o, 0);
+		_film->set_length (d.first->length());
 	
-	shared_ptr<Options> o (new Options ("", "", ""));
-	o->out_size = Size (512, 512);
-	o->apply_crop = false;
-	o->decode_audio = false;
-
-	descend (0.5);
-
-	pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > decoders = decoder_factory (_film, o, this);
-
-	set_progress_unknown ();
-	while (!decoders.first->pass()) {
-		/* keep going */
+		_film->log()->log (String::compose ("Video length obtained from header as %1 frames", _film->length().get()));
 	}
-
-	_film->set_length (decoders.first->video_frame());
-
-	_film->log()->log (String::compose ("Video length is %1 frames", _film->length()));
-
-	ascend ();
 
 	/* Now make thumbnails for it */
 
-	descend (0.5);
+	descend (progress_remaining);
 
 	try {
-		o.reset (new Options (_film->dir ("thumbs"), ".png", ""));
+		shared_ptr<Options> o (new Options (_film->dir ("thumbs"), ".png", ""));
 		o->out_size = _film->size ();
 		o->apply_crop = false;
 		o->decode_audio = false;
-		if (_film->length() > 0) {
-			o->decode_video_skip = _film->length().get() / 128;
-		} else {
-			o->decode_video_skip = 0;
-		}
+		o->decode_video_skip = _film->length().get() / 128;
 		o->decode_subtitles = true;
 		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (_film, o));
 		Transcoder w (_film, o, this, e);
 		w.go ();
+
+		/* Now set the film's length from the transcoder's decoder, since we
+		   went to all the trouble of going through the content.
+		*/
+
+		_film->set_length (w.video_decoder()->video_frame());
 		
 	} catch (std::exception& e) {
 

@@ -629,3 +629,9 @@ FFmpegAudioStream::to_string () const
 	return String::compose ("ffmpeg %1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
 }
 
+/** @return Length (in video frames) according to our content's header */
+SourceFrame
+FFmpegDecoder::length () const
+{
+	return (double(_format_context->duration) / AV_TIME_BASE) * frames_per_second();
+}
