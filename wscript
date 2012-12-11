@@ -67,7 +67,7 @@ def configure(conf):
         # I think anyone else who builds would do so dynamically.
         conf.env.HAVE_DCP = 1
         conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
-        conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl3', 'gnutls-openssl', 'crypto', 'bz2']
+        conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
         conf.env.HAVE_AVFORMAT = 1
         conf.env.STLIB_AVFORMAT = ['avformat']
         conf.env.HAVE_AVFILTER = 1
