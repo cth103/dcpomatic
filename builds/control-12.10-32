@@ -1,0 +1,15 @@
+Source: dvdomatic
+Section: video
+Priority: extra
+Maintainer: Carl Hetherington <cth@carlh.net>
+Build-Depends: debhelper (>= 8.0.0), python (>= 2.7.3), g++ (>= 4:4.6.3), pkg-config (>= 0.26), libwxgtk2.8-dev (>= 2.8.12.1), libssh-dev (>= 0.5.2), libboost-filesystem-dev (>= 1.46.0), libboost-thread-dev (>= 1.46.0), libsndfile1-dev (>= 1.0.25), libmagick++-dev (>= 8:6.6.9.7)
+Standards-Version: 3.9.3
+Homepage: http://carlh.net/software/dvdomatic
+
+Package: dvdomatic
+Architecture: i386
+Depends: libc6 (>= 2.15), libwxgtk2.8-0 (>= 2.8.12.1), libssh-4 (>= 0.5.2), libboost-filesystem1.49.0 (>= 1.49.0), libboost-thread1.49.0 (>= 1.49.0), libsndfile1 (>= 1.0.25), libmagick++5 (>= 8:6.7.7.10)
+Description: Generator of Digital Cinema Packages (DCPs)
+  DVD-o-matic generates Digital Cinema Packages (DCPs) from video and audio
+  files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant
+  digital projectors.
