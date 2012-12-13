@@ -1,3 +1,9 @@
+dvdomatic (0.64-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 13 Dec 2012 21:52:09 +0000
+
 dvdomatic (0.63pre-1) unstable; urgency=low
 
   * New upstream release.
