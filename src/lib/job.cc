@@ -75,6 +75,12 @@ Job::run_wrapper ()
 		set_state (FINISHED_ERROR);
 		set_error (e.what ());
 
+	} catch (...) {
+
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+		set_error ("unknown exception");
+
 	}
 }
 
