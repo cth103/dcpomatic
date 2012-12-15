@@ -17,6 +17,7 @@
 
 */
 
+#include <iostream>
 #include <sndfile.h>
 #include "external_audio_decoder.h"
 #include "film.h"
