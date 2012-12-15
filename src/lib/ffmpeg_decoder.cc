@@ -120,11 +120,21 @@ FFmpegDecoder::setup_general ()
 		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
 			_video_stream = i;
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
+
+			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
+			   so bodge it here.  No idea why we should have to do this.
+			*/
+			
+			if (s->codec->channel_layout == 0) {
+				s->codec->channel_layout = av_get_default_channel_layout (s->codec->channels);
+			}
+			
 			_audio_streams.push_back (
 				shared_ptr<AudioStream> (
 					new FFmpegAudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channel_layout)
 					)
 				);
+			
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
 			_subtitle_streams.push_back (
 				shared_ptr<SubtitleStream> (
@@ -178,14 +188,6 @@ FFmpegDecoder::setup_audio ()
 
 	if (avcodec_open2 (_audio_codec_context, _audio_codec, 0) < 0) {
 		throw DecodeError ("could not open audio decoder");
-	}
-
-	/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
-	   so bodge it here.  No idea why we should have to do this.
-	*/
-
-	if (_audio_codec_context->channel_layout == 0) {
-		_audio_codec_context->channel_layout = av_get_default_channel_layout (ffa->channels());
 	}
 }
 

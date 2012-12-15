@@ -13,7 +13,7 @@ else
   CPU=amd64
 fi
 
-cp builds/control-$UBUNTU_VERSION debian/control
+cp builds/control-$UBUNTU_VERSION-$BITS debian/control
 ./waf dist
 TARBALL=`ls -1 *.tar.bz2`
 VERSION=`echo $TARBALL | sed -e 's/^dvdomatic-\(.*\).tar.bz2/\1/'`

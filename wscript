@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.60pre'
+VERSION = '0.65pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -50,21 +50,41 @@ def configure(conf):
     else:
         conf.env.append_value('CXXFLAGS', '-O2')
 
-    # Arguments to pkg-config for things that we might want to link statically
-    pkgconfig_args = '--cflags --libs'
-    if conf.options.static:
-        pkgconfig_args += ' --static'
+    if not conf.options.static:
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.34', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
+        conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
+        conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
+        conf.check_cfg(package = 'libavutil', args = '--cflags --libs', uselib_store = 'AVUTIL', mandatory = True)
+        conf.check_cfg(package = 'libswscale', args = '--cflags --libs', uselib_store = 'SWSCALE', mandatory = True)
+        conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
+        conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
+    else:
+        # This is hackio grotesquio for static builds (ie for .deb packages).  We need to link some things
+        # statically and some dynamically, or things get horribly confused the dynamic linker (I think)
+        # crashes horribly.  These calls do what the check_cfg calls would have done, but specify the
+        # different bits as static or dynamic as required.  It'll break if you look at it funny, but
+        # I think anyone else who builds would do so dynamically.
+        conf.env.HAVE_DCP = 1
+        conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
+        conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
+        conf.env.HAVE_AVFORMAT = 1
+        conf.env.STLIB_AVFORMAT = ['avformat']
+        conf.env.HAVE_AVFILTER = 1
+        conf.env.STLIB_AVFILTER = ['avfilter', 'swresample']
+        conf.env.HAVE_AVCODEC = 1
+        conf.env.STLIB_AVCODEC = ['avcodec']
+        conf.env.LIB_AVCODEC = ['x264', 'z']
+        conf.env.HAVE_AVUTIL = 1
+        conf.env.STLIB_AVUTIL = ['avutil']
+        conf.env.HAVE_SWSCALE = 1
+        conf.env.STLIB_SWSCALE = ['swscale']
+        conf.env.HAVE_SWRESAMPLE = 1
+        conf.env.STLIB_SWRESAMPLE = ['swresample']
+        conf.env.HAVE_POSTPROC = 1
+        conf.env.STLIB_POSTPROC = ['postproc']
 
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.34', args = pkgconfig_args, uselib_store = 'DCP', mandatory = True)
-    conf.check_cfg(package = 'libavformat', args = pkgconfig_args, uselib_store = 'AVFORMAT', mandatory = True)
-    conf.check_cfg(package = 'libavfilter', args = pkgconfig_args, uselib_store = 'AVFILTER', mandatory = True)
-    conf.check_cfg(package = 'libavcodec', args = pkgconfig_args, uselib_store = 'AVCODEC', mandatory = True)
-    conf.check_cfg(package = 'libavutil', args = pkgconfig_args, uselib_store = 'AVUTIL', mandatory = True)
-    conf.check_cfg(package = 'libswscale', args = pkgconfig_args, uselib_store = 'SWSCALE', mandatory = True)
-    conf.check_cfg(package = 'libswresample', args = pkgconfig_args, uselib_store = 'SWRESAMPLE', mandatory = False)
-    conf.check_cfg(package = 'libpostproc', args = pkgconfig_args, uselib_store = 'POSTPROC', mandatory = True)
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
-    conf.check_cfg(package = 'libdcp', atleast_version = '0.33', args = pkgconfig_args, uselib_store = 'DCP', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
@@ -78,9 +98,9 @@ def configure(conf):
 			"""
 
     if conf.options.static:
-        conf.check_cc(fragment  = openjpeg_fragment, msg = 'Checking for library openjpeg', stlib = 'openjpeg', uselib_store = 'OPENJPEG')
+        conf.check_cc(fragment = openjpeg_fragment, msg = 'Checking for library openjpeg', stlib = 'openjpeg', uselib_store = 'OPENJPEG')
     else:
-        conf.check_cc(fragment  = openjpeg_fragment, msg = 'Checking for library openjpeg', lib = 'openjpeg', uselib_store = 'OPENJPEG')
+        conf.check_cc(fragment = openjpeg_fragment, msg = 'Checking for library openjpeg', lib = 'openjpeg', uselib_store = 'OPENJPEG')
 
     conf.check_cc(fragment  = """
                               #include <libssh/libssh.h>\n

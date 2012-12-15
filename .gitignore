@@ -1,8 +1,6 @@
 *~
 dvdomatic/tools/test
 experimental/ffmpeg-DVD-to-j2c/dvd_to_j2c
-deps/vobcopy-1.2.0/*.o
-deps/vobcopy-1.2.0/vobcopy
 .waf-*
 .lock-waf*
 core

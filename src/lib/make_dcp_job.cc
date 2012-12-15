@@ -103,7 +103,7 @@ MakeDCPJob::run ()
 	
 	dcp.add_cpl (cpl);
 
-	descend (0.9);
+	descend (0.8);
 	shared_ptr<libdcp::MonoPictureAsset> pa (
 		new libdcp::MonoPictureAsset (
 			boost::bind (&MakeDCPJob::j2c_path, this, _1),
@@ -137,8 +137,10 @@ MakeDCPJob::run ()
 		ascend ();
 	}
 
+	descend (0.1);
 	cpl->add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (pa, sa, shared_ptr<libdcp::SubtitleAsset> ())));
 	dcp.write_xml ();
+	ascend ();
 
 	set_progress (1);
 	set_state (FINISHED_OK);
