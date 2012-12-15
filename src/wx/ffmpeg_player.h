@@ -83,6 +83,7 @@ private:
 	bool _frame_valid;
 	uint8_t* _rgb[1];
 	int _rgb_stride[1];
+	double _last_frame_in_seconds;
 
 	wxPanel* _panel;
 	wxSlider* _slider;

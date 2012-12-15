@@ -26,6 +26,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 }
+#include "lib/exceptions.h"
 #include "wx/ffmpeg_player.h"
 
 using namespace std;
@@ -38,6 +39,7 @@ FFmpegPlayer::FFmpegPlayer (wxWindow* parent)
 	, _video_codec (0)
 	, _scale_context (0)
 	, _frame_valid (false)
+	, _last_frame_in_seconds (0)
 	, _panel (new wxPanel (parent))
 	, _slider (new wxSlider (parent, wxID_ANY, 0, 0, 4096))
 	, _play_button (new wxToggleButton (parent, wxID_ANY, wxT ("Play")))
@@ -100,6 +102,14 @@ FFmpegPlayer::timer (wxTimerEvent& ev)
 	_panel->Update ();
 	decode_frame ();
 	convert_frame ();
+
+	double const video_length_in_seconds = static_cast<double>(_format_context->duration) / AV_TIME_BASE;
+	if (_last_frame_in_seconds) {
+		int const new_slider_position = 4096 * _last_frame_in_seconds / video_length_in_seconds;
+		if (new_slider_position != _slider->GetValue()) {
+			_slider->SetValue (new_slider_position);
+		}
+	}
 }
 
 void
@@ -126,6 +136,8 @@ FFmpegPlayer::decode_frame ()
 			int const r = avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet);
 			if (r >= 0 && frame_finished) {
 				_frame_valid = true;
+				_last_frame_in_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
+					* av_frame_get_best_effort_timestamp(_frame);
 				av_free_packet (&_packet);
 				return;
 			}
@@ -177,10 +189,10 @@ FFmpegPlayer::slider_moved (wxCommandEvent& ev)
 	if (!can_display ()) {
 		return;
 	}
-	
-	int const video_length_in_frames = (double(_format_context->duration) / AV_TIME_BASE) * frames_per_second();
-	int const new_frame = video_length_in_frames * _slider->GetValue() / 4096;
-	int64_t const t = static_cast<int64_t>(new_frame) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
+
+	double const video_length_in_seconds = static_cast<double>(_format_context->duration) / AV_TIME_BASE;
+	double const new_position_in_seconds = video_length_in_seconds * _slider->GetValue() / 4096;
+	int64_t const t = static_cast<int64_t>(new_position_in_seconds) / av_q2d (_format_context->streams[_video_stream]->time_base);
 	av_seek_frame (_format_context, _video_stream, t, 0);
 	avcodec_flush_buffers (_video_codec_context);
 
