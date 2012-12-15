@@ -18,11 +18,12 @@
 */
 
 /** @file  src/film_viewer.cc
- *  @brief A wx widget to view `thumbnails' of a Film.
+ *  @brief A wx widget to view a preview of a Film.
  */
 
 #include <iostream>
 #include <iomanip>
+#include <wx/tglbtn.h>
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/util.h"
@@ -31,233 +32,29 @@
 #include "lib/subtitle.h"
 #include "film_viewer.h"
 #include "wx_util.h"
+#include "ffmpeg_player.h"
 
 using std::string;
 using std::pair;
 using std::max;
 using boost::shared_ptr;
 
-class ThumbPanel : public wxPanel
-{
-public:
-	ThumbPanel (wxPanel* parent, shared_ptr<Film> film)
-		: wxPanel (parent)
-		, _film (film)
-		, _index (0)
-		, _frame_rebuild_needed (false)
-		, _composition_needed (false)
-	{}
-
-	/** Handle a paint event */
-	void paint_event (wxPaintEvent& ev)
-	{
-		if (!_film || _film->thumbs().size() == 0) {
-			wxPaintDC dc (this);
-			return;
-		}
-
-		if (_frame_rebuild_needed) {
-			_image.reset (new wxImage (std_to_wx (_film->thumb_file (_index))));
-
-			_subtitle.reset ();
-			pair<Position, string> s = _film->thumb_subtitle (_index);
-			if (!s.second.empty ()) {
-				_subtitle.reset (new SubtitleView (s.first, std_to_wx (s.second)));
-			}
-
-			_frame_rebuild_needed = false;
-			compose ();
-		}
-
-		if (_composition_needed) {
-			compose ();
-		}
-
-		wxPaintDC dc (this);
-		if (_bitmap) {
-			dc.DrawBitmap (*_bitmap, 0, 0, false);
-		}
-
-		if (_film->with_subtitles() && _subtitle) {
-			dc.DrawBitmap (*_subtitle->bitmap, _subtitle->transformed_area.x, _subtitle->transformed_area.y, true);
-		}
-	}
-
-	/** Handle a size event */
-	void size_event (wxSizeEvent &)
-	{
-		if (!_image) {
-			return;
-		}
-
-		recompose ();
-	}
-
-	/** @param n Thumbnail index */
-	void set (int n)
-	{
-		_index = n;
-		_frame_rebuild_needed = true;
-		Refresh ();
-	}
-
-	void set_film (shared_ptr<Film> f)
-	{
-		_film = f;
-		if (!_film) {
-			clear ();
-			_frame_rebuild_needed = true;
-			Refresh ();
-		} else {
-			_frame_rebuild_needed = true;
-			Refresh ();
-		}
-	}
-
-	/** Clear our thumbnail image */
-	void clear ()
-	{
-		_bitmap.reset ();
-		_image.reset ();
-		_subtitle.reset ();
-	}
-
-	void recompose ()
-	{
-		_composition_needed = true;
-		Refresh ();
-	}
-
-	DECLARE_EVENT_TABLE ();
-
-private:
-
-	void compose ()
-	{
-		_composition_needed = false;
-		
-		if (!_film || !_image) {
-			return;
-		}
-
-		/* Size of the view */
-		int vw, vh;
-		GetSize (&vw, &vh);
-
-		Crop const fc = _film->crop ();
-
-		/* Cropped rectangle */
-		Rect cropped_area (
-			fc.left,
-			fc.top,
-			_image->GetWidth() - (fc.left + fc.right),
-			_image->GetHeight() - (fc.top + fc.bottom)
-			);
-
-		/* Target ratio */
-		float const target = _film->format() ? _film->format()->ratio_as_float (_film) : 1.78;
-
-		_transformed_image = _image->GetSubImage (wxRect (cropped_area.x, cropped_area.y, cropped_area.width, cropped_area.height));
-
-		float x_scale = 1;
-		float y_scale = 1;
-
-		if ((float (vw) / vh) > target) {
-			/* view is longer (horizontally) than the ratio; fit height */
-			_transformed_image.Rescale (vh * target, vh, wxIMAGE_QUALITY_HIGH);
-			x_scale = vh * target / cropped_area.width;
-			y_scale = float (vh) / cropped_area.height;
-		} else {
-			/* view is shorter (horizontally) than the ratio; fit width */
-			_transformed_image.Rescale (vw, vw / target, wxIMAGE_QUALITY_HIGH);
-			x_scale = float (vw) / cropped_area.width;
-			y_scale = (vw / target) / cropped_area.height;
-		}
-
-		_bitmap.reset (new wxBitmap (_transformed_image));
-
-		if (_subtitle) {
-
-			_subtitle->transformed_area = subtitle_transformed_area (
-				x_scale, y_scale, _subtitle->base_area,	_film->subtitle_offset(), _film->subtitle_scale()
-				);
-
-			_subtitle->transformed_image = _subtitle->base_image;
-			_subtitle->transformed_image.Rescale (_subtitle->transformed_area.width, _subtitle->transformed_area.height, wxIMAGE_QUALITY_HIGH);
-			_subtitle->transformed_area.x -= rint (_film->crop().left * x_scale);
-			_subtitle->transformed_area.y -= rint (_film->crop().top * y_scale);
-			_subtitle->bitmap.reset (new wxBitmap (_subtitle->transformed_image));
-		}
-	}
-
-	shared_ptr<Film> _film;
-	shared_ptr<wxImage> _image;
-	wxImage _transformed_image;
-	/** currently-displayed thumbnail index */
-	int _index;
-	shared_ptr<wxBitmap> _bitmap;
-	bool _frame_rebuild_needed;
-	bool _composition_needed;
-
-	struct SubtitleView
-	{
-		SubtitleView (Position p, wxString const & i)
-			: base_image (i)
-		{
-			base_area.x = p.x;
-			base_area.y = p.y;
-			base_area.width = base_image.GetWidth ();
-			base_area.height = base_image.GetHeight ();
-		}
-
-		Rect base_area;
-		Rect transformed_area;
-		wxImage base_image;
-		wxImage transformed_image;
-		shared_ptr<wxBitmap> bitmap;
-	};
-
-	shared_ptr<SubtitleView> _subtitle;
-};
-
-BEGIN_EVENT_TABLE (ThumbPanel, wxPanel)
-EVT_PAINT (ThumbPanel::paint_event)
-EVT_SIZE (ThumbPanel::size_event)
-END_EVENT_TABLE ()
-
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
+	, _player (new FFmpegPlayer (this))
 {
-	_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (_sizer);
-	
-	_thumb_panel = new ThumbPanel (this, f);
-	_sizer->Add (_thumb_panel, 1, wxEXPAND);
+	wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (v_sizer);
 
-	int const m = max ((size_t) 1, f ? f->thumbs().size() - 1 : 0);
-	_slider = new wxSlider (this, wxID_ANY, 0, 0, m);
-	_sizer->Add (_slider, 0, wxEXPAND | wxLEFT | wxRIGHT);
-	set_thumbnail (0);
+	v_sizer->Add (_player->panel(), 1, wxEXPAND);
 
-	_slider->Connect (wxID_ANY, wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler (FilmViewer::slider_changed), 0, this);
+	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
+	h_sizer->Add (_player->play_button(), 0, wxEXPAND);
+	h_sizer->Add (_player->slider(), 1, wxEXPAND);
+
+	v_sizer->Add (h_sizer, 0, wxEXPAND);
 
 	set_film (_film);
-}
-
-void
-FilmViewer::set_thumbnail (int n)
-{
-	if (_film == 0 || int (_film->thumbs().size()) <= n) {
-		return;
-	}
-
-	_thumb_panel->set (n);
-}
-
-void
-FilmViewer::slider_changed (wxCommandEvent &)
-{
-	set_thumbnail (_slider->GetValue ());
 }
 
 void
@@ -266,27 +63,27 @@ FilmViewer::film_changed (Film::Property p)
 	ensure_ui_thread ();
 	
 	switch (p) {
-	case Film::THUMBS:
-		if (_film && _film->thumbs().size() > 1) {
-			_slider->SetRange (0, _film->thumbs().size() - 1);
-		} else {
-			_thumb_panel->clear ();
-			_slider->SetRange (0, 1);
-		}
 		
-		_slider->SetValue (0);
-		set_thumbnail (0);
-		break;
 	case Film::CONTENT:
-		setup_visibility ();
+		_player->set_file (_film->content_path ());
 		break;
+		
 	case Film::CROP:
+	{
+		Crop c = _film->crop ();
+		_player->set_left_crop (c.left);
+		_player->set_right_crop (c.right);
+		_player->set_top_crop (c.top);
+		_player->set_bottom_crop (c.bottom);
+	}
+	break;
+
 	case Film::FORMAT:
-	case Film::WITH_SUBTITLES:
-	case Film::SUBTITLE_OFFSET:
-	case Film::SUBTITLE_SCALE:
-		_thumb_panel->recompose ();
+		if (_film->format()) {
+			_player->set_ratio (_film->format()->ratio_as_float(_film));
+		}
 		break;
+		
 	default:
 		break;
 	}
@@ -300,25 +97,13 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 	
 	_film = f;
-	_thumb_panel->set_film (_film);
 
 	if (!_film) {
 		return;
 	}
 
 	_film->Changed.connect (bind (&FilmViewer::film_changed, this, _1));
+	film_changed (Film::CONTENT);
 	film_changed (Film::CROP);
-	film_changed (Film::THUMBS);
-	setup_visibility ();
-}
-
-void
-FilmViewer::setup_visibility ()
-{
-	if (!_film) {
-		return;
-	}
-
-	ContentType const c = _film->content_type ();
-	_slider->Show (c == VIDEO);
+	film_changed (Film::FORMAT);
 }

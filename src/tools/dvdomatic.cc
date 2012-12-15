@@ -226,7 +226,6 @@ public:
 
 		/* XXX: calling these here is a bit of a hack */
 		film_editor->setup_visibility ();
-		film_viewer->setup_visibility ();
 		
 		film_editor->FileChanged.connect (bind (&Frame::file_changed, this, _1));
 		if (film) {

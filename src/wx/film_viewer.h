@@ -24,10 +24,10 @@
 #include <wx/wx.h>
 #include "lib/film.h"
 
-class ThumbPanel;
+class FFmpegPlayer;
 
 /** @class FilmViewer
- *  @brief A wx widget to view `thumbnails' of a Film.
+ *  @brief A wx widget to view a preview of a Film.
  */
 class FilmViewer : public wxPanel
 {
@@ -35,15 +35,10 @@ public:
 	FilmViewer (boost::shared_ptr<Film>, wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
-	void setup_visibility ();
 
 private:
-	void slider_changed (wxCommandEvent &);
-	void set_thumbnail (int);
 	void film_changed (Film::Property);
 
 	boost::shared_ptr<Film> _film;
-	wxBoxSizer* _sizer;
-	ThumbPanel* _thumb_panel;
-	wxSlider* _slider;
+	FFmpegPlayer* _player;
 };

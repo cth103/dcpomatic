@@ -20,6 +20,7 @@ def build(bld):
                  film_viewer.cc
                  filter_dialog.cc
                  filter_view.cc
+                 ffmpeg_player.cc
                  gain_calculator_dialog.cc
                  job_manager_view.cc
                  job_wrapper.cc
