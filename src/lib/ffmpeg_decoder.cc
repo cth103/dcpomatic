@@ -265,46 +265,10 @@ FFmpegDecoder::pass ()
 				_film->log()->log (String::compose ("Used only %1 bytes of %2 in packet", r, _packet.size));
 			}
 
-			/* Where we are in the output, in seconds */
-			double const out_pts_seconds = video_frame() / frames_per_second();
-
-			/* Where we are in the source, in seconds */
-			double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
-				* av_frame_get_best_effort_timestamp(_frame);
-
-			_film->log()->log (
-				String::compose ("Source video frame ready; source at %1, output at %2", source_pts_seconds, out_pts_seconds),
-				Log::VERBOSE
-				);
-
-			if (!_first_video) {
-				_first_video = source_pts_seconds;
-			}
-
-			/* Difference between where we are and where we should be */
-			double const delta = source_pts_seconds - _first_video.get() - out_pts_seconds;
-			double const one_frame = 1 / frames_per_second();
-
-			/* Insert frames if required to get out_pts_seconds up to pts_seconds */
-			if (delta > one_frame) {
-				int const extra = rint (delta / one_frame);
-				for (int i = 0; i < extra; ++i) {
-					repeat_last_video ();
-					_film->log()->log (
-						String::compose (
-							"Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)",
-							out_pts_seconds, video_frame(), source_pts_seconds, frames_per_second()
-							)
-						);
-				}
-			}
-
-			if (delta > -one_frame) {
-				/* Process this frame */
-				filter_and_emit_video (_frame);
+			if (_opt->rough_decode_video_skip) {
+				rough_video_output ();
 			} else {
-				/* Otherwise we are omitting a frame to keep things right */
-				_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
+				precise_video_output ();
 			}
 		}
 
@@ -636,4 +600,71 @@ SourceFrame
 FFmpegDecoder::length () const
 {
 	return (double(_format_context->duration) / AV_TIME_BASE) * frames_per_second();
+}
+
+void
+FFmpegDecoder::precise_video_output ()
+{
+	/* Where we are in the output, in seconds */
+	double const out_pts_seconds = video_frame() / frames_per_second();
+	
+	/* Where we are in the source, in seconds */
+	double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
+		* av_frame_get_best_effort_timestamp(_frame);
+	
+	_film->log()->log (
+		String::compose ("Source video frame ready; source at %1, output at %2", source_pts_seconds, out_pts_seconds),
+		Log::VERBOSE
+		);
+	
+	if (!_first_video) {
+		_first_video = source_pts_seconds;
+	}
+	
+	/* Difference between where we are and where we should be */
+	double const delta = source_pts_seconds - _first_video.get() - out_pts_seconds;
+	double const one_frame = 1 / frames_per_second();
+	
+	/* Insert frames if required to get out_pts_seconds up to pts_seconds */
+	if (delta > one_frame) {
+		int const extra = rint (delta / one_frame);
+		for (int i = 0; i < extra; ++i) {
+			repeat_last_video ();
+			_film->log()->log (
+				String::compose (
+					"Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)",
+					out_pts_seconds, video_frame(), source_pts_seconds, frames_per_second()
+					)
+				);
+		}
+	}
+	
+	if (delta > -one_frame) {
+		/* Process this frame */
+		filter_and_emit_video (_frame);
+	} else {
+		/* Otherwise we are omitting a frame to keep things right */
+		_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
+	}
+}
+
+void
+FFmpegDecoder::rough_video_output ()
+{
+	/* Where we are in the source, in seconds */
+	double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
+		* av_frame_get_best_effort_timestamp(_frame);
+
+	if (!_last_rough_output || _last_rough_output.get() != source_pts_seconds) {
+		filter_and_emit_video (_frame);
+		_last_rough_output = source_pts_seconds;
+	}
+	
+	int64_t const t = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
+	cout << "seek to " << t << " in stream tb\n";
+	int const r = av_seek_frame (_format_context, _video_stream, t, 0);
+	avcodec_flush_buffers (_video_codec_context);
+	if (r < 0) {
+		cout << "seek to " << t << " failed.\n";
+	}
 }

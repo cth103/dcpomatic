@@ -105,6 +105,8 @@ private:
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
 
+	void rough_video_output ();
+	void precise_video_output ();
 	void filter_and_emit_video (AVFrame *);
 
 	void setup_general ();
@@ -133,6 +135,7 @@ private:
 
 	boost::optional<double> _first_video;
 	boost::optional<double> _first_audio;
+	boost::optional<double> _last_rough_output;
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 };

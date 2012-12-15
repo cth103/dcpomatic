@@ -104,9 +104,14 @@ public:
 	boost::optional<std::pair<int64_t, int64_t> > audio_decode_range;
 	
 	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
-	 *  1 for every frame, 2 for every other frame, etc.
+	 *  1 for every frame, 2 for every other frame, etc.  With the `precise' skip, we do it
+	 *  by running the decoder without seeking and throwing away frames that we don't want.
 	 */
-	SourceFrame decode_video_skip; 
+	boost::optional<SourceFrame> precise_decode_video_skip;
+	/** As for precise_decode_video_skip, except that it is achieved by skipping the decoder, so
+	 *  things are made less precise by the presence of keyframes and other complications.
+	 */
+	boost::optional<SourceFrame> rough_decode_video_skip;
 	bool decode_audio;          ///< true to decode audio, otherwise false
 	bool decode_subtitles;
 

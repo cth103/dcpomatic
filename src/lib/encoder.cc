@@ -107,11 +107,6 @@ Encoder::frame_skipped ()
 void
 Encoder::process_video (shared_ptr<Image> i, boost::shared_ptr<Subtitle> s)
 {
-	if (_opt->decode_video_skip != 0 && (_video_frame % _opt->decode_video_skip) != 0) {
-		++_video_frame;
-		return;
-	}
-
 	if (_opt->video_decode_range) {
 		pair<SourceFrame, SourceFrame> const r = _opt->video_decode_range.get();
 		if (_video_frame < r.first || _video_frame >= r.second) {

@@ -54,6 +54,8 @@ public:
 	}
 
 protected:
+	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<const Options> _opt;
 	/** A Job that is running this Transcoder, or 0 */
 	Job* _job;
 	/** The encoder that we will use */

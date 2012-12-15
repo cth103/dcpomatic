@@ -49,7 +49,9 @@ using boost::dynamic_pointer_cast;
  *  @param e Encoder to use.
  */
 Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j, shared_ptr<Encoder> e)
-	: _job (j)
+	: _film (f)
+	, _opt (o)
+	, _job (j)
 	, _encoder (e)
 	, _decoders (decoder_factory (f, o, j))
 {
@@ -90,6 +92,8 @@ void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
+	SourceFrame s = 0;
+	
 	try {
 		bool done[2] = { false, false };
 		
