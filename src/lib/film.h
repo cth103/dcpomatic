@@ -61,7 +61,6 @@ public:
 
 	std::string j2k_dir () const;
 	std::vector<std::string> audio_files () const;
-	std::pair<Position, std::string> thumb_subtitle (int) const;
 
 	void examine_content ();
 	void send_dcp_to_tms ();
@@ -83,10 +82,6 @@ public:
 	std::string content_path () const;
 	ContentType content_type () const;
 	
-	std::string thumb_file (int) const;
-	std::string thumb_base (int) const;
-	SourceFrame thumb_frame (int) const;
-
 	int target_audio_sample_rate () const;
 	
 	void write_metadata () const;
@@ -129,7 +124,6 @@ public:
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,
 		DCI_METADATA,
-		THUMBS,
 		SIZE,
 		LENGTH,
 		CONTENT_AUDIO_STREAMS,
@@ -285,11 +279,6 @@ public:
 		return _package_type;
 	}
 
-	std::vector<SourceFrame> thumbs () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _thumbs;
-	}
-	
 	Size size () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _size;
@@ -358,7 +347,6 @@ public:
 	void set_studio (std::string);
 	void set_facility (std::string);
 	void set_package_type (std::string);
-	void set_thumbs (std::vector<SourceFrame>);
 	void set_size (Size);
 	void set_length (SourceFrame);
 	void unset_length ();
@@ -384,8 +372,6 @@ private:
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
 
-	std::string thumb_file_for_frame (SourceFrame) const;
-	std::string thumb_base_for_frame (SourceFrame) const;
 	void signal_changed (Property);
 	void examine_content_finished ();
 
@@ -458,8 +444,6 @@ private:
 
 	/* Data which are cached to speed things up */
 
-	/** Vector of frame indices for each of our `thumbnails' */
-	std::vector<SourceFrame> _thumbs;
 	/** Size, in pixels, of the source (ignoring cropping) */
 	Size _size;
 	/** Actual length of the source (in video frames) from examining it */

@@ -26,7 +26,6 @@
 #include "options.h"
 #include "decoder_factory.h"
 #include "decoder.h"
-#include "imagemagick_encoder.h"
 #include "transcoder.h"
 #include "log.h"
 #include "film.h"
@@ -72,7 +71,7 @@ ExamineContentJob::run ()
 	o->apply_crop = false;
 	o->decode_audio = false;
 
-	descend (0.5);
+	descend (1);
 
 	pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > decoders = decoder_factory (_film, o, this);
 
@@ -84,59 +83,6 @@ ExamineContentJob::run ()
 	_film->set_length (decoders.first->video_frame());
 
 	_film->log()->log (String::compose ("Video length is %1 frames", _film->length()));
-
-	ascend ();
-
-	/* Now make thumbnails for it */
-
-	descend (0.5);
-
-	try {
-		o.reset (new Options (_film->dir ("thumbs"), ".png", ""));
-		o->out_size = _film->size ();
-		o->apply_crop = false;
-		o->decode_audio = false;
-		if (_film->length() > 0) {
-			o->decode_video_skip = _film->length().get() / 128;
-		} else {
-			o->decode_video_skip = 0;
-		}
-		o->decode_subtitles = true;
-		shared_ptr<ImageMagickEncoder> e (new ImageMagickEncoder (_film, o));
-		Transcoder w (_film, o, this, e);
-		w.go ();
-		
-	} catch (std::exception& e) {
-
-		ascend ();
-		set_progress (1);
-		set_error (e.what ());
-		set_state (FINISHED_ERROR);
-		return;
-		
-	}
-
-	string const tdir = _film->dir ("thumbs");
-	vector<SourceFrame> thumbs;
-
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (tdir); i != boost::filesystem::directory_iterator(); ++i) {
-
-		/* Aah, the sweet smell of progress */
-#if BOOST_FILESYSTEM_VERSION == 3		
-		string const l = boost::filesystem::path(*i).leaf().generic_string();
-#else
-		string const l = i->leaf ();
-#endif
-		
-		size_t const d = l.find (".png");
-		size_t const t = l.find (".tmp");
-		if (d != string::npos && t == string::npos) {
-			thumbs.push_back (atoi (l.substr (0, d).c_str()));
-		}
-	}
-
-	sort (thumbs.begin(), thumbs.end());
-	_film->set_thumbs (thumbs);	
 
 	ascend ();
 	set_progress (1);

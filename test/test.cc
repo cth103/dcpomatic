@@ -307,10 +307,6 @@ BOOST_AUTO_TEST_CASE (paths_test)
 {
 	shared_ptr<Film> f = new_test_film ("paths_test");
 	f->set_directory ("build/test/a/b/c/d/e");
-	vector<SourceFrame> thumbs;
-	thumbs.push_back (42);
-	f->set_thumbs (thumbs);
-	BOOST_CHECK_EQUAL (f->thumb_file (0), "build/test/a/b/c/d/e/thumbs/00000042.png");
 
 	f->_content = "/foo/bar/baz";
 	BOOST_CHECK_EQUAL (f->content_path(), "/foo/bar/baz");

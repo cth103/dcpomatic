@@ -37,7 +37,6 @@ def build(bld):
                  gain.cc
                  image.cc
                  imagemagick_decoder.cc
-                 imagemagick_encoder.cc
 		 j2k_still_encoder.cc
 		 j2k_wav_encoder.cc
 		 job.cc

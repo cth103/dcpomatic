@@ -31,7 +31,6 @@
 #include <boost/date_time.hpp>
 #include "film.h"
 #include "format.h"
-#include "imagemagick_encoder.h"
 #include "job.h"
 #include "filter.h"
 #include "transcoder.h"
@@ -169,7 +168,6 @@ Film::Film (Film const & o)
 	, _studio            (o._studio)
 	, _facility          (o._facility)
 	, _package_type      (o._package_type)
-	, _thumbs            (o._thumbs)
 	, _size              (o._size)
 	, _length            (o._length)
 	, _content_digest    (o._content_digest)
@@ -299,12 +297,6 @@ Film::examine_content ()
 		return;
 	}
 
-	set_thumbs (vector<SourceFrame> ());
-	boost::filesystem::remove_all (dir ("thumbs"));
-
-	/* This call will recreate the directory */
-	dir ("thumbs");
-	
 	_examine_content_job.reset (new ExamineContentJob (shared_from_this(), shared_ptr<Job> ()));
 	_examine_content_job->Finished.connect (bind (&Film::examine_content_finished, this));
 	JobManager::instance()->add (_examine_content_job);
@@ -353,35 +345,6 @@ Film::encoded_frames () const
 	}
 
 	return N;
-}
-
-/** Return the filename of a subtitle image if one exists for a given thumb index.
- *  @param Thumbnail index.
- *  @return Position of the image within the source frame, and the image filename, if one exists.
- *  Otherwise the filename will be empty.
- */
-pair<Position, string>
-Film::thumb_subtitle (int n) const
-{
-	string sub_file = thumb_base(n) + ".sub";
-	if (!boost::filesystem::exists (sub_file)) {
-		return pair<Position, string> ();
-	}
-
-	pair<Position, string> sub;
-	
-	ifstream f (sub_file.c_str ());
-	multimap<string, string> kv = read_key_value (f);
-	for (map<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
-		if (i->first == "x") {
-			sub.first.x = lexical_cast<int> (i->second);
-		} else if (i->first == "y") {
-			sub.first.y = lexical_cast<int> (i->second);
-			sub.second = String::compose ("%1.sub.png", thumb_base(n));
-		}
-	}
-	
-	return sub;
 }
 
 /** Write state to our `metadata' file */
@@ -445,12 +408,6 @@ Film::write_metadata () const
 	f << "facility " << _facility << "\n";
 	f << "package_type " << _package_type << "\n";
 
-	/* Cached stuff; this is information about our content; we could
-	   look it up each time, but that's slow.
-	*/
-	for (vector<SourceFrame>::const_iterator i = _thumbs.begin(); i != _thumbs.end(); ++i) {
-		f << "thumb " << *i << "\n";
-	}
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
 	f << "length " << _length.get_value_or(0) << "\n";
@@ -478,7 +435,6 @@ Film::read_metadata ()
 	boost::mutex::scoped_lock lm (_state_mutex);
 
 	_external_audio.clear ();
-	_thumbs.clear ();
 	_content_audio_streams.clear ();
 	_subtitle_streams.clear ();
 
@@ -580,13 +536,7 @@ Film::read_metadata ()
 		}
 		
 		/* Cached stuff */
-		if (k == "thumb") {
-			int const n = atoi (v.c_str ());
-			/* Only add it to the list if it still exists */
-			if (boost::filesystem::exists (thumb_file_for_frame (n))) {
-				_thumbs.push_back (n);
-			}
-		} else if (k == "width") {
+		if (k == "width") {
 			_size.width = atoi (v.c_str ());
 		} else if (k == "height") {
 			_size.height = atoi (v.c_str ());
@@ -628,61 +578,6 @@ Film::read_metadata ()
 	}
 		
 	_dirty = false;
-}
-
-/** @param n A thumb index.
- *  @return The path to the thumb's image file.
- */
-string
-Film::thumb_file (int n) const
-{
-	return thumb_file_for_frame (thumb_frame (n));
-}
-
-/** @param n A frame index within the Film's source.
- *  @return The path to the thumb's image file for this frame;
- *  we assume that it exists.
- */
-string
-Film::thumb_file_for_frame (SourceFrame n) const
-{
-	return thumb_base_for_frame(n) + ".png";
-}
-
-/** @param n Thumb index.
- *  Must not be called with the _state_mutex locked.
- */
-string
-Film::thumb_base (int n) const
-{
-	return thumb_base_for_frame (thumb_frame (n));
-}
-
-string
-Film::thumb_base_for_frame (SourceFrame n) const
-{
-	stringstream s;
-	s.width (8);
-	s << setfill('0') << n;
-	
-	boost::filesystem::path p;
-	p /= dir ("thumbs");
-	p /= s.str ();
-		
-	return p.string ();
-}
-
-/** @param n A thumb index.
- *  @return The frame within the Film's source that it is for.
- *
- *  Must not be called with the _state_mutex locked.
- */
-SourceFrame
-Film::thumb_frame (int n) const
-{
-	boost::mutex::scoped_lock lm (_state_mutex);
-	assert (n < int (_thumbs.size ()));
-	return _thumbs[n];
 }
 
 Size
@@ -1302,16 +1197,6 @@ Film::set_package_type (string p)
 		_package_type = p;
 	}
 	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_thumbs (vector<SourceFrame> t)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_thumbs = t;
-	}
-	signal_changed (THUMBS);
 }
 
 void
