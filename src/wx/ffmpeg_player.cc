@@ -58,7 +58,7 @@ FFmpegPlayer::FFmpegPlayer (wxWindow* parent)
 	
 	_frame = avcodec_alloc_frame ();
 	if (!_frame) {
-		cerr << "could not allocate frame\n";
+		throw DecodeError ("could not allocate frame");
 	}
 	
 	_panel->Bind (wxEVT_PAINT, &FFmpegPlayer::paint_panel, this);
@@ -248,7 +248,7 @@ FFmpegPlayer::allocate_buffer_and_scaler ()
 		);
 
 	if (!_scale_context) {
-		cout << "could not allocate sc\n";
+		throw DecodeError ("could not create scaler");
 	}
 }
 
@@ -311,11 +311,11 @@ FFmpegPlayer::set_file (string f)
 	}
 	
 	if (avformat_open_input (&_format_context, f.c_str(), 0, 0) < 0) {
-		cerr << "avformat_open_input failed.\n";
+		throw OpenFileError (f);
 	}
 	
 	if (avformat_find_stream_info (_format_context, 0) < 0) {
-		cerr << "avformat_find_stream_info failed.\n";
+		throw DecodeError ("could not find stream information");
 	}
 	
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
@@ -328,18 +328,18 @@ FFmpegPlayer::set_file (string f)
 	}
 	
 	if (_video_stream < 0) {
-		cerr << "could not find video stream\n";
+		throw DecodeError ("could not find video stream");
 	}
 	
 	_video_codec_context = _format_context->streams[_video_stream]->codec;
 	_video_codec = avcodec_find_decoder (_video_codec_context->codec_id);
 	
 	if (_video_codec == 0) {
-		cerr << "could not find video decoder\n";
+		throw DecodeError ("could not find video stream");
 	}
 	
 	if (avcodec_open2 (_video_codec_context, _video_codec, 0) < 0) {
-		cerr << "could not open video decoder\n";
+		throw DecodeError ("could not open video decoder");
 	}
 
 	allocate_buffer_and_scaler ();
@@ -418,4 +418,3 @@ FFmpegPlayer::can_display () const
 {
 	return (_format_context && _scale_context);
 }
-	
