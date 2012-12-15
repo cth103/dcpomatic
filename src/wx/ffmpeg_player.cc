@@ -103,8 +103,8 @@ FFmpegPlayer::timer (wxTimerEvent& ev)
 	decode_frame ();
 	convert_frame ();
 
-	double const video_length_in_seconds = static_cast<double>(_format_context->duration) / AV_TIME_BASE;
 	if (_last_frame_in_seconds) {
+		double const video_length_in_seconds = static_cast<double>(_format_context->duration) / AV_TIME_BASE;
 		int const new_slider_position = 4096 * _last_frame_in_seconds / video_length_in_seconds;
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
