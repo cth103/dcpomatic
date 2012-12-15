@@ -101,11 +101,9 @@ FFmpegDecoder::~FFmpegDecoder ()
 void
 FFmpegDecoder::setup_general ()
 {
-	int r;
-	
 	av_register_all ();
 
-	if ((r = avformat_open_input (&_format_context, _film->content_path().c_str(), 0, 0)) != 0) {
+	if (avformat_open_input (&_format_context, _film->content_path().c_str(), 0, 0) < 0) {
 		throw OpenFileError (_film->content_path ());
 	}
 
