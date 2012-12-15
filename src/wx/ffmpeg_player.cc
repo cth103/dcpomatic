@@ -352,6 +352,7 @@ FFmpegPlayer::set_top_crop (int t)
 {
 	_top_crop_in_source = t;
 
+	allocate_buffer_and_scaler ();
 	convert_frame ();
 	update_panel ();
 }
@@ -361,6 +362,7 @@ FFmpegPlayer::set_bottom_crop (int b)
 {
 	_bottom_crop_in_source = b;
 
+	allocate_buffer_and_scaler ();
 	convert_frame ();
 	update_panel ();
 }
@@ -370,6 +372,7 @@ FFmpegPlayer::set_left_crop (int l)
 {
 	_left_crop_in_source = l;
 
+	allocate_buffer_and_scaler ();
 	convert_frame ();
 	update_panel ();
 }
@@ -379,6 +382,7 @@ FFmpegPlayer::set_right_crop (int r)
 {
 	_right_crop_in_source = r;
 
+	allocate_buffer_and_scaler ();
 	convert_frame ();
 	update_panel ();
 }
@@ -387,8 +391,8 @@ void
 FFmpegPlayer::set_ratio (float r)
 {
 	_ratio = r;
-	allocate_buffer_and_scaler ();
 
+	allocate_buffer_and_scaler ();
 	convert_frame ();
 	update_panel ();
 }
