@@ -108,7 +108,7 @@ private:
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
 
-	void out_careful ();
+	void out_with_sync ();
 	void filter_and_emit_video (AVFrame *);
 
 	void setup_general ();

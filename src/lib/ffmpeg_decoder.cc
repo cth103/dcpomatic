@@ -273,7 +273,7 @@ FFmpegDecoder::pass ()
 			}
 
 			if (_opt->video_sync) {
-				out_careful ();
+				out_with_sync ();
 			} else {
 				filter_and_emit_video (_frame);
 			}
@@ -620,7 +620,7 @@ FFmpegAudioStream::to_string () const
 
 
 void
-FFmpegDecoder::out_careful ()
+FFmpegDecoder::out_with_sync ()
 {
 	/* Where we are in the output, in seconds */
 	double const out_pts_seconds = video_frame() / frames_per_second();
