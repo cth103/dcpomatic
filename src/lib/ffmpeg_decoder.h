@@ -97,7 +97,7 @@ public:
 	void set_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 
-	void seek (SourceFrame);
+	bool seek (SourceFrame);
 
 private:
 
@@ -106,6 +106,7 @@ private:
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
 
+	void out_careful ();
 	void filter_and_emit_video (AVFrame *);
 
 	void setup_general ();

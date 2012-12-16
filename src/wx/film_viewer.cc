@@ -34,12 +34,12 @@
 #include "lib/scaler.h"
 #include "film_viewer.h"
 #include "wx_util.h"
-#include "ffmpeg_player.h"
 #include "video_decoder.h"
 
 using std::string;
 using std::pair;
 using std::max;
+using std::cout;
 using boost::shared_ptr;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
@@ -74,6 +74,22 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	set_film (_film);
 }
 
+void
+FilmViewer::film_changed (Film::Property p)
+{
+	switch (p) {
+	case Film::CROP:
+		calculate_sizes ();
+		update_from_raw ();
+		break;
+	case Film::FORMAT:
+		calculate_sizes ();
+		update_from_raw ();
+		break;
+	default:
+		break;
+	}
+}
 
 void
 FilmViewer::set_film (shared_ptr<Film> f)
@@ -91,8 +107,12 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	/* XXX: Options is not decoder-specific at all */
 	shared_ptr<Options> o (new Options ("", "", ""));
 	o->decode_audio = false;
+	o->decoder_alignment = false;
 	_decoders = decoder_factory (_film, o, 0);
 	_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
+
+	film_changed (Film::CROP);
+	film_changed (Film::FORMAT);
 }
 
 void
@@ -135,7 +155,10 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 void
 FilmViewer::slider_moved (wxCommandEvent& ev)
 {
-	_decoders.video->seek (_slider->GetValue() * _film->length().get() / 4096);
+	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / 4096)) {
+		return;
+	}
+	
 	shared_ptr<Image> last = _display;
 	while (last == _display) {
 		_decoders.video->pass ();
@@ -150,12 +173,20 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	_panel_width = ev.GetSize().GetWidth();
 	_panel_height = ev.GetSize().GetHeight();
 	calculate_sizes ();
+	update_from_raw ();
+}
 
+void
+FilmViewer::update_from_raw ()
+{
 	if (!_raw) {
 		return;
 	}
 
-	_display = _raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"));
+	if (_out_width && _out_height) {
+		_display = _raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"));
+	}
+	
 	_panel->Refresh ();
 	_panel->Update ();
 }
@@ -196,5 +227,7 @@ void
 FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
 	_raw = image;
-	_display.reset (new CompactImage (_raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"))));
+	if (_out_width && _out_height) {
+		_display = _raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"));
+	}
 }

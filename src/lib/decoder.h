@@ -58,7 +58,10 @@ public:
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
-	virtual void seek (SourceFrame);
+	/** Seek.
+	 *  @return true on error.
+	 */
+	virtual bool seek (SourceFrame);
 
 protected:
 	/** our Film */

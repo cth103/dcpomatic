@@ -50,6 +50,7 @@ private:
 	void process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 	void calculate_sizes ();
 	void check_play_state ();
+	void update_from_raw ();
 
 	boost::shared_ptr<Film> _film;
 	

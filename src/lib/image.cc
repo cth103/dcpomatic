@@ -125,7 +125,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	Size content_size = out_size;
 	content_size.width -= (padding * 2);
 
-	shared_ptr<Image> rgb (new AlignedImage (PIX_FMT_RGB24, content_size));
+	shared_ptr<Image> rgb (new CompactImage (PIX_FMT_RGB24, content_size));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),

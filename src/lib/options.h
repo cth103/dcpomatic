@@ -43,6 +43,7 @@ public:
 		, decode_video_skip (0)
 		, decode_audio (true)
 		, decode_subtitles (false)
+		, decoder_alignment (true)
 		, _frame_out_path (f)
 		, _frame_out_extension (e)
 		, _multichannel_audio_out_path (m)
@@ -109,6 +110,8 @@ public:
 	SourceFrame decode_video_skip; 
 	bool decode_audio;          ///< true to decode audio, otherwise false
 	bool decode_subtitles;
+
+	bool decoder_alignment;
 
 private:
 	/** Path of the directory to write video frames to */
