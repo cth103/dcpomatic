@@ -154,10 +154,10 @@ shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
 	if (!_post_process.empty ()) {
-		_input = _input->post_process (_post_process);
+		_input = _input->post_process (_post_process, true);
 	}
 	
-	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler);
+	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler, true);
 
 	if (_subtitle) {
 		Rect tx = subtitle_transformed_area (
@@ -166,7 +166,7 @@ DCPVideoFrame::encode_locally ()
 			_subtitle->area(), _subtitle_offset, _subtitle_scale
 			);
 
-		shared_ptr<Image> im = _subtitle->image()->scale (tx.size(), _scaler);
+		shared_ptr<Image> im = _subtitle->image()->scale (tx.size(), _scaler, true);
 		prepared->alpha_blend (im, tx.position());
 	}
 

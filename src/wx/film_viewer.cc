@@ -235,7 +235,8 @@ FilmViewer::raw_to_display ()
 		return;
 	}
 
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler());
+	/* Get a compacted image as we have to feed it to wxWidgets */
+	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler(), false);
 
 	if (_raw_sub) {
 		Rect tx = subtitle_transformed_area (
@@ -244,7 +245,7 @@ FilmViewer::raw_to_display ()
 			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
 			);
 		
-		_display_sub.reset (new RGBPlusAlphaImage (_raw_sub->image()->scale (tx.size(), _film->scaler ())));
+		_display_sub.reset (new RGBPlusAlphaImage (_raw_sub->image()->scale (tx.size(), _film->scaler(), false)));
 		_display_sub_position = tx.position();
 	} else {
 		_display_sub.reset ();

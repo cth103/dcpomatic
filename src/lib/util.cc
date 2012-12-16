@@ -576,7 +576,8 @@ Rect::intersection (Rect const & other) const
 }
 
 /** Round a number up to the nearest multiple of another number.
- *  @param a Number to round.
+ *  @param c Index.
+ *  @param s Array of numbers to round, indexed by c.
  *  @param t Multiple to round to.
  *  @return Rounded number.
  */

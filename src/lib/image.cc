@@ -89,11 +89,11 @@ Image::components () const
 }
 
 shared_ptr<Image>
-Image::scale (Size out_size, Scaler const * scaler) const
+Image::scale (Size out_size, Scaler const * scaler, bool aligned) const
 {
 	assert (scaler);
 
-	shared_ptr<Image> scaled (new AlignedImage (pixel_format(), out_size));
+	shared_ptr<Image> scaled (new SimpleImage (pixel_format(), out_size, aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -118,14 +118,14 @@ Image::scale (Size out_size, Scaler const * scaler) const
  *  @param scaler Scaler to use.
  */
 shared_ptr<Image>
-Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler) const
+Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool aligned) const
 {
 	assert (scaler);
 
 	Size content_size = out_size;
 	content_size.width -= (padding * 2);
 
-	shared_ptr<Image> rgb (new CompactImage (PIX_FMT_RGB24, content_size));
+	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -146,7 +146,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	   scheme of things.
 	*/
 	if (padding > 0) {
-		shared_ptr<Image> padded_rgb (new AlignedImage (PIX_FMT_RGB24, out_size));
+		shared_ptr<Image> padded_rgb (new SimpleImage (PIX_FMT_RGB24, out_size, aligned));
 		padded_rgb->make_black ();
 
 		/* XXX: we are cheating a bit here; we know the frame is RGB so we can
@@ -173,9 +173,9 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
  *  @return Post-processed image.
  */
 shared_ptr<Image>
-Image::post_process (string pp) const
+Image::post_process (string pp, bool aligned) const
 {
-	shared_ptr<Image> out (new AlignedImage (pixel_format(), size ()));
+	shared_ptr<Image> out (new SimpleImage (pixel_format(), size (), aligned));
 
 	int pp_format = 0;
 	switch (pixel_format()) {
@@ -293,9 +293,10 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-SimpleImage::SimpleImage (AVPixelFormat p, Size s, function<int (int, int const *)> stride_computer)
+SimpleImage::SimpleImage (AVPixelFormat p, Size s, bool aligned)
 	: Image (p)
 	, _size (s)
+	, _aligned (aligned)
 {
 	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
@@ -329,7 +330,7 @@ SimpleImage::SimpleImage (AVPixelFormat p, Size s, function<int (int, int const 
 	}
 
 	for (int i = 0; i < components(); ++i) {
-		_stride[i] = stride_computer (i, _line_size);
+		_stride[i] = stride_round_up (i, _line_size, _aligned ? 32 : 1);
 		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
 	}
 }
@@ -344,6 +345,26 @@ SimpleImage::~SimpleImage ()
 	av_free (_data);
 	av_free (_line_size);
 	av_free (_stride);
+}
+
+SimpleImage::SimpleImage (shared_ptr<const Image> im, bool aligned)
+	: Image (im->pixel_format())
+{
+	assert (components() == im->components());
+
+	for (int c = 0; c < components(); ++c) {
+
+		assert (line_size()[c] == im->line_size()[c]);
+
+		uint8_t* t = data()[c];
+		uint8_t* o = im->data()[c];
+		
+		for (int y = 0; y < lines(c); ++y) {
+			memcpy (t, o, line_size()[c]);
+			t += stride()[c];
+			o += im->stride()[c];
+		}
+	}
 }
 
 uint8_t **
@@ -368,58 +389,6 @@ Size
 SimpleImage::size () const
 {
 	return _size;
-}
-
-AlignedImage::AlignedImage (AVPixelFormat f, Size s)
-	: SimpleImage (f, s, boost::bind (stride_round_up, _1, _2, 32))
-{
-
-}
-
-AlignedImage::AlignedImage (shared_ptr<const Image> im)
-	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 32))
-{
-	assert (components() == im->components());
-
-	for (int c = 0; c < components(); ++c) {
-
-		assert (line_size()[c] == im->line_size()[c]);
-
-		uint8_t* t = data()[c];
-		uint8_t* o = im->data()[c];
-		
-		for (int y = 0; y < lines(c); ++y) {
-			memcpy (t, o, line_size()[c]);
-			t += stride()[c];
-			o += im->stride()[c];
-		}
-	}
-}
-
-CompactImage::CompactImage (AVPixelFormat f, Size s)
-	: SimpleImage (f, s, boost::bind (stride_round_up, _1, _2, 1))
-{
-
-}
-
-CompactImage::CompactImage (shared_ptr<const Image> im)
-	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
-{
-	assert (components() == im->components());
-
-	for (int c = 0; c < components(); ++c) {
-
-		assert (line_size()[c] == im->line_size()[c]);
-
-		uint8_t* t = data()[c];
-		uint8_t* o = im->data()[c];
-		
-		for (int y = 0; y < lines(c); ++y) {
-			memcpy (t, o, line_size()[c]);
-			t += stride()[c];
-			o += im->stride()[c];
-		}
-	}
 }
 
 FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
@@ -460,7 +429,7 @@ FilterBufferImage::size () const
 }
 
 RGBPlusAlphaImage::RGBPlusAlphaImage (shared_ptr<const Image> im)
-	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
+	: SimpleImage (im->pixel_format(), im->size(), false)
 {
 	assert (im->pixel_format() == PIX_FMT_RGBA);
 

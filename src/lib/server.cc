@@ -113,13 +113,13 @@ Server::process (shared_ptr<Socket> socket)
 	PixelFormat pixel_format = (PixelFormat) pixel_format_int;
 	Scaler const * scaler = Scaler::from_id (scaler_id);
 	
-	shared_ptr<Image> image (new AlignedImage (pixel_format, in_size));
+	shared_ptr<Image> image (new SimpleImage (pixel_format, in_size, true));
 
 	image->read_from_socket (socket);
 
 	shared_ptr<Subtitle> sub;
 	if (subtitle_size.width && subtitle_size.height) {
-		shared_ptr<Image> subtitle_image (new AlignedImage (PIX_FMT_RGBA, subtitle_size));
+		shared_ptr<Image> subtitle_image (new SimpleImage (PIX_FMT_RGBA, subtitle_size, true));
 		subtitle_image->read_from_socket (socket);
 		sub.reset (new Subtitle (subtitle_position, subtitle_image));
 	}

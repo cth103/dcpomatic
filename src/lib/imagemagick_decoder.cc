@@ -78,7 +78,7 @@ ImageMagickDecoder::pass ()
 	Magick::Image* magick_image = new Magick::Image (_film->content_path ());
 	
 	Size size = native_size ();
-	shared_ptr<CompactImage> image (new CompactImage (PIX_FMT_RGB24, size));
+	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_RGB24, size, false));
 
 	uint8_t* p = image->data()[0];
 	for (int y = 0; y < size.height; ++y) {

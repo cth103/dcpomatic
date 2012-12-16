@@ -69,9 +69,10 @@ public:
 
 	int components () const;
 	int lines (int) const;
-	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
-	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
-	boost::shared_ptr<Image> post_process (std::string) const;
+
+	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool aligned) const;
+	boost::shared_ptr<Image> scale (Size, Scaler const *, bool aligned) const;
+	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
 	
 	void make_black ();
@@ -111,7 +112,8 @@ private:
 class SimpleImage : public Image
 {
 public:
-	SimpleImage (AVPixelFormat, Size, boost::function<int (int, int const *)> rounder);
+	SimpleImage (AVPixelFormat, Size, bool);
+	SimpleImage (boost::shared_ptr<const Image>, bool aligned);
 	~SimpleImage ();
 
 	uint8_t ** data () const;
@@ -125,26 +127,7 @@ private:
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
-};
-
-/** @class AlignedImage
- *  @brief An image whose pixel data is padded so that rows always start on 32-byte boundaries.
- */
-class AlignedImage : public SimpleImage
-{
-public:
-	AlignedImage (AVPixelFormat, Size);
-	AlignedImage (boost::shared_ptr<const Image>);
-};
-
-/** @class CompactImage
- *  @brief An image whose pixel data is not padded, so rows may start at any pixel alignment.
- */
-class CompactImage : public SimpleImage
-{
-public:
-	CompactImage (AVPixelFormat, Size);
-	CompactImage (boost::shared_ptr<const Image>);
+	bool _aligned;
 };
 
 class RGBPlusAlphaImage : public SimpleImage
