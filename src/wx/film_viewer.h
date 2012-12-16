@@ -52,6 +52,7 @@ private:
 	void check_play_state ();
 	void update_from_raw ();
 	void decoder_changed ();
+	void seek_and_update (SourceFrame);
 
 	boost::shared_ptr<Film> _film;
 	

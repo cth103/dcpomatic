@@ -92,7 +92,7 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 	
-	emit_video (image);
+	emit_video (image, 0);
 
 	++_iter;
 	return false;

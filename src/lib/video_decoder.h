@@ -55,11 +55,15 @@ public:
 		return _subtitle_streams;
 	}
 
+	SourceFrame last_source_frame () const {
+		return _last_source_frame;
+	}
+
 protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
 
-	void emit_video (boost::shared_ptr<Image>);
+	void emit_video (boost::shared_ptr<Image>, SourceFrame);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 	void repeat_last_video ();
 
@@ -72,7 +76,8 @@ private:
 	void signal_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
 
 	SourceFrame _video_frame;
-
+	SourceFrame _last_source_frame;
+	
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 
 	boost::shared_ptr<Image> _last_image;

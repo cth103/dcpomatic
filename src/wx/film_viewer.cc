@@ -118,12 +118,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::decoder_changed ()
 {
-	shared_ptr<Image> last = _display;
-	while (last == _display) {
-		_decoders.video->pass ();
-	}
-	_panel->Refresh ();
-	_panel->Update ();
+	seek_and_update (_decoders.video->last_source_frame ());
 }
 
 void
@@ -137,15 +132,10 @@ FilmViewer::timer (wxTimerEvent& ev)
 		_decoders.video->pass ();
 	}
 
-#if 0	
-	if (_last_frame_in_seconds) {
-		double const video_length_in_seconds = static_cast<double>(_format_context->duration) / AV_TIME_BASE;
-		int const new_slider_position = 4096 * _last_frame_in_seconds / video_length_in_seconds;
-		if (new_slider_position != _slider->GetValue()) {
-			_slider->SetValue (new_slider_position);
-		}
+	int const new_slider_position = 4096 * _decoders.video->last_source_frame() / _film->length().get();
+	if (new_slider_position != _slider->GetValue()) {
+		_slider->SetValue (new_slider_position);
 	}
-#endif	
 }
 
 
@@ -166,7 +156,20 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 void
 FilmViewer::slider_moved (wxCommandEvent& ev)
 {
-	_decoders.video->seek (_slider->GetValue() * _film->length().get() / 4096);
+	seek_and_update (_slider->GetValue() * _film->length().get() / 4096);
+}
+
+void
+FilmViewer::seek_and_update (SourceFrame f)
+{
+	_decoders.video->seek (f);
+	
+	shared_ptr<Image> last = _display;
+	while (last == _display) {
+		_decoders.video->pass ();
+	}
+	_panel->Refresh ();
+	_panel->Update ();
 }
 
 void

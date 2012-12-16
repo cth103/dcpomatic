@@ -547,8 +547,11 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 
 	list<shared_ptr<Image> > images = graph->process (frame);
 
+	SourceFrame const sf = av_q2d (_format_context->streams[_video_stream]->time_base)
+		* av_frame_get_best_effort_timestamp(_frame) * frames_per_second();
+
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		emit_video (*i);
+		emit_video (*i, sf);
 	}
 }
 
@@ -558,11 +561,6 @@ FFmpegDecoder::seek (SourceFrame f)
 	int64_t const t = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
 	int const r = av_seek_frame (_format_context, _video_stream, t, 0);
 	avcodec_flush_buffers (_video_codec_context);
-
-	if (r >= 0) {
-		OutputChanged ();
-	}
-	
 	return r < 0;
 }
 
