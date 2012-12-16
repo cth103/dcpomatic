@@ -219,9 +219,9 @@ FilmEditor::make_video_panel ()
 	pad->Add (_video_sizer, 0, wxALL, 8);
 	_video_panel->SetSizer (pad);
 
-	add_label_to_sizer (_video_sizer, _video_panel, "Format");
+	video_control (add_label_to_sizer (_video_sizer, _video_panel, "Format"));
 	_format = new wxComboBox (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
-	_video_sizer->Add (_format);
+	_video_sizer->Add (video_control (_format));
 
 	{
 		add_label_to_sizer (_video_sizer, _video_panel, "Crop");
