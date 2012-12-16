@@ -120,6 +120,7 @@ private:
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t* data, int size);
 
 	void film_changed (Film::Property);
+	boost::signals2::scoped_connection _film_connection;
 
 	std::string stream_name (AVStream* s) const;
 

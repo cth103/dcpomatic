@@ -78,7 +78,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions
 	setup_audio ();
 	setup_subtitle ();
 
-	f->Changed.connect (bind (&FFmpegDecoder::film_changed, this, _1));
+	_film_connection = f->Changed.connect (bind (&FFmpegDecoder::film_changed, this, _1));
 }
 
 FFmpegDecoder::~FFmpegDecoder ()

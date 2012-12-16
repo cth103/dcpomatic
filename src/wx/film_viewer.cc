@@ -82,6 +82,16 @@ FilmViewer::film_changed (Film::Property p)
 		calculate_sizes ();
 		update_from_raw ();
 		break;
+	case Film::CONTENT:
+	{
+		shared_ptr<DecodeOptions> o (new DecodeOptions);
+		o->decode_audio = false;
+		o->video_sync = false;
+		_decoders = decoder_factory (_film, o, 0);
+		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
+		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
+		break;
+	}
 	default:
 		break;
 	}
@@ -102,13 +112,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
-	shared_ptr<DecodeOptions> o (new DecodeOptions);
-	o->decode_audio = false;
-	o->video_sync = false;
-	_decoders = decoder_factory (_film, o, 0);
-	_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
-	_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
-
+	film_changed (Film::CONTENT);
 	film_changed (Film::CROP);
 	film_changed (Film::FORMAT);
 }
@@ -130,9 +134,11 @@ FilmViewer::timer (wxTimerEvent& ev)
 		_decoders.video->pass ();
 	}
 
-	int const new_slider_position = 4096 * _decoders.video->last_source_frame() / _film->length().get();
-	if (new_slider_position != _slider->GetValue()) {
-		_slider->SetValue (new_slider_position);
+	if (_film->length()) {
+		int const new_slider_position = 4096 * _decoders.video->last_source_frame() / _film->length().get();
+		if (new_slider_position != _slider->GetValue()) {
+			_slider->SetValue (new_slider_position);
+		}
 	}
 }
 
@@ -154,7 +160,9 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 void
 FilmViewer::slider_moved (wxCommandEvent& ev)
 {
-	seek_and_update (_slider->GetValue() * _film->length().get() / 4096);
+	if (_film->length()) {
+		seek_and_update (_slider->GetValue() * _film->length().get() / 4096);
+	}
 }
 
 void
