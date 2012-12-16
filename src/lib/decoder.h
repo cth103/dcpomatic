@@ -63,6 +63,8 @@ public:
 	 */
 	virtual bool seek (SourceFrame);
 
+	boost::signals2::signal<void()> OutputChanged;
+
 protected:
 	/** our Film */
 	boost::shared_ptr<Film> _film;

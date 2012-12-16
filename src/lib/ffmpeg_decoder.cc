@@ -77,6 +77,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions
 	setup_video ();
 	setup_audio ();
 	setup_subtitle ();
+
+	f->Changed.connect (bind (&FFmpegDecoder::film_changed, this, _1));
 }
 
 FFmpegDecoder::~FFmpegDecoder ()
@@ -526,6 +528,8 @@ FFmpegDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 void
 FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 {
+	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
+	
 	shared_ptr<FilterGraph> graph;
 
 	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
@@ -554,6 +558,11 @@ FFmpegDecoder::seek (SourceFrame f)
 	int64_t const t = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
 	int const r = av_seek_frame (_format_context, _video_stream, t, 0);
 	avcodec_flush_buffers (_video_codec_context);
+
+	if (r >= 0) {
+		OutputChanged ();
+	}
+	
 	return r < 0;
 }
 
@@ -655,3 +664,21 @@ FFmpegDecoder::out_careful ()
 		_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
 	}
 }
+
+void
+FFmpegDecoder::film_changed (Film::Property p)
+{
+	switch (p) {
+	case Film::CROP:
+	{
+		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
+		_filter_graphs.clear ();
+	}
+	OutputChanged ();
+	break;
+
+	default:
+		break;
+	}
+}
+

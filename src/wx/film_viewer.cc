@@ -109,9 +109,21 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	o->video_sync = false;
 	_decoders = decoder_factory (_film, o, 0);
 	_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
+	_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 
 	film_changed (Film::CROP);
 	film_changed (Film::FORMAT);
+}
+
+void
+FilmViewer::decoder_changed ()
+{
+	shared_ptr<Image> last = _display;
+	while (last == _display) {
+		_decoders.video->pass ();
+	}
+	_panel->Refresh ();
+	_panel->Update ();
 }
 
 void
@@ -154,16 +166,7 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 void
 FilmViewer::slider_moved (wxCommandEvent& ev)
 {
-	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / 4096)) {
-		return;
-	}
-	
-	shared_ptr<Image> last = _display;
-	while (last == _display) {
-		_decoders.video->pass ();
-	}
-	_panel->Refresh ();
-	_panel->Update ();
+	_decoders.video->seek (_slider->GetValue() * _film->length().get() / 4096);
 }
 
 void

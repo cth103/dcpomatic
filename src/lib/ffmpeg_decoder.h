@@ -26,6 +26,7 @@
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
+#include <boost/thread/mutex.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libpostproc/postprocess.h>
@@ -34,6 +35,7 @@ extern "C" {
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
+#include "film.h"
 
 struct AVFilterGraph;
 struct AVCodecContext;
@@ -117,6 +119,8 @@ private:
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t* data, int size);
 
+	void film_changed (Film::Property);
+
 	std::string stream_name (AVStream* s) const;
 
 	AVFormatContext* _format_context;
@@ -137,4 +141,5 @@ private:
 	boost::optional<double> _first_audio;
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
+	boost::mutex _filter_graphs_mutex;
 };
