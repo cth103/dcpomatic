@@ -78,10 +78,6 @@ void
 FilmViewer::film_changed (Film::Property p)
 {
 	switch (p) {
-	case Film::CROP:
-		calculate_sizes ();
-		update_from_raw ();
-		break;
 	case Film::FORMAT:
 		calculate_sizes ();
 		update_from_raw ();
@@ -103,6 +99,8 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	if (!_film) {
 		return;
 	}
+
+	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
 	shared_ptr<DecodeOptions> o (new DecodeOptions);
 	o->decode_audio = false;
