@@ -56,3 +56,9 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o,
 {
 	
 }
+
+void
+Decoder::seek (SourceFrame f)
+{
+	throw DecodeError ("decoder does not support seek");
+}

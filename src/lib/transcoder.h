@@ -24,6 +24,8 @@
  *  as a parameter to the constructor.
  */
 
+#include "decoder_factory.h"
+
 class Film;
 class Job;
 class Encoder;
@@ -55,7 +57,7 @@ protected:
 	/** The encoder that we will use */
 	boost::shared_ptr<Encoder> _encoder;
 	/** The decoders that we will use */
-	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _decoders;
+	Decoders _decoders;
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;
 	boost::shared_ptr<Gain> _gain;

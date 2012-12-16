@@ -584,6 +584,14 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 	}
 }
 
+void
+FFmpegDecoder::seek (SourceFrame f)
+{
+	int64_t const t = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
+	av_seek_frame (_format_context, _video_stream, t, 0);
+	avcodec_flush_buffers (_video_codec_context);
+}
+
 shared_ptr<FFmpegAudioStream>
 FFmpegAudioStream::create (string t, optional<int> v)
 {
@@ -635,4 +643,5 @@ FFmpegAudioStream::to_string () const
 {
 	return String::compose ("ffmpeg %1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
 }
+
 

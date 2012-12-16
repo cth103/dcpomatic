@@ -97,6 +97,8 @@ public:
 	void set_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 
+	void seek (SourceFrame);
+
 private:
 
 	bool pass ();

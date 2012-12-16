@@ -23,8 +23,12 @@
 
 #include <wx/wx.h>
 #include "lib/film.h"
+#include "lib/decoder_factory.h"
 
+class wxToggleButton;
 class FFmpegPlayer;
+class Image;
+class Subtitle;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
@@ -38,7 +42,28 @@ public:
 
 private:
 	void film_changed (Film::Property);
+	void paint_panel (wxPaintEvent &);
+	void panel_sized (wxSizeEvent &);
+	void slider_moved (wxCommandEvent &);
+	void play_clicked (wxCommandEvent &);
+	void timer (wxTimerEvent &);
+	void process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
+	void calculate_sizes ();
+	void check_play_state ();
 
 	boost::shared_ptr<Film> _film;
-	FFmpegPlayer* _player;
+	
+	wxPanel* _panel;
+	wxSlider* _slider;
+	wxToggleButton* _play_button;
+	wxTimer _timer;
+
+	Decoders _decoders;
+	boost::shared_ptr<Image> _raw;
+	boost::shared_ptr<Image> _display;
+
+	int _out_width;
+	int _out_height;
+	int _panel_width;
+	int _panel_height;
 };

@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_DECODER_FACTORY_H
+#define DVDOMATIC_DECODER_FACTORY_H
+
 /** @file  src/decoder_factory.h
  *  @brief A method to create appropriate decoders for some content.
  */
@@ -27,6 +30,20 @@ class Job;
 class VideoDecoder;
 class AudioDecoder;
 
-extern std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > decoder_factory (
+struct Decoders {
+	Decoders () {}
+	
+	Decoders (boost::shared_ptr<VideoDecoder> v, boost::shared_ptr<AudioDecoder> a)
+		: video (v)
+		, audio (a)
+	{}
+
+	boost::shared_ptr<VideoDecoder> video;
+	boost::shared_ptr<AudioDecoder> audio;
+};
+
+extern Decoders decoder_factory (
 	boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *
 	);
+
+#endif

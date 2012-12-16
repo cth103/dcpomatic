@@ -30,9 +30,12 @@
 #include "lib/job_manager.h"
 #include "lib/options.h"
 #include "lib/subtitle.h"
+#include "lib/image.h"
+#include "lib/scaler.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "ffmpeg_player.h"
+#include "video_decoder.h"
 
 using std::string;
 using std::pair;
@@ -41,53 +44,36 @@ using boost::shared_ptr;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
-	, _player (new FFmpegPlayer (this))
+	, _panel (new wxPanel (this))
+	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
+	, _play_button (new wxToggleButton (this, wxID_ANY, wxT ("Play")))
+	, _out_width (0)
+	, _out_height (0)
+	, _panel_width (0)
+	, _panel_height (0)
 {
 	wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (v_sizer);
 
-	v_sizer->Add (_player->panel(), 1, wxEXPAND);
+	v_sizer->Add (_panel, 1, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
-	h_sizer->Add (_player->play_button(), 0, wxEXPAND);
-	h_sizer->Add (_player->slider(), 1, wxEXPAND);
+	h_sizer->Add (_play_button, 0, wxEXPAND);
+	h_sizer->Add (_slider, 1, wxEXPAND);
 
 	v_sizer->Add (h_sizer, 0, wxEXPAND);
+
+	_panel->Bind (wxEVT_PAINT, &FilmViewer::paint_panel, this);
+	_panel->Bind (wxEVT_SIZE, &FilmViewer::panel_sized, this);
+	_slider->Bind (wxEVT_SCROLL_THUMBTRACK, &FilmViewer::slider_moved, this);
+	_slider->Bind (wxEVT_SCROLL_PAGEUP, &FilmViewer::slider_moved, this);
+	_slider->Bind (wxEVT_SCROLL_PAGEDOWN, &FilmViewer::slider_moved, this);
+	_play_button->Bind (wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, &FilmViewer::play_clicked, this);
+	_timer.Bind (wxEVT_TIMER, &FilmViewer::timer, this);
 
 	set_film (_film);
 }
 
-void
-FilmViewer::film_changed (Film::Property p)
-{
-	ensure_ui_thread ();
-	
-	switch (p) {
-		
-	case Film::CONTENT:
-		_player->set_file (_film->content_path ());
-		break;
-		
-	case Film::CROP:
-	{
-		Crop c = _film->crop ();
-		_player->set_left_crop (c.left);
-		_player->set_right_crop (c.right);
-		_player->set_top_crop (c.top);
-		_player->set_bottom_crop (c.bottom);
-	}
-	break;
-
-	case Film::FORMAT:
-		if (_film->format()) {
-			_player->set_ratio (_film->format()->ratio_as_float(_film));
-		}
-		break;
-		
-	default:
-		break;
-	}
-}
 
 void
 FilmViewer::set_film (shared_ptr<Film> f)
@@ -102,8 +88,113 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		return;
 	}
 
-	_film->Changed.connect (bind (&FilmViewer::film_changed, this, _1));
-	film_changed (Film::CONTENT);
-	film_changed (Film::CROP);
-	film_changed (Film::FORMAT);
+	/* XXX: Options is not decoder-specific at all */
+	shared_ptr<Options> o (new Options ("", "", ""));
+	o->decode_audio = false;
+	_decoders = decoder_factory (_film, o, 0);
+	_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
+}
+
+void
+FilmViewer::timer (wxTimerEvent& ev)
+{
+	_panel->Refresh ();
+	_panel->Update ();
+
+	shared_ptr<Image> last = _display;
+	while (last == _display) {
+		_decoders.video->pass ();
+	}
+
+#if 0	
+	if (_last_frame_in_seconds) {
+		double const video_length_in_seconds = static_cast<double>(_format_context->duration) / AV_TIME_BASE;
+		int const new_slider_position = 4096 * _last_frame_in_seconds / video_length_in_seconds;
+		if (new_slider_position != _slider->GetValue()) {
+			_slider->SetValue (new_slider_position);
+		}
+	}
+#endif	
+}
+
+
+void
+FilmViewer::paint_panel (wxPaintEvent& ev)
+{
+	wxPaintDC dc (_panel);
+	if (!_display) {
+		return;
+	}
+
+	wxImage i (_out_width, _out_height, _display->data()[0], true);
+	wxBitmap b (i);
+	dc.DrawBitmap (b, 0, 0);
+}
+
+
+void
+FilmViewer::slider_moved (wxCommandEvent& ev)
+{
+	_decoders.video->seek (_slider->GetValue() * _film->length().get() / 4096);
+	shared_ptr<Image> last = _display;
+	while (last == _display) {
+		_decoders.video->pass ();
+	}
+	_panel->Refresh ();
+	_panel->Update ();
+}
+
+void
+FilmViewer::panel_sized (wxSizeEvent& ev)
+{
+	_panel_width = ev.GetSize().GetWidth();
+	_panel_height = ev.GetSize().GetHeight();
+	calculate_sizes ();
+
+	if (!_raw) {
+		return;
+	}
+
+	_display = _raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"));
+	_panel->Refresh ();
+	_panel->Update ();
+}
+
+void
+FilmViewer::calculate_sizes ()
+{
+	float const panel_ratio = static_cast<float> (_panel_width) / _panel_height;
+	float const film_ratio = _film->format() ? _film->format()->ratio_as_float(_film) : 1.78;
+	if (panel_ratio < film_ratio) {
+		/* panel is less widscreen than the film; clamp width */
+		_out_width = _panel_width;
+		_out_height = _out_width / film_ratio;
+	} else {
+		/* panel is more widescreen than the film; clamp heignt */
+		_out_height = _panel_height;
+		_out_width = _out_height * film_ratio;
+	}
+}
+
+void
+FilmViewer::play_clicked (wxCommandEvent &)
+{
+	check_play_state ();
+}
+
+void
+FilmViewer::check_play_state ()
+{
+	if (_play_button->GetValue()) {
+		_timer.Start (1000 / _film->frames_per_second());
+	} else {
+		_timer.Stop ();
+	}
+}
+
+void
+FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+{
+	_raw = image;
+	_display.reset (new CompactImage (_raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"))));
 }

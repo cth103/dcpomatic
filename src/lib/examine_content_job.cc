@@ -73,14 +73,14 @@ ExamineContentJob::run ()
 
 	descend (1);
 
-	pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > decoders = decoder_factory (_film, o, this);
+	Decoders decoders = decoder_factory (_film, o, this);
 
 	set_progress_unknown ();
-	while (!decoders.first->pass()) {
+	while (!decoders.video->pass()) {
 		/* keep going */
 	}
 
-	_film->set_length (decoders.first->video_frame());
+	_film->set_length (decoders.video->video_frame());
 
 	_film->log()->log (String::compose ("Video length is %1 frames", _film->length()));
 

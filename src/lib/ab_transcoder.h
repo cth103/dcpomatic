@@ -25,6 +25,7 @@
 #include <boost/shared_ptr.hpp>
 #include <stdint.h>
 #include "util.h"
+#include "decoder_factory.h"
 
 class Job;
 class Encoder;
@@ -63,8 +64,8 @@ private:
 	boost::shared_ptr<const Options> _opt;
 	Job* _job;
 	boost::shared_ptr<Encoder> _encoder;
-	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _da;
-	std::pair<boost::shared_ptr<VideoDecoder>, boost::shared_ptr<AudioDecoder> > _db;
+	Decoders _da;
+	Decoders _db;
 	boost::shared_ptr<Combiner> _combiner;
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;

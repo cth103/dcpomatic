@@ -58,6 +58,7 @@ public:
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
+	virtual void seek (SourceFrame);
 
 protected:
 	/** our Film */

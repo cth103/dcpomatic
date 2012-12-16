@@ -67,12 +67,12 @@ ABTranscoder::ABTranscoder (
 	}
 
 	/* Set up the decoder to use the film's set streams */
-	_da.first->set_subtitle_stream (_film_a->subtitle_stream ());
-	_db.first->set_subtitle_stream (_film_a->subtitle_stream ());
-	_da.second->set_audio_stream (_film_a->audio_stream ());
+	_da.video->set_subtitle_stream (_film_a->subtitle_stream ());
+	_db.video->set_subtitle_stream (_film_a->subtitle_stream ());
+	_da.audio->set_audio_stream (_film_a->audio_stream ());
 
-	_da.first->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2));
-	_db.first->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2));
+	_da.video->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2));
+	_db.video->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2));
 
 	if (_matcher) {
 		_combiner->connect_video (_matcher);
@@ -82,7 +82,7 @@ ABTranscoder::ABTranscoder (
 	}
 	
 	if (_matcher && _delay_line) {
-		_da.second->connect_audio (_delay_line);
+		_da.audio->connect_audio (_delay_line);
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
 		_gain->connect_audio (_encoder);
@@ -95,11 +95,11 @@ ABTranscoder::go ()
 	_encoder->process_begin ();
 	
 	while (1) {
-		bool const va = _da.first->pass ();
-		bool const vb = _db.first->pass ();
-		bool const a = _da.first->pass ();
+		bool const va = _da.video->pass ();
+		bool const vb = _db.video->pass ();
+		bool const a = _da.audio->pass ();
 
-		_da.first->set_progress ();
+		_da.video->set_progress ();
 
 		if (va && vb && a) {
 			break;

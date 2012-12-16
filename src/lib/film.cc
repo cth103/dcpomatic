@@ -847,20 +847,20 @@ Film::set_content (string c)
 		shared_ptr<Options> o (new Options ("", "", ""));
 		o->out_size = Size (1024, 1024);
 		
-		pair<shared_ptr<VideoDecoder>, shared_ptr<AudioDecoder> > d = decoder_factory (shared_from_this(), o, 0);
+		Decoders d = decoder_factory (shared_from_this(), o, 0);
 		
-		set_size (d.first->native_size ());
-		set_frames_per_second (d.first->frames_per_second ());
-		set_subtitle_streams (d.first->subtitle_streams ());
-		set_content_audio_streams (d.second->audio_streams ());
+		set_size (d.video->native_size ());
+		set_frames_per_second (d.video->frames_per_second ());
+		set_subtitle_streams (d.video->subtitle_streams ());
+		set_content_audio_streams (d.audio->audio_streams ());
 
 		/* Start off with the first audio and subtitle streams */
-		if (!d.second->audio_streams().empty()) {
-			set_content_audio_stream (d.second->audio_streams().front());
+		if (!d.audio->audio_streams().empty()) {
+			set_content_audio_stream (d.audio->audio_streams().front());
 		}
 		
-		if (!d.first->subtitle_streams().empty()) {
-			set_subtitle_stream (d.first->subtitle_streams().front());
+		if (!d.video->subtitle_streams().empty()) {
+			set_subtitle_stream (d.video->subtitle_streams().front());
 		}
 		
 		{
