@@ -31,7 +31,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
+ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
 	: Decoder (f, o, j)
 	, AudioDecoder (f, o, j)
 {

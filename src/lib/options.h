@@ -27,22 +27,19 @@
 #include <boost/optional.hpp>
 #include "util.h"
 
-/** @class Options
- *  @brief Options for a transcoding operation.
+/** @class EncodeOptions
+ *  @brief EncodeOptions for an encoding operation.
  *
  *  These are settings which may be different, in different circumstances, for
- *  the same film; ie they are options for a particular transcode operation.
+ *  the same film; ie they are options for a particular operation.
  */
-class Options
+class EncodeOptions
 {
 public:
 
-	Options (std::string f, std::string e, std::string m)
+	EncodeOptions (std::string f, std::string e, std::string m)
 		: padding (0)
-		, decode_video_skip (0)
-		, decode_audio (true)
-		, decode_subtitles (false)
-		, decoder_alignment (true)
+		, video_skip (0)
 		, _frame_out_path (f)
 		, _frame_out_extension (e)
 		, _multichannel_audio_out_path (m)
@@ -94,22 +91,17 @@ public:
 	}
 
 	Size out_size;              ///< size of output images
-	float ratio;                ///< ratio of the wanted output image (not considering padding)
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
 
 	/** Range of video frames to decode */
-	boost::optional<std::pair<SourceFrame, SourceFrame> > video_decode_range;
+	boost::optional<std::pair<SourceFrame, SourceFrame> > video_range;
 	/** Range of audio frames to decode */
-	boost::optional<std::pair<int64_t, int64_t> > audio_decode_range;
+	boost::optional<std::pair<int64_t, int64_t> > audio_range;
 	
 	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
 	 *  1 for every frame, 2 for every other frame, etc.
 	 */
-	SourceFrame decode_video_skip; 
-	bool decode_audio;          ///< true to decode audio, otherwise false
-	bool decode_subtitles;
-
-	bool decoder_alignment;
+	SourceFrame video_skip; 
 
 private:
 	/** Path of the directory to write video frames to */
@@ -118,4 +110,19 @@ private:
 	std::string _frame_out_extension;
 	/** Path of the directory to write audio files to */
 	std::string _multichannel_audio_out_path;
+};
+
+
+class DecodeOptions
+{
+public:
+	DecodeOptions ()
+		: decode_audio (true)
+		, decode_subtitles (false)
+		, video_sync (true)
+	{}
+	
+	bool decode_audio;
+	bool decode_subtitles;
+	bool video_sync;
 };

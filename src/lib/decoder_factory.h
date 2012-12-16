@@ -25,7 +25,7 @@
  */
 
 class Film;
-class Options;
+class DecodeOptions;
 class Job;
 class VideoDecoder;
 class AudioDecoder;
@@ -43,7 +43,7 @@ struct Decoders {
 };
 
 extern Decoders decoder_factory (
-	boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *
+	boost::shared_ptr<Film>, boost::shared_ptr<const DecodeOptions>, Job *
 	);
 
 #endif

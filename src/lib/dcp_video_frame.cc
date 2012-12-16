@@ -376,7 +376,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
  *  @param frame Frame index.
  */
 void
-EncodedData::write (shared_ptr<const Options> opt, SourceFrame frame)
+EncodedData::write (shared_ptr<const EncodeOptions> opt, SourceFrame frame)
 {
 	string const tmp_j2k = opt->frame_out_path (frame, true);
 

@@ -44,7 +44,7 @@ private:
 class ExternalAudioDecoder : public AudioDecoder
 {
 public:
-	ExternalAudioDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const Options>, Job *);
+	ExternalAudioDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const DecodeOptions>, Job *);
 
 	bool pass ();
 

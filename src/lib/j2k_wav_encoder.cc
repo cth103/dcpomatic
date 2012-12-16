@@ -51,7 +51,7 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
 
-J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 	: Encoder (f, o)
 #ifdef HAVE_SWRESAMPLE	  
 	, _swr_context (0)

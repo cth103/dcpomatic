@@ -31,7 +31,7 @@ class Job;
 class Encoder;
 class VideoDecoder;
 class AudioDecoder;
-class Options;
+class DecodeOptions;
 class Image;
 class Log;
 class Subtitle;
@@ -51,7 +51,7 @@ public:
 	ABTranscoder (
 		boost::shared_ptr<Film> a,
 		boost::shared_ptr<Film> b,
-		boost::shared_ptr<const Options> o,
+		boost::shared_ptr<const DecodeOptions> o,
 		Job* j,
 		boost::shared_ptr<Encoder> e
 		);
@@ -61,7 +61,6 @@ public:
 private:
 	boost::shared_ptr<Film> _film_a;
 	boost::shared_ptr<Film> _film_b;
-	boost::shared_ptr<const Options> _opt;
 	Job* _job;
 	boost::shared_ptr<Encoder> _encoder;
 	Decoders _da;

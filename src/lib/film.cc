@@ -258,35 +258,37 @@ Film::make_dcp (bool transcode)
 		throw MissingSettingError ("name");
 	}
 
-	shared_ptr<Options> o (new Options (j2k_dir(), ".j2c", dir ("wavs")));
-	o->out_size = format()->dcp_size ();
-	o->padding = format()->dcp_padding (shared_from_this ());
-	o->ratio = format()->ratio_as_float (shared_from_this ());
+	shared_ptr<EncodeOptions> oe (new EncodeOptions (j2k_dir(), ".j2c", dir ("wavs")));
+	oe->out_size = format()->dcp_size ();
+	oe->padding = format()->dcp_padding (shared_from_this ());
 	if (dcp_length ()) {
-		o->video_decode_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
+		oe->video_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
 		if (audio_stream()) {
-			o->audio_decode_range = make_pair (
-				video_frames_to_audio_frames (o->video_decode_range.get().first, audio_stream()->sample_rate(), frames_per_second()),
-				video_frames_to_audio_frames (o->video_decode_range.get().second, audio_stream()->sample_rate(), frames_per_second())
+			oe->audio_range = make_pair (
+				video_frames_to_audio_frames (oe->video_range.get().first, audio_stream()->sample_rate(), frames_per_second()),
+				video_frames_to_audio_frames (oe->video_range.get().second, audio_stream()->sample_rate(), frames_per_second())
 				);
 		}
 			
 	}
-	o->decode_subtitles = with_subtitles ();
-	o->decode_video_skip = dcp_frame_rate (frames_per_second()).skip;
+	
+	oe->video_skip = dcp_frame_rate (frames_per_second()).skip;
+
+	shared_ptr<DecodeOptions> od (new DecodeOptions);
+	od->decode_subtitles = with_subtitles ();
 
 	shared_ptr<Job> r;
 
 	if (transcode) {
 		if (dcp_ab()) {
-			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), o, shared_ptr<Job> ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od, oe, shared_ptr<Job> ())));
 		} else {
-			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), o, shared_ptr<Job> ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od, oe, shared_ptr<Job> ())));
 		}
 	}
 
-	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), o, r)));
-	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (shared_from_this(), o, r)));
+	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), od, oe, r)));
+	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (shared_from_this(), oe, r)));
 }
 
 /** Start a job to examine our content file */
@@ -844,9 +846,7 @@ Film::set_content (string c)
 	*/
 
 	try {
-		shared_ptr<Options> o (new Options ("", "", ""));
-		o->out_size = Size (1024, 1024);
-		
+		shared_ptr<DecodeOptions> o (new DecodeOptions);
 		Decoders d = decoder_factory (shared_from_this(), o, 0);
 		
 		set_size (d.video->native_size ());
@@ -1038,8 +1038,7 @@ Film::set_external_audio (vector<string> a)
 		_external_audio = a;
 	}
 
-	shared_ptr<Options> o (new Options ("", "", ""));
-	o->decode_audio = true;
+	shared_ptr<DecodeOptions> o (new DecodeOptions);
 	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), o, 0));
 	if (decoder->audio_stream()) {
 		_external_audio_stream = decoder->audio_stream ();

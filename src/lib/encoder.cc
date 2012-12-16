@@ -33,7 +33,7 @@ int const Encoder::_history_size = 25;
 /** @param f Film that we are encoding.
  *  @param o Options.
  */
-Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 	: _film (f)
 	, _opt (o)
 	, _just_skipped (false)
@@ -107,13 +107,13 @@ Encoder::frame_skipped ()
 void
 Encoder::process_video (shared_ptr<Image> i, boost::shared_ptr<Subtitle> s)
 {
-	if (_opt->decode_video_skip != 0 && (_video_frame % _opt->decode_video_skip) != 0) {
+	if (_opt->video_skip != 0 && (_video_frame % _opt->video_skip) != 0) {
 		++_video_frame;
 		return;
 	}
 
-	if (_opt->video_decode_range) {
-		pair<SourceFrame, SourceFrame> const r = _opt->video_decode_range.get();
+	if (_opt->video_range) {
+		pair<SourceFrame, SourceFrame> const r = _opt->video_range.get();
 		if (_video_frame < r.first || _video_frame >= r.second) {
 			++_video_frame;
 			return;
@@ -127,12 +127,12 @@ Encoder::process_video (shared_ptr<Image> i, boost::shared_ptr<Subtitle> s)
 void
 Encoder::process_audio (shared_ptr<AudioBuffers> data)
 {
-	if (_opt->audio_decode_range) {
+	if (_opt->audio_range) {
 
 		shared_ptr<AudioBuffers> trimmed (new AudioBuffers (*data.get ()));
 		
 		/* Range that we are encoding */
-		pair<int64_t, int64_t> required_range = _opt->audio_decode_range.get();
+		pair<int64_t, int64_t> required_range = _opt->audio_range.get();
 		/* Range of this block of data */
 		pair<int64_t, int64_t> this_range (_audio_frame, _audio_frame + trimmed->frames());
 

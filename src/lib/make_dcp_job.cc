@@ -42,7 +42,7 @@ using boost::shared_ptr;
 /** @param f Film we are making the DCP for.
  *  @param o Options.
  */
-MakeDCPJob::MakeDCPJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
+MakeDCPJob::MakeDCPJob (shared_ptr<Film> f, shared_ptr<const EncodeOptions> o, shared_ptr<Job> req)
 	: Job (f, req)
 	, _opt (o)
 {

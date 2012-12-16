@@ -34,9 +34,10 @@ using std::stringstream;
 using std::ifstream;
 using boost::shared_ptr;
 
-CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const Options> o, shared_ptr<Job> req)
+CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<const EncodeOptions> oe, shared_ptr<Job> req)
 	: Job (f, req)
-	, _opt (o)
+	, _decode_opt (od)
+	, _encode_opt (oe)
 	, _bad (0)
 {
 
@@ -61,7 +62,7 @@ CheckHashesJob::run ()
 	DCPFrameRate const dfr = dcp_frame_rate (_film->frames_per_second ());
 	
 	for (SourceFrame i = _film->dcp_trim_start(); i < N; i += dfr.skip) {
-		string const j2k_file = _opt->frame_out_path (i, false);
+		string const j2k_file = _encode_opt->frame_out_path (i, false);
 		string const hash_file = j2k_file + ".md5";
 
 		if (!boost::filesystem::exists (j2k_file)) {
@@ -91,13 +92,13 @@ CheckHashesJob::run ()
 		shared_ptr<Job> tc;
 
 		if (_film->dcp_ab()) {
-			tc.reset (new ABTranscodeJob (_film, _opt, shared_from_this()));
+			tc.reset (new ABTranscodeJob (_film, _decode_opt, _encode_opt, shared_from_this()));
 		} else {
-			tc.reset (new TranscodeJob (_film, _opt, shared_from_this()));
+			tc.reset (new TranscodeJob (_film, _decode_opt, _encode_opt, shared_from_this()));
 		}
 		
 		JobManager::instance()->add_after (shared_from_this(), tc);
-		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_film, _opt, tc)));
+		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_film, _decode_opt, _encode_opt, tc)));
 	}
 		
 	set_progress (1);

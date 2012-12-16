@@ -43,16 +43,15 @@ using boost::shared_ptr;
 
 /** @param a Film to use for the left half of the screen.
  *  @param b Film to use for the right half of the screen.
- *  @param o Options.
+ *  @param o Decoder options.
  *  @param j Job that we are associated with.
  *  @param e Encoder to use.
  */
 
 ABTranscoder::ABTranscoder (
-	shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<const Options> o, Job* j, shared_ptr<Encoder> e)
+	shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<const DecodeOptions> o, Job* j, shared_ptr<Encoder> e)
 	: _film_a (a)
 	, _film_b (b)
-	, _opt (o)
 	, _job (j)
 	, _encoder (e)
 {

@@ -67,8 +67,7 @@ ExamineContentJob::run ()
 	_film->unset_length ();
 	_film->set_crop (Crop ());
 	
-	shared_ptr<Options> o (new Options ("", "", ""));
-	o->out_size = Size (512, 512);
+	shared_ptr<DecodeOptions> o (new DecodeOptions);
 	o->decode_audio = false;
 
 	descend (1);

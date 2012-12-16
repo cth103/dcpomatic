@@ -59,7 +59,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
 	: Decoder (f, o, j)
 	, VideoDecoder (f, o, j)
 	, AudioDecoder (f, o, j)
@@ -270,7 +270,7 @@ FFmpegDecoder::pass ()
 				_film->log()->log (String::compose ("Used only %1 bytes of %2 in packet", r, _packet.size));
 			}
 
-			if (_opt->decoder_alignment) {
+			if (_opt->video_sync) {
 				out_careful ();
 			} else {
 				filter_and_emit_video (_frame);

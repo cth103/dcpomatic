@@ -23,7 +23,7 @@
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<Film> f, shared_ptr<const Options> o, Job* j)
+AudioDecoder::AudioDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
 	: Decoder (f, o, j)
 {
 

@@ -26,7 +26,7 @@
  */
 
 class FilmState;
-class Options;
+class EncodeOptions;
 class ServerDescription;
 class Scaler;
 class Image;
@@ -50,7 +50,7 @@ public:
 	virtual ~EncodedData () {}
 
 	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const Options>, SourceFrame);
+	void write (boost::shared_ptr<const EncodeOptions>, SourceFrame);
 
 	/** @return data */
 	uint8_t* data () const {
@@ -122,7 +122,6 @@ public:
 	
 private:
 	void create_openjpeg_container ();
-	void write_encoded (boost::shared_ptr<const Options>, uint8_t *, int);
 
 	boost::shared_ptr<const Image> _input; ///< the input image
 	boost::shared_ptr<Subtitle> _subtitle; ///< any subtitle that should be on the image

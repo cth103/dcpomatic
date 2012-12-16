@@ -30,7 +30,6 @@
 #include <boost/signals2.hpp>
 
 class Film;
-class Options;
 
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.

@@ -104,10 +104,9 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		return;
 	}
 
-	/* XXX: Options is not decoder-specific at all */
-	shared_ptr<Options> o (new Options ("", "", ""));
+	shared_ptr<DecodeOptions> o (new DecodeOptions);
 	o->decode_audio = false;
-	o->decoder_alignment = false;
+	o->video_sync = false;
 	_decoders = decoder_factory (_film, o, 0);
 	_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
 

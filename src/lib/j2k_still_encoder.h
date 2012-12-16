@@ -27,6 +27,7 @@
 
 class Image;
 class Log;
+class EncodeOptions;
 
 /** @class J2KStillEncoder
  *  @brief An encoder which writes repeated JPEG2000 files from a single decoded input.
@@ -34,7 +35,7 @@ class Log;
 class J2KStillEncoder : public Encoder
 {
 public:
-	J2KStillEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const Options>);
+	J2KStillEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const EncodeOptions>);
 
 private:
 	void do_process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);

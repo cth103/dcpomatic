@@ -29,7 +29,7 @@
 using boost::shared_ptr;
 
 shared_ptr<Encoder>
-encoder_factory (shared_ptr<const Film> f, shared_ptr<const Options> o)
+encoder_factory (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 {
 	if (!boost::filesystem::is_directory (f->content_path()) && f->content_type() == STILL) {
 		return shared_ptr<Encoder> (new J2KStillEncoder (f, o));

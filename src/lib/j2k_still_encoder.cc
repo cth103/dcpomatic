@@ -42,7 +42,7 @@ using std::string;
 using std::pair;
 using boost::shared_ptr;
 
-J2KStillEncoder::J2KStillEncoder (shared_ptr<const Film> f, shared_ptr<const Options> o)
+J2KStillEncoder::J2KStillEncoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 	: Encoder (f, o)
 {
 	

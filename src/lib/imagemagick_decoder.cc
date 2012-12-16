@@ -29,7 +29,7 @@ using std::cout;
 using boost::shared_ptr;
 
 ImageMagickDecoder::ImageMagickDecoder (
-	boost::shared_ptr<Film> f, boost::shared_ptr<const Options> o, Job* j)
+	boost::shared_ptr<Film> f, boost::shared_ptr<const DecodeOptions> o, Job* j)
 	: Decoder (f, o, j)
 	, VideoDecoder (f, o, j)
 {
