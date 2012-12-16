@@ -56,6 +56,8 @@ public:
 		return false;
 	}
 
+	bool seek (SourceFrame);
+
 protected:
 	bool pass ();
 	PixelFormat pixel_format () const;

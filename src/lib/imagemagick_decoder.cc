@@ -105,3 +105,16 @@ ImageMagickDecoder::pixel_format () const
 	return PIX_FMT_RGB24;
 }
 
+bool
+ImageMagickDecoder::seek (SourceFrame f)
+{
+	_iter = _files.begin ();
+	for (int i = 0; i < f; ++i) {
+		if (_iter == _files.end()) {
+			return false;
+		}
+		++_iter;
+	}
+	
+	return true;
+}

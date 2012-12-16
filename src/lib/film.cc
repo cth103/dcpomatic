@@ -857,10 +857,12 @@ Film::set_content (string c)
 		set_size (d.video->native_size ());
 		set_frames_per_second (d.video->frames_per_second ());
 		set_subtitle_streams (d.video->subtitle_streams ());
-		set_content_audio_streams (d.audio->audio_streams ());
+		if (d.audio) {
+			set_content_audio_streams (d.audio->audio_streams ());
+		}
 
 		/* Start off with the first audio and subtitle streams */
-		if (!d.audio->audio_streams().empty()) {
+		if (d.audio && !d.audio->audio_streams().empty()) {
 			set_content_audio_stream (d.audio->audio_streams().front());
 		}
 		

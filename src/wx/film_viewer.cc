@@ -92,6 +92,9 @@ FilmViewer::film_changed (Film::Property p)
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
+		calculate_sizes ();
+		get_frame ();
+		_panel->Refresh ();
 		break;
 	}
 	case Film::WITH_SUBTITLES:
@@ -231,7 +234,7 @@ FilmViewer::raw_to_display ()
 	if (!_out_width || !_out_height || !_film) {
 		return;
 	}
-	
+
 	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler());
 
 	if (_raw_sub) {
@@ -303,7 +306,7 @@ FilmViewer::get_frame ()
 	if (!_out_width || !_out_height) {
 		return;
 	}
-	
+
 	shared_ptr<Image> last = _display_frame;
 	while (last == _display_frame) {
 		_decoders.video->pass ();

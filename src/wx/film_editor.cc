@@ -331,7 +331,7 @@ FilmEditor::make_audio_panel ()
 	};
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]);
+		video_control (add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]));
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), wxT ("Select Audio File"), wxT ("*.wav"));
 		_audio_sizer->Add (video_control (_external_audio[i]), 1, wxEXPAND);
 	}
@@ -354,7 +354,7 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_sizer->Add (_with_subtitles, 1);
 	
 	_subtitle_stream = new wxComboBox (_subtitle_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
-	_subtitle_sizer->Add (_subtitle_stream);
+	_subtitle_sizer->Add (video_control (_subtitle_stream));
 
 	video_control (add_label_to_sizer (_subtitle_sizer, _subtitle_panel, "Subtitle Offset"));
 	_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
