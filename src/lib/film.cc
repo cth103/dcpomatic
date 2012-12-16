@@ -1003,7 +1003,7 @@ Film::set_trust_content_header (bool t)
 	
 	signal_changed (TRUST_CONTENT_HEADER);
 
-	if (!_trust_content_header && !content().empty()) {
+	if (!_trust_content_header) && !content().empty()) {
 		/* We just said that we don't trust the content's header */
 		examine_content ();
 	}

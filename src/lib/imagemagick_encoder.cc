@@ -38,7 +38,6 @@
 
 using std::string;
 using std::ofstream;
-using std::cout;
 using boost::shared_ptr;
 
 /** @param f Film that we are encoding.
@@ -55,8 +54,6 @@ ImageMagickEncoder::do_process_video (shared_ptr<Image> image, shared_ptr<Subtit
 {
 	shared_ptr<Image> scaled = image->scale_and_convert_to_rgb (_opt->out_size, _opt->padding, _film->scaler());
 	shared_ptr<Image> compact (new CompactImage (scaled));
-
-	cout << "IME writes frame " << _video_frame << "\n";
 
 	string tmp_file = _opt->frame_out_path (_video_frame, true);
 	Magick::Image thumb (compact->size().width, compact->size().height, "RGB", MagickCore::CharPixel, compact->data()[0]);

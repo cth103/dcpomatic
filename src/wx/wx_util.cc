@@ -155,10 +155,7 @@ checked_set (wxComboBox* widget, int value)
 void
 checked_set (wxComboBox* widget, string value)
 {
-	wxClientData* o = 0;
-	if (widget->GetSelection() != -1) {
-		o = widget->GetClientObject (widget->GetSelection ());
-	}
+	wxClientData* o = widget->GetClientObject (widget->GetSelection ());
 	
 	if (!o || string_client_data(o) != value) {
 		for (unsigned int i = 0; i < widget->GetCount(); ++i) {
