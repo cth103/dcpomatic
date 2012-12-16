@@ -49,11 +49,10 @@ using boost::shared_ptr;
 /** Construct a FilterGraph for the settings in a film.
  *  @param film Film.
  *  @param decoder Decoder that we are using.
- *  @param crop true to apply crop, otherwise false.
  *  @param s Size of the images to process.
  *  @param p Pixel format of the images to process.
  */
-FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, bool crop, Size s, AVPixelFormat p)
+FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)
@@ -64,11 +63,7 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, bool cr
 		filters += ",";
 	}
 
-	if (crop) {
-		filters += crop_string (Position (film->crop().left, film->crop().top), film->cropped_size (decoder->native_size()));
-	} else {
-		filters += crop_string (Position (0, 0), decoder->native_size());
-	}
+	filters += crop_string (Position (film->crop().left, film->crop().top), film->cropped_size (decoder->native_size()));
 
 	avfilter_register_all ();
 	

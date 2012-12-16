@@ -135,7 +135,6 @@ main (int argc, char* argv[])
 
 	shared_ptr<Options> opt (new Options ("fred", "jim", "sheila"));
 	opt->out_size = Size (1024, 1024);
-	opt->apply_crop = false;
 	opt->decode_audio = false;
 
 	shared_ptr<Decoder> decoder = decoder_factory (film.state_copy(), opt, 0, &log_);

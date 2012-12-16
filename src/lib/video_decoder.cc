@@ -77,7 +77,7 @@ VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 {
 	_timed_subtitle = s;
 	
-	if (_timed_subtitle && _opt->apply_crop) {
+	if (_timed_subtitle) {
 		Position const p = _timed_subtitle->subtitle()->position ();
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _film->crop().left, p.y - _film->crop().top));
 	}

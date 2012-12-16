@@ -39,7 +39,6 @@ public:
 
 	Options (std::string f, std::string e, std::string m)
 		: padding (0)
-		, apply_crop (true)
 		, decode_video_skip (0)
 		, decode_audio (true)
 		, decode_subtitles (false)
@@ -97,7 +96,6 @@ public:
 	Size out_size;              ///< size of output images
 	float ratio;                ///< ratio of the wanted output image (not considering padding)
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
-	bool apply_crop;            ///< true to apply cropping
 
 	/** Range of video frames to decode */
 	boost::optional<std::pair<SourceFrame, SourceFrame> > video_decode_range;

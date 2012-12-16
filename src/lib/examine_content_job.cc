@@ -65,10 +65,10 @@ ExamineContentJob::run ()
 	   will be messed up.
 	*/
 	_film->unset_length ();
+	_film->set_crop (Crop ());
 	
 	shared_ptr<Options> o (new Options ("", "", ""));
 	o->out_size = Size (512, 512);
-	o->apply_crop = false;
 	o->decode_audio = false;
 
 	descend (1);
