@@ -875,8 +875,6 @@ Film::set_content (string c)
 		
 		signal_changed (CONTENT);
 		
-		set_content_digest (md5_digest (content_path ()));
-
 		examine_content ();
 
 	} catch (...) {

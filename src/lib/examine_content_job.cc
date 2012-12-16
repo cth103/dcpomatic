@@ -59,7 +59,11 @@ ExamineContentJob::name () const
 void
 ExamineContentJob::run ()
 {
-	descend (1);
+	descend (0.5);
+	_film->set_content_digest (md5_digest (_film->content_path ()));
+	ascend ();
+
+	descend (0.5);
 
 	/* Set the film's length to either
 	   a) a length judged by running through the content or
