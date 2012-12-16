@@ -140,6 +140,10 @@ FilmViewer::decoder_changed ()
 void
 FilmViewer::timer (wxTimerEvent& ev)
 {
+	if (!_film) {
+		return;
+	}
+	
 	_panel->Refresh ();
 	_panel->Update ();
 
@@ -158,7 +162,8 @@ void
 FilmViewer::paint_panel (wxPaintEvent& ev)
 {
 	wxPaintDC dc (_panel);
-	if (!_display_frame) {
+
+	if (!_display_frame || !_film) {
 		return;
 	}
 
@@ -177,6 +182,10 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 void
 FilmViewer::slider_moved (wxCommandEvent& ev)
 {
+	if (!_film) {
+		return;
+	}
+	
 	if (_film->length()) {
 		seek_and_update (_slider->GetValue() * _film->length().get() / 4096);
 	}
@@ -219,7 +228,7 @@ FilmViewer::update_from_raw ()
 void
 FilmViewer::raw_to_display ()
 {
-	if (!_out_width || !_out_height) {
+	if (!_out_width || !_out_height || !_film) {
 		return;
 	}
 	
@@ -242,6 +251,10 @@ FilmViewer::raw_to_display ()
 void
 FilmViewer::calculate_sizes ()
 {
+	if (!_film) {
+		return;
+	}
+	
 	float const panel_ratio = static_cast<float> (_panel_width) / _panel_height;
 	float const film_ratio = _film->format() ? _film->format()->ratio_as_float(_film) : 1.78;
 	if (panel_ratio < film_ratio) {
@@ -264,6 +277,10 @@ FilmViewer::play_clicked (wxCommandEvent &)
 void
 FilmViewer::check_play_state ()
 {
+	if (!_film) {
+		return;
+	}
+	
 	if (_play_button->GetValue()) {
 		_timer.Start (1000 / _film->frames_per_second());
 	} else {
