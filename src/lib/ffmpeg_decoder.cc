@@ -79,6 +79,10 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions
 	setup_subtitle ();
 
 	_film_connection = f->Changed.connect (bind (&FFmpegDecoder::film_changed, this, _1));
+
+	if (!o->video_sync) {
+		_first_video = 0;
+	}
 }
 
 FFmpegDecoder::~FFmpegDecoder ()
@@ -254,7 +258,7 @@ FFmpegDecoder::pass ()
 	avcodec_get_frame_defaults (_frame);
 
 	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
-	
+
 	if (_packet.stream_index == _video_stream) {
 
 		int frame_finished;
@@ -516,6 +520,7 @@ FFmpegDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 {
 	VideoDecoder::set_subtitle_stream (s);
 	setup_subtitle ();
+	OutputChanged ();
 }
 
 void
@@ -551,9 +556,14 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 bool
 FFmpegDecoder::seek (SourceFrame f)
 {
-	int64_t const t = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
-	int const r = av_seek_frame (_format_context, _video_stream, t, 0);
+	int64_t const vt = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
+	int const r = av_seek_frame (_format_context, _video_stream, vt, 0);
+	
 	avcodec_flush_buffers (_video_codec_context);
+	if (_subtitle_codec_context) {
+		avcodec_flush_buffers (_subtitle_codec_context);
+	}
+	
 	return r < 0;
 }
 

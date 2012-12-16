@@ -28,6 +28,7 @@
 class wxToggleButton;
 class FFmpegPlayer;
 class Image;
+class RGBPlusAlphaImage;
 class Subtitle;
 
 /** @class FilmViewer
@@ -53,6 +54,8 @@ private:
 	void update_from_raw ();
 	void decoder_changed ();
 	void seek_and_update (SourceFrame);
+	void raw_to_display ();
+	void get_frame ();
 
 	boost::shared_ptr<Film> _film;
 	
@@ -62,8 +65,11 @@ private:
 	wxTimer _timer;
 
 	Decoders _decoders;
-	boost::shared_ptr<Image> _raw;
-	boost::shared_ptr<Image> _display;
+	boost::shared_ptr<Image> _raw_frame;
+	boost::shared_ptr<Subtitle> _raw_sub;
+	boost::shared_ptr<Image> _display_frame;
+	boost::shared_ptr<RGBPlusAlphaImage> _display_sub;
+	Position _display_sub_position;
 
 	int _out_width;
 	int _out_height;

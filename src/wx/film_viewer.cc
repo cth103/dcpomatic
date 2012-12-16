@@ -86,12 +86,22 @@ FilmViewer::film_changed (Film::Property p)
 	{
 		shared_ptr<DecodeOptions> o (new DecodeOptions);
 		o->decode_audio = false;
+		o->decode_subtitles = true;
 		o->video_sync = false;
 		_decoders = decoder_factory (_film, o, 0);
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
+		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		break;
 	}
+	case Film::WITH_SUBTITLES:
+	case Film::SUBTITLE_OFFSET:
+	case Film::SUBTITLE_SCALE:
+		update_from_raw ();
+		break;
+	case Film::SUBTITLE_STREAM:
+		_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
+		break;
 	default:
 		break;
 	}
@@ -115,6 +125,10 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	film_changed (Film::CONTENT);
 	film_changed (Film::CROP);
 	film_changed (Film::FORMAT);
+	film_changed (Film::WITH_SUBTITLES);
+	film_changed (Film::SUBTITLE_OFFSET);
+	film_changed (Film::SUBTITLE_SCALE);
+	film_changed (Film::SUBTITLE_STREAM);
 }
 
 void
@@ -129,10 +143,7 @@ FilmViewer::timer (wxTimerEvent& ev)
 	_panel->Refresh ();
 	_panel->Update ();
 
-	shared_ptr<Image> last = _display;
-	while (last == _display) {
-		_decoders.video->pass ();
-	}
+	get_frame ();
 
 	if (_film->length()) {
 		int const new_slider_position = 4096 * _decoders.video->last_source_frame() / _film->length().get();
@@ -147,13 +158,19 @@ void
 FilmViewer::paint_panel (wxPaintEvent& ev)
 {
 	wxPaintDC dc (_panel);
-	if (!_display) {
+	if (!_display_frame) {
 		return;
 	}
 
-	wxImage i (_out_width, _out_height, _display->data()[0], true);
-	wxBitmap b (i);
-	dc.DrawBitmap (b, 0, 0);
+	wxImage frame (_out_width, _out_height, _display_frame->data()[0], true);
+	wxBitmap frame_bitmap (frame);
+	dc.DrawBitmap (frame_bitmap, 0, 0);
+
+	if (_film->with_subtitles() && _display_sub) {
+		wxImage sub (_display_sub->size().width, _display_sub->size().height, _display_sub->data()[0], _display_sub->alpha(), true);
+		wxBitmap sub_bitmap (sub);
+		dc.DrawBitmap (sub_bitmap, _display_sub_position.x, _display_sub_position.y);
+	}
 }
 
 
@@ -171,11 +188,8 @@ FilmViewer::seek_and_update (SourceFrame f)
 	if (_decoders.video->seek (f)) {
 		return;
 	}
-	
-	shared_ptr<Image> last = _display;
-	while (last == _display) {
-		_decoders.video->pass ();
-	}
+
+	get_frame ();
 	_panel->Refresh ();
 	_panel->Update ();
 }
@@ -192,17 +206,38 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 void
 FilmViewer::update_from_raw ()
 {
-	if (!_raw) {
+	if (!_raw_frame) {
 		return;
 	}
 
-	if (_out_width && _out_height) {
-		_display = _raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"));
-	}
+	raw_to_display ();
 	
 	_panel->Refresh ();
 	_panel->Update ();
 }
+
+void
+FilmViewer::raw_to_display ()
+{
+	if (!_out_width || !_out_height) {
+		return;
+	}
+	
+	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler());
+
+	if (_raw_sub) {
+		Rect tx = subtitle_transformed_area (
+			float (_out_width) / _film->size().width,
+			float (_out_height) / _film->size().height,
+			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
+			);
+		
+		_display_sub.reset (new RGBPlusAlphaImage (_raw_sub->image()->scale (tx.size(), _film->scaler ())));
+		_display_sub_position = tx.position();
+	} else {
+		_display_sub.reset ();
+	}
+}	
 
 void
 FilmViewer::calculate_sizes ()
@@ -239,8 +274,21 @@ FilmViewer::check_play_state ()
 void
 FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 {
-	_raw = image;
-	if (_out_width && _out_height) {
-		_display = _raw->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, Scaler::from_id ("bicubic"));
+	_raw_frame = image;
+	_raw_sub = sub;
+
+	raw_to_display ();
+}
+
+void
+FilmViewer::get_frame ()
+{
+	if (!_out_width || !_out_height) {
+		return;
+	}
+	
+	shared_ptr<Image> last = _display_frame;
+	while (last == _display_frame) {
+		_decoders.video->pass ();
 	}
 }

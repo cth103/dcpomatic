@@ -72,7 +72,7 @@ public:
 	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size, int, Scaler const *) const;
 	boost::shared_ptr<Image> scale (Size, Scaler const *) const;
 	boost::shared_ptr<Image> post_process (std::string) const;
-	void alpha_blend (boost::shared_ptr<Image> image, Position pos);
+	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
 	
 	void make_black ();
 
@@ -134,7 +134,7 @@ class AlignedImage : public SimpleImage
 {
 public:
 	AlignedImage (AVPixelFormat, Size);
-	AlignedImage (boost::shared_ptr<Image>);
+	AlignedImage (boost::shared_ptr<const Image>);
 };
 
 /** @class CompactImage
@@ -144,7 +144,21 @@ class CompactImage : public SimpleImage
 {
 public:
 	CompactImage (AVPixelFormat, Size);
-	CompactImage (boost::shared_ptr<Image>);
+	CompactImage (boost::shared_ptr<const Image>);
+};
+
+class RGBPlusAlphaImage : public SimpleImage
+{
+public:
+	RGBPlusAlphaImage (boost::shared_ptr<const Image>);
+	~RGBPlusAlphaImage ();
+
+	uint8_t* alpha () const {
+		return _alpha;
+	}
+	
+private:
+	uint8_t* _alpha;
 };
 
 #endif

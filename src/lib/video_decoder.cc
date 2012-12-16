@@ -44,7 +44,7 @@ void
 VideoDecoder::emit_video (shared_ptr<Image> image, SourceFrame f)
 {
 	shared_ptr<Subtitle> sub;
-	if (_timed_subtitle && _timed_subtitle->displayed_at (double (video_frame()) / _film->frames_per_second())) {
+	if (_timed_subtitle && _timed_subtitle->displayed_at (f / _film->frames_per_second())) {
 		sub = _timed_subtitle->subtitle ();
 	}
 

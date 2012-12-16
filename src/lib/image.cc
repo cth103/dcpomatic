@@ -228,7 +228,7 @@ Image::make_black ()
 }
 
 void
-Image::alpha_blend (shared_ptr<Image> other, Position position)
+Image::alpha_blend (shared_ptr<const Image> other, Position position)
 {
 	/* Only implemented for RGBA onto RGB24 so far */
 	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA);
@@ -376,7 +376,7 @@ AlignedImage::AlignedImage (AVPixelFormat f, Size s)
 
 }
 
-AlignedImage::AlignedImage (shared_ptr<Image> im)
+AlignedImage::AlignedImage (shared_ptr<const Image> im)
 	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 32))
 {
 	assert (components() == im->components());
@@ -402,7 +402,7 @@ CompactImage::CompactImage (AVPixelFormat f, Size s)
 
 }
 
-CompactImage::CompactImage (shared_ptr<Image> im)
+CompactImage::CompactImage (shared_ptr<const Image> im)
 	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
 {
 	assert (components() == im->components());
@@ -459,3 +459,30 @@ FilterBufferImage::size () const
 	return Size (_buffer->video->w, _buffer->video->h);
 }
 
+RGBPlusAlphaImage::RGBPlusAlphaImage (shared_ptr<const Image> im)
+	: SimpleImage (im->pixel_format(), im->size(), boost::bind (stride_round_up, _1, _2, 1))
+{
+	assert (im->pixel_format() == PIX_FMT_RGBA);
+
+	_alpha = (uint8_t *) av_malloc (im->size().width * im->size().height);
+
+	uint8_t* in = im->data()[0];
+	uint8_t* out = data()[0];
+	uint8_t* out_alpha = _alpha;
+	for (int y = 0; y < im->size().height; ++y) {
+		uint8_t* in_r = in;
+		for (int x = 0; x < im->size().width; ++x) {
+			*out++ = *in_r++;
+			*out++ = *in_r++;
+			*out++ = *in_r++;
+			*out_alpha++ = *in_r++;
+		}
+
+		in += im->stride()[0];
+	}
+}
+
+RGBPlusAlphaImage::~RGBPlusAlphaImage ()
+{
+	av_free (_alpha);
+}
