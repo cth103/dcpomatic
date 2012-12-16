@@ -59,29 +59,45 @@ ExamineContentJob::name () const
 void
 ExamineContentJob::run ()
 {
-	/* Decode the content to get an accurate length */
-
-	/* We don't want to use any existing length here, as progress
-	   will be messed up.
-	*/
-	_film->unset_length ();
-	_film->set_crop (Crop ());
-	
-	shared_ptr<DecodeOptions> o (new DecodeOptions);
-	o->decode_audio = false;
-
 	descend (1);
 
-	Decoders decoders = decoder_factory (_film, o, this);
+	/* Set the film's length to either
+	   a) a length judged by running through the content or
+	   b) the length from a decoder's header.
+	*/
+	if (!_film->trust_content_header()) {
+		/* Decode the content to get an accurate length */
+		
+		/* We don't want to use any existing length here, as progress
+		   will be messed up.
+		*/
+		_film->unset_length ();
+		_film->set_crop (Crop ());
+		
+		shared_ptr<DecodeOptions> o (new DecodeOptions);
+		o->decode_audio = false;
+		
+		Decoders decoders = decoder_factory (_film, o, this);
+		
+		set_progress_unknown ();
+		while (!decoders.video->pass()) {
+			/* keep going */
+		}
+		
+		_film->set_length (decoders.video->video_frame());
+		
+		_film->log()->log (String::compose ("Video length examined as %1 frames", _film->length().get()));
+		
+	} else {
 
-	set_progress_unknown ();
-	while (!decoders.video->pass()) {
-		/* keep going */
+		/* Get a quick decoder to get the content's length from its header */
+		
+		shared_ptr<DecodeOptions> o (new DecodeOptions);
+		Decoders d = decoder_factory (_film, o, 0);
+		_film->set_length (d.video->length());
+	
+		_film->log()->log (String::compose ("Video length obtained from header as %1 frames", _film->length().get()));
 	}
-
-	_film->set_length (decoders.video->video_frame());
-
-	_film->log()->log (String::compose ("Video length is %1 frames", _film->length()));
 
 	ascend ();
 	set_progress (1);

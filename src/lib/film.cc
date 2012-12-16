@@ -85,6 +85,7 @@ int const Film::state_version = 1;
 
 Film::Film (string d, bool must_exist)
 	: _use_dci_name (true)
+	, _trust_content_header (true)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))
@@ -143,6 +144,7 @@ Film::Film (Film const & o)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
 	, _content           (o._content)
+	, _trust_content_header (o._trust_content_header)
 	, _dcp_content_type  (o._dcp_content_type)
 	, _format            (o._format)
 	, _crop              (o._crop)
@@ -369,6 +371,7 @@ Film::write_metadata () const
 	f << "name " << _name << "\n";
 	f << "use_dci_name " << _use_dci_name << "\n";
 	f << "content " << _content << "\n";
+	f << "trust_content_header " << (_trust_content_header ? "1" : "0") << "\n";
 	if (_dcp_content_type) {
 		f << "dcp_content_type " << _dcp_content_type->pretty_name () << "\n";
 	}
@@ -471,6 +474,8 @@ Film::read_metadata ()
 			_use_dci_name = (v == "1");
 		} else if (k == "content") {
 			_content = v;
+		} else if (k == "trust_content_header") {
+			_trust_content_header = (v == "1");
 		} else if (k == "dcp_content_type") {
 			_dcp_content_type = DCPContentType::from_pretty_name (v);
 		} else if (k == "format") {
@@ -871,7 +876,7 @@ Film::set_content (string c)
 		signal_changed (CONTENT);
 		
 		set_content_digest (md5_digest (content_path ()));
-		
+
 		examine_content ();
 
 	} catch (...) {
@@ -880,6 +885,22 @@ Film::set_content (string c)
 		_content = old_content;
 		throw;
 
+	}
+}
+
+void
+Film::set_trust_content_header (bool t)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_trust_content_header = t;
+	}
+	
+	signal_changed (TRUST_CONTENT_HEADER);
+
+	if (!_trust_content_header && !content().empty()) {
+		/* We just said that we don't trust the content's header */
+		examine_content ();
 	}
 }
 	       

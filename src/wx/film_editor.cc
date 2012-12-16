@@ -114,6 +114,11 @@ FilmEditor::make_film_panel ()
 	_content = new wxFilePickerCtrl (_film_panel, wxID_ANY, wxT (""), wxT ("Select Content File"), wxT("*.*"));
 	_film_sizer->Add (_content, 1, wxEXPAND);
 
+	_trust_content_header = new wxCheckBox (_film_panel, wxID_ANY, wxT ("Trust content's header"));
+	video_control (_trust_content_header);
+	_film_sizer->Add (_trust_content_header, 1);
+	_film_sizer->AddSpacer (0);
+
 	add_label_to_sizer (_film_sizer, _film_panel, "Content Type");
 	_dcp_content_type = new wxComboBox (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 	_film_sizer->Add (_dcp_content_type);
@@ -174,6 +179,7 @@ FilmEditor::connect_to_widgets ()
 	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
 	_content->Connect (wxID_ANY, wxEVT_COMMAND_FILEPICKER_CHANGED, wxCommandEventHandler (FilmEditor::content_changed), 0, this);
+	_trust_content_header->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_header_changed), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -427,6 +433,16 @@ FilmEditor::content_changed (wxCommandEvent &)
 	}
 }
 
+void
+FilmEditor::trust_content_header_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_trust_content_header (_trust_content_header->GetValue ());
+}
+
 /** Called when the DCP A/B switch has been toggled */
 void
 FilmEditor::dcp_ab_toggled (wxCommandEvent &)
@@ -494,6 +510,9 @@ FilmEditor::film_changed (Film::Property p)
 		setup_formats ();
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
+		break;
+	case Film::TRUST_CONTENT_HEADER:
+		checked_set (_trust_content_header, _film->trust_content_header ());
 		break;
 	case Film::SUBTITLE_STREAMS:
 		setup_subtitle_control_sensitivity ();
@@ -692,6 +711,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::NAME);
 	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::CONTENT);
+	film_changed (Film::TRUST_CONTENT_HEADER);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::FORMAT);
 	film_changed (Film::CROP);
@@ -729,6 +749,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_edit_dci_button->Enable (s);
 	_format->Enable (s);
 	_content->Enable (s);
+	_trust_content_header->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
 	_top_crop->Enable (s);

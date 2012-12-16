@@ -61,6 +61,7 @@ private:
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
 	void content_changed (wxCommandEvent &);
+	void trust_content_header_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
 	void dcp_trim_start_changed (wxCommandEvent &);
 	void dcp_trim_end_changed (wxCommandEvent &);
@@ -118,6 +119,7 @@ private:
 	wxComboBox* _format;
 	/** The Film's content file */
 	wxFilePickerCtrl* _content;
+	wxCheckBox* _trust_content_header;
 	/** The Film's left crop */
 	wxSpinCtrl* _left_crop;
 	/** The Film's right crop */

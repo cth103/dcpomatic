@@ -164,14 +164,7 @@ FFmpegDecoder::setup_video ()
 		throw DecodeError ("could not find video decoder");
 	}
 
-	/* I think this prevents problems with green hash on decodes and
-	   "changing frame properties on the fly is not supported by all filters"
-	   messages with some content.  Although I'm not sure; needs checking.
-	*/
-	AVDictionary* opts = 0;
-	av_dict_set (&opts, "threads", "1", 0);
-	
-	if (avcodec_open2 (_video_codec_context, _video_codec, &opts) < 0) {
+	if (avcodec_open2 (_video_codec_context, _video_codec, 0) < 0) {
 		throw DecodeError ("could not open video decoder");
 	}
 }
@@ -616,7 +609,6 @@ FFmpegAudioStream::to_string () const
 	return String::compose ("ffmpeg %1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
 }
 
-
 void
 FFmpegDecoder::out_with_sync ()
 {
@@ -678,5 +670,12 @@ FFmpegDecoder::film_changed (Film::Property p)
 	default:
 		break;
 	}
+}
+
+/** @return Length (in video frames) according to our content's header */
+SourceFrame
+FFmpegDecoder::length () const
+{
+	return (double(_format_context->duration) / AV_TIME_BASE) * frames_per_second();
 }
 

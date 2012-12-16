@@ -168,7 +168,9 @@ FilmViewer::slider_moved (wxCommandEvent& ev)
 void
 FilmViewer::seek_and_update (SourceFrame f)
 {
-	_decoders.video->seek (f);
+	if (_decoders.video->seek (f)) {
+		return;
+	}
 	
 	shared_ptr<Image> last = _display;
 	while (last == _display) {

@@ -105,6 +105,7 @@ public:
 		NAME,
 		USE_DCI_NAME,
 		CONTENT,
+		TRUST_CONTENT_HEADER,
 		DCP_CONTENT_TYPE,
 		FORMAT,
 		CROP,
@@ -152,6 +153,11 @@ public:
 	std::string content () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _content;
+	}
+
+	bool trust_content_header () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _trust_content_header;
 	}
 
 	DCPContentType const * dcp_content_type () const {
@@ -318,6 +324,7 @@ public:
 	void set_name (std::string);
 	void set_use_dci_name (bool);
 	void set_content (std::string);
+	void set_trust_content_header (bool);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
 	void set_crop (Crop);
@@ -390,6 +397,7 @@ private:
 	 *  or an absolute path.
 	 */
 	std::string _content;
+	bool _trust_content_header;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */

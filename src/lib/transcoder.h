@@ -57,6 +57,10 @@ public:
 
 	void go ();
 
+	boost::shared_ptr<VideoDecoder> video_decoder () const {
+		return _decoders.video;
+	}
+
 protected:
 	/** A Job that is running this Transcoder, or 0 */
 	Job* _job;
