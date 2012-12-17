@@ -32,6 +32,7 @@
 #include "lib/subtitle.h"
 #include "lib/image.h"
 #include "lib/scaler.h"
+#include "lib/exceptions.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -307,14 +308,14 @@ FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 void
 FilmViewer::get_frame ()
 {
-	if (!_out_width || !_out_height) {
-		return;
-	}
-
-	shared_ptr<Image> last = _display_frame;
-	while (last == _display_frame) {
-		if (_decoders.video->pass ()) {
-			break;
+	try {
+		shared_ptr<Image> last = _display_frame;
+		while (last == _display_frame) {
+			if (_decoders.video->pass ()) {
+				break;
+			}
 		}
+	} catch (DecodeError& e) {
+		error_dialog (this, String::compose ("Could not decode video for view (%1)", e.what()));
 	}
 }
