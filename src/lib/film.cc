@@ -890,6 +890,16 @@ Film::set_content (string c)
 		throw;
 
 	}
+
+	/* Default format */
+	switch (content_type()) {
+	case STILL:
+		set_format (Format::from_id ("var-185"));
+		break;
+	case VIDEO:
+		set_format (Format::from_id ("185"));
+		break;
+	}
 }
 
 void
