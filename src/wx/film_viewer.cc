@@ -104,6 +104,7 @@ FilmViewer::film_changed (Film::Property p)
 	case Film::WITH_SUBTITLES:
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
+	case Film::SCALER:
 		update_from_raw ();
 		break;
 	case Film::SUBTITLE_STREAM:
