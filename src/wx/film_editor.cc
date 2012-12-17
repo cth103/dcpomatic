@@ -139,12 +139,12 @@ FilmEditor::make_film_panel ()
 	{
 		video_control (add_label_to_sizer (_film_sizer, _film_panel, "Trim frames"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		add_label_to_sizer (s, _film_panel, "Start");
+		video_control (add_label_to_sizer (s, _film_panel, "Start"));
 		_dcp_trim_start = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_dcp_trim_start);
-		add_label_to_sizer (s, _film_panel, "End");
+		s->Add (video_control (_dcp_trim_start));
+		video_control (add_label_to_sizer (s, _film_panel, "End"));
 		_dcp_trim_end = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_dcp_trim_end);
+		s->Add (video_control (_dcp_trim_end));
 
 		_film_sizer->Add (s);
 	}

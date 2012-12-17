@@ -99,6 +99,8 @@ FilmViewer::film_changed (Film::Property p)
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
+		_slider->Show (_film->content_type() == VIDEO);
+		_play_button->Show (_film->content_type() == VIDEO);
 		break;
 	}
 	case Film::WITH_SUBTITLES:
