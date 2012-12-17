@@ -133,8 +133,6 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 
 	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, aligned));
 
-	cout << "scale to " << out_size.width << "x" << out_size.height << "\n";
-
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		content_size.width, content_size.height, PIX_FMT_RGB24,
