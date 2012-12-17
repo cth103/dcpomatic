@@ -94,7 +94,7 @@ VideoDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 void
 VideoDecoder::set_progress () const
 {
-	if (_job && _film->dcp_length()) {
+	if (_job && _film->length()) {
 		_job->set_progress (float (_video_frame) / _film->length().get());
 	}
 }

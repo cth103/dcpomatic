@@ -33,6 +33,7 @@
 #include "stream.h"
 #include "video_source.h"
 #include "audio_source.h"
+#include "film.h"
 
 class Job;
 class DecodeOptions;
@@ -41,7 +42,6 @@ class Log;
 class DelayLine;
 class TimedSubtitle;
 class Subtitle;
-class Film;
 class FilterGraph;
 
 /** @class Decoder.
@@ -72,6 +72,11 @@ protected:
 	boost::shared_ptr<const DecodeOptions> _opt;
 	/** associated Job, or 0 */
 	Job* _job;
+
+private:
+	virtual void film_changed (Film::Property) {}
+	
+	boost::signals2::scoped_connection _film_connection;
 };
 
 #endif

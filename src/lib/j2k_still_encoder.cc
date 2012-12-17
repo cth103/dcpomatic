@@ -64,19 +64,32 @@ J2KStillEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> s
 	}
 
 	string const real = _opt->frame_out_path (0, false);
-	for (int i = 1; i < (_film->still_duration() * 24); ++i) {
+	string const real_hash = _opt->hash_out_path (0, false);
+	for (int i = 1; i < (_film->still_duration() * _film->frames_per_second()); ++i) {
+
 		if (!boost::filesystem::exists (_opt->frame_out_path (i, false))) {
-			string const link = _opt->frame_out_path (i, false);
-#ifdef DVDOMATIC_POSIX			
-			int const r = symlink (real.c_str(), link.c_str());
-			if (r) {
-				throw EncodeError ("could not create symlink");
-			}
-#endif
-#ifdef DVDOMATIC_WINDOWS
-			boost::filesystem::copy_file (real, link);
-#endif			
+			link (real, _opt->frame_out_path (i, false));
 		}
+		
+		if (!boost::filesystem::exists (_opt->hash_out_path (i, false))) {
+			link (real_hash, _opt->hash_out_path (i, false));
+		}
+		
 		frame_done ();
 	}
+}
+
+void
+J2KStillEncoder::link (string a, string b) const
+{
+#ifdef DVDOMATIC_POSIX			
+	int const r = symlink (a.c_str(), b.c_str());
+	if (r) {
+		throw EncodeError ("could not create symlink");
+	}
+#endif
+	
+#ifdef DVDOMATIC_WINDOWS
+	boost::filesystem::copy_file (a, b);
+#endif			
 }

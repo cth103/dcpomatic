@@ -74,6 +74,7 @@ public:
 	boost::shared_ptr<Image> scale (Size, Scaler const *, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
+	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 	
 	void make_black ();
 
@@ -84,7 +85,11 @@ public:
 		return _pixel_format;
 	}
 
-private:
+protected:
+	virtual void swap (Image &);
+	float bytes_per_pixel (int) const;
+
+private:	
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 };
 
@@ -103,6 +108,10 @@ public:
 	Size size () const;
 
 private:
+	/* Not allowed */
+	FilterBufferImage (FilterBufferImage const &);
+	FilterBufferImage& operator= (FilterBufferImage const &);
+	
 	AVFilterBufferRef* _buffer;
 };
 
@@ -113,6 +122,8 @@ class SimpleImage : public Image
 {
 public:
 	SimpleImage (AVPixelFormat, Size, bool);
+	SimpleImage (SimpleImage const &);
+	SimpleImage& operator= (SimpleImage const &);
 	SimpleImage (boost::shared_ptr<const Image>, bool aligned);
 	~SimpleImage ();
 
@@ -120,9 +131,12 @@ public:
 	int * line_size () const;
 	int * stride () const;
 	Size size () const;
+
+protected:
+	void allocate ();
+	void swap (SimpleImage &);
 	
 private:
-	
 	Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)

@@ -81,6 +81,8 @@ protected:
 	}
 
 private:
+	void film_changed (Film::Property);
+	
 	std::list<std::string> _files;
 	std::list<std::string>::iterator _iter;
 };

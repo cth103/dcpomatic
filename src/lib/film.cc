@@ -678,6 +678,10 @@ Film::target_audio_sample_rate () const
 boost::optional<SourceFrame>
 Film::dcp_length () const
 {
+	if (content_type() == STILL) {
+		return _still_duration * frames_per_second();
+	}
+	
 	if (!length()) {
 		return boost::optional<SourceFrame> ();
 	}

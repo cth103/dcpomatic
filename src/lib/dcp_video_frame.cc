@@ -395,7 +395,7 @@ EncodedData::write (shared_ptr<const EncodeOptions> opt, SourceFrame frame)
 	boost::filesystem::rename (tmp_j2k, real_j2k);
 
 	/* Write a file containing the hash */
-	string const hash = real_j2k + ".md5";
+	string const hash = opt->hash_out_path (frame, false);
 	ofstream h (hash.c_str());
 	h << md5_digest (_data, _size) << "\n";
 	h.close ();

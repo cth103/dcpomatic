@@ -63,7 +63,7 @@ CheckHashesJob::run ()
 	
 	for (SourceFrame i = _film->dcp_trim_start(); i < N; i += dfr.skip) {
 		string const j2k_file = _encode_opt->frame_out_path (i, false);
-		string const hash_file = j2k_file + ".md5";
+		string const hash_file = _encode_opt->hash_out_path (i, false);
 
 		if (!boost::filesystem::exists (j2k_file)) {
 			_film->log()->log (String::compose ("Frame %1 has a missing J2K file.", i));

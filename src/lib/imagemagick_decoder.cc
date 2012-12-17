@@ -73,13 +73,13 @@ ImageMagickDecoder::pass ()
 		return true;
 	}
 	
-	using namespace MagickCore;
-
 	Magick::Image* magick_image = new Magick::Image (_film->content_path ());
 	
 	Size size = native_size ();
-	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_RGB24, size, false));
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, size, false));
 
+	using namespace MagickCore;
+	
 	uint8_t* p = image->data()[0];
 	for (int y = 0; y < size.height; ++y) {
 		for (int x = 0; x < size.width; ++x) {
@@ -91,6 +91,8 @@ ImageMagickDecoder::pass ()
 	}
 
 	delete magick_image;
+
+	image = image->crop (_film->crop(), false);
 	
 	emit_video (image, 0);
 
@@ -111,10 +113,18 @@ ImageMagickDecoder::seek (SourceFrame f)
 	_iter = _files.begin ();
 	for (int i = 0; i < f; ++i) {
 		if (_iter == _files.end()) {
-			return false;
+			return true;
 		}
 		++_iter;
 	}
 	
-	return true;
+	return false;
+}
+
+void
+ImageMagickDecoder::film_changed (Film::Property p)
+{
+	if (p == Film::CROP) {
+		OutputChanged ();
+	}
 }

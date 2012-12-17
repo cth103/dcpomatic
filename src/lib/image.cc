@@ -43,6 +43,12 @@ extern "C" {
 using namespace std;
 using namespace boost;
 
+void
+Image::swap (Image& other)
+{
+	std::swap (_pixel_format, other._pixel_format);
+}
+
 /** @param n Component index.
  *  @return Number of lines in the image for the given component.
  */
@@ -127,6 +133,8 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 
 	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, aligned));
 
+	cout << "scale to " << out_size.width << "x" << out_size.height << "\n";
+
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		content_size.width, content_size.height, PIX_FMT_RGB24,
@@ -202,6 +210,33 @@ Image::post_process (string pp, bool aligned) const
 		
 	pp_free_mode (mode);
 	pp_free_context (context);
+
+	return out;
+}
+
+shared_ptr<Image>
+Image::crop (Crop crop, bool aligned) const
+{
+	Size cropped_size = size ();
+	cropped_size.width -= crop.left + crop.right;
+	cropped_size.height -= crop.top + crop.bottom;
+
+	shared_ptr<Image> out (new SimpleImage (pixel_format(), cropped_size, aligned));
+
+	for (int c = 0; c < components(); ++c) {
+		int const crop_left_in_bytes = bytes_per_pixel(c) * crop.left;
+		int const cropped_width_in_bytes = bytes_per_pixel(c) * cropped_size.width;
+			
+		/* Start of the source line, cropped from the top but not the left */
+		uint8_t* in_p = data()[c] + crop.top * stride()[c];
+		uint8_t* out_p = out->data()[c];
+		
+		for (int y = 0; y < cropped_size.height; ++y) {
+			memcpy (out_p, in_p + crop_left_in_bytes, cropped_width_in_bytes);
+			in_p += line_size()[c];
+			out_p += out->line_size()[c];
+		}
+	}
 
 	return out;
 }
@@ -287,6 +322,48 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 	}
 }
 
+
+float
+Image::bytes_per_pixel (int c) const
+{
+	if (c == 3) {
+		return 0;
+	}
+	
+	switch (_pixel_format) {
+	case PIX_FMT_RGB24:
+		if (c == 0) {
+			return 3;
+		} else {
+			return 0;
+		}
+	case PIX_FMT_RGBA:
+		if (c == 0) {
+			return 4;
+		} else {
+			return 0;
+		}
+	case PIX_FMT_YUV420P:
+	case PIX_FMT_YUV422P:
+		if (c == 0) {
+			return 1;
+		} else {
+			return 0.5;
+		}
+	case PIX_FMT_YUV422P10LE:
+		if (c == 1) {
+			return 2;
+		} else {
+			return 1;
+		}
+	default:
+		assert (false);
+	}
+
+	return 0;
+}
+
+
 /** Construct a SimpleImage of a given size and format, allocating memory
  *  as required.
  *
@@ -298,6 +375,12 @@ SimpleImage::SimpleImage (AVPixelFormat p, Size s, bool aligned)
 	, _size (s)
 	, _aligned (aligned)
 {
+	allocate ();
+}
+
+void
+SimpleImage::allocate ()
+{
 	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
 	
@@ -307,32 +390,55 @@ SimpleImage::SimpleImage (AVPixelFormat p, Size s, bool aligned)
 	_stride = (int *) av_malloc (4 * sizeof (int));
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
-	switch (p) {
-	case PIX_FMT_RGB24:
-		_line_size[0] = s.width * 3;
-		break;
-	case PIX_FMT_RGBA:
-		_line_size[0] = s.width * 4;
-		break;
-	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P:
-		_line_size[0] = s.width;
-		_line_size[1] = s.width / 2;
-		_line_size[2] = s.width / 2;
-		break;
-	case PIX_FMT_YUV422P10LE:
-		_line_size[0] = s.width * 2;
-		_line_size[1] = s.width;
-		_line_size[2] = s.width;
-		break;
-	default:
-		assert (false);
-	}
-
 	for (int i = 0; i < components(); ++i) {
+		_line_size[i] = _size.width * bytes_per_pixel(i);
 		_stride[i] = stride_round_up (i, _line_size, _aligned ? 32 : 1);
 		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
 	}
+}
+
+SimpleImage::SimpleImage (SimpleImage const & other)
+	: Image (other)
+{
+	_size = other._size;
+	_aligned = other._aligned;
+	
+	allocate ();
+
+	for (int i = 0; i < components(); ++i) {
+		memcpy (_data[i], other._data[i], _line_size[i] * lines(i));
+	}
+}
+
+SimpleImage&
+SimpleImage::operator= (SimpleImage const & other)
+{
+	if (this == &other) {
+		return *this;
+	}
+
+	SimpleImage tmp (other);
+	swap (tmp);
+	return *this;
+}
+
+void
+SimpleImage::swap (SimpleImage & other)
+{
+	Image::swap (other);
+	
+	assert (_size == other._size);
+	assert (_aligned == other._aligned);
+
+	std::swap (_size, other._size);
+
+	for (int i = 0; i < 4; ++i) {
+		std::swap (_data[i], other._data[i]);
+		std::swap (_line_size[i], other._line_size[i]);
+		std::swap (_stride[i], other._stride[i]);
+	}
+
+	std::swap (_aligned, other._aligned);
 }
 
 /** Destroy a SimpleImage */
@@ -455,3 +561,4 @@ RGBPlusAlphaImage::~RGBPlusAlphaImage ()
 {
 	av_free (_alpha);
 }
+

@@ -531,3 +531,93 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	BOOST_CHECK_EQUAL (b->running(), false);
 }
 
+BOOST_AUTO_TEST_CASE (compact_image_test)
+{
+	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, Size (50, 50), false);
+	BOOST_CHECK_EQUAL (s->components(), 1);
+	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
+	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
+	BOOST_CHECK (s->data()[0]);
+	BOOST_CHECK (!s->data()[1]);
+	BOOST_CHECK (!s->data()[2]);
+	BOOST_CHECK (!s->data()[3]);
+
+	/* copy constructor */
+	SimpleImage* t = new SimpleImage (*s);
+	BOOST_CHECK_EQUAL (t->components(), 1);
+	BOOST_CHECK_EQUAL (t->stride()[0], 50 * 3);
+	BOOST_CHECK_EQUAL (t->line_size()[0], 50 * 3);
+	BOOST_CHECK (t->data()[0]);
+	BOOST_CHECK (!t->data()[1]);
+	BOOST_CHECK (!t->data()[2]);
+	BOOST_CHECK (!t->data()[3]);
+	BOOST_CHECK (t->data() != t->data());
+	BOOST_CHECK (t->data()[0] != t->data()[0]);
+	BOOST_CHECK (t->line_size() != t->line_size());
+	BOOST_CHECK (t->line_size()[0] != t->line_size()[0]);
+	BOOST_CHECK (t->stride() != t->stride());
+	BOOST_CHECK (t->stride()[0] != t->stride()[0]);
+
+	/* assignment operator */
+	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, Size (150, 150), true);
+	*s = *u;
+	BOOST_CHECK_EQUAL (s->components(), 1);
+	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
+	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
+	BOOST_CHECK (s->data()[0]);
+	BOOST_CHECK (!s->data()[1]);
+	BOOST_CHECK (!s->data()[2]);
+	BOOST_CHECK (!s->data()[3]);
+	BOOST_CHECK (s->data() != t->data());
+	BOOST_CHECK (s->data()[0] != t->data()[0]);
+	BOOST_CHECK (s->line_size() != t->line_size());
+	BOOST_CHECK (s->line_size()[0] != t->line_size()[0]);
+	BOOST_CHECK (s->stride() != t->stride());
+	BOOST_CHECK (s->stride()[0] != t->stride()[0]);
+}
+
+BOOST_AUTO_TEST_CASE (aligned_image_test)
+{
+	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, Size (50, 50), true);
+	BOOST_CHECK_EQUAL (s->components(), 1);
+	/* 160 is 150 aligned to the nearest 32 bytes */
+	BOOST_CHECK_EQUAL (s->stride()[0], 160);
+	BOOST_CHECK_EQUAL (s->line_size()[0], 150);
+	BOOST_CHECK (s->data()[0]);
+	BOOST_CHECK (!s->data()[1]);
+	BOOST_CHECK (!s->data()[2]);
+	BOOST_CHECK (!s->data()[3]);
+
+	/* copy constructor */
+	SimpleImage* t = new SimpleImage (*s);
+	BOOST_CHECK_EQUAL (t->components(), 1);
+	BOOST_CHECK_EQUAL (t->stride()[0], 160);
+	BOOST_CHECK_EQUAL (t->line_size()[0], 150);
+	BOOST_CHECK (t->data()[0]);
+	BOOST_CHECK (!t->data()[1]);
+	BOOST_CHECK (!t->data()[2]);
+	BOOST_CHECK (!t->data()[3]);
+	BOOST_CHECK (t->data() != t->data());
+	BOOST_CHECK (t->data()[0] != t->data()[0]);
+	BOOST_CHECK (t->line_size() != t->line_size());
+	BOOST_CHECK (t->line_size()[0] != t->line_size()[0]);
+	BOOST_CHECK (t->stride() != t->stride());
+	BOOST_CHECK (t->stride()[0] != t->stride()[0]);
+
+	/* assignment operator */
+	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, Size (150, 150), false);
+	*s = *u;
+	BOOST_CHECK_EQUAL (s->components(), 1);
+	BOOST_CHECK_EQUAL (s->stride()[0], 160);
+	BOOST_CHECK_EQUAL (s->line_size()[0], 150);
+	BOOST_CHECK (s->data()[0]);
+	BOOST_CHECK (!s->data()[1]);
+	BOOST_CHECK (!s->data()[2]);
+	BOOST_CHECK (!s->data()[3]);
+	BOOST_CHECK (s->data() != t->data());
+	BOOST_CHECK (s->data()[0] != t->data()[0]);
+	BOOST_CHECK (s->line_size() != t->line_size());
+	BOOST_CHECK (s->line_size()[0] != t->line_size()[0]);
+	BOOST_CHECK (s->stride() != t->stride());
+	BOOST_CHECK (s->stride()[0] != t->stride()[0]);
+}

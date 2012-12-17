@@ -205,6 +205,7 @@ void
 FilmViewer::seek_and_update (SourceFrame f)
 {
 	if (_decoders.video->seek (f)) {
+		cout << "could not s&u to " << f << "\n";
 		return;
 	}
 

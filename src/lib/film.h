@@ -312,6 +312,10 @@ public:
 	
 	float frames_per_second () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
+		if (content_type() == STILL) {
+			return 24;
+		}
+		
 		return _frames_per_second;
 	}
 
