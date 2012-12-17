@@ -557,7 +557,12 @@ bool
 FFmpegDecoder::seek (SourceFrame f)
 {
 	int64_t const vt = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
-	int const r = av_seek_frame (_format_context, _video_stream, vt, 0);
+
+	/* This AVSEEK_FLAG_BACKWARD is a bit of a hack; without it, if we ask for a seek to the same place as last time
+	   (used when we change decoder parameters and want to re-fetch the frame) we end up going forwards rather than
+	   staying in the same place.
+	*/
+	int const r = av_seek_frame (_format_context, _video_stream, vt, (f == last_source_frame() ? AVSEEK_FLAG_BACKWARD : 0));
 	
 	avcodec_flush_buffers (_video_codec_context);
 	if (_subtitle_codec_context) {
@@ -670,6 +675,7 @@ FFmpegDecoder::film_changed (Film::Property p)
 {
 	switch (p) {
 	case Film::CROP:
+	case Film::FILTERS:
 	{
 		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 		_filter_graphs.clear ();
