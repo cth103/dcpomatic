@@ -551,29 +551,33 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (!t->data()[1]);
 	BOOST_CHECK (!t->data()[2]);
 	BOOST_CHECK (!t->data()[3]);
-	BOOST_CHECK (t->data() != t->data());
-	BOOST_CHECK (t->data()[0] != t->data()[0]);
-	BOOST_CHECK (t->line_size() != t->line_size());
-	BOOST_CHECK (t->line_size()[0] != t->line_size()[0]);
-	BOOST_CHECK (t->stride() != t->stride());
-	BOOST_CHECK (t->stride()[0] != t->stride()[0]);
+	BOOST_CHECK (t->data() != s->data());
+	BOOST_CHECK (t->data()[0] != s->data()[0]);
+	BOOST_CHECK (t->line_size() != s->line_size());
+	BOOST_CHECK (t->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK (t->stride() != s->stride());
+	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
 	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, Size (150, 150), true);
-	*s = *u;
-	BOOST_CHECK_EQUAL (s->components(), 1);
-	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
-	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
-	BOOST_CHECK (s->data()[0]);
-	BOOST_CHECK (!s->data()[1]);
-	BOOST_CHECK (!s->data()[2]);
-	BOOST_CHECK (!s->data()[3]);
-	BOOST_CHECK (s->data() != t->data());
-	BOOST_CHECK (s->data()[0] != t->data()[0]);
-	BOOST_CHECK (s->line_size() != t->line_size());
-	BOOST_CHECK (s->line_size()[0] != t->line_size()[0]);
-	BOOST_CHECK (s->stride() != t->stride());
-	BOOST_CHECK (s->stride()[0] != t->stride()[0]);
+	*u = *s;
+	BOOST_CHECK_EQUAL (u->components(), 1);
+	BOOST_CHECK_EQUAL (u->stride()[0], 50 * 3);
+	BOOST_CHECK_EQUAL (u->line_size()[0], 50 * 3);
+	BOOST_CHECK (u->data()[0]);
+	BOOST_CHECK (!u->data()[1]);
+	BOOST_CHECK (!u->data()[2]);
+	BOOST_CHECK (!u->data()[3]);
+	BOOST_CHECK (u->data() != s->data());
+	BOOST_CHECK (u->data()[0] != s->data()[0]);
+	BOOST_CHECK (u->line_size() != s->line_size());
+	BOOST_CHECK (u->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK (u->stride() != s->stride());
+	BOOST_CHECK (u->stride()[0] == s->stride()[0]);
+
+	delete s;
+	delete t;
+	delete u;
 }
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
@@ -597,27 +601,31 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (!t->data()[1]);
 	BOOST_CHECK (!t->data()[2]);
 	BOOST_CHECK (!t->data()[3]);
-	BOOST_CHECK (t->data() != t->data());
-	BOOST_CHECK (t->data()[0] != t->data()[0]);
-	BOOST_CHECK (t->line_size() != t->line_size());
-	BOOST_CHECK (t->line_size()[0] != t->line_size()[0]);
-	BOOST_CHECK (t->stride() != t->stride());
-	BOOST_CHECK (t->stride()[0] != t->stride()[0]);
+	BOOST_CHECK (t->data() != s->data());
+	BOOST_CHECK (t->data()[0] != s->data()[0]);
+	BOOST_CHECK (t->line_size() != s->line_size());
+	BOOST_CHECK (t->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK (t->stride() != s->stride());
+	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
 	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, Size (150, 150), false);
-	*s = *u;
-	BOOST_CHECK_EQUAL (s->components(), 1);
-	BOOST_CHECK_EQUAL (s->stride()[0], 160);
-	BOOST_CHECK_EQUAL (s->line_size()[0], 150);
-	BOOST_CHECK (s->data()[0]);
-	BOOST_CHECK (!s->data()[1]);
-	BOOST_CHECK (!s->data()[2]);
-	BOOST_CHECK (!s->data()[3]);
-	BOOST_CHECK (s->data() != t->data());
-	BOOST_CHECK (s->data()[0] != t->data()[0]);
-	BOOST_CHECK (s->line_size() != t->line_size());
-	BOOST_CHECK (s->line_size()[0] != t->line_size()[0]);
-	BOOST_CHECK (s->stride() != t->stride());
-	BOOST_CHECK (s->stride()[0] != t->stride()[0]);
+	*u = *s;
+	BOOST_CHECK_EQUAL (u->components(), 1);
+	BOOST_CHECK_EQUAL (u->stride()[0], 160);
+	BOOST_CHECK_EQUAL (u->line_size()[0], 150);
+	BOOST_CHECK (u->data()[0]);
+	BOOST_CHECK (!u->data()[1]);
+	BOOST_CHECK (!u->data()[2]);
+	BOOST_CHECK (!u->data()[3]);
+	BOOST_CHECK (u->data() != s->data());
+	BOOST_CHECK (u->data()[0] != s->data()[0]);
+	BOOST_CHECK (u->line_size() != s->line_size());
+	BOOST_CHECK (u->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK (u->stride() != s->stride());
+	BOOST_CHECK (u->stride()[0] == s->stride()[0]);
+
+	delete s;
+	delete t;
+	delete u;
 }

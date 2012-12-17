@@ -427,9 +427,6 @@ SimpleImage::swap (SimpleImage & other)
 {
 	Image::swap (other);
 	
-	assert (_size == other._size);
-	assert (_aligned == other._aligned);
-
 	std::swap (_size, other._size);
 
 	for (int i = 0; i < 4; ++i) {
