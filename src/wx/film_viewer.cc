@@ -310,6 +310,8 @@ FilmViewer::get_frame ()
 
 	shared_ptr<Image> last = _display_frame;
 	while (last == _display_frame) {
-		_decoders.video->pass ();
+		if (_decoders.video->pass ()) {
+			break;
+		}
 	}
 }
