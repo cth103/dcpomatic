@@ -22,7 +22,7 @@ def configure(conf):
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes'])
 
     if conf.options.target_windows:
-        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H'])
+        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         print wxrc
         conf.env.append_value('WINRCFLAGS', wxrc)
