@@ -1,6 +1,7 @@
 2012-12-18  Carl Hetherington  <cth@carlh.net>
 
-	* Support non-planar float audio; be less
+	* Support non-planar float and signed
+	16-bit planar audio; be less
 	crashy when unsupported audio formats
 	are found.
 
