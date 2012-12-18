@@ -1,6 +1,8 @@
 2012-12-18  Carl Hetherington  <cth@carlh.net>
 
-	* Support non-planar float audio.
+	* Support non-planar float audio; be less
+	crashy when unsupported audio formats
+	are found.
 
 2012-12-18  Carl Hetherington  <cth@carlh.net>
 
