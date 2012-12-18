@@ -38,13 +38,15 @@ VideoDecoder::VideoDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> 
 
 /** Called by subclasses to tell the world that some video data is ready.
  *  We find a subtitle then emit it for listeners.
- *  @param frame to emit.
+ *  @param image frame to emit.
+ *  @param f Frame within the source.
  */
 void
 VideoDecoder::emit_video (shared_ptr<Image> image, SourceFrame f)
 {
 	shared_ptr<Subtitle> sub;
 	if (_timed_subtitle && _timed_subtitle->displayed_at (f / _film->frames_per_second())) {
+		_film->log()->log (String::compose ("putting subtitle using %1 instead of %2", f, video_frame()));
 		sub = _timed_subtitle->subtitle ();
 	}
 

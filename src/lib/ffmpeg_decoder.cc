@@ -334,7 +334,7 @@ FFmpegDecoder::pass ()
 			if (sub.num_rects > 0) {
 				shared_ptr<TimedSubtitle> ts;
 				try {
-					emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
+					emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
 				} catch (...) {
 					/* some problem with the subtitle; we probably didn't understand it */
 				}
