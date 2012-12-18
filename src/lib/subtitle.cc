@@ -39,7 +39,7 @@ TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 	/* Subtitle PTS in seconds (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP)
 	*/
-	double const packet_time = ((sub.pts / AV_TIME_BASE) + float (sub.pts % AV_TIME_BASE) / 1e6);
+	double const packet_time = static_cast<double> (sub.pts) / AV_TIME_BASE;
 	
 	/* hence start time for this sub */
 	_from = packet_time + (double (sub.start_display_time) / 1e3);
@@ -77,7 +77,7 @@ TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 	_subtitle.reset (new Subtitle (Position (rect->x, rect->y), image));
 }	
 
-/** @param t Time in seconds from the start of the film */
+/** @param t Time in seconds from the start of the source */
 bool
 TimedSubtitle::displayed_at (double t) const
 {

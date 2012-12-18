@@ -58,10 +58,8 @@ public:
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
-	/** Seek.
-	 *  @return true on error.
-	 */
-	virtual bool seek (SourceFrame);
+	virtual bool seek (double);
+	virtual bool seek_to_last ();
 
 	boost::signals2::signal<void()> OutputChanged;
 

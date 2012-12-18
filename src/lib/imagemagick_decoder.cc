@@ -108,8 +108,22 @@ ImageMagickDecoder::pixel_format () const
 }
 
 bool
-ImageMagickDecoder::seek (SourceFrame f)
+ImageMagickDecoder::seek_to_last ()
 {
+	if (_iter == _files.end()) {
+		_iter = _files.begin();
+	} else {
+		--_iter;
+	}
+
+	return false;
+}
+
+bool
+ImageMagickDecoder::seek (double t)
+{
+	int const f = t * frames_per_second();
+	
 	_iter = _files.begin ();
 	for (int i = 0; i < f; ++i) {
 		if (_iter == _files.end()) {

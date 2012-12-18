@@ -57,8 +57,21 @@ Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const DecodeOptio
 	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
 }
 
+/** Seek.
+ *  @param p Position as a source timestamp in seconds.
+ *  @return true on error.
+ */
 bool
-Decoder::seek (SourceFrame f)
+Decoder::seek (double p)
+{
+	throw DecodeError ("decoder does not support seek");
+}
+
+/** Seek so that the next frame we will produce is the same as the last one.
+ *  @return true on error.
+ */
+bool
+Decoder::seek_to_last ()
 {
 	throw DecodeError ("decoder does not support seek");
 }

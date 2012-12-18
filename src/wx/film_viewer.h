@@ -53,7 +53,6 @@ private:
 	void check_play_state ();
 	void update_from_raw ();
 	void decoder_changed ();
-	void seek_and_update (SourceFrame);
 	void raw_to_display ();
 	void get_frame ();
 	void active_jobs_changed (bool);
