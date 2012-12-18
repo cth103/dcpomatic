@@ -438,7 +438,25 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 			}
 		}
 	}
+	break;
 
+	case AV_SAMPLE_FMT_FLT:
+	{
+		float* p = reinterpret_cast<float*> (data);
+		int sample = 0;
+		int channel = 0;
+		for (int i = 0; i < total_samples; ++i) {
+			audio->data(channel)[sample] = *p++;
+
+			++channel;
+			if (channel == _film->audio_channels()) {
+				channel = 0;
+				++sample;
+			}
+		}
+	}
+	break;
+		
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		float* p = reinterpret_cast<float*> (data);
