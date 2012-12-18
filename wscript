@@ -61,7 +61,7 @@ def configure(conf):
         conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     else:
         # This is hackio grotesquio for static builds (ie for .deb packages).  We need to link some things
-        # statically and some dynamically, or things get horribly confused the dynamic linker (I think)
+        # statically and some dynamically, or things get horribly confused and the dynamic linker (I think)
         # crashes horribly.  These calls do what the check_cfg calls would have done, but specify the
         # different bits as static or dynamic as required.  It'll break if you look at it funny, but
         # I think anyone else who builds would do so dynamically.
@@ -83,6 +83,10 @@ def configure(conf):
         conf.env.STLIB_SWRESAMPLE = ['swresample']
         conf.env.HAVE_POSTPROC = 1
         conf.env.STLIB_POSTPROC = ['postproc']
+
+        # This doesn't seem to be set up, and we need it otherwise resampling support
+        # won't be included.  Hack upon a hack, obviously
+        conf.env.append_value('CXXFLAGS', ['-DHAVE_SWRESAMPLE=1'])
 
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
