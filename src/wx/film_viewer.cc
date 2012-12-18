@@ -172,7 +172,7 @@ FilmViewer::timer (wxTimerEvent& ev)
 	get_frame ();
 
 	if (_film->length()) {
-		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() * _film->frames_per_second());
+		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->frames_per_second());
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
