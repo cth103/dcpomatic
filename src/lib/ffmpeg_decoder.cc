@@ -411,7 +411,7 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 	break;
 
 	default:
-		assert (false);
+		throw DecodeError (String::compose ("Unrecognised audio sample format (%1)", static_cast<int> (audio_sample_format())));
 	}
 
 	return audio;

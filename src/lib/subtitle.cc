@@ -138,7 +138,7 @@ subtitle_transformed_area (
 	return tx;
 }
 
-/** @return area that this subtitle take up, in the original uncropped source's coordinate space */
+/** @return area that this subtitle takes up, in the original uncropped source's coordinate space */
 Rect
 Subtitle::area () const
 {
