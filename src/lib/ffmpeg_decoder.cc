@@ -334,7 +334,7 @@ FFmpegDecoder::pass ()
 			if (sub.num_rects > 0) {
 				shared_ptr<TimedSubtitle> ts;
 				try {
-					emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub, _first_video.get())));
+					emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
 				} catch (...) {
 					/* some problem with the subtitle; we probably didn't understand it */
 				}
@@ -543,24 +543,35 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 
 	list<shared_ptr<Image> > images = graph->process (frame);
 
-	SourceFrame const sf = av_q2d (_format_context->streams[_video_stream]->time_base)
-		* av_frame_get_best_effort_timestamp(_frame) * frames_per_second();
+	double const st = av_frame_get_best_effort_timestamp(_frame) * av_q2d (_format_context->streams[_video_stream]->time_base);
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		emit_video (*i, sf);
+		emit_video (*i, st);
 	}
 }
 
 bool
-FFmpegDecoder::seek (SourceFrame f)
+FFmpegDecoder::seek (double p)
 {
-	int64_t const vt = static_cast<int64_t>(f) / (av_q2d (_format_context->streams[_video_stream]->time_base) * frames_per_second());
+	return do_seek (p, false);
+}
 
-	/* This AVSEEK_FLAG_BACKWARD is a bit of a hack; without it, if we ask for a seek to the same place as last time
+bool
+FFmpegDecoder::seek_to_last ()
+{
+	/* This AVSEEK_FLAG_BACKWARD in do_seek is a bit of a hack; without it, if we ask for a seek to the same place as last time
 	   (used when we change decoder parameters and want to re-fetch the frame) we end up going forwards rather than
 	   staying in the same place.
 	*/
-	int const r = av_seek_frame (_format_context, _video_stream, vt, (f == last_source_frame() ? AVSEEK_FLAG_BACKWARD : 0));
+	return do_seek (last_source_time(), true);
+}
+
+bool
+FFmpegDecoder::do_seek (double p, bool backwards)
+{
+	int64_t const vt = p / av_q2d (_format_context->streams[_video_stream]->time_base);
+
+	int const r = av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
 	
 	avcodec_flush_buffers (_video_codec_context);
 	if (_subtitle_codec_context) {

@@ -100,11 +100,13 @@ public:
 	void set_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 
-	bool seek (SourceFrame);
+	bool seek (double);
+	bool seek_to_last ();
 
 private:
 
 	bool pass ();
+	bool do_seek (double p, bool);
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;

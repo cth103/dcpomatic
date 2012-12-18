@@ -31,25 +31,26 @@ using boost::optional;
 VideoDecoder::VideoDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
 	: Decoder (f, o, j)
 	, _video_frame (0)
-	, _last_source_frame (0)
+	, _last_source_time (0)
 {
 
 }
 
 /** Called by subclasses to tell the world that some video data is ready.
  *  We find a subtitle then emit it for listeners.
- *  @param frame to emit.
+ *  @param image frame to emit.
+ *  @param t Time of the frame within the source, in seconds.
  */
 void
-VideoDecoder::emit_video (shared_ptr<Image> image, SourceFrame f)
+VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 {
 	shared_ptr<Subtitle> sub;
-	if (_timed_subtitle && _timed_subtitle->displayed_at (f / _film->frames_per_second())) {
+	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
 		sub = _timed_subtitle->subtitle ();
 	}
 
 	signal_video (image, sub);
-	_last_source_frame = f;
+	_last_source_time = t;
 }
 
 void

@@ -56,7 +56,8 @@ public:
 		return false;
 	}
 
-	bool seek (SourceFrame);
+	bool seek (double);
+	bool seek_to_last ();
 
 protected:
 	bool pass ();
