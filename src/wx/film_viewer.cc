@@ -174,6 +174,7 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 	wxPaintDC dc (_panel);
 
 	if (!_display_frame || !_film) {
+		dc.Clear ();
 		return;
 	}
 
@@ -239,7 +240,7 @@ FilmViewer::update_from_raw ()
 void
 FilmViewer::raw_to_display ()
 {
-	if (!_out_width || !_out_height || !_film) {
+	if (!_raw_frame || !_out_width || !_out_height || !_film) {
 		return;
 	}
 
@@ -312,10 +313,17 @@ FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 void
 FilmViewer::get_frame ()
 {
+	/* Clear our raw frame in case we don't get a new one */
+	_raw_frame.reset ();
+	
 	try {
 		shared_ptr<Image> last = _display_frame;
 		while (last == _display_frame) {
 			if (_decoders.video->pass ()) {
+				/* We didn't get a frame before the decoder gave up,
+				   so clear our display frame.
+				*/
+				_display_frame.reset ();
 				break;
 			}
 		}
