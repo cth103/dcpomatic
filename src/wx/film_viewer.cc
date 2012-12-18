@@ -179,7 +179,7 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 {
 	wxPaintDC dc (_panel);
 
-	if (!_display_frame || !_film) {
+	if (!_display_frame || !_film || !_out_width || !_out_height) {
 		dc.Clear ();
 		return;
 	}
@@ -212,7 +212,6 @@ void
 FilmViewer::seek_and_update (SourceFrame f)
 {
 	if (_decoders.video->seek (f)) {
-		cout << "could not s&u to " << f << "\n";
 		return;
 	}
 
@@ -246,7 +245,7 @@ FilmViewer::update_from_raw ()
 void
 FilmViewer::raw_to_display ()
 {
-	if (!_raw_frame || !_out_width || !_out_height || !_film) {
+	if (!_raw_frame || _out_width < 64 || _out_height < 64 || !_film) {
 		return;
 	}
 
