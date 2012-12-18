@@ -56,6 +56,7 @@ private:
 	void seek_and_update (SourceFrame);
 	void raw_to_display ();
 	void get_frame ();
+	void active_jobs_changed (bool);
 
 	boost::shared_ptr<Film> _film;
 	

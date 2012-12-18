@@ -33,6 +33,7 @@
 #include "lib/image.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
+#include "lib/examine_content_job.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -41,6 +42,7 @@ using std::string;
 using std::pair;
 using std::max;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
@@ -76,6 +78,10 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_timer.Bind (wxEVT_TIMER, &FilmViewer::timer, this);
 
 	set_film (_film);
+
+	JobManager::instance()->ActiveJobsChanged.connect (
+		bind (&FilmViewer::active_jobs_changed, this, _1)
+		);
 }
 
 void
@@ -331,3 +337,24 @@ FilmViewer::get_frame ()
 		error_dialog (this, String::compose ("Could not decode video for view (%1)", e.what()));
 	}
 }
+
+void
+FilmViewer::active_jobs_changed (bool a)
+{
+	if (a) {
+		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
+		list<shared_ptr<Job> >::iterator i = jobs.begin ();		
+		while (i != jobs.end() && boost::dynamic_pointer_cast<ExamineContentJob> (*i) == 0) {
+			++i;
+		}
+		
+		if (i == jobs.end() || (*i)->finished()) {
+			/* no examine content job running, so we're ok to use the viewer */
+			a = false;
+		}
+	}
+			
+	_slider->Enable (!a);
+	_play_button->Enable (!a);
+}
+
