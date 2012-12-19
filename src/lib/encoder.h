@@ -26,6 +26,8 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread/condition.hpp>
+#include <boost/thread.hpp>
 #include <list>
 #include <stdint.h>
 extern "C" {
@@ -46,15 +48,14 @@ class Image;
 class Subtitle;
 class AudioBuffers;
 class Film;
+class ServerDescription;
+class DCPVideoFrame;
 
 /** @class Encoder
- *  @brief Parent class for classes which can encode video and audio frames.
+ *  @brief Encoder to J2K and WAV for DCP.
  *
  *  Video is supplied to process_video as YUV frames, and audio
  *  is supplied as uncompressed PCM in blocks of various sizes.
- *
- *  The subclass is expected to encode the video and/or audio in
- *  some way and write it to disk.
  */
 
 class Encoder : public VideoSink, public AudioSink
@@ -68,9 +69,10 @@ public:
 
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
+	 *  @param same true if i is the same as the last time we were called.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	void process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s);
+	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<AudioBuffers>);
@@ -83,12 +85,6 @@ public:
 	SourceFrame video_frame () const;
 
 protected:
-
-	/** Called with a frame of video.
-	 *  @param i Video frame image.
-	 *  @param s A subtitle that should be on this frame, or 0.
-	 */
-	virtual void do_process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s) = 0;
 	
 	void frame_done ();
 	void frame_skipped ();
@@ -118,12 +114,23 @@ private:
 	void close_sound_files ();
 	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 
+	void encoder_thread (ServerDescription *);
+	void terminate_worker_threads ();
+	void link (std::string, std::string) const;
+
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
 #endif	
 
 	std::vector<SNDFILE*> _sound_files;
 	int64_t _audio_frames_written;
+
+	boost::optional<int> _last_real_frame;
+	bool _process_end;
+	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
+	std::list<boost::thread *> _worker_threads;
+	mutable boost::mutex _worker_mutex;
+	boost::condition _worker_condition;
 };
 
 #endif

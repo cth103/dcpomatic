@@ -25,7 +25,6 @@ def build(bld):
                  delay_line.cc
                  dolby_cp750.cc
 		 encoder.cc
-                 encoder_factory.cc
 		 examine_content_job.cc
 		 external_audio_decoder.cc
                  filter_graph.cc
@@ -37,8 +36,6 @@ def build(bld):
                  gain.cc
                  image.cc
                  imagemagick_decoder.cc
-		 j2k_still_encoder.cc
-		 j2k_video_encoder.cc
 		 job.cc
 		 job_manager.cc
 		 log.cc

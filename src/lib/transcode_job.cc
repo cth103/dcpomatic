@@ -28,7 +28,6 @@
 #include "format.h"
 #include "transcoder.h"
 #include "log.h"
-#include "encoder_factory.h"
 #include "encoder.h"
 
 using std::string;
@@ -63,7 +62,7 @@ TranscodeJob::run ()
 		_film->log()->log ("Transcode job starting");
 		_film->log()->log (String::compose ("Audio delay is %1ms", _film->audio_delay()));
 
-		_encoder = encoder_factory (_film, _encode_opt);
+		_encoder.reset (new Encoder (_film, _encode_opt));
 		Transcoder w (_film, _decode_opt, this, _encoder);
 		w.go ();
 		set_progress (1);

@@ -88,7 +88,7 @@ public:
 	void read_metadata ();
 
 	Size cropped_size (Size) const;
-	boost::optional<SourceFrame> dcp_length () const;
+	boost::optional<int> dcp_length () const;
 	std::string dci_name () const;
 	std::string dcp_name () const;
 
@@ -412,10 +412,10 @@ private:
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** Frames to trim off the start of the source */
-	SourceFrame _dcp_trim_start;
-	/** Frames to trim off the end of the source */
-	SourceFrame _dcp_trim_end;
+	/** Frames to trim off the start of the DCP */
+	int _dcp_trim_start;
+	/** Frames to trim off the end of the DCP */
+	int _dcp_trim_end;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.

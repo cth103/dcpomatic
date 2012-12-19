@@ -75,7 +75,7 @@ protected:
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 
 private:
-	void signal_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
+	void signal_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>);
 
 	int _video_frame;
 	double _last_source_time;

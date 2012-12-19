@@ -31,9 +31,10 @@ class VideoSink
 public:
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
+	 *  @param same true if i is the same as last time we were called.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s) = 0;
+	virtual void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s) = 0;
 };
 
 #endif

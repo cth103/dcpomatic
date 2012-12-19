@@ -49,7 +49,7 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	signal_video (image, sub);
+	signal_video (image, false, sub);
 	_last_source_time = t;
 }
 
@@ -61,14 +61,14 @@ VideoDecoder::repeat_last_video ()
 		_last_image->make_black ();
 	}
 
-	signal_video (_last_image, _last_subtitle);
+	signal_video (_last_image, true, _last_subtitle);
 }
 
 void
-VideoDecoder::signal_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
 {
 	TIMING ("Decoder emits %1", _video_frame);
-	Video (image, sub);
+	Video (image, same, sub);
 	++_video_frame;
 
 	_last_image = image;

@@ -33,7 +33,7 @@ using namespace boost;
  *  @param s Sizer to add to.
  *  @param p Parent window for the wxStaticText.
  *  @param t Text for the wxStaticText.
- *  @param prop Properties to pass when calling Add() on the wxSizer.
+ *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
 add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)

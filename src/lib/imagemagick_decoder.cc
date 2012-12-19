@@ -70,7 +70,12 @@ bool
 ImageMagickDecoder::pass ()
 {
 	if (_iter == _files.end()) {
-		return true;
+		if (!_film->dcp_length() || video_frame() >= _film->dcp_length().get()) {
+			return true;
+		}
+
+		repeat_last_video ();
+		return false;
 	}
 	
 	Magick::Image* magick_image = new Magick::Image (_film->content_path ());

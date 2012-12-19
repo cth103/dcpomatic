@@ -50,6 +50,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _play_button (new wxToggleButton (this, wxID_ANY, wxT ("Play")))
+	, _got_frame (false)
 	, _out_width (0)
 	, _out_height (0)
 	, _panel_width (0)
@@ -101,7 +102,7 @@ FilmViewer::film_changed (Film::Property p)
 		o->decode_subtitles = true;
 		o->video_sync = false;
 		_decoders = decoder_factory (_film, o, 0);
-		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
+		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		calculate_sizes ();
@@ -307,12 +308,14 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
 {
 	_raw_frame = image;
 	_raw_sub = sub;
 
 	raw_to_display ();
+
+	_got_frame = true;
 }
 
 void
@@ -322,8 +325,8 @@ FilmViewer::get_frame ()
 	_raw_frame.reset ();
 	
 	try {
-		shared_ptr<Image> last = _display_frame;
-		while (last == _display_frame) {
+		_got_frame = false;
+		while (!_got_frame) {
 			if (_decoders.video->pass ()) {
 				/* We didn't get a frame before the decoder gave up,
 				   so clear our display frame.

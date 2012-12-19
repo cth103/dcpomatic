@@ -288,9 +288,13 @@ public:
 		
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
-			film.reset (new Film (wx_to_std (c->GetPath ())));
-			film->log()->set_level (log_level);
-			set_film ();
+			try {
+				film.reset (new Film (wx_to_std (c->GetPath ())));
+				film->log()->set_level (log_level);
+				set_film ();
+			} catch (std::exception& e) {
+				error_dialog (this, String::compose ("Could not open film at %1 (%2)", wx_to_std (c->GetPath()), e.what()));
+			}
 		}
 
 		c->Destroy ();

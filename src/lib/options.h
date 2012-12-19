@@ -93,9 +93,9 @@ public:
 	Size out_size;              ///< size of output images
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
 
-	/** Range of video frames to decode */
-	boost::optional<std::pair<SourceFrame, SourceFrame> > video_range;
-	/** Range of audio frames to decode */
+	/** Range of video frames to encode (in DCP frames) */
+	boost::optional<std::pair<int, int> > video_range;
+	/** Range of audio frames to decode (in the DCP's sampling rate) */
 	boost::optional<std::pair<int64_t, int64_t> > audio_range;
 	
 	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.

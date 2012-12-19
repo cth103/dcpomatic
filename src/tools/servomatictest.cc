@@ -42,7 +42,7 @@ static Server* server;
 static Log log_ ("servomatictest.log");
 
 void
-process_video (shared_ptr<Image> image, int frame)
+process_video (shared_ptr<Image> image, bool, int frame)
 {
 	shared_ptr<DCPVideoFrame> local (new DCPVideoFrame (image, Size (1024, 1024), 0, Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_));
 	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image, Size (1024, 1024), 0, Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_));
