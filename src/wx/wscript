@@ -1,5 +1,5 @@
 def configure(conf):
-    if bld.env.TARGET_WINDOWS:
+    if conf.env.TARGET_WINDOWS:
         conf.check_cfg(package = '', atleast_version = '2.9.4', path = 'wx-config', args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
     else:
         conf.check_cfg(package = '', atleast_version = '2.8.12', path = 'wx-config', args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
