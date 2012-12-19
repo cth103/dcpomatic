@@ -43,7 +43,7 @@ decoder_factory (
 		/* A single image file, or a directory of them */
 		return Decoders (
 			shared_ptr<VideoDecoder> (new ImageMagickDecoder (f, o, j)),
-			shared_ptr<AudioDecoder> ()
+			shared_ptr<AudioDecoder> (new ExternalAudioDecoder (f, o, j))
 			);
 	}
 

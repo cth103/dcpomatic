@@ -316,7 +316,7 @@ FilmEditor::make_audio_panel ()
 	}
 
 	_use_external_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use external audio"));
-	_audio_sizer->Add (video_control (_use_external_audio));
+	_audio_sizer->Add (_use_external_audio);
 	_audio_sizer->AddSpacer (0);
 
 	assert (MAX_AUDIO_CHANNELS == 6);
@@ -331,9 +331,9 @@ FilmEditor::make_audio_panel ()
 	};
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		video_control (add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]));
+		add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]);
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), wxT ("Select Audio File"), wxT ("*.wav"));
-		_audio_sizer->Add (video_control (_external_audio[i]), 1, wxEXPAND);
+		_audio_sizer->Add (_external_audio[i], 1, wxEXPAND);
 	}
 
 	_audio_gain->SetRange (-60, 60);

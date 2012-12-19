@@ -900,6 +900,11 @@ Film::set_content (string c)
 		set_format (Format::from_id ("185"));
 		break;
 	}
+
+	/* Still image DCPs must use external audio */
+	if (content_type() == STILL) {
+		set_use_content_audio (false);
+	}
 }
 
 void
