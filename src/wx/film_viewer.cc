@@ -56,7 +56,9 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _panel_height (0)
 {
 	_panel->SetDoubleBuffered (true);
+#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9	
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
+#endif	
 	
 	wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (v_sizer);
@@ -69,13 +71,13 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 
 	v_sizer->Add (h_sizer, 0, wxEXPAND);
 
-	_panel->Bind (wxEVT_PAINT, &FilmViewer::paint_panel, this);
-	_panel->Bind (wxEVT_SIZE, &FilmViewer::panel_sized, this);
-	_slider->Bind (wxEVT_SCROLL_THUMBTRACK, &FilmViewer::slider_moved, this);
-	_slider->Bind (wxEVT_SCROLL_PAGEUP, &FilmViewer::slider_moved, this);
-	_slider->Bind (wxEVT_SCROLL_PAGEDOWN, &FilmViewer::slider_moved, this);
-	_play_button->Bind (wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, &FilmViewer::play_clicked, this);
-	_timer.Bind (wxEVT_TIMER, &FilmViewer::timer, this);
+	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
+	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
+	_slider->Connect (wxID_ANY, wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
+	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEUP, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
+	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
+	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
+	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
 
 	set_film (_film);
 
@@ -203,7 +205,7 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 
 
 void
-FilmViewer::slider_moved (wxCommandEvent& ev)
+FilmViewer::slider_moved (wxScrollEvent &)
 {
 	if (!_film || !_film->length()) {
 		return;

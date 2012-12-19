@@ -45,7 +45,7 @@ private:
 	void film_changed (Film::Property);
 	void paint_panel (wxPaintEvent &);
 	void panel_sized (wxSizeEvent &);
-	void slider_moved (wxCommandEvent &);
+	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
 	void process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
