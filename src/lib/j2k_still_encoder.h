@@ -39,7 +39,6 @@ public:
 
 private:
 	void do_process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
-	void do_process_audio (boost::shared_ptr<AudioBuffers>) {}
 
 	void link (std::string, std::string) const;
 };

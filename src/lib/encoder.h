@@ -31,6 +31,12 @@
 extern "C" {
 #include <libavutil/samplefmt.h>
 }
+#ifdef HAVE_SWRESAMPLE
+extern "C" {
+#include <libswresample/swresample.h>
+}
+#endif
+#include <sndfile.h>
 #include "util.h"
 #include "video_sink.h"
 #include "audio_sink.h"
@@ -55,10 +61,10 @@ class Encoder : public VideoSink, public AudioSink
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const EncodeOptions> o);
-	virtual ~Encoder () {}
+	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
-	virtual void process_begin () {}
+	virtual void process_begin ();
 
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
@@ -70,7 +76,7 @@ public:
 	void process_audio (boost::shared_ptr<AudioBuffers>);
 
 	/** Called when a processing run has finished */
-	virtual void process_end () {}
+	virtual void process_end ();
 
 	float current_frames_per_second () const;
 	bool skipping () const;
@@ -83,9 +89,6 @@ protected:
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
 	virtual void do_process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s) = 0;
-	
-	/** Called with some audio data */
-	virtual void do_process_audio (boost::shared_ptr<AudioBuffers>) = 0;
 	
 	void frame_done ();
 	void frame_skipped ();
@@ -110,6 +113,17 @@ protected:
 	SourceFrame _video_frame;
 	/** Number of audio frames received so far */
 	int64_t _audio_frame;
+
+private:
+	void close_sound_files ();
+	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
+
+#if HAVE_SWRESAMPLE	
+	SwrContext* _swr_context;
+#endif	
+
+	std::vector<SNDFILE*> _sound_files;
+	int64_t _audio_frames_written;
 };
 
 #endif

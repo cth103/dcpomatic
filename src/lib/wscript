@@ -38,7 +38,7 @@ def build(bld):
                  image.cc
                  imagemagick_decoder.cc
 		 j2k_still_encoder.cc
-		 j2k_wav_encoder.cc
+		 j2k_video_encoder.cc
 		 job.cc
 		 job_manager.cc
 		 log.cc

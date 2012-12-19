@@ -21,11 +21,17 @@
  *  @brief Parent class for classes which can encode video and audio frames.
  */
 
+#include <boost/filesystem.hpp>
 #include "encoder.h"
 #include "util.h"
 #include "options.h"
+#include "film.h"
+#include "log.h"
+#include "exceptions.h"
 
 using std::pair;
+using std::stringstream;
+using std::vector;
 using namespace boost;
 
 int const Encoder::_history_size = 25;
@@ -39,10 +45,108 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 	, _just_skipped (false)
 	, _video_frame (0)
 	, _audio_frame (0)
+#ifdef HAVE_SWRESAMPLE	  
+	, _swr_context (0)
+#endif	  
+	, _audio_frames_written (0)
 {
-
+	if (_film->audio_stream()) {
+		/* Create sound output files with .tmp suffixes; we will rename
+		   them if and when we complete.
+		*/
+		for (int i = 0; i < _film->audio_channels(); ++i) {
+			SF_INFO sf_info;
+			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream()->sample_rate());
+			/* We write mono files */
+			sf_info.channels = 1;
+			sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
+			SNDFILE* f = sf_open (_opt->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
+			if (f == 0) {
+				throw CreateFileError (_opt->multichannel_audio_out_path (i, true));
+			}
+			_sound_files.push_back (f);
+		}
+	}
 }
 
+Encoder::~Encoder ()
+{
+	close_sound_files ();
+}
+
+void
+Encoder::process_begin ()
+{
+	if (_film->audio_stream() && _film->audio_stream()->sample_rate() != _film->target_audio_sample_rate()) {
+#ifdef HAVE_SWRESAMPLE
+
+		stringstream s;
+		s << "Will resample audio from " << _film->audio_stream()->sample_rate() << " to " << _film->target_audio_sample_rate();
+		_film->log()->log (s.str ());
+
+		/* We will be using planar float data when we call the resampler */
+		_swr_context = swr_alloc_set_opts (
+			0,
+			_film->audio_stream()->channel_layout(),
+			AV_SAMPLE_FMT_FLTP,
+			_film->target_audio_sample_rate(),
+			_film->audio_stream()->channel_layout(),
+			AV_SAMPLE_FMT_FLTP,
+			_film->audio_stream()->sample_rate(),
+			0, 0
+			);
+		
+		swr_init (_swr_context);
+#else
+		throw EncodeError ("Cannot resample audio as libswresample is not present");
+#endif
+	} else {
+#ifdef HAVE_SWRESAMPLE
+		_swr_context = 0;
+#endif		
+	}
+}
+
+
+void
+Encoder::process_end ()
+{
+#if HAVE_SWRESAMPLE	
+	if (_film->audio_stream() && _swr_context) {
+
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream()->channels(), 256));
+			
+		while (1) {
+			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
+
+			if (frames < 0) {
+				throw EncodeError ("could not run sample-rate converter");
+			}
+
+			if (frames == 0) {
+				break;
+			}
+
+			out->set_frames (frames);
+			write_audio (out);
+		}
+
+		swr_free (&_swr_context);
+	}
+#endif
+
+	if (_film->audio_stream()) {
+		close_sound_files ();
+		
+		/* Rename .wav.tmp files to .wav */
+		for (int i = 0; i < _film->audio_channels(); ++i) {
+			if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
+				boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
+			}
+			boost::filesystem::rename (_opt->multichannel_audio_out_path (i, true), _opt->multichannel_audio_out_path (i, false));
+		}
+	}
+}	
 
 /** @return an estimate of the current number of frames we are encoding per second,
  *  or 0 if not known.
@@ -152,7 +256,53 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 		data = trimmed;
 	}
 
-	do_process_audio (data);
+#if HAVE_SWRESAMPLE
+	/* Maybe sample-rate convert */
+	if (_swr_context) {
 
+		/* Compute the resampled frames count and add 32 for luck */
+		int const max_resampled_frames = ceil ((int64_t) data->frames() * _film->target_audio_sample_rate() / _film->audio_stream()->sample_rate()) + 32;
+
+		shared_ptr<AudioBuffers> resampled (new AudioBuffers (_film->audio_stream()->channels(), max_resampled_frames));
+
+		/* Resample audio */
+		int const resampled_frames = swr_convert (
+			_swr_context, (uint8_t **) resampled->data(), max_resampled_frames, (uint8_t const **) data->data(), data->frames()
+			);
+		
+		if (resampled_frames < 0) {
+			throw EncodeError ("could not run sample-rate converter");
+		}
+
+		resampled->set_frames (resampled_frames);
+		
+		/* And point our variables at the resampled audio */
+		data = resampled;
+	}
+#endif
+
+	write_audio (data);
+	
 	_audio_frame += data->frames ();
 }
+
+void
+Encoder::write_audio (shared_ptr<const AudioBuffers> audio)
+{
+	for (int i = 0; i < _film->audio_channels(); ++i) {
+		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
+	}
+
+	_audio_frames_written += audio->frames ();
+}
+
+void
+Encoder::close_sound_files ()
+{
+	for (vector<SNDFILE*>::iterator i = _sound_files.begin(); i != _sound_files.end(); ++i) {
+		sf_close (*i);
+	}
+
+	_sound_files.clear ();
+}	
+

@@ -19,7 +19,6 @@
 
 #include <stdexcept>
 #include "ab_transcode_job.h"
-#include "j2k_wav_encoder.h"
 #include "film.h"
 #include "format.h"
 #include "filter.h"

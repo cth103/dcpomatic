@@ -17,8 +17,8 @@
 
 */
 
-/** @file  src/j2k_wav_encoder.h
- *  @brief An encoder which writes JPEG2000 and WAV files.
+/** @file  src/j2k_video_encoder.h
+ *  @brief An encoder which writes JPEG2000 files, where they are video (ie not still).
  */
 
 #include <list>
@@ -26,12 +26,6 @@
 #include <boost/thread/condition.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
-#ifdef HAVE_SWRESAMPLE
-extern "C" {
-#include <libswresample/swresample.h>
-}
-#endif
-#include <sndfile.h>
 #include "encoder.h"
 
 class ServerDescription;
@@ -39,16 +33,15 @@ class DCPVideoFrame;
 class Image;
 class Log;
 class Subtitle;
-class AudioBuffers;
 
-/** @class J2KWAVEncoder
- *  @brief An encoder which writes JPEG2000 and WAV files.
+/** @class J2KVideoEncoder
+ *  @brief An encoder which writes JPEG2000 files, where they are video (ie not still).
  */
-class J2KWAVEncoder : public Encoder
+class J2KVideoEncoder : public Encoder
 {
 public:
-	J2KWAVEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const EncodeOptions>);
-	~J2KWAVEncoder ();
+	J2KVideoEncoder (boost::shared_ptr<const Film>, boost::shared_ptr<const EncodeOptions>);
+	~J2KVideoEncoder ();
 
 	void process_begin ();
 	void process_end ();
@@ -56,19 +49,9 @@ public:
 private:
 
 	void do_process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
-	void do_process_audio (boost::shared_ptr<AudioBuffers>);
 	
-	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 	void encoder_thread (ServerDescription *);
-	void close_sound_files ();
 	void terminate_worker_threads ();
-
-#if HAVE_SWRESAMPLE	
-	SwrContext* _swr_context;
-#endif	
-
-	std::vector<SNDFILE*> _sound_files;
-	int64_t _audio_frames_written;
 
 	bool _process_end;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;

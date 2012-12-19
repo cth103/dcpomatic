@@ -22,7 +22,7 @@
  */
 
 #include <boost/filesystem.hpp>
-#include "j2k_wav_encoder.h"
+#include "j2k_video_encoder.h"
 #include "j2k_still_encoder.h"
 #include "film.h"
 
@@ -35,5 +35,5 @@ encoder_factory (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 		return shared_ptr<Encoder> (new J2KStillEncoder (f, o));
 	}
 	
-	return shared_ptr<Encoder> (new J2KWAVEncoder (f, o));
+	return shared_ptr<Encoder> (new J2KVideoEncoder (f, o));
 }

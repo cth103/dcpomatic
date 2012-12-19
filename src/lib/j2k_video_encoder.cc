@@ -17,8 +17,8 @@
 
 */
 
-/** @file  src/j2k_wav_encoder.cc
- *  @brief An encoder which writes JPEG2000 and WAV files.
+/** @file  src/j2k_video_encoder.cc
+ *  @brief An encoder which writes JPEG2000 files, where they are video (ie not still).
  */
 
 #include <sstream>
@@ -30,7 +30,7 @@
 #include <boost/lexical_cast.hpp>
 #include <sndfile.h>
 #include <openjpeg.h>
-#include "j2k_wav_encoder.h"
+#include "j2k_video_encoder.h"
 #include "config.h"
 #include "options.h"
 #include "exceptions.h"
@@ -51,41 +51,20 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
 
-J2KWAVEncoder::J2KWAVEncoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
+J2KVideoEncoder::J2KVideoEncoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 	: Encoder (f, o)
-#ifdef HAVE_SWRESAMPLE	  
-	, _swr_context (0)
-#endif	  
-	, _audio_frames_written (0)
 	, _process_end (false)
 {
-	if (_film->audio_stream()) {
-		/* Create sound output files with .tmp suffixes; we will rename
-		   them if and when we complete.
-		*/
-		for (int i = 0; i < _film->audio_channels(); ++i) {
-			SF_INFO sf_info;
-			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream()->sample_rate());
-			/* We write mono files */
-			sf_info.channels = 1;
-			sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
-			SNDFILE* f = sf_open (_opt->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
-			if (f == 0) {
-				throw CreateFileError (_opt->multichannel_audio_out_path (i, true));
-			}
-			_sound_files.push_back (f);
-		}
-	}
+	
 }
 
-J2KWAVEncoder::~J2KWAVEncoder ()
+J2KVideoEncoder::~J2KVideoEncoder ()
 {
 	terminate_worker_threads ();
-	close_sound_files ();
 }
 
 void
-J2KWAVEncoder::terminate_worker_threads ()
+J2KVideoEncoder::terminate_worker_threads ()
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 	_process_end = true;
@@ -99,17 +78,7 @@ J2KWAVEncoder::terminate_worker_threads ()
 }
 
 void
-J2KWAVEncoder::close_sound_files ()
-{
-	for (vector<SNDFILE*>::iterator i = _sound_files.begin(); i != _sound_files.end(); ++i) {
-		sf_close (*i);
-	}
-
-	_sound_files.clear ();
-}	
-
-void
-J2KWAVEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub)
+J2KVideoEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub)
 {
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
@@ -144,7 +113,7 @@ J2KWAVEncoder::do_process_video (shared_ptr<Image> yuv, shared_ptr<Subtitle> sub
 }
 
 void
-J2KWAVEncoder::encoder_thread (ServerDescription* server)
+J2KVideoEncoder::encoder_thread (ServerDescription* server)
 {
 	/* Number of seconds that we currently wait between attempts
 	   to connect to the server; not relevant for localhost
@@ -228,53 +197,28 @@ J2KWAVEncoder::encoder_thread (ServerDescription* server)
 }
 
 void
-J2KWAVEncoder::process_begin ()
+J2KVideoEncoder::process_begin ()
 {
-	if (_film->audio_stream() && _film->audio_stream()->sample_rate() != _film->target_audio_sample_rate()) {
-#ifdef HAVE_SWRESAMPLE
-
-		stringstream s;
-		s << "Will resample audio from " << _film->audio_stream()->sample_rate() << " to " << _film->target_audio_sample_rate();
-		_film->log()->log (s.str ());
-
-		/* We will be using planar float data when we call the resampler */
-		_swr_context = swr_alloc_set_opts (
-			0,
-			_film->audio_stream()->channel_layout(),
-			AV_SAMPLE_FMT_FLTP,
-			_film->target_audio_sample_rate(),
-			_film->audio_stream()->channel_layout(),
-			AV_SAMPLE_FMT_FLTP,
-			_film->audio_stream()->sample_rate(),
-			0, 0
-			);
-		
-		swr_init (_swr_context);
-#else
-		throw EncodeError ("Cannot resample audio as libswresample is not present");
-#endif
-	} else {
-#ifdef HAVE_SWRESAMPLE
-		_swr_context = 0;
-#endif		
-	}
+	Encoder::process_begin ();
 	
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, (ServerDescription *) 0)));
+		_worker_threads.push_back (new boost::thread (boost::bind (&J2KVideoEncoder::encoder_thread, this, (ServerDescription *) 0)));
 	}
 
 	vector<ServerDescription*> servers = Config::instance()->servers ();
 
 	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		for (int j = 0; j < (*i)->threads (); ++j) {
-			_worker_threads.push_back (new boost::thread (boost::bind (&J2KWAVEncoder::encoder_thread, this, *i)));
+			_worker_threads.push_back (new boost::thread (boost::bind (&J2KVideoEncoder::encoder_thread, this, *i)));
 		}
 	}
 }
 
 void
-J2KWAVEncoder::process_end ()
+J2KVideoEncoder::process_end ()
 {
+	Encoder::process_end ();
+	
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
 	_film->log()->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
@@ -311,84 +255,5 @@ J2KWAVEncoder::process_end ()
 			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
 	}
-
-#if HAVE_SWRESAMPLE	
-	if (_film->audio_stream() && _swr_context) {
-
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream()->channels(), 256));
-			
-		while (1) {
-			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
-
-			if (frames < 0) {
-				throw EncodeError ("could not run sample-rate converter");
-			}
-
-			if (frames == 0) {
-				break;
-			}
-
-			out->set_frames (frames);
-			write_audio (out);
-		}
-
-		swr_free (&_swr_context);
-	}
-#endif
-
-	if (_film->audio_stream()) {
-		close_sound_files ();
-		
-		/* Rename .wav.tmp files to .wav */
-		for (int i = 0; i < _film->audio_channels(); ++i) {
-			if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
-				boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
-			}
-			boost::filesystem::rename (_opt->multichannel_audio_out_path (i, true), _opt->multichannel_audio_out_path (i, false));
-		}
-	}
-}
-
-void
-J2KWAVEncoder::do_process_audio (shared_ptr<AudioBuffers> audio)
-{
-	shared_ptr<AudioBuffers> resampled;
-	
-#if HAVE_SWRESAMPLE
-	/* Maybe sample-rate convert */
-	if (_swr_context) {
-
-		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil ((int64_t) audio->frames() * _film->target_audio_sample_rate() / _film->audio_stream()->sample_rate()) + 32;
-
-		resampled.reset (new AudioBuffers (_film->audio_stream()->channels(), max_resampled_frames));
-
-		/* Resample audio */
-		int const resampled_frames = swr_convert (
-			_swr_context, (uint8_t **) resampled->data(), max_resampled_frames, (uint8_t const **) audio->data(), audio->frames()
-			);
-		
-		if (resampled_frames < 0) {
-			throw EncodeError ("could not run sample-rate converter");
-		}
-
-		resampled->set_frames (resampled_frames);
-		
-		/* And point our variables at the resampled audio */
-		audio = resampled;
-	}
-#endif
-
-	write_audio (audio);
-}
-
-void
-J2KWAVEncoder::write_audio (shared_ptr<const AudioBuffers> audio)
-{
-	for (int i = 0; i < _film->audio_channels(); ++i) {
-		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
-	}
-
-	_audio_frames_written += audio->frames ();
 }
 

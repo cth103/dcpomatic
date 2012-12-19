@@ -24,12 +24,12 @@
 #include <iostream>
 #include <iomanip>
 #include "transcode_job.h"
-#include "j2k_wav_encoder.h"
 #include "film.h"
 #include "format.h"
 #include "transcoder.h"
 #include "log.h"
 #include "encoder_factory.h"
+#include "encoder.h"
 
 using std::string;
 using std::stringstream;
