@@ -21,6 +21,7 @@
  *  @brief Parent class for classes which can encode video and audio frames.
  */
 
+#include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 #include "encoder.h"
