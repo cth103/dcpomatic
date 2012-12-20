@@ -304,9 +304,8 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		return;
 	}
 
-	if (same) {
+	if (same && _last_real_frame) {
 		/* Use the last frame that we encoded */
-		assert (_last_real_frame);
 		link (_opt->frame_out_path (_last_real_frame.get(), false), _opt->frame_out_path (_video_frame, false));
 		link (_opt->hash_out_path (_last_real_frame.get(), false), _opt->hash_out_path (_video_frame, false));
 	} else {
