@@ -1,3 +1,7 @@
+2012-12-20  Carl Hetherington  <cth@carlh.net>
+
+	* Allow still-image DCPs to have external audio added to them (#13).
+
 2012-12-18  Carl Hetherington  <cth@carlh.net>
 
 	* Alter film viewer so that it is much quicker, responds instantly
