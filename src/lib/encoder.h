@@ -28,6 +28,7 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
+#include <boost/optional.hpp>
 #include <list>
 #include <stdint.h>
 extern "C" {
