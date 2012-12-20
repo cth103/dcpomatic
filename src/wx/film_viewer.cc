@@ -61,16 +61,16 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 #endif	
 	
-	wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (v_sizer);
+	_v_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (_v_sizer);
 
-	v_sizer->Add (_panel, 1, wxEXPAND);
+	_v_sizer->Add (_panel, 1, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 	h_sizer->Add (_play_button, 0, wxEXPAND);
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
-	v_sizer->Add (h_sizer, 0, wxEXPAND);
+	_v_sizer->Add (h_sizer, 0, wxEXPAND);
 
 	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
 	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
@@ -110,6 +110,7 @@ FilmViewer::film_changed (Film::Property p)
 		_panel->Refresh ();
 		_slider->Show (_film->content_type() == VIDEO);
 		_play_button->Show (_film->content_type() == VIDEO);
+		_v_sizer->Layout ();
 		break;
 	}
 	case Film::WITH_SUBTITLES:

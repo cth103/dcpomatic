@@ -846,6 +846,8 @@ FilmEditor::setup_visibility ()
 		(*i)->Show (c == STILL);
 	}
 
+	_notebook->InvalidateBestSize ();
+	
 	_film_sizer->Layout ();
 	_film_sizer->SetSizeHints (_film_panel);
 	_video_sizer->Layout ();
@@ -856,6 +858,7 @@ FilmEditor::setup_visibility ()
 	_subtitle_sizer->SetSizeHints (_subtitle_panel);
 
 	_notebook->Fit ();
+	Fit ();
 }
 
 void
