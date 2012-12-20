@@ -131,8 +131,10 @@ Film::Film (string d, bool must_exist)
 	}
 
 	_external_audio_stream = ExternalAudioStream::create ();
-
-	read_metadata ();
+	
+	if (must_exist) {
+		read_metadata ();
+	}
 
 	_log = new FileLog (file ("log"));
 	set_dci_date_today ();
@@ -267,8 +269,18 @@ Film::make_dcp (bool transcode)
 		oe->video_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
 		if (audio_stream()) {
 			oe->audio_range = make_pair (
-				video_frames_to_audio_frames (oe->video_range.get().first, audio_stream()->sample_rate(), frames_per_second()),
-				video_frames_to_audio_frames (oe->video_range.get().second, audio_stream()->sample_rate(), frames_per_second())
+
+				video_frames_to_audio_frames (
+					oe->video_range.get().first,
+					dcp_audio_sample_rate (audio_stream()->sample_rate()),
+					dcp_frame_rate (frames_per_second()).frames_per_second
+					),
+				
+				video_frames_to_audio_frames (
+					oe->video_range.get().second,
+					dcp_audio_sample_rate (audio_stream()->sample_rate()),
+					dcp_frame_rate (frames_per_second()).frames_per_second
+					)
 				);
 		}
 			
@@ -449,8 +461,12 @@ Film::read_metadata ()
 	boost::optional<int> audio_sample_rate;
 	boost::optional<int> audio_stream_index;
 	boost::optional<int> subtitle_stream_index;
-	
+
 	ifstream f (file ("metadata").c_str());
+	if (!f.good()) {
+		throw OpenFileError (file("metadata"));
+	}
+	
 	multimap<string, string> kv = read_key_value (f);
 
 	/* We need version before anything else */
@@ -675,7 +691,7 @@ Film::target_audio_sample_rate () const
 	return rint (t);
 }
 
-boost::optional<SourceFrame>
+boost::optional<int>
 Film::dcp_length () const
 {
 	if (content_type() == STILL) {
@@ -683,7 +699,7 @@ Film::dcp_length () const
 	}
 	
 	if (!length()) {
-		return boost::optional<SourceFrame> ();
+		return boost::optional<int> ();
 	}
 
 	return length().get() - dcp_trim_start() - dcp_trim_end();
@@ -850,6 +866,9 @@ Film::set_content (string c)
 	_content_audio_stream = shared_ptr<AudioStream> ();
 	_subtitle_stream = shared_ptr<SubtitleStream> ();
 
+	/* Start off using content audio */
+	set_use_content_audio (true);
+
 	/* Create a temporary decoder so that we can get information
 	   about the content.
 	*/
@@ -899,6 +918,11 @@ Film::set_content (string c)
 	case VIDEO:
 		set_format (Format::from_id ("185"));
 		break;
+	}
+
+	/* Still image DCPs must use external audio */
+	if (content_type() == STILL) {
+		set_use_content_audio (false);
 	}
 }
 

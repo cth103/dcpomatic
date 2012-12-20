@@ -63,7 +63,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	, _film (f)
 	, _generally_sensitive (true)
 {
-	wxSizer* s = new wxBoxSizer (wxVERTICAL);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
 	_notebook = new wxNotebook (this, wxID_ANY);
 	s->Add (_notebook, 1);
@@ -316,7 +316,7 @@ FilmEditor::make_audio_panel ()
 	}
 
 	_use_external_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use external audio"));
-	_audio_sizer->Add (video_control (_use_external_audio));
+	_audio_sizer->Add (_use_external_audio);
 	_audio_sizer->AddSpacer (0);
 
 	assert (MAX_AUDIO_CHANNELS == 6);
@@ -331,9 +331,9 @@ FilmEditor::make_audio_panel ()
 	};
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		video_control (add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]));
+		add_label_to_sizer (_audio_sizer, _audio_panel, channels[i]);
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), wxT ("Select Audio File"), wxT ("*.wav"));
-		_audio_sizer->Add (video_control (_external_audio[i]), 1, wxEXPAND);
+		_audio_sizer->Add (_external_audio[i], 1, wxEXPAND);
 	}
 
 	_audio_gain->SetRange (-60, 60);
@@ -725,6 +725,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::USE_CONTENT_AUDIO);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
+	film_changed (Film::STILL_DURATION);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
@@ -845,7 +846,19 @@ FilmEditor::setup_visibility ()
 		(*i)->Show (c == STILL);
 	}
 
+	_notebook->InvalidateBestSize ();
+	
 	_film_sizer->Layout ();
+	_film_sizer->SetSizeHints (_film_panel);
+	_video_sizer->Layout ();
+	_video_sizer->SetSizeHints (_video_panel);
+	_audio_sizer->Layout ();
+	_audio_sizer->SetSizeHints (_audio_panel);
+	_subtitle_sizer->Layout ();
+	_subtitle_sizer->SetSizeHints (_subtitle_panel);
+
+	_notebook->Fit ();
+	Fit ();
 }
 
 void
@@ -1001,6 +1014,7 @@ FilmEditor::setup_streams ()
 	vector<shared_ptr<AudioStream> > a = _film->content_audio_streams ();
 	for (vector<shared_ptr<AudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
 		shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (*i);
+		assert (ffa);
 		_audio_stream->Append (std_to_wx (ffa->name()), new wxStringClientData (std_to_wx (ffa->to_string ())));
 	}
 	

@@ -224,19 +224,3 @@ public:
 		: StringError (s)
 	{}
 };
-
-class PlayError : public StringError
-{
-public:
-	PlayError (std::string s)
-		: StringError (s)
-	{}
-};
-
-class DVDError : public StringError
-{
-public:
-	DVDError (std::string s)
-		: StringError (s)
-	{}
-};

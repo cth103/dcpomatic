@@ -19,13 +19,12 @@
 
 #include <stdexcept>
 #include "ab_transcode_job.h"
-#include "j2k_wav_encoder.h"
 #include "film.h"
 #include "format.h"
 #include "filter.h"
 #include "ab_transcoder.h"
-#include "encoder_factory.h"
 #include "config.h"
+#include "encoder.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -54,7 +53,7 @@ ABTranscodeJob::run ()
 {
 	try {
 		/* _film_b is the one with reference filters */
-		ABTranscoder w (_film_b, _film, _decode_opt, this, encoder_factory (_film, _encode_opt));
+		ABTranscoder w (_film_b, _film, _decode_opt, this, shared_ptr<Encoder> (new Encoder (_film, _encode_opt)));
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);

@@ -113,6 +113,7 @@ private:
 
 	void out_with_sync ();
 	void filter_and_emit_video (AVFrame *);
+	double frame_time () const;
 
 	void setup_general ();
 	void setup_video ();

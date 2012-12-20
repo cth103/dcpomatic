@@ -33,7 +33,7 @@ Combiner::Combiner (Log* log)
  *  @param sub Subtitle (which will be ignored)
  */
 void
-Combiner::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
 {
 	_image = image;
 }
@@ -43,7 +43,7 @@ Combiner::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
  *  @param sub Subtitle (which will be put onto the whole frame)
  */
 void
-Combiner::process_video_b (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+Combiner::process_video_b (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
 {
 	/* Copy the right half of this image into our _image */
 	/* XXX: this should probably be in the Image class */
@@ -62,6 +62,6 @@ Combiner::process_video_b (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
 		}
 	}
 
-	Video (_image, sub);
+	Video (_image, false, sub);
 	_image.reset ();
 }

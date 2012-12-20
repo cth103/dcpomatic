@@ -48,7 +48,7 @@ private:
 	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>);
+	void process_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>);
 	void calculate_sizes ();
 	void check_play_state ();
 	void update_from_raw ();
@@ -58,7 +58,8 @@ private:
 	void active_jobs_changed (bool);
 
 	boost::shared_ptr<Film> _film;
-	
+
+	wxBoxSizer* _v_sizer;
 	wxPanel* _panel;
 	wxSlider* _slider;
 	wxToggleButton* _play_button;
@@ -70,6 +71,7 @@ private:
 	boost::shared_ptr<Image> _display_frame;
 	boost::shared_ptr<RGBPlusAlphaImage> _display_sub;
 	Position _display_sub_position;
+	bool _got_frame;
 
 	int _out_width;
 	int _out_height;

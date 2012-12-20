@@ -50,6 +50,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _play_button (new wxToggleButton (this, wxID_ANY, wxT ("Play")))
+	, _got_frame (false)
 	, _out_width (0)
 	, _out_height (0)
 	, _panel_width (0)
@@ -60,16 +61,16 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 #endif	
 	
-	wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (v_sizer);
+	_v_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (_v_sizer);
 
-	v_sizer->Add (_panel, 1, wxEXPAND);
+	_v_sizer->Add (_panel, 1, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 	h_sizer->Add (_play_button, 0, wxEXPAND);
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
-	v_sizer->Add (h_sizer, 0, wxEXPAND);
+	_v_sizer->Add (h_sizer, 0, wxEXPAND);
 
 	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
 	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
@@ -101,7 +102,7 @@ FilmViewer::film_changed (Film::Property p)
 		o->decode_subtitles = true;
 		o->video_sync = false;
 		_decoders = decoder_factory (_film, o, 0);
-		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2));
+		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		calculate_sizes ();
@@ -109,6 +110,7 @@ FilmViewer::film_changed (Film::Property p)
 		_panel->Refresh ();
 		_slider->Show (_film->content_type() == VIDEO);
 		_play_button->Show (_film->content_type() == VIDEO);
+		_v_sizer->Layout ();
 		break;
 	}
 	case Film::WITH_SUBTITLES:
@@ -307,12 +309,14 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<Image> image, shared_ptr<Subtitle> sub)
+FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
 {
 	_raw_frame = image;
 	_raw_sub = sub;
 
 	raw_to_display ();
+
+	_got_frame = true;
 }
 
 void
@@ -322,8 +326,8 @@ FilmViewer::get_frame ()
 	_raw_frame.reset ();
 	
 	try {
-		shared_ptr<Image> last = _display_frame;
-		while (last == _display_frame) {
+		_got_frame = false;
+		while (!_got_frame) {
 			if (_decoders.video->pass ()) {
 				/* We didn't get a frame before the decoder gave up,
 				   so clear our display frame.

@@ -35,9 +35,9 @@ Matcher::Matcher (Log* log, int sample_rate, float frames_per_second)
 }
 
 void
-Matcher::process_video (boost::shared_ptr<Image> i, boost::shared_ptr<Subtitle> s)
+Matcher::process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s)
 {
-	Video (i, s);
+	Video (i, same, s);
 	_video_frames++;
 
 	_pixel_format = i->pixel_format ();
@@ -84,7 +84,7 @@ Matcher::process_end ()
 		shared_ptr<Image> black (new SimpleImage (_pixel_format.get(), _size.get(), false));
 		black->make_black ();
 		for (int i = 0; i < black_video_frames; ++i) {
-			Video (black, shared_ptr<Subtitle>());
+			Video (black, i != 0, shared_ptr<Subtitle>());
 		}
 		
 		/* Now recompute our check value */

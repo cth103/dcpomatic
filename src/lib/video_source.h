@@ -41,9 +41,10 @@ public:
 
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
-	 *  Second parameter is either 0 or a subtitle that should be on this frame.
+	 *  Second parameter is true if the image is the same as the last one that was emitted.
+	 *  Third parameter is either 0 or a subtitle that should be on this frame.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<Image>, boost::shared_ptr<Subtitle>)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>)> Video;
 
 	void connect_video (boost::shared_ptr<VideoSink>);
 };

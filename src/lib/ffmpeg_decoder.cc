@@ -572,10 +572,8 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 
 	list<shared_ptr<Image> > images = graph->process (frame);
 
-	double const st = av_frame_get_best_effort_timestamp(_frame) * av_q2d (_format_context->streams[_video_stream]->time_base);
-
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		emit_video (*i, st);
+		emit_video (*i, frame_time ());
 	}
 }
 
@@ -694,7 +692,7 @@ FFmpegDecoder::out_with_sync ()
 				String::compose (
 					"Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)",
 					out_pts_seconds, video_frame(), source_pts_seconds, frames_per_second()
-							)
+					)
 				);
 		}
 	}
@@ -731,5 +729,11 @@ SourceFrame
 FFmpegDecoder::length () const
 {
 	return (double(_format_context->duration) / AV_TIME_BASE) * frames_per_second();
+}
+
+double
+FFmpegDecoder::frame_time () const
+{
+	return av_frame_get_best_effort_timestamp(_frame) * av_q2d (_format_context->streams[_video_stream]->time_base);
 }
 
