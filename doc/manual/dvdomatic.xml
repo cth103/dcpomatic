@@ -48,8 +48,8 @@ your cinema.
 DVD-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL</ulink>.
 </para>
 
-
 </section>
+
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
@@ -77,11 +77,28 @@ version.
 </section>
 
 <section>
-<title>Linux</title>
+<title>Ubuntu Linux</title>
 
 <para>
-Installation on Linux is currently a little involved, as there are no
-packages available (yet); you will have to compile it from source.
+You can install DVD-o-matic on Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;) or
+12.10 (&lsquo;Quantal Quetzal&rsquo;) using <code>.deb</code> packages.  Simply
+download the appropriate package from <ulink
+url="http://carlh.net/software/dvdomatic">http://carlh.net</ulink> and
+double-click it.  Ubuntu will install the necessary bits and pieces
+and set DVD-o-matic up for you.
+</para>
+
+</section>
+
+<section>
+<title>Other Linux distributions</title>
+
+<para>
+Installation on non-Ubuntu Linux is currently a little involved, as
+there are no packages available (yet); you will have to compile it
+from source.  If you are using a non-Ubuntu distribution, do let me
+know via the <ulink url="mailto:dvdomatic@carlh.net">mailing
+list</ulink> and I will see about building some packages.
 </para>
 
 <para>
@@ -126,87 +143,6 @@ dvdomatic
 in a shell.
 </para>
 
-<section>
-<title>Obtaining dependencies on Ubuntu 12.04</title>
-
-<para>
-Ubuntu 12.04 packages most of DVD-o-matic's dependencies, but some are missing.  This section
-describes how to obtain all of the dependencies.
-</para>
-
-<section>
-<title>Packaged dependencies</title>
-
-<para>
-Most of the dependencies can be obtained from Ubuntu's packages using:
-</para>
-
-<programlisting>
-sudo apt-get install libwxgtk2.8-dev libsndfile1-dev libssl-dev libssh-dev
-sudo apt-get install libmagickcore-dev libboost-filesystem-dev libboost-thread-dev
-</programlisting>
-
-</section>
-
-<section>
-<title>Unpackaged dependencies</title>
-</section>
-
-<section>
-<title>FFmpeg</title>
-
-<para>
-Ubuntu does not package FFmpeg, so you will need to build it from source.  The
-following commands should work:
-</para>
-
-<programlisting>
-git clone git://source.ffmpeg.org/ffmpeg.git ffmpeg
-cd ffmpeg
-./configure --enable-shared --enable-postproc --enable-gpl
-make
-sudo make install
-</programlisting>
-
-</section>
-
-<section>
-<title>libdcp</title>
-
-<para>
-You can build libdcp using:
-</para>
-
-<programlisting>
-wget http://carlh.net/software/libdcp-0.32.tar.bz2
-tar xjf libdcp-0.32.tar.bz2
-cd libdcp-0.32
-./waf configure
-./waf build
-sudo ./waf install
-</programlisting>
-
-</section>
-
-<section>
-<title>libopenjpeg</title>
-
-<para>
-Ubuntu does package libopenjpeg, but it is a rather old version.  To build
-the current release:
-</para>
-
-<programlisting>
-wget http://code.google.com/p/openjpeg/downloads/detail?name=openjpeg-1.5.1.tar.gz
-tar xzf openjpeg-1.5.1.tar.gz
-cd openjepg-1.5.1.tar.gz
-./configure
-make
-sudo make install
-</programlisting>
-
-</section>
-</section>
 </section>
 </chapter>
 
@@ -334,7 +270,13 @@ the right of the window, as shown in <xref linkend="fig-examine-thumbs"/>.
 </figure>
 
 <para>
-Dragging the slider will move through your video.
+Dragging the slider will move through your video.  You can also click
+the <guilabel>Play</guilabel> button to play the content back.  Note
+that there will be no sound, and playback might not be entirely
+accurate (it may be slightly slower or faster than it should be, for
+example).  This player is really only intended for brief inspection of
+content; if you need to check it more thoroughly, use another player
+such as Totem, mplayer or VLC.
 </para>
 
 </section>
@@ -382,23 +324,51 @@ open by clicking on the <guilabel>Details</guilabel> button.
 </para>
 
 <para>
+The <guilabel>Trust content's header</guilabel> button starts off
+checked, and this means that DVD-o-matic will use the content's header
+information to determine its length.  If, for some reason, this header
+length is wrong, uncheck the <guilabel>Trust content's
+header</guilabel> button and DVD-o-matic will run through the content
+to find its exact length.  This may take a while for large pieces of content.
+</para>
+
+<para>
 Next up is the content type.  This can be
 &lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
 required type from the drop-down list.
 </para>
 
+<para>
+The <guilabel>trim frames</guilabel> settings allow you to trim frames
+from the beginning and end of the content; any trimmed frames will not
+be included in the DCP.
+</para>
+
 </section>
 
-
-<!-- from here needs moving around a bit -->
+<section>
+<title>Video tab</title>
 
 <para>
-Next is the format.  This will govern the shape that DVD-o-matic will
-make your image into.  Select the aspect ratio that your content
-should be presented in.  The &lsquo;4:3 within Flat&rsquo; and
-&lsquo;16:9 within Flat&rsquo; settings will put the image at the
-specified ratio within a Flat (1.85:1) frame, so that you can project
-the DCP using your projector's Flat preset.
+This tab contains settings related to the picture in your DCP, as shown in <xref linkend="fig-video-tab"/>.
+</para>
+
+<figure id="fig-video-tab"> 
+  <title>Video settings tab</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/video-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The first option on this tab is the format.  This will govern the
+shape that DVD-o-matic will make your image into.  Select the aspect
+ratio that your content should be presented in.  The &lsquo;4:3 within
+Flat&rsquo; and &lsquo;16:9 within Flat&rsquo; settings will put the
+image at the specified ratio within a Flat (1.85:1) frame, so that you
+can project the DCP using your projector's Flat preset.
 </para>
 
 <para>
@@ -409,7 +379,7 @@ edges of DVD images, for example.  The <guilabel>L</guilabel>,
 <guilabel>R</guilabel>, <guilabel>T</guilabel> and
 <guilabel>B</guilabel> settings correspond to the left, right, top and
 bottom of the image respectively.  The specified number of pixels will
-be trimmed from each edge, and your content image in the right of the
+be trimmed from each edge, and the content image in the right of the
 window will be updated to show the cropping in action.
 </para>
 
@@ -427,6 +397,25 @@ discuss the options in more detail later; Bicubic is a fine choice in
 most situations.
 <!-- XXX: link -->
 </para>
+
+</section>
+
+<section>
+<title>Audio tab</title>
+
+<para>
+This tab contains settings related to the sound in your DCP, as shown in <xref linkend="fig-audio-tab"/>.
+</para>
+
+<figure id="fig-audio-tab"> 
+  <title>Audio settings tab</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/audio-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
 
 <para>
 &lsquo;Audio Gain&rsquo; is used to alter the volume of the
@@ -476,10 +465,56 @@ with respect to the video, and a negative delay will move it earlier.
 </para>
 
 <para>
-The <guilabel>Range</guilabel> controls allow you to specify a part of
-your content to encode.  We will discuss this later.
+By default the <guilabel>Use content&lsquo;s audio</guilabel> button
+will be selected.  This means that the DCP will use one of the
+soundtracks from your content file; you can select the soundtrack that
+you wish to use from the drop-down box.
 </para>
 
+<para>
+Alternatively, you can supply different sound files by clicking the
+<guilabel>Use external audio</guilabel> button and choosing a WAV file
+for any channels that you want to appear in the DCP.  These files can
+be any bit depth and sampling rate, and will be re-sampled and
+bit-depth converted if required.
+</para>
+
+</section>
+<section>
+<title>Subtitles tab</title>
+
+<para>
+This tab contains settings related to subtitles in your DCP, as shown in <xref linkend="fig-subtitles-tab"/>.
+</para>
+
+<figure id="fig-subtitles-tab"> 
+  <title>Subtitle settings tab</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/subtitles-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+DVD-o-matic will extract subtitles from the content, if present, and
+they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
+included in the image and not overlaid by the projector).  Note that
+DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
+(automatically) to use non-burnt-in subtitles with these sources.
+Select the <guilabel>With Subtitles</guilabel> checkbox to enable
+subtitles.  The <guilabel>offset</guilabel> control moves the
+subtitles up and down the image, and the <guilabel>scale</guilabel>
+control changes their size.
+</para>
+
+<para>
+Future versions of DVD-o-matic will hopefully include the option to
+use text subtitles (as is the norm with most professionally-mastered
+DCPs).
+</para>
+
+</section>
 </section>
 
 <section>
@@ -562,24 +597,25 @@ linkend="fig-still-select-content-file"/>.
 
 <para>
 Setting up for a still image DCP is somewhat simpler than for a video;
-the options are shown in <xref linkend="fig-still-setup"/>.
+the tabs are all the same, but many options are removed and a few are added.
 </para>
-
-<figure id="fig-still-setup"> 
-  <title>Setting up to make a still DCP</title>
-  <mediaobject>
-    <imageobject> 
-      <imagedata fileref="screenshots/still-setup&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
 
 <para>
 As with video, you can select a content type and the format (ratio)
-that your image should be presented in.  It will be scaled to fit the
-selected ratio.  You can also crop your image, if you so choose, and
-then set a duration (in seconds) that the image should appear on
-screen.
+that your image should be presented in.  It will be scaled and padded
+to fit the selected ratio, but in such a way that the pixel aspect
+ratio is preserved.  In other words, the image will not be stretched,
+merely scaled; if you want to stretch your image, you will need to do
+so in a separate program before importing it into DVD-o-matic.  You
+can also crop your image, if you so choose, and then set a duration
+(in seconds) that the image should appear on screen.
+</para>
+
+<para>
+Still-image DCPs can include sound; this can be added from the
+<guilabel>Audio</guilabel> tab.  If your specified duration is shorter
+than the audio, the audio will be cut off at the duration; if it is
+longer, silence will be added after your audio.
 </para>
 
 <para>
@@ -645,6 +681,15 @@ When DVD-o-matic is encoding DCPs it can use multiple parallel threads
 to speed things up.  Set this value to the number of threads
 DVD-o-matic should use.  This would typically be set to the number of
 processors (or processor cores) in your machine.
+</para>
+
+</section>
+
+<section>
+<title>Default directory for new films</title>
+
+<para>
+This is the directory which DVD-o-matic will suggest initially as a place to put new films.
 </para>
 
 </section>
@@ -729,7 +774,9 @@ If you want to examine them yourself, you may find the A/B option (see
 
 <para>
 After changing the filters setup, you will need to regenerate the DCP
-to see the effect on-screen.
+to see the effect on the cinema screen.  The preview in DVD-o-matic
+will update itself whenever filters are changed, though of course this
+image is much smaller and of lower resolution than a projected image!
 </para>
 
 </section>
@@ -779,43 +826,6 @@ DVD-o-matic window.  When you generate your DCP, the left half of the
 screen will use the filters and scaler specified in the <xref
 linkend="ch-preferences">preferences</xref> dialogue, and the right
 half will use the filters and scaler specified in the film setup.
-</para>
-
-</section>
-
-
-<section>
-<title>Encode range</title>
-
-<para>
-If you want to encode only a portion of your input content, you can do
-so by clicking the <guilabel>Edit</guilabel> button next to the
-<guilabel>Range</guilabel> entry in the film setup area.  This will
-open the dialogue shown in <xref linkend="fig-range"/>.
-</para>
-
-<figure id="fig-range"> 
-  <title>Range selector</title> 
-  <mediaobject>
-    <imageobject> 
-      <imagedata fileref="screenshots/range&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-Here you can choose to encode the whole film, or just the first
-so-many frames of it.  This can be useful to check the quality of an
-encode before comitting to encoding the whole film &mdash; perhaps
-just encode the first ten minutes, look at it on screen, and check
-that it is ok.
-</para>
-
-<para>
-If you choose to encode only a part of the film, you can set
-DVD-o-matic to black out the rest.  This can be useful to chop a small
-part off the end of a piece of content while letting the audio play
-out.
 </para>
 
 </section>
