@@ -55,6 +55,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _out_height (0)
 	, _panel_width (0)
 	, _panel_height (0)
+	, _clear_required (false)
 {
 	_panel->SetDoubleBuffered (true);
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9	
@@ -189,6 +190,11 @@ FilmViewer::paint_panel (wxPaintEvent& ev)
 {
 	wxPaintDC dc (_panel);
 
+	if (_clear_required) {
+		dc.Clear ();
+		_clear_required = false;
+	}
+
 	if (!_display_frame || !_film || !_out_width || !_out_height) {
 		dc.Clear ();
 		return;
@@ -251,8 +257,17 @@ FilmViewer::raw_to_display ()
 		return;
 	}
 
+	Size old_size;
+	if (_display_frame) {
+		old_size = _display_frame->size();
+	}
+
 	/* Get a compacted image as we have to feed it to wxWidgets */
 	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler(), false);
+
+	if (old_size != _display_frame->size()) {
+		_clear_required = true;
+	}
 
 	if (_raw_sub) {
 		Rect tx = subtitle_transformed_area (

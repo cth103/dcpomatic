@@ -77,4 +77,6 @@ private:
 	int _out_height;
 	int _panel_width;
 	int _panel_height;
+
+	bool _clear_required;
 };

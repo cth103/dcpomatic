@@ -369,6 +369,11 @@ bool operator== (Size const & a, Size const & b)
 	return (a.width == b.width && a.height == b.height);
 }
 
+bool operator!= (Size const & a, Size const & b)
+{
+	return !(a == b);
+}
+
 bool operator== (Crop const & a, Crop const & b)
 {
 	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);

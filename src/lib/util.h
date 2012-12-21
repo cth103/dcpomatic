@@ -103,6 +103,7 @@ struct Size
 };
 
 extern bool operator== (Size const & a, Size const & b);
+extern bool operator!= (Size const & a, Size const & b);
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

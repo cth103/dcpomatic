@@ -963,9 +963,15 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 	}
 	
 	_with_subtitles->Enable (h);
-	_subtitle_stream->Enable (_film->with_subtitles ());
-	_subtitle_offset->Enable (_film->with_subtitles ());
-	_subtitle_scale->Enable (_film->with_subtitles ());
+
+	bool j = false;
+	if (_film) {
+		j = _film->with_subtitles ();
+	}
+	
+	_subtitle_stream->Enable (j);
+	_subtitle_offset->Enable (j);
+	_subtitle_scale->Enable (j);
 }
 
 void
