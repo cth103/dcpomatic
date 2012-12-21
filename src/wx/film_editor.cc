@@ -611,9 +611,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::WITH_SUBTITLES:
 		checked_set (_with_subtitles, _film->with_subtitles ());
-		_subtitle_stream->Enable (_film->with_subtitles ());
-		_subtitle_scale->Enable (_film->with_subtitles ());
-		_subtitle_offset->Enable (_film->with_subtitles ());
+		setup_subtitle_control_sensitivity ();
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
 		break;
 	case Film::SUBTITLE_OFFSET:
@@ -965,9 +963,9 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 	}
 	
 	_with_subtitles->Enable (h);
-	_subtitle_stream->Enable (h);
-	_subtitle_offset->Enable (h);
-	_subtitle_scale->Enable (h);
+	_subtitle_stream->Enable (_film->with_subtitles ());
+	_subtitle_offset->Enable (_film->with_subtitles ());
+	_subtitle_scale->Enable (_film->with_subtitles ());
 }
 
 void
