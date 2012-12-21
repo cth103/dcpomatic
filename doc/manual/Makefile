@@ -6,7 +6,7 @@ DIAGRAMS :=
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png click-content-selector.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png video-setup.png still-setup.png range.png \
-               calculate-audio-gain.png prefs.png making-dcp.png filters.png
+               calculate-audio-gain.png prefs.png making-dcp.png filters.png film-tab.png video-tab.png audio-tab.png subtitles-tab.png
 
 XML := dvdomatic.xml
 
