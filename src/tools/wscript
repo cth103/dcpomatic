@@ -1,8 +1,8 @@
 def build(bld):
     for t in ['makedcp', 'servomatic_cli']:
         obj = bld(features = 'cxx cxxprogram')
-    	obj.uselib = 'BOOST_THREAD OPENJPEG DCP AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
-	obj.includes = ['..']
+        obj.uselib = 'BOOST_THREAD OPENJPEG DCP AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
+        obj.includes = ['..']
         obj.use    = ['libdvdomatic']
         obj.source = '%s.cc' % t
         obj.target = t
