@@ -307,7 +307,7 @@ ConfigDialog::remove_server_clicked (wxCommandEvent &)
 }
 
 void
-ConfigDialog::server_selection_changed (wxListEvent& ev)
+ConfigDialog::server_selection_changed (wxListEvent &)
 {
 	int const i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	_edit_server->Enable (i >= 0);

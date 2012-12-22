@@ -315,7 +315,7 @@ BOOST_AUTO_TEST_CASE (paths_test)
 }
 
 void
-do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded, int N)
+do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded)
 {
 	shared_ptr<EncodedData> remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
@@ -385,7 +385,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded, i)));
+		threads.push_back (new thread (boost::bind (do_remote_encode, frame, &description, locally_encoded)));
 	}
 
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {

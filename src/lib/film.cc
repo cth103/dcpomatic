@@ -141,7 +141,8 @@ Film::Film (string d, bool must_exist)
 }
 
 Film::Film (Film const & o)
-	: _log (0)
+	: boost::enable_shared_from_this<Film> (o)
+	, _log (0)
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)

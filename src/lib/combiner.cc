@@ -29,11 +29,11 @@ Combiner::Combiner (Log* log)
 }
 
 /** Process video for the left half of the frame.
+ *  Subtitle parameter will be ignored.
  *  @param image Frame image.
- *  @param sub Subtitle (which will be ignored)
  */
 void
-Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
+Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>)
 {
 	_image = image;
 }

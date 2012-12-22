@@ -81,7 +81,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
 	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
 
-	set_film (_film);
+	set_film (f);
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmViewer::active_jobs_changed, this, _1)
@@ -165,7 +165,7 @@ FilmViewer::decoder_changed ()
 }
 
 void
-FilmViewer::timer (wxTimerEvent& ev)
+FilmViewer::timer (wxTimerEvent &)
 {
 	if (!_film) {
 		return;
@@ -186,7 +186,7 @@ FilmViewer::timer (wxTimerEvent& ev)
 
 
 void
-FilmViewer::paint_panel (wxPaintEvent& ev)
+FilmViewer::paint_panel (wxPaintEvent &)
 {
 	wxPaintDC dc (_panel);
 

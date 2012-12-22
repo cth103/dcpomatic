@@ -428,6 +428,7 @@ Socket::check ()
 void
 Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
 {
+	_deadline.expires_from_now (posix_time::seconds (timeout));
 	system::error_code ec = asio::error::would_block;
 	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
 	do {
