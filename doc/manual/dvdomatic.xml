@@ -800,7 +800,7 @@ best all-round option, but tests are ongoing.
 <para>
 If you have configured details of a TMS in the preferences dialogue
 (<xref linkend="ch-preferences"/>) you can upload a completed DCP
-straight to your TMS but choosing <guilabel>Send DCP to TMS</guilabel>
+straight to your TMS buy choosing <guilabel>Send DCP to TMS</guilabel>
 from the <guilabel>Jobs</guilabel> menu.
 </para>
 
