@@ -80,9 +80,10 @@ version.
 <title>Ubuntu Linux</title>
 
 <para>
-You can install DVD-o-matic on Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;) or
-12.10 (&lsquo;Quantal Quetzal&rsquo;) using <code>.deb</code> packages.  Simply
-download the appropriate package from <ulink
+You can install DVD-o-matic on Ubuntu 12.04 (&lsquo;Precise
+Pangolin&rsquo;) or 12.10 (&lsquo;Quantal Quetzal&rsquo;) using
+<code>.deb</code> packages: download the appropriate package from
+<ulink
 url="http://carlh.net/software/dvdomatic">http://carlh.net</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
 and set DVD-o-matic up for you.
