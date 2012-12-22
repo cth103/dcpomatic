@@ -1,3 +1,7 @@
+2012-12-22  Carl Hetherington  <cth@carlh.net>
+
+	* Fix wscripts to work with python 3.
+
 2012-12-21  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.68beta9 released.
