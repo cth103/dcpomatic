@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.69pre'
+VERSION = '0.69'
 
 def options(opt):
     opt.load('compiler_cxx')
