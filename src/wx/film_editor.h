@@ -66,6 +66,7 @@ private:
 	void dcp_trim_start_changed (wxCommandEvent &);
 	void dcp_trim_end_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
+	void encrypted_toggled (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void audio_gain_changed (wxCommandEvent &);
@@ -163,6 +164,7 @@ private:
 
 	wxSpinCtrl* _dcp_trim_start;
 	wxSpinCtrl* _dcp_trim_end;
+	wxCheckBox* _encrypted;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 

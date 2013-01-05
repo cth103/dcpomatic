@@ -99,6 +99,7 @@ Film::Film (string d, bool must_exist)
 	, _with_subtitles (false)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
+	, _encrypted (false)
 	, _frames_per_second (0)
 	, _dirty (false)
 {
@@ -166,6 +167,7 @@ Film::Film (Film const & o)
 	, _with_subtitles    (o._with_subtitles)
 	, _subtitle_offset   (o._subtitle_offset)
 	, _subtitle_scale    (o._subtitle_scale)
+	, _encrypted         (o._encrypted)
 	, _audio_language    (o._audio_language)
 	, _subtitle_language (o._subtitle_language)
 	, _territory         (o._territory)
@@ -418,6 +420,7 @@ Film::write_metadata () const
 	f << "with_subtitles " << _with_subtitles << "\n";
 	f << "subtitle_offset " << _subtitle_offset << "\n";
 	f << "subtitle_scale " << _subtitle_scale << "\n";
+	f << "encrypted " << _encrypted << "\n";
 	f << "audio_language " << _audio_language << "\n";
 	f << "subtitle_language " << _subtitle_language << "\n";
 	f << "territory " << _territory << "\n";
@@ -543,6 +546,8 @@ Film::read_metadata ()
 			_subtitle_offset = atoi (v.c_str ());
 		} else if (k == "subtitle_scale") {
 			_subtitle_scale = atof (v.c_str ());
+		} else if (k == "encrypted") {
+			_encrypted = (v == "1");
 		} else if (k == "audio_language") {
 			_audio_language = v;
 		} else if (k == "subtitle_language") {
@@ -1186,6 +1191,16 @@ Film::set_subtitle_scale (float s)
 		_subtitle_scale = s;
 	}
 	signal_changed (SUBTITLE_SCALE);
+}
+
+void
+Film::set_encrypted (bool e)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_encrypted = e;
+	}
+	signal_changed (ENCRYPTED);
 }
 
 void

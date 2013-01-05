@@ -149,6 +149,10 @@ FilmEditor::make_film_panel ()
 		_film_sizer->Add (s);
 	}
 
+	_encrypted = new wxCheckBox (_film_panel, wxID_ANY, wxT ("Encrypted"));
+	_film_sizer->Add (_encrypted, 1);
+	_film_sizer->AddSpacer (0);
+
 	_dcp_ab = new wxCheckBox (_film_panel, wxID_ANY, wxT ("A/B"));
 	video_control (_dcp_ab);
 	_film_sizer->Add (_dcp_ab, 1);
@@ -188,6 +192,7 @@ FilmEditor::connect_to_widgets ()
 	_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
 	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
+	_encrypted->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::encrypted_toggled), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_dcp_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_start_changed), 0, this);
 	_dcp_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_end_changed), 0, this);
@@ -454,6 +459,16 @@ FilmEditor::dcp_ab_toggled (wxCommandEvent &)
 	_film->set_dcp_ab (_dcp_ab->GetValue ());
 }
 
+void
+FilmEditor::encrypted_toggled (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_encrypted (_encrypted->GetValue ());
+}
+			       
 /** Called when the name widget has been changed */
 void
 FilmEditor::name_changed (wxCommandEvent &)
@@ -620,6 +635,9 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SUBTITLE_SCALE:
 		checked_set (_subtitle_scale, _film->subtitle_scale() * 100);
 		break;
+	case Film::ENCRYPTED:
+		checked_set (_encrypted, _film->encrypted ());
+		break;
 	case Film::USE_DCI_NAME:
 		checked_set (_use_dci_name, _film->use_dci_name ());
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
@@ -727,6 +745,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
+	film_changed (Film::ENCRYPTED);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
@@ -760,6 +779,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_dcp_trim_start->Enable (s);
 	_dcp_trim_end->Enable (s);
 	_dcp_ab->Enable (s);
+	_encrypted->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);

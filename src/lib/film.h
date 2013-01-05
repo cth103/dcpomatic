@@ -124,6 +124,7 @@ public:
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,
+		ENCRYPTED,
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
@@ -250,6 +251,11 @@ public:
 		return _subtitle_scale;
 	}
 
+	bool encrypted () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _encrypted;
+	}
+
 	std::string audio_language () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_language;
@@ -351,6 +357,7 @@ public:
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
+	void set_encrypted (bool);
 	void set_audio_language (std::string);
 	void set_subtitle_language (std::string);
 	void set_territory (std::string);
@@ -444,6 +451,7 @@ private:
 	int _subtitle_offset;
 	/** scale factor to apply to subtitles */
 	float _subtitle_scale;
+	bool _encrypted;
 
 	/* DCI naming stuff */
 	std::string _audio_language;

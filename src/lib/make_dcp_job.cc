@@ -113,7 +113,8 @@ MakeDCPJob::run ()
 			dfr.frames_per_second,
 			frames,
 			_opt->out_size.width,
-			_opt->out_size.height
+			_opt->out_size.height,
+			_film->encrypted ()
 			)
 		);
 	
@@ -131,7 +132,8 @@ MakeDCPJob::run ()
 				&dcp.Progress,
 				dfr.frames_per_second,
 				frames,
-				_film->audio_channels()
+				_film->audio_channels(),
+				_film->encrypted()
 				)
 			);
 		ascend ();

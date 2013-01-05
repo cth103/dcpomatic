@@ -230,6 +230,8 @@ seconds (struct timeval t)
 void
 dvdomatic_setup ()
 {
+	libdcp_setup ();
+	
 	Format::setup_formats ();
 	DCPContentType::setup_dcp_content_types ();
 	Scaler::setup_scalers ();
