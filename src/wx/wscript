@@ -23,6 +23,7 @@ def build(bld):
                  gain_calculator_dialog.cc
                  job_manager_view.cc
                  job_wrapper.cc
+                 kdm_dialog.cc
                  new_film_dialog.cc
                  properties_dialog.cc
                  server_dialog.cc

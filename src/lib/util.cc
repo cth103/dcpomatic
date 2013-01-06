@@ -43,6 +43,7 @@
 #include <magick/MagickCore.h>
 #include <magick/version.h>
 #include <libdcp/version.h>
+#include <libdcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -230,7 +231,7 @@ seconds (struct timeval t)
 void
 dvdomatic_setup ()
 {
-	libdcp_setup ();
+	libdcp::init ();
 	
 	Format::setup_formats ();
 	DCPContentType::setup_dcp_content_types ();

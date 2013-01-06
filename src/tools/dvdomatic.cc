@@ -31,6 +31,7 @@
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
 #include "wx/wx_ui_signaller.h"
+#include "wx/kdm_dialog.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -137,6 +138,7 @@ enum {
 	ID_file_quit,
 	ID_edit_preferences,
 	ID_jobs_make_dcp,
+	ID_jobs_make_kdms,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_examine_content,
 	ID_jobs_make_dcp_from_existing_transcode,
@@ -161,6 +163,7 @@ setup_menu (wxMenuBar* m)
 
 	wxMenu* jobs = new wxMenu;
 	add_item (jobs, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
+	add_item (jobs, "Make &KDMs...", ID_jobs_make_kdms, NEEDS_FILM);
 	add_item (jobs, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
 	jobs->AppendSeparator ();
 	add_item (jobs, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
@@ -199,6 +202,7 @@ public:
 		Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
 		Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
 		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
+		Connect (ID_jobs_make_kdms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_kdms));
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
 		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
 		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
@@ -329,6 +333,13 @@ public:
 	void jobs_make_dcp (wxCommandEvent &)
 	{
 		JobWrapper::make_dcp (this, film, true);
+	}
+
+	void jobs_make_kdms (wxCommandEvent &)
+	{
+		KDMDialog* d = new KDMDialog (this);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 	
 	void jobs_make_dcp_from_existing_transcode (wxCommandEvent &)
