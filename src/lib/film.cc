@@ -245,6 +245,8 @@ Film::make_dcp (bool transcode)
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
 		log()->log (String::compose ("Starting to make DCP on %1", buffer));
+		log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
+		log()->log (String::compose ("Content length %1", length()));
 	}
 		
 	if (format() == 0) {
