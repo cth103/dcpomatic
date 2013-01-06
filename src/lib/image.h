@@ -124,7 +124,6 @@ public:
 	SimpleImage (AVPixelFormat, Size, bool);
 	SimpleImage (SimpleImage const &);
 	SimpleImage& operator= (SimpleImage const &);
-	SimpleImage (boost::shared_ptr<const Image>, bool aligned);
 	~SimpleImage ();
 
 	uint8_t ** data () const;

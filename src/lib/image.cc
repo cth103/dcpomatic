@@ -448,26 +448,6 @@ SimpleImage::~SimpleImage ()
 	av_free (_stride);
 }
 
-SimpleImage::SimpleImage (shared_ptr<const Image> im, bool aligned)
-	: Image (im->pixel_format())
-{
-	assert (components() == im->components());
-
-	for (int c = 0; c < components(); ++c) {
-
-		assert (line_size()[c] == im->line_size()[c]);
-
-		uint8_t* t = data()[c];
-		uint8_t* o = im->data()[c];
-		
-		for (int y = 0; y < lines(c); ++y) {
-			memcpy (t, o, line_size()[c]);
-			t += stride()[c];
-			o += im->stride()[c];
-		}
-	}
-}
-
 uint8_t **
 SimpleImage::data () const
 {
