@@ -65,7 +65,7 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 		/* Create sound output files with .tmp suffixes; we will rename
 		   them if and when we complete.
 		*/
-		for (int i = 0; i < _film->audio_channels(); ++i) {
+		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
 			SF_INFO sf_info;
 			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream()->sample_rate());
 			/* We write mono files */
@@ -163,7 +163,7 @@ Encoder::process_end ()
 		close_sound_files ();
 		
 		/* Rename .wav.tmp files to .wav */
-		for (int i = 0; i < _film->audio_channels(); ++i) {
+		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
 			if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
 				boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
 			}
@@ -380,6 +380,20 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 	}
 #endif
 
+	if (_film->audio_channels() == 1) {
+		/* We need to switch things around so that the mono channel is on
+		   the centre channel of a 5.1 set (with other channels silent).
+		*/
+
+		shared_ptr<AudioBuffers> b (new AudioBuffers (6, data->frames ()));
+		b->make_silent (libdcp::LEFT);
+		b->make_silent (libdcp::RIGHT);
+		memcpy (b->data()[libdcp::CENTRE], data->data()[0], data->frames() * sizeof(float));
+		b->make_silent (libdcp::LFE);
+		b->make_silent (libdcp::LS);
+		b->make_silent (libdcp::RS);
+	}
+
 	write_audio (data);
 	
 	_audio_frame += data->frames ();
@@ -388,7 +402,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> audio)
 {
-	for (int i = 0; i < _film->audio_channels(); ++i) {
+	for (int i = 0; i < audio->channels(); ++i) {
 		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
 	}
 

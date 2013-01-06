@@ -184,6 +184,7 @@ struct Rect
 extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
 extern DCPFrameRate dcp_frame_rate (float);
+extern int dcp_audio_channels (int);
 extern std::string colour_lut_index_to_name (int index);
 extern int stride_round_up (int, int const *, int);
 extern int stride_lookup (int c, int const * stride);

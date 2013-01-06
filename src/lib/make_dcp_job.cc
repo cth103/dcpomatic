@@ -131,7 +131,7 @@ MakeDCPJob::run ()
 				&dcp.Progress,
 				dfr.frames_per_second,
 				frames,
-				_film->audio_channels()
+				dcp_audio_channels (_film->audio_channels())
 				)
 			);
 		ascend ();
