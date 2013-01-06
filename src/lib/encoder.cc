@@ -42,6 +42,7 @@ using std::stringstream;
 using std::vector;
 using std::list;
 using std::cout;
+using std::make_pair;
 using namespace boost;
 
 int const Encoder::_history_size = 25;
@@ -207,6 +208,12 @@ Encoder::process_end ()
 			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
 	}
+
+	/* Now do links (or copies on windows) to duplicate frames */
+	for (list<pair<int, int> >::iterator i = _links_required.begin(); i != _links_required.end(); ++i) {
+		link (_opt->frame_out_path (i->first, false), _opt->frame_out_path (i->second, false));
+		link (_opt->hash_out_path (i->first, false), _opt->hash_out_path (i->second, false));
+	}
 }	
 
 /** @return an estimate of the current number of frames we are encoding per second,
@@ -305,9 +312,11 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	}
 
 	if (same && _last_real_frame) {
-		/* Use the last frame that we encoded */
-		link (_opt->frame_out_path (_last_real_frame.get(), false), _opt->frame_out_path (_video_frame, false));
-		link (_opt->hash_out_path (_last_real_frame.get(), false), _opt->hash_out_path (_video_frame, false));
+		/* Use the last frame that we encoded.  We need to postpone doing the actual link,
+		   as on windows the link is really a copy and the reference frame might not have
+		   finished encoding yet.
+		*/
+		_links_required.push_back (make_pair (_last_real_frame.get(), _video_frame));
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());

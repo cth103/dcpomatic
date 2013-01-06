@@ -121,7 +121,13 @@ private:
 
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
-#endif	
+#endif
+
+	/** List of links that we need to create when all frames have been processed;
+	 *  such that we need to call link (first, second) for each member of this list.
+	 *  In other words, `first' is a `real' frame and `second' should be a link to `first'.
+	 */
+	std::list<std::pair<int, int> > _links_required;
 
 	std::vector<SNDFILE*> _sound_files;
 	int64_t _audio_frames_written;
