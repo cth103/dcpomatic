@@ -136,7 +136,7 @@ void
 Encoder::process_end ()
 {
 #if HAVE_SWRESAMPLE	
-	if (_film->audio_stream() && _swr_context) {
+	if (_film->audio_stream() && _film->audio_stream()->channels() && _swr_context) {
 
 		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream()->channels(), 256));
 			
