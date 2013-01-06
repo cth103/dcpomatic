@@ -40,6 +40,8 @@ private:
 	void add_cinema (boost::shared_ptr<Cinema>);
 	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
 	void targets_selection_changed (wxCommandEvent &);
+	void new_cinema_clicked (wxCommandEvent &);
+	void new_screen_clicked (wxCommandEvent &);
 	
 	wxTreeCtrl* _targets;
 	wxButton* _new_cinema;

@@ -22,6 +22,7 @@
 #include <wx/timectrl.h>
 #include "lib/cinema.h"
 #include "kdm_dialog.h"
+#include "new_cinema_dialog.h"
 #include "wx_util.h"
 #ifdef __WXMSW__
 #include "dir_picker_ctrl.h"
@@ -94,6 +95,8 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	}
 
 	_targets->Connect (wxID_ANY, wxEVT_COMMAND_TREE_SEL_CHANGED, wxCommandEventHandler (KDMDialog::targets_selection_changed), 0, this);
+	_new_cinema->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::new_cinema_clicked), 0, this);
+	_new_screen->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::new_screen_clicked), 0, this);
 
 	_new_screen->Enable (false);
 	
@@ -137,4 +140,18 @@ KDMDialog::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 	}
 
 	_screens[_targets->AppendItem (i->first, std_to_wx (s->name))] = s;
+}
+
+void
+KDMDialog::new_cinema_clicked (wxCommandEvent &)
+{
+	NewCinemaDialog* d = new NewCinemaDialog (this);
+	d->ShowModal ();
+	d->Destroy ();
+}
+
+void
+KDMDialog::new_screen_clicked (wxCommandEvent &)
+{
+
 }
