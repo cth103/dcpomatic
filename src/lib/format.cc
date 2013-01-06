@@ -75,6 +75,7 @@ Format::setup_formats ()
 	_formats.push_back (new FixedFormat (166, Size (1793, 1080), "166", "1.66", "F"));
 	_formats.push_back (new FixedFormat (166, Size (1998, 1080), "166-in-flat", "1.66 within Flat", "F"));
 	_formats.push_back (new FixedFormat (178, Size (1998, 1080), "178-in-flat", "16:9 within Flat", "F"));
+	_formats.push_back (new FixedFormat (178, Size (1920, 1080), "178", "16:9", "F"));
 	_formats.push_back (new FixedFormat (185, Size (1998, 1080), "185", "Flat", "F"));
 	_formats.push_back (new FixedFormat (239, Size (2048, 858), "239", "Scope", "S"));
 	_formats.push_back (new VariableFormat (Size (1998, 1080), "var-185", "Flat", "F"));
