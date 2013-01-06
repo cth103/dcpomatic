@@ -392,6 +392,8 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 		b->make_silent (libdcp::LFE);
 		b->make_silent (libdcp::LS);
 		b->make_silent (libdcp::RS);
+
+		data = b;
 	}
 
 	write_audio (data);
