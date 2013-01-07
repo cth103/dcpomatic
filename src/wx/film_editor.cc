@@ -1075,7 +1075,12 @@ FilmEditor::setup_audio_details ()
 		_audio->SetLabel (wxT (""));
 	} else {
 		stringstream s;
-		s << _film->audio_stream()->channels () << " channels, " << _film->audio_stream()->sample_rate() << "Hz";
+		if (_film->audio_stream()->channels() == 1) {
+			s << "1 channel";
+		} else {
+			s << _film->audio_stream()->channels () << " channels";
+		}
+		s << ", " << _film->audio_stream()->sample_rate() << "Hz";
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }
