@@ -367,7 +367,7 @@ dcp_audio_sample_rate (int fs)
 int
 dcp_audio_channels (int f)
 {
-	if (f) {
+	if (f == 1) {
 		/* The source is mono, so to put the mono channel into
 		   the centre we need to generate a 5.1 soundtrack.
 		*/
