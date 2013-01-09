@@ -24,8 +24,9 @@ def build(bld):
                  job_manager_view.cc
                  job_wrapper.cc
                  kdm_dialog.cc
-                 new_cinema_dialog.cc
+                 cinema_dialog.cc
                  new_film_dialog.cc
+                 screen_dialog.cc
                  properties_dialog.cc
                  server_dialog.cc
                  wx_util.cc

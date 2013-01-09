@@ -27,11 +27,13 @@
 #include "scaler.h"
 #include "filter.h"
 #include "sound_processor.h"
+#include "cinema.h"
 
 using std::vector;
 using std::ifstream;
 using std::string;
 using std::ofstream;
+using std::list;
 using boost::shared_ptr;
 
 Config* Config::_instance = 0;
@@ -48,6 +50,9 @@ Config::Config ()
 {
 	ifstream f (file().c_str ());
 	string line;
+
+	shared_ptr<Cinema> cinema;
+	
 	while (getline (f, line)) {
 		if (line.empty ()) {
 			continue;
@@ -91,7 +96,22 @@ Config::Config ()
 			_tms_password = v;
 		} else if (k == "sound_processor") {
 			_sound_processor = SoundProcessor::from_id (v);
+		} else if (k == "cinema") {
+			if (cinema) {
+				_cinemas.push_back (cinema);
+			}
+			cinema.reset (new Cinema (v, ""));
+		} else if (k == "cinema_email") {
+			assert (cinema);
+			cinema->email = v;
+		} else if (k == "screen") {
+			shared_ptr<Screen> s (new Screen (v));
+			cinema->screens.push_back (s);
 		}
+	}
+
+	if (cinema) {
+		_cinemas.push_back (cinema);
 	}
 }
 
@@ -140,7 +160,15 @@ Config::write () const
 	f << "tms_path " << _tms_path << "\n";
 	f << "tms_user " << _tms_user << "\n";
 	f << "tms_password " << _tms_password << "\n";
-	f << "sound_processor " << _sound_processor->id ();
+	f << "sound_processor " << _sound_processor->id () << "\n";
+
+	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
+		f << "cinema " << (*i)->name << "\n";
+		f << "cinema_email " << (*i)->email << "\n";
+		for (list<shared_ptr<Screen> >::iterator j = (*i)->screens.begin(); j != (*i)->screens.end(); ++j) {
+			f << "screen " << (*j)->name << "\n";
+		}
+	}
 }
 
 string

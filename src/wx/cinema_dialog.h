@@ -17,10 +17,17 @@
 
 */
 
-#include "new_cinema_dialog.h"
+#include <wx/wx.h>
 
-NewCinemaDialog::NewCinemaDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("New Cinema"))
+class CinemaDialog : public wxDialog
 {
+public:
+	CinemaDialog (wxWindow *, std::string, std::string name = "", std::string email = "");
+
+	std::string name () const;
+	std::string email () const;
 	
-}
+private:
+	wxTextCtrl* _name;
+	wxTextCtrl* _email;
+};

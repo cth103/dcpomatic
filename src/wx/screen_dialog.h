@@ -19,9 +19,13 @@
 
 #include <wx/wx.h>
 
-class NewCinemaDialog : public wxDialog
+class ScreenDialog : public wxDialog
 {
 public:
-	NewCinemaDialog (wxWindow *);
+	ScreenDialog (wxWindow *, std::string, std::string name = "");
 
+	std::string name () const;
+	
+private:
+	wxTextCtrl* _name;
 };

@@ -32,6 +32,7 @@ class ServerDescription;
 class Scaler;
 class Filter;
 class SoundProcessor;
+class Cinema;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -107,6 +108,10 @@ public:
 		return _sound_processor;
 	}
 
+	std::list<boost::shared_ptr<Cinema> > cinemas () const {
+		return _cinemas;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -163,6 +168,14 @@ public:
 	void set_tms_password (std::string p) {
 		_tms_password = p;
 	}
+
+	void add_cinema (boost::shared_ptr<Cinema> c) {
+		_cinemas.push_back (c);
+	}
+
+	void remove_cinema (boost::shared_ptr<Cinema> c) {
+		_cinemas.remove (c);
+	}
 	
 	void write () const;
 
@@ -201,6 +214,8 @@ private:
 	std::string _tms_password;
 	/** Our sound processor */
 	SoundProcessor const * _sound_processor;
+
+	std::list<boost::shared_ptr<Cinema> > _cinemas;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

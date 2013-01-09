@@ -40,12 +40,23 @@ private:
 	void add_cinema (boost::shared_ptr<Cinema>);
 	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
 	void targets_selection_changed (wxCommandEvent &);
-	void new_cinema_clicked (wxCommandEvent &);
-	void new_screen_clicked (wxCommandEvent &);
+	void add_cinema_clicked (wxCommandEvent &);
+	void edit_cinema_clicked (wxCommandEvent &);
+	void remove_cinema_clicked (wxCommandEvent &);
+	void add_screen_clicked (wxCommandEvent &);
+	void edit_screen_clicked (wxCommandEvent &);
+	void remove_screen_clicked (wxCommandEvent &);
+	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
+	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
+	void setup_sensitivity ();
 	
 	wxTreeCtrl* _targets;
-	wxButton* _new_cinema;
-	wxButton* _new_screen;
+	wxButton* _add_cinema;
+	wxButton* _edit_cinema;
+	wxButton* _remove_cinema;
+	wxButton* _add_screen;
+	wxButton* _edit_screen;
+	wxButton* _remove_screen;
 	wxDatePickerCtrl* _from_date;
 	wxDatePickerCtrl* _to_date;
 	wxTimePickerCtrl* _from_time;
