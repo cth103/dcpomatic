@@ -338,7 +338,15 @@ public:
 	void jobs_make_kdms (wxCommandEvent &)
 	{
 		KDMDialog* d = new KDMDialog (this);
-		d->ShowModal ();
+		if (d->ShowModal () == wxID_OK) {
+			_film->make_kdms (
+				d->screens (),
+				d->from (),
+				d->until (),
+				d->directory ()
+				);
+		}
+		
 		d->Destroy ();
 	}
 	

@@ -36,6 +36,11 @@ class KDMDialog : public wxDialog
 public:
 	KDMDialog (wxWindow *);
 
+	std::list<boost::shared_ptr<Screen> > screens () const;
+	boost::local::date_time from () const;
+	boost::local::date_time until () const;
+	std::string directory () const;
+
 private:
 	void add_cinema (boost::shared_ptr<Cinema>);
 	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);

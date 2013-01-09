@@ -1384,3 +1384,15 @@ Film::audio_stream () const
 
 	return _external_audio_stream;
 }
+
+void
+Film::make_kdms (
+	list<shared_ptr<Screen> >,
+	boost::locale::date_time from,
+	boost::locale::date_time until,
+	string directory
+	) const
+{
+	
+}
+	

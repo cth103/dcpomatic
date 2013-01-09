@@ -321,3 +321,44 @@ KDMDialog::remove_screen_clicked (wxCommandEvent &)
 
 	Config::instance()->write ();
 }
+
+list<shared_ptr<Screen> >
+KDMDialog::screens () const
+{
+	list<shared_ptr<Screen> > s;
+
+	list<pair<wxTreeItemId, shared_ptr<Cinema> > > cinemas = selected_cinemas ();
+	for (list<pair<wxTreeItemId, shared_ptr<Cinema> > >::iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
+		for (list<Screen>::iterator j = i->second->screens.begin(); j != i->second->screens.end(); ++j) {
+			s.push_back (*j);
+		}
+	}
+
+	list<pair<wxTreeItemId, shared_ptr<Screen> > > screens = selected_screens ();
+	for (list<pair<wxTreeItemId, shared_ptr<Screen> > >::iterator i = screens.begin(); i != screens.end(); ++i) {
+		s.push_back (i->second);
+	}
+
+	s.sort ();
+	s.uniq ();
+
+	return s;
+}
+
+boost::locale::date_time
+KDMDialog::from () const
+{
+
+}
+
+boost::locale::date_time
+KDMDialog::until () const
+{
+
+}
+
+string
+KDMDialog::directory () const
+{
+	return wx_to_std (_folder->GetPath ());
+}

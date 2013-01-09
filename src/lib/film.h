@@ -45,6 +45,7 @@ class Filter;
 class Log;
 class ExamineContentJob;
 class ExternalAudioStream;
+class Screen;
 
 /** @class Film
  *  @brief A representation of a video with sound.
@@ -99,6 +100,13 @@ public:
 	int audio_channels () const;
 
 	void set_dci_date_today ();
+
+	void make_kdms (
+		std::list<boost::shared_ptr<Screen> >,
+		boost::locale::date_time from,
+		boost::locale::date_time until,
+		std::string directory
+		);
 
 	enum Property {
 		NONE,
