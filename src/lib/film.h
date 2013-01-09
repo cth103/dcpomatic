@@ -466,7 +466,7 @@ private:
 
 	/** Size, in pixels, of the source (ignoring cropping) */
 	Size _size;
-	/** Actual length of the source (in video frames) from examining it */
+	/** The length of the source, in video frames (as far as we know) */
 	boost::optional<SourceFrame> _length;
 	/** MD5 digest of our content file */
 	std::string _content_digest;

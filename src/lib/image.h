@@ -32,6 +32,7 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include "util.h"
+#include "ffmpeg_compatibility.h"
 
 class Scaler;
 class RGBFrameImage;
@@ -124,7 +125,6 @@ public:
 	SimpleImage (AVPixelFormat, Size, bool);
 	SimpleImage (SimpleImage const &);
 	SimpleImage& operator= (SimpleImage const &);
-	SimpleImage (boost::shared_ptr<const Image>, bool aligned);
 	~SimpleImage ();
 
 	uint8_t ** data () const;

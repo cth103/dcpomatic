@@ -19,6 +19,7 @@
 
 #include <boost/optional.hpp>
 #include "processor.h"
+#include "ffmpeg_compatibility.h"
 
 class Matcher : public AudioVideoProcessor
 {

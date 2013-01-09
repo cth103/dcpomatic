@@ -42,6 +42,7 @@ using std::stringstream;
 using std::vector;
 using std::list;
 using std::cout;
+using std::make_pair;
 using namespace boost;
 
 int const Encoder::_history_size = 25;
@@ -65,7 +66,7 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 		/* Create sound output files with .tmp suffixes; we will rename
 		   them if and when we complete.
 		*/
-		for (int i = 0; i < _film->audio_channels(); ++i) {
+		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
 			SF_INFO sf_info;
 			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream()->sample_rate());
 			/* We write mono files */
@@ -136,7 +137,7 @@ void
 Encoder::process_end ()
 {
 #if HAVE_SWRESAMPLE	
-	if (_film->audio_stream() && _swr_context) {
+	if (_film->audio_stream() && _film->audio_stream()->channels() && _swr_context) {
 
 		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_stream()->channels(), 256));
 			
@@ -163,7 +164,7 @@ Encoder::process_end ()
 		close_sound_files ();
 		
 		/* Rename .wav.tmp files to .wav */
-		for (int i = 0; i < _film->audio_channels(); ++i) {
+		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
 			if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
 				boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
 			}
@@ -206,6 +207,12 @@ Encoder::process_end ()
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
+	}
+
+	/* Now do links (or copies on windows) to duplicate frames */
+	for (list<pair<int, int> >::iterator i = _links_required.begin(); i != _links_required.end(); ++i) {
+		link (_opt->frame_out_path (i->first, false), _opt->frame_out_path (i->second, false));
+		link (_opt->hash_out_path (i->first, false), _opt->hash_out_path (i->second, false));
 	}
 }	
 
@@ -305,9 +312,11 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	}
 
 	if (same && _last_real_frame) {
-		/* Use the last frame that we encoded */
-		link (_opt->frame_out_path (_last_real_frame.get(), false), _opt->frame_out_path (_video_frame, false));
-		link (_opt->hash_out_path (_last_real_frame.get(), false), _opt->hash_out_path (_video_frame, false));
+		/* Use the last frame that we encoded.  We need to postpone doing the actual link,
+		   as on windows the link is really a copy and the reference frame might not have
+		   finished encoding yet.
+		*/
+		_links_required.push_back (make_pair (_last_real_frame.get(), _video_frame));
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
@@ -380,6 +389,22 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 	}
 #endif
 
+	if (_film->audio_channels() == 1) {
+		/* We need to switch things around so that the mono channel is on
+		   the centre channel of a 5.1 set (with other channels silent).
+		*/
+
+		shared_ptr<AudioBuffers> b (new AudioBuffers (6, data->frames ()));
+		b->make_silent (libdcp::LEFT);
+		b->make_silent (libdcp::RIGHT);
+		memcpy (b->data()[libdcp::CENTRE], data->data()[0], data->frames() * sizeof(float));
+		b->make_silent (libdcp::LFE);
+		b->make_silent (libdcp::LS);
+		b->make_silent (libdcp::RS);
+
+		data = b;
+	}
+
 	write_audio (data);
 	
 	_audio_frame += data->frames ();
@@ -388,7 +413,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> audio)
 {
-	for (int i = 0; i < _film->audio_channels(); ++i) {
+	for (int i = 0; i < audio->channels(); ++i) {
 		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
 	}
 

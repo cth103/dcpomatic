@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.69pre'
+VERSION = '0.71pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -151,6 +151,26 @@ def configure(conf):
                              define_name = 'HAVE_G_FORMAT_SIZE',
                              mandatory = False)
 
+    conf.check_cc(fragment = """
+                             extern "C" {
+                               #include <libavutil/avutil.h>
+                             }
+                             int main() { AVPixelFormat f; }
+                             """, msg = 'Checking for AVPixelFormat',
+                             uselib = 'AVUTIL',
+                             define_name = 'HAVE_AV_PIXEL_FORMAT',
+                             mandatory = False)
+
+    conf.check_cc(fragment = """
+                             extern "C" {
+                               #include <libavcodec/avcodec.h>
+                             }
+                             int main() { AVFrame* f; av_frame_get_best_effort_timestamp(f); }
+                             """, msg = 'Checking for av_frame_get_best_effort_timestamp',
+                             uselib = 'AVCODEC',
+                             define_name = 'HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP',
+                             mandatory = False)
+
     conf.recurse('src')
     conf.recurse('test')
 
@@ -176,7 +196,7 @@ def build(bld):
     bld.add_post_fun(post)
 
 def dist(ctx):
-    ctx.excl = 'TODO core *~ src/wx/*~ src/lib/*~ .waf* build .git deps alignment hacks sync *.tar.bz2 *.exe .lock* *build-windows doc/manual/pdf doc/manual/html'
+    ctx.excl = 'TODO core *~ src/wx/*~ src/lib/*~ builds/*~ doc/manual/*~ src/tools/*~ *.pyc .waf* build .git deps alignment hacks sync *.tar.bz2 *.exe .lock* *build-windows doc/manual/pdf doc/manual/html'
 
 def create_version_cc(version):
     if os.path.exists('.git'):

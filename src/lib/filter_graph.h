@@ -25,6 +25,7 @@
 #define DVDOMATIC_FILTER_GRAPH_H
 
 #include "util.h"
+#include "ffmpeg_compatibility.h"
 
 class Image;
 class VideoFilter;

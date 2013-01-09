@@ -473,6 +473,11 @@ you wish to use from the drop-down box.
 </para>
 
 <para>
+Note that if your content's audio is mono, DVD-o-matic will place it
+in the centre channel in the DCP.
+</para>
+
+<para>
 Alternatively, you can supply different sound files by clicking the
 <guilabel>Use external audio</guilabel> button and choosing a WAV file
 for any channels that you want to appear in the DCP.  These files can

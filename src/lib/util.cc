@@ -367,6 +367,20 @@ dcp_audio_sample_rate (int fs)
 	return 96000;
 }
 
+int
+dcp_audio_channels (int f)
+{
+	if (f == 1) {
+		/* The source is mono, so to put the mono channel into
+		   the centre we need to generate a 5.1 soundtrack.
+		*/
+		return 6;
+	}
+
+	return f;
+}
+
+
 bool operator== (Size const & a, Size const & b)
 {
 	return (a.width == b.width && a.height == b.height);
