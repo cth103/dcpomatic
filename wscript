@@ -171,6 +171,16 @@ def configure(conf):
                              define_name = 'HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP',
                              mandatory = False)
 
+    conf.check_cc(fragment = """
+                             extern "C" {
+                               #include <libavfilter/buffersrc.h>
+                             }
+                             int main() { } 
+                             """, msg = 'Checking for buffersrc.h',
+                             uselib = 'AVCODEC',
+                             define_name = 'HAVE_BUFFERSRC_H',
+                             mandatory = False)
+
     conf.recurse('src')
     conf.recurse('test')
 
