@@ -87,11 +87,11 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	_from_time = new wxTimePickerCtrl (this, wxID_ANY);
 	table->Add (_from_time, 1, wxEXPAND);
 	
-	add_label_to_sizer (table, this, "To");
-	_to_date = new wxDatePickerCtrl (this, wxID_ANY);
-	table->Add (_to_date, 1, wxEXPAND);
-	_to_time = new wxTimePickerCtrl (this, wxID_ANY);
-	table->Add (_to_time, 1, wxEXPAND);
+	add_label_to_sizer (table, this, "Until");
+	_until_date = new wxDatePickerCtrl (this, wxID_ANY);
+	table->Add (_until_date, 1, wxEXPAND);
+	_until_time = new wxTimePickerCtrl (this, wxID_ANY);
+	table->Add (_until_time, 1, wxEXPAND);
 
 	add_label_to_sizer (table, this, "Write to");
 

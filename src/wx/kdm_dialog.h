@@ -58,9 +58,9 @@ private:
 	wxButton* _edit_screen;
 	wxButton* _remove_screen;
 	wxDatePickerCtrl* _from_date;
-	wxDatePickerCtrl* _to_date;
+	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
-	wxTimePickerCtrl* _to_time;
+	wxTimePickerCtrl* _until_time;
 #ifdef __WXMSW__	
 	DirPickerCtrl* _folder;
 #else
