@@ -107,3 +107,11 @@ avfilter_inout_alloc ()
 	return (AVFilterInOut *) av_malloc (sizeof (AVFilterInOut));
 }
 #endif
+
+#ifndef HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP
+int64_t av_frame_get_best_effort_timestamp (AVFrame const * f)
+{
+	return f->best_effort_timestamp;
+}
+
+#endif

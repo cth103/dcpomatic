@@ -151,6 +151,26 @@ def configure(conf):
                              define_name = 'HAVE_G_FORMAT_SIZE',
                              mandatory = False)
 
+    conf.check_cc(fragment = """
+                             extern "C" {
+                               #include <libavutil/avutil.h>
+                             }
+                             int main() { AVPixelFormat f; }
+                             """, msg = 'Checking for AVPixelFormat',
+                             uselib = 'AVUTIL',
+                             define_name = 'HAVE_AV_PIXEL_FORMAT',
+                             mandatory = False)
+
+    conf.check_cc(fragment = """
+                             extern "C" {
+                               #include <libavcodec/avcodec.h>
+                             }
+                             int main() { AVFrame* f; av_frame_get_best_effort_timestamp(f); }
+                             """, msg = 'Checking for av_frame_get_best_effort_timestamp',
+                             uselib = 'AVCODEC',
+                             define_name = 'HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP',
+                             mandatory = False)
+
     conf.recurse('src')
     conf.recurse('test')
 

@@ -32,6 +32,7 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include "util.h"
+#include "ffmpeg_compatibility.h"
 
 class Scaler;
 class RGBFrameImage;

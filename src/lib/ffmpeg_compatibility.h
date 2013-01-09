@@ -22,3 +22,10 @@ struct AVFilterInOut;
 extern AVFilter* get_sink ();
 extern AVFilterInOut* avfilter_inout_alloc ();
 
+#ifndef HAVE_AV_PIXEL_FORMAT
+#define AVPixelFormat PixelFormat
+#endif
+
+#ifndef HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP
+extern int64_t av_frame_get_best_effort_timestamp (AVFrame const *);
+#endif
