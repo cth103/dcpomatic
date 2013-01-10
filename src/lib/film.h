@@ -32,6 +32,7 @@
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
@@ -103,10 +104,10 @@ public:
 
 	void make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
-		boost::locale::date_time from,
-		boost::locale::date_time until,
+		boost::posix_time::ptime from,
+		boost::posix_time::ptime until,
 		std::string directory
-		);
+		) const;
 
 	enum Property {
 		NONE,

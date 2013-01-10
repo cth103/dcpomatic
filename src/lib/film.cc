@@ -65,6 +65,7 @@ using std::ofstream;
 using std::setfill;
 using std::min;
 using std::make_pair;
+using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
@@ -1388,8 +1389,8 @@ Film::audio_stream () const
 void
 Film::make_kdms (
 	list<shared_ptr<Screen> >,
-	boost::locale::date_time from,
-	boost::locale::date_time until,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime until,
 	string directory
 	) const
 {

@@ -19,6 +19,7 @@
 
 #include <map>
 #include <boost/shared_ptr.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <wx/wx.h>
 #include <wx/treectrl.h>
 
@@ -37,8 +38,8 @@ public:
 	KDMDialog (wxWindow *);
 
 	std::list<boost::shared_ptr<Screen> > screens () const;
-	boost::local::date_time from () const;
-	boost::local::date_time until () const;
+	boost::posix_time::ptime from () const;
+	boost::posix_time::ptime until () const;
 	std::string directory () const;
 
 private:
@@ -54,6 +55,8 @@ private:
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void setup_sensitivity ();
+
+	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, wxTimePickerCtrl *);
 	
 	wxTreeCtrl* _targets;
 	wxButton* _add_cinema;

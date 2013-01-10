@@ -329,7 +329,7 @@ KDMDialog::screens () const
 
 	list<pair<wxTreeItemId, shared_ptr<Cinema> > > cinemas = selected_cinemas ();
 	for (list<pair<wxTreeItemId, shared_ptr<Cinema> > >::iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
-		for (list<Screen>::iterator j = i->second->screens.begin(); j != i->second->screens.end(); ++j) {
+		for (list<shared_ptr<Screen> >::iterator j = i->second->screens.begin(); j != i->second->screens.end(); ++j) {
 			s.push_back (*j);
 		}
 	}
@@ -340,21 +340,32 @@ KDMDialog::screens () const
 	}
 
 	s.sort ();
-	s.uniq ();
+	s.unique ();
 
 	return s;
 }
 
-boost::locale::date_time
+boost::posix_time::ptime
 KDMDialog::from () const
 {
-
+	return posix_time (_from_date, _from_time);
 }
 
-boost::locale::date_time
+boost::posix_time::ptime
+KDMDialog::posix_time (wxDatePickerCtrl* date_picker, wxTimePickerCtrl* time_picker)
+{
+	wxDateTime const date = date_picker->GetValue ();
+	wxDateTime const time = time_picker->GetValue ();
+	return boost::posix_time::ptime (
+		boost::gregorian::date (date.GetYear(), date.GetMonth() + 1, date.GetDay()),
+		boost::posix_time::time_duration (time.GetHour(), time.GetMinute(), time.GetSecond())
+		);
+}
+
+boost::posix_time::ptime
 KDMDialog::until () const
 {
-
+	return posix_time (_until_date, _until_time);
 }
 
 string
