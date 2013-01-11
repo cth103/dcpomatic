@@ -29,6 +29,10 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/date_time.hpp>
+#include <libxml++/libxml++.h>
+#include <libdcp/crypt_chain.h>
+#include <libdcp/certificates.h>
+#include "cinema.h"
 #include "film.h"
 #include "format.h"
 #include "job.h"
@@ -1388,12 +1392,66 @@ Film::audio_stream () const
 
 void
 Film::make_kdms (
-	list<shared_ptr<Screen> >,
+	list<shared_ptr<Screen> > screens,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until,
 	string directory
 	) const
 {
-	
+	string const cd = Config::instance()->crypt_chain_directory ();
+	if (boost::filesystem::is_empty (cd)) {
+		libdcp::make_crypt_chain (cd);
+	}
+
+	libdcp::CertificateChain chain;
+
+	{
+		boost::filesystem::path p (cd);
+		p /= "ca.self-signed.pem";
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
+	}
+
+	{
+		boost::filesystem::path p (cd);
+		p /= "intermediate.signed.pem";
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
+	}
+
+	{
+		boost::filesystem::path p (cd);
+		p /= "leaf.signed.pem";
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
+	}
+
+	boost::filesystem::path signer_key (cd);
+	signer_key /= "leaf.key";
+
+	/* Find the DCP to make the KDM for */
+	string const dir = this->directory ();
+	list<string> dcps;
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
+		if (boost::filesystem::is_directory (*i) && i->path().leaf() != "j2c" && i->path().leaf() != "wavs") {
+			dcps.push_back (i->path().string());
+		}
+	}
+
+	if (dcps.empty()) {
+		throw KDMError ("Could not find DCP to make KDM for");
+	} else if (dcps.size() > 1) {
+		throw KDMError ("More than one possible DCP to make KDM for");
+	}
+
+	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
+
+		libdcp::DCP dcp (dcps.front ());
+		dcp.read ();
+		
+		/* XXX: single CPL only */
+		shared_ptr<xmlpp::Document> kdm = dcp.cpls().front()->make_kdm (chain, signer_key.string(), (*i)->certificate, from, until);
+
+		boost::filesystem::path out = directory;
+		out /= "kdm.xml";
+		kdm->write_to_file_formatted (out.string());
+	}
 }
 	

@@ -8,7 +8,7 @@ public:
 	{}
 	
 	std::string name;
-	libdcp::Certificate certificate;
+	boost::shared_ptr<libdcp::Certificate> certificate;
 };
 
 class Cinema

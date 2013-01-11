@@ -48,7 +48,7 @@ Config::Config ()
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id ("dolby_cp750"))
 {
-	ifstream f (file().c_str ());
+	ifstream f (read_file().c_str ());
 	string line;
 
 	shared_ptr<Cinema> cinema;
@@ -117,11 +117,37 @@ Config::Config ()
 
 /** @return Filename to write configuration to */
 string
-Config::file () const
+Config::write_file () const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
+	p /= "dvdomatic";
+	boost::filesystem::create_directory (p);
+	p /= "config";
+	return p.string ();
+}
+
+string
+Config::read_file () const
+{
+	if (boost::filesystem::exists (write_file ())) {
+		return write_file ();
+	}
+	
+	boost::filesystem::path p;
+	p /= g_get_user_config_dir ();
 	p /= ".dvdomatic";
+	return p.string ();
+}
+
+string
+Config::crypt_chain_directory () const
+{
+	boost::filesystem::path p;
+	p /= g_get_user_config_dir ();
+	p /= "dvdomatic";
+	p /= "crypt";
+	boost::filesystem::create_directories (p);
 	return p.string ();
 }
 
@@ -140,7 +166,7 @@ Config::instance ()
 void
 Config::write () const
 {
-	ofstream f (file().c_str ());
+	ofstream f (write_file().c_str ());
 	f << "num_local_encoding_threads " << _num_local_encoding_threads << "\n"
 	  << "default_directory " << _default_directory << "\n"
 	  << "server_port " << _server_port << "\n"

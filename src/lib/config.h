@@ -179,11 +179,14 @@ public:
 	
 	void write () const;
 
+	std::string crypt_chain_directory () const;
+
 	static Config* instance ();
 
 private:
 	Config ();
-	std::string file () const;
+	std::string read_file () const;
+	std::string write_file () const;
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;

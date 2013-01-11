@@ -224,3 +224,11 @@ public:
 		: StringError (s)
 	{}
 };
+
+class KDMError : public StringError
+{
+public:
+	KDMError (std::string s)
+		: StringError (s)
+	{}
+};
