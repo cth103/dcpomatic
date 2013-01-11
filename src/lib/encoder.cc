@@ -577,8 +577,8 @@ Encoder::writer_thread ()
 {
 	while (1)
 	{
-		TIMING ("writer sleeps");
 		boost::mutex::scoped_lock lock (_writer_mutex);
+		TIMING ("writer sleeps with a queue of %1", _write_queue.size());
 		while (_write_queue.empty() && !_terminate_writer) {
 			_writer_condition.wait (lock);
 		}
