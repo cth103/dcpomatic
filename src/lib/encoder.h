@@ -51,6 +51,7 @@ class AudioBuffers;
 class Film;
 class ServerDescription;
 class DCPVideoFrame;
+class EncodedData;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -119,6 +120,9 @@ private:
 	void terminate_worker_threads ();
 	void link (std::string, std::string) const;
 
+	void writer_thread ();
+	void terminate_writer_thread ();
+
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
 #endif
@@ -133,11 +137,17 @@ private:
 	int64_t _audio_frames_written;
 
 	boost::optional<int> _last_real_frame;
-	bool _process_end;
-	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
+	bool _terminate_encoder;
+	std::list<boost::shared_ptr<DCPVideoFrame> > _encode_queue;
 	std::list<boost::thread *> _worker_threads;
 	mutable boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
+
+	boost::thread* _writer_thread;
+	bool _terminate_writer;
+	std::list<std::pair<boost::shared_ptr<EncodedData>, int> > _write_queue;
+	mutable boost::mutex _writer_mutex;
+	boost::condition _writer_condition;
 };
 
 #endif
