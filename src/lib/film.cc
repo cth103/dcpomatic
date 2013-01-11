@@ -247,6 +247,9 @@ Film::make_dcp (bool transcode)
 		log()->log (String::compose ("Starting to make DCP on %1", buffer));
 		log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
 		log()->log (String::compose ("Content length %1", length()));
+		log()->log (String::compose ("Content digest %1", content_digest()));
+		log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
+		log()->log (String::compose ("J2K bandwidth %1", Config::instance()->j2k_bandwidth()));
 	}
 		
 	if (format() == 0) {
