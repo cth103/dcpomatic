@@ -1,0 +1,80 @@
+#!/usr/bin/python
+
+from pylab import *
+import sys
+
+class Point:
+    def __init__(self, t, a):
+        self.time = t
+        self.awake = a
+
+decoder = []
+writer = []
+encoder = dict()
+
+f = open(sys.argv[1], 'r')
+for l in f.readlines():
+    l = l.strip()
+    s = l.split()
+    if len(s) == 0:
+        continue
+
+    t = s[0].split(':')
+    if len(t) != 2:
+        continue
+
+    secs = float(t[0]) + float(t[1]) / 1e6
+    if s[1] == 'decoder' and s[2] == 'sleeps':
+        decoder.append(Point(secs, False))
+    elif s[1] == 'decoder' and s[2] == 'wakes':
+        decoder.append(Point(secs, True))
+    elif s[1] == 'encoder' and s[2] == 'thread' and s[4] == 'finishes':
+        if s[3] not in encoder:
+            print 'new encoder %s' % s[3]
+            encoder[s[3]] = []
+        encoder[str(s[3])].append(Point(secs, False))
+    elif s[1] == 'encoder' and s[2] == 'thread' and s[4] == 'begins':
+        if s[3] not in encoder:
+            print 'new encoder %s' % s[3]
+            encoder[s[3]] = []
+        encoder[s[3]].append(Point(secs, True))
+    elif s[1] == 'writer' and s[2] == 'sleeps':
+        writer.append(Point(secs, False))
+    elif s[1] == 'writer' and s[2] == 'wakes':
+        writer.append(Point(secs, True))
+
+def do_a_plot(points, tit, pos):
+    x = []
+    y = []
+    awake = False
+    for p in points:
+        if p.awake != awake:
+            x.append(p.time)
+            y.append(int(awake) + pos)
+            x.append(p.time)
+            y.append(int(p.awake) + pos)
+            awake = p.awake
+
+    plot(x, y)
+#    fill_between(x, y, 0, color='0.8')
+    title(tit)
+
+figure()
+
+N = len(encoder) + 2
+
+do_a_plot(decoder, 'dec', 0)
+do_a_plot(writer, 'wri', 1)
+
+encoder_list = []
+for k, v in encoder.iteritems():
+    encoder_list.append(v)
+
+print len(encoder_list)
+
+y = 2
+for e in encoder_list:
+    do_a_plot(e, 'enc', y)
+    y += 1
+
+show()
