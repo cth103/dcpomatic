@@ -536,7 +536,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		if (encoded) {
-			boost::mutex::scoped_lock lock (_writer_mutex);
+			boost::mutex::scoped_lock lock2 (_writer_mutex);
 			_write_queue.push_back (make_pair (encoded, vf->frame ()));
 			_writer_condition.notify_all ();
 		} else {

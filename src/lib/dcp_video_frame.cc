@@ -59,6 +59,7 @@
 using std::string;
 using std::stringstream;
 using std::ofstream;
+using std::cout;
 using boost::shared_ptr;
 
 /** Construct a DCP video frame.
@@ -371,6 +372,18 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	return e;
 }
 
+EncodedData::EncodedData (int s)
+	: _data (new uint8_t[s])
+	, _size (s)
+{
+
+}
+
+EncodedData::~EncodedData ()
+{
+	delete[] _data;
+}
+
 /** Write this data to a J2K file.
  *  @param opt Options.
  *  @param frame Frame index.
@@ -413,14 +426,15 @@ EncodedData::send (shared_ptr<Socket> socket)
 	socket->write (_data, _size, 30);
 }
 
-/** @param s Size of data in bytes */
-RemotelyEncodedData::RemotelyEncodedData (int s)
-	: EncodedData (new uint8_t[s], s)
+LocallyEncodedData::LocallyEncodedData (uint8_t* d, int s)
+	: EncodedData (s)
 {
-
+	memcpy (_data, d, s);
 }
 
-RemotelyEncodedData::~RemotelyEncodedData ()
+/** @param s Size of data in bytes */
+RemotelyEncodedData::RemotelyEncodedData (int s)
+	: EncodedData (s)
 {
-	delete[] _data;
+
 }
