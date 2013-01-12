@@ -1,3 +1,8 @@
+2013-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Untested support for splitting DCPs
+	into multiple reels.
+
 2013-01-09  Carl Hetherington  <cth@carlh.net>
 
 	* Try to build with 0.10.4-ish ffmpeg.

@@ -38,7 +38,7 @@ public:
 
 private:
 	void dcp_progress (float);
-	std::string j2c_path (int) const;
+	std::string j2c_path (int, int) const;
 	std::string wav_path (libdcp::Channel) const;
 
 	boost::shared_ptr<const EncodeOptions> _opt;
