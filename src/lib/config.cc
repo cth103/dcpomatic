@@ -40,8 +40,6 @@ Config* Config::_instance = 0;
 Config::Config ()
 	: _num_local_encoding_threads (2)
 	, _server_port (6192)
-	, _colour_lut_index (0)
-	, _j2k_bandwidth (250000000)
 	, _reference_scaler (Scaler::from_id ("bicubic"))
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id ("dolby_cp750"))
@@ -71,10 +69,6 @@ Config::Config ()
 			_default_directory = v;
 		} else if (k == "server_port") {
 			_server_port = atoi (v.c_str ());
-		} else if (k == "colour_lut_index") {
-			_colour_lut_index = atoi (v.c_str ());
-		} else if (k == "j2k_bandwidth") {
-			_j2k_bandwidth = atoi (v.c_str ());
 		} else if (k == "reference_scaler") {
 			_reference_scaler = Scaler::from_id (v);
 		} else if (k == "reference_filter") {
@@ -124,8 +118,6 @@ Config::write () const
 	f << "num_local_encoding_threads " << _num_local_encoding_threads << "\n"
 	  << "default_directory " << _default_directory << "\n"
 	  << "server_port " << _server_port << "\n"
-	  << "colour_lut_index " << _colour_lut_index << "\n"
-	  << "j2k_bandwidth " << _j2k_bandwidth << "\n"
 	  << "reference_scaler " << _reference_scaler->id () << "\n";
 
 	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {

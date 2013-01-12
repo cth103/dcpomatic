@@ -74,6 +74,8 @@ private:
 	void with_subtitles_toggled (wxCommandEvent &);
 	void subtitle_offset_changed (wxCommandEvent &);
 	void subtitle_scale_changed (wxCommandEvent &);
+	void colour_lut_changed (wxCommandEvent &);
+	void j2k_bandwidth_changed (wxCommandEvent &);
 	void still_duration_changed (wxCommandEvent &);
 	void audio_stream_changed (wxCommandEvent &);
 	void subtitle_stream_changed (wxCommandEvent &);
@@ -148,6 +150,8 @@ private:
 	wxComboBox* _subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
+	wxComboBox* _colour_lut;
+	wxSpinCtrl* _j2k_bandwidth;
 	/** The Film's DCP content type */
 	wxComboBox* _dcp_content_type;
 	/** The Film's frames per second */

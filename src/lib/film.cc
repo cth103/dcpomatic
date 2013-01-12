@@ -99,6 +99,8 @@ Film::Film (string d, bool must_exist)
 	, _with_subtitles (false)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
+	, _colour_lut (0)
+	, _j2k_bandwidth (200000000)
 	, _frames_per_second (0)
 	, _dirty (false)
 {
@@ -166,6 +168,8 @@ Film::Film (Film const & o)
 	, _with_subtitles    (o._with_subtitles)
 	, _subtitle_offset   (o._subtitle_offset)
 	, _subtitle_scale    (o._subtitle_scale)
+	, _colour_lut        (o._colour_lut)
+	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _audio_language    (o._audio_language)
 	, _subtitle_language (o._subtitle_language)
 	, _territory         (o._territory)
@@ -249,7 +253,7 @@ Film::make_dcp (bool transcode)
 		log()->log (String::compose ("Content length %1", length()));
 		log()->log (String::compose ("Content digest %1", content_digest()));
 		log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
-		log()->log (String::compose ("J2K bandwidth %1", Config::instance()->j2k_bandwidth()));
+		log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
 	}
 		
 	if (format() == 0) {
@@ -423,6 +427,8 @@ Film::write_metadata () const
 	f << "with_subtitles " << _with_subtitles << "\n";
 	f << "subtitle_offset " << _subtitle_offset << "\n";
 	f << "subtitle_scale " << _subtitle_scale << "\n";
+	f << "colour_lut " << _colour_lut << "\n";
+	f << "j2k_bandwidth " << _j2k_bandwidth << "\n";
 	f << "audio_language " << _audio_language << "\n";
 	f << "subtitle_language " << _subtitle_language << "\n";
 	f << "territory " << _territory << "\n";
@@ -548,6 +554,10 @@ Film::read_metadata ()
 			_subtitle_offset = atoi (v.c_str ());
 		} else if (k == "subtitle_scale") {
 			_subtitle_scale = atof (v.c_str ());
+		} else if (k == "colour_lut") {
+			_colour_lut = atoi (v.c_str ());
+		} else if (k == "j2k_bandwidth") {
+			_j2k_bandwidth = atoi (v.c_str ());
 		} else if (k == "audio_language") {
 			_audio_language = v;
 		} else if (k == "subtitle_language") {
@@ -1191,6 +1201,26 @@ Film::set_subtitle_scale (float s)
 		_subtitle_scale = s;
 	}
 	signal_changed (SUBTITLE_SCALE);
+}
+
+void
+Film::set_colour_lut (int i)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_colour_lut = i;
+	}
+	signal_changed (COLOUR_LUT);
+}
+
+void
+Film::set_j2k_bandwidth (int b)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_j2k_bandwidth = b;
+	}
+	signal_changed (J2K_BANDWIDTH);
 }
 
 void

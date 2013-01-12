@@ -194,6 +194,8 @@ FilmEditor::connect_to_widgets ()
 	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
+	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
+	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
 	_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
 	_audio_stream->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
 	_audio_gain->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
@@ -265,6 +267,23 @@ FilmEditor::make_video_panel ()
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
 
+	add_label_to_sizer (_video_sizer, _video_panel, "Colour look-up table");
+	_colour_lut = new wxComboBox (_video_panel, wxID_ANY);
+	for (int i = 0; i < 2; ++i) {
+		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
+	}
+	_colour_lut->SetSelection (0);
+	_video_sizer->Add (_colour_lut, 1, wxEXPAND);
+
+	{
+		add_label_to_sizer (_video_sizer, _video_panel, "JPEG2000 bandwidth");
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_j2k_bandwidth = new wxSpinCtrl (_video_panel, wxID_ANY);
+		s->Add (_j2k_bandwidth, 1);
+		add_label_to_sizer (s, _video_panel, "MBps");
+		_video_sizer->Add (s, 1);
+	}
+
 	_left_crop->SetRange (0, 1024);
 	_top_crop->SetRange (0, 1024);
 	_right_crop->SetRange (0, 1024);
@@ -272,6 +291,7 @@ FilmEditor::make_video_panel ()
 	_still_duration->SetRange (1, 60 * 60);
 	_dcp_trim_start->SetRange (0, 100);
 	_dcp_trim_end->SetRange (0, 100);
+	_j2k_bandwidth->SetRange (50, 250);
 }
 
 void
@@ -485,6 +505,26 @@ FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 	_film->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
 }
 
+void
+FilmEditor::colour_lut_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+	
+	_film->set_colour_lut (_colour_lut->GetSelection ());
+}
+
+void
+FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+	
+	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1e6);
+}	
+
 
 /** Called when the metadata stored in the Film object has changed;
  *  so that we can update the GUI.
@@ -620,6 +660,12 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SUBTITLE_SCALE:
 		checked_set (_subtitle_scale, _film->subtitle_scale() * 100);
 		break;
+	case Film::COLOUR_LUT:
+		checked_set (_colour_lut, _film->colour_lut ());
+		break;
+	case Film::J2K_BANDWIDTH:
+		checked_set (_j2k_bandwidth, double (_film->j2k_bandwidth()) / 1e6);
+		break;
 	case Film::USE_DCI_NAME:
 		checked_set (_use_dci_name, _film->use_dci_name ());
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
@@ -727,6 +773,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
+	film_changed (Film::COLOUR_LUT);
+	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
@@ -760,6 +808,8 @@ FilmEditor::set_things_sensitive (bool s)
 	_dcp_trim_start->Enable (s);
 	_dcp_trim_end->Enable (s);
 	_dcp_ab->Enable (s);
+	_colour_lut->Enable (s);
+	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);

@@ -55,8 +55,6 @@ void
 setup_test_config ()
 {
 	Config::instance()->set_num_local_encoding_threads (1);
-	Config::instance()->set_colour_lut_index (0);
-	Config::instance()->set_j2k_bandwidth (200000000);
 	Config::instance()->set_servers (vector<ServerDescription*> ());
 	Config::instance()->set_server_port (61920);
 }

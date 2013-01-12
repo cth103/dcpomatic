@@ -325,7 +325,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 					  new DCPVideoFrame (
 						  image, sub, _opt->out_size, _opt->padding, _film->subtitle_offset(), _film->subtitle_scale(),
 						  _film->scaler(), _video_frame, _film->frames_per_second(), s.second,
-						  Config::instance()->colour_lut_index (), Config::instance()->j2k_bandwidth (),
+						  _film->colour_lut(), _film->j2k_bandwidth(),
 						  _film->log()
 						  )
 					  ));

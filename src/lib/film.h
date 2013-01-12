@@ -124,6 +124,8 @@ public:
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,
+		COLOUR_LUT,
+		J2K_BANDWIDTH,
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
@@ -250,6 +252,21 @@ public:
 		return _subtitle_scale;
 	}
 
+	/** @return index of colour LUT to use when converting RGB to XYZ.
+	 *  0: sRGB
+	 *  1: Rec 709
+	 */
+	int colour_lut () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _colour_lut;
+	}
+
+	/** @return bandwidth for J2K files in bits per second */
+	int j2k_bandwidth () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _j2k_bandwidth;
+	}
+
 	std::string audio_language () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_language;
@@ -351,6 +368,8 @@ public:
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
+	void set_colour_lut (int);
+	void set_j2k_bandwidth (int);
 	void set_audio_language (std::string);
 	void set_subtitle_language (std::string);
 	void set_territory (std::string);
@@ -444,7 +463,13 @@ private:
 	int _subtitle_offset;
 	/** scale factor to apply to subtitles */
 	float _subtitle_scale;
-
+	/** index of colour LUT to use when converting RGB to XYZ
+	 *  (see colour_lut ())
+	 */
+	int _colour_lut;
+	/** bandwidth for J2K files in bits per second */
+	int _j2k_bandwidth;
+	
 	/* DCI naming stuff */
 	std::string _audio_language;
 	std::string _subtitle_language;
