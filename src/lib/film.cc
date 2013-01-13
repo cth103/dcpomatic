@@ -269,6 +269,8 @@ Film::make_dcp (bool transcode)
 #else
 	log()->log ("libdcp built in optimised mode.");
 #endif
+	pair<string, int> const c = cpu_info ();
+	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
 	
 	if (format() == 0) {
 		throw MissingSettingError ("format");
