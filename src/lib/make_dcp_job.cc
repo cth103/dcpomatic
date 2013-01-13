@@ -21,6 +21,7 @@
  *  @brief A job to create DCPs.
  */
 
+#include <iostream>
 #include <boost/filesystem.hpp>
 #include <libdcp/dcp.h>
 #include <libdcp/picture_asset.h>
