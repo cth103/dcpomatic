@@ -252,13 +252,24 @@ Film::make_dcp (bool transcode)
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
 		log()->log (String::compose ("Starting to make DCP on %1", buffer));
-		log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
-		log()->log (String::compose ("Content length %1", length().get()));
-		log()->log (String::compose ("Content digest %1", content_digest()));
-		log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
-		log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
 	}
-		
+	
+	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
+	log()->log (String::compose ("Content length %1", length().get()));
+	log()->log (String::compose ("Content digest %1", content_digest()));
+	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
+	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+#ifdef DVDOMATIC_DEBUG
+	log()->log ("DVD-o-matic built in debug mode.");
+#else
+	log()->log ("DVD-o-matic built in optimised mode.");
+#endif
+#ifdef LIBDCP_DEBUG
+	log()->log ("libdcp built in debug mode.");
+#else
+	log()->log ("libdcp built in optimised mode.");
+#endif
+	
 	if (format() == 0) {
 		throw MissingSettingError ("format");
 	}

@@ -47,9 +47,9 @@ class ExamineContentJob;
 class ExternalAudioStream;
 
 /** @class Film
- *  @brief A representation of a video with sound.
+ *  @brief A representation of a video, maybe with sound.
  *
- *  A representation of a piece of video (with sound), including naming,
+ *  A representation of a piece of video (maybe with sound), including naming,
  *  the source content file, and how it should be presented in a DCP.
  */
 class Film : public boost::enable_shared_from_this<Film>
@@ -92,6 +92,7 @@ public:
 	std::string dci_name () const;
 	std::string dcp_name () const;
 
+	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
 		return _dirty;
 	}
@@ -100,6 +101,9 @@ public:
 
 	void set_dci_date_today ();
 
+	/** Identifiers for the parts of our state;
+	    used for signalling changes.
+	*/
 	enum Property {
 		NONE,
 		NAME,
@@ -258,16 +262,11 @@ public:
 		return _subtitle_scale;
 	}
 
-	/** @return index of colour LUT to use when converting RGB to XYZ.
-	 *  0: sRGB
-	 *  1: Rec 709
-	 */
 	int colour_lut () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _colour_lut;
 	}
 
-	/** @return bandwidth for J2K files in bits per second */
 	int j2k_bandwidth () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _j2k_bandwidth;
@@ -428,6 +427,10 @@ private:
 	 *  or an absolute path.
 	 */
 	std::string _content;
+	/** If this is true, we will believe the length specified by the content
+	 *  file's header; if false, we will run through the whole content file
+	 *  the first time we see it in order to obtain the length.
+	 */
 	bool _trust_content_header;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
@@ -473,8 +476,9 @@ private:
 	int _subtitle_offset;
 	/** scale factor to apply to subtitles */
 	float _subtitle_scale;
-	/** index of colour LUT to use when converting RGB to XYZ
-	 *  (see colour_lut ())
+	/** index of colour LUT to use when converting RGB to XYZ.
+	 *  0: sRGB
+	 *  1: Rec 709
 	 */
 	int _colour_lut;
 	/** bandwidth for J2K files in bits per second */

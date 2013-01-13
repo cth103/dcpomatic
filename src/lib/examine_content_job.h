@@ -18,13 +18,13 @@
 */
 
 /** @file  src/examine_content_job.h
- *  @brief A class to run through content at high speed to find its length.
+ *  @brief A class to obtain the length and MD5 digest of a content file.
  */
 
 #include "job.h"
 
 /** @class ExamineContentJob
- *  @brief A class to run through content at high speed to find its length.
+ *  @brief A class to obtain the length and MD5 digest of a content file.
  */
 class ExamineContentJob : public Job
 {
