@@ -350,18 +350,6 @@ Film::examine_content_finished ()
 	_examine_content_job.reset ();
 }
 
-/** @return full paths to any audio files that this Film has */
-vector<string>
-Film::audio_files () const
-{
-	vector<string> f;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dir("wavs")); i != boost::filesystem::directory_iterator(); ++i) {
-		f.push_back (i->path().string ());
-	}
-
-	return f;
-}
-
 /** Start a job to send our DCP to the configured TMS */
 void
 Film::send_dcp_to_tms ()

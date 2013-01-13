@@ -60,7 +60,6 @@ public:
 	~Film ();
 
 	std::string j2k_dir () const;
-	std::vector<std::string> audio_files () const;
 
 	void examine_content ();
 	void send_dcp_to_tms ();
