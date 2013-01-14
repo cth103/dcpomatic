@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.71pre'
+VERSION = '0.71beta2'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -50,7 +50,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if not conf.options.static:
-        conf.check_cfg(package = 'libdcp', atleast_version = '0.34', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.36', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
         conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
@@ -169,6 +169,16 @@ def configure(conf):
                              """, msg = 'Checking for av_frame_get_best_effort_timestamp',
                              uselib = 'AVCODEC',
                              define_name = 'HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP',
+                             mandatory = False)
+
+    conf.check_cc(fragment = """
+                             extern "C" {
+                               #include <libavfilter/buffersrc.h>
+                             }
+                             int main() { } 
+                             """, msg = 'Checking for buffersrc.h',
+                             uselib = 'AVCODEC',
+                             define_name = 'HAVE_BUFFERSRC_H',
                              mandatory = False)
 
     conf.recurse('src')

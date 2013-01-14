@@ -133,8 +133,8 @@ private:
 	SourceFrame _frame;              ///< frame index within the Film's source
 	int _frames_per_second;          ///< Frames per second that we will use for the DCP (rounded)
 	std::string _post_process;       ///< FFmpeg post-processing string to use
-	int _colour_lut_index;           ///< Colour look-up table to use (see Config::colour_lut_index ())
-	int _j2k_bandwidth;              ///< J2K bandwidth to use (see Config::j2k_bandwidth ())
+	int _colour_lut;                 ///< Colour look-up table to use
+	int _j2k_bandwidth;              ///< J2K bandwidth to use
 
 	Log* _log; ///< log
 

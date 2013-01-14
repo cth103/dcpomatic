@@ -45,8 +45,6 @@ private:
 	void tms_password_changed (wxCommandEvent &);
 	void num_local_encoding_threads_changed (wxCommandEvent &);
 	void default_directory_changed (wxCommandEvent &);
-	void colour_lut_changed (wxCommandEvent &);
-	void j2k_bandwidth_changed (wxCommandEvent &);
 	void reference_scaler_changed (wxCommandEvent &);
 	void edit_reference_filters_clicked (wxCommandEvent &);
 	void reference_filters_changed (std::vector<Filter const *>);
@@ -67,8 +65,6 @@ private:
 #else
 	wxDirPickerCtrl* _default_directory;
 #endif	
-	wxComboBox* _colour_lut;
-	wxSpinCtrl* _j2k_bandwidth;
 	wxComboBox* _reference_scaler;
 	wxStaticText* _reference_filters;
 	wxButton* _reference_filters_button;

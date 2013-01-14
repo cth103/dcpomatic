@@ -1,3 +1,16 @@
+2013-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.71beta2 released.
+
+2013-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.71beta1 released.
+
+2013-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Untested support for splitting DCPs
+	into multiple reels.
+
 2013-01-09  Carl Hetherington  <cth@carlh.net>
 
 	* Try to build with 0.10.4-ish ffmpeg.

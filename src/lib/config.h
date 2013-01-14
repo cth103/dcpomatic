@@ -57,19 +57,6 @@ public:
 		return _server_port;
 	}
 
-	/** @return index of colour LUT to use when converting RGB to XYZ.
-	 *  0: sRGB
-	 *  1: Rec 709
-	 */
-	int colour_lut_index () const {
-		return _colour_lut_index;
-	}
-
-	/** @return bandwidth for J2K files in bits per second */
-	int j2k_bandwidth () const {
-		return _j2k_bandwidth;
-	}
-
 	/** @return J2K encoding servers to use */
 	std::vector<ServerDescription*> servers () const {
 		return _servers;
@@ -124,16 +111,6 @@ public:
 	/** @param p New server port */
 	void set_server_port (int p) {
 		_server_port = p;
-	}
-
-	/** @param i New colour LUT index */
-	void set_colour_lut_index (int i) {
-		_colour_lut_index = i;
-	}
-
-	/** @param b New J2K bandwidth */
-	void set_j2k_bandwidth (int b) {
-		_j2k_bandwidth = b;
 	}
 
 	/** @param s New list of servers */
@@ -194,12 +171,6 @@ private:
 	std::string _default_directory;
 	/** port to use for J2K encoding servers */
 	int _server_port;
-	/** index of colour LUT to use when converting RGB to XYZ
-	 *  (see colour_lut_index ())
-	 */
-	int _colour_lut_index;
-	/** bandwidth for J2K files in bits per second */
-	int _j2k_bandwidth;
 
 	/** J2K encoding servers to use */
 	std::vector<ServerDescription *> _servers;

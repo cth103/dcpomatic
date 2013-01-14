@@ -1,0 +1,2427 @@
+Fri Jan 11 19:38:14 2013: DVD-o-matic 0.71pre git d8106aabb6 using libopenjpeg 1.5.0, libavcodec 54.86.100, libavfilter 3.32.100, libavformat 54.59.107, libavutil 52.13.100, libpostproc 52.2.100, libswscale 2.1.103, ImageMagick 6.6.9-7 2012-08-17 Q16 http://www.imagemagick.org, libssh 0.5.2/openssl/zlib, libdcp 0.36pre git e651d843c5
+Fri Jan 11 19:38:14 2013: Starting to make DCP on ip-10-240-125-92
+Fri Jan 11 19:38:14 2013: Content is /mnt/boon_telly.mkv; type video
+Fri Jan 11 19:38:14 2013: Content length 1
+Fri Jan 11 19:38:14 2013: Content digest 72332980e2f9b2fec52e665d9de67f5d
+Fri Jan 11 19:38:14 2013: 8 threads
+Fri Jan 11 19:38:14 2013: J2K bandwidth 200000000
+Fri Jan 11 19:38:14 2013: Transcode job starting
+Fri Jan 11 19:38:14 2013: Audio delay is 0ms
+Fri Jan 11 19:38:14 2013: Will resample audio from 44100 to 47952
+1357933094:340201 encoder thread 0x7fe358024570 sleeps
+1357933094:340494 encoder thread 0x7fe3580a45f0 sleeps
+1357933094:340739 encoder thread 0x7fe3580a4940 sleeps
+1357933094:340894 encoder thread 0x7fe3580a4c90 sleeps
+1357933094:341042 encoder thread 0x7fe3580a5680 sleeps
+1357933094:341172 encoder thread 0x7fe3580a5330 sleeps
+1357933094:341331 encoder thread 0x7fe3580a4fe0 sleeps
+1357933094:341502 encoder thread 0x7fe3580a6090 sleeps
+1357933094:341656 encoder thread 0x7fe3580a63e0 sleeps
+1357933094:341814 encoder thread 0x7fe3580a59d0 sleeps
+1357933094:342030 encoder thread 0x7fe3580a6a80 sleeps
+1357933094:342242 encoder thread 0x7fe3580a6730 sleeps
+1357933094:342402 encoder thread 0x7fe3580a5d40 sleeps
+1357933094:342670 writer sleeps with a queue of 0
+1357933094:342784 encoder thread 0x7fe358031200 sleeps
+1357933094:342894 encoder thread 0x7fe358031550 sleeps
+1357933094:343025 encoder thread 0x7fe358030eb0 sleeps
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0, output at 0
+Fri Jan 11 19:38:14 2013: New graph for 320x240, pixel format 0
+1357933094:359750 Decoder emits 0
+1357933094:359959 adding to queue of 0
+1357933094:360201 encoder thread 0x7fe358024570 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: First video at 0, first audio at 0.279, pushing 12304 audio frames of silence for 2 channels (4 bytes per sample)
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358024570 pops frame 0 from queue
+1357933094:360518 encoder thread 0x7fe358024570 begins local encode of 0
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.033, output at 0.0333667
+1357933094:364961 Decoder emits 1
+1357933094:365141 adding to queue of 0
+1357933094:365349 encoder thread 0x7fe3580a45f0 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a45f0 pops frame 1 from queue
+1357933094:365531 encoder thread 0x7fe3580a45f0 begins local encode of 1
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.067, output at 0.0667333
+1357933094:366438 Decoder emits 2
+1357933094:366640 adding to queue of 0
+1357933094:366797 encoder thread 0x7fe3580a4940 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a4940 pops frame 2 from queue
+1357933094:366971 encoder thread 0x7fe3580a4940 begins local encode of 2
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.1, output at 0.1001
+1357933094:367910 Decoder emits 3
+1357933094:368090 adding to queue of 0
+1357933094:368247 encoder thread 0x7fe3580a4c90 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a4c90 pops frame 3 from queue
+1357933094:368480 encoder thread 0x7fe3580a4c90 begins local encode of 3
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.133, output at 0.133467
+1357933094:369833 Decoder emits 4
+1357933094:369996 adding to queue of 0
+1357933094:370158 encoder thread 0x7fe358031550 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358031550 pops frame 4 from queue
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.167, output at 0.166833
+1357933094:371634 Decoder emits 5
+1357933094:371799 adding to queue of 0
+1357933094:372031 encoder thread 0x7fe3580a6a80 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a6a80 pops frame 5 from queue
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.2, output at 0.2002
+1357933094:373749 Decoder emits 6
+1357933094:374043 adding to queue of 0
+1357933094:374300 encoder thread 0x7fe3580a4fe0 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a4fe0 pops frame 6 from queue
+1357933094:374572 encoder thread 0x7fe3580a4fe0 begins local encode of 6
+Fri Jan 11 19:38:14 2013: Remote encode of 4 on shankly failed (Host not found (authoritative)); thread sleeping for 10s
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358031550 pushes frame 4 back onto queue after failure
+Fri Jan 11 19:38:14 2013: Remote encode of 5 on shankly failed (Host not found (authoritative)); thread sleeping for 10s
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.234, output at 0.233567
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a6a80 pushes frame 5 back onto queue after failure
+1357933094:376385 Decoder emits 7
+1357933094:376576 adding to queue of 2
+1357933094:376741 encoder thread 0x7fe3580a6090 wakes with queue of 3
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a6090 pops frame 5 from queue
+1357933094:376955 encoder thread 0x7fe358030eb0 wakes with queue of 2
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358030eb0 pops frame 4 from queue
+1357933094:377373 encoder thread 0x7fe3580a59d0 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.267, output at 0.266933
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a59d0 pops frame 7 from queue
+Fri Jan 11 19:38:14 2013: Remote encode of 5 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 10s
+1357933094:378831 encoder thread 0x7fe3580a59d0 begins local encode of 7
+Fri Jan 11 19:38:14 2013: Remote encode of 4 on shankly failed (Host not found (authoritative)); thread sleeping for 10s
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a6090 pushes frame 5 back onto queue after failure
+1357933094:379408 Decoder emits 8
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358030eb0 pushes frame 4 back onto queue after failure
+1357933094:381559 adding to queue of 2
+1357933094:381743 encoder thread 0x7fe3580a5680 wakes with queue of 3
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a5680 pops frame 4 from queue
+1357933094:382048 encoder thread 0x7fe3580a5680 begins local encode of 4
+1357933094:382177 encoder thread 0x7fe3580a5d40 wakes with queue of 2
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a5d40 pops frame 5 from queue
+1357933094:382637 encoder thread 0x7fe3580a6730 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a6730 pops frame 8 from queue
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.3, output at 0.3003
+Fri Jan 11 19:38:14 2013: Remote encode of 5 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 10s
+1357933094:385624 Decoder emits 9
+Fri Jan 11 19:38:14 2013: Remote encode of 8 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 10s
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a5d40 pushes frame 5 back onto queue after failure
+1357933094:386344 adding to queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a6730 pushes frame 8 back onto queue after failure
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.334, output at 0.333667
+1357933094:387790 encoder thread 0x7fe358031200 wakes with queue of 3
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358031200 pops frame 8 from queue
+1357933094:388454 encoder thread 0x7fe3580a63e0 wakes with queue of 2
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a63e0 pops frame 5 from queue
+1357933094:389086 Decoder emits 10
+1357933094:389317 encoder thread 0x7fe3580a5330 wakes with queue of 1
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a5330 pops frame 9 from queue
+1357933094:390132 encoder thread 0x7fe3580a5330 begins local encode of 9
+Fri Jan 11 19:38:14 2013: Remote encode of 8 on shankly failed (Host not found (authoritative)); thread sleeping for 10s
+1357933094:391076 adding to queue of 0
+Fri Jan 11 19:38:14 2013: Remote encode of 5 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 10s
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe358031200 pushes frame 8 back onto queue after failure
+Fri Jan 11 19:38:14 2013: Encoder thread 0x7fe3580a63e0 pushes frame 5 back onto queue after failure
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.367, output at 0.367033
+1357933094:393896 Decoder emits 11
+1357933094:394191 adding to queue of 3
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.4, output at 0.4004
+1357933094:396333 Decoder emits 12
+1357933094:396622 adding to queue of 4
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.434, output at 0.433767
+1357933094:398815 Decoder emits 13
+1357933094:399193 adding to queue of 5
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.467, output at 0.467133
+1357933094:401444 Decoder emits 14
+1357933094:401823 adding to queue of 6
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.501, output at 0.5005
+1357933094:404225 Decoder emits 15
+1357933094:404539 adding to queue of 7
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.534, output at 0.533867
+1357933094:406560 Decoder emits 16
+1357933094:406843 adding to queue of 8
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.567, output at 0.567233
+1357933094:408774 Decoder emits 17
+1357933094:409048 adding to queue of 9
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.601, output at 0.6006
+1357933094:411389 Decoder emits 18
+1357933094:411689 adding to queue of 10
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.634, output at 0.633967
+1357933094:413810 Decoder emits 19
+1357933094:414127 adding to queue of 11
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.667, output at 0.667333
+1357933094:416830 Decoder emits 20
+1357933094:417080 adding to queue of 12
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.701, output at 0.7007
+1357933094:419640 Decoder emits 21
+1357933094:419904 adding to queue of 13
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.734, output at 0.734067
+1357933094:421940 Decoder emits 22
+1357933094:422174 adding to queue of 14
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.767, output at 0.767433
+1357933094:423850 Decoder emits 23
+1357933094:424200 adding to queue of 15
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.801, output at 0.8008
+1357933094:425983 Decoder emits 24
+1357933094:426251 adding to queue of 16
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.834, output at 0.834167
+1357933094:428361 Decoder emits 25
+1357933094:428579 adding to queue of 17
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.868, output at 0.867533
+1357933094:430320 Decoder emits 26
+1357933094:430564 adding to queue of 18
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.901, output at 0.9009
+1357933094:432926 Decoder emits 27
+1357933094:433234 adding to queue of 19
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.934, output at 0.934267
+1357933094:435586 Decoder emits 28
+1357933094:435813 adding to queue of 20
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 0.968, output at 0.967633
+1357933094:438455 Decoder emits 29
+1357933094:440090 adding to queue of 21
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.001, output at 1.001
+1357933094:444491 Decoder emits 30
+1357933094:444860 adding to queue of 22
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.034, output at 1.03437
+1357933094:448724 Decoder emits 31
+1357933094:448976 adding to queue of 23
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.068, output at 1.06773
+1357933094:451685 Decoder emits 32
+1357933094:451946 adding to queue of 24
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.101, output at 1.1011
+1357933094:454092 Decoder emits 33
+1357933094:454334 adding to queue of 25
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.134, output at 1.13447
+1357933094:465182 Decoder emits 34
+1357933094:465635 adding to queue of 26
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.168, output at 1.16783
+1357933094:469982 Decoder emits 35
+1357933094:470438 adding to queue of 27
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.201, output at 1.2012
+1357933094:489678 Decoder emits 36
+1357933094:490046 adding to queue of 28
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.235, output at 1.23457
+1357933094:492329 Decoder emits 37
+1357933094:492583 adding to queue of 29
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.268, output at 1.26793
+1357933094:494702 Decoder emits 38
+1357933094:494982 adding to queue of 30
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.301, output at 1.3013
+1357933094:497256 Decoder emits 39
+1357933094:497654 adding to queue of 31
+Fri Jan 11 19:38:14 2013: Source video frame ready; source at 1.335, output at 1.33467
+1357933094:501057 Decoder emits 40
+1357933094:501413 decoder sleeps with queue of 32
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 3
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 1
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 6
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 4
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 2
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 0
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 9
+Fri Jan 11 19:38:21 2013: Finished locally-encoded frame 7
+1357933101:993117 encoder thread 0x7fe3580a4c90 finishes local encode of 3
+1357933101:993423 writer wakes with a queue of 1
+1357933102:3937 encoder thread 0x7fe3580a45f0 finishes local encode of 1
+1357933102:7985 decoder wakes with queue of 32
+1357933102:10662 encoder thread 0x7fe3580a4c90 sleeps
+1357933102:10887 encoder thread 0x7fe3580a4fe0 finishes local encode of 6
+1357933102:11039 decoder sleeps with queue of 32
+1357933102:18971 writer sleeps with a queue of 2
+1357933102:22602 encoder thread 0x7fe3580a45f0 sleeps
+1357933102:22763 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+1357933102:25582 writer wakes with a queue of 2
+1357933102:28203 encoder thread 0x7fe3580a5680 finishes local encode of 4
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a4c90 pops frame 5 from queue
+1357933102:31001 encoder thread 0x7fe3580a59d0 finishes local encode of 7
+1357933102:37630 encoder thread 0x7fe358024570 finishes local encode of 0
+1357933102:44369 encoder thread 0x7fe3580a4c90 begins local encode of 5
+1357933102:47717 encoder thread 0x7fe3580a4940 finishes local encode of 2
+1357933102:47823 writer sleeps with a queue of 3
+1357933102:47929 encoder thread 0x7fe3580a4fe0 sleeps
+1357933102:47995 decoder wakes with queue of 31
+1357933102:48092 encoder thread 0x7fe3580a5330 finishes local encode of 9
+1357933102:48178 writer wakes with a queue of 3
+1357933102:48251 adding to queue of 31
+1357933102:48377 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a45f0 pops frame 8 from queue
+1357933102:48663 encoder thread 0x7fe3580a45f0 begins local encode of 8
+1357933102:52712 encoder thread 0x7fe3580a5680 sleeps
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.368, output at 1.36803
+1357933102:60215 writer sleeps with a queue of 5
+1357933102:60296 encoder thread 0x7fe3580a59d0 sleeps
+1357933102:60355 encoder thread 0x7fe3580a4fe0 wakes with queue of 31
+1357933102:60518 writer wakes with a queue of 5
+1357933102:60573 Decoder emits 41
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a4fe0 pops frame 10 from queue
+1357933102:60790 encoder thread 0x7fe3580a4fe0 begins local encode of 10
+1357933102:71805 writer sleeps with a queue of 4
+1357933102:76222 encoder thread 0x7fe358024570 sleeps
+1357933102:83571 writer wakes with a queue of 4
+1357933102:87934 encoder thread 0x7fe3580a4940 sleeps
+1357933102:94813 encoder thread 0x7fe3580a5330 sleeps
+1357933102:94919 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a5680 pops frame 11 from queue
+1357933102:95137 encoder thread 0x7fe3580a5680 begins local encode of 11
+1357933102:95206 encoder thread 0x7fe3580a59d0 wakes with queue of 29
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a59d0 pops frame 12 from queue
+1357933102:95350 encoder thread 0x7fe3580a59d0 begins local encode of 12
+1357933102:95450 adding to queue of 28
+1357933102:95638 encoder thread 0x7fe358024570 wakes with queue of 29
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe358024570 pops frame 13 from queue
+1357933102:95827 encoder thread 0x7fe358024570 begins local encode of 13
+1357933102:95961 encoder thread 0x7fe3580a4940 wakes with queue of 28
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a4940 pops frame 14 from queue
+1357933102:96324 encoder thread 0x7fe3580a4940 begins local encode of 14
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.401, output at 1.4014
+1357933102:96884 writer sleeps with a queue of 3
+1357933102:97030 Decoder emits 42
+1357933102:109515 encoder thread 0x7fe3580a5330 wakes with queue of 27
+1357933102:109759 writer wakes with a queue of 3
+Fri Jan 11 19:38:22 2013: Encoder thread 0x7fe3580a5330 pops frame 15 from queue
+1357933102:110205 adding to queue of 26
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.435, output at 1.43477
+1357933102:112797 Decoder emits 43
+1357933102:113092 adding to queue of 27
+1357933102:113721 writer sleeps with a queue of 2
+1357933102:113967 encoder thread 0x7fe3580a5330 begins local encode of 15
+1357933102:114180 writer wakes with a queue of 2
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.468, output at 1.46813
+1357933102:115092 Decoder emits 44
+1357933102:115964 adding to queue of 28
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.502, output at 1.5015
+1357933102:118372 Decoder emits 45
+1357933102:118553 writer sleeps with a queue of 1
+1357933102:118736 writer wakes with a queue of 1
+1357933102:118932 adding to queue of 29
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.535, output at 1.53487
+1357933102:120998 Decoder emits 46
+1357933102:121257 adding to queue of 30
+1357933102:122434 writer sleeps with a queue of 0
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.568, output at 1.56823
+1357933102:123122 Decoder emits 47
+1357933102:123390 adding to queue of 31
+Fri Jan 11 19:38:22 2013: Source video frame ready; source at 1.602, output at 1.6016
+1357933102:125079 Decoder emits 48
+1357933102:125306 decoder sleeps with queue of 32
+1357933104:375629 decoder wakes with queue of 32
+1357933104:376068 encoder thread 0x7fe358031550 sleeps
+1357933104:376536 decoder sleeps with queue of 32
+1357933104:376946 encoder thread 0x7fe3580a6a80 sleeps
+1357933104:377378 decoder wakes with queue of 32
+1357933104:377797 decoder sleeps with queue of 32
+1357933104:378186 encoder thread 0x7fe358031550 wakes with queue of 32
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe358031550 pops frame 16 from queue
+1357933104:379015 encoder thread 0x7fe3580a6a80 wakes with queue of 31
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a6a80 pops frame 17 from queue
+1357933104:379776 encoder thread 0x7fe3580a6090 sleeps
+1357933104:380137 decoder wakes with queue of 30
+Fri Jan 11 19:38:24 2013: Remote encode of 16 on shankly failed (Host not found (authoritative)); thread sleeping for 20s
+1357933104:380914 adding to queue of 30
+Fri Jan 11 19:38:24 2013: Remote encode of 17 on shankly failed (Host not found (authoritative)); thread sleeping for 20s
+Fri Jan 11 19:38:24 2013: Source video frame ready; source at 1.635, output at 1.63497
+1357933104:393590 encoder thread 0x7fe358030eb0 sleeps
+1357933104:393986 encoder thread 0x7fe3580a6090 wakes with queue of 31
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a6090 pops frame 18 from queue
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe358031550 pushes frame 16 back onto queue after failure
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a6a80 pushes frame 17 back onto queue after failure
+1357933104:395915 encoder thread 0x7fe3580a5d40 sleeps
+1357933104:396286 encoder thread 0x7fe3580a6730 sleeps
+1357933104:396655 encoder thread 0x7fe358031200 sleeps
+1357933104:397018 encoder thread 0x7fe3580a63e0 sleeps
+1357933104:397354 encoder thread 0x7fe358030eb0 wakes with queue of 32
+Fri Jan 11 19:38:24 2013: Remote encode of 18 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 20s
+1357933104:398091 Decoder emits 49
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe358030eb0 pops frame 17 from queue
+1357933104:398770 encoder thread 0x7fe3580a5d40 wakes with queue of 31
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a5d40 pops frame 16 from queue
+1357933104:399433 encoder thread 0x7fe3580a6730 wakes with queue of 30
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a6730 pops frame 19 from queue
+Fri Jan 11 19:38:24 2013: Remote encode of 17 on shankly failed (Host not found (authoritative)); thread sleeping for 20s
+Fri Jan 11 19:38:24 2013: Remote encode of 16 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 20s
+1357933104:400921 encoder thread 0x7fe358031200 wakes with queue of 29
+Fri Jan 11 19:38:24 2013: Remote encode of 19 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 20s
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe358031200 pops frame 20 from queue
+1357933104:402087 encoder thread 0x7fe3580a63e0 wakes with queue of 28
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a63e0 pops frame 21 from queue
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a6090 pushes frame 18 back onto queue after failure
+Fri Jan 11 19:38:24 2013: Remote encode of 20 on shankly failed (Host not found (authoritative)); thread sleeping for 20s
+1357933104:403658 adding to queue of 28
+Fri Jan 11 19:38:24 2013: Remote encode of 21 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 20s
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe358030eb0 pushes frame 17 back onto queue after failure
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a5d40 pushes frame 16 back onto queue after failure
+Fri Jan 11 19:38:24 2013: Source video frame ready; source at 1.668, output at 1.66833
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a6730 pushes frame 19 back onto queue after failure
+1357933104:405879 Decoder emits 50
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe358031200 pushes frame 20 back onto queue after failure
+Fri Jan 11 19:38:24 2013: Encoder thread 0x7fe3580a63e0 pushes frame 21 back onto queue after failure
+1357933104:406940 decoder sleeps with queue of 34
+Fri Jan 11 19:38:28 2013: Finished locally-encoded frame 8
+1357933108:903758 encoder thread 0x7fe3580a45f0 finishes local encode of 8
+1357933108:904086 writer wakes with a queue of 1
+1357933108:922214 encoder thread 0x7fe3580a45f0 sleeps
+1357933108:922312 decoder wakes with queue of 34
+1357933108:922452 decoder sleeps with queue of 34
+1357933108:922559 encoder thread 0x7fe3580a45f0 wakes with queue of 34
+Fri Jan 11 19:38:28 2013: Encoder thread 0x7fe3580a45f0 pops frame 21 from queue
+1357933108:922709 encoder thread 0x7fe3580a45f0 begins local encode of 21
+1357933108:926212 writer sleeps with a queue of 0
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 5
+1357933109:181344 encoder thread 0x7fe3580a4c90 finishes local encode of 5
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 15
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 13
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 12
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 10
+1357933109:273438 writer wakes with a queue of 1
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 14
+Fri Jan 11 19:38:29 2013: Finished locally-encoded frame 11
+1357933109:274120 encoder thread 0x7fe3580a4c90 sleeps
+1357933109:274347 decoder wakes with queue of 33
+1357933109:274616 encoder thread 0x7fe3580a5330 finishes local encode of 15
+1357933109:274815 encoder thread 0x7fe358024570 finishes local encode of 13
+1357933109:275027 decoder sleeps with queue of 33
+1357933109:275243 encoder thread 0x7fe3580a4c90 wakes with queue of 33
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe3580a4c90 pops frame 20 from queue
+1357933109:275540 encoder thread 0x7fe3580a4fe0 finishes local encode of 10
+1357933109:302943 encoder thread 0x7fe3580a59d0 finishes local encode of 12
+1357933109:303092 encoder thread 0x7fe3580a4940 finishes local encode of 14
+1357933109:303216 encoder thread 0x7fe3580a5680 finishes local encode of 11
+1357933109:303343 encoder thread 0x7fe3580a4c90 begins local encode of 20
+1357933109:305539 writer sleeps with a queue of 2
+1357933109:305645 encoder thread 0x7fe3580a5330 sleeps
+1357933109:305779 encoder thread 0x7fe358024570 sleeps
+1357933109:305845 decoder wakes with queue of 32
+1357933109:305940 writer wakes with a queue of 2
+1357933109:306010 decoder sleeps with queue of 32
+1357933109:319371 encoder thread 0x7fe358024570 wakes with queue of 32
+1357933109:319478 encoder thread 0x7fe3580a5680 sleeps
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe358024570 pops frame 19 from queue
+1357933109:319729 encoder thread 0x7fe358024570 begins local encode of 19
+1357933109:331703 writer sleeps with a queue of 5
+1357933109:345077 encoder thread 0x7fe3580a59d0 sleeps
+1357933109:358909 encoder thread 0x7fe3580a4fe0 sleeps
+1357933109:359054 writer wakes with a queue of 5
+1357933109:359167 encoder thread 0x7fe3580a5330 wakes with queue of 31
+1357933109:359292 encoder thread 0x7fe3580a4940 sleeps
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe3580a5330 pops frame 16 from queue
+1357933109:359566 encoder thread 0x7fe3580a5330 begins local encode of 16
+1357933109:359626 decoder wakes with queue of 30
+1357933109:359802 adding to queue of 30
+1357933109:359993 encoder thread 0x7fe3580a5680 wakes with queue of 31
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe3580a5680 pops frame 17 from queue
+1357933109:360297 encoder thread 0x7fe3580a5680 begins local encode of 17
+1357933109:360414 encoder thread 0x7fe3580a59d0 wakes with queue of 30
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe3580a59d0 pops frame 18 from queue
+1357933109:360637 encoder thread 0x7fe3580a59d0 begins local encode of 18
+Fri Jan 11 19:38:29 2013: Source video frame ready; source at 1.702, output at 1.7017
+1357933109:361593 Decoder emits 51
+1357933109:362224 writer sleeps with a queue of 4
+1357933109:362368 encoder thread 0x7fe3580a4fe0 wakes with queue of 29
+1357933109:362457 writer wakes with a queue of 4
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe3580a4fe0 pops frame 22 from queue
+1357933109:362689 encoder thread 0x7fe3580a4fe0 begins local encode of 22
+1357933109:363838 encoder thread 0x7fe3580a4940 wakes with queue of 28
+Fri Jan 11 19:38:29 2013: Encoder thread 0x7fe3580a4940 pops frame 23 from queue
+1357933109:364204 encoder thread 0x7fe3580a4940 begins local encode of 23
+1357933109:364383 adding to queue of 27
+1357933109:366117 writer sleeps with a queue of 3
+Fri Jan 11 19:38:29 2013: Source video frame ready; source at 1.735, output at 1.73507
+1357933109:366765 Decoder emits 52
+1357933109:367035 adding to queue of 28
+Fri Jan 11 19:38:29 2013: Source video frame ready; source at 1.768, output at 1.76843
+1357933109:368911 Decoder emits 53
+1357933109:369164 adding to queue of 29
+Fri Jan 11 19:38:29 2013: Source video frame ready; source at 1.802, output at 1.8018
+1357933109:371579 writer wakes with a queue of 3
+1357933109:371810 Decoder emits 54
+1357933109:372115 adding to queue of 30
+Fri Jan 11 19:38:29 2013: Source video frame ready; source at 1.835, output at 1.83517
+1357933109:374135 Decoder emits 55
+1357933109:374415 adding to queue of 31
+Fri Jan 11 19:38:29 2013: Source video frame ready; source at 1.869, output at 1.86853
+1357933109:376060 Decoder emits 56
+1357933109:376403 decoder sleeps with queue of 32
+1357933109:389508 writer sleeps with a queue of 2
+1357933109:389828 writer wakes with a queue of 2
+1357933109:393643 writer sleeps with a queue of 1
+1357933109:393940 writer wakes with a queue of 1
+1357933109:397571 writer sleeps with a queue of 0
+Fri Jan 11 19:38:33 2013: Finished locally-encoded frame 21
+1357933113:380530 encoder thread 0x7fe3580a45f0 finishes local encode of 21
+1357933113:380913 encoder thread 0x7fe3580a45f0 sleeps
+1357933113:381429 decoder wakes with queue of 32
+1357933113:381828 writer wakes with a queue of 1
+1357933113:382145 decoder sleeps with queue of 32
+1357933113:382500 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:38:33 2013: Encoder thread 0x7fe3580a45f0 pops frame 24 from queue
+1357933113:383231 encoder thread 0x7fe3580a45f0 begins local encode of 24
+1357933113:385816 writer sleeps with a queue of 0
+Fri Jan 11 19:38:35 2013: Finished locally-encoded frame 16
+1357933115:890275 encoder thread 0x7fe3580a5330 finishes local encode of 16
+Fri Jan 11 19:38:35 2013: Finished locally-encoded frame 22
+1357933116:26523 encoder thread 0x7fe3580a5330 sleeps
+Fri Jan 11 19:38:36 2013: Finished locally-encoded frame 23
+1357933116:103278 writer wakes with a queue of 1
+Fri Jan 11 19:38:36 2013: Finished locally-encoded frame 18
+Fri Jan 11 19:38:36 2013: Finished locally-encoded frame 20
+1357933116:136045 encoder thread 0x7fe3580a4fe0 finishes local encode of 22
+Fri Jan 11 19:38:36 2013: Finished locally-encoded frame 19
+1357933116:136315 decoder wakes with queue of 31
+Fri Jan 11 19:38:36 2013: Finished locally-encoded frame 17
+1357933116:136580 encoder thread 0x7fe3580a4940 finishes local encode of 23
+Fri Jan 11 19:38:36 2013: Finished locally-encoded frame 24
+1357933116:136865 adding to queue of 31
+1357933116:136974 encoder thread 0x7fe3580a4c90 finishes local encode of 20
+1357933116:137088 encoder thread 0x7fe3580a59d0 finishes local encode of 18
+1357933116:137241 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a5330 pops frame 25 from queue
+1357933116:137426 encoder thread 0x7fe358024570 finishes local encode of 19
+1357933116:137535 encoder thread 0x7fe3580a5330 begins local encode of 25
+1357933116:151350 encoder thread 0x7fe3580a45f0 finishes local encode of 24
+1357933116:164741 encoder thread 0x7fe3580a4940 sleeps
+1357933116:164866 writer sleeps with a queue of 5
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 1.902, output at 1.9019
+1357933116:165039 encoder thread 0x7fe3580a4fe0 sleeps
+1357933116:165109 encoder thread 0x7fe3580a4c90 sleeps
+1357933116:165172 encoder thread 0x7fe3580a5680 finishes local encode of 17
+1357933116:165240 encoder thread 0x7fe3580a59d0 sleeps
+1357933116:165297 encoder thread 0x7fe358024570 sleeps
+1357933116:165361 encoder thread 0x7fe3580a4940 wakes with queue of 31
+1357933116:165433 writer wakes with a queue of 5
+1357933116:165505 Decoder emits 57
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a4940 pops frame 26 from queue
+1357933116:165660 encoder thread 0x7fe3580a4940 begins local encode of 26
+1357933116:165704 encoder thread 0x7fe3580a4fe0 wakes with queue of 30
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a4fe0 pops frame 27 from queue
+1357933116:165850 encoder thread 0x7fe3580a4fe0 begins local encode of 27
+1357933116:165901 encoder thread 0x7fe3580a4c90 wakes with queue of 29
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a4c90 pops frame 28 from queue
+1357933116:166098 encoder thread 0x7fe3580a4c90 begins local encode of 28
+1357933116:166146 encoder thread 0x7fe3580a59d0 wakes with queue of 28
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a59d0 pops frame 29 from queue
+1357933116:166347 encoder thread 0x7fe3580a59d0 begins local encode of 29
+1357933116:166441 encoder thread 0x7fe358024570 wakes with queue of 27
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe358024570 pops frame 30 from queue
+1357933116:166582 encoder thread 0x7fe358024570 begins local encode of 30
+1357933116:176479 adding to queue of 26
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 1.935, output at 1.93527
+1357933116:178524 writer sleeps with a queue of 6
+1357933116:178587 writer wakes with a queue of 6
+1357933116:178665 Decoder emits 58
+1357933116:178906 adding to queue of 27
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 1.969, output at 1.96863
+1357933116:181499 Decoder emits 59
+1357933116:181653 adding to queue of 28
+1357933116:182321 writer sleeps with a queue of 5
+1357933116:182450 encoder thread 0x7fe3580a45f0 sleeps
+1357933116:182595 encoder thread 0x7fe3580a45f0 wakes with queue of 29
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a45f0 pops frame 31 from queue
+1357933116:182755 encoder thread 0x7fe3580a45f0 begins local encode of 31
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 2.002, output at 2.002
+1357933116:183530 Decoder emits 60
+1357933116:183657 adding to queue of 28
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 2.035, output at 2.03537
+1357933116:186741 Decoder emits 61
+1357933116:187020 adding to queue of 29
+1357933116:188457 encoder thread 0x7fe3580a5680 sleeps
+1357933116:189864 writer wakes with a queue of 5
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 2.069, output at 2.06873
+1357933116:192759 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:38:36 2013: Encoder thread 0x7fe3580a5680 pops frame 32 from queue
+1357933116:193167 encoder thread 0x7fe3580a5680 begins local encode of 32
+1357933116:193338 Decoder emits 62
+1357933116:193598 adding to queue of 29
+1357933116:194932 writer sleeps with a queue of 4
+1357933116:195245 writer wakes with a queue of 4
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 2.102, output at 2.1021
+1357933116:196145 Decoder emits 63
+1357933116:196502 adding to queue of 30
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 2.135, output at 2.13547
+1357933116:198708 Decoder emits 64
+1357933116:198947 adding to queue of 31
+Fri Jan 11 19:38:36 2013: Source video frame ready; source at 2.169, output at 2.16883
+1357933116:200702 writer sleeps with a queue of 3
+1357933116:200906 writer wakes with a queue of 3
+1357933116:201299 Decoder emits 65
+1357933116:201648 decoder sleeps with queue of 32
+1357933116:204559 writer sleeps with a queue of 2
+1357933116:204726 writer wakes with a queue of 2
+1357933116:208531 writer sleeps with a queue of 1
+1357933116:208702 writer wakes with a queue of 1
+1357933116:212392 writer sleeps with a queue of 0
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 31
+1357933123:218645 encoder thread 0x7fe3580a45f0 finishes local encode of 31
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 30
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 28
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 26
+1357933123:407719 writer wakes with a queue of 1
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 27
+1357933123:407921 encoder thread 0x7fe3580a45f0 sleeps
+1357933123:408055 decoder wakes with queue of 32
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 29
+1357933123:408313 encoder thread 0x7fe358024570 finishes local encode of 30
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 25
+Fri Jan 11 19:38:43 2013: Finished locally-encoded frame 32
+1357933123:408728 encoder thread 0x7fe3580a4c90 finishes local encode of 28
+1357933123:408877 decoder sleeps with queue of 32
+1357933123:409054 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a45f0 pops frame 33 from queue
+1357933123:409261 encoder thread 0x7fe3580a45f0 begins local encode of 33
+1357933123:409461 encoder thread 0x7fe3580a4940 finishes local encode of 26
+1357933123:423780 encoder thread 0x7fe3580a4fe0 finishes local encode of 27
+1357933123:438064 encoder thread 0x7fe3580a5680 finishes local encode of 32
+1357933123:438162 decoder wakes with queue of 31
+1357933123:438320 encoder thread 0x7fe3580a5330 finishes local encode of 25
+1357933123:438404 encoder thread 0x7fe358024570 sleeps
+1357933123:438491 writer sleeps with a queue of 3
+1357933123:438571 encoder thread 0x7fe3580a4940 sleeps
+1357933123:438643 encoder thread 0x7fe3580a59d0 finishes local encode of 29
+1357933123:438723 adding to queue of 31
+1357933123:438820 writer wakes with a queue of 3
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.202, output at 2.2022
+1357933123:452255 encoder thread 0x7fe3580a4c90 sleeps
+1357933123:452389 encoder thread 0x7fe358024570 wakes with queue of 32
+1357933123:452482 Decoder emits 66
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe358024570 pops frame 34 from queue
+1357933123:452712 encoder thread 0x7fe358024570 begins local encode of 34
+1357933123:452767 encoder thread 0x7fe3580a4940 wakes with queue of 31
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a4940 pops frame 35 from queue
+1357933123:452989 encoder thread 0x7fe3580a4940 begins local encode of 35
+1357933123:466394 writer sleeps with a queue of 6
+1357933123:476131 encoder thread 0x7fe3580a4fe0 sleeps
+1357933123:486712 writer wakes with a queue of 6
+1357933123:486858 encoder thread 0x7fe3580a5680 sleeps
+1357933123:487013 encoder thread 0x7fe3580a4fe0 wakes with queue of 30
+1357933123:487118 encoder thread 0x7fe3580a5330 sleeps
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a4fe0 pops frame 36 from queue
+1357933123:487345 encoder thread 0x7fe3580a4fe0 begins local encode of 36
+1357933123:487428 encoder thread 0x7fe3580a4c90 wakes with queue of 29
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a4c90 pops frame 37 from queue
+1357933123:487643 encoder thread 0x7fe3580a4c90 begins local encode of 37
+1357933123:487765 adding to queue of 28
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.236, output at 2.23557
+1357933123:498635 encoder thread 0x7fe3580a59d0 sleeps
+1357933123:498886 Decoder emits 67
+1357933123:499017 encoder thread 0x7fe3580a5680 wakes with queue of 29
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a5680 pops frame 38 from queue
+1357933123:499271 encoder thread 0x7fe3580a5680 begins local encode of 38
+1357933123:499364 encoder thread 0x7fe3580a5330 wakes with queue of 28
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a5330 pops frame 39 from queue
+1357933123:499644 encoder thread 0x7fe3580a5330 begins local encode of 39
+1357933123:500692 writer sleeps with a queue of 5
+1357933123:500910 writer wakes with a queue of 5
+1357933123:501054 encoder thread 0x7fe3580a59d0 wakes with queue of 27
+Fri Jan 11 19:38:43 2013: Encoder thread 0x7fe3580a59d0 pops frame 40 from queue
+1357933123:501365 encoder thread 0x7fe3580a59d0 begins local encode of 40
+1357933123:501474 adding to queue of 26
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.269, output at 2.26893
+1357933123:503979 Decoder emits 68
+1357933123:504243 adding to queue of 27
+1357933123:504600 writer sleeps with a queue of 4
+1357933123:504728 writer wakes with a queue of 4
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.302, output at 2.3023
+1357933123:507138 Decoder emits 69
+1357933123:507367 adding to queue of 28
+1357933123:509074 writer sleeps with a queue of 3
+1357933123:509376 writer wakes with a queue of 3
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.336, output at 2.33567
+1357933123:510128 Decoder emits 70
+1357933123:510398 adding to queue of 29
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.369, output at 2.36903
+1357933123:512603 Decoder emits 71
+1357933123:512861 adding to queue of 30
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.402, output at 2.4024
+1357933123:515123 Decoder emits 72
+1357933123:515389 adding to queue of 31
+Fri Jan 11 19:38:43 2013: Source video frame ready; source at 2.436, output at 2.43577
+1357933123:517884 Decoder emits 73
+1357933123:518124 decoder sleeps with queue of 32
+1357933123:524203 writer sleeps with a queue of 2
+1357933123:524484 writer wakes with a queue of 2
+1357933123:529054 writer sleeps with a queue of 1
+1357933123:529365 writer wakes with a queue of 1
+1357933123:533776 writer sleeps with a queue of 0
+1357933124:395531 decoder wakes with queue of 32
+1357933124:395971 encoder thread 0x7fe358031550 sleeps
+1357933124:396417 decoder sleeps with queue of 32
+1357933124:396762 encoder thread 0x7fe3580a6a80 sleeps
+1357933124:397154 decoder wakes with queue of 32
+1357933124:397593 decoder sleeps with queue of 32
+1357933124:397957 encoder thread 0x7fe358031550 wakes with queue of 32
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe358031550 pops frame 41 from queue
+1357933124:398719 encoder thread 0x7fe3580a6a80 wakes with queue of 31
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a6a80 pops frame 42 from queue
+Fri Jan 11 19:38:44 2013: Remote encode of 41 on shankly failed (Host not found (authoritative)); thread sleeping for 30s
+Fri Jan 11 19:38:44 2013: Remote encode of 42 on shankly failed (Host not found (authoritative)); thread sleeping for 30s
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe358031550 pushes frame 41 back onto queue after failure
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a6a80 pushes frame 42 back onto queue after failure
+1357933124:403437 encoder thread 0x7fe3580a6090 sleeps
+1357933124:403804 decoder wakes with queue of 32
+1357933124:404217 decoder sleeps with queue of 32
+1357933124:404693 encoder thread 0x7fe3580a6090 wakes with queue of 32
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a6090 pops frame 42 from queue
+1357933124:405429 encoder thread 0x7fe358030eb0 sleeps
+1357933124:405849 decoder wakes with queue of 31
+1357933124:406590 adding to queue of 31
+Fri Jan 11 19:38:44 2013: Remote encode of 42 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 30s
+1357933124:410919 encoder thread 0x7fe3580a5d40 sleeps
+1357933124:411494 encoder thread 0x7fe358030eb0 wakes with queue of 32
+Fri Jan 11 19:38:44 2013: Source video frame ready; source at 2.469, output at 2.46913
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe358030eb0 pops frame 41 from queue
+1357933124:413762 Decoder emits 74
+1357933124:414500 encoder thread 0x7fe3580a6730 sleeps
+1357933124:427061 encoder thread 0x7fe358031200 sleeps
+Fri Jan 11 19:38:44 2013: Remote encode of 41 on shankly failed (Host not found (authoritative)); thread sleeping for 30s
+1357933124:428843 encoder thread 0x7fe3580a63e0 sleeps
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a6090 pushes frame 42 back onto queue after failure
+1357933124:429727 encoder thread 0x7fe3580a5d40 wakes with queue of 32
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a5d40 pops frame 42 from queue
+1357933124:430875 adding to queue of 31
+1357933124:431481 encoder thread 0x7fe3580a6730 wakes with queue of 32
+Fri Jan 11 19:38:44 2013: Remote encode of 42 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 30s
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a6730 pops frame 43 from queue
+1357933124:436047 encoder thread 0x7fe358031200 wakes with queue of 31
+Fri Jan 11 19:38:44 2013: Source video frame ready; source at 2.503, output at 2.5025
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe358031200 pops frame 44 from queue
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe358030eb0 pushes frame 41 back onto queue after failure
+1357933124:439474 Decoder emits 75
+Fri Jan 11 19:38:44 2013: Remote encode of 43 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 30s
+1357933124:440343 encoder thread 0x7fe3580a63e0 wakes with queue of 31
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a63e0 pops frame 41 from queue
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a5d40 pushes frame 42 back onto queue after failure
+Fri Jan 11 19:38:44 2013: Remote encode of 44 on shankly failed (Host not found (authoritative)); thread sleeping for 30s
+1357933124:442532 adding to queue of 31
+Fri Jan 11 19:38:44 2013: Remote encode of 41 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 30s
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a6730 pushes frame 43 back onto queue after failure
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe358031200 pushes frame 44 back onto queue after failure
+Fri Jan 11 19:38:44 2013: Encoder thread 0x7fe3580a63e0 pushes frame 41 back onto queue after failure
+Fri Jan 11 19:38:44 2013: Source video frame ready; source at 2.536, output at 2.53587
+1357933124:447003 Decoder emits 76
+1357933124:447526 decoder sleeps with queue of 35
+Fri Jan 11 19:38:48 2013: Finished locally-encoded frame 33
+1357933128:522199 encoder thread 0x7fe3580a45f0 finishes local encode of 33
+1357933128:522522 writer wakes with a queue of 1
+1357933128:570490 decoder wakes with queue of 35
+1357933128:572143 decoder sleeps with queue of 35
+1357933128:572227 encoder thread 0x7fe3580a45f0 sleeps
+1357933128:572348 encoder thread 0x7fe3580a45f0 wakes with queue of 35
+Fri Jan 11 19:38:48 2013: Encoder thread 0x7fe3580a45f0 pops frame 41 from queue
+1357933128:572508 encoder thread 0x7fe3580a45f0 begins local encode of 41
+1357933128:574402 writer sleeps with a queue of 0
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 34
+1357933129:154610 encoder thread 0x7fe358024570 finishes local encode of 34
+1357933129:155254 writer wakes with a queue of 1
+1357933129:167760 encoder thread 0x7fe358024570 sleeps
+1357933129:169522 decoder wakes with queue of 34
+1357933129:172190 decoder sleeps with queue of 34
+1357933129:172446 writer sleeps with a queue of 0
+1357933129:172631 encoder thread 0x7fe358024570 wakes with queue of 34
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe358024570 pops frame 44 from queue
+1357933129:172910 encoder thread 0x7fe358024570 begins local encode of 44
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 39
+1357933129:223266 encoder thread 0x7fe3580a5330 finishes local encode of 39
+1357933129:223556 writer wakes with a queue of 1
+1357933129:294239 encoder thread 0x7fe3580a5330 sleeps
+1357933129:294364 decoder wakes with queue of 33
+1357933129:294441 decoder sleeps with queue of 33
+1357933129:294532 encoder thread 0x7fe3580a5330 wakes with queue of 33
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe3580a5330 pops frame 43 from queue
+1357933129:294693 encoder thread 0x7fe3580a5330 begins local encode of 43
+1357933129:297852 writer sleeps with a queue of 0
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 38
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 40
+1357933129:466490 encoder thread 0x7fe3580a5680 finishes local encode of 38
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 36
+1357933129:522282 encoder thread 0x7fe3580a59d0 finishes local encode of 40
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 35
+Fri Jan 11 19:38:49 2013: Finished locally-encoded frame 37
+1357933129:523059 writer wakes with a queue of 1
+1357933129:523326 encoder thread 0x7fe3580a5680 sleeps
+1357933129:523649 decoder wakes with queue of 32
+1357933129:523876 decoder sleeps with queue of 32
+1357933129:523999 encoder thread 0x7fe3580a4940 finishes local encode of 35
+1357933129:528241 encoder thread 0x7fe3580a4fe0 finishes local encode of 36
+1357933129:549790 encoder thread 0x7fe3580a4c90 finishes local encode of 37
+1357933129:549940 encoder thread 0x7fe3580a59d0 sleeps
+1357933129:550044 encoder thread 0x7fe3580a5680 wakes with queue of 32
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe3580a5680 pops frame 42 from queue
+1357933129:550316 encoder thread 0x7fe3580a5680 begins local encode of 42
+1357933129:550420 decoder wakes with queue of 31
+1357933129:550552 adding to queue of 31
+1357933129:551794 writer sleeps with a queue of 4
+Fri Jan 11 19:38:49 2013: Source video frame ready; source at 2.569, output at 2.56923
+1357933129:592770 encoder thread 0x7fe3580a4940 sleeps
+1357933129:592953 Decoder emits 77
+1357933129:593076 writer wakes with a queue of 4
+1357933129:593222 encoder thread 0x7fe3580a4c90 sleeps
+1357933129:593369 encoder thread 0x7fe3580a59d0 wakes with queue of 32
+1357933129:593512 encoder thread 0x7fe3580a4fe0 sleeps
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe3580a59d0 pops frame 45 from queue
+1357933129:593796 encoder thread 0x7fe3580a59d0 begins local encode of 45
+1357933129:593909 encoder thread 0x7fe3580a4940 wakes with queue of 31
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe3580a4940 pops frame 46 from queue
+1357933129:594182 encoder thread 0x7fe3580a4940 begins local encode of 46
+1357933129:594319 adding to queue of 30
+Fri Jan 11 19:38:49 2013: Source video frame ready; source at 2.603, output at 2.6026
+1357933129:596326 encoder thread 0x7fe3580a4c90 wakes with queue of 31
+1357933129:598370 writer sleeps with a queue of 3
+1357933129:598521 Decoder emits 78
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe3580a4c90 pops frame 47 from queue
+1357933129:598799 writer wakes with a queue of 3
+1357933129:599014 encoder thread 0x7fe3580a4c90 begins local encode of 47
+1357933129:600090 encoder thread 0x7fe3580a4fe0 wakes with queue of 30
+Fri Jan 11 19:38:49 2013: Encoder thread 0x7fe3580a4fe0 pops frame 48 from queue
+1357933129:600552 adding to queue of 29
+1357933129:601030 encoder thread 0x7fe3580a4fe0 begins local encode of 48
+1357933129:602301 writer sleeps with a queue of 2
+1357933129:604481 writer wakes with a queue of 2
+Fri Jan 11 19:38:49 2013: Source video frame ready; source at 2.636, output at 2.63597
+1357933129:605223 Decoder emits 79
+1357933129:605653 adding to queue of 30
+Fri Jan 11 19:38:49 2013: Source video frame ready; source at 2.669, output at 2.66933
+1357933129:608174 Decoder emits 80
+1357933129:608533 adding to queue of 31
+1357933129:608773 writer sleeps with a queue of 1
+1357933129:609027 writer wakes with a queue of 1
+Fri Jan 11 19:38:49 2013: Source video frame ready; source at 2.703, output at 2.7027
+1357933129:611833 Decoder emits 81
+1357933129:612122 decoder sleeps with queue of 32
+1357933129:613890 writer sleeps with a queue of 0
+Fri Jan 11 19:38:51 2013: Finished locally-encoded frame 41
+1357933131:643683 encoder thread 0x7fe3580a45f0 finishes local encode of 41
+1357933131:644053 encoder thread 0x7fe3580a45f0 sleeps
+1357933131:644379 writer wakes with a queue of 1
+1357933131:644845 decoder wakes with queue of 32
+1357933131:645233 decoder sleeps with queue of 32
+1357933131:645607 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:38:51 2013: Encoder thread 0x7fe3580a45f0 pops frame 49 from queue
+1357933131:646289 encoder thread 0x7fe3580a45f0 begins local encode of 49
+1357933131:648638 writer sleeps with a queue of 0
+Fri Jan 11 19:38:54 2013: Finished locally-encoded frame 43
+1357933134:553870 encoder thread 0x7fe3580a5330 finishes local encode of 43
+1357933134:553990 writer wakes with a queue of 1
+1357933134:556931 writer sleeps with a queue of 0
+1357933134:557016 encoder thread 0x7fe3580a5330 sleeps
+1357933134:557111 decoder wakes with queue of 31
+1357933134:557261 adding to queue of 31
+1357933134:557388 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:38:54 2013: Encoder thread 0x7fe3580a5330 pops frame 50 from queue
+1357933134:557536 encoder thread 0x7fe3580a5330 begins local encode of 50
+Fri Jan 11 19:38:54 2013: Source video frame ready; source at 2.736, output at 2.73607
+1357933134:558867 Decoder emits 82
+1357933134:558981 adding to queue of 31
+Fri Jan 11 19:38:54 2013: Source video frame ready; source at 2.769, output at 2.76943
+1357933134:560985 Decoder emits 83
+1357933134:561079 decoder sleeps with queue of 32
+Fri Jan 11 19:38:54 2013: Finished locally-encoded frame 44
+1357933134:782210 encoder thread 0x7fe358024570 finishes local encode of 44
+1357933134:782324 writer wakes with a queue of 1
+1357933134:782389 decoder wakes with queue of 32
+1357933134:782452 decoder sleeps with queue of 32
+1357933134:782494 encoder thread 0x7fe358024570 sleeps
+1357933134:782545 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:38:54 2013: Encoder thread 0x7fe358024570 pops frame 51 from queue
+1357933134:782649 encoder thread 0x7fe358024570 begins local encode of 51
+1357933134:785342 writer sleeps with a queue of 0
+Fri Jan 11 19:38:55 2013: Finished locally-encoded frame 47
+1357933136:19792 encoder thread 0x7fe3580a4c90 finishes local encode of 47
+Fri Jan 11 19:38:56 2013: Finished locally-encoded frame 48
+Fri Jan 11 19:38:56 2013: Finished locally-encoded frame 46
+1357933136:121135 writer wakes with a queue of 1
+Fri Jan 11 19:38:56 2013: Finished locally-encoded frame 45
+1357933136:121397 encoder thread 0x7fe3580a4c90 sleeps
+1357933136:121508 decoder wakes with queue of 31
+Fri Jan 11 19:38:56 2013: Finished locally-encoded frame 42
+1357933136:121681 adding to queue of 31
+1357933136:121738 encoder thread 0x7fe3580a4fe0 finishes local encode of 48
+1357933136:122320 encoder thread 0x7fe3580a59d0 finishes local encode of 45
+1357933136:136126 encoder thread 0x7fe3580a5680 finishes local encode of 42
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 2.803, output at 2.8028
+1357933136:136343 encoder thread 0x7fe3580a4940 finishes local encode of 46
+1357933136:136434 encoder thread 0x7fe3580a4fe0 sleeps
+1357933136:136495 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+1357933136:136551 Decoder emits 84
+Fri Jan 11 19:38:56 2013: Encoder thread 0x7fe3580a4c90 pops frame 52 from queue
+1357933136:136700 encoder thread 0x7fe3580a4c90 begins local encode of 52
+1357933136:166270 encoder thread 0x7fe3580a59d0 sleeps
+1357933136:187294 encoder thread 0x7fe3580a5680 sleeps
+1357933136:198771 writer sleeps with a queue of 4
+1357933136:198855 encoder thread 0x7fe3580a4940 sleeps
+1357933136:198942 encoder thread 0x7fe3580a4fe0 wakes with queue of 31
+Fri Jan 11 19:38:56 2013: Finished locally-encoded frame 49
+1357933136:199171 writer wakes with a queue of 4
+Fri Jan 11 19:38:56 2013: Encoder thread 0x7fe3580a4fe0 pops frame 53 from queue
+1357933136:199328 encoder thread 0x7fe3580a4fe0 begins local encode of 53
+1357933136:199413 adding to queue of 30
+1357933136:199592 encoder thread 0x7fe3580a59d0 wakes with queue of 31
+Fri Jan 11 19:38:56 2013: Encoder thread 0x7fe3580a59d0 pops frame 54 from queue
+1357933136:199726 encoder thread 0x7fe3580a45f0 finishes local encode of 49
+1357933136:199812 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:38:56 2013: Encoder thread 0x7fe3580a5680 pops frame 55 from queue
+1357933136:199929 encoder thread 0x7fe3580a5680 begins local encode of 55
+1357933136:200006 encoder thread 0x7fe3580a4940 wakes with queue of 29
+Fri Jan 11 19:38:56 2013: Encoder thread 0x7fe3580a4940 pops frame 56 from queue
+1357933136:200167 encoder thread 0x7fe3580a4940 begins local encode of 56
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 2.836, output at 2.83617
+1357933136:211315 encoder thread 0x7fe3580a45f0 sleeps
+1357933136:211455 encoder thread 0x7fe3580a45f0 wakes with queue of 28
+1357933136:211508 writer sleeps with a queue of 4
+1357933136:211626 Decoder emits 85
+1357933136:211714 encoder thread 0x7fe3580a59d0 begins local encode of 54
+Fri Jan 11 19:38:56 2013: Encoder thread 0x7fe3580a45f0 pops frame 57 from queue
+1357933136:211907 writer wakes with a queue of 4
+1357933136:211990 adding to queue of 27
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 2.87, output at 2.86953
+1357933136:213971 Decoder emits 86
+1357933136:214237 adding to queue of 28
+1357933136:215566 writer sleeps with a queue of 3
+1357933136:216640 writer wakes with a queue of 3
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 2.903, output at 2.9029
+1357933136:217159 Decoder emits 87
+1357933136:217403 adding to queue of 29
+1357933136:218028 encoder thread 0x7fe3580a45f0 begins local encode of 57
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 2.936, output at 2.93627
+1357933136:219867 Decoder emits 88
+1357933136:220093 adding to queue of 30
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 2.97, output at 2.96963
+1357933136:222272 Decoder emits 89
+1357933136:222510 adding to queue of 31
+Fri Jan 11 19:38:56 2013: Source video frame ready; source at 3.003, output at 3.003
+1357933136:224745 Decoder emits 90
+1357933136:224989 decoder sleeps with queue of 32
+1357933136:233519 writer sleeps with a queue of 2
+1357933136:233767 writer wakes with a queue of 2
+1357933136:237516 writer sleeps with a queue of 1
+1357933136:237868 writer wakes with a queue of 1
+1357933136:242268 writer sleeps with a queue of 0
+Fri Jan 11 19:38:57 2013: Finished locally-encoded frame 50
+1357933137:284424 encoder thread 0x7fe3580a5330 finishes local encode of 50
+1357933137:284730 writer wakes with a queue of 1
+1357933137:292610 encoder thread 0x7fe3580a5330 sleeps
+1357933137:292956 decoder wakes with queue of 32
+1357933137:293271 decoder sleeps with queue of 32
+1357933137:293578 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:38:57 2013: Encoder thread 0x7fe3580a5330 pops frame 58 from queue
+1357933137:294222 encoder thread 0x7fe3580a5330 begins local encode of 58
+1357933137:296253 writer sleeps with a queue of 0
+Fri Jan 11 19:38:57 2013: Finished locally-encoded frame 51
+1357933137:372268 encoder thread 0x7fe358024570 finishes local encode of 51
+1357933137:372706 writer wakes with a queue of 1
+1357933137:386056 encoder thread 0x7fe358024570 sleeps
+1357933137:386379 decoder wakes with queue of 31
+1357933137:386777 adding to queue of 31
+1357933137:387177 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:38:57 2013: Encoder thread 0x7fe358024570 pops frame 59 from queue
+1357933137:387861 encoder thread 0x7fe358024570 begins local encode of 59
+Fri Jan 11 19:38:57 2013: Source video frame ready; source at 3.036, output at 3.03637
+1357933137:389941 writer sleeps with a queue of 0
+1357933137:390254 Decoder emits 91
+1357933137:390637 adding to queue of 31
+Fri Jan 11 19:38:57 2013: Source video frame ready; source at 3.07, output at 3.06973
+1357933137:392303 Decoder emits 92
+1357933137:392631 decoder sleeps with queue of 32
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 55
+1357933142:115338 encoder thread 0x7fe3580a5680 finishes local encode of 55
+1357933142:115697 writer wakes with a queue of 1
+1357933142:131598 writer sleeps with a queue of 0
+1357933142:131861 encoder thread 0x7fe3580a5680 sleeps
+1357933142:131999 decoder wakes with queue of 32
+1357933142:132227 decoder sleeps with queue of 32
+1357933142:132353 encoder thread 0x7fe3580a5680 wakes with queue of 32
+Fri Jan 11 19:39:02 2013: Encoder thread 0x7fe3580a5680 pops frame 60 from queue
+1357933142:132509 encoder thread 0x7fe3580a5680 begins local encode of 60
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 57
+1357933142:652200 encoder thread 0x7fe3580a45f0 finishes local encode of 57
+1357933142:652478 writer wakes with a queue of 1
+1357933142:670430 encoder thread 0x7fe3580a45f0 sleeps
+1357933142:672161 decoder wakes with queue of 31
+1357933142:672536 adding to queue of 31
+1357933142:674747 writer sleeps with a queue of 0
+Fri Jan 11 19:39:02 2013: Source video frame ready; source at 3.103, output at 3.1031
+1357933142:674991 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:39:02 2013: Encoder thread 0x7fe3580a45f0 pops frame 61 from queue
+1357933142:675160 encoder thread 0x7fe3580a45f0 begins local encode of 61
+1357933142:675251 Decoder emits 93
+1357933142:675422 adding to queue of 31
+Fri Jan 11 19:39:02 2013: Source video frame ready; source at 3.136, output at 3.13647
+1357933142:678756 Decoder emits 94
+1357933142:678875 decoder sleeps with queue of 32
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 56
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 52
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 53
+1357933142:884663 encoder thread 0x7fe3580a4940 finishes local encode of 56
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 54
+1357933142:899652 encoder thread 0x7fe3580a4c90 finishes local encode of 52
+1357933142:899866 writer wakes with a queue of 1
+1357933142:900134 encoder thread 0x7fe3580a4940 sleeps
+1357933142:900310 encoder thread 0x7fe3580a59d0 finishes local encode of 54
+1357933142:900505 decoder wakes with queue of 32
+1357933142:900675 decoder sleeps with queue of 32
+1357933142:914829 encoder thread 0x7fe3580a4c90 sleeps
+1357933142:915010 encoder thread 0x7fe3580a4940 wakes with queue of 32
+Fri Jan 11 19:39:02 2013: Encoder thread 0x7fe3580a4940 pops frame 62 from queue
+1357933142:915345 encoder thread 0x7fe3580a4940 begins local encode of 62
+1357933142:936039 encoder thread 0x7fe3580a59d0 sleeps
+1357933142:974305 decoder wakes with queue of 31
+1357933142:987770 writer sleeps with a queue of 2
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 58
+Fri Jan 11 19:39:02 2013: Finished locally-encoded frame 59
+1357933142:988424 adding to queue of 31
+1357933142:988714 writer wakes with a queue of 2
+1357933142:989115 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+Fri Jan 11 19:39:02 2013: Encoder thread 0x7fe3580a4c90 pops frame 63 from queue
+1357933142:989600 encoder thread 0x7fe3580a4c90 begins local encode of 63
+1357933142:989810 encoder thread 0x7fe3580a5330 finishes local encode of 58
+1357933142:990161 encoder thread 0x7fe3580a59d0 wakes with queue of 31
+1357933142:990494 encoder thread 0x7fe358024570 finishes local encode of 59
+Fri Jan 11 19:39:02 2013: Source video frame ready; source at 3.17, output at 3.16983
+1357933142:991069 Decoder emits 95
+Fri Jan 11 19:39:02 2013: Encoder thread 0x7fe3580a59d0 pops frame 64 from queue
+1357933142:991534 encoder thread 0x7fe3580a59d0 begins local encode of 64
+1357933143:2971 writer sleeps with a queue of 3
+1357933143:9064 encoder thread 0x7fe3580a5330 sleeps
+1357933143:9313 encoder thread 0x7fe358024570 sleeps
+1357933143:9452 adding to queue of 30
+1357933143:9608 writer wakes with a queue of 3
+1357933143:9804 encoder thread 0x7fe3580a4fe0 finishes local encode of 53
+1357933143:9990 encoder thread 0x7fe3580a5330 wakes with queue of 31
+Fri Jan 11 19:39:03 2013: Encoder thread 0x7fe3580a5330 pops frame 65 from queue
+1357933143:10511 encoder thread 0x7fe3580a5330 begins local encode of 65
+1357933143:10803 encoder thread 0x7fe358024570 wakes with queue of 30
+Fri Jan 11 19:39:03 2013: Encoder thread 0x7fe358024570 pops frame 66 from queue
+Fri Jan 11 19:39:03 2013: Source video frame ready; source at 3.203, output at 3.2032
+1357933143:11848 Decoder emits 96
+1357933143:12061 encoder thread 0x7fe3580a4fe0 sleeps
+1357933143:12370 adding to queue of 29
+1357933143:12447 encoder thread 0x7fe358024570 begins local encode of 66
+1357933143:13252 writer sleeps with a queue of 3
+1357933143:13540 encoder thread 0x7fe3580a4fe0 wakes with queue of 30
+1357933143:13753 writer wakes with a queue of 3
+Fri Jan 11 19:39:03 2013: Source video frame ready; source at 3.237, output at 3.23657
+1357933143:14476 Decoder emits 97
+Fri Jan 11 19:39:03 2013: Encoder thread 0x7fe3580a4fe0 pops frame 67 from queue
+1357933143:15875 encoder thread 0x7fe3580a4fe0 begins local encode of 67
+1357933143:16079 adding to queue of 29
+Fri Jan 11 19:39:03 2013: Source video frame ready; source at 3.27, output at 3.26993
+1357933143:18286 Decoder emits 98
+1357933143:18493 writer sleeps with a queue of 2
+1357933143:18734 adding to queue of 30
+Fri Jan 11 19:39:03 2013: Source video frame ready; source at 3.303, output at 3.3033
+1357933143:21059 Decoder emits 99
+1357933143:21320 adding to queue of 31
+Fri Jan 11 19:39:03 2013: Source video frame ready; source at 3.337, output at 3.33667
+1357933143:27968 writer wakes with a queue of 2
+1357933143:28422 Decoder emits 100
+1357933143:29904 decoder sleeps with queue of 32
+1357933143:32086 writer sleeps with a queue of 1
+1357933143:32329 writer wakes with a queue of 1
+1357933143:46423 writer sleeps with a queue of 0
+Fri Jan 11 19:39:05 2013: Finished locally-encoded frame 60
+1357933145:40526 encoder thread 0x7fe3580a5680 finishes local encode of 60
+1357933145:40958 writer wakes with a queue of 1
+1357933145:54534 encoder thread 0x7fe3580a5680 sleeps
+1357933145:54905 decoder wakes with queue of 32
+1357933145:55214 decoder sleeps with queue of 32
+1357933145:55589 encoder thread 0x7fe3580a5680 wakes with queue of 32
+Fri Jan 11 19:39:05 2013: Encoder thread 0x7fe3580a5680 pops frame 68 from queue
+1357933145:56270 encoder thread 0x7fe3580a5680 begins local encode of 68
+1357933145:58332 writer sleeps with a queue of 0
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 65
+1357933149:516036 encoder thread 0x7fe3580a5330 finishes local encode of 65
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 61
+1357933149:544443 decoder wakes with queue of 31
+1357933149:544635 encoder thread 0x7fe3580a5330 sleeps
+1357933149:544726 adding to queue of 31
+1357933149:544802 writer wakes with a queue of 1
+1357933149:545457 encoder thread 0x7fe3580a45f0 finishes local encode of 61
+Fri Jan 11 19:39:09 2013: Source video frame ready; source at 3.37, output at 3.37003
+1357933149:563307 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:39:09 2013: Encoder thread 0x7fe3580a5330 pops frame 69 from queue
+1357933149:563572 encoder thread 0x7fe3580a5330 begins local encode of 69
+1357933149:563682 Decoder emits 101
+1357933149:563935 adding to queue of 31
+1357933149:565648 writer sleeps with a queue of 1
+1357933149:565771 writer wakes with a queue of 1
+Fri Jan 11 19:39:09 2013: Source video frame ready; source at 3.403, output at 3.4034
+1357933149:567160 Decoder emits 102
+1357933149:567387 decoder sleeps with queue of 32
+1357933149:567530 encoder thread 0x7fe3580a45f0 sleeps
+1357933149:567617 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:39:09 2013: Encoder thread 0x7fe3580a45f0 pops frame 70 from queue
+1357933149:567830 encoder thread 0x7fe3580a45f0 begins local encode of 70
+1357933149:581549 writer sleeps with a queue of 0
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 63
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 62
+1357933149:935739 encoder thread 0x7fe3580a4c90 finishes local encode of 63
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 68
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 64
+1357933149:995417 encoder thread 0x7fe3580a4940 finishes local encode of 62
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 67
+1357933149:995680 writer wakes with a queue of 1
+Fri Jan 11 19:39:09 2013: Finished locally-encoded frame 66
+1357933149:995936 encoder thread 0x7fe3580a5680 finishes local encode of 68
+1357933149:996084 decoder wakes with queue of 31
+1357933149:996281 encoder thread 0x7fe3580a4c90 sleeps
+1357933149:996491 adding to queue of 31
+1357933149:997365 encoder thread 0x7fe358024570 finishes local encode of 66
+1357933150:10655 encoder thread 0x7fe3580a59d0 finishes local encode of 64
+1357933150:23649 encoder thread 0x7fe3580a4fe0 finishes local encode of 67
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.437, output at 3.43677
+1357933150:23841 encoder thread 0x7fe3580a4940 sleeps
+1357933150:23931 writer sleeps with a queue of 3
+1357933150:23995 encoder thread 0x7fe3580a5680 sleeps
+1357933150:24056 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+1357933150:24114 Decoder emits 103
+1357933150:24194 writer wakes with a queue of 3
+Fri Jan 11 19:39:10 2013: Encoder thread 0x7fe3580a4c90 pops frame 71 from queue
+1357933150:24342 encoder thread 0x7fe3580a4c90 begins local encode of 71
+1357933150:27909 encoder thread 0x7fe358024570 sleeps
+1357933150:28026 encoder thread 0x7fe3580a4940 wakes with queue of 31
+Fri Jan 11 19:39:10 2013: Encoder thread 0x7fe3580a4940 pops frame 72 from queue
+1357933150:28216 encoder thread 0x7fe3580a4940 begins local encode of 72
+1357933150:28275 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:39:10 2013: Encoder thread 0x7fe3580a5680 pops frame 73 from queue
+1357933150:28418 encoder thread 0x7fe3580a5680 begins local encode of 73
+1357933150:28475 adding to queue of 29
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.47, output at 3.47013
+1357933150:53366 writer sleeps with a queue of 4
+1357933150:53618 encoder thread 0x7fe3580a59d0 sleeps
+1357933150:53732 encoder thread 0x7fe3580a4fe0 sleeps
+1357933150:53830 encoder thread 0x7fe358024570 wakes with queue of 30
+1357933150:53957 writer wakes with a queue of 4
+1357933150:54040 Decoder emits 104
+Fri Jan 11 19:39:10 2013: Encoder thread 0x7fe358024570 pops frame 74 from queue
+1357933150:54310 encoder thread 0x7fe358024570 begins local encode of 74
+1357933150:54398 encoder thread 0x7fe3580a59d0 wakes with queue of 29
+Fri Jan 11 19:39:10 2013: Encoder thread 0x7fe3580a59d0 pops frame 75 from queue
+1357933150:54635 encoder thread 0x7fe3580a59d0 begins local encode of 75
+1357933150:54754 encoder thread 0x7fe3580a4fe0 wakes with queue of 28
+Fri Jan 11 19:39:10 2013: Encoder thread 0x7fe3580a4fe0 pops frame 76 from queue
+1357933150:55191 encoder thread 0x7fe3580a4fe0 begins local encode of 76
+1357933150:55375 adding to queue of 27
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.504, output at 3.5035
+1357933150:58456 Decoder emits 105
+1357933150:58844 adding to queue of 28
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.537, output at 3.53687
+1357933150:60887 Decoder emits 106
+1357933150:61233 adding to queue of 29
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.57, output at 3.57023
+1357933150:64285 Decoder emits 107
+1357933150:64633 adding to queue of 30
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.604, output at 3.6036
+1357933150:66537 Decoder emits 108
+1357933150:66676 writer sleeps with a queue of 3
+1357933150:67009 writer wakes with a queue of 3
+1357933150:68451 adding to queue of 31
+Fri Jan 11 19:39:10 2013: Source video frame ready; source at 3.637, output at 3.63697
+1357933150:72083 Decoder emits 109
+1357933150:72341 decoder sleeps with queue of 32
+1357933150:81537 writer sleeps with a queue of 2
+1357933150:81991 writer wakes with a queue of 2
+1357933150:87900 writer sleeps with a queue of 1
+1357933150:90060 writer wakes with a queue of 1
+1357933150:94749 writer sleeps with a queue of 0
+1357933154:401667 encoder thread 0x7fe358031550 sleeps
+1357933154:402110 decoder wakes with queue of 32
+1357933154:402594 decoder sleeps with queue of 32
+1357933154:403034 encoder thread 0x7fe3580a6a80 sleeps
+1357933154:403384 encoder thread 0x7fe358031550 wakes with queue of 32
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe358031550 pops frame 77 from queue
+1357933154:404149 decoder wakes with queue of 31
+1357933154:404586 adding to queue of 31
+1357933154:405021 encoder thread 0x7fe3580a6a80 wakes with queue of 32
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a6a80 pops frame 78 from queue
+Fri Jan 11 19:39:14 2013: Remote encode of 77 on shankly failed (Host not found (authoritative)); thread sleeping for 40s
+Fri Jan 11 19:39:14 2013: Source video frame ready; source at 3.67, output at 3.67033
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe358031550 pushes frame 77 back onto queue after failure
+1357933154:407061 Decoder emits 110
+Fri Jan 11 19:39:14 2013: Remote encode of 78 on shankly failed (Host not found (authoritative)); thread sleeping for 40s
+1357933154:407920 decoder sleeps with queue of 32
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a6a80 pushes frame 78 back onto queue after failure
+1357933154:429739 encoder thread 0x7fe3580a6090 sleeps
+1357933154:430165 decoder wakes with queue of 33
+1357933154:430503 decoder sleeps with queue of 33
+1357933154:430863 encoder thread 0x7fe3580a6090 wakes with queue of 33
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a6090 pops frame 78 from queue
+Fri Jan 11 19:39:14 2013: Remote encode of 78 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 40s
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a6090 pushes frame 78 back onto queue after failure
+1357933154:439557 encoder thread 0x7fe358030eb0 sleeps
+1357933154:439866 decoder wakes with queue of 33
+1357933154:440151 decoder sleeps with queue of 33
+1357933154:440511 encoder thread 0x7fe358030eb0 wakes with queue of 33
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe358030eb0 pops frame 78 from queue
+1357933154:441997 encoder thread 0x7fe3580a5d40 sleeps
+1357933154:442300 decoder wakes with queue of 32
+Fri Jan 11 19:39:14 2013: Remote encode of 78 on shankly failed (Host not found (authoritative)); thread sleeping for 40s
+1357933154:443063 decoder sleeps with queue of 32
+1357933154:443393 encoder thread 0x7fe3580a5d40 wakes with queue of 32
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a5d40 pops frame 77 from queue
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe358030eb0 pushes frame 78 back onto queue after failure
+1357933154:444645 decoder wakes with queue of 32
+1357933154:445028 encoder thread 0x7fe3580a6730 sleeps
+1357933154:445343 decoder sleeps with queue of 32
+Fri Jan 11 19:39:14 2013: Remote encode of 77 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 40s
+1357933154:445962 encoder thread 0x7fe358031200 sleeps
+1357933154:446264 encoder thread 0x7fe3580a6730 wakes with queue of 32
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a6730 pops frame 78 from queue
+1357933154:446887 decoder wakes with queue of 31
+1357933154:447235 adding to queue of 31
+1357933154:447642 encoder thread 0x7fe3580a63e0 sleeps
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a5d40 pushes frame 77 back onto queue after failure
+Fri Jan 11 19:39:14 2013: Remote encode of 78 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 40s
+1357933154:448719 encoder thread 0x7fe358031200 wakes with queue of 33
+Fri Jan 11 19:39:14 2013: Source video frame ready; source at 3.704, output at 3.7037
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe358031200 pops frame 77 from queue
+1357933154:449617 Decoder emits 111
+1357933154:449964 encoder thread 0x7fe3580a63e0 wakes with queue of 32
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a63e0 pops frame 79 from queue
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a6730 pushes frame 78 back onto queue after failure
+Fri Jan 11 19:39:14 2013: Remote encode of 77 on shankly failed (Host not found (authoritative)); thread sleeping for 40s
+1357933154:451408 decoder sleeps with queue of 32
+Fri Jan 11 19:39:14 2013: Remote encode of 79 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 40s
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe358031200 pushes frame 77 back onto queue after failure
+Fri Jan 11 19:39:14 2013: Encoder thread 0x7fe3580a63e0 pushes frame 79 back onto queue after failure
+Fri Jan 11 19:39:16 2013: Finished locally-encoded frame 69
+1357933156:856781 encoder thread 0x7fe3580a5330 finishes local encode of 69
+1357933156:866630 encoder thread 0x7fe3580a5330 sleeps
+1357933156:866855 decoder wakes with queue of 34
+1357933156:866944 decoder sleeps with queue of 34
+1357933156:867031 encoder thread 0x7fe3580a5330 wakes with queue of 34
+Fri Jan 11 19:39:16 2013: Encoder thread 0x7fe3580a5330 pops frame 79 from queue
+1357933156:867173 encoder thread 0x7fe3580a5330 begins local encode of 79
+1357933156:904295 writer wakes with a queue of 1
+1357933156:909270 writer sleeps with a queue of 0
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 70
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 74
+1357933157:96701 encoder thread 0x7fe3580a45f0 finishes local encode of 70
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 73
+1357933157:188013 encoder thread 0x7fe358024570 finishes local encode of 74
+1357933157:223228 writer wakes with a queue of 1
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 76
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 75
+1357933157:269634 encoder thread 0x7fe3580a5680 finishes local encode of 73
+1357933157:269830 decoder wakes with queue of 33
+1357933157:270010 encoder thread 0x7fe3580a45f0 sleeps
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 72
+Fri Jan 11 19:39:17 2013: Finished locally-encoded frame 71
+1357933157:270414 encoder thread 0x7fe3580a4fe0 finishes local encode of 76
+1357933157:270539 decoder sleeps with queue of 33
+1357933157:270694 encoder thread 0x7fe3580a59d0 finishes local encode of 75
+1357933157:274635 encoder thread 0x7fe3580a4c90 finishes local encode of 71
+1357933157:301852 encoder thread 0x7fe3580a45f0 wakes with queue of 33
+1357933157:301968 encoder thread 0x7fe358024570 sleeps
+1357933157:302077 encoder thread 0x7fe3580a5680 sleeps
+1357933157:302195 writer sleeps with a queue of 3
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe3580a45f0 pops frame 77 from queue
+1357933157:302423 writer wakes with a queue of 3
+1357933157:316504 encoder thread 0x7fe3580a45f0 begins local encode of 77
+1357933157:316677 encoder thread 0x7fe3580a4fe0 sleeps
+1357933157:316810 decoder wakes with queue of 32
+1357933157:316930 decoder sleeps with queue of 32
+1357933157:317071 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe358024570 pops frame 78 from queue
+1357933157:317338 encoder thread 0x7fe358024570 begins local encode of 78
+1357933157:317453 encoder thread 0x7fe3580a5680 wakes with queue of 31
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe3580a5680 pops frame 80 from queue
+1357933157:317752 encoder thread 0x7fe3580a5680 begins local encode of 80
+1357933157:344719 encoder thread 0x7fe3580a59d0 sleeps
+1357933157:344933 writer sleeps with a queue of 4
+1357933157:345033 encoder thread 0x7fe3580a4c90 sleeps
+1357933157:345123 encoder thread 0x7fe3580a4fe0 wakes with queue of 30
+1357933157:345226 encoder thread 0x7fe3580a4940 finishes local encode of 72
+1357933157:345377 writer wakes with a queue of 4
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe3580a4fe0 pops frame 81 from queue
+1357933157:345640 encoder thread 0x7fe3580a4fe0 begins local encode of 81
+1357933157:345736 decoder wakes with queue of 29
+1357933157:345883 adding to queue of 29
+1357933157:346083 encoder thread 0x7fe3580a59d0 wakes with queue of 30
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe3580a59d0 pops frame 82 from queue
+1357933157:346331 encoder thread 0x7fe3580a59d0 begins local encode of 82
+1357933157:346915 encoder thread 0x7fe3580a4c90 wakes with queue of 29
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe3580a4c90 pops frame 83 from queue
+1357933157:347248 encoder thread 0x7fe3580a4c90 begins local encode of 83
+1357933157:347463 encoder thread 0x7fe3580a4940 sleeps
+Fri Jan 11 19:39:17 2013: Source video frame ready; source at 3.737, output at 3.73707
+1357933157:349555 Decoder emits 112
+1357933157:349668 encoder thread 0x7fe3580a4940 wakes with queue of 28
+Fri Jan 11 19:39:17 2013: Encoder thread 0x7fe3580a4940 pops frame 84 from queue
+1357933157:349977 encoder thread 0x7fe3580a4940 begins local encode of 84
+1357933157:350093 writer sleeps with a queue of 4
+1357933157:350265 adding to queue of 27
+Fri Jan 11 19:39:17 2013: Source video frame ready; source at 3.77, output at 3.77043
+1357933157:352268 Decoder emits 113
+1357933157:352530 adding to queue of 28
+Fri Jan 11 19:39:17 2013: Source video frame ready; source at 3.804, output at 3.8038
+1357933157:363455 Decoder emits 114
+1357933157:363872 adding to queue of 29
+Fri Jan 11 19:39:17 2013: Source video frame ready; source at 3.837, output at 3.83717
+1357933157:366499 Decoder emits 115
+1357933157:366809 adding to queue of 30
+Fri Jan 11 19:39:17 2013: Source video frame ready; source at 3.871, output at 3.87053
+1357933157:369799 Decoder emits 116
+1357933157:370025 writer wakes with a queue of 4
+1357933157:370281 adding to queue of 31
+Fri Jan 11 19:39:17 2013: Source video frame ready; source at 3.904, output at 3.9039
+1357933157:372780 Decoder emits 117
+1357933157:373003 decoder sleeps with queue of 32
+1357933157:374537 writer sleeps with a queue of 3
+1357933157:374715 writer wakes with a queue of 3
+1357933157:378775 writer sleeps with a queue of 2
+1357933157:379025 writer wakes with a queue of 2
+1357933157:398922 writer sleeps with a queue of 1
+1357933157:399123 writer wakes with a queue of 1
+1357933157:403505 writer sleeps with a queue of 0
+Fri Jan 11 19:39:22 2013: Finished locally-encoded frame 79
+1357933162:300558 encoder thread 0x7fe3580a5330 finishes local encode of 79
+1357933162:300646 encoder thread 0x7fe3580a5330 sleeps
+1357933162:300695 decoder wakes with queue of 32
+1357933162:300770 writer wakes with a queue of 1
+1357933162:300888 decoder sleeps with queue of 32
+1357933162:300962 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:39:22 2013: Encoder thread 0x7fe3580a5330 pops frame 85 from queue
+1357933162:301073 encoder thread 0x7fe3580a5330 begins local encode of 85
+1357933162:304126 writer sleeps with a queue of 0
+Fri Jan 11 19:39:23 2013: Finished locally-encoded frame 84
+1357933163:759332 encoder thread 0x7fe3580a4940 finishes local encode of 84
+1357933163:759615 writer wakes with a queue of 1
+1357933163:778025 encoder thread 0x7fe3580a4940 sleeps
+1357933163:778119 decoder wakes with queue of 31
+1357933163:778328 adding to queue of 31
+1357933163:778494 encoder thread 0x7fe3580a4940 wakes with queue of 32
+Fri Jan 11 19:39:23 2013: Encoder thread 0x7fe3580a4940 pops frame 86 from queue
+1357933163:778654 encoder thread 0x7fe3580a4940 begins local encode of 86
+Fri Jan 11 19:39:23 2013: Source video frame ready; source at 3.937, output at 3.93727
+1357933163:781912 writer sleeps with a queue of 0
+1357933163:782018 Decoder emits 118
+1357933163:782253 adding to queue of 31
+Fri Jan 11 19:39:23 2013: Source video frame ready; source at 3.971, output at 3.97063
+1357933163:784596 Decoder emits 119
+1357933163:784843 decoder sleeps with queue of 32
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 82
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 80
+1357933164:244969 encoder thread 0x7fe3580a59d0 finishes local encode of 82
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 78
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 81
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 83
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 77
+1357933164:264693 writer wakes with a queue of 1
+1357933164:264886 encoder thread 0x7fe3580a59d0 sleeps
+1357933164:265091 decoder wakes with queue of 32
+1357933164:265315 encoder thread 0x7fe358024570 finishes local encode of 78
+1357933164:265582 encoder thread 0x7fe3580a4fe0 finishes local encode of 81
+1357933164:265740 decoder sleeps with queue of 32
+1357933164:265936 encoder thread 0x7fe3580a59d0 wakes with queue of 32
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe3580a59d0 pops frame 87 from queue
+1357933164:266248 encoder thread 0x7fe3580a59d0 begins local encode of 87
+1357933164:266399 encoder thread 0x7fe3580a4c90 finishes local encode of 83
+1357933164:278864 encoder thread 0x7fe3580a45f0 finishes local encode of 77
+1357933164:279034 encoder thread 0x7fe358024570 sleeps
+1357933164:279158 encoder thread 0x7fe3580a4fe0 sleeps
+1357933164:279258 decoder wakes with queue of 31
+1357933164:279402 adding to queue of 31
+1357933164:279905 encoder thread 0x7fe3580a5680 finishes local encode of 80
+1357933164:294035 writer sleeps with a queue of 4
+Fri Jan 11 19:39:24 2013: Source video frame ready; source at 4.004, output at 4.004
+1357933164:294328 encoder thread 0x7fe3580a45f0 sleeps
+1357933164:294452 encoder thread 0x7fe3580a4c90 sleeps
+1357933164:294537 encoder thread 0x7fe358024570 wakes with queue of 32
+1357933164:294620 writer wakes with a queue of 4
+1357933164:294704 Decoder emits 120
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe358024570 pops frame 88 from queue
+1357933164:294928 encoder thread 0x7fe358024570 begins local encode of 88
+1357933164:295016 encoder thread 0x7fe3580a4fe0 wakes with queue of 31
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe3580a4fe0 pops frame 89 from queue
+1357933164:295295 encoder thread 0x7fe3580a4fe0 begins local encode of 89
+1357933164:295415 encoder thread 0x7fe3580a45f0 wakes with queue of 30
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe3580a45f0 pops frame 90 from queue
+1357933164:295651 encoder thread 0x7fe3580a45f0 begins local encode of 90
+1357933164:295748 encoder thread 0x7fe3580a4c90 wakes with queue of 29
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe3580a4c90 pops frame 91 from queue
+1357933164:296038 encoder thread 0x7fe3580a4c90 begins local encode of 91
+1357933164:298408 writer sleeps with a queue of 4
+1357933164:298530 adding to queue of 28
+Fri Jan 11 19:39:24 2013: Source video frame ready; source at 4.037, output at 4.03737
+1357933164:301288 Decoder emits 121
+1357933164:301533 adding to queue of 29
+1357933164:301787 writer wakes with a queue of 4
+1357933164:301913 encoder thread 0x7fe3580a5680 sleeps
+1357933164:302318 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe3580a5680 pops frame 92 from queue
+1357933164:302822 encoder thread 0x7fe3580a5680 begins local encode of 92
+Fri Jan 11 19:39:24 2013: Source video frame ready; source at 4.071, output at 4.07073
+1357933164:304770 Decoder emits 122
+1357933164:304991 adding to queue of 29
+1357933164:306671 writer sleeps with a queue of 3
+Fri Jan 11 19:39:24 2013: Source video frame ready; source at 4.104, output at 4.1041
+1357933164:307658 Decoder emits 123
+1357933164:307843 writer wakes with a queue of 3
+1357933164:308164 adding to queue of 30
+Fri Jan 11 19:39:24 2013: Source video frame ready; source at 4.137, output at 4.13747
+1357933164:311097 Decoder emits 124
+1357933164:311403 adding to queue of 31
+1357933164:313011 writer sleeps with a queue of 2
+1357933164:314222 writer wakes with a queue of 2
+Fri Jan 11 19:39:24 2013: Source video frame ready; source at 4.171, output at 4.17083
+1357933164:315088 Decoder emits 125
+1357933164:315362 decoder sleeps with queue of 32
+1357933164:318075 writer sleeps with a queue of 1
+1357933164:318317 writer wakes with a queue of 1
+1357933164:333907 writer sleeps with a queue of 0
+Fri Jan 11 19:39:24 2013: Finished locally-encoded frame 85
+1357933164:943495 encoder thread 0x7fe3580a5330 finishes local encode of 85
+1357933164:943772 writer wakes with a queue of 1
+1357933164:951312 encoder thread 0x7fe3580a5330 sleeps
+1357933164:951576 decoder wakes with queue of 32
+1357933164:951869 decoder sleeps with queue of 32
+1357933164:952173 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:39:24 2013: Encoder thread 0x7fe3580a5330 pops frame 93 from queue
+1357933164:952848 encoder thread 0x7fe3580a5330 begins local encode of 93
+1357933164:954847 writer sleeps with a queue of 0
+Fri Jan 11 19:39:28 2013: Finished locally-encoded frame 86
+1357933168:218472 encoder thread 0x7fe3580a4940 finishes local encode of 86
+1357933168:218894 writer wakes with a queue of 1
+1357933168:234453 encoder thread 0x7fe3580a4940 sleeps
+1357933168:234819 decoder wakes with queue of 31
+1357933168:235189 adding to queue of 31
+1357933168:235585 encoder thread 0x7fe3580a4940 wakes with queue of 32
+Fri Jan 11 19:39:28 2013: Encoder thread 0x7fe3580a4940 pops frame 94 from queue
+Fri Jan 11 19:39:28 2013: Source video frame ready; source at 4.204, output at 4.2042
+1357933168:236976 encoder thread 0x7fe3580a4940 begins local encode of 94
+1357933168:237346 Decoder emits 126
+1357933168:237769 adding to queue of 31
+1357933168:238332 writer sleeps with a queue of 0
+Fri Jan 11 19:39:28 2013: Source video frame ready; source at 4.238, output at 4.23757
+1357933168:239315 Decoder emits 127
+1357933168:239673 decoder sleeps with queue of 32
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 88
+1357933171:278675 encoder thread 0x7fe358024570 finishes local encode of 88
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 89
+1357933171:389144 encoder thread 0x7fe358024570 sleeps
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 91
+1357933171:486733 decoder wakes with queue of 32
+1357933171:500331 writer wakes with a queue of 1
+1357933171:511296 encoder thread 0x7fe3580a4fe0 finishes local encode of 89
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 87
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 90
+1357933171:536686 encoder thread 0x7fe3580a4c90 finishes local encode of 91
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 92
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 93
+1357933171:536987 decoder sleeps with queue of 32
+Fri Jan 11 19:39:31 2013: Finished locally-encoded frame 94
+1357933171:537223 encoder thread 0x7fe3580a59d0 finishes local encode of 87
+1357933171:537285 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe358024570 pops frame 95 from queue
+1357933171:537438 encoder thread 0x7fe358024570 begins local encode of 95
+1357933171:550605 encoder thread 0x7fe3580a45f0 finishes local encode of 90
+1357933171:566467 encoder thread 0x7fe3580a5680 finishes local encode of 92
+1357933171:579791 encoder thread 0x7fe3580a5330 finishes local encode of 93
+1357933171:579924 decoder wakes with queue of 31
+1357933171:580091 writer sleeps with a queue of 3
+1357933171:580171 adding to queue of 31
+1357933171:580224 encoder thread 0x7fe3580a4fe0 sleeps
+1357933171:580318 encoder thread 0x7fe3580a59d0 sleeps
+1357933171:580411 encoder thread 0x7fe3580a4940 finishes local encode of 94
+1357933171:580486 writer wakes with a queue of 3
+1357933171:580539 encoder thread 0x7fe3580a4c90 sleeps
+1357933171:580609 encoder thread 0x7fe3580a4fe0 wakes with queue of 32
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a4fe0 pops frame 96 from queue
+1357933171:580805 encoder thread 0x7fe3580a4fe0 begins local encode of 96
+1357933171:580865 encoder thread 0x7fe3580a59d0 wakes with queue of 31
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a59d0 pops frame 97 from queue
+1357933171:581232 encoder thread 0x7fe3580a59d0 begins local encode of 97
+1357933171:589731 encoder thread 0x7fe3580a45f0 sleeps
+1357933171:589881 encoder thread 0x7fe3580a4c90 wakes with queue of 30
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.271, output at 4.27093
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a4c90 pops frame 98 from queue
+1357933171:590335 encoder thread 0x7fe3580a4c90 begins local encode of 98
+1357933171:605346 Decoder emits 128
+1357933171:627210 writer sleeps with a queue of 6
+1357933171:627432 encoder thread 0x7fe3580a5680 sleeps
+1357933171:627569 encoder thread 0x7fe3580a5330 sleeps
+1357933171:627650 encoder thread 0x7fe3580a45f0 wakes with queue of 29
+1357933171:627736 encoder thread 0x7fe3580a4940 sleeps
+1357933171:627844 writer wakes with a queue of 6
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a45f0 pops frame 99 from queue
+1357933171:628058 encoder thread 0x7fe3580a45f0 begins local encode of 99
+1357933171:628124 adding to queue of 28
+1357933171:628508 encoder thread 0x7fe3580a5680 wakes with queue of 29
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a5680 pops frame 100 from queue
+1357933171:628769 encoder thread 0x7fe3580a5680 begins local encode of 100
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.304, output at 4.3043
+1357933171:630460 Decoder emits 129
+1357933171:632234 writer sleeps with a queue of 5
+1357933171:632351 encoder thread 0x7fe3580a5330 wakes with queue of 28
+1357933171:632446 writer wakes with a queue of 5
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a5330 pops frame 101 from queue
+1357933171:632713 encoder thread 0x7fe3580a5330 begins local encode of 101
+1357933171:633893 encoder thread 0x7fe3580a4940 wakes with queue of 27
+Fri Jan 11 19:39:31 2013: Encoder thread 0x7fe3580a4940 pops frame 102 from queue
+1357933171:634248 encoder thread 0x7fe3580a4940 begins local encode of 102
+1357933171:634389 adding to queue of 26
+1357933171:636023 writer sleeps with a queue of 4
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.338, output at 4.33767
+1357933171:637681 Decoder emits 130
+1357933171:637913 adding to queue of 27
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.371, output at 4.37103
+1357933171:639817 Decoder emits 131
+1357933171:639950 writer wakes with a queue of 4
+1357933171:640304 adding to queue of 28
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.404, output at 4.4044
+1357933171:642416 Decoder emits 132
+1357933171:642667 adding to queue of 29
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.438, output at 4.43777
+1357933171:644252 Decoder emits 133
+1357933171:644505 adding to queue of 30
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.471, output at 4.47113
+1357933171:646288 Decoder emits 134
+1357933171:646421 writer sleeps with a queue of 3
+1357933171:646627 writer wakes with a queue of 3
+1357933171:646831 adding to queue of 31
+Fri Jan 11 19:39:31 2013: Source video frame ready; source at 4.505, output at 4.5045
+1357933171:648695 Decoder emits 135
+1357933171:649000 decoder sleeps with queue of 32
+1357933171:651037 writer sleeps with a queue of 2
+1357933171:651208 writer wakes with a queue of 2
+1357933171:655192 writer sleeps with a queue of 1
+1357933171:655373 writer wakes with a queue of 1
+1357933171:659901 writer sleeps with a queue of 0
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 100
+1357933178:754229 encoder thread 0x7fe3580a5680 finishes local encode of 100
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 98
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 96
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 102
+1357933178:982783 encoder thread 0x7fe3580a5680 sleeps
+1357933178:982892 decoder wakes with queue of 32
+1357933178:982989 writer wakes with a queue of 1
+1357933178:983117 encoder thread 0x7fe3580a4c90 finishes local encode of 98
+1357933178:983215 encoder thread 0x7fe3580a4940 finishes local encode of 102
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 95
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 97
+1357933178:983485 encoder thread 0x7fe3580a4fe0 finishes local encode of 96
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 101
+1357933178:983766 decoder sleeps with queue of 32
+Fri Jan 11 19:39:38 2013: Finished locally-encoded frame 99
+1357933178:984038 encoder thread 0x7fe358024570 finishes local encode of 95
+1357933178:984101 encoder thread 0x7fe3580a5680 wakes with queue of 32
+Fri Jan 11 19:39:38 2013: Encoder thread 0x7fe3580a5680 pops frame 103 from queue
+1357933178:984251 encoder thread 0x7fe3580a5680 begins local encode of 103
+1357933178:998083 encoder thread 0x7fe3580a4c90 sleeps
+1357933179:25471 encoder thread 0x7fe3580a59d0 finishes local encode of 97
+1357933179:25602 encoder thread 0x7fe3580a45f0 finishes local encode of 99
+1357933179:25679 encoder thread 0x7fe3580a5330 finishes local encode of 101
+1357933179:25761 encoder thread 0x7fe3580a4940 sleeps
+1357933179:25826 writer sleeps with a queue of 4
+1357933179:25893 encoder thread 0x7fe3580a4fe0 sleeps
+1357933179:25957 encoder thread 0x7fe3580a4c90 wakes with queue of 31
+1357933179:26019 writer wakes with a queue of 4
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe3580a4c90 pops frame 104 from queue
+1357933179:26182 encoder thread 0x7fe3580a4c90 begins local encode of 104
+1357933179:36490 encoder thread 0x7fe3580a5330 sleeps
+1357933179:47899 writer sleeps with a queue of 6
+1357933179:47981 encoder thread 0x7fe3580a5330 wakes with queue of 30
+1357933179:48052 encoder thread 0x7fe358024570 sleeps
+1357933179:48130 writer wakes with a queue of 6
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe3580a5330 pops frame 105 from queue
+1357933179:48294 encoder thread 0x7fe3580a5330 begins local encode of 105
+1357933179:48351 encoder thread 0x7fe3580a4fe0 wakes with queue of 29
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe3580a4fe0 pops frame 106 from queue
+1357933179:48520 encoder thread 0x7fe3580a4fe0 begins local encode of 106
+1357933179:60923 encoder thread 0x7fe3580a59d0 sleeps
+1357933179:68886 writer sleeps with a queue of 5
+1357933179:68981 encoder thread 0x7fe3580a45f0 sleeps
+1357933179:69115 decoder wakes with queue of 28
+1357933179:69186 writer wakes with a queue of 5
+1357933179:69249 adding to queue of 28
+1357933179:69426 encoder thread 0x7fe3580a4940 wakes with queue of 29
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe3580a4940 pops frame 107 from queue
+1357933179:69682 encoder thread 0x7fe3580a4940 begins local encode of 107
+1357933179:69790 encoder thread 0x7fe358024570 wakes with queue of 28
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe358024570 pops frame 108 from queue
+1357933179:70118 encoder thread 0x7fe358024570 begins local encode of 108
+1357933179:70215 encoder thread 0x7fe3580a59d0 wakes with queue of 27
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe3580a59d0 pops frame 109 from queue
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.538, output at 4.53787
+1357933179:71090 Decoder emits 136
+1357933179:71356 adding to queue of 26
+1357933179:71570 encoder thread 0x7fe3580a45f0 wakes with queue of 27
+Fri Jan 11 19:39:39 2013: Encoder thread 0x7fe3580a45f0 pops frame 110 from queue
+1357933179:73111 encoder thread 0x7fe3580a45f0 begins local encode of 110
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.571, output at 4.57123
+1357933179:73729 Decoder emits 137
+1357933179:73966 adding to queue of 26
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.605, output at 4.6046
+1357933179:75609 Decoder emits 138
+1357933179:75774 adding to queue of 27
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.638, output at 4.63797
+1357933179:78084 encoder thread 0x7fe3580a59d0 begins local encode of 109
+1357933179:78312 writer sleeps with a queue of 4
+1357933179:78504 writer wakes with a queue of 4
+1357933179:78753 Decoder emits 139
+1357933179:79174 adding to queue of 28
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.671, output at 4.67133
+1357933179:83761 writer sleeps with a queue of 3
+1357933179:83985 writer wakes with a queue of 3
+1357933179:84375 Decoder emits 140
+1357933179:84843 adding to queue of 29
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.705, output at 4.7047
+1357933179:87382 Decoder emits 141
+1357933179:87678 adding to queue of 30
+1357933179:89018 writer sleeps with a queue of 2
+1357933179:89318 writer wakes with a queue of 2
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.738, output at 4.73807
+1357933179:90013 Decoder emits 142
+1357933179:90337 adding to queue of 31
+Fri Jan 11 19:39:39 2013: Source video frame ready; source at 4.771, output at 4.77143
+1357933179:92900 Decoder emits 143
+1357933179:93086 writer sleeps with a queue of 1
+1357933179:93279 writer wakes with a queue of 1
+1357933179:93506 decoder sleeps with queue of 32
+1357933179:96759 writer sleeps with a queue of 0
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 104
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 105
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 108
+1357933186:274915 encoder thread 0x7fe3580a4c90 finishes local encode of 104
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 110
+1357933186:288567 decoder wakes with queue of 32
+1357933186:288641 encoder thread 0x7fe3580a5330 finishes local encode of 105
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 106
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 103
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 107
+1357933186:289078 writer wakes with a queue of 1
+1357933186:289183 encoder thread 0x7fe358024570 finishes local encode of 108
+1357933186:289272 encoder thread 0x7fe3580a4c90 sleeps
+Fri Jan 11 19:39:46 2013: Finished locally-encoded frame 109
+1357933186:289514 decoder sleeps with queue of 32
+1357933186:289653 encoder thread 0x7fe3580a45f0 finishes local encode of 110
+1357933186:289938 encoder thread 0x7fe3580a4fe0 finishes local encode of 106
+1357933186:300780 encoder thread 0x7fe3580a5680 finishes local encode of 103
+1357933186:308513 writer sleeps with a queue of 4
+1357933186:308578 writer wakes with a queue of 4
+1357933186:308620 encoder thread 0x7fe3580a5330 sleeps
+1357933186:308690 encoder thread 0x7fe358024570 sleeps
+1357933186:308767 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+1357933186:308828 encoder thread 0x7fe3580a4940 finishes local encode of 107
+1357933186:308906 encoder thread 0x7fe3580a59d0 finishes local encode of 109
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a4c90 pops frame 111 from queue
+1357933186:309072 encoder thread 0x7fe3580a4c90 begins local encode of 111
+1357933186:316420 encoder thread 0x7fe3580a45f0 sleeps
+1357933186:316521 decoder wakes with queue of 31
+1357933186:316643 adding to queue of 31
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 4.805, output at 4.8048
+1357933186:330616 writer sleeps with a queue of 6
+1357933186:344739 encoder thread 0x7fe3580a5680 sleeps
+1357933186:344810 encoder thread 0x7fe3580a4fe0 sleeps
+1357933186:344879 writer wakes with a queue of 6
+1357933186:344962 encoder thread 0x7fe3580a5330 wakes with queue of 32
+1357933186:345032 Decoder emits 144
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a5330 pops frame 112 from queue
+1357933186:345232 encoder thread 0x7fe3580a5330 begins local encode of 112
+1357933186:345303 encoder thread 0x7fe358024570 wakes with queue of 31
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe358024570 pops frame 113 from queue
+1357933186:345461 encoder thread 0x7fe358024570 begins local encode of 113
+1357933186:368710 encoder thread 0x7fe3580a4940 sleeps
+1357933186:368835 encoder thread 0x7fe3580a59d0 sleeps
+1357933186:368898 encoder thread 0x7fe3580a45f0 wakes with queue of 30
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a45f0 pops frame 114 from queue
+1357933186:369117 encoder thread 0x7fe3580a45f0 begins local encode of 114
+1357933186:369170 encoder thread 0x7fe3580a5680 wakes with queue of 29
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a5680 pops frame 115 from queue
+1357933186:369342 encoder thread 0x7fe3580a5680 begins local encode of 115
+1357933186:375527 encoder thread 0x7fe3580a4fe0 wakes with queue of 28
+1357933186:375745 writer sleeps with a queue of 5
+1357933186:375813 writer wakes with a queue of 5
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a4fe0 pops frame 116 from queue
+1357933186:376196 encoder thread 0x7fe3580a4fe0 begins local encode of 116
+1357933186:376453 adding to queue of 27
+1357933186:377212 encoder thread 0x7fe3580a4940 wakes with queue of 28
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a4940 pops frame 117 from queue
+1357933186:377543 encoder thread 0x7fe3580a4940 begins local encode of 117
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 4.838, output at 4.83817
+1357933186:379255 writer sleeps with a queue of 4
+1357933186:379395 encoder thread 0x7fe3580a59d0 wakes with queue of 27
+1357933186:379501 Decoder emits 145
+1357933186:379616 writer wakes with a queue of 4
+Fri Jan 11 19:39:46 2013: Encoder thread 0x7fe3580a59d0 pops frame 118 from queue
+1357933186:381383 encoder thread 0x7fe3580a59d0 begins local encode of 118
+1357933186:381547 adding to queue of 26
+1357933186:383259 writer sleeps with a queue of 3
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 4.872, output at 4.87153
+1357933186:384579 Decoder emits 146
+1357933186:384821 adding to queue of 27
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 4.905, output at 4.9049
+1357933186:386708 Decoder emits 147
+1357933186:386964 adding to queue of 28
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 4.938, output at 4.93827
+1357933186:389785 Decoder emits 148
+1357933186:390035 adding to queue of 29
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 4.972, output at 4.97163
+1357933186:392171 writer wakes with a queue of 3
+1357933186:392523 Decoder emits 149
+1357933186:392861 adding to queue of 30
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 5.005, output at 5.005
+1357933186:395163 Decoder emits 150
+1357933186:395456 adding to queue of 31
+1357933186:396558 writer sleeps with a queue of 2
+1357933186:396964 writer wakes with a queue of 2
+Fri Jan 11 19:39:46 2013: Source video frame ready; source at 5.038, output at 5.03837
+1357933186:397779 Decoder emits 151
+1357933186:398028 decoder sleeps with queue of 32
+1357933186:401782 writer sleeps with a queue of 1
+1357933186:402018 writer wakes with a queue of 1
+1357933186:409277 writer sleeps with a queue of 0
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 116
+1357933193:349837 encoder thread 0x7fe3580a4fe0 finishes local encode of 116
+1357933193:350054 writer wakes with a queue of 1
+1357933193:354234 writer sleeps with a queue of 0
+1357933193:374690 encoder thread 0x7fe3580a4fe0 sleeps
+1357933193:374857 decoder wakes with queue of 32
+1357933193:374940 decoder sleeps with queue of 32
+1357933193:375099 encoder thread 0x7fe3580a4fe0 wakes with queue of 32
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a4fe0 pops frame 119 from queue
+1357933193:375279 encoder thread 0x7fe3580a4fe0 begins local encode of 119
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 118
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 117
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 111
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 115
+1357933193:678184 encoder thread 0x7fe3580a59d0 finishes local encode of 118
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 112
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 114
+Fri Jan 11 19:39:53 2013: Finished locally-encoded frame 113
+1357933193:692105 writer wakes with a queue of 1
+1357933193:692327 encoder thread 0x7fe3580a4c90 finishes local encode of 111
+1357933193:692453 encoder thread 0x7fe3580a5680 finishes local encode of 115
+1357933193:692702 encoder thread 0x7fe3580a59d0 sleeps
+1357933193:692856 decoder wakes with queue of 31
+1357933193:692940 encoder thread 0x7fe3580a5330 finishes local encode of 112
+1357933193:693030 encoder thread 0x7fe358024570 finishes local encode of 113
+1357933193:693139 encoder thread 0x7fe3580a45f0 finishes local encode of 114
+1357933193:693272 adding to queue of 31
+1357933193:693783 encoder thread 0x7fe3580a4940 finishes local encode of 117
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.072, output at 5.07173
+1357933193:720807 writer sleeps with a queue of 6
+1357933193:720912 writer wakes with a queue of 6
+1357933193:721000 encoder thread 0x7fe3580a59d0 wakes with queue of 32
+1357933193:721076 encoder thread 0x7fe3580a4c90 sleeps
+1357933193:721173 encoder thread 0x7fe3580a5680 sleeps
+1357933193:721247 Decoder emits 152
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a59d0 pops frame 120 from queue
+1357933193:721409 encoder thread 0x7fe3580a59d0 begins local encode of 120
+1357933193:735893 encoder thread 0x7fe3580a5330 sleeps
+1357933193:743408 writer sleeps with a queue of 5
+1357933193:743490 writer wakes with a queue of 5
+1357933193:743572 encoder thread 0x7fe3580a4940 sleeps
+1357933193:743668 encoder thread 0x7fe3580a4c90 wakes with queue of 31
+1357933193:743742 encoder thread 0x7fe358024570 sleeps
+1357933193:743820 encoder thread 0x7fe3580a45f0 sleeps
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a4c90 pops frame 121 from queue
+1357933193:743992 encoder thread 0x7fe3580a4c90 begins local encode of 121
+1357933193:744106 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a5680 pops frame 122 from queue
+1357933193:744319 encoder thread 0x7fe3580a5680 begins local encode of 122
+1357933193:744418 adding to queue of 29
+1357933193:744568 encoder thread 0x7fe3580a5330 wakes with queue of 30
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a5330 pops frame 123 from queue
+1357933193:744742 encoder thread 0x7fe3580a5330 begins local encode of 123
+1357933193:744818 encoder thread 0x7fe3580a4940 wakes with queue of 29
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a4940 pops frame 124 from queue
+1357933193:744997 encoder thread 0x7fe3580a4940 begins local encode of 124
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.105, output at 5.1051
+1357933193:746131 Decoder emits 153
+1357933193:746595 writer sleeps with a queue of 4
+1357933193:746652 writer wakes with a queue of 4
+1357933193:749908 writer sleeps with a queue of 3
+1357933193:750034 encoder thread 0x7fe358024570 wakes with queue of 28
+1357933193:750133 writer wakes with a queue of 3
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe358024570 pops frame 125 from queue
+1357933193:750396 encoder thread 0x7fe358024570 begins local encode of 125
+1357933193:750519 encoder thread 0x7fe3580a45f0 wakes with queue of 27
+Fri Jan 11 19:39:53 2013: Encoder thread 0x7fe3580a45f0 pops frame 126 from queue
+1357933193:750936 encoder thread 0x7fe3580a45f0 begins local encode of 126
+1357933193:751094 adding to queue of 26
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.138, output at 5.13847
+1357933193:758910 Decoder emits 154
+1357933193:759158 adding to queue of 27
+1357933193:760609 writer sleeps with a queue of 2
+1357933193:760878 writer wakes with a queue of 2
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.172, output at 5.17183
+1357933193:761568 Decoder emits 155
+1357933193:761830 adding to queue of 28
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.205, output at 5.2052
+1357933193:763729 Decoder emits 156
+1357933193:763941 adding to queue of 29
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.239, output at 5.23857
+1357933193:765932 Decoder emits 157
+1357933193:766178 adding to queue of 30
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.272, output at 5.27193
+1357933193:767794 Decoder emits 158
+1357933193:768019 adding to queue of 31
+Fri Jan 11 19:39:53 2013: Source video frame ready; source at 5.305, output at 5.3053
+1357933193:769709 Decoder emits 159
+1357933193:769913 decoder sleeps with queue of 32
+1357933193:781529 writer sleeps with a queue of 1
+1357933193:782078 writer wakes with a queue of 1
+1357933193:792101 writer sleeps with a queue of 0
+1357933194:407280 encoder thread 0x7fe358031550 sleeps
+1357933194:407760 decoder wakes with queue of 32
+1357933194:408135 decoder sleeps with queue of 32
+1357933194:408503 encoder thread 0x7fe358031550 wakes with queue of 32
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe358031550 pops frame 127 from queue
+1357933194:409338 encoder thread 0x7fe3580a6a80 sleeps
+1357933194:409728 decoder wakes with queue of 31
+1357933194:410215 adding to queue of 31
+1357933194:410644 encoder thread 0x7fe3580a6a80 wakes with queue of 32
+Fri Jan 11 19:39:54 2013: Remote encode of 127 on shankly failed (Host not found (authoritative)); thread sleeping for 50s
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a6a80 pops frame 128 from queue
+Fri Jan 11 19:39:54 2013: Source video frame ready; source at 5.339, output at 5.33867
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe358031550 pushes frame 127 back onto queue after failure
+1357933194:412750 Decoder emits 160
+Fri Jan 11 19:39:54 2013: Remote encode of 128 on shankly failed (Host not found (authoritative)); thread sleeping for 50s
+1357933194:413532 decoder sleeps with queue of 32
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a6a80 pushes frame 128 back onto queue after failure
+1357933194:433562 encoder thread 0x7fe3580a6090 sleeps
+1357933194:434003 decoder wakes with queue of 33
+1357933194:434361 decoder sleeps with queue of 33
+1357933194:434694 encoder thread 0x7fe3580a6090 wakes with queue of 33
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a6090 pops frame 128 from queue
+Fri Jan 11 19:39:54 2013: Remote encode of 128 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 50s
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a6090 pushes frame 128 back onto queue after failure
+1357933194:444618 encoder thread 0x7fe358030eb0 sleeps
+1357933194:444958 decoder wakes with queue of 33
+1357933194:445318 decoder sleeps with queue of 33
+1357933194:445690 encoder thread 0x7fe358030eb0 wakes with queue of 33
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe358030eb0 pops frame 128 from queue
+Fri Jan 11 19:39:54 2013: Remote encode of 128 on shankly failed (Host not found (authoritative)); thread sleeping for 50s
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe358030eb0 pushes frame 128 back onto queue after failure
+1357933194:448439 encoder thread 0x7fe3580a5d40 sleeps
+1357933194:448778 decoder wakes with queue of 33
+1357933194:449180 decoder sleeps with queue of 33
+1357933194:449576 encoder thread 0x7fe3580a5d40 wakes with queue of 33
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a5d40 pops frame 128 from queue
+Fri Jan 11 19:39:54 2013: Remote encode of 128 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 50s
+1357933194:451904 encoder thread 0x7fe3580a6730 sleeps
+1357933194:452236 decoder wakes with queue of 32
+1357933194:452577 decoder sleeps with queue of 32
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a5d40 pushes frame 128 back onto queue after failure
+1357933194:453428 encoder thread 0x7fe3580a6730 wakes with queue of 33
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a6730 pops frame 128 from queue
+1357933194:454393 encoder thread 0x7fe358031200 sleeps
+1357933194:454941 encoder thread 0x7fe3580a63e0 sleeps
+1357933194:455524 decoder wakes with queue of 32
+1357933194:456348 decoder sleeps with queue of 32
+Fri Jan 11 19:39:54 2013: Remote encode of 128 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 50s
+1357933194:457470 encoder thread 0x7fe358031200 wakes with queue of 32
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe358031200 pops frame 127 from queue
+1357933194:458437 encoder thread 0x7fe3580a63e0 wakes with queue of 31
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a63e0 pops frame 129 from queue
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a6730 pushes frame 128 back onto queue after failure
+Fri Jan 11 19:39:54 2013: Remote encode of 127 on shankly failed (Host not found (authoritative)); thread sleeping for 50s
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe358031200 pushes frame 127 back onto queue after failure
+Fri Jan 11 19:39:54 2013: Remote encode of 129 on shankly-gbit failed (Host not found (authoritative)); thread sleeping for 50s
+Fri Jan 11 19:39:54 2013: Encoder thread 0x7fe3580a63e0 pushes frame 129 back onto queue after failure
+Fri Jan 11 19:39:58 2013: Finished locally-encoded frame 123
+1357933198:967025 encoder thread 0x7fe3580a5330 finishes local encode of 123
+1357933198:967382 writer wakes with a queue of 1
+1357933198:982912 writer sleeps with a queue of 0
+1357933198:983079 encoder thread 0x7fe3580a5330 sleeps
+1357933198:983205 decoder wakes with queue of 33
+1357933198:983404 decoder sleeps with queue of 33
+1357933198:983524 encoder thread 0x7fe3580a5330 wakes with queue of 33
+Fri Jan 11 19:39:58 2013: Encoder thread 0x7fe3580a5330 pops frame 129 from queue
+1357933198:983688 encoder thread 0x7fe3580a5330 begins local encode of 129
+Fri Jan 11 19:39:59 2013: Finished locally-encoded frame 126
+Fri Jan 11 19:39:59 2013: Finished locally-encoded frame 125
+1357933199:496055 encoder thread 0x7fe3580a45f0 finishes local encode of 126
+1357933199:496328 encoder thread 0x7fe358024570 finishes local encode of 125
+1357933199:506491 writer wakes with a queue of 1
+1357933199:506810 encoder thread 0x7fe3580a45f0 sleeps
+1357933199:507491 decoder wakes with queue of 32
+1357933199:507687 decoder sleeps with queue of 32
+1357933199:517739 encoder thread 0x7fe358024570 sleeps
+1357933199:520670 writer sleeps with a queue of 1
+1357933199:520966 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+1357933199:551489 writer wakes with a queue of 1
+Fri Jan 11 19:39:59 2013: Encoder thread 0x7fe3580a45f0 pops frame 127 from queue
+1357933199:551904 encoder thread 0x7fe3580a45f0 begins local encode of 127
+1357933199:552048 decoder wakes with queue of 31
+1357933199:552437 adding to queue of 31
+Fri Jan 11 19:39:59 2013: Source video frame ready; source at 5.372, output at 5.37203
+1357933199:555815 Decoder emits 161
+1357933199:585975 writer sleeps with a queue of 0
+1357933199:586174 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:39:59 2013: Encoder thread 0x7fe358024570 pops frame 128 from queue
+1357933199:589103 encoder thread 0x7fe358024570 begins local encode of 128
+1357933199:589197 adding to queue of 31
+Fri Jan 11 19:39:59 2013: Source video frame ready; source at 5.405, output at 5.4054
+1357933199:592859 Decoder emits 162
+1357933199:593024 decoder sleeps with queue of 32
+Fri Jan 11 19:40:00 2013: Finished locally-encoded frame 122
+Fri Jan 11 19:40:00 2013: Finished locally-encoded frame 121
+Fri Jan 11 19:40:00 2013: Finished locally-encoded frame 120
+Fri Jan 11 19:40:00 2013: Finished locally-encoded frame 124
+Fri Jan 11 19:40:00 2013: Finished locally-encoded frame 119
+1357933200:131149 encoder thread 0x7fe3580a5680 finishes local encode of 122
+1357933200:131381 encoder thread 0x7fe3580a4c90 finishes local encode of 121
+1357933200:145988 encoder thread 0x7fe3580a59d0 finishes local encode of 120
+1357933200:146160 writer wakes with a queue of 1
+1357933200:146319 encoder thread 0x7fe3580a4940 finishes local encode of 124
+1357933200:146479 encoder thread 0x7fe3580a4fe0 finishes local encode of 119
+1357933200:146602 decoder wakes with queue of 32
+1357933200:146736 encoder thread 0x7fe3580a5680 sleeps
+1357933200:146838 decoder sleeps with queue of 32
+1357933200:161572 encoder thread 0x7fe3580a4c90 sleeps
+1357933200:172938 writer sleeps with a queue of 4
+1357933200:200744 encoder thread 0x7fe3580a4fe0 sleeps
+1357933200:200941 encoder thread 0x7fe3580a4940 sleeps
+1357933200:201094 encoder thread 0x7fe3580a5680 wakes with queue of 32
+1357933200:201215 writer wakes with a queue of 4
+1357933200:201334 encoder thread 0x7fe3580a59d0 sleeps
+Fri Jan 11 19:40:00 2013: Encoder thread 0x7fe3580a5680 pops frame 130 from queue
+1357933200:201644 encoder thread 0x7fe3580a5680 begins local encode of 130
+1357933200:201754 decoder wakes with queue of 31
+1357933200:201936 adding to queue of 31
+1357933200:202122 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+Fri Jan 11 19:40:00 2013: Encoder thread 0x7fe3580a4c90 pops frame 131 from queue
+1357933200:202401 encoder thread 0x7fe3580a4c90 begins local encode of 131
+1357933200:202557 encoder thread 0x7fe3580a4fe0 wakes with queue of 31
+Fri Jan 11 19:40:00 2013: Encoder thread 0x7fe3580a4fe0 pops frame 132 from queue
+1357933200:202851 encoder thread 0x7fe3580a4fe0 begins local encode of 132
+1357933200:203068 encoder thread 0x7fe3580a4940 wakes with queue of 30
+Fri Jan 11 19:40:00 2013: Encoder thread 0x7fe3580a4940 pops frame 133 from queue
+Fri Jan 11 19:40:00 2013: Source video frame ready; source at 5.439, output at 5.43877
+1357933200:203879 Decoder emits 163
+1357933200:205621 encoder thread 0x7fe3580a59d0 wakes with queue of 29
+1357933200:205741 encoder thread 0x7fe3580a4940 begins local encode of 133
+1357933200:205843 writer sleeps with a queue of 3
+Fri Jan 11 19:40:00 2013: Encoder thread 0x7fe3580a59d0 pops frame 134 from queue
+1357933200:206112 writer wakes with a queue of 3
+1357933200:206218 adding to queue of 28
+Fri Jan 11 19:40:00 2013: Source video frame ready; source at 5.472, output at 5.47213
+1357933200:208814 Decoder emits 164
+1357933200:209172 adding to queue of 29
+1357933200:209351 encoder thread 0x7fe3580a59d0 begins local encode of 134
+1357933200:210101 writer sleeps with a queue of 2
+1357933200:210371 writer wakes with a queue of 2
+Fri Jan 11 19:40:00 2013: Source video frame ready; source at 5.506, output at 5.5055
+1357933200:211088 Decoder emits 165
+1357933200:211382 adding to queue of 30
+Fri Jan 11 19:40:00 2013: Source video frame ready; source at 5.539, output at 5.53887
+1357933200:214538 Decoder emits 166
+1357933200:214791 adding to queue of 31
+Fri Jan 11 19:40:00 2013: Source video frame ready; source at 5.572, output at 5.57223
+1357933200:216922 Decoder emits 167
+1357933200:217157 decoder sleeps with queue of 32
+1357933200:220148 writer sleeps with a queue of 1
+1357933200:220554 writer wakes with a queue of 1
+1357933200:224544 writer sleeps with a queue of 0
+Fri Jan 11 19:40:02 2013: Finished locally-encoded frame 129
+1357933202:83650 encoder thread 0x7fe3580a5330 finishes local encode of 129
+1357933202:83981 encoder thread 0x7fe3580a5330 sleeps
+1357933202:84243 writer wakes with a queue of 1
+1357933202:84556 decoder wakes with queue of 32
+1357933202:84913 decoder sleeps with queue of 32
+1357933202:85326 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:40:02 2013: Encoder thread 0x7fe3580a5330 pops frame 135 from queue
+1357933202:86077 encoder thread 0x7fe3580a5330 begins local encode of 135
+1357933202:88210 writer sleeps with a queue of 0
+Fri Jan 11 19:40:05 2013: Finished locally-encoded frame 127
+1357933205:288446 encoder thread 0x7fe3580a45f0 finishes local encode of 127
+1357933205:288531 encoder thread 0x7fe3580a45f0 sleeps
+1357933205:288582 decoder wakes with queue of 31
+1357933205:288689 adding to queue of 31
+1357933205:288792 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:40:05 2013: Source video frame ready; source at 5.606, output at 5.6056
+1357933205:364162 Decoder emits 168
+1357933205:394427 writer wakes with a queue of 1
+Fri Jan 11 19:40:05 2013: Encoder thread 0x7fe3580a45f0 pops frame 136 from queue
+Fri Jan 11 19:40:05 2013: Finished locally-encoded frame 128
+1357933205:394722 adding to queue of 31
+1357933205:395192 encoder thread 0x7fe358024570 finishes local encode of 128
+1357933205:395260 encoder thread 0x7fe358024570 sleeps
+1357933205:395316 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:40:05 2013: Encoder thread 0x7fe358024570 pops frame 137 from queue
+1357933205:395421 encoder thread 0x7fe358024570 begins local encode of 137
+Fri Jan 11 19:40:05 2013: Source video frame ready; source at 5.639, output at 5.63897
+1357933205:396291 Decoder emits 169
+1357933205:396402 adding to queue of 31
+Fri Jan 11 19:40:05 2013: Source video frame ready; source at 5.672, output at 5.67233
+1357933205:397317 Decoder emits 170
+1357933205:397391 decoder sleeps with queue of 32
+1357933205:397443 encoder thread 0x7fe3580a45f0 begins local encode of 136
+1357933205:397742 writer sleeps with a queue of 1
+1357933205:397790 writer wakes with a queue of 1
+1357933205:401013 writer sleeps with a queue of 0
+Fri Jan 11 19:40:06 2013: Finished locally-encoded frame 130
+1357933206:832217 encoder thread 0x7fe3580a5680 finishes local encode of 130
+Fri Jan 11 19:40:06 2013: Finished locally-encoded frame 134
+1357933206:952915 writer wakes with a queue of 1
+Fri Jan 11 19:40:07 2013: Finished locally-encoded frame 131
+1357933207:11661 encoder thread 0x7fe3580a5680 sleeps
+1357933207:11768 decoder wakes with queue of 32
+Fri Jan 11 19:40:07 2013: Finished locally-encoded frame 133
+Fri Jan 11 19:40:07 2013: Finished locally-encoded frame 132
+Fri Jan 11 19:40:07 2013: Finished locally-encoded frame 135
+1357933207:12501 decoder sleeps with queue of 32
+1357933207:12770 encoder thread 0x7fe3580a4c90 finishes local encode of 131
+1357933207:13108 encoder thread 0x7fe3580a5680 wakes with queue of 32
+Fri Jan 11 19:40:07 2013: Encoder thread 0x7fe3580a5680 pops frame 138 from queue
+1357933207:13585 encoder thread 0x7fe3580a4fe0 finishes local encode of 132
+1357933207:26871 encoder thread 0x7fe3580a4940 finishes local encode of 133
+1357933207:27003 encoder thread 0x7fe3580a5680 begins local encode of 138
+1357933207:27106 encoder thread 0x7fe3580a5330 finishes local encode of 135
+1357933207:27221 encoder thread 0x7fe3580a4c90 sleeps
+1357933207:27313 decoder wakes with queue of 31
+1357933207:27478 adding to queue of 31
+1357933207:27762 encoder thread 0x7fe3580a59d0 finishes local encode of 134
+Fri Jan 11 19:40:07 2013: Source video frame ready; source at 5.706, output at 5.7057
+1357933207:55750 writer sleeps with a queue of 4
+1357933207:68468 encoder thread 0x7fe3580a4fe0 sleeps
+1357933207:68618 encoder thread 0x7fe3580a4940 sleeps
+1357933207:68697 Decoder emits 171
+1357933207:68779 writer wakes with a queue of 4
+1357933207:68845 encoder thread 0x7fe3580a5330 sleeps
+1357933207:68933 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+Fri Jan 11 19:40:07 2013: Encoder thread 0x7fe3580a4c90 pops frame 139 from queue
+1357933207:69084 encoder thread 0x7fe3580a4c90 begins local encode of 139
+1357933207:69127 encoder thread 0x7fe3580a4fe0 wakes with queue of 31
+Fri Jan 11 19:40:07 2013: Encoder thread 0x7fe3580a4fe0 pops frame 140 from queue
+1357933207:69280 encoder thread 0x7fe3580a4fe0 begins local encode of 140
+1357933207:69324 encoder thread 0x7fe3580a4940 wakes with queue of 30
+Fri Jan 11 19:40:07 2013: Encoder thread 0x7fe3580a4940 pops frame 141 from queue
+1357933207:69519 encoder thread 0x7fe3580a4940 begins local encode of 141
+1357933207:69582 adding to queue of 29
+1357933207:69977 encoder thread 0x7fe3580a59d0 sleeps
+Fri Jan 11 19:40:07 2013: Source video frame ready; source at 5.739, output at 5.73907
+1357933207:72464 writer sleeps with a queue of 4
+1357933207:72574 writer wakes with a queue of 4
+1357933207:72665 Decoder emits 172
+1357933207:73511 encoder thread 0x7fe3580a5330 wakes with queue of 30
+Fri Jan 11 19:40:07 2013: Encoder thread 0x7fe3580a5330 pops frame 142 from queue
+1357933207:73795 encoder thread 0x7fe3580a5330 begins local encode of 142
+1357933207:75724 writer sleeps with a queue of 3
+1357933207:75872 writer wakes with a queue of 3
+1357933207:77044 encoder thread 0x7fe3580a59d0 wakes with queue of 29
+Fri Jan 11 19:40:07 2013: Encoder thread 0x7fe3580a59d0 pops frame 143 from queue
+1357933207:77457 encoder thread 0x7fe3580a59d0 begins local encode of 143
+1357933207:77615 adding to queue of 28
+1357933207:91384 writer sleeps with a queue of 2
+Fri Jan 11 19:40:07 2013: Source video frame ready; source at 5.772, output at 5.77243
+1357933207:91734 Decoder emits 173
+1357933207:91867 adding to queue of 29
+Fri Jan 11 19:40:07 2013: Source video frame ready; source at 5.806, output at 5.8058
+1357933207:93716 Decoder emits 174
+1357933207:93887 adding to queue of 30
+Fri Jan 11 19:40:07 2013: Source video frame ready; source at 5.839, output at 5.83917
+1357933207:95435 Decoder emits 175
+1357933207:95568 adding to queue of 31
+Fri Jan 11 19:40:07 2013: Source video frame ready; source at 5.873, output at 5.87253
+1357933207:97226 writer wakes with a queue of 2
+1357933207:97514 Decoder emits 176
+1357933207:98891 decoder sleeps with queue of 32
+1357933207:101158 writer sleeps with a queue of 1
+1357933207:101363 writer wakes with a queue of 1
+1357933207:116791 writer sleeps with a queue of 0
+Fri Jan 11 19:40:08 2013: Finished locally-encoded frame 137
+1357933208:437367 encoder thread 0x7fe358024570 finishes local encode of 137
+1357933208:437839 writer wakes with a queue of 1
+1357933208:451320 encoder thread 0x7fe358024570 sleeps
+1357933208:451732 decoder wakes with queue of 32
+1357933208:452078 decoder sleeps with queue of 32
+1357933208:452430 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:40:08 2013: Encoder thread 0x7fe358024570 pops frame 144 from queue
+1357933208:453028 encoder thread 0x7fe358024570 begins local encode of 144
+1357933208:454944 writer sleeps with a queue of 0
+Fri Jan 11 19:40:08 2013: Finished locally-encoded frame 136
+1357933208:509695 encoder thread 0x7fe3580a45f0 finishes local encode of 136
+1357933208:510026 writer wakes with a queue of 1
+1357933208:516892 encoder thread 0x7fe3580a45f0 sleeps
+1357933208:517230 decoder wakes with queue of 31
+1357933208:517631 adding to queue of 31
+1357933208:518098 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+Fri Jan 11 19:40:08 2013: Encoder thread 0x7fe3580a45f0 pops frame 145 from queue
+1357933208:518943 encoder thread 0x7fe3580a45f0 begins local encode of 145
+Fri Jan 11 19:40:08 2013: Source video frame ready; source at 5.906, output at 5.9059
+1357933208:519693 Decoder emits 177
+1357933208:520028 adding to queue of 31
+1357933208:520685 writer sleeps with a queue of 0
+Fri Jan 11 19:40:08 2013: Source video frame ready; source at 5.939, output at 5.93927
+1357933208:527563 Decoder emits 178
+1357933208:527928 decoder sleeps with queue of 32
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 141
+1357933213:290129 encoder thread 0x7fe3580a4940 finishes local encode of 141
+1357933213:290422 writer wakes with a queue of 1
+1357933213:308220 encoder thread 0x7fe3580a4940 sleeps
+1357933213:308315 decoder wakes with queue of 32
+1357933213:308388 decoder sleeps with queue of 32
+1357933213:308467 encoder thread 0x7fe3580a4940 wakes with queue of 32
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a4940 pops frame 146 from queue
+1357933213:308630 encoder thread 0x7fe3580a4940 begins local encode of 146
+1357933213:312482 writer sleeps with a queue of 0
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 143
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 139
+1357933213:773670 encoder thread 0x7fe3580a59d0 finishes local encode of 143
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 138
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 140
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 142
+1357933213:790346 writer wakes with a queue of 1
+1357933213:790508 encoder thread 0x7fe3580a4c90 finishes local encode of 139
+1357933213:790799 encoder thread 0x7fe3580a59d0 sleeps
+1357933213:791023 decoder wakes with queue of 31
+1357933213:791375 encoder thread 0x7fe3580a5680 finishes local encode of 138
+1357933213:791614 encoder thread 0x7fe3580a5330 finishes local encode of 142
+1357933213:791759 adding to queue of 31
+1357933213:791896 encoder thread 0x7fe3580a4fe0 finishes local encode of 140
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 5.973, output at 5.97263
+1357933213:808217 encoder thread 0x7fe3580a4c90 sleeps
+1357933213:808325 encoder thread 0x7fe3580a59d0 wakes with queue of 32
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a59d0 pops frame 147 from queue
+1357933213:808557 Decoder emits 179
+1357933213:825154 encoder thread 0x7fe3580a59d0 begins local encode of 147
+1357933213:839728 encoder thread 0x7fe3580a5330 sleeps
+1357933213:855320 writer sleeps with a queue of 4
+1357933213:863567 encoder thread 0x7fe3580a5680 sleeps
+1357933213:892870 encoder thread 0x7fe3580a4fe0 sleeps
+1357933213:900683 encoder thread 0x7fe3580a4c90 wakes with queue of 31
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 144
+Fri Jan 11 19:40:13 2013: Finished locally-encoded frame 145
+1357933213:927093 writer wakes with a queue of 4
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a4c90 pops frame 148 from queue
+1357933213:927469 encoder thread 0x7fe3580a4c90 begins local encode of 148
+1357933213:927654 encoder thread 0x7fe358024570 finishes local encode of 144
+1357933213:927782 adding to queue of 30
+1357933213:928043 encoder thread 0x7fe3580a5330 wakes with queue of 31
+1357933213:928216 encoder thread 0x7fe3580a45f0 finishes local encode of 145
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a5330 pops frame 149 from queue
+1357933213:928494 encoder thread 0x7fe3580a5330 begins local encode of 149
+1357933213:928602 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a5680 pops frame 150 from queue
+1357933213:928910 encoder thread 0x7fe3580a5680 begins local encode of 150
+1357933213:929087 encoder thread 0x7fe3580a4fe0 wakes with queue of 29
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a4fe0 pops frame 151 from queue
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.006, output at 6.006
+1357933213:937591 encoder thread 0x7fe358024570 sleeps
+1357933213:948264 encoder thread 0x7fe3580a4fe0 begins local encode of 151
+1357933213:948443 writer sleeps with a queue of 5
+1357933213:948574 Decoder emits 180
+1357933213:948709 encoder thread 0x7fe358024570 wakes with queue of 28
+1357933213:948812 encoder thread 0x7fe3580a45f0 sleeps
+1357933213:948916 writer wakes with a queue of 5
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe358024570 pops frame 152 from queue
+1357933213:949248 adding to queue of 27
+1357933213:950629 encoder thread 0x7fe3580a45f0 wakes with queue of 28
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.039, output at 6.03937
+1357933213:951268 Decoder emits 181
+1357933213:952749 writer sleeps with a queue of 4
+1357933213:952928 writer wakes with a queue of 4
+1357933213:953026 encoder thread 0x7fe358024570 begins local encode of 152
+1357933213:961791 writer sleeps with a queue of 3
+1357933213:961983 writer wakes with a queue of 3
+Fri Jan 11 19:40:13 2013: Encoder thread 0x7fe3580a45f0 pops frame 153 from queue
+1357933213:962553 encoder thread 0x7fe3580a45f0 begins local encode of 153
+1357933213:962748 adding to queue of 27
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.073, output at 6.07273
+1357933213:965536 Decoder emits 182
+1357933213:965806 adding to queue of 28
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.106, output at 6.1061
+1357933213:967723 Decoder emits 183
+1357933213:967969 adding to queue of 29
+1357933213:968815 writer sleeps with a queue of 2
+1357933213:969070 writer wakes with a queue of 2
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.139, output at 6.13947
+1357933213:970704 Decoder emits 184
+1357933213:971035 adding to queue of 30
+1357933213:972881 writer sleeps with a queue of 1
+1357933213:973063 writer wakes with a queue of 1
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.173, output at 6.17283
+1357933213:974744 Decoder emits 185
+1357933213:975182 adding to queue of 31
+Fri Jan 11 19:40:13 2013: Source video frame ready; source at 6.206, output at 6.2062
+1357933213:978576 writer sleeps with a queue of 0
+1357933213:978832 Decoder emits 186
+1357933213:979201 decoder sleeps with queue of 32
+Fri Jan 11 19:40:18 2013: Finished locally-encoded frame 146
+1357933218:137842 encoder thread 0x7fe3580a4940 finishes local encode of 146
+1357933218:138235 writer wakes with a queue of 1
+1357933218:151181 encoder thread 0x7fe3580a4940 sleeps
+1357933218:151542 decoder wakes with queue of 32
+1357933218:151859 decoder sleeps with queue of 32
+1357933218:152173 encoder thread 0x7fe3580a4940 wakes with queue of 32
+Fri Jan 11 19:40:18 2013: Encoder thread 0x7fe3580a4940 pops frame 154 from queue
+1357933218:152898 encoder thread 0x7fe3580a4940 begins local encode of 154
+1357933218:154726 writer sleeps with a queue of 0
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 149
+1357933220:603254 encoder thread 0x7fe3580a5330 finishes local encode of 149
+1357933220:603651 writer wakes with a queue of 1
+1357933220:620330 writer sleeps with a queue of 0
+1357933220:629730 encoder thread 0x7fe3580a5330 sleeps
+1357933220:629935 decoder wakes with queue of 31
+1357933220:630139 adding to queue of 31
+1357933220:630289 encoder thread 0x7fe3580a5330 wakes with queue of 32
+Fri Jan 11 19:40:20 2013: Encoder thread 0x7fe3580a5330 pops frame 155 from queue
+1357933220:630509 encoder thread 0x7fe3580a5330 begins local encode of 155
+Fri Jan 11 19:40:20 2013: Source video frame ready; source at 6.24, output at 6.23957
+1357933220:633105 Decoder emits 187
+1357933220:633352 adding to queue of 31
+Fri Jan 11 19:40:20 2013: Source video frame ready; source at 6.273, output at 6.27293
+1357933220:636497 Decoder emits 188
+1357933220:636642 decoder sleeps with queue of 32
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 148
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 152
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 150
+1357933220:910037 encoder thread 0x7fe3580a4c90 finishes local encode of 148
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 147
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 151
+1357933220:954556 encoder thread 0x7fe358024570 finishes local encode of 152
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 153
+1357933220:960042 writer wakes with a queue of 1
+1357933220:960114 encoder thread 0x7fe3580a5680 finishes local encode of 150
+1357933220:960268 encoder thread 0x7fe3580a4c90 sleeps
+1357933220:960449 decoder wakes with queue of 32
+1357933220:960604 encoder thread 0x7fe3580a59d0 finishes local encode of 147
+1357933220:960684 encoder thread 0x7fe3580a4fe0 finishes local encode of 151
+Fri Jan 11 19:40:20 2013: Finished locally-encoded frame 154
+1357933220:960878 encoder thread 0x7fe3580a45f0 finishes local encode of 153
+1357933220:960988 decoder sleeps with queue of 32
+1357933220:961542 encoder thread 0x7fe3580a4940 finishes local encode of 154
+1357933220:984624 encoder thread 0x7fe358024570 sleeps
+1357933220:984728 encoder thread 0x7fe3580a5680 sleeps
+1357933220:984842 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+Fri Jan 11 19:40:20 2013: Encoder thread 0x7fe3580a4c90 pops frame 156 from queue
+1357933220:985115 encoder thread 0x7fe3580a4c90 begins local encode of 156
+1357933221:10659 encoder thread 0x7fe3580a59d0 sleeps
+1357933221:12559 encoder thread 0x7fe3580a4fe0 sleeps
+1357933221:20062 writer sleeps with a queue of 6
+1357933221:20161 encoder thread 0x7fe3580a45f0 sleeps
+1357933221:20265 decoder wakes with queue of 31
+1357933221:20375 writer wakes with a queue of 6
+1357933221:20470 adding to queue of 31
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.306, output at 6.3063
+1357933221:32732 encoder thread 0x7fe3580a4940 sleeps
+1357933221:32845 encoder thread 0x7fe358024570 wakes with queue of 32
+1357933221:32957 Decoder emits 189
+Fri Jan 11 19:40:21 2013: Encoder thread 0x7fe358024570 pops frame 157 from queue
+1357933221:33133 encoder thread 0x7fe358024570 begins local encode of 157
+1357933221:33238 encoder thread 0x7fe3580a5680 wakes with queue of 31
+Fri Jan 11 19:40:21 2013: Encoder thread 0x7fe3580a5680 pops frame 158 from queue
+1357933221:33440 encoder thread 0x7fe3580a5680 begins local encode of 158
+1357933221:33542 encoder thread 0x7fe3580a59d0 wakes with queue of 30
+Fri Jan 11 19:40:21 2013: Encoder thread 0x7fe3580a59d0 pops frame 159 from queue
+1357933221:33735 encoder thread 0x7fe3580a59d0 begins local encode of 159
+1357933221:33816 encoder thread 0x7fe3580a4fe0 wakes with queue of 29
+Fri Jan 11 19:40:21 2013: Encoder thread 0x7fe3580a4fe0 pops frame 160 from queue
+1357933221:34033 encoder thread 0x7fe3580a4fe0 begins local encode of 160
+1357933221:34104 encoder thread 0x7fe3580a45f0 wakes with queue of 28
+Fri Jan 11 19:40:21 2013: Encoder thread 0x7fe3580a45f0 pops frame 161 from queue
+1357933221:34361 encoder thread 0x7fe3580a45f0 begins local encode of 161
+1357933221:34708 writer sleeps with a queue of 5
+1357933221:34872 writer wakes with a queue of 5
+1357933221:35022 encoder thread 0x7fe3580a4940 wakes with queue of 27
+Fri Jan 11 19:40:21 2013: Encoder thread 0x7fe3580a4940 pops frame 162 from queue
+1357933221:40856 encoder thread 0x7fe3580a4940 begins local encode of 162
+1357933221:40985 adding to queue of 26
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.34, output at 6.33967
+1357933221:43235 Decoder emits 190
+1357933221:43454 adding to queue of 27
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.373, output at 6.37303
+1357933221:45029 Decoder emits 191
+1357933221:45259 adding to queue of 28
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.406, output at 6.4064
+1357933221:46908 writer sleeps with a queue of 4
+1357933221:47159 Decoder emits 192
+1357933221:47486 adding to queue of 29
+1357933221:47643 writer wakes with a queue of 4
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.44, output at 6.43977
+1357933221:49982 Decoder emits 193
+1357933221:50252 adding to queue of 30
+1357933221:51546 writer sleeps with a queue of 3
+1357933221:51717 writer wakes with a queue of 3
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.473, output at 6.47313
+1357933221:53353 Decoder emits 194
+1357933221:53691 adding to queue of 31
+Fri Jan 11 19:40:21 2013: Source video frame ready; source at 6.507, output at 6.5065
+1357933221:55670 Decoder emits 195
+1357933221:55911 decoder sleeps with queue of 32
+1357933221:56324 writer sleeps with a queue of 2
+1357933221:56496 writer wakes with a queue of 2
+1357933221:59946 writer sleeps with a queue of 1
+1357933221:60134 writer wakes with a queue of 1
+1357933221:64145 writer sleeps with a queue of 0
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 156
+1357933228:335212 encoder thread 0x7fe3580a4c90 finishes local encode of 156
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 155
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 162
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 160
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 158
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 157
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 161
+Fri Jan 11 19:40:28 2013: Finished locally-encoded frame 159
+1357933228:431256 encoder thread 0x7fe3580a5330 finishes local encode of 155
+1357933228:431360 encoder thread 0x7fe3580a4c90 sleeps
+1357933228:431509 decoder wakes with queue of 32
+1357933228:431607 writer wakes with a queue of 1
+1357933228:431694 decoder sleeps with queue of 32
+1357933228:432503 encoder thread 0x7fe3580a4fe0 finishes local encode of 160
+1357933228:439720 encoder thread 0x7fe3580a5680 finishes local encode of 158
+1357933228:439794 encoder thread 0x7fe3580a59d0 finishes local encode of 159
+1357933228:439898 encoder thread 0x7fe358024570 finishes local encode of 157
+1357933228:439985 encoder thread 0x7fe3580a45f0 finishes local encode of 161
+1357933228:440058 encoder thread 0x7fe3580a4940 finishes local encode of 162
+1357933228:440122 encoder thread 0x7fe3580a5330 sleeps
+1357933228:440182 decoder wakes with queue of 32
+1357933228:440252 decoder sleeps with queue of 32
+1357933228:440345 encoder thread 0x7fe3580a4c90 wakes with queue of 32
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a4c90 pops frame 163 from queue
+1357933228:440487 encoder thread 0x7fe3580a4c90 begins local encode of 163
+1357933228:454795 encoder thread 0x7fe3580a4fe0 sleeps
+1357933228:484602 encoder thread 0x7fe3580a5680 sleeps
+1357933228:498923 writer sleeps with a queue of 7
+1357933228:510758 writer wakes with a queue of 7
+1357933228:510821 encoder thread 0x7fe358024570 sleeps
+1357933228:510982 encoder thread 0x7fe3580a45f0 sleeps
+1357933228:511047 encoder thread 0x7fe3580a59d0 sleeps
+1357933228:511116 encoder thread 0x7fe3580a4940 sleeps
+1357933228:511197 encoder thread 0x7fe3580a5330 wakes with queue of 31
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a5330 pops frame 164 from queue
+1357933228:511389 encoder thread 0x7fe3580a5330 begins local encode of 164
+1357933228:511460 decoder wakes with queue of 30
+1357933228:511586 adding to queue of 30
+1357933228:511706 encoder thread 0x7fe3580a4fe0 wakes with queue of 31
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a4fe0 pops frame 165 from queue
+1357933228:511927 encoder thread 0x7fe3580a4fe0 begins local encode of 165
+1357933228:511981 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a5680 pops frame 166 from queue
+1357933228:512240 encoder thread 0x7fe3580a5680 begins local encode of 166
+1357933228:512316 encoder thread 0x7fe358024570 wakes with queue of 29
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe358024570 pops frame 167 from queue
+1357933228:512498 encoder thread 0x7fe358024570 begins local encode of 167
+1357933228:512587 encoder thread 0x7fe3580a45f0 wakes with queue of 28
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a45f0 pops frame 168 from queue
+1357933228:512815 encoder thread 0x7fe3580a45f0 begins local encode of 168
+1357933228:513053 encoder thread 0x7fe3580a59d0 wakes with queue of 27
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.54, output at 6.53987
+1357933228:513470 Decoder emits 196
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a59d0 pops frame 169 from queue
+1357933228:513710 encoder thread 0x7fe3580a59d0 begins local encode of 169
+1357933228:513885 writer sleeps with a queue of 6
+1357933228:514017 writer wakes with a queue of 6
+1357933228:517170 writer sleeps with a queue of 5
+1357933228:517363 writer wakes with a queue of 5
+1357933228:517495 encoder thread 0x7fe3580a4940 wakes with queue of 26
+Fri Jan 11 19:40:28 2013: Encoder thread 0x7fe3580a4940 pops frame 170 from queue
+1357933228:517910 encoder thread 0x7fe3580a4940 begins local encode of 170
+1357933228:518072 adding to queue of 25
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.573, output at 6.57323
+1357933228:520309 Decoder emits 197
+1357933228:520653 adding to queue of 26
+1357933228:520887 writer sleeps with a queue of 4
+1357933228:521063 writer wakes with a queue of 4
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.607, output at 6.6066
+1357933228:522919 Decoder emits 198
+1357933228:523164 adding to queue of 27
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.64, output at 6.63997
+1357933228:525230 Decoder emits 199
+1357933228:525450 adding to queue of 28
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.673, output at 6.67333
+1357933228:527251 Decoder emits 200
+1357933228:527472 adding to queue of 29
+1357933228:528187 writer sleeps with a queue of 3
+1357933228:528611 writer wakes with a queue of 3
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.707, output at 6.7067
+1357933228:529589 Decoder emits 201
+1357933228:529794 adding to queue of 30
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.74, output at 6.74007
+1357933228:531614 Decoder emits 202
+1357933228:531836 adding to queue of 31
+Fri Jan 11 19:40:28 2013: Source video frame ready; source at 6.773, output at 6.77343
+1357933228:534921 Decoder emits 203
+1357933228:535135 decoder sleeps with queue of 32
+1357933228:541575 writer sleeps with a queue of 2
+1357933228:541984 writer wakes with a queue of 2
+1357933228:549575 writer sleeps with a queue of 1
+1357933228:549917 writer wakes with a queue of 1
+1357933228:553777 writer sleeps with a queue of 0
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 167
+1357933235:537904 encoder thread 0x7fe358024570 finishes local encode of 167
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 170
+1357933235:584070 writer wakes with a queue of 1
+1357933235:680813 encoder thread 0x7fe358024570 sleeps
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 168
+1357933235:783272 encoder thread 0x7fe3580a4940 finishes local encode of 170
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 164
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 169
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 163
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 165
+1357933235:783772 decoder wakes with queue of 32
+1357933235:783892 decoder sleeps with queue of 32
+Fri Jan 11 19:40:35 2013: Finished locally-encoded frame 166
+1357933235:784139 encoder thread 0x7fe358024570 wakes with queue of 32
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe358024570 pops frame 171 from queue
+1357933235:784307 encoder thread 0x7fe3580a45f0 finishes local encode of 168
+1357933235:784377 encoder thread 0x7fe358024570 begins local encode of 171
+1357933235:802457 writer sleeps with a queue of 2
+1357933235:809820 decoder wakes with queue of 31
+1357933235:809914 encoder thread 0x7fe3580a59d0 finishes local encode of 169
+1357933235:809998 encoder thread 0x7fe3580a5330 finishes local encode of 164
+1357933235:810063 encoder thread 0x7fe3580a5680 finishes local encode of 166
+1357933235:810131 encoder thread 0x7fe3580a4940 sleeps
+1357933235:810192 encoder thread 0x7fe3580a4c90 finishes local encode of 163
+1357933235:810263 encoder thread 0x7fe3580a45f0 sleeps
+1357933235:810336 encoder thread 0x7fe3580a4fe0 finishes local encode of 165
+1357933235:810408 writer wakes with a queue of 2
+1357933235:810469 adding to queue of 31
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 6.807, output at 6.8068
+1357933235:825103 encoder thread 0x7fe3580a45f0 wakes with queue of 32
+1357933235:825196 encoder thread 0x7fe3580a5680 sleeps
+1357933235:825248 Decoder emits 204
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a45f0 pops frame 172 from queue
+1357933235:825406 encoder thread 0x7fe3580a45f0 begins local encode of 172
+1357933235:840303 writer sleeps with a queue of 6
+1357933235:854047 encoder thread 0x7fe3580a59d0 sleeps
+1357933235:854156 writer wakes with a queue of 6
+1357933235:854248 encoder thread 0x7fe3580a5330 sleeps
+1357933235:854396 encoder thread 0x7fe3580a4940 wakes with queue of 31
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a4940 pops frame 173 from queue
+1357933235:854638 encoder thread 0x7fe3580a4940 begins local encode of 173
+1357933235:863490 encoder thread 0x7fe3580a4c90 sleeps
+1357933235:877655 encoder thread 0x7fe3580a4fe0 sleeps
+1357933235:877791 encoder thread 0x7fe3580a5680 wakes with queue of 30
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a5680 pops frame 174 from queue
+1357933235:878054 encoder thread 0x7fe3580a5680 begins local encode of 174
+1357933235:878150 adding to queue of 29
+1357933235:878340 encoder thread 0x7fe3580a59d0 wakes with queue of 30
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a59d0 pops frame 175 from queue
+1357933235:878548 encoder thread 0x7fe3580a59d0 begins local encode of 175
+1357933235:878678 encoder thread 0x7fe3580a5330 wakes with queue of 29
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a5330 pops frame 176 from queue
+1357933235:879013 encoder thread 0x7fe3580a5330 begins local encode of 176
+1357933235:879172 encoder thread 0x7fe3580a4c90 wakes with queue of 28
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a4c90 pops frame 177 from queue
+1357933235:879618 encoder thread 0x7fe3580a4c90 begins local encode of 177
+1357933235:879797 writer sleeps with a queue of 5
+1357933235:880021 writer wakes with a queue of 5
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 6.84, output at 6.84017
+1357933235:881619 Decoder emits 205
+1357933235:882570 encoder thread 0x7fe3580a4fe0 wakes with queue of 27
+Fri Jan 11 19:40:35 2013: Encoder thread 0x7fe3580a4fe0 pops frame 178 from queue
+1357933235:883015 adding to queue of 26
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 6.874, output at 6.87353
+1357933235:885209 Decoder emits 206
+1357933235:885316 encoder thread 0x7fe3580a4fe0 begins local encode of 178
+1357933235:896831 writer sleeps with a queue of 4
+1357933235:897273 adding to queue of 27
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 6.907, output at 6.9069
+1357933235:901894 Decoder emits 207
+1357933235:902468 adding to queue of 28
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 6.94, output at 6.94027
+1357933235:906674 Decoder emits 208
+1357933235:907081 adding to queue of 29
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 6.974, output at 6.97363
+1357933235:909295 writer wakes with a queue of 4
+1357933235:909557 Decoder emits 209
+1357933235:909873 adding to queue of 30
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 7.007, output at 7.007
+1357933235:912676 Decoder emits 210
+1357933235:912943 adding to queue of 31
+Fri Jan 11 19:40:35 2013: Source video frame ready; source at 7.04, output at 7.04037
+1357933235:914787 writer sleeps with a queue of 3
+1357933235:915006 writer wakes with a queue of 3
+1357933235:915169 Decoder emits 211
+1357933235:915486 decoder sleeps with queue of 32
+1357933235:918704 writer sleeps with a queue of 2
+1357933235:918904 writer wakes with a queue of 2
+1357933235:922506 writer sleeps with a queue of 1
+1357933235:922648 writer wakes with a queue of 1
+1357933235:926325 writer sleeps with a queue of 0

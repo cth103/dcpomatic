@@ -878,3 +878,29 @@ still_image_file (string f)
 	
 	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png");
 }
+
+/** @return A pair containing CPU model name and the number of processors */
+pair<string, int>
+cpu_info ()
+{
+	pair<string, int> info;
+	info.second = 0;
+	
+#ifdef DVDOMATIC_POSIX
+	ifstream f ("/proc/cpuinfo");
+	while (f.good ()) {
+		string l;
+		getline (f, l);
+		if (boost::algorithm::starts_with (l, "model name")) {
+			string::size_type const c = l.find (':');
+			if (c != string::npos) {
+				info.first = l.substr (c + 2);
+			}
+		} else if (boost::algorithm::starts_with (l, "processor")) {
+			++info.second;
+		}
+	}
+#endif	
+
+	return info;
+}

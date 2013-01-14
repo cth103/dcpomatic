@@ -49,9 +49,9 @@ class ExternalAudioStream;
 class Screen;
 
 /** @class Film
- *  @brief A representation of a video with sound.
+ *  @brief A representation of a video, maybe with sound.
  *
- *  A representation of a piece of video (with sound), including naming,
+ *  A representation of a piece of video (maybe with sound), including naming,
  *  the source content file, and how it should be presented in a DCP.
  */
 class Film : public boost::enable_shared_from_this<Film>
@@ -62,7 +62,6 @@ public:
 	~Film ();
 
 	std::string j2k_dir () const;
-	std::vector<std::string> audio_files () const;
 
 	void examine_content ();
 	void send_dcp_to_tms ();
@@ -94,6 +93,7 @@ public:
 	std::string dci_name () const;
 	std::string dcp_name () const;
 
+	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
 		return _dirty;
 	}
@@ -109,6 +109,9 @@ public:
 		std::string directory
 		) const;
 
+	/** Identifiers for the parts of our state;
+	    used for signalling changes.
+	*/
 	enum Property {
 		NONE,
 		NAME,
@@ -122,6 +125,7 @@ public:
 		SCALER,
 		DCP_TRIM_START,
 		DCP_TRIM_END,
+		REEL_SIZE,
 		DCP_AB,
 		CONTENT_AUDIO_STREAM,
 		EXTERNAL_AUDIO,
@@ -134,6 +138,8 @@ public:
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,
 		ENCRYPTED,
+		COLOUR_LUT,
+		J2K_BANDWIDTH,
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
@@ -204,6 +210,11 @@ public:
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_trim_end;
 	}
+
+	boost::optional<uint64_t> reel_size () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _reel_size;
+	}
 	
 	bool dcp_ab () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
@@ -263,6 +274,16 @@ public:
 	bool encrypted () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _encrypted;
+	}
+
+	int colour_lut () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _colour_lut;
+	}
+
+	int j2k_bandwidth () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _j2k_bandwidth;
 	}
 
 	std::string audio_language () const {
@@ -355,6 +376,8 @@ public:
 	void set_scaler (Scaler const *);
 	void set_dcp_trim_start (int);
 	void set_dcp_trim_end (int);
+	void set_reel_size (uint64_t);
+	void unset_reel_size ();
 	void set_dcp_ab (bool);
 	void set_content_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
@@ -367,6 +390,8 @@ public:
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
 	void set_encrypted (bool);
+	void set_colour_lut (int);
+	void set_j2k_bandwidth (int);
 	void set_audio_language (std::string);
 	void set_subtitle_language (std::string);
 	void set_territory (std::string);
@@ -417,6 +442,10 @@ private:
 	 *  or an absolute path.
 	 */
 	std::string _content;
+	/** If this is true, we will believe the length specified by the content
+	 *  file's header; if false, we will run through the whole content file
+	 *  the first time we see it in order to obtain the length.
+	 */
 	bool _trust_content_header;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
@@ -432,6 +461,8 @@ private:
 	int _dcp_trim_start;
 	/** Frames to trim off the end of the DCP */
 	int _dcp_trim_end;
+	/** Approximate target reel size in bytes; if not set, use a single reel */
+	boost::optional<uint64_t> _reel_size;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.
@@ -462,6 +493,14 @@ private:
 	float _subtitle_scale;
 	bool _encrypted;
 
+	/** index of colour LUT to use when converting RGB to XYZ.
+	 *  0: sRGB
+	 *  1: Rec 709
+	 */
+	int _colour_lut;
+	/** bandwidth for J2K files in bits per second */
+	int _j2k_bandwidth;
+	
 	/* DCI naming stuff */
 	std::string _audio_language;
 	std::string _subtitle_language;

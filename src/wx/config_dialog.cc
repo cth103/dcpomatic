@@ -79,20 +79,6 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	table->Add (_default_directory, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "Colour look-up table");
-	_colour_lut = new wxComboBox (this, wxID_ANY);
-	for (int i = 0; i < 2; ++i) {
-		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
-	}
-	_colour_lut->SetSelection (0);
-	table->Add (_colour_lut, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "JPEG2000 bandwidth");
-	_j2k_bandwidth = new wxSpinCtrl (this, wxID_ANY);
-	table->Add (_j2k_bandwidth, 1, wxEXPAND);
-	add_label_to_sizer (table, this, "MBps");
-
 	add_label_to_sizer (table, this, "Reference scaler for A/B");
 	_reference_scaler = new wxComboBox (this, wxID_ANY);
 	vector<Scaler const *> const sc = Scaler::all ();
@@ -155,12 +141,6 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
 	_default_directory->Connect (wxID_ANY, wxEVT_COMMAND_DIRPICKER_CHANGED, wxCommandEventHandler (ConfigDialog::default_directory_changed), 0, this);
-
-	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::colour_lut_changed), 0, this);
-	
-	_j2k_bandwidth->SetRange (50, 250);
-	_j2k_bandwidth->SetValue (rint ((double) config->j2k_bandwidth() / 1e6));
-	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::j2k_bandwidth_changed), 0, this);
 
 	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
 	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
@@ -230,18 +210,6 @@ void
 ConfigDialog::default_directory_changed (wxCommandEvent &)
 {
 	Config::instance()->set_default_directory (wx_to_std (_default_directory->GetPath ()));
-}
-
-void
-ConfigDialog::colour_lut_changed (wxCommandEvent &)
-{
-	Config::instance()->set_colour_lut_index (_colour_lut->GetSelection ());
-}
-
-void
-ConfigDialog::j2k_bandwidth_changed (wxCommandEvent &)
-{
-	Config::instance()->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1e6);
 }
 
 void

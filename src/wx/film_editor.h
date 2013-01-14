@@ -65,6 +65,8 @@ private:
 	void format_changed (wxCommandEvent &);
 	void dcp_trim_start_changed (wxCommandEvent &);
 	void dcp_trim_end_changed (wxCommandEvent &);
+	void multiple_reels_toggled (wxCommandEvent &);
+	void reel_size_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void encrypted_toggled (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
@@ -75,6 +77,8 @@ private:
 	void with_subtitles_toggled (wxCommandEvent &);
 	void subtitle_offset_changed (wxCommandEvent &);
 	void subtitle_scale_changed (wxCommandEvent &);
+	void colour_lut_changed (wxCommandEvent &);
+	void j2k_bandwidth_changed (wxCommandEvent &);
 	void still_duration_changed (wxCommandEvent &);
 	void audio_stream_changed (wxCommandEvent &);
 	void subtitle_stream_changed (wxCommandEvent &);
@@ -91,6 +95,7 @@ private:
 	void setup_formats ();
 	void setup_subtitle_control_sensitivity ();
 	void setup_audio_control_sensitivity ();
+	void setup_reel_control_sensitivity ();
 	void setup_streams ();
 	void setup_audio_details ();
 	
@@ -149,6 +154,8 @@ private:
 	wxComboBox* _subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
+	wxComboBox* _colour_lut;
+	wxSpinCtrl* _j2k_bandwidth;
 	/** The Film's DCP content type */
 	wxComboBox* _dcp_content_type;
 	/** The Film's frames per second */
@@ -165,6 +172,8 @@ private:
 	wxSpinCtrl* _dcp_trim_start;
 	wxSpinCtrl* _dcp_trim_end;
 	wxCheckBox* _encrypted;
+	wxCheckBox* _multiple_reels;
+	wxSpinCtrl* _reel_size;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 

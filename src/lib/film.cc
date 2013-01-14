@@ -105,6 +105,8 @@ Film::Film (string d, bool must_exist)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
 	, _encrypted (false)
+	, _colour_lut (0)
+	, _j2k_bandwidth (200000000)
 	, _frames_per_second (0)
 	, _dirty (false)
 {
@@ -161,6 +163,7 @@ Film::Film (Film const & o)
 	, _scaler            (o._scaler)
 	, _dcp_trim_start    (o._dcp_trim_start)
 	, _dcp_trim_end      (o._dcp_trim_end)
+	, _reel_size         (o._reel_size)
 	, _dcp_ab            (o._dcp_ab)
 	, _content_audio_stream (o._content_audio_stream)
 	, _external_audio    (o._external_audio)
@@ -173,6 +176,8 @@ Film::Film (Film const & o)
 	, _subtitle_offset   (o._subtitle_offset)
 	, _subtitle_scale    (o._subtitle_scale)
 	, _encrypted         (o._encrypted)
+	, _colour_lut        (o._colour_lut)
+	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _audio_language    (o._audio_language)
 	, _subtitle_language (o._subtitle_language)
 	, _territory         (o._territory)
@@ -219,7 +224,9 @@ Film::j2k_dir () const
 	  << "_" << content_digest()
 	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
 	  << "_" << f.first << "_" << f.second
-	  << "_" << scaler()->id();
+	  << "_" << scaler()->id()
+	  << "_" << j2k_bandwidth()
+	  << "_" << boost::lexical_cast<int> (colour_lut());
 
 	p /= s.str ();
 
@@ -252,10 +259,26 @@ Film::make_dcp (bool transcode)
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
 		log()->log (String::compose ("Starting to make DCP on %1", buffer));
-		log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
-		log()->log (String::compose ("Content length %1", length()));
 	}
-		
+	
+	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
+	log()->log (String::compose ("Content length %1", length().get()));
+	log()->log (String::compose ("Content digest %1", content_digest()));
+	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
+	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+#ifdef DVDOMATIC_DEBUG
+	log()->log ("DVD-o-matic built in debug mode.");
+#else
+	log()->log ("DVD-o-matic built in optimised mode.");
+#endif
+#ifdef LIBDCP_DEBUG
+	log()->log ("libdcp built in debug mode.");
+#else
+	log()->log ("libdcp built in optimised mode.");
+#endif
+	pair<string, int> const c = cpu_info ();
+	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
+	
 	if (format() == 0) {
 		throw MissingSettingError ("format");
 	}
@@ -334,18 +357,6 @@ Film::examine_content_finished ()
 	_examine_content_job.reset ();
 }
 
-/** @return full paths to any audio files that this Film has */
-vector<string>
-Film::audio_files () const
-{
-	vector<string> f;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dir("wavs")); i != boost::filesystem::directory_iterator(); ++i) {
-		f.push_back (i->path().string ());
-	}
-
-	return f;
-}
-
 /** Start a job to send our DCP to the configured TMS */
 void
 Film::send_dcp_to_tms ()
@@ -410,6 +421,9 @@ Film::write_metadata () const
 	f << "scaler " << _scaler->id () << "\n";
 	f << "dcp_trim_start " << _dcp_trim_start << "\n";
 	f << "dcp_trim_end " << _dcp_trim_end << "\n";
+	if (_reel_size) {
+		f << "reel_size " << _reel_size.get() << "\n";
+	}
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
 	if (_content_audio_stream) {
 		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << "\n";
@@ -428,6 +442,8 @@ Film::write_metadata () const
 	f << "subtitle_offset " << _subtitle_offset << "\n";
 	f << "subtitle_scale " << _subtitle_scale << "\n";
 	f << "encrypted " << _encrypted << "\n";
+	f << "colour_lut " << _colour_lut << "\n";
+	f << "j2k_bandwidth " << _j2k_bandwidth << "\n";
 	f << "audio_language " << _audio_language << "\n";
 	f << "subtitle_language " << _subtitle_language << "\n";
 	f << "territory " << _territory << "\n";
@@ -523,6 +539,8 @@ Film::read_metadata ()
 			_dcp_trim_start = atoi (v.c_str ());
 		} else if (k == "dcp_trim_end") {
 			_dcp_trim_end = atoi (v.c_str ());
+		} else if (k == "reel_size") {
+			_reel_size = boost::lexical_cast<uint64_t> (v);
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
 		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
@@ -555,6 +573,10 @@ Film::read_metadata ()
 			_subtitle_scale = atof (v.c_str ());
 		} else if (k == "encrypted") {
 			_encrypted = (v == "1");
+		} else if (k == "colour_lut") {
+			_colour_lut = atoi (v.c_str ());
+		} else if (k == "j2k_bandwidth") {
+			_j2k_bandwidth = atoi (v.c_str ());
 		} else if (k == "audio_language") {
 			_audio_language = v;
 		} else if (k == "subtitle_language") {
@@ -1083,6 +1105,26 @@ Film::set_dcp_trim_end (int t)
 }
 
 void
+Film::set_reel_size (uint64_t s)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_reel_size = s;
+	}
+	signal_changed (REEL_SIZE);
+}
+
+void
+Film::unset_reel_size ()
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_reel_size = boost::optional<uint64_t> ();
+	}
+	signal_changed (REEL_SIZE);
+}
+
+void
 Film::set_dcp_ab (bool a)
 {
 	{
@@ -1208,6 +1250,26 @@ Film::set_encrypted (bool e)
 		_encrypted = e;
 	}
 	signal_changed (ENCRYPTED);
+}
+
+void
+Film::set_colour_lut (int i)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_colour_lut = i;
+	}
+	signal_changed (COLOUR_LUT);
+}
+
+void
+Film::set_j2k_bandwidth (int b)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_j2k_bandwidth = b;
+	}
+	signal_changed (J2K_BANDWIDTH);
 }
 
 void

@@ -88,7 +88,7 @@ DCPVideoFrame::DCPVideoFrame (
 	, _frame (f)
 	, _frames_per_second (dcp_frame_rate(fps).frames_per_second)
 	, _post_process (pp)
-	, _colour_lut_index (clut)
+	, _colour_lut (clut)
 	, _j2k_bandwidth (bw)
 	, _log (l)
 	, _image (0)
@@ -188,22 +188,22 @@ DCPVideoFrame::encode_locally ()
 		for (int x = 0; x < _out_size.width; ++x) {
 
 			/* In gamma LUT (converting 8-bit input to 12-bit) */
-			s.r = lut_in[_colour_lut_index][*p++ << 4];
-			s.g = lut_in[_colour_lut_index][*p++ << 4];
-			s.b = lut_in[_colour_lut_index][*p++ << 4];
+			s.r = lut_in[_colour_lut][*p++ << 4];
+			s.g = lut_in[_colour_lut][*p++ << 4];
+			s.b = lut_in[_colour_lut][*p++ << 4];
 			
 			/* RGB to XYZ Matrix */
-			d.x = ((s.r * color_matrix[_colour_lut_index][0][0]) +
-			       (s.g * color_matrix[_colour_lut_index][0][1]) +
-			       (s.b * color_matrix[_colour_lut_index][0][2]));
+			d.x = ((s.r * color_matrix[_colour_lut][0][0]) +
+			       (s.g * color_matrix[_colour_lut][0][1]) +
+			       (s.b * color_matrix[_colour_lut][0][2]));
 			
-			d.y = ((s.r * color_matrix[_colour_lut_index][1][0]) +
-			       (s.g * color_matrix[_colour_lut_index][1][1]) +
-			       (s.b * color_matrix[_colour_lut_index][1][2]));
+			d.y = ((s.r * color_matrix[_colour_lut][1][0]) +
+			       (s.g * color_matrix[_colour_lut][1][1]) +
+			       (s.b * color_matrix[_colour_lut][1][2]));
 			
-			d.z = ((s.r * color_matrix[_colour_lut_index][2][0]) +
-			       (s.g * color_matrix[_colour_lut_index][2][1]) +
-			       (s.b * color_matrix[_colour_lut_index][2][2]));
+			d.z = ((s.r * color_matrix[_colour_lut][2][0]) +
+			       (s.g * color_matrix[_colour_lut][2][1]) +
+			       (s.b * color_matrix[_colour_lut][2][2]));
 			
 			/* DCI companding */
 			d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
@@ -334,8 +334,8 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 		s << "post_process " << _post_process << "\n";
 	}
 	
-	s << "colour_lut " << Config::instance()->colour_lut_index () << "\n"
-	  << "j2k_bandwidth " << Config::instance()->j2k_bandwidth () << "\n";
+	s << "colour_lut " << _colour_lut << "\n"
+	  << "j2k_bandwidth " << _j2k_bandwidth << "\n";
 
 	if (_subtitle) {
 		s << "subtitle_x " << _subtitle->position().x << "\n"

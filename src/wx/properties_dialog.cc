@@ -56,7 +56,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 
 	if (_film->length()) {
 		_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length().get())));
-		double const disk = ((double) Config::instance()->j2k_bandwidth() / 8) * _film->length().get() / (_film->frames_per_second () * 1073741824);
+		double const disk = ((double) _film->j2k_bandwidth() / 8) * _film->length().get() / (_film->frames_per_second () * 1073741824);
 		stringstream s;
 		s << fixed << setprecision (1) << disk << "Gb";
 		_disk_for_frames->SetLabel (std_to_wx (s.str ()));

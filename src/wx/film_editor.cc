@@ -153,6 +153,17 @@ FilmEditor::make_film_panel ()
 	_film_sizer->Add (_encrypted, 1);
 	_film_sizer->AddSpacer (0);
 
+	_multiple_reels = new wxCheckBox (_film_panel, wxID_ANY, wxT ("Make multiple reels"));
+	_film_sizer->Add (_multiple_reels);
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_reel_size = new wxSpinCtrl (_film_panel, wxID_ANY);
+		s->Add (_reel_size);
+		add_label_to_sizer (s, _film_panel, "Gb each");
+		_film_sizer->Add (s);
+	}
+
 	_dcp_ab = new wxCheckBox (_film_panel, wxID_ANY, wxT ("A/B"));
 	video_control (_dcp_ab);
 	_film_sizer->Add (_dcp_ab, 1);
@@ -173,6 +184,8 @@ FilmEditor::make_film_panel ()
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
 		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 	}
+
+	_reel_size->SetRange(1, 1000);
 }
 
 void
@@ -196,9 +209,13 @@ FilmEditor::connect_to_widgets ()
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_dcp_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_start_changed), 0, this);
 	_dcp_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_end_changed), 0, this);
+	_multiple_reels->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::multiple_reels_toggled), 0, this);
+	_reel_size->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::reel_size_changed), 0, this);
 	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
+	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
+	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
 	_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
 	_audio_stream->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
 	_audio_gain->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
@@ -270,6 +287,23 @@ FilmEditor::make_video_panel ()
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
 
+	add_label_to_sizer (_video_sizer, _video_panel, "Colour look-up table");
+	_colour_lut = new wxComboBox (_video_panel, wxID_ANY);
+	for (int i = 0; i < 2; ++i) {
+		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
+	}
+	_colour_lut->SetSelection (0);
+	_video_sizer->Add (_colour_lut, 1, wxEXPAND);
+
+	{
+		add_label_to_sizer (_video_sizer, _video_panel, "JPEG2000 bandwidth");
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_j2k_bandwidth = new wxSpinCtrl (_video_panel, wxID_ANY);
+		s->Add (_j2k_bandwidth, 1);
+		add_label_to_sizer (s, _video_panel, "MBps");
+		_video_sizer->Add (s, 1);
+	}
+
 	_left_crop->SetRange (0, 1024);
 	_top_crop->SetRange (0, 1024);
 	_right_crop->SetRange (0, 1024);
@@ -277,6 +311,7 @@ FilmEditor::make_video_panel ()
 	_still_duration->SetRange (1, 60 * 60);
 	_dcp_trim_start->SetRange (0, 100);
 	_dcp_trim_end->SetRange (0, 100);
+	_j2k_bandwidth->SetRange (50, 250);
 }
 
 void
@@ -448,6 +483,32 @@ FilmEditor::trust_content_header_changed (wxCommandEvent &)
 	_film->set_trust_content_header (_trust_content_header->GetValue ());
 }
 
+void
+FilmEditor::multiple_reels_toggled (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	if (_multiple_reels->GetValue()) {
+		_film->set_reel_size (_reel_size->GetValue() * 1e9);
+	} else {
+		_film->unset_reel_size ();
+	}
+
+	setup_reel_control_sensitivity ();
+}
+
+void
+FilmEditor::reel_size_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_reel_size (static_cast<uint64_t> (_reel_size->GetValue()) * 1e9);
+}
+
 /** Called when the DCP A/B switch has been toggled */
 void
 FilmEditor::dcp_ab_toggled (wxCommandEvent &)
@@ -499,6 +560,26 @@ FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 
 	_film->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
 }
+
+void
+FilmEditor::colour_lut_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+	
+	_film->set_colour_lut (_colour_lut->GetSelection ());
+}
+
+void
+FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+	
+	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1e6);
+}	
 
 
 /** Called when the metadata stored in the Film object has changed;
@@ -615,6 +696,15 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::DCP_TRIM_END:
 		checked_set (_dcp_trim_end, _film->dcp_trim_end());
 		break;
+	case Film::REEL_SIZE:
+		if (_film->reel_size()) {
+			checked_set (_multiple_reels, true);
+			checked_set (_reel_size, _film->reel_size().get() / 1e9);
+		} else {
+			checked_set (_multiple_reels, false);
+		}
+		setup_reel_control_sensitivity ();
+		break;
 	case Film::AUDIO_GAIN:
 		checked_set (_audio_gain, _film->audio_gain ());
 		break;
@@ -637,6 +727,12 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::ENCRYPTED:
 		checked_set (_encrypted, _film->encrypted ());
+		break;
+	case Film::COLOUR_LUT:
+		checked_set (_colour_lut, _film->colour_lut ());
+		break;
+	case Film::J2K_BANDWIDTH:
+		checked_set (_j2k_bandwidth, double (_film->j2k_bandwidth()) / 1e6);
 		break;
 	case Film::USE_DCI_NAME:
 		checked_set (_use_dci_name, _film->use_dci_name ());
@@ -735,6 +831,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::SCALER);
 	film_changed (Film::DCP_TRIM_START);
 	film_changed (Film::DCP_TRIM_END);
+	film_changed (Film::REEL_SIZE);
 	film_changed (Film::DCP_AB);
 	film_changed (Film::CONTENT_AUDIO_STREAM);
 	film_changed (Film::EXTERNAL_AUDIO);
@@ -746,6 +843,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
 	film_changed (Film::ENCRYPTED);
+	film_changed (Film::COLOUR_LUT);
+	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::SIZE);
 	film_changed (Film::LENGTH);
@@ -778,8 +877,12 @@ FilmEditor::set_things_sensitive (bool s)
 	_dcp_content_type->Enable (s);
 	_dcp_trim_start->Enable (s);
 	_dcp_trim_end->Enable (s);
+	_multiple_reels->Enable (s);
+	_reel_size->Enable (s);
 	_dcp_ab->Enable (s);
 	_encrypted->Enable (s);
+	_colour_lut->Enable (s);
+	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
 	_audio_delay->Enable (s);
@@ -787,6 +890,7 @@ FilmEditor::set_things_sensitive (bool s)
 
 	setup_subtitle_control_sensitivity ();
 	setup_audio_control_sensitivity ();
+	setup_reel_control_sensitivity ();
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -1126,4 +1230,10 @@ FilmEditor::external_audio_changed (wxCommandEvent &)
 	}
 
 	_film->set_external_audio (a);
+}
+
+void
+FilmEditor::setup_reel_control_sensitivity ()
+{
+	_reel_size->Enable (_multiple_reels->GetValue ());
 }
