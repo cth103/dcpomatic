@@ -50,6 +50,7 @@ Config::Config ()
 	string line;
 
 	shared_ptr<Cinema> cinema;
+	shared_ptr<Screen> screen;
 	
 	while (getline (f, line)) {
 		if (line.empty ()) {
@@ -99,8 +100,15 @@ Config::Config ()
 			assert (cinema);
 			cinema->email = v;
 		} else if (k == "screen") {
-			shared_ptr<Screen> s (new Screen (v));
-			cinema->screens.push_back (s);
+			assert (cinema);
+			if (screen) {
+				cinema->screens.push_back (screen);
+			}
+			screen.reset (new Screen (v, shared_ptr<libdcp::Certificate> ()));
+		} else if (k == "screen_certificate") {
+			assert (screen);
+			shared_ptr<Certificate> c (new libdcp::Certificate);
+			c->set_from_string (v);
 		}
 	}
 

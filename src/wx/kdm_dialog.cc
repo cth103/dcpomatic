@@ -269,7 +269,7 @@ KDMDialog::add_screen_clicked (wxCommandEvent &)
 	ScreenDialog* d = new ScreenDialog (this, "Add Screen");
 	d->ShowModal ();
 
-	shared_ptr<Screen> s (new Screen (d->name()));
+	shared_ptr<Screen> s (new Screen (d->name(), d->certificate()));
 	c->screens.push_back (s);
 	add_screen (c, s);
 
@@ -287,10 +287,11 @@ KDMDialog::edit_screen_clicked (wxCommandEvent &)
 
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 	
-	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name);
+	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->certificate);
 	d->ShowModal ();
 
 	s.second->name = d->name ();
+	s.second->certificate = d->certificate ();
 	_targets->SetItemText (s.first, std_to_wx (d->name()));
 
 	Config::instance()->write ();

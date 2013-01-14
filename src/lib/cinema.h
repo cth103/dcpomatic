@@ -3,8 +3,9 @@
 class Screen
 {
 public:
-	Screen (std::string const & n)
+	Screen (std::string const & n, boost::shared_ptr<libdcp::Certificate> cert)
 		: name (n)
+		, certificate (cert)
 	{}
 	
 	std::string name;

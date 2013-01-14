@@ -18,14 +18,23 @@
 */
 
 #include <wx/wx.h>
+#include <boost/shared_ptr.hpp>
+#include <libdcp/certificates.h>
 
 class ScreenDialog : public wxDialog
 {
 public:
-	ScreenDialog (wxWindow *, std::string, std::string name = "");
+	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::shared_ptr<libdcp::Certificate> c = boost::shared_ptr<libdcp::Certificate> ());
 
 	std::string name () const;
+	boost::shared_ptr<libdcp::Certificate> certificate () const;
 	
 private:
+	void load_certificate (wxCommandEvent &);
+	
 	wxTextCtrl* _name;
+	wxButton* _certificate_load;
+	wxTextCtrl* _certificate_text;
+
+	boost::shared_ptr<libdcp::Certificate> _certificate;
 };
