@@ -429,6 +429,111 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
 }
 
+/* Test the constructor of DCPFrameRate */
+BOOST_AUTO_TEST_CASE (dcp_frame_rate_test)
+{
+	/* Run some tests with a limited range of allowed rates */
+	
+	std::list<int> afr;
+	afr.push_back (24);
+	afr.push_back (25);
+	afr.push_back (30);
+	Config::instance()->set_allowed_dcp_frame_rates (afr);
+
+	DCPFrameRate dfr = DCPFrameRate (60);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 30);
+	BOOST_CHECK_EQUAL (dfr.skip, true);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+	
+	dfr = DCPFrameRate (50);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 25);
+	BOOST_CHECK_EQUAL (dfr.skip, true);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+
+	dfr = DCPFrameRate (48);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 24);
+	BOOST_CHECK_EQUAL (dfr.skip, true);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+	
+	dfr = DCPFrameRate (30);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 30);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+
+	dfr = DCPFrameRate (29.97);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 30);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, true);
+	
+	dfr = DCPFrameRate (25);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 25);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+
+	dfr = DCPFrameRate (24);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 24);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+
+	dfr = DCPFrameRate (14.5);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 30);
+	BOOST_CHECK_EQUAL (dfr.repeat, true);
+	BOOST_CHECK_EQUAL (dfr.change_speed, true);
+
+	dfr = DCPFrameRate (12.6);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 25);
+	BOOST_CHECK_EQUAL (dfr.repeat, true);
+	BOOST_CHECK_EQUAL (dfr.change_speed, true);
+
+	dfr = DCPFrameRate (12.4);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 25);
+	BOOST_CHECK_EQUAL (dfr.repeat, true);
+	BOOST_CHECK_EQUAL (dfr.change_speed, true);
+
+	dfr = DCPFrameRate (12);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 24);
+	BOOST_CHECK_EQUAL (dfr.repeat, true);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+
+	/* Now add some more rates and see if it will use them
+	   in preference to skip/repeat.
+	*/
+
+	afr.push_back (48);
+	afr.push_back (50);
+	afr.push_back (60);
+	Config::instance()->set_allowed_dcp_frame_rates (afr);
+
+	dfr = DCPFrameRate (60);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 60);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+	
+	dfr = DCPFrameRate (50);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 50);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+
+	dfr = DCPFrameRate (48);
+	BOOST_CHECK_EQUAL (dfr.frames_per_second, 48);
+	BOOST_CHECK_EQUAL (dfr.skip, false);
+	BOOST_CHECK_EQUAL (dfr.repeat, false);
+	BOOST_CHECK_EQUAL (dfr.change_speed, false);
+}
+
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
 	shared_ptr<Film> f = new_test_film ("audio_sampling_rate_test");

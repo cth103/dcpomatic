@@ -94,6 +94,10 @@ public:
 		return _sound_processor;
 	}
 
+	std::list<int> allowed_dcp_frame_rates () const {
+		return _allowed_dcp_frame_rates;
+	}
+	
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -140,7 +144,11 @@ public:
 	void set_tms_password (std::string p) {
 		_tms_password = p;
 	}
-	
+
+	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
+		_allowed_dcp_frame_rates = r;
+	}
+
 	void write () const;
 
 	static Config* instance ();
@@ -172,6 +180,7 @@ private:
 	std::string _tms_password;
 	/** Our sound processor */
 	SoundProcessor const * _sound_processor;
+	std::list<int> _allowed_dcp_frame_rates;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

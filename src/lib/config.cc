@@ -44,6 +44,10 @@ Config::Config ()
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id ("dolby_cp750"))
 {
+	_allowed_dcp_frame_rates.push_back (24);
+	_allowed_dcp_frame_rates.push_back (25);
+	_allowed_dcp_frame_rates.push_back (30);
+	
 	ifstream f (file().c_str ());
 	string line;
 	while (getline (f, line)) {

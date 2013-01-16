@@ -62,6 +62,19 @@ typedef int SourceFrame;
 struct DCPFrameRate
 {
 	DCPFrameRate (float);
+
+	/** @return factor by which to multiply a source frame rate
+	    to get the effective rate after any skip or repeat has happened.
+	*/
+	float factor () const {
+		if (skip) {
+			return 0.5;
+		} else if (repeat) {
+			return 2;
+		}
+
+		return 1;
+	}
 	
 	/** frames per second for the DCP */
 	int frames_per_second;
@@ -69,16 +82,16 @@ struct DCPFrameRate
 	bool skip;
 	/** true to repeat every frame once */
 	bool repeat;
-	/** true if this DCP will run its video faster than the source
-	 *  without taking into account `skip' and `repeat'.
-	 *  (i.e. run_fast will be true if
+	/** true if this DCP will run its video faster or slower than the source
+	 *  without taking into account `repeat'.
+	 *  (e.g. change_speed will be true if
 	 *          source is 29.97fps, DCP is 30fps
 	 *          source is 14.50fps, DCP is 30fps
 	 *  but not if
 	 *          source is 15.00fps, DCP is 30fps
 	 *          source is 12.50fps, DCP is 25fps)
 	 */
-	bool run_fast;
+	bool change_speed;
 };
 
 enum ContentType {

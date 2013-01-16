@@ -255,7 +255,9 @@ Film::make_dcp (bool transcode)
 	}
 	
 	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
-	log()->log (String::compose ("Content length %1", length().get()));
+	if (length()) {
+		log()->log (String::compose ("Content length %1", length().get()));
+	}
 	log()->log (String::compose ("Content digest %1", content_digest()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
@@ -707,13 +709,14 @@ Film::target_audio_sample_rate () const
 
 	DCPFrameRate dfr (frames_per_second ());
 
-	/* Compensate for the fact that video will be rounded to the
-	   nearest integer number of frames per second.
+	/* Compensate if the DCP is being run at a different frame rate
+	   to the source; that is, if the video is run such that it will
+	   look different in the DCP compared to the source (slower or faster).
+	   skip/repeat doesn't come into effect here.
 	*/
 
-	int const mult = dfr.skip ? 2 : 1;
-	if (dfr.run_fast) {
-		t *= _frames_per_second * mult / dfr.frames_per_second;
+	if (dfr.change_speed) {
+		t *= _frames_per_second * dfr.factor() / dfr.frames_per_second;
 	}
 
 	return rint (t);

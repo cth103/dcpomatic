@@ -26,6 +26,7 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <climits>
 #ifdef DVDOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
@@ -58,6 +59,7 @@ extern "C" {
 #include "dcp_content_type.h"
 #include "filter.h"
 #include "sound_processor.h"
+#include "config.h"
 
 using namespace std;
 using namespace boost;
@@ -356,29 +358,74 @@ static bool about_equal (float a, float b)
 	return (fabs (a - b) < 1e-4);
 }
 
-/** @param fps Arbitrary source frames-per-second value */
-DCPFrameRate::DCPFrameRate (float fps)
-	: frames_per_second (rint (fps))
-	, skip (false)
-	, repeat (false)
-	, run_fast (false)
+class FrameRateCandidate
 {
-	if (about_equal (fps, 50)) {
-		/* XXX: not sure about this; just run at 50?
-		   Ring Peter Jackson.
-		*/
-		frames_per_second = 25;
-		skip = true;
-	} else if (fps >= (27.5 / 2) && fps <= (32.5 / 2)) {
-		frames_per_second = 30;
-		repeat = true;
-	} else if (fps >= (24.5 / 2) && fps <= (27.5 / 2)) {
-		frames_per_second = 25;
-		repeat = true;
-	} else if (fps >= (20 / 2) && fps <= (24.5 / 2)) {
-		frames_per_second = 24;
-		repeat = true;
+public:
+	FrameRateCandidate (float source_, int dcp_)
+		: source (source_)
+		, dcp (dcp_)
+	{}
+
+	bool skip () const {
+		return !about_equal (source, dcp) && source > dcp;
 	}
+
+	bool repeat () const {
+		return !about_equal (source, dcp) && source < dcp;
+	}
+
+	float source;
+	int dcp;
+};
+
+/** @param fps Arbitrary source frames-per-second value */
+/** XXX: this could be slow-ish */
+DCPFrameRate::DCPFrameRate (float source_fps)
+{
+	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
+
+	/* Work out what rates we could manage, including those achieved by using skip / repeat. */
+	list<FrameRateCandidate> candidates;
+
+	/* Start with the ones without skip / repeat so they will get matched in preference to skipped/repeated ones */
+	for (list<int>::const_iterator i = allowed_dcp_frame_rates.begin(); i != allowed_dcp_frame_rates.end(); ++i) {
+		candidates.push_back (FrameRateCandidate (*i, *i));
+	}
+
+	/* Then the skip/repeat ones */
+	for (list<int>::const_iterator i = allowed_dcp_frame_rates.begin(); i != allowed_dcp_frame_rates.end(); ++i) {
+		candidates.push_back (FrameRateCandidate (float (*i) / 2, *i));
+		candidates.push_back (FrameRateCandidate (float (*i) * 2, *i));
+	}
+
+	/* Pick the best one, bailing early if we hit an exact match */
+	float error = numeric_limits<float>::max ();
+	boost::optional<FrameRateCandidate> best;
+	list<FrameRateCandidate>::iterator i = candidates.begin();
+	while (i != candidates.end()) {
+		
+		if (about_equal (i->source, source_fps)) {
+			best = *i;
+			break;
+		}
+
+		float const e = fabs (i->source - source_fps);
+		if (e < error) {
+			error = e;
+			best = *i;
+		}
+
+		++i;
+	}
+
+	if (!best) {
+		throw EncodeError ("cannot find a suitable DCP frame rate for this source");
+	}
+
+	frames_per_second = best->dcp;
+	skip = best->skip ();
+	repeat = best->repeat ();
+	change_speed = !about_equal (source_fps * factor(), frames_per_second);
 }
 
 /** @param An arbitrary sampling rate.
