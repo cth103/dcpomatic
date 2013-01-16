@@ -85,11 +85,18 @@ public:
 	bool skipping () const;
 	SourceFrame video_frame () const;
 
-protected:
+private:
 	
 	void frame_done ();
 	void frame_skipped ();
 	
+	void close_sound_files ();
+	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
+
+	void encoder_thread (ServerDescription *);
+	void terminate_worker_threads ();
+	void link (std::string, std::string) const;
+
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
 	/** Options */
@@ -110,14 +117,6 @@ protected:
 	SourceFrame _video_frame;
 	/** Number of audio frames received so far */
 	int64_t _audio_frame;
-
-private:
-	void close_sound_files ();
-	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
-
-	void encoder_thread (ServerDescription *);
-	void terminate_worker_threads ();
-	void link (std::string, std::string) const;
 
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
