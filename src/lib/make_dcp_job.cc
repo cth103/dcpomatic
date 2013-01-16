@@ -61,7 +61,9 @@ MakeDCPJob::name () const
 string
 MakeDCPJob::j2c_path (int f, int offset) const
 {
-	SourceFrame const s = ((f + offset) * dcp_frame_rate(_film->frames_per_second()).skip) + _film->dcp_trim_start();
+	DCPFrameRate dfr (_film->frames_per_second());
+	int const mult = dfr.skip ? 2 : 1;
+	SourceFrame const s = ((f + offset) * mult) + _film->dcp_trim_start();
 	return _opt->frame_out_path (s, false);
 }
 
@@ -85,13 +87,16 @@ MakeDCPJob::run ()
 	/* Remove any old DCP */
 	boost::filesystem::remove_all (dcp_path);
 
-	DCPFrameRate const dfr = dcp_frame_rate (_film->frames_per_second ());
+	DCPFrameRate const dfr (_film->frames_per_second ());
 
 	int frames = 0;
 	switch (_film->content_type ()) {
 	case VIDEO:
 		/* Source frames -> DCP frames */
-		frames = _film->dcp_length().get() / dfr.skip;
+		frames = _film->dcp_length().get();
+		if (dfr.skip) {
+			frames /= 2;
+		}
 		break;
 	case STILL:
 		frames = _film->still_duration() * 24;

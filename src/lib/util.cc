@@ -330,25 +330,55 @@ md5_digest (string file)
 	return s.str ();
 }
 
-/** @param fps Arbitrary frames-per-second value.
- *  @return DCPFrameRate for this frames-per-second.
- */
-DCPFrameRate
-dcp_frame_rate (float fps)
+static bool about_equal (float a, float b)
 {
-	DCPFrameRate dfr;
+	/* A film of F seconds at f FPS will be Ff frames;
+	   Consider some delta FPS d, so if we run the same
+	   film at (f + d) FPS it will last F(f + d) seconds.
 
-	dfr.run_fast = (fps != rint (fps));
-	dfr.frames_per_second = rint (fps);
-	dfr.skip = 1;
+	   Hence the difference in length over the length of the film will
+	   be F(f + d) - Ff frames
+	    = Ff + Fd - Ff frames
+	    = Fd frames
+	    = Fd/f seconds
+ 
+	   So if we accept a difference of 1 frame, ie 1/f seconds, we can
+	   say that
 
-	/* XXX: somewhat arbitrary */
-	if (fps == 50) {
-		dfr.frames_per_second = 25;
-		dfr.skip = 2;
+	   1/f = Fd/f
+	ie 1 = Fd
+	ie d = 1/F
+ 
+	   So for a 3hr film, ie F = 3 * 60 * 60 = 10800, the acceptable
+	   FPS error is 1/F ~= 0.0001 ~= 10-e4
+	*/
+
+	return (fabs (a - b) < 1e-4);
+}
+
+/** @param fps Arbitrary source frames-per-second value */
+DCPFrameRate::DCPFrameRate (float fps)
+	: frames_per_second (rint (fps))
+	, skip (false)
+	, repeat (false)
+	, run_fast (false)
+{
+	if (about_equal (fps, 50)) {
+		/* XXX: not sure about this; just run at 50?
+		   Ring Peter Jackson.
+		*/
+		frames_per_second = 25;
+		skip = true;
+	} else if (fps >= (27.5 / 2) && fps <= (32.5 / 2)) {
+		frames_per_second = 30;
+		repeat = true;
+	} else if (fps >= (24.5 / 2) && fps <= (27.5 / 2)) {
+		frames_per_second = 25;
+		repeat = true;
+	} else if (fps >= (20 / 2) && fps <= (24.5 / 2)) {
+		frames_per_second = 24;
+		repeat = true;
 	}
-
-	return dfr;
 }
 
 /** @param An arbitrary sampling rate.

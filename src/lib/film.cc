@@ -294,25 +294,26 @@ Film::make_dcp (bool transcode)
 	if (dcp_length ()) {
 		oe->video_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
 		if (audio_stream()) {
+			DCPFrameRate dfr (frames_per_second ());
 			oe->audio_range = make_pair (
 
 				video_frames_to_audio_frames (
 					oe->video_range.get().first,
 					dcp_audio_sample_rate (audio_stream()->sample_rate()),
-					dcp_frame_rate (frames_per_second()).frames_per_second
+					dfr.frames_per_second
 					),
 				
 				video_frames_to_audio_frames (
 					oe->video_range.get().second,
 					dcp_audio_sample_rate (audio_stream()->sample_rate()),
-					dcp_frame_rate (frames_per_second()).frames_per_second
+					dfr.frames_per_second
 					)
 				);
 		}
 			
 	}
 	
-	oe->video_skip = dcp_frame_rate (frames_per_second()).skip;
+	oe->video_skip = DCPFrameRate (frames_per_second()).skip;
 
 	shared_ptr<DecodeOptions> od (new DecodeOptions);
 	od->decode_subtitles = with_subtitles ();
@@ -704,13 +705,15 @@ Film::target_audio_sample_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_sample_rate (audio_stream()->sample_rate());
 
-	DCPFrameRate dfr = dcp_frame_rate (frames_per_second ());
+	DCPFrameRate dfr (frames_per_second ());
 
 	/* Compensate for the fact that video will be rounded to the
 	   nearest integer number of frames per second.
 	*/
+
+	int const mult = dfr.skip ? 2 : 1;
 	if (dfr.run_fast) {
-		t *= _frames_per_second * dfr.skip / dfr.frames_per_second;
+		t *= _frames_per_second * mult / dfr.frames_per_second;
 	}
 
 	return rint (t);

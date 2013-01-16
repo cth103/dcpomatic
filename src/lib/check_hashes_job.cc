@@ -59,9 +59,11 @@ CheckHashesJob::run ()
 	}
 	
 	SourceFrame const N = _film->dcp_trim_start() + _film->dcp_length().get();
-	DCPFrameRate const dfr = dcp_frame_rate (_film->frames_per_second ());
+	DCPFrameRate const dfr (_film->frames_per_second ());
+
+	int const inc = dfr.skip ? 2 : 1;
 	
-	for (SourceFrame i = _film->dcp_trim_start(); i < N; i += dfr.skip) {
+	for (SourceFrame i = _film->dcp_trim_start(); i < N; i += inc) {
 		string const j2k_file = _encode_opt->frame_out_path (i, false);
 		string const hash_file = _encode_opt->hash_out_path (i, false);
 

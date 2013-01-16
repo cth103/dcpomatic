@@ -61,14 +61,22 @@ typedef int SourceFrame;
 
 struct DCPFrameRate
 {
+	DCPFrameRate (float);
+	
 	/** frames per second for the DCP */
 	int frames_per_second;
-	/** Skip every `skip' frames.  e.g. if this is 1, we skip nothing;
-	 *  if it's 2, we skip every other frame.
-	 */
-	int skip;
+	/** true to skip every other frame */
+	bool skip;
+	/** true to repeat every frame once */
+	bool repeat;
 	/** true if this DCP will run its video faster than the source
-	 *  (e.g. if the source is 29.97fps and we will run the DCP at 30fps)
+	 *  without taking into account `skip' and `repeat'.
+	 *  (i.e. run_fast will be true if
+	 *          source is 29.97fps, DCP is 30fps
+	 *          source is 14.50fps, DCP is 30fps
+	 *  but not if
+	 *          source is 15.00fps, DCP is 30fps
+	 *          source is 12.50fps, DCP is 25fps)
 	 */
 	bool run_fast;
 };
@@ -183,7 +191,6 @@ struct Rect
 
 extern std::string crop_string (Position, Size);
 extern int dcp_audio_sample_rate (int);
-extern DCPFrameRate dcp_frame_rate (float);
 extern int dcp_audio_channels (int);
 extern std::string colour_lut_index_to_name (int index);
 extern int stride_round_up (int, int const *, int);

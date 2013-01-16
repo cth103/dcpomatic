@@ -39,7 +39,7 @@ public:
 
 	EncodeOptions (std::string f, std::string e, std::string m)
 		: padding (0)
-		, video_skip (0)
+		, video_skip (false)
 		, _frame_out_path (f)
 		, _frame_out_extension (e)
 		, _multichannel_audio_out_path (m)
@@ -98,10 +98,8 @@ public:
 	/** Range of audio frames to decode (in the DCP's sampling rate) */
 	boost::optional<std::pair<int64_t, int64_t> > audio_range;
 	
-	/** Skip frames such that we don't decode any frame where (index % decode_video_skip) != 0; e.g.
-	 *  1 for every frame, 2 for every other frame, etc.
-	 */
-	SourceFrame video_skip; 
+	/** true to skip every other frame */
+	SourceFrame video_skip;
 
 private:
 	/** Path of the directory to write video frames to */

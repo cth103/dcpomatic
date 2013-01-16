@@ -279,7 +279,7 @@ Encoder::frame_skipped ()
 void
 Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub)
 {
-	if (_opt->video_skip != 0 && (_video_frame % _opt->video_skip) != 0) {
+	if (_opt->video_skip && (_video_frame % 2)) {
 		++_video_frame;
 		return;
 	}

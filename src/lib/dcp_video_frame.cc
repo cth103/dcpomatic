@@ -66,8 +66,8 @@ using boost::shared_ptr;
  *  @param out Required size of output, in pixels (including any padding).
  *  @param s Scaler to use.
  *  @param p Number of pixels of padding either side of the image.
- *  @param f Index of the frame within the Film.
- *  @param fps Frames per second of the Film.
+ *  @param f Index of the frame within the Film's source.
+ *  @param fps Frames per second of the Film's source.
  *  @param pp FFmpeg post-processing string to use.
  *  @param clut Colour look-up table to use (see Config::colour_lut_index ())
  *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
@@ -86,7 +86,7 @@ DCPVideoFrame::DCPVideoFrame (
 	, _subtitle_scale (subtitle_scale)
 	, _scaler (s)
 	, _frame (f)
-	, _frames_per_second (dcp_frame_rate(fps).frames_per_second)
+	, _frames_per_second (DCPFrameRate(fps).frames_per_second)
 	, _post_process (pp)
 	, _colour_lut (clut)
 	, _j2k_bandwidth (bw)
