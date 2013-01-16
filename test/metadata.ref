@@ -22,6 +22,8 @@ still_duration 10
 with_subtitles 0
 subtitle_offset 0
 subtitle_scale 1
+colour_lut 0
+j2k_bandwidth 200000000
 audio_language 
 subtitle_language 
 territory 
