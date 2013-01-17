@@ -44,6 +44,7 @@ using std::max;
 using std::cout;
 using std::list;
 using boost::shared_ptr;
+using libdcp::Size;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)

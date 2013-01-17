@@ -34,6 +34,7 @@ package_type
 width 0
 height 0
 length 0
+dcp_intrinsic_duration 0
 content_digest 
 external_audio_stream external 0 0
 frames_per_second 0

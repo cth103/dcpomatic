@@ -60,13 +60,14 @@ using std::string;
 using std::stringstream;
 using std::ofstream;
 using boost::shared_ptr;
+using libdcp::Size;
 
 /** Construct a DCP video frame.
  *  @param input Input image.
  *  @param out Required size of output, in pixels (including any padding).
  *  @param s Scaler to use.
  *  @param p Number of pixels of padding either side of the image.
- *  @param f Index of the frame within the Film's source.
+ *  @param f Index of the frame within the DCP's intrinsic duration.
  *  @param fps Frames per second of the Film's source.
  *  @param pp FFmpeg post-processing string to use.
  *  @param clut Colour look-up table to use (see Config::colour_lut_index ())
@@ -76,7 +77,7 @@ using boost::shared_ptr;
 DCPVideoFrame::DCPVideoFrame (
 	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
 	Size out, int p, int subtitle_offset, float subtitle_scale,
-	Scaler const * s, SourceFrame f, float fps, string pp, int clut, int bw, Log* l
+	Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l
 	)
 	: _input (yuv)
 	, _subtitle (sub)
@@ -373,10 +374,10 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 
 /** Write this data to a J2K file.
  *  @param opt Options.
- *  @param frame Frame index.
+ *  @param frame DCP Frame index.
  */
 void
-EncodedData::write (shared_ptr<const Film> film, SourceFrame frame)
+EncodedData::write (shared_ptr<const Film> film, int frame)
 {
 	string const tmp_j2k = film->frame_out_path (frame, true);
 

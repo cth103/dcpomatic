@@ -54,12 +54,13 @@ int const Encoder::_history_size = 25;
 Encoder::Encoder (shared_ptr<const Film> f)
 	: _film (f)
 	, _just_skipped (false)
-	, _video_frame (0)
-	, _audio_frame (0)
+	, _video_frames_in (0)
+	, _audio_frames_in (0)
+	, _video_frames_out (0)
+	, _audio_frames_out (0)
 #ifdef HAVE_SWRESAMPLE	  
 	, _swr_context (0)
 #endif	  
-	, _audio_frames_written (0)
 	, _process_end (false)
 {
 	if (_film->audio_stream()) {
@@ -241,12 +242,12 @@ Encoder::skipping () const
 	return _just_skipped;
 }
 
-/** @return Number of video frames that have been received */
-SourceFrame
-Encoder::video_frame () const
+/** @return Number of video frames that have been sent out */
+int
+Encoder::video_frames_out () const
 {
 	boost::mutex::scoped_lock (_history_mutex);
-	return _video_frame;
+	return _video_frames_out;
 }
 
 /** Should be called when a frame has been encoded successfully.
@@ -281,8 +282,8 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 {
 	DCPFrameRate dfr (_film->frames_per_second ());
 	
-	if (dfr.skip && (_video_frame % 2)) {
-		++_video_frame;
+	if (dfr.skip && (_video_frames_in % 2)) {
+		++_video_frames_in;
 		return;
 	}
 
@@ -300,7 +301,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	}
 
 	/* Only do the processing if we don't already have a file for this frame */
-	if (boost::filesystem::exists (_film->frame_out_path (_video_frame, false))) {
+	if (boost::filesystem::exists (_film->frame_out_path (_video_frames_out, false))) {
 		frame_skipped ();
 		return;
 	}
@@ -310,7 +311,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		   as on windows the link is really a copy and the reference frame might not have
 		   finished encoding yet.
 		*/
-		_links_required.push_back (make_pair (_last_real_frame.get(), _video_frame));
+		_links_required.push_back (make_pair (_last_real_frame.get(), _video_frames_out));
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
@@ -319,17 +320,23 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
 						  _film->subtitle_offset(), _film->subtitle_scale(),
-						  _film->scaler(), _video_frame, _film->frames_per_second(), s.second,
+						  _film->scaler(), _video_frames_out, _film->frames_per_second(), s.second,
 						  _film->colour_lut(), _film->j2k_bandwidth(),
 						  _film->log()
 						  )
 					  ));
 		
 		_worker_condition.notify_all ();
-		_last_real_frame = _video_frame;
+		_last_real_frame = _video_frames_out;
 	}
 
-	++_video_frame;
+	++_video_frames_in;
+	++_video_frames_out;
+
+	if (dfr.repeat) {
+		_links_required.push_back (make_pair (_video_frames_out, _video_frames_out - 1));
+		++_video_frames_out;
+	}
 }
 
 void
@@ -378,7 +385,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 
 	write_audio (data);
 	
-	_audio_frame += data->frames ();
+	_audio_frames_in += data->frames ();
 }
 
 void
@@ -388,7 +395,7 @@ Encoder::write_audio (shared_ptr<const AudioBuffers> audio)
 		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
 	}
 
-	_audio_frames_written += audio->frames ();
+	_audio_frames_out += audio->frames ();
 }
 
 void

@@ -27,6 +27,7 @@
 
 using std::cout;
 using boost::shared_ptr;
+using libdcp::Size;
 
 ImageMagickDecoder::ImageMagickDecoder (
 	boost::shared_ptr<Film> f, DecodeOptions o, Job* j)
@@ -70,7 +71,7 @@ bool
 ImageMagickDecoder::pass ()
 {
 	if (_iter == _files.end()) {
-		if (!_film->dcp_length() || video_frame() >= _film->dcp_length().get()) {
+		if (video_frame() >= _film->still_duration_in_frames()) {
 			return true;
 		}
 

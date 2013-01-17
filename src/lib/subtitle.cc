@@ -27,6 +27,7 @@
 
 using namespace std;
 using namespace boost;
+using libdcp::Size;
 
 /** Construct a TimedSubtitle.  This is a subtitle image, position,
  *  and a range of time over which it should be shown.

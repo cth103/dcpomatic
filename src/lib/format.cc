@@ -35,6 +35,7 @@ using std::setprecision;
 using std::stringstream;
 using std::vector;
 using boost::shared_ptr;
+using libdcp::Size;
 
 vector<Format const *> Format::_formats;
 

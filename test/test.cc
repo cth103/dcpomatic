@@ -325,7 +325,7 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* descriptio
 
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, Size (1998, 1080), false));
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, libdcp::Size (1998, 1080), false));
 	uint8_t* p = image->data()[0];
 	
 	for (int y = 0; y < 1080; ++y) {
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		}
 	}
 
-	shared_ptr<Image> sub_image (new SimpleImage (PIX_FMT_RGBA, Size (100, 200), false));
+	shared_ptr<Image> sub_image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (100, 200), false));
 	p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		for (int x = 0; x < 100; ++x) {
@@ -355,7 +355,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		new DCPVideoFrame (
 			image,
 			subtitle,
-			Size (1998, 1080),
+			libdcp::Size (1998, 1080),
 			0,
 			0,
 			1,
@@ -636,7 +636,7 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 
 BOOST_AUTO_TEST_CASE (compact_image_test)
 {
-	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, Size (50, 50), false);
+	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, libdcp::Size (50, 50), false);
 	BOOST_CHECK_EQUAL (s->components(), 1);
 	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
@@ -662,7 +662,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
-	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, Size (150, 150), true);
+	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, libdcp::Size (150, 150), true);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->components(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 50 * 3);
@@ -685,7 +685,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
-	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, Size (50, 50), true);
+	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, libdcp::Size (50, 50), true);
 	BOOST_CHECK_EQUAL (s->components(), 1);
 	/* 160 is 150 aligned to the nearest 32 bytes */
 	BOOST_CHECK_EQUAL (s->stride()[0], 160);
@@ -712,7 +712,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
-	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, Size (150, 150), false);
+	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, libdcp::Size (150, 150), false);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->components(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 160);

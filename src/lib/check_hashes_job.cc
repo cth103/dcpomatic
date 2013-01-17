@@ -53,16 +53,12 @@ CheckHashesJob::run ()
 {
 	_bad = 0;
 
-	if (!_film->dcp_length()) {
-		throw EncodeError ("cannot check hashes of a DCP with unknown length");
+	if (!_film->dcp_intrinsic_duration()) {
+		throw EncodeError ("cannot check hashes of a DCP with unknown intrinsic duration");
 	}
 	
-	SourceFrame const N = _film->trim_start() + _film->dcp_length().get();
-	DCPFrameRate const dfr (_film->frames_per_second ());
-
-	int const inc = dfr.skip ? 2 : 1;
-	
-	for (SourceFrame i = _film->trim_start(); i < N; i += inc) {
+	int const N = _film->dcp_intrinsic_duration().get();
+	for (int i = 0; i < N; ++i) {
 		string const j2k_file = _film->frame_out_path (i, false);
 		string const hash_file = _film->hash_out_path (i, false);
 

@@ -31,7 +31,7 @@ class Film;
 class Format
 {
 public:
-	Format (Size dcp, std::string id, std::string n, std::string d)
+	Format (libdcp::Size dcp, std::string id, std::string n, std::string d)
 		: _dcp_size (dcp)
 		, _id (id)
 		, _nickname (n)
@@ -52,7 +52,7 @@ public:
 	 *  put in a DCP for this ratio.  This size will not correspond
 	 *  to the ratio when we are doing things like 16:9 in a Flat frame.
 	 */
-	Size dcp_size () const {
+	libdcp::Size dcp_size () const {
 		return _dcp_size;
 	}
 
@@ -85,7 +85,7 @@ protected:
 	 *  put in a DCP for this ratio.  This size will not correspond
 	 *  to the ratio when we are doing things like 16:9 in a Flat frame.
 	 */
-	Size _dcp_size;
+	libdcp::Size _dcp_size;
 	/** id for use in metadata */
 	std::string _id;
 	/** nickname (e.g. Flat, Scope) */
@@ -104,7 +104,7 @@ private:
 class FixedFormat : public Format
 {
 public:
-	FixedFormat (int, Size, std::string, std::string, std::string);
+	FixedFormat (int, libdcp::Size, std::string, std::string, std::string);
 
 	int ratio_as_integer (boost::shared_ptr<const Film>) const {
 		return _ratio;
@@ -125,7 +125,7 @@ private:
 class VariableFormat : public Format
 {
 public:
-	VariableFormat (Size, std::string, std::string, std::string);
+	VariableFormat (libdcp::Size, std::string, std::string, std::string);
 
 	int ratio_as_integer (boost::shared_ptr<const Film> f) const;
 	float ratio_as_float (boost::shared_ptr<const Film> f) const;

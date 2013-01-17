@@ -78,8 +78,8 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
-	std::string frame_out_path (SourceFrame f, bool t) const;
-	std::string hash_out_path (SourceFrame f, bool t) const;
+	std::string frame_out_path (int f, bool t) const;
+	std::string hash_out_path (int f, bool t) const;
 	std::string multichannel_audio_out_path (int c, bool t) const;
 	
 	std::string content_path () const;
@@ -90,10 +90,13 @@ public:
 	void write_metadata () const;
 	void read_metadata ();
 
-	Size cropped_size (Size) const;
-	boost::optional<int> dcp_length () const;
+	libdcp::Size cropped_size (libdcp::Size) const;
 	std::string dci_name () const;
 	std::string dcp_name () const;
+
+	boost::optional<int> dcp_intrinsic_duration () const {
+		return _dcp_intrinsic_duration;
+	}
 
 	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
@@ -137,6 +140,7 @@ public:
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
+		DCP_INTRINSIC_DURATION,
 		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		FRAMES_PER_SECOND,
@@ -195,12 +199,12 @@ public:
 		return _scaler;
 	}
 
-	SourceFrame trim_start () const {
+	int trim_start () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trim_start;
 	}
 
-	SourceFrame trim_end () const {
+	int trim_end () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trim_end;
 	}
@@ -244,6 +248,8 @@ public:
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _still_duration;
 	}
+
+	int still_duration_in_frames () const;
 
 	boost::shared_ptr<SubtitleStream> subtitle_stream () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
@@ -310,7 +316,7 @@ public:
 		return _package_type;
 	}
 
-	Size size () const {
+	libdcp::Size size () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _size;
 	}
@@ -387,9 +393,10 @@ public:
 	void set_studio (std::string);
 	void set_facility (std::string);
 	void set_package_type (std::string);
-	void set_size (Size);
+	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
+	void set_dcp_intrinsic_duration (int);
 	void set_content_digest (std::string);
 	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
 	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
@@ -499,9 +506,10 @@ private:
 	/* Data which are cached to speed things up */
 
 	/** Size, in pixels, of the source (ignoring cropping) */
-	Size _size;
+	libdcp::Size _size;
 	/** The length of the source, in video frames (as far as we know) */
 	boost::optional<SourceFrame> _length;
+	boost::optional<int> _dcp_intrinsic_duration;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
 	/** The audio streams in our content */

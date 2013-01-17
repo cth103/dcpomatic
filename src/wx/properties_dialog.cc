@@ -91,9 +91,9 @@ PropertiesDialog::frames_already_encoded () const
 		return "";
 	}
 	
-	if (_film->dcp_length()) {
+	if (_film->length()) {
 		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << ((_film->encoded_frames() - _film->trim_start()) * 100 / _film->dcp_length().get()) << "%)";
+		u << " (" << (_film->encoded_frames() * 100 / _film->length().get()) << "%)";
 	}
 	return u.str ();
 }

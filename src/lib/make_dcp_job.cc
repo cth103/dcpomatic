@@ -61,10 +61,7 @@ MakeDCPJob::name () const
 string
 MakeDCPJob::j2c_path (int f, int offset) const
 {
-	DCPFrameRate dfr (_film->frames_per_second());
-	int const mult = dfr.skip ? 2 : 1;
-	SourceFrame const s = ((f + offset) * mult) + _film->trim_start();
-	return _film->frame_out_path (s, false);
+	return _film->frame_out_path (f, false);
 }
 
 string
@@ -76,8 +73,8 @@ MakeDCPJob::wav_path (libdcp::Channel c) const
 void
 MakeDCPJob::run ()
 {
-	if (!_film->dcp_length()) {
-		throw EncodeError ("cannot make a DCP when the source length is not known");
+	if (!_film->dcp_intrinsic_duration()) {
+		throw EncodeError ("cannot make a DCP when its intrinsic duration is not known");
 	}
 
 	descend (0.9);
@@ -87,21 +84,9 @@ MakeDCPJob::run ()
 	/* Remove any old DCP */
 	boost::filesystem::remove_all (dcp_path);
 
+	int const frames = _film->dcp_intrinsic_duration().get();
+	int const duration = frames - _film->trim_start() - _film->trim_end();
 	DCPFrameRate const dfr (_film->frames_per_second ());
-
-	int frames = 0;
-	switch (_film->content_type ()) {
-	case VIDEO:
-		/* Source frames -> DCP frames */
-		frames = _film->dcp_length().get();
-		if (dfr.skip) {
-			frames /= 2;
-		}
-		break;
-	case STILL:
-		frames = _film->still_duration() * 24;
-		break;
-	}
 
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 	dcp.Progress.connect (boost::bind (&MakeDCPJob::dcp_progress, this, _1));
@@ -138,13 +123,12 @@ MakeDCPJob::run ()
 				&dcp.Progress,
 				dfr.frames_per_second,
 				this_time,
-				_film->format()->dcp_size().width,
-				_film->format()->dcp_size().height
+				_film->format()->dcp_size()
 				)
 			);
 
 		pa->set_entry_point (_film->trim_start ());
-		pa->set_duration (_film->duration ());
+		pa->set_duration (duration);
 	
 		ascend ();
 		
@@ -166,7 +150,7 @@ MakeDCPJob::run ()
 				);
 
 			sa->set_entry_point (_film->trim_start ());
-			sa->set_duration (_film->duration ());
+			sa->set_duration (duration);
 			
 			ascend ();
 		}

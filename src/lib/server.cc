@@ -45,6 +45,7 @@ using boost::algorithm::is_any_of;
 using boost::algorithm::split;
 using boost::thread;
 using boost::bind;
+using libdcp::Size;
 
 /** Create a server description from a string of metadata returned from as_metadata().
  *  @param v Metadata.

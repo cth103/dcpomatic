@@ -63,6 +63,7 @@ extern "C" {
 
 using namespace std;
 using namespace boost;
+using libdcp::Size;
 
 thread::id ui_thread;
 
@@ -454,16 +455,6 @@ dcp_audio_channels (int f)
 	return f;
 }
 
-
-bool operator== (Size const & a, Size const & b)
-{
-	return (a.width == b.width && a.height == b.height);
-}
-
-bool operator!= (Size const & a, Size const & b)
-{
-	return !(a == b);
-}
 
 bool operator== (Crop const & a, Crop const & b)
 {

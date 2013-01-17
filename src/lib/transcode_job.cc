@@ -67,7 +67,10 @@ TranscodeJob::run ()
 		set_progress (1);
 		set_state (FINISHED_OK);
 
+		_film->set_dcp_intrinsic_duration (_encoder->video_frames_out ());
+
 		_film->log()->log ("Transcode job completed successfully");
+		_film->log()->log (String::compose ("DCP intrinsic duration is %1", _encoder->video_frames_out()));
 
 	} catch (std::exception& e) {
 
@@ -115,11 +118,19 @@ TranscodeJob::remaining_time () const
 		return 0;
 	}
 
-	if (!_film->dcp_length()) {
+	if (!_film->length()) {
 		return 0;
 	}
 
+	/* Compute approximate proposed length here, as it's only here that we need it */
+	int length = _film->length().get();
+	DCPFrameRate const dfr (_film->frames_per_second ());
+	if (dfr.skip) {
+		length /= 2;
+	}
+	/* If we are repeating it shouldn't affect transcode time, so don't take it into account */
+
 	/* We assume that dcp_length() is valid, if it is set */
-	SourceFrame const left = _film->trim_start() + _film->dcp_length().get() - _encoder->video_frame();
+	int const left = length - _encoder->video_frames_out();
 	return left / fps;
 }

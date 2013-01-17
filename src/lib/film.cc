@@ -72,6 +72,7 @@ using boost::to_upper_copy;
 using boost::ends_with;
 using boost::starts_with;
 using boost::optional;
+using libdcp::Size;
 
 int const Film::state_version = 2;
 
@@ -180,6 +181,7 @@ Film::Film (Film const & o)
 	, _package_type      (o._package_type)
 	, _size              (o._size)
 	, _length            (o._length)
+	, _dcp_intrinsic_duration (o._dcp_intrinsic_duration)
 	, _content_digest    (o._content_digest)
 	, _content_audio_streams (o._content_audio_streams)
 	, _external_audio_stream (o._external_audio_stream)
@@ -423,6 +425,7 @@ Film::write_metadata () const
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
 	f << "length " << _length.get_value_or(0) << "\n";
+	f << "dcp_intrinsic_duration " << _dcp_intrinsic_duration.get_value_or(0) << "\n";
 	f << "content_digest " << _content_digest << "\n";
 
 	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
@@ -569,6 +572,11 @@ Film::read_metadata ()
 			if (vv) {
 				_length = vv;
 			}
+		} else if (k == "dcp_intrinsic_duration") {
+			int const vv = atoi (v.c_str ());
+			if (vv) {
+				_dcp_intrinsic_duration = vv;
+			}
 		} else if (k == "content_digest") {
 			_content_digest = v;
 		} else if (k == "content_audio_stream" || (!version && k == "audio_stream")) {
@@ -695,18 +703,10 @@ Film::target_audio_sample_rate () const
 	return rint (t);
 }
 
-boost::optional<int>
-Film::dcp_length () const
+int
+Film::still_duration_in_frames () const
 {
-	if (content_type() == STILL) {
-		return _still_duration * frames_per_second();
-	}
-	
-	if (!length()) {
-		return boost::optional<int> ();
-	}
-
-	return length().get() - trim_start() - trim_end();
+	return still_duration() * frames_per_second();
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
@@ -1327,7 +1327,17 @@ Film::unset_length ()
 		_length = boost::none;
 	}
 	signal_changed (LENGTH);
-}	
+}
+
+void
+Film::set_dcp_intrinsic_duration (int d)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_intrinsic_duration = d;
+	}
+	signal_changed (DCP_INTRINSIC_DURATION);
+}
 
 void
 Film::set_content_digest (string d)
@@ -1409,12 +1419,12 @@ Film::audio_stream () const
 	return _external_audio_stream;
 }
 
-/** @param f Source frame index.
+/** @param f DCP frame index.
  *  @param t true to return a temporary file path, otherwise a permanent one.
  *  @return The path to write this video frame to.
  */
 string
-Film::frame_out_path (SourceFrame f, bool t) const
+Film::frame_out_path (int f, bool t) const
 {
 	stringstream s;
 	s << j2k_dir() << "/";
@@ -1429,7 +1439,7 @@ Film::frame_out_path (SourceFrame f, bool t) const
 }
 
 string
-Film::hash_out_path (SourceFrame f, bool t) const
+Film::hash_out_path (int f, bool t) const
 {
 	return frame_out_path (f, t) + ".md5";
 }

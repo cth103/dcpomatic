@@ -42,6 +42,7 @@ extern "C" {
 
 using namespace std;
 using namespace boost;
+using libdcp::Size;
 
 void
 Image::swap (Image& other)

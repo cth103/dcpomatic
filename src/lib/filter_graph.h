@@ -37,15 +37,15 @@ class FFmpegDecoder;
 class FilterGraph
 {
 public:
-	FilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, Size s, AVPixelFormat p);
+	FilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
 
-	bool can_process (Size s, AVPixelFormat p) const;
+	bool can_process (libdcp::Size s, AVPixelFormat p) const;
 	std::list<boost::shared_ptr<Image> > process (AVFrame const * frame);
 
 private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
-	Size _size; ///< size of the images that this chain can process
+	libdcp::Size _size; ///< size of the images that this chain can process
 	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
 };
 

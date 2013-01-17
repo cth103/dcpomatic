@@ -82,7 +82,7 @@ public:
 
 	float current_frames_per_second () const;
 	bool skipping () const;
-	SourceFrame video_frame () const;
+	int video_frames_out () const;
 
 private:
 	
@@ -111,9 +111,13 @@ private:
 	bool _just_skipped;
 
 	/** Number of video frames received so far */
-	SourceFrame _video_frame;
+	SourceFrame _video_frames_in;
 	/** Number of audio frames received so far */
-	int64_t _audio_frame;
+	int64_t _audio_frames_in;
+	/** Number of video frames written for the DCP so far */
+	int _video_frames_out;
+	/** Number of audio frames written for the DCP so far */
+	int64_t _audio_frames_out;
 
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
@@ -122,11 +126,11 @@ private:
 	/** List of links that we need to create when all frames have been processed;
 	 *  such that we need to call link (first, second) for each member of this list.
 	 *  In other words, `first' is a `real' frame and `second' should be a link to `first'.
+	 *  Frames are DCP frames.
 	 */
 	std::list<std::pair<int, int> > _links_required;
 
 	std::vector<SNDFILE*> _sound_files;
-	int64_t _audio_frames_written;
 
 	boost::optional<int> _last_real_frame;
 	bool _process_end;

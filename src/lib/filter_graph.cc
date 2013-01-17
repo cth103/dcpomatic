@@ -47,6 +47,7 @@ using std::stringstream;
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using libdcp::Size;
 
 /** Construct a FilterGraph for the settings in a film.
  *  @param film Film.

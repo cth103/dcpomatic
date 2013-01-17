@@ -58,6 +58,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using libdcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, DecodeOptions o, Job* j)
 	: Decoder (f, o, j)

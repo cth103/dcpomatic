@@ -665,6 +665,8 @@ FilmEditor::film_changed (Film::Property p)
 			_trim_end->SetRange (0, _film->length().get());
 		}
 		break;
+	case Film::DCP_INTRINSIC_DURATION:
+		break;
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
