@@ -63,7 +63,7 @@ MakeDCPJob::j2c_path (int f, int offset) const
 {
 	DCPFrameRate dfr (_film->frames_per_second());
 	int const mult = dfr.skip ? 2 : 1;
-	SourceFrame const s = ((f + offset) * mult) + _film->dcp_trim_start();
+	SourceFrame const s = ((f + offset) * mult) + _film->trim_start();
 	return _film->frame_out_path (s, false);
 }
 

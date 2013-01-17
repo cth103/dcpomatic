@@ -1,4 +1,4 @@
-version 1
+version 2
 name fred
 use_dci_name 1
 content 
@@ -12,8 +12,8 @@ bottom_crop 4
 filter pphb
 filter unsharp
 scaler bicubic
-dcp_trim_start 42
-dcp_trim_end 99
+trim_start 42
+trim_end 99
 dcp_ab 1
 use_content_audio 1
 audio_gain 0

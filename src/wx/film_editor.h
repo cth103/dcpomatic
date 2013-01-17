@@ -63,8 +63,8 @@ private:
 	void content_changed (wxCommandEvent &);
 	void trust_content_header_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
-	void dcp_trim_start_changed (wxCommandEvent &);
-	void dcp_trim_end_changed (wxCommandEvent &);
+	void trim_start_changed (wxCommandEvent &);
+	void trim_end_changed (wxCommandEvent &);
 	void multiple_reels_toggled (wxCommandEvent &);
 	void reel_size_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
@@ -168,8 +168,8 @@ private:
 	/** The Film's duration for still sources */
 	wxSpinCtrl* _still_duration;
 
-	wxSpinCtrl* _dcp_trim_start;
-	wxSpinCtrl* _dcp_trim_end;
+	wxSpinCtrl* _trim_start;
+	wxSpinCtrl* _trim_end;
 	wxCheckBox* _multiple_reels;
 	wxSpinCtrl* _reel_size;
 	/** Selector to generate an A/B comparison DCP */

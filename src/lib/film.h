@@ -120,8 +120,8 @@ public:
 		CROP,
 		FILTERS,
 		SCALER,
-		DCP_TRIM_START,
-		DCP_TRIM_END,
+		TRIM_START,
+		TRIM_END,
 		REEL_SIZE,
 		DCP_AB,
 		CONTENT_AUDIO_STREAM,
@@ -197,14 +197,14 @@ public:
 		return _scaler;
 	}
 
-	SourceFrame dcp_trim_start () const {
+	SourceFrame trim_start () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_trim_start;
+		return _trim_start;
 	}
 
-	SourceFrame dcp_trim_end () const {
+	SourceFrame trim_end () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_trim_end;
+		return _trim_end;
 	}
 
 	boost::optional<uint64_t> reel_size () const {
@@ -365,8 +365,8 @@ public:
 	void set_bottom_crop (int);
 	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
-	void set_dcp_trim_start (int);
-	void set_dcp_trim_end (int);
+	void set_trim_start (int);
+	void set_trim_end (int);
 	void set_reel_size (uint64_t);
 	void unset_reel_size ();
 	void set_dcp_ab (bool);
@@ -448,9 +448,9 @@ private:
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
 	/** Frames to trim off the start of the DCP */
-	int _dcp_trim_start;
+	int _trim_start;
 	/** Frames to trim off the end of the DCP */
-	int _dcp_trim_end;
+	int _trim_end;
 	/** Approximate target reel size in bytes; if not set, use a single reel */
 	boost::optional<uint64_t> _reel_size;
 	/** true to create an A/B comparison DCP, where the left half of the image

@@ -73,7 +73,7 @@ using boost::ends_with;
 using boost::starts_with;
 using boost::optional;
 
-int const Film::state_version = 1;
+int const Film::state_version = 2;
 
 /** Construct a Film object in a given directory, reading any metadata
  *  file that exists in that directory.  An exception will be thrown if
@@ -89,8 +89,8 @@ Film::Film (string d, bool must_exist)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))
-	, _dcp_trim_start (0)
-	, _dcp_trim_end (0)
+	, _trim_start (0)
+	, _trim_end (0)
 	, _dcp_ab (false)
 	, _use_content_audio (true)
 	, _audio_gain (0)
@@ -155,8 +155,8 @@ Film::Film (Film const & o)
 	, _crop              (o._crop)
 	, _filters           (o._filters)
 	, _scaler            (o._scaler)
-	, _dcp_trim_start    (o._dcp_trim_start)
-	, _dcp_trim_end      (o._dcp_trim_end)
+	, _trim_start        (o._trim_start)
+	, _trim_end          (o._trim_end)
 	, _reel_size         (o._reel_size)
 	, _dcp_ab            (o._dcp_ab)
 	, _content_audio_stream (o._content_audio_stream)
@@ -388,8 +388,8 @@ Film::write_metadata () const
 		f << "filter " << (*i)->id () << "\n";
 	}
 	f << "scaler " << _scaler->id () << "\n";
-	f << "dcp_trim_start " << _dcp_trim_start << "\n";
-	f << "dcp_trim_end " << _dcp_trim_end << "\n";
+	f << "trim_start " << _trim_start << "\n";
+	f << "trim_end " << _trim_end << "\n";
 	if (_reel_size) {
 		f << "reel_size " << _reel_size.get() << "\n";
 	}
@@ -503,10 +503,10 @@ Film::read_metadata ()
 			_filters.push_back (Filter::from_id (v));
 		} else if (k == "scaler") {
 			_scaler = Scaler::from_id (v);
-		} else if (k == "dcp_trim_start") {
-			_dcp_trim_start = atoi (v.c_str ());
-		} else if (k == "dcp_trim_end") {
-			_dcp_trim_end = atoi (v.c_str ());
+		} else if ( ((!version || version < 2) && k == "trim_start") || k == "trim_start") {
+			_trim_start = atoi (v.c_str ());
+		} else if ( ((!version || version < 2) && k == "trim_end") || k == "trim_end") {
+			_trim_end = atoi (v.c_str ());
 		} else if (k == "reel_size") {
 			_reel_size = boost::lexical_cast<uint64_t> (v);
 		} else if (k == "dcp_ab") {
@@ -706,7 +706,7 @@ Film::dcp_length () const
 		return boost::optional<int> ();
 	}
 
-	return length().get() - dcp_trim_start() - dcp_trim_end();
+	return length().get() - trim_start() - trim_end();
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
@@ -1053,23 +1053,23 @@ Film::set_scaler (Scaler const * s)
 }
 
 void
-Film::set_dcp_trim_start (int t)
+Film::set_trim_start (int t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_trim_start = t;
+		_trim_start = t;
 	}
-	signal_changed (DCP_TRIM_START);
+	signal_changed (TRIM_START);
 }
 
 void
-Film::set_dcp_trim_end (int t)
+Film::set_trim_end (int t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_trim_end = t;
+		_trim_end = t;
 	}
-	signal_changed (DCP_TRIM_END);
+	signal_changed (TRIM_END);
 }
 
 void
@@ -1457,7 +1457,7 @@ Film::video_range () const
 		return boost::optional<pair<SourceFrame, SourceFrame> > ();
 	}
 	
-	return make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
+	return make_pair (trim_start(), trim_start() + dcp_length().get());
 }
 
 boost::optional<pair<int64_t, int64_t> >

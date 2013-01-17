@@ -140,11 +140,11 @@ FilmEditor::make_film_panel ()
 		video_control (add_label_to_sizer (_film_sizer, _film_panel, "Trim frames"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		video_control (add_label_to_sizer (s, _film_panel, "Start"));
-		_dcp_trim_start = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (video_control (_dcp_trim_start));
+		_trim_start = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (video_control (_trim_start));
 		video_control (add_label_to_sizer (s, _film_panel, "End"));
-		_dcp_trim_end = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (video_control (_dcp_trim_end));
+		_trim_end = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+		s->Add (video_control (_trim_end));
 
 		_film_sizer->Add (s);
 	}
@@ -202,8 +202,8 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
-	_dcp_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_start_changed), 0, this);
-	_dcp_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_end_changed), 0, this);
+	_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_start_changed), 0, this);
+	_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_end_changed), 0, this);
 	_multiple_reels->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::multiple_reels_toggled), 0, this);
 	_reel_size->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::reel_size_changed), 0, this);
 	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
@@ -304,8 +304,8 @@ FilmEditor::make_video_panel ()
 	_right_crop->SetRange (0, 1024);
 	_bottom_crop->SetRange (0, 1024);
 	_still_duration->SetRange (1, 60 * 60);
-	_dcp_trim_start->SetRange (0, 100);
-	_dcp_trim_end->SetRange (0, 100);
+	_trim_start->SetRange (0, 100);
+	_trim_end->SetRange (0, 100);
 	_j2k_bandwidth->SetRange (50, 250);
 }
 
@@ -661,8 +661,8 @@ FilmEditor::film_changed (Film::Property p)
 		} 
 		_length->SetLabel (std_to_wx (s.str ()));
 		if (_film->length()) {
-			_dcp_trim_start->SetRange (0, _film->length().get());
-			_dcp_trim_end->SetRange (0, _film->length().get());
+			_trim_start->SetRange (0, _film->length().get());
+			_trim_end->SetRange (0, _film->length().get());
 		}
 		break;
 	case Film::DCP_CONTENT_TYPE:
@@ -675,11 +675,11 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
 		break;
-	case Film::DCP_TRIM_START:
-		checked_set (_dcp_trim_start, _film->dcp_trim_start());
+	case Film::TRIM_START:
+		checked_set (_trim_start, _film->trim_start());
 		break;
-	case Film::DCP_TRIM_END:
-		checked_set (_dcp_trim_end, _film->dcp_trim_end());
+	case Film::TRIM_END:
+		checked_set (_trim_end, _film->trim_end());
 		break;
 	case Film::REEL_SIZE:
 		if (_film->reel_size()) {
@@ -811,8 +811,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CROP);
 	film_changed (Film::FILTERS);
 	film_changed (Film::SCALER);
-	film_changed (Film::DCP_TRIM_START);
-	film_changed (Film::DCP_TRIM_END);
+	film_changed (Film::TRIM_START);
+	film_changed (Film::TRIM_END);
 	film_changed (Film::REEL_SIZE);
 	film_changed (Film::DCP_AB);
 	film_changed (Film::CONTENT_AUDIO_STREAM);
@@ -856,8 +856,8 @@ FilmEditor::set_things_sensitive (bool s)
 	_scaler->Enable (s);
 	_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
-	_dcp_trim_start->Enable (s);
-	_dcp_trim_end->Enable (s);
+	_trim_start->Enable (s);
+	_trim_end->Enable (s);
 	_multiple_reels->Enable (s);
 	_reel_size->Enable (s);
 	_dcp_ab->Enable (s);
@@ -974,23 +974,23 @@ FilmEditor::still_duration_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::dcp_trim_start_changed (wxCommandEvent &)
+FilmEditor::trim_start_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_dcp_trim_start (_dcp_trim_start->GetValue ());
+	_film->set_trim_start (_trim_start->GetValue ());
 }
 
 void
-FilmEditor::dcp_trim_end_changed (wxCommandEvent &)
+FilmEditor::trim_end_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_dcp_trim_end (_dcp_trim_end->GetValue ());
+	_film->set_trim_end (_trim_end->GetValue ());
 }
 
 void
