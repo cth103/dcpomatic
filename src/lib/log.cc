@@ -28,7 +28,7 @@
 using namespace std;
 
 Log::Log ()
-	: _level (VERBOSE)
+	: _level (STANDARD)
 {
 
 }

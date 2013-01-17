@@ -601,7 +601,6 @@ Encoder::writer_thread ()
 			_write_queue.pop_front ();
 
 			lock.unlock ();
-			/* XXX: write to mxf */
 			_film->log()->log (String::compose ("Writer writes %1 to MXF", encoded.second));
 			if (encoded.first) {
 				_picture_asset_writer->write (encoded.first->data(), encoded.first->size());
@@ -619,7 +618,7 @@ Encoder::writer_thread ()
 			   Put some to disk.
 			*/
 
-			pair<boost::shared_ptr<EncodedData>, int> encoded = _write_queue.front ();
+			pair<boost::shared_ptr<EncodedData>, int> encoded = _write_queue.back ();
 			_write_queue.pop_back ();
 			if (!encoded.first) {
 				/* This is a `repeat-last' frame, so no need to write it to disk */
@@ -627,7 +626,7 @@ Encoder::writer_thread ()
 			}
 
 			lock.unlock ();
-			_film->log()->log (String::compose ("Writer full; pushes %1 to disk", encoded.second));
+			_film->log()->log (String::compose ("Writer full (awaiting %1); pushes %2 to disk", _last_written_frame + 1, encoded.second));
 			encoded.first->write (_film, encoded.second);
 			lock.lock ();
 
