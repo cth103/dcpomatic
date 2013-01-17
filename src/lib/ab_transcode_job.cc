@@ -30,11 +30,11 @@ using std::string;
 using boost::shared_ptr;
 
 /** @param f Film to compare.
- *  @param o Options.
+ *  @param o Decode options.
  */
-ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<Job> req)
+ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> req)
 	: Job (f, req)
-	, _decode_opt (od)
+	, _decode_opt (o)
 {
 	_film_b.reset (new Film (*_film));
 	_film_b->set_scaler (Config::instance()->reference_scaler ());

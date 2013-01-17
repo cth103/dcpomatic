@@ -98,10 +98,10 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 	{
-		shared_ptr<DecodeOptions> o (new DecodeOptions);
-		o->decode_audio = false;
-		o->decode_subtitles = true;
-		o->video_sync = false;
+		DecodeOptions o;
+		o.decode_audio = false;
+		o.decode_subtitles = true;
+		o.video_sync = false;
 		_decoders = decoder_factory (_film, o, 0);
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));

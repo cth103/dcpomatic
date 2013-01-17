@@ -59,7 +59,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, DecodeOptions o, Job* j)
 	: Decoder (f, o, j)
 	, VideoDecoder (f, o, j)
 	, AudioDecoder (f, o, j)
@@ -78,7 +78,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions
 	setup_audio ();
 	setup_subtitle ();
 
-	if (!o->video_sync) {
+	if (!o.video_sync) {
 		_first_video = 0;
 	}
 }
@@ -239,7 +239,7 @@ FFmpegDecoder::pass ()
 			filter_and_emit_video (_frame);
 		}
 
-		if (_audio_stream && _opt->decode_audio) {
+		if (_audio_stream && _opt.decode_audio) {
 			while (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 				int const data_size = av_samples_get_buffer_size (
 					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
@@ -267,14 +267,14 @@ FFmpegDecoder::pass ()
 				_film->log()->log (String::compose ("Used only %1 bytes of %2 in packet", r, _packet.size));
 			}
 
-			if (_opt->video_sync) {
+			if (_opt.video_sync) {
 				out_with_sync ();
 			} else {
 				filter_and_emit_video (_frame);
 			}
 		}
 
-	} else if (ffa && _packet.stream_index == ffa->id() && _opt->decode_audio) {
+	} else if (ffa && _packet.stream_index == ffa->id() && _opt.decode_audio) {
 
 		int frame_finished;
 		if (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
@@ -323,7 +323,7 @@ FFmpegDecoder::pass ()
 			}
 		}
 			
-	} else if (_subtitle_stream && _packet.stream_index == _subtitle_stream->id() && _opt->decode_subtitles && _first_video) {
+	} else if (_subtitle_stream && _packet.stream_index == _subtitle_stream->id() && _opt.decode_subtitles && _first_video) {
 
 		int got_subtitle;
 		AVSubtitle sub;

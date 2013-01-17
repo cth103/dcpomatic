@@ -290,8 +290,8 @@ Film::make_dcp (bool transcode)
 		throw MissingSettingError ("name");
 	}
 
-	shared_ptr<DecodeOptions> od (new DecodeOptions);
-	od->decode_subtitles = with_subtitles ();
+	DecodeOptions od;
+	od.decode_subtitles = with_subtitles ();
 
 	shared_ptr<Job> r;
 
@@ -878,8 +878,7 @@ Film::set_content (string c)
 	*/
 
 	try {
-		shared_ptr<DecodeOptions> o (new DecodeOptions);
-		Decoders d = decoder_factory (shared_from_this(), o, 0);
+		Decoders d = decoder_factory (shared_from_this(), DecodeOptions(), 0);
 		
 		set_size (d.video->native_size ());
 		set_frames_per_second (d.video->frames_per_second ());
@@ -1121,8 +1120,7 @@ Film::set_external_audio (vector<string> a)
 		_external_audio = a;
 	}
 
-	shared_ptr<DecodeOptions> o (new DecodeOptions);
-	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), o, 0));
+	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), DecodeOptions(), 0));
 	if (decoder->audio_stream()) {
 		_external_audio_stream = decoder->audio_stream ();
 	}

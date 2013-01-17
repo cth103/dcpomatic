@@ -36,7 +36,6 @@ class Gain;
 class VideoDecoder;
 class AudioDecoder;
 class DelayLine;
-class DecodeOptions;
 
 /** @class Transcoder
  *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
@@ -49,7 +48,7 @@ class Transcoder
 public:
 	Transcoder (
 		boost::shared_ptr<Film> f,
-		boost::shared_ptr<const DecodeOptions> o,
+		DecodeOptions o,
 		Job* j,
 		boost::shared_ptr<Encoder> e
 		);

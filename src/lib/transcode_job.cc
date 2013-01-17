@@ -37,12 +37,12 @@ using std::setprecision;
 using boost::shared_ptr;
 
 /** @param s Film to use.
- *  @param o Options.
+ *  @param o Decode options.
  *  @param req Job that must be completed before this job is run.
  */
-TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<Job> req)
+TranscodeJob::TranscodeJob (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> req)
 	: Job (f, req)
-	, _decode_opt (od)
+	, _decode_opt (o)
 {
 	
 }

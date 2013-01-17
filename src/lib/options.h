@@ -17,15 +17,12 @@
 
 */
 
-/** @file src/options.h
- *  @brief Options for a transcoding operation.
- */
+#ifndef DVDOMATIC_OPTIONS_H
+#define DVDOMATIC_OPTIONS_H
 
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include <boost/optional.hpp>
-#include "util.h"
+/** @file src/options.h
+ *  @brief Options for a decoding operation.
+ */
 
 class DecodeOptions
 {
@@ -40,3 +37,5 @@ public:
 	bool decode_subtitles;
 	bool video_sync;
 };
+
+#endif

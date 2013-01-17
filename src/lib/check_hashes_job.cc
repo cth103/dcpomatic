@@ -34,9 +34,9 @@ using std::stringstream;
 using std::ifstream;
 using boost::shared_ptr;
 
-CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<Job> req)
+CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> req)
 	: Job (f, req)
-	, _decode_opt (od)
+	, _decode_opt (o)
 	, _bad (0)
 {
 

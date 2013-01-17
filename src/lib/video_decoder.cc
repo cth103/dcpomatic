@@ -28,7 +28,7 @@
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
+VideoDecoder::VideoDecoder (shared_ptr<Film> f, DecodeOptions o, Job* j)
 	: Decoder (f, o, j)
 	, _video_frame (0)
 	, _last_source_time (0)

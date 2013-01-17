@@ -46,10 +46,10 @@ using boost::shared_ptr;
 using boost::optional;
 
 /** @param f Film.
- *  @param o Options.
+ *  @param o Decode options.
  *  @param j Job that we are running within, or 0
  */
-Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const DecodeOptions> o, Job* j)
+Decoder::Decoder (boost::shared_ptr<Film> f, DecodeOptions o, Job* j)
 	: _film (f)
 	, _opt (o)
 	, _job (j)

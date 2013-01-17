@@ -34,7 +34,7 @@
 class AudioDecoder : public AudioSource, public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const DecodeOptions>, Job *);
+	AudioDecoder (boost::shared_ptr<Film>, DecodeOptions, Job *);
 
 	virtual void set_audio_stream (boost::shared_ptr<AudioStream>);
 

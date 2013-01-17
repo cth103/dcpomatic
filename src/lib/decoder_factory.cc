@@ -36,7 +36,7 @@ using boost::dynamic_pointer_cast;
 
 Decoders
 decoder_factory (
-	shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j
+	shared_ptr<Film> f, DecodeOptions o, Job* j
 	)
 {
 	if (boost::filesystem::is_directory (f->content_path()) || f->content_type() == STILL) {

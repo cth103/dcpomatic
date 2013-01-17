@@ -78,8 +78,8 @@ ExamineContentJob::run ()
 		_film->unset_length ();
 		_film->set_crop (Crop ());
 		
-		shared_ptr<DecodeOptions> o (new DecodeOptions);
-		o->decode_audio = false;
+		DecodeOptions o;
+		o.decode_audio = false;
 		
 		Decoders decoders = decoder_factory (_film, o, this);
 		
@@ -96,8 +96,7 @@ ExamineContentJob::run ()
 
 		/* Get a quick decoder to get the content's length from its header */
 		
-		shared_ptr<DecodeOptions> o (new DecodeOptions);
-		Decoders d = decoder_factory (_film, o, 0);
+		Decoders d = decoder_factory (_film, DecodeOptions(), 0);
 		_film->set_length (d.video->length());
 	
 		_film->log()->log (String::compose ("Video length obtained from header as %1 frames", _film->length().get()));

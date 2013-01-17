@@ -18,15 +18,14 @@
 */
 
 #include "job.h"
-
-class DecodeOptions;
+#include "options.h"
 
 class CheckHashesJob : public Job
 {
 public:
 	CheckHashesJob (
 		boost::shared_ptr<Film> f,
-		boost::shared_ptr<const DecodeOptions> od,
+		DecodeOptions od,
 		boost::shared_ptr<Job> req
 		);
 
@@ -35,6 +34,6 @@ public:
 	std::string status () const;
 
 private:
-	boost::shared_ptr<const DecodeOptions> _decode_opt;
+	DecodeOptions _decode_opt;
 	int _bad;
 };

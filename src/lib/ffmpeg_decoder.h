@@ -86,7 +86,7 @@ private:
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const DecodeOptions>, Job *);
+	FFmpegDecoder (boost::shared_ptr<Film>, DecodeOptions, Job *);
 	~FFmpegDecoder ();
 
 	float frames_per_second () const;

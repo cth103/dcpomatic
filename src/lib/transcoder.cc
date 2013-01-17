@@ -48,7 +48,7 @@ using boost::dynamic_pointer_cast;
  *  @param j Job that we are running under, or 0.
  *  @param e Encoder to use.
  */
-Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j, shared_ptr<Encoder> e)
+Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<Encoder> e)
 	: _job (j)
 	, _encoder (e)
 	, _decoders (decoder_factory (f, o, j))

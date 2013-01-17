@@ -49,7 +49,7 @@ using boost::shared_ptr;
  */
 
 ABTranscoder::ABTranscoder (
-	shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<const DecodeOptions> o, Job* j, shared_ptr<Encoder> e)
+	shared_ptr<Film> a, shared_ptr<Film> b, DecodeOptions o, Job* j, shared_ptr<Encoder> e)
 	: _film_a (a)
 	, _film_b (b)
 	, _job (j)

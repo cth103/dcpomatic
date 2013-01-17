@@ -23,9 +23,9 @@
 
 #include <boost/shared_ptr.hpp>
 #include "job.h"
+#include "options.h"
 
 class Film;
-class DecodeOptions;
 
 /** @class ABTranscodeJob
  *  @brief Job to run a transcoder which produces output for A/B comparison of various settings.
@@ -39,7 +39,7 @@ class ABTranscodeJob : public Job
 public:
 	ABTranscodeJob (
 		boost::shared_ptr<Film> f,
-		boost::shared_ptr<const DecodeOptions> od,
+		DecodeOptions o,
 		boost::shared_ptr<Job> req
 		);
 
@@ -47,7 +47,7 @@ public:
 	void run ();
 
 private:
-	boost::shared_ptr<const DecodeOptions> _decode_opt;
+	DecodeOptions _decode_opt;
 	
 	/** Copy of our Film using the reference filters and scaler */
 	boost::shared_ptr<Film> _film_b;
