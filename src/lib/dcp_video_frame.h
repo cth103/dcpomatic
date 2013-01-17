@@ -39,15 +39,11 @@ class Subtitle;
 class EncodedData
 {
 public:
-	/** @param d Data (will not be freed by this class, but may be by subclasses)
-	 *  @param s Size of data, in bytes.
+	/** @param s Size of data, in bytes.
 	 */
-	EncodedData (uint8_t* d, int s)
-		: _data (d)
-		, _size (s)
-	{}
+	EncodedData (int s);
 
-	virtual ~EncodedData () {}
+	virtual ~EncodedData ();
 
 	void send (boost::shared_ptr<Socket> socket);
 	void write (boost::shared_ptr<const Film>, int);
@@ -65,6 +61,10 @@ public:
 protected:
 	uint8_t* _data; ///< data
 	int _size;      ///< data size in bytes
+
+private:
+	/* No copy construction */
+	EncodedData (EncodedData const &);
 };
 
 /** @class LocallyEncodedData
@@ -75,12 +75,10 @@ protected:
 class LocallyEncodedData : public EncodedData
 {
 public:
-	/** @param d Data (which will not be freed by this class)
+	/** @param d Data (which will be copied by this class)
 	 *  @param s Size of data, in bytes.
 	 */
-	LocallyEncodedData (uint8_t* d, int s)
-		: EncodedData (d, s)
-	{}
+	LocallyEncodedData (uint8_t* d, int s);
 };
 
 /** @class RemotelyEncodedData
@@ -91,7 +89,6 @@ class RemotelyEncodedData : public EncodedData
 {
 public:
 	RemotelyEncodedData (int s);
-	~RemotelyEncodedData ();
 };
 
 /** @class DCPVideoFrame
