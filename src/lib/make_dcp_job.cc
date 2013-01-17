@@ -61,7 +61,7 @@ MakeDCPJob::name () const
 string
 MakeDCPJob::j2c_path (int f, int offset) const
 {
-	return _film->frame_out_path (f, false);
+	return _film->frame_out_path (f + offset, false);
 }
 
 string
