@@ -26,7 +26,7 @@
  */
 
 class FilmState;
-class EncodeOptions;
+class Film;
 class ServerDescription;
 class Scaler;
 class Image;
@@ -50,7 +50,7 @@ public:
 	virtual ~EncodedData () {}
 
 	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const EncodeOptions>, SourceFrame);
+	void write (boost::shared_ptr<const Film>, SourceFrame);
 
 	/** @return data */
 	uint8_t* data () const {

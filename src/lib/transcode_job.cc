@@ -40,10 +40,9 @@ using boost::shared_ptr;
  *  @param o Options.
  *  @param req Job that must be completed before this job is run.
  */
-TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<const EncodeOptions> oe, shared_ptr<Job> req)
+TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<Job> req)
 	: Job (f, req)
 	, _decode_opt (od)
-	, _encode_opt (oe)
 {
 	
 }
@@ -62,7 +61,7 @@ TranscodeJob::run ()
 		_film->log()->log ("Transcode job starting");
 		_film->log()->log (String::compose ("Audio delay is %1ms", _film->audio_delay()));
 
-		_encoder.reset (new Encoder (_film, _encode_opt));
+		_encoder.reset (new Encoder (_film));
 		Transcoder w (_film, _decode_opt, this, _encoder);
 		w.go ();
 		set_progress (1);

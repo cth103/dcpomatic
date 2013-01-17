@@ -23,15 +23,13 @@
 
 #include "job.h"
 
-class EncodeOptions;
-
 /** @class MakeDCPJob
  *  @brief A job to create DCPs
  */
 class MakeDCPJob : public Job
 {
 public:
-	MakeDCPJob (boost::shared_ptr<Film>, boost::shared_ptr<const EncodeOptions>, boost::shared_ptr<Job> req);
+	MakeDCPJob (boost::shared_ptr<Film>, boost::shared_ptr<Job> req);
 
 	std::string name () const;
 	void run ();
@@ -40,7 +38,5 @@ private:
 	void dcp_progress (float);
 	std::string j2c_path (int, int) const;
 	std::string wav_path (libdcp::Channel) const;
-
-	boost::shared_ptr<const EncodeOptions> _opt;
 };
 

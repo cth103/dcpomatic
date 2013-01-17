@@ -78,6 +78,10 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
+	std::string frame_out_path (SourceFrame f, bool t) const;
+	std::string hash_out_path (SourceFrame f, bool t) const;
+	std::string multichannel_audio_out_path (int c, bool t) const;
+	
 	std::string content_path () const;
 	ContentType content_type () const;
 	
@@ -97,6 +101,8 @@ public:
 	}
 
 	int audio_channels () const;
+	boost::optional<std::pair<SourceFrame, SourceFrame> > video_range () const;
+	boost::optional<std::pair<int64_t, int64_t> > audio_range () const;
 
 	void set_dci_date_today ();
 

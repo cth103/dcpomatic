@@ -36,6 +36,7 @@ extern "C" {
 #include "options.h"
 #include "imagemagick_decoder.h"
 #include "film.h"
+#include "format.h"
 
 using std::string;
 using std::cout;
@@ -44,9 +45,8 @@ using boost::shared_ptr;
 /** @param f Film we are making the DCP for.
  *  @param o Options.
  */
-MakeDCPJob::MakeDCPJob (shared_ptr<Film> f, shared_ptr<const EncodeOptions> o, shared_ptr<Job> req)
+MakeDCPJob::MakeDCPJob (shared_ptr<Film> f, shared_ptr<Job> req)
 	: Job (f, req)
-	, _opt (o)
 {
 	
 }
@@ -64,13 +64,13 @@ MakeDCPJob::j2c_path (int f, int offset) const
 	DCPFrameRate dfr (_film->frames_per_second());
 	int const mult = dfr.skip ? 2 : 1;
 	SourceFrame const s = ((f + offset) * mult) + _film->dcp_trim_start();
-	return _opt->frame_out_path (s, false);
+	return _film->frame_out_path (s, false);
 }
 
 string
 MakeDCPJob::wav_path (libdcp::Channel c) const
 {
-	return _opt->multichannel_audio_out_path (int (c), false);
+	return _film->multichannel_audio_out_path (int (c), false);
 }
 
 void
@@ -138,8 +138,8 @@ MakeDCPJob::run ()
 				&dcp.Progress,
 				dfr.frames_per_second,
 				this_time,
-				_opt->out_size.width,
-				_opt->out_size.height
+				_film->format()->dcp_size().width,
+				_film->format()->dcp_size().height
 				)
 			);
 	

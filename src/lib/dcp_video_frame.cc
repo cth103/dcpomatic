@@ -376,9 +376,9 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
  *  @param frame Frame index.
  */
 void
-EncodedData::write (shared_ptr<const EncodeOptions> opt, SourceFrame frame)
+EncodedData::write (shared_ptr<const Film> film, SourceFrame frame)
 {
-	string const tmp_j2k = opt->frame_out_path (frame, true);
+	string const tmp_j2k = film->frame_out_path (frame, true);
 
 	FILE* f = fopen (tmp_j2k.c_str (), "wb");
 	
@@ -389,13 +389,13 @@ EncodedData::write (shared_ptr<const EncodeOptions> opt, SourceFrame frame)
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
-	string const real_j2k = opt->frame_out_path (frame, false);
+	string const real_j2k = film->frame_out_path (frame, false);
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
 	boost::filesystem::rename (tmp_j2k, real_j2k);
 
 	/* Write a file containing the hash */
-	string const hash = opt->hash_out_path (frame, false);
+	string const hash = film->hash_out_path (frame, false);
 	ofstream h (hash.c_str());
 	h << md5_digest (_data, _size) << "\n";
 	h.close ();

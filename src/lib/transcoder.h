@@ -36,7 +36,6 @@ class Gain;
 class VideoDecoder;
 class AudioDecoder;
 class DelayLine;
-class EncodeOptions;
 class DecodeOptions;
 
 /** @class Transcoder

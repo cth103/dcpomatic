@@ -26,7 +26,6 @@
 
 class Film;
 class DecodeOptions;
-class EncodeOptions;
 
 /** @class ABTranscodeJob
  *  @brief Job to run a transcoder which produces output for A/B comparison of various settings.
@@ -41,7 +40,6 @@ public:
 	ABTranscodeJob (
 		boost::shared_ptr<Film> f,
 		boost::shared_ptr<const DecodeOptions> od,
-		boost::shared_ptr<const EncodeOptions> oe,
 		boost::shared_ptr<Job> req
 		);
 
@@ -50,7 +48,6 @@ public:
 
 private:
 	boost::shared_ptr<const DecodeOptions> _decode_opt;
-	boost::shared_ptr<const EncodeOptions> _encode_opt;
 	
 	/** Copy of our Film using the reference filters and scaler */
 	boost::shared_ptr<Film> _film_b;

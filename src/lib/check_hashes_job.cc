@@ -34,10 +34,9 @@ using std::stringstream;
 using std::ifstream;
 using boost::shared_ptr;
 
-CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<const EncodeOptions> oe, shared_ptr<Job> req)
+CheckHashesJob::CheckHashesJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<Job> req)
 	: Job (f, req)
 	, _decode_opt (od)
-	, _encode_opt (oe)
 	, _bad (0)
 {
 
@@ -64,8 +63,8 @@ CheckHashesJob::run ()
 	int const inc = dfr.skip ? 2 : 1;
 	
 	for (SourceFrame i = _film->dcp_trim_start(); i < N; i += inc) {
-		string const j2k_file = _encode_opt->frame_out_path (i, false);
-		string const hash_file = _encode_opt->hash_out_path (i, false);
+		string const j2k_file = _film->frame_out_path (i, false);
+		string const hash_file = _film->hash_out_path (i, false);
 
 		if (!boost::filesystem::exists (j2k_file)) {
 			_film->log()->log (String::compose ("Frame %1 has a missing J2K file.", i));
@@ -94,13 +93,13 @@ CheckHashesJob::run ()
 		shared_ptr<Job> tc;
 
 		if (_film->dcp_ab()) {
-			tc.reset (new ABTranscodeJob (_film, _decode_opt, _encode_opt, shared_from_this()));
+			tc.reset (new ABTranscodeJob (_film, _decode_opt, shared_from_this()));
 		} else {
-			tc.reset (new TranscodeJob (_film, _decode_opt, _encode_opt, shared_from_this()));
+			tc.reset (new TranscodeJob (_film, _decode_opt, shared_from_this()));
 		}
 		
 		JobManager::instance()->add_after (shared_from_this(), tc);
-		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_film, _decode_opt, _encode_opt, tc)));
+		JobManager::instance()->add_after (tc, shared_ptr<Job> (new CheckHashesJob (_film, _decode_opt, tc)));
 	}
 		
 	set_progress (1);

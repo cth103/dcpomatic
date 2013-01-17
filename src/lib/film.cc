@@ -290,33 +290,6 @@ Film::make_dcp (bool transcode)
 		throw MissingSettingError ("name");
 	}
 
-	shared_ptr<EncodeOptions> oe (new EncodeOptions (j2k_dir(), ".j2c", dir ("wavs")));
-	oe->out_size = format()->dcp_size ();
-	oe->padding = format()->dcp_padding (shared_from_this ());
-	if (dcp_length ()) {
-		oe->video_range = make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
-		if (audio_stream()) {
-			DCPFrameRate dfr (frames_per_second ());
-			oe->audio_range = make_pair (
-
-				video_frames_to_audio_frames (
-					oe->video_range.get().first,
-					dcp_audio_sample_rate (audio_stream()->sample_rate()),
-					dfr.frames_per_second
-					),
-				
-				video_frames_to_audio_frames (
-					oe->video_range.get().second,
-					dcp_audio_sample_rate (audio_stream()->sample_rate()),
-					dfr.frames_per_second
-					)
-				);
-		}
-			
-	}
-	
-	oe->video_skip = DCPFrameRate (frames_per_second()).skip;
-
 	shared_ptr<DecodeOptions> od (new DecodeOptions);
 	od->decode_subtitles = with_subtitles ();
 
@@ -324,14 +297,14 @@ Film::make_dcp (bool transcode)
 
 	if (transcode) {
 		if (dcp_ab()) {
-			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od, oe, shared_ptr<Job> ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od, shared_ptr<Job> ())));
 		} else {
-			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od, oe, shared_ptr<Job> ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od, shared_ptr<Job> ())));
 		}
 	}
 
-	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), od, oe, r)));
-	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (shared_from_this(), oe, r)));
+	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), od, r)));
+	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (shared_from_this(), r)));
 }
 
 /** Start a job to examine our content file */
@@ -1436,4 +1409,80 @@ Film::audio_stream () const
 	}
 
 	return _external_audio_stream;
+}
+
+/** @param f Source frame index.
+ *  @param t true to return a temporary file path, otherwise a permanent one.
+ *  @return The path to write this video frame to.
+ */
+string
+Film::frame_out_path (SourceFrame f, bool t) const
+{
+	stringstream s;
+	s << j2k_dir() << "/";
+	s.width (8);
+	s << std::setfill('0') << f << ".j2c";
+
+	if (t) {
+		s << ".tmp";
+	}
+
+	return s.str ();
+}
+
+string
+Film::hash_out_path (SourceFrame f, bool t) const
+{
+	return frame_out_path (f, t) + ".md5";
+}
+
+/** @param c Audio channel index.
+ *  @param t true to return a temporary file path, otherwise a permanent one.
+ *  @return The path to write this audio file to.
+ */
+string
+Film::multichannel_audio_out_path (int c, bool t) const
+{
+	stringstream s;
+	s << dir ("wavs") << "/" << (c + 1) << ".wav";
+	if (t) {
+		s << ".tmp";
+	}
+	
+	return s.str ();
+}
+
+boost::optional<pair<SourceFrame, SourceFrame> >
+Film::video_range () const
+{
+	if (!dcp_length()) {
+		return boost::optional<pair<SourceFrame, SourceFrame> > ();
+	}
+	
+	return make_pair (dcp_trim_start(), dcp_trim_start() + dcp_length().get());
+}
+
+boost::optional<pair<int64_t, int64_t> >
+Film::audio_range () const
+{
+	boost::optional<pair<SourceFrame, SourceFrame> > vr = video_range ();
+	if (!vr || !audio_stream()) {
+		return boost::optional<pair<int64_t, int64_t> > ();
+	}
+
+	DCPFrameRate dfr (frames_per_second ());
+	return make_pair (
+		
+		video_frames_to_audio_frames (
+			vr.get().first,
+			dcp_audio_sample_rate (audio_stream()->sample_rate()),
+			dfr.frames_per_second
+			),
+		
+		video_frames_to_audio_frames (
+			vr.get().second,
+			dcp_audio_sample_rate (audio_stream()->sample_rate()),
+			dfr.frames_per_second
+			)
+		);
 }

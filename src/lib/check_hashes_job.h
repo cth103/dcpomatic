@@ -20,7 +20,6 @@
 #include "job.h"
 
 class DecodeOptions;
-class EncodeOptions;
 
 class CheckHashesJob : public Job
 {
@@ -28,7 +27,6 @@ public:
 	CheckHashesJob (
 		boost::shared_ptr<Film> f,
 		boost::shared_ptr<const DecodeOptions> od,
-		boost::shared_ptr<const EncodeOptions> oe,
 		boost::shared_ptr<Job> req
 		);
 
@@ -38,6 +36,5 @@ public:
 
 private:
 	boost::shared_ptr<const DecodeOptions> _decode_opt;
-	boost::shared_ptr<const EncodeOptions> _encode_opt;
 	int _bad;
 };

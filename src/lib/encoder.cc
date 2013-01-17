@@ -34,6 +34,7 @@
 #include "config.h"
 #include "dcp_video_frame.h"
 #include "server.h"
+#include "format.h"
 #include "cross.h"
 
 using std::pair;
@@ -50,9 +51,8 @@ int const Encoder::_history_size = 25;
 /** @param f Film that we are encoding.
  *  @param o Options.
  */
-Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
+Encoder::Encoder (shared_ptr<const Film> f)
 	: _film (f)
-	, _opt (o)
 	, _just_skipped (false)
 	, _video_frame (0)
 	, _audio_frame (0)
@@ -72,9 +72,9 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<const EncodeOptions> o)
 			/* We write mono files */
 			sf_info.channels = 1;
 			sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
-			SNDFILE* f = sf_open (_opt->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
+			SNDFILE* f = sf_open (_film->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
 			if (f == 0) {
-				throw CreateFileError (_opt->multichannel_audio_out_path (i, true));
+				throw CreateFileError (_film->multichannel_audio_out_path (i, true));
 			}
 			_sound_files.push_back (f);
 		}
@@ -165,10 +165,10 @@ Encoder::process_end ()
 		
 		/* Rename .wav.tmp files to .wav */
 		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
-			if (boost::filesystem::exists (_opt->multichannel_audio_out_path (i, false))) {
-				boost::filesystem::remove (_opt->multichannel_audio_out_path (i, false));
+			if (boost::filesystem::exists (_film->multichannel_audio_out_path (i, false))) {
+				boost::filesystem::remove (_film->multichannel_audio_out_path (i, false));
 			}
-			boost::filesystem::rename (_opt->multichannel_audio_out_path (i, true), _opt->multichannel_audio_out_path (i, false));
+			boost::filesystem::rename (_film->multichannel_audio_out_path (i, true), _film->multichannel_audio_out_path (i, false));
 		}
 	}
 
@@ -202,7 +202,7 @@ Encoder::process_end ()
 		_film->log()->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
 		try {
 			shared_ptr<EncodedData> e = (*i)->encode_locally ();
-			e->write (_opt, (*i)->frame ());
+			e->write (_film, (*i)->frame ());
 			frame_done ();
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
@@ -211,8 +211,8 @@ Encoder::process_end ()
 
 	/* Now do links (or copies on windows) to duplicate frames */
 	for (list<pair<int, int> >::iterator i = _links_required.begin(); i != _links_required.end(); ++i) {
-		link (_opt->frame_out_path (i->first, false), _opt->frame_out_path (i->second, false));
-		link (_opt->hash_out_path (i->first, false), _opt->hash_out_path (i->second, false));
+		link (_film->frame_out_path (i->first, false), _film->frame_out_path (i->second, false));
+		link (_film->hash_out_path (i->first, false), _film->hash_out_path (i->second, false));
 	}
 }	
 
@@ -279,13 +279,15 @@ Encoder::frame_skipped ()
 void
 Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub)
 {
-	if (_opt->video_skip && (_video_frame % 2)) {
+	DCPFrameRate dfr (_film->frames_per_second ());
+	
+	if (dfr.skip && (_video_frame % 2)) {
 		++_video_frame;
 		return;
 	}
 
-	if (_opt->video_range) {
-		pair<SourceFrame, SourceFrame> const r = _opt->video_range.get();
+	if (_film->video_range ()) {
+		pair<SourceFrame, SourceFrame> const r = _film->video_range().get();
 		if (_video_frame < r.first || _video_frame >= r.second) {
 			++_video_frame;
 			return;
@@ -306,7 +308,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	}
 
 	/* Only do the processing if we don't already have a file for this frame */
-	if (boost::filesystem::exists (_opt->frame_out_path (_video_frame, false))) {
+	if (boost::filesystem::exists (_film->frame_out_path (_video_frame, false))) {
 		frame_skipped ();
 		return;
 	}
@@ -323,7 +325,8 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, sub, _opt->out_size, _opt->padding, _film->subtitle_offset(), _film->subtitle_scale(),
+						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
+						  _film->subtitle_offset(), _film->subtitle_scale(),
 						  _film->scaler(), _video_frame, _film->frames_per_second(), s.second,
 						  _film->colour_lut(), _film->j2k_bandwidth(),
 						  _film->log()
@@ -340,11 +343,11 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 void
 Encoder::process_audio (shared_ptr<AudioBuffers> data)
 {
-	if (_opt->audio_range) {
+	if (_film->audio_range ()) {
 		shared_ptr<AudioBuffers> trimmed (new AudioBuffers (*data.get ()));
 		
 		/* Range that we are encoding */
-		pair<int64_t, int64_t> required_range = _opt->audio_range.get();
+		pair<int64_t, int64_t> required_range = _film->audio_range().get();
 		/* Range of this block of data */
 		pair<int64_t, int64_t> this_range (_audio_frame, _audio_frame + trimmed->frames());
 
@@ -508,7 +511,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		if (encoded) {
-			encoded->write (_opt, vf->frame ());
+			encoded->write (_film, vf->frame ());
 			frame_done ();
 		} else {
 			lock.lock ();

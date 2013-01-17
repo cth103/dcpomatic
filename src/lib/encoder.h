@@ -44,7 +44,6 @@ extern "C" {
 #include "video_sink.h"
 #include "audio_sink.h"
 
-class EncodeOptions;
 class Image;
 class Subtitle;
 class AudioBuffers;
@@ -62,7 +61,7 @@ class DCPVideoFrame;
 class Encoder : public VideoSink, public AudioSink
 {
 public:
-	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<const EncodeOptions> o);
+	Encoder (boost::shared_ptr<const Film> f);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
@@ -99,8 +98,6 @@ private:
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
-	/** Options */
-	boost::shared_ptr<const EncodeOptions> _opt;
 
 	/** Mutex for _time_history, _just_skipped and _last_frame */
 	mutable boost::mutex _history_mutex;
