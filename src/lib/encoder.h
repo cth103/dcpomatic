@@ -52,6 +52,11 @@ class ServerDescription;
 class DCPVideoFrame;
 class EncodedData;
 
+namespace libdcp {
+	class MonoPictureAsset;
+	class MonoPictureAssetWriter;
+}
+
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
  *
@@ -121,22 +126,15 @@ private:
 	int64_t _audio_frames_out;
 
 	void writer_thread ();
-	void terminate_writer_thread ();
+	void finish_writer_thread ();
 
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
 #endif
 
-	/** List of links that we need to create when all frames have been processed;
-	 *  such that we need to call link (first, second) for each member of this list.
-	 *  In other words, `first' is a `real' frame and `second' should be a link to `first'.
-	 *  Frames are DCP frames.
-	 */
-	std::list<std::pair<int, int> > _links_required;
-
 	std::vector<SNDFILE*> _sound_files;
 
-	boost::optional<int> _last_real_frame;
+	bool _have_a_real_frame;
 	bool _terminate_encoder;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _encode_queue;
 	std::list<boost::thread *> _worker_threads;
@@ -144,10 +142,17 @@ private:
 	boost::condition _worker_condition;
 
 	boost::thread* _writer_thread;
-	bool _terminate_writer;
+	bool _finish_writer;
 	std::list<std::pair<boost::shared_ptr<EncodedData>, int> > _write_queue;
 	mutable boost::mutex _writer_mutex;
 	boost::condition _writer_condition;
+	boost::shared_ptr<EncodedData> _last_written;
+	std::list<int> _pending;
+	int _last_written_frame;
+	static const unsigned int _maximum_frames_in_memory;
+
+	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
+	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
 };
 
 #endif

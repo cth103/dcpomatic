@@ -43,6 +43,8 @@ public:
 	 */
 	EncodedData (int s);
 
+	EncodedData (std::string f);
+
 	virtual ~EncodedData ();
 
 	void send (boost::shared_ptr<Socket> socket);

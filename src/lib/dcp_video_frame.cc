@@ -380,6 +380,21 @@ EncodedData::EncodedData (int s)
 
 }
 
+EncodedData::EncodedData (string file)
+{
+	_size = boost::filesystem::file_size (file);
+	_data = new uint8_t[_size];
+
+	FILE* f = fopen (file.c_str(), "rb");
+	if (!f) {
+		throw FileError ("could not open file for reading", file);
+	}
+	
+	fread (_data, 1, _size, f);
+	fclose (f);
+}
+
+
 EncodedData::~EncodedData ()
 {
 	delete[] _data;
