@@ -1450,37 +1450,3 @@ Film::multichannel_audio_out_path (int c, bool t) const
 	return s.str ();
 }
 
-boost::optional<pair<SourceFrame, SourceFrame> >
-Film::video_range () const
-{
-	if (!dcp_length()) {
-		return boost::optional<pair<SourceFrame, SourceFrame> > ();
-	}
-	
-	return make_pair (trim_start(), trim_start() + dcp_length().get());
-}
-
-boost::optional<pair<int64_t, int64_t> >
-Film::audio_range () const
-{
-	boost::optional<pair<SourceFrame, SourceFrame> > vr = video_range ();
-	if (!vr || !audio_stream()) {
-		return boost::optional<pair<int64_t, int64_t> > ();
-	}
-
-	DCPFrameRate dfr (frames_per_second ());
-	return make_pair (
-		
-		video_frames_to_audio_frames (
-			vr.get().first,
-			dcp_audio_sample_rate (audio_stream()->sample_rate()),
-			dfr.frames_per_second
-			),
-		
-		video_frames_to_audio_frames (
-			vr.get().second,
-			dcp_audio_sample_rate (audio_stream()->sample_rate()),
-			dfr.frames_per_second
-			)
-		);
-}

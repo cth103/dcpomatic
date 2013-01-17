@@ -142,6 +142,9 @@ MakeDCPJob::run ()
 				_film->format()->dcp_size().height
 				)
 			);
+
+		pa->set_entry_point (_film->trim_start ());
+		pa->set_duration (_film->duration ());
 	
 		ascend ();
 		
@@ -161,6 +164,10 @@ MakeDCPJob::run ()
 					dcp_audio_channels (_film->audio_channels())
 					)
 				);
+
+			sa->set_entry_point (_film->trim_start ());
+			sa->set_duration (_film->duration ());
+			
 			ascend ();
 		}
 

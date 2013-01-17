@@ -101,8 +101,6 @@ public:
 	}
 
 	int audio_channels () const;
-	boost::optional<std::pair<SourceFrame, SourceFrame> > video_range () const;
-	boost::optional<std::pair<int64_t, int64_t> > audio_range () const;
 
 	void set_dci_date_today ();
 

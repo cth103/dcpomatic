@@ -286,14 +286,6 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		return;
 	}
 
-	if (_film->video_range ()) {
-		pair<SourceFrame, SourceFrame> const r = _film->video_range().get();
-		if (_video_frame < r.first || _video_frame >= r.second) {
-			++_video_frame;
-			return;
-		}
-	}
-
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
 	/* Wait until the queue has gone down a bit */
@@ -343,30 +335,6 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 void
 Encoder::process_audio (shared_ptr<AudioBuffers> data)
 {
-	if (_film->audio_range ()) {
-		shared_ptr<AudioBuffers> trimmed (new AudioBuffers (*data.get ()));
-		
-		/* Range that we are encoding */
-		pair<int64_t, int64_t> required_range = _film->audio_range().get();
-		/* Range of this block of data */
-		pair<int64_t, int64_t> this_range (_audio_frame, _audio_frame + trimmed->frames());
-
-		if (this_range.second < required_range.first || required_range.second < this_range.first) {
-			/* No part of this audio is within the required range */
-			return;
-		} else if (required_range.first >= this_range.first && required_range.first < this_range.second) {
-			/* Trim start */
-			int64_t const shift = required_range.first - this_range.first;
-			trimmed->move (shift, 0, trimmed->frames() - shift);
-			trimmed->set_frames (trimmed->frames() - shift);
-		} else if (required_range.second >= this_range.first && required_range.second < this_range.second) {
-			/* Trim end */
-			trimmed->set_frames (required_range.second - this_range.first);
-		}
-
-		data = trimmed;
-	}
-
 #if HAVE_SWRESAMPLE
 	/* Maybe sample-rate convert */
 	if (_swr_context) {
