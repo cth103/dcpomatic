@@ -37,6 +37,7 @@
 #include "server.h"
 #include "format.h"
 #include "cross.h"
+#include "writer.h"
 
 using std::pair;
 using std::string;
@@ -48,7 +49,6 @@ using std::make_pair;
 using namespace boost;
 
 int const Encoder::_history_size = 25;
-unsigned int const Encoder::_maximum_frames_in_memory = 8;
 
 /** @param f Film that we are encoding.
  *  @param o Options.
@@ -65,9 +65,6 @@ Encoder::Encoder (shared_ptr<const Film> f)
 #endif
 	, _have_a_real_frame (false)
 	, _terminate_encoder (false)
-	, _writer_thread (0)
-	, _finish_writer (false)
-	, _last_written_frame (-1)
 {
 	if (_film->audio_stream()) {
 		/* Create sound output files with .tmp suffixes; we will rename
@@ -92,7 +89,9 @@ Encoder::~Encoder ()
 {
 	close_sound_files ();
 	terminate_worker_threads ();
-	finish_writer_thread ();
+	if (_writer) {
+		_writer->finish ();
+	}
 }
 
 void
@@ -139,18 +138,7 @@ Encoder::process_begin ()
 		}
 	}
 
-	/* XXX! */
-	_picture_asset.reset (
-		new libdcp::MonoPictureAsset (
-			_film->dir (_film->dcp_name()),
-			String::compose ("video_%1.mxf", 0),
-			DCPFrameRate (_film->frames_per_second()).frames_per_second,
-			_film->format()->dcp_size()
-			)
-		);
-	
-	_picture_asset_writer = _picture_asset->start_write ();
-	_writer_thread = new boost::thread (boost::bind (&Encoder::writer_thread, this));
+	_writer.reset (new Writer (_film));
 }
 
 
@@ -222,20 +210,15 @@ Encoder::process_end ()
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _encode_queue.begin(); i != _encode_queue.end(); ++i) {
 		_film->log()->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
 		try {
-			shared_ptr<EncodedData> e = (*i)->encode_locally ();
-			{
-				boost::mutex::scoped_lock lock2 (_writer_mutex);
-				_write_queue.push_back (make_pair (e, (*i)->frame ()));
-				_writer_condition.notify_all ();
-			}
+			_writer->write ((*i)->encode_locally(), (*i)->frame ());
 			frame_done ();
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
 		}
 	}
 
-	finish_writer_thread ();
-	_picture_asset_writer->finalize ();
+	_writer->finish ();
+	_writer.reset ();
 }	
 
 /** @return an estimate of the current number of frames we are encoding per second,
@@ -328,12 +311,8 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	}
 
 	if (same && _have_a_real_frame) {
-		/* Use the last frame that we encoded.  We do this by putting a null encoded
-		   frame straight onto the writer's queue.  It will know to duplicate the previous frame
-		   in this case.
-		*/
-		boost::mutex::scoped_lock lock2 (_writer_mutex);
-		_write_queue.push_back (make_pair (shared_ptr<EncodedData> (), _video_frames_out));
+		/* Use the last frame that we encoded. */
+		_writer->repeat (_video_frames_out);
 		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
@@ -357,8 +336,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	++_video_frames_out;
 
 	if (dfr.repeat) {
-		boost::mutex::scoped_lock lock2 (_writer_mutex);
-		_write_queue.push_back (make_pair (shared_ptr<EncodedData> (), _video_frames_out));
+		_writer->repeat (_video_frames_out);
 		++_video_frames_out;
 		frame_done ();
 	}
@@ -448,23 +426,6 @@ Encoder::terminate_worker_threads ()
 }
 
 void
-Encoder::finish_writer_thread ()
-{
-	if (!_writer_thread) {
-		return;
-	}
-	
-	boost::mutex::scoped_lock lock (_writer_mutex);
-	_finish_writer = true;
-	_writer_condition.notify_all ();
-	lock.unlock ();
-
-	_writer_thread->join ();
-	delete _writer_thread;
-	_writer_thread = 0;
-}
-
-void
 Encoder::encoder_thread (ServerDescription* server)
 {
 	/* Number of seconds that we currently wait between attempts
@@ -528,9 +489,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		if (encoded) {
-			boost::mutex::scoped_lock lock2 (_writer_mutex);
-			_write_queue.push_back (make_pair (encoded, vf->frame ()));
-			_writer_condition.notify_all ();
+			_writer->write (encoded, vf->frame ());
 			frame_done ();
 		} else {
 			lock.lock ();
@@ -547,112 +506,5 @@ Encoder::encoder_thread (ServerDescription* server)
 
 		lock.lock ();
 		_worker_condition.notify_all ();
-	}
-}
-
-void
-Encoder::link (string a, string b) const
-{
-#ifdef DVDOMATIC_POSIX			
-	int const r = symlink (a.c_str(), b.c_str());
-	if (r) {
-		throw EncodeError (String::compose ("could not create symlink from %1 to %2", a, b));
-	}
-#endif
-	
-#ifdef DVDOMATIC_WINDOWS
-	boost::filesystem::copy_file (a, b);
-#endif			
-}
-
-struct WriteQueueSorter
-{
-	bool operator() (pair<shared_ptr<EncodedData>, int> const & a, pair<shared_ptr<EncodedData>, int> const & b) {
-		return a.second < b.second;
-	}
-};
-
-void
-Encoder::writer_thread ()
-{
-	while (1)
-	{
-		boost::mutex::scoped_lock lock (_writer_mutex);
-
-		while (1) {
-			if (_finish_writer ||
-			    _write_queue.size() > _maximum_frames_in_memory ||
-			    (!_write_queue.empty() && _write_queue.front().second == (_last_written_frame + 1))) {
-				    
-				    break;
-			    }
-
-			    TIMING ("writer sleeps with a queue of %1; %2 pending", _write_queue.size(), _pending.size());
-			    _writer_condition.wait (lock);
-			    TIMING ("writer wakes with a queue of %1", _write_queue.size());
-
-			    _write_queue.sort (WriteQueueSorter ());
-		}
-
-		if (_finish_writer && _write_queue.empty() && _pending.empty()) {
-			return;
-		}
-
-		/* Write any frames that we can write; i.e. those that are in sequence */
-		while (!_write_queue.empty() && _write_queue.front().second == (_last_written_frame + 1)) {
-			pair<boost::shared_ptr<EncodedData>, int> encoded = _write_queue.front ();
-			_write_queue.pop_front ();
-
-			lock.unlock ();
-			_film->log()->log (String::compose ("Writer writes %1 to MXF", encoded.second));
-			if (encoded.first) {
-				_picture_asset_writer->write (encoded.first->data(), encoded.first->size());
-				_last_written = encoded.first;
-			} else {
-				_picture_asset_writer->write (_last_written->data(), _last_written->size());
-			}
-			lock.lock ();
-
-			++_last_written_frame;
-		}
-
-		while (_write_queue.size() > _maximum_frames_in_memory) {
-			/* Too many frames in memory which can't yet be written to the stream.
-			   Put some to disk.
-			*/
-
-			pair<boost::shared_ptr<EncodedData>, int> encoded = _write_queue.back ();
-			_write_queue.pop_back ();
-			if (!encoded.first) {
-				/* This is a `repeat-last' frame, so no need to write it to disk */
-				continue;
-			}
-
-			lock.unlock ();
-			_film->log()->log (String::compose ("Writer full (awaiting %1); pushes %2 to disk", _last_written_frame + 1, encoded.second));
-			encoded.first->write (_film, encoded.second);
-			lock.lock ();
-
-			_pending.push_back (encoded.second);
-		}
-
-		while (_write_queue.size() < _maximum_frames_in_memory && !_pending.empty()) {
-			/* We have some space in memory.  Fetch some frames back off disk. */
-
-			_pending.sort ();
-			int const fetch = _pending.front ();
-
-			lock.unlock ();
-			_film->log()->log (String::compose ("Writer pulls %1 back from disk", fetch));
-			shared_ptr<EncodedData> encoded;
-			if (boost::filesystem::exists (_film->frame_out_path (fetch, false))) {
-				/* It's an actual frame (not a repeat-last); load it in */
-				encoded.reset (new EncodedData (_film->frame_out_path (fetch, false)));
-			}
-			lock.lock ();
-
-			_write_queue.push_back (make_pair (encoded, fetch));
-			_pending.remove (fetch);
-		}
 	}
 }

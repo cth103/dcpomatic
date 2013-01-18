@@ -1,0 +1,6 @@
+
+Encoder to write audio mxf; and sort out creation of those mxfs
+DCP job still to write XML; presumably.
+Write hashes of frames after successful write.
+Make check of hashes optional
+

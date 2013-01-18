@@ -51,11 +51,7 @@ class Film;
 class ServerDescription;
 class DCPVideoFrame;
 class EncodedData;
-
-namespace libdcp {
-	class MonoPictureAsset;
-	class MonoPictureAssetWriter;
-}
+class Writer;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -100,7 +96,6 @@ private:
 
 	void encoder_thread (ServerDescription *);
 	void terminate_worker_threads ();
-	void link (std::string, std::string) const;
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
@@ -125,9 +120,6 @@ private:
 	/** Number of audio frames written for the DCP so far */
 	int64_t _audio_frames_out;
 
-	void writer_thread ();
-	void finish_writer_thread ();
-
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
 #endif
@@ -141,18 +133,7 @@ private:
 	mutable boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
 
-	boost::thread* _writer_thread;
-	bool _finish_writer;
-	std::list<std::pair<boost::shared_ptr<EncodedData>, int> > _write_queue;
-	mutable boost::mutex _writer_mutex;
-	boost::condition _writer_condition;
-	boost::shared_ptr<EncodedData> _last_written;
-	std::list<int> _pending;
-	int _last_written_frame;
-	static const unsigned int _maximum_frames_in_memory;
-
-	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
-	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
+	boost::shared_ptr<Writer> _writer;
 };
 
 #endif

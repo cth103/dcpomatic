@@ -56,6 +56,7 @@ def build(bld):
 		 version.cc
                  video_decoder.cc
                  video_source.cc
+                 writer.cc
 		 """
 
     obj.target = 'dvdomatic'
