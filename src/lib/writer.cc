@@ -19,6 +19,7 @@
 
 #include <libdcp/picture_asset.h>
 #include <libdcp/sound_asset.h>
+#include <libdcp/reel.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
@@ -192,6 +193,33 @@ Writer::finish ()
 
 	_picture_asset_writer->finalize ();
 	_sound_asset_writer->finalize ();
+
+
+	int const frames = _film->dcp_intrinsic_duration().get();
+	int const duration = frames - _film->trim_start() - _film->trim_end();
+	
+	_picture_asset->set_entry_point (_film->trim_start ());
+	_picture_asset->set_duration (duration);
+	_sound_asset->set_entry_point (_film->trim_start ());
+	_sound_asset->set_duration (duration);
+	
+	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
+	DCPFrameRate dfr (_film->frames_per_second ());
+
+	shared_ptr<libdcp::CPL> cpl (
+		new libdcp::CPL (_film->dir (_film->dcp_name()), _film->dcp_name(), _film->dcp_content_type()->libdcp_kind (), frames, dfr.frames_per_second)
+		);
+	
+	dcp.add_cpl (cpl);
+
+	cpl->add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (
+							 _picture_asset,
+							 _sound_asset,
+							 shared_ptr<libdcp::SubtitleAsset> ()
+							 )
+			       ));
+
+	dcp.write_xml ();
 }
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */

@@ -39,7 +39,6 @@
 #include "ab_transcode_job.h"
 #include "transcode_job.h"
 #include "scp_dcp_job.h"
-#include "make_dcp_job.h"
 #include "log.h"
 #include "options.h"
 #include "exceptions.h"
@@ -305,8 +304,7 @@ Film::make_dcp (bool transcode)
 		}
 	}
 
-	r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), od, r)));
-	JobManager::instance()->add (shared_ptr<Job> (new MakeDCPJob (shared_from_this(), r)));
+	// r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), od, r)));
 }
 
 /** Start a job to examine our content file */

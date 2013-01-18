@@ -40,7 +40,6 @@ def build(bld):
 		 job_manager.cc
 		 log.cc
 		 lut.cc
-		 make_dcp_job.cc
                  matcher.cc
                  scp_dcp_job.cc
 		 scaler.cc
