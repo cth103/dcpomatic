@@ -39,7 +39,6 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 #endif
-#include <sndfile.h>
 #include "util.h"
 #include "video_sink.h"
 #include "audio_sink.h"
@@ -91,7 +90,6 @@ private:
 	void frame_done ();
 	void frame_skipped ();
 	
-	void close_sound_files ();
 	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 
 	void encoder_thread (ServerDescription *);
@@ -113,18 +111,12 @@ private:
 
 	/** Number of video frames received so far */
 	SourceFrame _video_frames_in;
-	/** Number of audio frames received so far */
-	int64_t _audio_frames_in;
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
-	/** Number of audio frames written for the DCP so far */
-	int64_t _audio_frames_out;
 
 #if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
 #endif
-
-	std::vector<SNDFILE*> _sound_files;
 
 	bool _have_a_real_frame;
 	bool _terminate_encoder;

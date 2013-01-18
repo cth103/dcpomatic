@@ -57,37 +57,18 @@ Encoder::Encoder (shared_ptr<const Film> f)
 	: _film (f)
 	, _just_skipped (false)
 	, _video_frames_in (0)
-	, _audio_frames_in (0)
 	, _video_frames_out (0)
-	, _audio_frames_out (0)
 #ifdef HAVE_SWRESAMPLE	  
 	, _swr_context (0)
 #endif
 	, _have_a_real_frame (false)
 	, _terminate_encoder (false)
 {
-	if (_film->audio_stream()) {
-		/* Create sound output files with .tmp suffixes; we will rename
-		   them if and when we complete.
-		*/
-		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
-			SF_INFO sf_info;
-			sf_info.samplerate = dcp_audio_sample_rate (_film->audio_stream()->sample_rate());
-			/* We write mono files */
-			sf_info.channels = 1;
-			sf_info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
-			SNDFILE* f = sf_open (_film->multichannel_audio_out_path (i, true).c_str (), SFM_WRITE, &sf_info);
-			if (f == 0) {
-				throw CreateFileError (_film->multichannel_audio_out_path (i, true));
-			}
-			_sound_files.push_back (f);
-		}
-	}
+	
 }
 
 Encoder::~Encoder ()
 {
-	close_sound_files ();
 	terminate_worker_threads ();
 	if (_writer) {
 		_writer->finish ();
@@ -162,24 +143,12 @@ Encoder::process_end ()
 			}
 
 			out->set_frames (frames);
-			write_audio (out);
+			_writer->write (out);
 		}
 
 		swr_free (&_swr_context);
 	}
 #endif
-
-	if (_film->audio_stream()) {
-		close_sound_files ();
-		
-		/* Rename .wav.tmp files to .wav */
-		for (int i = 0; i < dcp_audio_channels (_film->audio_channels()); ++i) {
-			if (boost::filesystem::exists (_film->multichannel_audio_out_path (i, false))) {
-				boost::filesystem::remove (_film->multichannel_audio_out_path (i, false));
-			}
-			boost::filesystem::rename (_film->multichannel_audio_out_path (i, true), _film->multichannel_audio_out_path (i, false));
-		}
-	}
 
 	boost::mutex::scoped_lock lock (_worker_mutex);
 
@@ -386,30 +355,8 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 		data = b;
 	}
 
-	write_audio (data);
-	
-	_audio_frames_in += data->frames ();
+	_writer->write (data);
 }
-
-void
-Encoder::write_audio (shared_ptr<const AudioBuffers> audio)
-{
-	for (int i = 0; i < audio->channels(); ++i) {
-		sf_write_float (_sound_files[i], audio->data(i), audio->frames());
-	}
-
-	_audio_frames_out += audio->frames ();
-}
-
-void
-Encoder::close_sound_files ()
-{
-	for (vector<SNDFILE*>::iterator i = _sound_files.begin(); i != _sound_files.end(); ++i) {
-		sf_close (*i);
-	}
-
-	_sound_files.clear ();
-}	
 
 void
 Encoder::terminate_worker_threads ()

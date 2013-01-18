@@ -48,7 +48,7 @@ public:
 	virtual ~EncodedData ();
 
 	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const Film>, int);
+	void write (boost::shared_ptr<const Film>, int) const;
 
 	/** @return data */
 	uint8_t* data () const {

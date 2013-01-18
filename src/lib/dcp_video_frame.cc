@@ -405,7 +405,7 @@ EncodedData::~EncodedData ()
  *  @param frame DCP Frame index.
  */
 void
-EncodedData::write (shared_ptr<const Film> film, int frame)
+EncodedData::write (shared_ptr<const Film> film, int frame) const
 {
 	string const tmp_j2k = film->frame_out_path (frame, true);
 

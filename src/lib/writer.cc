@@ -18,6 +18,7 @@
 */
 
 #include <libdcp/picture_asset.h>
+#include <libdcp/sound_asset.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
@@ -48,20 +49,41 @@ Writer::Writer (shared_ptr<const Film> f)
 	
 	_picture_asset_writer = _picture_asset->start_write ();
 
+	if (_film->audio_channels() > 0) {
+		_sound_asset.reset (
+			new libdcp::SoundAsset (
+				_film->dir (_film->dcp_name()),
+				String::compose ("audio_%1.mxf", 0),
+				DCPFrameRate (_film->frames_per_second()).frames_per_second,
+				_film->audio_channels(),
+				_film->audio_stream()->sample_rate()
+				)
+			);
+
+		_sound_asset_writer = _sound_asset->start_write ();
+	}
+	
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 }
 
 void
-Writer::write (shared_ptr<EncodedData> encoded, int frame)
+Writer::write (shared_ptr<const EncodedData> encoded, int frame)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 	_queue.push_back (make_pair (encoded, frame));
 	_condition.notify_all ();
 }
 
+/** This method is not thread safe */
+void
+Writer::write (shared_ptr<const AudioBuffers> audio)
+{
+	_sound_asset_writer->write (audio->data(), audio->frames());
+}
+
 struct QueueSorter
 {
-	bool operator() (pair<shared_ptr<EncodedData>, int> const & a, pair<shared_ptr<EncodedData>, int> const & b) {
+	bool operator() (pair<shared_ptr<const EncodedData>, int> const & a, pair<shared_ptr<const EncodedData>, int> const & b) {
 		return a.second < b.second;
 	}
 };
@@ -94,7 +116,7 @@ Writer::thread ()
 
 		/* Write any frames that we can write; i.e. those that are in sequence */
 		while (!_queue.empty() && _queue.front().second == (_last_written_frame + 1)) {
-			pair<boost::shared_ptr<EncodedData>, int> encoded = _queue.front ();
+			pair<boost::shared_ptr<const EncodedData>, int> encoded = _queue.front ();
 			_queue.pop_front ();
 
 			lock.unlock ();
@@ -115,7 +137,7 @@ Writer::thread ()
 			   Put some to disk.
 			*/
 
-			pair<boost::shared_ptr<EncodedData>, int> encoded = _queue.back ();
+			pair<boost::shared_ptr<const EncodedData>, int> encoded = _queue.back ();
 			_queue.pop_back ();
 			if (!encoded.first) {
 				/* This is a `repeat-last' frame, so no need to write it to disk */
@@ -138,7 +160,7 @@ Writer::thread ()
 
 			lock.unlock ();
 			_film->log()->log (String::compose ("Writer pulls %1 back from disk", fetch));
-			shared_ptr<EncodedData> encoded;
+			shared_ptr<const EncodedData> encoded;
 			if (boost::filesystem::exists (_film->frame_out_path (fetch, false))) {
 				/* It's an actual frame (not a repeat-last); load it in */
 				encoded.reset (new EncodedData (_film->frame_out_path (fetch, false)));
@@ -169,6 +191,7 @@ Writer::finish ()
 	_thread = 0;
 
 	_picture_asset_writer->finalize ();
+	_sound_asset_writer->finalize ();
 }
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */
@@ -176,5 +199,5 @@ void
 Writer::repeat (int f)
 {
 	boost::mutex::scoped_lock lock (_mutex);
-	_queue.push_back (make_pair (shared_ptr<EncodedData> (), f));
+	_queue.push_back (make_pair (shared_ptr<const EncodedData> (), f));
 }

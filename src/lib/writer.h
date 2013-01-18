@@ -24,10 +24,13 @@
 
 class Film;
 class EncodedData;
+class AudioBuffers;
 
 namespace libdcp {
 	class MonoPictureAsset;
 	class MonoPictureAssetWriter;
+	class SoundAsset;
+	class SoundAssetWriter;
 }
 
 class Writer
@@ -35,7 +38,8 @@ class Writer
 public:
 	Writer (boost::shared_ptr<const Film>);
 	
-	void write (boost::shared_ptr<EncodedData>, int);
+	void write (boost::shared_ptr<const EncodedData>, int);
+	void write (boost::shared_ptr<const AudioBuffers>);
 	void repeat (int f);
 	void finish ();
 
@@ -47,14 +51,16 @@ private:
 
 	boost::thread* _thread;
 	bool _finish;
-	std::list<std::pair<boost::shared_ptr<EncodedData>, int> > _queue;
+	std::list<std::pair<boost::shared_ptr<const EncodedData>, int> > _queue;
 	mutable boost::mutex _mutex;
 	boost::condition _condition;
-	boost::shared_ptr<EncodedData> _last_written;
+	boost::shared_ptr<const EncodedData> _last_written;
 	std::list<int> _pending;
 	int _last_written_frame;
 	static const unsigned int _maximum_frames_in_memory;
 
 	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
 	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
+	boost::shared_ptr<libdcp::SoundAsset> _sound_asset;
+	boost::shared_ptr<libdcp::SoundAssetWriter> _sound_asset_writer;
 };
