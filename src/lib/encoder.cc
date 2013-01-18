@@ -334,6 +334,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		*/
 		boost::mutex::scoped_lock lock2 (_writer_mutex);
 		_write_queue.push_back (make_pair (shared_ptr<EncodedData> (), _video_frames_out));
+		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
@@ -359,6 +360,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		boost::mutex::scoped_lock lock2 (_writer_mutex);
 		_write_queue.push_back (make_pair (shared_ptr<EncodedData> (), _video_frames_out));
 		++_video_frames_out;
+		frame_done ();
 	}
 }
 
@@ -529,6 +531,7 @@ Encoder::encoder_thread (ServerDescription* server)
 			boost::mutex::scoped_lock lock2 (_writer_mutex);
 			_write_queue.push_back (make_pair (encoded, vf->frame ()));
 			_writer_condition.notify_all ();
+			frame_done ();
 		} else {
 			lock.lock ();
 			_film->log()->log (
