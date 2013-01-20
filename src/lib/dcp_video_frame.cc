@@ -401,8 +401,8 @@ EncodedData::~EncodedData ()
 }
 
 /** Write this data to a J2K file.
- *  @param opt Options.
- *  @param frame DCP Frame index.
+ *  @param Film Film.
+ *  @param frame DCP frame index.
  */
 void
 EncodedData::write (shared_ptr<const Film> film, int frame) const
@@ -422,12 +422,14 @@ EncodedData::write (shared_ptr<const Film> film, int frame) const
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
 	boost::filesystem::rename (tmp_j2k, real_j2k);
+}
 
-	/* Write a file containing the hash */
+void
+EncodedData::write_hash (shared_ptr<const Film> film, int frame) const
+{
 	string const hash = film->hash_out_path (frame, false);
 	ofstream h (hash.c_str());
 	h << md5_digest (_data, _size) << "\n";
-	h.close ();
 }
 
 /** Send this data to a socket.

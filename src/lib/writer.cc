@@ -124,9 +124,11 @@ Writer::thread ()
 			_film->log()->log (String::compose ("Writer writes %1 to MXF", encoded.second));
 			if (encoded.first) {
 				_picture_asset_writer->write (encoded.first->data(), encoded.first->size());
+				encoded.first->write_hash (_film, encoded.second);
 				_last_written = encoded.first;
 			} else {
 				_picture_asset_writer->write (_last_written->data(), _last_written->size());
+				_last_written->write_hash (_film, encoded.second);
 			}
 			lock.lock ();
 
