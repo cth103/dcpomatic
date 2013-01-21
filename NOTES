@@ -1,5 +1,4 @@
 
 ... perhaps generate the CPL hash on the fly
-Write hashes of frames after successful write.
 Make check of hashes optional; recovery in general
 Fix multi-reel or remove it

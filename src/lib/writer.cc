@@ -57,7 +57,7 @@ Writer::Writer (shared_ptr<const Film> f)
 				String::compose ("audio_%1.mxf", 0),
 				DCPFrameRate (_film->frames_per_second()).frames_per_second,
 				_film->audio_channels(),
-				_film->audio_stream()->sample_rate()
+				dcp_audio_sample_rate (_film->audio_stream()->sample_rate())
 				)
 			);
 
@@ -196,9 +196,10 @@ Writer::finish ()
 	_picture_asset_writer->finalize ();
 	_sound_asset_writer->finalize ();
 
-
-	int const frames = _film->dcp_intrinsic_duration().get();
+	int const frames = _last_written_frame + 1;
 	int const duration = frames - _film->trim_start() - _film->trim_end();
+	
+	_film->set_intrinsic_duration (frames);
 	
 	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);
