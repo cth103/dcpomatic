@@ -53,7 +53,7 @@ int const Encoder::_history_size = 25;
 /** @param f Film that we are encoding.
  *  @param o Options.
  */
-Encoder::Encoder (shared_ptr<const Film> f)
+Encoder::Encoder (shared_ptr<Film> f)
 	: _film (f)
 	, _just_skipped (false)
 	, _video_frames_in (0)

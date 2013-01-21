@@ -33,7 +33,7 @@ using boost::shared_ptr;
 
 unsigned int const Writer::_maximum_frames_in_memory = 8;
 
-Writer::Writer (shared_ptr<const Film> f)
+Writer::Writer (shared_ptr<Film> f)
 	: _film (f)
 	, _thread (0)
 	, _finish (false)
@@ -42,7 +42,7 @@ Writer::Writer (shared_ptr<const Film> f)
 	_picture_asset.reset (
 		new libdcp::MonoPictureAsset (
 			_film->dir (_film->dcp_name()),
-			String::compose ("video_%1.mxf", 0),
+			"video.mxf",
 			DCPFrameRate (_film->frames_per_second()).frames_per_second,
 			_film->format()->dcp_size()
 			)
@@ -54,7 +54,7 @@ Writer::Writer (shared_ptr<const Film> f)
 		_sound_asset.reset (
 			new libdcp::SoundAsset (
 				_film->dir (_film->dcp_name()),
-				String::compose ("audio_%1.mxf", 0),
+				"audio.mxf",
 				DCPFrameRate (_film->frames_per_second()).frames_per_second,
 				_film->audio_channels(),
 				dcp_audio_sample_rate (_film->audio_stream()->sample_rate())
@@ -199,7 +199,7 @@ Writer::finish ()
 	int const frames = _last_written_frame + 1;
 	int const duration = frames - _film->trim_start() - _film->trim_end();
 	
-	_film->set_intrinsic_duration (frames);
+	_film->set_dcp_intrinsic_duration (frames);
 	
 	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);

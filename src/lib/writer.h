@@ -36,7 +36,7 @@ namespace libdcp {
 class Writer
 {
 public:
-	Writer (boost::shared_ptr<const Film>);
+	Writer (boost::shared_ptr<Film>);
 	
 	void write (boost::shared_ptr<const EncodedData>, int);
 	void write (boost::shared_ptr<const AudioBuffers>);
@@ -47,7 +47,7 @@ private:
 
 	void thread ();
 
-	boost::shared_ptr<const Film> _film;
+	boost::shared_ptr<Film> _film;
 
 	boost::thread* _thread;
 	bool _finish;

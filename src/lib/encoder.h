@@ -62,7 +62,7 @@ class Writer;
 class Encoder : public VideoSink, public AudioSink
 {
 public:
-	Encoder (boost::shared_ptr<const Film> f);
+	Encoder (boost::shared_ptr<Film> f);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
@@ -96,7 +96,7 @@ private:
 	void terminate_worker_threads ();
 
 	/** Film that we are encoding */
-	boost::shared_ptr<const Film> _film;
+	boost::shared_ptr<Film> _film;
 
 	/** Mutex for _time_history, _just_skipped and _last_frame */
 	mutable boost::mutex _history_mutex;
