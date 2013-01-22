@@ -350,7 +350,7 @@ Image::bytes_per_pixel (int c) const
 			return 0.5;
 		}
 	case PIX_FMT_YUV422P10LE:
-		if (c == 1) {
+		if (c == 0) {
 			return 2;
 		} else {
 			return 1;
