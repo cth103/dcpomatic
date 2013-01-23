@@ -194,7 +194,10 @@ Writer::finish ()
 	_thread = 0;
 
 	_picture_asset_writer->finalize ();
-	_sound_asset_writer->finalize ();
+
+	if (_sound_asset_writer) {
+		_sound_asset_writer->finalize ();
+	}
 
 	int const frames = _last_written_frame + 1;
 	int const duration = frames - _film->trim_start() - _film->trim_end();
@@ -203,8 +206,11 @@ Writer::finish ()
 	
 	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);
-	_sound_asset->set_entry_point (_film->trim_start ());
-	_sound_asset->set_duration (duration);
+
+	if (_sound_asset) {
+		_sound_asset->set_entry_point (_film->trim_start ());
+		_sound_asset->set_duration (duration);
+	}
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 	DCPFrameRate dfr (_film->frames_per_second ());
