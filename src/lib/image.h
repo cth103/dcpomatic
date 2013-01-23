@@ -68,6 +68,8 @@ public:
 	/** @return Size of the image, in pixels */
 	virtual libdcp::Size size () const = 0;
 
+	virtual bool aligned () const = 0;
+
 	int components () const;
 	int lines (int) const;
 
@@ -107,6 +109,7 @@ public:
 	int * line_size () const;
 	int * stride () const;
 	libdcp::Size size () const;
+	bool aligned () const;
 
 private:
 	/* Not allowed */
@@ -131,6 +134,7 @@ public:
 	int * line_size () const;
 	int * stride () const;
 	libdcp::Size size () const;
+	bool aligned () const;
 
 protected:
 	void allocate ();

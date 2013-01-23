@@ -96,11 +96,15 @@ Image::components () const
 }
 
 shared_ptr<Image>
-Image::scale (Size out_size, Scaler const * scaler, bool aligned) const
+Image::scale (Size out_size, Scaler const * scaler, bool result_aligned) const
 {
 	assert (scaler);
+	/* Empirical testing suggests that sws_scale() will crash if
+	   the input image is not aligned.
+	*/
+	assert (aligned ());
 
-	shared_ptr<Image> scaled (new SimpleImage (pixel_format(), out_size, aligned));
+	shared_ptr<Image> scaled (new SimpleImage (pixel_format(), out_size, result_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -125,14 +129,18 @@ Image::scale (Size out_size, Scaler const * scaler, bool aligned) const
  *  @param scaler Scaler to use.
  */
 shared_ptr<Image>
-Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool aligned) const
+Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool result_aligned) const
 {
 	assert (scaler);
+	/* Empirical testing suggests that sws_scale() will crash if
+	   the input image is not aligned.
+	*/
+	assert (aligned ());
 
 	Size content_size = out_size;
 	content_size.width -= (padding * 2);
 
-	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, aligned));
+	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, result_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -153,7 +161,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	   scheme of things.
 	*/
 	if (padding > 0) {
-		shared_ptr<Image> padded_rgb (new SimpleImage (PIX_FMT_RGB24, out_size, aligned));
+		shared_ptr<Image> padded_rgb (new SimpleImage (PIX_FMT_RGB24, out_size, result_aligned));
 		padded_rgb->make_black ();
 
 		/* XXX: we are cheating a bit here; we know the frame is RGB so we can
@@ -485,6 +493,12 @@ SimpleImage::size () const
 	return _size;
 }
 
+bool
+SimpleImage::aligned () const
+{
+	return _aligned;
+}
+
 FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
 	: Image (p)
 	, _buffer (b)
@@ -520,6 +534,13 @@ Size
 FilterBufferImage::size () const
 {
 	return Size (_buffer->video->w, _buffer->video->h);
+}
+
+bool
+FilterBufferImage::aligned () const
+{
+	/* XXX? */
+	return true;
 }
 
 RGBPlusAlphaImage::RGBPlusAlphaImage (shared_ptr<const Image> im)

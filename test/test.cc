@@ -385,26 +385,30 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* descriptio
 
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, libdcp::Size (1998, 1080), false));
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, libdcp::Size (1998, 1080), true));
 	uint8_t* p = image->data()[0];
 	
 	for (int y = 0; y < 1080; ++y) {
+		uint8_t* q = p;
 		for (int x = 0; x < 1998; ++x) {
-			*p++ = x % 256;
-			*p++ = y % 256;
-			*p++ = (x + y) % 256;
+			*q++ = x % 256;
+			*q++ = y % 256;
+			*q++ = (x + y) % 256;
 		}
+		p += image->stride()[0];
 	}
 
-	shared_ptr<Image> sub_image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (100, 200), false));
+	shared_ptr<Image> sub_image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (100, 200), true));
 	p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
+		uint8_t* q = p;
 		for (int x = 0; x < 100; ++x) {
-			*p++ = y % 256;
-			*p++ = x % 256;
-			*p++ = (x + y) % 256;
-			*p++ = 1;
+			*q++ = y % 256;
+			*q++ = x % 256;
+			*q++ = (x + y) % 256;
+			*q++ = 1;
 		}
+		p += sub_image->stride()[0];
 	}
 
 	shared_ptr<Subtitle> subtitle (new Subtitle (Position (50, 60), sub_image));
