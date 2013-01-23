@@ -81,7 +81,7 @@ Matcher::process_end ()
 		
 		_log->log (String::compose ("Emitting %1 frames of black video", black_video_frames));
 
-		shared_ptr<Image> black (new SimpleImage (_pixel_format.get(), _size.get(), false));
+		shared_ptr<Image> black (new SimpleImage (_pixel_format.get(), _size.get(), true));
 		black->make_black ();
 		for (int i = 0; i < black_video_frames; ++i) {
 			Video (black, i != 0, shared_ptr<Subtitle>());

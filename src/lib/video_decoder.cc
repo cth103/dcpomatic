@@ -57,7 +57,7 @@ void
 VideoDecoder::repeat_last_video ()
 {
 	if (!_last_image) {
-		_last_image.reset (new SimpleImage (pixel_format(), native_size(), false));
+		_last_image.reset (new SimpleImage (pixel_format(), native_size(), true));
 		_last_image->make_black ();
 	}
 

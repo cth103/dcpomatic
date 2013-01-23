@@ -98,7 +98,7 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	image = image->crop (_film->crop(), false);
+	image = image->crop (_film->crop(), true);
 	
 	emit_video (image, 0);
 
