@@ -59,9 +59,9 @@ MakeDCPJob::name () const
 
 /** @param f DCP frame index */
 string
-MakeDCPJob::j2c_path (int f, int offset) const
+MakeDCPJob::j2c_path (int f) const
 {
-	SourceFrame const s = ((f + offset) * dcp_frame_rate(_film->frames_per_second()).skip) + _film->dcp_trim_start();
+	SourceFrame const s = (f * dcp_frame_rate(_film->frames_per_second()).skip) + _film->dcp_trim_start();
 	return _opt->frame_out_path (s, false);
 }
 
@@ -107,71 +107,45 @@ MakeDCPJob::run ()
 	
 	dcp.add_cpl (cpl);
 
-	int frames_per_reel = 0;
-	if (_film->reel_size()) {
-		frames_per_reel = (_film->reel_size().get() / (_film->j2k_bandwidth() / 8)) * dfr.frames_per_second;
-	} else {
-		frames_per_reel = frames;
-	}
+	descend (0.8);
 
-	int frames_done = 0;
-	int reel = 0;
-
-	while (frames_done < frames) {
-
-		descend (float (frames_per_reel) / frames);
-
-		int this_time = std::min (frames_per_reel, (frames - frames_done));
-
-		descend (0.8);
-
-		shared_ptr<libdcp::MonoPictureAsset> pa (
-			new libdcp::MonoPictureAsset (
-				boost::bind (&MakeDCPJob::j2c_path, this, _1, frames_done),
+	shared_ptr<libdcp::MonoPictureAsset> pa (
+		new libdcp::MonoPictureAsset (
+			boost::bind (&MakeDCPJob::j2c_path, this, _1),
+			_film->dir (_film->dcp_name()),
+			"video.mxf",
+			&dcp.Progress,
+			dfr.frames_per_second,
+			frames,
+			_opt->out_size
+			)
+		);
+	
+	ascend ();
+	
+	shared_ptr<libdcp::SoundAsset> sa;
+	
+	if (_film->audio_channels() > 0) {
+		descend (0.1);
+		sa.reset (
+			new libdcp::SoundAsset (
+				boost::bind (&MakeDCPJob::wav_path, this, _1),
 				_film->dir (_film->dcp_name()),
-				String::compose ("video_%1.mxf", reel),
+				"audio.mxf",
 				&dcp.Progress,
 				dfr.frames_per_second,
-				this_time,
-				_opt->out_size.width,
-				_opt->out_size.height
+				frames,
+				dcp_audio_channels (_film->audio_channels())
 				)
 			);
-	
-		ascend ();
-		
-		shared_ptr<libdcp::SoundAsset> sa;
-		
-		if (_film->audio_channels() > 0) {
-			descend (0.1);
-			sa.reset (
-				new libdcp::SoundAsset (
-					boost::bind (&MakeDCPJob::wav_path, this, _1),
-					_film->dir (_film->dcp_name()),
-					String::compose ("audio_%1.mxf", reel),
-					&dcp.Progress,
-					dfr.frames_per_second,
-					this_time,
-					frames_done,
-					dcp_audio_channels (_film->audio_channels())
-					)
-				);
-			ascend ();
-		}
-
-		descend (0.1);
-		cpl->add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (pa, sa, shared_ptr<libdcp::SubtitleAsset> ())));
-		ascend ();
-		
-		frames_done += frames_per_reel;
-		++reel;
-
 		ascend ();
 	}
 
+	descend (0.05);
+	cpl->add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (pa, sa, shared_ptr<libdcp::SubtitleAsset> ())));
 	ascend ();
-
-	descend (0.1);
+		
+	descend (0.05);
 	dcp.write_xml ();
 	ascend ();
 		

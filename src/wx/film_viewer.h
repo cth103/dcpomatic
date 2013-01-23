@@ -59,7 +59,7 @@ private:
 
 	boost::shared_ptr<Film> _film;
 
-	wxBoxSizer* _v_sizer;
+	wxSizer* _v_sizer;
 	wxPanel* _panel;
 	wxSlider* _slider;
 	wxToggleButton* _play_button;

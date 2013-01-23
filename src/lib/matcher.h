@@ -35,6 +35,6 @@ private:
 	int _video_frames;
 	int64_t _audio_frames;
 	boost::optional<AVPixelFormat> _pixel_format;
-	boost::optional<Size> _size;
+	boost::optional<libdcp::Size> _size;
 	boost::optional<int> _channels;
 };

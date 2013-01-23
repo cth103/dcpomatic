@@ -55,7 +55,7 @@ TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 		throw DecodeError ("non-bitmap subtitles not yet supported");
 	}
 	
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGBA, Size (rect->w, rect->h), true));
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];

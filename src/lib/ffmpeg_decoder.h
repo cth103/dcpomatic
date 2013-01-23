@@ -90,7 +90,7 @@ public:
 	~FFmpegDecoder ();
 
 	float frames_per_second () const;
-	Size native_size () const;
+	libdcp::Size native_size () const;
 	SourceFrame length () const;
 	int time_base_numerator () const;
 	int time_base_denominator () const;

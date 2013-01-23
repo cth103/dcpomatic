@@ -65,14 +65,14 @@ public:
 	/** @return Array of strides for each line (including any alignment padding bytes) */
 	virtual int * stride () const = 0;
 
-	/** @return Size of the image, in pixels */
-	virtual Size size () const = 0;
+	/** @return libdcp::Size of the image, in pixels */
+	virtual libdcp::Size size () const = 0;
 
 	int components () const;
 	int lines (int) const;
 
-	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool aligned) const;
-	boost::shared_ptr<Image> scale (Size, Scaler const *, bool aligned) const;
+	boost::shared_ptr<Image> scale_and_convert_to_rgb (libdcp::Size out_size, int padding, Scaler const * scaler, bool aligned) const;
+	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
@@ -106,7 +106,7 @@ public:
 	uint8_t ** data () const;
 	int * line_size () const;
 	int * stride () const;
-	Size size () const;
+	libdcp::Size size () const;
 
 private:
 	/* Not allowed */
@@ -122,7 +122,7 @@ private:
 class SimpleImage : public Image
 {
 public:
-	SimpleImage (AVPixelFormat, Size, bool);
+	SimpleImage (AVPixelFormat, libdcp::Size, bool);
 	SimpleImage (SimpleImage const &);
 	SimpleImage& operator= (SimpleImage const &);
 	~SimpleImage ();
@@ -130,14 +130,14 @@ public:
 	uint8_t ** data () const;
 	int * line_size () const;
 	int * stride () const;
-	Size size () const;
+	libdcp::Size size () const;
 
 protected:
 	void allocate ();
 	void swap (SimpleImage &);
 	
 private:
-	Size _size; ///< size in pixels
+	libdcp::Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)

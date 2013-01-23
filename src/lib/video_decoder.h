@@ -32,7 +32,7 @@ public:
 	/** @return video frames per second, or 0 if unknown */
 	virtual float frames_per_second () const = 0;
 	/** @return native size in pixels */
-	virtual Size native_size () const = 0;
+	virtual libdcp::Size native_size () const = 0;
 	/** @return length (in source video frames), according to our content's header */
 	virtual SourceFrame length () const = 0;
 

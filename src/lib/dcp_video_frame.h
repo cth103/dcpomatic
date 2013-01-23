@@ -40,7 +40,7 @@ class EncodedData
 {
 public:
 	/** @param d Data (will not be freed by this class, but may be by subclasses)
-	 *  @param s Size of data, in bytes.
+	 *  @param s libdcp::Size of data, in bytes.
 	 */
 	EncodedData (uint8_t* d, int s)
 		: _data (d)
@@ -76,7 +76,7 @@ class LocallyEncodedData : public EncodedData
 {
 public:
 	/** @param d Data (which will not be freed by this class)
-	 *  @param s Size of data, in bytes.
+	 *  @param s libdcp::Size of data, in bytes.
 	 */
 	LocallyEncodedData (uint8_t* d, int s)
 		: EncodedData (d, s)
@@ -107,7 +107,7 @@ class DCPVideoFrame
 {
 public:
 	DCPVideoFrame (
-		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, Size,
+		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, libdcp::Size,
 		int, int, float, Scaler const *, SourceFrame, float, std::string, int, int, Log *
 		);
 	
@@ -125,7 +125,7 @@ private:
 
 	boost::shared_ptr<const Image> _input; ///< the input image
 	boost::shared_ptr<Subtitle> _subtitle; ///< any subtitle that should be on the image
-	Size _out_size;                  ///< the required size of the output, in pixels
+	libdcp::Size _out_size;                  ///< the required size of the output, in pixels
 	int _padding;
 	int _subtitle_offset;
 	float _subtitle_scale;

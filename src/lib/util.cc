@@ -244,7 +244,7 @@ dvdomatic_setup ()
  *  @return FFmpeg crop filter string.
  */
 string
-crop_string (Position start, Size size)
+crop_string (Position start, libdcp::Size size)
 {
 	stringstream s;
 	s << "crop=" << size.width << ":" << size.height << ":" << start.x << ":" << start.y;
@@ -375,17 +375,6 @@ dcp_audio_channels (int f)
 	}
 
 	return f;
-}
-
-
-bool operator== (Size const & a, Size const & b)
-{
-	return (a.width == b.width && a.height == b.height);
-}
-
-bool operator!= (Size const & a, Size const & b)
-{
-	return !(a == b);
 }
 
 bool operator== (Crop const & a, Crop const & b)

@@ -90,7 +90,7 @@ public:
 		return s.str ();
 	}
 
-	Size out_size;              ///< size of output images
+	libdcp::Size out_size;      ///< size of output images
 	int padding;                ///< number of pixels of padding (in terms of the output size) each side of the image
 
 	/** Range of video frames to encode (in DCP frames) */

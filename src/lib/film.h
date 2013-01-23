@@ -86,7 +86,7 @@ public:
 	void write_metadata () const;
 	void read_metadata ();
 
-	Size cropped_size (Size) const;
+	libdcp::Size cropped_size (libdcp::Size) const;
 	boost::optional<int> dcp_length () const;
 	std::string dci_name () const;
 	std::string dcp_name () const;
@@ -116,7 +116,6 @@ public:
 		SCALER,
 		DCP_TRIM_START,
 		DCP_TRIM_END,
-		REEL_SIZE,
 		DCP_AB,
 		CONTENT_AUDIO_STREAM,
 		EXTERNAL_AUDIO,
@@ -201,11 +200,6 @@ public:
 		return _dcp_trim_end;
 	}
 
-	boost::optional<uint64_t> reel_size () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _reel_size;
-	}
-	
 	bool dcp_ab () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_ab;
@@ -306,7 +300,7 @@ public:
 		return _package_type;
 	}
 
-	Size size () const {
+	libdcp::Size size () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _size;
 	}
@@ -361,8 +355,6 @@ public:
 	void set_scaler (Scaler const *);
 	void set_dcp_trim_start (int);
 	void set_dcp_trim_end (int);
-	void set_reel_size (uint64_t);
-	void unset_reel_size ();
 	void set_dcp_ab (bool);
 	void set_content_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
@@ -383,7 +375,7 @@ public:
 	void set_studio (std::string);
 	void set_facility (std::string);
 	void set_package_type (std::string);
-	void set_size (Size);
+	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
 	void set_content_digest (std::string);
@@ -445,8 +437,6 @@ private:
 	int _dcp_trim_start;
 	/** Frames to trim off the end of the DCP */
 	int _dcp_trim_end;
-	/** Approximate target reel size in bytes; if not set, use a single reel */
-	boost::optional<uint64_t> _reel_size;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.
@@ -494,8 +484,8 @@ private:
 
 	/* Data which are cached to speed things up */
 
-	/** Size, in pixels, of the source (ignoring cropping) */
-	Size _size;
+	/** libdcp::Size, in pixels, of the source (ignoring cropping) */
+	libdcp::Size _size;
 	/** The length of the source, in video frames (as far as we know) */
 	boost::optional<SourceFrame> _length;
 	/** MD5 digest of our content file */

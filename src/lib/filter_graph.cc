@@ -54,7 +54,7 @@ using boost::shared_ptr;
  *  @param s Size of the images to process.
  *  @param p Pixel format of the images to process.
  */
-FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, Size s, AVPixelFormat p)
+FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)
@@ -205,7 +205,7 @@ FilterGraph::process (AVFrame const * frame)
  *  @return true if this chain can process images with `s' and `p', otherwise false.
  */
 bool
-FilterGraph::can_process (Size s, AVPixelFormat p) const
+FilterGraph::can_process (libdcp::Size s, AVPixelFormat p) const
 {
 	return (_size == s && _pixel_format == p);
 }

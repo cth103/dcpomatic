@@ -75,7 +75,7 @@ using boost::shared_ptr;
  */
 DCPVideoFrame::DCPVideoFrame (
 	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
-	Size out, int p, int subtitle_offset, float subtitle_scale,
+	libdcp::Size out, int p, int subtitle_offset, float subtitle_scale,
 	Scaler const * s, SourceFrame f, float fps, string pp, int clut, int bw, Log* l
 	)
 	: _input (yuv)

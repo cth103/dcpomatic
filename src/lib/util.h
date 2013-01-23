@@ -29,6 +29,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
+#include <libdcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -77,33 +78,6 @@ enum ContentType {
 	STILL, ///< content is still images
 	VIDEO  ///< content is a video
 };
-
-/** @class Size
- *  @brief Representation of the size of something */
-struct Size
-{
-	/** Construct a zero Size */
-	Size ()
-		: width (0)
-		, height (0)
-	{}
-
-	/** @param w Width.
-	 *  @param h Height.
-	 */
-	Size (int w, int h)
-		: width (w)
-		, height (h)
-	{}
-
-	/** width */
-	int width;
-	/** height */
-	int height;
-};
-
-extern bool operator== (Size const & a, Size const & b);
-extern bool operator!= (Size const & a, Size const & b);
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
@@ -174,14 +148,14 @@ struct Rect
 		return Position (x, y);
 	}
 
-	Size size () const {
-		return Size (width, height);
+	libdcp::Size size () const {
+		return libdcp::Size (width, height);
 	}
 
 	Rect intersection (Rect const & other) const;
 };
 
-extern std::string crop_string (Position, Size);
+extern std::string crop_string (Position, libdcp::Size);
 extern int dcp_audio_sample_rate (int);
 extern DCPFrameRate dcp_frame_rate (float);
 extern int dcp_audio_channels (int);

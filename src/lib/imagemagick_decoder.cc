@@ -50,7 +50,7 @@ ImageMagickDecoder::ImageMagickDecoder (
 	_iter = _files.begin ();
 }
 
-Size
+libdcp::Size
 ImageMagickDecoder::native_size () const
 {
 	if (_files.empty ()) {
@@ -60,7 +60,7 @@ ImageMagickDecoder::native_size () const
 	/* Look at the first file and assume its size holds for all */
 	using namespace MagickCore;
 	Magick::Image* image = new Magick::Image (_film->content_path ());
-	Size const s = Size (image->columns(), image->rows());
+	libdcp::Size const s = libdcp::Size (image->columns(), image->rows());
 	delete image;
 
 	return s;
@@ -80,7 +80,7 @@ ImageMagickDecoder::pass ()
 	
 	Magick::Image* magick_image = new Magick::Image (_film->content_path ());
 	
-	Size size = native_size ();
+	libdcp::Size size = native_size ();
 	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, size, false));
 
 	using namespace MagickCore;

@@ -33,7 +33,7 @@ public:
 		return 0;
 	}
 
-	Size native_size () const;
+	libdcp::Size native_size () const;
 
 	SourceFrame length () const {
 		/* We don't know */
