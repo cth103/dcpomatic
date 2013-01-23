@@ -103,7 +103,7 @@ def configure(conf):
     if conf.options.static:
         conf.check_cc(fragment = openjpeg_fragment, msg = 'Checking for library openjpeg', stlib = 'openjpeg', uselib_store = 'OPENJPEG')
     else:
-        conf.check_cc(fragment = openjpeg_fragment, msg = 'Checking for library openjpeg', lib = 'openjpeg', uselib_store = 'OPENJPEG')
+        conf.check_cfg(package = 'libopenjpeg', args = '--cflags --libs', uselib_store = 'OPENJPEG', mandatory = True)
 
     conf.check_cc(fragment  = """
                               #include <libssh/libssh.h>\n
