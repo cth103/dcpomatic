@@ -1,3 +1,8 @@
+2013-01-23  Carl Hetherington  <cth@carlh.net>
+
+	* Remove multi-reel support (for now); needs more thinking about
+	and testing.
+
 2013-01-12  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.71beta2 released.
