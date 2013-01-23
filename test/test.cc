@@ -69,9 +69,69 @@ new_test_film (string name)
 	return shared_ptr<Film> (new Film (d, false));
 }
 
+
+/* Check that Image::make_black works, and doesn't use values which crash
+   sws_scale().
+*/
+BOOST_AUTO_TEST_CASE (make_black_test)
+{
+	/* This needs to happen in the first test */
+	dvdomatic_setup ();
+
+	libdcp::Size in_size (512, 512);
+	libdcp::Size out_size (1024, 1024);
+
+	{
+		/* Plain RGB input */
+		boost::shared_ptr<Image> foo (new SimpleImage (AV_PIX_FMT_RGB24, in_size, true));
+		foo->make_black ();
+		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
+		
+		uint8_t* p = bar->data()[0];
+		for (int y = 0; y < bar->size().height; ++y) {
+			uint8_t* q = p;
+			for (int x = 0; x < bar->line_size()[0]; ++x) {
+				BOOST_CHECK_EQUAL (*q++, 0);
+			}
+			p += bar->stride()[0];
+		}
+	}
+
+	{
+		/* YUV420P input */
+		boost::shared_ptr<Image> foo (new SimpleImage (AV_PIX_FMT_YUV420P, in_size, true));
+		foo->make_black ();
+		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
+		
+		uint8_t* p = bar->data()[0];
+		for (int y = 0; y < bar->size().height; ++y) {
+			uint8_t* q = p;
+			for (int x = 0; x < bar->line_size()[0]; ++x) {
+				BOOST_CHECK_EQUAL (*q++, 0);
+			}
+			p += bar->stride()[0];
+		}
+	}
+
+	{
+		/* YUV422P10LE input */
+		boost::shared_ptr<Image> foo (new SimpleImage (AV_PIX_FMT_YUV422P10LE, in_size, true));
+		foo->make_black ();
+		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
+		
+		uint8_t* p = bar->data()[0];
+		for (int y = 0; y < bar->size().height; ++y) {
+			uint8_t* q = p;
+			for (int x = 0; x < bar->line_size()[0]; ++x) {
+				BOOST_CHECK_EQUAL (*q++, 0);
+			}
+			p += bar->stride()[0];
+		}
+	}
+}
+
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
-	dvdomatic_setup ();
 	setup_test_config ();
 
 	string const test_film = "build/test/film_metadata_test";

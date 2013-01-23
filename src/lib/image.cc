@@ -245,13 +245,25 @@ Image::make_black ()
 {
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
 		memset (data()[0], 0, lines(0) * stride()[0]);
-		memset (data()[1], 0x80, lines(1) * stride()[1]);
-		memset (data()[2], 0x80, lines(2) * stride()[2]);
+		memset (data()[1], 0x7f, lines(1) * stride()[1]);
+		memset (data()[2], 0x7f, lines(2) * stride()[2]);
 		break;
 
+	case PIX_FMT_YUV422P10LE:
+		memset (data()[0], 0, lines(0) * stride()[0]);
+		for (int i = 1; i < 3; ++i) {
+			int16_t* p = reinterpret_cast<int16_t*> (data()[i]);
+			for (int y = 0; y < size().height; ++y) {
+				for (int x = 0; x < line_size()[i] / 2; ++x) {
+					p[x] = (1 << 9) - 1;
+				}
+				p += stride()[i] / 2;
+			}
+		}
+		break;
+		
 	case PIX_FMT_RGB24:		
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
