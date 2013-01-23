@@ -65,8 +65,6 @@ private:
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);
-	void multiple_reels_toggled (wxCommandEvent &);
-	void reel_size_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
@@ -94,7 +92,6 @@ private:
 	void setup_formats ();
 	void setup_subtitle_control_sensitivity ();
 	void setup_audio_control_sensitivity ();
-	void setup_reel_control_sensitivity ();
 	void setup_streams ();
 	void setup_audio_details ();
 	
@@ -170,8 +167,6 @@ private:
 
 	wxSpinCtrl* _trim_start;
 	wxSpinCtrl* _trim_end;
-	wxCheckBox* _multiple_reels;
-	wxSpinCtrl* _reel_size;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 

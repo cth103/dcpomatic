@@ -258,13 +258,13 @@ FilmViewer::raw_to_display ()
 		return;
 	}
 
-	Size old_size;
+	libdcp::Size old_size;
 	if (_display_frame) {
 		old_size = _display_frame->size();
 	}
 
 	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler(), false);
+	_display_frame = _raw_frame->scale_and_convert_to_rgb (libdcp::Size (_out_width, _out_height), 0, _film->scaler(), false);
 
 	if (old_size != _display_frame->size()) {
 		_clear_required = true;

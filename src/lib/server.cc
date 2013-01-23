@@ -93,9 +93,9 @@ Server::process (shared_ptr<Socket> socket)
 		return -1;
 	}
 
-	Size in_size (get_required_int (kv, "input_width"), get_required_int (kv, "input_height"));
+	libdcp::Size in_size (get_required_int (kv, "input_width"), get_required_int (kv, "input_height"));
 	int pixel_format_int = get_required_int (kv, "input_pixel_format");
-	Size out_size (get_required_int (kv, "output_width"), get_required_int (kv, "output_height"));
+	libdcp::Size out_size (get_required_int (kv, "output_width"), get_required_int (kv, "output_height"));
 	int padding = get_required_int (kv, "padding");
 	int subtitle_offset = get_required_int (kv, "subtitle_offset");
 	float subtitle_scale = get_required_float (kv, "subtitle_scale");
@@ -106,7 +106,7 @@ Server::process (shared_ptr<Socket> socket)
 	int colour_lut_index = get_required_int (kv, "colour_lut");
 	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
 	Position subtitle_position (get_optional_int (kv, "subtitle_x"), get_optional_int (kv, "subtitle_y"));
-	Size subtitle_size (get_optional_int (kv, "subtitle_width"), get_optional_int (kv, "subtitle_height"));
+	libdcp::Size subtitle_size (get_optional_int (kv, "subtitle_width"), get_optional_int (kv, "subtitle_height"));
 
 	/* This checks that colour_lut_index is within range */
 	colour_lut_index_to_name (colour_lut_index);

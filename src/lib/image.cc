@@ -96,7 +96,7 @@ Image::components () const
 }
 
 shared_ptr<Image>
-Image::scale (Size out_size, Scaler const * scaler, bool result_aligned) const
+Image::scale (libdcp::Size out_size, Scaler const * scaler, bool result_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -129,7 +129,7 @@ Image::scale (Size out_size, Scaler const * scaler, bool result_aligned) const
  *  @param scaler Scaler to use.
  */
 shared_ptr<Image>
-Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool result_aligned) const
+Image::scale_and_convert_to_rgb (libdcp::Size out_size, int padding, Scaler const * scaler, bool result_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -137,7 +137,7 @@ Image::scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scal
 	*/
 	assert (aligned ());
 
-	Size content_size = out_size;
+	libdcp::Size content_size = out_size;
 	content_size.width -= (padding * 2);
 
 	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, result_aligned));
@@ -224,7 +224,7 @@ Image::post_process (string pp, bool aligned) const
 shared_ptr<Image>
 Image::crop (Crop crop, bool aligned) const
 {
-	Size cropped_size = size ();
+	libdcp::Size cropped_size = size ();
 	cropped_size.width -= crop.left + crop.right;
 	cropped_size.height -= crop.top + crop.bottom;
 
@@ -389,7 +389,7 @@ Image::bytes_per_pixel (int c) const
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-SimpleImage::SimpleImage (AVPixelFormat p, Size s, bool aligned)
+SimpleImage::SimpleImage (AVPixelFormat p, libdcp::Size s, bool aligned)
 	: Image (p)
 	, _size (s)
 	, _aligned (aligned)
@@ -487,7 +487,7 @@ SimpleImage::stride () const
 	return _stride;
 }
 
-Size
+libdcp::Size
 SimpleImage::size () const
 {
 	return _size;
@@ -530,10 +530,10 @@ FilterBufferImage::stride () const
 	return _buffer->linesize;
 }
 
-Size
+libdcp::Size
 FilterBufferImage::size () const
 {
-	return Size (_buffer->video->w, _buffer->video->h);
+	return libdcp::Size (_buffer->video->w, _buffer->video->h);
 }
 
 bool

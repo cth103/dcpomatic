@@ -81,7 +81,7 @@ public:
 	static void setup_formats ();
 
 protected:	
-	/** Size in pixels of the images that we should
+	/** libdcp::Size in pixels of the images that we should
 	 *  put in a DCP for this ratio.  This size will not correspond
 	 *  to the ratio when we are doing things like 16:9 in a Flat frame.
 	 */

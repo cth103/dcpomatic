@@ -469,10 +469,10 @@ FFmpegDecoder::audio_sample_format () const
 	return _audio_codec_context->sample_fmt;
 }
 
-Size
+libdcp::Size
 FFmpegDecoder::native_size () const
 {
-	return Size (_video_codec_context->width, _video_codec_context->height);
+	return libdcp::Size (_video_codec_context->width, _video_codec_context->height);
 }
 
 PixelFormat
@@ -559,12 +559,12 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 	shared_ptr<FilterGraph> graph;
 
 	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process (Size (frame->width, frame->height), (AVPixelFormat) frame->format)) {
+	while (i != _filter_graphs.end() && !(*i)->can_process (libdcp::Size (frame->width, frame->height), (AVPixelFormat) frame->format)) {
 		++i;
 	}
 
 	if (i == _filter_graphs.end ()) {
-		graph.reset (new FilterGraph (_film, this, Size (frame->width, frame->height), (AVPixelFormat) frame->format));
+		graph.reset (new FilterGraph (_film, this, libdcp::Size (frame->width, frame->height), (AVPixelFormat) frame->format));
 		_filter_graphs.push_back (graph);
 		_film->log()->log (String::compose ("New graph for %1x%2, pixel format %3", frame->width, frame->height, frame->format));
 	} else {

@@ -157,7 +157,6 @@ Film::Film (Film const & o)
 	, _scaler            (o._scaler)
 	, _trim_start        (o._trim_start)
 	, _trim_end          (o._trim_end)
-	, _reel_size         (o._reel_size)
 	, _dcp_ab            (o._dcp_ab)
 	, _content_audio_stream (o._content_audio_stream)
 	, _external_audio    (o._external_audio)
@@ -390,9 +389,6 @@ Film::write_metadata () const
 	f << "scaler " << _scaler->id () << "\n";
 	f << "trim_start " << _trim_start << "\n";
 	f << "trim_end " << _trim_end << "\n";
-	if (_reel_size) {
-		f << "reel_size " << _reel_size.get() << "\n";
-	}
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
 	if (_content_audio_stream) {
 		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << "\n";
@@ -508,8 +504,6 @@ Film::read_metadata ()
 			_trim_start = atoi (v.c_str ());
 		} else if ( ((!version || version < 2) && k == "trim_end") || k == "trim_end") {
 			_trim_end = atoi (v.c_str ());
-		} else if (k == "reel_size") {
-			_reel_size = boost::lexical_cast<uint64_t> (v);
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
 		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
@@ -610,8 +604,8 @@ Film::read_metadata ()
 	_dirty = false;
 }
 
-Size
-Film::cropped_size (Size s) const
+libdcp::Size
+Film::cropped_size (libdcp::Size s) const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	s.width -= _crop.left + _crop.right;
@@ -1071,26 +1065,6 @@ Film::set_trim_end (int t)
 }
 
 void
-Film::set_reel_size (uint64_t s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_reel_size = s;
-	}
-	signal_changed (REEL_SIZE);
-}
-
-void
-Film::unset_reel_size ()
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_reel_size = boost::optional<uint64_t> ();
-	}
-	signal_changed (REEL_SIZE);
-}
-
-void
 Film::set_dcp_ab (bool a)
 {
 	{
@@ -1298,7 +1272,7 @@ Film::set_package_type (string p)
 }
 
 void
-Film::set_size (Size s)
+Film::set_size (libdcp::Size s)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);

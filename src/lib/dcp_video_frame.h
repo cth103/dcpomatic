@@ -39,8 +39,7 @@ class Subtitle;
 class EncodedData
 {
 public:
-	/** @param s Size of data, in bytes.
-	 */
+	/** @param s Size of data, in bytes */
 	EncodedData (int s);
 
 	EncodedData (std::string f);
