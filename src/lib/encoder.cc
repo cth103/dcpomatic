@@ -55,7 +55,6 @@ int const Encoder::_history_size = 25;
  */
 Encoder::Encoder (shared_ptr<Film> f)
 	: _film (f)
-	, _just_skipped (false)
 	, _video_frames_in (0)
 	, _video_frames_out (0)
 #ifdef HAVE_SWRESAMPLE	  
@@ -207,14 +206,6 @@ Encoder::current_frames_per_second () const
 	return _history_size / (seconds (now) - seconds (_time_history.back ()));
 }
 
-/** @return true if the last frame to be processed was skipped as it already existed */
-bool
-Encoder::skipping () const
-{
-	boost::mutex::scoped_lock (_history_mutex);
-	return _just_skipped;
-}
-
 /** @return Number of video frames that have been sent out */
 int
 Encoder::video_frames_out () const
@@ -230,7 +221,6 @@ void
 Encoder::frame_done ()
 {
 	boost::mutex::scoped_lock lock (_history_mutex);
-	_just_skipped = false;
 	
 	struct timeval tv;
 	gettimeofday (&tv, 0);
@@ -238,16 +228,6 @@ Encoder::frame_done ()
 	if (int (_time_history.size()) > _history_size) {
 		_time_history.pop_back ();
 	}
-}
-
-/** Called by a subclass when it has just skipped the processing
-    of a frame because it has already been done.
-*/
-void
-Encoder::frame_skipped ()
-{
-	boost::mutex::scoped_lock lock (_history_mutex);
-	_just_skipped = true;
 }
 
 void
@@ -270,12 +250,6 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	}
 
 	if (_terminate_encoder) {
-		return;
-	}
-
-	/* Only do the processing if we don't already have a file for this frame */
-	if (boost::filesystem::exists (_film->frame_out_path (_video_frames_out, false))) {
-		frame_skipped ();
 		return;
 	}
 

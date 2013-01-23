@@ -407,27 +407,27 @@ EncodedData::~EncodedData ()
 void
 EncodedData::write (shared_ptr<const Film> film, int frame) const
 {
-	string const tmp_j2k = film->frame_out_path (frame, true);
+	string const tmp_j2c = film->j2c_path (frame, true);
 
-	FILE* f = fopen (tmp_j2k.c_str (), "wb");
+	FILE* f = fopen (tmp_j2c.c_str (), "wb");
 	
 	if (!f) {
-		throw WriteFileError (tmp_j2k, errno);
+		throw WriteFileError (tmp_j2c, errno);
 	}
 
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
-	string const real_j2k = film->frame_out_path (frame, false);
+	string const real_j2c = film->j2c_path (frame, false);
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
-	boost::filesystem::rename (tmp_j2k, real_j2k);
+	boost::filesystem::rename (tmp_j2c, real_j2c);
 }
 
 void
 EncodedData::write_hash (shared_ptr<const Film> film, int frame) const
 {
-	string const hash = film->hash_out_path (frame, false);
+	string const hash = film->hash_path (frame);
 	ofstream h (hash.c_str());
 	h << md5_digest (_data, _size) << "\n";
 }

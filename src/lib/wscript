@@ -14,7 +14,6 @@ def build(bld):
 		 ab_transcoder.cc
                  audio_decoder.cc
                  audio_source.cc
-                 check_hashes_job.cc
 		 config.cc
                  combiner.cc
                  cross.cc

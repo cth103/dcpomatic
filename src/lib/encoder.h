@@ -82,13 +82,11 @@ public:
 	virtual void process_end ();
 
 	float current_frames_per_second () const;
-	bool skipping () const;
 	int video_frames_out () const;
 
 private:
 	
 	void frame_done ();
-	void frame_skipped ();
 	
 	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 
@@ -98,7 +96,7 @@ private:
 	/** Film that we are encoding */
 	boost::shared_ptr<Film> _film;
 
-	/** Mutex for _time_history, _just_skipped and _last_frame */
+	/** Mutex for _time_history and _last_frame */
 	mutable boost::mutex _history_mutex;
 	/** List of the times of completion of the last _history_size frames;
 	    first is the most recently completed.
@@ -106,8 +104,6 @@ private:
 	std::list<struct timeval> _time_history;
 	/** Number of frames that we should keep history for */
 	static int const _history_size;
-	/** true if the last frame we processed was skipped (because it was already done) */
-	bool _just_skipped;
 
 	/** Number of video frames received so far */
 	SourceFrame _video_frames_in;

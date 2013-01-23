@@ -46,7 +46,6 @@
 #include "scaler.h"
 #include "decoder_factory.h"
 #include "config.h"
-#include "check_hashes_job.h"
 #include "version.h"
 #include "ui_signaller.h"
 #include "video_decoder.h"
@@ -194,24 +193,14 @@ Film::~Film ()
 {
 	delete _log;
 }
-	  
-/** @return The path to the directory to write JPEG2000 files to */
+
 string
-Film::j2k_dir () const
+Film::video_state_identifier () const
 {
-	assert (format());
-
-	boost::filesystem::path p;
-
-	/* Start with j2c */
-	p /= "j2c";
+	assert (format ());
 
 	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
-	/* Write stuff to specify the filter / post-processing settings that are in use,
-	   so that we don't get confused about J2K files generated using different
-	   settings.
-	*/
 	stringstream s;
 	s << format()->id()
 	  << "_" << content_digest()
@@ -221,17 +210,31 @@ Film::j2k_dir () const
 	  << "_" << j2k_bandwidth()
 	  << "_" << boost::lexical_cast<int> (colour_lut());
 
-	p /= s.str ();
-
-	/* Similarly for the A/B case */
 	if (dcp_ab()) {
-		stringstream s;
 		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
 		s << "ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
-		p /= s.str ();
 	}
-	
+
+	return s.str ();
+}
+	  
+/** @return The path to the directory to write video frame hash files to */
+string
+Film::hash_dir () const
+{
+	boost::filesystem::path p;
+	p /= "hash";
+	p /= video_state_identifier ();
 	return dir (p.string());
+}
+
+string
+Film::video_mxf_path () const
+{
+	boost::filesystem::path p;
+	p /= "video";
+	p /= video_state_identifier ();
+	return file (p.string());
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film.
@@ -302,8 +305,6 @@ Film::make_dcp (bool transcode)
 			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od, shared_ptr<Job> ())));
 		}
 	}
-
-	// r = JobManager::instance()->add (shared_ptr<Job> (new CheckHashesJob (shared_from_this(), od, r)));
 }
 
 /** Start a job to examine our content file */
@@ -344,7 +345,7 @@ Film::encoded_frames () const
 	}
 
 	int N = 0;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (j2k_dir ()); i != boost::filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (hash_dir ()); i != boost::filesystem::directory_iterator(); ++i) {
 		++N;
 		boost::this_thread::interruption_point ();
 	}
@@ -1391,44 +1392,37 @@ Film::audio_stream () const
 	return _external_audio_stream;
 }
 
-/** @param f DCP frame index.
- *  @param t true to return a temporary file path, otherwise a permanent one.
- *  @return The path to write this video frame to.
- */
 string
-Film::frame_out_path (int f, bool t) const
+Film::hash_path (int f) const
 {
+	boost::filesystem::path p;
+	p /= hash_dir ();
+
 	stringstream s;
-	s << j2k_dir() << "/";
 	s.width (8);
-	s << std::setfill('0') << f << ".j2c";
+	s << setfill('0') << f << ".md5";
 
-	if (t) {
-		s << ".tmp";
-	}
-
-	return s.str ();
+	p /= s.str();
+	return p.string ();
 }
 
 string
-Film::hash_out_path (int f, bool t) const
+Film::j2c_path (int f, bool t) const
 {
-	return frame_out_path (f, t) + ".md5";
-}
+	boost::filesystem::path p;
+	p /= "j2c";
+	p /= video_state_identifier ();
 
-/** @param c Audio channel index.
- *  @param t true to return a temporary file path, otherwise a permanent one.
- *  @return The path to write this audio file to.
- */
-string
-Film::multichannel_audio_out_path (int c, bool t) const
-{
 	stringstream s;
-	s << dir ("wavs") << "/" << (c + 1) << ".wav";
+	s.width (8);
+	s << setfill('0') << f << ".j2c";
+
 	if (t) {
 		s << ".tmp";
 	}
-	
-	return s.str ();
+
+	p /= s.str();
+	return p.string ();
 }
+
 

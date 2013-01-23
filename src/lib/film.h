@@ -59,7 +59,10 @@ public:
 	Film (Film const &);
 	~Film ();
 
-	std::string j2k_dir () const;
+	std::string hash_dir () const;
+	std::string j2c_path (int f, bool t) const;
+	std::string hash_path (int f) const;
+	std::string video_mxf_path () const;
 
 	void examine_content ();
 	void send_dcp_to_tms ();
@@ -78,10 +81,6 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
-	std::string frame_out_path (int f, bool t) const;
-	std::string hash_out_path (int f, bool t) const;
-	std::string multichannel_audio_out_path (int c, bool t) const;
-	
 	std::string content_path () const;
 	ContentType content_type () const;
 	
@@ -413,6 +412,7 @@ private:
 
 	void signal_changed (Property);
 	void examine_content_finished ();
+	std::string video_state_identifier () const;
 
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.

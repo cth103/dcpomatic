@@ -89,11 +89,6 @@ TranscodeJob::status () const
 		return "0%";
 	}
 
-	if (_encoder->skipping () && !finished ()) {
-		return "skipping already-encoded frames";
-	}
-		
-	
 	float const fps = _encoder->current_frames_per_second ();
 	if (fps == 0) {
 		return Job::status ();

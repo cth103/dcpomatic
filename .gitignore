@@ -17,4 +17,7 @@ doc/manual/pdf
 doc/manual/extensions.ent
 .be/id-cache
 *.pyc
-
+GPATH
+GRTAGS
+GSYMS
+GTAGS

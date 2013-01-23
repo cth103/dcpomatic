@@ -42,7 +42,7 @@ Writer::Writer (shared_ptr<Film> f)
 	_picture_asset.reset (
 		new libdcp::MonoPictureAsset (
 			_film->dir (_film->dcp_name()),
-			"video.mxf",
+			_film->video_mxf_path(),
 			DCPFrameRate (_film->frames_per_second()).frames_per_second,
 			_film->format()->dcp_size()
 			)
@@ -164,9 +164,9 @@ Writer::thread ()
 			lock.unlock ();
 			_film->log()->log (String::compose ("Writer pulls %1 back from disk", fetch));
 			shared_ptr<const EncodedData> encoded;
-			if (boost::filesystem::exists (_film->frame_out_path (fetch, false))) {
+			if (boost::filesystem::exists (_film->j2c_path (fetch, false))) {
 				/* It's an actual frame (not a repeat-last); load it in */
-				encoded.reset (new EncodedData (_film->frame_out_path (fetch, false)));
+				encoded.reset (new EncodedData (_film->j2c_path (fetch, false)));
 			}
 			lock.lock ();
 
