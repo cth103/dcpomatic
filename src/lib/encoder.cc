@@ -350,6 +350,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 
 		if (this_range.second < required_range.first || required_range.second < this_range.first) {
 			/* No part of this audio is within the required range */
+			_audio_frame += data->frames();
 			return;
 		} else if (required_range.first >= this_range.first && required_range.first < this_range.second) {
 			/* Trim start */
