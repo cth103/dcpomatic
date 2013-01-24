@@ -1,5 +1,9 @@
 2013-01-24  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.71 released.
+
+2013-01-24  Carl Hetherington  <cth@carlh.net>
+
 	* Fix lack of audio with trimmed DCPs.
 
 2013-01-07  Carl Hetherington  <cth@carlh.net>
