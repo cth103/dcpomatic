@@ -62,7 +62,8 @@ public:
 	std::string hash_dir () const;
 	std::string j2c_path (int f, bool t) const;
 	std::string hash_path (int f) const;
-	std::string video_mxf_path () const;
+	std::string video_mxf_dir () const;
+	std::string video_mxf_filename () const;
 
 	void examine_content ();
 	void send_dcp_to_tms ();

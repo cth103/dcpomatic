@@ -39,10 +39,15 @@ Writer::Writer (shared_ptr<Film> f)
 	, _finish (false)
 	, _last_written_frame (-1)
 {
+	/* Create our picture asset in a subdirectory, named according to the
+	   film's parameters which affect the video output.  We will hard-link
+	   it into the DCP later.
+	*/
+	
 	_picture_asset.reset (
 		new libdcp::MonoPictureAsset (
-			_film->dir (_film->dcp_name()),
-			_film->video_mxf_path(),
+			_film->video_mxf_dir (),
+			_film->video_mxf_filename (),
 			DCPFrameRate (_film->frames_per_second()).frames_per_second,
 			_film->format()->dcp_size()
 			)
@@ -206,6 +211,23 @@ Writer::finish ()
 	
 	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);
+
+	/* Hard-link the video MXF into the DCP */
+
+	boost::filesystem::path from;
+	from /= _film->video_mxf_dir();
+	from /= _film->video_mxf_filename();
+	
+	boost::filesystem::path to;
+	to /= _film->dir (_film->dcp_name());
+	to /= "video.mxf";
+	
+	boost::filesystem::create_hard_link (from, to);
+
+	/* And update the asset */
+
+	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
+	_picture_asset->set_file_name ("video.mxf");
 
 	if (_sound_asset) {
 		_sound_asset->set_entry_point (_film->trim_start ());

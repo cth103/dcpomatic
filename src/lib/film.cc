@@ -229,12 +229,16 @@ Film::hash_dir () const
 }
 
 string
-Film::video_mxf_path () const
+Film::video_mxf_dir () const
 {
 	boost::filesystem::path p;
-	p /= "video";
-	p /= video_state_identifier ();
-	return file (p.string());
+	return dir ("video");
+}
+
+string
+Film::video_mxf_filename () const
+{
+	return video_state_identifier() + ".mxf";
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film.
