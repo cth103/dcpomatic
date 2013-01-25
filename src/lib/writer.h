@@ -46,8 +46,10 @@ public:
 private:
 
 	void thread ();
+	void check_existing_picture_mxf ();
 
 	boost::shared_ptr<Film> _film;
+	int _first_nonexistant_frame;
 
 	boost::thread* _thread;
 	bool _finish;

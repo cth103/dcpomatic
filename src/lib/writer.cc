@@ -17,8 +17,10 @@
 
 */
 
+#include <fstream>
 #include <libdcp/picture_asset.h>
 #include <libdcp/sound_asset.h>
+#include <libdcp/picture_frame.h>
 #include <libdcp/reel.h>
 #include "writer.h"
 #include "compose.hpp"
@@ -29,16 +31,22 @@
 
 using std::make_pair;
 using std::pair;
+using std::string;
+using std::ifstream;
+using std::cout;
 using boost::shared_ptr;
 
 unsigned int const Writer::_maximum_frames_in_memory = 8;
 
 Writer::Writer (shared_ptr<Film> f)
 	: _film (f)
+	, _first_nonexistant_frame (0)
 	, _thread (0)
 	, _finish (false)
 	, _last_written_frame (-1)
 {
+	check_existing_picture_mxf ();
+	
 	/* Create our picture asset in a subdirectory, named according to the
 	   film's parameters which affect the video output.  We will hard-link
 	   it into the DCP later.
@@ -260,3 +268,35 @@ Writer::repeat (int f)
 	boost::mutex::scoped_lock lock (_mutex);
 	_queue.push_back (make_pair (shared_ptr<const EncodedData> (), f));
 }
+
+void
+Writer::check_existing_picture_mxf ()
+{
+	boost::filesystem::path p;
+	p /= _film->video_mxf_dir ();
+	p /= _film->video_mxf_filename ();
+	if (!boost::filesystem::exists (p)) {
+		return;
+	}
+
+	libdcp::MonoPictureAsset existing (_film->video_mxf_dir(), _film->video_mxf_filename());
+
+	while (_first_nonexistant_frame < existing.intrinsic_duration()) {
+
+		shared_ptr<const libdcp::MonoPictureFrame> f = existing.get_frame (_first_nonexistant_frame);
+		string const existing_hash = md5_digest (f->j2k_data(), f->j2k_size());
+		
+		ifstream hf (_film->hash_path (_first_nonexistant_frame).c_str ());
+		string reference_hash;
+		hf >> reference_hash;
+
+		if (existing_hash != reference_hash) {
+			cout << "frame " << _first_nonexistant_frame << " failed hash check.\n";
+			break;
+		}
+
+		cout << "frame " << _first_nonexistant_frame << " ok.\n";
+		++_first_nonexistant_frame;
+	}
+}
+
