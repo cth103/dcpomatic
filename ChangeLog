@@ -1,5 +1,8 @@
 2013-01-25  Carl Hetherington  <cth@carlh.net>
 
+	* Fix the old DCP content type being left behind
+	when creating a new film.
+
 	* Add option to specify default details
 	for the DCI name details dialog in new
 	Films (#42).
