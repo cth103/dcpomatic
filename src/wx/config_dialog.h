@@ -45,6 +45,7 @@ private:
 	void tms_password_changed (wxCommandEvent &);
 	void num_local_encoding_threads_changed (wxCommandEvent &);
 	void default_directory_changed (wxCommandEvent &);
+	void edit_default_dci_metadata_clicked (wxCommandEvent &);
 	void reference_scaler_changed (wxCommandEvent &);
 	void edit_reference_filters_clicked (wxCommandEvent &);
 	void reference_filters_changed (std::vector<Filter const *>);
@@ -64,7 +65,8 @@ private:
 	DirPickerCtrl* _default_directory;
 #else
 	wxDirPickerCtrl* _default_directory;
-#endif	
+#endif
+	wxButton* _default_dci_metadata_button;
 	wxComboBox* _reference_scaler;
 	wxStaticText* _reference_filters;
 	wxButton* _reference_filters_button;

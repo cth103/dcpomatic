@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include "dci_metadata.h"
 
 class ServerDescription;
 class Scaler;
@@ -94,6 +95,10 @@ public:
 		return _sound_processor;
 	}
 
+	DCIMetadata default_dci_metadata () const {
+		return _default_dci_metadata;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -140,6 +145,10 @@ public:
 	void set_tms_password (std::string p) {
 		_tms_password = p;
 	}
+
+	void set_default_dci_metadata (DCIMetadata d) {
+		_default_dci_metadata = d;
+	}
 	
 	void write () const;
 
@@ -172,6 +181,8 @@ private:
 	std::string _tms_password;
 	/** Our sound processor */
 	SoundProcessor const * _sound_processor;
+	/** Default DCI metadata for newly-created Films */
+	DCIMetadata _default_dci_metadata;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

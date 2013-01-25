@@ -86,6 +86,8 @@ Config::Config ()
 		} else if (k == "sound_processor") {
 			_sound_processor = SoundProcessor::from_id (v);
 		}
+
+		_default_dci_metadata.read (k, v);
 	}
 }
 
@@ -132,7 +134,9 @@ Config::write () const
 	f << "tms_path " << _tms_path << "\n";
 	f << "tms_user " << _tms_user << "\n";
 	f << "tms_password " << _tms_password << "\n";
-	f << "sound_processor " << _sound_processor->id ();
+	f << "sound_processor " << _sound_processor->id () << "\n";
+
+	_default_dci_metadata.write (f);
 }
 
 string

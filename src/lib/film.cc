@@ -101,6 +101,7 @@ Film::Film (string d, bool must_exist)
 	, _subtitle_scale (1)
 	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
+	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _frames_per_second (0)
 	, _dirty (false)
 {

@@ -1,3 +1,9 @@
+2013-01-25  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to specify default details
+	for the DCI name details dialog in new
+	Films (#42).
+
 2013-01-24  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.72 released.

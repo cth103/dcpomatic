@@ -35,6 +35,7 @@
 #include "filter_dialog.h"
 #include "server_dialog.h"
 #include "dir_picker_ctrl.h"
+#include "dci_metadata_dialog.h"
 
 using namespace std;
 using boost::bind;
@@ -78,6 +79,11 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 #endif
 	table->Add (_default_directory, 1, wxEXPAND);
 	table->AddSpacer (0);
+
+	add_label_to_sizer (table, this, "Default DCI name details");
+	_default_dci_metadata_button = new wxButton (this, wxID_ANY, _("Edit..."));
+	table->Add (_default_dci_metadata_button);
+	table->AddSpacer (1);
 
 	add_label_to_sizer (table, this, "Reference scaler for A/B");
 	_reference_scaler = new wxComboBox (this, wxID_ANY);
@@ -141,6 +147,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
 	_default_directory->Connect (wxID_ANY, wxEVT_COMMAND_DIRPICKER_CHANGED, wxCommandEventHandler (ConfigDialog::default_directory_changed), 0, this);
+
+	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
 
 	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
 	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
@@ -306,4 +314,13 @@ ConfigDialog::reference_filters_changed (vector<Filter const *> f)
 	Config::instance()->set_reference_filters (f);
 	pair<string, string> p = Filter::ffmpeg_strings (Config::instance()->reference_filters ());
 	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
+}
+
+void
+ConfigDialog::edit_default_dci_metadata_clicked (wxCommandEvent &)
+{
+	DCIMetadataDialog* d = new DCIMetadataDialog (this, Config::instance()->default_dci_metadata ());
+	d->ShowModal ();
+	Config::instance()->set_default_dci_metadata (d->dci_metadata ());
+	d->Destroy ();
 }
