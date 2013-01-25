@@ -111,7 +111,7 @@ def configure(conf):
                               ssh_session s = ssh_new ();\n
                               return 0;\n
                               }
-                              """, msg = 'Checking for library libssh', mandatory = False, lib = 'ssh', uselib_store = 'SSH')
+                              """, msg = 'Checking for library libssh', mandatory = True, lib = 'ssh', uselib_store = 'SSH')
 
     conf.check_cxx(fragment = """
     			      #include <boost/thread.hpp>\n
