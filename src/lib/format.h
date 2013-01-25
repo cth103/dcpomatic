@@ -46,6 +46,9 @@ public:
 	/** @return the ratio as a floating point number */
 	virtual float ratio_as_float (boost::shared_ptr<const Film> f) const = 0;
 
+	/** @return the ratio of the container (including any padding) as a floating point number */
+	float container_ratio_as_float () const;
+
 	int dcp_padding (boost::shared_ptr<const Film> f) const;
 
 	/** @return size in pixels of the images that we should

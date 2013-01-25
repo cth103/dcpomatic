@@ -50,11 +50,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _play_button (new wxToggleButton (this, wxID_ANY, wxT ("Play")))
+	, _display_frame_x (0)
 	, _got_frame (false)
-	, _out_width (0)
-	, _out_height (0)
-	, _panel_width (0)
-	, _panel_height (0)
 	, _clear_required (false)
 {
 	_panel->SetDoubleBuffered (true);
@@ -195,14 +192,21 @@ FilmViewer::paint_panel (wxPaintEvent &)
 		_clear_required = false;
 	}
 
-	if (!_display_frame || !_film || !_out_width || !_out_height) {
+	if (!_display_frame || !_film || !_out_size.width || !_out_size.height) {
 		dc.Clear ();
 		return;
 	}
 
-	wxImage frame (_out_width, _out_height, _display_frame->data()[0], true);
+	if (_display_frame_x) {
+		dc.SetPen(*wxBLACK_PEN);
+		dc.SetBrush(*wxBLACK_BRUSH);
+		dc.DrawRectangle (0, 0, _display_frame_x, _film_size.height);
+		dc.DrawRectangle (_display_frame_x + _film_size.width, 0, _display_frame_x * 2 + _film_size.width, _film_size.height);
+	}
+
+	wxImage frame (_film_size.width, _film_size.height, _display_frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);
-	dc.DrawBitmap (frame_bitmap, 0, 0);
+	dc.DrawBitmap (frame_bitmap, _display_frame_x, 0);
 
 	if (_film->with_subtitles() && _display_sub) {
 		wxImage sub (_display_sub->size().width, _display_sub->size().height, _display_sub->data()[0], _display_sub->alpha(), true);
@@ -231,8 +235,8 @@ FilmViewer::slider_moved (wxScrollEvent &)
 void
 FilmViewer::panel_sized (wxSizeEvent& ev)
 {
-	_panel_width = ev.GetSize().GetWidth();
-	_panel_height = ev.GetSize().GetHeight();
+	_panel_size.width = ev.GetSize().GetWidth();
+	_panel_size.height = ev.GetSize().GetHeight();
 	calculate_sizes ();
 	update_from_raw ();
 }
@@ -253,7 +257,7 @@ FilmViewer::update_from_raw ()
 void
 FilmViewer::raw_to_display ()
 {
-	if (!_raw_frame || _out_width < 64 || _out_height < 64 || !_film) {
+	if (!_raw_frame || _out_size.width < 64 || _out_size.height < 64 || !_film) {
 		return;
 	}
 
@@ -263,7 +267,7 @@ FilmViewer::raw_to_display ()
 	}
 
 	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (libdcp::Size (_out_width, _out_height), 0, _film->scaler(), false);
+	_display_frame = _raw_frame->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
 
 	if (old_size != _display_frame->size()) {
 		_clear_required = true;
@@ -271,13 +275,14 @@ FilmViewer::raw_to_display ()
 
 	if (_raw_sub) {
 		Rect tx = subtitle_transformed_area (
-			float (_out_width) / _film->size().width,
-			float (_out_height) / _film->size().height,
+			float (_film_size.width) / _film->size().width,
+			float (_film_size.height) / _film->size().height,
 			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
 			);
 		
 		_display_sub.reset (new RGBPlusAlphaImage (_raw_sub->image()->scale (tx.size(), _film->scaler(), false)));
 		_display_sub_position = tx.position();
+		_display_sub_position.x += _display_frame_x;
 	} else {
 		_display_sub.reset ();
 	}
@@ -289,17 +294,36 @@ FilmViewer::calculate_sizes ()
 	if (!_film) {
 		return;
 	}
+
+	Format const * format = _film->format ();
 	
-	float const panel_ratio = static_cast<float> (_panel_width) / _panel_height;
-	float const film_ratio = _film->format() ? _film->format()->ratio_as_float(_film) : 1.78;
+	float const panel_ratio = static_cast<float> (_panel_size.width) / _panel_size.height;
+	float const film_ratio = format ? format->container_ratio_as_float () : 1.78;
+			
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
-		_out_width = _panel_width;
-		_out_height = _out_width / film_ratio;
+		_out_size.width = _panel_size.width;
+		_out_size.height = _out_size.width / film_ratio;
 	} else {
-		/* panel is more widescreen than the film; clamp heignt */
-		_out_height = _panel_height;
-		_out_width = _out_height * film_ratio;
+		/* panel is more widescreen than the film; clamp height */
+		_out_size.height = _panel_size.height;
+		_out_size.width = _out_size.height * film_ratio;
+	}
+
+	/* Work out how much padding there is in terms of our display; this will be the x position
+	   of our _display_frame.
+	*/
+	_display_frame_x = 0;
+	if (format) {
+		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
+	}
+
+	_film_size = _out_size;
+	_film_size.width -= _display_frame_x * 2;
+
+	/* Catch silly values */
+	if (_out_size.width < 64) {
+		_out_size.width = 64;
 	}
 }
 

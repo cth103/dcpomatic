@@ -151,7 +151,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
 
 	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
-	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
+	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
 
 	pair<string, string> p = Filter::ffmpeg_strings (config->reference_filters ());
 	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));

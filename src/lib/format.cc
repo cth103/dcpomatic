@@ -147,6 +147,9 @@ FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d
 
 }
 
+/** @return Number of pixels (int the DCP image) to pad either side of the film
+ *  (so there are dcp_padding() pixels on the left and dcp_padding() on the right)
+ */
 int
 Format::dcp_padding (shared_ptr<const Film> f) const
 {
@@ -158,6 +161,12 @@ Format::dcp_padding (shared_ptr<const Film> f) const
 	}
 	
 	return p;
+}
+
+float
+Format::container_ratio_as_float () const
+{
+	return static_cast<float> (_dcp_size.width) / _dcp_size.height;
 }
 
 VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d)
