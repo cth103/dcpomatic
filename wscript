@@ -89,6 +89,7 @@ def configure(conf):
 
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
+    conf.check_cfg(package = 'liblzma', args = '--cflags --libs', uselib_store = 'LZMA', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
     if conf.options.static:
