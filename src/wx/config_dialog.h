@@ -67,7 +67,7 @@ private:
 	wxDirPickerCtrl* _default_directory;
 #endif
 	wxButton* _default_dci_metadata_button;
-	wxComboBox* _reference_scaler;
+	wxChoice* _reference_scaler;
 	wxStaticText* _reference_filters;
 	wxButton* _reference_filters_button;
 	wxListCtrl* _servers;

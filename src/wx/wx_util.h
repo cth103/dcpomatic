@@ -58,8 +58,8 @@ extern std::string string_client_data (wxClientData* o);
 
 extern void checked_set (wxFilePickerCtrl* widget, std::string value);
 extern void checked_set (wxSpinCtrl* widget, int value);
-extern void checked_set (wxComboBox* widget, int value);
-extern void checked_set (wxComboBox* widget, std::string value);
+extern void checked_set (wxChoice* widget, int value);
+extern void checked_set (wxChoice* widget, std::string value);
 extern void checked_set (wxTextCtrl* widget, std::string value);
 extern void checked_set (wxCheckBox* widget, bool value);
 extern void checked_set (wxRadioButton* widget, bool value);

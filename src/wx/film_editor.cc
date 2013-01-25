@@ -120,7 +120,7 @@ FilmEditor::make_film_panel ()
 	_film_sizer->AddSpacer (0);
 
 	add_label_to_sizer (_film_sizer, _film_panel, "Content Type");
-	_dcp_content_type = new wxComboBox (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
+	_dcp_content_type = new wxChoice (_film_panel, wxID_ANY);
 	_film_sizer->Add (_dcp_content_type);
 
 	video_control (add_label_to_sizer (_film_sizer, _film_panel, "Frames Per Second"));
@@ -186,7 +186,7 @@ FilmEditor::connect_to_widgets ()
 	_bottom_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::bottom_crop_changed), 0, this);
 	_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_filters_clicked), 0, this);
 	_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
-	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
+	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_dcp_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::dcp_trim_start_changed), 0, this);
@@ -222,7 +222,7 @@ FilmEditor::make_video_panel ()
 	_video_panel->SetSizer (pad);
 
 	add_label_to_sizer (_video_sizer, _video_panel, "Format");
-	_format = new wxComboBox (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
+	_format = new wxChoice (_video_panel, wxID_ANY);
 	_video_sizer->Add (_format);
 
 	{
@@ -259,7 +259,7 @@ FilmEditor::make_video_panel ()
 	}
 
 	video_control (add_label_to_sizer (_video_sizer, _video_panel, "Scaler"));
-	_scaler = new wxComboBox (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
+	_scaler = new wxChoice (_video_panel, wxID_ANY);
 	_video_sizer->Add (video_control (_scaler), 1);
 
 	vector<Scaler const *> const sc = Scaler::all ();
@@ -268,7 +268,7 @@ FilmEditor::make_video_panel ()
 	}
 
 	add_label_to_sizer (_video_sizer, _video_panel, "Colour look-up table");
-	_colour_lut = new wxComboBox (_video_panel, wxID_ANY);
+	_colour_lut = new wxChoice (_video_panel, wxID_ANY);
 	for (int i = 0; i < 2; ++i) {
 		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
 	}
@@ -328,7 +328,7 @@ FilmEditor::make_audio_panel ()
 		_use_content_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use content's audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 		_audio_sizer->Add (video_control (_use_content_audio));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_audio_stream = new wxComboBox (_audio_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
+		_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
 		s->Add (video_control (_audio_stream), 1);
 		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
 		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
@@ -373,7 +373,7 @@ FilmEditor::make_subtitle_panel ()
 	video_control (_with_subtitles);
 	_subtitle_sizer->Add (_with_subtitles, 1);
 	
-	_subtitle_stream = new wxComboBox (_subtitle_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
+	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
 	_subtitle_sizer->Add (video_control (_subtitle_stream));
 
 	video_control (add_label_to_sizer (_subtitle_sizer, _subtitle_panel, "Subtitle Offset"));
@@ -1085,7 +1085,7 @@ FilmEditor::setup_streams ()
 	if (_film->subtitle_stream()) {
 		checked_set (_subtitle_stream, _film->subtitle_stream()->to_string());
 	} else {
-		_subtitle_stream->SetValue (wxT (""));
+		_subtitle_stream->SetSelection (wxNOT_FOUND);
 	}
 }
 

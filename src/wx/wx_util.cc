@@ -138,22 +138,15 @@ checked_set (wxSpinCtrl* widget, int value)
 }
 
 void
-checked_set (wxComboBox* widget, int value)
+checked_set (wxChoice* widget, int value)
 {
 	if (widget->GetSelection() != value) {
-		if (value == wxNOT_FOUND) {
-			/* Work around an apparent wxWidgets bug; SetSelection (wxNOT_FOUND)
-			   appears not to work sometimes.
-			*/
-			widget->SetValue (wxT (""));
-		} else {
-			widget->SetSelection (value);
-		}
+		widget->SetSelection (value);
 	}
 }
 
 void
-checked_set (wxComboBox* widget, string value)
+checked_set (wxChoice* widget, string value)
 {
 	wxClientData* o = 0;
 	if (widget->GetSelection() != -1) {

@@ -86,7 +86,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	table->AddSpacer (1);
 
 	add_label_to_sizer (table, this, "Reference scaler for A/B");
-	_reference_scaler = new wxComboBox (this, wxID_ANY);
+	_reference_scaler = new wxChoice (this, wxID_ANY);
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
 		_reference_scaler->Append (std_to_wx ((*i)->name ()));
