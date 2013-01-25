@@ -1,5 +1,9 @@
 2013-01-25  Carl Hetherington  <cth@carlh.net>
 
+	* When using formats which pad smaller frames into
+	larger ones, the padding black now shown in
+	the preview.
+
 	* Fix the old DCP content type being left behind
 	when creating a new film.
 
