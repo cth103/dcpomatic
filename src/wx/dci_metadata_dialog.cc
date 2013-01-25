@@ -18,15 +18,14 @@
 */
 
 #include <wx/sizer.h>
-#include "dci_name_dialog.h"
+#include "dci_metadata_dialog.h"
 #include "wx_util.h"
 #include "film.h"
 
 using boost::shared_ptr;
 
-DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
+DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	: wxDialog (parent, wxID_ANY, _("DCI name"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
-	, _film (film)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
@@ -59,8 +58,6 @@ DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 
-	DCIMetadata dm = _film->dci_metadata ();
-
 	_audio_language->SetValue (std_to_wx (dm.audio_language));
 	_subtitle_language->SetValue (std_to_wx (dm.subtitle_language));
 	_territory->SetValue (std_to_wx (dm.territory));
@@ -68,14 +65,6 @@ DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	_studio->SetValue (std_to_wx (dm.studio));
 	_facility->SetValue (std_to_wx (dm.facility));
 	_package_type->SetValue (std_to_wx (dm.package_type));
-	
-	_audio_language->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
-	_subtitle_language->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
-	_territory->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
-	_rating->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
-	_studio->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
-	_facility->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
-	_package_type->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::changed), 0, this);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
@@ -90,8 +79,8 @@ DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	overall_sizer->SetSizeHints (this);
 }
 
-void
-DCINameDialog::changed (wxCommandEvent &)
+DCIMetadata
+DCIMetadataDialog::dci_metadata () const
 {
 	DCIMetadata dm;
 
@@ -103,5 +92,5 @@ DCINameDialog::changed (wxCommandEvent &)
 	dm.facility = wx_to_std (_facility->GetValue ());
 	dm.package_type = wx_to_std (_package_type->GetValue ());
 
-	_film->set_dci_metadata (dm);
+	return dm;
 }

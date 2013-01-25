@@ -43,7 +43,7 @@
 #include "film_editor.h"
 #include "gain_calculator_dialog.h"
 #include "sound_processor.h"
-#include "dci_name_dialog.h"
+#include "dci_metadata_dialog.h"
 #include "scaler.h"
 
 using std::string;
@@ -1056,8 +1056,9 @@ FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
 		return;
 	}
 
-	DCINameDialog* d = new DCINameDialog (this, _film);
+	DCIMetadataDialog* d = new DCIMetadataDialog (this, _film->dci_metadata ());
 	d->ShowModal ();
+	_film->set_dci_metadata (d->dci_metadata ());
 	d->Destroy ();
 }
 

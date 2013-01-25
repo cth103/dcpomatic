@@ -14,7 +14,7 @@ def build(bld):
     obj.use = 'libdvdomatic'
     obj.source = """
                  config_dialog.cc
-                 dci_name_dialog.cc
+                 dci_metadata_dialog.cc
                  dir_picker_ctrl.cc
                  film_editor.cc
                  film_viewer.cc

@@ -20,17 +20,18 @@
 #include <wx/dialog.h>
 #include <wx/textctrl.h>
 #include <boost/shared_ptr.hpp>
+#include "dci_metadata.h"
 
 class Film;
 
-class DCINameDialog : public wxDialog
+class DCIMetadataDialog : public wxDialog
 {
 public:
-	DCINameDialog (wxWindow *, boost::shared_ptr<Film>);
+	DCIMetadataDialog (wxWindow *, DCIMetadata);
+
+	DCIMetadata dci_metadata () const;
 
 private:
-	void changed (wxCommandEvent &);
-	
 	wxTextCtrl* _audio_language;
 	wxTextCtrl* _subtitle_language;
 	wxTextCtrl* _territory;
@@ -38,6 +39,4 @@ private:
 	wxTextCtrl* _studio;
 	wxTextCtrl* _facility;
 	wxTextCtrl* _package_type;
-
-	boost::shared_ptr<Film> _film;
 };
