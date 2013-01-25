@@ -18,6 +18,7 @@ def build(bld):
 		 config.cc
                  combiner.cc
                  cross.cc
+		 dci_metadata.cc
 		 dcp_content_type.cc
 		 dcp_video_frame.cc
                  decoder.cc

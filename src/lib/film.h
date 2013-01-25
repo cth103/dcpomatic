@@ -38,6 +38,7 @@ extern "C" {
 #include "dcp_content_type.h"
 #include "util.h"
 #include "stream.h"
+#include "dci_metadata.h"
 
 class Format;
 class Job;
@@ -265,41 +266,11 @@ public:
 		return _j2k_bandwidth;
 	}
 
-	std::string audio_language () const {
+	DCIMetadata dci_metadata () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_language;
+		return _dci_metadata;
 	}
 	
-	std::string subtitle_language () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_language;
-	}
-	
-	std::string territory () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _territory;
-	}
-	
-	std::string rating () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _rating;
-	}
-	
-	std::string studio () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _studio;
-	}
-	
-	std::string facility () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _facility;
-	}
-	
-	std::string package_type () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _package_type;
-	}
-
 	libdcp::Size size () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _size;
@@ -368,13 +339,7 @@ public:
 	void set_subtitle_scale (float);
 	void set_colour_lut (int);
 	void set_j2k_bandwidth (int);
-	void set_audio_language (std::string);
-	void set_subtitle_language (std::string);
-	void set_territory (std::string);
-	void set_rating (std::string);
-	void set_studio (std::string);
-	void set_facility (std::string);
-	void set_package_type (std::string);
+	void set_dci_metadata (DCIMetadata);
 	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
@@ -472,15 +437,9 @@ private:
 	int _colour_lut;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
-	
-	/* DCI naming stuff */
-	std::string _audio_language;
-	std::string _subtitle_language;
-	std::string _territory;
-	std::string _rating;
-	std::string _studio;
-	std::string _facility;
-	std::string _package_type;
+
+	/** DCI naming stuff */
+	DCIMetadata _dci_metadata;
 
 	/* Data which are cached to speed things up */
 
