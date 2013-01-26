@@ -18,15 +18,14 @@
 */
 
 #include <wx/sizer.h>
-#include "dci_name_dialog.h"
+#include "dci_metadata_dialog.h"
 #include "wx_util.h"
 #include "film.h"
 
 using boost::shared_ptr;
 
-DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
+DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	: wxDialog (parent, wxID_ANY, _("DCI name"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
-	, _film (film)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
@@ -59,21 +58,13 @@ DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 
-	_audio_language->SetValue (std_to_wx (_film->audio_language ()));
-	_subtitle_language->SetValue (std_to_wx (_film->subtitle_language ()));
-	_territory->SetValue (std_to_wx (_film->territory ()));
-	_rating->SetValue (std_to_wx (_film->rating ()));
-	_studio->SetValue (std_to_wx (_film->studio ()));
-	_facility->SetValue (std_to_wx (_film->facility ()));
-	_package_type->SetValue (std_to_wx (_film->package_type ()));
-	
-	_audio_language->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::audio_language_changed), 0, this);
-	_subtitle_language->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::subtitle_language_changed), 0, this);
-	_territory->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::territory_changed), 0, this);
-	_rating->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::rating_changed), 0, this);
-	_studio->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::studio_changed), 0, this);
-	_facility->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::facility_changed), 0, this);
-	_package_type->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (DCINameDialog::package_type_changed), 0, this);
+	_audio_language->SetValue (std_to_wx (dm.audio_language));
+	_subtitle_language->SetValue (std_to_wx (dm.subtitle_language));
+	_territory->SetValue (std_to_wx (dm.territory));
+	_rating->SetValue (std_to_wx (dm.rating));
+	_studio->SetValue (std_to_wx (dm.studio));
+	_facility->SetValue (std_to_wx (dm.facility));
+	_package_type->SetValue (std_to_wx (dm.package_type));
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
@@ -88,44 +79,18 @@ DCINameDialog::DCINameDialog (wxWindow* parent, shared_ptr<Film> film)
 	overall_sizer->SetSizeHints (this);
 }
 
-void
-DCINameDialog::audio_language_changed (wxCommandEvent &)
+DCIMetadata
+DCIMetadataDialog::dci_metadata () const
 {
-	_film->set_audio_language (wx_to_std (_audio_language->GetValue ()));
-}
+	DCIMetadata dm;
 
-void
-DCINameDialog::subtitle_language_changed (wxCommandEvent &)
-{
-	_film->set_subtitle_language (wx_to_std (_subtitle_language->GetValue ()));
-}
+	dm.audio_language = wx_to_std (_audio_language->GetValue ());
+	dm.subtitle_language = wx_to_std (_subtitle_language->GetValue ());
+	dm.territory = wx_to_std (_territory->GetValue ());
+	dm.rating = wx_to_std (_rating->GetValue ());
+	dm.studio = wx_to_std (_studio->GetValue ());
+	dm.facility = wx_to_std (_facility->GetValue ());
+	dm.package_type = wx_to_std (_package_type->GetValue ());
 
-void
-DCINameDialog::territory_changed (wxCommandEvent &)
-{
-	_film->set_territory (wx_to_std (_territory->GetValue ()));
-}
-
-void
-DCINameDialog::rating_changed (wxCommandEvent &)
-{
-	_film->set_rating (wx_to_std (_rating->GetValue ()));
-}
-
-void
-DCINameDialog::studio_changed (wxCommandEvent &)
-{
-	_film->set_studio (wx_to_std (_studio->GetValue ()));
-}
-
-void
-DCINameDialog::facility_changed (wxCommandEvent &)
-{
-	_film->set_facility (wx_to_std (_facility->GetValue ()));
-}
-
-void
-DCINameDialog::package_type_changed (wxCommandEvent &)
-{
-	_film->set_package_type (wx_to_std (_package_type->GetValue ()));
+	return dm;
 }

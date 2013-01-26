@@ -35,7 +35,7 @@ using libdcp::Size;
  */
 TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 {
-	assert (sub.rects > 0);
+	assert (sub.num_rects > 0);
 	
 	/* Subtitle PTS in seconds (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP)

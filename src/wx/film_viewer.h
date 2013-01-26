@@ -69,14 +69,17 @@ private:
 	boost::shared_ptr<Image> _raw_frame;
 	boost::shared_ptr<Subtitle> _raw_sub;
 	boost::shared_ptr<Image> _display_frame;
+	int _display_frame_x;
 	boost::shared_ptr<RGBPlusAlphaImage> _display_sub;
 	Position _display_sub_position;
 	bool _got_frame;
 
-	int _out_width;
-	int _out_height;
-	int _panel_width;
-	int _panel_height;
+	/** Size of our output (including padding if we have any) */
+	libdcp::Size _out_size;
+	/** Size that we will make our film (equal to _out_size unless we have padding) */
+	libdcp::Size _film_size;
+	/** Size of the panel that we have available */
+	libdcp::Size _panel_size;
 
 	bool _clear_required;
 };

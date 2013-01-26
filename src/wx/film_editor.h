@@ -118,7 +118,7 @@ private:
 	wxCheckBox* _use_dci_name;
 	wxButton* _edit_dci_button;
 	/** The Film's format */
-	wxComboBox* _format;
+	wxChoice* _format;
 	/** The Film's content file */
 	wxFilePickerCtrl* _content;
 	wxCheckBox* _trust_content_header;
@@ -135,9 +135,9 @@ private:
 	/** Button to open the filters dialogue */
 	wxButton* _filters_button;
 	/** The Film's scaler */
-	wxComboBox* _scaler;
+	wxChoice* _scaler;
 	wxRadioButton* _use_content_audio;
-	wxComboBox* _audio_stream;
+	wxChoice* _audio_stream;
 	wxRadioButton* _use_external_audio;
 	wxFilePickerCtrl* _external_audio[MAX_AUDIO_CHANNELS];
 	/** The Film's audio gain */
@@ -147,13 +147,13 @@ private:
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
 	wxCheckBox* _with_subtitles;
-	wxComboBox* _subtitle_stream;
+	wxChoice* _subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
-	wxComboBox* _colour_lut;
+	wxChoice* _colour_lut;
 	wxSpinCtrl* _j2k_bandwidth;
 	/** The Film's DCP content type */
-	wxComboBox* _dcp_content_type;
+	wxChoice* _dcp_content_type;
 	/** The Film's frames per second */
 	wxStaticText* _frames_per_second;
 	/** The Film's original size */

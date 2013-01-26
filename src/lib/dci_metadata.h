@@ -17,33 +17,24 @@
 
 */
 
-#include <wx/dialog.h>
-#include <wx/textctrl.h>
-#include <boost/shared_ptr.hpp>
+#ifndef DVDOMATIC_DCI_METADATA_H
+#define DVDOMATIC_DCI_METADATA_H
 
-class Film;
+#include <string>
 
-class DCINameDialog : public wxDialog
+class DCIMetadata
 {
 public:
-	DCINameDialog (wxWindow *, boost::shared_ptr<Film>);
-
-private:
-	void audio_language_changed (wxCommandEvent &);
-	void subtitle_language_changed (wxCommandEvent &);
-	void territory_changed (wxCommandEvent &);
-	void rating_changed (wxCommandEvent &);
-	void studio_changed (wxCommandEvent &);
-	void facility_changed (wxCommandEvent &);
-	void package_type_changed (wxCommandEvent &);
+	void read (std::string, std::string);
+	void write (std::ostream &) const;
 	
-	wxTextCtrl* _audio_language;
-	wxTextCtrl* _subtitle_language;
-	wxTextCtrl* _territory;
-	wxTextCtrl* _rating;
-	wxTextCtrl* _studio;
-	wxTextCtrl* _facility;
-	wxTextCtrl* _package_type;
-
-	boost::shared_ptr<Film> _film;
+	std::string audio_language;
+	std::string subtitle_language;
+	std::string territory;
+	std::string rating;
+	std::string studio;
+	std::string facility;
+	std::string package_type;
 };
+
+#endif

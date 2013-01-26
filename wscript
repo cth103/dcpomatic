@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.71beta2'
+VERSION = '0.73pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -89,21 +89,22 @@ def configure(conf):
 
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
+    conf.check_cfg(package = 'liblzma', args = '--cflags --libs', uselib_store = 'LZMA', mandatory = True)
     conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
-    openjpeg_fragment = """
+    if conf.options.static:
+        conf.check_cc(fragment = """
     			#include <stdio.h>\n
 			#include <openjpeg.h>\n
 			int main () {\n
 			void* p = (void *) opj_image_create;\n
 			return 0;\n
 			}
-			"""
-
-    if conf.options.static:
-        conf.check_cc(fragment = openjpeg_fragment, msg = 'Checking for library openjpeg', stlib = 'openjpeg', uselib_store = 'OPENJPEG')
+			""", msg = 'Checking for library openjpeg', stlib = 'openjpeg', uselib_store = 'OPENJPEG')
     else:
-        conf.check_cfg(package = 'libopenjpeg', args = '--cflags --libs', uselib_store = 'OPENJPEG', mandatory = True)
+        # Only 1.5.0 and 1.5.1 have been tested.
+        conf.check_cfg(package = 'libopenjpeg', args = '--cflags --libs', atleast_version = '1.5.0', uselib_store = 'OPENJPEG', mandatory = True)
+        conf.check_cfg(package = 'libopenjpeg', args = '--cflags --libs', max_version = '1.5.1', mandatory = True)
 
     conf.check_cc(fragment  = """
                               #include <libssh/libssh.h>\n
@@ -111,7 +112,7 @@ def configure(conf):
                               ssh_session s = ssh_new ();\n
                               return 0;\n
                               }
-                              """, msg = 'Checking for library libssh', mandatory = False, lib = 'ssh', uselib_store = 'SSH')
+                              """, msg = 'Checking for library libssh', mandatory = True, lib = 'ssh', uselib_store = 'SSH')
 
     conf.check_cxx(fragment = """
     			      #include <boost/thread.hpp>\n

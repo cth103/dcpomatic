@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include "dci_metadata.h"
 
 class ServerDescription;
 class Scaler;
@@ -98,6 +99,10 @@ public:
 		return _allowed_dcp_frame_rates;
 	}
 	
+	DCIMetadata default_dci_metadata () const {
+		return _default_dci_metadata;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -149,6 +154,10 @@ public:
 		_allowed_dcp_frame_rates = r;
 	}
 
+	void set_default_dci_metadata (DCIMetadata d) {
+		_default_dci_metadata = d;
+	}
+	
 	void write () const;
 
 	static Config* instance ();
@@ -181,6 +190,8 @@ private:
 	/** Our sound processor */
 	SoundProcessor const * _sound_processor;
 	std::list<int> _allowed_dcp_frame_rates;
+	/** Default DCI metadata for newly-created Films */
+	DCIMetadata _default_dci_metadata;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

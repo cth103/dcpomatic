@@ -100,6 +100,7 @@ Film::Film (string d, bool must_exist)
 	, _subtitle_scale (1)
 	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
+	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _frames_per_second (0)
 	, _dirty (false)
 {
@@ -169,13 +170,7 @@ Film::Film (Film const & o)
 	, _subtitle_scale    (o._subtitle_scale)
 	, _colour_lut        (o._colour_lut)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
-	, _audio_language    (o._audio_language)
-	, _subtitle_language (o._subtitle_language)
-	, _territory         (o._territory)
-	, _rating            (o._rating)
-	, _studio            (o._studio)
-	, _facility          (o._facility)
-	, _package_type      (o._package_type)
+	, _dci_metadata      (o._dci_metadata)
 	, _size              (o._size)
 	, _length            (o._length)
 	, _dcp_intrinsic_duration (o._dcp_intrinsic_duration)
@@ -413,14 +408,7 @@ Film::write_metadata () const
 	f << "subtitle_scale " << _subtitle_scale << "\n";
 	f << "colour_lut " << _colour_lut << "\n";
 	f << "j2k_bandwidth " << _j2k_bandwidth << "\n";
-	f << "audio_language " << _audio_language << "\n";
-	f << "subtitle_language " << _subtitle_language << "\n";
-	f << "territory " << _territory << "\n";
-	f << "rating " << _rating << "\n";
-	f << "studio " << _studio << "\n";
-	f << "facility " << _facility << "\n";
-	f << "package_type " << _package_type << "\n";
-
+	_dci_metadata.write (f);
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
 	f << "length " << _length.get_value_or(0) << "\n";
@@ -543,21 +531,9 @@ Film::read_metadata ()
 			_colour_lut = atoi (v.c_str ());
 		} else if (k == "j2k_bandwidth") {
 			_j2k_bandwidth = atoi (v.c_str ());
-		} else if (k == "audio_language") {
-			_audio_language = v;
-		} else if (k == "subtitle_language") {
-			_subtitle_language = v;
-		} else if (k == "territory") {
-			_territory = v;
-		} else if (k == "rating") {
-			_rating = v;
-		} else if (k == "studio") {
-			_studio = v;
-		} else if (k == "facility") {
-			_facility = v;
-		} else if (k == "package_type") {
-			_package_type = v;
 		}
+
+		_dci_metadata.read (k, v);
 		
 		/* Cached stuff */
 		if (k == "width") {
@@ -734,10 +710,12 @@ Film::dci_name () const
 		d << format()->dci_name() << "_";
 	}
 
-	if (!audio_language().empty ()) {
-		d << audio_language();
-		if (!subtitle_language().empty() && with_subtitles()) {
-			d << "-" << subtitle_language();
+	DCIMetadata const dm = dci_metadata ();
+
+	if (!dm.audio_language.empty ()) {
+		d << dm.audio_language;
+		if (!dm.subtitle_language.empty() && with_subtitles()) {
+			d << "-" << dm.subtitle_language;
 		} else {
 			d << "-XX";
 		}
@@ -745,10 +723,10 @@ Film::dci_name () const
 		d << "_";
 	}
 
-	if (!territory().empty ()) {
-		d << territory();
-		if (!rating().empty ()) {
-			d << "-" << rating();
+	if (!dm.territory.empty ()) {
+		d << dm.territory;
+		if (!dm.rating.empty ()) {
+			d << "-" << dm.rating;
 		}
 		d << "_";
 	}
@@ -770,18 +748,18 @@ Film::dci_name () const
 
 	d << "2K_";
 
-	if (!studio().empty ()) {
-		d << studio() << "_";
+	if (!dm.studio.empty ()) {
+		d << dm.studio << "_";
 	}
 
 	d << boost::gregorian::to_iso_string (_dci_date) << "_";
 
-	if (!facility().empty ()) {
-		d << facility() << "_";
+	if (!dm.facility.empty ()) {
+		d << dm.facility << "_";
 	}
 
-	if (!package_type().empty ()) {
-		d << package_type();
+	if (!dm.package_type.empty ()) {
+		d << dm.package_type;
 	}
 
 	return d.str ();
@@ -1207,71 +1185,11 @@ Film::set_j2k_bandwidth (int b)
 }
 
 void
-Film::set_audio_language (string l)
+Film::set_dci_metadata (DCIMetadata m)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_audio_language = l;
-	}
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_subtitle_language (string l)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_subtitle_language = l;
-	}
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_territory (string t)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_territory = t;
-	}
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_rating (string r)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_rating = r;
-	}
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_studio (string s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_studio = s;
-	}
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_facility (string f)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_facility = f;
-	}
-	signal_changed (DCI_METADATA);
-}
-
-void
-Film::set_package_type (string p)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_package_type = p;
+		_dci_metadata = m;
 	}
 	signal_changed (DCI_METADATA);
 }
