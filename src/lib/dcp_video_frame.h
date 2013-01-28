@@ -19,6 +19,7 @@
 */
 
 #include <openjpeg.h>
+#include <libdcp/picture_asset.h>
 #include "util.h"
 
 /** @file  src/dcp_video_frame.h
@@ -48,7 +49,7 @@ public:
 
 	void send (boost::shared_ptr<Socket> socket);
 	void write (boost::shared_ptr<const Film>, int) const;
-	void write_hash (boost::shared_ptr<const Film>, int) const;
+	void write_info (boost::shared_ptr<const Film>, int, libdcp::FrameInfo) const;
 
 	/** @return data */
 	uint8_t* data () const {

@@ -425,11 +425,11 @@ EncodedData::write (shared_ptr<const Film> film, int frame) const
 }
 
 void
-EncodedData::write_hash (shared_ptr<const Film> film, int frame) const
+EncodedData::write_info (shared_ptr<const Film> film, int frame, libdcp::FrameInfo fin) const
 {
-	string const hash = film->hash_path (frame);
-	ofstream h (hash.c_str());
-	h << md5_digest (_data, _size) << "\n";
+	string const info = film->info_path (frame);
+	ofstream h (info.c_str());
+	fin.write (h);
 }
 
 /** Send this data to a socket.

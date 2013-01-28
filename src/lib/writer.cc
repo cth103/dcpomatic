@@ -136,12 +136,12 @@ Writer::thread ()
 			lock.unlock ();
 			_film->log()->log (String::compose ("Writer writes %1 to MXF", encoded.second));
 			if (encoded.first) {
-				_picture_asset_writer->write (encoded.first->data(), encoded.first->size());
-				encoded.first->write_hash (_film, encoded.second);
+				libdcp::FrameInfo const fin = _picture_asset_writer->write (encoded.first->data(), encoded.first->size());
+				encoded.first->write_info (_film, encoded.second, fin);
 				_last_written = encoded.first;
 			} else {
-				_picture_asset_writer->write (_last_written->data(), _last_written->size());
-				_last_written->write_hash (_film, encoded.second);
+				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size());
+				_last_written->write_info (_film, encoded.second, fin);
 			}
 			lock.lock ();
 
@@ -279,18 +279,26 @@ Writer::check_existing_picture_mxf ()
 		return;
 	}
 
-	libdcp::MonoPictureAsset existing (_film->video_mxf_dir(), _film->video_mxf_filename());
+	/* Try to open the picture MXF */
+	FILE* mxf = fopen (p.string().c_str(), "rb");
+	if (!mxf) {
+		return;
+	}
 
-	while (_first_nonexistant_frame < existing.intrinsic_duration()) {
+	while (_first_nonexistant_frame < _film->dcp_intrinsic_duration ()) {
 
-		shared_ptr<const libdcp::MonoPictureFrame> f = existing.get_frame (_first_nonexistant_frame);
-		string const existing_hash = md5_digest (f->j2k_data(), f->j2k_size());
+		/* Read the frame info as written */
+		ifstream ifi (_film->info_path (_first_nonexistant_frame).c_str());
+		libdcp::FrameInfo info (ifi);
+
+		/* Read the data from the MXF and hash it */
+		fseek (mxf, info.offset, SEEK_SET);
+		uint8_t* data = new uint8_t[info.length];
+		fread (data, 1, info.length, mxf);
+		string const existing_hash = md5_digest (data, info.length);
+		delete[] data;
 		
-		ifstream hf (_film->hash_path (_first_nonexistant_frame).c_str ());
-		string reference_hash;
-		hf >> reference_hash;
-
-		if (existing_hash != reference_hash) {
+		if (existing_hash != info.hash) {
 			cout << "frame " << _first_nonexistant_frame << " failed hash check.\n";
 			break;
 		}
@@ -298,5 +306,7 @@ Writer::check_existing_picture_mxf ()
 		cout << "frame " << _first_nonexistant_frame << " ok.\n";
 		++_first_nonexistant_frame;
 	}
+
+	fclose (mxf);
 }
 

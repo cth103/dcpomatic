@@ -213,12 +213,12 @@ Film::video_state_identifier () const
 	return s.str ();
 }
 	  
-/** @return The path to the directory to write video frame hash files to */
+/** @return The path to the directory to write video frame info files to */
 string
-Film::hash_dir () const
+Film::info_dir () const
 {
 	boost::filesystem::path p;
-	p /= "hash";
+	p /= "info";
 	p /= video_state_identifier ();
 	return dir (p.string());
 }
@@ -344,7 +344,7 @@ Film::encoded_frames () const
 	}
 
 	int N = 0;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (hash_dir ()); i != boost::filesystem::directory_iterator(); ++i) {
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (info_dir ()); i != boost::filesystem::directory_iterator(); ++i) {
 		++N;
 		boost::this_thread::interruption_point ();
 	}
@@ -1315,10 +1315,10 @@ Film::audio_stream () const
 }
 
 string
-Film::hash_path (int f) const
+Film::info_path (int f) const
 {
 	boost::filesystem::path p;
-	p /= hash_dir ();
+	p /= info_dir ();
 
 	stringstream s;
 	s.width (8);
