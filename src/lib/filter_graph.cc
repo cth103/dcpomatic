@@ -68,8 +68,6 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 
 	filters += crop_string (Position (film->crop().left, film->crop().top), film->cropped_size (decoder->native_size()));
 
-	avfilter_register_all ();
-	
 	AVFilterGraph* graph = avfilter_graph_alloc();
 	if (graph == 0) {
 		throw DecodeError ("Could not create filter graph.");

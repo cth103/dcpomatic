@@ -22,6 +22,10 @@
  */
 
 #include "filter.h"
+extern "C" {
+#include <libavfilter/avfilter.h>
+#include <libpostproc/postprocess.h>
+}
 
 using namespace std;
 
@@ -57,30 +61,46 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 	   
-	_filters.push_back (new Filter ("pphb", "Horizontal deblocking filter", "", "hb"));
-	_filters.push_back (new Filter ("ppvb", "Vertical deblocking filter", "", "vb"));
-	_filters.push_back (new Filter ("ppha", "Horizontal deblocking filter A", "", "ha"));
-	_filters.push_back (new Filter ("ppva", "Vertical deblocking filter A", "", "va"));
-	_filters.push_back (new Filter ("pph1", "Experimental horizontal deblocking filter 1", "", "h1"));
-	_filters.push_back (new Filter ("pphv", "Experimental vertical deblocking filter 1", "", "v1"));
-	_filters.push_back (new Filter ("ppdr", "Deringing filter", "", "dr"));
-	_filters.push_back (new Filter ("pplb", "Linear blend deinterlacer", "", "lb"));
-	_filters.push_back (new Filter ("ppli", "Linear interpolating deinterlacer", "", "li"));
-	_filters.push_back (new Filter ("ppci", "Cubic interpolating deinterlacer", "", "ci"));
-	_filters.push_back (new Filter ("ppmd", "Median deinterlacer", "", "md"));
-	_filters.push_back (new Filter ("ppfd", "FFMPEG deinterlacer", "", "fd"));
-	_filters.push_back (new Filter ("ppl5", "FIR low-pass deinterlacer", "", "l5"));
-	_filters.push_back (new Filter ("mcdeint", "Motion compensating deinterlacer", "mcdeint", ""));
-	_filters.push_back (new Filter ("kerndeint", "Kernel deinterlacer", "kerndeint", ""));
-	_filters.push_back (new Filter ("yadif", "Yet Another Deinterlacing Filter", "yadif", ""));
-	_filters.push_back (new Filter ("pptn", "Temporal noise reducer", "", "tn"));
-	_filters.push_back (new Filter ("ppfq", "Force quantizer", "", "fq"));
-	_filters.push_back (new Filter ("gradfun", "Gradient debander", "gradfun", ""));
-	_filters.push_back (new Filter ("unsharp", "Unsharp mask and Gaussian blur", "unsharp", ""));
-	_filters.push_back (new Filter ("denoise3d", "3D denoiser", "denoise3d", ""));
-	_filters.push_back (new Filter ("hqdn3d", "High quality 3D denoiser", "hqdn3d", ""));
-	_filters.push_back (new Filter ("telecine", "Telecine filter", "telecine", ""));
-	_filters.push_back (new Filter ("ow", "Overcomplete wavelet denoiser", "mp=ow", ""));
+	maybe_add ("pphb", "Horizontal deblocking filter", "", "hb");
+	maybe_add ("ppvb", "Vertical deblocking filter", "", "vb");
+	maybe_add ("ppha", "Horizontal deblocking filter A", "", "ha");
+	maybe_add ("ppva", "Vertical deblocking filter A", "", "va");
+	maybe_add ("pph1", "Experimental horizontal deblocking filter 1", "", "h1");
+	maybe_add ("pphv", "Experimental vertical deblocking filter 1", "", "v1");
+	maybe_add ("ppdr", "Deringing filter", "", "dr");
+	maybe_add ("pplb", "Linear blend deinterlacer", "", "lb");
+	maybe_add ("ppli", "Linear interpolating deinterlacer", "", "li");
+	maybe_add ("ppci", "Cubic interpolating deinterlacer", "", "ci");
+	maybe_add ("ppmd", "Median deinterlacer", "", "md");
+	maybe_add ("ppfd", "FFMPEG deinterlacer", "", "fd");
+	maybe_add ("ppl5", "FIR low-pass deinterlacer", "", "l5");
+	maybe_add ("mcdeint", "Motion compensating deinterlacer", "mcdeint", "");
+	maybe_add ("kerndeint", "Kernel deinterlacer", "kerndeint", "");
+	maybe_add ("yadif", "Yet Another Deinterlacing Filter", "yadif", "");
+	maybe_add ("pptn", "Temporal noise reducer", "", "tn");
+	maybe_add ("ppfq", "Force quantizer", "", "fq");
+	maybe_add ("gradfun", "Gradient debander", "gradfun", "");
+	maybe_add ("unsharp", "Unsharp mask and Gaussian blur", "unsharp", "");
+	maybe_add ("denoise3d", "3D denoiser", "denoise3d", "");
+	maybe_add ("hqdn3d", "High quality 3D denoiser", "hqdn3d", "");
+	maybe_add ("telecine", "Telecine filter", "telecine", "");
+	maybe_add ("ow", "Overcomplete wavelet denoiser", "mp=ow", "");
+}
+
+void
+Filter::maybe_add (string i, string n, string v, string p)
+{
+	if (!v.empty ()) {
+		if (avfilter_get_by_name (i.c_str())) {
+			_filters.push_back (new Filter (i, n, v, p));
+		}
+	} else if (!p.empty ()) {
+		pp_mode* m = pp_get_mode_by_name_and_quality (p.c_str(), PP_QUALITY_MAX);
+		if (m) {
+			_filters.push_back (new Filter (i, n, v, p));
+			pp_free_mode (m);
+		}
+	}
 }
 
 /** @param filters Set of filters.

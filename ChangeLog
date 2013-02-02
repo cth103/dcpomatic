@@ -1,5 +1,8 @@
 2013-02-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix infinite loop of error messages when
+	`playing back' using a non-existant filter (#39).
+
 	* Encode data straight to MXFs, rather
 	than going via .j2c files.  Should roughly
 	halve required disk space and reduce time
