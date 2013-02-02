@@ -34,6 +34,7 @@
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
 #include "lib/examine_content_job.h"
+#include "lib/filter.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -116,6 +117,7 @@ FilmViewer::film_changed (Film::Property p)
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
 	case Film::SCALER:
+	case Film::FILTERS:
 		update_from_raw ();
 		break;
 	case Film::SUBTITLE_STREAM:
@@ -267,8 +269,15 @@ FilmViewer::raw_to_display ()
 		old_size = _display_frame->size();
 	}
 
+	boost::shared_ptr<Image> input = _raw_frame;
+
+	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
+	if (!s.second.empty ()) {
+		input = input->post_process (s.second, true);
+	}
+	
 	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
+	_display_frame = input->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
 
 	if (old_size != _display_frame->size()) {
 		_clear_required = true;
