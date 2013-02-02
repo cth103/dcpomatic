@@ -1,3 +1,10 @@
+2013-02-02  Carl Hetherington  <cth@carlh.net>
+
+	* Encode data straight to MXFs, rather
+	than going via .j2c files.  Should roughly
+	halve required disk space and reduce time
+	taken.
+
 2013-01-25  Carl Hetherington  <cth@carlh.net>
 
 	* When using formats which pad smaller frames into
