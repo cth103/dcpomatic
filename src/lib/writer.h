@@ -33,12 +33,35 @@ namespace libdcp {
 	class SoundAssetWriter;
 }
 
+struct QueueItem
+{
+public:
+	enum Type {
+		FULL,
+		FAKE,
+		REPEAT
+	} type;
+
+	/** encoded data for FULL */
+	boost::shared_ptr<const EncodedData> encoded;
+	/** size of data for FAKE */
+	int size;
+	/** frame index */
+	int frame;
+};
+
+bool operator< (QueueItem const & a, QueueItem const & b);
+bool operator== (QueueItem const & a, QueueItem const & b);
+
 class Writer
 {
 public:
 	Writer (boost::shared_ptr<Film>);
+
+	bool can_fake_write (int) const;
 	
 	void write (boost::shared_ptr<const EncodedData>, int);
+	void fake_write (int);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void repeat (int f);
 	void finish ();
@@ -53,11 +76,11 @@ private:
 
 	boost::thread* _thread;
 	bool _finish;
-	std::list<std::pair<boost::shared_ptr<const EncodedData>, int> > _queue;
+	std::list<QueueItem> _queue;
 	mutable boost::mutex _mutex;
 	boost::condition _condition;
 	boost::shared_ptr<const EncodedData> _last_written;
-	std::list<int> _pending;
+	std::list<QueueItem> _pending;
 	int _last_written_frame;
 	static const unsigned int _maximum_frames_in_memory;
 

@@ -47,7 +47,7 @@ Writer::Writer (shared_ptr<Film> f)
 {
 	check_existing_picture_mxf ();
 	
-	/* Create our picture asset in a subdirectory, named according to the
+	/* Create our picture asset in a subdirectory, named according to those
 	   film's parameters which affect the video output.  We will hard-link
 	   it into the DCP later.
 	*/
@@ -60,8 +60,8 @@ Writer::Writer (shared_ptr<Film> f)
 			_film->format()->dcp_size()
 			)
 		);
-	
-	_picture_asset_writer = _picture_asset->start_write ();
+
+	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
 	if (_film->audio_channels() > 0) {
 		_sound_asset.reset (
@@ -84,7 +84,30 @@ void
 Writer::write (shared_ptr<const EncodedData> encoded, int frame)
 {
 	boost::mutex::scoped_lock lock (_mutex);
-	_queue.push_back (make_pair (encoded, frame));
+
+	QueueItem qi;
+	qi.type = QueueItem::FULL;
+	qi.encoded = encoded;
+	qi.frame = frame;
+	_queue.push_back (qi);
+
+	_condition.notify_all ();
+}
+
+void
+Writer::fake_write (int frame)
+{
+	boost::mutex::scoped_lock lock (_mutex);
+
+	ifstream ifi (_film->info_path (frame).c_str());
+	libdcp::FrameInfo info (ifi);
+	
+	QueueItem qi;
+	qi.type = QueueItem::FAKE;
+	qi.size = info.size;
+	qi.frame = frame;
+	_queue.push_back (qi);
+
 	_condition.notify_all ();
 }
 
@@ -94,13 +117,6 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 {
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
-
-struct QueueSorter
-{
-	bool operator() (pair<shared_ptr<const EncodedData>, int> const & a, pair<shared_ptr<const EncodedData>, int> const & b) {
-		return a.second < b.second;
-	}
-};
 
 void
 Writer::thread ()
@@ -112,7 +128,7 @@ Writer::thread ()
 		while (1) {
 			if (_finish ||
 			    _queue.size() > _maximum_frames_in_memory ||
-			    (!_queue.empty() && _queue.front().second == (_last_written_frame + 1))) {
+			    (!_queue.empty() && _queue.front().frame == (_last_written_frame + 1))) {
 				    
 				    break;
 			    }
@@ -121,7 +137,7 @@ Writer::thread ()
 			    _condition.wait (lock);
 			    TIMING ("writer wakes with a queue of %1", _queue.size());
 
-			    _queue.sort (QueueSorter ());
+			    _queue.sort ();
 		}
 
 		if (_finish && _queue.empty() && _pending.empty()) {
@@ -129,19 +145,32 @@ Writer::thread ()
 		}
 
 		/* Write any frames that we can write; i.e. those that are in sequence */
-		while (!_queue.empty() && _queue.front().second == (_last_written_frame + 1)) {
-			pair<boost::shared_ptr<const EncodedData>, int> encoded = _queue.front ();
+		while (!_queue.empty() && _queue.front().frame == (_last_written_frame + 1)) {
+			QueueItem qi = _queue.front ();
 			_queue.pop_front ();
 
 			lock.unlock ();
-			_film->log()->log (String::compose ("Writer writes %1 to MXF", encoded.second));
-			if (encoded.first) {
-				libdcp::FrameInfo const fin = _picture_asset_writer->write (encoded.first->data(), encoded.first->size());
-				encoded.first->write_info (_film, encoded.second, fin);
-				_last_written = encoded.first;
-			} else {
+			switch (qi.type) {
+			case QueueItem::FULL:
+			{
+				_film->log()->log (String::compose ("Writer FULL-writes %1 to MXF", qi.frame));
+				libdcp::FrameInfo const fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
+				qi.encoded->write_info (_film, qi.frame, fin);
+				_last_written = qi.encoded;
+				break;
+			}
+			case QueueItem::FAKE:
+				_film->log()->log (String::compose ("Writer FAKE-writes %1 to MXF", qi.frame));
+				_picture_asset_writer->fake_write (qi.size);
+				_last_written.reset ();
+				break;
+			case QueueItem::REPEAT:
+			{
+				_film->log()->log (String::compose ("Writer REPEAT-writes %1 to MXF", qi.frame));
 				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size());
-				_last_written->write_info (_film, encoded.second, fin);
+				_last_written->write_info (_film, qi.frame, fin);
+				break;
+			}
 			}
 			lock.lock ();
 
@@ -150,41 +179,39 @@ Writer::thread ()
 
 		while (_queue.size() > _maximum_frames_in_memory) {
 			/* Too many frames in memory which can't yet be written to the stream.
-			   Put some to disk.
+			   Put some in our pending list (and write FULL queue items' data to disk)
 			*/
 
-			pair<boost::shared_ptr<const EncodedData>, int> encoded = _queue.back ();
+			QueueItem qi = _queue.back ();
 			_queue.pop_back ();
-			if (!encoded.first) {
-				/* This is a `repeat-last' frame, so no need to write it to disk */
-				continue;
+
+			if (qi.type == QueueItem::FULL) {
+				lock.unlock ();
+				_film->log()->log (String::compose ("Writer full (awaiting %1); pushes %2 to disk", _last_written_frame + 1, qi.frame));
+				qi.encoded->write (_film, qi.frame);
+				lock.lock ();
+				qi.encoded.reset ();
 			}
 
-			lock.unlock ();
-			_film->log()->log (String::compose ("Writer full (awaiting %1); pushes %2 to disk", _last_written_frame + 1, encoded.second));
-			encoded.first->write (_film, encoded.second);
-			lock.lock ();
-
-			_pending.push_back (encoded.second);
+			_pending.push_back (qi);
 		}
 
 		while (_queue.size() < _maximum_frames_in_memory && !_pending.empty()) {
 			/* We have some space in memory.  Fetch some frames back off disk. */
 
 			_pending.sort ();
-			int const fetch = _pending.front ();
+			QueueItem qi = _pending.front ();
 
-			lock.unlock ();
-			_film->log()->log (String::compose ("Writer pulls %1 back from disk", fetch));
-			shared_ptr<const EncodedData> encoded;
-			if (boost::filesystem::exists (_film->j2c_path (fetch, false))) {
-				/* It's an actual frame (not a repeat-last); load it in */
-				encoded.reset (new EncodedData (_film->j2c_path (fetch, false)));
+			if (qi.type == QueueItem::FULL) {
+				lock.unlock ();
+				_film->log()->log (String::compose ("Writer pulls %1 back from disk", qi.frame));
+				shared_ptr<const EncodedData> encoded;
+				qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, false)));
+				lock.lock ();
 			}
-			lock.lock ();
 
-			_queue.push_back (make_pair (encoded, fetch));
-			_pending.remove (fetch);
+			_queue.push_back (qi);
+			_pending.remove (qi);
 		}
 	}
 
@@ -266,20 +293,24 @@ void
 Writer::repeat (int f)
 {
 	boost::mutex::scoped_lock lock (_mutex);
-	_queue.push_back (make_pair (shared_ptr<const EncodedData> (), f));
+
+	QueueItem qi;
+	qi.type = QueueItem::REPEAT;
+	qi.frame = f;
+	
+	_queue.push_back (qi);
+
+	_condition.notify_all ();
 }
+
 
 void
 Writer::check_existing_picture_mxf ()
 {
+	/* Try to open the existing MXF */
 	boost::filesystem::path p;
 	p /= _film->video_mxf_dir ();
 	p /= _film->video_mxf_filename ();
-	if (!boost::filesystem::exists (p)) {
-		return;
-	}
-
-	/* Try to open the picture MXF */
 	FILE* mxf = fopen (p.string().c_str(), "rb");
 	if (!mxf) {
 		return;
@@ -293,20 +324,38 @@ Writer::check_existing_picture_mxf ()
 
 		/* Read the data from the MXF and hash it */
 		fseek (mxf, info.offset, SEEK_SET);
-		uint8_t* data = new uint8_t[info.length];
-		fread (data, 1, info.length, mxf);
-		string const existing_hash = md5_digest (data, info.length);
-		delete[] data;
+		EncodedData data (info.size);
+		fread (data.data(), 1, data.size(), mxf);
+		string const existing_hash = md5_digest (data.data(), data.size());
 		
 		if (existing_hash != info.hash) {
-			cout << "frame " << _first_nonexistant_frame << " failed hash check.\n";
+			_film->log()->log (String::compose ("Existing frame %1 failed hash check", _first_nonexistant_frame));
 			break;
 		}
 
-		cout << "frame " << _first_nonexistant_frame << " ok.\n";
+		_film->log()->log (String::compose ("Have existing frame %1", _first_nonexistant_frame));
 		++_first_nonexistant_frame;
 	}
 
 	fclose (mxf);
 }
 
+/** @return true if the fake write succeeded, otherwise false */
+bool
+Writer::can_fake_write (int frame) const
+{
+	return (frame != 0 && frame < _first_nonexistant_frame);
+}
+
+
+bool
+operator< (QueueItem const & a, QueueItem const & b)
+{
+	return a.frame < b.frame;
+}
+
+bool
+operator== (QueueItem const & a, QueueItem const & b)
+{
+	return a.frame == b.frame;
+}
