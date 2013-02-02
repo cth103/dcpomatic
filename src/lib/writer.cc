@@ -316,7 +316,7 @@ Writer::check_existing_picture_mxf ()
 		return;
 	}
 
-	while (_first_nonexistant_frame < _film->dcp_intrinsic_duration ()) {
+	while (1) {
 
 		/* Read the frame info as written */
 		ifstream ifi (_film->info_path (_first_nonexistant_frame).c_str());
