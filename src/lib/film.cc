@@ -810,16 +810,8 @@ Film::set_content (string c)
 {
 	string check = directory ();
 
-#if BOOST_FILESYSTEM_VERSION == 3
 	boost::filesystem::path slash ("/");
 	string platform_slash = slash.make_preferred().string ();
-#else
-#ifdef DVDOMATIC_WINDOWS
-	string platform_slash = "\\";
-#else
-	string platform_slash = "/";
-#endif
-#endif	
 
 	if (!ends_with (check, platform_slash)) {
 		check += platform_slash;

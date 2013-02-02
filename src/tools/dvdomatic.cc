@@ -270,11 +270,7 @@ public:
 			maybe_save_then_delete_film ();
 			film.reset (new Film (d->get_path (), false));
 			film->log()->set_level (log_level);
-#if BOOST_FILESYSTEM_VERSION == 3		
 			film->set_name (boost::filesystem::path (d->get_path()).filename().generic_string());
-#else		
-			film->set_name (boost::filesystem::path (d->get_path()).filename());
-#endif
 			set_film ();
 		}
 		

@@ -106,6 +106,18 @@ def configure(conf):
         conf.check_cfg(package = 'libopenjpeg', args = '--cflags --libs', atleast_version = '1.5.0', uselib_store = 'OPENJPEG', mandatory = True)
         conf.check_cfg(package = 'libopenjpeg', args = '--cflags --libs', max_version = '1.5.1', mandatory = True)
 
+    conf.check_cxx(fragment = """
+                              #include <boost/version.hpp>\n
+                              #if BOOST_VERSION < 104500\n
+                              #error boost too old\n
+                              #endif\n
+                              int main(void) { return 0; }\n
+                              """,
+                   mandatory = True,
+                   msg = 'Checking for boost library >= 1.45',
+                   okmsg = 'yes',
+                   errmsg = 'too old\nPlease install boost version 1.45 or higher.')
+
     conf.check_cc(fragment  = """
                               #include <libssh/libssh.h>\n
                               int main () {\n
@@ -118,6 +130,7 @@ def configure(conf):
     			      #include <boost/thread.hpp>\n
     			      int main() { boost::thread t (); }\n
 			      """, msg = 'Checking for boost threading library',
+			      libpath = '/usr/local/lib',
                               lib = [boost_thread, 'boost_system%s' % boost_lib_suffix],
                               uselib_store = 'BOOST_THREAD')
 

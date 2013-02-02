@@ -161,12 +161,7 @@ SCPDCPJob::run ()
 	
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
 		
-		/* Aah, the sweet smell of progress */
-#if BOOST_FILESYSTEM_VERSION == 3		
 		string const leaf = boost::filesystem::path(*i).leaf().generic_string ();
-#else
-		string const leaf = i->leaf ();
-#endif
 		
 		set_status ("copying " + leaf);
 		

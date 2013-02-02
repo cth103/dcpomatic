@@ -934,11 +934,7 @@ video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float fram
 bool
 still_image_file (string f)
 {
-#if BOOST_FILESYSTEM_VERSION == 3
 	string ext = boost::filesystem::path(f).extension().string();
-#else
-	string ext = boost::filesystem::path(f).extension();
-#endif
 
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	
