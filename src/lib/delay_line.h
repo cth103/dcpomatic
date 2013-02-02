@@ -29,7 +29,6 @@ public:
 	DelayLine (Log* log, int channels, int frames);
 	
 	void process_audio (boost::shared_ptr<AudioBuffers>);
-	void process_end ();
 
 private:
 	boost::shared_ptr<AudioBuffers> _buffers;

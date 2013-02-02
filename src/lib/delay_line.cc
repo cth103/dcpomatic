@@ -91,12 +91,3 @@ DelayLine::process_audio (shared_ptr<AudioBuffers> data)
 
 	Audio (data);
 }
-
-void
-DelayLine::process_end ()
-{
-	if (_frames < 0) {
-		_buffers->make_silent ();
-		Audio (_buffers);
-	}
-}
