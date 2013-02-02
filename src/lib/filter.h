@@ -33,7 +33,7 @@
 class Filter
 {
 public:
-	Filter (std::string, std::string, std::string, std::string);
+	Filter (std::string, std::string, std::string, std::string, std::string);
 
 	/** @return our id */
 	std::string id () const {
@@ -54,6 +54,10 @@ public:
 	std::string pp () const {
 		return _pp;
 	}
+
+	std::string category () const {
+		return _category;
+	}
 	
 	static std::vector<Filter const *> all ();
 	static Filter const * from_id (std::string);
@@ -66,6 +70,7 @@ private:
 	std::string _id;
 	/** user-visible name */
 	std::string _name;
+	std::string _category;
 	/** string for a FFmpeg video filter descriptor */
 	std::string _vf;
 	/** string for a FFmpeg post-processing descriptor */
@@ -73,7 +78,7 @@ private:
 
 	/** all available filters */
 	static std::vector<Filter const *> _filters;
-	static void maybe_add (std::string, std::string, std::string, std::string);
+	static void maybe_add (std::string, std::string, std::string, std::string, std::string);
 };
 
 #endif

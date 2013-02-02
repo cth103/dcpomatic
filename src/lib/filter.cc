@@ -33,12 +33,14 @@ vector<Filter const *> Filter::_filters;
 
 /** @param i Our id.
  *  @param n User-visible name.
+ *  @param c User-visible category.
  *  @param v String for a FFmpeg video filter descriptor, or "".
  *  @param p String for a FFmpeg post-processing descriptor, or "".
  */
-Filter::Filter (string i, string n, string v, string p)
+Filter::Filter (string i, string n, string c, string v, string p)
 	: _id (i)
 	, _name (n)
+	, _category (c)
 	, _vf (v)
 	, _pp (p)
 {
@@ -61,43 +63,43 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 	   
-	maybe_add ("pphb", "Horizontal deblocking filter", "", "hb");
-	maybe_add ("ppvb", "Vertical deblocking filter", "", "vb");
-	maybe_add ("ppha", "Horizontal deblocking filter A", "", "ha");
-	maybe_add ("ppva", "Vertical deblocking filter A", "", "va");
-	maybe_add ("pph1", "Experimental horizontal deblocking filter 1", "", "h1");
-	maybe_add ("pphv", "Experimental vertical deblocking filter 1", "", "v1");
-	maybe_add ("ppdr", "Deringing filter", "", "dr");
-	maybe_add ("pplb", "Linear blend deinterlacer", "", "lb");
-	maybe_add ("ppli", "Linear interpolating deinterlacer", "", "li");
-	maybe_add ("ppci", "Cubic interpolating deinterlacer", "", "ci");
-	maybe_add ("ppmd", "Median deinterlacer", "", "md");
-	maybe_add ("ppfd", "FFMPEG deinterlacer", "", "fd");
-	maybe_add ("ppl5", "FIR low-pass deinterlacer", "", "l5");
-	maybe_add ("mcdeint", "Motion compensating deinterlacer", "mcdeint", "");
-	maybe_add ("kerndeint", "Kernel deinterlacer", "kerndeint", "");
-	maybe_add ("yadif", "Yet Another Deinterlacing Filter", "yadif", "");
-	maybe_add ("pptn", "Temporal noise reducer", "", "tn");
-	maybe_add ("ppfq", "Force quantizer", "", "fq");
-	maybe_add ("gradfun", "Gradient debander", "gradfun", "");
-	maybe_add ("unsharp", "Unsharp mask and Gaussian blur", "unsharp", "");
-	maybe_add ("denoise3d", "3D denoiser", "denoise3d", "");
-	maybe_add ("hqdn3d", "High quality 3D denoiser", "hqdn3d", "");
-	maybe_add ("telecine", "Telecine filter", "telecine", "");
-	maybe_add ("ow", "Overcomplete wavelet denoiser", "mp=ow", "");
+	maybe_add ("pphb",      "Horizontal deblocking filter",                "De-blocking",     "",          "hb");
+	maybe_add ("ppvb",      "Vertical deblocking filter",                  "De-blocking",     "",          "vb");
+	maybe_add ("ppha",      "Horizontal deblocking filter A",              "De-blocking",     "",          "ha");
+	maybe_add ("ppva",      "Vertical deblocking filter A",                "De-blocking",     "",          "va");
+	maybe_add ("pph1",      "Experimental horizontal deblocking filter 1", "De-blocking",     "",          "h1");
+	maybe_add ("pphv",      "Experimental vertical deblocking filter 1",   "De-blocking",     "",          "v1");
+	maybe_add ("ppdr",      "Deringing filter",                            "Misc",            "",          "dr");
+	maybe_add ("pplb",      "Linear blend deinterlacer",                   "De-interlacing",  "",          "lb");
+	maybe_add ("ppli",      "Linear interpolating deinterlacer",           "De-interlacing",  "",          "li");
+	maybe_add ("ppci",      "Cubic interpolating deinterlacer",            "De-interlacing",  "",          "ci");
+	maybe_add ("ppmd",      "Median deinterlacer",                         "De-interlacing",  "",          "md");
+	maybe_add ("ppfd",      "FFMPEG deinterlacer",                         "De-interlacing",  "",          "fd");
+	maybe_add ("ppl5",      "FIR low-pass deinterlacer",                   "De-interlacing",  "",          "l5");
+	maybe_add ("mcdeint",   "Motion compensating deinterlacer",            "De-interlacing",  "mcdeint",   "");
+	maybe_add ("kerndeint", "Kernel deinterlacer",                         "De-interlacing",  "kerndeint", "");
+	maybe_add ("yadif",     "Yet Another Deinterlacing Filter",            "De-interlacing",  "yadif",     "");
+	maybe_add ("pptn",      "Temporal noise reducer",                      "Noise reduction", "",          "tn");
+	maybe_add ("ppfq",      "Force quantizer",                             "Misc",            "",          "fq");
+	maybe_add ("gradfun",   "Gradient debander",                           "Misc",            "gradfun",   "");
+	maybe_add ("unsharp",   "Unsharp mask and Gaussian blur",              "Misc",            "unsharp",   "");
+	maybe_add ("denoise3d", "3D denoiser",                                 "Noise reduction", "denoise3d", "");
+	maybe_add ("hqdn3d",    "High quality 3D denoiser",                    "Noise reduction", "hqdn3d",    "");
+	maybe_add ("telecine",  "Telecine filter",                             "Misc",            "telecine",  "");
+	maybe_add ("ow",        "Overcomplete wavelet denoiser",               "Noise reduction", "mp=ow",     "");
 }
 
 void
-Filter::maybe_add (string i, string n, string v, string p)
+Filter::maybe_add (string i, string n, string c, string v, string p)
 {
 	if (!v.empty ()) {
 		if (avfilter_get_by_name (i.c_str())) {
-			_filters.push_back (new Filter (i, n, v, p));
+			_filters.push_back (new Filter (i, n, c, v, p));
 		}
 	} else if (!p.empty ()) {
 		pp_mode* m = pp_get_mode_by_name_and_quality (p.c_str(), PP_QUALITY_MAX);
 		if (m) {
-			_filters.push_back (new Filter (i, n, v, p));
+			_filters.push_back (new Filter (i, n, c, v, p));
 			pp_free_mode (m);
 		}
 	}

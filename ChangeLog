@@ -1,5 +1,9 @@
 2013-02-02  Carl Hetherington  <cth@carlh.net>
 
+	* Tidy up filters dialog by not showing those
+	that are not configured in FFmpeg, and by splitting
+	them up into categories.
+
 	* Fix infinite loop of error messages when
 	`playing back' using a non-existant filter (#39).
 

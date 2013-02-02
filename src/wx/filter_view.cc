@@ -37,13 +37,38 @@ FilterView::FilterView (wxWindow* parent, vector<Filter const *> const & active)
 	
 	vector<Filter const *> filters = Filter::all ();
 
+	typedef map<string, list<Filter const *> > CategoryMap;
+	CategoryMap categories;
+
 	for (vector<Filter const *>::iterator i = filters.begin(); i != filters.end(); ++i) {
-		wxCheckBox* b = new wxCheckBox (this, wxID_ANY, std_to_wx ((*i)->name ()));
-		bool const a = find (active.begin(), active.end(), *i) != active.end ();
-		b->SetValue (a);
-		_filters[*i] = b;
-		b->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilterView::filter_toggled), 0, this);
-		sizer->Add (b);
+		CategoryMap::iterator j = categories.find ((*i)->category ());
+		if (j == categories.end ()) {
+			list<Filter const *> c;
+			c.push_back (*i);
+			categories[(*i)->category()] = c;
+		} else {
+			j->second.push_back (*i);
+		}
+	}
+
+	for (CategoryMap::iterator i = categories.begin(); i != categories.end(); ++i) {
+
+		wxStaticText* c = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
+		wxFont font = c->GetFont();
+		font.SetWeight(wxFONTWEIGHT_BOLD);
+		c->SetFont(font);
+		sizer->Add (c);
+
+		for (list<Filter const *>::iterator j = i->second.begin(); j != i->second.end(); ++j) {
+			wxCheckBox* b = new wxCheckBox (this, wxID_ANY, std_to_wx ((*j)->name ()));
+			bool const a = find (active.begin(), active.end(), *j) != active.end ();
+			b->SetValue (a);
+			_filters[*j] = b;
+			b->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilterView::filter_toggled), 0, this);
+			sizer->Add (b);
+		}
+
+		sizer->AddSpacer (6);
 	}
 }
 
