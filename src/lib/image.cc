@@ -240,8 +240,8 @@ Image::crop (Crop crop, bool aligned) const
 		
 		for (int y = 0; y < cropped_size.height; ++y) {
 			memcpy (out_p, in_p + crop_left_in_bytes, cropped_width_in_bytes);
-			in_p += line_size()[c];
-			out_p += out->line_size()[c];
+			in_p += stride()[c];
+			out_p += out->stride()[c];
 		}
 	}
 
