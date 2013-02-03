@@ -622,6 +622,9 @@ Socket::read_definite_and_consume (uint8_t* data, int size, int timeout)
 /** Read as much data as is available, up to some limit.
  *  @param data Where to put the data.
  *  @param size Maximum amount of data to read.
+ *
+ *  XXX This method assumes that there is always lots of data to read();
+ *  if there isn't, it will hang waiting for data that will never arrive.
  */
 void
 Socket::read_indefinite (uint8_t* data, int size, int timeout)
