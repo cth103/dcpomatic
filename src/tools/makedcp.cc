@@ -159,6 +159,7 @@ main (int argc, char* argv[])
 
 	bool should_stop = false;
 	bool first = true;
+	bool error = false;
 	while (!should_stop) {
 
 		dvdomatic_sleep (5);
@@ -194,6 +195,7 @@ main (int argc, char* argv[])
 
 			if ((*i)->finished_in_error ()) {
 				++finished_in_error;
+				error = true;
 			}
 
 			if (!progress && (*i)->finished_in_error ()) {
@@ -209,7 +211,7 @@ main (int argc, char* argv[])
 		}
 	}
 
-	return 0;
+	return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
 	  
