@@ -30,7 +30,7 @@ using namespace std;
 using namespace boost;
 
 NewFilmDialog::NewFilmDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, wxString (_("New Film")))
+	: wxDialog (parent, wxID_ANY, _("New Film"))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
@@ -39,11 +39,11 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	table->AddGrowableCol (1, 1);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
-	add_label_to_sizer (table, this, "Film name");
+	add_label_to_sizer (table, this, _("Film name"));
 	_name = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_name, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Create in folder");
+	add_label_to_sizer (table, this, _("Create in folder"));
 #ifdef __WXMSW__
 	_folder = new DirPickerCtrl (this);
 #else	

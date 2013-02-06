@@ -64,7 +64,7 @@ public:
 	{
 		stringstream s;
 		s << "Save changes to film \"" << film->name() << "\" before closing?";
-		_dialog = new wxMessageDialog (0, std_to_wx (s.str()), wxT ("Film changed"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
+		_dialog = new wxMessageDialog (0, std_to_wx (s.str()), _("Film changed"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
 	}
 
 	~FilmChangedDialog ()
@@ -263,7 +263,7 @@ public:
 		if (r == wxID_OK) {
 
 			if (boost::filesystem::exists (d->get_path())) {
-				error_dialog (this, String::compose ("The directory %1 already exists.", d->get_path()));
+				error_dialog (this, wxString::Format (_("The directory %s already exists"), d->get_path().c_str()));
 				return;
 			}
 			
@@ -279,7 +279,7 @@ public:
 
 	void file_open (wxCommandEvent &)
 	{
-		wxDirDialog* c = new wxDirDialog (this, wxT ("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		int const r = c->ShowModal ();
 		
 		if (r == wxID_OK) {
@@ -289,7 +289,9 @@ public:
 				film->log()->set_level (log_level);
 				set_film ();
 			} catch (std::exception& e) {
-				error_dialog (this, String::compose ("Could not open film at %1 (%2)", wx_to_std (c->GetPath()), e.what()));
+				wxString p = c->GetPath ();
+				wxCharBuffer b = p.ToUTF8 ();
+				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), e.what()));
 			}
 		}
 

@@ -95,7 +95,7 @@ JobManagerView::update ()
 				_job_records[*i].message->SetLabel (std_to_wx (st));
 				_job_records[*i].gauge->SetValue (p * 100);
 			} else {
-				_job_records[*i].message->SetLabel (wxT ("Running"));
+				_job_records[*i].message->SetLabel (_("Running"));
 				_job_records[*i].gauge->Pulse ();
 			}
 		}

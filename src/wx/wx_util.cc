@@ -36,9 +36,9 @@ using namespace boost;
  *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
-add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, int prop)
 {
-	wxStaticText* m = new wxStaticText (p, wxID_ANY, std_to_wx (t));
+	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
 	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	return m;
 }
@@ -48,9 +48,9 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
  *  @param m Message.
  */
 void
-error_dialog (wxWindow* parent, string m)
+error_dialog (wxWindow* parent, wxString m)
 {
-	wxMessageDialog* d = new wxMessageDialog (parent, std_to_wx (m), wxT ("DVD-o-matic"), wxOK);
+	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DVD-o-matic"), wxOK);
 	d->ShowModal ();
 	d->Destroy ();
 }
@@ -79,8 +79,8 @@ int const ThreadedStaticText::_update_event_id = 10000;
  *  @param initial Initial text for the wxStaticText while the computation is being run.
  *  @param fn Function which works out what the wxStaticText content should be and returns it.
  */
-ThreadedStaticText::ThreadedStaticText (wxWindow* parent, string initial, function<string ()> fn)
-	: wxStaticText (parent, wxID_ANY, std_to_wx (initial))
+ThreadedStaticText::ThreadedStaticText (wxWindow* parent, wxString initial, function<string ()> fn)
+	: wxStaticText (parent, wxID_ANY, initial)
 {
 	Connect (_update_event_id, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ThreadedStaticText::thread_finished), 0, this);
 	_thread = new thread (bind (&ThreadedStaticText::run, this, fn));
