@@ -103,7 +103,7 @@ CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
 CreateShortCut "$DESKTOP\DVD-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" ""
  
 CreateDirectory "$SMPROGRAMS\DVD-o-matic"
-CreateShortCut "$SMPROGRAMS\DVD-o-matic\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+CreateShortCut "$SMPROGRAMS\DVD-o-matic\Uninstall DVD-o-matic.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
 CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" "" "$INSTDIR\bin\dvdomatic.exe" 0
 CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" "" "$INSTDIR\bin\servomatic_gui.exe" 0
  
