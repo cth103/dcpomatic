@@ -77,12 +77,12 @@ private:
 	boost::thread* _thread;
 	bool _finish;
 	std::list<QueueItem> _queue;
+	int _queued_full_in_memory;
 	mutable boost::mutex _mutex;
 	boost::condition _condition;
 	boost::shared_ptr<const EncodedData> _last_written;
-	std::list<QueueItem> _pending;
 	int _last_written_frame;
-	static const unsigned int _maximum_frames_in_memory;
+	static const int _maximum_frames_in_memory;
 
 	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
 	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
