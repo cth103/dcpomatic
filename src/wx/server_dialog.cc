@@ -22,7 +22,7 @@
 #include "wx_util.h"
 
 ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
-	: wxDialog (parent, wxID_ANY, wxString (_("Server")))
+	: wxDialog (parent, wxID_ANY, _("Server"))
 {
 	if (server) {
 		_server = server;
@@ -33,11 +33,11 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 4, 4);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, "Host name or IP address");
+	add_label_to_sizer (table, this, _("Host name or IP address"));
 	_host = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_host, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Threads to use");
+	add_label_to_sizer (table, this, _("Threads to use"));
 	_threads = new wxSpinCtrl (this, wxID_ANY);
 	table->Add (_threads, 1, wxEXPAND);
 

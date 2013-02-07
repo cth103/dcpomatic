@@ -46,32 +46,32 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, "TMS IP address");
+	add_label_to_sizer (table, this, _("TMS IP address"));
 	_tms_ip = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_tms_ip, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "TMS target path");
+	add_label_to_sizer (table, this, _("TMS target path"));
 	_tms_path = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_tms_path, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "TMS user name");
+	add_label_to_sizer (table, this, _("TMS user name"));
 	_tms_user = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_tms_user, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "TMS password");
+	add_label_to_sizer (table, this, _("TMS password"));
 	_tms_password = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_tms_password, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "Threads to use for encoding on this host");
+	add_label_to_sizer (table, this, _("Threads to use for encoding on this host"));
 	_num_local_encoding_threads = new wxSpinCtrl (this);
 	table->Add (_num_local_encoding_threads, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "Default directory for new films");
+	add_label_to_sizer (table, this, _("Default directory for new films"));
 #ifdef __WXMSW__
 	_default_directory = new DirPickerCtrl (this);
 #else	
@@ -80,12 +80,12 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	table->Add (_default_directory, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, this, "Default DCI name details");
+	add_label_to_sizer (table, this, _("Default DCI name details"));
 	_default_dci_metadata_button = new wxButton (this, wxID_ANY, _("Edit..."));
 	table->Add (_default_dci_metadata_button);
 	table->AddSpacer (1);
 
-	add_label_to_sizer (table, this, "Reference scaler for A/B");
+	add_label_to_sizer (table, this, _("Reference scaler for A/B"));
 	_reference_scaler = new wxChoice (this, wxID_ANY);
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
@@ -96,7 +96,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	table->AddSpacer (0);
 
 	{
-		add_label_to_sizer (table, this, "Reference filters for A/B");
+		add_label_to_sizer (table, this, _("Reference filters for A/B"));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_reference_filters = new wxStaticText (this, wxID_ANY, wxT (""));
 		s->Add (_reference_filters, 1, wxEXPAND);
@@ -106,7 +106,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 		table->AddSpacer (0);
 	}
 
-	add_label_to_sizer (table, this, "Encoding Servers");
+	add_label_to_sizer (table, this, _("Encoding Servers"));
 	_servers = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (220, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
 	wxListItem ip;
 	ip.SetId (0);

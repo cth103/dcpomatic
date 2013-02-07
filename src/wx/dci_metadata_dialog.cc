@@ -30,31 +30,31 @@ DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, "Audio Language (e.g. EN)");
+	add_label_to_sizer (table, this, _("Audio Language (e.g. EN)"));
 	_audio_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_audio_language, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Subtitle Language (e.g. FR)");
+	add_label_to_sizer (table, this, _("Subtitle Language (e.g. FR)"));
 	_subtitle_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_subtitle_language, 1, wxEXPAND);
 	
-	add_label_to_sizer (table, this, "Territory (e.g. UK)");
+	add_label_to_sizer (table, this, _("Territory (e.g. UK)"));
 	_territory = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_territory, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Rating (e.g. 15)");
+	add_label_to_sizer (table, this, _("Rating (e.g. 15)"));
 	_rating = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_rating, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Studio (e.g. TCF)");
+	add_label_to_sizer (table, this, _("Studio (e.g. TCF)"));
 	_studio = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_studio, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Facility (e.g. DLA)");
+	add_label_to_sizer (table, this, _("Facility (e.g. DLA)"));
 	_facility = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_facility, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Package Type (e.g. OV)");
+	add_label_to_sizer (table, this, _("Package Type (e.g. OV)"));
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 

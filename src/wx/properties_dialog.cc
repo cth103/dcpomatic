@@ -38,20 +38,20 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 3, 6);
 
-	add_label_to_sizer (table, this, "Frames");
-	_frames = new wxStaticText (this, wxID_ANY, std_to_wx (""));
+	add_label_to_sizer (table, this, _("Frames"));
+	_frames = new wxStaticText (this, wxID_ANY, wxT (""));
 	table->Add (_frames, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, "Disk space required for frames");
-	_disk_for_frames = new wxStaticText (this, wxID_ANY, std_to_wx (""));
+	add_label_to_sizer (table, this, _("Disk space required for frames"));
+	_disk_for_frames = new wxStaticText (this, wxID_ANY, wxT (""));
 	table->Add (_disk_for_frames, 1, wxALIGN_CENTER_VERTICAL);
 	
-	add_label_to_sizer (table, this, "Total disk space required");
-	_total_disk = new wxStaticText (this, wxID_ANY, std_to_wx (""));
+	add_label_to_sizer (table, this, _("Total disk space required"));
+	_total_disk = new wxStaticText (this, wxID_ANY, wxT (""));
 	table->Add (_total_disk, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, "Frames already encoded");
-	_encoded = new ThreadedStaticText (this, "counting...", boost::bind (&PropertiesDialog::frames_already_encoded, this));
+	add_label_to_sizer (table, this, _("Frames already encoded"));
+	_encoded = new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 
 	if (_film->length()) {

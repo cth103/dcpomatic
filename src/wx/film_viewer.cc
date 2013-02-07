@@ -388,7 +388,7 @@ FilmViewer::get_frame ()
 	} catch (DecodeError& e) {
 		_play_button->SetValue (false);
 		check_play_state ();
-		error_dialog (this, String::compose ("Could not decode video for view (%1)", e.what()));
+		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), e.what()));
 	}
 }
 
