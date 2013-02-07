@@ -1,5 +1,5 @@
 def configure(conf):
-    conf.check_cfg(package = '', path = 'wx-config', args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
+    conf.check_cfg(package = '', path = conf.options.wx_config, args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
 
 def build(bld):
     if bld.env.STATIC:
