@@ -1,9 +1,9 @@
-version 2
+version 3
 name fred
 use_dci_name 1
 content 
 trust_content_header 1
-dcp_content_type Short
+dcp_content_type SHR
 format 185
 left_crop 1
 right_crop 2
