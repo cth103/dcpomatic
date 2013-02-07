@@ -449,7 +449,7 @@ Film::read_metadata ()
 
 	ifstream f (file ("metadata").c_str());
 	if (!f.good()) {
-		throw OpenFileError (file("metadata"));
+		throw OpenFileError (file ("metadata"));
 	}
 	
 	multimap<string, string> kv = read_key_value (f);
@@ -601,23 +601,31 @@ string
 Film::dir (string d) const
 {
 	boost::mutex::scoped_lock lm (_directory_mutex);
+	
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= d;
+	
 	boost::filesystem::create_directories (p);
+	
 	return p.string ();
 }
 
 /** Given a file or directory name, return its full path within the Film's directory.
  *  _directory_mutex must not be locked on entry.
+ *  Any required parent directories will be created.
  */
 string
 Film::file (string f) const
 {
 	boost::mutex::scoped_lock lm (_directory_mutex);
+
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= f;
+
+	boost::filesystem::create_directories (p.parent_path ());
+	
 	return p.string ();
 }
 
