@@ -256,6 +256,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	if (_writer->can_fake_write (_video_frames_out)) {
 		_writer->fake_write (_video_frames_out);
 		_have_a_real_frame = false;
+		frame_done ();
 	} else if (same && _have_a_real_frame) {
 		/* Use the last frame that we encoded. */
 		_writer->repeat (_video_frames_out);
