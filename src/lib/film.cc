@@ -1317,7 +1317,11 @@ Film::info_path (int f) const
 	s << setfill('0') << f << ".md5";
 
 	p /= s.str();
-	return file (p.string ());
+
+	/* info_dir() will already have added any initial bit of the path,
+	   so don't call file() on this.
+	*/
+	return p.string ();
 }
 
 string
