@@ -45,6 +45,9 @@ Writer::Writer (shared_ptr<Film> f)
 	, _finish (false)
 	, _last_written_frame (-1)
 {
+	/* Remove any old DCP */
+	boost::filesystem::remove_all (_film->dir (_film->dcp_name ()));
+	
 	check_existing_picture_mxf ();
 	
 	/* Create our picture asset in a subdirectory, named according to those
