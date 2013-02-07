@@ -13,6 +13,8 @@ def options(opt):
     opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
     opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
     opt.add_option('--static', action='store_true', default = False, help = 'build statically, and link statically to libdcp and FFmpeg')
+    opt.add_option('--magickpp-config', action='store', default='Magick++-config', help = 'path to Magick++-config')
+    opt.add_option('--wx-config', action='store', default='wx-config', help = 'path to wx-config')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -73,7 +75,7 @@ def configure(conf):
         conf.env.STLIB_AVFILTER = ['avfilter', 'swresample']
         conf.env.HAVE_AVCODEC = 1
         conf.env.STLIB_AVCODEC = ['avcodec']
-        conf.env.LIB_AVCODEC = ['x264', 'z']
+        conf.env.LIB_AVCODEC = ['z']
         conf.env.HAVE_AVUTIL = 1
         conf.env.STLIB_AVUTIL = ['avutil']
         conf.env.HAVE_SWSCALE = 1
@@ -90,7 +92,7 @@ def configure(conf):
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
     conf.check_cfg(package = 'liblzma', args = '--cflags --libs', uselib_store = 'LZMA', mandatory = True)
-    conf.check_cfg(package = '', path = 'Magick++-config', args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
+    conf.check_cfg(package = '', path = conf.options.magickpp_config, args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
     if conf.options.static:
         conf.check_cc(fragment = """
