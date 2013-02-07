@@ -50,6 +50,7 @@ public:
 	}
 
 	static DCPContentType const * from_pretty_name (std::string);
+	static DCPContentType const * from_dci_name (std::string);
 	static DCPContentType const * from_index (int);
 	static int as_index (DCPContentType const *);
 	static std::vector<DCPContentType const *> all ();

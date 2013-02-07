@@ -72,7 +72,7 @@ using boost::starts_with;
 using boost::optional;
 using libdcp::Size;
 
-int const Film::state_version = 2;
+int const Film::state_version = 3;
 
 /** Construct a Film object in a given directory, reading any metadata
  *  file that exists in that directory.  An exception will be thrown if
@@ -374,7 +374,7 @@ Film::write_metadata () const
 	f << "content " << _content << "\n";
 	f << "trust_content_header " << (_trust_content_header ? "1" : "0") << "\n";
 	if (_dcp_content_type) {
-		f << "dcp_content_type " << _dcp_content_type->pretty_name () << "\n";
+		f << "dcp_content_type " << _dcp_content_type->dci_name () << "\n";
 	}
 	if (_format) {
 		f << "format " << _format->as_metadata () << "\n";
@@ -478,7 +478,11 @@ Film::read_metadata ()
 		} else if (k == "trust_content_header") {
 			_trust_content_header = (v == "1");
 		} else if (k == "dcp_content_type") {
-			_dcp_content_type = DCPContentType::from_pretty_name (v);
+			if (version < 3) {
+				_dcp_content_type = DCPContentType::from_pretty_name (v);
+			} else {
+				_dcp_content_type = DCPContentType::from_dci_name (v);
+			}
 		} else if (k == "format") {
 			_format = Format::from_metadata (v);
 		} else if (k == "left_crop") {
@@ -493,9 +497,9 @@ Film::read_metadata ()
 			_filters.push_back (Filter::from_id (v));
 		} else if (k == "scaler") {
 			_scaler = Scaler::from_id (v);
-		} else if ( ((!version || version < 2) && k == "trim_start") || k == "trim_start") {
+		} else if ( ((!version || version < 2) && k == "dcp_trim_start") || k == "trim_start") {
 			_trim_start = atoi (v.c_str ());
-		} else if ( ((!version || version < 2) && k == "trim_end") || k == "trim_end") {
+		} else if ( ((!version || version < 2) && k == "dcp_trim_end") || k == "trim_end") {
 			_trim_end = atoi (v.c_str ());
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
