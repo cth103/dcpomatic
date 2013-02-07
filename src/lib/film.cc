@@ -1317,7 +1317,7 @@ Film::info_path (int f) const
 	s << setfill('0') << f << ".md5";
 
 	p /= s.str();
-	return p.string ();
+	return file (p.string ());
 }
 
 string
@@ -1336,7 +1336,7 @@ Film::j2c_path (int f, bool t) const
 	}
 
 	p /= s.str();
-	return p.string ();
+	return file (p.string ());
 }
 
 
