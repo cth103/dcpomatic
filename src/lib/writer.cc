@@ -163,18 +163,6 @@ Writer::thread ()
 				--_queued_full_in_memory;
 			}
 
-			switch (qi.type) {
-			case QueueItem::FULL:
-				++_full_written;
-				break;
-			case QueueItem::FAKE:
-				++_fake_written;
-				break;
-			case QueueItem::REPEAT:
-				++_repeat_written;
-				break;
-			}
-
 			lock.unlock ();
 			switch (qi.type) {
 			case QueueItem::FULL:
@@ -186,18 +174,21 @@ Writer::thread ()
 				libdcp::FrameInfo const fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
 				qi.encoded->write_info (_film, qi.frame, fin);
 				_last_written = qi.encoded;
+				++_full_written;
 				break;
 			}
 			case QueueItem::FAKE:
 				_film->log()->log (String::compose ("Writer FAKE-writes %1 to MXF", qi.frame));
 				_picture_asset_writer->fake_write (qi.size);
 				_last_written.reset ();
+				++_fake_written;
 				break;
 			case QueueItem::REPEAT:
 			{
 				_film->log()->log (String::compose ("Writer REPEAT-writes %1 to MXF", qi.frame));
 				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size());
 				_last_written->write_info (_film, qi.frame, fin);
+				++_repeat_written;
 				break;
 			}
 			}
@@ -358,10 +349,15 @@ Writer::check_existing_picture_mxf ()
 	fclose (mxf);
 }
 
-/** @return true if the fake write succeeded, otherwise false */
+/** @param frame Frame index.
+ *  @return true if we can fake-write this frame.
+ */
 bool
 Writer::can_fake_write (int frame) const
 {
+	/* We have to do a proper write of the first frame so that we can set up the JPEG2000
+	   parameters in the MXF writer.
+	*/
 	return (frame != 0 && frame < _first_nonexistant_frame);
 }
 
