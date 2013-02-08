@@ -50,9 +50,7 @@ using namespace boost;
 
 int const Encoder::_history_size = 25;
 
-/** @param f Film that we are encoding.
- *  @param o Options.
- */
+/** @param f Film that we are encoding */
 Encoder::Encoder (shared_ptr<Film> f)
 	: _film (f)
 	, _video_frames_in (0)

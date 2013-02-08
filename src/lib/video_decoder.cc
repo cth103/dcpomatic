@@ -53,6 +53,10 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 	_last_source_time = t;
 }
 
+/** Called by subclasses to repeat the last video frame that we
+ *  passed to emit_video().  If emit_video hasn't yet been called,
+ *  we will generate a black frame.
+ */
 void
 VideoDecoder::repeat_last_video ()
 {
@@ -64,6 +68,11 @@ VideoDecoder::repeat_last_video ()
 	signal_video (_last_image, true, _last_subtitle);
 }
 
+/** Emit our signal to say that some video data is ready.
+ *  @param image Video frame.
+ *  @param same true if `image' is the same as the last one we emitted.
+ *  @param sub Subtitle for this frame, or 0.
+ */
 void
 VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
 {
@@ -75,6 +84,11 @@ VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subti
 	_last_subtitle = sub;
 }
 
+/** Set up the current subtitle.  This will be put onto frames that
+ *  fit within its time specification.  s may be 0 to say that there
+ *  is no current subtitle.
+ *  @param s New current subtitle, or 0.
+ */
 void
 VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 {
@@ -86,6 +100,9 @@ VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 	}
 }
 
+/** Set which stream of subtitles we should use from our source.
+ *  @param s Stream to use.
+ */
 void
 VideoDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 {
