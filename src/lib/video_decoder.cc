@@ -28,8 +28,8 @@
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<Film> f, DecodeOptions o, Job* j)
-	: Decoder (f, o, j)
+VideoDecoder::VideoDecoder (shared_ptr<Film> f, DecodeOptions o)
+	: Decoder (f, o)
 	, _video_frame (0)
 	, _last_source_time (0)
 {
@@ -110,9 +110,11 @@ VideoDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 }
 
 void
-VideoDecoder::set_progress () const
+VideoDecoder::set_progress (Job* j) const
 {
-	if (_job && _film->length()) {
-		_job->set_progress (float (_video_frame) / _film->length().get());
+	assert (j);
+	
+	if (_film->length()) {
+		j->set_progress (float (_video_frame) / _film->length().get());
 	}
 }

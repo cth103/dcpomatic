@@ -26,7 +26,6 @@
 #include <boost/lexical_cast.hpp>
 #include "film.h"
 #include "format.h"
-#include "job.h"
 #include "options.h"
 #include "exceptions.h"
 #include "image.h"
@@ -47,12 +46,10 @@ using boost::optional;
 
 /** @param f Film.
  *  @param o Decode options.
- *  @param j Job that we are running within, or 0
  */
-Decoder::Decoder (boost::shared_ptr<Film> f, DecodeOptions o, Job* j)
+Decoder::Decoder (boost::shared_ptr<Film> f, DecodeOptions o)
 	: _film (f)
 	, _opt (o)
-	, _job (j)
 {
 	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
 }

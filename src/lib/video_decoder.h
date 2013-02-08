@@ -27,7 +27,7 @@
 class VideoDecoder : public VideoSource, public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<Film>, DecodeOptions, Job *);
+	VideoDecoder (boost::shared_ptr<Film>, DecodeOptions);
 
 	/** @return video frames per second, or 0 if unknown */
 	virtual float frames_per_second () const = 0;
@@ -43,7 +43,7 @@ public:
 
 	virtual void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 
-	void set_progress () const;
+	void set_progress (Job *) const;
 	
 	int video_frame () const {
 		return _video_frame;

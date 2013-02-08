@@ -51,7 +51,7 @@ using boost::dynamic_pointer_cast;
 Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<Encoder> e)
 	: _job (j)
 	, _encoder (e)
-	, _decoders (decoder_factory (f, o, j))
+	, _decoders (decoder_factory (f, o))
 {
 	assert (_encoder);
 
@@ -96,7 +96,9 @@ Transcoder::go ()
 		while (1) {
 			if (!done[0]) {
 				done[0] = _decoders.video->pass ();
-				_decoders.video->set_progress ();
+				if (_job) {
+					_decoders.video->set_progress (_job);
+				}
 			}
 
 			if (!done[1] && _decoders.audio && dynamic_pointer_cast<Decoder> (_decoders.audio) != dynamic_pointer_cast<Decoder> (_decoders.video)) {

@@ -30,9 +30,9 @@ using boost::shared_ptr;
 using libdcp::Size;
 
 ImageMagickDecoder::ImageMagickDecoder (
-	boost::shared_ptr<Film> f, DecodeOptions o, Job* j)
-	: Decoder (f, o, j)
-	, VideoDecoder (f, o, j)
+	boost::shared_ptr<Film> f, DecodeOptions o)
+	: Decoder (f, o)
+	, VideoDecoder (f, o)
 {
 	if (boost::filesystem::is_directory (_film->content_path())) {
 		for (

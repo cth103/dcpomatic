@@ -857,7 +857,7 @@ Film::set_content (string c)
 	*/
 
 	try {
-		Decoders d = decoder_factory (shared_from_this(), DecodeOptions(), 0);
+		Decoders d = decoder_factory (shared_from_this(), DecodeOptions());
 		
 		set_size (d.video->native_size ());
 		set_frames_per_second (d.video->frames_per_second ());
@@ -1079,7 +1079,7 @@ Film::set_external_audio (vector<string> a)
 		_external_audio = a;
 	}
 
-	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), DecodeOptions(), 0));
+	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), DecodeOptions()));
 	if (decoder->audio_stream()) {
 		_external_audio_stream = decoder->audio_stream ();
 	}

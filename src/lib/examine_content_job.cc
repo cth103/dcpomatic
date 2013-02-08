@@ -81,7 +81,7 @@ ExamineContentJob::run ()
 		DecodeOptions o;
 		o.decode_audio = false;
 		
-		Decoders decoders = decoder_factory (_film, o, this);
+		Decoders decoders = decoder_factory (_film, o);
 		
 		set_progress_unknown ();
 		while (!decoders.video->pass()) {
@@ -96,7 +96,7 @@ ExamineContentJob::run ()
 
 		/* Get a quick decoder to get the content's length from its header */
 		
-		Decoders d = decoder_factory (_film, DecodeOptions(), 0);
+		Decoders d = decoder_factory (_film, DecodeOptions());
 		_film->set_length (d.video->length());
 	
 		_film->log()->log (String::compose ("Video length obtained from header as %1 frames", _film->length().get()));

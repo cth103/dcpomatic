@@ -101,7 +101,7 @@ FilmViewer::film_changed (Film::Property p)
 		o.decode_audio = false;
 		o.decode_subtitles = true;
 		o.video_sync = false;
-		_decoders = decoder_factory (_film, o, 0);
+		_decoders = decoder_factory (_film, o);
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		_decoders.video->set_subtitle_stream (_film->subtitle_stream());

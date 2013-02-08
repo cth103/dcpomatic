@@ -27,7 +27,6 @@
 #include "options.h"
 
 class Film;
-class Job;
 class VideoDecoder;
 class AudioDecoder;
 
@@ -44,7 +43,7 @@ struct Decoders {
 };
 
 extern Decoders decoder_factory (
-	boost::shared_ptr<Film>, DecodeOptions, Job *
+	boost::shared_ptr<Film>, DecodeOptions
 	);
 
 #endif

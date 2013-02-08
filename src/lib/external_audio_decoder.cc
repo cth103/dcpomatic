@@ -31,9 +31,9 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, DecodeOptions o, Job* j)
-	: Decoder (f, o, j)
-	, AudioDecoder (f, o, j)
+ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, DecodeOptions o)
+	: Decoder (f, o)
+	, AudioDecoder (f, o)
 {
 	sf_count_t frames;
 	vector<SNDFILE*> sf = open_files (frames);

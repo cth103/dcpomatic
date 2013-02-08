@@ -60,10 +60,10 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using libdcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, DecodeOptions o, Job* j)
-	: Decoder (f, o, j)
-	, VideoDecoder (f, o, j)
-	, AudioDecoder (f, o, j)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, DecodeOptions o)
+	: Decoder (f, o)
+	, VideoDecoder (f, o)
+	, AudioDecoder (f, o)
 	, _format_context (0)
 	, _video_stream (-1)
 	, _frame (0)

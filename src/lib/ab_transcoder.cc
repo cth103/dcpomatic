@@ -55,8 +55,8 @@ ABTranscoder::ABTranscoder (
 	, _job (j)
 	, _encoder (e)
 {
-	_da = decoder_factory (_film_a, o, j);
-	_db = decoder_factory (_film_b, o, j);
+	_da = decoder_factory (_film_a, o);
+	_db = decoder_factory (_film_b, o);
 
 	if (_film_a->audio_stream()) {
 		shared_ptr<AudioStream> st = _film_a->audio_stream();
@@ -98,7 +98,9 @@ ABTranscoder::go ()
 		bool const vb = _db.video->pass ();
 		bool const a = _da.audio->pass ();
 
-		_da.video->set_progress ();
+		if (_job) {
+			_da.video->set_progress (_job);
+		}
 
 		if (va && vb && a) {
 			break;

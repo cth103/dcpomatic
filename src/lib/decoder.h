@@ -36,7 +36,6 @@
 #include "film.h"
 #include "options.h"
 
-class Job;
 class Image;
 class Log;
 class DelayLine;
@@ -54,7 +53,7 @@ class FilterGraph;
 class Decoder
 {
 public:
-	Decoder (boost::shared_ptr<Film>, DecodeOptions, Job *);
+	Decoder (boost::shared_ptr<Film>, DecodeOptions);
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
@@ -68,8 +67,6 @@ protected:
 	boost::shared_ptr<Film> _film;
 	/** our decode options */
 	DecodeOptions _opt;
-	/** associated Job, or 0 */
-	Job* _job;
 
 private:
 	virtual void film_changed (Film::Property) {}
