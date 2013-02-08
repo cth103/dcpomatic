@@ -37,8 +37,14 @@ struct QueueItem
 {
 public:
 	enum Type {
+		/** a normal frame with some JPEG200 data */
 		FULL,
+		/** a frame whose data already exists in the MXF,
+		    and we fake-write it; i.e. we update the writer's
+		    state but we use the data that is already on disk.
+		*/
 		FAKE,
+		/** this is a repeat of the last frame to be written */
 		REPEAT
 	} type;
 
@@ -71,22 +77,41 @@ private:
 	void thread ();
 	void check_existing_picture_mxf ();
 
+	/** our Film */
 	boost::shared_ptr<Film> _film;
+	/** the first frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 
+	/** our thread, or 0 */
 	boost::thread* _thread;
+	/** true if our thread should finish */
 	bool _finish;
+	/** queue of things to write to disk */
 	std::list<QueueItem> _queue;
+	/** number of FULL frames whose JPEG200 data is currently held in RAM */
 	int _queued_full_in_memory;
+	/** mutex for thread state */
 	mutable boost::mutex _mutex;
+	/** condition to manage thread wakeups */
 	boost::condition _condition;
+	/** the data of the last written frame, or 0 if there isn't one */
 	boost::shared_ptr<const EncodedData> _last_written;
+	/** the index of the last written frame */
 	int _last_written_frame;
+	/** maximum number of frames to hold in memory, for when we are managing
+	    ordering
+	*/
 	static const int _maximum_frames_in_memory;
 
+	/** number of FULL written frames */
 	int _full_written;
+	/** number of FAKE written frames */
 	int _fake_written;
+	/** number of REPEAT written frames */
 	int _repeat_written;
+	/** number of frames pushed to disk and then recovered
+	    due to the limit of frames to be held in memory.
+	*/
 	int _pushed_to_disk;
 
 	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
