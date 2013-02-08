@@ -84,6 +84,11 @@ private:
 	int _last_written_frame;
 	static const int _maximum_frames_in_memory;
 
+	int _full_written;
+	int _fake_written;
+	int _repeat_written;
+	int _pushed_to_disk;
+
 	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
 	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<libdcp::SoundAsset> _sound_asset;

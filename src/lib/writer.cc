@@ -46,6 +46,10 @@ Writer::Writer (shared_ptr<Film> f)
 	, _finish (false)
 	, _queued_full_in_memory (0)
 	, _last_written_frame (-1)
+	, _full_written (0)
+	, _fake_written (0)
+	, _repeat_written (0)
+	, _pushed_to_disk (0)
 {
 	/* Remove any old DCP */
 	boost::filesystem::remove_all (_film->dir (_film->dcp_name ()));
@@ -159,6 +163,18 @@ Writer::thread ()
 				--_queued_full_in_memory;
 			}
 
+			switch (qi.type) {
+			case QueueItem::FULL:
+				++_full_written;
+				break;
+			case QueueItem::FAKE:
+				++_fake_written;
+				break;
+			case QueueItem::REPEAT:
+				++_repeat_written;
+				break;
+			}
+
 			lock.unlock ();
 			switch (qi.type) {
 			case QueueItem::FULL:
@@ -204,6 +220,8 @@ Writer::thread ()
 			assert (i != _queue.rend());
 			QueueItem qi = *i;
 
+			++_pushed_to_disk;
+			
 			lock.unlock ();
 			_film->log()->log (String::compose ("Writer full (awaiting %1); pushes %2 to disk", _last_written_frame + 1, qi.frame));
 			qi.encoded->write (_film, qi.frame);
@@ -284,6 +302,8 @@ Writer::finish ()
 			       ));
 
 	dcp.write_xml ();
+
+	_film->log()->log (String::compose ("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk", _full_written, _fake_written, _repeat_written, _pushed_to_disk));
 }
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */
