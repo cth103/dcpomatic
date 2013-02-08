@@ -21,7 +21,7 @@
 #define DVDOMATIC_ENCODER_H
 
 /** @file src/encoder.h
- *  @brief Parent class for classes which can encode video and audio frames.
+ *  @brief Encoder to J2K and WAV for DCP.
  */
 
 #include <boost/shared_ptr.hpp>
@@ -91,7 +91,7 @@ private:
 	void write_audio (boost::shared_ptr<const AudioBuffers> audio);
 
 	void encoder_thread (ServerDescription *);
-	void terminate_worker_threads ();
+	void terminate_threads ();
 
 	/** Film that we are encoding */
 	boost::shared_ptr<Film> _film;
@@ -115,11 +115,11 @@ private:
 #endif
 
 	bool _have_a_real_frame;
-	bool _terminate_encoder;
-	std::list<boost::shared_ptr<DCPVideoFrame> > _encode_queue;
-	std::list<boost::thread *> _worker_threads;
-	mutable boost::mutex _worker_mutex;
-	boost::condition _worker_condition;
+	bool _terminate;
+	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
+	std::list<boost::thread *> _threads;
+	mutable boost::mutex _mutex;
+	boost::condition _condition;
 
 	boost::shared_ptr<Writer> _writer;
 };

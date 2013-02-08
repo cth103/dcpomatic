@@ -61,14 +61,14 @@ Encoder::Encoder (shared_ptr<Film> f)
 	, _swr_context (0)
 #endif
 	, _have_a_real_frame (false)
-	, _terminate_encoder (false)
+	, _terminate (false)
 {
 	
 }
 
 Encoder::~Encoder ()
 {
-	terminate_worker_threads ();
+	terminate_threads ();
 	if (_writer) {
 		_writer->finish ();
 	}
@@ -107,14 +107,14 @@ Encoder::process_begin ()
 	}
 
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_worker_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, (ServerDescription *) 0)));
+		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, (ServerDescription *) 0)));
 	}
 
 	vector<ServerDescription*> servers = Config::instance()->servers ();
 
 	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		for (int j = 0; j < (*i)->threads (); ++j) {
-			_worker_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, *i)));
+			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, *i)));
 		}
 	}
 
@@ -149,33 +149,33 @@ Encoder::process_end ()
 	}
 #endif
 
-	boost::mutex::scoped_lock lock (_worker_mutex);
+	boost::mutex::scoped_lock lock (_mutex);
 
-	_film->log()->log ("Clearing queue of " + lexical_cast<string> (_encode_queue.size ()));
+	_film->log()->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
 
 	/* Keep waking workers until the queue is empty */
-	while (!_encode_queue.empty ()) {
-		_film->log()->log ("Waking with " + lexical_cast<string> (_encode_queue.size ()), Log::VERBOSE);
-		_worker_condition.notify_all ();
-		_worker_condition.wait (lock);
+	while (!_queue.empty ()) {
+		_film->log()->log ("Waking with " + lexical_cast<string> (_queue.size ()), Log::VERBOSE);
+		_condition.notify_all ();
+		_condition.wait (lock);
 	}
 
 	lock.unlock ();
 	
-	terminate_worker_threads ();
+	terminate_threads ();
 
-	_film->log()->log ("Mopping up " + lexical_cast<string> (_encode_queue.size()));
+	_film->log()->log ("Mopping up " + lexical_cast<string> (_queue.size()));
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
 	     2. the loop above terminates
 	     3. the remote worker fails to encode the image and puts it back on the queue
-	     4. the remote worker is then terminated by terminate_worker_threads
+	     4. the remote worker is then terminated by terminate_threads
 
 	     So just mop up anything left in the queue here.
 	*/
 
-	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _encode_queue.begin(); i != _encode_queue.end(); ++i) {
+	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
 		_film->log()->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
 		try {
 			_writer->write ((*i)->encode_locally(), (*i)->frame ());
@@ -240,16 +240,16 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		return;
 	}
 
-	boost::mutex::scoped_lock lock (_worker_mutex);
+	boost::mutex::scoped_lock lock (_mutex);
 
 	/* Wait until the queue has gone down a bit */
-	while (_encode_queue.size() >= _worker_threads.size() * 2 && !_terminate_encoder) {
-		TIMING ("decoder sleeps with queue of %1", _encode_queue.size());
-		_worker_condition.wait (lock);
-		TIMING ("decoder wakes with queue of %1", _encode_queue.size());
+	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
+		TIMING ("decoder sleeps with queue of %1", _queue.size());
+		_condition.wait (lock);
+		TIMING ("decoder wakes with queue of %1", _queue.size());
 	}
 
-	if (_terminate_encoder) {
+	if (_terminate) {
 		return;
 	}
 
@@ -264,8 +264,8 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
-		TIMING ("adding to queue of %1", _encode_queue.size ());
-		_encode_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
+		TIMING ("adding to queue of %1", _queue.size ());
+		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
 						  _film->subtitle_offset(), _film->subtitle_scale(),
@@ -275,7 +275,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 						  )
 					  ));
 		
-		_worker_condition.notify_all ();
+		_condition.notify_all ();
 		_have_a_real_frame = true;
 	}
 
@@ -337,14 +337,14 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 }
 
 void
-Encoder::terminate_worker_threads ()
+Encoder::terminate_threads ()
 {
-	boost::mutex::scoped_lock lock (_worker_mutex);
-	_terminate_encoder = true;
-	_worker_condition.notify_all ();
+	boost::mutex::scoped_lock lock (_mutex);
+	_terminate = true;
+	_condition.notify_all ();
 	lock.unlock ();
 
-	for (list<boost::thread *>::iterator i = _worker_threads.begin(); i != _worker_threads.end(); ++i) {
+	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
 		(*i)->join ();
 		delete *i;
 	}
@@ -362,19 +362,19 @@ Encoder::encoder_thread (ServerDescription* server)
 	while (1) {
 
 		TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
-		boost::mutex::scoped_lock lock (_worker_mutex);
-		while (_encode_queue.empty () && !_terminate_encoder) {
-			_worker_condition.wait (lock);
+		boost::mutex::scoped_lock lock (_mutex);
+		while (_queue.empty () && !_terminate) {
+			_condition.wait (lock);
 		}
 
-		if (_terminate_encoder) {
+		if (_terminate) {
 			return;
 		}
 
-		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _encode_queue.size());
-		boost::shared_ptr<DCPVideoFrame> vf = _encode_queue.front ();
+		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
+		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
 		_film->log()->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
-		_encode_queue.pop_front ();
+		_queue.pop_front ();
 		
 		lock.unlock ();
 
@@ -421,7 +421,7 @@ Encoder::encoder_thread (ServerDescription* server)
 			_film->log()->log (
 				String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", boost::this_thread::get_id(), vf->frame())
 				);
-			_encode_queue.push_front (vf);
+			_queue.push_front (vf);
 			lock.unlock ();
 		}
 
@@ -430,6 +430,6 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		lock.lock ();
-		_worker_condition.notify_all ();
+		_condition.notify_all ();
 	}
 }
