@@ -21,6 +21,7 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/date_time.hpp>
 #include "format.h"
 #include "film.h"
 #include "filter.h"
@@ -60,14 +61,25 @@ setup_test_config ()
 	Config::instance()->set_default_dci_metadata (DCIMetadata ());
 }
 
+boost::filesystem::path
+test_film_dir (string name)
+{
+	boost::filesystem::path p;
+	p /= "build";
+	p /= "test";
+	p /= name;
+	return p;
+}
+
 shared_ptr<Film>
 new_test_film (string name)
 {
-	string const d = String::compose ("build/test/%1", name);
-	if (boost::filesystem::exists (d)) {
-		boost::filesystem::remove_all (d);
+	boost::filesystem::path p = test_film_dir (name);
+	if (boost::filesystem::exists (p)) {
+		boost::filesystem::remove_all (p);
 	}
-	return shared_ptr<Film> (new Film (d, false));
+	
+	return shared_ptr<Film> (new Film (p.string(), false));
 }
 
 
@@ -144,6 +156,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_THROW (new Film (test_film, true), OpenFileError);
 	
 	shared_ptr<Film> f (new Film (test_film, false));
+	f->_dci_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (f->format() == 0);
 	BOOST_CHECK (f->dcp_content_type() == 0);
 	BOOST_CHECK (f->filters ().empty());
@@ -468,12 +481,26 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	film->set_format (Format::from_nickname ("Flat"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp (true);
+	film->write_metadata ();
 
 	while (JobManager::instance()->work_to_do ()) {
 		dvdomatic_sleep (1);
 	}
 	
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+}
+
+/** Test Film::have_dcp().  Requires the output from make_dcp_test above */
+BOOST_AUTO_TEST_CASE (have_dcp_test)
+{
+	boost::filesystem::path p = test_film_dir ("make_dcp_test");
+	Film f (p.string ());
+	BOOST_CHECK (f.have_dcp());
+
+	p /= f.dcp_name();
+	p /= "video.mxf";
+	boost::filesystem::remove (p);
+	BOOST_CHECK (!f.have_dcp ());
 }
 
 BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)

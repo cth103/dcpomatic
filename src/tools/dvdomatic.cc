@@ -54,6 +54,7 @@ static FilmViewer* film_viewer = 0;
 static shared_ptr<Film> film;
 static std::string log_level;
 static std::string film_to_load;
+static wxMenu* jobs_menu = 0;
 
 static void set_menu_sensitivity ();
 
@@ -159,19 +160,19 @@ setup_menu (wxMenuBar* m)
 	wxMenu* edit = new wxMenu;
 	add_item (edit, "&Preferences...", ID_edit_preferences, ALWAYS);
 
-	wxMenu* jobs = new wxMenu;
-	add_item (jobs, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
-	add_item (jobs, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
-	jobs->AppendSeparator ();
-	add_item (jobs, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
-	add_item (jobs, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
+	jobs_menu = new wxMenu;
+	add_item (jobs_menu, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
+	add_item (jobs_menu, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
+	jobs_menu->AppendSeparator ();
+	add_item (jobs_menu, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
+	add_item (jobs_menu, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
 
 	wxMenu* help = new wxMenu;
 	add_item (help, "About", ID_help_about, ALWAYS);
 
 	m->Append (file, _("&File"));
 	m->Append (edit, _("&Edit"));
-	m->Append (jobs, _("&Jobs"));
+	m->Append (jobs_menu, _("&Jobs"));
 	m->Append (help, _("&Help"));
 }
 
@@ -204,6 +205,8 @@ public:
 		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
+		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
+
 		wxPanel* panel = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (panel, 1, wxEXPAND);
@@ -235,6 +238,18 @@ public:
 		}
 		
 		set_film ();
+	}
+
+private:
+
+	void menu_opened (wxMenuEvent& ev)
+	{
+		if (ev.GetMenu() != jobs_menu) {
+			return;
+		}
+
+		bool const have_dcp = film && film->have_dcp();
+		jobs_menu->Enable (ID_jobs_send_dcp_to_tms, have_dcp);
 	}
 
 	void set_film ()

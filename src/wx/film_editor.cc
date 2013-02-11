@@ -585,7 +585,7 @@ FilmEditor::film_changed (Film::Property p)
 		} else {
 			checked_set (_format, n);
 		}
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		break;
 	}
 	case Film::CROP:
@@ -608,8 +608,7 @@ FilmEditor::film_changed (Film::Property p)
 	}
 	case Film::NAME:
 		checked_set (_name, _film->name());
-		_film->set_dci_date_today ();
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		break;
 	case Film::FRAMES_PER_SECOND:
 		s << fixed << setprecision(2) << _film->frames_per_second();
@@ -639,7 +638,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		break;
 	case Film::DCP_AB:
 		checked_set (_dcp_ab, _film->dcp_ab ());
@@ -665,7 +664,7 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::WITH_SUBTITLES:
 		checked_set (_with_subtitles, _film->with_subtitles ());
 		setup_subtitle_control_sensitivity ();
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		break;
 	case Film::SUBTITLE_OFFSET:
 		checked_set (_subtitle_offset, _film->subtitle_offset ());
@@ -681,23 +680,23 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::USE_DCI_NAME:
 		checked_set (_use_dci_name, _film->use_dci_name ());
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		break;
 	case Film::DCI_METADATA:
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		break;
 	case Film::CONTENT_AUDIO_STREAM:
 		if (_film->content_audio_stream()) {
 			checked_set (_audio_stream, _film->content_audio_stream()->to_string());
 		}
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		setup_audio_details ();
 		setup_audio_control_sensitivity ();
 		break;
 	case Film::USE_CONTENT_AUDIO:
 		checked_set (_use_content_audio, _film->use_content_audio());
 		checked_set (_use_external_audio, !_film->use_content_audio());
-		_dcp_name->SetLabel (std_to_wx (_film->dcp_name ()));
+		setup_dcp_name ();
 		setup_audio_details ();
 		setup_audio_control_sensitivity ();
 		break;
@@ -1170,4 +1169,10 @@ FilmEditor::external_audio_changed (wxCommandEvent &)
 	}
 
 	_film->set_external_audio (a);
+}
+
+void
+FilmEditor::setup_dcp_name ()
+{
+	_dcp_name->SetLabel (std_to_wx (_film->dcp_name (true)));
 }

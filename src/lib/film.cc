@@ -63,7 +63,6 @@ using std::ofstream;
 using std::setfill;
 using std::min;
 using std::make_pair;
-using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::to_upper_copy;
@@ -104,6 +103,8 @@ Film::Film (string d, bool must_exist)
 	, _frames_per_second (0)
 	, _dirty (false)
 {
+	set_dci_date_today ();
+	
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
 	*/
@@ -139,7 +140,6 @@ Film::Film (string d, bool must_exist)
 	}
 
 	_log = new FileLog (file ("log"));
-	set_dci_date_today ();
 }
 
 Film::Film (Film const & o)
@@ -171,6 +171,7 @@ Film::Film (Film const & o)
 	, _colour_lut        (o._colour_lut)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _dci_metadata      (o._dci_metadata)
+	, _dci_date          (o._dci_date)
 	, _size              (o._size)
 	, _length            (o._length)
 	, _dcp_intrinsic_duration (o._dcp_intrinsic_duration)
@@ -409,6 +410,7 @@ Film::write_metadata () const
 	f << "colour_lut " << _colour_lut << "\n";
 	f << "j2k_bandwidth " << _j2k_bandwidth << "\n";
 	_dci_metadata.write (f);
+	f << "dci_date " << boost::gregorian::to_iso_string (_dci_date) << "\n";
 	f << "width " << _size.width << "\n";
 	f << "height " << _size.height << "\n";
 	f << "length " << _length.get_value_or(0) << "\n";
@@ -535,6 +537,8 @@ Film::read_metadata ()
 			_colour_lut = atoi (v.c_str ());
 		} else if (k == "j2k_bandwidth") {
 			_j2k_bandwidth = atoi (v.c_str ());
+		} else if (k == "dci_date") {
+			_dci_date = boost::gregorian::from_undelimited_string (v);
 		}
 
 		_dci_metadata.read (k, v);
@@ -696,7 +700,7 @@ Film::still_duration_in_frames () const
 
 /** @return a DCI-compliant name for a DCP of this film */
 string
-Film::dci_name () const
+Film::dci_name (bool if_created_now) const
 {
 	stringstream d;
 
@@ -764,7 +768,11 @@ Film::dci_name () const
 		d << dm.studio << "_";
 	}
 
-	d << boost::gregorian::to_iso_string (_dci_date) << "_";
+	if (if_created_now) {
+		d << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ()) << "_";
+	} else {
+		d << boost::gregorian::to_iso_string (_dci_date) << "_";
+	}
 
 	if (!dm.facility.empty ()) {
 		d << dm.facility << "_";
@@ -779,10 +787,10 @@ Film::dci_name () const
 
 /** @return name to give the DCP */
 string
-Film::dcp_name () const
+Film::dcp_name (bool if_created_now) const
 {
 	if (use_dci_name()) {
-		return dci_name ();
+		return dci_name (if_created_now);
 	}
 
 	return name();
@@ -1355,4 +1363,20 @@ Film::j2c_path (int f, bool t) const
 	return file (p.string ());
 }
 
+/** Make an educated guess as to whether we have a complete DCP
+ *  or not.
+ *  @return true if we do.
+ */
 
+bool
+Film::have_dcp () const
+{
+	try {
+		libdcp::DCP dcp (dir (dcp_name()));
+		dcp.read ();
+	} catch (...) {
+		return false;
+	}
+
+	return true;
+}

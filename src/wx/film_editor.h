@@ -94,6 +94,7 @@ private:
 	void setup_audio_control_sensitivity ();
 	void setup_streams ();
 	void setup_audio_details ();
+	void setup_dcp_name ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);

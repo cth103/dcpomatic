@@ -92,8 +92,8 @@ public:
 	void read_metadata ();
 
 	libdcp::Size cropped_size (libdcp::Size) const;
-	std::string dci_name () const;
-	std::string dcp_name () const;
+	std::string dci_name (bool if_created_now) const;
+	std::string dcp_name (bool if_created_now = false) const;
 
 	boost::optional<int> dcp_intrinsic_duration () const {
 		return _dcp_intrinsic_duration;
@@ -107,6 +107,8 @@ public:
 	int audio_channels () const;
 
 	void set_dci_date_today ();
+
+	bool have_dcp () const;
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -373,9 +375,6 @@ private:
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
 
-	/** The date that we should use in a DCI name */
-	boost::gregorian::date _dci_date;
-
 	void signal_changed (Property);
 	void examine_content_finished ();
 	std::string video_state_identifier () const;
@@ -452,6 +451,8 @@ private:
 
 	/** DCI naming stuff */
 	DCIMetadata _dci_metadata;
+	/** The date that we should use in a DCI name */
+	boost::gregorian::date _dci_date;
 
 	/* Data which are cached to speed things up */
 
@@ -478,6 +479,7 @@ private:
 	mutable boost::mutex _state_mutex;
 
 	friend class paths_test;
+	friend class film_metadata_test;
 };
 
 #endif
