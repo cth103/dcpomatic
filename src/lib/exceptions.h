@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_EXCEPTIONS_H
+#define DVDOMATIC_EXCEPTIONS_H
+
 /** @file  src/exceptions.h
  *  @brief Our exceptions.
  */
@@ -24,6 +27,8 @@
 #include <stdexcept>
 #include <sstream>
 #include <cstring>
+#include <boost/exception/all.hpp>
+#include <boost/thread.hpp>
 
 /** @class StringError
  *  @brief A parent class for exceptions using messages held in a std::string
@@ -224,3 +229,30 @@ public:
 		: StringError (s)
 	{}
 };
+
+class ExceptionStore
+{
+public:
+	bool thrown () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _exception;
+	}
+	
+	void rethrow () {
+		boost::mutex::scoped_lock lm (_mutex);
+		boost::rethrow_exception (_exception);
+	}
+
+protected:	
+	
+	void store_current () {
+		boost::mutex::scoped_lock lm (_mutex);
+		_exception = boost::current_exception ();
+	}
+
+private:
+	boost::exception_ptr _exception;
+	mutable boost::mutex _mutex;
+};
+
+#endif

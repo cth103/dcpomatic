@@ -85,7 +85,7 @@ Writer::Writer (shared_ptr<Film> f)
 
 		_sound_asset_writer = _sound_asset->start_write ();
 	}
-	
+
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 }
 
@@ -130,6 +130,7 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 
 void
 Writer::thread ()
+try
 {
 	while (1)
 	{
@@ -221,7 +222,10 @@ Writer::thread ()
 			--_queued_full_in_memory;
 		}
 	}
-
+}
+catch (...)
+{
+	store_current ();
 }
 
 void
@@ -237,6 +241,10 @@ Writer::finish ()
 	lock.unlock ();
 
 	_thread->join ();
+	if (thrown ()) {
+		rethrow ();
+	}
+	
 	delete _thread;
 	_thread = 0;
 
@@ -360,7 +368,6 @@ Writer::can_fake_write (int frame) const
 	*/
 	return (frame != 0 && frame < _first_nonexistant_frame);
 }
-
 
 bool
 operator< (QueueItem const & a, QueueItem const & b)

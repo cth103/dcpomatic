@@ -251,6 +251,10 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		return;
 	}
 
+	if (_writer->thrown ()) {
+		_writer->rethrow ();
+	}
+
 	if (_writer->can_fake_write (_video_frames_out)) {
 		_writer->fake_write (_video_frames_out);
 		_have_a_real_frame = false;

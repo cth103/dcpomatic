@@ -21,6 +21,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
+#include "exceptions.h"
 
 class Film;
 class EncodedData;
@@ -59,7 +60,7 @@ public:
 bool operator< (QueueItem const & a, QueueItem const & b);
 bool operator== (QueueItem const & a, QueueItem const & b);
 
-class Writer
+class Writer : public ExceptionStore
 {
 public:
 	Writer (boost::shared_ptr<Film>);
@@ -113,7 +114,7 @@ private:
 	    due to the limit of frames to be held in memory.
 	*/
 	int _pushed_to_disk;
-
+	
 	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
 	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<libdcp::SoundAsset> _sound_asset;
