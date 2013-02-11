@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
+#include <wx/filepicker.h>
 #include <boost/filesystem.hpp>
 #include "dir_picker_ctrl.h"
 #include "wx_util.h"
@@ -52,6 +53,9 @@ DirPickerCtrl::SetPath (wxString p)
 	} else {
 		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
 	}
+
+	wxCommandEvent ev (wxEVT_COMMAND_DIRPICKER_CHANGED, wxID_ANY);
+	GetEventHandler()->ProcessEvent (ev);
 }
 
 wxString
