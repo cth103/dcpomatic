@@ -354,7 +354,7 @@ public:
 			info.SetVersion (std_to_wx (String::compose ("version %1 git %2", dvdomatic_version, dvdomatic_git_commit)));
 		}
 		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
-		info.SetCopyright (_("(C) Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
+		info.SetCopyright (_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
 		wxArrayString authors;
 		authors.Add (wxT ("Carl Hetherington"));
 		authors.Add (wxT ("Terrence Meiczinger"));
