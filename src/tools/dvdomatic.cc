@@ -19,6 +19,9 @@
 
 #include <iostream>
 #include <boost/filesystem.hpp>
+#ifdef __WXMSW__
+#include <shellapi.h>
+#endif
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
@@ -44,6 +47,7 @@
 
 using std::cout;
 using std::string;
+using std::wstring;
 using std::stringstream;
 using std::map;
 using std::make_pair;
@@ -139,6 +143,7 @@ enum {
 	ID_edit_preferences,
 	ID_jobs_make_dcp,
 	ID_jobs_send_dcp_to_tms,
+	ID_jobs_show_dcp,
 	ID_jobs_examine_content,
 	ID_jobs_make_dcp_from_existing_transcode,
 	ID_help_about
@@ -163,6 +168,7 @@ setup_menu (wxMenuBar* m)
 	jobs_menu = new wxMenu;
 	add_item (jobs_menu, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
 	add_item (jobs_menu, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
+	add_item (jobs_menu, "S&how DCP", ID_jobs_show_dcp, NEEDS_FILM);
 	jobs_menu->AppendSeparator ();
 	add_item (jobs_menu, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
 	add_item (jobs_menu, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
@@ -201,6 +207,7 @@ public:
 		Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
 		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
+		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
 		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
 		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
@@ -250,6 +257,7 @@ private:
 
 		bool const have_dcp = film && film->have_dcp();
 		jobs_menu->Enable (ID_jobs_send_dcp_to_tms, have_dcp);
+		jobs_menu->Enable (ID_jobs_show_dcp, have_dcp);
 	}
 
 	void set_film ()
@@ -352,6 +360,26 @@ private:
 	void jobs_send_dcp_to_tms (wxCommandEvent &)
 	{
 		film->send_dcp_to_tms ();
+	}
+
+	void jobs_show_dcp (wxCommandEvent &)
+	{
+#ifdef __WXMSW__
+		string d = film->directory();
+		wstring w;
+		w.assign (d.begin(), d.end());
+		ShellExecute (0, L"open", w.c_str(), 0, 0, SW_SHOWDEFAULT);
+#else
+		int r = system ("which nautilus");
+		if (WEXITSTATUS (r) == 0) {
+			system (string ("nautilus " + film->directory()).c_str ());
+		} else {
+			int r = system ("which konqueror");
+			if (WEXITSTATUS (r) == 0) {
+				system (string ("konqueror " + film->directory()).c_str ());
+			}
+		}
+#endif		
 	}
 	
 	void jobs_examine_content (wxCommandEvent &)
