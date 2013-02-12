@@ -1,3 +1,14 @@
+2013-02-12  Carl Hetherington  <cth@carlh.net>
+
+	* Basic option to open the containing folder for a DCP.
+
+	* Don't offer to copy a DCP to the TMS if there isn't
+	a DCP.
+
+	* Fix setup of a default film directory on Windows.
+
+	* Remove libx264 dependency.
+
 2013-02-02  Carl Hetherington  <cth@carlh.net>
 
 	* Tidy up filters dialog by not showing those
