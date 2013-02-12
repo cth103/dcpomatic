@@ -30,6 +30,7 @@
 
 using std::string;
 using std::list;
+using std::map;
 using boost::shared_ptr;
 
 /** Must be called in the GUI thread */
@@ -41,7 +42,7 @@ JobManagerView::JobManagerView (wxWindow* parent)
 	sizer->Add (_panel, 1, wxEXPAND);
 	SetSizer (sizer);
 	
-	_table = new wxFlexGridSizer (3, 6, 6);
+	_table = new wxFlexGridSizer (4, 6, 6);
 	_table->AddGrowableCol (1, 1);
 	_panel->SetSizer (_table);
 
@@ -83,6 +84,11 @@ JobManagerView::update ()
 			
 			r.message = new wxStaticText (_panel, wxID_ANY, std_to_wx (""));
 			_table->Insert (index + 2, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+
+			r.details = new wxButton (_panel, wxID_ANY, _("Details..."));
+			r.details->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::details_clicked), 0, this);
+			r.details->Enable (false);
+			_table->Insert (index + 3, r.details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 			
 			_job_records[*i] = r;
 		}
@@ -104,6 +110,9 @@ JobManagerView::update ()
 			_job_records[*i].gauge->SetValue (100);
 			_job_records[*i].message->SetLabel (std_to_wx (st));
 			_job_records[*i].finalised = true;
+			if (!(*i)->error_details().empty ()) {
+				_job_records[*i].details->Enable (true);
+			}
 		}
 
 		index += 3;
@@ -111,4 +120,18 @@ JobManagerView::update ()
 
 	_table->Layout ();
 	FitInside ();
+}
+
+void
+JobManagerView::details_clicked (wxCommandEvent& ev)
+{
+	wxObject* o = ev.GetEventObject ();
+
+	for (map<boost::shared_ptr<Job>, JobRecord>::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
+		if (i->second.details == o) {
+			string s = i->first->error_summary();
+			s[0] = toupper (s[0]);
+			error_dialog (this, String::compose ("%1.\n\n%2", s, i->first->error_details()));
+		}
+	}
 }

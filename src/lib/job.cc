@@ -67,19 +67,33 @@ Job::run_wrapper ()
 		
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error (String::compose ("%1 (%2)", e.what(), boost::filesystem::path (e.filename()).leaf()));
 		
+		string m = String::compose ("An error occurred whilst handling the file %1.", boost::filesystem::path (e.filename()).leaf());
+		
+		boost::filesystem::space_info const s = boost::filesystem::space (e.filename());
+		if (s.available < pow (1024, 3)) {
+			m += "\n\nThe drive that the film is stored on is low in disc space.  Free some more space and try again.";
+		}
+
+		set_error (e.what(), m);
+ 		
 	} catch (std::exception& e) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error (e.what ());
+		set_error (
+			e.what (),
+			"It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+			);
 
 	} catch (...) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error ("unknown exception");
+		set_error (
+			"Unknown error",
+			"It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+			);
 
 	}
 }
@@ -211,22 +225,30 @@ Job::descend (float a)
 	_stack.push_back (Level (a));
 }
 
-/** @return Any error string that the job has generated */
 string
-Job::error () const
+Job::error_details () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return _error;
+	return _error_details;
+}
+
+/** @return A summary of any error that the job has generated */
+string
+Job::error_summary () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _error_summary;
 }
 
 /** Set the current error string.
  *  @param e New error string.
  */
 void
-Job::set_error (string e)
+Job::set_error (string s, string d)
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	_error = e;
+	_error_summary = s;
+	_error_details = d;
 }
 
 /** Say that this job's progress will be unknown until further notice */
@@ -253,7 +275,7 @@ Job::status () const
 	} else if (finished_ok ()) {
 		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
 	} else if (finished_in_error ()) {
-		s << "Error (" << error() << ")";
+		s << "Error (" << error_summary() << ")";
 	}
 
 	return s.str ();

@@ -39,6 +39,7 @@ public:
 
 private:
 	void periodic (wxTimerEvent &);
+	void details_clicked (wxCommandEvent &);
 
 	boost::shared_ptr<wxTimer> _timer;
 	wxPanel* _panel;
@@ -46,6 +47,7 @@ private:
 	struct JobRecord {
 		wxGauge* gauge;
 		wxStaticText* message;
+		wxButton* details;
 		bool finalised;
 	};
 		

@@ -70,7 +70,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	h_sizer->Add (_play_button, 0, wxEXPAND);
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
-	_v_sizer->Add (h_sizer, 0, wxEXPAND);
+	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
 
 	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
 	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);

@@ -53,7 +53,8 @@ public:
 	bool finished_ok () const;
 	bool finished_in_error () const;
 
-	std::string error () const;
+	std::string error_summary () const;
+	std::string error_details () const;
 
 	int elapsed_time () const;
 	virtual std::string status () const;
@@ -83,7 +84,7 @@ protected:
 	};
 	
 	void set_state (State);
-	void set_error (std::string e);
+	void set_error (std::string s, std::string d);
 
 	/** Film for this job */
 	boost::shared_ptr<Film> _film;
@@ -98,8 +99,9 @@ private:
 	mutable boost::mutex _state_mutex;
 	/** current state of the job */
 	State _state;
-	/** message for an error that has occurred (when state == FINISHED_ERROR) */
-	std::string _error;
+	/** summary of an error that has occurred (when state == FINISHED_ERROR) */
+	std::string _error_summary;
+	std::string _error_details;
 
 	/** time that this job was started */
 	time_t _start_time;

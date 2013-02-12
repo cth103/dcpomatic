@@ -224,13 +224,13 @@ public:
 		film_viewer = new FilmViewer (film, panel);
 		JobManagerView* job_manager_view = new JobManagerView (panel);
 
-		wxSizer* rhs_sizer = new wxBoxSizer (wxVERTICAL);
-		rhs_sizer->Add (film_viewer, 3, wxEXPAND | wxALL);
-		rhs_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL);
+		wxSizer* top_sizer = new wxBoxSizer (wxHORIZONTAL);
+		top_sizer->Add (film_editor, 0, wxALL, 6);
+		top_sizer->Add (film_viewer, 1, wxEXPAND | wxALL, 6);
 
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
-		main_sizer->Add (film_editor, 0, wxALL, 6);
-		main_sizer->Add (rhs_sizer, 1, wxEXPAND | wxALL, 6);
+		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
+		main_sizer->Add (top_sizer, 2, wxEXPAND | wxALL, 6);
+		main_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 		panel->SetSizer (main_sizer);
 
 		set_menu_sensitivity ();
