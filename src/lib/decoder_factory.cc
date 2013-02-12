@@ -39,6 +39,10 @@ decoder_factory (
 	shared_ptr<Film> f, DecodeOptions o
 	)
 {
+	if (f->content().empty()) {
+		return Decoders ();
+	}
+	
 	if (boost::filesystem::is_directory (f->content_path()) || f->content_type() == STILL) {
 		/* A single image file, or a directory of them */
 		return Decoders (
