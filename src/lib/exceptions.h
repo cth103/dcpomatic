@@ -25,10 +25,10 @@
  */
 
 #include <stdexcept>
-#include <sstream>
 #include <cstring>
 #include <boost/exception/all.hpp>
 #include <boost/thread.hpp>
+#include "compose.hpp"
 
 /** @class StringError
  *  @brief A parent class for exceptions using messages held in a std::string
@@ -140,12 +140,7 @@ public:
 	ReadFileError (std::string f, int e = 0)
 		: FileError ("", f)
 	{
-		std::stringstream s;
-		s << "could not read from file " << f;
-		if (e) {
-			s << " (" << strerror (e) << ")";
-		}
-		_what = s.str ();
+		_what = String::compose ("could not read from file %1 (%2)", f, strerror (e));
 	}
 };
 
@@ -161,12 +156,7 @@ public:
 	WriteFileError (std::string f, int e)
 		: FileError ("", f)
 	{
-		std::stringstream s;
-		s << "could not write to file " << f;
-		if (e) {
-			s << " (" << strerror (e) << ")";
-		}
-		_what = s.str ();
+		_what = String::compose ("could not write to file %1 (%2)", f, strerror (e));
 	}
 };
 
