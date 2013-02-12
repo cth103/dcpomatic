@@ -9,6 +9,10 @@
 
 	* Remove libx264 dependency.
 
+	* Rearrange main window slightly so that the progress
+	area is larger; give jobs "details" buttons to find out
+	more about any errors that occur.
+
 2013-02-02  Carl Hetherington  <cth@carlh.net>
 
 	* Tidy up filters dialog by not showing those
