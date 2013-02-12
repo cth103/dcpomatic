@@ -267,11 +267,17 @@ Job::status () const
 	int const t = elapsed_time ();
 	int const r = remaining_time ();
 
+	int pc = rint (p * 100);
+	if (pc == 100) {
+		/* 100% makes it sound like we've finished when we haven't */
+		pc = 99;
+	}
+
 	stringstream s;
 	if (!finished () && p >= 0 && t > 10 && r > 0) {
-		s << rint (p * 100) << "%; " << seconds_to_approximate_hms (r) << " remaining";
+		s << pc << "%; " << seconds_to_approximate_hms (r) << " remaining";
 	} else if (!finished () && (t <= 10 || r == 0)) {
-		s << rint (p * 100) << "%";
+		s << pc << "%";
 	} else if (finished_ok ()) {
 		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
 	} else if (finished_in_error ()) {
