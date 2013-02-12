@@ -335,7 +335,8 @@ md5_digest (string file)
 	return s.str ();
 }
 
-static bool about_equal (float a, float b)
+static bool
+about_equal (float a, float b)
 {
 	/* A film of F seconds at f FPS will be Ff frames;
 	   Consider some delta FPS d, so if we run the same
