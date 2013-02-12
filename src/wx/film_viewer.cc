@@ -102,6 +102,9 @@ FilmViewer::film_changed (Film::Property p)
 		o.decode_subtitles = true;
 		o.video_sync = false;
 		_decoders = decoder_factory (_film, o);
+		if (_decoders.video == 0) {
+			break;
+		}
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
@@ -121,7 +124,9 @@ FilmViewer::film_changed (Film::Property p)
 		update_from_raw ();
 		break;
 	case Film::SUBTITLE_STREAM:
-		_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
+		if (_decoders.video) {
+			_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
+		}
 		break;
 	default:
 		break;
@@ -155,7 +160,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::decoder_changed ()
 {
-	if (_decoders.video->seek_to_last ()) {
+	if (_decoders.video == 0 || _decoders.video->seek_to_last ()) {
 		return;
 	}
 
@@ -167,7 +172,7 @@ FilmViewer::decoder_changed ()
 void
 FilmViewer::timer (wxTimerEvent &)
 {
-	if (!_film) {
+	if (!_film || !_decoders.video) {
 		return;
 	}
 	
@@ -222,7 +227,7 @@ FilmViewer::paint_panel (wxPaintEvent &)
 void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
-	if (!_film || !_film->length()) {
+	if (!_film || !_film->length() || !_decoders.video) {
 		return;
 	}
 	
@@ -373,6 +378,11 @@ FilmViewer::get_frame ()
 {
 	/* Clear our raw frame in case we don't get a new one */
 	_raw_frame.reset ();
+
+	if (_decoders.video == 0) {
+		_display_frame.reset ();
+		return;
+	}
 	
 	try {
 		_got_frame = false;
