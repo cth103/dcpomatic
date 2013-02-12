@@ -51,6 +51,7 @@ using std::wstring;
 using std::stringstream;
 using std::map;
 using std::make_pair;
+using std::exception;
 using boost::shared_ptr;
 
 static FilmEditor* film_editor = 0;
@@ -440,8 +441,12 @@ class App : public wxApp
 		dvdomatic_setup ();
 
 		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
-			film.reset (new Film (film_to_load));
-			film->log()->set_level (log_level);
+			try {
+				film.reset (new Film (film_to_load));
+				film->log()->set_level (log_level);
+			} catch (exception& e) {
+				error_dialog (0, String::compose ("Could not load film %1 (%2)", film_to_load, e.what()));
+			}
 		}
 
 		Frame* f = new Frame (_("DVD-o-matic"));
