@@ -1174,5 +1174,11 @@ FilmEditor::external_audio_changed (wxCommandEvent &)
 void
 FilmEditor::setup_dcp_name ()
 {
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name (true)));
+	string s = _film->dcp_name (true);
+	if (s.length() > 28) {
+		_dcp_name->SetLabel (std_to_wx (s.substr (0, 28) + "..."));
+		_dcp_name->SetToolTip (std_to_wx (s));
+	} else {
+		_dcp_name->SetLabel (std_to_wx (s));
+	}
 }
