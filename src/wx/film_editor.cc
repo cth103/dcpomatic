@@ -228,28 +228,21 @@ FilmEditor::make_video_panel ()
 	_format = new wxChoice (_video_panel, wxID_ANY);
 	grid->Add (_format);
 
-	{
-		add_label_to_sizer (grid, _video_panel, _("Crop"));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (grid, _video_panel, _("Left crop"));
+	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+	grid->Add (_left_crop);
 
-		/* TRANSLATORS: L, R, T and B are abbreviations for Left, Right, Top, Bottom, the four edges
-		   of the picture frame.
-		*/
-		add_label_to_sizer (s, _video_panel, _("L"));
-		_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_left_crop, 0);
-		add_label_to_sizer (s, _video_panel, _("R"));
-		_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_right_crop, 0);
-		add_label_to_sizer (s, _video_panel, _("T"));
-		_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_top_crop, 0);
-		add_label_to_sizer (s, _video_panel, _("B"));
-		_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-		s->Add (_bottom_crop, 0);
-
-		grid->Add (s);
-	}
+	add_label_to_sizer (grid, _video_panel, _("Right crop"));
+	_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+	grid->Add (_right_crop);
+	
+	add_label_to_sizer (grid, _video_panel, _("Top crop"));
+	_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+	grid->Add (_top_crop);
+	
+	add_label_to_sizer (grid, _video_panel, _("Bottom crop"));
+	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
+	grid->Add (_bottom_crop);
 
 	/* VIDEO-only stuff */
 	{
