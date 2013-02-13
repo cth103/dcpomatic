@@ -57,7 +57,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _clear_required (false)
 {
 	_panel->SetDoubleBuffered (true);
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9	
+#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 #endif	
 	
@@ -209,7 +209,7 @@ FilmViewer::paint_panel (wxPaintEvent &)
 		dc.SetPen(*wxBLACK_PEN);
 		dc.SetBrush(*wxBLACK_BRUSH);
 		dc.DrawRectangle (0, 0, _display_frame_x, _film_size.height);
-		dc.DrawRectangle (_display_frame_x + _film_size.width, 0, _display_frame_x * 2 + _film_size.width, _film_size.height);
+		dc.DrawRectangle (_display_frame_x + _film_size.width, 0, _display_frame_x, _film_size.height);
 	}
 
 	wxImage frame (_film_size.width, _film_size.height, _display_frame->data()[0], true);
