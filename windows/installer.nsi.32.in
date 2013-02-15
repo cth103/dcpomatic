@@ -75,6 +75,7 @@ File "%deps%/bin/libtiff-5.dll"
 File "%deps%/bin/libglibmm-2.4-1.dll"
 File "%deps%/bin/libxml++-2.6-2.dll"
 File "%deps%/bin/libxml2-2.dll"
+File "%deps%/bin/libpixman-1-0.dll"
 
 File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
