@@ -942,7 +942,7 @@ still_image_file (string f)
 
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	
-	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png");
+	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp");
 }
 
 /** @return A pair containing CPU model name and the number of processors */
