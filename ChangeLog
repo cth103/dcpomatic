@@ -1,3 +1,8 @@
+2013-02-15  Carl Hetherington  <cth@carlh.net>
+
+	* Fix non-recognition of BMP for still images (#55),
+	reported by Thierry.
+
 2013-02-12  Carl Hetherington  <cth@carlh.net>
 
 	* Basic option to open the containing folder for a DCP.
