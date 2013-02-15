@@ -115,7 +115,7 @@ JobManagerView::update ()
 			}
 		}
 
-		index += 3;
+		index += 4;
 	}
 
 	_table->Layout ();
