@@ -26,7 +26,6 @@
  *  @brief A single frame of video destined for a DCP.
  */
 
-class FilmState;
 class Film;
 class ServerDescription;
 class Scaler;
