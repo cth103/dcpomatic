@@ -39,8 +39,7 @@ class ABTranscodeJob : public Job
 public:
 	ABTranscodeJob (
 		boost::shared_ptr<Film> f,
-		DecodeOptions o,
-		boost::shared_ptr<Job> req
+		DecodeOptions o
 		);
 
 	std::string name () const;

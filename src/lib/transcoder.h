@@ -18,7 +18,7 @@
 */
 
 /** @file  src/transcoder.h
- *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
+ *  @brief A class which takes a Film and some Options, then uses those to transcode the film.
  *
  *  A decoder is selected according to the content type, and the encoder can be specified
  *  as a parameter to the constructor.
@@ -29,7 +29,6 @@
 class Film;
 class Job;
 class Encoder;
-class FilmState;
 class Matcher;
 class VideoFilter;
 class Gain;
@@ -38,7 +37,7 @@ class AudioDecoder;
 class DelayLine;
 
 /** @class Transcoder
- *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
+ *  @brief A class which takes a Film and some Options, then uses those to transcode the film.
  *
  *  A decoder is selected according to the content type, and the encoder can be specified
  *  as a parameter to the constructor.

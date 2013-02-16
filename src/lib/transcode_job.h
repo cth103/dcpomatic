@@ -33,7 +33,7 @@ class Encoder;
 class TranscodeJob : public Job
 {
 public:
-	TranscodeJob (boost::shared_ptr<Film> f, DecodeOptions od, boost::shared_ptr<Job> req);
+	TranscodeJob (boost::shared_ptr<Film> f, DecodeOptions od);
 	
 	std::string name () const;
 	void run ();

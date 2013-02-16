@@ -33,11 +33,9 @@ using std::stringstream;
 using boost::shared_ptr;
 
 /** @param s Film that we are operating on.
- *  @param req Job that must be completed before this job is run.
  */
-Job::Job (shared_ptr<Film> f, shared_ptr<Job> req)
+Job::Job (shared_ptr<Film> f)
 	: _film (f)
-	, _required (req)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)

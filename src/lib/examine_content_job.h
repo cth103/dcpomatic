@@ -29,7 +29,7 @@
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob (boost::shared_ptr<Film>, boost::shared_ptr<Job> req);
+	ExamineContentJob (boost::shared_ptr<Film>);
 	~ExamineContentJob ();
 
 	std::string name () const;

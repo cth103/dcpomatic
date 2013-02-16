@@ -26,7 +26,7 @@
 class SCPDCPJob : public Job
 {
 public:
-	SCPDCPJob (boost::shared_ptr<Film>, boost::shared_ptr<Job> req);
+	SCPDCPJob (boost::shared_ptr<Film>);
 
 	std::string name () const;
 	void run ();

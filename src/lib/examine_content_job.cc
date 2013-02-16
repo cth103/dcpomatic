@@ -36,8 +36,8 @@ using std::vector;
 using std::pair;
 using boost::shared_ptr;
 
-ExamineContentJob::ExamineContentJob (shared_ptr<Film> f, shared_ptr<Job> req)
-	: Job (f, req)
+ExamineContentJob::ExamineContentJob (shared_ptr<Film> f)
+	: Job (f)
 {
 
 }

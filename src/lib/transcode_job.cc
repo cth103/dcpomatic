@@ -38,10 +38,9 @@ using boost::shared_ptr;
 
 /** @param s Film to use.
  *  @param o Decode options.
- *  @param req Job that must be completed before this job is run.
  */
-TranscodeJob::TranscodeJob (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> req)
-	: Job (f, req)
+TranscodeJob::TranscodeJob (shared_ptr<Film> f, DecodeOptions o)
+	: Job (f)
 	, _decode_opt (o)
 {
 	

@@ -37,7 +37,7 @@ class Film;
 class Job : public boost::enable_shared_from_this<Job>
 {
 public:
-	Job (boost::shared_ptr<Film> s, boost::shared_ptr<Job> req);
+	Job (boost::shared_ptr<Film> s);
 	virtual ~Job() {}
 
 	/** @return user-readable name of this job */
@@ -65,10 +65,6 @@ public:
 	void descend (float);
 	float overall_progress () const;
 
-	boost::shared_ptr<Job> required () const {
-		return _required;
-	}
-
 	boost::signals2::signal<void()> Finished;
 
 protected:
@@ -92,8 +88,6 @@ protected:
 private:
 
 	void run_wrapper ();
-
-	boost::shared_ptr<Job> _required;
 
 	/** mutex for _state and _error */
 	mutable boost::mutex _state_mutex;
