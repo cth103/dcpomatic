@@ -32,8 +32,8 @@ using boost::shared_ptr;
 /** @param f Film to compare.
  *  @param o Decode options.
  */
-ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> req)
-	: Job (f, req)
+ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, DecodeOptions o)
+	: Job (f)
 	, _decode_opt (o)
 {
 	_film_b.reset (new Film (*_film));

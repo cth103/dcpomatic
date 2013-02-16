@@ -111,13 +111,10 @@ JobManager::scheduler ()
 				}
 				
 				if ((*i)->is_new()) {
-					shared_ptr<Job> r = (*i)->required ();
-					if (!r || r->finished_ok ()) {
-						(*i)->start ();
-
-						/* Only start one job at once */
-						break;
-					}
+					(*i)->start ();
+					
+					/* Only start one job at once */
+					break;
 				}
 			}
 		}

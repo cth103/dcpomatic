@@ -652,8 +652,8 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 class TestJob : public Job
 {
 public:
-	TestJob (shared_ptr<Film> f, shared_ptr<Job> req)
-		: Job (f, req)
+	TestJob (shared_ptr<Film> f)
+		: Job (f)
 	{
 
 	}
@@ -684,8 +684,8 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 {
 	shared_ptr<Film> f;
 
-	/* Single job, no dependency */
-	shared_ptr<TestJob> a (new TestJob (f, shared_ptr<Job> ()));
+	/* Single job */
+	shared_ptr<TestJob> a (new TestJob (f));
 
 	JobManager::instance()->add (a);
 	dvdomatic_sleep (1);
@@ -693,37 +693,6 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	a->set_finished_ok ();
 	dvdomatic_sleep (2);
 	BOOST_CHECK_EQUAL (a->finished_ok(), true);
-
-	/* Two jobs, dependency */
-	a.reset (new TestJob (f, shared_ptr<Job> ()));
-	shared_ptr<TestJob> b (new TestJob (f, a));
-
-	JobManager::instance()->add (a);
-	JobManager::instance()->add (b);
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (a->running(), true);
-	BOOST_CHECK_EQUAL (b->running(), false);
-	a->set_finished_ok ();
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (a->finished_ok(), true);
-	BOOST_CHECK_EQUAL (b->running(), true);
-	b->set_finished_ok ();
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (b->finished_ok(), true);
-
-	/* Two jobs, dependency, first fails */
-	a.reset (new TestJob (f, shared_ptr<Job> ()));
-	b.reset (new TestJob (f, a));
-
-	JobManager::instance()->add (a);
-	JobManager::instance()->add (b);
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (a->running(), true);
-	BOOST_CHECK_EQUAL (b->running(), false);
-	a->set_finished_error ();
-	dvdomatic_sleep (2);
-	BOOST_CHECK_EQUAL (a->finished_in_error(), true);
-	BOOST_CHECK_EQUAL (b->running(), false);
 }
 
 BOOST_AUTO_TEST_CASE (compact_image_test)

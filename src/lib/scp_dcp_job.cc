@@ -94,8 +94,8 @@ public:
 };
 
 
-SCPDCPJob::SCPDCPJob (shared_ptr<Film> f, shared_ptr<Job> req)
-	: Job (f, req)
+SCPDCPJob::SCPDCPJob (shared_ptr<Film> f)
+	: Job (f)
 	, _status ("Waiting")
 {
 

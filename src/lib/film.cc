@@ -300,9 +300,9 @@ Film::make_dcp (bool transcode)
 
 	if (transcode) {
 		if (dcp_ab()) {
-			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od, shared_ptr<Job> ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od)));
 		} else {
-			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od, shared_ptr<Job> ())));
+			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od)));
 		}
 	}
 }
@@ -315,7 +315,7 @@ Film::examine_content ()
 		return;
 	}
 
-	_examine_content_job.reset (new ExamineContentJob (shared_from_this(), shared_ptr<Job> ()));
+	_examine_content_job.reset (new ExamineContentJob (shared_from_this()));
 	_examine_content_job->Finished.connect (bind (&Film::examine_content_finished, this));
 	JobManager::instance()->add (_examine_content_job);
 }
@@ -330,7 +330,7 @@ Film::examine_content_finished ()
 void
 Film::send_dcp_to_tms ()
 {
-	shared_ptr<Job> j (new SCPDCPJob (shared_from_this(), shared_ptr<Job> ()));
+	shared_ptr<Job> j (new SCPDCPJob (shared_from_this()));
 	JobManager::instance()->add (j);
 }
 
