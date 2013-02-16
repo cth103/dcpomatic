@@ -1,3 +1,9 @@
+dvdomatic (0.73beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sat, 16 Feb 2013 21:19:24 +0000
+
 dvdomatic (0.72-1) UNRELEASED; urgency=low
 
   * New upstream release.
