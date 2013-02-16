@@ -445,7 +445,7 @@ class App : public wxApp
 				film.reset (new Film (film_to_load));
 				film->log()->set_level (log_level);
 			} catch (exception& e) {
-				error_dialog (0, String::compose ("Could not load film %1 (%2)", film_to_load, e.what()));
+				error_dialog (0, std_to_wx (String::compose ("Could not load film %1 (%2)", film_to_load, e.what())));
 			}
 		}
 

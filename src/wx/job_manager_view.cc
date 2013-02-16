@@ -131,7 +131,7 @@ JobManagerView::details_clicked (wxCommandEvent& ev)
 		if (i->second.details == o) {
 			string s = i->first->error_summary();
 			s[0] = toupper (s[0]);
-			error_dialog (this, String::compose ("%1.\n\n%2", s, i->first->error_details()));
+			error_dialog (this, std_to_wx (String::compose ("%1.\n\n%2", s, i->first->error_details())));
 		}
 	}
 }
