@@ -146,7 +146,6 @@ enum {
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_jobs_examine_content,
-	ID_jobs_make_dcp_from_existing_transcode,
 	ID_help_about
 };
 
@@ -172,7 +171,6 @@ setup_menu (wxMenuBar* m)
 	add_item (jobs_menu, "S&how DCP", ID_jobs_show_dcp, NEEDS_FILM);
 	jobs_menu->AppendSeparator ();
 	add_item (jobs_menu, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
-	add_item (jobs_menu, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
 
 	wxMenu* help = new wxMenu;
 	add_item (help, "About", ID_help_about, ALWAYS);
@@ -210,7 +208,6 @@ public:
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
 		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
 		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
-		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
 		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
@@ -351,11 +348,6 @@ private:
 	void jobs_make_dcp (wxCommandEvent &)
 	{
 		JobWrapper::make_dcp (this, film, true);
-	}
-	
-	void jobs_make_dcp_from_existing_transcode (wxCommandEvent &)
-	{
-		JobWrapper::make_dcp (this, film, false);
 	}
 	
 	void jobs_send_dcp_to_tms (wxCommandEvent &)
