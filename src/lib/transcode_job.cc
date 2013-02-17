@@ -30,6 +30,8 @@
 #include "log.h"
 #include "encoder.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using std::fixed;
@@ -49,7 +51,7 @@ TranscodeJob::TranscodeJob (shared_ptr<Film> f, DecodeOptions o)
 string
 TranscodeJob::name () const
 {
-	return String::compose ("Transcode %1", _film->name());
+	return String::compose (_("Transcode %1"), _film->name());
 }
 
 void
@@ -98,7 +100,7 @@ TranscodeJob::status () const
 	s << Job::status ();
 
 	if (!finished ()) {
-		s << "; " << fixed << setprecision (1) << fps << " frames per second";
+		s << "; " << fixed << setprecision (1) << fps << " " << _("frames per second");
 	}
 	
 	return s.str ();

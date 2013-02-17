@@ -253,3 +253,6 @@ def create_version_cc(version):
 def post(ctx):
     if ctx.cmd == 'install':
         ctx.exec_command('/sbin/ldconfig')
+
+def pot(bld):
+    bld.recurse('src')

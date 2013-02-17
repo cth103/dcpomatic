@@ -246,7 +246,7 @@ Film::make_dcp (bool transcode)
 	set_dci_date_today ();
 	
 	if (dcp_name().find ("/") != string::npos) {
-		throw BadSettingError ("name", "cannot contain slashes");
+		throw BadSettingError ("name", _("cannot contain slashes"));
 	}
 	
 	log()->log (String::compose ("DVD-o-matic %1 git %2 using %3", dvdomatic_version, dvdomatic_git_commit, dependency_version_summary()));
