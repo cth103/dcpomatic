@@ -63,3 +63,4 @@ extern void checked_set (wxChoice* widget, std::string value);
 extern void checked_set (wxTextCtrl* widget, std::string value);
 extern void checked_set (wxCheckBox* widget, bool value);
 extern void checked_set (wxRadioButton* widget, bool value);
+extern void checked_set (wxStaticText* widget, std::string value);

@@ -98,17 +98,17 @@ JobManagerView::update ()
 		if (!(*i)->finished ()) {
 			float const p = (*i)->overall_progress ();
 			if (p >= 0) {
-				_job_records[*i].message->SetLabel (std_to_wx (st));
+				checked_set (_job_records[*i].message, st);
 				_job_records[*i].gauge->SetValue (p * 100);
 			} else {
-				_job_records[*i].message->SetLabel (_("Running"));
+				checked_set (_job_records[*i].message, wx_to_std (_("Running")));
 				_job_records[*i].gauge->Pulse ();
 			}
 		}
 		
 		if ((*i)->finished() && !_job_records[*i].finalised) {
 			_job_records[*i].gauge->SetValue (100);
-			_job_records[*i].message->SetLabel (std_to_wx (st));
+			checked_set (_job_records[*i].message, st);
 			_job_records[*i].finalised = true;
 			if (!(*i)->error_details().empty ()) {
 				_job_records[*i].details->Enable (true);
