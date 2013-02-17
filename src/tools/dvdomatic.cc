@@ -287,7 +287,7 @@ private:
 		if (r == wxID_OK) {
 
 			if (boost::filesystem::exists (d->get_path())) {
-				error_dialog (this, wxString::Format (_("The directory %s already exists"), d->get_path().c_str()));
+				error_dialog (this, wxString::Format (_("The directory %s already exists."), d->get_path().c_str()));
 				return;
 			}
 			
