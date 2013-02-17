@@ -155,7 +155,7 @@ main (int argc, char* argv[])
 	pair<string, string> const f = Filter::ffmpeg_strings (film->filters ());
 	cout << "Filters: " << f.first << " " << f.second << "\n";
 
-	film->make_dcp (true);
+	film->make_dcp ();
 
 	bool should_stop = false;
 	bool first = true;

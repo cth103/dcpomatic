@@ -69,7 +69,7 @@ public:
 	void examine_content ();
 	void send_dcp_to_tms ();
 
-	void make_dcp (bool);
+	void make_dcp ();
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.

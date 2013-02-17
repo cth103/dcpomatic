@@ -24,6 +24,6 @@ class Film;
 namespace JobWrapper
 {
 
-void make_dcp (wxWindow *, boost::shared_ptr<Film>, bool);
+void make_dcp (wxWindow *, boost::shared_ptr<Film>);
 	
 }

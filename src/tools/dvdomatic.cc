@@ -347,7 +347,7 @@ private:
 
 	void jobs_make_dcp (wxCommandEvent &)
 	{
-		JobWrapper::make_dcp (this, film, true);
+		JobWrapper::make_dcp (this, film);
 	}
 	
 	void jobs_send_dcp_to_tms (wxCommandEvent &)

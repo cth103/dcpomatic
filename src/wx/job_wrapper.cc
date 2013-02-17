@@ -26,14 +26,14 @@
 using boost::shared_ptr;
 
 void
-JobWrapper::make_dcp (wxWindow* parent, shared_ptr<Film> film, bool transcode)
+JobWrapper::make_dcp (wxWindow* parent, shared_ptr<Film> film)
 {
 	if (!film) {
 		return;
 	}
 
 	try {
-		film->make_dcp (transcode);
+		film->make_dcp ();
 	} catch (BadSettingError& e) {
 		error_dialog (parent, wxString::Format (_("Bad setting for %s (%s)"), e.setting().c_str(), e.what()));
 	} catch (std::exception& e) {

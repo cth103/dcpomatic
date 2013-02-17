@@ -237,11 +237,9 @@ Film::video_mxf_filename () const
 	return video_state_identifier() + ".mxf";
 }
 
-/** Add suitable Jobs to the JobManager to create a DCP for this Film.
- *  @param true to transcode, false to use the WAV and J2K files that are already there.
- */
+/** Add suitable Jobs to the JobManager to create a DCP for this Film */
 void
-Film::make_dcp (bool transcode)
+Film::make_dcp ()
 {
 	set_dci_date_today ();
 	
@@ -298,12 +296,10 @@ Film::make_dcp (bool transcode)
 
 	shared_ptr<Job> r;
 
-	if (transcode) {
-		if (dcp_ab()) {
-			r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od)));
-		} else {
-			r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od)));
-		}
+	if (dcp_ab()) {
+		r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od)));
+	} else {
+		r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od)));
 	}
 }
 
