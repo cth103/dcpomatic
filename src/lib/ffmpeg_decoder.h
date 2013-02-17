@@ -121,7 +121,7 @@ private:
 	void setup_subtitle ();
 
 	void maybe_add_subtitle ();
-	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t* data, int size);
+	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
 	void film_changed (Film::Property);
 
