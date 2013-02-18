@@ -546,8 +546,7 @@ Now that we have set everything up, choose <guilabel>Make
 DCP</guilabel> from the <guilabel>Jobs</guilabel> menu.  DVD-o-matic
 will encode your DCP.  This may take some time (many hours in some
 cases).  While the job is in progress, DVD-o-matic will update you on
-how it is getting on with the progress bar in the bottom right hand
-corner of its window, as shown in <xref linkend="fig-making-dcp"/>.
+how it is getting on with the progress bar in the bottom of its window, as shown in <xref linkend="fig-making-dcp"/>.
 </para>
 
 <figure id="fig-making-dcp">
@@ -771,17 +770,6 @@ as shown in <xref linkend="fig-filters"/>.
     </imageobject> 
   </mediaobject>
 </figure>
-
-<para>
-As it stands, these filters are somewhat disorganised!  Work is
-ongoing to test them with various content and choose a selection which
-work well for cinema applications.
-</para>
-
-<para>
-If you want to examine them yourself, you may find the A/B option (see
-<xref linkend="sec-ab"/>) useful.
-</para>
 
 <para>
 After changing the filters setup, you will need to regenerate the DCP
