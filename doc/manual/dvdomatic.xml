@@ -277,7 +277,7 @@ that there will be no sound, and playback might not be entirely
 accurate (it may be slightly slower or faster than it should be, for
 example).  This player is really only intended for brief inspection of
 content; if you need to check it more thoroughly, use another player
-such as Totem, mplayer or VLC.
+such as <ulink url="http://projects.gnome.org/totem/index.html">Totem</ulink>, <ulink url="http://www.mplayerhq.hu/design7/news.html">mplayer</ulink> or <ulink url="http://www.videolan.org/vlc/index.html">VLC</ulink>.
 </para>
 
 </section>
@@ -322,6 +322,11 @@ name</guilabel> checkbox.  The DCI name will be composed using details
 of your content's soundtrack, the current date and other things that
 can be specified in the DCI name details dialogue box, which you can
 open by clicking on the <guilabel>Details</guilabel> button.
+</para>
+
+<para>
+If the DCP name is long, it may not all be visible.  You can see the
+full name by hovering the mouse pointer over the partial name.
 </para>
 
 <para>
@@ -376,12 +381,9 @@ can project the DCP using your projector's Flat preset.
 The remaining options can often be left alone, but may sometimes be
 useful.  The &lsquo;crop&rsquo; settings can be used to crop your
 content, which can be used to remove black borders from round the
-edges of DVD images, for example.  The <guilabel>L</guilabel>,
-<guilabel>R</guilabel>, <guilabel>T</guilabel> and
-<guilabel>B</guilabel> settings correspond to the left, right, top and
-bottom of the image respectively.  The specified number of pixels will
+edges of DVD images, for example.  The specified number of pixels will
 be trimmed from each edge, and the content image in the right of the
-window will be updated to show the cropping in action.
+window will be updated to show the effect of the crop.
 </para>
 
 <para>
@@ -399,6 +401,20 @@ most situations.
 <!-- XXX: link -->
 </para>
 
+<para>
+The &lsquo;colour look-up table&rsquo; specifies the colour space that
+your input content will be expected to be in.  If in doubt, leave it
+set to &lsquo;sRGB&rsquo;.
+</para>
+
+<para>
+Finally, the &lsquo;JPEG2000 bandwidth&rsquo; setting changes how big the final
+image files used within the DCP will be.  Larger numbers will give
+better quality, but correspondingly larger DCPs.  The bandwidth can be
+between 50 and 250 megabits per second (MBps).
+</para>
+
+</section>
 </section>
 
 <section>
@@ -520,7 +536,6 @@ use text subtitles (as is the norm with most professionally-mastered
 DCPs).
 </para>
 
-</section>
 </section>
 
 <section>
@@ -696,16 +711,6 @@ processors (or processor cores) in your machine.
 
 <para>
 This is the directory which DVD-o-matic will suggest initially as a place to put new films.
-</para>
-
-</section>
-
-<section>
-<title>Colour look-up table</title>
-
-<para>
-This specifies the colour space that your input content will be
-expected to be in.  If in doubt, leave it set to &lsquo;sRGB&rsquo;.
 </para>
 
 </section>
