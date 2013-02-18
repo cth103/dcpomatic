@@ -221,12 +221,12 @@ public:
 		film_viewer = new FilmViewer (film, panel);
 		JobManagerView* job_manager_view = new JobManagerView (panel);
 
-		wxSizer* top_sizer = new wxBoxSizer (wxHORIZONTAL);
-		top_sizer->Add (film_editor, 0, wxALL, 6);
-		top_sizer->Add (film_viewer, 1, wxEXPAND | wxALL, 6);
+		_top_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_top_sizer->Add (film_editor, 0, wxALL, 6);
+		_top_sizer->Add (film_viewer, 1, wxEXPAND | wxALL, 6);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (top_sizer, 2, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_top_sizer, 2, wxEXPAND | wxALL, 6);
 		main_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 		panel->SetSizer (main_sizer);
 
@@ -241,11 +241,23 @@ public:
 		} else {
 			file_changed ("");
 		}
-		
+
 		set_film ();
+
+		film_editor->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Frame::film_editor_sized), 0, this);
 	}
 
 private:
+
+	void film_editor_sized (wxSizeEvent &)
+	{
+		static bool in_layout = false;
+		if (!in_layout) {
+			in_layout = true;
+			_top_sizer->Layout ();
+			in_layout = false;
+		}
+	}
 
 	void menu_opened (wxMenuEvent& ev)
 	{
@@ -400,6 +412,8 @@ private:
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
 		wxAboutBox (info);
 	}
+
+	wxSizer* _top_sizer;
 };
 
 #if wxMINOR_VERSION == 9
