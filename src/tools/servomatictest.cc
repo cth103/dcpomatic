@@ -34,21 +34,39 @@
 #include "scaler.h"
 #include "log.h"
 #include "decoder_factory.h"
+#include "video_decoder.h"
 
-using namespace std;
-using namespace boost;
+using std::cout;
+using std::cerr;
+using std::string;
+using std::pair;
+using boost::shared_ptr;
 
-static Server* server;
-static Log log_ ("servomatictest.log");
+static ServerDescription* server;
+static FileLog log_ ("servomatictest.log");
+static int frame = 0;
 
 void
-process_video (shared_ptr<Image> image, bool, int frame)
+process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
 {
-	shared_ptr<DCPVideoFrame> local (new DCPVideoFrame (image, Size (1024, 1024), 0, Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_));
-	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image, Size (1024, 1024), 0, Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_));
+	shared_ptr<DCPVideoFrame> local (
+		new DCPVideoFrame (
+			image, sub,
+			libdcp::Size (1024, 1024), 0, 0, 0,
+			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_)
+		);
+	
+	shared_ptr<DCPVideoFrame> remote (
+		new DCPVideoFrame (
+			image, sub,
+			libdcp::Size (1024, 1024), 0, 0, 0,
+			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_)
+		);
 
 	cout << "Frame " << frame << ": ";
 	cout.flush ();
+
+	++frame;
 
 	shared_ptr<EncodedData> local_encoded = local->encode_locally ();
 	shared_ptr<EncodedData> remote_encoded;
@@ -130,17 +148,21 @@ main (int argc, char* argv[])
 
 	dvdomatic_setup ();
 
-	server = new Server (server_host, 1);
-	Film film (film_dir, true);
+	server = new ServerDescription (server_host, 1);
+	shared_ptr<Film> film (new Film (film_dir, true));
 
-	shared_ptr<Options> opt (new Options ("fred", "jim", "sheila"));
-	opt->out_size = Size (1024, 1024);
-	opt->decode_audio = false;
+	DecodeOptions opt;
+	opt.decode_audio = false;
+	opt.decode_subtitles = true;
+	opt.video_sync = true;
 
-	shared_ptr<Decoder> decoder = decoder_factory (film.state_copy(), opt, 0, &log_);
+	Decoders decoders = decoder_factory (film, opt);
 	try {
-		decoder->Video.connect (sigc::ptr_fun (process_video));
-		decoder->go ();
+		decoders.video->Video.connect (boost::bind (process_video, _1, _2, _3));
+		bool done = false;
+		while (!done) {
+			done = decoders.video->pass ();
+		}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";
 	}

@@ -28,6 +28,7 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/scoped_array.hpp>
 #include "server.h"
 #include "util.h"
 #include "scaler.h"
@@ -45,6 +46,7 @@ using boost::algorithm::is_any_of;
 using boost::algorithm::split;
 using boost::thread;
 using boost::bind;
+using boost::scoped_array;
 using libdcp::Size;
 
 /** Create a server description from a string of metadata returned from as_metadata().
@@ -82,11 +84,11 @@ Server::Server (Log* log)
 int
 Server::process (shared_ptr<Socket> socket)
 {
-	char buffer[512];
-	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	socket->consume (strlen (buffer) + 1);
+	uint32_t length = socket->read_uint32 ();
+	scoped_array<char> buffer (new char[length]);
+	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 	
-	stringstream s (buffer);
+	stringstream s (buffer.get());
 	multimap<string, string> kv = read_key_value (s);
 
 	if (get_required_string (kv, "encode") != "please") {

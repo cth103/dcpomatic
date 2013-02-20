@@ -117,6 +117,7 @@ private:
 	FilterBufferImage& operator= (FilterBufferImage const &);
 	
 	AVFilterBufferRef* _buffer;
+	int* _line_size;
 };
 
 /** @class SimpleImage

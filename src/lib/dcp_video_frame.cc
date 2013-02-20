@@ -316,7 +316,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 
 	shared_ptr<Socket> socket (new Socket);
 
-	socket->connect (*endpoint_iterator, 30);
+	socket->connect (*endpoint_iterator);
 
 	stringstream s;
 	s << "encode please\n"
@@ -352,21 +352,17 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 			   _input->lines(0), _input->lines(1), _input->lines(2),
 			   _input->line_size()[0], _input->line_size()[1], _input->line_size()[2]
 			   ));
-	
-	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
+
+	socket->write (s.str().length() + 1);
+	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1);
 
 	_input->write_to_socket (socket);
 	if (_subtitle) {
 		_subtitle->image()->write_to_socket (socket);
 	}
 
-	char buffer[32];
-	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	socket->consume (strlen (buffer) + 1);
-	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
-
-	/* now read the rest */
-	socket->read_definite_and_consume (e->data(), e->size(), 30);
+	shared_ptr<EncodedData> e (new RemotelyEncodedData (socket->read_uint32 ()));
+	socket->read (e->data(), e->size());
 
 	_log->log (String::compose ("Finished remotely-encoded frame %1", _frame));
 	
@@ -438,10 +434,8 @@ EncodedData::write_info (shared_ptr<const Film> film, int frame, libdcp::FrameIn
 void
 EncodedData::send (shared_ptr<Socket> socket)
 {
-	stringstream s;
-	s << _size;
-	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
-	socket->write (_data, _size, 30);
+	socket->write (_size);
+	socket->write (_data, _size);
 }
 
 LocallyEncodedData::LocallyEncodedData (uint8_t* d, int s)
