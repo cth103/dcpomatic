@@ -194,39 +194,35 @@ extern std::string get_optional_string (std::multimap<std::string, std::string> 
  *  that are useful for DVD-o-matic.
  *
  *  This class wraps some things that I could not work out how to do with boost;
- *  most notably, sync read/write calls with timeouts, and the ability to peek into
- *  data being read.
+ *  most notably, sync read/write calls with timeouts.
  */
 class Socket
 {
 public:
-	Socket ();
+	Socket (int timeout = 30);
 
 	/** @return Our underlying socket */
 	boost::asio::ip::tcp::socket& socket () {
 		return _socket;
 	}
 
-	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint, int timeout);
-	void write (uint8_t const * data, int size, int timeout);
+	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint);
+
+	void write (uint32_t n);
+	void write (uint8_t const * data, int size);
 	
-	void read_definite_and_consume (uint8_t* data, int size, int timeout);
-	void read_indefinite (uint8_t* data, int size, int timeout);
-	void consume (int amount);
+	void read (uint8_t* data, int size);
+	uint32_t read_uint32 ();
 	
 private:
 	void check ();
-	int read (uint8_t* data, int size, int timeout);
 
 	Socket (Socket const &);
 
 	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
-	/** a buffer for small reads */
-	uint8_t _buffer[1024];
-	/** amount of valid data in the buffer */
-	int _buffer_data;
+	int _timeout;
 };
 
 /** @class AudioBuffers
