@@ -451,6 +451,9 @@ setup_i18n ()
 		wxString prefix = paths->GetInstallPrefix();
 		locale->AddCatalogLookupPathPrefix (prefix);
 #endif
+
+		locale->AddCatalog ("libdvdomatic-wx");
+		locale->AddCatalog ("dvdomatic");
 		
 		if (!locale->IsOk()) {
 			delete locale;
