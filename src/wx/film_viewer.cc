@@ -149,7 +149,6 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
 	film_changed (Film::CONTENT);
-	film_changed (Film::CROP);
 	film_changed (Film::FORMAT);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
@@ -289,9 +288,16 @@ FilmViewer::raw_to_display ()
 	}
 
 	if (_raw_sub) {
+
+		/* Our output is already cropped by the decoder, so we need to account for that
+		   when working out the scale that we are applying.
+		*/
+
+		Size const cropped_size = _film->cropped_size (_film->size ());
+
 		Rect tx = subtitle_transformed_area (
-			float (_film_size.width) / _film->size().width,
-			float (_film_size.height) / _film->size().height,
+			float (_film_size.width) / cropped_size.width,
+			float (_film_size.height) / cropped_size.height,
 			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
 			);
 		

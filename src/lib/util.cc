@@ -485,10 +485,10 @@ colour_lut_index_to_name (int index)
 	return "";
 }
 
-Socket::Socket ()
+Socket::Socket (int timeout)
 	: _deadline (_io_service)
 	, _socket (_io_service)
-	, _buffer_data (0)
+	, _timeout (timeout)
 {
 	_deadline.expires_at (posix_time::pos_infin);
 	check ();
@@ -505,14 +505,13 @@ Socket::check ()
 	_deadline.async_wait (boost::bind (&Socket::check, this));
 }
 
-/** Blocking connect with timeout.
+/** Blocking connect.
  *  @param endpoint End-point to connect to.
- *  @param timeout Time-out in seconds.
  */
 void
-Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint, int timeout)
+Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint)
 {
-	_deadline.expires_from_now (posix_time::seconds (timeout));
+	_deadline.expires_from_now (posix_time::seconds (_timeout));
 	system::error_code ec = asio::error::would_block;
 	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
 	do {
@@ -524,132 +523,61 @@ Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint,
 	}
 }
 
-/** Blocking write with timeout.
+/** Blocking write.
  *  @param data Buffer to write.
  *  @param size Number of bytes to write.
- *  @param timeout Time-out, in seconds.
  */
 void
-Socket::write (uint8_t const * data, int size, int timeout)
+Socket::write (uint8_t const * data, int size)
 {
-	_deadline.expires_from_now (posix_time::seconds (timeout));
+	_deadline.expires_from_now (posix_time::seconds (_timeout));
 	system::error_code ec = asio::error::would_block;
 
 	asio::async_write (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	
 	do {
 		_io_service.run_one ();
 	} while (ec == asio::error::would_block);
 
 	if (ec) {
-		throw NetworkError ("write timed out");
+		throw NetworkError (ec.message ());
 	}
 }
 
-/** Blocking read with timeout.
+void
+Socket::write (uint32_t v)
+{
+	v = htonl (v);
+	write (reinterpret_cast<uint8_t*> (&v), 4);
+}
+
+/** Blocking read.
  *  @param data Buffer to read to.
  *  @param size Number of bytes to read.
- *  @param timeout Time-out, in seconds.
  */
-int
-Socket::read (uint8_t* data, int size, int timeout)
+void
+Socket::read (uint8_t* data, int size)
 {
-	_deadline.expires_from_now (posix_time::seconds (timeout));
+	_deadline.expires_from_now (posix_time::seconds (_timeout));
 	system::error_code ec = asio::error::would_block;
 
-	int amount_read = 0;
-
-	_socket.async_read_some (
-		asio::buffer (data, size),
-		(lambda::var(ec) = lambda::_1, lambda::var(amount_read) = lambda::_2)
-		);
+	asio::async_read (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
 
 	do {
 		_io_service.run_one ();
 	} while (ec == asio::error::would_block);
 	
 	if (ec) {
-		amount_read = 0;
-	}
-
-	return amount_read;
-}
-
-/** Mark some data as being `consumed', so that it will not be returned
- *  as data again.
- *  @param size Amount of data to consume, in bytes.
- */
-void
-Socket::consume (int size)
-{
-	assert (_buffer_data >= size);
-	
-	_buffer_data -= size;
-	if (_buffer_data > 0) {
-		/* Shift still-valid data to the start of the buffer */
-		memmove (_buffer, _buffer + size, _buffer_data);
+		throw NetworkError (ec.message ());
 	}
 }
 
-/** Read a definite amount of data from our socket, and mark
- *  it as consumed.
- *  @param data Where to put the data.
- *  @param size Number of bytes to read.
- */
-void
-Socket::read_definite_and_consume (uint8_t* data, int size, int timeout)
+uint32_t
+Socket::read_uint32 ()
 {
-	int const from_buffer = min (_buffer_data, size);
-	if (from_buffer > 0) {
-		/* Get data from our buffer */
-		memcpy (data, _buffer, from_buffer);
-		consume (from_buffer);
-		/* Update our output state */
-		data += from_buffer;
-		size -= from_buffer;
-	}
-
-	/* read() the rest */
-	while (size > 0) {
-		int const n = read (data, size, timeout);
-		if (n <= 0) {
-			throw NetworkError ("could not read");
-		}
-
-		data += n;
-		size -= n;
-	}
-}
-
-/** Read as much data as is available, up to some limit.
- *  @param data Where to put the data.
- *  @param size Maximum amount of data to read.
- *
- *  XXX This method assumes that there is always lots of data to read();
- *  if there isn't, it will hang waiting for data that will never arrive.
- */
-void
-Socket::read_indefinite (uint8_t* data, int size, int timeout)
-{
-	assert (size < int (sizeof (_buffer)));
-
-	/* Amount of extra data we need to read () */
-	int to_read = size - _buffer_data;
-	while (to_read > 0) {
-		/* read as much of it as we can (into our buffer) */
-		int const n = read (_buffer + _buffer_data, to_read, timeout);
-		if (n <= 0) {
-			throw NetworkError ("could not read");
-		}
-
-		to_read -= n;
-		_buffer_data += n;
-	}
-
-	assert (_buffer_data >= size);
-
-	/* copy data into the output buffer */
-	assert (size >= _buffer_data);
-	memcpy (data, _buffer, size);
+	uint32_t v;
+	read (reinterpret_cast<uint8_t *> (&v), 4);
+	return ntohl (v);
 }
 
 /** @param other A Rect.

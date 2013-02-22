@@ -140,7 +140,7 @@ Encoder::process_end ()
 			}
 
 			out->set_frames (frames);
-			_writer->write (out);
+			write_audio (out);
 		}
 
 		swr_free (&_swr_context);
@@ -319,23 +319,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 	}
 #endif
 
-	if (_film->audio_channels() == 1) {
-		/* We need to switch things around so that the mono channel is on
-		   the centre channel of a 5.1 set (with other channels silent).
-		*/
-
-		shared_ptr<AudioBuffers> b (new AudioBuffers (6, data->frames ()));
-		b->make_silent (libdcp::LEFT);
-		b->make_silent (libdcp::RIGHT);
-		memcpy (b->data()[libdcp::CENTRE], data->data()[0], data->frames() * sizeof(float));
-		b->make_silent (libdcp::LFE);
-		b->make_silent (libdcp::LS);
-		b->make_silent (libdcp::RS);
-
-		data = b;
-	}
-
-	_writer->write (data);
+	write_audio (data);
 }
 
 void
@@ -434,4 +418,26 @@ Encoder::encoder_thread (ServerDescription* server)
 		lock.lock ();
 		_condition.notify_all ();
 	}
+}
+
+void
+Encoder::write_audio (shared_ptr<const AudioBuffers> data)
+{
+	if (_film->audio_channels() == 1) {
+		/* We need to switch things around so that the mono channel is on
+		   the centre channel of a 5.1 set (with other channels silent).
+		*/
+
+		shared_ptr<AudioBuffers> b (new AudioBuffers (6, data->frames ()));
+		b->make_silent (libdcp::LEFT);
+		b->make_silent (libdcp::RIGHT);
+		memcpy (b->data()[libdcp::CENTRE], data->data()[0], data->frames() * sizeof(float));
+		b->make_silent (libdcp::LFE);
+		b->make_silent (libdcp::LS);
+		b->make_silent (libdcp::RS);
+
+		data = b;
+	}
+
+	_writer->write (data);
 }

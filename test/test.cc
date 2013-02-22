@@ -480,7 +480,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	film->set_content ("../../../test/test.mp4");
 	film->set_format (Format::from_nickname ("Flat"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	film->make_dcp (true);
+	film->make_dcp ();
 	film->write_metadata ();
 
 	while (JobManager::instance()->work_to_do ()) {
@@ -512,7 +512,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	film->set_format (Format::from_nickname ("Flat"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->set_trim_end (42);
-	film->make_dcp (true);
+	film->make_dcp ();
 
 	while (JobManager::instance()->work_to_do() && !JobManager::instance()->errors()) {
 		dvdomatic_sleep (1);

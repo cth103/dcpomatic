@@ -323,7 +323,7 @@ Image::read_from_socket (shared_ptr<Socket> socket)
 	for (int i = 0; i < components(); ++i) {
 		uint8_t* p = data()[i];
 		for (int y = 0; y < lines(i); ++y) {
-			socket->read_definite_and_consume (p, line_size()[i], 30);
+			socket->read (p, line_size()[i]);
 			p += stride()[i];
 		}
 	}
@@ -335,7 +335,7 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 	for (int i = 0; i < components(); ++i) {
 		uint8_t* p = data()[i];
 		for (int y = 0; y < lines(i); ++y) {
-			socket->write (p, line_size()[i], 30);
+			socket->write (p, line_size()[i]);
 			p += stride()[i];
 		}
 	}
@@ -503,12 +503,18 @@ FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
 	: Image (p)
 	, _buffer (b)
 {
-
+	_line_size = (int *) av_malloc (4 * sizeof (int));
+	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
+	
+	for (int i = 0; i < components(); ++i) {
+		_line_size[i] = size().width * bytes_per_pixel(i);
+	}
 }
 
 FilterBufferImage::~FilterBufferImage ()
 {
 	avfilter_unref_buffer (_buffer);
+	av_free (_line_size);
 }
 
 uint8_t **
@@ -520,13 +526,16 @@ FilterBufferImage::data () const
 int *
 FilterBufferImage::line_size () const
 {
-	return _buffer->linesize;
+	return _line_size;
 }
 
 int *
 FilterBufferImage::stride () const
 {
-	/* XXX? */
+	/* I've seen images where the _buffer->linesize is larger than the width
+	   (by a small amount), suggesting that _buffer->linesize is what we call
+	   stride.  But I'm not sure.
+	*/
 	return _buffer->linesize;
 }
 

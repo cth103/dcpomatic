@@ -127,7 +127,7 @@ FFmpegDecoder::setup_general ()
 			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
 			   so bodge it here.  No idea why we should have to do this.
 			*/
-			
+
 			if (s->codec->channel_layout == 0) {
 				s->codec->channel_layout = av_get_default_channel_layout (s->codec->channels);
 			}
@@ -247,7 +247,7 @@ FFmpegDecoder::pass ()
 					);
 
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				Audio (deinterleave_audio (_frame->data[0], data_size));
+				Audio (deinterleave_audio (_frame->data, data_size));
 			}
 		}
 
@@ -320,7 +320,7 @@ FFmpegDecoder::pass ()
 					);
 				
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				Audio (deinterleave_audio (_frame->data[0], data_size));
+				Audio (deinterleave_audio (_frame->data, data_size));
 			}
 		}
 			
@@ -350,8 +350,11 @@ FFmpegDecoder::pass ()
 	return false;
 }
 
+/** @param data pointer to array of pointers to buffers.
+ *  Only the first buffer will be used for non-planar data, otherwise there will be one per channel.
+ */
 shared_ptr<AudioBuffers>
-FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
+FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 {
 	assert (_film->audio_channels());
 	assert (bytes_per_audio_sample());
@@ -370,7 +373,7 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 	switch (audio_sample_format()) {
 	case AV_SAMPLE_FMT_S16:
 	{
-		int16_t* p = reinterpret_cast<int16_t *> (data);
+		int16_t* p = reinterpret_cast<int16_t *> (data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -387,10 +390,10 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 
 	case AV_SAMPLE_FMT_S16P:
 	{
-		int16_t* p = reinterpret_cast<int16_t *> (data);
+		int16_t** p = reinterpret_cast<int16_t **> (data);
 		for (int i = 0; i < _film->audio_channels(); ++i) {
 			for (int j = 0; j < frames; ++j) {
-				audio->data(i)[j] = static_cast<float>(*p++) / (1 << 15);
+				audio->data(i)[j] = static_cast<float>(p[i][j]) / (1 << 15);
 			}
 		}
 	}
@@ -398,7 +401,7 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 	
 	case AV_SAMPLE_FMT_S32:
 	{
-		int32_t* p = reinterpret_cast<int32_t *> (data);
+		int32_t* p = reinterpret_cast<int32_t *> (data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -415,7 +418,7 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 
 	case AV_SAMPLE_FMT_FLT:
 	{
-		float* p = reinterpret_cast<float*> (data);
+		float* p = reinterpret_cast<float*> (data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -432,10 +435,9 @@ FFmpegDecoder::deinterleave_audio (uint8_t* data, int size)
 		
 	case AV_SAMPLE_FMT_FLTP:
 	{
-		float* p = reinterpret_cast<float*> (data);
+		float** p = reinterpret_cast<float**> (data);
 		for (int i = 0; i < _film->audio_channels(); ++i) {
-			memcpy (audio->data(i), p, frames * sizeof(float));
-			p += frames;
+			memcpy (audio->data(i), p[i], frames * sizeof(float));
 		}
 	}
 	break;

@@ -134,8 +134,8 @@ subtitle_transformed_area (
 	 * Combining these two translations gives these expressions.
 	 */
 	
-	tx.x = target_x_scale * (sub_area.x + (sub_area.width * (1 - subtitle_scale) / 2));
-	tx.y = target_y_scale * (sub_area.y + (sub_area.height * (1 - subtitle_scale) / 2));
+	tx.x = rint (target_x_scale * (sub_area.x + (sub_area.width * (1 - subtitle_scale) / 2)));
+	tx.y = rint (target_y_scale * (sub_area.y + (sub_area.height * (1 - subtitle_scale) / 2)));
 
 	return tx;
 }

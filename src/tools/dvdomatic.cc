@@ -146,7 +146,6 @@ enum {
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_jobs_examine_content,
-	ID_jobs_make_dcp_from_existing_transcode,
 	ID_help_about
 };
 
@@ -172,7 +171,6 @@ setup_menu (wxMenuBar* m)
 	add_item (jobs_menu, "S&how DCP", ID_jobs_show_dcp, NEEDS_FILM);
 	jobs_menu->AppendSeparator ();
 	add_item (jobs_menu, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
-	add_item (jobs_menu, "Make DCP from existing &transcode", ID_jobs_make_dcp_from_existing_transcode, NEEDS_FILM);
 
 	wxMenu* help = new wxMenu;
 	add_item (help, "About", ID_help_about, ALWAYS);
@@ -210,7 +208,6 @@ public:
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
 		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
 		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
-		Connect (ID_jobs_make_dcp_from_existing_transcode, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp_from_existing_transcode));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
 		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
@@ -224,12 +221,12 @@ public:
 		film_viewer = new FilmViewer (film, panel);
 		JobManagerView* job_manager_view = new JobManagerView (panel);
 
-		wxSizer* top_sizer = new wxBoxSizer (wxHORIZONTAL);
-		top_sizer->Add (film_editor, 0, wxALL, 6);
-		top_sizer->Add (film_viewer, 1, wxEXPAND | wxALL, 6);
+		_top_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_top_sizer->Add (film_editor, 0, wxALL, 6);
+		_top_sizer->Add (film_viewer, 1, wxEXPAND | wxALL, 6);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (top_sizer, 2, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_top_sizer, 2, wxEXPAND | wxALL, 6);
 		main_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 		panel->SetSizer (main_sizer);
 
@@ -244,11 +241,23 @@ public:
 		} else {
 			file_changed ("");
 		}
-		
+
 		set_film ();
+
+		film_editor->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Frame::film_editor_sized), 0, this);
 	}
 
 private:
+
+	void film_editor_sized (wxSizeEvent &)
+	{
+		static bool in_layout = false;
+		if (!in_layout) {
+			in_layout = true;
+			_top_sizer->Layout ();
+			in_layout = false;
+		}
+	}
 
 	void menu_opened (wxMenuEvent& ev)
 	{
@@ -287,7 +296,7 @@ private:
 		if (r == wxID_OK) {
 
 			if (boost::filesystem::exists (d->get_path())) {
-				error_dialog (this, wxString::Format (_("The directory %s already exists"), d->get_path().c_str()));
+				error_dialog (this, wxString::Format (_("The directory %s already exists."), d->get_path().c_str()));
 				return;
 			}
 			
@@ -350,12 +359,7 @@ private:
 
 	void jobs_make_dcp (wxCommandEvent &)
 	{
-		JobWrapper::make_dcp (this, film, true);
-	}
-	
-	void jobs_make_dcp_from_existing_transcode (wxCommandEvent &)
-	{
-		JobWrapper::make_dcp (this, film, false);
+		JobWrapper::make_dcp (this, film);
 	}
 	
 	void jobs_send_dcp_to_tms (wxCommandEvent &)
@@ -408,6 +412,8 @@ private:
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
 		wxAboutBox (info);
 	}
+
+	wxSizer* _top_sizer;
 };
 
 #if wxMINOR_VERSION == 9

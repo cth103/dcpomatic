@@ -171,6 +171,14 @@ checked_set (wxTextCtrl* widget, string value)
 }
 
 void
+checked_set (wxStaticText* widget, string value)
+{
+	if (widget->GetLabel() != std_to_wx (value)) {
+		widget->SetLabel (std_to_wx (value));
+	}
+}
+
+void
 checked_set (wxCheckBox* widget, bool value)
 {
 	if (widget->GetValue() != value) {
