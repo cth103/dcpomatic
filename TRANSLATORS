@@ -1,0 +1,13 @@
+Translating DVD-o-matic
+-----------------------
+
+1.  Run ./waf po
+
+This will generate build/src/lib/dvdomatic.pot and build/src/wx/libdvdomatic-wx.pot.
+
+For each file:
+
+2.  Open poEdit, "New catalogue from POT file", do translations, save as .po file.
+
+3.  Send to me.
+

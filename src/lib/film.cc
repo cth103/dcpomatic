@@ -52,6 +52,8 @@
 #include "audio_decoder.h"
 #include "external_audio_decoder.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using std::multimap;

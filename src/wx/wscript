@@ -1,4 +1,7 @@
 import os
+import glob
+from waflib import Logs
+import i18n
 
 sources = """
           config_dialog.cc
@@ -42,4 +45,8 @@ def pot(bld):
         if len(t) > 0:
             s += (os.path.join('src', 'wx', t)) + " "
 
-    os.system('xgettext -d libdvdomatic -s --keyword=_ -p build/src/wx -o libdvdomatic-wx.pot %s' % s)
+    os.system('xgettext -d libdvdomatic-wx -s --keyword=_ -p build/src/wx -o libdvdomatic-wx.pot %s' % s)
+
+def mo(bld):
+    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdvdomatic-wx')
+

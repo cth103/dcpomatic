@@ -198,6 +198,15 @@ def configure(conf):
                              define_name = 'HAVE_BUFFERSRC_H',
                              mandatory = False)
 
+    conf.find_program('msgfmt', var='MSGFMT')
+    
+    datadir = conf.env.DATADIR
+    if not datadir:
+        datadir = os.path.join(conf.env.PREFIX, 'share')
+    
+    conf.define('LOCALEDIR', os.path.join(datadir, 'locale'))
+    conf.define('DATADIR', datadir)
+
     conf.recurse('src')
     conf.recurse('test')
 
@@ -255,4 +264,7 @@ def post(ctx):
         ctx.exec_command('/sbin/ldconfig')
 
 def pot(bld):
+    bld.recurse('src')
+
+def mo(bld):
     bld.recurse('src')
