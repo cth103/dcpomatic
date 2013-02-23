@@ -28,6 +28,9 @@
 #include <cstring>
 #include <boost/exception/all.hpp>
 #include <boost/thread.hpp>
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 #include "compose.hpp"
 
 /** @class StringError
@@ -220,6 +223,14 @@ public:
 	{}
 };
 
+class PixelFormatError : public StringError
+{
+public:
+	PixelFormatError (std::string o, AVPixelFormat f)
+		: StringError (String::compose ("Cannot handle pixel format %1 during %2", f, o))
+	{}
+};
+
 class ExceptionStore
 {
 public:
@@ -244,5 +255,7 @@ private:
 	boost::exception_ptr _exception;
 	mutable boost::mutex _mutex;
 };
+
+	
 
 #endif
