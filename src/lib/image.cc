@@ -70,7 +70,7 @@ Image::lines (int n) const
 	case PIX_FMT_YUV422P:
 		return size().height;
 	default:
-		assert (false);
+		throw PixelFormatError ("lines()", _pixel_format);
 	}
 
 	return 0;
@@ -89,7 +89,7 @@ Image::components () const
 	case PIX_FMT_RGBA:
 		return 1;
 	default:
-		assert (false);
+		throw PixelFormatError ("components()", _pixel_format);
 	}
 
 	return 0;
@@ -202,7 +202,7 @@ Image::post_process (string pp, bool aligned) const
 		pp_format = PP_FORMAT_422;
 		break;
 	default:
-		assert (false);
+		throw PixelFormatError ("post_process", pixel_format());
 	}
 		
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
