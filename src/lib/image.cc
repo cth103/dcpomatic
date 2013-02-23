@@ -68,6 +68,7 @@ Image::lines (int n) const
 	case PIX_FMT_RGBA:
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
+	case PIX_FMT_YUV444P:
 		return size().height;
 	default:
 		throw PixelFormatError ("lines()", _pixel_format);
@@ -84,6 +85,7 @@ Image::components () const
 	case PIX_FMT_YUV420P:
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
+	case PIX_FMT_YUV444P:
 		return 3;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
@@ -201,6 +203,8 @@ Image::post_process (string pp, bool aligned) const
 	case PIX_FMT_YUV422P:
 		pp_format = PP_FORMAT_422;
 		break;
+	case PIX_FMT_YUV444P:
+		pp_format = PP_FORMAT_444;
 	default:
 		throw PixelFormatError ("post_process", pixel_format());
 	}
@@ -254,6 +258,7 @@ Image::make_black ()
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
 	case PIX_FMT_YUV422P:
+	case PIX_FMT_YUV444P:
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		memset (data()[1], 0x7f, lines(1) * stride()[1]);
 		memset (data()[2], 0x7f, lines(2) * stride()[2]);
@@ -375,6 +380,8 @@ Image::bytes_per_pixel (int c) const
 		} else {
 			return 1;
 		}
+	case PIX_FMT_YUV444P:
+		return 3;
 	default:
 		assert (false);
 	}
