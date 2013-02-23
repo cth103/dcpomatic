@@ -24,7 +24,7 @@ def build(bld):
             obj.target = t
 
 def pot(bld):
-    os.system('xgettext -d dvdomatic -s --keyword=_ -p build/src/tools -o dvdomatic.pot %s' % os.path.join('src', 'tools', 'dvdomatic.cc'))
+    i18n.pot(os.path.join('src', 'tools'), 'dvdomatic.cc', 'dvdomatic')
 
 def mo(bld):
     i18n.po_to_mo(os.path.join('src', 'tools'), 'dvdomatic')

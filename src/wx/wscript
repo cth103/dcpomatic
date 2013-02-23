@@ -39,13 +39,7 @@ def build(bld):
     obj.target = 'dvdomatic-wx'
 
 def pot(bld):
-    s = ""
-    for f in sources.split('\n'):
-        t = f.strip()
-        if len(t) > 0:
-            s += (os.path.join('src', 'wx', t)) + " "
-
-    os.system('xgettext -d libdvdomatic-wx -s --keyword=_ -p build/src/wx -o libdvdomatic-wx.pot %s' % s)
+    i18n.pot(os.path.join('src', 'wx'), sources, 'libdvdomatic-wx')
 
 def mo(bld):
     i18n.po_to_mo(os.path.join('src', 'wx'), 'libdvdomatic-wx')

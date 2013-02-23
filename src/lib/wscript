@@ -1,4 +1,5 @@
 import os
+import i18n
 
 sources = """
           ab_transcode_job.cc
@@ -68,10 +69,4 @@ def build(bld):
     obj.target = 'dvdomatic'
 
 def pot(bld):
-    s = ""
-    for f in sources.split('\n'):
-        t = f.strip()
-        if len(t) > 0:
-            s += (os.path.join('src', 'lib', t)) + " "
-
-    os.system('xgettext -d libdvdomatic -s --keyword=_ -p build/src/lib -o libdvdomatic.pot %s' % s)
+    i18n.pot(os.path.join('src', 'lib'), sources, 'libdvdomatic')
