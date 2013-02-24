@@ -17,27 +17,43 @@
 
 */
 
-#ifndef DVDOMATIC_OPTIONS_H
-#define DVDOMATIC_OPTIONS_H
+#ifndef DVDOMATIC_AUDIO_ANALYSIS_H
+#define DVDOMATIC_AUDIO_ANALYSIS_H
 
-/** @file src/options.h
- *  @brief Options for a decoding operation.
- */
+#include <iostream>
+#include <vector>
 
-class DecodeOptions
+class AudioPoint
 {
 public:
-	DecodeOptions ()
-		: decode_video (true)
-		, decode_audio (true)
-		, decode_subtitles (false)
-		, video_sync (true)
-	{}
+	enum Type {
+		PEAK,
+		RMS,
+		COUNT
+	};
 
-	bool decode_video;
-	bool decode_audio;
-	bool decode_subtitles;
-	bool video_sync;
+	AudioPoint ();
+
+	void write (std::ostream &) const;
+	
+	float& operator[] (Type t) {
+		return _data[t];
+	}
+
+private:
+	float _data[COUNT];
+};
+
+class AudioAnalysis
+{
+public:
+	AudioAnalysis (int c);
+
+	void add_point (int c, AudioPoint const & p);
+	void write (std::string);
+
+private:
+	std::vector<std::vector<AudioPoint> > _data;
 };
 
 #endif

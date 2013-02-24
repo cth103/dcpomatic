@@ -13,6 +13,8 @@ def build(bld):
     obj.uselib = 'WXWIDGETS'
     obj.use = 'libdvdomatic'
     obj.source = """
+                 audio_dialog.cc
+                 audio_plot.cc
                  config_dialog.cc
                  dci_metadata_dialog.cc
                  dir_picker_ctrl.cc

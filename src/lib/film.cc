@@ -51,6 +51,7 @@
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "external_audio_decoder.h"
+#include "analyse_audio_job.h"
 
 using std::string;
 using std::stringstream;
@@ -237,6 +238,15 @@ Film::video_mxf_filename () const
 	return video_state_identifier() + ".mxf";
 }
 
+string
+Film::audio_analysis_path () const
+{
+	boost::filesystem::path p;
+	p /= "analysis";
+	p /= content_digest();
+	return file (p.string ());
+}
+
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */
 void
 Film::make_dcp ()
@@ -303,6 +313,19 @@ Film::make_dcp ()
 	}
 }
 
+/** Start a job to analyse the audio of our content file */
+void
+Film::analyse_audio ()
+{
+	if (_analyse_audio_job) {
+		return;
+	}
+
+	_analyse_audio_job.reset (new AnalyseAudioJob (shared_from_this()));
+	_analyse_audio_job->Finished.connect (bind (&Film::analyse_audio_finished, this));
+	JobManager::instance()->add (_analyse_audio_job);
+}
+
 /** Start a job to examine our content file */
 void
 Film::examine_content ()
@@ -314,6 +337,12 @@ Film::examine_content ()
 	_examine_content_job.reset (new ExamineContentJob (shared_from_this()));
 	_examine_content_job->Finished.connect (bind (&Film::examine_content_finished, this));
 	JobManager::instance()->add (_examine_content_job);
+}
+
+void
+Film::analyse_audio_finished ()
+{
+	_analyse_audio_job.reset ();
 }
 
 void

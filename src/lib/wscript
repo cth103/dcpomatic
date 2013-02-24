@@ -16,6 +16,8 @@ def build(bld):
     obj.source = """
 		 ab_transcode_job.cc
 		 ab_transcoder.cc
+                 analyse_audio_job.cc
+                 audio_analysis.cc
                  audio_decoder.cc
                  audio_source.cc
 		 config.cc

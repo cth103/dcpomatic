@@ -45,6 +45,7 @@ class Job;
 class Filter;
 class Log;
 class ExamineContentJob;
+class AnalyseAudioJob;
 class ExternalAudioStream;
 
 /** @class Film
@@ -65,8 +66,10 @@ public:
 	std::string info_path (int f) const;
 	std::string video_mxf_dir () const;
 	std::string video_mxf_filename () const;
+	std::string audio_analysis_path () const;
 
 	void examine_content ();
+	void analyse_audio ();
 	void send_dcp_to_tms ();
 
 	void make_dcp ();
@@ -374,9 +377,12 @@ private:
 
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
+	/** Any running AnalyseAudioJob, or 0 */
+	boost::shared_ptr<AnalyseAudioJob> _analyse_audio_job;
 
 	void signal_changed (Property);
 	void examine_content_finished ();
+	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
 
 	/** Complete path to directory containing the film metadata;

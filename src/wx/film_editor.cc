@@ -45,6 +45,7 @@
 #include "sound_processor.h"
 #include "dci_metadata_dialog.h"
 #include "scaler.h"
+#include "audio_dialog.h"
 
 using std::string;
 using std::cout;
@@ -204,6 +205,7 @@ FilmEditor::connect_to_widgets ()
 	_audio_gain_calculate_button->Connect (
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
 		);
+	_show_audio->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_use_content_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
 	_use_external_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
@@ -314,6 +316,10 @@ FilmEditor::make_audio_panel ()
 		s->Add (_audio_gain_calculate_button, 1, wxEXPAND);
 		grid->Add (s);
 	}
+
+	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
+	grid->AddSpacer (0);
+	grid->Add (_show_audio);
 
 	{
 		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Delay")));
@@ -1174,4 +1180,12 @@ FilmEditor::setup_dcp_name ()
 	} else {
 		_dcp_name->SetLabel (std_to_wx (s));
 	}
+}
+
+void
+FilmEditor::show_audio_clicked (wxCommandEvent &)
+{
+	AudioDialog* d = new AudioDialog (this, _film);
+	d->ShowModal ();
+	d->Destroy ();
 }
