@@ -305,6 +305,10 @@ FilmEditor::make_audio_panel ()
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	_audio_sizer->Add (grid, 0, wxALL, 8);
 
+	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
+	grid->Add (_show_audio, 1);
+	grid->AddSpacer (0);
+
 	{
 		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Gain")));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -316,10 +320,6 @@ FilmEditor::make_audio_panel ()
 		s->Add (_audio_gain_calculate_button, 1, wxEXPAND);
 		grid->Add (s);
 	}
-
-	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
-	grid->AddSpacer (0);
-	grid->Add (_show_audio);
 
 	{
 		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Delay")));

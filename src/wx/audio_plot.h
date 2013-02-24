@@ -17,50 +17,20 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_ANALYSIS_H
-#define DVDOMATIC_AUDIO_ANALYSIS_H
-
-#include <iostream>
 #include <vector>
+#include <boost/shared_ptr.hpp>
+#include <wx/wx.h>
 
-class AudioPoint
+class AudioAnalysis;
+
+class AudioPlot : public wxPanel
 {
 public:
-	enum Type {
-		PEAK,
-		RMS,
-		COUNT
-	};
-
-	AudioPoint ();
-	AudioPoint (std::istream &);
-
-	void write (std::ostream &) const;
-	
-	float& operator[] (int t) {
-		return _data[t];
-	}
+	AudioPlot (wxWindow *, boost::shared_ptr<AudioAnalysis>, int);
 
 private:
-	float _data[COUNT];
+	void paint (wxPaintEvent &);
+
+	boost::shared_ptr<AudioAnalysis> _analysis;
+	int _channel;
 };
-
-class AudioAnalysis
-{
-public:
-	AudioAnalysis (int c);
-	AudioAnalysis (std::string);
-
-	void add_point (int c, AudioPoint const & p);
-	
-	AudioPoint get_point (int c, int p) const;
-	int points (int c) const;
-
-	void write (std::string);
-
-
-private:
-	std::vector<std::vector<AudioPoint> > _data;
-};
-
-#endif

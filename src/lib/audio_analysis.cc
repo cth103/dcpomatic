@@ -18,19 +18,30 @@
 */
 
 #include <stdint.h>
+#include <cmath>
 #include <cassert>
 #include <fstream>
 #include "audio_analysis.h"
 
 using std::ostream;
+using std::istream;
 using std::string;
 using std::ofstream;
+using std::ifstream;
 using std::vector;
+using std::cout;
 
 AudioPoint::AudioPoint ()
 {
 	for (int i = 0; i < COUNT; ++i) {
 		_data[i] = 0;
+	}
+}
+
+AudioPoint::AudioPoint (istream& s)
+{
+	for (int i = 0; i < COUNT; ++i) {
+		s >> _data[i];
 	}
 }
 
@@ -48,11 +59,43 @@ AudioAnalysis::AudioAnalysis (int channels)
 	_data.resize (channels);
 }
 
+AudioAnalysis::AudioAnalysis (string filename)
+{
+	ifstream f (filename.c_str ());
+
+	int channels;
+	f >> channels;
+	_data.resize (channels);
+
+	for (int i = 0; i < channels; ++i) {
+		int points;
+		f >> points;
+		for (int j = 0; j < points; ++j) {
+			_data[i].push_back (AudioPoint (f));
+		}
+	}
+}
+
 void
 AudioAnalysis::add_point (int c, AudioPoint const & p)
 {
 	assert (c < int (_data.size ()));
 	_data[c].push_back (p);
+}
+
+AudioPoint
+AudioAnalysis::get_point (int c, int p) const
+{
+	assert (c < int (_data.size ()));
+	assert (p < int (_data[c].size ()));
+	return _data[c][p];
+}
+
+int
+AudioAnalysis::points (int c) const
+{
+	assert (c < int (_data.size ()));
+	return _data[c].size ();
 }
 
 void

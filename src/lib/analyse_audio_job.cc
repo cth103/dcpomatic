@@ -85,7 +85,12 @@ AnalyseAudioJob::audio (shared_ptr<AudioBuffers> b)
 {
 	for (int i = 0; i < b->frames(); ++i) {
 		for (int j = 0; j < b->channels(); ++j) {
-			float const s = b->data(j)[i];
+			float s = b->data(j)[i];
+			if (fabsf (s) < 10e-7) {
+				/* stringstream can't serialise and recover inf or -inf, so prevent such
+				   values by replacing with this (140dB down) */
+				s = 10e-7;
+			}
 			_current[j][AudioPoint::RMS] += pow (s, 2);
 			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], fabsf (s));
 
