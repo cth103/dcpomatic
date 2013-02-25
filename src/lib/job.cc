@@ -272,10 +272,11 @@ Job::status () const
 	}
 
 	stringstream s;
-	if (!finished () && p >= 0 && t > 10 && r > 0) {
-		s << pc << "%; " << seconds_to_approximate_hms (r) << " remaining";
-	} else if (!finished () && (t <= 10 || r == 0)) {
+	if (!finished ()) {
 		s << pc << "%";
+		if (p >= 0 && t > 10 && r > 0) {
+			s << "; " << seconds_to_approximate_hms (r) << " remaining";
+		}
 	} else if (finished_ok ()) {
 		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
 	} else if (finished_in_error ()) {
