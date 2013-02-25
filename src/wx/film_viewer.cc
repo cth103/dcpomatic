@@ -101,7 +101,14 @@ FilmViewer::film_changed (Film::Property p)
 		o.decode_audio = false;
 		o.decode_subtitles = true;
 		o.video_sync = false;
-		_decoders = decoder_factory (_film, o);
+
+		try {
+			_decoders = decoder_factory (_film, o);
+		} catch (StringError& e) {
+			error_dialog (this, wxString::Format (_("Could not open content file (%s)"), e.what()));
+			return;
+		}
+		
 		if (_decoders.video == 0) {
 			break;
 		}
