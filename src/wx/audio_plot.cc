@@ -39,6 +39,11 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
 	, _gain (0)
 {
+	SetDoubleBuffered (true);
+#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
+	SetBackgroundStyle (wxBG_STYLE_PAINT);
+#endif	
+
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_channel_visible[i] = false;
 	}
