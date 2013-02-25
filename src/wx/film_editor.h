@@ -29,8 +29,8 @@
 #include "lib/film.h"
 
 class wxNotebook;
-
 class Film;
+class AudioDialog;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -179,4 +179,5 @@ private:
 	std::vector<Format const *> _formats;
 
 	bool _generally_sensitive;
+	AudioDialog* _audio_dialog;
 };

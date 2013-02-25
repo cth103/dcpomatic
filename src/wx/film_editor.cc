@@ -63,6 +63,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
 	, _film (f)
 	, _generally_sensitive (true)
+	, _audio_dialog (0)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
@@ -346,22 +347,8 @@ FilmEditor::make_audio_panel ()
 	grid->Add (_use_external_audio);
 	grid->AddSpacer (0);
 
-	assert (MAX_AUDIO_CHANNELS == 6);
-
-	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	   enhancement channel (sub-woofer)./
-	*/
-	wxString const channels[] = {
-		_("Left"),
-		_("Right"),
-		_("Centre"),
-		_("Lfe (sub)"),
-		_("Left surround"),
-		_("Right surround"),
-	};
-
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		add_label_to_sizer (grid, _audio_panel, channels[i]);
+		add_label_to_sizer (grid, _audio_panel, audio_channel_name (i));
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), _("Select Audio File"), wxT ("*.wav"));
 		grid->Add (_external_audio[i], 1, wxEXPAND);
 	}
@@ -762,6 +749,10 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	} else {
 		FileChanged ("");
 	}
+
+	if (_audio_dialog) {
+		_audio_dialog->set_film (_film);
+	}
 	
 	film_changed (Film::NAME);
 	film_changed (Film::USE_DCI_NAME);
@@ -823,6 +814,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
+	_show_audio->Enable (s);
 	_audio_delay->Enable (s);
 	_still_duration->Enable (s);
 
@@ -1185,7 +1177,11 @@ FilmEditor::setup_dcp_name ()
 void
 FilmEditor::show_audio_clicked (wxCommandEvent &)
 {
-	AudioDialog* d = new AudioDialog (this, _film);
-	d->ShowModal ();
-	d->Destroy ();
+	if (_audio_dialog) {
+		_audio_dialog->Destroy ();
+		_audio_dialog = 0;
+	}
+	
+	_audio_dialog = new AudioDialog (this, _film);
+	_audio_dialog->Show ();
 }

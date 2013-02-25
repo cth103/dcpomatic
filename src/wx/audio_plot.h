@@ -26,7 +26,10 @@ class AudioAnalysis;
 class AudioPlot : public wxPanel
 {
 public:
-	AudioPlot (wxWindow *, boost::shared_ptr<AudioAnalysis>, int);
+	AudioPlot (wxWindow *);
+
+	void set_analysis (boost::shared_ptr<AudioAnalysis>);
+	void set_channel (int c);
 
 private:
 	void paint (wxPaintEvent &);

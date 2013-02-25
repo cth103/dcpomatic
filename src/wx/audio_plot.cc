@@ -1,3 +1,22 @@
+/*
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #include <iostream>
 #include <boost/bind.hpp>
 #include <wx/graphics.h>
@@ -14,10 +33,9 @@ using std::min;
 using boost::bind;
 using boost::shared_ptr;
 
-AudioPlot::AudioPlot (wxWindow* parent, shared_ptr<AudioAnalysis> a, int c)
+AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
-	, _analysis (a)
-	, _channel (c)
+	, _channel (0)
 {
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (AudioPlot::paint), 0, this);
 
@@ -25,9 +43,29 @@ AudioPlot::AudioPlot (wxWindow* parent, shared_ptr<AudioAnalysis> a, int c)
 }
 
 void
+AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
+{
+	_analysis = a;
+	_channel = 0;
+	Refresh ();
+}
+
+void
+AudioPlot::set_channel (int c)
+{
+	_channel = c;
+	Refresh ();
+}
+
+void
 AudioPlot::paint (wxPaintEvent &)
 {
 	wxPaintDC dc (this);
+
+	if (!_analysis) {
+		return;
+	}
+	
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;

@@ -27,13 +27,13 @@
 
 using std::string;
 using std::max;
+using std::cout;
 using boost::shared_ptr;
 
-int const AnalyseAudioJob::_num_points = 1024;
+int const AnalyseAudioJob::_num_points = 128;
 
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
 	: Job (f)
-	, _done_for_this_point (0)
 	, _done (0)
 	, _samples_per_point (1)
 {
@@ -94,20 +94,16 @@ AnalyseAudioJob::audio (shared_ptr<AudioBuffers> b)
 			_current[j][AudioPoint::RMS] += pow (s, 2);
 			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], fabsf (s));
 
-			if (_done_for_this_point == _samples_per_point) {
+			if ((_done % _samples_per_point) == 0) {
 				_current[j][AudioPoint::RMS] = 20 * log10 (sqrt (_current[j][AudioPoint::RMS] / _samples_per_point));
 				_current[j][AudioPoint::PEAK] = 20 * log10 (_current[j][AudioPoint::PEAK]);
-				
 				_analysis->add_point (j, _current[j]);
 				
-				_done_for_this_point = 0;
 				_current[j] = AudioPoint ();
 			}
 		}
-		
-		++_done_for_this_point;
-	}
 
-	_done += b->frames ();
+		++_done;
+	}
 }
 

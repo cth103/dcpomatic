@@ -898,3 +898,23 @@ cpu_info ()
 
 	return info;
 }
+
+string
+audio_channel_name (int c)
+{
+	assert (MAX_AUDIO_CHANNELS == 6);
+
+	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
+	   enhancement channel (sub-woofer)./
+	*/
+	string const channels[] = {
+		"Left",
+		"Right",
+		"Centre",
+		"Lfe (sub)",
+		"Left surround",
+		"Right surround",
+	};
+
+	return channels[c];
+}

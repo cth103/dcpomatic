@@ -33,7 +33,6 @@ public:
 private:
 	void audio (boost::shared_ptr<AudioBuffers>);
 
-	int64_t _done_for_this_point;
 	int64_t _done;
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;
