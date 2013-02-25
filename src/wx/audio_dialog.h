@@ -21,6 +21,7 @@
 #include <boost/signals2.hpp>
 #include <wx/wx.h>
 #include "lib/film.h"
+#include "lib/audio_analysis.h"
 
 class AudioPlot;
 class Film;
@@ -34,13 +35,15 @@ public:
 
 private:
 	void film_changed (Film::Property);
-	void channel_changed (wxCommandEvent &);
+	void channel_clicked (wxCommandEvent &);
+	void type_clicked (wxCommandEvent &);
 	void try_to_load_analysis ();
 	void setup_channels ();
 
 	boost::shared_ptr<Film> _film;
 	AudioPlot* _plot;
-	wxChoice* _channel;
+	wxCheckBox* _channel_checkbox[MAX_AUDIO_CHANNELS];
+	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_audio_analysis_finished_connection;
 };

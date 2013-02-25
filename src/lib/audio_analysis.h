@@ -55,6 +55,7 @@ public:
 	
 	AudioPoint get_point (int c, int p) const;
 	int points (int c) const;
+	int channels () const;
 
 	void write (std::string);
 

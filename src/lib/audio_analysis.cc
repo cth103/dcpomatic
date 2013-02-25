@@ -80,22 +80,27 @@ AudioAnalysis::AudioAnalysis (string filename)
 void
 AudioAnalysis::add_point (int c, AudioPoint const & p)
 {
-	assert (c < int (_data.size ()));
+	assert (c < channels ());
 	_data[c].push_back (p);
 }
 
 AudioPoint
 AudioAnalysis::get_point (int c, int p) const
 {
-	assert (c < int (_data.size ()));
-	assert (p < int (_data[c].size ()));
+	assert (p < points (c));
 	return _data[c][p];
+}
+
+int
+AudioAnalysis::channels () const
+{
+	return _data.size ();
 }
 
 int
 AudioAnalysis::points (int c) const
 {
-	assert (c < int (_data.size ()));
+	assert (c < channels ());
 	return _data[c].size ();
 }
 

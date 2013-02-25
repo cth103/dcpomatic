@@ -38,17 +38,33 @@ AudioDialog::AudioDialog (wxWindow* parent)
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 
-	add_label_to_sizer (table, this, _("Channel"));
-	_channel = new wxChoice (this, wxID_ANY);
-	table->Add (_channel, 1, wxEXPAND | wxALL, 6);
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, audio_channel_name (i));
+		table->Add (_channel_checkbox[i], 1, wxEXPAND);
+		table->AddSpacer (0);
+		_channel_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::channel_clicked), 0, this);
+	}
+
+	table->AddSpacer (0);
+	table->AddSpacer (0);
+
+	wxString const types[] = {
+		_("Peak"),
+		_("RMS")
+	};
+
+	for (int i = 0; i < AudioPoint::COUNT; ++i) {
+		_type_checkbox[i] = new wxCheckBox (this, wxID_ANY, types[i]);
+		table->Add (_type_checkbox[i], 1, wxEXPAND);
+		table->AddSpacer (0);
+		_type_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::type_clicked), 0, this);
+	}
 
 	sizer->Add (table);
 
 	SetSizer (sizer);
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
-
-	_channel->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (AudioDialog::channel_changed), 0, this);
 }
 
 void
@@ -61,8 +77,7 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 
 	try_to_load_analysis ();
 	setup_channels ();
-
-	_channel->SetSelection (0);
+	_plot->set_gain (_film->audio_gain ());
 
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
 	_film_audio_analysis_finished_connection = _film->AudioAnalysisFinished.connect (bind (&AudioDialog::try_to_load_analysis, this));
@@ -71,14 +86,16 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 void
 AudioDialog::setup_channels ()
 {
-	_channel->Clear ();
-
 	if (!_film->audio_stream()) {
 		return;
 	}
 	
 	for (int i = 0; i < _film->audio_stream()->channels(); ++i) {
-		_channel->Append (audio_channel_name (i));
+		_channel_checkbox[i]->Show ();
+	}
+
+	for (int i = _film->audio_stream()->channels(); i < MAX_AUDIO_CHANNELS; ++i) {
+		_channel_checkbox[i]->Hide ();
 	}
 }	
 
@@ -96,12 +113,26 @@ AudioDialog::try_to_load_analysis ()
 	}
 		
 	_plot->set_analysis (a);
+	_channel_checkbox[0]->SetValue (true);
+	_plot->set_channel_visible (0, true);
+
+	for (int i = 0; i < AudioPoint::COUNT; ++i) {
+		_type_checkbox[i]->SetValue (true);
+		_plot->set_type_visible (i, true);
+	}
 }
 
 void
-AudioDialog::channel_changed (wxCommandEvent &)
+AudioDialog::channel_clicked (wxCommandEvent& ev)
 {
-	_plot->set_channel (_channel->GetSelection ());
+	int c = 0;
+	while (c < MAX_AUDIO_CHANNELS && ev.GetEventObject() != _channel_checkbox[c]) {
+		++c;
+	}
+
+	assert (c < MAX_AUDIO_CHANNELS);
+	
+	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
 }
 
 void
@@ -119,4 +150,17 @@ AudioDialog::film_changed (Film::Property p)
 	default:
 		break;
 	}
+}
+
+void
+AudioDialog::type_clicked (wxCommandEvent& ev)
+{
+	int t = 0;
+	while (t < AudioPoint::COUNT && ev.GetEventObject() != _type_checkbox[t]) {
+		++t;
+	}
+
+	assert (t < AudioPoint::COUNT);
+
+	_plot->set_type_visible (t, _type_checkbox[t]->GetValue ());
 }

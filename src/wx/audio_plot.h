@@ -20,8 +20,8 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
-
-class AudioAnalysis;
+#include "util.h"
+#include "audio_analysis.h"
 
 class AudioPlot : public wxPanel
 {
@@ -29,16 +29,20 @@ public:
 	AudioPlot (wxWindow *);
 
 	void set_analysis (boost::shared_ptr<AudioAnalysis>);
-	void set_channel (int c);
+	void set_channel_visible (int c, bool v);
+	void set_type_visible (int t, bool v);
 	void set_gain (float);
 
 private:
 	void paint (wxPaintEvent &);
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
-	int _channel;
+	bool _channel_visible[MAX_AUDIO_CHANNELS];
+	bool _type_visible[AudioPoint::COUNT];
 	/** gain to apply in dB */
 	float _gain;
+
+	std::vector<wxColour> _colours;
 
 	static const int _minimum;
 };

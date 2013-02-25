@@ -37,11 +37,25 @@ int const AudioPlot::_minimum = -90;
 
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
-	, _channel (0)
 	, _gain (0)
 {
-	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (AudioPlot::paint), 0, this);
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		_channel_visible[i] = false;
+	}
 
+	for (int i = 0; i < AudioPoint::COUNT; ++i) {
+		_type_visible[i] = false;
+	}
+
+	_colours.push_back (wxColour (  0,   0,   0));
+	_colours.push_back (wxColour (255,   0,   0));
+	_colours.push_back (wxColour (  0, 255,   0));
+	_colours.push_back (wxColour (139,   0, 204));
+	_colours.push_back (wxColour (  0,   0, 255));
+	_colours.push_back (wxColour (100, 100, 100));
+	
+	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (AudioPlot::paint), 0, this);
+	
 	SetMinSize (wxSize (640, 512));
 }
 
@@ -49,14 +63,29 @@ void
 AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
 {
 	_analysis = a;
-	_channel = 0;
+
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		_channel_visible[i] = false;
+	}
+
+	for (int i = 0; i < AudioPoint::COUNT; ++i) {
+		_type_visible[i] = false;
+	}
+	
 	Refresh ();
 }
 
 void
-AudioPlot::set_channel (int c)
+AudioPlot::set_channel_visible (int c, bool v)
 {
-	_channel = c;
+	_channel_visible[c] = v;
+	Refresh ();
+}
+
+void
+AudioPlot::set_type_visible (int t, bool v)
+{
+	_type_visible[t] = v;
 	Refresh ();
 }
 
@@ -77,7 +106,8 @@ AudioPlot::paint (wxPaintEvent &)
 	}
 	
 	int const width = GetSize().GetWidth();
-	float const xs = width / float (_analysis->points (_channel));
+	/* Assume all channels have the same number of points */
+	float const xs = width / float (_analysis->points (0));
 	int const height = GetSize().GetHeight ();
 	float const ys = height / -_minimum;
 
@@ -92,24 +122,44 @@ AudioPlot::paint (wxPaintEvent &)
 	gc->SetPen (*wxLIGHT_GREY_PEN);
 	gc->StrokePath (grid);
 
-	wxGraphicsPath path[AudioPoint::COUNT];
+	for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {
+		if (!_channel_visible[c] || c >= _analysis->channels()) {
+			continue;
+		}
 
-	for (int i = 0; i < AudioPoint::COUNT; ++i) {
-		path[i] = gc->CreatePath ();
-		path[i].MoveToPoint (0, height - (max (_analysis->get_point(_channel, 0)[i], float (_minimum)) - _minimum + _gain) * ys);
-	}
+		wxGraphicsPath path[AudioPoint::COUNT];
+		
+		for (int i = 0; i < AudioPoint::COUNT; ++i) {
+			if (!_type_visible[i]) {
+				continue;
+			}
+			
+			path[i] = gc->CreatePath ();
+			path[i].MoveToPoint (0, height - (max (_analysis->get_point(c, 0)[i], float (_minimum)) - _minimum + _gain) * ys);
+		}
 
-	for (int i = 0; i < _analysis->points(_channel); ++i) {
-		for (int j = 0; j < AudioPoint::COUNT; ++j) {
-			path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(_channel, i)[j], float (_minimum)) - _minimum + _gain) * ys);
+		for (int i = 0; i < _analysis->points(c); ++i) {
+			for (int j = 0; j < AudioPoint::COUNT; ++j) {
+				if (!_type_visible[j]) {
+					continue;
+				}
+				
+				path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(c, i)[j], float (_minimum)) - _minimum + _gain) * ys);
+			}
+		}
+
+		wxColour const col = _colours[c];
+
+		if (_type_visible[AudioPoint::RMS]) {
+			gc->SetPen (*wxThePenList->FindOrCreatePen (col));
+			gc->StrokePath (path[AudioPoint::RMS]);
+		}
+
+		if (_type_visible[AudioPoint::PEAK]) {
+			gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2)));
+			gc->StrokePath (path[AudioPoint::PEAK]);
 		}
 	}
-
-	gc->SetPen (*wxBLUE_PEN);
-	gc->StrokePath (path[AudioPoint::RMS]);
-
-	gc->SetPen (*wxRED_PEN);
-	gc->StrokePath (path[AudioPoint::PEAK]);
 
 	delete gc;
 }
