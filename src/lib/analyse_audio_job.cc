@@ -30,7 +30,7 @@ using std::max;
 using std::cout;
 using boost::shared_ptr;
 
-int const AnalyseAudioJob::_num_points = 128;
+int const AnalyseAudioJob::_num_points = 1024;
 
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
 	: Job (f)

@@ -33,7 +33,7 @@ using std::min;
 using boost::bind;
 using boost::shared_ptr;
 
-int const AudioPlot::_minimum = -90;
+int const AudioPlot::_minimum = -70;
 
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
