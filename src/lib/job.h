@@ -65,6 +65,7 @@ public:
 	void descend (float);
 	float overall_progress () const;
 
+	/** Emitted by the JobManagerView from the UI thread */
 	boost::signals2::signal<void()> Finished;
 
 protected:

@@ -65,15 +65,17 @@ AudioPlot::paint (wxPaintEvent &)
 {
 	wxPaintDC dc (this);
 
-	if (!_analysis) {
-		return;
-	}
-	
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
 	}
 
+	if (!_analysis) {
+		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
+		gc->DrawText (_("Please wait; audio is being analysed..."), 32, 32);
+		return;
+	}
+	
 	int const width = GetSize().GetWidth();
 	float const xs = width / float (_analysis->points (_channel));
 	int const height = GetSize().GetHeight ();

@@ -17,6 +17,7 @@
 
 */
 
+#include <boost/filesystem.hpp>
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "audio_analysis.h"
@@ -24,8 +25,9 @@
 #include "wx_util.h"
 
 using boost::shared_ptr;
+using boost::bind;
 
-AudioDialog::AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film)
+AudioDialog::AudioDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _plot (0)
 {
@@ -42,8 +44,6 @@ AudioDialog::AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film)
 
 	sizer->Add (table);
 
-	set_film (film);
-
 	SetSizer (sizer);
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
@@ -54,27 +54,48 @@ AudioDialog::AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film)
 void
 AudioDialog::set_film (boost::shared_ptr<Film> f)
 {
-	_film_connection.disconnect ();
-	_film = f;
+	_film_changed_connection.disconnect ();
+	_film_audio_analysis_finished_connection.disconnect ();
 	
-	shared_ptr<AudioAnalysis> a;
+	_film = f;
 
-	try {
-		a.reset (new AudioAnalysis (f->audio_analysis_path ()));
-	} catch (...) {
-
-	}
-		
-	_plot->set_analysis (a);
-
-	_channel->Clear ();
-	for (int i = 0; i < f->audio_stream()->channels(); ++i) {
-		_channel->Append (audio_channel_name (i));
-	}
+	try_to_load_analysis ();
+	setup_channels ();
 
 	_channel->SetSelection (0);
 
-	_film_connection = f->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
+	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
+	_film_audio_analysis_finished_connection = _film->AudioAnalysisFinished.connect (bind (&AudioDialog::try_to_load_analysis, this));
+}
+
+void
+AudioDialog::setup_channels ()
+{
+	_channel->Clear ();
+
+	if (!_film->audio_stream()) {
+		return;
+	}
+	
+	for (int i = 0; i < _film->audio_stream()->channels(); ++i) {
+		_channel->Append (audio_channel_name (i));
+	}
+}	
+
+void
+AudioDialog::try_to_load_analysis ()
+{
+	shared_ptr<AudioAnalysis> a;
+
+	if (boost::filesystem::exists (_film->audio_analysis_path())) {
+		a.reset (new AudioAnalysis (_film->audio_analysis_path ()));
+	} else {
+		if (IsShown ()) {
+			_film->analyse_audio ();
+		}
+	}
+		
+	_plot->set_analysis (a);
 }
 
 void
@@ -86,7 +107,16 @@ AudioDialog::channel_changed (wxCommandEvent &)
 void
 AudioDialog::film_changed (Film::Property p)
 {
-	if (p == Film::AUDIO_GAIN) {
+	switch (p) {
+	case Film::AUDIO_GAIN:
 		_plot->set_gain (_film->audio_gain ());
+		break;
+	case Film::CONTENT_AUDIO_STREAM:
+	case Film::EXTERNAL_AUDIO:
+	case Film::USE_CONTENT_AUDIO:
+		setup_channels ();
+		break;
+	default:
+		break;
 	}
 }

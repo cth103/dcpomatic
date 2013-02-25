@@ -147,7 +147,6 @@ Job::set_state (State s)
 
 	if (_state == FINISHED_OK || _state == FINISHED_ERROR) {
 		_ran_for = elapsed_time ();
-		Finished ();
 	}
 }
 

@@ -367,6 +367,8 @@ public:
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
 
+	boost::signals2::signal<void ()> AudioAnalysisFinished;
+
 	/** Current version number of the state file */
 	static int const state_version;
 

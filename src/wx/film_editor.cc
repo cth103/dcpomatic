@@ -1182,6 +1182,7 @@ FilmEditor::show_audio_clicked (wxCommandEvent &)
 		_audio_dialog = 0;
 	}
 	
-	_audio_dialog = new AudioDialog (this, _film);
+	_audio_dialog = new AudioDialog (this);
 	_audio_dialog->Show ();
+	_audio_dialog->set_film (_film);
 }

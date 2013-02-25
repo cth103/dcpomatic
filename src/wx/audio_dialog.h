@@ -28,16 +28,19 @@ class Film;
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog (wxWindow *, boost::shared_ptr<Film>);
+	AudioDialog (wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
 
 private:
 	void film_changed (Film::Property);
 	void channel_changed (wxCommandEvent &);
+	void try_to_load_analysis ();
+	void setup_channels ();
 
 	boost::shared_ptr<Film> _film;
 	AudioPlot* _plot;
 	wxChoice* _channel;
-	boost::signals2::scoped_connection _film_connection;
+	boost::signals2::scoped_connection _film_changed_connection;
+	boost::signals2::scoped_connection _film_audio_analysis_finished_connection;
 };

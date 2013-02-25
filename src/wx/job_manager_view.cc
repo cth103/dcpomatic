@@ -109,6 +109,7 @@ JobManagerView::update ()
 		if ((*i)->finished() && !_job_records[*i].finalised) {
 			_job_records[*i].gauge->SetValue (100);
 			checked_set (_job_records[*i].message, st);
+			(*i)->Finished ();
 			_job_records[*i].finalised = true;
 			if (!(*i)->error_details().empty ()) {
 				_job_records[*i].details->Enable (true);

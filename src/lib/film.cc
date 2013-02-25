@@ -342,7 +342,10 @@ Film::examine_content ()
 void
 Film::analyse_audio_finished ()
 {
+	ensure_ui_thread ();
 	_analyse_audio_job.reset ();
+
+	AudioAnalysisFinished ();
 }
 
 void

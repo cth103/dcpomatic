@@ -21,6 +21,7 @@
 #include <cmath>
 #include <cassert>
 #include <fstream>
+#include <boost/filesystem.hpp>
 #include "audio_analysis.h"
 
 using std::ostream;
@@ -101,7 +102,9 @@ AudioAnalysis::points (int c) const
 void
 AudioAnalysis::write (string filename)
 {
-	ofstream f (filename.c_str ());
+	string tmp = filename + ".tmp";
+	
+	ofstream f (tmp.c_str ());
 	f << _data.size() << "\n";
 	for (vector<vector<AudioPoint> >::iterator i = _data.begin(); i != _data.end(); ++i) {
 		f << i->size () << "\n";
@@ -109,4 +112,7 @@ AudioAnalysis::write (string filename)
 			j->write (f);
 		}
 	}
+
+	f.close ();
+	boost::filesystem::rename (tmp, filename);
 }
