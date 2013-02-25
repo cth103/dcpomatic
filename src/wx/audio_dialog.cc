@@ -26,6 +26,7 @@
 
 using boost::shared_ptr;
 using boost::bind;
+using boost::optional;
 
 AudioDialog::AudioDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
@@ -89,13 +90,15 @@ AudioDialog::setup_channels ()
 	if (!_film->audio_stream()) {
 		return;
 	}
-	
-	for (int i = 0; i < _film->audio_stream()->channels(); ++i) {
-		_channel_checkbox[i]->Show ();
-	}
 
-	for (int i = _film->audio_stream()->channels(); i < MAX_AUDIO_CHANNELS; ++i) {
-		_channel_checkbox[i]->Hide ();
+	AudioMapping m (_film->audio_stream()->channels ());
+	
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		if (m.dcp_to_source(static_cast<libdcp::Channel>(i))) {
+			_channel_checkbox[i]->Show ();
+		} else {
+			_channel_checkbox[i]->Hide ();
+		}
 	}
 }	
 
@@ -113,8 +116,13 @@ AudioDialog::try_to_load_analysis ()
 	}
 		
 	_plot->set_analysis (a);
-	_channel_checkbox[0]->SetValue (true);
-	_plot->set_channel_visible (0, true);
+
+	AudioMapping m (_film->audio_stream()->channels ());
+	optional<libdcp::Channel> c = m.source_to_dcp (0);
+	if (c) {
+		_channel_checkbox[c.get()]->SetValue (true);
+		_plot->set_channel_visible (0, true);
+	}
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		_type_checkbox[i]->SetValue (true);
@@ -131,8 +139,12 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 	}
 
 	assert (c < MAX_AUDIO_CHANNELS);
-	
-	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
+
+	AudioMapping m (_film->audio_stream()->channels ());
+	optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (c));
+	if (s) {
+		_plot->set_channel_visible (s.get(), _channel_checkbox[c]->GetValue ());
+	}
 }
 
 void

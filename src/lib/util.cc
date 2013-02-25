@@ -445,19 +445,6 @@ dcp_audio_sample_rate (int fs)
 	return 96000;
 }
 
-int
-dcp_audio_channels (int f)
-{
-	if (f == 1) {
-		/* The source is mono, so to put the mono channel into
-		   the centre we need to generate a 5.1 soundtrack.
-		*/
-		return 6;
-	}
-
-	return f;
-}
-
 bool operator== (Crop const & a, Crop const & b)
 {
 	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
@@ -917,4 +904,56 @@ audio_channel_name (int c)
 	};
 
 	return channels[c];
+}
+
+AudioMapping::AudioMapping (int c)
+	: _source_channels (c)
+{
+
+}
+
+optional<libdcp::Channel>
+AudioMapping::source_to_dcp (int c) const
+{
+	if (c >= _source_channels) {
+		return optional<libdcp::Channel> ();
+	}
+
+	if (_source_channels == 1) {
+		/* mono sources to centre */
+		return libdcp::CENTRE;
+	}
+	
+	return static_cast<libdcp::Channel> (c);
+}
+
+optional<int>
+AudioMapping::dcp_to_source (libdcp::Channel c) const
+{
+	if (_source_channels == 1) {
+		if (c == libdcp::CENTRE) {
+			return 0;
+		} else {
+			return optional<int> ();
+		}
+	}
+
+	if (static_cast<int> (c) >= _source_channels) {
+		return optional<int> ();
+	}
+	
+	return static_cast<int> (c);
+}
+
+int
+AudioMapping::dcp_channels () const
+{
+	if (_source_channels == 1) {
+		/* The source is mono, so to put the mono channel into
+		   the centre we need to generate a 5.1 soundtrack.
+		*/
+		return 6;
+	}
+
+	return _source_channels;
 }
