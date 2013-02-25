@@ -35,7 +35,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	_plot = new AudioPlot (this);
-	sizer->Add (_plot, 1);
+	sizer->Add (_plot, 1, wxALL, 12);
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 
@@ -61,7 +61,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 		_type_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::type_clicked), 0, this);
 	}
 
-	sizer->Add (table);
+	sizer->Add (table, 0, wxALL, 12);
 
 	SetSizer (sizer);
 	sizer->Layout ();
@@ -82,6 +82,8 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
 	_film_audio_analysis_finished_connection = _film->AudioAnalysisFinished.connect (bind (&AudioDialog::try_to_load_analysis, this));
+
+	SetTitle (String::compose ("DVD-o-matic audio - %1", _film->name()));
 }
 
 void
