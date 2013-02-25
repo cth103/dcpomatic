@@ -130,8 +130,11 @@ AudioPlot::paint (wxPaintEvent &)
 		grid.AddLineToPoint (db_label_width + data_width, y);
 		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), 0, y - (db_label_height / 2));
 	}
+
 	gc->SetPen (*wxLIGHT_GREY_PEN);
 	gc->StrokePath (grid);
+
+	gc->DrawText (_("Time"), data_width, height - yo + db_label_height / 2);
 
 	for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {
 		if (!_channel_visible[c] || c >= _analysis->channels()) {
