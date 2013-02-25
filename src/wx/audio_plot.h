@@ -39,4 +39,6 @@ private:
 	int _channel;
 	/** gain to apply in dB */
 	float _gain;
+
+	static const int _minimum;
 };

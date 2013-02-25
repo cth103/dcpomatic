@@ -33,6 +33,8 @@ using std::min;
 using boost::bind;
 using boost::shared_ptr;
 
+int const AudioPlot::_minimum = -90;
+
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
 	, _channel (0)
@@ -75,12 +77,12 @@ AudioPlot::paint (wxPaintEvent &)
 	int const width = GetSize().GetWidth();
 	float const xs = width / float (_analysis->points (_channel));
 	int const height = GetSize().GetHeight ();
-	float const ys = height / 60;
+	float const ys = height / -_minimum;
 
 	wxGraphicsPath grid = gc->CreatePath ();
 	gc->SetFont (gc->CreateFont (*wxSMALL_FONT));
-	for (int i = -60; i <= 0; i += 10) {
-		int const y = height - (i + 60) * ys;
+	for (int i = _minimum; i <= 0; i += 10) {
+		int const y = height - (i - _minimum) * ys;
 		grid.MoveToPoint (0, y);
 		grid.AddLineToPoint (width, y);
 		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), width - 32, y - 12);
@@ -92,12 +94,12 @@ AudioPlot::paint (wxPaintEvent &)
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		path[i] = gc->CreatePath ();
-		path[i].MoveToPoint (0, height - (max (_analysis->get_point(_channel, 0)[i], -60.0f) + 60 + _gain) * ys);
+		path[i].MoveToPoint (0, height - (max (_analysis->get_point(_channel, 0)[i], float (_minimum)) - _minimum + _gain) * ys);
 	}
 
 	for (int i = 0; i < _analysis->points(_channel); ++i) {
 		for (int j = 0; j < AudioPoint::COUNT; ++j) {
-			path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(_channel, i)[j], -60.0f) + 60 + _gain) * ys);
+			path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(_channel, i)[j], float (_minimum)) - _minimum + _gain) * ys);
 		}
 	}
 
