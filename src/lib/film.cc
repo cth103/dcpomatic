@@ -899,6 +899,13 @@ Film::set_content (string c)
 			set_content_audio_streams (d.audio->audio_streams ());
 		}
 
+		{
+			boost::mutex::scoped_lock lm (_state_mutex);
+			_content = c;
+		}
+		
+		signal_changed (CONTENT);
+		
 		/* Start off with the first audio and subtitle streams */
 		if (d.audio && !d.audio->audio_streams().empty()) {
 			set_content_audio_stream (d.audio->audio_streams().front());
@@ -907,13 +914,6 @@ Film::set_content (string c)
 		if (!d.video->subtitle_streams().empty()) {
 			set_subtitle_stream (d.video->subtitle_streams().front());
 		}
-		
-		{
-			boost::mutex::scoped_lock lm (_state_mutex);
-			_content = c;
-		}
-		
-		signal_changed (CONTENT);
 		
 		examine_content ();
 
