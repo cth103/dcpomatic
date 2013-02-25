@@ -56,8 +56,6 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _got_frame (false)
 	, _clear_required (false)
 {
-	_panel->SetDoubleBuffered (true);
-	
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
 
