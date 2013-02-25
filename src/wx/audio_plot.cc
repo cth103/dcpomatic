@@ -36,6 +36,7 @@ using boost::shared_ptr;
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
 	, _channel (0)
+	, _gain (0)
 {
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (AudioPlot::paint), 0, this);
 
@@ -91,12 +92,12 @@ AudioPlot::paint (wxPaintEvent &)
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		path[i] = gc->CreatePath ();
-		path[i].MoveToPoint (0, height - (max (_analysis->get_point(_channel, 0)[i], -60.0f) + 60) * ys);
+		path[i].MoveToPoint (0, height - (max (_analysis->get_point(_channel, 0)[i], -60.0f) + 60 + _gain) * ys);
 	}
 
 	for (int i = 0; i < _analysis->points(_channel); ++i) {
 		for (int j = 0; j < AudioPoint::COUNT; ++j) {
-			path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(_channel, i)[j], -60.0f) + 60) * ys);
+			path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(_channel, i)[j], -60.0f) + 60 + _gain) * ys);
 		}
 	}
 
@@ -107,4 +108,11 @@ AudioPlot::paint (wxPaintEvent &)
 	gc->StrokePath (path[AudioPoint::PEAK]);
 
 	delete gc;
+}
+
+void
+AudioPlot::set_gain (float g)
+{
+	_gain = g;
+	Refresh ();
 }

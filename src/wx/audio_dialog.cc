@@ -54,6 +54,9 @@ AudioDialog::AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film)
 void
 AudioDialog::set_film (boost::shared_ptr<Film> f)
 {
+	_film_connection.disconnect ();
+	_film = f;
+	
 	shared_ptr<AudioAnalysis> a;
 
 	try {
@@ -70,10 +73,20 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 	}
 
 	_channel->SetSelection (0);
+
+	_film_connection = f->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
 }
 
 void
 AudioDialog::channel_changed (wxCommandEvent &)
 {
 	_plot->set_channel (_channel->GetSelection ());
+}
+
+void
+AudioDialog::film_changed (Film::Property p)
+{
+	if (p == Film::AUDIO_GAIN) {
+		_plot->set_gain (_film->audio_gain ());
+	}
 }

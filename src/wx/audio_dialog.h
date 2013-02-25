@@ -18,7 +18,9 @@
 */
 
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 #include <wx/wx.h>
+#include "lib/film.h"
 
 class AudioPlot;
 class Film;
@@ -31,8 +33,11 @@ public:
 	void set_film (boost::shared_ptr<Film>);
 
 private:
+	void film_changed (Film::Property);
 	void channel_changed (wxCommandEvent &);
-	
+
+	boost::shared_ptr<Film> _film;
 	AudioPlot* _plot;
 	wxChoice* _channel;
+	boost::signals2::scoped_connection _film_connection;
 };

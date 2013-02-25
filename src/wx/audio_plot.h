@@ -30,10 +30,13 @@ public:
 
 	void set_analysis (boost::shared_ptr<AudioAnalysis>);
 	void set_channel (int c);
+	void set_gain (float);
 
 private:
 	void paint (wxPaintEvent &);
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	int _channel;
+	/** gain to apply in dB */
+	float _gain;
 };
