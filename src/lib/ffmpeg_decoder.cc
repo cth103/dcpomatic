@@ -197,7 +197,7 @@ FFmpegDecoder::setup_audio ()
 void
 FFmpegDecoder::setup_subtitle ()
 {
-	if (!_subtitle_stream || _subtitle_stream->id() >= _format_context->nb_streams) {
+	if (!_subtitle_stream || _subtitle_stream->id() >= int (_format_context->nb_streams)) {
 		return;
 	}
 
