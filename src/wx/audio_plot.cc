@@ -40,9 +40,6 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	, _gain (0)
 {
 	SetDoubleBuffered (true);
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
-	SetBackgroundStyle (wxBG_STYLE_PAINT);
-#endif	
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_channel_visible[i] = false;
@@ -115,6 +112,7 @@ AudioPlot::paint (wxPaintEvent &)
 	float const xs = width / float (_analysis->points (0));
 	int const height = GetSize().GetHeight ();
 	float const ys = height / -_minimum;
+	int const border = 8;
 
 	wxGraphicsPath grid = gc->CreatePath ();
 	gc->SetFont (gc->CreateFont (*wxSMALL_FONT));
@@ -126,6 +124,13 @@ AudioPlot::paint (wxPaintEvent &)
 	}
 	gc->SetPen (*wxLIGHT_GREY_PEN);
 	gc->StrokePath (grid);
+
+	wxGraphicsPath axes = gc->CreatePath ();
+	axes.MoveToPoint (border, border);
+	axes.AddLineToPoint (border, height - border);
+	axes.AddLineToPoint (width - border, height - border);
+	gc->SetPen (*wxBLACK_PEN);
+	gc->StrokePath (axes);
 
 	for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {
 		if (!_channel_visible[c] || c >= _analysis->channels()) {
