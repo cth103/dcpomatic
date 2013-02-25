@@ -101,7 +101,7 @@ AudioPlot::paint (wxPaintEvent &)
 		return;
 	}
 
-	if (!_analysis) {
+	if (!_analysis || _analysis->channels() == 0) {
 		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
 		gc->DrawText (_("Please wait; audio is being analysed..."), 32, 32);
 		return;
