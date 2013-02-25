@@ -106,31 +106,32 @@ AudioPlot::paint (wxPaintEvent &)
 		gc->DrawText (_("Please wait; audio is being analysed..."), 32, 32);
 		return;
 	}
-	
-	int const width = GetSize().GetWidth();
-	/* Assume all channels have the same number of points */
-	float const xs = width / float (_analysis->points (0));
-	int const height = GetSize().GetHeight ();
-	float const ys = height / -_minimum;
-	int const border = 8;
 
 	wxGraphicsPath grid = gc->CreatePath ();
 	gc->SetFont (gc->CreateFont (*wxSMALL_FONT));
+	wxDouble db_label_width;
+	wxDouble db_label_height;
+	wxDouble db_label_descent;
+	wxDouble db_label_leading;
+	gc->GetTextExtent (_("-80dB"), &db_label_width, &db_label_height, &db_label_descent, &db_label_leading);
+
+	db_label_width += 8;
+	
+	int const data_width = GetSize().GetWidth() - db_label_width;
+	/* Assume all channels have the same number of points */
+	float const xs = data_width / float (_analysis->points (0));
+	int const height = GetSize().GetHeight ();
+	int const yo = 32;
+	float const ys = (height - yo) / -_minimum;
+
 	for (int i = _minimum; i <= 0; i += 10) {
-		int const y = height - (i - _minimum) * ys;
-		grid.MoveToPoint (0, y);
-		grid.AddLineToPoint (width, y);
-		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), width - 32, y - 12);
+		int const y = (height - (i - _minimum) * ys) - yo;
+		grid.MoveToPoint (db_label_width - 4, y);
+		grid.AddLineToPoint (db_label_width + data_width, y);
+		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), 0, y - (db_label_height / 2));
 	}
 	gc->SetPen (*wxLIGHT_GREY_PEN);
 	gc->StrokePath (grid);
-
-	wxGraphicsPath axes = gc->CreatePath ();
-	axes.MoveToPoint (border, border);
-	axes.AddLineToPoint (border, height - border);
-	axes.AddLineToPoint (width - border, height - border);
-	gc->SetPen (*wxBLACK_PEN);
-	gc->StrokePath (axes);
 
 	for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {
 		if (!_channel_visible[c] || c >= _analysis->channels()) {
@@ -145,7 +146,10 @@ AudioPlot::paint (wxPaintEvent &)
 			}
 			
 			path[i] = gc->CreatePath ();
-			path[i].MoveToPoint (0, height - (max (_analysis->get_point(c, 0)[i], float (_minimum)) - _minimum + _gain) * ys);
+			path[i].MoveToPoint (
+				db_label_width,
+				height - (max (_analysis->get_point(c, 0)[i], float (_minimum)) - _minimum + _gain) * ys - yo
+				);
 		}
 
 		for (int i = 0; i < _analysis->points(c); ++i) {
@@ -154,7 +158,10 @@ AudioPlot::paint (wxPaintEvent &)
 					continue;
 				}
 				
-				path[j].AddLineToPoint (i * xs, height - (max (_analysis->get_point(c, i)[j], float (_minimum)) - _minimum + _gain) * ys);
+				path[j].AddLineToPoint (
+					i * xs + db_label_width,
+					height - (max (_analysis->get_point(c, i)[j], float (_minimum)) - _minimum + _gain) * ys - yo
+					);
 			}
 		}
 
@@ -170,6 +177,13 @@ AudioPlot::paint (wxPaintEvent &)
 			gc->StrokePath (path[AudioPoint::PEAK]);
 		}
 	}
+
+	wxGraphicsPath axes = gc->CreatePath ();
+	axes.MoveToPoint (db_label_width, 0);
+	axes.AddLineToPoint (db_label_width, height - yo);
+	axes.AddLineToPoint (db_label_width + data_width, height - yo);
+	gc->SetPen (*wxBLACK_PEN);
+	gc->StrokePath (axes);
 
 	delete gc;
 }
