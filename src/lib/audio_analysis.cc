@@ -31,6 +31,8 @@ using std::ofstream;
 using std::ifstream;
 using std::vector;
 using std::cout;
+using std::max;
+using std::list;
 
 AudioPoint::AudioPoint ()
 {
@@ -120,4 +122,30 @@ AudioAnalysis::write (string filename)
 
 	f.close ();
 	boost::filesystem::rename (tmp, filename);
+}
+
+float
+AudioAnalysis::smooth (list<float> const & data, AudioPoint::Type t)
+{
+	float val;
+
+	switch (t) {
+	case AudioPoint::PEAK:
+		/* XXX: fall-off, or something...? */
+		val = -200;
+		for (list<float>::const_iterator i = data.begin(); i != data.end(); ++i) {
+			val = max (val, *i);
+		}
+		return val;
+	case AudioPoint::RMS:
+		val = 0;
+		for (list<float>::const_iterator i = data.begin(); i != data.end(); ++i) {
+			val += pow (*i, 2);
+		}
+		return sqrt (val / data.size());
+	default:
+		assert (false);
+	}
+
+	return 0;
 }

@@ -28,6 +28,7 @@
 
 using std::cout;
 using std::vector;
+using std::list;
 using std::max;
 using std::min;
 using boost::bind;
@@ -38,6 +39,7 @@ int const AudioPlot::_minimum = -70;
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent)
 	, _gain (0)
+	, _smoothing (1)
 {
 	SetDoubleBuffered (true);
 
@@ -149,21 +151,33 @@ AudioPlot::paint (wxPaintEvent &)
 			}
 			
 			path[i] = gc->CreatePath ();
+
+			float const val = 20 * log10 (_analysis->get_point(c, 0)[i]);
+			
 			path[i].MoveToPoint (
 				db_label_width,
-				height - (max (_analysis->get_point(c, 0)[i], float (_minimum)) - _minimum + _gain) * ys - yo
+				height - (max (val, float (_minimum)) - _minimum + _gain) * ys - yo
 				);
 		}
+
+		list<float> smoothing[AudioPoint::COUNT];
 
 		for (int i = 0; i < _analysis->points(c); ++i) {
 			for (int j = 0; j < AudioPoint::COUNT; ++j) {
 				if (!_type_visible[j]) {
 					continue;
 				}
+
+				smoothing[j].push_back (_analysis->get_point(c, i)[j]);
+				if (int(smoothing[j].size()) > _smoothing) {
+					smoothing[j].pop_front ();
+				}
+
+				float const val = 20 * log10 (_analysis->smooth (smoothing[j], static_cast<AudioPoint::Type> (j)));
 				
 				path[j].AddLineToPoint (
 					i * xs + db_label_width,
-					height - (max (_analysis->get_point(c, i)[j], float (_minimum)) - _minimum + _gain) * ys - yo
+					height - (max (val, float (_minimum)) - _minimum + _gain) * ys - yo
 					);
 			}
 		}
@@ -195,5 +209,12 @@ void
 AudioPlot::set_gain (float g)
 {
 	_gain = g;
+	Refresh ();
+}
+
+void
+AudioPlot::set_smoothing (int s)
+{
+	_smoothing = s;
 	Refresh ();
 }

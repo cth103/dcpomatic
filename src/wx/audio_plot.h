@@ -32,6 +32,7 @@ public:
 	void set_channel_visible (int c, bool v);
 	void set_type_visible (int t, bool v);
 	void set_gain (float);
+	void set_smoothing (int);
 
 private:
 	void paint (wxPaintEvent &);
@@ -41,6 +42,7 @@ private:
 	bool _type_visible[AudioPoint::COUNT];
 	/** gain to apply in dB */
 	float _gain;
+	int _smoothing;
 
 	std::vector<wxColour> _colours;
 

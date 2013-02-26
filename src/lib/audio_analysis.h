@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
 
 class AudioPoint
 {
@@ -59,6 +60,7 @@ public:
 
 	void write (std::string);
 
+	static float smooth (std::list<float> const &, AudioPoint::Type);
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;

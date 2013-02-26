@@ -95,8 +95,7 @@ AnalyseAudioJob::audio (shared_ptr<AudioBuffers> b)
 			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], fabsf (s));
 
 			if ((_done % _samples_per_point) == 0) {
-				_current[j][AudioPoint::RMS] = 20 * log10 (sqrt (_current[j][AudioPoint::RMS] / _samples_per_point));
-				_current[j][AudioPoint::PEAK] = 20 * log10 (_current[j][AudioPoint::PEAK]);
+				_current[j][AudioPoint::RMS] = sqrt (_current[j][AudioPoint::RMS] / _samples_per_point);
 				_analysis->add_point (j, _current[j]);
 				
 				_current[j] = AudioPoint ();
