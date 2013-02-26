@@ -94,25 +94,18 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	libdcp::Size in_size (512, 512);
 	libdcp::Size out_size (1024, 1024);
 
-	{
-		/* Plain RGB input */
-		boost::shared_ptr<Image> foo (new SimpleImage (AV_PIX_FMT_RGB24, in_size, true));
-		foo->make_black ();
-		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
-		
-		uint8_t* p = bar->data()[0];
-		for (int y = 0; y < bar->size().height; ++y) {
-			uint8_t* q = p;
-			for (int x = 0; x < bar->line_size()[0]; ++x) {
-				BOOST_CHECK_EQUAL (*q++, 0);
-			}
-			p += bar->stride()[0];
-		}
-	}
+	list<AVPixelFormat> pix_fmts;
+	pix_fmts.push_back (AV_PIX_FMT_RGB24);
+	pix_fmts.push_back (AV_PIX_FMT_YUV420P);
+	pix_fmts.push_back (AV_PIX_FMT_YUV422P10LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUV444P9LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUV444P9BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUV444P10LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUV444P10BE);
 
-	{
-		/* YUV420P input */
-		boost::shared_ptr<Image> foo (new SimpleImage (AV_PIX_FMT_YUV420P, in_size, true));
+	int N = 0;
+	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
+		boost::shared_ptr<Image> foo (new SimpleImage (*i, in_size, true));
 		foo->make_black ();
 		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
 		
@@ -124,22 +117,8 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 			}
 			p += bar->stride()[0];
 		}
-	}
 
-	{
-		/* YUV422P10LE input */
-		boost::shared_ptr<Image> foo (new SimpleImage (AV_PIX_FMT_YUV422P10LE, in_size, true));
-		foo->make_black ();
-		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
-		
-		uint8_t* p = bar->data()[0];
-		for (int y = 0; y < bar->size().height; ++y) {
-			uint8_t* q = p;
-			for (int x = 0; x < bar->line_size()[0]; ++x) {
-				BOOST_CHECK_EQUAL (*q++, 0);
-			}
-			p += bar->stride()[0];
-		}
+		++N;
 	}
 }
 

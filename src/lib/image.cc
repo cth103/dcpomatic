@@ -69,6 +69,10 @@ Image::lines (int n) const
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
+	case PIX_FMT_YUV444P9BE:
+	case PIX_FMT_YUV444P9LE:
+	case PIX_FMT_YUV444P10BE:
+	case PIX_FMT_YUV444P10LE:
 		return size().height;
 	default:
 		throw PixelFormatError ("lines()", _pixel_format);
@@ -86,6 +90,10 @@ Image::components () const
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
+	case PIX_FMT_YUV444P9BE:
+	case PIX_FMT_YUV444P9LE:
+	case PIX_FMT_YUV444P10BE:
+	case PIX_FMT_YUV444P10LE:
 		return 3;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
@@ -204,6 +212,10 @@ Image::post_process (string pp, bool aligned) const
 		pp_format = PP_FORMAT_422;
 		break;
 	case PIX_FMT_YUV444P:
+	case PIX_FMT_YUV444P9BE:
+	case PIX_FMT_YUV444P9LE:
+	case PIX_FMT_YUV444P10BE:
+	case PIX_FMT_YUV444P10LE:
 		pp_format = PP_FORMAT_444;
 	default:
 		throw PixelFormatError ("post_process", pixel_format());
@@ -252,9 +264,37 @@ Image::crop (Crop crop, bool aligned) const
 	return out;
 }
 
+/** Blacken a YUV image whose bits per pixel is rounded up to 16 */
+void
+Image::yuv_16_black (uint16_t v)
+{
+	memset (data()[0], 0, lines(0) * stride()[0]);
+	for (int i = 1; i < 3; ++i) {
+		int16_t* p = reinterpret_cast<int16_t*> (data()[i]);
+		for (int y = 0; y < size().height; ++y) {
+			for (int x = 0; x < line_size()[i] / 2; ++x) {
+				p[x] = v;
+			}
+			p += stride()[i] / 2;
+		}
+	}
+}
+
+uint16_t
+Image::swap_16 (uint16_t v)
+{
+	return ((v >> 8) & 0xff) | ((v & 0xff) << 8);
+}
+
 void
 Image::make_black ()
 {
+	/* U/V black value for 9-bit colour */
+	static uint16_t const nine_bit_uv = (1 << 8) - 1;
+
+	/* U/V black value for 10-bit colour */
+	static uint16_t const ten_bit_uv =  (1 << 9) - 1;
+	
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
 	case PIX_FMT_YUV422P:
@@ -264,18 +304,24 @@ Image::make_black ()
 		memset (data()[2], 0x7f, lines(2) * stride()[2]);
 		break;
 
-	case PIX_FMT_YUV422P10LE:
-		memset (data()[0], 0, lines(0) * stride()[0]);
-		for (int i = 1; i < 3; ++i) {
-			int16_t* p = reinterpret_cast<int16_t*> (data()[i]);
-			for (int y = 0; y < size().height; ++y) {
-				for (int x = 0; x < line_size()[i] / 2; ++x) {
-					p[x] = (1 << 9) - 1;
-				}
-				p += stride()[i] / 2;
-			}
-		}
+	case PIX_FMT_YUV422P9LE:
+	case PIX_FMT_YUV444P9LE:
+		yuv_16_black (nine_bit_uv);
 		break;
+
+	case PIX_FMT_YUV422P9BE:
+	case PIX_FMT_YUV444P9BE:
+		yuv_16_black (swap_16 (nine_bit_uv));
+		break;
+		
+	case PIX_FMT_YUV422P10LE:
+	case PIX_FMT_YUV444P10LE:
+		yuv_16_black (ten_bit_uv);
+		break;
+		
+	case PIX_FMT_YUV444P10BE:
+	case PIX_FMT_YUV422P10BE:
+		yuv_16_black (swap_16 (ten_bit_uv));
 		
 	case PIX_FMT_RGB24:		
 		memset (data()[0], 0, lines(0) * stride()[0]);
@@ -382,6 +428,11 @@ Image::bytes_per_pixel (int c) const
 		}
 	case PIX_FMT_YUV444P:
 		return 3;
+	case PIX_FMT_YUV444P9BE:
+	case PIX_FMT_YUV444P9LE:
+	case PIX_FMT_YUV444P10LE:
+	case PIX_FMT_YUV444P10BE:
+		return 6;
 	default:
 		assert (false);
 	}
