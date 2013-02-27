@@ -34,6 +34,8 @@ public:
 	void set_gain (float);
 	void set_smoothing (int);
 
+	static const int max_smoothing;
+
 private:
 	void paint (wxPaintEvent &);
 
@@ -43,8 +45,17 @@ private:
 	/** gain to apply in dB */
 	float _gain;
 	int _smoothing;
-
 	std::vector<wxColour> _colours;
+
+	void plot_peak (wxGraphicsPath &, int) const;
+	void plot_rms (wxGraphicsPath &, int) const;
+	float y_for_linear (float) const;
+
+	double _db_label_width;
+	int _height;
+	int _y_origin;
+	float _x_scale;
+	float _y_scale;
 
 	static const int _minimum;
 };

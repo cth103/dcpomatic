@@ -61,7 +61,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 		_type_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::type_clicked), 0, this);
 	}
 
-	_smoothing = new wxSlider (this, wxID_ANY, 1, 1, 128);
+	_smoothing = new wxSlider (this, wxID_ANY, AudioPlot::max_smoothing / 2, 1, AudioPlot::max_smoothing);
 	_smoothing->Connect (wxID_ANY, wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler (AudioDialog::smoothing_changed), 0, this);
 	table->Add (_smoothing, 1, wxEXPAND);
 	table->AddSpacer (0);

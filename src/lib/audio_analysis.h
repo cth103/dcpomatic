@@ -60,8 +60,6 @@ public:
 
 	void write (std::string);
 
-	static float smooth (std::list<float> const &, AudioPoint::Type);
-
 private:
 	std::vector<std::vector<AudioPoint> > _data;
 };
