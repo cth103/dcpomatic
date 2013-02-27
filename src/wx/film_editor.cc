@@ -348,7 +348,7 @@ FilmEditor::make_audio_panel ()
 	grid->AddSpacer (0);
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		add_label_to_sizer (grid, _audio_panel, audio_channel_name (i));
+		add_label_to_sizer (grid, _audio_panel, std_to_wx (audio_channel_name (i)));
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), _("Select Audio File"), wxT ("*.wav"));
 		grid->Add (_external_audio[i], 1, wxEXPAND);
 	}

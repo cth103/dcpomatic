@@ -40,7 +40,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, audio_channel_name (i));
+		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
 		table->Add (_channel_checkbox[i], 1, wxEXPAND);
 		table->AddSpacer (0);
 		_channel_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::channel_clicked), 0, this);
@@ -88,7 +88,7 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
 	_film_audio_analysis_finished_connection = _film->AudioAnalysisFinished.connect (bind (&AudioDialog::try_to_load_analysis, this));
 
-	SetTitle (String::compose ("DVD-o-matic audio - %1", _film->name()));
+	SetTitle (std_to_wx (String::compose ("DVD-o-matic audio - %1", _film->name())));
 }
 
 void
