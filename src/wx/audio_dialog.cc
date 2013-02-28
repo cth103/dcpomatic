@@ -37,18 +37,25 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	_plot = new AudioPlot (this);
 	sizer->Add (_plot, 1, wxALL, 12);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxBoxSizer* side = new wxBoxSizer (wxVERTICAL);
+
+	{
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Channels"));
+		side->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+	}
+	
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
-		table->Add (_channel_checkbox[i], 1, wxEXPAND);
-		table->AddSpacer (0);
+		side->Add (_channel_checkbox[i], 1, wxEXPAND | wxALL, 3);
 		_channel_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::channel_clicked), 0, this);
 	}
 
-	table->AddSpacer (0);
-	table->AddSpacer (0);
-
+	{
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Type"));
+		side->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+	}
+	
 	wxString const types[] = {
 		_("Peak"),
 		_("RMS")
@@ -56,17 +63,20 @@ AudioDialog::AudioDialog (wxWindow* parent)
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		_type_checkbox[i] = new wxCheckBox (this, wxID_ANY, types[i]);
-		table->Add (_type_checkbox[i], 1, wxEXPAND);
-		table->AddSpacer (0);
+		side->Add (_type_checkbox[i], 1, wxEXPAND | wxALL, 3);
 		_type_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::type_clicked), 0, this);
 	}
 
+	{
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Smoothing"));
+		side->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+	}
+	
 	_smoothing = new wxSlider (this, wxID_ANY, AudioPlot::max_smoothing / 2, 1, AudioPlot::max_smoothing);
 	_smoothing->Connect (wxID_ANY, wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler (AudioDialog::smoothing_changed), 0, this);
-	table->Add (_smoothing, 1, wxEXPAND);
-	table->AddSpacer (0);
+	side->Add (_smoothing, 1, wxEXPAND);
 
-	sizer->Add (table, 0, wxALL, 12);
+	sizer->Add (side, 0, wxALL, 12);
 
 	SetSizer (sizer);
 	sizer->Layout ();
