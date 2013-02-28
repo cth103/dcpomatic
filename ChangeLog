@@ -1,3 +1,17 @@
+2013-02-27  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.75beta1 released.
+
+	* Fix support for some YUV444 pixel formats.
+
+2013-02-23  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.74 released.
+
+2013-02-23  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.74beta1 released.
+
 2013-02-21  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.73 released.

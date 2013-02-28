@@ -124,7 +124,7 @@ FilmEditor::make_film_panel ()
 	_dcp_content_type = new wxChoice (_film_panel, wxID_ANY);
 	grid->Add (_dcp_content_type);
 
-	video_control (add_label_to_sizer (grid, _film_panel, _("Frames Per Second")));
+	video_control (add_label_to_sizer (grid, _film_panel, _("Original Frame Rate")));
 	_frames_per_second = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
 	grid->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
 	

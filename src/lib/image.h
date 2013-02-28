@@ -92,7 +92,10 @@ protected:
 	virtual void swap (Image &);
 	float bytes_per_pixel (int) const;
 
-private:	
+private:
+	void yuv_16_black (uint16_t);
+	static uint16_t swap_16 (uint16_t);
+	
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 };
 
