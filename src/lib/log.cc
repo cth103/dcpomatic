@@ -25,6 +25,8 @@
 #include <time.h>
 #include "log.h"
 
+#include "i18n.h"
+
 using namespace std;
 
 Log::Log ()
@@ -48,7 +50,7 @@ Log::log (string m, Level l)
 	string a = ctime (&t);
 
 	stringstream s;
-	s << a.substr (0, a.length() - 1) << ": " << m;
+	s << a.substr (0, a.length() - 1) << N_(": ") << m;
 	do_log (s.str ());
 }
 
@@ -65,7 +67,7 @@ Log::microsecond_log (string m, Level l)
 	gettimeofday (&tv, 0);
 
 	stringstream s;
-	s << tv.tv_sec << ":" << tv.tv_usec << " " << m;
+	s << tv.tv_sec << N_(":") << tv.tv_usec << N_(" ") << m;
 	do_log (s.str ());
 }	
 
@@ -79,10 +81,10 @@ Log::set_level (Level l)
 void
 Log::set_level (string l)
 {
-	if (l == "verbose") {
+	if (l == N_("verbose")) {
 		set_level (VERBOSE);
 		return;
-	} else if (l == "timing") {
+	} else if (l == N_("timing")) {
 		set_level (TIMING);
 		return;
 	}
@@ -101,6 +103,6 @@ void
 FileLog::do_log (string m)
 {
 	ofstream f (_file.c_str(), fstream::app);
-	f << m << "\n";
+	f << m << N_("\n");
 }
 

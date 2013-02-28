@@ -88,7 +88,7 @@ Film::Film (string d, bool must_exist)
 	, _trust_content_header (true)
 	, _dcp_content_type (0)
 	, _format (0)
-	, _scaler (Scaler::from_id ("bicubic"))
+	, _scaler (Scaler::from_id (N_("bicubic")))
 	, _trim_start (0)
 	, _trim_end (0)
 	, _dcp_ab (false)
@@ -114,13 +114,13 @@ Film::Film (string d, bool must_exist)
 	boost::filesystem::path p (boost::filesystem::system_complete (d));
 	boost::filesystem::path result;
 	for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
-		if (*i == "..") {
-			if (boost::filesystem::is_symlink (result) || result.filename() == "..") {
+		if (*i == N_("..")) {
+			if (boost::filesystem::is_symlink (result) || result.filename() == N_("..")) {
 				result /= *i;
 			} else {
 				result = result.parent_path ();
 			}
-		} else if (*i != ".") {
+		} else if (*i != N_(".")) {
 			result /= *i;
 		}
 	}
@@ -141,7 +141,7 @@ Film::Film (string d, bool must_exist)
 		read_metadata ();
 	}
 
-	_log = new FileLog (file ("log"));
+	_log = new FileLog (file (N_("log")));
 }
 
 Film::Film (Film const & o)
@@ -201,16 +201,16 @@ Film::video_state_identifier () const
 
 	stringstream s;
 	s << format()->id()
-	  << "_" << content_digest()
-	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
-	  << "_" << f.first << "_" << f.second
-	  << "_" << scaler()->id()
-	  << "_" << j2k_bandwidth()
-	  << "_" << boost::lexical_cast<int> (colour_lut());
+	  << N_("_") << content_digest()
+	  << N_("_") << crop().left << N_("_") << crop().right << N_("_") << crop().top << N_("_") << crop().bottom
+	  << N_("_") << f.first << N_("_") << f.second
+	  << N_("_") << scaler()->id()
+	  << N_("_") << j2k_bandwidth()
+	  << N_("_") << boost::lexical_cast<int> (colour_lut());
 
 	if (dcp_ab()) {
 		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
-		s << "ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
+		s << N_("ab_") << Config::instance()->reference_scaler()->id() << N_("_") << fa.first << N_("_") << fa.second;
 	}
 
 	return s.str ();
@@ -221,7 +221,7 @@ string
 Film::info_dir () const
 {
 	boost::filesystem::path p;
-	p /= "info";
+	p /= N_("info");
 	p /= video_state_identifier ();
 	return dir (p.string());
 }
@@ -230,13 +230,13 @@ string
 Film::video_mxf_dir () const
 {
 	boost::filesystem::path p;
-	return dir ("video");
+	return dir (N_("video"));
 }
 
 string
 Film::video_mxf_filename () const
 {
-	return video_state_identifier() + ".mxf";
+	return video_state_identifier() + N_(".mxf");
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */
@@ -245,52 +245,52 @@ Film::make_dcp ()
 {
 	set_dci_date_today ();
 	
-	if (dcp_name().find ("/") != string::npos) {
-		throw BadSettingError ("name", _("cannot contain slashes"));
+	if (dcp_name().find (N_("/")) != string::npos) {
+		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
 	
-	log()->log (String::compose ("DVD-o-matic %1 git %2 using %3", dvdomatic_version, dvdomatic_git_commit, dependency_version_summary()));
+	log()->log (String::compose (N_("DVD-o-matic %1 git %2 using %3"), dvdomatic_version, dvdomatic_git_commit, dependency_version_summary()));
 
 	{
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
-		log()->log (String::compose ("Starting to make DCP on %1", buffer));
+		log()->log (String::compose (N_("Starting to make DCP on %1"), buffer));
 	}
 	
-	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? "still" : "video")));
+	log()->log (String::compose (N_("Content is %1; type %2"), content_path(), (content_type() == STILL ? _("still") : _("video"))));
 	if (length()) {
-		log()->log (String::compose ("Content length %1", length().get()));
+		log()->log (String::compose (N_("Content length %1"), length().get()));
 	}
-	log()->log (String::compose ("Content digest %1", content_digest()));
-	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
-	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+	log()->log (String::compose (N_("Content digest %1"), content_digest()));
+	log()->log (String::compose (N_("%1 threads"), Config::instance()->num_local_encoding_threads()));
+	log()->log (String::compose (N_("J2K bandwidth %1"), j2k_bandwidth()));
 #ifdef DVDOMATIC_DEBUG
-	log()->log ("DVD-o-matic built in debug mode.");
+	log()->log (N_("DVD-o-matic built in debug mode."));
 #else
-	log()->log ("DVD-o-matic built in optimised mode.");
+	log()->log (N_("DVD-o-matic built in optimised mode."));
 #endif
 #ifdef LIBDCP_DEBUG
-	log()->log ("libdcp built in debug mode.");
+	log()->log (N_("libdcp built in debug mode."));
 #else
-	log()->log ("libdcp built in optimised mode.");
+	log()->log (N_("libdcp built in optimised mode."));
 #endif
 	pair<string, int> const c = cpu_info ();
-	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
+	log()->log (String::compose (N_("CPU: %1, %2 processors"), c.first, c.second));
 	
 	if (format() == 0) {
-		throw MissingSettingError ("format");
+		throw MissingSettingError (_("format"));
 	}
 
 	if (content().empty ()) {
-		throw MissingSettingError ("content");
+		throw MissingSettingError (_("content"));
 	}
 
 	if (dcp_content_type() == 0) {
-		throw MissingSettingError ("content type");
+		throw MissingSettingError (_("content type"));
 	}
 
 	if (name().empty()) {
-		throw MissingSettingError ("name");
+		throw MissingSettingError (_("name"));
 	}
 
 	DecodeOptions od;
@@ -359,73 +359,73 @@ Film::write_metadata () const
 
 	boost::filesystem::create_directories (directory());
 
-	string const m = file ("metadata");
+	string const m = file (N_("metadata"));
 	ofstream f (m.c_str ());
 	if (!f.good ()) {
 		throw CreateFileError (m);
 	}
 
-	f << "version " << state_version << "\n";
+	f << N_("version ") << state_version << N_("\n");
 
 	/* User stuff */
-	f << "name " << _name << "\n";
-	f << "use_dci_name " << _use_dci_name << "\n";
-	f << "content " << _content << "\n";
-	f << "trust_content_header " << (_trust_content_header ? "1" : "0") << "\n";
+	f << N_("name ") << _name << N_("\n");
+	f << N_("use_dci_name ") << _use_dci_name << N_("\n");
+	f << N_("content ") << _content << N_("\n");
+	f << N_("trust_content_header ") << (_trust_content_header ? N_("1") : N_("0")) << N_("\n");
 	if (_dcp_content_type) {
-		f << "dcp_content_type " << _dcp_content_type->dci_name () << "\n";
+		f << N_("dcp_content_type ") << _dcp_content_type->dci_name () << N_("\n");
 	}
 	if (_format) {
-		f << "format " << _format->as_metadata () << "\n";
+		f << N_("format ") << _format->as_metadata () << N_("\n");
 	}
-	f << "left_crop " << _crop.left << "\n";
-	f << "right_crop " << _crop.right << "\n";
-	f << "top_crop " << _crop.top << "\n";
-	f << "bottom_crop " << _crop.bottom << "\n";
+	f << N_("left_crop ") << _crop.left << N_("\n");
+	f << N_("right_crop ") << _crop.right << N_("\n");
+	f << N_("top_crop ") << _crop.top << N_("\n");
+	f << N_("bottom_crop ") << _crop.bottom << N_("\n");
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
-		f << "filter " << (*i)->id () << "\n";
+		f << N_("filter ") << (*i)->id () << N_("\n");
 	}
-	f << "scaler " << _scaler->id () << "\n";
-	f << "trim_start " << _trim_start << "\n";
-	f << "trim_end " << _trim_end << "\n";
-	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << "\n";
+	f << N_("scaler ") << _scaler->id () << N_("\n");
+	f << N_("trim_start ") << _trim_start << N_("\n");
+	f << N_("trim_end ") << _trim_end << N_("\n");
+	f << N_("dcp_ab ") << (_dcp_ab ? N_("1") : N_("0")) << N_("\n");
 	if (_content_audio_stream) {
-		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << "\n";
+		f << N_("selected_content_audio_stream ") << _content_audio_stream->to_string() << N_("\n");
 	}
 	for (vector<string>::const_iterator i = _external_audio.begin(); i != _external_audio.end(); ++i) {
-		f << "external_audio " << *i << "\n";
+		f << N_("external_audio ") << *i << N_("\n");
 	}
-	f << "use_content_audio " << (_use_content_audio ? "1" : "0") << "\n";
-	f << "audio_gain " << _audio_gain << "\n";
-	f << "audio_delay " << _audio_delay << "\n";
-	f << "still_duration " << _still_duration << "\n";
+	f << N_("use_content_audio ") << (_use_content_audio ? N_("1") : N_("0")) << N_("\n");
+	f << N_("audio_gain ") << _audio_gain << N_("\n");
+	f << N_("audio_delay ") << _audio_delay << N_("\n");
+	f << N_("still_duration ") << _still_duration << N_("\n");
 	if (_subtitle_stream) {
-		f << "selected_subtitle_stream " << _subtitle_stream->to_string() << "\n";
+		f << N_("selected_subtitle_stream ") << _subtitle_stream->to_string() << N_("\n");
 	}
-	f << "with_subtitles " << _with_subtitles << "\n";
-	f << "subtitle_offset " << _subtitle_offset << "\n";
-	f << "subtitle_scale " << _subtitle_scale << "\n";
-	f << "colour_lut " << _colour_lut << "\n";
-	f << "j2k_bandwidth " << _j2k_bandwidth << "\n";
+	f << N_("with_subtitles ") << _with_subtitles << N_("\n");
+	f << N_("subtitle_offset ") << _subtitle_offset << N_("\n");
+	f << N_("subtitle_scale ") << _subtitle_scale << N_("\n");
+	f << N_("colour_lut ") << _colour_lut << N_("\n");
+	f << N_("j2k_bandwidth ") << _j2k_bandwidth << N_("\n");
 	_dci_metadata.write (f);
-	f << "dci_date " << boost::gregorian::to_iso_string (_dci_date) << "\n";
-	f << "width " << _size.width << "\n";
-	f << "height " << _size.height << "\n";
-	f << "length " << _length.get_value_or(0) << "\n";
-	f << "dcp_intrinsic_duration " << _dcp_intrinsic_duration.get_value_or(0) << "\n";
-	f << "content_digest " << _content_digest << "\n";
+	f << N_("dci_date ") << boost::gregorian::to_iso_string (_dci_date) << N_("\n");
+	f << N_("width ") << _size.width << N_("\n");
+	f << N_("height ") << _size.height << N_("\n");
+	f << N_("length ") << _length.get_value_or(0) << N_("\n");
+	f << N_("dcp_intrinsic_duration ") << _dcp_intrinsic_duration.get_value_or(0) << N_("\n");
+	f << N_("content_digest ") << _content_digest << N_("\n");
 
 	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
-		f << "content_audio_stream " << (*i)->to_string () << "\n";
+		f << N_("content_audio_stream ") << (*i)->to_string () << N_("\n");
 	}
 
-	f << "external_audio_stream " << _external_audio_stream->to_string() << "\n";
+	f << N_("external_audio_stream ") << _external_audio_stream->to_string() << N_("\n");
 
 	for (vector<shared_ptr<SubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
-		f << "subtitle_stream " << (*i)->to_string () << "\n";
+		f << N_("subtitle_stream ") << (*i)->to_string () << N_("\n");
 	}
 
-	f << "frames_per_second " << _frames_per_second << "\n";
+	f << N_("frames_per_second ") << _frames_per_second << N_("\n");
 	
 	_dirty = false;
 }
@@ -447,15 +447,15 @@ Film::read_metadata ()
 	boost::optional<int> audio_stream_index;
 	boost::optional<int> subtitle_stream_index;
 
-	ifstream f (file ("metadata").c_str());
+	ifstream f (file (N_("metadata")).c_str());
 	if (!f.good()) {
-		throw OpenFileError (file ("metadata"));
+		throw OpenFileError (file (N_("metadata")));
 	}
 	
 	multimap<string, string> kv = read_key_value (f);
 
 	/* We need version before anything else */
-	multimap<string, string>::iterator v = kv.find ("version");
+	multimap<string, string>::iterator v = kv.find (N_("version"));
 	if (v != kv.end ()) {
 		version = atoi (v->second.c_str());
 	}
@@ -464,107 +464,107 @@ Film::read_metadata ()
 		string const k = i->first;
 		string const v = i->second;
 
-		if (k == "audio_sample_rate") {
+		if (k == N_("audio_sample_rate")) {
 			audio_sample_rate = atoi (v.c_str());
 		}
 
 		/* User-specified stuff */
-		if (k == "name") {
+		if (k == N_("name")) {
 			_name = v;
-		} else if (k == "use_dci_name") {
-			_use_dci_name = (v == "1");
-		} else if (k == "content") {
+		} else if (k == N_("use_dci_name")) {
+			_use_dci_name = (v == N_("1"));
+		} else if (k == N_("content")) {
 			_content = v;
-		} else if (k == "trust_content_header") {
-			_trust_content_header = (v == "1");
-		} else if (k == "dcp_content_type") {
+		} else if (k == N_("trust_content_header")) {
+			_trust_content_header = (v == N_("1"));
+		} else if (k == N_("dcp_content_type")) {
 			if (version < 3) {
 				_dcp_content_type = DCPContentType::from_pretty_name (v);
 			} else {
 				_dcp_content_type = DCPContentType::from_dci_name (v);
 			}
-		} else if (k == "format") {
+		} else if (k == N_("format")) {
 			_format = Format::from_metadata (v);
-		} else if (k == "left_crop") {
+		} else if (k == N_("left_crop")) {
 			_crop.left = atoi (v.c_str ());
-		} else if (k == "right_crop") {
+		} else if (k == N_("right_crop")) {
 			_crop.right = atoi (v.c_str ());
-		} else if (k == "top_crop") {
+		} else if (k == N_("top_crop")) {
 			_crop.top = atoi (v.c_str ());
-		} else if (k == "bottom_crop") {
+		} else if (k == N_("bottom_crop")) {
 			_crop.bottom = atoi (v.c_str ());
-		} else if (k == "filter") {
+		} else if (k == N_("filter")) {
 			_filters.push_back (Filter::from_id (v));
-		} else if (k == "scaler") {
+		} else if (k == N_("scaler")) {
 			_scaler = Scaler::from_id (v);
-		} else if ( ((!version || version < 2) && k == "dcp_trim_start") || k == "trim_start") {
+		} else if ( ((!version || version < 2) && k == N_("dcp_trim_start")) || k == N_("trim_start")) {
 			_trim_start = atoi (v.c_str ());
-		} else if ( ((!version || version < 2) && k == "dcp_trim_end") || k == "trim_end") {
+		} else if ( ((!version || version < 2) && k == N_("dcp_trim_end")) || k == N_("trim_end")) {
 			_trim_end = atoi (v.c_str ());
-		} else if (k == "dcp_ab") {
-			_dcp_ab = (v == "1");
-		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
+		} else if (k == N_("dcp_ab")) {
+			_dcp_ab = (v == N_("1"));
+		} else if (k == N_("selected_content_audio_stream") || (!version && k == N_("selected_audio_stream"))) {
 			if (!version) {
 				audio_stream_index = atoi (v.c_str ());
 			} else {
 				_content_audio_stream = audio_stream_factory (v, version);
 			}
-		} else if (k == "external_audio") {
+		} else if (k == N_("external_audio")) {
 			_external_audio.push_back (v);
-		} else if (k == "use_content_audio") {
-			_use_content_audio = (v == "1");
-		} else if (k == "audio_gain") {
+		} else if (k == N_("use_content_audio")) {
+			_use_content_audio = (v == N_("1"));
+		} else if (k == N_("audio_gain")) {
 			_audio_gain = atof (v.c_str ());
-		} else if (k == "audio_delay") {
+		} else if (k == N_("audio_delay")) {
 			_audio_delay = atoi (v.c_str ());
-		} else if (k == "still_duration") {
+		} else if (k == N_("still_duration")) {
 			_still_duration = atoi (v.c_str ());
-		} else if (k == "selected_subtitle_stream") {
+		} else if (k == N_("selected_subtitle_stream")) {
 			if (!version) {
 				subtitle_stream_index = atoi (v.c_str ());
 			} else {
 				_subtitle_stream = subtitle_stream_factory (v, version);
 			}
-		} else if (k == "with_subtitles") {
-			_with_subtitles = (v == "1");
-		} else if (k == "subtitle_offset") {
+		} else if (k == N_("with_subtitles")) {
+			_with_subtitles = (v == N_("1"));
+		} else if (k == N_("subtitle_offset")) {
 			_subtitle_offset = atoi (v.c_str ());
-		} else if (k == "subtitle_scale") {
+		} else if (k == N_("subtitle_scale")) {
 			_subtitle_scale = atof (v.c_str ());
-		} else if (k == "colour_lut") {
+		} else if (k == N_("colour_lut")) {
 			_colour_lut = atoi (v.c_str ());
-		} else if (k == "j2k_bandwidth") {
+		} else if (k == N_("j2k_bandwidth")) {
 			_j2k_bandwidth = atoi (v.c_str ());
-		} else if (k == "dci_date") {
+		} else if (k == N_("dci_date")) {
 			_dci_date = boost::gregorian::from_undelimited_string (v);
 		}
 
 		_dci_metadata.read (k, v);
 		
 		/* Cached stuff */
-		if (k == "width") {
+		if (k == N_("width")) {
 			_size.width = atoi (v.c_str ());
-		} else if (k == "height") {
+		} else if (k == N_("height")) {
 			_size.height = atoi (v.c_str ());
-		} else if (k == "length") {
+		} else if (k == N_("length")) {
 			int const vv = atoi (v.c_str ());
 			if (vv) {
 				_length = vv;
 			}
-		} else if (k == "dcp_intrinsic_duration") {
+		} else if (k == N_("dcp_intrinsic_duration")) {
 			int const vv = atoi (v.c_str ());
 			if (vv) {
 				_dcp_intrinsic_duration = vv;
 			}
-		} else if (k == "content_digest") {
+		} else if (k == N_("content_digest")) {
 			_content_digest = v;
-		} else if (k == "content_audio_stream" || (!version && k == "audio_stream")) {
+		} else if (k == N_("content_audio_stream") || (!version && k == N_("audio_stream"))) {
 			_content_audio_streams.push_back (audio_stream_factory (v, version));
-		} else if (k == "external_audio_stream") {
+		} else if (k == N_("external_audio_stream")) {
 			_external_audio_stream = audio_stream_factory (v, version);
-		} else if (k == "subtitle_stream") {
+		} else if (k == N_("subtitle_stream")) {
 			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
-		} else if (k == "frames_per_second") {
+		} else if (k == N_("frames_per_second")) {
 			_frames_per_second = atof (v.c_str ());
 		}
 	}
@@ -714,14 +714,14 @@ Film::dci_name (bool if_created_now) const
 		fixed_name = fixed_name.substr (0, 14);
 	}
 
-	d << fixed_name << "_";
+	d << fixed_name << N_("_");
 
 	if (dcp_content_type()) {
-		d << dcp_content_type()->dci_name() << "_";
+		d << dcp_content_type()->dci_name() << N_("_");
 	}
 
 	if (format()) {
-		d << format()->dci_name() << "_";
+		d << format()->dci_name() << N_("_");
 	}
 
 	DCIMetadata const dm = dci_metadata ();
@@ -729,51 +729,51 @@ Film::dci_name (bool if_created_now) const
 	if (!dm.audio_language.empty ()) {
 		d << dm.audio_language;
 		if (!dm.subtitle_language.empty() && with_subtitles()) {
-			d << "-" << dm.subtitle_language;
+			d << N_("-") << dm.subtitle_language;
 		} else {
-			d << "-XX";
+			d << N_("-XX");
 		}
 			
-		d << "_";
+		d << N_("_");
 	}
 
 	if (!dm.territory.empty ()) {
 		d << dm.territory;
 		if (!dm.rating.empty ()) {
-			d << "-" << dm.rating;
+			d << N_("-") << dm.rating;
 		}
-		d << "_";
+		d << N_("_");
 	}
 
 	switch (audio_channels()) {
 	case 1:
-		d << "10_";
+		d << N_("10_");
 		break;
 	case 2:
-		d << "20_";
+		d << N_("20_");
 		break;
 	case 6:
-		d << "51_";
+		d << N_("51_");
 		break;
 	case 8:
-		d << "71_";
+		d << N_("71_");
 		break;
 	}
 
-	d << "2K_";
+	d << N_("2K_");
 
 	if (!dm.studio.empty ()) {
-		d << dm.studio << "_";
+		d << dm.studio << N_("_");
 	}
 
 	if (if_created_now) {
-		d << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ()) << "_";
+		d << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ()) << N_("_");
 	} else {
-		d << boost::gregorian::to_iso_string (_dci_date) << "_";
+		d << boost::gregorian::to_iso_string (_dci_date) << N_("_");
 	}
 
 	if (!dm.facility.empty ()) {
-		d << dm.facility << "_";
+		d << dm.facility << N_("_");
 	}
 
 	if (!dm.package_type.empty ()) {
@@ -828,7 +828,7 @@ Film::set_content (string c)
 {
 	string check = directory ();
 
-	boost::filesystem::path slash ("/");
+	boost::filesystem::path slash (N_("/"));
 	string platform_slash = slash.make_preferred().string ();
 
 	if (!ends_with (check, platform_slash)) {
@@ -901,10 +901,10 @@ Film::set_content (string c)
 	/* Default format */
 	switch (content_type()) {
 	case STILL:
-		set_format (Format::from_id ("var-185"));
+		set_format (Format::from_id (N_("var-185")));
 		break;
 	case VIDEO:
-		set_format (Format::from_id ("185"));
+		set_format (Format::from_id (N_("185")));
 		break;
 	}
 
@@ -1332,7 +1332,7 @@ Film::info_path (int f) const
 
 	stringstream s;
 	s.width (8);
-	s << setfill('0') << f << ".md5";
+	s << setfill('0') << f << N_(".md5");
 
 	p /= s.str();
 
@@ -1346,15 +1346,15 @@ string
 Film::j2c_path (int f, bool t) const
 {
 	boost::filesystem::path p;
-	p /= "j2c";
+	p /= N_("j2c");
 	p /= video_state_identifier ();
 
 	stringstream s;
 	s.width (8);
-	s << setfill('0') << f << ".j2c";
+	s << setfill('0') << f << N_(".j2c");
 
 	if (t) {
-		s << ".tmp";
+		s << N_(".tmp");
 	}
 
 	p /= s.str();

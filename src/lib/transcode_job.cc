@@ -59,8 +59,8 @@ TranscodeJob::run ()
 {
 	try {
 
-		_film->log()->log ("Transcode job starting");
-		_film->log()->log (String::compose ("Audio delay is %1ms", _film->audio_delay()));
+		_film->log()->log (N_("Transcode job starting"));
+		_film->log()->log (String::compose (N_("Audio delay is %1ms"), _film->audio_delay()));
 
 		_encoder.reset (new Encoder (_film));
 		Transcoder w (_film, _decode_opt, this, _encoder);
@@ -70,14 +70,14 @@ TranscodeJob::run ()
 
 		_film->set_dcp_intrinsic_duration (_encoder->video_frames_out ());
 
-		_film->log()->log ("Transcode job completed successfully");
-		_film->log()->log (String::compose ("DCP intrinsic duration is %1", _encoder->video_frames_out()));
+		_film->log()->log (N_("Transcode job completed successfully"));
+		_film->log()->log (String::compose (N_("DCP intrinsic duration is %1"), _encoder->video_frames_out()));
 
 	} catch (std::exception& e) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		_film->log()->log (String::compose ("Transcode job failed (%1)", e.what()));
+		_film->log()->log (String::compose (N_("Transcode job failed (%1)"), e.what()));
 
 		throw;
 	}
@@ -87,7 +87,7 @@ string
 TranscodeJob::status () const
 {
 	if (!_encoder) {
-		return "0%";
+		return _("0%");
 	}
 
 	float const fps = _encoder->current_frames_per_second ();
@@ -100,7 +100,7 @@ TranscodeJob::status () const
 	s << Job::status ();
 
 	if (!finished ()) {
-		s << "; " << fixed << setprecision (1) << fps << " " << _("frames per second");
+		s << N_("; ") << fixed << setprecision (1) << fps << N_(" ") << _("frames per second");
 	}
 	
 	return s.str ();

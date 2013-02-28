@@ -26,6 +26,8 @@
 #include "timer.h"
 #include "util.h"
 
+#include "i18n.h"
+
 using namespace std;
 
 /** @param n Name to use when giving output */
@@ -40,7 +42,7 @@ PeriodTimer::~PeriodTimer ()
 {
 	struct timeval stop;
 	gettimeofday (&stop, 0);
-	cout << "T: " << _name << ": " << (seconds (stop) - seconds (_start)) << "\n";
+	cout << N_("T: ") << _name << N_(": ") << (seconds (stop) - seconds (_start)) << N_("\n");
 }
 
 /** @param n Name to use when giving output.
@@ -80,10 +82,10 @@ StateTimer::~StateTimer ()
 	}
 
 	
-	set_state ("");
+	set_state (N_(""));
 
-	cout << _name << ":\n";
+	cout << _name << N_(":\n");
 	for (map<string, double>::iterator i = _totals.begin(); i != _totals.end(); ++i) {
-		cout << "\t" << i->first << " " << i->second << "\n";
+		cout << N_("\t") << i->first << " " << i->second << N_("\n");
 	}
 }

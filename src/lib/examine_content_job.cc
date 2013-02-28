@@ -31,6 +31,8 @@
 #include "film.h"
 #include "video_decoder.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::vector;
 using std::pair;
@@ -50,10 +52,10 @@ string
 ExamineContentJob::name () const
 {
 	if (_film->name().empty ()) {
-		return "Examine content";
+		return _("Examine content");
 	}
 	
-	return String::compose ("Examine content of %1", _film->name());
+	return String::compose (_("Examine content of %1"), _film->name());
 }
 
 void
@@ -90,7 +92,7 @@ ExamineContentJob::run ()
 		
 		_film->set_length (decoders.video->video_frame());
 		
-		_film->log()->log (String::compose ("Video length examined as %1 frames", _film->length().get()));
+		_film->log()->log (String::compose (N_("Video length examined as %1 frames"), _film->length().get()));
 		
 	} else {
 
@@ -99,7 +101,7 @@ ExamineContentJob::run ()
 		Decoders d = decoder_factory (_film, DecodeOptions());
 		_film->set_length (d.video->length());
 	
-		_film->log()->log (String::compose ("Video length obtained from header as %1 frames", _film->length().get()));
+		_film->log()->log (String::compose (N_("Video length obtained from header as %1 frames"), _film->length().get()));
 	}
 
 	ascend ();

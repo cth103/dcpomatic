@@ -1,7 +1,7 @@
 Translating DVD-o-matic
 -----------------------
 
-1.  Run ./waf po
+1.  Run ./waf pot
 
 This will generate build/src/lib/dvdomatic.pot and build/src/wx/libdvdomatic-wx.pot.
 

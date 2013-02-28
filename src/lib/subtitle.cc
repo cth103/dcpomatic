@@ -25,6 +25,8 @@
 #include "image.h"
 #include "exceptions.h"
 
+#include "i18n.h"
+
 using namespace std;
 using namespace boost;
 using libdcp::Size;
@@ -47,13 +49,13 @@ TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 	_to = packet_time + (double (sub.end_display_time) / 1e3);
 
 	if (sub.num_rects > 1) {
-		throw DecodeError ("multi-part subtitles not yet supported");
+		throw DecodeError (_("multi-part subtitles not yet supported"));
 	}
 
 	AVSubtitleRect const * rect = sub.rects[0];
 
 	if (rect->type != SUBTITLE_BITMAP) {
-		throw DecodeError ("non-bitmap subtitles not yet supported");
+		throw DecodeError (_("non-bitmap subtitles not yet supported"));
 	}
 	
 	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));

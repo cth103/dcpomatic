@@ -19,10 +19,12 @@
 
 #include "dolby_cp750.h"
 
+#include "i18n.h"
+
 using namespace std;
 
 DolbyCP750::DolbyCP750 ()
-	: SoundProcessor ("dolby_cp750", "Dolby CP750")
+        : SoundProcessor ("dolby_cp750", _("Dolby CP750"))
 {
 
 }

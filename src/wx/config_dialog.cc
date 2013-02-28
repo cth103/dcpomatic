@@ -154,7 +154,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
 
 	pair<string, string> p = Filter::ffmpeg_strings (config->reference_filters ());
-	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
+	_reference_filters->SetLabel (std_to_wx (p.first + N_(" ") + p.second));
 	_reference_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_reference_filters_clicked), 0, this);
 
 	vector<ServerDescription*> servers = config->servers ();
@@ -313,7 +313,7 @@ ConfigDialog::reference_filters_changed (vector<Filter const *> f)
 {
 	Config::instance()->set_reference_filters (f);
 	pair<string, string> p = Filter::ffmpeg_strings (Config::instance()->reference_filters ());
-	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
+	_reference_filters->SetLabel (std_to_wx (p.first + N_(" ") + p.second));
 }
 
 void

@@ -26,6 +26,8 @@
 #include "config.h"
 #include "encoder.h"
 
+#include "i18n.h"
+
 using std::string;
 using boost::shared_ptr;
 
@@ -44,7 +46,7 @@ ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, DecodeOptions o)
 string
 ABTranscodeJob::name () const
 {
-	return String::compose ("A/B transcode %1", _film->name());
+	return String::compose (_("A/B transcode %1"), _film->name());
 }
 
 void

@@ -61,6 +61,8 @@ extern "C" {
 #include "sound_processor.h"
 #include "config.h"
 
+#include "i18n.h"
+
 using namespace std;
 using namespace boost;
 using libdcp::Size;
@@ -83,9 +85,9 @@ seconds_to_hms (int s)
 	m -= (h * 60);
 
 	stringstream hms;
-	hms << h << ":";
+	hms << h << N_(":");
 	hms.width (2);
-	hms << setfill ('0') << m << ":";
+	hms << setfill ('0') << m << N_(":");
 	hms.width (2);
 	hms << setfill ('0') << s;
 
@@ -107,22 +109,22 @@ seconds_to_approximate_hms (int s)
 	
 	if (h > 0) {
 		if (m > 30) {
-			ap << (h + 1) << " hours";
+			ap << (h + 1) << N_(" ") << _("hours");
 		} else {
 			if (h == 1) {
-				ap << "1 hour";
+				ap << N_("1 ") << _("hour");
 			} else {
-				ap << h << " hours";
+				ap << h << N_(" ") << _("hours");
 			}
 		}
 	} else if (m > 0) {
 		if (m == 1) {
-			ap << "1 minute";
+			ap << N_("1 ") << _("minute");
 		} else {
-			ap << m << " minutes";
+			ap << m << N_(" ") << _("minutes");
 		}
 	} else {
-		ap << s << " seconds";
+		ap << s << N_(" ") << _("seconds");
 	}
 
 	return ap.str ();
@@ -135,12 +137,12 @@ seconds_to_approximate_hms (int s)
 static string
 demangle (string l)
 {
-	string::size_type const b = l.find_first_of ("(");
+	string::size_type const b = l.find_first_of (N_("("));
 	if (b == string::npos) {
 		return l;
 	}
 
-	string::size_type const p = l.find_last_of ("+");
+	string::size_type const p = l.find_last_of (N_("+"));
 	if (p == string::npos) {
 		return l;
 	}
@@ -183,7 +185,7 @@ stacktrace (ostream& out, int levels)
      
 	if (strings) {
 		for (i = 0; i < size && (levels == 0 || i < size_t(levels)); i++) {
-			out << "  " << demangle (strings[i]) << endl;
+			out << N_("  ") << demangle (strings[i]) << endl;
 		}
 		
 		free (strings);
@@ -198,7 +200,7 @@ static string
 ffmpeg_version_to_string (int v)
 {
 	stringstream s;
-	s << ((v & 0xff0000) >> 16) << "." << ((v & 0xff00) >> 8) << "." << (v & 0xff);
+	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
 	return s.str ();
 }
 
@@ -207,16 +209,16 @@ string
 dependency_version_summary ()
 {
 	stringstream s;
-	s << "libopenjpeg " << opj_version () << ", "
-	  << "libavcodec " << ffmpeg_version_to_string (avcodec_version()) << ", "
-	  << "libavfilter " << ffmpeg_version_to_string (avfilter_version()) << ", "
-	  << "libavformat " << ffmpeg_version_to_string (avformat_version()) << ", "
-	  << "libavutil " << ffmpeg_version_to_string (avutil_version()) << ", "
-	  << "libpostproc " << ffmpeg_version_to_string (postproc_version()) << ", "
-	  << "libswscale " << ffmpeg_version_to_string (swscale_version()) << ", "
-	  << MagickVersion << ", "
-	  << "libssh " << ssh_version (0) << ", "
-	  << "libdcp " << libdcp::version << " git " << libdcp::git_commit;
+	s << N_("libopenjpeg ") << opj_version () << N_(", ")
+	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
+	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
+	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
+	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
+	  << N_("libpostproc ") << ffmpeg_version_to_string (postproc_version()) << N_(", ")
+	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
+	  << MagickVersion << N_(", ")
+	  << N_("libssh ") << ssh_version (0) << N_(", ")
+	  << N_("libdcp ") << libdcp::version << N_(" git ") << libdcp::git_commit;
 
 	return s.str ();
 }
@@ -233,6 +235,8 @@ seconds (struct timeval t)
 void
 dvdomatic_setup ()
 {
+	bindtextdomain ("libdvdomatic", LOCALE_DIR);
+	
 	avfilter_register_all ();
 	
 	Format::setup_formats ();
@@ -252,7 +256,7 @@ string
 crop_string (Position start, libdcp::Size size)
 {
 	stringstream s;
-	s << "crop=" << size.width << ":" << size.height << ":" << start.x << ":" << start.y;
+	s << N_("crop=") << size.width << N_(":") << size.height << N_(":") << start.x << N_(":") << start.y;
 	return s.str ();
 }
 
@@ -268,7 +272,7 @@ split_at_spaces_considering_quotes (string s)
 	for (string::size_type i = 0; i < s.length(); ++i) {
 		if (s[i] == ' ' && !in_quotes) {
 			out.push_back (c);
-			c = "";
+			c = N_("");
 		} else if (s[i] == '"') {
 			in_quotes = !in_quotes;
 		} else {
@@ -423,7 +427,7 @@ DCPFrameRate::DCPFrameRate (float source_fps)
 	}
 
 	if (!best) {
-		throw EncodeError ("cannot find a suitable DCP frame rate for this source");
+		throw EncodeError (_("cannot find a suitable DCP frame rate for this source"));
 	}
 
 	frames_per_second = best->dcp;
@@ -476,13 +480,13 @@ colour_lut_index_to_name (int index)
 {
 	switch (index) {
 	case 0:
-		return "sRGB";
+		return _("sRGB");
 	case 1:
-		return "Rec 709";
+		return _("Rec 709");
 	}
 
 	assert (false);
-	return "";
+	return N_("");
 }
 
 Socket::Socket (int timeout)
@@ -519,7 +523,7 @@ Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint)
 	} while (ec == asio::error::would_block);
 
 	if (ec || !_socket.is_open ()) {
-		throw NetworkError ("connect timed out");
+		throw NetworkError (_("connect timed out"));
 	}
 }
 
@@ -656,13 +660,13 @@ string
 get_required_string (multimap<string, string> const & kv, string k)
 {
 	if (kv.count (k) > 1) {
-		throw StringError ("unexpected multiple keys in key-value set");
+		throw StringError (N_("unexpected multiple keys in key-value set"));
 	}
 
 	multimap<string, string>::const_iterator i = kv.find (k);
 	
 	if (i == kv.end ()) {
-		throw StringError (String::compose ("missing key %1 in key-value set", k));
+		throw StringError (String::compose (_("missing key %1 in key-value set"), k));
 	}
 
 	return i->second;
@@ -686,12 +690,12 @@ string
 get_optional_string (multimap<string, string> const & kv, string k)
 {
 	if (kv.count (k) > 1) {
-		throw StringError ("unexpected multiple keys in key-value set");
+		throw StringError (N_("unexpected multiple keys in key-value set"));
 	}
 
 	multimap<string, string>::const_iterator i = kv.find (k);
 	if (i == kv.end ()) {
-		return "";
+		return N_("");
 	}
 
 	return i->second;
@@ -701,7 +705,7 @@ int
 get_optional_int (multimap<string, string> const & kv, string k)
 {
 	if (kv.count (k) > 1) {
-		throw StringError ("unexpected multiple keys in key-value set");
+		throw StringError (N_("unexpected multiple keys in key-value set"));
 	}
 
 	multimap<string, string>::const_iterator i = kv.find (k);
@@ -870,7 +874,7 @@ still_image_file (string f)
 
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	
-	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp");
+	return (ext == N_(".tif") || ext == N_(".tiff") || ext == N_(".jpg") || ext == N_(".jpeg") || ext == N_(".png") || ext == N_(".bmp"));
 }
 
 /** @return A pair containing CPU model name and the number of processors */
@@ -881,16 +885,16 @@ cpu_info ()
 	info.second = 0;
 	
 #ifdef DVDOMATIC_POSIX
-	ifstream f ("/proc/cpuinfo");
+	ifstream f (N_("/proc/cpuinfo"));
 	while (f.good ()) {
 		string l;
 		getline (f, l);
-		if (boost::algorithm::starts_with (l, "model name")) {
+		if (boost::algorithm::starts_with (l, N_("model name"))) {
 			string::size_type const c = l.find (':');
 			if (c != string::npos) {
 				info.first = l.substr (c + 2);
 			}
-		} else if (boost::algorithm::starts_with (l, "processor")) {
+		} else if (boost::algorithm::starts_with (l, N_("processor"))) {
 			++info.second;
 		}
 	}

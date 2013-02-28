@@ -441,15 +441,9 @@ setup_i18n ()
  
 	if (wxLocale::IsAvailable (language)) {
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
-		
+
 #ifdef __WXGTK__
-		locale->AddCatalogLookupPathPrefix (wxT ("/usr"));
-		locale->AddCatalogLookupPathPrefix (wxT ("/usr/local"));
-		locale->AddCatalogLookupPathPrefix (wxT ("build/src/wx/mo"));
-		locale->AddCatalogLookupPathPrefix (wxT ("build/src/tools/mo"));
-		wxStandardPaths* paths = (wxStandardPaths*) &wxStandardPaths::Get();
-		wxString prefix = paths->GetInstallPrefix();
-		locale->AddCatalogLookupPathPrefix (prefix);
+		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_DIR));
 #endif
 
 		locale->AddCatalog ("libdvdomatic-wx");

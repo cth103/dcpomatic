@@ -20,36 +20,38 @@
 #include <iostream>
 #include "dci_metadata.h"
 
+#include "i18n.h"
+
 using namespace std;
 
 void
 DCIMetadata::write (ostream& f) const
 {
-	f << "audio_language " << audio_language << "\n";
-	f << "subtitle_language " << subtitle_language << "\n";
-	f << "territory " << territory << "\n";
-	f << "rating " << rating << "\n";
-	f << "studio " << studio << "\n";
-	f << "facility " << facility << "\n";
-	f << "package_type " << package_type << "\n";
+	f << N_("audio_language ") << audio_language << N_("\n");
+	f << N_("subtitle_language ") << subtitle_language << N_("\n");
+	f << N_("territory ") << territory << N_("\n");
+	f << N_("rating ") << rating << N_("\n");
+	f << N_("studio ") << studio << N_("\n");
+	f << N_("facility ") << facility << N_("\n");
+	f << N_("package_type ") << package_type << N_("\n");
 }
 
 void
 DCIMetadata::read (string k, string v)
 {
-	if (k == "audio_language") {
+	if (k == N_("audio_language")) {
 		audio_language = v;
-	} else if (k == "subtitle_language") {
+	} else if (k == N_("subtitle_language")) {
 		subtitle_language = v;
-	} else if (k == "territory") {
+	} else if (k == N_("territory")) {
 		territory = v;
-	} else if (k == "rating") {
+	} else if (k == N_("rating")) {
 		rating = v;
-	} else if (k == "studio") {
+	} else if (k == N_("studio")) {
 		studio = v;
-	} else if (k == "facility") {
+	} else if (k == N_("facility")) {
 		facility = v;
-	} else if (k == "package_type") {
+	} else if (k == N_("package_type")) {
 		package_type = v;
 	}
 }	
