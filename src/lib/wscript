@@ -68,5 +68,7 @@ def build(bld):
     obj.source = sources
     obj.target = 'dvdomatic'
 
+    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdvdomatic', bld)
+
 def pot(bld):
     i18n.pot(os.path.join('src', 'lib'), sources, 'libdvdomatic')

@@ -23,9 +23,7 @@ def build(bld):
                 obj.source += ' ../../windows/dvdomatic.rc'
             obj.target = t
 
+        i18n.po_to_mo(os.path.join('src', 'tools'), 'dvdomatic', bld)
+
 def pot(bld):
     i18n.pot(os.path.join('src', 'tools'), 'dvdomatic.cc', 'dvdomatic')
-
-def mo(bld):
-    i18n.po_to_mo(os.path.join('src', 'tools'), 'dvdomatic')
-

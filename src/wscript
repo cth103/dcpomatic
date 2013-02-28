@@ -12,7 +12,3 @@ def pot(bld):
     bld.recurse('lib')
     bld.recurse('wx')
     bld.recurse('tools')
-
-def mo(bld):
-    bld.recurse('wx')
-    bld.recurse('tools')

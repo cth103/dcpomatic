@@ -17,15 +17,11 @@ def pot(dir, sources, name, all = False):
         os.system('xgettext -d %s -s --keyword=_ --add-comments=/ -p %s -o %s.pot %s' % (name, os.path.join('build', dir), name, s))
     
 
-def po_to_mo(dir, name):
-    for f in glob.glob(os.path.join(dir, 'po', '*.po')):
-        
+def po_to_mo(dir, name, bld):
+    for f in glob.glob(os.path.join(os.getcwd(), dir, 'po', '*.po')):
         lang = os.path.basename(f).replace('.po', '')
-        out = os.path.join('build', dir, 'mo', lang, '%s.mo' % name)
-        try:
-            os.makedirs(os.path.dirname(out))
-        except:
-            pass
+        po = os.path.join('po', '%s.po' % lang)
+        mo = os.path.join('mo', lang, '%s.mo' % name)
 
-        os.system('msgfmt %s -o %s' % (f, out))
-        Logs.info('%s -> %s' % (f, out))
+        bld(rule = 'msgfmt ${SRC} -o ${TGT}', source = bld.path.make_node(po), target = bld.path.get_bld().make_node(mo))
+        bld.install_files(os.path.join('${PREFIX}', 'share', 'locale', lang, 'LC_MESSAGES'), mo)

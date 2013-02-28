@@ -23,7 +23,7 @@ def configure(conf):
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
                                        '-Wall', '-Wno-attributes', '-Wextra',
-                                       '-DLOCALE_DIR="%s/share/locale"' % conf.env.prefix])
+                                       '-DLOCALE_DIR="%s/share/locale"' % conf.env['PREFIX']])
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
@@ -266,7 +266,4 @@ def post(ctx):
         ctx.exec_command('/sbin/ldconfig')
 
 def pot(bld):
-    bld.recurse('src')
-
-def mo(bld):
     bld.recurse('src')
