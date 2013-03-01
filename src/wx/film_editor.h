@@ -82,6 +82,8 @@ private:
 	void subtitle_stream_changed (wxCommandEvent &);
 	void use_audio_changed (wxCommandEvent &);
 	void external_audio_changed (wxCommandEvent &);
+	void dcp_frame_rate_changed (wxCommandEvent &);
+	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -159,6 +161,8 @@ private:
 	wxChoice* _dcp_content_type;
 	/** The Film's source frame rate */
 	wxStaticText* _source_frame_rate;
+	wxChoice* _dcp_frame_rate;
+	wxButton* _best_dcp_frame_rate;
 	/** The Film's original size */
 	wxStaticText* _original_size;
 	/** The Film's length */

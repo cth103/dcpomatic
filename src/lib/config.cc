@@ -49,6 +49,9 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
 	_allowed_dcp_frame_rates.push_back (30);
+	_allowed_dcp_frame_rates.push_back (48);
+	_allowed_dcp_frame_rates.push_back (50);
+	_allowed_dcp_frame_rates.push_back (60);
 	
 	ifstream f (file().c_str ());
 	string line;

@@ -275,6 +275,7 @@ Film::make_dcp ()
 		log()->log (String::compose (N_("Content length %1"), length().get()));
 	}
 	log()->log (String::compose (N_("Content digest %1"), content_digest()));
+	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
 	log()->log (String::compose (N_("%1 threads"), Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose (N_("J2K bandwidth %1"), j2k_bandwidth()));
 #ifdef DVDOMATIC_DEBUG
@@ -602,8 +603,12 @@ Film::read_metadata ()
 			_external_audio_stream = audio_stream_factory (v, version);
 		} else if (k == N_("subtitle_stream")) {
 			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
-		} else if (k == N_("source_frame_rate") || (version < 4 && k == "frames_per_second")) {
+		} else if (k == N_("source_frame_rate")) {
 			_source_frame_rate = atof (v.c_str ());
+		} else if (version < 4 && k == "frames_per_second") {
+			_source_frame_rate = atof (v.c_str ());
+			/* Fill in what would have been used for DCP frame rate by the older version */
+			_dcp_frame_rate = best_dcp_frame_rate (_source_frame_rate);
 		}
 	}
 
@@ -905,6 +910,7 @@ Film::set_content (string c)
 		
 		set_size (d.video->native_size ());
 		set_source_frame_rate (d.video->frames_per_second ());
+		set_dcp_frame_rate (best_dcp_frame_rate (source_frame_rate ()));
 		set_subtitle_streams (d.video->subtitle_streams ());
 		if (d.audio) {
 			set_content_audio_streams (d.audio->audio_streams ());

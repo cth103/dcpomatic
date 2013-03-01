@@ -617,10 +617,36 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
+
+	/* Check some out-there conversions (not the best) */
+	
+	frc = FrameRateConversion (14.99, 24);
+	BOOST_CHECK_EQUAL (frc.skip, false);
+	BOOST_CHECK_EQUAL (frc.repeat, true);
+	BOOST_CHECK_EQUAL (frc.change_speed, true);
+
+	/* Check some conversions with limited DCP targets */
+
+	afr.clear ();
+	afr.push_back (24);
+	Config::instance()->set_allowed_dcp_frame_rates (afr);
+
+	best = best_dcp_frame_rate (25);
+	frc = FrameRateConversion (25, best);
+	BOOST_CHECK_EQUAL (best, 24);
+	BOOST_CHECK_EQUAL (frc.skip, false);
+	BOOST_CHECK_EQUAL (frc.repeat, false);
+	BOOST_CHECK_EQUAL (frc.change_speed, true);
 }
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
+	std::list<int> afr;
+	afr.push_back (24);
+	afr.push_back (25);
+	afr.push_back (30);
+	Config::instance()->set_allowed_dcp_frame_rates (afr);
+
 	shared_ptr<Film> f = new_test_film ("audio_sampling_rate_test");
 	f->set_source_frame_rate (24);
 	f->set_dcp_frame_rate (24);
@@ -641,8 +667,29 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 
 	f->set_source_frame_rate (29.97);
 	f->set_dcp_frame_rate (best_dcp_frame_rate (29.97));
+	BOOST_CHECK_EQUAL (f->dcp_frame_rate (), 30);
 	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
+
+	f->set_source_frame_rate (25);
+	f->set_dcp_frame_rate (24);
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 50000);
+
+	f->set_source_frame_rate (25);
+	f->set_dcp_frame_rate (24);
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 50000);
+
+	/* Check some out-there conversions (not the best) */
+	
+	f->set_source_frame_rate (14.99);
+	f->set_dcp_frame_rate (25);
+	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 16000, 0)));
+	/* The FrameRateConversion within target_audio_sample_rate should choose to double-up
+	   the 14.99 fps video to 30 and then run it slow at 25.
+	*/
+	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), rint (48000 * 2 * 14.99 / 25));
 }
 
 class TestJob : public Job

@@ -129,6 +129,16 @@ FilmEditor::make_film_panel ()
 	video_control (add_label_to_sizer (grid, _film_panel, _("Original Frame Rate")));
 	_source_frame_rate = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
 	grid->Add (video_control (_source_frame_rate), 1, wxALIGN_CENTER_VERTICAL);
+
+	{
+		add_label_to_sizer (grid, _film_panel, _("DCP Frame Rate"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_dcp_frame_rate = new wxChoice (_film_panel, wxID_ANY);
+		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
+		_best_dcp_frame_rate = new wxButton (_film_panel, wxID_ANY, _("Use best"));
+		s->Add (_best_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 6);
+		grid->Add (s, 1);
+	}
 	
 	video_control (add_label_to_sizer (grid, _film_panel, _("Original Size")));
 	_original_size = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
@@ -173,6 +183,11 @@ FilmEditor::make_film_panel ()
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
 		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 	}
+
+	list<int> const dfr = Config::instance()->allowed_dcp_frame_rates ();
+	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
+		_dcp_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
+	}
 }
 
 void
@@ -191,6 +206,8 @@ FilmEditor::connect_to_widgets ()
 	_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_filters_clicked), 0, this);
 	_scaler->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
 	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
+	_dcp_frame_rate->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
+	_best_dcp_frame_rate->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
 	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
 	_still_duration->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_start_changed), 0, this);
@@ -520,7 +537,21 @@ FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
 	}
 	
 	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1e6);
-}	
+}
+
+void
+FilmEditor::dcp_frame_rate_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_dcp_frame_rate (
+		boost::lexical_cast<int> (
+			wx_to_std (_dcp_frame_rate->GetString (_dcp_frame_rate->GetSelection ()))
+			)
+		);
+}
 
 
 /** Called when the metadata stored in the Film object has changed;
@@ -700,6 +731,15 @@ FilmEditor::film_changed (Film::Property p)
 		setup_audio_details ();
 		break;
 	}
+	case Film::DCP_FRAME_RATE:
+		for (unsigned int i = 0; i < _dcp_frame_rate->GetCount(); ++i) {
+			if (wx_to_std (_dcp_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->dcp_frame_rate())) {
+				if (_dcp_frame_rate->GetSelection() != int(i)) {
+					_dcp_frame_rate->SetSelection (i);
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -783,6 +823,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CONTENT_AUDIO_STREAMS);
 	film_changed (Film::SUBTITLE_STREAMS);
 	film_changed (Film::SOURCE_FRAME_RATE);
+	film_changed (Film::DCP_FRAME_RATE);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -807,6 +848,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_scaler->Enable (s);
 	_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
+	_dcp_frame_rate->Enable (s);
 	_trim_start->Enable (s);
 	_trim_end->Enable (s);
 	_dcp_ab->Enable (s);
@@ -1185,4 +1227,14 @@ FilmEditor::show_audio_clicked (wxCommandEvent &)
 	_audio_dialog = new AudioDialog (this);
 	_audio_dialog->Show ();
 	_audio_dialog->set_film (_film);
+}
+
+void
+FilmEditor::best_dcp_frame_rate_clicked (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+	
+	_film->set_dcp_frame_rate (best_dcp_frame_rate (_film->source_frame_rate ()));
 }
