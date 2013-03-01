@@ -148,7 +148,8 @@ public:
 		DCP_INTRINSIC_DURATION,
 		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
-		FRAMES_PER_SECOND,
+		SOURCE_FRAME_RATE,
+		DCP_FRAME_RATE
 	};
 
 
@@ -285,6 +286,11 @@ public:
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dci_metadata;
 	}
+
+	int dcp_frame_rate () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _dcp_frame_rate;
+	}
 	
 	libdcp::Size size () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
@@ -311,13 +317,13 @@ public:
 		return _subtitle_streams;
 	}
 	
-	float frames_per_second () const {
+	float source_frame_rate () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		if (content_type() == STILL) {
 			return 24;
 		}
 		
-		return _frames_per_second;
+		return _source_frame_rate;
 	}
 
 	boost::shared_ptr<AudioStream> audio_stream () const;
@@ -355,6 +361,7 @@ public:
 	void set_colour_lut (int);
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
+	void set_dcp_frame_rate (int);
 	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
@@ -362,7 +369,7 @@ public:
 	void set_content_digest (std::string);
 	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
 	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
-	void set_frames_per_second (float);
+	void set_source_frame_rate (float);
 
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -461,6 +468,8 @@ private:
 	DCIMetadata _dci_metadata;
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
+	/** Frames per second to run our DCP at */
+	int _dcp_frame_rate;
 
 	/* Data which are cached to speed things up */
 
@@ -478,7 +487,7 @@ private:
 	/** the subtitle streams that we can use */
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 	/** Frames per second of the source */
-	float _frames_per_second;
+	float _source_frame_rate;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

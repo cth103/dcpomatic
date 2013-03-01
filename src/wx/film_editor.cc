@@ -127,8 +127,8 @@ FilmEditor::make_film_panel ()
 	grid->Add (_dcp_content_type);
 
 	video_control (add_label_to_sizer (grid, _film_panel, _("Original Frame Rate")));
-	_frames_per_second = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (video_control (_frames_per_second), 1, wxALIGN_CENTER_VERTICAL);
+	_source_frame_rate = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
+	grid->Add (video_control (_source_frame_rate), 1, wxALIGN_CENTER_VERTICAL);
 	
 	video_control (add_label_to_sizer (grid, _film_panel, _("Original Size")));
 	_original_size = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
@@ -596,9 +596,9 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_name, _film->name());
 		setup_dcp_name ();
 		break;
-	case Film::FRAMES_PER_SECOND:
-		s << fixed << setprecision(2) << _film->frames_per_second();
-		_frames_per_second->SetLabel (std_to_wx (s.str ()));
+	case Film::SOURCE_FRAME_RATE:
+		s << fixed << setprecision(2) << _film->source_frame_rate();
+		_source_frame_rate->SetLabel (std_to_wx (s.str ()));
 		break;
 	case Film::SIZE:
 		if (_film->size().width == 0 && _film->size().height == 0) {
@@ -609,8 +609,8 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		break;
 	case Film::LENGTH:
-		if (_film->frames_per_second() > 0 && _film->length()) {
-			s << _film->length().get() << " " << _("frames") << "; " << seconds_to_hms (_film->length().get() / _film->frames_per_second());
+		if (_film->source_frame_rate() > 0 && _film->length()) {
+			s << _film->length().get() << " " << _("frames") << "; " << seconds_to_hms (_film->length().get() / _film->source_frame_rate());
 		} else if (_film->length()) {
 			s << _film->length().get() << " " << _("frames");
 		} 
@@ -782,7 +782,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::LENGTH);
 	film_changed (Film::CONTENT_AUDIO_STREAMS);
 	film_changed (Film::SUBTITLE_STREAMS);
-	film_changed (Film::FRAMES_PER_SECOND);
+	film_changed (Film::SOURCE_FRAME_RATE);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.

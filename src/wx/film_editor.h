@@ -157,8 +157,8 @@ private:
 	wxSpinCtrl* _j2k_bandwidth;
 	/** The Film's DCP content type */
 	wxChoice* _dcp_content_type;
-	/** The Film's frames per second */
-	wxStaticText* _frames_per_second;
+	/** The Film's source frame rate */
+	wxStaticText* _source_frame_rate;
 	/** The Film's original size */
 	wxStaticText* _original_size;
 	/** The Film's length */

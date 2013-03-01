@@ -57,7 +57,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 
 	if (f->audio_stream()) {
 		shared_ptr<AudioStream> st = f->audio_stream();
-		_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->frames_per_second()));
+		_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->source_frame_rate()));
 		_delay_line.reset (new DelayLine (f->log(), st->channels(), f->audio_delay() * st->sample_rate() / 1000));
 		_gain.reset (new Gain (f->log(), f->audio_gain()));
 	}

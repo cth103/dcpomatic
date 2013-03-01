@@ -375,21 +375,12 @@ public:
 		, dcp (dcp_)
 	{}
 
-	bool skip () const {
-		return !about_equal (source, dcp) && source > dcp;
-	}
-
-	bool repeat () const {
-		return !about_equal (source, dcp) && source < dcp;
-	}
-
 	float source;
 	int dcp;
 };
 
-/** @param fps Arbitrary source frames-per-second value */
-/** XXX: this could be slow-ish */
-DCPFrameRate::DCPFrameRate (float source_fps)
+int
+best_dcp_frame_rate (float source_fps)
 {
 	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
 
@@ -427,14 +418,8 @@ DCPFrameRate::DCPFrameRate (float source_fps)
 		++i;
 	}
 
-	if (!best) {
-		throw EncodeError (_("cannot find a suitable DCP frame rate for this source"));
-	}
-
-	frames_per_second = best->dcp;
-	skip = best->skip ();
-	repeat = best->repeat ();
-	change_speed = !about_equal (source_fps * factor(), frames_per_second);
+	assert (best);
+	return best->dcp;
 }
 
 /** @param An arbitrary sampling rate.
@@ -961,4 +946,18 @@ AudioMapping::dcp_channels () const
 	}
 
 	return _source_channels;
+}
+
+FrameRateConversion::FrameRateConversion (float source, int dcp)
+	: skip (false)
+	, repeat (false)
+	, change_speed (false)
+{
+	if (fabs (source / 2.0 - dcp) < (fabs (source - dcp))) {
+		skip = true;
+	} else if (fabs (source * 2 - dcp) < fabs (source - dcp)) {
+		repeat = true;
+	}
+
+	change_speed = !about_equal (source * factor(), dcp);
 }

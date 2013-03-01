@@ -62,9 +62,9 @@ extern std::string audio_channel_name (int);
 
 typedef int SourceFrame;
 
-struct DCPFrameRate
+struct FrameRateConversion
 {
-	DCPFrameRate (float);
+	FrameRateConversion (float, int);
 
 	/** @return factor by which to multiply a source frame rate
 	    to get the effective rate after any skip or repeat has happened.
@@ -79,14 +79,12 @@ struct DCPFrameRate
 		return 1;
 	}
 	
-	/** frames per second for the DCP */
-	int frames_per_second;
 	/** true to skip every other frame */
 	bool skip;
 	/** true to repeat every frame once */
 	bool repeat;
 	/** true if this DCP will run its video faster or slower than the source
-	 *  without taking into account `repeat'.
+	 *  without taking into account `repeat' nor `skip'.
 	 *  (e.g. change_speed will be true if
 	 *          source is 29.97fps, DCP is 30fps
 	 *          source is 14.50fps, DCP is 30fps
@@ -96,6 +94,8 @@ struct DCPFrameRate
 	 */
 	bool change_speed;
 };
+
+int best_dcp_frame_rate (float);
 
 enum ContentType {
 	STILL, ///< content is still images

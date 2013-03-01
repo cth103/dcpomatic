@@ -74,7 +74,7 @@ using boost::starts_with;
 using boost::optional;
 using libdcp::Size;
 
-int const Film::state_version = 3;
+int const Film::state_version = 4;
 
 /** Construct a Film object in a given directory, reading any metadata
  *  file that exists in that directory.  An exception will be thrown if
@@ -103,7 +103,8 @@ Film::Film (string d, bool must_exist)
 	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
-	, _frames_per_second (0)
+	, _dcp_frame_rate (0)
+	, _source_frame_rate (0)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -175,6 +176,7 @@ Film::Film (Film const & o)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _dci_metadata      (o._dci_metadata)
 	, _dci_date          (o._dci_date)
+	, _dcp_frame_rate    (o._dcp_frame_rate)
 	, _size              (o._size)
 	, _length            (o._length)
 	, _dcp_intrinsic_duration (o._dcp_intrinsic_duration)
@@ -182,7 +184,7 @@ Film::Film (Film const & o)
 	, _content_audio_streams (o._content_audio_streams)
 	, _external_audio_stream (o._external_audio_stream)
 	, _subtitle_streams  (o._subtitle_streams)
-	, _frames_per_second (o._frames_per_second)
+	, _source_frame_rate (o._source_frame_rate)
 	, _dirty             (o._dirty)
 {
 
@@ -204,6 +206,7 @@ Film::video_state_identifier () const
 	s << format()->id()
 	  << N_("_") << content_digest()
 	  << N_("_") << crop().left << N_("_") << crop().right << N_("_") << crop().top << N_("_") << crop().bottom
+	  << N_("_") << _dcp_frame_rate
 	  << N_("_") << f.first << N_("_") << f.second
 	  << N_("_") << scaler()->id()
 	  << N_("_") << j2k_bandwidth()
@@ -441,6 +444,7 @@ Film::write_metadata () const
 	f << N_("j2k_bandwidth ") << _j2k_bandwidth << N_("\n");
 	_dci_metadata.write (f);
 	f << N_("dci_date ") << boost::gregorian::to_iso_string (_dci_date) << N_("\n");
+	f << N_("dcp_frame_rate ") << _dcp_frame_rate << "\n";
 	f << N_("width ") << _size.width << N_("\n");
 	f << N_("height ") << _size.height << N_("\n");
 	f << N_("length ") << _length.get_value_or(0) << N_("\n");
@@ -457,7 +461,7 @@ Film::write_metadata () const
 		f << N_("subtitle_stream ") << (*i)->to_string () << N_("\n");
 	}
 
-	f << N_("frames_per_second ") << _frames_per_second << N_("\n");
+	f << N_("source_frame_rate ") << _source_frame_rate << N_("\n");
 	
 	_dirty = false;
 }
@@ -569,6 +573,8 @@ Film::read_metadata ()
 			_j2k_bandwidth = atoi (v.c_str ());
 		} else if (k == N_("dci_date")) {
 			_dci_date = boost::gregorian::from_undelimited_string (v);
+		} else if (k == "dcp_frame_rate") {
+			_dcp_frame_rate = atoi (v.c_str ());
 		}
 
 		_dci_metadata.read (k, v);
@@ -596,8 +602,8 @@ Film::read_metadata ()
 			_external_audio_stream = audio_stream_factory (v, version);
 		} else if (k == N_("subtitle_stream")) {
 			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
-		} else if (k == N_("frames_per_second")) {
-			_frames_per_second = atof (v.c_str ());
+		} else if (k == N_("source_frame_rate") || (version < 4 && k == "frames_per_second")) {
+			_source_frame_rate = atof (v.c_str ());
 		}
 	}
 
@@ -707,7 +713,7 @@ Film::target_audio_sample_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_sample_rate (audio_stream()->sample_rate());
 
-	DCPFrameRate dfr (frames_per_second ());
+	FrameRateConversion frc (source_frame_rate(), dcp_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -715,8 +721,8 @@ Film::target_audio_sample_rate () const
 	   skip/repeat doesn't come into effect here.
 	*/
 
-	if (dfr.change_speed) {
-		t *= _frames_per_second * dfr.factor() / dfr.frames_per_second;
+	if (frc.change_speed) {
+		t *= source_frame_rate() * frc.factor() / dcp_frame_rate();
 	}
 
 	return rint (t);
@@ -725,7 +731,7 @@ Film::target_audio_sample_rate () const
 int
 Film::still_duration_in_frames () const
 {
-	return still_duration() * frames_per_second();
+	return still_duration() * source_frame_rate();
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
@@ -898,7 +904,7 @@ Film::set_content (string c)
 		Decoders d = decoder_factory (shared_from_this(), DecodeOptions());
 		
 		set_size (d.video->native_size ());
-		set_frames_per_second (d.video->frames_per_second ());
+		set_source_frame_rate (d.video->frames_per_second ());
 		set_subtitle_streams (d.video->subtitle_streams ());
 		if (d.audio) {
 			set_content_audio_streams (d.audio->audio_streams ());
@@ -1236,6 +1242,17 @@ Film::set_dci_metadata (DCIMetadata m)
 	signal_changed (DCI_METADATA);
 }
 
+
+void
+Film::set_dcp_frame_rate (int f)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_frame_rate = f;
+	}
+	signal_changed (DCP_FRAME_RATE);
+}
+
 void
 Film::set_size (libdcp::Size s)
 {
@@ -1307,13 +1324,13 @@ Film::set_subtitle_streams (vector<shared_ptr<SubtitleStream> > s)
 }
 
 void
-Film::set_frames_per_second (float f)
+Film::set_source_frame_rate (float f)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_frames_per_second = f;
+		_source_frame_rate = f;
 	}
-	signal_changed (FRAMES_PER_SECOND);
+	signal_changed (SOURCE_FRAME_RATE);
 }
 	
 void

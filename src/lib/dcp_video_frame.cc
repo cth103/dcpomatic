@@ -80,7 +80,7 @@ using libdcp::Size;
 DCPVideoFrame::DCPVideoFrame (
 	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
 	Size out, int p, int subtitle_offset, float subtitle_scale,
-	Scaler const * s, int f, float fps, string pp, int clut, int bw, Log* l
+	Scaler const * s, int f, int dcp_fps, string pp, int clut, int bw, Log* l
 	)
 	: _input (yuv)
 	, _subtitle (sub)
@@ -90,7 +90,7 @@ DCPVideoFrame::DCPVideoFrame (
 	, _subtitle_scale (subtitle_scale)
 	, _scaler (s)
 	, _frame (f)
-	, _frames_per_second (DCPFrameRate(fps).frames_per_second)
+	, _frames_per_second (dcp_fps)
 	, _post_process (pp)
 	, _colour_lut (clut)
 	, _j2k_bandwidth (bw)

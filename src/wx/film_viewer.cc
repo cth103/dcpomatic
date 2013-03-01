@@ -188,7 +188,7 @@ FilmViewer::timer (wxTimerEvent &)
 	get_frame ();
 
 	if (_film->length()) {
-		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->frames_per_second());
+		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->source_frame_rate());
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -237,7 +237,7 @@ FilmViewer::slider_moved (wxScrollEvent &)
 		return;
 	}
 	
-	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / (4096 * _film->frames_per_second()))) {
+	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / (4096 * _film->source_frame_rate()))) {
 		return;
 	}
 	
@@ -369,7 +369,7 @@ FilmViewer::check_play_state ()
 	}
 	
 	if (_play_button->GetValue()) {
-		_timer.Start (1000 / _film->frames_per_second());
+		_timer.Start (1000 / _film->source_frame_rate());
 	} else {
 		_timer.Stop ();
 	}

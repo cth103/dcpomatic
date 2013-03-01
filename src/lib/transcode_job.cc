@@ -120,8 +120,8 @@ TranscodeJob::remaining_time () const
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
 	int length = _film->length().get();
-	DCPFrameRate const dfr (_film->frames_per_second ());
-	if (dfr.skip) {
+	FrameRateConversion const frc (_film->source_frame_rate(), _film->dcp_frame_rate());
+	if (frc.skip) {
 		length /= 2;
 	}
 	/* If we are repeating it shouldn't affect transcode time, so don't take it into account */

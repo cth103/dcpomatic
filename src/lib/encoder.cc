@@ -233,9 +233,9 @@ Encoder::frame_done ()
 void
 Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub)
 {
-	DCPFrameRate dfr (_film->frames_per_second ());
+	FrameRateConversion frc (_film->source_frame_rate(), _film->dcp_frame_rate());
 	
-	if (dfr.skip && (_video_frames_in % 2)) {
+	if (frc.skip && (_video_frames_in % 2)) {
 		++_video_frames_in;
 		return;
 	}
@@ -273,7 +273,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
 						  _film->subtitle_offset(), _film->subtitle_scale(),
-						  _film->scaler(), _video_frames_out, _film->frames_per_second(), s.second,
+						  _film->scaler(), _video_frames_out, _film->dcp_frame_rate(), s.second,
 						  _film->colour_lut(), _film->j2k_bandwidth(),
 						  _film->log()
 						  )
@@ -286,7 +286,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	++_video_frames_in;
 	++_video_frames_out;
 
-	if (dfr.repeat) {
+	if (frc.repeat) {
 		_writer->repeat (_video_frames_out);
 		++_video_frames_out;
 		frame_done ();

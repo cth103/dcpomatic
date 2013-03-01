@@ -1,4 +1,4 @@
-version 3
+version 4
 name fred
 use_dci_name 1
 content 
@@ -32,10 +32,11 @@ studio
 facility 
 package_type 
 dci_date 20130211
+dcp_frame_rate 0
 width 0
 height 0
 length 0
 dcp_intrinsic_duration 0
 content_digest 
 external_audio_stream external 0 0
-frames_per_second 0
+source_frame_rate 0

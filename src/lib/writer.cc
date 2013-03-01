@@ -67,8 +67,8 @@ Writer::Writer (shared_ptr<Film> f)
 		new libdcp::MonoPictureAsset (
 			_film->video_mxf_dir (),
 			_film->video_mxf_filename (),
-			DCPFrameRate (_film->frames_per_second()).frames_per_second,
-			_film->format()->dcp_size()
+			_film->dcp_frame_rate (),
+			_film->format()->dcp_size ()
 			)
 		);
 
@@ -81,7 +81,7 @@ Writer::Writer (shared_ptr<Film> f)
 			new libdcp::SoundAsset (
 				_film->dir (_film->dcp_name()),
 				N_("audio.mxf"),
-				DCPFrameRate (_film->frames_per_second()).frames_per_second,
+				_film->dcp_frame_rate (),
 				m.dcp_channels (),
 				dcp_audio_sample_rate (_film->audio_stream()->sample_rate())
 				)
@@ -289,10 +289,15 @@ Writer::finish ()
 	}
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
-	DCPFrameRate dfr (_film->frames_per_second ());
 
 	shared_ptr<libdcp::CPL> cpl (
-		new libdcp::CPL (_film->dir (_film->dcp_name()), _film->dcp_name(), _film->dcp_content_type()->libdcp_kind (), frames, dfr.frames_per_second)
+		new libdcp::CPL (
+			_film->dir (_film->dcp_name()),
+			_film->dcp_name(),
+			_film->dcp_content_type()->libdcp_kind (),
+			frames,
+			_film->dcp_frame_rate ()
+			)
 		);
 	
 	dcp.add_cpl (cpl);
