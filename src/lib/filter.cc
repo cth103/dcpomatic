@@ -27,6 +27,8 @@ extern "C" {
 #include <libpostproc/postprocess.h>
 }
 
+#include "i18n.h"
+
 using namespace std;
 
 vector<Filter const *> Filter::_filters;
@@ -63,30 +65,30 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 	   
-	maybe_add ("pphb",      "Horizontal deblocking filter",                "De-blocking",     "",          "hb");
-	maybe_add ("ppvb",      "Vertical deblocking filter",                  "De-blocking",     "",          "vb");
-	maybe_add ("ppha",      "Horizontal deblocking filter A",              "De-blocking",     "",          "ha");
-	maybe_add ("ppva",      "Vertical deblocking filter A",                "De-blocking",     "",          "va");
-	maybe_add ("pph1",      "Experimental horizontal deblocking filter 1", "De-blocking",     "",          "h1");
-	maybe_add ("pphv",      "Experimental vertical deblocking filter 1",   "De-blocking",     "",          "v1");
-	maybe_add ("ppdr",      "Deringing filter",                            "Misc",            "",          "dr");
-	maybe_add ("pplb",      "Linear blend deinterlacer",                   "De-interlacing",  "",          "lb");
-	maybe_add ("ppli",      "Linear interpolating deinterlacer",           "De-interlacing",  "",          "li");
-	maybe_add ("ppci",      "Cubic interpolating deinterlacer",            "De-interlacing",  "",          "ci");
-	maybe_add ("ppmd",      "Median deinterlacer",                         "De-interlacing",  "",          "md");
-	maybe_add ("ppfd",      "FFMPEG deinterlacer",                         "De-interlacing",  "",          "fd");
-	maybe_add ("ppl5",      "FIR low-pass deinterlacer",                   "De-interlacing",  "",          "l5");
-	maybe_add ("mcdeint",   "Motion compensating deinterlacer",            "De-interlacing",  "mcdeint",   "");
-	maybe_add ("kerndeint", "Kernel deinterlacer",                         "De-interlacing",  "kerndeint", "");
-	maybe_add ("yadif",     "Yet Another Deinterlacing Filter",            "De-interlacing",  "yadif",     "");
-	maybe_add ("pptn",      "Temporal noise reducer",                      "Noise reduction", "",          "tn");
-	maybe_add ("ppfq",      "Force quantizer",                             "Misc",            "",          "fq");
-	maybe_add ("gradfun",   "Gradient debander",                           "Misc",            "gradfun",   "");
-	maybe_add ("unsharp",   "Unsharp mask and Gaussian blur",              "Misc",            "unsharp",   "");
-	maybe_add ("denoise3d", "3D denoiser",                                 "Noise reduction", "denoise3d", "");
-	maybe_add ("hqdn3d",    "High quality 3D denoiser",                    "Noise reduction", "hqdn3d",    "");
-	maybe_add ("telecine",  "Telecine filter",                             "Misc",            "telecine",  "");
-	maybe_add ("ow",        "Overcomplete wavelet denoiser",               "Noise reduction", "mp=ow",     "");
+	maybe_add (N_("pphb"),      _("Horizontal deblocking filter"),                _("De-blocking"),     N_(""),          N_("hb"));
+	maybe_add (N_("ppvb"),      _("Vertical deblocking filter"),                  _("De-blocking"),     N_(""),          N_("vb"));
+	maybe_add (N_("ppha"),      _("Horizontal deblocking filter A"),              _("De-blocking"),     N_(""),          N_("ha"));
+	maybe_add (N_("ppva"),      _("Vertical deblocking filter A"),                _("De-blocking"),     N_(""),          N_("va"));
+	maybe_add (N_("pph1"),      _("Experimental horizontal deblocking filter 1"), _("De-blocking"),     N_(""),          N_("h1"));
+	maybe_add (N_("pphv"),      _("Experimental vertical deblocking filter 1"),   _("De-blocking"),     N_(""),          N_("v1"));
+	maybe_add (N_("ppdr"),      _("Deringing filter"),                            _("Misc"),            N_(""),          N_("dr"));
+	maybe_add (N_("pplb"),      _("Linear blend deinterlacer"),                   _("De-interlacing"),  N_(""),          N_("lb"));
+	maybe_add (N_("ppli"),      _("Linear interpolating deinterlacer"),           _("De-interlacing"),  N_(""),          N_("li"));
+	maybe_add (N_("ppci"),      _("Cubic interpolating deinterlacer"),            _("De-interlacing"),  N_(""),          N_("ci"));
+	maybe_add (N_("ppmd"),      _("Median deinterlacer"),                         _("De-interlacing"),  N_(""),          N_("md"));
+	maybe_add (N_("ppfd"),      _("FFMPEG deinterlacer"),                         _("De-interlacing"),  N_(""),          N_("fd"));
+	maybe_add (N_("ppl5"),      _("FIR low-pass deinterlacer"),                   _("De-interlacing"),  N_(""),          N_("l5"));
+	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"),            _("De-interlacing"),  N_("mcdeint"),   N_(""));
+	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),                         _("De-interlacing"),  N_("kerndeint"), N_(""));
+	maybe_add (N_("yadif"),     _("Yet Another Deinterlacing Filter"),            _("De-interlacing"),  N_("yadif"),     N_(""));
+	maybe_add (N_("pptn"),      _("Temporal noise reducer"),                      _("Noise reduction"), N_(""),          N_("tn"));
+	maybe_add (N_("ppfq"),      _("Force quantizer"),                             _("Misc"),            N_(""),          N_("fq"));
+	maybe_add (N_("gradfun"),   _("Gradient debander"),                           _("Misc"),            N_("gradfun"),   N_(""));
+	maybe_add (N_("unsharp"),   _("Unsharp mask and Gaussian blur"),              _("Misc"),            N_("unsharp"),   N_(""));
+	maybe_add (N_("denoise3d"), _("3D denoiser"),                                 _("Noise reduction"), N_("denoise3d"), N_(""));
+	maybe_add (N_("hqdn3d"),    _("High quality 3D denoiser"),                    _("Noise reduction"), N_("hqdn3d"),    N_(""));
+	maybe_add (N_("telecine"),  _("Telecine filter"),                             _("Misc"),            N_("telecine"),  N_(""));
+	maybe_add (N_("ow"),        _("Overcomplete wavelet denoiser"),               _("Noise reduction"), N_("mp=ow"),     N_(""));
 }
 
 void
@@ -118,14 +120,14 @@ Filter::ffmpeg_strings (vector<Filter const *> const & filters)
 	for (vector<Filter const *>::const_iterator i = filters.begin(); i != filters.end(); ++i) {
 		if (!(*i)->vf().empty ()) {
 			if (!vf.empty ()) {
-				vf += ",";
+				vf += N_(",");
 			}
 			vf += (*i)->vf ();
 		}
 		
 		if (!(*i)->pp().empty ()) {
 			if (!pp.empty()) {
-				pp += ",";
+				pp += N_(",");
 			}
 			pp += (*i)->pp ();
 		}

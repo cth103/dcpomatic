@@ -50,6 +50,8 @@ extern "C" {
 #include "filter_graph.h"
 #include "subtitle.h"
 
+#include "i18n.h"
+
 using std::cout;
 using std::string;
 using std::vector;
@@ -113,7 +115,7 @@ FFmpegDecoder::setup_general ()
 	}
 
 	if (avformat_find_stream_info (_format_context, 0) < 0) {
-		throw DecodeError ("could not find stream information");
+		throw DecodeError (_("could not find stream information"));
 	}
 
 	/* Find video, audio and subtitle streams and choose the first of each */
@@ -148,12 +150,12 @@ FFmpegDecoder::setup_general ()
 	}
 
 	if (_video_stream < 0) {
-		throw DecodeError ("could not find video stream");
+		throw DecodeError (N_("could not find video stream"));
 	}
 
 	_frame = avcodec_alloc_frame ();
 	if (_frame == 0) {
-		throw DecodeError ("could not allocate frame");
+		throw DecodeError (N_("could not allocate frame"));
 	}
 }
 
@@ -164,11 +166,11 @@ FFmpegDecoder::setup_video ()
 	_video_codec = avcodec_find_decoder (_video_codec_context->codec_id);
 
 	if (_video_codec == 0) {
-		throw DecodeError ("could not find video decoder");
+		throw DecodeError (_("could not find video decoder"));
 	}
 
 	if (avcodec_open2 (_video_codec_context, _video_codec, 0) < 0) {
-		throw DecodeError ("could not open video decoder");
+		throw DecodeError (N_("could not open video decoder"));
 	}
 }
 
@@ -186,11 +188,11 @@ FFmpegDecoder::setup_audio ()
 	_audio_codec = avcodec_find_decoder (_audio_codec_context->codec_id);
 
 	if (_audio_codec == 0) {
-		throw DecodeError ("could not find audio decoder");
+		throw DecodeError (_("could not find audio decoder"));
 	}
 
 	if (avcodec_open2 (_audio_codec_context, _audio_codec, 0) < 0) {
-		throw DecodeError ("could not open audio decoder");
+		throw DecodeError (N_("could not open audio decoder"));
 	}
 }
 
@@ -205,11 +207,11 @@ FFmpegDecoder::setup_subtitle ()
 	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
 
 	if (_subtitle_codec == 0) {
-		throw DecodeError ("could not find subtitle decoder");
+		throw DecodeError (_("could not find subtitle decoder"));
 	}
 	
 	if (avcodec_open2 (_subtitle_codec_context, _subtitle_codec, 0) < 0) {
-		throw DecodeError ("could not open subtitle decoder");
+		throw DecodeError (N_("could not open subtitle decoder"));
 	}
 }
 
@@ -224,7 +226,7 @@ FFmpegDecoder::pass ()
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
-			_film->log()->log (String::compose ("error on av_read_frame (%1) (%2)", buf, r));
+			_film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
 		}
 		
 		/* Get any remaining frames */
@@ -265,7 +267,7 @@ FFmpegDecoder::pass ()
 		if (r >= 0 && frame_finished) {
 
 			if (r != _packet.size) {
-				_film->log()->log (String::compose ("Used only %1 bytes of %2 in packet", r, _packet.size));
+				_film->log()->log (String::compose (N_("Used only %1 bytes of %2 in packet"), r, _packet.size));
 			}
 
 			if (_opt.video_sync) {
@@ -303,7 +305,7 @@ FFmpegDecoder::pass ()
 					
 					_film->log()->log (
 						String::compose (
-							"First video at %1, first audio at %2, pushing %3 audio frames of silence for %4 channels (%5 bytes per sample)",
+							N_("First video at %1, first audio at %2, pushing %3 audio frames of silence for %4 channels (%5 bytes per sample)"),
 							_first_video.get(), _first_audio.get(), s, ffa->channels(), bytes_per_audio_sample()
 							)
 						);
@@ -443,7 +445,7 @@ FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 	break;
 
 	default:
-		throw DecodeError (String::compose ("Unrecognised audio sample format (%1)", static_cast<int> (audio_sample_format())));
+		throw DecodeError (String::compose (_("Unrecognised audio sample format (%1)"), static_cast<int> (audio_sample_format())));
 	}
 
 	return audio;
@@ -512,21 +514,21 @@ FFmpegDecoder::stream_name (AVStream* s) const
 {
 	stringstream n;
 	
-	AVDictionaryEntry const * lang = av_dict_get (s->metadata, "language", 0, 0);
+	AVDictionaryEntry const * lang = av_dict_get (s->metadata, N_("language"), 0, 0);
 	if (lang) {
 		n << lang->value;
 	}
 	
-	AVDictionaryEntry const * title = av_dict_get (s->metadata, "title", 0, 0);
+	AVDictionaryEntry const * title = av_dict_get (s->metadata, N_("title"), 0, 0);
 	if (title) {
 		if (!n.str().empty()) {
-			n << " ";
+			n << N_(" ");
 		}
 		n << title->value;
 	}
 
 	if (n.str().empty()) {
-		n << "unknown";
+		n << N_("unknown");
 	}
 
 	return n.str ();
@@ -568,7 +570,7 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 	if (i == _filter_graphs.end ()) {
 		graph.reset (new FilterGraph (_film, this, libdcp::Size (frame->width, frame->height), (AVPixelFormat) frame->format));
 		_filter_graphs.push_back (graph);
-		_film->log()->log (String::compose ("New graph for %1x%2, pixel format %3", frame->width, frame->height, frame->format));
+		_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), frame->width, frame->height, frame->format));
 	} else {
 		graph = *i;
 	}
@@ -622,7 +624,7 @@ FFmpegAudioStream::create (string t, optional<int> v)
 	stringstream s (t);
 	string type;
 	s >> type;
-	if (type != "ffmpeg") {
+	if (type != N_("ffmpeg")) {
 		return shared_ptr<FFmpegAudioStream> ();
 	}
 
@@ -644,7 +646,7 @@ FFmpegAudioStream::FFmpegAudioStream (string t, optional<int> version)
 		string type;
 		/* Current (marked version 1) */
 		n >> type >> _id >> _sample_rate >> _channel_layout;
-		assert (type == "ffmpeg");
+		assert (type == N_("ffmpeg"));
 	}
 
 	for (int i = 0; i < name_index; ++i) {
@@ -660,7 +662,7 @@ FFmpegAudioStream::FFmpegAudioStream (string t, optional<int> version)
 string
 FFmpegAudioStream::to_string () const
 {
-	return String::compose ("ffmpeg %1 %2 %3 %4", _id, _sample_rate, _channel_layout, _name);
+	return String::compose (N_("ffmpeg %1 %2 %3 %4"), _id, _sample_rate, _channel_layout, _name);
 }
 
 void
@@ -674,7 +676,7 @@ FFmpegDecoder::out_with_sync ()
 		* av_frame_get_best_effort_timestamp(_frame);
 	
 	_film->log()->log (
-		String::compose ("Source video frame ready; source at %1, output at %2", source_pts_seconds, out_pts_seconds),
+		String::compose (N_("Source video frame ready; source at %1, output at %2"), source_pts_seconds, out_pts_seconds),
 		Log::VERBOSE
 		);
 	
@@ -693,7 +695,7 @@ FFmpegDecoder::out_with_sync ()
 			repeat_last_video ();
 			_film->log()->log (
 				String::compose (
-					"Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)",
+					N_("Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)"),
 					out_pts_seconds, video_frame(), source_pts_seconds, frames_per_second()
 					)
 				);
@@ -705,7 +707,7 @@ FFmpegDecoder::out_with_sync ()
 		filter_and_emit_video (_frame);
 	} else {
 		/* Otherwise we are omitting a frame to keep things right */
-		_film->log()->log (String::compose ("Frame removed at %1s", out_pts_seconds));
+		_film->log()->log (String::compose (N_("Frame removed at %1s"), out_pts_seconds));
 	}
 }
 

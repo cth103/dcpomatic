@@ -1,3 +1,55 @@
+import os
+import i18n
+
+sources = """
+          ab_transcode_job.cc
+	  ab_transcoder.cc
+          audio_decoder.cc
+          audio_source.cc
+          config.cc
+          combiner.cc
+          cross.cc
+          dci_metadata.cc
+          dcp_content_type.cc
+          dcp_video_frame.cc
+          decoder.cc
+          decoder_factory.cc
+          delay_line.cc
+          dolby_cp750.cc
+          encoder.cc
+          examine_content_job.cc
+          external_audio_decoder.cc
+          filter_graph.cc
+          ffmpeg_compatibility.cc
+          ffmpeg_decoder.cc
+          film.cc
+          filter.cc
+          format.cc
+          gain.cc
+          image.cc
+          imagemagick_decoder.cc
+          job.cc
+          job_manager.cc
+          log.cc
+          lut.cc
+          matcher.cc
+          scp_dcp_job.cc
+          scaler.cc
+          server.cc
+          sound_processor.cc
+          stream.cc
+          subtitle.cc
+          timer.cc
+          transcode_job.cc
+          transcoder.cc
+          ui_signaller.cc
+          util.cc
+          version.cc
+          video_decoder.cc
+          video_source.cc
+          writer.cc
+          """
+
 def build(bld):
     if bld.env.STATIC:
         obj = bld(features = 'cxx cxxstlib')
@@ -13,53 +65,10 @@ def build(bld):
                  """
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
-    obj.source = """
-		 ab_transcode_job.cc
-		 ab_transcoder.cc
-                 audio_decoder.cc
-                 audio_source.cc
-		 config.cc
-                 combiner.cc
-                 cross.cc
-		 dci_metadata.cc
-		 dcp_content_type.cc
-		 dcp_video_frame.cc
-                 decoder.cc
-                 decoder_factory.cc
-                 delay_line.cc
-                 dolby_cp750.cc
-		 encoder.cc
-		 examine_content_job.cc
-		 external_audio_decoder.cc
-                 filter_graph.cc
-                 ffmpeg_compatibility.cc
-                 ffmpeg_decoder.cc
-    	         film.cc
-		 filter.cc
-		 format.cc
-                 gain.cc
-                 image.cc
-                 imagemagick_decoder.cc
-		 job.cc
-		 job_manager.cc
-		 log.cc
-		 lut.cc
-                 matcher.cc
-                 scp_dcp_job.cc
-		 scaler.cc
-		 server.cc
-                 sound_processor.cc
-                 stream.cc
-                 subtitle.cc
-                 timer.cc
-		 transcode_job.cc
-		 transcoder.cc
-                 ui_signaller.cc
-		 util.cc
-		 version.cc
-                 video_decoder.cc
-                 video_source.cc
-                 writer.cc
-		 """
-
+    obj.source = sources
     obj.target = 'dvdomatic'
+
+    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdvdomatic', bld)
+
+def pot(bld):
+    i18n.pot(os.path.join('src', 'lib'), sources, 'libdvdomatic')

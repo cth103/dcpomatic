@@ -56,6 +56,8 @@
 #include "log.h"
 #include "subtitle.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using std::ofstream;
@@ -119,7 +121,7 @@ DCPVideoFrame::create_openjpeg_container ()
 
 	_image = opj_image_create (3, &_cmptparm[0], CLRSPC_SRGB);
 	if (_image == 0) {
-		throw EncodeError ("could not create libopenjpeg image");
+		throw EncodeError (N_("could not create libopenjpeg image"));
 	}
 
 	_image->x0 = 0;
@@ -265,7 +267,7 @@ DCPVideoFrame::encode_locally ()
 	_parameters->tcp_numlayers++;
 	_parameters->cp_disto_alloc = 1;
 	_parameters->cp_rsiz = CINEMA2K;
-	_parameters->cp_comment = strdup ("DVD-o-matic");
+	_parameters->cp_comment = strdup (N_("DVD-o-matic"));
 	_parameters->cp_cinema = CINEMA2K_24;
 
 	/* 3 components, so use MCT */
@@ -278,7 +280,7 @@ DCPVideoFrame::encode_locally ()
 	/* get a J2K compressor handle */
 	_cinfo = opj_create_compress (CODEC_J2K);
 	if (_cinfo == 0) {
-		throw EncodeError ("could not create JPEG2000 encoder");
+		throw EncodeError (N_("could not create JPEG2000 encoder"));
 	}
 
 	/* Set event manager to null (openjpeg 1.3 bug) */
@@ -289,15 +291,15 @@ DCPVideoFrame::encode_locally ()
 
 	_cio = opj_cio_open ((opj_common_ptr) _cinfo, 0, 0);
 	if (_cio == 0) {
-		throw EncodeError ("could not open JPEG2000 stream");
+		throw EncodeError (N_("could not open JPEG2000 stream"));
 	}
 
 	int const r = opj_encode (_cinfo, _cio, _image, 0);
 	if (r == 0) {
-		throw EncodeError ("JPEG2000 encoding failed");
+		throw EncodeError (N_("JPEG2000 encoding failed"));
 	}
 
-	_log->log (String::compose ("Finished locally-encoded frame %1", _frame));
+	_log->log (String::compose (N_("Finished locally-encoded frame %1"), _frame));
 	
 	return shared_ptr<EncodedData> (new LocallyEncodedData (_cio->buffer, cio_tell (_cio)));
 }
@@ -319,35 +321,35 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	socket->connect (*endpoint_iterator);
 
 	stringstream s;
-	s << "encode please\n"
-	  << "input_width " << _input->size().width << "\n"
-	  << "input_height " << _input->size().height << "\n"
-	  << "input_pixel_format " << _input->pixel_format() << "\n"
-	  << "output_width " << _out_size.width << "\n"
-	  << "output_height " << _out_size.height << "\n"
-	  << "padding " <<  _padding << "\n"
-	  << "subtitle_offset " << _subtitle_offset << "\n"
-	  << "subtitle_scale " << _subtitle_scale << "\n"
-	  << "scaler " << _scaler->id () << "\n"
-	  << "frame " << _frame << "\n"
-	  << "frames_per_second " << _frames_per_second << "\n";
+	s << N_("encode please\n")
+	  << N_("input_width ") << _input->size().width << N_("\n")
+	  << N_("input_height ") << _input->size().height << N_("\n")
+	  << N_("input_pixel_format ") << _input->pixel_format() << N_("\n")
+	  << N_("output_width ") << _out_size.width << N_("\n")
+	  << N_("output_height ") << _out_size.height << N_("\n")
+	  << N_("padding ") <<  _padding << N_("\n")
+	  << N_("subtitle_offset ") << _subtitle_offset << N_("\n")
+	  << N_("subtitle_scale ") << _subtitle_scale << N_("\n")
+	  << N_("scaler ") << _scaler->id () << N_("\n")
+	  << N_("frame ") << _frame << N_("\n")
+	  << N_("frames_per_second ") << _frames_per_second << N_("\n");
 
 	if (!_post_process.empty()) {
-		s << "post_process " << _post_process << "\n";
+		s << N_("post_process ") << _post_process << N_("\n");
 	}
 	
-	s << "colour_lut " << _colour_lut << "\n"
-	  << "j2k_bandwidth " << _j2k_bandwidth << "\n";
+	s << N_("colour_lut ") << _colour_lut << N_("\n")
+	  << N_("j2k_bandwidth ") << _j2k_bandwidth << N_("\n");
 
 	if (_subtitle) {
-		s << "subtitle_x " << _subtitle->position().x << "\n"
-		  << "subtitle_y " << _subtitle->position().y << "\n"
-		  << "subtitle_width " << _subtitle->image()->size().width << "\n"
-		  << "subtitle_height " << _subtitle->image()->size().height << "\n";
+		s << N_("subtitle_x ") << _subtitle->position().x << N_("\n")
+		  << N_("subtitle_y ") << _subtitle->position().y << N_("\n")
+		  << N_("subtitle_width ") << _subtitle->image()->size().width << N_("\n")
+		  << N_("subtitle_height ") << _subtitle->image()->size().height << N_("\n");
 	}
 
 	_log->log (String::compose (
-			   "Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)",
+			   N_("Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)"),
 			   _input->pixel_format(), _input->components(),
 			   _input->lines(0), _input->lines(1), _input->lines(2),
 			   _input->line_size()[0], _input->line_size()[1], _input->line_size()[2]
@@ -364,7 +366,7 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (socket->read_uint32 ()));
 	socket->read (e->data(), e->size());
 
-	_log->log (String::compose ("Finished remotely-encoded frame %1", _frame));
+	_log->log (String::compose (N_("Finished remotely-encoded frame %1"), _frame));
 	
 	return e;
 }
@@ -381,9 +383,9 @@ EncodedData::EncodedData (string file)
 	_size = boost::filesystem::file_size (file);
 	_data = new uint8_t[_size];
 
-	FILE* f = fopen (file.c_str(), "rb");
+	FILE* f = fopen (file.c_str(), N_("rb"));
 	if (!f) {
-		throw FileError ("could not open file for reading", file);
+		throw FileError (_("could not open file for reading"), file);
 	}
 	
 	fread (_data, 1, _size, f);
@@ -405,7 +407,7 @@ EncodedData::write (shared_ptr<const Film> film, int frame) const
 {
 	string const tmp_j2c = film->j2c_path (frame, true);
 
-	FILE* f = fopen (tmp_j2c.c_str (), "wb");
+	FILE* f = fopen (tmp_j2c.c_str (), N_("wb"));
 	
 	if (!f) {
 		throw WriteFileError (tmp_j2c, errno);

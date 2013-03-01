@@ -21,6 +21,8 @@
 #include "image.h"
 #include "log.h"
 
+#include "i18n.h"
+
 using std::min;
 using boost::shared_ptr;
 
@@ -65,7 +67,7 @@ Matcher::process_end ()
 
 	_log->log (
 		String::compose (
-			"Matching processor has seen %1 video frames (which equals %2 audio frames) and %3 audio frames",
+			N_("Matching processor has seen %1 video frames (which equals %2 audio frames) and %3 audio frames"),
 			_video_frames,
 			video_frames_to_audio_frames (_video_frames, _sample_rate, _frames_per_second),
 			_audio_frames
@@ -74,12 +76,12 @@ Matcher::process_end ()
 	
 	if (audio_short_by_frames < 0) {
 		
-		_log->log (String::compose ("%1 too many audio frames", -audio_short_by_frames));
+		_log->log (String::compose (N_("%1 too many audio frames"), -audio_short_by_frames));
 		
 		/* We have seen more audio than video.  Emit enough black video frames so that we reverse this */
 		int const black_video_frames = ceil (-audio_short_by_frames * _frames_per_second / _sample_rate);
 		
-		_log->log (String::compose ("Emitting %1 frames of black video", black_video_frames));
+		_log->log (String::compose (N_("Emitting %1 frames of black video"), black_video_frames));
 
 		shared_ptr<Image> black (new SimpleImage (_pixel_format.get(), _size.get(), true));
 		black->make_black ();
@@ -92,7 +94,7 @@ Matcher::process_end ()
 	}
 	
 	if (audio_short_by_frames > 0) {
-		_log->log (String::compose ("Emitted %1 too few audio frames", audio_short_by_frames));
+		_log->log (String::compose (N_("Emitted %1 too few audio frames"), audio_short_by_frames));
 
 		/* Do things in half second blocks as I think there may be limits
 		   to what FFmpeg (and in particular the resampler) can cope with.

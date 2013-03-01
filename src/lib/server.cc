@@ -37,6 +37,8 @@
 #include "config.h"
 #include "subtitle.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using std::multimap;
@@ -57,7 +59,7 @@ ServerDescription *
 ServerDescription::create_from_metadata (string v)
 {
 	vector<string> b;
-	split (b, v, is_any_of (" "));
+	split (b, v, is_any_of (N_(" ")));
 
 	if (b.size() != 2) {
 		return 0;
@@ -71,7 +73,7 @@ string
 ServerDescription::as_metadata () const
 {
 	stringstream s;
-	s << _host_name << " " << _threads;
+	s << _host_name << N_(" ") << _threads;
 	return s.str ();
 }
 
@@ -91,24 +93,24 @@ Server::process (shared_ptr<Socket> socket)
 	stringstream s (buffer.get());
 	multimap<string, string> kv = read_key_value (s);
 
-	if (get_required_string (kv, "encode") != "please") {
+	if (get_required_string (kv, N_("encode")) != N_("please")) {
 		return -1;
 	}
 
-	libdcp::Size in_size (get_required_int (kv, "input_width"), get_required_int (kv, "input_height"));
-	int pixel_format_int = get_required_int (kv, "input_pixel_format");
-	libdcp::Size out_size (get_required_int (kv, "output_width"), get_required_int (kv, "output_height"));
-	int padding = get_required_int (kv, "padding");
-	int subtitle_offset = get_required_int (kv, "subtitle_offset");
-	float subtitle_scale = get_required_float (kv, "subtitle_scale");
-	string scaler_id = get_required_string (kv, "scaler");
-	int frame = get_required_int (kv, "frame");
-	int frames_per_second = get_required_int (kv, "frames_per_second");
-	string post_process = get_optional_string (kv, "post_process");
-	int colour_lut_index = get_required_int (kv, "colour_lut");
-	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
-	Position subtitle_position (get_optional_int (kv, "subtitle_x"), get_optional_int (kv, "subtitle_y"));
-	libdcp::Size subtitle_size (get_optional_int (kv, "subtitle_width"), get_optional_int (kv, "subtitle_height"));
+	libdcp::Size in_size (get_required_int (kv, N_("input_width")), get_required_int (kv, N_("input_height")));
+	int pixel_format_int = get_required_int (kv, N_("input_pixel_format"));
+	libdcp::Size out_size (get_required_int (kv, N_("output_width")), get_required_int (kv, N_("output_height")));
+	int padding = get_required_int (kv, N_("padding"));
+	int subtitle_offset = get_required_int (kv, N_("subtitle_offset"));
+	float subtitle_scale = get_required_float (kv, N_("subtitle_scale"));
+	string scaler_id = get_required_string (kv, N_("scaler"));
+	int frame = get_required_int (kv, N_("frame"));
+	int frames_per_second = get_required_int (kv, N_("frames_per_second"));
+	string post_process = get_optional_string (kv, N_("post_process"));
+	int colour_lut_index = get_required_int (kv, N_("colour_lut"));
+	int j2k_bandwidth = get_required_int (kv, N_("j2k_bandwidth"));
+	Position subtitle_position (get_optional_int (kv, N_("subtitle_x")), get_optional_int (kv, N_("subtitle_y")));
+	libdcp::Size subtitle_size (get_optional_int (kv, N_("subtitle_width")), get_optional_int (kv, N_("subtitle_height")));
 
 	/* This checks that colour_lut_index is within range */
 	colour_lut_index_to_name (colour_lut_index);
@@ -137,7 +139,7 @@ Server::process (shared_ptr<Socket> socket)
 		encoded->send (socket);
 	} catch (std::exception& e) {
 		_log->log (String::compose (
-				   "Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components",
+				   N_("Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components"),
 				   frame, encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
 				   )
 			);
@@ -169,7 +171,7 @@ Server::worker_thread ()
 		try {
 			frame = process (socket);
 		} catch (std::exception& e) {
-			_log->log (String::compose ("Error: %1", e.what()));
+			_log->log (String::compose (N_("Error: %1"), e.what()));
 		}
 		
 		socket.reset ();
@@ -179,7 +181,7 @@ Server::worker_thread ()
 		if (frame >= 0) {
 			struct timeval end;
 			gettimeofday (&end, 0);
-			_log->log (String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)));
+			_log->log (String::compose (N_("Encoded frame %1 in %2"), frame, seconds (end) - seconds (start)));
 		}
 		
 		_worker_condition.notify_all ();
@@ -189,7 +191,7 @@ Server::worker_thread ()
 void
 Server::run (int num_threads)
 {
-	_log->log (String::compose ("Server starting with %1 threads", num_threads));
+	_log->log (String::compose (N_("Server starting with %1 threads"), num_threads));
 	
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));

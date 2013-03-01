@@ -60,6 +60,7 @@ static shared_ptr<Film> film;
 static std::string log_level;
 static std::string film_to_load;
 static wxMenu* jobs_menu = 0;
+static wxLocale* locale = 0;
 
 static void set_menu_sensitivity ();
 
@@ -68,9 +69,12 @@ class FilmChangedDialog
 public:
 	FilmChangedDialog ()
 	{
-		stringstream s;
-		s << "Save changes to film \"" << film->name() << "\" before closing?";
-		_dialog = new wxMessageDialog (0, std_to_wx (s.str()), _("Film changed"), wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION);
+		_dialog = new wxMessageDialog (
+			0,
+			std_to_wx (String::compose ("Save changes to film \"%1\" before closing?", film->name())),
+			_("Film changed"),
+			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
+			);
 	}
 
 	~FilmChangedDialog ()
@@ -117,9 +121,9 @@ enum Sensitivity {
 map<wxMenuItem*, Sensitivity> menu_items;
 	
 void
-add_item (wxMenu* menu, std::string text, int id, Sensitivity sens)
+add_item (wxMenu* menu, wxString text, int id, Sensitivity sens)
 {
-	wxMenuItem* item = menu->Append (id, std_to_wx (text));
+	wxMenuItem* item = menu->Append (id, text);
 	menu_items.insert (make_pair (item, sens));
 }
 
@@ -153,32 +157,32 @@ void
 setup_menu (wxMenuBar* m)
 {
 	wxMenu* file = new wxMenu;
-	add_item (file, "New...", ID_file_new, ALWAYS);
-	add_item (file, "&Open...", ID_file_open, ALWAYS);
+	add_item (file, _("New..."), ID_file_new, ALWAYS);
+	add_item (file, _("&Open..."), ID_file_open, ALWAYS);
 	file->AppendSeparator ();
-	add_item (file, "&Save", ID_file_save, NEEDS_FILM);
+	add_item (file, _("&Save"), ID_file_save, NEEDS_FILM);
 	file->AppendSeparator ();
-	add_item (file, "&Properties...", ID_file_properties, NEEDS_FILM);
+	add_item (file, _("&Properties..."), ID_file_properties, NEEDS_FILM);
 	file->AppendSeparator ();
-	add_item (file, "&Quit", ID_file_quit, ALWAYS);
+	add_item (file, _("&Quit"), ID_file_quit, ALWAYS);
 
 	wxMenu* edit = new wxMenu;
-	add_item (edit, "&Preferences...", ID_edit_preferences, ALWAYS);
+	add_item (edit, _("&Preferences..."), ID_edit_preferences, ALWAYS);
 
 	jobs_menu = new wxMenu;
-	add_item (jobs_menu, "&Make DCP", ID_jobs_make_dcp, NEEDS_FILM);
-	add_item (jobs_menu, "&Send DCP to TMS", ID_jobs_send_dcp_to_tms, NEEDS_FILM);
-	add_item (jobs_menu, "S&how DCP", ID_jobs_show_dcp, NEEDS_FILM);
+	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM);
+	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM);
+	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM);
 	jobs_menu->AppendSeparator ();
-	add_item (jobs_menu, "&Examine content", ID_jobs_examine_content, NEEDS_FILM);
+	add_item (jobs_menu, _("&Examine content"), ID_jobs_examine_content, NEEDS_FILM);
 
 	wxMenu* help = new wxMenu;
-	add_item (help, "About", ID_help_about, ALWAYS);
+	add_item (help, _("About"), ID_help_about, ALWAYS);
 
-	m->Append (file, _("&File"));
-	m->Append (edit, _("&Edit"));
-	m->Append (jobs_menu, _("&Jobs"));
-	m->Append (help, _("&Help"));
+	m->Append (file, _(_("&File")));
+	m->Append (edit, _(_("&Edit")));
+	m->Append (jobs_menu, _(_("&Jobs")));
+	m->Append (help, _(_("&Help")));
 }
 
 bool
@@ -280,7 +284,7 @@ private:
 	void file_changed (string f)
 	{
 		stringstream s;
-		s << "DVD-o-matic";
+		s << _("DVD-o-matic");
 		if (!f.empty ()) {
 			s << " - " << f;
 		}
@@ -430,6 +434,29 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 };
 #endif
 
+void
+setup_i18n ()
+{
+	int language = wxLANGUAGE_DEFAULT;
+ 
+	if (wxLocale::IsAvailable (language)) {
+		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
+
+#ifdef __WXGTK__
+		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_PREFIX "/locale"));
+#endif
+
+		locale->AddCatalog ("libdvdomatic-wx");
+		locale->AddCatalog ("dvdomatic");
+		
+		if (!locale->IsOk()) {
+			delete locale;
+			locale = new wxLocale (wxLANGUAGE_ENGLISH);
+			language = wxLANGUAGE_ENGLISH;
+		}
+	}
+}
+
 class App : public wxApp
 {
 	bool OnInit ()
@@ -443,6 +470,7 @@ class App : public wxApp
 #endif		
 		
 		wxInitAllImageHandlers ();
+		setup_i18n ();
 		
 		dvdomatic_setup ();
 
@@ -451,7 +479,7 @@ class App : public wxApp
 				film.reset (new Film (film_to_load));
 				film->log()->set_level (log_level);
 			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose ("Could not load film %1 (%2)", film_to_load, e.what())));
+				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load, e.what())));
 			}
 		}
 

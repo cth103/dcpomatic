@@ -23,6 +23,8 @@
 #include "ffmpeg_decoder.h"
 #include "external_audio_decoder.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using boost::shared_ptr;
@@ -47,7 +49,7 @@ SubtitleStream::SubtitleStream (string t, boost::optional<int>)
 string
 SubtitleStream::to_string () const
 {
-	return String::compose ("%1 %2", _id, _name);
+	return String::compose (N_("%1 %2"), _id, _name);
 }
 
 /** Create a SubtitleStream from a value returned from to_string().

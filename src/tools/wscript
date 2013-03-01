@@ -1,3 +1,8 @@
+import os
+import glob
+from waflib import Logs
+import i18n
+
 def build(bld):
     for t in ['makedcp', 'servomatic_cli', 'servomatictest']:
         obj = bld(features = 'cxx cxxprogram')
@@ -17,3 +22,8 @@ def build(bld):
             if bld.env.TARGET_WINDOWS:
                 obj.source += ' ../../windows/dvdomatic.rc'
             obj.target = t
+
+        i18n.po_to_mo(os.path.join('src', 'tools'), 'dvdomatic', bld)
+
+def pot(bld):
+    i18n.pot(os.path.join('src', 'tools'), 'dvdomatic.cc', 'dvdomatic')

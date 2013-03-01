@@ -40,6 +40,8 @@ extern "C" {
 #include "exceptions.h"
 #include "scaler.h"
 
+#include "i18n.h"
+
 using namespace std;
 using namespace boost;
 using libdcp::Size;
@@ -75,7 +77,7 @@ Image::lines (int n) const
 	case PIX_FMT_YUV444P10LE:
 		return size().height;
 	default:
-		throw PixelFormatError ("lines()", _pixel_format);
+		throw PixelFormatError (N_("lines()"), _pixel_format);
 	}
 
 	return 0;
@@ -99,7 +101,7 @@ Image::components () const
 	case PIX_FMT_RGBA:
 		return 1;
 	default:
-		throw PixelFormatError ("components()", _pixel_format);
+		throw PixelFormatError (N_("components()"), _pixel_format);
 	}
 
 	return 0;
@@ -218,7 +220,7 @@ Image::post_process (string pp, bool aligned) const
 	case PIX_FMT_YUV444P10LE:
 		pp_format = PP_FORMAT_444;
 	default:
-		throw PixelFormatError ("post_process", pixel_format());
+		throw PixelFormatError (N_("post_process"), pixel_format());
 	}
 		
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);

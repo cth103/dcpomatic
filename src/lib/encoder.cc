@@ -39,6 +39,8 @@
 #include "cross.h"
 #include "writer.h"
 
+#include "i18n.h"
+
 using std::pair;
 using std::string;
 using std::stringstream;
@@ -79,7 +81,7 @@ Encoder::process_begin ()
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << "Will resample audio from " << _film->audio_stream()->sample_rate() << " to " << _film->target_audio_sample_rate();
+		s << String::compose (N_("Will resample audio from %1 to %2"), _film->audio_stream()->sample_rate(), _film->target_audio_sample_rate());
 		_film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the resampler */
@@ -96,7 +98,7 @@ Encoder::process_begin ()
 		
 		swr_init (_swr_context);
 #else
-		throw EncodeError ("Cannot resample audio as libswresample is not present");
+		throw EncodeError (_("Cannot resample audio as libswresample is not present"));
 #endif
 	} else {
 #ifdef HAVE_SWRESAMPLE
@@ -132,7 +134,7 @@ Encoder::process_end ()
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
 
 			if (frames < 0) {
-				throw EncodeError ("could not run sample-rate converter");
+				throw EncodeError (_("could not run sample-rate converter"));
 			}
 
 			if (frames == 0) {
@@ -149,11 +151,11 @@ Encoder::process_end ()
 
 	boost::mutex::scoped_lock lock (_mutex);
 
-	_film->log()->log ("Clearing queue of " + lexical_cast<string> (_queue.size ()));
+	_film->log()->log (String::compose (N_("Clearing queue of %1"), _queue.size ()));
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
-		_film->log()->log ("Waking with " + lexical_cast<string> (_queue.size ()), Log::VERBOSE);
+		_film->log()->log (String::compose (N_("Waking with %1"), _queue.size ()), Log::VERBOSE);
 		_condition.notify_all ();
 		_condition.wait (lock);
 	}
@@ -162,7 +164,7 @@ Encoder::process_end ()
 	
 	terminate_threads ();
 
-	_film->log()->log ("Mopping up " + lexical_cast<string> (_queue.size()));
+	_film->log()->log (String::compose (N_("Mopping up %1"), _queue.size()));
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
@@ -174,12 +176,12 @@ Encoder::process_end ()
 	*/
 
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
-		_film->log()->log (String::compose ("Encode left-over frame %1", (*i)->frame ()));
+		_film->log()->log (String::compose (N_("Encode left-over frame %1"), (*i)->frame ()));
 		try {
 			_writer->write ((*i)->encode_locally(), (*i)->frame ());
 			frame_done ();
 		} catch (std::exception& e) {
-			_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
+			_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
 		}
 	}
 
@@ -242,9 +244,9 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
-		TIMING ("decoder sleeps with queue of %1", _queue.size());
+		TIMING (_("decoder sleeps with queue of %1"), _queue.size());
 		_condition.wait (lock);
-		TIMING ("decoder wakes with queue of %1", _queue.size());
+		TIMING (_("decoder wakes with queue of %1"), _queue.size());
 	}
 
 	if (_terminate) {
@@ -266,7 +268,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
-		TIMING ("adding to queue of %1", _queue.size ());
+		TIMING (_("adding to queue of %1"), _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
@@ -309,7 +311,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 			);
 		
 		if (resampled_frames < 0) {
-			throw EncodeError ("could not run sample-rate converter");
+			throw EncodeError (_("could not run sample-rate converter"));
 		}
 
 		resampled->set_frames (resampled_frames);
@@ -347,7 +349,7 @@ Encoder::encoder_thread (ServerDescription* server)
 	
 	while (1) {
 
-		TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
+		TIMING (N_("encoder thread %1 sleeps"), boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_mutex);
 		while (_queue.empty () && !_terminate) {
 			_condition.wait (lock);
@@ -357,9 +359,9 @@ Encoder::encoder_thread (ServerDescription* server)
 			return;
 		}
 
-		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
+		TIMING (N_("encoder thread %1 wakes with queue of %2"), boost::this_thread::get_id(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_film->log()->log (String::compose ("Encoder thread %1 pops frame %2 from queue", boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
+		_film->log()->log (String::compose (N_("Encoder thread %1 pops frame %2 from queue"), boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -371,7 +373,7 @@ Encoder::encoder_thread (ServerDescription* server)
 				encoded = vf->encode_remotely (server);
 
 				if (remote_backoff > 0) {
-					_film->log()->log (String::compose ("%1 was lost, but now she is found; removing backoff", server->host_name ()));
+					_film->log()->log (String::compose (N_("%1 was lost, but now she is found; removing backoff"), server->host_name ()));
 				}
 				
 				/* This job succeeded, so remove any backoff */
@@ -384,18 +386,18 @@ Encoder::encoder_thread (ServerDescription* server)
 				}
 				_film->log()->log (
 					String::compose (
-						"Remote encode of %1 on %2 failed (%3); thread sleeping for %4s",
+						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
 						vf->frame(), server->host_name(), e.what(), remote_backoff)
 					);
 			}
 				
 		} else {
 			try {
-				TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->frame());
+				TIMING (N_("encoder thread %1 begins local encode of %2"), boost::this_thread::get_id(), vf->frame());
 				encoded = vf->encode_locally ();
-				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->frame());
+				TIMING (N_("encoder thread %1 finishes local encode of %2"), boost::this_thread::get_id(), vf->frame());
 			} catch (std::exception& e) {
-				_film->log()->log (String::compose ("Local encode failed (%1)", e.what ()));
+				_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
 			}
 		}
 
@@ -405,7 +407,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		} else {
 			lock.lock ();
 			_film->log()->log (
-				String::compose ("Encoder thread %1 pushes frame %2 back onto queue after failure", boost::this_thread::get_id(), vf->frame())
+				String::compose (N_("Encoder thread %1 pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->frame())
 				);
 			_queue.push_front (vf);
 			lock.unlock ();

@@ -24,6 +24,8 @@
 #include <cassert>
 #include "dcp_content_type.h"
 
+#include "i18n.h"
+
 using namespace std;
 
 vector<DCPContentType const *> DCPContentType::_dcp_content_types;
@@ -39,16 +41,16 @@ DCPContentType::DCPContentType (string p, libdcp::ContentKind k, string d)
 void
 DCPContentType::setup_dcp_content_types ()
 {
-	_dcp_content_types.push_back (new DCPContentType ("Feature", libdcp::FEATURE, "FTR"));
-	_dcp_content_types.push_back (new DCPContentType ("Short", libdcp::SHORT, "SHR"));
-	_dcp_content_types.push_back (new DCPContentType ("Trailer", libdcp::TRAILER, "TLR"));
-	_dcp_content_types.push_back (new DCPContentType ("Test", libdcp::TEST, "TST"));
-	_dcp_content_types.push_back (new DCPContentType ("Transitional", libdcp::TRANSITIONAL, "XSN"));
-	_dcp_content_types.push_back (new DCPContentType ("Rating", libdcp::RATING, "RTG"));
-	_dcp_content_types.push_back (new DCPContentType ("Teaser", libdcp::TEASER, "TSR"));
-	_dcp_content_types.push_back (new DCPContentType ("Policy", libdcp::POLICY, "POL"));
-	_dcp_content_types.push_back (new DCPContentType ("Public Service Announcement", libdcp::PUBLIC_SERVICE_ANNOUNCEMENT, "PSA"));
-	_dcp_content_types.push_back (new DCPContentType ("Advertisement", libdcp::ADVERTISEMENT, "ADV"));
+	_dcp_content_types.push_back (new DCPContentType (_("Feature"), libdcp::FEATURE, N_("FTR")));
+	_dcp_content_types.push_back (new DCPContentType (_("Short"), libdcp::SHORT, N_("SHR")));
+	_dcp_content_types.push_back (new DCPContentType (_("Trailer"), libdcp::TRAILER, N_("TLR")));
+	_dcp_content_types.push_back (new DCPContentType (_("Test"), libdcp::TEST, N_("TST")));
+	_dcp_content_types.push_back (new DCPContentType (_("Transitional"), libdcp::TRANSITIONAL, N_("XSN")));
+	_dcp_content_types.push_back (new DCPContentType (_("Rating"), libdcp::RATING, N_("RTG")));
+	_dcp_content_types.push_back (new DCPContentType (_("Teaser"), libdcp::TEASER, N_("TSR")));
+	_dcp_content_types.push_back (new DCPContentType (_("Policy"), libdcp::POLICY, N_("POL")));
+	_dcp_content_types.push_back (new DCPContentType (_("Public Service Announcement"), libdcp::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")));
+	_dcp_content_types.push_back (new DCPContentType (_("Advertisement"), libdcp::ADVERTISEMENT, N_("ADV")));
 }
 
 DCPContentType const *

@@ -25,6 +25,8 @@
 #include "options.h"
 #include "job.h"
 
+#include "i18n.h"
+
 using boost::shared_ptr;
 using boost::optional;
 
@@ -76,7 +78,7 @@ VideoDecoder::repeat_last_video ()
 void
 VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
 {
-	TIMING ("Decoder emits %1", _video_frame);
+	TIMING (N_("Decoder emits %1"), _video_frame);
 	Video (image, same, sub);
 	++_video_frame;
 

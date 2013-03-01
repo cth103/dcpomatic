@@ -28,6 +28,8 @@ extern "C" {
 }
 #include "scaler.h"
 
+#include "i18n.h"
+
 using namespace std;
 
 vector<Scaler const *> Scaler::_scalers;
@@ -57,15 +59,15 @@ Scaler::all ()
 void
 Scaler::setup_scalers ()
 {
-	_scalers.push_back (new Scaler (SWS_BICUBIC, "bicubic", "Bicubic"));
-	_scalers.push_back (new Scaler (SWS_X, "x", "X"));
-	_scalers.push_back (new Scaler (SWS_AREA, "area", "Area"));
-	_scalers.push_back (new Scaler (SWS_GAUSS, "gauss", "Gaussian"));
-	_scalers.push_back (new Scaler (SWS_LANCZOS, "lanczos", "Lanczos"));
-	_scalers.push_back (new Scaler (SWS_SINC, "sinc", "Sinc"));
-	_scalers.push_back (new Scaler (SWS_SPLINE, "spline", "Spline"));
-	_scalers.push_back (new Scaler (SWS_BILINEAR, "bilinear", "Bilinear"));
-	_scalers.push_back (new Scaler (SWS_FAST_BILINEAR, "fastbilinear", "Fast Bilinear"));
+	_scalers.push_back (new Scaler (SWS_BICUBIC, N_("bicubic"), _("Bicubic")));
+	_scalers.push_back (new Scaler (SWS_X, N_("x"), _("X")));
+	_scalers.push_back (new Scaler (SWS_AREA, N_("area"), _("Area")));
+	_scalers.push_back (new Scaler (SWS_GAUSS, N_("gauss"), _("Gaussian")));
+	_scalers.push_back (new Scaler (SWS_LANCZOS, N_("lanczos"), _("Lanczos")));
+	_scalers.push_back (new Scaler (SWS_SINC, N_("sinc"), _("Sinc")));
+	_scalers.push_back (new Scaler (SWS_SPLINE, N_("spline"), _("Spline")));
+	_scalers.push_back (new Scaler (SWS_BILINEAR, N_("bilinear"), _("Bilinear")));
+	_scalers.push_back (new Scaler (SWS_FAST_BILINEAR, N_("fastbilinear"), _("Fast Bilinear")));
 }
 
 /** @param id One of our ids.
