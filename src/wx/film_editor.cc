@@ -753,7 +753,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	if (_film) {
 		FileChanged (_film->directory ());
 	} else {
-		FileChanged (N_(""));
+		FileChanged (wx_to_std (N_("")));
 	}
 	
 	film_changed (Film::NAME);
@@ -1168,7 +1168,7 @@ FilmEditor::setup_dcp_name ()
 {
 	string s = _film->dcp_name (true);
 	if (s.length() > 28) {
-		_dcp_name->SetLabel (std_to_wx (s.substr (0, 28) + N_("...")));
+		_dcp_name->SetLabel (std_to_wx (s.substr (0, 28)) + N_("..."));
 		_dcp_name->SetToolTip (std_to_wx (s));
 	} else {
 		_dcp_name->SetLabel (std_to_wx (s));

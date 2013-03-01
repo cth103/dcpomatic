@@ -446,8 +446,8 @@ setup_i18n ()
 		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_PREFIX "/locale"));
 #endif
 
-		locale->AddCatalog ("libdvdomatic-wx");
-		locale->AddCatalog ("dvdomatic");
+		locale->AddCatalog (wxT ("libdvdomatic-wx"));
+		locale->AddCatalog (wxT ("dvdomatic"));
 		
 		if (!locale->IsOk()) {
 			delete locale;
