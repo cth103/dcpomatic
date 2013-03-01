@@ -213,13 +213,38 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel) const
 	path.MoveToPoint (_db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::RMS]));
 
 	list<float> smoothing;
+
 	int const N = _analysis->points(channel);
+
+	float const first = _analysis->get_point(channel, 0)[AudioPoint::RMS];
+	float const last = _analysis->get_point(channel, N - 1)[AudioPoint::RMS];
+
+	int const before = _smoothing / 2;
+	int const after = _smoothing - before;
+	
+	/* Pre-load the smoothing list */
+	for (int i = 0; i < before; ++i) {
+		smoothing.push_back (first);
+	}
+	for (int i = 0; i < after; ++i) {
+		if (i < N) {
+			smoothing.push_back (_analysis->get_point(channel, i)[AudioPoint::RMS]);
+		} else {
+			smoothing.push_back (last);
+		}
+	}
+	
 	for (int i = 0; i < N; ++i) {
 
-		smoothing.push_back (_analysis->get_point(channel, i)[AudioPoint::RMS]);
-		if (int(smoothing.size()) > _smoothing) {
-			smoothing.pop_front ();
+		int const next_for_window = i + after;
+
+		if (next_for_window < N) {
+			smoothing.push_back (_analysis->get_point(channel, i)[AudioPoint::RMS]);
+		} else {
+			smoothing.push_back (last);
 		}
+
+		smoothing.pop_front ();
 
 		float p = 0;
 		for (list<float>::const_iterator j = smoothing.begin(); j != smoothing.end(); ++j) {
@@ -228,8 +253,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel) const
 
 		p = sqrt (p / smoothing.size ());
 
-		int const ind = max (0, i - int(smoothing.size() / 2));
-		path.AddLineToPoint (_db_label_width + ind * _x_scale, y_for_linear (p));
+		path.AddLineToPoint (_db_label_width + i * _x_scale, y_for_linear (p));
 	}
 }
 
