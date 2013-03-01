@@ -9,7 +9,7 @@ elif [ "$1" == "--valgrind" ]; then
     valgrind --tool="memcheck" build/src/tools/dvdomatic $*
 elif [ "$1" == "--i18n" ]; then
     shift
-    LANG=fr_FR.UTF8 build/src/tools/dvdomatic "$*"
+    LANGUAGE=fr_FR.UTF8 LANG=fr_FR.UTF8 build/src/tools/dvdomatic "$*"
 else
     build/src/tools/dvdomatic "$*"
 fi

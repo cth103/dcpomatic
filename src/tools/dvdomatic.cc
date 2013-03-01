@@ -443,7 +443,7 @@ setup_i18n ()
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
 
 #ifdef __WXGTK__
-		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_DIR));
+		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_PREFIX "/locale"));
 #endif
 
 		locale->AddCatalog ("libdvdomatic-wx");
