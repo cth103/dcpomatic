@@ -43,6 +43,8 @@ extern "C" {
 #include "film.h"
 #include "ffmpeg_decoder.h"
 
+#include "i18n.h"
+
 using std::stringstream;
 using std::string;
 using std::list;
@@ -63,36 +65,36 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 {
 	string filters = Filter::ffmpeg_strings (film->filters()).first;
 	if (!filters.empty ()) {
-		filters += ",";
+		filters += N_(",");
 	}
 
 	filters += crop_string (Position (film->crop().left, film->crop().top), film->cropped_size (decoder->native_size()));
 
 	AVFilterGraph* graph = avfilter_graph_alloc();
 	if (graph == 0) {
-		throw DecodeError ("Could not create filter graph.");
+		throw DecodeError (N_("could not create filter graph."));
 	}
 
-	AVFilter* buffer_src = avfilter_get_by_name("buffer");
+	AVFilter* buffer_src = avfilter_get_by_name(N_("buffer"));
 	if (buffer_src == 0) {
-		throw DecodeError ("Could not find buffer src filter");
+		throw DecodeError (N_("could not find buffer src filter"));
 	}
 
 	AVFilter* buffer_sink = get_sink ();
 
 	stringstream a;
-	a << _size.width << ":"
-	  << _size.height << ":"
-	  << _pixel_format << ":"
-	  << decoder->time_base_numerator() << ":"
-	  << decoder->time_base_denominator() << ":"
-	  << decoder->sample_aspect_ratio_numerator() << ":"
+	a << _size.width << N_(":")
+	  << _size.height << N_(":")
+	  << _pixel_format << N_(":")
+	  << decoder->time_base_numerator() << N_(":")
+	  << decoder->time_base_denominator() << N_(":")
+	  << decoder->sample_aspect_ratio_numerator() << N_(":")
 	  << decoder->sample_aspect_ratio_denominator();
 
 	int r;
 
-	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph)) < 0) {
-		throw DecodeError ("could not create buffer source");
+	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, N_("in"), a.str().c_str(), 0, graph)) < 0) {
+		throw DecodeError (N_("could not create buffer source"));
 	}
 
 	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
@@ -101,34 +103,34 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 	pixel_fmts[1] = PIX_FMT_NONE;
 	sink_params->pixel_fmts = pixel_fmts;
 	
-	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, "out", 0, sink_params, graph) < 0) {
-		throw DecodeError ("could not create buffer sink.");
+	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), 0, sink_params, graph) < 0) {
+		throw DecodeError (N_("could not create buffer sink."));
 	}
 
 	AVFilterInOut* outputs = avfilter_inout_alloc ();
-	outputs->name = av_strdup("in");
+	outputs->name = av_strdup(N_("in"));
 	outputs->filter_ctx = _buffer_src_context;
 	outputs->pad_idx = 0;
 	outputs->next = 0;
 
 	AVFilterInOut* inputs = avfilter_inout_alloc ();
-	inputs->name = av_strdup("out");
+	inputs->name = av_strdup(N_("out"));
 	inputs->filter_ctx = _buffer_sink_context;
 	inputs->pad_idx = 0;
 	inputs->next = 0;
 
 #if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
 	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
-		throw DecodeError ("could not set up filter graph.");
+		throw DecodeError (N_("could not set up filter graph."));
 	}
 #else	
 	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
-		throw DecodeError ("could not set up filter graph.");
+		throw DecodeError (N_("could not set up filter graph."));
 	}
 #endif	
 	
 	if (avfilter_graph_config (graph, 0) < 0) {
-		throw DecodeError ("could not configure filter graph.");
+		throw DecodeError (N_("could not configure filter graph."));
 	}
 
 	/* XXX: leaking `inputs' / `outputs' ? */
@@ -145,7 +147,7 @@ FilterGraph::process (AVFrame const * frame)
 #if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 53 && LIBAVFILTER_VERSION_MINOR <= 61
 
 	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0) < 0) {
-		throw DecodeError ("could not push buffer into filter chain.");
+		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
 
 #elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
@@ -155,13 +157,13 @@ FilterGraph::process (AVFrame const * frame)
 	par.den = sample_aspect_ratio_denominator ();
 
 	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0, par) < 0) {
-		throw DecodeError ("could not push buffer into filter chain.");
+		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
 
 #else
 
 	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
-		throw DecodeError ("could not push buffer into filter chain.");
+		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
 
 #endif	
@@ -176,7 +178,7 @@ FilterGraph::process (AVFrame const * frame)
 		
 		int r = avfilter_request_frame (_buffer_sink_context->inputs[0]);
 		if (r < 0) {
-			throw DecodeError ("could not request filtered frame");
+			throw DecodeError (N_("could not request filtered frame"));
 		}
 		
 		AVFilterBufferRef* filter_buffer = _buffer_sink_context->inputs[0]->cur_buf;

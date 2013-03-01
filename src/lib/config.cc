@@ -28,6 +28,8 @@
 #include "filter.h"
 #include "sound_processor.h"
 
+#include "i18n.h"
+
 using std::vector;
 using std::ifstream;
 using std::string;
@@ -40,9 +42,9 @@ Config* Config::_instance = 0;
 Config::Config ()
 	: _num_local_encoding_threads (2)
 	, _server_port (6192)
-	, _reference_scaler (Scaler::from_id ("bicubic"))
-	, _tms_path (".")
-	, _sound_processor (SoundProcessor::from_id ("dolby_cp750"))
+	, _reference_scaler (Scaler::from_id (N_("bicubic")))
+	, _tms_path (N_("."))
+	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -67,27 +69,27 @@ Config::Config ()
 		string const k = line.substr (0, s);
 		string const v = line.substr (s + 1);
 
-		if (k == "num_local_encoding_threads") {
+		if (k == N_("num_local_encoding_threads")) {
 			_num_local_encoding_threads = atoi (v.c_str ());
-		} else if (k == "default_directory") {
+		} else if (k == N_("default_directory")) {
 			_default_directory = v;
-		} else if (k == "server_port") {
+		} else if (k == N_("server_port")) {
 			_server_port = atoi (v.c_str ());
-		} else if (k == "reference_scaler") {
+		} else if (k == N_("reference_scaler")) {
 			_reference_scaler = Scaler::from_id (v);
-		} else if (k == "reference_filter") {
+		} else if (k == N_("reference_filter")) {
 			_reference_filters.push_back (Filter::from_id (v));
-		} else if (k == "server") {
+		} else if (k == N_("server")) {
 			_servers.push_back (ServerDescription::create_from_metadata (v));
-		} else if (k == "tms_ip") {
+		} else if (k == N_("tms_ip")) {
 			_tms_ip = v;
-		} else if (k == "tms_path") {
+		} else if (k == N_("tms_path")) {
 			_tms_path = v;
-		} else if (k == "tms_user") {
+		} else if (k == N_("tms_user")) {
 			_tms_user = v;
-		} else if (k == "tms_password") {
+		} else if (k == N_("tms_password")) {
 			_tms_password = v;
-		} else if (k == "sound_processor") {
+		} else if (k == N_("sound_processor")) {
 			_sound_processor = SoundProcessor::from_id (v);
 		}
 
@@ -101,7 +103,7 @@ Config::file () const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
-	p /= ".dvdomatic";
+	p /= N_(".dvdomatic");
 	return p.string ();
 }
 
@@ -121,24 +123,24 @@ void
 Config::write () const
 {
 	ofstream f (file().c_str ());
-	f << "num_local_encoding_threads " << _num_local_encoding_threads << "\n"
-	  << "default_directory " << _default_directory << "\n"
-	  << "server_port " << _server_port << "\n"
-	  << "reference_scaler " << _reference_scaler->id () << "\n";
+	f << N_("num_local_encoding_threads ") << _num_local_encoding_threads << N_("\n")
+	  << N_("default_directory ") << _default_directory << N_("\n")
+	  << N_("server_port ") << _server_port << N_("\n")
+	  << N_("reference_scaler ") << _reference_scaler->id () << N_("\n");
 
 	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {
-		f << "reference_filter " << (*i)->id () << "\n";
+		f << N_("reference_filter ") << (*i)->id () << N_("\n");
 	}
 	
 	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		f << "server " << (*i)->as_metadata () << "\n";
+		f << N_("server ") << (*i)->as_metadata () << N_("\n");
 	}
 
-	f << "tms_ip " << _tms_ip << "\n";
-	f << "tms_path " << _tms_path << "\n";
-	f << "tms_user " << _tms_user << "\n";
-	f << "tms_password " << _tms_password << "\n";
-	f << "sound_processor " << _sound_processor->id () << "\n";
+	f << N_("tms_ip ") << _tms_ip << N_("\n");
+	f << N_("tms_path ") << _tms_path << N_("\n");
+	f << N_("tms_user ") << _tms_user << N_("\n");
+	f << N_("tms_password ") << _tms_password << N_("\n");
+	f << N_("sound_processor ") << _sound_processor->id () << N_("\n");
 
 	_default_dci_metadata.write (f);
 }

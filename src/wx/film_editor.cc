@@ -164,7 +164,7 @@ FilmEditor::make_film_panel ()
 		_still_duration = new wxSpinCtrl (_film_panel);
 		still_control (_still_duration);
 		s->Add (_still_duration, 1, wxEXPAND);
-		/* TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time */
+		/// TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
 		still_control (add_label_to_sizer (s, _film_panel, _("s")));
 		grid->Add (s);
 	}
@@ -327,7 +327,7 @@ FilmEditor::make_audio_panel ()
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_delay = new wxSpinCtrl (_audio_panel);
 		s->Add (video_control (_audio_delay), 1);
-		/* TRANSLATORS: this is an abbreviation for milliseconds, the unit of time */
+		/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 		video_control (add_label_to_sizer (s, _audio_panel, _("ms")));
 		grid->Add (s);
 	}
@@ -610,9 +610,9 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::LENGTH:
 		if (_film->frames_per_second() > 0 && _film->length()) {
-			s << _film->length().get() << " frames; " << seconds_to_hms (_film->length().get() / _film->frames_per_second());
+			s << _film->length().get() << " " << _("frames") << "; " << seconds_to_hms (_film->length().get() / _film->frames_per_second());
 		} else if (_film->length()) {
-			s << _film->length().get() << " frames";
+			s << _film->length().get() << " " << _("frames");
 		} 
 		_length->SetLabel (std_to_wx (s.str ()));
 		if (_film->length()) {
@@ -747,7 +747,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	if (_film) {
 		FileChanged (_film->directory ());
 	} else {
-		FileChanged ("");
+		FileChanged (wx_to_std (N_("")));
 	}
 
 	if (_audio_dialog) {
@@ -1130,11 +1130,11 @@ FilmEditor::setup_audio_details ()
 	} else {
 		stringstream s;
 		if (_film->audio_stream()->channels() == 1) {
-			s << "1 channel";
+			s << _("1 channel");
 		} else {
-			s << _film->audio_stream()->channels () << " channels";
+			s << _film->audio_stream()->channels () << " " << _("channels");
 		}
-		s << ", " << _film->audio_stream()->sample_rate() << "Hz";
+		s << ", " << _film->audio_stream()->sample_rate() << _("Hz");
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }
@@ -1167,7 +1167,7 @@ FilmEditor::setup_dcp_name ()
 {
 	string s = _film->dcp_name (true);
 	if (s.length() > 28) {
-		_dcp_name->SetLabel (std_to_wx (s.substr (0, 28) + "..."));
+		_dcp_name->SetLabel (std_to_wx (s.substr (0, 28)) + N_("..."));
 		_dcp_name->SetToolTip (std_to_wx (s));
 	} else {
 		_dcp_name->SetLabel (std_to_wx (s));

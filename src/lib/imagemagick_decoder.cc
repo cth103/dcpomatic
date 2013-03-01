@@ -25,6 +25,8 @@
 #include "film.h"
 #include "exceptions.h"
 
+#include "i18n.h"
+
 using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
@@ -55,7 +57,7 @@ libdcp::Size
 ImageMagickDecoder::native_size () const
 {
 	if (_files.empty ()) {
-		throw DecodeError ("no still image files found");
+		throw DecodeError (_("no still image files found"));
 	}
 
 	/* Look at the first file and assume its size holds for all */

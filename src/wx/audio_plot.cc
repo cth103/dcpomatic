@@ -115,7 +115,7 @@ AudioPlot::paint (wxPaintEvent &)
 	wxDouble db_label_height;
 	wxDouble db_label_descent;
 	wxDouble db_label_leading;
-	gc->GetTextExtent (_("-80dB"), &_db_label_width, &db_label_height, &db_label_descent, &db_label_leading);
+	gc->GetTextExtent ("-80dB", &_db_label_width, &db_label_height, &db_label_descent, &db_label_leading);
 
 	_db_label_width += 8;
 	

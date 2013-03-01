@@ -1,3 +1,28 @@
+import os
+import glob
+from waflib import Logs
+import i18n
+
+sources = """
+          audio_dialog.cc
+          audio_plot.cc
+          config_dialog.cc
+          dci_metadata_dialog.cc
+          dir_picker_ctrl.cc
+          film_editor.cc
+          film_viewer.cc
+          filter_dialog.cc
+          filter_view.cc
+          gain_calculator_dialog.cc
+          job_manager_view.cc
+          job_wrapper.cc
+          new_film_dialog.cc
+          properties_dialog.cc
+          server_dialog.cc
+          wx_util.cc
+          wx_ui_signaller.cc
+          """
+
 def configure(conf):
     conf.check_cfg(package = '', path = conf.options.wx_config, args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
 
@@ -12,24 +37,10 @@ def build(bld):
     obj.export_includes = ['.']
     obj.uselib = 'WXWIDGETS'
     obj.use = 'libdvdomatic'
-    obj.source = """
-                 audio_dialog.cc
-                 audio_plot.cc
-                 config_dialog.cc
-                 dci_metadata_dialog.cc
-                 dir_picker_ctrl.cc
-                 film_editor.cc
-                 film_viewer.cc
-                 filter_dialog.cc
-                 filter_view.cc
-                 gain_calculator_dialog.cc
-                 job_manager_view.cc
-                 job_wrapper.cc
-                 new_film_dialog.cc
-                 properties_dialog.cc
-                 server_dialog.cc
-                 wx_util.cc
-                 wx_ui_signaller.cc
-                 """
-
+    obj.source = sources
     obj.target = 'dvdomatic-wx'
+
+    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdvdomatic-wx', bld)
+
+def pot(bld):
+    i18n.pot(os.path.join('src', 'wx'), sources, 'libdvdomatic-wx')

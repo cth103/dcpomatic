@@ -23,6 +23,8 @@
 #include "film.h"
 #include "exceptions.h"
 
+#include "i18n.h"
+
 using std::vector;
 using std::string;
 using std::stringstream;
@@ -67,11 +69,11 @@ ExternalAudioDecoder::open_files (sf_count_t & frames)
 			SF_INFO info;
 			SNDFILE* s = sf_open (files[i].c_str(), SFM_READ, &info);
 			if (!s) {
-				throw DecodeError ("could not open external audio file for reading");
+				throw DecodeError (_("could not open external audio file for reading"));
 			}
 
 			if (info.channels != 1) {
-				throw DecodeError ("external audio files must be mono");
+				throw DecodeError (_("external audio files must be mono"));
 			}
 			
 			sndfiles.push_back (s);
@@ -89,7 +91,7 @@ ExternalAudioDecoder::open_files (sf_count_t & frames)
 				first = false;
 			} else {
 				if (info.frames != frames) {
-					throw DecodeError ("external audio files have differing lengths");
+					throw DecodeError (_("external audio files have differing lengths"));
 				}
 			}
 		}
@@ -158,7 +160,7 @@ ExternalAudioStream::create (string t, optional<int> v)
 	stringstream s (t);
 	string type;
 	s >> type;
-	if (type != "external") {
+	if (type != N_("external")) {
 		return shared_ptr<ExternalAudioStream> ();
 	}
 
@@ -182,5 +184,5 @@ ExternalAudioStream::ExternalAudioStream ()
 string
 ExternalAudioStream::to_string () const
 {
-	return String::compose ("external %1 %2", _sample_rate, _channel_layout);
+	return String::compose (N_("external %1 %2"), _sample_rate, _channel_layout);
 }

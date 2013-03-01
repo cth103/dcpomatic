@@ -36,6 +36,8 @@
 #include "subtitle.h"
 #include "filter_graph.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using std::min;
@@ -60,7 +62,7 @@ Decoder::Decoder (boost::shared_ptr<Film> f, DecodeOptions o)
 bool
 Decoder::seek (double)
 {
-	throw DecodeError ("decoder does not support seek");
+	throw DecodeError (N_("decoder does not support seek"));
 }
 
 /** Seek so that the next frame we will produce is the same as the last one.
@@ -69,5 +71,5 @@ Decoder::seek (double)
 bool
 Decoder::seek_to_last ()
 {
-	throw DecodeError ("decoder does not support seek");
+	throw DecodeError (N_("decoder does not support seek"));
 }

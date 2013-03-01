@@ -25,6 +25,8 @@
 #include "decoder_factory.h"
 #include "audio_decoder.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::max;
 using std::cout;
@@ -43,7 +45,7 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
 string
 AnalyseAudioJob::name () const
 {
-	return String::compose ("Analyse audio of %1", _film->name());
+	return String::compose (_("Analyse audio of %1"), _film->name());
 }
 
 void

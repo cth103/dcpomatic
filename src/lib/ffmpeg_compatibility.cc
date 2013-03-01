@@ -22,6 +22,8 @@ extern "C" {
 }
 #include "exceptions.h"
 
+#include "i18n.h"
+
 #if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
 
 typedef struct {
@@ -67,13 +69,13 @@ get_sink ()
 #if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
 	/* XXX does this leak stuff? */
 	AVFilter* buffer_sink = new AVFilter;
-	buffer_sink->name = av_strdup ("avsink");
+	buffer_sink->name = av_strdup (N_("avsink"));
 	buffer_sink->priv_size = sizeof (AVSinkContext);
 	buffer_sink->init = avsink_init;
 	buffer_sink->query_formats = avsink_query_formats;
 	buffer_sink->inputs = new AVFilterPad[2];
 	AVFilterPad* i0 = const_cast<AVFilterPad*> (&buffer_sink->inputs[0]);
-	i0->name = "default";
+	i0->name = N_("default");
 	i0->type = AVMEDIA_TYPE_VIDEO;
 	i0->min_perms = AV_PERM_READ;
 	i0->rej_perms = 0;
@@ -91,9 +93,9 @@ get_sink ()
 	const_cast<AVFilterPad*> (&buffer_sink->outputs[0])->name = 0;
 	return buffer_sink;
 #else
-	AVFilter* buffer_sink = avfilter_get_by_name("buffersink");
+	AVFilter* buffer_sink = avfilter_get_by_name(N_("buffersink"));
 	if (buffer_sink == 0) {
-		throw DecodeError ("Could not create buffer sink filter");
+		throw DecodeError (N_("Could not create buffer sink filter"));
 	}
 
 	return buffer_sink;

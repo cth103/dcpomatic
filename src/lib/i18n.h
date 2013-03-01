@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,44 +17,7 @@
 
 */
 
-#include "dolby_cp750.h"
+#include <libintl.h>
 
-#include "i18n.h"
-
-using namespace std;
-
-DolbyCP750::DolbyCP750 ()
-        : SoundProcessor ("dolby_cp750", _("Dolby CP750"))
-{
-
-}
-
-float
-DolbyCP750::db_for_fader_change (float from, float to) const
-{
-	float db = 0;
-
-	if (from < to) {
-		if (from <= 4) {
-			float const t = min (to, 4.0f);
-			db += (t - from) * 20;
-		}
-		
-		if (to > 4) {
-			float const t = max (from, 4.0f);
-			db += (to - t) * 3.33333333333333333;
-		}
-	} else {
-		if (from >= 4) {
-			float const t = max (to, 4.0f);
-			db -= (from - t) * 3.33333333333333333;
-		}
-
-		if (to < 4) {
-			float const t = min (from, 4.0f);
-			db -= (t - to) * 20;
-		}
-	}
-
-	return db;
-}
+#define _(x) dgettext ("libdvdomatic", x)
+#define N_(x) x

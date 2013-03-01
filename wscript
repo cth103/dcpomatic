@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.76pre'
+VERSION = '0.76beta1'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -21,7 +21,9 @@ def configure(conf):
     if conf.options.target_windows:
         conf.load('winres')
 
-    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing', '-Wall', '-Wno-attributes', '-Wextra'])
+    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
+                                       '-Wall', '-Wno-attributes', '-Wextra',
+                                       '-DLOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX']])
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
@@ -198,6 +200,15 @@ def configure(conf):
                              define_name = 'HAVE_BUFFERSRC_H',
                              mandatory = False)
 
+    conf.find_program('msgfmt', var='MSGFMT')
+    
+    datadir = conf.env.DATADIR
+    if not datadir:
+        datadir = os.path.join(conf.env.PREFIX, 'share')
+    
+    conf.define('LOCALEDIR', os.path.join(datadir, 'locale'))
+    conf.define('DATADIR', datadir)
+
     conf.recurse('src')
     conf.recurse('test')
 
@@ -253,3 +264,6 @@ def create_version_cc(version):
 def post(ctx):
     if ctx.cmd == 'install':
         ctx.exec_command('/sbin/ldconfig')
+
+def pot(bld):
+    bld.recurse('src')

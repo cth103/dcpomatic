@@ -27,6 +27,8 @@
 #include "job.h"
 #include "util.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::list;
 using std::stringstream;
@@ -66,11 +68,12 @@ Job::run_wrapper ()
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 		
-		string m = String::compose ("An error occurred whilst handling the file %1.", boost::filesystem::path (e.filename()).leaf());
+		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
 		
 		boost::filesystem::space_info const s = boost::filesystem::space (e.filename());
 		if (s.available < pow (1024, 3)) {
-			m += "\n\nThe drive that the film is stored on is low in disc space.  Free some more space and try again.";
+			m += N_("\n\n");
+			m += _("The drive that the film is stored on is low in disc space.  Free some more space and try again.");
 		}
 
 		set_error (e.what(), m);
@@ -81,7 +84,7 @@ Job::run_wrapper ()
 		set_state (FINISHED_ERROR);
 		set_error (
 			e.what (),
-			"It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+			_("It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)")
 			);
 
 	} catch (...) {
@@ -89,8 +92,8 @@ Job::run_wrapper ()
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 		set_error (
-			"Unknown error",
-			"It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+			_("Unknown error"),
+			_("It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)")
 			);
 
 	}
@@ -272,14 +275,16 @@ Job::status () const
 
 	stringstream s;
 	if (!finished ()) {
-		s << pc << "%";
+		s << pc << N_("%");
 		if (p >= 0 && t > 10 && r > 0) {
-			s << "; " << seconds_to_approximate_hms (r) << " remaining";
+			/// TRANSLATORS: remaining here follows an amount of time that is remaining
+			/// on an operation.
+			s << "; " << seconds_to_approximate_hms (r) << " " << _("remaining");
 		}
 	} else if (finished_ok ()) {
-		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
+		s << String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
 	} else if (finished_in_error ()) {
-		s << "Error (" << error_summary() << ")";
+		s << String::compose (_("Error (%1)"), error_summary());
 	}
 
 	return s.str ();

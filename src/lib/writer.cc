@@ -29,6 +29,8 @@
 #include "log.h"
 #include "dcp_video_frame.h"
 
+#include "i18n.h"
+
 using std::make_pair;
 using std::pair;
 using std::string;
@@ -78,7 +80,7 @@ Writer::Writer (shared_ptr<Film> f)
 		_sound_asset.reset (
 			new libdcp::SoundAsset (
 				_film->dir (_film->dcp_name()),
-				"audio.mxf",
+				N_("audio.mxf"),
 				DCPFrameRate (_film->frames_per_second()).frames_per_second,
 				m.dcp_channels (),
 				dcp_audio_sample_rate (_film->audio_stream()->sample_rate())
@@ -149,9 +151,9 @@ try
 				break;
 			}
 			
-			TIMING ("writer sleeps with a queue of %1", _queue.size());
+			TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
 			_condition.wait (lock);
-			TIMING ("writer wakes with a queue of %1", _queue.size());
+			TIMING (N_("writer wakes with a queue of %1"), _queue.size());
 		}
 
 		if (_finish && _queue.empty()) {
@@ -170,7 +172,7 @@ try
 			switch (qi.type) {
 			case QueueItem::FULL:
 			{
-				_film->log()->log (String::compose ("Writer FULL-writes %1 to MXF", qi.frame));
+				_film->log()->log (String::compose (N_("Writer FULL-writes %1 to MXF"), qi.frame));
 				if (!qi.encoded) {
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, false)));
 				}
@@ -181,14 +183,14 @@ try
 				break;
 			}
 			case QueueItem::FAKE:
-				_film->log()->log (String::compose ("Writer FAKE-writes %1 to MXF", qi.frame));
+				_film->log()->log (String::compose (N_("Writer FAKE-writes %1 to MXF"), qi.frame));
 				_picture_asset_writer->fake_write (qi.size);
 				_last_written.reset ();
 				++_fake_written;
 				break;
 			case QueueItem::REPEAT:
 			{
-				_film->log()->log (String::compose ("Writer REPEAT-writes %1 to MXF", qi.frame));
+				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
 				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size());
 				_last_written->write_info (_film, qi.frame, fin);
 				++_repeat_written;
@@ -217,7 +219,7 @@ try
 			++_pushed_to_disk;
 			
 			lock.unlock ();
-			_film->log()->log (String::compose ("Writer full (awaiting %1); pushes %2 to disk", _last_written_frame + 1, qi.frame));
+			_film->log()->log (String::compose (N_("Writer full (awaiting %1); pushes %2 to disk"), _last_written_frame + 1, qi.frame));
 			qi.encoded->write (_film, qi.frame);
 			lock.lock ();
 			qi.encoded.reset ();
@@ -272,14 +274,14 @@ Writer::finish ()
 	
 	boost::filesystem::path to;
 	to /= _film->dir (_film->dcp_name());
-	to /= "video.mxf";
+	to /= N_("video.mxf");
 	
 	boost::filesystem::create_hard_link (from, to);
 
 	/* And update the asset */
 
 	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
-	_picture_asset->set_file_name ("video.mxf");
+	_picture_asset->set_file_name (N_("video.mxf"));
 
 	if (_sound_asset) {
 		_sound_asset->set_entry_point (_film->trim_start ());
@@ -304,7 +306,7 @@ Writer::finish ()
 
 	dcp.write_xml ();
 
-	_film->log()->log (String::compose ("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk", _full_written, _fake_written, _repeat_written, _pushed_to_disk));
+	_film->log()->log (String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk));
 }
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */
@@ -330,7 +332,7 @@ Writer::check_existing_picture_mxf ()
 	boost::filesystem::path p;
 	p /= _film->video_mxf_dir ();
 	p /= _film->video_mxf_filename ();
-	FILE* mxf = fopen (p.string().c_str(), "rb");
+	FILE* mxf = fopen (p.string().c_str(), N_("rb"));
 	if (!mxf) {
 		return;
 	}
@@ -348,11 +350,11 @@ Writer::check_existing_picture_mxf ()
 		string const existing_hash = md5_digest (data.data(), data.size());
 		
 		if (existing_hash != info.hash) {
-			_film->log()->log (String::compose ("Existing frame %1 failed hash check", _first_nonexistant_frame));
+			_film->log()->log (String::compose (N_("Existing frame %1 failed hash check"), _first_nonexistant_frame));
 			break;
 		}
 
-		_film->log()->log (String::compose ("Have existing frame %1", _first_nonexistant_frame));
+		_film->log()->log (String::compose (N_("Have existing frame %1"), _first_nonexistant_frame));
 		++_first_nonexistant_frame;
 	}
 
