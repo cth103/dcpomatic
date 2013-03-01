@@ -29,8 +29,8 @@
 #include "lib/film.h"
 
 class wxNotebook;
-
 class Film;
+class AudioDialog;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -70,6 +70,7 @@ private:
 	void scaler_changed (wxCommandEvent &);
 	void audio_gain_changed (wxCommandEvent &);
 	void audio_gain_calculate_button_clicked (wxCommandEvent &);
+	void show_audio_clicked (wxCommandEvent &);
 	void audio_delay_changed (wxCommandEvent &);
 	void with_subtitles_toggled (wxCommandEvent &);
 	void subtitle_offset_changed (wxCommandEvent &);
@@ -145,6 +146,7 @@ private:
 	wxSpinCtrl* _audio_gain;
 	/** A button to open the gain calculation dialogue */
 	wxButton* _audio_gain_calculate_button;
+	wxButton* _show_audio;
 	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
 	wxCheckBox* _with_subtitles;
@@ -177,4 +179,5 @@ private:
 	std::vector<Format const *> _formats;
 
 	bool _generally_sensitive;
+	AudioDialog* _audio_dialog;
 };

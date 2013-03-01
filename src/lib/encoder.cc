@@ -425,18 +425,20 @@ Encoder::encoder_thread (ServerDescription* server)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 {
-	if (_film->audio_channels() == 1) {
-		/* We need to switch things around so that the mono channel is on
-		   the centre channel of a 5.1 set (with other channels silent).
-		*/
+	AudioMapping m (_film->audio_channels ());
+	if (m.dcp_channels() != _film->audio_channels()) {
 
-		shared_ptr<AudioBuffers> b (new AudioBuffers (6, data->frames ()));
-		b->make_silent (libdcp::LEFT);
-		b->make_silent (libdcp::RIGHT);
-		memcpy (b->data()[libdcp::CENTRE], data->data()[0], data->frames() * sizeof(float));
-		b->make_silent (libdcp::LFE);
-		b->make_silent (libdcp::LS);
-		b->make_silent (libdcp::RS);
+		/* Remap (currently just for mono -> 5.1) */
+
+		shared_ptr<AudioBuffers> b (new AudioBuffers (m.dcp_channels(), data->frames ()));
+		for (int i = 0; i < m.dcp_channels(); ++i) {
+			optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (i));
+			if (!s) {
+				b->make_silent (i);
+			} else {
+				memcpy (b->data()[i], data->data()[s.get()], data->frames() * sizeof(float));
+			}
+		}
 
 		data = b;
 	}

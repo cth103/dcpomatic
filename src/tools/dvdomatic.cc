@@ -149,7 +149,7 @@ enum {
 	ID_jobs_make_dcp,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
-	ID_jobs_examine_content,
+	ID_jobs_analyse_audio,
 	ID_help_about
 };
 
@@ -174,7 +174,7 @@ setup_menu (wxMenuBar* m)
 	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM);
 	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM);
 	jobs_menu->AppendSeparator ();
-	add_item (jobs_menu, _("&Examine content"), ID_jobs_examine_content, NEEDS_FILM);
+	add_item (jobs_menu, _("&Analyse audio"), ID_jobs_analyse_audio, NEEDS_FILM);
 
 	wxMenu* help = new wxMenu;
 	add_item (help, _("About"), ID_help_about, ALWAYS);
@@ -211,7 +211,7 @@ public:
 		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
 		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
-		Connect (ID_jobs_examine_content, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_examine_content));
+		Connect (ID_jobs_analyse_audio, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_analyse_audio));
 		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
 		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
@@ -390,10 +390,10 @@ private:
 		}
 #endif		
 	}
-	
-	void jobs_examine_content (wxCommandEvent &)
+
+	void jobs_analyse_audio (wxCommandEvent &)
 	{
-		film->examine_content ();
+		film->analyse_audio ();
 	}
 	
 	void help_about (wxCommandEvent &)

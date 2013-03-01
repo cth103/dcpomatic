@@ -29,6 +29,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
+#include <boost/optional.hpp>
 #include <libdcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -57,6 +58,7 @@ extern std::vector<std::string> split_at_spaces_considering_quotes (std::string)
 extern std::string md5_digest (std::string);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
+extern std::string audio_channel_name (int);
 
 typedef int SourceFrame;
 
@@ -178,7 +180,6 @@ struct Rect
 
 extern std::string crop_string (Position, libdcp::Size);
 extern int dcp_audio_sample_rate (int);
-extern int dcp_audio_channels (int);
 extern std::string colour_lut_index_to_name (int index);
 extern int stride_round_up (int, int const *, int);
 extern int stride_lookup (int c, int const * stride);
@@ -266,6 +267,19 @@ private:
 	int _allocated_frames;
 	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
 	float** _data;
+};
+
+class AudioMapping
+{
+public:
+	AudioMapping (int);
+
+	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
+	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
+	int dcp_channels () const;
+
+private:
+	int _source_channels;
 };
 
 extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second);

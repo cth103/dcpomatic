@@ -17,27 +17,28 @@
 
 */
 
-#ifndef DVDOMATIC_OPTIONS_H
-#define DVDOMATIC_OPTIONS_H
+#include "job.h"
+#include "audio_analysis.h"
 
-/** @file src/options.h
- *  @brief Options for a decoding operation.
- */
+class AudioBuffers;
 
-class DecodeOptions
+class AnalyseAudioJob : public Job
 {
 public:
-	DecodeOptions ()
-		: decode_video (true)
-		, decode_audio (true)
-		, decode_subtitles (false)
-		, video_sync (true)
-	{}
+	AnalyseAudioJob (boost::shared_ptr<Film> f);
 
-	bool decode_video;
-	bool decode_audio;
-	bool decode_subtitles;
-	bool video_sync;
+	std::string name () const;
+	void run ();
+
+private:
+	void audio (boost::shared_ptr<AudioBuffers>);
+
+	int64_t _done;
+	int64_t _samples_per_point;
+	std::vector<AudioPoint> _current;
+
+	boost::shared_ptr<AudioAnalysis> _analysis;
+
+	static const int _num_points;
 };
 
-#endif

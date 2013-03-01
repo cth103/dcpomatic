@@ -199,7 +199,7 @@ FFmpegDecoder::setup_audio ()
 void
 FFmpegDecoder::setup_subtitle ()
 {
-	if (!_subtitle_stream) {
+	if (!_subtitle_stream || _subtitle_stream->id() >= int (_format_context->nb_streams)) {
 		return;
 	}
 
@@ -238,8 +238,10 @@ FFmpegDecoder::pass ()
 
 		int frame_finished;
 
-		while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-			filter_and_emit_video (_frame);
+		if (_opt.decode_video) {
+			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+				filter_and_emit_video (_frame);
+			}
 		}
 
 		if (_audio_stream && _opt.decode_audio) {
@@ -260,7 +262,7 @@ FFmpegDecoder::pass ()
 
 	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
 
-	if (_packet.stream_index == _video_stream) {
+	if (_packet.stream_index == _video_stream && _opt.decode_video) {
 
 		int frame_finished;
 		int const r = avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet);
@@ -290,9 +292,9 @@ FFmpegDecoder::pass ()
 			   was before this packet.  Until then audio is thrown away.
 			*/
 				
-			if (_first_video && _first_video.get() <= source_pts_seconds) {
+			if ((_first_video && _first_video.get() <= source_pts_seconds) || !_opt.decode_video) {
 
-				if (!_first_audio) {
+				if (!_first_audio && _opt.decode_video) {
 					_first_audio = source_pts_seconds;
 					
 					/* This is our first audio frame, and if we've arrived here we must have had our

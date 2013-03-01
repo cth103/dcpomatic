@@ -45,6 +45,7 @@
 #include "sound_processor.h"
 #include "dci_metadata_dialog.h"
 #include "scaler.h"
+#include "audio_dialog.h"
 
 using std::string;
 using std::cout;
@@ -62,6 +63,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
 	, _film (f)
 	, _generally_sensitive (true)
+	, _audio_dialog (0)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
@@ -204,6 +206,7 @@ FilmEditor::connect_to_widgets ()
 	_audio_gain_calculate_button->Connect (
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
 		);
+	_show_audio->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
 	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_use_content_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
 	_use_external_audio->Connect (wxID_ANY, wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler (FilmEditor::use_audio_changed), 0, this);
@@ -303,6 +306,10 @@ FilmEditor::make_audio_panel ()
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	_audio_sizer->Add (grid, 0, wxALL, 8);
 
+	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
+	grid->Add (_show_audio, 1);
+	grid->AddSpacer (0);
+
 	{
 		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Gain")));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -340,21 +347,8 @@ FilmEditor::make_audio_panel ()
 	grid->Add (_use_external_audio);
 	grid->AddSpacer (0);
 
-	assert (MAX_AUDIO_CHANNELS == 6);
-
-	/// TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	/// enhancement channel (sub-woofer).
-	wxString const channels[] = {
-		_("Left"),
-		_("Right"),
-		_("Centre"),
-		_("Lfe (sub)"),
-		_("Left surround"),
-		_("Right surround"),
-	};
-
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		add_label_to_sizer (grid, _audio_panel, channels[i]);
+		add_label_to_sizer (grid, _audio_panel, std_to_wx (audio_channel_name (i)));
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), _("Select Audio File"), wxT ("*.wav"));
 		grid->Add (_external_audio[i], 1, wxEXPAND);
 	}
@@ -755,6 +749,10 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	} else {
 		FileChanged (wx_to_std (N_("")));
 	}
+
+	if (_audio_dialog) {
+		_audio_dialog->set_film (_film);
+	}
 	
 	film_changed (Film::NAME);
 	film_changed (Film::USE_DCI_NAME);
@@ -816,6 +814,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);
+	_show_audio->Enable (s);
 	_audio_delay->Enable (s);
 	_still_duration->Enable (s);
 
@@ -1173,4 +1172,17 @@ FilmEditor::setup_dcp_name ()
 	} else {
 		_dcp_name->SetLabel (std_to_wx (s));
 	}
+}
+
+void
+FilmEditor::show_audio_clicked (wxCommandEvent &)
+{
+	if (_audio_dialog) {
+		_audio_dialog->Destroy ();
+		_audio_dialog = 0;
+	}
+	
+	_audio_dialog = new AudioDialog (this);
+	_audio_dialog->Show ();
+	_audio_dialog->set_film (_film);
 }
