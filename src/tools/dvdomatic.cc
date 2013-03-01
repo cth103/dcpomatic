@@ -179,10 +179,10 @@ setup_menu (wxMenuBar* m)
 	wxMenu* help = new wxMenu;
 	add_item (help, _("About"), ID_help_about, ALWAYS);
 
-	m->Append (file, _(_("&File")));
-	m->Append (edit, _(_("&Edit")));
-	m->Append (jobs_menu, _(_("&Jobs")));
-	m->Append (help, _(_("&Help")));
+	m->Append (file, _("&File"));
+	m->Append (edit, _("&Edit"));
+	m->Append (jobs_menu, _("&Jobs"));
+	m->Append (help, _("&Help"));
 }
 
 bool
