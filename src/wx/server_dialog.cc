@@ -27,7 +27,7 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 	if (server) {
 		_server = server;
 	} else {
-		_server = new ServerDescription (N_("localhost"), 1);
+		_server = new ServerDescription (wx_to_std (N_("localhost")), 1);
 	}
 		
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 4, 4);
