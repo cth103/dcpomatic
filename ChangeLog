@@ -8,6 +8,13 @@
 
 2013-03-01  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.76beta2 released.
+
+2013-03-01  Carl Hetherington  <cth@carlh.net>
+
+	* Add primitive feature to plot graphs
+	of the soundtrack (#67).
+
 	* Version 0.76beta1 released.
 
 2013-02-27  Carl Hetherington  <cth@carlh.net>
