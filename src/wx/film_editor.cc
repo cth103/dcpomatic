@@ -982,9 +982,7 @@ FilmEditor::setup_formats ()
 
 	vector<Format const *> fmt = Format::all ();
 	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
-		if (c == VIDEO && dynamic_cast<FixedFormat const *> (*i)) {
-			_formats.push_back (*i);
-		} else if (c == STILL && dynamic_cast<VariableFormat const *> (*i)) {
+		if (c == VIDEO || (c == STILL && dynamic_cast<VariableFormat const *> (*i))) {
 			_formats.push_back (*i);
 		}
 	}

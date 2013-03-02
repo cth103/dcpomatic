@@ -82,8 +82,8 @@ Format::setup_formats ()
 	_formats.push_back (new FixedFormat (178, libdcp::Size (1920, 1080), N_("178"), _("16:9"), N_("F")));
 	_formats.push_back (new FixedFormat (185, libdcp::Size (1998, 1080), N_("185"), _("Flat"), N_("F")));
 	_formats.push_back (new FixedFormat (239, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S")));
-	_formats.push_back (new VariableFormat (libdcp::Size (1998, 1080), N_("var-185"), _("Flat"), N_("F")));
-	_formats.push_back (new VariableFormat (libdcp::Size (2048, 858), N_("var-239"), _("Scope"), N_("S")));
+	_formats.push_back (new VariableFormat (libdcp::Size (1998, 1080), N_("var-185"), _("Flat without stretch"), N_("F")));
+	_formats.push_back (new VariableFormat (libdcp::Size (2048, 858), N_("var-239"), _("Scope without stretch"), N_("S")));
 }
 
 /** @param n Nickname.
