@@ -1,3 +1,11 @@
+2013-03-02  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to specify the DCP's frame
+	rate (part of #56).
+
+	* Add a description of what each video format
+	means to the UI.
+
 2013-03-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.76beta1 released.
