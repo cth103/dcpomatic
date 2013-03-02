@@ -97,7 +97,7 @@ FilmEditor::make_film_panel ()
 	_film_sizer = new wxBoxSizer (wxVERTICAL);
 	_film_panel->SetSizer (_film_sizer);
 
-	wxGridBagSizer* grid = new wxGridBagSizer (6, 6);
+	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
 	_film_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
@@ -149,12 +149,12 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
-	_frame_rate_explanation = new wxStaticText (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-	grid->Add (video_control (_frame_rate_explanation), wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL);
-	wxFont font = _frame_rate_explanation->GetFont();
+	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize);
+	grid->Add (video_control (_frame_rate_description), wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	wxFont font = _frame_rate_description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
-	_frame_rate_explanation->SetFont(font);
+	_frame_rate_description->SetFont(font);
 	++r;
 	
 	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Size"), wxGBPosition (r, 0)));
@@ -262,32 +262,46 @@ FilmEditor::make_video_panel ()
 	_video_sizer = new wxBoxSizer (wxVERTICAL);
 	_video_panel->SetSizer (_video_sizer);
 	
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
 	_video_sizer->Add (grid, 0, wxALL, 8);
 
-	add_label_to_sizer (grid, _video_panel, _("Format"));
+	int r = 0;
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Format"), wxGBPosition (r, 0));
 	_format = new wxChoice (_video_panel, wxID_ANY);
-	grid->Add (_format);
+	grid->Add (_format, wxGBPosition (r, 1));
+	++r;
 
-	add_label_to_sizer (grid, _video_panel, _("Left crop"));
+	_format_description = new wxStaticText (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize);
+	grid->Add (_format_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	wxFont font = _format_description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_format_description->SetFont(font);
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_left_crop);
+	grid->Add (_left_crop, wxGBPosition (r, 1));
+	++r;
 
-	add_label_to_sizer (grid, _video_panel, _("Right crop"));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Right crop"), wxGBPosition (r, 0));
 	_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_right_crop);
+	grid->Add (_right_crop, wxGBPosition (r, 1));
+	++r;
 	
-	add_label_to_sizer (grid, _video_panel, _("Top crop"));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Top crop"), wxGBPosition (r, 0));
 	_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_top_crop);
+	grid->Add (_top_crop, wxGBPosition (r, 1));
+	++r;
 	
-	add_label_to_sizer (grid, _video_panel, _("Bottom crop"));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), wxGBPosition (r, 0));
 	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_bottom_crop);
+	grid->Add (_bottom_crop, wxGBPosition (r, 1));
+	++r;
 
 	/* VIDEO-only stuff */
 	{
-		video_control (add_label_to_sizer (grid, _video_panel, _("Filters")));
+		video_control (add_label_to_grid_bag_sizer (grid, _video_panel, _("Filters"), wxGBPosition (r, 0)));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_filters = new wxStaticText (_video_panel, wxID_ANY, _("None"));
 		video_control (_filters);
@@ -295,34 +309,38 @@ FilmEditor::make_video_panel ()
 		_filters_button = new wxButton (_video_panel, wxID_ANY, _("Edit..."));
 		video_control (_filters_button);
 		s->Add (_filters_button, 0);
-		grid->Add (s, 1);
+		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
+	++r;
 
-	video_control (add_label_to_sizer (grid, _video_panel, _("Scaler")));
+	video_control (add_label_to_grid_bag_sizer (grid, _video_panel, _("Scaler"), wxGBPosition (r, 0)));
 	_scaler = new wxChoice (_video_panel, wxID_ANY);
-	grid->Add (video_control (_scaler), 1);
+	grid->Add (video_control (_scaler), wxGBPosition (r, 1));
+	++r;
 
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
 
-	add_label_to_sizer (grid, _video_panel, _("Colour look-up table"));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), wxGBPosition (r, 0));
 	_colour_lut = new wxChoice (_video_panel, wxID_ANY);
 	for (int i = 0; i < 2; ++i) {
 		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
 	}
 	_colour_lut->SetSelection (0);
-	grid->Add (_colour_lut, 1, wxEXPAND);
+	grid->Add (_colour_lut, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
+	++r;
 
 	{
-		add_label_to_sizer (grid, _video_panel, _("JPEG2000 bandwidth"));
+		add_label_to_grid_bag_sizer (grid, _video_panel, _("JPEG2000 bandwidth"), wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_j2k_bandwidth = new wxSpinCtrl (_video_panel, wxID_ANY);
 		s->Add (_j2k_bandwidth, 1);
 		add_label_to_sizer (s, _video_panel, _("MBps"));
-		grid->Add (s, 1);
+		grid->Add (s, wxGBPosition (r, 1));
 	}
+	++r;
 
 	_left_crop->SetRange (0, 1024);
 	_top_crop->SetRange (0, 1024);
@@ -624,6 +642,8 @@ FilmEditor::film_changed (Film::Property p)
 			checked_set (_format, n);
 		}
 		setup_dcp_name ();
+
+		_format_description->SetLabel (std_to_wx (_film->format()->description ()));
 		break;
 	}
 	case Film::CROP:
@@ -761,7 +781,8 @@ FilmEditor::film_changed (Film::Property p)
 				}
 			}
 		}
-		_frame_rate_explanation->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).explanation));
+		_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description));
+		_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->source_frame_rate ()) != _film->dcp_frame_rate ());
 	}
 }
 

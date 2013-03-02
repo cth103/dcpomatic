@@ -94,7 +94,7 @@ struct FrameRateConversion
 	 */
 	bool change_speed;
 
-	std::string explanation;
+	std::string description;
 };
 
 int best_dcp_frame_rate (float);

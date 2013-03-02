@@ -123,6 +123,7 @@ private:
 	wxButton* _edit_dci_button;
 	/** The Film's format */
 	wxChoice* _format;
+	wxStaticText* _format_description;
 	/** The Film's content file */
 	wxFilePickerCtrl* _content;
 	wxCheckBox* _trust_content_header;
@@ -163,7 +164,7 @@ private:
 	wxStaticText* _source_frame_rate;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
-	wxStaticText* _frame_rate_explanation;
+	wxStaticText* _frame_rate_description;
 	/** The Film's original size */
 	wxStaticText* _original_size;
 	/** The Film's length */
