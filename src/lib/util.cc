@@ -960,4 +960,19 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 	}
 
 	change_speed = !about_equal (source * factor(), dcp);
+
+	if (!skip && !repeat && !change_speed) {
+		explanation = _("DCP and source have the same rate.\n");
+	} else {
+		if (skip) {
+			explanation = _("DCP will use every other frame of the source.\n");
+		} else if (repeat) {
+			explanation = _("Each source frame will be doubled in the DCP.\n");
+		}
+
+		if (change_speed) {
+			float const pc = (source * factor()) * 100 / dcp;
+			explanation += String::compose (_("DCP will run at %1%% of the source speed."), pc);
+		}
+	}
 }

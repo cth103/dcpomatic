@@ -18,11 +18,13 @@
 */
 
 #include <wx/wx.h>
+#include <wx/gbsizer.h>
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 
 class wxFilePickerCtrl;
 class wxSpinCtrl;
+class wxGridBagSizer;
 
 /** @file src/wx/wx_util.h
  *  @brief Some utility functions and classes.
@@ -30,6 +32,7 @@ class wxSpinCtrl;
 
 extern void error_dialog (wxWindow *, wxString);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, int prop = 0);
+extern wxStaticText* add_label_to_grid_bag_sizer (wxGridBagSizer *, wxWindow *, wxString, wxGBPosition, wxGBSpan span = wxDefaultSpan);
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
 

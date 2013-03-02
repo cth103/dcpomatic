@@ -163,6 +163,7 @@ private:
 	wxStaticText* _source_frame_rate;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
+	wxStaticText* _frame_rate_explanation;
 	/** The Film's original size */
 	wxStaticText* _original_size;
 	/** The Film's length */

@@ -78,7 +78,7 @@ struct FrameRateConversion
 
 		return 1;
 	}
-	
+
 	/** true to skip every other frame */
 	bool skip;
 	/** true to repeat every frame once */
@@ -93,6 +93,8 @@ struct FrameRateConversion
 	 *          source is 12.50fps, DCP is 25fps)
 	 */
 	bool change_speed;
+
+	std::string explanation;
 };
 
 int best_dcp_frame_rate (float);

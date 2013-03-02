@@ -97,60 +97,79 @@ FilmEditor::make_film_panel ()
 	_film_sizer = new wxBoxSizer (wxVERTICAL);
 	_film_panel->SetSizer (_film_sizer);
 
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	wxGridBagSizer* grid = new wxGridBagSizer (6, 6);
 	_film_sizer->Add (grid, 0, wxALL, 8);
 
-	add_label_to_sizer (grid, _film_panel, _("Name"));
+	int r = 0;
+	
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Name"), wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_film_panel, wxID_ANY);
-	grid->Add (_name, 1, wxEXPAND);
-
-	add_label_to_sizer (grid, _film_panel, _("DCP Name"));
+	grid->Add (_name, wxGBPosition(r, 1));
+	++r;
+	
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Name"), wxGBPosition (r, 0));
 	_dcp_name = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (_dcp_name, 0, wxALIGN_CENTER_VERTICAL | wxSHRINK);
+	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
 
 	_use_dci_name = new wxCheckBox (_film_panel, wxID_ANY, _("Use DCI name"));
-	grid->Add (_use_dci_name, 1, wxEXPAND);
+	grid->Add (_use_dci_name, wxGBPosition (r, 0));
 	_edit_dci_button = new wxButton (_film_panel, wxID_ANY, _("Details..."));
-	grid->Add (_edit_dci_button, 0);
+	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
+	++r;
 
-	add_label_to_sizer (grid, _film_panel, _("Content"));
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content"), wxGBPosition (r, 0));
 	_content = new wxFilePickerCtrl (_film_panel, wxID_ANY, wxT (""), _("Select Content File"), wxT("*.*"));
-	grid->Add (_content, 1, wxEXPAND);
+	grid->Add (_content, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
+	++r;
 
 	_trust_content_header = new wxCheckBox (_film_panel, wxID_ANY, _("Trust content's header"));
 	video_control (_trust_content_header);
-	grid->Add (_trust_content_header, 1);
-	grid->AddSpacer (0);
+	grid->Add (_trust_content_header, wxGBPosition (r, 0), wxGBSpan(1, 2));
+	++r;
 
-	add_label_to_sizer (grid, _film_panel, _("Content Type"));
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content Type"), wxGBPosition (r, 0));
 	_dcp_content_type = new wxChoice (_film_panel, wxID_ANY);
-	grid->Add (_dcp_content_type);
+	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
+	++r;
 
-	video_control (add_label_to_sizer (grid, _film_panel, _("Original Frame Rate")));
+	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Frame Rate"), wxGBPosition (r, 0)));
 	_source_frame_rate = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (video_control (_source_frame_rate), 1, wxALIGN_CENTER_VERTICAL);
+	grid->Add (video_control (_source_frame_rate), wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
 
 	{
-		add_label_to_sizer (grid, _film_panel, _("DCP Frame Rate"));
+		add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Frame Rate"), wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_frame_rate = new wxChoice (_film_panel, wxID_ANY);
 		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 		_best_dcp_frame_rate = new wxButton (_film_panel, wxID_ANY, _("Use best"));
 		s->Add (_best_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 6);
-		grid->Add (s, 1);
+		grid->Add (s, wxGBPosition (r, 1));
 	}
+	++r;
+
+	_frame_rate_explanation = new wxStaticText (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+	grid->Add (video_control (_frame_rate_explanation), wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL);
+	wxFont font = _frame_rate_explanation->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_frame_rate_explanation->SetFont(font);
+	++r;
 	
-	video_control (add_label_to_sizer (grid, _film_panel, _("Original Size")));
+	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Size"), wxGBPosition (r, 0)));
 	_original_size = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (video_control (_original_size), 1, wxALIGN_CENTER_VERTICAL);
+	grid->Add (video_control (_original_size), wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
 	
-	video_control (add_label_to_sizer (grid, _film_panel, _("Length")));
+	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Length"), wxGBPosition (r, 0)));
 	_length = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (video_control (_length), 1, wxALIGN_CENTER_VERTICAL);
+	grid->Add (video_control (_length), wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
 
 
 	{
-		video_control (add_label_to_sizer (grid, _film_panel, _("Trim frames")));
+		video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim frames"), wxGBPosition (r, 0)));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		video_control (add_label_to_sizer (s, _film_panel, _("Start")));
 		_trim_start = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
@@ -159,25 +178,27 @@ FilmEditor::make_film_panel ()
 		_trim_end = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 		s->Add (video_control (_trim_end));
 
-		grid->Add (s);
+		grid->Add (s, wxGBPosition (r, 1));
 	}
+	++r;
 
 	_dcp_ab = new wxCheckBox (_film_panel, wxID_ANY, _("A/B"));
 	video_control (_dcp_ab);
-	grid->Add (_dcp_ab, 1);
-	grid->AddSpacer (0);
+	grid->Add (_dcp_ab, wxGBPosition (r, 0));
+	++r;
 
 	/* STILL-only stuff */
 	{
-		still_control (add_label_to_sizer (grid, _film_panel, _("Duration")));
+		still_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Duration"), wxGBPosition (r, 0)));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_still_duration = new wxSpinCtrl (_film_panel);
 		still_control (_still_duration);
 		s->Add (_still_duration, 1, wxEXPAND);
 		/// TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
 		still_control (add_label_to_sizer (s, _film_panel, _("s")));
-		grid->Add (s);
+		grid->Add (s, wxGBPosition (r, 1));
 	}
+	++r;
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -740,6 +761,7 @@ FilmEditor::film_changed (Film::Property p)
 				}
 			}
 		}
+		_frame_rate_explanation->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).explanation));
 	}
 }
 
