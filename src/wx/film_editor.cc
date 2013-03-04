@@ -643,7 +643,11 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		setup_dcp_name ();
 
-		_format_description->SetLabel (std_to_wx (_film->format()->description ()));
+		if (_film->format ()) {
+			_format_description->SetLabel (std_to_wx (_film->format()->description ()));
+		} else {
+			_format_description->SetLabel (wxT (""));
+		}
 		break;
 	}
 	case Film::CROP:
@@ -781,8 +785,14 @@ FilmEditor::film_changed (Film::Property p)
 				}
 			}
 		}
-		_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description));
-		_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->source_frame_rate ()) != _film->dcp_frame_rate ());
+
+		if (_film->source_frame_rate()) {
+			_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description));
+			_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->source_frame_rate ()) != _film->dcp_frame_rate ());
+		} else {
+			_frame_rate_description->SetLabel (wxT (""));
+			_best_dcp_frame_rate->Disable ();
+		}
 	}
 }
 
