@@ -245,14 +245,7 @@ FFmpegDecoder::pass ()
 		}
 
 		if (_audio_stream && _opt.decode_audio) {
-			while (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-				int const data_size = av_samples_get_buffer_size (
-					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
-					);
-
-				assert (_audio_codec_context->channels == _film->audio_channels());
-				Audio (deinterleave_audio (_frame->data, data_size));
-			}
+			decode_audio_packet ();
 		}
 
 		return true;
@@ -280,54 +273,7 @@ FFmpegDecoder::pass ()
 		}
 
 	} else if (ffa && _packet.stream_index == ffa->id() && _opt.decode_audio) {
-
-		int frame_finished;
-		if (avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-
-			/* Where we are in the source, in seconds */
-			double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
-				* av_frame_get_best_effort_timestamp(_frame);
-
-			/* We only decode audio if we've had our first video packet through, and if it
-			   was before this packet.  Until then audio is thrown away.
-			*/
-				
-			if ((_first_video && _first_video.get() <= source_pts_seconds) || !_opt.decode_video) {
-
-				if (!_first_audio && _opt.decode_video) {
-					_first_audio = source_pts_seconds;
-					
-					/* This is our first audio frame, and if we've arrived here we must have had our
-					   first video frame.  Push some silence to make up any gap between our first
-					   video frame and our first audio.
-					*/
-			
-					/* frames of silence that we must push */
-					int const s = rint ((_first_audio.get() - _first_video.get()) * ffa->sample_rate ());
-					
-					_film->log()->log (
-						String::compose (
-							N_("First video at %1, first audio at %2, pushing %3 audio frames of silence for %4 channels (%5 bytes per sample)"),
-							_first_video.get(), _first_audio.get(), s, ffa->channels(), bytes_per_audio_sample()
-							)
-						);
-					
-					if (s) {
-						shared_ptr<AudioBuffers> audio (new AudioBuffers (ffa->channels(), s));
-						audio->make_silent ();
-						Audio (audio);
-					}
-				}
-
-				int const data_size = av_samples_get_buffer_size (
-					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
-					);
-				
-				assert (_audio_codec_context->channels == _film->audio_channels());
-				Audio (deinterleave_audio (_frame->data, data_size));
-			}
-		}
-			
+		decode_audio_packet ();
 	} else if (_subtitle_stream && _packet.stream_index == _subtitle_stream->id() && _opt.decode_subtitles && _first_video) {
 
 		int got_subtitle;
@@ -744,3 +690,71 @@ FFmpegDecoder::frame_time () const
 	return av_frame_get_best_effort_timestamp(_frame) * av_q2d (_format_context->streams[_video_stream]->time_base);
 }
 
+void
+FFmpegDecoder::decode_audio_packet ()
+{
+	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
+	assert (ffa);
+
+	/* Audio packets can contain multiple frames, so we may have to  call avcodec_decode_audio4
+	   several times.
+	*/
+	
+	AVPacket copy_packet = _packet;
+
+	while (copy_packet.size > 0) {
+
+		int frame_finished;
+		int const decode_result = avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &copy_packet);
+		if (decode_result >= 0 && frame_finished) {
+			
+			/* Where we are in the source, in seconds */
+			double const source_pts_seconds = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
+				* av_frame_get_best_effort_timestamp(_frame);
+			
+			/* We only decode audio if we've had our first video packet through, and if it
+			   was before this packet.  Until then audio is thrown away.
+			*/
+			
+			if ((_first_video && _first_video.get() <= source_pts_seconds) || !_opt.decode_video) {
+				
+				if (!_first_audio && _opt.decode_video) {
+					_first_audio = source_pts_seconds;
+					
+					/* This is our first audio frame, and if we've arrived here we must have had our
+					   first video frame.  Push some silence to make up any gap between our first
+					   video frame and our first audio.
+					*/
+					
+					/* frames of silence that we must push */
+					int const s = rint ((_first_audio.get() - _first_video.get()) * ffa->sample_rate ());
+					
+					_film->log()->log (
+						String::compose (
+							N_("First video at %1, first audio at %2, pushing %3 audio frames of silence for %4 channels (%5 bytes per sample)"),
+							_first_video.get(), _first_audio.get(), s, ffa->channels(), bytes_per_audio_sample()
+							)
+						);
+					
+					if (s) {
+						shared_ptr<AudioBuffers> audio (new AudioBuffers (ffa->channels(), s));
+						audio->make_silent ();
+						Audio (audio);
+					}
+				}
+				
+				int const data_size = av_samples_get_buffer_size (
+					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
+					);
+				
+				assert (_audio_codec_context->channels == _film->audio_channels());
+				Audio (deinterleave_audio (_frame->data, data_size));
+			}
+		}
+
+		if (decode_result >= 0) {
+			copy_packet.data += decode_result;
+			copy_packet.size -= decode_result;
+		}
+	}
+}

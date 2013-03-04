@@ -120,6 +120,8 @@ private:
 	void setup_audio ();
 	void setup_subtitle ();
 
+	void decode_audio_packet ();
+
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
