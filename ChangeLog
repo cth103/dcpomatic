@@ -1,3 +1,8 @@
+2013-03-04  Carl Hetherington  <cth@carlh.net>
+
+	* Fix decoding of audio streams with multiple
+	packets per frame (e.g. wmapro).
+
 2013-03-02  Carl Hetherington  <cth@carlh.net>
 
 	* Add option to specify the DCP's frame
