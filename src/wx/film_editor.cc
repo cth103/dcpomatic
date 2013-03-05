@@ -113,7 +113,7 @@ FilmEditor::make_film_panel ()
 	++r;
 
 	_use_dci_name = new wxCheckBox (_film_panel, wxID_ANY, _("Use DCI name"));
-	grid->Add (_use_dci_name, wxGBPosition (r, 0));
+	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_edit_dci_button = new wxButton (_film_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
