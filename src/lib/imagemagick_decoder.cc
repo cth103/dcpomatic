@@ -77,7 +77,8 @@ ImageMagickDecoder::pass ()
 			return true;
 		}
 
-		repeat_last_video ();
+		/* XXX: timestamp is wrong */
+		repeat_last_video (0);
 		return false;
 	}
 	

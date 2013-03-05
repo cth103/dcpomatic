@@ -28,6 +28,7 @@
 
 class AudioBuffers;
 class AudioSink;
+class TimedAudioSink;
 
 /** A class that emits audio data */
 class AudioSource
@@ -37,6 +38,17 @@ public:
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>)> Audio;
 
 	void connect_audio (boost::shared_ptr<AudioSink>);
+};
+
+
+/** A class that emits audio data with timestamps */
+class TimedAudioSource
+{
+public:
+	/** Emitted when some audio data is ready */
+	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, double)> Audio;
+
+	void connect_audio (boost::shared_ptr<TimedAudioSink>);
 };
 
 #endif

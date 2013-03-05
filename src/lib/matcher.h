@@ -21,12 +21,12 @@
 #include "processor.h"
 #include "ffmpeg_compatibility.h"
 
-class Matcher : public AudioVideoProcessor
+class Matcher : public Processor, public TimedVideoSink, public TimedAudioSink, public VideoSource, public AudioSource
 {
 public:
 	Matcher (Log* log, int sample_rate, float frames_per_second);
-	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
-	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s, double t);
+	void process_audio (boost::shared_ptr<AudioBuffers>, double t);
 	void process_end ();
 
 private:

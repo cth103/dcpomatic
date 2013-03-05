@@ -27,7 +27,7 @@ using std::min;
 using boost::shared_ptr;
 
 Matcher::Matcher (Log* log, int sample_rate, float frames_per_second)
-	: AudioVideoProcessor (log)
+	: Processor (log)
 	, _sample_rate (sample_rate)
 	, _frames_per_second (frames_per_second)
 	, _video_frames (0)
@@ -37,7 +37,7 @@ Matcher::Matcher (Log* log, int sample_rate, float frames_per_second)
 }
 
 void
-Matcher::process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s)
+Matcher::process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s, double)
 {
 	Video (i, same, s);
 	_video_frames++;
@@ -47,7 +47,7 @@ Matcher::process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr
 }
 
 void
-Matcher::process_audio (boost::shared_ptr<AudioBuffers> b)
+Matcher::process_audio (boost::shared_ptr<AudioBuffers> b, double)
 {
 	Audio (b);
 	_audio_frames += b->frames ();

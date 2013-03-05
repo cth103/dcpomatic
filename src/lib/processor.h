@@ -53,46 +53,4 @@ protected:
 	Log* _log; ///< log to write to
 };
 
-/** @class AudioVideoProcessor
- *  @brief A processor which handles both video and audio data.
- */
-class AudioVideoProcessor : public Processor, public VideoSource, public VideoSink, public AudioSource, public AudioSink
-{
-public:
-	/** Construct an AudioVideoProcessor.
-	 *  @param log Log to write to.
-	 */
-	AudioVideoProcessor (Log* log)
-		: Processor (log)
-	{}
-};
-
-/** @class AudioProcessor
- *  @brief A processor which handles just audio data.
- */
-class AudioProcessor : public Processor, public AudioSource, public AudioSink
-{
-public:
-	/** Construct an AudioProcessor.
-	 *  @param log Log to write to.
-	 */
-	AudioProcessor (Log* log)
-		: Processor (log)
-	{}
-};
-
-/** @class VideoProcessor
- *  @brief A processor which handles just video data.
- */
-class VideoProcessor : public Processor, public VideoSource, public VideoSink
-{
-public:
-	/** Construct an VideoProcessor.
-	 *  @param log Log to write to.
-	 */
-	VideoProcessor (Log* log)
-		: Processor (log)
-	{}
-};
-
 #endif

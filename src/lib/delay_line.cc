@@ -31,7 +31,7 @@ using boost::shared_ptr;
  *  @param frames Delay in frames, +ve to move audio later.
  */
 DelayLine::DelayLine (Log* log, int channels, int frames)
-	: AudioProcessor (log)
+	: Processor (log)
 	, _negative_delay_remaining (0)
 	, _frames (frames)
 {
@@ -47,8 +47,9 @@ DelayLine::DelayLine (Log* log, int channels, int frames)
 	}
 }
 
+/* XXX: can we just get rid of all this and fiddle with the timestamp? */
 void
-DelayLine::process_audio (shared_ptr<AudioBuffers> data)
+DelayLine::process_audio (shared_ptr<AudioBuffers> data, double t)
 {
 	if (_buffers) {
 		/* We have some buffers, so we are moving the audio later */
@@ -89,5 +90,5 @@ DelayLine::process_audio (shared_ptr<AudioBuffers> data)
 		}
 	}
 
-	Audio (data);
+	Audio (data, t);
 }

@@ -70,14 +70,15 @@ ABTranscoder::ABTranscoder (
 	_db.video->set_subtitle_stream (_film_a->subtitle_stream ());
 	_da.audio->set_audio_stream (_film_a->audio_stream ());
 
-	_da.video->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3));
-	_db.video->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3));
+	_da.video->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
+	_db.video->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
 	if (_matcher) {
 		_combiner->connect_video (_matcher);
 		_matcher->connect_video (_encoder);
 	} else {
-		_combiner->connect_video (_encoder);
+		/* Remove timestamp from the output of the combiner */
+		_combiner->Video.connect (bind (&Encoder::process_video, _encoder, _1, _2, _3));
 	}
 	
 	if (_matcher && _delay_line) {
