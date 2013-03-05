@@ -696,7 +696,7 @@ FFmpegDecoder::decode_audio_packet ()
 	shared_ptr<FFmpegAudioStream> ffa = dynamic_pointer_cast<FFmpegAudioStream> (_audio_stream);
 	assert (ffa);
 
-	/* Audio packets can contain multiple frames, so we may have to  call avcodec_decode_audio4
+	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
 	   several times.
 	*/
 	
