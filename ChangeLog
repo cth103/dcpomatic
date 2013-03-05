@@ -1,3 +1,7 @@
+2013-03-05  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.76beta3 released.
+
 2013-03-04  Carl Hetherington  <cth@carlh.net>
 
 	* Fix decoding of audio streams with multiple
