@@ -104,7 +104,7 @@ FilmEditor::make_film_panel ()
 	
 	add_label_to_grid_bag_sizer (grid, _film_panel, _("Name"), wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_film_panel, wxID_ANY);
-	grid->Add (_name, wxGBPosition(r, 1));
+	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Name"), wxGBPosition (r, 0));
@@ -149,7 +149,7 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
-	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize);
+	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT (" \n "), wxDefaultPosition, wxDefaultSize);
 	grid->Add (video_control (_frame_rate_description), wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	wxFont font = _frame_rate_description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
