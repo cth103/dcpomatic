@@ -55,33 +55,22 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 {
 	assert (_encoder);
 
-	if (f->audio_stream()) {
-		shared_ptr<AudioStream> st = f->audio_stream();
-		_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->source_frame_rate()));
-		_delay_line.reset (new DelayLine (f->log(), st->channels(), f->audio_delay() * st->sample_rate() / 1000));
-		_gain.reset (new Gain (f->log(), f->audio_gain()));
-	}
+	shared_ptr<AudioStream> st = f->audio_stream();
+	_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->source_frame_rate()));
+	_delay_line.reset (new DelayLine (f->log(), st->channels(), f->audio_delay() * st->sample_rate() / 1000));
+	_gain.reset (new Gain (f->log(), f->audio_gain()));
 
 	/* Set up the decoder to use the film's set streams */
 	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
-	if (_decoders.audio) {
-		_decoders.audio->set_audio_stream (f->audio_stream ());
-	}
+	_decoders.audio->set_audio_stream (f->audio_stream ());
 
-	if (_matcher) {
-		_decoders.video->connect_video (_matcher);
-		_matcher->connect_video (_encoder);
-	} else {
-		/* Discard timestamps here */
-		_decoders.video->Video.connect (boost::bind (&Encoder::process_video, _encoder, _1, _2, _3));
-	}
+	_decoders.video->connect_video (_matcher);
+	_matcher->connect_video (_encoder);
 	
-	if (_matcher && _delay_line && _decoders.audio) {
-		_decoders.audio->connect_audio (_delay_line);
-		_delay_line->connect_audio (_matcher);
-		_matcher->connect_audio (_gain);
-		_gain->connect_audio (_encoder);
-	}
+	_decoders.audio->connect_audio (_delay_line);
+	_delay_line->connect_audio (_matcher);
+	_matcher->connect_audio (_gain);
+	_gain->connect_audio (_encoder);
 }
 
 /** Run the decoder, passing its output to the encoder, until the decoder
