@@ -57,14 +57,15 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 
 	shared_ptr<AudioStream> st = f->audio_stream();
 	_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->source_frame_rate()));
-	_delay_line.reset (new DelayLine (f->log(), st->channels(), f->audio_delay() * st->sample_rate() / 1000));
+	_delay_line.reset (new DelayLine (f->log(), f->audio_delay() / 1000.0f));
 	_gain.reset (new Gain (f->log(), f->audio_gain()));
 
 	/* Set up the decoder to use the film's set streams */
 	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
 	_decoders.audio->set_audio_stream (f->audio_stream ());
 
-	_decoders.video->connect_video (_matcher);
+	_decoders.video->connect_video (_delay_line);
+	_delay_line->connect_video (_matcher);
 	_matcher->connect_video (_encoder);
 	
 	_decoders.audio->connect_audio (_delay_line);
@@ -107,14 +108,8 @@ Transcoder::go ()
 		throw;
 	}
 	
-	if (_delay_line) {
-		_delay_line->process_end ();
-	}
-	if (_matcher) {
-		_matcher->process_end ();
-	}
-	if (_gain) {
-		_gain->process_end ();
-	}
+	_delay_line->process_end ();
+	_matcher->process_end ();
+	_gain->process_end ();
 	_encoder->process_end ();
 }

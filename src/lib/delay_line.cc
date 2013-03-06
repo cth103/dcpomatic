@@ -27,68 +27,31 @@
 using std::min;
 using boost::shared_ptr;
 
-/** @param channels Number of channels of audio.
- *  @param frames Delay in frames, +ve to move audio later.
+/*  @param seconds Delay in seconds, +ve to move audio later.
  */
-DelayLine::DelayLine (Log* log, int channels, int frames)
+DelayLine::DelayLine (Log* log, double seconds)
 	: Processor (log)
-	, _negative_delay_remaining (0)
-	, _frames (frames)
+	, _seconds (seconds)
 {
-	if (_frames > 0) {
-		/* We need a buffer to keep some data in */
-		_buffers.reset (new AudioBuffers (channels, _frames));
-		_buffers->make_silent ();
-	} else if (_frames < 0) {
-		/* We can do -ve delays just by chopping off
-		   the start, so no buffer needed.
-		*/
-		_negative_delay_remaining = -_frames;
-	}
+	
 }
 
-/* XXX: can we just get rid of all this and fiddle with the timestamp? */
 void
 DelayLine::process_audio (shared_ptr<AudioBuffers> data, double t)
 {
-	if (_buffers) {
-		/* We have some buffers, so we are moving the audio later */
-
-		/* Copy the input data */
-		AudioBuffers input (*data.get ());
-
-		int to_do = data->frames ();
-
-		/* Write some of our buffer to the output */
-		int const from_buffer = min (to_do, _buffers->frames());
-		data->copy_from (_buffers.get(), from_buffer, 0, 0);
-		to_do -= from_buffer;
-
-		/* Write some of the input to the output */
-		int const from_input = to_do;
-		data->copy_from (&input, from_input, 0, from_buffer);
-
-		int const left_in_buffer = _buffers->frames() - from_buffer;
-
-		/* Shuffle our buffer down */
-		_buffers->move (from_buffer, 0, left_in_buffer);
-
-		/* Copy remaining input data to our buffer */
-		_buffers->copy_from (&input, input.frames() - from_input, from_input, left_in_buffer);
-
-	} else {
-
-		/* Chop the initial data off until _negative_delay_remaining
-		   is zero, then just pass data.
-		*/
-
-		int const to_do = min (data->frames(), _negative_delay_remaining);
-		if (to_do) {
-			data->move (to_do, 0, data->frames() - to_do);
-			data->set_frames (data->frames() - to_do);
-			_negative_delay_remaining -= to_do;
-		}
+	if (_seconds > 0) {
+		t += _seconds;
 	}
 
 	Audio (data, t);
+}
+
+void
+DelayLine::process_video (boost::shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub, double t)
+{
+	if (_seconds < 0) {
+		t += _seconds;
+	}
+
+	Video (image, same, sub, t);
 }
