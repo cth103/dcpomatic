@@ -143,7 +143,7 @@ Matcher::fix_start ()
 void
 Matcher::match (double extra_video_needed)
 {
-	if (extra_video_needed) {
+	if (extra_video_needed > 0) {
 
 		/* Emit black video frames */
 		
