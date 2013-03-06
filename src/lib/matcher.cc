@@ -44,6 +44,8 @@ Matcher::process_video (boost::shared_ptr<Image> image, bool same, boost::shared
 	_pixel_format = image->pixel_format ();
 	_size = image->size ();
 
+	_log->log(String::compose("Matcher video @ %1 (same=%2)", t, same));
+
 	if (!_first_input) {
 		_first_input = t;
 	}
@@ -129,11 +131,11 @@ Matcher::fix_start ()
 	match (_pending_video.front().time - _pending_audio.front().time);
 
 	for (list<VideoRecord>::iterator i = _pending_video.begin(); i != _pending_video.end(); ++i) {
-		Video (i->image, i->same, i->subtitle);
+		process_video (i->image, i->same, i->subtitle, i->time);
 	}
 
 	for (list<AudioRecord>::iterator i = _pending_audio.begin(); i != _pending_audio.end(); ++i) {
-		Audio (i->audio);
+		process_audio (i->audio, i->time);
 	}
 	
 	_pending_video.clear ();
@@ -165,7 +167,7 @@ Matcher::match (double extra_video_needed)
 		
 		/* Emit silence */
 		
-		int64_t to_do = rint (-extra_video_needed * _sample_rate);
+		int64_t to_do = -extra_video_needed * _sample_rate;
 		_log->log (String::compose (N_("Emitted %1 frames of silence"), to_do));
 
 		/* Do things in half second blocks as I think there may be limits
