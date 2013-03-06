@@ -45,14 +45,14 @@ VideoDecoder::VideoDecoder (shared_ptr<Film> f, DecodeOptions o)
  *  @param t Time of the frame within the source, in seconds.
  */
 void
-VideoDecoder::emit_video (shared_ptr<Image> image, double t)
+VideoDecoder::emit_video (shared_ptr<Image> image, bool same, double t)
 {
 	shared_ptr<Subtitle> sub;
 	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	Video (image, false, sub, t);
+	Video (image, same, sub, t);
 	++_video_frame;
 	
 	_last_source_time = t;

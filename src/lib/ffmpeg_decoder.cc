@@ -520,7 +520,7 @@ FFmpegDecoder::filter_and_emit_video ()
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
 		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 		if (bet != AV_NOPTS_VALUE) {
-			emit_video (*i, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
+			emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
 		} else {
 			_film->log()->log ("Dropping frame without PTS");
 		}

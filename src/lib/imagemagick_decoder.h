@@ -28,10 +28,7 @@ class ImageMagickDecoder : public VideoDecoder
 public:
 	ImageMagickDecoder (boost::shared_ptr<Film>, DecodeOptions);
 
-	float frames_per_second () const {
-		/* We don't know */
-		return 0;
-	}
+	float frames_per_second () const;
 
 	libdcp::Size native_size () const;
 
@@ -88,5 +85,4 @@ private:
 	std::list<std::string>::iterator _iter;
 
 	boost::shared_ptr<Image> _image;
-	
 };
