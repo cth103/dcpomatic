@@ -52,21 +52,10 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	signal_video (image, false, sub, t);
-	_last_source_time = t;
-}
-
-/** Emit our signal to say that some video data is ready.
- *  @param image Video frame.
- *  @param same true if `image' is the same as the last one we emitted.
- *  @param sub Subtitle for this frame, or 0.
- */
-void
-VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub, double t)
-{
-	TIMING (N_("Decoder emits %1"), _video_frame);
 	Video (image, same, sub, t);
 	++_video_frame;
+	
+	_last_source_time = t;
 }
 
 /** Set up the current subtitle.  This will be put onto frames that
