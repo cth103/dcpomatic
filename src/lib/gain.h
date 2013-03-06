@@ -19,7 +19,7 @@
 
 #include "processor.h"
 
-class Gain : public Processor, public AudioSink, public AudioSource
+class Gain : public AudioProcessor
 {
 public:
 	Gain (Log* log, float gain);

@@ -640,8 +640,7 @@ FFmpegDecoder::out_with_sync ()
 	if (delta > one_frame) {
 		int const extra = rint (delta / one_frame);
 		for (int i = 0; i < extra; ++i) {
-			/* XXX: timestamp is wrong */
-			repeat_last_video (source_pts_seconds);
+			repeat_last_video ();
 			_film->log()->log (
 				String::compose (
 					N_("Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)"),
@@ -740,8 +739,7 @@ FFmpegDecoder::decode_audio_packet ()
 					if (s) {
 						shared_ptr<AudioBuffers> audio (new AudioBuffers (ffa->channels(), s));
 						audio->make_silent ();
-						/* XXX: this time stamp is wrong */
-						Audio (audio, source_pts_seconds);
+						Audio (audio);
 					}
 				}
 				
@@ -750,7 +748,7 @@ FFmpegDecoder::decode_audio_packet ()
 					);
 				
 				assert (_audio_codec_context->channels == _film->audio_channels());
-				Audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds );
+				Audio (deinterleave_audio (_frame->data, data_size));
 			}
 		}
 

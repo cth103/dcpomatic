@@ -23,12 +23,12 @@
 class AudioBuffers;
 
 /** A delay line for audio */
-class DelayLine : public Processor, public TimedAudioSink, public TimedAudioSource
+class DelayLine : public AudioProcessor
 {
 public:
 	DelayLine (Log* log, int channels, int frames);
 	
-	void process_audio (boost::shared_ptr<AudioBuffers>, double);
+	void process_audio (boost::shared_ptr<AudioBuffers>);
 
 private:
 	boost::shared_ptr<AudioBuffers> _buffers;

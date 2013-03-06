@@ -115,7 +115,6 @@ ExternalAudioDecoder::pass ()
 	sf_count_t const block = _audio_stream->sample_rate() / 2;
 
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
-	sf_count_t done = 0;
 	while (frames > 0) {
 		sf_count_t const this_time = min (block, frames);
 		for (size_t i = 0; i < sndfiles.size(); ++i) {
@@ -127,8 +126,7 @@ ExternalAudioDecoder::pass ()
 		}
 
 		audio->set_frames (this_time);
-		Audio (audio, double(done) / _audio_stream->sample_rate());
-		done += this_time;
+		Audio (audio);
 		frames -= this_time;
 	}
 

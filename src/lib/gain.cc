@@ -23,7 +23,7 @@ using boost::shared_ptr;
 
 /** @param gain gain in dB */
 Gain::Gain (Log* log, float gain)
-	: Processor (log)
+	: AudioProcessor (log)
 	, _gain (gain)
 {
 

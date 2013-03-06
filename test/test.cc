@@ -273,8 +273,7 @@ do_positive_delay_line_test (int delay_length, int data_length)
 		}
 
 		/* This only works because the delay line modifies the parameter */
-		/* XXX: timestamp is wrong */
-		d.process_audio (data, 0);
+		d.process_audio (data);
 		returned += data->frames ();
 
 		for (int j = 0; j < data->frames(); ++j) {
@@ -317,8 +316,7 @@ do_negative_delay_line_test (int delay_length, int data_length)
 		}
 
 		/* This only works because the delay line modifies the parameter */
-		/* XXX: timestamp is wrong */
-		d.process_audio (data, 0);
+		d.process_audio (data);
 		returned += data->frames ();
 
 		for (int j = 0; j < data->frames(); ++j) {

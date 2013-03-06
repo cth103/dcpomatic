@@ -72,8 +72,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 		_decoders.video->connect_video (_matcher);
 		_matcher->connect_video (_encoder);
 	} else {
-		/* Discard timestamps here */
-		_decoders.video->Video.connect (boost::bind (&Encoder::process_video, _encoder, _1, _2, _3));
+		_decoders.video->connect_video (_encoder);
 	}
 	
 	if (_matcher && _delay_line && _decoders.audio) {
