@@ -52,7 +52,7 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	Video (image, same, sub, t);
+	Video (image, false, sub, t);
 	++_video_frame;
 	
 	_last_source_time = t;
