@@ -224,26 +224,32 @@ FFmpegDecoder::pass ()
 			av_strerror (r, buf, sizeof(buf));
 			_film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
 		}
-		
-		/* Get any remaining frames */
-		
-		_packet.data = 0;
-		_packet.size = 0;
 
-		/* XXX: should we reset _packet.data and size after each *_decode_* call? */
-
-		int frame_finished;
-
-		if (_opt.decode_video) {
-			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-				filter_and_emit_video ();
+		if (_video_codec->capabilities & CODEC_CAP_DELAY) {
+			
+			/* Get any remaining frames */
+			
+			_packet.data = 0;
+			_packet.size = 0;
+			
+			/* XXX: should we reset _packet.data and size after each *_decode_* call? */
+			
+			int frame_finished;
+			
+			if (_opt.decode_video) {
+				while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+					filter_and_emit_video ();
+				}
 			}
+			
+			if (_audio_stream && _opt.decode_audio) {
+				decode_audio_packet ();
+			}
+		} else {
+			_film->log()->log("Codec does not have CAP_DELAY");
 		}
-
-		if (_audio_stream && _opt.decode_audio) {
-			decode_audio_packet ();
-		}
-
+		     
+			
 		return true;
 	}
 
@@ -518,7 +524,12 @@ FFmpegDecoder::filter_and_emit_video ()
 	list<shared_ptr<Image> > images = graph->process (_frame);
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		emit_video (*i, av_frame_get_best_effort_timestamp (_frame) * av_q2d (_format_context->streams[_video_stream]->time_base));
+		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
+		if (bet != AV_NOPTS_VALUE) {
+			emit_video (*i, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
+		} else {
+			_film->log()->log ("Dropping frame without PTS");
+		}
 	}
 }
 
