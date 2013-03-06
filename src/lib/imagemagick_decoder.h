@@ -86,4 +86,7 @@ private:
 	
 	std::list<std::string> _files;
 	std::list<std::string>::iterator _iter;
+
+	boost::shared_ptr<Image> _image;
+	
 };

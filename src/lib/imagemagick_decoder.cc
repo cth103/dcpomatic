@@ -31,6 +31,8 @@ using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
 
+/* XXX: reads a directory and then ignores it */
+
 ImageMagickDecoder::ImageMagickDecoder (
 	boost::shared_ptr<Film> f, DecodeOptions o)
 	: Decoder (f, o)
@@ -77,8 +79,8 @@ ImageMagickDecoder::pass ()
 			return true;
 		}
 
-		/* XXX: timestamp is wrong */
-		repeat_last_video (0);
+		/* XXX: timestamp */
+		emit_video (_image, 0);
 		return false;
 	}
 	
@@ -101,9 +103,10 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	image = image->crop (_film->crop(), true);
-	
-	emit_video (image, 0);
+	_image = image->crop (_film->crop(), true);
+
+	/* XXX: timestamp */
+	emit_video (_image, 0);
 
 	++_iter;
 	return false;
@@ -131,6 +134,7 @@ ImageMagickDecoder::seek_to_last ()
 bool
 ImageMagickDecoder::seek (double t)
 {
+	/* XXX: frames_per_second == 0 */
 	int const f = t * frames_per_second();
 	
 	_iter = _files.begin ();

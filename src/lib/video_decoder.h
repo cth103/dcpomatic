@@ -67,7 +67,6 @@ protected:
 
 	void emit_video (boost::shared_ptr<Image>, double);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
-	void repeat_last_video (double t);
 
 	/** Subtitle stream to use when decoding */
 	boost::shared_ptr<SubtitleStream> _subtitle_stream;
@@ -81,9 +80,6 @@ private:
 	double _last_source_time;
 	
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
-
-	boost::shared_ptr<Image> _last_image;
-	boost::shared_ptr<Subtitle> _last_subtitle;
 };
 
 #endif

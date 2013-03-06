@@ -27,6 +27,7 @@
 
 #include "i18n.h"
 
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -55,21 +56,6 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 	_last_source_time = t;
 }
 
-/** Called by subclasses to repeat the last video frame that we
- *  passed to emit_video().  If emit_video hasn't yet been called,
- *  we will generate a black frame.
- */
-void
-VideoDecoder::repeat_last_video (double t)
-{
-	if (!_last_image) {
-		_last_image.reset (new SimpleImage (pixel_format(), native_size(), true));
-		_last_image->make_black ();
-	}
-
-	signal_video (_last_image, true, _last_subtitle, t);
-}
-
 /** Emit our signal to say that some video data is ready.
  *  @param image Video frame.
  *  @param same true if `image' is the same as the last one we emitted.
@@ -81,9 +67,6 @@ VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subti
 	TIMING (N_("Decoder emits %1"), _video_frame);
 	Video (image, same, sub, t);
 	++_video_frame;
-
-	_last_image = image;
-	_last_subtitle = sub;
 }
 
 /** Set up the current subtitle.  This will be put onto frames that

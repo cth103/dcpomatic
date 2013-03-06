@@ -30,6 +30,10 @@ public:
 	void process_end ();
 
 private:
+	void fix_start ();
+	void match (double);
+	void repeat_last_video ();
+	
 	int _sample_rate;
 	float _frames_per_second;
 	int _video_frames;
@@ -37,4 +41,36 @@ private:
 	boost::optional<AVPixelFormat> _pixel_format;
 	boost::optional<libdcp::Size> _size;
 	boost::optional<int> _channels;
+
+	struct VideoRecord {
+		VideoRecord (boost::shared_ptr<Image> i, bool s, boost::shared_ptr<Subtitle> sub, double t)
+			: image (i)
+			, same (s)
+			, subtitle (sub)
+			, time (t)
+		{}
+		
+		boost::shared_ptr<Image> image;
+		bool same;
+		boost::shared_ptr<Subtitle> subtitle;
+		double time;
+	};
+
+	std::list<VideoRecord> _pending_video;
+
+	struct AudioRecord {
+		AudioRecord (boost::shared_ptr<AudioBuffers> a, double t)
+			: audio (a)
+			, time (t)
+		{}
+		
+		boost::shared_ptr<AudioBuffers> audio;
+		double time;
+	};
+
+	std::list<AudioRecord> _pending_audio;
+
+	boost::optional<double> _first_input;
+	boost::shared_ptr<Image> _last_image;
+	boost::shared_ptr<Subtitle> _last_subtitle;
 };
