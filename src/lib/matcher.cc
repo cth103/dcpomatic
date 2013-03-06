@@ -50,6 +50,11 @@ Matcher::process_video (boost::shared_ptr<Image> image, bool same, boost::shared
 		_first_input = t;
 	}
 
+	if (!_pending_audio.empty() && _video_frames == 0) {
+		/* First video since we got audio */
+		fix_start (t);
+	}
+		
 	/* Video before audio is fine, since we can make up an arbitrary difference
 	   with audio samples (contrasting with video which is quantised to frames)
 	*/
@@ -75,11 +80,6 @@ Matcher::process_video (boost::shared_ptr<Image> image, bool same, boost::shared
 		_log->log (String::compose ("Frame removed at %1s", t));
 	}
 	
-	if (!_pending_audio.empty() && _video_frames == 1) {
-		/* First video since we got audio */
-		fix_start ();
-	}
-		
 	_last_image = image;
 	_last_subtitle = sub;
 }
@@ -99,7 +99,7 @@ Matcher::process_audio (boost::shared_ptr<AudioBuffers> b, double t)
 	} else if (_video_frames > 0 && _audio_frames == 0 && _pending_audio.empty()) {
 		/* First audio since we got video */
 		_pending_audio.push_back (AudioRecord (b, t));
-		fix_start ();
+		fix_start (_first_input.get ());
 	} else {
 		/* Normal running.  We assume audio time stamps are consecutive */
 		Audio (b);
@@ -122,17 +122,13 @@ Matcher::process_end ()
 }
 
 void
-Matcher::fix_start ()
+Matcher::fix_start (double first_video)
 {
 	assert (!_pending_audio.empty ());
-	assert (_first_input);
 
-	_log->log (String::compose ("Fixing start; start at %1, audio at %2", _first_input.get(), _pending_audio.front().time));
+	_log->log (String::compose ("Fixing start; video at %1, audio at %2", first_video, _pending_audio.front().time));
 
-	/* This will not add any video frames, since the input parameter will always be -ve.
-	   Indeed, it cannot add any, since we've already started adding "real" video.
-	*/
-	match (_first_input.get() - _pending_audio.front().time);
+	match (first_video - _pending_audio.front().time);
 
 	for (list<AudioRecord>::iterator i = _pending_audio.begin(); i != _pending_audio.end(); ++i) {
 		process_audio (i->audio, i->time);

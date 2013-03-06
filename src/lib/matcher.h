@@ -30,7 +30,7 @@ public:
 	void process_end ();
 
 private:
-	void fix_start ();
+	void fix_start (double);
 	void match (double);
 	void repeat_last_video ();
 	
