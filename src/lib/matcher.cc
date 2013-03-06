@@ -116,6 +116,9 @@ Matcher::process_end ()
 		/* We won't do anything */
 		return;
 	}
+
+	_log->log (String::compose ("Matcher has seen %1 video frames (which equals %2 audio frames) and %3 audio frames",
+				    _video_frames, video_frames_to_audio_frames (_video_frames, _sample_rate, _frames_per_second), _audio_frames));
 	
 	match ((double (_audio_frames) / _sample_rate) - (double (_video_frames) / _frames_per_second));
 }
