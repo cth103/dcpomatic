@@ -225,30 +225,24 @@ FFmpegDecoder::pass ()
 			_film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
 		}
 
-		if (_video_codec->capabilities & CODEC_CAP_DELAY) {
-			
-			/* Get any remaining frames */
-			
-			_packet.data = 0;
-			_packet.size = 0;
-			
-			/* XXX: should we reset _packet.data and size after each *_decode_* call? */
-			
-			int frame_finished;
-			
-			if (_opt.decode_video) {
-				while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-					filter_and_emit_video ();
-				}
+		/* Get any remaining frames */
+		
+		_packet.data = 0;
+		_packet.size = 0;
+		
+		/* XXX: should we reset _packet.data and size after each *_decode_* call? */
+		
+		int frame_finished;
+		
+		if (_opt.decode_video) {
+			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+				filter_and_emit_video ();
 			}
-			
-			if (_audio_stream && _opt.decode_audio) {
-				decode_audio_packet ();
-			}
-		} else {
-			_film->log()->log("Codec does not have CAP_DELAY");
 		}
-		     
+		
+		if (_audio_stream && _opt.decode_audio) {
+			decode_audio_packet ();
+		}
 			
 		return true;
 	}
