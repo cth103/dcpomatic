@@ -57,4 +57,7 @@ private:
 	boost::optional<double> _first_input;
 	boost::shared_ptr<Image> _last_image;
 	boost::shared_ptr<Subtitle> _last_subtitle;
+
+	bool _had_first_video;
+	bool _had_first_audio;
 };
