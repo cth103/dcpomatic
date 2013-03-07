@@ -407,12 +407,18 @@ private:
 		}
 		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
 		info.SetCopyright (_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
+
 		wxArrayString authors;
 		authors.Add (wxT ("Carl Hetherington"));
 		authors.Add (wxT ("Terrence Meiczinger"));
 		authors.Add (wxT ("Paul Davis"));
 		authors.Add (wxT ("Ole Laursen"));
 		info.SetDevelopers (authors);
+
+		wxArrayString translators;
+		translators.Add (wxT ("Olivier (freedcp.net"));
+		info.SetTranslators (translators);
+		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
 		wxAboutBox (info);
 	}
