@@ -416,7 +416,7 @@ private:
 		info.SetDevelopers (authors);
 
 		wxArrayString translators;
-		translators.Add (wxT ("Olivier (freedcp.net"));
+		translators.Add (wxT ("Olivier (freedcp.net)"));
 		info.SetTranslators (translators);
 		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
