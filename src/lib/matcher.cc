@@ -163,7 +163,7 @@ Matcher::match (double extra_video_needed)
 		/* Emit silence */
 		
 		int64_t to_do = -extra_video_needed * _sample_rate;
-		_log->log (String::compose (N_("Emitted %1 frames of silence"), to_do));
+		_log->log (String::compose (N_("Emitting %1 frames of silence"), to_do));
 
 		/* Do things in half second blocks as I think there may be limits
 		   to what FFmpeg (and in particular the resampler) can cope with.
