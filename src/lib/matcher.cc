@@ -34,6 +34,8 @@ Matcher::Matcher (Log* log, int sample_rate, float frames_per_second)
 	, _frames_per_second (frames_per_second)
 	, _video_frames (0)
 	, _audio_frames (0)
+	, _had_first_video (false)
+	, _had_first_audio (false)
 {
 
 }
@@ -44,17 +46,20 @@ Matcher::process_video (boost::shared_ptr<Image> image, bool same, boost::shared
 	_pixel_format = image->pixel_format ();
 	_size = image->size ();
 
-	_log->log(String::compose("Matcher video @ %1 (same=%2)", t, same));
+	_log->log(String::compose("Matcher video @ %1 [audio=%2, video=%3, pending_audio=%4]", t, _audio_frames, _video_frames, _pending_audio.size()));
 
 	if (!_first_input) {
 		_first_input = t;
 	}
 
-	if (!_pending_audio.empty() && _video_frames == 0) {
+	bool const this_is_first_video = !_had_first_video;
+	_had_first_video = true;
+
+	if (this_is_first_video && _had_first_audio) {
 		/* First video since we got audio */
 		fix_start (t);
 	}
-		
+
 	/* Video before audio is fine, since we can make up an arbitrary difference
 	   with audio samples (contrasting with video which is quantised to frames)
 	*/
@@ -88,15 +93,20 @@ void
 Matcher::process_audio (boost::shared_ptr<AudioBuffers> b, double t)
 {
 	_channels = b->channels ();
-	
+
+	_log->log (String::compose ("Matcher audio @ %1 [video=%2, audio=%3, pending_audio=%4]", t, _video_frames, _audio_frames, _pending_audio.size()));
+
 	if (!_first_input) {
 		_first_input = t;
 	}
+
+	bool const this_is_first_audio = _had_first_audio;
+	_had_first_audio = true;
 	
-	if (_video_frames == 0) {
+	if (!_had_first_video) {
 		/* No video yet; we must postpone these data until we have some */
 		_pending_audio.push_back (AudioRecord (b, t));
-	} else if (_video_frames > 0 && _audio_frames == 0 && _pending_audio.empty()) {
+	} else if (this_is_first_audio && !_had_first_video) {
 		/* First audio since we got video */
 		_pending_audio.push_back (AudioRecord (b, t));
 		fix_start (_first_input.get ());
@@ -140,6 +150,8 @@ Matcher::fix_start (double first_video)
 void
 Matcher::match (double extra_video_needed)
 {
+	_log->log (String::compose ("Match %1", extra_video_needed));
+	
 	if (extra_video_needed > 0) {
 
 		/* Emit black video frames */
