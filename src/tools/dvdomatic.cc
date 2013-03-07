@@ -444,6 +444,11 @@ void
 setup_i18n ()
 {
 	int language = wxLANGUAGE_DEFAULT;
+
+	if (Config::instance()->language()) {
+		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (Config::instance()->language().get()));
+		language = li->Language;
+	}
  
 	if (wxLocale::IsAvailable (language)) {
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
