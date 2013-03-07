@@ -86,6 +86,11 @@ File "%binaries%/src/tools/dvdomatic.exe"
 File "%binaries%/src/tools/servomatic_cli.exe"
 File "%binaries%/src/tools/servomatic_gui.exe"
 
+SetOutPath "$INSTDIR\locale\fr_FR"
+
+File "%binaries%/src/tools/mo/fr_FR/dvdomatic.mo"
+File "%binaries%/src/lib/mo/fr_FR/libdvdomatic.mo"
+
 # I don't know why, but sometimes it seems that 
 # delegates.xml must be in with the binaries, and
 # sometimes in the $PROFILE.  Meh.
