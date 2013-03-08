@@ -29,6 +29,7 @@
 
 using std::string;
 using std::max;
+using std::min;
 using std::cout;
 using boost::shared_ptr;
 
@@ -67,7 +68,7 @@ AnalyseAudioJob::run ()
 	decoders.audio->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1));
 
 	int64_t total_audio_frames = video_frames_to_audio_frames (_film->length().get(), _film->audio_stream()->sample_rate(), _film->source_frame_rate());
-	_samples_per_point = min (1, total_audio_frames / _num_points);
+	_samples_per_point = max (1L, total_audio_frames / _num_points);
 
 	_current.resize (_film->audio_stream()->channels ());
 	_analysis.reset (new AudioAnalysis (_film->audio_stream()->channels()));

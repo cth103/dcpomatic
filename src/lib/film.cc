@@ -351,9 +351,12 @@ void
 Film::analyse_audio_finished ()
 {
 	ensure_ui_thread ();
-	_analyse_audio_job.reset ();
 
-	AudioAnalysisFinished ();
+	if (_analyse_audio_job->finished_ok ()) {
+		AudioAnalysisSucceeded ();
+	}
+	
+	_analyse_audio_job.reset ();
 }
 
 void
