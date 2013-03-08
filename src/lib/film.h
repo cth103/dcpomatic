@@ -327,7 +327,7 @@ public:
 	}
 
 	boost::shared_ptr<AudioStream> audio_stream () const;
-
+	bool has_audio () const;
 	
 	/* SET */
 

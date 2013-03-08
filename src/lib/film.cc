@@ -1434,3 +1434,21 @@ Film::have_dcp () const
 
 	return true;
 }
+
+bool
+Film::has_audio () const
+{
+	if (use_content_audio()) {
+		return audio_stream();
+	}
+
+	vector<string> const e = external_audio ();
+	for (vector<string>::const_iterator i = e.begin(); i != e.end(); ++i) {
+		if (!i->empty ()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
