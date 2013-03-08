@@ -77,7 +77,7 @@ public:
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
 	 */
-	Log* log () const {
+	boost::shared_ptr<Log> log () const {
 		return _log;
 	}
 
@@ -382,7 +382,7 @@ public:
 private:
 	
 	/** Log to write to */
-	Log* _log;
+	boost::shared_ptr<Log> _log;
 
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;

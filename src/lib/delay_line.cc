@@ -30,7 +30,7 @@ using boost::shared_ptr;
 /** @param channels Number of channels of audio.
  *  @param frames Delay in frames, +ve to move audio later.
  */
-DelayLine::DelayLine (Log* log, int channels, int frames)
+DelayLine::DelayLine (shared_ptr<Log> log, int channels, int frames)
 	: AudioProcessor (log)
 	, _negative_delay_remaining (0)
 	, _frames (frames)

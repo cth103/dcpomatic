@@ -24,7 +24,7 @@
 class Matcher : public AudioVideoProcessor
 {
 public:
-	Matcher (Log* log, int sample_rate, float frames_per_second);
+	Matcher (boost::shared_ptr<Log> log, int sample_rate, float frames_per_second);
 	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
 	void process_audio (boost::shared_ptr<AudioBuffers>);
 	void process_end ();

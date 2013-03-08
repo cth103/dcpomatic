@@ -43,7 +43,7 @@ using std::pair;
 using boost::shared_ptr;
 
 static ServerDescription* server;
-static FileLog log_ ("servomatictest.log");
+static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame = 0;
 
 void
@@ -53,14 +53,14 @@ process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
 		new DCPVideoFrame (
 			image, sub,
 			libdcp::Size (1024, 1024), 0, 0, 0,
-			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_)
+			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, log_)
 		);
 	
 	shared_ptr<DCPVideoFrame> remote (
 		new DCPVideoFrame (
 			image, sub,
 			libdcp::Size (1024, 1024), 0, 0, 0,
-			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, &log_)
+			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, log_)
 		);
 
 	cout << "Frame " << frame << ": ";

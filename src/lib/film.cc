@@ -144,12 +144,13 @@ Film::Film (string d, bool must_exist)
 		read_metadata ();
 	}
 
-	_log = new FileLog (file ("log"));
+	_log.reset (new FileLog (file ("log")));
 }
 
 Film::Film (Film const & o)
 	: boost::enable_shared_from_this<Film> (o)
-	, _log (0)
+	/* note: the copied film shares the original's log */
+	, _log               (o._log)
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
@@ -188,12 +189,12 @@ Film::Film (Film const & o)
 	, _source_frame_rate (o._source_frame_rate)
 	, _dirty             (o._dirty)
 {
-
+	
 }
 
 Film::~Film ()
 {
-	delete _log;
+
 }
 
 string

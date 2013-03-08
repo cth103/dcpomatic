@@ -31,7 +31,7 @@
 class Combiner : public VideoProcessor
 {
 public:
-	Combiner (Log* log);
+	Combiner (boost::shared_ptr<Log> log);
 
 	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
 	void process_video_b (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);

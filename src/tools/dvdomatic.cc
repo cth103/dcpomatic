@@ -482,12 +482,16 @@ class App : public wxApp
 #ifdef DVDOMATIC_POSIX		
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif		
-		
+
+		/* This needs to be before setup_i18n, as setup_i18n() will
+		   create a Config object, which needs Scalers to have
+		   been created.
+		*/
+		dvdomatic_setup ();
+
 		wxInitAllImageHandlers ();
 		setup_i18n ();
 		
-		dvdomatic_setup ();
-
 		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
 			try {
 				film.reset (new Film (film_to_load));
