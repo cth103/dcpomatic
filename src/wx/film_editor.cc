@@ -1129,7 +1129,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 void
 FilmEditor::setup_audio_control_sensitivity ()
 {
-	_use_content_audio->Enable (_generally_sensitive);
+	_use_content_audio->Enable (_generally_sensitive && _film && !_film->content_audio_streams().empty());
 	_use_external_audio->Enable (_generally_sensitive);
 	
 	bool const source = _generally_sensitive && _use_content_audio->GetValue();
@@ -1224,7 +1224,7 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 void
 FilmEditor::setup_audio_details ()
 {
-	if (!_film->audio_stream()) {
+	if (!_film->content_audio_stream()) {
 		_audio->SetLabel (wxT (""));
 	} else {
 		stringstream s;
