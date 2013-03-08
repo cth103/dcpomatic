@@ -98,10 +98,6 @@ public:
 	std::string dci_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
 
-	boost::optional<int> dcp_intrinsic_duration () const {
-		return _dcp_intrinsic_duration;
-	}
-
 	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
 		return _dirty;
@@ -145,7 +141,6 @@ public:
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
-		DCP_INTRINSIC_DURATION,
 		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		SOURCE_FRAME_RATE,
@@ -365,7 +360,6 @@ public:
 	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
-	void set_dcp_intrinsic_duration (int);
 	void set_content_digest (std::string);
 	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
 	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
@@ -477,7 +471,6 @@ private:
 	libdcp::Size _size;
 	/** The length of the source, in video frames (as far as we know) */
 	boost::optional<SourceFrame> _length;
-	boost::optional<int> _dcp_intrinsic_duration;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
 	/** The audio streams in our content */

@@ -261,8 +261,6 @@ Writer::finish ()
 	int const frames = _last_written_frame + 1;
 	int const duration = frames - _film->trim_start() - _film->trim_end();
 	
-	_film->set_dcp_intrinsic_duration (frames);
-	
 	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);
 

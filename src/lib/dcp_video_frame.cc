@@ -70,7 +70,7 @@ using libdcp::Size;
  *  @param out Required size of output, in pixels (including any padding).
  *  @param s Scaler to use.
  *  @param p Number of pixels of padding either side of the image.
- *  @param f Index of the frame within the DCP's intrinsic duration.
+ *  @param f Index of the frame within the DCP.
  *  @param fps Frames per second of the Film's source.
  *  @param pp FFmpeg post-processing string to use.
  *  @param clut Colour look-up table to use (see Config::colour_lut_index ())

@@ -181,7 +181,6 @@ Film::Film (Film const & o)
 	, _dcp_frame_rate    (o._dcp_frame_rate)
 	, _size              (o._size)
 	, _length            (o._length)
-	, _dcp_intrinsic_duration (o._dcp_intrinsic_duration)
 	, _content_digest    (o._content_digest)
 	, _content_audio_streams (o._content_audio_streams)
 	, _external_audio_stream (o._external_audio_stream)
@@ -454,7 +453,6 @@ Film::write_metadata () const
 	f << "width " << _size.width << endl;
 	f << "height " << _size.height << endl;
 	f << "length " << _length.get_value_or(0) << endl;
-	f << "dcp_intrinsic_duration " << _dcp_intrinsic_duration.get_value_or(0) << endl;
 	f << "content_digest " << _content_digest << endl;
 
 	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
@@ -594,11 +592,6 @@ Film::read_metadata ()
 			int const vv = atoi (v.c_str ());
 			if (vv) {
 				_length = vv;
-			}
-		} else if (k == "dcp_intrinsic_duration") {
-			int const vv = atoi (v.c_str ());
-			if (vv) {
-				_dcp_intrinsic_duration = vv;
 			}
 		} else if (k == "content_digest") {
 			_content_digest = v;
@@ -1292,16 +1285,6 @@ Film::unset_length ()
 		_length = boost::none;
 	}
 	signal_changed (LENGTH);
-}
-
-void
-Film::set_dcp_intrinsic_duration (int d)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_intrinsic_duration = d;
-	}
-	signal_changed (DCP_INTRINSIC_DURATION);
 }
 
 void
