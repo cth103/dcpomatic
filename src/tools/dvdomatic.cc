@@ -456,9 +456,6 @@ setup_i18n ()
 #ifdef __WXGTK__
 		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_PREFIX "/locale"));
 #endif
-#ifdef __WXMSW__
-		locale->AddCatalogLookupPathPrefix (wxT ("../locale"));
-#endif		
 
 		locale->AddCatalog (wxT ("libdvdomatic-wx"));
 		locale->AddCatalog (wxT ("dvdomatic"));

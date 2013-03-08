@@ -103,7 +103,7 @@ File "%deps%/etc/ImageMagick/delegates.xml"
 SetOutPath "$PROFILE\.magick"
 File "%deps%/etc/ImageMagick/delegates.xml"
 
-SetOutPath "$INSTDIR\locale\fr_FR"
+SetOutPath "$INSTDIR\bin\fr_FR"
 
 File "%binaries%/src/tools/mo/fr_FR/dvdomatic.mo"
 File "%binaries%/src/lib/mo/fr_FR/libdvdomatic.mo"
