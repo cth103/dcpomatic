@@ -5,16 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-05 13:49+0000\n"
-"PO-Revision-Date: 2013-03-07 01:37+0100\n"
+"PO-Revision-Date: 2013-03-13 00:23+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
 #: src/lib/transcode_job.cc:90
 msgid "0%"
@@ -70,7 +72,7 @@ msgstr "Advertisement"
 
 #: src/lib/job.cc:71
 msgid "An error occurred whilst handling the file %1."
-msgstr "Une erreure s'est produite durant le traitement du fichier %1."
+msgstr "Une erreur s'est produite durant le traitement du fichier %1."
 
 #: src/lib/analyse_audio_job.cc:48
 msgid "Analyse audio of %1"
@@ -114,7 +116,7 @@ msgstr "Ne peux pas démarrer la session SCP (%1)"
 
 #: src/lib/scp_dcp_job.cc:187
 msgid "Could not write to remote file (%1)"
-msgstr "Ne peux pas ecrire le fichier distant (%1)"
+msgstr "Ne peux pas écrire le fichier distant (%1)"
 
 #: src/lib/filter.cc:77
 msgid "Cubic interpolating deinterlacer"
@@ -167,7 +169,7 @@ msgstr "Chaque image source sera doublée dans le DCP.\n"
 
 #: src/lib/job.cc:287
 msgid "Error (%1)"
-msgstr "Erreure (%1)"
+msgstr "Erreur (%1)"
 
 #: src/lib/examine_content_job.cc:55
 msgid "Examine content"
@@ -240,7 +242,7 @@ msgstr "Horizontal deblocking filter A"
 #: src/lib/job.cc:87
 #: src/lib/job.cc:96
 msgid "It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
-msgstr "La cause de l'erreure n'est pas connue. La meilleure chose est de reporter le problème à la liste de discution de DCD-o-matic (dvdomatic@carlh.net)"
+msgstr "La cause de l’erreur n'est pas connue. La meilleure chose est de reporter le problème à la liste de discutions de DCD-o-matic (dvdomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"
@@ -307,7 +309,7 @@ msgstr "Rec 709"
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"
-msgstr "Erreure SSH (%1)"
+msgstr "Erreur SSH (%1)"
 
 #: src/lib/format.cc:125
 msgid "Scope"
@@ -415,7 +417,7 @@ msgstr "Transitional"
 
 #: src/lib/job.cc:95
 msgid "Unknown error"
-msgstr "Erruere inconnue"
+msgstr "Erreur inconnue"
 
 #: src/lib/ffmpeg_decoder.cc:396
 msgid "Unrecognised audio sample format (%1)"
@@ -451,7 +453,7 @@ msgstr "ajout à la queue de %1"
 
 #: src/lib/film.cc:263
 msgid "cannot contain slashes"
-msgstr "ne peux pas contenir de slashes"
+msgstr "ne peux pas contenir de slashs"
 
 #: src/lib/util.cc:499
 msgid "connect timed out"
@@ -475,7 +477,7 @@ msgstr "copie %1"
 
 #: src/lib/ffmpeg_decoder.cc:191
 msgid "could not find audio decoder"
-msgstr "ne trouve pas le decodeur son"
+msgstr "ne trouve pas le décodeur son"
 
 #: src/lib/ffmpeg_decoder.cc:118
 msgid "could not find stream information"
@@ -487,7 +489,7 @@ msgstr "ne peux pas trouver de décodeur de sous-titres"
 
 #: src/lib/ffmpeg_decoder.cc:169
 msgid "could not find video decoder"
-msgstr "ne peux pas trouver de decodeur vidéo"
+msgstr "ne peux pas trouver de décodeur vidéo"
 
 #: src/lib/external_audio_decoder.cc:72
 msgid "could not open external audio file for reading"
@@ -512,11 +514,11 @@ msgstr "ne peux pas lancer de session SSH"
 
 #: src/lib/encoder.cc:247
 msgid "decoder sleeps with queue of %1"
-msgstr "le decodeur dort en attente de %1"
+msgstr "le décodeur dort en attente de %1"
 
 #: src/lib/encoder.cc:249
 msgid "decoder wakes with queue of %1"
-msgstr "le decodeur se réveille en attente de %1"
+msgstr "le décodeur se réveille en attente de %1"
 
 #: src/lib/external_audio_decoder.cc:94
 msgid "external audio files have differing lengths"
@@ -553,11 +555,11 @@ msgstr "minutes"
 
 #: src/lib/util.cc:642
 msgid "missing key %1 in key-value set"
-msgstr "missing key %1 in key-value set"
+msgstr ""
 
 #: src/lib/subtitle.cc:52
 msgid "multi-part subtitles not yet supported"
-msgstr "sous-titres en plusieurs parites pas encore supportés"
+msgstr "sous-titres en plusieurs parties pas encore supportés"
 
 #: src/lib/film.cc:263
 #: src/lib/film.cc:308
@@ -570,7 +572,7 @@ msgstr "pas d'image fixe trouvée"
 
 #: src/lib/subtitle.cc:58
 msgid "non-bitmap subtitles not yet supported"
-msgstr "Sous-titres non-bitmap non supportés actuellement"
+msgstr "sous-titres non-bitmap non supportés actuellement"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
