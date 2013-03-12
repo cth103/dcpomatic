@@ -107,7 +107,7 @@ class DCPVideoFrame
 public:
 	DCPVideoFrame (
 		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, libdcp::Size,
-		int, int, float, Scaler const *, int, int, std::string, int, int, Log *
+		int, int, float, Scaler const *, int, int, std::string, int, int, boost::shared_ptr<Log>
 		);
 	
 	virtual ~DCPVideoFrame ();
@@ -135,7 +135,7 @@ private:
 	int _colour_lut;                 ///< Colour look-up table to use
 	int _j2k_bandwidth;              ///< J2K bandwidth to use
 
-	Log* _log; ///< log
+	boost::shared_ptr<Log> _log; ///< log
 
 	opj_image_cmptparm_t _cmptparm[3]; ///< libopenjpeg's opj_image_cmptparm_t
 	opj_image* _image;                 ///< libopenjpeg's image container 

@@ -261,8 +261,6 @@ Writer::finish ()
 	int const frames = _last_written_frame + 1;
 	int const duration = frames - _film->trim_start() - _film->trim_end();
 	
-	_film->set_dcp_intrinsic_duration (frames);
-	
 	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);
 
@@ -275,8 +273,14 @@ Writer::finish ()
 	boost::filesystem::path to;
 	to /= _film->dir (_film->dcp_name());
 	to /= N_("video.mxf");
-	
-	boost::filesystem::create_hard_link (from, to);
+
+	boost::system::error_code ec;
+	boost::filesystem::create_hard_link (from, to, ec);
+	if (ec) {
+		/* hard link failed; copy instead */
+		boost::filesystem::copy_file (from, to);
+		_film->log()->log ("Hard-link failed; fell back to copying");
+	}
 
 	/* And update the asset */
 

@@ -76,7 +76,7 @@ private:
 class Server
 {
 public:
-	Server (Log* log);
+	Server (boost::shared_ptr<Log> log);
 
 	void run (int num_threads);
 
@@ -88,5 +88,5 @@ private:
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
-	Log* _log;
+	boost::shared_ptr<Log> _log;
 };

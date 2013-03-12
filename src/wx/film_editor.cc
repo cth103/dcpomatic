@@ -617,6 +617,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_formats ();
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
+		setup_show_audio_sensitivity ();
 		break;
 	case Film::TRUST_CONTENT_HEADER:
 		checked_set (_trust_content_header, _film->trust_content_header ());
@@ -627,6 +628,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT_AUDIO_STREAMS:
 		setup_streams ();
+		setup_show_audio_sensitivity ();
 		break;
 	case Film::FORMAT:
 	{
@@ -696,8 +698,6 @@ FilmEditor::film_changed (Film::Property p)
 			_trim_end->SetRange (0, _film->length().get());
 		}
 		break;
-	case Film::DCP_INTRINSIC_DURATION:
-		break;
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
@@ -754,6 +754,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_dcp_name ();
 		setup_audio_details ();
 		setup_audio_control_sensitivity ();
+		setup_show_audio_sensitivity ();
 		break;
 	case Film::USE_CONTENT_AUDIO:
 		checked_set (_use_content_audio, _film->use_content_audio());
@@ -761,6 +762,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_dcp_name ();
 		setup_audio_details ();
 		setup_audio_control_sensitivity ();
+		setup_show_audio_sensitivity ();
 		break;
 	case Film::SUBTITLE_STREAM:
 		if (_film->subtitle_stream()) {
@@ -774,6 +776,7 @@ FilmEditor::film_changed (Film::Property p)
 			checked_set (_external_audio[i], a[i]);
 		}
 		setup_audio_details ();
+		setup_show_audio_sensitivity ();
 		break;
 	}
 	case Film::DCP_FRAME_RATE:
@@ -915,6 +918,7 @@ FilmEditor::set_things_sensitive (bool s)
 
 	setup_subtitle_control_sensitivity ();
 	setup_audio_control_sensitivity ();
+	setup_show_audio_sensitivity ();
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -1123,7 +1127,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 void
 FilmEditor::setup_audio_control_sensitivity ()
 {
-	_use_content_audio->Enable (_generally_sensitive);
+	_use_content_audio->Enable (_generally_sensitive && _film && !_film->content_audio_streams().empty());
 	_use_external_audio->Enable (_generally_sensitive);
 	
 	bool const source = _generally_sensitive && _use_content_audio->GetValue();
@@ -1218,7 +1222,7 @@ FilmEditor::subtitle_stream_changed (wxCommandEvent &)
 void
 FilmEditor::setup_audio_details ()
 {
-	if (!_film->audio_stream()) {
+	if (!_film->content_audio_stream()) {
 		_audio->SetLabel (wxT (""));
 	} else {
 		stringstream s;
@@ -1288,4 +1292,10 @@ FilmEditor::best_dcp_frame_rate_clicked (wxCommandEvent &)
 	}
 	
 	_film->set_dcp_frame_rate (best_dcp_frame_rate (_film->source_frame_rate ()));
+}
+
+void
+FilmEditor::setup_show_audio_sensitivity ()
+{
+	_show_audio->Enable (_film && _film->has_audio ());
 }

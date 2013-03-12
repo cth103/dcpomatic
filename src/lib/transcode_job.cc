@@ -68,10 +68,7 @@ TranscodeJob::run ()
 		set_progress (1);
 		set_state (FINISHED_OK);
 
-		_film->set_dcp_intrinsic_duration (_encoder->video_frames_out ());
-
 		_film->log()->log (N_("Transcode job completed successfully"));
-		_film->log()->log (String::compose (N_("DCP intrinsic duration is %1"), _encoder->video_frames_out()));
 
 	} catch (std::exception& e) {
 

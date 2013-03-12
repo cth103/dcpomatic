@@ -22,7 +22,7 @@
 
 using boost::shared_ptr;
 
-Combiner::Combiner (Log* log)
+Combiner::Combiner (shared_ptr<Log> log)
 	: VideoProcessor (log)
 {
 

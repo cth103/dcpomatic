@@ -70,7 +70,7 @@ using libdcp::Size;
  *  @param out Required size of output, in pixels (including any padding).
  *  @param s Scaler to use.
  *  @param p Number of pixels of padding either side of the image.
- *  @param f Index of the frame within the DCP's intrinsic duration.
+ *  @param f Index of the frame within the DCP.
  *  @param fps Frames per second of the Film's source.
  *  @param pp FFmpeg post-processing string to use.
  *  @param clut Colour look-up table to use (see Config::colour_lut_index ())
@@ -80,7 +80,7 @@ using libdcp::Size;
 DCPVideoFrame::DCPVideoFrame (
 	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
 	Size out, int p, int subtitle_offset, float subtitle_scale,
-	Scaler const * s, int f, int dcp_fps, string pp, int clut, int bw, Log* l
+	Scaler const * s, int f, int dcp_fps, string pp, int clut, int bw, shared_ptr<Log> l
 	)
 	: _input (yuv)
 	, _subtitle (sub)

@@ -77,7 +77,7 @@ public:
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
 	 */
-	Log* log () const {
+	boost::shared_ptr<Log> log () const {
 		return _log;
 	}
 
@@ -97,10 +97,6 @@ public:
 	libdcp::Size cropped_size (libdcp::Size) const;
 	std::string dci_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
-
-	boost::optional<int> dcp_intrinsic_duration () const {
-		return _dcp_intrinsic_duration;
-	}
 
 	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
@@ -145,7 +141,6 @@ public:
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
-		DCP_INTRINSIC_DURATION,
 		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		SOURCE_FRAME_RATE,
@@ -327,7 +322,7 @@ public:
 	}
 
 	boost::shared_ptr<AudioStream> audio_stream () const;
-
+	bool has_audio () const;
 	
 	/* SET */
 
@@ -365,7 +360,6 @@ public:
 	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
-	void set_dcp_intrinsic_duration (int);
 	void set_content_digest (std::string);
 	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
 	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
@@ -374,7 +368,7 @@ public:
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
 
-	boost::signals2::signal<void ()> AudioAnalysisFinished;
+	boost::signals2::signal<void ()> AudioAnalysisSucceeded;
 
 	/** Current version number of the state file */
 	static int const state_version;
@@ -382,7 +376,7 @@ public:
 private:
 	
 	/** Log to write to */
-	Log* _log;
+	boost::shared_ptr<Log> _log;
 
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
@@ -477,7 +471,6 @@ private:
 	libdcp::Size _size;
 	/** The length of the source, in video frames (as far as we know) */
 	boost::optional<SourceFrame> _length;
-	boost::optional<int> _dcp_intrinsic_duration;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
 	/** The audio streams in our content */

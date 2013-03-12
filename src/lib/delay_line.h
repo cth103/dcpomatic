@@ -26,7 +26,7 @@ class AudioBuffers;
 class DelayLine : public AudioProcessor
 {
 public:
-	DelayLine (Log* log, int channels, int frames);
+	DelayLine (boost::shared_ptr<Log> log, int channels, int frames);
 	
 	void process_audio (boost::shared_ptr<AudioBuffers>);
 

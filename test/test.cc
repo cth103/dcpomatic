@@ -254,9 +254,9 @@ public:
 void
 do_positive_delay_line_test (int delay_length, int data_length)
 {
-	NullLog log;
+	shared_ptr<NullLog> log (new NullLog);
 	
-	DelayLine d (&log, 6, delay_length);
+	DelayLine d (log, 6, delay_length);
 	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
 
 	int in = 0;
@@ -297,9 +297,9 @@ do_positive_delay_line_test (int delay_length, int data_length)
 void
 do_negative_delay_line_test (int delay_length, int data_length)
 {
-	NullLog log;
+	shared_ptr<NullLog> log (new NullLog);
 
-	DelayLine d (&log, 6, delay_length);
+	DelayLine d (log, 6, delay_length);
 	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
 
 	int in = 0;
@@ -406,7 +406,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	shared_ptr<Subtitle> subtitle (new Subtitle (Position (50, 60), sub_image));
 
-	FileLog log ("build/test/client_server_test.log");
+	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test.log"));
 
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
@@ -422,14 +422,14 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 			"",
 			0,
 			200000000,
-			&log
+			log
 			)
 		);
 
 	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
 	BOOST_ASSERT (locally_encoded);
 	
-	Server* server = new Server (&log);
+	Server* server = new Server (log);
 
 	new thread (boost::bind (&Server::run, server, 2));
 

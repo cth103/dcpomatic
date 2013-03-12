@@ -25,8 +25,11 @@
 #include "lib/server.h"
 #include "lib/config.h"
 
-using namespace std;
-using namespace boost;
+using std::cout;
+using std::string;
+using boost::shared_ptr;
+using boost::thread;
+using boost::bind;
 
 enum {
 	ID_status = 1,
@@ -52,7 +55,7 @@ private:
 	string _log;	
 };
 
-static MemoryLog memory_log;
+static shared_ptr<MemoryLog> memory_log (new MemoryLog);
 
 class StatusDialog : public wxDialog
 {
@@ -77,7 +80,7 @@ public:
 private:
 	void update (wxTimerEvent &)
 	{
-		_text->ChangeValue (std_to_wx (memory_log.get ()));
+		_text->ChangeValue (std_to_wx (memory_log->get ()));
 		_sizer->Layout ();
 	}
 
@@ -141,7 +144,7 @@ private:
 
 	void main_thread ()
 	{
-		Server server (&memory_log);
+		Server server (memory_log);
 		server.run (Config::instance()->num_local_encoding_threads ());
 	}
 

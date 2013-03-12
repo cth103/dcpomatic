@@ -40,6 +40,7 @@
 
 using std::string;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** @param a Film to use for the left half of the screen.
  *  @param b Film to use for the right half of the screen.
@@ -54,6 +55,7 @@ ABTranscoder::ABTranscoder (
 	, _film_b (b)
 	, _job (j)
 	, _encoder (e)
+	, _combiner (new Combiner (a->log()))
 {
 	_da = decoder_factory (_film_a, o);
 	_db = decoder_factory (_film_b, o);
@@ -92,17 +94,24 @@ void
 ABTranscoder::go ()
 {
 	_encoder->process_begin ();
+
+	bool done[3] = { false, false, false };
 	
 	while (1) {
-		bool const va = _da.video->pass ();
-		bool const vb = _db.video->pass ();
-		bool const a = _da.audio->pass ();
+		done[0] = _da.video->pass ();
+		done[1] = _db.video->pass ();
+		
+		if (!done[2] && _da.audio && dynamic_pointer_cast<Decoder> (_da.audio) != dynamic_pointer_cast<Decoder> (_da.video)) {
+			done[2] = _da.audio->pass ();
+		} else {
+			done[2] = true;
+		}
 
 		if (_job) {
 			_da.video->set_progress (_job);
 		}
 
-		if (va && vb && a) {
+		if (done[0] && done[1] && done[2]) {
 			break;
 		}
 	}
