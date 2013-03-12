@@ -273,8 +273,12 @@ Writer::finish ()
 	boost::filesystem::path to;
 	to /= _film->dir (_film->dcp_name());
 	to /= N_("video.mxf");
-	
-	boost::filesystem::create_hard_link (from, to);
+
+	boost::system::error_code ec;
+	if (boost::filesystem::create_hard_link (from, to, ec)) {
+		/* hard link failed; copy instead */
+		boost::filesystem::copy_file (from, to);
+	}
 
 	/* And update the asset */
 
