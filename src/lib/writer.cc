@@ -275,7 +275,8 @@ Writer::finish ()
 	to /= N_("video.mxf");
 
 	boost::system::error_code ec;
-	if (boost::filesystem::create_hard_link (from, to, ec)) {
+	boost::filesystem::create_hard_link (from, to, ec);
+	if (ec) {
 		/* hard link failed; copy instead */
 		boost::filesystem::copy_file (from, to);
 	}
