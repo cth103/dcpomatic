@@ -279,6 +279,7 @@ Writer::finish ()
 	if (ec) {
 		/* hard link failed; copy instead */
 		boost::filesystem::copy_file (from, to);
+		_film->log()->log ("Hard-link failed; fell back to copying");
 	}
 
 	/* And update the asset */
