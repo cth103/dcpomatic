@@ -1,3 +1,9 @@
+2013-03-14  Carl Hetherington  <cth@carlh.net>
+
+	* Work-around lack of support for hard links.
+
+	* Fix a few bugs with A/B mode.
+
 2013-03-08  Carl Hetherington  <cth@carlh.net>
 
 	* Disable show audio button and use content audio selector
