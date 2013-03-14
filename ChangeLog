@@ -1,5 +1,9 @@
 2013-03-14  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.77beta1 released.
+
+2013-03-14  Carl Hetherington  <cth@carlh.net>
+
 	* Work-around lack of support for hard links.
 
 	* Fix a few bugs with A/B mode.
