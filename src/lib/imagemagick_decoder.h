@@ -52,10 +52,6 @@ public:
 		return 0;
 	}
 
-	bool has_subtitles () const {
-		return false;
-	}
-
 	bool seek (double);
 	bool seek_to_last ();
 
