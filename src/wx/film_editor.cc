@@ -37,7 +37,6 @@
 #include "lib/filter.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_decoder.h"
-#include "lib/external_audio_decoder.h"
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"

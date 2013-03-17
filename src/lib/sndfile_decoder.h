@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,29 +22,29 @@
 #include "audio_decoder.h"
 #include "stream.h"
 
-class ExternalAudioStream : public AudioStream
+class SndfileStream : public AudioStream
 {
 public:
-	ExternalAudioStream (int sample_rate, int64_t layout)
+	SndfileStream (int sample_rate, int64_t layout)
 		: AudioStream (sample_rate, layout)
 	{}
 			       
 	std::string to_string () const;
 
-	static boost::shared_ptr<ExternalAudioStream> create ();
-	static boost::shared_ptr<ExternalAudioStream> create (std::string t, boost::optional<int> v);
+	static boost::shared_ptr<SndfileStream> create ();
+	static boost::shared_ptr<SndfileStream> create (std::string t, boost::optional<int> v);
 
 private:
 	friend class stream_test;
 	
-	ExternalAudioStream ();
-	ExternalAudioStream (std::string t, boost::optional<int> v);
+	SndfileStream ();
+	SndfileStream (std::string t, boost::optional<int> v);
 };
 
-class ExternalAudioDecoder : public AudioDecoder
+class SndfileDecoder : public AudioDecoder
 {
 public:
-	ExternalAudioDecoder (boost::shared_ptr<Film>, DecodeOptions);
+	SndfileDecoder (boost::shared_ptr<Film>, DecodeOptions);
 
 	bool pass ();
 

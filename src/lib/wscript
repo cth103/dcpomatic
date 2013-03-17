@@ -20,7 +20,6 @@ sources = """
           dolby_cp750.cc
           encoder.cc
           examine_content_job.cc
-          external_audio_decoder.cc
           filter_graph.cc
           ffmpeg_compatibility.cc
           ffmpeg_decoder.cc
@@ -38,6 +37,7 @@ sources = """
           scp_dcp_job.cc
           scaler.cc
           server.cc
+          sndfile_decoder.cc
           sound_processor.cc
           stream.cc
           subtitle.cc

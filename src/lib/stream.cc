@@ -21,7 +21,7 @@
 #include "compose.hpp"
 #include "stream.h"
 #include "ffmpeg_decoder.h"
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 
 #include "i18n.h"
 
@@ -74,7 +74,7 @@ audio_stream_factory (string t, optional<int> v)
 
 	s = FFmpegAudioStream::create (t, v);
 	if (!s) {
-		s = ExternalAudioStream::create (t, v);
+		s = SndfileStream::create (t, v);
 	}
 
 	return s;

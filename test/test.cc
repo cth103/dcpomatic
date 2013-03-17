@@ -39,7 +39,7 @@
 #include "subtitle.h"
 #include "scaler.h"
 #include "ffmpeg_decoder.h"
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE (stream_test)
 	BOOST_CHECK_EQUAL (a.name(), "hello there world");
 	BOOST_CHECK_EQUAL (a.to_string(), "ffmpeg 4 44100 1 hello there world");
 
-	ExternalAudioStream e ("external 44100 1", boost::optional<int> (1));
+	SndfileStream e ("external 44100 1", boost::optional<int> (1));
 	BOOST_CHECK_EQUAL (e.sample_rate(), 44100);
 	BOOST_CHECK_EQUAL (e.channel_layout(), 1);
 	BOOST_CHECK_EQUAL (e.to_string(), "external 44100 1");

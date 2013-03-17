@@ -50,7 +50,7 @@
 #include "ui_signaller.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 #include "analyse_audio_job.h"
 
 #include "i18n.h"
@@ -138,7 +138,7 @@ Film::Film (string d, bool must_exist)
 		}
 	}
 
-	_external_audio_stream = ExternalAudioStream::create ();
+	_sndfile_stream = SndfileStream::create ();
 	
 	if (must_exist) {
 		read_metadata ();
@@ -183,7 +183,7 @@ Film::Film (Film const & o)
 	, _length            (o._length)
 	, _content_digest    (o._content_digest)
 	, _content_audio_streams (o._content_audio_streams)
-	, _external_audio_stream (o._external_audio_stream)
+	, _sndfile_stream    (o._sndfile_stream)
 	, _subtitle_streams  (o._subtitle_streams)
 	, _source_frame_rate (o._source_frame_rate)
 	, _dirty             (o._dirty)
@@ -459,7 +459,7 @@ Film::write_metadata () const
 		f << "content_audio_stream " << (*i)->to_string () << endl;
 	}
 
-	f << "external_audio_stream " << _external_audio_stream->to_string() << endl;
+	f << "external_audio_stream " << _sndfile_stream->to_string() << endl;
 
 	for (vector<shared_ptr<SubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
 		f << "subtitle_stream " << (*i)->to_string () << endl;
@@ -598,7 +598,7 @@ Film::read_metadata ()
 		} else if (k == "content_audio_stream" || (!version && k == "audio_stream")) {
 			_content_audio_streams.push_back (audio_stream_factory (v, version));
 		} else if (k == "external_audio_stream") {
-			_external_audio_stream = audio_stream_factory (v, version);
+			_sndfile_stream = audio_stream_factory (v, version);
 		} else if (k == "subtitle_stream") {
 			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
 		} else if (k == "source_frame_rate") {
@@ -1127,9 +1127,9 @@ Film::set_external_audio (vector<string> a)
 		_external_audio = a;
 	}
 
-	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), DecodeOptions()));
+	shared_ptr<SndfileDecoder> decoder (new SndfileDecoder (shared_from_this(), DecodeOptions()));
 	if (decoder->audio_stream()) {
-		_external_audio_stream = decoder->audio_stream ();
+		_sndfile_stream = decoder->audio_stream ();
 	}
 	
 	signal_changed (EXTERNAL_AUDIO);
@@ -1364,7 +1364,7 @@ Film::audio_stream () const
 		return _content_audio_stream;
 	}
 
-	return _external_audio_stream;
+	return _sndfile_stream;
 }
 
 string

@@ -476,7 +476,7 @@ private:
 	/** The audio streams in our content */
 	std::vector<boost::shared_ptr<AudioStream> > _content_audio_streams;
 	/** A stream to represent possible external audio (will always exist) */
-	boost::shared_ptr<AudioStream> _external_audio_stream;
+	boost::shared_ptr<AudioStream> _sndfile_stream;
 	/** the subtitle streams that we can use */
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 	/** Frames per second of the source */
