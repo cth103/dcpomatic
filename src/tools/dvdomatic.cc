@@ -417,6 +417,9 @@ private:
 
 		wxArrayString translators;
 		translators.Add (wxT ("Olivier (freedcp.net)"));
+		translators.Add (wxT ("Lilian Lefranc"));
+		translators.Add (wxT ("Thierry Journet"));
+		translators.Add (wxT ("Massimiliano Broggi"));
 		info.SetTranslators (translators);
 		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
