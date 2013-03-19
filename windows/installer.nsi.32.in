@@ -98,7 +98,7 @@ File "%binaries%/src/lib/mo/fr_FR/libdvdomatic.mo"
 File "%binaries%/src/tools/mo/fr_FR/dvdomatic.mo"
 SetOutPath "$INSTDIR\bin\it_IT"
 File "%binaries%/src/lib/mo/it_IT/libdvdomatic.mo"
-File "%binaries%/src/wx/mo/it_IT/libdvdomatic.mo"
+File "%binaries%/src/wx/mo/it_IT/libdvdomatic-wx.mo"
 File "%binaries%/src/tools/mo/it_IT/dvdomatic.mo"
 
 CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
