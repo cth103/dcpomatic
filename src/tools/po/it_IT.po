@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: IT VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-15 08:39+0000\n"
+"PO-Revision-Date: 2013-03-18 15:20+0100\n"
+"Last-Translator: Maci <macibro@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"Language: Italiano\n"
+
+#: src/tools/dvdomatic.cc:177
+msgid "&Analyse audio"
+msgstr "&Analizza audio"
+
+#: src/tools/dvdomatic.cc:183
+msgid "&Edit"
+msgstr "&Modifica"
+
+#: src/tools/dvdomatic.cc:182
+msgid "&File"
+msgstr "&File"
+
+#: src/tools/dvdomatic.cc:185
+msgid "&Help"
+msgstr "&Aiuto"
+
+#: src/tools/dvdomatic.cc:184
+msgid "&Jobs"
+msgstr "&Lavori"
+
+#: src/tools/dvdomatic.cc:173
+msgid "&Make DCP"
+msgstr "&Crea DCP"
+
+#: src/tools/dvdomatic.cc:161
+msgid "&Open..."
+msgstr "&Apri..."
+
+#: src/tools/dvdomatic.cc:170
+msgid "&Preferences..."
+msgstr "&Preferenze..."
+
+#: src/tools/dvdomatic.cc:165
+msgid "&Properties..."
+msgstr "&ProprietÃ ..."
+
+#: src/tools/dvdomatic.cc:167
+msgid "&Quit"
+msgstr "&Esci"
+
+#: src/tools/dvdomatic.cc:163
+msgid "&Save"
+msgstr "&Salva"
+
+#: src/tools/dvdomatic.cc:174
+msgid "&Send DCP to TMS"
+msgstr "&Invia DCP a TMS"
+
+#: src/tools/dvdomatic.cc:409
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+
+#: src/tools/dvdomatic.cc:180
+msgid "About"
+msgstr "Informazioni"
+
+#: src/tools/dvdomatic.cc:497
+msgid "Could not load film %1 (%2)"
+msgstr "Non posso caricare il film %1 (%2)"
+
+#: src/tools/dvdomatic.cc:331
+#, c-format
+msgid "Could not open film at %s (%s)"
+msgstr "Non posso aprire il film a %s (%s)"
+
+#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
+#: src/tools/dvdomatic.cc:501
+msgid "DVD-o-matic"
+msgstr "DVD-o-matic"
+
+#: src/tools/dvdomatic.cc:75
+msgid "Film changed"
+msgstr "Film modificato"
+
+#: src/tools/dvdomatic.cc:408
+msgid "Free, open-source DCP generation from almost anything."
+msgstr "Genera DCP da quasi tutto, free e open-source."
+
+#: src/tools/dvdomatic.cc:160
+msgid "New..."
+msgstr "Nuovo"
+
+#: src/tools/dvdomatic.cc:175
+msgid "S&how DCP"
+msgstr "&Mostra DCP"
+
+#: src/tools/dvdomatic.cc:319
+msgid "Select film to open"
+msgstr "Seleziona il film da aprire"
+
+#: src/tools/dvdomatic.cc:303
+#, c-format
+msgid "The directory %s already exists."
+msgstr "La directory %s esiste giÃ ."
