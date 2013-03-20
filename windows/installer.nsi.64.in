@@ -105,6 +105,7 @@ File "%deps%/etc/ImageMagick/delegates.xml"
 
 SetOutPath "$INSTDIR\bin\fr_FR"
 File "%binaries%/src/lib/mo/fr_FR/libdvdomatic.mo"
+File "%binaries%/src/wx/mo/fr_FR/libdvdomatic-wx.mo"
 File "%binaries%/src/tools/mo/fr_FR/dvdomatic.mo"
 
 SetOutPath "$INSTDIR\bin\it_IT"
