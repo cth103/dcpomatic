@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 10:29+0000\n"
+"POT-Creation-Date: 2013-03-05 13:49+0000\n"
 "PO-Revision-Date: 2013-03-13 22:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -38,7 +38,7 @@ msgstr "&Travaux"
 
 #: src/tools/dvdomatic.cc:173
 msgid "&Make DCP"
-msgstr "&Cr??er le DCP"
+msgstr "&Créer le DCP"
 
 #: src/tools/dvdomatic.cc:161
 msgid "&Open..."
@@ -46,11 +46,11 @@ msgstr "&Ouvrir..."
 
 #: src/tools/dvdomatic.cc:170
 msgid "&Preferences..."
-msgstr "&Pr??f??rences..."
+msgstr "&Préférences..."
 
 #: src/tools/dvdomatic.cc:165
 msgid "&Properties..."
-msgstr "&Propri??t??s..."
+msgstr "&Propriétés..."
 
 #: src/tools/dvdomatic.cc:167
 msgid "&Quit"
@@ -65,36 +65,35 @@ msgid "&Send DCP to TMS"
 msgstr "&Envoyer le DCP dans le TMS"
 
 #: src/tools/dvdomatic.cc:409
-msgid ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
-msgstr ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgid "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
 #: src/tools/dvdomatic.cc:180
 msgid "About"
 msgstr "A Propos"
 
-#: src/tools/dvdomatic.cc:500
+#: src/tools/dvdomatic.cc:482
 msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %1 (%2)"
 
 #: src/tools/dvdomatic.cc:331
 #, c-format
 msgid "Could not open film at %s (%s)"
-msgstr "Impossible d'ouvrir le film ?? %s (%s)"
+msgstr "Impossible d'ouvrir le film à %s (%s)"
 
-#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
-#: src/tools/dvdomatic.cc:504
+#: src/tools/dvdomatic.cc:287
+#: src/tools/dvdomatic.cc:402
+#: src/tools/dvdomatic.cc:486
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 
 #: src/tools/dvdomatic.cc:75
 msgid "Film changed"
-msgstr "Film chang??"
+msgstr "Film changé"
 
 #: src/tools/dvdomatic.cc:408
 msgid "Free, open-source DCP generation from almost anything."
-msgstr "Cr??ation de DCP libre et open-source ?? partir de presque tout."
+msgstr "Création de DCP libre et open-source à partir de presque tout."
 
 #: src/tools/dvdomatic.cc:160
 msgid "New..."
@@ -106,9 +105,10 @@ msgstr "Voir le DCP"
 
 #: src/tools/dvdomatic.cc:319
 msgid "Select film to open"
-msgstr "S??lectionner le film ?? ouvrir"
+msgstr "Sélectionner le film à ouvrir"
 
 #: src/tools/dvdomatic.cc:303
 #, c-format
 msgid "The directory %s already exists."
-msgstr "Le dossier %s existe d??j??."
+msgstr "Le dossier %s existe déjà."
+
