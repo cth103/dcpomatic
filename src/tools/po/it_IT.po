@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 10:29+0000\n"
-"PO-Revision-Date: 2013-03-18 15:20+0100\n"
+"POT-Creation-Date: 2013-03-15 08:39+0000\n"
+"PO-Revision-Date: 2013-03-20 12:03+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
-"Language: Italiano\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
+"Language: Italiano\n"
 
 #: src/tools/dvdomatic.cc:177
 msgid "&Analyse audio"
@@ -51,7 +51,7 @@ msgstr "&Preferenze..."
 
 #: src/tools/dvdomatic.cc:165
 msgid "&Properties..."
-msgstr "&ProprietÃ ..."
+msgstr "&Proprieta'..."
 
 #: src/tools/dvdomatic.cc:167
 msgid "&Quit"
@@ -75,17 +75,17 @@ msgstr ""
 msgid "About"
 msgstr "Informazioni"
 
-#: src/tools/dvdomatic.cc:500
+#: src/tools/dvdomatic.cc:497
 msgid "Could not load film %1 (%2)"
 msgstr "Non posso caricare il film %1 (%2)"
 
 #: src/tools/dvdomatic.cc:331
 #, c-format
 msgid "Could not open film at %s (%s)"
-msgstr "Non posso aprire il film a %s (%s)"
+msgstr "Non posso aprire il film in %s (%s)"
 
 #: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
-#: src/tools/dvdomatic.cc:504
+#: src/tools/dvdomatic.cc:501
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 
@@ -112,4 +112,4 @@ msgstr "Seleziona il film da aprire"
 #: src/tools/dvdomatic.cc:303
 #, c-format
 msgid "The directory %s already exists."
-msgstr "La directory %s esiste giÃ ."
+msgstr "La directory %s esiste già."
