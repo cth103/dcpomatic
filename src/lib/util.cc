@@ -236,7 +236,6 @@ void
 dvdomatic_setup ()
 {
 	bindtextdomain ("libdvdomatic", LOCALE_PREFIX);
-	setlocale (LC_ALL, "");
 	
 	avfilter_register_all ();
 	
