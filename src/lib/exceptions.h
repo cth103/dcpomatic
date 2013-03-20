@@ -31,7 +31,6 @@
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
-#include "compose.hpp"
 
 /** @class StringError
  *  @brief A parent class for exceptions using messages held in a std::string
@@ -113,9 +112,7 @@ class OpenFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to open */
-	OpenFileError (std::string f)
-		: FileError ("could not open file " + f, f)
-	{}
+	OpenFileError (std::string f);
 };
 
 /** @class CreateFileError.
@@ -125,9 +122,7 @@ class CreateFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to create */
-	CreateFileError (std::string f)
-		: FileError ("could not create file " + f, f)
-	{}
+	CreateFileError (std::string f);
 };
 
 
@@ -140,11 +135,7 @@ public:
 	/** @param f File that we were trying to read from.
 	 *  @param e errno value, or 0.
 	 */
-	ReadFileError (std::string f, int e = 0)
-		: FileError ("", f)
-	{
-		_what = String::compose ("could not read from file %1 (%2)", f, strerror (e));
-	}
+	ReadFileError (std::string f, int e = 0);
 };
 
 /** @class WriteFileError.
@@ -156,11 +147,7 @@ public:
 	/** @param f File that we were trying to write to.
 	 *  @param e errno value, or 0.
 	 */
-	WriteFileError (std::string f, int e)
-		: FileError ("", f)
-	{
-		_what = String::compose ("could not write to file %1 (%2)", f, strerror (e));
-	}
+	WriteFileError (std::string f, int e);
 };
 
 /** @class SettingError.
@@ -195,9 +182,7 @@ class MissingSettingError : public SettingError
 {
 public:
 	/** @param s Name of setting that was required */
-	MissingSettingError (std::string s)
-		: SettingError (s, "missing required setting " + s)
-	{}
+	MissingSettingError (std::string s);
 };
 
 /** @class BadSettingError
@@ -226,9 +211,7 @@ public:
 class PixelFormatError : public StringError
 {
 public:
-	PixelFormatError (std::string o, AVPixelFormat f)
-		: StringError (String::compose ("Cannot handle pixel format %1 during %2", f, o))
-	{}
+	PixelFormatError (std::string o, AVPixelFormat f);
 };
 
 class ExceptionStore
