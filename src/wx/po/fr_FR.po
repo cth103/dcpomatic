@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-05 13:49+0000\n"
+"POT-Creation-Date: 2013-03-20 13:37+0000\n"
 "PO-Revision-Date: 2013-03-20 00:34+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/wx/film_editor.cc:441
+#: src/wx/film_editor.cc:440
 msgid "%"
 msgstr "%"
 
-#: src/wx/film_editor.cc:1226
+#: src/wx/film_editor.cc:1229
 msgid "1 channel"
 msgstr "1 canal"
 
-#: src/wx/film_editor.cc:185
+#: src/wx/film_editor.cc:184
 msgid "A/B"
 msgstr "A/B"
 
@@ -32,16 +32,15 @@ msgstr "A/B"
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/wx/audio_dialog.cc:32
-#: src/wx/film_editor.cc:78
+#: src/wx/audio_dialog.cc:32 src/wx/film_editor.cc:77
 msgid "Audio"
 msgstr "Audio"
 
-#: src/wx/film_editor.cc:382
+#: src/wx/film_editor.cc:381
 msgid "Audio Delay"
 msgstr "Délai audio"
 
-#: src/wx/film_editor.cc:370
+#: src/wx/film_editor.cc:369
 msgid "Audio Gain"
 msgstr "Gain audio"
 
@@ -54,7 +53,7 @@ msgstr "Langue audio (ex. FR)"
 msgid "Bad setting for %s (%s)"
 msgstr "Mauvais paramètre pour %s (%s)"
 
-#: src/wx/film_editor.cc:297
+#: src/wx/film_editor.cc:296
 msgid "Bottom crop"
 msgstr "Découpe bas"
 
@@ -66,7 +65,7 @@ msgstr "Parcourir..."
 msgid "But I have to use fader"
 msgstr "Je souhaite utiliser ce volume"
 
-#: src/wx/film_editor.cc:375
+#: src/wx/film_editor.cc:374
 msgid "Calculate..."
 msgstr "Calcul..."
 
@@ -74,15 +73,15 @@ msgstr "Calcul..."
 msgid "Channels"
 msgstr "Canaux"
 
-#: src/wx/film_editor.cc:326
+#: src/wx/film_editor.cc:325
 msgid "Colour look-up table"
 msgstr "Espace colorimétrique"
 
-#: src/wx/film_editor.cc:121
+#: src/wx/film_editor.cc:120
 msgid "Content"
 msgstr "Contenu"
 
-#: src/wx/film_editor.cc:131
+#: src/wx/film_editor.cc:130
 msgid "Content Type"
 msgstr "Type de Contenu"
 
@@ -101,7 +100,7 @@ msgstr "Impossible de créer le DCP : %s"
 msgid "Could not open content file (%s)"
 msgstr "Ouverture du contenu impossible (%s)"
 
-#: src/wx/film_editor.cc:505
+#: src/wx/film_editor.cc:504
 #, c-format
 msgid "Could not set content: %s"
 msgstr "Sélectionner du contenu impossible : %s"
@@ -114,11 +113,11 @@ msgstr "Créer dans le dossier"
 msgid "DCI name"
 msgstr "Nom DCI"
 
-#: src/wx/film_editor.cc:142
+#: src/wx/film_editor.cc:141
 msgid "DCP Frame Rate"
 msgstr "Cadence image du DCP"
 
-#: src/wx/film_editor.cc:110
+#: src/wx/film_editor.cc:109
 msgid "DCP Name"
 msgstr "Nom du DCP"
 
@@ -142,8 +141,7 @@ msgstr "Détails du nom DCI par défaut"
 msgid "Default directory for new films"
 msgstr "Dossier par défaut des nouveaux films"
 
-#: src/wx/film_editor.cc:117
-#: src/wx/job_manager_view.cc:88
+#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:88
 msgid "Details..."
 msgstr "Détails..."
 
@@ -151,7 +149,7 @@ msgstr "Détails..."
 msgid "Disk space required"
 msgstr "Espace disque requis"
 
-#: src/wx/film_editor.cc:192
+#: src/wx/film_editor.cc:191
 msgid "Duration"
 msgstr "Durée"
 
@@ -159,9 +157,8 @@ msgstr "Durée"
 msgid "Edit"
 msgstr "Édition"
 
-#: src/wx/config_dialog.cc:84
-#: src/wx/config_dialog.cc:103
-#: src/wx/film_editor.cc:309
+#: src/wx/config_dialog.cc:84 src/wx/config_dialog.cc:103
+#: src/wx/film_editor.cc:308
 msgid "Edit..."
 msgstr "Éditer..."
 
@@ -169,7 +166,7 @@ msgstr "Éditer..."
 msgid "Encoding Servers"
 msgstr "Serveurs d'encodage"
 
-#: src/wx/film_editor.cc:177
+#: src/wx/film_editor.cc:176
 msgid "End"
 msgstr "Fin"
 
@@ -177,7 +174,7 @@ msgstr "Fin"
 msgid "Facility (e.g. DLA)"
 msgstr "Laboratoire (ex. DLA)"
 
-#: src/wx/film_editor.cc:74
+#: src/wx/film_editor.cc:73
 msgid "Film"
 msgstr "Film"
 
@@ -189,12 +186,11 @@ msgstr "Propriétés du film"
 msgid "Film name"
 msgstr "Nom du Film"
 
-#: src/wx/film_editor.cc:304
-#: src/wx/filter_dialog.cc:32
+#: src/wx/film_editor.cc:303 src/wx/filter_dialog.cc:32
 msgid "Filters"
 msgstr "Filtres"
 
-#: src/wx/film_editor.cc:269
+#: src/wx/film_editor.cc:268
 msgid "Format"
 msgstr "Format"
 
@@ -218,7 +214,7 @@ msgstr "Gb"
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
-#: src/wx/film_editor.cc:1230
+#: src/wx/film_editor.cc:1233
 msgid "Hz"
 msgstr "Hz"
 
@@ -230,19 +226,19 @@ msgstr "Je veux le jouer à ce volume"
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: src/wx/film_editor.cc:336
+#: src/wx/film_editor.cc:335
 msgid "JPEG2000 bandwidth"
 msgstr "Qualité JPEG2000"
 
-#: src/wx/film_editor.cc:282
+#: src/wx/film_editor.cc:281
 msgid "Left crop"
 msgstr "Découpe gauche"
 
-#: src/wx/film_editor.cc:165
+#: src/wx/film_editor.cc:164
 msgid "Length"
 msgstr "Longueur"
 
-#: src/wx/film_editor.cc:340
+#: src/wx/film_editor.cc:339
 msgid "MBps"
 msgstr "MBps"
 
@@ -250,7 +246,7 @@ msgstr "MBps"
 msgid "My Documents"
 msgstr "Mes Documents"
 
-#: src/wx/film_editor.cc:105
+#: src/wx/film_editor.cc:104
 msgid "Name"
 msgstr "Nom"
 
@@ -258,16 +254,15 @@ msgstr "Nom"
 msgid "New Film"
 msgstr "Nouveau Film"
 
-#: src/wx/film_editor.cc:306
-#: src/wx/film_editor.cc:663
+#: src/wx/film_editor.cc:305 src/wx/film_editor.cc:664
 msgid "None"
 msgstr "Aucun"
 
-#: src/wx/film_editor.cc:136
+#: src/wx/film_editor.cc:135
 msgid "Original Frame Rate"
 msgstr "Cadence d'images originale"
 
-#: src/wx/film_editor.cc:160
+#: src/wx/film_editor.cc:159
 msgid "Original Size"
 msgstr "Taille Originale"
 
@@ -307,7 +302,7 @@ msgstr "Échelle de référence pour A7B"
 msgid "Remove"
 msgstr "Supprimer"
 
-#: src/wx/film_editor.cc:287
+#: src/wx/film_editor.cc:286
 msgid "Right crop"
 msgstr "Découpe droite"
 
@@ -315,15 +310,15 @@ msgstr "Découpe droite"
 msgid "Running"
 msgstr "Progression"
 
-#: src/wx/film_editor.cc:316
+#: src/wx/film_editor.cc:315
 msgid "Scaler"
 msgstr "Mise à l'échelle"
 
-#: src/wx/film_editor.cc:408
+#: src/wx/film_editor.cc:407
 msgid "Select Audio File"
 msgstr "Sélectionner le fichier son"
 
-#: src/wx/film_editor.cc:122
+#: src/wx/film_editor.cc:121
 msgid "Select Content File"
 msgstr "Sélectionner le fichier vidéo"
 
@@ -331,7 +326,7 @@ msgstr "Sélectionner le fichier vidéo"
 msgid "Server"
 msgstr "Serveur"
 
-#: src/wx/film_editor.cc:365
+#: src/wx/film_editor.cc:364
 msgid "Show Audio..."
 msgstr "Montrer le son..."
 
@@ -339,7 +334,7 @@ msgstr "Montrer le son..."
 msgid "Smoothing"
 msgstr "Lissage"
 
-#: src/wx/film_editor.cc:174
+#: src/wx/film_editor.cc:173
 msgid "Start"
 msgstr "Début"
 
@@ -351,15 +346,15 @@ msgstr "Studio (ex. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Langue de sous-titres (ex. FR)"
 
-#: src/wx/film_editor.cc:432
+#: src/wx/film_editor.cc:431
 msgid "Subtitle Offset"
 msgstr "Décalage du sous-titre"
 
-#: src/wx/film_editor.cc:437
+#: src/wx/film_editor.cc:436
 msgid "Subtitle Scale"
 msgstr "Taille du sous-titre"
 
-#: src/wx/film_editor.cc:80
+#: src/wx/film_editor.cc:79
 msgid "Subtitles"
 msgstr "Sous-titres"
 
@@ -399,15 +394,15 @@ msgstr "Nombre de processus à utiliser sur cet hôte"
 msgid "Time"
 msgstr "Durée"
 
-#: src/wx/film_editor.cc:292
+#: src/wx/film_editor.cc:291
 msgid "Top crop"
 msgstr "Découpe haut"
 
-#: src/wx/film_editor.cc:172
+#: src/wx/film_editor.cc:171
 msgid "Trim frames"
 msgstr "Images coupées"
 
-#: src/wx/film_editor.cc:126
+#: src/wx/film_editor.cc:125
 msgid "Trust content's header"
 msgstr "Faire confiance à l'en-tête"
 
@@ -415,31 +410,31 @@ msgstr "Faire confiance à l'en-tête"
 msgid "Type"
 msgstr "Type"
 
-#: src/wx/film_editor.cc:115
+#: src/wx/film_editor.cc:114
 msgid "Use DCI name"
 msgstr "Utiliser le nom DCI"
 
-#: src/wx/film_editor.cc:146
+#: src/wx/film_editor.cc:145
 msgid "Use best"
 msgstr "Automatique"
 
-#: src/wx/film_editor.cc:392
+#: src/wx/film_editor.cc:391
 msgid "Use content's audio"
 msgstr "Utiliser le son intégré"
 
-#: src/wx/film_editor.cc:402
+#: src/wx/film_editor.cc:401
 msgid "Use external audio"
 msgstr "Utiliser une source audio externe"
 
-#: src/wx/film_editor.cc:76
+#: src/wx/film_editor.cc:75
 msgid "Video"
 msgstr "Vidéo"
 
-#: src/wx/film_editor.cc:425
+#: src/wx/film_editor.cc:424
 msgid "With Subtitles"
 msgstr "Avec sous-titres"
 
-#: src/wx/film_editor.cc:1228
+#: src/wx/film_editor.cc:1231
 msgid "channels"
 msgstr "canaux"
 
@@ -447,27 +442,24 @@ msgstr "canaux"
 msgid "counting..."
 msgstr "calcul..."
 
-#: src/wx/film_editor.cc:374
+#: src/wx/film_editor.cc:373
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/film_editor.cc:689
-#: src/wx/film_editor.cc:691
+#: src/wx/film_editor.cc:690 src/wx/film_editor.cc:692
 msgid "frames"
 msgstr "images"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/film_editor.cc:387
+#: src/wx/film_editor.cc:386
 msgid "ms"
 msgstr "ms"
 
 #. / TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
-#: src/wx/film_editor.cc:198
+#: src/wx/film_editor.cc:197
 msgid "s"
 msgstr "s"
 
-#: src/wx/properties_dialog.cc:62
-#: src/wx/properties_dialog.cc:63
+#: src/wx/properties_dialog.cc:62 src/wx/properties_dialog.cc:63
 msgid "unknown"
 msgstr "inconnu"
-

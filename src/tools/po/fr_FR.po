@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-05 13:49+0000\n"
+"POT-Creation-Date: 2013-03-20 13:37+0000\n"
 "PO-Revision-Date: 2013-03-13 22:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -65,14 +65,16 @@ msgid "&Send DCP to TMS"
 msgstr "&Envoyer le DCP dans le TMS"
 
 #: src/tools/dvdomatic.cc:409
-msgid "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
-msgstr "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
 #: src/tools/dvdomatic.cc:180
 msgid "About"
 msgstr "A Propos"
 
-#: src/tools/dvdomatic.cc:482
+#: src/tools/dvdomatic.cc:500
 msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %1 (%2)"
 
@@ -81,9 +83,8 @@ msgstr "Impossible de charger le film %1 (%2)"
 msgid "Could not open film at %s (%s)"
 msgstr "Impossible d'ouvrir le film à %s (%s)"
 
-#: src/tools/dvdomatic.cc:287
-#: src/tools/dvdomatic.cc:402
-#: src/tools/dvdomatic.cc:486
+#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
+#: src/tools/dvdomatic.cc:504
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 
@@ -111,4 +112,3 @@ msgstr "Sélectionner le film à ouvrir"
 #, c-format
 msgid "The directory %s already exists."
 msgstr "Le dossier %s existe déjà."
-
