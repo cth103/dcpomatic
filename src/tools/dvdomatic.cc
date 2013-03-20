@@ -416,7 +416,7 @@ private:
 		info.SetDevelopers (authors);
 
 		wxArrayString translators;
-		translators.Add (wxT ("Olivier (freedcp.net)"));
+		translators.Add (wxT ("Olivier Perriere (freedcp.net)"));
 		translators.Add (wxT ("Lilian Lefranc"));
 		translators.Add (wxT ("Thierry Journet"));
 		translators.Add (wxT ("Massimiliano Broggi"));
