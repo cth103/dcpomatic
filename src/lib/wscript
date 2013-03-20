@@ -75,3 +75,6 @@ def build(bld):
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'lib'), sources, 'libdvdomatic')
+
+def pot_merge(bld):
+    i18n.pot_merge(os.path.join('src', 'lib'), 'libdvdomatic')

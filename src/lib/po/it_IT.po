@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-15 08:39+0000\n"
+"POT-Creation-Date: 2013-03-20 10:29+0000\n"
 "PO-Revision-Date: 2013-03-18 16:46+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
+"Language: Italiano\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
-"Language: Italiano\n"
 
 #: src/lib/transcode_job.cc:87
 msgid "0%"
@@ -88,6 +88,10 @@ msgstr "Bicubica"
 #: src/lib/scaler.cc:69
 msgid "Bilinear"
 msgstr "Bilineare"
+
+#: src/lib/exceptions.cc:60
+msgid "Cannot handle pixel format %1 during %2"
+msgstr ""
 
 #: src/lib/encoder.cc:101
 msgid "Cannot resample audio as libswresample is not present"
@@ -233,8 +237,8 @@ msgid ""
 "It is not known what caused this error.  The best idea is to report the "
 "problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
 msgstr ""
-"Non sappiamo cosa ha causato questo errore. La cosa migliore Ã¨ di inviare un "
-"report del problema alla mailing list di DVD-o-matic (dvdomatic@carlh.net)"
+"Non sappiamo cosa ha causato questo errore. La cosa migliore Ã¨ di inviare "
+"un report del problema alla mailing list di DVD-o-matic (dvdomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"
@@ -466,6 +470,11 @@ msgstr "tipo di contenuto"
 msgid "copying %1"
 msgstr "copia %1"
 
+#: src/lib/exceptions.cc:36
+#, fuzzy
+msgid "could not create file %1"
+msgstr "Non posso scrivere il file remoto (%1)"
+
 #: src/lib/ffmpeg_decoder.cc:191
 msgid "could not find audio decoder"
 msgstr "non riesco a trovare il decoder audio"
@@ -482,13 +491,23 @@ msgstr "non riesco a trovare il decoder dei sottotitoli"
 msgid "could not find video decoder"
 msgstr "non riesco a trovare il decoder video"
 
-#: src/lib/external_audio_decoder.cc:72
+#: src/lib/sndfile_decoder.cc:72
 msgid "could not open external audio file for reading"
 msgstr "non riesco ad aprire il file dell'audio esterno per leggerlo"
+
+#: src/lib/exceptions.cc:29
+#, fuzzy
+msgid "could not open file %1"
+msgstr "non riesco ad aprire il file per leggerlo"
 
 #: src/lib/dcp_video_frame.cc:388
 msgid "could not open file for reading"
 msgstr "non riesco ad aprire il file per leggerlo"
+
+#: src/lib/exceptions.cc:44
+#, fuzzy
+msgid "could not read from file %1 (%2)"
+msgstr "Non posso creare la directory remota %1 (%2)"
 
 #: src/lib/encoder.cc:137 src/lib/encoder.cc:314
 msgid "could not run sample-rate converter"
@@ -502,6 +521,11 @@ msgstr "non posso avviare la sessione SCP (%1)"
 msgid "could not start SSH session"
 msgstr "non posso avviare la sessione SSH"
 
+#: src/lib/exceptions.cc:50
+#, fuzzy
+msgid "could not write to file %1 (%2)"
+msgstr "Non posso scrivere il file remoto (%1)"
+
 #: src/lib/encoder.cc:247
 msgid "decoder sleeps with queue of %1"
 msgstr "il decoder Ã¨ in pausa con la coda di %1"
@@ -510,11 +534,11 @@ msgstr "il decoder Ã¨ in pausa con la coda di %1"
 msgid "decoder wakes with queue of %1"
 msgstr "il decoder riparte con la coda di %1"
 
-#: src/lib/external_audio_decoder.cc:94
+#: src/lib/sndfile_decoder.cc:94
 msgid "external audio files have differing lengths"
 msgstr "i files dell'audio esterno hanno durata diversa"
 
-#: src/lib/external_audio_decoder.cc:76
+#: src/lib/sndfile_decoder.cc:76
 msgid "external audio files must be mono"
 msgstr "i files dell'audio esterno devono essere mono"
 
@@ -545,6 +569,10 @@ msgstr "minuti"
 #: src/lib/util.cc:642
 msgid "missing key %1 in key-value set"
 msgstr "persa la chiave %1 tra i valori chiave"
+
+#: src/lib/exceptions.cc:54
+msgid "missing required setting %1"
+msgstr ""
 
 #: src/lib/subtitle.cc:52
 msgid "multi-part subtitles not yet supported"

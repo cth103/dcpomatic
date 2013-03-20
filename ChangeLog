@@ -1,3 +1,7 @@
+2013-03-20  Carl Hetherington  <cth@carlh.net>
+
+	* Make exception strings translatable (#81).
+
 2013-03-19  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.78beta2 released.

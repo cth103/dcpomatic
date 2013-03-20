@@ -267,3 +267,6 @@ def post(ctx):
 
 def pot(bld):
     bld.recurse('src')
+
+def pot_merge(bld):
+    bld.recurse('src')
