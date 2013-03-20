@@ -469,6 +469,8 @@ setup_i18n ()
 			language = wxLANGUAGE_ENGLISH;
 		}
 	}
+
+	dvdomatic_setup_i18n (wx_to_std (locale->GetCanonicalName ()));
 }
 
 class App : public wxApp

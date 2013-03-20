@@ -249,6 +249,13 @@ dvdomatic_setup ()
 	ui_thread = this_thread::get_id ();
 }
 
+void
+dvdomatic_setup_i18n (string lang)
+{
+	bindtextdomain ("libdvdomatic", LOCALE_PREFIX);
+	setlocale (LC_ALL, lang.c_str ());
+}
+
 /** @param start Start position for the crop within the image.
  *  @param size Size of the cropped area.
  *  @return FFmpeg crop filter string.
