@@ -26,7 +26,7 @@ def configure(conf):
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
-        conv.env.append_value('CXXFLAGS', '-DLOCALE_PREFIX="../locale"')
+        conf.env.append_value('CXXFLAGS', '-DLOCALE_PREFIX="../locale"')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
