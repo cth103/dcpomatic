@@ -36,7 +36,6 @@ dcp_frame_rate 0
 width 0
 height 0
 length 0
-dcp_intrinsic_duration 0
 content_digest 
 external_audio_stream external 0 0
 source_frame_rate 0
