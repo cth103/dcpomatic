@@ -167,3 +167,10 @@ Config::default_directory_or (string a) const
 
 	return _default_directory;
 }
+
+void
+Config::drop ()
+{
+	delete _instance;
+	_instance = 0;
+}

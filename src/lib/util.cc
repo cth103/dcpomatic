@@ -246,17 +246,36 @@ dvdomatic_setup ()
 	ui_thread = this_thread::get_id ();
 }
 
+#ifdef DVDOMATIC_WINDOWS
+boost::filesystem::path
+mo_path ()
+{
+	wchar_t buffer[512];
+	GetModuleFileName (0, buffer, 512 * sizeof(wchar_t));
+	boost::filesystem::path p (buffer);
+	p = p.parent_path ();
+	p = p.parent_path ();
+	p /= "locale";
+	return p;
+}
+#endif
+
 void
 dvdomatic_setup_i18n (string lang)
 {
+	setlocale (LC_ALL, "");
+	textdomain ("libdvdomatic");
+	
 #ifdef DVDOMATIC_WINDOWS
 	string const e = "LANGUAGE=" + lang;
 	putenv (e.c_str());
+
+	bindtextdomain ("libdvdomatic", mo_path().string().c_str());
 #endif
-	
-	setlocale (LC_ALL, "");
-	textdomain ("libdvdomatic");
-	bindtextdomain ("libdvdomatic", LOCALE_PREFIX);
+
+#ifdef DVDOMATIC_POSIX
+	bindtextdomain ("libdvdomatic", POSIX_LOCALE_PREFIX);
+#endif	
 }
 
 /** @param start Start position for the crop within the image.

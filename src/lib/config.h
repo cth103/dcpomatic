@@ -169,6 +169,7 @@ public:
 	void write () const;
 
 	static Config* instance ();
+	static void drop ();
 
 private:
 	Config ();

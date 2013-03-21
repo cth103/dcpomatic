@@ -26,7 +26,6 @@ def configure(conf):
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
-        conf.env.append_value('CXXFLAGS', '-DLOCALE_PREFIX="../locale"')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
@@ -37,7 +36,7 @@ def configure(conf):
         boost_thread = 'boost_thread_win32-mt'
     else:
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
-        conf.env.append_value('CXXFLAGS', '-DLOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')

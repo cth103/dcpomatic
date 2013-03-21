@@ -416,10 +416,11 @@ private:
 		info.SetDevelopers (authors);
 
 		wxArrayString translators;
-		translators.Add (wxT ("Olivier Perriere (freedcp.net)"));
+		translators.Add (wxT ("Olivier Perriere"));
 		translators.Add (wxT ("Lilian Lefranc"));
 		translators.Add (wxT ("Thierry Journet"));
 		translators.Add (wxT ("Massimiliano Broggi"));
+		translators.Add (wxT ("Manuel Acevedo"));
 		info.SetTranslators (translators);
 		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
@@ -456,9 +457,9 @@ setup_i18n ()
 	if (wxLocale::IsAvailable (language)) {
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
 
-#ifdef __WXGTK__
-		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_PREFIX "/locale"));
-#endif
+#ifdef DVDOMATIC_WINDOWS
+		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
+#endif		
 
 		locale->AddCatalog (wxT ("libdvdomatic-wx"));
 		locale->AddCatalog (wxT ("dvdomatic"));
@@ -485,15 +486,26 @@ class App : public wxApp
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif		
 
-		/* This needs to be before setup_i18n, as setup_i18n() will
-		   create a Config object, which needs Scalers to have
-		   been created.
+		wxInitAllImageHandlers ();
+
+		/* Enable i18n; this will create a Config object
+		   to look for a force-configured language.  This Config
+		   object will be wrong, however, because dvdomatic_setup
+		   hasn't yet been called and there aren't any scalers, filters etc.
+		   set up yet.
+		*/
+		setup_i18n ();
+
+		/* Set things up, including scalers / filters etc.
+		   which will now be internationalised correctly.
 		*/
 		dvdomatic_setup ();
 
-		wxInitAllImageHandlers ();
-		setup_i18n ();
-		
+		/* Force the configuration to be re-loaded correctly next
+		   time it is needed.
+		*/
+		Config::drop ();
+
 		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
 			try {
 				film.reset (new Film (film_to_load));
