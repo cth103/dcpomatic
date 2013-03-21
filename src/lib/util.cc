@@ -251,8 +251,14 @@ dvdomatic_setup ()
 void
 dvdomatic_setup_i18n (string lang)
 {
+#ifdef DVDOMATIC_WINDOWS
+	string const e = "LANGUAGE=" + lang;
+	putenv (e.c_str());
+#endif
+	
+	setlocale (LC_ALL, "");
+	textdomain ("libdvdomatic");
 	bindtextdomain ("libdvdomatic", LOCALE_PREFIX);
-	setlocale (LC_ALL, lang.c_str ());
 }
 
 /** @param start Start position for the crop within the image.
