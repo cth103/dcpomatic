@@ -102,6 +102,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P9BE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P10LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P10BE);
+	pix_fmts.push_back (AV_PIX_FMT_UYVY422);
 
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
