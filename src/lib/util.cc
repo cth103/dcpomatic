@@ -235,8 +235,6 @@ seconds (struct timeval t)
 void
 dvdomatic_setup ()
 {
-	bindtextdomain ("libdvdomatic", LOCALE_PREFIX);
-	
 	avfilter_register_all ();
 	
 	Format::setup_formats ();
