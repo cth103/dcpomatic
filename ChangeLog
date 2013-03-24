@@ -1,3 +1,7 @@
+2013-03-24  Carl Hetherington  <cth@carlh.net>
+
+	* Add UI option to select interface language.
+
 2013-03-21  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.78beta5 released.
