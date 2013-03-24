@@ -420,7 +420,7 @@ private:
 		translators.Add (wxT ("Lilian Lefranc"));
 		translators.Add (wxT ("Thierry Journet"));
 		translators.Add (wxT ("Massimiliano Broggi"));
-		translators.Add (wxT ("Manuel Acevedo"));
+		translators.Add (wxT ("Manuel AC"));
 		info.SetTranslators (translators);
 		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
