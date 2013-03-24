@@ -39,6 +39,7 @@ public:
 	ConfigDialog (wxWindow *);
 
 private:
+	void language_changed (wxCommandEvent &);
 	void tms_ip_changed (wxCommandEvent &);
 	void tms_path_changed (wxCommandEvent &);
 	void tms_user_changed (wxCommandEvent &);
@@ -55,7 +56,8 @@ private:
 	void server_selection_changed (wxListEvent &);
 
 	void add_server_to_control (ServerDescription *);
-	
+
+	wxChoice* _language;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;
 	wxTextCtrl* _tms_user;

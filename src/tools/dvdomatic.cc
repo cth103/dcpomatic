@@ -471,7 +471,9 @@ setup_i18n ()
 		}
 	}
 
-	dvdomatic_setup_i18n (wx_to_std (locale->GetCanonicalName ()));
+	if (locale) {
+		dvdomatic_setup_i18n (wx_to_std (locale->GetCanonicalName ()));
+	}
 }
 
 class App : public wxApp
