@@ -271,7 +271,10 @@ dvdomatic_setup_i18n (string lang)
 	putenv (e.c_str());
 
 	bindtextdomain ("libdvdomatic", mo_path().string().c_str());
-#endif
+#else
+	/* Hack to silence warning */
+	lang.clear ();
+#endif	
 
 #ifdef DVDOMATIC_POSIX
 	bindtextdomain ("libdvdomatic", POSIX_LOCALE_PREFIX);

@@ -46,7 +46,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, _("User interface language"));
+	_set_language = new wxCheckBox (this, wxID_ANY, _("Set language"));
+	table->Add (_set_language, 1, wxEXPAND);
 	_language = new wxChoice (this, wxID_ANY);
 	_language->Append (wxT ("English"));
 	_language->Append (wxT ("Français"));
@@ -149,6 +150,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 		
 	Config* config = Config::instance ();
 
+	_set_language->SetValue (config->language ());
+
 	if (config->language().get_value_or ("") == "fr") {
 		_language->SetSelection (1);
 	} else if (config->language().get_value_or ("") == "it") {
@@ -158,7 +161,10 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	} else {
 		_language->SetSelection (0);
 	}
-	
+
+	setup_language_sensitivity ();
+
+	_set_language->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (ConfigDialog::set_language_changed), 0, this);
 	_language->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::language_changed), 0, this);
 	_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
 	_tms_ip->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_ip_changed), 0, this);
@@ -370,4 +376,21 @@ ConfigDialog::edit_default_dci_metadata_clicked (wxCommandEvent &)
 	d->ShowModal ();
 	Config::instance()->set_default_dci_metadata (d->dci_metadata ());
 	d->Destroy ();
+}
+
+void
+ConfigDialog::set_language_changed (wxCommandEvent& ev)
+{
+	setup_language_sensitivity ();
+	if (_set_language->GetValue ()) {
+		language_changed (ev);
+	} else {
+		Config::instance()->unset_language ();
+	}
+}
+
+void
+ConfigDialog::setup_language_sensitivity ()
+{
+	_language->Enable (_set_language->GetValue ());
 }

@@ -165,6 +165,10 @@ public:
 	void set_language (std::string l) {
 		_language = l;
 	}
+
+	void unset_language () {
+		_language = boost::none;
+	}
 	
 	void write () const;
 
