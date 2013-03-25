@@ -236,7 +236,7 @@ msgstr "Découpe gauche"
 
 #: src/wx/film_editor.cc:164
 msgid "Length"
-msgstr "Longueur"
+msgstr "Longueur durée"
 
 #: src/wx/film_editor.cc:339
 msgid "MBps"
@@ -296,7 +296,7 @@ msgstr "Filtres de référence pour A/B"
 
 #: src/wx/config_dialog.cc:88
 msgid "Reference scaler for A/B"
-msgstr "Échelle de référence pour A7B"
+msgstr "Échelle de référence pour A/B"
 
 #: src/wx/config_dialog.cc:128
 msgid "Remove"
@@ -328,7 +328,7 @@ msgstr "Serveur"
 
 #: src/wx/film_editor.cc:364
 msgid "Show Audio..."
-msgstr "Montrer le son..."
+msgstr "Analyser le son..."
 
 #: src/wx/audio_dialog.cc:71
 msgid "Smoothing"

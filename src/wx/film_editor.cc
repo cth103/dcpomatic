@@ -687,9 +687,11 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::LENGTH:
 		if (_film->source_frame_rate() > 0 && _film->length()) {
-			s << _film->length().get() << " " << _("frames") << "; " << seconds_to_hms (_film->length().get() / _film->source_frame_rate());
+			s << _film->length().get() << " "
+			  << std_to_wx (_("frames")) << "; " << seconds_to_hms (_film->length().get() / _film->source_frame_rate());
 		} else if (_film->length()) {
-			s << _film->length().get() << " " << _("frames");
+			s << _film->length().get() << " "
+			  << std_to_wx (_("frames"));
 		} 
 		_length->SetLabel (std_to_wx (s.str ()));
 		if (_film->length()) {
@@ -842,7 +844,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	if (_film) {
 		FileChanged (_film->directory ());
 	} else {
-		FileChanged (wx_to_std (N_("")));
+		FileChanged ("");
 	}
 
 	if (_audio_dialog) {
@@ -1226,11 +1228,11 @@ FilmEditor::setup_audio_details ()
 	} else {
 		stringstream s;
 		if (_film->audio_stream()->channels() == 1) {
-			s << _("1 channel");
+			s << wx_to_std (_("1 channel"));
 		} else {
-			s << _film->audio_stream()->channels () << " " << _("channels");
+			s << _film->audio_stream()->channels () << " " << wx_to_std (_("channels"));
 		}
-		s << ", " << _film->audio_stream()->sample_rate() << _("Hz");
+		s << ", " << _film->audio_stream()->sample_rate() << wx_to_std (_("Hz"));
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }

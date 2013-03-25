@@ -225,7 +225,7 @@ msgstr "Débruiteur 3D haute qualité"
 
 #: src/lib/filter.cc:68
 msgid "Horizontal deblocking filter"
-msgstr "Filtre débloc horizontal"
+msgstr "Filtre dé-bloc horizontal"
 
 #: src/lib/filter.cc:70
 msgid "Horizontal deblocking filter A"
