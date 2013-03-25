@@ -7,25 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 13:37+0000\n"
-"PO-Revision-Date: 2013-03-20 11:50+0100\n"
+"POT-Creation-Date: 2013-03-15 08:39+0000\n"
+"PO-Revision-Date: 2013-03-22 18:10+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
-"Language: Italiano\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
+"Language: Italiano\n"
 
-#: src/wx/film_editor.cc:440
+#: src/wx/film_editor.cc:441
 msgid "%"
 msgstr "%"
 
-#: src/wx/film_editor.cc:1229
+#: src/wx/film_editor.cc:1230
 msgid "1 channel"
 msgstr "Canale 1"
 
-#: src/wx/film_editor.cc:184
+#: src/wx/film_editor.cc:185
 msgid "A/B"
 msgstr "A/B"
 
@@ -33,15 +33,15 @@ msgstr "A/B"
 msgid "Add"
 msgstr "Aggiungi"
 
-#: src/wx/audio_dialog.cc:32 src/wx/film_editor.cc:77
+#: src/wx/audio_dialog.cc:32 src/wx/film_editor.cc:78
 msgid "Audio"
 msgstr "Audio"
 
-#: src/wx/film_editor.cc:381
+#: src/wx/film_editor.cc:382
 msgid "Audio Delay"
 msgstr "Ritardo dell'audio"
 
-#: src/wx/film_editor.cc:369
+#: src/wx/film_editor.cc:370
 msgid "Audio Gain"
 msgstr "Guadagno dell'audio"
 
@@ -54,7 +54,7 @@ msgstr "Lingua dell'audio (es. EN)"
 msgid "Bad setting for %s (%s)"
 msgstr "Valore sbagliato per %s (%s)"
 
-#: src/wx/film_editor.cc:296
+#: src/wx/film_editor.cc:297
 msgid "Bottom crop"
 msgstr "Taglio in basso"
 
@@ -64,9 +64,9 @@ msgstr "Sfoglia..."
 
 #: src/wx/gain_calculator_dialog.cc:36
 msgid "But I have to use fader"
-msgstr "Ma devo usare il fader"
+msgstr "Ma dovrò riprodurre con il fader a"
 
-#: src/wx/film_editor.cc:374
+#: src/wx/film_editor.cc:375
 msgid "Calculate..."
 msgstr "Calcola..."
 
@@ -74,15 +74,15 @@ msgstr "Calcola..."
 msgid "Channels"
 msgstr "Canali"
 
-#: src/wx/film_editor.cc:325
+#: src/wx/film_editor.cc:326
 msgid "Colour look-up table"
 msgstr "Tabella per ricerca del colore"
 
-#: src/wx/film_editor.cc:120
+#: src/wx/film_editor.cc:121
 msgid "Content"
 msgstr "Contenuto"
 
-#: src/wx/film_editor.cc:130
+#: src/wx/film_editor.cc:131
 msgid "Content Type"
 msgstr "Tipo di contenuto"
 
@@ -101,7 +101,7 @@ msgstr "Non posso creare il DCP: %s"
 msgid "Could not open content file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
 
-#: src/wx/film_editor.cc:504
+#: src/wx/film_editor.cc:505
 #, c-format
 msgid "Could not set content: %s"
 msgstr "Non posso regolare il contenuto: %s"
@@ -114,11 +114,11 @@ msgstr "Crea nella cartella"
 msgid "DCI name"
 msgstr "Nome del DCP"
 
-#: src/wx/film_editor.cc:141
+#: src/wx/film_editor.cc:142
 msgid "DCP Frame Rate"
 msgstr "Frequenza fotogrammi del DCP"
 
-#: src/wx/film_editor.cc:109
+#: src/wx/film_editor.cc:110
 msgid "DCP Name"
 msgstr "Nome del DCP"
 
@@ -142,7 +142,7 @@ msgstr "Dettagli del nome di default DCI"
 msgid "Default directory for new films"
 msgstr "Directory di default per i nuovi films"
 
-#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:88
+#: src/wx/film_editor.cc:117 src/wx/job_manager_view.cc:88
 msgid "Details..."
 msgstr "Dettagli"
 
@@ -150,7 +150,7 @@ msgstr "Dettagli"
 msgid "Disk space required"
 msgstr "Spazio su disco rischiesto"
 
-#: src/wx/film_editor.cc:191
+#: src/wx/film_editor.cc:192
 msgid "Duration"
 msgstr "Durata"
 
@@ -159,7 +159,7 @@ msgid "Edit"
 msgstr "Modifica"
 
 #: src/wx/config_dialog.cc:84 src/wx/config_dialog.cc:103
-#: src/wx/film_editor.cc:308
+#: src/wx/film_editor.cc:309
 msgid "Edit..."
 msgstr "Modifica..."
 
@@ -167,7 +167,7 @@ msgstr "Modifica..."
 msgid "Encoding Servers"
 msgstr "Servers di codifica"
 
-#: src/wx/film_editor.cc:176
+#: src/wx/film_editor.cc:177
 msgid "End"
 msgstr "Fine"
 
@@ -175,7 +175,7 @@ msgstr "Fine"
 msgid "Facility (e.g. DLA)"
 msgstr "Facility (es. DLA)"
 
-#: src/wx/film_editor.cc:73
+#: src/wx/film_editor.cc:74
 msgid "Film"
 msgstr "Film"
 
@@ -187,11 +187,11 @@ msgstr "Proprietà del film"
 msgid "Film name"
 msgstr "Nome del film"
 
-#: src/wx/film_editor.cc:303 src/wx/filter_dialog.cc:32
+#: src/wx/film_editor.cc:304 src/wx/filter_dialog.cc:32
 msgid "Filters"
 msgstr "Filtri"
 
-#: src/wx/film_editor.cc:268
+#: src/wx/film_editor.cc:269
 msgid "Format"
 msgstr "Formato"
 
@@ -205,7 +205,7 @@ msgstr "Fotogrammi già codificati"
 
 #: src/wx/gain_calculator_dialog.cc:27
 msgid "Gain Calculator"
-msgstr "Calcolatore del guadagno"
+msgstr "Calcola il guadagno audio"
 
 #: src/wx/properties_dialog.cc:59
 msgid "Gb"
@@ -215,31 +215,31 @@ msgstr "Gb"
 msgid "Host name or IP address"
 msgstr "Nome dell'Host o indirizzo IP"
 
-#: src/wx/film_editor.cc:1233
+#: src/wx/film_editor.cc:1234
 msgid "Hz"
 msgstr "Hz"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "I want to play this back at fader"
-msgstr "Voglio riprodurrlo back at fader"
+msgstr "Sto usando il fader a"
 
 #: src/wx/config_dialog.cc:113
 msgid "IP address"
 msgstr "Indirizzo IP"
 
-#: src/wx/film_editor.cc:335
+#: src/wx/film_editor.cc:336
 msgid "JPEG2000 bandwidth"
 msgstr "Banda passante JPEG2000"
 
-#: src/wx/film_editor.cc:281
+#: src/wx/film_editor.cc:282
 msgid "Left crop"
 msgstr "Taglio a sinistra"
 
-#: src/wx/film_editor.cc:164
+#: src/wx/film_editor.cc:165
 msgid "Length"
 msgstr "Lunghezza"
 
-#: src/wx/film_editor.cc:339
+#: src/wx/film_editor.cc:340
 msgid "MBps"
 msgstr "MBps"
 
@@ -247,7 +247,7 @@ msgstr "MBps"
 msgid "My Documents"
 msgstr "Documenti"
 
-#: src/wx/film_editor.cc:104
+#: src/wx/film_editor.cc:105
 msgid "Name"
 msgstr "Nome"
 
@@ -255,15 +255,15 @@ msgstr "Nome"
 msgid "New Film"
 msgstr "Nuovo Film"
 
-#: src/wx/film_editor.cc:305 src/wx/film_editor.cc:664
+#: src/wx/film_editor.cc:306 src/wx/film_editor.cc:665
 msgid "None"
 msgstr "Nessuno"
 
-#: src/wx/film_editor.cc:135
+#: src/wx/film_editor.cc:136
 msgid "Original Frame Rate"
 msgstr "Frequenza fotogrammi originale"
 
-#: src/wx/film_editor.cc:159
+#: src/wx/film_editor.cc:160
 msgid "Original Size"
 msgstr "Dimensione Originale"
 
@@ -303,7 +303,7 @@ msgstr "Scalatura di riferimento A/B"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/wx/film_editor.cc:286
+#: src/wx/film_editor.cc:287
 msgid "Right crop"
 msgstr "Taglio a destra"
 
@@ -311,15 +311,15 @@ msgstr "Taglio a destra"
 msgid "Running"
 msgstr "In corso"
 
-#: src/wx/film_editor.cc:315
+#: src/wx/film_editor.cc:316
 msgid "Scaler"
 msgstr "Scaler"
 
-#: src/wx/film_editor.cc:407
+#: src/wx/film_editor.cc:408
 msgid "Select Audio File"
-msgstr "Seleziona File Audio"
+msgstr "Seleziona file audio"
 
-#: src/wx/film_editor.cc:121
+#: src/wx/film_editor.cc:122
 msgid "Select Content File"
 msgstr "Seleziona il file con il contenuto"
 
@@ -327,7 +327,7 @@ msgstr "Seleziona il file con il contenuto"
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/film_editor.cc:364
+#: src/wx/film_editor.cc:365
 msgid "Show Audio..."
 msgstr "Mostra Audio..."
 
@@ -335,7 +335,7 @@ msgstr "Mostra Audio..."
 msgid "Smoothing"
 msgstr "Levigatura"
 
-#: src/wx/film_editor.cc:173
+#: src/wx/film_editor.cc:174
 msgid "Start"
 msgstr "Inizio"
 
@@ -347,15 +347,15 @@ msgstr "Studio (es. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Lingua dei Sottotitoli (es. FR)"
 
-#: src/wx/film_editor.cc:431
+#: src/wx/film_editor.cc:432
 msgid "Subtitle Offset"
 msgstr "Sfalsamento dei Sottotitoli"
 
-#: src/wx/film_editor.cc:436
+#: src/wx/film_editor.cc:437
 msgid "Subtitle Scale"
 msgstr "Scala dei Sottotitoli"
 
-#: src/wx/film_editor.cc:79
+#: src/wx/film_editor.cc:80
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
@@ -395,15 +395,15 @@ msgstr "Threads da usare per codificare su questo host"
 msgid "Time"
 msgstr "Tempo"
 
-#: src/wx/film_editor.cc:291
+#: src/wx/film_editor.cc:292
 msgid "Top crop"
 msgstr "Taglio in alto"
 
-#: src/wx/film_editor.cc:171
+#: src/wx/film_editor.cc:172
 msgid "Trim frames"
 msgstr "Taglia fotogrammi"
 
-#: src/wx/film_editor.cc:125
+#: src/wx/film_editor.cc:126
 msgid "Trust content's header"
 msgstr "Conferma l'intestazione del contenuto"
 
@@ -411,31 +411,31 @@ msgstr "Conferma l'intestazione del contenuto"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/wx/film_editor.cc:114
+#: src/wx/film_editor.cc:115
 msgid "Use DCI name"
 msgstr "Usa nome DCI"
 
-#: src/wx/film_editor.cc:145
+#: src/wx/film_editor.cc:146
 msgid "Use best"
 msgstr "Usa la migliore"
 
-#: src/wx/film_editor.cc:391
+#: src/wx/film_editor.cc:392
 msgid "Use content's audio"
 msgstr "Usa l'audio del contenuto"
 
-#: src/wx/film_editor.cc:401
+#: src/wx/film_editor.cc:402
 msgid "Use external audio"
 msgstr "Usa l'audio esterno"
 
-#: src/wx/film_editor.cc:75
+#: src/wx/film_editor.cc:76
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/film_editor.cc:424
+#: src/wx/film_editor.cc:425
 msgid "With Subtitles"
 msgstr "Con Sottotitoli"
 
-#: src/wx/film_editor.cc:1231
+#: src/wx/film_editor.cc:1232
 msgid "channels"
 msgstr "canali"
 
@@ -443,21 +443,21 @@ msgstr "canali"
 msgid "counting..."
 msgstr "conteggio..."
 
-#: src/wx/film_editor.cc:373
+#: src/wx/film_editor.cc:374
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/film_editor.cc:690 src/wx/film_editor.cc:692
+#: src/wx/film_editor.cc:691 src/wx/film_editor.cc:693
 msgid "frames"
 msgstr "fotogrammi"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/film_editor.cc:386
+#: src/wx/film_editor.cc:387
 msgid "ms"
 msgstr "ms"
 
 #. / TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
-#: src/wx/film_editor.cc:197
+#: src/wx/film_editor.cc:198
 msgid "s"
 msgstr "s"
 
