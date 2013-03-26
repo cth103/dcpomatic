@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 13:37+0000\n"
+"POT-Creation-Date: 2013-03-26 14:11+0000\n"
 "PO-Revision-Date: 2013-03-13 22:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "About"
 msgstr "A Propos"
 
-#: src/tools/dvdomatic.cc:500
+#: src/tools/dvdomatic.cc:516
 msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %1 (%2)"
 
@@ -84,7 +84,7 @@ msgid "Could not open film at %s (%s)"
 msgstr "Impossible d'ouvrir le film à %s (%s)"
 
 #: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
-#: src/tools/dvdomatic.cc:504
+#: src/tools/dvdomatic.cc:520
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 

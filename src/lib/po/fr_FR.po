@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 13:37+0000\n"
+"POT-Creation-Date: 2013-03-26 14:11+0000\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -68,7 +68,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Advertisement"
 
-#: src/lib/job.cc:71
+#: src/lib/job.cc:72
 msgid "An error occurred whilst handling the file %1."
 msgstr "Une erreur s'est produite lors du traitement du fichier %1."
 
@@ -87,6 +87,10 @@ msgstr "Bicubique"
 #: src/lib/scaler.cc:69
 msgid "Bilinear"
 msgstr "Bilinéaire"
+
+#: src/lib/job.cc:302
+msgid "Cancelled"
+msgstr ""
 
 #: src/lib/exceptions.cc:60
 msgid "Cannot handle pixel format %1 during %2"
@@ -124,15 +128,15 @@ msgstr "Écriture vers fichier distant (%1) impossible"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Désentrelacement cubique interpolé"
 
-#: src/lib/util.cc:965
+#: src/lib/util.cc:997
 msgid "DCP and source have the same rate.\n"
 msgstr "Le DCP et la source ont les mêmes cadences.\n"
 
-#: src/lib/util.cc:975
+#: src/lib/util.cc:1007
 msgid "DCP will run at %1%% of the source speed."
 msgstr "La cadence du DCP sera %1%% par rapport à la source"
 
-#: src/lib/util.cc:968
+#: src/lib/util.cc:1000
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Le DCP utilisera une image sur deux de la source.\n"
 
@@ -155,11 +159,11 @@ msgstr "Filtre anti bourdonnement"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:970
+#: src/lib/util.cc:1002
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 
-#: src/lib/job.cc:287
+#: src/lib/job.cc:300
 msgid "Error (%1)"
 msgstr "Erreur (%1)"
 
@@ -231,7 +235,7 @@ msgstr "Filtre dé-bloc horizontal"
 msgid "Horizontal deblocking filter A"
 msgstr "Filtre dé-bloc horizontal"
 
-#: src/lib/job.cc:87 src/lib/job.cc:96
+#: src/lib/job.cc:92 src/lib/job.cc:101
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
 "problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
@@ -273,7 +277,7 @@ msgstr "Désentrelaceur par compensation de mouvement"
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
 
-#: src/lib/job.cc:285
+#: src/lib/job.cc:298
 msgid "OK (ran for %1)"
 msgstr "OK (processus %1)"
 
@@ -293,7 +297,7 @@ msgstr "Public Service Announcement"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/util.cc:458
+#: src/lib/util.cc:490
 msgid "Rec 709"
 msgstr "Rec 709"
 
@@ -389,7 +393,7 @@ msgstr "Réduction de bruit temporel"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/job.cc:76
+#: src/lib/job.cc:77
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -409,7 +413,7 @@ msgstr "Transcodage %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/job.cc:95
+#: src/lib/job.cc:100
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -441,15 +445,11 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/encoder.cc:271
-msgid "adding to queue of %1"
-msgstr "Mise en file d'attente de %1"
-
 #: src/lib/film.cc:263
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:531
 msgid "connect timed out"
 msgstr "temps de connexion expiré"
 
@@ -525,14 +525,6 @@ msgstr "démarrage de session SSH impossible"
 msgid "could not write to file %1 (%2)"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
-#: src/lib/encoder.cc:247
-msgid "decoder sleeps with queue of %1"
-msgstr "décodeur en veille avec %1 en file d'attente"
-
-#: src/lib/encoder.cc:249
-msgid "decoder wakes with queue of %1"
-msgstr "reprise du décodage avec %1 en file d'attente"
-
 #: src/lib/sndfile_decoder.cc:94
 msgid "external audio files have differing lengths"
 msgstr "Les fichiers audio externes ont des durées différentes"
@@ -565,7 +557,7 @@ msgstr "minute"
 msgid "minutes"
 msgstr "minutes"
 
-#: src/lib/util.cc:642
+#: src/lib/util.cc:674
 msgid "missing key %1 in key-value set"
 msgstr "clé %1 non sélectionnée"
 
@@ -591,11 +583,11 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:282
+#: src/lib/job.cc:295
 msgid "remaining"
 msgstr "restant"
 
-#: src/lib/util.cc:456
+#: src/lib/util.cc:488
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -610,3 +602,12 @@ msgstr "fixe"
 #: src/lib/film.cc:274
 msgid "video"
 msgstr "vidéo"
+
+#~ msgid "adding to queue of %1"
+#~ msgstr "Mise en file d'attente de %1"
+
+#~ msgid "decoder sleeps with queue of %1"
+#~ msgstr "décodeur en veille avec %1 en file d'attente"
+
+#~ msgid "decoder wakes with queue of %1"
+#~ msgstr "reprise du décodage avec %1 en file d'attente"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 13:37+0000\n"
+"POT-Creation-Date: 2013-03-26 14:11+0000\n"
 "PO-Revision-Date: 2013-03-20 00:34+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -20,7 +20,11 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-#: src/wx/film_editor.cc:1229
+#: src/wx/config_dialog.cc:60
+msgid "(restart DVD-o-matic to see language changes)"
+msgstr ""
+
+#: src/wx/film_editor.cc:1231
 msgid "1 channel"
 msgstr "1 canal"
 
@@ -28,7 +32,7 @@ msgstr "1 canal"
 msgid "A/B"
 msgstr "A/B"
 
-#: src/wx/config_dialog.cc:124
+#: src/wx/config_dialog.cc:142
 msgid "Add"
 msgstr "Ajouter"
 
@@ -68,6 +72,10 @@ msgstr "Je souhaite utiliser ce volume"
 #: src/wx/film_editor.cc:374
 msgid "Calculate..."
 msgstr "Calcul..."
+
+#: src/wx/job_manager_view.cc:88
+msgid "Cancel"
+msgstr ""
 
 #: src/wx/audio_dialog.cc:43
 msgid "Channels"
@@ -133,15 +141,15 @@ msgstr "Préférences DVD-o-matic"
 msgid "DVD-o-matic audio - %1"
 msgstr "Son DVD-o-matic  - %1"
 
-#: src/wx/config_dialog.cc:83
+#: src/wx/config_dialog.cc:101
 msgid "Default DCI name details"
 msgstr "Détails du nom DCI par défaut"
 
-#: src/wx/config_dialog.cc:74
+#: src/wx/config_dialog.cc:92
 msgid "Default directory for new films"
 msgstr "Dossier par défaut des nouveaux films"
 
-#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:88
+#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:92
 msgid "Details..."
 msgstr "Détails..."
 
@@ -153,16 +161,16 @@ msgstr "Espace disque requis"
 msgid "Duration"
 msgstr "Durée"
 
-#: src/wx/config_dialog.cc:126
+#: src/wx/config_dialog.cc:144
 msgid "Edit"
 msgstr "Édition"
 
-#: src/wx/config_dialog.cc:84 src/wx/config_dialog.cc:103
+#: src/wx/config_dialog.cc:102 src/wx/config_dialog.cc:121
 #: src/wx/film_editor.cc:308
 msgid "Edit..."
 msgstr "Éditer..."
 
-#: src/wx/config_dialog.cc:109
+#: src/wx/config_dialog.cc:127
 msgid "Encoding Servers"
 msgstr "Serveurs d'encodage"
 
@@ -214,7 +222,7 @@ msgstr "Gb"
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
-#: src/wx/film_editor.cc:1233
+#: src/wx/film_editor.cc:1235
 msgid "Hz"
 msgstr "Hz"
 
@@ -222,7 +230,7 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Je veux le jouer à ce volume"
 
-#: src/wx/config_dialog.cc:113
+#: src/wx/config_dialog.cc:131
 msgid "IP address"
 msgstr "Adresse IP"
 
@@ -290,15 +298,15 @@ msgstr "RMS"
 msgid "Rating (e.g. 15)"
 msgstr "Rating (ex. 15)"
 
-#: src/wx/config_dialog.cc:99
+#: src/wx/config_dialog.cc:117
 msgid "Reference filters for A/B"
 msgstr "Filtres de référence pour A/B"
 
-#: src/wx/config_dialog.cc:88
+#: src/wx/config_dialog.cc:106
 msgid "Reference scaler for A/B"
 msgstr "Échelle de référence pour A/B"
 
-#: src/wx/config_dialog.cc:128
+#: src/wx/config_dialog.cc:146
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -306,7 +314,7 @@ msgstr "Supprimer"
 msgid "Right crop"
 msgstr "Découpe droite"
 
-#: src/wx/job_manager_view.cc:104
+#: src/wx/job_manager_view.cc:108
 msgid "Running"
 msgstr "Progression"
 
@@ -325,6 +333,10 @@ msgstr "Sélectionner le fichier vidéo"
 #: src/wx/server_dialog.cc:25
 msgid "Server"
 msgstr "Serveur"
+
+#: src/wx/config_dialog.cc:49
+msgid "Set language"
+msgstr ""
 
 #: src/wx/film_editor.cc:364
 msgid "Show Audio..."
@@ -358,19 +370,19 @@ msgstr "Taille du sous-titre"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/config_dialog.cc:49
+#: src/wx/config_dialog.cc:67
 msgid "TMS IP address"
 msgstr "Adresse IP du TMS"
 
-#: src/wx/config_dialog.cc:64
+#: src/wx/config_dialog.cc:82
 msgid "TMS password"
 msgstr "Mot de passe du TMS"
 
-#: src/wx/config_dialog.cc:54
+#: src/wx/config_dialog.cc:72
 msgid "TMS target path"
 msgstr "Chemin d'accès du TMS"
 
-#: src/wx/config_dialog.cc:59
+#: src/wx/config_dialog.cc:77
 msgid "TMS user name"
 msgstr "Nom d'utilisateur du TMS"
 
@@ -378,7 +390,7 @@ msgstr "Nom d'utilisateur du TMS"
 msgid "Territory (e.g. UK)"
 msgstr "Territoire (ex. FR)"
 
-#: src/wx/config_dialog.cc:117
+#: src/wx/config_dialog.cc:135
 msgid "Threads"
 msgstr "Processus"
 
@@ -386,7 +398,7 @@ msgstr "Processus"
 msgid "Threads to use"
 msgstr "Nombre de processus à utiliser"
 
-#: src/wx/config_dialog.cc:69
+#: src/wx/config_dialog.cc:87
 msgid "Threads to use for encoding on this host"
 msgstr "Nombre de processus à utiliser sur cet hôte"
 
@@ -434,7 +446,7 @@ msgstr "Vidéo"
 msgid "With Subtitles"
 msgstr "Avec sous-titres"
 
-#: src/wx/film_editor.cc:1231
+#: src/wx/film_editor.cc:1233
 msgid "channels"
 msgstr "canaux"
 
@@ -446,7 +458,7 @@ msgstr "calcul..."
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/film_editor.cc:690 src/wx/film_editor.cc:692
+#: src/wx/film_editor.cc:691 src/wx/film_editor.cc:694
 msgid "frames"
 msgstr "images"
 
