@@ -38,6 +38,7 @@ using boost::shared_ptr;
  */
 Job::Job (shared_ptr<Film> f)
 	: _film (f)
+	, _thread (0)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
@@ -52,7 +53,7 @@ Job::start ()
 {
 	set_state (RUNNING);
 	_start_time = time (0);
-	boost::thread (boost::bind (&Job::run_wrapper, this));
+	_thread = new boost::thread (boost::bind (&Job::run_wrapper, this));
 }
 
 /** A wrapper for the ::run() method to catch exceptions */
@@ -77,6 +78,10 @@ Job::run_wrapper ()
 		}
 
 		set_error (e.what(), m);
+
+	} catch (boost::thread_interrupted &) {
+
+		set_state (FINISHED_CANCELLED);
  		
 	} catch (std::exception& e) {
 
@@ -120,7 +125,7 @@ bool
 Job::finished () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return _state == FINISHED_OK || _state == FINISHED_ERROR;
+	return _state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED;
 }
 
 /** @return true if the job has finished successfully */
@@ -137,6 +142,13 @@ Job::finished_in_error () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _state == FINISHED_ERROR;
+}
+
+bool
+Job::finished_cancelled () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _state == FINISHED_CANCELLED;
 }
 
 /** Set the state of this job.
@@ -173,6 +185,7 @@ Job::set_progress (float p)
 	boost::mutex::scoped_lock lm (_progress_mutex);
 	_progress_unknown = false;
 	_stack.back().normalised = p;
+	boost::this_thread::interruption_point ();
 }
 
 /** @return fractional overall progress, or -1 if not known */
@@ -285,6 +298,8 @@ Job::status () const
 		s << String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
 	} else if (finished_in_error ()) {
 		s << String::compose (_("Error (%1)"), error_summary());
+	} else if (finished_cancelled ()) {
+		s << _("Cancelled");
 	}
 
 	return s.str ();
@@ -295,4 +310,15 @@ int
 Job::remaining_time () const
 {
 	return elapsed_time() / overall_progress() - elapsed_time();
+}
+
+void
+Job::cancel ()
+{
+	if (!_thread) {
+		return;
+	}
+
+	_thread->interrupt ();
+	_thread->join ();
 }
