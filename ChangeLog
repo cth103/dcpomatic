@@ -2,6 +2,10 @@
 
 	* Add option to set user interface language.
 
+2013-03-25  Carl Hetherington  <cth@carlh.net>
+	
+	* Version 0.78beta6 released.
+
 2013-03-24  Carl Hetherington  <cth@carlh.net>
 
 	* Add UI option to select interface language.
