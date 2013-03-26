@@ -213,7 +213,7 @@ msgstr "Flat"
 
 #: src/lib/format.cc:130
 msgid "Flat without stretch"
-msgstr "Flat sans étirement"
+msgstr "Flat sans déformation"
 
 #: src/lib/filter.cc:85
 msgid "Force quantizer"
@@ -311,7 +311,7 @@ msgstr "Public Service Announcement"
 
 #: src/lib/dcp_content_type.cc:49
 msgid "Rating"
-msgstr "Rating"
+msgstr "Classification"
 
 #: src/lib/util.cc:490
 msgid "Rec 709"
