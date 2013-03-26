@@ -328,7 +328,7 @@ private:
 			} catch (std::exception& e) {
 				wxString p = c->GetPath ();
 				wxCharBuffer b = p.ToUTF8 ();
-				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), e.what()));
+				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what())));
 			}
 		}
 
