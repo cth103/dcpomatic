@@ -1,0 +1,466 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libdvdomatic-wx\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-15 08:39+0000\n"
+"PO-Revision-Date: 2013-03-23 21:20-0500\n"
+"Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
+"Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"Language: es-ES\n"
+
+#: src/wx/film_editor.cc:441
+msgid "%"
+msgstr "%"
+
+#: src/wx/film_editor.cc:1230
+msgid "1 channel"
+msgstr "1 canal"
+
+#: src/wx/film_editor.cc:185
+msgid "A/B"
+msgstr "A/B"
+
+#: src/wx/config_dialog.cc:124
+msgid "Add"
+msgstr "Añadir"
+
+#: src/wx/audio_dialog.cc:32 src/wx/film_editor.cc:78
+msgid "Audio"
+msgstr "Audio"
+
+#: src/wx/film_editor.cc:382
+msgid "Audio Delay"
+msgstr "Retardo del audio"
+
+#: src/wx/film_editor.cc:370
+msgid "Audio Gain"
+msgstr "Ganancia del audio"
+
+#: src/wx/dci_metadata_dialog.cc:33
+msgid "Audio Language (e.g. EN)"
+msgstr "Idioma del audio (ej. ES)"
+
+#: src/wx/job_wrapper.cc:38
+#, c-format
+msgid "Bad setting for %s (%s)"
+msgstr "Configuración erronea para %s (%s)"
+
+#: src/wx/film_editor.cc:297
+msgid "Bottom crop"
+msgstr "Recortar abajo"
+
+#: src/wx/dir_picker_ctrl.cc:38
+msgid "Browse..."
+msgstr "Explorar..."
+
+#: src/wx/gain_calculator_dialog.cc:36
+msgid "But I have to use fader"
+msgstr "pero tengo que usar el fader a"
+
+#: src/wx/film_editor.cc:375
+msgid "Calculate..."
+msgstr "Calcular..."
+
+#: src/wx/audio_dialog.cc:43
+msgid "Channels"
+msgstr "Canales"
+
+#: src/wx/film_editor.cc:326
+msgid "Colour look-up table"
+msgstr "Tabla de referencia de colores"
+
+#: src/wx/film_editor.cc:121
+msgid "Content"
+msgstr "Contenido"
+
+#: src/wx/film_editor.cc:131
+msgid "Content Type"
+msgstr "Tipo de contenido"
+
+#: src/wx/film_viewer.cc:414
+#, c-format
+msgid "Could not decode video for view (%s)"
+msgstr "No se pudo decodificar el vídeo para mostrarlo (%s)"
+
+#: src/wx/job_wrapper.cc:40
+#, c-format
+msgid "Could not make DCP: %s"
+msgstr "No se pudo crear el DCP: %s"
+
+#: src/wx/film_viewer.cc:108
+#, c-format
+msgid "Could not open content file (%s)"
+msgstr "No se pudo abrir el fichero (%s)"
+
+#: src/wx/film_editor.cc:505
+#, c-format
+msgid "Could not set content: %s"
+msgstr "No se pudo establecer el contenido: %s"
+
+#: src/wx/new_film_dialog.cc:46
+msgid "Create in folder"
+msgstr "Crear en carpeta"
+
+#: src/wx/dci_metadata_dialog.cc:28
+msgid "DCI name"
+msgstr "Nombre DCI"
+
+#: src/wx/film_editor.cc:142
+msgid "DCP Frame Rate"
+msgstr "Velocidad DCP"
+
+#: src/wx/film_editor.cc:110
+msgid "DCP Name"
+msgstr "Nombre DCP"
+
+#: src/wx/wx_util.cc:61
+msgid "DVD-o-matic"
+msgstr "DVD-o-matic"
+
+#: src/wx/config_dialog.cc:44
+msgid "DVD-o-matic Preferences"
+msgstr "Preferencias DVD-o-matic"
+
+#: src/wx/audio_dialog.cc:101
+msgid "DVD-o-matic audio - %1"
+msgstr "Audio DVD-o-matic - %1"
+
+#: src/wx/config_dialog.cc:83
+msgid "Default DCI name details"
+msgstr "Detalles por defecto del nombre DCI"
+
+#: src/wx/config_dialog.cc:74
+msgid "Default directory for new films"
+msgstr "Carpeta por defecto para nuevas películas"
+
+#: src/wx/film_editor.cc:117 src/wx/job_manager_view.cc:88
+msgid "Details..."
+msgstr "Detalles..."
+
+#: src/wx/properties_dialog.cc:45
+msgid "Disk space required"
+msgstr "Espacio requerido en disco"
+
+#: src/wx/film_editor.cc:192
+msgid "Duration"
+msgstr "Duración"
+
+#: src/wx/config_dialog.cc:126
+msgid "Edit"
+msgstr "Editar"
+
+#: src/wx/config_dialog.cc:84 src/wx/config_dialog.cc:103
+#: src/wx/film_editor.cc:309
+msgid "Edit..."
+msgstr "Editar..."
+
+#: src/wx/config_dialog.cc:109
+msgid "Encoding Servers"
+msgstr "Servidores de codificación"
+
+#: src/wx/film_editor.cc:177
+msgid "End"
+msgstr "Fin"
+
+#: src/wx/dci_metadata_dialog.cc:53
+msgid "Facility (e.g. DLA)"
+msgstr "Compañía (ej. DLA)"
+
+#: src/wx/film_editor.cc:74
+msgid "Film"
+msgstr "Película"
+
+#: src/wx/properties_dialog.cc:36
+msgid "Film Properties"
+msgstr "Propiedades de la película"
+
+#: src/wx/new_film_dialog.cc:42
+msgid "Film name"
+msgstr "Nombre de la película"
+
+#: src/wx/film_editor.cc:304 src/wx/filter_dialog.cc:32
+msgid "Filters"
+msgstr "Filtros"
+
+#: src/wx/film_editor.cc:269
+msgid "Format"
+msgstr "Formato"
+
+#: src/wx/properties_dialog.cc:41
+msgid "Frames"
+msgstr "Fotogramas"
+
+#: src/wx/properties_dialog.cc:49
+msgid "Frames already encoded"
+msgstr "Fotogramas ya codificados"
+
+#: src/wx/gain_calculator_dialog.cc:27
+msgid "Gain Calculator"
+msgstr "Calculadora de ganancia"
+
+#: src/wx/properties_dialog.cc:59
+msgid "Gb"
+msgstr "Gb"
+
+#: src/wx/server_dialog.cc:36
+msgid "Host name or IP address"
+msgstr "Nombre o dirección IP"
+
+#: src/wx/film_editor.cc:1234
+msgid "Hz"
+msgstr "Hz"
+
+#: src/wx/gain_calculator_dialog.cc:32
+msgid "I want to play this back at fader"
+msgstr "Quiero reproducir con el fader a"
+
+#: src/wx/config_dialog.cc:113
+msgid "IP address"
+msgstr "Dirección IP"
+
+#: src/wx/film_editor.cc:336
+msgid "JPEG2000 bandwidth"
+msgstr "Ancho de banda JPEG2000"
+
+#: src/wx/film_editor.cc:282
+msgid "Left crop"
+msgstr "Recorte izquierda"
+
+#: src/wx/film_editor.cc:165
+msgid "Length"
+msgstr "Longitud"
+
+#: src/wx/film_editor.cc:340
+msgid "MBps"
+msgstr "MBps"
+
+#: src/wx/dir_picker_ctrl.cc:52
+msgid "My Documents"
+msgstr "Mis documentos"
+
+#: src/wx/film_editor.cc:105
+msgid "Name"
+msgstr "Nombre"
+
+#: src/wx/new_film_dialog.cc:33
+msgid "New Film"
+msgstr "Nueva película"
+
+#: src/wx/film_editor.cc:306 src/wx/film_editor.cc:665
+msgid "None"
+msgstr "Ninguno"
+
+#: src/wx/film_editor.cc:136
+msgid "Original Frame Rate"
+msgstr "Velocidad original"
+
+#: src/wx/film_editor.cc:160
+msgid "Original Size"
+msgstr "Tamaño original"
+
+#: src/wx/dci_metadata_dialog.cc:57
+msgid "Package Type (e.g. OV)"
+msgstr "Tipo de paquete (ej. OV)"
+
+#: src/wx/audio_dialog.cc:60
+msgid "Peak"
+msgstr "Pico"
+
+#: src/wx/film_viewer.cc:54
+msgid "Play"
+msgstr "Reproducir"
+
+#: src/wx/audio_plot.cc:109
+msgid "Please wait; audio is being analysed..."
+msgstr "Por favor espere, el audio está siendo analizado..."
+
+#: src/wx/audio_dialog.cc:61
+msgid "RMS"
+msgstr "RMS"
+
+#: src/wx/dci_metadata_dialog.cc:45
+msgid "Rating (e.g. 15)"
+msgstr "Clasificación (ej. 16)"
+
+#: src/wx/config_dialog.cc:99
+msgid "Reference filters for A/B"
+msgstr "Filtros de referencia para A/B"
+
+#: src/wx/config_dialog.cc:88
+msgid "Reference scaler for A/B"
+msgstr "Escalador de referencia para A/B"
+
+#: src/wx/config_dialog.cc:128
+msgid "Remove"
+msgstr "Quitar"
+
+#: src/wx/film_editor.cc:287
+msgid "Right crop"
+msgstr "Recorte derecha"
+
+#: src/wx/job_manager_view.cc:104
+msgid "Running"
+msgstr "Ejecutando"
+
+#: src/wx/film_editor.cc:316
+msgid "Scaler"
+msgstr "Escalador"
+
+#: src/wx/film_editor.cc:408
+msgid "Select Audio File"
+msgstr "Seleccionar fichero de audio"
+
+#: src/wx/film_editor.cc:122
+msgid "Select Content File"
+msgstr "Seleccionar fichero de contenido"
+
+#: src/wx/server_dialog.cc:25
+msgid "Server"
+msgstr "Servidor"
+
+#: src/wx/film_editor.cc:365
+msgid "Show Audio..."
+msgstr "Mostrar audio..."
+
+#: src/wx/audio_dialog.cc:71
+msgid "Smoothing"
+msgstr "Suavizado"
+
+#: src/wx/film_editor.cc:174
+msgid "Start"
+msgstr "Inicio"
+
+#: src/wx/dci_metadata_dialog.cc:49
+msgid "Studio (e.g. TCF)"
+msgstr "Estudio (ej. TCF)"
+
+#: src/wx/dci_metadata_dialog.cc:37
+msgid "Subtitle Language (e.g. FR)"
+msgstr "Idioma del subtítulo (ej. EN)"
+
+#: src/wx/film_editor.cc:432
+msgid "Subtitle Offset"
+msgstr "Desplazamiento del subtítulo"
+
+#: src/wx/film_editor.cc:437
+msgid "Subtitle Scale"
+msgstr "Escala del subtítulo"
+
+#: src/wx/film_editor.cc:80
+msgid "Subtitles"
+msgstr "Subtítulos"
+
+#: src/wx/config_dialog.cc:49
+msgid "TMS IP address"
+msgstr "Dirección IP del TMS"
+
+#: src/wx/config_dialog.cc:64
+msgid "TMS password"
+msgstr "Clave del TMS"
+
+#: src/wx/config_dialog.cc:54
+msgid "TMS target path"
+msgstr "Ruta en el TMS"
+
+#: src/wx/config_dialog.cc:59
+msgid "TMS user name"
+msgstr "Usuario del TMS"
+
+#: src/wx/dci_metadata_dialog.cc:41
+msgid "Territory (e.g. UK)"
+msgstr "Territorio (ej. ES)"
+
+#: src/wx/config_dialog.cc:117
+msgid "Threads"
+msgstr "Hilos"
+
+#: src/wx/server_dialog.cc:40
+msgid "Threads to use"
+msgstr "Hilos a utilizar"
+
+#: src/wx/config_dialog.cc:69
+msgid "Threads to use for encoding on this host"
+msgstr "Hilos a utilizar para la codificación en esta máquina"
+
+#: src/wx/audio_plot.cc:139
+msgid "Time"
+msgstr "Tiempo"
+
+#: src/wx/film_editor.cc:292
+msgid "Top crop"
+msgstr "Recortar arriba"
+
+#: src/wx/film_editor.cc:172
+msgid "Trim frames"
+msgstr "Recortar fotogramas"
+
+#: src/wx/film_editor.cc:126
+msgid "Trust content's header"
+msgstr "Confiar en la cabecera del contenido"
+
+#: src/wx/audio_dialog.cc:55
+msgid "Type"
+msgstr "Tipo"
+
+#: src/wx/film_editor.cc:115
+msgid "Use DCI name"
+msgstr "Usar el nombre DCI"
+
+#: src/wx/film_editor.cc:146
+msgid "Use best"
+msgstr "Usar el mejor"
+
+#: src/wx/film_editor.cc:392
+msgid "Use content's audio"
+msgstr "Usar el audio del contenido"
+
+#: src/wx/film_editor.cc:402
+msgid "Use external audio"
+msgstr "Usar audio externo"
+
+#: src/wx/film_editor.cc:76
+msgid "Video"
+msgstr "Vídeo"
+
+#: src/wx/film_editor.cc:425
+msgid "With Subtitles"
+msgstr "Con subtítulos"
+
+#: src/wx/film_editor.cc:1232
+msgid "channels"
+msgstr "canales"
+
+#: src/wx/properties_dialog.cc:50
+msgid "counting..."
+msgstr "contando..."
+
+#: src/wx/film_editor.cc:374
+msgid "dB"
+msgstr "dB"
+
+#: src/wx/film_editor.cc:691 src/wx/film_editor.cc:693
+msgid "frames"
+msgstr "fotogramas"
+
+#. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
+#: src/wx/film_editor.cc:387
+msgid "ms"
+msgstr "ms"
+
+#. / TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
+#: src/wx/film_editor.cc:198
+msgid "s"
+msgstr "s"
+
+#: src/wx/properties_dialog.cc:62 src/wx/properties_dialog.cc:63
+msgid "unknown"
+msgstr "desconocido"

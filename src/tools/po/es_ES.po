@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: DVDOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-15 08:39+0000\n"
-"PO-Revision-Date: 2013-03-20 17:05-0500\n"
+"PO-Revision-Date: 2013-03-23 21:08-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
-"Language: ES-ES\n"
+"Language: es-ES\n"
 
 #: src/tools/dvdomatic.cc:177
 msgid "&Analyse audio"
-msgstr "&Analizar sonido"
+msgstr "&Analizar audio"
 
 #: src/tools/dvdomatic.cc:183
 msgid "&Edit"
@@ -39,7 +39,7 @@ msgstr "&Tareas"
 
 #: src/tools/dvdomatic.cc:173
 msgid "&Make DCP"
-msgstr "&Hacer DCP"
+msgstr "&Crear DCP"
 
 #: src/tools/dvdomatic.cc:161
 msgid "&Open..."
