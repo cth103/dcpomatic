@@ -917,12 +917,12 @@ audio_channel_name (int c)
 	   enhancement channel (sub-woofer)./
 	*/
 	string const channels[] = {
-		"Left",
-		"Right",
-		"Centre",
-		"Lfe (sub)",
-		"Left surround",
-		"Right surround",
+		_("Left"),
+		_("Right"),
+		_("Centre"),
+		_("Lfe (sub)"),
+		_("Left surround"),
+		_("Right surround"),
 	};
 
 	return channels[c];

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDVDOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-26 14:11+0000\n"
+"POT-Creation-Date: 2013-03-26 14:54+0000\n"
 "PO-Revision-Date: 2013-03-23 22:42-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -101,6 +101,10 @@ msgstr ""
 msgid "Cannot resample audio as libswresample is not present"
 msgstr ""
 "No se puede redimensionar el sonido porque no se encuentra libswresample"
+
+#: src/lib/util.cc:922
+msgid "Centre"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:109
 msgid "Copy DCP to TMS"
@@ -253,6 +257,18 @@ msgstr ""
 msgid "Lanczos"
 msgstr "Lanczos"
 
+#: src/lib/util.cc:920
+msgid "Left"
+msgstr ""
+
+#: src/lib/util.cc:924
+msgid "Left surround"
+msgstr ""
+
+#: src/lib/util.cc:923
+msgid "Lfe (sub)"
+msgstr ""
+
 #: src/lib/filter.cc:75
 msgid "Linear blend deinterlacer"
 msgstr ""
@@ -302,6 +318,14 @@ msgstr "Clasificación"
 #: src/lib/util.cc:490
 msgid "Rec 709"
 msgstr "Rec 709"
+
+#: src/lib/util.cc:921
+msgid "Right"
+msgstr ""
+
+#: src/lib/util.cc:925
+msgid "Right surround"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"

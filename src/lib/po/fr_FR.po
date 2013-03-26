@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-26 14:11+0000\n"
+"POT-Creation-Date: 2013-03-26 14:54+0000\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -99,6 +99,10 @@ msgstr ""
 #: src/lib/encoder.cc:101
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Ré-échantillonnage du son impossible : libswresample est absent"
+
+#: src/lib/util.cc:922
+msgid "Centre"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:109
 msgid "Copy DCP to TMS"
@@ -251,6 +255,18 @@ msgstr "Désentrelaceur noyau"
 msgid "Lanczos"
 msgstr "Lanczos"
 
+#: src/lib/util.cc:920
+msgid "Left"
+msgstr ""
+
+#: src/lib/util.cc:924
+msgid "Left surround"
+msgstr ""
+
+#: src/lib/util.cc:923
+msgid "Lfe (sub)"
+msgstr ""
+
 #: src/lib/filter.cc:75
 msgid "Linear blend deinterlacer"
 msgstr "Désentrelaceur par mélange interpolé"
@@ -300,6 +316,14 @@ msgstr "Rating"
 #: src/lib/util.cc:490
 msgid "Rec 709"
 msgstr "Rec 709"
+
+#: src/lib/util.cc:921
+msgid "Right"
+msgstr ""
+
+#: src/lib/util.cc:925
+msgid "Right surround"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"
