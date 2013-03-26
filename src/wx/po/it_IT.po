@@ -55,8 +55,8 @@ msgstr "Lingua dell'audio (es. EN)"
 
 #: src/wx/job_wrapper.cc:38
 #, c-format
-msgid "Bad setting for %s (%s)"
-msgstr "Valore sbagliato per %s (%s)"
+msgid "Bad setting for %1 (%2)"
+msgstr "Valore sbagliato per %1 (%2)"
 
 #: src/wx/film_editor.cc:296
 msgid "Bottom crop"
@@ -96,23 +96,23 @@ msgstr "Tipo di contenuto"
 
 #: src/wx/film_viewer.cc:414
 #, c-format
-msgid "Could not decode video for view (%s)"
-msgstr "Non posso decodificare il video per guardarlo (%s)"
+msgid "Could not decode video for view (%1)"
+msgstr "Non posso decodificare il video per guardarlo (%1)"
 
 #: src/wx/job_wrapper.cc:40
 #, c-format
-msgid "Could not make DCP: %s"
-msgstr "Non posso creare il DCP: %s"
+msgid "Could not make DCP: %1"
+msgstr "Non posso creare il DCP: %1"
 
 #: src/wx/film_viewer.cc:108
 #, c-format
-msgid "Could not open content file (%s)"
-msgstr "Non posso aprire il file del contenuto (%s)"
+msgid "Could not open content file (%1)"
+msgstr "Non posso aprire il file del contenuto (%1)"
 
 #: src/wx/film_editor.cc:504
 #, c-format
-msgid "Could not set content: %s"
-msgstr "Non posso regolare il contenuto: %s"
+msgid "Could not set content: %1"
+msgstr "Non posso regolare il contenuto: %1"
 
 #: src/wx/new_film_dialog.cc:46
 msgid "Create in folder"

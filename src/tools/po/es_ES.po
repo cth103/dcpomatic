@@ -81,8 +81,8 @@ msgstr "No se pudo cargar la película %1 (%2)"
 
 #: src/tools/dvdomatic.cc:331
 #, c-format
-msgid "Could not open film at %s (%s)"
-msgstr "No se pudo cargar la película en %s (%s)"
+msgid "Could not open film at %1 (%2)"
+msgstr "No se pudo cargar la película en %1 (%2)"
 
 #: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
 #: src/tools/dvdomatic.cc:520
@@ -113,5 +113,5 @@ msgstr "Selecciona la película a abrir"
 
 #: src/tools/dvdomatic.cc:303
 #, c-format
-msgid "The directory %s already exists."
-msgstr "La carpeta %s ya existe."
+msgid "The directory %1 already exists."
+msgstr "La carpeta %1 ya existe."
