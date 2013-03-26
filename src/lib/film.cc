@@ -755,70 +755,67 @@ Film::dci_name (bool if_created_now) const
 		fixed_name = fixed_name.substr (0, 14);
 	}
 
-	d << fixed_name << "_";
+	d << fixed_name;
 
 	if (dcp_content_type()) {
-		d << dcp_content_type()->dci_name() << "_";
+		d << "_" << dcp_content_type()->dci_name();
 	}
 
 	if (format()) {
-		d << format()->dci_name() << "_";
+		d << "_" << format()->dci_name();
 	}
 
 	DCIMetadata const dm = dci_metadata ();
 
 	if (!dm.audio_language.empty ()) {
-		d << dm.audio_language;
-		if (!dm.subtitle_language.empty() && with_subtitles()) {
+		d << "_" << dm.audio_language;
+		if (!dm.subtitle_language.empty()) {
 			d << "-" << dm.subtitle_language;
 		} else {
 			d << "-XX";
 		}
-			
-		d << "_";
 	}
 
 	if (!dm.territory.empty ()) {
-		d << dm.territory;
+		d << "_" << dm.territory;
 		if (!dm.rating.empty ()) {
 			d << "-" << dm.rating;
 		}
-		d << "_";
 	}
 
 	switch (audio_channels()) {
 	case 1:
-		d << "10_";
+		d << "_10";
 		break;
 	case 2:
-		d << "20_";
+		d << "_20";
 		break;
 	case 6:
-		d << "51_";
+		d << "_51";
 		break;
 	case 8:
-		d << "71_";
+		d << "_71";
 		break;
 	}
 
-	d << "2K_";
+	d << "_2K";
 
 	if (!dm.studio.empty ()) {
-		d << dm.studio << "_";
+		d << "_" << dm.studio;
 	}
 
 	if (if_created_now) {
-		d << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ()) << "_";
+		d << "_" << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
 	} else {
-		d << boost::gregorian::to_iso_string (_dci_date) << "_";
+		d << "_" << boost::gregorian::to_iso_string (_dci_date);
 	}
 
 	if (!dm.facility.empty ()) {
-		d << dm.facility << "_";
+		d << "_" << dm.facility;
 	}
 
 	if (!dm.package_type.empty ()) {
-		d << dm.package_type;
+		d << "_" << dm.package_type;
 	}
 
 	return d.str ();
