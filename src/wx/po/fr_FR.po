@@ -75,7 +75,7 @@ msgstr "Calcul..."
 
 #: src/wx/job_manager_view.cc:88
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: src/wx/audio_dialog.cc:43
 msgid "Channels"
