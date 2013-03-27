@@ -1,5 +1,7 @@
 2013-03-27  Carl Hetherington  <cth@carlh.net>
 
+	* Fix erroneous disk space reporting (#85).
+
 	* Version 0.78beta13 released.
 
 2013-03-26  Carl Hetherington  <cth@carlh.net>
