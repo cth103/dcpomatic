@@ -105,7 +105,7 @@ FilmViewer::film_changed (Film::Property p)
 		try {
 			_decoders = decoder_factory (_film, o);
 		} catch (StringError& e) {
-			error_dialog (this, std_to_wx (String::compose (wx_to_std (_("Could not open content file (%1)")), e.what())));
+			error_dialog (this, wxString::Format (_("Could not open content file (%s)"), std_to_wx(e.what()).data()));
 			return;
 		}
 		
@@ -411,7 +411,7 @@ FilmViewer::get_frame ()
 	} catch (DecodeError& e) {
 		_play_button->SetValue (false);
 		check_play_state ();
-		error_dialog (this, std_to_wx (String::compose (wx_to_std (_("Could not decode video for view (%1)")), e.what())));
+		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
 	}
 }
 
