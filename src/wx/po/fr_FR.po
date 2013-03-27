@@ -54,8 +54,8 @@ msgstr "Langue audio (ex. FR)"
 
 #: src/wx/job_wrapper.cc:38
 #, c-format
-msgid "Bad setting for %1 (%2)"
-msgstr "Mauvais paramètre pour %1 (%2)"
+msgid "Bad setting for %s (%s)"
+msgstr "Mauvais paramètre pour %s (%s)"
 
 #: src/wx/film_editor.cc:296
 msgid "Bottom crop"
@@ -95,23 +95,23 @@ msgstr "Type de Contenu"
 
 #: src/wx/film_viewer.cc:414
 #, c-format
-msgid "Could not decode video for view (%1)"
-msgstr "Décodage de la vidéo pour visualisation impossible (%1)"
+msgid "Could not decode video for view (%s)"
+msgstr "Décodage de la vidéo pour visualisation impossible (%s)"
 
 #: src/wx/job_wrapper.cc:40
 #, c-format
-msgid "Could not make DCP: %1"
-msgstr "Impossible de créer le DCP : %1"
+msgid "Could not make DCP: %s"
+msgstr "Impossible de créer le DCP : %s"
 
 #: src/wx/film_viewer.cc:108
 #, c-format
-msgid "Could not open content file (%1)"
-msgstr "Ouverture du contenu impossible (%1)"
+msgid "Could not open content file (%s)"
+msgstr "Ouverture du contenu impossible (%s)"
 
 #: src/wx/film_editor.cc:504
 #, c-format
-msgid "Could not set content: %1"
-msgstr "Sélectionner du contenu impossible : %1"
+msgid "Could not set content: %s"
+msgstr "Sélectionner du contenu impossible : %s"
 
 #: src/wx/new_film_dialog.cc:46
 msgid "Create in folder"
@@ -138,8 +138,8 @@ msgid "DVD-o-matic Preferences"
 msgstr "Préférences DVD-o-matic"
 
 #: src/wx/audio_dialog.cc:101
-msgid "DVD-o-matic audio - %1"
-msgstr "Son DVD-o-matic  - %1"
+msgid "DVD-o-matic audio - %s"
+msgstr "Son DVD-o-matic  - %s"
 
 #: src/wx/config_dialog.cc:101
 msgid "Default DCI name details"

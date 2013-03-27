@@ -76,13 +76,13 @@ msgid "About"
 msgstr "Informazioni"
 
 #: src/tools/dvdomatic.cc:516
-msgid "Could not load film %1 (%2)"
-msgstr "Non posso caricare il film %1 (%2)"
+msgid "Could not load film %s (%s)"
+msgstr "Non posso caricare il film %s (%s)"
 
 #: src/tools/dvdomatic.cc:331
 #, c-format
-msgid "Could not open film at %1 (%2)"
-msgstr "Non posso aprire il film in %1 (%2)"
+msgid "Could not open film at %s (%s)"
+msgstr "Non posso aprire il film in %s (%s)"
 
 #: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
 #: src/tools/dvdomatic.cc:520
@@ -111,5 +111,5 @@ msgstr "Seleziona il film da aprire"
 
 #: src/tools/dvdomatic.cc:303
 #, c-format
-msgid "The directory %1 already exists."
-msgstr "La directory %1 esiste gia'."
+msgid "The directory %s already exists."
+msgstr "La directory %s esiste gia'."

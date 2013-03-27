@@ -284,7 +284,7 @@ private:
 	void file_changed (string f)
 	{
 		stringstream s;
-		s << _("DVD-o-matic");
+		s << wx_to_std (_("DVD-o-matic"));
 		if (!f.empty ()) {
 			s << " - " << f;
 		}
@@ -328,7 +328,7 @@ private:
 			} catch (std::exception& e) {
 				wxString p = c->GetPath ();
 				wxCharBuffer b = p.ToUTF8 ();
-				error_dialog (this, std_to_wx (String::compose (wx_to_std (_("Could not open film at %1 (%2)")), wx_to_std (p), e.what())));
+				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
 			}
 		}
 

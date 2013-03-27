@@ -494,7 +494,6 @@ msgid "copying %1"
 msgstr "copie de %1"
 
 #: src/lib/exceptions.cc:36
-#, fuzzy
 msgid "could not create file %1"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
@@ -519,18 +518,16 @@ msgid "could not open external audio file for reading"
 msgstr "lecture du fichier audio externe impossible"
 
 #: src/lib/exceptions.cc:29
-#, fuzzy
 msgid "could not open file %1"
-msgstr "lecture du fichier impossible"
+msgstr "lecture du fichier (%1) impossible"
 
 #: src/lib/dcp_video_frame.cc:388
 msgid "could not open file for reading"
 msgstr "lecture du fichier impossible"
 
 #: src/lib/exceptions.cc:44
-#, fuzzy
 msgid "could not read from file %1 (%2)"
-msgstr "Création du dossier distant %1 (%2) impossible"
+msgstr "Création du dossier distant %1 impossible (%2)"
 
 #: src/lib/encoder.cc:137 src/lib/encoder.cc:314
 msgid "could not run sample-rate converter"
@@ -545,9 +542,8 @@ msgid "could not start SSH session"
 msgstr "démarrage de session SSH impossible"
 
 #: src/lib/exceptions.cc:50
-#, fuzzy
 msgid "could not write to file %1 (%2)"
-msgstr "Écriture vers fichier distant (%1) impossible"
+msgstr "Écriture vers fichier distant (%1) impossible (%2)"
 
 #: src/lib/sndfile_decoder.cc:94
 msgid "external audio files have differing lengths"

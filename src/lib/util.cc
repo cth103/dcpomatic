@@ -263,22 +263,31 @@ mo_path ()
 void
 dvdomatic_setup_i18n (string lang)
 {
+#ifdef DVDOMATIC_POSIX
+	lang += ".UTF8";
+#endif
+
+	if (!lang.empty ()) {
+		/* Override our environment language; this is essential on
+		   Windows.
+		*/
+		char cmd[64];
+		snprintf (cmd, sizeof(cmd), "LANGUAGE=%s", lang.c_str ());
+		putenv (cmd);
+		snprintf (cmd, sizeof(cmd), "LANG=%s", lang.c_str ());
+		putenv (cmd);
+	}
+
 	setlocale (LC_ALL, "");
 	textdomain ("libdvdomatic");
-	
-#ifdef DVDOMATIC_WINDOWS
-	string const e = "LANGUAGE=" + lang;
-	putenv (e.c_str());
 
+#ifdef DVDOMATIC_WINDOWS
 	bindtextdomain ("libdvdomatic", mo_path().string().c_str());
-#else
-	/* Hack to silence warning */
-	lang.clear ();
 #endif	
 
 #ifdef DVDOMATIC_POSIX
 	bindtextdomain ("libdvdomatic", POSIX_LOCALE_PREFIX);
-#endif	
+#endif
 }
 
 /** @param start Start position for the crop within the image.
