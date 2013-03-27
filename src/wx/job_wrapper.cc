@@ -35,8 +35,8 @@ JobWrapper::make_dcp (wxWindow* parent, shared_ptr<Film> film)
 	try {
 		film->make_dcp ();
 	} catch (BadSettingError& e) {
-		error_dialog (parent, wxString::Format (_("Bad setting for %1 (%2)"), std_to_wx(e.setting()).data(), std_to_wx(e.what()).data()));
+		error_dialog (parent, wxString::Format (_("Bad setting for %s (%s)"), std_to_wx(e.setting()).data(), std_to_wx(e.what()).data()));
 	} catch (std::exception& e) {
-		error_dialog (parent, wxString::Format (_("Could not make DCP: %1"), std_to_wx(e.what()).data()));
+		error_dialog (parent, wxString::Format (_("Could not make DCP: %s"), std_to_wx(e.what()).data()));
 	}
 }

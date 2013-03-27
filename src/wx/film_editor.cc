@@ -501,7 +501,7 @@ FilmEditor::content_changed (wxCommandEvent &)
 		_film->set_content (wx_to_std (_content->GetPath ()));
 	} catch (std::exception& e) {
 		_content->SetPath (std_to_wx (_film->directory ()));
-		error_dialog (this, wxString::Format (_("Could not set content: %1"), std_to_wx (e.what()).data()));
+		error_dialog (this, wxString::Format (_("Could not set content: %s"), std_to_wx (e.what()).data()));
 	}
 }
 
