@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-26 14:54+0000\n"
+"POT-Creation-Date: 2013-03-28 10:35+0000\n"
 "PO-Revision-Date: 2013-03-20 11:45+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -101,7 +101,7 @@ msgstr ""
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Non posso ricampionare l'audio perchè libswresample non è presente"
 
-#: src/lib/util.cc:922
+#: src/lib/util.cc:931
 msgid "Centre"
 msgstr ""
 
@@ -133,15 +133,15 @@ msgstr "Non posso scrivere il file remoto (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Deinterlacciatore cubico interpolato"
 
-#: src/lib/util.cc:997
+#: src/lib/util.cc:1006
 msgid "DCP and source have the same rate.\n"
 msgstr "Il DCP e il sorgente hanno la stessa frequenza.\n"
 
-#: src/lib/util.cc:1007
+#: src/lib/util.cc:1016
 msgid "DCP will run at %1%% of the source speed."
 msgstr "Il DCP andrà al %1%% della velocità del sorgente."
 
-#: src/lib/util.cc:1000
+#: src/lib/util.cc:1009
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Il DCP userà ogni altro fotogramma del sorgente.\n"
 
@@ -164,7 +164,7 @@ msgstr "Filtro deringing"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1002
+#: src/lib/util.cc:1011
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
 
@@ -256,15 +256,15 @@ msgstr "Deinterlacciatore Kernel"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:920
+#: src/lib/util.cc:929
 msgid "Left"
 msgstr ""
 
-#: src/lib/util.cc:924
+#: src/lib/util.cc:933
 msgid "Left surround"
 msgstr ""
 
-#: src/lib/util.cc:923
+#: src/lib/util.cc:932
 msgid "Lfe (sub)"
 msgstr ""
 
@@ -314,15 +314,15 @@ msgstr "Annuncio di pubblico servizio"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:499
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:921
+#: src/lib/util.cc:930
 msgid "Right"
 msgstr ""
 
-#: src/lib/util.cc:925
+#: src/lib/util.cc:934
 msgid "Right surround"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr "Ancora un altro filtro di deinterlacciamento"
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:540
 msgid "connect timed out"
 msgstr "connessione scaduta"
 
@@ -582,7 +582,7 @@ msgstr "minuto"
 msgid "minutes"
 msgstr "minuti"
 
-#: src/lib/util.cc:674
+#: src/lib/util.cc:683
 msgid "missing key %1 in key-value set"
 msgstr "persa la chiave %1 tra i valori chiave"
 
@@ -612,7 +612,7 @@ msgstr "sottotitoli non-bitmap non ancora supportati"
 msgid "remaining"
 msgstr "restano"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:497
 msgid "sRGB"
 msgstr "sRGB"
 

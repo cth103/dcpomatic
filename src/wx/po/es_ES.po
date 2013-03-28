@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdvdomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-26 14:54+0000\n"
+"POT-Creation-Date: 2013-03-28 10:35+0000\n"
 "PO-Revision-Date: 2013-03-23 21:20-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-#: src/wx/config_dialog.cc:60
+#: src/wx/config_dialog.cc:61
 msgid "(restart DVD-o-matic to see language changes)"
 msgstr ""
 
@@ -33,7 +33,7 @@ msgstr "1 canal"
 msgid "A/B"
 msgstr "A/B"
 
-#: src/wx/config_dialog.cc:142
+#: src/wx/config_dialog.cc:143
 msgid "Add"
 msgstr "Añadir"
 
@@ -139,14 +139,15 @@ msgid "DVD-o-matic Preferences"
 msgstr "Preferencias DVD-o-matic"
 
 #: src/wx/audio_dialog.cc:101
+#, c-format
 msgid "DVD-o-matic audio - %s"
 msgstr "Audio DVD-o-matic - %s"
 
-#: src/wx/config_dialog.cc:101
+#: src/wx/config_dialog.cc:102
 msgid "Default DCI name details"
 msgstr "Detalles por defecto del nombre DCI"
 
-#: src/wx/config_dialog.cc:92
+#: src/wx/config_dialog.cc:93
 msgid "Default directory for new films"
 msgstr "Carpeta por defecto para nuevas películas"
 
@@ -162,16 +163,16 @@ msgstr "Espacio requerido en disco"
 msgid "Duration"
 msgstr "Duración"
 
-#: src/wx/config_dialog.cc:144
+#: src/wx/config_dialog.cc:145
 msgid "Edit"
 msgstr "Editar"
 
-#: src/wx/config_dialog.cc:102 src/wx/config_dialog.cc:121
+#: src/wx/config_dialog.cc:103 src/wx/config_dialog.cc:122
 #: src/wx/film_editor.cc:308
 msgid "Edit..."
 msgstr "Editar..."
 
-#: src/wx/config_dialog.cc:127
+#: src/wx/config_dialog.cc:128
 msgid "Encoding Servers"
 msgstr "Servidores de codificación"
 
@@ -231,7 +232,7 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Quiero reproducir con el fader a"
 
-#: src/wx/config_dialog.cc:131
+#: src/wx/config_dialog.cc:132
 msgid "IP address"
 msgstr "Dirección IP"
 
@@ -299,15 +300,15 @@ msgstr "RMS"
 msgid "Rating (e.g. 15)"
 msgstr "Clasificación (ej. 16)"
 
-#: src/wx/config_dialog.cc:117
+#: src/wx/config_dialog.cc:118
 msgid "Reference filters for A/B"
 msgstr "Filtros de referencia para A/B"
 
-#: src/wx/config_dialog.cc:106
+#: src/wx/config_dialog.cc:107
 msgid "Reference scaler for A/B"
 msgstr "Escalador de referencia para A/B"
 
-#: src/wx/config_dialog.cc:146
+#: src/wx/config_dialog.cc:147
 msgid "Remove"
 msgstr "Quitar"
 
@@ -371,19 +372,19 @@ msgstr "Escala del subtítulo"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/config_dialog.cc:67
+#: src/wx/config_dialog.cc:68
 msgid "TMS IP address"
 msgstr "Dirección IP del TMS"
 
-#: src/wx/config_dialog.cc:82
+#: src/wx/config_dialog.cc:83
 msgid "TMS password"
 msgstr "Clave del TMS"
 
-#: src/wx/config_dialog.cc:72
+#: src/wx/config_dialog.cc:73
 msgid "TMS target path"
 msgstr "Ruta en el TMS"
 
-#: src/wx/config_dialog.cc:77
+#: src/wx/config_dialog.cc:78
 msgid "TMS user name"
 msgstr "Usuario del TMS"
 
@@ -391,7 +392,7 @@ msgstr "Usuario del TMS"
 msgid "Territory (e.g. UK)"
 msgstr "Territorio (ej. ES)"
 
-#: src/wx/config_dialog.cc:135
+#: src/wx/config_dialog.cc:136
 msgid "Threads"
 msgstr "Hilos"
 
@@ -399,7 +400,7 @@ msgstr "Hilos"
 msgid "Threads to use"
 msgstr "Hilos a utilizar"
 
-#: src/wx/config_dialog.cc:87
+#: src/wx/config_dialog.cc:88
 msgid "Threads to use for encoding on this host"
 msgstr "Hilos a utilizar para la codificación en esta máquina"
 

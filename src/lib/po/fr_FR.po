@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-26 14:54+0000\n"
+"POT-Creation-Date: 2013-03-28 10:35+0000\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Ré-échantillonnage du son impossible : libswresample est absent"
 
-#: src/lib/util.cc:922
+#: src/lib/util.cc:931
 msgid "Centre"
 msgstr ""
 
@@ -132,15 +132,15 @@ msgstr "Écriture vers fichier distant (%1) impossible"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Désentrelacement cubique interpolé"
 
-#: src/lib/util.cc:997
+#: src/lib/util.cc:1006
 msgid "DCP and source have the same rate.\n"
 msgstr "Le DCP et la source ont les mêmes cadences.\n"
 
-#: src/lib/util.cc:1007
+#: src/lib/util.cc:1016
 msgid "DCP will run at %1%% of the source speed."
 msgstr "La cadence du DCP sera %1%% par rapport à la source"
 
-#: src/lib/util.cc:1000
+#: src/lib/util.cc:1009
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Le DCP utilisera une image sur deux de la source.\n"
 
@@ -163,7 +163,7 @@ msgstr "Filtre anti bourdonnement"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1002
+#: src/lib/util.cc:1011
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 
@@ -255,15 +255,15 @@ msgstr "Désentrelaceur noyau"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:920
+#: src/lib/util.cc:929
 msgid "Left"
 msgstr "Gauche"
 
-#: src/lib/util.cc:924
+#: src/lib/util.cc:933
 msgid "Left surround"
 msgstr "Arrière gauche"
 
-#: src/lib/util.cc:923
+#: src/lib/util.cc:932
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
@@ -313,15 +313,15 @@ msgstr "Public Service Announcement"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:499
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:921
+#: src/lib/util.cc:930
 msgid "Right"
 msgstr "Droite"
 
-#: src/lib/util.cc:925
+#: src/lib/util.cc:934
 msgid "Right surround"
 msgstr "Arrière droite"
 
@@ -473,7 +473,7 @@ msgstr "Un autre filtre de désentrelacement"
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:540
 msgid "connect timed out"
 msgstr "temps de connexion expiré"
 
@@ -577,7 +577,7 @@ msgstr "minute"
 msgid "minutes"
 msgstr "minutes"
 
-#: src/lib/util.cc:674
+#: src/lib/util.cc:683
 msgid "missing key %1 in key-value set"
 msgstr "clé %1 non sélectionnée"
 
@@ -607,7 +607,7 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 msgid "remaining"
 msgstr "restant"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:497
 msgid "sRGB"
 msgstr "sRGB"
 

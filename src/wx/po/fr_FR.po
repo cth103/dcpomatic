@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-26 14:54+0000\n"
+"POT-Creation-Date: 2013-03-28 10:35+0000\n"
 "PO-Revision-Date: 2013-03-20 00:34+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-#: src/wx/config_dialog.cc:60
+#: src/wx/config_dialog.cc:61
 msgid "(restart DVD-o-matic to see language changes)"
 msgstr ""
 
@@ -32,7 +32,7 @@ msgstr "1 canal"
 msgid "A/B"
 msgstr "A/B"
 
-#: src/wx/config_dialog.cc:142
+#: src/wx/config_dialog.cc:143
 msgid "Add"
 msgstr "Ajouter"
 
@@ -138,14 +138,15 @@ msgid "DVD-o-matic Preferences"
 msgstr "Préférences DVD-o-matic"
 
 #: src/wx/audio_dialog.cc:101
+#, c-format
 msgid "DVD-o-matic audio - %s"
 msgstr "Son DVD-o-matic  - %s"
 
-#: src/wx/config_dialog.cc:101
+#: src/wx/config_dialog.cc:102
 msgid "Default DCI name details"
 msgstr "Détails du nom DCI par défaut"
 
-#: src/wx/config_dialog.cc:92
+#: src/wx/config_dialog.cc:93
 msgid "Default directory for new films"
 msgstr "Dossier par défaut des nouveaux films"
 
@@ -161,16 +162,16 @@ msgstr "Espace disque requis"
 msgid "Duration"
 msgstr "Durée"
 
-#: src/wx/config_dialog.cc:144
+#: src/wx/config_dialog.cc:145
 msgid "Edit"
 msgstr "Édition"
 
-#: src/wx/config_dialog.cc:102 src/wx/config_dialog.cc:121
+#: src/wx/config_dialog.cc:103 src/wx/config_dialog.cc:122
 #: src/wx/film_editor.cc:308
 msgid "Edit..."
 msgstr "Éditer..."
 
-#: src/wx/config_dialog.cc:127
+#: src/wx/config_dialog.cc:128
 msgid "Encoding Servers"
 msgstr "Serveurs d'encodage"
 
@@ -230,7 +231,7 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Je veux le jouer à ce volume"
 
-#: src/wx/config_dialog.cc:131
+#: src/wx/config_dialog.cc:132
 msgid "IP address"
 msgstr "Adresse IP"
 
@@ -298,15 +299,15 @@ msgstr "RMS"
 msgid "Rating (e.g. 15)"
 msgstr "Rating (ex. 15)"
 
-#: src/wx/config_dialog.cc:117
+#: src/wx/config_dialog.cc:118
 msgid "Reference filters for A/B"
 msgstr "Filtres de référence pour A/B"
 
-#: src/wx/config_dialog.cc:106
+#: src/wx/config_dialog.cc:107
 msgid "Reference scaler for A/B"
 msgstr "Échelle de référence pour A/B"
 
-#: src/wx/config_dialog.cc:146
+#: src/wx/config_dialog.cc:147
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -370,19 +371,19 @@ msgstr "Taille du sous-titre"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/config_dialog.cc:67
+#: src/wx/config_dialog.cc:68
 msgid "TMS IP address"
 msgstr "Adresse IP du TMS"
 
-#: src/wx/config_dialog.cc:82
+#: src/wx/config_dialog.cc:83
 msgid "TMS password"
 msgstr "Mot de passe du TMS"
 
-#: src/wx/config_dialog.cc:72
+#: src/wx/config_dialog.cc:73
 msgid "TMS target path"
 msgstr "Chemin d'accès du TMS"
 
-#: src/wx/config_dialog.cc:77
+#: src/wx/config_dialog.cc:78
 msgid "TMS user name"
 msgstr "Nom d'utilisateur du TMS"
 
@@ -390,7 +391,7 @@ msgstr "Nom d'utilisateur du TMS"
 msgid "Territory (e.g. UK)"
 msgstr "Territoire (ex. FR)"
 
-#: src/wx/config_dialog.cc:135
+#: src/wx/config_dialog.cc:136
 msgid "Threads"
 msgstr "Processus"
 
@@ -398,7 +399,7 @@ msgstr "Processus"
 msgid "Threads to use"
 msgstr "Nombre de processus à utiliser"
 
-#: src/wx/config_dialog.cc:87
+#: src/wx/config_dialog.cc:88
 msgid "Threads to use for encoding on this host"
 msgstr "Nombre de processus à utiliser sur cet hôte"
 
