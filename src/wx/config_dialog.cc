@@ -53,6 +53,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_language->Append (wxT ("Français"));
 	_language->Append (wxT ("Italiano"));
 	_language->Append (wxT ("Español"));
+	_language->Append (wxT ("Svenska"));
 	table->Add (_language, 1, wxEXPAND);
 	table->AddSpacer (0);
 
@@ -158,6 +159,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 		_language->SetSelection (2);
 	} else if (config->language().get_value_or ("") == "es") {
 		_language->SetSelection (3);
+	} else if (config->language().get_value_or ("") == "sv") {
+		_language->SetSelection (4);
 	} else {
 		_language->SetSelection (0);
 	}
@@ -233,6 +236,9 @@ ConfigDialog::language_changed (wxCommandEvent &)
 		break;
 	case 3:
 		Config::instance()->set_language ("es");
+		break;
+	case 4:
+		Config::instance()->set_language ("sv");
 		break;
 	}
 }

@@ -421,6 +421,7 @@ private:
 		translators.Add (wxT ("Thierry Journet"));
 		translators.Add (wxT ("Massimiliano Broggi"));
 		translators.Add (wxT ("Manuel AC"));
+		translators.Add (wxT ("Adam Klotblixt"));
 		info.SetTranslators (translators);
 		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
