@@ -29,6 +29,7 @@
 #include "lib/film.h"
 
 class wxNotebook;
+class wxListCtrl;
 class Film;
 class AudioDialog;
 
@@ -41,12 +42,12 @@ public:
 	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
-	void setup_visibility ();
 
 	boost::signals2::signal<void (std::string)> FileChanged;
 
 private:
 	void make_film_panel ();
+	void make_content_panel ();
 	void make_video_panel ();
 	void make_audio_panel ();
 	void make_subtitle_panel ();
@@ -60,7 +61,6 @@ private:
 	void right_crop_changed (wxCommandEvent &);
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
-	void content_changed (wxCommandEvent &);
 	void trust_content_header_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
@@ -77,11 +77,8 @@ private:
 	void subtitle_scale_changed (wxCommandEvent &);
 	void colour_lut_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
-	void still_duration_changed (wxCommandEvent &);
-	void audio_stream_changed (wxCommandEvent &);
-	void subtitle_stream_changed (wxCommandEvent &);
-	void use_audio_changed (wxCommandEvent &);
-	void external_audio_changed (wxCommandEvent &);
+	void ffmpeg_audio_stream_changed (wxCommandEvent &);
+	void ffmpeg_subtitle_stream_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 
@@ -94,20 +91,19 @@ private:
 	void set_things_sensitive (bool);
 	void setup_formats ();
 	void setup_subtitle_control_sensitivity ();
-	void setup_audio_control_sensitivity ();
 	void setup_streams ();
 	void setup_audio_details ();
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
+	void setup_content ();
 	
-	wxControl* video_control (wxControl *);
-	wxControl* still_control (wxControl *);
-
 	void active_jobs_changed (bool);
 
 	wxNotebook* _notebook;
 	wxPanel* _film_panel;
 	wxSizer* _film_sizer;
+	wxPanel* _content_panel;
+	wxSizer* _content_sizer;
 	wxPanel* _video_panel;
 	wxSizer* _video_sizer;
 	wxPanel* _audio_panel;
@@ -121,67 +117,46 @@ private:
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_dci_name;
+	wxListCtrl* _content;
+	wxButton* _content_add;
+	wxButton* _content_remove;
+	wxButton* _content_earlier;
+	wxButton* _content_later;
 	wxButton* _edit_dci_button;
-	/** The Film's format */
 	wxChoice* _format;
 	wxStaticText* _format_description;
-	/** The Film's content file */
-	wxFilePickerCtrl* _content;
 	wxCheckBox* _trust_content_header;
-	/** The Film's left crop */
 	wxSpinCtrl* _left_crop;
-	/** The Film's right crop */
 	wxSpinCtrl* _right_crop;
-	/** The Film's top crop */
 	wxSpinCtrl* _top_crop;
-	/** The Film's bottom crop */
 	wxSpinCtrl* _bottom_crop;
-	/** Currently-applied filters */
 	wxStaticText* _filters;
-	/** Button to open the filters dialogue */
 	wxButton* _filters_button;
-	/** The Film's scaler */
 	wxChoice* _scaler;
-	wxRadioButton* _use_content_audio;
-	wxChoice* _audio_stream;
-	wxRadioButton* _use_external_audio;
-	wxFilePickerCtrl* _external_audio[MAX_AUDIO_CHANNELS];
-	/** The Film's audio gain */
 	wxSpinCtrl* _audio_gain;
-	/** A button to open the gain calculation dialogue */
 	wxButton* _audio_gain_calculate_button;
 	wxButton* _show_audio;
-	/** The Film's audio delay */
 	wxSpinCtrl* _audio_delay;
 	wxCheckBox* _with_subtitles;
-	wxChoice* _subtitle_stream;
+	wxChoice* _ffmpeg_subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
 	wxChoice* _colour_lut;
 	wxSpinCtrl* _j2k_bandwidth;
-	/** The Film's DCP content type */
 	wxChoice* _dcp_content_type;
-	/** The Film's source frame rate */
 	wxStaticText* _source_frame_rate;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
 	wxStaticText* _frame_rate_description;
-	/** The Film's original size */
 	wxStaticText* _original_size;
-	/** The Film's length */
 	wxStaticText* _length;
 	/** The Film's audio details */
 	wxStaticText* _audio;
-	/** The Film's duration for still sources */
-	wxSpinCtrl* _still_duration;
 
 	wxSpinCtrl* _trim_start;
 	wxSpinCtrl* _trim_end;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
-
-	std::list<wxControl*> _video_controls;
-	std::list<wxControl*> _still_controls;
 
 	std::vector<Format const *> _formats;
 

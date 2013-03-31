@@ -20,35 +20,19 @@
 #include <sndfile.h>
 #include "decoder.h"
 #include "audio_decoder.h"
-#include "stream.h"
 
-class SndfileStream : public AudioStream
-{
-public:
-	SndfileStream (int sample_rate, int64_t layout)
-		: AudioStream (sample_rate, layout)
-	{}
-			       
-	std::string to_string () const;
-
-	static boost::shared_ptr<SndfileStream> create ();
-	static boost::shared_ptr<SndfileStream> create (std::string t, boost::optional<int> v);
-
-private:
-	friend class stream_test;
-	
-	SndfileStream ();
-	SndfileStream (std::string t, boost::optional<int> v);
-};
+class SndfileContent;
 
 class SndfileDecoder : public AudioDecoder
 {
 public:
-	SndfileDecoder (boost::shared_ptr<Film>, DecodeOptions);
+	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<SndfileContent>, DecodeOptions);
 
 	bool pass ();
 
 private:
-	std::vector<SNDFILE*> open_files (sf_count_t &);
-	void close_files (std::vector<SNDFILE*> const &);
+	SNDFILE* open_file (sf_count_t &);
+	void close_file (SNDFILE*);
+
+	boost::shared_ptr<SndfileContent> _sndfile_content;
 };

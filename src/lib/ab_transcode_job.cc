@@ -54,7 +54,7 @@ ABTranscodeJob::run ()
 {
 	try {
 		/* _film_b is the one with reference filters */
-		ABTranscoder w (_film_b, _film, _decode_opt, this, shared_ptr<Encoder> (new Encoder (_film)));
+		ABTranscoder w (_film_b, _film, _decode_opt, shared_from_this ());
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);

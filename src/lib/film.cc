@@ -52,6 +52,7 @@
 #include "audio_decoder.h"
 #include "sndfile_decoder.h"
 #include "analyse_audio_job.h"
+#include "playlist.h"
 
 #include "i18n.h"
 
@@ -135,8 +136,6 @@ Film::Film (string d, bool must_exist)
 		}
 	}
 
-	_sndfile_stream = SndfileStream::create ();
-	
 	if (must_exist) {
 		read_metadata ();
 	}
@@ -162,7 +161,6 @@ Film::Film (Film const & o)
 	, _dcp_ab            (o._dcp_ab)
 	, _audio_gain        (o._audio_gain)
 	, _audio_delay       (o._audio_delay)
-	, _still_duration    (o._still_duration)
 	, _with_subtitles    (o._with_subtitles)
 	, _subtitle_offset   (o._subtitle_offset)
 	, _subtitle_scale    (o._subtitle_scale)
@@ -186,6 +184,10 @@ Film::video_state_identifier () const
 {
 	assert (format ());
 
+	return "XXX";
+
+#if 0	
+
 	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
 	stringstream s;
@@ -204,6 +206,7 @@ Film::video_state_identifier () const
 	}
 
 	return s.str ();
+#endif	
 }
 	  
 /** @return The path to the directory to write video frame info files to */
@@ -234,7 +237,7 @@ Film::audio_analysis_path () const
 {
 	boost::filesystem::path p;
 	p /= "analysis";
-	p /= content_digest();
+	p /= "XXX";//content_digest();
 	return file (p.string ());
 }
 
@@ -256,12 +259,12 @@ Film::make_dcp ()
 		log()->log (String::compose ("Starting to make DCP on %1", buffer));
 	}
 	
-	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? _("still") : _("video"))));
-	if (length()) {
-		log()->log (String::compose ("Content length %1", length().get()));
-	}
-	log()->log (String::compose ("Content digest %1", content_digest()));
-	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
+//	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? _("still") : _("video"))));
+//	if (length()) {
+//		log()->log (String::compose ("Content length %1", length().get()));
+//	}
+//	log()->log (String::compose ("Content digest %1", content_digest()));
+//	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
 #ifdef DVDOMATIC_DEBUG
@@ -318,17 +321,13 @@ Film::analyse_audio ()
 	JobManager::instance()->add (_analyse_audio_job);
 }
 
-/** Start a job to examine our content file */
+/** Start a job to examine a piece of content */
 void
-Film::examine_content ()
+Film::examine_content (shared_ptr<Content> c)
 {
-	if (_examine_content_job) {
-		return;
-	}
-
-	_examine_content_job.reset (new ExamineContentJob (shared_from_this()));
-	_examine_content_job->Finished.connect (bind (&Film::examine_content_finished, this));
-	JobManager::instance()->add (_examine_content_job);
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, trust_content_header ()));
+	j->Finished.connect (bind (&Film::examine_content_finished, this));
+	JobManager::instance()->add (j);
 }
 
 void
@@ -346,7 +345,7 @@ Film::analyse_audio_finished ()
 void
 Film::examine_content_finished ()
 {
-	_examine_content_job.reset ();
+	/* XXX */
 }
 
 /** Start a job to send our DCP to the configured TMS */
@@ -395,7 +394,7 @@ Film::write_metadata () const
 	/* User stuff */
 	f << "name " << _name << endl;
 	f << "use_dci_name " << _use_dci_name << endl;
-	f << "content " << _content << endl;
+//	f << "content " << _content << endl;
 	f << "trust_content_header " << (_trust_content_header ? "1" : "0") << endl;
 	if (_dcp_content_type) {
 		f << "dcp_content_type " << _dcp_content_type->dci_name () << endl;
@@ -414,19 +413,19 @@ Film::write_metadata () const
 	f << "trim_start " << _trim_start << endl;
 	f << "trim_end " << _trim_end << endl;
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << endl;
-	if (_content_audio_stream) {
-		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << endl;
-	}
-	for (vector<string>::const_iterator i = _external_audio.begin(); i != _external_audio.end(); ++i) {
-		f << "external_audio " << *i << endl;
-	}
-	f << "use_content_audio " << (_use_content_audio ? "1" : "0") << endl;
+//	if (_content_audio_stream) {
+//		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << endl;
+//	}
+//	for (vector<string>::const_iterator i = _external_audio.begin(); i != _external_audio.end(); ++i) {
+//		f << "external_audio " << *i << endl;
+//	}
+//	f << "use_content_audio " << (_use_content_audio ? "1" : "0") << endl;
 	f << "audio_gain " << _audio_gain << endl;
 	f << "audio_delay " << _audio_delay << endl;
-	f << "still_duration " << _still_duration << endl;
-	if (_subtitle_stream) {
-		f << "selected_subtitle_stream " << _subtitle_stream->to_string() << endl;
-	}
+//	f << "still_duration " << _still_duration << endl;
+//	if (_subtitle_stream) {
+//		f << "selected_subtitle_stream " << _subtitle_stream->to_string() << endl;
+//	}
 	f << "with_subtitles " << _with_subtitles << endl;
 	f << "subtitle_offset " << _subtitle_offset << endl;
 	f << "subtitle_scale " << _subtitle_scale << endl;
@@ -435,22 +434,22 @@ Film::write_metadata () const
 	_dci_metadata.write (f);
 	f << "dci_date " << boost::gregorian::to_iso_string (_dci_date) << endl;
 	f << "dcp_frame_rate " << _dcp_frame_rate << endl;
-	f << "width " << _size.width << endl;
-	f << "height " << _size.height << endl;
-	f << "length " << _length.get_value_or(0) << endl;
-	f << "content_digest " << _content_digest << endl;
+//	f << "width " << _size.width << endl;
+//	f << "height " << _size.height << endl;
+//	f << "length " << _length.get_value_or(0) << endl;
+//	f << "content_digest " << _content_digest << endl;
 
-	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
-		f << "content_audio_stream " << (*i)->to_string () << endl;
-	}
+//	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
+//		f << "content_audio_stream " << (*i)->to_string () << endl;
+//	}
 
-	f << "external_audio_stream " << _sndfile_stream->to_string() << endl;
+//	f << "external_audio_stream " << _sndfile_stream->to_string() << endl;
 
-	for (vector<shared_ptr<SubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
-		f << "subtitle_stream " << (*i)->to_string () << endl;
-	}
+//	for (vector<shared_ptr<SubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
+//		f << "subtitle_stream " << (*i)->to_string () << endl;
+//	}
 
-	f << "source_frame_rate " << _source_frame_rate << endl;
+//	f << "source_frame_rate " << _source_frame_rate << endl;
 	
 	_dirty = false;
 }
@@ -461,9 +460,9 @@ Film::read_metadata ()
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 
-	_external_audio.clear ();
-	_content_audio_streams.clear ();
-	_subtitle_streams.clear ();
+//	_external_audio.clear ();
+//	_content_audio_streams.clear ();
+//	_subtitle_streams.clear ();
 
 	boost::optional<int> version;
 
@@ -499,7 +498,7 @@ Film::read_metadata ()
 		} else if (k == "use_dci_name") {
 			_use_dci_name = (v == "1");
 		} else if (k == "content") {
-			_content = v;
+//			_content = v;
 		} else if (k == "trust_content_header") {
 			_trust_content_header = (v == "1");
 		} else if (k == "dcp_content_type") {
@@ -532,23 +531,23 @@ Film::read_metadata ()
 			if (!version) {
 				audio_stream_index = atoi (v.c_str ());
 			} else {
-				_content_audio_stream = audio_stream_factory (v, version);
+//				_content_audio_stream = audio_stream_factory (v, version);
 			}
 		} else if (k == "external_audio") {
-			_external_audio.push_back (v);
+//			_external_audio.push_back (v);
 		} else if (k == "use_content_audio") {
-			_use_content_audio = (v == "1");
+//			_use_content_audio = (v == "1");
 		} else if (k == "audio_gain") {
 			_audio_gain = atof (v.c_str ());
 		} else if (k == "audio_delay") {
 			_audio_delay = atoi (v.c_str ());
 		} else if (k == "still_duration") {
-			_still_duration = atoi (v.c_str ());
+//			_still_duration = atoi (v.c_str ());
 		} else if (k == "selected_subtitle_stream") {
 			if (!version) {
 				subtitle_stream_index = atoi (v.c_str ());
 			} else {
-				_subtitle_stream = subtitle_stream_factory (v, version);
+//				_subtitle_stream = subtitle_stream_factory (v, version);
 			}
 		} else if (k == "with_subtitles") {
 			_with_subtitles = (v == "1");
@@ -570,50 +569,31 @@ Film::read_metadata ()
 		
 		/* Cached stuff */
 		if (k == "width") {
-			_size.width = atoi (v.c_str ());
+//			_size.width = atoi (v.c_str ());
 		} else if (k == "height") {
-			_size.height = atoi (v.c_str ());
+//			_size.height = atoi (v.c_str ());
 		} else if (k == "length") {
 			int const vv = atoi (v.c_str ());
 			if (vv) {
-				_length = vv;
+//				_length = vv;
 			}
 		} else if (k == "content_digest") {
-			_content_digest = v;
+//			_content_digest = v;
 		} else if (k == "content_audio_stream" || (!version && k == "audio_stream")) {
-			_content_audio_streams.push_back (audio_stream_factory (v, version));
+//			_content_audio_streams.push_back (audio_stream_factory (v, version));
 		} else if (k == "external_audio_stream") {
-			_sndfile_stream = audio_stream_factory (v, version);
+//			_sndfile_stream = audio_stream_factory (v, version);
 		} else if (k == "subtitle_stream") {
-			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
+//			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
 		} else if (k == "source_frame_rate") {
-			_source_frame_rate = atof (v.c_str ());
+//			_source_frame_rate = atof (v.c_str ());
 		} else if (version < 4 && k == "frames_per_second") {
-			_source_frame_rate = atof (v.c_str ());
+//			_source_frame_rate = atof (v.c_str ());
 			/* Fill in what would have been used for DCP frame rate by the older version */
-			_dcp_frame_rate = best_dcp_frame_rate (_source_frame_rate);
+//			_dcp_frame_rate = best_dcp_frame_rate (_source_frame_rate);
 		}
 	}
 
-	if (!version) {
-		if (audio_sample_rate) {
-			/* version < 1 didn't specify sample rate in the audio streams, so fill it in here */
-			for (vector<shared_ptr<AudioStream> >::iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
-				(*i)->set_sample_rate (audio_sample_rate.get());
-			}
-		}
-
-		/* also the selected stream was specified as an index */
-		if (audio_stream_index && audio_stream_index.get() >= 0 && audio_stream_index.get() < (int) _content_audio_streams.size()) {
-			_content_audio_stream = _content_audio_streams[audio_stream_index.get()];
-		}
-
-		/* similarly the subtitle */
-		if (subtitle_stream_index && subtitle_stream_index.get() >= 0 && subtitle_stream_index.get() < (int) _subtitle_streams.size()) {
-			_subtitle_stream = _subtitle_streams[subtitle_stream_index.get()];
-		}
-	}
-		
 	_dirty = false;
 }
 
@@ -661,47 +641,21 @@ Film::file (string f) const
 	return p.string ();
 }
 
-/** @return full path of the content (actual video) file
- *  of the Film.
- */
-string
-Film::content_path () const
-{
-	boost::mutex::scoped_lock lm (_state_mutex);
-	if (boost::filesystem::path(_content).has_root_directory ()) {
-		return _content;
-	}
-
-	return file (_content);
-}
-
-ContentType
-Film::content_type () const
-{
-	if (boost::filesystem::is_directory (_content)) {
-		/* Directory of images, we assume */
-		return VIDEO;
-	}
-
-	if (still_image_file (_content)) {
-		return STILL;
-	}
-
-	return VIDEO;
-}
-
 /** @return The sampling rate that we will resample the audio to */
 int
 Film::target_audio_sample_rate () const
 {
-	if (!audio_stream()) {
+	/* XXX: how often is this method called? */
+	
+	boost::shared_ptr<Playlist> p = playlist ();
+	if (p->has_audio ()) {
 		return 0;
 	}
 	
 	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_sample_rate (audio_stream()->sample_rate());
+	double t = dcp_audio_sample_rate (p->audio_frame_rate());
 
-	FrameRateConversion frc (source_frame_rate(), dcp_frame_rate());
+	FrameRateConversion frc (p->video_frame_rate(), dcp_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -710,16 +664,10 @@ Film::target_audio_sample_rate () const
 	*/
 
 	if (frc.change_speed) {
-		t *= source_frame_rate() * frc.factor() / dcp_frame_rate();
+		t *= p->video_frame_rate() * frc.factor() / dcp_frame_rate();
 	}
 
 	return rint (t);
-}
-
-int
-Film::still_duration_in_frames () const
-{
-	return still_duration() * source_frame_rate();
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
@@ -768,7 +716,8 @@ Film::dci_name (bool if_created_now) const
 		}
 	}
 
-	switch (audio_channels()) {
+	/* XXX */
+	switch (2) {
 	case 1:
 		d << "_10";
 		break;
@@ -847,98 +796,6 @@ Film::set_use_dci_name (bool u)
 }
 
 void
-Film::set_content (string c)
-{
-	string check = directory ();
-
-	boost::filesystem::path slash ("/");
-	string platform_slash = slash.make_preferred().string ();
-
-	if (!ends_with (check, platform_slash)) {
-		check += platform_slash;
-	}
-	
-	if (boost::filesystem::path(c).has_root_directory () && starts_with (c, check)) {
-		c = c.substr (_directory.length() + 1);
-	}
-
-	string old_content;
-	
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		if (c == _content) {
-			return;
-		}
-
-		old_content = _content;
-		_content = c;
-	}
-
-	/* Reset streams here in case the new content doesn't have one or the other */
-	_content_audio_stream = shared_ptr<AudioStream> ();
-	_subtitle_stream = shared_ptr<SubtitleStream> ();
-
-	/* Start off using content audio */
-	set_use_content_audio (true);
-
-	/* Create a temporary decoder so that we can get information
-	   about the content.
-	*/
-
-	try {
-		Decoders d = decoder_factory (shared_from_this(), DecodeOptions());
-		
-		set_size (d.video->native_size ());
-		set_source_frame_rate (d.video->frames_per_second ());
-		set_dcp_frame_rate (best_dcp_frame_rate (source_frame_rate ()));
-		set_subtitle_streams (d.video->subtitle_streams ());
-		if (d.audio) {
-			set_content_audio_streams (d.audio->audio_streams ());
-		}
-
-		{
-			boost::mutex::scoped_lock lm (_state_mutex);
-			_content = c;
-		}
-		
-		signal_changed (CONTENT);
-		
-		/* Start off with the first audio and subtitle streams */
-		if (d.audio && !d.audio->audio_streams().empty()) {
-			set_content_audio_stream (d.audio->audio_streams().front());
-		}
-		
-		if (!d.video->subtitle_streams().empty()) {
-			set_subtitle_stream (d.video->subtitle_streams().front());
-		}
-		
-		examine_content ();
-
-	} catch (...) {
-
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_content = old_content;
-		throw;
-
-	}
-
-	/* Default format */
-	switch (content_type()) {
-	case STILL:
-		set_format (Format::from_id ("var-185"));
-		break;
-	case VIDEO:
-		set_format (Format::from_id ("185"));
-		break;
-	}
-
-	/* Still image DCPs must use external audio */
-	if (content_type() == STILL) {
-		set_use_content_audio (false);
-	}
-}
-
-void
 Film::set_trust_content_header (bool t)
 {
 	{
@@ -950,7 +807,8 @@ Film::set_trust_content_header (bool t)
 
 	if (!_trust_content_header && !content().empty()) {
 		/* We just said that we don't trust the content's header */
-		examine_content ();
+		/* XXX */
+//		examine_content ();
 	}
 }
 	       
@@ -1092,43 +950,6 @@ Film::set_dcp_ab (bool a)
 }
 
 void
-Film::set_content_audio_stream (shared_ptr<AudioStream> s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_content_audio_stream = s;
-	}
-	signal_changed (CONTENT_AUDIO_STREAM);
-}
-
-void
-Film::set_external_audio (vector<string> a)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_external_audio = a;
-	}
-
-	shared_ptr<SndfileDecoder> decoder (new SndfileDecoder (shared_from_this(), DecodeOptions()));
-	if (decoder->audio_stream()) {
-		_sndfile_stream = decoder->audio_stream ();
-	}
-	
-	signal_changed (EXTERNAL_AUDIO);
-}
-
-void
-Film::set_use_content_audio (bool e)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_use_content_audio = e;
-	}
-
-	signal_changed (USE_CONTENT_AUDIO);
-}
-
-void
 Film::set_audio_gain (float g)
 {
 	{
@@ -1146,26 +967,6 @@ Film::set_audio_delay (int d)
 		_audio_delay = d;
 	}
 	signal_changed (AUDIO_DELAY);
-}
-
-void
-Film::set_still_duration (int d)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_still_duration = d;
-	}
-	signal_changed (STILL_DURATION);
-}
-
-void
-Film::set_subtitle_stream (shared_ptr<SubtitleStream> s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_subtitle_stream = s;
-	}
-	signal_changed (SUBTITLE_STREAM);
 }
 
 void
@@ -1240,76 +1041,6 @@ Film::set_dcp_frame_rate (int f)
 }
 
 void
-Film::set_size (libdcp::Size s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_size = s;
-	}
-	signal_changed (SIZE);
-}
-
-void
-Film::set_length (SourceFrame l)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_length = l;
-	}
-	signal_changed (LENGTH);
-}
-
-void
-Film::unset_length ()
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_length = boost::none;
-	}
-	signal_changed (LENGTH);
-}
-
-void
-Film::set_content_digest (string d)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_content_digest = d;
-	}
-	_dirty = true;
-}
-
-void
-Film::set_content_audio_streams (vector<shared_ptr<AudioStream> > s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_content_audio_streams = s;
-	}
-	signal_changed (CONTENT_AUDIO_STREAMS);
-}
-
-void
-Film::set_subtitle_streams (vector<shared_ptr<SubtitleStream> > s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_subtitle_streams = s;
-	}
-	signal_changed (SUBTITLE_STREAMS);
-}
-
-void
-Film::set_source_frame_rate (float f)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_source_frame_rate = f;
-	}
-	signal_changed (SOURCE_FRAME_RATE);
-}
-	
-void
 Film::signal_changed (Property p)
 {
 	{
@@ -1322,31 +1053,10 @@ Film::signal_changed (Property p)
 	}
 }
 
-int
-Film::audio_channels () const
-{
-	shared_ptr<AudioStream> s = audio_stream ();
-	if (!s) {
-		return 0;
-	}
-
-	return s->channels ();
-}
-
 void
 Film::set_dci_date_today ()
 {
 	_dci_date = boost::gregorian::day_clock::local_day ();
-}
-
-boost::shared_ptr<AudioStream>
-Film::audio_stream () const
-{
-	if (use_content_audio()) {
-		return _content_audio_stream;
-	}
-
-	return _sndfile_stream;
 }
 
 string
@@ -1404,20 +1114,22 @@ Film::have_dcp () const
 	return true;
 }
 
-bool
-Film::has_audio () const
+shared_ptr<Playlist>
+Film::playlist () const
 {
-	if (use_content_audio()) {
-		return audio_stream();
-	}
-
-	vector<string> const e = external_audio ();
-	for (vector<string>::const_iterator i = e.begin(); i != e.end(); ++i) {
-		if (!i->empty ()) {
-			return true;
-		}
-	}
-
-	return false;
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return shared_ptr<Playlist> (new Playlist (shared_from_this (), _content));
 }
 
+void
+Film::add_content (shared_ptr<Content> c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_content.push_back (c);
+	}
+
+	signal_changed (CONTENT);
+
+	examine_content (c);
+}

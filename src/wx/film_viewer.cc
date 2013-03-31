@@ -114,12 +114,10 @@ FilmViewer::film_changed (Film::Property p)
 		}
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
-		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
+//		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
-		_slider->Show (_film->content_type() == VIDEO);
-		_play_button->Show (_film->content_type() == VIDEO);
 		_v_sizer->Layout ();
 		break;
 	}
@@ -132,7 +130,7 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::SUBTITLE_STREAM:
 		if (_decoders.video) {
-			_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
+//			_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
 		}
 		break;
 	default:
@@ -187,12 +185,12 @@ FilmViewer::timer (wxTimerEvent &)
 
 	get_frame ();
 
-	if (_film->length()) {
-		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->source_frame_rate());
-		if (new_slider_position != _slider->GetValue()) {
-			_slider->SetValue (new_slider_position);
-		}
-	}
+//	if (_film->length()) {
+//		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->source_frame_rate());
+//		if (new_slider_position != _slider->GetValue()) {
+//			_slider->SetValue (new_slider_position);
+//		}
+//	}
 }
 
 
@@ -233,13 +231,13 @@ FilmViewer::paint_panel (wxPaintEvent &)
 void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
-	if (!_film || !_film->length() || !_decoders.video) {
-		return;
-	}
+//	if (!_film || !_film->length() || !_decoders.video) {
+//		return;
+//	}
 	
-	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / (4096 * _film->source_frame_rate()))) {
-		return;
-	}
+//	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / (4096 * _film->source_frame_rate()))) {
+//		return;
+//	}
 	
 	get_frame ();
 	_panel->Refresh ();
@@ -294,6 +292,7 @@ FilmViewer::raw_to_display ()
 		_clear_required = true;
 	}
 
+#if 0	
 	if (_raw_sub) {
 
 		/* Our output is already cropped by the decoder, so we need to account for that
@@ -314,6 +313,7 @@ FilmViewer::raw_to_display ()
 	} else {
 		_display_sub.reset ();
 	}
+#endif	
 }	
 
 void
@@ -342,9 +342,9 @@ FilmViewer::calculate_sizes ()
 	   of our _display_frame.
 	*/
 	_display_frame_x = 0;
-	if (format) {
-		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
-	}
+//	if (format) {
+//		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
+//	}
 
 	_film_size = _out_size;
 	_film_size.width -= _display_frame_x * 2;
@@ -369,7 +369,7 @@ FilmViewer::check_play_state ()
 	}
 	
 	if (_play_button->GetValue()) {
-		_timer.Start (1000 / _film->source_frame_rate());
+//		_timer.Start (1000 / _film->source_frame_rate());
 	} else {
 		_timer.Stop ();
 	}

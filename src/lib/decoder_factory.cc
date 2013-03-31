@@ -39,22 +39,5 @@ decoder_factory (
 	shared_ptr<Film> f, DecodeOptions o
 	)
 {
-	if (f->content().empty()) {
-		return Decoders ();
-	}
-	
-	if (boost::filesystem::is_directory (f->content_path()) || f->content_type() == STILL) {
-		/* A single image file, or a directory of them */
-		return Decoders (
-			shared_ptr<VideoDecoder> (new ImageMagickDecoder (f, o)),
-			shared_ptr<AudioDecoder> (new SndfileDecoder (f, o))
-			);
-	}
-
-	shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (f, o));
-	if (f->use_content_audio()) {
-		return Decoders (fd, fd);
-	}
-
-	return Decoders (fd, shared_ptr<AudioDecoder> (new SndfileDecoder (f, o)));
+	return Decoders ();
 }

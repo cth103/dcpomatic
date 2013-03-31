@@ -50,6 +50,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	_encoded = new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 
+#if 0	
 	if (_film->length()) {
 		_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length().get())));
 		FrameRateConversion frc (_film->source_frame_rate(), _film->dcp_frame_rate());
@@ -62,6 +63,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 		_frames->SetLabel (_("unknown"));
 		_disk->SetLabel (_("unknown"));
 	}
+#endif	
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (table, 0, wxALL, 6);
@@ -85,9 +87,9 @@ PropertiesDialog::frames_already_encoded () const
 		return "";
 	}
 	
-	if (_film->length()) {
-		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << (_film->encoded_frames() * 100 / _film->length().get()) << "%)";
-	}
+//	if (_film->length()) {
+//		/* XXX: encoded_frames() should check which frames have been encoded */
+//		u << " (" << (_film->encoded_frames() * 100 / _film->length().get()) << "%)";
+//	}
 	return u.str ();
 }

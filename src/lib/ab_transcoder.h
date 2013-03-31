@@ -29,16 +29,14 @@
 
 class Job;
 class Encoder;
-class VideoDecoder;
-class AudioDecoder;
 class Image;
 class Log;
-class Subtitle;
 class Film;
 class Matcher;
 class DelayLine;
 class Gain;
 class Combiner;
+class Playlist;
 
 /** @class ABTranscoder
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -51,8 +49,7 @@ public:
 		boost::shared_ptr<Film> a,
 		boost::shared_ptr<Film> b,
 		DecodeOptions o,
-		Job* j,
-		boost::shared_ptr<Encoder> e
+		boost::shared_ptr<Job> j
 		);
 	
 	void go ();
@@ -60,10 +57,10 @@ public:
 private:
 	boost::shared_ptr<Film> _film_a;
 	boost::shared_ptr<Film> _film_b;
-	Job* _job;
+	boost::shared_ptr<Playlist> _playlist_a;
+	boost::shared_ptr<Playlist> _playlist_b;
+	boost::shared_ptr<Job> _job;
 	boost::shared_ptr<Encoder> _encoder;
-	Decoders _da;
-	Decoders _db;
 	boost::shared_ptr<Combiner> _combiner;
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;

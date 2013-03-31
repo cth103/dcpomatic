@@ -34,7 +34,7 @@ public:
 
 private:
 	void set_status (std::string);
-	
+
 	mutable boost::mutex _status_mutex;
 	std::string _status;
 };

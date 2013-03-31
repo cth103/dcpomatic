@@ -347,11 +347,11 @@ md5_digest (void const * data, int size)
  *  @return MD5 digest of file's contents.
  */
 string
-md5_digest (string file)
+md5_digest (boost::filesystem::path file)
 {
-	ifstream f (file.c_str(), ios::binary);
+	ifstream f (file.string().c_str(), ios::binary);
 	if (!f.good ()) {
-		throw OpenFileError (file);
+		throw OpenFileError (file.string());
 	}
 	
 	f.seekg (0, ios::end);

@@ -22,34 +22,21 @@
  */
 
 #include <iostream>
-#include <stdint.h>
-#include <boost/lexical_cast.hpp>
 #include "film.h"
-#include "format.h"
 #include "options.h"
 #include "exceptions.h"
-#include "image.h"
 #include "util.h"
-#include "log.h"
 #include "decoder.h"
-#include "delay_line.h"
-#include "subtitle.h"
-#include "filter_graph.h"
 
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
-using std::min;
-using std::pair;
-using std::list;
 using boost::shared_ptr;
-using boost::optional;
 
 /** @param f Film.
  *  @param o Decode options.
  */
-Decoder::Decoder (boost::shared_ptr<Film> f, DecodeOptions o)
+Decoder::Decoder (shared_ptr<const Film> f, DecodeOptions o)
 	: _film (f)
 	, _opt (o)
 {

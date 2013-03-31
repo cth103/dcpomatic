@@ -37,7 +37,6 @@ extern "C" {
 }
 #include "dcp_content_type.h"
 #include "util.h"
-#include "stream.h"
 #include "dci_metadata.h"
 
 class Format;
@@ -48,6 +47,7 @@ class ExamineContentJob;
 class AnalyseAudioJob;
 class ExternalAudioStream;
 class Content;
+class Playlist;
 
 /** @class Film
  *  @brief A representation of a video, maybe with sound.
@@ -69,7 +69,7 @@ public:
 	std::string video_mxf_filename () const;
 	std::string audio_analysis_path () const;
 
-	void examine_content ();
+	void examine_content (boost::shared_ptr<Content>);
 	void analyse_audio ();
 	void send_dcp_to_tms ();
 
@@ -87,9 +87,6 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
-	std::string content_path () const;
-	ContentType content_type () const;
-	
 	int target_audio_sample_rate () const;
 	
 	void write_metadata () const;
@@ -104,11 +101,11 @@ public:
 		return _dirty;
 	}
 
-	int audio_channels () const;
-
 	void set_dci_date_today ();
 
 	bool have_dcp () const;
+
+	boost::shared_ptr<Playlist> playlist () const;
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -118,6 +115,7 @@ public:
 		NAME,
 		USE_DCI_NAME,
 		TRUST_CONTENT_HEADER,
+		CONTENT,
 		DCP_CONTENT_TYPE,
 		FORMAT,
 		CROP,
@@ -160,6 +158,11 @@ public:
 	bool trust_content_header () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trust_content_header;
+	}
+
+	std::list<boost::shared_ptr<Content> > content () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _content;
 	}
 
 	DCPContentType const * dcp_content_type () const {
@@ -212,11 +215,6 @@ public:
 		return _audio_delay;
 	}
 
-	boost::shared_ptr<SubtitleStream> subtitle_stream () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_stream;
-	}
-
 	bool with_subtitles () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _with_subtitles;
@@ -252,15 +250,13 @@ public:
 		return _dcp_frame_rate;
 	}
 
-	boost::shared_ptr<AudioStream> audio_stream () const;
-	bool has_audio () const;
-	
 	/* SET */
 
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
 	void set_trust_content_header (bool);
+	void add_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
 	void set_crop (Crop);
@@ -297,8 +293,6 @@ private:
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
 
-	/** Any running ExamineContentJob, or 0 */
-	boost::shared_ptr<ExamineContentJob> _examine_content_job;
 	/** Any running AnalyseAudioJob, or 0 */
 	boost::shared_ptr<AnalyseAudioJob> _analyse_audio_job;
 
@@ -318,7 +312,8 @@ private:
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;
-	std::list<boost::shared_ptr<Content> > _content;
+	typedef std::list<boost::shared_ptr<Content> > ContentList;
+	ContentList _content;
 	/** If this is true, we will believe the length specified by the content
 	 *  file's header; if false, we will run through the whole content file
 	 *  the first time we see it in order to obtain the length.

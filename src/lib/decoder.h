@@ -30,7 +30,6 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include "util.h"
-#include "stream.h"
 #include "video_source.h"
 #include "audio_source.h"
 #include "film.h"
@@ -53,7 +52,7 @@ class FilterGraph;
 class Decoder
 {
 public:
-	Decoder (boost::shared_ptr<Film>, DecodeOptions);
+	Decoder (boost::shared_ptr<const Film>, DecodeOptions);
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
@@ -63,14 +62,13 @@ public:
 	boost::signals2::signal<void()> OutputChanged;
 
 protected:
-	/** our Film */
-	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<const Film> _film;
 	/** our decode options */
 	DecodeOptions _opt;
 
 private:
 	virtual void film_changed (Film::Property) {}
-	
+
 	boost::signals2::scoped_connection _film_connection;
 };
 

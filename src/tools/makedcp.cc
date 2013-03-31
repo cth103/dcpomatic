@@ -151,7 +151,7 @@ main (int argc, char* argv[])
 	}
 	cout << "DCP for " << film->name() << "\n";
 	cout << "Test mode: " << (test_mode ? "yes" : "no") << "\n";
-	cout << "Content: " << film->content() << "\n";
+//	cout << "Content: " << film->content() << "\n";
 	pair<string, string> const f = Filter::ffmpeg_strings (film->filters ());
 	cout << "Filters: " << f.first << " " << f.second << "\n";
 

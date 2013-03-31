@@ -36,6 +36,7 @@ extern "C" {
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "film.h"
+#include "ffmpeg_content.h"
 
 struct AVFilterGraph;
 struct AVCodecContext;
@@ -50,62 +51,37 @@ class Options;
 class Image;
 class Log;
 
-class FFmpegAudioStream : public AudioStream
-{
-public:
-	FFmpegAudioStream (std::string n, int i, int s, int64_t c)
-		: AudioStream (s, c)
-		, _name (n)
-		, _id (i)
-	{}
-
-	std::string to_string () const;
-
-	std::string name () const {
-		return _name;
-	}
-
-	int id () const {
-		return _id;
-	}
-
-	static boost::shared_ptr<FFmpegAudioStream> create (std::string t, boost::optional<int> v);
-
-private:
-	friend class stream_test;
-	
-	FFmpegAudioStream (std::string t, boost::optional<int> v);
-	
-	std::string _name;
-	int _id;
-};
-
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
  */
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<Film>, DecodeOptions);
+	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<FFmpegContent>, DecodeOptions);
 	~FFmpegDecoder ();
 
 	float frames_per_second () const;
 	libdcp::Size native_size () const;
-	SourceFrame length () const;
+	ContentVideoFrame video_length () const;
 	int time_base_numerator () const;
 	int time_base_denominator () const;
 	int sample_aspect_ratio_numerator () const;
 	int sample_aspect_ratio_denominator () const;
 
-	void set_audio_stream (boost::shared_ptr<AudioStream>);
-	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
+	std::vector<FFmpegSubtitleStream> subtitle_streams () const {
+		return _subtitle_streams;
+	}
+	
+	std::vector<FFmpegAudioStream> audio_streams () const {
+		return _audio_streams;
+	}
 
 	bool seek (double);
 	bool seek_to_last ();
+	bool pass ();
 
 private:
 
-	bool pass ();
 	bool do_seek (double p, bool);
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
@@ -129,6 +105,8 @@ private:
 
 	std::string stream_name (AVStream* s) const;
 
+	boost::shared_ptr<FFmpegContent> _ffmpeg_content;
+
 	AVFormatContext* _format_context;
 	int _video_stream;
 	
@@ -148,4 +126,7 @@ private:
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
+
+        std::vector<FFmpegSubtitleStream> _subtitle_streams;
+        std::vector<FFmpegAudioStream> _audio_streams;
 };

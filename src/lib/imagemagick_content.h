@@ -2,5 +2,6 @@
 
 class ImageMagickContent : public VideoContent
 {
-
+public:
+	ImageMagickContent (boost::filesystem::path);
 };

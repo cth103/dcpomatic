@@ -20,6 +20,7 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <Magick++.h>
+#include "imagemagick_content.h"
 #include "imagemagick_decoder.h"
 #include "image.h"
 #include "film.h"
@@ -32,37 +33,20 @@ using boost::shared_ptr;
 using libdcp::Size;
 
 ImageMagickDecoder::ImageMagickDecoder (
-	boost::shared_ptr<Film> f, DecodeOptions o)
+	shared_ptr<const Film> f, shared_ptr<ImageMagickContent> c, DecodeOptions o)
 	: Decoder (f, o)
-	, VideoDecoder (f, o)
+	, VideoDecoder (f, c, o)
+	, _imagemagick_content (c)
+	, _position (0)
 {
-	if (boost::filesystem::is_directory (_film->content_path())) {
-		for (
-			boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (_film->content_path());
-			i != boost::filesystem::directory_iterator();
-			++i) {
-
-			if (still_image_file (i->path().string())) {
-				_files.push_back (i->path().string());
-			}
-		}
-	} else {
-		_files.push_back (_film->content_path ());
-	}
-
-	_iter = _files.begin ();
+	
 }
 
 libdcp::Size
 ImageMagickDecoder::native_size () const
 {
-	if (_files.empty ()) {
-		throw DecodeError (_("no still image files found"));
-	}
-
-	/* Look at the first file and assume its size holds for all */
 	using namespace MagickCore;
-	Magick::Image* image = new Magick::Image (_film->content_path ());
+	Magick::Image* image = new Magick::Image (_imagemagick_content->file().string());
 	libdcp::Size const s = libdcp::Size (image->columns(), image->rows());
 	delete image;
 
@@ -72,16 +56,15 @@ ImageMagickDecoder::native_size () const
 bool
 ImageMagickDecoder::pass ()
 {
-	if (_iter == _files.end()) {
-		if (video_frame() >= _film->still_duration_in_frames()) {
-			return true;
-		}
-
+	if (_position > 0 && _position < _imagemagick_content->video_length ()) {
 		repeat_last_video ();
+		_position++;
 		return false;
+	} else if (_position >= _imagemagick_content->video_length ()) {
+		return true;
 	}
 	
-	Magick::Image* magick_image = new Magick::Image (_film->content_path ());
+	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());
 	
 	libdcp::Size size = native_size ();
 	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, size, false));
@@ -104,7 +87,7 @@ ImageMagickDecoder::pass ()
 	
 	emit_video (image, 0);
 
-	++_iter;
+	++_position;
 	return false;
 }
 
@@ -118,10 +101,8 @@ ImageMagickDecoder::pixel_format () const
 bool
 ImageMagickDecoder::seek_to_last ()
 {
-	if (_iter == _files.end()) {
-		_iter = _files.begin();
-	} else {
-		--_iter;
+	if (_position > 0) {
+		--_position;
 	}
 
 	return false;
@@ -130,16 +111,14 @@ ImageMagickDecoder::seek_to_last ()
 bool
 ImageMagickDecoder::seek (double t)
 {
-	int const f = t * frames_per_second();
-	
-	_iter = _files.begin ();
-	for (int i = 0; i < f; ++i) {
-		if (_iter == _files.end()) {
-			return true;
-		}
-		++_iter;
+	int const f = t * _imagemagick_content->video_frame_rate ();
+
+	if (f >= _imagemagick_content->video_length()) {
+		_position = 0;
+		return true;
 	}
-	
+
+	_position = f;
 	return false;
 }
 

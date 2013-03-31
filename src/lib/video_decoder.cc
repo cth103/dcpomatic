@@ -30,7 +30,7 @@
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<Film> f, DecodeOptions o)
+VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<VideoContent> c, DecodeOptions o)
 	: Decoder (f, o)
 	, _video_frame (0)
 	, _last_source_time (0)
@@ -102,21 +102,15 @@ VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 	}
 }
 
-/** Set which stream of subtitles we should use from our source.
- *  @param s Stream to use.
- */
-void
-VideoDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
-{
-	_subtitle_stream = s;
-}
-
 void
 VideoDecoder::set_progress (Job* j) const
 {
 	assert (j);
-	
+
+#if 0
+	XXX
 	if (_film->length()) {
 		j->set_progress (float (_video_frame) / _film->length().get());
 	}
+#endif	
 }

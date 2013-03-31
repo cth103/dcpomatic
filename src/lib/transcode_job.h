@@ -44,5 +44,4 @@ protected:
 
 private:
 	DecodeOptions _decode_opt;
-	boost::shared_ptr<Encoder> _encoder;
 };

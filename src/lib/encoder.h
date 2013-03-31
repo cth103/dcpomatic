@@ -51,6 +51,7 @@ class ServerDescription;
 class DCPVideoFrame;
 class EncodedData;
 class Writer;
+class Playlist;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -62,7 +63,7 @@ class Writer;
 class Encoder : public VideoSink, public AudioSink
 {
 public:
-	Encoder (boost::shared_ptr<Film> f);
+	Encoder (boost::shared_ptr<Film> f, boost::shared_ptr<Playlist>);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
@@ -95,6 +96,7 @@ private:
 
 	/** Film that we are encoding */
 	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<Playlist> _playlist;
 
 	/** Mutex for _time_history and _last_frame */
 	mutable boost::mutex _history_mutex;

@@ -23,10 +23,12 @@ namespace Magick {
 	class Image;
 }
 
+class ImageMagickContent;
+
 class ImageMagickDecoder : public VideoDecoder
 {
 public:
-	ImageMagickDecoder (boost::shared_ptr<Film>, DecodeOptions);
+	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<ImageMagickContent>, DecodeOptions);
 
 	float frames_per_second () const {
 		/* We don't know */
@@ -35,7 +37,7 @@ public:
 
 	libdcp::Size native_size () const;
 
-	SourceFrame length () const {
+	ContentVideoFrame video_length () const {
 		/* We don't know */
 		return 0;
 	}
@@ -54,9 +56,9 @@ public:
 
 	bool seek (double);
 	bool seek_to_last ();
+	bool pass ();
 
 protected:
-	bool pass ();
 	PixelFormat pixel_format () const;
 
 	int time_base_numerator () const {
@@ -79,7 +81,7 @@ protected:
 
 private:
 	void film_changed (Film::Property);
-	
-	std::list<std::string> _files;
-	std::list<std::string>::iterator _iter;
+
+	boost::shared_ptr<ImageMagickContent> _imagemagick_content;
+	ContentVideoFrame _position;
 };

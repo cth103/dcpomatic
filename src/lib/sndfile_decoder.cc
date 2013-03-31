@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <sndfile.h>
+#include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "film.h"
 #include "exceptions.h"
@@ -33,156 +34,53 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-SndfileDecoder::SndfileDecoder (shared_ptr<Film> f, DecodeOptions o)
+/* XXX */
+
+SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<SndfileContent> c, DecodeOptions o)
 	: Decoder (f, o)
-	, AudioDecoder (f, o)
+	, AudioDecoder (f, c, o)
 {
 	sf_count_t frames;
-	vector<SNDFILE*> sf = open_files (frames);
-	close_files (sf);
+	SNDFILE* sf = open_file (frames);
+	sf_close (sf);
 }
 
-vector<SNDFILE*>
-SndfileDecoder::open_files (sf_count_t & frames)
+SNDFILE*
+SndfileDecoder::open_file (sf_count_t & frames)
 {
-	vector<string> const files = _film->external_audio ();
-
-	int N = 0;
-	for (size_t i = 0; i < files.size(); ++i) {
-		if (!files[i].empty()) {
-			N = i + 1;
-		}
-	}
-
-	if (N == 0) {
-		return vector<SNDFILE*> ();
-	}
-
-	bool first = true;
 	frames = 0;
 	
-	vector<SNDFILE*> sndfiles;
-	for (size_t i = 0; i < (size_t) N; ++i) {
-		if (files[i].empty ()) {
-			sndfiles.push_back (0);
-		} else {
-			SF_INFO info;
-			SNDFILE* s = sf_open (files[i].c_str(), SFM_READ, &info);
-			if (!s) {
-				throw DecodeError (_("could not open external audio file for reading"));
-			}
-
-			if (info.channels != 1) {
-				throw DecodeError (_("external audio files must be mono"));
-			}
-			
-			sndfiles.push_back (s);
-
-			if (first) {
-				shared_ptr<SndfileStream> st (
-					new SndfileStream (
-						info.samplerate, av_get_default_channel_layout (N)
-						)
-					);
-				
-				_audio_streams.push_back (st);
-				_audio_stream = st;
-				frames = info.frames;
-				first = false;
-			} else {
-				if (info.frames != frames) {
-					throw DecodeError (_("external audio files have differing lengths"));
-				}
-			}
-		}
+	SF_INFO info;
+	SNDFILE* s = sf_open (_sndfile_content->file().string().c_str(), SFM_READ, &info);
+	if (!s) {
+		throw DecodeError (_("could not open external audio file for reading"));
 	}
 
-	return sndfiles;
+	frames = info.frames;
+	return s;
 }
 
 bool
 SndfileDecoder::pass ()
 {
 	sf_count_t frames;
-	vector<SNDFILE*> sndfiles = open_files (frames);
-	if (sndfiles.empty()) {
-		return true;
-	}
+	SNDFILE* sndfile = open_file (frames);
 
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
-	sf_count_t const block = _audio_stream->sample_rate() / 2;
+	sf_count_t const block = _sndfile_content->audio_frame_rate() / 2;
 
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (_sndfile_content->audio_channels(), block));
 	while (frames > 0) {
 		sf_count_t const this_time = min (block, frames);
-		for (size_t i = 0; i < sndfiles.size(); ++i) {
-			if (!sndfiles[i]) {
-				audio->make_silent (i);
-			} else {
-				sf_read_float (sndfiles[i], audio->data(i), block);
-			}
-		}
-
+		sf_read_float (sndfile, audio->data(0), this_time);
 		audio->set_frames (this_time);
 		Audio (audio);
 		frames -= this_time;
 	}
 
-	close_files (sndfiles);
+	sf_close (sndfile);
 
 	return true;
-}
-
-void
-SndfileDecoder::close_files (vector<SNDFILE*> const & sndfiles)
-{
-	for (size_t i = 0; i < sndfiles.size(); ++i) {
-		sf_close (sndfiles[i]);
-	}
-}
-
-shared_ptr<SndfileStream>
-SndfileStream::create ()
-{
-	return shared_ptr<SndfileStream> (new SndfileStream);
-}
-
-shared_ptr<SndfileStream>
-SndfileStream::create (string t, optional<int> v)
-{
-	if (!v) {
-		/* version < 1; no type in the string, and there's only FFmpeg streams anyway */
-		return shared_ptr<SndfileStream> ();
-	}
-
-	stringstream s (t);
-	string type;
-	s >> type;
-	if (type != N_("external")) {
-		return shared_ptr<SndfileStream> ();
-	}
-
-	return shared_ptr<SndfileStream> (new SndfileStream (t, v));
-}
-
-SndfileStream::SndfileStream (string t, optional<int> v)
-{
-	assert (v);
-
-	stringstream s (t);
-	string type;
-	s >> type >> _sample_rate >> _channel_layout;
-}
-
-SndfileStream::SndfileStream ()
-{
-
-}
-
-string
-SndfileStream::to_string () const
-{
-	return String::compose (N_("external %1 %2"), _sample_rate, _channel_layout);
 }

@@ -6,10 +6,12 @@ sources = """
 	  ab_transcoder.cc
           analyse_audio_job.cc
           audio_analysis.cc
+          audio_content.cc
           audio_decoder.cc
           audio_source.cc
           config.cc
           combiner.cc
+          content.cc
           cross.cc
           dci_metadata.cc
           dcp_content_type.cc
@@ -23,24 +25,27 @@ sources = """
           exceptions.cc
           filter_graph.cc
           ffmpeg_compatibility.cc
+          ffmpeg_content.cc
           ffmpeg_decoder.cc
           film.cc
           filter.cc
           format.cc
           gain.cc
           image.cc
+          imagemagick_content.cc
           imagemagick_decoder.cc
           job.cc
           job_manager.cc
           log.cc
           lut.cc
           matcher.cc
+          playlist.cc
           scp_dcp_job.cc
           scaler.cc
           server.cc
+          sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc
-          stream.cc
           subtitle.cc
           timer.cc
           transcode_job.cc
@@ -48,6 +53,7 @@ sources = """
           ui_signaller.cc
           util.cc
           version.cc
+          video_content.cc
           video_decoder.cc
           video_source.cc
           writer.cc

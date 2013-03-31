@@ -22,8 +22,7 @@
 #include "compose.hpp"
 #include "film.h"
 #include "options.h"
-#include "decoder_factory.h"
-#include "audio_decoder.h"
+#include "playlist.h"
 
 #include "i18n.h"
 
@@ -52,29 +51,18 @@ AnalyseAudioJob::name () const
 void
 AnalyseAudioJob::run ()
 {
-	if (!_film->audio_stream () || !_film->length()) {
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-		return;
-	}
-		
-	DecodeOptions options;
-	options.decode_video = false;
-
-	Decoders decoders = decoder_factory (_film, options);
-	assert (decoders.audio);
+	shared_ptr<Playlist> playlist = _film->playlist ();
+	playlist->disable_video ();
 	
-	decoders.audio->set_audio_stream (_film->audio_stream ());
-	decoders.audio->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1));
+	playlist->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1));
 
-	int64_t total_audio_frames = video_frames_to_audio_frames (_film->length().get(), _film->audio_stream()->sample_rate(), _film->source_frame_rate());
-	_samples_per_point = max (int64_t (1), total_audio_frames / _num_points);
+	_samples_per_point = max (int64_t (1), playlist->audio_length() / _num_points);
 
-	_current.resize (_film->audio_stream()->channels ());
-	_analysis.reset (new AudioAnalysis (_film->audio_stream()->channels()));
+	_current.resize (playlist->audio_channels ());
+	_analysis.reset (new AudioAnalysis (playlist->audio_channels()));
 			 
-	while (!decoders.audio->pass()) {
-		set_progress (float (_done) / total_audio_frames);
+	while (!playlist->pass()) {
+		set_progress (float (_done) / playlist->audio_length ());
 	}
 
 	_analysis->write (_film->audio_analysis_path ());

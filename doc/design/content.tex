@@ -174,7 +174,7 @@ public:
 \end{verbatim}
 
 Then Film has a \texttt{Playlist} which has a
-\texttt{vector<shared\_ptr<Content>}.  And it can answer questions
+\texttt{vector<shared\_ptr<Content> >}.  It can answer questions
 about audio/video length, frame rate, audio channels and so on.
 
 \texttt{Playlist} can also be a source of video and audio, so clients can do:
@@ -188,6 +188,8 @@ while (!p->pass ()) {
 }
 \end{verbatim}
 
-Playlist could be created on-demand for all the difference it would make.
+Playlist could be created on-demand for all the difference it would
+make.  And perhaps it should, since it will hold Decoders which are
+probably run-once.
 
 \end{document}

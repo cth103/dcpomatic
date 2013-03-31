@@ -18,19 +18,12 @@
 */
 
 #include "audio_decoder.h"
-#include "stream.h"
 
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<Film> f, DecodeOptions o)
+AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<AudioContent> c, DecodeOptions o)
 	: Decoder (f, o)
 {
 
-}
-
-void
-AudioDecoder::set_audio_stream (shared_ptr<AudioStream> s)
-{
-	_audio_stream = s;
 }

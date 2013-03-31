@@ -62,8 +62,7 @@ TranscodeJob::run ()
 		_film->log()->log (N_("Transcode job starting"));
 		_film->log()->log (String::compose (N_("Audio delay is %1ms"), _film->audio_delay()));
 
-		_encoder.reset (new Encoder (_film));
-		Transcoder w (_film, _decode_opt, this, _encoder);
+		Transcoder w (_film, _decode_opt, shared_from_this ());
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
@@ -83,11 +82,13 @@ TranscodeJob::run ()
 string
 TranscodeJob::status () const
 {
-	if (!_encoder) {
-		return _("0%");
-	}
+//	if (!_encoder) {
+//		return _("0%");
+//	}
 
-	float const fps = _encoder->current_frames_per_second ();
+	/* XXX */
+//	float const fps = _encoder->current_frames_per_second ();
+	float const fps = 0;
 	if (fps == 0) {
 		return Job::status ();
 	}
@@ -106,12 +107,15 @@ TranscodeJob::status () const
 int
 TranscodeJob::remaining_time () const
 {
+	return 0;
+#if 0
+	XXX
 	float fps = _encoder->current_frames_per_second ();
 	if (fps == 0) {
 		return 0;
 	}
 
-	if (!_film->length()) {
+	if (!_video->length()) {
 		return 0;
 	}
 
@@ -126,4 +130,5 @@ TranscodeJob::remaining_time () const
 	/* We assume that dcp_length() is valid, if it is set */
 	int const left = length - _encoder->video_frames_out();
 	return left / fps;
+#endif	
 }

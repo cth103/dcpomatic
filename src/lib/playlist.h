@@ -17,14 +17,66 @@
 
 */
 
+#include <list>
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include "video_source.h"
+#include "audio_source.h"
 #include "video_sink.h"
+#include "audio_sink.h"
 
 class Content;
+class FFmpegContent;
+class FFmpegDecoder;
+class ImageMagickContent;
+class ImageMagickDecoder;
+class SndfileContent;
+class SndfileDecoder;
+class Job;
+class Film;
 
-class Playlist : public VideoSource, public AudioSource
+class Playlist : public VideoSource, public AudioSource, public VideoSink, public AudioSink, public boost::enable_shared_from_this<Playlist>
 {
 public:
-	Playlist (std::list<boost::shared_ptr<Content> >);
+	Playlist (boost::shared_ptr<const Film>, std::list<boost::shared_ptr<Content> >);
+
+	ContentAudioFrame audio_length () const;
+	int audio_channels () const;
+	int audio_frame_rate () const;
+	int64_t audio_channel_layout () const;
+	bool has_audio () const;
+	
+	float video_frame_rate () const;
+	libdcp::Size video_size () const;
+
+	void disable_video ();
+
+	bool pass ();
+	void set_progress (boost::shared_ptr<Job>);
+
+private:
+	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
+	void process_audio (boost::shared_ptr<AudioBuffers>);
+	
+	enum {
+		VIDEO_NONE,
+		VIDEO_FFMPEG,
+		VIDEO_IMAGEMAGICK
+	} _video_from;
+	
+	enum {
+		AUDIO_NONE,
+		AUDIO_FFMPEG,
+		AUDIO_SNDFILE
+	} _audio_from;
+
+	boost::shared_ptr<FFmpegContent> _ffmpeg;
+	std::list<boost::shared_ptr<ImageMagickContent> > _imagemagick;
+	std::list<boost::shared_ptr<SndfileContent> > _sndfile;
+
+	boost::shared_ptr<FFmpegDecoder> _ffmpeg_decoder;
+	bool _ffmpeg_decoder_done;
+	std::list<boost::shared_ptr<ImageMagickDecoder> > _imagemagick_decoders;
+	std::list<boost::shared_ptr<ImageMagickDecoder> >::iterator _imagemagick_decoder;
+	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
 };

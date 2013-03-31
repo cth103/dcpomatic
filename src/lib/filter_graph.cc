@@ -57,7 +57,7 @@ using libdcp::Size;
  *  @param s Size of the images to process.
  *  @param p Pixel format of the images to process.
  */
-FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
+FilterGraph::FilterGraph (shared_ptr<const Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)

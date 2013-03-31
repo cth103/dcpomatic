@@ -32,9 +32,8 @@ class Encoder;
 class Matcher;
 class VideoFilter;
 class Gain;
-class VideoDecoder;
-class AudioDecoder;
 class DelayLine;
+class Playlist;
 
 /** @class Transcoder
  *  @brief A class which takes a Film and some Options, then uses those to transcode the film.
@@ -48,23 +47,16 @@ public:
 	Transcoder (
 		boost::shared_ptr<Film> f,
 		DecodeOptions o,
-		Job* j,
-		boost::shared_ptr<Encoder> e
+		boost::shared_ptr<Job> j
 		);
 
 	void go ();
 
-	boost::shared_ptr<VideoDecoder> video_decoder () const {
-		return _decoders.video;
-	}
-
 protected:
 	/** A Job that is running this Transcoder, or 0 */
-	Job* _job;
-	/** The encoder that we will use */
+	boost::shared_ptr<Job> _job;
+	boost::shared_ptr<Playlist> _playlist;
 	boost::shared_ptr<Encoder> _encoder;
-	/** The decoders that we will use */
-	Decoders _decoders;
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;
 	boost::shared_ptr<Gain> _gain;

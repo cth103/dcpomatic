@@ -18,10 +18,11 @@
 */
 
 #include <boost/filesystem.hpp>
+#include "lib/audio_analysis.h"
+#include "lib/film.h"
+#include "lib/playlist.h"
 #include "audio_dialog.h"
 #include "audio_plot.h"
-#include "audio_analysis.h"
-#include "film.h"
 #include "wx_util.h"
 
 using boost::shared_ptr;
@@ -90,6 +91,7 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 	_film_audio_analysis_succeeded_connection.disconnect ();
 	
 	_film = f;
+	_playlist = _film->playlist ();
 
 	try_to_load_analysis ();
 	setup_channels ();
@@ -104,11 +106,11 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 void
 AudioDialog::setup_channels ()
 {
-	if (!_film->audio_stream()) {
+	if (!_playlist->has_audio()) {
 		return;
 	}
 
-	AudioMapping m (_film->audio_stream()->channels ());
+	AudioMapping m (_playlist->audio_channels ());
 	
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		if (m.dcp_to_source(static_cast<libdcp::Channel>(i))) {
@@ -134,7 +136,7 @@ AudioDialog::try_to_load_analysis ()
 		
 	_plot->set_analysis (a);
 
-	AudioMapping m (_film->audio_stream()->channels ());
+	AudioMapping m (_playlist->audio_channels ());
 	optional<libdcp::Channel> c = m.source_to_dcp (0);
 	if (c) {
 		_channel_checkbox[c.get()]->SetValue (true);
@@ -157,7 +159,7 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 
 	assert (c < MAX_AUDIO_CHANNELS);
 
-	AudioMapping m (_film->audio_stream()->channels ());
+	AudioMapping m (_playlist->audio_channels ());
 	optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (c));
 	if (s) {
 		_plot->set_channel_visible (s.get(), _channel_checkbox[c]->GetValue ());
@@ -171,9 +173,8 @@ AudioDialog::film_changed (Film::Property p)
 	case Film::AUDIO_GAIN:
 		_plot->set_gain (_film->audio_gain ());
 		break;
-	case Film::CONTENT_AUDIO_STREAM:
-	case Film::EXTERNAL_AUDIO:
-	case Film::USE_CONTENT_AUDIO:
+	case Film::CONTENT:
+		_playlist = _film->playlist ();
 		setup_channels ();
 		break;
 	default:

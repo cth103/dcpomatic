@@ -36,6 +36,7 @@
 #include "gain.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
+#include "playlist.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -47,68 +48,42 @@ using boost::dynamic_pointer_cast;
  *  @param j Job that we are running under, or 0.
  *  @param e Encoder to use.
  */
-Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<Encoder> e)
+Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> j)
 	: _job (j)
-	, _encoder (e)
-	, _decoders (decoder_factory (f, o))
+	, _playlist (f->playlist ())
+	, _encoder (new Encoder (f, _playlist))
 {
-	assert (_encoder);
-
-	if (f->audio_stream()) {
-		shared_ptr<AudioStream> st = f->audio_stream();
-		_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->source_frame_rate()));
-		_delay_line.reset (new DelayLine (f->log(), st->channels(), f->audio_delay() * st->sample_rate() / 1000));
+	if (_playlist->has_audio ()) {
+		_matcher.reset (new Matcher (f->log(), _playlist->audio_frame_rate(), _playlist->video_frame_rate()));
+		_delay_line.reset (new DelayLine (f->log(), _playlist->audio_channels(), f->audio_delay() * _playlist->audio_frame_rate() / 1000));
 		_gain.reset (new Gain (f->log(), f->audio_gain()));
 	}
 
-	/* Set up the decoder to use the film's set streams */
-	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
-	if (_decoders.audio) {
-		_decoders.audio->set_audio_stream (f->audio_stream ());
-	}
-
 	if (_matcher) {
-		_decoders.video->connect_video (_matcher);
+		_playlist->connect_video (_matcher);
 		_matcher->connect_video (_encoder);
 	} else {
-		_decoders.video->connect_video (_encoder);
+		_playlist->connect_video (_encoder);
 	}
 	
-	if (_matcher && _delay_line && _decoders.audio) {
-		_decoders.audio->connect_audio (_delay_line);
+	if (_matcher && _delay_line && _playlist->has_audio ()) {
+		_playlist->connect_audio (_delay_line);
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
 		_gain->connect_audio (_encoder);
 	}
 }
 
-/** Run the decoder, passing its output to the encoder, until the decoder
- *  has no more data to present.
- */
 void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
 	try {
-		bool done[2] = { false, false };
-		
 		while (1) {
-			if (!done[0]) {
-				done[0] = _decoders.video->pass ();
-				if (_job) {
-					_decoders.video->set_progress (_job);
-				}
-			}
-
-			if (!done[1] && _decoders.audio && dynamic_pointer_cast<Decoder> (_decoders.audio) != dynamic_pointer_cast<Decoder> (_decoders.video)) {
-				done[1] = _decoders.audio->pass ();
-			} else {
-				done[1] = true;
-			}
-
-			if (done[0] && done[1]) {
+			if (_playlist->pass ()) {
 				break;
 			}
+			_playlist->set_progress (_job);
 		}
 		
 	} catch (...) {

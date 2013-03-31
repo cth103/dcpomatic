@@ -112,6 +112,7 @@ class OpenFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to open */
+	/* XXX: should be boost::filesystem::path */
 	OpenFileError (std::string f);
 };
 

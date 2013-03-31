@@ -25,8 +25,9 @@
 #define DVDOMATIC_AUDIO_DECODER_H
 
 #include "audio_source.h"
-#include "stream.h"
 #include "decoder.h"
+
+class AudioContent;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
@@ -34,25 +35,7 @@
 class AudioDecoder : public AudioSource, public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<Film>, DecodeOptions);
-
-	virtual void set_audio_stream (boost::shared_ptr<AudioStream>);
-
-	/** @return Audio stream that we are using */
-	boost::shared_ptr<AudioStream> audio_stream () const {
-		return _audio_stream;
-	}
-
-	/** @return All available audio streams */
-	std::vector<boost::shared_ptr<AudioStream> > audio_streams () const {
-		return _audio_streams;
-	}
-
-protected:
-	/** Audio stream that we are using */
-	boost::shared_ptr<AudioStream> _audio_stream;
-	/** All available audio streams */
-	std::vector<boost::shared_ptr<AudioStream> > _audio_streams;
+	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<AudioContent>, DecodeOptions);
 };
 
 #endif

@@ -46,8 +46,7 @@ public:
 	void run ();
 
 private:
-	DecodeOptions _decode_opt;
-	
 	/** Copy of our Film using the reference filters and scaler */
 	boost::shared_ptr<Film> _film_b;
+	DecodeOptions _decode_opt;
 };

@@ -34,8 +34,6 @@ using std::list;
 using std::stringstream;
 using boost::shared_ptr;
 
-/** @param s Film that we are operating on.
- */
 Job::Job (shared_ptr<Film> f)
 	: _film (f)
 	, _thread (0)
