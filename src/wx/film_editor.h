@@ -30,6 +30,7 @@
 
 class wxNotebook;
 class wxListCtrl;
+class wxListEvent;
 class Film;
 class AudioDialog;
 
@@ -62,6 +63,7 @@ private:
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
 	void trust_content_header_changed (wxCommandEvent &);
+	void content_item_selected (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
 	void content_earlier_clicked (wxCommandEvent &);
@@ -100,6 +102,7 @@ private:
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
 	void setup_content ();
+	void setup_content_button_sensitivity ();
 	
 	void active_jobs_changed (bool);
 

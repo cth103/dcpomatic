@@ -203,6 +203,7 @@ FilmEditor::connect_to_widgets ()
 	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
 	_trust_content_header->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_header_changed), 0, this);
+	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_item_selected), 0, this);
 	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
@@ -842,10 +843,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_content->Enable (s);
 	_trust_content_header->Enable (s);
 	_content->Enable (s);
-	_content_add->Enable (s);
-	_content_remove->Enable (s);
-	_content_earlier->Enable (s);
-	_content_later->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
 	_top_crop->Enable (s);
@@ -867,6 +864,7 @@ FilmEditor::set_things_sensitive (bool s)
 
 	setup_subtitle_control_sensitivity ();
 	setup_show_audio_sensitivity ();
+	setup_content_button_sensitivity ();
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -1201,4 +1199,21 @@ void
 FilmEditor::content_later_clicked (wxCommandEvent &)
 {
 
+}
+
+void
+FilmEditor::content_item_selected (wxListEvent &)
+{
+        setup_content_button_sensitivity ();
+}
+
+void
+FilmEditor::setup_content_button_sensitivity ()
+{
+        _content_add->Enable (_generally_sensitive);
+
+	bool const have_selection = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1;
+        _content_remove->Enable (have_selection && _generally_sensitive);
+        _content_earlier->Enable (have_selection && _generally_sensitive);
+        _content_later->Enable (have_selection && _generally_sensitive);
 }
