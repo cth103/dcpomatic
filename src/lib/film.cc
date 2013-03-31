@@ -87,7 +87,7 @@ int const Film::state_version = 4;
 
 Film::Film (string d, bool must_exist)
 	: _use_dci_name (true)
-	, _trust_content_header (true)
+	, _trust_content_headers (true)
 	, _dcp_content_type (0)
 	, _format (0)
 	, _scaler (Scaler::from_id ("bicubic"))
@@ -149,7 +149,7 @@ Film::Film (Film const & o)
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
-	, _trust_content_header (o._trust_content_header)
+	, _trust_content_headers (o._trust_content_headers)
 	, _dcp_content_type  (o._dcp_content_type)
 	, _format            (o._format)
 	, _crop              (o._crop)
@@ -321,7 +321,7 @@ Film::analyse_audio ()
 void
 Film::examine_content (shared_ptr<Content> c)
 {
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, trust_content_header ()));
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, trust_content_headers ()));
 	j->Finished.connect (bind (&Film::examine_content_finished, this));
 	JobManager::instance()->add (j);
 }
@@ -391,7 +391,7 @@ Film::write_metadata () const
 	f << "name " << _name << endl;
 	f << "use_dci_name " << _use_dci_name << endl;
 //	f << "content " << _content << endl;
-	f << "trust_content_header " << (_trust_content_header ? "1" : "0") << endl;
+	f << "trust_content_headers " << (_trust_content_headers ? "1" : "0") << endl;
 	if (_dcp_content_type) {
 		f << "dcp_content_type " << _dcp_content_type->dci_name () << endl;
 	}
@@ -495,8 +495,8 @@ Film::read_metadata ()
 			_use_dci_name = (v == "1");
 		} else if (k == "content") {
 //			_content = v;
-		} else if (k == "trust_content_header") {
-			_trust_content_header = (v == "1");
+		} else if (k == "trust_content_headers") {
+			_trust_content_headers = (v == "1");
 		} else if (k == "dcp_content_type") {
 			if (version < 3) {
 				_dcp_content_type = DCPContentType::from_pretty_name (v);
@@ -792,16 +792,16 @@ Film::set_use_dci_name (bool u)
 }
 
 void
-Film::set_trust_content_header (bool t)
+Film::set_trust_content_headers (bool t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_trust_content_header = t;
+		_trust_content_headers = t;
 	}
 	
-	signal_changed (TRUST_CONTENT_HEADER);
+	signal_changed (TRUST_CONTENT_HEADERS);
 
-	if (!_trust_content_header && !content().empty()) {
+	if (!_trust_content_headers && !content().empty()) {
 		/* We just said that we don't trust the content's header */
 		/* XXX */
 //		examine_content ();

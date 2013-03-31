@@ -62,7 +62,7 @@ private:
 	void right_crop_changed (wxCommandEvent &);
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
-	void trust_content_header_changed (wxCommandEvent &);
+	void trust_content_headers_changed (wxCommandEvent &);
 	void content_item_selected (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
@@ -132,7 +132,7 @@ private:
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;
-	wxCheckBox* _trust_content_header;
+	wxCheckBox* _trust_content_headers;
 	wxSpinCtrl* _left_crop;
 	wxSpinCtrl* _right_crop;
 	wxSpinCtrl* _top_crop;
@@ -151,7 +151,6 @@ private:
 	wxChoice* _colour_lut;
 	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
-	wxStaticText* _source_frame_rate;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
 	wxStaticText* _frame_rate_description;

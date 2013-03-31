@@ -114,7 +114,7 @@ public:
 		NONE,
 		NAME,
 		USE_DCI_NAME,
-		TRUST_CONTENT_HEADER,
+		TRUST_CONTENT_HEADERS,
 		CONTENT,
 		DCP_CONTENT_TYPE,
 		FORMAT,
@@ -155,9 +155,9 @@ public:
 		return _use_dci_name;
 	}
 
-	bool trust_content_header () const {
+	bool trust_content_headers () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _trust_content_header;
+		return _trust_content_headers;
 	}
 
 	std::list<boost::shared_ptr<Content> > content () const {
@@ -255,7 +255,7 @@ public:
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
-	void set_trust_content_header (bool);
+	void set_trust_content_headers (bool);
 	void add_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
@@ -314,11 +314,7 @@ private:
 	bool _use_dci_name;
 	typedef std::list<boost::shared_ptr<Content> > ContentList;
 	ContentList _content;
-	/** If this is true, we will believe the length specified by the content
-	 *  file's header; if false, we will run through the whole content file
-	 *  the first time we see it in order to obtain the length.
-	 */
-	bool _trust_content_header;
+	bool _trust_content_headers;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */

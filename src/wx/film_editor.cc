@@ -122,18 +122,13 @@ FilmEditor::make_film_panel ()
 	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
 
-	_trust_content_header = new wxCheckBox (_film_panel, wxID_ANY, _("Trust content's header"));
-	grid->Add (_trust_content_header, wxGBPosition (r, 0), wxGBSpan(1, 2));
+	_trust_content_headers = new wxCheckBox (_film_panel, wxID_ANY, _("Trust content's header"));
+	grid->Add (_trust_content_headers, wxGBPosition (r, 0), wxGBSpan(1, 2));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content Type"), wxGBPosition (r, 0));
 	_dcp_content_type = new wxChoice (_film_panel, wxID_ANY);
 	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Frame Rate"), wxGBPosition (r, 0));
-	_source_frame_rate = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (_source_frame_rate, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	{
@@ -202,7 +197,7 @@ FilmEditor::connect_to_widgets ()
 	_use_dci_name->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
 	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
-	_trust_content_header->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_header_changed), 0, this);
+	_trust_content_headers->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_headers_changed), 0, this);
 	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_item_selected), 0, this);
 	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
@@ -483,13 +478,13 @@ FilmEditor::bottom_crop_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::trust_content_header_changed (wxCommandEvent &)
+FilmEditor::trust_content_headers_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_trust_content_header (_trust_content_header->GetValue ());
+	_film->set_trust_content_headers (_trust_content_headers->GetValue ());
 }
 
 /** Called when the DCP A/B switch has been toggled */
@@ -594,8 +589,8 @@ FilmEditor::film_changed (Film::Property p)
 		setup_streams ();
 		setup_show_audio_sensitivity ();
 		break;
-	case Film::TRUST_CONTENT_HEADER:
-		checked_set (_trust_content_header, _film->trust_content_header ());
+	case Film::TRUST_CONTENT_HEADERS:
+		checked_set (_trust_content_headers, _film->trust_content_headers ());
 		break;
 //	case Film::SUBTITLE_STREAMS:
 //		setup_subtitle_control_sensitivity ();
@@ -808,7 +803,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::NAME);
 	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::CONTENT);
-	film_changed (Film::TRUST_CONTENT_HEADER);
+	film_changed (Film::TRUST_CONTENT_HEADERS);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::FORMAT);
 	film_changed (Film::CROP);
@@ -841,7 +836,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_edit_dci_button->Enable (s);
 	_format->Enable (s);
 	_content->Enable (s);
-	_trust_content_header->Enable (s);
+	_trust_content_headers->Enable (s);
 	_content->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
