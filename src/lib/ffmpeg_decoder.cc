@@ -41,7 +41,6 @@ extern "C" {
 #include "transcoder.h"
 #include "job.h"
 #include "filter.h"
-#include "options.h"
 #include "exceptions.h"
 #include "image.h"
 #include "util.h"
@@ -62,10 +61,10 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using libdcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<FFmpegContent> c, DecodeOptions o)
-	: Decoder (f, o)
-	, VideoDecoder (f, c, o)
-	, AudioDecoder (f, c, o)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<FFmpegContent> c, bool video, bool audio, bool subtitles, bool video_sync)
+	: Decoder (f)
+	, VideoDecoder (f, c)
+	, AudioDecoder (f, c)
 	, _ffmpeg_content (c)
 	, _format_context (0)
 	, _video_stream (-1)
@@ -76,13 +75,17 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<FFmpegContent
 	, _audio_codec (0)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
+	, _decode_video (video)
+	, _decode_audio (audio)
+	, _decode_subtitles (subtitles)
+	, _video_sync (video_sync)
 {
 	setup_general ();
 	setup_video ();
 	setup_audio ();
 	setup_subtitle ();
 
-	if (!o.video_sync) {
+	if (!video_sync) {
 		_first_video = 0;
 	}
 }
@@ -230,13 +233,13 @@ FFmpegDecoder::pass ()
 
 		int frame_finished;
 
-		if (_opt.decode_video) {
+		if (_decode_video) {
 			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 				filter_and_emit_video (_frame);
 			}
 		}
 
-		if (_ffmpeg_content->audio_stream() && _opt.decode_audio) {
+		if (_ffmpeg_content->audio_stream() && _decode_audio) {
 			decode_audio_packet ();
 		}
 
@@ -245,7 +248,7 @@ FFmpegDecoder::pass ()
 
 	avcodec_get_frame_defaults (_frame);
 
-	if (_packet.stream_index == _video_stream && _opt.decode_video) {
+	if (_packet.stream_index == _video_stream && _decode_video) {
 
 		int frame_finished;
 		int const r = avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet);
@@ -255,16 +258,16 @@ FFmpegDecoder::pass ()
 				_film->log()->log (String::compose (N_("Used only %1 bytes of %2 in packet"), r, _packet.size));
 			}
 
-			if (_opt.video_sync) {
+			if (_video_sync) {
 				out_with_sync ();
 			} else {
 				filter_and_emit_video (_frame);
 			}
 		}
 
-	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _opt.decode_audio) {
+	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && _opt.decode_subtitles && _first_video) {
+	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && _decode_subtitles && _first_video) {
 
 		int got_subtitle;
 		AVSubtitle sub;
@@ -633,9 +636,9 @@ FFmpegDecoder::decode_audio_packet ()
 			   was before this packet.  Until then audio is thrown away.
 			*/
 			
-			if ((_first_video && _first_video.get() <= source_pts_seconds) || !_opt.decode_video) {
+			if ((_first_video && _first_video.get() <= source_pts_seconds) || !_decode_video) {
 				
-				if (!_first_audio && _opt.decode_video) {
+				if (!_first_audio && _decode_video) {
 					_first_audio = source_pts_seconds;
 					
 					/* This is our first audio frame, and if we've arrived here we must have had our

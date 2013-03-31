@@ -19,7 +19,6 @@
 
 #include <boost/filesystem.hpp>
 #include "examine_content_job.h"
-#include "options.h"
 #include "log.h"
 #include "content.h"
 

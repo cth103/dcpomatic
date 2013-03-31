@@ -28,7 +28,6 @@
 #include "scaler.h"
 #include "server.h"
 #include "dcp_video_frame.h"
-#include "options.h"
 #include "decoder.h"
 #include "exceptions.h"
 #include "scaler.h"
@@ -151,12 +150,12 @@ main (int argc, char* argv[])
 	server = new ServerDescription (server_host, 1);
 	shared_ptr<Film> film (new Film (film_dir, true));
 
-	DecodeOptions opt;
-	opt.decode_audio = false;
-	opt.decode_subtitles = true;
-	opt.video_sync = true;
+	/* XXX */
+//	opt.decode_audio = false;
+//	opt.decode_subtitles = true;
+//	opt.video_sync = true;
 
-	Decoders decoders = decoder_factory (film, opt);
+	Decoders decoders = decoder_factory (film);
 	try {
 		decoders.video->Video.connect (boost::bind (process_video, _1, _2, _3));
 		bool done = false;

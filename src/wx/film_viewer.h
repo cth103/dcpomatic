@@ -58,6 +58,7 @@ private:
 	void active_jobs_changed (bool);
 
 	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<Playlist> _playlist;
 
 	wxSizer* _v_sizer;
 	wxPanel* _panel;
@@ -65,7 +66,6 @@ private:
 	wxToggleButton* _play_button;
 	wxTimer _timer;
 
-	Decoders _decoders;
 	boost::shared_ptr<Image> _raw_frame;
 	boost::shared_ptr<Subtitle> _raw_sub;
 	boost::shared_ptr<Image> _display_frame;

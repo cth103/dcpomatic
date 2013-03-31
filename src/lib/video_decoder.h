@@ -28,7 +28,7 @@ class VideoContent;
 class VideoDecoder : public VideoSource, public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<VideoContent>, DecodeOptions);
+	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<VideoContent>);
 
 	/** @return video frames per second, or 0 if unknown */
 	virtual float frames_per_second () const = 0;

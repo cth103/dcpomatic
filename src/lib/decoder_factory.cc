@@ -36,7 +36,7 @@ using boost::dynamic_pointer_cast;
 
 Decoders
 decoder_factory (
-	shared_ptr<Film> f, DecodeOptions o
+	shared_ptr<Film> f
 	)
 {
 	return Decoders ();

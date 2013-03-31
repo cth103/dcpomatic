@@ -40,7 +40,6 @@
 #include "transcode_job.h"
 #include "scp_dcp_job.h"
 #include "log.h"
-#include "options.h"
 #include "exceptions.h"
 #include "examine_content_job.h"
 #include "scaler.h"
@@ -296,15 +295,12 @@ Film::make_dcp ()
 		throw MissingSettingError (_("name"));
 	}
 
-	DecodeOptions od;
-	od.decode_subtitles = with_subtitles ();
-
 	shared_ptr<Job> r;
 
 	if (dcp_ab()) {
-		r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this(), od)));
+		r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this())));
 	} else {
-		r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this(), od)));
+		r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
 	}
 }
 

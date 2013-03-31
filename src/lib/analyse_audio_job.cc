@@ -21,7 +21,6 @@
 #include "analyse_audio_job.h"
 #include "compose.hpp"
 #include "film.h"
-#include "options.h"
 #include "playlist.h"
 
 #include "i18n.h"

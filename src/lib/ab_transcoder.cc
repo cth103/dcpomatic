@@ -23,7 +23,6 @@
 #include "film.h"
 #include "encoder.h"
 #include "job.h"
-#include "options.h"
 #include "image.h"
 #include "playlist.h"
 #include "matcher.h"
@@ -47,7 +46,7 @@ using boost::dynamic_pointer_cast;
  *  @param e Encoder to use.
  */
 
-ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, DecodeOptions o, shared_ptr<Job> j)
+ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<Job> j)
 	: _film_a (a)
 	, _film_b (b)
 	, _playlist_a (_film_a->playlist ())

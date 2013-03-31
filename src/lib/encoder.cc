@@ -27,7 +27,6 @@
 #include <libdcp/picture_asset.h>
 #include "encoder.h"
 #include "util.h"
-#include "options.h"
 #include "film.h"
 #include "log.h"
 #include "exceptions.h"

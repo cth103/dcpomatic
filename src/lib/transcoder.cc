@@ -32,7 +32,6 @@
 #include "film.h"
 #include "matcher.h"
 #include "delay_line.h"
-#include "options.h"
 #include "gain.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
@@ -44,11 +43,10 @@ using boost::dynamic_pointer_cast;
 
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
  *  @param f Film that we are transcoding.
- *  @param o Decode options.
  *  @param j Job that we are running under, or 0.
  *  @param e Encoder to use.
  */
-Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, shared_ptr<Job> j)
+Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	: _job (j)
 	, _playlist (f->playlist ())
 	, _encoder (new Encoder (f, _playlist))

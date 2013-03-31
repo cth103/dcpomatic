@@ -32,11 +32,9 @@ using std::string;
 using boost::shared_ptr;
 
 /** @param f Film to compare.
- *  @param o Decode options.
  */
-ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f, DecodeOptions o)
+ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f)
 	: Job (f)
-	, _decode_opt (o)
 {
 	_film_b.reset (new Film (*_film));
 	_film_b->set_scaler (Config::instance()->reference_scaler ());
@@ -54,7 +52,7 @@ ABTranscodeJob::run ()
 {
 	try {
 		/* _film_b is the one with reference filters */
-		ABTranscoder w (_film_b, _film, _decode_opt, shared_from_this ());
+		ABTranscoder w (_film_b, _film, shared_from_this ());
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);

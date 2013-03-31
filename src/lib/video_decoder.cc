@@ -22,7 +22,6 @@
 #include "film.h"
 #include "image.h"
 #include "log.h"
-#include "options.h"
 #include "job.h"
 
 #include "i18n.h"
@@ -30,8 +29,8 @@
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<VideoContent> c, DecodeOptions o)
-	: Decoder (f, o)
+VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<VideoContent> c)
+	: Decoder (f)
 	, _video_frame (0)
 	, _last_source_time (0)
 {

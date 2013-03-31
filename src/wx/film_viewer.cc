@@ -28,13 +28,13 @@
 #include "lib/format.h"
 #include "lib/util.h"
 #include "lib/job_manager.h"
-#include "lib/options.h"
 #include "lib/subtitle.h"
 #include "lib/image.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
 #include "lib/examine_content_job.h"
 #include "lib/filter.h"
+#include "lib/playlist.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -97,24 +97,13 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 	{
-		DecodeOptions o;
-		o.decode_audio = false;
-		o.decode_subtitles = true;
-		o.video_sync = false;
+		_playlist = _film->playlist ();
+		_playlist->disable_audio ();
+		_playlist->disable_subtitles ();
+		_playlist->disable_video_sync ();
 
-		try {
-			_decoders = decoder_factory (_film, o);
-		} catch (StringError& e) {
-			error_dialog (this, wxString::Format (_("Could not open content file (%s)"), std_to_wx(e.what()).data()));
-			return;
-		}
-		
-		if (_decoders.video == 0) {
-			break;
-		}
-		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
-		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
-//		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
+		_playlist->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+//		_playlist->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
@@ -129,9 +118,9 @@ FilmViewer::film_changed (Film::Property p)
 		update_from_raw ();
 		break;
 	case Film::SUBTITLE_STREAM:
-		if (_decoders.video) {
+//		if (_decoders.video) {
 //			_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
-		}
+//		}
 		break;
 	default:
 		break;
@@ -164,7 +153,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::decoder_changed ()
 {
-	if (_decoders.video == 0 || _decoders.video->seek_to_last ()) {
+	if (!_playlist == 0 || _playlist->seek_to_last ()) {
 		return;
 	}
 
@@ -176,7 +165,7 @@ FilmViewer::decoder_changed ()
 void
 FilmViewer::timer (wxTimerEvent &)
 {
-	if (!_film || !_decoders.video) {
+	if (!_playlist) {
 		return;
 	}
 	
@@ -185,8 +174,8 @@ FilmViewer::timer (wxTimerEvent &)
 
 	get_frame ();
 
-//	if (_film->length()) {
-//		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->source_frame_rate());
+//	if (_playlist->video_length()) {
+//		int const new_slider_position = 4096 * _playlist->last_source_time() / (_film->length().get() / _film->source_frame_rate());
 //		if (new_slider_position != _slider->GetValue()) {
 //			_slider->SetValue (new_slider_position);
 //		}
@@ -231,13 +220,13 @@ FilmViewer::paint_panel (wxPaintEvent &)
 void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
-//	if (!_film || !_film->length() || !_decoders.video) {
-//		return;
-//	}
+	if (!_film || !_playlist) {
+		return;
+	}
 	
-//	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / (4096 * _film->source_frame_rate()))) {
-//		return;
-//	}
+	if (_playlist->seek (_slider->GetValue() * _playlist->video_length() / (4096 * _playlist->video_frame_rate()))) {
+		return;
+	}
 	
 	get_frame ();
 	_panel->Refresh ();
@@ -319,7 +308,7 @@ FilmViewer::raw_to_display ()
 void
 FilmViewer::calculate_sizes ()
 {
-	if (!_film) {
+	if (!_film || !_playlist) {
 		return;
 	}
 
@@ -342,9 +331,9 @@ FilmViewer::calculate_sizes ()
 	   of our _display_frame.
 	*/
 	_display_frame_x = 0;
-//	if (format) {
-//		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
-//	}
+	if (format) {
+		_display_frame_x = static_cast<float> (format->dcp_padding (_playlist)) * _out_size.width / format->dcp_size().width;
+	}
 
 	_film_size = _out_size;
 	_film_size.width -= _display_frame_x * 2;
@@ -392,7 +381,7 @@ FilmViewer::get_frame ()
 	/* Clear our raw frame in case we don't get a new one */
 	_raw_frame.reset ();
 
-	if (_decoders.video == 0) {
+	if (!_playlist) {
 		_display_frame.reset ();
 		return;
 	}
@@ -400,7 +389,7 @@ FilmViewer::get_frame ()
 	try {
 		_got_frame = false;
 		while (!_got_frame) {
-			if (_decoders.video->pass ()) {
+			if (_playlist->pass ()) {
 				/* We didn't get a frame before the decoder gave up,
 				   so clear our display frame.
 				*/

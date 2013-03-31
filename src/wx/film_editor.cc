@@ -347,6 +347,7 @@ FilmEditor::make_content_panel ()
                 s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
                 _content->InsertColumn (0, "");
+		_content->SetColumnWidth (0, 512);
 
                 wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
                 _content_add = new wxButton (_content_panel, wxID_ANY, _("Add..."));

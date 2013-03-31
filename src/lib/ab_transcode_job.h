@@ -23,7 +23,6 @@
 
 #include <boost/shared_ptr.hpp>
 #include "job.h"
-#include "options.h"
 
 class Film;
 
@@ -38,8 +37,7 @@ class ABTranscodeJob : public Job
 {
 public:
 	ABTranscodeJob (
-		boost::shared_ptr<Film> f,
-		DecodeOptions o
+		boost::shared_ptr<Film> f
 		);
 
 	std::string name () const;
@@ -48,5 +46,4 @@ public:
 private:
 	/** Copy of our Film using the reference filters and scaler */
 	boost::shared_ptr<Film> _film_b;
-	DecodeOptions _decode_opt;
 };

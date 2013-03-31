@@ -36,9 +36,9 @@ using boost::optional;
 
 /* XXX */
 
-SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<SndfileContent> c, DecodeOptions o)
-	: Decoder (f, o)
-	, AudioDecoder (f, c, o)
+SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<SndfileContent> c)
+	: Decoder (f)
+	, AudioDecoder (f, c)
 {
 	sf_count_t frames;
 	SNDFILE* sf = open_file (frames);

@@ -47,7 +47,6 @@
 #include "dcp_video_frame.h"
 #include "lut.h"
 #include "config.h"
-#include "options.h"
 #include "exceptions.h"
 #include "server.h"
 #include "util.h"

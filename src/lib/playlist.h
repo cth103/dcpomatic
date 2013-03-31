@@ -48,16 +48,25 @@ public:
 	
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
+	ContentVideoFrame video_length () const;
 
 	void disable_video ();
+	void disable_audio ();
+	void disable_subtitles ();
+	void disable_video_sync ();
 
 	bool pass ();
 	void set_progress (boost::shared_ptr<Job>);
+	bool seek (double);
+	bool seek_to_last ();
 
 private:
 	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
 	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void setup_decoders ();
 	
+	boost::shared_ptr<const Film> _film;
+
 	enum {
 		VIDEO_NONE,
 		VIDEO_FFMPEG,
@@ -74,9 +83,12 @@ private:
 	std::list<boost::shared_ptr<ImageMagickContent> > _imagemagick;
 	std::list<boost::shared_ptr<SndfileContent> > _sndfile;
 
+	bool _have_setup_decoders;
 	boost::shared_ptr<FFmpegDecoder> _ffmpeg_decoder;
 	bool _ffmpeg_decoder_done;
 	std::list<boost::shared_ptr<ImageMagickDecoder> > _imagemagick_decoders;
 	std::list<boost::shared_ptr<ImageMagickDecoder> >::iterator _imagemagick_decoder;
 	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
+
+	bool _video_sync;
 };

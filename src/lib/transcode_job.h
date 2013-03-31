@@ -23,7 +23,6 @@
 
 #include <boost/shared_ptr.hpp>
 #include "job.h"
-#include "options.h"
 
 class Encoder;
 
@@ -33,7 +32,7 @@ class Encoder;
 class TranscodeJob : public Job
 {
 public:
-	TranscodeJob (boost::shared_ptr<Film> f, DecodeOptions od);
+	TranscodeJob (boost::shared_ptr<Film> f);
 	
 	std::string name () const;
 	void run ();
@@ -41,7 +40,4 @@ public:
 
 protected:
 	int remaining_time () const;
-
-private:
-	DecodeOptions _decode_opt;
 };

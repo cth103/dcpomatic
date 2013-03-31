@@ -33,7 +33,6 @@
 #include "video_source.h"
 #include "audio_source.h"
 #include "film.h"
-#include "options.h"
 
 class Image;
 class Log;
@@ -52,7 +51,7 @@ class FilterGraph;
 class Decoder
 {
 public:
-	Decoder (boost::shared_ptr<const Film>, DecodeOptions);
+	Decoder (boost::shared_ptr<const Film>);
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
@@ -63,8 +62,6 @@ public:
 
 protected:
 	boost::shared_ptr<const Film> _film;
-	/** our decode options */
-	DecodeOptions _opt;
 
 private:
 	virtual void film_changed (Film::Property) {}

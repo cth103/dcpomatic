@@ -48,7 +48,6 @@ public:
 	ABTranscoder (
 		boost::shared_ptr<Film> a,
 		boost::shared_ptr<Film> b,
-		DecodeOptions o,
 		boost::shared_ptr<Job> j
 		);
 	

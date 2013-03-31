@@ -28,7 +28,7 @@ class ImageMagickContent;
 class ImageMagickDecoder : public VideoDecoder
 {
 public:
-	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<ImageMagickContent>, DecodeOptions);
+	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<ImageMagickContent>);
 
 	float frames_per_second () const {
 		/* We don't know */

@@ -31,9 +31,12 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 Playlist::Playlist (shared_ptr<const Film> f, list<shared_ptr<Content> > c)
-	: _video_from (VIDEO_NONE)
+	: _film (f)
+	, _video_from (VIDEO_NONE)
 	, _audio_from (AUDIO_NONE)
+	, _have_setup_decoders (false)
 	, _ffmpeg_decoder_done (false)
+	, _video_sync (true)
 {
 	for (list<shared_ptr<Content> >::const_iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
@@ -58,42 +61,6 @@ Playlist::Playlist (shared_ptr<const Film> f, list<shared_ptr<Content> > c)
 		if (sc) {
 			_sndfile.push_back (sc);
 			_audio_from = AUDIO_SNDFILE;
-		}
-	}
-
-	if (_video_from == VIDEO_FFMPEG || _audio_from == AUDIO_FFMPEG) {
-		DecodeOptions o;
-		/* XXX: decodeoptions */
-		_ffmpeg_decoder.reset (new FFmpegDecoder (f, _ffmpeg, o));
-	}
-	
-	if (_video_from == VIDEO_FFMPEG) {
-		_ffmpeg_decoder->connect_video (shared_from_this ());
-	}
-
-	if (_audio_from == AUDIO_FFMPEG) {
-		_ffmpeg_decoder->connect_audio (shared_from_this ());
-	}
-
-	if (_video_from == VIDEO_IMAGEMAGICK) {
-		for (list<shared_ptr<ImageMagickContent> >::iterator i = _imagemagick.begin(); i != _imagemagick.end(); ++i) {
-			DecodeOptions o;
-			/* XXX: decodeoptions */
-			shared_ptr<ImageMagickDecoder> d (new ImageMagickDecoder (f, *i, o));
-			_imagemagick_decoders.push_back (d);
-			d->connect_video (shared_from_this ());
-		}
-
-		_imagemagick_decoder = _imagemagick_decoders.begin ();
-	}
-
-	if (_audio_from == AUDIO_SNDFILE) {
-		for (list<shared_ptr<SndfileContent> >::iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
-			DecodeOptions o;
-			/* XXX: decodeoptions */
-			shared_ptr<SndfileDecoder> d (new SndfileDecoder (f, *i, o));
-			_sndfile_decoders.push_back (d);
-			d->connect_audio (shared_from_this ());
 		}
 	}
 }
@@ -202,6 +169,27 @@ Playlist::video_size () const
 	return libdcp::Size ();
 }
 
+ContentVideoFrame
+Playlist::video_length () const
+{
+	switch (_video_from) {
+	case VIDEO_NONE:
+		return 0;
+	case VIDEO_FFMPEG:
+		return _ffmpeg->video_length ();
+	case VIDEO_IMAGEMAGICK:
+	{
+		ContentVideoFrame l = 0;
+		for (list<shared_ptr<ImageMagickContent> >::const_iterator i = _imagemagick.begin(); i != _imagemagick.end(); ++i) {
+			l += (*i)->video_length ();
+		}
+		return l;
+	}
+	}
+
+	return 0;
+}
+
 bool
 Playlist::has_audio () const
 {
@@ -214,9 +202,26 @@ Playlist::disable_video ()
 	_video_from = VIDEO_NONE;
 }
 
+void
+Playlist::disable_audio ()
+{
+	_audio_from = AUDIO_NONE;
+}
+
+void
+Playlist::disable_subtitles ()
+{
+	/* XXX */
+}
+
 bool
 Playlist::pass ()
 {
+	if (!_have_setup_decoders) {
+		setup_decoders ();
+		_have_setup_decoders = true;
+	}
+	
 	bool done = true;
 	
 	if (_video_from == VIDEO_FFMPEG || _audio_from == AUDIO_FFMPEG) {
@@ -264,3 +269,96 @@ Playlist::process_audio (shared_ptr<AudioBuffers> b)
 	Audio (b);
 }
 
+bool
+Playlist::seek (double t)
+{
+	bool r = false;
+	
+	switch (_video_from) {
+	case VIDEO_NONE:
+		break;
+	case VIDEO_FFMPEG:
+		if (_ffmpeg_decoder->seek (t)) {
+			r = true;
+		}
+		break;
+	case VIDEO_IMAGEMAGICK:
+		if ((*_imagemagick_decoder)->seek (t)) {
+			r = true;
+		}
+		break;
+	}
+
+	/* XXX: don't seek audio because we don't need to... */
+
+	return r;
+}
+
+bool
+Playlist::seek_to_last ()
+{
+	bool r = false;
+	
+	switch (_video_from) {
+	case VIDEO_NONE:
+		break;
+	case VIDEO_FFMPEG:
+		if (_ffmpeg_decoder->seek_to_last ()) {
+			r = true;
+		}
+		break;
+	case VIDEO_IMAGEMAGICK:
+		if ((*_imagemagick_decoder)->seek_to_last ()) {
+			r = true;
+		}
+		break;
+	}
+
+	/* XXX: don't seek audio because we don't need to... */
+
+	return r;
+}
+
+void
+Playlist::setup_decoders ()
+{
+	if (_video_from == VIDEO_FFMPEG || _audio_from == AUDIO_FFMPEG) {
+		_ffmpeg_decoder.reset (
+			new FFmpegDecoder (
+				_film, _ffmpeg, _video_from == VIDEO_FFMPEG, _audio_from == AUDIO_FFMPEG, _film->with_subtitles(), _video_sync
+				)
+			);
+	}
+	
+	if (_video_from == VIDEO_FFMPEG) {
+		_ffmpeg_decoder->connect_video (shared_from_this ());
+	}
+
+	if (_audio_from == AUDIO_FFMPEG) {
+		_ffmpeg_decoder->connect_audio (shared_from_this ());
+	}
+
+	if (_video_from == VIDEO_IMAGEMAGICK) {
+		for (list<shared_ptr<ImageMagickContent> >::iterator i = _imagemagick.begin(); i != _imagemagick.end(); ++i) {
+			shared_ptr<ImageMagickDecoder> d (new ImageMagickDecoder (_film, *i));
+			_imagemagick_decoders.push_back (d);
+			d->connect_video (shared_from_this ());
+		}
+
+		_imagemagick_decoder = _imagemagick_decoders.begin ();
+	}
+
+	if (_audio_from == AUDIO_SNDFILE) {
+		for (list<shared_ptr<SndfileContent> >::iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
+			shared_ptr<SndfileDecoder> d (new SndfileDecoder (_film, *i));
+			_sndfile_decoders.push_back (d);
+			d->connect_audio (shared_from_this ());
+		}
+	}
+}
+
+void
+Playlist::disable_video_sync ()
+{
+	_video_sync = false;
+}

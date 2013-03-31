@@ -23,7 +23,6 @@
 
 #include <iostream>
 #include "film.h"
-#include "options.h"
 #include "exceptions.h"
 #include "util.h"
 #include "decoder.h"
@@ -36,9 +35,8 @@ using boost::shared_ptr;
 /** @param f Film.
  *  @param o Decode options.
  */
-Decoder::Decoder (shared_ptr<const Film> f, DecodeOptions o)
+Decoder::Decoder (shared_ptr<const Film> f)
 	: _film (f)
-	, _opt (o)
 {
 	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
 }

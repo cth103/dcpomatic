@@ -39,11 +39,9 @@ using std::setprecision;
 using boost::shared_ptr;
 
 /** @param s Film to use.
- *  @param o Decode options.
  */
-TranscodeJob::TranscodeJob (shared_ptr<Film> f, DecodeOptions o)
+TranscodeJob::TranscodeJob (shared_ptr<Film> f)
 	: Job (f)
-	, _decode_opt (o)
 {
 	
 }
@@ -62,7 +60,7 @@ TranscodeJob::run ()
 		_film->log()->log (N_("Transcode job starting"));
 		_film->log()->log (String::compose (N_("Audio delay is %1ms"), _film->audio_delay()));
 
-		Transcoder w (_film, _decode_opt, shared_from_this ());
+		Transcoder w (_film, shared_from_this ());
 		w.go ();
 		set_progress (1);
 		set_state (FINISHED_OK);

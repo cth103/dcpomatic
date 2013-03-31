@@ -24,8 +24,6 @@
  *  @brief A method to create appropriate decoders for some content.
  */
 
-#include "options.h"
-
 class Film;
 class VideoDecoder;
 class AudioDecoder;
@@ -43,7 +41,7 @@ struct Decoders {
 };
 
 extern Decoders decoder_factory (
-	boost::shared_ptr<Film>, DecodeOptions
+	boost::shared_ptr<Film>
 	);
 
 #endif

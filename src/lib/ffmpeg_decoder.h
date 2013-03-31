@@ -57,7 +57,7 @@ class Log;
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<FFmpegContent>, DecodeOptions);
+	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<FFmpegContent>, bool video, bool audio, bool subtitles, bool video_sync);
 	~FFmpegDecoder ();
 
 	float frames_per_second () const;
@@ -129,4 +129,9 @@ private:
 
         std::vector<FFmpegSubtitleStream> _subtitle_streams;
         std::vector<FFmpegAudioStream> _audio_streams;
+
+	bool _decode_video;
+	bool _decode_audio;
+	bool _decode_subtitles;
+	bool _video_sync;
 };

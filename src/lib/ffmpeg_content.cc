@@ -1,6 +1,5 @@
 #include "ffmpeg_content.h"
 #include "ffmpeg_decoder.h"
-#include "options.h"
 #include "compose.hpp"
 #include "job.h"
 #include "util.h"
@@ -33,9 +32,7 @@ FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
 
 	job->set_progress_unknown ();
 
-	DecodeOptions o;
-	o.decode_audio = false;
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), o));
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false, true));
 
 	ContentVideoFrame video_length = 0;
 	if (quick) {
