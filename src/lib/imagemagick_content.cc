@@ -9,7 +9,8 @@ ImageMagickContent::ImageMagickContent (boost::filesystem::path f)
 	: Content (f)
 	, VideoContent (f)
 {
-
+	/* XXX */
+	_video_length = 10 * 24;
 }
 
 string
