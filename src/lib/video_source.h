@@ -32,7 +32,7 @@ class VideoSink;
 class Subtitle;
 class Image;
 
-/** @class VideoSink
+/** @class VideoSource
  *  @param A class that emits video data.
  */
 class VideoSource
