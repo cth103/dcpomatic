@@ -106,11 +106,6 @@ struct FrameRateConversion
 
 int best_dcp_frame_rate (float);
 
-enum ContentType {
-	STILL, ///< content is still images
-	VIDEO  ///< content is a video
-};
-
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */
@@ -292,7 +287,6 @@ private:
 };
 
 extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second);
-extern bool still_image_file (std::string);
 extern std::pair<std::string, int> cpu_info ();
 
 #endif

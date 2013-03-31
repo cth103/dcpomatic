@@ -878,19 +878,6 @@ video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float fram
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
 }
 
-/** @param f Filename.
- *  @return true if this file is a still image, false if it is something else.
- */
-bool
-still_image_file (string f)
-{
-	string ext = boost::filesystem::path(f).extension().string();
-
-	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
-	
-	return (ext == N_(".tif") || ext == N_(".tiff") || ext == N_(".jpg") || ext == N_(".jpeg") || ext == N_(".png") || ext == N_(".bmp"));
-}
-
 /** @return A pair containing CPU model name and the number of processors */
 pair<string, int>
 cpu_info ()

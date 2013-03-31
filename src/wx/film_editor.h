@@ -62,6 +62,10 @@ private:
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
 	void trust_content_header_changed (wxCommandEvent &);
+	void content_add_clicked (wxCommandEvent &);
+	void content_remove_clicked (wxCommandEvent &);
+	void content_earlier_clicked (wxCommandEvent &);
+	void content_later_clicked (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);

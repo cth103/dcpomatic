@@ -38,6 +38,8 @@
 #include "lib/filter.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_decoder.h"
+#include "lib/imagemagick_content.h"
+#include "lib/sndfile_content.h"
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -201,6 +203,10 @@ FilmEditor::connect_to_widgets ()
 	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
 	_trust_content_header->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_header_changed), 0, this);
+	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
+	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
+	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
+	_content_later->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -834,6 +840,11 @@ FilmEditor::set_things_sensitive (bool s)
 	_format->Enable (s);
 	_content->Enable (s);
 	_trust_content_header->Enable (s);
+	_content->Enable (s);
+	_content_add->Enable (s);
+	_content_remove->Enable (s);
+	_content_earlier->Enable (s);
+	_content_later->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
 	_top_crop->Enable (s);
@@ -1150,3 +1161,43 @@ FilmEditor::setup_content ()
 	}
 }
 
+void
+FilmEditor::content_add_clicked (wxCommandEvent &)
+{
+	wxFileDialog* d = new wxFileDialog (this);
+	int const r = d->ShowModal ();
+	d->Destroy ();
+
+	if (r != wxID_OK) {
+		return;
+	}
+
+	boost::filesystem::path p (wx_to_std (d->GetPath()));
+
+	if (ImageMagickContent::valid_file (p)) {
+		_film->add_content (shared_ptr<ImageMagickContent> (new ImageMagickContent (p)));
+	} else if (SndfileContent::valid_file (p)) {
+		_film->add_content (shared_ptr<SndfileContent> (new SndfileContent (p)));
+	} else {
+		_film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (p)));
+	}
+	
+}
+
+void
+FilmEditor::content_remove_clicked (wxCommandEvent &)
+{
+
+}
+
+void
+FilmEditor::content_earlier_clicked (wxCommandEvent &)
+{
+
+}
+
+void
+FilmEditor::content_later_clicked (wxCommandEvent &)
+{
+
+}
