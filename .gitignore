@@ -15,6 +15,9 @@ sync
 doc/manual/html
 doc/manual/pdf
 doc/manual/extensions.ent
+doc/design/*.pdf
+doc/design/*.log
+doc/design/*.aux
 .be/id-cache
 *.pyc
 GPATH
