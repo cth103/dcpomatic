@@ -462,10 +462,10 @@ Film::read_metadata ()
 		}
 	}
 
-	_crop.left = f.number_child<int> ("CropLeft");
-	_crop.right = f.number_child<int> ("CropRight");
-	_crop.top = f.number_child<int> ("CropTop");
-	_crop.bottom = f.number_child<int> ("CropBottom");
+	_crop.left = f.number_child<int> ("LeftCrop");
+	_crop.right = f.number_child<int> ("RightCrop");
+	_crop.top = f.number_child<int> ("TopCrop");
+	_crop.bottom = f.number_child<int> ("BottomCrop");
 
 	{
 		list<shared_ptr<cxml::Node> > c = f.node_children ("Filter");
