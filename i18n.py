@@ -32,5 +32,5 @@ def po_to_mo(dir, name, bld):
         po = os.path.join('po', '%s.po' % lang)
         mo = os.path.join('mo', lang, '%s.mo' % name)
 
-        bld(rule = 'msgfmt ${SRC} -o ${TGT}', source = bld.path.make_node(po), target = bld.path.get_bld().make_node(mo))
+        bld(rule = 'msgfmt -f ${SRC} -o ${TGT}', source = bld.path.make_node(po), target = bld.path.get_bld().make_node(mo))
         bld.install_files(os.path.join('${PREFIX}', 'share', 'locale', lang, 'LC_MESSAGES'), mo)
