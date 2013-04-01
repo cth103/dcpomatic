@@ -122,4 +122,4 @@ msgstr "Välj film att öppna"
 #: src/tools/dvdomatic.cc:303
 #, fuzzy
 msgid "The directory %1 already exists."
-msgstr "Katalogen %s finns redan."
+msgstr "Katalogen %1 finns redan."
