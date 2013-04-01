@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-28 10:35+0000\n"
-"PO-Revision-Date: 2013-03-28 10:44+0100\n"
+"POT-Creation-Date: 2013-03-26 14:07+0000\n"
+"PO-Revision-Date: 2013-04-01 18:40+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,7 +20,7 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-#: src/wx/config_dialog.cc:61
+#: src/wx/config_dialog.cc:60
 msgid "(restart DVD-o-matic to see language changes)"
 msgstr "(starta om DVD-o-matic för att se språkändringar)"
 
@@ -33,11 +32,12 @@ msgstr "1 kanal"
 msgid "A/B"
 msgstr "A/B"
 
-#: src/wx/config_dialog.cc:143
+#: src/wx/config_dialog.cc:142
 msgid "Add"
 msgstr "Lägg till"
 
-#: src/wx/audio_dialog.cc:32 src/wx/film_editor.cc:77
+#: src/wx/audio_dialog.cc:32
+#: src/wx/film_editor.cc:77
 msgid "Audio"
 msgstr "Audio"
 
@@ -47,7 +47,7 @@ msgstr "Audio Fördröjning"
 
 #: src/wx/film_editor.cc:369
 msgid "Audio Gain"
-msgstr "Audio Volym"
+msgstr "Audio Förstärkning"
 
 #: src/wx/dci_metadata_dialog.cc:33
 msgid "Audio Language (e.g. EN)"
@@ -141,19 +141,19 @@ msgid "DVD-o-matic Preferences"
 msgstr "DVD-o-matic Inställningar"
 
 #: src/wx/audio_dialog.cc:101
-#, fuzzy, c-format
-msgid "DVD-o-matic audio - %s"
+msgid "DVD-o-matic audio - %1"
 msgstr "DVD-o-matic audio - %1"
 
-#: src/wx/config_dialog.cc:102
+#: src/wx/config_dialog.cc:101
 msgid "Default DCI name details"
 msgstr "Detaljer om förvalda DCI-namn"
 
-#: src/wx/config_dialog.cc:93
+#: src/wx/config_dialog.cc:92
 msgid "Default directory for new films"
 msgstr "Förvald katalog för nya filmer"
 
-#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:92
+#: src/wx/film_editor.cc:116
+#: src/wx/job_manager_view.cc:92
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -165,16 +165,17 @@ msgstr "Diskutrymme som krävs"
 msgid "Duration"
 msgstr "Längd"
 
-#: src/wx/config_dialog.cc:145
+#: src/wx/config_dialog.cc:144
 msgid "Edit"
 msgstr "Redigera"
 
-#: src/wx/config_dialog.cc:103 src/wx/config_dialog.cc:122
+#: src/wx/config_dialog.cc:102
+#: src/wx/config_dialog.cc:121
 #: src/wx/film_editor.cc:308
 msgid "Edit..."
 msgstr "Redigera..."
 
-#: src/wx/config_dialog.cc:128
+#: src/wx/config_dialog.cc:127
 msgid "Encoding Servers"
 msgstr "Kodningsservrar"
 
@@ -200,7 +201,8 @@ msgstr "Film Egenskaper"
 msgid "Film name"
 msgstr "film namn"
 
-#: src/wx/film_editor.cc:303 src/wx/filter_dialog.cc:32
+#: src/wx/film_editor.cc:303
+#: src/wx/filter_dialog.cc:32
 msgid "Filters"
 msgstr "Filter"
 
@@ -238,7 +240,7 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Jag vill spela upp detta med toning"
 
-#: src/wx/config_dialog.cc:132
+#: src/wx/config_dialog.cc:131
 msgid "IP address"
 msgstr "IP-adress"
 
@@ -270,7 +272,8 @@ msgstr "Namn"
 msgid "New Film"
 msgstr "Ny Film"
 
-#: src/wx/film_editor.cc:305 src/wx/film_editor.cc:664
+#: src/wx/film_editor.cc:305
+#: src/wx/film_editor.cc:664
 msgid "None"
 msgstr "Inget"
 
@@ -308,15 +311,15 @@ msgstr "RMS"
 msgid "Rating (e.g. 15)"
 msgstr "Klassificering (ex. 15)"
 
-#: src/wx/config_dialog.cc:118
+#: src/wx/config_dialog.cc:117
 msgid "Reference filters for A/B"
 msgstr "Referensfilter för A/B"
 
-#: src/wx/config_dialog.cc:107
+#: src/wx/config_dialog.cc:106
 msgid "Reference scaler for A/B"
 msgstr "Referensomskalare för A/B"
 
-#: src/wx/config_dialog.cc:147
+#: src/wx/config_dialog.cc:146
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -380,19 +383,19 @@ msgstr "Undertext Skalning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/config_dialog.cc:68
+#: src/wx/config_dialog.cc:67
 msgid "TMS IP address"
 msgstr "TMS IP-adress"
 
-#: src/wx/config_dialog.cc:83
+#: src/wx/config_dialog.cc:82
 msgid "TMS password"
 msgstr "TMS lösenord"
 
-#: src/wx/config_dialog.cc:73
+#: src/wx/config_dialog.cc:72
 msgid "TMS target path"
 msgstr "TMS målsökväg"
 
-#: src/wx/config_dialog.cc:78
+#: src/wx/config_dialog.cc:77
 msgid "TMS user name"
 msgstr "TMS användarnamn"
 
@@ -400,7 +403,7 @@ msgstr "TMS användarnamn"
 msgid "Territory (e.g. UK)"
 msgstr "Område (ex. SV)"
 
-#: src/wx/config_dialog.cc:136
+#: src/wx/config_dialog.cc:135
 msgid "Threads"
 msgstr "Trådar"
 
@@ -408,7 +411,7 @@ msgstr "Trådar"
 msgid "Threads to use"
 msgstr "Antal trådar att använda"
 
-#: src/wx/config_dialog.cc:88
+#: src/wx/config_dialog.cc:87
 msgid "Threads to use for encoding on this host"
 msgstr "Antal trådar att använda vid kodning på denna maskin"
 
@@ -420,14 +423,15 @@ msgstr "Tid"
 msgid "Top crop"
 msgstr "Övre beskärning"
 
+# "välj bilder att koda"?
 #: src/wx/film_editor.cc:171
+#, fuzzy
 msgid "Trim frames"
 msgstr "Beskära bilder"
 
 #: src/wx/film_editor.cc:125
-#, fuzzy
 msgid "Trust content's header"
-msgstr "Lita på innehållets information"
+msgstr "Lita på källans information"
 
 #: src/wx/audio_dialog.cc:55
 msgid "Type"
@@ -469,7 +473,8 @@ msgstr "räknar..."
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/film_editor.cc:691 src/wx/film_editor.cc:694
+#: src/wx/film_editor.cc:691
+#: src/wx/film_editor.cc:694
 msgid "frames"
 msgstr "bilder"
 
@@ -483,6 +488,8 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/properties_dialog.cc:62 src/wx/properties_dialog.cc:63
+#: src/wx/properties_dialog.cc:62
+#: src/wx/properties_dialog.cc:63
 msgid "unknown"
 msgstr "okänt"
+
