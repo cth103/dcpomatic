@@ -32,8 +32,8 @@
 #include "exceptions.h"
 #include "scaler.h"
 #include "log.h"
-#include "decoder_factory.h"
 #include "video_decoder.h"
+#include "playlist.h"
 
 using std::cout;
 using std::cerr;
@@ -150,17 +150,14 @@ main (int argc, char* argv[])
 	server = new ServerDescription (server_host, 1);
 	shared_ptr<Film> film (new Film (film_dir, true));
 
-	/* XXX */
-//	opt.decode_audio = false;
-//	opt.decode_subtitles = true;
-//	opt.video_sync = true;
+	shared_ptr<Playlist> playlist = film->playlist ();
+	playlist->disable_audio ();
 
-	Decoders decoders = decoder_factory (film);
 	try {
-		decoders.video->Video.connect (boost::bind (process_video, _1, _2, _3));
+		playlist->Video.connect (boost::bind (process_video, _1, _2, _3));
 		bool done = false;
 		while (!done) {
-			done = decoders.video->pass ();
+			done = playlist->pass ();
 		}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";

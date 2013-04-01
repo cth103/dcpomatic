@@ -18,6 +18,9 @@ class VideoContent : public virtual Content
 {
 public:
 	VideoContent (boost::filesystem::path);
+	VideoContent (boost::shared_ptr<const cxml::Node>);
+
+	void as_xml (xmlpp::Node *) const;
 
 	ContentVideoFrame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);

@@ -29,6 +29,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/scoped_array.hpp>
+#include <libcxml/cxml.h>
 #include "server.h"
 #include "util.h"
 #include "scaler.h"
@@ -51,6 +52,19 @@ using boost::bind;
 using boost::scoped_array;
 using libdcp::Size;
 
+ServerDescription::ServerDescription (shared_ptr<const cxml::Node> node)
+{
+	_host_name = node->string_child ("HostName");
+	_threads = node->number_child<int> ("Threads");
+}
+
+void
+ServerDescription::as_xml (xmlpp::Node* root) const
+{
+	root->add_child("HostName")->add_child_text (_host_name);
+	root->add_child("Threads")->add_child_text (boost::lexical_cast<string> (_threads));
+}
+
 /** Create a server description from a string of metadata returned from as_metadata().
  *  @param v Metadata.
  *  @return ServerDescription, or 0.
@@ -66,15 +80,6 @@ ServerDescription::create_from_metadata (string v)
 	}
 
 	return new ServerDescription (b[0], atoi (b[1].c_str ()));
-}
-
-/** @return Description of this server as text */
-string
-ServerDescription::as_metadata () const
-{
-	stringstream s;
-	s << _host_name << N_(" ") << _threads;
-	return s.str ();
 }
 
 Server::Server (shared_ptr<Log> log)

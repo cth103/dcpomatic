@@ -23,8 +23,6 @@
  *  as a parameter to the constructor.
  */
 
-#include "decoder_factory.h"
-
 class Film;
 class Job;
 class Encoder;

@@ -123,7 +123,7 @@ public:
 		SCALER,
 		TRIM_START,
 		TRIM_END,
-		DCP_AB,
+		AB,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
 		STILL_DURATION,
@@ -200,9 +200,9 @@ public:
 		return _trim_end;
 	}
 
-	bool dcp_ab () const {
+	bool ab () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_ab;
+		return _ab;
 	}
 
 	float audio_gain () const {
@@ -268,7 +268,7 @@ public:
 	void set_scaler (Scaler const *);
 	void set_trim_start (int);
 	void set_trim_end (int);
-	void set_dcp_ab (bool);
+	void set_ab (bool);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_still_duration (int);
@@ -333,7 +333,7 @@ private:
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.
 	*/
-	bool _dcp_ab;
+	bool _ab;
 	/** Gain to apply to audio in dB */
 	float _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */

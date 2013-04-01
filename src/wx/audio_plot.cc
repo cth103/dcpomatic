@@ -21,7 +21,6 @@
 #include <boost/bind.hpp>
 #include <wx/graphics.h>
 #include "audio_plot.h"
-#include "lib/decoder_factory.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
 #include "wx/wx_util.h"

@@ -23,7 +23,6 @@
 
 #include <wx/wx.h>
 #include "lib/film.h"
-#include "lib/decoder_factory.h"
 
 class wxToggleButton;
 class FFmpegPlayer;

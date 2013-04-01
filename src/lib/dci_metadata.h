@@ -21,12 +21,20 @@
 #define DVDOMATIC_DCI_METADATA_H
 
 #include <string>
+#include <libxml++/libxml++.h>
+
+namespace cxml {
+	class Node;
+}
 
 class DCIMetadata
 {
 public:
-	void read (std::string, std::string);
-	void write (std::ostream &) const;
+	DCIMetadata () {}
+	DCIMetadata (boost::shared_ptr<const cxml::Node>);
+
+	void as_xml (xmlpp::Node *) const;
+	void read_old_metadata (std::string, std::string);
 	
 	std::string audio_language;
 	std::string subtitle_language;

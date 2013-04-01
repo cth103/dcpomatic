@@ -22,6 +22,7 @@
 #include <fstream>
 #include <glib.h>
 #include <boost/filesystem.hpp>
+#include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"
 #include "scaler.h"
@@ -34,7 +35,9 @@ using std::vector;
 using std::ifstream;
 using std::string;
 using std::ofstream;
+using std::list;
 using boost::shared_ptr;
+using boost::optional;
 
 Config* Config::_instance = 0;
 
@@ -52,8 +55,51 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (48);
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
+
+	if (!boost::filesystem::exists (file (false))) {
+		read_old_metadata ();
+		return;
+	}
+
+	cxml::File f (file (false), "Config");
+	optional<string> c;
+
+	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
+	_default_directory = f.string_child ("DefaultDirectory");
+	_server_port = f.number_child<int> ("ServerPort");
+	c = f.optional_string_child ("ReferenceScaler");
+	if (c) {
+		_reference_scaler = Scaler::from_id (c.get ());
+	}
+
+	list<shared_ptr<cxml::Node> > filters = f.node_children ("ReferenceFilter");
+	for (list<shared_ptr<cxml::Node> >::iterator i = filters.begin(); i != filters.end(); ++i) {
+		_reference_filters.push_back (Filter::from_id ((*i)->content ()));
+	}
 	
-	ifstream f (file().c_str ());
+	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
+	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
+		_servers.push_back (new ServerDescription (*i));
+	}
+
+	_tms_ip = f.string_child ("TMSIP");
+	_tms_path = f.string_child ("TMSPath");
+	_tms_user = f.string_child ("TMSUser");
+	_tms_password = f.string_child ("TMSPassword");
+
+	c = f.optional_string_child ("SoundProcessor");
+	if (c) {
+		_sound_processor = SoundProcessor::from_id (c.get ());
+	}
+
+	_language = f.optional_string_child ("Language");
+	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
+}
+
+void
+Config::read_old_metadata ()
+{
+	ifstream f (file(true).c_str ());
 	string line;
 	while (getline (f, line)) {
 		if (line.empty ()) {
@@ -98,17 +144,21 @@ Config::Config ()
 			_language = v;
 		}
 
-		_default_dci_metadata.read (k, v);
+		_default_dci_metadata.read_old_metadata (k, v);
 	}
 }
 
 /** @return Filename to write configuration to */
 string
-Config::file () const
+Config::file (bool old) const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
-	p /= N_(".dvdomatic");
+	if (old) {
+		p /= ".dvdomatic";
+	} else {
+		p /= ".dvdomatic.xml";
+	}
 	return p.string ();
 }
 
@@ -127,35 +177,38 @@ Config::instance ()
 void
 Config::write () const
 {
-	ofstream f (file().c_str ());
-	f << N_("num_local_encoding_threads ") << _num_local_encoding_threads << N_("\n")
-	  << N_("default_directory ") << _default_directory << N_("\n")
-	  << N_("server_port ") << _server_port << N_("\n");
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Config");
 
+	root->add_child("NumLocalEncodingThreads")->add_child_text (boost::lexical_cast<string> (_num_local_encoding_threads));
+	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
+	root->add_child("ServerPort")->add_child_text (boost::lexical_cast<string> (_server_port));
 	if (_reference_scaler) {
-		f << "reference_scaler " << _reference_scaler->id () << "\n";
+		root->add_child("ReferenceScaler")->add_child_text (_reference_scaler->id ());
 	}
 
 	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {
-		f << N_("reference_filter ") << (*i)->id () << N_("\n");
+		root->add_child("ReferenceFilter")->add_child_text ((*i)->id ());
 	}
 	
 	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		f << N_("server ") << (*i)->as_metadata () << N_("\n");
+		(*i)->as_xml (root->add_child ("Server"));
 	}
 
-	f << N_("tms_ip ") << _tms_ip << N_("\n");
-	f << N_("tms_path ") << _tms_path << N_("\n");
-	f << N_("tms_user ") << _tms_user << N_("\n");
-	f << N_("tms_password ") << _tms_password << N_("\n");
+	root->add_child("TMSIP")->add_child_text (_tms_ip);
+	root->add_child("TMSPath")->add_child_text (_tms_path);
+	root->add_child("TMSUser")->add_child_text (_tms_user);
+	root->add_child("TMSPassword")->add_child_text (_tms_password);
 	if (_sound_processor) {
-		f << "sound_processor " << _sound_processor->id () << "\n";
+		root->add_child("SoundProcessor")->add_child_text (_sound_processor->id ());
 	}
 	if (_language) {
-		f << "language " << _language.get() << "\n";
+		root->add_child("Language")->add_child_text (_language.get());
 	}
 
-	_default_dci_metadata.write (f);
+	_default_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
+
+	doc.write_to_file_formatted (file (false));
 }
 
 string

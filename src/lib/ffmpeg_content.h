@@ -15,6 +15,10 @@ public:
                 , channel_layout (c)
         {}
 
+	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
+
+	void as_xml (xmlpp::Node *) const;
+	
         int channels () const {
                 return av_get_channel_layout_nb_channels (channel_layout);
         }
@@ -35,6 +39,10 @@ public:
                 , id (i)
         {}
         
+	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>);
+
+	void as_xml (xmlpp::Node *) const;
+	
         std::string name;
         int id;
 };
@@ -54,9 +62,11 @@ class FFmpegContent : public VideoContent, public AudioContent, public boost::en
 {
 public:
 	FFmpegContent (boost::filesystem::path);
+	FFmpegContent (boost::shared_ptr<const cxml::Node>);
 	
 	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	std::string summary () const;
+	void as_xml (xmlpp::Node *) const;
 
         /* AudioContent */
         int audio_channels () const;

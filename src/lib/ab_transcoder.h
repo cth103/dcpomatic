@@ -25,7 +25,6 @@
 #include <boost/shared_ptr.hpp>
 #include <stdint.h>
 #include "util.h"
-#include "decoder_factory.h"
 
 class Job;
 class Encoder;

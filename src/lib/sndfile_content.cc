@@ -3,11 +3,20 @@
 
 #include "i18n.h"
 
-using namespace std;
+using std::string;
+using boost::shared_ptr;
 
 SndfileContent::SndfileContent (boost::filesystem::path f)
 	: Content (f)
 	, AudioContent (f)
+{
+
+}
+
+SndfileContent::SndfileContent (shared_ptr<const cxml::Node> node)
+	: Content (node)
+	, AudioContent (node)
+		   
 {
 
 }

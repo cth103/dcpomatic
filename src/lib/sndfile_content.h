@@ -1,9 +1,14 @@
 #include "audio_content.h"
 
+namespace cxml {
+	class Node;
+}
+
 class SndfileContent : public AudioContent
 {
 public:
 	SndfileContent (boost::filesystem::path);
+	SndfileContent (boost::shared_ptr<const cxml::Node>);
 	
 	std::string summary () const;
 

@@ -29,6 +29,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/date_time.hpp>
+#include <libxml++/libxml++.h>
+#include <libcxml/cxml.h>
 #include "film.h"
 #include "format.h"
 #include "job.h"
@@ -43,7 +45,6 @@
 #include "exceptions.h"
 #include "examine_content_job.h"
 #include "scaler.h"
-#include "decoder_factory.h"
 #include "config.h"
 #include "version.h"
 #include "ui_signaller.h"
@@ -52,6 +53,9 @@
 #include "sndfile_decoder.h"
 #include "analyse_audio_job.h"
 #include "playlist.h"
+#include "ffmpeg_content.h"
+#include "imagemagick_content.h"
+#include "sndfile_content.h"
 
 #include "i18n.h"
 
@@ -67,6 +71,7 @@ using std::setfill;
 using std::min;
 using std::make_pair;
 using std::endl;
+using std::list;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::to_upper_copy;
@@ -93,7 +98,7 @@ Film::Film (string d, bool must_exist)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _trim_start (0)
 	, _trim_end (0)
-	, _dcp_ab (false)
+	, _ab (false)
 	, _audio_gain (0)
 	, _audio_delay (0)
 	, _with_subtitles (false)
@@ -157,7 +162,7 @@ Film::Film (Film const & o)
 	, _scaler            (o._scaler)
 	, _trim_start        (o._trim_start)
 	, _trim_end          (o._trim_end)
-	, _dcp_ab            (o._dcp_ab)
+	, _ab                (o._ab)
 	, _audio_gain        (o._audio_gain)
 	, _audio_delay       (o._audio_delay)
 	, _with_subtitles    (o._with_subtitles)
@@ -199,7 +204,7 @@ Film::video_state_identifier () const
 	  << "_" << j2k_bandwidth()
 	  << "_" << boost::lexical_cast<int> (colour_lut());
 
-	if (dcp_ab()) {
+	if (ab()) {
 		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
 		s << "ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
 	}
@@ -297,7 +302,7 @@ Film::make_dcp ()
 
 	shared_ptr<Job> r;
 
-	if (dcp_ab()) {
+	if (ab()) {
 		r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this())));
 	} else {
 		r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
@@ -375,77 +380,54 @@ Film::encoded_frames () const
 void
 Film::write_metadata () const
 {
+	ContentList the_content = content ();
+	
 	boost::mutex::scoped_lock lm (_state_mutex);
 
 	boost::filesystem::create_directories (directory());
 
-	string const m = file ("metadata");
-	ofstream f (m.c_str ());
-	if (!f.good ()) {
-		throw CreateFileError (m);
-	}
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Metadata");
 
-	f << "version " << state_version << endl;
-
-	/* User stuff */
-	f << "name " << _name << endl;
-	f << "use_dci_name " << _use_dci_name << endl;
-//	f << "content " << _content << endl;
-	f << "trust_content_headers " << (_trust_content_headers ? "1" : "0") << endl;
+	root->add_child("Version")->add_child_text (boost::lexical_cast<string> (state_version));
+	root->add_child("Name")->add_child_text (_name);
+	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
+	root->add_child("TrustContentHeaders")->add_child_text (_trust_content_headers ? "1" : "0");
 	if (_dcp_content_type) {
-		f << "dcp_content_type " << _dcp_content_type->dci_name () << endl;
+		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->dci_name ());
 	}
 	if (_format) {
-		f << "format " << _format->as_metadata () << endl;
+		root->add_child("Format")->add_child_text (_format->id ());
 	}
-	f << "left_crop " << _crop.left << endl;
-	f << "right_crop " << _crop.right << endl;
-	f << "top_crop " << _crop.top << endl;
-	f << "bottom_crop " << _crop.bottom << endl;
+	root->add_child("LeftCrop")->add_child_text (boost::lexical_cast<string> (_crop.left));
+	root->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
+	root->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
+	root->add_child("BottomCrop")->add_child_text (boost::lexical_cast<string> (_crop.bottom));
+
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
-		f << "filter " << (*i)->id () << endl;
+		root->add_child("Filter")->add_child_text ((*i)->id ());
 	}
-	f << "scaler " << _scaler->id () << endl;
-	f << "trim_start " << _trim_start << endl;
-	f << "trim_end " << _trim_end << endl;
-	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << endl;
-//	if (_content_audio_stream) {
-//		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << endl;
-//	}
-//	for (vector<string>::const_iterator i = _external_audio.begin(); i != _external_audio.end(); ++i) {
-//		f << "external_audio " << *i << endl;
-//	}
-//	f << "use_content_audio " << (_use_content_audio ? "1" : "0") << endl;
-	f << "audio_gain " << _audio_gain << endl;
-	f << "audio_delay " << _audio_delay << endl;
-//	f << "still_duration " << _still_duration << endl;
-//	if (_subtitle_stream) {
-//		f << "selected_subtitle_stream " << _subtitle_stream->to_string() << endl;
-//	}
-	f << "with_subtitles " << _with_subtitles << endl;
-	f << "subtitle_offset " << _subtitle_offset << endl;
-	f << "subtitle_scale " << _subtitle_scale << endl;
-	f << "colour_lut " << _colour_lut << endl;
-	f << "j2k_bandwidth " << _j2k_bandwidth << endl;
-	_dci_metadata.write (f);
-	f << "dci_date " << boost::gregorian::to_iso_string (_dci_date) << endl;
-	f << "dcp_frame_rate " << _dcp_frame_rate << endl;
-//	f << "width " << _size.width << endl;
-//	f << "height " << _size.height << endl;
-//	f << "length " << _length.get_value_or(0) << endl;
-//	f << "content_digest " << _content_digest << endl;
+	
+	root->add_child("Scaler")->add_child_text (_scaler->id ());
+	root->add_child("TrimStart")->add_child_text (boost::lexical_cast<string> (_trim_start));
+	root->add_child("TrimEnd")->add_child_text (boost::lexical_cast<string> (_trim_end));
+	root->add_child("AB")->add_child_text (_ab ? "1" : "0");
+	root->add_child("AudioGain")->add_child_text (boost::lexical_cast<string> (_audio_gain));
+	root->add_child("AudioDelay")->add_child_text (boost::lexical_cast<string> (_audio_delay));
+	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
+	root->add_child("SubtitleOffset")->add_child_text (boost::lexical_cast<string> (_subtitle_offset));
+	root->add_child("SubtitleScale")->add_child_text (boost::lexical_cast<string> (_subtitle_scale));
+	root->add_child("ColourLUT")->add_child_text (boost::lexical_cast<string> (_colour_lut));
+	root->add_child("J2KBandwidth")->add_child_text (boost::lexical_cast<string> (_j2k_bandwidth));
+	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
+	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
+	root->add_child("DCPFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_frame_rate));
 
-//	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
-//		f << "content_audio_stream " << (*i)->to_string () << endl;
-//	}
+	for (ContentList::iterator i = the_content.begin(); i != the_content.end(); ++i) {
+		(*i)->as_xml (root->add_child ("Content"));
+	}
 
-//	f << "external_audio_stream " << _sndfile_stream->to_string() << endl;
-
-//	for (vector<shared_ptr<SubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
-//		f << "subtitle_stream " << (*i)->to_string () << endl;
-//	}
-
-//	f << "source_frame_rate " << _source_frame_rate << endl;
+	doc.write_to_file_formatted (file ("metadata.xml"));
 	
 	_dirty = false;
 }
@@ -456,137 +438,68 @@ Film::read_metadata ()
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 
-//	_external_audio.clear ();
-//	_content_audio_streams.clear ();
-//	_subtitle_streams.clear ();
-
-	boost::optional<int> version;
-
-	/* Backward compatibility things */
-	boost::optional<int> audio_sample_rate;
-	boost::optional<int> audio_stream_index;
-	boost::optional<int> subtitle_stream_index;
-
-	ifstream f (file ("metadata").c_str());
-	if (!f.good()) {
-		throw OpenFileError (file ("metadata"));
+	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
+		throw StringError (_("This film was created with an older version of DVD-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 	}
-	
-	multimap<string, string> kv = read_key_value (f);
 
-	/* We need version before anything else */
-	multimap<string, string>::iterator v = kv.find ("version");
-	if (v != kv.end ()) {
-		version = atoi (v->second.c_str());
+	cxml::File f (file ("metadata.xml"), "Metadata");
+	
+	_name = f.string_child ("Name");
+	_use_dci_name = f.bool_child ("UseDCIName");
+	_trust_content_headers = f.bool_child ("TrustContentHeaders");
+
+	{
+		optional<string> c = f.optional_string_child ("DCPContentType");
+		if (c) {
+			_dcp_content_type = DCPContentType::from_dci_name (c.get ());
+		}
 	}
-	
-	for (multimap<string, string>::const_iterator i = kv.begin(); i != kv.end(); ++i) {
-		string const k = i->first;
-		string const v = i->second;
 
-		if (k == "audio_sample_rate") {
-			audio_sample_rate = atoi (v.c_str());
+	{
+		optional<string> c = f.optional_string_child ("Format");
+		if (c) {
+			_format = Format::from_id (c.get ());
 		}
+	}
 
-		/* User-specified stuff */
-		if (k == "name") {
-			_name = v;
-		} else if (k == "use_dci_name") {
-			_use_dci_name = (v == "1");
-		} else if (k == "content") {
-//			_content = v;
-		} else if (k == "trust_content_headers") {
-			_trust_content_headers = (v == "1");
-		} else if (k == "dcp_content_type") {
-			if (version < 3) {
-				_dcp_content_type = DCPContentType::from_pretty_name (v);
-			} else {
-				_dcp_content_type = DCPContentType::from_dci_name (v);
-			}
-		} else if (k == "format") {
-			_format = Format::from_metadata (v);
-		} else if (k == "left_crop") {
-			_crop.left = atoi (v.c_str ());
-		} else if (k == "right_crop") {
-			_crop.right = atoi (v.c_str ());
-		} else if (k == "top_crop") {
-			_crop.top = atoi (v.c_str ());
-		} else if (k == "bottom_crop") {
-			_crop.bottom = atoi (v.c_str ());
-		} else if (k == "filter") {
-			_filters.push_back (Filter::from_id (v));
-		} else if (k == "scaler") {
-			_scaler = Scaler::from_id (v);
-		} else if ( ((!version || version < 2) && k == "dcp_trim_start") || k == "trim_start") {
-			_trim_start = atoi (v.c_str ());
-		} else if ( ((!version || version < 2) && k == "dcp_trim_end") || k == "trim_end") {
-			_trim_end = atoi (v.c_str ());
-		} else if (k == "dcp_ab") {
-			_dcp_ab = (v == "1");
-		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
-			if (!version) {
-				audio_stream_index = atoi (v.c_str ());
-			} else {
-//				_content_audio_stream = audio_stream_factory (v, version);
-			}
-		} else if (k == "external_audio") {
-//			_external_audio.push_back (v);
-		} else if (k == "use_content_audio") {
-//			_use_content_audio = (v == "1");
-		} else if (k == "audio_gain") {
-			_audio_gain = atof (v.c_str ());
-		} else if (k == "audio_delay") {
-			_audio_delay = atoi (v.c_str ());
-		} else if (k == "still_duration") {
-//			_still_duration = atoi (v.c_str ());
-		} else if (k == "selected_subtitle_stream") {
-			if (!version) {
-				subtitle_stream_index = atoi (v.c_str ());
-			} else {
-//				_subtitle_stream = subtitle_stream_factory (v, version);
-			}
-		} else if (k == "with_subtitles") {
-			_with_subtitles = (v == "1");
-		} else if (k == "subtitle_offset") {
-			_subtitle_offset = atoi (v.c_str ());
-		} else if (k == "subtitle_scale") {
-			_subtitle_scale = atof (v.c_str ());
-		} else if (k == "colour_lut") {
-			_colour_lut = atoi (v.c_str ());
-		} else if (k == "j2k_bandwidth") {
-			_j2k_bandwidth = atoi (v.c_str ());
-		} else if (k == "dci_date") {
-			_dci_date = boost::gregorian::from_undelimited_string (v);
-		} else if (k == "dcp_frame_rate") {
-			_dcp_frame_rate = atoi (v.c_str ());
+	_crop.left = f.number_child<int> ("CropLeft");
+	_crop.right = f.number_child<int> ("CropRight");
+	_crop.top = f.number_child<int> ("CropTop");
+	_crop.bottom = f.number_child<int> ("CropBottom");
+
+	{
+		list<shared_ptr<cxml::Node> > c = f.node_children ("Filter");
+		for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
+			_filters.push_back (Filter::from_id ((*i)->content ()));
 		}
+	}
 
-		_dci_metadata.read (k, v);
+	_scaler = Scaler::from_id (f.string_child ("Scaler"));
+	_trim_start = f.number_child<int> ("TrimStart");
+	_trim_end = f.number_child<int> ("TrimEnd");
+	_ab = f.bool_child ("AB");
+	_audio_gain = f.number_child<float> ("AudioGain");
+	_audio_delay = f.number_child<int> ("AudioDelay");
+	_with_subtitles = f.bool_child ("WithSubtitles");
+	_subtitle_offset = f.number_child<float> ("SubtitleOffset");
+	_subtitle_scale = f.number_child<float> ("SubtitleScale");
+	_colour_lut = f.number_child<int> ("ColourLUT");
+	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
+	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
+	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
+	_dcp_frame_rate = f.number_child<int> ("DCPFrameRate");
+
+	list<shared_ptr<cxml::Node> > c = f.node_children ("Content");
+	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
+
+		string const type = (*i)->string_child ("Type");
 		
-		/* Cached stuff */
-		if (k == "width") {
-//			_size.width = atoi (v.c_str ());
-		} else if (k == "height") {
-//			_size.height = atoi (v.c_str ());
-		} else if (k == "length") {
-			int const vv = atoi (v.c_str ());
-			if (vv) {
-//				_length = vv;
-			}
-		} else if (k == "content_digest") {
-//			_content_digest = v;
-		} else if (k == "content_audio_stream" || (!version && k == "audio_stream")) {
-//			_content_audio_streams.push_back (audio_stream_factory (v, version));
-		} else if (k == "external_audio_stream") {
-//			_sndfile_stream = audio_stream_factory (v, version);
-		} else if (k == "subtitle_stream") {
-//			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
-		} else if (k == "source_frame_rate") {
-//			_source_frame_rate = atof (v.c_str ());
-		} else if (version < 4 && k == "frames_per_second") {
-//			_source_frame_rate = atof (v.c_str ());
-			/* Fill in what would have been used for DCP frame rate by the older version */
-//			_dcp_frame_rate = best_dcp_frame_rate (_source_frame_rate);
+		if (type == "FFmpeg") {
+			_content.push_back (shared_ptr<Content> (new FFmpegContent (*i)));
+		} else if (type == "ImageMagick") {
+			_content.push_back (shared_ptr<Content> (new ImageMagickContent (*i)));
+		} else if (type == "Sndfile") {
+			_content.push_back (shared_ptr<Content> (new SndfileContent (*i)));
 		}
 	}
 
@@ -936,13 +849,13 @@ Film::set_trim_end (int t)
 }
 
 void
-Film::set_dcp_ab (bool a)
+Film::set_ab (bool a)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_ab = a;
+		_ab = a;
 	}
-	signal_changed (DCP_AB);
+	signal_changed (AB);
 }
 
 void

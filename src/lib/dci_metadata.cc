@@ -18,26 +18,39 @@
 */
 
 #include <iostream>
+#include <libcxml/cxml.h>
 #include "dci_metadata.h"
 
 #include "i18n.h"
 
-using namespace std;
+using std::string;
+using boost::shared_ptr;
 
-void
-DCIMetadata::write (ostream& f) const
+DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
 {
-	f << N_("audio_language ") << audio_language << N_("\n");
-	f << N_("subtitle_language ") << subtitle_language << N_("\n");
-	f << N_("territory ") << territory << N_("\n");
-	f << N_("rating ") << rating << N_("\n");
-	f << N_("studio ") << studio << N_("\n");
-	f << N_("facility ") << facility << N_("\n");
-	f << N_("package_type ") << package_type << N_("\n");
+	audio_language = node->string_child ("AudioLanguage");
+	subtitle_language = node->string_child ("SubtitleLanguage");
+	territory = node->string_child ("Territory");
+	rating = node->string_child ("Rating");
+	studio = node->string_child ("Studio");
+	facility = node->string_child ("Facility");
+	package_type = node->string_child ("PackageType");
 }
 
 void
-DCIMetadata::read (string k, string v)
+DCIMetadata::as_xml (xmlpp::Node* root) const
+{
+	root->add_child("AudioLanguage")->add_child_text (audio_language);
+	root->add_child("SubtitleLanguage")->add_child_text (subtitle_language);
+	root->add_child("Territory")->add_child_text (territory);
+	root->add_child("Rating")->add_child_text (rating);
+	root->add_child("Studio")->add_child_text (studio);
+	root->add_child("Facility")->add_child_text (facility);
+	root->add_child("PackageType")->add_child_text (package_type);
+}
+
+void
+DCIMetadata::read_old_metadata (string k, string v)
 {
 	if (k == N_("audio_language")) {
 		audio_language = v;

@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	f->set_filters (f_filters);
 	f->set_trim_start (42);
 	f->set_trim_end (99);
-	f->set_dcp_ab (true);
+	f->set_ab (true);
 	f->write_metadata ();
 
 	stringstream s;
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_EQUAL (g_filters.back(), Filter::from_id ("unsharp"));
 	BOOST_CHECK_EQUAL (g->trim_start(), 42);
 	BOOST_CHECK_EQUAL (g->trim_end(), 99);
-	BOOST_CHECK_EQUAL (g->dcp_ab(), true);
+	BOOST_CHECK_EQUAL (g->ab(), true);
 	
 	g->write_metadata ();
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);

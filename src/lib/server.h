@@ -26,9 +26,14 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
+#include <libxml++/libxml++.h>
 #include "log.h"
 
 class Socket;
+
+namespace cxml {
+	class Node;
+}
 
 /** @class ServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
@@ -44,6 +49,8 @@ public:
 		, _threads (t)
 	{}
 
+	ServerDescription (boost::shared_ptr<const cxml::Node>);
+	
 	/** @return server's host name or IP address in string form */
 	std::string host_name () const {
 		return _host_name;
@@ -62,7 +69,7 @@ public:
 		_threads = t;
 	}
 
-	std::string as_metadata () const;
+	void as_xml (xmlpp::Node *) const;
 	
 	static ServerDescription * create_from_metadata (std::string v);
 

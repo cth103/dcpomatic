@@ -1,9 +1,11 @@
+#include <libcxml/cxml.h>
 #include "imagemagick_content.h"
 #include "compose.hpp"
 
 #include "i18n.h"
 
 using std::string;
+using boost::shared_ptr;
 
 ImageMagickContent::ImageMagickContent (boost::filesystem::path f)
 	: Content (f)
@@ -11,6 +13,13 @@ ImageMagickContent::ImageMagickContent (boost::filesystem::path f)
 {
 	/* XXX */
 	_video_length = 10 * 24;
+}
+
+ImageMagickContent::ImageMagickContent (shared_ptr<const cxml::Node> node)
+	: Content (node)
+	, VideoContent (node)
+{
+	
 }
 
 string

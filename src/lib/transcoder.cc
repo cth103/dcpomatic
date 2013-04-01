@@ -28,7 +28,6 @@
 #include <boost/signals2.hpp>
 #include "transcoder.h"
 #include "encoder.h"
-#include "decoder_factory.h"
 #include "film.h"
 #include "matcher.h"
 #include "delay_line.h"

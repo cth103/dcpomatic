@@ -4,10 +4,15 @@
 #include "content.h"
 #include "util.h"
 
+namespace cxml {
+	class Node;
+}
+
 class AudioContent : public virtual Content
 {
 public:
 	AudioContent (boost::filesystem::path);
+	AudioContent (boost::shared_ptr<const cxml::Node>);
 
         virtual int audio_channels () const = 0;
         virtual ContentAudioFrame audio_length () const = 0;

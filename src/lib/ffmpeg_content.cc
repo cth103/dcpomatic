@@ -1,3 +1,4 @@
+#include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
 #include "ffmpeg_decoder.h"
 #include "compose.hpp"
@@ -8,7 +9,10 @@
 #include "i18n.h"
 
 using std::string;
+using std::vector;
+using std::list;
 using boost::shared_ptr;
+using boost::lexical_cast;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
@@ -21,6 +25,54 @@ FFmpegContent::FFmpegContent (boost::filesystem::path f)
 	, AudioContent (f)
 {
 
+}
+
+FFmpegContent::FFmpegContent (shared_ptr<const cxml::Node> node)
+	: Content (node)
+	, VideoContent (node)
+	, AudioContent (node)
+{
+	list<shared_ptr<cxml::Node> > c = node->node_children ("SubtitleStream");
+	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+		_subtitle_streams.push_back (FFmpegSubtitleStream (*i));
+		if ((*i)->optional_number_child<int> ("Selected")) {
+			_subtitle_stream = _subtitle_streams.back ();
+		}
+	}
+
+	c = node->node_children ("AudioStream");
+	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+		_audio_streams.push_back (FFmpegAudioStream (*i));
+		if ((*i)->optional_number_child<int> ("Selected")) {
+			_audio_stream = _audio_streams.back ();
+		}
+	}
+}
+
+void
+FFmpegContent::as_xml (xmlpp::Node* node) const
+{
+	node->add_child("Type")->add_child_text ("FFmpeg");
+	Content::as_xml (node);
+	VideoContent::as_xml (node);
+
+	boost::mutex::scoped_lock lm (_mutex);
+
+	for (vector<FFmpegSubtitleStream>::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
+		xmlpp::Node* t = node->add_child("SubtitleStream");
+		if (_subtitle_stream && *i == _subtitle_stream.get()) {
+			t->add_child("Selected")->add_child_text("1");
+		}
+		i->as_xml (t);
+	}
+
+	for (vector<FFmpegAudioStream>::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
+		xmlpp::Node* t = node->add_child("AudioStream");
+		if (_audio_stream && *i == _audio_stream.get()) {
+			t->add_child("Selected")->add_child_text("1");
+		}
+		i->as_xml (t);
+	}
 }
 
 void
@@ -150,4 +202,38 @@ bool
 operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
 {
         return a.id == b.id;
+}
+
+FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
+{
+	name = node->string_child ("Name");
+	id = node->number_child<int> ("Id");
+	frame_rate = node->number_child<int> ("FrameRate");
+	channel_layout = node->number_child<int64_t> ("ChannelLayout");
+}
+
+void
+FFmpegAudioStream::as_xml (xmlpp::Node* root) const
+{
+	root->add_child("Name")->add_child_text (name);
+	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
+	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
+	root->add_child("ChannelLayout")->add_child_text (lexical_cast<string> (channel_layout));
+}
+
+/** Construct a SubtitleStream from a value returned from to_string().
+ *  @param t String returned from to_string().
+ *  @param v State file version.
+ */
+FFmpegSubtitleStream::FFmpegSubtitleStream (shared_ptr<const cxml::Node> node)
+{
+	name = node->string_child ("Name");
+	id = node->number_child<int> ("Id");
+}
+
+void
+FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
+{
+	root->add_child("Name")->add_child_text (name);
+	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 }

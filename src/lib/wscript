@@ -17,7 +17,6 @@ sources = """
           dcp_content_type.cc
           dcp_video_frame.cc
           decoder.cc
-          decoder_factory.cc
           delay_line.cc
           dolby_cp750.cc
           encoder.cc
@@ -70,7 +69,7 @@ def build(bld):
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 
-                 SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP GLIB LZMA
+                 SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA
                  """
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'

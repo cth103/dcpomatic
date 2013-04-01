@@ -175,8 +175,8 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
-	_dcp_ab = new wxCheckBox (_film_panel, wxID_ANY, _("A/B"));
-	grid->Add (_dcp_ab, wxGBPosition (r, 0));
+	_ab = new wxCheckBox (_film_panel, wxID_ANY, _("A/B"));
+	grid->Add (_ab, wxGBPosition (r, 0));
 	++r;
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -212,7 +212,7 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
-	_dcp_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
+	_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::ab_toggled), 0, this);
 	_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_start_changed), 0, this);
 	_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_end_changed), 0, this);
 	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
@@ -489,13 +489,13 @@ FilmEditor::trust_content_headers_changed (wxCommandEvent &)
 
 /** Called when the DCP A/B switch has been toggled */
 void
-FilmEditor::dcp_ab_toggled (wxCommandEvent &)
+FilmEditor::ab_toggled (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 	
-	_film->set_dcp_ab (_dcp_ab->GetValue ());
+	_film->set_ab (_ab->GetValue ());
 }
 
 /** Called when the name widget has been changed */
@@ -674,8 +674,8 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
 		break;
-	case Film::DCP_AB:
-		checked_set (_dcp_ab, _film->dcp_ab ());
+	case Film::AB:
+		checked_set (_ab, _film->ab ());
 		break;
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
@@ -811,7 +811,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::SCALER);
 	film_changed (Film::TRIM_START);
 	film_changed (Film::TRIM_END);
-	film_changed (Film::DCP_AB);
+	film_changed (Film::AB);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::WITH_SUBTITLES);
@@ -849,7 +849,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_dcp_frame_rate->Enable (s);
 	_trim_start->Enable (s);
 	_trim_end->Enable (s);
-	_dcp_ab->Enable (s);
+	_ab->Enable (s);
 	_colour_lut->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);

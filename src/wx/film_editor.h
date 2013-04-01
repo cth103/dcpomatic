@@ -72,7 +72,7 @@ private:
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
-	void dcp_ab_toggled (wxCommandEvent &);
+	void ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void audio_gain_changed (wxCommandEvent &);
 	void audio_gain_calculate_button_clicked (wxCommandEvent &);
@@ -162,7 +162,7 @@ private:
 	wxSpinCtrl* _trim_start;
 	wxSpinCtrl* _trim_end;
 	/** Selector to generate an A/B comparison DCP */
-	wxCheckBox* _dcp_ab;
+	wxCheckBox* _ab;
 
 	std::vector<Format const *> _formats;
 

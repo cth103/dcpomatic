@@ -177,7 +177,8 @@ public:
 
 private:
 	Config ();
-	std::string file () const;
+	std::string file (bool) const;
+	void read_old_metadata ();
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
