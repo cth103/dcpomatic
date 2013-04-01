@@ -200,9 +200,9 @@ FilmEditor::connect_to_widgets ()
 	_trust_content_headers->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_headers_changed), 0, this);
 	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_item_selected), 0, this);
 	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
-	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
-	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
-	_content_later->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
+	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
+	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
+	_content_later->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -1135,13 +1135,13 @@ FilmEditor::best_dcp_frame_rate_clicked (wxCommandEvent &)
 		return;
 	}
 	
-//	_film->set_dcp_frame_rate (best_dcp_frame_rate (_film->source_frame_rate ()));
+	_film->set_dcp_frame_rate (best_dcp_frame_rate (_film->video_frame_rate ()));
 }
 
 void
 FilmEditor::setup_show_audio_sensitivity ()
 {
-//	_show_audio->Enable (_film && _film->has_audio ());
+	_show_audio->Enable (_film && _film->has_audio ());
 }
 
 void
@@ -1149,8 +1149,8 @@ FilmEditor::setup_content ()
 {
 	_content->DeleteAllItems ();
 
-	list<shared_ptr<Content> > content = _film->content ();
-	for (list<shared_ptr<Content> >::iterator i = content.begin(); i != content.end(); ++i) {
+	ContentList content = _film->content ();
+	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		_content->InsertItem (_content->GetItemCount(), std_to_wx ((*i)->summary ()));
 	}
 }
@@ -1181,19 +1181,40 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 void
 FilmEditor::content_remove_clicked (wxCommandEvent &)
 {
+	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		return;
+	}
 
+	ContentList c = _film->content ();
+	assert (s >= 0 && size_t (s) < c.size ());
+	_film->remove_content (c[s]);
 }
 
 void
 FilmEditor::content_earlier_clicked (wxCommandEvent &)
 {
+	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		return;
+	}
 
+	ContentList c = _film->content ();
+	assert (s >= 0 && size_t (s) < c.size ());
+	_film->move_content_earlier (c[s]);
 }
 
 void
 FilmEditor::content_later_clicked (wxCommandEvent &)
 {
+	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		return;
+	}
 
+	ContentList c = _film->content ();
+	assert (s >= 0 && size_t (s) < c.size ());
+	_film->move_content_later (c[s]);
 }
 
 void

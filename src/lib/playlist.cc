@@ -27,6 +27,7 @@
 #include "imagemagick_decoder.h"
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -38,12 +39,12 @@ Playlist::Playlist ()
 }
 
 void
-Playlist::setup (list<shared_ptr<Content> > content)
+Playlist::setup (ContentList content)
 {
 	_video_from = VIDEO_NONE;
 	_audio_from = AUDIO_NONE;
 	
-	for (list<shared_ptr<Content> >::const_iterator i = content.begin(); i != content.end(); ++i) {
+	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
 		if (fc) {
 			assert (!_ffmpeg);
@@ -287,11 +288,12 @@ Player::process_audio (shared_ptr<AudioBuffers> b)
 	Audio (b);
 }
 
+/** @return true on error */
 bool
 Player::seek (double t)
 {
 	bool r = false;
-	
+
 	switch (_playlist->video_from()) {
 	case Playlist::VIDEO_NONE:
 		break;
@@ -301,7 +303,20 @@ Player::seek (double t)
 		}
 		break;
 	case Playlist::VIDEO_IMAGEMAGICK:
-		if ((*_imagemagick_decoder)->seek (t)) {
+		/* Find the decoder that contains this position */
+		_imagemagick_decoder = _imagemagick_decoders.begin ();
+		while (_imagemagick_decoder != _imagemagick_decoders.end ()) {
+			double const this_length = (*_imagemagick_decoder)->video_length() / _film->video_frame_rate ();
+			if (this_length < t) {
+				break;
+			}
+			t -= this_length;
+			++_imagemagick_decoder;
+		}
+
+		if (_imagemagick_decoder != _imagemagick_decoders.end()) {
+			(*_imagemagick_decoder)->seek (t);
+		} else {
 			r = true;
 		}
 		break;

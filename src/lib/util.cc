@@ -476,16 +476,6 @@ dcp_audio_sample_rate (int fs)
 	return 96000;
 }
 
-bool operator== (Crop const & a, Crop const & b)
-{
-	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
-}
-
-bool operator!= (Crop const & a, Crop const & b)
-{
-	return !(a == b);
-}
-
 /** @param index Colour LUT index.
  *  @return Human-readable name.
  */
@@ -867,13 +857,13 @@ ensure_ui_thread ()
 	assert (this_thread::get_id() == ui_thread);
 }
 
-/** @param v Source video frame.
+/** @param v Content video frame.
  *  @param audio_sample_rate Source audio sample rate.
  *  @param frames_per_second Number of video frames per second.
  *  @return Equivalent number of audio frames for `v'.
  */
 int64_t
-video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second)
+video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second)
 {
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
 }

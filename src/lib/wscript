@@ -49,6 +49,7 @@ sources = """
           timer.cc
           transcode_job.cc
           transcoder.cc
+          types.cc
           ui_signaller.cc
           util.cc
           version.cc

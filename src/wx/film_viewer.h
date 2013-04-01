@@ -51,7 +51,7 @@ private:
 	void calculate_sizes ();
 	void check_play_state ();
 	void update_from_raw ();
-	void decoder_changed ();
+	void update_from_decoder ();
 	void raw_to_display ();
 	void get_frame ();
 	void active_jobs_changed (bool);

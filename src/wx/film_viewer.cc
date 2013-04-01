@@ -103,7 +103,6 @@ FilmViewer::film_changed (Film::Property p)
 		_player->disable_video_sync ();
 
 		_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
-//		_player->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
@@ -115,12 +114,8 @@ FilmViewer::film_changed (Film::Property p)
 	case Film::SUBTITLE_SCALE:
 	case Film::SCALER:
 	case Film::FILTERS:
-		update_from_raw ();
-		break;
-	case Film::SUBTITLE_STREAM:
-//		if (_decoders.video) {
-//			_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
-//		}
+	case Film::CROP:
+		update_from_decoder ();
 		break;
 	default:
 		break;
@@ -151,7 +146,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 }
 
 void
-FilmViewer::decoder_changed ()
+FilmViewer::update_from_decoder ()
 {
 	if (!_player || _player->seek_to_last ()) {
 		return;
@@ -223,7 +218,7 @@ FilmViewer::slider_moved (wxScrollEvent &)
 	if (!_film || !_player) {
 		return;
 	}
-	
+
 	if (_player->seek (_slider->GetValue() * _film->video_length() / (4096 * _film->video_frame_rate()))) {
 		return;
 	}
@@ -375,6 +370,9 @@ FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> s
 	_got_frame = true;
 }
 
+/** Get a new _raw_frame from the decoder and then do
+ *  raw_to_display ().
+ */
 void
 FilmViewer::get_frame ()
 {

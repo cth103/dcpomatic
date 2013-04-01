@@ -1043,6 +1043,62 @@ Film::add_content (shared_ptr<Content> c)
 	examine_content (c);
 }
 
+void
+Film::remove_content (shared_ptr<Content> c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		ContentList::iterator i = find (_content.begin(), _content.end(), c);
+		if (i != _content.end ()) {
+			_content.erase (i);
+		}
+	}
+
+	signal_changed (CONTENT);
+}
+
+void
+Film::move_content_earlier (shared_ptr<Content> c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		ContentList::iterator i = find (_content.begin(), _content.end(), c);
+		if (i == _content.begin () || i == _content.end()) {
+			return;
+		}
+
+		ContentList::iterator j = i;
+		--j;
+
+		swap (*i, *j);
+	}
+
+	signal_changed (CONTENT);
+}
+
+void
+Film::move_content_later (shared_ptr<Content> c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		ContentList::iterator i = find (_content.begin(), _content.end(), c);
+		if (i == _content.end()) {
+			return;
+		}
+
+		ContentList::iterator j = i;
+		++j;
+		if (j == _content.end ()) {
+			return;
+		}
+
+		swap (*i, *j);
+	}
+
+	signal_changed (CONTENT);
+
+}
+
 ContentAudioFrame
 Film::audio_length () const
 {

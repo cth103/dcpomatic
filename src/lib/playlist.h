@@ -40,7 +40,7 @@ class Playlist
 public:
 	Playlist ();
 
-	void setup (std::list<boost::shared_ptr<Content> >);
+	void setup (ContentList);
 
 	ContentAudioFrame audio_length () const;
 	int audio_channels () const;

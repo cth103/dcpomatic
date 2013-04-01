@@ -39,10 +39,14 @@ VideoContent::as_xml (xmlpp::Node* node) const
 void
 VideoContent::take_from_video_decoder (shared_ptr<VideoDecoder> d)
 {
+	/* These decoder calls could call other content methods which take a lock on the mutex */
+	libdcp::Size const vs = d->native_size ();
+	float const vfr = d->frames_per_second ();
+	
         {
                 boost::mutex::scoped_lock lm (_mutex);
-                _video_size = d->native_size ();
-                _video_frame_rate = d->frames_per_second ();
+                _video_size = vs;
+		_video_frame_rate = vfr;
         }
         
         Changed (VideoContentProperty::VIDEO_SIZE);

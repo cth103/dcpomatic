@@ -58,8 +58,6 @@ public:
 	virtual bool seek (double);
 	virtual bool seek_to_last ();
 
-	boost::signals2::signal<void()> OutputChanged;
-
 protected:
 	boost::shared_ptr<const Film> _film;
 

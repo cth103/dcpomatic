@@ -52,6 +52,12 @@ ImageMagickDecoder::native_size () const
 	return s;
 }
 
+int
+ImageMagickDecoder::video_length () const
+{
+	return _imagemagick_content->video_length ();
+}
+
 bool
 ImageMagickDecoder::pass ()
 {
@@ -119,12 +125,4 @@ ImageMagickDecoder::seek (double t)
 
 	_position = f;
 	return false;
-}
-
-void
-ImageMagickDecoder::film_changed (Film::Property p)
-{
-	if (p == Film::CROP) {
-		OutputChanged ();
-	}
 }

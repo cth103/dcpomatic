@@ -31,16 +31,11 @@ public:
 	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageMagickContent>);
 
 	float frames_per_second () const {
-		/* We don't know */
-		return 0;
+		return 24;
 	}
 
 	libdcp::Size native_size () const;
-
-	ContentVideoFrame video_length () const {
-		/* We don't know */
-		return 0;
-	}
+	ContentVideoFrame video_length () const;
 
 	int audio_channels () const {
 		return 0;
@@ -80,8 +75,6 @@ protected:
 	}
 
 private:
-	void film_changed (Film::Property);
-
 	boost::shared_ptr<const ImageMagickContent> _imagemagick_content;
 	ContentVideoFrame _position;
 };

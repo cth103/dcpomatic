@@ -38,6 +38,7 @@ extern "C" {
 #include "dcp_content_type.h"
 #include "util.h"
 #include "dci_metadata.h"
+#include "types.h"
 
 class Format;
 class Job;
@@ -171,7 +172,7 @@ public:
 		return _trust_content_headers;
 	}
 
-	std::list<boost::shared_ptr<Content> > content () const {
+	ContentList content () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _content;
 	}
@@ -268,6 +269,9 @@ public:
 	void set_use_dci_name (bool);
 	void set_trust_content_headers (bool);
 	void add_content (boost::shared_ptr<Content>);
+	void remove_content (boost::shared_ptr<Content>);
+	void move_content_earlier (boost::shared_ptr<Content>);
+	void move_content_later (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
 	void set_crop (Crop);
@@ -325,7 +329,6 @@ private:
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;
-	typedef std::list<boost::shared_ptr<Content> > ContentList;
 	ContentList _content;
 	bool _trust_content_headers;
 	/** The type of content that this Film represents (feature, trailer etc.) */

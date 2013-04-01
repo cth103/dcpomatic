@@ -37,6 +37,7 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include "compose.hpp"
+#include "types.h"
 
 #ifdef DVDOMATIC_DEBUG
 #define TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
@@ -64,10 +65,6 @@ extern std::string audio_channel_name (int);
 #ifdef DVDOMATIC_WINDOWS
 extern boost::filesystem::path mo_path ();
 #endif
-
-typedef int SourceFrame;
-typedef int64_t ContentAudioFrame;
-typedef int ContentVideoFrame;
 
 struct FrameRateConversion
 {
@@ -105,82 +102,6 @@ struct FrameRateConversion
 };
 
 int best_dcp_frame_rate (float);
-
-/** @struct Crop
- *  @brief A description of the crop of an image or video.
- */
-struct Crop
-{
-	Crop () : left (0), right (0), top (0), bottom (0) {}
-
-	/** Number of pixels to remove from the left-hand side */
-	int left;
-	/** Number of pixels to remove from the right-hand side */
-	int right;
-	/** Number of pixels to remove from the top */
-	int top;
-	/** Number of pixels to remove from the bottom */
-	int bottom;
-};
-
-extern bool operator== (Crop const & a, Crop const & b);
-extern bool operator!= (Crop const & a, Crop const & b);
-
-/** @struct Position
- *  @brief A position.
- */
-struct Position
-{
-	Position ()
-		: x (0)
-		, y (0)
-	{}
-
-	Position (int x_, int y_)
-		: x (x_)
-		, y (y_)
-	{}
-
-	/** x coordinate */
-	int x;
-	/** y coordinate */
-	int y;
-};
-
-/** @struct Rect
- *  @brief A rectangle.
- */
-struct Rect
-{
-	Rect ()
-		: x (0)
-		, y (0)
-		, width (0)
-		, height (0)
-	{}
-
-	Rect (int x_, int y_, int w_, int h_)
-		: x (x_)
-		, y (y_)
-		, width (w_)
-		, height (h_)
-	{}
-
-	int x;
-	int y;
-	int width;
-	int height;
-
-	Position position () const {
-		return Position (x, y);
-	}
-
-	libdcp::Size size () const {
-		return libdcp::Size (width, height);
-	}
-
-	Rect intersection (Rect const & other) const;
-};
 
 extern std::string crop_string (Position, libdcp::Size);
 extern int dcp_audio_sample_rate (int);
@@ -286,7 +207,7 @@ private:
 	int _source_channels;
 };
 
-extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second);
+extern int64_t video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second);
 extern std::pair<std::string, int> cpu_info ();
 
 #endif

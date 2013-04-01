@@ -592,7 +592,6 @@ FFmpegDecoder::film_changed (Film::Property p)
 		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 		_filter_graphs.clear ();
 	}
-	OutputChanged ();
 	break;
 
 	default:
