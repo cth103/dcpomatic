@@ -57,7 +57,7 @@ class Log;
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<FFmpegContent>, bool video, bool audio, bool subtitles, bool video_sync);
+	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio, bool subtitles, bool video_sync);
 	~FFmpegDecoder ();
 
 	float frames_per_second () const;
@@ -105,7 +105,7 @@ private:
 
 	std::string stream_name (AVStream* s) const;
 
-	boost::shared_ptr<FFmpegContent> _ffmpeg_content;
+	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
 	AVFormatContext* _format_context;
 	int _video_stream;

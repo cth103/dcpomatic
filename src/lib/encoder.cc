@@ -53,9 +53,8 @@ using namespace boost;
 int const Encoder::_history_size = 25;
 
 /** @param f Film that we are encoding */
-Encoder::Encoder (shared_ptr<Film> f, shared_ptr<Playlist> p)
+Encoder::Encoder (shared_ptr<Film> f)
 	: _film (f)
-	, _playlist (p)
 	, _video_frames_in (0)
 	, _video_frames_out (0)
 #ifdef HAVE_SWRESAMPLE	  
@@ -78,22 +77,22 @@ Encoder::~Encoder ()
 void
 Encoder::process_begin ()
 {
-	if (_playlist->has_audio() && _playlist->audio_frame_rate() != _film->target_audio_sample_rate()) {
+	if (_film->has_audio() && _film->audio_frame_rate() != _film->target_audio_sample_rate()) {
 #ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
-		s << String::compose (N_("Will resample audio from %1 to %2"), _playlist->audio_frame_rate(), _film->target_audio_sample_rate());
+		s << String::compose (N_("Will resample audio from %1 to %2"), _film->audio_frame_rate(), _film->target_audio_sample_rate());
 		_film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the resampler */
 		_swr_context = swr_alloc_set_opts (
 			0,
-			_playlist->audio_channel_layout(),
+			_film->audio_channel_layout(),
 			AV_SAMPLE_FMT_FLTP,
 			_film->target_audio_sample_rate(),
-			_playlist->audio_channel_layout(),
+			_film->audio_channel_layout(),
 			AV_SAMPLE_FMT_FLTP,
-			_playlist->audio_frame_rate(),
+			_film->audio_frame_rate(),
 			0, 0
 			);
 		
@@ -119,7 +118,7 @@ Encoder::process_begin ()
 		}
 	}
 
-	_writer.reset (new Writer (_film, _playlist));
+	_writer.reset (new Writer (_film));
 }
 
 
@@ -127,9 +126,9 @@ void
 Encoder::process_end ()
 {
 #if HAVE_SWRESAMPLE	
-	if (_playlist->has_audio() && _playlist->audio_channels() && _swr_context) {
+	if (_film->has_audio() && _film->audio_channels() && _swr_context) {
 
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_playlist->audio_channels(), 256));
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_channels(), 256));
 			
 		while (1) {
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
@@ -234,7 +233,7 @@ Encoder::frame_done ()
 void
 Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub)
 {
-	FrameRateConversion frc (_playlist->video_frame_rate(), _film->dcp_frame_rate());
+	FrameRateConversion frc (_film->video_frame_rate(), _film->dcp_frame_rate());
 	
 	if (frc.skip && (_video_frames_in % 2)) {
 		++_video_frames_in;
@@ -272,7 +271,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_playlist),
+						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
 						  _film->subtitle_offset(), _film->subtitle_scale(),
 						  _film->scaler(), _video_frames_out, _film->dcp_frame_rate(), s.second,
 						  _film->colour_lut(), _film->j2k_bandwidth(),
@@ -302,9 +301,9 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil ((int64_t) data->frames() * _film->target_audio_sample_rate() / _playlist->audio_frame_rate()) + 32;
+		int const max_resampled_frames = ceil ((int64_t) data->frames() * _film->target_audio_sample_rate() / _film->audio_frame_rate()) + 32;
 
-		shared_ptr<AudioBuffers> resampled (new AudioBuffers (_playlist->audio_channels(), max_resampled_frames));
+		shared_ptr<AudioBuffers> resampled (new AudioBuffers (_film->audio_channels(), max_resampled_frames));
 
 		/* Resample audio */
 		int const resampled_frames = swr_convert (
@@ -426,8 +425,8 @@ Encoder::encoder_thread (ServerDescription* server)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 {
-	AudioMapping m (_playlist->audio_channels ());
-	if (m.dcp_channels() != _playlist->audio_channels()) {
+	AudioMapping m (_film->audio_channels ());
+	if (m.dcp_channels() != _film->audio_channels()) {
 
 		/* Remap (currently just for mono -> 5.1) */
 

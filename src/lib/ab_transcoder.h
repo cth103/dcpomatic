@@ -35,7 +35,7 @@ class Matcher;
 class DelayLine;
 class Gain;
 class Combiner;
-class Playlist;
+class Player;
 
 /** @class ABTranscoder
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -55,8 +55,8 @@ public:
 private:
 	boost::shared_ptr<Film> _film_a;
 	boost::shared_ptr<Film> _film_b;
-	boost::shared_ptr<Playlist> _playlist_a;
-	boost::shared_ptr<Playlist> _playlist_b;
+	boost::shared_ptr<Player> _player_a;
+	boost::shared_ptr<Player> _player_b;
 	boost::shared_ptr<Job> _job;
 	boost::shared_ptr<Encoder> _encoder;
 	boost::shared_ptr<Combiner> _combiner;

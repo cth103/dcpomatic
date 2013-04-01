@@ -47,6 +47,7 @@ class ExamineContentJob;
 class AnalyseAudioJob;
 class ExternalAudioStream;
 class Content;
+class Player;
 class Playlist;
 
 /** @class Film
@@ -105,7 +106,17 @@ public:
 
 	bool have_dcp () const;
 
-	boost::shared_ptr<Playlist> playlist () const;
+	boost::shared_ptr<Player> player () const;
+
+	ContentAudioFrame audio_length () const;
+	int audio_channels () const;
+	int audio_frame_rate () const;
+	int64_t audio_channel_layout () const;
+	bool has_audio () const;
+	
+	float video_frame_rate () const;
+	libdcp::Size video_size () const;
+	ContentVideoFrame video_length () const;	
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -300,6 +311,8 @@ private:
 	void examine_content_finished ();
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
+
+	boost::shared_ptr<Playlist> _playlist;
 
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.

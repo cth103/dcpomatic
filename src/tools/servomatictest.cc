@@ -150,14 +150,14 @@ main (int argc, char* argv[])
 	server = new ServerDescription (server_host, 1);
 	shared_ptr<Film> film (new Film (film_dir, true));
 
-	shared_ptr<Playlist> playlist = film->playlist ();
-	playlist->disable_audio ();
+	shared_ptr<Player> player = film->player ();
+	player->disable_audio ();
 
 	try {
-		playlist->Video.connect (boost::bind (process_video, _1, _2, _3));
+		player->Video.connect (boost::bind (process_video, _1, _2, _3));
 		bool done = false;
 		while (!done) {
-			done = playlist->pass ();
+			done = player->pass ();
 		}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";

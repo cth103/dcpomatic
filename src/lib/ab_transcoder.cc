@@ -49,20 +49,20 @@ using boost::dynamic_pointer_cast;
 ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<Job> j)
 	: _film_a (a)
 	, _film_b (b)
-	, _playlist_a (_film_a->playlist ())
-	, _playlist_b (_film_b->playlist ())
+	, _player_a (_film_a->player ())
+	, _player_b (_film_b->player ())
 	, _job (j)
-	, _encoder (new Encoder (_film_a, _playlist_a))
+	, _encoder (new Encoder (_film_a))
 	, _combiner (new Combiner (a->log()))
 {
-	if (_playlist_a->has_audio ()) {
-		_matcher.reset (new Matcher (_film_a->log(), _playlist_a->audio_frame_rate(), _playlist_a->video_frame_rate()));
-		_delay_line.reset (new DelayLine (_film_a->log(), _playlist_a->audio_channels(), _film_a->audio_delay() * _playlist_a->audio_frame_rate() / 1000));
+	if (_film_a->has_audio ()) {
+		_matcher.reset (new Matcher (_film_a->log(), _film_a->audio_frame_rate(), _film_a->video_frame_rate()));
+		_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_channels(), _film_a->audio_delay() * _film_a->audio_frame_rate() / 1000));
 		_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
 	}
 
-	_playlist_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3));
-	_playlist_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3));
+	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3));
+	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3));
 
 	if (_matcher) {
 		_combiner->connect_video (_matcher);
@@ -72,7 +72,7 @@ ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<J
 	}
 	
 	if (_matcher && _delay_line) {
-		_playlist_a->connect_audio (_delay_line);
+		_player_a->connect_audio (_delay_line);
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
 		_gain->connect_audio (_encoder);
@@ -87,11 +87,11 @@ ABTranscoder::go ()
 	bool done[2] = { false, false };
 	
 	while (1) {
-		done[0] = _playlist_a->pass ();
-		done[1] = _playlist_b->pass ();
+		done[0] = _player_a->pass ();
+		done[1] = _player_b->pass ();
 
 		if (_job) {
-			_playlist_a->set_progress (_job);
+			_player_a->set_progress (_job);
 		}
 
 		if (done[0] && done[1]) {

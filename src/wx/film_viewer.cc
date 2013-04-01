@@ -97,13 +97,13 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 	{
-		_playlist = _film->playlist ();
-		_playlist->disable_audio ();
-		_playlist->disable_subtitles ();
-		_playlist->disable_video_sync ();
+		_player = _film->player ();
+		_player->disable_audio ();
+		_player->disable_subtitles ();
+		_player->disable_video_sync ();
 
-		_playlist->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
-//		_playlist->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
+		_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+//		_player->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
@@ -153,7 +153,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::decoder_changed ()
 {
-	if (!_playlist == 0 || _playlist->seek_to_last ()) {
+	if (!_player || _player->seek_to_last ()) {
 		return;
 	}
 
@@ -165,7 +165,7 @@ FilmViewer::decoder_changed ()
 void
 FilmViewer::timer (wxTimerEvent &)
 {
-	if (!_playlist) {
+	if (!_player) {
 		return;
 	}
 	
@@ -174,12 +174,12 @@ FilmViewer::timer (wxTimerEvent &)
 
 	get_frame ();
 
-//	if (_playlist->video_length()) {
-//		int const new_slider_position = 4096 * _playlist->last_source_time() / (_film->length().get() / _film->source_frame_rate());
-//		if (new_slider_position != _slider->GetValue()) {
-//			_slider->SetValue (new_slider_position);
-//		}
-//	}
+	if (_film->video_length()) {
+		int const new_slider_position = 4096 * _player->last_video_time() / (_film->video_length() / _film->video_frame_rate());
+		if (new_slider_position != _slider->GetValue()) {
+			_slider->SetValue (new_slider_position);
+		}
+	}
 }
 
 
@@ -220,11 +220,11 @@ FilmViewer::paint_panel (wxPaintEvent &)
 void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
-	if (!_film || !_playlist) {
+	if (!_film || !_player) {
 		return;
 	}
 	
-	if (_playlist->seek (_slider->GetValue() * _playlist->video_length() / (4096 * _playlist->video_frame_rate()))) {
+	if (_player->seek (_slider->GetValue() * _film->video_length() / (4096 * _film->video_frame_rate()))) {
 		return;
 	}
 	
@@ -308,7 +308,7 @@ FilmViewer::raw_to_display ()
 void
 FilmViewer::calculate_sizes ()
 {
-	if (!_film || !_playlist) {
+	if (!_film || !_player) {
 		return;
 	}
 
@@ -332,7 +332,7 @@ FilmViewer::calculate_sizes ()
 	*/
 	_display_frame_x = 0;
 	if (format) {
-		_display_frame_x = static_cast<float> (format->dcp_padding (_playlist)) * _out_size.width / format->dcp_size().width;
+		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
 	}
 
 	_film_size = _out_size;
@@ -381,7 +381,7 @@ FilmViewer::get_frame ()
 	/* Clear our raw frame in case we don't get a new one */
 	_raw_frame.reset ();
 
-	if (!_playlist) {
+	if (!_player) {
 		_display_frame.reset ();
 		return;
 	}
@@ -389,7 +389,7 @@ FilmViewer::get_frame ()
 	try {
 		_got_frame = false;
 		while (!_got_frame) {
-			if (_playlist->pass ()) {
+			if (_player->pass ()) {
 				/* We didn't get a frame before the decoder gave up,
 				   so clear our display frame.
 				*/

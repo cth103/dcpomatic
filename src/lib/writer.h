@@ -26,7 +26,6 @@
 class Film;
 class EncodedData;
 class AudioBuffers;
-class Playlist;
 
 namespace libdcp {
 	class MonoPictureAsset;
@@ -64,7 +63,7 @@ bool operator== (QueueItem const & a, QueueItem const & b);
 class Writer : public ExceptionStore
 {
 public:
-	Writer (boost::shared_ptr<Film>, boost::shared_ptr<Playlist>);
+	Writer (boost::shared_ptr<Film>);
 
 	bool can_fake_write (int) const;
 	
@@ -81,7 +80,6 @@ private:
 
 	/** our Film */
 	boost::shared_ptr<Film> _film;
-	boost::shared_ptr<Playlist> _playlist;
 	/** the first frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 

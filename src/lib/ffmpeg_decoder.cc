@@ -61,10 +61,10 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using libdcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<FFmpegContent> c, bool video, bool audio, bool subtitles, bool video_sync)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio, bool subtitles, bool video_sync)
 	: Decoder (f)
-	, VideoDecoder (f, c)
-	, AudioDecoder (f, c)
+	, VideoDecoder (f)
+	, AudioDecoder (f)
 	, _ffmpeg_content (c)
 	, _format_context (0)
 	, _video_stream (-1)

@@ -30,7 +30,7 @@ class Matcher;
 class VideoFilter;
 class Gain;
 class DelayLine;
-class Playlist;
+class Player;
 
 /** @class Transcoder
  *
@@ -50,7 +50,7 @@ public:
 protected:
 	/** A Job that is running this Transcoder, or 0 */
 	boost::shared_ptr<Job> _job;
-	boost::shared_ptr<Playlist> _playlist;
+	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Encoder> _encoder;
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;

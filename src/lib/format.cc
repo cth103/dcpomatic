@@ -207,9 +207,9 @@ FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d
  *  (so there are dcp_padding() pixels on the left and dcp_padding() on the right)
  */
 int
-Format::dcp_padding (shared_ptr<const Playlist> p) const
+Format::dcp_padding (shared_ptr<const Film> f) const
 {
-	int pad = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(p) / 100.0)) / 2.0);
+	int pad = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(f) / 100.0)) / 2.0);
 
 	/* This comes out -ve for Scope; bodge it */
 	if (pad < 0) {
@@ -232,15 +232,15 @@ VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d,
 }
 
 int
-VariableFormat::ratio_as_integer (shared_ptr<const Playlist> p) const
+VariableFormat::ratio_as_integer (shared_ptr<const Film> f) const
 {
-	return rint (ratio_as_float (p) * 100);
+	return rint (ratio_as_float (f) * 100);
 }
 
 float
-VariableFormat::ratio_as_float (shared_ptr<const Playlist> p) const
+VariableFormat::ratio_as_float (shared_ptr<const Film> f) const
 {
-	return float (p->video_size().width) / p->video_size().height;
+	return float (f->video_size().width) / f->video_size().height;
 }
 
 /** @return A name to be presented to the user */

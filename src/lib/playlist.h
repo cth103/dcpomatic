@@ -35,10 +35,12 @@ class SndfileDecoder;
 class Job;
 class Film;
 
-class Playlist : public VideoSource, public AudioSource, public VideoSink, public AudioSink, public boost::enable_shared_from_this<Playlist>
+class Playlist
 {
 public:
-	Playlist (boost::shared_ptr<const Film>, std::list<boost::shared_ptr<Content> >);
+	Playlist ();
+
+	void setup (std::list<boost::shared_ptr<Content> >);
 
 	ContentAudioFrame audio_length () const;
 	int audio_channels () const;
@@ -50,6 +52,52 @@ public:
 	libdcp::Size video_size () const;
 	ContentVideoFrame video_length () const;
 
+	enum VideoFrom {
+		VIDEO_NONE,
+		VIDEO_FFMPEG,
+		VIDEO_IMAGEMAGICK
+	};
+
+	enum AudioFrom {
+		AUDIO_NONE,
+		AUDIO_FFMPEG,
+		AUDIO_SNDFILE
+	};
+
+	VideoFrom video_from () const {
+		return _video_from;
+	}
+
+	AudioFrom audio_from () const {
+		return _audio_from;
+	}
+
+	boost::shared_ptr<const FFmpegContent> ffmpeg () const {
+		return _ffmpeg;
+	}
+
+	std::list<boost::shared_ptr<const ImageMagickContent> > imagemagick () const {
+		return _imagemagick;
+	}
+
+	std::list<boost::shared_ptr<const SndfileContent> > sndfile () const {
+		return _sndfile;
+	}
+	
+private:
+	VideoFrom _video_from;
+	AudioFrom _audio_from;
+
+	boost::shared_ptr<const FFmpegContent> _ffmpeg;
+	std::list<boost::shared_ptr<const ImageMagickContent> > _imagemagick;
+	std::list<boost::shared_ptr<const SndfileContent> > _sndfile;
+};
+
+class Player : public VideoSource, public AudioSource, public VideoSink, public AudioSink, public boost::enable_shared_from_this<Player>
+{
+public:
+	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
+
 	void disable_video ();
 	void disable_audio ();
 	void disable_subtitles ();
@@ -60,29 +108,20 @@ public:
 	bool seek (double);
 	bool seek_to_last ();
 
+	double last_video_time () const;
+
 private:
 	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
 	void process_audio (boost::shared_ptr<AudioBuffers>);
 	void setup_decoders ();
-	
+
 	boost::shared_ptr<const Film> _film;
-
-	enum {
-		VIDEO_NONE,
-		VIDEO_FFMPEG,
-		VIDEO_IMAGEMAGICK
-	} _video_from;
+	boost::shared_ptr<const Playlist> _playlist;
 	
-	enum {
-		AUDIO_NONE,
-		AUDIO_FFMPEG,
-		AUDIO_SNDFILE
-	} _audio_from;
-
-	boost::shared_ptr<FFmpegContent> _ffmpeg;
-	std::list<boost::shared_ptr<ImageMagickContent> > _imagemagick;
-	std::list<boost::shared_ptr<SndfileContent> > _sndfile;
-
+	bool _video;
+	bool _audio;
+	bool _subtitles;
+	
 	bool _have_setup_decoders;
 	boost::shared_ptr<FFmpegDecoder> _ffmpeg_decoder;
 	bool _ffmpeg_decoder_done;

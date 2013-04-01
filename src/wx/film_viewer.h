@@ -57,7 +57,7 @@ private:
 	void active_jobs_changed (bool);
 
 	boost::shared_ptr<Film> _film;
-	boost::shared_ptr<Playlist> _playlist;
+	boost::shared_ptr<Player> _player;
 
 	wxSizer* _v_sizer;
 	wxPanel* _panel;

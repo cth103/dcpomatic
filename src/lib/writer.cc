@@ -42,9 +42,8 @@ using boost::shared_ptr;
 
 int const Writer::_maximum_frames_in_memory = 8;
 
-Writer::Writer (shared_ptr<Film> f, shared_ptr<Playlist> p)
+Writer::Writer (shared_ptr<Film> f)
 	: _film (f)
-	, _playlist (p)
 	, _first_nonexistant_frame (0)
 	, _thread (0)
 	, _finish (false)
@@ -76,7 +75,7 @@ Writer::Writer (shared_ptr<Film> f, shared_ptr<Playlist> p)
 
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	AudioMapping m (_playlist->audio_channels ());
+	AudioMapping m (_film->audio_channels ());
 	
 	if (m.dcp_channels() > 0) {
 		_sound_asset.reset (
@@ -85,7 +84,7 @@ Writer::Writer (shared_ptr<Film> f, shared_ptr<Playlist> p)
 				N_("audio.mxf"),
 				_film->dcp_frame_rate (),
 				m.dcp_channels (),
-				dcp_audio_sample_rate (_playlist->audio_frame_rate())
+				dcp_audio_sample_rate (_film->audio_frame_rate())
 				)
 			);
 

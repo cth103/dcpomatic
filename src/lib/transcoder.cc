@@ -47,24 +47,24 @@ using boost::dynamic_pointer_cast;
  */
 Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	: _job (j)
-	, _playlist (f->playlist ())
-	, _encoder (new Encoder (f, _playlist))
+	, _player (f->player ())
+	, _encoder (new Encoder (f))
 {
-	if (_playlist->has_audio ()) {
-		_matcher.reset (new Matcher (f->log(), _playlist->audio_frame_rate(), _playlist->video_frame_rate()));
-		_delay_line.reset (new DelayLine (f->log(), _playlist->audio_channels(), f->audio_delay() * _playlist->audio_frame_rate() / 1000));
+	if (f->has_audio ()) {
+		_matcher.reset (new Matcher (f->log(), f->audio_frame_rate(), f->video_frame_rate()));
+		_delay_line.reset (new DelayLine (f->log(), f->audio_channels(), f->audio_delay() * f->audio_frame_rate() / 1000));
 		_gain.reset (new Gain (f->log(), f->audio_gain()));
 	}
 
 	if (_matcher) {
-		_playlist->connect_video (_matcher);
+		_player->connect_video (_matcher);
 		_matcher->connect_video (_encoder);
 	} else {
-		_playlist->connect_video (_encoder);
+		_player->connect_video (_encoder);
 	}
 	
-	if (_matcher && _delay_line && _playlist->has_audio ()) {
-		_playlist->connect_audio (_delay_line);
+	if (_matcher && _delay_line && f->has_audio ()) {
+		_player->connect_audio (_delay_line);
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
 		_gain->connect_audio (_encoder);
@@ -77,10 +77,10 @@ Transcoder::go ()
 	_encoder->process_begin ();
 	try {
 		while (1) {
-			if (_playlist->pass ()) {
+			if (_player->pass ()) {
 				break;
 			}
-			_playlist->set_progress (_job);
+			_player->set_progress (_job);
 		}
 		
 	} catch (...) {

@@ -25,7 +25,6 @@
 
 class AudioPlot;
 class Film;
-class Playlist;
 
 class AudioDialog : public wxDialog
 {
@@ -43,7 +42,6 @@ private:
 	void setup_channels ();
 
 	boost::shared_ptr<Film> _film;
-	boost::shared_ptr<Playlist> _playlist;
 	AudioPlot* _plot;
 	wxCheckBox* _channel_checkbox[MAX_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];

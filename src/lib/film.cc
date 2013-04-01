@@ -91,7 +91,8 @@ int const Film::state_version = 4;
  */
 
 Film::Film (string d, bool must_exist)
-	: _use_dci_name (true)
+	: _playlist (new Playlist)
+	, _use_dci_name (true)
 	, _trust_content_headers (true)
 	, _dcp_content_type (0)
 	, _format (0)
@@ -151,6 +152,7 @@ Film::Film (Film const & o)
 	: boost::enable_shared_from_this<Film> (o)
 	/* note: the copied film shares the original's log */
 	, _log               (o._log)
+	, _playlist          (new Playlist)
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
@@ -175,7 +177,7 @@ Film::Film (Film const & o)
 	, _dcp_frame_rate    (o._dcp_frame_rate)
 	, _dirty             (o._dirty)
 {
-	
+	_playlist->setup (_content);
 }
 
 Film::~Film ()
@@ -554,17 +556,14 @@ Film::file (string f) const
 int
 Film::target_audio_sample_rate () const
 {
-	/* XXX: how often is this method called? */
-	
-	boost::shared_ptr<Playlist> p = playlist ();
-	if (p->has_audio ()) {
+	if (has_audio ()) {
 		return 0;
 	}
 	
 	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_sample_rate (p->audio_frame_rate());
+	double t = dcp_audio_sample_rate (audio_frame_rate());
 
-	FrameRateConversion frc (p->video_frame_rate(), dcp_frame_rate());
+	FrameRateConversion frc (video_frame_rate(), dcp_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -573,7 +572,7 @@ Film::target_audio_sample_rate () const
 	*/
 
 	if (frc.change_speed) {
-		t *= p->video_frame_rate() * frc.factor() / dcp_frame_rate();
+		t *= video_frame_rate() * frc.factor() / dcp_frame_rate();
 	}
 
 	return rint (t);
@@ -1023,11 +1022,11 @@ Film::have_dcp () const
 	return true;
 }
 
-shared_ptr<Playlist>
-Film::playlist () const
+shared_ptr<Player>
+Film::player () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return shared_ptr<Playlist> (new Playlist (shared_from_this (), _content));
+	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
 }
 
 void
@@ -1036,9 +1035,59 @@ Film::add_content (shared_ptr<Content> c)
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
 		_content.push_back (c);
+		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
 
 	examine_content (c);
 }
+
+ContentAudioFrame
+Film::audio_length () const
+{
+	return _playlist->audio_length ();
+}
+
+int
+Film::audio_channels () const
+{
+	return _playlist->audio_channels ();
+}
+
+int
+Film::audio_frame_rate () const
+{
+	return _playlist->audio_frame_rate ();
+}
+
+int64_t
+Film::audio_channel_layout () const
+{
+	return _playlist->audio_channel_layout ();
+}
+
+bool
+Film::has_audio () const
+{
+	return _playlist->has_audio ();
+}
+
+float
+Film::video_frame_rate () const
+{
+	return _playlist->video_frame_rate ();
+}
+
+libdcp::Size
+Film::video_size () const
+{
+	return _playlist->video_size ();
+}
+
+ContentVideoFrame
+Film::video_length () const
+{
+	return _playlist->video_length ();
+}
+

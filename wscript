@@ -55,6 +55,7 @@ def configure(conf):
 
     if not conf.options.static:
         conf.check_cfg(package = 'libdcp', atleast_version = '0.41', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libcxml', atleast_version = '0.01', args = '--cflags --libs', uselib_store = 'CXML', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
         conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
@@ -71,6 +72,8 @@ def configure(conf):
         conf.env.HAVE_DCP = 1
         conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
         conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
+        conf.env.HAVE_CXML = 1
+        conf.env.STLIB_CXML = ['cxml']
         conf.env.HAVE_AVFORMAT = 1
         conf.env.STLIB_AVFORMAT = ['avformat']
         conf.env.HAVE_AVFILTER = 1

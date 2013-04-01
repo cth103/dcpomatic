@@ -32,9 +32,9 @@ using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
 
-ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<ImageMagickContent> c)
+ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<const ImageMagickContent> c)
 	: Decoder (f)
-	, VideoDecoder (f, c)
+	, VideoDecoder (f)
 	, _imagemagick_content (c)
 	, _position (0)
 {
