@@ -18,8 +18,8 @@
 */
 
 /** @file  src/film.h
- *  @brief A representation of a piece of video (with sound), including naming,
- *  the source content file, and how it should be presented in a DCP.
+ *  @brief A representation of some audio and video content, and details of
+ *  how they should be presented in a DCP.
  */
 
 #ifndef DVDOMATIC_FILM_H
@@ -52,17 +52,14 @@ class Player;
 class Playlist;
 
 /** @class Film
- *  @brief A representation of a video, maybe with sound.
- *
- *  A representation of a piece of video (maybe with sound), including naming,
- *  the source content file, and how it should be presented in a DCP.
+ *  @brief A representation of some audio and video content, and details of
+ *  how they should be presented in a DCP.
  */
 class Film : public boost::enable_shared_from_this<Film>
 {
 public:
 	Film (std::string d, bool must_exist = true);
 	Film (Film const &);
-	~Film ();
 
 	std::string info_dir () const;
 	std::string j2c_path (int f, bool t) const;
@@ -74,7 +71,6 @@ public:
 	void examine_content (boost::shared_ptr<Content>);
 	void analyse_audio ();
 	void send_dcp_to_tms ();
-
 	void make_dcp ();
 
 	/** @return Logger.
@@ -92,7 +88,6 @@ public:
 	int target_audio_sample_rate () const;
 	
 	void write_metadata () const;
-	void read_metadata ();
 
 	libdcp::Size cropped_size (libdcp::Size) const;
 	std::string dci_name (bool if_created_now) const;
@@ -103,11 +98,11 @@ public:
 		return _dirty;
 	}
 
-	void set_dci_date_today ();
-
 	bool have_dcp () const;
 
 	boost::shared_ptr<Player> player () const;
+
+	/* Proxies for some Playlist methods */
 
 	ContentAudioFrame audio_length () const;
 	int audio_channels () const;
@@ -127,6 +122,7 @@ public:
 		NAME,
 		USE_DCI_NAME,
 		TRUST_CONTENT_HEADERS,
+		/** The content list has changed (i.e. content has been added, moved around or removed) */
 		CONTENT,
 		DCP_CONTENT_TYPE,
 		FORMAT,
@@ -286,7 +282,6 @@ public:
 	void set_ab (bool);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
-	void set_still_duration (int);
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
@@ -294,9 +289,13 @@ public:
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
 	void set_dcp_frame_rate (int);
+	void set_dci_date_today ();
 
-	/** Emitted when some property has changed */
+	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
+
+	/** Emitted when some property of our content has changed */
+	mutable boost::signals2::signal<void (int)> ContentChanged;
 
 	boost::signals2::signal<void ()> AudioAnalysisSucceeded;
 
@@ -305,17 +304,15 @@ public:
 
 private:
 	
-	/** Log to write to */
-	boost::shared_ptr<Log> _log;
-
-	/** Any running AnalyseAudioJob, or 0 */
-	boost::shared_ptr<AnalyseAudioJob> _analyse_audio_job;
-
 	void signal_changed (Property);
-	void examine_content_finished ();
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
+	void read_metadata ();
 
+	/** Log to write to */
+	boost::shared_ptr<Log> _log;
+	/** Any running AnalyseAudioJob, or 0 */
+	boost::shared_ptr<AnalyseAudioJob> _analyse_audio_job;
 	boost::shared_ptr<Playlist> _playlist;
 
 	/** Complete path to directory containing the film metadata;
@@ -329,8 +326,8 @@ private:
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;
-	ContentList _content;
 	bool _trust_content_headers;
+	ContentList _content;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */
@@ -369,13 +366,12 @@ private:
 	int _colour_lut;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
-
 	/** DCI naming stuff */
 	DCIMetadata _dci_metadata;
-	/** The date that we should use in a DCI name */
-	boost::gregorian::date _dci_date;
 	/** Frames per second to run our DCP at */
 	int _dcp_frame_rate;
+	/** The date that we should use in a DCI name */
+	boost::gregorian::date _dci_date;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
