@@ -122,7 +122,7 @@ FFmpegDecoder::setup_general ()
 		throw DecodeError (_("could not find stream information"));
 	}
 
-	/* Find video, audio and subtitle streams and choose the first of each */
+	/* Find video, audio and subtitle streams */
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];

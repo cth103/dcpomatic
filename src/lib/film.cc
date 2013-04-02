@@ -1161,6 +1161,30 @@ Film::video_length () const
 	return _playlist->video_length ();
 }
 
+vector<FFmpegSubtitleStream>
+Film::ffmpeg_subtitle_streams () const
+{
+	return _playlist->ffmpeg_subtitle_streams ();
+}
+
+boost::optional<FFmpegSubtitleStream>
+Film::ffmpeg_subtitle_stream () const
+{
+	return _playlist->ffmpeg_subtitle_stream ();
+}
+
+vector<FFmpegAudioStream>
+Film::ffmpeg_audio_streams () const
+{
+	return _playlist->ffmpeg_audio_streams ();
+}
+
+boost::optional<FFmpegAudioStream>
+Film::ffmpeg_audio_stream () const
+{
+	return _playlist->ffmpeg_audio_stream ();
+}
+
 void
 Film::content_changed (int p)
 {

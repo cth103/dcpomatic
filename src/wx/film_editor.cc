@@ -150,11 +150,6 @@ FilmEditor::make_film_panel ()
 	_frame_rate_description->SetFont(font);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Size"), wxGBPosition (r, 0));
-	_original_size = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (_original_size, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-	
 	add_label_to_grid_bag_sizer (grid, _film_panel, _("Length"), wxGBPosition (r, 0));
 	_length = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
 	grid->Add (_length, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -220,8 +215,8 @@ FilmEditor::connect_to_widgets ()
 	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
 	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
 	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
-//	_ffmpeg_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::ffmpeg_subtitle_stream_changed), 0, this);
-//	_ffmpeg_audio_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::ffmpeg_audio_stream_changed), 0, this);
+	_ffmpeg_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::ffmpeg_subtitle_stream_changed), 0, this);
+	_ffmpeg_audio_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::ffmpeg_audio_stream_changed), 0, this);
 	_audio_gain->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
 	_audio_gain_calculate_button->Connect (
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
@@ -393,6 +388,16 @@ FilmEditor::make_audio_panel ()
 		add_label_to_sizer (s, _audio_panel, _("ms"));
 		grid->Add (s);
 	}
+
+        {
+                add_label_to_sizer (grid, _audio_panel, _("Audio Stream"));
+                wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+                _ffmpeg_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
+                s->Add (_ffmpeg_audio_stream, 1);
+                _audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
+                s->Add (_audio, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
+                grid->Add (s, 1, wxEXPAND);
+        }
 
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
@@ -616,18 +621,6 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_name, _film->name());
 		setup_dcp_name ();
 		break;
-//	case Film::SOURCE_FRAME_RATE:
-//		s << fixed << setprecision(2) << _film->source_frame_rate();
-//		_source_frame_rate->SetLabel (std_to_wx (s.str ()));
-//		break;
-//	case Film::VIDEO_SIZE:
-//		if (_film->size().width == 0 && _film->size().height == 0) {
-//			_original_size->SetLabel (wxT (""));
-//		} else {
-//			s << _film->size().width << " x " << _film->size().height;
-//			_original_size->SetLabel (std_to_wx (s.str ()));
-//		}
-//		break;
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
@@ -674,19 +667,6 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::DCI_METADATA:
 		setup_dcp_name ();
 		break;
-//	case Film::CONTENT_AUDIO_STREAM:
-//		if (_film->content_audio_stream()) {
-//			checked_set (_audio_stream, _film->content_audio_stream()->to_string());
-//		}
-//		setup_dcp_name ();
-//		setup_audio_details ();
-//		setup_show_audio_sensitivity ();
-//		break;
-//	case Film::SUBTITLE_STREAM:
-//		if (_film->subtitle_stream()) {
-//			checked_set (_subtitle_stream, _film->subtitle_stream()->to_string());
-//		}
-//		break;
 	case Film::DCP_FRAME_RATE:
 		for (unsigned int i = 0; i < _dcp_frame_rate->GetCount(); ++i) {
 			if (wx_to_std (_dcp_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->dcp_frame_rate())) {
@@ -718,6 +698,17 @@ FilmEditor::film_content_changed (int p)
 		setup_show_audio_sensitivity ();
 	} else if (p == VideoContentProperty::VIDEO_LENGTH) {
 		setup_length ();
+	} else if (p == FFmpegContentProperty::AUDIO_STREAM) {
+		if (_film->ffmpeg_audio_stream()) {
+			checked_set (_ffmpeg_audio_stream, _film->ffmpeg_audio_stream()->id);
+		}
+		setup_dcp_name ();
+		setup_audio_details ();
+		setup_show_audio_sensitivity ();
+	} else if (p == FFmpegContentProperty::SUBTITLE_STREAM) {
+		if (_film->ffmpeg_subtitle_stream()) {
+			checked_set (_ffmpeg_subtitle_stream, _film->ffmpeg_subtitle_stream()->id);
+		}
 	}
 }
 
@@ -836,6 +827,11 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_FRAME_RATE);
+
+	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
+	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAM);
+	film_content_changed (FFmpegContentProperty::AUDIO_STREAMS);
+	film_content_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -859,7 +855,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_bottom_crop->Enable (s);
 	_filters_button->Enable (s);
 	_scaler->Enable (s);
-//	_ffmpeg_audio_stream->Enable (s);
+	_ffmpeg_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
 	_dcp_frame_rate->Enable (s);
 	_trim_start->Enable (s);
@@ -996,7 +992,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 {
 	bool h = false;
 	if (_generally_sensitive && _film) {
-//		h = !_film->subtitle_streams().empty();
+		h = !_film->ffmpeg_subtitle_streams().empty();
 	}
 	
 	_with_subtitles->Enable (h);
@@ -1037,26 +1033,27 @@ FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
 void
 FilmEditor::setup_streams ()
 {
-//	_ffmpeg_audio_stream->Clear ();
-	vector<FFmpegAudioStream> a;// = _film->content_audio_streams ();
-//	for (vector<FFmpegAudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
-//		_audio_stream->Append (std_to_wx (ffa->name()), new wxStringClientData (std_to_wx (i->to_string ())));
-//	}
+	_ffmpeg_audio_stream->Clear ();
+	vector<FFmpegAudioStream> a = _film->ffmpeg_audio_streams ();
+	for (vector<FFmpegAudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
+		_ffmpeg_audio_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (boost::lexical_cast<string> (i->id))));
+	}
 	
-//	if (_film->use_content_audio() && _film->audio_stream()) {
-//		checked_set (_audio_stream, _film->audio_stream()->to_string());
-//	}
+	if (_film->ffmpeg_audio_stream()) {
+		checked_set (_ffmpeg_audio_stream, boost::lexical_cast<string> (_film->ffmpeg_audio_stream()->id));
+	}
 
 	_ffmpeg_subtitle_stream->Clear ();
-//	vector<shared_ptr<SubtitleStream> > s = _film->subtitle_streams ();
-//	for (vector<shared_ptr<SubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
-//		_subtitle_stream->Append (std_to_wx ((*i)->name()), new wxStringClientData (std_to_wx ((*i)->to_string ())));
-//	}
-//	if (_film->subtitle_stream()) {
-//		checked_set (_subtitle_stream, _film->subtitle_stream()->to_string());
-//	} else {
-//		_subtitle_stream->SetSelection (wxNOT_FOUND);
-//	}
+	vector<FFmpegSubtitleStream> s = _film->ffmpeg_subtitle_streams ();
+	for (vector<FFmpegSubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
+		_ffmpeg_subtitle_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (boost::lexical_cast<string> (i->id))));
+	}
+	
+	if (_film->ffmpeg_subtitle_stream()) {
+		checked_set (_ffmpeg_subtitle_stream, boost::lexical_cast<string> (_film->ffmpeg_subtitle_stream()->id));
+	} else {
+		_ffmpeg_subtitle_stream->SetSelection (wxNOT_FOUND);
+	}
 }
 
 void

@@ -148,6 +148,7 @@ private:
 	wxButton* _audio_gain_calculate_button;
 	wxButton* _show_audio;
 	wxSpinCtrl* _audio_delay;
+	wxChoice* _ffmpeg_audio_stream;
 	wxCheckBox* _with_subtitles;
 	wxChoice* _ffmpeg_subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
@@ -158,7 +159,6 @@ private:
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
 	wxStaticText* _frame_rate_description;
-	wxStaticText* _original_size;
 	wxStaticText* _length;
 	/** The Film's audio details */
 	wxStaticText* _audio;

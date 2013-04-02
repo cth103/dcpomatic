@@ -28,6 +28,7 @@
 
 using std::list;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -47,7 +48,7 @@ Playlist::setup (ContentList content)
 	_ffmpeg.reset ();
 	_imagemagick.clear ();
 	_sndfile.clear ();
-	
+
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
 		if (fc) {
@@ -206,6 +207,46 @@ Playlist::has_audio () const
 	return _audio_from != AUDIO_NONE;
 }
 
+vector<FFmpegSubtitleStream>
+Playlist::ffmpeg_subtitle_streams () const
+{
+	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
+		return vector<FFmpegSubtitleStream> ();
+	}
+
+	return _ffmpeg->subtitle_streams ();
+}
+
+boost::optional<FFmpegSubtitleStream>
+Playlist::ffmpeg_subtitle_stream () const
+{
+	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
+		return boost::none;
+	}
+
+	return _ffmpeg->subtitle_stream ();
+}
+
+vector<FFmpegAudioStream>
+Playlist::ffmpeg_audio_streams () const
+{
+	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
+		return vector<FFmpegAudioStream> ();
+	}
+
+	return _ffmpeg->audio_streams ();
+}
+
+boost::optional<FFmpegAudioStream>
+Playlist::ffmpeg_audio_stream () const
+{
+	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
+		return boost::none;
+	}
+
+	return _ffmpeg->audio_stream ();
+}
+
 Player::Player (boost::shared_ptr<const Film> f, boost::shared_ptr<const Playlist> p)
 	: _film (f)
 	, _playlist (p)
@@ -296,13 +337,18 @@ Player::process_audio (shared_ptr<AudioBuffers> b)
 bool
 Player::seek (double t)
 {
+	if (!_have_setup_decoders) {
+		setup_decoders ();
+		_have_setup_decoders = true;
+	}
+	
 	bool r = false;
 
 	switch (_playlist->video_from()) {
 	case Playlist::VIDEO_NONE:
 		break;
 	case Playlist::VIDEO_FFMPEG:
-		if (_ffmpeg_decoder->seek (t)) {
+		if (!_ffmpeg_decoder || _ffmpeg_decoder->seek (t)) {
 			r = true;
 		}
 		break;
@@ -334,13 +380,18 @@ Player::seek (double t)
 bool
 Player::seek_to_last ()
 {
+	if (!_have_setup_decoders) {
+		setup_decoders ();
+		_have_setup_decoders = true;
+	}
+
 	bool r = false;
 	
 	switch (_playlist->video_from ()) {
 	case Playlist::VIDEO_NONE:
 		break;
 	case Playlist::VIDEO_FFMPEG:
-		if (_ffmpeg_decoder->seek_to_last ()) {
+		if (!_ffmpeg_decoder || _ffmpeg_decoder->seek_to_last ()) {
 			r = true;
 		}
 		break;

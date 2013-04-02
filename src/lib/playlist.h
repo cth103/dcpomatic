@@ -24,6 +24,7 @@
 #include "audio_source.h"
 #include "video_sink.h"
 #include "audio_sink.h"
+#include "ffmpeg_content.h"
 
 class Content;
 class FFmpegContent;
@@ -51,6 +52,11 @@ public:
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
 	ContentVideoFrame video_length () const;
+
+	std::vector<FFmpegSubtitleStream> ffmpeg_subtitle_streams () const;
+	boost::optional<FFmpegSubtitleStream> ffmpeg_subtitle_stream () const;
+	std::vector<FFmpegAudioStream> ffmpeg_audio_streams () const;
+	boost::optional<FFmpegAudioStream> ffmpeg_audio_stream () const;
 
 	enum VideoFrom {
 		VIDEO_NONE,

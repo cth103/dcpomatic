@@ -107,6 +107,8 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	}
 	case Film::WITH_SUBTITLES:
+		setup_player ();
+		/* fall through */
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
 	case Film::SCALER:
@@ -124,7 +126,9 @@ FilmViewer::setup_player ()
 {
 	_player = _film->player ();
 	_player->disable_audio ();
-	_player->disable_subtitles ();
+	if (!_film->with_subtitles ()) {
+		_player->disable_subtitles ();
+	}
 	_player->disable_video_sync ();
 	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 }

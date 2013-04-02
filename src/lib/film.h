@@ -39,6 +39,7 @@ extern "C" {
 #include "util.h"
 #include "dci_metadata.h"
 #include "types.h"
+#include "ffmpeg_content.h"
 
 class Format;
 class Job;
@@ -114,6 +115,11 @@ public:
 	libdcp::Size video_size () const;
 	ContentVideoFrame video_length () const;	
 
+	std::vector<FFmpegSubtitleStream> ffmpeg_subtitle_streams () const;
+	boost::optional<FFmpegSubtitleStream> ffmpeg_subtitle_stream () const;
+	std::vector<FFmpegAudioStream> ffmpeg_audio_streams () const;
+	boost::optional<FFmpegAudioStream> ffmpeg_audio_stream () const;
+	
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
