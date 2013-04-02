@@ -104,6 +104,8 @@ private:
 	void setup_show_audio_sensitivity ();
 	void setup_content ();
 	void setup_content_button_sensitivity ();
+	void setup_length ();
+	void setup_format ();
 	
 	void active_jobs_changed (bool);
 
@@ -130,6 +132,7 @@ private:
 	wxButton* _content_remove;
 	wxButton* _content_earlier;
 	wxButton* _content_later;
+	wxTextCtrl* _content_information;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;

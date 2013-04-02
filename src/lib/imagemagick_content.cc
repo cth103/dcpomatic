@@ -25,6 +25,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::stringstream;
 using boost::shared_ptr;
 
 ImageMagickContent::ImageMagickContent (boost::filesystem::path f)

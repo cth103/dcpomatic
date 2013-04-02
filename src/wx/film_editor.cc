@@ -331,11 +331,6 @@ FilmEditor::make_content_panel ()
 	_content_sizer = new wxBoxSizer (wxVERTICAL);
 	_content_panel->SetSizer (_content_sizer);
 	
-	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
-	_content_sizer->Add (grid, 0, wxALL, 8);
-
-	int r = 0;
-
         {
                 wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
                 
@@ -357,9 +352,11 @@ FilmEditor::make_content_panel ()
 
                 s->Add (b, 0, wxALL, 4);
 
-                grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND);
-		++r;
+                _content_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
         }
+
+	_content_information = new wxTextCtrl (_content_panel, wxID_ANY, wxT ("\n\n\n\n"), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+	_content_sizer->Add (_content_information, 1, wxEXPAND | wxALL, 6);
 }
 
 void
@@ -585,35 +582,18 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::CONTENT:
 		setup_content ();
 		setup_formats ();
+		setup_format ();
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		setup_show_audio_sensitivity ();
+		setup_length ();
 		break;
 	case Film::TRUST_CONTENT_HEADERS:
 		checked_set (_trust_content_headers, _film->trust_content_headers ());
 		break;
 	case Film::FORMAT:
-	{
-		int n = 0;
-		vector<Format const *>::iterator i = _formats.begin ();
-		while (i != _formats.end() && *i != _film->format ()) {
-			++i;
-			++n;
-		}
-		if (i == _formats.end()) {
-			checked_set (_format, -1);
-		} else {
-			checked_set (_format, n);
-		}
-		setup_dcp_name ();
-
-		if (_film->format ()) {
-			_format_description->SetLabel (std_to_wx (_film->format()->description ()));
-		} else {
-			_format_description->SetLabel (wxT (""));
-		}
+		setup_format ();
 		break;
-	}
 	case Film::CROP:
 		checked_set (_left_crop, _film->crop().left);
 		checked_set (_right_crop, _film->crop().right);
@@ -737,21 +717,50 @@ FilmEditor::film_content_changed (int p)
 		setup_streams ();
 		setup_show_audio_sensitivity ();
 	} else if (p == VideoContentProperty::VIDEO_LENGTH) {
-		stringstream s;
-		if (_film->video_frame_rate() > 0 && _film->video_length()) {
-			s << _film->video_length() << " "
-			  << wx_to_std (_("frames")) << "; " << seconds_to_hms (_film->video_length() / _film->video_frame_rate());
-		} else if (_film->video_length()) {
-			s << _film->video_length() << " "
-			  << wx_to_std (_("frames"));
-		} 
-		_length->SetLabel (std_to_wx (s.str ()));
-		if (_film->video_length()) {
-			_trim_start->SetRange (0, _film->video_length());
-			_trim_end->SetRange (0, _film->video_length());
-		}
+		setup_length ();
 	}
 }
+
+void
+FilmEditor::setup_format ()
+{
+	int n = 0;
+	vector<Format const *>::iterator i = _formats.begin ();
+	while (i != _formats.end() && *i != _film->format ()) {
+		++i;
+		++n;
+	}
+	if (i == _formats.end()) {
+		checked_set (_format, -1);
+	} else {
+		checked_set (_format, n);
+	}
+	setup_dcp_name ();
+	
+	if (_film->format ()) {
+		_format_description->SetLabel (std_to_wx (_film->format()->description ()));
+	} else {
+		_format_description->SetLabel (wxT (""));
+	}
+}	
+
+void
+FilmEditor::setup_length ()
+{
+	stringstream s;
+	if (_film->video_frame_rate() > 0 && _film->video_length()) {
+		s << _film->video_length() << " "
+		  << wx_to_std (_("frames")) << "; " << seconds_to_hms (_film->video_length() / _film->video_frame_rate());
+	} else if (_film->video_length()) {
+		s << _film->video_length() << " "
+		  << wx_to_std (_("frames"));
+	} 
+	_length->SetLabel (std_to_wx (s.str ()));
+	if (_film->video_length()) {
+		_trim_start->SetRange (0, _film->video_length());
+		_trim_end->SetRange (0, _film->video_length());
+	}
+}	
 
 
 /** Called when the format widget has been changed */
@@ -1227,6 +1236,16 @@ void
 FilmEditor::content_item_selected (wxListEvent &)
 {
         setup_content_button_sensitivity ();
+
+	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		_content_information->SetValue ("");
+		return;
+	}
+
+	ContentList c = _film->content ();
+	assert (s >= 0 && size_t (s) < c.size ());
+	_content_information->SetValue (std_to_wx (c[s]->information ()));
 }
 
 void

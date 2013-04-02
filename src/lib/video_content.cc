@@ -2,11 +2,15 @@
 #include "video_content.h"
 #include "video_decoder.h"
 
+#include "i18n.h"
+
 int const VideoContentProperty::VIDEO_LENGTH = 0;
 int const VideoContentProperty::VIDEO_SIZE = 1;
 int const VideoContentProperty::VIDEO_FRAME_RATE = 2;
 
 using std::string;
+using std::stringstream;
+using std::setprecision;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -60,4 +64,20 @@ VideoContent::take_from_video_decoder (shared_ptr<VideoDecoder> d)
         
         Changed (VideoContentProperty::VIDEO_SIZE);
         Changed (VideoContentProperty::VIDEO_FRAME_RATE);
+}
+
+
+string
+VideoContent::information () const
+{
+	stringstream s;
+
+	s << String::compose (
+		_("%1x%2 pixels (%3:1)"),
+		video_size().width,
+		video_size().height,
+		setprecision (3), float (video_size().width) / video_size().height
+		);
+	
+	return s.str ();
 }

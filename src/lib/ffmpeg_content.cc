@@ -28,6 +28,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::stringstream;
 using std::vector;
 using std::list;
 using boost::shared_ptr;
@@ -160,6 +161,17 @@ string
 FFmpegContent::summary () const
 {
 	return String::compose (_("Movie: %1"), file().filename ());
+}
+
+string
+FFmpegContent::information () const
+{
+	stringstream s;
+	
+	s << String::compose (_("%1 frames; %2 frames per second"), video_length(), video_frame_rate()) << "\n";
+	s << VideoContent::information ();
+
+	return s.str ();
 }
 
 void

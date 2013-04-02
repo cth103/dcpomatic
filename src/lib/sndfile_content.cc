@@ -27,6 +27,12 @@ SndfileContent::summary () const
 	return String::compose (_("Sound file: %1"), file().filename ());
 }
 
+string
+SndfileContent::information () const
+{
+	return "";
+}
+
 int
 SndfileContent::audio_channels () const
 {

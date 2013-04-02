@@ -41,6 +41,7 @@ public:
 	
 	virtual void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	virtual std::string summary () const = 0;
+	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual boost::shared_ptr<Content> clone () const = 0;
 	
