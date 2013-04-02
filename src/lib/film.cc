@@ -173,16 +173,15 @@ Film::Film (Film const & o)
 	, _colour_lut        (o._colour_lut)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _dci_metadata      (o._dci_metadata)
-	, _dci_date          (o._dci_date)
 	, _dcp_frame_rate    (o._dcp_frame_rate)
+	, _dci_date          (o._dci_date)
 	, _dirty             (o._dirty)
 {
+	for (ContentList::iterator i = o._content.begin(); i != o._content.end(); ++i) {
+		_content.push_back ((*i)->clone ());
+	}
+	
 	_playlist->setup (_content);
-}
-
-Film::~Film ()
-{
-
 }
 
 string
@@ -311,7 +310,7 @@ Film::make_dcp ()
 	}
 }
 
-/** Start a job to analyse the audio of our content file */
+/** Start a job to analyse the audio in our Playlist */
 void
 Film::analyse_audio ()
 {
@@ -343,12 +342,6 @@ Film::analyse_audio_finished ()
 	}
 	
 	_analyse_audio_job.reset ();
-}
-
-void
-Film::examine_content_finished ()
-{
-	/* XXX */
 }
 
 /** Start a job to send our DCP to the configured TMS */
@@ -422,8 +415,8 @@ Film::write_metadata () const
 	root->add_child("ColourLUT")->add_child_text (boost::lexical_cast<string> (_colour_lut));
 	root->add_child("J2KBandwidth")->add_child_text (boost::lexical_cast<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
-	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 	root->add_child("DCPFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_frame_rate));
+	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 
 	for (ContentList::iterator i = the_content.begin(); i != the_content.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Content"));
@@ -488,8 +481,8 @@ Film::read_metadata ()
 	_colour_lut = f.number_child<int> ("ColourLUT");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
-	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	_dcp_frame_rate = f.number_child<int> ("DCPFrameRate");
+	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 
 	list<shared_ptr<cxml::Node> > c = f.node_children ("Content");
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
@@ -624,8 +617,7 @@ Film::dci_name (bool if_created_now) const
 		}
 	}
 
-	/* XXX */
-	switch (2) {
+	switch (audio_channels ()) {
 	case 1:
 		d << "_10";
 		break;
@@ -715,8 +707,10 @@ Film::set_trust_content_headers (bool t)
 
 	if (!_trust_content_headers && !content().empty()) {
 		/* We just said that we don't trust the content's header */
-		/* XXX */
-//		examine_content ();
+		ContentList c = content ();
+		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+			examine_content (*i);
+		}
 	}
 }
 	       
