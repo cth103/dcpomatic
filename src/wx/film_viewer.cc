@@ -36,6 +36,7 @@
 #include "lib/filter.h"
 #include "lib/playlist.h"
 #include "lib/video_content.h"
+#include "lib/ffmpeg_content.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -161,7 +162,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
-	film_changed (Film::SUBTITLE_STREAM);
+	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 void

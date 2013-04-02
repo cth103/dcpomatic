@@ -592,14 +592,6 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::TRUST_CONTENT_HEADERS:
 		checked_set (_trust_content_headers, _film->trust_content_headers ());
 		break;
-//	case Film::SUBTITLE_STREAMS:
-//		setup_subtitle_control_sensitivity ();
-//		setup_streams ();
-//		break;
-//	case Film::CONTENT_AUDIO_STREAMS:
-//		setup_streams ();
-//		setup_show_audio_sensitivity ();
-//		break;
 	case Film::FORMAT:
 	{
 		int n = 0;
@@ -648,26 +640,12 @@ FilmEditor::film_changed (Film::Property p)
 //		s << fixed << setprecision(2) << _film->source_frame_rate();
 //		_source_frame_rate->SetLabel (std_to_wx (s.str ()));
 //		break;
-//	case Film::SIZE:
+//	case Film::VIDEO_SIZE:
 //		if (_film->size().width == 0 && _film->size().height == 0) {
 //			_original_size->SetLabel (wxT (""));
 //		} else {
 //			s << _film->size().width << " x " << _film->size().height;
 //			_original_size->SetLabel (std_to_wx (s.str ()));
-//		}
-//		break;
-//	case Film::LENGTH:
-//		if (_film->source_frame_rate() > 0 && _film->length()) {
-//			s << _film->length().get() << " "
-//			  << wx_to_std (_("frames")) << "; " << seconds_to_hms (_film->length().get() / _film->source_frame_rate());
-//		} else if (_film->length()) {
-//			s << _film->length().get() << " "
-//			  << wx_to_std (_("frames"));
-//		} 
-//		_length->SetLabel (std_to_wx (s.str ()));
-//		if (_film->length()) {
-//			_trim_start->SetRange (0, _film->length().get());
-//			_trim_end->SetRange (0, _film->length().get());
 //		}
 //		break;
 	case Film::DCP_CONTENT_TYPE:
@@ -729,25 +707,52 @@ FilmEditor::film_changed (Film::Property p)
 //			checked_set (_subtitle_stream, _film->subtitle_stream()->to_string());
 //		}
 //		break;
-//	case Film::DCP_FRAME_RATE:
-//		for (unsigned int i = 0; i < _dcp_frame_rate->GetCount(); ++i) {
-//			if (wx_to_std (_dcp_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->dcp_frame_rate())) {
-//				if (_dcp_frame_rate->GetSelection() != int(i)) {
-//					_dcp_frame_rate->SetSelection (i);
-//					break;
-//				}
-//			}
-//		}
+	case Film::DCP_FRAME_RATE:
+		for (unsigned int i = 0; i < _dcp_frame_rate->GetCount(); ++i) {
+			if (wx_to_std (_dcp_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->dcp_frame_rate())) {
+				if (_dcp_frame_rate->GetSelection() != int(i)) {
+					_dcp_frame_rate->SetSelection (i);
+					break;
+				}
+			}
+		}
 
-//		if (_film->source_frame_rate()) {
-//			_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description));
-//			_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->source_frame_rate ()) != _film->dcp_frame_rate ());
-//		} else {
-//			_frame_rate_description->SetLabel (wxT (""));
-//			_best_dcp_frame_rate->Disable ();
-//		}
+		if (_film->video_frame_rate()) {
+			_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->video_frame_rate(), _film->dcp_frame_rate()).description));
+			_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->video_frame_rate ()) != _film->dcp_frame_rate ());
+		} else {
+			_frame_rate_description->SetLabel (wxT (""));
+			_best_dcp_frame_rate->Disable ();
+		}
 	}
 }
+
+void
+FilmEditor::film_content_changed (int p)
+{
+	if (p == FFmpegContentProperty::SUBTITLE_STREAMS) {
+		setup_subtitle_control_sensitivity ();
+		setup_streams ();
+	} else if (p == FFmpegContentProperty::AUDIO_STREAMS) {
+		setup_streams ();
+		setup_show_audio_sensitivity ();
+	} else if (p == VideoContentProperty::VIDEO_LENGTH) {
+		stringstream s;
+		if (_film->video_frame_rate() > 0 && _film->video_length()) {
+			s << _film->video_length() << " "
+			  << wx_to_std (_("frames")) << "; " << seconds_to_hms (_film->video_length() / _film->video_frame_rate());
+		} else if (_film->video_length()) {
+			s << _film->video_length() << " "
+			  << wx_to_std (_("frames"));
+		} 
+		_length->SetLabel (std_to_wx (s.str ()));
+		if (_film->video_length()) {
+			_trim_start->SetRange (0, _film->video_length());
+			_trim_end->SetRange (0, _film->video_length());
+		}
+	}
+}
+
 
 /** Called when the format widget has been changed */
 void
@@ -788,6 +793,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 
 	if (_film) {
 		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
+		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _1));
 	}
 
 	if (_film) {

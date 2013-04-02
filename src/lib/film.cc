@@ -951,6 +951,15 @@ Film::signal_changed (Property p)
 		_dirty = true;
 	}
 
+	switch (p) {
+	case Film::CONTENT:
+		_playlist->setup (content ());
+		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
+		break;
+	default:
+		break;
+	}
+
 	if (ui_signaller) {
 		ui_signaller->emit (boost::bind (boost::ref (Changed), p));
 	}
@@ -1031,7 +1040,6 @@ Film::add_content (shared_ptr<Content> c)
 		boost::mutex::scoped_lock lm (_state_mutex);
 		_content.push_back (c);
 		_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
-		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
@@ -1056,8 +1064,6 @@ Film::remove_content (shared_ptr<Content> c)
 		for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 			_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
 		}
-
-		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
@@ -1158,6 +1164,10 @@ Film::video_length () const
 void
 Film::content_changed (int p)
 {
+	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
+		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
+	}
+
 	if (ui_signaller) {
 		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), p));
 	}
