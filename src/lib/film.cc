@@ -498,6 +498,8 @@ Film::read_metadata ()
 	}
 
 	_dirty = false;
+
+	_playlist->setup (_content);
 }
 
 libdcp::Size
@@ -1054,6 +1056,8 @@ Film::remove_content (shared_ptr<Content> c)
 		for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 			_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
 		}
+
+		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
@@ -1073,6 +1077,7 @@ Film::move_content_earlier (shared_ptr<Content> c)
 		--j;
 
 		swap (*i, *j);
+		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
@@ -1095,6 +1100,7 @@ Film::move_content_later (shared_ptr<Content> c)
 		}
 
 		swap (*i, *j);
+		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
