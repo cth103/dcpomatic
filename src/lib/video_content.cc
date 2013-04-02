@@ -26,6 +26,15 @@ VideoContent::VideoContent (shared_ptr<const cxml::Node> node)
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
 }
 
+VideoContent::VideoContent (VideoContent const & o)
+	: Content (o)
+	, _video_length (o._video_length)
+	, _video_size (o._video_size)
+	, _video_frame_rate (o._video_frame_rate)
+{
+
+}
+
 void
 VideoContent::as_xml (xmlpp::Node* node) const
 {

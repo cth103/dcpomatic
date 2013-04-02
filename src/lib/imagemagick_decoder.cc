@@ -61,12 +61,14 @@ ImageMagickDecoder::video_length () const
 bool
 ImageMagickDecoder::pass ()
 {
-	if (_position > 0 && _position < _imagemagick_content->video_length ()) {
+	if (_position < 0 || _position >= _imagemagick_content->video_length ()) {
+		return true;
+	}
+
+	if (have_last_video ()) {
 		repeat_last_video ();
 		_position++;
 		return false;
-	} else if (_position >= _imagemagick_content->video_length ()) {
-		return true;
 	}
 	
 	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());

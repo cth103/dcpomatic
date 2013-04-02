@@ -19,6 +19,13 @@ Content::Content (shared_ptr<const cxml::Node> node)
 	_digest = node->string_child ("Digest");
 }
 
+Content::Content (Content const & o)
+	: _file (o._file)
+	, _digest (o._digest)
+{
+
+}
+
 void
 Content::as_xml (xmlpp::Node* node) const
 {

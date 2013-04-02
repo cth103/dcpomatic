@@ -58,6 +58,7 @@ protected:
 
 	void emit_video (boost::shared_ptr<Image>, double);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
+	bool have_last_video () const;
 	void repeat_last_video ();
 
 private:

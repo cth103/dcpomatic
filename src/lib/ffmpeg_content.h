@@ -82,10 +82,12 @@ class FFmpegContent : public VideoContent, public AudioContent, public boost::en
 public:
 	FFmpegContent (boost::filesystem::path);
 	FFmpegContent (boost::shared_ptr<const cxml::Node>);
+	FFmpegContent (FFmpegContent const &);
 	
 	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
+	boost::shared_ptr<Content> clone () const;
 
         /* AudioContent */
         int audio_channels () const;

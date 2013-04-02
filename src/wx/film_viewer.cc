@@ -35,6 +35,7 @@
 #include "lib/examine_content_job.h"
 #include "lib/filter.h"
 #include "lib/playlist.h"
+#include "lib/video_content.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -97,12 +98,7 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 	{
-		_player = _film->player ();
-		_player->disable_audio ();
-		_player->disable_subtitles ();
-		_player->disable_video_sync ();
-
-		_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+		setup_player ();
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
@@ -123,6 +119,28 @@ FilmViewer::film_changed (Film::Property p)
 }
 
 void
+FilmViewer::setup_player ()
+{
+	_player = _film->player ();
+	_player->disable_audio ();
+	_player->disable_subtitles ();
+	_player->disable_video_sync ();
+	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+}
+
+void
+FilmViewer::film_content_changed (int p)
+{
+	if (p == VideoContentProperty::VIDEO_LENGTH || p == VideoContentProperty::VIDEO_SIZE) {
+		setup_player ();
+		calculate_sizes ();
+		get_frame ();
+		_panel->Refresh ();
+		_v_sizer->Layout ();
+	}
+}
+
+void
 FilmViewer::set_film (shared_ptr<Film> f)
 {
 	if (_film == f) {
@@ -136,6 +154,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
+	_film->ContentChanged.connect (boost::bind (&FilmViewer::film_content_changed, this, _1));
 
 	film_changed (Film::CONTENT);
 	film_changed (Film::FORMAT);
@@ -276,14 +295,13 @@ FilmViewer::raw_to_display ()
 		_clear_required = true;
 	}
 
-#if 0	
 	if (_raw_sub) {
 
 		/* Our output is already cropped by the decoder, so we need to account for that
 		   when working out the scale that we are applying.
 		*/
 
-		Size const cropped_size = _film->cropped_size (_film->size ());
+		Size const cropped_size = _film->cropped_size (_film->video_size ());
 
 		Rect tx = subtitle_transformed_area (
 			float (_film_size.width) / cropped_size.width,
@@ -297,7 +315,6 @@ FilmViewer::raw_to_display ()
 	} else {
 		_display_sub.reset ();
 	}
-#endif	
 }	
 
 void
@@ -353,7 +370,7 @@ FilmViewer::check_play_state ()
 	}
 	
 	if (_play_button->GetValue()) {
-//		_timer.Start (1000 / _film->source_frame_rate());
+		_timer.Start (1000 / _film->video_frame_rate());
 	} else {
 		_timer.Stop ();
 	}

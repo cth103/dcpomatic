@@ -54,6 +54,12 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 	_last_source_time = t;
 }
 
+bool
+VideoDecoder::have_last_video () const
+{
+	return _last_image;
+}
+
 /** Called by subclasses to repeat the last video frame that we
  *  passed to emit_video().  If emit_video hasn't yet been called,
  *  we will generate a black frame.

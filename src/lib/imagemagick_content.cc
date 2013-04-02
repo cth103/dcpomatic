@@ -76,4 +76,12 @@ ImageMagickContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool qu
 	}
 	
 	take_from_video_decoder (decoder);
+	
+        Changed (VideoContentProperty::VIDEO_LENGTH);
+}
+
+shared_ptr<Content>
+ImageMagickContent::clone () const
+{
+	return shared_ptr<Content> (new ImageMagickContent (*this));
 }

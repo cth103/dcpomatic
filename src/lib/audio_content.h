@@ -13,6 +13,7 @@ class AudioContent : public virtual Content
 public:
 	AudioContent (boost::filesystem::path);
 	AudioContent (boost::shared_ptr<const cxml::Node>);
+	AudioContent (AudioContent const &);
 
         virtual int audio_channels () const = 0;
         virtual ContentAudioFrame audio_length () const = 0;

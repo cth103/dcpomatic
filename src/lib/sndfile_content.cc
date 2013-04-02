@@ -64,3 +64,9 @@ SndfileContent::valid_file (boost::filesystem::path f)
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (ext == ".wav" || ext == ".aif" || ext == ".aiff");
 }
+
+shared_ptr<Content>
+SndfileContent::clone () const
+{
+	return shared_ptr<Content> (new SndfileContent (*this));
+}

@@ -134,7 +134,6 @@ public:
 		AB,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
-		STILL_DURATION,
 		SUBTITLE_STREAM,
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
@@ -308,6 +307,7 @@ private:
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
 	void read_metadata ();
+	void content_changed (int);
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
@@ -328,6 +328,7 @@ private:
 	bool _use_dci_name;
 	bool _trust_content_headers;
 	ContentList _content;
+	std::list<boost::signals2::connection> _content_connections;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */

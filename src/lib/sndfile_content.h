@@ -11,6 +11,7 @@ public:
 	SndfileContent (boost::shared_ptr<const cxml::Node>);
 	
 	std::string summary () const;
+	boost::shared_ptr<Content> clone () const;
 
         /* AudioContent */
         int audio_channels () const;

@@ -177,7 +177,7 @@ Film::Film (Film const & o)
 	, _dci_date          (o._dci_date)
 	, _dirty             (o._dirty)
 {
-	for (ContentList::iterator i = o._content.begin(); i != o._content.end(); ++i) {
+	for (ContentList::const_iterator i = o._content.begin(); i != o._content.end(); ++i) {
 		_content.push_back ((*i)->clone ());
 	}
 	
@@ -328,7 +328,6 @@ void
 Film::examine_content (shared_ptr<Content> c)
 {
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, trust_content_headers ()));
-	j->Finished.connect (bind (&Film::examine_content_finished, this));
 	JobManager::instance()->add (j);
 }
 
@@ -1029,6 +1028,7 @@ Film::add_content (shared_ptr<Content> c)
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
 		_content.push_back (c);
+		_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
 		_playlist->setup (_content);
 	}
 
@@ -1045,6 +1045,14 @@ Film::remove_content (shared_ptr<Content> c)
 		ContentList::iterator i = find (_content.begin(), _content.end(), c);
 		if (i != _content.end ()) {
 			_content.erase (i);
+		}
+
+		for (list<boost::signals2::connection>::iterator i = _content_connections.begin(); i != _content_connections.end(); ++i) {
+			i->disconnect ();
+		}
+
+		for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
+			_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
 		}
 	}
 
@@ -1141,3 +1149,10 @@ Film::video_length () const
 	return _playlist->video_length ();
 }
 
+void
+Film::content_changed (int p)
+{
+	if (ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), p));
+	}
+}

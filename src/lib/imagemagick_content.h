@@ -33,6 +33,7 @@ public:
 	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
+	boost::shared_ptr<Content> clone () const;
 
 	static bool valid_file (boost::filesystem::path);
 };

@@ -43,6 +43,10 @@ Playlist::setup (ContentList content)
 {
 	_video_from = VIDEO_NONE;
 	_audio_from = AUDIO_NONE;
+
+	_ffmpeg.reset ();
+	_imagemagick.clear ();
+	_sndfile.clear ();
 	
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
@@ -307,7 +311,7 @@ Player::seek (double t)
 		_imagemagick_decoder = _imagemagick_decoders.begin ();
 		while (_imagemagick_decoder != _imagemagick_decoders.end ()) {
 			double const this_length = (*_imagemagick_decoder)->video_length() / _film->video_frame_rate ();
-			if (this_length < t) {
+			if (t < this_length) {
 				break;
 			}
 			t -= this_length;

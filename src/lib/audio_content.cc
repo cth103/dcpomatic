@@ -14,3 +14,9 @@ AudioContent::AudioContent (shared_ptr<const cxml::Node> node)
 {
 
 }
+
+AudioContent::AudioContent (AudioContent const & o)
+	: Content (o)
+{
+
+}
