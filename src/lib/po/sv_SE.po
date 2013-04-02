@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-01 21:21+0100\n"
-"PO-Revision-Date: 2013-04-01 18:29+0100\n"
+"PO-Revision-Date: 2013-04-02 08:13+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,7 +103,7 @@ msgstr ""
 
 #: src/lib/util.cc:931
 msgid "Centre"
-msgstr ""
+msgstr "Mitt"
 
 #: src/lib/scp_dcp_job.cc:109
 msgid "Copy DCP to TMS"
@@ -261,15 +260,15 @@ msgstr "Lanczos"
 
 #: src/lib/util.cc:929
 msgid "Left"
-msgstr ""
+msgstr "Vänster"
 
 #: src/lib/util.cc:933
 msgid "Left surround"
-msgstr ""
+msgstr "Vänster surround"
 
 #: src/lib/util.cc:932
 msgid "Lfe (sub)"
-msgstr ""
+msgstr "Lfe (sub)"
 
 #: src/lib/filter.cc:75
 msgid "Linear blend deinterlacer"
@@ -323,11 +322,11 @@ msgstr "Rec 709"
 
 #: src/lib/util.cc:930
 msgid "Right"
-msgstr ""
+msgstr "Höger"
 
 #: src/lib/util.cc:934
 msgid "Right surround"
-msgstr ""
+msgstr "Höger surround"
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"
