@@ -47,6 +47,9 @@ public:
 
 	void go ();
 
+	float current_encoding_rate () const;
+	int video_frames_out () const;
+
 protected:
 	/** A Job that is running this Transcoder, or 0 */
 	boost::shared_ptr<Job> _job;

@@ -99,3 +99,15 @@ Transcoder::go ()
 	}
 	_encoder->process_end ();
 }
+
+float
+Transcoder::current_encoding_rate () const
+{
+	return _encoder->current_encoding_rate ();
+}
+
+int
+Transcoder::video_frames_out () const
+{
+	return _encoder->video_frames_out ();
+}

@@ -21,10 +21,20 @@
 #include "audio_sink.h"
 
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::bind;
+
+static void
+process_audio_proxy (weak_ptr<AudioSink> sink, shared_ptr<AudioBuffers> audio)
+{
+	shared_ptr<AudioSink> p = sink.lock ();
+	if (p) {
+		p->process_audio (audio);
+	}
+}
 
 void
 AudioSource::connect_audio (shared_ptr<AudioSink> s)
 {
-	Audio.connect (bind (&AudioSink::process_audio, s, _1));
+	Audio.connect (bind (process_audio_proxy, weak_ptr<AudioSink> (s), _1));
 }

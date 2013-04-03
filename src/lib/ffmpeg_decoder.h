@@ -82,6 +82,10 @@ public:
 
 private:
 
+	/* No copy construction */
+	FFmpegDecoder (FFmpegDecoder const &);
+	FFmpegDecoder& operator= (FFmpegDecoder const &);
+
 	bool do_seek (double p, bool);
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
@@ -134,4 +138,10 @@ private:
 	bool _decode_audio;
 	bool _decode_subtitles;
 	bool _video_sync;
+
+	/* It would appear (though not completely verified) that one must have
+	   a mutex around calls to avcodec_open* and avcodec_close... and here
+	   it is.
+	*/
+	static boost::mutex _mutex;
 };

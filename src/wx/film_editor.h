@@ -106,6 +106,7 @@ private:
 	void setup_content_button_sensitivity ();
 	void setup_length ();
 	void setup_format ();
+	void setup_content_information ();
 	
 	void active_jobs_changed (bool);
 

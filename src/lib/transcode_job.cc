@@ -60,8 +60,8 @@ TranscodeJob::run ()
 		_film->log()->log (N_("Transcode job starting"));
 		_film->log()->log (String::compose (N_("Audio delay is %1ms"), _film->audio_delay()));
 
-		Transcoder w (_film, shared_from_this ());
-		w.go ();
+		_transcoder.reset (new Transcoder (_film, shared_from_this ()));
+		_transcoder->go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
 
@@ -80,13 +80,11 @@ TranscodeJob::run ()
 string
 TranscodeJob::status () const
 {
-//	if (!_encoder) {
-//		return _("0%");
-//	}
+	if (!_transcoder) {
+		return _("0%");
+	}
 
-	/* XXX */
-//	float const fps = _encoder->current_frames_per_second ();
-	float const fps = 0;
+	float const fps = _transcoder->current_encoding_rate ();
 	if (fps == 0) {
 		return Job::status ();
 	}
@@ -105,28 +103,28 @@ TranscodeJob::status () const
 int
 TranscodeJob::remaining_time () const
 {
-	return 0;
-#if 0
-	XXX
-	float fps = _encoder->current_frames_per_second ();
+	if (!_transcoder) {
+		return 0;
+	}
+	
+	float fps = _transcoder->current_encoding_rate ();
+
 	if (fps == 0) {
 		return 0;
 	}
 
-	if (!_video->length()) {
+	if (!_film->video_length()) {
 		return 0;
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	int length = _film->length().get();
-	FrameRateConversion const frc (_film->source_frame_rate(), _film->dcp_frame_rate());
+	int length = _film->video_length();
+	FrameRateConversion const frc (_film->video_frame_rate(), _film->dcp_frame_rate());
 	if (frc.skip) {
 		length /= 2;
 	}
 	/* If we are repeating it shouldn't affect transcode time, so don't take it into account */
 
-	/* We assume that dcp_length() is valid, if it is set */
-	int const left = length - _encoder->video_frames_out();
+	int const left = length - _transcoder->video_frames_out();
 	return left / fps;
-#endif	
 }

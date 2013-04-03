@@ -24,7 +24,7 @@
 #include <boost/shared_ptr.hpp>
 #include "job.h"
 
-class Encoder;
+class Transcoder;
 
 /** @class TranscodeJob
  *  @brief A job which transcodes from one format to another.
@@ -38,6 +38,8 @@ public:
 	void run ();
 	std::string status () const;
 
-protected:
+private:
 	int remaining_time () const;
+
+	boost::shared_ptr<Transcoder> _transcoder;
 };

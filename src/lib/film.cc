@@ -550,7 +550,7 @@ Film::file (string f) const
 int
 Film::target_audio_sample_rate () const
 {
-	if (has_audio ()) {
+	if (!has_audio ()) {
 		return 0;
 	}
 	

@@ -25,6 +25,7 @@
 #include "ffmpeg_decoder.h"
 #include "imagemagick_content.h"
 #include "imagemagick_decoder.h"
+#include "job.h"
 
 using std::list;
 using std::cout;
@@ -219,7 +220,7 @@ Player::Player (boost::shared_ptr<const Film> f, boost::shared_ptr<const Playlis
 {
 
 }
-		
+
 void
 Player::disable_video ()
 {
@@ -278,7 +279,27 @@ Player::pass ()
 void
 Player::set_progress (shared_ptr<Job> job)
 {
-	/* XXX */
+	/* Assume progress can be divined from how far through the video we are */
+	switch (_playlist->video_from ()) {
+	case Playlist::VIDEO_NONE:
+		break;
+	case Playlist::VIDEO_FFMPEG:
+		if (_playlist->video_length ()) {
+			job->set_progress (float(_ffmpeg_decoder->video_frame()) / _playlist->video_length ());
+		}
+		break;
+	case Playlist::VIDEO_IMAGEMAGICK:
+	{
+		int n = 0;
+		for (std::list<boost::shared_ptr<ImageMagickDecoder> >::iterator i = _imagemagick_decoders.begin(); i != _imagemagick_decoders.end(); ++i) {
+			if (_imagemagick_decoder == i) {
+				job->set_progress (float (n) / _imagemagick_decoders.size ());
+			}
+			++n;
+		}
+		break;
+	}
+	}
 }
 
 void

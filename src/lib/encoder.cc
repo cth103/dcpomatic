@@ -193,7 +193,7 @@ Encoder::process_end ()
  *  or 0 if not known.
  */
 float
-Encoder::current_frames_per_second () const
+Encoder::current_encoding_rate () const
 {
 	boost::mutex::scoped_lock lock (_history_mutex);
 	if (int (_time_history.size()) < _history_size) {

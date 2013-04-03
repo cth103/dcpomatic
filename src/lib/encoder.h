@@ -81,7 +81,7 @@ public:
 	/** Called when a processing run has finished */
 	virtual void process_end ();
 
-	float current_frames_per_second () const;
+	float current_encoding_rate () const;
 	int video_frames_out () const;
 
 private:

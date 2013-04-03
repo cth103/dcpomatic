@@ -111,11 +111,9 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 void
 FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
 {
-	job->descend (0.5);
-	Content::examine (film, job, quick);
-	job->ascend ();
-
 	job->set_progress_unknown ();
+
+	Content::examine (film, job, quick);
 
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false, true));
 
@@ -166,6 +164,10 @@ FFmpegContent::summary () const
 string
 FFmpegContent::information () const
 {
+	if (video_length() == 0 || video_frame_rate() == 0) {
+		return "";
+	}
+	
 	stringstream s;
 	
 	s << String::compose (_("%1 frames; %2 frames per second"), video_length(), video_frame_rate()) << "\n";

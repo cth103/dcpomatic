@@ -705,16 +705,17 @@ FilmEditor::film_content_changed (int p)
 		setup_show_audio_sensitivity ();
 	} else if (p == VideoContentProperty::VIDEO_LENGTH) {
 		setup_length ();
+		setup_content_information ();
 	} else if (p == FFmpegContentProperty::AUDIO_STREAM) {
 		if (_film->ffmpeg_audio_stream()) {
-			checked_set (_ffmpeg_audio_stream, _film->ffmpeg_audio_stream()->id);
+			checked_set (_ffmpeg_audio_stream, boost::lexical_cast<string> (_film->ffmpeg_audio_stream()->id));
 		}
 		setup_dcp_name ();
 		setup_audio_details ();
 		setup_show_audio_sensitivity ();
 	} else if (p == FFmpegContentProperty::SUBTITLE_STREAM) {
 		if (_film->ffmpeg_subtitle_stream()) {
-			checked_set (_ffmpeg_subtitle_stream, _film->ffmpeg_subtitle_stream()->id);
+			checked_set (_ffmpeg_subtitle_stream, boost::lexical_cast<string> (_film->ffmpeg_subtitle_stream()->id));
 		}
 	}
 }
@@ -1117,7 +1118,7 @@ FilmEditor::setup_audio_details ()
 		} else {
 			s << _film->audio_channels() << " " << wx_to_std (_("channels"));
 		}
-		s << ", " << _film->audio_channels() << wx_to_std (_("Hz"));
+		s << ", " << _film->audio_frame_rate() << wx_to_std (_("Hz"));
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
 }
@@ -1172,11 +1173,26 @@ FilmEditor::setup_show_audio_sensitivity ()
 void
 FilmEditor::setup_content ()
 {
+	string selected_summary;
+	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s != -1) {
+		selected_summary = wx_to_std (_content->GetItemText (s));
+	}
+	
 	_content->DeleteAllItems ();
 
 	ContentList content = _film->content ();
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-		_content->InsertItem (_content->GetItemCount(), std_to_wx ((*i)->summary ()));
+		int const t = _content->GetItemCount ();
+		_content->InsertItem (t, std_to_wx ((*i)->summary ()));
+		if ((*i)->summary() == selected_summary) {
+			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+		}
+	}
+
+	if (selected_summary.empty () && !content.empty ()) {
+		/* Select the first item of content if non was selected before */
+		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 }
 
@@ -1246,7 +1262,12 @@ void
 FilmEditor::content_item_selected (wxListEvent &)
 {
         setup_content_button_sensitivity ();
+	setup_content_information ();
+}
 
+void
+FilmEditor::setup_content_information ()
+{
 	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
 		_content_information->SetValue ("");

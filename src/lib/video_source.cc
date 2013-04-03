@@ -21,10 +21,23 @@
 #include "video_sink.h"
 
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::bind;
+
+static void
+process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
+{
+	boost::shared_ptr<VideoSink> p = sink.lock ();
+	if (p) {
+		p->process_video (i, same, s);
+	}
+}
 
 void
 VideoSource::connect_video (shared_ptr<VideoSink> s)
 {
-	Video.connect (bind (&VideoSink::process_video, s, _1, _2, _3));
+	/* If we bind, say, a Playlist (as the VideoSink) to a Decoder (which is owned
+	   by the Playlist) we create a cycle.  Use a weak_ptr to break it.
+	*/
+	Video.connect (bind (process_video_proxy, boost::weak_ptr<VideoSink> (s), _1, _2, _3));
 }
