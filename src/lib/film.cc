@@ -1161,28 +1161,82 @@ Film::video_length () const
 	return _playlist->video_length ();
 }
 
+/** Unfortunately this is needed as the GUI has FFmpeg-specific controls */
+shared_ptr<FFmpegContent>
+Film::ffmpeg () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	
+	for (ContentList::const_iterator i = _content.begin (); i != _content.end(); ++i) {
+		shared_ptr<FFmpegContent> f = boost::dynamic_pointer_cast<FFmpegContent> (*i);
+		if (f) {
+			return f;
+		}
+	}
+
+	return shared_ptr<FFmpegContent> ();
+}
+
 vector<FFmpegSubtitleStream>
 Film::ffmpeg_subtitle_streams () const
 {
-	return _playlist->ffmpeg_subtitle_streams ();
+	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	if (f) {
+		return f->subtitle_streams ();
+	}
+
+	return vector<FFmpegSubtitleStream> ();
 }
 
 boost::optional<FFmpegSubtitleStream>
 Film::ffmpeg_subtitle_stream () const
 {
-	return _playlist->ffmpeg_subtitle_stream ();
+	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	if (f) {
+		return f->subtitle_stream ();
+	}
+
+	return boost::none;
 }
 
 vector<FFmpegAudioStream>
 Film::ffmpeg_audio_streams () const
 {
-	return _playlist->ffmpeg_audio_streams ();
+	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	if (f) {
+		return f->audio_streams ();
+	}
+
+	return vector<FFmpegAudioStream> ();
 }
 
 boost::optional<FFmpegAudioStream>
 Film::ffmpeg_audio_stream () const
 {
-	return _playlist->ffmpeg_audio_stream ();
+	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	if (f) {
+		return f->audio_stream ();
+	}
+
+	return boost::none;
+}
+
+void
+Film::set_ffmpeg_subtitle_stream (FFmpegSubtitleStream s)
+{
+	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	if (f) {
+		f->set_subtitle_stream (s);
+	}
+}
+
+void
+Film::set_ffmpeg_audio_stream (FFmpegAudioStream s)
+{
+	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	if (f) {
+		f->set_audio_stream (s);
+	}
 }
 
 void

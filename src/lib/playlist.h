@@ -53,11 +53,6 @@ public:
 	libdcp::Size video_size () const;
 	ContentVideoFrame video_length () const;
 
-	std::vector<FFmpegSubtitleStream> ffmpeg_subtitle_streams () const;
-	boost::optional<FFmpegSubtitleStream> ffmpeg_subtitle_stream () const;
-	std::vector<FFmpegAudioStream> ffmpeg_audio_streams () const;
-	boost::optional<FFmpegAudioStream> ffmpeg_audio_stream () const;
-
 	enum VideoFrom {
 		VIDEO_NONE,
 		VIDEO_FFMPEG,

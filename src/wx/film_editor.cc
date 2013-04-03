@@ -1074,14 +1074,16 @@ FilmEditor::ffmpeg_audio_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-#if 0	
-	_film->set_content_audio_stream (
-		audio_stream_factory (
-			string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ())),
-			Film::state_version
-			)
-		);
-#endif	
+	vector<FFmpegAudioStream> a = _film->ffmpeg_audio_streams ();
+	vector<FFmpegAudioStream>::iterator i = a.begin ();
+	string const s = string_client_data (_ffmpeg_audio_stream->GetClientObject (_ffmpeg_audio_stream->GetSelection ()));
+	while (i != a.end() && i->id != s) {
+		++i;
+	}
+
+	if (i != a.end ()) {
+		_film->set_ffmpeg_audio_stream (*i);
+	}
 }
 
 void
@@ -1091,33 +1093,33 @@ FilmEditor::ffmpeg_subtitle_stream_changed (wxCommandEvent &)
 		return;
 	}
 
-#if 0	
-	_film->set_subtitle_stream (
-		subtitle_stream_factory (
-			string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ())),
-			Film::state_version
-			)
-		);
-#endif	
+	vector<FFmpegSubtitleStream> a = _film->ffmpeg_subtitle_streams ();
+	vector<FFmpegSubtitleStream>::iterator i = a.begin ();
+	string const s = string_client_data (_ffmpeg_subtitle_stream->GetClientObject (_ffmpeg_subtitle_stream->GetSelection ()));
+	while (i != a.end() && i->id != s) {
+		++i;
+	}
+
+	if (i != a.end ()) {
+		_film->set_ffmpeg_subtitle_stream (*i);
+	}
 }
 
 void
 FilmEditor::setup_audio_details ()
 {
-#if 0	
-	if (!_film->content_audio_stream()) {
+	if (!_film->ffmpeg_audio_stream()) {
 		_audio->SetLabel (wxT (""));
 	} else {
 		stringstream s;
-		if (_film->audio_stream()->channels() == 1) {
+		if (_film->audio_channels() == 1) {
 			s << wx_to_std (_("1 channel"));
 		} else {
-			s << _film->audio_stream()->channels () << " " << wx_to_std (_("channels"));
+			s << _film->audio_channels() << " " << wx_to_std (_("channels"));
 		}
-		s << ", " << _film->audio_stream()->sample_rate() << wx_to_std (_("Hz"));
+		s << ", " << _film->audio_channels() << wx_to_std (_("Hz"));
 		_audio->SetLabel (std_to_wx (s.str ()));
 	}
-#endif	
 }
 
 void

@@ -207,46 +207,6 @@ Playlist::has_audio () const
 	return _audio_from != AUDIO_NONE;
 }
 
-vector<FFmpegSubtitleStream>
-Playlist::ffmpeg_subtitle_streams () const
-{
-	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
-		return vector<FFmpegSubtitleStream> ();
-	}
-
-	return _ffmpeg->subtitle_streams ();
-}
-
-boost::optional<FFmpegSubtitleStream>
-Playlist::ffmpeg_subtitle_stream () const
-{
-	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
-		return boost::none;
-	}
-
-	return _ffmpeg->subtitle_stream ();
-}
-
-vector<FFmpegAudioStream>
-Playlist::ffmpeg_audio_streams () const
-{
-	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
-		return vector<FFmpegAudioStream> ();
-	}
-
-	return _ffmpeg->audio_streams ();
-}
-
-boost::optional<FFmpegAudioStream>
-Playlist::ffmpeg_audio_stream () const
-{
-	if (_video_from != VIDEO_FFMPEG || !_ffmpeg) {
-		return boost::none;
-	}
-
-	return _ffmpeg->audio_stream ();
-}
-
 Player::Player (boost::shared_ptr<const Film> f, boost::shared_ptr<const Playlist> p)
 	: _film (f)
 	, _playlist (p)

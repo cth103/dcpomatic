@@ -119,6 +119,9 @@ public:
 	boost::optional<FFmpegSubtitleStream> ffmpeg_subtitle_stream () const;
 	std::vector<FFmpegAudioStream> ffmpeg_audio_streams () const;
 	boost::optional<FFmpegAudioStream> ffmpeg_audio_stream () const;
+
+	void set_ffmpeg_subtitle_stream (FFmpegSubtitleStream);
+	void set_ffmpeg_audio_stream (FFmpegAudioStream);
 	
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -313,6 +316,7 @@ private:
 	std::string video_state_identifier () const;
 	void read_metadata ();
 	void content_changed (int);
+	boost::shared_ptr<FFmpegContent> ffmpeg () const;
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
