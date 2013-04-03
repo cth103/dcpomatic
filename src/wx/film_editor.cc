@@ -690,6 +690,13 @@ FilmEditor::film_changed (Film::Property p)
 void
 FilmEditor::film_content_changed (int p)
 {
+	if (!_film) {
+		/* We call this method ourselves (as well as using it as a signal handler)
+		   so _film can be 0.
+		*/
+		return;
+	}
+		
 	if (p == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
@@ -1033,6 +1040,10 @@ FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
 void
 FilmEditor::setup_streams ()
 {
+	if (!_film) {
+		return;
+	}
+	
 	_ffmpeg_audio_stream->Clear ();
 	vector<FFmpegAudioStream> a = _film->ffmpeg_audio_streams ();
 	for (vector<FFmpegAudioStream>::iterator i = a.begin(); i != a.end(); ++i) {

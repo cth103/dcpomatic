@@ -107,10 +107,12 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	}
 	case Film::WITH_SUBTITLES:
-		setup_player ();
-		/* fall through */
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
+		raw_to_display ();
+		_panel->Refresh ();
+		_panel->Update ();
+		break;
 	case Film::SCALER:
 	case Film::FILTERS:
 	case Film::CROP:
@@ -126,10 +128,12 @@ FilmViewer::setup_player ()
 {
 	_player = _film->player ();
 	_player->disable_audio ();
-	if (!_film->with_subtitles ()) {
-		_player->disable_subtitles ();
-	}
 	_player->disable_video_sync ();
+
+	/* Don't disable subtitles here as we may need them, and it's nice to be able to turn them
+	   on and off without needing obtain a new Player.
+	*/
+	
 	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 }
 

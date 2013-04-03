@@ -449,7 +449,9 @@ setup_i18n ()
 
 	if (Config::instance()->language()) {
 		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (Config::instance()->language().get()));
-		language = li->Language;
+		if (li) {
+			language = li->Language;
+		}
 	}
  
 	if (wxLocale::IsAvailable (language)) {
