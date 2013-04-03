@@ -332,6 +332,8 @@ Player::seek (double t)
 		if (!_ffmpeg_decoder || _ffmpeg_decoder->seek (t)) {
 			r = true;
 		}
+		/* We're seeking, so all `all done' bets are off */
+		_ffmpeg_decoder_done = false;
 		break;
 	case Playlist::VIDEO_IMAGEMAGICK:
 		/* Find the decoder that contains this position */
@@ -375,6 +377,9 @@ Player::seek_to_last ()
 		if (!_ffmpeg_decoder || _ffmpeg_decoder->seek_to_last ()) {
 			r = true;
 		}
+
+		/* We're seeking, so all `all done' bets are off */
+		_ffmpeg_decoder_done = false;
 		break;
 	case Playlist::VIDEO_IMAGEMAGICK:
 		if ((*_imagemagick_decoder)->seek_to_last ()) {
