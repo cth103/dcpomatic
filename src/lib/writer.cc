@@ -28,7 +28,7 @@
 #include "format.h"
 #include "log.h"
 #include "dcp_video_frame.h"
-#include "playlist.h"
+#include "player.h"
 
 #include "i18n.h"
 

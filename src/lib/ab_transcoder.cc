@@ -24,7 +24,7 @@
 #include "encoder.h"
 #include "job.h"
 #include "image.h"
-#include "playlist.h"
+#include "player.h"
 #include "matcher.h"
 #include "delay_line.h"
 #include "gain.h"

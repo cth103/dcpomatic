@@ -34,7 +34,7 @@
 #include "gain.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "playlist.h"
+#include "player.h"
 
 using std::string;
 using boost::shared_ptr;

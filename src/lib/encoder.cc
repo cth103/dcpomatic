@@ -37,7 +37,7 @@
 #include "format.h"
 #include "cross.h"
 #include "writer.h"
-#include "playlist.h"
+#include "player.h"
 
 #include "i18n.h"
 

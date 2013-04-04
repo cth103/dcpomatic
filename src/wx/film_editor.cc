@@ -59,6 +59,7 @@ using std::list;
 using std::vector;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::lexical_cast;
 
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
@@ -332,7 +333,7 @@ FilmEditor::make_content_panel ()
                 _content = new wxListCtrl (_content_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL);
                 s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
-                _content->InsertColumn (0, "");
+                _content->InsertColumn (0, wxT(""));
 		_content->SetColumnWidth (0, 512);
 
                 wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
@@ -1078,7 +1079,7 @@ FilmEditor::ffmpeg_audio_stream_changed (wxCommandEvent &)
 	vector<FFmpegAudioStream> a = _film->ffmpeg_audio_streams ();
 	vector<FFmpegAudioStream>::iterator i = a.begin ();
 	string const s = string_client_data (_ffmpeg_audio_stream->GetClientObject (_ffmpeg_audio_stream->GetSelection ()));
-	while (i != a.end() && i->id != s) {
+	while (i != a.end() && lexical_cast<string> (i->id) != s) {
 		++i;
 	}
 
@@ -1097,7 +1098,7 @@ FilmEditor::ffmpeg_subtitle_stream_changed (wxCommandEvent &)
 	vector<FFmpegSubtitleStream> a = _film->ffmpeg_subtitle_streams ();
 	vector<FFmpegSubtitleStream>::iterator i = a.begin ();
 	string const s = string_client_data (_ffmpeg_subtitle_stream->GetClientObject (_ffmpeg_subtitle_stream->GetSelection ()));
-	while (i != a.end() && i->id != s) {
+	while (i != a.end() && lexical_cast<string> (i->id) != s) {
 		++i;
 	}
 
@@ -1270,7 +1271,7 @@ FilmEditor::setup_content_information ()
 {
 	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
-		_content_information->SetValue ("");
+		_content_information->SetValue (wxT (""));
 		return;
 	}
 

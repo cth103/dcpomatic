@@ -34,7 +34,7 @@
 #include "lib/exceptions.h"
 #include "lib/examine_content_job.h"
 #include "lib/filter.h"
-#include "lib/playlist.h"
+#include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/ffmpeg_content.h"
 #include "film_viewer.h"

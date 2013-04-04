@@ -53,6 +53,7 @@
 #include "sndfile_decoder.h"
 #include "analyse_audio_job.h"
 #include "playlist.h"
+#include "player.h"
 #include "ffmpeg_content.h"
 #include "imagemagick_content.h"
 #include "sndfile_content.h"

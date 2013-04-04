@@ -33,7 +33,7 @@
 #include "scaler.h"
 #include "log.h"
 #include "video_decoder.h"
-#include "playlist.h"
+#include "player.h"
 
 using std::cout;
 using std::cerr;
