@@ -27,7 +27,7 @@ using boost::bind;
 static void
 process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
 {
-	boost::shared_ptr<VideoSink> p = sink.lock ();
+	shared_ptr<VideoSink> p = sink.lock ();
 	if (p) {
 		p->process_video (i, same, s);
 	}

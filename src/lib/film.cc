@@ -1178,7 +1178,7 @@ Film::ffmpeg () const
 vector<FFmpegSubtitleStream>
 Film::ffmpeg_subtitle_streams () const
 {
-	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = ffmpeg ();
 	if (f) {
 		return f->subtitle_streams ();
 	}
@@ -1189,7 +1189,7 @@ Film::ffmpeg_subtitle_streams () const
 boost::optional<FFmpegSubtitleStream>
 Film::ffmpeg_subtitle_stream () const
 {
-	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = ffmpeg ();
 	if (f) {
 		return f->subtitle_stream ();
 	}
@@ -1200,7 +1200,7 @@ Film::ffmpeg_subtitle_stream () const
 vector<FFmpegAudioStream>
 Film::ffmpeg_audio_streams () const
 {
-	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = ffmpeg ();
 	if (f) {
 		return f->audio_streams ();
 	}
@@ -1211,7 +1211,7 @@ Film::ffmpeg_audio_streams () const
 boost::optional<FFmpegAudioStream>
 Film::ffmpeg_audio_stream () const
 {
-	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = ffmpeg ();
 	if (f) {
 		return f->audio_stream ();
 	}
@@ -1222,7 +1222,7 @@ Film::ffmpeg_audio_stream () const
 void
 Film::set_ffmpeg_subtitle_stream (FFmpegSubtitleStream s)
 {
-	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = ffmpeg ();
 	if (f) {
 		f->set_subtitle_stream (s);
 	}
@@ -1231,7 +1231,7 @@ Film::set_ffmpeg_subtitle_stream (FFmpegSubtitleStream s)
 void
 Film::set_ffmpeg_audio_stream (FFmpegAudioStream s)
 {
-	boost::shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = ffmpeg ();
 	if (f) {
 		f->set_audio_stream (s);
 	}

@@ -290,7 +290,7 @@ FilmViewer::raw_to_display ()
 		old_size = _display_frame->size();
 	}
 
-	boost::shared_ptr<Image> input = _raw_frame;
+	shared_ptr<Image> input = _raw_frame;
 
 	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 	if (!s.second.empty ()) {

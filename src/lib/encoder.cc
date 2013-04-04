@@ -48,7 +48,8 @@ using std::vector;
 using std::list;
 using std::cout;
 using std::make_pair;
-using namespace boost;
+using boost::shared_ptr;
+using boost::optional;
 
 int const Encoder::_history_size = 25;
 
@@ -231,7 +232,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub)
+Encoder::process_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
 {
 	FrameRateConversion frc (_film->video_frame_rate(), _film->dcp_frame_rate());
 	
@@ -269,7 +270,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 		TIMING ("adding to queue of %1", _queue.size ());
-		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
+		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
 						  _film->subtitle_offset(), _film->subtitle_scale(),
@@ -360,7 +361,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
-		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
+		shared_ptr<DCPVideoFrame> vf = _queue.front ();
 		_film->log()->log (String::compose (N_("Encoder thread %1 pops frame %2 from queue"), boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
 		_queue.pop_front ();
 		

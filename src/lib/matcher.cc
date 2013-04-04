@@ -37,7 +37,7 @@ Matcher::Matcher (shared_ptr<Log> log, int sample_rate, float frames_per_second)
 }
 
 void
-Matcher::process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s)
+Matcher::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
 {
 	Video (i, same, s);
 	_video_frames++;
@@ -47,7 +47,7 @@ Matcher::process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr
 }
 
 void
-Matcher::process_audio (boost::shared_ptr<AudioBuffers> b)
+Matcher::process_audio (shared_ptr<AudioBuffers> b)
 {
 	Audio (b);
 	_audio_frames += b->frames ();

@@ -135,7 +135,7 @@ JobManagerView::details_clicked (wxCommandEvent& ev)
 {
 	wxObject* o = ev.GetEventObject ();
 
-	for (map<boost::shared_ptr<Job>, JobRecord>::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
+	for (map<shared_ptr<Job>, JobRecord>::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
 		if (i->second.details == o) {
 			string s = i->first->error_summary();
 			s[0] = toupper (s[0]);
@@ -149,7 +149,7 @@ JobManagerView::cancel_clicked (wxCommandEvent& ev)
 {
 	wxObject* o = ev.GetEventObject ();
 
-	for (map<boost::shared_ptr<Job>, JobRecord>::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
+	for (map<shared_ptr<Job>, JobRecord>::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
 		if (i->second.cancel == o) {
 			i->first->cancel ();
 		}

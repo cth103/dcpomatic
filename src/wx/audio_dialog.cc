@@ -84,7 +84,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 }
 
 void
-AudioDialog::set_film (boost::shared_ptr<Film> f)
+AudioDialog::set_film (shared_ptr<Film> f)
 {
 	_film_changed_connection.disconnect ();
 	_film_audio_analysis_succeeded_connection.disconnect ();
