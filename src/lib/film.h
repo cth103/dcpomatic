@@ -32,15 +32,12 @@
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
-extern "C" {
-#include <libavcodec/avcodec.h>
-}
-#include "dcp_content_type.h"
 #include "util.h"
 #include "dci_metadata.h"
 #include "types.h"
 #include "ffmpeg_content.h"
 
+class DCPContentType;
 class Format;
 class Job;
 class Filter;

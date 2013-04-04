@@ -40,6 +40,7 @@
 #include "lib/ffmpeg_decoder.h"
 #include "lib/imagemagick_content.h"
 #include "lib/sndfile_content.h"
+#include "lib/dcp_content_type.h"
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"

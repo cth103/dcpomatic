@@ -40,6 +40,7 @@
 #include "scaler.h"
 #include "ffmpeg_decoder.h"
 #include "sndfile_decoder.h"
+#include "dcp_content_type.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>

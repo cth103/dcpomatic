@@ -22,12 +22,14 @@
 #include <libdcp/sound_asset.h>
 #include <libdcp/picture_frame.h>
 #include <libdcp/reel.h>
+#include <libdcp/dcp.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
 #include "format.h"
 #include "log.h"
 #include "dcp_video_frame.h"
+#include "dcp_content_type.h"
 #include "player.h"
 
 #include "i18n.h"
