@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-01 21:21+0100\n"
-"PO-Revision-Date: 2013-04-02 08:13+0100\n"
+"PO-Revision-Date: 2013-04-04 10:22+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -156,9 +156,7 @@ msgstr "Kantighetsutjämning"
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-# Ja vad heter "dering" på svenska?
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Deringing filter"
 msgstr "Avringningsfilter"
 
@@ -208,7 +206,7 @@ msgstr "Snabb bilinjär"
 
 #: src/lib/dcp_content_type.cc:44
 msgid "Feature"
-msgstr "Spelfilm"
+msgstr "Långfilm"
 
 #: src/lib/format.cc:120
 msgid "Flat"
@@ -314,7 +312,7 @@ msgstr "Offentligt Servicemeddelande"
 
 #: src/lib/dcp_content_type.cc:49
 msgid "Rating"
-msgstr "Klassificering"
+msgstr "Klassificeringsklipp"
 
 #: src/lib/util.cc:499
 msgid "Rec 709"
@@ -439,13 +437,13 @@ msgstr "Konvertera %1"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Transitional"
-msgstr "Övergångs-"
+msgstr "Övergångsklipp"
 
 #: src/lib/job.cc:100
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-# Ganska svengelskt...
+# Svengelska
 #: src/lib/ffmpeg_decoder.cc:396
 #, fuzzy
 msgid "Unrecognised audio sample format (%1)"
@@ -471,9 +469,8 @@ msgstr "Väntar"
 msgid "X"
 msgstr "X"
 
-# Filtret heter så, ska ej översättas?
+# Filtret heter så, ska ej översättas
 #: src/lib/filter.cc:83
-#, fuzzy
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
@@ -481,7 +478,7 @@ msgstr "Yet Another Deinterlacing Filter"
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
-# mer svengelska
+# Svengelska
 #: src/lib/util.cc:540
 #, fuzzy
 msgid "connect timed out"

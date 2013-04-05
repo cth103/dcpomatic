@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-01 21:21+0100\n"
-"PO-Revision-Date: 2013-04-02 08:50+0100\n"
+"PO-Revision-Date: 2013-04-04 10:18+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,11 +65,9 @@ msgstr "Nedre beskärning"
 msgid "Browse..."
 msgstr "Bläddra..."
 
-# vad åsyftas med "fader"?
 #: src/wx/gain_calculator_dialog.cc:36
-#, fuzzy
 msgid "But I have to use fader"
-msgstr "Men jag måste använda toning"
+msgstr "Men jag måste använda mixervolym"
 
 #: src/wx/film_editor.cc:374
 msgid "Calculate..."
@@ -181,11 +179,9 @@ msgstr "Kodningsservrar"
 msgid "End"
 msgstr "Slut"
 
-# vad betyder "facility" i detta sammanhang?
 #: src/wx/dci_metadata_dialog.cc:53
-#, fuzzy
 msgid "Facility (e.g. DLA)"
-msgstr "Enhet (ex. DLA)"
+msgstr "Företag (ex. DLA)"
 
 #: src/wx/film_editor.cc:73
 msgid "Film"
@@ -231,11 +227,9 @@ msgstr "Värd-namn eller IP-adress"
 msgid "Hz"
 msgstr "Hz"
 
-# vad åsyftas med "fader"?
 #: src/wx/gain_calculator_dialog.cc:32
-#, fuzzy
 msgid "I want to play this back at fader"
-msgstr "Jag vill spela upp detta med toning"
+msgstr "Jag vill spela upp detta med mixervolym"
 
 #: src/wx/config_dialog.cc:132
 msgid "IP address"
@@ -301,9 +295,7 @@ msgstr "Vänligen vänta; audio analyseras..."
 msgid "RMS"
 msgstr "RMS"
 
-# Är det censurklassning som åsyftas?
 #: src/wx/dci_metadata_dialog.cc:45
-#, fuzzy
 msgid "Rating (e.g. 15)"
 msgstr "Klassificering (ex. 15)"
 
@@ -419,11 +411,9 @@ msgstr "Tid"
 msgid "Top crop"
 msgstr "Övre beskärning"
 
-# "välj bilder att koda"?
 #: src/wx/film_editor.cc:171
-#, fuzzy
 msgid "Trim frames"
-msgstr "Beskära bilder"
+msgstr "Skippa bilder"
 
 #: src/wx/film_editor.cc:125
 msgid "Trust content's header"
