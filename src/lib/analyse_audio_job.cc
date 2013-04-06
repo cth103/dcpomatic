@@ -57,8 +57,8 @@ AnalyseAudioJob::run ()
 
 	_samples_per_point = max (int64_t (1), _film->audio_length() / _num_points);
 
-	_current.resize (_film->audio_channels ());
-	_analysis.reset (new AudioAnalysis (_film->audio_channels()));
+	_current.resize (MAX_AUDIO_CHANNELS);
+	_analysis.reset (new AudioAnalysis (MAX_AUDIO_CHANNELS));
 			 
 	while (!player->pass()) {
 		set_progress (float (_done) / _film->audio_length ());

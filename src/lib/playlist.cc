@@ -30,6 +30,7 @@
 using std::list;
 using std::cout;
 using std::vector;
+using std::min;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -223,4 +224,48 @@ void
 Playlist::content_changed (weak_ptr<Content> c, int p)
 {
 	ContentChanged (c, p);
+}
+
+AudioMapping
+Playlist::default_audio_mapping () const
+{
+	AudioMapping m;
+
+	switch (_audio_from) {
+	case AUDIO_NONE:
+		break;
+	case AUDIO_FFMPEG:
+		if (_ffmpeg->audio_channels() == 1) {
+			/* Map mono sources to centre */
+			m.add (AudioMapping::Channel (_ffmpeg, 0), libdcp::CENTRE);
+		} else {
+			int const N = min (_ffmpeg->audio_channels (), MAX_AUDIO_CHANNELS);
+			/* Otherwise just start with a 1:1 mapping */
+			for (int i = 0; i < N; ++i) {
+				m.add (AudioMapping::Channel (_ffmpeg, i), (libdcp::Channel) i);
+			}
+		}
+		break;
+
+	case AUDIO_SNDFILE:
+	{
+		int n = 0;
+		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
+			cout << "sndfile " << (*i)->audio_channels() << "\n";
+			for (int j = 0; j < (*i)->audio_channels(); ++j) {
+				m.add (AudioMapping::Channel (*i, j), (libdcp::Channel) n);
+				++n;
+				if (n >= MAX_AUDIO_CHANNELS) {
+					break;
+				}
+			}
+			if (n >= MAX_AUDIO_CHANNELS) {
+				break;
+			}
+		}
+		break;
+	}
+	}
+
+	return m;
 }

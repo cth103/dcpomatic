@@ -36,6 +36,7 @@
 #include "dci_metadata.h"
 #include "types.h"
 #include "ffmpeg_content.h"
+#include "audio_mapping.h"
 
 class DCPContentType;
 class Format;
@@ -146,7 +147,8 @@ public:
 		COLOUR_LUT,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
-		DCP_FRAME_RATE
+		DCP_FRAME_RATE,
+		AUDIO_MAPPING
 	};
 
 
@@ -262,6 +264,11 @@ public:
 		return _dcp_frame_rate;
 	}
 
+	AudioMapping audio_mapping () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _audio_mapping;
+	}
+
 	/* SET */
 
 	void set_directory (std::string);
@@ -294,6 +301,7 @@ public:
 	void set_dci_metadata (DCIMetadata);
 	void set_dcp_frame_rate (int);
 	void set_dci_date_today ();
+	void set_audio_mapping (AudioMapping);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -314,6 +322,7 @@ private:
 	void read_metadata ();
 	void content_changed (boost::weak_ptr<Content>, int);
 	boost::shared_ptr<FFmpegContent> ffmpeg () const;
+	void setup_default_audio_mapping ();
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
@@ -378,6 +387,7 @@ private:
 	int _dcp_frame_rate;
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
+	AudioMapping _audio_mapping;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

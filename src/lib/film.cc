@@ -960,6 +960,7 @@ Film::signal_changed (Property p)
 	case Film::CONTENT:
 		_playlist->setup (content ());
 		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
+		set_audio_mapping (_playlist->default_audio_mapping ());
 		break;
 	default:
 		break;
@@ -1236,11 +1237,24 @@ Film::set_ffmpeg_audio_stream (FFmpegAudioStream s)
 }
 
 void
+Film::set_audio_mapping (AudioMapping m)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_audio_mapping = m;
+	}
+
+	signal_changed (AUDIO_MAPPING);
+}
+
+void
 Film::content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
-	}
+	} else if (p == AudioContentProperty::AUDIO_CHANNELS) {
+		set_audio_mapping (_playlist->default_audio_mapping ());
+	}		
 
 	if (ui_signaller) {
 		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), c, p));

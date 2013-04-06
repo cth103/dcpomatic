@@ -427,6 +427,8 @@ Encoder::encoder_thread (ServerDescription* server)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 {
+#if 0
+	XXX
 	AutomaticAudioMapping m (_film->audio_channels ());
 	if (m.dcp_channels() != _film->audio_channels()) {
 
@@ -444,6 +446,7 @@ Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 
 		data = b;
 	}
+#endif	
 
 	_writer->write (data);
 }

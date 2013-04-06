@@ -50,7 +50,7 @@
 #include "scaler.h"
 #include "audio_dialog.h"
 #include "imagemagick_content_dialog.h"
-#include "sndfile_content_dialog.h"
+#include "audio_mapping_view.h"
 
 using std::string;
 using std::cout;
@@ -197,7 +197,9 @@ FilmEditor::connect_to_widgets ()
 	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
 	_trust_content_headers->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_headers_changed), 0, this);
-	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_item_selected), 0, this);
+	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_selection_changed), 0, this);
+	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler (FilmEditor::content_selection_changed), 0, this);
+	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler (FilmEditor::content_activated), 0, this);
 	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
 	_content_edit->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_edit_clicked), 0, this);
@@ -406,6 +408,9 @@ FilmEditor::make_audio_panel ()
                 grid->Add (s, 1, wxEXPAND);
         }
 
+	_audio_mapping = new AudioMappingView (_audio_panel);
+	_audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
+	
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
 }
@@ -691,6 +696,10 @@ FilmEditor::film_changed (Film::Property p)
 			_frame_rate_description->SetLabel (wxT (""));
 			_best_dcp_frame_rate->Disable ();
 		}
+		break;
+	case Film::AUDIO_MAPPING:
+		_audio_mapping->set_mapping (_film->audio_mapping ());
+		break;
 	}
 }
 
@@ -849,6 +858,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_FRAME_RATE);
+	film_changed (Film::AUDIO_MAPPING);
 
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
@@ -1243,6 +1253,15 @@ FilmEditor::content_remove_clicked (wxCommandEvent &)
 }
 
 void
+FilmEditor::content_activated (wxListEvent& ev)
+{
+	ContentList c = _film->content ();
+	assert (ev.GetIndex() >= 0 && size_t (ev.GetIndex()) < c.size ());
+
+	edit_content (c[ev.GetIndex()]);
+}
+
+void
 FilmEditor::content_edit_clicked (wxCommandEvent &)
 {
 	shared_ptr<Content> c = selected_content ();
@@ -1250,22 +1269,19 @@ FilmEditor::content_edit_clicked (wxCommandEvent &)
 		return;
 	}
 
+	edit_content (c);
+}
+
+void
+FilmEditor::edit_content (shared_ptr<Content> c)
+{
 	shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
 	if (im) {
 		ImageMagickContentDialog* d = new ImageMagickContentDialog (this, im);
-		int const r = d->ShowModal ();
-		d->Destroy ();
-
-		if (r == wxID_OK) {
-			im->set_video_length (d->video_length() * 24);
-		}
-	}
-
-	shared_ptr<SndfileContent> sf = dynamic_pointer_cast<SndfileContent> (c);
-	if (sf) {
-		SndfileContentDialog* d = new SndfileContentDialog (this, sf);
 		d->ShowModal ();
 		d->Destroy ();
+
+		im->set_video_length (d->video_length() * 24);
 	}
 }
 
@@ -1288,7 +1304,7 @@ FilmEditor::content_later_clicked (wxCommandEvent &)
 }
 
 void
-FilmEditor::content_item_selected (wxListEvent &)
+FilmEditor::content_selection_changed (wxListEvent &)
 {
         setup_content_button_sensitivity ();
 	setup_content_information ();
@@ -1311,11 +1327,12 @@ FilmEditor::setup_content_button_sensitivity ()
 {
         _content_add->Enable (_generally_sensitive);
 
-	bool const have_selection = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1;
-        _content_edit->Enable (have_selection && _generally_sensitive);
-        _content_remove->Enable (have_selection && _generally_sensitive);
-        _content_earlier->Enable (have_selection && _generally_sensitive);
-        _content_later->Enable (have_selection && _generally_sensitive);
+	shared_ptr<Content> selection = selected_content ();
+
+        _content_edit->Enable (selection && _generally_sensitive && dynamic_pointer_cast<ImageMagickContent> (selection));
+        _content_remove->Enable (selection && _generally_sensitive);
+        _content_earlier->Enable (selection && _generally_sensitive);
+        _content_later->Enable (selection && _generally_sensitive);
 }
 
 shared_ptr<Content>

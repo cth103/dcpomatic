@@ -17,37 +17,43 @@
 
 */
 
-#include <vector>
-#include <map>
-#include <boost/optional.hpp>
+#ifndef DVDOMATIC_AUDIO_MAPPING_H
+#define DVDOMATIC_AUDIO_MAPPING_H
+
+#include <list>
+#include <string>
 #include <libdcp/types.h>
+#include <boost/shared_ptr.hpp>
+#include "audio_content.h"
 
 class AudioMapping
 {
 public:
-	virtual boost::optional<libdcp::Channel> source_to_dcp (int c) const = 0;
-	virtual boost::optional<int> dcp_to_source (libdcp::Channel c) const = 0;
-};
+	struct Channel {
+		Channel (boost::weak_ptr<const AudioContent> c, int i)
+			: content (c)
+			, index (i)
+		{}
+		
+		boost::weak_ptr<const AudioContent> content;
+		int index;
+	};
 
-class AutomaticAudioMapping : public AudioMapping
-{
-public:
-	AutomaticAudioMapping (int);
+	void add (Channel, libdcp::Channel);
 
-	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
-	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
 	int dcp_channels () const;
-	
-private:
-	int _source_channels;
-};
+	std::list<Channel> dcp_to_content (libdcp::Channel) const;
+	std::list<std::pair<Channel, libdcp::Channel> > content_to_dcp () const {
+		return _content_to_dcp;
+	}
 
-class ConfiguredAudioMapping : public AudioMapping
-{
-public:
-	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
-	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
+	std::list<Channel> content_channels () const;
+	std::list<libdcp::Channel> content_to_dcp (Channel) const;
 
 private:
-	std::map<int, libdcp::Channel> _source_to_dcp;
+	std::list<std::pair<Channel, libdcp::Channel> > _content_to_dcp;
 };
+
+extern bool operator== (AudioMapping::Channel const &, AudioMapping::Channel const &);
+
+#endif

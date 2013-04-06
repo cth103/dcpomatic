@@ -45,7 +45,7 @@ ImageMagickContent::ImageMagickContent (shared_ptr<const cxml::Node> node)
 string
 ImageMagickContent::summary () const
 {
-	return String::compose (_("Image: %1"), file().filename ());
+	return String::compose (_("Image: %1"), file().filename().string());
 }
 
 bool

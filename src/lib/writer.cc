@@ -78,15 +78,13 @@ Writer::Writer (shared_ptr<Film> f)
 
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	AutomaticAudioMapping m (_film->audio_channels ());
-	
-	if (m.dcp_channels() > 0) {
+	if (_film->audio_channels() > 0) {
 		_sound_asset.reset (
 			new libdcp::SoundAsset (
 				_film->dir (_film->dcp_name()),
 				N_("audio.mxf"),
 				_film->dcp_frame_rate (),
-				m.dcp_channels (),
+				_film->audio_mapping().dcp_channels (),
 				dcp_audio_sample_rate (_film->audio_frame_rate())
 				)
 			);

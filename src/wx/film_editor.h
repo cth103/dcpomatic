@@ -33,6 +33,7 @@ class wxListCtrl;
 class wxListEvent;
 class Film;
 class AudioDialog;
+class AudioMappingView;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -63,7 +64,8 @@ private:
 	void top_crop_changed (wxCommandEvent &);
 	void bottom_crop_changed (wxCommandEvent &);
 	void trust_content_headers_changed (wxCommandEvent &);
-	void content_item_selected (wxListEvent &);
+	void content_selection_changed (wxListEvent &);
+	void content_activated (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
 	void content_edit_clicked (wxCommandEvent &);
@@ -110,6 +112,7 @@ private:
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
+	void edit_content (boost::shared_ptr<Content>);
 
 	wxNotebook* _notebook;
 	wxPanel* _film_panel;
@@ -152,6 +155,7 @@ private:
 	wxButton* _show_audio;
 	wxSpinCtrl* _audio_delay;
 	wxChoice* _ffmpeg_audio_stream;
+	AudioMappingView* _audio_mapping;
 	wxCheckBox* _with_subtitles;
 	wxChoice* _ffmpeg_subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;

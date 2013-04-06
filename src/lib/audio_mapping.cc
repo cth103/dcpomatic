@@ -19,85 +19,77 @@
 
 #include "audio_mapping.h"
 
-using std::map;
-using boost::optional;
+using std::list;
+using std::cout;
+using std::make_pair;
+using std::pair;
+using boost::shared_ptr;
 
-AutomaticAudioMapping::AutomaticAudioMapping (int c)
-	: _source_channels (c)
+void
+AudioMapping::add (Channel c, libdcp::Channel d)
 {
-
+	_content_to_dcp.push_back (make_pair (c, d));
 }
 
-optional<libdcp::Channel>
-AutomaticAudioMapping::source_to_dcp (int c) const
+/* XXX: this is grotty */
+int
+AudioMapping::dcp_channels () const
 {
-	if (c >= _source_channels) {
-		return optional<libdcp::Channel> ();
-	}
-
-	if (_source_channels == 1) {
-		/* mono sources to centre */
-		return libdcp::CENTRE;
-	}
-	
-	return static_cast<libdcp::Channel> (c);
-}
-
-optional<int>
-AutomaticAudioMapping::dcp_to_source (libdcp::Channel c) const
-{
-	if (_source_channels == 1) {
-		if (c == libdcp::CENTRE) {
-			return 0;
-		} else {
-			return optional<int> ();
+	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+		if (((int) i->second) > 2) {
+			return 6;
 		}
 	}
 
-	if (static_cast<int> (c) >= _source_channels) {
-		return optional<int> ();
+	return 2;
+}
+
+list<AudioMapping::Channel>
+AudioMapping::dcp_to_content (libdcp::Channel d) const
+{
+	list<AudioMapping::Channel> c;
+	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+		if (i->second == d) {
+			c.push_back (i->first);
+		}
 	}
+
+	return c;
+}
+
+list<AudioMapping::Channel>
+AudioMapping::content_channels () const
+{
+	list<AudioMapping::Channel> c;
+	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+		if (find (c.begin(), c.end(), i->first) == c.end ()) {
+			c.push_back (i->first);
+		}
+	}
+
+	return c;
+}
+
+list<libdcp::Channel>
+AudioMapping::content_to_dcp (Channel c) const
+{
+	list<libdcp::Channel> d;
+	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+		if (i->first == c) {
+			d.push_back (i->second);
+		}
+	}
+
+	return d;
+}
+
+bool
+operator== (AudioMapping::Channel const & a, AudioMapping::Channel const & b)
+{
+	shared_ptr<const AudioContent> sa = a.content.lock ();
+	shared_ptr<const AudioContent> sb = b.content.lock ();
+	return sa == sb && a.index == b.index;
+}
+
 	
-	return static_cast<int> (c);
-}
-
-int
-AutomaticAudioMapping::dcp_channels () const
-{
-	if (_source_channels == 1) {
-		/* The source is mono, so to put the mono channel into
-		   the centre we need to generate a 5.1 soundtrack.
-		*/
-		return 6;
-	}
-
-	return _source_channels;
-}
-
-optional<int>
-ConfiguredAudioMapping::dcp_to_source (libdcp::Channel c) const
-{
-	map<int, libdcp::Channel>::const_iterator i = _source_to_dcp.begin ();
-	while (i != _source_to_dcp.end() && i->second != c) {
-		++i;
-	}
-
-	if (i == _source_to_dcp.end ()) {
-		return boost::none;
-	}
-
-	return i->first;
-}
-
-optional<libdcp::Channel>
-ConfiguredAudioMapping::source_to_dcp (int c) const
-{
-	map<int, libdcp::Channel>::const_iterator i = _source_to_dcp.find (c);
-	if (i == _source_to_dcp.end ()) {
-		return boost::none;
-	}
-
-	return i->second;
-}
-
 	

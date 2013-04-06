@@ -39,7 +39,6 @@ private:
 	void type_clicked (wxCommandEvent &);
 	void smoothing_changed (wxScrollEvent &);
 	void try_to_load_analysis ();
-	void setup_channels ();
 
 	boost::shared_ptr<Film> _film;
 	AudioPlot* _plot;

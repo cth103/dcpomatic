@@ -5,6 +5,7 @@ import i18n
 
 sources = """
           audio_dialog.cc
+          audio_mapping_view.cc
           audio_plot.cc
           config_dialog.cc
           dci_metadata_dialog.cc
@@ -20,7 +21,6 @@ sources = """
           new_film_dialog.cc
           properties_dialog.cc
           server_dialog.cc
-          sndfile_content_dialog.cc
           wx_util.cc
           wx_ui_signaller.cc
           """

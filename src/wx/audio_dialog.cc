@@ -20,7 +20,6 @@
 #include <boost/filesystem.hpp>
 #include "lib/audio_analysis.h"
 #include "lib/film.h"
-#include "lib/audio_mapping.h"
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "wx_util.h"
@@ -93,7 +92,6 @@ AudioDialog::set_film (shared_ptr<Film> f)
 	_film = f;
 
 	try_to_load_analysis ();
-	setup_channels ();
 	_plot->set_gain (_film->audio_gain ());
 
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
@@ -102,23 +100,6 @@ AudioDialog::set_film (shared_ptr<Film> f)
 	SetTitle (wxString::Format (_("DVD-o-matic audio - %s"), std_to_wx(_film->name()).data()));
 }
 
-void
-AudioDialog::setup_channels ()
-{
-	if (!_film->has_audio()) {
-		return;
-	}
-
-	AutomaticAudioMapping m (_film->audio_channels ());
-	
-	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		if (m.dcp_to_source(static_cast<libdcp::Channel>(i))) {
-			_channel_checkbox[i]->Show ();
-		} else {
-			_channel_checkbox[i]->Hide ();
-		}
-	}
-}	
 
 void
 AudioDialog::try_to_load_analysis ()
@@ -135,12 +116,8 @@ AudioDialog::try_to_load_analysis ()
 		
 	_plot->set_analysis (a);
 
-	AutomaticAudioMapping m (_film->audio_channels ());
-	optional<libdcp::Channel> c = m.source_to_dcp (0);
-	if (c) {
-		_channel_checkbox[c.get()]->SetValue (true);
-		_plot->set_channel_visible (0, true);
-	}
+	_channel_checkbox[0]->SetValue (true);
+	_plot->set_channel_visible (0, true);
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		_type_checkbox[i]->SetValue (true);
@@ -158,11 +135,7 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 
 	assert (c < MAX_AUDIO_CHANNELS);
 
-	AutomaticAudioMapping m (_film->audio_channels ());
-	optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (c));
-	if (s) {
-		_plot->set_channel_visible (s.get(), _channel_checkbox[c]->GetValue ());
-	}
+	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
 }
 
 void
@@ -171,9 +144,6 @@ AudioDialog::film_changed (Film::Property p)
 	switch (p) {
 	case Film::AUDIO_GAIN:
 		_plot->set_gain (_film->audio_gain ());
-		break;
-	case Film::CONTENT:
-		setup_channels ();
 		break;
 	default:
 		break;

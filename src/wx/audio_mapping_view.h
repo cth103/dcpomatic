@@ -17,20 +17,19 @@
 
 */
 
-#include <vector>
-#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 #include <wx/wx.h>
-#include "lib/audio_mapping.h"
+#include <wx/grid.h>
 
-class SndfileContent;
-
-class SndfileContentDialog : public wxDialog
+class AudioMappingView : public wxPanel
 {
 public:
-	SndfileContentDialog (wxWindow *, boost::shared_ptr<SndfileContent>);
+	AudioMappingView (wxWindow *);
 
-	ConfiguredAudioMapping audio_mapping () const;
+	void set_mapping (AudioMapping);
 
 private:
-	std::vector<std::vector<wxRadioButton *> > _buttons;
+	void left_click (wxGridEvent &);
+
+	wxGrid* _grid;
 };

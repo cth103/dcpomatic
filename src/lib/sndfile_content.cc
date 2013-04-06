@@ -27,12 +27,16 @@
 
 using std::string;
 using std::stringstream;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
 SndfileContent::SndfileContent (boost::filesystem::path f)
 	: Content (f)
 	, AudioContent (f)
+	, _audio_channels (0)
+	, _audio_length (0)
+	, _audio_frame_rate (0)
 {
 
 }
@@ -49,7 +53,7 @@ SndfileContent::SndfileContent (shared_ptr<const cxml::Node> node)
 string
 SndfileContent::summary () const
 {
-	return String::compose (_("Sound file: %1"), file().filename ());
+	return String::compose (_("Sound file: %1"), file().filename().string());
 }
 
 string
@@ -115,3 +119,4 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (_audio_length));
 	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));
 }
+

@@ -152,12 +152,13 @@ FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
         signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
         signal_changed (FFmpegContentProperty::AUDIO_STREAMS);
         signal_changed (FFmpegContentProperty::AUDIO_STREAM);
+        signal_changed (AudioContentProperty::AUDIO_CHANNELS);
 }
 
 string
 FFmpegContent::summary () const
 {
-	return String::compose (_("Movie: %1"), file().filename ());
+	return String::compose (_("Movie: %1"), file().filename().string());
 }
 
 string

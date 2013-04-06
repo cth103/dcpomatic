@@ -25,6 +25,7 @@
 #include "video_sink.h"
 #include "audio_sink.h"
 #include "ffmpeg_content.h"
+#include "audio_mapping.h"
 
 class Content;
 class FFmpegContent;
@@ -52,6 +53,8 @@ public:
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
 	ContentVideoFrame video_length () const;
+
+	AudioMapping default_audio_mapping () const;
 
 	enum VideoFrom {
 		VIDEO_NONE,
