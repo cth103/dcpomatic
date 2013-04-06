@@ -84,17 +84,17 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
 	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
 
-	set_film (f);
-
-	_player = _film->player ();
+	/* We need a player before we set_film() so that the first frame will be displayed */
+	_player = f->player ();
 	_player->disable_audio ();
 	_player->disable_video_sync ();
-
 	/* Don't disable subtitles here as we may need them, and it's nice to be able to turn them
 	   on and off without needing obtain a new Player.
 	*/
 	
 	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+
+	set_film (f);
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmViewer::active_jobs_changed, this, _1)
@@ -392,7 +392,7 @@ FilmViewer::get_frame ()
 		_display_frame.reset ();
 		return;
 	}
-	
+
 	try {
 		_got_frame = false;
 		while (!_got_frame) {

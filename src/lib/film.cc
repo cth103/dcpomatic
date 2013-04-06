@@ -418,6 +418,7 @@ Film::write_metadata () const
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
 	root->add_child("DCPFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
+	_audio_mapping.as_xml (root->add_child("AudioMapping"));
 
 	for (ContentList::iterator i = the_content.begin(); i != the_content.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Content"));
@@ -501,6 +502,9 @@ Film::read_metadata ()
 
 		_content.push_back (c);
 	}
+
+	/* This must come after we've loaded the content, as we're looking things up in _content */
+	_audio_mapping.set_from_xml (_content, f.node_child ("AudioMapping"));
 
 	_dirty = false;
 

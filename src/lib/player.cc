@@ -26,6 +26,7 @@
 #include "job.h"
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;

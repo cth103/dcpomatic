@@ -29,6 +29,9 @@
 class AudioMapping
 {
 public:
+	void as_xml (xmlpp::Node *) const;
+	void set_from_xml (ContentList const &, boost::shared_ptr<const cxml::Node>);
+	
 	struct Channel {
 		Channel (boost::weak_ptr<const AudioContent> c, int i)
 			: content (c)

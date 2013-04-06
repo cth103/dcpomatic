@@ -17,13 +17,18 @@
 
 */
 
+#include <boost/lexical_cast.hpp>
+#include <libcxml/cxml.h>
 #include "audio_mapping.h"
 
 using std::list;
 using std::cout;
 using std::make_pair;
 using std::pair;
+using std::string;
 using boost::shared_ptr;
+using boost::lexical_cast;
+using boost::dynamic_pointer_cast;
 
 void
 AudioMapping::add (Channel c, libdcp::Channel d)
@@ -83,6 +88,40 @@ AudioMapping::content_to_dcp (Channel c) const
 	return d;
 }
 
+void
+AudioMapping::as_xml (xmlpp::Node* node) const
+{
+	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+		xmlpp::Node* t = node->add_child ("Map");
+		shared_ptr<const AudioContent> c = i->first.content.lock ();
+		t->add_child ("Content")->add_child_text (c->file().string ());
+		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first.index));
+		t->add_child ("DCP")->add_child_text (lexical_cast<string> (i->second));
+	}
+}
+
+void
+AudioMapping::set_from_xml (ContentList const & content, shared_ptr<const cxml::Node> node)
+{
+	list<shared_ptr<cxml::Node> > const c = node->node_children ("Map");
+	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+		string const c = (*i)->string_child ("Content");
+		ContentList::const_iterator j = content.begin ();
+		while (j != content.end() && (*j)->file().string() != c) {
+			++j;
+		}
+
+		if (j == content.end ()) {
+			continue;
+		}
+
+		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<AudioContent> (*j);
+		assert (ac);
+
+		add (AudioMapping::Channel (ac, (*i)->number_child<int> ("ContentIndex")), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
+	}
+}
+
 bool
 operator== (AudioMapping::Channel const & a, AudioMapping::Channel const & b)
 {
@@ -90,6 +129,3 @@ operator== (AudioMapping::Channel const & a, AudioMapping::Channel const & b)
 	shared_ptr<const AudioContent> sb = b.content.lock ();
 	return sa == sb && a.index == b.index;
 }
-
-	
-	
