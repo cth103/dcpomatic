@@ -194,19 +194,6 @@ private:
 	float** _data;
 };
 
-class AudioMapping
-{
-public:
-	AudioMapping (int);
-
-	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
-	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
-	int dcp_channels () const;
-
-private:
-	int _source_channels;
-};
-
 extern int64_t video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second);
 extern std::pair<std::string, int> cpu_info ();
 

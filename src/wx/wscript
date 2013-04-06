@@ -14,11 +14,13 @@ sources = """
           filter_dialog.cc
           filter_view.cc
           gain_calculator_dialog.cc
+          imagemagick_content_dialog.cc
           job_manager_view.cc
           job_wrapper.cc
           new_film_dialog.cc
           properties_dialog.cc
           server_dialog.cc
+          sndfile_content_dialog.cc
           wx_util.cc
           wx_ui_signaller.cc
           """

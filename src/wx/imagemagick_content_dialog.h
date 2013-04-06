@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,18 @@
 
 */
 
-#include <sndfile.h>
-#include "decoder.h"
-#include "audio_decoder.h"
+#include <wx/wx.h>
 
-class SndfileContent;
+class wxSpinCtrl;
+class ImageMagickContent;
 
-class SndfileDecoder : public AudioDecoder
+class ImageMagickContentDialog : public wxDialog
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SndfileContent>);
-	~SndfileDecoder ();
+	ImageMagickContentDialog (wxWindow *, boost::shared_ptr<ImageMagickContent>);
 
-	bool pass ();
-
-	int audio_channels () const;
-	ContentAudioFrame audio_length () const;
-	int audio_frame_rate () const;
+	int video_length () const;
 
 private:
-	SNDFILE* open_file (sf_count_t &);
-	void close_file (SNDFILE*);
-
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
-	ContentAudioFrame _remaining;
+	wxSpinCtrl* _video_length;
 };

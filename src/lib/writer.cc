@@ -31,6 +31,7 @@
 #include "dcp_video_frame.h"
 #include "dcp_content_type.h"
 #include "player.h"
+#include "audio_mapping.h"
 
 #include "i18n.h"
 
@@ -77,7 +78,7 @@ Writer::Writer (shared_ptr<Film> f)
 
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	AudioMapping m (_film->audio_channels ());
+	AutomaticAudioMapping m (_film->audio_channels ());
 	
 	if (m.dcp_channels() > 0) {
 		_sound_asset.reset (

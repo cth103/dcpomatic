@@ -28,59 +28,62 @@
 
 using std::vector;
 using std::string;
-using std::stringstream;
 using std::min;
 using std::cout;
 using boost::shared_ptr;
-using boost::optional;
-
-/* XXX */
 
 SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const SndfileContent> c)
 	: Decoder (f)
 	, AudioDecoder (f)
+	, _sndfile_content (c)
 {
-	sf_count_t frames;
-	SNDFILE* sf = open_file (frames);
-	sf_close (sf);
-}
-
-SNDFILE*
-SndfileDecoder::open_file (sf_count_t & frames)
-{
-	frames = 0;
-	
-	SF_INFO info;
-	SNDFILE* s = sf_open (_sndfile_content->file().string().c_str(), SFM_READ, &info);
-	if (!s) {
-		throw DecodeError (_("could not open external audio file for reading"));
+	_sndfile = sf_open (_sndfile_content->file().string().c_str(), SFM_READ, &_info);
+	if (!_sndfile) {
+		throw DecodeError (_("could not open audio file for reading"));
 	}
 
-	frames = info.frames;
-	return s;
+	_remaining = _info.frames;
+}
+
+SndfileDecoder::~SndfileDecoder ()
+{
+	if (_sndfile) {
+		sf_close (_sndfile);
+	}
 }
 
 bool
 SndfileDecoder::pass ()
 {
-	sf_count_t frames;
-	SNDFILE* sndfile = open_file (frames);
-
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
 	sf_count_t const block = _sndfile_content->audio_frame_rate() / 2;
+	sf_count_t const this_time = min (block, _remaining);
+	
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (_sndfile_content->audio_channels(), this_time));
+	sf_read_float (_sndfile, audio->data(0), this_time);
+	audio->set_frames (this_time);
+	Audio (audio);
+	_remaining -= this_time;
 
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_sndfile_content->audio_channels(), block));
-	while (frames > 0) {
-		sf_count_t const this_time = min (block, frames);
-		sf_read_float (sndfile, audio->data(0), this_time);
-		audio->set_frames (this_time);
-		Audio (audio);
-		frames -= this_time;
-	}
+	return (_remaining == 0);
+}
 
-	sf_close (sndfile);
+int
+SndfileDecoder::audio_channels () const
+{
+	return _info.channels;
+}
 
-	return true;
+ContentAudioFrame
+SndfileDecoder::audio_length () const
+{
+	return _info.frames;
+}
+
+int
+SndfileDecoder::audio_frame_rate () const
+{
+	return _info.samplerate;
 }

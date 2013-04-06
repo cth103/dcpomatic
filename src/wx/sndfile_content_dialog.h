@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,20 @@
 
 */
 
-#include <sndfile.h>
-#include "decoder.h"
-#include "audio_decoder.h"
+#include <vector>
+#include <boost/shared_ptr.hpp>
+#include <wx/wx.h>
+#include "lib/audio_mapping.h"
 
 class SndfileContent;
 
-class SndfileDecoder : public AudioDecoder
+class SndfileContentDialog : public wxDialog
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SndfileContent>);
-	~SndfileDecoder ();
+	SndfileContentDialog (wxWindow *, boost::shared_ptr<SndfileContent>);
 
-	bool pass ();
-
-	int audio_channels () const;
-	ContentAudioFrame audio_length () const;
-	int audio_frame_rate () const;
+	ConfiguredAudioMapping audio_mapping () const;
 
 private:
-	SNDFILE* open_file (sf_count_t &);
-	void close_file (SNDFILE*);
-
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
-	ContentAudioFrame _remaining;
+	std::vector<std::vector<wxRadioButton *> > _buttons;
 };

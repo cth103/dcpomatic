@@ -49,6 +49,8 @@
 #include "dci_metadata_dialog.h"
 #include "scaler.h"
 #include "audio_dialog.h"
+#include "imagemagick_content_dialog.h"
+#include "sndfile_content_dialog.h"
 
 using std::string;
 using std::cout;
@@ -198,9 +200,9 @@ FilmEditor::connect_to_widgets ()
 	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_item_selected), 0, this);
 	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
+	_content_edit->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_edit_clicked), 0, this);
 	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
 	_content_later->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
-	_imagemagick_video_length->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::imagemagick_video_length_changed), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -343,6 +345,8 @@ FilmEditor::make_content_panel ()
                 b->Add (_content_add);
                 _content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
                 b->Add (_content_remove);
+                _content_edit = new wxButton (_content_panel, wxID_ANY, _("Edit..."));
+                b->Add (_content_edit);
                 _content_earlier = new wxButton (_content_panel, wxID_ANY, _("Earlier"));
                 b->Add (_content_earlier);
                 _content_later = new wxButton (_content_panel, wxID_ANY, _("Later"));
@@ -355,21 +359,6 @@ FilmEditor::make_content_panel ()
 
 	_content_information = new wxTextCtrl (_content_panel, wxID_ANY, wxT ("\n\n\n\n"), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 	_content_sizer->Add (_content_information, 1, wxEXPAND | wxALL, 6);
-
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
-	_content_sizer->Add (grid, 0, wxEXPAND | wxALL, 6);
-
-	{
-		add_label_to_sizer (grid, _content_panel, (_("Duration")));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_imagemagick_video_length = new wxSpinCtrl (_content_panel);
-		s->Add (_imagemagick_video_length);
-		/// TRANSLATORS: this is an abbreviation for seconds, the unit of time
-		add_label_to_sizer (s, _content_panel, _("s"));
-		grid->Add (s);
-	}
-
-	_imagemagick_video_length->SetRange (1, 3600);
 }
 
 void
@@ -723,14 +712,9 @@ FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 		setup_show_audio_sensitivity ();
 	} else if (property == VideoContentProperty::VIDEO_LENGTH) {
 		setup_length ();
-
 		boost::shared_ptr<Content> c = content.lock ();
 		if (c && c == selected_content()) {
 			setup_content_information ();
-			shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
-			if (im) {
-				checked_set (_imagemagick_video_length, im->video_length() / 24);
-			}
 		}
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		if (_film->ffmpeg_audio_stream()) {
@@ -1259,6 +1243,33 @@ FilmEditor::content_remove_clicked (wxCommandEvent &)
 }
 
 void
+FilmEditor::content_edit_clicked (wxCommandEvent &)
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
+	if (im) {
+		ImageMagickContentDialog* d = new ImageMagickContentDialog (this, im);
+		int const r = d->ShowModal ();
+		d->Destroy ();
+
+		if (r == wxID_OK) {
+			im->set_video_length (d->video_length() * 24);
+		}
+	}
+
+	shared_ptr<SndfileContent> sf = dynamic_pointer_cast<SndfileContent> (c);
+	if (sf) {
+		SndfileContentDialog* d = new SndfileContentDialog (this, sf);
+		d->ShowModal ();
+		d->Destroy ();
+	}
+}
+
+void
 FilmEditor::content_earlier_clicked (wxCommandEvent &)
 {
 	shared_ptr<Content> c = selected_content ();
@@ -1281,15 +1292,6 @@ FilmEditor::content_item_selected (wxListEvent &)
 {
         setup_content_button_sensitivity ();
 	setup_content_information ();
-
-	shared_ptr<Content> c = selected_content ();
-	if (c) {
-		shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
-		_imagemagick_video_length->Enable (im);
-		if (im) {
-			checked_set (_imagemagick_video_length, im->video_length() / 24);
-		}
-	}
 }
 
 void
@@ -1310,25 +1312,10 @@ FilmEditor::setup_content_button_sensitivity ()
         _content_add->Enable (_generally_sensitive);
 
 	bool const have_selection = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1;
+        _content_edit->Enable (have_selection && _generally_sensitive);
         _content_remove->Enable (have_selection && _generally_sensitive);
         _content_earlier->Enable (have_selection && _generally_sensitive);
         _content_later->Enable (have_selection && _generally_sensitive);
-}
-
-void
-FilmEditor::imagemagick_video_length_changed (wxCommandEvent &)
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
-	if (!im) {
-		return;
-	}
-	
-	im->set_video_length (_imagemagick_video_length->GetValue() * 24);
 }
 
 shared_ptr<Content>

@@ -17,13 +17,18 @@
 
 */
 
+#include <libcxml/cxml.h>
 #include "sndfile_content.h"
+#include "sndfile_decoder.h"
 #include "compose.hpp"
+#include "job.h"
 
 #include "i18n.h"
 
 using std::string;
+using std::stringstream;
 using boost::shared_ptr;
+using boost::lexical_cast;
 
 SndfileContent::SndfileContent (boost::filesystem::path f)
 	: Content (f)
@@ -35,9 +40,10 @@ SndfileContent::SndfileContent (boost::filesystem::path f)
 SndfileContent::SndfileContent (shared_ptr<const cxml::Node> node)
 	: Content (node)
 	, AudioContent (node)
-		   
 {
-
+	_audio_channels = node->number_child<int> ("AudioChannels");
+	_audio_length = node->number_child<ContentAudioFrame> ("AudioLength");
+	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
 }
 
 string
@@ -49,37 +55,21 @@ SndfileContent::summary () const
 string
 SndfileContent::information () const
 {
-	return "";
-}
-
-int
-SndfileContent::audio_channels () const
-{
-	/* XXX */
-	return 0;
-}
-
-ContentAudioFrame
-SndfileContent::audio_length () const
-{
-	/* XXX */
-	return 0;
-}
-
-int
-SndfileContent::audio_frame_rate () const
-{
-	/* XXX */
-	return 0;
-}
-
-int64_t
-SndfileContent::audio_channel_layout () const
-{
-	/* XXX */
-	return 0;
-}
+	if (_audio_frame_rate == 0) {
+		return "";
+	}
 	
+	stringstream s;
+
+	s << String::compose (
+		_("%1 channels, %2kHz, %3 samples"),
+		audio_channels(),
+		audio_frame_rate() / 1000.0,
+		audio_length()
+		);
+	
+	return s.str ();
+}
 
 bool
 SndfileContent::valid_file (boost::filesystem::path f)
@@ -94,4 +84,34 @@ shared_ptr<Content>
 SndfileContent::clone () const
 {
 	return shared_ptr<Content> (new SndfileContent (*this));
+}
+
+void
+SndfileContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
+{
+	job->set_progress_unknown ();
+	Content::examine (film, job, quick);
+
+	SndfileDecoder dec (film, shared_from_this());
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_channels = dec.audio_channels ();
+		_audio_length = dec.audio_length ();
+		_audio_frame_rate = dec.audio_frame_rate ();
+	}
+
+	signal_changed (AudioContentProperty::AUDIO_CHANNELS);
+	signal_changed (AudioContentProperty::AUDIO_LENGTH);
+	signal_changed (AudioContentProperty::AUDIO_FRAME_RATE);
+}
+
+void
+SndfileContent::as_xml (xmlpp::Node* node) const
+{
+	node->add_child("Type")->add_child_text ("Sndfile");
+	Content::as_xml (node);
+	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
+	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (_audio_length));
+	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));
 }

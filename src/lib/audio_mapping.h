@@ -17,36 +17,37 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_CONTENT_H
-#define DVDOMATIC_AUDIO_CONTENT_H
+#include <vector>
+#include <map>
+#include <boost/optional.hpp>
+#include <libdcp/types.h>
 
-#include "content.h"
-#include "util.h"
-
-namespace cxml {
-	class Node;
-}
-
-class AudioContentProperty
+class AudioMapping
 {
 public:
-	static int const AUDIO_CHANNELS;
-	static int const AUDIO_LENGTH;
-	static int const AUDIO_FRAME_RATE;
+	virtual boost::optional<libdcp::Channel> source_to_dcp (int c) const = 0;
+	virtual boost::optional<int> dcp_to_source (libdcp::Channel c) const = 0;
 };
 
-class AudioContent : public virtual Content
+class AutomaticAudioMapping : public AudioMapping
 {
 public:
-	AudioContent (boost::filesystem::path);
-	AudioContent (boost::shared_ptr<const cxml::Node>);
-	AudioContent (AudioContent const &);
+	AutomaticAudioMapping (int);
 
-        virtual int audio_channels () const = 0;
-        virtual ContentAudioFrame audio_length () const = 0;
-        virtual int audio_frame_rate () const = 0;
-        virtual int64_t audio_channel_layout () const = 0;
+	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
+	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
+	int dcp_channels () const;
 	
+private:
+	int _source_channels;
 };
 
-#endif
+class ConfiguredAudioMapping : public AudioMapping
+{
+public:
+	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
+	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
+
+private:
+	std::map<int, libdcp::Channel> _source_to_dcp;
+};

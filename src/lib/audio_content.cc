@@ -22,6 +22,10 @@
 
 using boost::shared_ptr;
 
+int const AudioContentProperty::AUDIO_CHANNELS = 200;
+int const AudioContentProperty::AUDIO_LENGTH = 201;
+int const AudioContentProperty::AUDIO_FRAME_RATE = 202;
+
 AudioContent::AudioContent (boost::filesystem::path f)
 	: Content (f)
 {

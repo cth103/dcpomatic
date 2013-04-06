@@ -16,7 +16,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-
+ 
 /** @file src/film_editor.h
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
  */
@@ -66,6 +66,7 @@ private:
 	void content_item_selected (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
+	void content_edit_clicked (wxCommandEvent &);
 	void content_earlier_clicked (wxCommandEvent &);
 	void content_later_clicked (wxCommandEvent &);
 	void imagemagick_video_length_changed (wxCommandEvent &);
@@ -131,10 +132,10 @@ private:
 	wxListCtrl* _content;
 	wxButton* _content_add;
 	wxButton* _content_remove;
+	wxButton* _content_edit;
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxTextCtrl* _content_information;
-	wxSpinCtrl* _imagemagick_video_length;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;

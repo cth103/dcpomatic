@@ -17,6 +17,9 @@
 
 */
 
+extern "C" {
+#include <libavutil/audioconvert.h>
+}
 #include "audio_content.h"
 
 namespace cxml {
@@ -33,15 +36,36 @@ public:
 		return boost::dynamic_pointer_cast<SndfileContent> (Content::shared_from_this ());
 	}
 	
+	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	std::string summary () const;
 	std::string information () const;
+	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
 
         /* AudioContent */
-        int audio_channels () const;
-        ContentAudioFrame audio_length () const;
-        int audio_frame_rate () const;
-        int64_t audio_channel_layout () const;
+        int audio_channels () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_channels;
+	}
+	
+        ContentAudioFrame audio_length () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_length;
+	}
+	
+        int audio_frame_rate () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_frame_rate;
+	}
+	
+        int64_t audio_channel_layout () const {
+		return av_get_default_channel_layout (audio_channels ());
+	}
 
 	static bool valid_file (boost::filesystem::path);
+
+private:
+	int _audio_channels;
+	ContentAudioFrame _audio_length;
+	int _audio_frame_rate;
 };

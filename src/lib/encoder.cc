@@ -38,6 +38,7 @@
 #include "cross.h"
 #include "writer.h"
 #include "player.h"
+#include "audio_mapping.h"
 
 #include "i18n.h"
 
@@ -426,7 +427,7 @@ Encoder::encoder_thread (ServerDescription* server)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 {
-	AudioMapping m (_film->audio_channels ());
+	AutomaticAudioMapping m (_film->audio_channels ());
 	if (m.dcp_channels() != _film->audio_channels()) {
 
 		/* Remap (currently just for mono -> 5.1) */

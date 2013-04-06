@@ -20,6 +20,7 @@
 #include <boost/filesystem.hpp>
 #include "lib/audio_analysis.h"
 #include "lib/film.h"
+#include "lib/audio_mapping.h"
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "wx_util.h"
@@ -108,7 +109,7 @@ AudioDialog::setup_channels ()
 		return;
 	}
 
-	AudioMapping m (_film->audio_channels ());
+	AutomaticAudioMapping m (_film->audio_channels ());
 	
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		if (m.dcp_to_source(static_cast<libdcp::Channel>(i))) {
@@ -134,7 +135,7 @@ AudioDialog::try_to_load_analysis ()
 		
 	_plot->set_analysis (a);
 
-	AudioMapping m (_film->audio_channels ());
+	AutomaticAudioMapping m (_film->audio_channels ());
 	optional<libdcp::Channel> c = m.source_to_dcp (0);
 	if (c) {
 		_channel_checkbox[c.get()]->SetValue (true);
@@ -157,7 +158,7 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 
 	assert (c < MAX_AUDIO_CHANNELS);
 
-	AudioMapping m (_film->audio_channels ());
+	AutomaticAudioMapping m (_film->audio_channels ());
 	optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (c));
 	if (s) {
 		_plot->set_channel_visible (s.get(), _channel_checkbox[c]->GetValue ());
