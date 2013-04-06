@@ -73,7 +73,6 @@ FFmpegContent::FFmpegContent (FFmpegContent const & o)
 	: Content (o)
 	, VideoContent (o)
 	, AudioContent (o)
-	, boost::enable_shared_from_this<FFmpegContent> (o)
 	, _subtitle_streams (o._subtitle_streams)
 	, _subtitle_stream (o._subtitle_stream)
 	, _audio_streams (o._audio_streams)
@@ -148,11 +147,11 @@ FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
 
         take_from_video_decoder (decoder);
 
-        Changed (VideoContentProperty::VIDEO_LENGTH);
-        Changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-        Changed (FFmpegContentProperty::SUBTITLE_STREAM);
-        Changed (FFmpegContentProperty::AUDIO_STREAMS);
-        Changed (FFmpegContentProperty::AUDIO_STREAM);
+        signal_changed (VideoContentProperty::VIDEO_LENGTH);
+        signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
+        signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
+        signal_changed (FFmpegContentProperty::AUDIO_STREAMS);
+        signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
 string
@@ -184,7 +183,7 @@ FFmpegContent::set_subtitle_stream (FFmpegSubtitleStream s)
                 _subtitle_stream = s;
         }
 
-        Changed (FFmpegContentProperty::SUBTITLE_STREAM);
+        signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 void
@@ -195,7 +194,7 @@ FFmpegContent::set_audio_stream (FFmpegAudioStream s)
                 _audio_stream = s;
         }
 
-        Changed (FFmpegContentProperty::AUDIO_STREAM);
+        signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
 ContentAudioFrame

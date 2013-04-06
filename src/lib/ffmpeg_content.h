@@ -77,12 +77,16 @@ public:
         static int const AUDIO_STREAM;
 };
 
-class FFmpegContent : public VideoContent, public AudioContent, public boost::enable_shared_from_this<FFmpegContent>
+class FFmpegContent : public VideoContent, public AudioContent
 {
 public:
 	FFmpegContent (boost::filesystem::path);
 	FFmpegContent (boost::shared_ptr<const cxml::Node>);
 	FFmpegContent (FFmpegContent const &);
+
+	boost::shared_ptr<FFmpegContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
+	}
 	
 	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	std::string summary () const;

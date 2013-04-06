@@ -110,6 +110,8 @@ Film::Film (string d, bool must_exist)
 	, _dirty (false)
 {
 	set_dci_date_today ();
+
+	_playlist->ContentChanged.connect (bind (&Film::content_changed, this, _1, _2));
 	
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
@@ -178,6 +180,8 @@ Film::Film (Film const & o)
 	for (ContentList::const_iterator i = o._content.begin(); i != o._content.end(); ++i) {
 		_content.push_back ((*i)->clone ());
 	}
+	
+	_playlist->ContentChanged.connect (bind (&Film::content_changed, this, _1, _2));
 	
 	_playlist->setup (_content);
 }
@@ -485,14 +489,17 @@ Film::read_metadata ()
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
 
 		string const type = (*i)->string_child ("Type");
+		boost::shared_ptr<Content> c;
 		
 		if (type == "FFmpeg") {
-			_content.push_back (shared_ptr<Content> (new FFmpegContent (*i)));
+			c.reset (new FFmpegContent (*i));
 		} else if (type == "ImageMagick") {
-			_content.push_back (shared_ptr<Content> (new ImageMagickContent (*i)));
+			c.reset (new ImageMagickContent (*i));
 		} else if (type == "Sndfile") {
-			_content.push_back (shared_ptr<Content> (new SndfileContent (*i)));
+			c.reset (new SndfileContent (*i));
 		}
+
+		_content.push_back (c);
 	}
 
 	_dirty = false;
@@ -1037,7 +1044,6 @@ Film::add_content (shared_ptr<Content> c)
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
 		_content.push_back (c);
-		_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
 	}
 
 	signal_changed (CONTENT);
@@ -1053,14 +1059,6 @@ Film::remove_content (shared_ptr<Content> c)
 		ContentList::iterator i = find (_content.begin(), _content.end(), c);
 		if (i != _content.end ()) {
 			_content.erase (i);
-		}
-
-		for (list<boost::signals2::connection>::iterator i = _content_connections.begin(); i != _content_connections.end(); ++i) {
-			i->disconnect ();
-		}
-
-		for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-			_content_connections.push_back (c->Changed.connect (bind (&Film::content_changed, this, _1)));
 		}
 	}
 
@@ -1238,13 +1236,13 @@ Film::set_ffmpeg_audio_stream (FFmpegAudioStream s)
 }
 
 void
-Film::content_changed (int p)
+Film::content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
 	}
 
 	if (ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), p));
+		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), c, p));
 	}
 }

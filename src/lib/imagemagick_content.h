@@ -24,16 +24,22 @@ namespace cxml {
 	class Node;
 }
 
-class ImageMagickContent : public VideoContent, public boost::enable_shared_from_this<ImageMagickContent>
+class ImageMagickContent : public VideoContent
 {
 public:
 	ImageMagickContent (boost::filesystem::path);
 	ImageMagickContent (boost::shared_ptr<const cxml::Node>);
 
+	boost::shared_ptr<ImageMagickContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<ImageMagickContent> (Content::shared_from_this ());
+	};
+
 	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
+
+	void set_video_length (ContentVideoFrame);
 
 	static bool valid_file (boost::filesystem::path);
 };

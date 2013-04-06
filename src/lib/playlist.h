@@ -84,12 +84,19 @@ public:
 	std::list<boost::shared_ptr<const SndfileContent> > sndfile () const {
 		return _sndfile;
 	}
+
+	mutable boost::signals2::signal<void ()> Changed;
+	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 	
 private:
+	void content_changed (boost::weak_ptr<Content>, int);
+	
 	VideoFrom _video_from;
 	AudioFrom _audio_from;
 
 	boost::shared_ptr<const FFmpegContent> _ffmpeg;
 	std::list<boost::shared_ptr<const ImageMagickContent> > _imagemagick;
 	std::list<boost::shared_ptr<const SndfileContent> > _sndfile;
+
+	std::list<boost::signals2::connection> _content_connections;
 };

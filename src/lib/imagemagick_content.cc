@@ -72,17 +72,28 @@ ImageMagickContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool qu
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		/* XXX */
+		/* Initial length */
 		_video_length = 10 * 24;
 	}
 	
 	take_from_video_decoder (decoder);
 	
-        Changed (VideoContentProperty::VIDEO_LENGTH);
+        signal_changed (VideoContentProperty::VIDEO_LENGTH);
 }
 
 shared_ptr<Content>
 ImageMagickContent::clone () const
 {
 	return shared_ptr<Content> (new ImageMagickContent (*this));
+}
+
+void
+ImageMagickContent::set_video_length (ContentVideoFrame len)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_video_length = len;
+	}
+
+	signal_changed (VideoContentProperty::VIDEO_LENGTH);
 }

@@ -37,6 +37,7 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/imagemagick_content.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "video_decoder.h"
@@ -47,6 +48,7 @@ using std::max;
 using std::cout;
 using std::list;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 using libdcp::Size;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
@@ -84,6 +86,16 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 
 	set_film (f);
 
+	_player = _film->player ();
+	_player->disable_audio ();
+	_player->disable_video_sync ();
+
+	/* Don't disable subtitles here as we may need them, and it's nice to be able to turn them
+	   on and off without needing obtain a new Player.
+	*/
+	
+	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmViewer::active_jobs_changed, this, _1)
 		);
@@ -99,7 +111,6 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 	{
-		setup_player ();
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
@@ -124,32 +135,6 @@ FilmViewer::film_changed (Film::Property p)
 }
 
 void
-FilmViewer::setup_player ()
-{
-	_player = _film->player ();
-	_player->disable_audio ();
-	_player->disable_video_sync ();
-
-	/* Don't disable subtitles here as we may need them, and it's nice to be able to turn them
-	   on and off without needing obtain a new Player.
-	*/
-	
-	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
-}
-
-void
-FilmViewer::film_content_changed (int p)
-{
-	if (p == VideoContentProperty::VIDEO_LENGTH || p == VideoContentProperty::VIDEO_SIZE) {
-		setup_player ();
-		calculate_sizes ();
-		get_frame ();
-		_panel->Refresh ();
-		_v_sizer->Layout ();
-	}
-}
-
-void
 FilmViewer::set_film (shared_ptr<Film> f)
 {
 	if (_film == f) {
@@ -163,14 +148,12 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
-	_film->ContentChanged.connect (boost::bind (&FilmViewer::film_content_changed, this, _1));
 
 	film_changed (Film::CONTENT);
 	film_changed (Film::FORMAT);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
-	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 void

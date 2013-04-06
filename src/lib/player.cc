@@ -27,6 +27,8 @@
 
 using std::list;
 using boost::shared_ptr;
+using boost::weak_ptr;
+using boost::dynamic_pointer_cast;
 
 Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	: _film (f)
@@ -34,11 +36,12 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _video (true)
 	, _audio (true)
 	, _subtitles (true)
-	, _have_setup_decoders (false)
+	, _have_valid_decoders (false)
 	, _ffmpeg_decoder_done (false)
 	, _video_sync (true)
 {
-
+	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
+	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2));
 }
 
 void
@@ -62,9 +65,9 @@ Player::disable_subtitles ()
 bool
 Player::pass ()
 {
-	if (!_have_setup_decoders) {
+	if (!_have_valid_decoders) {
 		setup_decoders ();
-		_have_setup_decoders = true;
+		_have_valid_decoders = true;
 	}
 	
 	bool done = true;
@@ -138,9 +141,9 @@ Player::process_audio (shared_ptr<AudioBuffers> b)
 bool
 Player::seek (double t)
 {
-	if (!_have_setup_decoders) {
+	if (!_have_valid_decoders) {
 		setup_decoders ();
-		_have_setup_decoders = true;
+		_have_valid_decoders = true;
 	}
 	
 	bool r = false;
@@ -183,9 +186,9 @@ Player::seek (double t)
 bool
 Player::seek_to_last ()
 {
-	if (!_have_setup_decoders) {
+	if (!_have_valid_decoders) {
 		setup_decoders ();
-		_have_setup_decoders = true;
+		_have_valid_decoders = true;
 	}
 
 	bool r = false;
@@ -277,4 +280,25 @@ Player::last_video_time () const
 	}
 
 	return 0;
+}
+
+void
+Player::content_changed (weak_ptr<Content> w, int p)
+{
+	shared_ptr<Content> c = w.lock ();
+	if (!c) {
+		return;
+	}
+
+	if (p == VideoContentProperty::VIDEO_LENGTH) {
+		if (dynamic_pointer_cast<FFmpegContent> (c)) {
+			_have_valid_decoders = false;
+		}
+	}
+}
+
+void
+Player::playlist_changed ()
+{
+	_have_valid_decoders = false;
 }

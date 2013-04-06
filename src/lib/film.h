@@ -119,7 +119,7 @@ public:
 
 	void set_ffmpeg_subtitle_stream (FFmpegSubtitleStream);
 	void set_ffmpeg_audio_stream (FFmpegAudioStream);
-	
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -299,7 +299,7 @@ public:
 	mutable boost::signals2::signal<void (Property)> Changed;
 
 	/** Emitted when some property of our content has changed */
-	mutable boost::signals2::signal<void (int)> ContentChanged;
+	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 
 	boost::signals2::signal<void ()> AudioAnalysisSucceeded;
 
@@ -312,7 +312,7 @@ private:
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
 	void read_metadata ();
-	void content_changed (int);
+	void content_changed (boost::weak_ptr<Content>, int);
 	boost::shared_ptr<FFmpegContent> ffmpeg () const;
 
 	/** Log to write to */
@@ -334,7 +334,6 @@ private:
 	bool _use_dci_name;
 	bool _trust_content_headers;
 	ContentList _content;
-	std::list<boost::signals2::connection> _content_connections;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */

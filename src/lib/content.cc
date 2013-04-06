@@ -39,7 +39,8 @@ Content::Content (shared_ptr<const cxml::Node> node)
 }
 
 Content::Content (Content const & o)
-	: _file (o._file)
+	: boost::enable_shared_from_this<Content> (o)
+	, _file (o._file)
 	, _digest (o._digest)
 {
 
@@ -59,4 +60,10 @@ Content::examine (shared_ptr<Film>, shared_ptr<Job>, bool)
 	string const d = md5_digest (_file);
 	boost::mutex::scoped_lock lm (_mutex);
 	_digest = d;
+}
+
+void
+Content::signal_changed (int p)
+{
+	Changed (shared_from_this (), p);
 }

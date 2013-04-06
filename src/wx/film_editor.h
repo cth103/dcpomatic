@@ -68,6 +68,7 @@ private:
 	void content_remove_clicked (wxCommandEvent &);
 	void content_earlier_clicked (wxCommandEvent &);
 	void content_later_clicked (wxCommandEvent &);
+	void imagemagick_video_length_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);
@@ -87,13 +88,11 @@ private:
 	void ffmpeg_subtitle_stream_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
+	void edit_filters_clicked (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
-	void film_content_changed (int);
-
-	/* Button clicks */
-	void edit_filters_clicked (wxCommandEvent &);
+	void film_content_changed (boost::weak_ptr<Content>, int);
 
 	void set_things_sensitive (bool);
 	void setup_formats ();
@@ -109,6 +108,7 @@ private:
 	void setup_content_information ();
 	
 	void active_jobs_changed (bool);
+	boost::shared_ptr<Content> selected_content ();
 
 	wxNotebook* _notebook;
 	wxPanel* _film_panel;
@@ -134,6 +134,7 @@ private:
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxTextCtrl* _content_information;
+	wxSpinCtrl* _imagemagick_video_length;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;

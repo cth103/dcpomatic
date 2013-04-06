@@ -59,13 +59,13 @@ using std::setprecision;
 using std::list;
 using std::vector;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
-	, _film (f)
 	, _generally_sensitive (true)
 	, _audio_dialog (0)
 {
@@ -84,7 +84,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_subtitle_panel ();
 	_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
 
-	set_film (_film);
+	set_film (f);
 	connect_to_widgets ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
@@ -200,6 +200,7 @@ FilmEditor::connect_to_widgets ()
 	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
 	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
 	_content_later->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
+	_imagemagick_video_length->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::imagemagick_video_length_changed), 0, this);
 	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -354,6 +355,21 @@ FilmEditor::make_content_panel ()
 
 	_content_information = new wxTextCtrl (_content_panel, wxID_ANY, wxT ("\n\n\n\n"), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 	_content_sizer->Add (_content_information, 1, wxEXPAND | wxALL, 6);
+
+	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	_content_sizer->Add (grid, 0, wxEXPAND | wxALL, 6);
+
+	{
+		add_label_to_sizer (grid, _content_panel, (_("Duration")));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_imagemagick_video_length = new wxSpinCtrl (_content_panel);
+		s->Add (_imagemagick_video_length);
+		/// TRANSLATORS: this is an abbreviation for seconds, the unit of time
+		add_label_to_sizer (s, _content_panel, _("s"));
+		grid->Add (s);
+	}
+
+	_imagemagick_video_length->SetRange (1, 3600);
 }
 
 void
@@ -690,7 +706,7 @@ FilmEditor::film_changed (Film::Property p)
 }
 
 void
-FilmEditor::film_content_changed (int p)
+FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 {
 	if (!_film) {
 		/* We call this method ourselves (as well as using it as a signal handler)
@@ -699,23 +715,31 @@ FilmEditor::film_content_changed (int p)
 		return;
 	}
 		
-	if (p == FFmpegContentProperty::SUBTITLE_STREAMS) {
+	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
-	} else if (p == FFmpegContentProperty::AUDIO_STREAMS) {
+	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		setup_streams ();
 		setup_show_audio_sensitivity ();
-	} else if (p == VideoContentProperty::VIDEO_LENGTH) {
+	} else if (property == VideoContentProperty::VIDEO_LENGTH) {
 		setup_length ();
-		setup_content_information ();
-	} else if (p == FFmpegContentProperty::AUDIO_STREAM) {
+
+		boost::shared_ptr<Content> c = content.lock ();
+		if (c && c == selected_content()) {
+			setup_content_information ();
+			shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
+			if (im) {
+				checked_set (_imagemagick_video_length, im->video_length() / 24);
+			}
+		}
+	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		if (_film->ffmpeg_audio_stream()) {
 			checked_set (_ffmpeg_audio_stream, boost::lexical_cast<string> (_film->ffmpeg_audio_stream()->id));
 		}
 		setup_dcp_name ();
 		setup_audio_details ();
 		setup_show_audio_sensitivity ();
-	} else if (p == FFmpegContentProperty::SUBTITLE_STREAM) {
+	} else if (property == FFmpegContentProperty::SUBTITLE_STREAM) {
 		if (_film->ffmpeg_subtitle_stream()) {
 			checked_set (_ffmpeg_subtitle_stream, boost::lexical_cast<string> (_film->ffmpeg_subtitle_stream()->id));
 		}
@@ -797,13 +821,17 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 void
 FilmEditor::set_film (shared_ptr<Film> f)
 {
+	if (_film == f) {
+		return;
+	}
+	
 	_film = f;
 
 	set_things_sensitive (_film != 0);
 
 	if (_film) {
 		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
-		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _1));
+		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _1, _2));
 	}
 
 	if (_film) {
@@ -838,10 +866,10 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_FRAME_RATE);
 
-	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAM);
-	film_content_changed (FFmpegContentProperty::AUDIO_STREAMS);
-	film_content_changed (FFmpegContentProperty::AUDIO_STREAM);
+	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAMS);
+	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
+	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
+	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAM);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -1224,40 +1252,28 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 void
 FilmEditor::content_remove_clicked (wxCommandEvent &)
 {
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
-		return;
+	shared_ptr<Content> c = selected_content ();
+	if (c) {
+		_film->remove_content (c);
 	}
-
-	ContentList c = _film->content ();
-	assert (s >= 0 && size_t (s) < c.size ());
-	_film->remove_content (c[s]);
 }
 
 void
 FilmEditor::content_earlier_clicked (wxCommandEvent &)
 {
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
-		return;
+	shared_ptr<Content> c = selected_content ();
+	if (c) {
+		_film->move_content_earlier (c);
 	}
-
-	ContentList c = _film->content ();
-	assert (s >= 0 && size_t (s) < c.size ());
-	_film->move_content_earlier (c[s]);
 }
 
 void
 FilmEditor::content_later_clicked (wxCommandEvent &)
 {
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
-		return;
+	shared_ptr<Content> c = selected_content ();
+	if (c) {
+		_film->move_content_later (c);
 	}
-
-	ContentList c = _film->content ();
-	assert (s >= 0 && size_t (s) < c.size ());
-	_film->move_content_later (c[s]);
 }
 
 void
@@ -1265,20 +1281,27 @@ FilmEditor::content_item_selected (wxListEvent &)
 {
         setup_content_button_sensitivity ();
 	setup_content_information ();
+
+	shared_ptr<Content> c = selected_content ();
+	if (c) {
+		shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
+		_imagemagick_video_length->Enable (im);
+		if (im) {
+			checked_set (_imagemagick_video_length, im->video_length() / 24);
+		}
+	}
 }
 
 void
 FilmEditor::setup_content_information ()
 {
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
 		_content_information->SetValue (wxT (""));
 		return;
 	}
 
-	ContentList c = _film->content ();
-	assert (s >= 0 && size_t (s) < c.size ());
-	_content_information->SetValue (std_to_wx (c[s]->information ()));
+	_content_information->SetValue (std_to_wx (c->information ()));
 }
 
 void
@@ -1290,4 +1313,33 @@ FilmEditor::setup_content_button_sensitivity ()
         _content_remove->Enable (have_selection && _generally_sensitive);
         _content_earlier->Enable (have_selection && _generally_sensitive);
         _content_later->Enable (have_selection && _generally_sensitive);
+}
+
+void
+FilmEditor::imagemagick_video_length_changed (wxCommandEvent &)
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
+	if (!im) {
+		return;
+	}
+	
+	im->set_video_length (_imagemagick_video_length->GetValue() * 24);
+}
+
+shared_ptr<Content>
+FilmEditor::selected_content ()
+{
+	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		return shared_ptr<Content> ();
+	}
+
+	ContentList c = _film->content ();
+	assert (s >= 0 && size_t (s) < c.size ());
+	return c[s];
 }

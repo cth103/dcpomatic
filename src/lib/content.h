@@ -23,6 +23,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <libxml++/libxml++.h>
 
 namespace cxml {
@@ -32,7 +33,7 @@ namespace cxml {
 class Job;
 class Film;
 
-class Content
+class Content : public boost::enable_shared_from_this<Content>
 {
 public:
 	Content (boost::filesystem::path);
@@ -50,9 +51,11 @@ public:
 		return _file;
 	}
 
-	boost::signals2::signal<void (int)> Changed;
+	boost::signals2::signal<void (boost::weak_ptr<Content>, int)> Changed;
 
 protected:
+	void signal_changed (int);
+	
 	mutable boost::mutex _mutex;
 
 private:

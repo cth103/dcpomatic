@@ -56,6 +56,8 @@ private:
 	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
 	void process_audio (boost::shared_ptr<AudioBuffers>);
 	void setup_decoders ();
+	void playlist_changed ();
+	void content_changed (boost::weak_ptr<Content>, int);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -64,7 +66,7 @@ private:
 	bool _audio;
 	bool _subtitles;
 	
-	bool _have_setup_decoders;
+	bool _have_valid_decoders;
 	boost::shared_ptr<FFmpegDecoder> _ffmpeg_decoder;
 	bool _ffmpeg_decoder_done;
 	std::list<boost::shared_ptr<ImageMagickDecoder> > _imagemagick_decoders;

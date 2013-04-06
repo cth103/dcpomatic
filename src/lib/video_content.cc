@@ -81,14 +81,18 @@ VideoContent::take_from_video_decoder (shared_ptr<VideoDecoder> d)
 		_video_frame_rate = vfr;
         }
         
-        Changed (VideoContentProperty::VIDEO_SIZE);
-        Changed (VideoContentProperty::VIDEO_FRAME_RATE);
+        signal_changed (VideoContentProperty::VIDEO_SIZE);
+        signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
 
 string
 VideoContent::information () const
 {
+	if (video_size().width == 0 || video_size().height == 0) {
+		return "";
+	}
+	
 	stringstream s;
 
 	s << String::compose (

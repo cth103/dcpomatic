@@ -61,7 +61,6 @@ public:
 
 private:
 	void film_changed (Film::Property);
-	void film_content_changed (int);
 	void paint_panel (wxPaintEvent &);
 	void panel_sized (wxSizeEvent &);
 	void slider_moved (wxScrollEvent &);
@@ -75,7 +74,6 @@ private:
 	void raw_to_display ();
 	void get_frame ();
 	void active_jobs_changed (bool);
-	void setup_player ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;

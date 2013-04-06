@@ -28,6 +28,10 @@ class SndfileContent : public AudioContent
 public:
 	SndfileContent (boost::filesystem::path);
 	SndfileContent (boost::shared_ptr<const cxml::Node>);
+
+	boost::shared_ptr<SndfileContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<SndfileContent> (Content::shared_from_this ());
+	}
 	
 	std::string summary () const;
 	std::string information () const;

@@ -31,6 +31,7 @@ using std::list;
 using std::cout;
 using std::vector;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 Playlist::Playlist ()
@@ -49,6 +50,12 @@ Playlist::setup (ContentList content)
 	_ffmpeg.reset ();
 	_imagemagick.clear ();
 	_sndfile.clear ();
+
+	for (list<boost::signals2::connection>::iterator i = _content_connections.begin(); i != _content_connections.end(); ++i) {
+		i->disconnect ();
+	}
+	
+	_content_connections.clear ();
 
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
@@ -74,7 +81,11 @@ Playlist::setup (ContentList content)
 			_sndfile.push_back (sc);
 			_audio_from = AUDIO_SNDFILE;
 		}
+
+		_content_connections.push_back ((*i)->Changed.connect (bind (&Playlist::content_changed, this, _1, _2)));
 	}
+
+	Changed ();
 }
 
 ContentAudioFrame
@@ -208,3 +219,8 @@ Playlist::has_audio () const
 	return _audio_from != AUDIO_NONE;
 }
 
+void
+Playlist::content_changed (weak_ptr<Content> c, int p)
+{
+	ContentChanged (c, p);
+}
