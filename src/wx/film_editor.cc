@@ -622,6 +622,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		setup_show_audio_sensitivity ();
+		setup_frame_rate_description ();
 		break;
 	case Film::TRUST_CONTENT_HEADER:
 		checked_set (_trust_content_header, _film->trust_content_header ());
@@ -633,6 +634,7 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::CONTENT_AUDIO_STREAMS:
 		setup_streams ();
 		setup_show_audio_sensitivity ();
+		setup_frame_rate_description ();
 		break;
 	case Film::FORMAT:
 	{
@@ -677,6 +679,7 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SOURCE_FRAME_RATE:
 		s << fixed << setprecision(2) << _film->source_frame_rate();
 		_source_frame_rate->SetLabel (std_to_wx (s.str ()));
+		setup_frame_rate_description ();
 		break;
 	case Film::SIZE:
 		if (_film->size().width == 0 && _film->size().height == 0) {
@@ -758,6 +761,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_audio_details ();
 		setup_audio_control_sensitivity ();
 		setup_show_audio_sensitivity ();
+		setup_frame_rate_description ();
 		break;
 	case Film::USE_CONTENT_AUDIO:
 		checked_set (_use_content_audio, _film->use_content_audio());
@@ -766,6 +770,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_audio_details ();
 		setup_audio_control_sensitivity ();
 		setup_show_audio_sensitivity ();
+		setup_frame_rate_description ();
 		break;
 	case Film::SUBTITLE_STREAM:
 		if (_film->subtitle_stream()) {
@@ -780,6 +785,7 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		setup_audio_details ();
 		setup_show_audio_sensitivity ();
+		setup_frame_rate_description ();
 		break;
 	}
 	case Film::DCP_FRAME_RATE:
@@ -793,13 +799,37 @@ FilmEditor::film_changed (Film::Property p)
 		}
 
 		if (_film->source_frame_rate()) {
-			_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description));
 			_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->source_frame_rate ()) != _film->dcp_frame_rate ());
 		} else {
-			_frame_rate_description->SetLabel (wxT (""));
 			_best_dcp_frame_rate->Disable ();
 		}
+
+		setup_frame_rate_description ();
 	}
+}
+
+void
+FilmEditor::setup_frame_rate_description ()
+{
+	wxString d;
+	if (_film->source_frame_rate()) {
+		d << std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description);
+#ifdef HAVE_SWRESAMPLE
+		if (_film->audio_stream() && _film->audio_stream()->sample_rate() != _film->target_audio_sample_rate ()) {
+			d << wxString::Format (
+				_("Audio will be resampled from %dHz to %dHz\n"),
+				_film->audio_stream()->sample_rate(),
+				_film->target_audio_sample_rate()
+				);
+		} else {
+			d << "\n";
+		}
+#else
+		d << "\n";
+#endif		
+	}
+
+	_frame_rate_description->SetLabel (d);
 }
 
 /** Called when the format widget has been changed */
@@ -999,6 +1029,12 @@ FilmEditor::setup_visibility ()
 		(*i)->Show (c == STILL);
 	}
 
+	setup_notebook_size ();
+}
+
+void
+FilmEditor::setup_notebook_size ()
+{
 	_notebook->InvalidateBestSize ();
 	
 	_film_sizer->Layout ();
@@ -1228,15 +1264,17 @@ FilmEditor::setup_audio_details ()
 	if (!_film->content_audio_stream()) {
 		_audio->SetLabel (wxT (""));
 	} else {
-		stringstream s;
+		wxString s;
 		if (_film->audio_stream()->channels() == 1) {
-			s << wx_to_std (_("1 channel"));
+			s << _("1 channel");
 		} else {
-			s << _film->audio_stream()->channels () << " " << wx_to_std (_("channels"));
+			s << _film->audio_stream()->channels () << " " << _("channels");
 		}
-		s << ", " << _film->audio_stream()->sample_rate() << wx_to_std (_("Hz"));
-		_audio->SetLabel (std_to_wx (s.str ()));
+		s << ", " << _film->audio_stream()->sample_rate() << _("Hz");
+		_audio->SetLabel (s);
 	}
+
+	setup_notebook_size ();
 }
 
 void

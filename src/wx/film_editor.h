@@ -100,6 +100,8 @@ private:
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
 	void setup_scaling_description ();
+	void setup_notebook_size ();
+	void setup_frame_rate_description ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
