@@ -37,6 +37,7 @@ def configure(conf):
     else:
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
         conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dvdomatic"' % conf.env['PREFIX'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
@@ -233,6 +234,9 @@ def build(bld):
     bld.install_files('${PREFIX}/share/applications', 'dvdomatic.desktop')
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
+
+    if not bld.env.TARGET_WINDOWS:
+        bld.install_files('${PREFIX}/share/dvdomatic', 'icons/taskbar_icon.png')
 
     bld.add_post_fun(post)
 

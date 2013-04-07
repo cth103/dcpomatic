@@ -146,7 +146,7 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
-	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT (" \n "), wxDefaultPosition, wxDefaultSize);
+	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT (" \n \n "), wxDefaultPosition, wxDefaultSize);
 	grid->Add (_frame_rate_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	wxFont font = _frame_rate_description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
@@ -248,14 +248,6 @@ FilmEditor::make_video_panel ()
 	grid->Add (_format, wxGBPosition (r, 1));
 	++r;
 
-	_format_description = new wxStaticText (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize);
-	grid->Add (_format_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	wxFont font = _format_description->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_format_description->SetFont(font);
-	++r;
-
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_left_crop, wxGBPosition (r, 1));
@@ -274,6 +266,14 @@ FilmEditor::make_video_panel ()
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), wxGBPosition (r, 0));
 	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_bottom_crop, wxGBPosition (r, 1));
+	++r;
+
+	_scaling_description = new wxStaticText (_video_panel, wxID_ANY, wxT ("\n \n \n \n"), wxDefaultPosition, wxDefaultSize);
+	grid->Add (_scaling_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	wxFont font = _scaling_description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_scaling_description->SetFont(font);
 	++r;
 
 	/* VIDEO-only stuff */
@@ -430,9 +430,14 @@ FilmEditor::make_subtitle_panel ()
 	_ffmpeg_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
 	grid->Add (_ffmpeg_subtitle_stream);
 
-	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"));
-	_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
-	grid->Add (_subtitle_offset, 1);
+	{
+		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
+		s->Add (_subtitle_offset);
+		add_label_to_sizer (s, _subtitle_panel, _("pixels"));
+		grid->Add (s);
+	}
 
 	{
 		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale"));
@@ -603,7 +608,6 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		setup_show_audio_sensitivity ();
-		setup_length ();
 		break;
 	case Film::TRUST_CONTENT_HEADERS:
 		checked_set (_trust_content_headers, _film->trust_content_headers ());
@@ -616,6 +620,7 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_right_crop, _film->crop().right);
 		checked_set (_top_crop, _film->crop().top);
 		checked_set (_bottom_crop, _film->crop().bottom);
+		setup_scaling_description ();
 		break;
 	case Film::FILTERS:
 	{
@@ -690,12 +695,11 @@ FilmEditor::film_changed (Film::Property p)
 		}
 
 		if (_film->video_frame_rate()) {
-			_frame_rate_description->SetLabel (std_to_wx (FrameRateConversion (_film->video_frame_rate(), _film->dcp_frame_rate()).description));
 			_best_dcp_frame_rate->Enable (best_dcp_frame_rate (_film->video_frame_rate ()) != _film->dcp_frame_rate ());
 		} else {
-			_frame_rate_description->SetLabel (wxT (""));
 			_best_dcp_frame_rate->Disable ();
 		}
+		setup_frame_rate_description ();
 		break;
 	case Film::AUDIO_MAPPING:
 		_audio_mapping->set_mapping (_film->audio_mapping ());
@@ -748,18 +752,15 @@ FilmEditor::setup_format ()
 		++i;
 		++n;
 	}
+	
 	if (i == _formats.end()) {
 		checked_set (_format, -1);
 	} else {
 		checked_set (_format, n);
 	}
-	setup_dcp_name ();
 	
-	if (_film->format ()) {
-		_format_description->SetLabel (std_to_wx (_film->format()->description ()));
-	} else {
-		_format_description->SetLabel (wxT (""));
-	}
+	setup_dcp_name ();
+	setup_scaling_description ();
 }	
 
 void
@@ -780,6 +781,29 @@ FilmEditor::setup_length ()
 	}
 }	
 
+void
+FilmEditor::setup_frame_rate_description ()
+{
+	wxString d;
+	if (_film->video_frame_rate()) {
+		d << std_to_wx (FrameRateConversion (_film->video_frame_rate(), _film->dcp_frame_rate()).description);
+#ifdef HAVE_SWRESAMPLE
+		if (_film->audio_frame_rate() != _film->target_audio_sample_rate ()) {
+			d << wxString::Format (
+				_("Audio will be resampled from %dHz to %dHz\n"),
+				_film->audio_frame_rate(),
+				_film->target_audio_sample_rate()
+				);
+		} else {
+			d << "\n";
+		}
+#else
+		d << "\n";
+#endif		
+	}
+
+	_frame_rate_description->SetLabel (d);
+}
 
 /** Called when the format widget has been changed */
 void
@@ -814,13 +838,13 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 void
 FilmEditor::set_film (shared_ptr<Film> f)
 {
+	set_things_sensitive (_film != 0);
+
 	if (_film == f) {
 		return;
 	}
 	
 	_film = f;
-
-	set_things_sensitive (_film != 0);
 
 	if (_film) {
 		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
@@ -947,6 +971,24 @@ FilmEditor::audio_delay_changed (wxCommandEvent &)
 	}
 
 	_film->set_audio_delay (_audio_delay->GetValue ());
+}
+
+void
+FilmEditor::setup_notebook_size ()
+{
+	_notebook->InvalidateBestSize ();
+	
+	_film_sizer->Layout ();
+	_film_sizer->SetSizeHints (_film_panel);
+	_video_sizer->Layout ();
+	_video_sizer->SetSizeHints (_video_panel);
+	_audio_sizer->Layout ();
+	_audio_sizer->SetSizeHints (_audio_panel);
+	_subtitle_sizer->Layout ();
+	_subtitle_sizer->SetSizeHints (_subtitle_panel);
+
+	_notebook->Fit ();
+	Fit ();
 }
 
 void
@@ -1136,15 +1178,17 @@ FilmEditor::setup_audio_details ()
 	if (!_film->ffmpeg_audio_stream()) {
 		_audio->SetLabel (wxT (""));
 	} else {
-		stringstream s;
+		wxString s;
 		if (_film->audio_channels() == 1) {
-			s << wx_to_std (_("1 channel"));
+			s << _("1 channel");
 		} else {
-			s << _film->audio_channels() << " " << wx_to_std (_("channels"));
+			s << _film->audio_channels() << " " << _("channels");
 		}
-		s << ", " << _film->audio_frame_rate() << wx_to_std (_("Hz"));
-		_audio->SetLabel (std_to_wx (s.str ()));
+		s << ", " << _film->audio_frame_rate() << _("Hz");
+		_audio->SetLabel (s);
 	}
+
+	setup_notebook_size ();
 }
 
 void
@@ -1349,4 +1393,59 @@ FilmEditor::selected_content ()
 	}
 	
 	return c[s];
+}
+
+void
+FilmEditor::setup_scaling_description ()
+{
+	wxString d;
+
+	int lines = 0;
+
+	d << wxString::Format (
+		_("Original video is %dx%d (%.2f:1)\n"),
+		_film->video_size().width, _film->video_size().height,
+		float (_film->video_size().width) / _film->video_size().height
+		);
+
+	++lines;
+
+	Crop const crop = _film->crop ();
+	if (crop.left || crop.right || crop.top || crop.bottom) {
+		libdcp::Size const cropped = _film->cropped_size (_film->video_size ());
+		d << wxString::Format (
+			_("Cropped to %dx%d (%.2f:1)\n"),
+			cropped.width, cropped.height,
+			float (cropped.width) / cropped.height
+			);
+		++lines;
+	}
+
+	Format const * format = _film->format ();
+	if (format) {
+		int const padding = format->dcp_padding (_film);
+		libdcp::Size scaled = format->dcp_size ();
+		scaled.width -= padding * 2;
+		d << wxString::Format (
+			_("Scaled to %dx%d (%.2f:1)\n"),
+			scaled.width, scaled.height,
+			float (scaled.width) / scaled.height
+			);
+		++lines;
+
+		if (padding) {
+			d << wxString::Format (
+				_("Padded with black to %dx%d (%.2f:1)\n"),
+				format->dcp_size().width, format->dcp_size().height,
+				float (format->dcp_size().width) / format->dcp_size().height
+				);
+			++lines;
+		}
+	}
+
+	for (int i = lines; i < 4; ++i) {
+		d << " \n";
+	}
+
+	_scaling_description->SetLabel (d);
 }

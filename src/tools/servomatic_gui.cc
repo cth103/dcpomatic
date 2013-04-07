@@ -94,7 +94,15 @@ class TaskBarIcon : public wxTaskBarIcon
 public:
 	TaskBarIcon ()
 	{
+#ifdef __WXMSW__		
 		wxIcon icon (std_to_wx ("taskbar_icon"));
+#endif
+#ifdef __WXGTK__
+		wxInitAllImageHandlers();
+		wxBitmap bitmap (wxString::Format ("%s/taskbar_icon.png", POSIX_ICON_PREFIX), wxBITMAP_TYPE_PNG);
+		wxIcon icon;
+		icon.CopyFromBitmap (bitmap);
+#endif		
 		SetIcon (icon, std_to_wx ("DVD-o-matic encode server"));
 
 		Connect (ID_status, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::status));
@@ -128,18 +136,29 @@ public:
 	App ()
 		: wxApp ()
 		, _thread (0)
+		, _icon (0)
 	{}
 
 private:	
 	
 	bool OnInit ()
 	{
+		if (!wxApp::OnInit ()) {
+			return false;
+		}
+		
 		dvdomatic_setup ();
 
-		new TaskBarIcon;
-
+		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));
+		
 		return true;
+	}
+
+	int OnExit ()
+	{
+		delete _icon;
+		return wxApp::OnExit ();
 	}
 
 	void main_thread ()
@@ -149,6 +168,7 @@ private:
 	}
 
 	boost::thread* _thread;
+	TaskBarIcon* _icon;
 };
 
 IMPLEMENT_APP (App)

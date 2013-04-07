@@ -314,8 +314,16 @@ private:
 	void file_open (wxCommandEvent &)
 	{
 		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
-		int const r = c->ShowModal ();
-		
+		int r;
+		while (1) {
+			r = c->ShowModal ();
+			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
+			} else {
+				break;
+			}
+		}
+			
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
 			try {

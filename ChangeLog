@@ -1,3 +1,26 @@
+2013-04-07  Carl Hetherington  <cth@carlh.net>
+
+	* Make the audio plot expand in height when its
+	window is enlarged.
+
+	* Label subtitle offset with "pixels" (#101).
+
+	* Speculative fix for error on forcing language
+	to English (#103).
+
+	* Add more explanatory text to describe what is
+	happening with scaling, cropping and padding (#106).
+
+	* Give a hopefully helpful message when clicking Open
+	without selecting a folder (#99).
+
+	* Fix servomatic_gui startup and shutdown on Linux (#98).
+
+	* GUI now points out when audio resampling is being done.
+
+	* Hopefully fix lack of redraw of the viewer background
+	on Windows (#86).
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.

@@ -104,11 +104,14 @@ private:
 	void setup_audio_details ();
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
+	void setup_scaling_description ();
+	void setup_notebook_size ();
+	void setup_frame_rate_description ();
 	void setup_content ();
-	void setup_content_button_sensitivity ();
-	void setup_length ();
 	void setup_format ();
+	void setup_length ();
 	void setup_content_information ();
+	void setup_content_button_sensitivity ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
@@ -143,6 +146,7 @@ private:
 	wxChoice* _format;
 	wxStaticText* _format_description;
 	wxCheckBox* _trust_content_headers;
+	wxStaticText* _scaling_description;
 	wxSpinCtrl* _left_crop;
 	wxSpinCtrl* _right_crop;
 	wxSpinCtrl* _top_crop;

@@ -31,12 +31,11 @@ class Film;
 class Format
 {
 public:
-	Format (libdcp::Size dcp, std::string id, std::string n, std::string d, std::string e)
+	Format (libdcp::Size dcp, std::string id, std::string n, std::string d)
 		: _dcp_size (dcp)
 		, _id (id)
 		, _nickname (n)
 		, _dci_name (d)
-		, _description (e)
 	{}
 
 	/** @return the aspect ratio multiplied by 100
@@ -76,10 +75,6 @@ public:
 		return _dci_name;
 	}
 
-	std::string description () const {
-		return _description;
-	}
-
 	std::string as_metadata () const;
 
 	static Format const * from_nickname (std::string n);
@@ -99,7 +94,6 @@ protected:
 	/** nickname (e.g. Flat, Scope) */
 	std::string _nickname;
 	std::string _dci_name;
-	std::string _description;
 
 private:	
 	/** all available formats */
@@ -113,7 +107,7 @@ private:
 class FixedFormat : public Format
 {
 public:
-	FixedFormat (int, libdcp::Size, std::string, std::string, std::string, std::string);
+	FixedFormat (int, libdcp::Size, std::string, std::string, std::string);
 
 	int ratio_as_integer (boost::shared_ptr<const Film>) const {
 		return _ratio;
@@ -134,7 +128,7 @@ private:
 class VariableFormat : public Format
 {
 public:
-	VariableFormat (libdcp::Size, std::string, std::string, std::string, std::string);
+	VariableFormat (libdcp::Size, std::string, std::string, std::string);
 
 	int ratio_as_integer (boost::shared_ptr<const Film> f) const;
 	float ratio_as_float (boost::shared_ptr<const Film> f) const;

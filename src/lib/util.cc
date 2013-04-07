@@ -972,7 +972,7 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 
 		if (change_speed) {
 			float const pc = dcp * 100 / (source * factor());
-			description += String::compose (_("DCP will run at %1%% of the source speed."), pc);
+			description += String::compose (_("DCP will run at %1%% of the source speed.\n"), pc);
 		}
 	}
 }

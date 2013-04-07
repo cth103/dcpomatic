@@ -35,7 +35,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	_plot = new AudioPlot (this);
-	sizer->Add (_plot, 1, wxALL, 12);
+	sizer->Add (_plot, 1, wxALL | wxEXPAND, 12);
 
 	wxBoxSizer* side = new wxBoxSizer (wxVERTICAL);
 
