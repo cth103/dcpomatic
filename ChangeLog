@@ -18,6 +18,9 @@
 
 	* GUI now points out when audio resampling is being done.
 
+	* Hopefully fix lack of redraw of the viewer background
+	on Windows (#86).
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.
