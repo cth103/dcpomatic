@@ -1,4 +1,4 @@
-import cdisy
+import cdist
 
 def builds():
 	return ['source']
