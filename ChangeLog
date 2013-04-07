@@ -1,3 +1,8 @@
+2013-04-07  Carl Hetherington  <cth@carlh.net>
+
+	* Make the audio plot expand in height when its
+	window is enlarged.
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.
