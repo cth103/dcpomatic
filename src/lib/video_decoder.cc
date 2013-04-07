@@ -50,8 +50,7 @@ VideoDecoder::emit_video (shared_ptr<Image> image, double t)
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	signal_video (image, false, sub);
-	_last_source_time = t;
+	signal_video (image, false, sub, t);
 }
 
 bool
@@ -65,14 +64,14 @@ VideoDecoder::have_last_video () const
  *  we will generate a black frame.
  */
 void
-VideoDecoder::repeat_last_video ()
+VideoDecoder::repeat_last_video (double t)
 {
 	if (!_last_image) {
 		_last_image.reset (new SimpleImage (pixel_format(), native_size(), true));
 		_last_image->make_black ();
 	}
 
-	signal_video (_last_image, true, _last_subtitle);
+	signal_video (_last_image, true, _last_subtitle, t);
 }
 
 /** Emit our signal to say that some video data is ready.
@@ -81,7 +80,7 @@ VideoDecoder::repeat_last_video ()
  *  @param sub Subtitle for this frame, or 0.
  */
 void
-VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
+VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub, double t)
 {
 	TIMING (N_("Decoder emits %1"), _video_frame);
 	Video (image, same, sub);
@@ -89,6 +88,7 @@ VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subti
 
 	_last_image = image;
 	_last_subtitle = sub;
+	_last_source_time = t;
 }
 
 /** Set up the current subtitle.  This will be put onto frames that

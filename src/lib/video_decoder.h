@@ -30,8 +30,8 @@ class VideoDecoder : public VideoSource, public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const Film>);
 
-	/** @return video frames per second, or 0 if unknown */
-	virtual float frames_per_second () const = 0;
+	/** @return video frame rate second, or 0 if unknown */
+	virtual float video_frame_rate () const = 0;
 	/** @return native size in pixels */
 	virtual libdcp::Size native_size () const = 0;
 	/** @return length according to our content's header */
@@ -59,10 +59,10 @@ protected:
 	void emit_video (boost::shared_ptr<Image>, double);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 	bool have_last_video () const;
-	void repeat_last_video ();
+	void repeat_last_video (double);
 
 private:
-	void signal_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>);
+	void signal_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double);
 
 	int _video_frame;
 	double _last_source_time;

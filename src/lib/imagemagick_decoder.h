@@ -30,7 +30,7 @@ class ImageMagickDecoder : public VideoDecoder
 public:
 	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageMagickContent>);
 
-	float frames_per_second () const {
+	float video_frame_rate () const {
 		return 24;
 	}
 

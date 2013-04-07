@@ -73,7 +73,7 @@ VideoContent::take_from_video_decoder (shared_ptr<VideoDecoder> d)
 {
 	/* These decoder calls could call other content methods which take a lock on the mutex */
 	libdcp::Size const vs = d->native_size ();
-	float const vfr = d->frames_per_second ();
+	float const vfr = d->video_frame_rate ();
 	
         {
                 boost::mutex::scoped_lock lm (_mutex);

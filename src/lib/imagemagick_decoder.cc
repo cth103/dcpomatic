@@ -66,7 +66,7 @@ ImageMagickDecoder::pass ()
 	}
 
 	if (have_last_video ()) {
-		repeat_last_video ();
+		repeat_last_video (double (_position) / 24);
 		_position++;
 		return false;
 	}
@@ -92,7 +92,7 @@ ImageMagickDecoder::pass ()
 
 	image = image->crop (_film->crop(), true);
 	
-	emit_video (image, 0);
+	emit_video (image, double (_position) / 24);
 
 	++_position;
 	return false;

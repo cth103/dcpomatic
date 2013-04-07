@@ -400,7 +400,7 @@ FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 }
 
 float
-FFmpegDecoder::frames_per_second () const
+FFmpegDecoder::video_frame_rate () const
 {
 	AVStream* s = _format_context->streams[_video_stream];
 
@@ -550,7 +550,7 @@ void
 FFmpegDecoder::out_with_sync ()
 {
 	/* Where we are in the output, in seconds */
-	double const out_pts_seconds = video_frame() / frames_per_second();
+	double const out_pts_seconds = video_frame() / video_frame_rate();
 	
 	/* Where we are in the source, in seconds */
 	double const source_pts_seconds = av_q2d (_format_context->streams[_packet.stream_index]->time_base)
@@ -567,17 +567,17 @@ FFmpegDecoder::out_with_sync ()
 	
 	/* Difference between where we are and where we should be */
 	double const delta = source_pts_seconds - _first_video.get() - out_pts_seconds;
-	double const one_frame = 1 / frames_per_second();
+	double const one_frame = 1 / video_frame_rate();
 	
 	/* Insert frames if required to get out_pts_seconds up to pts_seconds */
 	if (delta > one_frame) {
 		int const extra = rint (delta / one_frame);
 		for (int i = 0; i < extra; ++i) {
-			repeat_last_video ();
+			repeat_last_video (frame_time ());
 			_film->log()->log (
 				String::compose (
 					N_("Extra video frame inserted at %1s; source frame %2, source PTS %3 (at %4 fps)"),
-					out_pts_seconds, video_frame(), source_pts_seconds, frames_per_second()
+					out_pts_seconds, video_frame(), source_pts_seconds, video_frame_rate()
 					)
 				);
 		}
@@ -613,7 +613,7 @@ FFmpegDecoder::film_changed (Film::Property p)
 ContentVideoFrame
 FFmpegDecoder::video_length () const
 {
-	return (double(_format_context->duration) / AV_TIME_BASE) * frames_per_second();
+	return (double(_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
 }
 
 double

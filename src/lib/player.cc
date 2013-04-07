@@ -277,7 +277,14 @@ Player::last_video_time () const
 	case Playlist::VIDEO_FFMPEG:
 		return _ffmpeg_decoder->last_source_time ();
 	case Playlist::VIDEO_IMAGEMAGICK:
-		return (*_imagemagick_decoder)->last_source_time ();
+	{
+		double t = 0;
+		for (list<shared_ptr<ImageMagickDecoder> >::const_iterator i = _imagemagick_decoders.begin(); i != _imagemagick_decoder; ++i) {
+			t += (*i)->video_length() / (*i)->video_frame_rate ();
+		}
+
+		return t + (*_imagemagick_decoder)->last_source_time ();
+	}
 	}
 
 	return 0;

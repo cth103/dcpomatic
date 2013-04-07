@@ -60,7 +60,7 @@ public:
 	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio, bool subtitles, bool video_sync);
 	~FFmpegDecoder ();
 
-	float frames_per_second () const;
+	float video_frame_rate () const;
 	libdcp::Size native_size () const;
 	ContentVideoFrame video_length () const;
 	int time_base_numerator () const;
