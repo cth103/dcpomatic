@@ -141,7 +141,7 @@ msgstr "DCP och källa har samma bildfrekvens.\n"
 #: src/lib/util.cc:1017
 #, fuzzy
 msgid "DCP will run at %1%% of the source speed.\n"
-msgstr "DCP kommer att köras på %1%% av källans hastighet."
+msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 
 #: src/lib/util.cc:1010
 msgid "DCP will use every other frame of the source.\n"
