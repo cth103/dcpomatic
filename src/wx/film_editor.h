@@ -99,6 +99,7 @@ private:
 	void setup_audio_details ();
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
+	void setup_scaling_description ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
@@ -124,7 +125,7 @@ private:
 	wxButton* _edit_dci_button;
 	/** The Film's format */
 	wxChoice* _format;
-	wxStaticText* _format_description;
+	wxStaticText* _scaling_description;
 	/** The Film's content file */
 	wxFilePickerCtrl* _content;
 	wxCheckBox* _trust_content_header;

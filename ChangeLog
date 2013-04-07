@@ -8,6 +8,9 @@
 	* Speculative fix for error on forcing language
 	to English (#103).
 
+	* Add more explanatory text to describe what is
+	happening with scaling, cropping and padding (#106).
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.

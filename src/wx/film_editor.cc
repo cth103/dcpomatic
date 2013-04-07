@@ -270,14 +270,6 @@ FilmEditor::make_video_panel ()
 	grid->Add (_format, wxGBPosition (r, 1));
 	++r;
 
-	_format_description = new wxStaticText (_video_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize);
-	grid->Add (_format_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	wxFont font = _format_description->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_format_description->SetFont(font);
-	++r;
-
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_left_crop, wxGBPosition (r, 1));
@@ -296,6 +288,14 @@ FilmEditor::make_video_panel ()
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), wxGBPosition (r, 0));
 	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_bottom_crop, wxGBPosition (r, 1));
+	++r;
+
+	_scaling_description = new wxStaticText (_video_panel, wxID_ANY, wxT ("\n \n \n \n"), wxDefaultPosition, wxDefaultSize);
+	grid->Add (_scaling_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	wxFont font = _scaling_description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_scaling_description->SetFont(font);
 	++r;
 
 	/* VIDEO-only stuff */
@@ -648,12 +648,7 @@ FilmEditor::film_changed (Film::Property p)
 			checked_set (_format, n);
 		}
 		setup_dcp_name ();
-
-		if (_film->format ()) {
-			_format_description->SetLabel (std_to_wx (_film->format()->description ()));
-		} else {
-			_format_description->SetLabel (wxT (""));
-		}
+		setup_scaling_description ();
 		break;
 	}
 	case Film::CROP:
@@ -661,6 +656,7 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_right_crop, _film->crop().right);
 		checked_set (_top_crop, _film->crop().top);
 		checked_set (_bottom_crop, _film->crop().bottom);
+		setup_scaling_description ();
 		break;
 	case Film::FILTERS:
 	{
@@ -689,6 +685,7 @@ FilmEditor::film_changed (Film::Property p)
 			s << _film->size().width << " x " << _film->size().height;
 			_original_size->SetLabel (std_to_wx (s.str ()));
 		}
+		setup_scaling_description ();
 		break;
 	case Film::LENGTH:
 		if (_film->source_frame_rate() > 0 && _film->length()) {
@@ -1304,4 +1301,59 @@ void
 FilmEditor::setup_show_audio_sensitivity ()
 {
 	_show_audio->Enable (_film && _film->has_audio ());
+}
+
+void
+FilmEditor::setup_scaling_description ()
+{
+	wxString d;
+
+	int lines = 0;
+
+	d << wxString::Format (
+		_("Original video is %dx%d (%.2f:1)\n"),
+		_film->size().width, _film->size().height,
+		float (_film->size().width) / _film->size().height
+		);
+
+	++lines;
+
+	Crop const crop = _film->crop ();
+	if (crop.left || crop.right || crop.top || crop.bottom) {
+		libdcp::Size const cropped = _film->cropped_size (_film->size ());
+		d << wxString::Format (
+			_("Cropped to %dx%d (%.2f:1)\n"),
+			cropped.width, cropped.height,
+			float (cropped.width) / cropped.height
+			);
+		++lines;
+	}
+
+	Format const * format = _film->format ();
+	if (format) {
+		int const padding = format->dcp_padding (_film);
+		libdcp::Size scaled = format->dcp_size ();
+		scaled.width -= padding * 2;
+		d << wxString::Format (
+			_("Scaled to %dx%d (%.2f:1)\n"),
+			scaled.width, scaled.height,
+			float (scaled.width) / scaled.height
+			);
+		++lines;
+
+		if (padding) {
+			d << wxString::Format (
+				_("Padded with black to %dx%d (%.2f:1)\n"),
+				format->dcp_size().width, format->dcp_size().height,
+				float (format->dcp_size().width) / format->dcp_size().height
+				);
+			++lines;
+		}
+	}
+
+	for (int i = lines; i < 4; ++i) {
+		d << " \n";
+	}
+
+	_scaling_description->SetLabel (d);
 }
