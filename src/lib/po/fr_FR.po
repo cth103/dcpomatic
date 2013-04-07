@@ -139,7 +139,7 @@ msgstr "Le DCP et la source ont les mêmes cadences.\n"
 #: src/lib/util.cc:1017
 #, fuzzy
 msgid "DCP will run at %1%% of the source speed.\n"
-msgstr "La cadence du DCP sera %1%% par rapport à la source"
+msgstr "La cadence du DCP sera %1%% par rapport à la source.\n"
 
 #: src/lib/util.cc:1010
 msgid "DCP will use every other frame of the source.\n"

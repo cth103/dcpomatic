@@ -141,7 +141,7 @@ msgstr "La fuente y el DCP tienen la misma velocidad.\n"
 #: src/lib/util.cc:1017
 #, fuzzy
 msgid "DCP will run at %1%% of the source speed.\n"
-msgstr "El DCP se reproducirá al %1%% de la velocidad de la fuente."
+msgstr "El DCP se reproducirá al %1%% de la velocidad de la fuente.\n"
 
 #: src/lib/util.cc:1010
 msgid "DCP will use every other frame of the source.\n"
