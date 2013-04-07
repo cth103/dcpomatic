@@ -301,6 +301,7 @@ dvdomatic_setup_i18n (string lang)
 
 #ifdef DVDOMATIC_WINDOWS
 	bindtextdomain ("libdvdomatic", mo_path().string().c_str());
+	bind_textdomain_codeset ("libdvdomatic", "UTF8");
 #endif	
 
 #ifdef DVDOMATIC_POSIX

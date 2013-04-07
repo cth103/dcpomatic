@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-28 10:35+0000\n"
-"PO-Revision-Date: 2013-03-28 10:40+0100\n"
+"POT-Creation-Date: 2013-04-01 21:21+0100\n"
+"PO-Revision-Date: 2013-04-04 10:22+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,7 +103,7 @@ msgstr ""
 
 #: src/lib/util.cc:931
 msgid "Centre"
-msgstr ""
+msgstr "Mitt"
 
 #: src/lib/scp_dcp_job.cc:109
 msgid "Copy DCP to TMS"
@@ -157,9 +156,7 @@ msgstr "Kantighetsutjämning"
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-# Ja vad heter "dering" på svenska?
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Deringing filter"
 msgstr "Avringningsfilter"
 
@@ -209,7 +206,7 @@ msgstr "Snabb bilinjär"
 
 #: src/lib/dcp_content_type.cc:44
 msgid "Feature"
-msgstr "Egenskap"
+msgstr "Långfilm"
 
 #: src/lib/format.cc:120
 msgid "Flat"
@@ -261,15 +258,15 @@ msgstr "Lanczos"
 
 #: src/lib/util.cc:929
 msgid "Left"
-msgstr ""
+msgstr "Vänster"
 
 #: src/lib/util.cc:933
 msgid "Left surround"
-msgstr ""
+msgstr "Vänster surround"
 
 #: src/lib/util.cc:932
 msgid "Lfe (sub)"
-msgstr ""
+msgstr "Lfe (sub)"
 
 #: src/lib/filter.cc:75
 msgid "Linear blend deinterlacer"
@@ -315,7 +312,7 @@ msgstr "Offentligt Servicemeddelande"
 
 #: src/lib/dcp_content_type.cc:49
 msgid "Rating"
-msgstr "Klassificering"
+msgstr "Klassificeringsklipp"
 
 #: src/lib/util.cc:499
 msgid "Rec 709"
@@ -323,11 +320,11 @@ msgstr "Rec 709"
 
 #: src/lib/util.cc:930
 msgid "Right"
-msgstr ""
+msgstr "Höger"
 
 #: src/lib/util.cc:934
 msgid "Right surround"
-msgstr ""
+msgstr "Höger surround"
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"
@@ -406,9 +403,7 @@ msgstr ""
 msgid "Spline"
 msgstr "Spline"
 
-# Möjligen "Aptitretare"
 #: src/lib/dcp_content_type.cc:50
-#, fuzzy
 msgid "Teaser"
 msgstr "Teaser"
 
@@ -442,13 +437,13 @@ msgstr "Konvertera %1"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Transitional"
-msgstr "Övergångs-"
+msgstr "Övergångsklipp"
 
 #: src/lib/job.cc:100
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-# Ganska svengelskt...
+# Svengelska
 #: src/lib/ffmpeg_decoder.cc:396
 #, fuzzy
 msgid "Unrecognised audio sample format (%1)"
@@ -474,9 +469,8 @@ msgstr "Väntar"
 msgid "X"
 msgstr "X"
 
-# Filtret heter så, ska ej översättas?
+# Filtret heter så, ska ej översättas
 #: src/lib/filter.cc:83
-#, fuzzy
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
@@ -484,7 +478,7 @@ msgstr "Yet Another Deinterlacing Filter"
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
-# mer svengelska
+# Svengelska
 #: src/lib/util.cc:540
 #, fuzzy
 msgid "connect timed out"
