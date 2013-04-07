@@ -16,6 +16,8 @@
 
 	* Fix servomatic_gui startup and shutdown on Linux (#98).
 
+	* GUI now points out when audio resampling is being done.
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.
