@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-01 21:21+0100\n"
+"POT-Creation-Date: 2013-04-07 18:17+0100\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -24,27 +24,27 @@ msgstr "0%"
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/format.cc:80
+#: src/lib/format.cc:79
 msgid "1.33"
 msgstr "1.33"
 
-#: src/lib/format.cc:85
+#: src/lib/format.cc:83
 msgid "1.375"
 msgstr "1.375"
 
-#: src/lib/format.cc:100
+#: src/lib/format.cc:95
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/format.cc:105
+#: src/lib/format.cc:99
 msgid "1.66 within Flat"
 msgstr "1.66 dans Flat"
 
-#: src/lib/format.cc:115
+#: src/lib/format.cc:107
 msgid "16:9"
 msgstr "16:9"
 
-#: src/lib/format.cc:110
+#: src/lib/format.cc:103
 msgid "16:9 within Flat"
 msgstr "16:9 dans Flat"
 
@@ -52,7 +52,7 @@ msgstr "16:9 dans Flat"
 msgid "3D denoiser"
 msgstr "Débruitage 3D"
 
-#: src/lib/format.cc:90
+#: src/lib/format.cc:87
 msgid "4:3 within Flat"
 msgstr "4:3 dans Flat"
 
@@ -60,7 +60,7 @@ msgstr "4:3 dans Flat"
 msgid "A/B transcode %1"
 msgstr "Transcodage A/B %1"
 
-#: src/lib/format.cc:95
+#: src/lib/format.cc:91
 msgid "Academy"
 msgstr "Academy"
 
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Ré-échantillonnage du son impossible : libswresample est absent"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:932
 msgid "Centre"
 msgstr ""
 
@@ -132,15 +132,16 @@ msgstr "Écriture vers fichier distant (%1) impossible"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Désentrelacement cubique interpolé"
 
-#: src/lib/util.cc:1006
+#: src/lib/util.cc:1007
 msgid "DCP and source have the same rate.\n"
 msgstr "Le DCP et la source ont les mêmes cadences.\n"
 
-#: src/lib/util.cc:1016
-msgid "DCP will run at %1%% of the source speed."
+#: src/lib/util.cc:1017
+#, fuzzy
+msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "La cadence du DCP sera %1%% par rapport à la source"
 
-#: src/lib/util.cc:1009
+#: src/lib/util.cc:1010
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Le DCP utilisera une image sur deux de la source.\n"
 
@@ -163,7 +164,7 @@ msgstr "Filtre anti bourdonnement"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1011
+#: src/lib/util.cc:1012
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 
@@ -207,11 +208,11 @@ msgstr "Bilinéaire rapide"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/format.cc:120
+#: src/lib/format.cc:111
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:130
+#: src/lib/format.cc:119
 msgid "Flat without stretch"
 msgstr "Flat sans déformation"
 
@@ -255,15 +256,15 @@ msgstr "Désentrelaceur noyau"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:929
+#: src/lib/util.cc:930
 msgid "Left"
 msgstr "Gauche"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:934
 msgid "Left surround"
 msgstr "Arrière gauche"
 
-#: src/lib/util.cc:932
+#: src/lib/util.cc:933
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
@@ -313,15 +314,15 @@ msgstr "Public Service Announcement"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:930
+#: src/lib/util.cc:931
 msgid "Right"
 msgstr "Droite"
 
-#: src/lib/util.cc:934
+#: src/lib/util.cc:935
 msgid "Right surround"
 msgstr "Arrière droite"
 
@@ -329,11 +330,11 @@ msgstr "Arrière droite"
 msgid "SSH error (%1)"
 msgstr "Erreur SSH (%1)"
 
-#: src/lib/format.cc:125
+#: src/lib/format.cc:115
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:135
+#: src/lib/format.cc:123
 msgid "Scope without stretch"
 msgstr "Scope sans déformation"
 
@@ -344,58 +345,6 @@ msgstr "Short"
 #: src/lib/scaler.cc:67
 msgid "Sinc"
 msgstr "Sinc"
-
-#: src/lib/format.cc:76
-msgid "Source scaled to 1.19:1"
-msgstr "Source mise à l'échelle en 1.19:1"
-
-#: src/lib/format.cc:81
-msgid "Source scaled to 1.33:1"
-msgstr "Source mise à l'échelle en 1.33:1"
-
-#: src/lib/format.cc:91
-msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
-msgstr "Source mise à l'échelle en 1.33:1 puis contenue dans Flat"
-
-#: src/lib/format.cc:86
-msgid "Source scaled to 1.375:1"
-msgstr "Source mise à l'échelle en 1.375:1"
-
-#: src/lib/format.cc:96
-msgid "Source scaled to 1.37:1 (Academy ratio)"
-msgstr "Source mise à l'échelle en 1.37:1 (ratio \"academy\")"
-
-#: src/lib/format.cc:101
-msgid "Source scaled to 1.66:1"
-msgstr "Source mise à l'échelle en 1.66:1"
-
-#: src/lib/format.cc:106
-msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
-msgstr "Source mise à l'échelle en 1.66:1 puis contenue dans Flat"
-
-#: src/lib/format.cc:116
-msgid "Source scaled to 1.78:1"
-msgstr "Source mise à l'échelle en 1.78:1"
-
-#: src/lib/format.cc:111
-msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
-msgstr "Source mise à l'échelle en 1.78:1 puis contenue dans Flat"
-
-#: src/lib/format.cc:121
-msgid "Source scaled to Flat (1.85:1)"
-msgstr "Source mise à l'échelle en Flat (1.85:1)"
-
-#: src/lib/format.cc:126
-msgid "Source scaled to Scope (2.39:1)"
-msgstr "Source mise à l'échelle en Scope (2.39:1)"
-
-#: src/lib/format.cc:131
-msgid "Source scaled to fit Flat preserving its aspect ratio"
-msgstr "Source réduite en Flat afin de préserver ses dimensions"
-
-#: src/lib/format.cc:136
-msgid "Source scaled to fit Scope preserving its aspect ratio"
-msgstr "Source réduite en Scope afin de préserver ses dimensions"
 
 #: src/lib/scaler.cc:68
 msgid "Spline"
@@ -473,7 +422,7 @@ msgstr "Un autre filtre de désentrelacement"
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
-#: src/lib/util.cc:540
+#: src/lib/util.cc:541
 msgid "connect timed out"
 msgstr "temps de connexion expiré"
 
@@ -577,7 +526,7 @@ msgstr "minute"
 msgid "minutes"
 msgstr "minutes"
 
-#: src/lib/util.cc:683
+#: src/lib/util.cc:684
 msgid "missing key %1 in key-value set"
 msgstr "clé %1 non sélectionnée"
 
@@ -607,7 +556,7 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 msgid "remaining"
 msgstr "restant"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -622,6 +571,45 @@ msgstr "fixe"
 #: src/lib/film.cc:274
 msgid "video"
 msgstr "vidéo"
+
+#~ msgid "Source scaled to 1.19:1"
+#~ msgstr "Source mise à l'échelle en 1.19:1"
+
+#~ msgid "Source scaled to 1.33:1"
+#~ msgstr "Source mise à l'échelle en 1.33:1"
+
+#~ msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
+#~ msgstr "Source mise à l'échelle en 1.33:1 puis contenue dans Flat"
+
+#~ msgid "Source scaled to 1.375:1"
+#~ msgstr "Source mise à l'échelle en 1.375:1"
+
+#~ msgid "Source scaled to 1.37:1 (Academy ratio)"
+#~ msgstr "Source mise à l'échelle en 1.37:1 (ratio \"academy\")"
+
+#~ msgid "Source scaled to 1.66:1"
+#~ msgstr "Source mise à l'échelle en 1.66:1"
+
+#~ msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
+#~ msgstr "Source mise à l'échelle en 1.66:1 puis contenue dans Flat"
+
+#~ msgid "Source scaled to 1.78:1"
+#~ msgstr "Source mise à l'échelle en 1.78:1"
+
+#~ msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
+#~ msgstr "Source mise à l'échelle en 1.78:1 puis contenue dans Flat"
+
+#~ msgid "Source scaled to Flat (1.85:1)"
+#~ msgstr "Source mise à l'échelle en Flat (1.85:1)"
+
+#~ msgid "Source scaled to Scope (2.39:1)"
+#~ msgstr "Source mise à l'échelle en Scope (2.39:1)"
+
+#~ msgid "Source scaled to fit Flat preserving its aspect ratio"
+#~ msgstr "Source réduite en Flat afin de préserver ses dimensions"
+
+#~ msgid "Source scaled to fit Scope preserving its aspect ratio"
+#~ msgstr "Source réduite en Scope afin de préserver ses dimensions"
 
 #~ msgid "adding to queue of %1"
 #~ msgstr "Mise en file d'attente de %1"

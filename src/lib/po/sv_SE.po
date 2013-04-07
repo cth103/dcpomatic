@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-01 21:21+0100\n"
+"POT-Creation-Date: 2013-04-07 18:17+0100\n"
 "PO-Revision-Date: 2013-04-04 10:22+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,27 +25,27 @@ msgstr "0%"
 msgid "1.19"
 msgstr "1,19"
 
-#: src/lib/format.cc:80
+#: src/lib/format.cc:79
 msgid "1.33"
 msgstr "1,33"
 
-#: src/lib/format.cc:85
+#: src/lib/format.cc:83
 msgid "1.375"
 msgstr "1,375"
 
-#: src/lib/format.cc:100
+#: src/lib/format.cc:95
 msgid "1.66"
 msgstr "1,66"
 
-#: src/lib/format.cc:105
+#: src/lib/format.cc:99
 msgid "1.66 within Flat"
 msgstr "1,66 innanför Flat"
 
-#: src/lib/format.cc:115
+#: src/lib/format.cc:107
 msgid "16:9"
 msgstr "16:9"
 
-#: src/lib/format.cc:110
+#: src/lib/format.cc:103
 msgid "16:9 within Flat"
 msgstr "16:9 innanför Flat"
 
@@ -52,7 +53,7 @@ msgstr "16:9 innanför Flat"
 msgid "3D denoiser"
 msgstr "3D brusreducering"
 
-#: src/lib/format.cc:90
+#: src/lib/format.cc:87
 msgid "4:3 within Flat"
 msgstr "4:3 innanför Flat"
 
@@ -60,7 +61,7 @@ msgstr "4:3 innanför Flat"
 msgid "A/B transcode %1"
 msgstr "A/B konvertera %1"
 
-#: src/lib/format.cc:95
+#: src/lib/format.cc:91
 msgid "Academy"
 msgstr "Academy"
 
@@ -101,7 +102,7 @@ msgid "Cannot resample audio as libswresample is not present"
 msgstr ""
 "Kan inte omsampla ljudet eftersom libswresample inte finns tillgängligt"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:932
 msgid "Centre"
 msgstr "Mitt"
 
@@ -133,15 +134,16 @@ msgstr "Kunde inte skriva till fjärrfil (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Kubiskt interpolerande avflätare"
 
-#: src/lib/util.cc:1006
+#: src/lib/util.cc:1007
 msgid "DCP and source have the same rate.\n"
 msgstr "DCP och källa har samma bildfrekvens.\n"
 
-#: src/lib/util.cc:1016
-msgid "DCP will run at %1%% of the source speed."
+#: src/lib/util.cc:1017
+#, fuzzy
+msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "DCP kommer att köras på %1%% av källans hastighet."
 
-#: src/lib/util.cc:1009
+#: src/lib/util.cc:1010
 msgid "DCP will use every other frame of the source.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
@@ -164,7 +166,7 @@ msgstr "Avringningsfilter"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1011
+#: src/lib/util.cc:1012
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
 
@@ -208,11 +210,11 @@ msgstr "Snabb bilinjär"
 msgid "Feature"
 msgstr "Långfilm"
 
-#: src/lib/format.cc:120
+#: src/lib/format.cc:111
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:130
+#: src/lib/format.cc:119
 msgid "Flat without stretch"
 msgstr "Flat utan utsträckning"
 
@@ -256,15 +258,15 @@ msgstr "Kernel-avflätare"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:929
+#: src/lib/util.cc:930
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:934
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:932
+#: src/lib/util.cc:933
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -314,15 +316,15 @@ msgstr "Offentligt Servicemeddelande"
 msgid "Rating"
 msgstr "Klassificeringsklipp"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:930
+#: src/lib/util.cc:931
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:934
+#: src/lib/util.cc:935
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -330,11 +332,11 @@ msgstr "Höger surround"
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
-#: src/lib/format.cc:125
+#: src/lib/format.cc:115
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:135
+#: src/lib/format.cc:123
 msgid "Scope without stretch"
 msgstr "Scope utan utsträckning"
 
@@ -345,59 +347,6 @@ msgstr "Kortfilm"
 #: src/lib/scaler.cc:67
 msgid "Sinc"
 msgstr "Sinc"
-
-#: src/lib/format.cc:76
-msgid "Source scaled to 1.19:1"
-msgstr "Källan skalad till 1,19:1"
-
-#: src/lib/format.cc:81
-msgid "Source scaled to 1.33:1"
-msgstr "Källan skalad till 1,33:1"
-
-#: src/lib/format.cc:91
-msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
-msgstr "Källan skalad till 1,33:1, med sorgkanter innanför Flat"
-
-#: src/lib/format.cc:86
-msgid "Source scaled to 1.375:1"
-msgstr "Källan skalad till 1,375:1"
-
-#: src/lib/format.cc:96
-msgid "Source scaled to 1.37:1 (Academy ratio)"
-msgstr "Källan skalad till 1,37:1 (Academy-förhållande)"
-
-#: src/lib/format.cc:101
-msgid "Source scaled to 1.66:1"
-msgstr "Källan skalad till 1,66:1"
-
-#: src/lib/format.cc:106
-msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
-msgstr "Källan skalad till 1,66:1, med sorgkanter innanför Flat"
-
-#: src/lib/format.cc:116
-msgid "Source scaled to 1.78:1"
-msgstr "Källan skalad till 1,78:1"
-
-#: src/lib/format.cc:111
-msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
-msgstr "Källan skalad till 1,78:1, med sorgkanter innanför Flat"
-
-#: src/lib/format.cc:121
-msgid "Source scaled to Flat (1.85:1)"
-msgstr "Källan skalad till Flat (1,85:1)"
-
-#: src/lib/format.cc:126
-msgid "Source scaled to Scope (2.39:1)"
-msgstr "Källan skalad till Scope (2,39:1)"
-
-#: src/lib/format.cc:131
-msgid "Source scaled to fit Flat preserving its aspect ratio"
-msgstr "Källan skalad för att rymmas inom Flat utan att ändra bildförhållandet"
-
-#: src/lib/format.cc:136
-msgid "Source scaled to fit Scope preserving its aspect ratio"
-msgstr ""
-"Källan skalad för att rymmas inom Scope utan att ändra bildförhållandet"
 
 #: src/lib/scaler.cc:68
 msgid "Spline"
@@ -479,7 +428,7 @@ msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
 # Svengelska
-#: src/lib/util.cc:540
+#: src/lib/util.cc:541
 #, fuzzy
 msgid "connect timed out"
 msgstr "uppkopplingen tajmade ur"
@@ -584,7 +533,7 @@ msgstr "minut"
 msgid "minutes"
 msgstr "minuter"
 
-#: src/lib/util.cc:683
+#: src/lib/util.cc:684
 msgid "missing key %1 in key-value set"
 msgstr "saknad nyckel %1 i nyckel-värde grupp"
 
@@ -614,7 +563,7 @@ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -629,3 +578,44 @@ msgstr "stillbild"
 #: src/lib/film.cc:274
 msgid "video"
 msgstr "video"
+
+#~ msgid "Source scaled to 1.19:1"
+#~ msgstr "Källan skalad till 1,19:1"
+
+#~ msgid "Source scaled to 1.33:1"
+#~ msgstr "Källan skalad till 1,33:1"
+
+#~ msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
+#~ msgstr "Källan skalad till 1,33:1, med sorgkanter innanför Flat"
+
+#~ msgid "Source scaled to 1.375:1"
+#~ msgstr "Källan skalad till 1,375:1"
+
+#~ msgid "Source scaled to 1.37:1 (Academy ratio)"
+#~ msgstr "Källan skalad till 1,37:1 (Academy-förhållande)"
+
+#~ msgid "Source scaled to 1.66:1"
+#~ msgstr "Källan skalad till 1,66:1"
+
+#~ msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
+#~ msgstr "Källan skalad till 1,66:1, med sorgkanter innanför Flat"
+
+#~ msgid "Source scaled to 1.78:1"
+#~ msgstr "Källan skalad till 1,78:1"
+
+#~ msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
+#~ msgstr "Källan skalad till 1,78:1, med sorgkanter innanför Flat"
+
+#~ msgid "Source scaled to Flat (1.85:1)"
+#~ msgstr "Källan skalad till Flat (1,85:1)"
+
+#~ msgid "Source scaled to Scope (2.39:1)"
+#~ msgstr "Källan skalad till Scope (2,39:1)"
+
+#~ msgid "Source scaled to fit Flat preserving its aspect ratio"
+#~ msgstr ""
+#~ "Källan skalad för att rymmas inom Flat utan att ändra bildförhållandet"
+
+#~ msgid "Source scaled to fit Scope preserving its aspect ratio"
+#~ msgstr ""
+#~ "Källan skalad för att rymmas inom Scope utan att ändra bildförhållandet"
