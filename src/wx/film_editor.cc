@@ -1344,6 +1344,9 @@ FilmEditor::selected_content ()
 	}
 
 	ContentList c = _film->content ();
-	assert (s >= 0 && size_t (s) < c.size ());
+	if (s < 0 || size_t (s) >= c.size ()) {
+		return shared_ptr<Content> ();
+	}
+	
 	return c[s];
 }

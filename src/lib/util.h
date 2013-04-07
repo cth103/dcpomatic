@@ -182,6 +182,7 @@ public:
 
 	void copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset);
 	void move (int from, int to, int frames);
+	void accumulate (boost::shared_ptr<AudioBuffers>, int, int);
 
 private:
 	/** Number of channels */

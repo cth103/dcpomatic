@@ -144,7 +144,7 @@ Encoder::process_end ()
 			}
 
 			out->set_frames (frames);
-			write_audio (out);
+			_writer->write (out);
 		}
 
 		swr_free (&_swr_context);
@@ -323,7 +323,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 	}
 #endif
 
-	write_audio (data);
+	_writer->write (data);
 }
 
 void
@@ -422,31 +422,4 @@ Encoder::encoder_thread (ServerDescription* server)
 		lock.lock ();
 		_condition.notify_all ();
 	}
-}
-
-void
-Encoder::write_audio (shared_ptr<const AudioBuffers> data)
-{
-#if 0
-	XXX
-	AutomaticAudioMapping m (_film->audio_channels ());
-	if (m.dcp_channels() != _film->audio_channels()) {
-
-		/* Remap (currently just for mono -> 5.1) */
-
-		shared_ptr<AudioBuffers> b (new AudioBuffers (m.dcp_channels(), data->frames ()));
-		for (int i = 0; i < m.dcp_channels(); ++i) {
-			optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (i));
-			if (!s) {
-				b->make_silent (i);
-			} else {
-				memcpy (b->data()[i], data->data()[s.get()], data->frames() * sizeof(float));
-			}
-		}
-
-		data = b;
-	}
-#endif	
-
-	_writer->write (data);
 }

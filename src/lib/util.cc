@@ -63,8 +63,26 @@ extern "C" {
 
 #include "i18n.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::stringstream;
+using std::setfill;
+using std::ostream;
+using std::endl;
+using std::vector;
+using std::hex;
+using std::setw;
+using std::ifstream;
+using std::ios;
+using std::min;
+using std::max;
+using std::list;
+using std::multimap;
+using std::istream;
+using std::numeric_limits;
+using std::pair;
+using boost::shared_ptr;
+using boost::thread;
+using boost::lexical_cast;
 using libdcp::Size;
 
 thread::id ui_thread;
@@ -243,7 +261,7 @@ dvdomatic_setup ()
 	Filter::setup_filters ();
 	SoundProcessor::setup_sound_processors ();
 
-	ui_thread = this_thread::get_id ();
+	ui_thread = boost::this_thread::get_id ();
 }
 
 #ifdef DVDOMATIC_WINDOWS
@@ -498,16 +516,16 @@ Socket::Socket (int timeout)
 	, _socket (_io_service)
 	, _timeout (timeout)
 {
-	_deadline.expires_at (posix_time::pos_infin);
+	_deadline.expires_at (boost::posix_time::pos_infin);
 	check ();
 }
 
 void
 Socket::check ()
 {
-	if (_deadline.expires_at() <= asio::deadline_timer::traits_type::now ()) {
+	if (_deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now ()) {
 		_socket.close ();
-		_deadline.expires_at (posix_time::pos_infin);
+		_deadline.expires_at (boost::posix_time::pos_infin);
 	}
 
 	_deadline.async_wait (boost::bind (&Socket::check, this));
@@ -517,14 +535,14 @@ Socket::check ()
  *  @param endpoint End-point to connect to.
  */
 void
-Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint)
+Socket::connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint)
 {
-	_deadline.expires_from_now (posix_time::seconds (_timeout));
-	system::error_code ec = asio::error::would_block;
-	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
+	_socket.async_connect (endpoint, boost::lambda::var(ec) = boost::lambda::_1);
 	do {
 		_io_service.run_one();
-	} while (ec == asio::error::would_block);
+	} while (ec == boost::asio::error::would_block);
 
 	if (ec || !_socket.is_open ()) {
 		throw NetworkError (_("connect timed out"));
@@ -538,14 +556,14 @@ Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint)
 void
 Socket::write (uint8_t const * data, int size)
 {
-	_deadline.expires_from_now (posix_time::seconds (_timeout));
-	system::error_code ec = asio::error::would_block;
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
 
-	asio::async_write (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	boost::asio::async_write (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
 	
 	do {
 		_io_service.run_one ();
-	} while (ec == asio::error::would_block);
+	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
 		throw NetworkError (ec.message ());
@@ -566,14 +584,14 @@ Socket::write (uint32_t v)
 void
 Socket::read (uint8_t* data, int size)
 {
-	_deadline.expires_from_now (posix_time::seconds (_timeout));
-	system::error_code ec = asio::error::would_block;
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
 
-	asio::async_read (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	boost::asio::async_read (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
 
 	do {
 		_io_service.run_one ();
-	} while (ec == asio::error::would_block);
+	} while (ec == boost::asio::error::would_block);
 	
 	if (ec) {
 		throw NetworkError (ec.message ());
@@ -850,11 +868,26 @@ AudioBuffers::move (int from, int to, int frames)
 	}
 }
 
+/** Add data from from `from', `from_channel' to our channel `to_channel' */
+void
+AudioBuffers::accumulate (shared_ptr<AudioBuffers> from, int from_channel, int to_channel)
+{
+	int const N = frames ();
+	assert (from->frames() == N);
+
+	float* s = from->data (from_channel);
+	float* d = _data[to_channel];
+
+	for (int i = 0; i < N; ++i) {
+		*d++ += *s++;
+	}
+}
+
 /** Trip an assert if the caller is not in the UI thread */
 void
 ensure_ui_thread ()
 {
-	assert (this_thread::get_id() == ui_thread);
+	assert (boost::this_thread::get_id() == ui_thread);
 }
 
 /** @param v Content video frame.

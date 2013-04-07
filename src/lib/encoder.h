@@ -88,8 +88,6 @@ private:
 	
 	void frame_done ();
 	
-	void write_audio (boost::shared_ptr<const AudioBuffers> data);
-
 	void encoder_thread (ServerDescription *);
 	void terminate_threads ();
 

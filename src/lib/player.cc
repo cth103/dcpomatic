@@ -22,6 +22,7 @@
 #include "ffmpeg_decoder.h"
 #include "imagemagick_decoder.h"
 #include "sndfile_decoder.h"
+#include "sndfile_content.h"
 #include "playlist.h"
 #include "job.h"
 
@@ -95,7 +96,16 @@ Player::pass ()
 		}
 	}
 
-	/* XXX: sndfile */
+	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
+		for (list<shared_ptr<SndfileDecoder> >::iterator i = _sndfile_decoders.begin(); i != _sndfile_decoders.end(); ++i) {
+			if (!(*i)->pass ()) {
+				done = false;
+			}
+		}
+
+		Audio (_sndfile_buffers);
+		_sndfile_buffers.reset ();
+	}
 
 	return done;
 }
@@ -133,9 +143,25 @@ Player::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
 }
 
 void
-Player::process_audio (shared_ptr<AudioBuffers> b)
+Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> b)
 {
-	Audio (b);
+	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
+		AudioMapping mapping = _film->audio_mapping ();
+		if (!_sndfile_buffers) {
+			_sndfile_buffers.reset (new AudioBuffers (mapping.dcp_channels(), b->frames ()));
+			_sndfile_buffers->make_silent ();
+		}
+
+		for (int i = 0; i < b->channels(); ++i) {
+			list<libdcp::Channel> dcp = mapping.content_to_dcp (AudioMapping::Channel (c, i));
+			for (list<libdcp::Channel>::iterator j = dcp.begin(); j != dcp.end(); ++j) {
+				_sndfile_buffers->accumulate (b, i, static_cast<int> (*j));
+			}
+		}
+
+	} else {
+		Audio (b);
+	}
 }
 
 /** @return true on error */
@@ -238,7 +264,7 @@ Player::setup_decoders ()
 	}
 
 	if (_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
-		_ffmpeg_decoder->connect_audio (shared_from_this ());
+		_ffmpeg_decoder->Audio.connect (bind (&Player::process_audio, this, _playlist->ffmpeg (), _1));
 	}
 
 	if (_video && _playlist->video_from() == Playlist::VIDEO_IMAGEMAGICK) {
@@ -257,7 +283,7 @@ Player::setup_decoders ()
 		for (list<shared_ptr<const SndfileContent> >::iterator i = sc.begin(); i != sc.end(); ++i) {
 			shared_ptr<SndfileDecoder> d (new SndfileDecoder (_film, *i));
 			_sndfile_decoders.push_back (d);
-			d->connect_audio (shared_from_this ());
+			d->Audio.connect (bind (&Player::process_audio, this, *i, _1));
 		}
 	}
 }

@@ -34,8 +34,9 @@ class SndfileDecoder;
 class Job;
 class Film;
 class Playlist;
+class AudioContent;
 
-class Player : public VideoSource, public AudioSource, public VideoSink, public AudioSink, public boost::enable_shared_from_this<Player>
+class Player : public VideoSource, public AudioSource, public VideoSink, public boost::enable_shared_from_this<Player>
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
@@ -54,7 +55,7 @@ public:
 
 private:
 	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
-	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_audio (boost::weak_ptr<const AudioContent>, boost::shared_ptr<AudioBuffers>);
 	void setup_decoders ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
@@ -72,6 +73,8 @@ private:
 	std::list<boost::shared_ptr<ImageMagickDecoder> > _imagemagick_decoders;
 	std::list<boost::shared_ptr<ImageMagickDecoder> >::iterator _imagemagick_decoder;
 	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
+
+	boost::shared_ptr<AudioBuffers> _sndfile_buffers;
 
 	bool _video_sync;
 };
