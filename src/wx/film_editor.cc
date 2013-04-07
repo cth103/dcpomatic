@@ -428,9 +428,14 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
 	grid->Add (video_control (_subtitle_stream));
 
-	video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset")));
-	_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
-	grid->Add (video_control (_subtitle_offset), 1);
+	{
+		video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset")));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
+		s->Add (_subtitle_offset);
+		video_control (add_label_to_sizer (s, _subtitle_panel, _("pixels")));
+		grid->Add (s);
+	}
 
 	{
 		video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale")));
