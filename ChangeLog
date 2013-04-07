@@ -11,6 +11,9 @@
 	* Add more explanatory text to describe what is
 	happening with scaling, cropping and padding (#106).
 
+	* Give a hopefully helpful message when clicking Open
+	without selecting a folder (#99).
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.
