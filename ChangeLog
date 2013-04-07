@@ -3,6 +3,11 @@
 	* Make the audio plot expand in height when its
 	window is enlarged.
 
+	* Label subtitle offset with "pixels" (#101).
+
+	* Speculative fix for error on forcing language
+	to English (#103).
+
 2013-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.79 released.
