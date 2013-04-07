@@ -80,6 +80,4 @@ private:
 	libdcp::Size _film_size;
 	/** Size of the panel that we have available */
 	libdcp::Size _panel_size;
-
-	bool _clear_required;
 };
