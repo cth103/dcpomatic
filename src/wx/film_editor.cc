@@ -795,10 +795,10 @@ FilmEditor::setup_frame_rate_description ()
 				_film->target_audio_sample_rate()
 				);
 		} else {
-			d << "\n";
+			d << wxT ("\n");
 		}
 #else
-		d << "\n";
+		d << wxT ("\n");
 #endif		
 	}
 
@@ -1182,9 +1182,9 @@ FilmEditor::setup_audio_details ()
 		if (_film->audio_channels() == 1) {
 			s << _("1 channel");
 		} else {
-			s << _film->audio_channels() << " " << _("channels");
+			s << _film->audio_channels() << wxT (" ") << _("channels");
 		}
-		s << ", " << _film->audio_frame_rate() << _("Hz");
+		s << wxT (", ") << _film->audio_frame_rate() << _("Hz");
 		_audio->SetLabel (s);
 	}
 
@@ -1444,7 +1444,7 @@ FilmEditor::setup_scaling_description ()
 	}
 
 	for (int i = lines; i < 4; ++i) {
-		d << " \n";
+		d << wxT (" \n");
 	}
 
 	_scaling_description->SetLabel (d);

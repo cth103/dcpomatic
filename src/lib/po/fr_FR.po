@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-07 18:17+0100\n"
+"POT-Creation-Date: 2013-04-09 11:14+0100\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -46,6 +46,11 @@ msgstr "16:9"
 
 #: src/lib/format.cc:103
 msgid "16:9 within Flat"
+msgstr "16:9 dans Flat"
+
+#: src/lib/format.cc:115
+#, fuzzy
+msgid "16:9 within Scope"
 msgstr "16:9 dans Flat"
 
 #: src/lib/filter.cc:88
@@ -139,7 +144,7 @@ msgstr "Le DCP et la source ont les mêmes cadences.\n"
 #: src/lib/util.cc:1017
 #, fuzzy
 msgid "DCP will run at %1%% of the source speed.\n"
-msgstr "La cadence du DCP sera %1%% par rapport à la source\n"
+msgstr "La cadence du DCP sera %1%% par rapport à la source.\n"
 
 #: src/lib/util.cc:1010
 msgid "DCP will use every other frame of the source.\n"
@@ -212,7 +217,7 @@ msgstr "Feature"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:119
+#: src/lib/format.cc:123
 msgid "Flat without stretch"
 msgstr "Flat sans déformation"
 
@@ -330,11 +335,11 @@ msgstr "Arrière droite"
 msgid "SSH error (%1)"
 msgstr "Erreur SSH (%1)"
 
-#: src/lib/format.cc:115
+#: src/lib/format.cc:119
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:123
+#: src/lib/format.cc:127
 msgid "Scope without stretch"
 msgstr "Scope sans déformation"
 

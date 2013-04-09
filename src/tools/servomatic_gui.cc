@@ -99,7 +99,7 @@ public:
 #endif
 #ifdef __WXGTK__
 		wxInitAllImageHandlers();
-		wxBitmap bitmap (wxString::Format ("%s/taskbar_icon.png", POSIX_ICON_PREFIX), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap (wxString::Format (wxT ("%s/taskbar_icon.png"), POSIX_ICON_PREFIX), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif		

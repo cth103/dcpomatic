@@ -113,6 +113,10 @@ Format::setup_formats ()
 			));
 	
 	_formats.push_back (
+		new FixedFormat (178, libdcp::Size (2048, 858), N_("178-in-scope"), _("16:9 within Scope"), N_("S")
+			));
+	
+	_formats.push_back (
 		new FixedFormat (239, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S")
 			));
 		

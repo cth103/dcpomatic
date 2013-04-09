@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-07 18:17+0100\n"
-"PO-Revision-Date: 2013-04-04 10:22+0100\n"
+"POT-Creation-Date: 2013-04-09 11:14+0100\n"
+"PO-Revision-Date: 2013-04-09 10:13+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -47,6 +47,11 @@ msgstr "16:9"
 
 #: src/lib/format.cc:103
 msgid "16:9 within Flat"
+msgstr "16:9 innanför Flat"
+
+#: src/lib/format.cc:115
+#, fuzzy
+msgid "16:9 within Scope"
 msgstr "16:9 innanför Flat"
 
 #: src/lib/filter.cc:88
@@ -139,7 +144,6 @@ msgid "DCP and source have the same rate.\n"
 msgstr "DCP och källa har samma bildfrekvens.\n"
 
 #: src/lib/util.cc:1017
-#, fuzzy
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 
@@ -214,7 +218,7 @@ msgstr "Långfilm"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:119
+#: src/lib/format.cc:123
 msgid "Flat without stretch"
 msgstr "Flat utan utsträckning"
 
@@ -332,11 +336,11 @@ msgstr "Höger surround"
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
-#: src/lib/format.cc:115
+#: src/lib/format.cc:119
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:123
+#: src/lib/format.cc:127
 msgid "Scope without stretch"
 msgstr "Scope utan utsträckning"
 
