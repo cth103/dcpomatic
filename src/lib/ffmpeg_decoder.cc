@@ -518,22 +518,12 @@ FFmpegDecoder::filter_and_emit_video (AVFrame* frame)
 bool
 FFmpegDecoder::seek (double p)
 {
-	return do_seek (p, false);
-}
-
-bool
-FFmpegDecoder::seek_to_last ()
-{
-	/* This AVSEEK_FLAG_BACKWARD in do_seek is a bit of a hack; without it, if we ask for a seek to the same place as last time
+	/* This use of AVSEEK_FLAG_BACKWARD is a bit of a hack; without it, if we ask for a seek to the same place as last time
 	   (used when we change decoder parameters and want to re-fetch the frame) we end up going forwards rather than
 	   staying in the same place.
 	*/
-	return do_seek (last_source_time(), true);
-}
-
-bool
-FFmpegDecoder::do_seek (double p, bool backwards)
-{
+	bool const backwards = (p == last_content_time());
+	
 	int64_t const vt = p / av_q2d (_format_context->streams[_video_stream]->time_base);
 
 	int const r = av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);

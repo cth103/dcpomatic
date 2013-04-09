@@ -32,7 +32,7 @@ using boost::optional;
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
 	: Decoder (f)
 	, _video_frame (0)
-	, _last_source_time (0)
+	, _last_content_time (0)
 {
 
 }
@@ -88,7 +88,7 @@ VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subti
 
 	_last_image = image;
 	_last_subtitle = sub;
-	_last_source_time = t;
+	_last_content_time = t;
 }
 
 /** Set up the current subtitle.  This will be put onto frames that

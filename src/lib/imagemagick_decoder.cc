@@ -106,16 +106,6 @@ ImageMagickDecoder::pixel_format () const
 }
 
 bool
-ImageMagickDecoder::seek_to_last ()
-{
-	if (_position > 0) {
-		--_position;
-	}
-
-	return false;
-}
-
-bool
 ImageMagickDecoder::seek (double t)
 {
 	int const f = t * _imagemagick_content->video_frame_rate ();

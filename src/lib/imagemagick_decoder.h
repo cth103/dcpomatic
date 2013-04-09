@@ -50,7 +50,6 @@ public:
 	}
 
 	bool seek (double);
-	bool seek_to_last ();
 	bool pass ();
 
 protected:

@@ -69,6 +69,7 @@ using std::setfill;
 using std::min;
 using std::make_pair;
 using std::endl;
+using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::lexical_cast;
@@ -1084,7 +1085,6 @@ Film::move_content_earlier (shared_ptr<Content> c)
 		--j;
 
 		swap (*i, *j);
-		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);
@@ -1107,7 +1107,6 @@ Film::move_content_later (shared_ptr<Content> c)
 		}
 
 		swap (*i, *j);
-		_playlist->setup (_content);
 	}
 
 	signal_changed (CONTENT);

@@ -56,32 +56,17 @@ public:
 
 	AudioMapping default_audio_mapping () const;
 
-	enum VideoFrom {
-		VIDEO_NONE,
-		VIDEO_FFMPEG,
-		VIDEO_IMAGEMAGICK
-	};
-
 	enum AudioFrom {
-		AUDIO_NONE,
 		AUDIO_FFMPEG,
 		AUDIO_SNDFILE
 	};
-
-	VideoFrom video_from () const {
-		return _video_from;
-	}
 
 	AudioFrom audio_from () const {
 		return _audio_from;
 	}
 
-	boost::shared_ptr<const FFmpegContent> ffmpeg () const {
-		return _ffmpeg;
-	}
-
-	std::list<boost::shared_ptr<const ImageMagickContent> > imagemagick () const {
-		return _imagemagick;
+	std::list<boost::shared_ptr<const VideoContent> > video () const {
+		return _video;
 	}
 
 	std::list<boost::shared_ptr<const SndfileContent> > sndfile () const {
@@ -93,12 +78,11 @@ public:
 	
 private:
 	void content_changed (boost::weak_ptr<Content>, int);
+	boost::shared_ptr<const FFmpegContent> first_ffmpeg () const;
 	
-	VideoFrom _video_from;
 	AudioFrom _audio_from;
 
-	boost::shared_ptr<const FFmpegContent> _ffmpeg;
-	std::list<boost::shared_ptr<const ImageMagickContent> > _imagemagick;
+	std::list<boost::shared_ptr<const VideoContent> > _video;
 	std::list<boost::shared_ptr<const SndfileContent> > _sndfile;
 
 	std::list<boost::signals2::connection> _content_connections;

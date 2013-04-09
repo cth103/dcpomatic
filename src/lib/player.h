@@ -28,8 +28,7 @@
 #include "video_sink.h"
 #include "audio_sink.h"
 
-class FFmpegDecoder;
-class ImageMagickDecoder;
+class VideoDecoder;
 class SndfileDecoder;
 class Job;
 class Film;
@@ -49,7 +48,6 @@ public:
 	bool pass ();
 	void set_progress (boost::shared_ptr<Job>);
 	bool seek (double);
-	bool seek_to_last ();
 
 	double last_video_time () const;
 
@@ -68,10 +66,8 @@ private:
 	bool _subtitles;
 	
 	bool _have_valid_decoders;
-	boost::shared_ptr<FFmpegDecoder> _ffmpeg_decoder;
-	bool _ffmpeg_decoder_done;
-	std::list<boost::shared_ptr<ImageMagickDecoder> > _imagemagick_decoders;
-	std::list<boost::shared_ptr<ImageMagickDecoder> >::iterator _imagemagick_decoder;
+	std::list<boost::shared_ptr<VideoDecoder> > _video_decoders;
+	std::list<boost::shared_ptr<VideoDecoder> >::iterator _video_decoder;
 	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
 
 	boost::shared_ptr<AudioBuffers> _sndfile_buffers;

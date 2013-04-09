@@ -32,7 +32,7 @@ ImageMagickContent::ImageMagickContent (boost::filesystem::path f)
 	: Content (f)
 	, VideoContent (f)
 {
-	
+
 }
 
 ImageMagickContent::ImageMagickContent (shared_ptr<const cxml::Node> node)

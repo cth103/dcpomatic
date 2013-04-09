@@ -77,7 +77,6 @@ public:
 	}
 
 	bool seek (double);
-	bool seek_to_last ();
 	bool pass ();
 
 private:
@@ -86,7 +85,6 @@ private:
 	FFmpegDecoder (FFmpegDecoder const &);
 	FFmpegDecoder& operator= (FFmpegDecoder const &);
 
-	bool do_seek (double p, bool);
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;

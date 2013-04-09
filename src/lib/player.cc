@@ -20,7 +20,9 @@
 #include "player.h"
 #include "film.h"
 #include "ffmpeg_decoder.h"
+#include "ffmpeg_content.h"
 #include "imagemagick_decoder.h"
+#include "imagemagick_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
 #include "playlist.h"
@@ -39,7 +41,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _audio (true)
 	, _subtitles (true)
 	, _have_valid_decoders (false)
-	, _ffmpeg_decoder_done (false)
 	, _video_sync (true)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -74,25 +75,13 @@ Player::pass ()
 	
 	bool done = true;
 	
-	if (_playlist->video_from() == Playlist::VIDEO_FFMPEG || _playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
-		if (!_ffmpeg_decoder_done) {
-			if (_ffmpeg_decoder->pass ()) {
-				_ffmpeg_decoder_done = true;
-			} else {
-				done = false;
-			}
+	if (_video_decoder != _video_decoders.end ()) {
+		if ((*_video_decoder)->pass ()) {
+			_video_decoder++;
 		}
-	}
-
-	if (_playlist->video_from() == Playlist::VIDEO_IMAGEMAGICK) {
-		if (_imagemagick_decoder != _imagemagick_decoders.end ()) {
-			if ((*_imagemagick_decoder)->pass ()) {
-				_imagemagick_decoder++;
-			}
-
-			if (_imagemagick_decoder != _imagemagick_decoders.end ()) {
-				done = false;
-			}
+		
+		if (_video_decoder != _video_decoders.end ()) {
+			done = false;
 		}
 	}
 
@@ -114,26 +103,18 @@ void
 Player::set_progress (shared_ptr<Job> job)
 {
 	/* Assume progress can be divined from how far through the video we are */
-	switch (_playlist->video_from ()) {
-	case Playlist::VIDEO_NONE:
-		break;
-	case Playlist::VIDEO_FFMPEG:
-		if (_playlist->video_length ()) {
-			job->set_progress (float(_ffmpeg_decoder->video_frame()) / _playlist->video_length ());
-		}
-		break;
-	case Playlist::VIDEO_IMAGEMAGICK:
-	{
-		int n = 0;
-		for (list<shared_ptr<ImageMagickDecoder> >::iterator i = _imagemagick_decoders.begin(); i != _imagemagick_decoders.end(); ++i) {
-			if (_imagemagick_decoder == i) {
-				job->set_progress (float (n) / _imagemagick_decoders.size ());
-			}
-			++n;
-		}
-		break;
+
+	if (_video_decoder == _video_decoders.end() || !_playlist->video_length()) {
+		return;
 	}
+	
+	ContentVideoFrame p = 0;
+	list<shared_ptr<VideoDecoder> >::iterator i = _video_decoders.begin ();
+	while (i != _video_decoders.end() && i != _video_decoder) {
+		p += (*i)->video_length ();
 	}
+
+	job->set_progress (float ((*_video_decoder)->video_frame ()) / _playlist->video_length ());
 }
 
 void
@@ -173,109 +154,67 @@ Player::seek (double t)
 		_have_valid_decoders = true;
 	}
 	
-	bool r = false;
-
-	switch (_playlist->video_from()) {
-	case Playlist::VIDEO_NONE:
-		break;
-	case Playlist::VIDEO_FFMPEG:
-		if (!_ffmpeg_decoder || _ffmpeg_decoder->seek (t)) {
-			r = true;
+	/* Find the decoder that contains this position */
+	_video_decoder = _video_decoders.begin ();
+	while (_video_decoder != _video_decoders.end ()) {
+		double const this_length = (*_video_decoder)->video_length() / _film->video_frame_rate ();
+		if (t < this_length) {
+			break;
 		}
-		/* We're seeking, so all `all done' bets are off */
-		_ffmpeg_decoder_done = false;
-		break;
-	case Playlist::VIDEO_IMAGEMAGICK:
-		/* Find the decoder that contains this position */
-		_imagemagick_decoder = _imagemagick_decoders.begin ();
-		while (_imagemagick_decoder != _imagemagick_decoders.end ()) {
-			double const this_length = (*_imagemagick_decoder)->video_length() / _film->video_frame_rate ();
-			if (t < this_length) {
-				break;
-			}
-			t -= this_length;
-			++_imagemagick_decoder;
-		}
-
-		if (_imagemagick_decoder != _imagemagick_decoders.end()) {
-			(*_imagemagick_decoder)->seek (t);
-		} else {
-			r = true;
-		}
-		break;
+		t -= this_length;
+		++_video_decoder;
 	}
-
-	/* XXX: don't seek audio because we don't need to... */
-
-	return r;
-}
-
-bool
-Player::seek_to_last ()
-{
-	if (!_have_valid_decoders) {
-		setup_decoders ();
-		_have_valid_decoders = true;
-	}
-
-	bool r = false;
 	
-	switch (_playlist->video_from ()) {
-	case Playlist::VIDEO_NONE:
-		break;
-	case Playlist::VIDEO_FFMPEG:
-		if (!_ffmpeg_decoder || _ffmpeg_decoder->seek_to_last ()) {
-			r = true;
-		}
-
-		/* We're seeking, so all `all done' bets are off */
-		_ffmpeg_decoder_done = false;
-		break;
-	case Playlist::VIDEO_IMAGEMAGICK:
-		if ((*_imagemagick_decoder)->seek_to_last ()) {
-			r = true;
-		}
-		break;
+	if (_video_decoder != _video_decoders.end()) {
+		(*_video_decoder)->seek (t);
+	} else {
+		return true;
 	}
 
 	/* XXX: don't seek audio because we don't need to... */
 
-	return r;
+	return false;
 }
 
 void
 Player::setup_decoders ()
 {
-	if ((_video && _playlist->video_from() == Playlist::VIDEO_FFMPEG) || (_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG)) {
-		_ffmpeg_decoder.reset (
-			new FFmpegDecoder (
-				_film,
-				_playlist->ffmpeg(),
-				_video && _playlist->video_from() == Playlist::VIDEO_FFMPEG,
-				_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
-				_subtitles && _film->with_subtitles(),
-				_video_sync
-				)
-			);
-	}
-	
-	if (_video && _playlist->video_from() == Playlist::VIDEO_FFMPEG) {
-		_ffmpeg_decoder->connect_video (shared_from_this ());
-	}
+	if (_video) {
+		list<shared_ptr<const VideoContent> > vc = _playlist->video ();
+		for (list<shared_ptr<const VideoContent> >::iterator i = vc.begin(); i != vc.end(); ++i) {
 
-	if (_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
-		_ffmpeg_decoder->Audio.connect (bind (&Player::process_audio, this, _playlist->ffmpeg (), _1));
-	}
+			shared_ptr<VideoDecoder> d;
+			
+			/* XXX: into content? */
+			
+			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+			if (fc) {
+				shared_ptr<FFmpegDecoder> fd (
+					new FFmpegDecoder (
+						_film, fc, _video,
+						_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
+						_subtitles && _film->with_subtitles(),
+						_video_sync
+						)
+					);
 
-	if (_video && _playlist->video_from() == Playlist::VIDEO_IMAGEMAGICK) {
-		list<shared_ptr<const ImageMagickContent> > ic = _playlist->imagemagick ();
-		for (list<shared_ptr<const ImageMagickContent> >::iterator i = ic.begin(); i != ic.end(); ++i) {
-			shared_ptr<ImageMagickDecoder> d (new ImageMagickDecoder (_film, *i));
-			_imagemagick_decoders.push_back (d);
+				if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
+					fd->Audio.connect (bind (&Player::process_audio, this, fc, _1));
+				}
+
+				d = fd;
+			}
+
+			shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
+			if (ic) {
+				d.reset (new ImageMagickDecoder (_film, ic));
+			}
+
 			d->connect_video (shared_from_this ());
+			_video_decoders.push_back (d);
 		}
 
-		_imagemagick_decoder = _imagemagick_decoders.begin ();
+		_video_decoder = _video_decoders.begin ();
 	}
 
 	if (_audio && _playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
@@ -297,23 +236,12 @@ Player::disable_video_sync ()
 double
 Player::last_video_time () const
 {
-	switch (_playlist->video_from ()) {
-	case Playlist::VIDEO_NONE:
-		return 0;
-	case Playlist::VIDEO_FFMPEG:
-		return _ffmpeg_decoder->last_source_time ();
-	case Playlist::VIDEO_IMAGEMAGICK:
-	{
-		double t = 0;
-		for (list<shared_ptr<ImageMagickDecoder> >::const_iterator i = _imagemagick_decoders.begin(); i != _imagemagick_decoder; ++i) {
-			t += (*i)->video_length() / (*i)->video_frame_rate ();
-		}
-
-		return t + (*_imagemagick_decoder)->last_source_time ();
-	}
+	double t = 0;
+	for (list<shared_ptr<VideoDecoder> >::const_iterator i = _video_decoders.begin(); i != _video_decoder; ++i) {
+		t += (*i)->video_length() / (*i)->video_frame_rate ();
 	}
 
-	return 0;
+	return t + (*_video_decoder)->last_content_time ();
 }
 
 void
@@ -326,6 +254,7 @@ Player::content_changed (weak_ptr<Content> w, int p)
 
 	if (p == VideoContentProperty::VIDEO_LENGTH) {
 		if (dynamic_pointer_cast<FFmpegContent> (c)) {
+			/* FFmpeg content length changes are serious; we need new decoders */
 			_have_valid_decoders = false;
 		}
 	}

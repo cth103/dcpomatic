@@ -157,7 +157,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::update_from_decoder ()
 {
-	if (!_player || _player->seek_to_last ()) {
+	if (!_player || _player->seek (_player->last_video_time ())) {
 		return;
 	}
 

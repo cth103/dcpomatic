@@ -21,9 +21,9 @@
 #include "playlist.h"
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
-#include "ffmpeg_content.h"
+#include "video_content.h"
 #include "ffmpeg_decoder.h"
-#include "imagemagick_content.h"
+#include "ffmpeg_content.h"
 #include "imagemagick_decoder.h"
 #include "job.h"
 
@@ -31,13 +31,13 @@ using std::list;
 using std::cout;
 using std::vector;
 using std::min;
+using std::max;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 Playlist::Playlist ()
-	: _video_from (VIDEO_NONE)
-	, _audio_from (AUDIO_NONE)
+	: _audio_from (AUDIO_FFMPEG)
 {
 
 }
@@ -45,11 +45,9 @@ Playlist::Playlist ()
 void
 Playlist::setup (ContentList content)
 {
-	_video_from = VIDEO_NONE;
-	_audio_from = AUDIO_NONE;
+	_audio_from = AUDIO_FFMPEG;
 
-	_ffmpeg.reset ();
-	_imagemagick.clear ();
+	_video.clear ();
 	_sndfile.clear ();
 
 	for (list<boost::signals2::connection>::iterator i = _content_connections.begin(); i != _content_connections.end(); ++i) {
@@ -59,24 +57,11 @@ Playlist::setup (ContentList content)
 	_content_connections.clear ();
 
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
-		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
-		if (fc) {
-			assert (!_ffmpeg);
-			_ffmpeg = fc;
-			_video_from = VIDEO_FFMPEG;
-			if (_audio_from == AUDIO_NONE) {
-				_audio_from = AUDIO_FFMPEG;
-			}
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+		if (vc) {
+			_video.push_back (vc);
 		}
 		
-		shared_ptr<ImageMagickContent> ic = dynamic_pointer_cast<ImageMagickContent> (*i);
-		if (ic) {
-			_imagemagick.push_back (ic);
-			if (_video_from == VIDEO_NONE) {
-				_video_from = VIDEO_IMAGEMAGICK;
-			}
-		}
-
 		shared_ptr<SndfileContent> sc = dynamic_pointer_cast<SndfileContent> (*i);
 		if (sc) {
 			_sndfile.push_back (sc);
@@ -92,53 +77,65 @@ Playlist::setup (ContentList content)
 ContentAudioFrame
 Playlist::audio_length () const
 {
+	ContentAudioFrame len = 0;
+	
 	switch (_audio_from) {
-	case AUDIO_NONE:
-		return 0;
 	case AUDIO_FFMPEG:
-		return _ffmpeg->audio_length ();
-	case AUDIO_SNDFILE:
-	{
-		ContentAudioFrame l = 0;
-		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
-			l += (*i)->audio_length ();
+		for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+			if (fc) {
+				len += fc->audio_length ();
+			}
 		}
-		return l;
-	}
+		break;
+	case AUDIO_SNDFILE:
+		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
+			len += (*i)->audio_length ();
+		}
+		break;
 	}
 
-	return 0;
+	return len;
 }
 
 int
 Playlist::audio_channels () const
 {
+	int channels = 0;
+	
 	switch (_audio_from) {
-	case AUDIO_NONE:
-		return 0;
 	case AUDIO_FFMPEG:
-		return _ffmpeg->audio_channels ();
-	case AUDIO_SNDFILE:
-	{
-		int c = 0;
-		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
-			c += (*i)->audio_channels ();
+		for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+			if (fc) {
+				channels = max (channels, fc->audio_channels ());
+			}
 		}
-		return c;
-	}
+		break;
+	case AUDIO_SNDFILE:
+		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
+			channels += (*i)->audio_channels ();
+		}
+		break;
 	}
 
-	return 0;
+	return channels;
 }
 
 int
 Playlist::audio_frame_rate () const
 {
+	/* XXX: assuming that all content has the same rate */
+	
 	switch (_audio_from) {
-	case AUDIO_NONE:
-		return 0;
 	case AUDIO_FFMPEG:
-		return _ffmpeg->audio_frame_rate ();
+	{
+		shared_ptr<const FFmpegContent> fc = first_ffmpeg ();
+		if (fc) {
+			return fc->audio_channels ();
+		}
+		break;
+	}
 	case AUDIO_SNDFILE:
 		return _sndfile.front()->audio_frame_rate ();
 	}
@@ -149,11 +146,17 @@ Playlist::audio_frame_rate () const
 int64_t
 Playlist::audio_channel_layout () const
 {
+	/* XXX: assuming that all content has the same layout */
+
 	switch (_audio_from) {
-	case AUDIO_NONE:
-		return 0;
 	case AUDIO_FFMPEG:
-		return _ffmpeg->audio_channel_layout ();
+	{
+		shared_ptr<const FFmpegContent> fc = first_ffmpeg ();
+		if (fc) {
+			return fc->audio_channel_layout ();
+		}
+		break;
+	}
 	case AUDIO_SNDFILE:
 		/* XXX */
 		return 0;
@@ -165,59 +168,41 @@ Playlist::audio_channel_layout () const
 float
 Playlist::video_frame_rate () const
 {
-	switch (_video_from) {
-	case VIDEO_NONE:
+	if (_video.empty ()) {
 		return 0;
-	case VIDEO_FFMPEG:
-		return _ffmpeg->video_frame_rate ();
-	case VIDEO_IMAGEMAGICK:
-		return 24;
 	}
-
-	return 0;
+	
+	/* XXX: assuming all the same */
+	return _video.front()->video_frame_rate ();
 }
 
 libdcp::Size
 Playlist::video_size () const
 {
-	switch (_video_from) {
-	case VIDEO_NONE:
+	if (_video.empty ()) {
 		return libdcp::Size ();
-	case VIDEO_FFMPEG:
-		return _ffmpeg->video_size ();
-	case VIDEO_IMAGEMAGICK:
-		/* XXX */
-		return _imagemagick.front()->video_size ();
 	}
 
-	return libdcp::Size ();
+	/* XXX: assuming all the same */
+	return _video.front()->video_size ();
 }
 
 ContentVideoFrame
 Playlist::video_length () const
 {
-	switch (_video_from) {
-	case VIDEO_NONE:
-		return 0;
-	case VIDEO_FFMPEG:
-		return _ffmpeg->video_length ();
-	case VIDEO_IMAGEMAGICK:
-	{
-		ContentVideoFrame l = 0;
-		for (list<shared_ptr<const ImageMagickContent> >::const_iterator i = _imagemagick.begin(); i != _imagemagick.end(); ++i) {
-			l += (*i)->video_length ();
-		}
-		return l;
+	ContentVideoFrame len = 0;
+	for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+		len += (*i)->video_length ();
 	}
-	}
-
-	return 0;
+	
+	return len;
 }
 
 bool
 Playlist::has_audio () const
 {
-	return _audio_from != AUDIO_NONE;
+	/* XXX */
+	return true;
 }
 
 void
@@ -226,32 +211,51 @@ Playlist::content_changed (weak_ptr<Content> c, int p)
 	ContentChanged (c, p);
 }
 
+shared_ptr<const FFmpegContent>
+Playlist::first_ffmpeg () const
+{
+	for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+		if (fc) {
+			return fc;
+		}
+	}
+
+	return shared_ptr<const FFmpegContent> ();
+}
+	
+
 AudioMapping
 Playlist::default_audio_mapping () const
 {
 	AudioMapping m;
 
 	switch (_audio_from) {
-	case AUDIO_NONE:
-		break;
 	case AUDIO_FFMPEG:
-		if (_ffmpeg->audio_channels() == 1) {
+	{
+		shared_ptr<const FFmpegContent> fc = first_ffmpeg ();
+		if (!fc) {
+			break;
+		}
+		
+		/* XXX: assumes all the same */
+		if (fc->audio_channels() == 1) {
 			/* Map mono sources to centre */
-			m.add (AudioMapping::Channel (_ffmpeg, 0), libdcp::CENTRE);
+			m.add (AudioMapping::Channel (fc, 0), libdcp::CENTRE);
 		} else {
-			int const N = min (_ffmpeg->audio_channels (), MAX_AUDIO_CHANNELS);
+			int const N = min (fc->audio_channels (), MAX_AUDIO_CHANNELS);
 			/* Otherwise just start with a 1:1 mapping */
 			for (int i = 0; i < N; ++i) {
-				m.add (AudioMapping::Channel (_ffmpeg, i), (libdcp::Channel) i);
+				m.add (AudioMapping::Channel (fc, i), (libdcp::Channel) i);
 			}
 		}
 		break;
+	}
 
 	case AUDIO_SNDFILE:
 	{
 		int n = 0;
 		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
-			cout << "sndfile " << (*i)->audio_channels() << "\n";
 			for (int j = 0; j < (*i)->audio_channels(); ++j) {
 				m.add (AudioMapping::Channel (*i, j), (libdcp::Channel) n);
 				++n;

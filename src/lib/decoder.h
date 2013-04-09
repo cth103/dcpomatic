@@ -56,7 +56,6 @@ public:
 
 	virtual bool pass () = 0;
 	virtual bool seek (double);
-	virtual bool seek_to_last ();
 
 protected:
 	boost::shared_ptr<const Film> _film;

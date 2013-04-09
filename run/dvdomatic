@@ -3,7 +3,7 @@
 export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
     shift
-    gdb --args build/src/tools/dvdomatic "$*"
+    gdb --args build/src/tools/dvdomatic $*
 elif [ "$1" == "--valgrind" ]; then
     shift
     valgrind --tool="memcheck" build/src/tools/dvdomatic $*
@@ -11,5 +11,5 @@ elif [ "$1" == "--i18n" ]; then
     shift
     LANGUAGE=fr_FR.UTF8 LANG=fr_FR.UTF8 build/src/tools/dvdomatic "$*"
 else
-    build/src/tools/dvdomatic "$*"
+    build/src/tools/dvdomatic $*
 fi

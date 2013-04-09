@@ -48,8 +48,8 @@ public:
 		return _video_frame;
 	}
 
-	double last_source_time () const {
-		return _last_source_time;
+	double last_content_time () const {
+		return _last_content_time;
 	}
 
 protected:
@@ -65,7 +65,7 @@ private:
 	void signal_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double);
 
 	int _video_frame;
-	double _last_source_time;
+	double _last_content_time;
 	
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 

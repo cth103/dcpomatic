@@ -41,20 +41,11 @@ Decoder::Decoder (shared_ptr<const Film> f)
 	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
 }
 
-/** Seek to a position as a source timestamp in seconds.
+/** Seek to a position as a content timestamp in seconds.
  *  @return true on error.
  */
 bool
 Decoder::seek (double)
-{
-	throw DecodeError (N_("decoder does not support seek"));
-}
-
-/** Seek so that the next frame we will produce is the same as the last one.
- *  @return true on error.
- */
-bool
-Decoder::seek_to_last ()
 {
 	throw DecodeError (N_("decoder does not support seek"));
 }
