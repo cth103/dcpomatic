@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-01 21:21+0100\n"
+"POT-Creation-Date: 2013-04-09 11:14+0100\n"
 "PO-Revision-Date: 2013-04-03 12:37+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/wx/film_editor.cc:440
+#: src/wx/film_editor.cc:445
 msgid "%"
 msgstr "%"
 
@@ -25,7 +25,7 @@ msgstr "%"
 msgid "(restart DVD-o-matic to see language changes)"
 msgstr "(riavviare DVD-o-matic per vedere i cambiamenti di lingua)"
 
-#: src/wx/film_editor.cc:1231
+#: src/wx/film_editor.cc:1269
 msgid "1 channel"
 msgstr "Canale 1"
 
@@ -53,12 +53,17 @@ msgstr "Guadagno dell'audio"
 msgid "Audio Language (e.g. EN)"
 msgstr "Lingua dell'audio (es. EN)"
 
+#: src/wx/film_editor.cc:820
+#, c-format
+msgid "Audio will be resampled from %dHz to %dHz\n"
+msgstr ""
+
 #: src/wx/job_wrapper.cc:38
 #, c-format
 msgid "Bad setting for %s (%s)"
 msgstr "Valore sbagliato per %s (%s)"
 
-#: src/wx/film_editor.cc:296
+#: src/wx/film_editor.cc:288
 msgid "Bottom crop"
 msgstr "Taglio in basso"
 
@@ -94,7 +99,7 @@ msgstr "Contenuto"
 msgid "Content Type"
 msgstr "Tipo di contenuto"
 
-#: src/wx/film_viewer.cc:414
+#: src/wx/film_viewer.cc:415
 #, c-format
 msgid "Could not decode video for view (%s)"
 msgstr "Non posso decodificare il video per guardarlo (%s)"
@@ -104,12 +109,12 @@ msgstr "Non posso decodificare il video per guardarlo (%s)"
 msgid "Could not make DCP: %s"
 msgstr "Non posso creare il DCP: %s"
 
-#: src/wx/film_viewer.cc:108
+#: src/wx/film_viewer.cc:107
 #, c-format
 msgid "Could not open content file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
 
-#: src/wx/film_editor.cc:504
+#: src/wx/film_editor.cc:509
 #, c-format
 msgid "Could not set content: %s"
 msgstr "Non posso regolare il contenuto: %s"
@@ -117,6 +122,11 @@ msgstr "Non posso regolare il contenuto: %s"
 #: src/wx/new_film_dialog.cc:46
 msgid "Create in folder"
 msgstr "Crea nella cartella"
+
+#: src/wx/film_editor.cc:1363
+#, c-format
+msgid "Cropped to %dx%d (%.2f:1)\n"
+msgstr ""
 
 #: src/wx/dci_metadata_dialog.cc:28
 msgid "DCI name"
@@ -224,7 +234,7 @@ msgstr "Gb"
 msgid "Host name or IP address"
 msgstr "Nome dell'Host o indirizzo IP"
 
-#: src/wx/film_editor.cc:1235
+#: src/wx/film_editor.cc:1273
 msgid "Hz"
 msgstr "Hz"
 
@@ -240,7 +250,7 @@ msgstr "Indirizzo IP"
 msgid "JPEG2000 bandwidth"
 msgstr "Banda passante JPEG2000"
 
-#: src/wx/film_editor.cc:281
+#: src/wx/film_editor.cc:273
 msgid "Left crop"
 msgstr "Taglio a sinistra"
 
@@ -264,7 +274,7 @@ msgstr "Nome"
 msgid "New Film"
 msgstr "Nuovo Film"
 
-#: src/wx/film_editor.cc:305 src/wx/film_editor.cc:664
+#: src/wx/film_editor.cc:305 src/wx/film_editor.cc:667
 msgid "None"
 msgstr "Nessuno"
 
@@ -276,9 +286,19 @@ msgstr "Frequenza fotogrammi originale"
 msgid "Original Size"
 msgstr "Dimensione Originale"
 
+#: src/wx/film_editor.cc:1352
+#, c-format
+msgid "Original video is %dx%d (%.2f:1)\n"
+msgstr ""
+
 #: src/wx/dci_metadata_dialog.cc:57
 msgid "Package Type (e.g. OV)"
 msgstr "Tipo di Package (es. OV)"
+
+#: src/wx/film_editor.cc:1384
+#, c-format
+msgid "Padded with black to %dx%d (%.2f:1)\n"
+msgstr ""
 
 #: src/wx/audio_dialog.cc:60
 msgid "Peak"
@@ -312,13 +332,18 @@ msgstr "Scalatura di riferimento A/B"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/wx/film_editor.cc:286
+#: src/wx/film_editor.cc:278
 msgid "Right crop"
 msgstr "Taglio a destra"
 
 #: src/wx/job_manager_view.cc:108
 msgid "Running"
 msgstr "In corso"
+
+#: src/wx/film_editor.cc:1376
+#, c-format
+msgid "Scaled to %dx%d (%.2f:1)\n"
+msgstr ""
 
 #: src/wx/film_editor.cc:315
 msgid "Scaler"
@@ -360,11 +385,11 @@ msgstr "Studio (es. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Lingua dei Sottotitoli (es. FR)"
 
-#: src/wx/film_editor.cc:431
+#: src/wx/film_editor.cc:432
 msgid "Subtitle Offset"
 msgstr "Sfalsamento dei Sottotitoli"
 
-#: src/wx/film_editor.cc:436
+#: src/wx/film_editor.cc:441
 msgid "Subtitle Scale"
 msgstr "Scala dei Sottotitoli"
 
@@ -408,7 +433,7 @@ msgstr "Threads da usare per codificare su questo host"
 msgid "Time"
 msgstr "Tempo"
 
-#: src/wx/film_editor.cc:291
+#: src/wx/film_editor.cc:283
 msgid "Top crop"
 msgstr "Taglio in alto"
 
@@ -448,7 +473,7 @@ msgstr "Video"
 msgid "With Subtitles"
 msgstr "Con Sottotitoli"
 
-#: src/wx/film_editor.cc:1233
+#: src/wx/film_editor.cc:1271
 msgid "channels"
 msgstr "canali"
 
@@ -460,7 +485,7 @@ msgstr "conteggio..."
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/film_editor.cc:691 src/wx/film_editor.cc:694
+#: src/wx/film_editor.cc:696 src/wx/film_editor.cc:699
 msgid "frames"
 msgstr "fotogrammi"
 
@@ -468,6 +493,10 @@ msgstr "fotogrammi"
 #: src/wx/film_editor.cc:386
 msgid "ms"
 msgstr "ms"
+
+#: src/wx/film_editor.cc:436
+msgid "pixels"
+msgstr ""
 
 #. / TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
 #: src/wx/film_editor.cc:197
