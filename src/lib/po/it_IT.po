@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-07 18:17+0100\n"
-"PO-Revision-Date: 2013-03-20 11:45+0100\n"
+"POT-Creation-Date: 2013-04-01 21:21+0100\n"
+"PO-Revision-Date: 2013-04-03 15:04+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
 "Language: Italiano\n"
@@ -25,27 +25,27 @@ msgstr "0%"
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/format.cc:79
+#: src/lib/format.cc:80
 msgid "1.33"
 msgstr "1.33"
 
-#: src/lib/format.cc:83
+#: src/lib/format.cc:85
 msgid "1.375"
 msgstr "1.375"
 
-#: src/lib/format.cc:95
+#: src/lib/format.cc:100
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/format.cc:99
+#: src/lib/format.cc:105
 msgid "1.66 within Flat"
 msgstr "1.66 all'interno di Flat"
 
-#: src/lib/format.cc:107
+#: src/lib/format.cc:115
 msgid "16:9"
 msgstr "16:9"
 
-#: src/lib/format.cc:103
+#: src/lib/format.cc:110
 msgid "16:9 within Flat"
 msgstr "16:9 all'interno di Flat"
 
@@ -53,7 +53,7 @@ msgstr "16:9 all'interno di Flat"
 msgid "3D denoiser"
 msgstr "Riduttore di rumore 3D"
 
-#: src/lib/format.cc:87
+#: src/lib/format.cc:90
 msgid "4:3 within Flat"
 msgstr "4:3 all'interno di  Flat"
 
@@ -61,7 +61,7 @@ msgstr "4:3 all'interno di  Flat"
 msgid "A/B transcode %1"
 msgstr "Transcodifica A/B %1"
 
-#: src/lib/format.cc:91
+#: src/lib/format.cc:95
 msgid "Academy"
 msgstr "Academy"
 
@@ -91,19 +91,19 @@ msgstr "Bilineare"
 
 #: src/lib/job.cc:302
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancellato"
 
 #: src/lib/exceptions.cc:60
 msgid "Cannot handle pixel format %1 during %2"
-msgstr ""
+msgstr "Non posso gestire il formato di pixel %1 durante %2"
 
 #: src/lib/encoder.cc:101
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Non posso ricampionare l'audio perchè libswresample non è presente"
 
-#: src/lib/util.cc:932
+#: src/lib/util.cc:931
 msgid "Centre"
-msgstr ""
+msgstr "Centro"
 
 #: src/lib/scp_dcp_job.cc:109
 msgid "Copy DCP to TMS"
@@ -133,16 +133,15 @@ msgstr "Non posso scrivere il file remoto (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Deinterlacciatore cubico interpolato"
 
-#: src/lib/util.cc:1007
+#: src/lib/util.cc:1006
 msgid "DCP and source have the same rate.\n"
 msgstr "Il DCP e il sorgente hanno la stessa frequenza.\n"
 
-#: src/lib/util.cc:1017
-#, fuzzy
+#: src/lib/util.cc:1016
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "Il DCP andrà al %1%% della velocità del sorgente.\n"
 
-#: src/lib/util.cc:1010
+#: src/lib/util.cc:1009
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Il DCP userà ogni altro fotogramma del sorgente.\n"
 
@@ -165,7 +164,7 @@ msgstr "Filtro deringing"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1012
+#: src/lib/util.cc:1011
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
 
@@ -209,11 +208,11 @@ msgstr "Bilineare rapida"
 msgid "Feature"
 msgstr "Caratteristica"
 
-#: src/lib/format.cc:111
+#: src/lib/format.cc:120
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:119
+#: src/lib/format.cc:130
 msgid "Flat without stretch"
 msgstr "Flat senza stiramento"
 
@@ -257,17 +256,17 @@ msgstr "Deinterlacciatore Kernel"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:930
+#: src/lib/util.cc:929
 msgid "Left"
-msgstr ""
-
-#: src/lib/util.cc:934
-msgid "Left surround"
-msgstr ""
+msgstr "Sinistro"
 
 #: src/lib/util.cc:933
+msgid "Left surround"
+msgstr "Surround sinistro"
+
+#: src/lib/util.cc:932
 msgid "Lfe (sub)"
-msgstr ""
+msgstr "Lfe(sub)"
 
 #: src/lib/filter.cc:75
 msgid "Linear blend deinterlacer"
@@ -315,27 +314,27 @@ msgstr "Annuncio di pubblico servizio"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:499
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:930
 msgid "Right"
-msgstr ""
+msgstr "Destro"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:934
 msgid "Right surround"
-msgstr ""
+msgstr "Surround destro"
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"
 msgstr "Errore SSH (%1)"
 
-#: src/lib/format.cc:115
+#: src/lib/format.cc:125
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:123
+#: src/lib/format.cc:135
 msgid "Scope without stretch"
 msgstr "Scope senza stiramento"
 
@@ -346,6 +345,58 @@ msgstr "Corto"
 #: src/lib/scaler.cc:67
 msgid "Sinc"
 msgstr "Sinc"
+
+#: src/lib/format.cc:76
+msgid "Source scaled to 1.19:1"
+msgstr "Sorgente scalato a 1.19:1"
+
+#: src/lib/format.cc:81
+msgid "Source scaled to 1.33:1"
+msgstr "Sorgente scalato a 1.33:1"
+
+#: src/lib/format.cc:91
+msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
+msgstr "Sorgente scalato a 1.33:1 e poi inviato come Flat"
+
+#: src/lib/format.cc:86
+msgid "Source scaled to 1.375:1"
+msgstr "Sorgente scalato a 1.375:1"
+
+#: src/lib/format.cc:96
+msgid "Source scaled to 1.37:1 (Academy ratio)"
+msgstr "Sorgente scalato a 1.37:1 (Academy ratio)"
+
+#: src/lib/format.cc:101
+msgid "Source scaled to 1.66:1"
+msgstr "Sorgente scalato a 1.66:1"
+
+#: src/lib/format.cc:106
+msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
+msgstr "Sorgente scalato a 1.66:1 e poi inviato come Flat"
+
+#: src/lib/format.cc:116
+msgid "Source scaled to 1.78:1"
+msgstr "Sorgente scalato a 1.78:1"
+
+#: src/lib/format.cc:111
+msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
+msgstr "Sorgente scalato a 1.78:1 e poi inviato come Flat"
+
+#: src/lib/format.cc:121
+msgid "Source scaled to Flat (1.85:1)"
+msgstr "Sorgente scalato a Flat (1.85:1)"
+
+#: src/lib/format.cc:126
+msgid "Source scaled to Scope (2.39:1)"
+msgstr "Sorgente scalato a Scope (2.39:1)"
+
+#: src/lib/format.cc:131
+msgid "Source scaled to fit Flat preserving its aspect ratio"
+msgstr "Sorgente scalato per adattarsi a Flat mantentendo le sue proporzioni"
+
+#: src/lib/format.cc:136
+msgid "Source scaled to fit Scope preserving its aspect ratio"
+msgstr "Sorgente scalato per adattarsi a Scope mantentendo le sue proporzioni"
 
 #: src/lib/scaler.cc:68
 msgid "Spline"
@@ -417,13 +468,13 @@ msgstr "X"
 
 #: src/lib/filter.cc:83
 msgid "Yet Another Deinterlacing Filter"
-msgstr "Ancora un altro filtro di deinterlacciamento"
+msgstr "Altro filtro di deinterlacciamento"
 
 #: src/lib/film.cc:263
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:540
 msgid "connect timed out"
 msgstr "connessione scaduta"
 
@@ -444,7 +495,6 @@ msgid "copying %1"
 msgstr "copia %1"
 
 #: src/lib/exceptions.cc:36
-#, fuzzy
 msgid "could not create file %1"
 msgstr "Non posso scrivere il file remoto (%1)"
 
@@ -469,7 +519,6 @@ msgid "could not open external audio file for reading"
 msgstr "non riesco ad aprire il file dell'audio esterno per leggerlo"
 
 #: src/lib/exceptions.cc:29
-#, fuzzy
 msgid "could not open file %1"
 msgstr "non riesco ad aprire il file per leggerlo"
 
@@ -478,7 +527,6 @@ msgid "could not open file for reading"
 msgstr "non riesco ad aprire il file per leggerlo"
 
 #: src/lib/exceptions.cc:44
-#, fuzzy
 msgid "could not read from file %1 (%2)"
 msgstr "Non posso creare la directory remota %1 (%2)"
 
@@ -495,7 +543,6 @@ msgid "could not start SSH session"
 msgstr "non posso avviare la sessione SSH"
 
 #: src/lib/exceptions.cc:50
-#, fuzzy
 msgid "could not write to file %1 (%2)"
 msgstr "Non posso scrivere il file remoto (%1)"
 
@@ -531,13 +578,13 @@ msgstr "minuto"
 msgid "minutes"
 msgstr "minuti"
 
-#: src/lib/util.cc:684
+#: src/lib/util.cc:683
 msgid "missing key %1 in key-value set"
 msgstr "persa la chiave %1 tra i valori chiave"
 
 #: src/lib/exceptions.cc:54
 msgid "missing required setting %1"
-msgstr ""
+msgstr "persa la regolazione richiesta %1"
 
 #: src/lib/subtitle.cc:52
 msgid "multi-part subtitles not yet supported"
@@ -561,7 +608,7 @@ msgstr "sottotitoli non-bitmap non ancora supportati"
 msgid "remaining"
 msgstr "restano"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:497
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -576,47 +623,6 @@ msgstr "ancora"
 #: src/lib/film.cc:274
 msgid "video"
 msgstr "video"
-
-#~ msgid "Source scaled to 1.19:1"
-#~ msgstr "Sorgente scalato a 1.19:1"
-
-#~ msgid "Source scaled to 1.33:1"
-#~ msgstr "Sorgente scalato a 1.33:1"
-
-#~ msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
-#~ msgstr "Sorgente scalato a 1.33:1 e poi inviato come Flat"
-
-#~ msgid "Source scaled to 1.375:1"
-#~ msgstr "Sorgente scalato a 1.375:1"
-
-#~ msgid "Source scaled to 1.37:1 (Academy ratio)"
-#~ msgstr "Sorgente scalato a 1.37:1 (Academy ratio)"
-
-#~ msgid "Source scaled to 1.66:1"
-#~ msgstr "Sorgente scalato a 1.66:1"
-
-#~ msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
-#~ msgstr "Sorgente scalato a 1.66:1 e poi inviato come Flat"
-
-#~ msgid "Source scaled to 1.78:1"
-#~ msgstr "Sorgente scalato a 1.78:1"
-
-#~ msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
-#~ msgstr "Sorgente scalato a 1.78:1 e poi inviato come Flat"
-
-#~ msgid "Source scaled to Flat (1.85:1)"
-#~ msgstr "Sorgente scalato a Flat (1.85:1)"
-
-#~ msgid "Source scaled to Scope (2.39:1)"
-#~ msgstr "Sorgente scalato a Scope (2.39:1)"
-
-#~ msgid "Source scaled to fit Flat preserving its aspect ratio"
-#~ msgstr ""
-#~ "Sorgente scalato per adattarsi a Flat mantentendo le sue proporzioni"
-
-#~ msgid "Source scaled to fit Scope preserving its aspect ratio"
-#~ msgstr ""
-#~ "Sorgente scalato per adattarsi a Scope mantentendo le sue proporzioni"
 
 #~ msgid "adding to queue of %1"
 #~ msgstr "aggiungo alla coda %1"

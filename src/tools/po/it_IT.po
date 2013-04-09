@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-07 18:17+0100\n"
-"PO-Revision-Date: 2013-03-22 18:03+0100\n"
+"POT-Creation-Date: 2013-04-01 21:21+0100\n"
+"PO-Revision-Date: 2013-04-03 13:00+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
 "Language: Italiano\n"
@@ -65,7 +65,7 @@ msgstr "&Salva"
 msgid "&Send DCP to TMS"
 msgstr "&Invia DCP a TMS"
 
-#: src/tools/dvdomatic.cc:417
+#: src/tools/dvdomatic.cc:409
 msgid ""
 "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 msgstr ""
@@ -75,18 +75,17 @@ msgstr ""
 msgid "About"
 msgstr "Informazioni"
 
-#: src/tools/dvdomatic.cc:527
-#, fuzzy
+#: src/tools/dvdomatic.cc:517
 msgid "Could not load film %1 (%2)"
 msgstr "Non posso caricare il film %s (%s)"
 
-#: src/tools/dvdomatic.cc:339
+#: src/tools/dvdomatic.cc:331
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Non posso aprire il film in %s (%s)"
 
-#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:410
-#: src/tools/dvdomatic.cc:531
+#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:402
+#: src/tools/dvdomatic.cc:521
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 
@@ -94,7 +93,7 @@ msgstr "DVD-o-matic"
 msgid "Film changed"
 msgstr "Film modificato"
 
-#: src/tools/dvdomatic.cc:416
+#: src/tools/dvdomatic.cc:408
 msgid "Free, open-source DCP generation from almost anything."
 msgstr "Genera DCP da quasi tutto, free e open-source."
 
@@ -108,19 +107,13 @@ msgstr "&Mostra DCP"
 
 #: src/tools/dvdomatic.cc:74
 msgid "Save changes to film \"%1\" before closing?"
-msgstr ""
+msgstr "Salvare i cambiamenti del film \"%1\" prima di chiudere?"
 
 #: src/tools/dvdomatic.cc:319
 msgid "Select film to open"
 msgstr "Seleziona il film da aprire"
 
 #: src/tools/dvdomatic.cc:303
-#, fuzzy
 msgid "The directory %1 already exists."
 msgstr "La directory %s esiste gia'."
 
-#: src/tools/dvdomatic.cc:324
-msgid ""
-"You did not select a folder.  Make sure that you select a folder before "
-"clicking Open."
-msgstr ""
