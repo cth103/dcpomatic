@@ -1348,13 +1348,14 @@ FilmEditor::setup_scaling_description ()
 
 	int lines = 0;
 
-	d << wxString::Format (
-		_("Original video is %dx%d (%.2f:1)\n"),
-		_film->size().width, _film->size().height,
-		float (_film->size().width) / _film->size().height
-		);
-
-	++lines;
+	if (_film->size().width && _film->size().height) {
+		d << wxString::Format (
+			_("Original video is %dx%d (%.2f:1)\n"),
+			_film->size().width, _film->size().height,
+			float (_film->size().width) / _film->size().height
+			);
+		++lines;
+	}
 
 	Crop const crop = _film->crop ();
 	if (crop.left || crop.right || crop.top || crop.bottom) {
