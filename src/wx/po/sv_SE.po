@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-07 18:17+0100\n"
-"PO-Revision-Date: 2013-04-04 10:18+0100\n"
+"PO-Revision-Date: 2013-04-09 10:13+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -56,7 +55,7 @@ msgstr "Audio Språk (ex. SV)"
 #: src/wx/film_editor.cc:820
 #, c-format
 msgid "Audio will be resampled from %dHz to %dHz\n"
-msgstr ""
+msgstr "Audio kommer att samplas om från %dHz till %dHz\n"
 
 #: src/wx/job_wrapper.cc:38
 #, c-format
@@ -126,7 +125,7 @@ msgstr "Skapa i katalog"
 #: src/wx/film_editor.cc:1363
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Beskuren till %dx%d (%.2f:1)\n"
 
 #: src/wx/dci_metadata_dialog.cc:28
 msgid "DCI name"
@@ -289,7 +288,7 @@ msgstr "Ursprunglig Storlek"
 #: src/wx/film_editor.cc:1352
 #, c-format
 msgid "Original video is %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Original-videon är %dx%d (%.2f:1)\n"
 
 #: src/wx/dci_metadata_dialog.cc:57
 msgid "Package Type (e.g. OV)"
@@ -298,7 +297,7 @@ msgstr "Förpackningstyp (ex. OV)"
 #: src/wx/film_editor.cc:1384
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
 
 #: src/wx/audio_dialog.cc:60
 msgid "Peak"
@@ -343,7 +342,7 @@ msgstr "Körs"
 #: src/wx/film_editor.cc:1376
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Skalad till %dx%d (%.2f:1)\n"
 
 #: src/wx/film_editor.cc:315
 msgid "Scaler"
@@ -496,7 +495,7 @@ msgstr "ms"
 
 #: src/wx/film_editor.cc:436
 msgid "pixels"
-msgstr ""
+msgstr "pixlar"
 
 #. / TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
 #: src/wx/film_editor.cc:197
