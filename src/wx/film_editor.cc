@@ -148,7 +148,7 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
-	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT (" \n \n "), wxDefaultPosition, wxDefaultSize);
+	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT ("\n \n "), wxDefaultPosition, wxDefaultSize);
 	grid->Add (video_control (_frame_rate_description), wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	wxFont font = _frame_rate_description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
@@ -812,8 +812,11 @@ void
 FilmEditor::setup_frame_rate_description ()
 {
 	wxString d;
+	int lines = 0;
+	
 	if (_film->source_frame_rate()) {
 		d << std_to_wx (FrameRateConversion (_film->source_frame_rate(), _film->dcp_frame_rate()).description);
+		++lines;
 #ifdef HAVE_SWRESAMPLE
 		if (_film->audio_stream() && _film->audio_stream()->sample_rate() != _film->target_audio_sample_rate ()) {
 			d << wxString::Format (
@@ -821,12 +824,13 @@ FilmEditor::setup_frame_rate_description ()
 				_film->audio_stream()->sample_rate(),
 				_film->target_audio_sample_rate()
 				);
-		} else {
-			d << wxT ("\n");
+			++lines;
 		}
-#else
-		d << wxT ("\n");
 #endif		
+	}
+
+	for (int i = lines; i < 2; ++i) {
+		d << wxT ("\n ");
 	}
 
 	_frame_rate_description->SetLabel (d);
@@ -1391,7 +1395,7 @@ FilmEditor::setup_scaling_description ()
 	}
 
 	for (int i = lines; i < 4; ++i) {
-		d << wxT (" \n");
+		d << wxT ("\n ");
 	}
 
 	_scaling_description->SetLabel (d);
