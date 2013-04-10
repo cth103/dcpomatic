@@ -49,6 +49,7 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::weak_ptr;
 using libdcp::Size;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
@@ -146,6 +147,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 	
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
+	_film->ContentChanged.connect (boost::bind (&FilmViewer::film_content_changed, this, _1, _2));
 
 	film_changed (Film::CONTENT);
 	film_changed (Film::FORMAT);
@@ -431,3 +433,12 @@ FilmViewer::active_jobs_changed (bool a)
 	_play_button->Enable (!a);
 }
 
+void
+FilmViewer::film_content_changed (weak_ptr<Content>, int p)
+{
+	if (p == VideoContentProperty::VIDEO_LENGTH) {
+		/* Force an update to our frame */
+		wxScrollEvent ev;
+		slider_moved (ev);
+	}
+}

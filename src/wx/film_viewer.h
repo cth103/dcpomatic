@@ -61,6 +61,7 @@ public:
 
 private:
 	void film_changed (Film::Property);
+	void film_content_changed (boost::weak_ptr<Content>, int);
 	void paint_panel (wxPaintEvent &);
 	void panel_sized (wxSizeEvent &);
 	void slider_moved (wxScrollEvent &);

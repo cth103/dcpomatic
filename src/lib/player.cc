@@ -153,11 +153,11 @@ Player::seek (double t)
 		setup_decoders ();
 		_have_valid_decoders = true;
 	}
-	
+
 	/* Find the decoder that contains this position */
 	_video_decoder = _video_decoders.begin ();
 	while (_video_decoder != _video_decoders.end ()) {
-		double const this_length = (*_video_decoder)->video_length() / _film->video_frame_rate ();
+		double const this_length = double ((*_video_decoder)->video_length()) / _film->video_frame_rate ();
 		if (t < this_length) {
 			break;
 		}
@@ -179,6 +179,10 @@ Player::seek (double t)
 void
 Player::setup_decoders ()
 {
+	_video_decoders.clear ();
+	_video_decoder = _video_decoders.end ();
+	_sndfile_decoders.clear ();
+	
 	if (_video) {
 		list<shared_ptr<const VideoContent> > vc = _playlist->video ();
 		for (list<shared_ptr<const VideoContent> >::iterator i = vc.begin(); i != vc.end(); ++i) {
