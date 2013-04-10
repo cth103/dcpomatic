@@ -197,32 +197,6 @@ BOOST_AUTO_TEST_CASE (format_test)
 //	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 239);
 }
 
-/* Test VariableFormat-based scaling of content */
-BOOST_AUTO_TEST_CASE (scaling_test)
-{
-	shared_ptr<Film> film (new Film (test_film_dir ("scaling_test").string(), false));
-
-	/* 4:3 ratio */
-	film->set_size (libdcp::Size (320, 240));
-
-	/* This format should preserve aspect ratio of the source */
-	Format const * format = Format::from_id ("var-185");
-
-	/* We should have enough padding that the result is 4:3,
-	   which would be 1440 pixels.
-	*/
-	BOOST_CHECK_EQUAL (format->dcp_padding (film), (1998 - 1440) / 2);
-	
-	/* This crops it to 1.291666667 */
-	film->set_left_crop (5);
-	film->set_right_crop (5);
-
-	/* We should now have enough padding that the result is 1.29166667,
-	   which would be 1395 pixels.
-	*/
-	BOOST_CHECK_EQUAL (format->dcp_padding (film), rint ((1998 - 1395) / 2.0));
-}
-
 BOOST_AUTO_TEST_CASE (util_test)
 {
 	string t = "Hello this is a string \"with quotes\" and indeed without them";
