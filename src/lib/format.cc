@@ -199,7 +199,7 @@ FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d
 int
 Format::dcp_padding (shared_ptr<const Film> f) const
 {
-	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(f) / 100.0)) / 2.0);
+	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_float(f))) / 2.0);
 
 	/* This comes out -ve for Scope; bodge it */
 	if (p < 0) {
