@@ -3,6 +3,8 @@
 	* Fix incorrect scaling using flat-no-stretch and scope-no-stretch
 	when the source is cropped (part of #113).
 
+	* Fix incorrect display of padded films (rest of #113).
+
 2013-04-09  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.82 released.
