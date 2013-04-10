@@ -1,5 +1,9 @@
 2013-04-10  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.83 released.
+
+2013-04-10  Carl Hetherington  <cth@carlh.net>
+
 	* Fix incorrect scaling using flat-no-stretch and scope-no-stretch
 	when the source is cropped (part of #113).
 
