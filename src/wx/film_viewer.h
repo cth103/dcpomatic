@@ -69,6 +69,9 @@ private:
 	boost::shared_ptr<Image> _raw_frame;
 	boost::shared_ptr<Subtitle> _raw_sub;
 	boost::shared_ptr<Image> _display_frame;
+	/* The x offset at which we display the actual film content; this corresponds
+	   to the film's padding converted to our coordinates.
+	*/
 	int _display_frame_x;
 	boost::shared_ptr<RGBPlusAlphaImage> _display_sub;
 	Position _display_sub_position;

@@ -222,20 +222,20 @@ FilmViewer::paint_panel (wxPaintEvent &)
 		dc.DrawBitmap (sub_bitmap, _display_sub_position.x, _display_sub_position.y);
 	}
 
-	if (_film_size.width < _panel_size.width) {
+	if (_out_size.width < _panel_size.width) {
 		wxPen p (GetBackgroundColour ());
 		wxBrush b (GetBackgroundColour ());
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		dc.DrawRectangle (_film_size.width, 0, _panel_size.width - _film_size.width, _panel_size.height);
+		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
 	}
 
-	if (_film_size.height < _panel_size.height) {
+	if (_out_size.height < _panel_size.height) {
 		wxPen p (GetBackgroundColour ());
 		wxBrush b (GetBackgroundColour ());
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		dc.DrawRectangle (0, _film_size.height, _panel_size.width, _panel_size.height - _film_size.height);
+		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
 	}		
 }
 
