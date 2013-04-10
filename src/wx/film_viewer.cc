@@ -148,6 +148,11 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	
 	_film = f;
 
+	_raw_frame.reset ();
+	_display_frame.reset ();
+	_panel->Refresh ();
+	_panel->Update ();
+
 	if (!_film) {
 		return;
 	}
