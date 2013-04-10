@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-09 11:14+0100\n"
-"PO-Revision-Date: 2013-04-09 10:13+0100\n"
+"PO-Revision-Date: 2013-04-10 15:35+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,9 +49,8 @@ msgid "16:9 within Flat"
 msgstr "16:9 innanför Flat"
 
 #: src/lib/format.cc:115
-#, fuzzy
 msgid "16:9 within Scope"
-msgstr "16:9 innanför Flat"
+msgstr "16:9 innanför Scope"
 
 #: src/lib/filter.cc:88
 msgid "3D denoiser"
@@ -76,7 +74,7 @@ msgstr "Reklam"
 
 #: src/lib/job.cc:72
 msgid "An error occurred whilst handling the file %1."
-msgstr "Ett fel inträffade vid hantering av filen (%1)"
+msgstr "Ett fel inträffade vid hantering av filen %1"
 
 #: src/lib/analyse_audio_job.cc:49
 msgid "Analyse audio of %1"
