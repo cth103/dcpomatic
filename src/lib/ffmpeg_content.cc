@@ -31,6 +31,7 @@ using std::string;
 using std::stringstream;
 using std::vector;
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 

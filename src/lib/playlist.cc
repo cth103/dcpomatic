@@ -132,7 +132,7 @@ Playlist::audio_frame_rate () const
 	{
 		shared_ptr<const FFmpegContent> fc = first_ffmpeg ();
 		if (fc) {
-			return fc->audio_channels ();
+			return fc->audio_frame_rate ();
 		}
 		break;
 	}
