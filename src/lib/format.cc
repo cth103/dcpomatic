@@ -72,51 +72,51 @@ Format::setup_formats ()
 {
 	/// TRANSLATORS: these are film picture aspect ratios; "Academy" means 1.37, "Flat" 1.85 and "Scope" 2.39.
 	_formats.push_back (
-		new FixedFormat (119, libdcp::Size (1285, 1080), N_("119"), _("1.19"), N_("F")
+		new FixedFormat (1.19, libdcp::Size (1285, 1080), N_("119"), _("1.19"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (133, libdcp::Size (1436, 1080), N_("133"), _("1.33"), N_("F")
+		new FixedFormat (4.0 / 3.0, libdcp::Size (1436, 1080), N_("133"), _("4:3"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (138, libdcp::Size (1485, 1080), N_("138"), _("1.375"), N_("F")
+		new FixedFormat (1.38, libdcp::Size (1485, 1080), N_("138"), _("1.375"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (133, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F")
+		new FixedFormat (4.0 / 30, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (137, libdcp::Size (1480, 1080), N_("137"), _("Academy"), N_("F")
+		new FixedFormat (1.37, libdcp::Size (1480, 1080), N_("137"), _("Academy"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (166, libdcp::Size (1793, 1080), N_("166"), _("1.66"), N_("F")
+		new FixedFormat (1.66, libdcp::Size (1793, 1080), N_("166"), _("1.66"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (166, libdcp::Size (1998, 1080), N_("166-in-flat"), _("1.66 within Flat"), N_("F")
+		new FixedFormat (1.66, libdcp::Size (1998, 1080), N_("166-in-flat"), _("1.66 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (178, libdcp::Size (1998, 1080), N_("178-in-flat"), _("16:9 within Flat"), N_("F")
+		new FixedFormat (1.78, libdcp::Size (1998, 1080), N_("178-in-flat"), _("16:9 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (178, libdcp::Size (1920, 1080), N_("178"), _("16:9"), N_("F")
+		new FixedFormat (1.78, libdcp::Size (1920, 1080), N_("178"), _("16:9"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (185, libdcp::Size (1998, 1080), N_("185"), _("Flat"), N_("F")
+		new FixedFormat (1.85, libdcp::Size (1998, 1080), N_("185"), _("Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (178, libdcp::Size (2048, 858), N_("178-in-scope"), _("16:9 within Scope"), N_("S")
+		new FixedFormat (1.78, libdcp::Size (2048, 858), N_("178-in-scope"), _("16:9 within Scope"), N_("S")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (239, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S")
+		new FixedFormat (2.39, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S")
 			));
 		
 	_formats.push_back (
@@ -181,12 +181,12 @@ Format::all ()
 	return _formats;
 }
 
-/** @param r Ratio multiplied by 100 (e.g. 185)
+/** @param r Ratio
  *  @param dcp Size (in pixels) of the images that we should put in a DCP.
  *  @param id ID (e.g. 185)
  *  @param n Nick name (e.g. Flat)
  */
-FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d)
+FixedFormat::FixedFormat (float r, libdcp::Size dcp, string id, string n, string d)
 	: Format (dcp, id, n, d)
 	, _ratio (r)
 {
@@ -199,7 +199,7 @@ FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d
 int
 Format::dcp_padding (shared_ptr<const Film> f) const
 {
-	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_float(f))) / 2.0);
+	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio(f))) / 2.0);
 
 	/* This comes out -ve for Scope; bodge it */
 	if (p < 0) {
@@ -210,7 +210,7 @@ Format::dcp_padding (shared_ptr<const Film> f) const
 }
 
 float
-Format::container_ratio_as_float () const
+Format::container_ratio () const
 {
 	return static_cast<float> (_dcp_size.width) / _dcp_size.height;
 }
@@ -221,14 +221,8 @@ VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d)
 
 }
 
-int
-VariableFormat::ratio_as_integer (shared_ptr<const Film> f) const
-{
-	return rint (ratio_as_float (f) * 100);
-}
-
 float
-VariableFormat::ratio_as_float (shared_ptr<const Film> f) const
+VariableFormat::ratio (shared_ptr<const Film> f) const
 {
 	libdcp::Size const c = f->cropped_size (f->size ());
 	return float (c.width) / c.height;

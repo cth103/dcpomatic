@@ -222,11 +222,13 @@ BOOST_AUTO_TEST_CASE (format_test)
 	
 	Format const * f = Format::from_nickname ("Flat");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 185);
+	BOOST_CHECK_EQUAL (f->dcp_size().width, 1998);
+	BOOST_CHECK_EQUAL (f->dcp_size().height, 1080);
 	
 	f = Format::from_nickname ("Scope");
 	BOOST_CHECK (f);
-	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 239);
+	BOOST_CHECK_EQUAL (f->dcp_size().width, 2048);
+	BOOST_CHECK_EQUAL (f->dcp_size().height, 858);
 }
 
 /* Test VariableFormat-based scaling of content */
