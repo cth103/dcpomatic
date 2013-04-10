@@ -240,19 +240,19 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	/* This format should preserve aspect ratio of the source */
 	Format const * format = Format::from_id ("var-185");
 
-	int const p = format->dcp_padding (film);
-
 	/* We should have enough padding that the result is 4:3,
 	   which would be 1440 pixels.
 	*/
-	BOOST_CHECK_EQUAL (p, (1998 - 1440) / 2);
-	
+	BOOST_CHECK_EQUAL (format->dcp_padding (film), (1998 - 1440) / 2);
 	
 	/* This crops it to 1.291666667 */
-//	f.set_left_crop (5);
-//	f.set_right_crop (5);
-	
-	
+	film->set_left_crop (5);
+	film->set_right_crop (5);
+
+	/* We should now have enough padding that the result is 1.29166667,
+	   which would be 1395 pixels.
+	*/
+	BOOST_CHECK_EQUAL (format->dcp_padding (film), rint ((1998 - 1395) / 2.0));
 }
 
 BOOST_AUTO_TEST_CASE (util_test)

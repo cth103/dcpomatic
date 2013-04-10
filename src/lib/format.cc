@@ -230,7 +230,8 @@ VariableFormat::ratio_as_integer (shared_ptr<const Film> f) const
 float
 VariableFormat::ratio_as_float (shared_ptr<const Film> f) const
 {
-	return float (f->size().width) / f->size().height;
+	libdcp::Size const c = f->cropped_size (f->size ());
+	return float (c.width) / c.height;
 }
 
 /** @return A name to be presented to the user */
