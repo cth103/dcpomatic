@@ -45,8 +45,6 @@ public:
         virtual int audio_channels () const = 0;
         virtual ContentAudioFrame audio_length () const = 0;
         virtual int audio_frame_rate () const = 0;
-        virtual int64_t audio_channel_layout () const = 0;
-	
 };
 
 #endif

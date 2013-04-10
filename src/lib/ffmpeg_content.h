@@ -27,25 +27,21 @@
 class FFmpegAudioStream
 {
 public:
-        FFmpegAudioStream (std::string n, int i, int f, int64_t c)
+        FFmpegAudioStream (std::string n, int i, int f, int c)
                 : name (n)
                 , id (i)
                 , frame_rate (f)
-                , channel_layout (c)
+		, channels (c)
         {}
 
 	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 	
-        int channels () const {
-                return av_get_channel_layout_nb_channels (channel_layout);
-        }
-        
         std::string name;
         int id;
         int frame_rate;
-        int64_t channel_layout;
+	int channels;
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
@@ -98,7 +94,6 @@ public:
         int audio_channels () const;
         ContentAudioFrame audio_length () const;
         int audio_frame_rate () const;
-        int64_t audio_channel_layout () const;
 	
         std::vector<FFmpegSubtitleStream> subtitle_streams () const {
                 boost::mutex::scoped_lock lm (_mutex);

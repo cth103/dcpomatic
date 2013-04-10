@@ -1131,12 +1131,6 @@ Film::audio_frame_rate () const
 	return _playlist->audio_frame_rate ();
 }
 
-int64_t
-Film::audio_channel_layout () const
-{
-	return _playlist->audio_channel_layout ();
-}
-
 bool
 Film::has_audio () const
 {

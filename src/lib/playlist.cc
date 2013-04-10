@@ -143,28 +143,6 @@ Playlist::audio_frame_rate () const
 	return 0;
 }
 
-int64_t
-Playlist::audio_channel_layout () const
-{
-	/* XXX: assuming that all content has the same layout */
-
-	switch (_audio_from) {
-	case AUDIO_FFMPEG:
-	{
-		shared_ptr<const FFmpegContent> fc = first_ffmpeg ();
-		if (fc) {
-			return fc->audio_channel_layout ();
-		}
-		break;
-	}
-	case AUDIO_SNDFILE:
-		/* XXX */
-		return 0;
-	}
-
-	return 0;
-}
-
 float
 Playlist::video_frame_rate () const
 {

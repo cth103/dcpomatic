@@ -86,13 +86,20 @@ Encoder::process_begin ()
 		s << String::compose (N_("Will resample audio from %1 to %2"), _film->audio_frame_rate(), _film->target_audio_sample_rate());
 		_film->log()->log (s.str ());
 
-		/* We will be using planar float data when we call the resampler */
+		/* We will be using planar float data when we call the
+		   resampler.  As far as I can see, the audio channel
+		   layout is not necessary for our purposes; it seems
+		   only to be used get the number of channels and
+		   decide if rematrixing is needed.  It won't be, since
+		   input and output layouts are the same.
+		*/
+		   
 		_swr_context = swr_alloc_set_opts (
 			0,
-			_film->audio_channel_layout(),
+			av_get_default_channel_layout (_film->audio_channels ()),
 			AV_SAMPLE_FMT_FLTP,
 			_film->target_audio_sample_rate(),
-			_film->audio_channel_layout(),
+			av_get_default_channel_layout (_film->audio_channels ()),
 			AV_SAMPLE_FMT_FLTP,
 			_film->audio_frame_rate(),
 			0, 0

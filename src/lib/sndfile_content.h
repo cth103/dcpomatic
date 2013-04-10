@@ -58,10 +58,6 @@ public:
 		return _audio_frame_rate;
 	}
 	
-        int64_t audio_channel_layout () const {
-		return av_get_default_channel_layout (audio_channels ());
-	}
-
 	static bool valid_file (boost::filesystem::path);
 
 private:

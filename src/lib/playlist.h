@@ -47,7 +47,6 @@ public:
 	ContentAudioFrame audio_length () const;
 	int audio_channels () const;
 	int audio_frame_rate () const;
-	int64_t audio_channel_layout () const;
 	bool has_audio () const;
 	
 	float video_frame_rate () const;

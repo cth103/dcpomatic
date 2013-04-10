@@ -37,18 +37,6 @@ public:
 	libdcp::Size native_size () const;
 	ContentVideoFrame video_length () const;
 
-	int audio_channels () const {
-		return 0;
-	}
-
-	int audio_sample_rate () const {
-		return 0;
-	}
-
-	int64_t audio_channel_layout () const {
-		return 0;
-	}
-
 	bool seek (double);
 	bool pass ();
 

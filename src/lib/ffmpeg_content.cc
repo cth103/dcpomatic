@@ -216,7 +216,7 @@ FFmpegContent::audio_channels () const
                 return 0;
         }
 
-        return _audio_stream->channels ();
+        return _audio_stream->channels;
 }
 
 int
@@ -229,16 +229,6 @@ FFmpegContent::audio_frame_rate () const
         return _audio_stream->frame_rate;
 }
 
-int64_t
-FFmpegContent::audio_channel_layout () const
-{
-        if (!_audio_stream) {
-                return 0;
-        }
-
-        return _audio_stream->channel_layout;
-}
-	
 bool
 operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b)
 {
@@ -256,7 +246,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 	name = node->string_child ("Name");
 	id = node->number_child<int> ("Id");
 	frame_rate = node->number_child<int> ("FrameRate");
-	channel_layout = node->number_child<int64_t> ("ChannelLayout");
+	channels = node->number_child<int64_t> ("Channels");
 }
 
 void
@@ -265,7 +255,7 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Name")->add_child_text (name);
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
-	root->add_child("ChannelLayout")->add_child_text (lexical_cast<string> (channel_layout));
+	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
 }
 
 /** Construct a SubtitleStream from a value returned from to_string().
