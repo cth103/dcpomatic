@@ -200,14 +200,14 @@ FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d
 int
 Format::dcp_padding (shared_ptr<const Film> f) const
 {
-	int pad = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(f) / 100.0)) / 2.0);
+	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio(f))) / 2.0);
 
 	/* This comes out -ve for Scope; bodge it */
-	if (pad < 0) {
-		pad = 0;
+	if (p < 0) {
+		p = 0;
 	}
 	
-	return pad;
+	return p;
 }
 
 float
@@ -231,7 +231,8 @@ VariableFormat::ratio_as_integer (shared_ptr<const Film> f) const
 float
 VariableFormat::ratio_as_float (shared_ptr<const Film> f) const
 {
-	return float (f->video_size().width) / f->video_size().height;
+	libdcp::Size const c = f->cropped_size (f->video_size ());
+	return float (c.width) / c.height;
 }
 
 /** @return A name to be presented to the user */
