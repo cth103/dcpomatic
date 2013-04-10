@@ -107,8 +107,8 @@ msgid "S&how DCP"
 msgstr "&Visa DCP"
 
 #: src/tools/dvdomatic.cc:74
-msgid "Save changes to film \"%1\" before closing?"
-msgstr "Spara ändringarna till filmen \"%1\" före avslut?"
+msgid "Save changes to film \"%s\" before closing?"
+msgstr "Spara ändringarna till filmen \"%s\" före avslut?"
 
 #: src/tools/dvdomatic.cc:319
 msgid "Select film to open"

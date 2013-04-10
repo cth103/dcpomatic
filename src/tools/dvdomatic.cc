@@ -71,7 +71,7 @@ public:
 	{
 		_dialog = new wxMessageDialog (
 			0,
-			std_to_wx (String::compose (wx_to_std (_("Save changes to film \"%1\" before closing?")), film->name())),
+			wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (film->name ()).data()),
 			_("Film changed"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
