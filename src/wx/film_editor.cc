@@ -842,7 +842,7 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 void
 FilmEditor::set_film (shared_ptr<Film> f)
 {
-	set_things_sensitive (_film != 0);
+	set_things_sensitive (f != 0);
 
 	if (_film == f) {
 		return;
