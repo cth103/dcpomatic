@@ -56,6 +56,10 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 		_gain.reset (new Gain (f->log(), f->audio_gain()));
 	}
 
+	if (!f->with_subtitles ()) {
+		_player->disable_subtitles ();
+	}
+
 	if (_matcher) {
 		_player->connect_video (_matcher);
 		_matcher->connect_video (_encoder);

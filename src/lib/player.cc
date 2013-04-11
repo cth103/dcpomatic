@@ -197,7 +197,7 @@ Player::setup_decoders ()
 					new FFmpegDecoder (
 						_film, fc, _video,
 						_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
-						_subtitles && _film->with_subtitles(),
+						_subtitles,
 						_video_sync
 						)
 					);
