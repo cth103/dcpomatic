@@ -43,7 +43,6 @@ AudioDialog::AudioDialog (wxWindow* parent)
 		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Channels"));
 		side->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
-	
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
@@ -91,6 +90,10 @@ AudioDialog::set_film (shared_ptr<Film> f)
 	
 	_film = f;
 
+	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+		_channel_checkbox[i]->Show (!_film->audio_mapping().dcp_to_content (static_cast<libdcp::Channel> (i)).empty());
+	}
+
 	try_to_load_analysis ();
 	_plot->set_gain (_film->audio_gain ());
 
@@ -116,7 +119,9 @@ AudioDialog::try_to_load_analysis ()
 		
 	_plot->set_analysis (a);
 
-	_channel_checkbox[0]->SetValue (true);
+	if (_channel_checkbox[0]) {
+		_channel_checkbox[0]->SetValue (true);
+	}
 	_plot->set_channel_visible (0, true);
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
