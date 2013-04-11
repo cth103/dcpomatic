@@ -51,6 +51,11 @@ public:
 		return _file;
 	}
 
+	std::string digest () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _digest;
+	}
+
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int)> Changed;
 
 protected:

@@ -72,6 +72,9 @@ public:
 		return _sndfile;
 	}
 
+	std::string audio_digest () const;
+	std::string video_digest () const;
+
 	mutable boost::signals2::signal<void ()> Changed;
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 	

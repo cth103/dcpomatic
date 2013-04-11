@@ -192,15 +192,11 @@ Film::video_state_identifier () const
 {
 	assert (format ());
 
-	return "XXX";
-
-#if 0	
-
 	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
 	stringstream s;
 	s << format()->id()
-	  << "_" << content_digest()
+	  << "_" << _playlist->video_digest()
 	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
 	  << "_" << _dcp_frame_rate
 	  << "_" << f.first << "_" << f.second
@@ -214,7 +210,6 @@ Film::video_state_identifier () const
 	}
 
 	return s.str ();
-#endif	
 }
 	  
 /** @return The path to the directory to write video frame info files to */
@@ -245,7 +240,7 @@ Film::audio_analysis_path () const
 {
 	boost::filesystem::path p;
 	p /= "analysis";
-	p /= "XXX";//content_digest();
+	p /= _playlist->audio_digest();
 	return file (p.string ());
 }
 

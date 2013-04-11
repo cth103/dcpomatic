@@ -18,6 +18,7 @@
 */
 
 #include <boost/shared_ptr.hpp>
+#include <boost/lexical_cast.hpp>
 #include "playlist.h"
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
@@ -32,9 +33,11 @@ using std::cout;
 using std::vector;
 using std::min;
 using std::max;
+using std::string;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using boost::lexical_cast;
 
 Playlist::Playlist ()
 	: _audio_from (AUDIO_FFMPEG)
@@ -250,4 +253,45 @@ Playlist::default_audio_mapping () const
 	}
 
 	return m;
+}
+
+string
+Playlist::audio_digest () const
+{
+	string t;
+	
+	switch (_audio_from) {
+	case AUDIO_FFMPEG:
+		for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+			if (fc) {
+				t += (*i)->digest ();
+				t += lexical_cast<string> (fc->audio_stream()->id);
+			}
+		}
+		break;
+	case AUDIO_SNDFILE:
+		for (list<shared_ptr<const SndfileContent> >::const_iterator i = _sndfile.begin(); i != _sndfile.end(); ++i) {
+			t += (*i)->digest ();
+		}
+		break;
+	}
+
+	return md5_digest (t.c_str(), t.length());
+}
+
+string
+Playlist::video_digest () const
+{
+	string t;
+	
+	for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+		t += (*i)->digest ();
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+		if (fc) {
+			t += fc->subtitle_stream()->id;
+		}
+	}
+
+	return md5_digest (t.c_str(), t.length());
 }
