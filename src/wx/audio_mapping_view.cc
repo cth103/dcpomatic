@@ -62,7 +62,7 @@ public:
 		wxRendererNative::Get().DrawCheckBox (
 			&grid,
 			dc, rect,
-			grid.GetCellValue (row, col) == "1" ? static_cast<int>(wxCONTROL_CHECKED) : 0
+			grid.GetCellValue (row, col) == wxT("1") ? static_cast<int>(wxCONTROL_CHECKED) : 0
 			);
 	}
 
@@ -84,7 +84,11 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_grid = new wxGrid (this, wxID_ANY);
 
 	_grid->CreateGrid (0, 7);
+#if wxMINOR_VERSION == 9
 	_grid->HideRowLabels ();
+#else
+	_grid->SetRowLabelSize (0);
+#endif	
 	_grid->DisableDragRowSize ();
 	_grid->DisableDragColSize ();
 	_grid->EnableEditing (false);
@@ -115,10 +119,10 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		return;
 	}
 	
-	if (_grid->GetCellValue (ev.GetRow(), ev.GetCol()) == "1") {
-		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), "0");
+	if (_grid->GetCellValue (ev.GetRow(), ev.GetCol()) == wxT("1")) {
+		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("0"));
 	} else {
-		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), "1");
+		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("1"));
 	}
 }
 
@@ -142,11 +146,11 @@ AudioMappingView::set_mapping (AudioMapping map)
 	for (list<AudioMapping::Channel>::iterator i = content_channels.begin(); i != content_channels.end(); ++i) {
 		shared_ptr<const AudioContent> ac = i->content.lock ();
 		assert (ac);
-		_grid->SetCellValue (n, 0, wxString::Format ("%s %d", std_to_wx (ac->file().filename().string()), i->index + 1));
+		_grid->SetCellValue (n, 0, wxString::Format (wxT("%s %d"), std_to_wx (ac->file().filename().string()).data(), i->index + 1));
 
 		list<libdcp::Channel> const d = map.content_to_dcp (*i);
 		for (list<libdcp::Channel>::const_iterator j = d.begin(); j != d.end(); ++j) {
-			_grid->SetCellValue (n, static_cast<int> (*j) + 1, "1");
+			_grid->SetCellValue (n, static_cast<int> (*j) + 1, wxT("1"));
 		}
 		++n;
 	}

@@ -554,7 +554,7 @@ class App : public wxApp
 	bool OnCmdLineParsed (wxCmdLineParser& parser)
 	{
 		if (parser.GetParamCount() > 0) {
-			if (parser.FoundSwitch (wxT ("new"))) {
+			if (parser.Found (wxT ("new"))) {
 				film_to_create = wx_to_std (parser.GetParam (0));
 			} else {
 				film_to_load = wx_to_std (parser.GetParam(0));

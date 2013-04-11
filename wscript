@@ -75,6 +75,7 @@ def configure(conf):
         conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
         conf.env.HAVE_CXML = 1
         conf.env.STLIB_CXML = ['cxml']
+        conf.check_cfg(package = 'libxml++-2.6', args = '--cflags --libs', uselib_store = 'XML++', mandatory = True)
         conf.env.HAVE_AVFORMAT = 1
         conf.env.STLIB_AVFORMAT = ['avformat']
         conf.env.HAVE_AVFILTER = 1

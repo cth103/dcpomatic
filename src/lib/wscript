@@ -75,6 +75,8 @@ def build(bld):
                  """
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
+    if bld.env.STATIC:
+        obj.uselib += ' XML++'
     obj.source = sources + " version.cc"
     obj.target = 'dvdomatic'
 
