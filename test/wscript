@@ -8,7 +8,7 @@ def configure(conf):
 def build(bld):
     obj = bld(features = 'cxx cxxprogram')
     obj.name   = 'unit-tests'
-    obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
+    obj.uselib = 'BOOST_TEST CXML DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
     obj.use    = 'libdvdomatic'
     obj.source = 'test.cc'
     obj.target = 'unit-tests'
