@@ -84,7 +84,7 @@ Format::setup_formats ()
 			));
 	
 	_formats.push_back (
-		new FixedFormat (4.0 / 30, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F")
+		new FixedFormat (4.0 / 3.0, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
