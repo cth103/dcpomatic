@@ -1,3 +1,5 @@
+doesn't reset content details, length, dcp frame rate on new film.
+
 no subs in viewer on e.g. creating new arrietty_EN-EN; player does not enable them in its decoder unless
 the film has them turned on.
 
