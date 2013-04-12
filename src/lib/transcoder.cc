@@ -79,19 +79,13 @@ void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
-	try {
-		while (1) {
-			if (_player->pass ()) {
-				break;
-			}
-			_player->set_progress (_job);
+	while (1) {
+		if (_player->pass ()) {
+			break;
 		}
-		
-	} catch (...) {
-		_encoder->process_end ();
-		throw;
+		_player->set_progress (_job);
 	}
-	
+
 	if (_delay_line) {
 		_delay_line->process_end ();
 	}
