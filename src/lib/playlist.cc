@@ -288,7 +288,7 @@ Playlist::video_digest () const
 	for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
 		t += (*i)->digest ();
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
-		if (fc) {
+		if (fc && fc->subtitle_stream()) {
 			t += fc->subtitle_stream()->id;
 		}
 	}
