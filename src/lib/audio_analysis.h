@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_ANALYSIS_H
-#define DVDOMATIC_AUDIO_ANALYSIS_H
+#ifndef DCPOMATIC_AUDIO_ANALYSIS_H
+#define DCPOMATIC_AUDIO_ANALYSIS_H
 
 #include <iostream>
 #include <vector>

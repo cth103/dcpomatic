@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_DCP_CONTENT_TYPE_H
-#define DVDOMATIC_DCP_CONTENT_TYPE_H
+#ifndef DCPOMATIC_DCP_CONTENT_TYPE_H
+#define DCPOMATIC_DCP_CONTENT_TYPE_H
 
 /** @file src/content_type.h
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)

@@ -22,8 +22,8 @@
  *  @brief Some utility functions and classes.
  */
 
-#ifndef DVDOMATIC_UTIL_H
-#define DVDOMATIC_UTIL_H
+#ifndef DCPOMATIC_UTIL_H
+#define DCPOMATIC_UTIL_H
 
 #include <string>
 #include <vector>
@@ -39,7 +39,7 @@ extern "C" {
 #include "compose.hpp"
 #include "types.h"
 
-#ifdef DVDOMATIC_DEBUG
+#ifdef DCPOMATIC_DEBUG
 #define TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
 #else
 #define TIMING(...)
@@ -55,14 +55,14 @@ extern std::string seconds_to_approximate_hms (int);
 extern void stacktrace (std::ostream &, int);
 extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
-extern void dvdomatic_setup ();
-extern void dvdomatic_setup_i18n (std::string);
+extern void dcpomatic_setup ();
+extern void dcpomatic_setup_i18n (std::string);
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (boost::filesystem::path);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 extern boost::filesystem::path mo_path ();
 #endif
 
@@ -117,7 +117,7 @@ extern std::string get_optional_string (std::multimap<std::string, std::string> 
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
- *  that are useful for DVD-o-matic.
+ *  that are useful for DCP-o-matic.
  *
  *  This class wraps some things that I could not work out how to do with boost;
  *  most notably, sync read/write calls with timeouts.

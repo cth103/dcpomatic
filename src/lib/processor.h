@@ -21,8 +21,8 @@
  *  @brief Parent class for classes which accept and then emit video or audio data.
  */
 
-#ifndef DVDOMATIC_PROCESSOR_H
-#define DVDOMATIC_PROCESSOR_H
+#ifndef DCPOMATIC_PROCESSOR_H
+#define DCPOMATIC_PROCESSOR_H
 
 #include "video_source.h"
 #include "video_sink.h"

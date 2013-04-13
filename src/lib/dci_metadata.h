@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_DCI_METADATA_H
-#define DVDOMATIC_DCI_METADATA_H
+#ifndef DCPOMATIC_DCI_METADATA_H
+#define DCPOMATIC_DCI_METADATA_H
 
 #include <string>
 #include <libxml++/libxml++.h>

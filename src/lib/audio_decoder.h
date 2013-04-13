@@ -21,8 +21,8 @@
  *  @brief Parent class for audio decoders.
  */
 
-#ifndef DVDOMATIC_AUDIO_DECODER_H
-#define DVDOMATIC_AUDIO_DECODER_H
+#ifndef DCPOMATIC_AUDIO_DECODER_H
+#define DCPOMATIC_AUDIO_DECODER_H
 
 #include "audio_source.h"
 #include "decoder.h"

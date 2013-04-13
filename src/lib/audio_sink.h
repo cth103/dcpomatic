@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_SINK_H
-#define DVDOMATIC_AUDIO_SINK_H
+#ifndef DCPOMATIC_AUDIO_SINK_H
+#define DCPOMATIC_AUDIO_SINK_H
 
 class AudioSink
 {

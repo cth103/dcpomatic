@@ -21,8 +21,8 @@
  *  @brief A graph of FFmpeg filters.
  */
 
-#ifndef DVDOMATIC_FILTER_GRAPH_H
-#define DVDOMATIC_FILTER_GRAPH_H
+#ifndef DCPOMATIC_FILTER_GRAPH_H
+#define DCPOMATIC_FILTER_GRAPH_H
 
 #include "util.h"
 #include "ffmpeg_compatibility.h"

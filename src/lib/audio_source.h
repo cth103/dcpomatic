@@ -21,8 +21,8 @@
  *  @brief Parent class for classes which emit audio data.
  */
 
-#ifndef DVDOMATIC_AUDIO_SOURCE_H
-#define DVDOMATIC_AUDIO_SOURCE_H
+#ifndef DCPOMATIC_AUDIO_SOURCE_H
+#define DCPOMATIC_AUDIO_SOURCE_H
 
 #include <boost/signals2.hpp>
 

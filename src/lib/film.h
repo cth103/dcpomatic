@@ -22,8 +22,8 @@
  *  how they should be presented in a DCP.
  */
 
-#ifndef DVDOMATIC_FILM_H
-#define DVDOMATIC_FILM_H
+#ifndef DCPOMATIC_FILM_H
+#define DCPOMATIC_FILM_H
 
 #include <string>
 #include <vector>
@@ -336,7 +336,7 @@ private:
 	/** Mutex for _directory */
 	mutable boost::mutex _directory_mutex;
 	
-	/** Name for DVD-o-matic */
+	/** Name for DCP-o-matic */
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;

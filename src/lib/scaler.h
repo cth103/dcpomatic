@@ -21,8 +21,8 @@
  *  @brief A class to describe one of FFmpeg's software scalers.
  */
 
-#ifndef DVDOMATIC_SCALER_H
-#define DVDOMATIC_SCALER_H
+#ifndef DCPOMATIC_SCALER_H
+#define DCPOMATIC_SCALER_H
 
 #include <string>
 #include <vector>

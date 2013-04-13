@@ -51,7 +51,7 @@ static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION]\n"
-	     << "  -v, --version      show DVD-o-matic version\n"
+	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help         show this help\n"
 	     << "  -t, --threads      number of parallel encoding threads to use\n";
 }
@@ -78,7 +78,7 @@ main (int argc, char* argv[])
 
 		switch (c) {
 		case 'v':
-			cout << "dvdomatic version " << dvdomatic_version << " " << dvdomatic_git_commit << "\n";
+			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
 			help (argv[0]);

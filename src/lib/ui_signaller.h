@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_UI_SIGNALLER_H
-#define DVDOMATIC_UI_SIGNALLER_H
+#ifndef DCPOMATIC_UI_SIGNALLER_H
+#define DCPOMATIC_UI_SIGNALLER_H
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>

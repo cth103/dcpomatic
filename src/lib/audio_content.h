@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_CONTENT_H
-#define DVDOMATIC_AUDIO_CONTENT_H
+#ifndef DCPOMATIC_AUDIO_CONTENT_H
+#define DCPOMATIC_AUDIO_CONTENT_H
 
 #include "content.h"
 #include "util.h"

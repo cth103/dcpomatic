@@ -155,9 +155,9 @@ Config::file (bool old) const
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
 	if (old) {
-		p /= ".dvdomatic";
+		p /= ".dcpomatic";
 	} else {
-		p /= ".dvdomatic.xml";
+		p /= ".dcpomatic.xml";
 	}
 	return p.string ();
 }

@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_CONTENT_H
-#define DVDOMATIC_CONTENT_H
+#ifndef DCPOMATIC_CONTENT_H
+#define DCPOMATIC_CONTENT_H
 
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>

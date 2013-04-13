@@ -1,14 +1,14 @@
 !include "MUI2.nsh"
-Name "DVD-o-matic"
+Name "DCP-o-matic"
 
 RequestExecutionLevel admin
 
-outFile "DVD-o-matic @version@ 32-bit Installer.exe"
-!define MUI_ICON "%resources%/dvdomatic.ico"
-!define MUI_UNICON "%resources%/dvdomatic.ico"
-!define MUI_SPECIALBITMAP "%resources%/dvdomatic.bmp"
+outFile "DCP-o-matic @version@ 32-bit Installer.exe"
+!define MUI_ICON "%resources%/dcpomatic.ico"
+!define MUI_UNICON "%resources%/dcpomatic.ico"
+!define MUI_SPECIALBITMAP "%resources%/dcpomatic.bmp"
 
-InstallDir "$PROGRAMFILES\DVD-o-matic"
+InstallDir "$PROGRAMFILES\DCP-o-matic"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "../../COPYING"
@@ -81,9 +81,9 @@ File "%deps%/bin/libexpat-1.dll"
 File "%deps%/bin/libbz2.dll"
 File "%deps%/bin/cxml.dll"
 
-File "%binaries%/src/wx/dvdomatic-wx.dll"
-File "%binaries%/src/lib/dvdomatic.dll"
-File "%binaries%/src/tools/dvdomatic.exe"
+File "%binaries%/src/wx/dcpomatic-wx.dll"
+File "%binaries%/src/lib/dcpomatic.dll"
+File "%binaries%/src/tools/dcpomatic.exe"
 File "%binaries%/src/tools/servomatic_cli.exe"
 File "%binaries%/src/tools/servomatic_gui.exe"
 
@@ -95,32 +95,32 @@ SetOutPath "$PROFILE\.magick"
 File "%deps%/etc/ImageMagick/delegates.xml"
 
 SetOutPath "$INSTDIR\locale\fr\LC_MESSAGES"
-File "%binaries%/src/lib/mo/fr_FR/libdvdomatic.mo"
-File "%binaries%/src/wx/mo/fr_FR/libdvdomatic-wx.mo"
-File "%binaries%/src/tools/mo/fr_FR/dvdomatic.mo"
+File "%binaries%/src/lib/mo/fr_FR/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/fr_FR/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/fr_FR/dcpomatic.mo"
 SetOutPath "$INSTDIR\locale\it\LC_MESSAGES"
-File "%binaries%/src/lib/mo/it_IT/libdvdomatic.mo"
-File "%binaries%/src/wx/mo/it_IT/libdvdomatic-wx.mo"
-File "%binaries%/src/tools/mo/it_IT/dvdomatic.mo"
+File "%binaries%/src/lib/mo/it_IT/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/it_IT/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/it_IT/dcpomatic.mo"
 SetOutPath "$INSTDIR\locale\es\LC_MESSAGES"
-File "%binaries%/src/lib/mo/es_ES/libdvdomatic.mo"
-File "%binaries%/src/wx/mo/es_ES/libdvdomatic-wx.mo"
-File "%binaries%/src/tools/mo/es_ES/dvdomatic.mo"
+File "%binaries%/src/lib/mo/es_ES/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/es_ES/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/es_ES/dcpomatic.mo"
 SetOutPath "$INSTDIR\locale\sv\LC_MESSAGES"
-File "%binaries%/src/lib/mo/sv_SE/libdvdomatic.mo"
-File "%binaries%/src/wx/mo/sv_SE/libdvdomatic-wx.mo"
-File "%binaries%/src/tools/mo/sv_SE/dvdomatic.mo"
+File "%binaries%/src/lib/mo/sv_SE/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/sv_SE/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/sv_SE/dcpomatic.mo"
 
-CreateShortCut "$DESKTOP\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" ""
-CreateShortCut "$DESKTOP\DVD-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" ""
+CreateShortCut "$DESKTOP\DCP-o-matic.lnk" "$INSTDIR\bin\dcpomatic.exe" ""
+CreateShortCut "$DESKTOP\DCP-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" ""
  
-CreateDirectory "$SMPROGRAMS\DVD-o-matic"
-CreateShortCut "$SMPROGRAMS\DVD-o-matic\Uninstall DVD-o-matic.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
-CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic.lnk" "$INSTDIR\bin\dvdomatic.exe" "" "$INSTDIR\bin\dvdomatic.exe" 0
-CreateShortCut "$SMPROGRAMS\DVD-o-matic\DVD-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" "" "$INSTDIR\bin\servomatic_gui.exe" 0
+CreateDirectory "$SMPROGRAMS\DCP-o-matic"
+CreateShortCut "$SMPROGRAMS\DCP-o-matic\Uninstall DCP-o-matic.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+CreateShortCut "$SMPROGRAMS\DCP-o-matic\DCP-o-matic.lnk" "$INSTDIR\bin\dcpomatic.exe" "" "$INSTDIR\bin\dcpomatic.exe" 0
+CreateShortCut "$SMPROGRAMS\DCP-o-matic\DCP-o-matic encode server.lnk" "$INSTDIR\bin\servomatic_gui.exe" "" "$INSTDIR\bin\servomatic_gui.exe" 0
  
-WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "DisplayName" "DVD-o-matic (remove only)"
-WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic" "UninstallString" "$INSTDIR\Uninstall.exe"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DCP-o-matic" "DisplayName" "DCP-o-matic (remove only)"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DCP-o-matic" "UninstallString" "$INSTDIR\Uninstall.exe"
  
 WriteUninstaller "$INSTDIR\Uninstall.exe"
  
@@ -131,11 +131,11 @@ Section "Uninstall"
  
 RMDir /r "$INSTDIR\*.*"    
 RMDir "$INSTDIR"
-Delete "$DESKTOP\DVD-o-matic.lnk"
-Delete "$DESKTOP\DVD-o-matic encode server.lnk"
-Delete "$SMPROGRAMS\DVD-o-matic\*.*"
-RmDir  "$SMPROGRAMS\DVD-o-matic"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DVD-o-matic"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic"
+Delete "$DESKTOP\DCP-o-matic.lnk"
+Delete "$DESKTOP\DCP-o-matic encode server.lnk"
+Delete "$SMPROGRAMS\DCP-o-matic\*.*"
+RmDir  "$SMPROGRAMS\DCP-o-matic"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DCP-o-matic"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DCP-o-matic"
  
 SectionEnd

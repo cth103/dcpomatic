@@ -1,3 +1,0 @@
-id ICON "dvdomatic.ico"
-taskbar_icon ICON "dvdomatic_taskbar.ico"
-#include "wx-2.9/wx/msw/wx.rc"

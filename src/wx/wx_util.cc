@@ -58,7 +58,7 @@ add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, wxGBPos
 void
 error_dialog (wxWindow* parent, wxString m)
 {
-	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DVD-o-matic"), wxOK);
+	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK);
 	d->ShowModal ();
 	d->Destroy ();
 }

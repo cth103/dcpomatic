@@ -100,7 +100,7 @@ AudioDialog::set_film (shared_ptr<Film> f)
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
 	_film_audio_analysis_succeeded_connection = _film->AudioAnalysisSucceeded.connect (bind (&AudioDialog::try_to_load_analysis, this));
 
-	SetTitle (wxString::Format (_("DVD-o-matic audio - %s"), std_to_wx(_film->name()).data()));
+	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_film->name()).data()));
 }
 
 

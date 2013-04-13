@@ -22,8 +22,8 @@
  *  @brief Some timing classes for debugging and profiling.
  */
 
-#ifndef DVDOMATIC_TIMER_H
-#define DVDOMATIC_TIMER_H
+#ifndef DCPOMATIC_TIMER_H
+#define DCPOMATIC_TIMER_H
 
 #include <string>
 #include <map>

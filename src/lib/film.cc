@@ -254,7 +254,7 @@ Film::make_dcp ()
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
 	
-	log()->log (String::compose ("DVD-o-matic %1 git %2 using %3", dvdomatic_version, dvdomatic_git_commit, dependency_version_summary()));
+	log()->log (String::compose ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
 
 	{
 		char buffer[128];
@@ -270,10 +270,10 @@ Film::make_dcp ()
 //	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
-#ifdef DVDOMATIC_DEBUG
-	log()->log ("DVD-o-matic built in debug mode.");
+#ifdef DCPOMATIC_DEBUG
+	log()->log ("DCP-o-matic built in debug mode.");
 #else
-	log()->log ("DVD-o-matic built in optimised mode.");
+	log()->log ("DCP-o-matic built in optimised mode.");
 #endif
 #ifdef LIBDCP_DEBUG
 	log()->log ("libdcp built in debug mode.");
@@ -432,7 +432,7 @@ Film::read_metadata ()
 	boost::mutex::scoped_lock lm (_state_mutex);
 
 	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
-		throw StringError (_("This film was created with an older version of DVD-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
+		throw StringError (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 	}
 
 	cxml::File f (file ("metadata.xml"), "Metadata");

@@ -17,8 +17,8 @@
 
 */
 
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
 #endif
 
-void dvdomatic_sleep (int);
+void dcpomatic_sleep (int);

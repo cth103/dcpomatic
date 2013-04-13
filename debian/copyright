@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: dvdomatic
-Source: <url://carlh.net/software/dvdomatic>
+Upstream-Name: dcpomatic
+Source: <url://carlh.net/software/dcpomatic>
 
 Files: *
 Copyright: 2012 Carl Hetherington <cth@carlh.net>

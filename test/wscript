@@ -9,7 +9,7 @@ def build(bld):
     obj = bld(features = 'cxx cxxprogram')
     obj.name   = 'unit-tests'
     obj.uselib = 'BOOST_TEST CXML DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
-    obj.use    = 'libdvdomatic'
+    obj.use    = 'libdcpomatic'
     obj.source = 'test.cc'
     obj.target = 'unit-tests'
     obj.install_path = ''

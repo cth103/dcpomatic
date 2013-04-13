@@ -2,7 +2,7 @@ import subprocess
 import os
 import sys
 
-APPNAME = 'dvdomatic'
+APPNAME = 'dcpomatic'
 VERSION = '0.84pre'
 
 def options(opt):
@@ -25,7 +25,7 @@ def configure(conf):
                                        '-Wall', '-Wno-attributes', '-Wextra'])
 
     if conf.options.target_windows:
-        conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
+        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
@@ -35,9 +35,9 @@ def configure(conf):
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
     else:
-        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
         conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
-        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dvdomatic"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dcpomatic"' % conf.env['PREFIX'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
@@ -50,7 +50,7 @@ def configure(conf):
     conf.env.VERSION = VERSION
 
     if conf.options.enable_debug:
-        conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
+        conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG'])
     else:
         conf.env.append_value('CXXFLAGS', '-O2')
 
@@ -228,16 +228,16 @@ def build(bld):
     d = { 'PREFIX' : '${PREFIX' }
 
     obj = bld(features = 'subst')
-    obj.source = 'dvdomatic.desktop.in'
-    obj.target = 'dvdomatic.desktop'
+    obj.source = 'dcpomatic.desktop.in'
+    obj.target = 'dcpomatic.desktop'
     obj.dict = d
 
-    bld.install_files('${PREFIX}/share/applications', 'dvdomatic.desktop')
+    bld.install_files('${PREFIX}/share/applications', 'dcpomatic.desktop')
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
-        bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
+        bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dcpomatic.png' % r)
 
     if not bld.env.TARGET_WINDOWS:
-        bld.install_files('${PREFIX}/share/dvdomatic', 'icons/taskbar_icon.png')
+        bld.install_files('${PREFIX}/share/dcpomatic', 'icons/taskbar_icon.png')
 
     bld.add_post_fun(post)
 
@@ -259,8 +259,8 @@ def create_version_cc(version):
 
     try:
         text =  '#include "version.h"\n'
-        text += 'char const * dvdomatic_git_commit = \"%s\";\n' % commit
-        text += 'char const * dvdomatic_version = \"%s\";\n' % version
+        text += 'char const * dcpomatic_git_commit = \"%s\";\n' % commit
+        text += 'char const * dcpomatic_version = \"%s\";\n' % version
         print('Writing version information to src/lib/version.cc')
         o = open('src/lib/version.cc', 'w')
         o.write(text)

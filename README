@@ -1,4 +1,4 @@
-dvd-o-matic
+DCP-o-matic
 -----------
 
 Hello!
@@ -33,27 +33,22 @@ You will need these libraries:
     libsndfile
     libssh
 
-and also the command line tool:
-
-    vobcopy (if you want to rip DVDs straight into DVD-o-matic)
-
 
 Documentation
 -------------
 
-There is a manual available at http://carlh.net/software/dvdomatic
+There is a manual available at http://carlh.net/software/dcpomatic
 The DocBook source for this is in doc/manual.
 
 
 In a nutshell
 -------------
 
-The `dvdomatic' program is a GTK front-end which is probably easiest
+The `dcpomatic' program is a GTK front-end which is probably easiest
 to use.  It will create a directory for a particular project, and write
 its data to that directory.  The basic approach is:
 
 "File->New"; specify a directory.
-Choose "Jobs->Copy from DVD" to read a DVD from your drive, if you have one.
 Fill in the fields in the window (most importantly the `content' field:
   specify your video, and the `Name' field: give your project [and hence DCP]
   a name.)
@@ -76,7 +71,7 @@ Server/client
 -------------
 
 Running the `servomatic' program on a remote machine will make it
-listen on port 6192 (by default) and process requests from a dvdomatic
+listen on port 6192 (by default) and process requests from a dcpomatic
 instance.  This has been written with no thought to security, so don't
 do it over the public internet!  The connection will probably need to
 be 1 Gb/s to make it worthwhile.

@@ -1,4 +1,4 @@
-# DVD-o-matic manual makefile
+# DCP-o-matic manual makefile
 
 all:	html pdf
 
@@ -8,7 +8,7 @@ SCREENSHOTS := file-new.png video-new-film.png still-new-film.png click-content-
                still-select-content-file.png examine-thumbs.png \
                calculate-audio-gain.png prefs.png making-dcp.png filters.png film-tab.png video-tab.png audio-tab.png subtitles-tab.png
 
-XML := dvdomatic.xml
+XML := dcpomatic.xml
 
 GRAPHICS := 
 
@@ -70,7 +70,7 @@ diagrams/%.pdf:	diagrams/%.svg
 # HTML
 #
 
-html:	$(XML) dvdomatic-html.xsl extensions-html.ent dvdomatic.css \
+html:	$(XML) dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 	$(addprefix html/screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
 	$(subst .svg,.png,$(addprefix graphics/,$(GRAPHICS))) \
@@ -80,19 +80,19 @@ html:	$(XML) dvdomatic-html.xsl extensions-html.ent dvdomatic.css \
 	cp extensions-html.ent extensions.ent
 
 #	DocBoox -> html
-	xmlto html -m dvdomatic-html.xsl dvdomatic.xml --skip-validation -o html
+	xmlto html -m dcpomatic-html.xsl dcpomatic.xml --skip-validation -o html
 
 #	Copy graphics and CSS in
 #	mkdir -p html/diagrams html/graphics
 #	cp diagrams/*.png html/diagrams
 #	cp graphics/*.png html/graphics
-	cp dvdomatic.css html
+	cp dcpomatic.css html
 
 #
 # PDF
 #
 
-pdf:	$(XML) dvdomatic-pdf.xsl extensions-pdf.ent screenshots/*.png $(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
+pdf:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent screenshots/*.png $(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
 
 # 	The DocBook needs to know what file extensions to look for
 # 	for screenshots and diagrams; use the correct file to tell it.
@@ -100,14 +100,14 @@ pdf:	$(XML) dvdomatic-pdf.xsl extensions-pdf.ent screenshots/*.png $(subst .svg,
 
 	mkdir -p pdf
 
-	dblatex -p dvdomatic-pdf.xsl -s dvdomatic.sty -r pptex.py -T native dvdomatic.xml -t pdf -o pdf/dvdomatic.pdf
+	dblatex -p dcpomatic-pdf.xsl -s dcpomatic.sty -r pptex.py -T native dcpomatic.xml -t pdf -o pdf/dcpomatic.pdf
 
 
 #
 # LaTeX (handy for debugging)
 #
 
-tex:	$(XML) dvdomatic-pdf.xsl extensions-pdf.ent
+tex:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent
 
 # 	The DocBook needs to know what file extensions to look for
 # 	for screenshots and diagrams; use the correct file to tell it.
@@ -116,8 +116,8 @@ tex:	$(XML) dvdomatic-pdf.xsl extensions-pdf.ent
 	mkdir -p tex
 
 # 	-P <foo> removes the revhistory table
-	dblatex -P doc.collab.show=0 -P latex.output.revhistory=0 -p dvdomatic-pdf.xsl -s dvdomatic.sty -r pptex.py -T native dvdomatic.xml -t tex -o tex/dvdomatic.tex
+	dblatex -P doc.collab.show=0 -P latex.output.revhistory=0 -p dcpomatic-pdf.xsl -s dcpomatic.sty -r pptex.py -T native dcpomatic.xml -t tex -o tex/dcpomatic.tex
 
 
-clean:;	rm -rf html pdf diagrams/*.pdf diagrams/*.png graphics/*.png *.aux dvdomatic.cb dvdomatic.cb2 dvdomatic.glo dvdomatic.idx dvdomatic.ilg
-	rm -rf dvdomatic.ind dvdomatic.lof dvdomatic.log dvdomatic.tex dvdomatic.toc extensions.ent dvdomatic.out
+clean:;	rm -rf html pdf diagrams/*.pdf diagrams/*.png graphics/*.png *.aux dcpomatic.cb dcpomatic.cb2 dcpomatic.glo dcpomatic.idx dcpomatic.ilg
+	rm -rf dcpomatic.ind dcpomatic.lof dcpomatic.log dcpomatic.tex dcpomatic.toc extensions.ent dcpomatic.out

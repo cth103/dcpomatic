@@ -21,8 +21,8 @@
  *  @brief Parent class for decoders of content.
  */
 
-#ifndef DVDOMATIC_DECODER_H
-#define DVDOMATIC_DECODER_H
+#ifndef DCPOMATIC_DECODER_H
+#define DCPOMATIC_DECODER_H
 
 #include <vector>
 #include <string>

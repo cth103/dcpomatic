@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_EXCEPTIONS_H
-#define DVDOMATIC_EXCEPTIONS_H
+#ifndef DCPOMATIC_EXCEPTIONS_H
+#define DCPOMATIC_EXCEPTIONS_H
 
 /** @file  src/exceptions.h
  *  @brief Our exceptions.

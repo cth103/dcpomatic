@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_MAPPING_H
-#define DVDOMATIC_AUDIO_MAPPING_H
+#ifndef DCPOMATIC_AUDIO_MAPPING_H
+#define DCPOMATIC_AUDIO_MAPPING_H
 
 #include <list>
 #include <string>

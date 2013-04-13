@@ -126,7 +126,7 @@ JobManager::scheduler ()
 			}
 		}
 
-		dvdomatic_sleep (1);
+		dcpomatic_sleep (1);
 	}
 }
 

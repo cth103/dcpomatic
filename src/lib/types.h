@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_TYPES_H
-#define DVDOMATIC_TYPES_H
+#ifndef DCPOMATIC_TYPES_H
+#define DCPOMATIC_TYPES_H
 
 #include <vector>
 #include <boost/shared_ptr.hpp>

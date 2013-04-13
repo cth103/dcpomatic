@@ -47,9 +47,9 @@ static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
-	     << "  -v, --version      show DVD-o-matic version\n"
+	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help         show this help\n"
-	     << "  -d, --deps         list DVD-o-matic dependency details and quit\n"
+	     << "  -d, --deps         list DCP-o-matic dependency details and quit\n"
 	     << "  -t, --test         run in test mode (repeatable UUID generation, timestamps etc.)\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
@@ -87,7 +87,7 @@ main (int argc, char* argv[])
 
 		switch (c) {
 		case 'v':
-			cout << "dvdomatic version " << dvdomatic_version << " " << dvdomatic_git_commit << "\n";
+			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
 			help (argv[0]);
@@ -117,13 +117,13 @@ main (int argc, char* argv[])
 
 	film_dir = argv[optind];
 			
-	dvdomatic_setup ();
+	dcpomatic_setup ();
 
 	if (no_remote) {
 		Config::instance()->set_servers (vector<ServerDescription*> ());
 	}
 
-	cout << "DVD-o-matic " << dvdomatic_version << " git " << dvdomatic_git_commit;
+	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;
 	char buf[256];
 	if (gethostname (buf, 256) == 0) {
 		cout << " on " << buf;
@@ -162,7 +162,7 @@ main (int argc, char* argv[])
 	bool error = false;
 	while (!should_stop) {
 
-		dvdomatic_sleep (5);
+		dcpomatic_sleep (5);
 
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 

@@ -423,7 +423,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		if (remote_backoff > 0) {
-			dvdomatic_sleep (remote_backoff);
+			dcpomatic_sleep (remote_backoff);
 		}
 
 		lock.lock ();
