@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: LIBDVDOMATIC\n"
+"Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-09 11:14+0100\n"
 "PO-Revision-Date: 2013-04-02 19:10-0500\n"
@@ -250,10 +250,10 @@ msgstr "Horizontal deblocking filter A"
 #: src/lib/job.cc:92 src/lib/job.cc:101
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
-"problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+"problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
 msgstr ""
 "Error desconocido. La mejor idea es informar del problema a la lista de "
-"correo de DVD-O-matic (dvdomatic@carlh.net)"
+"correo de DCP-o-matic (dcpomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"

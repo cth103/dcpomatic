@@ -21,8 +21,8 @@
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
 
-#ifndef DVDOMATIC_JOB_H
-#define DVDOMATIC_JOB_H
+#ifndef DCPOMATIC_JOB_H
+#define DCPOMATIC_JOB_H
 
 #include <string>
 #include <boost/thread/mutex.hpp>

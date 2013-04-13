@@ -8,25 +8,25 @@ def build(bld):
         obj = bld(features = 'cxx cxxprogram')
         obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
         obj.includes = ['..']
-        obj.use    = ['libdvdomatic']
+        obj.use    = ['libdcpomatic']
         obj.source = '%s.cc' % t
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dvdomatic', 'servomatic_gui']:
+        for t in ['dcpomatic', 'servomatic_gui']:
             obj = bld(features = 'cxx cxxprogram')
             obj.uselib = 'DCP CXML OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
             obj.includes = ['..']
-            obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
+            obj.use    = ['libdcpomatic', 'libdcpomatic-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../windows/dvdomatic.rc'
+                obj.source += ' ../../windows/dcpomatic.rc'
             obj.target = t
 
-        i18n.po_to_mo(os.path.join('src', 'tools'), 'dvdomatic', bld)
+        i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic', bld)
 
 def pot(bld):
-    i18n.pot(os.path.join('src', 'tools'), 'dvdomatic.cc', 'dvdomatic')
+    i18n.pot(os.path.join('src', 'tools'), 'dcpomatic.cc', 'dcpomatic')
 
 def pot_merge(bld):
-    i18n.pot_merge(os.path.join('src', 'tools'), 'dvdomatic')
+    i18n.pot_merge(os.path.join('src', 'tools'), 'dcpomatic')

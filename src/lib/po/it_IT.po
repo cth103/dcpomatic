@@ -248,10 +248,10 @@ msgstr "Filtro A sblocco orizzontale"
 #: src/lib/job.cc:92 src/lib/job.cc:101
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
-"problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+"problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
 msgstr ""
 "Non sappiamo cosa ha causato questo errore. La cosa migliore è inviare un "
-"report del problema alla mailing list di DVD-o-matic (dvdomatic@carlh.net)"
+"report del problema alla mailing list di DCP-o-matic (dcpomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"

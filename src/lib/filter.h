@@ -21,8 +21,8 @@
  *  @brief A class to describe one of FFmpeg's video or post-processing filters.
  */
 
-#ifndef DVDOMATIC_FILTER_H
-#define DVDOMATIC_FILTER_H
+#ifndef DCPOMATIC_FILTER_H
+#define DCPOMATIC_FILTER_H
 
 #include <string>
 #include <vector>

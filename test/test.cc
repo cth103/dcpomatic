@@ -42,7 +42,7 @@
 #include "sndfile_decoder.h"
 #include "dcp_content_type.h"
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE dvdomatic_test
+#define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
 
 using std::string;
@@ -90,7 +90,7 @@ new_test_film (string name)
 BOOST_AUTO_TEST_CASE (make_black_test)
 {
 	/* This needs to happen in the first test */
-	dvdomatic_setup ();
+	dcpomatic_setup ();
 
 	libdcp::Size in_size (512, 512);
 	libdcp::Size out_size (1024, 1024);
@@ -392,7 +392,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	new thread (boost::bind (&Server::run, server, 2));
 
 	/* Let the server get itself ready */
-	dvdomatic_sleep (1);
+	dcpomatic_sleep (1);
 
 	ServerDescription description ("localhost", 2);
 
@@ -421,7 +421,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	film->write_metadata ();
 
 	while (JobManager::instance()->work_to_do ()) {
-		dvdomatic_sleep (1);
+		dcpomatic_sleep (1);
 	}
 	
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
@@ -452,7 +452,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	film->make_dcp ();
 
 	while (JobManager::instance()->work_to_do() && !JobManager::instance()->errors()) {
-		dvdomatic_sleep (1);
+		dcpomatic_sleep (1);
 	}
 
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
@@ -689,10 +689,10 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	shared_ptr<TestJob> a (new TestJob (f));
 
 	JobManager::instance()->add (a);
-	dvdomatic_sleep (1);
+	dcpomatic_sleep (1);
 	BOOST_CHECK_EQUAL (a->running (), true);
 	a->set_finished_ok ();
-	dvdomatic_sleep (2);
+	dcpomatic_sleep (2);
 	BOOST_CHECK_EQUAL (a->finished_ok(), true);
 }
 

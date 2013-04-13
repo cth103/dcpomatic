@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_ENCODER_H
-#define DVDOMATIC_ENCODER_H
+#ifndef DCPOMATIC_ENCODER_H
+#define DCPOMATIC_ENCODER_H
 
 /** @file src/encoder.h
  *  @brief Encoder to J2K and WAV for DCP.

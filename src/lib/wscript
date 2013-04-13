@@ -66,7 +66,7 @@ def build(bld):
     else:
         obj = bld(features = 'cxx cxxshlib')
 
-    obj.name = 'libdvdomatic'
+    obj.name = 'libdcpomatic'
     obj.export_includes = ['.']
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
@@ -78,12 +78,12 @@ def build(bld):
     if bld.env.STATIC:
         obj.uselib += ' XML++'
     obj.source = sources + " version.cc"
-    obj.target = 'dvdomatic'
+    obj.target = 'dcpomatic'
 
-    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdvdomatic', bld)
+    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdcpomatic', bld)
 
 def pot(bld):
-    i18n.pot(os.path.join('src', 'lib'), sources, 'libdvdomatic')
+    i18n.pot(os.path.join('src', 'lib'), sources, 'libdcpomatic')
 
 def pot_merge(bld):
-    i18n.pot_merge(os.path.join('src', 'lib'), 'libdvdomatic')
+    i18n.pot_merge(os.path.join('src', 'lib'), 'libdcpomatic')

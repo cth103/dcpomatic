@@ -21,8 +21,8 @@
  *  @brief Parent class for classes which emit video data.
  */
 
-#ifndef DVDOMATIC_VIDEO_SOURCE_H
-#define DVDOMATIC_VIDEO_SOURCE_H
+#ifndef DCPOMATIC_VIDEO_SOURCE_H
+#define DCPOMATIC_VIDEO_SOURCE_H
 
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>

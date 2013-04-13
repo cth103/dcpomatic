@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: DVD-o-matic\n"
+"Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-09 11:14+0100\n"
 "PO-Revision-Date: 2013-04-09 10:13+0100\n"
@@ -249,10 +249,10 @@ msgstr "Filter för horisontal kantighetsutjämning A"
 #: src/lib/job.cc:92 src/lib/job.cc:101
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
-"problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+"problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
 msgstr ""
 "Det är inte känt vad som orsakade detta fel. Bästa sättet att rapportera "
-"problemet är till DVD-o-matics mejl-lista (dvdomatic@carlh.net)"
+"problemet är till DCP-o-matics mejl-lista (dcpomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"

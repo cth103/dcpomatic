@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_PLAYER_H
-#define DVDOMATIC_PLAYER_H
+#ifndef DCPOMATIC_PLAYER_H
+#define DCPOMATIC_PLAYER_H
 
 #include <list>
 #include <boost/shared_ptr.hpp>

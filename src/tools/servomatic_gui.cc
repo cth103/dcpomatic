@@ -61,7 +61,7 @@ class StatusDialog : public wxDialog
 {
 public:
 	StatusDialog ()
-		: wxDialog (0, wxID_ANY, _("DVD-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+		: wxDialog (0, wxID_ANY, _("DCP-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 		, _timer (this, ID_timer)
 	{
 		_sizer = new wxFlexGridSizer (1, 6, 6);
@@ -103,7 +103,7 @@ public:
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif		
-		SetIcon (icon, std_to_wx ("DVD-o-matic encode server"));
+		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
 
 		Connect (ID_status, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::status));
 		Connect (ID_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::quit));
@@ -147,7 +147,7 @@ private:
 			return false;
 		}
 		
-		dvdomatic_setup ();
+		dcpomatic_setup ();
 
 		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));

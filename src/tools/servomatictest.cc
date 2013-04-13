@@ -145,7 +145,7 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	dvdomatic_setup ();
+	dcpomatic_setup ();
 
 	server = new ServerDescription (server_host, 1);
 	shared_ptr<Film> film (new Film (film_dir, true));

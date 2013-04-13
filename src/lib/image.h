@@ -21,8 +21,8 @@
  *  @brief A set of classes to describe video images.
  */
 
-#ifndef DVDOMATIC_IMAGE_H
-#define DVDOMATIC_IMAGE_H
+#ifndef DCPOMATIC_IMAGE_H
+#define DCPOMATIC_IMAGE_H
 
 #include <string>
 #include <boost/shared_ptr.hpp>

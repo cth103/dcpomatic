@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_VIDEO_DECODER_H
-#define DVDOMATIC_VIDEO_DECODER_H
+#ifndef DCPOMATIC_VIDEO_DECODER_H
+#define DCPOMATIC_VIDEO_DECODER_H
 
 #include "video_source.h"
 #include "decoder.h"

@@ -18,7 +18,7 @@
 */
 
 /** @file src/config_dialog.h
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 
 #include <wx/wx.h>
@@ -31,7 +31,7 @@ class DirPickerCtrl;
 class ServerDescription;
 
 /** @class ConfigDialog
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 class ConfigDialog : public wxDialog
 {

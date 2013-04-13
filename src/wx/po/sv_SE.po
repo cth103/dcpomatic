@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: DVD-o-matic\n"
+"Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-09 11:14+0100\n"
 "PO-Revision-Date: 2013-04-09 10:13+0100\n"
@@ -22,8 +22,8 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/config_dialog.cc:61
-msgid "(restart DVD-o-matic to see language changes)"
-msgstr "(starta om DVD-o-matic för att se språkändringar)"
+msgid "(restart DCP-o-matic to see language changes)"
+msgstr "(starta om DCP-o-matic för att se språkändringar)"
 
 #: src/wx/film_editor.cc:1269
 msgid "1 channel"
@@ -141,17 +141,17 @@ msgid "DCP Name"
 msgstr "DCP Namn"
 
 #: src/wx/wx_util.cc:61
-msgid "DVD-o-matic"
-msgstr "DVD-o-matic"
+msgid "DCP-o-matic"
+msgstr "DCP-o-matic"
 
 #: src/wx/config_dialog.cc:44
-msgid "DVD-o-matic Preferences"
-msgstr "DVD-o-matic Inställningar"
+msgid "DCP-o-matic Preferences"
+msgstr "DCP-o-matic Inställningar"
 
 #: src/wx/audio_dialog.cc:101
 #, c-format
-msgid "DVD-o-matic audio - %s"
-msgstr "DVD-o-matic audio - %s"
+msgid "DCP-o-matic audio - %s"
+msgstr "DCP-o-matic audio - %s"
 
 #: src/wx/config_dialog.cc:102
 msgid "Default DCI name details"

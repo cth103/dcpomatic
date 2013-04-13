@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: DVD-o-matic FRENCH\n"
+"Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-09 11:14+0100\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
@@ -248,10 +248,10 @@ msgstr "Filtre dé-bloc horizontal"
 #: src/lib/job.cc:92 src/lib/job.cc:101
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
-"problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+"problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
 msgstr ""
-"Erreur indéterminée. Merci de rapporter le problème à la liste DVD-o-matic "
-"(dvdomatic@carlh.net)"
+"Erreur indéterminée. Merci de rapporter le problème à la liste DCP-o-matic "
+"(dcpomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"

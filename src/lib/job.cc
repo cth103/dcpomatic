@@ -91,7 +91,7 @@ Job::run_wrapper ()
 		set_state (FINISHED_ERROR);
 		set_error (
 			e.what (),
-			_("It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)")
+			_("It is not known what caused this error.  The best idea is to report the problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)")
 			);
 
 	} catch (...) {
@@ -100,7 +100,7 @@ Job::run_wrapper ()
 		set_state (FINISHED_ERROR);
 		set_error (
 			_("Unknown error"),
-			_("It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)")
+			_("It is not known what caused this error.  The best idea is to report the problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)")
 			);
 
 	}

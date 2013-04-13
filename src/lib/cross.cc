@@ -18,20 +18,20 @@
 */
 
 #include "cross.h"
-#ifdef DVDOMATIC_POSIX
+#ifdef DCPOMATIC_POSIX
 #include <unistd.h>
 #endif
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 #include "windows.h"
 #endif
 
 void
-dvdomatic_sleep (int s)
+dcpomatic_sleep (int s)
 {
-#ifdef DVDOMATIC_POSIX
+#ifdef DCPOMATIC_POSIX
 	sleep (s);
 #endif
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 	Sleep (s * 1000);
 #endif
 }

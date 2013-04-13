@@ -27,7 +27,7 @@
 #include <iostream>
 #include <fstream>
 #include <climits>
-#ifdef DVDOMATIC_POSIX
+#ifdef DCPOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
 #endif
@@ -148,7 +148,7 @@ seconds_to_approximate_hms (int s)
 	return ap.str ();
 }
 
-#ifdef DVDOMATIC_POSIX
+#ifdef DCPOMATIC_POSIX
 /** @param l Mangled C++ identifier.
  *  @return Demangled version.
  */
@@ -247,11 +247,11 @@ seconds (struct timeval t)
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
-/** Call the required functions to set up DVD-o-matic's static arrays, etc.
+/** Call the required functions to set up DCP-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
 void
-dvdomatic_setup ()
+dcpomatic_setup ()
 {
 	avfilter_register_all ();
 	
@@ -264,7 +264,7 @@ dvdomatic_setup ()
 	ui_thread = boost::this_thread::get_id ();
 }
 
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 boost::filesystem::path
 mo_path ()
 {
@@ -279,9 +279,9 @@ mo_path ()
 #endif
 
 void
-dvdomatic_setup_i18n (string lang)
+dcpomatic_setup_i18n (string lang)
 {
-#ifdef DVDOMATIC_POSIX
+#ifdef DCPOMATIC_POSIX
 	lang += ".UTF8";
 #endif
 
@@ -297,15 +297,15 @@ dvdomatic_setup_i18n (string lang)
 	}
 
 	setlocale (LC_ALL, "");
-	textdomain ("libdvdomatic");
+	textdomain ("libdcpomatic");
 
-#ifdef DVDOMATIC_WINDOWS
-	bindtextdomain ("libdvdomatic", mo_path().string().c_str());
-	bind_textdomain_codeset ("libdvdomatic", "UTF8");
+#ifdef DCPOMATIC_WINDOWS
+	bindtextdomain ("libdcpomatic", mo_path().string().c_str());
+	bind_textdomain_codeset ("libdcpomatic", "UTF8");
 #endif	
 
-#ifdef DVDOMATIC_POSIX
-	bindtextdomain ("libdvdomatic", POSIX_LOCALE_PREFIX);
+#ifdef DCPOMATIC_POSIX
+	bindtextdomain ("libdcpomatic", POSIX_LOCALE_PREFIX);
 #endif
 }
 
@@ -909,7 +909,7 @@ cpu_info ()
 	pair<string, int> info;
 	info.second = 0;
 	
-#ifdef DVDOMATIC_POSIX
+#ifdef DCPOMATIC_POSIX
 	ifstream f (N_("/proc/cpuinfo"));
 	while (f.good ()) {
 		string l;

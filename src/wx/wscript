@@ -34,18 +34,18 @@ def build(bld):
     else:
         obj = bld(features = 'cxx cxxshlib')
 
-    obj.name   = 'libdvdomatic-wx'
+    obj.name   = 'libdcpomatic-wx'
     obj.includes = [ '..' ]
     obj.export_includes = ['.']
     obj.uselib = 'WXWIDGETS'
-    obj.use = 'libdvdomatic'
+    obj.use = 'libdcpomatic'
     obj.source = sources
-    obj.target = 'dvdomatic-wx'
+    obj.target = 'dcpomatic-wx'
 
-    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdvdomatic-wx', bld)
+    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic-wx', bld)
 
 def pot(bld):
-    i18n.pot(os.path.join('src', 'wx'), sources, 'libdvdomatic-wx')
+    i18n.pot(os.path.join('src', 'wx'), sources, 'libdcpomatic-wx')
 
 def pot_merge(bld):
-    i18n.pot_merge(os.path.join('src', 'wx'), 'libdvdomatic-wx')
+    i18n.pot_merge(os.path.join('src', 'wx'), 'libdcpomatic-wx')

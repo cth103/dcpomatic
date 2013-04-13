@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_VIDEO_SINK_H
-#define DVDOMATIC_VIDEO_SINK_H
+#ifndef DCPOMATIC_VIDEO_SINK_H
+#define DCPOMATIC_VIDEO_SINK_H
 
 #include <boost/shared_ptr.hpp>
 #include "util.h"

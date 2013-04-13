@@ -18,7 +18,7 @@
 */
 
 /** @file src/config_dialog.cc
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 
 #include <iostream>
@@ -41,7 +41,7 @@ using namespace std;
 using boost::bind;
 
 ConfigDialog::ConfigDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("DVD-o-matic Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
 	table->AddGrowableCol (1, 1);
@@ -58,7 +58,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	table->AddSpacer (0);
 
 	table->AddSpacer (0);
-	wxStaticText* restart = add_label_to_sizer (table, this, _("(restart DVD-o-matic to see language changes)"));
+	wxStaticText* restart = add_label_to_sizer (table, this, _("(restart DCP-o-matic to see language changes)"));
 	wxFont font = restart->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);

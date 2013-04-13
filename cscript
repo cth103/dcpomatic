@@ -25,13 +25,13 @@ def build(environment, variant, version):
         shutil.copyfile(os.path.join('builds', 'control-%s' % variant), os.path.join('debian', 'control'))
         command('./waf dist')
         f = open(os.path.join('debian', 'files'), 'w')
-        print >>f,'dvdomatic_%s-1_%s.deb video extra' % (version, cpu)
+        print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
         shutil.rmtree('build/deb', ignore_errors=True)
         os.makedirs('build/deb')
         os.chdir('build/deb')
-        shutil.move('../../dvdomatic-%s.tar.bz2' % version, 'dvdomatic_%s.orig.tar.bz2' % version)
-        command('tar xjf dvdomatic_%s.orig.tar.bz2' % version)
-        os.chdir('dvdomatic-%s' % version)
+        shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
+        command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
+        os.chdir('dcpomatic-%s' % version)
         command('dch -b -v %s-1 "New upstream release."' % version)
         command('dpkg-source -b .')
         command('dpkg-buildpackage')
@@ -39,9 +39,9 @@ def build(environment, variant, version):
 
 def make_pot():
     command('./waf pot')
-    return [os.path.abspath('build/src/lib/libdvdomatic.pot'),
-            os.path.abspath('build/src/wx/libdvdomatic-wx.pot'),
-	    os.path.abspath('build/src/tools/dvdomatic.pot')]
+    return [os.path.abspath('build/src/lib/libdcpomatic.pot'),
+            os.path.abspath('build/src/wx/libdcpomatic-wx.pot'),
+	    os.path.abspath('build/src/tools/dcpomatic.pot')]
 
 def make_manual():
     os.chdir('doc/manual')

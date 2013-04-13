@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_FFMPEG_CONTENT_H
-#define DVDOMATIC_FFMPEG_CONTENT_H
+#ifndef DCPOMATIC_FFMPEG_CONTENT_H
+#define DCPOMATIC_FFMPEG_CONTENT_H
 
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"

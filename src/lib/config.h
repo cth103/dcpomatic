@@ -21,8 +21,8 @@
  *  @brief Class holding configuration.
  */
 
-#ifndef DVDOMATIC_CONFIG_H
-#define DVDOMATIC_CONFIG_H
+#ifndef DCPOMATIC_CONFIG_H
+#define DCPOMATIC_CONFIG_H
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
