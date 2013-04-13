@@ -64,9 +64,12 @@ public:
 	std::string info_dir () const;
 	std::string j2c_path (int f, bool t) const;
 	std::string info_path (int f) const;
-	std::string video_mxf_dir () const;
-	std::string video_mxf_filename () const;
+	std::string internal_video_mxf_dir () const;
+	std::string internal_video_mxf_filename () const;
 	std::string audio_analysis_path () const;
+
+	std::string dcp_video_mxf_filename () const;
+	std::string dcp_audio_mxf_filename () const;
 
 	void examine_content ();
 	void analyse_audio ();
@@ -387,6 +390,7 @@ private:
 	void examine_content_finished ();
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
+	std::string filename_safe_name () const;
 
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.

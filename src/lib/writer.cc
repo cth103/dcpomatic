@@ -65,8 +65,8 @@ Writer::Writer (shared_ptr<Film> f)
 	
 	_picture_asset.reset (
 		new libdcp::MonoPictureAsset (
-			_film->video_mxf_dir (),
-			_film->video_mxf_filename (),
+			_film->internal_video_mxf_dir (),
+			_film->internal_video_mxf_filename (),
 			_film->dcp_frame_rate (),
 			_film->format()->dcp_size ()
 			)
@@ -80,7 +80,7 @@ Writer::Writer (shared_ptr<Film> f)
 		_sound_asset.reset (
 			new libdcp::SoundAsset (
 				_film->dir (_film->dcp_name()),
-				N_("audio.mxf"),
+				_film->dcp_audio_mxf_filename (),
 				_film->dcp_frame_rate (),
 				m.dcp_channels (),
 				dcp_audio_sample_rate (_film->audio_stream()->sample_rate())
@@ -267,12 +267,12 @@ Writer::finish ()
 	/* Hard-link the video MXF into the DCP */
 
 	boost::filesystem::path from;
-	from /= _film->video_mxf_dir();
-	from /= _film->video_mxf_filename();
+	from /= _film->internal_video_mxf_dir();
+	from /= _film->internal_video_mxf_filename();
 	
 	boost::filesystem::path to;
 	to /= _film->dir (_film->dcp_name());
-	to /= N_("video.mxf");
+	to /= _film->dcp_video_mxf_filename ();
 
 	boost::system::error_code ec;
 	boost::filesystem::create_hard_link (from, to, ec);
@@ -285,7 +285,7 @@ Writer::finish ()
 	/* And update the asset */
 
 	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
-	_picture_asset->set_file_name (N_("video.mxf"));
+	_picture_asset->set_file_name (_film->dcp_video_mxf_filename ());
 
 	if (_sound_asset) {
 		_sound_asset->set_entry_point (_film->trim_start ());
@@ -339,8 +339,8 @@ Writer::check_existing_picture_mxf ()
 {
 	/* Try to open the existing MXF */
 	boost::filesystem::path p;
-	p /= _film->video_mxf_dir ();
-	p /= _film->video_mxf_filename ();
+	p /= _film->internal_video_mxf_dir ();
+	p /= _film->internal_video_mxf_filename ();
 	FILE* mxf = fopen (p.string().c_str(), N_("rb"));
 	if (!mxf) {
 		return;

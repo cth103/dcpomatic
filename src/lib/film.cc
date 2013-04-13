@@ -232,16 +232,44 @@ Film::info_dir () const
 }
 
 string
-Film::video_mxf_dir () const
+Film::internal_video_mxf_dir () const
 {
 	boost::filesystem::path p;
 	return dir ("video");
 }
 
 string
-Film::video_mxf_filename () const
+Film::internal_video_mxf_filename () const
 {
 	return video_state_identifier() + ".mxf";
+}
+
+string
+Film::dcp_video_mxf_filename () const
+{
+	return filename_safe_name() + "_video.mxf";
+}
+
+string
+Film::dcp_audio_mxf_filename () const
+{
+	return filename_safe_name() + "_audio.mxf";
+}
+
+string
+Film::filename_safe_name () const
+{
+	string const n = name ();
+	string o;
+	for (size_t i = 0; i < n.length(); ++i) {
+		if (isalnum (n[i])) {
+			o += n[i];
+		} else {
+			o += "_";
+		}
+	}
+
+	return o;
 }
 
 string
