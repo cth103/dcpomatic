@@ -458,14 +458,21 @@ setup_i18n ()
 {
 	int language = wxLANGUAGE_DEFAULT;
 
+	ofstream f ("c:/users/carl/foo", ios::app);
+	f << "Hello.\n";
+
 	if (Config::instance()->language()) {
+		f << "Configured language " << Config::instance()->language().get() << "\n";
 		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (Config::instance()->language().get()));
+		f << "LanguageInfo " << li << "\n";
 		if (li) {
 			language = li->Language;
+			f << "language=" << language << " cf " << wxLANGUAGE_DEFAULT << " " << wxLANGUAGE_ENGLISH << "\n";
 		}
 	}
  
 	if (wxLocale::IsAvailable (language)) {
+		f << "Language is available.\n";
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
 
 #ifdef DVDOMATIC_WINDOWS
@@ -476,6 +483,7 @@ setup_i18n ()
 		locale->AddCatalog (wxT ("dvdomatic"));
 		
 		if (!locale->IsOk()) {
+			f << "Locale is not ok.\n";
 			delete locale;
 			locale = new wxLocale (wxLANGUAGE_ENGLISH);
 			language = wxLANGUAGE_ENGLISH;
