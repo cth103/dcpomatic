@@ -52,6 +52,7 @@ using std::stringstream;
 using std::map;
 using std::make_pair;
 using std::exception;
+using std::ofstream;
 using boost::shared_ptr;
 
 static FilmEditor* film_editor = 0;
