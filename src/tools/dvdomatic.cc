@@ -18,6 +18,7 @@
 */
 
 #include <iostream>
+#include <fstream>
 #include <boost/filesystem.hpp>
 #ifdef __WXMSW__
 #include <shellapi.h>
@@ -459,7 +460,7 @@ setup_i18n ()
 {
 	int language = wxLANGUAGE_DEFAULT;
 
-	ofstream f ("c:/users/carl/foo", ios::app);
+	ofstream f ("c:/users/carl/foo", std::ios::app);
 	f << "Hello.\n";
 
 	if (Config::instance()->language()) {
