@@ -463,9 +463,10 @@ setup_i18n ()
 	ofstream f ("c:/users/carl hetherington/foo", std::ios::app);
 	f << "Hello.\n";
 
-	if (Config::instance()->language()) {
-		f << "Configured language " << Config::instance()->language().get() << "\n";
-		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (Config::instance()->language().get()));
+	boost::optional<string> config_lang = Config::instance()->language ();
+	if (config_lang && !config_lang.empty ()) {
+		f << "Configured language " << config_lang.get() << "\n";
+		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
 		f << "LanguageInfo " << li << "\n";
 		if (li) {
 			language = li->Language;
