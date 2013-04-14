@@ -45,6 +45,7 @@ sources = """
           timer.cc
           transcode_job.cc
           transcoder.cc
+          trimmer.cc
           ui_signaller.cc
           util.cc
           video_decoder.cc
