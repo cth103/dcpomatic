@@ -93,6 +93,7 @@ Film::Film (string d, bool must_exist)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _trim_start (0)
 	, _trim_end (0)
+	, _trim_type (CPL)
 	, _dcp_ab (false)
 	, _use_content_audio (true)
 	, _audio_gain (0)
@@ -163,6 +164,7 @@ Film::Film (Film const & o)
 	, _scaler            (o._scaler)
 	, _trim_start        (o._trim_start)
 	, _trim_end          (o._trim_end)
+	, _trim_type         (o._trim_type)
 	, _dcp_ab            (o._dcp_ab)
 	, _content_audio_stream (o._content_audio_stream)
 	, _external_audio    (o._external_audio)
@@ -456,6 +458,14 @@ Film::write_metadata () const
 	f << "scaler " << _scaler->id () << endl;
 	f << "trim_start " << _trim_start << endl;
 	f << "trim_end " << _trim_end << endl;
+	switch (_trim_type) {
+	case CPL:
+		f << "trim_type cpl\n";
+		break;
+	case ENCODE:
+		f << "trim_type encode\n";
+		break;
+	}
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << endl;
 	if (_content_audio_stream) {
 		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << endl;
@@ -569,6 +579,12 @@ Film::read_metadata ()
 			_trim_start = atoi (v.c_str ());
 		} else if ( ((!version || version < 2) && k == "dcp_trim_end") || k == "trim_end") {
 			_trim_end = atoi (v.c_str ());
+		} else if (k == "trim_type") {
+			if (v == "cpl") {
+				_trim_type = CPL;
+			} else if (v == "encode") {
+				_trim_type = ENCODE;
+			}
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
 		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
@@ -1122,6 +1138,16 @@ Film::set_trim_end (int t)
 		_trim_end = t;
 	}
 	signal_changed (TRIM_END);
+}
+
+void
+Film::set_trim_type (TrimType t)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_trim_type = t;
+	}
+	signal_changed (TRIM_TYPE);
 }
 
 void

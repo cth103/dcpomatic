@@ -112,6 +112,11 @@ public:
 
 	bool have_dcp () const;
 
+	enum TrimType {
+		CPL,
+		ENCODE
+	};
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -128,6 +133,7 @@ public:
 		SCALER,
 		TRIM_START,
 		TRIM_END,
+		TRIM_TYPE,
 		DCP_AB,
 		CONTENT_AUDIO_STREAM,
 		EXTERNAL_AUDIO,
@@ -211,6 +217,11 @@ public:
 	int trim_end () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trim_end;
+	}
+
+	TrimType trim_type () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _trim_type;
 	}
 
 	bool dcp_ab () const {
@@ -345,6 +356,7 @@ public:
 	void set_scaler (Scaler const *);
 	void set_trim_start (int);
 	void set_trim_end (int);
+	void set_trim_type (TrimType);
 	void set_dcp_ab (bool);
 	void set_content_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
@@ -426,6 +438,7 @@ private:
 	int _trim_start;
 	/** Frames to trim off the end of the DCP */
 	int _trim_end;
+	TrimType _trim_type;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.
