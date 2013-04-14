@@ -182,8 +182,18 @@ Playlist::video_length () const
 bool
 Playlist::has_audio () const
 {
-	/* XXX */
-	return true;
+	if (!_sndfile.empty ()) {
+		return true;
+	}
+
+	for (list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin(); i != _video.end(); ++i) {
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+		if (fc && fc->audio_stream ()) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 void
