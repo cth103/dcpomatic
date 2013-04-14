@@ -70,7 +70,7 @@ private:
 	std::list<boost::shared_ptr<VideoDecoder> >::iterator _video_decoder;
 	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
 
-	boost::shared_ptr<AudioBuffers> _sndfile_buffers;
+	boost::shared_ptr<AudioBuffers> _audio_buffers;
 
 	bool _video_sync;
 };

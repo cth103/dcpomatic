@@ -41,7 +41,7 @@ int
 AudioMapping::dcp_channels () const
 {
 	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
-		if (((int) i->second) > 2) {
+		if (((int) i->second) >= 2) {
 			return 6;
 		}
 	}

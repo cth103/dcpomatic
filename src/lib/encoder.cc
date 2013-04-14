@@ -135,9 +135,9 @@ void
 Encoder::process_end ()
 {
 #if HAVE_SWRESAMPLE	
-	if (_film->has_audio() && _film->audio_channels() && _swr_context) {
+	if (_film->has_audio() && _swr_context) {
 
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_channels(), 256));
+		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_mapping().dcp_channels(), 256));
 			
 		while (1) {
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
@@ -312,7 +312,7 @@ Encoder::process_audio (shared_ptr<AudioBuffers> data)
 		/* Compute the resampled frames count and add 32 for luck */
 		int const max_resampled_frames = ceil ((int64_t) data->frames() * _film->target_audio_sample_rate() / _film->audio_frame_rate()) + 32;
 
-		shared_ptr<AudioBuffers> resampled (new AudioBuffers (_film->audio_channels(), max_resampled_frames));
+		shared_ptr<AudioBuffers> resampled (new AudioBuffers (_film->audio_mapping().dcp_channels(), max_resampled_frames));
 
 		/* Resample audio */
 		int const resampled_frames = swr_convert (

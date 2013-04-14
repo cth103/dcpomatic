@@ -92,8 +92,8 @@ Player::pass ()
 			}
 		}
 
-		Audio (_sndfile_buffers);
-		_sndfile_buffers.reset ();
+		Audio (_audio_buffers);
+		_audio_buffers.reset ();
 	}
 
 	return done;
@@ -126,22 +126,23 @@ Player::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
 void
 Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> b)
 {
-	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
-		AudioMapping mapping = _film->audio_mapping ();
-		if (!_sndfile_buffers) {
-			_sndfile_buffers.reset (new AudioBuffers (mapping.dcp_channels(), b->frames ()));
-			_sndfile_buffers->make_silent ();
-		}
+	AudioMapping mapping = _film->audio_mapping ();
+	if (!_audio_buffers) {
+		_audio_buffers.reset (new AudioBuffers (mapping.dcp_channels(), b->frames ()));
+		_audio_buffers->make_silent ();
+	}
 
-		for (int i = 0; i < b->channels(); ++i) {
-			list<libdcp::Channel> dcp = mapping.content_to_dcp (AudioMapping::Channel (c, i));
-			for (list<libdcp::Channel>::iterator j = dcp.begin(); j != dcp.end(); ++j) {
-				_sndfile_buffers->accumulate (b, i, static_cast<int> (*j));
-			}
+	for (int i = 0; i < b->channels(); ++i) {
+		list<libdcp::Channel> dcp = mapping.content_to_dcp (AudioMapping::Channel (c, i));
+		for (list<libdcp::Channel>::iterator j = dcp.begin(); j != dcp.end(); ++j) {
+			_audio_buffers->accumulate (b, i, static_cast<int> (*j));
 		}
+	}
 
-	} else {
-		Audio (b);
+	if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
+		/* We can just emit this audio now as it will all be here */
+		Audio (_audio_buffers);
+		_audio_buffers.reset ();
 	}
 }
 
