@@ -65,6 +65,7 @@ private:
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);
+	void trim_type_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
@@ -169,8 +170,6 @@ private:
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
 	wxStaticText* _frame_rate_description;
-	/** The Film's original size */
-	wxStaticText* _original_size;
 	/** The Film's length */
 	wxStaticText* _length;
 	/** The Film's audio details */
@@ -180,6 +179,7 @@ private:
 
 	wxSpinCtrl* _trim_start;
 	wxSpinCtrl* _trim_end;
+	wxChoice* _trim_type;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 

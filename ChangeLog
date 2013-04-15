@@ -1,3 +1,7 @@
+2013-04-13  Carl Hetherington  <cth@carlh.net>
+
+	* Use film-name-derived names for MXFs in DCPs (#54).
+
 2013-04-10  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.83 released.
