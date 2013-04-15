@@ -18,6 +18,7 @@
 */
 
 #include <iostream>
+#include <fstream>
 #include <boost/filesystem.hpp>
 #ifdef __WXMSW__
 #include <shellapi.h>
@@ -52,6 +53,7 @@ using std::stringstream;
 using std::map;
 using std::make_pair;
 using std::exception;
+using std::ofstream;
 using boost::shared_ptr;
 
 static FilmEditor* film_editor = 0;
@@ -458,14 +460,22 @@ setup_i18n ()
 {
 	int language = wxLANGUAGE_DEFAULT;
 
-	if (Config::instance()->language()) {
-		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (Config::instance()->language().get()));
+	ofstream f ("c:/users/carl hetherington/foo", std::ios::app);
+	f << "Hello.\n";
+
+	boost::optional<string> config_lang = Config::instance()->language ();
+	if (config_lang && !config_lang->empty ()) {
+		f << "Configured language " << config_lang.get() << "\n";
+		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
+		f << "LanguageInfo " << li << "\n";
 		if (li) {
 			language = li->Language;
+			f << "language=" << language << " cf " << wxLANGUAGE_DEFAULT << " " << wxLANGUAGE_ENGLISH << "\n";
 		}
 	}
  
 	if (wxLocale::IsAvailable (language)) {
+		f << "Language is available.\n";
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
 
 #ifdef DVDOMATIC_WINDOWS
@@ -476,6 +486,7 @@ setup_i18n ()
 		locale->AddCatalog (wxT ("dvdomatic"));
 		
 		if (!locale->IsOk()) {
+			f << "Locale is not ok.\n";
 			delete locale;
 			locale = new wxLocale (wxLANGUAGE_ENGLISH);
 			language = wxLANGUAGE_ENGLISH;
