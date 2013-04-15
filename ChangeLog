@@ -2,6 +2,12 @@
 
 	* Fix error message on forcing language to English (#103).
 
+	* Fix problems with content whose first audio content
+	comes before the first video (resulting in audio being
+	chopped off at the start of the DCP) (#79).
+
+	* Use true 4:3 rather than 1.33.
+
 2013-04-13  Carl Hetherington  <cth@carlh.net>
 
 	* Use film-name-derived names for MXFs in DCPs (#54).
