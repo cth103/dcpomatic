@@ -29,7 +29,7 @@ using std::list;
 using boost::shared_ptr;
 
 Matcher::Matcher (shared_ptr<Log> log, int sample_rate, float frames_per_second)
-	: AudioVideoProcessor (log)
+	: Processor (log)
 	, _sample_rate (sample_rate)
 	, _frames_per_second (frames_per_second)
 	, _video_frames (0)

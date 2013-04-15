@@ -23,7 +23,7 @@
 using boost::shared_ptr;
 
 Combiner::Combiner (shared_ptr<Log> log)
-	: VideoProcessor (log)
+	: TimedVideoProcessor (log)
 {
 
 }
@@ -33,7 +33,7 @@ Combiner::Combiner (shared_ptr<Log> log)
  *  @param image Frame image.
  */
 void
-Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>)
+Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>, double t)
 {
 	_image = image;
 }
@@ -43,7 +43,7 @@ Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>)
  *  @param sub Subtitle (which will be put onto the whole frame)
  */
 void
-Combiner::process_video_b (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
+Combiner::process_video_b (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub, double t)
 {
 	/* Copy the right half of this image into our _image */
 	/* XXX: this should probably be in the Image class */
@@ -62,6 +62,6 @@ Combiner::process_video_b (shared_ptr<Image> image, bool, shared_ptr<Subtitle> s
 		}
 	}
 
-	Video (_image, false, sub);
+	Video (_image, false, sub, t);
 	_image.reset ();
 }

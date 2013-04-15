@@ -30,14 +30,14 @@ using boost::shared_ptr;
 /*  @param seconds Delay in seconds, +ve to move audio later.
  */
 DelayLine::DelayLine (shared_ptr<Log> log, double seconds)
-	: Processor (log)
+	: TimedAudioVideoProcessor (log)
 	, _seconds (seconds)
 {
 	
 }
 
 void
-DelayLine::process_audio (shared_ptr<AudioBuffers> data)
+DelayLine::process_audio (shared_ptr<AudioBuffers> data, double t)
 {
 	if (_seconds > 0) {
 		t += _seconds;

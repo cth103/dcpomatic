@@ -20,8 +20,8 @@
 #include <boost/shared_ptr.hpp>
 #include "processor.h"
 
-/** A delay line for audio */
-class DelayLine : public Processor, public TimedAudioSink, public TimedAudioSource, public TimedVideoSink, public TimedVideoSource
+/** A delay line */
+class DelayLine : public TimedAudioVideoProcessor
 {
 public:
 	DelayLine (boost::shared_ptr<Log> log, double);
