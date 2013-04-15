@@ -464,7 +464,7 @@ setup_i18n ()
 	f << "Hello.\n";
 
 	boost::optional<string> config_lang = Config::instance()->language ();
-	if (config_lang && !config_lang.empty ()) {
+	if (config_lang && !config_lang->empty ()) {
 		f << "Configured language " << config_lang.get() << "\n";
 		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
 		f << "LanguageInfo " << li << "\n";
