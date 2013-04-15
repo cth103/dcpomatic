@@ -20,7 +20,7 @@ sources = """
           dolby_cp750.cc
           encoder.cc
           examine_content_job.cc
-          external_audio_decoder.cc
+          exceptions.cc
           filter_graph.cc
           ffmpeg_compatibility.cc
           ffmpeg_decoder.cc
@@ -38,6 +38,7 @@ sources = """
           scp_dcp_job.cc
           scaler.cc
           server.cc
+          sndfile_decoder.cc
           sound_processor.cc
           stream.cc
           subtitle.cc
@@ -46,7 +47,6 @@ sources = """
           transcoder.cc
           ui_signaller.cc
           util.cc
-          version.cc
           video_decoder.cc
           video_source.cc
           writer.cc
@@ -67,10 +67,13 @@ def build(bld):
                  """
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
-    obj.source = sources
+    obj.source = sources + " version.cc"
     obj.target = 'dvdomatic'
 
     i18n.po_to_mo(os.path.join('src', 'lib'), 'libdvdomatic', bld)
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'lib'), sources, 'libdvdomatic')
+
+def pot_merge(bld):
+    i18n.pot_merge(os.path.join('src', 'lib'), 'libdvdomatic')

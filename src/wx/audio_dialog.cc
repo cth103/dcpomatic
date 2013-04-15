@@ -35,7 +35,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	_plot = new AudioPlot (this);
-	sizer->Add (_plot, 1, wxALL, 12);
+	sizer->Add (_plot, 1, wxALL | wxEXPAND, 12);
 
 	wxBoxSizer* side = new wxBoxSizer (wxVERTICAL);
 
@@ -87,7 +87,7 @@ void
 AudioDialog::set_film (boost::shared_ptr<Film> f)
 {
 	_film_changed_connection.disconnect ();
-	_film_audio_analysis_finished_connection.disconnect ();
+	_film_audio_analysis_succeeded_connection.disconnect ();
 	
 	_film = f;
 
@@ -96,9 +96,9 @@ AudioDialog::set_film (boost::shared_ptr<Film> f)
 	_plot->set_gain (_film->audio_gain ());
 
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
-	_film_audio_analysis_finished_connection = _film->AudioAnalysisFinished.connect (bind (&AudioDialog::try_to_load_analysis, this));
+	_film_audio_analysis_succeeded_connection = _film->AudioAnalysisSucceeded.connect (bind (&AudioDialog::try_to_load_analysis, this));
 
-	SetTitle (std_to_wx (String::compose (wx_to_std (_("DVD-o-matic audio - %1")), _film->name())));
+	SetTitle (wxString::Format (_("DVD-o-matic audio - %s"), std_to_wx(_film->name()).data()));
 }
 
 void

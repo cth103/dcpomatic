@@ -244,9 +244,9 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
-		TIMING (_("decoder sleeps with queue of %1"), _queue.size());
+		TIMING ("decoder sleeps with queue of %1", _queue.size());
 		_condition.wait (lock);
-		TIMING (_("decoder wakes with queue of %1"), _queue.size());
+		TIMING ("decoder wakes with queue of %1", _queue.size());
 	}
 
 	if (_terminate) {
@@ -268,7 +268,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 	} else {
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
-		TIMING (_("adding to queue of %1"), _queue.size ());
+		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (boost::shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
@@ -349,7 +349,7 @@ Encoder::encoder_thread (ServerDescription* server)
 	
 	while (1) {
 
-		TIMING (N_("encoder thread %1 sleeps"), boost::this_thread::get_id());
+		TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_mutex);
 		while (_queue.empty () && !_terminate) {
 			_condition.wait (lock);
@@ -359,7 +359,7 @@ Encoder::encoder_thread (ServerDescription* server)
 			return;
 		}
 
-		TIMING (N_("encoder thread %1 wakes with queue of %2"), boost::this_thread::get_id(), _queue.size());
+		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		boost::shared_ptr<DCPVideoFrame> vf = _queue.front ();
 		_film->log()->log (String::compose (N_("Encoder thread %1 pops frame %2 from queue"), boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
 		_queue.pop_front ();
@@ -393,9 +393,9 @@ Encoder::encoder_thread (ServerDescription* server)
 				
 		} else {
 			try {
-				TIMING (N_("encoder thread %1 begins local encode of %2"), boost::this_thread::get_id(), vf->frame());
+				TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->frame());
 				encoded = vf->encode_locally ();
-				TIMING (N_("encoder thread %1 finishes local encode of %2"), boost::this_thread::get_id(), vf->frame());
+				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->frame());
 			} catch (std::exception& e) {
 				_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
 			}

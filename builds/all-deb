@@ -1,6 +1,0 @@
-#!/bin/bash -e
-
-builds/deb 12.04 64
-builds/deb 12.10 64
-builds/deb 12.04 32
-builds/deb 12.10 32

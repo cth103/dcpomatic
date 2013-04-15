@@ -28,13 +28,13 @@
  *  one image used for the left half of the screen and the other for
  *  the right.
  */
-class Combiner : public Processor, public TimedVideoSink, public TimedVideoSource
+class Combiner : public VideoProcessor
 {
 public:
-	Combiner (Log* log);
+	Combiner (boost::shared_ptr<Log> log);
 
-	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s, double t);
-	void process_video_b (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s, double t);
+	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
+	void process_video_b (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
 
 private:
 	/** The image that we are currently working on */

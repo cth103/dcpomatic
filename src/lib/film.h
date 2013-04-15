@@ -64,9 +64,12 @@ public:
 	std::string info_dir () const;
 	std::string j2c_path (int f, bool t) const;
 	std::string info_path (int f) const;
-	std::string video_mxf_dir () const;
-	std::string video_mxf_filename () const;
+	std::string internal_video_mxf_dir () const;
+	std::string internal_video_mxf_filename () const;
 	std::string audio_analysis_path () const;
+
+	std::string dcp_video_mxf_filename () const;
+	std::string dcp_audio_mxf_filename () const;
 
 	void examine_content ();
 	void analyse_audio ();
@@ -77,7 +80,7 @@ public:
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
 	 */
-	Log* log () const {
+	boost::shared_ptr<Log> log () const {
 		return _log;
 	}
 
@@ -98,10 +101,6 @@ public:
 	std::string dci_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
 
-	boost::optional<int> dcp_intrinsic_duration () const {
-		return _dcp_intrinsic_duration;
-	}
-
 	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
 		return _dirty;
@@ -112,6 +111,11 @@ public:
 	void set_dci_date_today ();
 
 	bool have_dcp () const;
+
+	enum TrimType {
+		CPL,
+		ENCODE
+	};
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -129,6 +133,7 @@ public:
 		SCALER,
 		TRIM_START,
 		TRIM_END,
+		TRIM_TYPE,
 		DCP_AB,
 		CONTENT_AUDIO_STREAM,
 		EXTERNAL_AUDIO,
@@ -145,7 +150,6 @@ public:
 		DCI_METADATA,
 		SIZE,
 		LENGTH,
-		DCP_INTRINSIC_DURATION,
 		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		SOURCE_FRAME_RATE,
@@ -213,6 +217,11 @@ public:
 	int trim_end () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trim_end;
+	}
+
+	TrimType trim_type () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _trim_type;
 	}
 
 	bool dcp_ab () const {
@@ -327,7 +336,7 @@ public:
 	}
 
 	boost::shared_ptr<AudioStream> audio_stream () const;
-
+	bool has_audio () const;
 	
 	/* SET */
 
@@ -347,6 +356,7 @@ public:
 	void set_scaler (Scaler const *);
 	void set_trim_start (int);
 	void set_trim_end (int);
+	void set_trim_type (TrimType);
 	void set_dcp_ab (bool);
 	void set_content_audio_stream (boost::shared_ptr<AudioStream>);
 	void set_external_audio (std::vector<std::string>);
@@ -365,7 +375,6 @@ public:
 	void set_size (libdcp::Size);
 	void set_length (SourceFrame);
 	void unset_length ();
-	void set_dcp_intrinsic_duration (int);
 	void set_content_digest (std::string);
 	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
 	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
@@ -374,7 +383,7 @@ public:
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
 
-	boost::signals2::signal<void ()> AudioAnalysisFinished;
+	boost::signals2::signal<void ()> AudioAnalysisSucceeded;
 
 	/** Current version number of the state file */
 	static int const state_version;
@@ -382,7 +391,7 @@ public:
 private:
 	
 	/** Log to write to */
-	Log* _log;
+	boost::shared_ptr<Log> _log;
 
 	/** Any running ExamineContentJob, or 0 */
 	boost::shared_ptr<ExamineContentJob> _examine_content_job;
@@ -393,6 +402,7 @@ private:
 	void examine_content_finished ();
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
+	std::string filename_safe_name () const;
 
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
@@ -428,6 +438,7 @@ private:
 	int _trim_start;
 	/** Frames to trim off the end of the DCP */
 	int _trim_end;
+	TrimType _trim_type;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.
@@ -477,13 +488,12 @@ private:
 	libdcp::Size _size;
 	/** The length of the source, in video frames (as far as we know) */
 	boost::optional<SourceFrame> _length;
-	boost::optional<int> _dcp_intrinsic_duration;
 	/** MD5 digest of our content file */
 	std::string _content_digest;
 	/** The audio streams in our content */
 	std::vector<boost::shared_ptr<AudioStream> > _content_audio_streams;
 	/** A stream to represent possible external audio (will always exist) */
-	boost::shared_ptr<AudioStream> _external_audio_stream;
+	boost::shared_ptr<AudioStream> _sndfile_stream;
 	/** the subtitle streams that we can use */
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 	/** Frames per second of the source */

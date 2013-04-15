@@ -65,6 +65,7 @@ private:
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);
+	void trim_type_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void dcp_ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
@@ -98,6 +99,10 @@ private:
 	void setup_streams ();
 	void setup_audio_details ();
 	void setup_dcp_name ();
+	void setup_show_audio_sensitivity ();
+	void setup_scaling_description ();
+	void setup_notebook_size ();
+	void setup_frame_rate_description ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
@@ -123,7 +128,7 @@ private:
 	wxButton* _edit_dci_button;
 	/** The Film's format */
 	wxChoice* _format;
-	wxStaticText* _format_description;
+	wxStaticText* _scaling_description;
 	/** The Film's content file */
 	wxFilePickerCtrl* _content;
 	wxCheckBox* _trust_content_header;
@@ -165,8 +170,6 @@ private:
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
 	wxStaticText* _frame_rate_description;
-	/** The Film's original size */
-	wxStaticText* _original_size;
 	/** The Film's length */
 	wxStaticText* _length;
 	/** The Film's audio details */
@@ -176,6 +179,7 @@ private:
 
 	wxSpinCtrl* _trim_start;
 	wxSpinCtrl* _trim_end;
+	wxChoice* _trim_type;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _dcp_ab;
 

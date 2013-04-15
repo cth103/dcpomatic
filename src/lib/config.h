@@ -103,6 +103,10 @@ public:
 		return _default_dci_metadata;
 	}
 
+	boost::optional<std::string> language () const {
+		return _language;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -157,10 +161,19 @@ public:
 	void set_default_dci_metadata (DCIMetadata d) {
 		_default_dci_metadata = d;
 	}
+
+	void set_language (std::string l) {
+		_language = l;
+	}
+
+	void unset_language () {
+		_language = boost::none;
+	}
 	
 	void write () const;
 
 	static Config* instance ();
+	static void drop ();
 
 private:
 	Config ();
@@ -192,6 +205,7 @@ private:
 	std::list<int> _allowed_dcp_frame_rates;
 	/** Default DCI metadata for newly-created Films */
 	DCIMetadata _default_dci_metadata;
+	boost::optional<std::string> _language;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

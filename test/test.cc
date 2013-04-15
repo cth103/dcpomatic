@@ -38,7 +38,7 @@
 #include "subtitle.h"
 #include "scaler.h"
 #include "ffmpeg_decoder.h"
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dvdomatic_test
 #include <boost/test/unit_test.hpp>
@@ -101,6 +101,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P9BE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P10LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P10BE);
+	pix_fmts.push_back (AV_PIX_FMT_UYVY422);
 
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
@@ -190,7 +191,7 @@ BOOST_AUTO_TEST_CASE (stream_test)
 	BOOST_CHECK_EQUAL (a.name(), "hello there world");
 	BOOST_CHECK_EQUAL (a.to_string(), "ffmpeg 4 44100 1 hello there world");
 
-	ExternalAudioStream e ("external 44100 1", boost::optional<int> (1));
+	SndfileStream e ("external 44100 1", boost::optional<int> (1));
 	BOOST_CHECK_EQUAL (e.sample_rate(), 44100);
 	BOOST_CHECK_EQUAL (e.channel_layout(), 1);
 	BOOST_CHECK_EQUAL (e.to_string(), "external 44100 1");
@@ -225,6 +226,32 @@ BOOST_AUTO_TEST_CASE (format_test)
 	f = Format::from_nickname ("Scope");
 	BOOST_CHECK (f);
 	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 239);
+}
+
+/* Test VariableFormat-based scaling of content */
+BOOST_AUTO_TEST_CASE (scaling_test)
+{
+	shared_ptr<Film> film (new Film (test_film_dir ("scaling_test").string(), false));
+
+	/* 4:3 ratio */
+	film->set_size (libdcp::Size (320, 240));
+
+	/* This format should preserve aspect ratio of the source */
+	Format const * format = Format::from_id ("var-185");
+
+	/* We should have enough padding that the result is 4:3,
+	   which would be 1440 pixels.
+	*/
+	BOOST_CHECK_EQUAL (format->dcp_padding (film), (1998 - 1440) / 2);
+	
+	/* This crops it to 1.291666667 */
+	film->set_left_crop (5);
+	film->set_right_crop (5);
+
+	/* We should now have enough padding that the result is 1.29166667,
+	   which would be 1395 pixels.
+	*/
+	BOOST_CHECK_EQUAL (format->dcp_padding (film), rint ((1998 - 1395) / 2.0));
 }
 
 BOOST_AUTO_TEST_CASE (util_test)
@@ -310,7 +337,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	shared_ptr<Subtitle> subtitle (new Subtitle (Position (50, 60), sub_image));
 
-	FileLog log ("build/test/client_server_test.log");
+	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test.log"));
 
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
@@ -326,14 +353,14 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 			"",
 			0,
 			200000000,
-			&log
+			log
 			)
 		);
 
 	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
 	BOOST_ASSERT (locally_encoded);
 	
-	Server* server = new Server (&log);
+	Server* server = new Server (log);
 
 	new thread (boost::bind (&Server::run, server, 2));
 
@@ -381,7 +408,7 @@ BOOST_AUTO_TEST_CASE (have_dcp_test)
 	BOOST_CHECK (f.have_dcp());
 
 	p /= f.dcp_name();
-	p /= "video.mxf";
+	p /= f.dcp_video_mxf_filename();
 	boost::filesystem::remove (p);
 	BOOST_CHECK (!f.have_dcp ());
 }

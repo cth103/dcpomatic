@@ -19,7 +19,7 @@
 
 #include <iostream>
 #include <sndfile.h>
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 #include "film.h"
 #include "exceptions.h"
 
@@ -33,7 +33,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, DecodeOptions o)
+SndfileDecoder::SndfileDecoder (shared_ptr<Film> f, DecodeOptions o)
 	: Decoder (f, o)
 	, AudioDecoder (f, o)
 {
@@ -43,7 +43,7 @@ ExternalAudioDecoder::ExternalAudioDecoder (shared_ptr<Film> f, DecodeOptions o)
 }
 
 vector<SNDFILE*>
-ExternalAudioDecoder::open_files (sf_count_t & frames)
+SndfileDecoder::open_files (sf_count_t & frames)
 {
 	vector<string> const files = _film->external_audio ();
 
@@ -79,8 +79,8 @@ ExternalAudioDecoder::open_files (sf_count_t & frames)
 			sndfiles.push_back (s);
 
 			if (first) {
-				shared_ptr<ExternalAudioStream> st (
-					new ExternalAudioStream (
+				shared_ptr<SndfileStream> st (
+					new SndfileStream (
 						info.samplerate, av_get_default_channel_layout (N)
 						)
 					);
@@ -101,7 +101,7 @@ ExternalAudioDecoder::open_files (sf_count_t & frames)
 }
 
 bool
-ExternalAudioDecoder::pass ()
+SndfileDecoder::pass ()
 {
 	sf_count_t frames;
 	vector<SNDFILE*> sndfiles = open_files (frames);
@@ -115,7 +115,6 @@ ExternalAudioDecoder::pass ()
 	sf_count_t const block = _audio_stream->sample_rate() / 2;
 
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
-	sf_count_t done = 0;
 	while (frames > 0) {
 		sf_count_t const this_time = min (block, frames);
 		for (size_t i = 0; i < sndfiles.size(); ++i) {
@@ -127,8 +126,7 @@ ExternalAudioDecoder::pass ()
 		}
 
 		audio->set_frames (this_time);
-		Audio (audio, double(done) / _audio_stream->sample_rate());
-		done += this_time;
+		Audio (audio);
 		frames -= this_time;
 	}
 
@@ -138,38 +136,38 @@ ExternalAudioDecoder::pass ()
 }
 
 void
-ExternalAudioDecoder::close_files (vector<SNDFILE*> const & sndfiles)
+SndfileDecoder::close_files (vector<SNDFILE*> const & sndfiles)
 {
 	for (size_t i = 0; i < sndfiles.size(); ++i) {
 		sf_close (sndfiles[i]);
 	}
 }
 
-shared_ptr<ExternalAudioStream>
-ExternalAudioStream::create ()
+shared_ptr<SndfileStream>
+SndfileStream::create ()
 {
-	return shared_ptr<ExternalAudioStream> (new ExternalAudioStream);
+	return shared_ptr<SndfileStream> (new SndfileStream);
 }
 
-shared_ptr<ExternalAudioStream>
-ExternalAudioStream::create (string t, optional<int> v)
+shared_ptr<SndfileStream>
+SndfileStream::create (string t, optional<int> v)
 {
 	if (!v) {
 		/* version < 1; no type in the string, and there's only FFmpeg streams anyway */
-		return shared_ptr<ExternalAudioStream> ();
+		return shared_ptr<SndfileStream> ();
 	}
 
 	stringstream s (t);
 	string type;
 	s >> type;
 	if (type != N_("external")) {
-		return shared_ptr<ExternalAudioStream> ();
+		return shared_ptr<SndfileStream> ();
 	}
 
-	return shared_ptr<ExternalAudioStream> (new ExternalAudioStream (t, v));
+	return shared_ptr<SndfileStream> (new SndfileStream (t, v));
 }
 
-ExternalAudioStream::ExternalAudioStream (string t, optional<int> v)
+SndfileStream::SndfileStream (string t, optional<int> v)
 {
 	assert (v);
 
@@ -178,13 +176,13 @@ ExternalAudioStream::ExternalAudioStream (string t, optional<int> v)
 	s >> type >> _sample_rate >> _channel_layout;
 }
 
-ExternalAudioStream::ExternalAudioStream ()
+SndfileStream::SndfileStream ()
 {
 
 }
 
 string
-ExternalAudioStream::to_string () const
+SndfileStream::to_string () const
 {
 	return String::compose (N_("external %1 %2"), _sample_rate, _channel_layout);
 }

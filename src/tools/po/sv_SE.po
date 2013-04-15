@@ -1,0 +1,127 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DVD-o-matic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-09 11:14+0100\n"
+"PO-Revision-Date: 2013-04-09 10:12+0100\n"
+"Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: src/tools/dvdomatic.cc:177
+msgid "&Analyse audio"
+msgstr "&Analysera audio"
+
+#: src/tools/dvdomatic.cc:183
+msgid "&Edit"
+msgstr "&Redigera"
+
+#: src/tools/dvdomatic.cc:182
+msgid "&File"
+msgstr "&Fil"
+
+#: src/tools/dvdomatic.cc:185
+msgid "&Help"
+msgstr "&Hjälp"
+
+#: src/tools/dvdomatic.cc:184
+msgid "&Jobs"
+msgstr "&Jobb"
+
+#: src/tools/dvdomatic.cc:173
+msgid "&Make DCP"
+msgstr "&Skapa DCP"
+
+#: src/tools/dvdomatic.cc:161
+msgid "&Open..."
+msgstr "&Öppna"
+
+#: src/tools/dvdomatic.cc:170
+msgid "&Preferences..."
+msgstr "&Inställningar"
+
+#: src/tools/dvdomatic.cc:165
+msgid "&Properties..."
+msgstr "&Egenskaper"
+
+#: src/tools/dvdomatic.cc:167
+msgid "&Quit"
+msgstr "&Avsluta"
+
+#: src/tools/dvdomatic.cc:163
+msgid "&Save"
+msgstr "&Spara"
+
+#: src/tools/dvdomatic.cc:174
+msgid "&Send DCP to TMS"
+msgstr "&Skicka DCP till TMS"
+
+#: src/tools/dvdomatic.cc:417
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+
+#: src/tools/dvdomatic.cc:180
+msgid "About"
+msgstr "Om"
+
+#: src/tools/dvdomatic.cc:527
+msgid "Could not load film %1 (%2)"
+msgstr "Kunde inte öppna filmen %1 (%2)"
+
+#: src/tools/dvdomatic.cc:339
+#, c-format
+msgid "Could not open film at %s (%s)"
+msgstr "Kunde inte öppna filmen vid %s (%s)"
+
+#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:410
+#: src/tools/dvdomatic.cc:531
+msgid "DVD-o-matic"
+msgstr "DVD-o-matic"
+
+#: src/tools/dvdomatic.cc:75
+msgid "Film changed"
+msgstr "Film ändrad"
+
+#: src/tools/dvdomatic.cc:416
+msgid "Free, open-source DCP generation from almost anything."
+msgstr ""
+"Fri, öppen-källkodsprogramvara för DCP-generering från nästan vad som helst."
+
+#: src/tools/dvdomatic.cc:160
+msgid "New..."
+msgstr "Ny..."
+
+#: src/tools/dvdomatic.cc:175
+msgid "S&how DCP"
+msgstr "&Visa DCP"
+
+#: src/tools/dvdomatic.cc:74
+msgid "Save changes to film \"%1\" before closing?"
+msgstr "Spara ändringarna till filmen \"%1\" före avslut?"
+
+#: src/tools/dvdomatic.cc:319
+msgid "Select film to open"
+msgstr "Välj film att öppna"
+
+#: src/tools/dvdomatic.cc:303
+msgid "The directory %1 already exists."
+msgstr "Katalogen %1 finns redan."
+
+#: src/tools/dvdomatic.cc:324
+msgid ""
+"You did not select a folder.  Make sure that you select a folder before "
+"clicking Open."
+msgstr ""
+"Du har inte valt en folder. Se till att välja en folder innan du klickar på "
+"Öppna."

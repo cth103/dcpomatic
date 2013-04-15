@@ -42,7 +42,10 @@
 #include "log.h"
 #include "version.h"
 
-using namespace std;
+using std::cerr;
+using std::string;
+using std::cout;
+using boost::shared_ptr;
 
 static void
 help (string n)
@@ -87,8 +90,8 @@ main (int argc, char* argv[])
 	}
 
 	Scaler::setup_scalers ();
-	FileLog log ("servomatic.log");
-	Server server (&log);
+	shared_ptr<FileLog> log (new FileLog ("servomatic.log"));
+	Server server (log);
 	server.run (num_threads);
 	return 0;
 }

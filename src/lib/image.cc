@@ -75,6 +75,7 @@ Image::lines (int n) const
 	case PIX_FMT_YUV444P9LE:
 	case PIX_FMT_YUV444P10BE:
 	case PIX_FMT_YUV444P10LE:
+	case PIX_FMT_UYVY422:
 		return size().height;
 	default:
 		throw PixelFormatError (N_("lines()"), _pixel_format);
@@ -99,6 +100,7 @@ Image::components () const
 		return 3;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
+	case PIX_FMT_UYVY422:
 		return 1;
 	default:
 		throw PixelFormatError (N_("components()"), _pixel_format);
@@ -211,6 +213,7 @@ Image::post_process (string pp, bool aligned) const
 		break;
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
+	case PIX_FMT_UYVY422:
 		pp_format = PP_FORMAT_422;
 		break;
 	case PIX_FMT_YUV444P:
@@ -291,6 +294,9 @@ Image::swap_16 (uint16_t v)
 void
 Image::make_black ()
 {
+	/* U/V black value for 8-bit colour */
+	static uint8_t const eight_bit_uv = (1 << 7) - 1;
+	
 	/* U/V black value for 9-bit colour */
 	static uint16_t const nine_bit_uv = (1 << 8) - 1;
 
@@ -302,8 +308,8 @@ Image::make_black ()
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
 		memset (data()[0], 0, lines(0) * stride()[0]);
-		memset (data()[1], 0x7f, lines(1) * stride()[1]);
-		memset (data()[2], 0x7f, lines(2) * stride()[2]);
+		memset (data()[1], eight_bit_uv, lines(1) * stride()[1]);
+		memset (data()[2], eight_bit_uv, lines(2) * stride()[2]);
 		break;
 
 	case PIX_FMT_YUV422P9LE:
@@ -329,8 +335,24 @@ Image::make_black ()
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
 
+	case PIX_FMT_UYVY422:
+	{
+		int const Y = lines(0);
+		int const X = line_size()[0];
+		uint8_t* p = data()[0];
+		for (int y = 0; y < Y; ++y) {
+			for (int x = 0; x < X / 4; ++x) {
+				*p++ = eight_bit_uv; // Cb
+				*p++ = 0;            // Y0
+				*p++ = eight_bit_uv; // Cr
+				*p++ = 0;            // Y1
+			}
+		}
+		break;
+	}
+
 	default:
-		assert (false);
+		throw PixelFormatError (N_("make_black()"), _pixel_format);
 	}
 }
 
@@ -428,6 +450,8 @@ Image::bytes_per_pixel (int c) const
 		} else {
 			return 1;
 		}
+	case PIX_FMT_UYVY422:
+		return 2;
 	case PIX_FMT_YUV444P:
 		return 3;
 	case PIX_FMT_YUV444P9BE:
@@ -436,7 +460,7 @@ Image::bytes_per_pixel (int c) const
 	case PIX_FMT_YUV444P10BE:
 		return 6;
 	default:
-		assert (false);
+		throw PixelFormatError (N_("bytes_per_pixel()"), _pixel_format);
 	}
 
 	return 0;

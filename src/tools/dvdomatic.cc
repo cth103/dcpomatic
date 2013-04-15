@@ -71,7 +71,7 @@ public:
 	{
 		_dialog = new wxMessageDialog (
 			0,
-			std_to_wx (String::compose ("Save changes to film \"%1\" before closing?", film->name())),
+			wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (film->name ()).data()),
 			_("Film changed"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
@@ -284,7 +284,7 @@ private:
 	void file_changed (string f)
 	{
 		stringstream s;
-		s << _("DVD-o-matic");
+		s << wx_to_std (_("DVD-o-matic"));
 		if (!f.empty ()) {
 			s << " - " << f;
 		}
@@ -300,7 +300,7 @@ private:
 		if (r == wxID_OK) {
 
 			if (boost::filesystem::exists (d->get_path())) {
-				error_dialog (this, wxString::Format (_("The directory %s already exists."), d->get_path().c_str()));
+				error_dialog (this, std_to_wx (String::compose (wx_to_std (_("The directory %1 already exists.")), d->get_path().c_str())));
 				return;
 			}
 			
@@ -317,8 +317,16 @@ private:
 	void file_open (wxCommandEvent &)
 	{
 		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
-		int const r = c->ShowModal ();
-		
+		int r;
+		while (1) {
+			r = c->ShowModal ();
+			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
+			} else {
+				break;
+			}
+		}
+			
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
 			try {
@@ -328,7 +336,7 @@ private:
 			} catch (std::exception& e) {
 				wxString p = c->GetPath ();
 				wxCharBuffer b = p.ToUTF8 ();
-				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), e.what()));
+				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
 			}
 		}
 
@@ -407,12 +415,23 @@ private:
 		}
 		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
 		info.SetCopyright (_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
+
 		wxArrayString authors;
 		authors.Add (wxT ("Carl Hetherington"));
 		authors.Add (wxT ("Terrence Meiczinger"));
 		authors.Add (wxT ("Paul Davis"));
 		authors.Add (wxT ("Ole Laursen"));
 		info.SetDevelopers (authors);
+
+		wxArrayString translators;
+		translators.Add (wxT ("Olivier Perriere"));
+		translators.Add (wxT ("Lilian Lefranc"));
+		translators.Add (wxT ("Thierry Journet"));
+		translators.Add (wxT ("Massimiliano Broggi"));
+		translators.Add (wxT ("Manuel AC"));
+		translators.Add (wxT ("Adam Klotblixt"));
+		info.SetTranslators (translators);
+		
 		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
 		wxAboutBox (info);
 	}
@@ -438,13 +457,20 @@ void
 setup_i18n ()
 {
 	int language = wxLANGUAGE_DEFAULT;
+
+	if (Config::instance()->language()) {
+		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (Config::instance()->language().get()));
+		if (li) {
+			language = li->Language;
+		}
+	}
  
 	if (wxLocale::IsAvailable (language)) {
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
 
-#ifdef __WXGTK__
-		locale->AddCatalogLookupPathPrefix (wxT (LOCALE_PREFIX "/locale"));
-#endif
+#ifdef DVDOMATIC_WINDOWS
+		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
+#endif		
 
 		locale->AddCatalog (wxT ("libdvdomatic-wx"));
 		locale->AddCatalog (wxT ("dvdomatic"));
@@ -454,6 +480,10 @@ setup_i18n ()
 			locale = new wxLocale (wxLANGUAGE_ENGLISH);
 			language = wxLANGUAGE_ENGLISH;
 		}
+	}
+
+	if (locale) {
+		dvdomatic_setup_i18n (wx_to_std (locale->GetCanonicalName ()));
 	}
 }
 
@@ -468,11 +498,26 @@ class App : public wxApp
 #ifdef DVDOMATIC_POSIX		
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif		
-		
+
 		wxInitAllImageHandlers ();
+
+		/* Enable i18n; this will create a Config object
+		   to look for a force-configured language.  This Config
+		   object will be wrong, however, because dvdomatic_setup
+		   hasn't yet been called and there aren't any scalers, filters etc.
+		   set up yet.
+		*/
 		setup_i18n ();
-		
+
+		/* Set things up, including scalers / filters etc.
+		   which will now be internationalised correctly.
+		*/
 		dvdomatic_setup ();
+
+		/* Force the configuration to be re-loaded correctly next
+		   time it is needed.
+		*/
+		Config::drop ();
 
 		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
 			try {

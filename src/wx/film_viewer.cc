@@ -54,7 +54,6 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _display_frame_x (0)
 	, _got_frame (false)
-	, _clear_required (false)
 {
 	_panel->SetDoubleBuffered (true);
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
@@ -105,7 +104,7 @@ FilmViewer::film_changed (Film::Property p)
 		try {
 			_decoders = decoder_factory (_film, o);
 		} catch (StringError& e) {
-			error_dialog (this, wxString::Format (_("Could not open content file (%s)"), e.what()));
+			error_dialog (this, wxString::Format (_("Could not open content file (%s)"), std_to_wx(e.what()).data()));
 			return;
 		}
 		
@@ -148,6 +147,11 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 	
 	_film = f;
+
+	_raw_frame.reset ();
+	_display_frame.reset ();
+	_panel->Refresh ();
+	_panel->Update ();
 
 	if (!_film) {
 		return;
@@ -201,11 +205,6 @@ FilmViewer::paint_panel (wxPaintEvent &)
 {
 	wxPaintDC dc (_panel);
 
-	if (_clear_required) {
-		dc.Clear ();
-		_clear_required = false;
-	}
-
 	if (!_display_frame || !_film || !_out_size.width || !_out_size.height) {
 		dc.Clear ();
 		return;
@@ -227,6 +226,22 @@ FilmViewer::paint_panel (wxPaintEvent &)
 		wxBitmap sub_bitmap (sub);
 		dc.DrawBitmap (sub_bitmap, _display_sub_position.x, _display_sub_position.y);
 	}
+
+	if (_out_size.width < _panel_size.width) {
+		wxPen p (GetBackgroundColour ());
+		wxBrush b (GetBackgroundColour ());
+		dc.SetPen (p);
+		dc.SetBrush (b);
+		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
+	}
+
+	if (_out_size.height < _panel_size.height) {
+		wxPen p (GetBackgroundColour ());
+		wxBrush b (GetBackgroundColour ());
+		dc.SetPen (p);
+		dc.SetBrush (b);
+		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
+	}		
 }
 
 
@@ -275,11 +290,6 @@ FilmViewer::raw_to_display ()
 		return;
 	}
 
-	libdcp::Size old_size;
-	if (_display_frame) {
-		old_size = _display_frame->size();
-	}
-
 	boost::shared_ptr<Image> input = _raw_frame;
 
 	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
@@ -289,10 +299,6 @@ FilmViewer::raw_to_display ()
 	
 	/* Get a compacted image as we have to feed it to wxWidgets */
 	_display_frame = input->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
-
-	if (old_size != _display_frame->size()) {
-		_clear_required = true;
-	}
 
 	if (_raw_sub) {
 
@@ -411,7 +417,7 @@ FilmViewer::get_frame ()
 	} catch (DecodeError& e) {
 		_play_button->SetValue (false);
 		check_play_state ();
-		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), e.what()));
+		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
 	}
 }
 

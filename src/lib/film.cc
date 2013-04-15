@@ -50,7 +50,7 @@
 #include "ui_signaller.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 #include "analyse_audio_job.h"
 
 #include "i18n.h"
@@ -93,6 +93,7 @@ Film::Film (string d, bool must_exist)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _trim_start (0)
 	, _trim_end (0)
+	, _trim_type (CPL)
 	, _dcp_ab (false)
 	, _use_content_audio (true)
 	, _audio_gain (0)
@@ -138,18 +139,19 @@ Film::Film (string d, bool must_exist)
 		}
 	}
 
-	_external_audio_stream = ExternalAudioStream::create ();
+	_sndfile_stream = SndfileStream::create ();
 	
 	if (must_exist) {
 		read_metadata ();
 	}
 
-	_log = new FileLog (file ("log"));
+	_log.reset (new FileLog (file ("log")));
 }
 
 Film::Film (Film const & o)
 	: boost::enable_shared_from_this<Film> (o)
-	, _log (0)
+	/* note: the copied film shares the original's log */
+	, _log               (o._log)
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
@@ -162,6 +164,7 @@ Film::Film (Film const & o)
 	, _scaler            (o._scaler)
 	, _trim_start        (o._trim_start)
 	, _trim_end          (o._trim_end)
+	, _trim_type         (o._trim_type)
 	, _dcp_ab            (o._dcp_ab)
 	, _content_audio_stream (o._content_audio_stream)
 	, _external_audio    (o._external_audio)
@@ -180,20 +183,19 @@ Film::Film (Film const & o)
 	, _dcp_frame_rate    (o._dcp_frame_rate)
 	, _size              (o._size)
 	, _length            (o._length)
-	, _dcp_intrinsic_duration (o._dcp_intrinsic_duration)
 	, _content_digest    (o._content_digest)
 	, _content_audio_streams (o._content_audio_streams)
-	, _external_audio_stream (o._external_audio_stream)
+	, _sndfile_stream    (o._sndfile_stream)
 	, _subtitle_streams  (o._subtitle_streams)
 	, _source_frame_rate (o._source_frame_rate)
 	, _dirty             (o._dirty)
 {
-
+	
 }
 
 Film::~Film ()
 {
-	delete _log;
+
 }
 
 string
@@ -232,16 +234,44 @@ Film::info_dir () const
 }
 
 string
-Film::video_mxf_dir () const
+Film::internal_video_mxf_dir () const
 {
 	boost::filesystem::path p;
 	return dir ("video");
 }
 
 string
-Film::video_mxf_filename () const
+Film::internal_video_mxf_filename () const
 {
 	return video_state_identifier() + ".mxf";
+}
+
+string
+Film::dcp_video_mxf_filename () const
+{
+	return filename_safe_name() + "_video.mxf";
+}
+
+string
+Film::dcp_audio_mxf_filename () const
+{
+	return filename_safe_name() + "_audio.mxf";
+}
+
+string
+Film::filename_safe_name () const
+{
+	string const n = name ();
+	string o;
+	for (size_t i = 0; i < n.length(); ++i) {
+		if (isalnum (n[i])) {
+			o += n[i];
+		} else {
+			o += "_";
+		}
+	}
+
+	return o;
 }
 
 string
@@ -350,9 +380,12 @@ void
 Film::analyse_audio_finished ()
 {
 	ensure_ui_thread ();
-	_analyse_audio_job.reset ();
 
-	AudioAnalysisFinished ();
+	if (_analyse_audio_job->finished_ok ()) {
+		AudioAnalysisSucceeded ();
+	}
+	
+	_analyse_audio_job.reset ();
 }
 
 void
@@ -425,6 +458,14 @@ Film::write_metadata () const
 	f << "scaler " << _scaler->id () << endl;
 	f << "trim_start " << _trim_start << endl;
 	f << "trim_end " << _trim_end << endl;
+	switch (_trim_type) {
+	case CPL:
+		f << "trim_type cpl\n";
+		break;
+	case ENCODE:
+		f << "trim_type encode\n";
+		break;
+	}
 	f << "dcp_ab " << (_dcp_ab ? "1" : "0") << endl;
 	if (_content_audio_stream) {
 		f << "selected_content_audio_stream " << _content_audio_stream->to_string() << endl;
@@ -450,14 +491,13 @@ Film::write_metadata () const
 	f << "width " << _size.width << endl;
 	f << "height " << _size.height << endl;
 	f << "length " << _length.get_value_or(0) << endl;
-	f << "dcp_intrinsic_duration " << _dcp_intrinsic_duration.get_value_or(0) << endl;
 	f << "content_digest " << _content_digest << endl;
 
 	for (vector<shared_ptr<AudioStream> >::const_iterator i = _content_audio_streams.begin(); i != _content_audio_streams.end(); ++i) {
 		f << "content_audio_stream " << (*i)->to_string () << endl;
 	}
 
-	f << "external_audio_stream " << _external_audio_stream->to_string() << endl;
+	f << "external_audio_stream " << _sndfile_stream->to_string() << endl;
 
 	for (vector<shared_ptr<SubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
 		f << "subtitle_stream " << (*i)->to_string () << endl;
@@ -539,6 +579,12 @@ Film::read_metadata ()
 			_trim_start = atoi (v.c_str ());
 		} else if ( ((!version || version < 2) && k == "dcp_trim_end") || k == "trim_end") {
 			_trim_end = atoi (v.c_str ());
+		} else if (k == "trim_type") {
+			if (v == "cpl") {
+				_trim_type = CPL;
+			} else if (v == "encode") {
+				_trim_type = ENCODE;
+			}
 		} else if (k == "dcp_ab") {
 			_dcp_ab = (v == "1");
 		} else if (k == "selected_content_audio_stream" || (!version && k == "selected_audio_stream")) {
@@ -591,17 +637,12 @@ Film::read_metadata ()
 			if (vv) {
 				_length = vv;
 			}
-		} else if (k == "dcp_intrinsic_duration") {
-			int const vv = atoi (v.c_str ());
-			if (vv) {
-				_dcp_intrinsic_duration = vv;
-			}
 		} else if (k == "content_digest") {
 			_content_digest = v;
 		} else if (k == "content_audio_stream" || (!version && k == "audio_stream")) {
 			_content_audio_streams.push_back (audio_stream_factory (v, version));
 		} else if (k == "external_audio_stream") {
-			_external_audio_stream = audio_stream_factory (v, version);
+			_sndfile_stream = audio_stream_factory (v, version);
 		} else if (k == "subtitle_stream") {
 			_subtitle_streams.push_back (subtitle_stream_factory (v, version));
 		} else if (k == "source_frame_rate") {
@@ -758,70 +799,67 @@ Film::dci_name (bool if_created_now) const
 		fixed_name = fixed_name.substr (0, 14);
 	}
 
-	d << fixed_name << "_";
+	d << fixed_name;
 
 	if (dcp_content_type()) {
-		d << dcp_content_type()->dci_name() << "_";
+		d << "_" << dcp_content_type()->dci_name();
 	}
 
 	if (format()) {
-		d << format()->dci_name() << "_";
+		d << "_" << format()->dci_name();
 	}
 
 	DCIMetadata const dm = dci_metadata ();
 
 	if (!dm.audio_language.empty ()) {
-		d << dm.audio_language;
-		if (!dm.subtitle_language.empty() && with_subtitles()) {
+		d << "_" << dm.audio_language;
+		if (!dm.subtitle_language.empty()) {
 			d << "-" << dm.subtitle_language;
 		} else {
 			d << "-XX";
 		}
-			
-		d << "_";
 	}
 
 	if (!dm.territory.empty ()) {
-		d << dm.territory;
+		d << "_" << dm.territory;
 		if (!dm.rating.empty ()) {
 			d << "-" << dm.rating;
 		}
-		d << "_";
 	}
 
 	switch (audio_channels()) {
 	case 1:
-		d << "10_";
+		d << "_10";
 		break;
 	case 2:
-		d << "20_";
+		d << "_20";
 		break;
 	case 6:
-		d << "51_";
+		d << "_51";
 		break;
 	case 8:
-		d << "71_";
+		d << "_71";
 		break;
 	}
 
-	d << "2K_";
+	d << "_2K";
 
 	if (!dm.studio.empty ()) {
-		d << dm.studio << "_";
+		d << "_" << dm.studio;
 	}
 
 	if (if_created_now) {
-		d << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ()) << "_";
+		d << "_" << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
 	} else {
-		d << boost::gregorian::to_iso_string (_dci_date) << "_";
+		d << "_" << boost::gregorian::to_iso_string (_dci_date);
 	}
 
 	if (!dm.facility.empty ()) {
-		d << dm.facility << "_";
+		d << "_" << dm.facility;
 	}
 
 	if (!dm.package_type.empty ()) {
-		d << dm.package_type;
+		d << "_" << dm.package_type;
 	}
 
 	return d.str ();
@@ -1103,6 +1141,16 @@ Film::set_trim_end (int t)
 }
 
 void
+Film::set_trim_type (TrimType t)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_trim_type = t;
+	}
+	signal_changed (TRIM_TYPE);
+}
+
+void
 Film::set_dcp_ab (bool a)
 {
 	{
@@ -1130,9 +1178,9 @@ Film::set_external_audio (vector<string> a)
 		_external_audio = a;
 	}
 
-	shared_ptr<ExternalAudioDecoder> decoder (new ExternalAudioDecoder (shared_from_this(), DecodeOptions()));
+	shared_ptr<SndfileDecoder> decoder (new SndfileDecoder (shared_from_this(), DecodeOptions()));
 	if (decoder->audio_stream()) {
-		_external_audio_stream = decoder->audio_stream ();
+		_sndfile_stream = decoder->audio_stream ();
 	}
 	
 	signal_changed (EXTERNAL_AUDIO);
@@ -1291,16 +1339,6 @@ Film::unset_length ()
 }
 
 void
-Film::set_dcp_intrinsic_duration (int d)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_intrinsic_duration = d;
-	}
-	signal_changed (DCP_INTRINSIC_DURATION);
-}
-
-void
 Film::set_content_digest (string d)
 {
 	{
@@ -1377,7 +1415,7 @@ Film::audio_stream () const
 		return _content_audio_stream;
 	}
 
-	return _external_audio_stream;
+	return _sndfile_stream;
 }
 
 string
@@ -1434,3 +1472,21 @@ Film::have_dcp () const
 
 	return true;
 }
+
+bool
+Film::has_audio () const
+{
+	if (use_content_audio()) {
+		return audio_stream();
+	}
+
+	vector<string> const e = external_audio ();
+	for (vector<string>::const_iterator i = e.begin(); i != e.end(); ++i) {
+		if (!i->empty ()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+

@@ -24,7 +24,7 @@
 class DelayLine : public Processor, public TimedAudioSink, public TimedAudioSource, public TimedVideoSink, public TimedVideoSource
 {
 public:
-	DelayLine (Log* log, double);
+	DelayLine (boost::shared_ptr<Log> log, double);
 	
 	void process_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double);
 	void process_audio (boost::shared_ptr<AudioBuffers>, double);

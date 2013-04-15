@@ -94,6 +94,8 @@ Config::Config ()
 			_tms_password = v;
 		} else if (k == N_("sound_processor")) {
 			_sound_processor = SoundProcessor::from_id (v);
+		} else if (k == "language") {
+			_language = v;
 		}
 
 		_default_dci_metadata.read (k, v);
@@ -128,8 +130,11 @@ Config::write () const
 	ofstream f (file().c_str ());
 	f << N_("num_local_encoding_threads ") << _num_local_encoding_threads << N_("\n")
 	  << N_("default_directory ") << _default_directory << N_("\n")
-	  << N_("server_port ") << _server_port << N_("\n")
-	  << N_("reference_scaler ") << _reference_scaler->id () << N_("\n");
+	  << N_("server_port ") << _server_port << N_("\n");
+
+	if (_reference_scaler) {
+		f << "reference_scaler " << _reference_scaler->id () << "\n";
+	}
 
 	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {
 		f << N_("reference_filter ") << (*i)->id () << N_("\n");
@@ -143,7 +148,12 @@ Config::write () const
 	f << N_("tms_path ") << _tms_path << N_("\n");
 	f << N_("tms_user ") << _tms_user << N_("\n");
 	f << N_("tms_password ") << _tms_password << N_("\n");
-	f << N_("sound_processor ") << _sound_processor->id () << N_("\n");
+	if (_sound_processor) {
+		f << "sound_processor " << _sound_processor->id () << "\n";
+	}
+	if (_language) {
+		f << "language " << _language.get() << "\n";
+	}
 
 	_default_dci_metadata.write (f);
 }
@@ -156,4 +166,11 @@ Config::default_directory_or (string a) const
 	}
 
 	return _default_directory;
+}
+
+void
+Config::drop ()
+{
+	delete _instance;
+	_instance = 0;
 }

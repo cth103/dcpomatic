@@ -25,8 +25,11 @@
 #include "lib/server.h"
 #include "lib/config.h"
 
-using namespace std;
-using namespace boost;
+using std::cout;
+using std::string;
+using boost::shared_ptr;
+using boost::thread;
+using boost::bind;
 
 enum {
 	ID_status = 1,
@@ -52,7 +55,7 @@ private:
 	string _log;	
 };
 
-static MemoryLog memory_log;
+static shared_ptr<MemoryLog> memory_log (new MemoryLog);
 
 class StatusDialog : public wxDialog
 {
@@ -77,7 +80,7 @@ public:
 private:
 	void update (wxTimerEvent &)
 	{
-		_text->ChangeValue (std_to_wx (memory_log.get ()));
+		_text->ChangeValue (std_to_wx (memory_log->get ()));
 		_sizer->Layout ();
 	}
 
@@ -91,7 +94,15 @@ class TaskBarIcon : public wxTaskBarIcon
 public:
 	TaskBarIcon ()
 	{
+#ifdef __WXMSW__		
 		wxIcon icon (std_to_wx ("taskbar_icon"));
+#endif
+#ifdef __WXGTK__
+		wxInitAllImageHandlers();
+		wxBitmap bitmap (wxString::Format (wxT ("%s/taskbar_icon.png"), POSIX_ICON_PREFIX), wxBITMAP_TYPE_PNG);
+		wxIcon icon;
+		icon.CopyFromBitmap (bitmap);
+#endif		
 		SetIcon (icon, std_to_wx ("DVD-o-matic encode server"));
 
 		Connect (ID_status, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::status));
@@ -125,27 +136,39 @@ public:
 	App ()
 		: wxApp ()
 		, _thread (0)
+		, _icon (0)
 	{}
 
 private:	
 	
 	bool OnInit ()
 	{
+		if (!wxApp::OnInit ()) {
+			return false;
+		}
+		
 		dvdomatic_setup ();
 
-		new TaskBarIcon;
-
+		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));
+		
 		return true;
+	}
+
+	int OnExit ()
+	{
+		delete _icon;
+		return wxApp::OnExit ();
 	}
 
 	void main_thread ()
 	{
-		Server server (&memory_log);
+		Server server (memory_log);
 		server.run (Config::instance()->num_local_encoding_threads ());
 	}
 
 	boost::thread* _thread;
+	TaskBarIcon* _icon;
 };
 
 IMPLEMENT_APP (App)

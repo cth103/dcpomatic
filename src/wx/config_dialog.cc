@@ -46,6 +46,25 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
 	table->AddGrowableCol (1, 1);
 
+	_set_language = new wxCheckBox (this, wxID_ANY, _("Set language"));
+	table->Add (_set_language, 1, wxEXPAND);
+	_language = new wxChoice (this, wxID_ANY);
+	_language->Append (wxT ("English"));
+	_language->Append (wxT ("Français"));
+	_language->Append (wxT ("Italiano"));
+	_language->Append (wxT ("Español"));
+	_language->Append (wxT ("Svenska"));
+	table->Add (_language, 1, wxEXPAND);
+	table->AddSpacer (0);
+
+	table->AddSpacer (0);
+	wxStaticText* restart = add_label_to_sizer (table, this, _("(restart DVD-o-matic to see language changes)"));
+	wxFont font = restart->GetFont();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	font.SetPointSize (font.GetPointSize() - 1);
+	restart->SetFont (font);
+	table->AddSpacer (0);
+
 	add_label_to_sizer (table, this, _("TMS IP address"));
 	_tms_ip = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_tms_ip, 1, wxEXPAND);
@@ -132,6 +151,24 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 		
 	Config* config = Config::instance ();
 
+	_set_language->SetValue (config->language ());
+
+	if (config->language().get_value_or ("") == "fr") {
+		_language->SetSelection (1);
+	} else if (config->language().get_value_or ("") == "it") {
+		_language->SetSelection (2);
+	} else if (config->language().get_value_or ("") == "es") {
+		_language->SetSelection (3);
+	} else if (config->language().get_value_or ("") == "sv") {
+		_language->SetSelection (4);
+	} else {
+		_language->SetSelection (0);
+	}
+
+	setup_language_sensitivity ();
+
+	_set_language->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (ConfigDialog::set_language_changed), 0, this);
+	_language->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::language_changed), 0, this);
 	_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
 	_tms_ip->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_ip_changed), 0, this);
 	_tms_path->SetValue (std_to_wx (config->tms_path ()));
@@ -182,6 +219,28 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+}
+
+void
+ConfigDialog::language_changed (wxCommandEvent &)
+{
+	switch (_language->GetSelection ()) {
+	case 0:
+		Config::instance()->set_language ("");
+		break;
+	case 1:
+		Config::instance()->set_language ("fr");
+		break;
+	case 2:
+		Config::instance()->set_language ("it");
+		break;
+	case 3:
+		Config::instance()->set_language ("es");
+		break;
+	case 4:
+		Config::instance()->set_language ("sv");
+		break;
+	}
 }
 
 void
@@ -323,4 +382,21 @@ ConfigDialog::edit_default_dci_metadata_clicked (wxCommandEvent &)
 	d->ShowModal ();
 	Config::instance()->set_default_dci_metadata (d->dci_metadata ());
 	d->Destroy ();
+}
+
+void
+ConfigDialog::set_language_changed (wxCommandEvent& ev)
+{
+	setup_language_sensitivity ();
+	if (_set_language->GetValue ()) {
+		language_changed (ev);
+	} else {
+		Config::instance()->unset_language ();
+	}
+}
+
+void
+ConfigDialog::setup_language_sensitivity ()
+{
+	_language->Enable (_set_language->GetValue ());
 }

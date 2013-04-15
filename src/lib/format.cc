@@ -72,68 +72,59 @@ Format::setup_formats ()
 {
 	/// TRANSLATORS: these are film picture aspect ratios; "Academy" means 1.37, "Flat" 1.85 and "Scope" 2.39.
 	_formats.push_back (
-		new FixedFormat (119, libdcp::Size (1285, 1080), N_("119"), _("1.19"), N_("F"),
-				 _("Source scaled to 1.19:1")
+		new FixedFormat (119, libdcp::Size (1285, 1080), N_("119"), _("1.19"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (133, libdcp::Size (1436, 1080), N_("133"), _("1.33"), N_("F"),
-				 _("Source scaled to 1.33:1")
+		new FixedFormat (133, libdcp::Size (1436, 1080), N_("133"), _("1.33"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (138, libdcp::Size (1485, 1080), N_("138"), _("1.375"), N_("F"),
-				 _("Source scaled to 1.375:1")
+		new FixedFormat (138, libdcp::Size (1485, 1080), N_("138"), _("1.375"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (133, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F"),
-				 _("Source scaled to 1.33:1 then pillarboxed to Flat")
+		new FixedFormat (133, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (137, libdcp::Size (1480, 1080), N_("137"), _("Academy"), N_("F"),
-				 _("Source scaled to 1.37:1 (Academy ratio)")
+		new FixedFormat (137, libdcp::Size (1480, 1080), N_("137"), _("Academy"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (166, libdcp::Size (1793, 1080), N_("166"), _("1.66"), N_("F"),
-				 _("Source scaled to 1.66:1")
+		new FixedFormat (166, libdcp::Size (1793, 1080), N_("166"), _("1.66"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (166, libdcp::Size (1998, 1080), N_("166-in-flat"), _("1.66 within Flat"), N_("F"),
-				 _("Source scaled to 1.66:1 then pillarboxed to Flat")
+		new FixedFormat (166, libdcp::Size (1998, 1080), N_("166-in-flat"), _("1.66 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (178, libdcp::Size (1998, 1080), N_("178-in-flat"), _("16:9 within Flat"), N_("F"),
-				 _("Source scaled to 1.78:1 then pillarboxed to Flat")
+		new FixedFormat (178, libdcp::Size (1998, 1080), N_("178-in-flat"), _("16:9 within Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (178, libdcp::Size (1920, 1080), N_("178"), _("16:9"), N_("F"),
-				 _("Source scaled to 1.78:1")
+		new FixedFormat (178, libdcp::Size (1920, 1080), N_("178"), _("16:9"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (185, libdcp::Size (1998, 1080), N_("185"), _("Flat"), N_("F"),
-				 _("Source scaled to Flat (1.85:1)")
+		new FixedFormat (185, libdcp::Size (1998, 1080), N_("185"), _("Flat"), N_("F")
 			));
 	
 	_formats.push_back (
-		new FixedFormat (239, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S"),
-				 _("Source scaled to Scope (2.39:1)")
+		new FixedFormat (178, libdcp::Size (2048, 858), N_("178-in-scope"), _("16:9 within Scope"), N_("S")
+			));
+	
+	_formats.push_back (
+		new FixedFormat (239, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S")
 			));
 		
 	_formats.push_back (
-		new VariableFormat (libdcp::Size (1998, 1080), N_("var-185"), _("Flat without stretch"), N_("F"),
-				    _("Source scaled to fit Flat preserving its aspect ratio")
+		new VariableFormat (libdcp::Size (1998, 1080), N_("var-185"), _("Flat without stretch"), N_("F")
 			));
 	
 	_formats.push_back (
-		new VariableFormat (libdcp::Size (2048, 858), N_("var-239"), _("Scope without stretch"), N_("S"),
-				    _("Source scaled to fit Scope preserving its aspect ratio")
+		new VariableFormat (libdcp::Size (2048, 858), N_("var-239"), _("Scope without stretch"), N_("S")
 			));
 }
 
@@ -195,8 +186,8 @@ Format::all ()
  *  @param id ID (e.g. 185)
  *  @param n Nick name (e.g. Flat)
  */
-FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d, string e)
-	: Format (dcp, id, n, d, e)
+FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d)
+	: Format (dcp, id, n, d)
 	, _ratio (r)
 {
 
@@ -208,7 +199,7 @@ FixedFormat::FixedFormat (int r, libdcp::Size dcp, string id, string n, string d
 int
 Format::dcp_padding (shared_ptr<const Film> f) const
 {
-	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_integer(f) / 100.0)) / 2.0);
+	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio_as_float(f))) / 2.0);
 
 	/* This comes out -ve for Scope; bodge it */
 	if (p < 0) {
@@ -224,8 +215,8 @@ Format::container_ratio_as_float () const
 	return static_cast<float> (_dcp_size.width) / _dcp_size.height;
 }
 
-VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d, string e)
-	: Format (dcp, id, n, d, e)
+VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d)
+	: Format (dcp, id, n, d)
 {
 
 }
@@ -239,7 +230,8 @@ VariableFormat::ratio_as_integer (shared_ptr<const Film> f) const
 float
 VariableFormat::ratio_as_float (shared_ptr<const Film> f) const
 {
-	return float (f->size().width) / f->size().height;
+	libdcp::Size const c = f->cropped_size (f->size ());
+	return float (c.width) / c.height;
 }
 
 /** @return A name to be presented to the user */

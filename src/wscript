@@ -12,3 +12,8 @@ def pot(bld):
     bld.recurse('lib')
     bld.recurse('wx')
     bld.recurse('tools')
+
+def pot_merge(bld):
+    bld.recurse('lib')
+    bld.recurse('wx')
+    bld.recurse('tools')

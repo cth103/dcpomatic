@@ -24,7 +24,7 @@
 #include "stream.h"
 #include "decoder.h"
 
-class VideoDecoder : public TimedVideoSource, public virtual Decoder
+class VideoDecoder : public VideoSource, public virtual Decoder
 {
 public:
 	VideoDecoder (boost::shared_ptr<Film>, DecodeOptions);

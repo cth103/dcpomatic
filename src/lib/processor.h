@@ -40,7 +40,7 @@ public:
 	/** Construct a Processor.
 	 *  @param log Log to use.
 	 */
-	Processor (Log* log)
+	Processor (boost::shared_ptr<Log> log)
 		: _log (log)
 	{}
 
@@ -50,7 +50,49 @@ public:
 	virtual void process_end () {}
 
 protected:
-	Log* _log; ///< log to write to
+	boost::shared_ptr<Log> _log; ///< log to write to
+};
+
+/** @class AudioVideoProcessor
+ *  @brief A processor which handles both video and audio data.
+ */
+class AudioVideoProcessor : public Processor, public VideoSource, public VideoSink, public AudioSource, public AudioSink
+{
+public:
+	/** Construct an AudioVideoProcessor.
+	 *  @param log Log to write to.
+	 */
+	AudioVideoProcessor (boost::shared_ptr<Log> log)
+		: Processor (log)
+	{}
+};
+
+/** @class AudioProcessor
+ *  @brief A processor which handles just audio data.
+ */
+class AudioProcessor : public Processor, public AudioSource, public AudioSink
+{
+public:
+	/** Construct an AudioProcessor.
+	 *  @param log Log to write to.
+	 */
+	AudioProcessor (boost::shared_ptr<Log> log)
+		: Processor (log)
+	{}
+};
+
+/** @class VideoProcessor
+ *  @brief A processor which handles just video data.
+ */
+class VideoProcessor : public Processor, public VideoSource, public VideoSink
+{
+public:
+	/** Construct an VideoProcessor.
+	 *  @param log Log to write to.
+	 */
+	VideoProcessor (boost::shared_ptr<Log> log)
+		: Processor (log)
+	{}
 };
 
 #endif

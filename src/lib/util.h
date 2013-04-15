@@ -30,6 +30,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/optional.hpp>
+#include <boost/filesystem.hpp>
 #include <libdcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -54,11 +55,15 @@ extern void stacktrace (std::ostream &, int);
 extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
 extern void dvdomatic_setup ();
+extern void dvdomatic_setup_i18n (std::string);
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (std::string);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
+#ifdef DVDOMATIC_WINDOWS
+extern boost::filesystem::path mo_path ();
+#endif
 
 typedef int SourceFrame;
 

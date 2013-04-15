@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.77pre'
+VERSION = '0.84pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -22,8 +22,7 @@ def configure(conf):
         conf.load('winres')
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
-                                       '-Wall', '-Wno-attributes', '-Wextra',
-                                       '-DLOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX']])
+                                       '-Wall', '-Wno-attributes', '-Wextra'])
 
     if conf.options.target_windows:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
@@ -37,6 +36,8 @@ def configure(conf):
         boost_thread = 'boost_thread_win32-mt'
     else:
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dvdomatic"' % conf.env['PREFIX'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
@@ -54,7 +55,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if not conf.options.static:
-        conf.check_cfg(package = 'libdcp', atleast_version = '0.40', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.41', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
         conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
@@ -231,6 +232,9 @@ def build(bld):
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 
+    if not bld.env.TARGET_WINDOWS:
+        bld.install_files('${PREFIX}/share/dvdomatic', 'icons/taskbar_icon.png')
+
     bld.add_post_fun(post)
 
 def dist(ctx):
@@ -266,4 +270,7 @@ def post(ctx):
         ctx.exec_command('/sbin/ldconfig')
 
 def pot(bld):
+    bld.recurse('src')
+
+def pot_merge(bld):
     bld.recurse('src')

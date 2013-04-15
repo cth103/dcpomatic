@@ -28,6 +28,7 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread.hpp>
 
 class Film;
 
@@ -46,12 +47,14 @@ public:
 	virtual void run () = 0;
 	
 	void start ();
+	void cancel ();
 
 	bool is_new () const;
 	bool running () const;
 	bool finished () const;
 	bool finished_ok () const;
 	bool finished_in_error () const;
+	bool finished_cancelled () const;
 
 	std::string error_summary () const;
 	std::string error_details () const;
@@ -74,10 +77,11 @@ protected:
 
 	/** Description of a job's state */
 	enum State {
-		NEW,           ///< the job hasn't been started yet
-		RUNNING,       ///< the job is running
-		FINISHED_OK,   ///< the job has finished successfully
-		FINISHED_ERROR ///< the job has finished in error
+		NEW,            ///< the job hasn't been started yet
+		RUNNING,        ///< the job is running
+		FINISHED_OK,    ///< the job has finished successfully
+		FINISHED_ERROR, ///< the job has finished in error
+		FINISHED_CANCELLED ///< the job was cancelled
 	};
 	
 	void set_state (State);
@@ -89,6 +93,8 @@ protected:
 private:
 
 	void run_wrapper ();
+
+	boost::thread* _thread;
 
 	/** mutex for _state and _error */
 	mutable boost::mutex _state_mutex;

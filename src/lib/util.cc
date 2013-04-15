@@ -235,9 +235,6 @@ seconds (struct timeval t)
 void
 dvdomatic_setup ()
 {
-	bindtextdomain ("libdvdomatic", LOCALE_PREFIX);
-	setlocale (LC_ALL, "");
-	
 	avfilter_register_all ();
 	
 	Format::setup_formats ();
@@ -247,6 +244,51 @@ dvdomatic_setup ()
 	SoundProcessor::setup_sound_processors ();
 
 	ui_thread = this_thread::get_id ();
+}
+
+#ifdef DVDOMATIC_WINDOWS
+boost::filesystem::path
+mo_path ()
+{
+	wchar_t buffer[512];
+	GetModuleFileName (0, buffer, 512 * sizeof(wchar_t));
+	boost::filesystem::path p (buffer);
+	p = p.parent_path ();
+	p = p.parent_path ();
+	p /= "locale";
+	return p;
+}
+#endif
+
+void
+dvdomatic_setup_i18n (string lang)
+{
+#ifdef DVDOMATIC_POSIX
+	lang += ".UTF8";
+#endif
+
+	if (!lang.empty ()) {
+		/* Override our environment language; this is essential on
+		   Windows.
+		*/
+		char cmd[64];
+		snprintf (cmd, sizeof(cmd), "LANGUAGE=%s", lang.c_str ());
+		putenv (cmd);
+		snprintf (cmd, sizeof(cmd), "LANG=%s", lang.c_str ());
+		putenv (cmd);
+	}
+
+	setlocale (LC_ALL, "");
+	textdomain ("libdvdomatic");
+
+#ifdef DVDOMATIC_WINDOWS
+	bindtextdomain ("libdvdomatic", mo_path().string().c_str());
+	bind_textdomain_codeset ("libdvdomatic", "UTF8");
+#endif	
+
+#ifdef DVDOMATIC_POSIX
+	bindtextdomain ("libdvdomatic", POSIX_LOCALE_PREFIX);
+#endif
 }
 
 /** @param start Start position for the crop within the image.
@@ -885,12 +927,12 @@ audio_channel_name (int c)
 	   enhancement channel (sub-woofer)./
 	*/
 	string const channels[] = {
-		"Left",
-		"Right",
-		"Centre",
-		"Lfe (sub)",
-		"Left surround",
-		"Right surround",
+		_("Left"),
+		_("Right"),
+		_("Centre"),
+		_("Lfe (sub)"),
+		_("Left surround"),
+		_("Right surround"),
 	};
 
 	return channels[c];
@@ -972,7 +1014,7 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 
 		if (change_speed) {
 			float const pc = dcp * 100 / (source * factor());
-			description += String::compose (_("DCP will run at %1%% of the source speed."), pc);
+			description += String::compose (_("DCP will run at %1%% of the source speed.\n"), pc);
 		}
 	}
 }

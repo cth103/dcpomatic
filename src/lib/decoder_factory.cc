@@ -25,7 +25,7 @@
 #include "ffmpeg_decoder.h"
 #include "imagemagick_decoder.h"
 #include "film.h"
-#include "external_audio_decoder.h"
+#include "sndfile_decoder.h"
 #include "decoder_factory.h"
 
 using std::string;
@@ -47,7 +47,7 @@ decoder_factory (
 		/* A single image file, or a directory of them */
 		return Decoders (
 			shared_ptr<VideoDecoder> (new ImageMagickDecoder (f, o)),
-			shared_ptr<AudioDecoder> (new ExternalAudioDecoder (f, o))
+			shared_ptr<AudioDecoder> (new SndfileDecoder (f, o))
 			);
 	}
 
@@ -56,5 +56,5 @@ decoder_factory (
 		return Decoders (fd, fd);
 	}
 
-	return Decoders (fd, shared_ptr<AudioDecoder> (new ExternalAudioDecoder (f, o)));
+	return Decoders (fd, shared_ptr<AudioDecoder> (new SndfileDecoder (f, o)));
 }

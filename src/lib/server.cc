@@ -77,7 +77,7 @@ ServerDescription::as_metadata () const
 	return s.str ();
 }
 
-Server::Server (Log* log)
+Server::Server (shared_ptr<Log> log)
 	: _log (log)
 {
 

@@ -38,7 +38,6 @@
 #include "audio_decoder.h"
 
 using std::string;
-using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -64,9 +63,18 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
 	_decoders.audio->set_audio_stream (f->audio_stream ());
 
+<<<<<<< HEAD
 	_decoders.video->connect_video (_delay_line);
 	_delay_line->connect_video (_matcher);
 	_matcher->connect_video (_encoder);
+=======
+	if (_matcher) {
+		_decoders.video->connect_video (_matcher);
+		_matcher->connect_video (_encoder);
+	} else {
+		_decoders.video->connect_video (_encoder);
+	}
+>>>>>>> master
 	
 	_decoders.audio->connect_audio (_delay_line);
 	_delay_line->connect_audio (_matcher);

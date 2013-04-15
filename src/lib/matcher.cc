@@ -28,8 +28,8 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 
-Matcher::Matcher (Log* log, int sample_rate, float frames_per_second)
-	: Processor (log)
+Matcher::Matcher (shared_ptr<Log> log, int sample_rate, float frames_per_second)
+	: AudioVideoProcessor (log)
 	, _sample_rate (sample_rate)
 	, _frames_per_second (frames_per_second)
 	, _video_frames (0)
