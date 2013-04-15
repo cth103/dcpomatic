@@ -60,34 +60,27 @@ ABTranscoder::ABTranscoder (
 	_da = decoder_factory (_film_a, o);
 	_db = decoder_factory (_film_b, o);
 
-	if (_film_a->audio_stream()) {
-		shared_ptr<AudioStream> st = _film_a->audio_stream();
-		_matcher.reset (new Matcher (_film_a->log(), st->sample_rate(), _film_a->source_frame_rate()));
-		_delay_line.reset (new DelayLine (_film_a->log(), st->channels(), _film_a->audio_delay() * st->sample_rate() / 1000));
-		_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
-	}
+	shared_ptr<AudioStream> st = _film_a->audio_stream();
+	_matcher.reset (new Matcher (_film_a->log(), st->sample_rate(), _film_a->source_frame_rate()));
+	_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_delay() / 1000.0f));
+	_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
 
 	/* Set up the decoder to use the film's set streams */
 	_da.video->set_subtitle_stream (_film_a->subtitle_stream ());
 	_db.video->set_subtitle_stream (_film_a->subtitle_stream ());
 	_da.audio->set_audio_stream (_film_a->audio_stream ());
 
-	_da.video->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3));
-	_db.video->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3));
+	_da.video->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
+	_db.video->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
-	if (_matcher) {
-		_combiner->connect_video (_matcher);
-		_matcher->connect_video (_encoder);
-	} else {
-		_combiner->connect_video (_encoder);
-	}
+	_combiner->connect_video (_delay_line);
+	_delay_line->connect_video (_matcher);
+	_matcher->connect_video (_encoder);
 	
-	if (_matcher && _delay_line) {
-		_da.audio->connect_audio (_delay_line);
-		_delay_line->connect_audio (_matcher);
-		_matcher->connect_audio (_gain);
-		_gain->connect_audio (_encoder);
-	}
+	_da.audio->connect_audio (_delay_line);
+	_delay_line->connect_audio (_matcher);
+	_matcher->connect_audio (_gain);
+	_gain->connect_audio (_encoder);
 }
 
 void

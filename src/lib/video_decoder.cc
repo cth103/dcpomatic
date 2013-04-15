@@ -27,6 +27,7 @@
 
 #include "i18n.h"
 
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -44,46 +45,17 @@ VideoDecoder::VideoDecoder (shared_ptr<Film> f, DecodeOptions o)
  *  @param t Time of the frame within the source, in seconds.
  */
 void
-VideoDecoder::emit_video (shared_ptr<Image> image, double t)
+VideoDecoder::emit_video (shared_ptr<Image> image, bool same, double t)
 {
 	shared_ptr<Subtitle> sub;
 	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	signal_video (image, false, sub);
-	_last_source_time = t;
-}
-
-/** Called by subclasses to repeat the last video frame that we
- *  passed to emit_video().  If emit_video hasn't yet been called,
- *  we will generate a black frame.
- */
-void
-VideoDecoder::repeat_last_video ()
-{
-	if (!_last_image) {
-		_last_image.reset (new SimpleImage (pixel_format(), native_size(), true));
-		_last_image->make_black ();
-	}
-
-	signal_video (_last_image, true, _last_subtitle);
-}
-
-/** Emit our signal to say that some video data is ready.
- *  @param image Video frame.
- *  @param same true if `image' is the same as the last one we emitted.
- *  @param sub Subtitle for this frame, or 0.
- */
-void
-VideoDecoder::signal_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
-{
-	TIMING (N_("Decoder emits %1"), _video_frame);
-	Video (image, same, sub);
+	Video (image, same, sub, t);
 	++_video_frame;
-
-	_last_image = image;
-	_last_subtitle = sub;
+	
+	_last_source_time = t;
 }
 
 /** Set up the current subtitle.  This will be put onto frames that

@@ -24,7 +24,7 @@
 #include "stream.h"
 #include "decoder.h"
 
-class VideoDecoder : public VideoSource, public virtual Decoder
+class VideoDecoder : public TimedVideoSource, public virtual Decoder
 {
 public:
 	VideoDecoder (boost::shared_ptr<Film>, DecodeOptions);
@@ -65,9 +65,8 @@ protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
 
-	void emit_video (boost::shared_ptr<Image>, double);
+	void emit_video (boost::shared_ptr<Image>, bool, double);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
-	void repeat_last_video ();
 
 	/** Subtitle stream to use when decoding */
 	boost::shared_ptr<SubtitleStream> _subtitle_stream;
@@ -75,15 +74,10 @@ protected:
 	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
 
 private:
-	void signal_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>);
-
 	int _video_frame;
 	double _last_source_time;
 	
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
-
-	boost::shared_ptr<Image> _last_image;
-	boost::shared_ptr<Subtitle> _last_subtitle;
 };
 
 #endif

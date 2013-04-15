@@ -77,7 +77,7 @@ ImageMagickDecoder::pass ()
 			return true;
 		}
 
-		repeat_last_video ();
+		emit_video (_image, true, double (video_frame()) / frames_per_second());
 		return false;
 	}
 	
@@ -100,9 +100,9 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	image = image->crop (_film->crop(), true);
-	
-	emit_video (image, 0);
+	_image = image->crop (_film->crop(), true);
+
+	emit_video (_image, false, double (video_frame()) / frames_per_second());
 
 	++_iter;
 	return false;
@@ -149,4 +149,10 @@ ImageMagickDecoder::film_changed (Film::Property p)
 	if (p == Film::CROP) {
 		OutputChanged ();
 	}
+}
+
+float
+ImageMagickDecoder::frames_per_second () const
+{
+	return _film->source_frame_rate ();
 }

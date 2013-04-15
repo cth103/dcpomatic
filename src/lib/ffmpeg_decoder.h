@@ -111,9 +111,7 @@ private:
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
 
-	void out_with_sync ();
-	void filter_and_emit_video (AVFrame *);
-	double frame_time () const;
+	void filter_and_emit_video ();
 
 	void setup_general ();
 	void setup_video ();
@@ -142,9 +140,6 @@ private:
 	AVCodec* _subtitle_codec;                ///< may be 0 if there is no subtitle
 
 	AVPacket _packet;
-
-	boost::optional<double> _first_video;
-	boost::optional<double> _first_audio;
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;

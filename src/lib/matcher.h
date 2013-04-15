@@ -21,15 +21,19 @@
 #include "processor.h"
 #include "ffmpeg_compatibility.h"
 
-class Matcher : public AudioVideoProcessor
+class Matcher : public Processor, public TimedAudioSink, public TimedVideoSink, public AudioSource, public VideoSource 
 {
 public:
 	Matcher (boost::shared_ptr<Log> log, int sample_rate, float frames_per_second);
-	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
-	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s, double);
+	void process_audio (boost::shared_ptr<AudioBuffers>, double);
 	void process_end ();
 
 private:
+	void fix_start (double);
+	void match (double);
+	void repeat_last_video ();
+	
 	int _sample_rate;
 	float _frames_per_second;
 	int _video_frames;
@@ -37,4 +41,23 @@ private:
 	boost::optional<AVPixelFormat> _pixel_format;
 	boost::optional<libdcp::Size> _size;
 	boost::optional<int> _channels;
+
+	struct AudioRecord {
+		AudioRecord (boost::shared_ptr<AudioBuffers> a, double t)
+			: audio (a)
+			, time (t)
+		{}
+		
+		boost::shared_ptr<AudioBuffers> audio;
+		double time;
+	};
+
+	std::list<AudioRecord> _pending_audio;
+
+	boost::optional<double> _first_input;
+	boost::shared_ptr<Image> _last_image;
+	boost::shared_ptr<Subtitle> _last_subtitle;
+
+	bool _had_first_video;
+	bool _had_first_audio;
 };
