@@ -93,13 +93,13 @@ Encoder::process_begin ()
 		   decide if rematrixing is needed.  It won't be, since
 		   input and output layouts are the same.
 		*/
-		   
+
 		_swr_context = swr_alloc_set_opts (
 			0,
-			av_get_default_channel_layout (_film->audio_channels ()),
+			av_get_default_channel_layout (_film->audio_mapping().dcp_channels ()),
 			AV_SAMPLE_FMT_FLTP,
 			_film->target_audio_sample_rate(),
-			av_get_default_channel_layout (_film->audio_channels ()),
+			av_get_default_channel_layout (_film->audio_mapping().dcp_channels ()),
 			AV_SAMPLE_FMT_FLTP,
 			_film->audio_frame_rate(),
 			0, 0
