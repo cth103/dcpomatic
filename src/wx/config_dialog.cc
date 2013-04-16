@@ -226,7 +226,7 @@ ConfigDialog::language_changed (wxCommandEvent &)
 {
 	switch (_language->GetSelection ()) {
 	case 0:
-		Config::instance()->set_language ("");
+		Config::instance()->set_language ("en");
 		break;
 	case 1:
 		Config::instance()->set_language ("fr");

@@ -75,6 +75,7 @@ private:
 	void format_changed (wxCommandEvent &);
 	void trim_start_changed (wxCommandEvent &);
 	void trim_end_changed (wxCommandEvent &);
+	void trim_type_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
@@ -176,6 +177,7 @@ private:
 
 	wxSpinCtrl* _trim_start;
 	wxSpinCtrl* _trim_end;
+	wxChoice* _trim_type;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _ab;
 

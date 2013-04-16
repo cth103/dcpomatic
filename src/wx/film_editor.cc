@@ -174,6 +174,11 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim method"), wxGBPosition (r, 0));
+	_trim_type = new wxChoice (_film_panel, wxID_ANY);
+	grid->Add (_trim_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
+
 	_ab = new wxCheckBox (_film_panel, wxID_ANY, _("A/B"));
 	grid->Add (_ab, wxGBPosition (r, 0));
 	++r;
@@ -187,49 +192,53 @@ FilmEditor::make_film_panel ()
 	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
 		_dcp_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
+
+	_trim_type->Append (_("encode all frames and play the subset"));
+	_trim_type->Append (_("encode only the subset"));
 }
 
 void
 FilmEditor::connect_to_widgets ()
 {
-	_name->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (FilmEditor::name_changed), 0, this);
-	_use_dci_name->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
-	_edit_dci_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
-	_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::format_changed), 0, this);
-	_trust_content_headers->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::trust_content_headers_changed), 0, this);
-	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (FilmEditor::content_selection_changed), 0, this);
-	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler (FilmEditor::content_selection_changed), 0, this);
-	_content->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler (FilmEditor::content_activated), 0, this);
-	_content_add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
-	_content_remove->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
-	_content_edit->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_edit_clicked), 0, this);
-	_content_earlier->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
-	_content_later->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
-	_left_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
-	_right_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
-	_top_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
-	_bottom_crop->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::bottom_crop_changed), 0, this);
-	_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::edit_filters_clicked), 0, this);
-	_scaler->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
-	_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
-	_dcp_frame_rate->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
-	_best_dcp_frame_rate->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
-	_ab->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::ab_toggled), 0, this);
-	_trim_start->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_start_changed), 0, this);
-	_trim_end->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::trim_end_changed), 0, this);
-	_with_subtitles->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
-	_subtitle_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
-	_subtitle_scale->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
-	_colour_lut->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
-	_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
-	_ffmpeg_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::ffmpeg_subtitle_stream_changed), 0, this);
-	_ffmpeg_audio_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FilmEditor::ffmpeg_audio_stream_changed), 0, this);
-	_audio_gain->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
+	_name->Connect                   (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED,         wxCommandEventHandler (FilmEditor::name_changed), 0, this);
+	_use_dci_name->Connect           (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
+	_edit_dci_button->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
+	_format->Connect                 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::format_changed), 0, this);
+	_trust_content_headers->Connect  (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::trust_content_headers_changed), 0, this);
+	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED,   wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
+	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
+	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_ACTIVATED,  wxListEventHandler    (FilmEditor::content_activated), 0, this);
+	_content_add->Connect            (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
+	_content_remove->Connect         (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
+	_content_edit->Connect           (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_edit_clicked), 0, this);
+	_content_earlier->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
+	_content_later->Connect          (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
+	_left_crop->Connect              (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
+	_right_crop->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
+	_top_crop->Connect               (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
+	_bottom_crop->Connect            (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::bottom_crop_changed), 0, this);
+	_filters_button->Connect         (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::edit_filters_clicked), 0, this);
+	_scaler->Connect                 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
+	_dcp_content_type->Connect       (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
+	_dcp_frame_rate->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
+	_best_dcp_frame_rate->Connect    (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
+	_ab->Connect                     (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::ab_toggled), 0, this);
+	_trim_start->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::trim_start_changed), 0, this);
+	_trim_end->Connect               (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::trim_end_changed), 0, this);
+	_trim_type->Connect              (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::trim_type_changed), 0, this);
+	_with_subtitles->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
+	_subtitle_offset->Connect        (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
+	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
+	_colour_lut->Connect             (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
+	_j2k_bandwidth->Connect          (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
+	_ffmpeg_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::ffmpeg_subtitle_stream_changed), 0, this);
+	_ffmpeg_audio_stream->Connect    (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::ffmpeg_audio_stream_changed), 0, this);
+	_audio_gain->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
 	_audio_gain_calculate_button->Connect (
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
 		);
-	_show_audio->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
-	_audio_delay->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
+	_show_audio->Connect             (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
+	_audio_delay->Connect            (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 }
 
 void
@@ -654,6 +663,9 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::TRIM_END:
 		checked_set (_trim_end, _film->trim_end());
 		break;
+	case Film::TRIM_TYPE:
+		checked_set (_trim_type, _film->trim_type() == Film::CPL ? 0 : 1);
+		break;
 	case Film::AUDIO_GAIN:
 		checked_set (_audio_gain, _film->audio_gain ());
 		break;
@@ -877,6 +889,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::TRIM_START);
 	film_changed (Film::TRIM_END);
 	film_changed (Film::AB);
+	film_changed (Film::TRIM_TYPE);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::WITH_SUBTITLES);
@@ -921,6 +934,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_trim_start->Enable (s);
 	_trim_end->Enable (s);
 	_ab->Enable (s);
+	_trim_type->Enable (s);
 	_colour_lut->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
@@ -1453,4 +1467,10 @@ FilmEditor::setup_scaling_description ()
 	}
 
 	_scaling_description->SetLabel (d);
+}
+
+void
+FilmEditor::trim_type_changed (wxCommandEvent &)
+{
+	_film->set_trim_type (_trim_type->GetSelection () == 0 ? Film::CPL : Film::ENCODE);
 }

@@ -41,6 +41,7 @@
 #include "ffmpeg_decoder.h"
 #include "sndfile_decoder.h"
 #include "dcp_content_type.h"
+#include "trimmer.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -123,6 +124,55 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 		++N;
 	}
 }
+
+shared_ptr<AudioBuffers> trimmer_test_last;
+
+void
+trimmer_test_helper (shared_ptr<AudioBuffers> audio)
+{
+	trimmer_test_last = audio;
+}
+
+/** Test the audio handling of the Trimmer */
+BOOST_AUTO_TEST_CASE (trimmer_test)
+{
+	Trimmer trimmer (shared_ptr<Log> (), 25, 75, 200, 48000, 25, 25);
+
+	trimmer.Audio.connect (bind (&trimmer_test_helper, _1));
+
+	/* 21 video frames-worth of audio frames; should be completely stripped */
+	trimmer_test_last.reset ();
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (6, 21 * 1920));
+	trimmer.process_audio (audio);
+	BOOST_CHECK (trimmer_test_last == 0);
+
+	/* 42 more video frames-worth, 4 should be stripped from the start */
+	audio.reset (new AudioBuffers (6, 42 * 1920));
+	trimmer.process_audio (audio);
+	BOOST_CHECK (trimmer_test_last);
+	BOOST_CHECK_EQUAL (trimmer_test_last->frames(), 38 * 1920);
+
+	/* 42 more video frames-worth, should be kept as-is */
+	trimmer_test_last.reset ();
+	audio.reset (new AudioBuffers (6, 42 * 1920));
+	trimmer.process_audio (audio);
+	BOOST_CHECK (trimmer_test_last);
+	BOOST_CHECK_EQUAL (trimmer_test_last->frames(), 42 * 1920);
+
+	/* 25 more video frames-worth, 5 should be trimmed from the end */
+	trimmer_test_last.reset ();
+	audio.reset (new AudioBuffers (6, 25 * 1920));
+	trimmer.process_audio (audio);
+	BOOST_CHECK (trimmer_test_last);
+	BOOST_CHECK_EQUAL (trimmer_test_last->frames(), 20 * 1920);
+
+	/* Now some more; all should be trimmed */
+	trimmer_test_last.reset ();
+	audio.reset (new AudioBuffers (6, 100 * 1920));
+	trimmer.process_audio (audio);
+	BOOST_CHECK (trimmer_test_last == 0);
+}
+
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
@@ -435,7 +485,7 @@ BOOST_AUTO_TEST_CASE (have_dcp_test)
 	BOOST_CHECK (f.have_dcp());
 
 	p /= f.dcp_name();
-	p /= "video.mxf";
+	p /= f.dcp_video_mxf_filename();
 	boost::filesystem::remove (p);
 	BOOST_CHECK (!f.have_dcp ());
 }
@@ -794,3 +844,4 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	delete t;
 	delete u;
 }
+

@@ -63,11 +63,14 @@ public:
 	std::string info_dir () const;
 	std::string j2c_path (int f, bool t) const;
 	std::string info_path (int f) const;
-	std::string video_mxf_dir () const;
-	std::string video_mxf_filename () const;
+	std::string internal_video_mxf_dir () const;
+	std::string internal_video_mxf_filename () const;
 	std::string audio_analysis_path () const;
 
 	void examine_content (boost::shared_ptr<Content>);
+	std::string dcp_video_mxf_filename () const;
+	std::string dcp_audio_mxf_filename () const;
+
 	void analyse_audio ();
 	void send_dcp_to_tms ();
 	void make_dcp ();
@@ -120,6 +123,11 @@ public:
 	void set_ffmpeg_subtitle_stream (FFmpegSubtitleStream);
 	void set_ffmpeg_audio_stream (FFmpegAudioStream);
 
+	enum TrimType {
+		CPL,
+		ENCODE
+	};
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -138,6 +146,7 @@ public:
 		TRIM_START,
 		TRIM_END,
 		AB,
+		TRIM_TYPE,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
 		WITH_SUBTITLES,
@@ -211,6 +220,11 @@ public:
 	int trim_end () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trim_end;
+	}
+
+	TrimType trim_type () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _trim_type;
 	}
 
 	bool ab () const {
@@ -290,6 +304,7 @@ public:
 	void set_trim_start (int);
 	void set_trim_end (int);
 	void set_ab (bool);
+	void set_trim_type (TrimType);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_with_subtitles (bool);
@@ -322,6 +337,7 @@ private:
 	void content_changed (boost::weak_ptr<Content>, int);
 	boost::shared_ptr<FFmpegContent> ffmpeg () const;
 	void setup_default_audio_mapping ();
+	std::string filename_safe_name () const;
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
@@ -356,6 +372,7 @@ private:
 	int _trim_start;
 	/** Frames to trim off the end of the DCP */
 	int _trim_end;
+	TrimType _trim_type;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.

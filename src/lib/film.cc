@@ -98,6 +98,7 @@ Film::Film (string d, bool must_exist)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _trim_start (0)
 	, _trim_end (0)
+	, _trim_type (CPL)
 	, _ab (false)
 	, _audio_gain (0)
 	, _audio_delay (0)
@@ -165,6 +166,7 @@ Film::Film (Film const & o)
 	, _scaler            (o._scaler)
 	, _trim_start        (o._trim_start)
 	, _trim_end          (o._trim_end)
+	, _trim_type         (o._trim_type)
 	, _ab                (o._ab)
 	, _audio_gain        (o._audio_gain)
 	, _audio_delay       (o._audio_delay)
@@ -223,16 +225,44 @@ Film::info_dir () const
 }
 
 string
-Film::video_mxf_dir () const
+Film::internal_video_mxf_dir () const
 {
 	boost::filesystem::path p;
 	return dir ("video");
 }
 
 string
-Film::video_mxf_filename () const
+Film::internal_video_mxf_filename () const
 {
 	return video_state_identifier() + ".mxf";
+}
+
+string
+Film::dcp_video_mxf_filename () const
+{
+	return filename_safe_name() + "_video.mxf";
+}
+
+string
+Film::dcp_audio_mxf_filename () const
+{
+	return filename_safe_name() + "_audio.mxf";
+}
+
+string
+Film::filename_safe_name () const
+{
+	string const n = name ();
+	string o;
+	for (size_t i = 0; i < n.length(); ++i) {
+		if (isalnum (n[i])) {
+			o += n[i];
+		} else {
+			o += "_";
+		}
+	}
+
+	return o;
 }
 
 string
@@ -385,12 +415,23 @@ Film::write_metadata () const
 	root->add_child("Name")->add_child_text (_name);
 	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
 	root->add_child("TrustContentHeaders")->add_child_text (_trust_content_headers ? "1" : "0");
+
 	if (_dcp_content_type) {
 		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->dci_name ());
 	}
+
 	if (_format) {
 		root->add_child("Format")->add_child_text (_format->id ());
 	}
+
+	switch (_trim_type) {
+	case CPL:
+		root->add_child("TrimType")->add_child_text ("CPL");
+		break;
+	case ENCODE:
+		root->add_child("TrimType")->add_child_text ("Encode");
+	}
+			
 	root->add_child("LeftCrop")->add_child_text (boost::lexical_cast<string> (_crop.left));
 	root->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
 	root->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
@@ -452,6 +493,15 @@ Film::read_metadata ()
 		optional<string> c = f.optional_string_child ("Format");
 		if (c) {
 			_format = Format::from_id (c.get ());
+		}
+	}
+
+	{
+		optional<string> c = f.optional_string_child ("TrimType");
+		if (!c || c.get() == "CPL") {
+			_trim_type = CPL;
+		} else if (c && c.get() == "Encode") {
+			_trim_type = ENCODE;
 		}
 	}
 
@@ -845,6 +895,16 @@ Film::set_trim_end (int t)
 		_trim_end = t;
 	}
 	signal_changed (TRIM_END);
+}
+
+void
+Film::set_trim_type (TrimType t)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_trim_type = t;
+	}
+	signal_changed (TRIM_TYPE);
 }
 
 void
