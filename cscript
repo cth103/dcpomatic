@@ -54,6 +54,4 @@ def dependencies():
             ('openjpeg', ''))
 
 def build(prefix):
-    depends('libdcp', 'v0.43')
-    depends('ffmpeg', '
-    depends('openjpeg')
+    pass
