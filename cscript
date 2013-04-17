@@ -47,3 +47,13 @@ def make_manual():
     os.chdir('doc/manual')
     command('make')
     return [os.path.abspath('pdf'), os.path.abspath('html')]
+
+def dependencies():
+    return (('libdcp', 'v0.43',
+            ('ffmpeg', '8d0757e1079f588ed69f629e2d1a4d5f232dc298')
+            ('openjpeg', ''))
+
+def build(prefix):
+    depends('libdcp', 'v0.43')
+    depends('ffmpeg', '
+    depends('openjpeg')
