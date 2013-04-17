@@ -1,8 +1,8 @@
 import glob
 
-builds = ['ubuntu-12.04-32', 'ubuntu-12.10-32', 'ubuntu-12.04-64', 'ubuntu-12.10-64', 'source', 'windows-32', 'windows-64']
+releases = ['ubuntu-12.04-32', 'ubuntu-12.10-32', 'ubuntu-12.04-64', 'ubuntu-12.10-64', 'source', 'windows-32', 'windows-64']
 
-def build(environment, variant, version):
+def release(environment, variant, version):
     if environment == 'windows':
         command('./waf configure --target-windows')
         command('./waf clean')
