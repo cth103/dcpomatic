@@ -259,9 +259,14 @@ Writer::finish ()
 	}
 
 	int const frames = _last_written_frame + 1;
-	int const duration = frames - _film->trim_start() - _film->trim_end();
+	int duration = 0;
+	if (_film->trim_type() == Film::CPL) {
+		duration = frames - _film->trim_start() - _film->trim_end();
+		_picture_asset->set_entry_point (_film->trim_start ());
+	} else {
+		duration = frames;
+	}
 	
-	_picture_asset->set_entry_point (_film->trim_start ());
 	_picture_asset->set_duration (duration);
 
 	/* Hard-link the video MXF into the DCP */
@@ -288,7 +293,9 @@ Writer::finish ()
 	_picture_asset->set_file_name (_film->dcp_video_mxf_filename ());
 
 	if (_sound_asset) {
-		_sound_asset->set_entry_point (_film->trim_start ());
+		if (_film->trim_type() == Film::CPL) {
+			_sound_asset->set_entry_point (_film->trim_start ());
+		}
 		_sound_asset->set_duration (duration);
 	}
 	
