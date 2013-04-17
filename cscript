@@ -50,7 +50,7 @@ def make_manual():
 
 def dependencies():
     return (('libdcp', 'v0.43'),
-            ('ffmpeg', '8d0757e1079f588ed69f629e2d1a4d5f232dc298')
+            ('ffmpeg', '8d0757e1079f588ed69f629e2d1a4d5f232dc298'),
             ('openjpeg', ''))
 
 def build(prefix):
