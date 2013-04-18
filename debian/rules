@@ -13,7 +13,8 @@
 	dh $@ 
 
 override_dh_auto_configure:
-	./waf --nocache configure --prefix=/usr --static
+	LINKFLAGS=$(CDIST_LINKFLAGS) CXXFLAGS="$(CXXFLAGS) $(CDIST_CXXFLAGS)" PKG_CONFIG_PATH=$(CDIST_PKG_CONFIG_PATH) \
+		 ./waf --nocache configure --prefix=/usr --static
 
 override_dh_auto_build:
 	./waf --nocache build
