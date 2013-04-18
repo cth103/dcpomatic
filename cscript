@@ -6,7 +6,9 @@ def dependencies(target):
     if target.platform == 'windows':
         return ()
     else:
-        return ('openjpeg-cdist', 'ffmpeg-cdist', 'libdcp')
+        return (('openjpeg-cdist', None),
+                ('ffmpeg-cdist', 'bf3361f28066820e3d74de8f52bac784663813fa'),
+                ('libdcp', 'v0.45'))
 
 def build(env, target):
     cmd = './waf configure --prefix=%s' % env.work_dir_cscript()
