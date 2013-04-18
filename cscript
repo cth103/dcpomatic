@@ -1,49 +1,67 @@
 import glob
+import shutil
+import os
 
-release_targets = ['ubuntu-12.04-32', 'ubuntu-12.10-32', 'ubuntu-12.04-64', 'ubuntu-12.10-64', 'source', 'windows-32', 'windows-64']
+def dependencies(target):
+    if target.platform == 'windows':
+        return ()
+    else:
+        return ('openjpeg-cdist', 'ffmpeg-cdist', 'libdcp')
 
-def build_release(environment, variant, version):
-    if environment == 'windows':
-        command('./waf configure --target-windows')
-        command('./waf clean')
-        command('./waf')
-        shutil.copyfile('build/windows/installer.%s.nsi' % variant, 'build/windows/installer2.%s.nsi' % variant)
-        command('sed -i "s~%%resources%%~%s/windows~g" build/windows/installer2.%s.nsi' % (os.getcwd(), variant))
-        command('sed -i "s~%%deps%%~$WINDOWS_PREFIX~g" build/windows/installer2.%s.nsi' % variant)
-        command('sed -i "s~%%binaries%%~%s/build~g" build/windows/installer2.%s.nsi' % (os.getcwd(), variant))
-        command('sed -i "s~%%bits%%~32~g" build/windows/installer2.%s.nsi' % variant)
-        command('makensis build/windows/installer2.%s.nsi' % variant)
-        return glob.glob('build/windows/*%s*.exe' % variant)[0]
-    elif environment == 'ubuntu':
-        v = variant.split('-')
-        bits = v[1]
-        if bits == '32':
+def build(env, target):
+    cmd = './waf configure --prefix=%s' % env.work_dir_cscript()
+    if target.platform == 'windows':
+        cmd += ' --target-windows'
+    else:
+        cmd += ' --static'
+    env.command(cmd)
+
+    env.command('./waf')
+
+    if target.platform == 'linux':
+        env.command('./waf install')
+
+
+def package(env, target, version):
+    if target.platform == 'windows':
+        shutil.copyfile('build/windows/installer.%s.nsi' % target.bits, 'build/windows/installer2.%s.nsi' % target.bits)
+        env.command('sed -i "s~%%resources%%~%s/windows~g" build/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        env.command('sed -i "s~%%deps%%~%s~g" build/windows/installer2.%s.nsi' % (env.windows_prefix(), target.bits))
+        env.command('sed -i "s~%%binaries%%~%s/build~g" build/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        env.command('sed -i "s~%%bits%%~32~g" build/windows/installer2.%s.nsi' % target.bits)
+        env.command('makensis build/windows/installer2.%s.nsi' % target.bits)
+        return os.path.abspath(glob.glob('build/windows/*%s*.exe' % target.bits)[0])
+    elif target.platform == 'linux':
+        if target.bits == 32:
             cpu = 'i386'
         else:
             cpu = 'amd64'
 
-        shutil.copyfile(os.path.join('builds', 'control-%s' % variant), os.path.join('debian', 'control'))
-        command('./waf dist')
-        f = open(os.path.join('debian', 'files'), 'w')
+        shutil.copyfile('builds/control-%s-%d' % (target.version, target.bits), 'debian/control')
+        env.command('./waf dist')
+        f = open('debian/files', 'w')
         print >>f,'dvdomatic_%s-1_%s.deb video extra' % (version, cpu)
         shutil.rmtree('build/deb', ignore_errors=True)
+
         os.makedirs('build/deb')
         os.chdir('build/deb')
         shutil.move('../../dvdomatic-%s.tar.bz2' % version, 'dvdomatic_%s.orig.tar.bz2' % version)
-        command('tar xjf dvdomatic_%s.orig.tar.bz2' % version)
+        env.command('tar xjf dvdomatic_%s.orig.tar.bz2' % version)
         os.chdir('dvdomatic-%s' % version)
-        command('dch -b -v %s-1 "New upstream release."' % version)
-        command('dpkg-source -b .')
-        command('dpkg-buildpackage')
+        env.command('dch -b -v %s-1 "New upstream release."' % version)
+        env.set('CDIST_LINKFLAGS', env.get('LINKFLAGS'))
+        env.set('CDIST_CXXFLAGS', env.get('CXXFLAGS'))
+        env.set('CDIST_PKG_CONFIG_PATH', env.get('PKG_CONFIG_PATH'))
+        env.command('dpkg-buildpackage')
         return os.path.abspath(glob.glob('../*.deb')[0])
 
-def make_pot():
-    command('./waf pot')
+def make_pot(env):
+    env.command('./waf pot')
     return [os.path.abspath('build/src/lib/libdvdomatic.pot'),
             os.path.abspath('build/src/wx/libdvdomatic-wx.pot'),
 	    os.path.abspath('build/src/tools/dvdomatic.pot')]
 
-def make_manual():
+def make_manual(env):
     os.chdir('doc/manual')
-    command('make')
+    env.command('make')
     return [os.path.abspath('pdf'), os.path.abspath('html')]
