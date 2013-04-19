@@ -143,6 +143,8 @@ Film::Film (string d, bool must_exist)
 	
 	if (must_exist) {
 		read_metadata ();
+	} else {
+		write_metadata ();
 	}
 
 	_log.reset (new FileLog (file ("log")));
