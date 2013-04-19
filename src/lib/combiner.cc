@@ -33,7 +33,7 @@ Combiner::Combiner (shared_ptr<Log> log)
  *  @param image Frame image.
  */
 void
-Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>, double t)
+Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>, double)
 {
 	_image = image;
 }

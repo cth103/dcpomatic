@@ -1,3 +1,7 @@
+2013-04-18  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.84beta1 released.
+
 2013-04-15  Carl Hetherington  <cth@carlh.net>
 
 	* Fix error message on forcing language to English (#103).
