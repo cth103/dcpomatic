@@ -62,6 +62,8 @@ private:
 	wxSizer* _v_sizer;
 	wxPanel* _panel;
 	wxSlider* _slider;
+	wxStaticText* _frame;
+	wxStaticText* _timecode;
 	wxToggleButton* _play_button;
 	wxTimer _timer;
 

@@ -1,5 +1,7 @@
 2013-04-19  Carl Hetherington  <cth@carlh.net>
 
+	* Add basic frame index and timecode to viewer (part of #68).
+
 	* Version 0.84beta4 released.
 
 2013-04-19  Carl Hetherington  <cth@carlh.net>
