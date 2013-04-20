@@ -453,18 +453,20 @@ string
 FFmpegDecoder::stream_name (AVStream* s) const
 {
 	stringstream n;
-	
-	AVDictionaryEntry const * lang = av_dict_get (s->metadata, N_("language"), 0, 0);
-	if (lang) {
-		n << lang->value;
-	}
-	
-	AVDictionaryEntry const * title = av_dict_get (s->metadata, N_("title"), 0, 0);
-	if (title) {
-		if (!n.str().empty()) {
-			n << N_(" ");
+
+	if (s->metadata) {
+		AVDictionaryEntry const * lang = av_dict_get (s->metadata, N_("language"), 0, 0);
+		if (lang) {
+			n << lang->value;
 		}
-		n << title->value;
+		
+		AVDictionaryEntry const * title = av_dict_get (s->metadata, N_("title"), 0, 0);
+		if (title) {
+			if (!n.str().empty()) {
+				n << N_(" ");
+			}
+			n << title->value;
+		}
 	}
 
 	if (n.str().empty()) {
