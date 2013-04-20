@@ -7,7 +7,7 @@ def dependencies(target):
         return ()
     else:
         return (('openjpeg-cdist', None),
-                ('ffmpeg-cdist', '35a110e4270b070146a84a827b10f75c5916e08a'),
+                ('ffmpeg-cdist', '488d5d4496af5e3a3b9d31d6b221e8eeada6b77e'),
                 ('libdcp', 'v0.45'))
 
 def build(env, target):
