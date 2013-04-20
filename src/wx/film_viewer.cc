@@ -410,7 +410,7 @@ FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> s
 	_got_frame = true;
 
 	double const fps = _decoders.video->frames_per_second ();
-	_frame->SetLabel (wxString::Format ("%d", int (rint (t * fps))));
+	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps))));
 
 	double w = t;
 	int const h = (w / 3600);
@@ -420,7 +420,7 @@ FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> s
 	int const s = floor (w);
 	w -= s;
 	int const f = rint (w * fps);
-	_timecode->SetLabel (wxString::Format ("%02d:%02d:%02d:%02d", h, m, s, f));
+	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d:%02d"), h, m, s, f));
 }
 
 void
