@@ -59,6 +59,8 @@ public:
 	virtual bool pass () = 0;
 	virtual bool seek (double);
 	virtual bool seek_to_last ();
+	virtual void seek_back () {}
+	virtual void seek_forward () {}
 
 	boost::signals2::signal<void()> OutputChanged;
 

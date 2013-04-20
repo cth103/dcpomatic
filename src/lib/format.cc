@@ -50,7 +50,7 @@ FixedFormat::name () const
 		s << _nickname << N_(" (");
 	}
 
-	s << setprecision(3) << (_ratio / 100.0) << N_(":1");
+	s << setprecision(3) << _ratio << N_(":1");
 
 	if (!_nickname.empty ()) {
 		s << N_(")");

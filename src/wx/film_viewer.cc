@@ -51,6 +51,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
+	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
+	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
 	, _frame (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
@@ -72,14 +74,18 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	wxBoxSizer* time_sizer = new wxBoxSizer (wxVERTICAL);
 	time_sizer->Add (_frame, 0, wxEXPAND);
 	time_sizer->Add (_timecode, 0, wxEXPAND);
-	
+
+	h_sizer->Add (_back_button, 0, wxALL, 2);
 	h_sizer->Add (time_sizer, 0, wxEXPAND);
+	h_sizer->Add (_forward_button, 0, wxALL, 2);
 	h_sizer->Add (_play_button, 0, wxEXPAND);
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
 	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
 
 	_frame->SetMinSize (wxSize (84, -1));
+	_back_button->SetMinSize (wxSize (32, -1));
+	_forward_button->SetMinSize (wxSize (32, -1));
 
 	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
 	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
@@ -88,6 +94,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
 	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
 	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
+	_back_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmViewer::back_clicked), 0, this);
+	_forward_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmViewer::forward_clicked), 0, this);
 
 	set_film (f);
 
@@ -121,7 +129,7 @@ FilmViewer::film_changed (Film::Property p)
 		if (_decoders.video == 0) {
 			break;
 		}
-		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3, _4));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
 		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		calculate_sizes ();
@@ -392,7 +400,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
+FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub, double t)
 {
 	_raw_frame = image;
 	_raw_sub = sub;
@@ -401,7 +409,6 @@ FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> s
 
 	_got_frame = true;
 
-	double const t = _decoders.video->last_source_time ();
 	double const fps = _decoders.video->frames_per_second ();
 	_frame->SetLabel (wxString::Format ("%d", int (rint (t * fps))));
 
@@ -465,3 +472,28 @@ FilmViewer::active_jobs_changed (bool a)
 	_play_button->Enable (!a);
 }
 
+void
+FilmViewer::back_clicked (wxCommandEvent &)
+{
+	if (!_decoders.video) {
+		return;
+	}
+	
+	_decoders.video->seek_back ();
+	get_frame ();
+	_panel->Refresh ();
+	_panel->Update ();
+}
+
+void
+FilmViewer::forward_clicked (wxCommandEvent &)
+{
+	if (!_decoders.video) {
+		return;
+	}
+
+	_decoders.video->seek_forward ();
+	get_frame ();
+	_panel->Refresh ();
+	_panel->Update ();
+}

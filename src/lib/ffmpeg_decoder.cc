@@ -530,7 +530,7 @@ FFmpegDecoder::filter_and_emit_video ()
 bool
 FFmpegDecoder::seek (double p)
 {
-	return do_seek (p, false);
+	return do_seek (p, false, false);
 }
 
 bool
@@ -540,21 +540,57 @@ FFmpegDecoder::seek_to_last ()
 	   (used when we change decoder parameters and want to re-fetch the frame) we end up going forwards rather than
 	   staying in the same place.
 	*/
-	return do_seek (last_source_time(), true);
+	return do_seek (last_source_time(), true, false);
+}
+
+void
+FFmpegDecoder::seek_back ()
+{
+	do_seek (last_source_time() - 2.5 / frames_per_second (), true, true);
+}
+
+void
+FFmpegDecoder::seek_forward ()
+{
+	do_seek (last_source_time() - 0.5 / frames_per_second(), true, true);
 }
 
 bool
-FFmpegDecoder::do_seek (double p, bool backwards)
+FFmpegDecoder::do_seek (double p, bool backwards, bool accurate)
 {
 	int64_t const vt = p / av_q2d (_format_context->streams[_video_stream]->time_base);
 
 	int const r = av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
-	
+
 	avcodec_flush_buffers (_video_codec_context);
 	if (_subtitle_codec_context) {
 		avcodec_flush_buffers (_subtitle_codec_context);
 	}
-	
+
+	if (accurate) {
+		while (1) {
+			int r = av_read_frame (_format_context, &_packet);
+			if (r < 0) {
+				return true;
+			}
+			
+			avcodec_get_frame_defaults (_frame);
+			
+			if (_packet.stream_index == _video_stream) {
+				int finished = 0;
+				int const r = avcodec_decode_video2 (_video_codec_context, _frame, &finished, &_packet);
+				if (r >= 0 && finished) {
+					int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
+					if (bet > vt) {
+						break;
+					}
+				}
+			}
+			
+			av_free_packet (&_packet);
+		}
+	}
+		
 	return r < 0;
 }
 
