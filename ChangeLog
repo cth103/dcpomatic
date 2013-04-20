@@ -1,3 +1,8 @@
+2013-04-20  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bad saving of metadata in locales which use
+	commas to separate decimals (#119).
+
 2013-04-19  Carl Hetherington  <cth@carlh.net>
 
 	* Add basic frame index and timecode to viewer, and previous/next

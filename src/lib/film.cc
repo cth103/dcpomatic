@@ -204,6 +204,7 @@ string
 Film::video_state_identifier () const
 {
 	assert (format ());
+	LocaleGuard lg;
 
 	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
@@ -428,6 +429,7 @@ void
 Film::write_metadata () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
+	LocaleGuard lg;
 
 	boost::filesystem::create_directories (directory());
 
@@ -515,6 +517,7 @@ void
 Film::read_metadata ()
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
+	LocaleGuard lg;
 
 	_external_audio.clear ();
 	_content_audio_streams.clear ();

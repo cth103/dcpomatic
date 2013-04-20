@@ -293,5 +293,16 @@ extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_r
 extern bool still_image_file (std::string);
 extern std::pair<std::string, int> cpu_info ();
 
+class LocaleGuard
+{
+public:
+	LocaleGuard ();
+	~LocaleGuard ();
+	
+private:
+	char* _old;
+};
+
+
 #endif
 
