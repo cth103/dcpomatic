@@ -56,6 +56,10 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
+	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
+	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
+	, _frame (new wxStaticText (this, wxID_ANY, wxT("")))
+	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _display_frame_x (0)
 	, _got_frame (false)
@@ -71,10 +75,22 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_v_sizer->Add (_panel, 1, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
+
+	wxBoxSizer* time_sizer = new wxBoxSizer (wxVERTICAL);
+	time_sizer->Add (_frame, 0, wxEXPAND);
+	time_sizer->Add (_timecode, 0, wxEXPAND);
+
+	h_sizer->Add (_back_button, 0, wxALL, 2);
+	h_sizer->Add (time_sizer, 0, wxEXPAND);
+	h_sizer->Add (_forward_button, 0, wxALL, 2);
 	h_sizer->Add (_play_button, 0, wxEXPAND);
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
 	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
+
+	_frame->SetMinSize (wxSize (84, -1));
+	_back_button->SetMinSize (wxSize (32, -1));
+	_forward_button->SetMinSize (wxSize (32, -1));
 
 	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
 	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
@@ -83,6 +99,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
 	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
 	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
+	_back_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmViewer::back_clicked), 0, this);
+	_forward_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmViewer::forward_clicked), 0, this);
 
 	set_film (f);
 
@@ -100,13 +118,11 @@ FilmViewer::film_changed (Film::Property p)
 		update_from_raw ();
 		break;
 	case Film::CONTENT:
-	{
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
 		_v_sizer->Layout ();
 		break;
-	}
 	case Film::WITH_SUBTITLES:
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
@@ -144,12 +160,11 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_player = f->player ();
 	_player->disable_audio ();
-	_player->disable_video_sync ();
 	/* Don't disable subtitles here as we may need them, and it's nice to be able to turn them
 	   on and off without needing obtain a new Player.
 	*/
 	
-	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
+	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3, _4));
 	
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 	_film->ContentChanged.connect (boost::bind (&FilmViewer::film_content_changed, this, _1, _2));
@@ -326,7 +341,7 @@ FilmViewer::calculate_sizes ()
 	Format const * format = _film->format ();
 	
 	float const panel_ratio = static_cast<float> (_panel_size.width) / _panel_size.height;
-	float const film_ratio = format ? format->container_ratio_as_float () : 1.78;
+	float const film_ratio = format ? format->container_ratio () : 1.78;
 			
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
@@ -376,7 +391,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
+FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub, double t)
 {
 	_raw_frame = image;
 	_raw_sub = sub;
@@ -384,6 +399,19 @@ FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> s
 	raw_to_display ();
 
 	_got_frame = true;
+
+	double const fps = _film->video_frame_rate ();
+	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps))));
+
+	double w = t;
+	int const h = (w / 3600);
+	w -= h * 3600;
+	int const m = (w / 60);
+	w -= m * 60;
+	int const s = floor (w);
+	w -= s;
+	int const f = rint (w * fps);
+	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d:%02d"), h, m, s, f));
 }
 
 /** Get a new _raw_frame from the decoder and then do
@@ -446,4 +474,30 @@ FilmViewer::film_content_changed (weak_ptr<Content>, int p)
 		wxScrollEvent ev;
 		slider_moved (ev);
 	}
+}
+
+void
+FilmViewer::back_clicked (wxCommandEvent &)
+{
+	if (!_player) {
+		return;
+	}
+	
+	_player->seek_back ();
+	get_frame ();
+	_panel->Refresh ();
+	_panel->Update ();
+}
+
+void
+FilmViewer::forward_clicked (wxCommandEvent &)
+{
+	if (!_player) {
+		return;
+	}
+
+	_player->seek_forward ();
+	get_frame ();
+	_panel->Refresh ();
+	_panel->Update ();
 }

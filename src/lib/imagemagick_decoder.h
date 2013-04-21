@@ -63,5 +63,6 @@ protected:
 
 private:
 	boost::shared_ptr<const ImageMagickContent> _imagemagick_content;
+	boost::shared_ptr<Image> _image;
 	ContentVideoFrame _position;
 };

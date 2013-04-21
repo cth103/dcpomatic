@@ -20,18 +20,15 @@
 #include <boost/shared_ptr.hpp>
 #include "processor.h"
 
-class AudioBuffers;
-
-/** A delay line for audio */
-class DelayLine : public AudioProcessor
+/** A delay line */
+class DelayLine : public TimedAudioVideoProcessor
 {
 public:
-	DelayLine (boost::shared_ptr<Log> log, int channels, int frames);
+	DelayLine (boost::shared_ptr<Log> log, double);
 	
-	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double);
+	void process_audio (boost::shared_ptr<AudioBuffers>, double);
 
 private:
-	boost::shared_ptr<AudioBuffers> _buffers;
-	int _negative_delay_remaining; ///< number of frames of negative delay that remain to emit
-	int _frames;
+	double _seconds;
 };

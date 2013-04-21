@@ -115,7 +115,7 @@ FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
 
 	Content::examine (film, job, quick);
 
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false, true));
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false));
 
 	ContentVideoFrame video_length = 0;
 	if (quick) {

@@ -57,7 +57,7 @@ class Log;
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio, bool subtitles, bool video_sync);
+	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio, bool subtitles);
 	~FFmpegDecoder ();
 
 	float video_frame_rate () const;
@@ -77,6 +77,8 @@ public:
 	}
 
 	bool seek (double);
+	void seek_forward ();
+	void seek_back ();
 	bool pass ();
 
 private:
@@ -88,10 +90,9 @@ private:
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
+	bool do_seek (double, bool, bool);
 
-	void out_with_sync ();
-	void filter_and_emit_video (AVFrame *);
-	double frame_time () const;
+	void filter_and_emit_video ();
 
 	void setup_general ();
 	void setup_video ();
@@ -123,9 +124,6 @@ private:
 
 	AVPacket _packet;
 
-	boost::optional<double> _first_video;
-	boost::optional<double> _first_audio;
-
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
 
@@ -135,7 +133,6 @@ private:
 	bool _decode_video;
 	bool _decode_audio;
 	bool _decode_subtitles;
-	bool _video_sync;
 
 	/* It would appear (though not completely verified) that one must have
 	   a mutex around calls to avcodec_open* and avcodec_close... and here

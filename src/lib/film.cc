@@ -145,6 +145,8 @@ Film::Film (string d, bool must_exist)
 
 	if (must_exist) {
 		read_metadata ();
+	} else {
+		write_metadata ();
 	}
 
 	_log.reset (new FileLog (file ("log")));
@@ -193,6 +195,7 @@ string
 Film::video_state_identifier () const
 {
 	assert (format ());
+	LocaleGuard lg;
 
 	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
@@ -405,6 +408,7 @@ Film::write_metadata () const
 	ContentList the_content = content ();
 	
 	boost::mutex::scoped_lock lm (_state_mutex);
+	LocaleGuard lg;
 
 	boost::filesystem::create_directories (directory());
 
@@ -471,6 +475,7 @@ void
 Film::read_metadata ()
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
+	LocaleGuard lg;
 
 	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
 		throw StringError (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));

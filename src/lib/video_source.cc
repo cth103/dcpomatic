@@ -41,3 +41,9 @@ VideoSource::connect_video (shared_ptr<VideoSink> s)
 	*/
 	Video.connect (bind (process_video_proxy, boost::weak_ptr<VideoSink> (s), _1, _2, _3));
 }
+
+void
+TimedVideoSource::connect_video (shared_ptr<TimedVideoSink> s)
+{
+	Video.connect (bind (&TimedVideoSink::process_video, s, _1, _2, _3, _4));
+}

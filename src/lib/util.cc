@@ -976,3 +976,22 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 		}
 	}
 }
+
+LocaleGuard::LocaleGuard ()
+	: _old (0)
+{
+	char const * old = setlocale (LC_NUMERIC, 0);
+
+        if (old) {
+                _old = strdup (old);
+                if (strcmp (_old, "POSIX")) {
+                        setlocale (LC_NUMERIC, "POSIX");
+                }
+        }
+}
+
+LocaleGuard::~LocaleGuard ()
+{
+	setlocale (LC_NUMERIC, _old);
+	free (_old);
+}

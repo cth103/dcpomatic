@@ -65,8 +65,8 @@ ImageMagickDecoder::pass ()
 		return true;
 	}
 
-	if (have_last_video ()) {
-		repeat_last_video (double (_position) / 24);
+	if (_image) {
+		emit_video (_image, true, double (_position) / 24);
 		_position++;
 		return false;
 	}
@@ -74,11 +74,11 @@ ImageMagickDecoder::pass ()
 	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());
 	
 	libdcp::Size size = native_size ();
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, size, false));
+	_image.reset (new SimpleImage (PIX_FMT_RGB24, size, false));
 
 	using namespace MagickCore;
 	
-	uint8_t* p = image->data()[0];
+	uint8_t* p = _image->data()[0];
 	for (int y = 0; y < size.height; ++y) {
 		for (int x = 0; x < size.width; ++x) {
 			Magick::Color c = magick_image->pixelColor (x, y);
@@ -90,9 +90,8 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	image = image->crop (_film->crop(), true);
-	
-	emit_video (image, double (_position) / 24);
+	_image = _image->crop (_film->crop(), true);
+	emit_video (_image, false, double (_position) / 24);
 
 	++_position;
 	return false;

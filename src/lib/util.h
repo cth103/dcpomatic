@@ -198,5 +198,16 @@ private:
 extern int64_t video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second);
 extern std::pair<std::string, int> cpu_info ();
 
+class LocaleGuard
+{
+public:
+	LocaleGuard ();
+	~LocaleGuard ();
+	
+private:
+	char* _old;
+};
+
+
 #endif
 

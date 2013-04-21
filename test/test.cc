@@ -28,7 +28,6 @@
 #include "job_manager.h"
 #include "util.h"
 #include "exceptions.h"
-#include "delay_line.h"
 #include "image.h"
 #include "log.h"
 #include "dcp_video_frame.h"
@@ -240,11 +239,13 @@ BOOST_AUTO_TEST_CASE (format_test)
 	
 	Format const * f = Format::from_nickname ("Flat");
 	BOOST_CHECK (f);
-//	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 185);
+	BOOST_CHECK_EQUAL (f->dcp_size().width, 1998);
+	BOOST_CHECK_EQUAL (f->dcp_size().height, 1080);
 	
 	f = Format::from_nickname ("Scope");
 	BOOST_CHECK (f);
-//	BOOST_CHECK_EQUAL (f->ratio_as_integer(shared_ptr<const Film> ()), 239);
+	BOOST_CHECK_EQUAL (f->dcp_size().width, 2048);
+	BOOST_CHECK_EQUAL (f->dcp_size().height, 858);
 }
 
 BOOST_AUTO_TEST_CASE (util_test)
@@ -269,101 +270,6 @@ class NullLog : public Log
 public:
 	void do_log (string) {}
 };
-
-void
-do_positive_delay_line_test (int delay_length, int data_length)
-{
-	shared_ptr<NullLog> log (new NullLog);
-	
-	DelayLine d (log, 6, delay_length);
-	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
-
-	int in = 0;
-	int out = 0;
-	int returned = 0;
-	int zeros = 0;
-	
-	for (int i = 0; i < 64; ++i) {
-		for (int j = 0; j < data_length; ++j) {
-			for (int c = 0; c < 6; ++c ) {
-				data->data(c)[j] = in;
-				++in;
-			}
-		}
-
-		/* This only works because the delay line modifies the parameter */
-		d.process_audio (data);
-		returned += data->frames ();
-
-		for (int j = 0; j < data->frames(); ++j) {
-			if (zeros < delay_length) {
-				for (int c = 0; c < 6; ++c) {
-					BOOST_CHECK_EQUAL (data->data(c)[j], 0);
-				}
-				++zeros;
-			} else {
-				for (int c = 0; c < 6; ++c) {
-					BOOST_CHECK_EQUAL (data->data(c)[j], out);
-					++out;
-				}
-			}
-		}
-	}
-
-	BOOST_CHECK_EQUAL (returned, 64 * data_length);
-}
-
-void
-do_negative_delay_line_test (int delay_length, int data_length)
-{
-	shared_ptr<NullLog> log (new NullLog);
-
-	DelayLine d (log, 6, delay_length);
-	shared_ptr<AudioBuffers> data (new AudioBuffers (6, data_length));
-
-	int in = 0;
-	int out = -delay_length * 6;
-	int returned = 0;
-	
-	for (int i = 0; i < 256; ++i) {
-		data->set_frames (data_length);
-		for (int j = 0; j < data_length; ++j) {
-			for (int c = 0; c < 6; ++c) {
-				data->data(c)[j] = in;
-				++in;
-			}
-		}
-
-		/* This only works because the delay line modifies the parameter */
-		d.process_audio (data);
-		returned += data->frames ();
-
-		for (int j = 0; j < data->frames(); ++j) {
-			for (int c = 0; c < 6; ++c) {
-				BOOST_CHECK_EQUAL (data->data(c)[j], out);
-				++out;
-			}
-		}
-	}
-
-	returned += -delay_length;
-	BOOST_CHECK_EQUAL (returned, 256 * data_length);
-}
-
-BOOST_AUTO_TEST_CASE (delay_line_test)
-{
-	do_positive_delay_line_test (64, 128);
-	do_positive_delay_line_test (128, 64);
-	do_positive_delay_line_test (3, 512);
-	do_positive_delay_line_test (512, 3);
-
-	do_positive_delay_line_test (0, 64);
-
-	do_negative_delay_line_test (-64, 128);
-	do_negative_delay_line_test (-128, 64);
-	do_negative_delay_line_test (-3, 512);
-	do_negative_delay_line_test (-512, 3);
-}
 
 BOOST_AUTO_TEST_CASE (md5_digest_test)
 {

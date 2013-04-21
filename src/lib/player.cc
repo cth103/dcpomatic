@@ -41,7 +41,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _audio (true)
 	, _subtitles (true)
 	, _have_valid_decoders (false)
-	, _video_sync (true)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2));
@@ -92,8 +91,9 @@ Player::pass ()
 			}
 		}
 
-		Audio (_audio_buffers);
+		Audio (_audio_buffers, _audio_time.get());
 		_audio_buffers.reset ();
+		_audio_time = boost::none;
 	}
 
 	return done;
@@ -118,18 +118,21 @@ Player::set_progress (shared_ptr<Job> job)
 }
 
 void
-Player::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
+Player::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s, double t)
 {
-	Video (i, same, s);
+	/* XXX: this time will need mangling to add on the offset of the start of the content */
+	Video (i, same, s, t);
 }
 
 void
-Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> b)
+Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> b, double t)
 {
+	/* XXX: this time will need mangling to add on the offset of the start of the content */
 	AudioMapping mapping = _film->audio_mapping ();
 	if (!_audio_buffers) {
 		_audio_buffers.reset (new AudioBuffers (mapping.dcp_channels(), b->frames ()));
 		_audio_buffers->make_silent ();
+		_audio_time = t;
 	}
 
 	for (int i = 0; i < b->channels(); ++i) {
@@ -141,8 +144,9 @@ Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> 
 
 	if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
 		/* We can just emit this audio now as it will all be here */
-		Audio (_audio_buffers);
+		Audio (_audio_buffers, t);
 		_audio_buffers.reset ();
+		_audio_time = boost::none;
 	}
 }
 
@@ -177,6 +181,20 @@ Player::seek (double t)
 	return false;
 }
 
+
+void
+Player::seek_back ()
+{
+	/* XXX */
+}
+
+void
+Player::seek_forward ()
+{
+	/* XXX */
+}
+
+
 void
 Player::setup_decoders ()
 {
@@ -198,13 +216,12 @@ Player::setup_decoders ()
 					new FFmpegDecoder (
 						_film, fc, _video,
 						_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
-						_subtitles,
-						_video_sync
+						_subtitles
 						)
 					);
 
 				if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
-					fd->Audio.connect (bind (&Player::process_audio, this, fc, _1));
+					fd->Audio.connect (bind (&Player::process_audio, this, fc, _1, _2));
 				}
 
 				d = fd;
@@ -227,15 +244,9 @@ Player::setup_decoders ()
 		for (list<shared_ptr<const SndfileContent> >::iterator i = sc.begin(); i != sc.end(); ++i) {
 			shared_ptr<SndfileDecoder> d (new SndfileDecoder (_film, *i));
 			_sndfile_decoders.push_back (d);
-			d->Audio.connect (bind (&Player::process_audio, this, *i, _1));
+			d->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
 		}
 	}
-}
-
-void
-Player::disable_video_sync ()
-{
-	_video_sync = false;
 }
 
 double

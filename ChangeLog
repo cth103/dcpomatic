@@ -1,6 +1,44 @@
+2013-04-21  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.84 released.
+
+2013-04-21  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.84beta5 released.
+
+2013-04-20  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bad saving of metadata in locales which use
+	commas to separate decimals (#119).
+
+2013-04-19  Carl Hetherington  <cth@carlh.net>
+
+	* Add basic frame index and timecode to viewer, and previous/next
+	frame buttons.
+
+	* Version 0.84beta4 released.
+
+2013-04-19  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.84beta3 released.
+
+2013-04-19  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.84beta2 released.
+
+2013-04-18  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.84beta1 released.
+
 2013-04-15  Carl Hetherington  <cth@carlh.net>
 
 	* Fix error message on forcing language to English (#103).
+
+	* Fix problems with content whose first audio content
+	comes before the first video (resulting in audio being
+	chopped off at the start of the DCP) (#79).
+
+	* Use true 4:3 rather than 1.33.
 
 2013-04-13  Carl Hetherington  <cth@carlh.net>
 
@@ -487,7 +525,6 @@
 2012-12-18  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.65 released.
->>>>>>> master
 
 2012-12-13  Carl Hetherington  <cth@carlh.net>
 

@@ -50,29 +50,22 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	, _player (f->player ())
 	, _encoder (new Encoder (f))
 {
-	if (f->has_audio ()) {
-		_matcher.reset (new Matcher (f->log(), f->audio_frame_rate(), f->video_frame_rate()));
-		_delay_line.reset (new DelayLine (f->log(), f->audio_channels(), f->audio_delay() * f->audio_frame_rate() / 1000));
-		_gain.reset (new Gain (f->log(), f->audio_gain()));
-	}
+	_matcher.reset (new Matcher (f->log(), f->audio_frame_rate(), f->video_frame_rate()));
+	_delay_line.reset (new DelayLine (f->log(), f->audio_delay() * f->audio_frame_rate() / 1000));
+	_gain.reset (new Gain (f->log(), f->audio_gain()));
 
 	if (!f->with_subtitles ()) {
 		_player->disable_subtitles ();
 	}
 
-	if (_matcher) {
-		_player->connect_video (_matcher);
-		_matcher->connect_video (_encoder);
-	} else {
-		_player->connect_video (_encoder);
-	}
+	_player->connect_video (_delay_line);
+	_delay_line->connect_video (_matcher);
+	_matcher->connect_video (_encoder);
 	
-	if (_matcher && _delay_line && f->has_audio ()) {
-		_player->connect_audio (_delay_line);
-		_delay_line->connect_audio (_matcher);
-		_matcher->connect_audio (_gain);
-		_gain->connect_audio (_encoder);
-	}
+	_player->connect_audio (_delay_line);
+	_delay_line->connect_audio (_matcher);
+	_matcher->connect_audio (_gain);
+	_gain->connect_audio (_encoder);
 }
 
 void
@@ -86,15 +79,9 @@ Transcoder::go ()
 		_player->set_progress (_job);
 	}
 
-	if (_delay_line) {
-		_delay_line->process_end ();
-	}
-	if (_matcher) {
-		_matcher->process_end ();
-	}
-	if (_gain) {
-		_gain->process_end ();
-	}
+	_delay_line->process_end ();
+	_matcher->process_end ();
+	_gain->process_end ();
 	_encoder->process_end ();
 }
 

@@ -37,4 +37,16 @@ public:
 	virtual void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s) = 0;
 };
 
+class TimedVideoSink
+{
+public:
+	/** Call with a frame of video.
+	 *  @param i Video frame image.
+	 *  @param same true if i is the same as last time we were called.
+	 *  @param s A subtitle that should be on this frame, or 0.
+	 *  @param t Source timestamp.
+	 */
+	virtual void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s, double t) = 0;
+};
+
 #endif

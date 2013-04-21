@@ -56,6 +56,10 @@ public:
 
 	virtual bool pass () = 0;
 	virtual bool seek (double);
+	virtual void seek_back () {}
+	virtual void seek_forward () {}
+
+	boost::signals2::signal<void()> OutputChanged;
 
 protected:
 	boost::shared_ptr<const Film> _film;

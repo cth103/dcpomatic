@@ -42,5 +42,6 @@ private:
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;
+	ContentAudioFrame _done;
 	ContentAudioFrame _remaining;
 };

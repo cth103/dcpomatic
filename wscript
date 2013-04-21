@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dcpomatic'
-VERSION = '0.84pre'
+VERSION = '0.85pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -55,7 +55,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if not conf.options.static:
-        conf.check_cfg(package = 'libdcp', atleast_version = '0.41', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.45', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
         conf.check_cfg(package = 'libcxml', atleast_version = '0.01', args = '--cflags --libs', uselib_store = 'CXML', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)

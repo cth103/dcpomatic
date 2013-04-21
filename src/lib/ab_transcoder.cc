@@ -55,28 +55,21 @@ ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<J
 	, _encoder (new Encoder (_film_a))
 	, _combiner (new Combiner (a->log()))
 {
-	if (_film_a->has_audio ()) {
-		_matcher.reset (new Matcher (_film_a->log(), _film_a->audio_frame_rate(), _film_a->video_frame_rate()));
-		_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_channels(), _film_a->audio_delay() * _film_a->audio_frame_rate() / 1000));
-		_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
-	}
+	_matcher.reset (new Matcher (_film_a->log(), _film_a->audio_frame_rate(), _film_a->video_frame_rate()));
+	_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_delay() * _film_a->audio_frame_rate() / 1000));
+	_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
 
-	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3));
-	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3));
+	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
+	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
-	if (_matcher) {
-		_combiner->connect_video (_matcher);
-		_matcher->connect_video (_encoder);
-	} else {
-		_combiner->connect_video (_encoder);
-	}
+	_combiner->connect_video (_delay_line);
+	_delay_line->connect_video (_matcher);
+	_matcher->connect_video (_encoder);
 	
-	if (_matcher && _delay_line) {
-		_player_a->connect_audio (_delay_line);
-		_delay_line->connect_audio (_matcher);
-		_matcher->connect_audio (_gain);
-		_gain->connect_audio (_encoder);
-	}
+	_player_a->connect_audio (_delay_line);
+	_delay_line->connect_audio (_matcher);
+	_matcher->connect_audio (_gain);
+	_gain->connect_audio (_encoder);
 }
 
 void

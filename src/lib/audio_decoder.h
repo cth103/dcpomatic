@@ -32,7 +32,7 @@ class AudioContent;
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public AudioSource, public virtual Decoder
+class AudioDecoder : public TimedAudioSource, public virtual Decoder
 {
 public:
 	AudioDecoder (boost::shared_ptr<const Film>);

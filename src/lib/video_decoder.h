@@ -25,7 +25,7 @@
 
 class VideoContent;
 
-class VideoDecoder : public VideoSource, public virtual Decoder
+class VideoDecoder : public TimedVideoSource, public virtual Decoder
 {
 public:
 	VideoDecoder (boost::shared_ptr<const Film>);
@@ -56,21 +56,14 @@ protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
 
-	void emit_video (boost::shared_ptr<Image>, double);
+	void emit_video (boost::shared_ptr<Image>, bool, double);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
-	bool have_last_video () const;
-	void repeat_last_video (double);
 
 private:
-	void signal_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double);
-
 	int _video_frame;
 	double _last_content_time;
 	
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
-
-	boost::shared_ptr<Image> _last_image;
-	boost::shared_ptr<Subtitle> _last_subtitle;
 };
 
 #endif

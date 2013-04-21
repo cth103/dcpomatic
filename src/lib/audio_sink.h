@@ -27,4 +27,11 @@ public:
 	virtual void process_audio (boost::shared_ptr<AudioBuffers>) = 0;
 };
 
+class TimedAudioSink
+{
+public:
+        /** Call with some audio data */
+        virtual void process_audio (boost::shared_ptr<AudioBuffers>, double t) = 0;
+};
+
 #endif

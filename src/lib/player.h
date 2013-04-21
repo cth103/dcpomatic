@@ -35,7 +35,7 @@ class Film;
 class Playlist;
 class AudioContent;
 
-class Player : public VideoSource, public AudioSource, public VideoSink, public boost::enable_shared_from_this<Player>
+class Player : public TimedVideoSource, public TimedAudioSource, public TimedVideoSink, public boost::enable_shared_from_this<Player>
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
@@ -43,17 +43,18 @@ public:
 	void disable_video ();
 	void disable_audio ();
 	void disable_subtitles ();
-	void disable_video_sync ();
 
 	bool pass ();
 	void set_progress (boost::shared_ptr<Job>);
 	bool seek (double);
+	void seek_back ();
+	void seek_forward ();
 
 	double last_video_time () const;
 
 private:
-	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s);
-	void process_audio (boost::weak_ptr<const AudioContent>, boost::shared_ptr<AudioBuffers>);
+	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s, double);
+	void process_audio (boost::weak_ptr<const AudioContent>, boost::shared_ptr<AudioBuffers>, double);
 	void setup_decoders ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
@@ -71,8 +72,7 @@ private:
 	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
 
 	boost::shared_ptr<AudioBuffers> _audio_buffers;
-
-	bool _video_sync;
+	boost::optional<double> _audio_time;
 };
 
 #endif
