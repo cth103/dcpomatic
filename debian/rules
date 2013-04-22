@@ -14,7 +14,7 @@
 
 override_dh_auto_configure:
 	LINKFLAGS=$(CDIST_LINKFLAGS) CXXFLAGS="$(CXXFLAGS) $(CDIST_CXXFLAGS)" PKG_CONFIG_PATH=$(CDIST_PKG_CONFIG_PATH) \
-		 ./waf --nocache configure --prefix=/usr --static
+		 ./waf --nocache configure --prefix=/usr --static --enable-debug
 
 override_dh_auto_build:
 	./waf --nocache build
@@ -22,3 +22,6 @@ override_dh_auto_build:
 override_dh_auto_install:
 	./waf --nocache install --destdir=debian/dvdomatic
 
+.PHONY: override_dh_strip
+override_dh_strip:
+	dh_strip --dbg-package=dvdomatic-dbg
