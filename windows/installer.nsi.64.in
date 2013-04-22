@@ -38,9 +38,9 @@ ${EndIf}
 SetOutPath "$INSTDIR\bin"
 
 File "%deps%/bin/asdcp-libdcp.dll"
-File "%deps%/bin/avcodec-55.dll"
+File "%deps%/bin/avcodec-54.dll"
 File "%deps%/bin/avfilter-3.dll"
-File "%deps%/bin/avformat-55.dll"
+File "%deps%/bin/avformat-54.dll"
 File "%deps%/bin/avutil-52.dll"
 File "%deps%/bin/dcp.dll"
 File "%deps%/bin/libintl-8.dll"
