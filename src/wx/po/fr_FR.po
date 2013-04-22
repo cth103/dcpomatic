@@ -437,9 +437,8 @@ msgid "Trim frames"
 msgstr "Images coupées"
 
 #: src/wx/film_editor.cc:179
-#, fuzzy
 msgid "Trim method"
-msgstr "Images coupées"
+msgstr "Méthod de découpage"
 
 #: src/wx/film_editor.cc:125
 msgid "Trust content's header"
@@ -487,11 +486,11 @@ msgstr "dB"
 
 #: src/wx/film_editor.cc:212
 msgid "encode all frames and play the subset"
-msgstr ""
+msgstr "encoder toutes les images mais lire seulement la sélection"
 
 #: src/wx/film_editor.cc:213
 msgid "encode only the subset"
-msgstr ""
+msgstr "encoder seulement la sélection"
 
 #: src/wx/film_editor.cc:694 src/wx/film_editor.cc:697
 msgid "frames"
