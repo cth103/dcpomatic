@@ -51,7 +51,7 @@ msgstr "16:9 dans Flat"
 #: src/lib/format.cc:115
 #, fuzzy
 msgid "16:9 within Scope"
-msgstr "16:9 dans Flat"
+msgstr "16:9 dans Scope"
 
 #: src/lib/filter.cc:88
 msgid "3D denoiser"
