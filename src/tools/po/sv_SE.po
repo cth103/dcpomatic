@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 11:14+0100\n"
+"POT-Creation-Date: 2013-04-22 15:06+0100\n"
 "PO-Revision-Date: 2013-04-09 10:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -17,108 +17,109 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/tools/dvdomatic.cc:177
+#: src/tools/dvdomatic.cc:179
 msgid "&Analyse audio"
 msgstr "&Analysera audio"
 
-#: src/tools/dvdomatic.cc:183
+#: src/tools/dvdomatic.cc:185
 msgid "&Edit"
 msgstr "&Redigera"
 
-#: src/tools/dvdomatic.cc:182
+#: src/tools/dvdomatic.cc:184
 msgid "&File"
 msgstr "&Fil"
 
-#: src/tools/dvdomatic.cc:185
+#: src/tools/dvdomatic.cc:187
 msgid "&Help"
 msgstr "&Hjälp"
 
-#: src/tools/dvdomatic.cc:184
+#: src/tools/dvdomatic.cc:186
 msgid "&Jobs"
 msgstr "&Jobb"
 
-#: src/tools/dvdomatic.cc:173
+#: src/tools/dvdomatic.cc:175
 msgid "&Make DCP"
 msgstr "&Skapa DCP"
 
-#: src/tools/dvdomatic.cc:161
+#: src/tools/dvdomatic.cc:163
 msgid "&Open..."
 msgstr "&Öppna"
 
-#: src/tools/dvdomatic.cc:170
+#: src/tools/dvdomatic.cc:172
 msgid "&Preferences..."
 msgstr "&Inställningar"
 
-#: src/tools/dvdomatic.cc:165
+#: src/tools/dvdomatic.cc:167
 msgid "&Properties..."
 msgstr "&Egenskaper"
 
-#: src/tools/dvdomatic.cc:167
+#: src/tools/dvdomatic.cc:169
 msgid "&Quit"
 msgstr "&Avsluta"
 
-#: src/tools/dvdomatic.cc:163
+#: src/tools/dvdomatic.cc:165
 msgid "&Save"
 msgstr "&Spara"
 
-#: src/tools/dvdomatic.cc:174
+#: src/tools/dvdomatic.cc:176
 msgid "&Send DCP to TMS"
 msgstr "&Skicka DCP till TMS"
 
-#: src/tools/dvdomatic.cc:417
+#: src/tools/dvdomatic.cc:419
 msgid ""
 "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 msgstr ""
 "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
-#: src/tools/dvdomatic.cc:180
+#: src/tools/dvdomatic.cc:182
 msgid "About"
 msgstr "Om"
 
-#: src/tools/dvdomatic.cc:527
+#: src/tools/dvdomatic.cc:538
 msgid "Could not load film %1 (%2)"
 msgstr "Kunde inte öppna filmen %1 (%2)"
 
-#: src/tools/dvdomatic.cc:339
+#: src/tools/dvdomatic.cc:341
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Kunde inte öppna filmen vid %s (%s)"
 
-#: src/tools/dvdomatic.cc:287 src/tools/dvdomatic.cc:410
-#: src/tools/dvdomatic.cc:531
+#: src/tools/dvdomatic.cc:289 src/tools/dvdomatic.cc:412
+#: src/tools/dvdomatic.cc:542
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dvdomatic.cc:75
+#: src/tools/dvdomatic.cc:77
 msgid "Film changed"
 msgstr "Film ändrad"
 
-#: src/tools/dvdomatic.cc:416
+#: src/tools/dvdomatic.cc:418
 msgid "Free, open-source DCP generation from almost anything."
 msgstr ""
 "Fri, öppen-källkodsprogramvara för DCP-generering från nästan vad som helst."
 
-#: src/tools/dvdomatic.cc:160
+#: src/tools/dvdomatic.cc:162
 msgid "New..."
 msgstr "Ny..."
 
-#: src/tools/dvdomatic.cc:175
+#: src/tools/dvdomatic.cc:177
 msgid "S&how DCP"
 msgstr "&Visa DCP"
 
-#: src/tools/dvdomatic.cc:74
-msgid "Save changes to film \"%1\" before closing?"
+#: src/tools/dvdomatic.cc:76
+#, fuzzy, c-format
+msgid "Save changes to film \"%s\" before closing?"
 msgstr "Spara ändringarna till filmen \"%1\" före avslut?"
 
-#: src/tools/dvdomatic.cc:319
+#: src/tools/dvdomatic.cc:321
 msgid "Select film to open"
 msgstr "Välj film att öppna"
 
-#: src/tools/dvdomatic.cc:303
+#: src/tools/dvdomatic.cc:305
 msgid "The directory %1 already exists."
 msgstr "Katalogen %1 finns redan."
 
-#: src/tools/dvdomatic.cc:324
+#: src/tools/dvdomatic.cc:326
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

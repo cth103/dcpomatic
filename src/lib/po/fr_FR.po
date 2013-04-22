@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 11:14+0100\n"
+"POT-Creation-Date: 2013-04-22 15:06+0100\n"
 "PO-Revision-Date: 2013-03-20 00:39+0100\n"
 "Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
 "Language-Team: \n"
@@ -23,10 +23,6 @@ msgstr "0%"
 #: src/lib/format.cc:75
 msgid "1.19"
 msgstr "1.19"
-
-#: src/lib/format.cc:79
-msgid "1.33"
-msgstr "1.33"
 
 #: src/lib/format.cc:83
 msgid "1.375"
@@ -56,6 +52,10 @@ msgstr "16:9 dans Scope"
 #: src/lib/filter.cc:88
 msgid "3D denoiser"
 msgstr "Débruitage 3D"
+
+#: src/lib/format.cc:79
+msgid "4:3"
+msgstr ""
 
 #: src/lib/format.cc:87
 msgid "4:3 within Flat"
@@ -93,7 +93,7 @@ msgstr "Bicubique"
 msgid "Bilinear"
 msgstr "Bilinéaire"
 
-#: src/lib/job.cc:302
+#: src/lib/job.cc:306
 msgid "Cancelled"
 msgstr ""
 
@@ -173,7 +173,7 @@ msgstr "Dolby CP750"
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 
-#: src/lib/job.cc:300
+#: src/lib/job.cc:304
 msgid "Error (%1)"
 msgstr "Erreur (%1)"
 
@@ -245,7 +245,7 @@ msgstr "Filtre dé-bloc horizontal"
 msgid "Horizontal deblocking filter A"
 msgstr "Filtre dé-bloc horizontal"
 
-#: src/lib/job.cc:92 src/lib/job.cc:101
+#: src/lib/job.cc:96 src/lib/job.cc:105
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
 "problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
@@ -299,7 +299,7 @@ msgstr "Désentrelaceur par compensation de mouvement"
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
 
-#: src/lib/job.cc:298
+#: src/lib/job.cc:302
 msgid "OK (ran for %1)"
 msgstr "OK (processus %1)"
 
@@ -371,7 +371,7 @@ msgstr "Réduction de bruit temporel"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/job.cc:77
+#: src/lib/job.cc:78
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -391,11 +391,11 @@ msgstr "Transcodage %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/job.cc:100
+#: src/lib/job.cc:104
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: src/lib/ffmpeg_decoder.cc:396
+#: src/lib/ffmpeg_decoder.cc:388
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Échantillonnage audio (%1) inconnu"
 
@@ -423,7 +423,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/film.cc:263
+#: src/lib/film.cc:296
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
@@ -435,11 +435,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:300
+#: src/lib/film.cc:333
 msgid "content"
 msgstr "contenu"
 
-#: src/lib/film.cc:304
+#: src/lib/film.cc:337
 msgid "content type"
 msgstr "type de contenu"
 
@@ -451,19 +451,19 @@ msgstr "copie de %1"
 msgid "could not create file %1"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
-#: src/lib/ffmpeg_decoder.cc:191
+#: src/lib/ffmpeg_decoder.cc:187
 msgid "could not find audio decoder"
 msgstr "décodeur audio introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:118
+#: src/lib/ffmpeg_decoder.cc:114
 msgid "could not find stream information"
 msgstr "information du flux introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:210
+#: src/lib/ffmpeg_decoder.cc:206
 msgid "could not find subtitle decoder"
 msgstr "décodeur de sous-titre introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:169
+#: src/lib/ffmpeg_decoder.cc:165
 msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
@@ -507,7 +507,7 @@ msgstr "Les fichiers audio externes ont des durées différentes"
 msgid "external audio files must be mono"
 msgstr "les fichiers audio externes doivent être en mono"
 
-#: src/lib/film.cc:296
+#: src/lib/film.cc:329
 msgid "format"
 msgstr "format"
 
@@ -543,7 +543,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:263 src/lib/film.cc:308
+#: src/lib/film.cc:296 src/lib/film.cc:341
 msgid "name"
 msgstr "nom"
 
@@ -557,7 +557,7 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:295
+#: src/lib/job.cc:299
 msgid "remaining"
 msgstr "restant"
 
@@ -569,13 +569,16 @@ msgstr "sRGB"
 msgid "seconds"
 msgstr "secondes"
 
-#: src/lib/film.cc:274
+#: src/lib/film.cc:307
 msgid "still"
 msgstr "fixe"
 
-#: src/lib/film.cc:274
+#: src/lib/film.cc:307
 msgid "video"
 msgstr "vidéo"
+
+#~ msgid "1.33"
+#~ msgstr "1.33"
 
 #~ msgid "Source scaled to 1.19:1"
 #~ msgstr "Source mise à l'échelle en 1.19:1"
