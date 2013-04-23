@@ -18,7 +18,6 @@ Package: dvdomatic-dbg
 Architecture: i386
 Section: debug
 Priority: extra
-Depends: dvdomatic = (${binary:Version}), ${misc:Depends}
+Depends: ${dvdomatic:Depends}, ${misc:Depends}
 Description: debugging symbols for dvdomatic
   This package contains the debugging symbols for dvdomatic.
-
