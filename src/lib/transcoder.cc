@@ -36,6 +36,7 @@
 #include "gain.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
+#include "trimmer.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -61,6 +62,14 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 	_delay_line.reset (new DelayLine (f->log(), f->audio_delay() / 1000.0f));
 	_gain.reset (new Gain (f->log(), f->audio_gain()));
 
+	int const sr = st ? st->sample_rate() : 0;
+	int const trim_start = f->trim_type() == Film::ENCODE ? f->trim_start() : 0;
+	int const trim_end = f->trim_type() == Film::ENCODE ? f->trim_end() : 0;
+	_trimmer.reset (new Trimmer (
+				f->log(), trim_start, trim_end, f->length().get(),
+				sr, f->source_frame_rate(), f->dcp_frame_rate()
+				));
+
 	/* Set up the decoder to use the film's set streams */
 	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
 	if (f->audio_stream ()) {
@@ -70,19 +79,21 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 	_decoders.video->connect_video (_delay_line);
 	if (_matcher) {
 		_delay_line->connect_video (_matcher);
-		_matcher->connect_video (_encoder);
+		_matcher->connect_video (_trimmer);
 	} else {
-		_delay_line->Video.connect (bind (&Encoder::process_video, _encoder, _1, _2, _3));
+		_delay_line->connect_video (_trimmer);
 	}
+	_trimmer->connect_video (_encoder);
 	
 	_decoders.audio->connect_audio (_delay_line);
 	if (_matcher) {
 		_delay_line->connect_audio (_matcher);
 		_matcher->connect_audio (_gain);
 	} else {
-		_delay_line->Audio.connect (bind (&Encoder::process_audio, _encoder, _1));
+		_delay_line->connect_audio (_gain);
 	}
-	_gain->connect_audio (_encoder);
+	_gain->connect_audio (_trimmer);
+	_trimmer->connect_audio (_encoder);
 }
 
 /** Run the decoder, passing its output to the encoder, until the decoder

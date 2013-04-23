@@ -35,6 +35,7 @@ class Gain;
 class VideoDecoder;
 class AudioDecoder;
 class DelayLine;
+class Trimmer;
 
 /** @class Transcoder
  *  @brief A class which takes a Film and some Options, then uses those to transcode the film.
@@ -68,4 +69,5 @@ protected:
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;
 	boost::shared_ptr<Gain> _gain;
+	boost::shared_ptr<Trimmer> _trimmer;
 };

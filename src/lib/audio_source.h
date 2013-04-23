@@ -48,6 +48,7 @@ public:
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, double)> Audio;
 
+	void connect_audio (boost::shared_ptr<AudioSink>);
 	void connect_audio (boost::shared_ptr<TimedAudioSink>);
 };
 

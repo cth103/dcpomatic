@@ -65,6 +65,7 @@ public:
 	 */
 	boost::signals2::signal<void (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double)> Video;
 
+	void connect_video (boost::shared_ptr<VideoSink>);
 	void connect_video (boost::shared_ptr<TimedVideoSink>);
 };
 

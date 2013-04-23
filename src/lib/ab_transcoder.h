@@ -39,6 +39,7 @@ class Matcher;
 class DelayLine;
 class Gain;
 class Combiner;
+class Trimmer;
 
 /** @class ABTranscoder
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -68,5 +69,6 @@ private:
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;
 	boost::shared_ptr<Gain> _gain;
+	boost::shared_ptr<Trimmer> _trimmer;
 	boost::shared_ptr<Image> _image;
 };

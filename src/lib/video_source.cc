@@ -34,3 +34,11 @@ TimedVideoSource::connect_video (shared_ptr<TimedVideoSink> s)
 {
 	Video.connect (bind (&TimedVideoSink::process_video, s, _1, _2, _3, _4));
 }
+
+void
+TimedVideoSource::connect_video (shared_ptr<VideoSink> s)
+{
+	Video.connect (bind (&VideoSink::process_video, s, _1, _2, _3));
+}
+
+	
