@@ -94,7 +94,11 @@ Matcher::process_audio (boost::shared_ptr<AudioBuffers> b, double t)
 {
 	_channels = b->channels ();
 
-	_log->log (String::compose ("Matcher audio @ %1 [video=%2, audio=%3, pending_audio=%4]", t, _video_frames, _audio_frames, _pending_audio.size()));
+	_log->log (String::compose (
+			   "Matcher audio (%1 frames) @ %2 [video=%3, audio=%4, pending_audio=%5]",
+			   b->frames(), t, _video_frames, _audio_frames, _pending_audio.size()
+			   )
+		);
 
 	if (!_first_input) {
 		_first_input = t;

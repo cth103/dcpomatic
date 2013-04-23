@@ -123,52 +123,77 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	}
 }
 
-shared_ptr<AudioBuffers> trimmer_test_last;
+shared_ptr<Image> trimmer_test_last_video;
+shared_ptr<AudioBuffers> trimmer_test_last_audio;
 
 void
-trimmer_test_helper (shared_ptr<AudioBuffers> audio)
+trimmer_test_video_helper (shared_ptr<Image> image, bool, shared_ptr<Subtitle>)
 {
-	trimmer_test_last = audio;
+	trimmer_test_last_video = image;
 }
 
+void
+trimmer_test_audio_helper (shared_ptr<AudioBuffers> audio)
+{
+	trimmer_test_last_audio = audio;
+}
+
+BOOST_AUTO_TEST_CASE (trimmer_passthrough_test)
+{
+	Trimmer trimmer (shared_ptr<Log> (), 0, 0, 200, 48000, 25, 25);
+	trimmer.Video.connect (bind (&trimmer_test_video_helper, _1, _2, _3));
+	trimmer.Audio.connect (bind (&trimmer_test_audio_helper, _1));
+
+	shared_ptr<SimpleImage> video (new SimpleImage (PIX_FMT_RGB24, libdcp::Size (1998, 1080), true));
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (6, 42 * 1920));
+
+	trimmer.process_video (video, false, shared_ptr<Subtitle> ());
+	trimmer.process_audio (audio);
+
+	BOOST_CHECK_EQUAL (video.get(), trimmer_test_last_video.get());
+	BOOST_CHECK_EQUAL (audio.get(), trimmer_test_last_audio.get());
+	BOOST_CHECK_EQUAL (audio->frames(), trimmer_test_last_audio->frames());
+}
+
+
 /** Test the audio handling of the Trimmer */
-BOOST_AUTO_TEST_CASE (trimmer_test)
+BOOST_AUTO_TEST_CASE (trimmer_audio_test)
 {
 	Trimmer trimmer (shared_ptr<Log> (), 25, 75, 200, 48000, 25, 25);
 
-	trimmer.Audio.connect (bind (&trimmer_test_helper, _1));
+	trimmer.Audio.connect (bind (&trimmer_test_audio_helper, _1));
 
 	/* 21 video frames-worth of audio frames; should be completely stripped */
-	trimmer_test_last.reset ();
+	trimmer_test_last_audio.reset ();
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (6, 21 * 1920));
 	trimmer.process_audio (audio);
-	BOOST_CHECK (trimmer_test_last == 0);
+	BOOST_CHECK (trimmer_test_last_audio == 0);
 
 	/* 42 more video frames-worth, 4 should be stripped from the start */
 	audio.reset (new AudioBuffers (6, 42 * 1920));
 	trimmer.process_audio (audio);
-	BOOST_CHECK (trimmer_test_last);
-	BOOST_CHECK_EQUAL (trimmer_test_last->frames(), 38 * 1920);
+	BOOST_CHECK (trimmer_test_last_audio);
+	BOOST_CHECK_EQUAL (trimmer_test_last_audio->frames(), 38 * 1920);
 
 	/* 42 more video frames-worth, should be kept as-is */
-	trimmer_test_last.reset ();
+	trimmer_test_last_audio.reset ();
 	audio.reset (new AudioBuffers (6, 42 * 1920));
 	trimmer.process_audio (audio);
-	BOOST_CHECK (trimmer_test_last);
-	BOOST_CHECK_EQUAL (trimmer_test_last->frames(), 42 * 1920);
+	BOOST_CHECK (trimmer_test_last_audio);
+	BOOST_CHECK_EQUAL (trimmer_test_last_audio->frames(), 42 * 1920);
 
 	/* 25 more video frames-worth, 5 should be trimmed from the end */
-	trimmer_test_last.reset ();
+	trimmer_test_last_audio.reset ();
 	audio.reset (new AudioBuffers (6, 25 * 1920));
 	trimmer.process_audio (audio);
-	BOOST_CHECK (trimmer_test_last);
-	BOOST_CHECK_EQUAL (trimmer_test_last->frames(), 20 * 1920);
+	BOOST_CHECK (trimmer_test_last_audio);
+	BOOST_CHECK_EQUAL (trimmer_test_last_audio->frames(), 20 * 1920);
 
 	/* Now some more; all should be trimmed */
-	trimmer_test_last.reset ();
+	trimmer_test_last_audio.reset ();
 	audio.reset (new AudioBuffers (6, 100 * 1920));
 	trimmer.process_audio (audio);
-	BOOST_CHECK (trimmer_test_last == 0);
+	BOOST_CHECK (trimmer_test_last_audio == 0);
 }
 
 

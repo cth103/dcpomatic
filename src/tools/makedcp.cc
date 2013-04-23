@@ -64,7 +64,7 @@ main (int argc, char* argv[])
 	bool test_mode = false;
 	bool progress = true;
 	bool no_remote = false;
-	int log_level = 1;
+	int log_level = 0;
 
 	int option_index = 0;
 	while (1) {
