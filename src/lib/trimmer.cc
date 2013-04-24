@@ -28,7 +28,8 @@ using boost::shared_ptr;
 Trimmer::Trimmer (
 	shared_ptr<Log> log,
 	int video_trim_start,
-	int video_trim_end, int video_length,
+	int video_trim_end,
+	int video_length,
 	int audio_sample_rate,
 	float frames_per_second,
 	int dcp_frames_per_second

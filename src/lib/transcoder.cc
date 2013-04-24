@@ -66,7 +66,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 	int const trim_start = f->trim_type() == Film::ENCODE ? f->trim_start() : 0;
 	int const trim_end = f->trim_type() == Film::ENCODE ? f->trim_end() : 0;
 	_trimmer.reset (new Trimmer (
-				f->log(), trim_start, trim_end, f->length().get(),
+				f->log(), trim_start, trim_end, f->length().get_value_or(0),
 				sr, f->source_frame_rate(), f->dcp_frame_rate()
 				));
 
