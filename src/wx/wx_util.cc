@@ -63,6 +63,16 @@ error_dialog (wxWindow* parent, wxString m)
 	d->Destroy ();
 }
 
+bool
+confirm_dialog (wxWindow* parent, wxString m)
+{
+	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DVD-o-matic"), wxYES_NO | wxICON_QUESTION);
+	int const r = d->ShowModal ();
+	d->Destroy ();
+	return r == wxID_YES;
+}
+	
+
 /** @param s wxWidgets string.
  *  @return Corresponding STL string.
  */
