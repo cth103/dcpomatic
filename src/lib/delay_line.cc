@@ -37,7 +37,7 @@ DelayLine::DelayLine (shared_ptr<Log> log, double seconds)
 }
 
 void
-DelayLine::process_audio (shared_ptr<AudioBuffers> data, double t)
+DelayLine::process_audio (shared_ptr<const AudioBuffers> data, double t)
 {
 	if (_seconds > 0) {
 		t += _seconds;
@@ -47,7 +47,7 @@ DelayLine::process_audio (shared_ptr<AudioBuffers> data, double t)
 }
 
 void
-DelayLine::process_video (boost::shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub, double t)
+DelayLine::process_video (shared_ptr<const Image> image, bool same, boost::shared_ptr<Subtitle> sub, double t)
 {
 	if (_seconds < 0) {
 		t += _seconds;

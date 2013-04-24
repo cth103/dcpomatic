@@ -41,7 +41,7 @@ Matcher::Matcher (shared_ptr<Log> log, int sample_rate, float frames_per_second)
 }
 
 void
-Matcher::process_video (boost::shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub, double t)
+Matcher::process_video (boost::shared_ptr<const Image> image, bool same, boost::shared_ptr<Subtitle> sub, double t)
 {
 	_pixel_format = image->pixel_format ();
 	_size = image->size ();
@@ -90,7 +90,7 @@ Matcher::process_video (boost::shared_ptr<Image> image, bool same, boost::shared
 }
 
 void
-Matcher::process_audio (boost::shared_ptr<AudioBuffers> b, double t)
+Matcher::process_audio (boost::shared_ptr<const AudioBuffers> b, double t)
 {
 	_channels = b->channels ();
 
@@ -202,8 +202,9 @@ void
 Matcher::repeat_last_video ()
 {
 	if (!_last_image) {
-		_last_image.reset (new SimpleImage (_pixel_format.get(), _size.get(), true));
-		_last_image->make_black ();
+		shared_ptr<Image> im (new SimpleImage (_pixel_format.get(), _size.get(), true));
+		im->make_black ();
+		_last_image = im;
 	}
 
 	Video (_last_image, true, _last_subtitle);

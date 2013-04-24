@@ -56,7 +56,7 @@ Trimmer::Trimmer (
 }
 
 void
-Trimmer::process_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
+Trimmer::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub)
 {
 	if (_video_in >= _video_start && _video_in <= _video_end) {
 		Video (image, same, sub);
@@ -66,7 +66,7 @@ Trimmer::process_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle>
 }
 
 void
-Trimmer::process_audio (shared_ptr<AudioBuffers> audio)
+Trimmer::process_audio (shared_ptr<const AudioBuffers> audio)
 {
 	int64_t offset = _audio_start - _audio_in;
 	if (offset > audio->frames()) {
@@ -91,8 +91,10 @@ Trimmer::process_audio (shared_ptr<AudioBuffers> audio)
 	_audio_in += audio->frames ();
 	
 	if (offset != 0 || length != audio->frames ()) {
-		audio->move (offset, 0, length);
-		audio->set_frames (length);
+		shared_ptr<AudioBuffers> copy (new AudioBuffers (audio));
+		copy->move (offset, 0, length);
+		copy->set_frames (length);
+		audio = copy;
 	}
 	
 	Audio (audio);

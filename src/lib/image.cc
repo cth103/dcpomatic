@@ -583,6 +583,12 @@ SimpleImage::aligned () const
 	return _aligned;
 }
 
+shared_ptr<Image>
+SimpleImage::clone () const
+{
+	return shared_ptr<Image> (new SimpleImage (*this));
+}
+
 FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
 	: Image (p)
 	, _buffer (b)

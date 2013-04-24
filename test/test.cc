@@ -123,17 +123,17 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	}
 }
 
-shared_ptr<Image> trimmer_test_last_video;
-shared_ptr<AudioBuffers> trimmer_test_last_audio;
+shared_ptr<const Image> trimmer_test_last_video;
+shared_ptr<const AudioBuffers> trimmer_test_last_audio;
 
 void
-trimmer_test_video_helper (shared_ptr<Image> image, bool, shared_ptr<Subtitle>)
+trimmer_test_video_helper (shared_ptr<const Image> image, bool, shared_ptr<Subtitle>)
 {
 	trimmer_test_last_video = image;
 }
 
 void
-trimmer_test_audio_helper (shared_ptr<AudioBuffers> audio)
+trimmer_test_audio_helper (shared_ptr<const AudioBuffers> audio)
 {
 	trimmer_test_last_audio = audio;
 }

@@ -241,6 +241,7 @@ class AudioBuffers
 public:
 	AudioBuffers (int channels, int frames);
 	AudioBuffers (AudioBuffers const &);
+	AudioBuffers (boost::shared_ptr<const AudioBuffers>);
 	~AudioBuffers ();
 
 	float** data () const {

@@ -308,7 +308,7 @@ FilmViewer::raw_to_display ()
 		return;
 	}
 
-	boost::shared_ptr<Image> input = _raw_frame;
+	boost::shared_ptr<const Image> input = _raw_frame;
 
 	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 	if (!s.second.empty ()) {
@@ -400,7 +400,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub, double t)
+FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, double t)
 {
 	_raw_frame = image;
 	_raw_sub = sub;

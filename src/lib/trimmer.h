@@ -24,8 +24,8 @@ class Trimmer : public AudioVideoProcessor
 public:
 	Trimmer (boost::shared_ptr<Log>, int, int, int, int, float, int);
 
-	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s);
-	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_video (boost::shared_ptr<const Image> i, bool, boost::shared_ptr<Subtitle> s);
+	void process_audio (boost::shared_ptr<const AudioBuffers>);
 
 private:
 	friend class trimmer_test;

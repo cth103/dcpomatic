@@ -47,7 +47,7 @@ static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame = 0;
 
 void
-process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
+process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub)
 {
 	shared_ptr<DCPVideoFrame> local (
 		new DCPVideoFrame (

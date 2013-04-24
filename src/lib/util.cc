@@ -63,11 +63,24 @@ extern "C" {
 
 #include "i18n.h"
 
-using namespace std;
-using namespace boost;
+using std::cout;
+using std::string;
+using std::stringstream;
+using std::list;
+using std::ostream;
+using std::vector;
+using std::ifstream;
+using std::istream;
+using std::min;
+using std::max;
+using std::multimap;
+using std::pair;
+using boost::shared_ptr;
+using boost::lexical_cast;
+using boost::optional;
 using libdcp::Size;
 
-thread::id ui_thread;
+boost::thread::id ui_thread;
 
 /** Convert some number of seconds to a string representation
  *  in hours, minutes and seconds.
@@ -87,9 +100,9 @@ seconds_to_hms (int s)
 	stringstream hms;
 	hms << h << N_(":");
 	hms.width (2);
-	hms << setfill ('0') << m << N_(":");
+	hms << std::setfill ('0') << m << N_(":");
 	hms.width (2);
-	hms << setfill ('0') << s;
+	hms << std::setfill ('0') << s;
 
 	return hms.str ();
 }
@@ -185,7 +198,7 @@ stacktrace (ostream& out, int levels)
      
 	if (strings) {
 		for (i = 0; i < size && (levels == 0 || i < size_t(levels)); i++) {
-			out << N_("  ") << demangle (strings[i]) << endl;
+			out << N_("  ") << demangle (strings[i]) << "\n";
 		}
 		
 		free (strings);
@@ -243,7 +256,7 @@ dvdomatic_setup ()
 	Filter::setup_filters ();
 	SoundProcessor::setup_sound_processors ();
 
-	ui_thread = this_thread::get_id ();
+	ui_thread = boost::this_thread::get_id ();
 }
 
 #ifdef DVDOMATIC_WINDOWS
@@ -338,7 +351,7 @@ md5_digest (void const * data, int size)
 	
 	stringstream s;
 	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
+		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
 	}
 
 	return s.str ();
@@ -350,14 +363,14 @@ md5_digest (void const * data, int size)
 string
 md5_digest (string file)
 {
-	ifstream f (file.c_str(), ios::binary);
+	ifstream f (file.c_str(), std::ios::binary);
 	if (!f.good ()) {
 		throw OpenFileError (file);
 	}
 	
-	f.seekg (0, ios::end);
+	f.seekg (0, std::ios::end);
 	int bytes = f.tellg ();
-	f.seekg (0, ios::beg);
+	f.seekg (0, std::ios::beg);
 
 	int const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
@@ -376,7 +389,7 @@ md5_digest (string file)
 
 	stringstream s;
 	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
+		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
 	}
 
 	return s.str ();
@@ -441,8 +454,8 @@ best_dcp_frame_rate (float source_fps)
 	}
 
 	/* Pick the best one, bailing early if we hit an exact match */
-	float error = numeric_limits<float>::max ();
-	boost::optional<FrameRateCandidate> best;
+	float error = std::numeric_limits<float>::max ();
+	optional<FrameRateCandidate> best;
 	list<FrameRateCandidate>::iterator i = candidates.begin();
 	while (i != candidates.end()) {
 		
@@ -509,16 +522,16 @@ Socket::Socket (int timeout)
 	, _socket (_io_service)
 	, _timeout (timeout)
 {
-	_deadline.expires_at (posix_time::pos_infin);
+	_deadline.expires_at (boost::posix_time::pos_infin);
 	check ();
 }
 
 void
 Socket::check ()
 {
-	if (_deadline.expires_at() <= asio::deadline_timer::traits_type::now ()) {
+	if (_deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now ()) {
 		_socket.close ();
-		_deadline.expires_at (posix_time::pos_infin);
+		_deadline.expires_at (boost::posix_time::pos_infin);
 	}
 
 	_deadline.async_wait (boost::bind (&Socket::check, this));
@@ -528,14 +541,14 @@ Socket::check ()
  *  @param endpoint End-point to connect to.
  */
 void
-Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint)
+Socket::connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint)
 {
-	_deadline.expires_from_now (posix_time::seconds (_timeout));
-	system::error_code ec = asio::error::would_block;
-	_socket.async_connect (endpoint, lambda::var(ec) = lambda::_1);
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
+	_socket.async_connect (endpoint, boost::lambda::var(ec) = boost::lambda::_1);
 	do {
 		_io_service.run_one();
-	} while (ec == asio::error::would_block);
+	} while (ec == boost::asio::error::would_block);
 
 	if (ec || !_socket.is_open ()) {
 		throw NetworkError (_("connect timed out"));
@@ -549,14 +562,14 @@ Socket::connect (asio::ip::basic_resolver_entry<asio::ip::tcp> const & endpoint)
 void
 Socket::write (uint8_t const * data, int size)
 {
-	_deadline.expires_from_now (posix_time::seconds (_timeout));
-	system::error_code ec = asio::error::would_block;
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
 
-	asio::async_write (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	boost::asio::async_write (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
 	
 	do {
 		_io_service.run_one ();
-	} while (ec == asio::error::would_block);
+	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
 		throw NetworkError (ec.message ());
@@ -577,14 +590,14 @@ Socket::write (uint32_t v)
 void
 Socket::read (uint8_t* data, int size)
 {
-	_deadline.expires_from_now (posix_time::seconds (_timeout));
-	system::error_code ec = asio::error::would_block;
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
 
-	asio::async_read (_socket, asio::buffer (data, size), lambda::var(ec) = lambda::_1);
+	boost::asio::async_read (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
 
 	do {
 		_io_service.run_one ();
-	} while (ec == asio::error::would_block);
+	} while (ec == boost::asio::error::would_block);
 	
 	if (ec) {
 		throw NetworkError (ec.message ());
@@ -761,6 +774,21 @@ AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	}
 }
 
+/* XXX: it's a shame that this is a copy-and-paste of the above;
+   probably fixable with c++0x.
+*/
+AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
+	: _channels (other->_channels)
+	, _frames (other->_frames)
+	, _allocated_frames (other->_frames)
+{
+	_data = new float*[_channels];
+	for (int i = 0; i < _channels; ++i) {
+		_data[i] = new float[_frames];
+		memcpy (_data[i], other->_data[i], _frames * sizeof (float));
+	}
+}
+
 /** AudioBuffers destructor */
 AudioBuffers::~AudioBuffers ()
 {
@@ -865,7 +893,7 @@ AudioBuffers::move (int from, int to, int frames)
 void
 ensure_ui_thread ()
 {
-	assert (this_thread::get_id() == ui_thread);
+	assert (boost::this_thread::get_id() == ui_thread);
 }
 
 /** @param v Source video frame.

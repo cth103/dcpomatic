@@ -35,7 +35,7 @@ class AudioSource
 {
 public:
 	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>)> Audio;
 
 	void connect_audio (boost::shared_ptr<AudioSink>);
 };
@@ -46,7 +46,7 @@ class TimedAudioSource
 {
 public:
 	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, double)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, double)> Audio;
 
 	void connect_audio (boost::shared_ptr<AudioSink>);
 	void connect_audio (boost::shared_ptr<TimedAudioSink>);

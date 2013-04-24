@@ -231,7 +231,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Subtitle> sub)
+Encoder::process_video (shared_ptr<const Image> image, bool same, boost::shared_ptr<Subtitle> sub)
 {
 	FrameRateConversion frc (_film->source_frame_rate(), _film->dcp_frame_rate());
 	
@@ -294,7 +294,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, boost::shared_ptr<Su
 }
 
 void
-Encoder::process_audio (shared_ptr<AudioBuffers> data)
+Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 {
 #if HAVE_SWRESAMPLE
 	/* Maybe sample-rate convert */

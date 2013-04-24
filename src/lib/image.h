@@ -70,6 +70,8 @@ public:
 
 	virtual bool aligned () const = 0;
 
+	virtual boost::shared_ptr<Image> clone () const = 0;
+
 	int components () const;
 	int lines (int) const;
 
@@ -118,6 +120,9 @@ private:
 	/* Not allowed */
 	FilterBufferImage (FilterBufferImage const &);
 	FilterBufferImage& operator= (FilterBufferImage const &);
+	boost::shared_ptr<Image> clone () const {
+		assert (false);
+	}
 	
 	AVFilterBufferRef* _buffer;
 	int* _line_size;
@@ -139,6 +144,7 @@ public:
 	int * stride () const;
 	libdcp::Size size () const;
 	bool aligned () const;
+	boost::shared_ptr<Image> clone () const;
 
 protected:
 	void allocate ();

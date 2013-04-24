@@ -24,7 +24,7 @@ class Gain : public AudioProcessor
 public:
 	Gain (boost::shared_ptr<Log> log, float gain);
 
-	void process_audio (boost::shared_ptr<AudioBuffers>);
+	void process_audio (boost::shared_ptr<const AudioBuffers>);
 
 private:
 	float _gain;
