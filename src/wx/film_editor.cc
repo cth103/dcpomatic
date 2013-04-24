@@ -930,6 +930,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_scaler->Enable (s);
 	_ffmpeg_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
+	_best_dcp_frame_rate->Enable (s);
 	_dcp_frame_rate->Enable (s);
 	_trim_start->Enable (s);
 	_trim_end->Enable (s);
