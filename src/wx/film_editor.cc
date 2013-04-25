@@ -617,6 +617,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_streams ();
 		setup_show_audio_sensitivity ();
+		setup_length ();
 		break;
 	case Film::TRUST_CONTENT_HEADERS:
 		checked_set (_trust_content_headers, _film->trust_content_headers ());
@@ -697,13 +698,18 @@ FilmEditor::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	case Film::DCP_FRAME_RATE:
+	{
+		bool done = false;
 		for (unsigned int i = 0; i < _dcp_frame_rate->GetCount(); ++i) {
 			if (wx_to_std (_dcp_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->dcp_frame_rate())) {
-				if (_dcp_frame_rate->GetSelection() != int(i)) {
-					_dcp_frame_rate->SetSelection (i);
-					break;
-				}
+				checked_set (_dcp_frame_rate, i);
+				done = true;
+				break;
 			}
+		}
+
+		if (!done) {
+			checked_set (_dcp_frame_rate, -1);
 		}
 
 		if (_film->video_frame_rate()) {
@@ -713,6 +719,7 @@ FilmEditor::film_changed (Film::Property p)
 		}
 		setup_frame_rate_description ();
 		break;
+	}
 	case Film::AUDIO_MAPPING:
 		_audio_mapping->set_mapping (_film->audio_mapping ());
 		break;
@@ -905,6 +912,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAM);
+
+	setup_content_information ();
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
