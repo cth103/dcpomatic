@@ -75,6 +75,9 @@ Player::pass ()
 	bool done = true;
 	
 	if (_video_decoder != _video_decoders.end ()) {
+
+		/* Run video decoder; this may also produce audio */
+		
 		if ((*_video_decoder)->pass ()) {
 			_video_decoder++;
 		}
@@ -82,10 +85,24 @@ Player::pass ()
 		if (_video_decoder != _video_decoders.end ()) {
 			done = false;
 		}
-	}
+		
+	} else if (!_video && _playlist->audio_from() == Playlist::AUDIO_FFMPEG && _sequential_audio_decoder != _audio_decoders.end ()) {
 
-	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
-		for (list<shared_ptr<SndfileDecoder> >::iterator i = _sndfile_decoders.begin(); i != _sndfile_decoders.end(); ++i) {
+		/* We're not producing video, so we may need to run FFmpeg content to get the audio */
+		
+		if ((*_sequential_audio_decoder)->pass ()) {
+			_sequential_audio_decoder++;
+		}
+		
+		if (_sequential_audio_decoder != _audio_decoders.end ()) {
+			done = false;
+		}
+		
+	} else if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
+
+		/* We're getting audio from SndfileContent */
+		
+		for (list<shared_ptr<AudioDecoder> >::iterator i = _audio_decoders.begin(); i != _audio_decoders.end(); ++i) {
 			if (!(*i)->pass ()) {
 				done = false;
 			}
@@ -200,7 +217,7 @@ Player::setup_decoders ()
 {
 	_video_decoders.clear ();
 	_video_decoder = _video_decoders.end ();
-	_sndfile_decoders.clear ();
+	_audio_decoders.clear ();
 	
 	if (_video) {
 		list<shared_ptr<const VideoContent> > vc = _playlist->video ();
@@ -239,12 +256,44 @@ Player::setup_decoders ()
 		_video_decoder = _video_decoders.begin ();
 	}
 
-	if (_audio && _playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
-		list<shared_ptr<const SndfileContent> > sc = _playlist->sndfile ();
-		for (list<shared_ptr<const SndfileContent> >::iterator i = sc.begin(); i != sc.end(); ++i) {
-			shared_ptr<SndfileDecoder> d (new SndfileDecoder (_film, *i));
-			_sndfile_decoders.push_back (d);
-			d->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
+	if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG && !_video) {
+
+		/* If we're getting audio from FFmpegContent but not the video, we need a set
+		   of decoders for the audio.
+		*/
+		
+		list<shared_ptr<const AudioContent> > ac = _playlist->audio ();
+		for (list<shared_ptr<const AudioContent> >::iterator i = ac.begin(); i != ac.end(); ++i) {
+
+			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+			assert (fc);
+			
+			shared_ptr<AudioDecoder> d (
+				new FFmpegDecoder (
+					_film, fc, _video,
+					_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
+					_subtitles
+					)
+				);
+
+			d->Audio.connect (bind (&Player::process_audio, this, fc, _1, _2));
+			_audio_decoders.push_back (d);
+		}
+
+		_sequential_audio_decoder = _audio_decoders.begin ();
+	}
+
+	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
+		
+		list<shared_ptr<const AudioContent> > ac = _playlist->audio ();
+		for (list<shared_ptr<const AudioContent> >::iterator i = ac.begin(); i != ac.end(); ++i) {
+			
+			shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
+			assert (sc);
+			
+			shared_ptr<AudioDecoder> d (new SndfileDecoder (_film, sc));
+			d->Audio.connect (bind (&Player::process_audio, this, sc, _1, _2));
+			_audio_decoders.push_back (d);
 		}
 	}
 }

@@ -29,12 +29,16 @@
 #include "audio_sink.h"
 
 class VideoDecoder;
-class SndfileDecoder;
+class AudioDecoder;
 class Job;
 class Film;
 class Playlist;
 class AudioContent;
 
+/** @class Player
+ *  @brief A class which can `play' a Playlist; emitting its audio and video.
+ */
+ 
 class Player : public TimedVideoSource, public TimedAudioSource, public TimedVideoSink, public boost::enable_shared_from_this<Player>
 {
 public:
@@ -65,11 +69,15 @@ private:
 	bool _video;
 	bool _audio;
 	bool _subtitles;
-	
+
+	/** Our decoders are ready to go; if this is false the decoders must be (re-)created before they are used */
 	bool _have_valid_decoders;
 	std::list<boost::shared_ptr<VideoDecoder> > _video_decoders;
 	std::list<boost::shared_ptr<VideoDecoder> >::iterator _video_decoder;
-	std::list<boost::shared_ptr<SndfileDecoder> > _sndfile_decoders;
+	std::list<boost::shared_ptr<AudioDecoder> > _audio_decoders;
+
+	/** Current audio decoder if we are running them sequentially; otherwise undefined */
+	std::list<boost::shared_ptr<AudioDecoder> >::iterator _sequential_audio_decoder;
 
 	boost::shared_ptr<AudioBuffers> _audio_buffers;
 	boost::optional<double> _audio_time;

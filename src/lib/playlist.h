@@ -37,6 +37,16 @@ class SndfileDecoder;
 class Job;
 class Film;
 
+/** @class Playlist
+ *  @brief A set of content files (video and audio), with knowledge of how they should be arranged into
+ *  a DCP.
+ *
+ * This class holds Content objects, and it knows how they should be arranged.  At the moment
+ * the ordering is implicit; video content is placed sequentially, and audio content is taken
+ * from the video unless any sound-only files are present.  If sound-only files exist, they
+ * are played simultaneously (i.e. they can be split up into multiple files for different channels)
+ */
+    
 class Playlist
 {
 public:
@@ -68,8 +78,8 @@ public:
 		return _video;
 	}
 
-	std::list<boost::shared_ptr<const SndfileContent> > sndfile () const {
-		return _sndfile;
+	std::list<boost::shared_ptr<const AudioContent> > audio () const {
+		return _audio;
 	}
 
 	std::string audio_digest () const;
@@ -80,12 +90,16 @@ public:
 	
 private:
 	void content_changed (boost::weak_ptr<Content>, int);
-	boost::shared_ptr<const FFmpegContent> first_ffmpeg () const;
-	
+
+	/** where we should get our audio from */
 	AudioFrom _audio_from;
 
+	/** all our content which contains video */
 	std::list<boost::shared_ptr<const VideoContent> > _video;
-	std::list<boost::shared_ptr<const SndfileContent> > _sndfile;
+	/** all our content which contains audio.  This may contain the same objects
+	 *  as _video for FFmpegContent.
+	 */
+	std::list<boost::shared_ptr<const AudioContent> > _audio;
 
 	std::list<boost::signals2::connection> _content_connections;
 };
