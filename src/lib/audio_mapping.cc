@@ -94,7 +94,7 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		xmlpp::Node* t = node->add_child ("Map");
 		shared_ptr<const AudioContent> c = i->first.content.lock ();
-		t->add_child ("Content")->add_child_text (c->file().string ());
+		t->add_child ("Content")->add_child_text (c->digest ());
 		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first.index));
 		t->add_child ("DCP")->add_child_text (lexical_cast<string> (i->second));
 	}
@@ -107,7 +107,7 @@ AudioMapping::set_from_xml (ContentList const & content, shared_ptr<const cxml::
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
 		string const c = (*i)->string_child ("Content");
 		ContentList::const_iterator j = content.begin ();
-		while (j != content.end() && (*j)->file().string() != c) {
+		while (j != content.end() && (*j)->digest() != c) {
 			++j;
 		}
 
