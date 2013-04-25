@@ -333,7 +333,9 @@ Encoder::terminate_threads ()
 	lock.unlock ();
 
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
-		(*i)->join ();
+		if ((*i)->joinable ()) {
+			(*i)->join ();
+		}
 		delete *i;
 	}
 }

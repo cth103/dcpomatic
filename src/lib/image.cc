@@ -509,7 +509,33 @@ SimpleImage::SimpleImage (SimpleImage const & other)
 	allocate ();
 
 	for (int i = 0; i < components(); ++i) {
-		memcpy (_data[i], other._data[i], _line_size[i] * lines(i));
+		uint8_t* p = _data[i];
+		uint8_t* q = other._data[i];
+		for (int j = 0; j < lines(i); ++j) {
+			memcpy (p, q, _line_size[i]);
+			p += stride()[i];
+			q += other.stride()[i];
+		}
+	}
+}
+
+SimpleImage::SimpleImage (shared_ptr<const Image> other)
+	: Image (*other.get())
+{
+	_size = other->size ();
+	_aligned = true;
+
+	allocate ();
+
+	for (int i = 0; i < components(); ++i) {
+		assert(line_size()[i] == other->line_size()[i]);
+		uint8_t* p = _data[i];
+		uint8_t* q = other->data()[i];
+		for (int j = 0; j < lines(i); ++j) {
+			memcpy (p, q, line_size()[i]);
+			p += stride()[i];
+			q += other->stride()[i];
+		}
 	}
 }
 
@@ -581,12 +607,6 @@ bool
 SimpleImage::aligned () const
 {
 	return _aligned;
-}
-
-shared_ptr<Image>
-SimpleImage::clone () const
-{
-	return shared_ptr<Image> (new SimpleImage (*this));
 }
 
 FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)

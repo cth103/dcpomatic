@@ -70,8 +70,6 @@ public:
 
 	virtual bool aligned () const = 0;
 
-	virtual boost::shared_ptr<Image> clone () const = 0;
-
 	int components () const;
 	int lines (int) const;
 
@@ -120,9 +118,6 @@ private:
 	/* Not allowed */
 	FilterBufferImage (FilterBufferImage const &);
 	FilterBufferImage& operator= (FilterBufferImage const &);
-	boost::shared_ptr<Image> clone () const {
-		assert (false);
-	}
 	
 	AVFilterBufferRef* _buffer;
 	int* _line_size;
@@ -136,6 +131,7 @@ class SimpleImage : public Image
 public:
 	SimpleImage (AVPixelFormat, libdcp::Size, bool);
 	SimpleImage (SimpleImage const &);
+	SimpleImage (boost::shared_ptr<const Image>);
 	SimpleImage& operator= (SimpleImage const &);
 	~SimpleImage ();
 
@@ -144,7 +140,6 @@ public:
 	int * stride () const;
 	libdcp::Size size () const;
 	bool aligned () const;
-	boost::shared_ptr<Image> clone () const;
 
 protected:
 	void allocate ();

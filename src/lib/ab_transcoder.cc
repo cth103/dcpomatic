@@ -122,25 +122,21 @@ ABTranscoder::go ()
 		} else {
 			done[2] = true;
 		}
-
+		
 		if (_job) {
 			_da.video->set_progress (_job);
 		}
-
+		
 		if (done[0] && done[1] && done[2]) {
 			break;
 		}
 	}
-
-	if (_delay_line) {
-		_delay_line->process_end ();
-	}
+		
+	_delay_line->process_end ();
 	if (_matcher) {
 		_matcher->process_end ();
 	}
-	if (_gain) {
-		_gain->process_end ();
-	}
+	_gain->process_end ();
 	_encoder->process_end ();
 }
 			    

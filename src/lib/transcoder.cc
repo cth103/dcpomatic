@@ -103,31 +103,26 @@ void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
-	try {
-		bool done[2] = { false, false };
-		
-		while (1) {
-			if (!done[0]) {
-				done[0] = _decoders.video->pass ();
-				if (_job) {
-					_decoders.video->set_progress (_job);
-				}
-			}
 
-			if (!done[1] && _decoders.audio && dynamic_pointer_cast<Decoder> (_decoders.audio) != dynamic_pointer_cast<Decoder> (_decoders.video)) {
-				done[1] = _decoders.audio->pass ();
-			} else {
-				done[1] = true;
-			}
-
-			if (done[0] && done[1]) {
-				break;
+	bool done[2] = { false, false };
+	
+	while (1) {
+		if (!done[0]) {
+			done[0] = _decoders.video->pass ();
+			if (_job) {
+				_decoders.video->set_progress (_job);
 			}
 		}
 		
-	} catch (...) {
-		_encoder->process_end ();
-		throw;
+		if (!done[1] && _decoders.audio && dynamic_pointer_cast<Decoder> (_decoders.audio) != dynamic_pointer_cast<Decoder> (_decoders.video)) {
+			done[1] = _decoders.audio->pass ();
+		} else {
+			done[1] = true;
+		}
+		
+		if (done[0] && done[1]) {
+			break;
+		}
 	}
 	
 	_delay_line->process_end ();
