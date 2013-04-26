@@ -299,9 +299,17 @@ private:
 		
 		if (r == wxID_OK) {
 
-			if (boost::filesystem::exists (d->get_path())) {
-				error_dialog (this, std_to_wx (String::compose (wx_to_std (_("The directory %1 already exists.")), d->get_path().c_str())));
-				return;
+			if (boost::filesystem::exists (d->get_path()) && !boost::filesystem::is_empty(d->get_path())) {
+				if (!confirm_dialog (
+					    this,
+					    std_to_wx (
+						    String::compose (wx_to_std (_("The directory %1 already exists and is not empty.  "
+										  "Are you sure you want to use it?")),
+								     d->get_path().c_str())
+						    )
+					    )) {
+					return;
+				}
 			}
 			
 			maybe_save_then_delete_film ();

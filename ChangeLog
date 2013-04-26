@@ -1,3 +1,9 @@
+2013-04-24  Carl Hetherington  <cth@carlh.net>
+
+	* Allow use of existing empty directories for new films (without
+	confirmation) and existing non-empty directories (with confirmation)
+	(#124).
+
 2013-04-26  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.87 released.
