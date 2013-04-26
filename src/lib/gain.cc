@@ -30,7 +30,7 @@ Gain::Gain (shared_ptr<Log> log, float gain)
 }
 
 void
-Gain::process_audio (shared_ptr<AudioBuffers> b)
+Gain::process_audio (shared_ptr<const AudioBuffers> b)
 {
 	if (_gain != 0) {
 		float const linear_gain = pow (10, _gain / 20);

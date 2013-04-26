@@ -31,7 +31,7 @@ public:
 	void run ();
 
 private:
-	void audio (boost::shared_ptr<AudioBuffers>);
+	void audio (boost::shared_ptr<const AudioBuffers>);
 
 	int64_t _done;
 	int64_t _samples_per_point;

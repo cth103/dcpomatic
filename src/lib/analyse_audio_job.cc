@@ -71,7 +71,7 @@ AnalyseAudioJob::run ()
 }
 
 void
-AnalyseAudioJob::audio (shared_ptr<AudioBuffers> b)
+AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b)
 {
 	for (int i = 0; i < b->frames(); ++i) {
 		for (int j = 0; j < b->channels(); ++j) {

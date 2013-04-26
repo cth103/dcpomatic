@@ -29,6 +29,7 @@
 #include "delay_line.h"
 #include "gain.h"
 #include "combiner.h"
+#include "trimmer.h"
 
 /** @file src/ab_transcoder.cc
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -62,14 +63,24 @@ ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<J
 	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
 	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
+	int const trim_start = _film_a->trim_type() == Film::ENCODE ? _film_a->trim_start() : 0;
+	int const trim_end = _film_a->trim_type() == Film::ENCODE ? _film_a->trim_end() : 0;
+	_trimmer.reset (new Trimmer (
+				_film_a->log(), trim_start, trim_end, _film_a->content_length(),
+				_film_a->audio_frame_rate(), _film_a->video_frame_rate(), _film_a->dcp_frame_rate()
+				));
+	
+
 	_combiner->connect_video (_delay_line);
 	_delay_line->connect_video (_matcher);
-	_matcher->connect_video (_encoder);
+	_matcher->connect_video (_trimmer);
+	_trimmer->connect_video (_encoder);
 	
 	_player_a->connect_audio (_delay_line);
 	_delay_line->connect_audio (_matcher);
 	_matcher->connect_audio (_gain);
-	_gain->connect_audio (_encoder);
+	_gain->connect_audio (_trimmer);
+	_trimmer->connect_audio (_encoder);
 }
 
 void
@@ -91,16 +102,11 @@ ABTranscoder::go ()
 			break;
 		}
 	}
-
-	if (_delay_line) {
-		_delay_line->process_end ();
-	}
-	if (_matcher) {
-		_matcher->process_end ();
-	}
-	if (_gain) {
-		_gain->process_end ();
-	}
+		
+	_delay_line->process_end ();
+	_matcher->process_end ();
+	_gain->process_end ();
+	_trimmer->process_end ();
 	_encoder->process_end ();
 }
 			    

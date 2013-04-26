@@ -83,9 +83,10 @@ using std::pair;
 using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
+using boost::optional;
 using libdcp::Size;
 
-thread::id ui_thread;
+boost::thread::id ui_thread;
 
 /** Convert some number of seconds to a string representation
  *  in hours, minutes and seconds.
@@ -105,9 +106,9 @@ seconds_to_hms (int s)
 	stringstream hms;
 	hms << h << N_(":");
 	hms.width (2);
-	hms << setfill ('0') << m << N_(":");
+	hms << std::setfill ('0') << m << N_(":");
 	hms.width (2);
-	hms << setfill ('0') << s;
+	hms << std::setfill ('0') << s;
 
 	return hms.str ();
 }
@@ -203,7 +204,7 @@ stacktrace (ostream& out, int levels)
      
 	if (strings) {
 		for (i = 0; i < size && (levels == 0 || i < size_t(levels)); i++) {
-			out << N_("  ") << demangle (strings[i]) << endl;
+			out << N_("  ") << demangle (strings[i]) << "\n";
 		}
 		
 		free (strings);
@@ -356,7 +357,7 @@ md5_digest (void const * data, int size)
 	
 	stringstream s;
 	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
+		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
 	}
 
 	return s.str ();
@@ -368,14 +369,14 @@ md5_digest (void const * data, int size)
 string
 md5_digest (boost::filesystem::path file)
 {
-	ifstream f (file.string().c_str(), ios::binary);
+	ifstream f (file.string().c_str(), std::ios::binary);
 	if (!f.good ()) {
 		throw OpenFileError (file.string());
 	}
 	
-	f.seekg (0, ios::end);
+	f.seekg (0, std::ios::end);
 	int bytes = f.tellg ();
-	f.seekg (0, ios::beg);
+	f.seekg (0, std::ios::beg);
 
 	int const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
@@ -394,7 +395,7 @@ md5_digest (boost::filesystem::path file)
 
 	stringstream s;
 	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << hex << setfill('0') << setw(2) << ((int) digest[i]);
+		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
 	}
 
 	return s.str ();
@@ -459,8 +460,8 @@ best_dcp_frame_rate (float source_fps)
 	}
 
 	/* Pick the best one, bailing early if we hit an exact match */
-	float error = numeric_limits<float>::max ();
-	boost::optional<FrameRateCandidate> best;
+	float error = std::numeric_limits<float>::max ();
+	optional<FrameRateCandidate> best;
 	list<FrameRateCandidate>::iterator i = candidates.begin();
 	while (i != candidates.end()) {
 		
@@ -769,6 +770,21 @@ AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	}
 }
 
+/* XXX: it's a shame that this is a copy-and-paste of the above;
+   probably fixable with c++0x.
+*/
+AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
+	: _channels (other->_channels)
+	, _frames (other->_frames)
+	, _allocated_frames (other->_frames)
+{
+	_data = new float*[_channels];
+	for (int i = 0; i < _channels; ++i) {
+		_data[i] = new float[_frames];
+		memcpy (_data[i], other->_data[i], _frames * sizeof (float));
+	}
+}
+
 /** AudioBuffers destructor */
 AudioBuffers::~AudioBuffers ()
 {
@@ -871,7 +887,7 @@ AudioBuffers::move (int from, int to, int frames)
 
 /** Add data from from `from', `from_channel' to our channel `to_channel' */
 void
-AudioBuffers::accumulate (shared_ptr<AudioBuffers> from, int from_channel, int to_channel)
+AudioBuffers::accumulate (shared_ptr<const AudioBuffers> from, int from_channel, int to_channel)
 {
 	int const N = frames ();
 	assert (from->frames() == N);

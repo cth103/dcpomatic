@@ -67,7 +67,7 @@ private:
 	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>, double);
+	void process_video (boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, double);
 	void calculate_sizes ();
 	void check_play_state ();
 	void update_from_raw ();
@@ -91,9 +91,9 @@ private:
 	wxToggleButton* _play_button;
 	wxTimer _timer;
 
-	boost::shared_ptr<Image> _raw_frame;
+	boost::shared_ptr<const Image> _raw_frame;
 	boost::shared_ptr<Subtitle> _raw_sub;
-	boost::shared_ptr<Image> _display_frame;
+	boost::shared_ptr<const Image> _display_frame;
 	/* The x offset at which we display the actual film content; this corresponds
 	   to the film's padding converted to our coordinates.
 	*/

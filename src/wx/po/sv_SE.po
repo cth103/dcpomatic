@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 11:14+0100\n"
+"POT-Creation-Date: 2013-04-22 15:06+0100\n"
 "PO-Revision-Date: 2013-04-09 10:13+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/wx/film_editor.cc:445
+#: src/wx/film_editor.cc:449
 msgid "%"
 msgstr "%"
 
@@ -25,7 +25,7 @@ msgstr "%"
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(starta om DCP-o-matic för att se språkändringar)"
 
-#: src/wx/film_editor.cc:1269
+#: src/wx/film_editor.cc:1276
 msgid "1 channel"
 msgstr "1 kanal"
 
@@ -41,11 +41,11 @@ msgstr "Lägg till"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/wx/film_editor.cc:381
+#: src/wx/film_editor.cc:385
 msgid "Audio Delay"
 msgstr "Audio Fördröjning"
 
-#: src/wx/film_editor.cc:369
+#: src/wx/film_editor.cc:373
 msgid "Audio Gain"
 msgstr "Audio Förstärkning"
 
@@ -53,7 +53,7 @@ msgstr "Audio Förstärkning"
 msgid "Audio Language (e.g. EN)"
 msgstr "Audio Språk (ex. SV)"
 
-#: src/wx/film_editor.cc:820
+#: src/wx/film_editor.cc:824
 #, c-format
 msgid "Audio will be resampled from %dHz to %dHz\n"
 msgstr "Audio kommer att samplas om från %dHz till %dHz\n"
@@ -63,7 +63,7 @@ msgstr "Audio kommer att samplas om från %dHz till %dHz\n"
 msgid "Bad setting for %s (%s)"
 msgstr "Felaktig inställning för %s (%s)"
 
-#: src/wx/film_editor.cc:288
+#: src/wx/film_editor.cc:292
 msgid "Bottom crop"
 msgstr "Nedre beskärning"
 
@@ -75,7 +75,7 @@ msgstr "Bläddra..."
 msgid "But I have to use fader"
 msgstr "Men jag måste använda mixervolym"
 
-#: src/wx/film_editor.cc:374
+#: src/wx/film_editor.cc:378
 msgid "Calculate..."
 msgstr "Beräkna..."
 
@@ -87,7 +87,7 @@ msgstr "Avbryt"
 msgid "Channels"
 msgstr "Kanaler"
 
-#: src/wx/film_editor.cc:325
+#: src/wx/film_editor.cc:329
 msgid "Colour look-up table"
 msgstr "Färguppslagningstabell"
 
@@ -99,7 +99,7 @@ msgstr "Innehåll"
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: src/wx/film_viewer.cc:415
+#: src/wx/film_viewer.cc:451
 #, c-format
 msgid "Could not decode video for view (%s)"
 msgstr "Kunde inte avkoda video för visning (%s)"
@@ -109,12 +109,12 @@ msgstr "Kunde inte avkoda video för visning (%s)"
 msgid "Could not make DCP: %s"
 msgstr "Kunde inte skapa DCP: %s"
 
-#: src/wx/film_viewer.cc:107
+#: src/wx/film_viewer.cc:125
 #, c-format
 msgid "Could not open content file (%s)"
 msgstr "Kunde inte öppna innehållsfilen (%s)"
 
-#: src/wx/film_editor.cc:509
+#: src/wx/film_editor.cc:513
 #, c-format
 msgid "Could not set content: %s"
 msgstr "Kunde inte fastställa innehåll: %s"
@@ -123,7 +123,7 @@ msgstr "Kunde inte fastställa innehåll: %s"
 msgid "Create in folder"
 msgstr "Skapa i katalog"
 
-#: src/wx/film_editor.cc:1363
+#: src/wx/film_editor.cc:1371
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
 msgstr "Beskuren till %dx%d (%.2f:1)\n"
@@ -178,7 +178,7 @@ msgid "Edit"
 msgstr "Redigera"
 
 #: src/wx/config_dialog.cc:103 src/wx/config_dialog.cc:122
-#: src/wx/film_editor.cc:308
+#: src/wx/film_editor.cc:312
 msgid "Edit..."
 msgstr "Redigera..."
 
@@ -186,7 +186,7 @@ msgstr "Redigera..."
 msgid "Encoding Servers"
 msgstr "Kodningsservrar"
 
-#: src/wx/film_editor.cc:176
+#: src/wx/film_editor.cc:171
 msgid "End"
 msgstr "Slut"
 
@@ -206,11 +206,11 @@ msgstr "Film Egenskaper"
 msgid "Film name"
 msgstr "film namn"
 
-#: src/wx/film_editor.cc:303 src/wx/filter_dialog.cc:32
+#: src/wx/film_editor.cc:307 src/wx/filter_dialog.cc:32
 msgid "Filters"
 msgstr "Filter"
 
-#: src/wx/film_editor.cc:268
+#: src/wx/film_editor.cc:272
 msgid "Format"
 msgstr "Format"
 
@@ -234,7 +234,7 @@ msgstr "Gb"
 msgid "Host name or IP address"
 msgstr "Värd-namn eller IP-adress"
 
-#: src/wx/film_editor.cc:1273
+#: src/wx/film_editor.cc:1280
 msgid "Hz"
 msgstr "Hz"
 
@@ -246,19 +246,19 @@ msgstr "Jag vill spela upp detta med mixervolym"
 msgid "IP address"
 msgstr "IP-adress"
 
-#: src/wx/film_editor.cc:335
+#: src/wx/film_editor.cc:339
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000 bandbredd"
 
-#: src/wx/film_editor.cc:273
+#: src/wx/film_editor.cc:277
 msgid "Left crop"
 msgstr "Vänster beskärning"
 
-#: src/wx/film_editor.cc:164
+#: src/wx/film_editor.cc:159
 msgid "Length"
 msgstr "Längd"
 
-#: src/wx/film_editor.cc:339
+#: src/wx/film_editor.cc:343
 msgid "MBps"
 msgstr "MBps"
 
@@ -274,7 +274,7 @@ msgstr "Namn"
 msgid "New Film"
 msgstr "Ny Film"
 
-#: src/wx/film_editor.cc:305 src/wx/film_editor.cc:667
+#: src/wx/film_editor.cc:309 src/wx/film_editor.cc:671
 msgid "None"
 msgstr "Inget"
 
@@ -282,11 +282,7 @@ msgstr "Inget"
 msgid "Original Frame Rate"
 msgstr "Ursprunglig bildhastighet"
 
-#: src/wx/film_editor.cc:159
-msgid "Original Size"
-msgstr "Ursprunglig Storlek"
-
-#: src/wx/film_editor.cc:1352
+#: src/wx/film_editor.cc:1360
 #, c-format
 msgid "Original video is %dx%d (%.2f:1)\n"
 msgstr "Original-videon är %dx%d (%.2f:1)\n"
@@ -295,7 +291,7 @@ msgstr "Original-videon är %dx%d (%.2f:1)\n"
 msgid "Package Type (e.g. OV)"
 msgstr "Förpackningstyp (ex. OV)"
 
-#: src/wx/film_editor.cc:1384
+#: src/wx/film_editor.cc:1392
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
@@ -304,7 +300,7 @@ msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
 msgid "Peak"
 msgstr "Topp"
 
-#: src/wx/film_viewer.cc:54
+#: src/wx/film_viewer.cc:58
 msgid "Play"
 msgstr "Spela"
 
@@ -332,7 +328,7 @@ msgstr "Referensomskalare för A/B"
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/wx/film_editor.cc:278
+#: src/wx/film_editor.cc:282
 msgid "Right crop"
 msgstr "Höger beskärning"
 
@@ -340,16 +336,16 @@ msgstr "Höger beskärning"
 msgid "Running"
 msgstr "Körs"
 
-#: src/wx/film_editor.cc:1376
+#: src/wx/film_editor.cc:1384
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
 msgstr "Skalad till %dx%d (%.2f:1)\n"
 
-#: src/wx/film_editor.cc:315
+#: src/wx/film_editor.cc:319
 msgid "Scaler"
 msgstr "Omskalare"
 
-#: src/wx/film_editor.cc:407
+#: src/wx/film_editor.cc:411
 msgid "Select Audio File"
 msgstr "Välj audiofil"
 
@@ -365,7 +361,7 @@ msgstr "Server"
 msgid "Set language"
 msgstr "Välj språk"
 
-#: src/wx/film_editor.cc:364
+#: src/wx/film_editor.cc:368
 msgid "Show Audio..."
 msgstr "Visa Audio..."
 
@@ -373,7 +369,7 @@ msgstr "Visa Audio..."
 msgid "Smoothing"
 msgstr "Utjämning"
 
-#: src/wx/film_editor.cc:173
+#: src/wx/film_editor.cc:168
 msgid "Start"
 msgstr "Start"
 
@@ -385,11 +381,11 @@ msgstr "Studio (ex. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Undertextspråk (ex. SV)"
 
-#: src/wx/film_editor.cc:432
+#: src/wx/film_editor.cc:436
 msgid "Subtitle Offset"
 msgstr "Undertext Förskjutning"
 
-#: src/wx/film_editor.cc:441
+#: src/wx/film_editor.cc:445
 msgid "Subtitle Scale"
 msgstr "Undertext Skalning"
 
@@ -433,12 +429,17 @@ msgstr "Antal trådar att använda vid kodning på denna maskin"
 msgid "Time"
 msgstr "Tid"
 
-#: src/wx/film_editor.cc:283
+#: src/wx/film_editor.cc:287
 msgid "Top crop"
 msgstr "Övre beskärning"
 
-#: src/wx/film_editor.cc:171
+#: src/wx/film_editor.cc:166
 msgid "Trim frames"
+msgstr "Skippa bilder"
+
+#: src/wx/film_editor.cc:179
+#, fuzzy
+msgid "Trim method"
 msgstr "Skippa bilder"
 
 #: src/wx/film_editor.cc:125
@@ -457,11 +458,11 @@ msgstr "Använd DCI-namnet"
 msgid "Use best"
 msgstr "Använd bästa"
 
-#: src/wx/film_editor.cc:391
+#: src/wx/film_editor.cc:395
 msgid "Use content's audio"
 msgstr "Använd innehållets audio"
 
-#: src/wx/film_editor.cc:401
+#: src/wx/film_editor.cc:405
 msgid "Use external audio"
 msgstr "Använd extern audio"
 
@@ -469,11 +470,11 @@ msgstr "Använd extern audio"
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/film_editor.cc:424
+#: src/wx/film_editor.cc:428
 msgid "With Subtitles"
 msgstr "Med Undertexter"
 
-#: src/wx/film_editor.cc:1271
+#: src/wx/film_editor.cc:1278
 msgid "channels"
 msgstr "kanaler"
 
@@ -481,20 +482,28 @@ msgstr "kanaler"
 msgid "counting..."
 msgstr "räknar..."
 
-#: src/wx/film_editor.cc:373
+#: src/wx/film_editor.cc:377
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/film_editor.cc:696 src/wx/film_editor.cc:699
+#: src/wx/film_editor.cc:212
+msgid "encode all frames and play the subset"
+msgstr ""
+
+#: src/wx/film_editor.cc:213
+msgid "encode only the subset"
+msgstr ""
+
+#: src/wx/film_editor.cc:694 src/wx/film_editor.cc:697
 msgid "frames"
 msgstr "bilder"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/film_editor.cc:386
+#: src/wx/film_editor.cc:390
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/film_editor.cc:436
+#: src/wx/film_editor.cc:440
 msgid "pixels"
 msgstr "pixlar"
 
@@ -506,3 +515,6 @@ msgstr "s"
 #: src/wx/properties_dialog.cc:62 src/wx/properties_dialog.cc:63
 msgid "unknown"
 msgstr "okänt"
+
+#~ msgid "Original Size"
+#~ msgstr "Ursprunglig Storlek"

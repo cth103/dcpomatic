@@ -134,13 +134,13 @@ Player::set_progress (shared_ptr<Job> job)
 }
 
 void
-Player::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s, double t)
+Player::process_video (shared_ptr<const Image> i, bool same, shared_ptr<Subtitle> s, double t)
 {
 	Video (i, same, s, _video_start[_video_decoder] + t);
 }
 
 void
-Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> b, double t)
+Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<const AudioBuffers> b, double t)
 {
 	AudioMapping mapping = _film->audio_mapping ();
 	if (!_audio_buffers) {
@@ -174,6 +174,10 @@ Player::seek (double t)
 	if (!_have_valid_decoders) {
 		setup_decoders ();
 		_have_valid_decoders = true;
+	}
+
+	if (_video_decoders.empty ()) {
+		return true;
 	}
 
 	/* Find the decoder that contains this position */

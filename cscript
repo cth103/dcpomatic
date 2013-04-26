@@ -56,7 +56,12 @@ def package(env, target, version):
         env.set('CDIST_CXXFLAGS', env.get('CXXFLAGS'))
         env.set('CDIST_PKG_CONFIG_PATH', env.get('PKG_CONFIG_PATH'))
         env.command('dpkg-buildpackage')
-        return os.path.abspath(glob.glob('../*.deb')[0])
+        
+        debs = []
+        for p in glob.glob('../*.deb'):
+            debs.append(os.path.abspath(p))
+
+        return debs
 
 def make_pot(env):
     env.command('./waf pot')

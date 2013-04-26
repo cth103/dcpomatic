@@ -57,8 +57,8 @@ public:
 	double last_video_time () const;
 
 private:
-	void process_video (boost::shared_ptr<Image> i, bool same, boost::shared_ptr<Subtitle> s, double);
-	void process_audio (boost::weak_ptr<const AudioContent>, boost::shared_ptr<AudioBuffers>, double);
+	void process_video (boost::shared_ptr<const Image> i, bool same, boost::shared_ptr<Subtitle> s, double);
+	void process_audio (boost::weak_ptr<const AudioContent>, boost::shared_ptr<const AudioBuffers>, double);
 	void setup_decoders ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);

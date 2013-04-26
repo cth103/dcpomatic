@@ -159,6 +159,7 @@ class AudioBuffers
 public:
 	AudioBuffers (int channels, int frames);
 	AudioBuffers (AudioBuffers const &);
+	AudioBuffers (boost::shared_ptr<const AudioBuffers>);
 	~AudioBuffers ();
 
 	float** data () const {
@@ -182,7 +183,7 @@ public:
 
 	void copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset);
 	void move (int from, int to, int frames);
-	void accumulate (boost::shared_ptr<AudioBuffers>, int, int);
+	void accumulate (boost::shared_ptr<const AudioBuffers>, int, int);
 
 private:
 	/** Number of channels */

@@ -25,7 +25,7 @@ using boost::weak_ptr;
 using boost::bind;
 
 static void
-process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s)
+process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<const Image> i, bool same, shared_ptr<Subtitle> s)
 {
 	shared_ptr<VideoSink> p = sink.lock ();
 	if (p) {
@@ -47,3 +47,11 @@ TimedVideoSource::connect_video (shared_ptr<TimedVideoSink> s)
 {
 	Video.connect (bind (&TimedVideoSink::process_video, s, _1, _2, _3, _4));
 }
+
+void
+TimedVideoSource::connect_video (shared_ptr<VideoSink> s)
+{
+	Video.connect (bind (&VideoSink::process_video, s, _1, _2, _3));
+}
+
+	

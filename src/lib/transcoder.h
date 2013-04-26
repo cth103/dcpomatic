@@ -31,6 +31,7 @@ class VideoFilter;
 class Gain;
 class DelayLine;
 class Player;
+class Trimmer;
 
 /** @class Transcoder
  *
@@ -58,4 +59,5 @@ protected:
 	boost::shared_ptr<Matcher> _matcher;
 	boost::shared_ptr<DelayLine> _delay_line;
 	boost::shared_ptr<Gain> _gain;
+	boost::shared_ptr<Trimmer> _trimmer;
 };

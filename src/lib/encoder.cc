@@ -240,7 +240,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle> sub)
+Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub)
 {
 	FrameRateConversion frc (_film->video_frame_rate(), _film->dcp_frame_rate());
 	
@@ -303,7 +303,7 @@ Encoder::process_video (shared_ptr<Image> image, bool same, shared_ptr<Subtitle>
 }
 
 void
-Encoder::process_audio (shared_ptr<AudioBuffers> data)
+Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 {
 #if HAVE_SWRESAMPLE
 	/* Maybe sample-rate convert */
@@ -342,7 +342,9 @@ Encoder::terminate_threads ()
 	lock.unlock ();
 
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
-		(*i)->join ();
+		if ((*i)->joinable ()) {
+			(*i)->join ();
+		}
 		delete *i;
 	}
 }
