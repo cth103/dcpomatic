@@ -4,7 +4,7 @@ from waflib import Logs
 import i18n
 
 def build(bld):
-    for t in ['makedcp', 'servomatic_cli', 'servomatictest']:
+    for t in ['dcpomatic_cli', 'dcpomatic_server_cli']:
         obj = bld(features = 'cxx cxxprogram')
         obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
         obj.includes = ['..']
@@ -13,7 +13,7 @@ def build(bld):
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dcpomatic', 'servomatic_gui']:
+        for t in ['dcpomatic', 'dcpomatic_server']:
             obj = bld(features = 'cxx cxxprogram')
             obj.uselib = 'DCP CXML OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
             obj.includes = ['..']
