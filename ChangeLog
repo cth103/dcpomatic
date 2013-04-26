@@ -1,3 +1,7 @@
+2013-04-26  Carl Hetherington  <cth@carlh.net>
+
+	* Make new trim options actually work (#121).
+
 2013-04-23  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.86 released.
