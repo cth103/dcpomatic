@@ -75,7 +75,7 @@ Player::pass ()
 	
 	bool done = true;
 	
-	if (_video_decoder < _video_decoders.size ()) {
+	if (_video && _video_decoder < _video_decoders.size ()) {
 
 		/* Run video decoder; this may also produce audio */
 		
@@ -87,7 +87,9 @@ Player::pass ()
 			done = false;
 		}
 		
-	} else if (!_video && _playlist->audio_from() == Playlist::AUDIO_FFMPEG && _sequential_audio_decoder < _audio_decoders.size ()) {
+	}
+
+	if (!_video && _playlist->audio_from() == Playlist::AUDIO_FFMPEG && _sequential_audio_decoder < _audio_decoders.size ()) {
 
 		/* We're not producing video, so we may need to run FFmpeg content to get the audio */
 		
@@ -99,8 +101,10 @@ Player::pass ()
 			done = false;
 		}
 		
-	} else if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
+	}
 
+	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
+		
 		/* We're getting audio from SndfileContent */
 		
 		for (vector<shared_ptr<AudioDecoder> >::iterator i = _audio_decoders.begin(); i != _audio_decoders.end(); ++i) {
