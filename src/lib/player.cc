@@ -174,17 +174,15 @@ Player::seek (double t)
 
 	/* Find the decoder that contains this position */
 	_video_decoder = 0;
-	while (_video_decoder < _video_decoders.size ()) {
-		if (t < _video_start[_video_decoder]) {
-			assert (_video_decoder);
+	while (1) {
+		++_video_decoder;
+		if (_video_decoder >= _video_decoders.size () || t < _video_start[_video_decoder]) {
 			--_video_decoder;
+			t -= _video_start[_video_decoder];
 			break;
 		}
-
-		t -= _video_start[_video_decoder];
-		++_video_decoder;
 	}
-	
+
 	if (_video_decoder < _video_decoders.size()) {
 		_video_decoders[_video_decoder]->seek (t);
 	} else {
