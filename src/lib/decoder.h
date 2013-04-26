@@ -56,8 +56,12 @@ public:
 
 	virtual bool pass () = 0;
 	virtual bool seek (double);
-	virtual void seek_back () {}
-	virtual void seek_forward () {}
+	virtual bool seek_back () {
+		return true;
+	}
+	virtual bool seek_forward () {
+		return true;
+	}
 
 	boost::signals2::signal<void()> OutputChanged;
 

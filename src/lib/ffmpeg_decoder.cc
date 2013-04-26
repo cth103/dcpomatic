@@ -519,16 +519,24 @@ FFmpegDecoder::seek (double p)
 	return do_seek (p, false, false);
 }
 
-void
+bool
 FFmpegDecoder::seek_back ()
 {
-	do_seek (last_content_time() - 2.5 / video_frame_rate(), true, true);
+	if (last_content_time() < 2.5) {
+		return true;
+	}
+	
+	return do_seek (last_content_time() - 2.5 / video_frame_rate(), true, true);
 }
 
-void
+bool
 FFmpegDecoder::seek_forward ()
 {
-	do_seek (last_content_time() - 0.5 / video_frame_rate(), true, true);
+	if (last_content_time() >= (video_length() - video_frame_rate())) {
+		return true;
+	}
+	
+	return do_seek (last_content_time() - 0.5 / video_frame_rate(), true, true);
 }
 
 bool

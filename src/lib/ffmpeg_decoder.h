@@ -77,8 +77,8 @@ public:
 	}
 
 	bool seek (double);
-	void seek_forward ();
-	void seek_back ();
+	bool seek_forward ();
+	bool seek_back ();
 	bool pass ();
 
 private:

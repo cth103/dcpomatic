@@ -30,6 +30,7 @@
 
 using std::list;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -74,27 +75,27 @@ Player::pass ()
 	
 	bool done = true;
 	
-	if (_video_decoder != _video_decoders.end ()) {
+	if (_video_decoder < _video_decoders.size ()) {
 
 		/* Run video decoder; this may also produce audio */
 		
-		if ((*_video_decoder)->pass ()) {
+		if (_video_decoders[_video_decoder]->pass ()) {
 			_video_decoder++;
 		}
 		
-		if (_video_decoder != _video_decoders.end ()) {
+		if (_video_decoder < _video_decoders.size ()) {
 			done = false;
 		}
 		
-	} else if (!_video && _playlist->audio_from() == Playlist::AUDIO_FFMPEG && _sequential_audio_decoder != _audio_decoders.end ()) {
+	} else if (!_video && _playlist->audio_from() == Playlist::AUDIO_FFMPEG && _sequential_audio_decoder < _audio_decoders.size ()) {
 
 		/* We're not producing video, so we may need to run FFmpeg content to get the audio */
 		
-		if ((*_sequential_audio_decoder)->pass ()) {
+		if (_audio_decoders[_sequential_audio_decoder]->pass ()) {
 			_sequential_audio_decoder++;
 		}
 		
-		if (_sequential_audio_decoder != _audio_decoders.end ()) {
+		if (_sequential_audio_decoder < _audio_decoders.size ()) {
 			done = false;
 		}
 		
@@ -102,7 +103,7 @@ Player::pass ()
 
 		/* We're getting audio from SndfileContent */
 		
-		for (list<shared_ptr<AudioDecoder> >::iterator i = _audio_decoders.begin(); i != _audio_decoders.end(); ++i) {
+		for (vector<shared_ptr<AudioDecoder> >::iterator i = _audio_decoders.begin(); i != _audio_decoders.end(); ++i) {
 			if (!(*i)->pass ()) {
 				done = false;
 			}
@@ -121,35 +122,30 @@ Player::set_progress (shared_ptr<Job> job)
 {
 	/* Assume progress can be divined from how far through the video we are */
 
-	if (_video_decoder == _video_decoders.end() || !_playlist->video_length()) {
+	if (_video_decoder >= _video_decoders.size() || !_playlist->video_length()) {
 		return;
 	}
-	
-	ContentVideoFrame p = 0;
-	list<shared_ptr<VideoDecoder> >::iterator i = _video_decoders.begin ();
-	while (i != _video_decoders.end() && i != _video_decoder) {
-		p += (*i)->video_length ();
-	}
 
-	job->set_progress (float ((*_video_decoder)->video_frame ()) / _playlist->video_length ());
+	job->set_progress ((_video_start[_video_decoder] + _video_decoders[_video_decoder]->video_frame()) / _playlist->video_length ());
 }
 
 void
 Player::process_video (shared_ptr<Image> i, bool same, shared_ptr<Subtitle> s, double t)
 {
-	/* XXX: this time will need mangling to add on the offset of the start of the content */
-	Video (i, same, s, t);
+	Video (i, same, s, _video_start[_video_decoder] + t);
 }
 
 void
 Player::process_audio (weak_ptr<const AudioContent> c, shared_ptr<AudioBuffers> b, double t)
 {
-	/* XXX: this time will need mangling to add on the offset of the start of the content */
 	AudioMapping mapping = _film->audio_mapping ();
 	if (!_audio_buffers) {
 		_audio_buffers.reset (new AudioBuffers (mapping.dcp_channels(), b->frames ()));
 		_audio_buffers->make_silent ();
 		_audio_time = t;
+		if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
+			_audio_time = _audio_time.get() + _audio_start[_sequential_audio_decoder];
+		}
 	}
 
 	for (int i = 0; i < b->channels(); ++i) {
@@ -177,18 +173,20 @@ Player::seek (double t)
 	}
 
 	/* Find the decoder that contains this position */
-	_video_decoder = _video_decoders.begin ();
-	while (_video_decoder != _video_decoders.end ()) {
-		double const this_length = double ((*_video_decoder)->video_length()) / _film->video_frame_rate ();
-		if (t < this_length) {
+	_video_decoder = 0;
+	while (_video_decoder < _video_decoders.size ()) {
+		if (t < _video_start[_video_decoder]) {
+			assert (_video_decoder);
+			--_video_decoder;
 			break;
 		}
-		t -= this_length;
+
+		t -= _video_start[_video_decoder];
 		++_video_decoder;
 	}
 	
-	if (_video_decoder != _video_decoders.end()) {
-		(*_video_decoder)->seek (t);
+	if (_video_decoder < _video_decoders.size()) {
+		_video_decoders[_video_decoder]->seek (t);
 	} else {
 		return true;
 	}
@@ -216,13 +214,21 @@ void
 Player::setup_decoders ()
 {
 	_video_decoders.clear ();
-	_video_decoder = _video_decoders.end ();
+	_video_decoder = 0;
 	_audio_decoders.clear ();
+	_sequential_audio_decoder = 0;
+
+	_video_start.clear();
+	_audio_start.clear();
+
+	double video_so_far = 0;
+	double audio_so_far = 0;
 	
 	if (_video) {
 		list<shared_ptr<const VideoContent> > vc = _playlist->video ();
 		for (list<shared_ptr<const VideoContent> >::iterator i = vc.begin(); i != vc.end(); ++i) {
 
+			shared_ptr<const VideoContent> c;
 			shared_ptr<VideoDecoder> d;
 			
 			/* XXX: into content? */
@@ -241,19 +247,23 @@ Player::setup_decoders ()
 					fd->Audio.connect (bind (&Player::process_audio, this, fc, _1, _2));
 				}
 
+				c = fc;
 				d = fd;
 			}
 
 			shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
 			if (ic) {
+				c = ic;
 				d.reset (new ImageMagickDecoder (_film, ic));
 			}
 
 			d->connect_video (shared_from_this ());
 			_video_decoders.push_back (d);
+			_video_start.push_back (video_so_far);
+			video_so_far += c->video_length() / c->video_frame_rate();
 		}
 
-		_video_decoder = _video_decoders.begin ();
+		_video_decoder = 0;
 	}
 
 	if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG && !_video) {
@@ -278,9 +288,11 @@ Player::setup_decoders ()
 
 			d->Audio.connect (bind (&Player::process_audio, this, fc, _1, _2));
 			_audio_decoders.push_back (d);
+			_audio_start.push_back (audio_so_far);
+			audio_so_far += fc->audio_length() / fc->audio_frame_rate();
 		}
 
-		_sequential_audio_decoder = _audio_decoders.begin ();
+		_sequential_audio_decoder = 0;
 	}
 
 	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
@@ -294,6 +306,8 @@ Player::setup_decoders ()
 			shared_ptr<AudioDecoder> d (new SndfileDecoder (_film, sc));
 			d->Audio.connect (bind (&Player::process_audio, this, sc, _1, _2));
 			_audio_decoders.push_back (d);
+			_audio_start.push_back (audio_so_far);
+			audio_so_far += sc->audio_length () / sc->audio_frame_rate();
 		}
 	}
 }
@@ -301,12 +315,7 @@ Player::setup_decoders ()
 double
 Player::last_video_time () const
 {
-	double t = 0;
-	for (list<shared_ptr<VideoDecoder> >::const_iterator i = _video_decoders.begin(); i != _video_decoder; ++i) {
-		t += (*i)->video_length() / (*i)->video_frame_rate ();
-	}
-
-	return t + (*_video_decoder)->last_content_time ();
+	return _video_start[_video_decoder] + _video_decoders[_video_decoder]->last_content_time ();
 }
 
 void

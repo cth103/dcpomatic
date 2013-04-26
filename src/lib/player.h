@@ -72,12 +72,18 @@ private:
 
 	/** Our decoders are ready to go; if this is false the decoders must be (re-)created before they are used */
 	bool _have_valid_decoders;
-	std::list<boost::shared_ptr<VideoDecoder> > _video_decoders;
-	std::list<boost::shared_ptr<VideoDecoder> >::iterator _video_decoder;
-	std::list<boost::shared_ptr<AudioDecoder> > _audio_decoders;
-
-	/** Current audio decoder if we are running them sequentially; otherwise undefined */
-	std::list<boost::shared_ptr<AudioDecoder> >::iterator _sequential_audio_decoder;
+	/** Video decoders in order of presentation */
+	std::vector<boost::shared_ptr<VideoDecoder> > _video_decoders;
+	/** Start positions of each video decoder in seconds*/
+	std::vector<double> _video_start;
+        /** Index of current video decoder */
+	size_t _video_decoder;
+        /** Audio decoders in order of presentation (if they are from FFmpeg) */
+	std::vector<boost::shared_ptr<AudioDecoder> > _audio_decoders;
+	/** Start positions of each audio decoder (if they are from FFmpeg) in seconds */
+	std::vector<double> _audio_start;
+	/** Current audio decoder index if we are running them sequentially; otherwise undefined */
+	size_t _sequential_audio_decoder;
 
 	boost::shared_ptr<AudioBuffers> _audio_buffers;
 	boost::optional<double> _audio_time;
