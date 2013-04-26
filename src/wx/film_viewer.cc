@@ -118,11 +118,12 @@ FilmViewer::film_changed (Film::Property p)
 		update_from_raw ();
 		break;
 	case Film::CONTENT:
+	{
 		calculate_sizes ();
-		get_frame ();
-		_panel->Refresh ();
-		_v_sizer->Layout ();
+		wxScrollEvent ev;
+		slider_moved (ev);
 		break;
+	}
 	case Film::WITH_SUBTITLES:
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
