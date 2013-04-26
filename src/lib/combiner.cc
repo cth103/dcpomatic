@@ -33,9 +33,9 @@ Combiner::Combiner (shared_ptr<Log> log)
  *  @param image Frame image.
  */
 void
-Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>, double)
+Combiner::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle>, double)
 {
-	_image = image;
+	_image.reset (new SimpleImage (image));
 }
 
 /** Process video for the right half of the frame.
@@ -43,22 +43,21 @@ Combiner::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle>, do
  *  @param sub Subtitle (which will be put onto the whole frame)
  */
 void
-Combiner::process_video_b (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub, double t)
+Combiner::process_video_b (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, double t)
 {
 	/* Copy the right half of this image into our _image */
 	/* XXX: this should probably be in the Image class */
 	for (int i = 0; i < image->components(); ++i) {
 		int const line_size = image->line_size()[i];
 		int const half_line_size = line_size / 2;
-		int const stride = image->stride()[i];
 
 		uint8_t* p = _image->data()[i];
 		uint8_t* q = image->data()[i];
 			
 		for (int j = 0; j < image->lines (i); ++j) {
 			memcpy (p + half_line_size, q + half_line_size, half_line_size);
-			p += stride;
-			q += stride;
+			p += _image->stride()[i];
+			q += image->stride()[i];
 		}
 	}
 

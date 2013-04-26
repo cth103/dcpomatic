@@ -33,8 +33,8 @@ class Combiner : public TimedVideoProcessor
 public:
 	Combiner (boost::shared_ptr<Log> log);
 
-	void process_video (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s, double);
-	void process_video_b (boost::shared_ptr<Image> i, bool, boost::shared_ptr<Subtitle> s, double);
+	void process_video (boost::shared_ptr<const Image> i, bool, boost::shared_ptr<Subtitle> s, double);
+	void process_video_b (boost::shared_ptr<const Image> i, bool, boost::shared_ptr<Subtitle> s, double);
 
 private:
 	/** The image that we are currently working on */

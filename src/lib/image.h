@@ -131,6 +131,7 @@ class SimpleImage : public Image
 public:
 	SimpleImage (AVPixelFormat, libdcp::Size, bool);
 	SimpleImage (SimpleImage const &);
+	SimpleImage (boost::shared_ptr<const Image>);
 	SimpleImage& operator= (SimpleImage const &);
 	~SimpleImage ();
 

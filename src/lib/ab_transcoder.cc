@@ -32,6 +32,7 @@
 #include "delay_line.h"
 #include "gain.h"
 #include "combiner.h"
+#include "trimmer.h"
 
 /** @file src/ab_transcoder.cc
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -61,26 +62,48 @@ ABTranscoder::ABTranscoder (
 	_db = decoder_factory (_film_b, o);
 
 	shared_ptr<AudioStream> st = _film_a->audio_stream();
-	_matcher.reset (new Matcher (_film_a->log(), st->sample_rate(), _film_a->source_frame_rate()));
+	if (st) {
+		_matcher.reset (new Matcher (_film_a->log(), st->sample_rate(), _film_a->source_frame_rate()));
+	}
 	_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_delay() / 1000.0f));
 	_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
 
+	int const sr = st ? st->sample_rate() : 0;
+	int const trim_start = _film_a->trim_type() == Film::ENCODE ? _film_a->trim_start() : 0;
+	int const trim_end = _film_a->trim_type() == Film::ENCODE ? _film_a->trim_end() : 0;
+	_trimmer.reset (new Trimmer (
+				_film_a->log(), trim_start, trim_end, _film_a->length().get(),
+				sr, _film_a->source_frame_rate(), _film_a->dcp_frame_rate()
+				));
+	
 	/* Set up the decoder to use the film's set streams */
 	_da.video->set_subtitle_stream (_film_a->subtitle_stream ());
 	_db.video->set_subtitle_stream (_film_a->subtitle_stream ());
-	_da.audio->set_audio_stream (_film_a->audio_stream ());
+	if (_film_a->audio_stream ()) {
+		_da.audio->set_audio_stream (_film_a->audio_stream ());
+	}
 
 	_da.video->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
 	_db.video->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
 	_combiner->connect_video (_delay_line);
-	_delay_line->connect_video (_matcher);
-	_matcher->connect_video (_encoder);
+	if (_matcher) {
+		_delay_line->connect_video (_matcher);
+		_matcher->connect_video (_trimmer);
+	} else {
+		_delay_line->connect_video (_trimmer);
+	}
+	_trimmer->connect_video (_encoder);
 	
 	_da.audio->connect_audio (_delay_line);
-	_delay_line->connect_audio (_matcher);
-	_matcher->connect_audio (_gain);
-	_gain->connect_audio (_encoder);
+	if (_matcher) {
+		_delay_line->connect_audio (_matcher);
+		_matcher->connect_audio (_gain);
+	} else {
+		_delay_line->connect_audio (_gain);
+	}
+	_gain->connect_audio (_trimmer);
+	_trimmer->connect_audio (_encoder);
 }
 
 void
@@ -99,25 +122,21 @@ ABTranscoder::go ()
 		} else {
 			done[2] = true;
 		}
-
+		
 		if (_job) {
 			_da.video->set_progress (_job);
 		}
-
+		
 		if (done[0] && done[1] && done[2]) {
 			break;
 		}
 	}
-
-	if (_delay_line) {
-		_delay_line->process_end ();
-	}
+		
+	_delay_line->process_end ();
 	if (_matcher) {
 		_matcher->process_end ();
 	}
-	if (_gain) {
-		_gain->process_end ();
-	}
+	_gain->process_end ();
 	_encoder->process_end ();
 }
 			    

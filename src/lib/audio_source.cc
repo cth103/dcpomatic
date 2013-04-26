@@ -34,3 +34,9 @@ TimedAudioSource::connect_audio (shared_ptr<TimedAudioSink> s)
 {
 	Audio.connect (bind (&TimedAudioSink::process_audio, s, _1, _2));
 }
+
+void
+TimedAudioSource::connect_audio (shared_ptr<AudioSink> s)
+{
+	Audio.connect (bind (&AudioSink::process_audio, s, _1));
+}
