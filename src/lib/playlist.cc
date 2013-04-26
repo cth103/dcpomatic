@@ -276,3 +276,15 @@ Playlist::video_digest () const
 
 	return md5_digest (t.c_str(), t.length());
 }
+
+ContentVideoFrame
+Playlist::content_length () const
+{
+	float const vfr = video_frame_rate() > 0 ? video_frame_rate() : 24;
+	int const afr = audio_frame_rate() > 0 ? audio_frame_rate() : 48000;
+
+        return max (
+		video_length(),
+		ContentVideoFrame (audio_length() * vfr / afr)
+		);
+}

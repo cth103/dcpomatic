@@ -113,7 +113,9 @@ public:
 	
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
-	ContentVideoFrame video_length () const;	
+	ContentVideoFrame video_length () const;
+
+	ContentVideoFrame content_length () const;
 
 	std::vector<FFmpegSubtitleStream> ffmpeg_subtitle_streams () const;
 	boost::optional<FFmpegSubtitleStream> ffmpeg_subtitle_stream () const;

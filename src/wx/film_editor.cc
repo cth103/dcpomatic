@@ -60,6 +60,7 @@ using std::fixed;
 using std::setprecision;
 using std::list;
 using std::vector;
+using std::max;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -742,7 +743,7 @@ FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		setup_streams ();
 		setup_show_audio_sensitivity ();
-	} else if (property == VideoContentProperty::VIDEO_LENGTH) {
+	} else if (property == VideoContentProperty::VIDEO_LENGTH || property == AudioContentProperty::AUDIO_LENGTH) {
 		setup_length ();
 		boost::shared_ptr<Content> c = content.lock ();
 		if (c && c == selected_content()) {
@@ -786,17 +787,19 @@ void
 FilmEditor::setup_length ()
 {
 	stringstream s;
-	if (_film->video_frame_rate() > 0 && _film->video_length()) {
-		s << _film->video_length() << " "
-		  << wx_to_std (_("frames")) << "; " << seconds_to_hms (_film->video_length() / _film->video_frame_rate());
-	} else if (_film->video_length()) {
-		s << _film->video_length() << " "
-		  << wx_to_std (_("frames"));
-	} 
+	ContentVideoFrame const frames = _film->content_length ();
+	
+	if (frames && _film->video_frame_rate()) {
+		s << frames << " " << wx_to_std (_("frames")) << "; " << seconds_to_hms (frames / _film->video_frame_rate());
+	} else if (frames) {
+		s << frames << " " << wx_to_std (_("frames"));
+	}
+
 	_length->SetLabel (std_to_wx (s.str ()));
-	if (_film->video_length()) {
-		_trim_start->SetRange (0, _film->video_length());
-		_trim_end->SetRange (0, _film->video_length());
+	
+	if (frames) {
+		_trim_start->SetRange (0, frames);
+		_trim_end->SetRange (0, frames);
 	}
 }	
 

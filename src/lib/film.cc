@@ -1215,6 +1215,12 @@ Film::video_length () const
 	return _playlist->video_length ();
 }
 
+ContentVideoFrame
+Film::content_length () const
+{
+	return _playlist->content_length ();
+}
+
 /** Unfortunately this is needed as the GUI has FFmpeg-specific controls */
 shared_ptr<FFmpegContent>
 Film::ffmpeg () const
@@ -1311,7 +1317,7 @@ Film::content_changed (boost::weak_ptr<Content> c, int p)
 		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
 	} else if (p == AudioContentProperty::AUDIO_CHANNELS) {
 		set_audio_mapping (_playlist->default_audio_mapping ());
-	}		
+	} 
 
 	if (ui_signaller) {
 		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), c, p));

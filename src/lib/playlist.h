@@ -64,6 +64,7 @@ public:
 	ContentVideoFrame video_length () const;
 
 	AudioMapping default_audio_mapping () const;
+	ContentVideoFrame content_length () const;
 
 	enum AudioFrom {
 		AUDIO_FFMPEG,
