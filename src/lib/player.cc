@@ -224,76 +224,53 @@ Player::setup_decoders ()
 	double video_so_far = 0;
 	double audio_so_far = 0;
 	
-	if (_video) {
-		list<shared_ptr<const VideoContent> > vc = _playlist->video ();
-		for (list<shared_ptr<const VideoContent> >::iterator i = vc.begin(); i != vc.end(); ++i) {
-
-			shared_ptr<const VideoContent> c;
-			shared_ptr<VideoDecoder> d;
-			
-			/* XXX: into content? */
-			
-			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
-			if (fc) {
-				shared_ptr<FFmpegDecoder> fd (
-					new FFmpegDecoder (
-						_film, fc, _video,
-						_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
-						_subtitles
-						)
-					);
-
-				if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
-					fd->Audio.connect (bind (&Player::process_audio, this, fc, _1, _2));
-				}
-
-				c = fc;
-				d = fd;
-			}
-
-			shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
-			if (ic) {
-				c = ic;
-				d.reset (new ImageMagickDecoder (_film, ic));
-			}
-
-			d->connect_video (shared_from_this ());
-			_video_decoders.push_back (d);
-			_video_start.push_back (video_so_far);
-			video_so_far += c->video_length() / c->video_frame_rate();
-		}
-
-		_video_decoder = 0;
-	}
-
-	if (_playlist->audio_from() == Playlist::AUDIO_FFMPEG && !_video) {
-
-		/* If we're getting audio from FFmpegContent but not the video, we need a set
-		   of decoders for the audio.
-		*/
+	list<shared_ptr<const VideoContent> > vc = _playlist->video ();
+	for (list<shared_ptr<const VideoContent> >::iterator i = vc.begin(); i != vc.end(); ++i) {
 		
-		list<shared_ptr<const AudioContent> > ac = _playlist->audio ();
-		for (list<shared_ptr<const AudioContent> >::iterator i = ac.begin(); i != ac.end(); ++i) {
-
-			shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
-			assert (fc);
-			
-			shared_ptr<AudioDecoder> d (
+		shared_ptr<const VideoContent> video_content;
+		shared_ptr<const AudioContent> audio_content;
+		shared_ptr<VideoDecoder> video_decoder;
+		shared_ptr<AudioDecoder> audio_decoder;
+		
+		/* XXX: into content? */
+		
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+		if (fc) {
+			shared_ptr<FFmpegDecoder> fd (
 				new FFmpegDecoder (
 					_film, fc, _video,
 					_audio && _playlist->audio_from() == Playlist::AUDIO_FFMPEG,
 					_subtitles
 					)
 				);
-
-			d->Audio.connect (bind (&Player::process_audio, this, fc, _1, _2));
-			_audio_decoders.push_back (d);
-			_audio_start.push_back (audio_so_far);
-			audio_so_far += fc->audio_length() / fc->audio_frame_rate();
+			
+			video_content = fc;
+			audio_content = fc;
+			video_decoder = fd;
+			audio_decoder = fd;
 		}
+		
+		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
+		if (ic) {
+			video_content = ic;
+			video_decoder.reset (new ImageMagickDecoder (_film, ic));
+		}
+		
+		video_decoder->connect_video (shared_from_this ());
+		_video_decoders.push_back (video_decoder);
+		_video_start.push_back (video_so_far);
+		video_so_far += video_content->video_length() / video_content->video_frame_rate();
 
-		_sequential_audio_decoder = 0;
+		if (audio_decoder && _playlist->audio_from() == Playlist::AUDIO_FFMPEG) {
+			audio_decoder->Audio.connect (bind (&Player::process_audio, this, audio_content, _1, _2));
+			_audio_decoders.push_back (audio_decoder);
+			_audio_start.push_back (audio_so_far);
+			audio_so_far += double(audio_content->audio_length()) / audio_content->audio_frame_rate();
+		}
 	}
+	
+	_video_decoder = 0;
+	_sequential_audio_decoder = 0;
 
 	if (_playlist->audio_from() == Playlist::AUDIO_SNDFILE) {
 		
@@ -307,7 +284,6 @@ Player::setup_decoders ()
 			d->Audio.connect (bind (&Player::process_audio, this, sc, _1, _2));
 			_audio_decoders.push_back (d);
 			_audio_start.push_back (audio_so_far);
-			audio_so_far += sc->audio_length () / sc->audio_frame_rate();
 		}
 	}
 }
