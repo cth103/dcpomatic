@@ -309,10 +309,7 @@ Player::content_changed (weak_ptr<Content> w, int p)
 	}
 
 	if (p == VideoContentProperty::VIDEO_LENGTH) {
-		if (dynamic_pointer_cast<FFmpegContent> (c)) {
-			/* FFmpeg content length changes are serious; we need new decoders */
-			_have_valid_decoders = false;
-		}
+		_have_valid_decoders = false;
 	}
 }
 

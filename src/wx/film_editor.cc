@@ -1298,7 +1298,7 @@ FilmEditor::setup_content ()
 void
 FilmEditor::content_add_clicked (wxCommandEvent &)
 {
-	wxFileDialog* d = new wxFileDialog (this);
+	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
 	int const r = d->ShowModal ();
 	d->Destroy ();
 
@@ -1306,16 +1306,20 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 		return;
 	}
 
-	boost::filesystem::path p (wx_to_std (d->GetPath()));
+	wxArrayString paths;
+	d->GetPaths (paths);
 
-	if (ImageMagickContent::valid_file (p)) {
-		_film->add_content (shared_ptr<ImageMagickContent> (new ImageMagickContent (p)));
-	} else if (SndfileContent::valid_file (p)) {
-		_film->add_content (shared_ptr<SndfileContent> (new SndfileContent (p)));
-	} else {
-		_film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (p)));
+	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
+		boost::filesystem::path p (wx_to_std (paths[i]));
+
+		if (ImageMagickContent::valid_file (p)) {
+			_film->add_content (shared_ptr<ImageMagickContent> (new ImageMagickContent (p)));
+		} else if (SndfileContent::valid_file (p)) {
+			_film->add_content (shared_ptr<SndfileContent> (new SndfileContent (p)));
+		} else {
+			_film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (p)));
+		}
 	}
-	
 }
 
 void
