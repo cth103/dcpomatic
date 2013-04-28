@@ -103,8 +103,6 @@ Playlist::setup ()
 
 		_content_connections.push_back ((*i)->Changed.connect (bind (&Playlist::content_changed, this, _1, _2)));
 	}
-
-	Changed ();
 }
 
 /** @return Length of our audio */
@@ -328,6 +326,8 @@ Playlist::set_from_xml (shared_ptr<const cxml::Node> node)
 	}
 
 	_loop = node->number_child<int> ("Loop");
+
+	setup ();
 }
 
 void
@@ -345,6 +345,7 @@ Playlist::add (shared_ptr<Content> c)
 {
 	_content.push_back (c);
 	setup ();
+	Changed ();
 }
 
 void
@@ -356,6 +357,7 @@ Playlist::remove (shared_ptr<Content> c)
 	}
 
 	setup ();
+	Changed ();
 }
 
 void
@@ -372,6 +374,7 @@ Playlist::move_earlier (shared_ptr<Content> c)
 	swap (*i, *j);
 
 	setup ();
+	Changed ();
 }
 
 void
@@ -391,6 +394,7 @@ Playlist::move_later (shared_ptr<Content> c)
 	swap (*i, *j);
 
 	setup ();
+	Changed ();
 }
 
 void
