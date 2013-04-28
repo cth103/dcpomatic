@@ -17,6 +17,7 @@
 
 */
 
+#include <libcxml/cxml.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
 #include "playlist.h"
@@ -26,6 +27,7 @@
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
 #include "imagemagick_decoder.h"
+#include "imagemagick_content.h"
 #include "job.h"
 
 using std::list;
@@ -41,12 +43,24 @@ using boost::lexical_cast;
 
 Playlist::Playlist ()
 	: _audio_from (AUDIO_FFMPEG)
+	, _loop (1)
 {
 
 }
 
+Playlist::Playlist (shared_ptr<const Playlist> other)
+	: _audio_from (other->_audio_from)
+	, _loop (other->_loop)
+{
+	for (ContentList::const_iterator i = other->_content.begin(); i != other->_content.end(); ++i) {
+		_content.push_back ((*i)->clone ());
+	}
+
+	setup ();
+}
+
 void
-Playlist::setup (ContentList content)
+Playlist::setup ()
 {
 	_audio_from = AUDIO_FFMPEG;
 
@@ -59,7 +73,7 @@ Playlist::setup (ContentList content)
 	
 	_content_connections.clear ();
 
-	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
+	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 
 		/* Video is video */
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
@@ -114,7 +128,7 @@ Playlist::audio_length () const
 		break;
 	}
 
-	return len;
+	return len * _loop;
 }
 
 /** @return number of audio channels */
@@ -182,7 +196,7 @@ Playlist::video_length () const
 		len += (*i)->video_length ();
 	}
 	
-	return len;
+	return len * _loop;
 }
 
 bool
@@ -258,6 +272,8 @@ Playlist::audio_digest () const
 		}
 	}
 
+	t += lexical_cast<string> (_loop);
+
 	return md5_digest (t.c_str(), t.length());
 }
 
@@ -274,6 +290,8 @@ Playlist::video_digest () const
 		}
 	}
 
+	t += lexical_cast<string> (_loop);
+
 	return md5_digest (t.c_str(), t.length());
 }
 
@@ -287,4 +305,110 @@ Playlist::content_length () const
 		video_length(),
 		ContentVideoFrame (audio_length() * vfr / afr)
 		);
+}
+
+void
+Playlist::set_from_xml (shared_ptr<const cxml::Node> node)
+{
+	list<shared_ptr<cxml::Node> > c = node->node_children ("Content");
+	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
+
+		string const type = (*i)->string_child ("Type");
+		boost::shared_ptr<Content> c;
+		
+		if (type == "FFmpeg") {
+			c.reset (new FFmpegContent (*i));
+		} else if (type == "ImageMagick") {
+			c.reset (new ImageMagickContent (*i));
+		} else if (type == "Sndfile") {
+			c.reset (new SndfileContent (*i));
+		}
+
+		_content.push_back (c);
+	}
+
+	_loop = node->number_child<int> ("Loop");
+}
+
+void
+Playlist::as_xml (xmlpp::Node* node)
+{
+	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
+		(*i)->as_xml (node->add_child ("Content"));
+	}
+
+	node->add_child("Loop")->add_child_text(lexical_cast<string> (_loop));
+}
+
+void
+Playlist::add (shared_ptr<Content> c)
+{
+	_content.push_back (c);
+	setup ();
+}
+
+void
+Playlist::remove (shared_ptr<Content> c)
+{
+	ContentList::iterator i = find (_content.begin(), _content.end(), c);
+	if (i != _content.end ()) {
+		_content.erase (i);
+	}
+
+	setup ();
+}
+
+void
+Playlist::move_earlier (shared_ptr<Content> c)
+{
+	ContentList::iterator i = find (_content.begin(), _content.end(), c);
+	if (i == _content.begin () || i == _content.end()) {
+		return;
+	}
+
+	ContentList::iterator j = i;
+	--j;
+
+	swap (*i, *j);
+
+	setup ();
+}
+
+void
+Playlist::move_later (shared_ptr<Content> c)
+{
+	ContentList::iterator i = find (_content.begin(), _content.end(), c);
+	if (i == _content.end()) {
+		return;
+	}
+
+	ContentList::iterator j = i;
+	++j;
+	if (j == _content.end ()) {
+		return;
+	}
+
+	swap (*i, *j);
+
+	setup ();
+}
+
+void
+Playlist::set_loop (int l)
+{
+	_loop = l;
+	Changed ();
+}
+		
+shared_ptr<FFmpegContent>
+Playlist::ffmpeg () const
+{
+	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
+		if (fc) {
+			return fc;
+		}
+	}
+
+	return shared_ptr<FFmpegContent> ();
 }
