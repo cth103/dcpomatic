@@ -36,15 +36,12 @@ using boost::optional;
 SndfileDecoder::SndfileDecoder (shared_ptr<Film> f, DecodeOptions o)
 	: Decoder (f, o)
 	, AudioDecoder (f, o)
+	, _done (0)
+	, _frames (0)
 {
-	sf_count_t frames;
-	vector<SNDFILE*> sf = open_files (frames);
-	close_files (sf);
-}
-
-vector<SNDFILE*>
-SndfileDecoder::open_files (sf_count_t & frames)
-{
+	_done = 0;
+	_frames = 0;
+	
 	vector<string> const files = _film->external_audio ();
 
 	int N = 0;
@@ -55,16 +52,14 @@ SndfileDecoder::open_files (sf_count_t & frames)
 	}
 
 	if (N == 0) {
-		return vector<SNDFILE*> ();
+		return;
 	}
 
 	bool first = true;
-	frames = 0;
 	
-	vector<SNDFILE*> sndfiles;
 	for (size_t i = 0; i < (size_t) N; ++i) {
 		if (files[i].empty ()) {
-			sndfiles.push_back (0);
+			_sndfiles.push_back (0);
 		} else {
 			SF_INFO info;
 			SNDFILE* s = sf_open (files[i].c_str(), SFM_READ, &info);
@@ -76,7 +71,7 @@ SndfileDecoder::open_files (sf_count_t & frames)
 				throw DecodeError (_("external audio files must be mono"));
 			}
 			
-			sndfiles.push_back (s);
+			_sndfiles.push_back (s);
 
 			if (first) {
 				shared_ptr<SndfileStream> st (
@@ -87,60 +82,47 @@ SndfileDecoder::open_files (sf_count_t & frames)
 				
 				_audio_streams.push_back (st);
 				_audio_stream = st;
-				frames = info.frames;
+				_frames = info.frames;
 				first = false;
 			} else {
-				if (info.frames != frames) {
+				if (info.frames != _frames) {
 					throw DecodeError (_("external audio files have differing lengths"));
 				}
 			}
 		}
 	}
-
-	return sndfiles;
 }
 
 bool
 SndfileDecoder::pass ()
 {
-	sf_count_t frames;
-	vector<SNDFILE*> sndfiles = open_files (frames);
-	if (sndfiles.empty()) {
-		return true;
-	}
-
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
 	sf_count_t const block = _audio_stream->sample_rate() / 2;
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
-	sf_count_t done = 0;
-	while (frames > 0) {
-		sf_count_t const this_time = min (block, frames);
-		for (size_t i = 0; i < sndfiles.size(); ++i) {
-			if (!sndfiles[i]) {
-				audio->make_silent (i);
-			} else {
-				sf_read_float (sndfiles[i], audio->data(i), block);
-			}
+	sf_count_t const this_time = min (block, _frames - _done);
+	for (size_t i = 0; i < _sndfiles.size(); ++i) {
+		if (!_sndfiles[i]) {
+			audio->make_silent (i);
+		} else {
+			sf_read_float (_sndfiles[i], audio->data(i), this_time);
 		}
-
-		audio->set_frames (this_time);
-		Audio (audio, double(done) / _audio_stream->sample_rate());
-		done += this_time;
-		frames -= this_time;
 	}
 
-	close_files (sndfiles);
+	audio->set_frames (this_time);
+	Audio (audio, double(_done) / _audio_stream->sample_rate());
+	_done += this_time;
 
-	return true;
+	return (_done == _frames);
 }
 
-void
-SndfileDecoder::close_files (vector<SNDFILE*> const & sndfiles)
+SndfileDecoder::~SndfileDecoder ()
 {
-	for (size_t i = 0; i < sndfiles.size(); ++i) {
-		sf_close (sndfiles[i]);
+	for (size_t i = 0; i < _sndfiles.size(); ++i) {
+		if (_sndfiles[i]) {
+			sf_close (_sndfiles[i]);
+		}
 	}
 }
 

@@ -1,3 +1,7 @@
+2013-04-28  Carl Hetherington  <cth@carlh.net>
+
+	* Fix broken external audio support.
+
 2013-04-24  Carl Hetherington  <cth@carlh.net>
 
 	* Allow use of existing empty directories for new films (without

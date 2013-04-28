@@ -45,10 +45,12 @@ class SndfileDecoder : public AudioDecoder
 {
 public:
 	SndfileDecoder (boost::shared_ptr<Film>, DecodeOptions);
+	~SndfileDecoder ();
 
 	bool pass ();
 
 private:
-	std::vector<SNDFILE*> open_files (sf_count_t &);
-	void close_files (std::vector<SNDFILE*> const &);
+	std::vector<SNDFILE*> _sndfiles;
+	sf_count_t _done;
+	sf_count_t _frames;
 };
