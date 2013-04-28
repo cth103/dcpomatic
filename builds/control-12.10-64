@@ -18,7 +18,7 @@ Package: dcpomatic-dbg
 Architecture: amd64
 Section: debug
 Priority: extra
-Depends: ${dvdomatic:Depends}, ${misc:Depends}
-Description: debugging symbols for dvdomatic
-  This package contains the debugging symbols for dvdomatic.
+Depends: ${dcpomatic:Depends}, ${misc:Depends}
+Description: debugging symbols for dcpomatic
+  This package contains the debugging symbols for dcpomatic.
 
