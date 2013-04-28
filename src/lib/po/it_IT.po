@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-22 15:06+0100\n"
-"PO-Revision-Date: 2013-04-03 15:04+0100\n"
+"PO-Revision-Date: 2013-04-28 10:26+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
 "Language: Italiano\n"
@@ -46,9 +46,8 @@ msgid "16:9 within Flat"
 msgstr "16:9 all'interno di Flat"
 
 #: src/lib/format.cc:115
-#, fuzzy
 msgid "16:9 within Scope"
-msgstr "16:9 all'interno di Flat"
+msgstr "16:9 all'interno di Scope"
 
 #: src/lib/filter.cc:88
 msgid "3D denoiser"
@@ -56,7 +55,7 @@ msgstr "Riduttore di rumore 3D"
 
 #: src/lib/format.cc:79
 msgid "4:3"
-msgstr ""
+msgstr "4:3"
 
 #: src/lib/format.cc:87
 msgid "4:3 within Flat"
@@ -183,7 +182,7 @@ msgstr "Esamino il contenuto"
 
 #: src/lib/examine_content_job.cc:58
 msgid "Examine content of %1"
-msgstr "Esamo il contenuto di %1"
+msgstr "Esamino il contenuto di %1"
 
 #: src/lib/filter.cc:72
 msgid "Experimental horizontal deblocking filter 1"
@@ -301,7 +300,7 @@ msgstr "Riduzione del rumore"
 
 #: src/lib/job.cc:302
 msgid "OK (ran for %1)"
-msgstr "OK (procede al %1)"
+msgstr "OK (eseguito in %1)"
 
 #: src/lib/filter.cc:91
 msgid "Overcomplete wavelet denoiser"
@@ -473,7 +472,7 @@ msgstr "non riesco ad aprire il file dell'audio esterno per leggerlo"
 
 #: src/lib/exceptions.cc:29
 msgid "could not open file %1"
-msgstr "non riesco ad aprire il file per leggerlo"
+msgstr "non riesco ad aprire %1"
 
 #: src/lib/dcp_video_frame.cc:388
 msgid "could not open file for reading"
@@ -481,11 +480,11 @@ msgstr "non riesco ad aprire il file per leggerlo"
 
 #: src/lib/exceptions.cc:44
 msgid "could not read from file %1 (%2)"
-msgstr "Non posso creare la directory remota %1 (%2)"
+msgstr "non posso leggere dal file %1 (%2)"
 
 #: src/lib/encoder.cc:137 src/lib/encoder.cc:314
 msgid "could not run sample-rate converter"
-msgstr "non riesco a lanciare il convertitore della frequenza di campionamento"
+msgstr "non riesco a eseguire il convertitore della frequenza di campionamento"
 
 #: src/lib/scp_dcp_job.cc:86
 msgid "could not start SCP session (%1)"
@@ -497,7 +496,7 @@ msgstr "non posso avviare la sessione SSH"
 
 #: src/lib/exceptions.cc:50
 msgid "could not write to file %1 (%2)"
-msgstr "Non posso scrivere il file remoto (%1)"
+msgstr "non posso scrivere il file (%1)"
 
 #: src/lib/sndfile_decoder.cc:94
 msgid "external audio files have differing lengths"
@@ -549,7 +548,7 @@ msgstr "nome"
 
 #: src/lib/imagemagick_decoder.cc:60
 msgid "no still image files found"
-msgstr "file del fermo immagine non trovati"
+msgstr "file immagini statiche non trovati"
 
 #: src/lib/subtitle.cc:58
 msgid "non-bitmap subtitles not yet supported"
