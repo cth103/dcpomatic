@@ -299,6 +299,10 @@ Player::setup_decoders ()
 double
 Player::last_video_time () const
 {
+	if (_video_decoder >= _video_decoders.size ()) {
+		return 0;
+	}
+	
 	return _video_start[_video_decoder] + _video_decoders[_video_decoder]->last_content_time ();
 }
 
