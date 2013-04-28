@@ -48,9 +48,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 
 SndfileDecoder::~SndfileDecoder ()
 {
-	if (_sndfile) {
-		sf_close (_sndfile);
-	}
+	sf_close (_sndfile);
 }
 
 bool

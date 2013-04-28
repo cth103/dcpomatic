@@ -36,9 +36,6 @@ public:
 	int audio_frame_rate () const;
 
 private:
-	SNDFILE* open_file (sf_count_t &);
-	void close_file (SNDFILE*);
-
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;

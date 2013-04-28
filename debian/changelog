@@ -1,4 +1,28 @@
-dcpomatic (0.84-1) UNRELEASED; urgency=low
+dvdomatic (0.88-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 28 Apr 2013 16:28:17 +0100
+
+dvdomatic (0.87-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 26 Apr 2013 09:53:27 +0100
+
+dvdomatic (0.86-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 23 Apr 2013 08:13:13 +0100
+
+dvdomatic (0.85-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 23 Apr 2013 00:08:20 +0100
+
+dvdomatic (0.84-1) UNRELEASED; urgency=low
 
   * New upstream release.
 

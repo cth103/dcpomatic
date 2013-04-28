@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-22 15:06+0100\n"
-"PO-Revision-Date: 2013-04-03 12:37+0100\n"
+"PO-Revision-Date: 2013-04-28 10:27+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
 "Language: Italiano\n"
@@ -27,7 +27,7 @@ msgstr "(riavviare DCP-o-matic per vedere i cambiamenti di lingua)"
 
 #: src/wx/film_editor.cc:1276
 msgid "1 channel"
-msgstr "Canale 1"
+msgstr "1 canale"
 
 #: src/wx/film_editor.cc:184
 msgid "A/B"
@@ -56,7 +56,7 @@ msgstr "Lingua dell'audio (es. EN)"
 #: src/wx/film_editor.cc:824
 #, c-format
 msgid "Audio will be resampled from %dHz to %dHz\n"
-msgstr ""
+msgstr "L'Audio sarà ricampionato da %dHz a %dHz\n"
 
 #: src/wx/job_wrapper.cc:38
 #, c-format
@@ -126,7 +126,7 @@ msgstr "Crea nella cartella"
 #: src/wx/film_editor.cc:1371
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Tagliato da %dx%d (%.2f:1)\n"
 
 #: src/wx/dci_metadata_dialog.cc:28
 msgid "DCI name"
@@ -224,7 +224,7 @@ msgstr "Fotogrammi già codificati"
 
 #: src/wx/gain_calculator_dialog.cc:27
 msgid "Gain Calculator"
-msgstr "Calcola il guadagno audio"
+msgstr "Calcolatore del guadagno audio"
 
 #: src/wx/properties_dialog.cc:59
 msgid "Gb"
@@ -285,7 +285,7 @@ msgstr "Frequenza fotogrammi originale"
 #: src/wx/film_editor.cc:1360
 #, c-format
 msgid "Original video is %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Il video originale è %dx%d (%.2f:1)\n"
 
 #: src/wx/dci_metadata_dialog.cc:57
 msgid "Package Type (e.g. OV)"
@@ -294,7 +294,7 @@ msgstr "Tipo di Package (es. OV)"
 #: src/wx/film_editor.cc:1392
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Riempito con nero a %dx%d (%.2f:1)\n"
 
 #: src/wx/audio_dialog.cc:60
 msgid "Peak"
@@ -339,7 +339,7 @@ msgstr "In corso"
 #: src/wx/film_editor.cc:1384
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
-msgstr ""
+msgstr "Scalato a %dx%d (%.2f:1)\n"
 
 #: src/wx/film_editor.cc:319
 msgid "Scaler"
@@ -438,9 +438,8 @@ msgid "Trim frames"
 msgstr "Taglia fotogrammi"
 
 #: src/wx/film_editor.cc:179
-#, fuzzy
 msgid "Trim method"
-msgstr "Taglia fotogrammi"
+msgstr "Metodo di taglio"
 
 #: src/wx/film_editor.cc:125
 msgid "Trust content's header"
@@ -472,7 +471,7 @@ msgstr "Video"
 
 #: src/wx/film_editor.cc:428
 msgid "With Subtitles"
-msgstr "Con Sottotitoli"
+msgstr "Con sottotitoli"
 
 #: src/wx/film_editor.cc:1278
 msgid "channels"
@@ -488,11 +487,11 @@ msgstr "dB"
 
 #: src/wx/film_editor.cc:212
 msgid "encode all frames and play the subset"
-msgstr ""
+msgstr "Codifica tutti i fotogrammi e riproduci la selezione"
 
 #: src/wx/film_editor.cc:213
 msgid "encode only the subset"
-msgstr ""
+msgstr "codifica solo la selezione"
 
 #: src/wx/film_editor.cc:694 src/wx/film_editor.cc:697
 msgid "frames"
@@ -505,7 +504,7 @@ msgstr "ms"
 
 #: src/wx/film_editor.cc:440
 msgid "pixels"
-msgstr ""
+msgstr "pizels"
 
 #. / TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
 #: src/wx/film_editor.cc:197
