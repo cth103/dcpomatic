@@ -27,6 +27,7 @@
 #include <wx/filepicker.h>
 
 class DirPickerCtrl;
+class wxNotebook;
 
 class ServerDescription;
 
@@ -46,6 +47,7 @@ private:
 	void tms_user_changed (wxCommandEvent &);
 	void tms_password_changed (wxCommandEvent &);
 	void num_local_encoding_threads_changed (wxCommandEvent &);
+	void default_still_length_changed (wxCommandEvent &);
 	void default_directory_changed (wxCommandEvent &);
 	void edit_default_dci_metadata_clicked (wxCommandEvent &);
 	void reference_scaler_changed (wxCommandEvent &);
@@ -59,6 +61,16 @@ private:
 	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();
 
+	void make_misc_panel ();
+	void make_tms_panel ();
+	void make_ab_panel ();
+	void make_servers_panel ();
+
+	wxNotebook* _notebook;
+	wxPanel* _misc_panel;
+	wxPanel* _tms_panel;
+	wxPanel* _ab_panel;
+	wxPanel* _servers_panel;
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxTextCtrl* _tms_ip;
@@ -66,6 +78,7 @@ private:
 	wxTextCtrl* _tms_user;
 	wxTextCtrl* _tms_password;
 	wxSpinCtrl* _num_local_encoding_threads;
+	wxSpinCtrl* _default_still_length;
 #ifdef __WXMSW__	
 	DirPickerCtrl* _default_directory;
 #else

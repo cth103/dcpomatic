@@ -106,6 +106,8 @@ public:
 
 	/* Proxies for some Playlist methods */
 
+	ContentList content () const;
+
 	ContentAudioFrame audio_length () const;
 	int audio_channels () const;
 	int audio_frame_rate () const;
@@ -125,6 +127,9 @@ public:
 	void set_ffmpeg_subtitle_stream (FFmpegSubtitleStream);
 	void set_ffmpeg_audio_stream (FFmpegAudioStream);
 
+	void set_loop (int);
+	int loop () const;
+
 	enum TrimType {
 		CPL,
 		ENCODE
@@ -138,8 +143,9 @@ public:
 		NAME,
 		USE_DCI_NAME,
 		TRUST_CONTENT_HEADERS,
-		/** The content list has changed (i.e. content has been added, moved around or removed) */
+		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
 		CONTENT,
+		LOOP,
 		DCP_CONTENT_TYPE,
 		FORMAT,
 		CROP,
@@ -182,11 +188,6 @@ public:
 	bool trust_content_headers () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _trust_content_headers;
-	}
-
-	ContentList content () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _content;
 	}
 
 	DCPContentType const * dcp_content_type () const {
@@ -336,8 +337,8 @@ private:
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
 	void read_metadata ();
-	void content_changed (boost::weak_ptr<Content>, int);
-	boost::shared_ptr<FFmpegContent> ffmpeg () const;
+	void playlist_changed ();
+	void playlist_content_changed (boost::weak_ptr<Content>, int);
 	void setup_default_audio_mapping ();
 	std::string filename_safe_name () const;
 
@@ -359,7 +360,6 @@ private:
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;
 	bool _trust_content_headers;
-	ContentList _content;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */

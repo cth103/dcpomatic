@@ -51,8 +51,15 @@ class Playlist
 {
 public:
 	Playlist ();
+	Playlist (boost::shared_ptr<const Playlist>);
 
-	void setup (ContentList);
+	void as_xml (xmlpp::Node *);
+	void set_from_xml (boost::shared_ptr<const cxml::Node>);
+
+	void add (boost::shared_ptr<Content>);
+	void remove (boost::shared_ptr<Content>);
+	void move_earlier (boost::shared_ptr<Content>);
+	void move_later (boost::shared_ptr<Content>);
 
 	ContentAudioFrame audio_length () const;
 	int audio_channels () const;
@@ -75,6 +82,12 @@ public:
 		return _audio_from;
 	}
 
+	ContentList content () const {
+		return _content;
+	}
+
+	boost::shared_ptr<FFmpegContent> ffmpeg () const;
+
 	std::list<boost::shared_ptr<const VideoContent> > video () const {
 		return _video;
 	}
@@ -86,21 +99,32 @@ public:
 	std::string audio_digest () const;
 	std::string video_digest () const;
 
+	int loop () const {
+		return _loop;
+	}
+	
+	void set_loop (int l);
+
 	mutable boost::signals2::signal<void ()> Changed;
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 	
 private:
+	void setup ();
 	void content_changed (boost::weak_ptr<Content>, int);
 
 	/** where we should get our audio from */
 	AudioFrom _audio_from;
 
+	/** all our content */
+	ContentList _content;
 	/** all our content which contains video */
 	std::list<boost::shared_ptr<const VideoContent> > _video;
 	/** all our content which contains audio.  This may contain the same objects
 	 *  as _video for FFmpegContent.
 	 */
 	std::list<boost::shared_ptr<const AudioContent> > _audio;
+
+	int _loop;
 
 	std::list<boost::signals2::connection> _content_connections;
 };

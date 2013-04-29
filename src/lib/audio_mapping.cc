@@ -115,7 +115,7 @@ AudioMapping::set_from_xml (ContentList const & content, shared_ptr<const cxml::
 			continue;
 		}
 
-		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<AudioContent> (*j);
+		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*j);
 		assert (ac);
 
 		add (AudioMapping::Channel (ac, (*i)->number_child<int> ("ContentIndex")), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));

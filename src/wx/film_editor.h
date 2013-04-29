@@ -93,6 +93,8 @@ private:
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 	void edit_filters_clicked (wxCommandEvent &);
+	void loop_content_toggled (wxCommandEvent &);
+	void loop_count_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -113,6 +115,7 @@ private:
 	void setup_length ();
 	void setup_content_information ();
 	void setup_content_button_sensitivity ();
+	void setup_loop_sensitivity ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
@@ -143,6 +146,8 @@ private:
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxTextCtrl* _content_information;
+	wxCheckBox* _loop_content;
+	wxSpinCtrl* _loop_count;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;

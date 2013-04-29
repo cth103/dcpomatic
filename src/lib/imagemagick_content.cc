@@ -20,6 +20,7 @@
 #include <libcxml/cxml.h>
 #include "imagemagick_content.h"
 #include "imagemagick_decoder.h"
+#include "config.h"
 #include "compose.hpp"
 
 #include "i18n.h"
@@ -73,7 +74,7 @@ ImageMagickContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool qu
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		/* Initial length */
-		_video_length = 10 * 24;
+		_video_length = Config::instance()->default_still_length() * 24;
 	}
 	
 	take_from_video_decoder (decoder);

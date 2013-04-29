@@ -107,6 +107,10 @@ public:
 		return _language;
 	}
 
+	int default_still_length () const {
+		return _default_still_length;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -169,7 +173,11 @@ public:
 	void unset_language () {
 		_language = boost::none;
 	}
-	
+
+	void set_default_still_length (int s) {
+		_default_still_length = s;
+	}
+
 	void write () const;
 
 	static Config* instance ();
@@ -207,6 +215,7 @@ private:
 	/** Default DCI metadata for newly-created Films */
 	DCIMetadata _default_dci_metadata;
 	boost::optional<std::string> _language;
+	int _default_still_length;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

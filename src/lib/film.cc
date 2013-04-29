@@ -113,7 +113,8 @@ Film::Film (string d, bool must_exist)
 {
 	set_dci_date_today ();
 
-	_playlist->ContentChanged.connect (bind (&Film::content_changed, this, _1, _2));
+	_playlist->Changed.connect (bind (&Film::playlist_changed, this));
+	_playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
 	
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
@@ -156,7 +157,7 @@ Film::Film (Film const & o)
 	: boost::enable_shared_from_this<Film> (o)
 	/* note: the copied film shares the original's log */
 	, _log               (o._log)
-	, _playlist          (new Playlist)
+	, _playlist          (new Playlist (o._playlist))
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
@@ -182,13 +183,7 @@ Film::Film (Film const & o)
 	, _dci_date          (o._dci_date)
 	, _dirty             (o._dirty)
 {
-	for (ContentList::const_iterator i = o._content.begin(); i != o._content.end(); ++i) {
-		_content.push_back ((*i)->clone ());
-	}
-	
-	_playlist->ContentChanged.connect (bind (&Film::content_changed, this, _1, _2));
-	
-	_playlist->setup (_content);
+	_playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
 }
 
 string
@@ -320,7 +315,7 @@ Film::make_dcp ()
 		throw MissingSettingError (_("format"));
 	}
 
-	if (content().empty ()) {
+	if (_playlist->content().empty ()) {
 		throw MissingSettingError (_("content"));
 	}
 
@@ -405,8 +400,6 @@ Film::encoded_frames () const
 void
 Film::write_metadata () const
 {
-	ContentList the_content = content ();
-	
 	boost::mutex::scoped_lock lm (_state_mutex);
 	LocaleGuard lg;
 
@@ -460,10 +453,7 @@ Film::write_metadata () const
 	root->add_child("DCPFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 	_audio_mapping.as_xml (root->add_child("AudioMapping"));
-
-	for (ContentList::iterator i = the_content.begin(); i != the_content.end(); ++i) {
-		(*i)->as_xml (root->add_child ("Content"));
-	}
+	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
 	
@@ -537,29 +527,10 @@ Film::read_metadata ()
 	_dcp_frame_rate = f.number_child<int> ("DCPFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 
-	list<shared_ptr<cxml::Node> > c = f.node_children ("Content");
-	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
-
-		string const type = (*i)->string_child ("Type");
-		boost::shared_ptr<Content> c;
-		
-		if (type == "FFmpeg") {
-			c.reset (new FFmpegContent (*i));
-		} else if (type == "ImageMagick") {
-			c.reset (new ImageMagickContent (*i));
-		} else if (type == "Sndfile") {
-			c.reset (new SndfileContent (*i));
-		}
-
-		_content.push_back (c);
-	}
-
-	/* This must come after we've loaded the content, as we're looking things up in _content */
-	_audio_mapping.set_from_xml (_content, f.node_child ("AudioMapping"));
+	_playlist->set_from_xml (f.node_child ("Playlist"));
+	_audio_mapping.set_from_xml (_playlist->content(), f.node_child ("AudioMapping"));
 
 	_dirty = false;
-
-	_playlist->setup (_content);
 }
 
 libdcp::Size
@@ -766,10 +737,11 @@ Film::set_trust_content_headers (bool t)
 	
 	signal_changed (TRUST_CONTENT_HEADERS);
 
-	if (!_trust_content_headers && !content().empty()) {
+	
+	ContentList content = _playlist->content ();
+	if (!_trust_content_headers && !content.empty()) {
 		/* We just said that we don't trust the content's header */
-		ContentList c = content ();
-		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 			examine_content (*i);
 		}
 	}
@@ -1023,7 +995,6 @@ Film::signal_changed (Property p)
 
 	switch (p) {
 	case Film::CONTENT:
-		_playlist->setup (content ());
 		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
 		set_audio_mapping (_playlist->default_audio_mapping ());
 		break;
@@ -1104,73 +1075,35 @@ Film::player () const
 	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
 }
 
+ContentList
+Film::content () const
+{
+	return _playlist->content ();
+}
+
 void
 Film::add_content (shared_ptr<Content> c)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_content.push_back (c);
-	}
-
-	signal_changed (CONTENT);
-
+	_playlist->add (c);
 	examine_content (c);
 }
 
 void
 Film::remove_content (shared_ptr<Content> c)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		ContentList::iterator i = find (_content.begin(), _content.end(), c);
-		if (i != _content.end ()) {
-			_content.erase (i);
-		}
-	}
-
-	signal_changed (CONTENT);
+	_playlist->remove (c);
 }
 
 void
 Film::move_content_earlier (shared_ptr<Content> c)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		ContentList::iterator i = find (_content.begin(), _content.end(), c);
-		if (i == _content.begin () || i == _content.end()) {
-			return;
-		}
-
-		ContentList::iterator j = i;
-		--j;
-
-		swap (*i, *j);
-	}
-
-	signal_changed (CONTENT);
+	_playlist->move_earlier (c);
 }
 
 void
 Film::move_content_later (shared_ptr<Content> c)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		ContentList::iterator i = find (_content.begin(), _content.end(), c);
-		if (i == _content.end()) {
-			return;
-		}
-
-		ContentList::iterator j = i;
-		++j;
-		if (j == _content.end ()) {
-			return;
-		}
-
-		swap (*i, *j);
-	}
-
-	signal_changed (CONTENT);
-
+	_playlist->move_later (c);
 }
 
 ContentAudioFrame
@@ -1221,26 +1154,10 @@ Film::content_length () const
 	return _playlist->content_length ();
 }
 
-/** Unfortunately this is needed as the GUI has FFmpeg-specific controls */
-shared_ptr<FFmpegContent>
-Film::ffmpeg () const
-{
-	boost::mutex::scoped_lock lm (_state_mutex);
-	
-	for (ContentList::const_iterator i = _content.begin (); i != _content.end(); ++i) {
-		shared_ptr<FFmpegContent> f = boost::dynamic_pointer_cast<FFmpegContent> (*i);
-		if (f) {
-			return f;
-		}
-	}
-
-	return shared_ptr<FFmpegContent> ();
-}
-
 vector<FFmpegSubtitleStream>
 Film::ffmpeg_subtitle_streams () const
 {
-	shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
 	if (f) {
 		return f->subtitle_streams ();
 	}
@@ -1251,7 +1168,7 @@ Film::ffmpeg_subtitle_streams () const
 boost::optional<FFmpegSubtitleStream>
 Film::ffmpeg_subtitle_stream () const
 {
-	shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
 	if (f) {
 		return f->subtitle_stream ();
 	}
@@ -1262,7 +1179,7 @@ Film::ffmpeg_subtitle_stream () const
 vector<FFmpegAudioStream>
 Film::ffmpeg_audio_streams () const
 {
-	shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
 	if (f) {
 		return f->audio_streams ();
 	}
@@ -1273,7 +1190,7 @@ Film::ffmpeg_audio_streams () const
 boost::optional<FFmpegAudioStream>
 Film::ffmpeg_audio_stream () const
 {
-	shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
 	if (f) {
 		return f->audio_stream ();
 	}
@@ -1284,7 +1201,7 @@ Film::ffmpeg_audio_stream () const
 void
 Film::set_ffmpeg_subtitle_stream (FFmpegSubtitleStream s)
 {
-	shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
 	if (f) {
 		f->set_subtitle_stream (s);
 	}
@@ -1293,7 +1210,7 @@ Film::set_ffmpeg_subtitle_stream (FFmpegSubtitleStream s)
 void
 Film::set_ffmpeg_audio_stream (FFmpegAudioStream s)
 {
-	shared_ptr<FFmpegContent> f = ffmpeg ();
+	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
 	if (f) {
 		f->set_audio_stream (s);
 	}
@@ -1311,7 +1228,7 @@ Film::set_audio_mapping (AudioMapping m)
 }
 
 void
-Film::content_changed (boost::weak_ptr<Content> c, int p)
+Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
@@ -1322,4 +1239,22 @@ Film::content_changed (boost::weak_ptr<Content> c, int p)
 	if (ui_signaller) {
 		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), c, p));
 	}
+}
+
+void
+Film::playlist_changed ()
+{
+	signal_changed (CONTENT);
+}	
+
+int
+Film::loop () const
+{
+	return _playlist->loop ();
+}
+
+void
+Film::set_loop (int c)
+{
+	_playlist->set_loop (c);
 }

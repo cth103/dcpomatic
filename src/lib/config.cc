@@ -37,6 +37,7 @@ using std::string;
 using std::ofstream;
 using std::list;
 using boost::shared_ptr;
+using boost::lexical_cast;
 using boost::optional;
 
 Config* Config::_instance = 0;
@@ -48,6 +49,7 @@ Config::Config ()
 	, _reference_scaler (Scaler::from_id (N_("bicubic")))
 	, _tms_path (N_("."))
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _default_still_length (10)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -94,6 +96,7 @@ Config::Config ()
 
 	_language = f.optional_string_child ("Language");
 	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
+	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 }
 
 void
@@ -180,9 +183,9 @@ Config::write () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
-	root->add_child("NumLocalEncodingThreads")->add_child_text (boost::lexical_cast<string> (_num_local_encoding_threads));
+	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
-	root->add_child("ServerPort")->add_child_text (boost::lexical_cast<string> (_server_port));
+	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
 	if (_reference_scaler) {
 		root->add_child("ReferenceScaler")->add_child_text (_reference_scaler->id ());
 	}
@@ -207,6 +210,8 @@ Config::write () const
 	}
 
 	_default_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
+
+	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
 
 	doc.write_to_file_formatted (file (false));
 }
