@@ -40,13 +40,23 @@ AudioSource::connect_audio (shared_ptr<AudioSink> s)
 }
 
 void
-TimedAudioSource::connect_audio (shared_ptr<TimedAudioSink> s)
+TimedAudioSource::connect_audio (shared_ptr<AudioSink> s)
 {
-	Audio.connect (bind (&TimedAudioSink::process_audio, s, _1, _2));
+	Audio.connect (bind (process_audio_proxy, weak_ptr<AudioSink> (s), _1));
+}
+
+static void
+timed_process_audio_proxy (weak_ptr<TimedAudioSink> sink, shared_ptr<const AudioBuffers> audio, double t)
+{
+	shared_ptr<TimedAudioSink> p = sink.lock ();
+	if (p) {
+		p->process_audio (audio, t);
+	}
 }
 
 void
-TimedAudioSource::connect_audio (shared_ptr<AudioSink> s)
+TimedAudioSource::connect_audio (shared_ptr<TimedAudioSink> s)
 {
-	Audio.connect (bind (&AudioSink::process_audio, s, _1));
+	Audio.connect (bind (timed_process_audio_proxy, weak_ptr<TimedAudioSink> (s), _1, _2));
 }
+
