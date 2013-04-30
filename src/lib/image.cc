@@ -90,6 +90,9 @@ Image::components () const
 {
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
+	case PIX_FMT_YUV422P9BE
+	case PIX_FMT_YUV422P9LE:
+	case PIX_FMT_YUV422P10BE:
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
