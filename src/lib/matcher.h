@@ -19,7 +19,6 @@
 
 #include <boost/optional.hpp>
 #include "processor.h"
-#include "ffmpeg_compatibility.h"
 
 class Matcher : public Processor, public TimedAudioSink, public TimedVideoSink, public AudioSource, public VideoSource 
 {

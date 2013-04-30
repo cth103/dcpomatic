@@ -23,20 +23,13 @@
 
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
-#ifdef HAVE_BUFFERSRC_H	
 #include <libavfilter/buffersrc.h>
-#endif	
-#if (LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 53 && LIBAVFILTER_VERSION_MINOR <= 77) || LIBAVFILTER_VERSION_MAJOR == 3
 #include <libavfilter/avcodec.h>
 #include <libavfilter/buffersink.h>
-#elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
-#include <libavfilter/vsrc_buffer.h>
-#endif
 #include <libavformat/avio.h>
 }
 #include "decoder.h"
 #include "filter_graph.h"
-#include "ffmpeg_compatibility.h"
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
@@ -80,7 +73,10 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 		throw DecodeError (N_("could not find buffer src filter"));
 	}
 
-	AVFilter* buffer_sink = get_sink ();
+	AVFilter* buffer_sink = avfilter_get_by_name(N_("buffersink"));
+	if (buffer_sink == 0) {
+		throw DecodeError (N_("Could not create buffer sink filter"));
+	}
 
 	stringstream a;
 	a << _size.width << N_(":")
@@ -119,15 +115,9 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 	inputs->pad_idx = 0;
 	inputs->next = 0;
 
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
-	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
-		throw DecodeError (N_("could not set up filter graph."));
-	}
-#else	
 	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
 		throw DecodeError (N_("could not set up filter graph."));
 	}
-#endif	
 	
 	if (avfilter_graph_config (graph, 0) < 0) {
 		throw DecodeError (N_("could not configure filter graph."));
@@ -144,54 +134,17 @@ FilterGraph::process (AVFrame const * frame)
 {
 	list<shared_ptr<Image> > images;
 	
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 53 && LIBAVFILTER_VERSION_MINOR <= 61
-
-	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0) < 0) {
-		throw DecodeError (N_("could not push buffer into filter chain."));
-	}
-
-#elif LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR == 15
-
-	AVRational par;
-	par.num = sample_aspect_ratio_numerator ();
-	par.den = sample_aspect_ratio_denominator ();
-
-	if (av_vsrc_buffer_add_frame (_buffer_src_context, frame, 0, par) < 0) {
-		throw DecodeError (N_("could not push buffer into filter chain."));
-	}
-
-#else
 
 	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
 
-#endif	
-	
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 15 && LIBAVFILTER_VERSION_MINOR <= 61	
-	while (avfilter_poll_frame (_buffer_sink_context->inputs[0])) {
-#else
 	while (av_buffersink_read (_buffer_sink_context, 0)) {
-#endif		
-
-#if LIBAVFILTER_VERSION_MAJOR == 2 && LIBAVFILTER_VERSION_MINOR >= 15
-		
-		int r = avfilter_request_frame (_buffer_sink_context->inputs[0]);
-		if (r < 0) {
-			throw DecodeError (N_("could not request filtered frame"));
-		}
-		
-		AVFilterBufferRef* filter_buffer = _buffer_sink_context->inputs[0]->cur_buf;
-		
-#else
-
 		AVFilterBufferRef* filter_buffer;
 		if (av_buffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) < 0) {
 			filter_buffer = 0;
 		}
 
-#endif		
-		
 		if (filter_buffer) {
 			/* This takes ownership of filter_buffer */
 			images.push_back (shared_ptr<Image> (new FilterBufferImage ((PixelFormat) frame->format, filter_buffer)));
