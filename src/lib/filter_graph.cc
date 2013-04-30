@@ -140,7 +140,7 @@ FilterGraph::process (AVFrame* frame)
 
 	while (1) {
 		AVFrame* frame = av_frame_alloc ();
-		if (av_buffersink_get_frame (_buffer_sink_context, 0) < 0) {
+		if (av_buffersink_get_frame (_buffer_sink_context, frame) < 0) {
 			av_frame_free (&frame);
 			break;
 		}
