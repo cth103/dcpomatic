@@ -609,9 +609,9 @@ SimpleImage::aligned () const
 	return _aligned;
 }
 
-FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
-	: Image (p)
-	, _buffer (b)
+FrameImage::FrameImage (AVFrame* frame)
+	: Image (static_cast<AVPixelFormat> (frame->format))
+	, _frame (frame)
 {
 	_line_size = (int *) av_malloc (4 * sizeof (int));
 	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
@@ -621,44 +621,40 @@ FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
 	}
 }
 
-FilterBufferImage::~FilterBufferImage ()
+FrameImage::~FrameImage ()
 {
-	avfilter_unref_buffer (_buffer);
+	av_frame_free (&_frame);
 	av_free (_line_size);
 }
 
 uint8_t **
-FilterBufferImage::data () const
+FrameImage::data () const
 {
-	return _buffer->data;
+	return _frame->data;
 }
 
 int *
-FilterBufferImage::line_size () const
+FrameImage::line_size () const
 {
 	return _line_size;
 }
 
 int *
-FilterBufferImage::stride () const
+FrameImage::stride () const
 {
-	/* I've seen images where the _buffer->linesize is larger than the width
-	   (by a small amount), suggesting that _buffer->linesize is what we call
-	   stride.  But I'm not sure.
-	*/
-	return _buffer->linesize;
+	/* AVFrame's `linesize' is what we call `stride' */
+	return _frame->linesize;
 }
 
 libdcp::Size
-FilterBufferImage::size () const
+FrameImage::size () const
 {
-	return libdcp::Size (_buffer->video->w, _buffer->video->h);
+	return libdcp::Size (_frame->width, _frame->height);
 }
 
 bool
-FilterBufferImage::aligned () const
+FrameImage::aligned () const
 {
-	/* XXX? */
 	return true;
 }
 

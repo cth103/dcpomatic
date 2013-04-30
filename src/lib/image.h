@@ -98,14 +98,14 @@ private:
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 };
 
-/** @class FilterBufferImage
- *  @brief An Image that is held in an AVFilterBufferRef.
+/** @class FrameImage
+ *  @brief An Image that is held in an AVFrame.
  */
-class FilterBufferImage : public Image
+class FrameImage : public Image
 {
 public:
-	FilterBufferImage (AVPixelFormat, AVFilterBufferRef *);
-	~FilterBufferImage ();
+	FrameImage (AVFrame *);
+	~FrameImage ();
 
 	uint8_t ** data () const;
 	int * line_size () const;
@@ -115,10 +115,10 @@ public:
 
 private:
 	/* Not allowed */
-	FilterBufferImage (FilterBufferImage const &);
-	FilterBufferImage& operator= (FilterBufferImage const &);
+	FrameImage (FrameImage const &);
+	FrameImage& operator= (FrameImage const &);
 	
-	AVFilterBufferRef* _buffer;
+	AVFrame* _frame;
 	int* _line_size;
 };
 

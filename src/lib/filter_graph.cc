@@ -130,25 +130,23 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
  *  set of Images.
  */
 list<shared_ptr<Image> >
-FilterGraph::process (AVFrame const * frame)
+FilterGraph::process (AVFrame* frame)
 {
 	list<shared_ptr<Image> > images;
 	
-
-	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
+	if (av_buffersrc_add_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
 
-	while (av_buffersink_read (_buffer_sink_context, 0)) {
-		AVFilterBufferRef* filter_buffer;
-		if (av_buffersink_get_buffer_ref (_buffer_sink_context, &filter_buffer, 0) < 0) {
-			filter_buffer = 0;
+	while (1) {
+		AVFrame* frame = av_frame_alloc ();
+		if (av_buffersink_get_frame (_buffer_sink_context, 0) < 0) {
+			av_frame_free (&frame);
+			break;
 		}
 
-		if (filter_buffer) {
-			/* This takes ownership of filter_buffer */
-			images.push_back (shared_ptr<Image> (new FilterBufferImage ((PixelFormat) frame->format, filter_buffer)));
-		}
+		/* This takes ownership of the AVFrame */
+		images.push_back (shared_ptr<Image> (new FrameImage (frame)));
 	}
 	
 	return images;

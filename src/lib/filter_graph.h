@@ -39,7 +39,7 @@ public:
 	FilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
 
 	bool can_process (libdcp::Size s, AVPixelFormat p) const;
-	std::list<boost::shared_ptr<Image> > process (AVFrame const * frame);
+	std::list<boost::shared_ptr<Image> > process (AVFrame * frame);
 
 private:
 	AVFilterContext* _buffer_src_context;
