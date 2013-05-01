@@ -68,8 +68,10 @@ Image::lines (int n) const
 		break;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
-	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV422P:
+	case PIX_FMT_YUV422P10LE:
+	case PIX_FMT_YUV422P16LE:
+	case PIX_FMT_YUV422P16BE:
 	case PIX_FMT_YUV444P:
 	case PIX_FMT_YUV444P9BE:
 	case PIX_FMT_YUV444P9LE:
@@ -94,12 +96,16 @@ Image::components () const
 	case PIX_FMT_YUV422P9LE:
 	case PIX_FMT_YUV422P10BE:
 	case PIX_FMT_YUV422P10LE:
+	case PIX_FMT_YUV422P16LE:
+	case PIX_FMT_YUV422P16BE:
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
 	case PIX_FMT_YUV444P9BE:
 	case PIX_FMT_YUV444P9LE:
 	case PIX_FMT_YUV444P10BE:
 	case PIX_FMT_YUV444P10LE:
+	case PIX_FMT_YUV444P16LE:
+	case PIX_FMT_YUV444P16BE:
 		return 3;
 	case PIX_FMT_RGB24:
 	case PIX_FMT_RGBA:
@@ -448,6 +454,7 @@ Image::bytes_per_pixel (int c) const
 			return 0.5;
 		}
 	case PIX_FMT_YUV422P10LE:
+	case PIX_FMT_YUV422P16LE:
 		if (c == 0) {
 			return 2;
 		} else {
