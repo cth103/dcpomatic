@@ -91,6 +91,8 @@ protected:
 	virtual void swap (Image &);
 	float bytes_per_pixel (int) const;
 
+	friend class pixel_formats_test;
+
 private:
 	void yuv_16_black (uint16_t);
 	static uint16_t swap_16 (uint16_t);
