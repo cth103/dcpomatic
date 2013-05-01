@@ -274,12 +274,12 @@ Image::make_black ()
 {
 	/* U/V black value for 8-bit colour */
 	static uint8_t const eight_bit_uv = (1 << 7) - 1;
-	
 	/* U/V black value for 9-bit colour */
 	static uint16_t const nine_bit_uv = (1 << 8) - 1;
-
 	/* U/V black value for 10-bit colour */
 	static uint16_t const ten_bit_uv =  (1 << 9) - 1;
+	/* U/V black value for 16-bit colour */
+	static uint16_t const sixteen_bit_uv =  (1 << 15) - 1;
 	
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
@@ -304,11 +304,17 @@ Image::make_black ()
 	case PIX_FMT_YUV444P10LE:
 		yuv_16_black (ten_bit_uv);
 		break;
+
+	case PIX_FMT_YUV422P16LE:
+	case PIX_FMT_YUV444P16LE:
+		yuv_16_black (sixteen_bit_uv);
+		break;
 		
 	case PIX_FMT_YUV444P10BE:
 	case PIX_FMT_YUV422P10BE:
 		yuv_16_black (swap_16 (ten_bit_uv));
-		
+		break;
+
 	case PIX_FMT_RGB24:		
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
