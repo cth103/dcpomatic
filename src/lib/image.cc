@@ -576,9 +576,10 @@ SimpleImage::aligned () const
 	return _aligned;
 }
 
-FrameImage::FrameImage (AVFrame* frame)
+FrameImage::FrameImage (AVFrame* frame, bool own)
 	: Image (static_cast<AVPixelFormat> (frame->format))
 	, _frame (frame)
+	, _own (own)
 {
 	_line_size = (int *) av_malloc (4 * sizeof (int));
 	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
@@ -590,7 +591,10 @@ FrameImage::FrameImage (AVFrame* frame)
 
 FrameImage::~FrameImage ()
 {
-	av_frame_free (&_frame);
+	if (_own) {
+		av_frame_free (&_frame);
+	}
+	
 	av_free (_line_size);
 }
 

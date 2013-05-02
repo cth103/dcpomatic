@@ -106,7 +106,7 @@ private:
 class FrameImage : public Image
 {
 public:
-	FrameImage (AVFrame *);
+	FrameImage (AVFrame *, bool);
 	~FrameImage ();
 
 	uint8_t ** data () const;
@@ -121,6 +121,7 @@ private:
 	FrameImage& operator= (FrameImage const &);
 	
 	AVFrame* _frame;
+	bool _own;
 	int* _line_size;
 };
 

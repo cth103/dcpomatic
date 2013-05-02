@@ -500,32 +500,41 @@ FFmpegDecoder::set_subtitle_stream (shared_ptr<SubtitleStream> s)
 void
 FFmpegDecoder::filter_and_emit_video ()
 {
-	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
+	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
+	if (bet == AV_NOPTS_VALUE) {
+		_film->log()->log ("Dropping frame without PTS");
+		return;
+	}
+	
+	if (_film->crop() == Crop() && _film->filters().empty()) {
+		/* No filter graph needed; just emit */
+		emit_video (shared_ptr<Image> (new FrameImage (_frame, false)), false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
+		return;
+	}
 	
 	shared_ptr<FilterGraph> graph;
 
-	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process (libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
-		++i;
-	}
-
-	if (i == _filter_graphs.end ()) {
-		graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
-		_filter_graphs.push_back (graph);
-		_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
-	} else {
-		graph = *i;
+	{
+		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
+		
+		list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
+		while (i != _filter_graphs.end() && !(*i)->can_process (libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
+			++i;
+		}
+		
+		if (i == _filter_graphs.end ()) {
+			graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+			_filter_graphs.push_back (graph);
+			_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
+		} else {
+			graph = *i;
+		}
 	}
 
 	list<shared_ptr<Image> > images = graph->process (_frame);
 
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-		if (bet != AV_NOPTS_VALUE) {
-			emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
-		} else {
-			_film->log()->log ("Dropping frame without PTS");
-		}
+		emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
 	}
 }
 

@@ -79,17 +79,14 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 	}
 
 	stringstream a;
-	a << _size.width << N_(":")
-	  << _size.height << N_(":")
-	  << _pixel_format << N_(":")
-	  << decoder->time_base_numerator() << N_(":")
-	  << decoder->time_base_denominator() << N_(":")
-	  << decoder->sample_aspect_ratio_numerator() << N_(":")
-	  << decoder->sample_aspect_ratio_denominator();
+	a << "video_size=" << _size.width << "x" << _size.height << ":"
+	  << "pix_fmt=" << _pixel_format << ":"
+	  << "time_base=" << decoder->time_base_numerator() << "/" << decoder->time_base_denominator() << ":"
+	  << "pixel_aspect=" << decoder->sample_aspect_ratio_numerator() << "/" << decoder->sample_aspect_ratio_denominator();
 
 	int r;
 
-	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, N_("in"), a.str().c_str(), 0, graph)) < 0) {
+	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph)) < 0) {
 		throw DecodeError (N_("could not create buffer source"));
 	}
 
@@ -102,6 +99,8 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), 0, sink_params, graph) < 0) {
 		throw DecodeError (N_("could not create buffer sink."));
 	}
+
+	av_free (sink_params);
 
 	AVFilterInOut* outputs = avfilter_inout_alloc ();
 	outputs->name = av_strdup(N_("in"));
@@ -133,7 +132,7 @@ list<shared_ptr<Image> >
 FilterGraph::process (AVFrame* frame)
 {
 	list<shared_ptr<Image> > images;
-	
+
 	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
@@ -146,7 +145,7 @@ FilterGraph::process (AVFrame* frame)
 		}
 
 		/* This takes ownership of the AVFrame */
-		images.push_back (shared_ptr<Image> (new FrameImage (frame)));
+		images.push_back (shared_ptr<Image> (new FrameImage (frame, true)));
 	}
 	
 	return images;
