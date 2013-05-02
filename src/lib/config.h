@@ -33,6 +33,8 @@ class ServerDescription;
 class Scaler;
 class Filter;
 class SoundProcessor;
+class Format;
+class DCPContentType;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -107,6 +109,14 @@ public:
 		return _language;
 	}
 
+	Format const * default_format () const {
+		return _default_format;
+	}
+
+	DCPContentType const * default_dcp_content_type () const {
+		return _default_dcp_content_type;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -169,6 +179,14 @@ public:
 	void unset_language () {
 		_language = boost::none;
 	}
+
+	void set_default_format (Format const * f) {
+		_default_format = f;
+	}
+
+	void set_default_dcp_content_type (DCPContentType const * t) {
+		_default_dcp_content_type = t;
+	}
 	
 	void write () const;
 
@@ -206,6 +224,8 @@ private:
 	/** Default DCI metadata for newly-created Films */
 	DCIMetadata _default_dci_metadata;
 	boost::optional<std::string> _language;
+	Format const * _default_format;
+	DCPContentType const * _default_dcp_content_type;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

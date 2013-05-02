@@ -26,6 +26,8 @@
 #include "server.h"
 #include "scaler.h"
 #include "filter.h"
+#include "format.h"
+#include "dcp_content_type.h"
 #include "sound_processor.h"
 
 #include "i18n.h"
@@ -45,6 +47,8 @@ Config::Config ()
 	, _reference_scaler (Scaler::from_id (N_("bicubic")))
 	, _tms_path (N_("."))
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _default_format (0)
+	, _default_dcp_content_type (0)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -96,6 +100,10 @@ Config::Config ()
 			_sound_processor = SoundProcessor::from_id (v);
 		} else if (k == "language") {
 			_language = v;
+		} else if (k == "default_format") {
+			_default_format = Format::from_metadata (v);
+		} else if (k == "default_dcp_content_type") {
+			_default_dcp_content_type = DCPContentType::from_dci_name (v);
 		}
 
 		_default_dci_metadata.read (k, v);
@@ -153,6 +161,12 @@ Config::write () const
 	}
 	if (_language) {
 		f << "language " << _language.get() << "\n";
+	}
+	if (_default_format) {
+		f << "default_format " << _default_format->as_metadata() << "\n";
+	}
+	if (_default_dcp_content_type) {
+		f << "default_dcp_content_type " << _default_dcp_content_type->dci_name() << "\n";
 	}
 
 	_default_dci_metadata.write (f);

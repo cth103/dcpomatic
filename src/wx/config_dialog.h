@@ -56,6 +56,8 @@ private:
 	void edit_server_clicked (wxCommandEvent &);
 	void remove_server_clicked (wxCommandEvent &);
 	void server_selection_changed (wxListEvent &);
+	void default_format_changed (wxCommandEvent &);
+	void default_dcp_content_type_changed (wxCommandEvent &);
 
 	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();
@@ -72,6 +74,8 @@ private:
 	wxPanel* _servers_panel;
 	wxCheckBox* _set_language;
 	wxChoice* _language;
+	wxChoice* _default_format;
+	wxChoice* _default_dcp_content_type;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;
 	wxTextCtrl* _tms_user;

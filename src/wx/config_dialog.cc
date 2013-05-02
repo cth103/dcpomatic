@@ -31,6 +31,7 @@
 #include "lib/format.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
+#include "lib/dcp_content_type.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "filter_dialog.h"
@@ -119,6 +120,16 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_default_dci_metadata_button);
 	table->AddSpacer (1);
 
+	add_label_to_sizer (table, _misc_panel, _("Default format"));
+	_default_format = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_format);
+	table->AddSpacer (1);
+
+	add_label_to_sizer (table, _misc_panel, _("Default content type"));
+	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_dcp_content_type);
+	table->AddSpacer (1);
+	
 	Config* config = Config::instance ();
 
 	_set_language->SetValue (config->language ());
@@ -149,6 +160,29 @@ ConfigDialog::make_misc_panel ()
 
 	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
 
+	vector<Format const *> fmt = Format::all ();
+	int n = 0;
+	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
+		_default_format->Append (std_to_wx ((*i)->name ()));
+		if (*i == config->default_format ()) {
+			_default_format->SetSelection (n);
+		}
+		++n;
+	}
+
+	_default_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_format_changed), 0, this);
+	
+	vector<DCPContentType const *> const ct = DCPContentType::all ();
+	n = 0;
+	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
+		_default_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
+		if (*i == config->default_dcp_content_type ()) {
+			_default_dcp_content_type->SetSelection (n);
+		}
+		++n;
+	}
+
+	_default_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_dcp_content_type_changed), 0, this);
 }
 
 void
@@ -215,7 +249,7 @@ ConfigDialog::make_ab_panel ()
 		add_label_to_sizer (table, _ab_panel, _("Reference filters"));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_reference_filters = new wxStaticText (_ab_panel, wxID_ANY, wxT (""));
-		s->Add (_reference_filters, 1, wxEXPAND);
+		s->Add (_reference_filters, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL, 6);
 		_reference_filters_button = new wxButton (_ab_panel, wxID_ANY, _("Edit..."));
 		s->Add (_reference_filters_button, 0);
 		table->Add (s, 1, wxEXPAND);
@@ -461,4 +495,18 @@ void
 ConfigDialog::setup_language_sensitivity ()
 {
 	_language->Enable (_set_language->GetValue ());
+}
+
+void
+ConfigDialog::default_format_changed (wxCommandEvent &)
+{
+	vector<Format const *> fmt = Format::all ();
+	Config::instance()->set_default_format (fmt[_default_format->GetSelection()]);
+}
+
+void
+ConfigDialog::default_dcp_content_type_changed (wxCommandEvent &)
+{
+	vector<DCPContentType const *> ct = DCPContentType::all ();
+	Config::instance()->set_default_dcp_content_type (ct[_default_dcp_content_type->GetSelection()]);
 }
