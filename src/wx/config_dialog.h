@@ -18,7 +18,7 @@
 */
 
 /** @file src/config_dialog.h
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 
 #include <wx/wx.h>
@@ -27,11 +27,12 @@
 #include <wx/filepicker.h>
 
 class DirPickerCtrl;
+class wxNotebook;
 
 class ServerDescription;
 
 /** @class ConfigDialog
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 class ConfigDialog : public wxDialog
 {
@@ -59,6 +60,16 @@ private:
 	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();
 
+	void make_misc_panel ();
+	void make_tms_panel ();
+	void make_ab_panel ();
+	void make_servers_panel ();
+
+	wxNotebook* _notebook;
+	wxPanel* _misc_panel;
+	wxPanel* _tms_panel;
+	wxPanel* _ab_panel;
+	wxPanel* _servers_panel;
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxTextCtrl* _tms_ip;
