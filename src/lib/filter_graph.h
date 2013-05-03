@@ -30,13 +30,31 @@ class Image;
 class VideoFilter;
 class FFmpegDecoder;
 
-/** @class FilterGraph
- *  @brief A graph of FFmpeg filters.
- */
 class FilterGraph
 {
 public:
-	FilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
+	virtual bool can_process (libdcp::Size, AVPixelFormat) const = 0;
+	virtual std::list<boost::shared_ptr<Image> > process (AVFrame *) = 0;
+};
+
+class EmptyFilterGraph : public FilterGraph
+{
+public:
+	bool can_process (libdcp::Size, AVPixelFormat) const {
+		return true;
+	}
+
+	std::list<boost::shared_ptr<Image> > process (AVFrame *);
+};
+
+/** @class FFmpegFilterGraph
+ *  @brief A graph of FFmpeg filters.
+ */
+class FFmpegFilterGraph : public FilterGraph
+{
+public:
+	FFmpegFilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
+	~FFmpegFilterGraph ();
 
 	bool can_process (libdcp::Size s, AVPixelFormat p) const;
 	std::list<boost::shared_ptr<Image> > process (AVFrame * frame);
@@ -46,6 +64,9 @@ private:
 	AVFilterContext* _buffer_sink_context;
 	libdcp::Size _size; ///< size of the images that this chain can process
 	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
+	AVFrame* _frame;
 };
+
+boost::shared_ptr<FilterGraph> filter_graph_factory (boost::shared_ptr<Film>, FFmpegDecoder *, libdcp::Size, AVPixelFormat);
 
 #endif

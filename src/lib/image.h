@@ -34,7 +34,6 @@ extern "C" {
 #include "util.h"
 
 class Scaler;
-class RGBFrameImage;
 class SimpleImage;
 
 /** @class Image
@@ -100,31 +99,6 @@ private:
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 };
 
-/** @class FrameImage
- *  @brief An Image that is held in an AVFrame.
- */
-class FrameImage : public Image
-{
-public:
-	FrameImage (AVFrame *, bool);
-	~FrameImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	int * stride () const;
-	libdcp::Size size () const;
-	bool aligned () const;
-
-private:
-	/* Not allowed */
-	FrameImage (FrameImage const &);
-	FrameImage& operator= (FrameImage const &);
-	
-	AVFrame* _frame;
-	bool _own;
-	int* _line_size;
-};
-
 /** @class SimpleImage
  *  @brief An Image for which memory is allocated using a `simple' av_malloc().
  */
@@ -132,6 +106,7 @@ class SimpleImage : public Image
 {
 public:
 	SimpleImage (AVPixelFormat, libdcp::Size, bool);
+	SimpleImage (AVFrame *);
 	SimpleImage (SimpleImage const &);
 	SimpleImage (boost::shared_ptr<const Image>);
 	SimpleImage& operator= (SimpleImage const &);

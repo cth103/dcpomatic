@@ -44,18 +44,20 @@ using std::list;
 using boost::shared_ptr;
 using libdcp::Size;
 
-/** Construct a FilterGraph for the settings in a film.
+/** Construct a FFmpegFilterGraph for the settings in a film.
  *  @param film Film.
  *  @param decoder Decoder that we are using.
  *  @param s Size of the images to process.
  *  @param p Pixel format of the images to process.
  */
-FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
+FFmpegFilterGraph::FFmpegFilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)
 	, _pixel_format (p)
 {
+	_frame = av_frame_alloc ();
+	
 	string filters = Filter::ffmpeg_strings (film->filters()).first;
 	if (!filters.empty ()) {
 		filters += N_(",");
@@ -125,11 +127,16 @@ FilterGraph::FilterGraph (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp:
 	/* XXX: leaking `inputs' / `outputs' ? */
 }
 
+FFmpegFilterGraph::~FFmpegFilterGraph ()
+{
+	av_frame_free (&_frame);
+}
+
 /** Take an AVFrame and process it using our configured filters, returning a
- *  set of Images.
+ *  set of Images.  Caller handles memory management of the input frame.
  */
 list<shared_ptr<Image> >
-FilterGraph::process (AVFrame* frame)
+FFmpegFilterGraph::process (AVFrame* frame)
 {
 	list<shared_ptr<Image> > images;
 
@@ -138,14 +145,11 @@ FilterGraph::process (AVFrame* frame)
 	}
 
 	while (1) {
-		AVFrame* frame = av_frame_alloc ();
-		if (av_buffersink_get_frame (_buffer_sink_context, frame) < 0) {
-			av_frame_free (&frame);
+		if (av_buffersink_get_frame (_buffer_sink_context, _frame) < 0) {
 			break;
 		}
 
-		/* This takes ownership of the AVFrame */
-		images.push_back (shared_ptr<Image> (new FrameImage (frame, true)));
+		images.push_back (shared_ptr<Image> (new SimpleImage (_frame)));
 	}
 	
 	return images;
@@ -156,7 +160,25 @@ FilterGraph::process (AVFrame* frame)
  *  @return true if this chain can process images with `s' and `p', otherwise false.
  */
 bool
-FilterGraph::can_process (libdcp::Size s, AVPixelFormat p) const
+FFmpegFilterGraph::can_process (libdcp::Size s, AVPixelFormat p) const
 {
 	return (_size == s && _pixel_format == p);
+}
+
+list<shared_ptr<Image> >
+EmptyFilterGraph::process (AVFrame* frame)
+{
+	list<shared_ptr<Image> > im;
+	im.push_back (shared_ptr<Image> (new SimpleImage (frame)));
+	return im;
+}
+
+shared_ptr<FilterGraph>
+filter_graph_factory (shared_ptr<Film> film, FFmpegDecoder* decoder, libdcp::Size size, AVPixelFormat pixel_format)
+{
+	if (film->filters().empty() && film->crop() == Crop()) {
+		return shared_ptr<FilterGraph> (new EmptyFilterGraph);
+	}
+
+	return shared_ptr<FilterGraph> (new FFmpegFilterGraph (film, decoder, size, pixel_format));
 }

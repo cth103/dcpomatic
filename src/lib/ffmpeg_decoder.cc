@@ -506,12 +506,6 @@ FFmpegDecoder::filter_and_emit_video ()
 		return;
 	}
 	
-	if (_film->crop() == Crop() && _film->filters().empty()) {
-		/* No filter graph needed; just emit */
-		emit_video (shared_ptr<Image> (new FrameImage (_frame, false)), false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
-		return;
-	}
-	
 	shared_ptr<FilterGraph> graph;
 
 	{
@@ -523,7 +517,7 @@ FFmpegDecoder::filter_and_emit_video ()
 		}
 		
 		if (i == _filter_graphs.end ()) {
-			graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+			graph = filter_graph_factory (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format);
 			_filter_graphs.push_back (graph);
 			_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
 		} else {

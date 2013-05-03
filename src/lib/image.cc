@@ -469,10 +469,9 @@ SimpleImage::allocate ()
 
 SimpleImage::SimpleImage (SimpleImage const & other)
 	: Image (other)
+	, _size (other._size)
+	, _aligned (other._aligned)
 {
-	_size = other._size;
-	_aligned = other._aligned;
-	
 	allocate ();
 
 	for (int i = 0; i < components(); ++i) {
@@ -482,6 +481,25 @@ SimpleImage::SimpleImage (SimpleImage const & other)
 			memcpy (p, q, _line_size[i]);
 			p += stride()[i];
 			q += other.stride()[i];
+		}
+	}
+}
+
+SimpleImage::SimpleImage (AVFrame* frame)
+	: Image (static_cast<AVPixelFormat> (frame->format))
+	, _size (frame->width, frame->height)
+	, _aligned (true)
+{
+	allocate ();
+
+	for (int i = 0; i < components(); ++i) {
+		uint8_t* p = _data[i];
+		uint8_t* q = frame->data[i];
+		for (int j = 0; j < lines(i); ++j) {
+			memcpy (p, q, _line_size[i]);
+			p += stride()[i];
+			/* AVFrame's linesize is what we call `stride' */
+			q += frame->linesize[i];
 		}
 	}
 }
@@ -574,59 +592,6 @@ bool
 SimpleImage::aligned () const
 {
 	return _aligned;
-}
-
-FrameImage::FrameImage (AVFrame* frame, bool own)
-	: Image (static_cast<AVPixelFormat> (frame->format))
-	, _frame (frame)
-	, _own (own)
-{
-	_line_size = (int *) av_malloc (4 * sizeof (int));
-	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
-	
-	for (int i = 0; i < components(); ++i) {
-		_line_size[i] = size().width * bytes_per_pixel(i);
-	}
-}
-
-FrameImage::~FrameImage ()
-{
-	if (_own) {
-		av_frame_free (&_frame);
-	}
-	
-	av_free (_line_size);
-}
-
-uint8_t **
-FrameImage::data () const
-{
-	return _frame->data;
-}
-
-int *
-FrameImage::line_size () const
-{
-	return _line_size;
-}
-
-int *
-FrameImage::stride () const
-{
-	/* AVFrame's `linesize' is what we call `stride' */
-	return _frame->linesize;
-}
-
-libdcp::Size
-FrameImage::size () const
-{
-	return libdcp::Size (_frame->width, _frame->height);
-}
-
-bool
-FrameImage::aligned () const
-{
-	return true;
 }
 
 RGBPlusAlphaImage::RGBPlusAlphaImage (shared_ptr<const Image> im)

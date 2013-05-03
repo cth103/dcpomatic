@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (pixel_formats_test)
 		f->width = 640;
 		f->height = 480;
 		f->format = static_cast<int> (i->format);
-		FrameImage t (f, true);
+		SimpleImage t (f);
 		BOOST_CHECK_EQUAL(t.components(), i->components);
 		BOOST_CHECK_EQUAL(t.lines(0), i->lines[0]);
 		BOOST_CHECK_EQUAL(t.lines(1), i->lines[1]);
