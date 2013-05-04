@@ -6,6 +6,7 @@ import i18n
 sources = """
           audio_dialog.cc
           audio_plot.cc
+          batch_view.cc
           config_dialog.cc
           dci_metadata_dialog.cc
           dir_picker_ctrl.cc

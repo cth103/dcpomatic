@@ -25,6 +25,8 @@
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
 #include "wx_util.h"
+#include "config.h"
+#include "util.h"
 
 using namespace std;
 using namespace boost;
@@ -209,5 +211,41 @@ checked_set (wxRadioButton* widget, bool value)
 {
 	if (widget->GetValue() != value) {
 		widget->SetValue (value);
+	}
+}
+
+void
+dvdomatic_setup_i18n ()
+{
+	int language = wxLANGUAGE_DEFAULT;
+
+	boost::optional<string> config_lang = Config::instance()->language ();
+	if (config_lang && !config_lang->empty ()) {
+		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
+		if (li) {
+			language = li->Language;
+		}
+	}
+
+	wxLocale* locale = 0;
+	if (wxLocale::IsAvailable (language)) {
+		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
+
+#ifdef DVDOMATIC_WINDOWS
+		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
+#endif		
+
+		locale->AddCatalog (wxT ("libdvdomatic-wx"));
+		locale->AddCatalog (wxT ("dvdomatic"));
+		
+		if (!locale->IsOk()) {
+			delete locale;
+			locale = new wxLocale (wxLANGUAGE_ENGLISH);
+			language = wxLANGUAGE_ENGLISH;
+		}
+	}
+
+	if (locale) {
+		dvdomatic_setup_gettext_i18n (wx_to_std (locale->GetCanonicalName ()));
 	}
 }

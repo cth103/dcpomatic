@@ -274,7 +274,7 @@ mo_path ()
 #endif
 
 void
-dvdomatic_setup_i18n (string lang)
+dvdomatic_setup_gettext_i18n (string lang)
 {
 #ifdef DVDOMATIC_POSIX
 	lang += ".UTF8";
