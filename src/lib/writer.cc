@@ -23,6 +23,7 @@
 #include <libdcp/picture_frame.h>
 #include <libdcp/reel.h>
 #include <libdcp/dcp.h>
+#include <libdcp/cpl.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
@@ -32,6 +33,7 @@
 #include "dcp_content_type.h"
 #include "player.h"
 #include "audio_mapping.h"
+#include "config.h"
 
 #include "i18n.h"
 
@@ -322,7 +324,9 @@ Writer::finish ()
 							 )
 			       ));
 
-	dcp.write_xml ();
+	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
+	meta.set_issue_date_now ();
+	dcp.write_xml (meta);
 
 	_film->log()->log (String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk));
 }

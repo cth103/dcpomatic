@@ -20,7 +20,6 @@
 #include <iostream>
 #include <iomanip>
 #include <getopt.h>
-#include <libdcp/test_mode.h>
 #include <libdcp/version.h>
 #include "format.h"
 #include "film.h"
@@ -50,7 +49,6 @@ help (string n)
 	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help         show this help\n"
 	     << "  -d, --deps         list DCP-o-matic dependency details and quit\n"
-	     << "  -t, --test         run in test mode (repeatable UUID generation, timestamps etc.)\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
 	     << "\n"
@@ -61,7 +59,6 @@ int
 main (int argc, char* argv[])
 {
 	string film_dir;
-	bool test_mode = false;
 	bool progress = true;
 	bool no_remote = false;
 	int log_level = 0;
@@ -72,14 +69,13 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "deps", no_argument, 0, 'd'},
-			{ "test", no_argument, 0, 't'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
 			{ "log-level", required_argument, 0, 'l' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdtnrl:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdnrl:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -95,9 +91,6 @@ main (int argc, char* argv[])
 		case 'd':
 			cout << dependency_version_summary () << "\n";
 			exit (EXIT_SUCCESS);
-		case 't':
-			test_mode = true;
-			break;
 		case 'n':
 			progress = false;
 			break;
@@ -130,11 +123,6 @@ main (int argc, char* argv[])
 	}
 	cout << "\n";
 
-	if (test_mode) {
-		libdcp::enable_test_mode ();
-		cout << dependency_version_summary() << "\n";
-	}
-
 	shared_ptr<Film> film;
 	try {
 		film.reset (new Film (film_dir, true));
@@ -150,7 +138,6 @@ main (int argc, char* argv[])
 		cout << "A/B ";
 	}
 	cout << "DCP for " << film->name() << "\n";
-	cout << "Test mode: " << (test_mode ? "yes" : "no") << "\n";
 //	cout << "Content: " << film->content() << "\n";
 	pair<string, string> const f = Filter::ffmpeg_strings (film->filters ());
 	cout << "Filters: " << f.first << " " << f.second << "\n";

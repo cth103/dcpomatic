@@ -27,12 +27,15 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include <libdcp/metadata.h>
 #include "dci_metadata.h"
 
 class ServerDescription;
 class Scaler;
 class Filter;
 class SoundProcessor;
+class Format;
+class DCPContentType;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -111,6 +114,18 @@ public:
 		return _default_still_length;
 	}
 
+	Format const * default_format () const {
+		return _default_format;
+	}
+
+	DCPContentType const * default_dcp_content_type () const {
+		return _default_dcp_content_type;
+	}
+
+	libdcp::XMLMetadata dcp_metadata () const {
+		return _dcp_metadata;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -178,6 +193,18 @@ public:
 		_default_still_length = s;
 	}
 
+	void set_default_format (Format const * f) {
+		_default_format = f;
+	}
+
+	void set_default_dcp_content_type (DCPContentType const * t) {
+		_default_dcp_content_type = t;
+	}
+
+	void set_dcp_metadata (libdcp::XMLMetadata m) {
+		_dcp_metadata = m;
+	}
+	
 	void write () const;
 
 	static Config* instance ();
@@ -216,6 +243,9 @@ private:
 	DCIMetadata _default_dci_metadata;
 	boost::optional<std::string> _language;
 	int _default_still_length;
+	Format const * _default_format;
+	DCPContentType const * _default_dcp_content_type;
+	libdcp::XMLMetadata _dcp_metadata;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

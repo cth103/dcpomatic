@@ -67,10 +67,7 @@ public:
 		return _dci_name;
 	}
 
-	std::string as_metadata () const;
-
 	static Format const * from_nickname (std::string n);
-	static Format const * from_metadata (std::string m);
 	static Format const * from_id (std::string i);
 	static std::vector<Format const *> all ();
 	static void setup_formats ();

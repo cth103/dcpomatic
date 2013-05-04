@@ -60,13 +60,6 @@ FixedFormat::name () const
 	return s.str ();
 }
 
-/** @return Identifier for this format as metadata for a Film's metadata file */
-string
-Format::as_metadata () const
-{
-	return _id;
-}
-
 /** Fill our _formats vector with all available formats */
 void
 Format::setup_formats ()
@@ -163,16 +156,6 @@ Format::from_id (string i)
 	}
 
 	return *j;
-}
-
-
-/** @param m Metadata, as returned from as_metadata().
- *  @return Matching Format, or 0.
- */
-Format const *
-Format::from_metadata (string m)
-{
-	return from_id (m);
 }
 
 /** @return All available formats */

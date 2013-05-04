@@ -31,6 +31,7 @@
 #include "lib/format.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
+#include "lib/dcp_content_type.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "filter_dialog.h"
@@ -52,6 +53,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
 	make_servers_panel ();
 	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
+	make_metadata_panel ();
+	_notebook->AddPage (_metadata_panel, _("Metadata"), false);
 	make_tms_panel ();
 	_notebook->AddPage (_tms_panel, _("TMS"), false);
 	make_ab_panel ();
@@ -124,6 +127,16 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_default_dci_metadata_button);
 	table->AddSpacer (1);
 
+	add_label_to_sizer (table, _misc_panel, _("Default format"));
+	_default_format = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_format);
+	table->AddSpacer (1);
+
+	add_label_to_sizer (table, _misc_panel, _("Default content type"));
+	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_dcp_content_type);
+	table->AddSpacer (1);
+	
 	Config* config = Config::instance ();
 
 	_set_language->SetValue (config->language ());
@@ -158,6 +171,29 @@ ConfigDialog::make_misc_panel ()
 
 	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
 
+	vector<Format const *> fmt = Format::all ();
+	int n = 0;
+	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
+		_default_format->Append (std_to_wx ((*i)->name ()));
+		if (*i == config->default_format ()) {
+			_default_format->SetSelection (n);
+		}
+		++n;
+	}
+
+	_default_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_format_changed), 0, this);
+	
+	vector<DCPContentType const *> const ct = DCPContentType::all ();
+	n = 0;
+	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
+		_default_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
+		if (*i == config->default_dcp_content_type ()) {
+			_default_dcp_content_type->SetSelection (n);
+		}
+		++n;
+	}
+
+	_default_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_dcp_content_type_changed), 0, this);
 }
 
 void
@@ -230,15 +266,33 @@ ConfigDialog::make_ab_panel ()
 		table->Add (s, 1, wxEXPAND);
 		table->AddSpacer (0);
 	}
+}
+
+void
+ConfigDialog::make_metadata_panel ()
+{
+	_metadata_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_metadata_panel->SetSizer (s);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	table->AddGrowableCol (1, 1);
+	s->Add (table, 1, wxALL | wxEXPAND, 8);
+
+	add_label_to_sizer (table, _metadata_panel, _("Issuer"));
+	_issuer = new wxTextCtrl (_metadata_panel, wxID_ANY);
+	table->Add (_issuer, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _metadata_panel, _("Creator"));
+	_creator = new wxTextCtrl (_metadata_panel, wxID_ANY);
+	table->Add (_creator, 1, wxEXPAND);
 
 	Config* config = Config::instance ();
-	
-	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
-	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
 
-	pair<string, string> p = Filter::ffmpeg_strings (config->reference_filters ());
-	_reference_filters->SetLabel (std_to_wx (p.first) + N_(" ") + std_to_wx (p.second));
-	_reference_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_reference_filters_clicked), 0, this);
+	_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
+	_issuer->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::issuer_changed), 0, this);
+	_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
+	_creator->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::creator_changed), 0, this);
 }
 
 void
@@ -476,4 +530,34 @@ void
 ConfigDialog::default_still_length_changed (wxCommandEvent &)
 {
 	Config::instance()->set_default_still_length (_default_still_length->GetValue ());
+}
+
+void
+ConfigDialog::default_format_changed (wxCommandEvent &)
+{
+	vector<Format const *> fmt = Format::all ();
+	Config::instance()->set_default_format (fmt[_default_format->GetSelection()]);
+}
+
+void
+ConfigDialog::default_dcp_content_type_changed (wxCommandEvent &)
+{
+	vector<DCPContentType const *> ct = DCPContentType::all ();
+	Config::instance()->set_default_dcp_content_type (ct[_default_dcp_content_type->GetSelection()]);
+}
+
+void
+ConfigDialog::issuer_changed (wxCommandEvent &)
+{
+	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	m.issuer = wx_to_std (_issuer->GetValue ());
+	Config::instance()->set_dcp_metadata (m);
+}
+
+void
+ConfigDialog::creator_changed (wxCommandEvent &)
+{
+	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	m.creator = wx_to_std (_creator->GetValue ());
+	Config::instance()->set_dcp_metadata (m);
 }
