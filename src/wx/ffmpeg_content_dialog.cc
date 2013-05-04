@@ -39,7 +39,7 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	_audio_description = new wxStaticText (this, wxID_ANY, wxT (""));
 	grid->Add (_audio_description, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
 	
-	add_label_to_sizer (grid, this, "Subtitle stream");
+	add_label_to_sizer (grid, this, _("Subtitle stream"));
 	_subtitle_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
 	grid->AddSpacer (0);
