@@ -53,6 +53,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
 	make_servers_panel ();
 	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
+	make_metadata_panel ();
+	_notebook->AddPage (_metadata_panel, _("Metadata"), false);
 	make_tms_panel ();
 	_notebook->AddPage (_tms_panel, _("TMS"), false);
 	make_ab_panel ();
@@ -222,6 +224,33 @@ ConfigDialog::make_tms_panel ()
 	_tms_user->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_user_changed), 0, this);
 	_tms_password->SetValue (std_to_wx (config->tms_password ()));
 	_tms_password->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_password_changed), 0, this);
+}
+
+void
+ConfigDialog::make_metadata_panel ()
+{
+	_metadata_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_metadata_panel->SetSizer (s);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	table->AddGrowableCol (1, 1);
+	s->Add (table, 1, wxALL | wxEXPAND, 8);
+
+	add_label_to_sizer (table, _metadata_panel, _("Issuer"));
+	_issuer = new wxTextCtrl (_metadata_panel, wxID_ANY);
+	table->Add (_issuer, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _metadata_panel, _("Creator"));
+	_creator = new wxTextCtrl (_metadata_panel, wxID_ANY);
+	table->Add (_creator, 1, wxEXPAND);
+
+	Config* config = Config::instance ();
+
+	_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
+	_issuer->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::issuer_changed), 0, this);
+	_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
+	_creator->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::creator_changed), 0, this);
 }
 
 void
@@ -509,4 +538,20 @@ ConfigDialog::default_dcp_content_type_changed (wxCommandEvent &)
 {
 	vector<DCPContentType const *> ct = DCPContentType::all ();
 	Config::instance()->set_default_dcp_content_type (ct[_default_dcp_content_type->GetSelection()]);
+}
+
+void
+ConfigDialog::issuer_changed (wxCommandEvent &)
+{
+	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	m.issuer = wx_to_std (_issuer->GetValue ());
+	Config::instance()->set_dcp_metadata (m);
+}
+
+void
+ConfigDialog::creator_changed (wxCommandEvent &)
+{
+	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	m.creator = wx_to_std (_creator->GetValue ());
+	Config::instance()->set_dcp_metadata (m);
 }

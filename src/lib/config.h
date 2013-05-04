@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include <libdcp/metadata.h>
 #include "dci_metadata.h"
 
 class ServerDescription;
@@ -117,6 +118,10 @@ public:
 		return _default_dcp_content_type;
 	}
 
+	libdcp::XMLMetadata dcp_metadata () const {
+		return _dcp_metadata;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -187,6 +192,10 @@ public:
 	void set_default_dcp_content_type (DCPContentType const * t) {
 		_default_dcp_content_type = t;
 	}
+
+	void set_dcp_metadata (libdcp::XMLMetadata m) {
+		_dcp_metadata = m;
+	}
 	
 	void write () const;
 
@@ -226,6 +235,7 @@ private:
 	boost::optional<std::string> _language;
 	Format const * _default_format;
 	DCPContentType const * _default_dcp_content_type;
+	libdcp::XMLMetadata _dcp_metadata;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

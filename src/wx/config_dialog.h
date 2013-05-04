@@ -58,12 +58,15 @@ private:
 	void server_selection_changed (wxListEvent &);
 	void default_format_changed (wxCommandEvent &);
 	void default_dcp_content_type_changed (wxCommandEvent &);
+	void issuer_changed (wxCommandEvent &);
+	void creator_changed (wxCommandEvent &);
 
 	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();
 
 	void make_misc_panel ();
 	void make_tms_panel ();
+	void make_metadata_panel ();
 	void make_ab_panel ();
 	void make_servers_panel ();
 
@@ -72,6 +75,7 @@ private:
 	wxPanel* _tms_panel;
 	wxPanel* _ab_panel;
 	wxPanel* _servers_panel;
+	wxPanel* _metadata_panel;
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxChoice* _default_format;
@@ -94,5 +98,7 @@ private:
 	wxButton* _add_server;
 	wxButton* _edit_server;
 	wxButton* _remove_server;
+	wxTextCtrl* _issuer;
+	wxTextCtrl* _creator;
 };
 
