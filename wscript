@@ -228,6 +228,11 @@ def build(bld):
     obj.target = 'dvdomatic.desktop'
     obj.dict = d
 
+    obj = bld(features = 'subst')
+    obj.source = 'dvdomatic_batch.desktop.in'
+    obj.target = 'dvdomatic_batch.desktop'
+    obj.dict = d
+
     bld.install_files('${PREFIX}/share/applications', 'dvdomatic.desktop')
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
