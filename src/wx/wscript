@@ -10,6 +10,7 @@ sources = """
           config_dialog.cc
           dci_metadata_dialog.cc
           dir_picker_ctrl.cc
+          ffmpeg_content_dialog.cc
           film_editor.cc
           film_viewer.cc
           filter_dialog.cc

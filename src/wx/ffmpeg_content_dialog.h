@@ -18,18 +18,23 @@
 */
 
 #include <wx/wx.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 class wxSpinCtrl;
-class ImageMagickContent;
+class FFmpegContent;
 
-class ImageMagickContentDialog : public wxDialog
+class FFmpegContentDialog : public wxDialog
 {
 public:
-	ImageMagickContentDialog (wxWindow *, boost::shared_ptr<ImageMagickContent>);
+	FFmpegContentDialog (wxWindow *, boost::shared_ptr<FFmpegContent>);
 
 private:
-	void video_length_changed (wxCommandEvent &);
+	void audio_stream_changed (wxCommandEvent &);
+	void subtitle_stream_changed (wxCommandEvent &);
 
-	boost::weak_ptr<ImageMagickContent> _content;
-	wxSpinCtrl* _video_length;
+	boost::weak_ptr<FFmpegContent> _content;
+	wxChoice* _audio_stream;
+	wxStaticText* _audio_description;
+	wxChoice* _subtitle_stream;
 };

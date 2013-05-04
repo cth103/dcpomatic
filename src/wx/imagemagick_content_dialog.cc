@@ -26,6 +26,7 @@ using boost::shared_ptr;
 
 ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr<ImageMagickContent> content)
 	: wxDialog (parent, wxID_ANY, _("Image"))
+	, _content (content)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 6, 6);
 	grid->AddGrowableCol (1, 1);
@@ -53,10 +54,16 @@ ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr
 	overall_sizer->SetSizeHints (this);
 
 	checked_set (_video_length, content->video_length () / 24);
+	_video_length->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ImageMagickContentDialog::video_length_changed), 0, this);
 }
 
-int
-ImageMagickContentDialog::video_length () const
+void
+ImageMagickContentDialog::video_length_changed (wxCommandEvent &)
 {
-	return _video_length->GetValue ();
+	shared_ptr<ImageMagickContent> c = _content.lock ();
+	if (!c) {
+		return;
+	}
+	
+	c->set_video_length (_video_length->GetValue() * 24);
 }

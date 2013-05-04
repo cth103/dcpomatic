@@ -1154,66 +1154,10 @@ Film::content_length () const
 	return _playlist->content_length ();
 }
 
-vector<FFmpegSubtitleStream>
-Film::ffmpeg_subtitle_streams () const
+bool
+Film::has_subtitles () const
 {
-	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
-	if (f) {
-		return f->subtitle_streams ();
-	}
-
-	return vector<FFmpegSubtitleStream> ();
-}
-
-boost::optional<FFmpegSubtitleStream>
-Film::ffmpeg_subtitle_stream () const
-{
-	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
-	if (f) {
-		return f->subtitle_stream ();
-	}
-
-	return boost::none;
-}
-
-vector<FFmpegAudioStream>
-Film::ffmpeg_audio_streams () const
-{
-	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
-	if (f) {
-		return f->audio_streams ();
-	}
-
-	return vector<FFmpegAudioStream> ();
-}
-
-boost::optional<FFmpegAudioStream>
-Film::ffmpeg_audio_stream () const
-{
-	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
-	if (f) {
-		return f->audio_stream ();
-	}
-
-	return boost::none;
-}
-
-void
-Film::set_ffmpeg_subtitle_stream (FFmpegSubtitleStream s)
-{
-	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
-	if (f) {
-		f->set_subtitle_stream (s);
-	}
-}
-
-void
-Film::set_ffmpeg_audio_stream (FFmpegAudioStream s)
-{
-	shared_ptr<FFmpegContent> f = _playlist->ffmpeg ();
-	if (f) {
-		f->set_audio_stream (s);
-	}
+	return _playlist->has_subtitles ();
 }
 
 void

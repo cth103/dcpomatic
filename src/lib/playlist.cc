@@ -416,3 +416,14 @@ Playlist::ffmpeg () const
 
 	return shared_ptr<FFmpegContent> ();
 }
+
+bool
+Playlist::has_subtitles () const
+{
+	shared_ptr<FFmpegContent> fc = ffmpeg ();
+	if (!fc) {
+		return false;
+	}
+	
+	return !fc->subtitle_streams().empty();
+}

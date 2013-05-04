@@ -112,6 +112,8 @@ public:
 	int audio_channels () const;
 	int audio_frame_rate () const;
 	bool has_audio () const;
+
+	bool has_subtitles () const;
 	
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
@@ -119,16 +121,9 @@ public:
 
 	ContentVideoFrame content_length () const;
 
-	std::vector<FFmpegSubtitleStream> ffmpeg_subtitle_streams () const;
-	boost::optional<FFmpegSubtitleStream> ffmpeg_subtitle_stream () const;
-	std::vector<FFmpegAudioStream> ffmpeg_audio_streams () const;
-	boost::optional<FFmpegAudioStream> ffmpeg_audio_stream () const;
-
-	void set_ffmpeg_subtitle_stream (FFmpegSubtitleStream);
-	void set_ffmpeg_audio_stream (FFmpegAudioStream);
-
 	void set_loop (int);
 	int loop () const;
+
 
 	enum TrimType {
 		CPL,

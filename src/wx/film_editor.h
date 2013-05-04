@@ -88,8 +88,6 @@ private:
 	void subtitle_scale_changed (wxCommandEvent &);
 	void colour_lut_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
-	void ffmpeg_audio_stream_changed (wxCommandEvent &);
-	void ffmpeg_subtitle_stream_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 	void edit_filters_clicked (wxCommandEvent &);
@@ -103,8 +101,6 @@ private:
 	void set_things_sensitive (bool);
 	void setup_formats ();
 	void setup_subtitle_control_sensitivity ();
-	void setup_streams ();
-	void setup_audio_details ();
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
 	void setup_scaling_description ();
@@ -164,10 +160,8 @@ private:
 	wxButton* _audio_gain_calculate_button;
 	wxButton* _show_audio;
 	wxSpinCtrl* _audio_delay;
-	wxChoice* _ffmpeg_audio_stream;
 	AudioMappingView* _audio_mapping;
 	wxCheckBox* _with_subtitles;
-	wxChoice* _ffmpeg_subtitle_stream;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
 	wxChoice* _colour_lut;

@@ -82,6 +82,8 @@ public:
 		return _audio_from;
 	}
 
+	bool has_subtitles () const;
+	
 	ContentList content () const {
 		return _content;
 	}

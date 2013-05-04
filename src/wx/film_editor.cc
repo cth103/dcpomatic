@@ -50,6 +50,7 @@
 #include "scaler.h"
 #include "audio_dialog.h"
 #include "imagemagick_content_dialog.h"
+#include "ffmpeg_content_dialog.h"
 #include "audio_mapping_view.h"
 
 using std::string;
@@ -234,8 +235,6 @@ FilmEditor::connect_to_widgets ()
 	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
 	_colour_lut->Connect             (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
 	_j2k_bandwidth->Connect          (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
-	_ffmpeg_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::ffmpeg_subtitle_stream_changed), 0, this);
-	_ffmpeg_audio_stream->Connect    (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::ffmpeg_audio_stream_changed), 0, this);
 	_audio_gain->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
 	_audio_gain_calculate_button->Connect (
 		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
@@ -420,16 +419,6 @@ FilmEditor::make_audio_panel ()
 		grid->Add (s);
 	}
 
-        {
-                add_label_to_sizer (grid, _audio_panel, _("Audio Stream"));
-                wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-                _ffmpeg_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
-                s->Add (_ffmpeg_audio_stream, 1);
-                _audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
-                s->Add (_audio, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
-                grid->Add (s, 1, wxEXPAND);
-        }
-
 	_audio_mapping = new AudioMappingView (_audio_panel);
 	_audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 	
@@ -448,10 +437,8 @@ FilmEditor::make_subtitle_panel ()
 
 	_with_subtitles = new wxCheckBox (_subtitle_panel, wxID_ANY, _("With Subtitles"));
 	grid->Add (_with_subtitles, 1);
+	grid->AddSpacer (0);
 	
-	_ffmpeg_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
-	grid->Add (_ffmpeg_subtitle_stream);
-
 	{
 		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -628,7 +615,6 @@ FilmEditor::film_changed (Film::Property p)
 		setup_formats ();
 		setup_format ();
 		setup_subtitle_control_sensitivity ();
-		setup_streams ();
 		setup_show_audio_sensitivity ();
 		setup_length ();
 		break;
@@ -756,9 +742,7 @@ FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 		
 	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		setup_subtitle_control_sensitivity ();
-		setup_streams ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
-		setup_streams ();
 		setup_show_audio_sensitivity ();
 	} else if (property == VideoContentProperty::VIDEO_LENGTH || property == AudioContentProperty::AUDIO_LENGTH) {
 		setup_length ();
@@ -767,16 +751,8 @@ FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 			setup_content_information ();
 		}
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
-		if (_film->ffmpeg_audio_stream()) {
-			checked_set (_ffmpeg_audio_stream, boost::lexical_cast<string> (_film->ffmpeg_audio_stream()->id));
-		}
 		setup_dcp_name ();
-		setup_audio_details ();
 		setup_show_audio_sensitivity ();
-	} else if (property == FFmpegContentProperty::SUBTITLE_STREAM) {
-		if (_film->ffmpeg_subtitle_stream()) {
-			checked_set (_ffmpeg_subtitle_stream, boost::lexical_cast<string> (_film->ffmpeg_subtitle_stream()->id));
-		}
 	}
 }
 
@@ -958,7 +934,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_bottom_crop->Enable (s);
 	_filters_button->Enable (s);
 	_scaler->Enable (s);
-	_ffmpeg_audio_stream->Enable (s);
 	_dcp_content_type->Enable (s);
 	_best_dcp_frame_rate->Enable (s);
 	_dcp_frame_rate->Enable (s);
@@ -1115,7 +1090,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 {
 	bool h = false;
 	if (_generally_sensitive && _film) {
-		h = !_film->ffmpeg_subtitle_streams().empty();
+		h = !_film->has_subtitles ();
 	}
 	
 	_with_subtitles->Enable (h);
@@ -1125,7 +1100,6 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 		j = _film->with_subtitles ();
 	}
 	
-	_ffmpeg_subtitle_stream->Enable (j);
 	_subtitle_offset->Enable (j);
 	_subtitle_scale->Enable (j);
 }
@@ -1151,93 +1125,6 @@ FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
 	d->ShowModal ();
 	_film->set_dci_metadata (d->dci_metadata ());
 	d->Destroy ();
-}
-
-void
-FilmEditor::setup_streams ()
-{
-	if (!_film) {
-		return;
-	}
-	
-	_ffmpeg_audio_stream->Clear ();
-	vector<FFmpegAudioStream> a = _film->ffmpeg_audio_streams ();
-	for (vector<FFmpegAudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
-		_ffmpeg_audio_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (boost::lexical_cast<string> (i->id))));
-	}
-	
-	if (_film->ffmpeg_audio_stream()) {
-		checked_set (_ffmpeg_audio_stream, boost::lexical_cast<string> (_film->ffmpeg_audio_stream()->id));
-	}
-
-	_ffmpeg_subtitle_stream->Clear ();
-	vector<FFmpegSubtitleStream> s = _film->ffmpeg_subtitle_streams ();
-	for (vector<FFmpegSubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
-		_ffmpeg_subtitle_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (boost::lexical_cast<string> (i->id))));
-	}
-	
-	if (_film->ffmpeg_subtitle_stream()) {
-		checked_set (_ffmpeg_subtitle_stream, boost::lexical_cast<string> (_film->ffmpeg_subtitle_stream()->id));
-	} else {
-		_ffmpeg_subtitle_stream->SetSelection (wxNOT_FOUND);
-	}
-}
-
-void
-FilmEditor::ffmpeg_audio_stream_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-	vector<FFmpegAudioStream> a = _film->ffmpeg_audio_streams ();
-	vector<FFmpegAudioStream>::iterator i = a.begin ();
-	string const s = string_client_data (_ffmpeg_audio_stream->GetClientObject (_ffmpeg_audio_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> (i->id) != s) {
-		++i;
-	}
-
-	if (i != a.end ()) {
-		_film->set_ffmpeg_audio_stream (*i);
-	}
-}
-
-void
-FilmEditor::ffmpeg_subtitle_stream_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-	vector<FFmpegSubtitleStream> a = _film->ffmpeg_subtitle_streams ();
-	vector<FFmpegSubtitleStream>::iterator i = a.begin ();
-	string const s = string_client_data (_ffmpeg_subtitle_stream->GetClientObject (_ffmpeg_subtitle_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> (i->id) != s) {
-		++i;
-	}
-
-	if (i != a.end ()) {
-		_film->set_ffmpeg_subtitle_stream (*i);
-	}
-}
-
-void
-FilmEditor::setup_audio_details ()
-{
-	if (!_film->ffmpeg_audio_stream()) {
-		_audio->SetLabel (wxT (""));
-	} else {
-		wxString s;
-		if (_film->audio_channels() == 1) {
-			s << _("1 channel");
-		} else {
-			s << _film->audio_channels() << wxT (" ") << _("channels");
-		}
-		s << wxT (", ") << _film->audio_frame_rate() << _("Hz");
-		_audio->SetLabel (s);
-	}
-
-	setup_notebook_size ();
 }
 
 void
@@ -1377,8 +1264,13 @@ FilmEditor::edit_content (shared_ptr<Content> c)
 		ImageMagickContentDialog* d = new ImageMagickContentDialog (this, im);
 		d->ShowModal ();
 		d->Destroy ();
+	}
 
-		im->set_video_length (d->video_length() * 24);
+	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (c);
+	if (ff) {
+		FFmpegContentDialog* d = new FFmpegContentDialog (this, ff);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 }
 
@@ -1426,7 +1318,11 @@ FilmEditor::setup_content_button_sensitivity ()
 
 	shared_ptr<Content> selection = selected_content ();
 
-        _content_edit->Enable (selection && _generally_sensitive && dynamic_pointer_cast<ImageMagickContent> (selection));
+        _content_edit->Enable (
+		selection && _generally_sensitive &&
+		(dynamic_pointer_cast<ImageMagickContent> (selection) || dynamic_pointer_cast<FFmpegContent> (selection))
+		);
+	
         _content_remove->Enable (selection && _generally_sensitive);
         _content_earlier->Enable (selection && _generally_sensitive);
         _content_later->Enable (selection && _generally_sensitive);
