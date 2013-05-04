@@ -41,4 +41,5 @@ private:
 	SF_INFO _info;
 	ContentAudioFrame _done;
 	ContentAudioFrame _remaining;
+	float* _deinterleave_buffer;
 };

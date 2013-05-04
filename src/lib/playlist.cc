@@ -30,12 +30,15 @@
 #include "imagemagick_content.h"
 #include "job.h"
 
+#include "i18n.h"
+
 using std::list;
 using std::cout;
 using std::vector;
 using std::min;
 using std::max;
 using std::string;
+using std::stringstream;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -426,4 +429,52 @@ Playlist::has_subtitles () const
 	}
 	
 	return !fc->subtitle_streams().empty();
+}
+
+string
+Playlist::description () const
+{
+	stringstream s;
+
+	if (_video.empty ()) {
+		s << _("There is no video.") << "\n";
+	} else {
+		s << _("Video will come from ");
+		list<shared_ptr<const VideoContent> >::const_iterator i = _video.begin();
+		while (i != _video.end ()) {
+			s << (*i)->file().filename().string();
+			++i;
+			if (i != _video.end ()) {
+				s << ", ";
+			}
+		}
+		if (_video.size() > 1) {
+			s << " " << _("in sequence.");
+		}
+		s << "\n";
+	}
+
+	if (_audio.empty ()) {
+		s << _("There is no audio.") << "\n";
+	} else {
+		if (_audio_from == AUDIO_FFMPEG) {
+			s << _("Audio will come from the video files.") << "\n";
+		} else {
+			s << _("Audio will come from ");
+			list<shared_ptr<const AudioContent> >::const_iterator i = _audio.begin();
+			while (i != _audio.end ()) {
+				s << (*i)->file().filename().string();
+				++i;
+				if (i != _audio.end ()) {
+					s << ", ";
+				}
+			}
+			if (_audio.size() > 1) {
+				s << _(" run simultaneously.");
+			}
+			s << "\n";
+		}
+	}
+			
+	return s.str ();
 }

@@ -88,6 +88,8 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_subtitle_panel ();
 	_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
 
+	setup_formats ();
+
 	set_film (f);
 	connect_to_widgets ();
 
@@ -95,8 +97,6 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 		bind (&FilmEditor::active_jobs_changed, this, _1)
 		);
 	
-	setup_formats ();
-
 	SetSizerAndFit (s);
 }
 
@@ -367,8 +367,11 @@ FilmEditor::make_content_panel ()
 
                 s->Add (b, 0, wxALL, 4);
 
-                _content_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
+                _content_sizer->Add (s, 0.75, wxEXPAND | wxALL, 6);
         }
+
+	_content_information = new wxTextCtrl (_content_panel, wxID_ANY, wxT ("\n \n "), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+	_content_sizer->Add (_content_information, 1, wxEXPAND | wxALL, 6);
 
 	wxBoxSizer* h = new wxBoxSizer (wxHORIZONTAL);
 	_loop_content = new wxCheckBox (_content_panel, wxID_ANY, _("Loop everything"));
@@ -378,8 +381,12 @@ FilmEditor::make_content_panel ()
 	add_label_to_sizer (h, _content_panel, _("times"));
 	_content_sizer->Add (h, 0, wxALL, 6);
 
-	_content_information = new wxTextCtrl (_content_panel, wxID_ANY, wxT ("\n\n\n\n"), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-	_content_sizer->Add (_content_information, 1, wxEXPAND | wxALL, 6);
+	_playlist_description = new wxStaticText (_content_panel, wxID_ANY, wxT ("\n \n \n \n "));
+	_content_sizer->Add (_playlist_description, 0.25, wxEXPAND | wxALL, 6);
+	wxFont font = _playlist_description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_playlist_description->SetFont(font);
 
 	_loop_count->SetRange (2, 1024);
 }
@@ -1198,6 +1205,8 @@ FilmEditor::setup_content ()
 		/* Select the first item of content if non was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
+
+	setup_playlist_description ();
 }
 
 void
@@ -1428,4 +1437,15 @@ void
 FilmEditor::setup_loop_sensitivity ()
 {
 	_loop_count->Enable (_loop_content->GetValue ());
+}
+
+void
+FilmEditor::setup_playlist_description ()
+{
+	if (!_film) {
+		_playlist_description->SetLabel (wxT (""));
+		return;
+	}
+
+	_playlist_description->SetLabel (std_to_wx (_film->playlist_description ()));
 }

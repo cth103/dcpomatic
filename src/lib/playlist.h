@@ -88,6 +88,8 @@ public:
 		return _content;
 	}
 
+	std::string description () const;
+
 	boost::shared_ptr<FFmpegContent> ffmpeg () const;
 
 	std::list<boost::shared_ptr<const VideoContent> > video () const {

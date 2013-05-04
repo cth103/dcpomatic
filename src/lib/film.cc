@@ -1160,6 +1160,12 @@ Film::has_subtitles () const
 	return _playlist->has_subtitles ();
 }
 
+string
+Film::playlist_description () const
+{
+	return _playlist->description ();
+}
+
 void
 Film::set_audio_mapping (AudioMapping m)
 {

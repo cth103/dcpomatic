@@ -36,6 +36,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 	: Decoder (f)
 	, AudioDecoder (f)
 	, _sndfile_content (c)
+	, _deinterleave_buffer (0)
 {
 	_sndfile = sf_open (_sndfile_content->file().string().c_str(), SFM_READ, &_info);
 	if (!_sndfile) {
@@ -49,6 +50,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 SndfileDecoder::~SndfileDecoder ()
 {
 	sf_close (_sndfile);
+	delete[] _deinterleave_buffer;
 }
 
 bool
@@ -59,9 +61,32 @@ SndfileDecoder::pass ()
 	*/
 	sf_count_t const block = _sndfile_content->audio_frame_rate() / 2;
 	sf_count_t const this_time = min (block, _remaining);
+
+	int const channels = _sndfile_content->audio_channels ();
 	
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_sndfile_content->audio_channels(), this_time));
-	sf_read_float (_sndfile, audio->data(0), this_time);
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (channels, this_time));
+
+	if (_sndfile_content->audio_channels() == 1) {
+		/* No de-interleaving required */
+		sf_read_float (_sndfile, audio->data(0), this_time);
+	} else {
+		/* Deinterleave */
+		if (!_deinterleave_buffer) {
+			_deinterleave_buffer = new float[block * channels];
+		}
+		sf_readf_float (_sndfile, _deinterleave_buffer, this_time);
+		vector<float*> out_ptr (channels);
+		for (int i = 0; i < channels; ++i) {
+			out_ptr[i] = audio->data(i);
+		}
+		float* in_ptr = _deinterleave_buffer;
+		for (int i = 0; i < this_time; ++i) {
+			for (int j = 0; j < channels; ++j) {
+				*out_ptr[j]++ = *in_ptr++;
+			}
+		}
+	}
+		
 	audio->set_frames (this_time);
 	Audio (audio, double(_done) / audio_frame_rate());
 	_done += this_time;

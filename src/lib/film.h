@@ -121,6 +121,8 @@ public:
 
 	ContentVideoFrame content_length () const;
 
+	std::string playlist_description () const;
+
 	void set_loop (int);
 	int loop () const;
 
