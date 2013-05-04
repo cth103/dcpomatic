@@ -26,6 +26,7 @@
 #include <libdcp/exceptions.h>
 #include "job.h"
 #include "util.h"
+#include "cross.h"
 
 #include "i18n.h"
 
@@ -155,6 +156,13 @@ Job::finished_cancelled () const
 	return _state == FINISHED_CANCELLED;
 }
 
+bool
+Job::paused () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _state == PAUSED;
+}
+	
 /** Set the state of this job.
  *  @param s New state.
  */
@@ -190,6 +198,10 @@ Job::set_progress (float p)
 	_progress_unknown = false;
 	_stack.back().normalised = p;
 	boost::this_thread::interruption_point ();
+
+	if (paused ()) {
+		dvdomatic_sleep (1);
+	}
 }
 
 /** @return fractional overall progress, or -1 if not known */
@@ -325,4 +337,20 @@ Job::cancel ()
 
 	_thread->interrupt ();
 	_thread->join ();
+}
+
+void
+Job::pause ()
+{
+	if (running ()) {
+		set_state (PAUSED);
+	}
+}
+
+void
+Job::resume ()
+{
+	if (paused ()) {
+		set_state (RUNNING);
+	}
 }

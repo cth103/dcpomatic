@@ -224,7 +224,7 @@ public:
 
 		film_editor = new FilmEditor (film, panel);
 		film_viewer = new FilmViewer (film, panel);
-		JobManagerView* job_manager_view = new JobManagerView (panel);
+		JobManagerView* job_manager_view = new JobManagerView (panel, static_cast<JobManagerView::Buttons> (0));
 
 		_top_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_top_sizer->Add (film_editor, 0, wxALL, 6);

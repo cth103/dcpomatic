@@ -34,15 +34,21 @@ using std::map;
 using boost::shared_ptr;
 
 /** Must be called in the GUI thread */
-JobManagerView::JobManagerView (wxWindow* parent)
+JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
 	: wxScrolledWindow (parent)
+	, _buttons (buttons)
 {
 	_panel = new wxPanel (this);
 	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_panel, 1, wxEXPAND);
 	SetSizer (sizer);
+
+	int N = 5;
+	if (buttons & PAUSE) {
+		++N;
+	}
 	
-	_table = new wxFlexGridSizer (5, 6, 6);
+	_table = new wxFlexGridSizer (N, 6, 6);
 	_table->AddGrowableCol (1, 1);
 	_panel->SetSizer (_table);
 
@@ -78,21 +84,33 @@ JobManagerView::update ()
 			_table->Insert (index, m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 			
 			JobRecord r;
+			int n = 1;
 			r.finalised = false;
 			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
-			_table->Insert (index + 1, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
+			_table->Insert (index + n, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
+			++n;
 			
 			r.message = new wxStaticText (_panel, wxID_ANY, std_to_wx (""));
-			_table->Insert (index + 2, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			_table->Insert (index + n, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			++n;
 
 			r.cancel = new wxButton (_panel, wxID_ANY, _("Cancel"));
 			r.cancel->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::cancel_clicked), 0, this);
-			_table->Insert (index + 3, r.cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			_table->Insert (index + n, r.cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			++n;
 
+			if (_buttons & PAUSE) {
+				r.pause = new wxButton (_panel, wxID_ANY, _("Pause"));
+				r.pause->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::pause_clicked), 0, this);
+				_table->Insert (index + n, r.pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+				++n;
+			}
+			
 			r.details = new wxButton (_panel, wxID_ANY, _("Details..."));
 			r.details->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::details_clicked), 0, this);
 			r.details->Enable (false);
-			_table->Insert (index + 4, r.details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			_table->Insert (index + n, r.details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+			++n;
 			
 			_job_records[*i] = r;
 		}
@@ -155,3 +173,21 @@ JobManagerView::cancel_clicked (wxCommandEvent& ev)
 		}
 	}
 }
+
+void
+JobManagerView::pause_clicked (wxCommandEvent& ev)
+{
+	wxObject* o = ev.GetEventObject ();
+	for (map<boost::shared_ptr<Job>, JobRecord>::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
+		if (i->second.pause == o) {
+			if (i->first->paused()) {
+				i->first->resume ();
+				i->second.pause->SetLabel (_("Pause"));
+			} else {
+				i->first->pause ();
+				i->second.pause->SetLabel (_("Resume"));
+			}
+		}
+	}
+}
+	

@@ -33,13 +33,18 @@ class Job;
 class JobManagerView : public wxScrolledWindow
 {
 public:
-	JobManagerView (wxWindow *);
+	enum Buttons {
+		PAUSE = 0x1,
+	};
+		
+	JobManagerView (wxWindow *, Buttons);
 
 	void update ();
 
 private:
 	void periodic (wxTimerEvent &);
 	void cancel_clicked (wxCommandEvent &);
+	void pause_clicked (wxCommandEvent &);
 	void details_clicked (wxCommandEvent &);
 
 	boost::shared_ptr<wxTimer> _timer;
@@ -49,9 +54,11 @@ private:
 		wxGauge* gauge;
 		wxStaticText* message;
 		wxButton* cancel;
+		wxButton* pause;
 		wxButton* details;
 		bool finalised;
 	};
 		
 	std::map<boost::shared_ptr<Job>, JobRecord> _job_records;
+	Buttons _buttons;
 };
