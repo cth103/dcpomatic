@@ -8,7 +8,7 @@ def dependencies(target):
     else:
         return (('openjpeg-cdist', None),
                 ('ffmpeg-cdist', '488d5d4496af5e3a3b9d31d6b221e8eeada6b77e'),
-                ('libdcp', 'v0.45'))
+                ('libdcp', 'v0.49'))
 
 def build(env, target):
     cmd = './waf configure --prefix=%s' % env.work_dir_cscript()
