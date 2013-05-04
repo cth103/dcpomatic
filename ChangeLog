@@ -1,5 +1,9 @@
 2013-05-04  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.89beta1 released.
+
+2013-05-04  Carl Hetherington  <cth@carlh.net>
+
 	* Very simple batch converter added (#127).
 
 	* Add preference for CPL issuer and creator (#122).
