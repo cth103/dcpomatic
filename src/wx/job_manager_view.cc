@@ -142,6 +142,9 @@ JobManagerView::update ()
 		}
 
 		index += 5;
+		if (_buttons & PAUSE) {
+			++index;
+		}
 	}
 
 	_table->Layout ();
