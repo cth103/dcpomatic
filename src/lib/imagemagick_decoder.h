@@ -65,4 +65,5 @@ private:
 	boost::shared_ptr<const ImageMagickContent> _imagemagick_content;
 	boost::shared_ptr<Image> _image;
 	ContentVideoFrame _position;
+	mutable boost::optional<libdcp::Size> _native_size;
 };

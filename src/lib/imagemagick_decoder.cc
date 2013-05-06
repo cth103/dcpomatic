@@ -38,18 +38,20 @@ ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<con
 	, _imagemagick_content (c)
 	, _position (0)
 {
-	
+
 }
 
 libdcp::Size
 ImageMagickDecoder::native_size () const
 {
-	using namespace MagickCore;
-	Magick::Image* image = new Magick::Image (_imagemagick_content->file().string());
-	libdcp::Size const s = libdcp::Size (image->columns(), image->rows());
-	delete image;
+	if (!_native_size) {
+		using namespace MagickCore;
+		Magick::Image* image = new Magick::Image (_imagemagick_content->file().string());
+		_native_size = libdcp::Size (image->columns(), image->rows());
+		delete image;
+	}
 
-	return s;
+	return _native_size.get ();
 }
 
 int
@@ -70,17 +72,17 @@ ImageMagickDecoder::pass ()
 		_position++;
 		return false;
 	}
-	
+
 	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());
+	_native_size = libdcp::Size (magick_image->columns(), magick_image->rows());
 	
-	libdcp::Size size = native_size ();
-	_image.reset (new SimpleImage (PIX_FMT_RGB24, size, false));
+	_image.reset (new SimpleImage (PIX_FMT_RGB24, _native_size.get(), false));
 
 	using namespace MagickCore;
 	
 	uint8_t* p = _image->data()[0];
-	for (int y = 0; y < size.height; ++y) {
-		for (int x = 0; x < size.width; ++x) {
+	for (int y = 0; y < _native_size->height; ++y) {
+		for (int x = 0; x < _native_size->width; ++x) {
 			Magick::Color c = magick_image->pixelColor (x, y);
 			*p++ = c.redQuantum() * 255 / QuantumRange;
 			*p++ = c.greenQuantum() * 255 / QuantumRange;
