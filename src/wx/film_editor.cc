@@ -73,6 +73,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
 	, _generally_sensitive (true)
 	, _audio_dialog (0)
+	, _timeline_dialog (0)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_notebook = new wxNotebook (this, wxID_ANY);
@@ -1458,7 +1459,11 @@ FilmEditor::setup_playlist_description ()
 void
 FilmEditor::timeline_clicked (wxCommandEvent &)
 {
-	TimelineDialog* d = new TimelineDialog (this, _film->playlist ());
-	d->ShowModal ();
-	d->Destroy ();
+	if (_timeline_dialog) {
+		_timeline_dialog->Destroy ();
+		_timeline_dialog = 0;
+	}
+	
+	_timeline_dialog = new TimelineDialog (this, _film->playlist ());
+	_timeline_dialog->Show ();
 }

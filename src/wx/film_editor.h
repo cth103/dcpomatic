@@ -34,6 +34,7 @@ class wxListEvent;
 class Film;
 class AudioDialog;
 class AudioMappingView;
+class TimelineDialog;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -188,4 +189,5 @@ private:
 
 	bool _generally_sensitive;
 	AudioDialog* _audio_dialog;
+	TimelineDialog* _timeline_dialog;
 };

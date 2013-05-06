@@ -30,6 +30,7 @@ public:
 
 private:
 	void paint (wxPaintEvent &);
+	void playlist_changed ();
 
 	static int const _track_height;
 	

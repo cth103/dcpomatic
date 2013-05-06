@@ -27,6 +27,7 @@ using std::list;
 using std::cout;
 using std::max;
 using boost::shared_ptr;
+using boost::bind;
 
 int const Timeline::_track_height = 64;
 
@@ -43,6 +44,9 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<Playlist> pl)
 	} else {
 		SetMinSize (wxSize (640, _track_height * (max (1UL, pl->audio().size()) + 1) + 96));
 	}
+
+	pl->Changed.connect (bind (&Timeline::playlist_changed, this));
+	pl->ContentChanged.connect (bind (&Timeline::playlist_changed, this));
 }
 
 template <class T>
@@ -189,3 +193,8 @@ Timeline::paint (wxPaintEvent &)
 	delete gc;
 }
 
+void
+Timeline::playlist_changed ()
+{
+	Refresh ();
+}
