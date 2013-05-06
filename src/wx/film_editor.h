@@ -93,6 +93,7 @@ private:
 	void edit_filters_clicked (wxCommandEvent &);
 	void loop_content_toggled (wxCommandEvent &);
 	void loop_count_changed (wxCommandEvent &);
+	void timeline_clicked (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -145,6 +146,7 @@ private:
 	wxTextCtrl* _content_information;
 	wxCheckBox* _loop_content;
 	wxSpinCtrl* _loop_count;
+	wxButton* _timeline_button;
 	wxStaticText* _playlist_description;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;

@@ -89,6 +89,7 @@ public:
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
+	double temporal_length () const;
 
         /* AudioContent */
         int audio_channels () const;

@@ -52,6 +52,7 @@
 #include "imagemagick_content_dialog.h"
 #include "ffmpeg_content_dialog.h"
 #include "audio_mapping_view.h"
+#include "timeline_dialog.h"
 
 using std::string;
 using std::cout;
@@ -215,6 +216,7 @@ FilmEditor::connect_to_widgets ()
 	_content_edit->Connect           (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_edit_clicked), 0, this);
 	_content_earlier->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
 	_content_later->Connect          (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
+	_timeline_button->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::timeline_clicked), 0, this);
 	_loop_content->Connect           (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::loop_content_toggled), 0, this);
 	_loop_count->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::loop_count_changed), 0, this);
 	_left_crop->Connect              (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
@@ -387,6 +389,9 @@ FilmEditor::make_content_panel ()
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_playlist_description->SetFont(font);
+
+	_timeline_button = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
+	_content_sizer->Add (_timeline_button, 0, wxALL, 6);
 
 	_loop_count->SetRange (2, 1024);
 }
@@ -1448,4 +1453,12 @@ FilmEditor::setup_playlist_description ()
 	}
 
 	_playlist_description->SetLabel (std_to_wx (_film->playlist_description ()));
+}
+
+void
+FilmEditor::timeline_clicked (wxCommandEvent &)
+{
+	TimelineDialog* d = new TimelineDialog (this, _film->playlist ());
+	d->ShowModal ();
+	d->Destroy ();
 }

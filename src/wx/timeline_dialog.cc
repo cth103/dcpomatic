@@ -17,36 +17,25 @@
 
 */
 
-#ifndef DCPOMATIC_AUDIO_CONTENT_H
-#define DCPOMATIC_AUDIO_CONTENT_H
+#include <list>
+#include <wx/graphics.h>
+#include "timeline_dialog.h"
+#include "wx_util.h"
+#include "playlist.h"
 
-#include "content.h"
-#include "util.h"
+using std::list;
+using std::cout;
+using boost::shared_ptr;
 
-namespace cxml {
-	class Node;
+TimelineDialog::TimelineDialog (wxWindow* parent, shared_ptr<Playlist> pl)
+	: wxDialog (parent, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	, _timeline (this, pl)
+{
+	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	
+	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
+
+	SetSizer (sizer);
+	sizer->Layout ();
+	sizer->SetSizeHints (this);
 }
-
-class AudioContentProperty
-{
-public:
-	static int const AUDIO_CHANNELS;
-	static int const AUDIO_LENGTH;
-	static int const AUDIO_FRAME_RATE;
-};
-
-class AudioContent : public virtual Content
-{
-public:
-	AudioContent (boost::filesystem::path);
-	AudioContent (boost::shared_ptr<const cxml::Node>);
-	AudioContent (AudioContent const &);
-
-        virtual int audio_channels () const = 0;
-        virtual ContentAudioFrame audio_length () const = 0;
-        virtual int audio_frame_rate () const = 0;
-
-	Time temporal_length () const;
-};
-
-#endif

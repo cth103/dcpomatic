@@ -17,36 +17,18 @@
 
 */
 
-#ifndef DCPOMATIC_AUDIO_CONTENT_H
-#define DCPOMATIC_AUDIO_CONTENT_H
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+#include <wx/wx.h>
+#include "timeline.h"
 
-#include "content.h"
-#include "util.h"
+class Playlist;
 
-namespace cxml {
-	class Node;
-}
-
-class AudioContentProperty
+class TimelineDialog : public wxDialog
 {
 public:
-	static int const AUDIO_CHANNELS;
-	static int const AUDIO_LENGTH;
-	static int const AUDIO_FRAME_RATE;
+	TimelineDialog (wxWindow *, boost::shared_ptr<Playlist>);
+
+private:
+	Timeline _timeline;
 };
-
-class AudioContent : public virtual Content
-{
-public:
-	AudioContent (boost::filesystem::path);
-	AudioContent (boost::shared_ptr<const cxml::Node>);
-	AudioContent (AudioContent const &);
-
-        virtual int audio_channels () const = 0;
-        virtual ContentAudioFrame audio_length () const = 0;
-        virtual int audio_frame_rate () const = 0;
-
-	Time temporal_length () const;
-};
-
-#endif

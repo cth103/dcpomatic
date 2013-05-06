@@ -22,6 +22,8 @@ sources = """
           new_film_dialog.cc
           properties_dialog.cc
           server_dialog.cc
+          timeline.cc
+          timeline_dialog.cc
           wx_util.cc
           wx_ui_signaller.cc
           """

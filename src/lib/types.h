@@ -29,6 +29,7 @@ class Content;
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef int64_t ContentAudioFrame;
 typedef int ContentVideoFrame;
+typedef double Time;
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

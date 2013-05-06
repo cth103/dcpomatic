@@ -1075,6 +1075,13 @@ Film::player () const
 	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
 }
 
+shared_ptr<Playlist>
+Film::playlist () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _playlist;
+}
+
 ContentList
 Film::content () const
 {

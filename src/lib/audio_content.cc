@@ -43,3 +43,9 @@ AudioContent::AudioContent (AudioContent const & o)
 {
 
 }
+
+Time
+AudioContent::temporal_length () const
+{
+	return audio_length() / audio_frame_rate();
+}

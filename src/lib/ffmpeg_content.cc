@@ -280,3 +280,9 @@ FFmpegContent::clone () const
 {
 	return shared_ptr<Content> (new FFmpegContent (*this));
 }
+
+double
+FFmpegContent::temporal_length () const
+{
+	return video_length() / video_frame_rate();
+}

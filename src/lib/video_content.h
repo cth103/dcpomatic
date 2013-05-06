@@ -42,6 +42,7 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	virtual std::string information () const;
+	Time temporal_length () const;
 
 	ContentVideoFrame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);

@@ -103,6 +103,7 @@ public:
 	bool have_dcp () const;
 
 	boost::shared_ptr<Player> player () const;
+	boost::shared_ptr<Playlist> playlist () const;
 
 	/* Proxies for some Playlist methods */
 
