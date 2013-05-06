@@ -40,6 +40,10 @@ public:
 	bool seek (double);
 	bool pass ();
 
+	boost::shared_ptr<const ImageMagickContent> content () const {
+		return _imagemagick_content;
+	}
+
 protected:
 	PixelFormat pixel_format () const;
 

@@ -219,6 +219,8 @@ Player::seek_forward ()
 void
 Player::setup_decoders ()
 {
+	vector<shared_ptr<VideoDecoder> > old_video_decoders = _video_decoders;
+
 	_video_decoders.clear ();
 	_video_decoder = 0;
 	_audio_decoders.clear ();
@@ -260,10 +262,21 @@ Player::setup_decoders ()
 			shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
 			if (ic) {
 				video_content = ic;
-				video_decoder.reset (new ImageMagickDecoder (_film, ic));
+
+				/* See if we can re-use an old ImageMagickDecoder */
+				for (vector<shared_ptr<VideoDecoder> >::const_iterator i = old_video_decoders.begin(); i != old_video_decoders.end(); ++i) {
+					shared_ptr<ImageMagickDecoder> imd = dynamic_pointer_cast<ImageMagickDecoder> (*i);
+					if (imd && imd->content() == ic) {
+						video_decoder = *i;
+					}
+				}
+
+				if (!video_decoder) {
+					video_decoder.reset (new ImageMagickDecoder (_film, ic));
+					video_decoder->connect_video (shared_from_this ());
+				}
 			}
 			
-			video_decoder->connect_video (shared_from_this ());
 			_video_decoders.push_back (video_decoder);
 			_video_start.push_back (video_so_far);
 			video_so_far += video_content->video_length() / video_content->video_frame_rate();
