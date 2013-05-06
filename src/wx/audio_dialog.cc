@@ -29,7 +29,7 @@ using boost::bind;
 using boost::optional;
 
 AudioDialog::AudioDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
 	, _plot (0)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);

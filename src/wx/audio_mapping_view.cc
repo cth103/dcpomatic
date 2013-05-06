@@ -59,6 +59,8 @@ public:
 
 	void Draw (wxGrid& grid, wxGridCellAttr &, wxDC& dc, const wxRect& rect, int row, int col, bool)
 	{
+		dc.Clear ();
+		
 		wxRendererNative::Get().DrawCheckBox (
 			&grid,
 			dc, rect,
