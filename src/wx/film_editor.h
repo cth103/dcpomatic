@@ -114,7 +114,6 @@ private:
 	void setup_content_information ();
 	void setup_content_button_sensitivity ();
 	void setup_loop_sensitivity ();
-	void setup_playlist_description ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
@@ -148,7 +147,6 @@ private:
 	wxCheckBox* _loop_content;
 	wxSpinCtrl* _loop_count;
 	wxButton* _timeline_button;
-	wxStaticText* _playlist_description;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;

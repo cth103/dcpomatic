@@ -384,13 +384,6 @@ FilmEditor::make_content_panel ()
 	add_label_to_sizer (h, _content_panel, _("times"));
 	_content_sizer->Add (h, 0, wxALL, 6);
 
-	_playlist_description = new wxStaticText (_content_panel, wxID_ANY, wxT ("\n \n \n \n "));
-	_content_sizer->Add (_playlist_description, 0.25, wxEXPAND | wxALL, 6);
-	wxFont font = _playlist_description->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_playlist_description->SetFont(font);
-
 	_timeline_button = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
 	_content_sizer->Add (_timeline_button, 0, wxALL, 6);
 
@@ -1211,8 +1204,6 @@ FilmEditor::setup_content ()
 		/* Select the first item of content if non was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
-
-	setup_playlist_description ();
 }
 
 void
@@ -1443,17 +1434,6 @@ void
 FilmEditor::setup_loop_sensitivity ()
 {
 	_loop_count->Enable (_loop_content->GetValue ());
-}
-
-void
-FilmEditor::setup_playlist_description ()
-{
-	if (!_film) {
-		_playlist_description->SetLabel (wxT (""));
-		return;
-	}
-
-	_playlist_description->SetLabel (std_to_wx (_film->playlist_description ()));
 }
 
 void
