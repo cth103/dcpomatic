@@ -56,6 +56,9 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 
 	_subtitle_stream->Clear ();
 	vector<FFmpegSubtitleStream> s = content->subtitle_streams ();
+	if (s.empty ()) {
+		_subtitle_stream->Enable (false);
+	}
 	for (vector<FFmpegSubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
 		_subtitle_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (lexical_cast<string> (i->id))));
 	}
