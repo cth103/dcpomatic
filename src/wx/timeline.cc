@@ -42,7 +42,7 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<Playlist> pl)
 	if (pl->audio_from() == Playlist::AUDIO_FFMPEG) {
 		SetMinSize (wxSize (640, _track_height * 2 + 96));
 	} else {
-		SetMinSize (wxSize (640, _track_height * (max (1UL, pl->audio().size()) + 1) + 96));
+		SetMinSize (wxSize (640, _track_height * (max (size_t (1), pl->audio().size()) + 1) + 96));
 	}
 
 	pl->Changed.connect (bind (&Timeline::playlist_changed, this));
