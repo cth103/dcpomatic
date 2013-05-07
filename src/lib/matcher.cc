@@ -110,7 +110,7 @@ Matcher::process_audio (boost::shared_ptr<const AudioBuffers> b, double t)
 	if (!_had_first_video) {
 		/* No video yet; we must postpone these data until we have some */
 		_pending_audio.push_back (AudioRecord (b, t));
-	} else if (this_is_first_audio && !_had_first_video) {
+	} else if (this_is_first_audio && _had_first_video) {
 		/* First audio since we got video */
 		_pending_audio.push_back (AudioRecord (b, t));
 		fix_start (_first_input.get ());
