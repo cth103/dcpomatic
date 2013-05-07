@@ -79,6 +79,7 @@ JobManagerView::update ()
 			
 			JobRecord r;
 			r.finalised = false;
+			r.scroll_nudged = false;
 			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
 			_table->Insert (index + 1, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
 			
@@ -95,6 +96,7 @@ JobManagerView::update ()
 			_table->Insert (index + 4, r.details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 			
 			_job_records[*i] = r;
+
 		}
 
 		string const st = (*i)->status ();
@@ -108,8 +110,25 @@ JobManagerView::update ()
 				checked_set (_job_records[*i].message, wx_to_std (_("Running")));
 				_job_records[*i].gauge->Pulse ();
 			}
+
 		}
 
+		if (!_job_records[*i].scroll_nudged && ((*i)->running () || (*i)->finished())) {
+			int x, y;
+			_job_records[*i].gauge->GetPosition (&x, &y);
+			int px, py;
+			GetScrollPixelsPerUnit (&px, &py);
+			int vx, vy;
+			GetViewStart (&vx, &vy);
+			int sx, sy;
+			GetClientSize (&sx, &sy);
+
+			if (y > (vy * py + sy / 2)) {
+				Scroll (-1, y / py);
+				_job_records[*i].scroll_nudged = true;
+			}
+		}
+			
 		if ((*i)->finished() && !_job_records[*i].finalised) {
 			checked_set (_job_records[*i].message, st);
 			if (!(*i)->finished_cancelled()) {

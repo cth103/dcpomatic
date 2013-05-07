@@ -51,6 +51,7 @@ private:
 		wxButton* cancel;
 		wxButton* details;
 		bool finalised;
+		bool scroll_nudged;
 	};
 		
 	std::map<boost::shared_ptr<Job>, JobRecord> _job_records;
