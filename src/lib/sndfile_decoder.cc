@@ -102,12 +102,18 @@ SndfileDecoder::pass ()
 	sf_count_t const block = _audio_stream->sample_rate() / 2;
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_audio_stream->channels(), block));
 	sf_count_t const this_time = min (block, _frames - _done);
+	bool have_sound = false;
 	for (size_t i = 0; i < _sndfiles.size(); ++i) {
 		if (!_sndfiles[i]) {
 			audio->make_silent (i);
 		} else {
 			sf_read_float (_sndfiles[i], audio->data(i), this_time);
+			have_sound = true;
 		}
+	}
+
+	if (!have_sound) {
+		return true;
 	}
 
 	audio->set_frames (this_time);
