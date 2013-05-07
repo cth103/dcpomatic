@@ -67,7 +67,7 @@ plot_content_list (
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
-		wxString name = wxString::Format ("%s [%s]", std_to_wx ((*i)->file().filename().string()), type);
+		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx ((*i)->file().filename().string()).data(), type.data());
 		wxDouble name_width;
 		wxDouble name_height;
 		wxDouble name_descent;
@@ -119,15 +119,15 @@ Timeline::paint (wxPaintEvent &)
 	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxPENSTYLE_SOLID));
 	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (149, 121, 232, 255), wxBRUSHSTYLE_SOLID));
 #else			
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, SOLID));
-	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (149, 121, 232, 255), SOLID));
+	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxSOLID));
+	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (149, 121, 232, 255), wxSOLID));
 #endif
 	y = plot_content_list (pl->video (), gc, x_offset, y, pixels_per_second, _track_height, _("video"), true);
 	
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (242, 92, 120, 255), wxBRUSHSTYLE_SOLID));
 #else			
-	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (242, 92, 120, 255), SOLID));
+	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (242, 92, 120, 255), wxSOLID));
 #endif
 	y = plot_content_list (pl->audio (), gc, x_offset, y, pixels_per_second, _track_height, _("audio"), pl->audio_from() == Playlist::AUDIO_FFMPEG);
 
@@ -136,7 +136,7 @@ Timeline::paint (wxPaintEvent &)
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
         gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
 #else		    
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, SOLID));
+	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxSOLID));
 #endif		    
 		    
 	int mark_interval = rint (128 / pixels_per_second);
@@ -176,7 +176,7 @@ Timeline::paint (wxPaintEvent &)
 		tc -= m * 60;
 		int const s = tc;
 
-		wxString str = wxString::Format ("%02d:%02d:%02d", h, m, s);
+		wxString str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
 		wxDouble str_width;
 		wxDouble str_height;
 		wxDouble str_descent;

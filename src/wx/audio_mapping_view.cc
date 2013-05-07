@@ -62,7 +62,7 @@ public:
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxPENSTYLE_SOLID));
 #else		
-		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, SOLID));
+		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxSOLID));
 #endif		
 		dc.DrawRectangle (rect);
 		
