@@ -78,7 +78,7 @@ Player::pass ()
 	if (_video && _video_decoder < _video_decoders.size ()) {
 
 		/* Run video decoder; this may also produce audio */
-		
+
 		if (_video_decoders[_video_decoder]->pass ()) {
 			_video_decoder++;
 		}
@@ -257,6 +257,8 @@ Player::setup_decoders ()
 				audio_content = fc;
 				video_decoder = fd;
 				audio_decoder = fd;
+
+				video_decoder->connect_video (shared_from_this ());
 			}
 			
 			shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
