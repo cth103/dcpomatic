@@ -104,7 +104,7 @@ Matcher::process_audio (boost::shared_ptr<const AudioBuffers> b, double t)
 		_first_input = t;
 	}
 
-	bool const this_is_first_audio = _had_first_audio;
+	bool const this_is_first_audio = !_had_first_audio;
 	_had_first_audio = true;
 	
 	if (!_had_first_video) {
