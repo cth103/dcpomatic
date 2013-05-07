@@ -25,6 +25,9 @@ class Matcher : public Processor, public TimedAudioSink, public TimedVideoSink, 
 {
 public:
 	Matcher (boost::shared_ptr<Log> log, int sample_rate, float frames_per_second);
+
+	void set_audio_starts_with_video (bool);
+	
 	void process_video (boost::shared_ptr<const Image> i, bool, boost::shared_ptr<Subtitle> s, double);
 	void process_audio (boost::shared_ptr<const AudioBuffers>, double);
 	void process_end ();
@@ -55,9 +58,12 @@ private:
 	std::list<AudioRecord> _pending_audio;
 
 	boost::optional<double> _first_input;
+	boost::optional<double> _first_video;
 	boost::shared_ptr<const Image> _last_image;
 	boost::shared_ptr<Subtitle> _last_subtitle;
 
 	bool _had_first_video;
 	bool _had_first_audio;
+
+	bool _audio_starts_with_video;
 };
