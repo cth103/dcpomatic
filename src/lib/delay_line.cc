@@ -50,7 +50,7 @@ void
 DelayLine::process_video (shared_ptr<const Image> image, bool same, boost::shared_ptr<Subtitle> sub, double t)
 {
 	if (_seconds < 0) {
-		t += _seconds;
+		t -= _seconds;
 	}
 
 	Video (image, same, sub, t);
