@@ -61,7 +61,11 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (48);
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
+}
 
+void
+Config::read ()
+{
 	if (!boost::filesystem::exists (file (false))) {
 		read_old_metadata ();
 		return;
@@ -199,6 +203,13 @@ Config::instance ()
 {
 	if (_instance == 0) {
 		_instance = new Config;
+		try {
+			_instance->read ();
+		} catch (...) {
+			/* configuration load failed; never mind, just
+			   stick with the default.
+			*/
+		}
 	}
 
 	return _instance;
