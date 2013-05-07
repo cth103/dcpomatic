@@ -34,6 +34,7 @@ Matcher::Matcher (shared_ptr<Log> log, int sample_rate, float frames_per_second)
 	, _frames_per_second (frames_per_second)
 	, _video_frames (0)
 	, _audio_frames (0)
+	, _had_first_video (false)
 	, _had_first_audio (false)
 {
 
@@ -51,11 +52,8 @@ Matcher::process_video (boost::shared_ptr<const Image> image, bool same, boost::
 		_first_input = t;
 	}
 
-	bool const this_is_first_video = !_first_video;
-	
-	if (!_first_video) {
-		_first_video = t;
-	}
+	bool const this_is_first_video = !_had_first_video;
+	_had_first_video = true;
 
 	if (this_is_first_video && _had_first_audio) {
 		/* First video since we got audio */
@@ -106,13 +104,13 @@ Matcher::process_audio (boost::shared_ptr<const AudioBuffers> b, double t)
 		_first_input = t;
 	}
 
-	bool const this_is_first_audio = !_had_first_audio;
+	bool const this_is_first_audio = _had_first_audio;
 	_had_first_audio = true;
 	
-	if (!_first_video) {
+	if (!_had_first_video) {
 		/* No video yet; we must postpone these data until we have some */
 		_pending_audio.push_back (AudioRecord (b, t));
-	} else if (this_is_first_audio && _first_video) {
+	} else if (this_is_first_audio && _had_first_video) {
 		/* First audio since we got video */
 		_pending_audio.push_back (AudioRecord (b, t));
 		fix_start (_first_input.get ());
@@ -147,11 +145,6 @@ Matcher::fix_start (double first_video)
 	match (first_video - _pending_audio.front().time);
 
 	for (list<AudioRecord>::iterator i = _pending_audio.begin(); i != _pending_audio.end(); ++i) {
-		if (_audio_starts_with_video) {
-			assert (_first_video);
-			assert (_first_audio);
-			i->time += _first_video.get() - _first_audio.get();
-		}
 		process_audio (i->audio, i->time);
 	}
 	
@@ -218,12 +211,3 @@ Matcher::repeat_last_video ()
 	++_video_frames;
 }
 
-/** Set `audio starts with video' behaviour.  If this is enabled,
- *  audio time stamps are adjusted so that the first audio is synced
- *  with the first video.
- */
-void
-Matcher::set_audio_starts_with_video (bool a)
-{
-	_audio_starts_with_video = a;
-}
