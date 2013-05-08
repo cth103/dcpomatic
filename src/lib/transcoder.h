@@ -17,6 +17,8 @@
 
 */
 
+#include "types.h"
+
 /** @file  src/transcoder.h
  *
  *  A decoder is selected according to the content type, and the encoder can be specified
@@ -51,7 +53,7 @@ public:
 	float current_encoding_rate () const;
 	int video_frames_out () const;
 
-protected:
+private:
 	/** A Job that is running this Transcoder, or 0 */
 	boost::shared_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;

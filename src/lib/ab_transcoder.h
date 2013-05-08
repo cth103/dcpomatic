@@ -54,8 +54,6 @@ public:
 	void go ();
 
 private:
-	boost::shared_ptr<Film> _film_a;
-	boost::shared_ptr<Film> _film_b;
 	boost::shared_ptr<Player> _player_a;
 	boost::shared_ptr<Player> _player_b;
 	boost::shared_ptr<Job> _job;

@@ -49,7 +49,6 @@ public:
 	void disable_subtitles ();
 
 	bool pass ();
-	void set_progress (boost::shared_ptr<Job>);
 	bool seek (double);
 	void seek_back ();
 	void seek_forward ();

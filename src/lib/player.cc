@@ -122,18 +122,6 @@ Player::pass ()
 }
 
 void
-Player::set_progress (shared_ptr<Job> job)
-{
-	/* Assume progress can be divined from how far through the video we are */
-
-	if (_video_decoder >= _video_decoders.size() || !_playlist->video_length()) {
-		return;
-	}
-
-	job->set_progress ((_video_start[_video_decoder] + _video_decoders[_video_decoder]->video_frame()) / _playlist->video_length ());
-}
-
-void
 Player::process_video (shared_ptr<const Image> i, bool same, shared_ptr<Subtitle> s, double t)
 {
 	Video (i, same, s, _video_start[_video_decoder] + t);

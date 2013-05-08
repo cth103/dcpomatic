@@ -34,6 +34,7 @@
 #include "player.h"
 #include "audio_mapping.h"
 #include "config.h"
+#include "job.h"
 
 #include "i18n.h"
 
@@ -47,8 +48,9 @@ using boost::shared_ptr;
 
 int const Writer::_maximum_frames_in_memory = 8;
 
-Writer::Writer (shared_ptr<Film> f)
+Writer::Writer (shared_ptr<Film> f, shared_ptr<Job> j)
 	: _film (f)
+	, _job (j)
 	, _first_nonexistant_frame (0)
 	, _thread (0)
 	, _finish (false)
@@ -202,6 +204,10 @@ try
 			}
 			}
 			lock.lock ();
+			
+			if (_film->video_length ()) {
+				_job->set_progress (float(_full_written + _fake_written + _repeat_written) / _film->video_length());
+			}
 
 			++_last_written_frame;
 		}

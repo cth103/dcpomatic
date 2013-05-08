@@ -51,6 +51,7 @@ class ServerDescription;
 class DCPVideoFrame;
 class EncodedData;
 class Writer;
+class Job;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -62,11 +63,11 @@ class Writer;
 class Encoder : public VideoSink, public AudioSink
 {
 public:
-	Encoder (boost::shared_ptr<Film> f);
+	Encoder (boost::shared_ptr<Film> f, boost::shared_ptr<Job>);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
-	virtual void process_begin ();
+	void process_begin ();
 
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
@@ -79,7 +80,7 @@ public:
 	void process_audio (boost::shared_ptr<const AudioBuffers>);
 
 	/** Called when a processing run has finished */
-	virtual void process_end ();
+	void process_end ();
 
 	float current_encoding_rate () const;
 	int video_frames_out () const;
@@ -93,6 +94,7 @@ private:
 
 	/** Film that we are encoding */
 	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<Job> _job;
 
 	/** Mutex for _time_history and _last_frame */
 	mutable boost::mutex _history_mutex;

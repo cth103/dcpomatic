@@ -55,8 +55,9 @@ using boost::optional;
 int const Encoder::_history_size = 25;
 
 /** @param f Film that we are encoding */
-Encoder::Encoder (shared_ptr<Film> f)
+Encoder::Encoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	: _film (f)
+	, _job (j)
 	, _video_frames_in (0)
 	, _video_frames_out (0)
 #ifdef HAVE_SWRESAMPLE	  
@@ -127,7 +128,7 @@ Encoder::process_begin ()
 		}
 	}
 
-	_writer.reset (new Writer (_film));
+	_writer.reset (new Writer (_film, _job));
 }
 
 

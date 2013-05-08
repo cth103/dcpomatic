@@ -47,27 +47,25 @@ using boost::dynamic_pointer_cast;
  *  @param e Encoder to use.
  */
 
-ABTranscoder::ABTranscoder (shared_ptr<Film> a, shared_ptr<Film> b, shared_ptr<Job> j)
-	: _film_a (a)
-	, _film_b (b)
-	, _player_a (_film_a->player ())
-	, _player_b (_film_b->player ())
+ABTranscoder::ABTranscoder (shared_ptr<Film> film_a, shared_ptr<Film> film_b, shared_ptr<Job> j)
+	: _player_a (film_a->player ())
+	, _player_b (film_b->player ())
 	, _job (j)
-	, _encoder (new Encoder (_film_a))
-	, _combiner (new Combiner (a->log()))
+	, _encoder (new Encoder (film_a, j))
+	, _combiner (new Combiner (film_a->log()))
 {
-	_matcher.reset (new Matcher (_film_a->log(), _film_a->audio_frame_rate(), _film_a->video_frame_rate()));
-	_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_delay() * _film_a->audio_frame_rate() / 1000));
-	_gain.reset (new Gain (_film_a->log(), _film_a->audio_gain()));
+	_matcher.reset (new Matcher (film_a->log(), film_a->audio_frame_rate(), film_a->video_frame_rate()));
+	_delay_line.reset (new DelayLine (film_a->log(), film_a->audio_delay() * film_a->audio_frame_rate() / 1000));
+	_gain.reset (new Gain (film_a->log(), film_a->audio_gain()));
 
 	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
 	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
-	int const trim_start = _film_a->trim_type() == Film::ENCODE ? _film_a->trim_start() : 0;
-	int const trim_end = _film_a->trim_type() == Film::ENCODE ? _film_a->trim_end() : 0;
+	int const trim_start = film_a->trim_type() == Film::ENCODE ? film_a->trim_start() : 0;
+	int const trim_end = film_a->trim_type() == Film::ENCODE ? film_a->trim_end() : 0;
 	_trimmer.reset (new Trimmer (
-				_film_a->log(), trim_start, trim_end, _film_a->content_length(),
-				_film_a->audio_frame_rate(), _film_a->video_frame_rate(), _film_a->dcp_frame_rate()
+				film_a->log(), trim_start, trim_end, film_a->content_length(),
+				film_a->audio_frame_rate(), film_a->video_frame_rate(), film_a->dcp_frame_rate()
 				));
 	
 
@@ -88,20 +86,7 @@ ABTranscoder::go ()
 {
 	_encoder->process_begin ();
 
-	bool done[2] = { false, false };
-	
-	while (1) {
-		done[0] = _player_a->pass ();
-		done[1] = _player_b->pass ();
-
-		if (_job) {
-			_player_a->set_progress (_job);
-		}
-
-		if (done[0] && done[1]) {
-			break;
-		}
-	}
+	while (!_player_a->pass () || !_player_b->pass ()) {}
 		
 	_delay_line->process_end ();
 	_matcher->process_end ();

@@ -36,6 +36,7 @@
 #include "audio_decoder.h"
 #include "player.h"
 #include "trimmer.h"
+#include "job.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -49,7 +50,7 @@ using boost::dynamic_pointer_cast;
 Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	: _job (j)
 	, _player (f->player ())
-	, _encoder (new Encoder (f))
+	, _encoder (new Encoder (f, j))
 {
 	_matcher.reset (new Matcher (f->log(), f->audio_frame_rate(), f->video_frame_rate()));
 	_delay_line.reset (new DelayLine (f->log(), f->audio_delay() * f->audio_frame_rate() / 1000));
@@ -82,13 +83,9 @@ void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
-	while (1) {
-		if (_player->pass ()) {
-			break;
-		}
-		_player->set_progress (_job);
-	}
 
+	while (!_player->pass ()) {}
+	
 	_delay_line->process_end ();
 	if (_matcher) {
 		_matcher->process_end ();
