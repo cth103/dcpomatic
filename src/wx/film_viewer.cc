@@ -258,12 +258,8 @@ FilmViewer::paint_panel (wxPaintEvent &)
 void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
-	if (!_film || !_player) {
-		return;
-	}
-
-	if (_player->seek (_slider->GetValue() * _film->video_length() / (4096 * _film->video_frame_rate()))) {
-		return;
+	if (_film && _player) {
+		_player->seek (_slider->GetValue() * _film->video_length() / (4096 * _film->video_frame_rate()));
 	}
 	
 	get_frame ();

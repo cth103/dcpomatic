@@ -1204,6 +1204,8 @@ FilmEditor::setup_content ()
 		/* Select the first item of content if non was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
+
+	setup_content_information ();
 }
 
 void
