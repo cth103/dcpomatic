@@ -1096,7 +1096,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 {
 	bool h = false;
 	if (_generally_sensitive && _film) {
-		h = !_film->has_subtitles ();
+		h = _film->has_subtitles ();
 	}
 	
 	_with_subtitles->Enable (h);
