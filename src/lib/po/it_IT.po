@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 15:06+0100\n"
+"POT-Creation-Date: 2013-05-09 09:51+0100\n"
 "PO-Revision-Date: 2013-04-28 10:26+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -73,7 +73,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Pubblicità"
 
-#: src/lib/job.cc:72
+#: src/lib/job.cc:73
 msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
@@ -93,7 +93,7 @@ msgstr "Bicubica"
 msgid "Bilinear"
 msgstr "Bilineare"
 
-#: src/lib/job.cc:306
+#: src/lib/job.cc:318
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -105,7 +105,7 @@ msgstr "Non posso gestire il formato di pixel %1 durante %2"
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Non posso ricampionare l'audio perchè libswresample non è presente"
 
-#: src/lib/util.cc:932
+#: src/lib/util.cc:960
 msgid "Centre"
 msgstr "Centro"
 
@@ -137,15 +137,15 @@ msgstr "Non posso scrivere il file remoto (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Deinterlacciatore cubico interpolato"
 
-#: src/lib/util.cc:1007
+#: src/lib/util.cc:1035
 msgid "DCP and source have the same rate.\n"
 msgstr "Il DCP e il sorgente hanno la stessa frequenza.\n"
 
-#: src/lib/util.cc:1017
+#: src/lib/util.cc:1045
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "Il DCP andrà al %1%% della velocità del sorgente.\n"
 
-#: src/lib/util.cc:1010
+#: src/lib/util.cc:1038
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Il DCP userà ogni altro fotogramma del sorgente.\n"
 
@@ -168,11 +168,11 @@ msgstr "Filtro deringing"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1012
+#: src/lib/util.cc:1040
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:316
 msgid "Error (%1)"
 msgstr "Errore (%1)"
 
@@ -244,7 +244,7 @@ msgstr "Filtro sblocco orizzontale"
 msgid "Horizontal deblocking filter A"
 msgstr "Filtro A sblocco orizzontale"
 
-#: src/lib/job.cc:96 src/lib/job.cc:105
+#: src/lib/job.cc:97 src/lib/job.cc:106
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
 "problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
@@ -260,15 +260,15 @@ msgstr "Deinterlacciatore Kernel"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:930
+#: src/lib/util.cc:958
 msgid "Left"
 msgstr "Sinistro"
 
-#: src/lib/util.cc:934
+#: src/lib/util.cc:962
 msgid "Left surround"
 msgstr "Surround sinistro"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:961
 msgid "Lfe (sub)"
 msgstr "Lfe(sub)"
 
@@ -298,7 +298,7 @@ msgstr "Dinterlacciatore compensativo di movimento"
 msgid "Noise reduction"
 msgstr "Riduzione del rumore"
 
-#: src/lib/job.cc:302
+#: src/lib/job.cc:314
 msgid "OK (ran for %1)"
 msgstr "OK (eseguito in %1)"
 
@@ -318,15 +318,15 @@ msgstr "Annuncio di pubblico servizio"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:513
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:959
 msgid "Right"
 msgstr "Destro"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:963
 msgid "Right surround"
 msgstr "Surround destro"
 
@@ -370,7 +370,7 @@ msgstr "Riduttore temporale di rumore"
 msgid "Test"
 msgstr "Prova"
 
-#: src/lib/job.cc:78
+#: src/lib/job.cc:79
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -390,7 +390,7 @@ msgstr "Transcodifica %1"
 msgid "Transitional"
 msgstr "Di transizione"
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:105
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
@@ -426,7 +426,7 @@ msgstr "Altro filtro di deinterlacciamento"
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:554
 msgid "connect timed out"
 msgstr "connessione scaduta"
 
@@ -466,7 +466,7 @@ msgstr "non riesco a trovare il decoder dei sottotitoli"
 msgid "could not find video decoder"
 msgstr "non riesco a trovare il decoder video"
 
-#: src/lib/sndfile_decoder.cc:72
+#: src/lib/sndfile_decoder.cc:67
 msgid "could not open external audio file for reading"
 msgstr "non riesco ad aprire il file dell'audio esterno per leggerlo"
 
@@ -498,11 +498,11 @@ msgstr "non posso avviare la sessione SSH"
 msgid "could not write to file %1 (%2)"
 msgstr "non posso scrivere il file (%1)"
 
-#: src/lib/sndfile_decoder.cc:94
+#: src/lib/sndfile_decoder.cc:89
 msgid "external audio files have differing lengths"
 msgstr "i files dell'audio esterno hanno durata diversa"
 
-#: src/lib/sndfile_decoder.cc:76
+#: src/lib/sndfile_decoder.cc:71
 msgid "external audio files must be mono"
 msgstr "i files dell'audio esterno devono essere mono"
 
@@ -514,23 +514,23 @@ msgstr "formato"
 msgid "frames per second"
 msgstr "fotogrammi al secondo"
 
-#: src/lib/util.cc:115
+#: src/lib/util.cc:128
 msgid "hour"
 msgstr "ora"
 
-#: src/lib/util.cc:112 src/lib/util.cc:117
+#: src/lib/util.cc:125 src/lib/util.cc:130
 msgid "hours"
 msgstr "ore"
 
-#: src/lib/util.cc:122
+#: src/lib/util.cc:135
 msgid "minute"
 msgstr "minuto"
 
-#: src/lib/util.cc:124
+#: src/lib/util.cc:137
 msgid "minutes"
 msgstr "minuti"
 
-#: src/lib/util.cc:684
+#: src/lib/util.cc:697
 msgid "missing key %1 in key-value set"
 msgstr "persa la chiave %1 tra i valori chiave"
 
@@ -556,15 +556,15 @@ msgstr "sottotitoli non-bitmap non ancora supportati"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:299
+#: src/lib/job.cc:311
 msgid "remaining"
 msgstr "restano"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:511
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/util.cc:127
+#: src/lib/util.cc:140
 msgid "seconds"
 msgstr "secondi"
 
