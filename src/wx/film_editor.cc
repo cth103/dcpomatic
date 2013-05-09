@@ -214,10 +214,10 @@ FilmEditor::connect_to_widgets ()
 	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_ACTIVATED,  wxListEventHandler    (FilmEditor::content_activated), 0, this);
 	_content_add->Connect            (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect         (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
-	_content_edit->Connect           (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_edit_clicked), 0, this);
+	_content_properties->Connect     (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_properties_clicked), 0, this);
 	_content_earlier->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_earlier_clicked), 0, this);
 	_content_later->Connect          (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_later_clicked), 0, this);
-	_timeline_button->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::timeline_clicked), 0, this);
+	_content_timeline->Connect       (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
 	_loop_content->Connect           (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::loop_content_toggled), 0, this);
 	_loop_count->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::loop_count_changed), 0, this);
 	_left_crop->Connect              (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
@@ -361,12 +361,14 @@ FilmEditor::make_content_panel ()
                 b->Add (_content_add);
                 _content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
                 b->Add (_content_remove);
-                _content_edit = new wxButton (_content_panel, wxID_ANY, _("Edit..."));
-                b->Add (_content_edit);
+                _content_properties = new wxButton (_content_panel, wxID_ANY, _("Properties..."));
+                b->Add (_content_properties);
                 _content_earlier = new wxButton (_content_panel, wxID_ANY, _("Earlier"));
                 b->Add (_content_earlier);
                 _content_later = new wxButton (_content_panel, wxID_ANY, _("Later"));
                 b->Add (_content_later);
+		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
+		b->Add (_content_timeline);
 
                 s->Add (b, 0, wxALL, 4);
 
@@ -383,9 +385,6 @@ FilmEditor::make_content_panel ()
 	h->Add (_loop_count, 0, wxALL, 6);
 	add_label_to_sizer (h, _content_panel, _("times"));
 	_content_sizer->Add (h, 0, wxALL, 6);
-
-	_timeline_button = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
-	_content_sizer->Add (_timeline_button, 0, wxALL, 6);
 
 	_loop_count->SetRange (2, 1024);
 }
@@ -1250,22 +1249,22 @@ FilmEditor::content_activated (wxListEvent& ev)
 	ContentList c = _film->content ();
 	assert (ev.GetIndex() >= 0 && size_t (ev.GetIndex()) < c.size ());
 
-	edit_content (c[ev.GetIndex()]);
+	content_properties (c[ev.GetIndex()]);
 }
 
 void
-FilmEditor::content_edit_clicked (wxCommandEvent &)
+FilmEditor::content_properties_clicked (wxCommandEvent &)
 {
 	shared_ptr<Content> c = selected_content ();
 	if (!c) {
 		return;
 	}
 
-	edit_content (c);
+	content_properties (c);
 }
 
 void
-FilmEditor::edit_content (shared_ptr<Content> c)
+FilmEditor::content_properties (shared_ptr<Content> c)
 {
 	shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (c);
 	if (im) {
@@ -1326,7 +1325,7 @@ FilmEditor::setup_content_button_sensitivity ()
 
 	shared_ptr<Content> selection = selected_content ();
 
-        _content_edit->Enable (
+        _content_properties->Enable (
 		selection && _generally_sensitive &&
 		(dynamic_pointer_cast<ImageMagickContent> (selection) || dynamic_pointer_cast<FFmpegContent> (selection))
 		);
@@ -1334,6 +1333,7 @@ FilmEditor::setup_content_button_sensitivity ()
         _content_remove->Enable (selection && _generally_sensitive);
         _content_earlier->Enable (selection && _generally_sensitive);
         _content_later->Enable (selection && _generally_sensitive);
+	_content_timeline->Enable (_generally_sensitive);
 }
 
 shared_ptr<Content>
@@ -1439,7 +1439,7 @@ FilmEditor::setup_loop_sensitivity ()
 }
 
 void
-FilmEditor::timeline_clicked (wxCommandEvent &)
+FilmEditor::content_timeline_clicked (wxCommandEvent &)
 {
 	if (_timeline_dialog) {
 		_timeline_dialog->Destroy ();

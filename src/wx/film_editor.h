@@ -69,7 +69,7 @@ private:
 	void content_activated (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
-	void content_edit_clicked (wxCommandEvent &);
+	void content_properties_clicked (wxCommandEvent &);
 	void content_earlier_clicked (wxCommandEvent &);
 	void content_later_clicked (wxCommandEvent &);
 	void imagemagick_video_length_changed (wxCommandEvent &);
@@ -94,7 +94,7 @@ private:
 	void edit_filters_clicked (wxCommandEvent &);
 	void loop_content_toggled (wxCommandEvent &);
 	void loop_count_changed (wxCommandEvent &);
-	void timeline_clicked (wxCommandEvent &);
+	void content_timeline_clicked (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -117,7 +117,7 @@ private:
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
-	void edit_content (boost::shared_ptr<Content>);
+	void content_properties (boost::shared_ptr<Content>);
 
 	wxNotebook* _notebook;
 	wxPanel* _film_panel;
@@ -140,13 +140,13 @@ private:
 	wxListCtrl* _content;
 	wxButton* _content_add;
 	wxButton* _content_remove;
-	wxButton* _content_edit;
+	wxButton* _content_properties;
 	wxButton* _content_earlier;
 	wxButton* _content_later;
+	wxButton* _content_timeline;
 	wxTextCtrl* _content_information;
 	wxCheckBox* _loop_content;
 	wxSpinCtrl* _loop_count;
-	wxButton* _timeline_button;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;
