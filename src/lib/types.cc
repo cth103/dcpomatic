@@ -19,6 +19,9 @@
 
 #include "types.h"
 
+using std::max;
+using std::min;
+
 bool operator== (Crop const & a, Crop const & b)
 {
 	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
@@ -29,3 +32,25 @@ bool operator!= (Crop const & a, Crop const & b)
 	return !(a == b);
 }
 
+
+/** @param other A Rect.
+ *  @return The intersection of this with `other'.
+ */
+Rect
+Rect::intersection (Rect const & other) const
+{
+	int const tx = max (x, other.x);
+	int const ty = max (y, other.y);
+	
+	return Rect (
+		tx, ty,
+		min (x + width, other.x + other.width) - tx,
+		min (y + height, other.y + other.height) - ty
+		);
+}
+
+bool
+Rect::contains (Position p) const
+{
+	return (p.x >= x && p.x <= (x + width) && p.y >= y && p.y <= (y + height));
+}

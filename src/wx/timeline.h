@@ -20,19 +20,47 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <wx/wx.h>
+#include "util.h"
 
 class Playlist;
+class View;
 
 class Timeline : public wxPanel
 {
 public:
 	Timeline (wxWindow *, boost::shared_ptr<Playlist>);
 
+	void force_redraw (Rect const &);
+
+	int x_offset () const {
+		return 8;
+	}
+
+	int width () const {
+		return GetSize().GetWidth ();
+	}
+
+	int track_height () const {
+		return 64;
+	}
+
+	double pixels_per_second () const {
+		return _pixels_per_second;
+	}
+
+	Position tracks_position () const {
+		return Position (8, 8);
+	}
+
+	int tracks () const;
+
 private:
 	void paint (wxPaintEvent &);
+	void left_down (wxMouseEvent &);
 	void playlist_changed ();
+	void setup_pixels_per_second ();
 
-	static int const _track_height;
-	
 	boost::weak_ptr<Playlist> _playlist;
+	std::list<boost::shared_ptr<View> > _views;
+	double _pixels_per_second;
 };

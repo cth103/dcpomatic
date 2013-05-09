@@ -608,22 +608,6 @@ Socket::read_uint32 ()
 	return ntohl (v);
 }
 
-/** @param other A Rect.
- *  @return The intersection of this with `other'.
- */
-Rect
-Rect::intersection (Rect const & other) const
-{
-	int const tx = max (x, other.x);
-	int const ty = max (y, other.y);
-	
-	return Rect (
-		tx, ty,
-		min (x + width, other.x + other.width) - tx,
-		min (y + height, other.y + other.height) - ty
-		);
-}
-
 /** Round a number up to the nearest multiple of another number.
  *  @param c Index.
  *  @param s Array of numbers to round, indexed by c.

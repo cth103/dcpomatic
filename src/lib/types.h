@@ -105,6 +105,8 @@ struct Rect
 	}
 
 	Rect intersection (Rect const & other) const;
+
+	bool contains (Position) const;
 };
 
 #endif

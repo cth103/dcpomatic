@@ -27,69 +27,260 @@ using std::list;
 using std::cout;
 using std::max;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 using boost::bind;
 
-int const Timeline::_track_height = 64;
-
-Timeline::Timeline (wxWindow* parent, shared_ptr<Playlist> pl)
-	: wxPanel (parent)
-	, _playlist (pl)
+class View
 {
-	SetDoubleBuffered (true);
-	
-	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
+public:
+	View (Timeline& t)
+	        : _timeline (t)
+	{
 
-	if (pl->audio_from() == Playlist::AUDIO_FFMPEG) {
-		SetMinSize (wxSize (640, _track_height * 2 + 96));
-	} else {
-		SetMinSize (wxSize (640, _track_height * (max (size_t (1), pl->audio().size()) + 1) + 96));
+	}
+		
+	virtual void paint (wxGraphicsContext *) = 0;
+	virtual Rect bbox () const = 0;
+
+protected:
+	int time_x (Time t) const
+	{
+		return _timeline.tracks_position().x + t * _timeline.pixels_per_second();
+	}
+	
+	Timeline& _timeline;
+};
+
+class ContentView : public View
+{
+public:
+	ContentView (Timeline& tl, boost::shared_ptr<const Content> c, Time s, int t)
+		: View (tl)
+		, _content (c)
+		, _start (s)
+		, _track (t)
+		, _selected (false)
+	{
+
 	}
 
-	pl->Changed.connect (bind (&Timeline::playlist_changed, this));
-	pl->ContentChanged.connect (bind (&Timeline::playlist_changed, this));
-}
+	void paint (wxGraphicsContext* gc)
+	{
+		shared_ptr<const Content> content = _content.lock ();
+		if (!content) {
+			return;
+		}
+		
+		Time const len = content->temporal_length ();
 
-template <class T>
-int
-plot_content_list (
-	list<shared_ptr<const T> > content, wxGraphicsContext* gc, int x, int y, double pixels_per_second, int track_height, wxString type, bool consecutive
-	)
-{
-	Time t = 0;
-	for (typename list<shared_ptr<const T> >::iterator i = content.begin(); i != content.end(); ++i) {
-		Time const len = (*i)->temporal_length ();
+		gc->SetPen (*wxBLACK_PEN);
+		
+#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
+		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxPENSTYLE_SOLID));
+		if (_selected) {
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (200, 200, 200), wxBRUSHSTYLE_SOLID));
+		} else {
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxBRUSHSTYLE_SOLID));
+		}
+#else			
+		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxSOLID));
+		if (_selected) {
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (200, 200, 200), wxSOLID));
+		} else {
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxSOLID));
+		}
+#endif
+		
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint (x + t * pixels_per_second, y);
-		path.AddLineToPoint (x + (t + len) * pixels_per_second, y);
-		path.AddLineToPoint (x + (t + len) * pixels_per_second, y + track_height);
-		path.AddLineToPoint (x + t * pixels_per_second, y + track_height);
-		path.AddLineToPoint (x + t * pixels_per_second, y);
+		path.MoveToPoint    (time_x (_start),       y_pos (_track));
+		path.AddLineToPoint (time_x (_start + len), y_pos (_track));
+		path.AddLineToPoint (time_x (_start + len), y_pos (_track + 1));
+		path.AddLineToPoint (time_x (_start),       y_pos (_track + 1));
+		path.AddLineToPoint (time_x (_start),       y_pos (_track));
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
-		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx ((*i)->file().filename().string()).data(), type.data());
+		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (content->file().filename().string()).data(), type().data());
 		wxDouble name_width;
 		wxDouble name_height;
 		wxDouble name_descent;
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (x + t * pixels_per_second, y, len * pixels_per_second, track_height));
-		gc->DrawText (name, t * pixels_per_second + 12, y + track_height - name_height - 4);
+		gc->Clip (wxRegion (time_x (_start), y_pos (_track), len * _timeline.pixels_per_second(), _timeline.track_height()));
+		gc->DrawText (name, time_x (_start) + 12, y_pos (_track + 1) - name_height - 4);
 		gc->ResetClip ();
+	}
 
-		if (consecutive) {
-			t += len;
-		} else {
-			y += track_height;
+	Rect bbox () const
+	{
+		shared_ptr<const Content> content = _content.lock ();
+		if (!content) {
+			return Rect ();
+		}
+		
+		return Rect (time_x (_start), y_pos (_track), content->temporal_length() * _timeline.pixels_per_second(), _timeline.track_height());
+	}
+
+	void set_selected (bool s) {
+		_selected = s;
+		_timeline.force_redraw (bbox ());
+	}
+	
+	bool selected () const {
+		return _selected;
+	}
+
+	virtual wxString type () const = 0;
+	virtual wxColour colour () const = 0;
+	
+private:
+	
+	int y_pos (int t) const
+	{
+		return _timeline.tracks_position().y + t * _timeline.track_height();
+	}
+
+	boost::weak_ptr<const Content> _content;
+	Time _start;
+	int _track;
+	bool _selected;
+};
+
+class AudioContentView : public ContentView
+{
+public:
+	AudioContentView (Timeline& tl, boost::shared_ptr<const Content> c, Time s, int t)
+		: ContentView (tl, c, s, t)
+	{}
+	
+private:
+	wxString type () const
+	{
+		return _("audio");
+	}
+
+	wxColour colour () const
+	{
+		return wxColour (149, 121, 232, 255);
+	}
+};
+
+class VideoContentView : public ContentView
+{
+public:
+	VideoContentView (Timeline& tl, boost::shared_ptr<const Content> c, Time s, int t)
+		: ContentView (tl, c, s, t)
+	{}
+
+private:	
+
+	wxString type () const
+	{
+		return _("video");
+	}
+
+	wxColour colour () const
+	{
+		return wxColour (242, 92, 120, 255);
+	}
+};
+
+class TimeAxisView : public View
+{
+public:
+	TimeAxisView (Timeline& tl, int y)
+	        : View (tl)
+		, _y (y)
+	{}
+
+	void paint (wxGraphicsContext* gc)
+	{
+#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
+		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
+#else		    
+		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxSOLID));
+#endif		    
+		
+		int mark_interval = rint (128 / _timeline.pixels_per_second ());
+		if (mark_interval > 5) {
+			mark_interval -= mark_interval % 5;
+		}
+		if (mark_interval > 10) {
+			mark_interval -= mark_interval % 10;
+		}
+		if (mark_interval > 60) {
+			mark_interval -= mark_interval % 60;
+		}
+		if (mark_interval > 3600) {
+			mark_interval -= mark_interval % 3600;
+		}
+		
+		if (mark_interval < 1) {
+			mark_interval = 1;
+		}
+
+		wxGraphicsPath path = gc->CreatePath ();
+		path.MoveToPoint (_timeline.x_offset(), _y);
+		path.AddLineToPoint (_timeline.width(), _y);
+		gc->StrokePath (path);
+
+		Time t = 0;
+		while ((t * _timeline.pixels_per_second()) < _timeline.width()) {
+			wxGraphicsPath path = gc->CreatePath ();
+			path.MoveToPoint (time_x (t), _y - 4);
+			path.AddLineToPoint (time_x (t), _y + 4);
+			gc->StrokePath (path);
+
+			int tc = t;
+			int const h = tc / 3600;
+			tc -= h * 3600;
+			int const m = tc / 60;
+			tc -= m * 60;
+			int const s = tc;
+			
+			wxString str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
+			wxDouble str_width;
+			wxDouble str_height;
+			wxDouble str_descent;
+			wxDouble str_leading;
+			gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
+			
+			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_second();
+			if ((tx + str_width) < _timeline.width()) {
+				gc->DrawText (str, time_x (t), _y + 16);
+			}
+			t += mark_interval;
 		}
 	}
 
-	if (consecutive) {
-		y += track_height;
+	Rect bbox () const
+	{
+		return Rect (0, _y - 4, _timeline.width(), 24);
 	}
 
-	return y;
+private:
+	int _y;
+};
+
+Timeline::Timeline (wxWindow* parent, shared_ptr<Playlist> pl)
+	: wxPanel (parent)
+	, _playlist (pl)
+	, _pixels_per_second (0)
+{
+	SetDoubleBuffered (true);
+
+	setup_pixels_per_second ();
+	
+	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
+	Connect (wxID_ANY, wxEVT_LEFT_DOWN, wxMouseEventHandler (Timeline::left_down), 0, this);
+
+	SetMinSize (wxSize (640, tracks() * track_height() + 96));
+
+	playlist_changed ();
+
+	pl->Changed.connect (bind (&Timeline::playlist_changed, this));
+	pl->ContentChanged.connect (bind (&Timeline::playlist_changed, this));
 }
 
 void
@@ -107,87 +298,13 @@ Timeline::paint (wxPaintEvent &)
 		return;
 	}
 
-	int const x_offset = 8;
-	int y = 8;
-	int const width = GetSize().GetWidth();
-	double const pixels_per_second = (width - x_offset * 2) / (pl->content_length() / pl->video_frame_rate());
-
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
 
-	gc->SetPen (*wxBLACK_PEN);
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxPENSTYLE_SOLID));
-	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (149, 121, 232, 255), wxBRUSHSTYLE_SOLID));
-#else			
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxSOLID));
-	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (149, 121, 232, 255), wxSOLID));
-#endif
-	y = plot_content_list (pl->video (), gc, x_offset, y, pixels_per_second, _track_height, _("video"), true);
-	
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
-	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (242, 92, 120, 255), wxBRUSHSTYLE_SOLID));
-#else			
-	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (242, 92, 120, 255), wxSOLID));
-#endif
-	y = plot_content_list (pl->audio (), gc, x_offset, y, pixels_per_second, _track_height, _("audio"), pl->audio_from() == Playlist::AUDIO_FFMPEG);
+	/* XXX */
+	_pixels_per_second = (width() - x_offset() * 2) / (pl->content_length() / pl->video_frame_rate());
 
-	/* Time axis */
-
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
-        gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
-#else		    
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxSOLID));
-#endif		    
-		    
-	int mark_interval = rint (128 / pixels_per_second);
-        if (mark_interval > 5) {
-		mark_interval -= mark_interval % 5;
-	}
-        if (mark_interval > 10) {
-		mark_interval -= mark_interval % 10;
-	}
-	if (mark_interval > 60) {
-		mark_interval -= mark_interval % 60;
-	}
-	if (mark_interval > 3600) {
-		mark_interval -= mark_interval % 3600;
-	}
-
-        if (mark_interval < 1) {
-		mark_interval = 1;
-        }
-
-	wxGraphicsPath path = gc->CreatePath ();
-	path.MoveToPoint (x_offset, y + 40);
-	path.AddLineToPoint (width, y + 40);
-	gc->StrokePath (path);
-
-	double t = 0;
-	while ((t * pixels_per_second) < width) {
-		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint (x_offset + t * pixels_per_second, y + 36);
-		path.AddLineToPoint (x_offset + t * pixels_per_second, y + 44);
-		gc->StrokePath (path);
-
-		int tc = t;
-		int const h = tc / 3600;
-		tc -= h * 3600;
-		int const m = tc / 60;
-		tc -= m * 60;
-		int const s = tc;
-
-		wxString str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
-		wxDouble str_width;
-		wxDouble str_height;
-		wxDouble str_descent;
-		wxDouble str_leading;
-		gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
-
-		int const tx = x_offset + t * pixels_per_second;
-		if ((tx + str_width) < width) {
-			gc->DrawText (str, x_offset + t * pixels_per_second, y + 60);
-		}
-		t += mark_interval;
+	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+		(*i)->paint (gc);
 	}
 
 	delete gc;
@@ -196,5 +313,84 @@ Timeline::paint (wxPaintEvent &)
 void
 Timeline::playlist_changed ()
 {
+	shared_ptr<Playlist> pl = _playlist.lock ();
+	if (!pl) {
+		return;
+	}
+
+	_views.clear ();
+	
+	int track = 0;
+	Time time = 0;
+	list<shared_ptr<const VideoContent> > vc = pl->video ();
+	for (list<shared_ptr<const VideoContent> >::const_iterator i = vc.begin(); i != vc.end(); ++i) {
+		_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, time, track)));
+		time += (*i)->temporal_length ();
+	}
+
+	++track;
+	time = 0;
+	list<shared_ptr<const AudioContent> > ac = pl->audio ();
+	for (list<shared_ptr<const AudioContent> >::const_iterator i = ac.begin(); i != ac.end(); ++i) {
+		_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, time, track)));
+		if (pl->audio_from() != Playlist::AUDIO_FFMPEG) {
+			++track;
+		} else {
+			time += (*i)->temporal_length ();
+		}
+	}
+
+	_views.push_back (shared_ptr<View> (new TimeAxisView (*this, tracks() * track_height() + 32)));
+		
 	Refresh ();
+}
+
+int
+Timeline::tracks () const
+{
+	shared_ptr<Playlist> pl = _playlist.lock ();
+	if (!pl) {
+		return 0;
+	}
+
+	if (pl->audio_from() == Playlist::AUDIO_FFMPEG) {
+		return 2;
+	}
+
+	return 1 + max (size_t (1), pl->audio().size());
+}
+
+void
+Timeline::setup_pixels_per_second ()
+{
+	shared_ptr<Playlist> pl = _playlist.lock ();
+	if (!pl) {
+		return;
+	}
+
+	/* XXX */
+	_pixels_per_second = (width() - x_offset() * 2) / (pl->content_length() / pl->video_frame_rate());
+}
+
+void
+Timeline::left_down (wxMouseEvent& ev)
+{
+	list<shared_ptr<View> >::iterator i = _views.begin();
+	Position const p (ev.GetX(), ev.GetY());
+	while (i != _views.end() && !(*i)->bbox().contains (p)) {
+		++i;
+	}
+
+	for (list<shared_ptr<View> >::iterator j = _views.begin(); j != _views.end(); ++j) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*j);
+		if (cv) {
+			cv->set_selected (i == j);
+		}
+	}
+}
+
+void
+Timeline::force_redraw (Rect const & r)
+{
+	RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
 }
