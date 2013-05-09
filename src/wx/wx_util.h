@@ -36,6 +36,7 @@ extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, int pr
 extern wxStaticText* add_label_to_grid_bag_sizer (wxGridBagSizer *, wxWindow *, wxString, wxGBPosition, wxGBSpan span = wxDefaultSpan);
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
+extern void dcpomatic_setup_i18n ();
 
 /** @class ThreadedStaticText
  *

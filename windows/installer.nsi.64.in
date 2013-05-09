@@ -94,6 +94,7 @@ File "%deps%/bin/cxml.dll"
 File "%binaries%/src/wx/dcpomatic-wx.dll"
 File "%binaries%/src/lib/dcpomatic.dll"
 File "%binaries%/src/tools/dcpomatic.exe"
+File "%binaries%/src/tools/dcpomatic_batch.exe"
 File "%binaries%/src/tools/dcpomatic_server_cli.exe"
 File "%binaries%/src/tools/dcpomatic_server.exe"
 
@@ -122,11 +123,13 @@ File "%binaries%/src/wx/mo/sv_SE/libdcpomatic-wx.mo"
 File "%binaries%/src/tools/mo/sv_SE/dcpomatic.mo"
 
 CreateShortCut "$DESKTOP\DCP-o-matic.lnk" "$INSTDIR\bin\dcpomatic.exe" ""
+CreateShortCut "$DESKTOP\DCP-o-matic batch converter.lnk" "$INSTDIR\bin\dcpomatic_batch.exe" ""
 CreateShortCut "$DESKTOP\DCP-o-matic encode server.lnk" "$INSTDIR\bin\dcpomatic_server.exe" ""
  
 CreateDirectory "$SMPROGRAMS\DCP-o-matic"
 CreateShortCut "$SMPROGRAMS\DCP-o-matic\Uninstall DCP-o-matic.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
 CreateShortCut "$SMPROGRAMS\DCP-o-matic\DCP-o-matic.lnk" "$INSTDIR\bin\dcpomatic.exe" "" "$INSTDIR\bin\dcpomatic.exe" 0
+CreateShortCut "$SMPROGRAMS\DCP-o-matic\DCP-o-matic batch converter.lnk" "$INSTDIR\bin\dcpomatic.exe" "" "$INSTDIR\bin\dcpomatic_batch.exe" 0
 CreateShortCut "$SMPROGRAMS\DCP-o-matic\DCP-o-matic encode server.lnk" "$INSTDIR\bin\dcpomatic_server.exe" "" "$INSTDIR\bin\dcpomatic_server.exe" 0
  
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DCP-o-matic" "DisplayName" "DCP-o-matic (remove only)"
@@ -142,6 +145,7 @@ Section "Uninstall"
 RMDir /r "$INSTDIR\*.*"    
 RMDir "$INSTDIR"
 Delete "$DESKTOP\DCP-o-matic.lnk"
+Delete "$DESKTOP\DCP-o-matic batch converter.lnk"
 Delete "$DESKTOP\DCP-o-matic encode server.lnk"
 Delete "$SMPROGRAMS\DCP-o-matic\*.*"
 RmDir  "$SMPROGRAMS\DCP-o-matic"

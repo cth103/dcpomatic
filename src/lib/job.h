@@ -47,6 +47,8 @@ public:
 	virtual void run () = 0;
 	
 	void start ();
+	void pause ();
+	void resume ();
 	void cancel ();
 
 	bool is_new () const;
@@ -55,6 +57,7 @@ public:
 	bool finished_ok () const;
 	bool finished_in_error () const;
 	bool finished_cancelled () const;
+	bool paused () const;
 
 	std::string error_summary () const;
 	std::string error_details () const;
@@ -79,6 +82,7 @@ protected:
 	enum State {
 		NEW,            ///< the job hasn't been started yet
 		RUNNING,        ///< the job is running
+		PAUSED,         ///< the job has been paused
 		FINISHED_OK,    ///< the job has finished successfully
 		FINISHED_ERROR, ///< the job has finished in error
 		FINISHED_CANCELLED ///< the job was cancelled

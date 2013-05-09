@@ -63,7 +63,6 @@ static std::string log_level;
 static std::string film_to_load;
 static std::string film_to_create;
 static wxMenu* jobs_menu = 0;
-static wxLocale* locale = 0;
 
 static void set_menu_sensitivity ();
 
@@ -226,7 +225,7 @@ public:
 
 		film_editor = new FilmEditor (film, panel);
 		film_viewer = new FilmViewer (film, panel);
-		JobManagerView* job_manager_view = new JobManagerView (panel);
+		JobManagerView* job_manager_view = new JobManagerView (panel, static_cast<JobManagerView::Buttons> (0));
 
 		_top_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_top_sizer->Add (film_editor, 0, wxALL, 6);
@@ -463,49 +462,6 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 };
 #endif
 
-void
-setup_i18n ()
-{
-	int language = wxLANGUAGE_DEFAULT;
-
-	ofstream f ("c:/users/carl hetherington/foo", std::ios::app);
-	f << "Hello.\n";
-
-	boost::optional<string> config_lang = Config::instance()->language ();
-	if (config_lang && !config_lang->empty ()) {
-		f << "Configured language " << config_lang.get() << "\n";
-		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
-		f << "LanguageInfo " << li << "\n";
-		if (li) {
-			language = li->Language;
-			f << "language=" << language << " cf " << wxLANGUAGE_DEFAULT << " " << wxLANGUAGE_ENGLISH << "\n";
-		}
-	}
- 
-	if (wxLocale::IsAvailable (language)) {
-		f << "Language is available.\n";
-		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
-
-#ifdef DCPOMATIC_WINDOWS
-		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
-#endif		
-
-		locale->AddCatalog (wxT ("libdcpomatic-wx"));
-		locale->AddCatalog (wxT ("dcpomatic"));
-		
-		if (!locale->IsOk()) {
-			f << "Locale is not ok.\n";
-			delete locale;
-			locale = new wxLocale (wxLANGUAGE_ENGLISH);
-			language = wxLANGUAGE_ENGLISH;
-		}
-	}
-
-	if (locale) {
-		dcpomatic_setup_i18n (wx_to_std (locale->GetCanonicalName ()));
-	}
-}
-
 class App : public wxApp
 {
 	bool OnInit ()
@@ -526,7 +482,7 @@ class App : public wxApp
 		   hasn't yet been called and there aren't any scalers, filters etc.
 		   set up yet.
 		*/
-		setup_i18n ();
+		dcpomatic_setup_i18n ();
 
 		/* Set things up, including scalers / filters etc.
 		   which will now be internationalised correctly.

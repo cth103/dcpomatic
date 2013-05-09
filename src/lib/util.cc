@@ -280,7 +280,7 @@ mo_path ()
 #endif
 
 void
-dcpomatic_setup_i18n (string lang)
+dcpomatic_setup_gettext_i18n (string lang)
 {
 #ifdef DCPOMATIC_POSIX
 	lang += ".UTF8";

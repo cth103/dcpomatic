@@ -13,7 +13,7 @@ def build(bld):
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dcpomatic', 'dcpomatic_server']:
+        for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server']:
             obj = bld(features = 'cxx cxxprogram')
             obj.uselib = 'DCP CXML OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
             obj.includes = ['..']

@@ -55,7 +55,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if not conf.options.static:
-        conf.check_cfg(package = 'libdcp', atleast_version = '0.45', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.49', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
         conf.check_cfg(package = 'libcxml', atleast_version = '0.01', args = '--cflags --libs', uselib_store = 'CXML', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
@@ -232,7 +232,13 @@ def build(bld):
     obj.target = 'dcpomatic.desktop'
     obj.dict = d
 
-    bld.install_files('${PREFIX}/share/applications', 'dcpomatic.desktop')
+    obj = bld(features = 'subst')
+    obj.source = 'dcpomatic_batch.desktop.in'
+    obj.target = 'dcpomatic_batch.desktop'
+    obj.dict = d
+
+    bld.install_files('${PREFIX}/share/applications', ['dcpomatic.desktop', 'dcpomatic_batch.desktop'])
+
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dcpomatic.png' % r)
 
