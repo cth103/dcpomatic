@@ -25,7 +25,7 @@
 
 class VideoContent;
 
-class VideoDecoder : public TimedVideoSource, public virtual Decoder
+class VideoDecoder : public VideoSource, public virtual Decoder
 {
 public:
 	VideoDecoder (boost::shared_ptr<const Film>);

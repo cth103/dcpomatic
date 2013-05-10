@@ -39,7 +39,7 @@ class AudioContent;
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
  */
  
-class Player : public TimedVideoSource, public TimedAudioSource, public TimedVideoSink, public boost::enable_shared_from_this<Player>
+class Player : public VideoSource, public AudioSource, public VideoSink, public boost::enable_shared_from_this<Player>
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);

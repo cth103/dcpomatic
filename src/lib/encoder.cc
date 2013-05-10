@@ -178,7 +178,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub)
+Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time)
 {
 	FrameRateConversion frc (_film->video_frame_rate(), _film->dcp_frame_rate());
 	
@@ -241,7 +241,7 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 }
 
 void
-Encoder::process_audio (shared_ptr<const AudioBuffers> data)
+Encoder::process_audio (shared_ptr<const AudioBuffers> data, Time)
 {
 	_writer->write (data);
 }

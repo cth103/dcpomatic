@@ -23,7 +23,7 @@
 using boost::shared_ptr;
 
 Combiner::Combiner (shared_ptr<Log> log)
-	: TimedVideoProcessor (log)
+	: VideoProcessor (log)
 {
 
 }

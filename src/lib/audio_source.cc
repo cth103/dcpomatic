@@ -25,38 +25,18 @@ using boost::weak_ptr;
 using boost::bind;
 
 static void
-process_audio_proxy (weak_ptr<AudioSink> sink, shared_ptr<const AudioBuffers> audio)
+process_audio_proxy (weak_ptr<AudioSink> sink, shared_ptr<const AudioBuffers> audio, Time time)
 {
 	shared_ptr<AudioSink> p = sink.lock ();
 	if (p) {
-		p->process_audio (audio);
+		p->process_audio (audio, time);
 	}
 }
 
 void
 AudioSource::connect_audio (shared_ptr<AudioSink> s)
 {
-	Audio.connect (bind (process_audio_proxy, weak_ptr<AudioSink> (s), _1));
+	Audio.connect (bind (process_audio_proxy, weak_ptr<AudioSink> (s), _1, _2));
 }
 
-void
-TimedAudioSource::connect_audio (shared_ptr<AudioSink> s)
-{
-	Audio.connect (bind (process_audio_proxy, weak_ptr<AudioSink> (s), _1));
-}
-
-static void
-timed_process_audio_proxy (weak_ptr<TimedAudioSink> sink, shared_ptr<const AudioBuffers> audio, double t)
-{
-	shared_ptr<TimedAudioSink> p = sink.lock ();
-	if (p) {
-		p->process_audio (audio, t);
-	}
-}
-
-void
-TimedAudioSource::connect_audio (shared_ptr<TimedAudioSink> s)
-{
-	Audio.connect (bind (timed_process_audio_proxy, weak_ptr<TimedAudioSink> (s), _1, _2));
-}
 

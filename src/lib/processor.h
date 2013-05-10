@@ -67,15 +67,6 @@ public:
 	{}
 };
 
-class TimedAudioVideoProcessor : public Processor, public TimedVideoSource, public TimedVideoSink, public TimedAudioSource, public TimedAudioSink
-{
-public:
-	TimedAudioVideoProcessor (boost::shared_ptr<Log> log)
-		: Processor (log)
-	{}
-};
-				
-
 /** @class AudioProcessor
  *  @brief A processor which handles just audio data.
  */
@@ -103,13 +94,5 @@ public:
 		: Processor (log)
 	{}
 };
-
-class TimedVideoProcessor : public Processor, public TimedVideoSource, public TimedVideoSink
-{
-public:
-	TimedVideoProcessor (boost::shared_ptr<Log> log)
-		: Processor (log)
-	{}
-};	
 
 #endif

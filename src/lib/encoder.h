@@ -70,10 +70,10 @@ public:
 	 *  @param same true if i is the same as the last time we were called.
 	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	void process_video (boost::shared_ptr<const Image> i, bool same, boost::shared_ptr<Subtitle> s);
+	void process_video (boost::shared_ptr<const Image> i, bool same, boost::shared_ptr<Subtitle> s, Time);
 
 	/** Call with some audio data */
-	void process_audio (boost::shared_ptr<const AudioBuffers>);
+	void process_audio (boost::shared_ptr<const AudioBuffers>, Time);
 
 	/** Called when a processing run has finished */
 	void process_end ();

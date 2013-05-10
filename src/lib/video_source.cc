@@ -25,11 +25,11 @@ using boost::weak_ptr;
 using boost::bind;
 
 static void
-process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<const Image> i, bool same, shared_ptr<Subtitle> s)
+process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
 {
 	shared_ptr<VideoSink> p = sink.lock ();
 	if (p) {
-		p->process_video (i, same, s);
+		p->process_video (image, same, sub, time);
 	}
 }
 
@@ -39,26 +39,6 @@ VideoSource::connect_video (shared_ptr<VideoSink> s)
 	/* If we bind, say, a Player (as the VideoSink) to a Decoder (which is owned
 	   by the Player) we create a cycle.  Use a weak_ptr to break it.
 	*/
-	Video.connect (bind (process_video_proxy, weak_ptr<VideoSink> (s), _1, _2, _3));
+	Video.connect (bind (process_video_proxy, weak_ptr<VideoSink> (s), _1, _2, _3, _4));
 }
 
-void
-TimedVideoSource::connect_video (shared_ptr<VideoSink> s)
-{
-	Video.connect (bind (process_video_proxy, weak_ptr<VideoSink> (s), _1, _2, _3));
-}
-
-static void
-timed_process_video_proxy (weak_ptr<TimedVideoSink> sink, shared_ptr<const Image> i, bool same, shared_ptr<Subtitle> s, double t)
-{
-	shared_ptr<TimedVideoSink> p = sink.lock ();
-	if (p) {
-		p->process_video (i, same, s, t);
-	}
-}
-
-void
-TimedVideoSource::connect_video (shared_ptr<TimedVideoSink> s)
-{
-	Video.connect (bind (timed_process_video_proxy, weak_ptr<TimedVideoSink> (s), _1, _2, _3, _4));
-}

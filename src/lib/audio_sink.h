@@ -24,14 +24,7 @@ class AudioSink
 {
 public:
 	/** Call with some audio data */
-	virtual void process_audio (boost::shared_ptr<const AudioBuffers>) = 0;
-};
-
-class TimedAudioSink
-{
-public:
-        /** Call with some audio data */
-        virtual void process_audio (boost::shared_ptr<const AudioBuffers>, double t) = 0;
+	virtual void process_audio (boost::shared_ptr<const AudioBuffers>, Time) = 0;
 };
 
 #endif
