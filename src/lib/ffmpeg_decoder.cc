@@ -616,6 +616,9 @@ FFmpegDecoder::decode_video_packet ()
 		for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
 			int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 			if (bet != AV_NOPTS_VALUE) {
+				/* XXX: may need to insert extra frames / remove frames here ...
+				   (as per old Matcher)
+				*/
 				emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
 			} else {
 				_film->log()->log ("Dropping frame without PTS");
@@ -623,6 +626,3 @@ FFmpegDecoder::decode_video_packet ()
 		}
 	}
 }
-
-
-	
