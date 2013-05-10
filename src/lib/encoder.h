@@ -33,12 +33,8 @@
 #include <stdint.h>
 extern "C" {
 #include <libavutil/samplefmt.h>
-}
-#ifdef HAVE_SWRESAMPLE
-extern "C" {
 #include <libswresample/swresample.h>
 }
-#endif
 #include "util.h"
 #include "video_sink.h"
 #include "audio_sink.h"
@@ -110,9 +106,7 @@ private:
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
 
-#if HAVE_SWRESAMPLE	
 	SwrContext* _swr_context;
-#endif
 
 	bool _have_a_real_frame;
 	bool _terminate;

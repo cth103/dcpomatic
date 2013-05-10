@@ -810,7 +810,6 @@ FilmEditor::setup_frame_rate_description ()
 	if (_film->video_frame_rate()) {
 		d << std_to_wx (FrameRateConversion (_film->video_frame_rate(), _film->dcp_frame_rate()).description);
 		++lines;
-#ifdef HAVE_SWRESAMPLE
 		if (_film->audio_frame_rate() && _film->audio_frame_rate() != _film->target_audio_sample_rate ()) {
 			d << wxString::Format (
 				_("Audio will be resampled from %dHz to %dHz\n"),
@@ -819,7 +818,6 @@ FilmEditor::setup_frame_rate_description ()
 				);
 			++lines;
 		}
-#endif		
 	}
 
 	for (int i = lines; i < 2; ++i) {

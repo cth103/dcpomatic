@@ -60,9 +60,7 @@ Encoder::Encoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	, _job (j)
 	, _video_frames_in (0)
 	, _video_frames_out (0)
-#ifdef HAVE_SWRESAMPLE	  
 	, _swr_context (0)
-#endif
 	, _have_a_real_frame (false)
 	, _terminate (false)
 {
@@ -81,7 +79,6 @@ void
 Encoder::process_begin ()
 {
 	if (_film->has_audio() && _film->audio_frame_rate() != _film->target_audio_sample_rate()) {
-#ifdef HAVE_SWRESAMPLE
 
 		stringstream s;
 		s << String::compose (N_("Will resample audio from %1 to %2"), _film->audio_frame_rate(), _film->target_audio_sample_rate());
@@ -107,13 +104,8 @@ Encoder::process_begin ()
 			);
 		
 		swr_init (_swr_context);
-#else
-		throw EncodeError (_("Cannot resample audio as libswresample is not present"));
-#endif
 	} else {
-#ifdef HAVE_SWRESAMPLE
 		_swr_context = 0;
-#endif		
 	}
 
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
@@ -135,7 +127,6 @@ Encoder::process_begin ()
 void
 Encoder::process_end ()
 {
-#if HAVE_SWRESAMPLE	
 	if (_film->has_audio() && _swr_context) {
 
 		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_mapping().dcp_channels(), 256));
@@ -157,7 +148,6 @@ Encoder::process_end ()
 
 		swr_free (&_swr_context);
 	}
-#endif
 
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -306,7 +296,6 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 void
 Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 {
-#if HAVE_SWRESAMPLE
 	/* Maybe sample-rate convert */
 	if (_swr_context) {
 
@@ -329,7 +318,6 @@ Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 		/* And point our variables at the resampled audio */
 		data = resampled;
 	}
-#endif
 
 	_writer->write (data);
 }

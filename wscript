@@ -62,7 +62,7 @@ def configure(conf):
         conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
         conf.check_cfg(package = 'libavutil', args = '--cflags --libs', uselib_store = 'AVUTIL', mandatory = True)
         conf.check_cfg(package = 'libswscale', args = '--cflags --libs', uselib_store = 'SWSCALE', mandatory = True)
-        conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = False)
+        conf.check_cfg(package = 'libswresample', args = '--cflags --libs', uselib_store = 'SWRESAMPLE', mandatory = True)
         conf.check_cfg(package = 'libpostproc', args = '--cflags --libs', uselib_store = 'POSTPROC', mandatory = True)
     else:
         # This is hackio grotesquio for static builds (ie for .deb packages).  We need to link some things
@@ -87,14 +87,10 @@ def configure(conf):
         conf.env.STLIB_AVUTIL = ['avutil']
         conf.env.HAVE_SWSCALE = 1
         conf.env.STLIB_SWSCALE = ['swscale']
-        conf.env.HAVE_SWRESAMPLE = 1
-        conf.env.STLIB_SWRESAMPLE = ['swresample']
         conf.env.HAVE_POSTPROC = 1
         conf.env.STLIB_POSTPROC = ['postproc']
-
-        # This doesn't seem to be set up, and we need it otherwise resampling support
-        # won't be included.  Hack upon a hack, obviously
-        conf.env.append_value('CXXFLAGS', ['-DHAVE_SWRESAMPLE=1'])
+        conf.env.HAVE_SWRESAMPLE = 1
+        conv.env.STLIB_SWRESAMPLE = ['swresample']
 
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
