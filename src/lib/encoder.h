@@ -106,8 +106,6 @@ private:
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
 
-	SwrContext* _swr_context;
-
 	bool _have_a_real_frame;
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;

@@ -26,6 +26,9 @@
 
 #include "audio_source.h"
 #include "decoder.h"
+extern "C" {
+#include <libswresample/swresample.h>
+}
 
 class AudioContent;
 
@@ -35,7 +38,14 @@ class AudioContent;
 class AudioDecoder : public TimedAudioSource, public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<const Film>);
+	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
+	~AudioDecoder ();
+
+	void emit_audio (boost::shared_ptr<const AudioBuffers>, Time);
+
+private:
+	boost::shared_ptr<const AudioContent> _audio_content;
+	SwrContext* _swr_context;
 };
 
 #endif

@@ -66,7 +66,7 @@ boost::mutex FFmpegDecoder::_mutex;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio, bool subtitles)
 	: Decoder (f)
 	, VideoDecoder (f)
-	, AudioDecoder (f)
+	, AudioDecoder (f, c)
 	, _ffmpeg_content (c)
 	, _format_context (0)
 	, _video_stream (-1)

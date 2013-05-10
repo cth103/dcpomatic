@@ -60,7 +60,6 @@ Encoder::Encoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	, _job (j)
 	, _video_frames_in (0)
 	, _video_frames_out (0)
-	, _swr_context (0)
 	, _have_a_real_frame (false)
 	, _terminate (false)
 {
@@ -78,36 +77,6 @@ Encoder::~Encoder ()
 void
 Encoder::process_begin ()
 {
-	if (_film->has_audio() && _film->audio_frame_rate() != _film->target_audio_sample_rate()) {
-
-		stringstream s;
-		s << String::compose (N_("Will resample audio from %1 to %2"), _film->audio_frame_rate(), _film->target_audio_sample_rate());
-		_film->log()->log (s.str ());
-
-		/* We will be using planar float data when we call the
-		   resampler.  As far as I can see, the audio channel
-		   layout is not necessary for our purposes; it seems
-		   only to be used get the number of channels and
-		   decide if rematrixing is needed.  It won't be, since
-		   input and output layouts are the same.
-		*/
-
-		_swr_context = swr_alloc_set_opts (
-			0,
-			av_get_default_channel_layout (_film->audio_mapping().dcp_channels ()),
-			AV_SAMPLE_FMT_FLTP,
-			_film->target_audio_sample_rate(),
-			av_get_default_channel_layout (_film->audio_mapping().dcp_channels ()),
-			AV_SAMPLE_FMT_FLTP,
-			_film->audio_frame_rate(),
-			0, 0
-			);
-		
-		swr_init (_swr_context);
-	} else {
-		_swr_context = 0;
-	}
-
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, (ServerDescription *) 0)));
 	}
@@ -127,28 +96,6 @@ Encoder::process_begin ()
 void
 Encoder::process_end ()
 {
-	if (_film->has_audio() && _swr_context) {
-
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_mapping().dcp_channels(), 256));
-			
-		while (1) {
-			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
-
-			if (frames < 0) {
-				throw EncodeError (_("could not run sample-rate converter"));
-			}
-
-			if (frames == 0) {
-				break;
-			}
-
-			out->set_frames (frames);
-			_writer->write (out);
-		}
-
-		swr_free (&_swr_context);
-	}
-
 	boost::mutex::scoped_lock lock (_mutex);
 
 	_film->log()->log (String::compose (N_("Clearing queue of %1"), _queue.size ()));
@@ -296,29 +243,6 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 void
 Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 {
-	/* Maybe sample-rate convert */
-	if (_swr_context) {
-
-		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil ((int64_t) data->frames() * _film->target_audio_sample_rate() / _film->audio_frame_rate()) + 32;
-
-		shared_ptr<AudioBuffers> resampled (new AudioBuffers (_film->audio_mapping().dcp_channels(), max_resampled_frames));
-
-		/* Resample audio */
-		int const resampled_frames = swr_convert (
-			_swr_context, (uint8_t **) resampled->data(), max_resampled_frames, (uint8_t const **) data->data(), data->frames()
-			);
-		
-		if (resampled_frames < 0) {
-			throw EncodeError (_("could not run sample-rate converter"));
-		}
-
-		resampled->set_frames (resampled_frames);
-		
-		/* And point our variables at the resampled audio */
-		data = resampled;
-	}
-
 	_writer->write (data);
 }
 
