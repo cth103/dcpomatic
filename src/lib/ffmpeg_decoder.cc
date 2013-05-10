@@ -236,12 +236,8 @@ FFmpegDecoder::pass ()
 		
 		/* XXX: should we reset _packet.data and size after each *_decode_* call? */
 		
-		int frame_finished;
-
 		if (_decode_video) {
-			while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-				filter_and_emit_video ();
-			}
+			decode_video_packet ();
 		}
 
 		if (_ffmpeg_content->audio_stream() && _decode_audio) {
@@ -254,18 +250,7 @@ FFmpegDecoder::pass ()
 	avcodec_get_frame_defaults (_frame);
 
 	if (_packet.stream_index == _video_stream && _decode_video) {
-
-		int frame_finished;
-		int const r = avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet);
-		if (r >= 0 && frame_finished) {
-
-			if (r != _packet.size) {
-				_film->log()->log (String::compose (N_("Used only %1 bytes of %2 in packet"), r, _packet.size));
-			}
-
-			filter_and_emit_video ();
-		}
-
+		decode_video_packet ();
 	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
 		decode_audio_packet ();
 	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && _decode_subtitles) {
@@ -481,38 +466,6 @@ FFmpegDecoder::bytes_per_audio_sample () const
 	return av_get_bytes_per_sample (audio_sample_format ());
 }
 
-void
-FFmpegDecoder::filter_and_emit_video ()
-{
-	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
-	
-	shared_ptr<FilterGraph> graph;
-
-	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process (libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
-		++i;
-	}
-
-	if (i == _filter_graphs.end ()) {
-		graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
-		_filter_graphs.push_back (graph);
-		_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
-	} else {
-		graph = *i;
-	}
-
-	list<shared_ptr<Image> > images = graph->process (_frame);
-
-	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
-		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-		if (bet != AV_NOPTS_VALUE) {
-			emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
-		} else {
-			_film->log()->log ("Dropping frame without PTS");
-		}
-	}
-}
-
 bool
 FFmpegDecoder::seek (double p)
 {
@@ -635,3 +588,41 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 	}
 }
+
+void
+FFmpegDecoder::decode_video_packet ()
+{
+	int frame_finished;
+	while (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
+		
+		shared_ptr<FilterGraph> graph;
+		
+		list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
+		while (i != _filter_graphs.end() && !(*i)->can_process (libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
+			++i;
+		}
+		
+		if (i == _filter_graphs.end ()) {
+			graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+			_filter_graphs.push_back (graph);
+			_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
+		} else {
+			graph = *i;
+		}
+		
+		list<shared_ptr<Image> > images = graph->process (_frame);
+		
+		for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
+			int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
+			if (bet != AV_NOPTS_VALUE) {
+				emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base));
+			} else {
+				_film->log()->log ("Dropping frame without PTS");
+			}
+		}
+	}
+}
+
+
+	

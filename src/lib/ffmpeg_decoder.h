@@ -92,13 +92,12 @@ private:
 	int bytes_per_audio_sample () const;
 	bool do_seek (double, bool, bool);
 
-	void filter_and_emit_video ();
-
 	void setup_general ();
 	void setup_video ();
 	void setup_audio ();
 	void setup_subtitle ();
 
+	void decode_video_packet ();
 	void decode_audio_packet ();
 
 	void maybe_add_subtitle ();
