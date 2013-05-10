@@ -18,7 +18,6 @@ sources = """
           dcp_content_type.cc
           dcp_video_frame.cc
           decoder.cc
-          delay_line.cc
           dolby_cp750.cc
           encoder.cc
           examine_content_job.cc
@@ -30,7 +29,6 @@ sources = """
           film.cc
           filter.cc
           format.cc
-          gain.cc
           image.cc
           imagemagick_content.cc
           imagemagick_decoder.cc
@@ -38,7 +36,6 @@ sources = """
           job_manager.cc
           log.cc
           lut.cc
-          matcher.cc
           player.cc
           playlist.cc
           scp_dcp_job.cc
@@ -52,7 +49,6 @@ sources = """
           transcode_job.cc
           transcoder.cc
           types.cc
-          trimmer.cc
           ui_signaller.cc
           util.cc
           video_content.cc

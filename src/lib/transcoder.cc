@@ -29,13 +29,9 @@
 #include "transcoder.h"
 #include "encoder.h"
 #include "film.h"
-#include "matcher.h"
-#include "delay_line.h"
-#include "gain.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "player.h"
-#include "trimmer.h"
 #include "job.h"
 
 using std::string;
@@ -52,45 +48,19 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	, _player (f->player ())
 	, _encoder (new Encoder (f, j))
 {
-	_matcher.reset (new Matcher (f->log(), f->audio_frame_rate(), f->video_frame_rate()));
-	_delay_line.reset (new DelayLine (f->log(), f->audio_delay() * f->audio_frame_rate() / 1000));
-	_gain.reset (new Gain (f->log(), f->audio_gain()));
-
-	int const trim_start = f->trim_type() == Film::ENCODE ? f->trim_start() : 0;
-	int const trim_end = f->trim_type() == Film::ENCODE ? f->trim_end() : 0;
-	_trimmer.reset (new Trimmer (
-				f->log(), trim_start, trim_end, f->content_length(),
-				f->audio_frame_rate(), f->video_frame_rate(), f->dcp_frame_rate()
-				));
-	
 	if (!f->with_subtitles ()) {
 		_player->disable_subtitles ();
 	}
 
-	_player->connect_video (_delay_line);
-	_delay_line->connect_video (_matcher);
-	_matcher->connect_video (_trimmer);
-	_trimmer->connect_video (_encoder);
-	
-	_player->connect_audio (_delay_line);
-	_delay_line->connect_audio (_matcher);
-	_matcher->connect_audio (_gain);
-	_gain->connect_audio (_trimmer);
-	_trimmer->connect_audio (_encoder);
+	_player->connect_video (_encoder);
+	_player->connect_audio (_encoder);
 }
 
 void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
-
 	while (!_player->pass ()) {}
-	
-	_delay_line->process_end ();
-	if (_matcher) {
-		_matcher->process_end ();
-	}
-	_gain->process_end ();
 	_encoder->process_end ();
 }
 

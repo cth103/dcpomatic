@@ -25,11 +25,7 @@
 #include "job.h"
 #include "image.h"
 #include "player.h"
-#include "matcher.h"
-#include "delay_line.h"
-#include "gain.h"
 #include "combiner.h"
-#include "trimmer.h"
 
 /** @file src/ab_transcoder.cc
  *  @brief A transcoder which uses one Film for the left half of the screen, and a different one
@@ -54,44 +50,17 @@ ABTranscoder::ABTranscoder (shared_ptr<Film> film_a, shared_ptr<Film> film_b, sh
 	, _encoder (new Encoder (film_a, j))
 	, _combiner (new Combiner (film_a->log()))
 {
-	_matcher.reset (new Matcher (film_a->log(), film_a->audio_frame_rate(), film_a->video_frame_rate()));
-	_delay_line.reset (new DelayLine (film_a->log(), film_a->audio_delay() * film_a->audio_frame_rate() / 1000));
-	_gain.reset (new Gain (film_a->log(), film_a->audio_gain()));
-
 	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
 	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
 
-	int const trim_start = film_a->trim_type() == Film::ENCODE ? film_a->trim_start() : 0;
-	int const trim_end = film_a->trim_type() == Film::ENCODE ? film_a->trim_end() : 0;
-	_trimmer.reset (new Trimmer (
-				film_a->log(), trim_start, trim_end, film_a->content_length(),
-				film_a->audio_frame_rate(), film_a->video_frame_rate(), film_a->dcp_frame_rate()
-				));
-	
-
-	_combiner->connect_video (_delay_line);
-	_delay_line->connect_video (_matcher);
-	_matcher->connect_video (_trimmer);
-	_trimmer->connect_video (_encoder);
-	
-	_player_a->connect_audio (_delay_line);
-	_delay_line->connect_audio (_matcher);
-	_matcher->connect_audio (_gain);
-	_gain->connect_audio (_trimmer);
-	_trimmer->connect_audio (_encoder);
+	_combiner->connect_video (_encoder);
+	_player_a->connect_audio (_encoder);
 }
 
 void
 ABTranscoder::go ()
 {
 	_encoder->process_begin ();
-
 	while (!_player_a->pass () || !_player_b->pass ()) {}
-		
-	_delay_line->process_end ();
-	_matcher->process_end ();
-	_gain->process_end ();
-	_trimmer->process_end ();
 	_encoder->process_end ();
 }
-			    
