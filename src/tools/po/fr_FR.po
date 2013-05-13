@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-09 09:51+0100\n"
-"PO-Revision-Date: 2013-03-13 22:33+0100\n"
+"PO-Revision-Date: 2013-05-10 14:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -65,10 +65,8 @@ msgid "&Send DCP to TMS"
 msgstr "&Envoyer le DCP dans le TMS"
 
 #: src/tools/dvdomatic.cc:426
-msgid ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
-msgstr ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgid "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
 #: src/tools/dvdomatic.cc:181
 msgid "About"
@@ -84,7 +82,8 @@ msgstr "Impossible de charger le film %s (%s)"
 msgid "Could not open film at %s (%s)"
 msgstr "Impossible d'ouvrir le film à %s (%s)"
 
-#: src/tools/dvdomatic.cc:288 src/tools/dvdomatic.cc:419
+#: src/tools/dvdomatic.cc:288
+#: src/tools/dvdomatic.cc:419
 #: src/tools/dvdomatic.cc:506
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
@@ -108,23 +107,19 @@ msgstr "Voir le DCP"
 #: src/tools/dvdomatic.cc:75
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr ""
+msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
 #: src/tools/dvdomatic.cc:328
 msgid "Select film to open"
 msgstr "Sélectionner le film à ouvrir"
 
 #: src/tools/dvdomatic.cc:307
-msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
-"use it?"
-msgstr ""
+msgid "The directory %1 already exists and is not empty.  Are you sure you want to use it?"
+msgstr "Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
 
 #: src/tools/dvdomatic.cc:333
-msgid ""
-"You did not select a folder.  Make sure that you select a folder before "
-"clicking Open."
-msgstr ""
+msgid "You did not select a folder.  Make sure that you select a folder before clicking Open."
+msgstr "Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur Ouvrir"
 
 #, fuzzy
 #~ msgid "The directory %1 already exists."

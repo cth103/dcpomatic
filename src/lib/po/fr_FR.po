@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: DVD-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-09 09:51+0100\n"
-"PO-Revision-Date: 2013-03-20 00:39+0100\n"
-"Last-Translator: FreeDCP.net <freedcp.net@gmail.com>\n"
+"PO-Revision-Date: 2013-05-10 14:33+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Débruitage 3D"
 
 #: src/lib/format.cc:79
 msgid "4:3"
-msgstr ""
+msgstr "4:3"
 
 #: src/lib/format.cc:87
 msgid "4:3 within Flat"
@@ -95,11 +95,11 @@ msgstr "Bilinéaire"
 
 #: src/lib/job.cc:318
 msgid "Cancelled"
-msgstr ""
+msgstr "Annulé"
 
 #: src/lib/exceptions.cc:60
 msgid "Cannot handle pixel format %1 during %2"
-msgstr ""
+msgstr "Format du pixel %1 non géré par %2"
 
 #: src/lib/encoder.cc:101
 msgid "Cannot resample audio as libswresample is not present"
@@ -107,7 +107,7 @@ msgstr "Ré-échantillonnage du son impossible : libswresample est absent"
 
 #: src/lib/util.cc:960
 msgid "Centre"
-msgstr ""
+msgstr "Centre"
 
 #: src/lib/scp_dcp_job.cc:109
 msgid "Copy DCP to TMS"
@@ -150,14 +150,24 @@ msgstr "La cadence du DCP sera %1%% par rapport à la source.\n"
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Le DCP utilisera une image sur deux de la source.\n"
 
-#: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:70
-#: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
+#: src/lib/filter.cc:68
+#: src/lib/filter.cc:69
+#: src/lib/filter.cc:70
+#: src/lib/filter.cc:71
+#: src/lib/filter.cc:72
+#: src/lib/filter.cc:73
 msgid "De-blocking"
 msgstr "De-bloc"
 
-#: src/lib/filter.cc:75 src/lib/filter.cc:76 src/lib/filter.cc:77
-#: src/lib/filter.cc:78 src/lib/filter.cc:79 src/lib/filter.cc:80
-#: src/lib/filter.cc:81 src/lib/filter.cc:82 src/lib/filter.cc:83
+#: src/lib/filter.cc:75
+#: src/lib/filter.cc:76
+#: src/lib/filter.cc:77
+#: src/lib/filter.cc:78
+#: src/lib/filter.cc:79
+#: src/lib/filter.cc:80
+#: src/lib/filter.cc:81
+#: src/lib/filter.cc:82
+#: src/lib/filter.cc:83
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
@@ -245,13 +255,10 @@ msgstr "Filtre dé-bloc horizontal"
 msgid "Horizontal deblocking filter A"
 msgstr "Filtre dé-bloc horizontal"
 
-#: src/lib/job.cc:97 src/lib/job.cc:106
-msgid ""
-"It is not known what caused this error.  The best idea is to report the "
-"problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
-msgstr ""
-"Erreur indéterminée. Merci de rapporter le problème à la liste DVD-o-matic "
-"(dvdomatic@carlh.net)"
+#: src/lib/job.cc:97
+#: src/lib/job.cc:106
+msgid "It is not known what caused this error.  The best idea is to report the problem to the DVD-o-matic mailing list (dvdomatic@carlh.net)"
+msgstr "Erreur indéterminée. Merci de rapporter le problème à la liste DVD-o-matic (dvdomatic@carlh.net)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"
@@ -285,8 +292,11 @@ msgstr "Désentrelaceur linéaire interpolé"
 msgid "Median deinterlacer"
 msgstr "Désentrelaceur médian"
 
-#: src/lib/filter.cc:74 src/lib/filter.cc:85 src/lib/filter.cc:86
-#: src/lib/filter.cc:87 src/lib/filter.cc:90
+#: src/lib/filter.cc:74
+#: src/lib/filter.cc:85
+#: src/lib/filter.cc:86
+#: src/lib/filter.cc:87
+#: src/lib/filter.cc:90
 msgid "Misc"
 msgstr "Divers"
 
@@ -294,7 +304,9 @@ msgstr "Divers"
 msgid "Motion compensating deinterlacer"
 msgstr "Désentrelaceur par compensation de mouvement"
 
-#: src/lib/filter.cc:84 src/lib/filter.cc:88 src/lib/filter.cc:89
+#: src/lib/filter.cc:84
+#: src/lib/filter.cc:88
+#: src/lib/filter.cc:89
 #: src/lib/filter.cc:91
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
@@ -372,12 +384,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/job.cc:79
-msgid ""
-"The drive that the film is stored on is low in disc space.  Free some more "
-"space and try again."
-msgstr ""
-"Le disque contenant le film est plein. Libérez de l'espace et essayez à "
-"nouveau."
+msgid "The drive that the film is stored on is low in disc space.  Free some more space and try again."
+msgstr "Le disque contenant le film est plein. Libérez de l'espace et essayez à nouveau."
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Trailer"
@@ -481,9 +489,10 @@ msgstr "lecture du fichier impossible"
 
 #: src/lib/exceptions.cc:44
 msgid "could not read from file %1 (%2)"
-msgstr "Création du dossier distant %1 impossible (%2)"
+msgstr "création du dossier distant %1 impossible (%2)"
 
-#: src/lib/encoder.cc:137 src/lib/encoder.cc:314
+#: src/lib/encoder.cc:137
+#: src/lib/encoder.cc:314
 msgid "could not run sample-rate converter"
 msgstr "conversion de la fréquence d'échantillonnage impossible"
 
@@ -519,7 +528,8 @@ msgstr "images par seconde"
 msgid "hour"
 msgstr "heure"
 
-#: src/lib/util.cc:125 src/lib/util.cc:130
+#: src/lib/util.cc:125
+#: src/lib/util.cc:130
 msgid "hours"
 msgstr "heures"
 
@@ -537,13 +547,14 @@ msgstr "clé %1 non sélectionnée"
 
 #: src/lib/exceptions.cc:54
 msgid "missing required setting %1"
-msgstr ""
+msgstr "paramètre %1 manquant"
 
 #: src/lib/subtitle.cc:52
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:296 src/lib/film.cc:341
+#: src/lib/film.cc:296
+#: src/lib/film.cc:341
 msgid "name"
 msgstr "nom"
 
