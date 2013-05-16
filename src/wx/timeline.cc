@@ -19,6 +19,7 @@
 
 #include <list>
 #include <wx/graphics.h>
+#include "film.h"
 #include "timeline.h"
 #include "wx_util.h"
 #include "playlist.h"
@@ -45,7 +46,7 @@ public:
 protected:
 	int time_x (Time t) const
 	{
-		return _timeline.tracks_position().x + t * _timeline.pixels_per_second();
+		return _timeline.tracks_position().x + t * _timeline.pixels_per_time_unit();
 	}
 	
 	Timeline& _timeline;
@@ -54,7 +55,7 @@ protected:
 class ContentView : public View
 {
 public:
-	ContentView (Timeline& tl, boost::shared_ptr<const Content> c, Time s, int t)
+	ContentView (Timeline& tl, shared_ptr<const Content> c, Time s, int t)
 		: View (tl)
 		, _content (c)
 		, _start (s)
@@ -66,12 +67,13 @@ public:
 
 	void paint (wxGraphicsContext* gc)
 	{
+		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> content = _content.lock ();
-		if (!content) {
+		if (!film || !content) {
 			return;
 		}
-		
-		Time const len = content->temporal_length ();
+
+		Time const len = content->length (film);
 
 		gc->SetPen (*wxBLACK_PEN);
 		
@@ -107,19 +109,20 @@ public:
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (time_x (_start), y_pos (_track), len * _timeline.pixels_per_second(), _timeline.track_height()));
+		gc->Clip (wxRegion (time_x (_start), y_pos (_track), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
 		gc->DrawText (name, time_x (_start) + 12, y_pos (_track + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
 
 	Rect bbox () const
 	{
+		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> content = _content.lock ();
-		if (!content) {
+		if (!film || !content) {
 			return Rect ();
 		}
 		
-		return Rect (time_x (_start), y_pos (_track), content->temporal_length() * _timeline.pixels_per_second(), _timeline.track_height());
+		return Rect (time_x (_start), y_pos (_track), content->length (film) * _timeline.pixels_per_time_unit(), _timeline.track_height());
 	}
 
 	void set_selected (bool s) {
@@ -150,7 +153,7 @@ private:
 class AudioContentView : public ContentView
 {
 public:
-	AudioContentView (Timeline& tl, boost::shared_ptr<const Content> c, Time s, int t)
+	AudioContentView (Timeline& tl, shared_ptr<const Content> c, Time s, int t)
 		: ContentView (tl, c, s, t)
 	{}
 	
@@ -169,7 +172,7 @@ private:
 class VideoContentView : public ContentView
 {
 public:
-	VideoContentView (Timeline& tl, boost::shared_ptr<const Content> c, Time s, int t)
+	VideoContentView (Timeline& tl, shared_ptr<const Content> c, Time s, int t)
 		: ContentView (tl, c, s, t)
 	{}
 
@@ -202,7 +205,7 @@ public:
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxSOLID));
 #endif		    
 		
-		int mark_interval = rint (128 / _timeline.pixels_per_second ());
+		int mark_interval = rint (128 * TIME_HZ / _timeline.pixels_per_time_unit ());
 		if (mark_interval > 5) {
 			mark_interval -= mark_interval % 5;
 		}
@@ -226,7 +229,7 @@ public:
 		gc->StrokePath (path);
 
 		Time t = 0;
-		while ((t * _timeline.pixels_per_second()) < _timeline.width()) {
+		while ((t * _timeline.pixels_per_time_unit()) < _timeline.width()) {
 			wxGraphicsPath path = gc->CreatePath ();
 			path.MoveToPoint (time_x (t), _y - 4);
 			path.AddLineToPoint (time_x (t), _y + 4);
@@ -246,7 +249,7 @@ public:
 			wxDouble str_leading;
 			gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
 			
-			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_second();
+			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_time_unit();
 			if ((tx + str_width) < _timeline.width()) {
 				gc->DrawText (str, time_x (t), _y + 16);
 			}
@@ -263,14 +266,14 @@ private:
 	int _y;
 };
 
-Timeline::Timeline (wxWindow* parent, shared_ptr<Playlist> pl)
+Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	: wxPanel (parent)
-	, _playlist (pl)
-	, _pixels_per_second (0)
+	, _film (film)
+	, _pixels_per_time_unit (0)
 {
 	SetDoubleBuffered (true);
 
-	setup_pixels_per_second ();
+	setup_pixels_per_time_unit ();
 	
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
 	Connect (wxID_ANY, wxEVT_LEFT_DOWN, wxMouseEventHandler (Timeline::left_down), 0, this);
@@ -279,8 +282,8 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<Playlist> pl)
 
 	playlist_changed ();
 
-	pl->Changed.connect (bind (&Timeline::playlist_changed, this));
-	pl->ContentChanged.connect (bind (&Timeline::playlist_changed, this));
+	film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
+	film->playlist()->ContentChanged.connect (bind (&Timeline::playlist_changed, this));
 }
 
 void
@@ -288,20 +291,12 @@ Timeline::paint (wxPaintEvent &)
 {
 	wxPaintDC dc (this);
 
-	shared_ptr<Playlist> pl = _playlist.lock ();
-	if (!pl) {
-		return;
-	}
-
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
 	}
 
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
-
-	/* XXX */
-	_pixels_per_second = (width() - x_offset() * 2) / (pl->content_length() / pl->video_frame_rate());
 
 	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
 		(*i)->paint (gc);
@@ -313,30 +308,20 @@ Timeline::paint (wxPaintEvent &)
 void
 Timeline::playlist_changed ()
 {
-	shared_ptr<Playlist> pl = _playlist.lock ();
-	if (!pl) {
+	shared_ptr<const Film> fl = _film.lock ();
+	if (!fl) {
 		return;
 	}
 
 	_views.clear ();
-	
-	int track = 0;
-	Time time = 0;
-	list<shared_ptr<const VideoContent> > vc = pl->video ();
-	for (list<shared_ptr<const VideoContent> >::const_iterator i = vc.begin(); i != vc.end(); ++i) {
-		_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, time, track)));
-		time += (*i)->temporal_length ();
-	}
 
-	++track;
-	time = 0;
-	list<shared_ptr<const AudioContent> > ac = pl->audio ();
-	for (list<shared_ptr<const AudioContent> >::const_iterator i = ac.begin(); i != ac.end(); ++i) {
-		_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, time, track)));
-		if (pl->audio_from() != Playlist::AUDIO_FFMPEG) {
-			++track;
+	Playlist::RegionList regions = fl->playlist()->regions ();
+
+	for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
+		if (dynamic_pointer_cast<VideoContent> (i->content)) {
+			_views.push_back (shared_ptr<View> (new VideoContentView (*this, i->content, i->time, 0)));
 		} else {
-			time += (*i)->temporal_length ();
+			_views.push_back (shared_ptr<View> (new AudioContentView (*this, i->content, i->time, 1)));
 		}
 	}
 
@@ -348,28 +333,19 @@ Timeline::playlist_changed ()
 int
 Timeline::tracks () const
 {
-	shared_ptr<Playlist> pl = _playlist.lock ();
-	if (!pl) {
-		return 0;
-	}
-
-	if (pl->audio_from() == Playlist::AUDIO_FFMPEG) {
-		return 2;
-	}
-
-	return 1 + max (size_t (1), pl->audio().size());
+	/* XXX */
+	return 2;
 }
 
 void
-Timeline::setup_pixels_per_second ()
+Timeline::setup_pixels_per_time_unit ()
 {
-	shared_ptr<Playlist> pl = _playlist.lock ();
-	if (!pl) {
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
 		return;
 	}
 
-	/* XXX */
-	_pixels_per_second = (width() - x_offset() * 2) / (pl->content_length() / pl->video_frame_rate());
+	_pixels_per_time_unit = (width() - x_offset() * 2) / film->length();
 }
 
 void
@@ -393,4 +369,10 @@ void
 Timeline::force_redraw (Rect const & r)
 {
 	RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
+}
+
+shared_ptr<const Film>
+Timeline::film () const
+{
+	return _film.lock ();
 }

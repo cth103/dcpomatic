@@ -33,7 +33,7 @@ Combiner::Combiner (shared_ptr<Log> log)
  *  @param image Frame image.
  */
 void
-Combiner::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle>, double)
+Combiner::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle>, Time)
 {
 	_image.reset (new SimpleImage (image));
 }
@@ -43,7 +43,7 @@ Combiner::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitl
  *  @param sub Subtitle (which will be put onto the whole frame)
  */
 void
-Combiner::process_video_b (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, double t)
+Combiner::process_video_b (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, Time t)
 {
 	/* Copy the right half of this image into our _image */
 	/* XXX: this should probably be in the Image class */

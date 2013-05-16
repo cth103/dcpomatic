@@ -27,19 +27,20 @@
 #include "audio_source.h"
 #include "video_sink.h"
 #include "audio_sink.h"
+#include "playlist.h"
+#include "audio_buffers.h"
 
-class VideoDecoder;
-class AudioDecoder;
 class Job;
 class Film;
 class Playlist;
 class AudioContent;
+class Decoder;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
  */
  
-class Player : public VideoSource, public AudioSource, public VideoSink, public boost::enable_shared_from_this<Player>
+class Player : public VideoSource, public AudioSource, public boost::enable_shared_from_this<Player>
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
@@ -49,18 +50,34 @@ public:
 	void disable_subtitles ();
 
 	bool pass ();
-	bool seek (double);
+	bool seek (Time);
 	void seek_back ();
 	void seek_forward ();
 
-	double last_video_time () const;
+	Time last_video () const {
+		return _last_video;
+	}
 
 private:
-	void process_video (boost::shared_ptr<const Image> i, bool same, boost::shared_ptr<Subtitle> s, double);
-	void process_audio (boost::weak_ptr<const AudioContent>, boost::shared_ptr<const AudioBuffers>, double);
+
+	struct RegionDecoder
+	{
+		RegionDecoder ()
+			: last (0)
+		{}
+		
+		Playlist::Region region;
+		boost::shared_ptr<Decoder> decoder;
+		Time last;
+	};
+	
+	void process_video (boost::shared_ptr<RegionDecoder>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
+	void process_audio (boost::shared_ptr<RegionDecoder>, boost::shared_ptr<const AudioBuffers>, Time);
 	void setup_decoders ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
+	void emit_black_frame ();
+	void emit_silence (Time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -71,21 +88,13 @@ private:
 
 	/** Our decoders are ready to go; if this is false the decoders must be (re-)created before they are used */
 	bool _have_valid_decoders;
-	/** Video decoders in order of presentation */
-	std::vector<boost::shared_ptr<VideoDecoder> > _video_decoders;
-	/** Start positions of each video decoder in seconds*/
-	std::vector<double> _video_start;
-        /** Index of current video decoder */
-	size_t _video_decoder;
-        /** Audio decoders in order of presentation (if they are from FFmpeg) */
-	std::vector<boost::shared_ptr<AudioDecoder> > _audio_decoders;
-	/** Start positions of each audio decoder (if they are from FFmpeg) in seconds */
-	std::vector<double> _audio_start;
-	/** Current audio decoder index if we are running them sequentially; otherwise undefined */
-	size_t _sequential_audio_decoder;
+	std::list<boost::shared_ptr<RegionDecoder> > _decoders;
 
-	boost::shared_ptr<AudioBuffers> _audio_buffers;
-	boost::optional<double> _audio_time;
+	Time _position;
+	AudioBuffers _audio_buffers;
+	Time _last_video;
+	bool _last_was_black;
+	Time _last_audio;
 };
 
 #endif

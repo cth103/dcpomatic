@@ -38,6 +38,7 @@ public:
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
+	Time length (boost::shared_ptr<const Film>) const;
 
 	void set_video_length (ContentVideoFrame);
 

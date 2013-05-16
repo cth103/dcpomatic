@@ -108,7 +108,7 @@ Film::Film (string d, bool must_exist)
 	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
-	, _dcp_frame_rate (0)
+	, _dcp_video_frame_rate (0)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -179,7 +179,7 @@ Film::Film (Film const & o)
 	, _colour_lut        (o._colour_lut)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _dci_metadata      (o._dci_metadata)
-	, _dcp_frame_rate    (o._dcp_frame_rate)
+	, _dcp_video_frame_rate (o._dcp_video_frame_rate)
 	, _dci_date          (o._dci_date)
 	, _dirty             (o._dirty)
 {
@@ -198,7 +198,7 @@ Film::video_state_identifier () const
 	s << format()->id()
 	  << "_" << _playlist->video_digest()
 	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
-	  << "_" << _dcp_frame_rate
+	  << "_" << _dcp_video_frame_rate
 	  << "_" << f.first << "_" << f.second
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth()
@@ -315,8 +315,8 @@ Film::make_dcp ()
 		throw MissingSettingError (_("format"));
 	}
 
-	if (_playlist->content().empty ()) {
-		throw MissingSettingError (_("content"));
+	if (_playlist->regions().empty ()) {
+		throw StringError (_("You must add some content to the DCP before creating it"));
 	}
 
 	if (dcp_content_type() == 0) {
@@ -450,9 +450,8 @@ Film::write_metadata () const
 	root->add_child("ColourLUT")->add_child_text (boost::lexical_cast<string> (_colour_lut));
 	root->add_child("J2KBandwidth")->add_child_text (boost::lexical_cast<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
-	root->add_child("DCPFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_frame_rate));
+	root->add_child("DCPVideoFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
-	_audio_mapping.as_xml (root->add_child("AudioMapping"));
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
@@ -524,11 +523,10 @@ Film::read_metadata ()
 	_colour_lut = f.number_child<int> ("ColourLUT");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
-	_dcp_frame_rate = f.number_child<int> ("DCPFrameRate");
+	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 
 	_playlist->set_from_xml (f.node_child ("Playlist"));
-	_audio_mapping.set_from_xml (_playlist->content(), f.node_child ("AudioMapping"));
 
 	_dirty = false;
 }
@@ -577,32 +575,6 @@ Film::file (string f) const
 	return p.string ();
 }
 
-/** @return The sampling rate that we will resample the audio to */
-int
-Film::target_audio_sample_rate () const
-{
-	if (!has_audio ()) {
-		return 0;
-	}
-	
-	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_sample_rate (audio_frame_rate());
-
-	FrameRateConversion frc (video_frame_rate(), dcp_frame_rate());
-
-	/* Compensate if the DCP is being run at a different frame rate
-	   to the source; that is, if the video is run such that it will
-	   look different in the DCP compared to the source (slower or faster).
-	   skip/repeat doesn't come into effect here.
-	*/
-
-	if (frc.change_speed) {
-		t *= video_frame_rate() * frc.factor() / dcp_frame_rate();
-	}
-
-	return rint (t);
-}
-
 /** @return a DCI-compliant name for a DCP of this film */
 string
 Film::dci_name (bool if_created_now) const
@@ -649,22 +621,7 @@ Film::dci_name (bool if_created_now) const
 		}
 	}
 
-	switch (audio_channels ()) {
-	case 1:
-		d << "_10";
-		break;
-	case 2:
-		d << "_20";
-		break;
-	case 6:
-		d << "_51";
-		break;
-	case 8:
-		d << "_71";
-		break;
-	}
-
-	d << "_2K";
+	d << "_51_2K";
 
 	if (!dm.studio.empty ()) {
 		d << "_" << dm.studio;
@@ -738,11 +695,11 @@ Film::set_trust_content_headers (bool t)
 	signal_changed (TRUST_CONTENT_HEADERS);
 
 	
-	ContentList content = _playlist->content ();
-	if (!_trust_content_headers && !content.empty()) {
+	Playlist::RegionList regions = _playlist->regions ();
+	if (!_trust_content_headers && !regions.empty()) {
 		/* We just said that we don't trust the content's header */
-		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-			examine_content (*i);
+		for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
+			examine_content (i->content);
 		}
 	}
 }
@@ -976,13 +933,13 @@ Film::set_dci_metadata (DCIMetadata m)
 
 
 void
-Film::set_dcp_frame_rate (int f)
+Film::set_dcp_video_frame_rate (int f)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_frame_rate = f;
+		_dcp_video_frame_rate = f;
 	}
-	signal_changed (DCP_FRAME_RATE);
+	signal_changed (DCP_VIDEO_FRAME_RATE);
 }
 
 void
@@ -995,8 +952,7 @@ Film::signal_changed (Property p)
 
 	switch (p) {
 	case Film::CONTENT:
-		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
-		set_audio_mapping (_playlist->default_audio_mapping ());
+		set_dcp_video_frame_rate (_playlist->best_dcp_frame_rate ());
 		break;
 	default:
 		break;
@@ -1082,10 +1038,10 @@ Film::playlist () const
 	return _playlist;
 }
 
-ContentList
-Film::content () const
+Playlist::RegionList
+Film::regions () const
 {
-	return _playlist->content ();
+	return _playlist->regions ();
 }
 
 void
@@ -1101,64 +1057,10 @@ Film::remove_content (shared_ptr<Content> c)
 	_playlist->remove (c);
 }
 
-void
-Film::move_content_earlier (shared_ptr<Content> c)
+Time
+Film::length () const
 {
-	_playlist->move_earlier (c);
-}
-
-void
-Film::move_content_later (shared_ptr<Content> c)
-{
-	_playlist->move_later (c);
-}
-
-ContentAudioFrame
-Film::audio_length () const
-{
-	return _playlist->audio_length ();
-}
-
-int
-Film::audio_channels () const
-{
-	return _playlist->audio_channels ();
-}
-
-int
-Film::audio_frame_rate () const
-{
-	return _playlist->audio_frame_rate ();
-}
-
-bool
-Film::has_audio () const
-{
-	return _playlist->has_audio ();
-}
-
-float
-Film::video_frame_rate () const
-{
-	return _playlist->video_frame_rate ();
-}
-
-libdcp::Size
-Film::video_size () const
-{
-	return _playlist->video_size ();
-}
-
-ContentVideoFrame
-Film::video_length () const
-{
-	return _playlist->video_length ();
-}
-
-ContentVideoFrame
-Film::content_length () const
-{
-	return _playlist->content_length ();
+	return _playlist->length (shared_from_this ());
 }
 
 bool
@@ -1167,24 +1069,17 @@ Film::has_subtitles () const
 	return _playlist->has_subtitles ();
 }
 
-void
-Film::set_audio_mapping (AudioMapping m)
+OutputVideoFrame
+Film::best_dcp_video_frame_rate () const
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_audio_mapping = m;
-	}
-
-	signal_changed (AUDIO_MAPPING);
+	return _playlist->best_dcp_frame_rate ();
 }
 
 void
 Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
-		set_dcp_frame_rate (best_dcp_frame_rate (video_frame_rate ()));
-	} else if (p == AudioContentProperty::AUDIO_CHANNELS) {
-		set_audio_mapping (_playlist->default_audio_mapping ());
+		set_dcp_video_frame_rate (_playlist->best_dcp_frame_rate ());
 	} 
 
 	if (ui_signaller) {
@@ -1208,4 +1103,35 @@ void
 Film::set_loop (int c)
 {
 	_playlist->set_loop (c);
+}
+
+OutputAudioFrame
+Film::time_to_audio_frames (Time t) const
+{
+	return t * dcp_audio_frame_rate () / TIME_HZ;
+}
+
+OutputVideoFrame
+Film::time_to_video_frames (Time t) const
+{
+	return t * dcp_video_frame_rate () / TIME_HZ;
+}
+
+Time
+Film::audio_frames_to_time (OutputAudioFrame f) const
+{
+	return f * TIME_HZ / dcp_audio_frame_rate ();
+}
+
+Time
+Film::video_frames_to_time (OutputVideoFrame f) const
+{
+	return f * TIME_HZ / dcp_video_frame_rate ();
+}
+
+OutputAudioFrame
+Film::dcp_audio_frame_rate () const
+{
+	/* XXX */
+	return 48000;
 }

@@ -23,7 +23,7 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
-#include "util.h"
+#include "types.h"
 
 struct AVSubtitle;
 class Image;

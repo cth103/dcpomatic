@@ -140,7 +140,7 @@ AudioMappingView::set_mapping (AudioMapping map)
 		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}
 
-	list<AudioMapping::Channel> content_channels = map.content_channels ();
+	list<int> content_channels = map.content_channels ();
 	_grid->InsertRows (0, content_channels.size ());
 
 	for (size_t r = 0; r < content_channels.size(); ++r) {
@@ -150,10 +150,8 @@ AudioMappingView::set_mapping (AudioMapping map)
 	}
 	
 	int n = 0;
-	for (list<AudioMapping::Channel>::iterator i = content_channels.begin(); i != content_channels.end(); ++i) {
-		shared_ptr<const AudioContent> ac = i->content.lock ();
-		assert (ac);
-		_grid->SetCellValue (n, 0, wxString::Format (wxT("%s %d"), std_to_wx (ac->file().filename().string()).data(), i->index + 1));
+	for (list<int>::iterator i = content_channels.begin(); i != content_channels.end(); ++i) {
+		_grid->SetCellValue (n, 0, wxString::Format (wxT("%d"), *i + 1));
 
 		list<libdcp::Channel> const d = map.content_to_dcp (*i);
 		for (list<libdcp::Channel>::const_iterator j = d.begin(); j != d.end(); ++j) {

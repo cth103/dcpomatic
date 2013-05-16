@@ -55,13 +55,13 @@ AnalyseAudioJob::run ()
 	
 	player->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1));
 
-	_samples_per_point = max (int64_t (1), _film->audio_length() / _num_points);
+	_samples_per_point = max (int64_t (1), _film->time_to_audio_frames (_film->length()) / _num_points);
 
 	_current.resize (MAX_AUDIO_CHANNELS);
 	_analysis.reset (new AudioAnalysis (MAX_AUDIO_CHANNELS));
 			 
 	while (!player->pass()) {
-		set_progress (float (_done) / _film->audio_length ());
+		set_progress (float (_done) / _film->time_to_audio_frames (_film->length ()));
 	}
 
 	_analysis->write (_film->audio_analysis_path ());

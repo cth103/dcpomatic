@@ -36,7 +36,7 @@
 #include "dci_metadata.h"
 #include "types.h"
 #include "ffmpeg_content.h"
-#include "audio_mapping.h"
+#include "playlist.h"
 
 class DCPContentType;
 class Format;
@@ -48,7 +48,6 @@ class AnalyseAudioJob;
 class ExternalAudioStream;
 class Content;
 class Player;
-class Playlist;
 
 /** @class Film
  *  @brief A representation of some audio and video content, and details of
@@ -87,8 +86,6 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
-	int target_audio_sample_rate () const;
-	
 	void write_metadata () const;
 
 	libdcp::Size cropped_size (libdcp::Size) const;
@@ -105,26 +102,23 @@ public:
 	boost::shared_ptr<Player> player () const;
 	boost::shared_ptr<Playlist> playlist () const;
 
+	OutputAudioFrame dcp_audio_frame_rate () const;
+
+	OutputAudioFrame time_to_audio_frames (Time) const;
+	OutputVideoFrame time_to_video_frames (Time) const;
+	Time video_frames_to_time (OutputVideoFrame) const;
+	Time audio_frames_to_time (OutputAudioFrame) const;
+
 	/* Proxies for some Playlist methods */
 
-	ContentList content () const;
+	Playlist::RegionList regions () const;
 
-	ContentAudioFrame audio_length () const;
-	int audio_channels () const;
-	int audio_frame_rate () const;
-	bool has_audio () const;
-
+	Time length () const;
 	bool has_subtitles () const;
-	
-	float video_frame_rate () const;
-	libdcp::Size video_size () const;
-	ContentVideoFrame video_length () const;
-
-	ContentVideoFrame content_length () const;
+	OutputVideoFrame best_dcp_video_frame_rate () const;
 
 	void set_loop (int);
 	int loop () const;
-
 
 	enum TrimType {
 		CPL,
@@ -159,7 +153,7 @@ public:
 		COLOUR_LUT,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
-		DCP_FRAME_RATE,
+		DCP_VIDEO_FRAME_RATE,
 		AUDIO_MAPPING
 	};
 
@@ -271,14 +265,10 @@ public:
 		return _dci_metadata;
 	}
 
-	int dcp_frame_rate () const {
+	/* XXX: -> "video_frame_rate" */
+	int dcp_video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_frame_rate;
-	}
-
-	AudioMapping audio_mapping () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_mapping;
+		return _dcp_video_frame_rate;
 	}
 
 	/* SET */
@@ -289,8 +279,6 @@ public:
 	void set_trust_content_headers (bool);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
-	void move_content_earlier (boost::shared_ptr<Content>);
-	void move_content_later (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_format (Format const *);
 	void set_crop (Crop);
@@ -312,9 +300,8 @@ public:
 	void set_colour_lut (int);
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
-	void set_dcp_frame_rate (int);
+	void set_dcp_video_frame_rate (int);
 	void set_dci_date_today ();
-	void set_audio_mapping (AudioMapping);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -398,10 +385,9 @@ private:
 	/** DCI naming stuff */
 	DCIMetadata _dci_metadata;
 	/** Frames per second to run our DCP at */
-	int _dcp_frame_rate;
+	int _dcp_video_frame_rate;
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
-	AudioMapping _audio_mapping;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

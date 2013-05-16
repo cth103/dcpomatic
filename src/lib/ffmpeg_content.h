@@ -89,12 +89,13 @@ public:
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
-	double temporal_length () const;
+	Time length (boost::shared_ptr<const Film>) const;
 
         /* AudioContent */
         int audio_channels () const;
         ContentAudioFrame audio_length () const;
-        int audio_frame_rate () const;
+        int content_audio_frame_rate () const;
+        int output_audio_frame_rate (boost::shared_ptr<const Film>) const;
 	
         std::vector<FFmpegSubtitleStream> subtitle_streams () const {
                 boost::mutex::scoped_lock lm (_mutex);

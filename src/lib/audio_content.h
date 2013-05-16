@@ -44,9 +44,8 @@ public:
 
         virtual int audio_channels () const = 0;
         virtual ContentAudioFrame audio_length () const = 0;
-        virtual int audio_frame_rate () const = 0;
-
-	Time temporal_length () const;
+        virtual int content_audio_frame_rate () const = 0;
+	virtual int output_audio_frame_rate (boost::shared_ptr<const Film>) const = 0;
 };
 
 #endif

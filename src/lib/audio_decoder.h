@@ -46,6 +46,7 @@ public:
 private:
 	boost::shared_ptr<const AudioContent> _audio_content;
 	SwrContext* _swr_context;
+	int _output_audio_frame_rate;
 };
 
 #endif

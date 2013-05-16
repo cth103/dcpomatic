@@ -79,7 +79,7 @@ VideoDecoder::set_progress (Job* j) const
 {
 	assert (j);
 
-	if (_film->video_length()) {
-		j->set_progress (float (_video_frame) / _film->video_length());
+	if (_film->length()) {
+		j->set_progress (float (_video_frame) / _film->time_to_video_frames (_film->length()));
 	}
 }

@@ -113,6 +113,12 @@ seconds_to_hms (int s)
 	return hms.str ();
 }
 
+string
+time_to_hms (Time t)
+{
+	return seconds_to_hms (t / TIME_HZ);
+}
+
 /** @param s Number of seconds.
  *  @return String containing an approximate description of s (e.g. "about 2 hours")
  */
@@ -428,66 +434,11 @@ about_equal (float a, float b)
 	return (fabs (a - b) < 1e-4);
 }
 
-class FrameRateCandidate
-{
-public:
-	FrameRateCandidate (float source_, int dcp_)
-		: source (source_)
-		, dcp (dcp_)
-	{}
-
-	float source;
-	int dcp;
-};
-
-int
-best_dcp_frame_rate (float source_fps)
-{
-	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
-
-	/* Work out what rates we could manage, including those achieved by using skip / repeat. */
-	list<FrameRateCandidate> candidates;
-
-	/* Start with the ones without skip / repeat so they will get matched in preference to skipped/repeated ones */
-	for (list<int>::const_iterator i = allowed_dcp_frame_rates.begin(); i != allowed_dcp_frame_rates.end(); ++i) {
-		candidates.push_back (FrameRateCandidate (*i, *i));
-	}
-
-	/* Then the skip/repeat ones */
-	for (list<int>::const_iterator i = allowed_dcp_frame_rates.begin(); i != allowed_dcp_frame_rates.end(); ++i) {
-		candidates.push_back (FrameRateCandidate (float (*i) / 2, *i));
-		candidates.push_back (FrameRateCandidate (float (*i) * 2, *i));
-	}
-
-	/* Pick the best one, bailing early if we hit an exact match */
-	float error = std::numeric_limits<float>::max ();
-	optional<FrameRateCandidate> best;
-	list<FrameRateCandidate>::iterator i = candidates.begin();
-	while (i != candidates.end()) {
-		
-		if (about_equal (i->source, source_fps)) {
-			best = *i;
-			break;
-		}
-
-		float const e = fabs (i->source - source_fps);
-		if (e < error) {
-			error = e;
-			best = *i;
-		}
-
-		++i;
-	}
-
-	assert (best);
-	return best->dcp;
-}
-
-/** @param An arbitrary sampling rate.
- *  @return The appropriate DCP-approved sampling rate (48kHz or 96kHz).
+/** @param An arbitrary audio frame rate.
+ *  @return The appropriate DCP-approved frame rate (48kHz or 96kHz).
  */
 int
-dcp_audio_sample_rate (int fs)
+dcp_audio_frame_rate (int fs)
 {
 	if (fs <= 48000) {
 		return 48000;
@@ -722,166 +673,6 @@ get_optional_int (multimap<string, string> const & kv, string k)
 	}
 
 	return lexical_cast<int> (i->second);
-}
-
-/** Construct an AudioBuffers.  Audio data is undefined after this constructor.
- *  @param channels Number of channels.
- *  @param frames Number of frames to reserve space for.
- */
-AudioBuffers::AudioBuffers (int channels, int frames)
-	: _channels (channels)
-	, _frames (frames)
-	, _allocated_frames (frames)
-{
-	_data = new float*[_channels];
-	for (int i = 0; i < _channels; ++i) {
-		_data[i] = new float[frames];
-	}
-}
-
-/** Copy constructor.
- *  @param other Other AudioBuffers; data is copied.
- */
-AudioBuffers::AudioBuffers (AudioBuffers const & other)
-	: _channels (other._channels)
-	, _frames (other._frames)
-	, _allocated_frames (other._frames)
-{
-	_data = new float*[_channels];
-	for (int i = 0; i < _channels; ++i) {
-		_data[i] = new float[_frames];
-		memcpy (_data[i], other._data[i], _frames * sizeof (float));
-	}
-}
-
-/* XXX: it's a shame that this is a copy-and-paste of the above;
-   probably fixable with c++0x.
-*/
-AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
-	: _channels (other->_channels)
-	, _frames (other->_frames)
-	, _allocated_frames (other->_frames)
-{
-	_data = new float*[_channels];
-	for (int i = 0; i < _channels; ++i) {
-		_data[i] = new float[_frames];
-		memcpy (_data[i], other->_data[i], _frames * sizeof (float));
-	}
-}
-
-/** AudioBuffers destructor */
-AudioBuffers::~AudioBuffers ()
-{
-	for (int i = 0; i < _channels; ++i) {
-		delete[] _data[i];
-	}
-
-	delete[] _data;
-}
-
-/** @param c Channel index.
- *  @return Buffer for this channel.
- */
-float*
-AudioBuffers::data (int c) const
-{
-	assert (c >= 0 && c < _channels);
-	return _data[c];
-}
-
-/** Set the number of frames that these AudioBuffers will report themselves
- *  as having.
- *  @param f Frames; must be less than or equal to the number of allocated frames.
- */
-void
-AudioBuffers::set_frames (int f)
-{
-	assert (f <= _allocated_frames);
-	_frames = f;
-}
-
-/** Make all samples on all channels silent */
-void
-AudioBuffers::make_silent ()
-{
-	for (int i = 0; i < _channels; ++i) {
-		make_silent (i);
-	}
-}
-
-/** Make all samples on a given channel silent.
- *  @param c Channel.
- */
-void
-AudioBuffers::make_silent (int c)
-{
-	assert (c >= 0 && c < _channels);
-	
-	for (int i = 0; i < _frames; ++i) {
-		_data[c][i] = 0;
-	}
-}
-
-/** Copy data from another AudioBuffers to this one.  All channels are copied.
- *  @param from AudioBuffers to copy from; must have the same number of channels as this.
- *  @param frames_to_copy Number of frames to copy.
- *  @param read_offset Offset to read from in `from'.
- *  @param write_offset Offset to write to in `to'.
- */
-void
-AudioBuffers::copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset)
-{
-	assert (from->channels() == channels());
-
-	assert (from);
-	assert (read_offset >= 0 && (read_offset + frames_to_copy) <= from->_allocated_frames);
-	assert (write_offset >= 0 && (write_offset + frames_to_copy) <= _allocated_frames);
-
-	for (int i = 0; i < _channels; ++i) {
-		memcpy (_data[i] + write_offset, from->_data[i] + read_offset, frames_to_copy * sizeof(float));
-	}
-}
-
-/** Move audio data around.
- *  @param from Offset to move from.
- *  @param to Offset to move to.
- *  @param frames Number of frames to move.
- */
-    
-void
-AudioBuffers::move (int from, int to, int frames)
-{
-	if (frames == 0) {
-		return;
-	}
-	
-	assert (from >= 0);
-	assert (from < _frames);
-	assert (to >= 0);
-	assert (to < _frames);
-	assert (frames > 0);
-	assert (frames <= _frames);
-	assert ((from + frames) <= _frames);
-	assert ((to + frames) <= _frames);
-	
-	for (int i = 0; i < _channels; ++i) {
-		memmove (_data[i] + to, _data[i] + from, frames * sizeof(float));
-	}
-}
-
-/** Add data from from `from', `from_channel' to our channel `to_channel' */
-void
-AudioBuffers::accumulate (shared_ptr<const AudioBuffers> from, int from_channel, int to_channel)
-{
-	int const N = frames ();
-	assert (from->frames() == N);
-
-	float* s = from->data (from_channel);
-	float* d = _data[to_channel];
-
-	for (int i = 0; i < N; ++i) {
-		*d++ += *s++;
-	}
 }
 
 /** Trip an assert if the caller is not in the UI thread */

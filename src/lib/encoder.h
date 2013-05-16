@@ -101,8 +101,6 @@ private:
 	/** Number of frames that we should keep history for */
 	static int const _history_size;
 
-	/** Number of video frames received so far */
-	ContentVideoFrame _video_frames_in;
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
 

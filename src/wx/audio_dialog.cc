@@ -90,10 +90,6 @@ AudioDialog::set_film (shared_ptr<Film> f)
 	
 	_film = f;
 
-	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		_channel_checkbox[i]->Show (!_film->audio_mapping().dcp_to_content (static_cast<libdcp::Channel> (i)).empty());
-	}
-
 	try_to_load_analysis ();
 	_plot->set_gain (_film->audio_gain ());
 

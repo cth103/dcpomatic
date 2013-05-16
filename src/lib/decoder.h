@@ -29,7 +29,6 @@
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
-#include "util.h"
 #include "video_source.h"
 #include "audio_source.h"
 #include "film.h"

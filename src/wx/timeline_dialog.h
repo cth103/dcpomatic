@@ -27,7 +27,7 @@ class Playlist;
 class TimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog (wxWindow *, boost::shared_ptr<Playlist>);
+	TimelineDialog (wxWindow *, boost::shared_ptr<const Film>);
 
 private:
 	Timeline _timeline;

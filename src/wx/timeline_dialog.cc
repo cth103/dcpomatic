@@ -27,9 +27,9 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 
-TimelineDialog::TimelineDialog (wxWindow* parent, shared_ptr<Playlist> pl)
+TimelineDialog::TimelineDialog (wxWindow* parent, shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
-	, _timeline (this, pl)
+	, _timeline (this, film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	

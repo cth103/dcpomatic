@@ -18,6 +18,7 @@
 */
 
 #include "audio_decoder.h"
+#include "audio_buffers.h"
 #include "exceptions.h"
 #include "log.h"
 
@@ -30,11 +31,12 @@ using boost::shared_ptr;
 AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioContent> c)
 	: Decoder (f)
 	, _audio_content (c)
+	, _output_audio_frame_rate (_audio_content->output_audio_frame_rate (f))
 {
-	if (_audio_content->audio_frame_rate() != _film->target_audio_sample_rate()) {
+	if (_audio_content->content_audio_frame_rate() != _output_audio_frame_rate) {
 
 		stringstream s;
-		s << String::compose ("Will resample audio from %1 to %2", _audio_content->audio_frame_rate(), _film->target_audio_sample_rate());
+		s << String::compose ("Will resample audio from %1 to %2", _audio_content->content_audio_frame_rate(), _output_audio_frame_rate);
 		_film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the
@@ -49,10 +51,10 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioCont
 			0,
 			av_get_default_channel_layout (MAX_AUDIO_CHANNELS),
 			AV_SAMPLE_FMT_FLTP,
-			_film->target_audio_sample_rate(),
+			_output_audio_frame_rate,
 			av_get_default_channel_layout (MAX_AUDIO_CHANNELS),
 			AV_SAMPLE_FMT_FLTP,
-			_audio_content->audio_frame_rate(),
+			_audio_content->content_audio_frame_rate(),
 			0, 0
 			);
 		
@@ -74,7 +76,7 @@ AudioDecoder::~AudioDecoder ()
 void
 AudioDecoder::process_end ()
 {
-	if (_film->has_audio() && _swr_context) {
+	if (_swr_context) {
 
 		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_mapping().dcp_channels(), 256));
 			
@@ -106,7 +108,7 @@ AudioDecoder::emit_audio (shared_ptr<const AudioBuffers> data, Time time)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil ((int64_t) data->frames() * _film->target_audio_sample_rate() / _audio_content->audio_frame_rate()) + 32;
+		int const max_resampled_frames = ceil ((int64_t) data->frames() * _output_audio_frame_rate / _audio_content->content_audio_frame_rate()) + 32;
 
 		shared_ptr<AudioBuffers> resampled (new AudioBuffers (MAX_AUDIO_CHANNELS, max_resampled_frames));
 

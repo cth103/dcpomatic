@@ -30,33 +30,21 @@ class AudioMapping
 {
 public:
 	void as_xml (xmlpp::Node *) const;
-	void set_from_xml (ContentList const &, boost::shared_ptr<const cxml::Node>);
-	
-	struct Channel {
-		Channel (boost::weak_ptr<const AudioContent> c, int i)
-			: content (c)
-			, index (i)
-		{}
-		
-		boost::weak_ptr<const AudioContent> content;
-		int index;
-	};
+	void set_from_xml (boost::shared_ptr<const cxml::Node>);
 
-	void add (Channel, libdcp::Channel);
+	void add (int, libdcp::Channel);
 
 	int dcp_channels () const;
-	std::list<Channel> dcp_to_content (libdcp::Channel) const;
-	std::list<std::pair<Channel, libdcp::Channel> > content_to_dcp () const {
+	std::list<int> dcp_to_content (libdcp::Channel) const;
+	std::list<std::pair<int, libdcp::Channel> > content_to_dcp () const {
 		return _content_to_dcp;
 	}
 
-	std::list<Channel> content_channels () const;
-	std::list<libdcp::Channel> content_to_dcp (Channel) const;
+	std::list<int> content_channels () const;
+	std::list<libdcp::Channel> content_to_dcp (int) const;
 
 private:
-	std::list<std::pair<Channel, libdcp::Channel> > _content_to_dcp;
+	std::list<std::pair<int, libdcp::Channel> > _content_to_dcp;
 };
-
-extern bool operator== (AudioMapping::Channel const &, AudioMapping::Channel const &);
 
 #endif

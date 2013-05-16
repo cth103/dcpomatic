@@ -31,7 +31,7 @@ using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
 void
-AudioMapping::add (Channel c, libdcp::Channel d)
+AudioMapping::add (int c, libdcp::Channel d)
 {
 	_content_to_dcp.push_back (make_pair (c, d));
 }
@@ -40,7 +40,7 @@ AudioMapping::add (Channel c, libdcp::Channel d)
 int
 AudioMapping::dcp_channels () const
 {
-	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		if (((int) i->second) >= 2) {
 			return 6;
 		}
@@ -49,11 +49,11 @@ AudioMapping::dcp_channels () const
 	return 2;
 }
 
-list<AudioMapping::Channel>
+list<int>
 AudioMapping::dcp_to_content (libdcp::Channel d) const
 {
-	list<AudioMapping::Channel> c;
-	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+	list<int> c;
+	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		if (i->second == d) {
 			c.push_back (i->first);
 		}
@@ -62,11 +62,11 @@ AudioMapping::dcp_to_content (libdcp::Channel d) const
 	return c;
 }
 
-list<AudioMapping::Channel>
+list<int>
 AudioMapping::content_channels () const
 {
-	list<AudioMapping::Channel> c;
-	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+	list<int> c;
+	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		if (find (c.begin(), c.end(), i->first) == c.end ()) {
 			c.push_back (i->first);
 		}
@@ -76,10 +76,10 @@ AudioMapping::content_channels () const
 }
 
 list<libdcp::Channel>
-AudioMapping::content_to_dcp (Channel c) const
+AudioMapping::content_to_dcp (int c) const
 {
 	list<libdcp::Channel> d;
-	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		if (i->first == c) {
 			d.push_back (i->second);
 		}
@@ -91,41 +91,18 @@ AudioMapping::content_to_dcp (Channel c) const
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
-	for (list<pair<Channel, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
+	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		xmlpp::Node* t = node->add_child ("Map");
-		shared_ptr<const AudioContent> c = i->first.content.lock ();
-		t->add_child ("Content")->add_child_text (c->digest ());
-		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first.index));
+		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first));
 		t->add_child ("DCP")->add_child_text (lexical_cast<string> (i->second));
 	}
 }
 
 void
-AudioMapping::set_from_xml (ContentList const & content, shared_ptr<const cxml::Node> node)
+AudioMapping::set_from_xml (shared_ptr<const cxml::Node> node)
 {
 	list<shared_ptr<cxml::Node> > const c = node->node_children ("Map");
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
-		string const c = (*i)->string_child ("Content");
-		ContentList::const_iterator j = content.begin ();
-		while (j != content.end() && (*j)->digest() != c) {
-			++j;
-		}
-
-		if (j == content.end ()) {
-			continue;
-		}
-
-		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*j);
-		assert (ac);
-
-		add (AudioMapping::Channel (ac, (*i)->number_child<int> ("ContentIndex")), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
+		add ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
 	}
-}
-
-bool
-operator== (AudioMapping::Channel const & a, AudioMapping::Channel const & b)
-{
-	shared_ptr<const AudioContent> sa = a.content.lock ();
-	shared_ptr<const AudioContent> sb = b.content.lock ();
-	return sa == sb && a.index == b.index;
 }

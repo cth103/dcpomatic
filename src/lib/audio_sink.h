@@ -20,6 +20,8 @@
 #ifndef DCPOMATIC_AUDIO_SINK_H
 #define DCPOMATIC_AUDIO_SINK_H
 
+class AudioBuffers;
+
 class AudioSink
 {
 public:

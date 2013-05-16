@@ -22,13 +22,15 @@
 #include <wx/wx.h>
 #include "util.h"
 
-class Playlist;
+class Film;
 class View;
 
 class Timeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, boost::shared_ptr<Playlist>);
+	Timeline (wxWindow *, boost::shared_ptr<const Film>);
+
+	boost::shared_ptr<const Film> film () const;
 
 	void force_redraw (Rect const &);
 
@@ -44,8 +46,8 @@ public:
 		return 64;
 	}
 
-	double pixels_per_second () const {
-		return _pixels_per_second;
+	double pixels_per_time_unit () const {
+		return _pixels_per_time_unit;
 	}
 
 	Position tracks_position () const {
@@ -58,9 +60,9 @@ private:
 	void paint (wxPaintEvent &);
 	void left_down (wxMouseEvent &);
 	void playlist_changed ();
-	void setup_pixels_per_second ();
+	void setup_pixels_per_time_unit ();
 
-	boost::weak_ptr<Playlist> _playlist;
+	boost::weak_ptr<const Film> _film;
 	std::list<boost::shared_ptr<View> > _views;
-	double _pixels_per_second;
+	double _pixels_per_time_unit;
 };

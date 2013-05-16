@@ -208,7 +208,8 @@ VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d)
 float
 VariableFormat::ratio (shared_ptr<const Film> f) const
 {
-	libdcp::Size const c = f->cropped_size (f->video_size ());
+	/* XXX */
+	libdcp::Size const c;// = f->cropped_size (f->video_size ());
 	return float (c.width) / c.height;
 }
 

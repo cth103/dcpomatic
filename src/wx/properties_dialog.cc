@@ -50,10 +50,8 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	_encoded = new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 
-	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->video_length())));
-	FrameRateConversion frc (_film->video_frame_rate(), _film->dcp_frame_rate());
-	int const dcp_length = _film->video_length() * frc.factor();
-	double const disk = ((double) _film->j2k_bandwidth() / 8) * dcp_length / (_film->dcp_frame_rate() * 1073741824.0f);
+	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->time_to_video_frames (_film->length()))));
+	double const disk = ((double) _film->j2k_bandwidth() / 8) * _film->length() / (TIME_HZ * 1073741824.0f);
 	stringstream s;
 	s << fixed << setprecision (1) << disk << wx_to_std (_("Gb"));
 	_disk->SetLabel (std_to_wx (s.str ()));
@@ -80,9 +78,9 @@ PropertiesDialog::frames_already_encoded () const
 		return "";
 	}
 	
-	if (_film->video_length()) {
+	if (_film->length()) {
 		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << (_film->encoded_frames() * 100 / _film->video_length()) << "%)";
+		u << " (" << (_film->encoded_frames() * 100 / _film->time_to_video_frames (_film->length())) << "%)";
 	}
 	return u.str ();
 }

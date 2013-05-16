@@ -6,6 +6,7 @@ sources = """
 	  ab_transcoder.cc
           analyse_audio_job.cc
           audio_analysis.cc
+          audio_buffers.cc
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc

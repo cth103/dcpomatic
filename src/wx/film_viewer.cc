@@ -180,7 +180,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::update_from_decoder ()
 {
-	if (!_player || _player->seek (_player->last_video_time ())) {
+	if (!_player || _player->seek (_player->last_video ())) {
 		return;
 	}
 
@@ -201,8 +201,8 @@ FilmViewer::timer (wxTimerEvent &)
 
 	get_frame ();
 
-	if (_film->video_length()) {
-		int const new_slider_position = 4096 * _player->last_video_time() / (_film->video_length() / _film->video_frame_rate());
+	if (_film->length()) {
+		int const new_slider_position = 4096 * _player->last_video() / _film->length();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -259,7 +259,7 @@ void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
 	if (_film && _player) {
-		_player->seek (_slider->GetValue() * _film->video_length() / (4096 * _film->video_frame_rate()));
+		_player->seek (_slider->GetValue() * _film->length() / 4096);
 	}
 	
 	get_frame ();
@@ -312,7 +312,7 @@ FilmViewer::raw_to_display ()
 		   when working out the scale that we are applying.
 		*/
 
-		Size const cropped_size = _film->cropped_size (_film->video_size ());
+		Size const cropped_size = _film->cropped_size (_raw_frame->size ());
 
 		Rect tx = subtitle_transformed_area (
 			float (_film_size.width) / cropped_size.width,
@@ -381,7 +381,7 @@ FilmViewer::check_play_state ()
 	}
 	
 	if (_play_button->GetValue()) {
-		_timer.Start (1000 / _film->video_frame_rate());
+		_timer.Start (1000 / _film->dcp_video_frame_rate());
 	} else {
 		_timer.Stop ();
 	}
@@ -397,7 +397,7 @@ FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subti
 
 	_got_frame = true;
 
-	double const fps = _film->video_frame_rate ();
+	double const fps = _film->dcp_video_frame_rate ();
 	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps))));
 
 	double w = t;
@@ -425,6 +425,8 @@ FilmViewer::get_frame ()
 		return;
 	}
 
+	cout << "-> FilmViewer::get_frame()\n";
+
 	try {
 		_got_frame = false;
 		while (!_got_frame) {
@@ -441,6 +443,8 @@ FilmViewer::get_frame ()
 		check_play_state ();
 		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
 	}
+
+	cout << "<- FilmViewer::get_frame()\n";
 }
 
 void

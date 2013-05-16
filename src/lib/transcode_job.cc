@@ -113,18 +113,7 @@ TranscodeJob::remaining_time () const
 		return 0;
 	}
 
-	if (!_film->video_length()) {
-		return 0;
-	}
-
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	int length = _film->video_length();
-	FrameRateConversion const frc (_film->video_frame_rate(), _film->dcp_frame_rate());
-	if (frc.skip) {
-		length /= 2;
-	}
-	/* If we are repeating it shouldn't affect transcode time, so don't take it into account */
-
-	int const left = length - _transcoder->video_frames_out();
+	OutputVideoFrame const left = _film->time_to_video_frames (_film->length ()) - _transcoder->video_frames_out();
 	return left / fps;
 }

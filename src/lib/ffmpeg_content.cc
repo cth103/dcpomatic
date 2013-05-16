@@ -206,7 +206,7 @@ FFmpegContent::audio_length () const
                 return 0;
         }
         
-        return video_frames_to_audio_frames (_video_length, audio_frame_rate(), video_frame_rate());
+        return video_frames_to_audio_frames (_video_length, content_audio_frame_rate(), video_frame_rate());
 }
 
 int
@@ -220,13 +220,35 @@ FFmpegContent::audio_channels () const
 }
 
 int
-FFmpegContent::audio_frame_rate () const
+FFmpegContent::content_audio_frame_rate () const
 {
         if (!_audio_stream) {
                 return 0;
         }
 
         return _audio_stream->frame_rate;
+}
+
+int
+FFmpegContent::output_audio_frame_rate (shared_ptr<const Film> film) const
+{
+	/* Resample to a DCI-approved sample rate */
+	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
+
+	FrameRateConversion frc (video_frame_rate(), film->dcp_video_frame_rate());
+
+	/* Compensate if the DCP is being run at a different frame rate
+	   to the source; that is, if the video is run such that it will
+	   look different in the DCP compared to the source (slower or faster).
+	   skip/repeat doesn't come into effect here.
+	*/
+
+	if (frc.change_speed) {
+		t *= video_frame_rate() * frc.factor() / film->dcp_video_frame_rate();
+		cout << "-> " << t << "\n";
+	}
+
+	return rint (t);
 }
 
 bool
@@ -281,8 +303,9 @@ FFmpegContent::clone () const
 	return shared_ptr<Content> (new FFmpegContent (*this));
 }
 
-double
-FFmpegContent::temporal_length () const
+Time
+FFmpegContent::length (shared_ptr<const Film> film) const
 {
-	return video_length() / video_frame_rate();
+	FrameRateConversion frc (video_frame_rate (), film->dcp_video_frame_rate ());
+	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
 }

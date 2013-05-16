@@ -98,3 +98,10 @@ ImageMagickContent::set_video_length (ContentVideoFrame len)
 
 	signal_changed (VideoContentProperty::VIDEO_LENGTH);
 }
+
+Time
+ImageMagickContent::length (shared_ptr<const Film> film) const
+{
+	FrameRateConversion frc (24, film->dcp_video_frame_rate ());
+	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
+}

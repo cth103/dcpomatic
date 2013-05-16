@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_PLAYLIST_H
+#define DCPOMATIC_PLAYLIST_H
+
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -46,7 +49,7 @@ class Film;
  * from the video unless any sound-only files are present.  If sound-only files exist, they
  * are played simultaneously (i.e. they can be split up into multiple files for different channels)
  */
-    
+
 class Playlist
 {
 public:
@@ -58,44 +61,29 @@ public:
 
 	void add (boost::shared_ptr<Content>);
 	void remove (boost::shared_ptr<Content>);
-	void move_earlier (boost::shared_ptr<Content>);
-	void move_later (boost::shared_ptr<Content>);
-
-	ContentAudioFrame audio_length () const;
-	int audio_channels () const;
-	int audio_frame_rate () const;
-	bool has_audio () const;
-	
-	float video_frame_rate () const;
-	libdcp::Size video_size () const;
-	ContentVideoFrame video_length () const;
-
-	AudioMapping default_audio_mapping () const;
-	ContentVideoFrame content_length () const;
-
-	enum AudioFrom {
-		AUDIO_FFMPEG,
-		AUDIO_SNDFILE
-	};
-
-	AudioFrom audio_from () const {
-		return _audio_from;
-	}
 
 	bool has_subtitles () const;
+
+	struct Region
+	{
+		Region ()
+			: time (0)
+		{}
+		
+		Region (boost::shared_ptr<Content> c, Time t, Playlist* p);
+		Region (boost::shared_ptr<const cxml::Node>, Playlist* p);
+
+		void as_xml (xmlpp::Node *) const;
+		
+		boost::shared_ptr<Content> content;
+		Time time;
+		boost::signals2::connection connection;
+	};
+
+	typedef std::vector<Region> RegionList;
 	
-	ContentList content () const {
-		return _content;
-	}
-
-	boost::shared_ptr<FFmpegContent> ffmpeg () const;
-
-	std::list<boost::shared_ptr<const VideoContent> > video () const {
-		return _video;
-	}
-
-	std::list<boost::shared_ptr<const AudioContent> > audio () const {
-		return _audio;
+	RegionList regions () const {
+		return _regions;
 	}
 
 	std::string audio_digest () const;
@@ -107,26 +95,17 @@ public:
 	
 	void set_loop (int l);
 
+	Time length (boost::shared_ptr<const Film>) const;
+	int best_dcp_frame_rate () const;
+
 	mutable boost::signals2::signal<void ()> Changed;
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 	
 private:
-	void setup ();
 	void content_changed (boost::weak_ptr<Content>, int);
 
-	/** where we should get our audio from */
-	AudioFrom _audio_from;
-
-	/** all our content */
-	ContentList _content;
-	/** all our content which contains video */
-	std::list<boost::shared_ptr<const VideoContent> > _video;
-	/** all our content which contains audio.  This may contain the same objects
-	 *  as _video for FFmpegContent.
-	 */
-	std::list<boost::shared_ptr<const AudioContent> > _audio;
-
+	RegionList _regions;
 	int _loop;
-
-	std::list<boost::signals2::connection> _content_connections;
 };
+
+#endif

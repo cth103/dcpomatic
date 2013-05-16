@@ -75,26 +75,24 @@ Writer::Writer (shared_ptr<Film> f, shared_ptr<Job> j)
 		new libdcp::MonoPictureAsset (
 			_film->internal_video_mxf_dir (),
 			_film->internal_video_mxf_filename (),
-			_film->dcp_frame_rate (),
+			_film->dcp_video_frame_rate (),
 			_film->format()->dcp_size ()
 			)
 		);
 
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	if (_film->audio_channels() > 0) {
-		_sound_asset.reset (
-			new libdcp::SoundAsset (
-				_film->dir (_film->dcp_name()),
-				_film->dcp_audio_mxf_filename (),
-				_film->dcp_frame_rate (),
-				_film->audio_mapping().dcp_channels (),
-				dcp_audio_sample_rate (_film->audio_frame_rate())
-				)
-			);
-
-		_sound_asset_writer = _sound_asset->start_write ();
-	}
+	_sound_asset.reset (
+		new libdcp::SoundAsset (
+			_film->dir (_film->dcp_name()),
+			_film->dcp_audio_mxf_filename (),
+			_film->dcp_video_frame_rate (),
+			MAX_AUDIO_CHANNELS,
+			_film->dcp_audio_frame_rate()
+			)
+		);
+	
+	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 }
@@ -205,8 +203,8 @@ try
 			}
 			lock.lock ();
 			
-			if (_film->video_length ()) {
-				_job->set_progress (float(_full_written + _fake_written + _repeat_written) / _film->video_length());
+			if (_film->length ()) {
+				_job->set_progress (float(_full_written + _fake_written + _repeat_written) / _film->time_to_video_frames (_film->length()));
 			}
 
 			++_last_written_frame;
@@ -263,11 +261,8 @@ Writer::finish ()
 	_thread = 0;
 
 	_picture_asset_writer->finalize ();
-
-	if (_sound_asset_writer) {
-		_sound_asset_writer->finalize ();
-	}
-
+	_sound_asset_writer->finalize ();
+	
 	int const frames = _last_written_frame + 1;
 	int duration = 0;
 	if (_film->trim_type() == Film::CPL) {
@@ -302,12 +297,10 @@ Writer::finish ()
 	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
 	_picture_asset->set_file_name (_film->dcp_video_mxf_filename ());
 
-	if (_sound_asset) {
-		if (_film->trim_type() == Film::CPL) {
-			_sound_asset->set_entry_point (_film->trim_start ());
-		}
-		_sound_asset->set_duration (duration);
+	if (_film->trim_type() == Film::CPL) {
+		_sound_asset->set_entry_point (_film->trim_start ());
 	}
+	_sound_asset->set_duration (duration);
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 
@@ -317,7 +310,7 @@ Writer::finish ()
 			_film->dcp_name(),
 			_film->dcp_content_type()->libdcp_kind (),
 			frames,
-			_film->dcp_frame_rate ()
+			_film->dcp_video_frame_rate ()
 			)
 		);
 	

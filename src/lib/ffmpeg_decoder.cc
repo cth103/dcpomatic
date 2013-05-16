@@ -48,6 +48,7 @@ extern "C" {
 #include "ffmpeg_decoder.h"
 #include "filter_graph.h"
 #include "subtitle.h"
+#include "audio_buffers.h"
 
 #include "i18n.h"
 
@@ -219,8 +220,10 @@ FFmpegDecoder::setup_subtitle ()
 bool
 FFmpegDecoder::pass ()
 {
-	int r = av_read_frame (_format_context, &_packet);
+	cout << "FFmpeg::pass\n";
 	
+	int r = av_read_frame (_format_context, &_packet);
+
 	if (r < 0) {
 		if (r != AVERROR_EOF) {
 			/* Maybe we should fail here, but for now we'll just finish off instead */

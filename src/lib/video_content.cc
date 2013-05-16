@@ -104,9 +104,3 @@ VideoContent::information () const
 	
 	return s.str ();
 }
-
-Time
-VideoContent::temporal_length () const
-{
-	return video_length() / video_frame_rate();
-}

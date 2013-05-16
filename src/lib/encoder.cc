@@ -58,7 +58,6 @@ int const Encoder::_history_size = 25;
 Encoder::Encoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	: _film (f)
 	, _job (j)
-	, _video_frames_in (0)
 	, _video_frames_out (0)
 	, _have_a_real_frame (false)
 	, _terminate (false)
@@ -180,13 +179,6 @@ Encoder::frame_done ()
 void
 Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time)
 {
-	FrameRateConversion frc (_film->video_frame_rate(), _film->dcp_frame_rate());
-	
-	if (frc.skip && (_video_frames_in % 2)) {
-		++_video_frames_in;
-		return;
-	}
-
 	boost::mutex::scoped_lock lock (_mutex);
 
 	/* Wait until the queue has gone down a bit */
@@ -220,7 +212,7 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 					  new DCPVideoFrame (
 						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
 						  _film->subtitle_offset(), _film->subtitle_scale(),
-						  _film->scaler(), _video_frames_out, _film->dcp_frame_rate(), s.second,
+						  _film->scaler(), _video_frames_out, _film->dcp_video_frame_rate(), s.second,
 						  _film->colour_lut(), _film->j2k_bandwidth(),
 						  _film->log()
 						  )
@@ -230,14 +222,7 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 		_have_a_real_frame = true;
 	}
 
-	++_video_frames_in;
 	++_video_frames_out;
-
-	if (frc.repeat) {
-		_writer->repeat (_video_frames_out);
-		++_video_frames_out;
-		frame_done ();
-	}
 }
 
 void

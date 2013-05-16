@@ -46,7 +46,7 @@ public:
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual boost::shared_ptr<Content> clone () const = 0;
-	virtual Time temporal_length () const = 0;
+	virtual Time length (boost::shared_ptr<const Film>) const = 0;
 	
 	boost::filesystem::path file () const {
 		boost::mutex::scoped_lock lm (_mutex);

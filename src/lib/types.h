@@ -21,15 +21,19 @@
 #define DCPOMATIC_TYPES_H
 
 #include <vector>
+#include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <libdcp/util.h>
 
 class Content;
 
-typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef int64_t ContentAudioFrame;
-typedef int ContentVideoFrame;
-typedef double Time;
+typedef int     ContentVideoFrame;
+typedef int64_t Time;
+#define TIME_MAX INT64_MAX
+#define TIME_HZ  96000
+typedef int64_t OutputAudioFrame;
+typedef int     OutputVideoFrame;
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

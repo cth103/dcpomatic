@@ -70,12 +70,8 @@ private:
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
 	void content_properties_clicked (wxCommandEvent &);
-	void content_earlier_clicked (wxCommandEvent &);
-	void content_later_clicked (wxCommandEvent &);
 	void imagemagick_video_length_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
-	void trim_start_changed (wxCommandEvent &);
-	void trim_end_changed (wxCommandEvent &);
 	void trim_type_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void ab_toggled (wxCommandEvent &);
@@ -177,8 +173,6 @@ private:
 	/** The Film's audio details */
 	wxStaticText* _audio;
 
-	wxSpinCtrl* _trim_start;
-	wxSpinCtrl* _trim_end;
 	wxChoice* _trim_type;
 	/** Selector to generate an A/B comparison DCP */
 	wxCheckBox* _ab;

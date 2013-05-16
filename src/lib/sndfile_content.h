@@ -41,6 +41,7 @@ public:
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
+	Time length (boost::shared_ptr<const Film>) const;
 
         /* AudioContent */
         int audio_channels () const {
@@ -53,10 +54,12 @@ public:
 		return _audio_length;
 	}
 	
-        int audio_frame_rate () const {
+        int content_audio_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_frame_rate;
 	}
+
+        int output_audio_frame_rate (boost::shared_ptr<const Film>) const;
 	
 	static bool valid_file (boost::filesystem::path);
 

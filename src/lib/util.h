@@ -51,6 +51,7 @@ extern "C" {
 class Scaler;
 
 extern std::string seconds_to_hms (int);
+extern std::string time_to_hms (Time);
 extern std::string seconds_to_approximate_hms (int);
 extern void stacktrace (std::ostream &, int);
 extern std::string dependency_version_summary ();
@@ -101,10 +102,8 @@ struct FrameRateConversion
 	std::string description;
 };
 
-int best_dcp_frame_rate (float);
-
 extern std::string crop_string (Position, libdcp::Size);
-extern int dcp_audio_sample_rate (int);
+extern int dcp_audio_frame_rate (int);
 extern std::string colour_lut_index_to_name (int index);
 extern int stride_round_up (int, int const *, int);
 extern int stride_lookup (int c, int const * stride);
@@ -149,51 +148,6 @@ private:
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
 	int _timeout;
-};
-
-/** @class AudioBuffers
- *  @brief A class to hold multi-channel audio data in float format.
- */
-class AudioBuffers
-{
-public:
-	AudioBuffers (int channels, int frames);
-	AudioBuffers (AudioBuffers const &);
-	AudioBuffers (boost::shared_ptr<const AudioBuffers>);
-	~AudioBuffers ();
-
-	float** data () const {
-		return _data;
-	}
-	
-	float* data (int) const;
-
-	int channels () const {
-		return _channels;
-	}
-
-	int frames () const {
-		return _frames;
-	}
-
-	void set_frames (int f);
-
-	void make_silent ();
-	void make_silent (int c);
-
-	void copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset);
-	void move (int from, int to, int frames);
-	void accumulate (boost::shared_ptr<const AudioBuffers>, int, int);
-
-private:
-	/** Number of channels */
-	int _channels;
-	/** Number of frames (where a frame is one sample across all channels) */
-	int _frames;
-	/** Number of frames that _data can hold */
-	int _allocated_frames;
-	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
-	float** _data;
 };
 
 extern int64_t video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second);

@@ -68,7 +68,7 @@ SndfileContent::information () const
 	s << String::compose (
 		_("%1 channels, %2kHz, %3 samples"),
 		audio_channels(),
-		audio_frame_rate() / 1000.0,
+		content_audio_frame_rate() / 1000.0,
 		audio_length()
 		);
 	
@@ -120,3 +120,15 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));
 }
 
+int
+SndfileContent::output_audio_frame_rate (shared_ptr<const Film>) const
+{
+	/* Resample to a DCI-approved sample rate */
+	return dcp_audio_frame_rate (content_audio_frame_rate ());
+}
+
+Time
+SndfileContent::length (shared_ptr<const Film> film) const
+{
+	return film->audio_frames_to_time (audio_length ());
+}

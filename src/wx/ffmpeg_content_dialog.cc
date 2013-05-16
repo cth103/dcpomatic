@@ -113,7 +113,7 @@ FFmpegContentDialog::audio_stream_changed (wxCommandEvent &)
 		} else {
 			s << c->audio_channels() << wxT (" ") << _("channels");
 		}
-		s << wxT (", ") << c->audio_frame_rate() << _("Hz");
+		s << wxT (", ") << c->content_audio_frame_rate() << _("Hz");
 		_audio_description->SetLabel (s);
 	}
 }
