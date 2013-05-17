@@ -1,3 +1,5 @@
+/** -*- c-basic-offset: 4; default-tab-width: 4; indent-tabs-mode: nil; -*- */
+
 // Copyright 2007 Edd Dawson.
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
@@ -16,10 +18,11 @@ namespace dbg
     //! the name of the corresponding function and the "module" (executable or library) in which the function resides.
     struct stack_frame
     {
-        stack_frame(const void *instruction, const std::string &function, const std::string &module);
+        stack_frame(const void *instruction, const std::string &function, unsigned int line, const std::string &module);
 
         const void *instruction;
         std::string function;
+        unsigned int line;
         std::string module;
     };
 

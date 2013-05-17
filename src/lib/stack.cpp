@@ -1,3 +1,5 @@
+/** -*- c-basic-offset: 4; default-tab-width: 4; indent-tabs-mode: nil; -*- */
+
 // Copyright 2007 Edd Dawson.
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
@@ -79,6 +81,7 @@ namespace
             struct find_data
             {
                 std::string func;
+                unsigned int line;
                 asymbol **symbol_table;
                 bfd_vma counter;
             };
@@ -127,7 +130,7 @@ namespace
                 bfd_close(abfd_);
             }
 
-            std::string get_function_name(DWORD offset)
+            std::pair<std::string, unsigned int> get_function_name_and_line(DWORD offset)
             {
                 find_data data;
                 data.symbol_table = symbol_table_;
@@ -135,7 +138,7 @@ namespace
 
                 bfd_map_over_sections(abfd_, &find_function_name_in_section, &data);
 
-                return data.func;
+                return std::make_pair(data.func, data.line);
             }
 
         private:
@@ -156,8 +159,10 @@ namespace
                 const char *file = 0;
                 unsigned line = 0;
 
-                if (bfd_find_nearest_line(abfd, sec, data.symbol_table, data.counter - vma, &file, &func, &line) && func)
+                if (bfd_find_nearest_line(abfd, sec, data.symbol_table, data.counter - vma, &file, &func, &line) && func) {
                     data.func = demangle(func);
+                    data.line = line;
+                }
             }
 
         private:
@@ -327,9 +332,9 @@ namespace
                 module_name = module_name_raw;
 
 #if defined(__MINGW32__)
-                std::string func = bfdc.get_function_name(frame.AddrPC.Offset);
+                std::pair<std::string, unsigned int> func_and_line = bfdc.get_function_name_and_line(frame.AddrPC.Offset);
 
-                if (func.empty())
+                if (func_and_line.first.empty())
                 {
 #if defined(_WIN64)
 		    DWORD64 dummy = 0;
@@ -337,7 +342,7 @@ namespace
                     DWORD dummy = 0;
 #endif		    
                     BOOL got_symbol = SymGetSymFromAddr(process, frame.AddrPC.Offset, &dummy, symbol);
-                    func = got_symbol ? symbol->Name : unknown_function;
+                    func_and_line.first = got_symbol ? symbol->Name : unknown_function;
                 }
 #else
                 DWORD dummy = 0;
@@ -345,7 +350,7 @@ namespace
                 std::string func = got_symbol ? symbol->Name : unknown_function;
 #endif
 
-            dbg::stack_frame f(reinterpret_cast<const void *>(frame.AddrPC.Offset), func, module_name);
+            dbg::stack_frame f(reinterpret_cast<const void *>(frame.AddrPC.Offset), func_and_line.first, func_and_line.second, module_name);
             frames.push_back(f);
         }
     }
@@ -421,16 +426,17 @@ namespace
 
 namespace dbg
 {
-    stack_frame::stack_frame(const void *instruction, const std::string &function, const std::string &module) :
+    stack_frame::stack_frame(const void *instruction, const std::string &function, unsigned int line, const std::string &module) :
         instruction(instruction),
         function(function),
+        line(line),
         module(module)
     {
     }
 
     std::ostream &operator<< (std::ostream &out, const stack_frame &frame)
     {
-        return out << frame.instruction << ": " << frame.function << " in " << frame.module;
+        return out << frame.instruction << ": " << frame.function << ":" << frame.line << " in " << frame.module;
     }
 
     stack::stack(depth_type limit)
