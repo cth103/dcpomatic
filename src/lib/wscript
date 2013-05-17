@@ -68,7 +68,7 @@ def build(bld):
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP GLIB LZMA
                  """
     if bld.env.TARGET_WINDOWS:
-        obj.uselib += ' WINSOCK2'
+        obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY'
         obj.source = sources + ' stack.cpp'
     else:
         obj.source = sources

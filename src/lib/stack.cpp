@@ -11,13 +11,15 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "dbg/stack.hpp"
+#include "stack.hpp"
 
 #if defined(_WIN32)
 #   include <windows.h>
 #   include <imagehlp.h>
 
 #   if defined(__MINGW32__)
+#       define PACKAGE 1
+#       define PACKAGE_VERSION 1
 #       include <bfd.h> // link against libbfd and libiberty
 #       include <psapi.h> // link against psapi
 #       include <cxxabi.h>
@@ -192,7 +194,7 @@ namespace
         public:
             explicit windows_dll(const std::string &libname) :
                 name_(libname),
-                lib_(LoadLibrary(name_.c_str()))
+                lib_(LoadLibraryA(name_.c_str()))
             {
                 if (!lib_) throw std::runtime_error("Failed to load dll " + name_);
             }
@@ -329,7 +331,11 @@ namespace
 
                 if (func.empty())
                 {
+#if defined(_WIN64)
+		    DWORD64 dummy = 0;
+#else		    
                     DWORD dummy = 0;
+#endif		    
                     BOOL got_symbol = SymGetSymFromAddr(process, frame.AddrPC.Offset, &dummy, symbol);
                     func = got_symbol ? symbol->Name : unknown_function;
                 }
