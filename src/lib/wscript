@@ -50,6 +50,7 @@ sources = """
           util.cc
           video_decoder.cc
           video_source.cc
+          version.cc
           writer.cc
           """
 
@@ -68,7 +69,10 @@ def build(bld):
                  """
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2'
-    obj.source = sources + " version.cc"
+        obj.source = sources + ' stack.cpp'
+    else:
+        obj.source = sources
+
     obj.target = 'dvdomatic'
 
     i18n.po_to_mo(os.path.join('src', 'lib'), 'libdvdomatic', bld)
