@@ -1,3 +1,8 @@
+2013-05-17  Carl Hetherington  <cth@carlh.net>
+
+	* Write backtrace files when Windows
+	version crashes.
+
 2013-05-06  Carl Hetherington  <cth@carlh.net>
 
 	* Fix resizing / redraw problems in audio viewer
