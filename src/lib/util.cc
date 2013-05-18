@@ -1076,8 +1076,8 @@ LocaleGuard::LocaleGuard ()
 
         if (old) {
                 _old = strdup (old);
-                if (strcmp (_old, "POSIX")) {
-                        setlocale (LC_NUMERIC, "POSIX");
+                if (strcmp (_old, "C")) {
+                        setlocale (LC_NUMERIC, "C");
                 }
         }
 }
