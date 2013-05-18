@@ -1,3 +1,8 @@
+2013-05-19  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully fix load of decimal values (e.g. frame rates)
+	in non-English locales on Windows.
+
 2013-05-17  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.90 released.
