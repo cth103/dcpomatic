@@ -266,7 +266,6 @@ operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
 }
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
-	: mapping (node->node_child ("Mapping"))
 {
 	name = node->string_child ("Name");
 	id = node->number_child<int> ("Id");
@@ -281,7 +280,6 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
-	mapping.as_xml (root->add_child("Mapping"));
 }
 
 /** Construct a SubtitleStream from a value returned from to_string().
@@ -312,14 +310,4 @@ FFmpegContent::length (shared_ptr<const Film> film) const
 {
 	FrameRateConversion frc (video_frame_rate (), film->dcp_video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
-}
-
-AudioMapping
-FFmpegContent::audio_mapping () const
-{
-	if (!_audio_stream) {
-		return AudioMapping ();
-	}
-	
-	return _audio_stream->mapping;
 }

@@ -114,9 +114,9 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 
 	_grid->AutoSize ();
 
-	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-	s->Add (_grid, 1, wxEXPAND);
-	SetSizerAndFit (s);
+	_sizer = new wxBoxSizer (wxVERTICAL);
+	_sizer->Add (_grid, 1, wxEXPAND | wxALL);
+	SetSizerAndFit (_sizer);
 
 	Connect (wxID_ANY, wxEVT_GRID_CELL_LEFT_CLICK, wxGridEventHandler (AudioMappingView::left_click), 0, this);
 }
@@ -133,6 +133,17 @@ AudioMappingView::left_click (wxGridEvent& ev)
 	} else {
 		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("1"));
 	}
+
+	AudioMapping mapping;
+	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
+		for (int j = 0; j < _grid->GetNumberCols(); ++j) {
+			if (_grid->GetCellValue (i, j) == wxT ("1")) {
+				mapping.add (i, static_cast<libdcp::Channel> (j));
+			}
+		}
+	}
+
+	Changed (mapping);
 }
 
 void
@@ -161,7 +172,5 @@ AudioMappingView::set_mapping (AudioMapping map)
 		}
 		++n;
 	}
-
-	_grid->AutoSize ();
 }
 

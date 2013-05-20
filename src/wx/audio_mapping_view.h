@@ -31,8 +31,11 @@ public:
 
 	void set_mapping (AudioMapping);
 
+	boost::signals2::signal<void (AudioMapping)> Changed;
+
 private:
 	void left_click (wxGridEvent &);
 
 	wxGrid* _grid;
+	wxSizer* _sizer;
 };

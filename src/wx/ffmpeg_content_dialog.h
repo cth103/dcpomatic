@@ -22,6 +22,8 @@
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include "lib/audio_mapping.h"
+#include "lib/playlist.h"
 
 class wxSpinCtrl;
 class FFmpegContent;
@@ -30,12 +32,14 @@ class AudioMappingView;
 class FFmpegContentDialog : public wxDialog
 {
 public:
-	FFmpegContentDialog (wxWindow *, boost::shared_ptr<FFmpegContent>);
+	FFmpegContentDialog (wxWindow *, boost::shared_ptr<Playlist::Region>);
 
 private:
 	void audio_stream_changed (wxCommandEvent &);
 	void subtitle_stream_changed (wxCommandEvent &);
+	void audio_mapping_changed (AudioMapping);
 
+	boost::weak_ptr<Playlist::Region> _region;
 	boost::weak_ptr<FFmpegContent> _content;
 	wxChoice* _audio_stream;
 	wxStaticText* _audio_description;

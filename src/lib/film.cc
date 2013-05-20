@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -699,7 +701,7 @@ Film::set_trust_content_headers (bool t)
 	if (!_trust_content_headers && !regions.empty()) {
 		/* We just said that we don't trust the content's header */
 		for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
-			examine_content (i->content);
+			examine_content ((*i)->content);
 		}
 	}
 }

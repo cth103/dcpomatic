@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -66,7 +68,7 @@ private:
 			: last (0)
 		{}
 		
-		Playlist::Region region;
+		boost::shared_ptr<Playlist::Region> region;
 		boost::shared_ptr<Decoder> decoder;
 		Time last;
 	};

@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -77,10 +79,14 @@ public:
 		
 		boost::shared_ptr<Content> content;
 		Time time;
+		/* XXX: obviously not used for video-only; there should
+		   really by AudioRegion / VideoRegion etc.
+		*/
+		AudioMapping audio_mapping;
 		boost::signals2::connection connection;
 	};
 
-	typedef std::vector<Region> RegionList;
+	typedef std::vector<boost::shared_ptr<Region> > RegionList;
 	
 	RegionList regions () const {
 		return _regions;

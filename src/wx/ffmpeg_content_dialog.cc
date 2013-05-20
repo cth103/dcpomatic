@@ -21,17 +21,22 @@
 
 #include <boost/lexical_cast.hpp>
 #include "lib/ffmpeg_content.h"
+#include "lib/playlist.h"
 #include "ffmpeg_content_dialog.h"
 #include "wx_util.h"
 #include "audio_mapping_view.h"
 
 using std::vector;
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::dynamic_pointer_cast;
 
-FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegContent> content)
+FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<Playlist::Region> region)
 	: wxDialog (parent, wxID_ANY, _("Video"))
+	, _region (region)
+	, _content (dynamic_pointer_cast<FFmpegContent> (region->content))
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 6, 6);
 	grid->AddGrowableCol (1, 1);
@@ -47,9 +52,8 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
 	grid->AddSpacer (0);
 
-	_audio_mapping = new AudioMappingView (this);
-	grid->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
-	grid->AddSpacer (0);
+	shared_ptr<FFmpegContent> content = _content.lock ();
+	assert (content);
 
 	_audio_stream->Clear ();
 	vector<FFmpegAudioStream> a = content->audio_streams ();
@@ -76,10 +80,13 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 		_subtitle_stream->SetSelection (wxNOT_FOUND);
 	}
 
-	_audio_mapping->set_mapping (content->audio_mapping ());
-
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+
 	overall_sizer->Add (grid, 1, wxEXPAND | wxALL, 6);
+
+	_audio_mapping = new AudioMappingView (this);
+	_audio_mapping->set_mapping (region->audio_mapping);
+	overall_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -92,6 +99,7 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 
 	_audio_stream->Connect    (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FFmpegContentDialog::audio_stream_changed), 0, this);
 	_subtitle_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (FFmpegContentDialog::subtitle_stream_changed), 0, this);
+	_audio_mapping->Changed.connect (bind (&FFmpegContentDialog::audio_mapping_changed, this, _1));
 }
 
 void
@@ -148,3 +156,16 @@ FFmpegContentDialog::subtitle_stream_changed (wxCommandEvent &)
 		c->set_subtitle_stream (*i);
 	}
 }
+
+void
+FFmpegContentDialog::audio_mapping_changed (AudioMapping m)
+{
+	shared_ptr<FFmpegContent> content = _content.lock ();
+
+	if (!content || !content->audio_stream()) {
+		return;
+	}
+
+	/* XXX: set mapping in playlist */
+}
+

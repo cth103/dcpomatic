@@ -712,7 +712,7 @@ FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 	} else if (property == VideoContentProperty::VIDEO_LENGTH || property == AudioContentProperty::AUDIO_LENGTH) {
 		setup_length ();
 		boost::shared_ptr<Content> c = content.lock ();
-		if (c && c == selected_content()) {
+		if (selected_region() && c == selected_region()->content) {
 			setup_content_information ();
 		}
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
@@ -1122,8 +1122,8 @@ FilmEditor::setup_content ()
 	Playlist::RegionList regions = _film->regions ();
 	for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
 		int const t = _content->GetItemCount ();
-		_content->InsertItem (t, std_to_wx (i->content->summary ()));
-		if (i->content->summary() == selected_summary) {
+		_content->InsertItem (t, std_to_wx ((*i)->content->summary ()));
+		if ((*i)->content->summary() == selected_summary) {
 			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		}
 	}
@@ -1166,9 +1166,9 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 void
 FilmEditor::content_remove_clicked (wxCommandEvent &)
 {
-	shared_ptr<Content> c = selected_content ();
-	if (c) {
-		_film->remove_content (c);
+	shared_ptr<Playlist::Region> r = selected_region ();
+	if (r) {
+		_film->remove_content (r->content);
 	}
 }
 
@@ -1178,33 +1178,31 @@ FilmEditor::content_activated (wxListEvent& ev)
 	Playlist::RegionList r = _film->regions ();
 	assert (ev.GetIndex() >= 0 && size_t (ev.GetIndex()) < r.size ());
 
-	content_properties (r[ev.GetIndex()].content);
+	region_properties (r[ev.GetIndex()]);
 }
 
 void
 FilmEditor::content_properties_clicked (wxCommandEvent &)
 {
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
+	shared_ptr<Playlist::Region> r = selected_region ();
+	if (!r) {
 		return;
 	}
 
-	content_properties (c);
+	content_properties (r);
 }
 
 void
-FilmEditor::content_properties (shared_ptr<Content> content)
+FilmEditor::region_properties (shared_ptr<Playlist::Region> region)
 {
-	shared_ptr<ImageMagickContent> im = dynamic_pointer_cast<ImageMagickContent> (content);
-	if (im) {
-		ImageMagickContentDialog* d = new ImageMagickContentDialog (this, im);
+	if (dynamic_pointer_cast<ImageMagickContent> (region->content)) {
+		ImageMagickContentDialog* d = new ImageMagickContentDialog (this, region);
 		d->ShowModal ();
 		d->Destroy ();
 	}
 
-	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (content);
-	if (ff) {
-		FFmpegContentDialog* d = new FFmpegContentDialog (this, ff);
+	if (dynamic_pointer_cast<FFmpegContent> (region->content)) {
+		FFmpegContentDialog* d = new FFmpegContentDialog (this, region);
 		d->ShowModal ();
 		d->Destroy ();
 	}
@@ -1220,13 +1218,13 @@ FilmEditor::content_selection_changed (wxListEvent &)
 void
 FilmEditor::setup_content_information ()
 {
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
+	shared_ptr<Playlist::Region> r = selected_region ();
+	if (!r) {
 		_content_information->SetValue (wxT (""));
 		return;
 	}
 
-	_content_information->SetValue (std_to_wx (c->information ()));
+	_content_information->SetValue (std_to_wx (r->content->information ()));
 }
 
 void
@@ -1234,31 +1232,31 @@ FilmEditor::setup_content_button_sensitivity ()
 {
         _content_add->Enable (_generally_sensitive);
 
-	shared_ptr<Content> selection = selected_content ();
+	shared_ptr<Playlist::Region> selection = selected_region ();
 
         _content_properties->Enable (
 		selection && _generally_sensitive &&
-		(dynamic_pointer_cast<ImageMagickContent> (selection) || dynamic_pointer_cast<FFmpegContent> (selection))
+		(dynamic_pointer_cast<ImageMagickContent> (selection->content) || dynamic_pointer_cast<FFmpegContent> (selection->content))
 		);
 	
         _content_remove->Enable (selection && _generally_sensitive);
 	_content_timeline->Enable (_generally_sensitive);
 }
 
-shared_ptr<Content>
-FilmEditor::selected_content ()
+shared_ptr<Playlist::Region>
+FilmEditor::selected_region ()
 {
 	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
-		return shared_ptr<Content> ();
+		return shared_ptr<Playlist::Region> ();
 	}
 
 	Playlist::RegionList r = _film->regions ();
 	if (s < 0 || size_t (s) >= r.size ()) {
-		return shared_ptr<Content> ();
+		return shared_ptr<Playlist::Region> ();
 	}
 	
-	return r[s].content;
+	return r[s];
 }
 
 void

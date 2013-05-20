@@ -322,10 +322,10 @@ Timeline::playlist_changed ()
 	Playlist::RegionList regions = fl->playlist()->regions ();
 
 	for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
-		if (dynamic_pointer_cast<VideoContent> (i->content)) {
-			_views.push_back (shared_ptr<View> (new VideoContentView (*this, i->content, i->time, 0)));
+		if (dynamic_pointer_cast<VideoContent> ((*i)->content)) {
+			_views.push_back (shared_ptr<View> (new VideoContentView (*this, (*i)->content, (*i)->time, 0)));
 		} else {
-			_views.push_back (shared_ptr<View> (new AudioContentView (*this, i->content, i->time, 1)));
+			_views.push_back (shared_ptr<View> (new AudioContentView (*this, (*i)->content, (*i)->time, 1)));
 		}
 	}
 

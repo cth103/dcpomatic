@@ -59,7 +59,7 @@ Playlist::Playlist (shared_ptr<const Playlist> other)
 	: _loop (other->_loop)
 {
 	for (RegionList::const_iterator i = other->_regions.begin(); i != other->_regions.end(); ++i) {
-		_regions.push_back (Region (i->content->clone(), i->time, this));
+		_regions.push_back (shared_ptr<Region> (new Region ((*i)->content->clone(), (*i)->time, this)));
 	}
 }
 
@@ -75,13 +75,13 @@ Playlist::audio_digest () const
 	string t;
 	
 	for (RegionList::const_iterator i = _regions.begin(); i != _regions.end(); ++i) {
-		if (!dynamic_pointer_cast<const AudioContent> (i->content)) {
+		if (!dynamic_pointer_cast<const AudioContent> ((*i)->content)) {
 			continue;
 		}
 		
-		t += i->content->digest ();
+		t += (*i)->content->digest ();
 
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i->content);
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> ((*i)->content);
 		if (fc) {
 			t += lexical_cast<string> (fc->audio_stream()->id);
 		}
@@ -98,12 +98,12 @@ Playlist::video_digest () const
 	string t;
 	
 	for (RegionList::const_iterator i = _regions.begin(); i != _regions.end(); ++i) {
-		if (!dynamic_pointer_cast<const VideoContent> (i->content)) {
+		if (!dynamic_pointer_cast<const VideoContent> ((*i)->content)) {
 			continue;
 		}
 		
-		t += i->content->digest ();
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i->content);
+		t += (*i)->content->digest ();
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> ((*i)->content);
 		if (fc && fc->subtitle_stream()) {
 			t += fc->subtitle_stream()->id;
 		}
@@ -119,7 +119,7 @@ Playlist::set_from_xml (shared_ptr<const cxml::Node> node)
 {
 	list<shared_ptr<cxml::Node> > c = node->node_children ("Region");
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
-		_regions.push_back (Region (*i, this));
+		_regions.push_back (shared_ptr<Region> (new Region (*i, this)));
 	}
 
 	_loop = node->number_child<int> ("Loop");
@@ -129,7 +129,7 @@ void
 Playlist::as_xml (xmlpp::Node* node)
 {
 	for (RegionList::iterator i = _regions.begin(); i != _regions.end(); ++i) {
-		i->as_xml (node->add_child ("Region"));
+		(*i)->as_xml (node->add_child ("Region"));
 	}
 
 	node->add_child("Loop")->add_child_text(lexical_cast<string> (_loop));
@@ -138,7 +138,7 @@ Playlist::as_xml (xmlpp::Node* node)
 void
 Playlist::add (shared_ptr<Content> c)
 {
-	_regions.push_back (Region (c, 0, this));
+	_regions.push_back (shared_ptr<Region> (new Region (c, 0, this)));
 	Changed ();
 }
 
@@ -146,7 +146,7 @@ void
 Playlist::remove (shared_ptr<Content> c)
 {
 	RegionList::iterator i = _regions.begin ();
-	while (i != _regions.end() && i->content != c) {
+	while (i != _regions.end() && (*i)->content != c) {
 		++i;
 	}
 	
@@ -167,7 +167,7 @@ bool
 Playlist::has_subtitles () const
 {
 	for (RegionList::const_iterator i = _regions.begin(); i != _regions.end(); ++i) {
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (i->content);
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> ((*i)->content);
 		if (fc && !fc->subtitle_streams().empty()) {
 			return true;
 		}
@@ -197,6 +197,7 @@ Playlist::Region::Region (shared_ptr<const cxml::Node> node, Playlist* p)
 	}
 
 	time = node->number_child<Time> ("Time");
+	audio_mapping = AudioMapping (node->node_child ("AudioMapping"));
 	connection = content->Changed.connect (bind (&Playlist::content_changed, p, _1, _2));
 }
 
@@ -206,6 +207,7 @@ Playlist::Region::as_xml (xmlpp::Node* node) const
 	xmlpp::Node* sub = node->add_child ("Content");
 	content->as_xml (sub);
 	node->add_child ("Time")->add_child_text (lexical_cast<string> (time));
+	audio_mapping.as_xml (node->add_child ("AudioMapping"));
 }
 
 class FrameRateCandidate
@@ -247,7 +249,7 @@ Playlist::best_dcp_frame_rate () const
 
 		float this_error = std::numeric_limits<float>::max ();
 		for (RegionList::const_iterator j = _regions.begin(); j != _regions.end(); ++j) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j->content);
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> ((*j)->content);
 			if (!vc) {
 				continue;
 			}
@@ -275,7 +277,7 @@ Playlist::length (shared_ptr<const Film> film) const
 {
 	Time len = 0;
 	for (RegionList::const_iterator i = _regions.begin(); i != _regions.end(); ++i) {
-		Time const t = i->time + i->content->length (film);
+		Time const t = (*i)->time + (*i)->content->length (film);
 		len = max (len, t);
 	}
 

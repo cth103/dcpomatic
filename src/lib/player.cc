@@ -93,8 +93,8 @@ Player::pass ()
         Time next_wait = TIME_MAX;
 
         for (list<shared_ptr<RegionDecoder> >::iterator i = _decoders.begin(); i != _decoders.end(); ++i) {
-                Time const ts = (*i)->region.time;
-                Time const te = (*i)->region.time + (*i)->region.content->length (_film);
+                Time const ts = (*i)->region->time;
+                Time const te = (*i)->region->time + (*i)->region->content->length (_film);
                 if (ts <= _position && te > _position) {
                         Time const pos = ts + (*i)->last;
                         if (pos < earliest_pos) {
@@ -125,7 +125,7 @@ Player::process_video (shared_ptr<RegionDecoder> rd, shared_ptr<const Image> ima
 {
         shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (rd->decoder);
         
-        Time const global_time = rd->region.time + time;
+        Time const global_time = rd->region->time + time;
         while ((global_time - _last_video) > 1) {
                 /* Fill in with black */
                 emit_black_frame ();
@@ -224,7 +224,7 @@ Player::setup_decoders ()
 		
                 /* XXX: into content? */
 
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i->content);
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> ((*i)->content);
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio, _subtitles));
 			
@@ -234,7 +234,7 @@ Player::setup_decoders ()
 			rd->decoder = fd;
 		}
 		
-		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (i->content);
+		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> ((*i)->content);
 		if (ic) {
 			shared_ptr<ImageMagickDecoder> id;
 			
@@ -254,7 +254,7 @@ Player::setup_decoders ()
 			rd->decoder = id;
 		}
 
-		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (i->content);
+		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> ((*i)->content);
 		if (sc) {
 			shared_ptr<AudioDecoder> sd (new SndfileDecoder (_film, sc));
 			sd->Audio.connect (bind (&Player::process_audio, this, rd, _1, _2));
