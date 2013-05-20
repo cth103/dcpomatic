@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -32,6 +34,7 @@ public:
                 , id (i)
                 , frame_rate (f)
 		, channels (c)
+		, mapping (c)
         {}
 
 	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
@@ -42,6 +45,7 @@ public:
         int id;
         int frame_rate;
 	int channels;
+	AudioMapping mapping;
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
@@ -96,6 +100,7 @@ public:
         ContentAudioFrame audio_length () const;
         int content_audio_frame_rate () const;
         int output_audio_frame_rate (boost::shared_ptr<const Film>) const;
+	AudioMapping audio_mapping () const;
 	
         std::vector<FFmpegSubtitleStream> subtitle_streams () const {
                 boost::mutex::scoped_lock lm (_mutex);

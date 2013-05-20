@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -20,6 +22,7 @@
 #include <boost/signals2.hpp>
 #include <wx/wx.h>
 #include <wx/grid.h>
+#include "lib/audio_mapping.h"
 
 class AudioMappingView : public wxPanel
 {

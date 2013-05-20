@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -23,6 +25,7 @@
 
 class wxSpinCtrl;
 class FFmpegContent;
+class AudioMappingView;
 
 class FFmpegContentDialog : public wxDialog
 {
@@ -37,4 +40,5 @@ private:
 	wxChoice* _audio_stream;
 	wxStaticText* _audio_description;
 	wxChoice* _subtitle_stream;
+	AudioMappingView* _audio_mapping;
 };

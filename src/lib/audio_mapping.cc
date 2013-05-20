@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -18,6 +20,7 @@
 */
 
 #include <boost/lexical_cast.hpp>
+#include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include "audio_mapping.h"
 
@@ -30,23 +33,39 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
+AudioMapping::AudioMapping ()
+{
+
+}
+
+/** Create a default AudioMapping for a given channel count.
+ *  @param c Number of channels.
+ */
+AudioMapping::AudioMapping (int c)
+{
+	if (c == 1) {
+		/* Mono -> Centre */
+		add (0, libdcp::CENTRE);
+	} else {
+		/* 1:1 mapping */
+		for (int i = 0; i < c; ++i) {
+			add (i, static_cast<libdcp::Channel> (i));
+		}
+	}
+}
+
+AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node)
+{
+	list<shared_ptr<cxml::Node> > const c = node->node_children ("Map");
+	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+		add ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
+	}
+}
+
 void
 AudioMapping::add (int c, libdcp::Channel d)
 {
 	_content_to_dcp.push_back (make_pair (c, d));
-}
-
-/* XXX: this is grotty */
-int
-AudioMapping::dcp_channels () const
-{
-	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
-		if (((int) i->second) >= 2) {
-			return 6;
-		}
-	}
-
-	return 2;
 }
 
 list<int>
@@ -95,14 +114,5 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 		xmlpp::Node* t = node->add_child ("Map");
 		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first));
 		t->add_child ("DCP")->add_child_text (lexical_cast<string> (i->second));
-	}
-}
-
-void
-AudioMapping::set_from_xml (shared_ptr<const cxml::Node> node)
-{
-	list<shared_ptr<cxml::Node> > const c = node->node_children ("Map");
-	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
-		add ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
 	}
 }

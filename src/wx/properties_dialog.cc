@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 

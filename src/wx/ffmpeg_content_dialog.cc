@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -21,6 +23,7 @@
 #include "lib/ffmpeg_content.h"
 #include "ffmpeg_content_dialog.h"
 #include "wx_util.h"
+#include "audio_mapping_view.h"
 
 using std::vector;
 using std::string;
@@ -42,6 +45,10 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	add_label_to_sizer (grid, this, _("Subtitle stream"));
 	_subtitle_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
+	grid->AddSpacer (0);
+
+	_audio_mapping = new AudioMappingView (this);
+	grid->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 	grid->AddSpacer (0);
 
 	_audio_stream->Clear ();
@@ -68,6 +75,8 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	} else {
 		_subtitle_stream->SetSelection (wxNOT_FOUND);
 	}
+
+	_audio_mapping->set_mapping (content->audio_mapping ());
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (grid, 1, wxEXPAND | wxALL, 6);

@@ -154,7 +154,6 @@ public:
 		J2K_BANDWIDTH,
 		DCI_METADATA,
 		DCP_VIDEO_FRAME_RATE,
-		AUDIO_MAPPING
 	};
 
 
@@ -322,7 +321,6 @@ private:
 	void read_metadata ();
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int);
-	void setup_default_audio_mapping ();
 	std::string filename_safe_name () const;
 
 	/** Log to write to */

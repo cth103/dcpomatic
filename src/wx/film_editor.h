@@ -33,7 +33,6 @@ class wxListCtrl;
 class wxListEvent;
 class Film;
 class AudioDialog;
-class AudioMappingView;
 class TimelineDialog;
 
 /** @class FilmEditor
@@ -159,7 +158,6 @@ private:
 	wxButton* _audio_gain_calculate_button;
 	wxButton* _show_audio;
 	wxSpinCtrl* _audio_delay;
-	AudioMappingView* _audio_mapping;
 	wxCheckBox* _with_subtitles;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;

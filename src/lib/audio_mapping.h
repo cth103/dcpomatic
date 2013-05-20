@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -21,20 +23,28 @@
 #define DCPOMATIC_AUDIO_MAPPING_H
 
 #include <list>
-#include <string>
 #include <libdcp/types.h>
 #include <boost/shared_ptr.hpp>
-#include "audio_content.h"
+
+namespace xmlpp {
+	class Node;
+}
+
+namespace cxml {
+	class Node;
+}
 
 class AudioMapping
 {
 public:
+	AudioMapping ();
+	AudioMapping (int);
+	AudioMapping (boost::shared_ptr<const cxml::Node>);
+	
 	void as_xml (xmlpp::Node *) const;
-	void set_from_xml (boost::shared_ptr<const cxml::Node>);
 
 	void add (int, libdcp::Channel);
 
-	int dcp_channels () const;
 	std::list<int> dcp_to_content (libdcp::Channel) const;
 	std::list<std::pair<int, libdcp::Channel> > content_to_dcp () const {
 		return _content_to_dcp;

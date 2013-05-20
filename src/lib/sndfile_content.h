@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -61,10 +63,16 @@ public:
 
         int output_audio_frame_rate (boost::shared_ptr<const Film>) const;
 	
+	AudioMapping audio_mapping () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _mapping;
+	}
+	
 	static bool valid_file (boost::filesystem::path);
 
 private:
 	int _audio_channels;
 	ContentAudioFrame _audio_length;
 	int _audio_frame_rate;
+	AudioMapping _mapping;
 };

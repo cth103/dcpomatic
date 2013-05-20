@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -35,11 +37,16 @@ AudioContent::AudioContent (boost::filesystem::path f)
 AudioContent::AudioContent (shared_ptr<const cxml::Node> node)
 	: Content (node)
 {
-
 }
 
 AudioContent::AudioContent (AudioContent const & o)
 	: Content (o)
 {
 
+}
+
+void
+AudioContent::as_xml (xmlpp::Node* node) const
+{
+	
 }

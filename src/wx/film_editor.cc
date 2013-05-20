@@ -53,7 +53,6 @@
 #include "audio_dialog.h"
 #include "imagemagick_content_dialog.h"
 #include "ffmpeg_content_dialog.h"
-#include "audio_mapping_view.h"
 #include "timeline_dialog.h"
 
 using std::string;
@@ -401,9 +400,6 @@ FilmEditor::make_audio_panel ()
 		grid->Add (s);
 	}
 
-	_audio_mapping = new AudioMappingView (_audio_panel);
-	_audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
-	
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
 }
@@ -864,7 +860,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
-	film_changed (Film::AUDIO_MAPPING);
 
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
