@@ -96,6 +96,10 @@ SndfileDecoder::SndfileDecoder (shared_ptr<Film> f, DecodeOptions o)
 bool
 SndfileDecoder::pass ()
 {
+	if (_audio_streams.empty ()) {
+		return true;
+	}
+	
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
