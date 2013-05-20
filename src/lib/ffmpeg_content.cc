@@ -245,7 +245,6 @@ FFmpegContent::output_audio_frame_rate (shared_ptr<const Film> film) const
 
 	if (frc.change_speed) {
 		t *= video_frame_rate() * frc.factor() / film->dcp_video_frame_rate();
-		cout << "-> " << t << "\n";
 	}
 
 	return rint (t);

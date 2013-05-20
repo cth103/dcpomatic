@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -388,7 +390,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, double t)
+FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, Time t)
 {
 	_raw_frame = image;
 	_raw_sub = sub;
@@ -398,9 +400,9 @@ FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subti
 	_got_frame = true;
 
 	double const fps = _film->dcp_video_frame_rate ();
-	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps))));
+	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ))));
 
-	double w = t;
+	double w = static_cast<double>(t) / TIME_HZ;
 	int const h = (w / 3600);
 	w -= h * 3600;
 	int const m = (w / 60);
@@ -425,8 +427,6 @@ FilmViewer::get_frame ()
 		return;
 	}
 
-	cout << "-> FilmViewer::get_frame()\n";
-
 	try {
 		_got_frame = false;
 		while (!_got_frame) {
@@ -443,8 +443,6 @@ FilmViewer::get_frame ()
 		check_play_state ();
 		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
 	}
-
-	cout << "<- FilmViewer::get_frame()\n";
 }
 
 void

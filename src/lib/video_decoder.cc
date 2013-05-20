@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -41,10 +43,10 @@ VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
 /** Called by subclasses to tell the world that some video data is ready.
  *  We find a subtitle then emit it for listeners.
  *  @param image frame to emit.
- *  @param t Time of the frame within the source, in seconds.
+ *  @param t Time of the frame within the source.
  */
 void
-VideoDecoder::emit_video (shared_ptr<Image> image, bool same, double t)
+VideoDecoder::emit_video (shared_ptr<Image> image, bool same, Time t)
 {
 	shared_ptr<Subtitle> sub;
 	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {

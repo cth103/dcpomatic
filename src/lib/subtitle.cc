@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -45,8 +47,8 @@ TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 	double const packet_time = static_cast<double> (sub.pts) / AV_TIME_BASE;
 	
 	/* hence start time for this sub */
-	_from = packet_time + (double (sub.start_display_time) / 1e3);
-	_to = packet_time + (double (sub.end_display_time) / 1e3);
+	_from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
+	_to = (packet_time + (double (sub.end_display_time) / 1e3)) * TIME_HZ;
 
 	if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
@@ -80,9 +82,9 @@ TimedSubtitle::TimedSubtitle (AVSubtitle const & sub)
 	_subtitle.reset (new Subtitle (Position (rect->x, rect->y), image));
 }	
 
-/** @param t Time in seconds from the start of the source */
+/** @param t Time from the start of the source */
 bool
-TimedSubtitle::displayed_at (double t) const
+TimedSubtitle::displayed_at (Time t) const
 {
 	return t >= _from && t <= _to;
 }

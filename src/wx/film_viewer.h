@@ -67,7 +67,7 @@ private:
 	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, double);
+	void process_video (boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void update_from_raw ();

@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -337,13 +339,13 @@ FilmEditor::make_content_panel ()
 
                 wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
                 _content_add = new wxButton (_content_panel, wxID_ANY, _("Add..."));
-                b->Add (_content_add);
+                b->Add (_content_add, 1, wxEXPAND | wxLEFT | wxRIGHT);
                 _content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
-                b->Add (_content_remove);
+                b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
                 _content_properties = new wxButton (_content_panel, wxID_ANY, _("Properties..."));
                 b->Add (_content_properties);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
-		b->Add (_content_timeline);
+		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
 
                 s->Add (b, 0, wxALL, 4);
 

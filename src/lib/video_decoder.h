@@ -56,7 +56,7 @@ protected:
 	
 	virtual PixelFormat pixel_format () const = 0;
 
-	void emit_video (boost::shared_ptr<Image>, bool, double);
+	void emit_video (boost::shared_ptr<Image>, bool, Time);
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 
 private:

@@ -97,7 +97,7 @@ private:
 	void setup_audio ();
 	void setup_subtitle ();
 
-	void decode_video_packet ();
+	bool decode_video_packet ();
 	void decode_audio_packet ();
 
 	void maybe_add_subtitle ();

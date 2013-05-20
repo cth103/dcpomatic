@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -65,7 +67,7 @@ class TimedSubtitle
 public:
 	TimedSubtitle (AVSubtitle const &);
 
-	bool displayed_at (double t) const;
+	bool displayed_at (Time) const;
 	
 	boost::shared_ptr<Subtitle> subtitle () const {
 		return _subtitle;
@@ -74,8 +76,8 @@ public:
 private:
 	/** the subtitle */
 	boost::shared_ptr<Subtitle> _subtitle;
-	/** display from time in seconds from the start of the film */
-	double _from;
-	/** display to time in seconds from the start of the film */
-	double _to;
+	/** display from time from the start of the content */
+	Time _from;
+	/** display to time from the start of the content */
+	Time _to;
 };

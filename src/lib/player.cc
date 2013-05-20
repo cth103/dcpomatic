@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -80,8 +82,6 @@ Player::pass ()
 		_have_valid_decoders = true;
 	}
 
-	cout << "-> Player::pass\n";
-	
         /* Here we are just finding the active decoder with the earliest last emission time, then
            calling pass on it.  If there is no decoder, we skip our position on until there is.
            Hence this method will cause video and audio to be emitted, and it is up to the
@@ -114,11 +114,9 @@ Player::pass ()
         } else if (next_wait < TIME_MAX) {
                 _position += next_wait;
         } else {
-		cout << "<- Player::pass\n";
                 return true;
         }
 
-	cout << "<- Player::pass\n";
         return false;
 }
 

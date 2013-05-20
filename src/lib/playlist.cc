@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -203,7 +205,7 @@ Playlist::Region::as_xml (xmlpp::Node* node) const
 {
 	xmlpp::Node* sub = node->add_child ("Content");
 	content->as_xml (sub);
-	sub->add_child ("Time")->add_child_text (lexical_cast<string> (time));
+	node->add_child ("Time")->add_child_text (lexical_cast<string> (time));
 }
 
 class FrameRateCandidate
