@@ -132,7 +132,7 @@ FilmEditor::make_film_panel ()
 	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
 
-	_trust_content_headers = new wxCheckBox (_film_panel, wxID_ANY, _("Trust content's header"));
+	_trust_content_headers = new wxCheckBox (_film_panel, wxID_ANY, _("Trust content headers"));
 	grid->Add (_trust_content_headers, wxGBPosition (r, 0), wxGBSpan(1, 2));
 	++r;
 
