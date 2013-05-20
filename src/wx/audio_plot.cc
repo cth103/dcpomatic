@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -37,7 +39,7 @@ int const AudioPlot::_minimum = -70;
 int const AudioPlot::max_smoothing = 128;
 
 AudioPlot::AudioPlot (wxWindow* parent)
-	: wxPanel (parent)
+	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _gain (0)
 	, _smoothing (max_smoothing / 2)
 {

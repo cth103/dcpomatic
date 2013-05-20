@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -205,7 +207,7 @@ public:
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxSOLID));
 #endif		    
 		
-		int mark_interval = rint (128 * TIME_HZ / _timeline.pixels_per_time_unit ());
+		int mark_interval = rint (128 / (TIME_HZ * _timeline.pixels_per_time_unit ()));
 		if (mark_interval > 5) {
 			mark_interval -= mark_interval % 5;
 		}
@@ -235,7 +237,7 @@ public:
 			path.AddLineToPoint (time_x (t), _y + 4);
 			gc->StrokePath (path);
 
-			int tc = t;
+			int tc = t / TIME_HZ;
 			int const h = tc / 3600;
 			tc -= h * 3600;
 			int const m = tc / 60;
@@ -253,7 +255,8 @@ public:
 			if ((tx + str_width) < _timeline.width()) {
 				gc->DrawText (str, time_x (t), _y + 16);
 			}
-			t += mark_interval;
+			
+			t += mark_interval * TIME_HZ;
 		}
 	}
 
@@ -267,7 +270,7 @@ private:
 };
 
 Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
-	: wxPanel (parent)
+	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
 	, _pixels_per_time_unit (0)
 {
@@ -277,6 +280,7 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
 	Connect (wxID_ANY, wxEVT_LEFT_DOWN, wxMouseEventHandler (Timeline::left_down), 0, this);
+	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
@@ -345,7 +349,7 @@ Timeline::setup_pixels_per_time_unit ()
 		return;
 	}
 
-	_pixels_per_time_unit = (width() - x_offset() * 2) / film->length();
+	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length();
 }
 
 void
@@ -375,4 +379,10 @@ shared_ptr<const Film>
 Timeline::film () const
 {
 	return _film.lock ();
+}
+
+void
+Timeline::resized (wxSizeEvent &)
+{
+	setup_pixels_per_time_unit ();
 }

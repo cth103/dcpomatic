@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -61,6 +63,7 @@ private:
 	void left_down (wxMouseEvent &);
 	void playlist_changed ();
 	void setup_pixels_per_time_unit ();
+	void resized (wxSizeEvent &);
 
 	boost::weak_ptr<const Film> _film;
 	std::list<boost::shared_ptr<View> > _views;
