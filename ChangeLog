@@ -1,5 +1,9 @@
 2013-05-20  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.93 released.
+
+2013-05-20  Carl Hetherington  <cth@carlh.net>
+
 	* Fix another crash on still images with
 	no audio.
 
