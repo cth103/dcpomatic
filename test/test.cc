@@ -40,6 +40,7 @@
 #include "ffmpeg_decoder.h"
 #include "sndfile_decoder.h"
 #include "dcp_content_type.h"
+#include "container.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -137,18 +138,14 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	
 	shared_ptr<Film> f (new Film (test_film, false));
 	f->_dci_date = boost::gregorian::from_undelimited_string ("20130211");
-	BOOST_CHECK (f->format() == 0);
+	BOOST_CHECK (f->container() == 0);
 	BOOST_CHECK (f->dcp_content_type() == 0);
 	BOOST_CHECK (f->filters ().empty());
 
 	f->set_name ("fred");
 //	BOOST_CHECK_THROW (f->set_content ("jim"), OpenFileError);
 	f->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
-	f->set_format (Format::from_nickname ("Flat"));
-	f->set_left_crop (1);
-	f->set_right_crop (2);
-	f->set_top_crop (3);
-	f->set_bottom_crop (4);
+	f->set_container (Container::from_id ("185"));
 	vector<Filter const *> f_filters;
 	f_filters.push_back (Filter::from_id ("pphb"));
 	f_filters.push_back (Filter::from_id ("unsharp"));
@@ -164,11 +161,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");
 	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
-	BOOST_CHECK_EQUAL (g->format(), Format::from_nickname ("Flat"));
-	BOOST_CHECK_EQUAL (g->crop().left, 1);
-	BOOST_CHECK_EQUAL (g->crop().right, 2);
-	BOOST_CHECK_EQUAL (g->crop().top, 3);
-	BOOST_CHECK_EQUAL (g->crop().bottom, 4);
+	BOOST_CHECK_EQUAL (g->container(), Container::from_id ("185"));
 	vector<Filter const *> g_filters = g->filters ();
 	BOOST_CHECK_EQUAL (g_filters.size(), 2);
 	BOOST_CHECK_EQUAL (g_filters.front(), Filter::from_id ("pphb"));
@@ -317,7 +310,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	shared_ptr<Film> film = new_test_film ("make_dcp_test");
 	film->set_name ("test_film2");
 //	film->set_content ("../../../test/test.mp4");
-	film->set_format (Format::from_nickname ("Flat"));
+	film->set_container (Container::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp ();
 	film->write_metadata ();
@@ -348,7 +341,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 	film->set_name ("test_film3");
 //	film->set_content ("../../../test/test.mp4");
 //	film->examine_content ();
-	film->set_format (Format::from_nickname ("Flat"));
+	film->set_container (Container::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp ();
 

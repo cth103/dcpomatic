@@ -68,7 +68,7 @@ boost::mutex FFmpegDecoder::_mutex;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio, bool subtitles)
 	: Decoder (f)
-	, VideoDecoder (f)
+	, VideoDecoder (f, c)
 	, AudioDecoder (f, c)
 	, _ffmpeg_content (c)
 	, _format_context (0)
@@ -540,7 +540,6 @@ void
 FFmpegDecoder::film_changed (Film::Property p)
 {
 	switch (p) {
-	case Film::CROP:
 	case Film::FILTERS:
 	{
 		boost::mutex::scoped_lock lm (_filter_graphs_mutex);

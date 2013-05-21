@@ -26,6 +26,7 @@
 int const VideoContentProperty::VIDEO_LENGTH = 0;
 int const VideoContentProperty::VIDEO_SIZE = 1;
 int const VideoContentProperty::VIDEO_FRAME_RATE = 2;
+int const VideoContentProperty::VIDEO_CROP = 3;
 
 using std::string;
 using std::stringstream;
@@ -47,6 +48,10 @@ VideoContent::VideoContent (shared_ptr<const cxml::Node> node)
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
+	_crop.left = node->number_child<int> ("LeftCrop");
+	_crop.right = node->number_child<int> ("RightCrop");
+	_crop.top = node->number_child<int> ("TopCrop");
+	_crop.bottom = node->number_child<int> ("BottomCrop");
 }
 
 VideoContent::VideoContent (VideoContent const & o)
@@ -66,6 +71,10 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoWidth")->add_child_text (lexical_cast<string> (_video_size.width));
 	node->add_child("VideoHeight")->add_child_text (lexical_cast<string> (_video_size.height));
 	node->add_child("VideoFrameRate")->add_child_text (lexical_cast<string> (_video_frame_rate));
+	node->add_child("LeftCrop")->add_child_text (boost::lexical_cast<string> (_crop.left));
+	node->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
+	node->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
+	node->add_child("BottomCrop")->add_child_text (boost::lexical_cast<string> (_crop.bottom));
 }
 
 void
@@ -104,3 +113,75 @@ VideoContent::information () const
 	
 	return s.str ();
 }
+
+void
+VideoContent::set_crop (Crop c)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_crop = c;
+	}
+	signal_changed (VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_left_crop (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		
+		if (_crop.left == c) {
+			return;
+		}
+		
+		_crop.left = c;
+	}
+	
+	signal_changed (VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_right_crop (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_crop.right == c) {
+			return;
+		}
+		
+		_crop.right = c;
+	}
+	
+	signal_changed (VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_top_crop (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_crop.top == c) {
+			return;
+		}
+		
+		_crop.top = c;
+	}
+	
+	signal_changed (VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_bottom_crop (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_crop.bottom == c) {
+			return;
+		}
+		
+		_crop.bottom = c;
+	}
+
+	signal_changed (VideoContentProperty::VIDEO_CROP);
+}
+

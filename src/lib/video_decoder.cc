@@ -32,8 +32,9 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
+VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
 	: Decoder (f)
+	, _video_content (c)
 	, _video_frame (0)
 	, _last_content_time (0)
 {
@@ -72,7 +73,7 @@ VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 	
 	if (_timed_subtitle) {
 		Position const p = _timed_subtitle->subtitle()->position ();
-		_timed_subtitle->subtitle()->set_position (Position (p.x - _film->crop().left, p.y - _film->crop().top));
+		_timed_subtitle->subtitle()->set_position (Position (p.x - _video_content->crop().left, p.y - _video_content->crop().top));
 	}
 }
 

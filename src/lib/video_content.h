@@ -31,6 +31,7 @@ public:
 	static int const VIDEO_LENGTH;
 	static int const VIDEO_SIZE;
 	static int const VIDEO_FRAME_RATE;
+	static int const VIDEO_CROP;
 };
 
 class VideoContent : public virtual Content
@@ -58,6 +59,17 @@ public:
 		return _video_frame_rate;
 	}
 
+	void set_crop (Crop);
+	void set_left_crop (int);
+	void set_right_crop (int);
+	void set_top_crop (int);
+	void set_bottom_crop (int);
+
+	Crop crop () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _crop;
+	}
+
 protected:
 	void take_from_video_decoder (boost::shared_ptr<VideoDecoder>);
 
@@ -66,6 +78,7 @@ protected:
 private:
 	libdcp::Size _video_size;
 	float _video_frame_rate;
+	Crop _crop;
 };
 
 #endif

@@ -28,7 +28,7 @@
 #include <wx/notebook.h>
 #include "lib/config.h"
 #include "lib/server.h"
-#include "lib/format.h"
+#include "lib/container.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
 #include "lib/dcp_content_type.h"
@@ -127,9 +127,9 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_default_dci_metadata_button);
 	table->AddSpacer (1);
 
-	add_label_to_sizer (table, _misc_panel, _("Default format"));
-	_default_format = new wxChoice (_misc_panel, wxID_ANY);
-	table->Add (_default_format);
+	add_label_to_sizer (table, _misc_panel, _("Default container"));
+	_default_container = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_container);
 	table->AddSpacer (1);
 
 	add_label_to_sizer (table, _misc_panel, _("Default content type"));
@@ -171,17 +171,17 @@ ConfigDialog::make_misc_panel ()
 
 	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
 
-	vector<Format const *> fmt = Format::all ();
+	vector<Container const *> fmt = Container::all ();
 	int n = 0;
-	for (vector<Format const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
-		_default_format->Append (std_to_wx ((*i)->name ()));
-		if (*i == config->default_format ()) {
-			_default_format->SetSelection (n);
+	for (vector<Container const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
+		_default_container->Append (std_to_wx ((*i)->name ()));
+		if (*i == config->default_container ()) {
+			_default_container->SetSelection (n);
 		}
 		++n;
 	}
 
-	_default_format->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_format_changed), 0, this);
+	_default_container->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_container_changed), 0, this);
 	
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	n = 0;
@@ -533,10 +533,10 @@ ConfigDialog::default_still_length_changed (wxCommandEvent &)
 }
 
 void
-ConfigDialog::default_format_changed (wxCommandEvent &)
+ConfigDialog::default_container_changed (wxCommandEvent &)
 {
-	vector<Format const *> fmt = Format::all ();
-	Config::instance()->set_default_format (fmt[_default_format->GetSelection()]);
+	vector<Container const *> fmt = Container::all ();
+	Config::instance()->set_default_container (fmt[_default_container->GetSelection()]);
 }
 
 void

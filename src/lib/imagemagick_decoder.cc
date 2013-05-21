@@ -34,7 +34,7 @@ using libdcp::Size;
 
 ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<const ImageMagickContent> c)
 	: Decoder (f)
-	, VideoDecoder (f)
+	, VideoDecoder (f, c)
 	, _imagemagick_content (c)
 	, _position (0)
 {
@@ -92,7 +92,7 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	_image = _image->crop (_film->crop(), true);
+	_image = _image->crop (_imagemagick_content->crop(), true);
 	emit_video (_image, false, double (_position) / 24);
 
 	++_position;

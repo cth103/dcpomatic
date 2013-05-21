@@ -57,7 +57,7 @@ private:
 	void edit_server_clicked (wxCommandEvent &);
 	void remove_server_clicked (wxCommandEvent &);
 	void server_selection_changed (wxListEvent &);
-	void default_format_changed (wxCommandEvent &);
+	void default_container_changed (wxCommandEvent &);
 	void default_dcp_content_type_changed (wxCommandEvent &);
 	void issuer_changed (wxCommandEvent &);
 	void creator_changed (wxCommandEvent &);
@@ -79,7 +79,7 @@ private:
 	wxPanel* _metadata_panel;
 	wxCheckBox* _set_language;
 	wxChoice* _language;
-	wxChoice* _default_format;
+	wxChoice* _default_container;
 	wxChoice* _default_dcp_content_type;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;

@@ -39,6 +39,7 @@
 #include "writer.h"
 #include "player.h"
 #include "audio_mapping.h"
+#include "container.h"
 
 #include "i18n.h"
 
@@ -208,9 +209,10 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 		/* Queue this new frame for encoding */
 		pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
 		TIMING ("adding to queue of %1", _queue.size ());
+		/* XXX: padding */
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, sub, _film->format()->dcp_size(), _film->format()->dcp_padding (_film),
+						  image, sub, _film->container()->dcp_size(), 0,
 						  _film->subtitle_offset(), _film->subtitle_scale(),
 						  _film->scaler(), _video_frames_out, _film->dcp_video_frame_rate(), s.second,
 						  _film->colour_lut(), _film->j2k_bandwidth(),

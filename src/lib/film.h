@@ -39,7 +39,7 @@
 #include "playlist.h"
 
 class DCPContentType;
-class Format;
+class Container;
 class Job;
 class Filter;
 class Log;
@@ -88,7 +88,6 @@ public:
 
 	void write_metadata () const;
 
-	libdcp::Size cropped_size (libdcp::Size) const;
 	std::string dci_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
 
@@ -131,8 +130,7 @@ public:
 		CONTENT,
 		LOOP,
 		DCP_CONTENT_TYPE,
-		FORMAT,
-		CROP,
+		CONTAINER,
 		FILTERS,
 		SCALER,
 		AB,
@@ -170,14 +168,9 @@ public:
 		return _dcp_content_type;
 	}
 
-	Format const * format () const {
+	Container const * container () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _format;
-	}
-
-	Crop crop () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _crop;
+		return _container;
 	}
 
 	std::vector<Filter const *> filters () const {
@@ -249,12 +242,7 @@ public:
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
-	void set_format (Format const *);
-	void set_crop (Crop);
-	void set_left_crop (int);
-	void set_right_crop (int);
-	void set_top_crop (int);
-	void set_bottom_crop (int);
+	void set_container (Container const *);
 	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
 	void set_ab (bool);
@@ -309,10 +297,8 @@ private:
 	bool _use_dci_name;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
-	/** The format to present this Film in (flat, scope, etc.) */
-	Format const * _format;
-	/** The crop to apply to the source */
-	Crop _crop;
+	/** The container to put this Film in (flat, scope, etc.) */
+	Container const * _container;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */

@@ -61,6 +61,7 @@ extern "C" {
 #include "filter.h"
 #include "sound_processor.h"
 #include "config.h"
+#include "container.h"
 #ifdef DVDOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -285,6 +286,7 @@ dcpomatic_setup ()
 	avfilter_register_all ();
 	
 	Format::setup_formats ();
+	Container::setup_containers ();
 	DCPContentType::setup_dcp_content_types ();
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();

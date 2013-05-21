@@ -35,6 +35,7 @@ class Film;
 class AudioDialog;
 class TimelineDialog;
 class AudioMappingView;
+class Format;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -69,7 +70,7 @@ private:
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
 	void imagemagick_video_length_changed (wxCommandEvent &);
-	void format_changed (wxCommandEvent &);
+	void container_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void audio_gain_changed (wxCommandEvent &);
@@ -103,13 +104,14 @@ private:
 	void setup_scaling_description ();
 	void setup_main_notebook_size ();
 	void setup_content ();
-	void setup_format ();
+	void setup_container ();
 	void setup_content_button_sensitivity ();
 	void setup_loop_sensitivity ();
 	void setup_content_properties ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
+	boost::shared_ptr<VideoContent> selected_video_content ();
 
 	wxNotebook* _main_notebook;
 	wxNotebook* _content_notebook;
@@ -129,6 +131,7 @@ private:
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_dci_name;
+	wxChoice* _container;
 	wxListCtrl* _content;
 	wxButton* _content_add;
 	wxButton* _content_remove;

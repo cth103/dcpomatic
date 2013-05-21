@@ -34,7 +34,7 @@
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include "film.h"
-#include "format.h"
+#include "container.h"
 #include "job.h"
 #include "filter.h"
 #include "util.h"
@@ -95,7 +95,7 @@ Film::Film (string d, bool must_exist)
 	: _playlist (new Playlist)
 	, _use_dci_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
-	, _format (Config::instance()->default_format ())
+	, _container (Config::instance()->default_container ())
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _ab (false)
 	, _audio_gain (0)
@@ -160,8 +160,7 @@ Film::Film (Film const & o)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
 	, _dcp_content_type  (o._dcp_content_type)
-	, _format            (o._format)
-	, _crop              (o._crop)
+	, _container         (o._container)
 	, _filters           (o._filters)
 	, _scaler            (o._scaler)
 	, _ab                (o._ab)
@@ -183,15 +182,14 @@ Film::Film (Film const & o)
 string
 Film::video_state_identifier () const
 {
-	assert (format ());
+	assert (container ());
 	LocaleGuard lg;
 
 	pair<string, string> f = Filter::ffmpeg_strings (filters());
 
 	stringstream s;
-	s << format()->id()
+	s << container()->id()
 	  << "_" << _playlist->video_digest()
-	  << "_" << crop().left << "_" << crop().right << "_" << crop().top << "_" << crop().bottom
 	  << "_" << _dcp_video_frame_rate
 	  << "_" << f.first << "_" << f.second
 	  << "_" << scaler()->id()
@@ -305,8 +303,8 @@ Film::make_dcp ()
 	pair<string, int> const c = cpu_info ();
 	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
 	
-	if (format() == 0) {
-		throw MissingSettingError (_("format"));
+	if (container() == 0) {
+		throw MissingSettingError (_("container"));
 	}
 
 	if (_playlist->content().empty ()) {
@@ -377,7 +375,7 @@ Film::send_dcp_to_tms ()
 int
 Film::encoded_frames () const
 {
-	if (format() == 0) {
+	if (container() == 0) {
 		return 0;
 	}
 
@@ -410,14 +408,9 @@ Film::write_metadata () const
 		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->dci_name ());
 	}
 
-	if (_format) {
-		root->add_child("Format")->add_child_text (_format->id ());
+	if (_container) {
+		root->add_child("Container")->add_child_text (_container->id ());
 	}
-
-	root->add_child("LeftCrop")->add_child_text (boost::lexical_cast<string> (_crop.left));
-	root->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
-	root->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
-	root->add_child("BottomCrop")->add_child_text (boost::lexical_cast<string> (_crop.bottom));
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
 		root->add_child("Filter")->add_child_text ((*i)->id ());
@@ -466,16 +459,11 @@ Film::read_metadata ()
 	}
 
 	{
-		optional<string> c = f.optional_string_child ("Format");
+		optional<string> c = f.optional_string_child ("Container");
 		if (c) {
-			_format = Format::from_id (c.get ());
+			_container = Container::from_id (c.get ());
 		}
 	}
-
-	_crop.left = f.number_child<int> ("LeftCrop");
-	_crop.right = f.number_child<int> ("RightCrop");
-	_crop.top = f.number_child<int> ("TopCrop");
-	_crop.bottom = f.number_child<int> ("BottomCrop");
 
 	{
 		list<shared_ptr<cxml::Node> > c = f.node_children ("Filter");
@@ -500,15 +488,6 @@ Film::read_metadata ()
 	_playlist->set_from_xml (f.node_child ("Playlist"));
 
 	_dirty = false;
-}
-
-libdcp::Size
-Film::cropped_size (libdcp::Size s) const
-{
-	boost::mutex::scoped_lock lm (_state_mutex);
-	s.width -= _crop.left + _crop.right;
-	s.height -= _crop.top + _crop.bottom;
-	return s;
 }
 
 /** Given a directory name, return its full path within the Film's directory.
@@ -570,8 +549,8 @@ Film::dci_name (bool if_created_now) const
 		d << "_" << dcp_content_type()->dci_name();
 	}
 
-	if (format()) {
-		d << "_" << format()->dci_name();
+	if (container()) {
+		d << "_" << container()->dci_name();
 	}
 
 	DCIMetadata const dm = dci_metadata ();
@@ -666,80 +645,13 @@ Film::set_dcp_content_type (DCPContentType const * t)
 }
 
 void
-Film::set_format (Format const * f)
+Film::set_container (Container const * c)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_format = f;
+		_container = c;
 	}
-	signal_changed (FORMAT);
-}
-
-void
-Film::set_crop (Crop c)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_crop = c;
-	}
-	signal_changed (CROP);
-}
-
-void
-Film::set_left_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		
-		if (_crop.left == c) {
-			return;
-		}
-		
-		_crop.left = c;
-	}
-	signal_changed (CROP);
-}
-
-void
-Film::set_right_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		if (_crop.right == c) {
-			return;
-		}
-		
-		_crop.right = c;
-	}
-	signal_changed (CROP);
-}
-
-void
-Film::set_top_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		if (_crop.top == c) {
-			return;
-		}
-		
-		_crop.top = c;
-	}
-	signal_changed (CROP);
-}
-
-void
-Film::set_bottom_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		if (_crop.bottom == c) {
-			return;
-		}
-		
-		_crop.bottom = c;
-	}
-	signal_changed (CROP);
+	signal_changed (CONTAINER);
 }
 
 void

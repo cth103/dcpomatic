@@ -83,6 +83,10 @@ public:
 	bool seek_back ();
 	bool pass ();
 
+	boost::shared_ptr<const FFmpegContent> ffmpeg_content () const {
+		return _ffmpeg_content;
+	}
+
 private:
 
 	/* No copy construction */

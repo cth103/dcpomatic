@@ -27,7 +27,7 @@
 #include "server.h"
 #include "scaler.h"
 #include "filter.h"
-#include "format.h"
+#include "container.h"
 #include "dcp_content_type.h"
 #include "sound_processor.h"
 
@@ -52,7 +52,7 @@ Config::Config ()
 	, _tms_path (N_("."))
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _default_still_length (10)
-	, _default_format (0)
+	, _default_container (0)
 	, _default_dcp_content_type (0)
 {
 	_allowed_dcp_frame_rates.push_back (24);
@@ -104,9 +104,9 @@ Config::read ()
 
 	_language = f.optional_string_child ("Language");
 
-	c = f.optional_string_child ("DefaultFormat");
+	c = f.optional_string_child ("DefaultContainer");
 	if (c) {
-		_default_format = Format::from_id (c.get ());
+		_default_container = Container::from_id (c.get ());
 	}
 
 	c = f.optional_string_child ("DefaultDCPContentType");
@@ -167,8 +167,8 @@ Config::read_old_metadata ()
 			_sound_processor = SoundProcessor::from_id (v);
 		} else if (k == "language") {
 			_language = v;
-		} else if (k == "default_format") {
-			_default_format = Format::from_id (v);
+		} else if (k == "default_container") {
+			_default_container = Container::from_id (v);
 		} else if (k == "default_dcp_content_type") {
 			_default_dcp_content_type = DCPContentType::from_dci_name (v);
 		} else if (k == "dcp_metadata_issuer") {
@@ -247,8 +247,8 @@ Config::write () const
 	if (_language) {
 		root->add_child("Language")->add_child_text (_language.get());
 	}
-	if (_default_format) {
-		root->add_child("DefaultFormat")->add_child_text (_default_format->id ());
+	if (_default_container) {
+		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
 	if (_default_dcp_content_type) {
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->dci_name ());

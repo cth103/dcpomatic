@@ -27,7 +27,7 @@
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
-#include "format.h"
+#include "container.h"
 #include "log.h"
 #include "dcp_video_frame.h"
 #include "dcp_content_type.h"
@@ -76,7 +76,7 @@ Writer::Writer (shared_ptr<Film> f, shared_ptr<Job> j)
 			_film->internal_video_mxf_dir (),
 			_film->internal_video_mxf_filename (),
 			_film->dcp_video_frame_rate (),
-			_film->format()->dcp_size ()
+			_film->container()->dcp_size ()
 			)
 		);
 

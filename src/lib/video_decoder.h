@@ -28,7 +28,7 @@ class VideoContent;
 class VideoDecoder : public VideoSource, public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const Film>);
+	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
 
 	/** @return video frame rate second, or 0 if unknown */
 	virtual float video_frame_rate () const = 0;
@@ -60,9 +60,9 @@ protected:
 	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
 
 private:
+	boost::shared_ptr<const VideoContent> _video_content;
 	int _video_frame;
 	double _last_content_time;
-	
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 };
 

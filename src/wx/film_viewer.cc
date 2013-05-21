@@ -27,6 +27,7 @@
 #include <iomanip>
 #include <wx/tglbtn.h>
 #include "lib/film.h"
+#include "lib/container.h"
 #include "lib/format.h"
 #include "lib/util.h"
 #include "lib/job_manager.h"
@@ -115,7 +116,7 @@ void
 FilmViewer::film_changed (Film::Property p)
 {
 	switch (p) {
-	case Film::FORMAT:
+	case Film::CONTAINER:
 		calculate_sizes ();
 		update_from_raw ();
 		break;
@@ -135,7 +136,6 @@ FilmViewer::film_changed (Film::Property p)
 		break;
 	case Film::SCALER:
 	case Film::FILTERS:
-	case Film::CROP:
 		update_from_decoder ();
 		break;
 	default:
@@ -173,7 +173,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_film->ContentChanged.connect (boost::bind (&FilmViewer::film_content_changed, this, _1, _2));
 
 	film_changed (Film::CONTENT);
-	film_changed (Film::FORMAT);
+	film_changed (Film::CONTAINER);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
@@ -314,7 +314,8 @@ FilmViewer::raw_to_display ()
 		   when working out the scale that we are applying.
 		*/
 
-		Size const cropped_size = _film->cropped_size (_raw_frame->size ());
+		/* XXX */
+		Size const cropped_size = _raw_frame->size ();//_film->cropped_size (_raw_frame->size ());
 
 		Rect tx = subtitle_transformed_area (
 			float (_film_size.width) / cropped_size.width,
@@ -337,10 +338,10 @@ FilmViewer::calculate_sizes ()
 		return;
 	}
 
-	Format const * format = _film->format ();
+	Container const * container = _film->container ();
 	
 	float const panel_ratio = static_cast<float> (_panel_size.width) / _panel_size.height;
-	float const film_ratio = format ? format->container_ratio () : 1.78;
+	float const film_ratio = container ? container->ratio () : 1.78;
 			
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
@@ -356,9 +357,9 @@ FilmViewer::calculate_sizes ()
 	   of our _display_frame.
 	*/
 	_display_frame_x = 0;
-	if (format) {
-		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
-	}
+//	if (format) {
+//		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
+//	}
 
 	_film_size = _out_size;
 	_film_size.width -= _display_frame_x * 2;
@@ -472,7 +473,9 @@ FilmViewer::film_content_changed (weak_ptr<Content>, int p)
 		/* Force an update to our frame */
 		wxScrollEvent ev;
 		slider_moved (ev);
-	}
+	} else if (p == VideoContentProperty::VIDEO_CROP) {
+		update_from_decoder ();
+	}		
 }
 
 void
