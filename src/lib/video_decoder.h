@@ -48,7 +48,7 @@ public:
 		return _video_frame;
 	}
 
-	double last_content_time () const {
+	Time last_content_time () const {
 		return _last_content_time;
 	}
 
@@ -62,7 +62,7 @@ protected:
 private:
 	boost::shared_ptr<const VideoContent> _video_content;
 	int _video_frame;
-	double _last_content_time;
+	Time _last_content_time;
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 };
 

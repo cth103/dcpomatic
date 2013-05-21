@@ -54,7 +54,7 @@ public:
 	virtual ~Decoder () {}
 
 	virtual bool pass () = 0;
-	virtual bool seek (double);
+	virtual bool seek (Time);
 	virtual bool seek_back () {
 		return true;
 	}

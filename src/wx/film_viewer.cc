@@ -428,22 +428,29 @@ FilmViewer::get_frame ()
 		return;
 	}
 
+	cout << "getting frame...\n";
+
 	try {
 		_got_frame = false;
 		while (!_got_frame) {
+			cout << "pass...\n";
 			if (_player->pass ()) {
+				cout << "passed.\n";
 				/* We didn't get a frame before the decoder gave up,
 				   so clear our display frame.
 				*/
 				_display_frame.reset ();
 				break;
 			}
+			cout << "passed.\n";
 		}
 	} catch (DecodeError& e) {
 		_play_button->SetValue (false);
 		check_play_state ();
 		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
 	}
+
+	cout << "...got frame.\n";
 }
 
 void

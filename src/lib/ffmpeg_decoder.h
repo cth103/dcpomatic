@@ -78,7 +78,7 @@ public:
 		return _audio_streams;
 	}
 
-	bool seek (double);
+	bool seek (Time);
 	bool seek_forward ();
 	bool seek_back ();
 	bool pass ();
@@ -96,7 +96,7 @@ private:
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
-	bool do_seek (double, bool, bool);
+	bool do_seek (Time, bool, bool);
 
 	void setup_general ();
 	void setup_video ();

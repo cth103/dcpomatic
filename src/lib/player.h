@@ -92,6 +92,7 @@ private:
 	bool _have_valid_decoders;
 	std::list<boost::shared_ptr<DecoderRecord> > _decoders;
 
+	/* XXX: position and last_video? Need both? */
 	Time _position;
 	AudioBuffers _audio_buffers;
 	Time _last_video;

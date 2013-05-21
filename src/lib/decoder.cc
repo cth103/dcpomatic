@@ -41,11 +41,9 @@ Decoder::Decoder (shared_ptr<const Film> f)
 	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
 }
 
-/** Seek to a position as a content timestamp in seconds.
- *  @return true on error.
- */
+/** @return true on error */
 bool
-Decoder::seek (double)
+Decoder::seek (Time)
 {
 	throw DecodeError (N_("decoder does not support seek"));
 }

@@ -109,9 +109,11 @@ Player::pass ()
         }
 
         if (earliest) {
+		cout << "pass on decoder...\n";
                 earliest->decoder->pass ();
                 _position = earliest->last;
         } else if (next_wait < TIME_MAX) {
+		cout << "nw " << next_wait << " for " << _position << "\n";
                 _position += next_wait;
         } else {
                 return true;
@@ -126,8 +128,10 @@ Player::process_video (shared_ptr<DecoderRecord> dr, shared_ptr<const Image> ima
         shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (dr->decoder);
         
         Time const global_time = dr->content->time() + time;
+	cout << "need to fill in " << global_time << " vs " << _last_video << "\n";
         while ((global_time - _last_video) > 1) {
                 /* Fill in with black */
+		cout << "(b)\n";
                 emit_black_frame ();
         }
 
@@ -188,7 +192,28 @@ Player::seek (Time t)
 		return true;
 	}
 
-	/* XXX */
+	cout << "seek to " << t << "\n";
+
+	Time current_time = 0;
+	shared_ptr<VideoDecoder> current;
+        for (list<shared_ptr<DecoderRecord> >::iterator i = _decoders.begin(); i != _decoders.end(); ++i) {
+		shared_ptr<VideoDecoder> v = dynamic_pointer_cast<VideoDecoder> ((*i)->decoder);
+		if (!v) {
+			continue;
+		}
+
+		if ((*i)->content->time() < t && (*i)->content->time() >= current_time) {
+			current_time = (*i)->content->time();
+			current = v;
+		}
+	}
+
+	if (current) {
+		cout << "got a decoder to seek to " << (t - current_time) << ".\n";
+		current->seek (t - current_time);
+		_position = t;
+		_last_video = t;
+	}
 
 	/* XXX: don't seek audio because we don't need to... */
 
