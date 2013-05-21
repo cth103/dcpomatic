@@ -105,7 +105,7 @@ private:
 	void setup_main_notebook_size ();
 	void setup_content ();
 	void setup_container ();
-	void setup_content_button_sensitivity ();
+	void setup_content_sensitivity ();
 	void setup_loop_sensitivity ();
 	void setup_content_properties ();
 	

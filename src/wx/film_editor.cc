@@ -831,7 +831,7 @@ FilmEditor::set_things_sensitive (bool s)
 
 	setup_subtitle_control_sensitivity ();
 	setup_show_audio_sensitivity ();
-	setup_content_button_sensitivity ();
+	setup_content_sensitivity ();
 }
 
 /** Called when the `Edit filters' button has been clicked */
@@ -1098,11 +1098,11 @@ FilmEditor::content_remove_clicked (wxCommandEvent &)
 void
 FilmEditor::content_selection_changed (wxListEvent &)
 {
-        setup_content_button_sensitivity ();
+        setup_content_sensitivity ();
 }
 
 void
-FilmEditor::setup_content_button_sensitivity ()
+FilmEditor::setup_content_sensitivity ()
 {
         _content_add->Enable (_generally_sensitive);
 
@@ -1110,6 +1110,10 @@ FilmEditor::setup_content_button_sensitivity ()
 
         _content_remove->Enable (selection && _generally_sensitive);
 	_content_timeline->Enable (_generally_sensitive);
+
+	_video_panel->Enable (selection && _generally_sensitive);
+	_audio_panel->Enable (selection && _generally_sensitive);
+	_subtitle_panel->Enable (selection && _generally_sensitive);
 }
 
 shared_ptr<Content>
