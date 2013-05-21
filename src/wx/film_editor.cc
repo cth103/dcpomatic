@@ -148,6 +148,26 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
+	{
+		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("JPEG2000 bandwidth"), wxGBPosition (r, 0));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_j2k_bandwidth = new wxSpinCtrl (_dcp_panel, wxID_ANY);
+		s->Add (_j2k_bandwidth, 1);
+		add_label_to_sizer (s, _dcp_panel, _("MBps"));
+		grid->Add (s, wxGBPosition (r, 1));
+	}
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Scaler"), wxGBPosition (r, 0));
+	_scaler = new wxChoice (_dcp_panel, wxID_ANY);
+	grid->Add (_scaler, wxGBPosition (r, 1));
+	++r;
+
+	vector<Scaler const *> const sc = Scaler::all ();
+	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
+		_scaler->Append (std_to_wx ((*i)->name()));
+	}
+
 	vector<Container const *> const co = Container::all ();
 	for (vector<Container const *>::const_iterator i = co.begin(); i != co.end(); ++i) {
 		_container->Append (std_to_wx ((*i)->name ()));
@@ -162,6 +182,8 @@ FilmEditor::make_dcp_panel ()
 	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
 		_dcp_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
+
+	_j2k_bandwidth->SetRange (50, 250);
 }
 
 void
@@ -260,16 +282,6 @@ FilmEditor::make_video_panel ()
 	}
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Scaler"), wxGBPosition (r, 0));
-	_scaler = new wxChoice (_video_panel, wxID_ANY);
-	grid->Add (_scaler, wxGBPosition (r, 1));
-	++r;
-
-	vector<Scaler const *> const sc = Scaler::all ();
-	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_scaler->Append (std_to_wx ((*i)->name()));
-	}
-
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), wxGBPosition (r, 0));
 	_colour_lut = new wxChoice (_video_panel, wxID_ANY);
 	for (int i = 0; i < 2; ++i) {
@@ -279,21 +291,10 @@ FilmEditor::make_video_panel ()
 	grid->Add (_colour_lut, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 
-	{
-		add_label_to_grid_bag_sizer (grid, _video_panel, _("JPEG2000 bandwidth"), wxGBPosition (r, 0));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_j2k_bandwidth = new wxSpinCtrl (_video_panel, wxID_ANY);
-		s->Add (_j2k_bandwidth, 1);
-		add_label_to_sizer (s, _video_panel, _("MBps"));
-		grid->Add (s, wxGBPosition (r, 1));
-	}
-	++r;
-
 	_left_crop->SetRange (0, 1024);
 	_top_crop->SetRange (0, 1024);
 	_right_crop->SetRange (0, 1024);
 	_bottom_crop->SetRange (0, 1024);
-	_j2k_bandwidth->SetRange (50, 250);
 }
 
 void
