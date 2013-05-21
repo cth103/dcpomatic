@@ -65,9 +65,13 @@ def build(bld):
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP GLIB LZMA
                  """
+
+    obj.source = sources + ' version.cc'
+
     if bld.env.TARGET_WINDOWS:
-        obj.uselib += ' WINSOCK2'
-    obj.source = sources + " version.cc"
+        obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY'
+        obj.source += ' stack.cpp'
+
     obj.target = 'dvdomatic'
 
     i18n.po_to_mo(os.path.join('src', 'lib'), 'libdvdomatic', bld)

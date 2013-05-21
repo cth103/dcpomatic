@@ -88,8 +88,8 @@ int const Film::state_version = 4;
 Film::Film (string d, bool must_exist)
 	: _use_dci_name (true)
 	, _trust_content_header (true)
-	, _dcp_content_type (0)
-	, _format (0)
+	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
+	, _format (Config::instance()->default_format ())
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _trim_start (0)
 	, _trim_end (0)
@@ -987,14 +987,7 @@ Film::set_content (string c)
 	}
 
 	/* Default format */
-	switch (content_type()) {
-	case STILL:
-		set_format (Format::from_id ("var-185"));
-		break;
-	case VIDEO:
-		set_format (Format::from_id ("185"));
-		break;
-	}
+	set_format (Config::instance()->default_format ());
 
 	/* Still image DCPs must use external audio */
 	if (content_type() == STILL) {

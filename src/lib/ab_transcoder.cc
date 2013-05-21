@@ -62,7 +62,7 @@ ABTranscoder::ABTranscoder (
 	_db = decoder_factory (_film_b, o);
 
 	shared_ptr<AudioStream> st = _film_a->audio_stream();
-	if (st) {
+	if (st && st->sample_rate()) {
 		_matcher.reset (new Matcher (_film_a->log(), st->sample_rate(), _film_a->source_frame_rate()));
 	}
 	_delay_line.reset (new DelayLine (_film_a->log(), _film_a->audio_delay() / 1000.0f));

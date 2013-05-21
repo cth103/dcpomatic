@@ -26,6 +26,8 @@
 #include "server.h"
 #include "scaler.h"
 #include "filter.h"
+#include "format.h"
+#include "dcp_content_type.h"
 #include "sound_processor.h"
 
 #include "i18n.h"
@@ -45,6 +47,8 @@ Config::Config ()
 	, _reference_scaler (Scaler::from_id (N_("bicubic")))
 	, _tms_path (N_("."))
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _default_format (0)
+	, _default_dcp_content_type (0)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -96,6 +100,16 @@ Config::Config ()
 			_sound_processor = SoundProcessor::from_id (v);
 		} else if (k == "language") {
 			_language = v;
+		} else if (k == "default_format") {
+			_default_format = Format::from_metadata (v);
+		} else if (k == "default_dcp_content_type") {
+			_default_dcp_content_type = DCPContentType::from_dci_name (v);
+		} else if (k == "dcp_metadata_issuer") {
+			_dcp_metadata.issuer = v;
+		} else if (k == "dcp_metadata_creator") {
+			_dcp_metadata.creator = v;
+		} else if (k == "dcp_metadata_issue_date") {
+			_dcp_metadata.issue_date = v;
 		}
 
 		_default_dci_metadata.read (k, v);
@@ -128,32 +142,41 @@ void
 Config::write () const
 {
 	ofstream f (file().c_str ());
-	f << N_("num_local_encoding_threads ") << _num_local_encoding_threads << N_("\n")
-	  << N_("default_directory ") << _default_directory << N_("\n")
-	  << N_("server_port ") << _server_port << N_("\n");
+	f << "num_local_encoding_threads " << _num_local_encoding_threads << "\n"
+	  << "default_directory " << _default_directory << "\n"
+	  << "server_port " << _server_port << "\n";
 
 	if (_reference_scaler) {
 		f << "reference_scaler " << _reference_scaler->id () << "\n";
 	}
 
 	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {
-		f << N_("reference_filter ") << (*i)->id () << N_("\n");
+		f << "reference_filter " << (*i)->id () << "\n";
 	}
 	
 	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		f << N_("server ") << (*i)->as_metadata () << N_("\n");
+		f << "server " << (*i)->as_metadata () << "\n";
 	}
 
-	f << N_("tms_ip ") << _tms_ip << N_("\n");
-	f << N_("tms_path ") << _tms_path << N_("\n");
-	f << N_("tms_user ") << _tms_user << N_("\n");
-	f << N_("tms_password ") << _tms_password << N_("\n");
+	f << "tms_ip " << _tms_ip << "\n";
+	f << "tms_path " << _tms_path << "\n";
+	f << "tms_user " << _tms_user << "\n";
+	f << "tms_password " << _tms_password << "\n";
 	if (_sound_processor) {
 		f << "sound_processor " << _sound_processor->id () << "\n";
 	}
 	if (_language) {
 		f << "language " << _language.get() << "\n";
 	}
+	if (_default_format) {
+		f << "default_format " << _default_format->as_metadata() << "\n";
+	}
+	if (_default_dcp_content_type) {
+		f << "default_dcp_content_type " << _default_dcp_content_type->dci_name() << "\n";
+	}
+	f << "dcp_metadata_issuer " << _dcp_metadata.issuer << "\n";
+	f << "dcp_metadata_creator " << _dcp_metadata.creator << "\n";
+	f << "dcp_metadata_issue_date " << _dcp_metadata.issue_date << "\n";
 
 	_default_dci_metadata.write (f);
 }

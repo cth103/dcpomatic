@@ -22,12 +22,14 @@
 #include <libdcp/sound_asset.h>
 #include <libdcp/picture_frame.h>
 #include <libdcp/reel.h>
+#include <libdcp/cpl.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
 #include "format.h"
 #include "log.h"
 #include "dcp_video_frame.h"
+#include "config.h"
 
 #include "i18n.h"
 
@@ -320,7 +322,9 @@ Writer::finish ()
 							 )
 			       ));
 
-	dcp.write_xml ();
+	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
+	meta.set_issue_date_now ();
+	dcp.write_xml (meta);
 
 	_film->log()->log (String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk));
 }

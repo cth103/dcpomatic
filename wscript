@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.89pre'
+VERSION = '0.94pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -32,6 +32,9 @@ def configure(conf):
             conf.env.append_value('CXXFLAGS', ['-mconsole'])
             conf.env.append_value('LINKFLAGS', ['-mconsole'])
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
+        conf.check(lib = 'bfd', uselib_store = 'BFD', msg = "Checking for library bfd")
+        conf.check(lib = 'dbghelp', uselib_store = 'DBGHELP', msg = "Checking for library dbghelp")
+        conf.check(lib = 'iberty', uselib_store = 'IBERTY', msg = "Checking for library iberty")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
     else:
@@ -55,7 +58,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if not conf.options.static:
-        conf.check_cfg(package = 'libdcp', atleast_version = '0.45', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.49', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
         conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
@@ -198,7 +201,12 @@ def build(bld):
     obj.target = 'dvdomatic.desktop'
     obj.dict = d
 
-    bld.install_files('${PREFIX}/share/applications', 'dvdomatic.desktop')
+    obj = bld(features = 'subst')
+    obj.source = 'dvdomatic_batch.desktop.in'
+    obj.target = 'dvdomatic_batch.desktop'
+    obj.dict = d
+
+    bld.install_files('${PREFIX}/share/applications', ['dvdomatic.desktop', 'dvdomatic_batch.desktop'])
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 

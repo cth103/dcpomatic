@@ -13,7 +13,7 @@ def build(bld):
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dvdomatic', 'servomatic_gui']:
+        for t in ['dvdomatic', 'dvdomatic_batch', 'servomatic_gui']:
             obj = bld(features = 'cxx cxxprogram')
             obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
             obj.includes = ['..']
