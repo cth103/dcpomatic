@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.90pre'
+VERSION = '0.94pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -32,6 +32,9 @@ def configure(conf):
             conf.env.append_value('CXXFLAGS', ['-mconsole'])
             conf.env.append_value('LINKFLAGS', ['-mconsole'])
         conf.check(lib = 'ws2_32', uselib_store = 'WINSOCK2', msg = "Checking for library winsock2")
+        conf.check(lib = 'bfd', uselib_store = 'BFD', msg = "Checking for library bfd")
+        conf.check(lib = 'dbghelp', uselib_store = 'DBGHELP', msg = "Checking for library dbghelp")
+        conf.check(lib = 'iberty', uselib_store = 'IBERTY', msg = "Checking for library iberty")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
     else:

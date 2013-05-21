@@ -28,7 +28,7 @@ def package(env, target, version):
     if target.platform == 'windows':
         shutil.copyfile('build/windows/installer.%s.nsi' % target.bits, 'build/windows/installer2.%s.nsi' % target.bits)
         env.command('sed -i "s~%%resources%%~%s/windows~g" build/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        env.command('sed -i "s~%%deps%%~%s~g" build/windows/installer2.%s.nsi' % (env.windows_prefix(), target.bits))
+        env.command('sed -i "s~%%deps%%~%s~g" build/windows/installer2.%s.nsi' % (env.windows_prefix, target.bits))
         env.command('sed -i "s~%%binaries%%~%s/build~g" build/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
         env.command('sed -i "s~%%bits%%~32~g" build/windows/installer2.%s.nsi' % target.bits)
         env.command('makensis build/windows/installer2.%s.nsi' % target.bits)
