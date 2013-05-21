@@ -120,11 +120,6 @@ public:
 	void set_loop (int);
 	int loop () const;
 
-	enum TrimType {
-		CPL,
-		ENCODE
-	};
-
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -132,7 +127,6 @@ public:
 		NONE,
 		NAME,
 		USE_DCI_NAME,
-		TRUST_CONTENT_HEADERS,
 		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
 		CONTENT,
 		LOOP,
@@ -141,10 +135,7 @@ public:
 		CROP,
 		FILTERS,
 		SCALER,
-		TRIM_START,
-		TRIM_END,
 		AB,
-		TRIM_TYPE,
 		AUDIO_GAIN,
 		AUDIO_DELAY,
 		WITH_SUBTITLES,
@@ -174,11 +165,6 @@ public:
 		return _use_dci_name;
 	}
 
-	bool trust_content_headers () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _trust_content_headers;
-	}
-
 	DCPContentType const * dcp_content_type () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_content_type;
@@ -202,21 +188,6 @@ public:
 	Scaler const * scaler () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _scaler;
-	}
-
-	int trim_start () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _trim_start;
-	}
-
-	int trim_end () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _trim_end;
-	}
-
-	TrimType trim_type () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _trim_type;
 	}
 
 	bool ab () const {
@@ -275,7 +246,6 @@ public:
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
-	void set_trust_content_headers (bool);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
@@ -287,10 +257,7 @@ public:
 	void set_bottom_crop (int);
 	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
-	void set_trim_start (int);
-	void set_trim_end (int);
 	void set_ab (bool);
-	void set_trim_type (TrimType);
 	void set_audio_gain (float);
 	void set_audio_delay (int);
 	void set_with_subtitles (bool);
@@ -340,7 +307,6 @@ private:
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;
-	bool _trust_content_headers;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The format to present this Film in (flat, scope, etc.) */
@@ -351,11 +317,6 @@ private:
 	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** Frames to trim off the start of the DCP */
-	int _trim_start;
-	/** Frames to trim off the end of the DCP */
-	int _trim_end;
-	TrimType _trim_type;
 	/** true to create an A/B comparison DCP, where the left half of the image
 	    is the video without any filters or post-processing, and the right half
 	    has the specified filters and post-processing.

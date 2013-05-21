@@ -26,7 +26,7 @@ class Log;
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob (boost::shared_ptr<Film>, boost::shared_ptr<Content>, bool);
+	ExamineContentJob (boost::shared_ptr<Film>, boost::shared_ptr<Content>);
 	~ExamineContentJob ();
 
 	std::string name () const;
@@ -34,6 +34,5 @@ public:
 
 private:
 	boost::shared_ptr<Content> _content;
-	bool _quick;
 };
 

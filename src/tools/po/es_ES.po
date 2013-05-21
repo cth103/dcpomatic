@@ -85,7 +85,6 @@ msgstr "No se pudo cargar la película %s (%s)"
 msgid "Could not open film at %s (%s)"
 msgstr "No se pudo cargar la película en %s (%s)"
 
-<<<<<<< HEAD
 #: src/tools/dcpomatic.cc:287 src/tools/dcpomatic.cc:410
 #: src/tools/dcpomatic.cc:531
 msgid "DCP-o-matic"
@@ -100,10 +99,6 @@ msgstr "Película cambiada"
 #: src/tools/dvdomatic.cc:506
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
-
-#: src/tools/dvdomatic.cc:76
-msgid "Film changed"
-msgstr "Película cambiada"
 
 #: src/tools/dvdomatic.cc:425
 msgid "Free, open-source DCP generation from almost anything."

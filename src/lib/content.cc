@@ -62,7 +62,7 @@ Content::as_xml (xmlpp::Node* node) const
 }
 
 void
-Content::examine (shared_ptr<Film>, shared_ptr<Job>, bool)
+Content::examine (shared_ptr<Film>, shared_ptr<Job>)
 {
 	string const d = md5_digest (_file);
 	boost::mutex::scoped_lock lm (_mutex);

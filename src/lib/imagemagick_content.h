@@ -34,7 +34,7 @@ public:
 		return boost::dynamic_pointer_cast<ImageMagickContent> (Content::shared_from_this ());
 	};
 
-	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
+	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>);
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;

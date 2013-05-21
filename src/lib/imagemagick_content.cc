@@ -66,9 +66,9 @@ ImageMagickContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-ImageMagickContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
+ImageMagickContent::examine (shared_ptr<Film> film, shared_ptr<Job> job)
 {
-	Content::examine (film, job, quick);
+	Content::examine (film, job);
 	shared_ptr<ImageMagickDecoder> decoder (new ImageMagickDecoder (film, shared_from_this()));
 
 	{

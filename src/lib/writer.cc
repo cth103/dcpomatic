@@ -264,15 +264,8 @@ Writer::finish ()
 	_sound_asset_writer->finalize ();
 	
 	int const frames = _last_written_frame + 1;
-	int duration = 0;
-	if (_film->trim_type() == Film::CPL) {
-		duration = frames - _film->trim_start() - _film->trim_end();
-		_picture_asset->set_entry_point (_film->trim_start ());
-	} else {
-		duration = frames;
-	}
 	
-	_picture_asset->set_duration (duration);
+	_picture_asset->set_duration (frames);
 
 	/* Hard-link the video MXF into the DCP */
 
@@ -296,11 +289,7 @@ Writer::finish ()
 
 	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
 	_picture_asset->set_file_name (_film->dcp_video_mxf_filename ());
-
-	if (_film->trim_type() == Film::CPL) {
-		_sound_asset->set_entry_point (_film->trim_start ());
-	}
-	_sound_asset->set_duration (duration);
+	_sound_asset->set_duration (frames);
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 

@@ -94,13 +94,9 @@ int const Film::state_version = 4;
 Film::Film (string d, bool must_exist)
 	: _playlist (new Playlist)
 	, _use_dci_name (true)
-	, _trust_content_headers (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _format (Config::instance()->default_format ())
 	, _scaler (Scaler::from_id ("bicubic"))
-	, _trim_start (0)
-	, _trim_end (0)
-	, _trim_type (CPL)
 	, _ab (false)
 	, _audio_gain (0)
 	, _audio_delay (0)
@@ -163,15 +159,11 @@ Film::Film (Film const & o)
 	, _directory         (o._directory)
 	, _name              (o._name)
 	, _use_dci_name      (o._use_dci_name)
-	, _trust_content_headers (o._trust_content_headers)
 	, _dcp_content_type  (o._dcp_content_type)
 	, _format            (o._format)
 	, _crop              (o._crop)
 	, _filters           (o._filters)
 	, _scaler            (o._scaler)
-	, _trim_start        (o._trim_start)
-	, _trim_end          (o._trim_end)
-	, _trim_type         (o._trim_type)
 	, _ab                (o._ab)
 	, _audio_gain        (o._audio_gain)
 	, _audio_delay       (o._audio_delay)
@@ -355,7 +347,7 @@ Film::analyse_audio ()
 void
 Film::examine_content (shared_ptr<Content> c)
 {
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, trust_content_headers ()));
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
 	JobManager::instance()->add (j);
 }
 
@@ -413,7 +405,6 @@ Film::write_metadata () const
 	root->add_child("Version")->add_child_text (boost::lexical_cast<string> (state_version));
 	root->add_child("Name")->add_child_text (_name);
 	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
-	root->add_child("TrustContentHeaders")->add_child_text (_trust_content_headers ? "1" : "0");
 
 	if (_dcp_content_type) {
 		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->dci_name ());
@@ -423,14 +414,6 @@ Film::write_metadata () const
 		root->add_child("Format")->add_child_text (_format->id ());
 	}
 
-	switch (_trim_type) {
-	case CPL:
-		root->add_child("TrimType")->add_child_text ("CPL");
-		break;
-	case ENCODE:
-		root->add_child("TrimType")->add_child_text ("Encode");
-	}
-			
 	root->add_child("LeftCrop")->add_child_text (boost::lexical_cast<string> (_crop.left));
 	root->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
 	root->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
@@ -441,8 +424,6 @@ Film::write_metadata () const
 	}
 	
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
-	root->add_child("TrimStart")->add_child_text (boost::lexical_cast<string> (_trim_start));
-	root->add_child("TrimEnd")->add_child_text (boost::lexical_cast<string> (_trim_end));
 	root->add_child("AB")->add_child_text (_ab ? "1" : "0");
 	root->add_child("AudioGain")->add_child_text (boost::lexical_cast<string> (_audio_gain));
 	root->add_child("AudioDelay")->add_child_text (boost::lexical_cast<string> (_audio_delay));
@@ -476,7 +457,6 @@ Film::read_metadata ()
 	
 	_name = f.string_child ("Name");
 	_use_dci_name = f.bool_child ("UseDCIName");
-	_trust_content_headers = f.bool_child ("TrustContentHeaders");
 
 	{
 		optional<string> c = f.optional_string_child ("DCPContentType");
@@ -489,15 +469,6 @@ Film::read_metadata ()
 		optional<string> c = f.optional_string_child ("Format");
 		if (c) {
 			_format = Format::from_id (c.get ());
-		}
-	}
-
-	{
-		optional<string> c = f.optional_string_child ("TrimType");
-		if (!c || c.get() == "CPL") {
-			_trim_type = CPL;
-		} else if (c && c.get() == "Encode") {
-			_trim_type = ENCODE;
 		}
 	}
 
@@ -514,8 +485,6 @@ Film::read_metadata ()
 	}
 
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
-	_trim_start = f.number_child<int> ("TrimStart");
-	_trim_end = f.number_child<int> ("TrimEnd");
 	_ab = f.bool_child ("AB");
 	_audio_gain = f.number_child<float> ("AudioGain");
 	_audio_delay = f.number_child<int> ("AudioDelay");
@@ -687,25 +656,6 @@ Film::set_use_dci_name (bool u)
 }
 
 void
-Film::set_trust_content_headers (bool t)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_trust_content_headers = t;
-	}
-	
-	signal_changed (TRUST_CONTENT_HEADERS);
-	
-	Playlist::ContentList content = _playlist->content ();
-	if (!_trust_content_headers && !content.empty()) {
-		/* We just said that we don't trust the content's header */
-		for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-			examine_content (*i);
-		}
-	}
-}
-	       
-void
 Film::set_dcp_content_type (DCPContentType const * t)
 {
 	{
@@ -810,36 +760,6 @@ Film::set_scaler (Scaler const * s)
 		_scaler = s;
 	}
 	signal_changed (SCALER);
-}
-
-void
-Film::set_trim_start (int t)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_trim_start = t;
-	}
-	signal_changed (TRIM_START);
-}
-
-void
-Film::set_trim_end (int t)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_trim_end = t;
-	}
-	signal_changed (TRIM_END);
-}
-
-void
-Film::set_trim_type (TrimType t)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_trim_type = t;
-	}
-	signal_changed (TRIM_TYPE);
 }
 
 void

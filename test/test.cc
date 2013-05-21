@@ -153,8 +153,6 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	f_filters.push_back (Filter::from_id ("pphb"));
 	f_filters.push_back (Filter::from_id ("unsharp"));
 	f->set_filters (f_filters);
-	f->set_trim_start (42);
-	f->set_trim_end (99);
 	f->set_ab (true);
 	f->write_metadata ();
 
@@ -175,8 +173,6 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_EQUAL (g_filters.size(), 2);
 	BOOST_CHECK_EQUAL (g_filters.front(), Filter::from_id ("pphb"));
 	BOOST_CHECK_EQUAL (g_filters.back(), Filter::from_id ("unsharp"));
-	BOOST_CHECK_EQUAL (g->trim_start(), 42);
-	BOOST_CHECK_EQUAL (g->trim_end(), 99);
 	BOOST_CHECK_EQUAL (g->ab(), true);
 	
 	g->write_metadata ();
@@ -354,7 +350,6 @@ BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
 //	film->examine_content ();
 	film->set_format (Format::from_nickname ("Flat"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	film->set_trim_end (42);
 	film->make_dcp ();
 
 	while (JobManager::instance()->work_to_do() && !JobManager::instance()->errors()) {

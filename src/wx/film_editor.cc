@@ -52,8 +52,8 @@
 #include "scaler.h"
 #include "audio_dialog.h"
 #include "imagemagick_content_dialog.h"
-#include "ffmpeg_content_dialog.h"
 #include "timeline_dialog.h"
+#include "audio_mapping_view.h"
 
 using std::string;
 using std::cout;
@@ -77,20 +77,15 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	, _timeline_dialog (0)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-	_notebook = new wxNotebook (this, wxID_ANY);
-	s->Add (_notebook, 1);
 
-	make_film_panel ();
-	_notebook->AddPage (_film_panel, _("Film"), true);
+	_main_notebook = new wxNotebook (this, wxID_ANY);
+	s->Add (_main_notebook, 1);
+
 	make_content_panel ();
-	_notebook->AddPage (_content_panel, _("Content"), false);
-	make_video_panel ();
-	_notebook->AddPage (_video_panel, _("Video"), false);
-	make_audio_panel ();
-	_notebook->AddPage (_audio_panel, _("Audio"), false);
-	make_subtitle_panel ();
-	_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
-
+	_main_notebook->AddPage (_content_panel, _("Content"), true);
+	make_dcp_panel ();
+	_main_notebook->AddPage (_dcp_panel, _("DCP"), false);
+	
 	setup_formats ();
 
 	set_film (f);
@@ -104,73 +99,47 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 }
 
 void
-FilmEditor::make_film_panel ()
+FilmEditor::make_dcp_panel ()
 {
-	_film_panel = new wxPanel (_notebook);
-	_film_sizer = new wxBoxSizer (wxVERTICAL);
-	_film_panel->SetSizer (_film_sizer);
+	_dcp_panel = new wxPanel (_main_notebook);
+	_dcp_sizer = new wxBoxSizer (wxVERTICAL);
+	_dcp_panel->SetSizer (_dcp_sizer);
 
 	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
-	_film_sizer->Add (grid, 0, wxALL, 8);
+	_dcp_sizer->Add (grid, 0, wxEXPAND | wxALL, 8);
 
 	int r = 0;
 	
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Name"), wxGBPosition (r, 0));
-	_name = new wxTextCtrl (_film_panel, wxID_ANY);
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Name"), wxGBPosition (r, 0));
+	_name = new wxTextCtrl (_dcp_panel, wxID_ANY);
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Name"), wxGBPosition (r, 0));
-	_dcp_name = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), wxGBPosition (r, 0));
+	_dcp_name = new wxStaticText (_dcp_panel, wxID_ANY, wxT (""));
 	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	_use_dci_name = new wxCheckBox (_film_panel, wxID_ANY, _("Use DCI name"));
+	_use_dci_name = new wxCheckBox (_dcp_panel, wxID_ANY, _("Use DCI name"));
 	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	_edit_dci_button = new wxButton (_film_panel, wxID_ANY, _("Details..."));
+	_edit_dci_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
 
-	_trust_content_headers = new wxCheckBox (_film_panel, wxID_ANY, _("Trust content headers"));
-	grid->Add (_trust_content_headers, wxGBPosition (r, 0), wxGBSpan(1, 2));
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content Type"), wxGBPosition (r, 0));
-	_dcp_content_type = new wxChoice (_film_panel, wxID_ANY);
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Content Type"), wxGBPosition (r, 0));
+	_dcp_content_type = new wxChoice (_dcp_panel, wxID_ANY);
 	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Frame Rate"), wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Frame Rate"), wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_dcp_frame_rate = new wxChoice (_film_panel, wxID_ANY);
+		_dcp_frame_rate = new wxChoice (_dcp_panel, wxID_ANY);
 		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
-		_best_dcp_frame_rate = new wxButton (_film_panel, wxID_ANY, _("Use best"));
+		_best_dcp_frame_rate = new wxButton (_dcp_panel, wxID_ANY, _("Use best"));
 		s->Add (_best_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 6);
 		grid->Add (s, wxGBPosition (r, 1));
 	}
-	++r;
-
-	_frame_rate_description = new wxStaticText (_film_panel, wxID_ANY, wxT ("\n \n "), wxDefaultPosition, wxDefaultSize);
-	grid->Add (_frame_rate_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	wxFont font = _frame_rate_description->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_frame_rate_description->SetFont(font);
-	++r;
-	
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Length"), wxGBPosition (r, 0));
-	_length = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
-	grid->Add (_length, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim method"), wxGBPosition (r, 0));
-	_trim_type = new wxChoice (_film_panel, wxID_ANY);
-	grid->Add (_trim_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
-	_ab = new wxCheckBox (_film_panel, wxID_ANY, _("A/B"));
-	grid->Add (_ab, wxGBPosition (r, 0));
 	++r;
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -182,9 +151,6 @@ FilmEditor::make_film_panel ()
 	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
 		_dcp_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
-
-	_trim_type->Append (_("encode all frames and play the subset"));
-	_trim_type->Append (_("encode only the subset"));
 }
 
 void
@@ -194,13 +160,10 @@ FilmEditor::connect_to_widgets ()
 	_use_dci_name->Connect           (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
 	_edit_dci_button->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_format->Connect                 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::format_changed), 0, this);
-	_trust_content_headers->Connect  (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::trust_content_headers_changed), 0, this);
 	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED,   wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
 	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
-	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_ACTIVATED,  wxListEventHandler    (FilmEditor::content_activated), 0, this);
 	_content_add->Connect            (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect         (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
-	_content_properties->Connect     (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_properties_clicked), 0, this);
 	_content_timeline->Connect       (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
 	_loop_content->Connect           (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::loop_content_toggled), 0, this);
 	_loop_count->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::loop_count_changed), 0, this);
@@ -213,8 +176,6 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect       (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect    (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
-	_ab->Connect                     (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::ab_toggled), 0, this);
-	_trim_type->Connect              (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::trim_type_changed), 0, this);
 	_with_subtitles->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect        (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
@@ -226,12 +187,15 @@ FilmEditor::connect_to_widgets ()
 		);
 	_show_audio->Connect             (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
 	_audio_delay->Connect            (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
+	_audio_stream->Connect           (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
+	_subtitle_stream->Connect        (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
+	_audio_mapping->Changed.connect  (bind (&FilmEditor::audio_mapping_changed, this, _1));
 }
 
 void
 FilmEditor::make_video_panel ()
 {
-	_video_panel = new wxPanel (_notebook);
+	_video_panel = new wxPanel (_content_notebook);
 	_video_sizer = new wxBoxSizer (wxVERTICAL);
 	_video_panel->SetSizer (_video_sizer);
 	
@@ -323,10 +287,10 @@ FilmEditor::make_video_panel ()
 void
 FilmEditor::make_content_panel ()
 {
-	_content_panel = new wxPanel (_notebook);
+	_content_panel = new wxPanel (_main_notebook);
 	_content_sizer = new wxBoxSizer (wxVERTICAL);
 	_content_panel->SetSizer (_content_sizer);
-	
+
         {
                 wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
                 
@@ -341,8 +305,6 @@ FilmEditor::make_content_panel ()
                 b->Add (_content_add, 1, wxEXPAND | wxLEFT | wxRIGHT);
                 _content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
                 b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
-                _content_properties = new wxButton (_content_panel, wxID_ANY, _("Properties..."));
-                b->Add (_content_properties);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
 		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
 
@@ -350,9 +312,6 @@ FilmEditor::make_content_panel ()
 
                 _content_sizer->Add (s, 0.75, wxEXPAND | wxALL, 6);
         }
-
-	_content_information = new wxTextCtrl (_content_panel, wxID_ANY, wxT ("\n \n "), wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-	_content_sizer->Add (_content_information, 1, wxEXPAND | wxALL, 6);
 
 	wxBoxSizer* h = new wxBoxSizer (wxHORIZONTAL);
 	_loop_content = new wxCheckBox (_content_panel, wxID_ANY, _("Loop everything"));
@@ -362,36 +321,48 @@ FilmEditor::make_content_panel ()
 	add_label_to_sizer (h, _content_panel, _("times"));
 	_content_sizer->Add (h, 0, wxALL, 6);
 
+	_content_notebook = new wxNotebook (_content_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
+	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
+	
+	make_video_panel ();
+	_content_notebook->AddPage (_video_panel, _("Video"), false);
+	make_audio_panel ();
+	_content_notebook->AddPage (_audio_panel, _("Audio"), false);
+	make_subtitle_panel ();
+	_content_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
+
 	_loop_count->SetRange (2, 1024);
 }
 
 void
 FilmEditor::make_audio_panel ()
 {
-	_audio_panel = new wxPanel (_notebook);
+	_audio_panel = new wxPanel (_content_notebook);
 	_audio_sizer = new wxBoxSizer (wxVERTICAL);
 	_audio_panel->SetSizer (_audio_sizer);
 	
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 4, 4);
 	_audio_sizer->Add (grid, 0, wxALL, 8);
 
 	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
 	grid->Add (_show_audio, 1);
 	grid->AddSpacer (0);
+	grid->AddSpacer (0);
 
+	add_label_to_sizer (grid, _audio_panel, _("Audio Gain"));
 	{
-		add_label_to_sizer (grid, _audio_panel, _("Audio Gain"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_gain = new wxSpinCtrl (_audio_panel);
 		s->Add (_audio_gain, 1);
 		add_label_to_sizer (s, _audio_panel, _("dB"));
-		_audio_gain_calculate_button = new wxButton (_audio_panel, wxID_ANY, _("Calculate..."));
-		s->Add (_audio_gain_calculate_button, 1, wxEXPAND);
-		grid->Add (s);
+		grid->Add (s, 1);
 	}
+	
+	_audio_gain_calculate_button = new wxButton (_audio_panel, wxID_ANY, _("Calculate..."));
+	grid->Add (_audio_gain_calculate_button);
 
+	add_label_to_sizer (grid, _audio_panel, _("Audio Delay"));
 	{
-		add_label_to_sizer (grid, _audio_panel, _("Audio Delay"));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_delay = new wxSpinCtrl (_audio_panel);
 		s->Add (_audio_delay, 1);
@@ -400,6 +371,21 @@ FilmEditor::make_audio_panel ()
 		grid->Add (s);
 	}
 
+	grid->AddSpacer (0);
+
+	add_label_to_sizer (grid, _audio_panel, _("Audio Stream"));
+	_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
+	grid->Add (_audio_stream, 1);
+	_audio_description = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
+	grid->AddSpacer (0);
+	
+	grid->Add (_audio_description, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
+	grid->AddSpacer (0);
+	grid->AddSpacer (0);
+	
+	_audio_mapping = new AudioMappingView (_audio_panel);
+	_audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
+
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
 }
@@ -407,7 +393,7 @@ FilmEditor::make_audio_panel ()
 void
 FilmEditor::make_subtitle_panel ()
 {
-	_subtitle_panel = new wxPanel (_notebook);
+	_subtitle_panel = new wxPanel (_content_notebook);
 	_subtitle_sizer = new wxBoxSizer (wxVERTICAL);
 	_subtitle_panel->SetSizer (_subtitle_sizer);
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
@@ -435,6 +421,11 @@ FilmEditor::make_subtitle_panel ()
 		grid->Add (s);
 	}
 
+	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle stream"));
+	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
+	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
+	grid->AddSpacer (0);
+	
 	_subtitle_offset->SetRange (-1024, 1024);
 	_subtitle_scale->SetRange (1, 1000);
 }
@@ -481,27 +472,6 @@ FilmEditor::bottom_crop_changed (wxCommandEvent &)
 	}
 
 	_film->set_bottom_crop (_bottom_crop->GetValue ());
-}
-
-void
-FilmEditor::trust_content_headers_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->set_trust_content_headers (_trust_content_headers->GetValue ());
-}
-
-/** Called when the DCP A/B switch has been toggled */
-void
-FilmEditor::ab_toggled (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-	
-	_film->set_ab (_ab->GetValue ());
 }
 
 /** Called when the name widget has been changed */
@@ -594,15 +564,11 @@ FilmEditor::film_changed (Film::Property p)
 		setup_format ();
 		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
-		setup_length ();
 		break;
 	case Film::LOOP:
 		checked_set (_loop_content, _film->loop() > 1);
 		checked_set (_loop_count, _film->loop());
 		setup_loop_sensitivity ();
-		break;
-	case Film::TRUST_CONTENT_HEADERS:
-		checked_set (_trust_content_headers, _film->trust_content_headers ());
 		break;
 	case Film::FORMAT:
 		setup_format ();
@@ -623,7 +589,7 @@ FilmEditor::film_changed (Film::Property p)
 			string const b = p.first + " " + p.second;
 			_filters->SetLabel (std_to_wx (b));
 		}
-		_film_sizer->Layout ();
+		_dcp_sizer->Layout ();
 		break;
 	}
 	case Film::NAME:
@@ -634,14 +600,8 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
 		break;
-	case Film::AB:
-		checked_set (_ab, _film->ab ());
-		break;
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
-		break;
-	case Film::TRIM_TYPE:
-		checked_set (_trim_type, _film->trim_type() == Film::CPL ? 0 : 1);
 		break;
 	case Film::AUDIO_GAIN:
 		checked_set (_audio_gain, _film->audio_gain ());
@@ -689,7 +649,6 @@ FilmEditor::film_changed (Film::Property p)
 		}
 
 		_best_dcp_frame_rate->Enable (_film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
-		setup_frame_rate_description ();
 		break;
 	}
 	}
@@ -709,12 +668,6 @@ FilmEditor::film_content_changed (weak_ptr<Content> content, int property)
 		setup_subtitle_control_sensitivity ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		setup_show_audio_sensitivity ();
-	} else if (property == VideoContentProperty::VIDEO_LENGTH || property == AudioContentProperty::AUDIO_LENGTH) {
-		setup_length ();
-		boost::shared_ptr<Content> c = content.lock ();
-		if (selected_content() && c == selected_content()) {
-			setup_content_information ();
-		}
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
 		setup_show_audio_sensitivity ();
@@ -740,46 +693,6 @@ FilmEditor::setup_format ()
 	setup_dcp_name ();
 	setup_scaling_description ();
 }	
-
-void
-FilmEditor::setup_length ()
-{
-	stringstream s;
-	Time const length = _film->length ();
-	
-	s << time_to_hms (length);
-	_length->SetLabel (std_to_wx (s.str ()));
-}	
-
-void
-FilmEditor::setup_frame_rate_description ()
-{
-	wxString d;
-	int lines = 0;
-
-#if 0
-	XXX
-		
-	if (_film->video_frame_rate()) {
-		d << std_to_wx (FrameRateConversion (_film->video_frame_rate(), _film->dcp_frame_rate()).description);
-		++lines;
-		if (_film->audio_frame_rate() && _film->audio_frame_rate() != _film->target_audio_sample_rate ()) {
-			d << wxString::Format (
-				_("Audio will be resampled from %dHz to %dHz\n"),
-				_film->audio_frame_rate(),
-				_film->target_audio_sample_rate()
-				);
-			++lines;
-		}
-	}
-#endif	
-
-	for (int i = lines; i < 2; ++i) {
-		d << wxT ("\n ");
-	}
-
-	_frame_rate_description->SetLabel (d);
-}
 
 /** Called when the format widget has been changed */
 void
@@ -841,16 +754,11 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::CONTENT);
 	film_changed (Film::LOOP);
-	film_changed (Film::TRUST_CONTENT_HEADERS);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::FORMAT);
 	film_changed (Film::CROP);
 	film_changed (Film::FILTERS);
 	film_changed (Film::SCALER);
-	film_changed (Film::TRIM_START);
-	film_changed (Film::TRIM_END);
-	film_changed (Film::AB);
-	film_changed (Film::TRIM_TYPE);
 	film_changed (Film::AUDIO_GAIN);
 	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::WITH_SUBTITLES);
@@ -865,8 +773,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAM);
-
-	setup_content_information ();
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -882,7 +788,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_edit_dci_button->Enable (s);
 	_format->Enable (s);
 	_content->Enable (s);
-	_trust_content_headers->Enable (s);
 	_content->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
@@ -893,8 +798,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_dcp_content_type->Enable (s);
 	_best_dcp_frame_rate->Enable (s);
 	_dcp_frame_rate->Enable (s);
-	_ab->Enable (s);
-	_trim_type->Enable (s);
 	_colour_lut->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
@@ -952,20 +855,16 @@ FilmEditor::audio_delay_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::setup_notebook_size ()
+FilmEditor::setup_main_notebook_size ()
 {
-	_notebook->InvalidateBestSize ();
-	
-	_film_sizer->Layout ();
-	_film_sizer->SetSizeHints (_film_panel);
-	_video_sizer->Layout ();
-	_video_sizer->SetSizeHints (_video_panel);
-	_audio_sizer->Layout ();
-	_audio_sizer->SetSizeHints (_audio_panel);
-	_subtitle_sizer->Layout ();
-	_subtitle_sizer->SetSizeHints (_subtitle_panel);
+	_main_notebook->InvalidateBestSize ();
 
-	_notebook->Fit ();
+	_content_sizer->Layout ();
+	_content_sizer->SetSizeHints (_content_panel);
+	_dcp_sizer->Layout ();
+	_dcp_sizer->SetSizeHints (_dcp_panel);
+
+	_main_notebook->Fit ();
 	Fit ();
 }
 
@@ -1006,7 +905,7 @@ FilmEditor::setup_formats ()
 		_format->Append (std_to_wx ((*i)->name ()));
 	}
 
-	_film_sizer->Layout ();
+	_dcp_sizer->Layout ();
 }
 
 void
@@ -1132,8 +1031,6 @@ FilmEditor::setup_content ()
 		/* Select the item of content if non was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
-
-	setup_content_information ();
 }
 
 void
@@ -1173,60 +1070,9 @@ FilmEditor::content_remove_clicked (wxCommandEvent &)
 }
 
 void
-FilmEditor::content_activated (wxListEvent& ev)
-{
-	Playlist::ContentList c = _film->content ();
-	assert (ev.GetIndex() >= 0 && size_t (ev.GetIndex()) < c.size ());
-
-	content_properties (c[ev.GetIndex()]);
-}
-
-void
-FilmEditor::content_properties_clicked (wxCommandEvent &)
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	content_properties (c);
-}
-
-void
-FilmEditor::content_properties (shared_ptr<Content> content)
-{
-	shared_ptr<ImageMagickContent> ic = dynamic_pointer_cast<ImageMagickContent> (content);
-	if (ic) {
-		ImageMagickContentDialog* d = new ImageMagickContentDialog (this, ic);
-		d->ShowModal ();
-		d->Destroy ();
-	}
-
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (content);
-	if (fc) {
-		FFmpegContentDialog* d = new FFmpegContentDialog (this, fc);
-		d->ShowModal ();
-		d->Destroy ();
-	}
-}
-
-void
 FilmEditor::content_selection_changed (wxListEvent &)
 {
         setup_content_button_sensitivity ();
-	setup_content_information ();
-}
-
-void
-FilmEditor::setup_content_information ()
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		_content_information->SetValue (wxT (""));
-		return;
-	}
-
-	_content_information->SetValue (std_to_wx (c->information ()));
 }
 
 void
@@ -1236,11 +1082,6 @@ FilmEditor::setup_content_button_sensitivity ()
 
 	shared_ptr<Content> selection = selected_content ();
 
-        _content_properties->Enable (
-		selection && _generally_sensitive &&
-		(dynamic_pointer_cast<ImageMagickContent> (selection) || dynamic_pointer_cast<FFmpegContent> (selection))
-		);
-	
         _content_remove->Enable (selection && _generally_sensitive);
 	_content_timeline->Enable (_generally_sensitive);
 }
@@ -1321,12 +1162,6 @@ XXX
 }
 
 void
-FilmEditor::trim_type_changed (wxCommandEvent &)
-{
-	_film->set_trim_type (_trim_type->GetSelection () == 0 ? Film::CPL : Film::ENCODE);
-}
-
-void
 FilmEditor::loop_content_toggled (wxCommandEvent &)
 {
 	if (_loop_content->GetValue ()) {
@@ -1360,4 +1195,128 @@ FilmEditor::content_timeline_clicked (wxCommandEvent &)
 	
 	_timeline_dialog = new TimelineDialog (this, _film);
 	_timeline_dialog->Show ();
+}
+
+void
+FilmEditor::setup_content_properties ()
+{
+	_audio_stream->Clear ();
+	_subtitle_stream->Clear ();
+
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	if (fc) {
+		
+		vector<shared_ptr<FFmpegAudioStream> > a = fc->audio_streams ();
+		for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
+			_audio_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
+		}
+		
+		if (fc->audio_stream()) {
+			checked_set (_audio_stream, lexical_cast<string> (fc->audio_stream()->id));
+		}
+		
+		vector<shared_ptr<FFmpegSubtitleStream> > s = fc->subtitle_streams ();
+		if (s.empty ()) {
+			_subtitle_stream->Enable (false);
+		}
+		for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
+			_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
+		}
+		
+		if (fc->subtitle_stream()) {
+			checked_set (_subtitle_stream, lexical_cast<string> (fc->subtitle_stream()->id));
+		} else {
+			_subtitle_stream->SetSelection (wxNOT_FOUND);
+		}
+
+		/* XXX: should be general audiocontent */
+		_audio_mapping->set_mapping (fc->audio_mapping ());
+	}
+}
+
+void
+FilmEditor::audio_stream_changed (wxCommandEvent &)
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+	
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	if (!fc) {
+		return;
+	}
+	
+	vector<shared_ptr<FFmpegAudioStream> > a = fc->audio_streams ();
+	vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin ();
+	string const s = string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ()));
+	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
+		++i;
+	}
+
+	if (i != a.end ()) {
+		fc->set_audio_stream (*i);
+	}
+
+	if (!fc->audio_stream ()) {
+		_audio_description->SetLabel (wxT (""));
+	} else {
+		wxString s;
+		if (fc->audio_channels() == 1) {
+			s << _("1 channel");
+		} else {
+			s << fc->audio_channels() << wxT (" ") << _("channels");
+		}
+		s << wxT (", ") << fc->content_audio_frame_rate() << _("Hz");
+		_audio_description->SetLabel (s);
+	}
+}
+
+
+
+void
+FilmEditor::subtitle_stream_changed (wxCommandEvent &)
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+	
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	if (!fc) {
+		return;
+	}
+	
+	vector<shared_ptr<FFmpegSubtitleStream> > a = fc->subtitle_streams ();
+	vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = a.begin ();
+	string const s = string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ()));
+	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
+		++i;
+	}
+
+	if (i != a.end ()) {
+		fc->set_subtitle_stream (*i);
+	}
+}
+
+void
+FilmEditor::audio_mapping_changed (AudioMapping m)
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+	
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	if (!fc) {
+		return;
+	}
+
+	/* XXX: should be general to audiocontent */
+	fc->audio_stream()->mapping = m;
 }

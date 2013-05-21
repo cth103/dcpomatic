@@ -112,26 +112,17 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
+FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 
-	Content::examine (film, job, quick);
+	Content::examine (film, job);
 
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false));
 
 	ContentVideoFrame video_length = 0;
-	if (quick) {
-		video_length = decoder->video_length ();
-                film->log()->log (String::compose ("Video length obtained from header as %1 frames", decoder->video_length ()));
-        } else {
-                while (!decoder->pass ()) {
-                        /* keep going */
-                }
-
-                video_length = decoder->video_frame ();
-                film->log()->log (String::compose ("Video length examined as %1 frames", decoder->video_frame ()));
-        }
+	video_length = decoder->video_length ();
+	film->log()->log (String::compose ("Video length obtained from header as %1 frames", decoder->video_length ()));
 
         {
                 boost::mutex::scoped_lock lm (_mutex);
@@ -332,7 +323,6 @@ FFmpegContent::audio_mapping () const
 		return AudioMapping ();
 	}
 
-	cout << "returning am from stream " << _audio_stream.get() << ".\n";
 	return _audio_stream->mapping;
 }
 

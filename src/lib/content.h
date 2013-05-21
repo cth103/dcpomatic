@@ -43,7 +43,7 @@ public:
 	Content (boost::shared_ptr<const cxml::Node>);
 	Content (Content const &);
 	
-	virtual void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>, bool);
+	virtual void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>);
 	virtual std::string summary () const = 0;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;

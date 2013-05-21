@@ -93,10 +93,10 @@ SndfileContent::clone () const
 }
 
 void
-SndfileContent::examine (shared_ptr<Film> film, shared_ptr<Job> job, bool quick)
+SndfileContent::examine (shared_ptr<Film> film, shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
-	Content::examine (film, job, quick);
+	Content::examine (film, job);
 
 	SndfileDecoder dec (film, shared_from_this());
 

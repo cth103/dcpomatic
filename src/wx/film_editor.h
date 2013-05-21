@@ -34,6 +34,7 @@ class wxListEvent;
 class Film;
 class AudioDialog;
 class TimelineDialog;
+class AudioMappingView;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -48,7 +49,7 @@ public:
 	boost::signals2::signal<void (std::string)> FileChanged;
 
 private:
-	void make_film_panel ();
+	void make_dcp_panel ();
 	void make_content_panel ();
 	void make_video_panel ();
 	void make_audio_panel ();
@@ -65,15 +66,11 @@ private:
 	void bottom_crop_changed (wxCommandEvent &);
 	void trust_content_headers_changed (wxCommandEvent &);
 	void content_selection_changed (wxListEvent &);
-	void content_activated (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
-	void content_properties_clicked (wxCommandEvent &);
 	void imagemagick_video_length_changed (wxCommandEvent &);
 	void format_changed (wxCommandEvent &);
-	void trim_type_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
-	void ab_toggled (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void audio_gain_changed (wxCommandEvent &);
 	void audio_gain_calculate_button_clicked (wxCommandEvent &);
@@ -90,6 +87,9 @@ private:
 	void loop_content_toggled (wxCommandEvent &);
 	void loop_count_changed (wxCommandEvent &);
 	void content_timeline_clicked (wxCommandEvent &);
+	void audio_stream_changed (wxCommandEvent &);
+	void subtitle_stream_changed (wxCommandEvent &);
+	void audio_mapping_changed (AudioMapping);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -101,22 +101,20 @@ private:
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
 	void setup_scaling_description ();
-	void setup_notebook_size ();
-	void setup_frame_rate_description ();
+	void setup_main_notebook_size ();
 	void setup_content ();
 	void setup_format ();
-	void setup_length ();
-	void setup_content_information ();
 	void setup_content_button_sensitivity ();
 	void setup_loop_sensitivity ();
+	void setup_content_properties ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
-	void content_properties (boost::shared_ptr<Content>);
 
-	wxNotebook* _notebook;
-	wxPanel* _film_panel;
-	wxSizer* _film_sizer;
+	wxNotebook* _main_notebook;
+	wxNotebook* _content_notebook;
+	wxPanel* _dcp_panel;
+	wxSizer* _dcp_sizer;
 	wxPanel* _content_panel;
 	wxSizer* _content_sizer;
 	wxPanel* _video_panel;
@@ -128,24 +126,20 @@ private:
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
-	/** The Film's name */
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_dci_name;
 	wxListCtrl* _content;
 	wxButton* _content_add;
 	wxButton* _content_remove;
-	wxButton* _content_properties;
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxButton* _content_timeline;
-	wxTextCtrl* _content_information;
 	wxCheckBox* _loop_content;
 	wxSpinCtrl* _loop_count;
 	wxButton* _edit_dci_button;
 	wxChoice* _format;
 	wxStaticText* _format_description;
-	wxCheckBox* _trust_content_headers;
 	wxStaticText* _scaling_description;
 	wxSpinCtrl* _left_crop;
 	wxSpinCtrl* _right_crop;
@@ -166,14 +160,10 @@ private:
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
-	wxStaticText* _frame_rate_description;
-	wxStaticText* _length;
-	/** The Film's audio details */
-	wxStaticText* _audio;
-
-	wxChoice* _trim_type;
-	/** Selector to generate an A/B comparison DCP */
-	wxCheckBox* _ab;
+	wxChoice* _audio_stream;
+	wxStaticText* _audio_description;
+	wxChoice* _subtitle_stream;
+	AudioMappingView* _audio_mapping;
 
 	std::vector<Format const *> _formats;
 
