@@ -296,6 +296,10 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, boost::shared_
 void
 Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 {
+	if (!data->frames ()) {
+		return;
+	}
+	
 #if HAVE_SWRESAMPLE
 	/* Maybe sample-rate convert */
 	if (_swr_context) {
