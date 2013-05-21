@@ -40,7 +40,7 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 6, 6);
 	grid->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (grid, this, _("Audio Stream"));
+	add_label_to_sizer (grid, this, _("Audio stream"));
 	_audio_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_audio_stream, 1, wxEXPAND | wxALL, 6);
 	_audio_description = new wxStaticText (this, wxID_ANY, wxT (""));
@@ -52,9 +52,9 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	grid->AddSpacer (0);
 
 	_audio_stream->Clear ();
-	vector<FFmpegAudioStream> a = content->audio_streams ();
-	for (vector<FFmpegAudioStream>::iterator i = a.begin(); i != a.end(); ++i) {
-		_audio_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (lexical_cast<string> (i->id))));
+	vector<shared_ptr<FFmpegAudioStream> > a = content->audio_streams ();
+	for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
+		_audio_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 	}
 	
 	if (content->audio_stream()) {
@@ -62,12 +62,12 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegCon
 	}
 
 	_subtitle_stream->Clear ();
-	vector<FFmpegSubtitleStream> s = content->subtitle_streams ();
+	vector<shared_ptr<FFmpegSubtitleStream> > s = content->subtitle_streams ();
 	if (s.empty ()) {
 		_subtitle_stream->Enable (false);
 	}
-	for (vector<FFmpegSubtitleStream>::iterator i = s.begin(); i != s.end(); ++i) {
-		_subtitle_stream->Append (std_to_wx (i->name), new wxStringClientData (std_to_wx (lexical_cast<string> (i->id))));
+	for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
+		_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 	}
 	
 	if (content->subtitle_stream()) {
@@ -106,10 +106,10 @@ FFmpegContentDialog::audio_stream_changed (wxCommandEvent &)
 		return;
 	}
 	
-	vector<FFmpegAudioStream> a = c->audio_streams ();
-	vector<FFmpegAudioStream>::iterator i = a.begin ();
+	vector<shared_ptr<FFmpegAudioStream> > a = c->audio_streams ();
+	vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin ();
 	string const s = string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> (i->id) != s) {
+	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
 		++i;
 	}
 
@@ -141,10 +141,10 @@ FFmpegContentDialog::subtitle_stream_changed (wxCommandEvent &)
 		return;
 	}
 	
-	vector<FFmpegSubtitleStream> a = c->subtitle_streams ();
-	vector<FFmpegSubtitleStream>::iterator i = a.begin ();
+	vector<shared_ptr<FFmpegSubtitleStream> > a = c->subtitle_streams ();
+	vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = a.begin ();
 	string const s = string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> (i->id) != s) {
+	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
 		++i;
 	}
 
@@ -162,7 +162,6 @@ FFmpegContentDialog::audio_mapping_changed (AudioMapping m)
 		return;
 	}
 
-	cout << "setting map in stream " << content->audio_stream().get() << "\n";
 	content->audio_stream()->mapping = m;
 }
 

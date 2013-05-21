@@ -328,7 +328,8 @@ Timeline::playlist_changed ()
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
 			_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, 0)));
-		} else {
+		}
+		if (dynamic_pointer_cast<AudioContent> (*i)) {
 			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, 1)));
 		}
 	}

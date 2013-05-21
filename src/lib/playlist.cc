@@ -137,8 +137,11 @@ Playlist::set_from_xml (shared_ptr<const cxml::Node> node)
 		} else if (type == "Sndfile") {
 			content.reset (new SndfileContent (*i));
 		}
+
+		_content.push_back (content);
 	}
 
+	reconnect ();
 	_loop = node->number_child<int> ("Loop");
 }
 
