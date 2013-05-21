@@ -613,12 +613,6 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
 		break;
-	case Film::AUDIO_GAIN:
-		checked_set (_audio_gain, _film->audio_gain ());
-		break;
-	case Film::AUDIO_DELAY:
-		checked_set (_audio_delay, _film->audio_delay ());
-		break;
 	case Film::WITH_SUBTITLES:
 		checked_set (_with_subtitles, _film->with_subtitles ());
 		setup_subtitle_control_sensitivity ();
@@ -676,8 +670,10 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 
 	shared_ptr<Content> content = weak_content.lock ();
 	shared_ptr<VideoContent> video_content;
+	shared_ptr<AudioContent> audio_content;
 	if (content) {
 		video_content = dynamic_pointer_cast<VideoContent> (content);
+		audio_content = dynamic_pointer_cast<AudioContent> (content);
 	}
 
 	if (property == VideoContentProperty::VIDEO_CROP) {
@@ -686,6 +682,10 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		checked_set (_top_crop,    video_content ? video_content->crop().top :    0);
 		checked_set (_bottom_crop, video_content ? video_content->crop().bottom : 0);
 		setup_scaling_description ();
+	} else if (property == AudioContentProperty::AUDIO_GAIN) {
+		checked_set (_audio_gain, audio_content ? audio_content->audio_gain() : 0);
+	} else if (property == AudioContentProperty::AUDIO_DELAY) {
+		checked_set (_audio_delay, audio_content ? audio_content->audio_delay() : 0);
 	} else if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		setup_subtitle_control_sensitivity ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
@@ -782,8 +782,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CONTAINER);
 	film_changed (Film::FILTERS);
 	film_changed (Film::SCALER);
-	film_changed (Film::AUDIO_GAIN);
-	film_changed (Film::AUDIO_DELAY);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
 	film_changed (Film::SUBTITLE_SCALE);
@@ -793,6 +791,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 
 	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_CROP);
+	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_GAIN);
+	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_DELAY);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
@@ -861,21 +861,23 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 void
 FilmEditor::audio_gain_changed (wxCommandEvent &)
 {
-	if (!_film) {
+	shared_ptr<AudioContent> ac = selected_audio_content ();
+	if (!ac) {
 		return;
 	}
 
-	_film->set_audio_gain (_audio_gain->GetValue ());
+	ac->set_audio_gain (_audio_gain->GetValue ());
 }
 
 void
 FilmEditor::audio_delay_changed (wxCommandEvent &)
 {
-	if (!_film) {
+	shared_ptr<AudioContent> ac = selected_audio_content ();
+	if (!ac) {
 		return;
 	}
 
-	_film->set_audio_delay (_audio_delay->GetValue ());
+	ac->set_audio_delay (_audio_delay->GetValue ());
 }
 
 void
@@ -1135,6 +1137,17 @@ FilmEditor::selected_video_content ()
 	}
 
 	return dynamic_pointer_cast<VideoContent> (c);
+}
+
+shared_ptr<AudioContent>
+FilmEditor::selected_audio_content ()
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return shared_ptr<AudioContent> ();
+	}
+
+	return dynamic_pointer_cast<AudioContent> (c);
 }
 
 void

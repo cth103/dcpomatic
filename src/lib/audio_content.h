@@ -35,6 +35,8 @@ public:
 	static int const AUDIO_CHANNELS;
 	static int const AUDIO_LENGTH;
 	static int const AUDIO_FRAME_RATE;
+	static int const AUDIO_GAIN;
+	static int const AUDIO_DELAY;
 };
 
 class AudioContent : public virtual Content
@@ -51,6 +53,25 @@ public:
         virtual int content_audio_frame_rate () const = 0;
 	virtual int output_audio_frame_rate (boost::shared_ptr<const Film>) const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
+
+	void set_audio_gain (float);
+	void set_audio_delay (int);
+	
+	float audio_gain () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_gain;
+	}
+
+	int audio_delay () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_delay;
+	}
+
+private:
+	/** Gain to apply to audio in dB */
+	float _audio_gain;
+	/** Delay to apply to audio (positive moves audio later) in milliseconds */
+	int _audio_delay;
 };
 
 #endif

@@ -112,6 +112,7 @@ private:
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
 	boost::shared_ptr<VideoContent> selected_video_content ();
+	boost::shared_ptr<AudioContent> selected_audio_content ();
 
 	wxNotebook* _main_notebook;
 	wxNotebook* _content_notebook;

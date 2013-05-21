@@ -93,7 +93,7 @@ AudioDialog::set_film (shared_ptr<Film> f)
 	_film = f;
 
 	try_to_load_analysis ();
-	_plot->set_gain (_film->audio_gain ());
+//	_plot->set_gain (_film->audio_gain ());
 
 	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
 	_film_audio_analysis_succeeded_connection = _film->AudioAnalysisSucceeded.connect (bind (&AudioDialog::try_to_load_analysis, this));
@@ -145,8 +145,8 @@ void
 AudioDialog::film_changed (Film::Property p)
 {
 	switch (p) {
-	case Film::AUDIO_GAIN:
-		_plot->set_gain (_film->audio_gain ());
+//	case Film::AUDIO_GAIN:
+//		_plot->set_gain (_film->audio_gain ());
 		break;
 	default:
 		break;

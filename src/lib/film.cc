@@ -98,8 +98,6 @@ Film::Film (string d, bool must_exist)
 	, _container (Config::instance()->default_container ())
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _ab (false)
-	, _audio_gain (0)
-	, _audio_delay (0)
 	, _with_subtitles (false)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
@@ -164,8 +162,6 @@ Film::Film (Film const & o)
 	, _filters           (o._filters)
 	, _scaler            (o._scaler)
 	, _ab                (o._ab)
-	, _audio_gain        (o._audio_gain)
-	, _audio_delay       (o._audio_delay)
 	, _with_subtitles    (o._with_subtitles)
 	, _subtitle_offset   (o._subtitle_offset)
 	, _subtitle_scale    (o._subtitle_scale)
@@ -418,8 +414,6 @@ Film::write_metadata () const
 	
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("AB")->add_child_text (_ab ? "1" : "0");
-	root->add_child("AudioGain")->add_child_text (boost::lexical_cast<string> (_audio_gain));
-	root->add_child("AudioDelay")->add_child_text (boost::lexical_cast<string> (_audio_delay));
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
 	root->add_child("SubtitleOffset")->add_child_text (boost::lexical_cast<string> (_subtitle_offset));
 	root->add_child("SubtitleScale")->add_child_text (boost::lexical_cast<string> (_subtitle_scale));
@@ -474,8 +468,6 @@ Film::read_metadata ()
 
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
 	_ab = f.bool_child ("AB");
-	_audio_gain = f.number_child<float> ("AudioGain");
-	_audio_delay = f.number_child<int> ("AudioDelay");
 	_with_subtitles = f.bool_child ("WithSubtitles");
 	_subtitle_offset = f.number_child<float> ("SubtitleOffset");
 	_subtitle_scale = f.number_child<float> ("SubtitleScale");
@@ -682,26 +674,6 @@ Film::set_ab (bool a)
 		_ab = a;
 	}
 	signal_changed (AB);
-}
-
-void
-Film::set_audio_gain (float g)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_audio_gain = g;
-	}
-	signal_changed (AUDIO_GAIN);
-}
-
-void
-Film::set_audio_delay (int d)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_audio_delay = d;
-	}
-	signal_changed (AUDIO_DELAY);
 }
 
 void

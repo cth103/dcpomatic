@@ -134,8 +134,6 @@ public:
 		FILTERS,
 		SCALER,
 		AB,
-		AUDIO_GAIN,
-		AUDIO_DELAY,
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,
@@ -188,16 +186,6 @@ public:
 		return _ab;
 	}
 
-	float audio_gain () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_gain;
-	}
-
-	int audio_delay () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_delay;
-	}
-
 	bool with_subtitles () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _with_subtitles;
@@ -246,8 +234,6 @@ public:
 	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
 	void set_ab (bool);
-	void set_audio_gain (float);
-	void set_audio_delay (int);
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
@@ -308,10 +294,6 @@ private:
 	    has the specified filters and post-processing.
 	*/
 	bool _ab;
-	/** Gain to apply to audio in dB */
-	float _audio_gain;
-	/** Delay to apply to audio (positive moves audio later) in milliseconds */
-	int _audio_delay;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
 	/** y offset for placing subtitles, in source pixels; +ve is further down

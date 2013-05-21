@@ -22,14 +22,20 @@
 #include <libcxml/cxml.h>
 #include "audio_content.h"
 
+using std::string;
 using boost::shared_ptr;
+using boost::lexical_cast;
 
 int const AudioContentProperty::AUDIO_CHANNELS = 200;
 int const AudioContentProperty::AUDIO_LENGTH = 201;
 int const AudioContentProperty::AUDIO_FRAME_RATE = 202;
+int const AudioContentProperty::AUDIO_GAIN = 203;
+int const AudioContentProperty::AUDIO_DELAY = 204;
 
 AudioContent::AudioContent (boost::filesystem::path f)
 	: Content (f)
+	, _audio_gain (0)
+	, _audio_delay (0)
 {
 
 }
@@ -37,10 +43,14 @@ AudioContent::AudioContent (boost::filesystem::path f)
 AudioContent::AudioContent (shared_ptr<const cxml::Node> node)
 	: Content (node)
 {
+	_audio_gain = node->number_child<float> ("AudioGain");
+	_audio_delay = node->number_child<int> ("AudioDelay");
 }
 
 AudioContent::AudioContent (AudioContent const & o)
 	: Content (o)
+	, _audio_gain (o._audio_gain)
+	, _audio_delay (o._audio_delay)
 {
 
 }
@@ -48,5 +58,31 @@ AudioContent::AudioContent (AudioContent const & o)
 void
 AudioContent::as_xml (xmlpp::Node* node) const
 {
-	
+	boost::mutex::scoped_lock lm (_mutex);
+	node->add_child("AudioGain")->add_child_text (lexical_cast<string> (_audio_gain));
+	node->add_child("AudioDelay")->add_child_text (lexical_cast<string> (_audio_delay));
 }
+
+
+void
+AudioContent::set_audio_gain (float g)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_gain = g;
+	}
+	
+	signal_changed (AudioContentProperty::AUDIO_GAIN);
+}
+
+void
+AudioContent::set_audio_delay (int d)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_delay = d;
+	}
+	
+	signal_changed (AudioContentProperty::AUDIO_DELAY);
+}
+
