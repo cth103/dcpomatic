@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -68,11 +70,11 @@ public:
 	int sample_aspect_ratio_numerator () const;
 	int sample_aspect_ratio_denominator () const;
 
-	std::vector<FFmpegSubtitleStream> subtitle_streams () const {
+	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;
 	}
 	
-	std::vector<FFmpegAudioStream> audio_streams () const {
+	std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams () const {
 		return _audio_streams;
 	}
 
@@ -126,8 +128,8 @@ private:
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
 
-        std::vector<FFmpegSubtitleStream> _subtitle_streams;
-        std::vector<FFmpegAudioStream> _audio_streams;
+        std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
+        std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 
 	bool _decode_video;
 	bool _decode_audio;

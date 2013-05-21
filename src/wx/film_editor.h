@@ -111,8 +111,8 @@ private:
 	void setup_loop_sensitivity ();
 	
 	void active_jobs_changed (bool);
-	boost::shared_ptr<Playlist::Region> selected_region ();
-	void region_properties (boost::shared_ptr<Playlist::Region>);
+	boost::shared_ptr<Content> selected_content ();
+	void content_properties (boost::shared_ptr<Content>);
 
 	wxNotebook* _notebook;
 	wxPanel* _film_panel;

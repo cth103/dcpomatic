@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -21,6 +23,7 @@
 
 class wxSpinCtrl;
 class ImageMagickContent;
+class Region;
 
 class ImageMagickContentDialog : public wxDialog
 {

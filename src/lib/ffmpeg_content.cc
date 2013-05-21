@@ -57,7 +57,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const cxml::Node> node)
 {
 	list<shared_ptr<cxml::Node> > c = node->node_children ("SubtitleStream");
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_subtitle_streams.push_back (FFmpegSubtitleStream (*i));
+		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_subtitle_stream = _subtitle_streams.back ();
 		}
@@ -65,7 +65,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const cxml::Node> node)
 
 	c = node->node_children ("AudioStream");
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_audio_streams.push_back (FFmpegAudioStream (*i));
+		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_audio_stream = _audio_streams.back ();
 		}
@@ -94,20 +94,20 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 
 	boost::mutex::scoped_lock lm (_mutex);
 
-	for (vector<FFmpegSubtitleStream>::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
+	for (vector<shared_ptr<FFmpegSubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
 		xmlpp::Node* t = node->add_child("SubtitleStream");
-		if (_subtitle_stream && *i == _subtitle_stream.get()) {
+		if (_subtitle_stream && *i == _subtitle_stream) {
 			t->add_child("Selected")->add_child_text("1");
 		}
-		i->as_xml (t);
+		(*i)->as_xml (t);
 	}
 
-	for (vector<FFmpegAudioStream>::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
+	for (vector<shared_ptr<FFmpegAudioStream> >::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
 		xmlpp::Node* t = node->add_child("AudioStream");
-		if (_audio_stream && *i == _audio_stream.get()) {
+		if (_audio_stream && *i == _audio_stream) {
 			t->add_child("Selected")->add_child_text("1");
 		}
-		i->as_xml (t);
+		(*i)->as_xml (t);
 	}
 }
 
@@ -181,7 +181,7 @@ FFmpegContent::information () const
 }
 
 void
-FFmpegContent::set_subtitle_stream (FFmpegSubtitleStream s)
+FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 {
         {
                 boost::mutex::scoped_lock lm (_mutex);
@@ -192,7 +192,7 @@ FFmpegContent::set_subtitle_stream (FFmpegSubtitleStream s)
 }
 
 void
-FFmpegContent::set_audio_stream (FFmpegAudioStream s)
+FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 {
         {
                 boost::mutex::scoped_lock lm (_mutex);
@@ -205,16 +205,23 @@ FFmpegContent::set_audio_stream (FFmpegAudioStream s)
 ContentAudioFrame
 FFmpegContent::audio_length () const
 {
+	int const cafr = content_audio_frame_rate ();
+	int const vfr  = video_frame_rate ();
+	ContentVideoFrame const vl = video_length ();
+
+	boost::mutex::scoped_lock lm (_mutex);
         if (!_audio_stream) {
                 return 0;
         }
         
-        return video_frames_to_audio_frames (_video_length, content_audio_frame_rate(), video_frame_rate());
+        return video_frames_to_audio_frames (vl, cafr, vfr);
 }
 
 int
 FFmpegContent::audio_channels () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
         if (!_audio_stream) {
                 return 0;
         }
@@ -225,6 +232,8 @@ FFmpegContent::audio_channels () const
 int
 FFmpegContent::content_audio_frame_rate () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
         if (!_audio_stream) {
                 return 0;
         }
@@ -271,6 +280,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 	id = node->number_child<int> ("Id");
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
+	mapping = AudioMapping (node->node_child ("Mapping"));
 }
 
 void
@@ -280,6 +290,7 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
+	mapping.as_xml (root->add_child("Mapping"));
 }
 
 /** Construct a SubtitleStream from a value returned from to_string().
@@ -311,3 +322,17 @@ FFmpegContent::length (shared_ptr<const Film> film) const
 	FrameRateConversion frc (video_frame_rate (), film->dcp_video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
 }
+
+AudioMapping
+FFmpegContent::audio_mapping () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if (!_audio_stream) {
+		return AudioMapping ();
+	}
+
+	cout << "returning am from stream " << _audio_stream.get() << ".\n";
+	return _audio_stream->mapping;
+}
+

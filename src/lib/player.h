@@ -62,19 +62,19 @@ public:
 
 private:
 
-	struct RegionDecoder
+	struct DecoderRecord
 	{
-		RegionDecoder ()
+		DecoderRecord ()
 			: last (0)
 		{}
 		
-		boost::shared_ptr<Playlist::Region> region;
+		boost::shared_ptr<Content> content;
 		boost::shared_ptr<Decoder> decoder;
 		Time last;
 	};
 	
-	void process_video (boost::shared_ptr<RegionDecoder>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
-	void process_audio (boost::shared_ptr<RegionDecoder>, boost::shared_ptr<const AudioBuffers>, Time);
+	void process_video (boost::shared_ptr<DecoderRecord>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
+	void process_audio (boost::shared_ptr<DecoderRecord>, boost::shared_ptr<const AudioBuffers>, Time);
 	void setup_decoders ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
@@ -90,7 +90,7 @@ private:
 
 	/** Our decoders are ready to go; if this is false the decoders must be (re-)created before they are used */
 	bool _have_valid_decoders;
-	std::list<boost::shared_ptr<RegionDecoder> > _decoders;
+	std::list<boost::shared_ptr<DecoderRecord> > _decoders;
 
 	Time _position;
 	AudioBuffers _audio_buffers;

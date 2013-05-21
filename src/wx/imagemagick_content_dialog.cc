@@ -1,3 +1,5 @@
+/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
+
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -23,6 +25,7 @@
 #include "wx_util.h"
 
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr<ImageMagickContent> content)
 	: wxDialog (parent, wxID_ANY, _("Image"))

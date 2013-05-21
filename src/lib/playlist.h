@@ -41,6 +41,7 @@ class SndfileContent;
 class SndfileDecoder;
 class Job;
 class Film;
+class Region;
 
 /** @class Playlist
  *  @brief A set of content files (video and audio), with knowledge of how they should be arranged into
@@ -57,6 +58,7 @@ class Playlist
 public:
 	Playlist ();
 	Playlist (boost::shared_ptr<const Playlist>);
+	~Playlist ();
 
 	void as_xml (xmlpp::Node *);
 	void set_from_xml (boost::shared_ptr<const cxml::Node>);
@@ -66,30 +68,10 @@ public:
 
 	bool has_subtitles () const;
 
-	struct Region
-	{
-		Region ()
-			: time (0)
-		{}
-		
-		Region (boost::shared_ptr<Content> c, Time t, Playlist* p);
-		Region (boost::shared_ptr<const cxml::Node>, Playlist* p);
-
-		void as_xml (xmlpp::Node *) const;
-		
-		boost::shared_ptr<Content> content;
-		Time time;
-		/* XXX: obviously not used for video-only; there should
-		   really by AudioRegion / VideoRegion etc.
-		*/
-		AudioMapping audio_mapping;
-		boost::signals2::connection connection;
-	};
-
-	typedef std::vector<boost::shared_ptr<Region> > RegionList;
+	typedef std::vector<boost::shared_ptr<Content> > ContentList;
 	
-	RegionList regions () const {
-		return _regions;
+	ContentList content () const {
+		return _content;
 	}
 
 	std::string audio_digest () const;
@@ -109,9 +91,11 @@ public:
 	
 private:
 	void content_changed (boost::weak_ptr<Content>, int);
+	void reconnect ();
 
-	RegionList _regions;
+	ContentList _content;
 	int _loop;
+	std::list<boost::signals2::connection> _content_connections;
 };
 
 #endif

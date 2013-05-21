@@ -136,9 +136,9 @@ AudioMappingView::left_click (wxGridEvent& ev)
 
 	AudioMapping mapping;
 	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
-		for (int j = 0; j < _grid->GetNumberCols(); ++j) {
+		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
 			if (_grid->GetCellValue (i, j) == wxT ("1")) {
-				mapping.add (i, static_cast<libdcp::Channel> (j));
+				mapping.add (i, static_cast<libdcp::Channel> (j - 1));
 			}
 		}
 	}

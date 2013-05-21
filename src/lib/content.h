@@ -60,6 +60,11 @@ public:
 		return _digest;
 	}
 
+	Time time () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _time;
+	}
+
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int)> Changed;
 
 protected:
@@ -70,6 +75,7 @@ protected:
 private:
 	boost::filesystem::path _file;
 	std::string _digest;
+	Time _time;
 };
 
 #endif

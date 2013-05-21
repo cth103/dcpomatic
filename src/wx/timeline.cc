@@ -57,10 +57,9 @@ protected:
 class ContentView : public View
 {
 public:
-	ContentView (Timeline& tl, shared_ptr<const Content> c, Time s, int t)
+	ContentView (Timeline& tl, shared_ptr<const Content> c, int t)
 		: View (tl)
 		, _content (c)
-		, _start (s)
 		, _track (t)
 		, _selected (false)
 	{
@@ -75,6 +74,7 @@ public:
 			return;
 		}
 
+		Time const start = content->time ();
 		Time const len = content->length (film);
 
 		gc->SetPen (*wxBLACK_PEN);
@@ -96,11 +96,11 @@ public:
 #endif
 		
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint    (time_x (_start),       y_pos (_track));
-		path.AddLineToPoint (time_x (_start + len), y_pos (_track));
-		path.AddLineToPoint (time_x (_start + len), y_pos (_track + 1));
-		path.AddLineToPoint (time_x (_start),       y_pos (_track + 1));
-		path.AddLineToPoint (time_x (_start),       y_pos (_track));
+		path.MoveToPoint    (time_x (start),       y_pos (_track));
+		path.AddLineToPoint (time_x (start + len), y_pos (_track));
+		path.AddLineToPoint (time_x (start + len), y_pos (_track + 1));
+		path.AddLineToPoint (time_x (start),       y_pos (_track + 1));
+		path.AddLineToPoint (time_x (start),       y_pos (_track));
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
@@ -111,8 +111,8 @@ public:
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (time_x (_start), y_pos (_track), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
-		gc->DrawText (name, time_x (_start) + 12, y_pos (_track + 1) - name_height - 4);
+		gc->Clip (wxRegion (time_x (start), y_pos (_track), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
+		gc->DrawText (name, time_x (start) + 12, y_pos (_track + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
 
@@ -124,7 +124,12 @@ public:
 			return Rect ();
 		}
 		
-		return Rect (time_x (_start), y_pos (_track), content->length (film) * _timeline.pixels_per_time_unit(), _timeline.track_height());
+		return Rect (
+			time_x (content->time ()),
+			y_pos (_track),
+			content->length (film) * _timeline.pixels_per_time_unit(),
+			_timeline.track_height()
+			);
 	}
 
 	void set_selected (bool s) {
@@ -147,7 +152,6 @@ private:
 	}
 
 	boost::weak_ptr<const Content> _content;
-	Time _start;
 	int _track;
 	bool _selected;
 };
@@ -155,8 +159,8 @@ private:
 class AudioContentView : public ContentView
 {
 public:
-	AudioContentView (Timeline& tl, shared_ptr<const Content> c, Time s, int t)
-		: ContentView (tl, c, s, t)
+	AudioContentView (Timeline& tl, shared_ptr<const Content> c, int t)
+		: ContentView (tl, c, t)
 	{}
 	
 private:
@@ -174,8 +178,8 @@ private:
 class VideoContentView : public ContentView
 {
 public:
-	VideoContentView (Timeline& tl, shared_ptr<const Content> c, Time s, int t)
-		: ContentView (tl, c, s, t)
+	VideoContentView (Timeline& tl, shared_ptr<const Content> c, int t)
+		: ContentView (tl, c, t)
 	{}
 
 private:	
@@ -319,13 +323,13 @@ Timeline::playlist_changed ()
 
 	_views.clear ();
 
-	Playlist::RegionList regions = fl->playlist()->regions ();
+	Playlist::ContentList content = fl->playlist()->content ();
 
-	for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
-		if (dynamic_pointer_cast<VideoContent> ((*i)->content)) {
-			_views.push_back (shared_ptr<View> (new VideoContentView (*this, (*i)->content, (*i)->time, 0)));
+	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+		if (dynamic_pointer_cast<VideoContent> (*i)) {
+			_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, 0)));
 		} else {
-			_views.push_back (shared_ptr<View> (new AudioContentView (*this, (*i)->content, (*i)->time, 1)));
+			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, 1)));
 		}
 	}
 

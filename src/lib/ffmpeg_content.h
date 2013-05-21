@@ -34,6 +34,7 @@ public:
                 , id (i)
                 , frame_rate (f)
 		, channels (c)
+		, mapping (c)
         {}
 
 	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
@@ -44,6 +45,7 @@ public:
         int id;
         int frame_rate;
 	int channels;
+	AudioMapping mapping;
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
@@ -98,35 +100,36 @@ public:
         ContentAudioFrame audio_length () const;
         int content_audio_frame_rate () const;
         int output_audio_frame_rate (boost::shared_ptr<const Film>) const;
+	AudioMapping audio_mapping () const;
 	
-        std::vector<FFmpegSubtitleStream> subtitle_streams () const {
+        std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
                 boost::mutex::scoped_lock lm (_mutex);
                 return _subtitle_streams;
         }
 
-        boost::optional<FFmpegSubtitleStream> subtitle_stream () const {
+        boost::shared_ptr<FFmpegSubtitleStream> subtitle_stream () const {
                 boost::mutex::scoped_lock lm (_mutex);
                 return _subtitle_stream;
         }
 
-        std::vector<FFmpegAudioStream> audio_streams () const {
+        std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams () const {
                 boost::mutex::scoped_lock lm (_mutex);
                 return _audio_streams;
         }
         
-        boost::optional<FFmpegAudioStream> audio_stream () const {
+        boost::shared_ptr<FFmpegAudioStream> audio_stream () const {
                 boost::mutex::scoped_lock lm (_mutex);
                 return _audio_stream;
         }
 
-        void set_subtitle_stream (FFmpegSubtitleStream);
-        void set_audio_stream (FFmpegAudioStream);
+        void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
+        void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
 	
 private:
-	std::vector<FFmpegSubtitleStream> _subtitle_streams;
-	boost::optional<FFmpegSubtitleStream> _subtitle_stream;
-	std::vector<FFmpegAudioStream> _audio_streams;
-	boost::optional<FFmpegAudioStream> _audio_stream;
+	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
+	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
+	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
+	boost::shared_ptr<FFmpegAudioStream> _audio_stream;
 };
 
 #endif

@@ -141,11 +141,13 @@ FFmpegDecoder::setup_general ()
 			}
 			
 			_audio_streams.push_back (
-				FFmpegAudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channels)
+				shared_ptr<FFmpegAudioStream> (
+					new FFmpegAudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channels)
+					)
 				);
 
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (FFmpegSubtitleStream (stream_name (s), i));
+			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (stream_name (s), i)));
 		}
 	}
 

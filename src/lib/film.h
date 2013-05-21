@@ -111,7 +111,7 @@ public:
 
 	/* Proxies for some Playlist methods */
 
-	Playlist::RegionList regions () const;
+	Playlist::ContentList content () const;
 
 	Time length () const;
 	bool has_subtitles () const;

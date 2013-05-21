@@ -33,10 +33,9 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
-FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<Playlist::Region> region)
+FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<FFmpegContent> content)
 	: wxDialog (parent, wxID_ANY, _("Video"))
-	, _region (region)
-	, _content (dynamic_pointer_cast<FFmpegContent> (region->content))
+	, _content (content)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 6, 6);
 	grid->AddGrowableCol (1, 1);
@@ -51,9 +50,6 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<Playlist:
 	_subtitle_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
 	grid->AddSpacer (0);
-
-	shared_ptr<FFmpegContent> content = _content.lock ();
-	assert (content);
 
 	_audio_stream->Clear ();
 	vector<FFmpegAudioStream> a = content->audio_streams ();
@@ -85,7 +81,7 @@ FFmpegContentDialog::FFmpegContentDialog (wxWindow* parent, shared_ptr<Playlist:
 	overall_sizer->Add (grid, 1, wxEXPAND | wxALL, 6);
 
 	_audio_mapping = new AudioMappingView (this);
-	_audio_mapping->set_mapping (region->audio_mapping);
+	_audio_mapping->set_mapping (content->audio_mapping ());
 	overall_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
@@ -166,6 +162,7 @@ FFmpegContentDialog::audio_mapping_changed (AudioMapping m)
 		return;
 	}
 
-	/* XXX: set mapping in playlist */
+	cout << "setting map in stream " << content->audio_stream().get() << "\n";
+	content->audio_stream()->mapping = m;
 }
 

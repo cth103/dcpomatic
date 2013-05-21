@@ -89,12 +89,12 @@ Player::pass ()
         */
 
         Time earliest_pos = TIME_MAX;
-        shared_ptr<RegionDecoder> earliest;
+        shared_ptr<DecoderRecord> earliest;
         Time next_wait = TIME_MAX;
 
-        for (list<shared_ptr<RegionDecoder> >::iterator i = _decoders.begin(); i != _decoders.end(); ++i) {
-                Time const ts = (*i)->region->time;
-                Time const te = (*i)->region->time + (*i)->region->content->length (_film);
+        for (list<shared_ptr<DecoderRecord> >::iterator i = _decoders.begin(); i != _decoders.end(); ++i) {
+                Time const ts = (*i)->content->time();
+                Time const te = (*i)->content->time() + (*i)->content->length (_film);
                 if (ts <= _position && te > _position) {
                         Time const pos = ts + (*i)->last;
                         if (pos < earliest_pos) {
@@ -121,24 +121,24 @@ Player::pass ()
 }
 
 void
-Player::process_video (shared_ptr<RegionDecoder> rd, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
+Player::process_video (shared_ptr<DecoderRecord> dr, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
 {
-        shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (rd->decoder);
+        shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (dr->decoder);
         
-        Time const global_time = rd->region->time + time;
+        Time const global_time = dr->content->time() + time;
         while ((global_time - _last_video) > 1) {
                 /* Fill in with black */
                 emit_black_frame ();
         }
 
         Video (image, same, sub, global_time);
-        rd->last = time;
+        dr->last = time;
 	_last_video = global_time;
 	_last_was_black = false;
 }
 
 void
-Player::process_audio (shared_ptr<RegionDecoder> rd, shared_ptr<const AudioBuffers> audio, Time time)
+Player::process_audio (shared_ptr<DecoderRecord> dr, shared_ptr<const AudioBuffers> audio, Time time)
 {
         /* XXX: mapping */
 
@@ -172,7 +172,7 @@ Player::process_audio (shared_ptr<RegionDecoder> rd, shared_ptr<const AudioBuffe
 
         _audio_buffers.ensure_size (time - _last_audio + audio->frames());
         _audio_buffers.accumulate (audio.get(), 0, _film->time_to_audio_frames (time - _last_audio));
-        rd->last = time + _film->audio_frames_to_time (audio->frames ());
+        dr->last = time + _film->audio_frames_to_time (audio->frames ());
 }
 
 /** @return true on error */
@@ -212,34 +212,34 @@ Player::seek_forward ()
 void
 Player::setup_decoders ()
 {
-	list<shared_ptr<RegionDecoder> > old_decoders = _decoders;
+	list<shared_ptr<DecoderRecord> > old_decoders = _decoders;
 
 	_decoders.clear ();
 
-	Playlist::RegionList regions = _playlist->regions ();
-	for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
+	Playlist::ContentList content = _playlist->content ();
+	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
-		shared_ptr<RegionDecoder> rd (new RegionDecoder);
-		rd->region = *i;
+		shared_ptr<DecoderRecord> dr (new DecoderRecord);
+		dr->content = *i;
 		
                 /* XXX: into content? */
 
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> ((*i)->content);
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio, _subtitles));
 			
-			fd->Video.connect (bind (&Player::process_video, this, rd, _1, _2, _3, _4));
-			fd->Audio.connect (bind (&Player::process_audio, this, rd, _1, _2));
+			fd->Video.connect (bind (&Player::process_video, this, dr, _1, _2, _3, _4));
+			fd->Audio.connect (bind (&Player::process_audio, this, dr, _1, _2));
 
-			rd->decoder = fd;
+			dr->decoder = fd;
 		}
 		
-		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> ((*i)->content);
+		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
 		if (ic) {
 			shared_ptr<ImageMagickDecoder> id;
 			
 			/* See if we can re-use an old ImageMagickDecoder */
-			for (list<shared_ptr<RegionDecoder> >::const_iterator i = old_decoders.begin(); i != old_decoders.end(); ++i) {
+			for (list<shared_ptr<DecoderRecord> >::const_iterator i = old_decoders.begin(); i != old_decoders.end(); ++i) {
 				shared_ptr<ImageMagickDecoder> imd = dynamic_pointer_cast<ImageMagickDecoder> ((*i)->decoder);
 				if (imd && imd->content() == ic) {
 					id = imd;
@@ -248,21 +248,21 @@ Player::setup_decoders ()
 
 			if (!id) {
 				id.reset (new ImageMagickDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, rd, _1, _2, _3, _4));
+				id->Video.connect (bind (&Player::process_video, this, dr, _1, _2, _3, _4));
 			}
 
-			rd->decoder = id;
+			dr->decoder = id;
 		}
 
-		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> ((*i)->content);
+		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
 		if (sc) {
 			shared_ptr<AudioDecoder> sd (new SndfileDecoder (_film, sc));
-			sd->Audio.connect (bind (&Player::process_audio, this, rd, _1, _2));
+			sd->Audio.connect (bind (&Player::process_audio, this, dr, _1, _2));
 
-			rd->decoder = sd;
+			dr->decoder = sd;
 		}
 
-		_decoders.push_back (rd);
+		_decoders.push_back (dr);
 	}
 
 	_position = 0;

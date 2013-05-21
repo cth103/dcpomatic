@@ -317,7 +317,7 @@ Film::make_dcp ()
 		throw MissingSettingError (_("format"));
 	}
 
-	if (_playlist->regions().empty ()) {
+	if (_playlist->content().empty ()) {
 		throw StringError (_("You must add some content to the DCP before creating it"));
 	}
 
@@ -697,11 +697,11 @@ Film::set_trust_content_headers (bool t)
 	signal_changed (TRUST_CONTENT_HEADERS);
 
 	
-	Playlist::RegionList regions = _playlist->regions ();
-	if (!_trust_content_headers && !regions.empty()) {
+	Playlist::ContentList content = _playlist->content ();
+	if (!_trust_content_headers && !content.empty()) {
 		/* We just said that we don't trust the content's header */
-		for (Playlist::RegionList::iterator i = regions.begin(); i != regions.end(); ++i) {
-			examine_content ((*i)->content);
+		for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+			examine_content (*i);
 		}
 	}
 }
@@ -1040,10 +1040,10 @@ Film::playlist () const
 	return _playlist;
 }
 
-Playlist::RegionList
-Film::regions () const
+Playlist::ContentList
+Film::content () const
 {
-	return _playlist->regions ();
+	return _playlist->content ();
 }
 
 void
