@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 15:06+0100\n"
+"POT-Creation-Date: 2013-05-09 09:51+0100\n"
 "PO-Revision-Date: 2013-04-28 10:31+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -17,108 +17,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/tools/dcpomatic.cc:177
+#: src/tools/dvdomatic.cc:178
 msgid "&Analyse audio"
 msgstr "&Analizza audio"
 
-#: src/tools/dcpomatic.cc:183
+#: src/tools/dvdomatic.cc:184
 msgid "&Edit"
 msgstr "&Modifica"
 
-#: src/tools/dcpomatic.cc:182
+#: src/tools/dvdomatic.cc:183
 msgid "&File"
 msgstr "&File"
 
-#: src/tools/dcpomatic.cc:185
+#: src/tools/dvdomatic.cc:186
 msgid "&Help"
 msgstr "&Aiuto"
 
-#: src/tools/dcpomatic.cc:184
+#: src/tools/dvdomatic.cc:185
 msgid "&Jobs"
 msgstr "&Lavori"
 
-#: src/tools/dcpomatic.cc:173
+#: src/tools/dvdomatic.cc:174
 msgid "&Make DCP"
 msgstr "&Crea DCP"
 
-#: src/tools/dcpomatic.cc:161
+#: src/tools/dvdomatic.cc:162
 msgid "&Open..."
 msgstr "&Apri..."
 
-#: src/tools/dcpomatic.cc:170
+#: src/tools/dvdomatic.cc:171
 msgid "&Preferences..."
 msgstr "&Preferenze..."
 
-#: src/tools/dcpomatic.cc:165
+#: src/tools/dvdomatic.cc:166
 msgid "&Properties..."
 msgstr "&Proprieta'..."
 
-#: src/tools/dcpomatic.cc:167
+#: src/tools/dvdomatic.cc:168
 msgid "&Quit"
 msgstr "&Esci"
 
-#: src/tools/dcpomatic.cc:163
+#: src/tools/dvdomatic.cc:164
 msgid "&Save"
 msgstr "&Salva"
 
-#: src/tools/dcpomatic.cc:174
+#: src/tools/dvdomatic.cc:175
 msgid "&Send DCP to TMS"
 msgstr "&Invia DCP a TMS"
 
-#: src/tools/dcpomatic.cc:417
+#: src/tools/dvdomatic.cc:426
 msgid ""
 "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 msgstr ""
 "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
-#: src/tools/dcpomatic.cc:180
+#: src/tools/dvdomatic.cc:181
 msgid "About"
 msgstr "Informazioni"
 
-#: src/tools/dcpomatic.cc:527
+#: src/tools/dvdomatic.cc:502
 msgid "Could not load film %1 (%2)"
 msgstr "Non posso caricare il film %s (%s)"
 
-#: src/tools/dcpomatic.cc:339
+#: src/tools/dvdomatic.cc:348
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Non posso aprire il film in %s (%s)"
 
-#: src/tools/dcpomatic.cc:287 src/tools/dcpomatic.cc:410
-#: src/tools/dcpomatic.cc:531
-msgid "DCP-o-matic"
-msgstr "DCP-o-matic"
+#: src/tools/dvdomatic.cc:288 src/tools/dvdomatic.cc:419
+#: src/tools/dvdomatic.cc:506
+msgid "DVD-o-matic"
+msgstr "DVD-o-matic"
 
-#: src/tools/dcpomatic.cc:75
+#: src/tools/dvdomatic.cc:76
 msgid "Film changed"
 msgstr "Film modificato"
 
-#: src/tools/dcpomatic.cc:416
+#: src/tools/dvdomatic.cc:425
 msgid "Free, open-source DCP generation from almost anything."
 msgstr "Genera DCP da quasi tutto, free e open-source."
 
-#: src/tools/dcpomatic.cc:160
+#: src/tools/dvdomatic.cc:161
 msgid "New..."
 msgstr "Nuovo"
 
-#: src/tools/dcpomatic.cc:175
+#: src/tools/dvdomatic.cc:176
 msgid "S&how DCP"
 msgstr "&Mostra DCP"
 
-#: src/tools/dcpomatic.cc:74
+#: src/tools/dvdomatic.cc:75
+#, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Salvare i cambiamenti del film \"%s\" prima di chiudere?"
 
-#: src/tools/dcpomatic.cc:319
+#: src/tools/dvdomatic.cc:328
 msgid "Select film to open"
 msgstr "Seleziona il film da aprire"
 
-#: src/tools/dcpomatic.cc:303
-msgid "The directory %1 already exists."
-msgstr "La directory %s esiste gia'."
+#: src/tools/dvdomatic.cc:307
+msgid ""
+"The directory %1 already exists and is not empty.  Are you sure you want to "
+"use it?"
+msgstr ""
 
-#: src/tools/dcpomatic.cc:324
+#: src/tools/dvdomatic.cc:333
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
+
+#~ msgid "The directory %1 already exists."
+#~ msgstr "La directory %s esiste gia'."

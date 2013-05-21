@@ -695,7 +695,6 @@ Film::set_trust_content_headers (bool t)
 	}
 	
 	signal_changed (TRUST_CONTENT_HEADERS);
-
 	
 	Playlist::ContentList content = _playlist->content ();
 	if (!_trust_content_headers && !content.empty()) {

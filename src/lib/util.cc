@@ -39,6 +39,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <glib.h>
 #include <openjpeg.h>
 #include <openssl/md5.h>
 #include <magick/MagickCore.h>
@@ -60,6 +61,9 @@ extern "C" {
 #include "filter.h"
 #include "sound_processor.h"
 #include "config.h"
+#ifdef DVDOMATIC_WINDOWS
+#include "stack.hpp"
+#endif
 
 #include "i18n.h"
 
@@ -80,6 +84,7 @@ using std::multimap;
 using std::istream;
 using std::numeric_limits;
 using std::pair;
+using std::ofstream;
 using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
@@ -87,6 +92,7 @@ using boost::optional;
 using libdcp::Size;
 
 boost::thread::id ui_thread;
+boost::filesystem::path backtrace_file;
 
 /** Convert some number of seconds to a string representation
  *  in hours, minutes and seconds.
@@ -254,12 +260,28 @@ seconds (struct timeval t)
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
-/** Call the required functions to set up DCP-o-matic's static arrays, etc.
+#ifdef DVDOMATIC_WINDOWS
+LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
+{
+	dbg::stack s;
+	ofstream f (backtrace_file.string().c_str());
+	std::copy(s.begin(), s.end(), std::ostream_iterator<dbg::stack_frame>(f, "\n"));
+	return EXCEPTION_CONTINUE_SEARCH;
+}
+#endif
+
+/** Call the required functions to set up DVD-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
 void
 dcpomatic_setup ()
 {
+#ifdef DVDOMATIC_WINDOWS
+	backtrace_file /= g_get_user_config_dir ();
+	backtrace_file /= "backtrace.txt";
+	SetUnhandledExceptionFilter(exception_handler);
+#endif	
+	
 	avfilter_register_all ();
 	
 	Format::setup_formats ();
@@ -775,8 +797,8 @@ LocaleGuard::LocaleGuard ()
 
         if (old) {
                 _old = strdup (old);
-                if (strcmp (_old, "POSIX")) {
-                        setlocale (LC_NUMERIC, "POSIX");
+                if (strcmp (_old, "C")) {
+                        setlocale (LC_NUMERIC, "C");
                 }
         }
 }

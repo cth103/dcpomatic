@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 15:06+0100\n"
+"POT-Creation-Date: 2013-05-09 09:51+0100\n"
 "PO-Revision-Date: 2013-04-10 15:35+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -73,7 +73,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Reklam"
 
-#: src/lib/job.cc:72
+#: src/lib/job.cc:73
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ett fel inträffade vid hantering av filen %1"
 
@@ -93,7 +93,7 @@ msgstr "Bikubisk"
 msgid "Bilinear"
 msgstr "Bilinjär"
 
-#: src/lib/job.cc:306
+#: src/lib/job.cc:318
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -106,7 +106,7 @@ msgid "Cannot resample audio as libswresample is not present"
 msgstr ""
 "Kan inte omsampla ljudet eftersom libswresample inte finns tillgängligt"
 
-#: src/lib/util.cc:932
+#: src/lib/util.cc:960
 msgid "Centre"
 msgstr "Mitt"
 
@@ -138,15 +138,15 @@ msgstr "Kunde inte skriva till fjärrfil (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Kubiskt interpolerande avflätare"
 
-#: src/lib/util.cc:1007
+#: src/lib/util.cc:1035
 msgid "DCP and source have the same rate.\n"
 msgstr "DCP och källa har samma bildfrekvens.\n"
 
-#: src/lib/util.cc:1017
+#: src/lib/util.cc:1045
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 
-#: src/lib/util.cc:1010
+#: src/lib/util.cc:1038
 msgid "DCP will use every other frame of the source.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
@@ -169,11 +169,11 @@ msgstr "Avringningsfilter"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1012
+#: src/lib/util.cc:1040
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:316
 msgid "Error (%1)"
 msgstr "Fel (%1)"
 
@@ -245,7 +245,7 @@ msgstr "Filter för horisontal kantighetsutjämning"
 msgid "Horizontal deblocking filter A"
 msgstr "Filter för horisontal kantighetsutjämning A"
 
-#: src/lib/job.cc:96 src/lib/job.cc:105
+#: src/lib/job.cc:97 src/lib/job.cc:106
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
 "problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
@@ -261,15 +261,15 @@ msgstr "Kernel-avflätare"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:930
+#: src/lib/util.cc:958
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:934
+#: src/lib/util.cc:962
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:961
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -299,7 +299,7 @@ msgstr "Rörelsekompenserande avflätare"
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/job.cc:302
+#: src/lib/job.cc:314
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
@@ -319,15 +319,15 @@ msgstr "Offentligt Servicemeddelande"
 msgid "Rating"
 msgstr "Klassificeringsklipp"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:513
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:959
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:963
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -371,7 +371,7 @@ msgstr "Temporal brusreducering"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/job.cc:78
+#: src/lib/job.cc:79
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -391,7 +391,7 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Övergångsklipp"
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:105
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -431,7 +431,7 @@ msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
 # Svengelska
-#: src/lib/util.cc:541
+#: src/lib/util.cc:554
 #, fuzzy
 msgid "connect timed out"
 msgstr "uppkopplingen tajmade ur"
@@ -472,7 +472,7 @@ msgstr "kunde inte hitta undertext-avkodare"
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
 
-#: src/lib/sndfile_decoder.cc:72
+#: src/lib/sndfile_decoder.cc:67
 msgid "could not open external audio file for reading"
 msgstr "kunde inte öppna extern audio-fil för läsning"
 
@@ -504,11 +504,11 @@ msgstr "kunde inte starta SSH-session"
 msgid "could not write to file %1 (%2)"
 msgstr "kunde inte skriva till fil %1 (%2)"
 
-#: src/lib/sndfile_decoder.cc:94
+#: src/lib/sndfile_decoder.cc:89
 msgid "external audio files have differing lengths"
 msgstr "externa audio-filer har olika längder"
 
-#: src/lib/sndfile_decoder.cc:76
+#: src/lib/sndfile_decoder.cc:71
 msgid "external audio files must be mono"
 msgstr "externa audio-filer måste vara mono"
 
@@ -520,23 +520,23 @@ msgstr "format"
 msgid "frames per second"
 msgstr "bilder per sekund"
 
-#: src/lib/util.cc:115
+#: src/lib/util.cc:128
 msgid "hour"
 msgstr "timme"
 
-#: src/lib/util.cc:112 src/lib/util.cc:117
+#: src/lib/util.cc:125 src/lib/util.cc:130
 msgid "hours"
 msgstr "timmar"
 
-#: src/lib/util.cc:122
+#: src/lib/util.cc:135
 msgid "minute"
 msgstr "minut"
 
-#: src/lib/util.cc:124
+#: src/lib/util.cc:137
 msgid "minutes"
 msgstr "minuter"
 
-#: src/lib/util.cc:684
+#: src/lib/util.cc:697
 msgid "missing key %1 in key-value set"
 msgstr "saknad nyckel %1 i nyckel-värde grupp"
 
@@ -562,15 +562,15 @@ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:299
+#: src/lib/job.cc:311
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:511
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/util.cc:127
+#: src/lib/util.cc:140
 msgid "seconds"
 msgstr "sekunder"
 

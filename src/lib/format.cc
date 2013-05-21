@@ -66,59 +66,63 @@ Format::setup_formats ()
 {
 	/// TRANSLATORS: these are film picture aspect ratios; "Academy" means 1.37, "Flat" 1.85 and "Scope" 2.39.
 	_formats.push_back (
-		new FixedFormat (1.19, libdcp::Size (1285, 1080), N_("119"), _("1.19"), N_("F")
+		new FixedFormat (1.19, libdcp::Size (1285, 1080), "119", _("1.19"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (4.0 / 3.0, libdcp::Size (1436, 1080), N_("133"), _("4:3"), N_("F")
+		new FixedFormat (4.0 / 3.0, libdcp::Size (1436, 1080), "133", _("4:3"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.38, libdcp::Size (1485, 1080), N_("138"), _("1.375"), N_("F")
+		new FixedFormat (1.38, libdcp::Size (1485, 1080), "138", _("1.375"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (4.0 / 3.0, libdcp::Size (1998, 1080), N_("133-in-flat"), _("4:3 within Flat"), N_("F")
+		new FixedFormat (4.0 / 3.0, libdcp::Size (1998, 1080), "133-in-flat", _("4:3 within Flat"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.37, libdcp::Size (1480, 1080), N_("137"), _("Academy"), N_("F")
+		new FixedFormat (1.37, libdcp::Size (1480, 1080), "137", _("Academy"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.66, libdcp::Size (1793, 1080), N_("166"), _("1.66"), N_("F")
+		new FixedFormat (1.66, libdcp::Size (1793, 1080), "166", _("1.66"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.66, libdcp::Size (1998, 1080), N_("166-in-flat"), _("1.66 within Flat"), N_("F")
+		new FixedFormat (1.66, libdcp::Size (1998, 1080), "166-in-flat", _("1.66 within Flat"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.78, libdcp::Size (1998, 1080), N_("178-in-flat"), _("16:9 within Flat"), N_("F")
+		new FixedFormat (1.78, libdcp::Size (1998, 1080), "178-in-flat", _("16:9 within Flat"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.78, libdcp::Size (1920, 1080), N_("178"), _("16:9"), N_("F")
+		new FixedFormat (1.78, libdcp::Size (1920, 1080), "178", _("16:9"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.85, libdcp::Size (1998, 1080), N_("185"), _("Flat"), N_("F")
+		new FixedFormat (1.85, libdcp::Size (1998, 1080), "185", _("Flat"), "F"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (1.78, libdcp::Size (2048, 858), N_("178-in-scope"), _("16:9 within Scope"), N_("S")
+		new FixedFormat (1.78, libdcp::Size (2048, 858), "178-in-scope", _("16:9 within Scope"), "S"
 			));
 	
 	_formats.push_back (
-		new FixedFormat (2.39, libdcp::Size (2048, 858), N_("239"), _("Scope"), N_("S")
+		new FixedFormat (2.39, libdcp::Size (2048, 858), "239", _("Scope"), "S"
+			));
+
+	_formats.push_back (
+		new FixedFormat (1.896, libdcp::Size (2048, 1080), "full-frame", _("Full frame"), "C"
 			));
 		
 	_formats.push_back (
-		new VariableFormat (libdcp::Size (1998, 1080), N_("var-185"), _("Flat without stretch"), N_("F")
+		new VariableFormat (libdcp::Size (1998, 1080), "var-185", _("Flat without stretch"), "F"
 			));
 	
 	_formats.push_back (
-		new VariableFormat (libdcp::Size (2048, 858), N_("var-239"), _("Scope without stretch"), N_("S")
+		new VariableFormat (libdcp::Size (2048, 858), "var-239", _("Scope without stretch"), "S"
 			));
 }
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 15:06+0100\n"
+"POT-Creation-Date: 2013-05-09 09:51+0100\n"
 "PO-Revision-Date: 2013-04-02 19:08-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -21,7 +21,6 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-#: src/wx/config_dialog.cc:61
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr ""
 
@@ -33,7 +32,11 @@ msgstr "1 canal"
 msgid "A/B"
 msgstr "A/B"
 
-#: src/wx/config_dialog.cc:143
+#: src/wx/config_dialog.cc:61
+msgid "A/B mode"
+msgstr ""
+
+#: src/wx/config_dialog.cc:325
 msgid "Add"
 msgstr "Añadir"
 
@@ -79,7 +82,7 @@ msgstr "pero tengo que usar el fader a"
 msgid "Calculate..."
 msgstr "Calcular..."
 
-#: src/wx/job_manager_view.cc:88
+#: src/wx/job_manager_view.cc:97
 msgid "Cancel"
 msgstr ""
 
@@ -123,6 +126,11 @@ msgstr "No se pudo establecer el contenido: %s"
 msgid "Create in folder"
 msgstr "Crear en carpeta"
 
+#: src/wx/config_dialog.cc:244
+#, fuzzy
+msgid "Creator"
+msgstr "Crear en carpeta"
+
 #: src/wx/film_editor.cc:1371
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
@@ -153,15 +161,24 @@ msgstr "Preferencias DCP-o-matic"
 msgid "DCP-o-matic audio - %s"
 msgstr "Audio DCP-o-matic - %1"
 
-#: src/wx/config_dialog.cc:102
+#: src/wx/config_dialog.cc:120
 msgid "Default DCI name details"
 msgstr "Detalles por defecto del nombre DCI"
 
-#: src/wx/config_dialog.cc:93
+#: src/wx/config_dialog.cc:130
+#, fuzzy
+msgid "Default content type"
+msgstr "Tipo de contenido"
+
+#: src/wx/config_dialog.cc:111
 msgid "Default directory for new films"
 msgstr "Carpeta por defecto para nuevas películas"
 
-#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:92
+#: src/wx/config_dialog.cc:125
+msgid "Default format"
+msgstr ""
+
+#: src/wx/film_editor.cc:116 src/wx/job_manager_view.cc:109
 msgid "Details..."
 msgstr "Detalles..."
 
@@ -173,17 +190,18 @@ msgstr "Espacio requerido en disco"
 msgid "Duration"
 msgstr "Duración"
 
-#: src/wx/config_dialog.cc:145
+#: src/wx/config_dialog.cc:327
 msgid "Edit"
 msgstr "Editar"
 
-#: src/wx/config_dialog.cc:103 src/wx/config_dialog.cc:122
+#: src/wx/config_dialog.cc:121 src/wx/config_dialog.cc:282
 #: src/wx/film_editor.cc:312
 msgid "Edit..."
 msgstr "Editar..."
 
-#: src/wx/config_dialog.cc:128
-msgid "Encoding Servers"
+#: src/wx/config_dialog.cc:55
+#, fuzzy
+msgid "Encoding servers"
 msgstr "Servidores de codificación"
 
 #: src/wx/film_editor.cc:171
@@ -242,9 +260,13 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Quiero reproducir con el fader a"
 
-#: src/wx/config_dialog.cc:132
+#: src/wx/config_dialog.cc:201 src/wx/config_dialog.cc:314
 msgid "IP address"
 msgstr "Dirección IP"
+
+#: src/wx/config_dialog.cc:240
+msgid "Issuer"
+msgstr ""
 
 #: src/wx/film_editor.cc:339
 msgid "JPEG2000 bandwidth"
@@ -261,6 +283,14 @@ msgstr "Longitud"
 #: src/wx/film_editor.cc:343
 msgid "MBps"
 msgstr "MBps"
+
+#: src/wx/config_dialog.cc:57
+msgid "Metadata"
+msgstr ""
+
+#: src/wx/config_dialog.cc:53
+msgid "Miscellaneous"
+msgstr ""
 
 #: src/wx/dir_picker_ctrl.cc:52
 msgid "My Documents"
@@ -296,6 +326,15 @@ msgstr "Tipo de paquete (ej. OV)"
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr ""
 
+#: src/wx/config_dialog.cc:213
+#, fuzzy
+msgid "Password"
+msgstr "Clave del TMS"
+
+#: src/wx/job_manager_view.cc:103 src/wx/job_manager_view.cc:188
+msgid "Pause"
+msgstr ""
+
 #: src/wx/audio_dialog.cc:60
 msgid "Peak"
 msgstr "Pico"
@@ -316,23 +355,29 @@ msgstr "RMS"
 msgid "Rating (e.g. 15)"
 msgstr "Clasificación (ej. 16)"
 
-#: src/wx/config_dialog.cc:118
-msgid "Reference filters for A/B"
+#: src/wx/config_dialog.cc:278
+#, fuzzy
+msgid "Reference filters"
 msgstr "Filtros de referencia para A/B"
 
-#: src/wx/config_dialog.cc:107
-msgid "Reference scaler for A/B"
+#: src/wx/config_dialog.cc:267
+#, fuzzy
+msgid "Reference scaler"
 msgstr "Escalador de referencia para A/B"
 
-#: src/wx/config_dialog.cc:147
+#: src/wx/config_dialog.cc:329
 msgid "Remove"
 msgstr "Quitar"
+
+#: src/wx/job_manager_view.cc:191
+msgid "Resume"
+msgstr ""
 
 #: src/wx/film_editor.cc:282
 msgid "Right crop"
 msgstr "Recorte derecha"
 
-#: src/wx/job_manager_view.cc:108
+#: src/wx/job_manager_view.cc:126
 msgid "Running"
 msgstr "Ejecutando"
 
@@ -357,7 +402,7 @@ msgstr "Seleccionar fichero de contenido"
 msgid "Server"
 msgstr "Servidor"
 
-#: src/wx/config_dialog.cc:49
+#: src/wx/config_dialog.cc:87
 msgid "Set language"
 msgstr ""
 
@@ -393,27 +438,21 @@ msgstr "Escala del subtítulo"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/config_dialog.cc:68
-msgid "TMS IP address"
-msgstr "Dirección IP del TMS"
+#: src/wx/config_dialog.cc:59
+#, fuzzy
+msgid "TMS"
+msgstr "RMS"
 
-#: src/wx/config_dialog.cc:83
-msgid "TMS password"
-msgstr "Clave del TMS"
-
-#: src/wx/config_dialog.cc:73
-msgid "TMS target path"
+#: src/wx/config_dialog.cc:205
+#, fuzzy
+msgid "Target path"
 msgstr "Ruta en el TMS"
-
-#: src/wx/config_dialog.cc:78
-msgid "TMS user name"
-msgstr "Usuario del TMS"
 
 #: src/wx/dci_metadata_dialog.cc:41
 msgid "Territory (e.g. UK)"
 msgstr "Territorio (ej. ES)"
 
-#: src/wx/config_dialog.cc:136
+#: src/wx/config_dialog.cc:318
 msgid "Threads"
 msgstr "Hilos"
 
@@ -421,7 +460,7 @@ msgstr "Hilos"
 msgid "Threads to use"
 msgstr "Hilos a utilizar"
 
-#: src/wx/config_dialog.cc:88
+#: src/wx/config_dialog.cc:106
 msgid "Threads to use for encoding on this host"
 msgstr "Hilos a utilizar para la codificación en esta máquina"
 
@@ -465,6 +504,11 @@ msgstr "Usar el audio del contenido"
 #: src/wx/film_editor.cc:405
 msgid "Use external audio"
 msgstr "Usar audio externo"
+
+#: src/wx/config_dialog.cc:209
+#, fuzzy
+msgid "User name"
+msgstr "Usar el nombre DCI"
 
 #: src/wx/film_editor.cc:75
 msgid "Video"
@@ -515,6 +559,12 @@ msgstr "s"
 #: src/wx/properties_dialog.cc:62 src/wx/properties_dialog.cc:63
 msgid "unknown"
 msgstr "desconocido"
+
+#~ msgid "TMS IP address"
+#~ msgstr "Dirección IP del TMS"
+
+#~ msgid "TMS user name"
+#~ msgstr "Usuario del TMS"
 
 #~ msgid "Original Size"
 #~ msgstr "Tamaño original"
