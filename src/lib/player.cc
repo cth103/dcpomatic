@@ -39,6 +39,17 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
+struct Piece
+{
+	Piece (shared_ptr<Content> c, shared_ptr<Decoder> d)
+		: content (c)
+		, decoder (d)
+	{}
+	
+	shared_ptr<Content> content;
+	shared_ptr<Decoder> decoder;
+};
+
 Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	: _film (f)
 	, _playlist (p)
@@ -50,7 +61,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _audio_buffers (MAX_AUDIO_CHANNELS, 0)
 	, _last_video (0)
 	, _last_was_black (false)
-	, _last_audio (0)
+	, _next_audio (0)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2));
@@ -77,72 +88,63 @@ Player::disable_subtitles ()
 bool
 Player::pass ()
 {
-	if (!_have_valid_decoders) {
-		setup_decoders ();
-		_have_valid_decoders = true;
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+		_have_valid_pieces = true;
 	}
 
         /* Here we are just finding the active decoder with the earliest last emission time, then
-           calling pass on it.  If there is no decoder, we skip our position on until there is.
-           Hence this method will cause video and audio to be emitted, and it is up to the
-           process_{video,audio} methods to tidy it up.
+           calling pass on it.
         */
 
-        Time earliest_pos = TIME_MAX;
-        shared_ptr<DecoderRecord> earliest;
-        Time next_wait = TIME_MAX;
+        Time earliest_t = TIME_MAX;
+        shared_ptr<Piece> earliest;
 
-        for (list<shared_ptr<DecoderRecord> >::iterator i = _decoders.begin(); i != _decoders.end(); ++i) {
-                Time const ts = (*i)->content->time();
-                Time const te = (*i)->content->time() + (*i)->content->length (_film);
-                if (ts <= _position && te > _position) {
-                        Time const pos = ts + (*i)->last;
-                        if (pos < earliest_pos) {
-                                earliest_pos = pos;
-                                earliest = *i;
-                        }
-                }
+	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+		if ((*i)->content->end(_film) < _position) {
+			continue;
+		}
+		
+		Time const t = (*i)->content->start() + (*i)->decoder->next();
+		if (t < earliest_t) {
+			earliest_t = t;
+			earliest = *i;
+		}
+	}
 
-                if (ts > _position) {
-                        next_wait = min (next_wait, ts - _position);
-                }
-        }
+	if (!earliest) {
+		return true;
+	}
+	
+	earliest->decoder->pass ();
 
-        if (earliest) {
-		cout << "pass on decoder...\n";
-                earliest->decoder->pass ();
-                _position = earliest->last;
-        } else if (next_wait < TIME_MAX) {
-		cout << "nw " << next_wait << " for " << _position << "\n";
-                _position += next_wait;
-        } else {
-                return true;
-        }
+	/* Move position to earliest active next emission */
+
+	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+		if ((*i)->content->end(_film) < _position) {
+			continue;
+		}
+
+		Time const t = (*i)->content->start() + (*i)->decoder->next();
+
+		if (t < _position) {
+			_position = t;
+		}
+	}
 
         return false;
 }
 
 void
-Player::process_video (shared_ptr<DecoderRecord> dr, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
+Player::process_video (shared_ptr<Piece> piece, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
 {
-        shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (dr->decoder);
-        
-        Time const global_time = dr->content->time() + time;
-	cout << "need to fill in " << global_time << " vs " << _last_video << "\n";
-        while ((global_time - _last_video) > 1) {
-                /* Fill in with black */
-		cout << "(b)\n";
-                emit_black_frame ();
-        }
-
-        Video (image, same, sub, global_time);
-        dr->last = time;
-	_last_video = global_time;
-	_last_was_black = false;
+	time += piece->start ();
+	
+        Video (image, same, sub, time);
 }
 
 void
-Player::process_audio (shared_ptr<DecoderRecord> dr, shared_ptr<const AudioBuffers> audio, Time time)
+Player::process_audio (shared_ptr<Piece> piece, shared_ptr<const AudioBuffers> audio, Time time)
 {
         /* XXX: mapping */
 
@@ -150,13 +152,15 @@ Player::process_audio (shared_ptr<DecoderRecord> dr, shared_ptr<const AudioBuffe
            be added to any more, so it can be emitted.
         */
 
-        if (time > _last_audio) {
+	time += piece->start ();
+
+        if (time > _next_audio) {
                 /* We can emit some audio from our buffers */
-                OutputAudioFrame const N = min (_film->time_to_audio_frames (time - _last_audio), static_cast<OutputAudioFrame> (_audio_buffers.frames()));
+                OutputAudioFrame const N = min (_film->time_to_audio_frames (time - _next_audio), static_cast<OutputAudioFrame> (_audio_buffers.frames()));
                 shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
                 emit->copy_from (&_audio_buffers, N, 0, 0);
-                Audio (emit, _last_audio);
-                _last_audio += _film->audio_frames_to_time (N);
+                Audio (emit, _next_audio);
+                _next_audio += _film->audio_frames_to_time (N);
 
                 /* And remove it from our buffers */
                 if (_audio_buffers.frames() > N) {
@@ -166,53 +170,21 @@ Player::process_audio (shared_ptr<DecoderRecord> dr, shared_ptr<const AudioBuffe
         }
 
         /* Now accumulate the new audio into our buffers */
-
-        if (_audio_buffers.frames() == 0) {
-                /* We have no remaining data.  Emit silence up to the start of this new data */
-                if ((time - _last_audio) > 0) {
-                        emit_silence (time - _last_audio);
-                }
-        }
-
-        _audio_buffers.ensure_size (time - _last_audio + audio->frames());
-        _audio_buffers.accumulate (audio.get(), 0, _film->time_to_audio_frames (time - _last_audio));
-        dr->last = time + _film->audio_frames_to_time (audio->frames ());
+        _audio_buffers.ensure_size (time - _next_audio + audio->frames());
+        _audio_buffers.accumulate (audio.get(), 0, _film->time_to_audio_frames (time - _next_audio));
 }
 
 /** @return true on error */
 bool
 Player::seek (Time t)
 {
-	if (!_have_valid_decoders) {
-		setup_decoders ();
-		_have_valid_decoders = true;
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+		_have_valid_pieces = true;
 	}
 
-	if (_decoders.empty ()) {
+	if (_pieces.empty ()) {
 		return true;
-	}
-
-	cout << "seek to " << t << "\n";
-
-	Time current_time = 0;
-	shared_ptr<VideoDecoder> current;
-        for (list<shared_ptr<DecoderRecord> >::iterator i = _decoders.begin(); i != _decoders.end(); ++i) {
-		shared_ptr<VideoDecoder> v = dynamic_pointer_cast<VideoDecoder> ((*i)->decoder);
-		if (!v) {
-			continue;
-		}
-
-		if ((*i)->content->time() < t && (*i)->content->time() >= current_time) {
-			current_time = (*i)->content->time();
-			current = v;
-		}
-	}
-
-	if (current) {
-		cout << "got a decoder to seek to " << (t - current_time) << ".\n";
-		current->seek (t - current_time);
-		_position = t;
-		_last_video = t;
 	}
 
 	/* XXX: don't seek audio because we don't need to... */
@@ -233,19 +205,27 @@ Player::seek_forward ()
 	/* XXX */
 }
 
+struct ContentSorter
+{
+	bool operator() (shared_ptr<Content> a, shared_ptr<Content> b)
+	{
+		return a->time() < b->time();
+	}
+};
 
 void
 Player::setup_decoders ()
 {
-	list<shared_ptr<DecoderRecord> > old_decoders = _decoders;
+	list<shared_ptr<Piece> > old_pieces = _pieces;
 
-	_decoders.clear ();
+	_pieces.clear ();
 
 	Playlist::ContentList content = _playlist->content ();
+	content.sort (ContentSorter ());
+	
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
-		shared_ptr<DecoderRecord> dr (new DecoderRecord);
-		dr->content = *i;
+		shared_ptr<Decoder> decoder;
 		
                 /* XXX: into content? */
 
@@ -256,7 +236,7 @@ Player::setup_decoders ()
 			fd->Video.connect (bind (&Player::process_video, this, dr, _1, _2, _3, _4));
 			fd->Audio.connect (bind (&Player::process_audio, this, dr, _1, _2));
 
-			dr->decoder = fd;
+			decoder = fd;
 		}
 		
 		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
@@ -264,10 +244,13 @@ Player::setup_decoders ()
 			shared_ptr<ImageMagickDecoder> id;
 			
 			/* See if we can re-use an old ImageMagickDecoder */
-			for (list<shared_ptr<DecoderRecord> >::const_iterator i = old_decoders.begin(); i != old_decoders.end(); ++i) {
-				shared_ptr<ImageMagickDecoder> imd = dynamic_pointer_cast<ImageMagickDecoder> ((*i)->decoder);
-				if (imd && imd->content() == ic) {
-					id = imd;
+			for (list<shared_ptr<Piece> >::const_iterator i = old_pieces.begin(); i != old_pieces.end(); ++i) {
+				shared_ptr<ContentPiece> cp = dynamic_pointer_cast<ContentPiece> (*i);
+				if (cp) {
+					shared_ptr<ImageMagickDecoder> imd = dynamic_pointer_cast<ImageMagickDecoder> (cp->decoder ());
+					if (imd && imd->content() == ic) {
+						id = imd;
+					}
 				}
 			}
 
@@ -276,7 +259,7 @@ Player::setup_decoders ()
 				id->Video.connect (bind (&Player::process_video, this, dr, _1, _2, _3, _4));
 			}
 
-			dr->decoder = id;
+			decoder = id;
 		}
 
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
@@ -284,10 +267,42 @@ Player::setup_decoders ()
 			shared_ptr<AudioDecoder> sd (new SndfileDecoder (_film, sc));
 			sd->Audio.connect (bind (&Player::process_audio, this, dr, _1, _2));
 
-			dr->decoder = sd;
+			decoder = sd;
 		}
 
-		_decoders.push_back (dr);
+		_pieces.push_back (shared_ptr<new ContentPiece> (*i, decoder));
+	}
+
+	/* Fill in visual gaps with black and audio gaps with silence */
+
+	Time video_pos = 0;
+	Time audio_pos = 0;
+	list<shared_ptr<Piece> > pieces_copy = _pieces;
+	for (list<shared_ptr<Piece> >::iterator i = pieces_copy.begin(); i != pieces_copy.end(); ++i) {
+		if (dynamic_pointer_cast<VideoContent> ((*i)->content)) {
+			Time const diff = video_pos - (*i)->content->time();
+			if (diff > 0) {
+				_pieces.push_back (
+					shared_ptr<Piece> (
+						shared_ptr<Content> (new NullContent (video_pos, diff)),
+						shared_ptr<Decoder> (new BlackDecoder (video_pos, diff))
+						)
+					);
+			}
+						
+			video_pos = (*i)->content->time() + (*i)->content->length();
+		} else {
+			Time const diff = audio_pos - (*i)->content->time();
+			if (diff > 0) {
+				_pieces.push_back (
+					shared_ptr<Piece> (
+						shared_ptr<Content> (new NullContent (audio_pos, diff)),
+						shared_ptr<Decoder> (new SilenceDecoder (audio_pos, diff))
+						)
+					);
+			}
+			audio_pos = (*i)->content->time() + (*i)->content->length();
+		}
 	}
 
 	_position = 0;
@@ -302,14 +317,14 @@ Player::content_changed (weak_ptr<Content> w, int p)
 	}
 
 	if (p == VideoContentProperty::VIDEO_LENGTH) {
-		_have_valid_decoders = false;
+		_have_valid_pieces = false;
 	}
 }
 
 void
 Player::playlist_changed ()
 {
-	_have_valid_decoders = false;
+	_have_valid_pieces = false;
 }
 
 void

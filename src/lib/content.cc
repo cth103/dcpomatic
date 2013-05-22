@@ -29,9 +29,15 @@ using std::string;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
+Content::Content (Time s)
+	: _start (s)
+{
+
+}
+
 Content::Content (boost::filesystem::path f)
 	: _file (f)
-	, _time (0)
+	, _start (0)
 {
 
 }
@@ -40,14 +46,14 @@ Content::Content (shared_ptr<const cxml::Node> node)
 {
 	_file = node->string_child ("File");
 	_digest = node->string_child ("Digest");
-	_time = node->number_child<Time> ("Time");
+	_start = node->number_child<Time> ("Start");
 }
 
 Content::Content (Content const & o)
 	: boost::enable_shared_from_this<Content> (o)
 	, _file (o._file)
 	, _digest (o._digest)
-	, _time (o._time)
+	, _start (o._start)
 {
 
 }
@@ -58,7 +64,7 @@ Content::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("File")->add_child_text (_file.string());
 	node->add_child("Digest")->add_child_text (_digest);
-	node->add_child("Time")->add_child_text (lexical_cast<string> (_time));
+	node->add_child("Start")->add_child_text (lexical_cast<string> (_start));
 }
 
 void

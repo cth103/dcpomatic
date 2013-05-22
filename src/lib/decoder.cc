@@ -21,15 +21,11 @@
  *  @brief Parent class for decoders of content.
  */
 
-#include <iostream>
 #include "film.h"
-#include "exceptions.h"
-#include "util.h"
 #include "decoder.h"
 
 #include "i18n.h"
 
-using std::string;
 using boost::shared_ptr;
 
 /** @param f Film.
@@ -39,11 +35,4 @@ Decoder::Decoder (shared_ptr<const Film> f)
 	: _film (f)
 {
 	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
-}
-
-/** @return true on error */
-bool
-Decoder::seek (Time)
-{
-	throw DecodeError (N_("decoder does not support seek"));
 }

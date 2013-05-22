@@ -30,6 +30,7 @@ using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioContent> c)
 	: Decoder (f)
+	, _next_audio (0)
 	, _audio_content (c)
 	, _output_audio_frame_rate (_audio_content->output_audio_frame_rate (f))
 {
@@ -104,7 +105,7 @@ AudioDecoder::emit_audio (shared_ptr<const AudioBuffers> data, Time time)
 {
 	/* XXX: map audio to 5.1 */
 	
-	/* Maybe sample-rate convert */
+	/* Maybe resample */
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
@@ -128,6 +129,8 @@ AudioDecoder::emit_audio (shared_ptr<const AudioBuffers> data, Time time)
 	}
 
 	Audio (data, time);
+
+	_next_audio = time + _film->audio_frames_to_time (data->frames());
 }
 
 		

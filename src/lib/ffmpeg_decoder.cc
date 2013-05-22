@@ -59,6 +59,7 @@ using std::string;
 using std::vector;
 using std::stringstream;
 using std::list;
+using std::min;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -224,9 +225,7 @@ FFmpegDecoder::setup_subtitle ()
 bool
 FFmpegDecoder::pass ()
 {
-	cout << "ffd pass.\n";
 	int r = av_read_frame (_format_context, &_packet);
-	cout << "A " << r << "\n";
 
 	if (r < 0) {
 		if (r != AVERROR_EOF) {
@@ -257,9 +256,7 @@ FFmpegDecoder::pass ()
 	avcodec_get_frame_defaults (_frame);
 
 	if (_packet.stream_index == _video_stream && _decode_video) {
-		cout << "dvp\n";
 		decode_video_packet ();
-		cout << "ok.\n";
 	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
 		decode_audio_packet ();
 	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && _decode_subtitles) {
@@ -284,7 +281,6 @@ FFmpegDecoder::pass ()
 		}
 	}
 
-	cout << "out.\n";
 	av_free_packet (&_packet);
 	return false;
 }
@@ -419,30 +415,6 @@ FFmpegDecoder::pixel_format () const
 	return _video_codec_context->pix_fmt;
 }
 
-int
-FFmpegDecoder::time_base_numerator () const
-{
-	return _video_codec_context->time_base.num;
-}
-
-int
-FFmpegDecoder::time_base_denominator () const
-{
-	return _video_codec_context->time_base.den;
-}
-
-int
-FFmpegDecoder::sample_aspect_ratio_numerator () const
-{
-	return _video_codec_context->sample_aspect_ratio.num;
-}
-
-int
-FFmpegDecoder::sample_aspect_ratio_denominator () const
-{
-	return _video_codec_context->sample_aspect_ratio.den;
-}
-
 string
 FFmpegDecoder::stream_name (AVStream* s) const
 {
@@ -485,29 +457,27 @@ FFmpegDecoder::seek (Time t)
 bool
 FFmpegDecoder::seek_back ()
 {
-	if (last_content_time() < 2.5) {
+	if (next() < 2.5) {
 		return true;
 	}
 	
-	return do_seek (last_content_time() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
+	return do_seek (next() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
 }
 
 bool
 FFmpegDecoder::seek_forward ()
 {
-	if (last_content_time() >= (video_length() - video_frame_rate())) {
+	if (next() >= (video_length() - video_frame_rate())) {
 		return true;
 	}
 	
-	return do_seek (last_content_time() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
+	return do_seek (next() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
 }
 
 bool
 FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 {
 	int64_t const vt = t / (av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ);
-
-	cout << "seek to " << vt << " (acc=" << accurate << ") (sec " << (vt * av_q2d (_format_context->streams[_video_stream]->time_base)) << "\n";
 
 	int const r = av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
 
@@ -540,7 +510,6 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 		}
 	}
 
-	cout << "seek ok.\n";
 	return r < 0;
 }
 
@@ -605,16 +574,12 @@ bool
 FFmpegDecoder::decode_video_packet ()
 {
 	int frame_finished;
-	cout << "avc decode v2\n";
 	if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
 		return false;
 	}
-	cout << "done that.\n";
 		
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 
-	cout << "got lock.\n";
-	
 	shared_ptr<FilterGraph> graph;
 	
 	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
@@ -622,8 +587,6 @@ FFmpegDecoder::decode_video_packet ()
 		++i;
 	}
 
-	cout << "found graph.\n";
-	
 	if (i == _filter_graphs.end ()) {
 		graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
 		_filter_graphs.push_back (graph);
@@ -633,9 +596,7 @@ FFmpegDecoder::decode_video_packet ()
 	}
 
 
-	cout << "pushed in.\n";
 	list<shared_ptr<Image> > images = graph->process (_frame);
-	cout << "got " << images.size() << "\n";
 	
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
 		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
@@ -643,13 +604,18 @@ FFmpegDecoder::decode_video_packet ()
 			/* XXX: may need to insert extra frames / remove frames here ...
 			   (as per old Matcher)
 			*/
-			cout << "emitting.\n";
-			emit_video (*i, false, bet * av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ);
-			cout << "emitted.\n";
+			Time const t = bet * av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ;
+			emit_video (*i, false, t);
 		} else {
 			_film->log()->log ("Dropping frame without PTS");
 		}
 	}
 
 	return true;
+}
+
+Time
+FFmpegDecoder::next () const
+{
+	return min (_next_video, _next_audio);
 }

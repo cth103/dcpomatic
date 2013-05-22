@@ -36,7 +36,7 @@ class Job;
 class Film;
 class Playlist;
 class AudioContent;
-class Decoder;
+class Piece;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
@@ -62,20 +62,9 @@ public:
 
 private:
 
-	struct DecoderRecord
-	{
-		DecoderRecord ()
-			: last (0)
-		{}
-		
-		boost::shared_ptr<Content> content;
-		boost::shared_ptr<Decoder> decoder;
-		Time last;
-	};
-	
-	void process_video (boost::shared_ptr<DecoderRecord>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
-	void process_audio (boost::shared_ptr<DecoderRecord>, boost::shared_ptr<const AudioBuffers>, Time);
-	void setup_decoders ();
+	void process_video (boost::shared_ptr<Piece>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
+	void process_audio (boost::shared_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, Time);
+	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
 	void emit_black_frame ();
@@ -88,16 +77,20 @@ private:
 	bool _audio;
 	bool _subtitles;
 
-	/** Our decoders are ready to go; if this is false the decoders must be (re-)created before they are used */
-	bool _have_valid_decoders;
-	std::list<boost::shared_ptr<DecoderRecord> > _decoders;
+	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */
+	bool _have_valid_pieces;
+	std::list<boost::shared_ptr<Piece> > _pieces;
+
+	/** Time of the earliest thing not yet to have been emitted */
+	Time _position;
+	Time _last_black;
+	Time _last_silence;
 
 	/* XXX: position and last_video? Need both? */
-	Time _position;
 	AudioBuffers _audio_buffers;
 	Time _last_video;
 	bool _last_was_black;
-	Time _last_audio;
+	Time _next_audio;
 };
 
 #endif

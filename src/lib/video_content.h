@@ -37,6 +37,7 @@ public:
 class VideoContent : public virtual Content
 {
 public:
+	VideoContent (Time);
 	VideoContent (boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const cxml::Node>);
 	VideoContent (VideoContent const &);

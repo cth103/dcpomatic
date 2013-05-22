@@ -119,3 +119,9 @@ ImageMagickDecoder::seek (double t)
 	_position = f;
 	return false;
 }
+
+Time
+ImageMagickDecoder::next () const
+{
+	return _next_video;
+}

@@ -34,9 +34,8 @@ using boost::optional;
 
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
 	: Decoder (f)
+	, _next_video (0)
 	, _video_content (c)
-	, _video_frame (0)
-	, _last_content_time (0)
 {
 
 }
@@ -58,7 +57,8 @@ VideoDecoder::emit_video (shared_ptr<Image> image, bool same, Time t)
 	Video (image, same, sub, t);
 	++_video_frame;
 
-	_last_content_time = t;
+	/* XXX: who's doing skip / repeat? */
+	_next_video = t + _film->video_frames_to_time (1);
 }
 
 /** Set up the current subtitle.  This will be put onto frames that
@@ -74,15 +74,5 @@ VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
 	if (_timed_subtitle) {
 		Position const p = _timed_subtitle->subtitle()->position ();
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _video_content->crop().left, p.y - _video_content->crop().top));
-	}
-}
-
-void
-VideoDecoder::set_progress (Job* j) const
-{
-	assert (j);
-
-	if (_film->length()) {
-		j->set_progress (float (_video_frame) / _film->time_to_video_frames (_film->length()));
 	}
 }

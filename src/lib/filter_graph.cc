@@ -90,10 +90,7 @@ FilterGraph::FilterGraph (shared_ptr<const Film> film, FFmpegDecoder* decoder, l
 	a << _size.width << N_(":")
 	  << _size.height << N_(":")
 	  << _pixel_format << N_(":")
-	  << decoder->time_base_numerator() << N_(":")
-	  << decoder->time_base_denominator() << N_(":")
-	  << decoder->sample_aspect_ratio_numerator() << N_(":")
-	  << decoder->sample_aspect_ratio_denominator();
+	  << "0:1:0:1";
 
 	int r;
 

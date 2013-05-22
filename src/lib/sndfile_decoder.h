@@ -30,6 +30,7 @@ public:
 	~SndfileDecoder ();
 
 	bool pass ();
+	Time next ();
 
 	int audio_channels () const;
 	ContentAudioFrame audio_length () const;

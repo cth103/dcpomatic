@@ -113,3 +113,9 @@ SndfileDecoder::audio_frame_rate () const
 {
 	return _info.samplerate;
 }
+
+Time
+SndfileDecoder::next () const
+{
+	return _next_audio;
+}

@@ -43,6 +43,9 @@ public:
 
 	void emit_audio (boost::shared_ptr<const AudioBuffers>, Time);
 
+protected:
+	Time _next_audio;
+
 private:
 	boost::shared_ptr<const AudioContent> _audio_content;
 	SwrContext* _swr_context;

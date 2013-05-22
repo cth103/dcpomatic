@@ -30,6 +30,10 @@ class ImageMagickDecoder : public VideoDecoder
 public:
 	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageMagickContent>);
 
+	bool pass ();
+	bool seek (double);
+	Time next () const;
+
 	float video_frame_rate () const {
 		return 24;
 	}
@@ -37,33 +41,12 @@ public:
 	libdcp::Size native_size () const;
 	ContentVideoFrame video_length () const;
 
-	bool seek (double);
-	bool pass ();
-
 	boost::shared_ptr<const ImageMagickContent> content () const {
 		return _imagemagick_content;
 	}
 
 protected:
 	PixelFormat pixel_format () const;
-
-	int time_base_numerator () const {
-		return 0;
-	}
-
-	int time_base_denominator () const {
-		return 0;
-	}
-
-	int sample_aspect_ratio_numerator () const {
-		/* XXX */
-		return 1;
-	}
-
-	int sample_aspect_ratio_denominator () const {
-		/* XXX */
-		return 1;
-	}
 
 private:
 	boost::shared_ptr<const ImageMagickContent> _imagemagick_content;

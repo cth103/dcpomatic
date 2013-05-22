@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,10 +42,6 @@ class FilterGraph;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
- *
- *  These classes can be instructed run through their content (by
- *  calling ::go), and they emit signals when video or audio data is
- *  ready for something else to process.
  */
 class Decoder
 {
@@ -53,23 +49,38 @@ public:
 	Decoder (boost::shared_ptr<const Film>);
 	virtual ~Decoder () {}
 
-	virtual bool pass () = 0;
-	virtual bool seek (Time);
-	virtual bool seek_back () {
-		return true;
-	}
-	virtual bool seek_forward () {
-		return true;
-	}
+	/** Perform one decode pass of the content, which may or may not
+	 *  cause the object to emit some data.
+	 */
+	virtual void pass () = 0;
 
-	boost::signals2::signal<void()> OutputChanged;
+	/** Seek this decoder to as close as possible to some time,
+	 *  expressed relative to our source's start.
+	 *  @param t Time.
+	 */
+	virtual void seek (Time t) {}
+
+	/** Seek back one video frame */
+	virtual void seek_back () {}
+
+	/** Seek forward one video frame */
+	virtual void seek_forward () {}
+
+	/** @return Approximate time of the next content that we will emit,
+	 *  expressed relative to the start of our source.
+	 */
+	virtual Time next () const = 0;
 
 protected:
-	boost::shared_ptr<const Film> _film;
+
+	/** The Film that we are decoding in */
+	boost::weak_ptr<const Film> _film;
 
 private:
+	/** This will be called when our Film emits Changed */
 	virtual void film_changed (Film::Property) {}
 
+	/** Connection to our Film */
 	boost::signals2::scoped_connection _film_connection;
 };
 
