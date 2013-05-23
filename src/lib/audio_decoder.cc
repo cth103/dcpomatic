@@ -32,15 +32,18 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioCont
 	: Decoder (f)
 	, _next_audio (0)
 	, _audio_content (c)
-	, _output_audio_frame_rate (_audio_content->output_audio_frame_rate (f))
 {
-	if (_audio_content->content_audio_frame_rate() != _output_audio_frame_rate) {
+	if (_audio_content->content_audio_frame_rate() != _audio_content->output_audio_frame_rate()) {
 
 		shared_ptr<const Film> film = _film.lock ();
 		assert (film);
 
 		stringstream s;
-		s << String::compose ("Will resample audio from %1 to %2", _audio_content->content_audio_frame_rate(), _output_audio_frame_rate);
+		s << String::compose (
+			"Will resample audio from %1 to %2",
+			_audio_content->content_audio_frame_rate(), _audio_content->output_audio_frame_rate()
+			);
+		
 		film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the
@@ -55,7 +58,7 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioCont
 			0,
 			av_get_default_channel_layout (MAX_AUDIO_CHANNELS),
 			AV_SAMPLE_FMT_FLTP,
-			_output_audio_frame_rate,
+			_audio_content->output_audio_frame_rate(),
 			av_get_default_channel_layout (MAX_AUDIO_CHANNELS),
 			AV_SAMPLE_FMT_FLTP,
 			_audio_content->content_audio_frame_rate(),
@@ -115,7 +118,9 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 	if (_swr_context) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil ((int64_t) data->frames() * _output_audio_frame_rate / _audio_content->content_audio_frame_rate()) + 32;
+		int const max_resampled_frames = ceil (
+			(int64_t) data->frames() * _audio_content->output_audio_frame_rate() / _audio_content->content_audio_frame_rate()
+			) + 32;
 
 		shared_ptr<AudioBuffers> resampled (new AudioBuffers (MAX_AUDIO_CHANNELS, max_resampled_frames));
 

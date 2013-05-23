@@ -29,20 +29,23 @@ using std::string;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-Content::Content (Time s)
-	: _start (s)
+Content::Content (shared_ptr<const Film> f, Time s)
+	: _film (f)
+	, _start (s)
 {
 
 }
 
-Content::Content (boost::filesystem::path f)
-	: _file (f)
+Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
+	: _film (f)
+	, _file (p)
 	, _start (0)
 {
 
 }
 
-Content::Content (shared_ptr<const cxml::Node> node)
+Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+	: _film (f)
 {
 	_file = node->string_child ("File");
 	_digest = node->string_child ("Digest");
@@ -51,6 +54,7 @@ Content::Content (shared_ptr<const cxml::Node> node)
 
 Content::Content (Content const & o)
 	: boost::enable_shared_from_this<Content> (o)
+	, _film (o._film)
 	, _file (o._file)
 	, _digest (o._digest)
 	, _start (o._start)
@@ -68,7 +72,7 @@ Content::as_xml (xmlpp::Node* node) const
 }
 
 void
-Content::examine (shared_ptr<Film>, shared_ptr<Job>)
+Content::examine (shared_ptr<Job>)
 {
 	string const d = md5_digest (_file);
 	boost::mutex::scoped_lock lm (_mutex);

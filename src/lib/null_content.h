@@ -19,12 +19,13 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include "content.h"
+#include "video_content.h"
+#include "audio_content.h"
 
 class NullContent : public VideoContent, public AudioContent
 {
 public:
-	NullContent (Time, Time, boost::shared_ptr<const Film>);
+	NullContent (boost::shared_ptr<const Film>, Time, Time);
 
 	std::string summary () const {
 		return "";
@@ -48,23 +49,19 @@ public:
 		return _audio_length;
 	}
 	
-        int content_audio_frame_rate () const {
-		return _content_audio_frame_rate;
-	}
+        int content_audio_frame_rate () const;
 	
-	int output_audio_frame_rate (boost::shared_ptr<const Film> f) const {
-		return f->dcp_audio_frame_rate ();
-	}
+	int output_audio_frame_rate () const;
 	
 	AudioMapping audio_mapping () const {
 		return AudioMapping ();
 	}
 	
-	Time length (boost::shared_ptr<const Film>) const {
+	Time length () const {
 		return _length;
 	}
 
 private:
 	ContentAudioFrame _audio_length;
-	ContentAudioFrame _content_audio_frame_rate;
+	Time _length;
 };

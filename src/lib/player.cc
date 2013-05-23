@@ -62,8 +62,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _have_valid_pieces (false)
 	, _position (0)
 	, _audio_buffers (MAX_AUDIO_CHANNELS, 0)
-	, _last_video (0)
-	, _last_was_black (false)
 	, _next_audio (0)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -104,7 +102,7 @@ Player::pass ()
         shared_ptr<Piece> earliest;
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		if ((*i)->content->end(_film) < _position) {
+		if ((*i)->content->end() < _position) {
 			continue;
 		}
 		
@@ -124,7 +122,7 @@ Player::pass ()
 	/* Move position to earliest active next emission */
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		if ((*i)->content->end(_film) < _position) {
+		if ((*i)->content->end() < _position) {
 			continue;
 		}
 
@@ -200,6 +198,16 @@ Player::seek (Time t)
 		return;
 	}
 
+	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+		if ((*i)->content->end() < t) {
+			continue;
+		}
+
+		(*i)->decoder->seek (t);
+	}
+
+	_position = t;
+	
 	/* XXX: don't seek audio because we don't need to... */
 }
 
@@ -290,18 +298,18 @@ Player::setup_pieces ()
 		if (dynamic_pointer_cast<VideoContent> ((*i)->content)) {
 			Time const diff = video_pos - (*i)->content->start();
 			if (diff > 0) {
-				shared_ptr<NullContent> nc (new NullContent (video_pos, diff));
+				shared_ptr<NullContent> nc (new NullContent (_film, video_pos, diff));
 				_pieces.push_back (shared_ptr<Piece> (new Piece (nc, shared_ptr<Decoder> (new BlackDecoder (_film, nc)))));
 			}
 						
-			video_pos = (*i)->content->start() + (*i)->content->length(_film);
+			video_pos = (*i)->content->end();
 		} else {
 			Time const diff = audio_pos - (*i)->content->start();
 			if (diff > 0) {
-				shared_ptr<NullContent> nc (new NullContent (audio_pos, diff));
+				shared_ptr<NullContent> nc (new NullContent (_film, audio_pos, diff));
 				_pieces.push_back (shared_ptr<Piece> (new Piece (nc, shared_ptr<Decoder> (new SilenceDecoder (_film, nc)))));
 			}
-			audio_pos = (*i)->content->start() + (*i)->content->length(_film);
+			audio_pos = (*i)->content->end();
 		}
 	}
 

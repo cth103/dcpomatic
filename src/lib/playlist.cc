@@ -122,7 +122,7 @@ Playlist::video_digest () const
 
 /** @param node <Playlist> node */
 void
-Playlist::set_from_xml (shared_ptr<const cxml::Node> node)
+Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node)
 {
 	list<shared_ptr<cxml::Node> > c = node->node_children ("Content");
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
@@ -131,11 +131,11 @@ Playlist::set_from_xml (shared_ptr<const cxml::Node> node)
 		boost::shared_ptr<Content> content;
 
 		if (type == "FFmpeg") {
-			content.reset (new FFmpegContent (*i));
+			content.reset (new FFmpegContent (film, *i));
 		} else if (type == "ImageMagick") {
-			content.reset (new ImageMagickContent (*i));
+			content.reset (new ImageMagickContent (film, *i));
 		} else if (type == "Sndfile") {
-			content.reset (new SndfileContent (*i));
+			content.reset (new SndfileContent (film, *i));
 		}
 
 		_content.push_back (content);
@@ -261,11 +261,11 @@ Playlist::best_dcp_frame_rate () const
 }
 
 Time
-Playlist::length (shared_ptr<const Film> film) const
+Playlist::length () const
 {
 	Time len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		len = max (len, (*i)->end (film));
+		len = max (len, (*i)->end ());
 	}
 
 	return len;

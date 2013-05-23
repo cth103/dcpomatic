@@ -80,26 +80,26 @@ public:
 class FFmpegContent : public VideoContent, public AudioContent
 {
 public:
-	FFmpegContent (boost::filesystem::path);
-	FFmpegContent (boost::shared_ptr<const cxml::Node>);
+	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	FFmpegContent (FFmpegContent const &);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
 	}
 	
-	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
-	Time length (boost::shared_ptr<const Film>) const;
+	Time length () const;
 
         /* AudioContent */
         int audio_channels () const;
         ContentAudioFrame audio_length () const;
         int content_audio_frame_rate () const;
-        int output_audio_frame_rate (boost::shared_ptr<const Film>) const;
+        int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
 	
         std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {

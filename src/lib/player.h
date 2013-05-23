@@ -56,8 +56,8 @@ public:
 	void seek_back ();
 	void seek_forward ();
 
-	Time last_video () const {
-		return _last_video;
+	Time position () const {
+		return _position;
 	}
 
 private:
@@ -81,13 +81,7 @@ private:
 
 	/** Time of the earliest thing not yet to have been emitted */
 	Time _position;
-	Time _last_black;
-	Time _last_silence;
-
-	/* XXX: position and last_video? Need both? */
 	AudioBuffers _audio_buffers;
-	Time _last_video;
-	bool _last_was_black;
 	Time _next_audio;
 };
 

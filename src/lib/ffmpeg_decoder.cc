@@ -473,6 +473,7 @@ void
 FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 {
 	int64_t const vt = t / (av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ);
+	cout << "seek-> " << t << "\n";
 	av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
 
 	avcodec_flush_buffers (_video_codec_context);

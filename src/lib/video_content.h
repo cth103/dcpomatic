@@ -37,9 +37,9 @@ public:
 class VideoContent : public virtual Content
 {
 public:
-	VideoContent (Time);
-	VideoContent (boost::filesystem::path);
-	VideoContent (boost::shared_ptr<const cxml::Node>);
+	VideoContent (boost::shared_ptr<const Film>, Time, ContentVideoFrame);
+	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	VideoContent (VideoContent const &);
 
 	void as_xml (xmlpp::Node *) const;

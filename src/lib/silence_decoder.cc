@@ -17,32 +17,40 @@
 
 */
 
+#include "silence_decoder.h"
 #include "null_content.h"
-#include "film.h"
+#include "audio_buffers.h"
 
+using std::min;
 using boost::shared_ptr;
 
-NullContent::NullContent (shared_ptr<const Film> f, Time s, Time len)
-	: Content (f, s)
-	, VideoContent (f, s, f->time_to_video_frames (len))
-	, AudioContent (f, s)
-	, _audio_length (f->time_to_audio_frames (len))
-	, _length (len)
+SilenceDecoder::SilenceDecoder (shared_ptr<const Film> f, shared_ptr<NullContent> c)
+	: Decoder (f)
+	, AudioDecoder (f, c)
 {
-
-}
-
-int
-NullContent::content_audio_frame_rate () const
-{
-	return output_audio_frame_rate ();
-}
 	
+}
 
-int
-NullContent::output_audio_frame_rate () const
+void
+SilenceDecoder::pass ()
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	return film->dcp_audio_frame_rate ();
+	
+	Time const this_time = min (_audio_content->length() - _next_audio, TIME_HZ / 2);
+	shared_ptr<AudioBuffers> data (new AudioBuffers (MAX_AUDIO_CHANNELS, film->time_to_audio_frames (this_time)));
+	data->make_silent ();
+	audio (data, _next_audio);
+}
+
+void
+SilenceDecoder::seek (Time t)
+{
+	_next_audio = t;
+}
+
+Time
+SilenceDecoder::next () const
+{
+	return _next_audio;
 }

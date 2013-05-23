@@ -46,9 +46,9 @@ protected:
 	void subtitle (boost::shared_ptr<TimedSubtitle>);
 
 	Time _next_video;
+	boost::shared_ptr<const VideoContent> _video_content;
 
 private:
-	boost::shared_ptr<const VideoContent> _video_content;
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 	FrameRateConversion _frame_rate_conversion;
 	bool _odd;

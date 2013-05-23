@@ -80,7 +80,8 @@ new_test_film (string name)
 		boost::filesystem::remove_all (p);
 	}
 	
-	return shared_ptr<Film> (new Film (p.string(), false));
+	shared_ptr<Film> f = shared_ptr<Film> (new Film (p.string()));
+	f->write_metadata ();
 }
 
 
@@ -134,9 +135,8 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 		boost::filesystem::remove_all (test_film);
 	}
 
-	BOOST_CHECK_THROW (new Film (test_film, true), OpenFileError);
-	
-	shared_ptr<Film> f (new Film (test_film, false));
+	shared_ptr<Film> f (new Film (test_film));
+	f->write_metadata ();
 	f->_dci_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (f->container() == 0);
 	BOOST_CHECK (f->dcp_content_type() == 0);
@@ -157,7 +157,8 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	s << "diff -u test/metadata.ref " << test_film << "/metadata";
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
 
-	shared_ptr<Film> g (new Film (test_film, true));
+	shared_ptr<Film> g (new Film (test_film));
+	g->read_metadata ();
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");
 	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_pretty_name ("Short"));

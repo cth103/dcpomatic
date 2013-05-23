@@ -46,11 +46,10 @@ protected:
 	void audio (boost::shared_ptr<const AudioBuffers>, Time);
 
 	Time _next_audio;
-
-private:
 	boost::shared_ptr<const AudioContent> _audio_content;
+
+private:	
 	SwrContext* _swr_context;
-	int _output_audio_frame_rate;
 };
 
 #endif

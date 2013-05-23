@@ -39,17 +39,17 @@ class Film;
 class Content : public boost::enable_shared_from_this<Content>
 {
 public:
-	Content (Time);
-	Content (boost::filesystem::path);
-	Content (boost::shared_ptr<const cxml::Node>);
+	Content (boost::shared_ptr<const Film>, Time);
+	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
+	Content (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	Content (Content const &);
 	
-	virtual void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>);
+	virtual void examine (boost::shared_ptr<Job>);
 	virtual std::string summary () const = 0;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual boost::shared_ptr<Content> clone () const = 0;
-	virtual Time length (boost::shared_ptr<const Film>) const = 0;
+	virtual Time length () const = 0;
 
 	boost::filesystem::path file () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -66,15 +66,16 @@ public:
 		return _start;
 	}
 
-	Time end (boost::shared_ptr<const Film> f) const {
-		return start() + length(f);
+	Time end () const {
+		return start() + length();
 	}
 
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int)> Changed;
 
 protected:
 	void signal_changed (int);
-	
+
+	boost::weak_ptr<const Film> _film;
 	mutable boost::mutex _mutex;
 
 private:

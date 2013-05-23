@@ -29,16 +29,16 @@ using std::string;
 using std::stringstream;
 using boost::shared_ptr;
 
-ImageMagickContent::ImageMagickContent (boost::filesystem::path f)
-	: Content (f)
-	, VideoContent (f)
+ImageMagickContent::ImageMagickContent (shared_ptr<const Film> f, boost::filesystem::path p)
+	: Content (f, p)
+	, VideoContent (f, p)
 {
 
 }
 
-ImageMagickContent::ImageMagickContent (shared_ptr<const cxml::Node> node)
-	: Content (node)
-	, VideoContent (node)
+ImageMagickContent::ImageMagickContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+	: Content (f, node)
+	, VideoContent (f, node)
 {
 	
 }
@@ -66,9 +66,13 @@ ImageMagickContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-ImageMagickContent::examine (shared_ptr<Film> film, shared_ptr<Job> job)
+ImageMagickContent::examine (shared_ptr<Job> job)
 {
-	Content::examine (film, job);
+	Content::examine (job);
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
 	shared_ptr<ImageMagickDecoder> decoder (new ImageMagickDecoder (film, shared_from_this()));
 
 	{
@@ -100,8 +104,11 @@ ImageMagickContent::set_video_length (ContentVideoFrame len)
 }
 
 Time
-ImageMagickContent::length (shared_ptr<const Film> film) const
+ImageMagickContent::length () const
 {
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
 	FrameRateConversion frc (24, film->dcp_video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
 }

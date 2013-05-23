@@ -42,18 +42,18 @@ int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::AUDIO_STREAMS = 102;
 int const FFmpegContentProperty::AUDIO_STREAM = 103;
 
-FFmpegContent::FFmpegContent (boost::filesystem::path f)
-	: Content (f)
-	, VideoContent (f)
-	, AudioContent (f)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path p)
+	: Content (f, p)
+	, VideoContent (f, p)
+	, AudioContent (f, p)
 {
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const cxml::Node> node)
-	: Content (node)
-	, VideoContent (node)
-	, AudioContent (node)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+	: Content (f, node)
+	, VideoContent (f, node)
+	, AudioContent (f, node)
 {
 	list<shared_ptr<cxml::Node> > c = node->node_children ("SubtitleStream");
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -112,11 +112,14 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-FFmpegContent::examine (shared_ptr<Film> film, shared_ptr<Job> job)
+FFmpegContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 
-	Content::examine (film, job);
+	Content::examine (job);
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
 
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false));
 
@@ -233,8 +236,11 @@ FFmpegContent::content_audio_frame_rate () const
 }
 
 int
-FFmpegContent::output_audio_frame_rate (shared_ptr<const Film> film) const
+FFmpegContent::output_audio_frame_rate () const
 {
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
 
@@ -308,8 +314,11 @@ FFmpegContent::clone () const
 }
 
 Time
-FFmpegContent::length (shared_ptr<const Film> film) const
+FFmpegContent::length () const
 {
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
 	FrameRateConversion frc (video_frame_rate (), film->dcp_video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
 }

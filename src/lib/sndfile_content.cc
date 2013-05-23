@@ -33,9 +33,9 @@ using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-SndfileContent::SndfileContent (boost::filesystem::path f)
-	: Content (f)
-	, AudioContent (f)
+SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::path p)
+	: Content (f, p)
+	, AudioContent (f, p)
 	, _audio_channels (0)
 	, _audio_length (0)
 	, _audio_frame_rate (0)
@@ -43,9 +43,9 @@ SndfileContent::SndfileContent (boost::filesystem::path f)
 
 }
 
-SndfileContent::SndfileContent (shared_ptr<const cxml::Node> node)
-	: Content (node)
-	, AudioContent (node)
+SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+	: Content (f, node)
+	, AudioContent (f, node)
 {
 	_audio_channels = node->number_child<int> ("AudioChannels");
 	_audio_length = node->number_child<ContentAudioFrame> ("AudioLength");
@@ -93,10 +93,13 @@ SndfileContent::clone () const
 }
 
 void
-SndfileContent::examine (shared_ptr<Film> film, shared_ptr<Job> job)
+SndfileContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
-	Content::examine (film, job);
+	Content::examine (job);
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
 
 	SndfileDecoder dec (film, shared_from_this());
 
@@ -122,15 +125,20 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));
 }
 
-int
-SndfileContent::output_audio_frame_rate (shared_ptr<const Film>) const
+Time
+SndfileContent::length () const
 {
-	/* Resample to a DCI-approved sample rate */
-	return dcp_audio_frame_rate (content_audio_frame_rate ());
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	return film->audio_frames_to_time (audio_length ());
 }
 
-Time
-SndfileContent::length (shared_ptr<const Film> film) const
+int
+SndfileContent::output_audio_frame_rate () const
 {
-	return film->audio_frames_to_time (audio_length ());
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	return film->dcp_audio_frame_rate ();
 }

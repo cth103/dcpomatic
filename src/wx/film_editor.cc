@@ -1077,11 +1077,11 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 		boost::filesystem::path p (wx_to_std (paths[i]));
 
 		if (ImageMagickContent::valid_file (p)) {
-			_film->add_content (shared_ptr<ImageMagickContent> (new ImageMagickContent (p)));
+			_film->add_content (shared_ptr<ImageMagickContent> (new ImageMagickContent (_film, p)));
 		} else if (SndfileContent::valid_file (p)) {
-			_film->add_content (shared_ptr<SndfileContent> (new SndfileContent (p)));
+			_film->add_content (shared_ptr<SndfileContent> (new SndfileContent (_film, p)));
 		} else {
-			_film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (p)));
+			_film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (_film, p)));
 		}
 	}
 }

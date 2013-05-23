@@ -18,9 +18,14 @@
 */
 
 #include "black_decoder.h"
+#include "image.h"
+#include "null_content.h"
 
-BlackDecoder::BlackDecoder (shared_ptr<Film> f, shared_ptr<NullContent> c)
-	: VideoDecoder (f, c)
+using boost::shared_ptr;
+
+BlackDecoder::BlackDecoder (shared_ptr<const Film> f, shared_ptr<NullContent> c)
+	: Decoder (f)
+	, VideoDecoder (f, c)
 {
 
 }
@@ -29,7 +34,7 @@ void
 BlackDecoder::pass ()
 {
 	if (!_image) {
-		_image.reset (new SimpleImage (AV_PIX_FMT_RGB24, video_size ()));
+		_image.reset (new SimpleImage (AV_PIX_FMT_RGB24, video_size(), true));
 		_image->make_black ();
 		video (_image, false, _next_video);
 	} else {
@@ -58,4 +63,10 @@ Time
 BlackDecoder::next () const
 {
 	return _next_video;
+}
+
+void
+BlackDecoder::seek (Time t)
+{
+	_next_video = t;
 }

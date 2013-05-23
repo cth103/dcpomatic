@@ -11,6 +11,7 @@ sources = """
           audio_decoder.cc
           audio_mapping.cc
           audio_source.cc
+          black_decoder.cc
           config.cc
           combiner.cc
           container.cc
@@ -38,11 +39,13 @@ sources = """
           job_manager.cc
           log.cc
           lut.cc
+          null_content.cc
           player.cc
           playlist.cc
           scp_dcp_job.cc
           scaler.cc
           server.cc
+          silence_decoder.cc
           sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc

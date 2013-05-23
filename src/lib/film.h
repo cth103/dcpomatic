@@ -56,7 +56,7 @@ class Player;
 class Film : public boost::enable_shared_from_this<Film>
 {
 public:
-	Film (std::string d, bool must_exist = true);
+	Film (std::string d);
 	Film (Film const &);
 
 	std::string info_dir () const;
@@ -86,6 +86,7 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
+	void read_metadata ();
 	void write_metadata () const;
 
 	std::string dci_name (bool if_created_now) const;
@@ -259,7 +260,6 @@ private:
 	void signal_changed (Property);
 	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
-	void read_metadata ();
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int);
 	std::string filename_safe_name () const;

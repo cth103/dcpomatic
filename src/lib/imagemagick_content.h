@@ -27,18 +27,18 @@ namespace cxml {
 class ImageMagickContent : public VideoContent
 {
 public:
-	ImageMagickContent (boost::filesystem::path);
-	ImageMagickContent (boost::shared_ptr<const cxml::Node>);
+	ImageMagickContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	ImageMagickContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 
 	boost::shared_ptr<ImageMagickContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<ImageMagickContent> (Content::shared_from_this ());
 	};
 
-	void examine (boost::shared_ptr<Film>, boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
 	boost::shared_ptr<Content> clone () const;
-	Time length (boost::shared_ptr<const Film>) const;
+	Time length () const;
 
 	void set_video_length (ContentVideoFrame);
 

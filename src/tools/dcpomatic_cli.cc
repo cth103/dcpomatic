@@ -125,7 +125,8 @@ main (int argc, char* argv[])
 
 	shared_ptr<Film> film;
 	try {
-		film.reset (new Film (film_dir, true));
+		film.reset (new Film (film_dir));
+		film->read_metadata ();
 	} catch (std::exception& e) {
 		cerr << argv[0] << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);

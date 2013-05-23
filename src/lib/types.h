@@ -31,7 +31,7 @@ typedef int64_t ContentAudioFrame;
 typedef int     ContentVideoFrame;
 typedef int64_t Time;
 #define TIME_MAX INT64_MAX
-#define TIME_HZ  96000
+#define TIME_HZ  ((Time) 96000)
 typedef int64_t OutputAudioFrame;
 typedef int     OutputVideoFrame;
 

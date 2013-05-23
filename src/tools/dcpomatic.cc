@@ -312,7 +312,8 @@ private:
 			}
 			
 			maybe_save_then_delete_film ();
-			film.reset (new Film (d->get_path (), false));
+			film.reset (new Film (d->get_path ()));
+			film->write_metadata ();
 			film->log()->set_level (log_level);
 			film->set_name (boost::filesystem::path (d->get_path()).filename().generic_string());
 			set_film ();
@@ -497,6 +498,7 @@ class App : public wxApp
 		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
 			try {
 				film.reset (new Film (film_to_load));
+				film->read_metadata ();
 				film->log()->set_level (log_level);
 			} catch (exception& e) {
 				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load, e.what())));
@@ -504,7 +506,8 @@ class App : public wxApp
 		}
 
 		if (!film_to_create.empty ()) {
-			film.reset (new Film (film_to_create, false));
+			film.reset (new Film (film_to_create));
+			film->write_metadata ();
 			film->log()->set_level (log_level);
 			film->set_name (boost::filesystem::path (film_to_create).filename().generic_string ());
 		}

@@ -19,6 +19,8 @@
 
 #include "video_decoder.h"
 
+class NullContent;
+
 class BlackDecoder : public VideoDecoder
 {
 public:

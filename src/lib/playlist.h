@@ -61,7 +61,7 @@ public:
 	~Playlist ();
 
 	void as_xml (xmlpp::Node *);
-	void set_from_xml (boost::shared_ptr<const cxml::Node>);
+	void set_from_xml (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 
 	void add (boost::shared_ptr<Content>);
 	void remove (boost::shared_ptr<Content>);
@@ -83,7 +83,7 @@ public:
 	
 	void set_loop (int l);
 
-	Time length (boost::shared_ptr<const Film>) const;
+	Time length () const;
 	int best_dcp_frame_rate () const;
 
 	mutable boost::signals2::signal<void ()> Changed;

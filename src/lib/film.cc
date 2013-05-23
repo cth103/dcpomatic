@@ -83,15 +83,12 @@ using libdcp::Size;
 
 int const Film::state_version = 4;
 
-/** Construct a Film object in a given directory, reading any metadata
- *  file that exists in that directory.  An exception will be thrown if
- *  must_exist is true and the specified directory does not exist.
+/** Construct a Film object in a given directory.
  *
  *  @param d Film directory.
- *  @param must_exist true to throw an exception if does not exist.
  */
 
-Film::Film (string d, bool must_exist)
+Film::Film (string d)
 	: _playlist (new Playlist)
 	, _use_dci_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
@@ -131,21 +128,6 @@ Film::Film (string d, bool must_exist)
 	}
 
 	set_directory (result.string ());
-	
-	if (!boost::filesystem::exists (directory())) {
-		if (must_exist) {
-			throw OpenFileError (directory());
-		} else {
-			boost::filesystem::create_directory (directory());
-		}
-	}
-
-	if (must_exist) {
-		read_metadata ();
-	} else {
-		write_metadata ();
-	}
-
 	_log.reset (new FileLog (file ("log")));
 }
 
@@ -388,6 +370,10 @@ Film::encoded_frames () const
 void
 Film::write_metadata () const
 {
+	if (!boost::filesystem::exists (directory())) {
+		boost::filesystem::create_directory (directory());
+	}
+	
 	boost::mutex::scoped_lock lm (_state_mutex);
 	LocaleGuard lg;
 
@@ -477,7 +463,7 @@ Film::read_metadata ()
 	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 
-	_playlist->set_from_xml (f.node_child ("Playlist"));
+	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
 	_dirty = false;
 }
@@ -865,7 +851,7 @@ Film::remove_content (shared_ptr<Content> c)
 Time
 Film::length () const
 {
-	return _playlist->length (shared_from_this ());
+	return _playlist->length ();
 }
 
 bool

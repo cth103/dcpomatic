@@ -34,22 +34,22 @@ using std::setprecision;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-VideoContent::VideoContent (Time s, ContentVideoFrame len)
-	: Content (s)
+VideoContent::VideoContent (shared_ptr<const Film> f, Time s, ContentVideoFrame len)
+	: Content (f, s)
 	, _video_length (len)
 {
 
 }
 
-VideoContent::VideoContent (boost::filesystem::path f)
-	: Content (f)
+VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
+	: Content (f, p)
 	, _video_length (0)
 {
 
 }
 
-VideoContent::VideoContent (shared_ptr<const cxml::Node> node)
-	: Content (node)
+VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+	: Content (f, node)
 {
 	_video_length = node->number_child<ContentVideoFrame> ("VideoLength");
 	_video_size.width = node->number_child<int> ("VideoWidth");

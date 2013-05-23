@@ -177,6 +177,7 @@ private:
 		if (r == wxID_OK) {
 			try {
 				shared_ptr<Film> film (new Film (wx_to_std (c->GetPath ())));
+				film->read_metadata ();
 				film->make_dcp ();
 			} catch (std::exception& e) {
 				wxString p = c->GetPath ();

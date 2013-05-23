@@ -148,7 +148,8 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	server = new ServerDescription (server_host, 1);
-	shared_ptr<Film> film (new Film (film_dir, true));
+	shared_ptr<Film> film (new Film (film_dir));
+	film->read_metadata ();
 
 	shared_ptr<Player> player = film->player ();
 	player->disable_audio ();

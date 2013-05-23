@@ -17,6 +17,12 @@
 
 */
 
+#include <boost/shared_ptr.hpp>
+#include "audio_decoder.h"
+
+class Film;
+class NullContent;
+
 class SilenceDecoder : public AudioDecoder
 {
 public:
