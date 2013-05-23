@@ -58,7 +58,7 @@ public:
 	 *  expressed relative to our source's start.
 	 *  @param t Time.
 	 */
-	virtual void seek (Time t) {}
+	virtual void seek (Time) {}
 
 	/** Seek back one video frame */
 	virtual void seek_back () {}

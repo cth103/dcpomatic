@@ -23,51 +23,58 @@
 #include "subtitle.h"
 #include "film.h"
 #include "image.h"
-#include "log.h"
-#include "job.h"
 
 #include "i18n.h"
 
 using std::cout;
 using boost::shared_ptr;
-using boost::optional;
 
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
 	: Decoder (f)
 	, _next_video (0)
 	, _video_content (c)
+	, _frame_rate_conversion (c->video_frame_rate(), f->dcp_frame_rate())
+	, _odd (false)
 {
 
 }
 
-/** Called by subclasses to tell the world that some video data is ready.
- *  We find a subtitle then emit it for listeners.
+/** Called by subclasses when some video is ready.
  *  @param image frame to emit.
+ *  @param same true if this frame is the same as the last one passed to this call.
  *  @param t Time of the frame within the source.
  */
 void
-VideoDecoder::emit_video (shared_ptr<Image> image, bool same, Time t)
+VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 {
+	if (_frame_rate_conversion.skip && _odd) {
+		_odd = !_odd;
+		return;
+	}
+
 	shared_ptr<Subtitle> sub;
 	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	TIMING (N_("Decoder emits %1"), _video_frame);
 	Video (image, same, sub, t);
-	++_video_frame;
 
-	/* XXX: who's doing skip / repeat? */
-	_next_video = t + _film->video_frames_to_time (1);
+	if (_frame_rate_conversion.repeat) {
+		Video (image, true, sub, t + _film->video_frames_to_time (1));
+		_next_video = t + _film->video_frames_to_time (2);
+	} else {
+		_next_video = t + _film->video_frames_to_time (1);
+	}
+
+	_odd = !_odd;
 }
 
-/** Set up the current subtitle.  This will be put onto frames that
- *  fit within its time specification.  s may be 0 to say that there
- *  is no current subtitle.
+/** Called by subclasses when a subtitle is ready.
+ *  s may be 0 to say that there is no current subtitle.
  *  @param s New current subtitle, or 0.
  */
 void
-VideoDecoder::emit_subtitle (shared_ptr<TimedSubtitle> s)
+VideoDecoder::subtitle (shared_ptr<TimedSubtitle> s)
 {
 	_timed_subtitle = s;
 	

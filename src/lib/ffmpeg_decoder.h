@@ -62,15 +62,21 @@ public:
 	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio, bool subtitles);
 	~FFmpegDecoder ();
 
-	bool pass ();
-	bool seek (Time);
-	bool seek_back ();
-	bool seek_forward ();
+	/* Decoder */
+
+	void pass ();
+	void seek (Time);
+	void seek_back ();
+	void seek_forward ();
 	Time next () const;
 
+	/* VideoDecoder */
+
 	float video_frame_rate () const;
-	libdcp::Size native_size () const;
+	libdcp::Size video_size () const;
 	ContentVideoFrame video_length () const;
+
+	/* FFmpegDecoder */
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;
@@ -93,7 +99,7 @@ private:
 	PixelFormat pixel_format () const;
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
-	bool do_seek (Time, bool, bool);
+	void do_seek (Time, bool, bool);
 
 	void setup_general ();
 	void setup_video ();

@@ -29,7 +29,7 @@ public:
 	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SndfileContent>);
 	~SndfileDecoder ();
 
-	bool pass ();
+	void pass ();
 	Time next ();
 
 	int audio_channels () const;

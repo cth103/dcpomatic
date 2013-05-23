@@ -33,7 +33,7 @@ class Subtitle;
 class Image;
 
 /** @class VideoSource
- *  @param A class that emits video data without timestamps.
+ *  @param A class that emits video data.
  */
 class VideoSource
 {

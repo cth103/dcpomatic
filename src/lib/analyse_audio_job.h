@@ -19,6 +19,7 @@
 
 #include "job.h"
 #include "audio_analysis.h"
+#include "types.h"
 
 class AudioBuffers;
 
@@ -33,7 +34,7 @@ public:
 private:
 	void audio (boost::shared_ptr<const AudioBuffers>);
 
-	int64_t _done;
+	Time _next;
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;
 

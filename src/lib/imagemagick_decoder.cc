@@ -36,22 +36,21 @@ ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<con
 	: Decoder (f)
 	, VideoDecoder (f, c)
 	, _imagemagick_content (c)
-	, _position (0)
 {
 
 }
 
 libdcp::Size
-ImageMagickDecoder::native_size () const
+ImageMagickDecoder::video_size () const
 {
-	if (!_native_size) {
+	if (!_video_size) {
 		using namespace MagickCore;
 		Magick::Image* image = new Magick::Image (_imagemagick_content->file().string());
-		_native_size = libdcp::Size (image->columns(), image->rows());
+		_video_size = libdcp::Size (image->columns(), image->rows());
 		delete image;
 	}
 
-	return _native_size.get ();
+	return _video_size.get ();
 }
 
 int
@@ -60,29 +59,40 @@ ImageMagickDecoder::video_length () const
 	return _imagemagick_content->video_length ();
 }
 
-bool
+float
+ImageMagickDecoder::video_frame_rate () const
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return 24;
+	}
+
+	return f->dcp_video_frame_rate ();
+}
+
+void
 ImageMagickDecoder::pass ()
 {
 	if (_position < 0 || _position >= _imagemagick_content->video_length ()) {
-		return true;
+		return;
 	}
 
 	if (_image) {
-		emit_video (_image, true, double (_position) / 24);
+		video (_image, true, double (_position) / video_frame_rate());
 		_position++;
-		return false;
+		return;
 	}
 
 	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());
-	_native_size = libdcp::Size (magick_image->columns(), magick_image->rows());
+	_video_size = libdcp::Size (magick_image->columns(), magick_image->rows());
 	
-	_image.reset (new SimpleImage (PIX_FMT_RGB24, _native_size.get(), false));
+	_image.reset (new SimpleImage (PIX_FMT_RGB24, _video_size.get(), false));
 
 	using namespace MagickCore;
 	
 	uint8_t* p = _image->data()[0];
-	for (int y = 0; y < _native_size->height; ++y) {
-		for (int x = 0; x < _native_size->width; ++x) {
+	for (int y = 0; y < _video_size->height; ++y) {
+		for (int x = 0; x < _video_size->width; ++x) {
 			Magick::Color c = magick_image->pixelColor (x, y);
 			*p++ = c.redQuantum() * 255 / QuantumRange;
 			*p++ = c.greenQuantum() * 255 / QuantumRange;
@@ -93,7 +103,7 @@ ImageMagickDecoder::pass ()
 	delete magick_image;
 
 	_image = _image->crop (_imagemagick_content->crop(), true);
-	emit_video (_image, false, double (_position) / 24);
+	video (_image, false, double (_position) / 24);
 
 	++_position;
 	return false;

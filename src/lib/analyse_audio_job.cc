@@ -35,7 +35,7 @@ int const AnalyseAudioJob::_num_points = 1024;
 
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
 	: Job (f)
-	, _done (0)
+	, _next (0)
 	, _samples_per_point (1)
 {
 
@@ -53,15 +53,16 @@ AnalyseAudioJob::run ()
 	shared_ptr<Player> player = _film->player ();
 	player->disable_video ();
 	
-	player->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1));
+	player->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1, _2));
 
 	_samples_per_point = max (int64_t (1), _film->time_to_audio_frames (_film->length()) / _num_points);
 
 	_current.resize (MAX_AUDIO_CHANNELS);
 	_analysis.reset (new AudioAnalysis (MAX_AUDIO_CHANNELS));
-			 
-	while (!player->pass()) {
-		set_progress (float (_done) / _film->time_to_audio_frames (_film->length ()));
+
+	_next = 0;
+	while (_next < _film->length()) {
+		set_progress (double (_next) / _film->length ());
 	}
 
 	_analysis->write (_film->audio_analysis_path ());
@@ -71,7 +72,7 @@ AnalyseAudioJob::run ()
 }
 
 void
-AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b)
+AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, Time t)
 {
 	for (int i = 0; i < b->frames(); ++i) {
 		for (int j = 0; j < b->channels(); ++j) {
@@ -91,8 +92,8 @@ AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b)
 				_current[j] = AudioPoint ();
 			}
 		}
-
-		++_done;
 	}
+
+	_next = (t + _film->audio_frames_to_time (b->frames()));
 }
 

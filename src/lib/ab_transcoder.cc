@@ -48,7 +48,7 @@ ABTranscoder::ABTranscoder (shared_ptr<Film> film_a, shared_ptr<Film> film_b, sh
 	, _player_b (film_b->player ())
 	, _job (j)
 	, _encoder (new Encoder (film_a, j))
-	, _combiner (new Combiner (film_a->log()))
+	, _combiner (new Combiner)
 {
 	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
 	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));

@@ -56,7 +56,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _video (true)
 	, _audio (true)
 	, _subtitles (true)
-	, _have_valid_decoders (false)
+	, _have_valid_pieces (false)
 	, _position (0)
 	, _audio_buffers (MAX_AUDIO_CHANNELS, 0)
 	, _last_video (0)
@@ -138,7 +138,7 @@ Player::pass ()
 void
 Player::process_video (shared_ptr<Piece> piece, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
 {
-	time += piece->start ();
+	time += piece->content->start ();
 	
         Video (image, same, sub, time);
 }
@@ -152,7 +152,7 @@ Player::process_audio (shared_ptr<Piece> piece, shared_ptr<const AudioBuffers> a
            be added to any more, so it can be emitted.
         */
 
-	time += piece->start ();
+	time += piece->content->start ();
 
         if (time > _next_audio) {
                 /* We can emit some audio from our buffers */
@@ -175,7 +175,7 @@ Player::process_audio (shared_ptr<Piece> piece, shared_ptr<const AudioBuffers> a
 }
 
 /** @return true on error */
-bool
+void
 Player::seek (Time t)
 {
 	if (!_have_valid_pieces) {
@@ -184,12 +184,10 @@ Player::seek (Time t)
 	}
 
 	if (_pieces.empty ()) {
-		return true;
+		return;
 	}
 
 	/* XXX: don't seek audio because we don't need to... */
-
-	return false;
 }
 
 
@@ -209,7 +207,7 @@ struct ContentSorter
 {
 	bool operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 	{
-		return a->time() < b->time();
+		return a->start() < b->start();
 	}
 };
 

@@ -222,7 +222,7 @@ FFmpegDecoder::setup_subtitle ()
 }
 
 
-bool
+void
 FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
@@ -232,7 +232,9 @@ FFmpegDecoder::pass ()
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
-			_film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
+			shared_ptr<const Film> film = _film.lock ();
+			assert (film);
+			film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
 		}
 
 		/* Get any remaining frames */
@@ -250,7 +252,7 @@ FFmpegDecoder::pass ()
 			decode_audio_packet ();
 		}
 			
-		return true;
+		return;
 	}
 
 	avcodec_get_frame_defaults (_frame);
@@ -270,19 +272,18 @@ FFmpegDecoder::pass ()
 			if (sub.num_rects > 0) {
 				shared_ptr<TimedSubtitle> ts;
 				try {
-					emit_subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
+					subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
 				} catch (...) {
 					/* some problem with the subtitle; we probably didn't understand it */
 				}
 			} else {
-				emit_subtitle (shared_ptr<TimedSubtitle> ());
+				subtitle (shared_ptr<TimedSubtitle> ());
 			}
 			avsubtitle_free (&sub);
 		}
 	}
 
 	av_free_packet (&_packet);
-	return false;
 }
 
 /** @param data pointer to array of pointers to buffers.
@@ -404,15 +405,9 @@ FFmpegDecoder::audio_sample_format () const
 }
 
 libdcp::Size
-FFmpegDecoder::native_size () const
+FFmpegDecoder::video_size () const
 {
 	return libdcp::Size (_video_codec_context->width, _video_codec_context->height);
-}
-
-PixelFormat
-FFmpegDecoder::pixel_format () const
-{
-	return _video_codec_context->pix_fmt;
 }
 
 string
@@ -448,38 +443,37 @@ FFmpegDecoder::bytes_per_audio_sample () const
 	return av_get_bytes_per_sample (audio_sample_format ());
 }
 
-bool
+void
 FFmpegDecoder::seek (Time t)
 {
-	return do_seek (t, false, false);
+	do_seek (t, false, false);
 }
 
-bool
+void
 FFmpegDecoder::seek_back ()
 {
 	if (next() < 2.5) {
-		return true;
+		return;
 	}
 	
-	return do_seek (next() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
+	do_seek (next() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
 }
 
-bool
+void
 FFmpegDecoder::seek_forward ()
 {
 	if (next() >= (video_length() - video_frame_rate())) {
-		return true;
+		return;
 	}
 	
-	return do_seek (next() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
+	do_seek (next() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
 }
 
-bool
+void
 FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 {
 	int64_t const vt = t / (av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ);
-
-	int const r = av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
+	av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
 
 	avcodec_flush_buffers (_video_codec_context);
 	if (_subtitle_codec_context) {
@@ -490,7 +484,7 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 		while (1) {
 			int r = av_read_frame (_format_context, &_packet);
 			if (r < 0) {
-				return true;
+				return;
 			}
 			
 			avcodec_get_frame_defaults (_frame);
@@ -510,7 +504,7 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 		}
 	}
 
-	return r < 0;
+	return;
 }
 
 void
@@ -590,7 +584,10 @@ FFmpegDecoder::decode_video_packet ()
 	if (i == _filter_graphs.end ()) {
 		graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
 		_filter_graphs.push_back (graph);
-		_film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
+
+		shared_ptr<const Film> film = _film.lock ();
+		assert (film);
+		film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
 	} else {
 		graph = *i;
 	}
@@ -605,9 +602,11 @@ FFmpegDecoder::decode_video_packet ()
 			   (as per old Matcher)
 			*/
 			Time const t = bet * av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ;
-			emit_video (*i, false, t);
+			video (*i, false, t);
 		} else {
-			_film->log()->log ("Dropping frame without PTS");
+			shared_ptr<const Film> film = _film.lock ();
+			assert (film);
+			film->log()->log ("Dropping frame without PTS");
 		}
 	}
 

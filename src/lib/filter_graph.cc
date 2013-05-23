@@ -49,6 +49,7 @@ using std::stringstream;
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using libdcp::Size;
 
 /** Construct a FilterGraph for the settings in a film.
@@ -57,19 +58,22 @@ using libdcp::Size;
  *  @param s Size of the images to process.
  *  @param p Pixel format of the images to process.
  */
-FilterGraph::FilterGraph (shared_ptr<const Film> film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
+FilterGraph::FilterGraph (weak_ptr<const Film> weak_film, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p)
 	: _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)
 	, _pixel_format (p)
 {
+	shared_ptr<const Film> film = weak_film.lock ();
+	assert (film);
+	
 	string filters = Filter::ffmpeg_strings (film->filters()).first;
 	if (!filters.empty ()) {
 		filters += N_(",");
 	}
 
 	Crop crop = decoder->ffmpeg_content()->crop ();
-	libdcp::Size cropped_size = decoder->native_size ();
+	libdcp::Size cropped_size = decoder->video_size ();
 	cropped_size.width -= crop.left + crop.right;
 	cropped_size.height -= crop.top + crop.bottom;
 	filters += crop_string (Position (crop.left, crop.top), cropped_size);

@@ -51,8 +51,8 @@ public:
 	void disable_audio ();
 	void disable_subtitles ();
 
-	bool pass ();
-	bool seek (Time);
+	void pass ();
+	void seek (Time);
 	void seek_back ();
 	void seek_forward ();
 

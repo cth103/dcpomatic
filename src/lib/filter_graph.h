@@ -37,7 +37,7 @@ class FFmpegDecoder;
 class FilterGraph
 {
 public:
-	FilterGraph (boost::shared_ptr<const Film>, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
+	FilterGraph (boost::weak_ptr<const Film>, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
 
 	bool can_process (libdcp::Size s, AVPixelFormat p) const;
 	std::list<boost::shared_ptr<Image> > process (AVFrame const * frame);

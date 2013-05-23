@@ -54,7 +54,7 @@ SndfileDecoder::~SndfileDecoder ()
 	delete[] _deinterleave_buffer;
 }
 
-bool
+void
 SndfileDecoder::pass ()
 {
 	/* Do things in half second blocks as I think there may be limits
@@ -92,8 +92,6 @@ SndfileDecoder::pass ()
 	Audio (audio, double(_done) / audio_frame_rate());
 	_done += this_time;
 	_remaining -= this_time;
-
-	return (_remaining == 0);
 }
 
 int

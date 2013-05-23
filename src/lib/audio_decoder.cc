@@ -36,9 +36,12 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioCont
 {
 	if (_audio_content->content_audio_frame_rate() != _output_audio_frame_rate) {
 
+		shared_ptr<const Film> film = _film.lock ();
+		assert (film);
+
 		stringstream s;
 		s << String::compose ("Will resample audio from %1 to %2", _audio_content->content_audio_frame_rate(), _output_audio_frame_rate);
-		_film->log()->log (s.str ());
+		film->log()->log (s.str ());
 
 		/* We will be using planar float data when we call the
 		   resampler.  As far as I can see, the audio channel
@@ -79,7 +82,10 @@ AudioDecoder::process_end ()
 {
 	if (_swr_context) {
 
-		shared_ptr<AudioBuffers> out (new AudioBuffers (_film->audio_mapping().dcp_channels(), 256));
+		shared_ptr<const Film> film = _film.lock ();
+		assert (film);
+		
+		shared_ptr<AudioBuffers> out (new AudioBuffers (film->audio_mapping().dcp_channels(), 256));
 			
 		while (1) {
 			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
@@ -130,7 +136,9 @@ AudioDecoder::emit_audio (shared_ptr<const AudioBuffers> data, Time time)
 
 	Audio (data, time);
 
-	_next_audio = time + _film->audio_frames_to_time (data->frames());
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	_next_audio = time + film->audio_frames_to_time (data->frames());
 }
 
 		

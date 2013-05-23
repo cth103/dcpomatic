@@ -22,6 +22,7 @@
 
 #include "video_source.h"
 #include "decoder.h"
+#include "util.h"
 
 class VideoContent;
 
@@ -41,14 +42,16 @@ public:
 
 protected:
 	
-	void emit_video (boost::shared_ptr<Image>, bool, Time);
-	void emit_subtitle (boost::shared_ptr<TimedSubtitle>);
+	void video (boost::shared_ptr<Image>, bool, Time);
+	void subtitle (boost::shared_ptr<TimedSubtitle>);
 
 	Time _next_video;
 
 private:
 	boost::shared_ptr<const VideoContent> _video_content;
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
+	FrameRateConversion _frame_rate_conversion;
+	bool _odd;
 };
 
 #endif
