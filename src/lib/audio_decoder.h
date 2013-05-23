@@ -41,9 +41,10 @@ public:
 	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
 	~AudioDecoder ();
 
-	void emit_audio (boost::shared_ptr<const AudioBuffers>, Time);
-
 protected:
+
+	void audio (boost::shared_ptr<const AudioBuffers>, Time);
+
 	Time _next_audio;
 
 private:

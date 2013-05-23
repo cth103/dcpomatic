@@ -73,13 +73,12 @@ ImageMagickDecoder::video_frame_rate () const
 void
 ImageMagickDecoder::pass ()
 {
-	if (_position < 0 || _position >= _imagemagick_content->video_length ()) {
+	if (_next_video >= _imagemagick_content->video_length ()) {
 		return;
 	}
 
 	if (_image) {
-		video (_image, true, double (_position) / video_frame_rate());
-		_position++;
+		video (_image, true, _next_video);
 		return;
 	}
 
@@ -103,31 +102,13 @@ ImageMagickDecoder::pass ()
 	delete magick_image;
 
 	_image = _image->crop (_imagemagick_content->crop(), true);
-	video (_image, false, double (_position) / 24);
-
-	++_position;
-	return false;
+	video (_image, false, _next_video);
 }
 
-PixelFormat
-ImageMagickDecoder::pixel_format () const
+void
+ImageMagickDecoder::seek (Time t)
 {
-	/* XXX: always true? */
-	return PIX_FMT_RGB24;
-}
-
-bool
-ImageMagickDecoder::seek (double t)
-{
-	int const f = t * _imagemagick_content->video_frame_rate ();
-
-	if (f >= _imagemagick_content->video_length()) {
-		_position = 0;
-		return true;
-	}
-
-	_position = f;
-	return false;
+	_next_video = t;
 }
 
 Time

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,12 @@
 
 */
 
-#include <sndfile.h>
-#include "decoder.h"
-#include "audio_decoder.h"
-
-class SndfileContent;
-
-class SndfileDecoder : public AudioDecoder
+NullContent::NullContent (Time s, Time len, shared_ptr<const Film> f)
+	: Content (s)
+	, VideoContent (s, f->time_to_video_frames (len))
+	, AudioContent (s)
+	, _audio_length (f->time_to_audio_frames (len))
+	, _content_audio_frame_rate (f->dcp_audio_frame_rate ())
 {
-public:
-	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SndfileContent>);
-	~SndfileDecoder ();
 
-	void pass ();
-	Time next () const;
-
-	int audio_channels () const;
-	ContentAudioFrame audio_length () const;
-	int audio_frame_rate () const;
-
-private:
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
-	ContentAudioFrame _done;
-	ContentAudioFrame _remaining;
-	float* _deinterleave_buffer;
-};
+}

@@ -32,6 +32,14 @@ int const AudioContentProperty::AUDIO_FRAME_RATE = 202;
 int const AudioContentProperty::AUDIO_GAIN = 203;
 int const AudioContentProperty::AUDIO_DELAY = 204;
 
+AudioContent::AudioContent (Time s)
+	: Content (s)
+	, _audio_gain (0)
+	, _audio_delay (0)
+{
+
+}
+
 AudioContent::AudioContent (boost::filesystem::path f)
 	: Content (f)
 	, _audio_gain (0)

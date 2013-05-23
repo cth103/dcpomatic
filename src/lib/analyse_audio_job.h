@@ -32,9 +32,9 @@ public:
 	void run ();
 
 private:
-	void audio (boost::shared_ptr<const AudioBuffers>);
+	void audio (boost::shared_ptr<const AudioBuffers>, Time);
 
-	Time _next;
+	Time _done;
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;
 

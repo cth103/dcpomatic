@@ -51,7 +51,7 @@ public:
 	void disable_audio ();
 	void disable_subtitles ();
 
-	void pass ();
+	bool pass ();
 	void seek (Time);
 	void seek_back ();
 	void seek_forward ();
@@ -62,13 +62,11 @@ public:
 
 private:
 
-	void process_video (boost::shared_ptr<Piece>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
-	void process_audio (boost::shared_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, Time);
+	void process_video (boost::weak_ptr<Content>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
+	void process_audio (boost::weak_ptr<Content>, boost::shared_ptr<const AudioBuffers>, Time);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
-	void emit_black_frame ();
-	void emit_silence (Time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

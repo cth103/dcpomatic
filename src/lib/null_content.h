@@ -1,3 +1,22 @@
+/*
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include "content.h"
@@ -5,12 +24,7 @@
 class NullContent : public VideoContent, public AudioContent
 {
 public:
-	NullContent (Time s, Time len)
-		: Content (s)
-		, VideoContent (s)
-		, AudioContent (s)
-		, _length (len)
-	{}
+	NullContent (Time, Time, boost::shared_ptr<const Film>);
 
 	std::string summary () const {
 		return "";
@@ -19,9 +33,11 @@ public:
 	std::string information () const {
 		return "";
 	}
+
+	void as_xml (xmlpp::Node *) const {}
 	
 	boost::shared_ptr<Content> clone () const {
-		return shared_ptr<Content> ();
+		return boost::shared_ptr<Content> ();
 	}
 
         int audio_channels () const {
@@ -29,15 +45,15 @@ public:
 	}
 	
         ContentAudioFrame audio_length () const {
-		return _length * content_audio_frame_rate() / TIME_HZ;
+		return _audio_length;
 	}
 	
         int content_audio_frame_rate () const {
-		return 48000;
+		return _content_audio_frame_rate;
 	}
 	
-	int output_audio_frame_rate (boost::shared_ptr<const Film>) const {
-		return _film->dcp_audio_frame_rate (content_audio_frame_rate ());
+	int output_audio_frame_rate (boost::shared_ptr<const Film> f) const {
+		return f->dcp_audio_frame_rate ();
 	}
 	
 	AudioMapping audio_mapping () const {
@@ -49,5 +65,6 @@ public:
 	}
 
 private:
-	Time _length;
+	ContentAudioFrame _audio_length;
+	ContentAudioFrame _content_audio_frame_rate;
 };

@@ -74,7 +74,7 @@ public:
 			return;
 		}
 
-		Time const start = content->time ();
+		Time const start = content->start ();
 		Time const len = content->length (film);
 
 		gc->SetPen (*wxBLACK_PEN);
@@ -125,7 +125,7 @@ public:
 		}
 		
 		return Rect (
-			time_x (content->time ()),
+			time_x (content->start ()),
 			y_pos (_track),
 			content->length (film) * _timeline.pixels_per_time_unit(),
 			_timeline.track_height()

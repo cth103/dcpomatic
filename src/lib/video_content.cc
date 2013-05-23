@@ -34,6 +34,13 @@ using std::setprecision;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
+VideoContent::VideoContent (Time s, ContentVideoFrame len)
+	: Content (s)
+	, _video_length (len)
+{
+
+}
+
 VideoContent::VideoContent (boost::filesystem::path f)
 	: Content (f)
 	, _video_length (0)
@@ -81,7 +88,7 @@ void
 VideoContent::take_from_video_decoder (shared_ptr<VideoDecoder> d)
 {
 	/* These decoder calls could call other content methods which take a lock on the mutex */
-	libdcp::Size const vs = d->native_size ();
+	libdcp::Size const vs = d->video_size ();
 	float const vfr = d->video_frame_rate ();
 	
         {

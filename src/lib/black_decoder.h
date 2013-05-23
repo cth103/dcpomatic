@@ -1,44 +1,43 @@
+/*
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #include "video_decoder.h"
 
 class BlackDecoder : public VideoDecoder
 {
 public:
-	BlackDecoder (boost::shared_ptr<NullContent>);
+	BlackDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<NullContent>);
 
-	bool pass ();
-	bool seek (double);
+	/* Decoder */
+	
+	void pass ();
+	void seek (Time);
 	Time next () const;
 
-	/** @return video frame rate second, or 0 if unknown */
-	float video_frame_rate () const {
-		return 24;
-	}
-	
-	/** @return native size in pixels */
-	libdcp::Size native_size () const {
+	/* VideoDecoder */
+
+	float video_frame_rate () const;
+	libdcp::Size video_size () const {
 		return libdcp::Size (256, 256);
 	}
-	
-	/** @return length according to our content's header */
-	ContentVideoFrame video_length () const {
-		return _content_length;
-	}
+	ContentVideoFrame video_length () const;
 
-protected:	
-
-	int time_base_numerator () const {
-		return 0;
-	}
-	
-	int time_base_denominator () const {
-		return 1;
-	}
-	
-	int sample_aspect_ratio_numerator () const {
-		return 0;
-	}
-		
-	int sample_aspect_ratio_denominator () const {
-		return 1;
-	}
+private:
+	boost::shared_ptr<Image> _image;
 };

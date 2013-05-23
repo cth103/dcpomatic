@@ -35,7 +35,7 @@ int const AnalyseAudioJob::_num_points = 1024;
 
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
 	: Job (f)
-	, _next (0)
+	, _done (0)
 	, _samples_per_point (1)
 {
 
@@ -60,9 +60,9 @@ AnalyseAudioJob::run ()
 	_current.resize (MAX_AUDIO_CHANNELS);
 	_analysis.reset (new AudioAnalysis (MAX_AUDIO_CHANNELS));
 
-	_next = 0;
-	while (_next < _film->length()) {
-		set_progress (double (_next) / _film->length ());
+	_done = 0;
+	while (player->pass ()) {
+		set_progress (double (_done) / _film->length ());
 	}
 
 	_analysis->write (_film->audio_analysis_path ());
@@ -94,6 +94,6 @@ AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, Time t)
 		}
 	}
 
-	_next = (t + _film->audio_frames_to_time (b->frames()));
+	_done = t;
 }
 

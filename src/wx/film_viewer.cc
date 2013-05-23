@@ -182,10 +182,11 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::update_from_decoder ()
 {
-	if (!_player || _player->seek (_player->last_video ())) {
+	if (!_player) {
 		return;
 	}
 
+	_player->seek (_player->last_video ());
 	get_frame ();
 	_panel->Refresh ();
 	_panel->Update ();

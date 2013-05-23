@@ -33,7 +33,7 @@ public:
 	/* Decoder */
 
 	void pass ();
-	void seek (double);
+	void seek (Time);
 	Time next () const;
 
 	/* VideoDecoder */

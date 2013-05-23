@@ -42,6 +42,7 @@ public:
 class AudioContent : public virtual Content
 {
 public:
+	AudioContent (Time);
 	AudioContent (boost::filesystem::path);
 	AudioContent (boost::shared_ptr<const cxml::Node>);
 	AudioContent (AudioContent const &);

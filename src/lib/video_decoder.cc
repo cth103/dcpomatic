@@ -33,7 +33,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoCont
 	: Decoder (f)
 	, _next_video (0)
 	, _video_content (c)
-	, _frame_rate_conversion (c->video_frame_rate(), f->dcp_frame_rate())
+	, _frame_rate_conversion (c->video_frame_rate(), f->dcp_video_frame_rate())
 	, _odd (false)
 {
 
@@ -59,11 +59,14 @@ VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 
 	Video (image, same, sub, t);
 
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+
 	if (_frame_rate_conversion.repeat) {
-		Video (image, true, sub, t + _film->video_frames_to_time (1));
-		_next_video = t + _film->video_frames_to_time (2);
+		Video (image, true, sub, t + film->video_frames_to_time (1));
+		_next_video = t + film->video_frames_to_time (2);
 	} else {
-		_next_video = t + _film->video_frames_to_time (1);
+		_next_video = t + film->video_frames_to_time (1);
 	}
 
 	_odd = !_odd;

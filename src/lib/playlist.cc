@@ -265,8 +265,7 @@ Playlist::length (shared_ptr<const Film> film) const
 {
 	Time len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		Time const t = (*i)->time() + (*i)->length (film);
-		len = max (len, t);
+		len = max (len, (*i)->end (film));
 	}
 
 	return len;

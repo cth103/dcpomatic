@@ -107,7 +107,7 @@ AudioDecoder::process_end ()
 #endif
 
 void
-AudioDecoder::emit_audio (shared_ptr<const AudioBuffers> data, Time time)
+AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 {
 	/* XXX: map audio to 5.1 */
 	
