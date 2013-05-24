@@ -44,21 +44,32 @@ public:
 
 	}
 		
-	virtual void paint (wxGraphicsContext *) = 0;
-	virtual Rect bbox () const = 0;
-
+	void paint (wxGraphicsContext* g)
+	{
+		_last_paint_bbox = bbox ();
+		do_paint (g);
+	}
+	
 	void force_redraw ()
 	{
+		_timeline.force_redraw (_last_paint_bbox);
 		_timeline.force_redraw (bbox ());
 	}
 
+	virtual Rect bbox () const = 0;
+
 protected:
+	virtual void do_paint (wxGraphicsContext *) = 0;
+	
 	int time_x (Time t) const
 	{
 		return _timeline.tracks_position().x + t * _timeline.pixels_per_time_unit();
 	}
 	
 	Timeline& _timeline;
+
+private:
+	Rect _last_paint_bbox;
 };
 
 class ContentView : public View
@@ -70,10 +81,44 @@ public:
 		, _track (t)
 		, _selected (false)
 	{
-
+		c->Changed.connect (bind (&ContentView::content_changed, this, _2));
 	}
 
-	void paint (wxGraphicsContext* gc)
+	Rect bbox () const
+	{
+		shared_ptr<const Film> film = _timeline.film ();
+		shared_ptr<const Content> content = _content.lock ();
+		if (!film || !content) {
+			return Rect ();
+		}
+		
+		return Rect (
+			time_x (content->start ()) - 8,
+			y_pos (_track) - 8,
+			content->length () * _timeline.pixels_per_time_unit() + 16,
+			_timeline.track_height() + 16
+			);
+	}
+
+	void set_selected (bool s) {
+		_selected = s;
+		force_redraw ();
+	}
+	
+	bool selected () const {
+		return _selected;
+	}
+
+	weak_ptr<Content> content () const {
+		return _content;
+	}
+
+	virtual wxString type () const = 0;
+	virtual wxColour colour () const = 0;
+	
+private:
+
+	void do_paint (wxGraphicsContext* gc)
 	{
 		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> content = _content.lock ();
@@ -125,43 +170,16 @@ public:
 		gc->ResetClip ();
 	}
 
-	Rect bbox () const
-	{
-		shared_ptr<const Film> film = _timeline.film ();
-		shared_ptr<const Content> content = _content.lock ();
-		if (!film || !content) {
-			return Rect ();
-		}
-		
-		return Rect (
-			time_x (content->start ()),
-			y_pos (_track),
-			content->length () * _timeline.pixels_per_time_unit(),
-			_timeline.track_height()
-			);
-	}
-
-	void set_selected (bool s) {
-		_selected = s;
-		force_redraw ();
-	}
-	
-	bool selected () const {
-		return _selected;
-	}
-
-	weak_ptr<Content> content () const {
-		return _content;
-	}
-
-	virtual wxString type () const = 0;
-	virtual wxColour colour () const = 0;
-	
-private:
-	
 	int y_pos (int t) const
 	{
 		return _timeline.tracks_position().y + t * _timeline.track_height();
+	}
+
+	void content_changed (int p)
+	{
+		if (p == ContentProperty::START || p == VideoContentProperty::VIDEO_LENGTH) {
+			force_redraw ();
+		}
 	}
 
 	boost::weak_ptr<Content> _content;
@@ -216,7 +234,7 @@ public:
 		, _y (y)
 	{}
 
-	void paint (wxGraphicsContext* gc)
+	void do_paint (wxGraphicsContext* gc)
 	{
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
@@ -309,7 +327,6 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	playlist_changed ();
 
 	film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
-	film->playlist()->ContentChanged.connect (bind (&Timeline::playlist_changed, this));
 }
 
 void
@@ -386,13 +403,19 @@ Timeline::left_down (wxMouseEvent& ev)
 
 	_down_view.reset ();
 
-	for (list<shared_ptr<View> >::iterator j = _views.begin(); j != _views.end(); ++j) {
-		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*j);
+	if (i != _views.end ()) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv) {
 			_down_view = cv;
 			shared_ptr<Content> c = cv->content().lock();
 			assert (c);
 			_down_view_start = c->start ();
+		}
+	}
+
+	for (list<shared_ptr<View> >::iterator j = _views.begin(); j != _views.end(); ++j) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*j);
+		if (cv) {
 			cv->set_selected (i == j);
 		}
 	}
@@ -429,9 +452,7 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 	if (_down_view) {
 		shared_ptr<Content> c = _down_view->content().lock();
 		if (c) {
-			_down_view->force_redraw ();
 			c->set_start (_down_view_start + time_diff);
-			_down_view->force_redraw ();
 		}
 	}
 }

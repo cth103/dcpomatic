@@ -73,7 +73,7 @@ ImageMagickDecoder::video_frame_rate () const
 void
 ImageMagickDecoder::pass ()
 {
-	if (_next_video >= _imagemagick_content->video_length ()) {
+	if (_next_video >= _imagemagick_content->length ()) {
 		return;
 	}
 
