@@ -112,8 +112,6 @@ AudioDecoder::process_end ()
 void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 {
-	/* XXX: map audio to 5.1 */
-	
 	/* Maybe resample */
 	if (_swr_context) {
 
@@ -122,7 +120,7 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 			(int64_t) data->frames() * _audio_content->output_audio_frame_rate() / _audio_content->content_audio_frame_rate()
 			) + 32;
 
-		shared_ptr<AudioBuffers> resampled (new AudioBuffers (MAX_AUDIO_CHANNELS, max_resampled_frames));
+		shared_ptr<AudioBuffers> resampled (new AudioBuffers (data->channels(), max_resampled_frames));
 
 		/* Resample audio */
 		int const resampled_frames = swr_convert (
@@ -139,10 +137,18 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 		data = resampled;
 	}
 
-	Audio (data, time);
-
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
+	
+	/* Remap channels */
+	shared_ptr<AudioBuffers> dcp_mapped (film->dcp_audio_channels(), data->frames());
+	dcp_mapped->make_silent ();
+	list<pair<int, libdcp::Channel> > map = _audio_content->audio_mapping().content_to_dcp ();
+	for (list<pair<int, libdcp::Channel> >::iterator i = map.begin(); i != map.end(); ++i) {
+		dcp_mapped->accumulate (data, i->first, i->second);
+	}
+
+	Audio (dcp_mapped, time);
 	_next_audio = time + film->audio_frames_to_time (data->frames());
 }
 

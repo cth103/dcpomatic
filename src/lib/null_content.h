@@ -41,9 +41,7 @@ public:
 		return boost::shared_ptr<Content> ();
 	}
 
-        int audio_channels () const {
-		return MAX_AUDIO_CHANNELS;
-	}
+        int audio_channels () const;
 	
         ContentAudioFrame audio_length () const {
 		return _audio_length;

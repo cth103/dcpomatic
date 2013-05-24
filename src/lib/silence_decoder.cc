@@ -38,7 +38,7 @@ SilenceDecoder::pass ()
 	assert (film);
 	
 	Time const this_time = min (_audio_content->length() - _next_audio, TIME_HZ / 2);
-	shared_ptr<AudioBuffers> data (new AudioBuffers (MAX_AUDIO_CHANNELS, film->time_to_audio_frames (this_time)));
+	shared_ptr<AudioBuffers> data (new AudioBuffers (film->dcp_audio_channels(), film->time_to_audio_frames (this_time)));
 	data->make_silent ();
 	audio (data, _next_audio);
 }

@@ -87,7 +87,7 @@ Writer::Writer (shared_ptr<Film> f, shared_ptr<Job> j)
 			_film->dir (_film->dcp_name()),
 			_film->dcp_audio_mxf_filename (),
 			_film->dcp_video_frame_rate (),
-			MAX_AUDIO_CHANNELS,
+			_film->dcp_audio_channels (),
 			_film->dcp_audio_frame_rate()
 			)
 		);

@@ -103,6 +103,7 @@ public:
 	boost::shared_ptr<Playlist> playlist () const;
 
 	OutputAudioFrame dcp_audio_frame_rate () const;
+	int dcp_audio_channels () const;
 
 	OutputAudioFrame time_to_audio_frames (Time) const;
 	OutputVideoFrame time_to_video_frames (Time) const;
@@ -223,6 +224,11 @@ public:
 		return _dcp_video_frame_rate;
 	}
 
+	int dcp_audio_channels () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _dcp_audio_channels;
+	}
+
 	/* SET */
 
 	void set_directory (std::string);
@@ -315,6 +321,7 @@ private:
 	int _dcp_video_frame_rate;
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
+	int _dcp_audio_channels;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

@@ -193,7 +193,7 @@ AudioBuffers::move (int from, int to, int frames)
 
 /** Add data from from `from', `from_channel' to our channel `to_channel' */
 void
-AudioBuffers::accumulate (AudioBuffers const * from, int from_channel, int to_channel)
+AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel)
 {
 	int const N = frames ();
 	assert (from->frames() == N);
@@ -214,9 +214,24 @@ AudioBuffers::ensure_size (int frames)
 	}
 
 	for (int i = 0; i < _channels; ++i) {
-		_data[i] = static_cast<float*> (realloc (_data[i], _frames * sizeof (float)));
+		_data[i] = static_cast<float*> (realloc (_data[i], frames * sizeof (float)));
 		if (!_data[i]) {
 			throw bad_alloc ();
 		}
 	}
+
+	_allocated_frames = frames;
 }
+
+void
+AudioBuffers::accumulate_frames (AudioBuffers const * from, int read_offset, int write_offset, int frames)
+{
+	assert (_channels == from->channels ());
+
+	for (int i = 0; i < _channels; ++i) {
+		for (int j = 0; j < frames; ++j) {
+			_data[i][j + write_offset] += from->data()[i][j + read_offset];
+		}
+	}
+}
+

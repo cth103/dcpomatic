@@ -62,7 +62,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _subtitles (true)
 	, _have_valid_pieces (false)
 	, _position (0)
-	, _audio_buffers (MAX_AUDIO_CHANNELS, 0)
+	, _audio_buffers (f->dcp_audio_channels(), 0)
 	, _next_audio (0)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -164,8 +164,6 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
 		return;
 	}
 	
-        /* XXX: mapping */
-
         /* The time of this audio may indicate that some of our buffered audio is not going to
            be added to any more, so it can be emitted.
         */
@@ -174,7 +172,8 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
 
         if (time > _next_audio) {
                 /* We can emit some audio from our buffers */
-                OutputAudioFrame const N = min (_film->time_to_audio_frames (time - _next_audio), static_cast<OutputAudioFrame> (_audio_buffers.frames()));
+		assert (_film->time_to_audio_frames (time - _next_audio) <= _audio_buffers.frames());
+                OutputAudioFrame const N = _film->time_to_audio_frames (time - _next_audio);
                 shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
                 emit->copy_from (&_audio_buffers, N, 0, 0);
                 Audio (emit, _next_audio);
@@ -188,8 +187,8 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
         }
 
         /* Now accumulate the new audio into our buffers */
-        _audio_buffers.ensure_size (time - _next_audio + audio->frames());
-        _audio_buffers.accumulate (audio.get(), 0, _film->time_to_audio_frames (time - _next_audio));
+        _audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
+        _audio_buffers.accumulate_frames (audio, 0, 0, audio->frames ());
 }
 
 /** @return true on error */

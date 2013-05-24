@@ -46,3 +46,12 @@ NullContent::output_audio_frame_rate () const
 	assert (film);
 	return film->dcp_audio_frame_rate ();
 }
+
+int
+NullContent::audio_channels () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	return film->dcp_audio_channels ();
+}
+	

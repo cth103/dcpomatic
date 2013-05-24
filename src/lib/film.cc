@@ -102,6 +102,7 @@ Film::Film (string d)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _dcp_video_frame_rate (0)
+	, _dcp_audio_channels (MAX_AUDIO_CHANNELS)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -172,7 +173,7 @@ Film::video_state_identifier () const
 	  << "_" << f.first << "_" << f.second
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth()
-	  << "_" << boost::lexical_cast<int> (colour_lut());
+	  << "_" << lexical_cast<int> (colour_lut());
 
 	if (ab()) {
 		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
@@ -382,7 +383,7 @@ Film::write_metadata () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Metadata");
 
-	root->add_child("Version")->add_child_text (boost::lexical_cast<string> (state_version));
+	root->add_child("Version")->add_child_text (lexical_cast<string> (state_version));
 	root->add_child("Name")->add_child_text (_name);
 	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
 
@@ -401,13 +402,14 @@ Film::write_metadata () const
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("AB")->add_child_text (_ab ? "1" : "0");
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
-	root->add_child("SubtitleOffset")->add_child_text (boost::lexical_cast<string> (_subtitle_offset));
-	root->add_child("SubtitleScale")->add_child_text (boost::lexical_cast<string> (_subtitle_scale));
-	root->add_child("ColourLUT")->add_child_text (boost::lexical_cast<string> (_colour_lut));
-	root->add_child("J2KBandwidth")->add_child_text (boost::lexical_cast<string> (_j2k_bandwidth));
+	root->add_child("SubtitleOffset")->add_child_text (lexical_cast<string> (_subtitle_offset));
+	root->add_child("SubtitleScale")->add_child_text (lexical_cast<string> (_subtitle_scale));
+	root->add_child("ColourLUT")->add_child_text (lexical_cast<string> (_colour_lut));
+	root->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
-	root->add_child("DCPVideoFrameRate")->add_child_text (boost::lexical_cast<string> (_dcp_video_frame_rate));
+	root->add_child("DCPVideoFrameRate")->add_child_text (lexical_cast<string> (_dcp_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
+	root->add_child("DCPAudioChannels")->add_child_text (lexical_cast<string> (_dcp_audio_channels));
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
@@ -462,6 +464,7 @@ Film::read_metadata ()
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
+	_dcp_audio_channels = f.number_child<int> ("DCPAudioChannels");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
