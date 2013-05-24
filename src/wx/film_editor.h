@@ -107,7 +107,6 @@ private:
 	void setup_container ();
 	void setup_content_sensitivity ();
 	void setup_loop_sensitivity ();
-	void setup_content_properties ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();

@@ -671,9 +671,11 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 	shared_ptr<Content> content = weak_content.lock ();
 	shared_ptr<VideoContent> video_content;
 	shared_ptr<AudioContent> audio_content;
+	shared_ptr<FFmpegContent> ffmpeg_content;
 	if (content) {
 		video_content = dynamic_pointer_cast<VideoContent> (content);
 		audio_content = dynamic_pointer_cast<AudioContent> (content);
+		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
 	if (property == VideoContentProperty::VIDEO_CROP) {
@@ -687,8 +689,35 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 	} else if (property == AudioContentProperty::AUDIO_DELAY) {
 		checked_set (_audio_delay, audio_content ? audio_content->audio_delay() : 0);
 	} else if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
+		_subtitle_stream->Clear ();
+		if (ffmpeg_content) {
+			vector<shared_ptr<FFmpegSubtitleStream> > s = ffmpeg_content->subtitle_streams ();
+			if (s.empty ()) {
+				_subtitle_stream->Enable (false);
+			}
+			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
+				_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
+			}
+			
+			if (ffmpeg_content->subtitle_stream()) {
+				checked_set (_subtitle_stream, lexical_cast<string> (ffmpeg_content->subtitle_stream()->id));
+			} else {
+				_subtitle_stream->SetSelection (wxNOT_FOUND);
+			}
+		}
 		setup_subtitle_control_sensitivity ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
+		_audio_stream->Clear ();
+		if (ffmpeg_content) {
+			vector<shared_ptr<FFmpegAudioStream> > a = ffmpeg_content->audio_streams ();
+			for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
+				_audio_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
+			}
+			
+			if (ffmpeg_content->audio_stream()) {
+				checked_set (_audio_stream, lexical_cast<string> (ffmpeg_content->audio_stream()->id));
+			}
+		}
 		setup_show_audio_sensitivity ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
@@ -1099,6 +1128,13 @@ void
 FilmEditor::content_selection_changed (wxListEvent &)
 {
         setup_content_sensitivity ();
+	shared_ptr<Content> s = selected_content ();
+	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
+	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
+	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
+	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAM);
+	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
+	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 void
@@ -1247,48 +1283,6 @@ FilmEditor::content_timeline_clicked (wxCommandEvent &)
 	
 	_timeline_dialog = new TimelineDialog (this, _film);
 	_timeline_dialog->Show ();
-}
-
-void
-FilmEditor::setup_content_properties ()
-{
-	_audio_stream->Clear ();
-	_subtitle_stream->Clear ();
-
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (fc) {
-		
-		vector<shared_ptr<FFmpegAudioStream> > a = fc->audio_streams ();
-		for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
-			_audio_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
-		}
-		
-		if (fc->audio_stream()) {
-			checked_set (_audio_stream, lexical_cast<string> (fc->audio_stream()->id));
-		}
-		
-		vector<shared_ptr<FFmpegSubtitleStream> > s = fc->subtitle_streams ();
-		if (s.empty ()) {
-			_subtitle_stream->Enable (false);
-		}
-		for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
-			_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
-		}
-		
-		if (fc->subtitle_stream()) {
-			checked_set (_subtitle_stream, lexical_cast<string> (fc->subtitle_stream()->id));
-		} else {
-			_subtitle_stream->SetSelection (wxNOT_FOUND);
-		}
-
-		/* XXX: should be general audiocontent */
-		_audio_mapping->set_mapping (fc->audio_mapping ());
-	}
 }
 
 void
