@@ -21,6 +21,7 @@
 
 #include <list>
 #include <wx/graphics.h>
+#include <boost/weak_ptr.hpp>
 #include "film.h"
 #include "timeline.h"
 #include "wx_util.h"
@@ -30,6 +31,7 @@ using std::list;
 using std::cout;
 using std::max;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
 
@@ -45,6 +47,11 @@ public:
 	virtual void paint (wxGraphicsContext *) = 0;
 	virtual Rect bbox () const = 0;
 
+	void force_redraw ()
+	{
+		_timeline.force_redraw (bbox ());
+	}
+
 protected:
 	int time_x (Time t) const
 	{
@@ -57,7 +64,7 @@ protected:
 class ContentView : public View
 {
 public:
-	ContentView (Timeline& tl, shared_ptr<const Content> c, int t)
+	ContentView (Timeline& tl, shared_ptr<Content> c, int t)
 		: View (tl)
 		, _content (c)
 		, _track (t)
@@ -77,19 +84,21 @@ public:
 		Time const start = content->start ();
 		Time const len = content->length ();
 
+		wxColour selected (colour().Red() / 2, colour().Green() / 2, colour().Blue() / 2);
+
 		gc->SetPen (*wxBLACK_PEN);
 		
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxPENSTYLE_SOLID));
 		if (_selected) {
-			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (200, 200, 200), wxBRUSHSTYLE_SOLID));
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (selected, wxBRUSHSTYLE_SOLID));
 		} else {
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxBRUSHSTYLE_SOLID));
 		}
 #else			
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxSOLID));
 		if (_selected) {
-			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (200, 200, 200), wxSOLID));
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (selected, wxSOLID));
 		} else {
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxSOLID));
 		}
@@ -134,11 +143,15 @@ public:
 
 	void set_selected (bool s) {
 		_selected = s;
-		_timeline.force_redraw (bbox ());
+		force_redraw ();
 	}
 	
 	bool selected () const {
 		return _selected;
+	}
+
+	weak_ptr<Content> content () const {
+		return _content;
 	}
 
 	virtual wxString type () const = 0;
@@ -151,7 +164,7 @@ private:
 		return _timeline.tracks_position().y + t * _timeline.track_height();
 	}
 
-	boost::weak_ptr<const Content> _content;
+	boost::weak_ptr<Content> _content;
 	int _track;
 	bool _selected;
 };
@@ -159,7 +172,7 @@ private:
 class AudioContentView : public ContentView
 {
 public:
-	AudioContentView (Timeline& tl, shared_ptr<const Content> c, int t)
+	AudioContentView (Timeline& tl, shared_ptr<Content> c, int t)
 		: ContentView (tl, c, t)
 	{}
 	
@@ -178,7 +191,7 @@ private:
 class VideoContentView : public ContentView
 {
 public:
-	VideoContentView (Timeline& tl, shared_ptr<const Content> c, int t)
+	VideoContentView (Timeline& tl, shared_ptr<Content> c, int t)
 		: ContentView (tl, c, t)
 	{}
 
@@ -277,6 +290,9 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
 	, _pixels_per_time_unit (0)
+	, _left_down (false)
+	, _down_view_start (0)
+	, _first_move (false)
 {
 	SetDoubleBuffered (true);
 
@@ -284,6 +300,8 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
 	Connect (wxID_ANY, wxEVT_LEFT_DOWN, wxMouseEventHandler (Timeline::left_down), 0, this);
+	Connect (wxID_ANY, wxEVT_LEFT_UP, wxMouseEventHandler (Timeline::left_up), 0, this);
+	Connect (wxID_ANY, wxEVT_MOTION, wxMouseEventHandler (Timeline::mouse_moved), 0, this);
 	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
@@ -366,10 +384,54 @@ Timeline::left_down (wxMouseEvent& ev)
 		++i;
 	}
 
+	_down_view.reset ();
+
 	for (list<shared_ptr<View> >::iterator j = _views.begin(); j != _views.end(); ++j) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*j);
 		if (cv) {
+			_down_view = cv;
+			shared_ptr<Content> c = cv->content().lock();
+			assert (c);
+			_down_view_start = c->start ();
 			cv->set_selected (i == j);
+		}
+	}
+
+	_left_down = true;
+	_down_point = ev.GetPosition ();
+	_first_move = false;
+}
+
+void
+Timeline::left_up (wxMouseEvent &)
+{
+	_left_down = false;
+}
+
+void
+Timeline::mouse_moved (wxMouseEvent& ev)
+{
+	if (!_left_down) {
+		return;
+	}
+
+	wxPoint const p = ev.GetPosition();
+
+	if (!_first_move) {
+		int const dist = sqrt (pow (p.x - _down_point.x, 2) + pow (p.y - _down_point.y, 2));
+		if (dist < 8) {
+			return;
+		}
+		_first_move = true;
+	}
+
+	Time const time_diff = (p.x - _down_point.x) / _pixels_per_time_unit;
+	if (_down_view) {
+		shared_ptr<Content> c = _down_view->content().lock();
+		if (c) {
+			_down_view->force_redraw ();
+			c->set_start (_down_view_start + time_diff);
+			_down_view->force_redraw ();
 		}
 	}
 }

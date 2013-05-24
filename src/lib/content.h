@@ -36,6 +36,12 @@ namespace cxml {
 class Job;
 class Film;
 
+class ContentProperty
+{
+public:
+	static int const START;
+};
+
 class Content : public boost::enable_shared_from_this<Content>
 {
 public:
@@ -60,6 +66,8 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _digest;
 	}
+
+	void set_start (Time);
 
 	Time start () const {
 		boost::mutex::scoped_lock lm (_mutex);

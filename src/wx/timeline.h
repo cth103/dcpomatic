@@ -26,6 +26,7 @@
 
 class Film;
 class View;
+class ContentView;
 
 class Timeline : public wxPanel
 {
@@ -61,6 +62,8 @@ public:
 private:
 	void paint (wxPaintEvent &);
 	void left_down (wxMouseEvent &);
+	void mouse_moved (wxMouseEvent &);
+	void left_up (wxMouseEvent &);
 	void playlist_changed ();
 	void setup_pixels_per_time_unit ();
 	void resized (wxSizeEvent &);
@@ -68,4 +71,9 @@ private:
 	boost::weak_ptr<const Film> _film;
 	std::list<boost::shared_ptr<View> > _views;
 	double _pixels_per_time_unit;
+	bool _left_down;
+	wxPoint _down_point;
+	boost::shared_ptr<ContentView> _down_view;
+	Time _down_view_start;
+	bool _first_move;
 };

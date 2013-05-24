@@ -434,7 +434,7 @@ FilmEditor::make_subtitle_panel ()
 		grid->Add (s);
 	}
 
-	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle stream"));
+	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Stream"));
 	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
 	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
 	grid->AddSpacer (0);

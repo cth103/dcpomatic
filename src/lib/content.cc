@@ -29,6 +29,8 @@ using std::string;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
+int const ContentProperty::START = 400;
+
 Content::Content (shared_ptr<const Film> f, Time s)
 	: _film (f)
 	, _start (s)
@@ -84,3 +86,17 @@ Content::signal_changed (int p)
 {
 	Changed (shared_from_this (), p);
 }
+
+void
+Content::set_start (Time s)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_start = s;
+	}
+
+	signal_changed (ContentProperty::START);
+}
+
+	
+		

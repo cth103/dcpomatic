@@ -116,7 +116,7 @@ Player::pass ()
 	if (!earliest) {
 		return true;
 	}
-	
+
 	earliest->decoder->pass ();
 
 	/* Move position to earliest active next emission */
@@ -199,11 +199,12 @@ Player::seek (Time t)
 	}
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		if ((*i)->content->end() < t) {
+
+		if ((*i)->content->start() > t || (*i)->content->end() <= t) {
 			continue;
 		}
 
-		(*i)->decoder->seek (t);
+		(*i)->decoder->seek (t - (*i)->content->start());
 	}
 
 	_position = t;
@@ -296,18 +297,22 @@ Player::setup_pieces ()
 	list<shared_ptr<Piece> > pieces_copy = _pieces;
 	for (list<shared_ptr<Piece> >::iterator i = pieces_copy.begin(); i != pieces_copy.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> ((*i)->content)) {
-			Time const diff = video_pos - (*i)->content->start();
+			Time const diff = (*i)->content->start() - video_pos;
 			if (diff > 0) {
 				shared_ptr<NullContent> nc (new NullContent (_film, video_pos, diff));
-				_pieces.push_back (shared_ptr<Piece> (new Piece (nc, shared_ptr<Decoder> (new BlackDecoder (_film, nc)))));
+				shared_ptr<BlackDecoder> bd (new BlackDecoder (_film, nc));
+				bd->Video.connect (bind (&Player::process_video, this, nc, _1, _2, _3, _4));
+				_pieces.push_back (shared_ptr<Piece> (new Piece (nc, bd)));
 			}
 						
 			video_pos = (*i)->content->end();
 		} else {
-			Time const diff = audio_pos - (*i)->content->start();
+			Time const diff = (*i)->content->start() - audio_pos;
 			if (diff > 0) {
 				shared_ptr<NullContent> nc (new NullContent (_film, audio_pos, diff));
-				_pieces.push_back (shared_ptr<Piece> (new Piece (nc, shared_ptr<Decoder> (new SilenceDecoder (_film, nc)))));
+				shared_ptr<SilenceDecoder> sd (new SilenceDecoder (_film, nc));
+				sd->Audio.connect (bind (&Player::process_audio, this, nc, _1, _2));
+				_pieces.push_back (shared_ptr<Piece> (new Piece (nc, sd)));
 			}
 			audio_pos = (*i)->content->end();
 		}
@@ -324,7 +329,7 @@ Player::content_changed (weak_ptr<Content> w, int p)
 		return;
 	}
 
-	if (p == VideoContentProperty::VIDEO_LENGTH) {
+	if (p == ContentProperty::START || p == VideoContentProperty::VIDEO_LENGTH) {
 		_have_valid_pieces = false;
 	}
 }
