@@ -237,11 +237,6 @@ FilmEditor::make_video_panel ()
 	_video_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Format"), wxGBPosition (r, 0));
-	_format = new wxChoice (_video_panel, wxID_ANY);
-	grid->Add (_format, wxGBPosition (r, 1));
-	++r;
-
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_left_crop, wxGBPosition (r, 1));
@@ -260,6 +255,11 @@ FilmEditor::make_video_panel ()
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), wxGBPosition (r, 0));
 	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_bottom_crop, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Scale to"), wxGBPosition (r, 0));
+	_format = new wxChoice (_video_panel, wxID_ANY);
+	grid->Add (_format, wxGBPosition (r, 1));
 	++r;
 
 	_scaling_description = new wxStaticText (_video_panel, wxID_ANY, wxT ("\n \n \n \n"), wxDefaultPosition, wxDefaultSize);

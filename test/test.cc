@@ -82,6 +82,7 @@ new_test_film (string name)
 	
 	shared_ptr<Film> f = shared_ptr<Film> (new Film (p.string()));
 	f->write_metadata ();
+	return f;
 }
 
 

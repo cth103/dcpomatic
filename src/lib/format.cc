@@ -44,14 +44,14 @@ vector<Format const *> Format::_formats;
 
 /** @return A name to be presented to the user */
 string
-FixedFormat::name () const
+Format::name () const
 {
 	stringstream s;
 	if (!_nickname.empty ()) {
 		s << _nickname << N_(" (");
 	}
 
-	s << setprecision(3) << _ratio << N_(":1");
+	s << setprecision(3) << ratio() << N_(":1");
 
 	if (!_nickname.empty ()) {
 		s << N_(")");
@@ -65,65 +65,15 @@ void
 Format::setup_formats ()
 {
 	/// TRANSLATORS: these are film picture aspect ratios; "Academy" means 1.37, "Flat" 1.85 and "Scope" 2.39.
-	_formats.push_back (
-		new FixedFormat (1.19, libdcp::Size (1285, 1080), "119", _("1.19"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (4.0 / 3.0, libdcp::Size (1436, 1080), "133", _("4:3"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.38, libdcp::Size (1485, 1080), "138", _("1.375"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (4.0 / 3.0, libdcp::Size (1998, 1080), "133-in-flat", _("4:3 within Flat"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.37, libdcp::Size (1480, 1080), "137", _("Academy"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.66, libdcp::Size (1793, 1080), "166", _("1.66"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.66, libdcp::Size (1998, 1080), "166-in-flat", _("1.66 within Flat"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.78, libdcp::Size (1998, 1080), "178-in-flat", _("16:9 within Flat"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.78, libdcp::Size (1920, 1080), "178", _("16:9"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.85, libdcp::Size (1998, 1080), "185", _("Flat"), "F"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (1.78, libdcp::Size (2048, 858), "178-in-scope", _("16:9 within Scope"), "S"
-			));
-	
-	_formats.push_back (
-		new FixedFormat (2.39, libdcp::Size (2048, 858), "239", _("Scope"), "S"
-			));
-
-	_formats.push_back (
-		new FixedFormat (1.896, libdcp::Size (2048, 1080), "full-frame", _("Full frame"), "C"
-			));
-		
-	_formats.push_back (
-		new VariableFormat (libdcp::Size (1998, 1080), "var-185", _("Flat without stretch"), "F"
-			));
-	
-	_formats.push_back (
-		new VariableFormat (libdcp::Size (2048, 858), "var-239", _("Scope without stretch"), "S"
-			));
+	_formats.push_back (new Format (libdcp::Size (1285, 1080), "119", _("1.19")));
+	_formats.push_back (new Format (libdcp::Size (1436, 1080), "133", _("4:3")));
+	_formats.push_back (new Format (libdcp::Size (1485, 1080), "138", _("1.375")));
+	_formats.push_back (new Format (libdcp::Size (1480, 1080), "137", _("Academy")));
+	_formats.push_back (new Format (libdcp::Size (1793, 1080), "166", _("1.66")));
+	_formats.push_back (new Format (libdcp::Size (1920, 1080), "178", _("16:9")));
+	_formats.push_back (new Format (libdcp::Size (1998, 1080), "185", _("Flat")));
+	_formats.push_back (new Format (libdcp::Size (2048, 858), "239", _("Scope")));
+	_formats.push_back (new Format (libdcp::Size (2048, 1080), "full-frame", _("Full frame")));
 }
 
 /** @param n Nickname.
@@ -169,57 +119,8 @@ Format::all ()
 	return _formats;
 }
 
-/** @param r Ratio
- *  @param dcp Size (in pixels) of the images that we should put in a DCP.
- *  @param id ID (e.g. 185)
- *  @param n Nick name (e.g. Flat)
- */
-FixedFormat::FixedFormat (float r, libdcp::Size dcp, string id, string n, string d)
-	: Format (dcp, id, n, d)
-	, _ratio (r)
-{
-
-}
-
-/** @return Number of pixels (int the DCP image) to pad either side of the film
- *  (so there are dcp_padding() pixels on the left and dcp_padding() on the right)
- */
-int
-Format::dcp_padding (shared_ptr<const Film> f) const
-{
-	int p = rint ((_dcp_size.width - (_dcp_size.height * ratio(f))) / 2.0);
-
-	/* This comes out -ve for Scope; bodge it */
-	if (p < 0) {
-		p = 0;
-	}
-	
-	return p;
-}
-
 float
-Format::container_ratio () const
+Format::ratio () const
 {
 	return static_cast<float> (_dcp_size.width) / _dcp_size.height;
-}
-
-VariableFormat::VariableFormat (libdcp::Size dcp, string id, string n, string d)
-	: Format (dcp, id, n, d)
-{
-
-}
-
-float
-VariableFormat::ratio (shared_ptr<const Film> f) const
-{
-	/* XXX */
-	libdcp::Size const c;// = f->cropped_size (f->video_size ());
-	return float (c.width) / c.height;
-}
-
-/** @return A name to be presented to the user */
-string
-VariableFormat::name () const
-{
-	return _nickname;
 }
