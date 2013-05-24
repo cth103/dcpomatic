@@ -261,6 +261,8 @@ FilmViewer::paint_panel (wxPaintEvent &)
 void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
+	cout << "slider " << _slider->GetValue() << " " << _film->length() << "\n";
+	
 	if (_film && _player) {
 		_player->seek (_slider->GetValue() * _film->length() / 4096);
 	}

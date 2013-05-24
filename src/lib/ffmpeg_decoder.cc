@@ -452,7 +452,7 @@ FFmpegDecoder::seek (Time t)
 void
 FFmpegDecoder::seek_back ()
 {
-	if (next() < 2.5) {
+	if (next() < (2.5 * TIME_HZ / video_frame_rate())) {
 		return;
 	}
 	
@@ -462,7 +462,7 @@ FFmpegDecoder::seek_back ()
 void
 FFmpegDecoder::seek_forward ()
 {
-	if (next() >= (video_length() - video_frame_rate())) {
+	if (next() >= (_ffmpeg_content->length() - 0.5 * TIME_HZ / video_frame_rate())) {
 		return;
 	}
 	

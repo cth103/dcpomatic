@@ -37,6 +37,7 @@
 using std::list;
 using std::cout;
 using std::min;
+using std::max;
 using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -118,7 +119,6 @@ Player::pass ()
 		return true;
 	}
 
-#if 0	
 	cout << "PASS:\n";
 	cout << "\tpass ";
 	if (dynamic_pointer_cast<FFmpegContent> (earliest->content)) {
@@ -132,7 +132,6 @@ Player::pass ()
 	} else if (dynamic_pointer_cast<SilenceDecoder> (earliest->decoder)) {
 		cout << " Silence.\n";
 	}
-#endif	
 	
 	earliest->decoder->pass ();
 	_position = earliest->content->start() + earliest->decoder->next ();
@@ -202,13 +201,13 @@ Player::seek (Time t)
 		return;
 	}
 
+	cout << "seek to " << t << " " << (t / TIME_HZ) << "\n";
+
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-
-		if ((*i)->content->start() > t || (*i)->content->end() <= t) {
-			continue;
-		}
-
-		(*i)->decoder->seek (t - (*i)->content->start());
+		Time s = t - (*i)->content->start ();
+		s = max (static_cast<Time> (0), s);
+		s = min ((*i)->content->length(), s);
+		(*i)->decoder->seek (s);
 	}
 
 	/* XXX: don't seek audio because we don't need to... */

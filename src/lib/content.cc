@@ -97,6 +97,3 @@ Content::set_start (Time s)
 
 	signal_changed (ContentProperty::START);
 }
-
-	
-		

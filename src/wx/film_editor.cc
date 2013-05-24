@@ -1147,9 +1147,9 @@ FilmEditor::setup_content_sensitivity ()
         _content_remove->Enable (selection && _generally_sensitive);
 	_content_timeline->Enable (_generally_sensitive);
 
-	_video_panel->Enable (selection && _generally_sensitive);
-	_audio_panel->Enable (selection && _generally_sensitive);
-	_subtitle_panel->Enable (selection && _generally_sensitive);
+	_video_panel->Enable    (selection && dynamic_pointer_cast<VideoContent>  (selection) && _generally_sensitive);
+	_audio_panel->Enable    (selection && dynamic_pointer_cast<AudioContent>  (selection) && _generally_sensitive);
+	_subtitle_panel->Enable (selection && dynamic_pointer_cast<FFmpegContent> (selection) && _generally_sensitive);
 }
 
 shared_ptr<Content>
