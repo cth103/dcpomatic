@@ -70,3 +70,25 @@ BlackDecoder::seek (Time t)
 {
 	_next_video = t;
 }
+
+void
+BlackDecoder::seek_back ()
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return;
+	}
+
+	_next_video -= f->video_frames_to_time (2);
+}
+
+void
+BlackDecoder::seek_forward ()
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return;
+	}
+
+	_next_video += f->video_frames_to_time (1);
+}

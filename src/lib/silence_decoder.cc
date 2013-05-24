@@ -49,6 +49,28 @@ SilenceDecoder::seek (Time t)
 	_next_audio = t;
 }
 
+void
+SilenceDecoder::seek_back ()
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return;
+	}
+
+	_next_audio -= f->video_frames_to_time (2);
+}
+
+void
+SilenceDecoder::seek_forward ()
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return;
+	}
+
+	_next_audio += f->video_frames_to_time (1);
+}
+
 Time
 SilenceDecoder::next () const
 {

@@ -103,13 +103,14 @@ Player::pass ()
         shared_ptr<Piece> earliest;
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-//		cout << "check " << (*i)->decoder->next() << " cf " << (*i)->content->end() << "\n";
+		cout << "check " << (*i)->content->file() << " start=" << (*i)->content->start() << ", next=" << (*i)->decoder->next() << ", end=" << (*i)->content->end() << "\n";
 		if (((*i)->decoder->next() + (*i)->content->start()) >= (*i)->content->end()) {
 			continue;
 		}
 		
 		Time const t = (*i)->content->start() + (*i)->decoder->next();
 		if (t < earliest_t) {
+			cout << "\t candidate; " << t << " " << (t / TIME_HZ) << ".\n";
 			earliest_t = t;
 			earliest = *i;
 		}
@@ -120,7 +121,7 @@ Player::pass ()
 	}
 
 	cout << "PASS:\n";
-	cout << "\tpass ";
+	cout << "\tpass " << earliest->content->file() << " ";
 	if (dynamic_pointer_cast<FFmpegContent> (earliest->content)) {
 		cout << " FFmpeg.\n";
 	} else if (dynamic_pointer_cast<ImageMagickContent> (earliest->content)) {
@@ -135,6 +136,7 @@ Player::pass ()
 	
 	earliest->decoder->pass ();
 	_position = earliest->content->start() + earliest->decoder->next ();
+	cout << "\tpassed to " << _position << " " << (_position / TIME_HZ) << "\n";
 
         return false;
 }
@@ -142,6 +144,8 @@ Player::pass ()
 void
 Player::process_video (weak_ptr<Content> weak_content, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
 {
+	cout << "[V]\n";
+	
 	shared_ptr<Content> content = weak_content.lock ();
 	if (!content) {
 		return;
@@ -207,6 +211,7 @@ Player::seek (Time t)
 		Time s = t - (*i)->content->start ();
 		s = max (static_cast<Time> (0), s);
 		s = min ((*i)->content->length(), s);
+		cout << "seek [" << (*i)->content->file() << "," << (*i)->content->start() << "," << (*i)->content->end() << "] to " << s << "\n";
 		(*i)->decoder->seek (s);
 	}
 
@@ -217,13 +222,13 @@ Player::seek (Time t)
 void
 Player::seek_back ()
 {
-	/* XXX */
+
 }
 
 void
 Player::seek_forward ()
 {
-	/* XXX */
+
 }
 
 struct ContentSorter

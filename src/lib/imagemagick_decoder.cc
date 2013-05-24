@@ -111,6 +111,28 @@ ImageMagickDecoder::seek (Time t)
 	_next_video = t;
 }
 
+void
+ImageMagickDecoder::seek_back ()
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return;
+	}
+	
+	_next_video -= f->video_frames_to_time (2);
+}
+
+void
+ImageMagickDecoder::seek_forward ()
+{
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return;
+	}
+	
+	_next_video += f->video_frames_to_time (1);
+}
+
 Time
 ImageMagickDecoder::next () const
 {
