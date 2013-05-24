@@ -382,7 +382,7 @@ FilmViewer::play_clicked (wxCommandEvent &)
 void
 FilmViewer::check_play_state ()
 {
-	if (!_film) {
+	if (!_film || _film->dcp_video_frame_rate() == 0) {
 		return;
 	}
 	

@@ -218,23 +218,17 @@ public:
 
 		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
 
-		wxPanel* panel = new wxPanel (this);
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (panel, 1, wxEXPAND);
-		SetSizer (s);
+		film_editor = new FilmEditor (film, this);
+		film_viewer = new FilmViewer (film, this);
+		JobManagerView* job_manager_view = new JobManagerView (this, static_cast<JobManagerView::Buttons> (0));
 
-		film_editor = new FilmEditor (film, panel);
-		film_viewer = new FilmViewer (film, panel);
-		JobManagerView* job_manager_view = new JobManagerView (panel, static_cast<JobManagerView::Buttons> (0));
+		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
+		right_sizer->Add (film_viewer, 2, wxEXPAND | wxALL, 6);
+		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 
-		_top_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_top_sizer->Add (film_editor, 0, wxALL, 6);
-		_top_sizer->Add (film_viewer, 1, wxEXPAND | wxALL, 6);
-
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (_top_sizer, 2, wxEXPAND | wxALL, 6);
-		main_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
-		panel->SetSizer (main_sizer);
+		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
+		main_sizer->Add (film_editor, 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (right_sizer, 2, wxEXPAND | wxALL, 6);
 
 		set_menu_sensitivity ();
 
@@ -246,21 +240,10 @@ public:
 		}
 
 		set_film ();
-
-		film_editor->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Frame::film_editor_sized), 0, this);
+		SetSizer (main_sizer);
 	}
 
 private:
-
-	void film_editor_sized (wxSizeEvent &)
-	{
-		static bool in_layout = false;
-		if (!in_layout) {
-			in_layout = true;
-			_top_sizer->Layout ();
-			in_layout = false;
-		}
-	}
 
 	void menu_opened (wxMenuEvent& ev)
 	{
@@ -443,8 +426,6 @@ private:
 		info.SetWebSite (wxT ("http://carlh.net/software/dcpomatic"));
 		wxAboutBox (info);
 	}
-
-	wxSizer* _top_sizer;
 };
 
 #if wxMINOR_VERSION == 9
