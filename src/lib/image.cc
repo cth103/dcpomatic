@@ -35,6 +35,7 @@ extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libpostproc/postprocess.h>
 #include <libavutil/pixfmt.h>
+#include <libavutil/pixdesc.h>
 }
 #include "image.h"
 #include "exceptions.h"
@@ -58,55 +59,32 @@ Image::swap (Image& other)
 int
 Image::lines (int n) const
 {
-	switch (_pixel_format) {
-	case PIX_FMT_YUV420P:
-		if (n == 0) {
-			return size().height;
-		} else {
-			return size().height / 2;
-		}
-		break;
-	case PIX_FMT_RGB24:
-	case PIX_FMT_RGBA:
-	case PIX_FMT_YUV422P10LE:
-	case PIX_FMT_YUV422P:
-	case PIX_FMT_YUV444P:
-	case PIX_FMT_YUV444P9BE:
-	case PIX_FMT_YUV444P9LE:
-	case PIX_FMT_YUV444P10BE:
-	case PIX_FMT_YUV444P10LE:
-	case PIX_FMT_UYVY422:
+	if (n == 0) {
 		return size().height;
-	default:
+	}
+	
+	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	if (!d) {
 		throw PixelFormatError (N_("lines()"), _pixel_format);
 	}
-
-	return 0;
+	
+	return size().height / pow(2, d->log2_chroma_h);
 }
 
 /** @return Number of components */
 int
 Image::components () const
 {
-	switch (_pixel_format) {
-	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P10LE:
-	case PIX_FMT_YUV422P:
-	case PIX_FMT_YUV444P:
-	case PIX_FMT_YUV444P9BE:
-	case PIX_FMT_YUV444P9LE:
-	case PIX_FMT_YUV444P10BE:
-	case PIX_FMT_YUV444P10LE:
-		return 3;
-	case PIX_FMT_RGB24:
-	case PIX_FMT_RGBA:
-	case PIX_FMT_UYVY422:
-		return 1;
-	default:
+	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	if (!d) {
 		throw PixelFormatError (N_("components()"), _pixel_format);
 	}
 
-	return 0;
+	if ((d->flags & PIX_FMT_PLANAR) == 0) {
+		return 1;
+	}
+	
+	return d->nb_components;
 }
 
 shared_ptr<Image>
@@ -296,12 +274,12 @@ Image::make_black ()
 {
 	/* U/V black value for 8-bit colour */
 	static uint8_t const eight_bit_uv = (1 << 7) - 1;
-	
 	/* U/V black value for 9-bit colour */
 	static uint16_t const nine_bit_uv = (1 << 8) - 1;
-
 	/* U/V black value for 10-bit colour */
 	static uint16_t const ten_bit_uv =  (1 << 9) - 1;
+	/* U/V black value for 16-bit colour */
+	static uint16_t const sixteen_bit_uv =  (1 << 15) - 1;
 	
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
@@ -326,11 +304,17 @@ Image::make_black ()
 	case PIX_FMT_YUV444P10LE:
 		yuv_16_black (ten_bit_uv);
 		break;
+
+	case PIX_FMT_YUV422P16LE:
+	case PIX_FMT_YUV444P16LE:
+		yuv_16_black (sixteen_bit_uv);
+		break;
 		
 	case PIX_FMT_YUV444P10BE:
 	case PIX_FMT_YUV422P10BE:
 		yuv_16_black (swap_16 (ten_bit_uv));
-		
+		break;
+
 	case PIX_FMT_RGB24:		
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
@@ -420,52 +404,35 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 float
 Image::bytes_per_pixel (int c) const
 {
-	if (c == 3) {
+	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	if (!d) {
+		throw PixelFormatError (N_("lines()"), _pixel_format);
+	}
+
+	if (c >= components()) {
 		return 0;
 	}
+
+	float bpp[4] = { 0, 0, 0, 0 };
+
+	bpp[0] = floor ((d->comp[0].depth_minus1 + 1 + 7) / 8);
+	if (d->nb_components > 1) {
+		bpp[1] = floor ((d->comp[1].depth_minus1 + 1 + 7) / 8) / pow (2, d->log2_chroma_w);
+	}
+	if (d->nb_components > 2) {
+		bpp[2] = floor ((d->comp[2].depth_minus1 + 1 + 7) / 8) / pow (2, d->log2_chroma_w);
+	}
+	if (d->nb_components > 3) {
+		bpp[3] = floor ((d->comp[3].depth_minus1 + 1 + 7) / 8) / pow (2, d->log2_chroma_w);
+	}
 	
-	switch (_pixel_format) {
-	case PIX_FMT_RGB24:
-		if (c == 0) {
-			return 3;
-		} else {
-			return 0;
-		}
-	case PIX_FMT_RGBA:
-		if (c == 0) {
-			return 4;
-		} else {
-			return 0;
-		}
-	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P:
-		if (c == 0) {
-			return 1;
-		} else {
-			return 0.5;
-		}
-	case PIX_FMT_YUV422P10LE:
-		if (c == 0) {
-			return 2;
-		} else {
-			return 1;
-		}
-	case PIX_FMT_UYVY422:
-		return 2;
-	case PIX_FMT_YUV444P:
-		return 3;
-	case PIX_FMT_YUV444P9BE:
-	case PIX_FMT_YUV444P9LE:
-	case PIX_FMT_YUV444P10LE:
-	case PIX_FMT_YUV444P10BE:
-		return 6;
-	default:
-		throw PixelFormatError (N_("bytes_per_pixel()"), _pixel_format);
+	if ((d->flags & PIX_FMT_PLANAR) == 0) {
+		/* Not planar; sum them up */
+		return bpp[0] + bpp[1] + bpp[2] + bpp[3];
 	}
 
-	return 0;
+	return bpp[c];
 }
-
 
 /** Construct a SimpleImage of a given size and format, allocating memory
  *  as required.
@@ -502,10 +469,9 @@ SimpleImage::allocate ()
 
 SimpleImage::SimpleImage (SimpleImage const & other)
 	: Image (other)
+	, _size (other._size)
+	, _aligned (other._aligned)
 {
-	_size = other._size;
-	_aligned = other._aligned;
-	
 	allocate ();
 
 	for (int i = 0; i < components(); ++i) {
@@ -515,6 +481,25 @@ SimpleImage::SimpleImage (SimpleImage const & other)
 			memcpy (p, q, _line_size[i]);
 			p += stride()[i];
 			q += other.stride()[i];
+		}
+	}
+}
+
+SimpleImage::SimpleImage (AVFrame* frame)
+	: Image (static_cast<AVPixelFormat> (frame->format))
+	, _size (frame->width, frame->height)
+	, _aligned (true)
+{
+	allocate ();
+
+	for (int i = 0; i < components(); ++i) {
+		uint8_t* p = _data[i];
+		uint8_t* q = frame->data[i];
+		for (int j = 0; j < lines(i); ++j) {
+			memcpy (p, q, _line_size[i]);
+			p += stride()[i];
+			/* AVFrame's linesize is what we call `stride' */
+			q += frame->linesize[i];
 		}
 	}
 }
@@ -607,59 +592,6 @@ bool
 SimpleImage::aligned () const
 {
 	return _aligned;
-}
-
-FilterBufferImage::FilterBufferImage (AVPixelFormat p, AVFilterBufferRef* b)
-	: Image (p)
-	, _buffer (b)
-{
-	_line_size = (int *) av_malloc (4 * sizeof (int));
-	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
-	
-	for (int i = 0; i < components(); ++i) {
-		_line_size[i] = size().width * bytes_per_pixel(i);
-	}
-}
-
-FilterBufferImage::~FilterBufferImage ()
-{
-	avfilter_unref_buffer (_buffer);
-	av_free (_line_size);
-}
-
-uint8_t **
-FilterBufferImage::data () const
-{
-	return _buffer->data;
-}
-
-int *
-FilterBufferImage::line_size () const
-{
-	return _line_size;
-}
-
-int *
-FilterBufferImage::stride () const
-{
-	/* I've seen images where the _buffer->linesize is larger than the width
-	   (by a small amount), suggesting that _buffer->linesize is what we call
-	   stride.  But I'm not sure.
-	*/
-	return _buffer->linesize;
-}
-
-libdcp::Size
-FilterBufferImage::size () const
-{
-	return libdcp::Size (_buffer->video->w, _buffer->video->h);
-}
-
-bool
-FilterBufferImage::aligned () const
-{
-	/* XXX? */
-	return true;
 }
 
 RGBPlusAlphaImage::RGBPlusAlphaImage (shared_ptr<const Image> im)

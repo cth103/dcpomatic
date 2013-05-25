@@ -135,7 +135,6 @@ FilmViewer::film_changed (Film::Property p)
 		_panel->Update ();
 		break;
 	case Film::SCALER:
-	case Film::FILTERS:
 		update_from_decoder ();
 		break;
 	default:
@@ -301,15 +300,8 @@ FilmViewer::raw_to_display ()
 		return;
 	}
 
-	shared_ptr<const Image> input = _raw_frame;
-
-	pair<string, string> const s = Filter::ffmpeg_strings (_film->filters());
-	if (!s.second.empty ()) {
-		input = input->post_process (s.second, true);
-	}
-	
 	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = input->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
+	_display_frame = _raw_frame->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
 
 	if (_raw_sub) {
 

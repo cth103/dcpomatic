@@ -25,11 +25,9 @@
 #define DCPOMATIC_FILTER_GRAPH_H
 
 #include "util.h"
-#include "ffmpeg_compatibility.h"
 
 class Image;
 class VideoFilter;
-class FFmpegDecoder;
 
 /** @class FilterGraph
  *  @brief A graph of FFmpeg filters.
@@ -37,16 +35,18 @@ class FFmpegDecoder;
 class FilterGraph
 {
 public:
-	FilterGraph (boost::weak_ptr<const Film>, FFmpegDecoder* decoder, libdcp::Size s, AVPixelFormat p);
+	FilterGraph (boost::shared_ptr<const FFmpegContent> content, libdcp::Size s, AVPixelFormat p);
+	~FilterGraph ();
 
 	bool can_process (libdcp::Size s, AVPixelFormat p) const;
-	std::list<boost::shared_ptr<Image> > process (AVFrame const * frame);
+	std::list<boost::shared_ptr<Image> > process (AVFrame * frame);
 
 private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
 	libdcp::Size _size; ///< size of the images that this chain can process
 	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
+	AVFrame* _frame;
 };
 
 #endif

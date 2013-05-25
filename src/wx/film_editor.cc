@@ -590,18 +590,6 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::CONTAINER:
 		setup_container ();
 		break;
-	case Film::FILTERS:
-	{
-		pair<string, string> p = Filter::ffmpeg_strings (_film->filters ());
-		if (p.first.empty () && p.second.empty ()) {
-			_filters->SetLabel (_("None"));
-		} else {
-			string const b = p.first + " " + p.second;
-			_filters->SetLabel (std_to_wx (b));
-		}
-		_dcp_sizer->Layout ();
-		break;
-	}
 	case Film::NAME:
 		checked_set (_name, _film->name());
 		setup_dcp_name ();
@@ -722,6 +710,17 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
 		setup_show_audio_sensitivity ();
+	} else if (property == FFmpegContentProperty::FILTERS) {
+		if (ffmpeg_content) {
+			pair<string, string> p = Filter::ffmpeg_strings (ffmpeg_content->filters ());
+			if (p.first.empty () && p.second.empty ()) {
+				_filters->SetLabel (_("None"));
+			} else {
+				string const b = p.first + " " + p.second;
+				_filters->SetLabel (std_to_wx (b));
+			}
+			_dcp_sizer->Layout ();
+		}
 	}
 }
 
@@ -809,7 +808,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::LOOP);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::CONTAINER);
-	film_changed (Film::FILTERS);
 	film_changed (Film::SCALER);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SUBTITLE_OFFSET);
@@ -826,6 +824,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAM);
+	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::FILTERS);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -867,8 +866,18 @@ FilmEditor::set_things_sensitive (bool s)
 void
 FilmEditor::edit_filters_clicked (wxCommandEvent &)
 {
-	FilterDialog* d = new FilterDialog (this, _film->filters());
-	d->ActiveChanged.connect (bind (&Film::set_filters, _film, _1));
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	if (!fc) {
+		return;
+	}
+	
+	FilterDialog* d = new FilterDialog (this, fc->filters());
+	d->ActiveChanged.connect (bind (&FFmpegContent::set_filters, fc, _1));
 	d->ShowModal ();
 	d->Destroy ();
 }

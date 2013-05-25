@@ -112,8 +112,6 @@ private:
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
-	void film_changed (Film::Property);
-
 	std::string stream_name (AVStream* s) const;
 
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;

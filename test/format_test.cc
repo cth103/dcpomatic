@@ -17,15 +17,17 @@
 
 */
 
-struct AVFilterInOut;
-
-extern AVFilter* get_sink ();
-extern AVFilterInOut* avfilter_inout_alloc ();
-
-#ifndef HAVE_AV_PIXEL_FORMAT
-#define AVPixelFormat PixelFormat
-#endif
-
-#ifndef HAVE_AV_FRAME_GET_BEST_EFFORT_TIMESTAMP
-extern int64_t av_frame_get_best_effort_timestamp (AVFrame const *);
-#endif
+BOOST_AUTO_TEST_CASE (format_test)
+{
+	Format::setup_formats ();
+	
+	Format const * f = Format::from_nickname ("Flat");
+	BOOST_CHECK (f);
+	BOOST_CHECK_EQUAL (f->dcp_size().width, 1998);
+	BOOST_CHECK_EQUAL (f->dcp_size().height, 1080);
+	
+	f = Format::from_nickname ("Scope");
+	BOOST_CHECK (f);
+	BOOST_CHECK_EQUAL (f->dcp_size().width, 2048);
+	BOOST_CHECK_EQUAL (f->dcp_size().height, 858);
+}

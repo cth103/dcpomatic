@@ -32,10 +32,8 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include "util.h"
-#include "ffmpeg_compatibility.h"
 
 class Scaler;
-class RGBFrameImage;
 class SimpleImage;
 
 /** @class Image
@@ -92,35 +90,13 @@ protected:
 	virtual void swap (Image &);
 	float bytes_per_pixel (int) const;
 
+	friend class pixel_formats_test;
+
 private:
 	void yuv_16_black (uint16_t);
 	static uint16_t swap_16 (uint16_t);
 	
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
-};
-
-/** @class FilterBufferImage
- *  @brief An Image that is held in an AVFilterBufferRef.
- */
-class FilterBufferImage : public Image
-{
-public:
-	FilterBufferImage (AVPixelFormat, AVFilterBufferRef *);
-	~FilterBufferImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	int * stride () const;
-	libdcp::Size size () const;
-	bool aligned () const;
-
-private:
-	/* Not allowed */
-	FilterBufferImage (FilterBufferImage const &);
-	FilterBufferImage& operator= (FilterBufferImage const &);
-	
-	AVFilterBufferRef* _buffer;
-	int* _line_size;
 };
 
 /** @class SimpleImage
@@ -130,6 +106,7 @@ class SimpleImage : public Image
 {
 public:
 	SimpleImage (AVPixelFormat, libdcp::Size, bool);
+	SimpleImage (AVFrame *);
 	SimpleImage (SimpleImage const &);
 	SimpleImage (boost::shared_ptr<const Image>);
 	SimpleImage& operator= (SimpleImage const &);

@@ -65,11 +65,11 @@ SndfileDecoder::pass ()
 
 	int const channels = _sndfile_content->audio_channels ();
 	
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (channels, this_time));
+	shared_ptr<AudioBuffers> data (new AudioBuffers (channels, this_time));
 
 	if (_sndfile_content->audio_channels() == 1) {
 		/* No de-interleaving required */
-		sf_read_float (_sndfile, audio->data(0), this_time);
+		sf_read_float (_sndfile, data->data(0), this_time);
 	} else {
 		/* Deinterleave */
 		if (!_deinterleave_buffer) {
@@ -78,7 +78,7 @@ SndfileDecoder::pass ()
 		sf_readf_float (_sndfile, _deinterleave_buffer, this_time);
 		vector<float*> out_ptr (channels);
 		for (int i = 0; i < channels; ++i) {
-			out_ptr[i] = audio->data(i);
+			out_ptr[i] = data->data(i);
 		}
 		float* in_ptr = _deinterleave_buffer;
 		for (int i = 0; i < this_time; ++i) {
@@ -88,8 +88,8 @@ SndfileDecoder::pass ()
 		}
 	}
 		
-	audio->set_frames (this_time);
-	Audio (audio, double(_done) / audio_frame_rate());
+	data->set_frames (this_time);
+	audio (data, double(_done) / audio_frame_rate());
 	_done += this_time;
 	_remaining -= this_time;
 }

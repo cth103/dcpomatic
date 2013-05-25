@@ -103,7 +103,6 @@ public:
 	boost::shared_ptr<Playlist> playlist () const;
 
 	OutputAudioFrame dcp_audio_frame_rate () const;
-	int dcp_audio_channels () const;
 
 	OutputAudioFrame time_to_audio_frames (Time) const;
 	OutputVideoFrame time_to_video_frames (Time) const;
@@ -133,7 +132,6 @@ public:
 		LOOP,
 		DCP_CONTENT_TYPE,
 		CONTAINER,
-		FILTERS,
 		SCALER,
 		AB,
 		WITH_SUBTITLES,
@@ -171,11 +169,6 @@ public:
 	Container const * container () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _container;
-	}
-
-	std::vector<Filter const *> filters () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _filters;
 	}
 
 	Scaler const * scaler () const {
@@ -238,7 +231,6 @@ public:
 	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Container const *);
-	void set_filters (std::vector<Filter const *>);
 	void set_scaler (Scaler const *);
 	void set_ab (bool);
 	void set_with_subtitles (bool);
@@ -291,8 +283,6 @@ private:
 	DCPContentType const * _dcp_content_type;
 	/** The container to put this Film in (flat, scope, etc.) */
 	Container const * _container;
-	/** Video filters that should be used when generating DCPs */
-	std::vector<Filter const *> _filters;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
 	/** true to create an A/B comparison DCP, where the left half of the image

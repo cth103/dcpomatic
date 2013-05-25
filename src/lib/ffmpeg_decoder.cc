@@ -507,22 +507,6 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 	return;
 }
 
-void
-FFmpegDecoder::film_changed (Film::Property p)
-{
-	switch (p) {
-	case Film::FILTERS:
-	{
-		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
-		_filter_graphs.clear ();
-	}
-	break;
-
-	default:
-		break;
-	}
-}
-
 /** @return Length (in video frames) according to our content's header */
 ContentVideoFrame
 FFmpegDecoder::video_length () const
@@ -582,27 +566,35 @@ FFmpegDecoder::decode_video_packet ()
 	}
 
 	if (i == _filter_graphs.end ()) {
-		graph.reset (new FilterGraph (_film, this, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
-		_filter_graphs.push_back (graph);
-
 		shared_ptr<const Film> film = _film.lock ();
 		assert (film);
+
+		graph.reset (new FilterGraph (_ffmpeg_content, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+		_filter_graphs.push_back (graph);
+
 		film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
 	} else {
 		graph = *i;
 	}
 
-
 	list<shared_ptr<Image> > images = graph->process (_frame);
+
+	string post_process = Filter::ffmpeg_strings (_ffmpeg_content->filters()).second;
 	
 	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
+
+		shared_ptr<Image> image = *i;
+		if (!post_process.empty ()) {
+			image = image->post_process (post_process, true);
+		}
+		
 		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 		if (bet != AV_NOPTS_VALUE) {
 			/* XXX: may need to insert extra frames / remove frames here ...
 			   (as per old Matcher)
 			*/
 			Time const t = bet * av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ;
-			video (*i, false, t);
+			video (image, false, t);
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);

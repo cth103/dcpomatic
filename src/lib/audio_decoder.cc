@@ -25,6 +25,8 @@
 #include "i18n.h"
 
 using std::stringstream;
+using std::list;
+using std::pair;
 using boost::optional;
 using boost::shared_ptr;
 
@@ -141,11 +143,11 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 	assert (film);
 	
 	/* Remap channels */
-	shared_ptr<AudioBuffers> dcp_mapped (film->dcp_audio_channels(), data->frames());
+	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (film->dcp_audio_channels(), data->frames()));
 	dcp_mapped->make_silent ();
 	list<pair<int, libdcp::Channel> > map = _audio_content->audio_mapping().content_to_dcp ();
 	for (list<pair<int, libdcp::Channel> >::iterator i = map.begin(); i != map.end(); ++i) {
-		dcp_mapped->accumulate (data, i->first, i->second);
+		dcp_mapped->accumulate_channel (data.get(), i->first, i->second);
 	}
 
 	Audio (dcp_mapped, time);

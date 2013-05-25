@@ -107,7 +107,7 @@ class DCPVideoFrame
 public:
 	DCPVideoFrame (
 		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, libdcp::Size,
-		int, int, float, Scaler const *, int, int, std::string, int, int, boost::shared_ptr<Log>
+		int, int, float, Scaler const *, int, int, int, int, boost::shared_ptr<Log>
 		);
 	
 	virtual ~DCPVideoFrame ();
@@ -131,7 +131,6 @@ private:
 	Scaler const * _scaler;          ///< scaler to use
 	int _frame;                      ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;          ///< Frames per second that we will use for the DCP
-	std::string _post_process;       ///< FFmpeg post-processing string to use
 	int _colour_lut;                 ///< Colour look-up table to use
 	int _j2k_bandwidth;              ///< J2K bandwidth to use
 

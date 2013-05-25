@@ -79,7 +79,7 @@ using libdcp::Size;
 DCPVideoFrame::DCPVideoFrame (
 	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
 	Size out, int p, int subtitle_offset, float subtitle_scale,
-	Scaler const * s, int f, int dcp_fps, string pp, int clut, int bw, shared_ptr<Log> l
+	Scaler const * s, int f, int dcp_fps, int clut, int bw, shared_ptr<Log> l
 	)
 	: _input (yuv)
 	, _subtitle (sub)
@@ -90,7 +90,6 @@ DCPVideoFrame::DCPVideoFrame (
 	, _scaler (s)
 	, _frame (f)
 	, _frames_per_second (dcp_fps)
-	, _post_process (pp)
 	, _colour_lut (clut)
 	, _j2k_bandwidth (bw)
 	, _log (l)
@@ -156,10 +155,6 @@ DCPVideoFrame::~DCPVideoFrame ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	if (!_post_process.empty ()) {
-		_input = _input->post_process (_post_process, true);
-	}
-	
 	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler, true);
 
 	if (_subtitle) {
@@ -333,10 +328,6 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << N_("frame ") << _frame << N_("\n")
 	  << N_("frames_per_second ") << _frames_per_second << N_("\n");
 
-	if (!_post_process.empty()) {
-		s << N_("post_process ") << _post_process << N_("\n");
-	}
-	
 	s << N_("colour_lut ") << _colour_lut << N_("\n")
 	  << N_("j2k_bandwidth ") << _j2k_bandwidth << N_("\n");
 

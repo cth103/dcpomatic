@@ -38,7 +38,8 @@ ABTranscodeJob::ABTranscodeJob (shared_ptr<Film> f)
 {
 	_film_b.reset (new Film (*_film));
 	_film_b->set_scaler (Config::instance()->reference_scaler ());
-	_film_b->set_filters (Config::instance()->reference_filters ());
+	/* XXX */
+//	_film_b->set_filters (Config::instance()->reference_filters ());
 }
 
 string

@@ -111,7 +111,6 @@ Server::process (shared_ptr<Socket> socket)
 	string scaler_id = get_required_string (kv, N_("scaler"));
 	int frame = get_required_int (kv, N_("frame"));
 	int frames_per_second = get_required_int (kv, N_("frames_per_second"));
-	string post_process = get_optional_string (kv, N_("post_process"));
 	int colour_lut_index = get_required_int (kv, N_("colour_lut"));
 	int j2k_bandwidth = get_required_int (kv, N_("j2k_bandwidth"));
 	Position subtitle_position (get_optional_int (kv, N_("subtitle_x")), get_optional_int (kv, N_("subtitle_y")));
@@ -136,7 +135,7 @@ Server::process (shared_ptr<Socket> socket)
 
 	DCPVideoFrame dcp_video_frame (
 		image, sub, out_size, padding, subtitle_offset, subtitle_scale,
-		scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log
+		scaler, frame, frames_per_second, colour_lut_index, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();

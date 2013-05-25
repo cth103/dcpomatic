@@ -26,6 +26,8 @@
 #include "video_content.h"
 #include "audio_content.h"
 
+class Filter;
+
 class FFmpegAudioStream
 {
 public:
@@ -75,6 +77,7 @@ public:
         static int const SUBTITLE_STREAM;
         static int const AUDIO_STREAMS;
         static int const AUDIO_STREAM;
+        static int const FILTERS;
 };
 
 class FFmpegContent : public VideoContent, public AudioContent
@@ -101,6 +104,8 @@ public:
         int content_audio_frame_rate () const;
         int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
+
+	void set_filters (std::vector<Filter const *> const &);
 	
         std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
                 boost::mutex::scoped_lock lm (_mutex);
@@ -122,6 +127,11 @@ public:
                 return _audio_stream;
         }
 
+	std::vector<Filter const *> filters () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _filters;
+	}
+
         void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
         void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
 	
@@ -130,6 +140,8 @@ private:
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::shared_ptr<FFmpegAudioStream> _audio_stream;
+	/** Video filters that should be used when generating DCPs */
+	std::vector<Filter const *> _filters;
 };
 
 #endif

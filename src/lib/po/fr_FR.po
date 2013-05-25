@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-09 09:51+0100\n"
-"PO-Revision-Date: 2013-05-10 14:33+0100\n"
+"PO-Revision-Date: 2013-05-21 10:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -489,7 +489,7 @@ msgstr "lecture du fichier impossible"
 
 #: src/lib/exceptions.cc:44
 msgid "could not read from file %1 (%2)"
-msgstr "création du dossier distant %1 impossible (%2)"
+msgstr "lecture du fichier impossible %1 (%2)"
 
 #: src/lib/encoder.cc:137
 #: src/lib/encoder.cc:314

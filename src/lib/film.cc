@@ -142,7 +142,6 @@ Film::Film (Film const & o)
 	, _use_dci_name      (o._use_dci_name)
 	, _dcp_content_type  (o._dcp_content_type)
 	, _container         (o._container)
-	, _filters           (o._filters)
 	, _scaler            (o._scaler)
 	, _ab                (o._ab)
 	, _with_subtitles    (o._with_subtitles)
@@ -164,13 +163,10 @@ Film::video_state_identifier () const
 	assert (container ());
 	LocaleGuard lg;
 
-	pair<string, string> f = Filter::ffmpeg_strings (filters());
-
 	stringstream s;
 	s << container()->id()
 	  << "_" << _playlist->video_digest()
 	  << "_" << _dcp_video_frame_rate
-	  << "_" << f.first << "_" << f.second
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth()
 	  << "_" << lexical_cast<int> (colour_lut());
@@ -395,10 +391,6 @@ Film::write_metadata () const
 		root->add_child("Container")->add_child_text (_container->id ());
 	}
 
-	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
-		root->add_child("Filter")->add_child_text ((*i)->id ());
-	}
-	
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("AB")->add_child_text (_ab ? "1" : "0");
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
@@ -444,13 +436,6 @@ Film::read_metadata ()
 		optional<string> c = f.optional_string_child ("Container");
 		if (c) {
 			_container = Container::from_id (c.get ());
-		}
-	}
-
-	{
-		list<shared_ptr<cxml::Node> > c = f.node_children ("Filter");
-		for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
-			_filters.push_back (Filter::from_id ((*i)->content ()));
 		}
 	}
 
@@ -636,16 +621,6 @@ Film::set_container (Container const * c)
 }
 
 void
-Film::set_filters (vector<Filter const *> f)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_filters = f;
-	}
-	signal_changed (FILTERS);
-}
-
-void
 Film::set_scaler (Scaler const * s)
 {
 	{
@@ -821,7 +796,6 @@ Film::have_dcp () const
 shared_ptr<Player>
 Film::player () const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
 	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
 }
 

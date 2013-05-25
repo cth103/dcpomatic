@@ -25,6 +25,7 @@
 #include "compose.hpp"
 #include "job.h"
 #include "util.h"
+#include "filter.h"
 #include "log.h"
 
 #include "i18n.h"
@@ -41,6 +42,7 @@ int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::AUDIO_STREAMS = 102;
 int const FFmpegContentProperty::AUDIO_STREAM = 103;
+int const FFmpegContentProperty::FILTERS = 104;
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
@@ -69,6 +71,11 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_audio_stream = _audio_streams.back ();
 		}
+	}
+
+	c = node->node_children ("Filter");
+	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
+		_filters.push_back (Filter::from_id ((*i)->content ()));
 	}
 }
 
@@ -108,6 +115,10 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 			t->add_child("Selected")->add_child_text("1");
 		}
 		(*i)->as_xml (t);
+	}
+
+	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
+		node->add_child("Filter")->add_child_text ((*i)->id ());
 	}
 }
 
@@ -333,5 +344,16 @@ FFmpegContent::audio_mapping () const
 	}
 
 	return _audio_stream->mapping;
+}
+
+void
+FFmpegContent::set_filters (vector<Filter const *> const & filters)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_filters = filters;
+	}
+
+	signal_changed (FFmpegContentProperty::FILTERS);
 }
 

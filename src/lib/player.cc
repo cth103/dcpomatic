@@ -107,6 +107,10 @@ Player::pass ()
 		if (((*i)->decoder->next() + (*i)->content->start()) >= (*i)->content->end()) {
 			continue;
 		}
+
+		if (!_audio && dynamic_pointer_cast<SndfileContent> ((*i)->content)) {
+			continue;
+		}
 		
 		Time const t = (*i)->content->start() + (*i)->decoder->next();
 		if (t < earliest_t) {
@@ -188,7 +192,7 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
 
         /* Now accumulate the new audio into our buffers */
         _audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
-        _audio_buffers.accumulate_frames (audio, 0, 0, audio->frames ());
+        _audio_buffers.accumulate_frames (audio.get(), 0, 0, audio->frames ());
 }
 
 /** @return true on error */

@@ -26,7 +26,6 @@ sources = """
           examine_content_job.cc
           exceptions.cc
           filter_graph.cc
-          ffmpeg_compatibility.cc
           ffmpeg_content.cc
           ffmpeg_decoder.cc
           film.cc
