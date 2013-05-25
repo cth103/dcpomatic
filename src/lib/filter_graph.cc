@@ -150,6 +150,7 @@ FFmpegFilterGraph::process (AVFrame* frame)
 		}
 
 		images.push_back (shared_ptr<Image> (new SimpleImage (_frame)));
+		av_frame_unref (_frame);
 	}
 	
 	return images;
