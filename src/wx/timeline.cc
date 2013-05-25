@@ -111,6 +111,14 @@ public:
 		return _content;
 	}
 
+	void set_track (int t) {
+		_track = t;
+	}
+
+	int track () const {
+		return _track;
+	}
+
 	virtual wxString type () const = 0;
 	virtual wxColour colour () const = 0;
 	
@@ -307,6 +315,7 @@ private:
 Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
+	, _tracks (0)
 	, _pixels_per_time_unit (0)
 	, _left_down (false)
 	, _down_view_start (0)
@@ -322,9 +331,9 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 	Connect (wxID_ANY, wxEVT_MOTION, wxMouseEventHandler (Timeline::mouse_moved), 0, this);
 	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
 
-	SetMinSize (wxSize (640, tracks() * track_height() + 96));
-
 	playlist_changed ();
+
+	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
 	_playlist_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
 }
@@ -365,20 +374,76 @@ Timeline::playlist_changed ()
 			_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, 0)));
 		}
 		if (dynamic_pointer_cast<AudioContent> (*i)) {
-			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, 1)));
+			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, 0)));
 		}
 	}
 
+	assign_tracks ();
+	
 	_views.push_back (shared_ptr<View> (new TimeAxisView (*this, tracks() * track_height() + 32)));
 		
 	Refresh ();
 }
 
+void
+Timeline::assign_tracks ()
+{
+	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
+		if (cv) {
+			cv->set_track (0);
+		}
+	}
+
+	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<AudioContentView> acv = dynamic_pointer_cast<AudioContentView> (*i);
+		if (!acv) {
+			continue;
+		}
+	
+		shared_ptr<Content> acv_content = acv->content().lock ();
+		assert (acv_content);
+		
+		int t = 1;
+		while (1) {
+			list<shared_ptr<View> >::iterator j = _views.begin();
+			while (j != _views.end()) {
+				shared_ptr<AudioContentView> test = dynamic_pointer_cast<AudioContentView> (*j);
+				if (!test) {
+					++j;
+					continue;
+				}
+				
+				shared_ptr<Content> test_content = test->content().lock ();
+				assert (test_content);
+					
+				if (test && test->track() == t) {
+					if ((acv_content->start() <= test_content->start() && test_content->start() <= acv_content->end()) ||
+					    (acv_content->start() <= test_content->end()   && test_content->end()   <= acv_content->end())) {
+						/* we have an overlap on track `t' */
+						++t;
+						break;
+					}
+				}
+				
+				++j;
+			}
+
+			if (j == _views.end ()) {
+				/* no overlap on `t' */
+				break;
+			}
+		}
+
+		acv->set_track (t);
+		_tracks = max (_tracks, t + 1);
+	}
+}
+
 int
 Timeline::tracks () const
 {
-	/* XXX */
-	return 2;
+	return _tracks;
 }
 
 void

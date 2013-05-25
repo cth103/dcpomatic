@@ -66,9 +66,11 @@ private:
 	void playlist_changed ();
 	void setup_pixels_per_time_unit ();
 	void resized (wxSizeEvent &);
+	void assign_tracks ();
 
 	boost::weak_ptr<const Film> _film;
 	std::list<boost::shared_ptr<View> > _views;
+	int _tracks;
 	double _pixels_per_time_unit;
 	bool _left_down;
 	wxPoint _down_point;

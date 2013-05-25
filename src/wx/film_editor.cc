@@ -1164,6 +1164,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 {
         setup_content_sensitivity ();
 	shared_ptr<Content> s = selected_content ();
+	film_content_changed (s, ContentProperty::START);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
 	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
