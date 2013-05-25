@@ -36,6 +36,7 @@ class AudioDialog;
 class TimelineDialog;
 class AudioMappingView;
 class Format;
+class Timecode;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -55,6 +56,7 @@ private:
 	void make_video_panel ();
 	void make_audio_panel ();
 	void make_subtitle_panel ();
+	void make_timing_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
@@ -120,11 +122,9 @@ private:
 	wxPanel* _content_panel;
 	wxSizer* _content_sizer;
 	wxPanel* _video_panel;
-	wxSizer* _video_sizer;
 	wxPanel* _audio_panel;
-	wxSizer* _audio_sizer;
 	wxPanel* _subtitle_panel;
-	wxSizer* _subtitle_sizer;
+	wxPanel* _timing_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -167,6 +167,8 @@ private:
 	wxStaticText* _audio_description;
 	wxChoice* _subtitle_stream;
 	AudioMappingView* _audio_mapping;
+	Timecode* _start;
+	Timecode* _length;
 
 	std::vector<Format const *> _formats;
 

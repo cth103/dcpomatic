@@ -120,6 +120,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("Sndfile");
 	Content::as_xml (node);
+	AudioContent::as_xml (node);
 	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
 	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (_audio_length));
 	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));

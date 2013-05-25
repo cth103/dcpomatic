@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -55,6 +53,7 @@
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
 #include "container.h"
+#include "timecode.h"
 
 using std::string;
 using std::cout;
@@ -230,11 +229,11 @@ void
 FilmEditor::make_video_panel ()
 {
 	_video_panel = new wxPanel (_content_notebook);
-	_video_sizer = new wxBoxSizer (wxVERTICAL);
-	_video_panel->SetSizer (_video_sizer);
+	wxBoxSizer* video_sizer = new wxBoxSizer (wxVERTICAL);
+	_video_panel->SetSizer (video_sizer);
 	
 	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
-	_video_sizer->Add (grid, 0, wxALL, 8);
+	video_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
@@ -336,13 +335,15 @@ FilmEditor::make_content_panel ()
 
 	_content_notebook = new wxNotebook (_content_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
-	
+
 	make_video_panel ();
 	_content_notebook->AddPage (_video_panel, _("Video"), false);
 	make_audio_panel ();
 	_content_notebook->AddPage (_audio_panel, _("Audio"), false);
 	make_subtitle_panel ();
 	_content_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
+	make_timing_panel ();
+	_content_notebook->AddPage (_timing_panel, _("Timing"), false);
 
 	_loop_count->SetRange (2, 1024);
 }
@@ -351,11 +352,11 @@ void
 FilmEditor::make_audio_panel ()
 {
 	_audio_panel = new wxPanel (_content_notebook);
-	_audio_sizer = new wxBoxSizer (wxVERTICAL);
-	_audio_panel->SetSizer (_audio_sizer);
+	wxBoxSizer* audio_sizer = new wxBoxSizer (wxVERTICAL);
+	_audio_panel->SetSizer (audio_sizer);
 	
 	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 4, 4);
-	_audio_sizer->Add (grid, 0, wxALL, 8);
+	audio_sizer->Add (grid, 0, wxALL, 8);
 
 	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
 	grid->Add (_show_audio, 1);
@@ -397,7 +398,7 @@ FilmEditor::make_audio_panel ()
 	grid->AddSpacer (0);
 	
 	_audio_mapping = new AudioMappingView (_audio_panel);
-	_audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
+	audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
@@ -407,10 +408,10 @@ void
 FilmEditor::make_subtitle_panel ()
 {
 	_subtitle_panel = new wxPanel (_content_notebook);
-	_subtitle_sizer = new wxBoxSizer (wxVERTICAL);
-	_subtitle_panel->SetSizer (_subtitle_sizer);
+	wxBoxSizer* subtitle_sizer = new wxBoxSizer (wxVERTICAL);
+	_subtitle_panel->SetSizer (subtitle_sizer);
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
-	_subtitle_sizer->Add (grid, 0, wxALL, 8);
+	subtitle_sizer->Add (grid, 0, wxALL, 8);
 
 	_with_subtitles = new wxCheckBox (_subtitle_panel, wxID_ANY, _("With Subtitles"));
 	grid->Add (_with_subtitles, 1);
@@ -442,6 +443,24 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_offset->SetRange (-1024, 1024);
 	_subtitle_scale->SetRange (1, 1000);
 }
+
+void
+FilmEditor::make_timing_panel ()
+{
+	_timing_panel = new wxPanel (_content_notebook);
+	wxBoxSizer* timing_sizer = new wxBoxSizer (wxVERTICAL);
+	_timing_panel->SetSizer (timing_sizer);
+	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	timing_sizer->Add (grid, 0, wxALL, 8);
+
+	add_label_to_sizer (grid, _timing_panel, _("Start time"));
+	_start = new Timecode (_timing_panel);
+	grid->Add (_start);
+	add_label_to_sizer (grid, _timing_panel, _("Length"));
+	_length = new Timecode (_timing_panel);
+	grid->Add (_length);
+}
+
 
 /** Called when the left crop widget has been changed */
 void
@@ -666,7 +685,13 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
-	if (property == VideoContentProperty::VIDEO_CROP) {
+	if (property == ContentProperty::START) {
+		if (content) {
+			_start->set (content->start (), _film->dcp_video_frame_rate ());
+		} else {
+			_start->set (0, 24);
+		}
+	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   video_content ? video_content->crop().left :   0);
 		checked_set (_right_crop,  video_content ? video_content->crop().right :  0);
 		checked_set (_top_crop,    video_content ? video_content->crop().top :    0);
@@ -817,6 +842,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 
+	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::START);
 	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_CROP);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_DELAY);

@@ -68,6 +68,8 @@ private:
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
 	void do_seek (Time, bool);
+	void add_black_piece (Time, Time);
+	void add_silent_piece (Time, Time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -79,8 +81,6 @@ private:
 	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */
 	bool _have_valid_pieces;
 	std::list<boost::shared_ptr<Piece> > _pieces;
-
-	/** Time of the earliest thing not yet to have been emitted */
 	Time _position;
 	AudioBuffers _audio_buffers;
 	Time _next_audio;

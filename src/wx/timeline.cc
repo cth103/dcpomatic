@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -81,7 +79,7 @@ public:
 		, _track (t)
 		, _selected (false)
 	{
-		c->Changed.connect (bind (&ContentView::content_changed, this, _2));
+		_content_connection = c->Changed.connect (bind (&ContentView::content_changed, this, _2));
 	}
 
 	Rect bbox () const
@@ -150,11 +148,11 @@ private:
 #endif
 		
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint    (time_x (start),       y_pos (_track));
-		path.AddLineToPoint (time_x (start + len), y_pos (_track));
-		path.AddLineToPoint (time_x (start + len), y_pos (_track + 1));
-		path.AddLineToPoint (time_x (start),       y_pos (_track + 1));
-		path.AddLineToPoint (time_x (start),       y_pos (_track));
+		path.MoveToPoint    (time_x (start),       y_pos (_track) + 4);
+		path.AddLineToPoint (time_x (start + len), y_pos (_track) + 4);
+		path.AddLineToPoint (time_x (start + len), y_pos (_track + 1) - 4);
+		path.AddLineToPoint (time_x (start),       y_pos (_track + 1) - 4);
+		path.AddLineToPoint (time_x (start),       y_pos (_track) + 4);
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
@@ -185,6 +183,8 @@ private:
 	boost::weak_ptr<Content> _content;
 	int _track;
 	bool _selected;
+
+	boost::signals2::scoped_connection _content_connection;
 };
 
 class AudioContentView : public ContentView
@@ -326,7 +326,7 @@ Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
 
 	playlist_changed ();
 
-	film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
+	_playlist_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
 }
 
 void
@@ -452,7 +452,7 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 	if (_down_view) {
 		shared_ptr<Content> c = _down_view->content().lock();
 		if (c) {
-			c->set_start (_down_view_start + time_diff);
+			c->set_start (max (static_cast<Time> (0), _down_view_start + time_diff));
 		}
 	}
 }

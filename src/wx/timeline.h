@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -21,6 +19,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/signals2.hpp>
 #include <wx/wx.h>
 #include "util.h"
 
@@ -76,4 +75,6 @@ private:
 	boost::shared_ptr<ContentView> _down_view;
 	Time _down_view_start;
 	bool _first_move;
+
+	boost::signals2::scoped_connection _playlist_connection;
 };
