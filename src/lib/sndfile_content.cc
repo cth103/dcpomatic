@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -50,6 +48,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml:
 	_audio_channels = node->number_child<int> ("AudioChannels");
 	_audio_length = node->number_child<ContentAudioFrame> ("AudioLength");
 	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
+	_audio_mapping = AudioMapping (node->node_child ("AudioMapping"));
 }
 
 string
@@ -113,6 +112,10 @@ SndfileContent::examine (shared_ptr<Job> job)
 	signal_changed (AudioContentProperty::AUDIO_CHANNELS);
 	signal_changed (AudioContentProperty::AUDIO_LENGTH);
 	signal_changed (AudioContentProperty::AUDIO_FRAME_RATE);
+
+	/* XXX: do this in signal_changed...? */
+	_audio_mapping = AudioMapping (_audio_channels);
+	signal_changed (AudioContentProperty::AUDIO_MAPPING);
 }
 
 void
@@ -124,6 +127,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
 	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (_audio_length));
 	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));
+	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }
 
 Time
@@ -142,4 +146,15 @@ SndfileContent::output_audio_frame_rate () const
 	assert (film);
 	
 	return film->dcp_audio_frame_rate ();
+}
+
+void
+SndfileContent::set_audio_mapping (AudioMapping m)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_mapping = m;
+	}
+
+	signal_changed (AudioContentProperty::AUDIO_MAPPING);
 }

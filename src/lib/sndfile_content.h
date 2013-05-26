@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -67,6 +65,8 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_mapping;
 	}
+
+	void set_audio_mapping (AudioMapping);
 	
 	static bool valid_file (boost::filesystem::path);
 

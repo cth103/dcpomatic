@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -31,6 +29,7 @@ int const AudioContentProperty::AUDIO_LENGTH = 201;
 int const AudioContentProperty::AUDIO_FRAME_RATE = 202;
 int const AudioContentProperty::AUDIO_GAIN = 203;
 int const AudioContentProperty::AUDIO_DELAY = 204;
+int const AudioContentProperty::AUDIO_MAPPING = 205;
 
 AudioContent::AudioContent (shared_ptr<const Film> f, Time s)
 	: Content (f, s)

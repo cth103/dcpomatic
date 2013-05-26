@@ -357,3 +357,9 @@ FFmpegContent::set_filters (vector<Filter const *> const & filters)
 	signal_changed (FFmpegContentProperty::FILTERS);
 }
 
+void
+FFmpegContent::set_audio_mapping (AudioMapping m)
+{
+	audio_stream()->mapping = m;
+	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+}

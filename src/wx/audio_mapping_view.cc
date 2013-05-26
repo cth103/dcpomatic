@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -147,7 +145,7 @@ AudioMappingView::left_click (wxGridEvent& ev)
 }
 
 void
-AudioMappingView::set_mapping (AudioMapping map)
+AudioMappingView::set (AudioMapping map)
 {
 	if (_grid->GetNumberRows ()) {
 		_grid->DeleteRows (0, _grid->GetNumberRows ());

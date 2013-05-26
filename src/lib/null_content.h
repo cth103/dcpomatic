@@ -54,6 +54,8 @@ public:
 	AudioMapping audio_mapping () const {
 		return AudioMapping ();
 	}
+
+	void set_audio_mapping (AudioMapping) {}
 	
 	Time length () const {
 		return _length;

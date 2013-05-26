@@ -29,7 +29,7 @@ class AudioMappingView : public wxPanel
 public:
 	AudioMappingView (wxWindow *);
 
-	void set_mapping (AudioMapping);
+	void set (AudioMapping);
 
 	boost::signals2::signal<void (AudioMapping)> Changed;
 

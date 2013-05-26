@@ -685,12 +685,15 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
+	/* We can't use case {} here */
+	
 	if (property == ContentProperty::START) {
 		if (content) {
 			_start->set (content->start (), _film->dcp_video_frame_rate ());
 		} else {
 			_start->set (0, 24);
 		}
+
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   video_content ? video_content->crop().left :   0);
 		checked_set (_right_crop,  video_content ? video_content->crop().right :  0);
@@ -701,6 +704,8 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		checked_set (_audio_gain, audio_content ? audio_content->audio_gain() : 0);
 	} else if (property == AudioContentProperty::AUDIO_DELAY) {
 		checked_set (_audio_delay, audio_content ? audio_content->audio_delay() : 0);
+	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
+		_audio_mapping->set (audio_content ? audio_content->audio_mapping () : AudioMapping ());
 	} else if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		_subtitle_stream->Clear ();
 		if (ffmpeg_content) {
@@ -846,6 +851,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_CROP);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_DELAY);
+	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_MAPPING);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
 	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
@@ -1168,6 +1174,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
 	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
+	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);
 	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAM);
 	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
 	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
@@ -1394,11 +1401,10 @@ FilmEditor::audio_mapping_changed (AudioMapping m)
 		return;
 	}
 	
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (!fc) {
+	shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c);
+	if (!ac) {
 		return;
 	}
 
-	/* XXX: should be general to audiocontent */
-	fc->audio_stream()->mapping = m;
+	ac->set_audio_mapping (m);
 }

@@ -37,6 +37,7 @@ public:
 	static int const AUDIO_FRAME_RATE;
 	static int const AUDIO_GAIN;
 	static int const AUDIO_DELAY;
+	static int const AUDIO_MAPPING;
 };
 
 class AudioContent : public virtual Content
@@ -54,6 +55,7 @@ public:
         virtual int content_audio_frame_rate () const = 0;
 	virtual int output_audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
+	virtual void set_audio_mapping (AudioMapping) = 0;
 
 	void set_audio_gain (float);
 	void set_audio_delay (int);

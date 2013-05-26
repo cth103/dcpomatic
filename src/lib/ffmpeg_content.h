@@ -104,6 +104,7 @@ public:
         int content_audio_frame_rate () const;
         int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
+	void set_audio_mapping (AudioMapping);
 
 	void set_filters (std::vector<Filter const *> const &);
 	
