@@ -539,7 +539,7 @@ FFmpegDecoder::decode_audio_packet ()
 					);
 				
 				assert (_audio_codec_context->channels == _ffmpeg_content->audio_channels());
-				Audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds);
+				audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds);
 			}
 			
 			copy_packet.data += decode_result;
@@ -608,11 +608,11 @@ FFmpegDecoder::decode_video_packet ()
 Time
 FFmpegDecoder::next () const
 {
-	if (_decode_video && _decode_audio) {
+	if (_decode_video && _decode_audio && _audio_codec_context) {
 		return min (_next_video, _next_audio);
 	}
 
-	if (_decode_audio) {
+	if (_decode_audio && _audio_codec_context) {
 		return _next_audio;
 	}
 

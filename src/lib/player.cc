@@ -172,8 +172,8 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
 
         if (time > _next_audio) {
                 /* We can emit some audio from our buffers */
-		assert (_film->time_to_audio_frames (time - _next_audio) <= _audio_buffers.frames());
                 OutputAudioFrame const N = _film->time_to_audio_frames (time - _next_audio);
+		assert (N <= _audio_buffers.frames());
                 shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
                 emit->copy_from (&_audio_buffers, N, 0, 0);
                 Audio (emit, _next_audio);
@@ -189,6 +189,7 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
         /* Now accumulate the new audio into our buffers */
         _audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
         _audio_buffers.accumulate_frames (audio.get(), 0, 0, audio->frames ());
+	_audio_buffers.set_frames (_audio_buffers.frames() + audio->frames());
 }
 
 /** @return true on error */
@@ -324,9 +325,11 @@ Player::setup_pieces ()
 			if (diff > 0) {
 				add_black_piece (video_pos, diff);
 			}
-						
 			video_pos = (*i)->content->end();
-		} else {
+		}
+
+		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> ((*i)->content);
+		if (ac && ac->audio_channels()) {
 			Time const diff = (*i)->content->start() - audio_pos;
 			if (diff > 0) {
 				add_silent_piece (video_pos, diff);

@@ -31,14 +31,13 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK (f->dcp_content_type() == 0);
 
 	f->set_name ("fred");
-//	BOOST_CHECK_THROW (f->add_content ("jim"), OpenFileError);
 	f->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
 	f->set_container (Container::from_id ("185"));
 	f->set_ab (true);
 	f->write_metadata ();
 
 	stringstream s;
-	s << "diff -u test/metadata.ref " << test_film << "/metadata";
+	s << "diff -u test/metadata.xml.ref " << test_film << "/metadata.xml";
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
 
 	shared_ptr<Film> g (new Film (test_film));

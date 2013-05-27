@@ -21,7 +21,14 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 {
 	shared_ptr<Film> film = new_test_film ("make_dcp_test");
 	film->set_name ("test_film2");
-	film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (film, "../../../test/test.mp4")));
+	system ("pwd");
+	film->examine_and_add_content (shared_ptr<FFmpegContent> (new FFmpegContent (film, "test/test.mp4")));
+
+	/* Wait for the examine to finish */
+	while (JobManager::instance()->work_to_do ()) {
+		dcpomatic_sleep (1);
+	}
+	
 	film->set_container (Container::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp ();
@@ -46,21 +53,3 @@ BOOST_AUTO_TEST_CASE (have_dcp_test)
 	boost::filesystem::remove (p);
 	BOOST_CHECK (!f.have_dcp ());
 }
-
-BOOST_AUTO_TEST_CASE (make_dcp_with_range_test)
-{
-	shared_ptr<Film> film = new_test_film ("make_dcp_with_range_test");
-	film->set_name ("test_film3");
-	film->add_content (shared_ptr<Content> (new FFmpegContent (film, "../../../test/test.mp4")));
-//	film->examine_content ();
-	film->set_container (Container::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	film->make_dcp ();
-
-	while (JobManager::instance()->work_to_do() && !JobManager::instance()->errors()) {
-		dcpomatic_sleep (1);
-	}
-
-	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
-}
-

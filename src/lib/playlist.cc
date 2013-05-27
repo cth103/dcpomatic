@@ -73,7 +73,6 @@ void
 Playlist::content_changed (weak_ptr<Content> c, int p)
 {
 	if (p == ContentProperty::LENGTH && _sequence_video && !_sequencing_video) {
-		cout << "sequencing.\n";
 		_sequencing_video = true;
 
 		ContentList cl = _content;
@@ -85,7 +84,6 @@ Playlist::content_changed (weak_ptr<Content> c, int p)
 			}
 
 			(*i)->set_start (last);
-			cout << (*i)->file() << " -> " << last << "\n";
 			last = (*i)->end ();
 		}
 

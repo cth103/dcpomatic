@@ -40,6 +40,7 @@ extern "C" {
 using std::stringstream;
 using std::string;
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using libdcp::Size;
@@ -86,8 +87,8 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 	stringstream a;
 	a << "video_size=" << _size.width << "x" << _size.height << ":"
 	  << "pix_fmt=" << _pixel_format << ":"
-	  << "time_base=0/1:"
-	  << "pixel_aspect=0/1";
+	  << "time_base=1/1:"
+	  << "pixel_aspect=1/1";
 
 	int r;
 
