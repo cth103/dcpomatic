@@ -27,6 +27,7 @@ class Film;
 class View;
 class ContentView;
 class FilmEditor;
+class TimeAxisView;
 
 class Timeline : public wxPanel
 {
@@ -46,7 +47,7 @@ public:
 	}
 
 	int track_height () const {
-		return 64;
+		return 48;
 	}
 
 	double pixels_per_time_unit () const {
@@ -72,6 +73,7 @@ private:
 	FilmEditor* _film_editor;
 	boost::weak_ptr<Film> _film;
 	std::list<boost::shared_ptr<View> > _views;
+	boost::shared_ptr<TimeAxisView> _time_axis_view;
 	int _tracks;
 	double _pixels_per_time_unit;
 	bool _left_down;

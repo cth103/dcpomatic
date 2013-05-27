@@ -242,6 +242,19 @@ public:
 	        : View (tl)
 		, _y (y)
 	{}
+	
+	Rect bbox () const
+	{
+		return Rect (0, _y - 4, _timeline.width(), 24);
+	}
+
+	void set_y (int y)
+	{
+		_y = y;
+		force_redraw ();
+	}
+
+private:	
 
 	void do_paint (wxGraphicsContext* gc)
 	{
@@ -304,11 +317,6 @@ public:
 		}
 	}
 
-	Rect bbox () const
-	{
-		return Rect (0, _y - 4, _timeline.width(), 24);
-	}
-
 private:
 	int _y;
 };
@@ -317,6 +325,7 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film_editor (ed)
 	, _film (film)
+	, _time_axis_view (new TimeAxisView (*this, 32))
 	, _tracks (0)
 	, _pixels_per_time_unit (0)
 	, _left_down (false)
@@ -338,6 +347,8 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
 	_playlist_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
+
+	_views.push_back (_time_axis_view);
 }
 
 void
@@ -381,9 +392,6 @@ Timeline::playlist_changed ()
 	}
 
 	assign_tracks ();
-	
-	_views.push_back (shared_ptr<View> (new TimeAxisView (*this, tracks() * track_height() + 32)));
-		
 	Refresh ();
 }
 
@@ -394,6 +402,7 @@ Timeline::assign_tracks ()
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv) {
 			cv->set_track (0);
+			_tracks = 1;
 		}
 	}
 
@@ -440,6 +449,8 @@ Timeline::assign_tracks ()
 		acv->set_track (t);
 		_tracks = max (_tracks, t + 1);
 	}
+
+	_time_axis_view->set_y (tracks() * track_height() + 32);
 }
 
 int
