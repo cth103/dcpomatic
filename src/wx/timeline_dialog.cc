@@ -19,6 +19,7 @@
 
 #include <list>
 #include <wx/graphics.h>
+#include "film_editor.h"
 #include "timeline_dialog.h"
 #include "wx_util.h"
 #include "playlist.h"
@@ -27,9 +28,9 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 
-TimelineDialog::TimelineDialog (wxWindow* parent, shared_ptr<const Film> film)
-	: wxDialog (parent, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
-	, _timeline (this, film)
+TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
+	: wxDialog (ed, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+	, _timeline (this, ed, film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	

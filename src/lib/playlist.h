@@ -51,6 +51,11 @@ class Region;
  * are played simultaneously (i.e. they can be split up into multiple files for different channels)
  */
 
+struct ContentSorter
+{
+	bool operator() (boost::shared_ptr<Content> a, boost::shared_ptr<Content> b);
+};
+
 class Playlist
 {
 public:
@@ -85,6 +90,8 @@ public:
 	int best_dcp_frame_rate () const;
 	Time video_end () const;
 
+	void set_sequence_video (bool);
+
 	mutable boost::signals2::signal<void ()> Changed;
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 	
@@ -94,6 +101,8 @@ private:
 
 	ContentList _content;
 	int _loop;
+	bool _sequence_video;
+	bool _sequencing_video;
 	std::list<boost::signals2::connection> _content_connections;
 };
 

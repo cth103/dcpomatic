@@ -23,10 +23,9 @@
 
 #include "i18n.h"
 
-int const VideoContentProperty::VIDEO_LENGTH = 0;
-int const VideoContentProperty::VIDEO_SIZE = 1;
-int const VideoContentProperty::VIDEO_FRAME_RATE = 2;
-int const VideoContentProperty::VIDEO_CROP = 3;
+int const VideoContentProperty::VIDEO_SIZE = 0;
+int const VideoContentProperty::VIDEO_FRAME_RATE = 1;
+int const VideoContentProperty::VIDEO_CROP = 2;
 
 using std::string;
 using std::stringstream;

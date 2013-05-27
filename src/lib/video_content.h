@@ -28,7 +28,6 @@ class VideoDecoder;
 class VideoContentProperty
 {
 public:
-	static int const VIDEO_LENGTH;
 	static int const VIDEO_SIZE;
 	static int const VIDEO_FRAME_RATE;
 	static int const VIDEO_CROP;

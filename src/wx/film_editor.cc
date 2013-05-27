@@ -222,7 +222,9 @@ FilmEditor::connect_to_widgets ()
 	_audio_delay->Connect            (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_audio_stream->Connect           (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
 	_subtitle_stream->Connect        (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
-	_audio_mapping->Changed.connect  (bind (&FilmEditor::audio_mapping_changed, this, _1));
+	_audio_mapping->Changed.connect  (boost::bind (&FilmEditor::audio_mapping_changed, this, _1));
+	_start->Changed.connect          (boost::bind (&FilmEditor::start_changed, this));
+	_length->Changed.connect         (boost::bind (&FilmEditor::length_changed, this));
 }
 
 void
@@ -693,7 +695,12 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		} else {
 			_start->set (0, 24);
 		}
-
+	} else if (property == ContentProperty::LENGTH) {
+		if (content) {
+			_length->set (content->length (), _film->dcp_video_frame_rate ());
+		} else {
+			_length->set (0, 24);
+		}
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   video_content ? video_content->crop().left :   0);
 		checked_set (_right_crop,  video_content ? video_content->crop().right :  0);
@@ -848,6 +855,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 
 	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::START);
+	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::LENGTH);
 	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_CROP);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_DELAY);
@@ -871,7 +879,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
 	_format->Enable (s);
-	_content->Enable (s);
 	_content->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
@@ -1175,6 +1182,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
         setup_content_sensitivity ();
 	shared_ptr<Content> s = selected_content ();
 	film_content_changed (s, ContentProperty::START);
+	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
 	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
@@ -1411,4 +1419,42 @@ FilmEditor::audio_mapping_changed (AudioMapping m)
 	}
 
 	ac->set_audio_mapping (m);
+}
+
+void
+FilmEditor::start_changed ()
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	c->set_start (_start->get (_film->dcp_video_frame_rate ()));
+}
+
+void
+FilmEditor::length_changed ()
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<ImageMagickContent> ic = dynamic_pointer_cast<ImageMagickContent> (c);
+	if (ic) {
+		ic->set_video_length (_length->get(_film->dcp_video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
+	}
+}
+
+void
+FilmEditor::set_selection (weak_ptr<Content> wc)
+{
+	Playlist::ContentList content = _film->content ();
+	for (size_t i = 0; i < content.size(); ++i) {
+		if (content[i] == wc.lock ()) {
+			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+		} else {
+			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED | wxLIST_STATE_FOCUSED);
+		}
+	}
 }

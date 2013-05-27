@@ -251,14 +251,6 @@ Player::add_silent_piece (Time s, Time len)
 }
 
 
-struct ContentSorter
-{
-	bool operator() (shared_ptr<Content> a, shared_ptr<Content> b)
-	{
-		return a->start() < b->start();
-	}
-};
-
 void
 Player::setup_pieces ()
 {
@@ -358,7 +350,7 @@ Player::content_changed (weak_ptr<Content> w, int p)
 		return;
 	}
 
-	if (p == ContentProperty::START || p == VideoContentProperty::VIDEO_LENGTH) {
+	if (p == ContentProperty::START || p == ContentProperty::LENGTH) {
 		_have_valid_pieces = false;
 	}
 }

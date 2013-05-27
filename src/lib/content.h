@@ -40,6 +40,7 @@ class ContentProperty
 {
 public:
 	static int const START;
+	static int const LENGTH;
 };
 
 class Content : public boost::enable_shared_from_this<Content>

@@ -17,6 +17,7 @@
 
 */
 
+#include <boost/signals2.hpp>
 #include <wx/wx.h>
 #include "lib/types.h"
 
@@ -28,9 +29,15 @@ public:
 	void set (Time, int);
 	Time get (int) const;
 
+	boost::signals2::signal<void ()> Changed;
+
 private:
+	void changed (wxCommandEvent &);
+	
 	wxTextCtrl* _hours;
 	wxTextCtrl* _minutes;
 	wxTextCtrl* _seconds;
 	wxTextCtrl* _frames;
+
+	bool _in_set;
 };

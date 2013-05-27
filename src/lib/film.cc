@@ -905,3 +905,9 @@ Film::dcp_audio_frame_rate () const
 	/* XXX */
 	return 48000;
 }
+
+void
+Film::set_sequence_video (bool s)
+{
+	_playlist->set_sequence_video (s);
+}

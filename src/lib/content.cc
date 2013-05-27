@@ -28,6 +28,7 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 
 int const ContentProperty::START = 400;
+int const ContentProperty::LENGTH = 401;
 
 Content::Content (shared_ptr<const Film> f, Time s)
 	: _film (f)

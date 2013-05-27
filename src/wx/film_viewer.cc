@@ -464,7 +464,7 @@ FilmViewer::active_jobs_changed (bool a)
 void
 FilmViewer::film_content_changed (weak_ptr<Content>, int p)
 {
-	if (p == VideoContentProperty::VIDEO_LENGTH) {
+	if (p == ContentProperty::LENGTH) {
 		/* Force an update to our frame */
 		wxScrollEvent ev;
 		slider_moved (ev);

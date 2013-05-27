@@ -26,11 +26,12 @@
 class Film;
 class View;
 class ContentView;
+class FilmEditor;
 
 class Timeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, boost::shared_ptr<const Film>);
+	Timeline (wxWindow *, FilmEditor *, boost::shared_ptr<Film>);
 
 	boost::shared_ptr<const Film> film () const;
 
@@ -68,7 +69,8 @@ private:
 	void resized (wxSizeEvent &);
 	void assign_tracks ();
 
-	boost::weak_ptr<const Film> _film;
+	FilmEditor* _film_editor;
+	boost::weak_ptr<Film> _film;
 	std::list<boost::shared_ptr<View> > _views;
 	int _tracks;
 	double _pixels_per_time_unit;

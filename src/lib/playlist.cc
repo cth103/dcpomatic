@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -51,6 +49,8 @@ using boost::lexical_cast;
 
 Playlist::Playlist ()
 	: _loop (1)
+	, _sequence_video (true)
+	, _sequencing_video (false)
 {
 
 }
@@ -72,6 +72,26 @@ Playlist::~Playlist ()
 void
 Playlist::content_changed (weak_ptr<Content> c, int p)
 {
+	if (p == ContentProperty::LENGTH && _sequence_video && !_sequencing_video) {
+		cout << "sequencing.\n";
+		_sequencing_video = true;
+
+		ContentList cl = _content;
+		sort (cl.begin(), cl.end(), ContentSorter ());
+		Time last = 0;
+		for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
+			if (!dynamic_pointer_cast<VideoContent> (*i)) {
+				continue;
+			}
+
+			(*i)->set_start (last);
+			cout << (*i)->file() << " -> " << last << "\n";
+			last = (*i)->end ();
+		}
+
+		_sequencing_video = false;
+	}
+	
 	ContentChanged (c, p);
 }
 
@@ -143,6 +163,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node
 
 	reconnect ();
 	_loop = node->number_child<int> ("Loop");
+	_sequence_video = node->bool_child ("SequenceVideo");
 }
 
 /** @param node <Playlist> node */
@@ -154,6 +175,7 @@ Playlist::as_xml (xmlpp::Node* node)
 	}
 
 	node->add_child("Loop")->add_child_text(lexical_cast<string> (_loop));
+	node->add_child("SequenceVideo")->add_child_text(_sequence_video ? "1" : "0");
 }
 
 void
@@ -296,4 +318,16 @@ Playlist::video_end () const
 	}
 
 	return end;
+}
+
+void
+Playlist::set_sequence_video (bool s)
+{
+	_sequence_video = s;
+}
+
+bool
+ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
+{
+	return a->start() < b->start();
 }

@@ -21,9 +21,10 @@
 #include <wx/graphics.h>
 #include <boost/weak_ptr.hpp>
 #include "film.h"
+#include "film_editor.h"
 #include "timeline.h"
 #include "wx_util.h"
-#include "playlist.h"
+#include "lib/playlist.h"
 
 using std::list;
 using std::cout;
@@ -183,7 +184,7 @@ private:
 
 	void content_changed (int p)
 	{
-		if (p == ContentProperty::START || p == VideoContentProperty::VIDEO_LENGTH) {
+		if (p == ContentProperty::START || p == ContentProperty::LENGTH) {
 			force_redraw ();
 		}
 	}
@@ -312,8 +313,9 @@ private:
 	int _y;
 };
 
-Timeline::Timeline (wxWindow* parent, shared_ptr<const Film> film)
+Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
+	, _film_editor (ed)
 	, _film (film)
 	, _tracks (0)
 	, _pixels_per_time_unit (0)
@@ -482,6 +484,9 @@ Timeline::left_down (wxMouseEvent& ev)
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*j);
 		if (cv) {
 			cv->set_selected (i == j);
+			if (i == j) {
+				_film_editor->set_selection (cv->content ());
+			}
 		}
 	}
 
@@ -518,6 +523,10 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 		shared_ptr<Content> c = _down_view->content().lock();
 		if (c) {
 			c->set_start (max (static_cast<Time> (0), _down_view_start + time_diff));
+
+			shared_ptr<Film> film = _film.lock ();
+			assert (film);
+			film->set_sequence_video (false);
 		}
 	}
 }

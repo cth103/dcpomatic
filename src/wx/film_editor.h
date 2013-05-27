@@ -47,6 +47,7 @@ public:
 	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
+	void set_selection (boost::weak_ptr<Content>);
 
 	boost::signals2::signal<void (std::string)> FileChanged;
 
@@ -93,6 +94,8 @@ private:
 	void audio_stream_changed (wxCommandEvent &);
 	void subtitle_stream_changed (wxCommandEvent &);
 	void audio_mapping_changed (AudioMapping);
+	void start_changed ();
+	void length_changed ();
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);

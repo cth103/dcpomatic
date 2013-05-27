@@ -156,7 +156,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
         take_from_video_decoder (decoder);
 
-        signal_changed (VideoContentProperty::VIDEO_LENGTH);
+        signal_changed (ContentProperty::LENGTH);
         signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
         signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
         signal_changed (FFmpegContentProperty::AUDIO_STREAMS);

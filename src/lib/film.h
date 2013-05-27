@@ -119,6 +119,8 @@ public:
 	void set_loop (int);
 	int loop () const;
 
+	void set_sequence_video (bool);
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/

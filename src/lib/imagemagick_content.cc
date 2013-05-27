@@ -75,15 +75,8 @@ ImageMagickContent::examine (shared_ptr<Job> job)
 	
 	shared_ptr<ImageMagickDecoder> decoder (new ImageMagickDecoder (film, shared_from_this()));
 
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		/* Initial length */
-		_video_length = Config::instance()->default_still_length() * 24;
-	}
-	
+	set_video_length (Config::instance()->default_still_length() * 24);
 	take_from_video_decoder (decoder);
-	
-        signal_changed (VideoContentProperty::VIDEO_LENGTH);
 }
 
 shared_ptr<Content>
@@ -100,7 +93,7 @@ ImageMagickContent::set_video_length (ContentVideoFrame len)
 		_video_length = len;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_LENGTH);
+	signal_changed (ContentProperty::LENGTH);
 }
 
 Time
