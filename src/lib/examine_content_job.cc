@@ -21,6 +21,7 @@
 #include "examine_content_job.h"
 #include "log.h"
 #include "content.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -48,6 +49,7 @@ void
 ExamineContentJob::run ()
 {
 	_content->examine (shared_from_this ());
+	_film->add_content (_content);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -75,6 +73,7 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::dynamic_pointer_cast;
 using boost::to_upper_copy;
 using boost::ends_with;
 using boost::starts_with;
@@ -314,14 +313,6 @@ Film::analyse_audio ()
 	_analyse_audio_job.reset (new AnalyseAudioJob (shared_from_this()));
 	_analyse_audio_job->Finished.connect (bind (&Film::analyse_audio_finished, this));
 	JobManager::instance()->add (_analyse_audio_job);
-}
-
-/** Start a job to examine a piece of content */
-void
-Film::examine_content (shared_ptr<Content> c)
-{
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
-	JobManager::instance()->add (j);
 }
 
 void
@@ -813,10 +804,21 @@ Film::content () const
 }
 
 void
+Film::examine_and_add_content (shared_ptr<Content> c)
+{
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
+	JobManager::instance()->add (j);
+}
+
+void
 Film::add_content (shared_ptr<Content> c)
 {
+	/* Add video content after any existing content */
+	if (dynamic_pointer_cast<VideoContent> (c)) {
+		c->set_start (_playlist->video_end ());
+	}
+
 	_playlist->add (c);
-	examine_content (c);
 }
 
 void

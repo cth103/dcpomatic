@@ -1146,13 +1146,17 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
 		boost::filesystem::path p (wx_to_std (paths[i]));
 
+		shared_ptr<Content> c;
+
 		if (ImageMagickContent::valid_file (p)) {
-			_film->add_content (shared_ptr<ImageMagickContent> (new ImageMagickContent (_film, p)));
+			c.reset (new ImageMagickContent (_film, p));
 		} else if (SndfileContent::valid_file (p)) {
-			_film->add_content (shared_ptr<SndfileContent> (new SndfileContent (_film, p)));
+			c.reset (new SndfileContent (_film, p));
 		} else {
-			_film->add_content (shared_ptr<FFmpegContent> (new FFmpegContent (_film, p)));
+			c.reset (new FFmpegContent (_film, p));
 		}
+
+		_film->examine_and_add_content (c);
 	}
 }
 

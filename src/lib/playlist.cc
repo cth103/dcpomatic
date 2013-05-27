@@ -285,3 +285,15 @@ Playlist::reconnect ()
 	}
 }
 
+Time
+Playlist::video_end () const
+{
+	Time end = 0;
+	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+		if (dynamic_pointer_cast<const VideoContent> (*i)) {
+			end = max (end, (*i)->end ());
+		}
+	}
+
+	return end;
+}

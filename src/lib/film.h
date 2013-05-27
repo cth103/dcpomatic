@@ -66,7 +66,6 @@ public:
 	std::string internal_video_mxf_filename () const;
 	std::string audio_analysis_path () const;
 
-	void examine_content (boost::shared_ptr<Content>);
 	std::string dcp_video_mxf_filename () const;
 	std::string dcp_audio_mxf_filename () const;
 
@@ -227,6 +226,7 @@ public:
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
+	void examine_and_add_content (boost::shared_ptr<Content>);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
