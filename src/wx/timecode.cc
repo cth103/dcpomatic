@@ -36,8 +36,8 @@ Timecode::Timecode (wxWindow* parent)
 	wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
 	wxArrayString list;
 
-	string n = "0123456789";
-	for (size_t i = 0; i < n.length(); ++i) {
+	wxString n (wxT ("0123456789"));
+	for (size_t i = 0; i < n.Length(); ++i) {
 		list.Add (n[i]);
 	}
 
@@ -47,15 +47,15 @@ Timecode::Timecode (wxWindow* parent)
 	_hours = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_hours->SetMaxLength (2);
 	sizer->Add (_hours);
-	add_label_to_sizer (sizer, this, ":");
+	add_label_to_sizer (sizer, this, wxT (":"));
 	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	_minutes->SetMaxLength (2);
 	sizer->Add (_minutes);
-	add_label_to_sizer (sizer, this, ":");
+	add_label_to_sizer (sizer, this, wxT (":"));
 	_seconds = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	_seconds->SetMaxLength (2);
 	sizer->Add (_seconds);
-	add_label_to_sizer (sizer, this, ".");
+	add_label_to_sizer (sizer, this, wxT ("."));
 	_frames = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	_frames->SetMaxLength (2);
 	sizer->Add (_frames);
