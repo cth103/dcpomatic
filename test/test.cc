@@ -93,6 +93,7 @@ new_test_film (string name)
 	return f;
 }
 
+#include "scaling_test.cc"
 #include "container_test.cc"
 #include "pixel_formats_test.cc"
 #include "make_black_test.cc"
