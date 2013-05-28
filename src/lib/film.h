@@ -96,6 +96,8 @@ public:
 		return _dirty;
 	}
 
+	libdcp::Size full_frame () const;
+
 	bool have_dcp () const;
 
 	boost::shared_ptr<Player> player () const;

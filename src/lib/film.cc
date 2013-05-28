@@ -911,3 +911,9 @@ Film::set_sequence_video (bool s)
 {
 	_playlist->set_sequence_video (s);
 }
+
+libdcp::Size
+Film::full_frame () const
+{
+	return libdcp::Size (2048, 1080);
+}

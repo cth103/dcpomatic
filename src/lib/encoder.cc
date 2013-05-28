@@ -211,7 +211,7 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 		/* XXX: padding */
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, sub, _film->container()->dcp_size(), 0,
+						  image, sub, _film->container()->size (_film->full_frame()), 0,
 						  _film->subtitle_offset(), _film->subtitle_scale(),
 						  _film->scaler(), _video_frames_out, _film->dcp_video_frame_rate(),
 						  _film->colour_lut(), _film->j2k_bandwidth(),

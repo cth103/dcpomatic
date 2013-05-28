@@ -23,26 +23,19 @@
 class Container
 {
 public:
-	Container (libdcp::Size dcp, std::string id, std::string n, std::string d)
-		: _dcp_size (dcp)
+	Container (float ratio, std::string id, std::string n, std::string d)
+		: _ratio (ratio)
 		, _id (id)
 		, _nickname (n)
 		, _dci_name (d)
 	{}
 
-	/** @return size in pixels of the images that we should
-	 *  put in a DCP for this ratio.  This size will not correspond
-	 *  to the ratio when we are doing things like 16:9 in a Flat frame.
-	 */
-	libdcp::Size dcp_size () const {
-		return _dcp_size;
-	}
+	libdcp::Size size (libdcp::Size) const;
 
 	std::string id () const {
 		return _id;
 	}
 
-	/** @return Full name to present to the user */
 	std::string name () const;
 
 	/** @return Nickname (e.g. Flat, Scope) */
@@ -54,7 +47,9 @@ public:
 		return _dci_name;
 	}
 
-	float ratio () const;
+	float ratio () const {
+		return _ratio;
+	}
 	
 	static void setup_containers ();
 	static Container const * from_id (std::string i);
@@ -63,10 +58,7 @@ public:
 	}
 
 private:
-	/** libdcp::Size in pixels of the images that we should
-	 *  put in a DCP for this container.
-	 */
-	libdcp::Size _dcp_size;
+	float _ratio;
 	/** id for use in metadata */
 	std::string _id;
 	/** nickname (e.g. Flat, Scope) */

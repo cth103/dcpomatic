@@ -32,33 +32,22 @@ vector<Container const *> Container::_containers;
 void
 Container::setup_containers ()
 {
-	_containers.push_back (new Container (libdcp::Size (1285, 1080), "119", _("1.19"), "F"));
-	_containers.push_back (new Container (libdcp::Size (1436, 1080), "133", _("4:3"), "F"));
-	_containers.push_back (new Container (libdcp::Size (1480, 1080), "137", _("Academy"), "F"));
-	_containers.push_back (new Container (libdcp::Size (1485, 1080), "138", _("1.375"), "F"));
-	_containers.push_back (new Container (libdcp::Size (1793, 1080), "166", _("1.66"), "F"));
-	_containers.push_back (new Container (libdcp::Size (1920, 1080), "178", _("16:9"), "F"));
-	_containers.push_back (new Container (libdcp::Size (1998, 1080), "185", _("Flat"), "F"));
-	_containers.push_back (new Container (libdcp::Size (2048, 858), "239", _("Scope"), "S"));
-	_containers.push_back (new Container (libdcp::Size (2048, 1080), "full-frame", _("Full frame"), "C"));
+	_containers.push_back (new Container (float(1285) / 1080, "119", _("1.19"), "F"));
+	_containers.push_back (new Container (float(1436) / 1080, "133", _("4:3"), "F"));
+	_containers.push_back (new Container (float(1480) / 1080, "137", _("Academy"), "F"));
+	_containers.push_back (new Container (float(1485) / 1080, "138", _("1.375"), "F"));
+	_containers.push_back (new Container (float(1793) / 1080, "166", _("1.66"), "F"));
+	_containers.push_back (new Container (float(1920) / 1080, "178", _("16:9"), "F"));
+	_containers.push_back (new Container (float(1998) / 1080, "185", _("Flat"), "F"));
+	_containers.push_back (new Container (float(2048) /  858, "239", _("Scope"), "S"));
+	_containers.push_back (new Container (float(2048) / 1080, "full-frame", _("Full frame"), "C"));
 }
 
 /** @return A name to be presented to the user */
 string
 Container::name () const
 {
-	stringstream s;
-	if (!_nickname.empty ()) {
-		s << _nickname << " (";
-	}
-
-	s << _dcp_size.width << "x" << _dcp_size.height;
-
-	if (!_nickname.empty ()) {
-		s << ")";
-	}
-
-	return s.str ();
+	return _nickname;
 }
 
 Container const *
@@ -76,8 +65,14 @@ Container::from_id (string i)
 	return *j;
 }
 
-float
-Container::ratio () const
+libdcp::Size
+Container::size (libdcp::Size full_frame) const
 {
-	return static_cast<float> (_dcp_size.width) / _dcp_size.height;
+	if (_ratio < static_cast<float>(full_frame.width) / full_frame.height) {
+		return libdcp::Size (full_frame.height * _ratio, full_frame.height);
+	} else {
+		return libdcp::Size (full_frame.width, full_frame.width / _ratio);
+	}
+
+	return libdcp::Size ();
 }

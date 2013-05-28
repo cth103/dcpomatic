@@ -76,7 +76,7 @@ Writer::Writer (shared_ptr<Film> f, shared_ptr<Job> j)
 			_film->internal_video_mxf_dir (),
 			_film->internal_video_mxf_filename (),
 			_film->dcp_video_frame_rate (),
-			_film->container()->dcp_size ()
+			_film->container()->size (_film->full_frame ())
 			)
 		);
 
