@@ -26,20 +26,20 @@ def build(env, target):
 
 def package(env, target, version):
     if target.platform == 'windows':
-        shutil.copyfile('build/windows/installer.%s.nsi' % target.bits, 'build/windows/installer2.%s.nsi' % target.bits)
-        env.command('sed -i "s~%%resources%%~%s/windows~g" build/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        env.command('sed -i "s~%%deps%%~%s~g" build/windows/installer2.%s.nsi' % (env.windows_prefix, target.bits))
-        env.command('sed -i "s~%%binaries%%~%s/build~g" build/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        env.command('sed -i "s~%%bits%%~32~g" build/windows/installer2.%s.nsi' % target.bits)
-        env.command('makensis build/windows/installer2.%s.nsi' % target.bits)
-        return os.path.abspath(glob.glob('build/windows/*%s*.exe' % target.bits)[0])
+        shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
+        env.command('sed -i "s~%%resources%%~%s/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        env.command('sed -i "s~%%deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (env.windows_prefix, target.bits))
+        env.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        env.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
+        env.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
+        return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
     elif target.platform == 'linux':
         if target.bits == 32:
             cpu = 'i386'
         else:
             cpu = 'amd64'
 
-        shutil.copyfile('builds/control-%s-%d' % (target.version, target.bits), 'debian/control')
+        shutil.copyfile('platform/linux/control-%s-%d' % (target.version, target.bits), 'debian/control')
         env.command('./waf dist')
         f = open('debian/files', 'w')
         print >>f,'dvdomatic_%s-1_%s.deb video extra' % (version, cpu)

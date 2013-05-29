@@ -44,6 +44,8 @@ extern "C" {
 #define TIMING(...)
 #endif
 
+#undef check
+
 /** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 
@@ -150,6 +152,9 @@ struct Position
 	int y;
 };
 
+namespace dvdomatic
+{
+	
 /** @struct Rect
  *  @brief A rectangle.
  */
@@ -184,6 +189,8 @@ struct Rect
 
 	Rect intersection (Rect const & other) const;
 };
+
+}
 
 extern std::string crop_string (Position, libdcp::Size);
 extern int dcp_audio_sample_rate (int);

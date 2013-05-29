@@ -23,6 +23,9 @@
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
+#ifdef __WXOSX__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
@@ -472,6 +475,12 @@ class App : public wxApp
 		
 #ifdef DVDOMATIC_POSIX		
 		unsetenv ("UBUNTU_MENUPROXY");
+#endif
+
+#ifdef __WXOSX__		
+		ProcessSerialNumber serial;
+		GetCurrentProcess (&serial);
+		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif		
 
 		wxInitAllImageHandlers ();

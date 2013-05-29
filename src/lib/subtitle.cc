@@ -108,13 +108,13 @@ Subtitle::Subtitle (Position p, shared_ptr<Image> i)
  *  in the coordinate space of the source.
  *  @param subtitle_scale scaling factor to apply to the subtitle image.
  */
-Rect
+dvdomatic::Rect
 subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
-	Rect sub_area, int subtitle_offset, float subtitle_scale
+	dvdomatic::Rect sub_area, int subtitle_offset, float subtitle_scale
 	)
 {
-	Rect tx;
+	dvdomatic::Rect tx;
 
 	sub_area.y += subtitle_offset;
 
@@ -143,8 +143,8 @@ subtitle_transformed_area (
 }
 
 /** @return area that this subtitle takes up, in the original uncropped source's coordinate space */
-Rect
+dvdomatic::Rect
 Subtitle::area () const
 {
-	return Rect (_position.x, _position.y, _image->size().width, _image->size().height);
+	return dvdomatic::Rect (_position.x, _position.y, _image->size().width, _image->size().height);
 }
