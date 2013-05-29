@@ -102,8 +102,11 @@ public:
 		wxBitmap bitmap (wxString::Format (wxT ("%s/taskbar_icon.png"), POSIX_ICON_PREFIX), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
-#endif		
+#endif
+#ifndef __WXOSX__
+		/* XXX: fix this for OS X */
 		SetIcon (icon, std_to_wx ("DVD-o-matic encode server"));
+#endif		
 
 		Connect (ID_status, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::status));
 		Connect (ID_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::quit));

@@ -59,7 +59,10 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _display_frame_x (0)
 	, _got_frame (false)
 {
+#ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
+#endif
+	
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 #endif	
