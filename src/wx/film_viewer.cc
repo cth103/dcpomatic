@@ -329,7 +329,7 @@ FilmViewer::raw_to_display ()
 
 		Size const cropped_size = _film->cropped_size (_film->size ());
 
-		Rect tx = subtitle_transformed_area (
+		dvdomatic::Rect tx = subtitle_transformed_area (
 			float (_film_size.width) / cropped_size.width,
 			float (_film_size.height) / cropped_size.height,
 			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
