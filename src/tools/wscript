@@ -20,7 +20,7 @@ def build(bld):
             obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../windows/dvdomatic.rc'
+                obj.source += ' ../../platform/windows/dvdomatic.rc'
             obj.target = t
 
         i18n.po_to_mo(os.path.join('src', 'tools'), 'dvdomatic', bld)
