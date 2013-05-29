@@ -192,7 +192,7 @@ def build(bld):
     bld.recurse('src')
     bld.recurse('test')
     if bld.env.TARGET_WINDOWS:
-        bld.recurse('windows')
+        bld.recurse('platform/windows')
 
     d = { 'PREFIX' : '${PREFIX' }
 

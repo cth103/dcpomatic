@@ -637,8 +637,8 @@ Socket::read_uint32 ()
 /** @param other A Rect.
  *  @return The intersection of this with `other'.
  */
-Rect
-Rect::intersection (Rect const & other) const
+dvdomatic::Rect
+dvdomatic::Rect::intersection (Rect const & other) const
 {
 	int const tx = max (x, other.x);
 	int const ty = max (y, other.y);

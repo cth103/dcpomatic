@@ -164,7 +164,7 @@ DCPVideoFrame::encode_locally ()
 	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler, true);
 
 	if (_subtitle) {
-		Rect tx = subtitle_transformed_area (
+		dvdomatic::Rect tx = subtitle_transformed_area (
 			float (_out_size.width) / _input->size().width,
 			float (_out_size.height) / _input->size().height,
 			_subtitle->area(), _subtitle_offset, _subtitle_scale

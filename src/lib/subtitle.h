@@ -46,17 +46,17 @@ public:
 		return _image;
 	}
 
-	Rect area () const;
+	dvdomatic::Rect area () const;
 	
 private:
 	Position _position;
 	boost::shared_ptr<Image> _image;
 };
 
-Rect
+dvdomatic::Rect
 subtitle_transformed_area (
 	float target_x_scale, float target_y_scale,
-	Rect sub_area, int subtitle_offset, float subtitle_scale
+	dvdomatic::Rect sub_area, int subtitle_offset, float subtitle_scale
 	);
 
 /** A Subtitle class with details of the time over which it should be shown */
