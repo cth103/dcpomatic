@@ -218,6 +218,10 @@ Film::video_state_identifier () const
 	  << "_" << j2k_bandwidth()
 	  << "_" << boost::lexical_cast<int> (colour_lut());
 
+	if (trim_type() == ENCODE) {
+		s << "_" << trim_start() << "_" << trim_end();
+	}
+
 	if (dcp_ab()) {
 		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
 		s << "ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
