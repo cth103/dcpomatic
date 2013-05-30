@@ -207,9 +207,6 @@ FilmViewer::timer (wxTimerEvent &)
 		return;
 	}
 	
-	_panel->Refresh ();
-	_panel->Update ();
-
 	get_frame ();
 
 	if (_film->length()) {
@@ -218,6 +215,9 @@ FilmViewer::timer (wxTimerEvent &)
 			_slider->SetValue (new_slider_position);
 		}
 	}
+
+	_panel->Refresh ();
+	_panel->Update ();
 }
 
 
@@ -413,7 +413,8 @@ FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subti
 	_got_frame = true;
 
 	double const fps = _decoders.video->frames_per_second ();
-	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps))));
+	/* Count frame number from 1 ... not sure if this is the best idea */
+	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps)) + 1));
 
 	double w = t;
 	int const h = (w / 3600);
