@@ -1,3 +1,8 @@
+2013-05-31  Carl Hetherington  <cth@carlh.net>
+
+	* Fix ridiculous 100-frame limit on trim
+	in the GUI.
+
 2013-05-30  Carl Hetherington  <cth@carlh.net>
 
 	* Preserve the folder to put new films in
