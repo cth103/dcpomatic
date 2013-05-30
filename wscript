@@ -9,12 +9,13 @@ def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
 
-    opt.add_option('--enable-debug', action='store_true', default = False, help = 'build with debugging information and without optimisation')
-    opt.add_option('--disable-gui', action='store_true', default = False, help = 'disable building of GUI tools')
-    opt.add_option('--target-windows', action='store_true', default = False, help = 'set up to do a cross-compile to Windows')
-    opt.add_option('--static', action='store_true', default = False, help = 'build statically, and link statically to libdcp and FFmpeg')
-    opt.add_option('--magickpp-config', action='store', default='Magick++-config', help = 'path to Magick++-config')
-    opt.add_option('--wx-config', action='store', default='wx-config', help = 'path to wx-config')
+    opt.add_option('--enable-debug', action='store_true', default=False, help='build with debugging information and without optimisation')
+    opt.add_option('--disable-gui', action='store_true', default=False, help='disable building of GUI tools')
+    opt.add_option('--target-windows', action='store_true', default=False, help='set up to do a cross-compile to Windows')
+    opt.add_option('--static', action='store_true', default=False, help='build statically, and link statically to libdcp and FFmpeg')
+    opt.add_option('--magickpp-config', action='store', default='Magick++-config', help='path to Magick++-config')
+    opt.add_option('--wx-config', action='store', default='wx-config', help='path to wx-config')
+    opt.add_option('--osx', action='store_true', default=False, help='build on OS X')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -51,6 +52,8 @@ def configure(conf):
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.STATIC = conf.options.static
     conf.env.VERSION = VERSION
+    conf.env.TARGET_OSX = conf.options.osx
+    conf.env.TARGET_LINUX = not conf.options.target_windows and not conf.options.osx
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
@@ -193,25 +196,9 @@ def build(bld):
     bld.recurse('test')
     if bld.env.TARGET_WINDOWS:
         bld.recurse('platform/windows')
+    if bld.env.TARGET_LINUX:
+        bld.recurse('platform/linux')
 
-    d = { 'PREFIX' : '${PREFIX' }
-
-    obj = bld(features = 'subst')
-    obj.source = 'dvdomatic.desktop.in'
-    obj.target = 'dvdomatic.desktop'
-    obj.dict = d
-
-    obj = bld(features = 'subst')
-    obj.source = 'dvdomatic_batch.desktop.in'
-    obj.target = 'dvdomatic_batch.desktop'
-    obj.dict = d
-
-    obj = bld(features = 'subst')
-    obj.source = 'servomatic.desktop.in'
-    obj.target = 'servomatic.desktop'
-    obj.dict = d
-
-    bld.install_files('${PREFIX}/share/applications', ['dvdomatic.desktop', 'dvdomatic_batch.desktop', 'servomatic.desktop'])
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
 
