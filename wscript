@@ -198,6 +198,8 @@ def build(bld):
         bld.recurse('platform/windows')
     if bld.env.TARGET_LINUX:
         bld.recurse('platform/linux')
+    if bld.env.TARGET_OSX:
+        bld.recurse('platform/osx')
 
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dvdomatic.png' % r)
