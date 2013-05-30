@@ -1,5 +1,9 @@
 2013-05-31  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.94beta1 released.
+
+2013-05-31  Carl Hetherington  <cth@carlh.net>
+
 	* Fix ridiculous 100-frame limit on trim
 	in the GUI.
 
