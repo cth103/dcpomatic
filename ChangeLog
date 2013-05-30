@@ -1,5 +1,9 @@
 2013-05-30  Carl Hetherington  <cth@carlh.net>
 
+	* Preserve the folder to put new films in
+	across openings of the new film dialog
+	(#143).
+
 	* Various tweaks to video preview; number
 	frames from 1 (not 0), fix update of frame
 	on stop.
