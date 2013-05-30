@@ -350,8 +350,8 @@ FilmEditor::make_video_panel ()
 	_right_crop->SetRange (0, 1024);
 	_bottom_crop->SetRange (0, 1024);
 	_still_duration->SetRange (1, 60 * 60);
-	_trim_start->SetRange (0, 100);
-	_trim_end->SetRange (0, 100);
+	_trim_start->SetRange (0, 24 * 60 * 60);
+	_trim_end->SetRange (0, 24 * 60 * 60);
 	_j2k_bandwidth->SetRange (50, 250);
 }
 
