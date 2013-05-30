@@ -132,9 +132,9 @@ FilmViewer::film_changed (Film::Property p)
 		if (_decoders.video == 0) {
 			break;
 		}
+		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3, _4));
 		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
-		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
 		calculate_sizes ();
 		get_frame ();
 		_panel->Refresh ();
@@ -436,7 +436,7 @@ FilmViewer::get_frame ()
 		_display_frame.reset ();
 		return;
 	}
-	
+
 	try {
 		_got_frame = false;
 		while (!_got_frame) {
