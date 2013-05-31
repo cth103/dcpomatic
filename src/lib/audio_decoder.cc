@@ -27,6 +27,7 @@
 using std::stringstream;
 using std::list;
 using std::pair;
+using std::cout;
 using boost::optional;
 using boost::shared_ptr;
 
@@ -151,7 +152,16 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 	}
 
 	Audio (dcp_mapped, time);
+	cout << "bumping n.a. by " << data->frames() << " ie " << film->audio_frames_to_time(data->frames()) << "\n";
 	_next_audio = time + film->audio_frames_to_time (data->frames());
 }
 
-		
+bool
+AudioDecoder::audio_done () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	return (_audio_content->length() - _next_audio) < film->audio_frames_to_time (1);
+}
+	

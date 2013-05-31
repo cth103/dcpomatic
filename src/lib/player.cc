@@ -101,8 +101,12 @@ Player::pass ()
         shared_ptr<Piece> earliest;
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-//		cout << "check " << (*i)->content->file() << " start=" << (*i)->content->start() << ", next=" << (*i)->decoder->next() << ", end=" << (*i)->content->end() << "\n";
-		if (((*i)->decoder->next() + (*i)->content->start()) >= (*i)->content->end()) {
+		cout << "check " << (*i)->content->file()
+		     << " start=" << (*i)->content->start()
+		     << ", next=" << (*i)->decoder->next()
+		     << ", end=" << (*i)->content->end() << "\n";
+		
+		if ((*i)->decoder->done ()) {
 			continue;
 		}
 
@@ -112,7 +116,7 @@ Player::pass ()
 		
 		Time const t = (*i)->content->start() + (*i)->decoder->next();
 		if (t < earliest_t) {
-//			cout << "\t candidate; " << t << " " << (t / TIME_HZ) << ".\n";
+			cout << "\t candidate; " << t << " " << (t / TIME_HZ) << ".\n";
 			earliest_t = t;
 			earliest = *i;
 		}
@@ -248,6 +252,7 @@ void
 Player::add_black_piece (Time s, Time len)
 {
 	shared_ptr<NullContent> nc (new NullContent (_film, s, len));
+	nc->set_ratio (_film->container ());
 	shared_ptr<BlackDecoder> bd (new BlackDecoder (_film, nc));
 	bd->Video.connect (bind (&Player::process_video, this, nc, _1, _2, _3));
 	_pieces.push_back (shared_ptr<Piece> (new Piece (nc, bd)));

@@ -72,6 +72,8 @@ public:
 	 */
 	virtual Time next () const = 0;
 
+	virtual bool done () const = 0;
+
 protected:
 
 	/** The Film that we are decoding in */

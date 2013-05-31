@@ -44,6 +44,7 @@ protected:
 	
 	void video (boost::shared_ptr<Image>, bool, Time);
 	void subtitle (boost::shared_ptr<TimedSubtitle>);
+	bool video_done () const;
 
 	Time _next_video;
 	boost::shared_ptr<const VideoContent> _video_content;

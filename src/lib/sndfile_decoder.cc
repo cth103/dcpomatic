@@ -117,3 +117,9 @@ SndfileDecoder::next () const
 {
 	return _next_audio;
 }
+
+bool
+SndfileDecoder::done () const
+{
+	return audio_done ();
+}

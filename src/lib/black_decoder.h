@@ -33,6 +33,7 @@ public:
 	void seek_back ();
 	void seek_forward ();
 	Time next () const;
+	bool done () const;
 
 	/* VideoDecoder */
 

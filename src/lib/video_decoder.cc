@@ -112,3 +112,12 @@ VideoDecoder::subtitle (shared_ptr<TimedSubtitle> s)
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _video_content->crop().left, p.y - _video_content->crop().top));
 	}
 }
+
+bool
+VideoDecoder::video_done () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	return (_video_content->length() - _next_video) < film->video_frames_to_time (1);
+}

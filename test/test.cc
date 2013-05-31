@@ -149,7 +149,7 @@ check_dcp (string ref, string check)
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }
 
-
+#include "black_fill_test.cc"
 #include "scaling_test.cc"
 #include "ratio_test.cc"
 #include "pixel_formats_test.cc"

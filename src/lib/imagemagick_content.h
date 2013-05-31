@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_IMAGEMAGICK_CONTENT_H
+#define DVDOMATIC_IMAGEMAGICK_CONTENT_H
+
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
 
@@ -44,3 +47,5 @@ public:
 
 	static bool valid_file (boost::filesystem::path);
 };
+
+#endif

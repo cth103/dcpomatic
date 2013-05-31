@@ -615,3 +615,10 @@ FFmpegDecoder::next () const
 
 	return _next_video;
 }
+
+bool
+FFmpegDecoder::done () const
+{
+	return (!_decode_audio || !_audio_codec_context || audio_done()) && (!_decode_video || video_done());
+}
+	

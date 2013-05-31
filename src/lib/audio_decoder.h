@@ -44,6 +44,7 @@ public:
 protected:
 
 	void audio (boost::shared_ptr<const AudioBuffers>, Time);
+	bool audio_done () const;
 
 	Time _next_audio;
 	boost::shared_ptr<const AudioContent> _audio_content;

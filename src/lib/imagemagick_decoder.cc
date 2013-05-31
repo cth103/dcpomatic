@@ -138,3 +138,11 @@ ImageMagickDecoder::next () const
 {
 	return _next_video;
 }
+
+
+bool
+ImageMagickDecoder::done () const
+{
+	return video_done ();
+}
+	

@@ -92,3 +92,11 @@ BlackDecoder::seek_forward ()
 
 	_next_video += f->video_frames_to_time (1);
 }
+
+bool
+BlackDecoder::done () const
+{
+	return video_done ();
+}
+
+	

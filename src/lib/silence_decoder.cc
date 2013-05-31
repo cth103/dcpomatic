@@ -22,6 +22,7 @@
 #include "audio_buffers.h"
 
 using std::min;
+using std::cout;
 using boost::shared_ptr;
 
 SilenceDecoder::SilenceDecoder (shared_ptr<const Film> f, shared_ptr<NullContent> c)
@@ -36,8 +37,9 @@ SilenceDecoder::pass ()
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	
+
 	Time const this_time = min (_audio_content->length() - _next_audio, TIME_HZ / 2);
+	cout << "silence emit " << this_time << " from " << _audio_content->length() << "\n";
 	shared_ptr<AudioBuffers> data (new AudioBuffers (film->dcp_audio_channels(), film->time_to_audio_frames (this_time)));
 	data->make_silent ();
 	audio (data, _next_audio);
@@ -76,3 +78,10 @@ SilenceDecoder::next () const
 {
 	return _next_audio;
 }
+
+bool
+SilenceDecoder::done () const
+{
+	return audio_done ();
+}
+

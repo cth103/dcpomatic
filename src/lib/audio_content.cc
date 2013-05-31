@@ -19,6 +19,7 @@
 
 #include <libcxml/cxml.h>
 #include "audio_content.h"
+#include "film.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -92,4 +93,3 @@ AudioContent::set_audio_delay (int d)
 	
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
 }
-
