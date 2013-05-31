@@ -13,7 +13,7 @@ outFile "DVD-o-matic @version@ 64-bit Installer.exe"
 InstallDir "$PROGRAMFILES\DVD-o-matic"
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "../../COPYING"
+!insertmacro MUI_PAGE_LICENSE "../../../COPYING"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
