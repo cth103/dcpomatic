@@ -61,6 +61,9 @@ def package(env, target, version):
             debs.append(os.path.abspath(p))
 
         return debs
+    elif target.platform == 'osx':
+        env.command('build/platform/osx/make_dmg.sh')
+        return os.path.abspath(glob.glob('build/platform/osx/DVD-o-matic*.dmg')[0])
 
 def make_pot(env):
     env.command('./waf pot')
