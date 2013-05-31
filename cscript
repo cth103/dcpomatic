@@ -20,7 +20,7 @@ def build(env, target):
 
     env.command('./waf')
 
-    if target.platform == 'linux':
+    if target.platform == 'linux' or target.platform == 'osx':
         env.command('./waf install')
 
 
