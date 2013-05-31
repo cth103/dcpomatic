@@ -119,6 +119,7 @@ Player::pass ()
 	}
 
 	if (!earliest) {
+		flush ();
 		return true;
 	}
 
@@ -144,7 +145,7 @@ Player::pass ()
 }
 
 void
-Player::process_video (weak_ptr<Content> weak_content, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
+Player::process_video (weak_ptr<Content> weak_content, shared_ptr<const Image> image, bool same, Time time)
 {
 	shared_ptr<Content> content = weak_content.lock ();
 	if (!content) {
@@ -153,7 +154,7 @@ Player::process_video (weak_ptr<Content> weak_content, shared_ptr<const Image> i
 	
 	time += content->start ();
 	
-        Video (image, same, sub, time);
+        Video (image, same, time);
 }
 
 void
@@ -190,6 +191,18 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
         _audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
         _audio_buffers.accumulate_frames (audio.get(), 0, 0, audio->frames ());
 	_audio_buffers.set_frames (_audio_buffers.frames() + audio->frames());
+}
+
+void
+Player::flush ()
+{
+	if (_audio_buffers.frames() > 0) {
+		shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), _audio_buffers.frames()));
+		emit->copy_from (&_audio_buffers, _audio_buffers.frames(), 0, 0);
+		Audio (emit, _next_audio);
+		_next_audio += _film->audio_frames_to_time (_audio_buffers.frames ());
+		_audio_buffers.set_frames (0);
+	}
 }
 
 /** @return true on error */
@@ -236,7 +249,7 @@ Player::add_black_piece (Time s, Time len)
 {
 	shared_ptr<NullContent> nc (new NullContent (_film, s, len));
 	shared_ptr<BlackDecoder> bd (new BlackDecoder (_film, nc));
-	bd->Video.connect (bind (&Player::process_video, this, nc, _1, _2, _3, _4));
+	bd->Video.connect (bind (&Player::process_video, this, nc, _1, _2, _3));
 	_pieces.push_back (shared_ptr<Piece> (new Piece (nc, bd)));
 	cout << "\tblack @ " << s << " -- " << (s + len) << "\n";
 }
@@ -274,7 +287,7 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio, _subtitles));
 			
-			fd->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3, _4));
+			fd->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3));
 			fd->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
 
 			decoder = fd;
@@ -295,7 +308,7 @@ Player::setup_pieces ()
 
 			if (!id) {
 				id.reset (new ImageMagickDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3, _4));
+				id->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3));
 			}
 
 			decoder = id;

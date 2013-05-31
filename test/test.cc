@@ -22,7 +22,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/date_time.hpp>
-#include "format.h"
+#include <libdcp/dcp.h>
+#include "ratio.h"
 #include "film.h"
 #include "filter.h"
 #include "job_manager.h"
@@ -40,7 +41,6 @@
 #include "ffmpeg_decoder.h"
 #include "sndfile_decoder.h"
 #include "dcp_content_type.h"
-#include "container.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -49,6 +49,8 @@ using std::string;
 using std::list;
 using std::stringstream;
 using std::vector;
+using std::min;
+using std::cout;
 using boost::shared_ptr;
 using boost::thread;
 using boost::dynamic_pointer_cast;
@@ -93,13 +95,67 @@ new_test_film (string name)
 	return f;
 }
 
+void
+check_file (string ref, string check)
+{
+	uintmax_t N = boost::filesystem::file_size (ref);
+	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size(check));
+	FILE* ref_file = fopen (ref.c_str(), "rb");
+	BOOST_CHECK (ref_file);
+	FILE* check_file = fopen (check.c_str(), "rb");
+	BOOST_CHECK (check_file);
+	
+	int const buffer_size = 65536;
+	uint8_t* ref_buffer = new uint8_t[buffer_size];
+	uint8_t* check_buffer = new uint8_t[buffer_size];
+
+	while (N) {
+		uintmax_t this_time = min (uintmax_t (buffer_size), N);
+		size_t r = fread (ref_buffer, 1, this_time, ref_file);
+		BOOST_CHECK_EQUAL (r, this_time);
+		r = fread (check_buffer, 1, this_time, check_file);
+		BOOST_CHECK_EQUAL (r, this_time);
+
+		BOOST_CHECK_EQUAL (memcmp (ref_buffer, check_buffer, this_time), 0);
+		N -= this_time;
+	}
+
+	delete[] ref_buffer;
+	delete[] check_buffer;
+
+	fclose (ref_file);
+	fclose (check_file);
+}
+
+static void
+note (libdcp::NoteType, string n)
+{
+	cout << n << "\n";
+}
+
+void
+check_dcp (string ref, string check)
+{
+	libdcp::DCP ref_dcp (ref);
+	ref_dcp.read ();
+	libdcp::DCP check_dcp (check);
+	check_dcp.read ();
+
+	libdcp::EqualityOptions options;
+	options.max_mean_pixel_error = 5;
+	options.max_std_dev_pixel_error = 5;
+	options.max_audio_sample_error = 255;
+	
+	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
+}
+
+
 #include "scaling_test.cc"
-#include "container_test.cc"
+#include "ratio_test.cc"
 #include "pixel_formats_test.cc"
 #include "make_black_test.cc"
 #include "film_metadata_test.cc"
 #include "stream_test.cc"
-#include "format_test.cc"
 #include "util_test.cc"
 #include "dcp_test.cc"
 #include "frame_rate_test.cc"

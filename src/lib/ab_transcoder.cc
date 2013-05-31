@@ -50,8 +50,8 @@ ABTranscoder::ABTranscoder (shared_ptr<Film> film_a, shared_ptr<Film> film_b, sh
 	, _encoder (new Encoder (film_a, j))
 	, _combiner (new Combiner)
 {
-	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3, _4));
-	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3, _4));
+	_player_a->Video.connect (bind (&Combiner::process_video, _combiner, _1, _2, _3));
+	_player_b->Video.connect (bind (&Combiner::process_video_b, _combiner, _1, _2, _3));
 
 	_combiner->connect_video (_encoder);
 	_player_a->connect_audio (_encoder);

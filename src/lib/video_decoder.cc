@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -23,6 +21,7 @@
 #include "subtitle.h"
 #include "film.h"
 #include "image.h"
+#include "ratio.h"
 
 #include "i18n.h"
 
@@ -52,18 +51,45 @@ VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 		return;
 	}
 
+	image->crop (_video_content->crop(), true);
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	libdcp::Size const container_size = film->container()->size (film->full_frame ());
+	libdcp::Size const image_size = _video_content->ratio()->size (container_size);
+	
+	shared_ptr<Image> out = image->scale_and_convert_to_rgb (image_size, film->scaler(), true);
+
 	shared_ptr<Subtitle> sub;
 	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
 		sub = _timed_subtitle->subtitle ();
 	}
 
-	Video (image, same, sub, t);
+	if (sub) {
+		Rect const tx = subtitle_transformed_area (
+			float (image_size.width) / video_size().width,
+			float (image_size.height) / video_size().height,
+			sub->area(), film->subtitle_offset(), film->subtitle_scale()
+			);
 
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+		shared_ptr<Image> im = sub->image()->scale (tx.size(), film->scaler(), true);
+		out->alpha_blend (im, tx.position());
+	}
+
+	if (image_size != container_size) {
+		assert (image_size.width <= container_size.width);
+		assert (image_size.height <= container_size.height);
+		shared_ptr<Image> im (new SimpleImage (PIX_FMT_RGB24, container_size, true));
+		im->make_black ();
+		im->copy (out, Position ((container_size.width - image_size.width) / 2, (container_size.height - image_size.height) / 2));
+		out = im;
+	}
+		
+	Video (out, same, t);
 
 	if (_frame_rate_conversion.repeat) {
-		Video (image, true, sub, t + film->video_frames_to_time (1));
+		Video (image, true, t + film->video_frames_to_time (1));
 		_next_video = t + film->video_frames_to_time (2);
 	} else {
 		_next_video = t + film->video_frames_to_time (1);

@@ -32,9 +32,8 @@ public:
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
 	 *  @param same true if i is the same as last time we were called.
-	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	virtual void process_video (boost::shared_ptr<const Image> i, bool same, boost::shared_ptr<Subtitle> s, Time) = 0;
+	virtual void process_video (boost::shared_ptr<const Image> i, bool same, Time) = 0;
 };
 
 #endif

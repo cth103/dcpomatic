@@ -25,11 +25,11 @@ using boost::weak_ptr;
 using boost::bind;
 
 static void
-process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time time)
+process_video_proxy (weak_ptr<VideoSink> sink, shared_ptr<const Image> image, bool same, Time time)
 {
 	shared_ptr<VideoSink> p = sink.lock ();
 	if (p) {
-		p->process_video (image, same, sub, time);
+		p->process_video (image, same, time);
 	}
 }
 
@@ -39,6 +39,6 @@ VideoSource::connect_video (shared_ptr<VideoSink> s)
 	/* If we bind, say, a Player (as the VideoSink) to a Decoder (which is owned
 	   by the Player) we create a cycle.  Use a weak_ptr to break it.
 	*/
-	Video.connect (bind (process_video_proxy, weak_ptr<VideoSink> (s), _1, _2, _3, _4));
+	Video.connect (bind (process_video_proxy, weak_ptr<VideoSink> (s), _1, _2, _3));
 }
 

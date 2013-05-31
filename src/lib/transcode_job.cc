@@ -25,10 +25,8 @@
 #include <iomanip>
 #include "transcode_job.h"
 #include "film.h"
-#include "format.h"
 #include "transcoder.h"
 #include "log.h"
-#include "encoder.h"
 
 #include "i18n.h"
 

@@ -121,7 +121,7 @@ Image::scale (libdcp::Size out_size, Scaler const * scaler, bool result_aligned)
  *  @param scaler Scaler to use.
  */
 shared_ptr<Image>
-Image::scale_and_convert_to_rgb (libdcp::Size out_size, int padding, Scaler const * scaler, bool result_aligned) const
+Image::scale_and_convert_to_rgb (libdcp::Size out_size, Scaler const * scaler, bool result_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -129,14 +129,11 @@ Image::scale_and_convert_to_rgb (libdcp::Size out_size, int padding, Scaler cons
 	*/
 	assert (aligned ());
 
-	libdcp::Size content_size = out_size;
-	content_size.width -= (padding * 2);
-
-	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, content_size, result_aligned));
+	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, out_size, result_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
-		content_size.width, content_size.height, PIX_FMT_RGB24,
+		out_size.width, out_size.height, PIX_FMT_RGB24,
 		scaler->ffmpeg_id (), 0, 0, 0
 		);
 
@@ -147,28 +144,6 @@ Image::scale_and_convert_to_rgb (libdcp::Size out_size, int padding, Scaler cons
 		0, size().height,
 		rgb->data(), rgb->stride()
 		);
-
-	/* Put the image in the right place in a black frame if are padding; this is
-	   a bit grubby and expensive, but probably inconsequential in the great
-	   scheme of things.
-	*/
-	if (padding > 0) {
-		shared_ptr<Image> padded_rgb (new SimpleImage (PIX_FMT_RGB24, out_size, result_aligned));
-		padded_rgb->make_black ();
-
-		/* XXX: we are cheating a bit here; we know the frame is RGB so we can
-		   make assumptions about its composition.
-		*/
-		uint8_t* p = padded_rgb->data()[0] + padding * 3;
-		uint8_t* q = rgb->data()[0];
-		for (int j = 0; j < rgb->lines(0); ++j) {
-			memcpy (p, q, rgb->line_size()[0]);
-			p += padded_rgb->stride()[0];
-			q += rgb->stride()[0];
-		}
-
-		rgb = padded_rgb;
-	}
 
 	sws_freeContext (scale_context);
 
@@ -375,6 +350,21 @@ Image::alpha_blend (shared_ptr<const Image> other, Position position)
 		}
 	}
 }
+
+void
+Image::copy (shared_ptr<const Image> other, Position position)
+{
+	/* Only implemented for RGB24 onto RGB24 so far */
+	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGB24);
+	assert (position.x >= 0 && position.y >= 0);
+
+	int const N = min (position.x + other->size().width, size().width) - position.x;
+	for (int ty = position.y, oy = 0; ty < size().height && oy < other->size().height; ++ty, ++oy) {
+		uint8_t * const tp = data()[0] + ty * stride()[0] + position.x * 3;
+		uint8_t * const op = other->data()[0] + oy * other->stride()[0];
+		memcpy (tp, op, N * 3);
+	}
+}	
 
 void
 Image::read_from_socket (shared_ptr<Socket> socket)

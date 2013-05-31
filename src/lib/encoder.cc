@@ -22,24 +22,15 @@
  */
 
 #include <iostream>
-#include <boost/filesystem.hpp>
-#include <boost/lexical_cast.hpp>
-#include <libdcp/picture_asset.h>
 #include "encoder.h"
 #include "util.h"
 #include "film.h"
 #include "log.h"
-#include "exceptions.h"
-#include "filter.h"
 #include "config.h"
 #include "dcp_video_frame.h"
 #include "server.h"
-#include "format.h"
 #include "cross.h"
 #include "writer.h"
-#include "player.h"
-#include "audio_mapping.h"
-#include "container.h"
 
 #include "i18n.h"
 
@@ -178,7 +169,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Subtitle> sub, Time)
+Encoder::process_video (shared_ptr<const Image> image, bool same, Time)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -211,11 +202,8 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, shared_ptr<Sub
 		/* XXX: padding */
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, sub, _film->container()->size (_film->full_frame()), 0,
-						  _film->subtitle_offset(), _film->subtitle_scale(),
-						  _film->scaler(), _video_frames_out, _film->dcp_video_frame_rate(),
-						  _film->colour_lut(), _film->j2k_bandwidth(),
-						  _film->log()
+						  image, _video_frames_out, _film->dcp_video_frame_rate(),
+						  _film->colour_lut(), _film->j2k_bandwidth(), _film->log()
 						  )
 					  ));
 		

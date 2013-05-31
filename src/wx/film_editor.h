@@ -35,7 +35,7 @@ class Film;
 class AudioDialog;
 class TimelineDialog;
 class AudioMappingView;
-class Format;
+class Ratio;
 class Timecode;
 
 /** @class FilmEditor
@@ -102,7 +102,7 @@ private:
 	void film_content_changed (boost::weak_ptr<Content>, int);
 
 	void set_things_sensitive (bool);
-	void setup_formats ();
+	void setup_ratios ();
 	void setup_subtitle_control_sensitivity ();
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
@@ -144,8 +144,8 @@ private:
 	wxCheckBox* _loop_content;
 	wxSpinCtrl* _loop_count;
 	wxButton* _edit_dci_button;
-	wxChoice* _format;
-	wxStaticText* _format_description;
+	wxChoice* _ratio;
+	wxStaticText* _ratio_description;
 	wxStaticText* _scaling_description;
 	wxSpinCtrl* _left_crop;
 	wxSpinCtrl* _right_crop;
@@ -173,7 +173,7 @@ private:
 	Timecode* _start;
 	Timecode* _length;
 
-	std::vector<Format const *> _formats;
+	std::vector<Ratio const *> _ratios;
 
 	bool _generally_sensitive;
 	AudioDialog* _audio_dialog;

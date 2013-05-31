@@ -27,11 +27,9 @@
 #include <iomanip>
 #include <wx/tglbtn.h>
 #include "lib/film.h"
-#include "lib/container.h"
-#include "lib/format.h"
+#include "lib/ratio.h"
 #include "lib/util.h"
 #include "lib/job_manager.h"
-#include "lib/subtitle.h"
 #include "lib/image.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
@@ -166,7 +164,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	   on and off without needing obtain a new Player.
 	*/
 	
-	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3, _4));
+	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 	
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 	_film->ContentChanged.connect (boost::bind (&FilmViewer::film_content_changed, this, _1, _2));
@@ -233,12 +231,6 @@ FilmViewer::paint_panel (wxPaintEvent &)
 	wxBitmap frame_bitmap (frame);
 	dc.DrawBitmap (frame_bitmap, _display_frame_x, 0);
 
-	if (_film->with_subtitles() && _display_sub) {
-		wxImage sub (_display_sub->size().width, _display_sub->size().height, _display_sub->data()[0], _display_sub->alpha(), true);
-		wxBitmap sub_bitmap (sub);
-		dc.DrawBitmap (sub_bitmap, _display_sub_position.x, _display_sub_position.y);
-	}
-
 	if (_out_size.width < _panel_size.width) {
 		wxPen p (GetBackgroundColour ());
 		wxBrush b (GetBackgroundColour ());
@@ -301,29 +293,7 @@ FilmViewer::raw_to_display ()
 	}
 
 	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (_film_size, 0, _film->scaler(), false);
-
-	if (_raw_sub) {
-
-		/* Our output is already cropped by the decoder, so we need to account for that
-		   when working out the scale that we are applying.
-		*/
-
-		/* XXX */
-		Size const cropped_size = _raw_frame->size ();//_film->cropped_size (_raw_frame->size ());
-
-		Rect tx = subtitle_transformed_area (
-			float (_film_size.width) / cropped_size.width,
-			float (_film_size.height) / cropped_size.height,
-			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
-			);
-		
-		_display_sub.reset (new RGBPlusAlphaImage (_raw_sub->image()->scale (tx.size(), _film->scaler(), false)));
-		_display_sub_position = tx.position();
-		_display_sub_position.x += _display_frame_x;
-	} else {
-		_display_sub.reset ();
-	}
+	_display_frame = _raw_frame->scale_and_convert_to_rgb (_film_size, _film->scaler(), false);
 }	
 
 void
@@ -333,7 +303,7 @@ FilmViewer::calculate_sizes ()
 		return;
 	}
 
-	Container const * container = _film->container ();
+	Ratio const * container = _film->container ();
 	
 	float const panel_ratio = static_cast<float> (_panel_size.width) / _panel_size.height;
 	float const film_ratio = container ? container->ratio () : 1.78;
@@ -386,10 +356,9 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, Time t)
+FilmViewer::process_video (shared_ptr<const Image> image, bool, Time t)
 {
 	_raw_frame = image;
-	_raw_sub = sub;
 
 	raw_to_display ();
 

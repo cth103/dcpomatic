@@ -39,7 +39,6 @@
 #include "playlist.h"
 
 class DCPContentType;
-class Container;
 class Job;
 class Filter;
 class Log;
@@ -169,7 +168,7 @@ public:
 		return _dcp_content_type;
 	}
 
-	Container const * container () const {
+	Ratio const * container () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _container;
 	}
@@ -234,7 +233,7 @@ public:
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
-	void set_container (Container const *);
+	void set_container (Ratio const *);
 	void set_scaler (Scaler const *);
 	void set_ab (bool);
 	void set_with_subtitles (bool);
@@ -286,7 +285,7 @@ private:
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The container to put this Film in (flat, scope, etc.) */
-	Container const * _container;
+	Ratio const * _container;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
 	/** true to create an A/B comparison DCP, where the left half of the image

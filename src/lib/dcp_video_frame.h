@@ -105,12 +105,8 @@ public:
 class DCPVideoFrame
 {
 public:
-	DCPVideoFrame (
-		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, libdcp::Size,
-		int, int, float, Scaler const *, int, int, int, int, boost::shared_ptr<Log>
-		);
-	
-	virtual ~DCPVideoFrame ();
+	DCPVideoFrame (boost::shared_ptr<const Image>, int, int, int, int, boost::shared_ptr<Log>);
+	~DCPVideoFrame ();
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
@@ -122,13 +118,7 @@ public:
 private:
 	void create_openjpeg_container ();
 
-	boost::shared_ptr<const Image> _input; ///< the input image
-	boost::shared_ptr<Subtitle> _subtitle; ///< any subtitle that should be on the image
-	libdcp::Size _out_size;                ///< the required size of the output, in pixels
-	int _padding;
-	int _subtitle_offset;
-	float _subtitle_scale;
-	Scaler const * _scaler;          ///< scaler to use
+	boost::shared_ptr<const Image> _image;
 	int _frame;                      ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;          ///< Frames per second that we will use for the DCP
 	int _colour_lut;                 ///< Colour look-up table to use
@@ -137,7 +127,7 @@ private:
 	boost::shared_ptr<Log> _log; ///< log
 
 	opj_image_cmptparm_t _cmptparm[3]; ///< libopenjpeg's opj_image_cmptparm_t
-	opj_image* _image;                 ///< libopenjpeg's image container 
+	opj_image* _opj_image;             ///< libopenjpeg's image container 
 	opj_cparameters_t* _parameters;    ///< libopenjpeg's parameters
 	opj_cinfo_t* _cinfo;               ///< libopenjpeg's opj_cinfo_t
 	opj_cio_t* _cio;                   ///< libopenjpeg's opj_cio_t

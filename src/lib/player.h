@@ -62,7 +62,7 @@ public:
 
 private:
 
-	void process_video (boost::weak_ptr<Content>, boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
+	void process_video (boost::weak_ptr<Content>, boost::shared_ptr<const Image>, bool, Time);
 	void process_audio (boost::weak_ptr<Content>, boost::shared_ptr<const AudioBuffers>, Time);
 	void setup_pieces ();
 	void playlist_changed ();
@@ -70,6 +70,7 @@ private:
 	void do_seek (Time, bool);
 	void add_black_piece (Time, Time);
 	void add_silent_piece (Time, Time);
+	void flush ();
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

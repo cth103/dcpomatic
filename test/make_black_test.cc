@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
 		boost::shared_ptr<Image> foo (new SimpleImage (*i, in_size, true));
 		foo->make_black ();
-		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, 0, Scaler::from_id ("bicubic"), true);
+		boost::shared_ptr<Image> bar = foo->scale_and_convert_to_rgb (out_size, Scaler::from_id ("bicubic"), true);
 		
 		uint8_t* p = bar->data()[0];
 		for (int y = 0; y < bar->size().height; ++y) {

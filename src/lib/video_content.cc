@@ -20,22 +20,26 @@
 #include <libcxml/cxml.h>
 #include "video_content.h"
 #include "video_decoder.h"
+#include "ratio.h"
 
 #include "i18n.h"
 
-int const VideoContentProperty::VIDEO_SIZE = 0;
+int const VideoContentProperty::VIDEO_SIZE	 = 0;
 int const VideoContentProperty::VIDEO_FRAME_RATE = 1;
-int const VideoContentProperty::VIDEO_CROP = 2;
+int const VideoContentProperty::VIDEO_CROP	 = 2;
+int const VideoContentProperty::VIDEO_RATIO	 = 3;
 
 using std::string;
 using std::stringstream;
 using std::setprecision;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::optional;
 
 VideoContent::VideoContent (shared_ptr<const Film> f, Time s, ContentVideoFrame len)
 	: Content (f, s)
 	, _video_length (len)
+	, _ratio (0)
 {
 
 }
@@ -43,6 +47,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, Time s, ContentVideoFrame 
 VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _video_length (0)
+	, _ratio (0)
 {
 
 }
@@ -58,6 +63,10 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	_crop.right = node->number_child<int> ("RightCrop");
 	_crop.top = node->number_child<int> ("TopCrop");
 	_crop.bottom = node->number_child<int> ("BottomCrop");
+	optional<string> r = node->optional_string_child ("Ratio");
+	if (r) {
+		_ratio = Ratio::from_id (r.get ());
+	}
 }
 
 VideoContent::VideoContent (VideoContent const & o)
@@ -65,6 +74,7 @@ VideoContent::VideoContent (VideoContent const & o)
 	, _video_length (o._video_length)
 	, _video_size (o._video_size)
 	, _video_frame_rate (o._video_frame_rate)
+	, _ratio (o._ratio)
 {
 
 }
@@ -81,6 +91,9 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
 	node->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
 	node->add_child("BottomCrop")->add_child_text (boost::lexical_cast<string> (_crop.bottom));
+	if (_ratio) {
+		node->add_child("Ratio")->add_child_text (_ratio->id ());
+	}
 }
 
 void
@@ -191,3 +204,17 @@ VideoContent::set_bottom_crop (int c)
 	signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
+void
+VideoContent::set_ratio (Ratio const * r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_ratio == r) {
+			return;
+		}
+
+		_ratio = r;
+	}
+
+	signal_changed (VideoContentProperty::VIDEO_RATIO);
+}

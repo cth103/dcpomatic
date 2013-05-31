@@ -34,8 +34,8 @@ class ServerDescription;
 class Scaler;
 class Filter;
 class SoundProcessor;
-class Container;
 class DCPContentType;
+class Ratio;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -114,7 +114,7 @@ public:
 		return _default_still_length;
 	}
 
-	Container const * default_container () const {
+	Ratio const * default_container () const {
 		return _default_container;
 	}
 
@@ -193,8 +193,8 @@ public:
 		_default_still_length = s;
 	}
 
-	void set_default_container (Container const * f) {
-		_default_container = f;
+	void set_default_container (Ratio const * c) {
+		_default_container = c;
 	}
 
 	void set_default_dcp_content_type (DCPContentType const * t) {
@@ -244,7 +244,7 @@ private:
 	DCIMetadata _default_dci_metadata;
 	boost::optional<std::string> _language;
 	int _default_still_length;
-	Container const * _default_container;
+	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
 	libdcp::XMLMetadata _dcp_metadata;
 

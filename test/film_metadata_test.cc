@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	f->set_name ("fred");
 	f->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
-	f->set_container (Container::from_id ("185"));
+	f->set_container (Ratio::from_id ("185"));
 	f->set_ab (true);
 	f->write_metadata ();
 
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");
 	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
-	BOOST_CHECK_EQUAL (g->container(), Container::from_id ("185"));
+	BOOST_CHECK_EQUAL (g->container(), Ratio::from_id ("185"));
 	BOOST_CHECK_EQUAL (g->ab(), true);
 	
 	g->write_metadata ();

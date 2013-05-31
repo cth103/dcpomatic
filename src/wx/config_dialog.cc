@@ -28,7 +28,7 @@
 #include <wx/notebook.h>
 #include "lib/config.h"
 #include "lib/server.h"
-#include "lib/container.h"
+#include "lib/ratio.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
 #include "lib/dcp_content_type.h"
@@ -171,10 +171,10 @@ ConfigDialog::make_misc_panel ()
 
 	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
 
-	vector<Container const *> fmt = Container::all ();
+	vector<Ratio const *> ratio = Ratio::all ();
 	int n = 0;
-	for (vector<Container const *>::iterator i = fmt.begin(); i != fmt.end(); ++i) {
-		_default_container->Append (std_to_wx ((*i)->name ()));
+	for (vector<Ratio const *>::iterator i = ratio.begin(); i != ratio.end(); ++i) {
+		_default_container->Append (std_to_wx ((*i)->nickname ()));
 		if (*i == config->default_container ()) {
 			_default_container->SetSelection (n);
 		}
@@ -535,8 +535,8 @@ ConfigDialog::default_still_length_changed (wxCommandEvent &)
 void
 ConfigDialog::default_container_changed (wxCommandEvent &)
 {
-	vector<Container const *> fmt = Container::all ();
-	Config::instance()->set_default_container (fmt[_default_container->GetSelection()]);
+	vector<Ratio const *> ratio = Ratio::all ();
+	Config::instance()->set_default_container (ratio[_default_container->GetSelection()]);
 }
 
 void

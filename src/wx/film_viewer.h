@@ -28,7 +28,6 @@ class wxToggleButton;
 class FFmpegPlayer;
 class Image;
 class RGBPlusAlphaImage;
-class Subtitle;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
@@ -38,14 +37,12 @@ class Subtitle;
  *  1.  get_frame() asks our _player to decode some data.  If it does, process_video()
  *      will be called.
  *
- *  2.  process_video() takes the image and subtitle from the decoder (_raw_frame and _raw_sub)
- *      and calls raw_to_display().
+ *  2.  process_video() takes the image from the decoder (_raw_frame) and calls raw_to_display().
  * 
  *  3.  raw_to_display() copies _raw_frame to _display_frame, processing it and scaling it.
  *
  *  4.  calling _panel->Refresh() and _panel->Update() results in paint_panel() being called;
- *      this creates frame_bitmap from _display_frame and blits it to the display.  It also
- *      blits the subtitle, if required.
+ *      this creates frame_bitmap from _display_frame and blits it to the display.
  *
  * update_from_decoder() asks the player to re-emit its current frame on the next pass(), and then
  * starts from step #1.
@@ -67,7 +64,7 @@ private:
 	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<const Image>, bool, boost::shared_ptr<Subtitle>, Time);
+	void process_video (boost::shared_ptr<const Image>, bool, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void update_from_raw ();
@@ -92,14 +89,11 @@ private:
 	wxTimer _timer;
 
 	boost::shared_ptr<const Image> _raw_frame;
-	boost::shared_ptr<Subtitle> _raw_sub;
 	boost::shared_ptr<const Image> _display_frame;
 	/* The x offset at which we display the actual film content; this corresponds
 	   to the film's padding converted to our coordinates.
 	*/
 	int _display_frame_x;
-	boost::shared_ptr<RGBPlusAlphaImage> _display_sub;
-	Position _display_sub_position;
 	bool _got_frame;
 
 	/** Size of our output (including padding if we have any) */

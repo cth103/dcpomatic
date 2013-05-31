@@ -29,15 +29,14 @@
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
-#include "lib/format.h"
 #include "lib/film.h"
 #include "lib/transcode_job.h"
 #include "lib/exceptions.h"
 #include "lib/ab_transcode_job.h"
 #include "lib/job_manager.h"
 #include "lib/filter.h"
+#include "lib/ratio.h"
 #include "lib/config.h"
-#include "lib/ffmpeg_decoder.h"
 #include "lib/imagemagick_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
@@ -52,7 +51,6 @@
 #include "imagemagick_content_dialog.h"
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
-#include "container.h"
 #include "timecode.h"
 
 using std::string;
@@ -86,7 +84,7 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_dcp_panel ();
 	_main_notebook->AddPage (_dcp_panel, _("DCP"), false);
 	
-	setup_formats ();
+	setup_ratios ();
 
 	set_film (f);
 	connect_to_widgets ();
@@ -167,9 +165,9 @@ FilmEditor::make_dcp_panel ()
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
 
-	vector<Container const *> const co = Container::all ();
-	for (vector<Container const *>::const_iterator i = co.begin(); i != co.end(); ++i) {
-		_container->Append (std_to_wx ((*i)->name ()));
+	vector<Ratio const *> const ratio = Ratio::all ();
+	for (vector<Ratio const *>::const_iterator i = ratio.begin(); i != ratio.end(); ++i) {
+		_container->Append (std_to_wx ((*i)->nickname ()));
 	}
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -259,8 +257,8 @@ FilmEditor::make_video_panel ()
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _video_panel, _("Scale to"), wxGBPosition (r, 0));
-	_format = new wxChoice (_video_panel, wxID_ANY);
-	grid->Add (_format, wxGBPosition (r, 1));
+	_ratio = new wxChoice (_video_panel, wxID_ANY);
+	grid->Add (_ratio, wxGBPosition (r, 1));
 	++r;
 
 	_scaling_description = new wxStaticText (_video_panel, wxID_ANY, wxT ("\n \n \n \n"), wxDefaultPosition, wxDefaultSize);
@@ -598,8 +596,8 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 		setup_content ();
-		setup_formats ();
-//		setup_format ();
+		setup_ratios ();
+//		setup_ratio ();
 		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
 		break;
@@ -765,14 +763,14 @@ void
 FilmEditor::setup_container ()
 {
 	int n = 0;
-	vector<Container const *> containers = Container::all ();
-	vector<Container const *>::iterator i = containers.begin ();
-	while (i != containers.end() && *i != _film->container ()) {
+	vector<Ratio const *> ratios = Ratio::all ();
+	vector<Ratio const *>::iterator i = ratios.begin ();
+	while (i != ratios.end() && *i != _film->container ()) {
 		++i;
 		++n;
 	}
 	
-	if (i == containers.end()) {
+	if (i == ratios.end()) {
 		checked_set (_container, -1);
 	} else {
 		checked_set (_container, n);
@@ -792,9 +790,9 @@ FilmEditor::container_changed (wxCommandEvent &)
 
 	int const n = _container->GetSelection ();
 	if (n >= 0) {
-		vector<Container const *> containers = Container::all ();
-		assert (n < int (containers.size()));
-		_film->set_container (containers[n]);
+		vector<Ratio const *> ratios = Ratio::all ();
+		assert (n < int (ratios.size()));
+		_film->set_container (ratios[n]);
 	}
 }
 
@@ -878,7 +876,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_name->Enable (s);
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
-	_format->Enable (s);
+	_ratio->Enable (s);
 	_content->Enable (s);
 	_left_crop->Enable (s);
 	_right_crop->Enable (s);
@@ -999,13 +997,13 @@ FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
 }
 
 void
-FilmEditor::setup_formats ()
+FilmEditor::setup_ratios ()
 {
-	_formats = Format::all ();
+	_ratios = Ratio::all ();
 
-	_format->Clear ();
-	for (vector<Format const *>::iterator i = _formats.begin(); i != _formats.end(); ++i) {
-		_format->Append (std_to_wx ((*i)->name ()));
+	_ratio->Clear ();
+	for (vector<Ratio const *>::iterator i = _ratios.begin(); i != _ratios.end(); ++i) {
+		_ratio->Append (std_to_wx ((*i)->nickname ()));
 	}
 
 	_dcp_sizer->Layout ();

@@ -71,10 +71,11 @@ public:
 	int components () const;
 	int lines (int) const;
 
-	boost::shared_ptr<Image> scale_and_convert_to_rgb (libdcp::Size out_size, int padding, Scaler const * scaler, bool aligned) const;
+	boost::shared_ptr<Image> scale_and_convert_to_rgb (libdcp::Size, Scaler const *, bool) const;
 	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
+	void copy (boost::shared_ptr<const Image> image, Position pos);
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 	
 	void make_black ();

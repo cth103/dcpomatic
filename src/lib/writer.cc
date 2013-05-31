@@ -27,7 +27,7 @@
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
-#include "container.h"
+#include "ratio.h"
 #include "log.h"
 #include "dcp_video_frame.h"
 #include "dcp_content_type.h"
@@ -133,6 +133,7 @@ Writer::fake_write (int frame)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
+	cout << "W: audio " << audio->frames() << "\n";
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 

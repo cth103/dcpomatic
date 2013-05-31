@@ -27,7 +27,7 @@
 #include "server.h"
 #include "scaler.h"
 #include "filter.h"
-#include "container.h"
+#include "ratio.h"
 #include "dcp_content_type.h"
 #include "sound_processor.h"
 
@@ -106,7 +106,7 @@ Config::read ()
 
 	c = f.optional_string_child ("DefaultContainer");
 	if (c) {
-		_default_container = Container::from_id (c.get ());
+		_default_container = Ratio::from_id (c.get ());
 	}
 
 	c = f.optional_string_child ("DefaultDCPContentType");
@@ -168,7 +168,7 @@ Config::read_old_metadata ()
 		} else if (k == "language") {
 			_language = v;
 		} else if (k == "default_container") {
-			_default_container = Container::from_id (v);
+			_default_container = Ratio::from_id (v);
 		} else if (k == "default_dcp_content_type") {
 			_default_dcp_content_type = DCPContentType::from_dci_name (v);
 		} else if (k == "dcp_metadata_issuer") {

@@ -24,6 +24,7 @@
 #include "util.h"
 
 class VideoDecoder;
+class Ratio;
 
 class VideoContentProperty
 {
@@ -31,6 +32,7 @@ public:
 	static int const VIDEO_SIZE;
 	static int const VIDEO_FRAME_RATE;
 	static int const VIDEO_CROP;
+	static int const VIDEO_RATIO;
 };
 
 class VideoContent : public virtual Content
@@ -70,6 +72,13 @@ public:
 		return _crop;
 	}
 
+	void set_ratio (Ratio const *);
+
+	Ratio const * ratio () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _ratio;
+	}
+
 protected:
 	void take_from_video_decoder (boost::shared_ptr<VideoDecoder>);
 
@@ -79,6 +88,7 @@ private:
 	libdcp::Size _video_size;
 	float _video_frame_rate;
 	Crop _crop;
+	Ratio const * _ratio;
 };
 
 #endif

@@ -34,8 +34,8 @@ class Combiner : public VideoSource, public VideoSink
 public:
 	Combiner ();
 
-	void process_video (boost::shared_ptr<const Image> i, bool, boost::shared_ptr<Subtitle> s, Time);
-	void process_video_b (boost::shared_ptr<const Image> i, bool, boost::shared_ptr<Subtitle> s, Time);
+	void process_video (boost::shared_ptr<const Image> i, bool, Time);
+	void process_video_b (boost::shared_ptr<const Image> i, bool, Time);
 
 private:
 	/** The image that we are currently working on */

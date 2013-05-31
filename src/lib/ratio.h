@@ -20,10 +20,10 @@
 #include <vector>
 #include <libdcp/util.h>
 
-class Container
+class Ratio
 {
 public:
-	Container (float ratio, std::string id, std::string n, std::string d)
+	Ratio (float ratio, std::string id, std::string n, std::string d)
 		: _ratio (ratio)
 		, _id (id)
 		, _nickname (n)
@@ -36,9 +36,6 @@ public:
 		return _id;
 	}
 
-	std::string name () const;
-
-	/** @return Nickname (e.g. Flat, Scope) */
 	std::string nickname () const {
 		return _nickname;
 	}
@@ -50,11 +47,11 @@ public:
 	float ratio () const {
 		return _ratio;
 	}
-	
-	static void setup_containers ();
-	static Container const * from_id (std::string i);
-	static std::vector<Container const *> all () {
-		return _containers;
+
+	static void setup_ratios ();
+	static Ratio const * from_id (std::string i);
+	static std::vector<Ratio const *> all () {
+		return _ratios;
 	}
 
 private:
@@ -65,6 +62,5 @@ private:
 	std::string _nickname;
 	std::string _dci_name;
 
-	/** all available containers */
-	static std::vector<Container const *> _containers;
+	static std::vector<Ratio const *> _ratios;	
 };

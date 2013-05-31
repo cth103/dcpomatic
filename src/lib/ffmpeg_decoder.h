@@ -37,8 +37,6 @@ extern "C" {
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "film.h"
-#include "ffmpeg_content.h"
 
 struct AVFilterGraph;
 struct AVCodecContext;
@@ -52,6 +50,8 @@ class Job;
 class Options;
 class Image;
 class Log;
+class FFmpegContent;
+class Film;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.

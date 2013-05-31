@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 		dcpomatic_sleep (1);
 	}
 	
-	film->set_container (Container::from_id ("185"));
+	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp ();
 	film->write_metadata ();

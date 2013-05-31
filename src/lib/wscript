@@ -14,7 +14,6 @@ sources = """
           black_decoder.cc
           config.cc
           combiner.cc
-          container.cc
           content.cc
           cross.cc
           dci_metadata.cc
@@ -30,7 +29,6 @@ sources = """
           ffmpeg_decoder.cc
           film.cc
           filter.cc
-          format.cc
           image.cc
           imagemagick_content.cc
           imagemagick_decoder.cc
@@ -41,6 +39,7 @@ sources = """
           null_content.cc
           player.cc
           playlist.cc
+          ratio.cc
           scp_dcp_job.cc
           scaler.cc
           server.cc

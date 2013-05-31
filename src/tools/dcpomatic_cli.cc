@@ -21,7 +21,6 @@
 #include <iomanip>
 #include <getopt.h>
 #include <libdcp/version.h>
-#include "format.h"
 #include "film.h"
 #include "filter.h"
 #include "transcode_job.h"

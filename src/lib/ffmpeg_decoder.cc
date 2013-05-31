@@ -39,9 +39,6 @@ extern "C" {
 }
 #include <sndfile.h>
 #include "film.h"
-#include "format.h"
-#include "transcoder.h"
-#include "job.h"
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"

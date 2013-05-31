@@ -63,12 +63,6 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
 			image,
-			subtitle,
-			libdcp::Size (1998, 1080),
-			0,
-			0,
-			1,
-			Scaler::from_id ("bicubic"),
 			0,
 			24,
 			0,

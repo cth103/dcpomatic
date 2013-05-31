@@ -20,11 +20,8 @@
 #include <stdexcept>
 #include "ab_transcode_job.h"
 #include "film.h"
-#include "format.h"
-#include "filter.h"
 #include "ab_transcoder.h"
 #include "config.h"
-#include "encoder.h"
 
 #include "i18n.h"
 

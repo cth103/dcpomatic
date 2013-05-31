@@ -98,44 +98,25 @@ Server::process (shared_ptr<Socket> socket)
 	stringstream s (buffer.get());
 	multimap<string, string> kv = read_key_value (s);
 
-	if (get_required_string (kv, N_("encode")) != N_("please")) {
+	if (get_required_string (kv, "encode") != "please") {
 		return -1;
 	}
 
-	libdcp::Size in_size (get_required_int (kv, N_("input_width")), get_required_int (kv, N_("input_height")));
-	int pixel_format_int = get_required_int (kv, N_("input_pixel_format"));
-	libdcp::Size out_size (get_required_int (kv, N_("output_width")), get_required_int (kv, N_("output_height")));
-	int padding = get_required_int (kv, N_("padding"));
-	int subtitle_offset = get_required_int (kv, N_("subtitle_offset"));
-	float subtitle_scale = get_required_float (kv, N_("subtitle_scale"));
-	string scaler_id = get_required_string (kv, N_("scaler"));
-	int frame = get_required_int (kv, N_("frame"));
-	int frames_per_second = get_required_int (kv, N_("frames_per_second"));
-	int colour_lut_index = get_required_int (kv, N_("colour_lut"));
-	int j2k_bandwidth = get_required_int (kv, N_("j2k_bandwidth"));
-	Position subtitle_position (get_optional_int (kv, N_("subtitle_x")), get_optional_int (kv, N_("subtitle_y")));
-	libdcp::Size subtitle_size (get_optional_int (kv, N_("subtitle_width")), get_optional_int (kv, N_("subtitle_height")));
+	libdcp::Size size (get_required_int (kv, "width"), get_required_int (kv, "height"));
+	int frame = get_required_int (kv, "frame");
+	int frames_per_second = get_required_int (kv, "frames_per_second");
+	int colour_lut_index = get_required_int (kv, "colour_lut");
+	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
 
 	/* This checks that colour_lut_index is within range */
 	colour_lut_index_to_name (colour_lut_index);
 
-	PixelFormat pixel_format = (PixelFormat) pixel_format_int;
-	Scaler const * scaler = Scaler::from_id (scaler_id);
-	
-	shared_ptr<Image> image (new SimpleImage (pixel_format, in_size, true));
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, size, true));
 
 	image->read_from_socket (socket);
 
-	shared_ptr<Subtitle> sub;
-	if (subtitle_size.width && subtitle_size.height) {
-		shared_ptr<Image> subtitle_image (new SimpleImage (PIX_FMT_RGBA, subtitle_size, true));
-		subtitle_image->read_from_socket (socket);
-		sub.reset (new Subtitle (subtitle_position, subtitle_image));
-	}
-
 	DCPVideoFrame dcp_video_frame (
-		image, sub, out_size, padding, subtitle_offset, subtitle_scale,
-		scaler, frame, frames_per_second, colour_lut_index, j2k_bandwidth, _log
+		image, frame, frames_per_second, colour_lut_index, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();

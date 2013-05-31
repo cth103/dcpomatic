@@ -40,7 +40,6 @@ extern "C" {
 #include "audio_sink.h"
 
 class Image;
-class Subtitle;
 class AudioBuffers;
 class Film;
 class ServerDescription;
@@ -52,7 +51,7 @@ class Job;
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
  *
- *  Video is supplied to process_video as YUV frames, and audio
+ *  Video is supplied to process_video as RGB frames, and audio
  *  is supplied as uncompressed PCM in blocks of various sizes.
  */
 
@@ -68,9 +67,8 @@ public:
 	/** Call with a frame of video.
 	 *  @param i Video frame image.
 	 *  @param same true if i is the same as the last time we were called.
-	 *  @param s A subtitle that should be on this frame, or 0.
 	 */
-	void process_video (boost::shared_ptr<const Image> i, bool same, boost::shared_ptr<Subtitle> s, Time);
+	void process_video (boost::shared_ptr<const Image> i, bool same, Time);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>, Time);

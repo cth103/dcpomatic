@@ -32,7 +32,6 @@
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include "film.h"
-#include "container.h"
 #include "job.h"
 #include "filter.h"
 #include "util.h"
@@ -54,6 +53,7 @@
 #include "imagemagick_content.h"
 #include "sndfile_content.h"
 #include "dcp_content_type.h"
+#include "ratio.h"
 
 #include "i18n.h"
 
@@ -426,7 +426,7 @@ Film::read_metadata ()
 	{
 		optional<string> c = f.optional_string_child ("Container");
 		if (c) {
-			_container = Container::from_id (c.get ());
+			_container = Ratio::from_id (c.get ());
 		}
 	}
 
@@ -602,7 +602,7 @@ Film::set_dcp_content_type (DCPContentType const * t)
 }
 
 void
-Film::set_container (Container const * c)
+Film::set_container (Ratio const * c)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
