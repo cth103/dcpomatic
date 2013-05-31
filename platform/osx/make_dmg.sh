@@ -1,18 +1,13 @@
 #!/bin/bash
 
-VERSION=$1
-if [ "$VERSION" == "" ]; then
-  echo "Syntax: $0 <version>"
-  exit 1
-fi
+version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 
 # DMG size in megabytes
-DMG_SIZE=64
+DMG_SIZE=256
 WORK=build/platform/osx
 ENV=/Users/carl/Environments/osx/10.8
 DEPS=/Users/carl/cdist
 
-dmg_name="DVD-o-matic-$VERSION"
 appdir="DVD-o-matic.app"
 approot=$appdir/Contents
 libs=$approot/lib
@@ -79,11 +74,51 @@ done
 cp build/platform/osx/Info.plist $WORK/$approot
 cp icons/dvdomatic.icns $WORK/$resources/DVD-o-matic.icns
 
-exit 0
+tmp_dmg=$WORK/dvdomatic_tmp.dmg
+dmg="$WORK/DVD-o-matic $version.dmg"
+vol_name=DVD-o-matic-$version
 
-mkdir -p $WORK/mnt
+mkdir -p $WORK/$vol_name
 
-hdiutil create -megabytes $DMG_SIZE build/platform/osx/dvdomatic.dmg
-device=$(hdid -nomount build/platform/osx/dvdomatic.dmg | grep Apple_HFS | cut -f 1 -d ' ')
-newfs_hfs -v "$dmg_name" "$device"
-mount -t hfs "$device" build/platform/osx/mnt
+rm -f $tmp_dmg "$dmg"
+hdiutil create -megabytes $DMG_SIZE $tmp_dmg
+device=$(hdid -nomount $tmp_dmg | grep Apple_HFS | cut -f 1 -d ' ')
+newfs_hfs -v ${vol_name} $device
+mount -t hfs "$device" $WORK/$vol_name
+
+cp -r $WORK/$appdir $WORK/$vol_name
+
+echo '
+  tell application "Finder"
+    tell disk "'$vol_name'"
+           open
+           set current view of container window to icon view
+           set toolbar visible of container window to false
+           set statusbar visible of container window to false
+           set the bounds of container window to {400, 200, 800, 440}
+           set theViewOptions to the icon view options of container window
+           set arrangement of theViewOptions to not arranged
+           set icon size of theViewOptions to 64
+           make new alias file at container window to POSIX file "/Applications" with properties {name:"Applications"}
+           set position of item "DVD-o-matic.app" of container window to {90, 100}
+           set position of item "Applications" of container window to {310, 100}
+           close
+           open
+           update without registering applications
+           delay 5
+           eject
+     end tell
+   end tell
+' | osascript
+
+chmod -Rf go-w $WORK/mnt
+sync
+
+umount $device
+hdiutil eject $device
+hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
+sips -i $WORK/$resources/DVD-o-matic.icns
+DeRez -only icns $WORK/$resources/DVD-o-matic.icns > $WORK/$resources/DVD-o-matic.rsrc
+Rez -append $WORK/$resources/DVD-o-matic.rsrc -o "$dmg"
+SetFile -a C "$dmg"
+

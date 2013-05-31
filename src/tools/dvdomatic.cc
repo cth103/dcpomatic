@@ -164,7 +164,9 @@ setup_menu (wxMenuBar* m)
 	add_item (file, _("&Save"), ID_file_save, NEEDS_FILM);
 	file->AppendSeparator ();
 	add_item (file, _("&Properties..."), ID_file_properties, NEEDS_FILM);
+#ifndef __WXOSX__	
 	file->AppendSeparator ();
+#endif	
 	add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
 
 #ifdef __WXOSX__	
