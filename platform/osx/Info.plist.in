@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>DCP generator</string>
 	<key>CFBundleIconFile</key>
-	<string>appIcon.icns</string>
+	<string>DVD-o-matic.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>net.carlh.dvdomatic</string>
 	<key>CFBundleInfoDictionaryVersion</key>

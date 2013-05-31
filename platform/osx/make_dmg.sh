@@ -17,10 +17,12 @@ appdir="DVD-o-matic.app"
 approot=$appdir/Contents
 libs=$approot/lib
 macos=$approot/MacOS
+resources=$approot/Resources
 
 rm -rf $WORK/$appdir
 mkdir -p $WORK/$macos
 mkdir -p $WORK/$libs
+mkdir -p $WORK/$resources
 
 cp build/src/tools/dvdomatic $WORK/$macos/
 cp build/src/lib/libdvdomatic.dylib $WORK/$libs/
@@ -75,6 +77,7 @@ done
 
 
 cp build/platform/osx/Info.plist $WORK/$approot
+cp icons/dvdomatic.icns $WORK/$resources/DVD-o-matic.icns
 
 exit 0
 
