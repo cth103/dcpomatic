@@ -43,7 +43,9 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	, _gain (0)
 	, _smoothing (max_smoothing / 2)
 {
+#ifndef __WXOSX__	
 	SetDoubleBuffered (true);
+#endif	
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_channel_visible[i] = false;

@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -65,7 +63,10 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _display_frame_x (0)
 	, _got_frame (false)
 {
+#ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
+#endif
+	
 #if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 #endif	
@@ -196,9 +197,6 @@ FilmViewer::timer (wxTimerEvent &)
 		return;
 	}
 	
-	_panel->Refresh ();
-	_panel->Update ();
-
 	get_frame ();
 
 	if (_film->length()) {
@@ -207,6 +205,9 @@ FilmViewer::timer (wxTimerEvent &)
 			_slider->SetValue (new_slider_position);
 		}
 	}
+
+	_panel->Refresh ();
+	_panel->Update ();
 }
 
 
@@ -365,7 +366,8 @@ FilmViewer::process_video (shared_ptr<const Image> image, bool, Time t)
 	_got_frame = true;
 
 	double const fps = _film->dcp_video_frame_rate ();
-	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ))));
+	/* Count frame number from 1 ... not sure if this is the best idea */
+	_frame->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ)) + 1));
 
 	double w = static_cast<double>(t) / TIME_HZ;
 	int const h = (w / 3600);

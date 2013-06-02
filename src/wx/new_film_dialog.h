@@ -26,6 +26,7 @@ class NewFilmDialog : public wxDialog
 {
 public:
 	NewFilmDialog (wxWindow *);
+	~NewFilmDialog ();
 
 	std::string get_path () const;
 
@@ -35,5 +36,6 @@ private:
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;
-#endif	
+#endif
+	static std::string _directory;
 };

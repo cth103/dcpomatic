@@ -1,3 +1,31 @@
+2013-05-31  Carl Hetherington  <cth@carlh.net>
+
+	* Version 0.94beta1 released.
+
+2013-05-31  Carl Hetherington  <cth@carlh.net>
+
+	* Fix ridiculous 100-frame limit on trim
+	in the GUI.
+
+2013-05-30  Carl Hetherington  <cth@carlh.net>
+
+	* Preserve the folder to put new films in
+	across openings of the new film dialog
+	(#143).
+
+	* Various tweaks to video preview; number
+	frames from 1 (not 0), fix update of frame
+	on stop.
+
+	* Fix missing shortcut to GUI encode server
+	on Linux (#151).
+
+	* Fix incorrect frame display on setting a new
+	content video (#147).
+
+	* Fix problems with mistaken re-use of video
+	MXFs after trims have changed.
+
 2013-05-20  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.93 released.

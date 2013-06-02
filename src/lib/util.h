@@ -45,6 +45,8 @@ extern "C" {
 #define TIMING(...)
 #endif
 
+#undef check
+
 /** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 

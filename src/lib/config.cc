@@ -189,6 +189,8 @@ Config::file (bool old) const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
+	boost::system::error_code ec;
+	boost::filesystem::create_directory (p, ec);
 	if (old) {
 		p /= ".dvdomatic";
 	} else {

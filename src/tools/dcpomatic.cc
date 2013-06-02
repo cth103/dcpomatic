@@ -23,6 +23,9 @@
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
+#ifdef __WXOSX__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
@@ -142,13 +145,10 @@ enum {
 	ID_file_open,
 	ID_file_save,
 	ID_file_properties,
-	ID_file_quit,
-	ID_edit_preferences,
 	ID_jobs_make_dcp,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_jobs_analyse_audio,
-	ID_help_about
 };
 
 void
@@ -161,11 +161,17 @@ setup_menu (wxMenuBar* m)
 	add_item (file, _("&Save"), ID_file_save, NEEDS_FILM);
 	file->AppendSeparator ();
 	add_item (file, _("&Properties..."), ID_file_properties, NEEDS_FILM);
+#ifndef __WXOSX__	
 	file->AppendSeparator ();
-	add_item (file, _("&Quit"), ID_file_quit, ALWAYS);
+#endif	
+	add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
 
+#ifdef __WXOSX__	
+	add_item (file, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+#else
 	wxMenu* edit = new wxMenu;
-	add_item (edit, _("&Preferences..."), ID_edit_preferences, ALWAYS);
+	add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+#endif	
 
 	jobs_menu = new wxMenu;
 	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM);
@@ -175,10 +181,16 @@ setup_menu (wxMenuBar* m)
 	add_item (jobs_menu, _("&Analyse audio"), ID_jobs_analyse_audio, NEEDS_FILM);
 
 	wxMenu* help = new wxMenu;
-	add_item (help, _("About"), ID_help_about, ALWAYS);
+#ifdef __WXOSX__	
+	add_item (help, _("About DVD-o-matic"), wxID_ABOUT, ALWAYS);
+#else	
+	add_item (help, _("About"), wxID_ABOUT, ALWAYS);
+#endif	
 
 	m->Append (file, _("&File"));
+#ifndef __WXOSX__	
 	m->Append (edit, _("&Edit"));
+#endif	
 	m->Append (jobs_menu, _("&Jobs"));
 	m->Append (help, _("&Help"));
 }
@@ -204,13 +216,13 @@ public:
 		Connect (ID_file_open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_open));
 		Connect (ID_file_save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_save));
 		Connect (ID_file_properties, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_properties));
-		Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
-		Connect (ID_edit_preferences, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
+		Connect (wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_exit));
+		Connect (wxID_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
 		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
 		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
 		Connect (ID_jobs_analyse_audio, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_analyse_audio));
-		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
+		Connect (wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
 
 		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
 
@@ -342,7 +354,7 @@ private:
 		d->Destroy ();
 	}
 	
-	void file_quit (wxCommandEvent &)
+	void file_exit (wxCommandEvent &)
 	{
 		maybe_save_then_delete_film ();
 		Close (true);
@@ -450,6 +462,12 @@ class App : public wxApp
 		
 #ifdef DCPOMATIC_POSIX		
 		unsetenv ("UBUNTU_MENUPROXY");
+#endif
+
+#ifdef __WXOSX__		
+		ProcessSerialNumber serial;
+		GetCurrentProcess (&serial);
+		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif		
 
 		wxInitAllImageHandlers ();

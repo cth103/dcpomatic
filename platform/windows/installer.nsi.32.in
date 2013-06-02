@@ -1,11 +1,9 @@
 !include "MUI2.nsh"
-!include "x64.nsh"
-
 Name "DCP-o-matic"
 
 RequestExecutionLevel admin
 
-outFile "DCP-o-matic @version@ 64-bit Installer.exe"
+outFile "DCP-o-matic @version@ 32-bit Installer.exe"
 !define MUI_ICON "%resources%/dcpomatic.ico"
 !define MUI_UNICON "%resources%/dcpomatic.ico"
 !define MUI_SPECIALBITMAP "%resources%/dcpomatic.bmp"
@@ -13,7 +11,7 @@ outFile "DCP-o-matic @version@ 64-bit Installer.exe"
 InstallDir "$PROGRAMFILES\DCP-o-matic"
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "../../COPYING"
+!insertmacro MUI_PAGE_LICENSE "../../../COPYING"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -26,21 +24,13 @@ InstallDir "$PROGRAMFILES\DCP-o-matic"
 !insertmacro MUI_LANGUAGE "English"
 
 Section "install" "Installation info"
-
-${If} ${RunningX64}
-   DetailPrint "Installer running on 64-bit host"
-   ; disable registry redirection (enable access to 64-bit portion of registry)
-   SetRegView 64
-   ; change install dir
-   StrCpy $INSTDIR "$PROGRAMFILES64\DCP-o-matic"
-${EndIf}
-
+ 
 SetOutPath "$INSTDIR\bin"
 
 File "%deps%/bin/asdcp-libdcp.dll"
-File "%deps%/bin/avcodec-54.dll"
+File "%deps%/bin/avcodec-55.dll"
 File "%deps%/bin/avfilter-3.dll"
-File "%deps%/bin/avformat-54.dll"
+File "%deps%/bin/avformat-55.dll"
 File "%deps%/bin/avutil-52.dll"
 File "%deps%/bin/dcp.dll"
 File "%deps%/bin/libintl-8.dll"

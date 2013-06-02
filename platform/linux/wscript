@@ -1,0 +1,19 @@
+def build(bld):
+    d = { 'PREFIX' : '${PREFIX' }
+
+    obj = bld(features = 'subst')
+    obj.source = 'dvdomatic.desktop.in'
+    obj.target = 'dvdomatic.desktop'
+    obj.dict = d
+
+    obj = bld(features = 'subst')
+    obj.source = 'dvdomatic_batch.desktop.in'
+    obj.target = 'dvdomatic_batch.desktop'
+    obj.dict = d
+
+    obj = bld(features = 'subst')
+    obj.source = 'servomatic.desktop.in'
+    obj.target = 'servomatic.desktop'
+    obj.dict = d
+
+    bld.install_files('${PREFIX}/share/applications', ['dvdomatic.desktop', 'dvdomatic_batch.desktop', 'servomatic.desktop'])
