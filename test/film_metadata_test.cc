@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	f->write_metadata ();
 
 	stringstream s;
-	s << "diff -u test/metadata.xml.ref " << test_film << "/metadata.xml";
+	s << "diff -u test/data/metadata.xml.ref " << test_film << "/metadata.xml";
 	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
 
 	shared_ptr<Film> g (new Film (test_film));

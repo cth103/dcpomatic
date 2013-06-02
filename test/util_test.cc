@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (util_test)
 
 BOOST_AUTO_TEST_CASE (md5_digest_test)
 {
-	string const t = md5_digest ("test/md5.test");
+	string const t = md5_digest ("test/data/md5.test");
 	BOOST_CHECK_EQUAL (t, "15058685ba99decdc4398c7634796eb0");
 
 	BOOST_CHECK_THROW (md5_digest ("foobar"), OpenFileError);

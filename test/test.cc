@@ -145,6 +145,8 @@ check_dcp (string ref, string check)
 	options.max_mean_pixel_error = 5;
 	options.max_std_dev_pixel_error = 5;
 	options.max_audio_sample_error = 255;
+	options.cpl_names_can_differ = true;
+	options.mxf_names_can_differ = true;
 	
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }

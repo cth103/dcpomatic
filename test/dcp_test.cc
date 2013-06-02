@@ -21,13 +21,14 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 {
 	shared_ptr<Film> film = new_test_film ("make_dcp_test");
 	film->set_name ("test_film2");
-	system ("pwd");
-	film->examine_and_add_content (shared_ptr<FFmpegContent> (new FFmpegContent (film, "test/test.mp4")));
+	film->examine_and_add_content (shared_ptr<FFmpegContent> (new FFmpegContent (film, "test/data/test.mp4")));
 
 	/* Wait for the examine to finish */
 	while (JobManager::instance()->work_to_do ()) {
 		dcpomatic_sleep (1);
 	}
+
+	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
 	
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
