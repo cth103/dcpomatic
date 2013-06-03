@@ -67,7 +67,7 @@ VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 	}
 
 	if (sub) {
-		Rect const tx = subtitle_transformed_area (
+		dcpomatic::Rect const tx = subtitle_transformed_area (
 			float (image_size.width) / video_size().width,
 			float (image_size.height) / video_size().height,
 			sub->area(), film->subtitle_offset(), film->subtitle_scale()

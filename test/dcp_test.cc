@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 {
 	shared_ptr<Film> film = new_test_film ("make_dcp_test");
 	film->set_name ("test_film2");
-	film->examine_and_add_content (shared_ptr<FFmpegContent> (new FFmpegContent (film, "test/data/test.mp4")));
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	c->set_ratio (Ratio::from_id ("185"));
+	film->examine_and_add_content (c);
 
 	/* Wait for the examine to finish */
 	while (JobManager::instance()->work_to_do ()) {

@@ -55,7 +55,7 @@ public:
 		_timeline.force_redraw (bbox ());
 	}
 
-	virtual Rect bbox () const = 0;
+	virtual dcpomatic::Rect bbox () const = 0;
 
 protected:
 	virtual void do_paint (wxGraphicsContext *) = 0;
@@ -68,7 +68,7 @@ protected:
 	Timeline& _timeline;
 
 private:
-	Rect _last_paint_bbox;
+	dcpomatic::Rect _last_paint_bbox;
 };
 
 class ContentView : public View
@@ -83,15 +83,15 @@ public:
 		_content_connection = c->Changed.connect (bind (&ContentView::content_changed, this, _2));
 	}
 
-	Rect bbox () const
+	dcpomatic::Rect bbox () const
 	{
 		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> content = _content.lock ();
 		if (!film || !content) {
-			return Rect ();
+			return dcpomatic::Rect ();
 		}
 		
-		return Rect (
+		return dcpomatic::Rect (
 			time_x (content->start ()) - 8,
 			y_pos (_track) - 8,
 			content->length () * _timeline.pixels_per_time_unit() + 16,
@@ -243,9 +243,9 @@ public:
 		, _y (y)
 	{}
 	
-	Rect bbox () const
+	dcpomatic::Rect bbox () const
 	{
-		return Rect (0, _y - 4, _timeline.width(), 24);
+		return dcpomatic::Rect (0, _y - 4, _timeline.width(), 24);
 	}
 
 	void set_y (int y)
@@ -543,7 +543,7 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 }
 
 void
-Timeline::force_redraw (Rect const & r)
+Timeline::force_redraw (dcpomatic::Rect const & r)
 {
 	RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
 }

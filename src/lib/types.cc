@@ -36,8 +36,8 @@ bool operator!= (Crop const & a, Crop const & b)
 /** @param other A Rect.
  *  @return The intersection of this with `other'.
  */
-Rect
-Rect::intersection (Rect const & other) const
+dcpomatic::Rect
+dcpomatic::Rect::intersection (Rect const & other) const
 {
 	int const tx = max (x, other.x);
 	int const ty = max (y, other.y);
@@ -50,7 +50,7 @@ Rect::intersection (Rect const & other) const
 }
 
 bool
-Rect::contains (Position p) const
+dcpomatic::Rect::contains (Position p) const
 {
 	return (p.x >= x && p.x <= (x + width) && p.y >= y && p.y <= (y + height));
 }

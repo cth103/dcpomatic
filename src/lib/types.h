@@ -76,6 +76,8 @@ struct Position
 	int y;
 };
 
+namespace dcpomatic {
+
 /** @struct Rect
  *  @brief A rectangle.
  */
@@ -112,5 +114,7 @@ struct Rect
 
 	bool contains (Position) const;
 };
+
+}
 
 #endif

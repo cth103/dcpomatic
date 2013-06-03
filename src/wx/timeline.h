@@ -36,7 +36,7 @@ public:
 
 	boost::shared_ptr<const Film> film () const;
 
-	void force_redraw (Rect const &);
+	void force_redraw (dcpomatic::Rect const &);
 
 	int x_offset () const {
 		return 8;
