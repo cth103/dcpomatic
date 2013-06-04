@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 09:51+0100\n"
+"POT-Creation-Date: 2013-06-04 23:59+0100\n"
 "PO-Revision-Date: 2013-04-09 10:13+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr "%"
 
 #: src/wx/config_dialog.cc:98
 #, fuzzy
-msgid "(restart DCP-o-matic to see language changes)"
+msgid "(restart DVD-o-matic to see language changes)"
 msgstr "(starta om DVD-o-matic för att se språkändringar)"
 
 #: src/wx/film_editor.cc:1276
@@ -104,7 +104,7 @@ msgstr "Innehåll"
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: src/wx/film_viewer.cc:451
+#: src/wx/film_viewer.cc:455
 #, c-format
 msgid "Could not decode video for view (%s)"
 msgstr "Kunde inte avkoda video för visning (%s)"
@@ -114,7 +114,7 @@ msgstr "Kunde inte avkoda video för visning (%s)"
 msgid "Could not make DCP: %s"
 msgstr "Kunde inte skapa DCP: %s"
 
-#: src/wx/film_viewer.cc:125
+#: src/wx/film_viewer.cc:128
 #, c-format
 msgid "Could not open content file (%s)"
 msgstr "Kunde inte öppna innehållsfilen (%s)"
@@ -124,7 +124,7 @@ msgstr "Kunde inte öppna innehållsfilen (%s)"
 msgid "Could not set content: %s"
 msgstr "Kunde inte fastställa innehåll: %s"
 
-#: src/wx/new_film_dialog.cc:46
+#: src/wx/new_film_dialog.cc:48
 msgid "Create in folder"
 msgstr "Skapa i katalog"
 
@@ -150,14 +150,14 @@ msgstr "DCP bildhastighet"
 msgid "DCP Name"
 msgstr "DCP Namn"
 
-#: src/wx/config_dialog.cc:46
-#, fuzzy
-msgid "DCP-o-matic Preferences"
-msgstr "DVD-o-matic Inställningar"
-
 #: src/wx/wx_util.cc:63 src/wx/wx_util.cc:71
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
+
+#: src/wx/config_dialog.cc:46
+#, fuzzy
+msgid "DVD-o-matic Preferences"
+msgstr "DVD-o-matic Inställningar"
 
 #: src/wx/audio_dialog.cc:101
 #, c-format
@@ -223,7 +223,7 @@ msgstr "Film"
 msgid "Film Properties"
 msgstr "Film Egenskaper"
 
-#: src/wx/new_film_dialog.cc:42
+#: src/wx/new_film_dialog.cc:44
 msgid "Film name"
 msgstr "film namn"
 
@@ -303,7 +303,7 @@ msgstr "Mina Dokument"
 msgid "Name"
 msgstr "Namn"
 
-#: src/wx/new_film_dialog.cc:33
+#: src/wx/new_film_dialog.cc:35
 msgid "New Film"
 msgstr "Ny Film"
 
@@ -346,7 +346,7 @@ msgstr "Topp"
 msgid "Play"
 msgstr "Spela"
 
-#: src/wx/audio_plot.cc:109
+#: src/wx/audio_plot.cc:111
 msgid "Please wait; audio is being analysed..."
 msgstr "Vänligen vänta; audio analyseras..."
 
@@ -467,7 +467,7 @@ msgstr "Antal trådar att använda"
 msgid "Threads to use for encoding on this host"
 msgstr "Antal trådar att använda vid kodning på denna maskin"
 
-#: src/wx/audio_plot.cc:139
+#: src/wx/audio_plot.cc:141
 msgid "Time"
 msgstr "Tid"
 
