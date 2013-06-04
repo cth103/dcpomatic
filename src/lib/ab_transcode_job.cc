@@ -25,6 +25,7 @@
 #include "ab_transcoder.h"
 #include "config.h"
 #include "encoder.h"
+#include "log.h"
 
 #include "i18n.h"
 
@@ -59,10 +60,13 @@ ABTranscodeJob::run ()
 		set_progress (1);
 		set_state (FINISHED_OK);
 
+		_film->log()->log ("A/B transcode job completed successfully");
+
 	} catch (std::exception& e) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
+		_film->log()->log (String::compose ("A/B transcode job failed (%1)", e.what()));
 		throw;
 	}
 }
