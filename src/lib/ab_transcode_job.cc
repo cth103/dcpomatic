@@ -61,7 +61,8 @@ ABTranscodeJob::run ()
 
 	} catch (std::exception& e) {
 
+		set_progress (1);
 		set_state (FINISHED_ERROR);
-
+		throw;
 	}
 }
