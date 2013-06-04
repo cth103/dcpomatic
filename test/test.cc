@@ -159,7 +159,7 @@ check_dcp (string ref, string check)
 #include "film_metadata_test.cc"
 #include "stream_test.cc"
 #include "util_test.cc"
-#include "dcp_test.cc"
+#include "ffmpeg_dcp_test.cc"
 #include "frame_rate_test.cc"
 #include "job_test.cc"
 #include "client_server_test.cc"

@@ -17,9 +17,13 @@
 
 */
 
-BOOST_AUTO_TEST_CASE (make_dcp_test)
+/** @file test/ffmpeg_dcp_test.cc
+ *  @brief Test scaling and black-padding of images from a still-image source.
+ */
+
+BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 {
-	shared_ptr<Film> film = new_test_film ("make_dcp_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_dcp_test");
 	film->set_name ("test_film2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	c->set_ratio (Ratio::from_id ("185"));
@@ -44,15 +48,16 @@ BOOST_AUTO_TEST_CASE (make_dcp_test)
 	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
 }
 
-/** Test Film::have_dcp().  Requires the output from make_dcp_test above */
-BOOST_AUTO_TEST_CASE (have_dcp_test)
+/** Test Film::have_dcp().  Requires the output from ffmpeg_dcp_test above */
+BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 {
-	boost::filesystem::path p = test_film_dir ("make_dcp_test");
-	Film f (p.string ());
-	BOOST_CHECK (f.have_dcp());
+	boost::filesystem::path p = test_film_dir ("ffmpeg_dcp_test");
+	shared_ptr<Film> f (new Film (p.string ()));
+	f->read_metadata ();
+	BOOST_CHECK (f->have_dcp());
 
-	p /= f.dcp_name();
-	p /= f.dcp_video_mxf_filename();
+	p /= f->dcp_name();
+	p /= f->dcp_video_mxf_filename();
 	boost::filesystem::remove (p);
-	BOOST_CHECK (!f.have_dcp ());
+	BOOST_CHECK (!f->have_dcp ());
 }
