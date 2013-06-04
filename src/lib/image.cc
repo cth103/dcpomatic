@@ -211,8 +211,8 @@ Image::crop (Crop crop, bool aligned) const
 		/* Start of the source line, cropped from the top but not the left */
 		uint8_t* in_p = data()[c] + crop.top * stride()[c];
 		uint8_t* out_p = out->data()[c];
-		
-		for (int y = 0; y < cropped_size.height; ++y) {
+
+		for (int y = 0; y < out->lines(c); ++y) {
 			memcpy (out_p, in_p + crop_left_in_bytes, cropped_width_in_bytes);
 			in_p += stride()[c];
 			out_p += out->stride()[c];
