@@ -1,5 +1,9 @@
 2013-06-05  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on startup on Windows
+
+2013-06-05  Carl Hetherington  <cth@carlh.net>
+
 	* Version 0.94 released.
 
 2013-06-04  Carl Hetherington  <cth@carlh.net>
