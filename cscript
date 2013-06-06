@@ -14,7 +14,7 @@ def build(env, target):
     cmd = './waf configure --prefix=%s' % env.work_dir_cscript()
     if target.platform == 'windows':
         cmd += ' --target-windows'
-    else if target.platform == 'linux':
+    elif target.platform == 'linux':
         cmd += ' --static'
     env.command(cmd)
 
