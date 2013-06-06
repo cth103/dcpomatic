@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DVD-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 09:51+0100\n"
+"POT-Creation-Date: 2013-06-04 23:59+0100\n"
 "PO-Revision-Date: 2013-04-10 15:35+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -61,7 +61,7 @@ msgstr ""
 msgid "4:3 within Flat"
 msgstr "4:3 innanför Flat"
 
-#: src/lib/ab_transcode_job.cc:49
+#: src/lib/ab_transcode_job.cc:50
 msgid "A/B transcode %1"
 msgstr "A/B konvertera %1"
 
@@ -106,7 +106,7 @@ msgid "Cannot resample audio as libswresample is not present"
 msgstr ""
 "Kan inte omsampla ljudet eftersom libswresample inte finns tillgängligt"
 
-#: src/lib/util.cc:960
+#: src/lib/util.cc:982
 msgid "Centre"
 msgstr "Mitt"
 
@@ -138,15 +138,15 @@ msgstr "Kunde inte skriva till fjärrfil (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Kubiskt interpolerande avflätare"
 
-#: src/lib/util.cc:1035
+#: src/lib/util.cc:1057
 msgid "DCP and source have the same rate.\n"
 msgstr "DCP och källa har samma bildfrekvens.\n"
 
-#: src/lib/util.cc:1045
+#: src/lib/util.cc:1067
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 
-#: src/lib/util.cc:1038
+#: src/lib/util.cc:1060
 msgid "DCP will use every other frame of the source.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
@@ -169,7 +169,7 @@ msgstr "Avringningsfilter"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1040
+#: src/lib/util.cc:1062
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
 
@@ -217,13 +217,17 @@ msgstr "Långfilm"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:123
+#: src/lib/format.cc:127
 msgid "Flat without stretch"
 msgstr "Flat utan utsträckning"
 
 #: src/lib/filter.cc:85
 msgid "Force quantizer"
 msgstr "Tvinga kvantiserare"
+
+#: src/lib/format.cc:123
+msgid "Full frame"
+msgstr ""
 
 #: src/lib/scaler.cc:65
 msgid "Gaussian"
@@ -261,15 +265,15 @@ msgstr "Kernel-avflätare"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:958
+#: src/lib/util.cc:980
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:962
+#: src/lib/util.cc:984
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:961
+#: src/lib/util.cc:983
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -319,15 +323,15 @@ msgstr "Offentligt Servicemeddelande"
 msgid "Rating"
 msgstr "Klassificeringsklipp"
 
-#: src/lib/util.cc:513
+#: src/lib/util.cc:535
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:959
+#: src/lib/util.cc:981
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:963
+#: src/lib/util.cc:985
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -339,7 +343,7 @@ msgstr "SSH fel (%1)"
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:127
+#: src/lib/format.cc:131
 msgid "Scope without stretch"
 msgstr "Scope utan utsträckning"
 
@@ -396,7 +400,7 @@ msgid "Unknown error"
 msgstr "Okänt fel"
 
 # Svengelska
-#: src/lib/ffmpeg_decoder.cc:388
+#: src/lib/ffmpeg_decoder.cc:387
 #, fuzzy
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Okänt audio-sampelformat (%1)"
@@ -426,12 +430,12 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:296
+#: src/lib/film.cc:300
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
 # Svengelska
-#: src/lib/util.cc:554
+#: src/lib/util.cc:576
 #, fuzzy
 msgid "connect timed out"
 msgstr "uppkopplingen tajmade ur"
@@ -440,11 +444,11 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:333
+#: src/lib/film.cc:337
 msgid "content"
 msgstr "innehåll"
 
-#: src/lib/film.cc:337
+#: src/lib/film.cc:341
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -456,19 +460,19 @@ msgstr "kopierar %1"
 msgid "could not create file %1"
 msgstr "kunde inte skapa fil %1"
 
-#: src/lib/ffmpeg_decoder.cc:187
+#: src/lib/ffmpeg_decoder.cc:186
 msgid "could not find audio decoder"
 msgstr "kunde inte hitta audio-avkodare"
 
-#: src/lib/ffmpeg_decoder.cc:114
+#: src/lib/ffmpeg_decoder.cc:113
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/ffmpeg_decoder.cc:206
+#: src/lib/ffmpeg_decoder.cc:205
 msgid "could not find subtitle decoder"
 msgstr "kunde inte hitta undertext-avkodare"
 
-#: src/lib/ffmpeg_decoder.cc:165
+#: src/lib/ffmpeg_decoder.cc:164
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
 
@@ -488,7 +492,7 @@ msgstr "kunde inte öppna fil för läsning"
 msgid "could not read from file %1 (%2)"
 msgstr "kunde inte läsa från fil %1 (%2)"
 
-#: src/lib/encoder.cc:137 src/lib/encoder.cc:314
+#: src/lib/encoder.cc:137 src/lib/encoder.cc:318
 msgid "could not run sample-rate converter"
 msgstr "kunde inte köra sampelhastighetskonverteraren"
 
@@ -512,7 +516,7 @@ msgstr "externa audio-filer har olika längder"
 msgid "external audio files must be mono"
 msgstr "externa audio-filer måste vara mono"
 
-#: src/lib/film.cc:329
+#: src/lib/film.cc:333
 msgid "format"
 msgstr "format"
 
@@ -520,23 +524,23 @@ msgstr "format"
 msgid "frames per second"
 msgstr "bilder per sekund"
 
-#: src/lib/util.cc:128
+#: src/lib/util.cc:134
 msgid "hour"
 msgstr "timme"
 
-#: src/lib/util.cc:125 src/lib/util.cc:130
+#: src/lib/util.cc:131 src/lib/util.cc:136
 msgid "hours"
 msgstr "timmar"
 
-#: src/lib/util.cc:135
+#: src/lib/util.cc:141
 msgid "minute"
 msgstr "minut"
 
-#: src/lib/util.cc:137
+#: src/lib/util.cc:143
 msgid "minutes"
 msgstr "minuter"
 
-#: src/lib/util.cc:697
+#: src/lib/util.cc:719
 msgid "missing key %1 in key-value set"
 msgstr "saknad nyckel %1 i nyckel-värde grupp"
 
@@ -548,7 +552,7 @@ msgstr "saknad nödvändig inställning %1"
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:296 src/lib/film.cc:341
+#: src/lib/film.cc:300 src/lib/film.cc:345
 msgid "name"
 msgstr "namn"
 
@@ -566,19 +570,19 @@ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/util.cc:511
+#: src/lib/util.cc:533
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/util.cc:140
+#: src/lib/util.cc:146
 msgid "seconds"
 msgstr "sekunder"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:311
 msgid "still"
 msgstr "stillbild"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:311
 msgid "video"
 msgstr "video"
 

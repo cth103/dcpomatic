@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 09:51+0100\n"
+"POT-Creation-Date: 2013-06-04 23:59+0100\n"
 "PO-Revision-Date: 2013-04-28 10:27+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr "%"
 
 #: src/wx/config_dialog.cc:98
 #, fuzzy
-msgid "(restart DCP-o-matic to see language changes)"
+msgid "(restart DVD-o-matic to see language changes)"
 msgstr "(riavviare DVD-o-matic per vedere i cambiamenti di lingua)"
 
 #: src/wx/film_editor.cc:1276
@@ -104,7 +104,7 @@ msgstr "Contenuto"
 msgid "Content Type"
 msgstr "Tipo di contenuto"
 
-#: src/wx/film_viewer.cc:451
+#: src/wx/film_viewer.cc:455
 #, c-format
 msgid "Could not decode video for view (%s)"
 msgstr "Non posso decodificare il video per guardarlo (%s)"
@@ -114,7 +114,7 @@ msgstr "Non posso decodificare il video per guardarlo (%s)"
 msgid "Could not make DCP: %s"
 msgstr "Non posso creare il DCP: %s"
 
-#: src/wx/film_viewer.cc:125
+#: src/wx/film_viewer.cc:128
 #, c-format
 msgid "Could not open content file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
@@ -124,7 +124,7 @@ msgstr "Non posso aprire il file del contenuto (%s)"
 msgid "Could not set content: %s"
 msgstr "Non posso regolare il contenuto: %s"
 
-#: src/wx/new_film_dialog.cc:46
+#: src/wx/new_film_dialog.cc:48
 msgid "Create in folder"
 msgstr "Crea nella cartella"
 
@@ -150,14 +150,14 @@ msgstr "Frequenza fotogrammi del DCP"
 msgid "DCP Name"
 msgstr "Nome del DCP"
 
-#: src/wx/config_dialog.cc:46
-#, fuzzy
-msgid "DCP-o-matic Preferences"
-msgstr "Preferenze DVD-o-matic"
-
 #: src/wx/wx_util.cc:63 src/wx/wx_util.cc:71
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
+
+#: src/wx/config_dialog.cc:46
+#, fuzzy
+msgid "DVD-o-matic Preferences"
+msgstr "Preferenze DVD-o-matic"
 
 #: src/wx/audio_dialog.cc:101
 #, c-format
@@ -223,7 +223,7 @@ msgstr "Film"
 msgid "Film Properties"
 msgstr "Proprietà del film"
 
-#: src/wx/new_film_dialog.cc:42
+#: src/wx/new_film_dialog.cc:44
 msgid "Film name"
 msgstr "Nome del film"
 
@@ -303,7 +303,7 @@ msgstr "Documenti"
 msgid "Name"
 msgstr "Nome"
 
-#: src/wx/new_film_dialog.cc:33
+#: src/wx/new_film_dialog.cc:35
 msgid "New Film"
 msgstr "Nuovo Film"
 
@@ -346,7 +346,7 @@ msgstr "Picco"
 msgid "Play"
 msgstr "Riproduci"
 
-#: src/wx/audio_plot.cc:109
+#: src/wx/audio_plot.cc:111
 msgid "Please wait; audio is being analysed..."
 msgstr "Attendere prego; sto analizzando l'audio..."
 
@@ -467,7 +467,7 @@ msgstr "Threads da usare"
 msgid "Threads to use for encoding on this host"
 msgstr "Threads da usare per codificare su questo host"
 
-#: src/wx/audio_plot.cc:139
+#: src/wx/audio_plot.cc:141
 msgid "Time"
 msgstr "Tempo"
 

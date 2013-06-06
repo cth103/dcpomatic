@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,24 +18,17 @@
 */
 
 #include <wx/wx.h>
-#include <wx/filepicker.h>
 
-class DirPickerCtrl;
+class wxNotebook;
 
-class NewFilmDialog : public wxDialog
+class AboutDialog : public wxDialog
 {
 public:
-	NewFilmDialog (wxWindow *);
-	~NewFilmDialog ();
-
-	std::string get_path () const;
+	AboutDialog (wxWindow *);
 
 private:
-	wxTextCtrl* _name;
-#ifdef __WXMSW__	
-	DirPickerCtrl* _folder;
-#else
-	wxDirPickerCtrl* _folder;
-#endif
-	static boost::optional<std::string> _directory;
+	void add_section (wxString, wxArrayString);
+
+	wxNotebook* _notebook;
 };
+

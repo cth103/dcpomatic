@@ -29,7 +29,7 @@
 using namespace std;
 using namespace boost;
 
-string NewFilmDialog::_directory = Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()));
+boost::optional<string> NewFilmDialog::_directory;
 
 NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("New Film"))
@@ -51,7 +51,12 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 #else	
 	_folder = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
 #endif
-	_folder->SetPath (std_to_wx (_directory));
+
+	if (!_directory) {
+		_directory = Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()));
+	}
+	
+	_folder->SetPath (std_to_wx (_directory.get()));
 	table->Add (_folder, 1, wxEXPAND);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);

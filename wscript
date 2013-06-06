@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dvdomatic'
-VERSION = '0.94beta1'
+VERSION = '0.96pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -61,7 +61,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if not conf.options.static:
-        conf.check_cfg(package = 'libdcp', atleast_version = '0.49', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
+        conf.check_cfg(package = 'libdcp', atleast_version = '0.52', args = '--cflags --libs', uselib_store = 'DCP', mandatory = True)
         conf.check_cfg(package = 'libavformat', args = '--cflags --libs', uselib_store = 'AVFORMAT', mandatory = True)
         conf.check_cfg(package = 'libavfilter', args = '--cflags --libs', uselib_store = 'AVFILTER', mandatory = True)
         conf.check_cfg(package = 'libavcodec', args = '--cflags --libs', uselib_store = 'AVCODEC', mandatory = True)
