@@ -70,7 +70,7 @@ for obj in $WORK/$macos/dvdomatic $WORK/$libs/*.dylib; do
   fi  
 done
 
-
+pwd
 cp build/platform/osx/Info.plist $WORK/$approot
 cp icons/dvdomatic.icns $WORK/$resources/DVD-o-matic.icns
 
