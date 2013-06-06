@@ -128,7 +128,7 @@ AboutDialog::add_section (wxString name, wxArrayString credits)
 	
 	for (int i = 0; i < N; ++i) {
 		sizers.push_back (new wxBoxSizer (wxVERTICAL));
-		overall_sizer->Add (sizers.back (), 1, wxEXPAND);
+		overall_sizer->Add (sizers.back (), 1, wxEXPAND | wxALL, 6);
 	}
 
 	int c = 0;
