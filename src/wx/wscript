@@ -4,6 +4,7 @@ from waflib import Logs
 import i18n
 
 sources = """
+          about_dialog.cc
           audio_dialog.cc
           audio_plot.cc
           config_dialog.cc

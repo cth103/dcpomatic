@@ -26,7 +26,7 @@
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
-#include <wx/aboutdlg.h>
+#include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include "wx/film_viewer.h"
@@ -38,6 +38,7 @@
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
 #include "wx/wx_ui_signaller.h"
+#include "wx/about_dialog.h"
 #include "lib/film.h"
 #include "lib/format.h"
 #include "lib/config.h"
@@ -45,7 +46,6 @@
 #include "lib/util.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
-#include "lib/version.h"
 #include "lib/ui_signaller.h"
 #include "lib/log.h"
 
@@ -427,34 +427,9 @@ private:
 	
 	void help_about (wxCommandEvent &)
 	{
-		wxAboutDialogInfo info;
-		info.SetName (_("DVD-o-matic"));
-		if (strcmp (dvdomatic_git_commit, "release") == 0) {
-			info.SetVersion (std_to_wx (String::compose ("version %1", dvdomatic_version)));
-		} else {
-			info.SetVersion (std_to_wx (String::compose ("version %1 git %2", dvdomatic_version, dvdomatic_git_commit)));
-		}
-		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
-		info.SetCopyright (_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
-
-		wxArrayString authors;
-		authors.Add (wxT ("Carl Hetherington"));
-		authors.Add (wxT ("Terrence Meiczinger"));
-		authors.Add (wxT ("Paul Davis"));
-		authors.Add (wxT ("Ole Laursen"));
-		info.SetDevelopers (authors);
-
-		wxArrayString translators;
-		translators.Add (wxT ("Olivier Perriere"));
-		translators.Add (wxT ("Lilian Lefranc"));
-		translators.Add (wxT ("Thierry Journet"));
-		translators.Add (wxT ("Massimiliano Broggi"));
-		translators.Add (wxT ("Manuel AC"));
-		translators.Add (wxT ("Adam Klotblixt"));
-		info.SetTranslators (translators);
-		
-		info.SetWebSite (wxT ("http://carlh.net/software/dvdomatic"));
-		wxAboutBox (info);
+		AboutDialog* d = new AboutDialog (this);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 
 	wxSizer* _top_sizer;
