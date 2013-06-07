@@ -22,6 +22,13 @@ def configure(conf):
     if conf.options.target_windows:
         conf.load('winres')
 
+    conf.env.TARGET_WINDOWS = conf.options.target_windows
+    conf.env.DISABLE_GUI = conf.options.disable_gui
+    conf.env.STATIC = conf.options.static
+    conf.env.VERSION = VERSION
+    conf.env.TARGET_OSX = conf.options.osx
+    conf.env.TARGET_LINUX = not conf.options.target_windows and not conf.options.osx
+
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
                                        '-Wall', '-Wno-attributes', '-Wextra'])
 
@@ -45,15 +52,10 @@ def configure(conf):
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
+
+    if conf.env.TARGET_LINUX:
         # libxml2 seems to be linked against this on Ubuntu, but it doesn't mention it in its .pc file
         conf.env.append_value('LIB', 'lzma')
-
-    conf.env.TARGET_WINDOWS = conf.options.target_windows
-    conf.env.DISABLE_GUI = conf.options.disable_gui
-    conf.env.STATIC = conf.options.static
-    conf.env.VERSION = VERSION
-    conf.env.TARGET_OSX = conf.options.osx
-    conf.env.TARGET_LINUX = not conf.options.target_windows and not conf.options.osx
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])
