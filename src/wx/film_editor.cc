@@ -190,7 +190,7 @@ FilmEditor::connect_to_widgets ()
 	_use_dci_name->Connect           (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
 	_edit_dci_button->Connect        (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_container->Connect              (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::container_changed), 0, this);
-//	_format->Connect                 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::format_changed), 0, this);
+	_ratio->Connect                  (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::ratio_changed), 0, this);
 	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED,   wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
 	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
 	_content_add->Connect            (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
@@ -705,6 +705,24 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		checked_set (_top_crop,    video_content ? video_content->crop().top :    0);
 		checked_set (_bottom_crop, video_content ? video_content->crop().bottom : 0);
 		setup_scaling_description ();
+	} else if (property == VideoContentProperty::VIDEO_RATIO) {
+		if (video_content) {
+			int n = 0;
+			vector<Ratio const *> ratios = Ratio::all ();
+			vector<Ratio const *>::iterator i = ratios.begin ();
+			while (i != ratios.end() && *i != video_content->ratio()) {
+				++i;
+				++n;
+			}
+			
+			if (i == ratios.end()) {
+				checked_set (_ratio, -1);
+			} else {
+				checked_set (_ratio, n);
+			}
+		} else {
+			checked_set (_ratio, -1);
+		}
 	} else if (property == AudioContentProperty::AUDIO_GAIN) {
 		checked_set (_audio_gain, audio_content ? audio_content->audio_gain() : 0);
 	} else if (property == AudioContentProperty::AUDIO_DELAY) {
@@ -855,6 +873,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::START);
 	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::LENGTH);
 	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_CROP);
+	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_RATIO);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_DELAY);
 	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_MAPPING);
@@ -1182,6 +1201,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	film_content_changed (s, ContentProperty::START);
 	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
+	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
 	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
 	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);
@@ -1454,5 +1474,30 @@ FilmEditor::set_selection (weak_ptr<Content> wc)
 		} else {
 			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED | wxLIST_STATE_FOCUSED);
 		}
+	}
+}
+
+void
+FilmEditor::ratio_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
+	if (!vc) {
+		return;
+	}
+	
+	int const n = _ratio->GetSelection ();
+	if (n >= 0) {
+		vector<Ratio const *> ratios = Ratio::all ();
+		assert (n < int (ratios.size()));
+		vc->set_ratio (ratios[n]);
 	}
 }

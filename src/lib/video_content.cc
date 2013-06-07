@@ -40,7 +40,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, Time s, ContentVideoFrame 
 	: Content (f, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
-	, _ratio (0)
+	, _ratio (Ratio::from_id ("185"))
 {
 
 }
@@ -49,7 +49,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _video_length (0)
 	, _video_frame_rate (0)
-	, _ratio (0)
+	, _ratio (Ratio::from_id ("185"))
 {
 
 }

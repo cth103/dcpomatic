@@ -96,6 +96,7 @@ private:
 	void audio_mapping_changed (AudioMapping);
 	void start_changed ();
 	void length_changed ();
+	void ratio_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
