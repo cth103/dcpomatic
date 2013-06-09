@@ -31,6 +31,10 @@ class VideoDecoder : public VideoSource, public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
 
+	virtual void seek (Time);
+	virtual void seek_back ();
+	virtual void seek_forward ();
+	
 	/* Calls for VideoContent to find out about itself */
 
 	/** @return video frame rate second, or 0 if unknown */

@@ -247,7 +247,9 @@ FFmpegDecoder::pass ()
 		if (_ffmpeg_content->audio_stream() && _decode_audio) {
 			decode_audio_packet ();
 		}
-			
+
+		/* Stop us being asked for any more data */
+		_next_video = _next_audio = _ffmpeg_content->length ();
 		return;
 	}
 
@@ -277,6 +279,8 @@ FFmpegDecoder::pass ()
 			}
 			avsubtitle_free (&sub);
 		}
+	} else {
+		cout << "[ffmpeg] other packet.\n";
 	}
 
 	av_free_packet (&_packet);
@@ -443,6 +447,7 @@ void
 FFmpegDecoder::seek (Time t)
 {
 	do_seek (t, false, false);
+	VideoDecoder::seek (t);
 }
 
 void
@@ -453,6 +458,7 @@ FFmpegDecoder::seek_back ()
 	}
 	
 	do_seek (next() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
+	VideoDecoder::seek_back ();
 }
 
 void
@@ -463,6 +469,7 @@ FFmpegDecoder::seek_forward ()
 	}
 	
 	do_seek (next() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
+	VideoDecoder::seek_forward ();
 }
 
 void

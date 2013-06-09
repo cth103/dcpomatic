@@ -121,3 +121,27 @@ VideoDecoder::video_done () const
 	
 	return (_video_content->length() - _next_video) < film->video_frames_to_time (1);
 }
+
+void
+VideoDecoder::seek (Time t)
+{
+	_next_video = t;
+}
+
+void
+VideoDecoder::seek_back ()
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	_next_video -= film->video_frames_to_time (1);
+}
+
+void
+VideoDecoder::seek_forward ()
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	_next_video += film->video_frames_to_time (1);
+}
+
+	
