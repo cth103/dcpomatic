@@ -15,7 +15,6 @@ def options(opt):
     opt.add_option('--static', action='store_true', default=False, help='build statically, and link statically to libdcp and FFmpeg')
     opt.add_option('--magickpp-config', action='store', default='Magick++-config', help='path to Magick++-config')
     opt.add_option('--wx-config', action='store', default='wx-config', help='path to wx-config')
-    opt.add_option('--osx', action='store_true', default=False, help='build on OS X')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -26,13 +25,13 @@ def configure(conf):
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.STATIC = conf.options.static
     conf.env.VERSION = VERSION
-    conf.env.TARGET_OSX = conf.options.osx
-    conf.env.TARGET_LINUX = not conf.options.target_windows and not conf.options.osx
+    conf.env.TARGET_OSX = sys.platform == 'darwin'
+    conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS and not conf.env.TARGET_OSX
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
                                        '-Wall', '-Wno-attributes', '-Wextra'])
 
-    if conf.options.target_windows:
+    if conf.env.TARGET_WINDOWS:
         conf.env.append_value('CXXFLAGS', ['-DDVDOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
@@ -53,8 +52,9 @@ def configure(conf):
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
 
-    if conf.env.TARGET_LINUX:
-        # libxml2 seems to be linked against this on Ubuntu, but it doesn't mention it in its .pc file
+    if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
+        # libxml2 seems to be linked against this on Ubuntu and with my build of libxml2 on
+        # OS X, but it doesn't mention it in its .pc file
         conf.env.append_value('LIB', 'lzma')
 
     if conf.options.enable_debug:
@@ -102,8 +102,10 @@ def configure(conf):
 
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
-    if conf.options.target_windows is False:
-        conf.check_cfg(package = 'liblzma', args = '--cflags --libs', uselib_store = 'LZMA', mandatory = True)
+
+    if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
+        conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
+
     conf.check_cfg(package = '', path = conf.options.magickpp_config, args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
     if conf.options.static:
