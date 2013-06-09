@@ -37,5 +37,5 @@ private:
 #else
 	wxDirPickerCtrl* _folder;
 #endif
-	static std::string _directory;
+	static boost::optional<std::string> _directory;
 };

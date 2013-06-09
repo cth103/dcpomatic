@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 09:51+0100\n"
+"POT-Creation-Date: 2013-06-04 23:59+0100\n"
 "PO-Revision-Date: 2013-05-21 10:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -61,7 +61,7 @@ msgstr "4:3"
 msgid "4:3 within Flat"
 msgstr "4:3 dans Flat"
 
-#: src/lib/ab_transcode_job.cc:49
+#: src/lib/ab_transcode_job.cc:50
 msgid "A/B transcode %1"
 msgstr "Transcodage A/B %1"
 
@@ -105,7 +105,7 @@ msgstr "Format du pixel %1 non géré par %2"
 msgid "Cannot resample audio as libswresample is not present"
 msgstr "Ré-échantillonnage du son impossible : libswresample est absent"
 
-#: src/lib/util.cc:960
+#: src/lib/util.cc:982
 msgid "Centre"
 msgstr "Centre"
 
@@ -137,37 +137,27 @@ msgstr "Écriture vers fichier distant (%1) impossible"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Désentrelacement cubique interpolé"
 
-#: src/lib/util.cc:1035
+#: src/lib/util.cc:1057
 msgid "DCP and source have the same rate.\n"
 msgstr "Le DCP et la source ont les mêmes cadences.\n"
 
-#: src/lib/util.cc:1045
+#: src/lib/util.cc:1067
 #, fuzzy
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "La cadence du DCP sera %1%% par rapport à la source.\n"
 
-#: src/lib/util.cc:1038
+#: src/lib/util.cc:1060
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Le DCP utilisera une image sur deux de la source.\n"
 
-#: src/lib/filter.cc:68
-#: src/lib/filter.cc:69
-#: src/lib/filter.cc:70
-#: src/lib/filter.cc:71
-#: src/lib/filter.cc:72
-#: src/lib/filter.cc:73
+#: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:70
+#: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 msgid "De-blocking"
 msgstr "De-bloc"
 
-#: src/lib/filter.cc:75
-#: src/lib/filter.cc:76
-#: src/lib/filter.cc:77
-#: src/lib/filter.cc:78
-#: src/lib/filter.cc:79
-#: src/lib/filter.cc:80
-#: src/lib/filter.cc:81
-#: src/lib/filter.cc:82
-#: src/lib/filter.cc:83
+#: src/lib/filter.cc:75 src/lib/filter.cc:76 src/lib/filter.cc:77
+#: src/lib/filter.cc:78 src/lib/filter.cc:79 src/lib/filter.cc:80
+#: src/lib/filter.cc:81 src/lib/filter.cc:82 src/lib/filter.cc:83
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
@@ -179,7 +169,7 @@ msgstr "Filtre anti bourdonnement"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1040
+#: src/lib/util.cc:1062
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 
@@ -227,13 +217,17 @@ msgstr "Feature"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/format.cc:123
+#: src/lib/format.cc:127
 msgid "Flat without stretch"
 msgstr "Flat sans déformation"
 
 #: src/lib/filter.cc:85
 msgid "Force quantizer"
 msgstr "Forcer la quantification"
+
+#: src/lib/format.cc:123
+msgid "Full frame"
+msgstr ""
 
 #: src/lib/scaler.cc:65
 msgid "Gaussian"
@@ -268,15 +262,15 @@ msgstr "Désentrelaceur noyau"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:958
+#: src/lib/util.cc:980
 msgid "Left"
 msgstr "Gauche"
 
-#: src/lib/util.cc:962
+#: src/lib/util.cc:984
 msgid "Left surround"
 msgstr "Arrière gauche"
 
-#: src/lib/util.cc:961
+#: src/lib/util.cc:983
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
@@ -292,11 +286,8 @@ msgstr "Désentrelaceur linéaire interpolé"
 msgid "Median deinterlacer"
 msgstr "Désentrelaceur médian"
 
-#: src/lib/filter.cc:74
-#: src/lib/filter.cc:85
-#: src/lib/filter.cc:86
-#: src/lib/filter.cc:87
-#: src/lib/filter.cc:90
+#: src/lib/filter.cc:74 src/lib/filter.cc:85 src/lib/filter.cc:86
+#: src/lib/filter.cc:87 src/lib/filter.cc:90
 msgid "Misc"
 msgstr "Divers"
 
@@ -304,9 +295,7 @@ msgstr "Divers"
 msgid "Motion compensating deinterlacer"
 msgstr "Désentrelaceur par compensation de mouvement"
 
-#: src/lib/filter.cc:84
-#: src/lib/filter.cc:88
-#: src/lib/filter.cc:89
+#: src/lib/filter.cc:84 src/lib/filter.cc:88 src/lib/filter.cc:89
 #: src/lib/filter.cc:91
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
@@ -331,15 +320,15 @@ msgstr "Public Service Announcement"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/util.cc:513
+#: src/lib/util.cc:535
 msgid "Rec 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:959
+#: src/lib/util.cc:981
 msgid "Right"
 msgstr "Droite"
 
-#: src/lib/util.cc:963
+#: src/lib/util.cc:985
 msgid "Right surround"
 msgstr "Arrière droite"
 
@@ -351,7 +340,7 @@ msgstr "Erreur SSH (%1)"
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/format.cc:127
+#: src/lib/format.cc:131
 msgid "Scope without stretch"
 msgstr "Scope sans déformation"
 
@@ -384,8 +373,12 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/job.cc:79
-msgid "The drive that the film is stored on is low in disc space.  Free some more space and try again."
-msgstr "Le disque contenant le film est plein. Libérez de l'espace et essayez à nouveau."
+msgid ""
+"The drive that the film is stored on is low in disc space.  Free some more "
+"space and try again."
+msgstr ""
+"Le disque contenant le film est plein. Libérez de l'espace et essayez à "
+"nouveau."
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Trailer"
@@ -403,7 +396,7 @@ msgstr "Transitional"
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: src/lib/ffmpeg_decoder.cc:388
+#: src/lib/ffmpeg_decoder.cc:387
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Échantillonnage audio (%1) inconnu"
 
@@ -431,11 +424,11 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/film.cc:296
+#: src/lib/film.cc:300
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:576
 msgid "connect timed out"
 msgstr "temps de connexion expiré"
 
@@ -443,11 +436,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:333
+#: src/lib/film.cc:337
 msgid "content"
 msgstr "contenu"
 
-#: src/lib/film.cc:337
+#: src/lib/film.cc:341
 msgid "content type"
 msgstr "type de contenu"
 
@@ -459,19 +452,19 @@ msgstr "copie de %1"
 msgid "could not create file %1"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
-#: src/lib/ffmpeg_decoder.cc:187
+#: src/lib/ffmpeg_decoder.cc:186
 msgid "could not find audio decoder"
 msgstr "décodeur audio introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:114
+#: src/lib/ffmpeg_decoder.cc:113
 msgid "could not find stream information"
 msgstr "information du flux introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:206
+#: src/lib/ffmpeg_decoder.cc:205
 msgid "could not find subtitle decoder"
 msgstr "décodeur de sous-titre introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:165
+#: src/lib/ffmpeg_decoder.cc:164
 msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
@@ -491,8 +484,7 @@ msgstr "lecture du fichier impossible"
 msgid "could not read from file %1 (%2)"
 msgstr "lecture du fichier impossible %1 (%2)"
 
-#: src/lib/encoder.cc:137
-#: src/lib/encoder.cc:314
+#: src/lib/encoder.cc:137 src/lib/encoder.cc:318
 msgid "could not run sample-rate converter"
 msgstr "conversion de la fréquence d'échantillonnage impossible"
 
@@ -516,7 +508,7 @@ msgstr "Les fichiers audio externes ont des durées différentes"
 msgid "external audio files must be mono"
 msgstr "les fichiers audio externes doivent être en mono"
 
-#: src/lib/film.cc:329
+#: src/lib/film.cc:333
 msgid "format"
 msgstr "format"
 
@@ -524,24 +516,23 @@ msgstr "format"
 msgid "frames per second"
 msgstr "images par seconde"
 
-#: src/lib/util.cc:128
+#: src/lib/util.cc:134
 msgid "hour"
 msgstr "heure"
 
-#: src/lib/util.cc:125
-#: src/lib/util.cc:130
+#: src/lib/util.cc:131 src/lib/util.cc:136
 msgid "hours"
 msgstr "heures"
 
-#: src/lib/util.cc:135
+#: src/lib/util.cc:141
 msgid "minute"
 msgstr "minute"
 
-#: src/lib/util.cc:137
+#: src/lib/util.cc:143
 msgid "minutes"
 msgstr "minutes"
 
-#: src/lib/util.cc:697
+#: src/lib/util.cc:719
 msgid "missing key %1 in key-value set"
 msgstr "clé %1 non sélectionnée"
 
@@ -553,8 +544,7 @@ msgstr "paramètre %1 manquant"
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:296
-#: src/lib/film.cc:341
+#: src/lib/film.cc:300 src/lib/film.cc:345
 msgid "name"
 msgstr "nom"
 
@@ -572,19 +562,19 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 msgid "remaining"
 msgstr "restant"
 
-#: src/lib/util.cc:511
+#: src/lib/util.cc:533
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/util.cc:140
+#: src/lib/util.cc:146
 msgid "seconds"
 msgstr "secondes"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:311
 msgid "still"
 msgstr "fixe"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:311
 msgid "video"
 msgstr "vidéo"
 

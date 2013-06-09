@@ -234,6 +234,8 @@ Encoder::terminate_threads ()
 		}
 		delete *i;
 	}
+
+	_threads.clear ();
 }
 
 void

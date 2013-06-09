@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 09:51+0100\n"
+"POT-Creation-Date: 2013-06-04 23:59+0100\n"
 "PO-Revision-Date: 2013-05-10 14:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,27 +16,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/tools/dvdomatic.cc:178
+#: src/tools/dvdomatic.cc:184
 msgid "&Analyse audio"
 msgstr "&Analyser le son"
 
-#: src/tools/dvdomatic.cc:184
+#: src/tools/dvdomatic.cc:195
 msgid "&Edit"
 msgstr "&Edition"
 
-#: src/tools/dvdomatic.cc:183
+#: src/tools/dvdomatic.cc:170
+msgid "&Exit"
+msgstr ""
+
+#: src/tools/dvdomatic.cc:193
 msgid "&File"
 msgstr "&Fichier"
 
-#: src/tools/dvdomatic.cc:186
+#: src/tools/dvdomatic.cc:198
 msgid "&Help"
 msgstr "&Aide"
 
-#: src/tools/dvdomatic.cc:185
+#: src/tools/dvdomatic.cc:197
 msgid "&Jobs"
 msgstr "&Travaux"
 
-#: src/tools/dvdomatic.cc:174
+#: src/tools/dvdomatic.cc:180
 msgid "&Make DCP"
 msgstr "&Créer le DCP"
 
@@ -44,7 +48,7 @@ msgstr "&Créer le DCP"
 msgid "&Open..."
 msgstr "&Ouvrir..."
 
-#: src/tools/dvdomatic.cc:171
+#: src/tools/dvdomatic.cc:173 src/tools/dvdomatic.cc:176
 msgid "&Preferences..."
 msgstr "&Préférences..."
 
@@ -52,47 +56,49 @@ msgstr "&Préférences..."
 msgid "&Properties..."
 msgstr "&Propriétés..."
 
-#: src/tools/dvdomatic.cc:168
-msgid "&Quit"
-msgstr "&Quitter"
-
 #: src/tools/dvdomatic.cc:164
 msgid "&Save"
 msgstr "&Enregistrer"
 
-#: src/tools/dvdomatic.cc:175
+#: src/tools/dvdomatic.cc:181
 msgid "&Send DCP to TMS"
 msgstr "&Envoyer le DCP dans le TMS"
 
-#: src/tools/dvdomatic.cc:426
-msgid "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
-msgstr "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+#: src/tools/dvdomatic.cc:438
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
-#: src/tools/dvdomatic.cc:181
+#: src/tools/dvdomatic.cc:190
 msgid "About"
 msgstr "A Propos"
 
-#: src/tools/dvdomatic.cc:502
+#: src/tools/dvdomatic.cc:188
+#, fuzzy
+msgid "About DVD-o-matic"
+msgstr "DVD-o-matic"
+
+#: src/tools/dvdomatic.cc:520
 #, fuzzy
 msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %s (%s)"
 
-#: src/tools/dvdomatic.cc:348
+#: src/tools/dvdomatic.cc:360
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Impossible d'ouvrir le film à %s (%s)"
 
-#: src/tools/dvdomatic.cc:288
-#: src/tools/dvdomatic.cc:419
-#: src/tools/dvdomatic.cc:506
+#: src/tools/dvdomatic.cc:300 src/tools/dvdomatic.cc:431
+#: src/tools/dvdomatic.cc:524
 msgid "DVD-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dvdomatic.cc:76
+#: src/tools/dvdomatic.cc:79
 msgid "Film changed"
 msgstr "Film changé"
 
-#: src/tools/dvdomatic.cc:425
+#: src/tools/dvdomatic.cc:437
 msgid "Free, open-source DCP generation from almost anything."
 msgstr "Création de DCP libre et open-source à partir de presque tout."
 
@@ -100,26 +106,36 @@ msgstr "Création de DCP libre et open-source à partir de presque tout."
 msgid "New..."
 msgstr "Nouveau..."
 
-#: src/tools/dvdomatic.cc:176
+#: src/tools/dvdomatic.cc:182
 msgid "S&how DCP"
 msgstr "Voir le DCP"
 
-#: src/tools/dvdomatic.cc:75
+#: src/tools/dvdomatic.cc:78
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
-#: src/tools/dvdomatic.cc:328
+#: src/tools/dvdomatic.cc:340
 msgid "Select film to open"
 msgstr "Sélectionner le film à ouvrir"
 
-#: src/tools/dvdomatic.cc:307
-msgid "The directory %1 already exists and is not empty.  Are you sure you want to use it?"
-msgstr "Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
+#: src/tools/dvdomatic.cc:319
+msgid ""
+"The directory %1 already exists and is not empty.  Are you sure you want to "
+"use it?"
+msgstr ""
+"Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
 
-#: src/tools/dvdomatic.cc:333
-msgid "You did not select a folder.  Make sure that you select a folder before clicking Open."
-msgstr "Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur Ouvrir"
+#: src/tools/dvdomatic.cc:345
+msgid ""
+"You did not select a folder.  Make sure that you select a folder before "
+"clicking Open."
+msgstr ""
+"Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur "
+"Ouvrir"
+
+#~ msgid "&Quit"
+#~ msgstr "&Quitter"
 
 #, fuzzy
 #~ msgid "The directory %1 already exists."
