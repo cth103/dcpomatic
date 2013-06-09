@@ -52,9 +52,8 @@ def configure(conf):
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
 
-    if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
-        # libxml2 seems to be linked against this on Ubuntu and with my build of libxml2 on
-        # OS X, but it doesn't mention it in its .pc file
+    if conf.env.TARGET_LINUX:
+        # libxml2 seems to be linked against this on Ubuntu but it doesn't mention it in its .pc file
         conf.env.append_value('LIB', 'lzma')
 
     if conf.options.enable_debug:
@@ -103,7 +102,7 @@ def configure(conf):
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
 
-    if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
+    if conf.env.TARGET_LINUX:
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
 
     conf.check_cfg(package = '', path = conf.options.magickpp_config, args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
