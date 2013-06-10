@@ -942,32 +942,6 @@ still_image_file (string f)
 	return (ext == N_(".tif") || ext == N_(".tiff") || ext == N_(".jpg") || ext == N_(".jpeg") || ext == N_(".png") || ext == N_(".bmp"));
 }
 
-/** @return A pair containing CPU model name and the number of processors */
-pair<string, int>
-cpu_info ()
-{
-	pair<string, int> info;
-	info.second = 0;
-	
-#ifdef DVDOMATIC_POSIX
-	ifstream f (N_("/proc/cpuinfo"));
-	while (f.good ()) {
-		string l;
-		getline (f, l);
-		if (boost::algorithm::starts_with (l, N_("model name"))) {
-			string::size_type const c = l.find (':');
-			if (c != string::npos) {
-				info.first = l.substr (c + 2);
-			}
-		} else if (boost::algorithm::starts_with (l, N_("processor"))) {
-			++info.second;
-		}
-	}
-#endif	
-
-	return info;
-}
-
 string
 audio_channel_name (int c)
 {

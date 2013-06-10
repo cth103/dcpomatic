@@ -52,6 +52,7 @@
 #include "audio_decoder.h"
 #include "sndfile_decoder.h"
 #include "analyse_audio_job.h"
+#include "cross.h"
 
 #include "i18n.h"
 

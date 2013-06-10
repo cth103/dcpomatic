@@ -55,6 +55,10 @@ def configure(conf):
     if conf.env.TARGET_LINUX:
         # libxml2 seems to be linked against this on Ubuntu but it doesn't mention it in its .pc file
         conf.env.append_value('LIB', 'lzma')
+        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_LINUX')
+
+    if conf.env.TARGET_OSX:
+        conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_OSX')
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDVDOMATIC_DEBUG'])

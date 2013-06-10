@@ -24,6 +24,12 @@
 #ifdef DVDOMATIC_WINDOWS
 #include "windows.h"
 #endif
+#ifdef DVDOMATIC_OSX
+#include <sys/sysctl.h>
+#endif
+
+using std::pair;
+using std::string;
 
 void
 dvdomatic_sleep (int s)
@@ -35,3 +41,40 @@ dvdomatic_sleep (int s)
 	Sleep (s * 1000);
 #endif
 }
+
+/** @return A pair containing CPU model name and the number of processors */
+pair<string, int>
+cpu_info ()
+{
+	pair<string, int> info;
+	info.second = 0;
+	
+#ifdef DVDOMATIC_LINUX
+	ifstream f (N_("/proc/cpuinfo"));
+	while (f.good ()) {
+		string l;
+		getline (f, l);
+		if (boost::algorithm::starts_with (l, N_("model name"))) {
+			string::size_type const c = l.find (':');
+			if (c != string::npos) {
+				info.first = l.substr (c + 2);
+			}
+		} else if (boost::algorithm::starts_with (l, N_("processor"))) {
+			++info.second;
+		}
+	}
+#endif
+
+#ifdef DVDOMATIC_OSX
+	size_t N = sizeof (info.second);
+	sysctlbyname ("hw.ncpu", &info.second, &N, 0, 0);
+	char buffer[64];
+	N = sizeof (buffer);
+	if (sysctlbyname ("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
+	        info.first = buffer;
+        }
+#endif		
+
+	return info;
+}
+

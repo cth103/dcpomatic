@@ -457,7 +457,7 @@ class App : public wxApp
 			return false;
 		}
 		
-#ifdef DVDOMATIC_POSIX		
+#ifdef DVDOMATIC_LINUX	
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
