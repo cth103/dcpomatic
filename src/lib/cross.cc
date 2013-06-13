@@ -17,6 +17,8 @@
 
 */
 
+#include <fstream>
+#include <boost/algorithm/string.hpp>
 #include "cross.h"
 #ifdef DVDOMATIC_POSIX
 #include <unistd.h>
@@ -50,16 +52,16 @@ cpu_info ()
 	info.second = 0;
 	
 #ifdef DVDOMATIC_LINUX
-	ifstream f (N_("/proc/cpuinfo"));
+	ifstream f ("/proc/cpuinfo");
 	while (f.good ()) {
 		string l;
 		getline (f, l);
-		if (boost::algorithm::starts_with (l, N_("model name"))) {
+		if (boost::algorithm::starts_with (l, "model name")) {
 			string::size_type const c = l.find (':');
 			if (c != string::npos) {
 				info.first = l.substr (c + 2);
 			}
-		} else if (boost::algorithm::starts_with (l, N_("processor"))) {
+		} else if (boost::algorithm::starts_with (l, "processor")) {
 			++info.second;
 		}
 	}
