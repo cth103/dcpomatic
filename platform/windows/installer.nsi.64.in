@@ -94,6 +94,7 @@ File "%binaries%/src/wx/dvdomatic-wx.dll"
 File "%binaries%/src/lib/dvdomatic.dll"
 File "%binaries%/src/tools/dvdomatic.exe"
 File "%binaries%/src/tools/dvdomatic_batch.exe"
+File "%binaries%/src/tools/makedcp.exe"
 File "%binaries%/src/tools/servomatic_cli.exe"
 File "%binaries%/src/tools/servomatic_gui.exe"
 
