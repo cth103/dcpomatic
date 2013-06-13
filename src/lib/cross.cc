@@ -31,6 +31,7 @@
 #endif
 
 using std::pair;
+using std::ifstream;
 using std::string;
 
 void
