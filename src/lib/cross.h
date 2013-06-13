@@ -17,8 +17,11 @@
 
 */
 
+#include <string>
+
 #ifdef DVDOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
 #endif
 
 void dvdomatic_sleep (int);
+extern std::pair<std::string, int> cpu_info ();
