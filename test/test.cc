@@ -62,6 +62,8 @@ struct TestConfig
 		Config::instance()->set_servers (vector<ServerDescription*> ());
 		Config::instance()->set_server_port (61920);
 		Config::instance()->set_default_dci_metadata (DCIMetadata ());
+		Config::instance()->set_default_format (static_cast<Format*> (0));
+		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 	}
 };
 
@@ -101,3 +103,4 @@ new_test_film (string name)
 #include "job_test.cc"
 #include "client_server_test.cc"
 #include "image_test.cc"
+

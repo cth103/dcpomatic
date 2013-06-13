@@ -35,6 +35,9 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P10LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV444P10BE);
 	pix_fmts.push_back (AV_PIX_FMT_UYVY422);
+	pix_fmts.push_back (AV_PIX_FMT_YUVJ420P);
+	pix_fmts.push_back (AV_PIX_FMT_YUVJ422P);
+	pix_fmts.push_back (AV_PIX_FMT_YUVJ444P);
 
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
@@ -46,6 +49,9 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 		for (int y = 0; y < bar->size().height; ++y) {
 			uint8_t* q = p;
 			for (int x = 0; x < bar->line_size()[0]; ++x) {
+				if (*q != 0) {
+					std::cerr << "x=" << x << ", (x%3)=" << (x%3) << "\n";
+				}
 				BOOST_CHECK_EQUAL (*q++, 0);
 			}
 			p += bar->stride()[0];

@@ -273,11 +273,11 @@ void
 Image::make_black ()
 {
 	/* U/V black value for 8-bit colour */
-	static uint8_t const eight_bit_uv = (1 << 7) - 1;
+	static uint8_t const eight_bit_uv =     (1 << 7) - 1;
 	/* U/V black value for 9-bit colour */
-	static uint16_t const nine_bit_uv = (1 << 8) - 1;
+	static uint16_t const nine_bit_uv =     (1 << 8) - 1;
 	/* U/V black value for 10-bit colour */
-	static uint16_t const ten_bit_uv =  (1 << 9) - 1;
+	static uint16_t const ten_bit_uv =      (1 << 9) - 1;
 	/* U/V black value for 16-bit colour */
 	static uint16_t const sixteen_bit_uv =  (1 << 15) - 1;
 	
@@ -288,6 +288,14 @@ Image::make_black ()
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		memset (data()[1], eight_bit_uv, lines(1) * stride()[1]);
 		memset (data()[2], eight_bit_uv, lines(2) * stride()[2]);
+		break;
+
+	case PIX_FMT_YUVJ420P:
+	case PIX_FMT_YUVJ422P:
+	case PIX_FMT_YUVJ444P:
+		memset (data()[0], 0, lines(0) * stride()[0]);
+		memset (data()[1], eight_bit_uv + 1, lines(1) * stride()[1]);
+		memset (data()[2], eight_bit_uv + 1, lines(2) * stride()[2]);
 		break;
 
 	case PIX_FMT_YUV422P9LE:
