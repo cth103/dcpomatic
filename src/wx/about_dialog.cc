@@ -18,6 +18,7 @@
 */
 
 #include <wx/notebook.h>
+#include <wx/hyperlink.h>
 #include "lib/version.h"
 #include "lib/compose.hpp"
 #include "about_dialog.h"
@@ -58,6 +59,14 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		);
 	
 	sizer->Add (t, wxSizerFlags().Centre().Border());
+
+	wxHyperlinkCtrl* h = new wxHyperlinkCtrl (
+		this, wxID_ANY,
+		wxT ("www.carlh.net/software/dvdomatic"),
+		wxT ("http://www.carlh.net/software/dvdomatic")
+		);
+
+	sizer->Add (h, wxSizerFlags().Centre().Border());
 
 	t = new wxStaticText (
 		this, wxID_ANY,
