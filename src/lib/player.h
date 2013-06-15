@@ -56,6 +56,7 @@ public:
 	void seek_back ();
 	void seek_forward ();
 
+	/** @return position that we are at; ie the time of the next thing we will emit on pass() */
 	Time position () const {
 		return _position;
 	}

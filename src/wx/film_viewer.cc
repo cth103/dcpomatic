@@ -184,7 +184,7 @@ FilmViewer::update_from_decoder ()
 		return;
 	}
 
-	_player->seek (_player->position ());
+	_player->seek (_player->position() - _film->video_frames_to_time (1));
 	get_frame ();
 	_panel->Refresh ();
 	_panel->Update ();
