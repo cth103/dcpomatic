@@ -99,12 +99,6 @@ msgstr "DCP-o-matic"
 msgid "Film changed"
 msgstr "Película cambiada"
 
-#: src/tools/dcpomatic.cc:416
-#: src/tools/dvdomatic.cc:288 src/tools/dvdomatic.cc:419
-#: src/tools/dvdomatic.cc:506
-msgid "DCP-o-matic"
-msgstr "DCP-o-matic"
-
 #: src/tools/dvdomatic.cc:425
 msgid "Free, open-source DCP generation from almost anything."
 msgstr ""

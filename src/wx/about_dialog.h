@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +17,18 @@
 
 */
 
-#ifdef DCPOMATIC_WINDOWS
-#define WEXITSTATUS(w) (w)
-#endif
+#include <wx/wx.h>
 
-void dcpomatic_sleep (int);
-extern std::pair<std::string, int> cpu_info ();
+class wxNotebook;
+
+class AboutDialog : public wxDialog
+{
+public:
+	AboutDialog (wxWindow *);
+
+private:
+	void add_section (wxString, wxArrayString);
+
+	wxNotebook* _notebook;
+};
+

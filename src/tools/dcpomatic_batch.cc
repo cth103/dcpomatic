@@ -198,7 +198,7 @@ class App : public wxApp
 			return false;
 		}
 		
-#ifdef DCPOMATIC_POSIX		
+#ifdef DCPOMATIC_LINUX		
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif		
 

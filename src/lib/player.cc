@@ -17,6 +17,7 @@
 
 */
 
+#include <stdint.h>
 #include "player.h"
 #include "film.h"
 #include "ffmpeg_decoder.h"

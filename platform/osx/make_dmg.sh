@@ -19,9 +19,9 @@ mkdir -p $WORK/$macos
 mkdir -p $WORK/$libs
 mkdir -p $WORK/$resources
 
-cp build/src/tools/dvdomatic $WORK/$macos/
-cp build/src/lib/libdvdomatic.dylib $WORK/$libs/
-cp build/src/wx/libdvdomatic-wx.dylib $WORK/$libs/
+cp build/src/tools/dcpomatic $WORK/$macos/
+cp build/src/lib/libdcpomatic.dylib $WORK/$libs/
+cp build/src/wx/libdcpomatic-wx.dylib $WORK/$libs/
 cp $DEPS/lib/libdcp.dylib $WORK/$libs/
 cp $DEPS/lib/libasdcp-libdcp.dylib $WORK/$libs/
 cp $DEPS/lib/libkumu-libdcp.dylib $WORK/$libs/
@@ -58,7 +58,7 @@ cp $ENV/lib/libfontconfig*.dylib $WORK/$libs/
 cp $ENV/lib/libfreetype*.dylib $WORK/$libs/
 cp $ENV/lib/libexpat*.dylib $WORK/$libs/
 
-for obj in $WORK/$macos/dvdomatic $WORK/$libs/*.dylib; do
+for obj in $WORK/$macos/dcpomatic $WORK/$libs/*.dylib; do
   deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh)"`
   changes=""
   for dep in $deps; do
@@ -70,13 +70,13 @@ for obj in $WORK/$macos/dvdomatic $WORK/$libs/*.dylib; do
   fi  
 done
 
-
+pwd
 cp build/platform/osx/Info.plist $WORK/$approot
-cp icons/dvdomatic.icns $WORK/$resources/DVD-o-matic.icns
+cp icons/dcpomatic.icns $WORK/$resources/DVD-o-matic.icns
 
-tmp_dmg=$WORK/dvdomatic_tmp.dmg
-dmg="$WORK/DVD-o-matic $version.dmg"
-vol_name=DVD-o-matic-$version
+tmp_dmg=$WORK/dcpomatic_tmp.dmg
+dmg="$WORK/DCP-o-matic $version.dmg"
+vol_name=DCP-o-matic-$version
 
 mkdir -p $WORK/$vol_name
 
@@ -95,13 +95,13 @@ echo '
            set current view of container window to icon view
            set toolbar visible of container window to false
            set statusbar visible of container window to false
-           set the bounds of container window to {400, 200, 800, 440}
+           set the bounds of container window to {400, 200, 790, 410}
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
            make new alias file at container window to POSIX file "/Applications" with properties {name:"Applications"}
-           set position of item "DVD-o-matic.app" of container window to {90, 100}
-           set position of item "Applications" of container window to {310, 100}
+           set position of item "DCP-o-matic.app" of container window to {90, 80}
+           set position of item "Applications" of container window to {310, 80}
            close
            open
            update without registering applications
@@ -117,8 +117,8 @@ sync
 umount $device
 hdiutil eject $device
 hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
-sips -i $WORK/$resources/DVD-o-matic.icns
-DeRez -only icns $WORK/$resources/DVD-o-matic.icns > $WORK/$resources/DVD-o-matic.rsrc
-Rez -append $WORK/$resources/DVD-o-matic.rsrc -o "$dmg"
+sips -i $WORK/$resources/DCP-o-matic.icns
+DeRez -only icns $WORK/$resources/DCP-o-matic.icns > $WORK/$resources/DCP-o-matic.rsrc
+Rez -append $WORK/$resources/DCP-o-matic.rsrc -o "$dmg"
 SetFile -a C "$dmg"
 

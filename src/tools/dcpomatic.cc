@@ -26,7 +26,7 @@
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
-#include <wx/aboutdlg.h>
+#include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include "wx/film_viewer.h"
@@ -38,6 +38,7 @@
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
 #include "wx/wx_ui_signaller.h"
+#include "wx/about_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -182,7 +183,7 @@ setup_menu (wxMenuBar* m)
 
 	wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	
-	add_item (help, _("About DVD-o-matic"), wxID_ABOUT, ALWAYS);
+	add_item (help, _("About DCP-o-matic"), wxID_ABOUT, ALWAYS);
 #else	
 	add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif	
@@ -405,34 +406,9 @@ private:
 	
 	void help_about (wxCommandEvent &)
 	{
-		wxAboutDialogInfo info;
-		info.SetName (_("DCP-o-matic"));
-		if (strcmp (dcpomatic_git_commit, "release") == 0) {
-			info.SetVersion (std_to_wx (String::compose ("version %1", dcpomatic_version)));
-		} else {
-			info.SetVersion (std_to_wx (String::compose ("version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
-		}
-		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
-		info.SetCopyright (_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
-
-		wxArrayString authors;
-		authors.Add (wxT ("Carl Hetherington"));
-		authors.Add (wxT ("Terrence Meiczinger"));
-		authors.Add (wxT ("Paul Davis"));
-		authors.Add (wxT ("Ole Laursen"));
-		info.SetDevelopers (authors);
-
-		wxArrayString translators;
-		translators.Add (wxT ("Olivier Perriere"));
-		translators.Add (wxT ("Lilian Lefranc"));
-		translators.Add (wxT ("Thierry Journet"));
-		translators.Add (wxT ("Massimiliano Broggi"));
-		translators.Add (wxT ("Manuel AC"));
-		translators.Add (wxT ("Adam Klotblixt"));
-		info.SetTranslators (translators);
-		
-		info.SetWebSite (wxT ("http://carlh.net/software/dcpomatic"));
-		wxAboutBox (info);
+		AboutDialog* d = new AboutDialog (this);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 };
 
@@ -460,7 +436,7 @@ class App : public wxApp
 			return false;
 		}
 		
-#ifdef DCPOMATIC_POSIX		
+#ifdef DCPOMATIC_LINUX	
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif
 

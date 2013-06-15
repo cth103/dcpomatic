@@ -95,6 +95,7 @@ File "%binaries%/src/wx/dcpomatic-wx.dll"
 File "%binaries%/src/lib/dcpomatic.dll"
 File "%binaries%/src/tools/dcpomatic.exe"
 File "%binaries%/src/tools/dcpomatic_batch.exe"
+File "%binaries%/src/tools/dcpomatic_cli.exe"
 File "%binaries%/src/tools/dcpomatic_server_cli.exe"
 File "%binaries%/src/tools/dcpomatic_server.exe"
 

@@ -17,6 +17,8 @@
 
 */
 
+#include <fstream>
+#include <boost/algorithm/string.hpp>
 #include "cross.h"
 #ifdef DCPOMATIC_POSIX
 #include <unistd.h>
@@ -24,6 +26,13 @@
 #ifdef DCPOMATIC_WINDOWS
 #include "windows.h"
 #endif
+#ifdef DCPOMATIC_OSX
+#include <sys/sysctl.h>
+#endif
+
+using std::pair;
+using std::ifstream;
+using std::string;
 
 void
 dcpomatic_sleep (int s)
@@ -35,3 +44,40 @@ dcpomatic_sleep (int s)
 	Sleep (s * 1000);
 #endif
 }
+
+/** @return A pair containing CPU model name and the number of processors */
+pair<string, int>
+cpu_info ()
+{
+	pair<string, int> info;
+	info.second = 0;
+	
+#ifdef DCPOMATIC_LINUX
+	ifstream f ("/proc/cpuinfo");
+	while (f.good ()) {
+		string l;
+		getline (f, l);
+		if (boost::algorithm::starts_with (l, "model name")) {
+			string::size_type const c = l.find (':');
+			if (c != string::npos) {
+				info.first = l.substr (c + 2);
+			}
+		} else if (boost::algorithm::starts_with (l, "processor")) {
+			++info.second;
+		}
+	}
+#endif
+
+#ifdef DCPOMATIC_OSX
+	size_t N = sizeof (info.second);
+	sysctlbyname ("hw.ncpu", &info.second, &N, 0, 0);
+	char buffer[64];
+	N = sizeof (buffer);
+	if (sysctlbyname ("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
+	        info.first = buffer;
+        }
+#endif		
+
+	return info;
+}
+

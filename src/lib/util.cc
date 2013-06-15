@@ -61,7 +61,7 @@ extern "C" {
 #include "sound_processor.h"
 #include "config.h"
 #include "ratio.h"
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
 
@@ -260,7 +260,7 @@ seconds (struct timeval t)
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
 
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 {
 	dbg::stack s;
@@ -276,7 +276,7 @@ LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 void
 dcpomatic_setup ()
 {
-#ifdef DVDOMATIC_WINDOWS
+#ifdef DCPOMATIC_WINDOWS
 	backtrace_file /= g_get_user_config_dir ();
 	backtrace_file /= "backtrace.txt";
 	SetUnhandledExceptionFilter(exception_handler);
@@ -713,32 +713,6 @@ int64_t
 video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second)
 {
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
-}
-
-/** @return A pair containing CPU model name and the number of processors */
-pair<string, int>
-cpu_info ()
-{
-	pair<string, int> info;
-	info.second = 0;
-	
-#ifdef DCPOMATIC_POSIX
-	ifstream f (N_("/proc/cpuinfo"));
-	while (f.good ()) {
-		string l;
-		getline (f, l);
-		if (boost::algorithm::starts_with (l, N_("model name"))) {
-			string::size_type const c = l.find (':');
-			if (c != string::npos) {
-				info.first = l.substr (c + 2);
-			}
-		} else if (boost::algorithm::starts_with (l, N_("processor"))) {
-			++info.second;
-		}
-	}
-#endif	
-
-	return info;
 }
 
 string

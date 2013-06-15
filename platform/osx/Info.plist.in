@@ -5,17 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>dvdomatic</string>
+	<string>dcpomatic</string>
 	<key>CFBundleGetInfoString</key>
 	<string>DCP generator</string>
 	<key>CFBundleIconFile</key>
-	<string>DVD-o-matic.icns</string>
+	<string>DCP-o-matic.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.carlh.dvdomatic</string>
+	<string>net.carlh.dcpomatic</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DVD-o-matic</string>
+	<string>DCP-o-matic</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersions</key>

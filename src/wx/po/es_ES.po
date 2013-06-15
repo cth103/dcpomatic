@@ -21,8 +21,6 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-msgid "(restart DCP-o-matic to see language changes)"
-
 #: src/wx/film_editor.cc:1276
 msgid "1 channel"
 msgstr "1 canal"

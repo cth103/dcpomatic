@@ -1,4 +1,4 @@
 #!/bin/bash
 
-iconutil --convert icns --output dvdomatic.icns dvdomatic.iconset/
+iconutil --convert icns --output dcpomatic.icns dcpomatic.iconset/
 

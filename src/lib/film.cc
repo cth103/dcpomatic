@@ -54,6 +54,7 @@
 #include "sndfile_content.h"
 #include "dcp_content_type.h"
 #include "ratio.h"
+#include "cross.h"
 
 #include "i18n.h"
 

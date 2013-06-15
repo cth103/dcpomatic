@@ -22,6 +22,7 @@
 #include "film.h"
 #include "ab_transcoder.h"
 #include "config.h"
+#include "log.h"
 
 #include "i18n.h"
 

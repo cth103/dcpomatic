@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_IMAGEMAGICK_CONTENT_H
-#define DVDOMATIC_IMAGEMAGICK_CONTENT_H
+#ifndef DCPOMATIC_IMAGEMAGICK_CONTENT_H
+#define DCPOMATIC_IMAGEMAGICK_CONTENT_H
 
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
