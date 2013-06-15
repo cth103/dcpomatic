@@ -51,7 +51,7 @@ VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 		return;
 	}
 
-	image->crop (_video_content->crop(), true);
+	image = image->crop (_video_content->crop(), true);
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
