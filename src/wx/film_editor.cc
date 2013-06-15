@@ -912,6 +912,9 @@ FilmEditor::set_things_sensitive (bool s)
 	_audio_gain_calculate_button->Enable (s);
 	_show_audio->Enable (s);
 	_audio_delay->Enable (s);
+	_container->Enable (s);
+	_loop_content->Enable (s);
+	_loop_count->Enable (s);
 
 	setup_subtitle_control_sensitivity ();
 	setup_show_audio_sensitivity ();
@@ -1223,6 +1226,7 @@ FilmEditor::setup_content_sensitivity ()
 	_video_panel->Enable    (selection && dynamic_pointer_cast<VideoContent>  (selection) && _generally_sensitive);
 	_audio_panel->Enable    (selection && dynamic_pointer_cast<AudioContent>  (selection) && _generally_sensitive);
 	_subtitle_panel->Enable (selection && dynamic_pointer_cast<FFmpegContent> (selection) && _generally_sensitive);
+	_timing_panel->Enable   (selection && _generally_sensitive);
 }
 
 shared_ptr<Content>
