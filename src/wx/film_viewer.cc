@@ -43,6 +43,7 @@
 
 using std::string;
 using std::pair;
+using std::min;
 using std::max;
 using std::cout;
 using std::list;
@@ -312,11 +313,11 @@ FilmViewer::calculate_sizes ()
 	}
 
 	/* Catch silly values */
-	if (_out_size.width < 64) {
-		_out_size.width = 64;
-	}
+	_out_size.width = max (64, _out_size.width);
+	_out_size.height = max (64, _out_size.height);
 
 	_player->set_video_container_size (_out_size);
+	update_from_decoder ();
 }
 
 void
