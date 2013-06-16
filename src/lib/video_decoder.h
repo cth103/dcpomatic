@@ -44,6 +44,8 @@ public:
 	/** @return length according to our content's header */
 	virtual ContentVideoFrame video_length () const = 0;
 
+	void set_video_container_size (libdcp::Size);
+
 protected:
 	
 	void video (boost::shared_ptr<Image>, bool, Time);
@@ -57,6 +59,7 @@ private:
 	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
 	FrameRateConversion _frame_rate_conversion;
 	bool _odd;
+	boost::optional<libdcp::Size> _video_container_size;
 };
 
 #endif

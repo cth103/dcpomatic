@@ -63,11 +63,8 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 		filters += ",";
 	}
 
-	Crop crop = content->crop ();
-	libdcp::Size cropped_size = _size;
-	cropped_size.width -= crop.left + crop.right;
-	cropped_size.height -= crop.top + crop.bottom;
-	filters += crop_string (Position (crop.left, crop.top), cropped_size);
+	/* XXX; remove */
+	filters += crop_string (Position (), _size);
 
 	AVFilterGraph* graph = avfilter_graph_alloc();
 	if (graph == 0) {

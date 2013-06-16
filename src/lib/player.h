@@ -61,6 +61,8 @@ public:
 		return _position;
 	}
 
+	void set_video_container_size (libdcp::Size);
+
 private:
 
 	void process_video (boost::weak_ptr<Content>, boost::shared_ptr<const Image>, bool, Time);
@@ -86,6 +88,7 @@ private:
 	Time _position;
 	AudioBuffers _audio_buffers;
 	Time _next_audio;
+	boost::optional<libdcp::Size> _video_container_size;
 };
 
 #endif

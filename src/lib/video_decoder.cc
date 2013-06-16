@@ -56,7 +56,7 @@ VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	libdcp::Size const container_size = film->container()->size (film->full_frame ());
+	libdcp::Size const container_size = _video_container_size.get_value_or (film->container()->size (film->full_frame ()));
 	libdcp::Size const image_size = _video_content->ratio()->size (container_size);
 	
 	shared_ptr<Image> out = image->scale_and_convert_to_rgb (image_size, film->scaler(), true);
@@ -144,4 +144,8 @@ VideoDecoder::seek_forward ()
 	_next_video += film->video_frames_to_time (1);
 }
 
-	
+void
+VideoDecoder::set_video_container_size (libdcp::Size s)
+{
+	_video_container_size = s;
+}

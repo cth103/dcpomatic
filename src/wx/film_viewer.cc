@@ -60,7 +60,6 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _frame (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
-	, _display_frame_x (0)
 	, _got_frame (false)
 {
 #ifndef __WXOSX__
@@ -221,16 +220,9 @@ FilmViewer::paint_panel (wxPaintEvent &)
 		return;
 	}
 
-	if (_display_frame_x) {
-		dc.SetPen(*wxBLACK_PEN);
-		dc.SetBrush(*wxBLACK_BRUSH);
-		dc.DrawRectangle (0, 0, _display_frame_x, _film_size.height);
-		dc.DrawRectangle (_display_frame_x + _film_size.width, 0, _display_frame_x, _film_size.height);
-	}
-
-	wxImage frame (_film_size.width, _film_size.height, _display_frame->data()[0], true);
+	wxImage frame (_out_size.width, _out_size.height, _display_frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);
-	dc.DrawBitmap (frame_bitmap, _display_frame_x, 0);
+	dc.DrawBitmap (frame_bitmap, 0, 0);
 
 	if (_out_size.width < _panel_size.width) {
 		wxPen p (GetBackgroundColour ());
@@ -294,7 +286,7 @@ FilmViewer::raw_to_display ()
 	}
 
 	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (_film_size, _film->scaler(), false);
+	_display_frame.reset (new SimpleImage (_raw_frame, false));
 }	
 
 void
@@ -319,21 +311,12 @@ FilmViewer::calculate_sizes ()
 		_out_size.width = _out_size.height * film_ratio;
 	}
 
-	/* Work out how much padding there is in terms of our display; this will be the x position
-	   of our _display_frame.
-	*/
-	_display_frame_x = 0;
-//	if (format) {
-//		_display_frame_x = static_cast<float> (format->dcp_padding (_film)) * _out_size.width / format->dcp_size().width;
-//	}
-
-	_film_size = _out_size;
-	_film_size.width -= _display_frame_x * 2;
-
 	/* Catch silly values */
 	if (_out_size.width < 64) {
 		_out_size.width = 64;
 	}
+
+	_player->set_video_container_size (_out_size);
 }
 
 void

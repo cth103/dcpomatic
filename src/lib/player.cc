@@ -382,3 +382,15 @@ Player::playlist_changed ()
 {
 	_have_valid_pieces = false;
 }
+
+void
+Player::set_video_container_size (libdcp::Size s)
+{
+	_video_container_size = s;
+	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> ((*i)->decoder);
+		if (vd) {
+			vd->set_video_container_size (s);
+		}
+	}
+}

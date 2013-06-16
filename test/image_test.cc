@@ -97,3 +97,13 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	delete t;
 	delete u;
 }
+
+BOOST_AUTO_TEST_CASE (crop_image_test)
+{
+	/* This was to check out a bug with valgrind, and is probably not very useful */
+	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_YUV420P, libdcp::Size (16, 16), true));
+	image->make_black ();
+	Crop crop;
+	crop.top = 3;
+	image->crop (crop, false);
+}

@@ -90,16 +90,10 @@ private:
 
 	boost::shared_ptr<const Image> _raw_frame;
 	boost::shared_ptr<const Image> _display_frame;
-	/* The x offset at which we display the actual film content; this corresponds
-	   to the film's padding converted to our coordinates.
-	*/
-	int _display_frame_x;
 	bool _got_frame;
 
 	/** Size of our output (including padding if we have any) */
 	libdcp::Size _out_size;
-	/** Size that we will make our film (equal to _out_size unless we have padding) */
-	libdcp::Size _film_size;
 	/** Size of the panel that we have available */
 	libdcp::Size _panel_size;
 };

@@ -53,22 +53,28 @@ Image::swap (Image& other)
 	std::swap (_pixel_format, other._pixel_format);
 }
 
+int
+Image::line_factor (int n) const
+{
+	if (n == 0) {
+		return 1;
+	}
+
+	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	if (!d) {
+		throw PixelFormatError (N_("lines()"), _pixel_format);
+	}
+	
+	return pow (2.0f, d->log2_chroma_h);
+}
+
 /** @param n Component index.
  *  @return Number of lines in the image for the given component.
  */
 int
 Image::lines (int n) const
 {
-	if (n == 0) {
-		return size().height;
-	}
-	
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
-	if (!d) {
-		throw PixelFormatError (N_("lines()"), _pixel_format);
-	}
-	
-	return size().height / pow(2.0f, d->log2_chroma_h);
+	return size().height / line_factor (n);
 }
 
 /** @return Number of components */
@@ -207,9 +213,9 @@ Image::crop (Crop crop, bool aligned) const
 	for (int c = 0; c < components(); ++c) {
 		int const crop_left_in_bytes = bytes_per_pixel(c) * crop.left;
 		int const cropped_width_in_bytes = bytes_per_pixel(c) * cropped_size.width;
-			
+
 		/* Start of the source line, cropped from the top but not the left */
-		uint8_t* in_p = data()[c] + crop.top * stride()[c];
+		uint8_t* in_p = data()[c] + (crop.top / out->line_factor(c)) * stride()[c];
 		uint8_t* out_p = out->data()[c];
 
 		for (int y = 0; y < out->lines(c); ++y) {
@@ -502,12 +508,11 @@ SimpleImage::SimpleImage (AVFrame* frame)
 	}
 }
 
-SimpleImage::SimpleImage (shared_ptr<const Image> other)
+SimpleImage::SimpleImage (shared_ptr<const Image> other, bool aligned)
 	: Image (*other.get())
+	, _size (other->size())
+	, _aligned (aligned)
 {
-	_size = other->size ();
-	_aligned = true;
-
 	allocate ();
 
 	for (int i = 0; i < components(); ++i) {

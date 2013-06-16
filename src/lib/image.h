@@ -69,6 +69,7 @@ public:
 	virtual bool aligned () const = 0;
 
 	int components () const;
+	int line_factor (int) const;
 	int lines (int) const;
 
 	boost::shared_ptr<Image> scale_and_convert_to_rgb (libdcp::Size, Scaler const *, bool) const;
@@ -109,7 +110,7 @@ public:
 	SimpleImage (AVPixelFormat, libdcp::Size, bool);
 	SimpleImage (AVFrame *);
 	SimpleImage (SimpleImage const &);
-	SimpleImage (boost::shared_ptr<const Image>);
+	SimpleImage (boost::shared_ptr<const Image>, bool);
 	SimpleImage& operator= (SimpleImage const &);
 	~SimpleImage ();
 

@@ -34,7 +34,7 @@ Combiner::Combiner ()
 void
 Combiner::process_video (shared_ptr<const Image> image, bool, Time)
 {
-	_image.reset (new SimpleImage (image));
+	_image.reset (new SimpleImage (image, true));
 }
 
 /** Process video for the right half of the frame.
