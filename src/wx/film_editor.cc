@@ -870,18 +870,19 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 
-	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::START);
-	film_content_changed (boost::shared_ptr<Content> (), ContentProperty::LENGTH);
-	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_CROP);
-	film_content_changed (boost::shared_ptr<Content> (), VideoContentProperty::VIDEO_RATIO);
-	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_GAIN);
-	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_DELAY);
-	film_content_changed (boost::shared_ptr<Content> (), AudioContentProperty::AUDIO_MAPPING);
-	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::SUBTITLE_STREAM);
-	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAMS);
-	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::AUDIO_STREAM);
-	film_content_changed (boost::shared_ptr<Content> (), FFmpegContentProperty::FILTERS);
+	shared_ptr<Content> s = selected_content ();
+	film_content_changed (s, ContentProperty::START);
+	film_content_changed (s, ContentProperty::LENGTH);
+	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
+	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
+	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
+	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
+	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);
+	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAMS);
+	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
+	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
+	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAM);
+	film_content_changed (s, FFmpegContentProperty::FILTERS);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
