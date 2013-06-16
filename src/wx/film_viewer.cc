@@ -420,7 +420,7 @@ FilmViewer::film_content_changed (weak_ptr<Content>, int p)
 		/* Force an update to our frame */
 		wxScrollEvent ev;
 		slider_moved (ev);
-	} else if (p == VideoContentProperty::VIDEO_CROP) {
+	} else if (p == VideoContentProperty::VIDEO_CROP || p == VideoContentProperty::VIDEO_RATIO) {
 		update_from_decoder ();
 	}		
 }

@@ -101,7 +101,7 @@ Film::Film (string d)
 	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
-	, _dcp_video_frame_rate (0)
+	, _dcp_video_frame_rate (24)
 	, _dcp_audio_channels (MAX_AUDIO_CHANNELS)
 	, _dirty (false)
 {

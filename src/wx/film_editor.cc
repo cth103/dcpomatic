@@ -596,8 +596,6 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 		setup_content ();
-		setup_ratios ();
-//		setup_ratio ();
 		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
 		break;
@@ -714,7 +712,7 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 				++i;
 				++n;
 			}
-			
+
 			if (i == ratios.end()) {
 				checked_set (_ratio, -1);
 			} else {
@@ -1152,7 +1150,7 @@ FilmEditor::setup_content ()
 	}
 
 	if (selected_summary.empty () && !content.empty ()) {
-		/* Select the item of content if non was selected before */
+		/* Select the item of content if none was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 }
