@@ -74,7 +74,7 @@ Image::line_factor (int n) const
 int
 Image::lines (int n) const
 {
-	return size().height / line_factor (n);
+	return rint (ceil (static_cast<double>(size().height) / line_factor (n)));
 }
 
 /** @return Number of components */
