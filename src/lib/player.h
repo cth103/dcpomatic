@@ -49,7 +49,6 @@ public:
 
 	void disable_video ();
 	void disable_audio ();
-	void disable_subtitles ();
 
 	bool pass ();
 	void seek (Time);
@@ -80,7 +79,6 @@ private:
 	
 	bool _video;
 	bool _audio;
-	bool _subtitles;
 
 	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */
 	bool _have_valid_pieces;

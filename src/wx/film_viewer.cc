@@ -129,6 +129,7 @@ FilmViewer::film_changed (Film::Property p)
 	case Film::WITH_SUBTITLES:
 	case Film::SUBTITLE_OFFSET:
 	case Film::SUBTITLE_SCALE:
+		update_from_decoder ();
 		raw_to_display ();
 		_panel->Refresh ();
 		_panel->Update ();
@@ -161,10 +162,6 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_player = f->player ();
 	_player->disable_audio ();
-	/* Don't disable subtitles here as we may need them, and it's nice to be able to turn them
-	   on and off without needing obtain a new Player.
-	*/
-	
 	_player->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
 	
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));

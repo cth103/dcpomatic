@@ -132,7 +132,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false, false));
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false));
 
 	ContentVideoFrame video_length = 0;
 	video_length = decoder->video_length ();

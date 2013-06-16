@@ -63,7 +63,7 @@ using libdcp::Size;
 
 boost::mutex FFmpegDecoder::_mutex;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio, bool subtitles)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio)
 	: Decoder (f)
 	, VideoDecoder (f, c)
 	, AudioDecoder (f, c)
@@ -79,7 +79,6 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
-	, _decode_subtitles (subtitles)
 {
 	setup_general ();
 	setup_video ();
@@ -259,7 +258,7 @@ FFmpegDecoder::pass ()
 		decode_video_packet ();
 	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && _decode_subtitles) {
+	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id) {
 
 		int got_subtitle;
 		AVSubtitle sub;

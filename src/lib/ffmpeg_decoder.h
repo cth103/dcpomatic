@@ -59,7 +59,7 @@ class Film;
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio, bool subtitles);
+	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio);
 	~FFmpegDecoder ();
 
 	/* Decoder */
@@ -139,7 +139,6 @@ private:
 
 	bool _decode_video;
 	bool _decode_audio;
-	bool _decode_subtitles;
 
 	/* It would appear (though not completely verified) that one must have
 	   a mutex around calls to avcodec_open* and avcodec_close... and here

@@ -58,7 +58,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _playlist (p)
 	, _video (true)
 	, _audio (true)
-	, _subtitles (true)
 	, _have_valid_pieces (false)
 	, _position (0)
 	, _audio_buffers (f->dcp_audio_channels(), 0)
@@ -78,12 +77,6 @@ void
 Player::disable_audio ()
 {
 	_audio = false;
-}
-
-void
-Player::disable_subtitles ()
-{
-	_subtitles = false;
 }
 
 bool
@@ -291,10 +284,13 @@ Player::setup_pieces ()
 
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
 		if (fc) {
-			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio, _subtitles));
+			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
 			fd->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3));
 			fd->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
+			if (_video_container_size) {
+				fd->set_video_container_size (_video_container_size.get ());
+			}
 
 			decoder = fd;
 			cout << "\tFFmpeg @ " << fc->start() << " -- " << fc->end() << "\n";
@@ -315,6 +311,9 @@ Player::setup_pieces ()
 			if (!id) {
 				id.reset (new ImageMagickDecoder (_film, ic));
 				id->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3));
+				if (_video_container_size) {
+					id->set_video_container_size (_video_container_size.get ());
+				}
 			}
 
 			decoder = id;

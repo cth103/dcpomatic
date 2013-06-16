@@ -48,10 +48,6 @@ Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<Job> j)
 	, _player (f->player ())
 	, _encoder (new Encoder (f, j))
 {
-	if (!f->with_subtitles ()) {
-		_player->disable_subtitles ();
-	}
-
 	_player->connect_video (_encoder);
 	_player->connect_audio (_encoder);
 }

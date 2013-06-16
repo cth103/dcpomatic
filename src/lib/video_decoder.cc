@@ -61,20 +61,22 @@ VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
 	
 	shared_ptr<Image> out = image->scale_and_convert_to_rgb (image_size, film->scaler(), true);
 
-	shared_ptr<Subtitle> sub;
-	if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
-		sub = _timed_subtitle->subtitle ();
-	}
-
-	if (sub) {
-		dcpomatic::Rect const tx = subtitle_transformed_area (
-			float (image_size.width) / video_size().width,
-			float (image_size.height) / video_size().height,
-			sub->area(), film->subtitle_offset(), film->subtitle_scale()
-			);
-
-		shared_ptr<Image> im = sub->image()->scale (tx.size(), film->scaler(), true);
-		out->alpha_blend (im, tx.position());
+	if (film->with_subtitles ()) {
+		shared_ptr<Subtitle> sub;
+		if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
+			sub = _timed_subtitle->subtitle ();
+		}
+		
+		if (sub) {
+			dcpomatic::Rect const tx = subtitle_transformed_area (
+				float (image_size.width) / video_size().width,
+				float (image_size.height) / video_size().height,
+				sub->area(), film->subtitle_offset(), film->subtitle_scale()
+				);
+			
+			shared_ptr<Image> im = sub->image()->scale (tx.size(), film->scaler(), true);
+			out->alpha_blend (im, tx.position());
+		}
 	}
 
 	if (image_size != container_size) {
