@@ -691,23 +691,26 @@ FFmpegDecoder::decode_audio_packet ()
 
 		int frame_finished;
 		int const decode_result = avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &copy_packet);
-		if (decode_result >= 0) {
-			if (frame_finished) {
-			
-				/* Where we are in the source, in seconds */
-				double const source_pts_seconds = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-					* av_frame_get_best_effort_timestamp(_frame);
-				
-				int const data_size = av_samples_get_buffer_size (
-					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
-					);
-				
-				assert (_audio_codec_context->channels == _film->audio_channels());
-				Audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds);
-			}
-			
-			copy_packet.data += decode_result;
-			copy_packet.size -= decode_result;
+		if (decode_result < 0) {
+			/* error */
+			break;
 		}
+		
+		if (frame_finished) {
+			
+			/* Where we are in the source, in seconds */
+			double const source_pts_seconds = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
+				* av_frame_get_best_effort_timestamp(_frame);
+			
+			int const data_size = av_samples_get_buffer_size (
+				0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
+				);
+			
+			assert (_audio_codec_context->channels == _film->audio_channels());
+			Audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds);
+		}
+		
+		copy_packet.data += decode_result;
+		copy_packet.size -= decode_result;
 	}
 }
