@@ -70,7 +70,7 @@ public:
 	/** @return Approximate time of the next content that we will emit,
 	 *  expressed relative to the start of our source.
 	 */
-	virtual Time next () const = 0;
+	virtual Time position () const = 0;
 
 	virtual bool done () const = 0;
 

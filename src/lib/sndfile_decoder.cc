@@ -113,7 +113,7 @@ SndfileDecoder::audio_frame_rate () const
 }
 
 Time
-SndfileDecoder::next () const
+SndfileDecoder::position () const
 {
 	return _next_audio;
 }

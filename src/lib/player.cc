@@ -97,7 +97,7 @@ Player::pass ()
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 		cout << "check " << (*i)->content->file()
 		     << " start=" << (*i)->content->start()
-		     << ", next=" << (*i)->decoder->next()
+		     << ", position=" << (*i)->decoder->position()
 		     << ", end=" << (*i)->content->end() << "\n";
 		
 		if ((*i)->decoder->done ()) {
@@ -108,7 +108,7 @@ Player::pass ()
 			continue;
 		}
 		
-		Time const t = (*i)->content->start() + (*i)->decoder->next();
+		Time const t = (*i)->content->start() + (*i)->decoder->position();
 		if (t < earliest_t) {
 			cout << "\t candidate; " << t << " " << (t / TIME_HZ) << ".\n";
 			earliest_t = t;
@@ -136,7 +136,7 @@ Player::pass ()
 	}
 	
 	earliest->decoder->pass ();
-	_position = earliest->content->start() + earliest->decoder->next ();
+	_position = earliest->content->start() + earliest->decoder->position ();
 	cout << "\tpassed to " << _position << " " << (_position / TIME_HZ) << "\n";
 
         return false;

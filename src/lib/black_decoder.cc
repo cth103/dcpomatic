@@ -60,7 +60,7 @@ BlackDecoder::video_length () const
 }
 
 Time
-BlackDecoder::next () const
+BlackDecoder::position () const
 {
 	return _next_video;
 }

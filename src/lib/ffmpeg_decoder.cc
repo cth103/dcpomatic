@@ -452,22 +452,22 @@ FFmpegDecoder::seek (Time t)
 void
 FFmpegDecoder::seek_back ()
 {
-	if (next() < (2.5 * TIME_HZ / video_frame_rate())) {
+	if (position() < (2.5 * TIME_HZ / video_frame_rate())) {
 		return;
 	}
 	
-	do_seek (next() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
+	do_seek (position() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
 	VideoDecoder::seek_back ();
 }
 
 void
 FFmpegDecoder::seek_forward ()
 {
-	if (next() >= (_ffmpeg_content->length() - 0.5 * TIME_HZ / video_frame_rate())) {
+	if (position() >= (_ffmpeg_content->length() - 0.5 * TIME_HZ / video_frame_rate())) {
 		return;
 	}
 	
-	do_seek (next() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
+	do_seek (position() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
 	VideoDecoder::seek_forward ();
 }
 
@@ -608,7 +608,7 @@ FFmpegDecoder::decode_video_packet ()
 }
 
 Time
-FFmpegDecoder::next () const
+FFmpegDecoder::position () const
 {
 	if (_decode_video && _decode_audio && _audio_codec_context) {
 		return min (_next_video, _next_audio);

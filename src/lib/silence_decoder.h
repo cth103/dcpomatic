@@ -32,6 +32,6 @@ public:
 	void seek (Time);
 	void seek_back ();
 	void seek_forward ();
-	Time next () const;
+	Time position () const;
 	bool done () const;
 };

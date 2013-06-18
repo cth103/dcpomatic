@@ -134,7 +134,7 @@ ImageMagickDecoder::seek_forward ()
 }
 
 Time
-ImageMagickDecoder::next () const
+ImageMagickDecoder::position () const
 {
 	return _next_video;
 }

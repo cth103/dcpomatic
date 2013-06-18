@@ -74,7 +74,7 @@ SilenceDecoder::seek_forward ()
 }
 
 Time
-SilenceDecoder::next () const
+SilenceDecoder::position () const
 {
 	return _next_audio;
 }
