@@ -7,7 +7,7 @@ def dependencies(target):
         return ()
     else:
 	# XXX: should be some versions in here
-        return (('ffmpeg-cdist', ''),
+        return (('ffmpeg-cdist', None),
                 ('libdcp', None))
 
 def build(target):
