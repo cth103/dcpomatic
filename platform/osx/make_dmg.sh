@@ -6,7 +6,7 @@ version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 DMG_SIZE=256
 WORK=build/platform/osx
 ENV=/Users/carl/Environments/osx/10.8
-DEPS=/Users/carl/cdist
+ROOT=/Users/carl/cdist
 
 appdir="DVD-o-matic.app"
 approot=$appdir/Contents
@@ -22,17 +22,17 @@ mkdir -p $WORK/$resources
 cp build/src/tools/dvdomatic $WORK/$macos/
 cp build/src/lib/libdvdomatic.dylib $WORK/$libs/
 cp build/src/wx/libdvdomatic-wx.dylib $WORK/$libs/
-cp $DEPS/lib/libdcp.dylib $WORK/$libs/
-cp $DEPS/lib/libasdcp-libdcp.dylib $WORK/$libs/
-cp $DEPS/lib/libkumu-libdcp.dylib $WORK/$libs/
-cp $DEPS/lib/libopenjpeg*.dylib $WORK/$libs/
-cp $DEPS/lib/libavformat*.dylib $WORK/$libs/
-cp $DEPS/lib/libavfilter*.dylib $WORK/$libs/
-cp $DEPS/lib/libavutil*.dylib $WORK/$libs/
-cp $DEPS/lib/libavcodec*.dylib $WORK/$libs/
-cp $DEPS/lib/libswscale*.dylib $WORK/$libs/
-cp $DEPS/lib/libpostproc*.dylib $WORK/$libs/
-cp $DEPS/lib/libswresample*.dylib $WORK/$libs/
+cp $ROOT/lib/libdcp.dylib $WORK/$libs/
+cp $ROOT/lib/libasdcp-libdcp.dylib $WORK/$libs/
+cp $ROOT/lib/libkumu-libdcp.dylib $WORK/$libs/
+cp $ROOT/lib/libopenjpeg*.dylib $WORK/$libs/
+cp $ROOT/lib/libavformat*.dylib $WORK/$libs/
+cp $ROOT/lib/libavfilter*.dylib $WORK/$libs/
+cp $ROOT/lib/libavutil*.dylib $WORK/$libs/
+cp $ROOT/lib/libavcodec*.dylib $WORK/$libs/
+cp $ROOT/lib/libswscale*.dylib $WORK/$libs/
+cp $ROOT/lib/libpostproc*.dylib $WORK/$libs/
+cp $ROOT/lib/libswresample*.dylib $WORK/$libs/
 cp $ENV/lib/libboost_system.dylib $WORK/$libs/
 cp $ENV/lib/libboost_filesystem.dylib $WORK/$libs/
 cp $ENV/lib/libboost_thread.dylib $WORK/$libs/

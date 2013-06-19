@@ -77,12 +77,15 @@ def configure(conf):
     else:
         # This is hackio grotesquio for static builds (ie for .deb packages).  We need to link some things
         # statically and some dynamically, or things get horribly confused and the dynamic linker (I think)
-        # crashes horribly.  These calls do what the check_cfg calls would have done, but specify the
+        # crashes.  These calls do what the check_cfg calls would have done, but specify the
         # different bits as static or dynamic as required.  It'll break if you look at it funny, but
         # I think anyone else who builds would do so dynamically.
+        conf.env.HAVE_CXML = 1
+        conf.env.STLIB_CXML = ['cxml']
         conf.env.HAVE_DCP = 1
         conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
         conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='DCP', mandatory=True)
         conf.env.HAVE_AVFORMAT = 1
         conf.env.STLIB_AVFORMAT = ['avformat']
         conf.env.HAVE_AVFILTER = 1
