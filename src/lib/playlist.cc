@@ -232,7 +232,7 @@ Playlist::best_dcp_frame_rate () const
 	list<FrameRateCandidate>::iterator i = candidates.begin();
 	while (i != candidates.end()) {
 
-		float this_error = std::numeric_limits<float>::max ();
+		float this_error = 0;
 		for (ContentList::const_iterator j = _content.begin(); j != _content.end(); ++j) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*j);
 			if (!vc) {
