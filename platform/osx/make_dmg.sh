@@ -35,6 +35,7 @@ function universal_copy {
 universal_copy $ROOT src/dvdomatic/build/src/tools/dvdomatic $WORK/$macos
 universal_copy $ROOT src/dvdomatic/build/src/lib/libdvdomatic.dylib $WORK/$libs
 universal_copy $ROOT src/dvdomatic/build/src/wx/libdvdomatic-wx.dylib $WORK/$libs
+universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
 universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libkumu-libdcp.dylib $WORK/$libs
