@@ -50,9 +50,6 @@ private:
 	void default_still_length_changed (wxCommandEvent &);
 	void default_directory_changed (wxCommandEvent &);
 	void edit_default_dci_metadata_clicked (wxCommandEvent &);
-	void reference_scaler_changed (wxCommandEvent &);
-	void edit_reference_filters_clicked (wxCommandEvent &);
-	void reference_filters_changed (std::vector<Filter const *>);
 	void add_server_clicked (wxCommandEvent &);
 	void edit_server_clicked (wxCommandEvent &);
 	void remove_server_clicked (wxCommandEvent &);
@@ -68,13 +65,11 @@ private:
 	void make_misc_panel ();
 	void make_tms_panel ();
 	void make_metadata_panel ();
-	void make_ab_panel ();
 	void make_servers_panel ();
 
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
 	wxPanel* _tms_panel;
-	wxPanel* _ab_panel;
 	wxPanel* _servers_panel;
 	wxPanel* _metadata_panel;
 	wxCheckBox* _set_language;
@@ -93,9 +88,6 @@ private:
 	wxDirPickerCtrl* _default_directory;
 #endif
 	wxButton* _default_dci_metadata_button;
-	wxChoice* _reference_scaler;
-	wxStaticText* _reference_filters;
-	wxButton* _reference_filters_button;
 	wxListCtrl* _servers;
 	wxButton* _add_server;
 	wxButton* _edit_server;

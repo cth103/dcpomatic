@@ -65,14 +65,6 @@ public:
 		return _servers;
 	}
 
-	Scaler const * reference_scaler () const {
-		return _reference_scaler;
-	}
-
-	std::vector<Filter const *> reference_filters () const {
-		return _reference_filters;
-	}
-
 	/** @return The IP address of a TMS that we can copy DCPs to */
 	std::string tms_ip () const {
 		return _tms_ip;

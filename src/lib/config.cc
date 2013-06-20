@@ -48,7 +48,6 @@ Config* Config::_instance = 0;
 Config::Config ()
 	: _num_local_encoding_threads (2)
 	, _server_port (6192)
-	, _reference_scaler (Scaler::from_id (N_("bicubic")))
 	, _tms_path (N_("."))
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _default_still_length (10)
@@ -77,15 +76,6 @@ Config::read ()
 	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
 	_default_directory = f.string_child ("DefaultDirectory");
 	_server_port = f.number_child<int> ("ServerPort");
-	c = f.optional_string_child ("ReferenceScaler");
-	if (c) {
-		_reference_scaler = Scaler::from_id (c.get ());
-	}
-
-	list<shared_ptr<cxml::Node> > filters = f.node_children ("ReferenceFilter");
-	for (list<shared_ptr<cxml::Node> >::iterator i = filters.begin(); i != filters.end(); ++i) {
-		_reference_filters.push_back (Filter::from_id ((*i)->content ()));
-	}
 	
 	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
 	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
@@ -149,10 +139,6 @@ Config::read_old_metadata ()
 			_default_directory = v;
 		} else if (k == N_("server_port")) {
 			_server_port = atoi (v.c_str ());
-		} else if (k == N_("reference_scaler")) {
-			_reference_scaler = Scaler::from_id (v);
-		} else if (k == N_("reference_filter")) {
-			_reference_filters.push_back (Filter::from_id (v));
 		} else if (k == N_("server")) {
 			_servers.push_back (ServerDescription::create_from_metadata (v));
 		} else if (k == N_("tms_ip")) {
@@ -227,13 +213,6 @@ Config::write () const
 	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
 	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
-	if (_reference_scaler) {
-		root->add_child("ReferenceScaler")->add_child_text (_reference_scaler->id ());
-	}
-
-	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {
-		root->add_child("ReferenceFilter")->add_child_text ((*i)->id ());
-	}
 	
 	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Server"));

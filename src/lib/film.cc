@@ -36,7 +36,6 @@
 #include "filter.h"
 #include "util.h"
 #include "job_manager.h"
-#include "ab_transcode_job.h"
 #include "transcode_job.h"
 #include "scp_dcp_job.h"
 #include "log.h"
@@ -94,7 +93,6 @@ Film::Film (string d)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
 	, _scaler (Scaler::from_id ("bicubic"))
-	, _ab (false)
 	, _with_subtitles (false)
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
@@ -143,7 +141,6 @@ Film::Film (Film const & o)
 	, _dcp_content_type  (o._dcp_content_type)
 	, _container         (o._container)
 	, _scaler            (o._scaler)
-	, _ab                (o._ab)
 	, _with_subtitles    (o._with_subtitles)
 	, _subtitle_offset   (o._subtitle_offset)
 	, _subtitle_scale    (o._subtitle_scale)
@@ -170,11 +167,6 @@ Film::video_state_identifier () const
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth()
 	  << "_" << lexical_cast<int> (colour_lut());
-
-	if (ab()) {
-		pair<string, string> fa = Filter::ffmpeg_strings (Config::instance()->reference_filters());
-		s << "ab_" << Config::instance()->reference_scaler()->id() << "_" << fa.first << "_" << fa.second;
-	}
 
 	return s.str ();
 }
@@ -294,13 +286,7 @@ Film::make_dcp ()
 		throw MissingSettingError (_("name"));
 	}
 
-	shared_ptr<Job> r;
-
-	if (ab()) {
-		r = JobManager::instance()->add (shared_ptr<Job> (new ABTranscodeJob (shared_from_this())));
-	} else {
-		r = JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
-	}
+	JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
 }
 
 /** Start a job to analyse the audio in our Playlist */
@@ -384,7 +370,6 @@ Film::write_metadata () const
 	}
 
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
-	root->add_child("AB")->add_child_text (_ab ? "1" : "0");
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
 	root->add_child("SubtitleOffset")->add_child_text (lexical_cast<string> (_subtitle_offset));
 	root->add_child("SubtitleScale")->add_child_text (lexical_cast<string> (_subtitle_scale));
@@ -432,7 +417,6 @@ Film::read_metadata ()
 	}
 
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
-	_ab = f.bool_child ("AB");
 	_with_subtitles = f.bool_child ("WithSubtitles");
 	_subtitle_offset = f.number_child<float> ("SubtitleOffset");
 	_subtitle_scale = f.number_child<float> ("SubtitleScale");
@@ -620,16 +604,6 @@ Film::set_scaler (Scaler const * s)
 		_scaler = s;
 	}
 	signal_changed (SCALER);
-}
-
-void
-Film::set_ab (bool a)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_ab = a;
-	}
-	signal_changed (AB);
 }
 
 void

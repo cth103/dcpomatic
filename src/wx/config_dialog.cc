@@ -57,8 +57,6 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_notebook->AddPage (_metadata_panel, _("Metadata"), false);
 	make_tms_panel ();
 	_notebook->AddPage (_tms_panel, _("TMS"), false);
-	make_ab_panel ();
-	_notebook->AddPage (_ab_panel, _("A/B mode"), false);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
@@ -233,39 +231,6 @@ ConfigDialog::make_tms_panel ()
 	_tms_user->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_user_changed), 0, this);
 	_tms_password->SetValue (std_to_wx (config->tms_password ()));
 	_tms_password->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_password_changed), 0, this);
-}
-
-void
-ConfigDialog::make_ab_panel ()
-{
-	_ab_panel = new wxPanel (_notebook);
-	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-	_ab_panel->SetSizer (s);
-
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
-	table->AddGrowableCol (1, 1);
-	s->Add (table, 1, wxALL, 8);
-	
-	add_label_to_sizer (table, _ab_panel, _("Reference scaler"));
-	_reference_scaler = new wxChoice (_ab_panel, wxID_ANY);
-	vector<Scaler const *> const sc = Scaler::all ();
-	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_reference_scaler->Append (std_to_wx ((*i)->name ()));
-	}
-
-	table->Add (_reference_scaler, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	{
-		add_label_to_sizer (table, _ab_panel, _("Reference filters"));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_reference_filters = new wxStaticText (_ab_panel, wxID_ANY, wxT (""));
-		s->Add (_reference_filters, 1, wxEXPAND);
-		_reference_filters_button = new wxButton (_ab_panel, wxID_ANY, _("Edit..."));
-		s->Add (_reference_filters_button, 0);
-		table->Add (s, 1, wxEXPAND);
-		table->AddSpacer (0);
-	}
 }
 
 void
@@ -472,32 +437,6 @@ ConfigDialog::server_selection_changed (wxListEvent &)
 	int const i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	_edit_server->Enable (i >= 0);
 	_remove_server->Enable (i >= 0);
-}
-
-void
-ConfigDialog::reference_scaler_changed (wxCommandEvent &)
-{
-	int const n = _reference_scaler->GetSelection ();
-	if (n >= 0) {
-		Config::instance()->set_reference_scaler (Scaler::from_index (n));
-	}
-}
-
-void
-ConfigDialog::edit_reference_filters_clicked (wxCommandEvent &)
-{
-	FilterDialog* d = new FilterDialog (this, Config::instance()->reference_filters ());
-	d->ActiveChanged.connect (boost::bind (&ConfigDialog::reference_filters_changed, this, _1));
-	d->ShowModal ();
-	d->Destroy ();
-}
-
-void
-ConfigDialog::reference_filters_changed (vector<Filter const *> f)
-{
-	Config::instance()->set_reference_filters (f);
-	pair<string, string> p = Filter::ffmpeg_strings (Config::instance()->reference_filters ());
-	_reference_filters->SetLabel (std_to_wx (p.first) + N_(" ") + std_to_wx (p.second));
 }
 
 void

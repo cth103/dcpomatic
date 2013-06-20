@@ -2,8 +2,6 @@ import os
 import i18n
 
 sources = """
-          ab_transcode_job.cc
-	  ab_transcoder.cc
           analyse_audio_job.cc
           audio_analysis.cc
           audio_buffers.cc

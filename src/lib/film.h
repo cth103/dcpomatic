@@ -135,7 +135,6 @@ public:
 		DCP_CONTENT_TYPE,
 		CONTAINER,
 		SCALER,
-		AB,
 		WITH_SUBTITLES,
 		SUBTITLE_OFFSET,
 		SUBTITLE_SCALE,
@@ -176,11 +175,6 @@ public:
 	Scaler const * scaler () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _scaler;
-	}
-
-	bool ab () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _ab;
 	}
 
 	bool with_subtitles () const {
@@ -235,7 +229,6 @@ public:
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Ratio const *);
 	void set_scaler (Scaler const *);
-	void set_ab (bool);
 	void set_with_subtitles (bool);
 	void set_subtitle_offset (int);
 	void set_subtitle_scale (float);
@@ -288,11 +281,6 @@ private:
 	Ratio const * _container;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** true to create an A/B comparison DCP, where the left half of the image
-	    is the video without any filters or post-processing, and the right half
-	    has the specified filters and post-processing.
-	*/
-	bool _ab;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
 	/** y offset for placing subtitles, in source pixels; +ve is further down

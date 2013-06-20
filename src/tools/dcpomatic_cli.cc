@@ -25,7 +25,6 @@
 #include "filter.h"
 #include "transcode_job.h"
 #include "job_manager.h"
-#include "ab_transcode_job.h"
 #include "util.h"
 #include "scaler.h"
 #include "version.h"
@@ -133,11 +132,7 @@ main (int argc, char* argv[])
 
 	film->log()->set_level ((Log::Level) log_level);
 
-	cout << "\nMaking ";
-	if (film->ab()) {
-		cout << "A/B ";
-	}
-	cout << "DCP for " << film->name() << "\n";
+	cout << "\nMaking DCP for " << film->name() << "\n";
 //	cout << "Content: " << film->content() << "\n";
 //	pair<string, string> const f = Filter::ffmpeg_strings (film->filters ());
 //	cout << "Filters: " << f.first << " " << f.second << "\n";
