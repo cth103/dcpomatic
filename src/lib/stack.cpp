@@ -1,5 +1,3 @@
-/** -*- c-basic-offset: 4; default-tab-width: 4; indent-tabs-mode: nil; -*- */
-
 // Copyright 2007 Edd Dawson.
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
