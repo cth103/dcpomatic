@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
@@ -278,8 +276,6 @@ FFmpegDecoder::pass ()
 			}
 			avsubtitle_free (&sub);
 		}
-	} else {
-		cout << "[ffmpeg] other packet.\n";
 	}
 
 	av_free_packet (&_packet);
@@ -541,7 +537,7 @@ FFmpegDecoder::decode_audio_packet ()
 					);
 				
 				assert (_audio_codec_context->channels == _ffmpeg_content->audio_channels());
-				audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds);
+				audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds * TIME_HZ);
 			}
 			
 			copy_packet.data += decode_result;

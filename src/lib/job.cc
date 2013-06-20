@@ -35,7 +35,7 @@ using std::list;
 using std::stringstream;
 using boost::shared_ptr;
 
-Job::Job (shared_ptr<Film> f)
+Job::Job (shared_ptr<const Film> f)
 	: _film (f)
 	, _thread (0)
 	, _state (NEW)

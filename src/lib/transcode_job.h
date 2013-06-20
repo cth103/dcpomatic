@@ -32,7 +32,7 @@ class Transcoder;
 class TranscodeJob : public Job
 {
 public:
-	TranscodeJob (boost::shared_ptr<Film> f);
+	TranscodeJob (boost::shared_ptr<const Film> f);
 	
 	std::string name () const;
 	void run ();

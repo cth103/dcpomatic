@@ -94,29 +94,6 @@ Playlist::content_changed (weak_ptr<Content> c, int p)
 }
 
 string
-Playlist::audio_digest () const
-{
-	string t;
-	
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		if (!dynamic_pointer_cast<const AudioContent> (*i)) {
-			continue;
-		}
-		
-		t += (*i)->digest ();
-
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
-		if (fc) {
-			t += lexical_cast<string> (fc->audio_stream()->id);
-		}
-	}
-
-	t += lexical_cast<string> (_loop);
-
-	return md5_digest (t.c_str(), t.length());
-}
-
-string
 Playlist::video_digest () const
 {
 	string t;

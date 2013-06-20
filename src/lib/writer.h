@@ -64,7 +64,7 @@ bool operator== (QueueItem const & a, QueueItem const & b);
 class Writer : public ExceptionStore
 {
 public:
-	Writer (boost::shared_ptr<Film>, boost::shared_ptr<Job>);
+	Writer (boost::shared_ptr<const Film>, boost::shared_ptr<Job>);
 
 	bool can_fake_write (int) const;
 	
@@ -80,7 +80,7 @@ private:
 	void check_existing_picture_mxf ();
 
 	/** our Film */
-	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<Job> _job;
 	/** the first frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;

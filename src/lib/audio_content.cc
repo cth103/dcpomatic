@@ -19,11 +19,14 @@
 
 #include <libcxml/cxml.h>
 #include "audio_content.h"
+#include "analyse_audio_job.h"
+#include "job_manager.h"
 #include "film.h"
 
 using std::string;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::dynamic_pointer_cast;
 
 int const AudioContentProperty::AUDIO_CHANNELS = 200;
 int const AudioContentProperty::AUDIO_LENGTH = 201;
@@ -92,4 +95,28 @@ AudioContent::set_audio_delay (int d)
 	}
 	
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
+}
+
+void
+AudioContent::analyse_audio (boost::function<void()> finished)
+{
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+	
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, dynamic_pointer_cast<AudioContent> (shared_from_this())));
+	job->Finished.connect (finished);
+	JobManager::instance()->add (job);
+}
+
+boost::filesystem::path
+AudioContent::audio_analysis_path () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return boost::filesystem::path ();
+	}
+
+	return film->audio_analysis_path (dynamic_pointer_cast<const AudioContent> (shared_from_this ()));
 }

@@ -38,7 +38,7 @@ class Film;
 class Job : public boost::enable_shared_from_this<Job>
 {
 public:
-	Job (boost::shared_ptr<Film>);
+	Job (boost::shared_ptr<const Film>);
 	virtual ~Job() {}
 
 	/** @return user-readable name of this job */
@@ -91,7 +91,7 @@ protected:
 	void set_state (State);
 	void set_error (std::string s, std::string d);
 
-	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<const Film> _film;
 
 private:
 

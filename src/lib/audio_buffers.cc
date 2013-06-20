@@ -206,6 +206,9 @@ AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, i
 	}
 }
 
+/** Ensure we have space for at least a certain number of frames.  If we extend
+ *  the buffers, fill the new space with silence.
+ */
 void
 AudioBuffers::ensure_size (int frames)
 {
@@ -217,6 +220,9 @@ AudioBuffers::ensure_size (int frames)
 		_data[i] = static_cast<float*> (realloc (_data[i], frames * sizeof (float)));
 		if (!_data[i]) {
 			throw bad_alloc ();
+		}
+		for (int j = _allocated_frames; j < frames; ++j) {
+			_data[i][j] = 0;
 		}
 	}
 

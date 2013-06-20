@@ -45,7 +45,6 @@
 #include "config.h"
 #include "version.h"
 #include "ui_signaller.h"
-#include "analyse_audio_job.h"
 #include "playlist.h"
 #include "player.h"
 #include "ffmpeg_content.h"
@@ -72,6 +71,7 @@ using std::endl;
 using std::cout;
 using std::list;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 using boost::to_upper_copy;
@@ -222,13 +222,12 @@ Film::filename_safe_name () const
 	return o;
 }
 
-string
-Film::audio_analysis_path () const
+boost::filesystem::path
+Film::audio_analysis_path (shared_ptr<const AudioContent> c) const
 {
-	boost::filesystem::path p;
-	p /= "analysis";
-	p /= _playlist->audio_digest();
-	return file (p.string ());
+	boost::filesystem::path p = dir ("analysis");
+	p /= c->digest();
+	return p;
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */
@@ -287,31 +286,6 @@ Film::make_dcp ()
 	}
 
 	JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
-}
-
-/** Start a job to analyse the audio in our Playlist */
-void
-Film::analyse_audio ()
-{
-	if (_analyse_audio_job) {
-		return;
-	}
-
-	_analyse_audio_job.reset (new AnalyseAudioJob (shared_from_this()));
-	_analyse_audio_job->Finished.connect (bind (&Film::analyse_audio_finished, this));
-	JobManager::instance()->add (_analyse_audio_job);
-}
-
-void
-Film::analyse_audio_finished ()
-{
-	ensure_ui_thread ();
-
-	if (_analyse_audio_job->finished_ok ()) {
-		AudioAnalysisSucceeded ();
-	}
-	
-	_analyse_audio_job.reset ();
 }
 
 /** Start a job to send our DCP to the configured TMS */
@@ -782,7 +756,17 @@ void
 Film::examine_and_add_content (shared_ptr<Content> c)
 {
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
+	j->Finished.connect (bind (&Film::add_content_weak, this, boost::weak_ptr<Content> (c)));
 	JobManager::instance()->add (j);
+}
+
+void
+Film::add_content_weak (weak_ptr<Content> c)
+{
+	shared_ptr<Content> content = c.lock ();
+	if (content) {
+		add_content (content);
+	}
 }
 
 void

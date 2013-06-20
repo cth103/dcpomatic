@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -85,20 +83,18 @@ AudioDialog::AudioDialog (wxWindow* parent)
 }
 
 void
-AudioDialog::set_film (shared_ptr<Film> f)
+AudioDialog::set_content (shared_ptr<AudioContent> c)
 {
-	_film_changed_connection.disconnect ();
-	_film_audio_analysis_succeeded_connection.disconnect ();
+	_content_changed_connection.disconnect ();
 	
-	_film = f;
+	_content = c;
 
 	try_to_load_analysis ();
-//	_plot->set_gain (_film->audio_gain ());
+	_plot->set_gain (_content->audio_gain ());
 
-	_film_changed_connection = _film->Changed.connect (bind (&AudioDialog::film_changed, this, _1));
-	_film_audio_analysis_succeeded_connection = _film->AudioAnalysisSucceeded.connect (bind (&AudioDialog::try_to_load_analysis, this));
+	_content_changed_connection = _content->Changed.connect (bind (&AudioDialog::content_changed, this, _2));
 
-	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_film->name()).data()));
+	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_content->file().filename().string()).data()));
 }
 
 
@@ -107,11 +103,11 @@ AudioDialog::try_to_load_analysis ()
 {
 	shared_ptr<AudioAnalysis> a;
 
-	if (boost::filesystem::exists (_film->audio_analysis_path())) {
-		a.reset (new AudioAnalysis (_film->audio_analysis_path ()));
+	if (boost::filesystem::exists (_content->audio_analysis_path())) {
+		a.reset (new AudioAnalysis (_content->audio_analysis_path ()));
 	} else {
 		if (IsShown ()) {
-			_film->analyse_audio ();
+			_content->analyse_audio (bind (&AudioDialog::try_to_load_analysis, this));
 		}
 	}
 		
@@ -142,14 +138,10 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 }
 
 void
-AudioDialog::film_changed (Film::Property p)
+AudioDialog::content_changed (int p)
 {
-	switch (p) {
-//	case Film::AUDIO_GAIN:
-//		_plot->set_gain (_film->audio_gain ());
-		break;
-	default:
-		break;
+	if (p == AudioContentProperty::AUDIO_GAIN) {
+		_plot->set_gain (_content->audio_gain ());
 	}
 }
 

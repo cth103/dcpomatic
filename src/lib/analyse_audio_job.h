@@ -22,11 +22,12 @@
 #include "types.h"
 
 class AudioBuffers;
+class AudioContent;
 
 class AnalyseAudioJob : public Job
 {
 public:
-	AnalyseAudioJob (boost::shared_ptr<Film> f);
+	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<AudioContent>);
 
 	std::string name () const;
 	void run ();
@@ -34,7 +35,8 @@ public:
 private:
 	void audio (boost::shared_ptr<const AudioBuffers>, Time);
 
-	Time _done;
+	boost::weak_ptr<AudioContent> _content;
+	OutputAudioFrame _done;
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;
 

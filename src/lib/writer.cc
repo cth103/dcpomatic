@@ -48,7 +48,7 @@ using boost::shared_ptr;
 
 int const Writer::_maximum_frames_in_memory = 8;
 
-Writer::Writer (shared_ptr<Film> f, shared_ptr<Job> j)
+Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _film (f)
 	, _job (j)
 	, _first_nonexistant_frame (0)

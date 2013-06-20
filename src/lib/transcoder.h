@@ -40,7 +40,7 @@ class Transcoder
 {
 public:
 	Transcoder (
-		boost::shared_ptr<Film> f,
+		boost::shared_ptr<const Film> f,
 		boost::shared_ptr<Job> j
 		);
 

@@ -62,9 +62,9 @@ AudioAnalysis::AudioAnalysis (int channels)
 	_data.resize (channels);
 }
 
-AudioAnalysis::AudioAnalysis (string filename)
+AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
-	ifstream f (filename.c_str ());
+	ifstream f (filename.string().c_str ());
 
 	int channels;
 	f >> channels;
@@ -107,10 +107,10 @@ AudioAnalysis::points (int c) const
 }
 
 void
-AudioAnalysis::write (string filename)
+AudioAnalysis::write (boost::filesystem::path filename)
 {
-	string tmp = filename + ".tmp";
-	
+	string tmp = filename.string() + ".tmp";
+
 	ofstream f (tmp.c_str ());
 	f << _data.size() << "\n";
 	for (vector<vector<AudioPoint> >::iterator i = _data.begin(); i != _data.end(); ++i) {

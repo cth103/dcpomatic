@@ -62,8 +62,8 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	wxHyperlinkCtrl* h = new wxHyperlinkCtrl (
 		this, wxID_ANY,
-		wxT ("www.carlh.net/software/dcpomatic"),
-		wxT ("http://www.carlh.net/software/dcpomatic")
+		wxT ("dcpomatic.com"),
+		wxT ("http://dcpomatic.com")
 		);
 
 	sizer->Add (h, wxSizerFlags().Centre().Border());

@@ -77,7 +77,6 @@ public:
 		return _content;
 	}
 
-	std::string audio_digest () const;
 	std::string video_digest () const;
 
 	int loop () const {

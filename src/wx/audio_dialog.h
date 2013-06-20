@@ -31,20 +31,19 @@ class AudioDialog : public wxDialog
 public:
 	AudioDialog (wxWindow *);
 
-	void set_film (boost::shared_ptr<Film>);
+	void set_content (boost::shared_ptr<AudioContent>);
 
 private:
-	void film_changed (Film::Property);
+	void content_changed (int);
 	void channel_clicked (wxCommandEvent &);
 	void type_clicked (wxCommandEvent &);
 	void smoothing_changed (wxScrollEvent &);
 	void try_to_load_analysis ();
 
-	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<AudioContent> _content;
 	AudioPlot* _plot;
 	wxCheckBox* _channel_checkbox[MAX_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;
-	boost::signals2::scoped_connection _film_changed_connection;
-	boost::signals2::scoped_connection _film_audio_analysis_succeeded_connection;
+	boost::signals2::scoped_connection _content_changed_connection;
 };

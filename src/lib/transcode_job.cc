@@ -38,7 +38,7 @@ using boost::shared_ptr;
 
 /** @param s Film to use.
  */
-TranscodeJob::TranscodeJob (shared_ptr<Film> f)
+TranscodeJob::TranscodeJob (shared_ptr<const Film> f)
 	: Job (f)
 {
 	

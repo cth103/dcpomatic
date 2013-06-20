@@ -96,7 +96,7 @@ public:
 };
 
 
-SCPDCPJob::SCPDCPJob (shared_ptr<Film> f)
+SCPDCPJob::SCPDCPJob (shared_ptr<const Film> f)
 	: Job (f)
 	, _status (_("Waiting"))
 {

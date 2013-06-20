@@ -59,10 +59,10 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioCont
 
 		_swr_context = swr_alloc_set_opts (
 			0,
-			av_get_default_channel_layout (MAX_AUDIO_CHANNELS),
+			av_get_default_channel_layout (_audio_content->audio_channels ()),
 			AV_SAMPLE_FMT_FLTP,
 			_audio_content->output_audio_frame_rate(),
-			av_get_default_channel_layout (MAX_AUDIO_CHANNELS),
+			av_get_default_channel_layout (_audio_content->audio_channels ()),
 			AV_SAMPLE_FMT_FLTP,
 			_audio_content->content_audio_frame_rate(),
 			0, 0
@@ -152,7 +152,6 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, Time time)
 	}
 
 	Audio (dcp_mapped, time);
-	cout << "bumping n.a. by " << data->frames() << " ie " << film->audio_frames_to_time(data->frames()) << "\n";
 	_next_audio = time + film->audio_frames_to_time (data->frames());
 }
 

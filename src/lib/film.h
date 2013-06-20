@@ -63,12 +63,11 @@ public:
 	std::string info_path (int f) const;
 	std::string internal_video_mxf_dir () const;
 	std::string internal_video_mxf_filename () const;
-	std::string audio_analysis_path () const;
+	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const AudioContent>) const;
 
 	std::string dcp_video_mxf_filename () const;
 	std::string dcp_audio_mxf_filename () const;
 
-	void analyse_audio ();
 	void send_dcp_to_tms ();
 	void make_dcp ();
 
@@ -244,24 +243,20 @@ public:
 	/** Emitted when some property of our content has changed */
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 
-	boost::signals2::signal<void ()> AudioAnalysisSucceeded;
-
 	/** Current version number of the state file */
 	static int const state_version;
 
 private:
 	
 	void signal_changed (Property);
-	void analyse_audio_finished ();
 	std::string video_state_identifier () const;
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int);
 	std::string filename_safe_name () const;
+	void add_content_weak (boost::weak_ptr<Content>);
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
-	/** Any running AnalyseAudioJob, or 0 */
-	boost::shared_ptr<AnalyseAudioJob> _analyse_audio_job;
 	boost::shared_ptr<Playlist> _playlist;
 
 	/** Complete path to directory containing the film metadata;

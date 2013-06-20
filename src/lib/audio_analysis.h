@@ -23,6 +23,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <boost/filesystem.hpp>
 
 class AudioPoint
 {
@@ -50,7 +51,7 @@ class AudioAnalysis
 {
 public:
 	AudioAnalysis (int c);
-	AudioAnalysis (std::string);
+	AudioAnalysis (boost::filesystem::path);
 
 	void add_point (int c, AudioPoint const & p);
 	
@@ -58,7 +59,7 @@ public:
 	int points (int c) const;
 	int channels () const;
 
-	void write (std::string);
+	void write (boost::filesystem::path);
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;

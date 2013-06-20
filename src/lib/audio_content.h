@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -56,6 +54,9 @@ public:
 	virtual int output_audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
 	virtual void set_audio_mapping (AudioMapping) = 0;
+
+	void analyse_audio (boost::function<void()>);
+	boost::filesystem::path audio_analysis_path () const;
 
 	void set_audio_gain (float);
 	void set_audio_delay (int);

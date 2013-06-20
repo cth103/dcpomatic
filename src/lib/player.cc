@@ -95,11 +95,6 @@ Player::pass ()
         shared_ptr<Piece> earliest;
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		cout << "check " << (*i)->content->file()
-		     << " start=" << (*i)->content->start()
-		     << ", position=" << (*i)->decoder->position()
-		     << ", end=" << (*i)->content->end() << "\n";
-		
 		if ((*i)->decoder->done ()) {
 			continue;
 		}
@@ -110,7 +105,6 @@ Player::pass ()
 		
 		Time const t = (*i)->content->start() + (*i)->decoder->position();
 		if (t < earliest_t) {
-			cout << "\t candidate; " << t << " " << (t / TIME_HZ) << ".\n";
 			earliest_t = t;
 			earliest = *i;
 		}
@@ -121,23 +115,8 @@ Player::pass ()
 		return true;
 	}
 
-	cout << "PASS:\n";
-	cout << "\tpass " << earliest->content->file() << " ";
-	if (dynamic_pointer_cast<FFmpegContent> (earliest->content)) {
-		cout << " FFmpeg.\n";
-	} else if (dynamic_pointer_cast<ImageMagickContent> (earliest->content)) {
-		cout << " ImageMagickContent.\n";
-	} else if (dynamic_pointer_cast<SndfileContent> (earliest->content)) {
-		cout << " SndfileContent.\n";
-	} else if (dynamic_pointer_cast<BlackDecoder> (earliest->decoder)) {
-		cout << " Black.\n";
-	} else if (dynamic_pointer_cast<SilenceDecoder> (earliest->decoder)) {
-		cout << " Silence.\n";
-	}
-	
 	earliest->decoder->pass ();
 	_position = earliest->content->start() + earliest->decoder->position ();
-	cout << "\tpassed to " << _position << " " << (_position / TIME_HZ) << "\n";
 
         return false;
 }
@@ -168,6 +147,8 @@ Player::process_audio (weak_ptr<Content> weak_content, shared_ptr<const AudioBuf
         */
 
 	time += content->start ();
+
+	cout << "Player gets " << audio->frames() << " @ " << time << " cf " << _next_audio << "\n";
 
         if (time > _next_audio) {
                 /* We can emit some audio from our buffers */
@@ -216,13 +197,10 @@ Player::seek (Time t)
 		return;
 	}
 
-//	cout << "seek to " << t << " " << (t / TIME_HZ) << "\n";
-
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 		Time s = t - (*i)->content->start ();
 		s = max (static_cast<Time> (0), s);
 		s = min ((*i)->content->length(), s);
-//		cout << "seek [" << (*i)->content->file() << "," << (*i)->content->start() << "," << (*i)->content->end() << "] to " << s << "\n";
 		(*i)->decoder->seek (s);
 	}
 
@@ -250,7 +228,6 @@ Player::add_black_piece (Time s, Time len)
 	shared_ptr<BlackDecoder> bd (new BlackDecoder (_film, nc));
 	bd->Video.connect (bind (&Player::process_video, this, nc, _1, _2, _3));
 	_pieces.push_back (shared_ptr<Piece> (new Piece (nc, bd)));
-	cout << "\tblack @ " << s << " -- " << (s + len) << "\n";
 }
 
 void
@@ -260,15 +237,12 @@ Player::add_silent_piece (Time s, Time len)
 	shared_ptr<SilenceDecoder> sd (new SilenceDecoder (_film, nc));
 	sd->Audio.connect (bind (&Player::process_audio, this, nc, _1, _2));
 	_pieces.push_back (shared_ptr<Piece> (new Piece (nc, sd)));
-	cout << "\tsilence @ " << s << " -- " << (s + len) << "\n";
 }
 
 
 void
 Player::setup_pieces ()
 {
-	cout << "----- Player SETUP PIECES.\n";
-
 	list<shared_ptr<Piece> > old_pieces = _pieces;
 
 	_pieces.clear ();
@@ -293,7 +267,6 @@ Player::setup_pieces ()
 			}
 
 			decoder = fd;
-			cout << "\tFFmpeg @ " << fc->start() << " -- " << fc->end() << "\n";
 		}
 		
 		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
@@ -317,7 +290,6 @@ Player::setup_pieces ()
 			}
 
 			decoder = id;
-			cout << "\tImageMagick @ " << ic->start() << " -- " << ic->end() << "\n";
 		}
 
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
@@ -326,7 +298,6 @@ Player::setup_pieces ()
 			sd->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
 
 			decoder = sd;
-			cout << "\tSndfile @ " << sc->start() << " -- " << sc->end() << "\n";
 		}
 
 		_pieces.push_back (shared_ptr<Piece> (new Piece (*i, decoder)));

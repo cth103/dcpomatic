@@ -1,5 +1,3 @@
-/* -*- c-basic-offset: 8; default-tab-width: 8; -*- */
-
 /*
     Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
@@ -193,6 +191,10 @@ AudioPlot::y_for_linear (float p) const
 void
 AudioPlot::plot_peak (wxGraphicsPath& path, int channel) const
 {
+	if (_analysis->points (channel) == 0) {
+		return;
+	}
+	
 	path.MoveToPoint (_db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::PEAK]));
 
 	float peak = 0;
@@ -213,6 +215,10 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel) const
 void
 AudioPlot::plot_rms (wxGraphicsPath& path, int channel) const
 {
+	if (_analysis->points (channel) == 0) {
+		return;
+	}
+	
 	path.MoveToPoint (_db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::RMS]));
 
 	list<float> smoothing;

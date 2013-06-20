@@ -848,10 +848,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 		FileChanged ("");
 	}
 
-	if (_audio_dialog) {
-		_audio_dialog->set_film (_film);
-	}
-	
 	film_changed (Film::NAME);
 	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::CONTENT);
@@ -867,19 +863,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 
-	shared_ptr<Content> s = selected_content ();
-	film_content_changed (s, ContentProperty::START);
-	film_content_changed (s, ContentProperty::LENGTH);
-	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
-	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
-	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
-	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
-	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);
-	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
-	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
-	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAM);
-	film_content_changed (s, FFmpegContentProperty::FILTERS);
+	wxListEvent ev;
+	content_selection_changed (ev);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -1106,10 +1091,20 @@ FilmEditor::show_audio_clicked (wxCommandEvent &)
 		_audio_dialog->Destroy ();
 		_audio_dialog = 0;
 	}
+
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c);
+	if (!ac) {
+		return;
+	}
 	
 	_audio_dialog = new AudioDialog (this);
 	_audio_dialog->Show ();
-	_audio_dialog->set_film (_film);
+	_audio_dialog->set_content (ac);
 }
 
 void
@@ -1199,6 +1194,11 @@ FilmEditor::content_selection_changed (wxListEvent &)
 {
         setup_content_sensitivity ();
 	shared_ptr<Content> s = selected_content ();
+	
+	if (_audio_dialog && s && dynamic_pointer_cast<AudioContent> (s)) {
+		_audio_dialog->set_content (dynamic_pointer_cast<AudioContent> (s));
+	}
+	
 	film_content_changed (s, ContentProperty::START);
 	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);

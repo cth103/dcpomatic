@@ -33,8 +33,9 @@ using boost::shared_ptr;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
+AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f, shared_ptr<AudioContent> c)
 	: Job (f)
+	, _content (c)
 	, _done (0)
 	, _samples_per_point (1)
 {
@@ -44,13 +45,25 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<Film> f)
 string
 AnalyseAudioJob::name () const
 {
-	return String::compose (_("Analyse audio of %1"), _film->name());
+	shared_ptr<AudioContent> content = _content.lock ();
+	if (!content) {
+		return "";
+	}
+	
+	return String::compose (_("Analyse audio of %1"), content->file().filename());
 }
 
 void
 AnalyseAudioJob::run ()
 {
-	shared_ptr<Player> player = _film->player ();
+	shared_ptr<AudioContent> content = _content.lock ();
+	if (!content) {
+		return;
+	}
+
+	shared_ptr<Playlist> playlist (new Playlist);
+	playlist->add (content);
+	shared_ptr<Player> player (new Player (_film, playlist));
 	player->disable_video ();
 	
 	player->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1, _2));
@@ -61,18 +74,18 @@ AnalyseAudioJob::run ()
 	_analysis.reset (new AudioAnalysis (_film->dcp_audio_channels ()));
 
 	_done = 0;
-	while (player->pass ()) {
-		set_progress (double (_done) / _film->length ());
+	while (!player->pass ()) {
+		set_progress (double (_film->audio_frames_to_time (_done)) / _film->length ());
 	}
 
-	_analysis->write (_film->audio_analysis_path ());
+	_analysis->write (content->audio_analysis_path ());
 	
 	set_progress (1);
 	set_state (FINISHED_OK);
 }
 
 void
-AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, Time t)
+AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, Time)
 {
 	for (int i = 0; i < b->frames(); ++i) {
 		for (int j = 0; j < b->channels(); ++j) {
@@ -88,12 +101,12 @@ AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, Time t)
 			if ((_done % _samples_per_point) == 0) {
 				_current[j][AudioPoint::RMS] = sqrt (_current[j][AudioPoint::RMS] / _samples_per_point);
 				_analysis->add_point (j, _current[j]);
-				
+
 				_current[j] = AudioPoint ();
 			}
 		}
-	}
 
-	_done = t;
+		++_done;
+	}
 }
 
