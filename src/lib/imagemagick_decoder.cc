@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,39 +35,9 @@ using libdcp::Size;
 ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<const ImageMagickContent> c)
 	: Decoder (f)
 	, VideoDecoder (f, c)
-	, _imagemagick_content (c)
+	, ImageMagick (c)
 {
 
-}
-
-libdcp::Size
-ImageMagickDecoder::video_size () const
-{
-	if (!_video_size) {
-		using namespace MagickCore;
-		Magick::Image* image = new Magick::Image (_imagemagick_content->file().string());
-		_video_size = libdcp::Size (image->columns(), image->rows());
-		delete image;
-	}
-
-	return _video_size.get ();
-}
-
-int
-ImageMagickDecoder::video_length () const
-{
-	return _imagemagick_content->video_length ();
-}
-
-float
-ImageMagickDecoder::video_frame_rate () const
-{
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return 24;
-	}
-
-	return f->dcp_video_frame_rate ();
 }
 
 void

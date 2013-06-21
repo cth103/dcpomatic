@@ -28,13 +28,11 @@
 #include <iostream>
 #include <stdint.h>
 #include <boost/lexical_cast.hpp>
+#include <sndfile.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-#include <libpostproc/postprocess.h>
 }
-#include <sndfile.h>
 #include "film.h"
 #include "filter.h"
 #include "exceptions.h"
@@ -59,161 +57,25 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using libdcp::Size;
 
-boost::mutex FFmpegDecoder::_mutex;
-
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio)
 	: Decoder (f)
 	, VideoDecoder (f, c)
 	, AudioDecoder (f, c)
-	, _ffmpeg_content (c)
-	, _format_context (0)
-	, _video_stream (-1)
-	, _frame (0)
-	, _video_codec_context (0)
-	, _video_codec (0)
-	, _audio_codec_context (0)
-	, _audio_codec (0)
+	, FFmpeg (c)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
 {
-	setup_general ();
-	setup_video ();
-	setup_audio ();
 	setup_subtitle ();
 }
 
 FFmpegDecoder::~FFmpegDecoder ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	
-	if (_audio_codec_context) {
-		avcodec_close (_audio_codec_context);
-	}
-
-	if (_video_codec_context) {
-		avcodec_close (_video_codec_context);
-	}
-
 	if (_subtitle_codec_context) {
 		avcodec_close (_subtitle_codec_context);
 	}
-
-	av_free (_frame);
-	
-	avformat_close_input (&_format_context);
 }	
-
-void
-FFmpegDecoder::setup_general ()
-{
-	av_register_all ();
-
-	if (avformat_open_input (&_format_context, _ffmpeg_content->file().string().c_str(), 0, 0) < 0) {
-		throw OpenFileError (_ffmpeg_content->file().string ());
-	}
-
-	if (avformat_find_stream_info (_format_context, 0) < 0) {
-		throw DecodeError (_("could not find stream information"));
-	}
-
-	/* Find video, audio and subtitle streams */
-
-	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		AVStream* s = _format_context->streams[i];
-		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-			_video_stream = i;
-		} else if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
-
-			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
-			   so bodge it here.  No idea why we should have to do this.
-			*/
-
-			if (s->codec->channel_layout == 0) {
-				s->codec->channel_layout = av_get_default_channel_layout (s->codec->channels);
-			}
-			
-			_audio_streams.push_back (
-				shared_ptr<FFmpegAudioStream> (
-					new FFmpegAudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channels)
-					)
-				);
-
-		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (stream_name (s), i)));
-		}
-	}
-
-	if (_video_stream < 0) {
-		throw DecodeError (N_("could not find video stream"));
-	}
-
-	_frame = avcodec_alloc_frame ();
-	if (_frame == 0) {
-		throw DecodeError (N_("could not allocate frame"));
-	}
-}
-
-void
-FFmpegDecoder::setup_video ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	
-	_video_codec_context = _format_context->streams[_video_stream]->codec;
-	_video_codec = avcodec_find_decoder (_video_codec_context->codec_id);
-
-	if (_video_codec == 0) {
-		throw DecodeError (_("could not find video decoder"));
-	}
-
-	if (avcodec_open2 (_video_codec_context, _video_codec, 0) < 0) {
-		throw DecodeError (N_("could not open video decoder"));
-	}
-}
-
-void
-FFmpegDecoder::setup_audio ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	
-	if (!_ffmpeg_content->audio_stream ()) {
-		return;
-	}
-
-	_audio_codec_context = _format_context->streams[_ffmpeg_content->audio_stream()->id]->codec;
-	_audio_codec = avcodec_find_decoder (_audio_codec_context->codec_id);
-
-	if (_audio_codec == 0) {
-		throw DecodeError (_("could not find audio decoder"));
-	}
-
-	if (avcodec_open2 (_audio_codec_context, _audio_codec, 0) < 0) {
-		throw DecodeError (N_("could not open audio decoder"));
-	}
-}
-
-void
-FFmpegDecoder::setup_subtitle ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	
-	if (!_ffmpeg_content->subtitle_stream() || _ffmpeg_content->subtitle_stream()->id >= int (_format_context->nb_streams)) {
-		return;
-	}
-
-	_subtitle_codec_context = _format_context->streams[_ffmpeg_content->subtitle_stream()->id]->codec;
-	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
-
-	if (_subtitle_codec == 0) {
-		throw DecodeError (_("could not find subtitle decoder"));
-	}
-	
-	if (avcodec_open2 (_subtitle_codec_context, _subtitle_codec, 0) < 0) {
-		throw DecodeError (N_("could not open subtitle decoder"));
-	}
-}
-
 
 void
 FFmpegDecoder::pass ()
@@ -377,18 +239,6 @@ FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 	return audio;
 }
 
-float
-FFmpegDecoder::video_frame_rate () const
-{
-	AVStream* s = _format_context->streams[_video_stream];
-
-	if (s->avg_frame_rate.num && s->avg_frame_rate.den) {
-		return av_q2d (s->avg_frame_rate);
-	}
-
-	return av_q2d (s->r_frame_rate);
-}
-
 AVSampleFormat
 FFmpegDecoder::audio_sample_format () const
 {
@@ -397,39 +247,6 @@ FFmpegDecoder::audio_sample_format () const
 	}
 	
 	return _audio_codec_context->sample_fmt;
-}
-
-libdcp::Size
-FFmpegDecoder::video_size () const
-{
-	return libdcp::Size (_video_codec_context->width, _video_codec_context->height);
-}
-
-string
-FFmpegDecoder::stream_name (AVStream* s) const
-{
-	stringstream n;
-
-	if (s->metadata) {
-		AVDictionaryEntry const * lang = av_dict_get (s->metadata, N_("language"), 0, 0);
-		if (lang) {
-			n << lang->value;
-		}
-		
-		AVDictionaryEntry const * title = av_dict_get (s->metadata, N_("title"), 0, 0);
-		if (title) {
-			if (!n.str().empty()) {
-				n << N_(" ");
-			}
-			n << title->value;
-		}
-	}
-
-	if (n.str().empty()) {
-		n << N_("unknown");
-	}
-
-	return n.str ();
 }
 
 int
@@ -448,22 +265,22 @@ FFmpegDecoder::seek (Time t)
 void
 FFmpegDecoder::seek_back ()
 {
-	if (position() < (2.5 * TIME_HZ / video_frame_rate())) {
+	if (position() < (2.5 * TIME_HZ / _ffmpeg_content->video_frame_rate())) {
 		return;
 	}
 	
-	do_seek (position() - 2.5 * TIME_HZ / video_frame_rate(), true, true);
+	do_seek (position() - 2.5 * TIME_HZ / _ffmpeg_content->video_frame_rate(), true, true);
 	VideoDecoder::seek_back ();
 }
 
 void
 FFmpegDecoder::seek_forward ()
 {
-	if (position() >= (_ffmpeg_content->length() - 0.5 * TIME_HZ / video_frame_rate())) {
+	if (position() >= (_ffmpeg_content->length() - 0.5 * TIME_HZ / _ffmpeg_content->video_frame_rate())) {
 		return;
 	}
 	
-	do_seek (position() - 0.5 * TIME_HZ / video_frame_rate(), true, true);
+	do_seek (position() - 0.5 * TIME_HZ / _ffmpeg_content->video_frame_rate(), true, true);
 	VideoDecoder::seek_forward ();
 }
 
@@ -503,13 +320,6 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 	}
 
 	return;
-}
-
-/** @return Length (in video frames) according to our content's header */
-ContentVideoFrame
-FFmpegDecoder::video_length () const
-{
-	return (double(_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
 }
 
 void
@@ -623,3 +433,23 @@ FFmpegDecoder::done () const
 	return (!_decode_audio || !_audio_codec_context || audio_done()) && (!_decode_video || video_done());
 }
 	
+void
+FFmpegDecoder::setup_subtitle ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	
+	if (!_ffmpeg_content->subtitle_stream() || _ffmpeg_content->subtitle_stream()->id >= int (_format_context->nb_streams)) {
+		return;
+	}
+
+	_subtitle_codec_context = _format_context->streams[_ffmpeg_content->subtitle_stream()->id]->codec;
+	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
+
+	if (_subtitle_codec == 0) {
+		throw DecodeError (_("could not find subtitle decoder"));
+	}
+	
+	if (avcodec_open2 (_subtitle_codec_context, _subtitle_codec, 0) < 0) {
+		throw DecodeError (N_("could not open subtitle decoder"));
+	}
+}

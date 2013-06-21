@@ -17,9 +17,10 @@
 
 */
 
+#include <iomanip>
 #include <libcxml/cxml.h>
 #include "video_content.h"
-#include "video_decoder.h"
+#include "video_examiner.h"
 #include "ratio.h"
 
 #include "i18n.h"
@@ -99,9 +100,9 @@ VideoContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-VideoContent::take_from_video_decoder (shared_ptr<VideoDecoder> d)
+VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 {
-	/* These decoder calls could call other content methods which take a lock on the mutex */
+	/* These examiner calls could call other content methods which take a lock on the mutex */
 	libdcp::Size const vs = d->video_size ();
 	float const vfr = d->video_frame_rate ();
 	

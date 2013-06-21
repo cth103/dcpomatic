@@ -35,15 +35,6 @@ public:
 	virtual void seek_back ();
 	virtual void seek_forward ();
 	
-	/* Calls for VideoContent to find out about itself */
-
-	/** @return video frame rate second, or 0 if unknown */
-	virtual float video_frame_rate () const = 0;
-	/** @return video size in pixels */
-	virtual libdcp::Size video_size () const = 0;
-	/** @return length according to our content's header */
-	virtual ContentVideoFrame video_length () const = 0;
-
 	void set_video_container_size (libdcp::Size);
 
 protected:

@@ -23,13 +23,16 @@ sources = """
           examine_content_job.cc
           exceptions.cc
           filter_graph.cc
+          ffmpeg.cc
           ffmpeg_content.cc
           ffmpeg_decoder.cc
+          ffmpeg_examiner.cc
           film.cc
           filter.cc
           image.cc
           imagemagick_content.cc
           imagemagick_decoder.cc
+          imagemagick_examiner.cc
           job.cc
           job_manager.cc
           log.cc

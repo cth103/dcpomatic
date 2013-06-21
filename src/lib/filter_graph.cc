@@ -33,7 +33,6 @@ extern "C" {
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
-#include "ffmpeg_decoder.h"
 
 #include "i18n.h"
 

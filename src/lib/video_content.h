@@ -23,7 +23,7 @@
 #include "content.h"
 #include "util.h"
 
-class VideoDecoder;
+class VideoExaminer;
 class Ratio;
 
 class VideoContentProperty
@@ -80,7 +80,7 @@ public:
 	}
 
 protected:
-	void take_from_video_decoder (boost::shared_ptr<VideoDecoder>);
+	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
 	ContentVideoFrame _video_length;
 

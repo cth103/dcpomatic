@@ -19,11 +19,12 @@
 
 #include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
-#include "ffmpeg_decoder.h"
+#include "ffmpeg_examiner.h"
 #include "compose.hpp"
 #include "job.h"
 #include "util.h"
 #include "filter.h"
+#include "film.h"
 #include "log.h"
 
 #include "i18n.h"
@@ -130,29 +131,29 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, shared_from_this (), true, false));
+	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 
 	ContentVideoFrame video_length = 0;
-	video_length = decoder->video_length ();
-	film->log()->log (String::compose ("Video length obtained from header as %1 frames", decoder->video_length ()));
+	video_length = examiner->video_length ();
+	film->log()->log (String::compose ("Video length obtained from header as %1 frames", examiner->video_length ()));
 
         {
                 boost::mutex::scoped_lock lm (_mutex);
 
                 _video_length = video_length;
 
-                _subtitle_streams = decoder->subtitle_streams ();
+                _subtitle_streams = examiner->subtitle_streams ();
                 if (!_subtitle_streams.empty ()) {
                         _subtitle_stream = _subtitle_streams.front ();
                 }
                 
-                _audio_streams = decoder->audio_streams ();
+                _audio_streams = examiner->audio_streams ();
                 if (!_audio_streams.empty ()) {
                         _audio_stream = _audio_streams.front ();
                 }
         }
 
-        take_from_video_decoder (decoder);
+        take_from_video_examiner (examiner);
 
         signal_changed (ContentProperty::LENGTH);
         signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);

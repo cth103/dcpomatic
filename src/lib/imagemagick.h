@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,19 @@
 
 */
 
-#include "video_decoder.h"
-#include "imagemagick.h"
-
-namespace Magick {
-	class Image;
-}
-
 class ImageMagickContent;
 
-class ImageMagickDecoder : public VideoDecoder, public ImageMagick
+class ImageMagick
 {
 public:
-	ImageMagickDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageMagickContent>);
+	ImageMagick (boost::shared_ptr<const ImageMagickContent> c)
+		: _imagemagick_content (c)
+	{}
 
-	/* Decoder */
+	boost::shared_ptr<const ImageMagickContent> content () const {
+		return _imagemagick_content;
+	}
 
-	void pass ();
-	void seek (Time);
-	void seek_back ();
-	void seek_forward ();
-	Time position () const;
-	bool done () const;
-
-private:
-	boost::shared_ptr<Image> _image;
-	mutable boost::optional<libdcp::Size> _video_size;
+protected:
+	boost::shared_ptr<const ImageMagickContent> _imagemagick_content;
 };

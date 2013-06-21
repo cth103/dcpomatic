@@ -19,9 +19,10 @@
 
 #include <libcxml/cxml.h>
 #include "imagemagick_content.h"
-#include "imagemagick_decoder.h"
+#include "imagemagick_examiner.h"
 #include "config.h"
 #include "compose.hpp"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -73,10 +74,10 @@ ImageMagickContent::examine (shared_ptr<Job> job)
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	shared_ptr<ImageMagickDecoder> decoder (new ImageMagickDecoder (film, shared_from_this()));
+	shared_ptr<ImageMagickExaminer> examiner (new ImageMagickExaminer (film, shared_from_this()));
 
 	set_video_length (Config::instance()->default_still_length() * 24);
-	take_from_video_decoder (decoder);
+	take_from_video_examiner (examiner);
 }
 
 shared_ptr<Content>
