@@ -60,7 +60,10 @@ public:
 	}
 
 	/** This should wake the UI and make it call ui_idle() */
-	virtual void wake_ui () = 0;
+	virtual void wake_ui () {
+		/* This is only a sensible implementation when there is no GUI... */
+		ui_idle ();
+	}
 
 private:
 	/** A io_service which is used as the conduit for messages */

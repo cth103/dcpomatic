@@ -41,6 +41,7 @@
 #include "ffmpeg_decoder.h"
 #include "sndfile_decoder.h"
 #include "dcp_content_type.h"
+#include "ui_signaller.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -67,6 +68,8 @@ struct TestConfig
 		Config::instance()->set_default_dci_metadata (DCIMetadata ());
 		Config::instance()->set_default_container (0);
 		Config::instance()->set_default_dcp_content_type (0);
+
+		ui_signaller = new UISignaller ();
 	}
 };
 

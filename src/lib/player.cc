@@ -42,6 +42,8 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
+#define DEBUG_PLAYER 1
+
 struct Piece
 {
 	Piece (shared_ptr<Content> c, shared_ptr<Decoder> d)
@@ -52,6 +54,30 @@ struct Piece
 	shared_ptr<Content> content;
 	shared_ptr<Decoder> decoder;
 };
+	
+
+#ifdef DEBUG_PLAYER
+std::ostream& operator<<(std::ostream& s, Piece const & p)
+{
+	if (dynamic_pointer_cast<NullContent> (p.content)) {
+		if (dynamic_pointer_cast<SilenceDecoder> (p.decoder)) {
+			s << "\tsilence    ";
+		} else {
+			s << "\tblack      ";
+		}
+	} else if (dynamic_pointer_cast<FFmpegContent> (p.content)) {
+		s << "\tffmpeg     ";
+	} else if (dynamic_pointer_cast<ImageMagickContent> (p.content)) {
+		s << "\timagemagick";
+	} else if (dynamic_pointer_cast<SndfileContent> (p.content)) {
+		s << "\tsndfile    ";
+	}
+	
+	s << " at " << p.content->start() << " until " << p.content->end();
+	
+	return s;
+}
+#endif	
 
 Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	: _film (f)
@@ -332,6 +358,13 @@ Player::setup_pieces ()
 	} else if (audio_pos < video_pos) {
 		add_silent_piece (audio_pos, video_pos - audio_pos);
 	}
+
+#ifdef DEBUG_PLAYER
+	cout << "=== Player setup:\n";
+	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+		cout << *(i->get()) << "\n";
+	}
+#endif	
 }
 
 void
