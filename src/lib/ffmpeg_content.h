@@ -46,6 +46,7 @@ public:
         int frame_rate;
 	int channels;
 	AudioMapping mapping;
+	boost::optional<Time> start;
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
@@ -139,6 +140,7 @@ private:
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::shared_ptr<FFmpegAudioStream> _audio_stream;
+	boost::optional<Time> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
 };

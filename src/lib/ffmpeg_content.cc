@@ -76,6 +76,8 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
 		_filters.push_back (Filter::from_id ((*i)->content ()));
 	}
+
+	_first_video = node->optional_number_child<Time> ("FirstVideo");
 }
 
 FFmpegContent::FFmpegContent (FFmpegContent const & o)
@@ -119,6 +121,10 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
 		node->add_child("Filter")->add_child_text ((*i)->id ());
 	}
+
+	if (_first_video) {
+		node->add_child("FirstVideo")->add_child_text (lexical_cast<string> (_first_video.get ()));
+	}
 }
 
 void
@@ -135,7 +141,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	ContentVideoFrame video_length = 0;
 	video_length = examiner->video_length ();
-	film->log()->log (String::compose ("Video length obtained from header as %1 frames", examiner->video_length ()));
+	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length));
 
         {
                 boost::mutex::scoped_lock lm (_mutex);
@@ -151,6 +157,8 @@ FFmpegContent::examine (shared_ptr<Job> job)
                 if (!_audio_streams.empty ()) {
                         _audio_stream = _audio_streams.front ();
                 }
+
+		_first_video = examiner->first_video ();
         }
 
         take_from_video_examiner (examiner);
@@ -288,6 +296,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
 	mapping = AudioMapping (node->node_child ("Mapping"));
+	start = node->optional_number_child<Time> ("Start");
 }
 
 void
@@ -297,6 +306,9 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
+	if (start) {
+		root->add_child("Start")->add_child_text (lexical_cast<string> (start));
+	}
 	mapping.as_xml (root->add_child("Mapping"));
 }
 

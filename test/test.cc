@@ -154,6 +154,7 @@ check_dcp (string ref, string check)
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }
 
+#include "ffmpeg_examiner_test.cc"
 #include "black_fill_test.cc"
 #include "scaling_test.cc"
 #include "ratio_test.cc"
@@ -167,4 +168,3 @@ check_dcp (string ref, string check)
 #include "job_test.cc"
 #include "client_server_test.cc"
 #include "image_test.cc"
-

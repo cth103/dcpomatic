@@ -17,6 +17,7 @@
 
 */
 
+#include <boost/optional.hpp>
 #include "ffmpeg.h"
 #include "video_examiner.h"
 
@@ -40,9 +41,15 @@ public:
 		return _audio_streams;
 	}
 
+	boost::optional<Time> first_video () const {
+		return _first_video;
+	}
+	
 private:
 	std::string stream_name (AVStream* s) const;
+	boost::optional<Time> frame_time (int) const;
 	
         std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
         std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
+	boost::optional<Time> _first_video;
 };

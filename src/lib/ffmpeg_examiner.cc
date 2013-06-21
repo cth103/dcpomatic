@@ -25,8 +25,10 @@ extern "C" {
 #include "ffmpeg_content.h"
 
 using std::string;
+using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
+using boost::optional;
 
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 	: FFmpeg (c)
@@ -56,6 +58,61 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 		}
 	}
 
+	/* Run through until we find the first audio (for each stream) and video */
+
+	while (1) {
+		int r = av_read_frame (_format_context, &_packet);
+		if (r < 0) {
+			break;
+		}
+
+		int frame_finished;
+		avcodec_get_frame_defaults (_frame);
+
+		cout << "got packet " << _packet.stream_index << "\n";
+
+		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
+
+		if (_packet.stream_index == _video_stream && !_first_video) {
+			if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+				_first_video = frame_time (_video_stream);
+			}
+		} else {
+			for (size_t i = 0; i < _audio_streams.size(); ++i) {
+				if (_packet.stream_index == _audio_streams[i]->id && !_audio_streams[i]->start) {
+					if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+						_audio_streams[i]->start = frame_time (_audio_streams[i]->id);
+					}
+				}
+			}
+		}
+
+		bool have_all_audio = true;
+		size_t i = 0;
+		while (i < _audio_streams.size() && have_all_audio) {
+			have_all_audio = _audio_streams[i]->start;
+			++i;
+		}
+
+		if (_first_video && have_all_audio) {
+			break;
+		}
+
+		av_free_packet (&_packet);
+	}
+}
+
+optional<Time>
+FFmpegExaminer::frame_time (int stream) const
+{
+	optional<Time> t;
+	
+	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
+	if (bet != AV_NOPTS_VALUE) {
+		t = bet * av_q2d (_format_context->streams[stream]->time_base) * TIME_HZ;
+	}
+
+	return t;
 }
 
 float
@@ -73,7 +130,7 @@ FFmpegExaminer::video_frame_rate () const
 libdcp::Size
 FFmpegExaminer::video_size () const
 {
-	return libdcp::Size (_video_codec_context->width, _video_codec_context->height);
+	return libdcp::Size (video_codec_context()->width, video_codec_context()->height);
 }
 
 /** @return Length (in video frames) according to our content's header */

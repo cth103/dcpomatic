@@ -242,11 +242,11 @@ FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 AVSampleFormat
 FFmpegDecoder::audio_sample_format () const
 {
-	if (_audio_codec_context == 0) {
+	if (!_ffmpeg_content->audio_stream()) {
 		return (AVSampleFormat) 0;
 	}
 	
-	return _audio_codec_context->sample_fmt;
+	return audio_codec_context()->sample_fmt;
 }
 
 int
@@ -290,7 +290,7 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 	int64_t const vt = t / (av_q2d (_format_context->streams[_video_stream]->time_base) * TIME_HZ);
 	av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
 
-	avcodec_flush_buffers (_video_codec_context);
+	avcodec_flush_buffers (video_codec_context());
 	if (_subtitle_codec_context) {
 		avcodec_flush_buffers (_subtitle_codec_context);
 	}
@@ -306,7 +306,7 @@ FFmpegDecoder::do_seek (Time t, bool backwards, bool accurate)
 			
 			if (_packet.stream_index == _video_stream) {
 				int finished = 0;
-				int const r = avcodec_decode_video2 (_video_codec_context, _frame, &finished, &_packet);
+				int const r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 				if (r >= 0 && finished) {
 					int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 					if (bet > vt) {
@@ -334,7 +334,7 @@ FFmpegDecoder::decode_audio_packet ()
 	while (copy_packet.size > 0) {
 
 		int frame_finished;
-		int const decode_result = avcodec_decode_audio4 (_audio_codec_context, _frame, &frame_finished, &copy_packet);
+		int const decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
 		if (decode_result >= 0) {
 			if (frame_finished) {
 			
@@ -343,10 +343,10 @@ FFmpegDecoder::decode_audio_packet ()
 					* av_frame_get_best_effort_timestamp(_frame);
 				
 				int const data_size = av_samples_get_buffer_size (
-					0, _audio_codec_context->channels, _frame->nb_samples, audio_sample_format (), 1
+					0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
 					);
 				
-				assert (_audio_codec_context->channels == _ffmpeg_content->audio_channels());
+				assert (audio_codec_context()->channels == _ffmpeg_content->audio_channels());
 				audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds * TIME_HZ);
 			}
 			
@@ -360,7 +360,7 @@ bool
 FFmpegDecoder::decode_video_packet ()
 {
 	int frame_finished;
-	if (avcodec_decode_video2 (_video_codec_context, _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
+	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
 		return false;
 	}
 		
@@ -416,11 +416,11 @@ FFmpegDecoder::decode_video_packet ()
 Time
 FFmpegDecoder::position () const
 {
-	if (_decode_video && _decode_audio && _audio_codec_context) {
+	if (_decode_video && _decode_audio && _ffmpeg_content->audio_stream()) {
 		return min (_next_video, _next_audio);
 	}
 
-	if (_decode_audio && _audio_codec_context) {
+	if (_decode_audio && _ffmpeg_content->audio_stream()) {
 		return _next_audio;
 	}
 
@@ -430,7 +430,9 @@ FFmpegDecoder::position () const
 bool
 FFmpegDecoder::done () const
 {
-	return (!_decode_audio || !_audio_codec_context || audio_done()) && (!_decode_video || video_done());
+	bool const ad = !_decode_audio || !_ffmpeg_content->audio_stream() || audio_done();
+	bool const vd = !_decode_video || video_done();
+	return ad && vd;
 }
 	
 void

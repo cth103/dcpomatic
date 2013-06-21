@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_FFMPEG_H
+#define DCPOMATIC_FFMPEG_H
+
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
@@ -46,16 +49,16 @@ public:
 	}
 
 protected:
+	AVCodecContext* video_codec_context () const;
+	AVCodecContext* audio_codec_context () const;
+	
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
+
 	AVFormatContext* _format_context;
 	AVPacket _packet;
 	AVFrame* _frame;
-	int _video_stream;
 
-	AVCodecContext* _video_codec_context;
-	AVCodec* _video_codec;
-	AVCodecContext* _audio_codec_context;    ///< may be 0 if there is no audio
-	AVCodec* _audio_codec;                   ///< may be 0 if there is no audio
+	int _video_stream;
 
 	/* It would appear (though not completely verified) that one must have
 	   a mutex around calls to avcodec_open* and avcodec_close... and here
@@ -68,3 +71,5 @@ private:
 	void setup_video ();
 	void setup_audio ();
 };
+
+#endif
