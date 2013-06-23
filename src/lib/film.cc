@@ -1006,6 +1006,7 @@ Film::set_content (string c)
 #endif
 	ffprobe += c;
 	ffprobe += " 2> " + file ("ffprobe.log");
+	log()->log (String::compose ("Probing with %1", ffprobe));
 	system (ffprobe.c_str ());
 }
 
