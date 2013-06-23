@@ -998,6 +998,15 @@ Film::set_content (string c)
 	if (content_type() == STILL) {
 		set_use_content_audio (false);
 	}
+
+#ifdef DVDOMATIC_WINDOWS
+	string ffprobe = "ffprobe.exe ";
+#else
+	string ffprobe = "ffprobe ";
+#endif
+	ffprobe += c;
+	ffprobe += " 2> " + file ("ffprobe.log");
+	system (ffprobe.c_str ());
 }
 
 void
