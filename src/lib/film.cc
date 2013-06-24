@@ -68,6 +68,7 @@ using std::setfill;
 using std::min;
 using std::make_pair;
 using std::endl;
+using std::list;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::to_upper_copy;
@@ -329,6 +330,10 @@ Film::make_dcp ()
 #endif
 	pair<string, int> const c = cpu_info ();
 	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
+	list<pair<string, string> > const m = mount_info ();
+	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
+		log()->log (String::compose ("Mount: %1 %2", i->first, i->second));
+	}
 	
 	if (format() == 0) {
 		throw MissingSettingError (_("format"));
