@@ -20,6 +20,7 @@
 #include <fstream>
 #include <boost/algorithm/string.hpp>
 #include "cross.h"
+#include "compose.hpp"
 #include "log.h"
 #ifdef DVDOMATIC_POSIX
 #include <unistd.h>
@@ -150,7 +151,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	CloseHandle (process_info.hThread);
 	CloseHandle (child_stderr_read);
 #else
-	string ffprobe = "ffprobe 2> \"" + c + "\" 2> \"" + file ("ffprobe.log");
+	string ffprobe = "ffprobe 2> \"" + content.string() + "\" 2> \"" + out.string();
 	log->log (String::compose ("Probing with %1", ffprobe));
 	system (ffprobe.c_str ());
 #endif	
