@@ -1005,7 +1005,7 @@ Film::set_content (string c)
 	boost::filesystem::path path_dir (dir);
 	path_dir = path_dir.parent_path ();
 	path_dir /= "ffprobe.exe";
-	string ffprobe = path_dir.string ();
+	string ffprobe = "\"" + path_dir.string () + "\" ";
 #else
 	string ffprobe = "ffprobe ";
 #endif
