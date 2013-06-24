@@ -33,6 +33,7 @@ class FFmpegDecoder;
 class FilterGraph
 {
 public:
+	virtual ~FilterGraph () {}
 	virtual bool can_process (libdcp::Size, AVPixelFormat) const = 0;
 	virtual std::list<boost::shared_ptr<Image> > process (AVFrame *) = 0;
 };
