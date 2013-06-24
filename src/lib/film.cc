@@ -1000,7 +1000,12 @@ Film::set_content (string c)
 	}
 
 #ifdef DVDOMATIC_WINDOWS
-	string ffprobe = "ffprobe.exe ";
+	char dir[512];
+	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
+	boost::filesystem::path path_dir (dir);
+	path_dir = path_dir.parent_path ();
+	path_dir /= "ffprobe.exe";
+	ffprobe = path_dir.string ();
 #else
 	string ffprobe = "ffprobe ";
 #endif
