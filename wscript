@@ -42,6 +42,7 @@ def configure(conf):
         conf.check(lib = 'bfd', uselib_store = 'BFD', msg = "Checking for library bfd")
         conf.check(lib = 'dbghelp', uselib_store = 'DBGHELP', msg = "Checking for library dbghelp")
         conf.check(lib = 'iberty', uselib_store = 'IBERTY', msg = "Checking for library iberty")
+        conf.check(lib = 'shlwapi', uselib_store = 'SHLWAPI', msg = "Checking for library shlwapi")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
     else:
