@@ -18,6 +18,9 @@
 */
 
 #include <string>
+#include <boost/filesystem.hpp>
+
+class Log;
 
 #ifdef DVDOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
@@ -25,3 +28,4 @@
 
 void dvdomatic_sleep (int);
 extern std::pair<std::string, int> cpu_info ();
+extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path, boost::shared_ptr<Log>);

@@ -20,11 +20,14 @@
 #include <fstream>
 #include <boost/algorithm/string.hpp>
 #include "cross.h"
+#include "log.h"
 #ifdef DVDOMATIC_POSIX
 #include <unistd.h>
 #endif
 #ifdef DVDOMATIC_WINDOWS
-#include "windows.h"
+#include <windows.h>
+#undef DATADIR
+#include <shlwapi.h>
 #endif
 #ifdef DVDOMATIC_OSX
 #include <sys/sysctl.h>
@@ -33,6 +36,7 @@
 using std::pair;
 using std::ifstream;
 using std::string;
+using boost::shared_ptr;
 
 void
 dvdomatic_sleep (int s)
@@ -81,3 +85,73 @@ cpu_info ()
 	return info;
 }
 
+void
+run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, shared_ptr<Log> log)
+{
+#ifdef DVDOMATIC_WINDOWS
+	SECURITY_ATTRIBUTES security;
+	security.nLength = sizeof (security);
+	security.bInheritHandle = TRUE;
+	security.lpSecurityDescriptor = 0;
+
+	HANDLE child_stderr_read;
+	HANDLE child_stderr_write;
+	if (!CreatePipe (&child_stderr_read, &child_stderr_write, &security, 0)) {
+		log->log ("ffprobe call failed (could not CreatePipe)");
+		return;
+	}
+
+	wchar_t dir[512];
+	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
+	PathRemoveFileSpec (dir);
+	SetCurrentDirectory (dir);
+
+	STARTUPINFO startup_info;
+	ZeroMemory (&startup_info, sizeof (startup_info));
+	startup_info.cb = sizeof (startup_info);
+	startup_info.hStdError = child_stderr_write;
+	startup_info.dwFlags |= STARTF_USESTDHANDLES;
+
+	wchar_t command[512];
+	wcscpy (command, L"ffprobe.exe ");
+
+	wchar_t file[512];
+	MultiByteToWideChar (CP_UTF8, 0, content.string().c_str(), -1, file, sizeof(file));
+	wcscat (command, file);
+
+	PROCESS_INFORMATION process_info;
+	ZeroMemory (&process_info, sizeof (process_info));
+	if (!CreateProcess (0, command, 0, 0, TRUE, CREATE_NO_WINDOW, 0, 0, &startup_info, &process_info)) {
+		log->log ("ffprobe call failed (could not CreateProcess)");
+		return;
+	}
+
+	FILE* o = fopen (out.string().c_str(), "w");
+	if (!o) {
+		log->log ("ffprobe call failed (could not create output file)");
+		return;
+	}
+
+	CloseHandle (child_stderr_write);
+
+	while (1) {
+		char buffer[512];
+		DWORD read;
+		if (!ReadFile(child_stderr_read, buffer, sizeof(buffer), &read, 0) || read == 0) {
+			break;
+		}
+		fwrite (buffer, read, 1, o);
+	}
+
+	fclose (o);
+
+	WaitForSingleObject (process_info.hProcess, INFINITE);
+	CloseHandle (process_info.hProcess);
+	CloseHandle (process_info.hThread);
+	CloseHandle (child_stderr_read);
+#else
+	string ffprobe = "ffprobe 2> \"" + c + "\" 2> \"" + file ("ffprobe.log");
+	log->log (String::compose ("Probing with %1", ffprobe));
+	system (ffprobe.c_str ());
+#endif	
+}

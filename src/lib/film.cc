@@ -25,10 +25,6 @@
 #include <sstream>
 #include <iomanip>
 #include <unistd.h>
-#ifdef DVDOMATIC_WINDOWS
-#undef DATADIR
-#include <shlwapi.h>
-#endif
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
@@ -1003,19 +999,7 @@ Film::set_content (string c)
 		set_use_content_audio (false);
 	}
 
-#ifdef DVDOMATIC_WINDOWS
-	wchar_t dir[512];
-	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
-	PathRemoveFileSpec (dir);
-	SetCurrentDirectory (dir);
-	string ffprobe = "ffprobe.exe ";
-#else
-	string ffprobe = "ffprobe ";
-#endif
-	ffprobe += "\"" + c + "\"";
-	ffprobe += " 2> \"" + file ("ffprobe.log") + "\"";
-	log()->log (String::compose ("Probing with %1", ffprobe));
-	system (ffprobe.c_str ());
+	run_ffprobe (c, file ("ffprobe.log"), _log);
 }
 
 void
