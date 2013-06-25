@@ -25,7 +25,13 @@ sources = """
           """
 
 def configure(conf):
-    conf.check_cfg(package = '', path = conf.options.wx_config, args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
+    conf.check_cfg(msg='Checking for wxWidgets', package='', path=conf.options.wx_config,
+                   args='--cppflags --cxxflags --libs', uselib_store='WXWIDGETS', mandatory=True)
+    conf.in_msg = 1
+    wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
+    conf.im_msg = 0
+    if wx_version != '2.9.4':
+        conf.fatal('wxwidgets version 2.9.4 is required; %s found' % wx_version)
 
 def build(bld):
     if bld.env.STATIC:
