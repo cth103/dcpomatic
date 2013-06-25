@@ -26,7 +26,16 @@ sources = """
 
 def configure(conf):
     conf.check_cfg(msg='Checking for wxWidgets', package='', path=conf.options.wx_config,
-                   args='--cppflags --cxxflags --libs', uselib_store='WXWIDGETS', mandatory=True)
+                   args='--cppflags --cxxflags --libs',
+                   uselib_store='WXWIDGETS', mandatory=True)
+ 
+    if conf.env.STATIC:
+        # wx-config returns its static libraries as full paths, without -l prefixes, which I think confuses
+        # check_cfg(), so it ends up putting these libraries before even the .cc file when linking.
+        # This hack works around that.
+        conf.env.STLIB_WXWIDGETS = ['wx_gtk2u_xrc-2.9', 'wx_gtk2u_qa-2.9', 'wx_baseu_net-2.9', 'wx_gtk2u_html-2.9',
+                                    'wx_gtk2u_adv-2.9', 'wx_gtk2u_core-2.9', 'wx_baseu_xml-2.9', 'wx_baseu-2.9']
+
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
     conf.im_msg = 0
