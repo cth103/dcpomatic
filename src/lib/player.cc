@@ -291,8 +291,6 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 
 	Time const time = content->start() + (frame * TIME_HZ / _film->dcp_audio_frame_rate());
 
-	cout << "Player gets " << dcp_mapped->frames() << " @ " << time << " cf " << _audio_position << "\n";
-
         if (time > _audio_position) {
                 /* We can emit some audio from our buffers */
                 OutputAudioFrame const N = _film->time_to_audio_frames (time - _audio_position);
