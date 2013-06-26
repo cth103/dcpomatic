@@ -17,41 +17,23 @@
 
 */
 
-#include "null_content.h"
-#include "film.h"
-
-using boost::shared_ptr;
-
-NullContent::NullContent (shared_ptr<const Film> f, Time s, Time len)
-	: Content (f, s)
-	, VideoContent (f, s, f->time_to_video_frames (len))
-	, AudioContent (f, s)
-	, _audio_length (f->time_to_audio_frames (len))
-	, _length (len)
+BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 {
+	/* Sound == video so no offset required */
+	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (0, 0, 24), 0);
 
-}
+	/* Common offset should be removed */
+	BOOST_CHECK_CLOSE (FFmpegDecoder::compute_pts_offset (42, 42, 24), -42, 1e-9);
 
-int
-NullContent::content_audio_frame_rate () const
-{
-	return output_audio_frame_rate ();
-}
-	
+	/* Video is on a frame boundary */
+	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (1.0 / 24.0, 0, 24), 0);
 
-int
-NullContent::output_audio_frame_rate () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	return film->dcp_audio_frame_rate ();
-}
+	/* Again, video is on a frame boundary */
+	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (1.0 / 23.97, 0, 23.97), 0);
 
-int
-NullContent::audio_channels () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	return film->dcp_audio_channels ();
+	/* And again, video is on a frame boundary */
+	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (3.0 / 23.97, 0, 23.97), 0);
+
+	/* Off a frame boundary */
+	BOOST_CHECK_CLOSE (FFmpegDecoder::compute_pts_offset (1.0 / 24.0 - 0.0215, 0, 24), 0.0215, 1e-9);
 }
-	

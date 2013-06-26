@@ -46,7 +46,7 @@ public:
         int frame_rate;
 	int channels;
 	AudioMapping mapping;
-	boost::optional<Time> start;
+	boost::optional<double> first_audio;
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
@@ -99,7 +99,7 @@ public:
 
         /* AudioContent */
         int audio_channels () const;
-        ContentAudioFrame audio_length () const;
+        AudioContent::Frame audio_length () const;
         int content_audio_frame_rate () const;
         int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
@@ -134,6 +134,11 @@ public:
 
         void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
         void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
+
+	boost::optional<Time> first_video () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _first_video;
+	}
 	
 private:
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;

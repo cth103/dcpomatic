@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (content));
 
-	BOOST_CHECK_EQUAL (examiner->first_video().get(), 57604000);
+	BOOST_CHECK_EQUAL (examiner->first_video().get(), 600.04166666666674);
 	BOOST_CHECK_EQUAL (examiner->audio_streams().size(), 1);
-	BOOST_CHECK_EQUAL (examiner->audio_streams()[0]->start.get(), 57600000);
+	BOOST_CHECK_EQUAL (examiner->audio_streams()[0]->first_audio.get(), 600);
 }

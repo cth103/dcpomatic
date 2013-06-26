@@ -19,11 +19,12 @@
 
 #include <libdcp/types.h>
 #include "types.h"
+#include "video_content.h"
 
 class VideoExaminer
 {
 public:
 	virtual float video_frame_rate () const = 0;
 	virtual libdcp::Size video_size () const = 0;
-	virtual ContentVideoFrame video_length () const = 0;
+	virtual VideoContent::Frame video_length () const = 0;
 };

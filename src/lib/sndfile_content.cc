@@ -46,7 +46,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml:
 	, AudioContent (f, node)
 {
 	_audio_channels = node->number_child<int> ("AudioChannels");
-	_audio_length = node->number_child<ContentAudioFrame> ("AudioLength");
+	_audio_length = node->number_child<AudioContent::Frame> ("AudioLength");
 	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
 	_audio_mapping = AudioMapping (node->node_child ("AudioMapping"));
 }

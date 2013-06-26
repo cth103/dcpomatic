@@ -38,6 +38,7 @@ extern "C" {
 }
 #include "compose.hpp"
 #include "types.h"
+#include "video_content.h"
 
 #ifdef DCPOMATIC_DEBUG
 #define TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
@@ -152,7 +153,7 @@ private:
 	int _timeout;
 };
 
-extern int64_t video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second);
+extern int64_t video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second);
 
 class LocaleGuard
 {

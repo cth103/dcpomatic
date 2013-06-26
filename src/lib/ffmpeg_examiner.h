@@ -31,7 +31,7 @@ public:
 	
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
-	ContentVideoFrame video_length () const;
+	VideoContent::Frame video_length () const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;
@@ -41,15 +41,15 @@ public:
 		return _audio_streams;
 	}
 
-	boost::optional<Time> first_video () const {
+	boost::optional<double> first_video () const {
 		return _first_video;
 	}
 	
 private:
 	std::string stream_name (AVStream* s) const;
-	boost::optional<Time> frame_time (int) const;
+	boost::optional<double> frame_time (int) const;
 	
         std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
         std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
-	boost::optional<Time> _first_video;
+	boost::optional<double> _first_video;
 };

@@ -24,33 +24,26 @@
 #ifndef DCPOMATIC_AUDIO_DECODER_H
 #define DCPOMATIC_AUDIO_DECODER_H
 
-#include "audio_source.h"
 #include "decoder.h"
-extern "C" {
-#include <libswresample/swresample.h>
-}
+#include "content.h"
 
-class AudioContent;
+class AudioBuffers;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public AudioSource, public virtual Decoder
+class AudioDecoder : public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
-	~AudioDecoder ();
+	AudioDecoder (boost::shared_ptr<const Film>);
+
+	/** Emitted when some audio data is ready */
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame)> Audio;
 
 protected:
 
-	void audio (boost::shared_ptr<const AudioBuffers>, Time);
-	bool audio_done () const;
-
-	Time _next_audio;
-	boost::shared_ptr<const AudioContent> _audio_content;
-
-private:	
-	SwrContext* _swr_context;
+	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
+	AudioContent::Frame _audio_position;
 };
 
 #endif

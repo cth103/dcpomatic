@@ -139,7 +139,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 
-	ContentVideoFrame video_length = 0;
+	VideoContent::Frame video_length = 0;
 	video_length = examiner->video_length ();
 	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length));
 
@@ -214,12 +214,12 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
         signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
-ContentAudioFrame
+AudioContent::Frame
 FFmpegContent::audio_length () const
 {
 	int const cafr = content_audio_frame_rate ();
 	int const vfr  = video_frame_rate ();
-	ContentVideoFrame const vl = video_length ();
+	VideoContent::Frame const vl = video_length ();
 
 	boost::mutex::scoped_lock lm (_mutex);
         if (!_audio_stream) {
@@ -296,7 +296,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
 	mapping = AudioMapping (node->node_child ("Mapping"));
-	start = node->optional_number_child<Time> ("Start");
+	first_audio = node->optional_number_child<Time> ("FirstAudio");
 }
 
 void
@@ -306,8 +306,8 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
-	if (start) {
-		root->add_child("Start")->add_child_text (lexical_cast<string> (start));
+	if (first_audio) {
+		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio));
 	}
 	mapping.as_xml (root->add_child("Mapping"));
 }

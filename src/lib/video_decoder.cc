@@ -28,77 +28,21 @@
 using std::cout;
 using boost::shared_ptr;
 
-VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
+VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
 	: Decoder (f)
-	, _next_video (0)
-	, _video_content (c)
-	, _frame_rate_conversion (c->video_frame_rate(), f->dcp_video_frame_rate())
-	, _odd (false)
+	, _video_position (0)
 {
 
 }
 
-/** Called by subclasses when some video is ready.
- *  @param image frame to emit.
- *  @param same true if this frame is the same as the last one passed to this call.
- *  @param t Time of the frame within the source.
- */
 void
-VideoDecoder::video (shared_ptr<Image> image, bool same, Time t)
+VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
 {
-	if (_frame_rate_conversion.skip && _odd) {
-		_odd = !_odd;
-		return;
-	}
-
-	image = image->crop (_video_content->crop(), true);
-
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	libdcp::Size const container_size = _video_container_size.get_value_or (film->container()->size (film->full_frame ()));
-	libdcp::Size const image_size = _video_content->ratio()->size (container_size);
-	
-	shared_ptr<Image> out = image->scale_and_convert_to_rgb (image_size, film->scaler(), true);
-
-	if (film->with_subtitles ()) {
-		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
-			sub = _timed_subtitle->subtitle ();
-		}
-		
-		if (sub) {
-			dcpomatic::Rect const tx = subtitle_transformed_area (
-				float (image_size.width) / _video_content->video_size().width,
-				float (image_size.height) / _video_content->video_size().height,
-				sub->area(), film->subtitle_offset(), film->subtitle_scale()
-				);
-			
-			shared_ptr<Image> im = sub->image()->scale (tx.size(), film->scaler(), true);
-			out->alpha_blend (im, tx.position());
-		}
-	}
-
-	if (image_size != container_size) {
-		assert (image_size.width <= container_size.width);
-		assert (image_size.height <= container_size.height);
-		shared_ptr<Image> im (new SimpleImage (PIX_FMT_RGB24, container_size, true));
-		im->make_black ();
-		im->copy (out, Position ((container_size.width - image_size.width) / 2, (container_size.height - image_size.height) / 2));
-		out = im;
-	}
-		
-	Video (out, same, t);
-
-	if (_frame_rate_conversion.repeat) {
-		Video (image, true, t + film->video_frames_to_time (1));
-		_next_video = t + film->video_frames_to_time (2);
-	} else {
-		_next_video = t + film->video_frames_to_time (1);
-	}
-
-	_odd = !_odd;
+        Video (image, same, frame);
+	_video_position = frame + 1;
 }
+
+#if 0
 
 /** Called by subclasses when a subtitle is ready.
  *  s may be 0 to say that there is no current subtitle.
@@ -114,40 +58,5 @@ VideoDecoder::subtitle (shared_ptr<TimedSubtitle> s)
 		_timed_subtitle->subtitle()->set_position (Position (p.x - _video_content->crop().left, p.y - _video_content->crop().top));
 	}
 }
+#endif
 
-bool
-VideoDecoder::video_done () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	return (_video_content->length() - _next_video) < film->video_frames_to_time (1);
-}
-
-void
-VideoDecoder::seek (Time t)
-{
-	_next_video = t;
-}
-
-void
-VideoDecoder::seek_back ()
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	_next_video -= film->video_frames_to_time (1);
-}
-
-void
-VideoDecoder::seek_forward ()
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	_next_video += film->video_frames_to_time (1);
-}
-
-void
-VideoDecoder::set_video_container_size (libdcp::Size s)
-{
-	_video_container_size = s;
-}

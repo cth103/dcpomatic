@@ -23,10 +23,6 @@
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include "video_source.h"
-#include "audio_source.h"
-#include "video_sink.h"
-#include "audio_sink.h"
 #include "ffmpeg_content.h"
 #include "audio_mapping.h"
 

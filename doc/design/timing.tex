@@ -1,0 +1,42 @@
+\documentclass{article}
+\begin{document}
+
+We are trying to implement full-ish playlist based content specification.  The timing is awkward.
+
+\section{Reference timing}
+
+Frame rates of things can vary a lot; content can be in pretty much
+anything, and DCP video and audio frame rates may change on a whim
+depending on what is best for a given set of content.  This suggests
+(albeit without strong justification) the need for a frame-rate-independent unit of time.
+
+So far we've been using a time type called \texttt{Time} expressed in
+$\mathtt{TIME\_HZ}^{-1}$; e.g. \texttt{TIME\_HZ} units is 1 second.
+\texttt{TIME\_HZ} is chosen to be divisible by lots of frame and
+sample rates.
+
+We express content start time as a \texttt{Time}.
+
+
+\section{Timing at different stages of the chain}
+
+Let's try this: decoders produce sequences of (perhaps) video frames
+and (perhaps) audio frames.  There are no gaps.  They are at the
+content's native frame rates and are synchronised (meaning that if
+they are played together, at the content's frame rates, they will be
+in sync).  The decoders give timestamps for each piece of their
+output, which are \emph{simple indices} (\texttt{ContentVideoFrame}
+and \texttt{ContentAudioFrame}).  Decoders know nothing of \texttt{Time}.
+
+
+\section{Split of stuff between decoders and player}
+
+In some ways it seems nice to have decoders which produce the rawest
+possible data and make the player sort it out (e.g.\ cropping and
+scaling video, resampling audio).  The resampling is awkward, though,
+as you really need one resampler per source.  So it might make more sense
+to put stuff in the decoder.  But then, what's one map of resamplers between friends?
+
+
+
+\end{document}

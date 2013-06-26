@@ -27,8 +27,6 @@
 
 class Content;
 
-typedef int64_t ContentAudioFrame;
-typedef int     ContentVideoFrame;
 typedef int64_t Time;
 #define TIME_MAX INT64_MAX
 #define TIME_HZ  ((Time) 96000)

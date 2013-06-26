@@ -43,8 +43,9 @@ extern "C" {
 
 #include "i18n.h"
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::min;
+using boost::shared_ptr;
 using libdcp::Size;
 
 void

@@ -710,7 +710,7 @@ ensure_ui_thread ()
  *  @return Equivalent number of audio frames for `v'.
  */
 int64_t
-video_frames_to_audio_frames (ContentVideoFrame v, float audio_sample_rate, float frames_per_second)
+video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second)
 {
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
 }

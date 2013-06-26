@@ -35,7 +35,7 @@ using boost::shared_ptr;
 
 SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const SndfileContent> c)
 	: Decoder (f)
-	, AudioDecoder (f, c)
+	, AudioDecoder (f)
 	, _sndfile_content (c)
 	, _deinterleave_buffer (0)
 {
@@ -100,7 +100,7 @@ SndfileDecoder::audio_channels () const
 	return _info.channels;
 }
 
-ContentAudioFrame
+AudioContent::Frame
 SndfileDecoder::audio_length () const
 {
 	return _info.frames;
@@ -112,14 +112,8 @@ SndfileDecoder::audio_frame_rate () const
 	return _info.samplerate;
 }
 
-Time
-SndfileDecoder::position () const
-{
-	return _next_audio;
-}
-
 bool
 SndfileDecoder::done () const
 {
-	return audio_done ();
+	return _audio_position >= _sndfile_content->audio_length ();
 }

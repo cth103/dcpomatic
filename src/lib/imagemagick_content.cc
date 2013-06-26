@@ -87,7 +87,7 @@ ImageMagickContent::clone () const
 }
 
 void
-ImageMagickContent::set_video_length (ContentVideoFrame len)
+ImageMagickContent::set_video_length (VideoContent::Frame len)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

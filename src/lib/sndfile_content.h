@@ -49,7 +49,7 @@ public:
 		return _audio_channels;
 	}
 	
-        ContentAudioFrame audio_length () const {
+        AudioContent::Frame audio_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_length;
 	}
@@ -72,7 +72,7 @@ public:
 
 private:
 	int _audio_channels;
-	ContentAudioFrame _audio_length;
+	AudioContent::Frame _audio_length;
 	int _audio_frame_rate;
 	AudioMapping _audio_mapping;
 };

@@ -22,6 +22,7 @@
 #include "video_content.h"
 #include "video_examiner.h"
 #include "ratio.h"
+#include "compose.hpp"
 
 #include "i18n.h"
 
@@ -37,7 +38,7 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
 
-VideoContent::VideoContent (shared_ptr<const Film> f, Time s, ContentVideoFrame len)
+VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Frame len)
 	: Content (f, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
@@ -58,7 +59,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
 {
-	_video_length = node->number_child<ContentVideoFrame> ("VideoLength");
+	_video_length = node->number_child<VideoContent::Frame> ("VideoLength");
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
