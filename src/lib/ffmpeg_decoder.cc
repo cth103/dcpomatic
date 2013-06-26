@@ -301,6 +301,7 @@ FFmpegDecoder::do_seek (VideoContent::Frame frame, bool backwards, bool accurate
 {
 	int64_t const vt = frame * _ffmpeg_content->video_frame_rate() / av_q2d (_format_context->streams[_video_stream]->time_base);
 	av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
+	_video_position = frame;
 
 	avcodec_flush_buffers (video_codec_context());
 	if (_subtitle_codec_context) {
@@ -322,6 +323,8 @@ FFmpegDecoder::do_seek (VideoContent::Frame frame, bool backwards, bool accurate
 				if (r >= 0 && finished) {
 					int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 					if (bet > vt) {
+						_video_position = (bet * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset)
+							* _ffmpeg_content->video_frame_rate();
 						break;
 					}
 				}
@@ -330,8 +333,6 @@ FFmpegDecoder::do_seek (VideoContent::Frame frame, bool backwards, bool accurate
 			av_free_packet (&_packet);
 		}
 	}
-
-	return;
 }
 
 void
