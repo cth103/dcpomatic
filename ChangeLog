@@ -1,3 +1,7 @@
+2013-06-27  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully fix problems with end-trim not working.
+
 2013-06-24  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.103 released.

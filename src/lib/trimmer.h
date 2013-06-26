@@ -36,5 +36,4 @@ private:
 	int64_t _audio_start;
 	int64_t _audio_end;
 	int64_t _audio_in;
-	bool _no_trim;
 };
