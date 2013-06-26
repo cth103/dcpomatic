@@ -133,7 +133,6 @@ Writer::fake_write (int frame)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
-	cout << "W: audio " << audio->frames() << "\n";
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 
