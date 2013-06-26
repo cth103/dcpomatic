@@ -34,7 +34,7 @@ using libdcp::Size;
 
 ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<const ImageMagickContent> c)
 	: Decoder (f)
-	, VideoDecoder (f, c)
+	, VideoDecoder (f)
 	, ImageMagick (c)
 {
 
@@ -43,12 +43,12 @@ ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<con
 void
 ImageMagickDecoder::pass ()
 {
-	if (_next_video >= _imagemagick_content->length ()) {
+	if (_next_video_frame >= _imagemagick_content->video_length ()) {
 		return;
 	}
 
 	if (_image) {
-		video (_image, true, _next_video);
+		video (_image, true, _next_video_frame);
 		return;
 	}
 
@@ -71,48 +71,25 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	_image = _image->crop (_imagemagick_content->crop(), true);
-	video (_image, false, _next_video);
+	video (_image, false, _next_video_frame);
 }
 
 void
-ImageMagickDecoder::seek (Time t)
+ImageMagickDecoder::seek (VideoContent::Frame frame)
 {
-	_next_video = t;
+	_next_video_frame = frame;
 }
 
 void
 ImageMagickDecoder::seek_back ()
 {
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return;
+	if (_next_video_frame > 0) {
+		_next_video_frame--;
 	}
-	
-	_next_video -= f->video_frames_to_time (2);
 }
-
-void
-ImageMagickDecoder::seek_forward ()
-{
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return;
-	}
-	
-	_next_video += f->video_frames_to_time (1);
-}
-
-Time
-ImageMagickDecoder::position () const
-{
-	return _next_video;
-}
-
 
 bool
 ImageMagickDecoder::done () const
 {
-	return video_done ();
+	return _next_video_frame > _imagemagick_content->video_length ();
 }
-	

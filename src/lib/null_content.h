@@ -43,7 +43,7 @@ public:
 
         int audio_channels () const;
 	
-        ContentAudioFrame audio_length () const {
+        AudioContent::Frame audio_length () const {
 		return _audio_length;
 	}
 	
@@ -62,6 +62,6 @@ public:
 	}
 
 private:
-	ContentAudioFrame _audio_length;
+	AudioContent::Frame _audio_length;
 	Time _length;
 };

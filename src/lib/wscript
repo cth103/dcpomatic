@@ -8,10 +8,8 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc
-          audio_source.cc
           black_decoder.cc
           config.cc
-          combiner.cc
           content.cc
           cross.cc
           dci_metadata.cc
@@ -41,6 +39,7 @@ sources = """
           player.cc
           playlist.cc
           ratio.cc
+          resampler.cc
           scp_dcp_job.cc
           scaler.cc
           server.cc
@@ -57,7 +56,6 @@ sources = """
           util.cc
           video_content.cc
           video_decoder.cc
-          video_source.cc
           writer.cc
           """
 

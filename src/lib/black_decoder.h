@@ -29,20 +29,19 @@ public:
 	/* Decoder */
 	
 	void pass ();
-	void seek (Time);
-	void seek_back ();
-	void seek_forward ();
-	Time position () const;
 	bool done () const;
 
 	/* VideoDecoder */
 
+	void seek (VideoContent::Frame);
+	void seek_back ();
 	float video_frame_rate () const;
 	libdcp::Size video_size () const {
 		return libdcp::Size (256, 256);
 	}
-	ContentVideoFrame video_length () const;
+	VideoContent::Frame video_length () const;
 
 private:
+	boost::shared_ptr<NullContent> _null_content;
 	boost::shared_ptr<Image> _image;
 };

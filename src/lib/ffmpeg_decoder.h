@@ -49,10 +49,8 @@ public:
 	~FFmpegDecoder ();
 
 	void pass ();
-	void seek (Time);
+	void seek (VideoContent::Frame);
 	void seek_back ();
-	void seek_forward ();
-	Time position () const;
 	bool done () const;
 
 private:
@@ -65,7 +63,7 @@ private:
 
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
-	void do_seek (Time, bool, bool);
+	void do_seek (VideoContent::Frame, bool, bool);
 
 	bool decode_video_packet ();
 	void decode_audio_packet ();

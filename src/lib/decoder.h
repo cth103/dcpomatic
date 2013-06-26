@@ -29,8 +29,6 @@
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
-#include "video_source.h"
-#include "audio_source.h"
 #include "film.h"
 
 class Image;
@@ -53,24 +51,6 @@ public:
 	 *  cause the object to emit some data.
 	 */
 	virtual void pass () = 0;
-
-	/** Seek this decoder to as close as possible to some time,
-	 *  expressed relative to our source's start.
-	 *  @param t Time.
-	 *  @param a true to try hard to be accurate, otherwise false.
-	 */
-	virtual void seek (Time) = 0;
-
-	/** Seek back one video frame */
-	virtual void seek_back () = 0;
-
-	/** Seek forward one video frame */
-	virtual void seek_forward () = 0;
-
-	/** @return Approximate time of the next content that we will emit,
-	 *  expressed relative to the start of our source.
-	 */
-	virtual Time position () const = 0;
 
 	virtual bool done () const = 0;
 

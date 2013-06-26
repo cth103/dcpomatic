@@ -29,9 +29,8 @@ public:
 	SilenceDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<NullContent>);
 
 	void pass ();
-	void seek (Time);
-	void seek_back ();
-	void seek_forward ();
-	Time position () const;
 	bool done () const;
+
+private:
+	boost::shared_ptr<NullContent> _null_content;
 };

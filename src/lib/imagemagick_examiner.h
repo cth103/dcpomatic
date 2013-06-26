@@ -33,7 +33,7 @@ public:
 
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
-	ContentVideoFrame video_length () const;
+	VideoContent::Frame video_length () const;
 
 private:
 	boost::weak_ptr<const Film> _film;

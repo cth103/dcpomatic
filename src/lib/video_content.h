@@ -21,7 +21,6 @@
 #define DCPOMATIC_VIDEO_CONTENT_H
 
 #include "content.h"
-#include "util.h"
 
 class VideoExaminer;
 class Ratio;
@@ -38,7 +37,9 @@ public:
 class VideoContent : public virtual Content
 {
 public:
-	VideoContent (boost::shared_ptr<const Film>, Time, ContentVideoFrame);
+	typedef int Frame;
+
+	VideoContent (boost::shared_ptr<const Film>, Time, VideoContent::Frame);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	VideoContent (VideoContent const &);
@@ -46,7 +47,7 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	virtual std::string information () const;
 
-	ContentVideoFrame video_length () const {
+	VideoContent::Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;
 	}
@@ -82,7 +83,7 @@ public:
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
-	ContentVideoFrame _video_length;
+	VideoContent::Frame _video_length;
 
 private:
 	libdcp::Size _video_size;

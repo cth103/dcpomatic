@@ -23,24 +23,23 @@
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include "video_source.h"
-#include "audio_source.h"
-#include "video_sink.h"
-#include "audio_sink.h"
 #include "playlist.h"
 #include "audio_buffers.h"
+#include "content.h"
 
 class Job;
 class Film;
 class Playlist;
 class AudioContent;
 class Piece;
+class Image;
+class Resampler;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
  */
  
-class Player : public VideoSource, public AudioSource, public boost::enable_shared_from_this<Player>
+class Player : public boost::enable_shared_from_this<Player>
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
@@ -51,7 +50,6 @@ public:
 	bool pass ();
 	void seek (Time);
 	void seek_back ();
-	void seek_forward ();
 
 	/** @return position that we are at; ie the time of the next thing we will emit on pass() */
 	Time position () const {
@@ -60,10 +58,20 @@ public:
 
 	void set_video_container_size (libdcp::Size);
 
+	/** Emitted when a video frame is ready.
+	 *  First parameter is the video image.
+	 *  Second parameter is true if the image is the same as the last one that was emitted.
+	 *  Third parameter is the time.
+	 */
+	boost::signals2::signal<void (boost::shared_ptr<const Image>, bool, Time)> Video;
+	
+	/** Emitted when some audio data is ready */
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;
+
 private:
 
-	void process_video (boost::weak_ptr<Content>, boost::shared_ptr<const Image>, bool, Time);
-	void process_audio (boost::weak_ptr<Content>, boost::shared_ptr<const AudioBuffers>, Time);
+	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
@@ -71,6 +79,7 @@ private:
 	void add_black_piece (Time, Time);
 	void add_silent_piece (Time, Time);
 	void flush ();
+	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -85,6 +94,7 @@ private:
 	AudioBuffers _audio_buffers;
 	Time _next_audio;
 	boost::optional<libdcp::Size> _video_container_size;
+	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 };
 
 #endif

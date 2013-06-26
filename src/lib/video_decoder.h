@@ -20,37 +20,30 @@
 #ifndef DCPOMATIC_VIDEO_DECODER_H
 #define DCPOMATIC_VIDEO_DECODER_H
 
-#include "video_source.h"
 #include "decoder.h"
 #include "util.h"
 
 class VideoContent;
 
-class VideoDecoder : public VideoSource, public virtual Decoder
+class VideoDecoder : public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
+	VideoDecoder (boost::shared_ptr<const Film>);
 
-	virtual void seek (Time);
-	virtual void seek_back ();
-	virtual void seek_forward ();
+	virtual void seek (VideoContent::Frame) = 0;
+	virtual void seek_back () = 0;
+
+	/** Emitted when a video frame is ready.
+	 *  First parameter is the video image.
+	 *  Second parameter is true if the image is the same as the last one that was emitted.
+	 *  Third parameter is the frame within our source.
+	 */
+	boost::signals2::signal<void (boost::shared_ptr<const Image>, bool, VideoContent::Frame)> Video;
 	
-	void set_video_container_size (libdcp::Size);
-
 protected:
-	
-	void video (boost::shared_ptr<Image>, bool, Time);
-	void subtitle (boost::shared_ptr<TimedSubtitle>);
-	bool video_done () const;
 
-	Time _next_video;
-	boost::shared_ptr<const VideoContent> _video_content;
-
-private:
-	boost::shared_ptr<TimedSubtitle> _timed_subtitle;
-	FrameRateConversion _frame_rate_conversion;
-	bool _odd;
-	boost::optional<libdcp::Size> _video_container_size;
+	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	VideoContent::Frame _next_video_frame;
 };
 
 #endif

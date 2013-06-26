@@ -36,7 +36,26 @@
 
 using std::string;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+
+static void
+video_proxy (weak_ptr<Encoder> encoder, shared_ptr<const Image> image, bool same)
+{
+	shared_ptr<Encoder> e = encoder.lock ();
+	if (e) {
+		e->process_video (image, same);
+	}
+}
+
+static void
+audio_proxy (weak_ptr<Encoder> encoder, shared_ptr<const AudioBuffers> audio)
+{
+	shared_ptr<Encoder> e = encoder.lock ();
+	if (e) {
+		e->process_audio (audio);
+	}
+}
 
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
  *  @param f Film that we are transcoding.
@@ -48,8 +67,8 @@ Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	, _player (f->player ())
 	, _encoder (new Encoder (f, j))
 {
-	_player->connect_video (_encoder);
-	_player->connect_audio (_encoder);
+	_player->Video.connect (bind (video_proxy, _encoder, _1, _2));
+	_player->Audio.connect (bind (audio_proxy, _encoder, _1));
 }
 
 void

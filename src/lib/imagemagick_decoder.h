@@ -34,10 +34,8 @@ public:
 	/* Decoder */
 
 	void pass ();
-	void seek (Time);
+	void seek (VideoContent::Frame);
 	void seek_back ();
-	void seek_forward ();
-	Time position () const;
 	bool done () const;
 
 private:

@@ -30,21 +30,17 @@ public:
 	~SndfileDecoder ();
 
 	void pass ();
-	void seek (Time) {}
-	void seek_back () {}
-	void seek_forward () {}
-	Time position () const;
 	bool done () const;
 
 	int audio_channels () const;
-	ContentAudioFrame audio_length () const;
+	AudioContent::Frame audio_length () const;
 	int audio_frame_rate () const;
 
 private:
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;
-	ContentAudioFrame _done;
-	ContentAudioFrame _remaining;
+	AudioContent::Frame _done;
+	AudioContent::Frame _remaining;
 	float* _deinterleave_buffer;
 };

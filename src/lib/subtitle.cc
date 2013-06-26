@@ -27,8 +27,7 @@
 
 #include "i18n.h"
 
-using namespace std;
-using namespace boost;
+using boost::shared_ptr;
 using libdcp::Size;
 
 /** Construct a TimedSubtitle.  This is a subtitle image, position,

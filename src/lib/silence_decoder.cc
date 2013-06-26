@@ -27,7 +27,8 @@ using boost::shared_ptr;
 
 SilenceDecoder::SilenceDecoder (shared_ptr<const Film> f, shared_ptr<NullContent> c)
 	: Decoder (f)
-	, AudioDecoder (f, c)
+	, AudioDecoder (f)
+	, _null_content (c)
 {
 	
 }
@@ -38,50 +39,14 @@ SilenceDecoder::pass ()
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
-	Time const this_time = min (_audio_content->length() - _next_audio, TIME_HZ / 2);
-	cout << "silence emit " << this_time << " from " << _audio_content->length() << "\n";
-	shared_ptr<AudioBuffers> data (new AudioBuffers (film->dcp_audio_channels(), film->time_to_audio_frames (this_time)));
+	AudioContent::Frame const this_time = min (_null_content->audio_length() - _next_audio_frame, int64_t (_null_content->output_audio_frame_rate() / 2));
+	shared_ptr<AudioBuffers> data (new AudioBuffers (film->dcp_audio_channels(), this_time));
 	data->make_silent ();
-	audio (data, _next_audio);
-}
-
-void
-SilenceDecoder::seek (Time t)
-{
-	_next_audio = t;
-}
-
-void
-SilenceDecoder::seek_back ()
-{
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return;
-	}
-
-	_next_audio -= f->video_frames_to_time (2);
-}
-
-void
-SilenceDecoder::seek_forward ()
-{
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return;
-	}
-
-	_next_audio += f->video_frames_to_time (1);
-}
-
-Time
-SilenceDecoder::position () const
-{
-	return _next_audio;
+	audio (data, _next_audio_frame);
 }
 
 bool
 SilenceDecoder::done () const
 {
-	return audio_done ();
+	return _next_audio_frame > _null_content->audio_length ();
 }
-

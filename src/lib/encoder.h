@@ -36,8 +36,6 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 #include "util.h"
-#include "video_sink.h"
-#include "audio_sink.h"
 
 class Image;
 class AudioBuffers;
@@ -55,7 +53,7 @@ class Job;
  *  is supplied as uncompressed PCM in blocks of various sizes.
  */
 
-class Encoder : public VideoSink, public AudioSink
+class Encoder
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<Job>);
@@ -68,10 +66,10 @@ public:
 	 *  @param i Video frame image.
 	 *  @param same true if i is the same as the last time we were called.
 	 */
-	void process_video (boost::shared_ptr<const Image> i, bool same, Time);
+	void process_video (boost::shared_ptr<const Image> i, bool same);
 
 	/** Call with some audio data */
-	void process_audio (boost::shared_ptr<const AudioBuffers>, Time);
+	void process_audio (boost::shared_ptr<const AudioBuffers>);
 
 	/** Called when a processing run has finished */
 	void process_end ();

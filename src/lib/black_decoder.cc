@@ -25,7 +25,8 @@ using boost::shared_ptr;
 
 BlackDecoder::BlackDecoder (shared_ptr<const Film> f, shared_ptr<NullContent> c)
 	: Decoder (f)
-	, VideoDecoder (f, c)
+	, VideoDecoder (f)
+	, _null_content (c)
 {
 
 }
@@ -36,9 +37,9 @@ BlackDecoder::pass ()
 	if (!_image) {
 		_image.reset (new SimpleImage (AV_PIX_FMT_RGB24, video_size(), true));
 		_image->make_black ();
-		video (_image, false, _next_video);
+		video (_image, false, _next_video_frame);
 	} else {
-		video (_image, true, _next_video);
+		video (_image, true, _next_video_frame);
 	}
 }
 
@@ -53,50 +54,28 @@ BlackDecoder::video_frame_rate () const
 	return f->dcp_video_frame_rate ();
 }
 
-ContentVideoFrame
+VideoContent::Frame
 BlackDecoder::video_length () const
 {
-	return _video_content->length() * video_frame_rate() / TIME_HZ;
-}
-
-Time
-BlackDecoder::position () const
-{
-	return _next_video;
+	return _null_content->length() * video_frame_rate() / TIME_HZ;
 }
 
 void
-BlackDecoder::seek (Time t)
+BlackDecoder::seek (VideoContent::Frame frame)
 {
-	_next_video = t;
+	_next_video_frame = frame;
 }
 
 void
 BlackDecoder::seek_back ()
 {
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return;
+	if (_next_video_frame > 0) {
+		--_next_video_frame;
 	}
-
-	_next_video -= f->video_frames_to_time (2);
 }
-
-void
-BlackDecoder::seek_forward ()
-{
-	boost::shared_ptr<const Film> f = _film.lock ();
-	if (!f) {
-		return;
-	}
-
-	_next_video += f->video_frames_to_time (1);
-}
-
+	
 bool
 BlackDecoder::done () const
 {
-	return video_done ();
+	return _next_video_frame >= _null_content->video_length ();
 }
-
-	

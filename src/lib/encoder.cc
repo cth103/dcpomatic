@@ -169,7 +169,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<const Image> image, bool same, Time)
+Encoder::process_video (shared_ptr<const Image> image, bool same)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -215,7 +215,7 @@ Encoder::process_video (shared_ptr<const Image> image, bool same, Time)
 }
 
 void
-Encoder::process_audio (shared_ptr<const AudioBuffers> data, Time)
+Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 {
 	_writer->write (data);
 }
