@@ -272,7 +272,6 @@ FFmpegDecoder::seek_back ()
 	}
 	
 	do_seek (_next_video_frame - 1, true, true);
-	VideoDecoder::seek_back ();
 }
 
 void

@@ -445,7 +445,6 @@ FilmViewer::forward_clicked (wxCommandEvent &)
 		return;
 	}
 
-	_player->seek_forward ();
 	get_frame ();
 	_panel->Refresh ();
 	_panel->Update ();

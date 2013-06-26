@@ -50,6 +50,11 @@ using boost::dynamic_pointer_cast;
 
 struct Piece
 {
+	Piece (shared_ptr<Content> c)
+		: content (c)
+		, last_emission (0)
+	{}
+	
 	Piece (shared_ptr<Content> c, shared_ptr<Decoder> d)
 		: content (c)
 		, decoder (d)
@@ -350,7 +355,7 @@ Player::setup_pieces ()
 	
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
-		shared_ptr<Decoder> decoder;
+		shared_ptr<Piece> piece (new Piece (*i));
 
                 /* XXX: into content? */
 
@@ -358,10 +363,10 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
-			fd->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3));
-			fd->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
+			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
+			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
 
-			decoder = fd;
+			piece->decoder = fd;
 		}
 		
 		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
@@ -378,21 +383,21 @@ Player::setup_pieces ()
 
 			if (!id) {
 				id.reset (new ImageMagickDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, *i, _1, _2, _3));
+				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
 			}
 
-			decoder = id;
+			piece->decoder = id;
 		}
 
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
 		if (sc) {
 			shared_ptr<AudioDecoder> sd (new SndfileDecoder (_film, sc));
-			sd->Audio.connect (bind (&Player::process_audio, this, *i, _1, _2));
+			sd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
 
-			decoder = sd;
+			piece->decoder = sd;
 		}
 
-		_pieces.push_back (shared_ptr<Piece> (new Piece (*i, decoder)));
+		_pieces.push_back (piece);
 	}
 
 	/* Fill in visual gaps with black and audio gaps with silence */
