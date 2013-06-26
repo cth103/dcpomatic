@@ -20,12 +20,14 @@
 using boost::shared_ptr;
 
 shared_ptr<const Image> trimmer_test_last_video;
+int trimmer_test_video_frames = 0;
 shared_ptr<const AudioBuffers> trimmer_test_last_audio;
 
 void
 trimmer_test_video_helper (shared_ptr<const Image> image, bool, shared_ptr<Subtitle>)
 {
 	trimmer_test_last_video = image;
+	++trimmer_test_video_frames;
 }
 
 void
@@ -92,4 +94,17 @@ BOOST_AUTO_TEST_CASE (trimmer_audio_test)
 	BOOST_CHECK (trimmer_test_last_audio == 0);
 }
 
+BOOST_AUTO_TEST_CASE (trim_end_test)
+{
+	Trimmer trimmer (shared_ptr<Log> (), 0, 75, 200, 48000, 25, 25);
 
+	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_RGB24, libdcp::Size (256, 256), true));
+
+	trimmer.Video.connect (bind (&trimmer_test_video_helper, _1, _2, _3));
+	trimmer_test_video_frames = 0;
+	for (int i = 0; i < 200; ++i) {
+		trimmer.process_video (image, false, shared_ptr<Subtitle> ());
+	}
+
+	BOOST_CHECK_EQUAL (trimmer_test_video_frames, 125);
+}
