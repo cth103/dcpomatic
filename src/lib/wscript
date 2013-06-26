@@ -8,7 +8,6 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc
-          black_decoder.cc
           config.cc
           content.cc
           cross.cc
@@ -35,7 +34,6 @@ sources = """
           job_manager.cc
           log.cc
           lut.cc
-          null_content.cc
           player.cc
           playlist.cc
           ratio.cc
@@ -43,7 +41,6 @@ sources = """
           scp_dcp_job.cc
           scaler.cc
           server.cc
-          silence_decoder.cc
           sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc

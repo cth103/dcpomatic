@@ -181,7 +181,7 @@ FilmViewer::update_from_decoder ()
 		return;
 	}
 
-	_player->seek (_player->position() - _film->video_frames_to_time (1));
+	_player->seek (_player->video_position() - _film->video_frames_to_time (1));
 	get_frame ();
 	_panel->Refresh ();
 	_panel->Update ();
@@ -197,7 +197,7 @@ FilmViewer::timer (wxTimerEvent &)
 	get_frame ();
 
 	if (_film->length()) {
-		int const new_slider_position = 4096 * _player->position() / _film->length();
+		int const new_slider_position = 4096 * _player->video_position() / _film->length();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}

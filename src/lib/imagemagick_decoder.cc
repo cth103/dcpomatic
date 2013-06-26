@@ -91,5 +91,5 @@ ImageMagickDecoder::seek_back ()
 bool
 ImageMagickDecoder::done () const
 {
-	return _next_video_frame > _imagemagick_content->video_length ();
+	return _next_video_frame >= _imagemagick_content->video_length ();
 }
