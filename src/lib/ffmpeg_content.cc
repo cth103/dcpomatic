@@ -296,7 +296,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
 	mapping = AudioMapping (node->node_child ("Mapping"));
-	start = node->optional_number_child<Time> ("Start");
+	first_audio = node->optional_number_child<Time> ("FirstAudio");
 }
 
 void
@@ -306,8 +306,8 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
-	if (start) {
-		root->add_child("Start")->add_child_text (lexical_cast<string> (start));
+	if (first_audio) {
+		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio));
 	}
 	mapping.as_xml (root->add_child("Mapping"));
 }

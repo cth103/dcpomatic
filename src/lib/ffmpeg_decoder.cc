@@ -66,8 +66,30 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
+	, _pts_offset (0)
 {
 	setup_subtitle ();
+
+	if (video && audio && c->audio_stream() && c->first_video() && c->audio_stream()->first_audio) {
+		_pts_offset = compute_pts_offset (c->first_video().get(), c->audio_stream()->first_audio.get(), c->video_frame_rate());
+	}
+}
+
+double
+FFmpegDecoder::compute_pts_offset (double first_video, double first_audio, float video_frame_rate)
+{
+	assert (first_video >= 0);
+	assert (first_audio >= 0);
+	
+	double const old_first_video = first_video;
+	
+	/* Round the first video to a frame boundary */
+	if (fabs (rint (first_video * video_frame_rate) - first_video * video_frame_rate) > 1e-6) {
+		first_video = ceil (first_video * video_frame_rate) / video_frame_rate;
+	}
+
+	/* Compute the required offset (also removing any common start delay) */
+	return first_video - old_first_video - min (first_video, first_audio);
 }
 
 FFmpegDecoder::~FFmpegDecoder ()
@@ -108,8 +130,8 @@ FFmpegDecoder::pass ()
 		}
 
 		/* Stop us being asked for any more data */
-		_next_video_frame = _ffmpeg_content->video_length ();
-		_next_audio_frame = _ffmpeg_content->audio_length ();
+		_video_position = _ffmpeg_content->video_length ();
+		_audio_position = _ffmpeg_content->audio_length ();
 		return;
 	}
 
@@ -267,11 +289,11 @@ FFmpegDecoder::seek (VideoContent::Frame frame)
 void
 FFmpegDecoder::seek_back ()
 {
-	if (_next_video_frame == 0) {
+	if (_video_position == 0) {
 		return;
 	}
 	
-	do_seek (_next_video_frame - 1, true, true);
+	do_seek (_video_position - 1, true, true);
 }
 
 void
@@ -327,17 +349,33 @@ FFmpegDecoder::decode_audio_packet ()
 		int const decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
 		if (decode_result >= 0) {
 			if (frame_finished) {
-			
-				/* Where we are in the source, in seconds */
-				double const source_pts_seconds = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-					* av_frame_get_best_effort_timestamp(_frame);
+
+				if (_audio_position == 0) {
+					/* Where we are in the source, in seconds */
+					double const pts = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
+						* av_frame_get_best_effort_timestamp(_frame) - _pts_offset;
+
+					if (pts > 0) {
+						/* Emit some silence */
+						shared_ptr<AudioBuffers> silence (
+							new AudioBuffers (
+								_ffmpeg_content->audio_channels(),
+								pts * _ffmpeg_content->content_audio_frame_rate()
+								)
+							);
+						
+						silence->make_silent ();
+						audio (silence, _audio_position);
+					}
+				}
+					
 				
 				int const data_size = av_samples_get_buffer_size (
 					0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
 					);
 				
 				assert (audio_codec_context()->channels == _ffmpeg_content->audio_channels());
-				Audio (deinterleave_audio (_frame->data, data_size), source_pts_seconds * _ffmpeg_content->content_audio_frame_rate());
+				audio (deinterleave_audio (_frame->data, data_size), _audio_position);
 			}
 			
 			copy_packet.data += decode_result;
@@ -389,8 +427,8 @@ FFmpegDecoder::decode_video_packet ()
 		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 		if (bet != AV_NOPTS_VALUE) {
 
-			double const pts = bet * av_q2d (_format_context->streams[_video_stream]->time_base);
-			double const next = _next_video_frame / _ffmpeg_content->video_frame_rate();
+			double const pts = bet * av_q2d (_format_context->streams[_video_stream]->time_base) - _pts_offset;
+			double const next = _video_position / _ffmpeg_content->video_frame_rate();
 			double const one_frame = 1 / _ffmpeg_content->video_frame_rate ();
 			double delta = pts - next;
 
@@ -407,13 +445,13 @@ FFmpegDecoder::decode_video_packet ()
 					);
 				
 				black->make_black ();
-				video (image, false, _next_video_frame);
+				video (image, false, _video_position);
 				delta -= one_frame;
 			}
 
 			if (delta > -one_frame) {
 				/* This PTS is within a frame of being right; emit this (otherwise it will be dropped) */
-				video (image, false, _next_video_frame);
+				video (image, false, _video_position);
 			}
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
@@ -450,8 +488,8 @@ FFmpegDecoder::setup_subtitle ()
 bool
 FFmpegDecoder::done () const
 {
-	bool const vd = !_decode_video || (_next_video_frame >= _ffmpeg_content->video_length());
-	bool const ad = !_decode_audio || !_ffmpeg_content->audio_stream() || (_next_audio_frame >= _ffmpeg_content->audio_length());
+	bool const vd = !_decode_video || (_video_position >= _ffmpeg_content->video_length());
+	bool const ad = !_decode_audio || !_ffmpeg_content->audio_stream() || (_audio_position >= _ffmpeg_content->audio_length());
 	return vd && ad;
 }
 	

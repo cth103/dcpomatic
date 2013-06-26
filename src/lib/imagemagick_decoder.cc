@@ -43,12 +43,12 @@ ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<con
 void
 ImageMagickDecoder::pass ()
 {
-	if (_next_video_frame >= _imagemagick_content->video_length ()) {
+	if (_video_position >= _imagemagick_content->video_length ()) {
 		return;
 	}
 
 	if (_image) {
-		video (_image, true, _next_video_frame);
+		video (_image, true, _video_position);
 		return;
 	}
 
@@ -71,25 +71,25 @@ ImageMagickDecoder::pass ()
 
 	delete magick_image;
 
-	video (_image, false, _next_video_frame);
+	video (_image, false, _video_position);
 }
 
 void
 ImageMagickDecoder::seek (VideoContent::Frame frame)
 {
-	_next_video_frame = frame;
+	_video_position = frame;
 }
 
 void
 ImageMagickDecoder::seek_back ()
 {
-	if (_next_video_frame > 0) {
-		_next_video_frame--;
+	if (_video_position > 0) {
+		_video_position--;
 	}
 }
 
 bool
 ImageMagickDecoder::done () const
 {
-	return _next_video_frame >= _imagemagick_content->video_length ();
+	return _video_position >= _imagemagick_content->video_length ();
 }

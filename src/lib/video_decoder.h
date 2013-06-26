@@ -43,7 +43,7 @@ public:
 protected:
 
 	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
-	VideoContent::Frame _next_video_frame;
+	VideoContent::Frame _video_position;
 };
 
 #endif

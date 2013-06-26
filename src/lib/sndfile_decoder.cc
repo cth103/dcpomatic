@@ -115,5 +115,5 @@ SndfileDecoder::audio_frame_rate () const
 bool
 SndfileDecoder::done () const
 {
-	return _next_audio_frame > _sndfile_content->audio_length ();
+	return _audio_position >= _sndfile_content->audio_length ();
 }

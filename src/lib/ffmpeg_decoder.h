@@ -38,6 +38,7 @@ extern "C" {
 #include "ffmpeg.h"
 
 class Film;
+class ffmpeg_pts_offset_test;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
@@ -54,10 +55,13 @@ public:
 	bool done () const;
 
 private:
+	friend class ::ffmpeg_pts_offset_test;
 
 	/* No copy construction */
 	FFmpegDecoder (FFmpegDecoder const &);
 	FFmpegDecoder& operator= (FFmpegDecoder const &);
+
+	static double compute_pts_offset (double, double, float);
 
 	void setup_subtitle ();
 
@@ -79,4 +83,6 @@ private:
 
 	bool _decode_video;
 	bool _decode_audio;
+
+	double _pts_offset;
 };

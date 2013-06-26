@@ -30,7 +30,7 @@ using boost::shared_ptr;
 
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
 	: Decoder (f)
-	, _next_video_frame (0)
+	, _video_position (0)
 {
 
 }
@@ -39,7 +39,7 @@ void
 VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
 {
         Video (image, same, frame);
-	_next_video_frame = frame + 1;
+	_video_position = frame + 1;
 }
 
 #if 0

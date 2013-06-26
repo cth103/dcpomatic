@@ -43,7 +43,7 @@ public:
 protected:
 
 	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
-	AudioContent::Frame _next_audio_frame;
+	AudioContent::Frame _audio_position;
 };
 
 #endif

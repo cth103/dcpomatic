@@ -33,7 +33,7 @@ using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (shared_ptr<const Film> f)
 	: Decoder (f)
-	, _next_audio_frame (0)
+	, _audio_position (0)
 {
 }
 
@@ -71,5 +71,5 @@ void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {
 	Audio (data, frame);
-	_next_audio_frame = frame + data->frames ();
+	_audio_position = frame + data->frames ();
 }
