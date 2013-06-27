@@ -2,13 +2,13 @@ Source: dvdomatic
 Section: video
 Priority: extra
 Maintainer: Carl Hetherington <cth@carlh.net>
-Build-Depends: debhelper (>= 8.0.0), python (>= 2.7.3), g++ (>= 4:4.6.3), pkg-config (>= 0.26), libssh-dev (>= 0.5.2), libboost-filesystem-dev (>= 1.46.0), libboost-thread-dev (>= 1.46.0), libsndfile1-dev (>= 1.0.25), libmagick++-dev (>= 8:6.6.9.7), libgtk-3-dev (>= 3.6.0)
+Build-Depends: debhelper (>= 8.0.0), python (>= 2.7.3), g++ (>= 4:4.6.3), pkg-config (>= 0.26), libwxgtk2.8-dev (>= 2.8.12.1), libssh-dev (>= 0.5.2), libboost-filesystem-dev (>= 1.46.0), libboost-thread-dev (>= 1.46.0), libsndfile1-dev (>= 1.0.25), libmagick++-dev (>= 8:6.6.9.7)
 Standards-Version: 3.9.3
 Homepage: http://carlh.net/software/dvdomatic
 
 Package: dvdomatic
 Architecture: amd64
-Depends: libc6 (>= 2.15), libssh-4 (>= 0.5.2), libboost-filesystem1.46.1 (>= 1.46.1), libboost-thread1.46.1 (>= 1.46.1), libsndfile1 (>= 1.0.25), libmagick++4 (>= 8:6.6.9.7), libxml++2.6-2 (>= 2.34.1), libgtk-3 (>= 3.6.0)
+Depends: libc6 (>= 2.15), libwxgtk2.8-0 (>= 2.8.12.1), libssh-4 (>= 0.5.2), libboost-filesystem1.46.1 (>= 1.46.1), libboost-thread1.46.1 (>= 1.46.1), libsndfile1 (>= 1.0.25), libmagick++4 (>= 8:6.6.9.7), libxml++2.6-2 (>= 2.34.1)
 Description: Generator of Digital Cinema Packages (DCPs)
   DVD-o-matic generates Digital Cinema Packages (DCPs) from video and audio
   files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant
