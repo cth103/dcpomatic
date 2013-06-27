@@ -107,6 +107,9 @@ public:
 
 private:
 
+	/* No copy construction */
+	FFmpegDecoder (FFmpegDecoder const &);
+
 	bool pass ();
 	bool do_seek (double p, bool, bool);
 	PixelFormat pixel_format () const;
@@ -145,4 +148,6 @@ private:
 
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
+
+	static boost::mutex _mutex;
 };
