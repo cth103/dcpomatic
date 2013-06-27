@@ -61,6 +61,8 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using libdcp::Size;
 
+boost::mutex FFmpegDecoder::_mutex;
+
 FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, DecodeOptions o)
 	: Decoder (f, o)
 	, VideoDecoder (f, o)
@@ -83,6 +85,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<Film> f, DecodeOptions o)
 
 FFmpegDecoder::~FFmpegDecoder ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	if (_audio_codec_context) {
 		avcodec_close (_audio_codec_context);
 	}
@@ -157,6 +161,8 @@ FFmpegDecoder::setup_general ()
 void
 FFmpegDecoder::setup_video ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	_video_codec_context = _format_context->streams[_video_stream]->codec;
 	_video_codec = avcodec_find_decoder (_video_codec_context->codec_id);
 
@@ -172,6 +178,8 @@ FFmpegDecoder::setup_video ()
 void
 FFmpegDecoder::setup_audio ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	if (!_audio_stream) {
 		return;
 	}
@@ -194,6 +202,8 @@ FFmpegDecoder::setup_audio ()
 void
 FFmpegDecoder::setup_subtitle ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	if (!_subtitle_stream || _subtitle_stream->id() >= int (_format_context->nb_streams)) {
 		return;
 	}
