@@ -943,6 +943,9 @@ Film::set_content (string c)
 		_content = c;
 	}
 
+	/* Do this before we start using FFmpeg ourselves */
+	run_ffprobe (c, file ("ffprobe.log"), _log);
+	
 	/* Reset streams here in case the new content doesn't have one or the other */
 	_content_audio_stream = shared_ptr<AudioStream> ();
 	_subtitle_stream = shared_ptr<SubtitleStream> ();
@@ -998,8 +1001,6 @@ Film::set_content (string c)
 	if (content_type() == STILL) {
 		set_use_content_audio (false);
 	}
-
-	run_ffprobe (c, file ("ffprobe.log"), _log);
 }
 
 void
