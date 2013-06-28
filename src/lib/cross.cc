@@ -22,7 +22,7 @@
 #include "cross.h"
 #include "compose.hpp"
 #include "log.h"
-#ifdef DVDOMATIC_POSIX
+#ifdef DVDOMATIC_LINUX
 #include <unistd.h>
 #include <mntent.h>
 #endif
@@ -165,7 +165,7 @@ mount_info ()
 {
 	list<pair<string, string> > m;
 	
-#ifdef DVDOMATIC_POSIX	
+#ifdef DVDOMATIC_LINUX
 	FILE* f = setmntent ("/etc/mtab", "r");
 	if (!f) {
 		return m;
