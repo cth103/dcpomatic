@@ -318,6 +318,11 @@ Film::make_dcp ()
 	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+	if (use_content_audio()) {
+		log()->log ("Using content's audio");
+	} else {
+		log()->log (String::compose ("Using external audio (%1 files)", external_audio().size()));
+	}
 #ifdef DVDOMATIC_DEBUG
 	log()->log ("DVD-o-matic built in debug mode.");
 #else
