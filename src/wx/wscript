@@ -52,6 +52,8 @@ def build(bld):
     obj.includes = [ '..' ]
     obj.export_includes = ['.']
     obj.uselib = 'WXWIDGETS'
+    if bld.env.TARGET_LINUX:
+        obj.uselib += ' GTK'
     obj.use = 'libdvdomatic'
     obj.source = sources
     obj.target = 'dvdomatic-wx'
