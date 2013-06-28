@@ -143,13 +143,13 @@ Film::Film (string d, bool must_exist)
 
 	_sndfile_stream = SndfileStream::create ();
 	
+	_log.reset (new FileLog (file ("log")));
+	
 	if (must_exist) {
 		read_metadata ();
 	} else {
 		write_metadata ();
 	}
-
-	_log.reset (new FileLog (file ("log")));
 }
 
 Film::Film (Film const & o)
@@ -694,6 +694,8 @@ Film::read_metadata ()
 	}
 		
 	_dirty = false;
+
+	_log->log (String::compose ("Loaded film with use_content_audio = %1", use_content_audio ()));
 }
 
 libdcp::Size
