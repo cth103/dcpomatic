@@ -1,5 +1,9 @@
 2013-06-28  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.105 released.
+
+2013-06-28  Carl Hetherington  <cth@carlh.net>
+
 	* Work around GTK bugs related to the directory
 	picker (in the new film dialogue).  There is a
 	buggy GTK included in Ubuntu 13.04 (and Mint 15).
