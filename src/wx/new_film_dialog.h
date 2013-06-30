@@ -19,6 +19,9 @@
 
 #include <wx/wx.h>
 #include <wx/filepicker.h>
+#ifdef __WXGTK__
+#include <gtk/gtk.h>
+#endif
 
 class DirPickerCtrl;
 
@@ -32,10 +35,10 @@ public:
 
 private:
 	wxTextCtrl* _name;
-#ifdef __WXMSW__	
+#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && GTK_MICRO_VERSION == 17)
 	DirPickerCtrl* _folder;
-#else
+#else	
 	wxDirPickerCtrl* _folder;
-#endif
+#endif	
 	static boost::optional<std::string> _directory;
 };

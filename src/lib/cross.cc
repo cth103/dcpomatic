@@ -22,8 +22,9 @@
 #include "cross.h"
 #include "compose.hpp"
 #include "log.h"
-#ifdef DVDOMATIC_POSIX
+#ifdef DVDOMATIC_LINUX
 #include <unistd.h>
+#include <mntent.h>
 #endif
 #ifdef DVDOMATIC_WINDOWS
 #include <windows.h>
@@ -35,8 +36,10 @@
 #endif
 
 using std::pair;
+using std::list;
 using std::ifstream;
 using std::string;
+using std::make_pair;
 using boost::shared_ptr;
 
 void
@@ -155,4 +158,30 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	log->log (String::compose ("Probing with %1", ffprobe));
 	system (ffprobe.c_str ());
 #endif	
+}
+
+list<pair<string, string> >
+mount_info ()
+{
+	list<pair<string, string> > m;
+	
+#ifdef DVDOMATIC_LINUX
+	FILE* f = setmntent ("/etc/mtab", "r");
+	if (!f) {
+		return m;
+	}
+	
+	while (1) {
+		struct mntent* mnt = getmntent (f);
+		if (!mnt) {
+			break;
+		}
+
+		m.push_back (make_pair (mnt->mnt_dir, mnt->mnt_type));
+	}
+
+	endmntent (f);
+#endif
+
+	return m;
 }

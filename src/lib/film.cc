@@ -68,6 +68,7 @@ using std::setfill;
 using std::min;
 using std::make_pair;
 using std::endl;
+using std::list;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::to_upper_copy;
@@ -142,13 +143,13 @@ Film::Film (string d, bool must_exist)
 
 	_sndfile_stream = SndfileStream::create ();
 	
+	_log.reset (new FileLog (file ("log")));
+	
 	if (must_exist) {
 		read_metadata ();
 	} else {
 		write_metadata ();
 	}
-
-	_log.reset (new FileLog (file ("log")));
 }
 
 Film::Film (Film const & o)
@@ -317,6 +318,11 @@ Film::make_dcp ()
 	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+	if (use_content_audio()) {
+		log()->log ("Using content's audio");
+	} else {
+		log()->log (String::compose ("Using external audio (%1 files)", external_audio().size()));
+	}
 #ifdef DVDOMATIC_DEBUG
 	log()->log ("DVD-o-matic built in debug mode.");
 #else
@@ -329,6 +335,10 @@ Film::make_dcp ()
 #endif
 	pair<string, int> const c = cpu_info ();
 	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
+	list<pair<string, string> > const m = mount_info ();
+	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
+		log()->log (String::compose ("Mount: %1 %2", i->first, i->second));
+	}
 	
 	if (format() == 0) {
 		throw MissingSettingError (_("format"));
@@ -684,6 +694,8 @@ Film::read_metadata ()
 	}
 		
 	_dirty = false;
+
+	_log->log (String::compose ("Loaded film with use_content_audio = %1", use_content_audio ()));
 }
 
 libdcp::Size

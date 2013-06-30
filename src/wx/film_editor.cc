@@ -37,6 +37,7 @@
 #include "lib/filter.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_decoder.h"
+#include "lib/log.h"
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -765,6 +766,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_frame_rate_description ();
 		break;
 	case Film::USE_CONTENT_AUDIO:
+		_film->log()->log (String::compose ("Film::USE_CONTENT_AUDIO changed; setting GUI using %1", _film->use_content_audio ()));
 		checked_set (_use_content_audio, _film->use_content_audio());
 		checked_set (_use_external_audio, !_film->use_content_audio());
 		setup_dcp_name ();

@@ -21,7 +21,7 @@
 #include <wx/stdpaths.h>
 #include "lib/config.h"
 #include "new_film_dialog.h"
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && GTK_MICRO_VERSION == 17)
 #include "dir_picker_ctrl.h"
 #endif
 #include "wx_util.h"
@@ -46,8 +46,12 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	table->Add (_name, 1, wxEXPAND);
 
 	add_label_to_sizer (table, this, _("Create in folder"));
-#ifdef __WXMSW__
-	_folder = new DirPickerCtrl (this);
+
+	/* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
+	   Use our own dir picker as this is the least bad option I can think of.
+	*/
+#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && GTK_MICRO_VERSION == 17)
+	_folder = new DirPickerCtrl (this); 
 #else	
 	_folder = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
 #endif
