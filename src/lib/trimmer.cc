@@ -62,8 +62,15 @@ Trimmer::Trimmer (
 	   the current set of regression tests).  This could be
 	   removed if a) the regression tests are regenerated and b) I
 	   can work out what DCP length should be.
+
+	   There is also a problem whereby black video frames inserted
+	   at the start of the output by the matcher are not taken into account,
+	   so if black frames are inserted it means more gets trimmed off the
+	   end than should be.  Hack around this in similar fashion with the
+	   _video_end = INT_MAX line.
 	*/
 	if (video_trim_end == 0) {
+		_video_end = INT_MAX;
 		_audio_end = INT64_MAX;
 	}
 }
