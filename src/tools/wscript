@@ -16,6 +16,8 @@ def build(bld):
         for t in ['dvdomatic', 'dvdomatic_batch', 'servomatic_gui']:
             obj = bld(features = 'cxx cxxprogram')
             obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML WXWIDGETS'
+            if bld.env.STATIC:
+                obj.uselib += ' GTK'
             obj.includes = ['..']
             obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
             obj.source = '%s.cc' % t
