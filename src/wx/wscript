@@ -36,8 +36,11 @@ def configure(conf):
         # wx-config returns its static libraries as full paths, without -l prefixes, which I think confuses
         # check_cfg(), so it ends up putting these libraries before even the .cc file when linking.
         # This hack works around that.
-        conf.env.STLIB_WXWIDGETS = ['wx_gtk2u_xrc-2.9', 'wx_gtk2u_qa-2.9', 'wx_baseu_net-2.9', 'wx_gtk2u_html-2.9',
-                                    'wx_gtk2u_adv-2.9', 'wx_gtk2u_core-2.9', 'wx_baseu_xml-2.9', 'wx_baseu-2.9']
+        extras = ['wx_gtk2u_xrc-2.9', 'wx_gtk2u_qa-2.9', 'wx_baseu_net-2.9', 'wx_gtk2u_html-2.9',
+                  'wx_gtk2u_adv-2.9', 'wx_gtk2u_core-2.9', 'wx_baseu_xml-2.9', 'wx_baseu-2.9']
+
+        for e in extras:
+            conf.env.STLIB_WXWIDGETS.append(e)
 
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
