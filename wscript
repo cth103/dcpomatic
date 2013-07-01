@@ -112,8 +112,11 @@ def configure(conf):
 
     if conf.env.TARGET_LINUX:
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
-        # On Linux we need to be able to include <gtk/gtk.h> to check GTK's version
-        conf.check_cfg(package='gtk+-2.0', args='--cflags', uselib_store='GTK', mandatory=True)
+        if conf.env.STATIC:
+            conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
+        else:
+            # On Linux we need to be able to include <gtk/gtk.h> to check GTK's version
+            conf.check_cfg(package='gtk+-2.0', args='--cflags', uselib_store='GTK', mandatory=True)
 
     conf.check_cfg(package = '', path = conf.options.magickpp_config, args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
