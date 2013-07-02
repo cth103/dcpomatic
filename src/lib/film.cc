@@ -694,8 +694,6 @@ Film::read_metadata ()
 	}
 		
 	_dirty = false;
-
-	_log->log (String::compose ("Loaded film with use_content_audio = %1", _use_content_audio));
 }
 
 libdcp::Size
