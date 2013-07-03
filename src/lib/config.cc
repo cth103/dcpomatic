@@ -36,13 +36,14 @@ using std::vector;
 using std::ifstream;
 using std::string;
 using std::ofstream;
+using std::max;
 using boost::shared_ptr;
 
 Config* Config::_instance = 0;
 
 /** Construct default configuration */
 Config::Config ()
-	: _num_local_encoding_threads (2)
+	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
 	, _server_port (6192)
 	, _reference_scaler (Scaler::from_id (N_("bicubic")))
 	, _tms_path (N_("."))

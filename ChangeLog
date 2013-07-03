@@ -1,3 +1,12 @@
+2013-07-04  Carl Hetherington  <cth@carlh.net>
+
+	* Try to initialise the number of threads to the number
+	of cores in the machine (#170).
+
+	* Pass _FILE_OFFSET_BITS=64 so that fopen() doesn't refuse
+	to open files of >2GB; fixes failure to re-start jobs
+	where the MXF has grown larger than 2GB on 32-bit machines.
+
 2013-07-01  Carl Hetherington  <cth@carlh.net>
 
 	* Version 0.106 released.
