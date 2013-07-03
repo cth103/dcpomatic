@@ -49,6 +49,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDVDOMATIC_POSIX')
         conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dvdomatic"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-D_FILE_OFFSET_BITS=64')
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
