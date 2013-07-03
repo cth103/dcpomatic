@@ -117,11 +117,13 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	startup_info.dwFlags |= STARTF_USESTDHANDLES;
 
 	wchar_t command[512];
-	wcscpy (command, L"ffprobe.exe ");
+	wcscpy (command, L"ffprobe.exe \"");
 
 	wchar_t file[512];
 	MultiByteToWideChar (CP_UTF8, 0, content.string().c_str(), -1, file, sizeof(file));
 	wcscat (command, file);
+
+	wcscat (command, L"\"");
 
 	PROCESS_INFORMATION process_info;
 	ZeroMemory (&process_info, sizeof (process_info));
