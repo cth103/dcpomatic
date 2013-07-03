@@ -245,7 +245,6 @@ Film::info_dir () const
 string
 Film::internal_video_mxf_dir () const
 {
-	boost::filesystem::path p;
 	return dir ("video");
 }
 

@@ -18,6 +18,7 @@
 */
 
 #include <fstream>
+#include <cerrno>
 #include <libdcp/picture_asset.h>
 #include <libdcp/sound_asset.h>
 #include <libdcp/picture_frame.h>
@@ -352,8 +353,9 @@ Writer::check_existing_picture_mxf ()
 	boost::filesystem::path p;
 	p /= _film->internal_video_mxf_dir ();
 	p /= _film->internal_video_mxf_filename ();
-	FILE* mxf = fopen (p.string().c_str(), N_("rb"));
+	FILE* mxf = fopen (p.string().c_str(), "rb");
 	if (!mxf) {
+		_film->log()->log (String::compose ("Could not open existing MXF at %1 (errno=%2)", p.string(), errno));
 		return;
 	}
 
