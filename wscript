@@ -206,7 +206,7 @@ def configure(conf):
     conf.recurse('test')
 
 def build(bld):
-    create_version_cc(VERSION)
+    create_version_cc(VERSION, bld.env.CXXFLAGS)
 
     bld.recurse('src')
     bld.recurse('test')
@@ -232,7 +232,7 @@ def dist(ctx):
                GRSYMS GRTAGS GSYMS GTAGS
                """
 
-def create_version_cc(version):
+def create_version_cc(version, cxx_flags):
     if os.path.exists('.git'):
         cmd = "LANG= git log --abbrev HEAD^..HEAD ."
         output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
@@ -245,6 +245,13 @@ def create_version_cc(version):
         text =  '#include "version.h"\n'
         text += 'char const * dvdomatic_git_commit = \"%s\";\n' % commit
         text += 'char const * dvdomatic_version = \"%s\";\n' % version
+
+        t = ''
+        for f in cxx_flags:
+            f = f.replace('"', '\\"')
+            t += f + ' '
+        text += 'char const * dvdomatic_cxx_flags = \"%s\";\n' % t[:-1]
+
         print('Writing version information to src/lib/version.cc')
         o = open('src/lib/version.cc', 'w')
         o.write(text)

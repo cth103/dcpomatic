@@ -48,7 +48,8 @@ help (string n)
 	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
 	     << "  -v, --version      show DVD-o-matic version\n"
 	     << "  -h, --help         show this help\n"
-	     << "  -d, --deps         list DVD-o-matic dependency details and quit\n"
+	     << "  -d, --deps         list DVD-o-matic dependency details\n"
+	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
 	     << "\n"
@@ -69,13 +70,14 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "deps", no_argument, 0, 'd'},
+			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
 			{ "log-level", required_argument, 0, 'l' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdnrl:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdfnrl:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -90,6 +92,9 @@ main (int argc, char* argv[])
 			exit (EXIT_SUCCESS);
 		case 'd':
 			cout << dependency_version_summary () << "\n";
+			exit (EXIT_SUCCESS);
+		case 'f':
+			cout << dvdomatic_cxx_flags << "\n";
 			exit (EXIT_SUCCESS);
 		case 'n':
 			progress = false;
