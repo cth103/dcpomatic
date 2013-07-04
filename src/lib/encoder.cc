@@ -433,10 +433,10 @@ Encoder::encoder_thread (ServerDescription* server)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 {
-	AudioMapping m (_film->audio_channels ());
+	AudioMapping m (_film);
 	if (m.dcp_channels() != _film->audio_channels()) {
 
-		/* Remap (currently just for mono -> 5.1) */
+		/* Remap and pad with silence */
 
 		shared_ptr<AudioBuffers> b (new AudioBuffers (m.dcp_channels(), data->frames ()));
 		for (int i = 0; i < m.dcp_channels(); ++i) {

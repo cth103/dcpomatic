@@ -50,6 +50,7 @@ extern "C" {
 #define MAX_AUDIO_CHANNELS 6
 
 class Scaler;
+class Film;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
@@ -287,14 +288,17 @@ private:
 class AudioMapping
 {
 public:
-	AudioMapping (int);
+	AudioMapping (boost::shared_ptr<const Film>);
 
 	boost::optional<libdcp::Channel> source_to_dcp (int c) const;
 	boost::optional<int> dcp_to_source (libdcp::Channel c) const;
+
+	int minimum_dcp_channels () const;
 	int dcp_channels () const;
 
 private:
 	int _source_channels;
+	int _minimum_channels;
 };
 
 extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second);

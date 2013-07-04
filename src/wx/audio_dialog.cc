@@ -108,7 +108,7 @@ AudioDialog::setup_channels ()
 		return;
 	}
 
-	AudioMapping m (_film->audio_stream()->channels ());
+	AudioMapping m (_film);
 	
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		if (m.dcp_to_source(static_cast<libdcp::Channel>(i))) {
@@ -134,7 +134,7 @@ AudioDialog::try_to_load_analysis ()
 		
 	_plot->set_analysis (a);
 
-	AudioMapping m (_film->audio_stream()->channels ());
+	AudioMapping m (_film);
 	optional<libdcp::Channel> c = m.source_to_dcp (0);
 	if (c) {
 		_channel_checkbox[c.get()]->SetValue (true);
@@ -157,7 +157,7 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 
 	assert (c < MAX_AUDIO_CHANNELS);
 
-	AudioMapping m (_film->audio_stream()->channels ());
+	AudioMapping m (_film);
 	optional<int> s = m.dcp_to_source (static_cast<libdcp::Channel> (c));
 	if (s) {
 		_plot->set_channel_visible (s.get(), _channel_checkbox[c]->GetValue ());

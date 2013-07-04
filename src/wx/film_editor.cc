@@ -232,6 +232,8 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect     (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect       (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect  (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
+	_pad_with_silence->Connect     (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::pad_with_silence_toggled), 0, this);
+	_minimum_audio_channels->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,   wxCommandEventHandler (FilmEditor::minimum_audio_channels_changed), 0, this);
 	_dcp_ab->Connect               (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::dcp_ab_toggled), 0, this);
 	_still_duration->Connect       (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::still_duration_changed), 0, this);
 	_trim_start->Connect           (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::trim_start_changed), 0, this);
@@ -393,6 +395,16 @@ FilmEditor::make_audio_panel ()
 	}
 
 	{
+		_pad_with_silence = new wxCheckBox (_audio_panel, wxID_ANY, _("Pad with silence to"));
+		grid->Add (_pad_with_silence);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_minimum_audio_channels = new wxSpinCtrl (_audio_panel);
+		s->Add (_minimum_audio_channels, 1);
+		add_label_to_sizer (s, _audio_panel, _("channels"));
+		grid->Add (s);
+	}
+
+	{
 		_use_content_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use content's audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 		grid->Add (video_control (_use_content_audio));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -415,6 +427,7 @@ FilmEditor::make_audio_panel ()
 
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
+	_minimum_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
 }
 
 void
@@ -628,6 +641,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_streams ();
 		setup_show_audio_sensitivity ();
 		setup_frame_rate_description ();
+		setup_minimum_audio_channels ();
 		break;
 	case Film::TRUST_CONTENT_HEADER:
 		checked_set (_trust_content_header, _film->trust_content_header ());
@@ -640,6 +654,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_streams ();
 		setup_show_audio_sensitivity ();
 		setup_frame_rate_description ();
+		setup_minimum_audio_channels ();
 		break;
 	case Film::FORMAT:
 	{
@@ -764,6 +779,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_audio_control_sensitivity ();
 		setup_show_audio_sensitivity ();
 		setup_frame_rate_description ();
+		setup_minimum_audio_channels ();
 		break;
 	case Film::USE_CONTENT_AUDIO:
 		_film->log()->log (String::compose ("Film::USE_CONTENT_AUDIO changed; setting GUI using %1", _film->use_content_audio ()));
@@ -774,6 +790,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_audio_control_sensitivity ();
 		setup_show_audio_sensitivity ();
 		setup_frame_rate_description ();
+		setup_minimum_audio_channels ();
 		break;
 	case Film::SUBTITLE_STREAM:
 		if (_film->subtitle_stream()) {
@@ -789,6 +806,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_audio_details ();
 		setup_show_audio_sensitivity ();
 		setup_frame_rate_description ();
+		setup_minimum_audio_channels ();
 		break;
 	}
 	case Film::DCP_FRAME_RATE:
@@ -808,6 +826,10 @@ FilmEditor::film_changed (Film::Property p)
 		}
 
 		setup_frame_rate_description ();
+	case Film::MINIMUM_AUDIO_CHANNELS:
+		checked_set (_minimum_audio_channels, _film->minimum_audio_channels ());
+		setup_minimum_audio_channels ();
+		break;
 	}
 }
 
@@ -1185,6 +1207,9 @@ FilmEditor::setup_audio_control_sensitivity ()
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_external_audio[i]->Enable (external);
 	}
+
+	_pad_with_silence->Enable (_generally_sensitive && _film && _film->audio_stream() && _film->audio_stream()->channels() < MAX_AUDIO_CHANNELS);
+	_minimum_audio_channels->Enable (_generally_sensitive && _pad_with_silence->GetValue ());
 }
 
 void
@@ -1410,4 +1435,34 @@ void
 FilmEditor::trim_type_changed (wxCommandEvent &)
 {
 	_film->set_trim_type (_trim_type->GetSelection () == 0 ? Film::CPL : Film::ENCODE);
+}
+
+void
+FilmEditor::setup_minimum_audio_channels ()
+{
+	if (!_film || !_film->audio_stream ()) {
+		_pad_with_silence->SetValue (false);
+		return;
+	}
+
+	_pad_with_silence->SetValue (_film->audio_stream()->channels() < _film->minimum_audio_channels());
+
+	AudioMapping m (_film);
+	_minimum_audio_channels->SetRange (m.minimum_dcp_channels(), MAX_AUDIO_CHANNELS);
+}
+
+void
+FilmEditor::pad_with_silence_toggled (wxCommandEvent &)
+{
+	setup_audio_control_sensitivity ();
+}
+
+void
+FilmEditor::minimum_audio_channels_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_minimum_audio_channels (_minimum_audio_channels->GetValue ());
 }

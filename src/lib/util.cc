@@ -61,6 +61,7 @@ extern "C" {
 #include "filter.h"
 #include "sound_processor.h"
 #include "config.h"
+#include "film.h"
 #ifdef DVDOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -962,8 +963,9 @@ audio_channel_name (int c)
 	return channels[c];
 }
 
-AudioMapping::AudioMapping (int c)
-	: _source_channels (c)
+AudioMapping::AudioMapping (shared_ptr<const Film> f)
+	: _source_channels (f->audio_stream() ? f->audio_stream()->channels() : 0)
+	, _minimum_channels (f->minimum_audio_channels ())
 {
 
 }
@@ -1001,8 +1003,11 @@ AudioMapping::dcp_to_source (libdcp::Channel c) const
 	return static_cast<int> (c);
 }
 
+/** @return minimum number of DCP channels that we can allow in this
+    DCP, given the nature of the source.
+*/
 int
-AudioMapping::dcp_channels () const
+AudioMapping::minimum_dcp_channels () const
 {
 	if (_source_channels == 1) {
 		/* The source is mono, so to put the mono channel into
@@ -1012,6 +1017,15 @@ AudioMapping::dcp_channels () const
 	}
 
 	return _source_channels;
+}
+
+/** @return number of channels that there should be in the DCP, including
+ *  any silent padded ones.
+ */
+int
+AudioMapping::dcp_channels () const
+{
+	return max (_source_channels, _minimum_channels);
 }
 
 FrameRateConversion::FrameRateConversion (float source, int dcp)
