@@ -109,7 +109,7 @@ ConfigDialog::make_misc_panel ()
 	table->AddSpacer (0);
 
 	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"));
-#ifdef __WXMSW__
+#ifdef DVDOMATIC_USE_OWN_DIR_PICKER
 	_default_directory = new DirPickerCtrl (_misc_panel);
 #else	
 	_default_directory = new wxDirPickerCtrl (_misc_panel, wxDD_DIR_MUST_EXIST);

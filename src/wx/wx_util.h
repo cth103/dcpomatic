@@ -17,10 +17,16 @@
 
 */
 
+#ifndef DVDOMATIC_WX_UTIL_H
+#define DVDOMATIC_WX_UTIL_H
+
 #include <wx/wx.h>
 #include <wx/gbsizer.h>
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
+#ifdef __WXGTK__
+#include <gtk/gtk.h>
+#endif
 
 class wxFilePickerCtrl;
 class wxSpinCtrl;
@@ -69,3 +75,12 @@ extern void checked_set (wxTextCtrl* widget, std::string value);
 extern void checked_set (wxCheckBox* widget, bool value);
 extern void checked_set (wxRadioButton* widget, bool value);
 extern void checked_set (wxStaticText* widget, std::string value);
+
+/* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
+   Use our own dir picker as this is the least bad option I can think of.
+*/
+#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && GTK_MICRO_VERSION == 17)
+#define DVDOMATIC_USE_OWN_DIR_PICKER
+#endif
+
+#endif

@@ -25,6 +25,7 @@
 #include <wx/spinctrl.h>
 #include <wx/listctrl.h>
 #include <wx/filepicker.h>
+#include "wx_util.h"
 
 class DirPickerCtrl;
 class wxNotebook;
@@ -85,7 +86,7 @@ private:
 	wxTextCtrl* _tms_user;
 	wxTextCtrl* _tms_password;
 	wxSpinCtrl* _num_local_encoding_threads;
-#ifdef __WXMSW__	
+#ifdef DVDOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _default_directory;
 #else
 	wxDirPickerCtrl* _default_directory;

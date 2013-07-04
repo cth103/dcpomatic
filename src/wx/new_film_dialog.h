@@ -19,9 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/filepicker.h>
-#ifdef __WXGTK__
-#include <gtk/gtk.h>
-#endif
+#include "wx_util.h"
 
 class DirPickerCtrl;
 
@@ -35,7 +33,7 @@ public:
 
 private:
 	wxTextCtrl* _name;
-#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && GTK_MICRO_VERSION == 17)
+#ifdef DVDOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
 #else	
 	wxDirPickerCtrl* _folder;
