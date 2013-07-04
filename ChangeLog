@@ -1,5 +1,9 @@
 2013-07-04  Carl Hetherington  <cth@carlh.net>
 
+	* Version 0.107beta1 released.
+
+2013-07-04  Carl Hetherington  <cth@carlh.net>
+
 	* Try to initialise the number of threads to the number
 	of cores in the machine (#170).
 
