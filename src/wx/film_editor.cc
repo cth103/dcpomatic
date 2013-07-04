@@ -1448,7 +1448,7 @@ FilmEditor::setup_minimum_audio_channels ()
 	_pad_with_silence->SetValue (_film->audio_stream()->channels() < _film->minimum_audio_channels());
 
 	AudioMapping m (_film);
-	_minimum_audio_channels->SetRange (m.minimum_dcp_channels(), MAX_AUDIO_CHANNELS);
+	_minimum_audio_channels->SetRange (m.minimum_dcp_channels() + 1, MAX_AUDIO_CHANNELS);
 }
 
 void
