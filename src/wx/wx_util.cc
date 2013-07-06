@@ -41,7 +41,7 @@ wxStaticText *
 add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, int prop)
 {
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
-	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
 	return m;
 }
 
@@ -49,7 +49,7 @@ wxStaticText *
 add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, wxGBPosition pos, wxGBSpan span)
 {
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
-	s->Add (m, pos, span, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	s->Add (m, pos, span, wxALIGN_CENTER_VERTICAL | wxALL);
 	return m;
 }
 

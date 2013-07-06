@@ -80,7 +80,7 @@ ConfigDialog::make_misc_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_misc_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
@@ -105,7 +105,7 @@ ConfigDialog::make_misc_panel ()
 
 	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"));
 	_num_local_encoding_threads = new wxSpinCtrl (_misc_panel);
-	table->Add (_num_local_encoding_threads, 1, wxEXPAND);
+	table->Add (_num_local_encoding_threads, 1);
 	table->AddSpacer (0);
 
 	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"));
@@ -194,7 +194,7 @@ ConfigDialog::make_tms_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_tms_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
@@ -233,7 +233,7 @@ ConfigDialog::make_metadata_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_metadata_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
@@ -260,7 +260,7 @@ ConfigDialog::make_ab_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_ab_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL, 8);
 	
@@ -302,7 +302,7 @@ ConfigDialog::make_servers_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_servers_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (0, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
@@ -323,11 +323,11 @@ ConfigDialog::make_servers_panel ()
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		_add_server = new wxButton (_servers_panel, wxID_ANY, _("Add"));
-		s->Add (_add_server);
+		s->Add (_add_server, 0, wxTOP | wxBOTTOM, 2);
 		_edit_server = new wxButton (_servers_panel, wxID_ANY, _("Edit"));
-		s->Add (_edit_server);
+		s->Add (_edit_server, 0, wxTOP | wxBOTTOM, 2);
 		_remove_server = new wxButton (_servers_panel, wxID_ANY, _("Remove"));
-		s->Add (_remove_server);
+		s->Add (_remove_server, 0, wxTOP | wxBOTTOM, 2);
 		table->Add (s, 0);
 	}
 

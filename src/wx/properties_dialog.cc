@@ -36,7 +36,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("Film Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 	, _film (film)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 3, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 
 	add_label_to_sizer (table, this, _("Frames"));
 	_frames = new wxStaticText (this, wxID_ANY, wxT (""));

@@ -37,13 +37,13 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 	
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
 	add_label_to_sizer (table, this, _("Film name"));
 	_name = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_name, 1, wxEXPAND);
+	table->Add (_name, 0, wxEXPAND);
 
 	add_label_to_sizer (table, this, _("Create in folder"));
 

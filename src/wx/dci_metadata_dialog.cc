@@ -27,7 +27,7 @@ using boost::shared_ptr;
 DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	: wxDialog (parent, wxID_ANY, _("DCI name"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
 	add_label_to_sizer (table, this, _("Audio Language (e.g. EN)"));

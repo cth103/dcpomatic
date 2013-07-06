@@ -30,7 +30,7 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 		_server = new ServerDescription (wx_to_std (N_("localhost")), 1);
 	}
 		
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 4, 4);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
 	add_label_to_sizer (table, this, _("Host name or IP address"));

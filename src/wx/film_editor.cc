@@ -97,14 +97,14 @@ FilmEditor::make_film_panel ()
 	_film_sizer = new wxBoxSizer (wxVERTICAL);
 	_film_panel->SetSizer (_film_sizer);
 
-	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
+	wxGridBagSizer* grid = new wxGridBagSizer (DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	_film_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
 	
 	add_label_to_grid_bag_sizer (grid, _film_panel, _("Name"), wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_film_panel, wxID_ANY);
-	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Name"), wxGBPosition (r, 0));
@@ -266,7 +266,7 @@ FilmEditor::make_video_panel ()
 	_video_sizer = new wxBoxSizer (wxVERTICAL);
 	_video_panel->SetSizer (_video_sizer);
 	
-	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
+	wxGridBagSizer* grid = new wxGridBagSizer (DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	_video_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
@@ -312,7 +312,7 @@ FilmEditor::make_video_panel ()
 		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (_video_panel, wxID_ANY, _("Edit..."));
 		video_control (_filters_button);
-		s->Add (_filters_button, 0);
+		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
 	++r;
@@ -363,7 +363,7 @@ FilmEditor::make_audio_panel ()
 	_audio_sizer = new wxBoxSizer (wxVERTICAL);
 	_audio_panel->SetSizer (_audio_sizer);
 	
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	_audio_sizer->Add (grid, 0, wxALL, 8);
 
 	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
@@ -400,7 +400,7 @@ FilmEditor::make_audio_panel ()
 		s->Add (video_control (_audio_stream), 1);
 		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
 		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
-		grid->Add (s, 1, wxEXPAND);
+		grid->Add (s);
 	}
 
 	_use_external_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use external audio"));
@@ -423,7 +423,7 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_panel = new wxPanel (_notebook);
 	_subtitle_sizer = new wxBoxSizer (wxVERTICAL);
 	_subtitle_panel->SetSizer (_subtitle_sizer);
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	_subtitle_sizer->Add (grid, 0, wxALL, 8);
 
 	_with_subtitles = new wxCheckBox (_subtitle_panel, wxID_ANY, _("With Subtitles"));

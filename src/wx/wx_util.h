@@ -32,6 +32,9 @@ class wxFilePickerCtrl;
 class wxSpinCtrl;
 class wxGridBagSizer;
 
+#define DVDOMATIC_SIZER_X_GAP 8
+#define DVDOMATIC_SIZER_Y_GAP 8
+
 /** @file src/wx/wx_util.h
  *  @brief Some utility functions and classes.
  */
