@@ -1372,7 +1372,7 @@ FilmEditor::setup_scaling_description ()
 	}
 
 	Crop const crop = _film->crop ();
-	if (crop.left || crop.right || crop.top || crop.bottom) {
+	if ((crop.left || crop.right || crop.top || crop.bottom) && _film->size() != libdcp::Size (0, 0)) {
 		libdcp::Size const cropped = _film->cropped_size (_film->size ());
 		d << wxString::Format (
 			_("Cropped to %dx%d (%.2f:1)\n"),
