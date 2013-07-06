@@ -244,7 +244,7 @@ public:
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
 		main_sizer->Add (_top_sizer, 2, wxEXPAND | wxALL, 6);
-		main_sizer->Add (job_manager_view, 1, wxALL, 6);
+		main_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 		panel->SetSizer (main_sizer);
 
 		set_menu_sensitivity ();
