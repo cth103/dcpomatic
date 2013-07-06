@@ -35,21 +35,37 @@ using namespace boost;
  *  @param s Sizer to add to.
  *  @param p Parent window for the wxStaticText.
  *  @param t Text for the wxStaticText.
+ *  @param left true if this label is a `left label'; ie the sort
+ *  of label which should be right-aligned on OS X.
  *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
-add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, int prop)
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop)
 {
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+	}
+#endif	
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
-	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
+	s->Add (m, prop, flags, 6);
 	return m;
 }
 
 wxStaticText *
-add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, wxGBPosition pos, wxGBSpan span)
+add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
 {
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+	}
+#endif	
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
-	s->Add (m, pos, span, wxALIGN_CENTER_VERTICAL | wxALL);
+	s->Add (m, pos, span, flags);
 	return m;
 }
 

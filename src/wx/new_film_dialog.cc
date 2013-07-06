@@ -41,11 +41,11 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	table->AddGrowableCol (1, 1);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
-	add_label_to_sizer (table, this, _("Film name"));
+	add_label_to_sizer (table, this, _("Film name"), true);
 	_name = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_name, 0, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Create in folder"));
+	add_label_to_sizer (table, this, _("Create in folder"), true);
 
 #ifdef DVDOMATIC_USE_OWN_DIR_PICKER
 	_folder = new DirPickerCtrl (this); 

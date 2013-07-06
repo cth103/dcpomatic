@@ -41,8 +41,8 @@ class wxGridBagSizer;
 
 extern void error_dialog (wxWindow *, wxString);
 extern bool confirm_dialog (wxWindow *, wxString);
-extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, int prop = 0);
-extern wxStaticText* add_label_to_grid_bag_sizer (wxGridBagSizer *, wxWindow *, wxString, wxGBPosition, wxGBSpan span = wxDefaultSpan);
+extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0);
+extern wxStaticText* add_label_to_grid_bag_sizer (wxGridBagSizer *, wxWindow *, wxString, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
 extern void dvdomatic_setup_i18n ();

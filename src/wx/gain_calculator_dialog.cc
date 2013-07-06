@@ -29,11 +29,11 @@ GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, _("I want to play this back at fader"));
+	add_label_to_sizer (table, this, _("I want to play this back at fader"), true);
 	_wanted = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
 	table->Add (_wanted, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("But I have to use fader"));
+	add_label_to_sizer (table, this, _("But I have to use fader"), true);
 	_actual = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
 	table->Add (_actual, 1, wxEXPAND);
 

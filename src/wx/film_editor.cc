@@ -102,23 +102,28 @@ FilmEditor::make_film_panel ()
 
 	int r = 0;
 	
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Name"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_film_panel, wxID_ANY);
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Name"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Name"), true, wxGBPosition (r, 0));
 	_dcp_name = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
 	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
+	int flags = wxALIGN_CENTER_VERTICAL;
+#ifdef __WXOSX__
+	flags |= wxALIGN_RIGHT;
+#endif	
+	
 	_use_dci_name = new wxCheckBox (_film_panel, wxID_ANY, _("Use DCI name"));
-	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	_edit_dci_button = new wxButton (_film_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content"), true, wxGBPosition (r, 0));
 	_content = new wxFilePickerCtrl (_film_panel, wxID_ANY, wxT (""), _("Select Content File"), wxT("*.*"));
 	grid->Add (_content, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
@@ -128,18 +133,18 @@ FilmEditor::make_film_panel ()
 	grid->Add (_trust_content_header, wxGBPosition (r, 0), wxGBSpan(1, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content Type"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _film_panel, _("Content Type"), true, wxGBPosition (r, 0));
 	_dcp_content_type = new wxChoice (_film_panel, wxID_ANY);
 	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
 
-	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Frame Rate"), wxGBPosition (r, 0)));
+	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Original Frame Rate"), true, wxGBPosition (r, 0)));
 	_source_frame_rate = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
 	grid->Add (video_control (_source_frame_rate), wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Frame Rate"), wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _film_panel, _("DCP Frame Rate"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_frame_rate = new wxChoice (_film_panel, wxID_ANY);
 		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
@@ -157,19 +162,19 @@ FilmEditor::make_film_panel ()
 	_frame_rate_description->SetFont(font);
 	++r;
 	
-	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Length"), wxGBPosition (r, 0)));
+	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Length"), true, wxGBPosition (r, 0)));
 	_length = new wxStaticText (_film_panel, wxID_ANY, wxT (""));
 	grid->Add (video_control (_length), wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 
 	{
-		video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim frames"), wxGBPosition (r, 0)));
+		video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim frames"), true, wxGBPosition (r, 0)));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		video_control (add_label_to_sizer (s, _film_panel, _("Start")));
+		video_control (add_label_to_sizer (s, _film_panel, _("Start"), true));
 		_trim_start = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 		s->Add (video_control (_trim_start));
-		video_control (add_label_to_sizer (s, _film_panel, _("End")));
+		video_control (add_label_to_sizer (s, _film_panel, _("End"), true));
 		_trim_end = new wxSpinCtrl (_film_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 		s->Add (video_control (_trim_end));
 
@@ -177,7 +182,7 @@ FilmEditor::make_film_panel ()
 	}
 	++r;
 
-	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim method"), wxGBPosition (r, 0)));
+	video_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Trim method"), true, wxGBPosition (r, 0)));
 	_trim_type = new wxChoice (_film_panel, wxID_ANY);
 	grid->Add (video_control (_trim_type), wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
@@ -189,13 +194,13 @@ FilmEditor::make_film_panel ()
 
 	/* STILL-only stuff */
 	{
-		still_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Duration"), wxGBPosition (r, 0)));
+		still_control (add_label_to_grid_bag_sizer (grid, _film_panel, _("Duration"), true, wxGBPosition (r, 0)));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_still_duration = new wxSpinCtrl (_film_panel);
 		still_control (_still_duration);
 		s->Add (_still_duration, 1, wxEXPAND);
 		/// TRANSLATORS: `s' here is an abbreviation for seconds, the unit of time
-		still_control (add_label_to_sizer (s, _film_panel, _("s")));
+		still_control (add_label_to_sizer (s, _film_panel, _("s"), false));
 		grid->Add (s, wxGBPosition (r, 1));
 	}
 	++r;
@@ -270,27 +275,27 @@ FilmEditor::make_video_panel ()
 	_video_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Format"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Format"), true, wxGBPosition (r, 0));
 	_format = new wxChoice (_video_panel, wxID_ANY);
 	grid->Add (_format, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), true, wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_left_crop, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Right crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Right crop"), true, wxGBPosition (r, 0));
 	_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_right_crop, wxGBPosition (r, 1));
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Top crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Top crop"), true, wxGBPosition (r, 0));
 	_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_top_crop, wxGBPosition (r, 1));
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), true, wxGBPosition (r, 0));
 	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_bottom_crop, wxGBPosition (r, 1));
 	++r;
@@ -305,7 +310,7 @@ FilmEditor::make_video_panel ()
 
 	/* VIDEO-only stuff */
 	{
-		video_control (add_label_to_grid_bag_sizer (grid, _video_panel, _("Filters"), wxGBPosition (r, 0)));
+		video_control (add_label_to_grid_bag_sizer (grid, _video_panel, _("Filters"), true, wxGBPosition (r, 0)));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_filters = new wxStaticText (_video_panel, wxID_ANY, _("None"));
 		video_control (_filters);
@@ -317,7 +322,7 @@ FilmEditor::make_video_panel ()
 	}
 	++r;
 
-	video_control (add_label_to_grid_bag_sizer (grid, _video_panel, _("Scaler"), wxGBPosition (r, 0)));
+	video_control (add_label_to_grid_bag_sizer (grid, _video_panel, _("Scaler"), true, wxGBPosition (r, 0)));
 	_scaler = new wxChoice (_video_panel, wxID_ANY);
 	grid->Add (video_control (_scaler), wxGBPosition (r, 1));
 	++r;
@@ -327,7 +332,7 @@ FilmEditor::make_video_panel ()
 		_scaler->Append (std_to_wx ((*i)->name()));
 	}
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), true, wxGBPosition (r, 0));
 	_colour_lut = new wxChoice (_video_panel, wxID_ANY);
 	for (int i = 0; i < 2; ++i) {
 		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
@@ -337,11 +342,11 @@ FilmEditor::make_video_panel ()
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, _video_panel, _("JPEG2000 bandwidth"), wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _video_panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_j2k_bandwidth = new wxSpinCtrl (_video_panel, wxID_ANY);
 		s->Add (_j2k_bandwidth, 1);
-		add_label_to_sizer (s, _video_panel, _("MBps"));
+		add_label_to_sizer (s, _video_panel, _("MBps"), false);
 		grid->Add (s, wxGBPosition (r, 1));
 	}
 	++r;
@@ -371,11 +376,11 @@ FilmEditor::make_audio_panel ()
 	grid->AddSpacer (0);
 
 	{
-		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Gain")));
+		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Gain"), true));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_gain = new wxSpinCtrl (_audio_panel);
 		s->Add (video_control (_audio_gain), 1);
-		video_control (add_label_to_sizer (s, _audio_panel, _("dB")));
+		video_control (add_label_to_sizer (s, _audio_panel, _("dB"), false));
 		_audio_gain_calculate_button = new wxButton (_audio_panel, wxID_ANY, _("Calculate..."));
 		video_control (_audio_gain_calculate_button);
 		s->Add (_audio_gain_calculate_button, 1, wxEXPAND);
@@ -383,12 +388,12 @@ FilmEditor::make_audio_panel ()
 	}
 
 	{
-		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Delay")));
+		video_control (add_label_to_sizer (grid, _audio_panel, _("Audio Delay"), true));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_delay = new wxSpinCtrl (_audio_panel);
 		s->Add (video_control (_audio_delay), 1);
 		/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-		video_control (add_label_to_sizer (s, _audio_panel, _("ms")));
+		video_control (add_label_to_sizer (s, _audio_panel, _("ms"), false));
 		grid->Add (s);
 	}
 
@@ -408,7 +413,7 @@ FilmEditor::make_audio_panel ()
 	grid->AddSpacer (0);
 
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
-		add_label_to_sizer (grid, _audio_panel, std_to_wx (audio_channel_name (i)));
+		add_label_to_sizer (grid, _audio_panel, std_to_wx (audio_channel_name (i)), true);
 		_external_audio[i] = new wxFilePickerCtrl (_audio_panel, wxID_ANY, wxT (""), _("Select Audio File"), wxT ("*.wav"));
 		grid->Add (_external_audio[i], 1, wxEXPAND);
 	}
@@ -434,20 +439,20 @@ FilmEditor::make_subtitle_panel ()
 	grid->Add (video_control (_subtitle_stream));
 
 	{
-		video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset")));
+		video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"), true));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
 		s->Add (_subtitle_offset);
-		video_control (add_label_to_sizer (s, _subtitle_panel, _("pixels")));
+		video_control (add_label_to_sizer (s, _subtitle_panel, _("pixels"), false));
 		grid->Add (s);
 	}
 
 	{
-		video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale")));
+		video_control (add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale"), true));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_subtitle_scale = new wxSpinCtrl (_subtitle_panel);
 		s->Add (video_control (_subtitle_scale));
-		video_control (add_label_to_sizer (s, _subtitle_panel, _("%")));
+		video_control (add_label_to_sizer (s, _subtitle_panel, _("%"), false));
 		grid->Add (s);
 	}
 

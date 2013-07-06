@@ -95,7 +95,7 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_language, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DVD-o-matic to see language changes)"));
+	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DVD-o-matic to see language changes)"), false);
 	wxFont font = restart->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
@@ -103,12 +103,12 @@ ConfigDialog::make_misc_panel ()
 	table->AddSpacer (0);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"));
+	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"), true);
 	_num_local_encoding_threads = new wxSpinCtrl (_misc_panel);
 	table->Add (_num_local_encoding_threads, 1);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"));
+	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"), true);
 #ifdef DVDOMATIC_USE_OWN_DIR_PICKER
 	_default_directory = new DirPickerCtrl (_misc_panel);
 #else	
@@ -117,17 +117,17 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_default_directory, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"));
+	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"), true);
 	_default_dci_metadata_button = new wxButton (_misc_panel, wxID_ANY, _("Edit..."));
 	table->Add (_default_dci_metadata_button);
 	table->AddSpacer (1);
 
-	add_label_to_sizer (table, _misc_panel, _("Default format"));
+	add_label_to_sizer (table, _misc_panel, _("Default format"), true);
 	_default_format = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_format);
 	table->AddSpacer (1);
 
-	add_label_to_sizer (table, _misc_panel, _("Default content type"));
+	add_label_to_sizer (table, _misc_panel, _("Default content type"), true);
 	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_dcp_content_type);
 	table->AddSpacer (1);
@@ -198,19 +198,19 @@ ConfigDialog::make_tms_panel ()
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
-	add_label_to_sizer (table, _tms_panel, _("IP address"));
+	add_label_to_sizer (table, _tms_panel, _("IP address"), true);
 	_tms_ip = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_ip, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _tms_panel, _("Target path"));
+	add_label_to_sizer (table, _tms_panel, _("Target path"), true);
 	_tms_path = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_path, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _tms_panel, _("User name"));
+	add_label_to_sizer (table, _tms_panel, _("User name"), true);
 	_tms_user = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_user, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _tms_panel, _("Password"));
+	add_label_to_sizer (table, _tms_panel, _("Password"), true);
 	_tms_password = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_password, 1, wxEXPAND);
 
@@ -237,11 +237,11 @@ ConfigDialog::make_metadata_panel ()
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
-	add_label_to_sizer (table, _metadata_panel, _("Issuer"));
+	add_label_to_sizer (table, _metadata_panel, _("Issuer"), true);
 	_issuer = new wxTextCtrl (_metadata_panel, wxID_ANY);
 	table->Add (_issuer, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _metadata_panel, _("Creator"));
+	add_label_to_sizer (table, _metadata_panel, _("Creator"), true);
 	_creator = new wxTextCtrl (_metadata_panel, wxID_ANY);
 	table->Add (_creator, 1, wxEXPAND);
 
@@ -264,7 +264,7 @@ ConfigDialog::make_ab_panel ()
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL, 8);
 	
-	add_label_to_sizer (table, _ab_panel, _("Reference scaler"));
+	add_label_to_sizer (table, _ab_panel, _("Reference scaler"), true);
 	_reference_scaler = new wxChoice (_ab_panel, wxID_ANY);
 	vector<Scaler const *> const sc = Scaler::all ();
 	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
@@ -275,7 +275,7 @@ ConfigDialog::make_ab_panel ()
 	table->AddSpacer (0);
 
 	{
-		add_label_to_sizer (table, _ab_panel, _("Reference filters"));
+		add_label_to_sizer (table, _ab_panel, _("Reference filters"), true);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_reference_filters = new wxStaticText (_ab_panel, wxID_ANY, wxT (""));
 		s->Add (_reference_filters, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL, 6);

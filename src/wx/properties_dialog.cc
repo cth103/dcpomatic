@@ -38,15 +38,15 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 
-	add_label_to_sizer (table, this, _("Frames"));
+	add_label_to_sizer (table, this, _("Frames"), true);
 	_frames = new wxStaticText (this, wxID_ANY, wxT (""));
 	table->Add (_frames, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, _("Disk space required"));
+	add_label_to_sizer (table, this, _("Disk space required"), true);
 	_disk = new wxStaticText (this, wxID_ANY, wxT (""));
 	table->Add (_disk, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, _("Frames already encoded"));
+	add_label_to_sizer (table, this, _("Frames already encoded"), true);
 	_encoded = new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 

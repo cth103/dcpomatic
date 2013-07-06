@@ -33,11 +33,11 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DVDOMATIC_SIZER_X_GAP, DVDOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, _("Host name or IP address"));
+	add_label_to_sizer (table, this, _("Host name or IP address"), true);
 	_host = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_host, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Threads to use"));
+	add_label_to_sizer (table, this, _("Threads to use"), true);
 	_threads = new wxSpinCtrl (this, wxID_ANY);
 	table->Add (_threads, 1, wxEXPAND);
 
