@@ -47,6 +47,7 @@ using std::stringstream;
 using std::vector;
 using std::list;
 using std::cout;
+using std::min;
 using std::make_pair;
 using namespace boost;
 
@@ -148,6 +149,20 @@ Encoder::process_end ()
 		swr_free (&_swr_context);
 	}
 #endif
+
+	if (_film->audio_channels() == 0 && _film->minimum_audio_channels() > 0) {
+		/* Put audio in where there is none at all */
+		int64_t af = video_frames_to_audio_frames (_video_frames_out, 48000, _film->dcp_frame_rate ());
+		while (af) {
+			int64_t const this_time = min (af, static_cast<int64_t> (24000));
+			shared_ptr<AudioBuffers> out (new AudioBuffers (_film->minimum_audio_channels(), this_time));
+			out->make_silent ();
+			out->set_frames (this_time);
+			write_audio (out);
+
+			af -= this_time;
+		}
+	}
 
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -433,10 +448,10 @@ Encoder::encoder_thread (ServerDescription* server)
 void
 Encoder::write_audio (shared_ptr<const AudioBuffers> data)
 {
-	AudioMapping m (_film->audio_channels ());
+	AudioMapping m (_film);
 	if (m.dcp_channels() != _film->audio_channels()) {
 
-		/* Remap (currently just for mono -> 5.1) */
+		/* Remap and pad with silence */
 
 		shared_ptr<AudioBuffers> b (new AudioBuffers (m.dcp_channels(), data->frames ()));
 		for (int i = 0; i < m.dcp_channels(); ++i) {

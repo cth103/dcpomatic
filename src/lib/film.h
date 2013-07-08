@@ -153,7 +153,8 @@ public:
 		CONTENT_AUDIO_STREAMS,
 		SUBTITLE_STREAMS,
 		SOURCE_FRAME_RATE,
-		DCP_FRAME_RATE
+		DCP_FRAME_RATE,
+		MINIMUM_AUDIO_CHANNELS
 	};
 
 
@@ -335,6 +336,11 @@ public:
 		return _source_frame_rate;
 	}
 
+	int minimum_audio_channels () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _minimum_audio_channels;
+	}
+
 	boost::shared_ptr<AudioStream> audio_stream () const;
 	bool has_audio () const;
 	
@@ -379,6 +385,7 @@ public:
 	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
 	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
 	void set_source_frame_rate (float);
+	void set_minimum_audio_channels (int);
 
 	/** Emitted when some property has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -481,6 +488,7 @@ private:
 	boost::gregorian::date _dci_date;
 	/** Frames per second to run our DCP at */
 	int _dcp_frame_rate;
+	int _minimum_audio_channels;
 
 	/* Data which are cached to speed things up */
 

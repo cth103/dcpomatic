@@ -85,6 +85,8 @@ private:
 	void external_audio_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
+	void pad_with_silence_toggled (wxCommandEvent &);
+	void minimum_audio_channels_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -103,6 +105,7 @@ private:
 	void setup_scaling_description ();
 	void setup_notebook_size ();
 	void setup_frame_rate_description ();
+	void setup_minimum_audio_channels ();
 	
 	wxControl* video_control (wxControl *);
 	wxControl* still_control (wxControl *);
@@ -169,6 +172,8 @@ private:
 	wxStaticText* _source_frame_rate;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
+	wxCheckBox* _pad_with_silence;
+	wxSpinCtrl* _minimum_audio_channels;
 	wxStaticText* _frame_rate_description;
 	/** The Film's length */
 	wxStaticText* _length;

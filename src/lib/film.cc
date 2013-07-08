@@ -108,6 +108,7 @@ Film::Film (string d, bool must_exist)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _dcp_frame_rate (0)
+	, _minimum_audio_channels (0)
 	, _source_frame_rate (0)
 	, _dirty (false)
 {
@@ -185,6 +186,7 @@ Film::Film (Film const & o)
 	, _dci_metadata      (o._dci_metadata)
 	, _dci_date          (o._dci_date)
 	, _dcp_frame_rate    (o._dcp_frame_rate)
+	, _minimum_audio_channels (o._minimum_audio_channels)
 	, _size              (o._size)
 	, _length            (o._length)
 	, _content_digest    (o._content_digest)
@@ -506,6 +508,7 @@ Film::write_metadata () const
 	_dci_metadata.write (f);
 	f << "dci_date " << boost::gregorian::to_iso_string (_dci_date) << endl;
 	f << "dcp_frame_rate " << _dcp_frame_rate << endl;
+	f << "minimum_audio_channels " << _minimum_audio_channels << endl;
 	f << "width " << _size.width << endl;
 	f << "height " << _size.height << endl;
 	f << "length " << _length.get_value_or(0) << endl;
@@ -642,6 +645,8 @@ Film::read_metadata ()
 			_dci_date = boost::gregorian::from_undelimited_string (v);
 		} else if (k == "dcp_frame_rate") {
 			_dcp_frame_rate = atoi (v.c_str ());
+		} else if (k == "minimum_audio_channels") {
+			_minimum_audio_channels = atoi (v.c_str ());
 		}
 
 		_dci_metadata.read (k, v);
@@ -1323,6 +1328,16 @@ Film::set_dcp_frame_rate (int f)
 	signal_changed (DCP_FRAME_RATE);
 }
 
+void
+Film::set_minimum_audio_channels (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_minimum_audio_channels = c;
+	}
+	signal_changed (MINIMUM_AUDIO_CHANNELS);
+}
+			
 void
 Film::set_size (libdcp::Size s)
 {

@@ -73,7 +73,7 @@ Transcoder::Transcoder (shared_ptr<Film> f, DecodeOptions o, Job* j, shared_ptr<
 	/* Set up the decoder to use the film's set streams */
 	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
 	if (f->audio_stream ()) {
-	    _decoders.audio->set_audio_stream (f->audio_stream ());
+		_decoders.audio->set_audio_stream (f->audio_stream ());
 	}
 
 	_decoders.video->connect_video (_delay_line);

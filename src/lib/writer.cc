@@ -77,7 +77,7 @@ Writer::Writer (shared_ptr<Film> f)
 
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	AudioMapping m (_film->audio_channels ());
+	AudioMapping m (_film);
 	
 	if (m.dcp_channels() > 0) {
 		_sound_asset.reset (
