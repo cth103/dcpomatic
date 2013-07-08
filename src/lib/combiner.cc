@@ -45,6 +45,14 @@ Combiner::process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitl
 void
 Combiner::process_video_b (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub, double t)
 {
+	if (!_image) {
+		/* It's possible for filters in the A-side to mean that we get a B frame
+		   before any A; just skip the B frame in that case.  This at least prevents
+		   a crash, but may not be right.
+		*/
+		return;
+	}
+	
 	/* Copy the right half of this image into our _image */
 	/* XXX: this should probably be in the Image class */
 	for (int i = 0; i < image->components(); ++i) {
