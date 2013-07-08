@@ -405,7 +405,7 @@ FilmEditor::make_audio_panel ()
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_minimum_audio_channels = new wxSpinCtrl (_audio_panel);
 		s->Add (_minimum_audio_channels, 1);
-		add_label_to_sizer (s, _audio_panel, _("channels"));
+		add_label_to_sizer (s, _audio_panel, _("channels"), false);
 		grid->Add (s);
 	}
 
