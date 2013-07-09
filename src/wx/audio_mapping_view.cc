@@ -36,13 +36,10 @@ using boost::shared_ptr;
 #ifdef __WXMSW__
 #define CHECKBOX_WIDTH 16
 #define CHECKBOX_HEIGHT 16
-#endif
-
-#ifdef __WXGTK__
+#else
 #define CHECKBOX_WIDTH 20
 #define CHECKBOX_HEIGHT 20
 #endif
-
 
 class NoSelectionStringRenderer : public wxGridCellStringRenderer
 {
