@@ -332,7 +332,9 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _down_view_start (0)
 	, _first_move (false)
 {
+#ifndef __WXOSX__
 	SetDoubleBuffered (true);
+#endif	
 
 	setup_pixels_per_time_unit ();
 	
