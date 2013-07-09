@@ -26,6 +26,7 @@
 #include "playlist.h"
 #include "audio_buffers.h"
 #include "content.h"
+#include "film.h"
 
 class Job;
 class Film;
@@ -67,6 +68,12 @@ public:
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;
 
+	/** Emitted when something has changed such that if we went back and emitted
+	 *  the last frame again it would look different.  This is not emitted after
+	 *  a seek.
+	 */
+	boost::signals2::signal<void ()> Changed;
+
 private:
 
 	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, bool, VideoContent::Frame);
@@ -79,6 +86,7 @@ private:
 	void emit_black ();
 	void emit_silence (OutputAudioFrame);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>);
+	void film_changed (Film::Property);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

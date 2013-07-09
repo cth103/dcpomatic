@@ -96,6 +96,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2));
+	_film->Changed.connect (bind (&Player::film_changed, this, _1));
 	set_video_container_size (_film->container()->size (_film->full_frame ()));
 }
 
@@ -120,7 +121,7 @@ Player::pass ()
 	}
 
 #ifdef DEBUG_PLAYER
-	cout << "= PASS\n";
+	cout << "= PASS " << this << "\n";
 #endif	
 
         Time earliest_t = TIME_MAX;
@@ -381,7 +382,7 @@ Player::setup_pieces ()
 
 	Playlist::ContentList content = _playlist->content ();
 	sort (content.begin(), content.end(), ContentSorter ());
-	
+
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
 		shared_ptr<Piece> piece (new Piece (*i));
@@ -445,8 +446,13 @@ Player::content_changed (weak_ptr<Content> w, int p)
 		return;
 	}
 
-	if (p == ContentProperty::START || p == ContentProperty::LENGTH) {
+	if (
+		p == ContentProperty::START || p == ContentProperty::LENGTH ||
+		p == VideoContentProperty::VIDEO_CROP || p == VideoContentProperty::VIDEO_RATIO
+		) {
+		
 		_have_valid_pieces = false;
+		Changed ();
 	}
 }
 
@@ -454,6 +460,7 @@ void
 Player::playlist_changed ()
 {
 	_have_valid_pieces = false;
+	Changed ();
 }
 
 void
@@ -495,5 +502,20 @@ Player::emit_silence (OutputAudioFrame most)
 	_audio_position += _film->audio_frames_to_time (N);
 }
 
-	
-	
+void
+Player::film_changed (Film::Property p)
+{
+	/* Here we should notice Film properties that affect our output, and
+	   alert listeners that our output now would be different to how it was
+	   last time we were run.
+	*/
+
+	if (
+		p == Film::SCALER || p == Film::WITH_SUBTITLES ||
+		p == Film::SUBTITLE_SCALE || p == Film::SUBTITLE_OFFSET ||
+		p == Film::CONTAINER
+		) {
+		
+		Changed ();
+	}
+}

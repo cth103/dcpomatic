@@ -67,6 +67,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _decode_video (video)
 	, _decode_audio (audio)
 	, _pts_offset (0)
+	, _just_sought (false)
 {
 	setup_subtitle ();
 
@@ -298,14 +299,15 @@ FFmpegDecoder::seek_back ()
 void
 FFmpegDecoder::do_seek (VideoContent::Frame frame, bool backwards, bool accurate)
 {
-	int64_t const vt = frame * _ffmpeg_content->video_frame_rate() / av_q2d (_format_context->streams[_video_stream]->time_base);
+	int64_t const vt = frame / (_ffmpeg_content->video_frame_rate() * av_q2d (_format_context->streams[_video_stream]->time_base));
 	av_seek_frame (_format_context, _video_stream, vt, backwards ? AVSEEK_FLAG_BACKWARD : 0);
-	_video_position = frame;
 
 	avcodec_flush_buffers (video_codec_context());
 	if (_subtitle_codec_context) {
 		avcodec_flush_buffers (_subtitle_codec_context);
 	}
+
+	_just_sought = true;
 
 	if (accurate) {
 		while (1) {
@@ -420,6 +422,15 @@ FFmpegDecoder::decode_video_packet ()
 		if (bet != AV_NOPTS_VALUE) {
 
 			double const pts = bet * av_q2d (_format_context->streams[_video_stream]->time_base) - _pts_offset;
+
+			if (_just_sought) {
+				/* We just did a seek, so disable any attempts to correct for where we
+				   are / should be.
+				*/
+				_video_position = pts * _ffmpeg_content->video_frame_rate ();
+				_just_sought = false;
+			}
+			
 			double const next = _video_position / _ffmpeg_content->video_frame_rate();
 			double const one_frame = 1 / _ffmpeg_content->video_frame_rate ();
 			double delta = pts - next;
@@ -445,6 +456,7 @@ FFmpegDecoder::decode_video_packet ()
 				/* This PTS is within a frame of being right; emit this (otherwise it will be dropped) */
 				video (image, false, _video_position);
 			}
+				
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);

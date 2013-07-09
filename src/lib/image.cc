@@ -45,6 +45,7 @@ extern "C" {
 
 using std::string;
 using std::min;
+using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
 

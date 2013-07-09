@@ -34,20 +34,16 @@ class RGBPlusAlphaImage;
  *
  *  The film takes the following path through the viewer:
  *
- *  1.  get_frame() asks our _player to decode some data.  If it does, process_video()
+ *  1.  fetch_next_frame() asks our _player to decode some data.  If it does, process_video()
  *      will be called.
  *
- *  2.  process_video() takes the image from the decoder (_raw_frame) and calls raw_to_display().
- * 
- *  3.  raw_to_display() copies _raw_frame to _display_frame, processing it and scaling it.
+ *  2.  process_video() takes the image from the player (_frame).
  *
- *  4.  calling _panel->Refresh() and _panel->Update() results in paint_panel() being called;
- *      this creates frame_bitmap from _display_frame and blits it to the display.
+ *  3.  fetch_next_frame() calls _panel->Refresh() and _panel->Update() which results in
+ *      paint_panel() being called; this creates frame_bitmap from _frame and blits it to the display.
  *
- * update_from_decoder() asks the player to re-emit its current frame on the next pass(), and then
+ * fetch_current_frame_again() asks the player to re-emit its current frame on the next pass(), and then
  * starts from step #1.
- *
- * update_from_raw() starts at step #3, then calls _panel->Refresh and _panel->Update.
  */
 class FilmViewer : public wxPanel
 {
@@ -57,8 +53,6 @@ public:
 	void set_film (boost::shared_ptr<Film>);
 
 private:
-	void film_changed (Film::Property);
-	void film_content_changed (boost::weak_ptr<Content>, int);
 	void paint_panel (wxPaintEvent &);
 	void panel_sized (wxSizeEvent &);
 	void slider_moved (wxScrollEvent &);
@@ -67,13 +61,12 @@ private:
 	void process_video (boost::shared_ptr<const Image>, bool, Time);
 	void calculate_sizes ();
 	void check_play_state ();
-	void update_from_raw ();
-	void update_from_decoder ();
-	void raw_to_display ();
-	void get_frame ();
+	void fetch_current_frame_again ();
+	void fetch_next_frame ();
 	void active_jobs_changed (bool);
 	void back_clicked (wxCommandEvent &);
 	void forward_clicked (wxCommandEvent &);
+	void player_changed ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -83,13 +76,12 @@ private:
 	wxSlider* _slider;
 	wxButton* _back_button;
 	wxButton* _forward_button;
-	wxStaticText* _frame;
+	wxStaticText* _frame_number;
 	wxStaticText* _timecode;
 	wxToggleButton* _play_button;
 	wxTimer _timer;
 
-	boost::shared_ptr<const Image> _raw_frame;
-	boost::shared_ptr<const Image> _display_frame;
+	boost::shared_ptr<const Image> _frame;
 	bool _got_frame;
 
 	/** Size of our output (including padding if we have any) */

@@ -85,4 +85,5 @@ private:
 	bool _decode_audio;
 
 	double _pts_offset;
+	bool _just_sought;
 };
