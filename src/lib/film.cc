@@ -794,7 +794,6 @@ Film::add_content (shared_ptr<Content> c)
 		c->set_start (_playlist->video_end ());
 	}
 
-	cout << "actually adding content.\n";
 	_playlist->add (c);
 }
 
