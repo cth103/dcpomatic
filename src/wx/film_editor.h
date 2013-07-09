@@ -97,8 +97,6 @@ private:
 	void start_changed ();
 	void length_changed ();
 	void ratio_changed (wxCommandEvent &);
-	void pad_with_silence_toggled (wxCommandEvent &);
-	void minimum_audio_channels_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -115,7 +113,6 @@ private:
 	void setup_container ();
 	void setup_content_sensitivity ();
 	void setup_loop_sensitivity ();
-	void setup_minimum_audio_channels ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
@@ -170,8 +167,6 @@ private:
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_frame_rate;
 	wxButton* _best_dcp_frame_rate;
-	wxCheckBox* _pad_with_silence;
-	wxSpinCtrl* _minimum_audio_channels;
 	wxChoice* _audio_stream;
 	wxStaticText* _audio_description;
 	wxChoice* _subtitle_stream;

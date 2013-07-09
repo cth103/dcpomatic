@@ -211,8 +211,6 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect       (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect    (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
-//	_pad_with_silence->Connect       (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::pad_with_silence_toggled), 0, this);
-//	_minimum_audio_channels->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,   wxCommandEventHandler (FilmEditor::minimum_audio_channels_changed), 0, this);
 	_with_subtitles->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect        (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
@@ -406,32 +404,8 @@ FilmEditor::make_audio_panel ()
 	_audio_mapping = new AudioMappingView (_audio_panel);
 	audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 
-#if 0	
-	{
-		_pad_with_silence = new wxCheckBox (_audio_panel, wxID_ANY, _("Pad with silence to"));
-		grid->Add (_pad_with_silence);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_minimum_audio_channels = new wxSpinCtrl (_audio_panel);
-		s->Add (_minimum_audio_channels, 1);
-		add_label_to_sizer (s, _audio_panel, _("channels"), false);
-		grid->Add (s);
-	}
-
-	{
-		_use_content_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use content's audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-		grid->Add (video_control (_use_content_audio));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
-		s->Add (video_control (_audio_stream), 1);
-		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
-		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
-		grid->Add (s);
-	}
-#endif	
-
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
-//	_minimum_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
 }
 
 void
@@ -628,7 +602,6 @@ FilmEditor::film_changed (Film::Property p)
 		setup_content ();
 		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
-		setup_minimum_audio_channels ();
 		break;
 	case Film::LOOP:
 		checked_set (_loop_content, _film->loop() > 1);
@@ -689,11 +662,6 @@ FilmEditor::film_changed (Film::Property p)
 		}
 
 		_best_dcp_frame_rate->Enable (_film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
-		break;
-	}
-	case Film::MINIMUM_AUDIO_CHANNELS:
-//		checked_set (_minimum_audio_channels, _film->minimum_audio_channels ());
-		setup_minimum_audio_channels ();
 		break;
 	}
 }
@@ -1538,36 +1506,4 @@ FilmEditor::ratio_changed (wxCommandEvent &)
 		assert (n < int (ratios.size()));
 		vc->set_ratio (ratios[n]);
 	}
-}
-
-void
-FilmEditor::setup_minimum_audio_channels ()
-{
-#if 0	
-	if (!_film || !_film->audio_stream ()) {
-		_pad_with_silence->SetValue (false);
-		return;
-	}
-
-	_pad_with_silence->SetValue (_film->audio_stream()->channels() < _film->minimum_audio_channels());
-
-	AudioMapping m (_film);
-	_minimum_audio_channels->SetRange (m.minimum_dcp_channels() + 1, MAX_AUDIO_CHANNELS);
-#endif	
-}
-
-void
-FilmEditor::pad_with_silence_toggled (wxCommandEvent &)
-{
-
-}
-
-void
-FilmEditor::minimum_audio_channels_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-//	_film->set_minimum_audio_channels (_minimum_audio_channels->GetValue ());
 }
