@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_RATIO_H
+#define DCPOMATIC_RATIO_H
+
 #include <vector>
 #include <libdcp/util.h>
 
@@ -64,3 +67,5 @@ private:
 
 	static std::vector<Ratio const *> _ratios;	
 };
+
+#endif

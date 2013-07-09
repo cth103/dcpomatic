@@ -78,7 +78,7 @@ ConfigDialog::make_misc_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_misc_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
@@ -93,7 +93,7 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_language, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DVD-o-matic to see language changes)"));
+	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DVD-o-matic to see language changes)"), false);
 	wxFont font = restart->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
@@ -101,18 +101,18 @@ ConfigDialog::make_misc_panel ()
 	table->AddSpacer (0);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"));
+	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"), true);
 	_num_local_encoding_threads = new wxSpinCtrl (_misc_panel);
-	table->Add (_num_local_encoding_threads, 1, wxEXPAND);
+	table->Add (_num_local_encoding_threads, 1);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Default duration of still images"));
+	add_label_to_sizer (table, _misc_panel, _("Default duration of still images"), true);
 	_default_still_length = new wxSpinCtrl (_misc_panel);
 	table->Add (_default_still_length, 1, wxEXPAND);
-	add_label_to_sizer (table, _misc_panel, _("s"));
+	add_label_to_sizer (table, _misc_panel, _("s"), false);
 
-	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"));
-#ifdef __WXMSW__
+	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"), true);
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	_default_directory = new DirPickerCtrl (_misc_panel);
 #else	
 	_default_directory = new wxDirPickerCtrl (_misc_panel, wxDD_DIR_MUST_EXIST);
@@ -120,17 +120,17 @@ ConfigDialog::make_misc_panel ()
 	table->Add (_default_directory, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"));
+	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"), true);
 	_default_dci_metadata_button = new wxButton (_misc_panel, wxID_ANY, _("Edit..."));
 	table->Add (_default_dci_metadata_button);
 	table->AddSpacer (1);
 
-	add_label_to_sizer (table, _misc_panel, _("Default container"));
+	add_label_to_sizer (table, _misc_panel, _("Default container"), true);
 	_default_container = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_container);
 	table->AddSpacer (1);
 
-	add_label_to_sizer (table, _misc_panel, _("Default content type"));
+	add_label_to_sizer (table, _misc_panel, _("Default content type"), true);
 	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_dcp_content_type);
 	table->AddSpacer (1);
@@ -201,23 +201,23 @@ ConfigDialog::make_tms_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_tms_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
-	add_label_to_sizer (table, _tms_panel, _("IP address"));
+	add_label_to_sizer (table, _tms_panel, _("IP address"), true);
 	_tms_ip = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_ip, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _tms_panel, _("Target path"));
+	add_label_to_sizer (table, _tms_panel, _("Target path"), true);
 	_tms_path = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_path, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _tms_panel, _("User name"));
+	add_label_to_sizer (table, _tms_panel, _("User name"), true);
 	_tms_user = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_user, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _tms_panel, _("Password"));
+	add_label_to_sizer (table, _tms_panel, _("Password"), true);
 	_tms_password = new wxTextCtrl (_tms_panel, wxID_ANY);
 	table->Add (_tms_password, 1, wxEXPAND);
 
@@ -240,15 +240,15 @@ ConfigDialog::make_metadata_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_metadata_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
-	add_label_to_sizer (table, _metadata_panel, _("Issuer"));
+	add_label_to_sizer (table, _metadata_panel, _("Issuer"), true);
 	_issuer = new wxTextCtrl (_metadata_panel, wxID_ANY);
 	table->Add (_issuer, 1, wxEXPAND);
 
-	add_label_to_sizer (table, _metadata_panel, _("Creator"));
+	add_label_to_sizer (table, _metadata_panel, _("Creator"), true);
 	_creator = new wxTextCtrl (_metadata_panel, wxID_ANY);
 	table->Add (_creator, 1, wxEXPAND);
 
@@ -267,7 +267,7 @@ ConfigDialog::make_servers_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_servers_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (0, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
@@ -288,11 +288,11 @@ ConfigDialog::make_servers_panel ()
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		_add_server = new wxButton (_servers_panel, wxID_ANY, _("Add"));
-		s->Add (_add_server);
+		s->Add (_add_server, 0, wxTOP | wxBOTTOM, 2);
 		_edit_server = new wxButton (_servers_panel, wxID_ANY, _("Edit"));
-		s->Add (_edit_server);
+		s->Add (_edit_server, 0, wxTOP | wxBOTTOM, 2);
 		_remove_server = new wxButton (_servers_panel, wxID_ANY, _("Remove"));
-		s->Add (_remove_server);
+		s->Add (_remove_server, 0, wxTOP | wxBOTTOM, 2);
 		table->Add (s, 0);
 	}
 

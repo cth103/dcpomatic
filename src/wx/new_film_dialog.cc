@@ -21,10 +21,10 @@
 #include <wx/stdpaths.h>
 #include "lib/config.h"
 #include "new_film_dialog.h"
-#ifdef __WXMSW__
+#include "wx_util.h"
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 #include "dir_picker_ctrl.h"
 #endif
-#include "wx_util.h"
 
 using namespace std;
 using namespace boost;
@@ -37,17 +37,18 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 	
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
 
-	add_label_to_sizer (table, this, _("Film name"));
+	add_label_to_sizer (table, this, _("Film name"), true);
 	_name = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_name, 1, wxEXPAND);
+	table->Add (_name, 0, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Create in folder"));
-#ifdef __WXMSW__
-	_folder = new DirPickerCtrl (this);
+	add_label_to_sizer (table, this, _("Create in folder"), true);
+
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+	_folder = new DirPickerCtrl (this); 
 #else	
 	_folder = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
 #endif

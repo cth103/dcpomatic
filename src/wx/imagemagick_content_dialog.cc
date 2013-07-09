@@ -33,12 +33,12 @@ ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr
 	grid->AddGrowableCol (1, 1);
 
 	{
-		add_label_to_sizer (grid, this, (_("Duration")));
+		add_label_to_sizer (grid, this, _("Duration"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_video_length = new wxSpinCtrl (this);
 		s->Add (_video_length);
 		/// TRANSLATORS: this is an abbreviation for seconds, the unit of time
-		add_label_to_sizer (s, this, _("s"));
+		add_label_to_sizer (s, this, _("s"), false);
 		grid->Add (s);
 	}
 

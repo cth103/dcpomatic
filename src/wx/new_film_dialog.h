@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/filepicker.h>
+#include "wx_util.h"
 
 class DirPickerCtrl;
 
@@ -32,10 +33,10 @@ public:
 
 private:
 	wxTextCtrl* _name;
-#ifdef __WXMSW__	
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
-#else
+#else	
 	wxDirPickerCtrl* _folder;
-#endif
+#endif	
 	static boost::optional<std::string> _directory;
 };

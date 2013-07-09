@@ -6,33 +6,32 @@ def dependencies(target):
     if target.platform == 'windows':
         return ()
     else:
-        return (('openjpeg-cdist', None),
-                ('libcxml', None),
-                ('ffmpeg-cdist', '7a23ec9c771184ab563cfe24ad9b427f38368961'),
-                ('libdcp', None))
+	# XXX: should be some versions in here
+        return (('ffmpeg-cdist', 'e797834288eaf05a2f406524ae04aaa0f114cb08'),
+                ('libdcp', 'v0.54'))
 
-def build(env, target):
-    cmd = './waf configure --prefix=%s' % env.work_dir_cscript()
+def build(target):
+    cmd = './waf configure --prefix=%s' % target.work_dir_cscript()
     if target.platform == 'windows':
         cmd += ' --target-windows'
     elif target.platform == 'linux':
         cmd += ' --static'
-    env.command(cmd)
+    target.command(cmd)
 
-    env.command('./waf')
+    target.command('./waf')
 
     if target.platform == 'linux' or target.platform == 'osx':
-        env.command('./waf install')
+        target.command('./waf install')
 
 
-def package(env, target, version):
+def package(target, version):
     if target.platform == 'windows':
         shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
-        env.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        env.command('sed -i "s~%%deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (env.windows_prefix, target.bits))
-        env.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        env.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
-        env.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
+        target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        target.command('sed -i "s~%%deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
+        target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
+        target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
         return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
     elif target.platform == 'linux':
         if target.bits == 32:
@@ -41,7 +40,7 @@ def package(env, target, version):
             cpu = 'amd64'
 
         shutil.copyfile('platform/linux/control-%s-%d' % (target.version, target.bits), 'debian/control')
-        env.command('./waf dist')
+        target.command('./waf dist')
         f = open('debian/files', 'w')
         print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
         shutil.rmtree('build/deb', ignore_errors=True)
@@ -49,13 +48,13 @@ def package(env, target, version):
         os.makedirs('build/deb')
         os.chdir('build/deb')
         shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
-        env.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
+        target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
         os.chdir('dcpomatic-%s' % version)
-        env.command('dch -b -v %s-1 "New upstream release."' % version)
-        env.set('CDIST_LINKFLAGS', env.get('LINKFLAGS'))
-        env.set('CDIST_CXXFLAGS', env.get('CXXFLAGS'))
-        env.set('CDIST_PKG_CONFIG_PATH', env.get('PKG_CONFIG_PATH'))
-        env.command('dpkg-buildpackage')
+        target.command('dch -b -v %s-1 "New upstream release."' % version)
+        target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
+        target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
+        target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
+        target.command('dpkg-buildpackage')
         
         debs = []
         for p in glob.glob('../*.deb'):
@@ -63,16 +62,16 @@ def package(env, target, version):
 
         return debs
     elif target.platform == 'osx':
-        env.command('bash platform/osx/make_dmg.sh')
+        target.command('bash platform/osx/make_dmg.sh')
         return os.path.abspath(glob.glob('build/platform/osx/DVD-o-matic*.dmg')[0])
 
-def make_pot(env):
-    env.command('./waf pot')
+def make_pot(target):
+    target.command('./waf pot')
     return [os.path.abspath('build/src/lib/libdcpomatic.pot'),
             os.path.abspath('build/src/wx/libdcpomatic-wx.pot'),
 	    os.path.abspath('build/src/tools/dcpomatic.pot')]
 
-def make_manual(env):
+def make_manual(target):
     os.chdir('doc/manual')
-    env.command('make')
+    target.command('make')
     return [os.path.abspath('pdf'), os.path.abspath('html')]

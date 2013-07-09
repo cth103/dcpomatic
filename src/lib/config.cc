@@ -38,6 +38,7 @@ using std::ifstream;
 using std::string;
 using std::ofstream;
 using std::list;
+using std::max;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
@@ -46,7 +47,7 @@ Config* Config::_instance = 0;
 
 /** Construct default configuration */
 Config::Config ()
-	: _num_local_encoding_threads (2)
+	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
 	, _server_port (6192)
 	, _tms_path (N_("."))
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))

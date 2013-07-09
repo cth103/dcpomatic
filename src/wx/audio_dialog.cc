@@ -97,7 +97,6 @@ AudioDialog::set_content (shared_ptr<AudioContent> c)
 	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_content->file().filename().string()).data()));
 }
 
-
 void
 AudioDialog::try_to_load_analysis ()
 {

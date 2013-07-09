@@ -29,7 +29,7 @@ def configure(conf):
     conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS and not conf.env.TARGET_OSX
 
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
-                                       '-Wall', '-Wno-attributes', '-Wextra'])
+                                       '-Wall', '-Wno-attributes', '-Wextra', '-D_FILE_OFFSET_BITS=64'])
 
     if conf.env.TARGET_WINDOWS:
         conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
@@ -42,6 +42,7 @@ def configure(conf):
         conf.check(lib = 'bfd', uselib_store = 'BFD', msg = "Checking for library bfd")
         conf.check(lib = 'dbghelp', uselib_store = 'DBGHELP', msg = "Checking for library dbghelp")
         conf.check(lib = 'iberty', uselib_store = 'IBERTY', msg = "Checking for library iberty")
+        conf.check(lib = 'shlwapi', uselib_store = 'SHLWAPI', msg = "Checking for library shlwapi")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
     else:
@@ -78,15 +79,17 @@ def configure(conf):
     else:
         # This is hackio grotesquio for static builds (ie for .deb packages).  We need to link some things
         # statically and some dynamically, or things get horribly confused and the dynamic linker (I think)
-        # crashes horribly.  These calls do what the check_cfg calls would have done, but specify the
+        # crashes.  These calls do what the check_cfg calls would have done, but specify the
         # different bits as static or dynamic as required.  It'll break if you look at it funny, but
         # I think anyone else who builds would do so dynamically.
+        conf.env.HAVE_CXML = 1
+        conf.env.STLIB_CXML = ['cxml']
         conf.env.HAVE_DCP = 1
         conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
         conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
         conf.env.HAVE_CXML = 1
         conf.env.STLIB_CXML = ['cxml']
-        conf.check_cfg(package = 'libxml++-2.6', args = '--cflags --libs', uselib_store = 'XML++', mandatory = True)
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
         conf.env.HAVE_AVFORMAT = 1
         conf.env.STLIB_AVFORMAT = ['avformat']
         conf.env.HAVE_AVFILTER = 1
@@ -108,6 +111,11 @@ def configure(conf):
 
     if conf.env.TARGET_LINUX:
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
+        if conf.env.STATIC:
+            conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
+        else:
+            # On Linux we need to be able to include <gtk/gtk.h> to check GTK's version
+            conf.check_cfg(package='gtk+-2.0', args='--cflags', uselib_store='GTK', mandatory=True)
 
     conf.check_cfg(package = '', path = conf.options.magickpp_config, args = '--cppflags --cxxflags --libs', uselib_store = 'MAGICK', mandatory = True)
 
@@ -197,7 +205,7 @@ def configure(conf):
     conf.recurse('test')
 
 def build(bld):
-    create_version_cc(VERSION)
+    create_version_cc(VERSION, bld.env.CXXFLAGS)
 
     bld.recurse('src')
     bld.recurse('test')
@@ -223,7 +231,7 @@ def dist(ctx):
                GRSYMS GRTAGS GSYMS GTAGS
                """
 
-def create_version_cc(version):
+def create_version_cc(version, cxx_flags):
     if os.path.exists('.git'):
         cmd = "LANG= git log --abbrev HEAD^..HEAD ."
         output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
@@ -236,6 +244,13 @@ def create_version_cc(version):
         text =  '#include "version.h"\n'
         text += 'char const * dcpomatic_git_commit = \"%s\";\n' % commit
         text += 'char const * dcpomatic_version = \"%s\";\n' % version
+
+        t = ''
+        for f in cxx_flags:
+            f = f.replace('"', '\\"')
+            t += f + ' '
+        text += 'char const * dcpomatic_cxx_flags = \"%s\";\n' % t[:-1]
+
         print('Writing version information to src/lib/version.cc')
         o = open('src/lib/version.cc', 'w')
         o.write(text)

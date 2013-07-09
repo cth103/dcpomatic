@@ -73,7 +73,7 @@ def build(bld):
     obj.source = sources + ' version.cc'
 
     if bld.env.TARGET_WINDOWS:
-        obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY'
+        obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY SHLWAPI'
         obj.source += ' stack.cpp'
     if bld.env.STATIC:
         obj.uselib += ' XML++'

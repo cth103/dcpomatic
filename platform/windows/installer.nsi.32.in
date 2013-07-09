@@ -32,6 +32,7 @@ File "%deps%/bin/avcodec-55.dll"
 File "%deps%/bin/avfilter-3.dll"
 File "%deps%/bin/avformat-55.dll"
 File "%deps%/bin/avutil-52.dll"
+File "%deps%/bin/avdevice-55.dll"
 File "%deps%/bin/dcp.dll"
 File "%deps%/bin/libintl-8.dll"
 File "%deps%/bin/kumu-libdcp.dll"
@@ -80,6 +81,7 @@ File "%deps%/bin/libfontconfig-1.dll"
 File "%deps%/bin/libexpat-1.dll"
 File "%deps%/bin/libbz2.dll"
 File "%deps%/bin/cxml.dll"
+File "%deps%/bin/ffprobe.exe"
 
 File "%binaries%/src/wx/dcpomatic-wx.dll"
 File "%binaries%/src/lib/dcpomatic.dll"
@@ -135,7 +137,6 @@ Section "Uninstall"
  
 RMDir /r "$INSTDIR\*.*"    
 RMDir "$INSTDIR"
-<<<<<<< HEAD
 Delete "$DESKTOP\DCP-o-matic.lnk"
 Delete "$DESKTOP\DCP-o-matic batch converter.lnk"
 Delete "$DESKTOP\DCP-o-matic encode server.lnk"
@@ -143,14 +144,5 @@ Delete "$SMPROGRAMS\DCP-o-matic\*.*"
 RmDir  "$SMPROGRAMS\DCP-o-matic"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DCP-o-matic"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DCP-o-matic"
-=======
-Delete "$DESKTOP\DVD-o-matic.lnk"
-Delete "$DESKTOP\DVD-o-matic batch converter.lnk"
-Delete "$DESKTOP\DVD-o-matic encode server.lnk"
-Delete "$SMPROGRAMS\DVD-o-matic\*.*"
-RmDir  "$SMPROGRAMS\DVD-o-matic"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\DVD-o-matic"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DVD-o-matic"
->>>>>>> master
  
 SectionEnd

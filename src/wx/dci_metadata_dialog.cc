@@ -27,34 +27,34 @@ using boost::shared_ptr;
 DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	: wxDialog (parent, wxID_ANY, _("DCI name"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, _("Audio Language (e.g. EN)"));
+	add_label_to_sizer (table, this, _("Audio Language (e.g. EN)"), true);
 	_audio_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_audio_language, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Subtitle Language (e.g. FR)"));
+	add_label_to_sizer (table, this, _("Subtitle Language (e.g. FR)"), true);
 	_subtitle_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_subtitle_language, 1, wxEXPAND);
 	
-	add_label_to_sizer (table, this, _("Territory (e.g. UK)"));
+	add_label_to_sizer (table, this, _("Territory (e.g. UK)"), true);
 	_territory = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_territory, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Rating (e.g. 15)"));
+	add_label_to_sizer (table, this, _("Rating (e.g. 15)"), true);
 	_rating = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_rating, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Studio (e.g. TCF)"));
+	add_label_to_sizer (table, this, _("Studio (e.g. TCF)"), true);
 	_studio = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_studio, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Facility (e.g. DLA)"));
+	add_label_to_sizer (table, this, _("Facility (e.g. DLA)"), true);
 	_facility = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_facility, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Package Type (e.g. OV)"));
+	add_label_to_sizer (table, this, _("Package Type (e.g. OV)"), true);
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 

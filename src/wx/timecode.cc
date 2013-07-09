@@ -47,15 +47,15 @@ Timecode::Timecode (wxWindow* parent)
 	_hours = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_hours->SetMaxLength (2);
 	sizer->Add (_hours);
-	add_label_to_sizer (sizer, this, wxT (":"));
+	add_label_to_sizer (sizer, this, wxT (":"), false);
 	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	_minutes->SetMaxLength (2);
 	sizer->Add (_minutes);
-	add_label_to_sizer (sizer, this, wxT (":"));
+	add_label_to_sizer (sizer, this, wxT (":"), false);
 	_seconds = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	_seconds->SetMaxLength (2);
 	sizer->Add (_seconds);
-	add_label_to_sizer (sizer, this, wxT ("."));
+	add_label_to_sizer (sizer, this, wxT ("."), false);
 	_frames = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	_frames->SetMaxLength (2);
 	sizer->Add (_frames);

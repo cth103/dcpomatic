@@ -78,9 +78,6 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 double
 FFmpegDecoder::compute_pts_offset (double first_video, double first_audio, float video_frame_rate)
 {
-	assert (first_video >= 0);
-	assert (first_audio >= 0);
-	
 	double const old_first_video = first_video;
 	
 	/* Round the first video to a frame boundary */
@@ -94,6 +91,8 @@ FFmpegDecoder::compute_pts_offset (double first_video, double first_audio, float
 
 FFmpegDecoder::~FFmpegDecoder ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	if (_subtitle_codec_context) {
 		avcodec_close (_subtitle_codec_context);
 	}
@@ -370,17 +369,9 @@ FFmpegDecoder::decode_audio_packet ()
 					}
 				}
 					
-				
-				int const data_size = av_samples_get_buffer_size (
-					0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
-					);
-				
-				assert (audio_codec_context()->channels == _ffmpeg_content->audio_channels());
-				audio (deinterleave_audio (_frame->data, data_size), _audio_position);
+				copy_packet.data += decode_result;
+				copy_packet.size -= decode_result;
 			}
-			
-			copy_packet.data += decode_result;
-			copy_packet.size -= decode_result;
 		}
 	}
 }

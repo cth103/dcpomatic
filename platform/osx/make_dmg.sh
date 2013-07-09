@@ -5,8 +5,8 @@ version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 # DMG size in megabytes
 DMG_SIZE=256
 WORK=build/platform/osx
-ENV=/Users/carl/Environments/osx/10.8
-DEPS=/Users/carl/cdist
+ENV=/Users/carl/Environments/osx
+ROOT=/Users/carl/cdist
 
 appdir="DVD-o-matic.app"
 approot=$appdir/Contents
@@ -19,44 +19,56 @@ mkdir -p $WORK/$macos
 mkdir -p $WORK/$libs
 mkdir -p $WORK/$resources
 
-cp build/src/tools/dcpomatic $WORK/$macos/
-cp build/src/lib/libdcpomatic.dylib $WORK/$libs/
-cp build/src/wx/libdcpomatic-wx.dylib $WORK/$libs/
-cp $DEPS/lib/libdcp.dylib $WORK/$libs/
-cp $DEPS/lib/libasdcp-libdcp.dylib $WORK/$libs/
-cp $DEPS/lib/libkumu-libdcp.dylib $WORK/$libs/
-cp $DEPS/lib/libopenjpeg*.dylib $WORK/$libs/
-cp $DEPS/lib/libavformat*.dylib $WORK/$libs/
-cp $DEPS/lib/libavfilter*.dylib $WORK/$libs/
-cp $DEPS/lib/libavutil*.dylib $WORK/$libs/
-cp $DEPS/lib/libavcodec*.dylib $WORK/$libs/
-cp $DEPS/lib/libswscale*.dylib $WORK/$libs/
-cp $DEPS/lib/libpostproc*.dylib $WORK/$libs/
-cp $DEPS/lib/libswresample*.dylib $WORK/$libs/
-cp $ENV/lib/libboost_system.dylib $WORK/$libs/
-cp $ENV/lib/libboost_filesystem.dylib $WORK/$libs/
-cp $ENV/lib/libboost_thread.dylib $WORK/$libs/
-cp $ENV/lib/libboost_date_time.dylib $WORK/$libs/
-cp $ENV/lib/libssl*.dylib $WORK/$libs/
-cp $ENV/lib/libcrypto*.dylib $WORK/$libs/
-cp $ENV/lib/libxml++-2.6*.dylib $WORK/$libs/
-cp $ENV/lib/libxml2*.dylib $WORK/$libs/
-cp $ENV/lib/libglibmm-2.4*.dylib $WORK/$libs/
-cp $ENV/lib/libgobject*.dylib $WORK/$libs/
-cp $ENV/lib/libgthread*.dylib $WORK/$libs/
-cp $ENV/lib/libgmodule*.dylib $WORK/$libs/
-cp $ENV/lib/libsigc*.dylib $WORK/$libs/
-cp $ENV/lib/libglib-2*.dylib $WORK/$libs/
-cp $ENV/lib/libintl*.dylib $WORK/$libs/
-cp $ENV/lib/libsndfile*.dylib $WORK/$libs/
-cp $ENV/lib/libMagick++*.dylib $WORK/$libs/
-cp $ENV/lib/libMagickCore*.dylib $WORK/$libs/
-cp $ENV/lib/libMagickWand*.dylib $WORK/$libs/
-cp $ENV/lib/libssh*.dylib $WORK/$libs/
-cp $ENV/lib/libwx*.dylib $WORK/$libs/
-cp $ENV/lib/libfontconfig*.dylib $WORK/$libs/
-cp $ENV/lib/libfreetype*.dylib $WORK/$libs/
-cp $ENV/lib/libexpat*.dylib $WORK/$libs/
+function universal_copy {
+    echo $2
+    for f in $1/32/$2; do
+        if [ -h $f ]; then
+	    ln -s $(readlink $f) $3/`basename $f`
+        else
+          g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+	  mkdir -p $3
+          lipo -create $f $g -output $3/`basename $f`
+        fi
+    done
+}
+
+universal_copy $ROOT src/dvdomatic/build/src/tools/dvdomatic $WORK/$macos
+universal_copy $ROOT src/dvdomatic/build/src/lib/libdvdomatic.dylib $WORK/$libs
+universal_copy $ROOT src/dvdomatic/build/src/wx/libdvdomatic-wx.dylib $WORK/$libs
+universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
+universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
+universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
+universal_copy $ROOT lib/libkumu-libdcp.dylib $WORK/$libs
+universal_copy $ROOT lib/libopenjpeg*.dylib $WORK/$libs
+universal_copy $ROOT lib/libavformat*.dylib $WORK/$libs
+universal_copy $ROOT lib/libavfilter*.dylib $WORK/$libs
+universal_copy $ROOT lib/libavutil*.dylib $WORK/$libs
+universal_copy $ROOT lib/libavcodec*.dylib $WORK/$libs
+universal_copy $ROOT lib/libswscale*.dylib $WORK/$libs
+universal_copy $ROOT lib/libpostproc*.dylib $WORK/$libs
+universal_copy $ROOT lib/libswresample*.dylib $WORK/$libs
+universal_copy $ENV lib/libboost_system.dylib $WORK/$libs
+universal_copy $ENV lib/libboost_filesystem.dylib $WORK/$libs
+universal_copy $ENV lib/libboost_thread.dylib $WORK/$libs
+universal_copy $ENV lib/libboost_date_time.dylib $WORK/$libs
+universal_copy $ENV lib/libxml++-2.6*.dylib $WORK/$libs
+universal_copy $ENV lib/libxml2*.dylib $WORK/$libs
+universal_copy $ENV lib/libglibmm-2.4*.dylib $WORK/$libs
+universal_copy $ENV lib/libgobject*.dylib $WORK/$libs
+universal_copy $ENV lib/libgthread*.dylib $WORK/$libs
+universal_copy $ENV lib/libgmodule*.dylib $WORK/$libs
+universal_copy $ENV lib/libsigc*.dylib $WORK/$libs
+universal_copy $ENV lib/libglib-2*.dylib $WORK/$libs
+universal_copy $ENV lib/libintl*.dylib $WORK/$libs
+universal_copy $ENV lib/libsndfile*.dylib $WORK/$libs
+universal_copy $ENV lib/libMagick++*.dylib $WORK/$libs
+universal_copy $ENV lib/libMagickCore*.dylib $WORK/$libs
+universal_copy $ENV lib/libMagickWand*.dylib $WORK/$libs
+universal_copy $ENV lib/libssh*.dylib $WORK/$libs
+universal_copy $ENV lib/libwx*.dylib $WORK/$libs
+universal_copy $ENV lib/libfontconfig*.dylib $WORK/$libs
+universal_copy $ENV lib/libfreetype*.dylib $WORK/$libs
+universal_copy $ENV lib/libexpat*.dylib $WORK/$libs
 
 for obj in $WORK/$macos/dcpomatic $WORK/$libs/*.dylib; do
   deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh)"`
@@ -70,7 +82,6 @@ for obj in $WORK/$macos/dcpomatic $WORK/$libs/*.dylib; do
   fi  
 done
 
-pwd
 cp build/platform/osx/Info.plist $WORK/$approot
 cp icons/dcpomatic.icns $WORK/$resources/DVD-o-matic.icns
 

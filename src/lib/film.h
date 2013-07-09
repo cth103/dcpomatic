@@ -141,6 +141,7 @@ public:
 		J2K_BANDWIDTH,
 		DCI_METADATA,
 		DCP_VIDEO_FRAME_RATE,
+		MINIMUM_AUDIO_CHANNELS
 	};
 
 
@@ -217,6 +218,11 @@ public:
 		return _dcp_audio_channels;
 	}
 
+	int minimum_audio_channels () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _minimum_audio_channels;
+	}
+
 	/* SET */
 
 	void set_directory (std::string);
@@ -236,6 +242,7 @@ public:
 	void set_dci_metadata (DCIMetadata);
 	void set_dcp_video_frame_rate (int);
 	void set_dci_date_today ();
+	void set_minimum_audio_channels (int);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -298,6 +305,7 @@ private:
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
 	int _dcp_audio_channels;
+	int _minimum_audio_channels;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

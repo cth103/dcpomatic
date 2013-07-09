@@ -101,6 +101,7 @@ Film::Film (string d)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _dcp_video_frame_rate (24)
 	, _dcp_audio_channels (MAX_AUDIO_CHANNELS)
+	, _minimum_audio_channels (0)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -127,7 +128,6 @@ Film::Film (string d)
 	}
 
 	set_directory (result.string ());
-	_log.reset (new FileLog (file ("log")));
 }
 
 Film::Film (Film const & o)
@@ -149,6 +149,7 @@ Film::Film (Film const & o)
 	, _dci_metadata      (o._dci_metadata)
 	, _dcp_video_frame_rate (o._dcp_video_frame_rate)
 	, _dci_date          (o._dci_date)
+	, _minimum_audio_channels (o._minimum_audio_channels)
 	, _dirty             (o._dirty)
 {
 	_playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
@@ -184,7 +185,6 @@ Film::info_dir () const
 string
 Film::internal_video_mxf_dir () const
 {
-	boost::filesystem::path p;
 	return dir ("video");
 }
 
@@ -268,6 +268,10 @@ Film::make_dcp ()
 #endif
 	pair<string, int> const c = cpu_info ();
 	log()->log (String::compose ("CPU: %1, %2 processors", c.first, c.second));
+	list<pair<string, string> > const m = mount_info ();
+	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
+		log()->log (String::compose ("Mount: %1 %2", i->first, i->second));
+	}
 	
 	if (container() == 0) {
 		throw MissingSettingError (_("container"));
@@ -353,6 +357,7 @@ Film::write_metadata () const
 	root->add_child("DCPVideoFrameRate")->add_child_text (lexical_cast<string> (_dcp_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 	root->add_child("DCPAudioChannels")->add_child_text (lexical_cast<string> (_dcp_audio_channels));
+	root->add_child("MinimumAudioChannels")->add_child_text (lexical_cast<string> (_minimum_audio_channels));
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
@@ -400,6 +405,7 @@ Film::read_metadata ()
 	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	_dcp_audio_channels = f.number_child<int> ("DCPAudioChannels");
+	_minimum_audio_channels = f.number_child<int> ("MinimumAudioChannels");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
@@ -641,6 +647,16 @@ Film::set_dci_metadata (DCIMetadata m)
 }
 
 
+void
+Film::set_minimum_audio_channels (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_minimum_audio_channels = c;
+	}
+	signal_changed (MINIMUM_AUDIO_CHANNELS);
+}
+			
 void
 Film::set_dcp_video_frame_rate (int f)
 {

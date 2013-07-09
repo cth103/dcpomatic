@@ -138,7 +138,7 @@ AboutDialog::add_section (wxString name, wxArrayString credits)
 
 	int c = 0;
 	for (size_t i = 0; i < credits.Count(); ++i) {
-		add_label_to_sizer (sizers[c], panel, credits[i]);
+		add_label_to_sizer (sizers[c], panel, credits[i], false);
 		++c;
 		if (c == N) {
 			c = 0;

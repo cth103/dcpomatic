@@ -40,6 +40,7 @@ using std::stringstream;
 using std::vector;
 using std::list;
 using std::cout;
+using std::min;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;

@@ -6,7 +6,7 @@ import i18n
 def build(bld):
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli']:
         obj = bld(features = 'cxx cxxprogram')
-        obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
+        obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS'
         obj.includes = ['..']
         obj.use    = ['libdcpomatic']
         obj.source = '%s.cc' % t
@@ -15,7 +15,9 @@ def build(bld):
     if not bld.env.DISABLE_GUI:
         for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server']:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'DCP CXML OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
+            obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML WXWIDGETS'
+            if bld.env.STATIC:
+                obj.uselib += ' GTK'
             obj.includes = ['..']
             obj.use    = ['libdcpomatic', 'libdcpomatic-wx']
             obj.source = '%s.cc' % t

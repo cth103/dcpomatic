@@ -152,7 +152,6 @@ JobManagerView::update ()
 			if (!(*i)->finished_cancelled()) {
 				_job_records[*i].gauge->SetValue (100);
 			}
-			(*i)->Finished ();
 			_job_records[*i].finalised = true;
 			_job_records[*i].cancel->Enable (false);
 			if (!(*i)->error_details().empty ()) {

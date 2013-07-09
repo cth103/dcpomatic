@@ -52,6 +52,7 @@ extern "C" {
 #define MAX_AUDIO_CHANNELS 6
 
 class Scaler;
+class Film;
 
 extern std::string seconds_to_hms (int);
 extern std::string time_to_hms (Time);

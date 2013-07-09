@@ -102,39 +102,44 @@ FilmEditor::make_dcp_panel ()
 	_dcp_sizer = new wxBoxSizer (wxVERTICAL);
 	_dcp_panel->SetSizer (_dcp_sizer);
 
-	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
+	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_dcp_sizer->Add (grid, 0, wxEXPAND | wxALL, 8);
 
 	int r = 0;
 	
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Name"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_dcp_panel, wxID_ANY);
-	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), true, wxGBPosition (r, 0));
 	_dcp_name = new wxStaticText (_dcp_panel, wxID_ANY, wxT (""));
 	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
+	int flags = wxALIGN_CENTER_VERTICAL;
+#ifdef __WXOSX__
+	flags |= wxALIGN_RIGHT;
+#endif	
+
 	_use_dci_name = new wxCheckBox (_dcp_panel, wxID_ANY, _("Use DCI name"));
-	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	_edit_dci_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Container"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Container"), true, wxGBPosition (r, 0));
 	_container = new wxChoice (_dcp_panel, wxID_ANY);
-	grid->Add (_container, wxGBPosition (r, 1));
+	grid->Add (_container, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Content Type"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Content Type"), true, wxGBPosition (r, 0));
 	_dcp_content_type = new wxChoice (_dcp_panel, wxID_ANY);
 	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Frame Rate"), wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Frame Rate"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_frame_rate = new wxChoice (_dcp_panel, wxID_ANY);
 		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
@@ -145,18 +150,18 @@ FilmEditor::make_dcp_panel ()
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("JPEG2000 bandwidth"), wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_j2k_bandwidth = new wxSpinCtrl (_dcp_panel, wxID_ANY);
 		s->Add (_j2k_bandwidth, 1);
-		add_label_to_sizer (s, _dcp_panel, _("MBps"));
+		add_label_to_sizer (s, _dcp_panel, _("MBps"), false);
 		grid->Add (s, wxGBPosition (r, 1));
 	}
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Scaler"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Scaler"), true, wxGBPosition (r, 0));
 	_scaler = new wxChoice (_dcp_panel, wxID_ANY);
-	grid->Add (_scaler, wxGBPosition (r, 1));
+	grid->Add (_scaler, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	vector<Scaler const *> const sc = Scaler::all ();
@@ -206,6 +211,8 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect       (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect    (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
+//	_pad_with_silence->Connect       (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::pad_with_silence_toggled), 0, this);
+//	_minimum_audio_channels->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,   wxCommandEventHandler (FilmEditor::minimum_audio_channels_changed), 0, this);
 	_with_subtitles->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect        (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
@@ -231,31 +238,31 @@ FilmEditor::make_video_panel ()
 	wxBoxSizer* video_sizer = new wxBoxSizer (wxVERTICAL);
 	_video_panel->SetSizer (video_sizer);
 	
-	wxGridBagSizer* grid = new wxGridBagSizer (4, 4);
+	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	video_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), true, wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_left_crop, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Right crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Right crop"), true, wxGBPosition (r, 0));
 	_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_right_crop, wxGBPosition (r, 1));
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Top crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Top crop"), true, wxGBPosition (r, 0));
 	_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_top_crop, wxGBPosition (r, 1));
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), true, wxGBPosition (r, 0));
 	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_bottom_crop, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Scale to"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Scale to"), true, wxGBPosition (r, 0));
 	_ratio = new wxChoice (_video_panel, wxID_ANY);
 	grid->Add (_ratio, wxGBPosition (r, 1));
 	++r;
@@ -270,17 +277,17 @@ FilmEditor::make_video_panel ()
 
 	/* VIDEO-only stuff */
 	{
-		add_label_to_grid_bag_sizer (grid, _video_panel, _("Filters"), wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _video_panel, _("Filters"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_filters = new wxStaticText (_video_panel, wxID_ANY, _("None"));
 		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (_video_panel, wxID_ANY, _("Edit..."));
-		s->Add (_filters_button, 0);
+		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), true, wxGBPosition (r, 0));
 	_colour_lut = new wxChoice (_video_panel, wxID_ANY);
 	for (int i = 0; i < 2; ++i) {
 		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
@@ -329,7 +336,7 @@ FilmEditor::make_content_panel ()
 	h->Add (_loop_content, 0, wxALL, 6);
 	_loop_count = new wxSpinCtrl (_content_panel, wxID_ANY);
 	h->Add (_loop_count, 0, wxALL, 6);
-	add_label_to_sizer (h, _content_panel, _("times"));
+	add_label_to_sizer (h, _content_panel, _("times"), false);
 	_content_sizer->Add (h, 0, wxALL, 6);
 
 	_content_notebook = new wxNotebook (_content_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
@@ -354,7 +361,7 @@ FilmEditor::make_audio_panel ()
 	wxBoxSizer* audio_sizer = new wxBoxSizer (wxVERTICAL);
 	_audio_panel->SetSizer (audio_sizer);
 	
-	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 4, 4);
+	wxFlexGridSizer* grid = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	audio_sizer->Add (grid, 0, wxALL, 8);
 
 	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
@@ -362,31 +369,31 @@ FilmEditor::make_audio_panel ()
 	grid->AddSpacer (0);
 	grid->AddSpacer (0);
 
-	add_label_to_sizer (grid, _audio_panel, _("Audio Gain"));
+	add_label_to_sizer (grid, _audio_panel, _("Audio Gain"), true);
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_gain = new wxSpinCtrl (_audio_panel);
 		s->Add (_audio_gain, 1);
-		add_label_to_sizer (s, _audio_panel, _("dB"));
+		add_label_to_sizer (s, _audio_panel, _("dB"), false);
 		grid->Add (s, 1);
 	}
 	
 	_audio_gain_calculate_button = new wxButton (_audio_panel, wxID_ANY, _("Calculate..."));
 	grid->Add (_audio_gain_calculate_button);
 
-	add_label_to_sizer (grid, _audio_panel, _("Audio Delay"));
+	add_label_to_sizer (grid, _audio_panel, _("Audio Delay"), false);
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_audio_delay = new wxSpinCtrl (_audio_panel);
 		s->Add (_audio_delay, 1);
 		/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-		add_label_to_sizer (s, _audio_panel, _("ms"));
+		add_label_to_sizer (s, _audio_panel, _("ms"), false);
 		grid->Add (s);
 	}
 
 	grid->AddSpacer (0);
 
-	add_label_to_sizer (grid, _audio_panel, _("Audio Stream"));
+	add_label_to_sizer (grid, _audio_panel, _("Audio Stream"), true);
 	_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
 	grid->Add (_audio_stream, 1);
 	_audio_description = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
@@ -399,8 +406,32 @@ FilmEditor::make_audio_panel ()
 	_audio_mapping = new AudioMappingView (_audio_panel);
 	audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
 
+#if 0	
+	{
+		_pad_with_silence = new wxCheckBox (_audio_panel, wxID_ANY, _("Pad with silence to"));
+		grid->Add (_pad_with_silence);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_minimum_audio_channels = new wxSpinCtrl (_audio_panel);
+		s->Add (_minimum_audio_channels, 1);
+		add_label_to_sizer (s, _audio_panel, _("channels"), false);
+		grid->Add (s);
+	}
+
+	{
+		_use_content_audio = new wxRadioButton (_audio_panel, wxID_ANY, _("Use content's audio"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+		grid->Add (video_control (_use_content_audio));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
+		s->Add (video_control (_audio_stream), 1);
+		_audio = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
+		s->Add (video_control (_audio), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
+		grid->Add (s);
+	}
+#endif	
+
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
+//	_minimum_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
 }
 
 void
@@ -409,7 +440,7 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_panel = new wxPanel (_content_notebook);
 	wxBoxSizer* subtitle_sizer = new wxBoxSizer (wxVERTICAL);
 	_subtitle_panel->SetSizer (subtitle_sizer);
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
+	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	subtitle_sizer->Add (grid, 0, wxALL, 8);
 
 	_with_subtitles = new wxCheckBox (_subtitle_panel, wxID_ANY, _("With Subtitles"));
@@ -417,24 +448,24 @@ FilmEditor::make_subtitle_panel ()
 	grid->AddSpacer (0);
 	
 	{
-		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"));
+		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
 		s->Add (_subtitle_offset);
-		add_label_to_sizer (s, _subtitle_panel, _("pixels"));
+		add_label_to_sizer (s, _subtitle_panel, _("pixels"), false);
 		grid->Add (s);
 	}
 
 	{
-		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale"));
+		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_subtitle_scale = new wxSpinCtrl (_subtitle_panel);
 		s->Add (_subtitle_scale);
-		add_label_to_sizer (s, _subtitle_panel, _("%"));
+		add_label_to_sizer (s, _subtitle_panel, _("%"), false);
 		grid->Add (s);
 	}
 
-	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Stream"));
+	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Stream"), true);
 	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
 	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
 	grid->AddSpacer (0);
@@ -452,10 +483,10 @@ FilmEditor::make_timing_panel ()
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	timing_sizer->Add (grid, 0, wxALL, 8);
 
-	add_label_to_sizer (grid, _timing_panel, _("Start time"));
+	add_label_to_sizer (grid, _timing_panel, _("Start time"), true);
 	_start = new Timecode (_timing_panel);
 	grid->Add (_start);
-	add_label_to_sizer (grid, _timing_panel, _("Length"));
+	add_label_to_sizer (grid, _timing_panel, _("Length"), true);
 	_length = new Timecode (_timing_panel);
 	grid->Add (_length);
 }
@@ -597,6 +628,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_content ();
 		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
+		setup_minimum_audio_channels ();
 		break;
 	case Film::LOOP:
 		checked_set (_loop_content, _film->loop() > 1);
@@ -659,6 +691,10 @@ FilmEditor::film_changed (Film::Property p)
 		_best_dcp_frame_rate->Enable (_film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
 		break;
 	}
+	case Film::MINIMUM_AUDIO_CHANNELS:
+//		checked_set (_minimum_audio_channels, _film->minimum_audio_channels ());
+		setup_minimum_audio_channels ();
+		break;
 	}
 }
 
@@ -1284,8 +1320,8 @@ XXX
 	}
 
 	Crop const crop = _film->crop ();
-	if (crop.left || crop.right || crop.top || crop.bottom) {
-		libdcp::Size const cropped = _film->cropped_size (_film->video_size ());
+	if ((crop.left || crop.right || crop.top || crop.bottom) && _film->size() != libdcp::Size (0, 0)) {
+		libdcp::Size const cropped = _film->cropped_size (_film->size ());
 		d << wxString::Format (
 			_("Cropped to %dx%d (%.2f:1)\n"),
 			cropped.width, cropped.height,
@@ -1502,4 +1538,36 @@ FilmEditor::ratio_changed (wxCommandEvent &)
 		assert (n < int (ratios.size()));
 		vc->set_ratio (ratios[n]);
 	}
+}
+
+void
+FilmEditor::setup_minimum_audio_channels ()
+{
+#if 0	
+	if (!_film || !_film->audio_stream ()) {
+		_pad_with_silence->SetValue (false);
+		return;
+	}
+
+	_pad_with_silence->SetValue (_film->audio_stream()->channels() < _film->minimum_audio_channels());
+
+	AudioMapping m (_film);
+	_minimum_audio_channels->SetRange (m.minimum_dcp_channels() + 1, MAX_AUDIO_CHANNELS);
+#endif	
+}
+
+void
+FilmEditor::pad_with_silence_toggled (wxCommandEvent &)
+{
+
+}
+
+void
+FilmEditor::minimum_audio_channels_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+//	_film->set_minimum_audio_channels (_minimum_audio_channels->GetValue ());
 }
