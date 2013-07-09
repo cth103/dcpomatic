@@ -131,6 +131,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _3));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this));
 
+	calculate_sizes ();
 	fetch_current_frame_again ();
 }
 
@@ -211,6 +212,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 {
 	_panel_size.width = ev.GetSize().GetWidth();
 	_panel_size.height = ev.GetSize().GetHeight();
+	calculate_sizes ();
 	fetch_current_frame_again ();
 }
 
