@@ -107,3 +107,33 @@ BOOST_AUTO_TEST_CASE (crop_image_test)
 	crop.top = 3;
 	image->crop (crop, false);
 }
+
+/* Test cropping of a YUV 4:2:0 image by 1 pixel, which used to fail because
+   the U/V copying was not rounded up to the next sample.
+*/
+BOOST_AUTO_TEST_CASE (crop_image_test2)
+{
+	/* Here's a 1998 x 1080 image which is black */
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_YUV420P, libdcp::Size (1998, 1080), true));
+	image->make_black ();
+
+	/* Crop it by 1 pixel */
+	Crop crop;
+	crop.left = 1;
+	image = image->crop (crop, true);
+
+	/* Convert it back to RGB to make comparison to black easier */
+	image = image->scale_and_convert_to_rgb (image->size(), Scaler::from_id ("bicubic"), true);
+
+	/* Check that its still black after the crop */
+	uint8_t* p = image->data()[0];
+	for (int y = 0; y < image->size().height; ++y) {
+		uint8_t* q = p;
+		for (int x = 0; x < image->size().width; ++x) {
+			BOOST_CHECK_EQUAL (*q++, 0);
+			BOOST_CHECK_EQUAL (*q++, 0);
+			BOOST_CHECK_EQUAL (*q++, 0);
+		}
+		p += image->stride()[0];
+	}
+}

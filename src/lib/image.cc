@@ -214,7 +214,11 @@ Image::crop (Crop crop, bool aligned) const
 
 	for (int c = 0; c < components(); ++c) {
 		int const crop_left_in_bytes = bytes_per_pixel(c) * crop.left;
-		int const cropped_width_in_bytes = bytes_per_pixel(c) * cropped_size.width;
+		/* bytes_per_pixel() could be a fraction; in this case the stride will be rounded
+		   up, and we need to make sure that we copy over the width (up to the stride)
+		   rather than short of the width; hence the ceil() here.
+		*/
+		int const cropped_width_in_bytes = ceil (bytes_per_pixel(c) * cropped_size.width);
 
 		/* Start of the source line, cropped from the top but not the left */
 		uint8_t* in_p = data()[c] + (crop.top / out->line_factor(c)) * stride()[c];
