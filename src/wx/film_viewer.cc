@@ -142,7 +142,9 @@ FilmViewer::fetch_current_frame_again ()
 		return;
 	}
 
-	_player->seek (_player->video_position() - _film->video_frames_to_time (1), false);
+	Time const t = _film->video_frames_to_time (1);
+	
+	_player->seek (_player->video_position() - t * 1.5, true);
 	fetch_next_frame ();
 }
 
