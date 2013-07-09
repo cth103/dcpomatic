@@ -359,7 +359,7 @@ Player::seek (Time t, bool accurate)
 		s = min (vc->length(), s);
 
 		FrameRateConversion frc (vc->video_frame_rate(), _film->dcp_video_frame_rate());
-		VideoContent::Frame f = s * _film->dcp_video_frame_rate() / (frc.factor() * TIME_HZ);
+		VideoContent::Frame f = s * vc->video_frame_rate() / (frc.factor() * TIME_HZ);
 		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
 	}
 
