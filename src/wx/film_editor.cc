@@ -664,6 +664,7 @@ FilmEditor::film_changed (Film::Property p)
 		_best_dcp_frame_rate->Enable (_film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
 		break;
 	}
+	}
 }
 
 void
