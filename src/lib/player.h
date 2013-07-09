@@ -49,8 +49,7 @@ public:
 	void disable_audio ();
 
 	bool pass ();
-	void seek (Time);
-	void seek_back ();
+	void seek (Time, bool);
 
 	Time video_position () const {
 		return _video_position;

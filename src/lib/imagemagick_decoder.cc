@@ -75,17 +75,9 @@ ImageMagickDecoder::pass ()
 }
 
 void
-ImageMagickDecoder::seek (VideoContent::Frame frame)
+ImageMagickDecoder::seek (VideoContent::Frame frame, bool)
 {
 	_video_position = frame;
-}
-
-void
-ImageMagickDecoder::seek_back ()
-{
-	if (_video_position > 0) {
-		_video_position--;
-	}
 }
 
 bool

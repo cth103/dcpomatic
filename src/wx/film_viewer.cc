@@ -141,8 +141,7 @@ FilmViewer::fetch_current_frame_again ()
 		return;
 	}
 
-	/* This will cause a Player::Changed to be emitted */
-	_player->seek (_player->video_position() - _film->video_frames_to_time (1));
+	_player->seek (_player->video_position() - _film->video_frames_to_time (1), false);
 	fetch_next_frame ();
 }
 
@@ -202,7 +201,7 @@ void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
 	if (_film && _player) {
-		_player->seek (_slider->GetValue() * _film->length() / 4096);
+		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
 		fetch_next_frame ();
 	}
 }
@@ -336,8 +335,10 @@ FilmViewer::back_clicked (wxCommandEvent &)
 	if (!_player) {
 		return;
 	}
+
+	Time const t = _film->video_frames_to_time (1);
 	
-	_player->seek_back ();
+	_player->seek (_player->video_position() - t * 2.5, true);
 	fetch_next_frame ();
 }
 

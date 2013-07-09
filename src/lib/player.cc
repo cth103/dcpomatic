@@ -337,7 +337,7 @@ Player::flush ()
 
 /** @return true on error */
 void
-Player::seek (Time t)
+Player::seek (Time t, bool accurate)
 {
 	if (!_have_valid_pieces) {
 		setup_pieces ();
@@ -360,17 +360,10 @@ Player::seek (Time t)
 
 		FrameRateConversion frc (vc->video_frame_rate(), _film->dcp_video_frame_rate());
 		VideoContent::Frame f = s * _film->dcp_video_frame_rate() / (frc.factor() * TIME_HZ);
-		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f);
+		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
 	}
 
 	/* XXX: don't seek audio because we don't need to... */
-}
-
-
-void
-Player::seek_back ()
-{
-
 }
 
 void

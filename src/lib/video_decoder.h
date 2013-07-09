@@ -30,8 +30,7 @@ class VideoDecoder : public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const Film>);
 
-	virtual void seek (VideoContent::Frame) = 0;
-	virtual void seek_back () = 0;
+	virtual void seek (VideoContent::Frame, bool) = 0;
 
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
