@@ -8,7 +8,7 @@ WORK=build/platform/osx
 ENV=/Users/carl/Environments/osx
 ROOT=/Users/carl/cdist
 
-appdir="DVD-o-matic.app"
+appdir="DCP-o-matic.app"
 approot=$appdir/Contents
 libs=$approot/lib
 macos=$approot/MacOS
@@ -32,9 +32,9 @@ function universal_copy {
     done
 }
 
-universal_copy $ROOT src/dvdomatic/build/src/tools/dvdomatic $WORK/$macos
-universal_copy $ROOT src/dvdomatic/build/src/lib/libdvdomatic.dylib $WORK/$libs
-universal_copy $ROOT src/dvdomatic/build/src/wx/libdvdomatic-wx.dylib $WORK/$libs
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic $WORK/$macos
+universal_copy $ROOT src/dcpmatic/build/src/lib/libdcpomatic.dylib $WORK/$libs
+universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic-wx.dylib $WORK/$libs
 universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
 universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
@@ -83,7 +83,7 @@ for obj in $WORK/$macos/dcpomatic $WORK/$libs/*.dylib; do
 done
 
 cp build/platform/osx/Info.plist $WORK/$approot
-cp icons/dcpomatic.icns $WORK/$resources/DVD-o-matic.icns
+cp icons/dcpomatic.icns $WORK/$resources/DCP-o-matic.icns
 
 tmp_dmg=$WORK/dcpomatic_tmp.dmg
 dmg="$WORK/DCP-o-matic $version.dmg"
