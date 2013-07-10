@@ -58,12 +58,9 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 	_frame = av_frame_alloc ();
 	
 	string filters = Filter::ffmpeg_strings (content->filters()).first;
-	if (!filters.empty ()) {
-		filters += ",";
+	if (filters.empty ()) {
+		filters = "copy";
 	}
-
-	/* XXX; remove */
-	filters += crop_string (Position (), _size);
 
 	AVFilterGraph* graph = avfilter_graph_alloc();
 	if (graph == 0) {

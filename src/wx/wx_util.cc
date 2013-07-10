@@ -40,7 +40,11 @@ using namespace boost;
  *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
+#ifdef __WXOSX__
 add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop)
+#else
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop)
+#endif
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
@@ -55,7 +59,11 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop)
 }
 
 wxStaticText *
+#ifdef __WXOSX__
 add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
+#else
+add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, wxGBPosition pos, wxGBSpan span)
+#endif
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__

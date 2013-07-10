@@ -200,7 +200,6 @@ Encoder::process_video (shared_ptr<const Image> image, bool same)
 	} else {
 		/* Queue this new frame for encoding */
 		TIMING ("adding to queue of %1", _queue.size ());
-		/* XXX: padding */
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  image, _video_frames_out, _film->dcp_video_frame_rate(),

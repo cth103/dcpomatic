@@ -106,7 +106,6 @@ struct FrameRateConversion
 	std::string description;
 };
 
-extern std::string crop_string (Position, libdcp::Size);
 extern int dcp_audio_frame_rate (int);
 extern std::string colour_lut_index_to_name (int index);
 extern int stride_round_up (int, int const *, int);

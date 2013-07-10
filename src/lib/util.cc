@@ -270,7 +270,7 @@ LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 }
 #endif
 
-/** Call the required functions to set up DVD-o-matic's static arrays, etc.
+/** Call the required functions to set up DCP-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
 void
@@ -336,18 +336,6 @@ dcpomatic_setup_gettext_i18n (string lang)
 #ifdef DCPOMATIC_POSIX
 	bindtextdomain ("libdcpomatic", POSIX_LOCALE_PREFIX);
 #endif
-}
-
-/** @param start Start position for the crop within the image.
- *  @param size Size of the cropped area.
- *  @return FFmpeg crop filter string.
- */
-string
-crop_string (Position start, libdcp::Size size)
-{
-	stringstream s;
-	s << N_("crop=") << size.width << N_(":") << size.height << N_(":") << start.x << N_(":") << start.y;
-	return s.str ();
 }
 
 /** @param s A string.
