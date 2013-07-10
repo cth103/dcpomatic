@@ -31,7 +31,7 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<VideoContent> co
 	film->set_container (Ratio::from_id (container));
 	film->make_dcp ();
 
-	while (JobManager::instance()->work_to_do ());
+	while (JobManager::instance()->work_to_do ()) {}
 
 	BOOST_CHECK (!JobManager::instance()->errors());
 
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	shared_ptr<ImageMagickContent> imc (new ImageMagickContent (film, "test/data/simple_testcard_640x480.png"));
 
 	film->examine_and_add_content (imc);
-	while (JobManager::instance()->work_to_do ());
+	while (JobManager::instance()->work_to_do ()) {}
 	
 	imc->set_video_length (1);
 

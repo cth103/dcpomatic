@@ -122,7 +122,7 @@ FFmpegDecoder::pass ()
 		/* XXX: should we reset _packet.data and size after each *_decode_* call? */
 		
 		if (_decode_video) {
-			while (decode_video_packet ());
+			while (decode_video_packet ()) {}
 		}
 
 		if (_ffmpeg_content->audio_stream() && _decode_audio) {
