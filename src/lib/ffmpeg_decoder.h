@@ -35,6 +35,7 @@ extern "C" {
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
+#include "subtitle_decoder.h"
 #include "ffmpeg.h"
 
 class Film;
@@ -43,7 +44,7 @@ class ffmpeg_pts_offset_test;
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
  */
-class FFmpegDecoder : public VideoDecoder, public AudioDecoder, public FFmpeg
+class FFmpegDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder, public FFmpeg
 {
 public:
 	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio);
@@ -69,6 +70,7 @@ private:
 
 	bool decode_video_packet ();
 	void decode_audio_packet ();
+	void decode_subtitle_packet ();
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);

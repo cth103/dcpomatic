@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,28 +17,19 @@
 
 */
 
-#include "video_decoder.h"
-#include "subtitle.h"
-#include "film.h"
-#include "image.h"
-#include "ratio.h"
+#include <boost/signals2.hpp>
+#include "decoder.h"
 
-#include "i18n.h"
+class Film;
+class TimedSubtitle;
 
-using std::cout;
-using boost::shared_ptr;
-
-VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
-	: Decoder (f)
-	, _video_position (0)
+class SubtitleDecoder : public virtual Decoder
 {
+public:
+	SubtitleDecoder (boost::shared_ptr<const Film>);
 
-}
+	boost::signals2::signal<void (boost::shared_ptr<TimedSubtitle>)> Subtitle;
 
-void
-VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
-{
-        Video (image, same, frame);
-	_video_position = frame + 1;
-}
-
+protected:
+	void subtitle (boost::shared_ptr<TimedSubtitle>);
+};

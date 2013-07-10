@@ -61,6 +61,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	: Decoder (f)
 	, VideoDecoder (f)
 	, AudioDecoder (f)
+	, SubtitleDecoder (f)
 	, FFmpeg (c)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
@@ -142,27 +143,7 @@ FFmpegDecoder::pass ()
 	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
 		decode_audio_packet ();
 	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id) {
-#if 0		
-
-		int got_subtitle;
-		AVSubtitle sub;
-		if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) && got_subtitle) {
-			/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
-			   indicate that the previous subtitle should stop.
-			*/
-			if (sub.num_rects > 0) {
-				shared_ptr<TimedSubtitle> ts;
-				try {
-					subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
-				} catch (...) {
-					/* some problem with the subtitle; we probably didn't understand it */
-				}
-			} else {
-				subtitle (shared_ptr<TimedSubtitle> ());
-			}
-			avsubtitle_free (&sub);
-		}
-#endif		
+		decode_subtitle_packet ();
 	}
 
 	av_free_packet (&_packet);
@@ -489,3 +470,28 @@ FFmpegDecoder::done () const
 	return vd && ad;
 }
 	
+void
+FFmpegDecoder::decode_subtitle_packet ()
+{
+	int got_subtitle;
+	AVSubtitle sub;
+	if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
+		return;
+	}
+	
+	/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
+	   indicate that the previous subtitle should stop.
+	*/
+	if (sub.num_rects > 0) {
+		shared_ptr<TimedSubtitle> ts;
+		try {
+			subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
+		} catch (...) {
+			/* some problem with the subtitle; we probably didn't understand it */
+		}
+	} else {
+		subtitle (shared_ptr<TimedSubtitle> ());
+	}
+	
+	avsubtitle_free (&sub);
+}

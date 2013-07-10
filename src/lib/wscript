@@ -44,6 +44,7 @@ sources = """
           sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc
+          subtitle_decoder.cc
           subtitle.cc
           timer.cc
           transcode_job.cc

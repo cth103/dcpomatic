@@ -60,6 +60,7 @@ subtitle_transformed_area (
 	);
 
 /** A Subtitle class with details of the time over which it should be shown */
+/** XXX: merge with Subtitle? */
 class TimedSubtitle
 {
 public:

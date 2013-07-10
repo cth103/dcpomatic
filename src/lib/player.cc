@@ -31,6 +31,7 @@
 #include "image.h"
 #include "ratio.h"
 #include "resampler.h"
+#include "subtitle.h"
 
 using std::list;
 using std::cout;
@@ -215,48 +216,46 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		return;
 	}
 
-	image = image->crop (content->crop(), true);
+	shared_ptr<Image> work_image = image->crop (content->crop(), true);
 
 	libdcp::Size const image_size = content->ratio()->size (_video_container_size);
 	
-	image = image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
+	work_image = work_image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
 
-#if 0	
-	if (film->with_subtitles ()) {
+	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->dcp_video_frame_rate());
+	
+	if (_film->with_subtitles ()) {
 		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
-			sub = _timed_subtitle->subtitle ();
+		if (_subtitle && _subtitle->displayed_at (time - _subtitle_offset)) {
+			sub = _subtitle->subtitle ();
 		}
 		
 		if (sub) {
 			dcpomatic::Rect const tx = subtitle_transformed_area (
 				float (image_size.width) / content->video_size().width,
 				float (image_size.height) / content->video_size().height,
-				sub->area(), film->subtitle_offset(), film->subtitle_scale()
+				sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
 				);
 			
-			shared_ptr<Image> im = sub->image()->scale (tx.size(), film->scaler(), true);
-			image->alpha_blend (im, tx.position());
+			shared_ptr<Image> im = sub->image()->scale (tx.size(), _film->scaler(), true);
+			work_image->alpha_blend (im, tx.position());
 		}
 	}
-#endif	
 
 	if (image_size != _video_container_size) {
 		assert (image_size.width <= _video_container_size.width);
 		assert (image_size.height <= _video_container_size.height);
 		shared_ptr<Image> im (new SimpleImage (PIX_FMT_RGB24, _video_container_size, true));
 		im->make_black ();
-		im->copy (image, Position ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
-		image = im;
+		im->copy (work_image, Position ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
+		work_image = im;
 	}
 
-	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->dcp_video_frame_rate());
-	
-        Video (image, same, time);
+        Video (work_image, same, time);
 	time += TIME_HZ / _film->dcp_video_frame_rate();
 
 	if (frc.repeat) {
-		Video (image, true, time);
+		Video (work_image, true, time);
 		time += TIME_HZ / _film->dcp_video_frame_rate();
 	}
 
@@ -390,6 +389,7 @@ Player::setup_pieces ()
 			
 			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
 			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
+			fd->Subtitle.connect (bind (&Player::process_subtitle, this, piece, _1));
 
 			piece->decoder = fd;
 		}
@@ -513,4 +513,16 @@ Player::film_changed (Film::Property p)
 		
 		Changed ();
 	}
+}
+
+void
+Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<TimedSubtitle> sub)
+{
+	shared_ptr<Piece> piece = weak_piece.lock ();
+	if (!piece) {
+		return;
+	}
+
+	_subtitle = sub;
+	_subtitle_offset = piece->content->start ();
 }

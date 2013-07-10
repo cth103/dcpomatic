@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,28 +17,25 @@
 
 */
 
-#include "video_decoder.h"
+#include <boost/shared_ptr.hpp>
+#include "subtitle_decoder.h"
 #include "subtitle.h"
-#include "film.h"
-#include "image.h"
-#include "ratio.h"
 
-#include "i18n.h"
-
-using std::cout;
 using boost::shared_ptr;
 
-VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
+SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
 	: Decoder (f)
-	, _video_position (0)
 {
 
 }
 
+
+/** Called by subclasses when a subtitle is ready.
+ *  s may be 0 to say that there is no current subtitle.
+ *  @param s New current subtitle, or 0.
+ */
 void
-VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
+SubtitleDecoder::subtitle (shared_ptr<TimedSubtitle> s)
 {
-        Video (image, same, frame);
-	_video_position = frame + 1;
+	Subtitle (s);
 }
-
