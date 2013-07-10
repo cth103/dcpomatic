@@ -27,6 +27,7 @@
 #include "audio_buffers.h"
 #include "content.h"
 #include "film.h"
+#include "rect.h"
 
 class Job;
 class Film;
@@ -35,7 +36,6 @@ class AudioContent;
 class Piece;
 class Image;
 class Resampler;
-class TimedSubtitle;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
@@ -78,7 +78,7 @@ private:
 
 	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, bool, VideoContent::Frame);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
-	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<TimedSubtitle>);
+	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int);
@@ -88,6 +88,7 @@ private:
 	void emit_silence (OutputAudioFrame);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>);
 	void film_changed (Film::Property);
+	void update_subtitle ();
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -110,10 +111,20 @@ private:
 	boost::shared_ptr<Image> _black_frame;
 	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
-	boost::shared_ptr<TimedSubtitle> _subtitle;
-	Time _subtitle_content_time;
-	int _subtitle_offset;
-	float _subtitle_scale;
+	struct {
+		boost::weak_ptr<Piece> piece;
+		boost::shared_ptr<Image> image;
+		dcpomatic::Rect<double> rect;
+		Time from;
+		Time to;
+	} _in_subtitle;
+
+	struct {
+		boost::shared_ptr<Image> image;
+		Position<int> position;
+		Time from;
+		Time to;
+	} _out_subtitle;
 };
 
 #endif

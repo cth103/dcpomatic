@@ -52,7 +52,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 }
 
 void
-SubtitleContent::set_subtitle_offset (int o)
+SubtitleContent::set_subtitle_offset (double o)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -62,7 +62,7 @@ SubtitleContent::set_subtitle_offset (int o)
 }
 
 void
-SubtitleContent::set_subtitle_scale (float s)
+SubtitleContent::set_subtitle_scale (double s)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

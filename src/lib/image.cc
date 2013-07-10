@@ -336,7 +336,7 @@ Image::make_black ()
 }
 
 void
-Image::alpha_blend (shared_ptr<const Image> other, Position position)
+Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
 	/* Only implemented for RGBA onto RGB24 so far */
 	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA);
@@ -372,7 +372,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position position)
 }
 
 void
-Image::copy (shared_ptr<const Image> other, Position position)
+Image::copy (shared_ptr<const Image> other, Position<int> position)
 {
 	/* Only implemented for RGB24 onto RGB24 so far */
 	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGB24);

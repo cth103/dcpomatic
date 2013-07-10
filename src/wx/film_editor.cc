@@ -426,7 +426,7 @@ FilmEditor::make_subtitle_panel ()
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
 		s->Add (_subtitle_offset);
-		add_label_to_sizer (s, _subtitle_panel, _("pixels"), false);
+		add_label_to_sizer (s, _subtitle_panel, _("%"), false);
 		grid->Add (s);
 	}
 
@@ -443,7 +443,7 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
 	grid->Add (_subtitle_stream, 1, wxEXPAND);
 	
-	_subtitle_offset->SetRange (-1024, 1024);
+	_subtitle_offset->SetRange (-100, 100);
 	_subtitle_scale->SetRange (1, 1000);
 }
 
@@ -532,7 +532,7 @@ FilmEditor::subtitle_offset_changed (wxCommandEvent &)
 		return;
 	}
 
-	c->set_subtitle_offset (_subtitle_offset->GetValue ());
+	c->set_subtitle_offset (_subtitle_offset->GetValue() / 100.0);
 }
 
 void
@@ -775,7 +775,7 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 			_dcp_sizer->Layout ();
 		}
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET) {
-		checked_set (_subtitle_offset, subtitle_content ? subtitle_content->subtitle_offset() : 0);
+		checked_set (_subtitle_offset, subtitle_content ? (subtitle_content->subtitle_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
 		checked_set (_subtitle_scale, subtitle_content ? (subtitle_content->subtitle_scale() * 100) : 100);
 	}

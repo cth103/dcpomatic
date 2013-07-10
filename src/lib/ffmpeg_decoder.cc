@@ -41,7 +41,6 @@ extern "C" {
 #include "log.h"
 #include "ffmpeg_decoder.h"
 #include "filter_graph.h"
-#include "subtitle.h"
 #include "audio_buffers.h"
 
 #include "i18n.h"
@@ -478,20 +477,65 @@ FFmpegDecoder::decode_subtitle_packet ()
 	if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
 		return;
 	}
-	
+
 	/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
 	   indicate that the previous subtitle should stop.
 	*/
-	if (sub.num_rects > 0) {
-		shared_ptr<TimedSubtitle> ts;
-		try {
-			subtitle (shared_ptr<TimedSubtitle> (new TimedSubtitle (sub)));
-		} catch (...) {
-			/* some problem with the subtitle; we probably didn't understand it */
-		}
-	} else {
-		subtitle (shared_ptr<TimedSubtitle> ());
+	if (sub.num_rects <= 0) {
+		subtitle (shared_ptr<Image> (), dcpomatic::Rect<double> (), 0, 0);
+		return;
+	} else if (sub.num_rects > 1) {
+		throw DecodeError (_("multi-part subtitles not yet supported"));
 	}
+		
+	/* Subtitle PTS in seconds (within the source, not taking into account any of the
+	   source that we may have chopped off for the DCP)
+	*/
+	double const packet_time = static_cast<double> (sub.pts) / AV_TIME_BASE;
+	
+	/* hence start time for this sub */
+	Time const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
+	Time const to = (packet_time + (double (sub.end_display_time) / 1e3)) * TIME_HZ;
+
+	AVSubtitleRect const * rect = sub.rects[0];
+
+	if (rect->type != SUBTITLE_BITMAP) {
+		throw DecodeError (_("non-bitmap subtitles not yet supported"));
+	}
+	
+	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));
+
+	/* Start of the first line in the subtitle */
+	uint8_t* sub_p = rect->pict.data[0];
+	/* sub_p looks up into a RGB palette which is here */
+	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+	/* Start of the output data */
+	uint32_t* out_p = (uint32_t *) image->data()[0];
+	
+	for (int y = 0; y < rect->h; ++y) {
+		uint8_t* sub_line_p = sub_p;
+		uint32_t* out_line_p = out_p;
+		for (int x = 0; x < rect->w; ++x) {
+			*out_line_p++ = palette[*sub_line_p++];
+		}
+		sub_p += rect->pict.linesize[0];
+		out_p += image->stride()[0] / sizeof (uint32_t);
+	}
+
+	libdcp::Size const vs = _ffmpeg_content->video_size ();
+
+	subtitle (
+		image,
+		dcpomatic::Rect<double> (
+			static_cast<double> (rect->x) / vs.width,
+			static_cast<double> (rect->y) / vs.height,
+			static_cast<double> (rect->w) / vs.width,
+			static_cast<double> (rect->h) / vs.height
+			),
+		from,
+		to
+		);
+			  
 	
 	avsubtitle_free (&sub);
 }

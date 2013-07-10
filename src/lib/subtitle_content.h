@@ -37,26 +37,26 @@ public:
 	
 	void as_xml (xmlpp::Node *) const;
 
-	void set_subtitle_offset (int);
-	void set_subtitle_scale (float);
+	void set_subtitle_offset (double);
+	void set_subtitle_scale (double);
 
-	int subtitle_offset () const {
+	double subtitle_offset () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_offset;
 	}
 
-	float subtitle_scale () const {
+	double subtitle_scale () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_scale;
 	}
 	
 private:	
-	/** y offset for placing subtitles, in source pixels; +ve is further down
-	    the frame, -ve is further up.
+	/** y offset for placing subtitles, as a proportion of the container height;
+	    +ve is further down the frame, -ve is further up.
 	*/
-	int _subtitle_offset;
+	double _subtitle_offset;
 	/** scale factor to apply to subtitles */
-	float _subtitle_scale;
+	double _subtitle_scale;
 };
 
 #endif

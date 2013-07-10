@@ -19,7 +19,6 @@
 
 #include <boost/shared_ptr.hpp>
 #include "subtitle_decoder.h"
-#include "subtitle.h"
 
 using boost::shared_ptr;
 
@@ -31,11 +30,10 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
 
 
 /** Called by subclasses when a subtitle is ready.
- *  s may be 0 to say that there is no current subtitle.
- *  @param s New current subtitle, or 0.
+ *  Image may be 0 to say that there is no current subtitle.
  */
 void
-SubtitleDecoder::subtitle (shared_ptr<TimedSubtitle> s)
+SubtitleDecoder::subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
 {
-	Subtitle (s);
+	Subtitle (image, rect, from, to);
 }

@@ -18,10 +18,7 @@
 */
 
 #include "video_decoder.h"
-#include "subtitle.h"
-#include "film.h"
 #include "image.h"
-#include "ratio.h"
 
 #include "i18n.h"
 
