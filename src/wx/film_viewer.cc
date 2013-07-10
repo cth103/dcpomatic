@@ -132,6 +132,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this));
 
 	calculate_sizes ();
+	fetch_current_frame_again ();
 }
 
 void
