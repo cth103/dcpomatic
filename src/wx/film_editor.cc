@@ -892,7 +892,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_filters_button->Enable (s);
 	_scaler->Enable (s);
 	_dcp_content_type->Enable (s);
-	_best_dcp_frame_rate->Enable (s);
 	_dcp_frame_rate->Enable (s);
 	_colour_lut->Enable (s);
 	_j2k_bandwidth->Enable (s);
@@ -907,6 +906,7 @@ FilmEditor::set_things_sensitive (bool s)
 	setup_subtitle_control_sensitivity ();
 	setup_show_audio_sensitivity ();
 	setup_content_sensitivity ();
+	_best_dcp_frame_rate->Enable (s && _film && _film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
 }
 
 /** Called when the `Edit filters' button has been clicked */
