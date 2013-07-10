@@ -79,7 +79,7 @@ def build(bld):
         obj.source += ' stack.cpp'
     if bld.env.STATIC:
         obj.uselib += ' XML++'
-    obj.source = sources + " version.cc"
+
     obj.target = 'dcpomatic'
 
     i18n.po_to_mo(os.path.join('src', 'lib'), 'libdcpomatic', bld)
