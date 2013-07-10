@@ -286,6 +286,8 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		dcp_mapped->accumulate_channel (audio.get(), i->first, i->second);
 	}
 
+	audio = dcp_mapped;
+
         /* The time of this audio may indicate that some of our buffered audio is not going to
            be added to any more, so it can be emitted.
         */
