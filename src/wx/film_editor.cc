@@ -393,7 +393,7 @@ FilmEditor::make_audio_panel ()
 
 	add_label_to_sizer (grid, _audio_panel, _("Audio Stream"), true);
 	_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
-	grid->Add (_audio_stream, 1);
+	grid->Add (_audio_stream, 1, wxEXPAND);
 	_audio_description = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
 	grid->AddSpacer (0);
 	
@@ -441,8 +441,7 @@ FilmEditor::make_subtitle_panel ()
 
 	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Stream"), true);
 	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
-	grid->Add (_subtitle_stream, 1, wxEXPAND | wxALL, 6);
-	grid->AddSpacer (0);
+	grid->Add (_subtitle_stream, 1, wxEXPAND);
 	
 	_subtitle_offset->SetRange (-1024, 1024);
 	_subtitle_scale->SetRange (1, 1000);
