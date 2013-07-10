@@ -60,6 +60,7 @@ def configure(conf):
 
     if conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_OSX')
+        conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG'])
