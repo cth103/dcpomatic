@@ -701,9 +701,9 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 			_length->set (0, 24);
 		}
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
-		checked_set (_left_crop,   video_content ? video_content->crop().left :   0);
-		checked_set (_right_crop,  video_content ? video_content->crop().right :  0);
-		checked_set (_top_crop,    video_content ? video_content->crop().top :    0);
+		checked_set (_left_crop,   video_content ? video_content->crop().left   : 0);
+		checked_set (_right_crop,  video_content ? video_content->crop().right  : 0);
+		checked_set (_top_crop,    video_content ? video_content->crop().top    : 0);
 		checked_set (_bottom_crop, video_content ? video_content->crop().bottom : 0);
 		setup_scaling_description ();
 	} else if (property == VideoContentProperty::VIDEO_RATIO) {
