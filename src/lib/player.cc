@@ -26,6 +26,7 @@
 #include "imagemagick_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
+#include "subtitle_content.h"
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
@@ -226,7 +227,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	
 	if (_film->with_subtitles ()) {
 		shared_ptr<Subtitle> sub;
-		if (_subtitle && _subtitle->displayed_at (time - _subtitle_offset)) {
+		if (_subtitle && _subtitle->displayed_at (time - _subtitle_content_time)) {
 			sub = _subtitle->subtitle ();
 		}
 		
@@ -234,7 +235,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 			dcpomatic::Rect const tx = subtitle_transformed_area (
 				float (image_size.width) / content->video_size().width,
 				float (image_size.height) / content->video_size().height,
-				sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
+				sub->area(), _subtitle_offset, _subtitle_scale
 				);
 			
 			shared_ptr<Image> im = sub->image()->scale (tx.size(), _film->scaler(), true);
@@ -505,12 +506,7 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (
-		p == Film::SCALER || p == Film::WITH_SUBTITLES ||
-		p == Film::SUBTITLE_SCALE || p == Film::SUBTITLE_OFFSET ||
-		p == Film::CONTAINER
-		) {
-		
+	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER) {
 		Changed ();
 	}
 }
@@ -523,6 +519,11 @@ Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<TimedSubtitle> 
 		return;
 	}
 
+	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (piece->content);
+	assert (sc);
+
 	_subtitle = sub;
-	_subtitle_offset = piece->content->start ();
+	_subtitle_content_time = piece->content->start ();
+	_subtitle_offset = sc->subtitle_offset ();
+	_subtitle_scale = sc->subtitle_scale ();
 }

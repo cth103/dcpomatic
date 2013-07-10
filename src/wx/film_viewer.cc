@@ -301,7 +301,7 @@ FilmViewer::fetch_next_frame ()
 
 	try {
 		_got_frame = false;
-		while (!_got_frame && !_player->pass ());
+		while (!_got_frame && !_player->pass ()) {}
 	} catch (DecodeError& e) {
 		_play_button->SetValue (false);
 		check_play_state ();

@@ -91,8 +91,8 @@ using boost::lexical_cast;
 using boost::optional;
 using libdcp::Size;
 
-boost::thread::id ui_thread;
-boost::filesystem::path backtrace_file;
+static boost::thread::id ui_thread;
+static boost::filesystem::path backtrace_file;
 
 /** Convert some number of seconds to a string representation
  *  in hours, minutes and seconds.

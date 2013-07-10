@@ -135,8 +135,6 @@ public:
 		CONTAINER,
 		SCALER,
 		WITH_SUBTITLES,
-		SUBTITLE_OFFSET,
-		SUBTITLE_SCALE,
 		COLOUR_LUT,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
@@ -181,16 +179,6 @@ public:
 		return _with_subtitles;
 	}
 
-	int subtitle_offset () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_offset;
-	}
-
-	float subtitle_scale () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_scale;
-	}
-
 	int colour_lut () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _colour_lut;
@@ -229,8 +217,6 @@ public:
 	void set_container (Ratio const *);
 	void set_scaler (Scaler const *);
 	void set_with_subtitles (bool);
-	void set_subtitle_offset (int);
-	void set_subtitle_scale (float);
 	void set_colour_lut (int);
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
@@ -278,12 +264,6 @@ private:
 	Scaler const * _scaler;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
-	/** y offset for placing subtitles, in source pixels; +ve is further down
-	    the frame, -ve is further up.
-	*/
-	int _subtitle_offset;
-	/** scale factor to apply to subtitles */
-	float _subtitle_scale;
 	/** index of colour LUT to use when converting RGB to XYZ.
 	 *  0: sRGB
 	 *  1: Rec 709

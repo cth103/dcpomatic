@@ -111,7 +111,9 @@ private:
 	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
 	boost::shared_ptr<TimedSubtitle> _subtitle;
-	Time _subtitle_offset;
+	Time _subtitle_content_time;
+	int _subtitle_offset;
+	float _subtitle_scale;
 };
 
 #endif

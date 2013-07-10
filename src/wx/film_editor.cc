@@ -527,21 +527,23 @@ FilmEditor::name_changed (wxCommandEvent &)
 void
 FilmEditor::subtitle_offset_changed (wxCommandEvent &)
 {
-	if (!_film) {
+	shared_ptr<SubtitleContent> c = selected_subtitle_content ();
+	if (!c) {
 		return;
 	}
 
-	_film->set_subtitle_offset (_subtitle_offset->GetValue ());
+	c->set_subtitle_offset (_subtitle_offset->GetValue ());
 }
 
 void
 FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 {
-	if (!_film) {
+	shared_ptr<SubtitleContent> c = selected_subtitle_content ();
+	if (!c) {
 		return;
 	}
 
-	_film->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
+	c->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
 }
 
 void
@@ -626,12 +628,6 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_dcp_name ();
 		break;
-	case Film::SUBTITLE_OFFSET:
-		checked_set (_subtitle_offset, _film->subtitle_offset ());
-		break;
-	case Film::SUBTITLE_SCALE:
-		checked_set (_subtitle_scale, _film->subtitle_scale() * 100);
-		break;
 	case Film::COLOUR_LUT:
 		checked_set (_colour_lut, _film->colour_lut ());
 		break;
@@ -679,10 +675,12 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 	shared_ptr<Content> content = weak_content.lock ();
 	shared_ptr<VideoContent> video_content;
 	shared_ptr<AudioContent> audio_content;
+	shared_ptr<SubtitleContent> subtitle_content;
 	shared_ptr<FFmpegContent> ffmpeg_content;
 	if (content) {
 		video_content = dynamic_pointer_cast<VideoContent> (content);
 		audio_content = dynamic_pointer_cast<AudioContent> (content);
+		subtitle_content = dynamic_pointer_cast<SubtitleContent> (content);
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
@@ -776,6 +774,10 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 			}
 			_dcp_sizer->Layout ();
 		}
+	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET) {
+		checked_set (_subtitle_offset, subtitle_content ? subtitle_content->subtitle_offset() : 0);
+	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
+		checked_set (_subtitle_scale, subtitle_content ? (subtitle_content->subtitle_scale() * 100) : 100);
 	}
 }
 
@@ -861,8 +863,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CONTAINER);
 	film_changed (Film::SCALER);
 	film_changed (Film::WITH_SUBTITLES);
-	film_changed (Film::SUBTITLE_OFFSET);
-	film_changed (Film::SUBTITLE_SCALE);
 	film_changed (Film::COLOUR_LUT);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
@@ -1268,6 +1268,17 @@ FilmEditor::selected_audio_content ()
 	}
 
 	return dynamic_pointer_cast<AudioContent> (c);
+}
+
+shared_ptr<SubtitleContent>
+FilmEditor::selected_subtitle_content ()
+{
+	shared_ptr<Content> c = selected_content ();
+	if (!c) {
+		return shared_ptr<SubtitleContent> ();
+	}
+
+	return dynamic_pointer_cast<SubtitleContent> (c);
 }
 
 void

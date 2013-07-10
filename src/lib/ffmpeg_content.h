@@ -23,6 +23,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
 #include "audio_content.h"
+#include "subtitle_content.h"
 
 class Filter;
 
@@ -79,7 +80,7 @@ public:
         static int const FILTERS;
 };
 
-class FFmpegContent : public VideoContent, public AudioContent
+class FFmpegContent : public VideoContent, public AudioContent, public SubtitleContent
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
