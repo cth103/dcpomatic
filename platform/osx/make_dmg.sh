@@ -32,9 +32,9 @@ function universal_copy {
     done
 }
 
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic $WORK/$macos
-universal_copy $ROOT src/dcpmatic/build/src/lib/libdcpomatic.dylib $WORK/$libs
-universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic-wx.dylib $WORK/$libs
+universal_copy $ROOT src/dvdomatic/build/src/tools/dcpomatic $WORK/$macos
+universal_copy $ROOT src/dvdmatic/build/src/lib/libdcpomatic.dylib $WORK/$libs
+universal_copy $ROOT src/dvdomatic/build/src/wx/libdcpomatic-wx.dylib $WORK/$libs
 universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
 universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
