@@ -43,7 +43,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	
 	wxStaticText* t = new wxStaticText (this, wxID_ANY, _("DCP-o-matic"));
 	t->SetFont (title_font);
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 8));
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 16));
 
 	wxString s;
 	if (strcmp (dcpomatic_git_commit, "release") == 0) {
@@ -52,7 +52,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		t = new wxStaticText (this, wxID_ANY, std_to_wx (String::compose ("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
 	}
 	t->SetFont (version_font);
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 8));
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 2));
 	sizer->AddSpacer (12);
 
 	t = new wxStaticText (
@@ -70,7 +70,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		wxT ("http://dcpomatic.com")
 		);
 
-	sizer->Add (h, wxSizerFlags().Centre().Border());
+	sizer->Add (h, wxSizerFlags().Centre().Border(wxALL, 8));
 
 	t = new wxStaticText (
 		this, wxID_ANY,
@@ -78,7 +78,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
 	
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 8));
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxLEFT | wxRIGHT, 16));
 
 	_notebook = new wxNotebook (this, wxID_ANY);
 
@@ -119,7 +119,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Kieran Carroll"));
 	add_section (_("Supported by"), supported_by);
 
-	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 8).Expand());
+	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
 	
 	SetSizerAndFit (sizer);
 }
