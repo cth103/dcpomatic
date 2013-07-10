@@ -164,7 +164,13 @@ setup_menu (wxMenuBar* m)
 #ifndef __WXOSX__	
 	file->AppendSeparator ();
 #endif
+
+#ifdef __WXOSX__	
 	add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
+#else
+	add_item (file, _("&Quit"), wxID_EXIT, ALWAYS);
+#endif	
+	
 
 #ifdef __WXOSX__	
 	add_item (file, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
