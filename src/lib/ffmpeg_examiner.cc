@@ -69,8 +69,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 		int frame_finished;
 		avcodec_get_frame_defaults (_frame);
 
-		cout << "got packet " << _packet.stream_index << "\n";
-
 		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
 
 		if (_packet.stream_index == _video_stream && !_first_video) {
@@ -94,11 +92,11 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 			++i;
 		}
 
+		av_free_packet (&_packet);
+		
 		if (_first_video && have_all_audio) {
 			break;
 		}
-
-		av_free_packet (&_packet);
 	}
 }
 

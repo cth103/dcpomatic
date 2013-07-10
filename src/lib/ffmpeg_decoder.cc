@@ -294,6 +294,11 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 
 	_just_sought = true;
 
+	if (frame == 0) {
+		/* We're already there; from here on we can only seek non-zero amounts */
+		return;
+	}
+
 	if (accurate) {
 		while (1) {
 			int r = av_read_frame (_format_context, &_packet);
@@ -372,7 +377,7 @@ FFmpegDecoder::decode_video_packet ()
 	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
 		return false;
 	}
-		
+
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 
 	shared_ptr<FilterGraph> graph;

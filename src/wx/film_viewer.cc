@@ -132,7 +132,6 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this));
 
 	calculate_sizes ();
-	fetch_current_frame_again ();
 }
 
 void
@@ -277,7 +276,7 @@ FilmViewer::process_video (shared_ptr<const Image> image, bool, Time t)
 	double const fps = _film->dcp_video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
 	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ)) + 1));
-
+	
 	double w = static_cast<double>(t) / TIME_HZ;
 	int const h = (w / 3600);
 	w -= h * 3600;

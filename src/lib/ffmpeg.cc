@@ -30,6 +30,7 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
 

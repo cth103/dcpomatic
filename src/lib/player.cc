@@ -121,7 +121,7 @@ Player::pass ()
 	}
 
 #ifdef DEBUG_PLAYER
-	cout << "= PASS " << this << "\n";
+	cout << "= PASS\n";
 #endif	
 
         Time earliest_t = TIME_MAX;
