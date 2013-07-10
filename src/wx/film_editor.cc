@@ -1214,6 +1214,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAM);
 	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
 	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
+	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAMS);
 }
 
 void
