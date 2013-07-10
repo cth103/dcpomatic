@@ -724,6 +724,7 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		} else {
 			checked_set (_ratio, -1);
 		}
+		setup_scaling_description ();
 	} else if (property == AudioContentProperty::AUDIO_GAIN) {
 		checked_set (_audio_gain, audio_content ? audio_content->audio_gain() : 0);
 	} else if (property == AudioContentProperty::AUDIO_DELAY) {
@@ -1272,24 +1273,30 @@ FilmEditor::selected_audio_content ()
 void
 FilmEditor::setup_scaling_description ()
 {
+	shared_ptr<VideoContent> vc = selected_video_content ();
+	if (!vc) {
+		_scaling_description->SetLabel ("");
+		return;
+	}
+
 	wxString d;
 
-#if 0	
-XXX
 	int lines = 0;
 
-	if (_film->video_size().width && _film->video_size().height) {
+	if (vc->video_size().width && vc->video_size().height) {
 		d << wxString::Format (
 			_("Original video is %dx%d (%.2f:1)\n"),
-			_film->video_size().width, _film->video_size().height,
-			float (_film->video_size().width) / _film->video_size().height
+			vc->video_size().width, vc->video_size().height,
+			float (vc->video_size().width) / vc->video_size().height
 			);
 		++lines;
 	}
 
-	Crop const crop = _film->crop ();
-	if ((crop.left || crop.right || crop.top || crop.bottom) && _film->size() != libdcp::Size (0, 0)) {
-		libdcp::Size const cropped = _film->cropped_size (_film->size ());
+	Crop const crop = vc->crop ();
+	if ((crop.left || crop.right || crop.top || crop.bottom) && vc->video_size() != libdcp::Size (0, 0)) {
+		libdcp::Size cropped = vc->video_size ();
+		cropped.width -= crop.left + crop.right;
+		cropped.height -= crop.top + crop.bottom;
 		d << wxString::Format (
 			_("Cropped to %dx%d (%.2f:1)\n"),
 			cropped.width, cropped.height,
@@ -1298,11 +1305,11 @@ XXX
 		++lines;
 	}
 
-	Format const * format = _film->format ();
-	if (format) {
-		int const padding = format->dcp_padding (_film);
-		libdcp::Size scaled = format->dcp_size ();
-		scaled.width -= padding * 2;
+	Ratio const * ratio = vc->ratio ();
+	if (ratio) {
+		libdcp::Size container_size = _film->container()->size (_film->full_frame ());
+		
+		libdcp::Size const scaled = ratio->size (container_size);
 		d << wxString::Format (
 			_("Scaled to %dx%d (%.2f:1)\n"),
 			scaled.width, scaled.height,
@@ -1310,11 +1317,11 @@ XXX
 			);
 		++lines;
 
-		if (padding) {
+		if (scaled != container_size) {
 			d << wxString::Format (
 				_("Padded with black to %dx%d (%.2f:1)\n"),
-				format->dcp_size().width, format->dcp_size().height,
-				float (format->dcp_size().width) / format->dcp_size().height
+				container_size.width, container_size.height,
+				float (container_size.width) / container_size.height
 				);
 			++lines;
 		}
@@ -1324,7 +1331,6 @@ XXX
 		d << wxT ("\n ");
 	}
 
-#endif	
 	_scaling_description->SetLabel (d);
 }
 
