@@ -37,36 +37,6 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f)
 {
 }
 
-#if 0
-void
-AudioDecoder::process_end ()
-{
-	if (_swr_context) {
-
-		shared_ptr<const Film> film = _film.lock ();
-		assert (film);
-		
-		shared_ptr<AudioBuffers> out (new AudioBuffers (film->audio_mapping().dcp_channels(), 256));
-			
-		while (1) {
-			int const frames = swr_convert (_swr_context, (uint8_t **) out->data(), 256, 0, 0);
-
-			if (frames < 0) {
-				throw EncodeError (_("could not run sample-rate converter"));
-			}
-
-			if (frames == 0) {
-				break;
-			}
-
-			out->set_frames (frames);
-			_writer->write (out);
-		}
-
-	}
-}
-#endif
-
 void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {

@@ -261,7 +261,11 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	assert (content);
 
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
-		audio = resampler(content)->run (audio);
+		shared_ptr<Resampler> r = resampler (content);
+		audio = r->run (audio);
+		_last_resampler = r;
+	} else {
+		_last_resampler.reset ();
 	}
 
 	/* Remap channels */
@@ -313,6 +317,12 @@ Player::flush ()
 		_audio_buffers.set_frames (0);
 	}
 
+	if (_last_resampler) {
+		shared_ptr<const AudioBuffers> resamp = _last_resampler->flush ();
+		Audio (resamp, _audio_position);
+		_audio_position += _film->audio_frames_to_time (resamp->frames ());
+	}
+	
 	while (_video_position < _audio_position) {
 		emit_black ();
 	}

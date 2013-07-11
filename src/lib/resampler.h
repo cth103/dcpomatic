@@ -12,6 +12,7 @@ public:
 	~Resampler ();
 
 	boost::shared_ptr<const AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
+	boost::shared_ptr<const AudioBuffers> flush ();
 
 private:	
 	SwrContext* _swr_context;

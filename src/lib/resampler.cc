@@ -59,3 +59,31 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 	resampled->set_frames (resampled_frames);
 	return resampled;
 }	
+
+shared_ptr<const AudioBuffers>
+Resampler::flush ()
+{
+	shared_ptr<AudioBuffers> out (new AudioBuffers (_channels, 0));
+	int out_offset = 0;
+	int64_t const pass_size = 256;
+	shared_ptr<AudioBuffers> pass (new AudioBuffers (_channels, 256));
+
+	while (1) {
+		int const frames = swr_convert (_swr_context, (uint8_t **) pass->data(), pass_size, 0, 0);
+		
+		if (frames < 0) {
+			throw EncodeError (_("could not run sample-rate converter"));
+		}
+		
+		if (frames == 0) {
+			break;
+		}
+
+		out->ensure_size (out_offset + frames);
+		out->copy_from (pass.get(), frames, 0, out_offset);
+		out_offset += frames;
+		out->set_frames (out_offset);
+	}
+
+	return out;
+}

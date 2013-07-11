@@ -110,6 +110,7 @@ private:
 	libdcp::Size _video_container_size;
 	boost::shared_ptr<Image> _black_frame;
 	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
+	boost::shared_ptr<Resampler> _last_resampler;
 
 	struct {
 		boost::weak_ptr<Piece> piece;
