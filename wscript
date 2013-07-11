@@ -87,7 +87,7 @@ def configure(conf):
         conf.env.STLIB_CXML = ['cxml']
         conf.env.HAVE_DCP = 1
         conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
-        conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2']
+        conf.env.LIB_DCP = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2', 'xmlsec1', 'xmlsec1-openssl', 'xslt']
         conf.env.HAVE_CXML = 1
         conf.env.STLIB_CXML = ['cxml']
         conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
