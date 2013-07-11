@@ -80,6 +80,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 	return resampled;
 }	
 
+/* XXX: no-one calls this */
 shared_ptr<const AudioBuffers>
 Resampler::flush ()
 {
