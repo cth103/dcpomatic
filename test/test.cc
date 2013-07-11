@@ -75,7 +75,7 @@ struct TestConfig
 
 BOOST_GLOBAL_FIXTURE (TestConfig);
 
-boost::filesystem::path
+static boost::filesystem::path
 test_film_dir (string name)
 {
 	boost::filesystem::path p;
@@ -85,7 +85,7 @@ test_film_dir (string name)
 	return p;
 }
 
-shared_ptr<Film>
+static shared_ptr<Film>
 new_test_film (string name)
 {
 	boost::filesystem::path p = test_film_dir (name);
@@ -98,7 +98,7 @@ new_test_film (string name)
 	return f;
 }
 
-void
+static void
 check_file (string ref, string check)
 {
 	uintmax_t N = boost::filesystem::file_size (ref);
@@ -136,7 +136,7 @@ note (libdcp::NoteType, string n)
 	cout << n << "\n";
 }
 
-void
+static void
 check_dcp (string ref, string check)
 {
 	libdcp::DCP ref_dcp (ref);
@@ -154,6 +154,13 @@ check_dcp (string ref, string check)
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }
 
+static void
+wait_for_jobs ()
+{
+	while (JobManager::instance()->work_to_do ()) {}
+}
+
+#include "audio_delay_test.cc"
 #include "ffmpeg_pts_offset.cc"
 #include "ffmpeg_examiner_test.cc"
 #include "black_fill_test.cc"

@@ -44,9 +44,6 @@ protected:
 
 	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	AudioContent::Frame _audio_position;
-
-private:
-	AudioContent::Frame _delay_frames;
 };
 
 #endif

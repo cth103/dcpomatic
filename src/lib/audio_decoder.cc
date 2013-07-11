@@ -35,17 +35,12 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> f, shared_ptr<const AudioCont
 	: Decoder (f)
 	, _audio_position (0)
 {
-	_delay_frames = c->audio_delay() * c->content_audio_frame_rate() * f->dcp_audio_frame_rate() / (c->output_audio_frame_rate() * 1000);
+
 }
 
 void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {
-	frame += _delay_frames;
-	
 	Audio (data, frame);
 	_audio_position = frame + data->frames ();
-	if (_audio_position < 0) {
-		_audio_position = 0;
-	}
 }

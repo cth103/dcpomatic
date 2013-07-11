@@ -260,6 +260,7 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
+	/* Resample */
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
 		shared_ptr<Resampler> r = resampler (content);
 		audio = r->run (audio);
@@ -278,15 +279,40 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 
 	audio = dcp_mapped;
 
+	Time time = content->start() + (frame * TIME_HZ / _film->dcp_audio_frame_rate()) + (content->audio_delay() * TIME_HZ / 1000);
+
+	/* We must cut off anything that comes before the start of all time */
+	if (time < 0) {
+		int const frames = - time * _film->dcp_audio_frame_rate() / TIME_HZ;
+		if (frames >= audio->frames ()) {
+			return;
+		}
+
+		shared_ptr<AudioBuffers> trimmed (new AudioBuffers (audio->channels(), audio->frames() - frames));
+		trimmed->copy_from (audio.get(), audio->frames() - frames, frames, 0);
+
+		audio = trimmed;
+		time = 0;
+	}
+
         /* The time of this audio may indicate that some of our buffered audio is not going to
            be added to any more, so it can be emitted.
         */
 
-	Time const time = content->start() + (frame * TIME_HZ / _film->dcp_audio_frame_rate());
-
         if (time > _audio_position) {
                 /* We can emit some audio from our buffers */
                 OutputAudioFrame const N = _film->time_to_audio_frames (time - _audio_position);
+		if (N > _audio_buffers.frames()) {
+			/* We need some extra silence before whatever is in the buffers */
+			_audio_buffers.ensure_size (N);
+			_audio_buffers.move (0, N - _audio_buffers.frames(), _audio_buffers.frames ());
+			_audio_buffers.make_silent (0, _audio_buffers.frames());
+			_audio_buffers.set_frames (N);
+		}
+			
+		if (N > _audio_buffers.frames()) {
+			cout << "N=" << N << ", ab=" << _audio_buffers.frames() << "\n";
+		}
 		assert (N <= _audio_buffers.frames());
                 shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
                 emit->copy_from (&_audio_buffers, N, 0, 0);
@@ -318,9 +344,9 @@ Player::flush ()
 	}
 
 	if (_last_resampler) {
-		shared_ptr<const AudioBuffers> resamp = _last_resampler->flush ();
-		Audio (resamp, _audio_position);
-		_audio_position += _film->audio_frames_to_time (resamp->frames ());
+//		shared_ptr<const AudioBuffers> resamp = _last_resampler->flush ();
+//		Audio (resamp, _audio_position);
+//		_audio_position += _film->audio_frames_to_time (resamp->frames ());
 	}
 	
 	while (_video_position < _audio_position) {
