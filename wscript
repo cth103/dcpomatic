@@ -105,7 +105,7 @@ def configure(conf):
         conf.env.HAVE_POSTPROC = 1
         conf.env.STLIB_POSTPROC = ['postproc']
         conf.env.HAVE_SWRESAMPLE = 1
-        conv.env.STLIB_SWRESAMPLE = ['swresample']
+        conf.env.STLIB_SWRESAMPLE = ['swresample']
 
     conf.check_cfg(package = 'sndfile', args = '--cflags --libs', uselib_store = 'SNDFILE', mandatory = True)
     conf.check_cfg(package = 'glib-2.0', args = '--cflags --libs', uselib_store = 'GLIB', mandatory = True)
