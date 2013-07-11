@@ -67,9 +67,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_panel->SetDoubleBuffered (true);
 #endif
 	
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-#endif	
 	
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);

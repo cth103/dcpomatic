@@ -56,11 +56,7 @@ public:
 
 	void Draw (wxGrid& grid, wxGridCellAttr &, wxDC& dc, const wxRect& rect, int row, int col, bool)
 	{
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxPENSTYLE_SOLID));
-#else		
-		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxSOLID));
-#endif		
 		dc.DrawRectangle (rect);
 		
 		wxRendererNative::Get().DrawCheckBox (
@@ -88,11 +84,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_grid = new wxGrid (this, wxID_ANY);
 
 	_grid->CreateGrid (0, 7);
-#if wxMINOR_VERSION == 9
 	_grid->HideRowLabels ();
-#else
-	_grid->SetRowLabelSize (0);
-#endif	
 	_grid->DisableDragRowSize ();
 	_grid->DisableDragColSize ();
 	_grid->EnableEditing (false);

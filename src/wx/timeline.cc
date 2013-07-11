@@ -140,21 +140,12 @@ private:
 
 		gc->SetPen (*wxBLACK_PEN);
 		
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxPENSTYLE_SOLID));
 		if (_selected) {
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (selected, wxBRUSHSTYLE_SOLID));
 		} else {
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxBRUSHSTYLE_SOLID));
 		}
-#else			
-		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxSOLID));
-		if (_selected) {
-			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (selected, wxSOLID));
-		} else {
-			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxSOLID));
-		}
-#endif
 		
 		wxGraphicsPath path = gc->CreatePath ();
 		path.MoveToPoint    (time_x (start),       y_pos (_track) + 4);
@@ -258,11 +249,7 @@ private:
 
 	void do_paint (wxGraphicsContext* gc)
 	{
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
-#else		    
-		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxSOLID));
-#endif		    
 		
 		int mark_interval = rint (128 / (TIME_HZ * _timeline.pixels_per_time_unit ()));
 		if (mark_interval > 5) {
