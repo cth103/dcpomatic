@@ -1193,6 +1193,9 @@ FilmEditor::content_remove_clicked (wxCommandEvent &)
 	if (c) {
 		_film->remove_content (c);
 	}
+
+	wxListEvent ev;
+	content_selection_changed (ev);
 }
 
 void
@@ -1204,7 +1207,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	if (_audio_dialog && s && dynamic_pointer_cast<AudioContent> (s)) {
 		_audio_dialog->set_content (dynamic_pointer_cast<AudioContent> (s));
 	}
-	
+
 	film_content_changed (s, ContentProperty::START);
 	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
