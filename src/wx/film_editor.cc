@@ -445,6 +445,7 @@ FilmEditor::make_subtitle_panel ()
 	
 	_subtitle_offset->SetRange (-100, 100);
 	_subtitle_scale->SetRange (1, 1000);
+	_subtitle_scale->SetValue (100);
 }
 
 void
