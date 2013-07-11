@@ -149,6 +149,11 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP audio channels"), true, wxGBPosition (r, 0));
+	_dcp_audio_channels = new wxSpinCtrl (_dcp_panel, wxID_ANY);
+	grid->Add (_dcp_audio_channels, wxGBPosition (r, 1));
+	++r;
+
 	{
 		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -184,6 +189,7 @@ FilmEditor::make_dcp_panel ()
 		_dcp_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
 
+	_dcp_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
 	_j2k_bandwidth->SetRange (50, 250);
 }
 
@@ -211,6 +217,7 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Connect       (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect    (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,       wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
+	_dcp_audio_channels->Connect     (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::dcp_audio_channels_changed), 0, this);
 	_with_subtitles->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect        (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
@@ -581,6 +588,16 @@ FilmEditor::dcp_frame_rate_changed (wxCommandEvent &)
 		);
 }
 
+void
+FilmEditor::dcp_audio_channels_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_dcp_audio_channels (_dcp_audio_channels->GetValue ());
+}
+
 
 /** Called when the metadata stored in the Film object has changed;
  *  so that we can update the GUI.
@@ -660,6 +677,10 @@ FilmEditor::film_changed (Film::Property p)
 		_best_dcp_frame_rate->Enable (_film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
 		break;
 	}
+	case Film::DCP_AUDIO_CHANNELS:
+		_dcp_audio_channels->SetValue (_film->dcp_audio_channels ());
+		_audio_mapping->set_channels (_film->dcp_audio_channels ());
+		break;
 	}
 }
 
@@ -868,6 +889,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
+	film_changed (Film::DCP_AUDIO_CHANNELS);
 
 	wxListEvent ev;
 	content_selection_changed (ev);

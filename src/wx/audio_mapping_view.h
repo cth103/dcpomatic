@@ -28,12 +28,15 @@ public:
 	AudioMappingView (wxWindow *);
 
 	void set (AudioMapping);
+	void set_channels (int);
 
 	boost::signals2::signal<void (AudioMapping)> Changed;
 
 private:
 	void left_click (wxGridEvent &);
+	void set_column_labels ();
 
 	wxGrid* _grid;
 	wxSizer* _sizer;
+	AudioMapping _map;
 };

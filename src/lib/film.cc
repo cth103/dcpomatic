@@ -626,6 +626,16 @@ Film::set_dcp_video_frame_rate (int f)
 }
 
 void
+Film::set_dcp_audio_channels (int c)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_audio_channels = c;
+	}
+	signal_changed (DCP_AUDIO_CHANNELS);
+}
+
+void
 Film::signal_changed (Property p)
 {
 	{
