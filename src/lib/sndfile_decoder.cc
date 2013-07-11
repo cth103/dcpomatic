@@ -39,6 +39,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 	, _sndfile_content (c)
 	, _deinterleave_buffer (0)
 {
+	_info.format = 0;
 	_sndfile = sf_open (_sndfile_content->file().string().c_str(), SFM_READ, &_info);
 	if (!_sndfile) {
 		throw DecodeError (_("could not open audio file for reading"));
@@ -89,7 +90,7 @@ SndfileDecoder::pass ()
 	}
 		
 	data->set_frames (this_time);
-	audio (data, double(_done) / audio_frame_rate());
+	audio (data, _done);
 	_done += this_time;
 	_remaining -= this_time;
 }
