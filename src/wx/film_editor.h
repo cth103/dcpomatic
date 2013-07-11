@@ -97,6 +97,7 @@ private:
 	void start_changed ();
 	void length_changed ();
 	void ratio_changed (wxCommandEvent &);
+	void dcp_audio_channels_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -167,6 +168,7 @@ private:
 	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_frame_rate;
+	wxSpinCtrl* _dcp_audio_channels;
 	wxButton* _best_dcp_frame_rate;
 	wxChoice* _audio_stream;
 	wxStaticText* _audio_description;

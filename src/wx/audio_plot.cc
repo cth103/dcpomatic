@@ -147,11 +147,7 @@ AudioPlot::paint (wxPaintEvent &)
 				plot_peak (p, c);
 			}
 			wxColour const col = _colours[c];
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 			gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxPENSTYLE_SOLID));
-#else			
-			gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxSOLID));
-#endif
 			gc->StrokePath (p);
 		}
 	}
@@ -163,11 +159,7 @@ AudioPlot::paint (wxPaintEvent &)
 				plot_rms (p, c);
 			}
 			wxColour const col = _colours[c];
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 			gc->SetPen (*wxThePenList->FindOrCreatePen (col, 1, wxPENSTYLE_SOLID));
-#else
-			gc->SetPen (*wxThePenList->FindOrCreatePen (col, 1, wxSOLID));
-#endif			
 			gc->StrokePath (p);
 		}
 	}

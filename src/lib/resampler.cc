@@ -1,3 +1,22 @@
+/*
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 extern "C" {
 #include "libavutil/channel_layout.h"
 }	
@@ -7,6 +26,7 @@ extern "C" {
 
 #include "i18n.h"
 
+using std::cout;
 using boost::shared_ptr;
 
 Resampler::Resampler (int in, int out, int channels)
@@ -59,3 +79,32 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 	resampled->set_frames (resampled_frames);
 	return resampled;
 }	
+
+/* XXX: no-one calls this */
+shared_ptr<const AudioBuffers>
+Resampler::flush ()
+{
+	shared_ptr<AudioBuffers> out (new AudioBuffers (_channels, 0));
+	int out_offset = 0;
+	int64_t const pass_size = 256;
+	shared_ptr<AudioBuffers> pass (new AudioBuffers (_channels, 256));
+
+	while (1) {
+		int const frames = swr_convert (_swr_context, (uint8_t **) pass->data(), pass_size, 0, 0);
+		
+		if (frames < 0) {
+			throw EncodeError (_("could not run sample-rate converter"));
+		}
+		
+		if (frames == 0) {
+			break;
+		}
+
+		out->ensure_size (out_offset + frames);
+		out->copy_from (pass.get(), frames, 0, out_offset);
+		out_offset += frames;
+		out->set_frames (out_offset);
+	}
+
+	return out;
+}

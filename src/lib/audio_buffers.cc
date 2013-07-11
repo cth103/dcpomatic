@@ -144,6 +144,18 @@ AudioBuffers::make_silent (int c)
 	}
 }
 
+void
+AudioBuffers::make_silent (int from, int frames)
+{
+	assert ((from + frames) <= _allocated_frames);
+
+	for (int c = 0; c < _channels; ++c) {
+		for (int i = from; i < (from + frames); ++i) {
+			_data[c][i] = 0;
+		}
+	}
+}
+
 /** Copy data from another AudioBuffers to this one.  All channels are copied.
  *  @param from AudioBuffers to copy from; must have the same number of channels as this.
  *  @param frames_to_copy Number of frames to copy.

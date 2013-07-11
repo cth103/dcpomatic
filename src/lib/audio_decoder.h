@@ -35,7 +35,7 @@ class AudioBuffers;
 class AudioDecoder : public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<const Film>);
+	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
 
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame)> Audio;

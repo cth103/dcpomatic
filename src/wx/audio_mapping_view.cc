@@ -56,11 +56,7 @@ public:
 
 	void Draw (wxGrid& grid, wxGridCellAttr &, wxDC& dc, const wxRect& rect, int row, int col, bool)
 	{
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9
 		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxPENSTYLE_SOLID));
-#else		
-		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxSOLID));
-#endif		
 		dc.DrawRectangle (rect);
 		
 		wxRendererNative::Get().DrawCheckBox (
@@ -88,26 +84,14 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_grid = new wxGrid (this, wxID_ANY);
 
 	_grid->CreateGrid (0, 7);
-#if wxMINOR_VERSION == 9
 	_grid->HideRowLabels ();
-#else
-	_grid->SetRowLabelSize (0);
-#endif	
 	_grid->DisableDragRowSize ();
 	_grid->DisableDragColSize ();
 	_grid->EnableEditing (false);
 	_grid->SetCellHighlightPenWidth (0);
 	_grid->SetDefaultRenderer (new NoSelectionStringRenderer);
 
-	_grid->SetColLabelValue (0, _("Content channel"));
-	_grid->SetColLabelValue (1, _("L"));
-	_grid->SetColLabelValue (2, _("R"));
-	_grid->SetColLabelValue (3, _("C"));
-	_grid->SetColLabelValue (4, _("Lfe"));
-	_grid->SetColLabelValue (5, _("Ls"));
-	_grid->SetColLabelValue (6, _("Rs"));
-
-	_grid->AutoSize ();
+	set_column_labels ();
 
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	_sizer->Add (_grid, 1, wxEXPAND | wxALL);
@@ -129,26 +113,28 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("1"));
 	}
 
-	AudioMapping mapping;
+	_map = AudioMapping ();
 	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
 			if (_grid->GetCellValue (i, j) == wxT ("1")) {
-				mapping.add (i, static_cast<libdcp::Channel> (j - 1));
+				_map.add (i, static_cast<libdcp::Channel> (j - 1));
 			}
 		}
 	}
 
-	Changed (mapping);
+	Changed (_map);
 }
 
 void
 AudioMappingView::set (AudioMapping map)
 {
+	_map = map;
+	
 	if (_grid->GetNumberRows ()) {
 		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}
 
-	list<int> content_channels = map.content_channels ();
+	list<int> content_channels = _map.content_channels ();
 	_grid->InsertRows (0, content_channels.size ());
 
 	for (size_t r = 0; r < content_channels.size(); ++r) {
@@ -161,11 +147,62 @@ AudioMappingView::set (AudioMapping map)
 	for (list<int>::iterator i = content_channels.begin(); i != content_channels.end(); ++i) {
 		_grid->SetCellValue (n, 0, wxString::Format (wxT("%d"), *i + 1));
 
-		list<libdcp::Channel> const d = map.content_to_dcp (*i);
+		list<libdcp::Channel> const d = _map.content_to_dcp (*i);
 		for (list<libdcp::Channel>::const_iterator j = d.begin(); j != d.end(); ++j) {
-			_grid->SetCellValue (n, static_cast<int> (*j) + 1, wxT("1"));
+			int const c = static_cast<int>(*j) + 1;
+			if (c < _grid->GetNumberCols ()) {
+				_grid->SetCellValue (n, c, wxT("1"));
+			}
 		}
 		++n;
 	}
 }
 
+void
+AudioMappingView::set_channels (int c)
+{
+	c++;
+
+	if (c < _grid->GetNumberCols ()) {
+		_grid->DeleteCols (c, _grid->GetNumberCols() - c);
+	} else if (c > _grid->GetNumberCols ()) {
+		_grid->InsertCols (_grid->GetNumberCols(), c - _grid->GetNumberCols());
+		set_column_labels ();
+	}
+
+	set (_map);
+}
+
+void
+AudioMappingView::set_column_labels ()
+{
+	int const c = _grid->GetNumberCols ();
+	
+	_grid->SetColLabelValue (0, _("Content channel"));
+	
+	if (c > 0) {
+		_grid->SetColLabelValue (1, _("L"));
+	}
+	
+	if (c > 1) {
+		_grid->SetColLabelValue (2, _("R"));
+	}
+	
+	if (c > 2) {
+		_grid->SetColLabelValue (3, _("C"));
+	}
+	
+	if (c > 3) {
+		_grid->SetColLabelValue (4, _("Lfe"));
+	}
+	
+	if (c > 4) {
+		_grid->SetColLabelValue (5, _("Ls"));
+	}
+	
+	if (c > 5) {
+		_grid->SetColLabelValue (6, _("Rs"));
+	}
+
+	_grid->AutoSize ();
+}

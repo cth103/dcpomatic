@@ -139,6 +139,7 @@ public:
 		J2K_BANDWIDTH,
 		DCI_METADATA,
 		DCP_VIDEO_FRAME_RATE,
+		DCP_AUDIO_CHANNELS
 	};
 
 
@@ -221,6 +222,7 @@ public:
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
 	void set_dcp_video_frame_rate (int);
+	void set_dcp_audio_channels (int);
 	void set_dci_date_today ();
 
 	/** Emitted when some property has of the Film has changed */
