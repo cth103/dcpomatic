@@ -34,8 +34,6 @@
 class Image;
 class Log;
 class DelayLine;
-class TimedSubtitle;
-class Subtitle;
 class FilterGraph;
 
 /** @class Decoder.

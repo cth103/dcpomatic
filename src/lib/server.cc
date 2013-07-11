@@ -36,7 +36,6 @@
 #include "image.h"
 #include "dcp_video_frame.h"
 #include "config.h"
-#include "subtitle.h"
 
 #include "i18n.h"
 

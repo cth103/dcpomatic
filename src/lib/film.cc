@@ -94,8 +94,6 @@ Film::Film (string d)
 	, _container (Config::instance()->default_container ())
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _with_subtitles (false)
-	, _subtitle_offset (0)
-	, _subtitle_scale (1)
 	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
@@ -142,8 +140,6 @@ Film::Film (Film const & o)
 	, _container         (o._container)
 	, _scaler            (o._scaler)
 	, _with_subtitles    (o._with_subtitles)
-	, _subtitle_offset   (o._subtitle_offset)
-	, _subtitle_scale    (o._subtitle_scale)
 	, _colour_lut        (o._colour_lut)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _dci_metadata      (o._dci_metadata)
@@ -348,8 +344,6 @@ Film::write_metadata () const
 
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
-	root->add_child("SubtitleOffset")->add_child_text (lexical_cast<string> (_subtitle_offset));
-	root->add_child("SubtitleScale")->add_child_text (lexical_cast<string> (_subtitle_scale));
 	root->add_child("ColourLUT")->add_child_text (lexical_cast<string> (_colour_lut));
 	root->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
@@ -395,8 +389,6 @@ Film::read_metadata ()
 
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
 	_with_subtitles = f.bool_child ("WithSubtitles");
-	_subtitle_offset = f.number_child<float> ("SubtitleOffset");
-	_subtitle_scale = f.number_child<float> ("SubtitleScale");
 	_colour_lut = f.number_child<int> ("ColourLUT");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
@@ -591,26 +583,6 @@ Film::set_with_subtitles (bool w)
 		_with_subtitles = w;
 	}
 	signal_changed (WITH_SUBTITLES);
-}
-
-void
-Film::set_subtitle_offset (int o)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_subtitle_offset = o;
-	}
-	signal_changed (SUBTITLE_OFFSET);
-}
-
-void
-Film::set_subtitle_scale (float s)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_subtitle_scale = s;
-	}
-	signal_changed (SUBTITLE_SCALE);
 }
 
 void

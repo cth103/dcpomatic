@@ -47,6 +47,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path 
 	: Content (f, p)
 	, VideoContent (f, p)
 	, AudioContent (f, p)
+	, SubtitleContent (f, p)
 {
 
 }
@@ -55,6 +56,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	: Content (f, node)
 	, VideoContent (f, node)
 	, AudioContent (f, node)
+	, SubtitleContent (f, node)
 {
 	list<shared_ptr<cxml::Node> > c = node->node_children ("SubtitleStream");
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -84,6 +86,7 @@ FFmpegContent::FFmpegContent (FFmpegContent const & o)
 	: Content (o)
 	, VideoContent (o)
 	, AudioContent (o)
+	, SubtitleContent (o)
 	, _subtitle_streams (o._subtitle_streams)
 	, _subtitle_stream (o._subtitle_stream)
 	, _audio_streams (o._audio_streams)
@@ -99,6 +102,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	VideoContent::as_xml (node);
 	AudioContent::as_xml (node);
+	SubtitleContent::as_xml (node);
 
 	boost::mutex::scoped_lock lm (_mutex);
 

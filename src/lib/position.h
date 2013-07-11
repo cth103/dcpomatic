@@ -17,18 +17,30 @@
 
 */
 
-#include "types.h"
+#ifndef DVDOMATIC_POSITION_H
+#define DVDOMATIC_POSITION_H
 
-using std::max;
-using std::min;
-
-bool operator== (Crop const & a, Crop const & b)
+/** @struct Position
+ *  @brief A position.
+ */
+template <class T>
+class Position
 {
-	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
-}
+public:
+	Position ()
+		: x (0)
+		, y (0)
+	{}
 
-bool operator!= (Crop const & a, Crop const & b)
-{
-	return !(a == b);
-}
+	Position (T x_, T y_)
+		: x (x_)
+		, y (y_)
+	{}
 
+	/** x coordinate */
+	T x;
+	/** y coordinate */
+	T y;
+};
+
+#endif

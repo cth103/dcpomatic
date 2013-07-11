@@ -164,7 +164,13 @@ setup_menu (wxMenuBar* m)
 #ifndef __WXOSX__	
 	file->AppendSeparator ();
 #endif
+
+#ifdef __WXOSX__	
 	add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
+#else
+	add_item (file, _("&Quit"), wxID_EXIT, ALWAYS);
+#endif	
+	
 
 #ifdef __WXOSX__	
 	add_item (file, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
@@ -286,7 +292,7 @@ private:
 		
 		if (r == wxID_OK) {
 
-			if (boost::filesystem::exists (d->get_path()) && !boost::filesystem::is_empty(d->get_path())) {
+			if (boost::filesystem::is_directory (d->get_path()) && !boost::filesystem::is_empty(d->get_path())) {
 				if (!confirm_dialog (
 					    this,
 					    std_to_wx (
@@ -297,6 +303,12 @@ private:
 					    )) {
 					return;
 				}
+			} else if (boost::filesystem::is_regular_file (d->get_path())) {
+				error_dialog (
+					this,
+					String::compose (wx_to_std (_("%1 already exists as a file, so you cannot use it for a new film.")), d->get_path().c_str())
+					);
+				return;
 			}
 			
 			maybe_save_then_delete_film ();

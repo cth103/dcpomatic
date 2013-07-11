@@ -32,6 +32,7 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include "util.h"
+#include "position.h"
 
 class Scaler;
 class SimpleImage;
@@ -75,8 +76,8 @@ public:
 	boost::shared_ptr<Image> scale_and_convert_to_rgb (libdcp::Size, Scaler const *, bool) const;
 	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
-	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
-	void copy (boost::shared_ptr<const Image> image, Position pos);
+	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
+	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 	
 	void make_black ();

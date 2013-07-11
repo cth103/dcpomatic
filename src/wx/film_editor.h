@@ -118,6 +118,7 @@ private:
 	boost::shared_ptr<Content> selected_content ();
 	boost::shared_ptr<VideoContent> selected_video_content ();
 	boost::shared_ptr<AudioContent> selected_audio_content ();
+	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
 
 	wxNotebook* _main_notebook;
 	wxNotebook* _content_notebook;

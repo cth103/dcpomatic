@@ -22,6 +22,7 @@
 #include <boost/signals2.hpp>
 #include <wx/wx.h>
 #include "util.h"
+#include "rect.h"
 
 class Film;
 class View;
@@ -36,7 +37,7 @@ public:
 
 	boost::shared_ptr<const Film> film () const;
 
-	void force_redraw (dcpomatic::Rect const &);
+	void force_redraw (dcpomatic::Rect<int> const &);
 
 	int x_offset () const {
 		return 8;
@@ -54,8 +55,8 @@ public:
 		return _pixels_per_time_unit;
 	}
 
-	Position tracks_position () const {
-		return Position (8, 8);
+	Position<int> tracks_position () const {
+		return Position<int> (8, 8);
 	}
 
 	int tracks () const;

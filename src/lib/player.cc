@@ -26,11 +26,13 @@
 #include "imagemagick_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
+#include "subtitle_content.h"
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
 #include "ratio.h"
 #include "resampler.h"
+#include "scaler.h"
 
 using std::list;
 using std::cout;
@@ -43,7 +45,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-#define DEBUG_PLAYER 1
+//#define DEBUG_PLAYER 1
 
 class Piece
 {
@@ -215,48 +217,32 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		return;
 	}
 
-	image = image->crop (content->crop(), true);
+	shared_ptr<Image> work_image = image->crop (content->crop(), true);
 
 	libdcp::Size const image_size = content->ratio()->size (_video_container_size);
 	
-	image = image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
+	work_image = work_image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
 
-#if 0	
-	if (film->with_subtitles ()) {
-		shared_ptr<Subtitle> sub;
-		if (_timed_subtitle && _timed_subtitle->displayed_at (t)) {
-			sub = _timed_subtitle->subtitle ();
-		}
-		
-		if (sub) {
-			dcpomatic::Rect const tx = subtitle_transformed_area (
-				float (image_size.width) / content->video_size().width,
-				float (image_size.height) / content->video_size().height,
-				sub->area(), film->subtitle_offset(), film->subtitle_scale()
-				);
-			
-			shared_ptr<Image> im = sub->image()->scale (tx.size(), film->scaler(), true);
-			image->alpha_blend (im, tx.position());
-		}
+	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->dcp_video_frame_rate());
+	
+	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
+		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position);
 	}
-#endif	
 
 	if (image_size != _video_container_size) {
 		assert (image_size.width <= _video_container_size.width);
 		assert (image_size.height <= _video_container_size.height);
 		shared_ptr<Image> im (new SimpleImage (PIX_FMT_RGB24, _video_container_size, true));
 		im->make_black ();
-		im->copy (image, Position ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
-		image = im;
+		im->copy (work_image, Position<int> ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
+		work_image = im;
 	}
 
-	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->dcp_video_frame_rate());
-	
-        Video (image, same, time);
+        Video (work_image, same, time);
 	time += TIME_HZ / _film->dcp_video_frame_rate();
 
 	if (frc.repeat) {
-		Video (image, true, time);
+		Video (work_image, true, time);
 		time += TIME_HZ / _film->dcp_video_frame_rate();
 	}
 
@@ -390,6 +376,7 @@ Player::setup_pieces ()
 			
 			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
 			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
+			fd->Subtitle.connect (bind (&Player::process_subtitle, this, piece, _1, _2, _3, _4));
 
 			piece->decoder = fd;
 		}
@@ -448,6 +435,10 @@ Player::content_changed (weak_ptr<Content> w, int p)
 		
 		_have_valid_pieces = false;
 		Changed ();
+
+	} else if (p == SubtitleContentProperty::SUBTITLE_OFFSET || p == SubtitleContentProperty::SUBTITLE_SCALE) {
+		update_subtitle ();
+		Changed ();
 	}
 }
 
@@ -505,12 +496,59 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (
-		p == Film::SCALER || p == Film::WITH_SUBTITLES ||
-		p == Film::SUBTITLE_SCALE || p == Film::SUBTITLE_OFFSET ||
-		p == Film::CONTAINER
-		) {
-		
+	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER) {
 		Changed ();
 	}
+}
+
+void
+Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
+{
+	_in_subtitle.piece = weak_piece;
+	_in_subtitle.image = image;
+	_in_subtitle.rect = rect;
+	_in_subtitle.from = from;
+	_in_subtitle.to = to;
+
+	update_subtitle ();
+}
+
+void
+Player::update_subtitle ()
+{
+	shared_ptr<Piece> piece = _in_subtitle.piece.lock ();
+	if (!piece) {
+		return;
+	}
+
+	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (piece->content);
+	assert (sc);
+
+	dcpomatic::Rect<double> in_rect = _in_subtitle.rect;
+	libdcp::Size scaled_size;
+
+	in_rect.y += sc->subtitle_offset ();
+
+	/* We will scale the subtitle up to fit _video_container_size, and also by the additional subtitle_scale */
+	scaled_size.width = in_rect.width * _video_container_size.width * sc->subtitle_scale ();
+	scaled_size.height = in_rect.height * _video_container_size.height * sc->subtitle_scale ();
+
+	/* Then we need a corrective translation, consisting of two parts:
+	 *
+	 * 1.  that which is the result of the scaling of the subtitle by _video_container_size; this will be
+	 *     rect.x * _video_container_size.width and rect.y * _video_container_size.height.
+	 *
+	 * 2.  that to shift the origin of the scale by subtitle_scale to the centre of the subtitle; this will be
+	 *     (width_before_subtitle_scale * (1 - subtitle_scale) / 2) and
+	 *     (height_before_subtitle_scale * (1 - subtitle_scale) / 2).
+	 *
+	 * Combining these two translations gives these expressions.
+	 */
+	
+	_out_subtitle.position.x = rint (_video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_scale ()) / 2)));
+	_out_subtitle.position.y = rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
+	
+	_out_subtitle.image = _in_subtitle.image->scale (libdcp::Size (scaled_size.width, scaled_size.height), Scaler::from_id ("bicubic"), true);
+	_out_subtitle.from = _in_subtitle.from + piece->content->start ();
+	_out_subtitle.to = _in_subtitle.to + piece->content->start ();
 }

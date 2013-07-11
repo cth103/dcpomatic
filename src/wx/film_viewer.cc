@@ -132,6 +132,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this));
 
 	calculate_sizes ();
+	fetch_current_frame_again ();
 }
 
 void
@@ -301,7 +302,7 @@ FilmViewer::fetch_next_frame ()
 
 	try {
 		_got_frame = false;
-		while (!_got_frame && !_player->pass ());
+		while (!_got_frame && !_player->pass ()) {}
 	} catch (DecodeError& e) {
 		_play_button->SetValue (false);
 		check_play_state ();

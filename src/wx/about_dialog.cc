@@ -32,15 +32,18 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	
 	wxFont title_font (*wxNORMAL_FONT);
-	title_font.SetPointSize (title_font.GetPointSize() + 4);
+	title_font.SetPointSize (title_font.GetPointSize() + 12);
 	title_font.SetWeight (wxFONTWEIGHT_BOLD);
+
+	wxFont subtitle_font (*wxNORMAL_FONT);
+	subtitle_font.SetPointSize (subtitle_font.GetPointSize() + 2);
 
 	wxFont version_font (*wxNORMAL_FONT);
 	version_font.SetWeight (wxFONTWEIGHT_BOLD);
 	
 	wxStaticText* t = new wxStaticText (this, wxID_ANY, _("DCP-o-matic"));
 	t->SetFont (title_font);
-	sizer->Add (t, wxSizerFlags().Centre().Border());
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 16));
 
 	wxString s;
 	if (strcmp (dcpomatic_git_commit, "release") == 0) {
@@ -49,7 +52,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		t = new wxStaticText (this, wxID_ANY, std_to_wx (String::compose ("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
 	}
 	t->SetFont (version_font);
-	sizer->Add (t, wxSizerFlags().Centre().Border());
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 2));
 	sizer->AddSpacer (12);
 
 	t = new wxStaticText (
@@ -57,8 +60,9 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		_("Free, open-source DCP generation from almost anything."),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
+	t->SetFont (subtitle_font);
 	
-	sizer->Add (t, wxSizerFlags().Centre().Border());
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 8));
 
 	wxHyperlinkCtrl* h = new wxHyperlinkCtrl (
 		this, wxID_ANY,
@@ -66,7 +70,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		wxT ("http://dcpomatic.com")
 		);
 
-	sizer->Add (h, wxSizerFlags().Centre().Border());
+	sizer->Add (h, wxSizerFlags().Centre().Border(wxALL, 8));
 
 	t = new wxStaticText (
 		this, wxID_ANY,
@@ -74,7 +78,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
 	
-	sizer->Add (t, wxSizerFlags().Centre().Border());
+	sizer->Add (t, wxSizerFlags().Centre().Border(wxLEFT | wxRIGHT, 16));
 
 	_notebook = new wxNotebook (this, wxID_ANY);
 
@@ -115,7 +119,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Kieran Carroll"));
 	add_section (_("Supported by"), supported_by);
 
-	sizer->Add (_notebook, wxSizerFlags().Centre().Border().Expand());
+	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
 	
 	SetSizerAndFit (sizer);
 }

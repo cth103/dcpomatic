@@ -17,18 +17,21 @@
 
 */
 
+#include <boost/signals2.hpp>
+#include "decoder.h"
+#include "rect.h"
 #include "types.h"
 
-using std::max;
-using std::min;
+class Film;
+class TimedSubtitle;
 
-bool operator== (Crop const & a, Crop const & b)
+class SubtitleDecoder : public virtual Decoder
 {
-	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
-}
+public:
+	SubtitleDecoder (boost::shared_ptr<const Film>);
 
-bool operator!= (Crop const & a, Crop const & b)
-{
-	return !(a == b);
-}
+	boost::signals2::signal<void (boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time)> Subtitle;
 
+protected:
+	void subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
+};

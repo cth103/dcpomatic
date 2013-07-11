@@ -17,18 +17,23 @@
 
 */
 
-#include "types.h"
+#include <boost/shared_ptr.hpp>
+#include "subtitle_decoder.h"
 
-using std::max;
-using std::min;
+using boost::shared_ptr;
 
-bool operator== (Crop const & a, Crop const & b)
+SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
+	: Decoder (f)
 {
-	return (a.left == b.left && a.right == b.right && a.top == b.top && a.bottom == b.bottom);
+
 }
 
-bool operator!= (Crop const & a, Crop const & b)
-{
-	return !(a == b);
-}
 
+/** Called by subclasses when a subtitle is ready.
+ *  Image may be 0 to say that there is no current subtitle.
+ */
+void
+SubtitleDecoder::subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
+{
+	Subtitle (image, rect, from, to);
+}

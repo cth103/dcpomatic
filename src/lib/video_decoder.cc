@@ -18,10 +18,7 @@
 */
 
 #include "video_decoder.h"
-#include "subtitle.h"
-#include "film.h"
 #include "image.h"
-#include "ratio.h"
 
 #include "i18n.h"
 
@@ -41,22 +38,4 @@ VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Fra
         Video (image, same, frame);
 	_video_position = frame + 1;
 }
-
-#if 0
-
-/** Called by subclasses when a subtitle is ready.
- *  s may be 0 to say that there is no current subtitle.
- *  @param s New current subtitle, or 0.
- */
-void
-VideoDecoder::subtitle (shared_ptr<TimedSubtitle> s)
-{
-	_timed_subtitle = s;
-	
-	if (_timed_subtitle) {
-		Position const p = _timed_subtitle->subtitle()->position ();
-		_timed_subtitle->subtitle()->set_position (Position (p.x - _video_content->crop().left, p.y - _video_content->crop().top));
-	}
-}
-#endif
 

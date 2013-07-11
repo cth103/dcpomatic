@@ -36,7 +36,6 @@
 #include "server.h"
 #include "cross.h"
 #include "job.h"
-#include "subtitle.h"
 #include "scaler.h"
 #include "ffmpeg_decoder.h"
 #include "sndfile_decoder.h"
