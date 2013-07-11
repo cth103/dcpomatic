@@ -521,6 +521,11 @@ Player::update_subtitle ()
 		return;
 	}
 
+	if (!_in_subtitle.image) {
+		_out_subtitle.image.reset ();
+		return;
+	}
+
 	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (piece->content);
 	assert (sc);
 
