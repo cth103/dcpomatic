@@ -30,7 +30,11 @@ sources = """
           """
 
 def configure(conf):
-    conf.check_cfg(msg='Checking for wxWidgets', package='', path=conf.options.wx_config, args='--cppflags --cxxflags --libs',
+    args = '--cppflags --cxxflags'
+    if not conf.env.STATIC:
+        args += ' --libs'
+
+    conf.check_cfg(msg='Checking for wxWidgets', package='', path=conf.options.wx_config, args=args,
                    uselib_store='WXWIDGETS', mandatory=True)
 
     if conf.env.STATIC:
