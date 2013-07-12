@@ -147,32 +147,32 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	video_length = examiner->video_length ();
 	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length));
 
-        {
-                boost::mutex::scoped_lock lm (_mutex);
+	{
+		boost::mutex::scoped_lock lm (_mutex);
 
-                _video_length = video_length;
+		_video_length = video_length;
 
-                _subtitle_streams = examiner->subtitle_streams ();
-                if (!_subtitle_streams.empty ()) {
-                        _subtitle_stream = _subtitle_streams.front ();
-                }
-                
-                _audio_streams = examiner->audio_streams ();
-                if (!_audio_streams.empty ()) {
-                        _audio_stream = _audio_streams.front ();
-                }
+		_subtitle_streams = examiner->subtitle_streams ();
+		if (!_subtitle_streams.empty ()) {
+			_subtitle_stream = _subtitle_streams.front ();
+		}
+		
+		_audio_streams = examiner->audio_streams ();
+		if (!_audio_streams.empty ()) {
+			_audio_stream = _audio_streams.front ();
+		}
 
 		_first_video = examiner->first_video ();
-        }
+	}
 
-        take_from_video_examiner (examiner);
+	take_from_video_examiner (examiner);
 
-        signal_changed (ContentProperty::LENGTH);
-        signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-        signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
-        signal_changed (FFmpegContentProperty::AUDIO_STREAMS);
-        signal_changed (FFmpegContentProperty::AUDIO_STREAM);
-        signal_changed (AudioContentProperty::AUDIO_CHANNELS);
+	signal_changed (ContentProperty::LENGTH);
+	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
+	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
+	signal_changed (FFmpegContentProperty::AUDIO_STREAMS);
+	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
+	signal_changed (AudioContentProperty::AUDIO_CHANNELS);
 }
 
 string
@@ -199,23 +199,23 @@ FFmpegContent::information () const
 void
 FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 {
-        {
-                boost::mutex::scoped_lock lm (_mutex);
-                _subtitle_stream = s;
-        }
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_subtitle_stream = s;
+	}
 
-        signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
+	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 void
 FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 {
-        {
-                boost::mutex::scoped_lock lm (_mutex);
-                _audio_stream = s;
-        }
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_stream = s;
+	}
 
-        signal_changed (FFmpegContentProperty::AUDIO_STREAM);
+	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
 AudioContent::Frame
@@ -226,11 +226,11 @@ FFmpegContent::audio_length () const
 	VideoContent::Frame const vl = video_length ();
 
 	boost::mutex::scoped_lock lm (_mutex);
-        if (!_audio_stream) {
-                return 0;
-        }
-        
-        return video_frames_to_audio_frames (vl, cafr, vfr);
+	if (!_audio_stream) {
+		return 0;
+	}
+	
+	return video_frames_to_audio_frames (vl, cafr, vfr);
 }
 
 int
@@ -238,11 +238,11 @@ FFmpegContent::audio_channels () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	
-        if (!_audio_stream) {
-                return 0;
-        }
+	if (!_audio_stream) {
+		return 0;
+	}
 
-        return _audio_stream->channels;
+	return _audio_stream->channels;
 }
 
 int
@@ -250,11 +250,11 @@ FFmpegContent::content_audio_frame_rate () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-        if (!_audio_stream) {
-                return 0;
-        }
+	if (!_audio_stream) {
+		return 0;
+	}
 
-        return _audio_stream->frame_rate;
+	return _audio_stream->frame_rate;
 }
 
 int
@@ -284,13 +284,13 @@ FFmpegContent::output_audio_frame_rate () const
 bool
 operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b)
 {
-        return a.id == b.id;
+	return a.id == b.id;
 }
 
 bool
 operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
 {
-        return a.id == b.id;
+	return a.id == b.id;
 }
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
