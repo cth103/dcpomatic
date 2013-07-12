@@ -1,7 +1,7 @@
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
-	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, libdcp::Size (50, 50), true);
+	Image* s = new Image (PIX_FMT_RGB24, libdcp::Size (50, 50), true);
 	BOOST_CHECK_EQUAL (s->components(), 1);
 	/* 160 is 150 aligned to the nearest 32 bytes */
 	BOOST_CHECK_EQUAL (s->stride()[0], 160);
@@ -12,7 +12,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (!s->data()[3]);
 
 	/* copy constructor */
-	SimpleImage* t = new SimpleImage (*s);
+	Image* t = new Image (*s);
 	BOOST_CHECK_EQUAL (t->components(), 1);
 	BOOST_CHECK_EQUAL (t->stride()[0], 160);
 	BOOST_CHECK_EQUAL (t->line_size()[0], 150);
@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
-	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, libdcp::Size (150, 150), false);
+	Image* u = new Image (PIX_FMT_YUV422P, libdcp::Size (150, 150), false);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->components(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 160);
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 
 BOOST_AUTO_TEST_CASE (compact_image_test)
 {
-	SimpleImage* s = new SimpleImage (PIX_FMT_RGB24, libdcp::Size (50, 50), false);
+	Image* s = new Image (PIX_FMT_RGB24, libdcp::Size (50, 50), false);
 	BOOST_CHECK_EQUAL (s->components(), 1);
 	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (!s->data()[3]);
 
 	/* copy constructor */
-	SimpleImage* t = new SimpleImage (*s);
+	Image* t = new Image (*s);
 	BOOST_CHECK_EQUAL (t->components(), 1);
 	BOOST_CHECK_EQUAL (t->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (t->line_size()[0], 50 * 3);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
-	SimpleImage* u = new SimpleImage (PIX_FMT_YUV422P, libdcp::Size (150, 150), true);
+	Image* u = new Image (PIX_FMT_YUV422P, libdcp::Size (150, 150), true);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->components(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 50 * 3);
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 BOOST_AUTO_TEST_CASE (crop_image_test)
 {
 	/* This was to check out a bug with valgrind, and is probably not very useful */
-	shared_ptr<SimpleImage> image (new SimpleImage (PIX_FMT_YUV420P, libdcp::Size (16, 16), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, libdcp::Size (16, 16), true));
 	image->make_black ();
 	Crop crop;
 	crop.top = 3;
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (crop_image_test)
 BOOST_AUTO_TEST_CASE (crop_image_test2)
 {
 	/* Here's a 1998 x 1080 image which is black */
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_YUV420P, libdcp::Size (1998, 1080), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, libdcp::Size (1998, 1080), true));
 	image->make_black ();
 
 	/* Crop it by 1 pixel */

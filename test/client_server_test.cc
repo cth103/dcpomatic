@@ -30,7 +30,7 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* descriptio
 
 BOOST_AUTO_TEST_CASE (client_server_test)
 {
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, libdcp::Size (1998, 1080), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, libdcp::Size (1998, 1080), true));
 	uint8_t* p = image->data()[0];
 	
 	for (int y = 0; y < 1080; ++y) {
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		p += image->stride()[0];
 	}
 
-	shared_ptr<Image> sub_image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (100, 200), true));
+	shared_ptr<Image> sub_image (new Image (PIX_FMT_RGBA, libdcp::Size (100, 200), true));
 	p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		uint8_t* q = p;

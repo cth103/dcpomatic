@@ -18,42 +18,25 @@
 */
 
 /** @file src/image.cc
- *  @brief A set of classes to describe video images.
+ *  @brief A class to describe a video image.
  */
 
-#include <sstream>
-#include <iomanip>
 #include <iostream>
-#include <sys/time.h>
-#include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
-#include <openjpeg.h>
 extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
-#include <libavfilter/avfiltergraph.h>
-#include <libpostproc/postprocess.h>
 #include <libavutil/pixfmt.h>
 #include <libavutil/pixdesc.h>
+#include <libpostproc/postprocess.h>
 }
 #include "image.h"
 #include "exceptions.h"
 #include "scaler.h"
-
-#include "i18n.h"
 
 using std::string;
 using std::min;
 using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
-
-void
-Image::swap (Image& other)
-{
-	std::swap (_pixel_format, other._pixel_format);
-}
 
 int
 Image::line_factor (int n) const
@@ -64,7 +47,7 @@ Image::line_factor (int n) const
 
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError (N_("lines()"), _pixel_format);
+		throw PixelFormatError ("lines()", _pixel_format);
 	}
 	
 	return pow (2.0f, d->log2_chroma_h);
@@ -85,7 +68,7 @@ Image::components () const
 {
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError (N_("components()"), _pixel_format);
+		throw PixelFormatError ("components()", _pixel_format);
 	}
 
 	if ((d->flags & PIX_FMT_PLANAR) == 0) {
@@ -104,7 +87,7 @@ Image::scale (libdcp::Size out_size, Scaler const * scaler, bool result_aligned)
 	*/
 	assert (aligned ());
 
-	shared_ptr<Image> scaled (new SimpleImage (pixel_format(), out_size, result_aligned));
+	shared_ptr<Image> scaled (new Image (pixel_format(), out_size, result_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -137,7 +120,7 @@ Image::scale_and_convert_to_rgb (libdcp::Size out_size, Scaler const * scaler, b
 	*/
 	assert (aligned ());
 
-	shared_ptr<Image> rgb (new SimpleImage (PIX_FMT_RGB24, out_size, result_aligned));
+	shared_ptr<Image> rgb (new Image (PIX_FMT_RGB24, out_size, result_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -165,7 +148,7 @@ Image::scale_and_convert_to_rgb (libdcp::Size out_size, Scaler const * scaler, b
 shared_ptr<Image>
 Image::post_process (string pp, bool aligned) const
 {
-	shared_ptr<Image> out (new SimpleImage (pixel_format(), size (), aligned));
+	shared_ptr<Image> out (new Image (pixel_format(), size (), aligned));
 
 	int pp_format = 0;
 	switch (pixel_format()) {
@@ -184,7 +167,7 @@ Image::post_process (string pp, bool aligned) const
 	case PIX_FMT_YUV444P10LE:
 		pp_format = PP_FORMAT_444;
 	default:
-		throw PixelFormatError (N_("post_process"), pixel_format());
+		throw PixelFormatError ("post_process", pixel_format());
 	}
 		
 	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
@@ -210,7 +193,7 @@ Image::crop (Crop crop, bool aligned) const
 	cropped_size.width -= crop.left + crop.right;
 	cropped_size.height -= crop.top + crop.bottom;
 
-	shared_ptr<Image> out (new SimpleImage (pixel_format(), cropped_size, aligned));
+	shared_ptr<Image> out (new Image (pixel_format(), cropped_size, aligned));
 
 	for (int c = 0; c < components(); ++c) {
 		int const crop_left_in_bytes = bytes_per_pixel(c) * crop.left;
@@ -331,7 +314,7 @@ Image::make_black ()
 	}
 
 	default:
-		throw PixelFormatError (N_("make_black()"), _pixel_format);
+		throw PixelFormatError ("make_black()", _pixel_format);
 	}
 }
 
@@ -416,7 +399,7 @@ Image::bytes_per_pixel (int c) const
 {
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError (N_("lines()"), _pixel_format);
+		throw PixelFormatError ("lines()", _pixel_format);
 	}
 
 	if (c >= components()) {
@@ -444,14 +427,14 @@ Image::bytes_per_pixel (int c) const
 	return bpp[c];
 }
 
-/** Construct a SimpleImage of a given size and format, allocating memory
+/** Construct a Image of a given size and format, allocating memory
  *  as required.
  *
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-SimpleImage::SimpleImage (AVPixelFormat p, libdcp::Size s, bool aligned)
-	: Image (p)
+Image::Image (AVPixelFormat p, libdcp::Size s, bool aligned)
+	: _pixel_format (p)
 	, _size (s)
 	, _aligned (aligned)
 {
@@ -459,7 +442,7 @@ SimpleImage::SimpleImage (AVPixelFormat p, libdcp::Size s, bool aligned)
 }
 
 void
-SimpleImage::allocate ()
+Image::allocate ()
 {
 	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
@@ -477,8 +460,8 @@ SimpleImage::allocate ()
 	}
 }
 
-SimpleImage::SimpleImage (SimpleImage const & other)
-	: Image (other)
+Image::Image (Image const & other)
+	: _pixel_format (other._pixel_format)
 	, _size (other._size)
 	, _aligned (other._aligned)
 {
@@ -495,8 +478,8 @@ SimpleImage::SimpleImage (SimpleImage const & other)
 	}
 }
 
-SimpleImage::SimpleImage (AVFrame* frame)
-	: Image (static_cast<AVPixelFormat> (frame->format))
+Image::Image (AVFrame* frame)
+	: _pixel_format (static_cast<AVPixelFormat> (frame->format))
 	, _size (frame->width, frame->height)
 	, _aligned (true)
 {
@@ -514,8 +497,8 @@ SimpleImage::SimpleImage (AVFrame* frame)
 	}
 }
 
-SimpleImage::SimpleImage (shared_ptr<const Image> other, bool aligned)
-	: Image (*other.get())
+Image::Image (shared_ptr<const Image> other, bool aligned)
+	: _pixel_format (other->_pixel_format)
 	, _size (other->size())
 	, _aligned (aligned)
 {
@@ -533,23 +516,22 @@ SimpleImage::SimpleImage (shared_ptr<const Image> other, bool aligned)
 	}
 }
 
-SimpleImage&
-SimpleImage::operator= (SimpleImage const & other)
+Image&
+Image::operator= (Image const & other)
 {
 	if (this == &other) {
 		return *this;
 	}
 
-	SimpleImage tmp (other);
+	Image tmp (other);
 	swap (tmp);
 	return *this;
 }
 
 void
-SimpleImage::swap (SimpleImage & other)
+Image::swap (Image & other)
 {
-	Image::swap (other);
-	
+	std::swap (_pixel_format, other._pixel_format);
 	std::swap (_size, other._size);
 
 	for (int i = 0; i < 4; ++i) {
@@ -561,8 +543,8 @@ SimpleImage::swap (SimpleImage & other)
 	std::swap (_aligned, other._aligned);
 }
 
-/** Destroy a SimpleImage */
-SimpleImage::~SimpleImage ()
+/** Destroy a Image */
+Image::~Image ()
 {
 	for (int i = 0; i < components(); ++i) {
 		av_free (_data[i]);
@@ -574,60 +556,32 @@ SimpleImage::~SimpleImage ()
 }
 
 uint8_t **
-SimpleImage::data () const
+Image::data () const
 {
 	return _data;
 }
 
 int *
-SimpleImage::line_size () const
+Image::line_size () const
 {
 	return _line_size;
 }
 
 int *
-SimpleImage::stride () const
+Image::stride () const
 {
 	return _stride;
 }
 
 libdcp::Size
-SimpleImage::size () const
+Image::size () const
 {
 	return _size;
 }
 
 bool
-SimpleImage::aligned () const
+Image::aligned () const
 {
 	return _aligned;
-}
-
-RGBPlusAlphaImage::RGBPlusAlphaImage (shared_ptr<const Image> im)
-	: SimpleImage (im->pixel_format(), im->size(), false)
-{
-	assert (im->pixel_format() == PIX_FMT_RGBA);
-
-	_alpha = (uint8_t *) av_malloc (im->size().width * im->size().height);
-
-	uint8_t* in = im->data()[0];
-	uint8_t* out = data()[0];
-	uint8_t* out_alpha = _alpha;
-	for (int y = 0; y < im->size().height; ++y) {
-		uint8_t* in_r = in;
-		for (int x = 0; x < im->size().width; ++x) {
-			*out++ = *in_r++;
-			*out++ = *in_r++;
-			*out++ = *in_r++;
-			*out_alpha++ = *in_r++;
-		}
-
-		in += im->stride()[0];
-	}
-}
-
-RGBPlusAlphaImage::~RGBPlusAlphaImage ()
-{
-	av_free (_alpha);
 }
 

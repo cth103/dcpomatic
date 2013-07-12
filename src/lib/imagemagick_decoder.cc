@@ -55,7 +55,7 @@ ImageMagickDecoder::pass ()
 	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());
 	_video_size = libdcp::Size (magick_image->columns(), magick_image->rows());
 	
-	_image.reset (new SimpleImage (PIX_FMT_RGB24, _video_size.get(), false));
+	_image.reset (new Image (PIX_FMT_RGB24, _video_size.get(), false));
 
 	using namespace MagickCore;
 	

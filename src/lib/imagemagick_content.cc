@@ -113,4 +113,5 @@ ImageMagickContent::identifier () const
 	stringstream s;
 	s << VideoContent::identifier ();
 	s << "_" << video_length();
+	return s.str ();
 }

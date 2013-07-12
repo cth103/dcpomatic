@@ -146,7 +146,7 @@ FilterGraph::process (AVFrame* frame)
 			break;
 		}
 
-		images.push_back (shared_ptr<Image> (new SimpleImage (_frame)));
+		images.push_back (shared_ptr<Image> (new Image (_frame)));
 		av_frame_unref (_frame);
 	}
 	

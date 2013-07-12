@@ -174,7 +174,7 @@ FilmViewer::paint_panel (wxPaintEvent &)
 		return;
 	}
 
-	shared_ptr<SimpleImage> packed_frame (new SimpleImage (_frame, false));
+	shared_ptr<Image> packed_frame (new Image (_frame, false));
 
 	wxImage frame (_out_size.width, _out_size.height, packed_frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);

@@ -110,7 +110,7 @@ Server::process (shared_ptr<Socket> socket)
 	/* This checks that colour_lut_index is within range */
 	colour_lut_index_to_name (colour_lut_index);
 
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGB24, size, true));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
 	image->read_from_socket (socket);
 

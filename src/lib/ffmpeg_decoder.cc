@@ -412,7 +412,7 @@ FFmpegDecoder::decode_video_packet ()
 				   a black frame.
 				*/
 				boost::shared_ptr<Image> black (
-					new SimpleImage (
+					new Image (
 						static_cast<AVPixelFormat> (_frame->format),
 						libdcp::Size (video_codec_context()->width, video_codec_context()->height),
 						true
@@ -503,7 +503,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		throw DecodeError (_("non-bitmap subtitles not yet supported"));
 	}
 	
-	shared_ptr<Image> image (new SimpleImage (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];

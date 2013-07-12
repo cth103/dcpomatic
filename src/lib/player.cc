@@ -232,7 +232,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	if (image_size != _video_container_size) {
 		assert (image_size.width <= _video_container_size.width);
 		assert (image_size.height <= _video_container_size.height);
-		shared_ptr<Image> im (new SimpleImage (PIX_FMT_RGB24, _video_container_size, true));
+		shared_ptr<Image> im (new Image (PIX_FMT_RGB24, _video_container_size, true));
 		im->make_black ();
 		im->copy (work_image, Position<int> ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
 		work_image = im;
@@ -482,7 +482,7 @@ void
 Player::set_video_container_size (libdcp::Size s)
 {
 	_video_container_size = s;
-	_black_frame.reset (new SimpleImage (PIX_FMT_RGB24, _video_container_size, true));
+	_black_frame.reset (new Image (PIX_FMT_RGB24, _video_container_size, true));
 	_black_frame->make_black ();
 }
 

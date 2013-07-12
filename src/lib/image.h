@@ -35,39 +35,22 @@ extern "C" {
 #include "position.h"
 
 class Scaler;
-class SimpleImage;
 
-/** @class Image
- *  @brief Parent class for wrappers of some image, in some format, that
- *  can present a set of components and a size in pixels.
- *
- *  This class also has some conversion / processing methods.
- *
- *  The main point of this class (and its subclasses) is to abstract
- *  details of FFmpeg's memory management and varying data formats.
- */
 class Image
 {
 public:
-	Image (AVPixelFormat p)
-		: _pixel_format (p)
-	{}
+	Image (AVPixelFormat, libdcp::Size, bool);
+	Image (AVFrame *);
+	Image (Image const &);
+	Image (boost::shared_ptr<const Image>, bool);
+	Image& operator= (Image const &);
+	~Image ();
 	
-	virtual ~Image () {}
-
-	/** @return Array of pointers to arrays of the component data */
-	virtual uint8_t ** data () const = 0;
-
-	/** @return Array of sizes of the data in each line, in bytes (without any alignment padding bytes) */
-	virtual int * line_size () const = 0;
-
-	/** @return Array of strides for each line (including any alignment padding bytes) */
-	virtual int * stride () const = 0;
-
-	/** @return Size of the image, in pixels */
-	virtual libdcp::Size size () const = 0;
-
-	virtual bool aligned () const = 0;
+	uint8_t ** data () const;
+	int * line_size () const;
+	int * stride () const;
+	libdcp::Size size () const;
+	bool aligned () const;
 
 	int components () const;
 	int line_factor (int) const;
@@ -89,62 +72,21 @@ public:
 		return _pixel_format;
 	}
 
-protected:
-	virtual void swap (Image &);
-	float bytes_per_pixel (int) const;
-
-	friend class pixel_formats_test;
-
 private:
+	friend class pixel_formats_test;
+	
+	void allocate ();
+	void swap (Image &);
+	float bytes_per_pixel (int) const;
 	void yuv_16_black (uint16_t);
 	static uint16_t swap_16 (uint16_t);
 	
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
-};
-
-/** @class SimpleImage
- *  @brief An Image for which memory is allocated using a `simple' av_malloc().
- */
-class SimpleImage : public Image
-{
-public:
-	SimpleImage (AVPixelFormat, libdcp::Size, bool);
-	SimpleImage (AVFrame *);
-	SimpleImage (SimpleImage const &);
-	SimpleImage (boost::shared_ptr<const Image>, bool);
-	SimpleImage& operator= (SimpleImage const &);
-	~SimpleImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	int * stride () const;
-	libdcp::Size size () const;
-	bool aligned () const;
-
-protected:
-	void allocate ();
-	void swap (SimpleImage &);
-	
-private:
 	libdcp::Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
 	bool _aligned;
-};
-
-class RGBPlusAlphaImage : public SimpleImage
-{
-public:
-	RGBPlusAlphaImage (boost::shared_ptr<const Image>);
-	~RGBPlusAlphaImage ();
-
-	uint8_t* alpha () const {
-		return _alpha;
-	}
-	
-private:
-	uint8_t* _alpha;
 };
 
 #endif
