@@ -43,9 +43,11 @@
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <libdcp/rec709_linearised_gamma_lut.h>
+#include <libdcp/srgb_linearised_gamma_lut.h>
+#include <libdcp/gamma_lut.h>
 #include "film.h"
 #include "dcp_video_frame.h"
-#include "lut.h"
 #include "config.h"
 #include "exceptions.h"
 #include "server.h"
@@ -53,6 +55,7 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
+#include "colour_matrices.h"
 
 #include "i18n.h"
 
@@ -62,6 +65,8 @@ using std::ofstream;
 using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
+
+#define DCI_COEFFICENT (48.0 / 52.37)
 
 /** Construct a DCP video frame.
  *  @param input Input image.
@@ -151,6 +156,17 @@ DCPVideoFrame::encode_locally ()
 		double x, y, z;
 	} d;
 
+	/* In sRGB / Rec709 gamma LUT */
+	shared_ptr<libdcp::LUT<float> > lut_in;
+	if (_colour_lut == 0) {
+		lut_in = libdcp::SRGBLinearisedGammaLUT::cache.get (12, 2.4);
+	} else {
+		lut_in = libdcp::Rec709LinearisedGammaLUT::cache.get (12, 1 / 0.45);
+	}
+
+	/* Out DCI gamma LUT */
+	shared_ptr<libdcp::LUT<float> > lut_out = libdcp::GammaLUT::cache.get (16, 1 / 2.6);
+
 	/* Copy our RGB into the openjpeg container, converting to XYZ in the process */
 
 	int jn = 0;
@@ -159,9 +175,9 @@ DCPVideoFrame::encode_locally ()
 		for (int x = 0; x < _image->size().width; ++x) {
 
 			/* In gamma LUT (converting 8-bit input to 12-bit) */
-			s.r = lut_in[_colour_lut][*p++ << 4];
-			s.g = lut_in[_colour_lut][*p++ << 4];
-			s.b = lut_in[_colour_lut][*p++ << 4];
+			s.r = lut_in->lut()[*p++ << 4];
+			s.g = lut_in->lut()[*p++ << 4];
+			s.b = lut_in->lut()[*p++ << 4];
 			
 			/* RGB to XYZ Matrix */
 			d.x = ((s.r * color_matrix[_colour_lut][0][0]) +
@@ -177,14 +193,14 @@ DCPVideoFrame::encode_locally ()
 			       (s.b * color_matrix[_colour_lut][2][2]));
 			
 			/* DCI companding */
-			d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-			d.y = d.y * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-			d.z = d.z * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
+			d.x = d.x * DCI_COEFFICENT * 65535;
+			d.y = d.y * DCI_COEFFICENT * 65535;
+			d.z = d.z * DCI_COEFFICENT * 65535;
 			
 			/* Out gamma LUT */
-			_opj_image->comps[0].data[jn] = lut_out[LO_DCI][(int) d.x];
-			_opj_image->comps[1].data[jn] = lut_out[LO_DCI][(int) d.y];
-			_opj_image->comps[2].data[jn] = lut_out[LO_DCI][(int) d.z];
+			_opj_image->comps[0].data[jn] = lut_out->lut()[(int) d.x] * 4096;
+			_opj_image->comps[1].data[jn] = lut_out->lut()[(int) d.y] * 4096;
+			_opj_image->comps[2].data[jn] = lut_out->lut()[(int) d.z] * 4096;
 
 			++jn;
 		}

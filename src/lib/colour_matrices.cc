@@ -16,36 +16,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/** @file src/lut.h
- *  @brief Look-up tables for colour conversions (from OpenDCP)
- */
+#include "colour_matrices.h"
 
-#define BIT_DEPTH      12 
-#define BIT_PRECISION  16 
-#define COLOR_DEPTH    (4095)
-#define DCI_LUT_SIZE   ((COLOR_DEPTH + 1) * BIT_PRECISION)
-#define DCI_GAMMA      (2.6)
-#define DCI_DEGAMMA    (1/DCI_GAMMA)
-#define DCI_COEFFICENT (48.0/52.37)
+/* Color Matrices */
+float color_matrix[3][3][3] = {
+    /* SRGB */
+    {{0.4124564, 0.3575761, 0.1804375},
+     {0.2126729, 0.7151522, 0.0721750},
+     {0.0193339, 0.1191920, 0.9503041}},
 
-enum COLOR_PROFILE_ENUM {
-    CP_SRGB = 0,
-    CP_REC709,
-    CP_DC28,
-    CP_MAX
+    /* REC.709 */
+    {{0.4124564, 0.3575761, 0.1804375},
+     {0.2126729, 0.7151522, 0.0721750},
+     {0.0193339, 0.1191920, 0.9503041}},
+
+    /* DC28.30 (2006-02-24) */
+    {{0.4451698156, 0.2771344092, 0.1722826698},
+     {0.2094916779, 0.7215952542, 0.0689130679},
+     {0.0000000000, 0.0470605601, 0.9073553944}}
 };
-
-enum LUT_IN_ENUM {
-    LI_SRGB    = 0,
-    LI_REC709,
-    LI_MAX
-};
-
-enum LUT_OUT_ENUM {
-    LO_DCI    = 0,
-    LO_MAX
-};
-
-extern float color_matrix[3][3][3];
-extern float lut_in[LI_MAX][4095+1];
-extern int lut_out[1][DCI_LUT_SIZE];
