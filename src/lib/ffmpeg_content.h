@@ -30,21 +30,21 @@ class Filter;
 class FFmpegAudioStream
 {
 public:
-        FFmpegAudioStream (std::string n, int i, int f, int c)
-                : name (n)
-                , id (i)
-                , frame_rate (f)
+	FFmpegAudioStream (std::string n, int i, int f, int c)
+		: name (n)
+		, id (i)
+		, frame_rate (f)
 		, channels (c)
 		, mapping (c)
-        {}
+	{}
 
 	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 	
-        std::string name;
-        int id;
-        int frame_rate;
+	std::string name;
+	int id;
+	int frame_rate;
 	int channels;
 	AudioMapping mapping;
 	boost::optional<double> first_audio;
@@ -55,17 +55,17 @@ extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b
 class FFmpegSubtitleStream
 {
 public:
-        FFmpegSubtitleStream (std::string n, int i)
-                : name (n)
-                , id (i)
-        {}
-        
+	FFmpegSubtitleStream (std::string n, int i)
+		: name (n)
+		, id (i)
+	{}
+	
 	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 	
-        std::string name;
-        int id;
+	std::string name;
+	int id;
 };
 
 extern bool operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
@@ -73,11 +73,11 @@ extern bool operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream con
 class FFmpegContentProperty : public VideoContentProperty
 {
 public:
-        static int const SUBTITLE_STREAMS;
-        static int const SUBTITLE_STREAM;
-        static int const AUDIO_STREAMS;
-        static int const AUDIO_STREAM;
-        static int const FILTERS;
+	static int const SUBTITLE_STREAMS;
+	static int const SUBTITLE_STREAM;
+	static int const AUDIO_STREAMS;
+	static int const AUDIO_STREAM;
+	static int const FILTERS;
 };
 
 class FFmpegContent : public VideoContent, public AudioContent, public SubtitleContent
@@ -100,43 +100,43 @@ public:
 
 	std::string identifier () const;
 	
-        /* AudioContent */
-        int audio_channels () const;
-        AudioContent::Frame audio_length () const;
-        int content_audio_frame_rate () const;
-        int output_audio_frame_rate () const;
+	/* AudioContent */
+	int audio_channels () const;
+	AudioContent::Frame audio_length () const;
+	int content_audio_frame_rate () const;
+	int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);
 
 	void set_filters (std::vector<Filter const *> const &);
 	
-        std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
-                boost::mutex::scoped_lock lm (_mutex);
-                return _subtitle_streams;
-        }
+	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _subtitle_streams;
+	}
 
-        boost::shared_ptr<FFmpegSubtitleStream> subtitle_stream () const {
-                boost::mutex::scoped_lock lm (_mutex);
-                return _subtitle_stream;
-        }
+	boost::shared_ptr<FFmpegSubtitleStream> subtitle_stream () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _subtitle_stream;
+	}
 
-        std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams () const {
-                boost::mutex::scoped_lock lm (_mutex);
-                return _audio_streams;
-        }
-        
-        boost::shared_ptr<FFmpegAudioStream> audio_stream () const {
-                boost::mutex::scoped_lock lm (_mutex);
-                return _audio_stream;
-        }
+	std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_streams;
+	}
+	
+	boost::shared_ptr<FFmpegAudioStream> audio_stream () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_stream;
+	}
 
 	std::vector<Filter const *> filters () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _filters;
 	}
 
-        void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
-        void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
+	void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
+	void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
 
 	boost::optional<Time> first_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
