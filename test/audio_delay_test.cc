@@ -57,7 +57,6 @@ void test_audio_delay (int delay_in_ms)
 	int frame = 0;
 	/* Delay in frames */
 	int const delay_in_frames = delay_in_ms * 48000 / 1000;
-	bool done = false;
 
 	while (n < sound_asset->intrinsic_duration()) {
 		shared_ptr<const libdcp::SoundFrame> sound_frame = sound_asset->get_frame (frame++);
