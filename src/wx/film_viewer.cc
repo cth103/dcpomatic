@@ -141,8 +141,12 @@ FilmViewer::fetch_current_frame_again ()
 	}
 
 	Time const t = _film->video_frames_to_time (1);
-	
-	_player->seek (_player->video_position() - t * 1.5, true);
+
+	/* This 2.5 is, in theory: 1 to get back to the same frame, 1 more
+	   because we are about to call fetch_next_frame(), and 0.5 for luck.
+	*/
+	   
+	_player->seek (_player->video_position() - t * 2.5, true);
 	fetch_next_frame ();
 }
 

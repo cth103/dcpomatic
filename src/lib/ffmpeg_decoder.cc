@@ -264,8 +264,22 @@ void
 FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 {
 	double const time_base = av_q2d (_format_context->streams[_video_stream]->time_base);
-	int64_t const vt = frame / (_ffmpeg_content->video_frame_rate() * time_base);
-	av_seek_frame (_format_context, _video_stream, vt, AVSEEK_FLAG_BACKWARD);
+
+	/* If we are doing an accurate seek, our initial shot will be 5 frames (5 being
+	   a number plucked from the air) earlier than we want to end up.  The loop below
+	   will hopefully then step through to where we want to be.
+	*/
+	int initial = frame;
+	if (accurate) {
+		initial -= 5;
+	}
+
+	/* Initial seek time in the stream's timebase */
+	int64_t const initial_vt = initial / (_ffmpeg_content->video_frame_rate() * time_base);
+	/* Wanted final seek time in the stream's timebase */
+	int64_t const final_vt = frame / (_ffmpeg_content->video_frame_rate() * time_base);
+	
+	av_seek_frame (_format_context, _video_stream, initial_vt, AVSEEK_FLAG_BACKWARD);
 
 	avcodec_flush_buffers (video_codec_context());
 	if (_subtitle_codec_context) {
@@ -293,7 +307,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 				int const r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 				if (r >= 0 && finished) {
 					int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-					if (bet >= vt) {
+					if (bet >= final_vt) {
 						_video_position = rint (
 							(bet * time_base + _pts_offset)	* _ffmpeg_content->video_frame_rate()
 							);
