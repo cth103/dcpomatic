@@ -68,7 +68,7 @@ def build(bld):
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 
-                 SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA
+                 SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
                  """
 
     obj.source = sources + ' version.cc'
