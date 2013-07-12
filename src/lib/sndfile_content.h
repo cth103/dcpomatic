@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_SNDFILE_CONTENT_H
+#define DVDOMATIC_SNDFILE_CONTENT_H
+
 extern "C" {
 #include <libavutil/audioconvert.h>
 }
@@ -76,3 +79,5 @@ private:
 	int _audio_frame_rate;
 	AudioMapping _audio_mapping;
 };
+
+#endif

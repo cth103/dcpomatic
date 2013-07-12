@@ -271,7 +271,9 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	dcp_mapped->make_silent ();
 	list<pair<int, libdcp::Channel> > map = content->audio_mapping().content_to_dcp ();
 	for (list<pair<int, libdcp::Channel> >::iterator i = map.begin(); i != map.end(); ++i) {
-		dcp_mapped->accumulate_channel (audio.get(), i->first, i->second);
+		if (i->first < audio->channels() && i->second < dcp_mapped->channels()) {
+			dcp_mapped->accumulate_channel (audio.get(), i->first, i->second);
+		}
 	}
 
 	audio = dcp_mapped;

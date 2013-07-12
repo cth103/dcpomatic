@@ -209,6 +209,7 @@ AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, i
 {
 	int const N = frames ();
 	assert (from->frames() == N);
+	assert (to_channel <= _channels);
 
 	float* s = from->data (from_channel);
 	float* d = _data[to_channel];

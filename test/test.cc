@@ -160,6 +160,7 @@ wait_for_jobs ()
 	while (JobManager::instance()->work_to_do ()) {}
 }
 
+#include "silence_padding_test.cc"
 #include "audio_delay_test.cc"
 #include "ffmpeg_pts_offset.cc"
 #include "ffmpeg_examiner_test.cc"
