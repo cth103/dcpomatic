@@ -116,8 +116,6 @@ public:
 	}
 	
 private:
-	void create_openjpeg_container ();
-
 	boost::shared_ptr<const Image> _image;
 	int _frame;                      ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;          ///< Frames per second that we will use for the DCP
@@ -126,8 +124,6 @@ private:
 
 	boost::shared_ptr<Log> _log; ///< log
 
-	opj_image_cmptparm_t _cmptparm[3]; ///< libopenjpeg's opj_image_cmptparm_t
-	opj_image* _opj_image;             ///< libopenjpeg's image container 
 	opj_cparameters_t* _parameters;    ///< libopenjpeg's parameters
 	opj_cinfo_t* _cinfo;               ///< libopenjpeg's opj_cinfo_t
 	opj_cio_t* _cio;                   ///< libopenjpeg's opj_cio_t

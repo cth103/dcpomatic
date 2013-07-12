@@ -8,7 +8,6 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc
-          colour_matrices.cc
           config.cc
           content.cc
           cross.cc

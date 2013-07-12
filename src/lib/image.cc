@@ -434,8 +434,8 @@ Image::bytes_per_pixel (int c) const
  *  @param s Size in pixels.
  */
 Image::Image (AVPixelFormat p, libdcp::Size s, bool aligned)
-	: _pixel_format (p)
-	, _size (s)
+	: libdcp::Image (s)
+	, _pixel_format (p)
 	, _aligned (aligned)
 {
 	allocate ();
@@ -461,8 +461,8 @@ Image::allocate ()
 }
 
 Image::Image (Image const & other)
-	: _pixel_format (other._pixel_format)
-	, _size (other._size)
+	: libdcp::Image (other)
+	,  _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
 {
 	allocate ();
@@ -479,8 +479,8 @@ Image::Image (Image const & other)
 }
 
 Image::Image (AVFrame* frame)
-	: _pixel_format (static_cast<AVPixelFormat> (frame->format))
-	, _size (frame->width, frame->height)
+	: libdcp::Image (libdcp::Size (frame->width, frame->height))
+	, _pixel_format (static_cast<AVPixelFormat> (frame->format))
 	, _aligned (true)
 {
 	allocate ();
@@ -498,8 +498,8 @@ Image::Image (AVFrame* frame)
 }
 
 Image::Image (shared_ptr<const Image> other, bool aligned)
-	: _pixel_format (other->_pixel_format)
-	, _size (other->size())
+	: libdcp::Image (other)
+	, _pixel_format (other->_pixel_format)
 	, _aligned (aligned)
 {
 	allocate ();
@@ -531,8 +531,9 @@ Image::operator= (Image const & other)
 void
 Image::swap (Image & other)
 {
+	libdcp::Image::swap (other);
+	
 	std::swap (_pixel_format, other._pixel_format);
-	std::swap (_size, other._size);
 
 	for (int i = 0; i < 4; ++i) {
 		std::swap (_data[i], other._data[i]);

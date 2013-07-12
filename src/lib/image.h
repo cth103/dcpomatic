@@ -31,12 +31,13 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
+#include <libdcp/image.h>
 #include "util.h"
 #include "position.h"
 
 class Scaler;
 
-class Image
+class Image : public libdcp::Image
 {
 public:
 	Image (AVPixelFormat, libdcp::Size, bool);
@@ -82,7 +83,6 @@ private:
 	static uint16_t swap_16 (uint16_t);
 	
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
-	libdcp::Size _size; ///< size in pixels
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)

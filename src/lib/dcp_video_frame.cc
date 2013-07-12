@@ -46,6 +46,9 @@
 #include <libdcp/rec709_linearised_gamma_lut.h>
 #include <libdcp/srgb_linearised_gamma_lut.h>
 #include <libdcp/gamma_lut.h>
+#include <libdcp/xyz_frame.h>
+#include <libdcp/rgb_xyz.h>
+#include <libdcp/colour_matrix.h>
 #include "film.h"
 #include "dcp_video_frame.h"
 #include "config.h"
@@ -55,7 +58,6 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
-#include "colour_matrices.h"
 
 #include "i18n.h"
 
@@ -84,7 +86,6 @@ DCPVideoFrame::DCPVideoFrame (
 	, _colour_lut (clut)
 	, _j2k_bandwidth (bw)
 	, _log (l)
-	, _opj_image (0)
 	, _parameters (0)
 	, _cinfo (0)
 	, _cio (0)
@@ -92,39 +93,8 @@ DCPVideoFrame::DCPVideoFrame (
 	
 }
 
-/** Create a libopenjpeg container suitable for our output image */
-void
-DCPVideoFrame::create_openjpeg_container ()
-{
-	for (int i = 0; i < 3; ++i) {
-		_cmptparm[i].dx = 1;
-		_cmptparm[i].dy = 1;
-		_cmptparm[i].w = _image->size().width;
-		_cmptparm[i].h = _image->size().height;
-		_cmptparm[i].x0 = 0;
-		_cmptparm[i].y0 = 0;
-		_cmptparm[i].prec = 12;
-		_cmptparm[i].bpp = 12;
-		_cmptparm[i].sgnd = 0;
-	}
-
-	_opj_image = opj_image_create (3, &_cmptparm[0], CLRSPC_SRGB);
-	if (_opj_image == 0) {
-		throw EncodeError (N_("could not create libopenjpeg image"));
-	}
-
-	_opj_image->x0 = 0;
-	_opj_image->y0 = 0;
-	_opj_image->x1 = _image->size().width;
-	_opj_image->y1 = _image->size().height;
-}
-
 DCPVideoFrame::~DCPVideoFrame ()
 {
-	if (_opj_image) {
-		opj_image_destroy (_opj_image);
-	}
-
 	if (_cio) {
 		opj_cio_close (_cio);
 	}
@@ -146,18 +116,8 @@ DCPVideoFrame::~DCPVideoFrame ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	create_openjpeg_container ();
-
-	struct {
-		double r, g, b;
-	} s;
-
-	struct {
-		double x, y, z;
-	} d;
-
 	/* In sRGB / Rec709 gamma LUT */
-	shared_ptr<libdcp::LUT<float> > lut_in;
+	shared_ptr<libdcp::LUT> lut_in;
 	if (_colour_lut == 0) {
 		lut_in = libdcp::SRGBLinearisedGammaLUT::cache.get (12, 2.4);
 	} else {
@@ -165,47 +125,12 @@ DCPVideoFrame::encode_locally ()
 	}
 
 	/* Out DCI gamma LUT */
-	shared_ptr<libdcp::LUT<float> > lut_out = libdcp::GammaLUT::cache.get (16, 1 / 2.6);
+	shared_ptr<libdcp::LUT> lut_out = libdcp::GammaLUT::cache.get (16, 1 / 2.6);
 
-	/* Copy our RGB into the openjpeg container, converting to XYZ in the process */
-
-	int jn = 0;
-	for (int y = 0; y < _image->size().height; ++y) {
-		uint8_t* p = _image->data()[0] + y * _image->stride()[0];
-		for (int x = 0; x < _image->size().width; ++x) {
-
-			/* In gamma LUT (converting 8-bit input to 12-bit) */
-			s.r = lut_in->lut()[*p++ << 4];
-			s.g = lut_in->lut()[*p++ << 4];
-			s.b = lut_in->lut()[*p++ << 4];
-			
-			/* RGB to XYZ Matrix */
-			d.x = ((s.r * color_matrix[_colour_lut][0][0]) +
-			       (s.g * color_matrix[_colour_lut][0][1]) +
-			       (s.b * color_matrix[_colour_lut][0][2]));
-			
-			d.y = ((s.r * color_matrix[_colour_lut][1][0]) +
-			       (s.g * color_matrix[_colour_lut][1][1]) +
-			       (s.b * color_matrix[_colour_lut][1][2]));
-			
-			d.z = ((s.r * color_matrix[_colour_lut][2][0]) +
-			       (s.g * color_matrix[_colour_lut][2][1]) +
-			       (s.b * color_matrix[_colour_lut][2][2]));
-			
-			/* DCI companding */
-			d.x = d.x * DCI_COEFFICENT * 65535;
-			d.y = d.y * DCI_COEFFICENT * 65535;
-			d.z = d.z * DCI_COEFFICENT * 65535;
-			
-			/* Out gamma LUT */
-			_opj_image->comps[0].data[jn] = lut_out->lut()[(int) d.x] * 4096;
-			_opj_image->comps[1].data[jn] = lut_out->lut()[(int) d.y] * 4096;
-			_opj_image->comps[2].data[jn] = lut_out->lut()[(int) d.z] * 4096;
-
-			++jn;
-		}
-	}
-
+	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
+		_image, lut_in, lut_out, _colour_lut == 0 ? libdcp::colour_matrix::srgb_to_xyz : libdcp::colour_matrix::rec709_to_xyz
+		);
+		
 	/* Set the max image and component sizes based on frame_rate */
 	int const max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
 	int const max_comp_size = max_cs_len / 1.25;
@@ -258,7 +183,7 @@ DCPVideoFrame::encode_locally ()
 	
 	/* set max image */
 	_parameters->max_comp_size = max_comp_size;
-	_parameters->tcp_rates[0] = ((float) (3 * _opj_image->comps[0].w * _opj_image->comps[0].h * _opj_image->comps[0].prec)) / (max_cs_len * 8);
+	_parameters->tcp_rates[0] = ((float) (3 * xyz->size().width * xyz->size().height * 12)) / (max_cs_len * 8);
 
 	/* get a J2K compressor handle */
 	_cinfo = opj_create_compress (CODEC_J2K);
@@ -270,14 +195,14 @@ DCPVideoFrame::encode_locally ()
 	_cinfo->event_mgr = 0;
 
 	/* Setup the encoder parameters using the current image and user parameters */
-	opj_setup_encoder (_cinfo, _parameters, _opj_image);
+	opj_setup_encoder (_cinfo, _parameters, xyz->opj_image ());
 
 	_cio = opj_cio_open ((opj_common_ptr) _cinfo, 0, 0);
 	if (_cio == 0) {
 		throw EncodeError (N_("could not open JPEG2000 stream"));
 	}
 
-	int const r = opj_encode (_cinfo, _cio, _opj_image, 0);
+	int const r = opj_encode (_cinfo, _cio, xyz->opj_image(), 0);
 	if (r == 0) {
 		throw EncodeError (N_("JPEG2000 encoding failed"));
 	}
