@@ -457,23 +457,6 @@ dcp_audio_frame_rate (int fs)
 	return 96000;
 }
 
-/** @param index Colour LUT index.
- *  @return Human-readable name.
- */
-string
-colour_lut_index_to_name (int index)
-{
-	switch (index) {
-	case 0:
-		return _("sRGB");
-	case 1:
-		return _("Rec 709");
-	}
-
-	assert (false);
-	return N_("");
-}
-
 Socket::Socket (int timeout)
 	: _deadline (_io_service)
 	, _socket (_io_service)

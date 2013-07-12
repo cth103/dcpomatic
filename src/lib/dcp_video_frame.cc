@@ -73,17 +73,15 @@ using libdcp::Size;
 /** Construct a DCP video frame.
  *  @param input Input image.
  *  @param f Index of the frame within the DCP.
- *  @param clut Colour look-up table to use (see Config::colour_lut_index ())
  *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const Image> image, int f, int dcp_fps, int clut, int bw, shared_ptr<Log> l
+	shared_ptr<const Image> image, int f, int dcp_fps, int bw, shared_ptr<Log> l
 	)
 	: _image (image)
 	, _frame (f)
 	, _frames_per_second (dcp_fps)
-	, _colour_lut (clut)
 	, _j2k_bandwidth (bw)
 	, _log (l)
 	, _parameters (0)
@@ -116,19 +114,11 @@ DCPVideoFrame::~DCPVideoFrame ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	/* In sRGB / Rec709 gamma LUT */
-	shared_ptr<libdcp::LUT> lut_in;
-	if (_colour_lut == 0) {
-		lut_in = libdcp::SRGBLinearisedGammaLUT::cache.get (12, 2.4);
-	} else {
-		lut_in = libdcp::Rec709LinearisedGammaLUT::cache.get (12, 1 / 0.45);
-	}
-
-	/* Out DCI gamma LUT */
-	shared_ptr<libdcp::LUT> lut_out = libdcp::GammaLUT::cache.get (16, 1 / 2.6);
-
 	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
-		_image, lut_in, lut_out, _colour_lut == 0 ? libdcp::colour_matrix::srgb_to_xyz : libdcp::colour_matrix::rec709_to_xyz
+		_image,
+		libdcp::SRGBLinearisedGammaLUT::cache.get (12, 2.4),
+		libdcp::GammaLUT::cache.get (16, 1 / 2.6),
+		libdcp::colour_matrix::srgb_to_xyz
 		);
 		
 	/* Set the max image and component sizes based on frame_rate */
@@ -234,7 +224,6 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	  << N_("height ") << _image->size().height << N_("\n")
 	  << N_("frame ") << _frame << N_("\n")
 	  << N_("frames_per_second ") << _frames_per_second << N_("\n")
-	  << N_("colour_lut ") << _colour_lut << N_("\n")
 	  << N_("j2k_bandwidth ") << _j2k_bandwidth << N_("\n");
 
 	_log->log (String::compose (

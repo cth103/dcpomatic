@@ -83,7 +83,6 @@ private:
 	void with_subtitles_toggled (wxCommandEvent &);
 	void subtitle_offset_changed (wxCommandEvent &);
 	void subtitle_scale_changed (wxCommandEvent &);
-	void colour_lut_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
@@ -164,7 +163,6 @@ private:
 	wxCheckBox* _with_subtitles;
 	wxSpinCtrl* _subtitle_offset;
 	wxSpinCtrl* _subtitle_scale;
-	wxChoice* _colour_lut;
 	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_frame_rate;

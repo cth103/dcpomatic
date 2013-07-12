@@ -94,7 +94,6 @@ Film::Film (string d)
 	, _container (Config::instance()->default_container ())
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _with_subtitles (false)
-	, _colour_lut (0)
 	, _j2k_bandwidth (200000000)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _dcp_video_frame_rate (24)
@@ -140,7 +139,6 @@ Film::Film (Film const & o)
 	, _container         (o._container)
 	, _scaler            (o._scaler)
 	, _with_subtitles    (o._with_subtitles)
-	, _colour_lut        (o._colour_lut)
 	, _j2k_bandwidth     (o._j2k_bandwidth)
 	, _dci_metadata      (o._dci_metadata)
 	, _dcp_video_frame_rate (o._dcp_video_frame_rate)
@@ -161,8 +159,7 @@ Film::video_identifier () const
 	  << "_" << _playlist->video_identifier()
 	  << "_" << _dcp_video_frame_rate
 	  << "_" << scaler()->id()
-	  << "_" << j2k_bandwidth()
-	  << "_" << lexical_cast<int> (colour_lut());
+	  << "_" << j2k_bandwidth();
 
 	return s.str ();
 }
@@ -344,7 +341,6 @@ Film::write_metadata () const
 
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
-	root->add_child("ColourLUT")->add_child_text (lexical_cast<string> (_colour_lut));
 	root->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
 	root->add_child("DCPVideoFrameRate")->add_child_text (lexical_cast<string> (_dcp_video_frame_rate));
@@ -389,7 +385,6 @@ Film::read_metadata ()
 
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
 	_with_subtitles = f.bool_child ("WithSubtitles");
-	_colour_lut = f.number_child<int> ("ColourLUT");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
@@ -583,16 +578,6 @@ Film::set_with_subtitles (bool w)
 		_with_subtitles = w;
 	}
 	signal_changed (WITH_SUBTITLES);
-}
-
-void
-Film::set_colour_lut (int i)
-{
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_colour_lut = i;
-	}
-	signal_changed (COLOUR_LUT);
 }
 
 void

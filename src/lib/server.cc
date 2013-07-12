@@ -104,18 +104,14 @@ Server::process (shared_ptr<Socket> socket)
 	libdcp::Size size (get_required_int (kv, "width"), get_required_int (kv, "height"));
 	int frame = get_required_int (kv, "frame");
 	int frames_per_second = get_required_int (kv, "frames_per_second");
-	int colour_lut_index = get_required_int (kv, "colour_lut");
 	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
-
-	/* This checks that colour_lut_index is within range */
-	colour_lut_index_to_name (colour_lut_index);
 
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
 	image->read_from_socket (socket);
 
 	DCPVideoFrame dcp_video_frame (
-		image, frame, frames_per_second, colour_lut_index, j2k_bandwidth, _log
+		image, frame, frames_per_second, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();

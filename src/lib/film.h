@@ -135,7 +135,6 @@ public:
 		CONTAINER,
 		SCALER,
 		WITH_SUBTITLES,
-		COLOUR_LUT,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
 		DCP_VIDEO_FRAME_RATE,
@@ -180,11 +179,6 @@ public:
 		return _with_subtitles;
 	}
 
-	int colour_lut () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _colour_lut;
-	}
-
 	int j2k_bandwidth () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _j2k_bandwidth;
@@ -218,7 +212,6 @@ public:
 	void set_container (Ratio const *);
 	void set_scaler (Scaler const *);
 	void set_with_subtitles (bool);
-	void set_colour_lut (int);
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
 	void set_dcp_video_frame_rate (int);
@@ -266,11 +259,6 @@ private:
 	Scaler const * _scaler;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
-	/** index of colour LUT to use when converting RGB to XYZ.
-	 *  0: sRGB
-	 *  1: Rec 709
-	 */
-	int _colour_lut;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
 	/** DCI naming stuff */

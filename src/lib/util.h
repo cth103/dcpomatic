@@ -107,7 +107,6 @@ struct FrameRateConversion
 };
 
 extern int dcp_audio_frame_rate (int);
-extern std::string colour_lut_index_to_name (int index);
 extern int stride_round_up (int, int const *, int);
 extern int stride_lookup (int c, int const * stride);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);

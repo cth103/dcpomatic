@@ -221,7 +221,6 @@ FilmEditor::connect_to_widgets ()
 	_with_subtitles->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
 	_subtitle_offset->Connect        (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
 	_subtitle_scale->Connect         (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
-	_colour_lut->Connect             (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::colour_lut_changed), 0, this);
 	_j2k_bandwidth->Connect          (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
 	_audio_gain->Connect             (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,     wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
 	_audio_gain_calculate_button->Connect (
@@ -290,15 +289,6 @@ FilmEditor::make_video_panel ()
 		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Colour look-up table"), true, wxGBPosition (r, 0));
-	_colour_lut = new wxChoice (_video_panel, wxID_ANY);
-	for (int i = 0; i < 2; ++i) {
-		_colour_lut->Append (std_to_wx (colour_lut_index_to_name (i)));
-	}
-	_colour_lut->SetSelection (0);
-	grid->Add (_colour_lut, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 
 	_left_crop->SetRange (0, 1024);
@@ -555,16 +545,6 @@ FilmEditor::subtitle_scale_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::colour_lut_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-	
-	_film->set_colour_lut (_colour_lut->GetSelection ());
-}
-
-void
 FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
 {
 	if (!_film) {
@@ -645,9 +625,6 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_with_subtitles, _film->with_subtitles ());
 		setup_subtitle_control_sensitivity ();
 		setup_dcp_name ();
-		break;
-	case Film::COLOUR_LUT:
-		checked_set (_colour_lut, _film->colour_lut ());
 		break;
 	case Film::J2K_BANDWIDTH:
 		checked_set (_j2k_bandwidth, double (_film->j2k_bandwidth()) / 1e6);
@@ -885,7 +862,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CONTAINER);
 	film_changed (Film::SCALER);
 	film_changed (Film::WITH_SUBTITLES);
-	film_changed (Film::COLOUR_LUT);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
@@ -917,7 +893,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_dcp_content_type->Enable (s);
 	_dcp_frame_rate->Enable (s);
 	_dcp_audio_channels->Enable (s);
-	_colour_lut->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
 	_audio_gain_calculate_button->Enable (s);

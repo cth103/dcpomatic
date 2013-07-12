@@ -203,7 +203,7 @@ Encoder::process_video (shared_ptr<const Image> image, bool same)
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  image, _video_frames_out, _film->dcp_video_frame_rate(),
-						  _film->colour_lut(), _film->j2k_bandwidth(), _film->log()
+						  _film->j2k_bandwidth(), _film->log()
 						  )
 					  ));
 		

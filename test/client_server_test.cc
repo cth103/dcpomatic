@@ -65,7 +65,6 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 			image,
 			0,
 			24,
-			0,
 			200000000,
 			log
 			)
