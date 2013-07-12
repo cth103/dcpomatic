@@ -916,6 +916,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_scaler->Enable (s);
 	_dcp_content_type->Enable (s);
 	_dcp_frame_rate->Enable (s);
+	_dcp_audio_channels->Enable (s);
 	_colour_lut->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_audio_gain->Enable (s);
