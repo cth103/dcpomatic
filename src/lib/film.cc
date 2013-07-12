@@ -151,14 +151,14 @@ Film::Film (Film const & o)
 }
 
 string
-Film::video_state_identifier () const
+Film::video_identifier () const
 {
 	assert (container ());
 	LocaleGuard lg;
 
 	stringstream s;
 	s << container()->id()
-	  << "_" << _playlist->video_digest()
+	  << "_" << _playlist->video_identifier()
 	  << "_" << _dcp_video_frame_rate
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth()
@@ -173,7 +173,7 @@ Film::info_dir () const
 {
 	boost::filesystem::path p;
 	p /= "info";
-	p /= video_state_identifier ();
+	p /= video_identifier ();
 	return dir (p.string());
 }
 
@@ -186,7 +186,7 @@ Film::internal_video_mxf_dir () const
 string
 Film::internal_video_mxf_filename () const
 {
-	return video_state_identifier() + ".mxf";
+	return video_identifier() + ".mxf";
 }
 
 string
@@ -685,7 +685,7 @@ Film::j2c_path (int f, bool t) const
 {
 	boost::filesystem::path p;
 	p /= "j2c";
-	p /= video_state_identifier ();
+	p /= video_identifier ();
 
 	stringstream s;
 	s.width (8);

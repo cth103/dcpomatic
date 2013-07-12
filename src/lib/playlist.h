@@ -73,7 +73,7 @@ public:
 		return _content;
 	}
 
-	std::string video_digest () const;
+	std::string video_identifier () const;
 
 	int loop () const {
 		return _loop;

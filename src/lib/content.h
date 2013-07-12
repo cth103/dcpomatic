@@ -62,6 +62,7 @@ public:
 		return _file;
 	}
 
+	/** @return MD5 digest of the content's file */
 	std::string digest () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _digest;

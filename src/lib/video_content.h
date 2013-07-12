@@ -46,6 +46,7 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	virtual std::string information () const;
+	virtual std::string identifier () const;
 
 	VideoContent::Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);

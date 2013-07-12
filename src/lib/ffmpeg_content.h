@@ -98,6 +98,8 @@ public:
 	boost::shared_ptr<Content> clone () const;
 	Time length () const;
 
+	std::string identifier () const;
+	
         /* AudioContent */
         int audio_channels () const;
         AudioContent::Frame audio_length () const;

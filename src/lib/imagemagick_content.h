@@ -43,6 +43,8 @@ public:
 	boost::shared_ptr<Content> clone () const;
 	Time length () const;
 
+	std::string identifier () const;
+	
 	void set_video_length (VideoContent::Frame);
 
 	static bool valid_file (boost::filesystem::path);

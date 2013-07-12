@@ -378,3 +378,23 @@ FFmpegContent::set_audio_mapping (AudioMapping m)
 	audio_stream()->mapping = m;
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
 }
+
+string
+FFmpegContent::identifier () const
+{
+	stringstream s;
+
+	s << VideoContent::identifier();
+
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if (_subtitle_stream) {
+		s << "_" << _subtitle_stream->id;
+	}
+
+	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
+		s << "_" << (*i)->id ();
+	}
+
+	return s.str ();
+}

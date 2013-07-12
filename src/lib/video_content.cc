@@ -222,3 +222,21 @@ VideoContent::set_ratio (Ratio const * r)
 
 	signal_changed (VideoContentProperty::VIDEO_RATIO);
 }
+
+/** @return string which includes everything about how this content looks */
+string
+VideoContent::identifier () const
+{
+	stringstream s;
+	s << Content::digest()
+	  << "_" << crop().left
+	  << "_" << crop().right
+	  << "_" << crop().top
+	  << "_" << crop().bottom;
+
+	if (ratio()) {
+		s << "_" << ratio()->id ();
+	}
+
+	return s.str ();
+}

@@ -237,7 +237,7 @@ public:
 private:
 	
 	void signal_changed (Property);
-	std::string video_state_identifier () const;
+	std::string video_identifier () const;
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int);
 	std::string filename_safe_name () const;

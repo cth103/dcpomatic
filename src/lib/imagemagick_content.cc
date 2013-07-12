@@ -107,3 +107,10 @@ ImageMagickContent::length () const
 	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
 }
 
+string
+ImageMagickContent::identifier () const
+{
+	stringstream s;
+	s << VideoContent::identifier ();
+	s << "_" << video_length();
+}

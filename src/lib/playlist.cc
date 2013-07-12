@@ -94,19 +94,14 @@ Playlist::content_changed (weak_ptr<Content> c, int p)
 }
 
 string
-Playlist::video_digest () const
+Playlist::video_identifier () const
 {
 	string t;
 	
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		if (!dynamic_pointer_cast<const VideoContent> (*i)) {
-			continue;
-		}
-		
-		t += (*i)->digest ();
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
-		if (fc && fc->subtitle_stream()) {
-			t += fc->subtitle_stream()->id;
+		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
+		if (vc) {
+			t += vc->identifier ();
 		}
 	}
 
