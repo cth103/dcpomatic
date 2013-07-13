@@ -293,6 +293,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 	   will hopefully then step through to where we want to be.
 	*/
 	int initial = frame;
+
 	if (accurate) {
 		initial -= 5;
 	}
@@ -303,8 +304,6 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 
 	/* Initial seek time in the stream's timebase */
 	int64_t const initial_vt = ((initial / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) / time_base;
-	/* Wanted final seek time in the stream's timebase */
-	int64_t const final_vt = ((frame / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) / time_base;
 
 	av_seek_frame (_format_context, _video_stream, initial_vt, AVSEEK_FLAG_BACKWARD);
 
@@ -315,37 +314,37 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 
 	_just_sought = true;
 
-	if (frame == 0) {
-		/* We're already there; from here on we can only seek non-zero amounts */
+	if (frame == 0 || !accurate) {
+		/* We're already there, or we're as close as we need to be */
 		return;
 	}
 
-	if (accurate) {
-		while (1) {
-			int r = av_read_frame (_format_context, &_packet);
-			if (r < 0) {
-				return;
-			}
-			
-			avcodec_get_frame_defaults (_frame);
-			
-			if (_packet.stream_index == _video_stream) {
-				int finished = 0;
-				int const r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
-				if (r >= 0 && finished) {
-					int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-					if (bet >= final_vt) {
-						_video_position = rint (
-							(bet * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
-							);
-						av_free_packet (&_packet);
-						break;
-					}
-				}
-			}
-			
-			av_free_packet (&_packet);
+	while (1) {
+		int r = av_read_frame (_format_context, &_packet);
+		if (r < 0) {
+			return;
 		}
+
+		if (_packet.stream_index != _video_stream) {
+			continue;
+		}
+		
+		avcodec_get_frame_defaults (_frame);
+		
+		int finished = 0;
+		r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
+		if (r >= 0 && finished) {
+			_video_position = rint (
+				(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
+				);
+			
+			if (_video_position >= (frame - 1)) {
+				av_free_packet (&_packet);
+				break;
+			}
+		}
+		
+		av_free_packet (&_packet);
 	}
 }
 
