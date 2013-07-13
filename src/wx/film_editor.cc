@@ -334,7 +334,7 @@ FilmEditor::make_content_panel ()
 	add_label_to_sizer (h, _content_panel, _("times"), false);
 	_content_sizer->Add (h, 0, wxALL, 6);
 
-	_content_notebook = new wxNotebook (_content_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
+	_content_notebook = new wxNotebook (_content_panel, wxID_ANY);
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
 
 	make_video_panel ();
