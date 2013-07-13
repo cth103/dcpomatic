@@ -139,14 +139,8 @@ FilmViewer::fetch_current_frame_again ()
 	if (!_player) {
 		return;
 	}
-
-	Time const t = _film->video_frames_to_time (1);
-
-	/* This 2.5 is, in theory: 1 to get back to the same frame, 1 more
-	   because we are about to call fetch_next_frame(), and 0.5 for luck.
-	*/
 	   
-	_player->seek (_player->video_position() - t * 2.5, true);
+	_player->seek (_player->video_position(), true);
 	fetch_next_frame ();
 }
 
@@ -342,9 +336,7 @@ FilmViewer::back_clicked (wxCommandEvent &)
 		return;
 	}
 
-	Time const t = _film->video_frames_to_time (1);
-	
-	_player->seek (_player->video_position() - t * 2.5, true);
+	_player->seek (_player->video_position() - _film->video_frames_to_time(1), true);
 	fetch_next_frame ();
 }
 

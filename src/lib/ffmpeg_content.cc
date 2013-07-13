@@ -300,7 +300,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
 	mapping = AudioMapping (node->node_child ("Mapping"));
-	first_audio = node->optional_number_child<Time> ("FirstAudio");
+	first_audio = node->optional_number_child<double> ("FirstAudio");
 }
 
 void
