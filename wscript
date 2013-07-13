@@ -118,6 +118,7 @@ def configure(conf):
         conf.env.STLIB_SWSCALE    = ['swscale']
         conf.env.STLIB_POSTPROC   = ['postproc']
         conf.env.STLIB_SWRESAMPLE = ['swresample']
+        conf.env.STLIB_OPENJPEG   = ['openjpeg']
 
     # Dependencies which are always dynamically linked
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
