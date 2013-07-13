@@ -141,8 +141,12 @@ FilmViewer::fetch_current_frame_again ()
 	if (!_player) {
 		return;
 	}
+
+	/* Player::video_position is the time after the last frame that we received.
+	   We want to see it again, so seek back one frame.
+	*/
 	   
-	_player->seek (_player->video_position(), true);
+	_player->seek (_player->video_position() - _film->video_frames_to_time(1), true);
 	fetch_next_frame ();
 }
 
@@ -349,7 +353,11 @@ FilmViewer::back_clicked (wxCommandEvent &)
 		return;
 	}
 
-	_player->seek (_player->video_position() - _film->video_frames_to_time(1), true);
+	/* Player::video_position is the time after the last frame that we received.
+	   We want to see the one before it, so we need to go back 2.
+	*/
+	
+	_player->seek (_player->video_position() - _film->video_frames_to_time(2), true);
 	fetch_next_frame ();
 }
 
