@@ -869,10 +869,10 @@ FilmEditor::set_film (shared_ptr<Film> f)
 
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
-	} else {
-		wxListEvent ev;
-		content_selection_changed (ev);
 	}
+
+	wxListEvent ev;
+	content_selection_changed (ev);
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
