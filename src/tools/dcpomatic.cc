@@ -339,6 +339,7 @@ private:
 			maybe_save_then_delete_film ();
 			try {
 				film.reset (new Film (wx_to_std (c->GetPath ())));
+				film->read_metadata ();
 				film->log()->set_level (log_level);
 				set_film ();
 			} catch (std::exception& e) {
