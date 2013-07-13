@@ -867,8 +867,12 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 	film_changed (Film::DCP_AUDIO_CHANNELS);
 
-	wxListEvent ev;
-	content_selection_changed (ev);
+	if (!_film->content().empty ()) {
+		set_selection (_film->content().front ());
+	} else {
+		wxListEvent ev;
+		content_selection_changed (ev);
+	}
 }
 
 /** Updates the sensitivity of lots of widgets to a given value.
@@ -1217,6 +1221,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
 	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
 	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAMS);
+	film_content_changed (s, FFmpegContentProperty::FILTERS);
 	film_content_changed (s, SubtitleContentProperty::SUBTITLE_OFFSET);
 	film_content_changed (s, SubtitleContentProperty::SUBTITLE_SCALE);
 }
