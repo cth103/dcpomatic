@@ -47,6 +47,7 @@ using std::min;
 using std::max;
 using std::cout;
 using std::list;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::weak_ptr;
@@ -119,6 +120,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_film = f;
 
 	_frame.reset ();
+	_queue.clear ();
 
 	if (!_film) {
 		return;
@@ -126,7 +128,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_player = f->player ();
 	_player->disable_audio ();
-	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _3));
+	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _3));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this));
 
 	calculate_sizes ();
@@ -264,10 +266,15 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<const Image> image, bool, Time t)
+FilmViewer::process_video (shared_ptr<const Image> image, Time t)
 {
+	if (_got_frame) {
+		/* This is an additional frame emitted by a single pass.  Store it. */
+		_queue.push_front (make_pair (image, t));
+		return;
+	}
+	
 	_frame = image;
-
 	_got_frame = true;
 
 	double const fps = _film->dcp_video_frame_rate ();
@@ -296,13 +303,19 @@ FilmViewer::fetch_next_frame ()
 		return;
 	}
 
-	try {
-		_got_frame = false;
-		while (!_got_frame && !_player->pass ()) {}
-	} catch (DecodeError& e) {
-		_play_button->SetValue (false);
-		check_play_state ();
-		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
+	_got_frame = false;
+	
+	if (!_queue.empty ()) {
+		process_video (_queue.back().first, _queue.back().second);
+		_queue.pop_back ();
+	} else {
+		try {
+			while (!_got_frame && !_player->pass ()) {}
+		} catch (DecodeError& e) {
+			_play_button->SetValue (false);
+			check_play_state ();
+			error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
+		}
 	}
 
 	_panel->Refresh ();

@@ -58,7 +58,7 @@ private:
 	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<const Image>, bool, Time);
+	void process_video (boost::shared_ptr<const Image>, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void fetch_current_frame_again ();
@@ -88,4 +88,6 @@ private:
 	libdcp::Size _out_size;
 	/** Size of the panel that we have available */
 	libdcp::Size _panel_size;
+
+	std::list<std::pair<boost::shared_ptr<const Image>, Time> > _queue;
 };
