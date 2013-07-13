@@ -311,7 +311,7 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
 	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio));
+		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio.get ()));
 	}
 	mapping.as_xml (root->add_child("Mapping"));
 }
