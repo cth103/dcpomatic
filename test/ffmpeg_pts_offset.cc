@@ -19,21 +19,55 @@
 
 BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 {
-	/* Sound == video so no offset required */
-	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (0, 0, 24), 0);
+	shared_ptr<Film> film = new_test_film ("ffmpeg_pts_offset_test");
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	content->_audio_stream.reset (new FFmpegAudioStream);
+	content->_video_frame_rate = 24;
 
-	/* Common offset should be removed */
-	BOOST_CHECK_CLOSE (FFmpegDecoder::compute_pts_offset (42, 42, 24), -42, 1e-9);
+	{
+		/* Sound == video so no offset required */
+		content->_first_video = 0;
+		content->_audio_stream->first_audio = 0;
+		FFmpegDecoder decoder (film, content, true, true);
+		BOOST_CHECK_EQUAL (decoder._video_pts_offset, 0);
+		BOOST_CHECK_EQUAL (decoder._audio_pts_offset, 0);
+	}
 
-	/* Video is on a frame boundary */
-	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (1.0 / 24.0, 0, 24), 0);
+	{
+		/* Common offset should be removed */
+		content->_first_video = 600;
+		content->_audio_stream->first_audio = 600;
+		FFmpegDecoder decoder (film, content, true, true);
+		BOOST_CHECK_EQUAL (decoder._video_pts_offset, -600);
+		BOOST_CHECK_EQUAL (decoder._audio_pts_offset, -600);
+	}
 
-	/* Again, video is on a frame boundary */
-	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (1.0 / 23.97, 0, 23.97), 0);
+	{
+		/* Video is on a frame boundary */
+		content->_first_video = 1.0 / 24.0;
+		content->_audio_stream->first_audio = 0;
+		FFmpegDecoder decoder (film, content, true, true);
+		BOOST_CHECK_EQUAL (decoder._video_pts_offset, 0);
+		BOOST_CHECK_EQUAL (decoder._audio_pts_offset, 0);
+	}
 
-	/* And again, video is on a frame boundary */
-	BOOST_CHECK_EQUAL (FFmpegDecoder::compute_pts_offset (3.0 / 23.97, 0, 23.97), 0);
+	{
+		/* Video is off a frame boundary */
+		double const frame = 1.0 / 24.0;
+		content->_first_video = frame + 0.0215;
+		content->_audio_stream->first_audio = 0;
+		FFmpegDecoder decoder (film, content, true, true);
+		BOOST_CHECK_EQUAL (decoder._video_pts_offset, (frame - 0.0215));
+		BOOST_CHECK_EQUAL (decoder._audio_pts_offset, (frame - 0.0215));
+	}
 
-	/* Off a frame boundary */
-	BOOST_CHECK_CLOSE (FFmpegDecoder::compute_pts_offset (1.0 / 24.0 - 0.0215, 0, 24), 0.0215, 1e-9);
+	{
+		/* Video is off a frame boundary and both have a common offset */
+		double const frame = 1.0 / 24.0;
+		content->_first_video = frame + 0.0215 + 4.1;
+		content->_audio_stream->first_audio = 4.1;
+		FFmpegDecoder decoder (film, content, true, true);
+		BOOST_CHECK_EQUAL (decoder._video_pts_offset, (frame - 0.0215) - 4.1);
+		BOOST_CHECK_EQUAL (decoder._audio_pts_offset, (frame - 0.0215) - 4.1);
+	}
 }

@@ -26,6 +26,7 @@
 #include "subtitle_content.h"
 
 class Filter;
+class ffmpeg_pts_offset_test;
 
 class FFmpegAudioStream
 {
@@ -48,6 +49,11 @@ public:
 	int channels;
 	AudioMapping mapping;
 	boost::optional<double> first_audio;
+
+private:
+	friend class ffmpeg_pts_offset_test;
+	/* Constructor for tests */
+	FFmpegAudioStream () {}
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
@@ -138,17 +144,19 @@ public:
 	void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
 	void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
 
-	boost::optional<Time> first_video () const {
+	boost::optional<double> first_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _first_video;
 	}
 	
 private:
+	friend class ffmpeg_pts_offset_test;
+	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::shared_ptr<FFmpegAudioStream> _audio_stream;
-	boost::optional<Time> _first_video;
+	boost::optional<double> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
 };

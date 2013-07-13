@@ -87,6 +87,8 @@ protected:
 	VideoContent::Frame _video_length;
 
 private:
+	friend class ffmpeg_pts_offset_test;
+	
 	libdcp::Size _video_size;
 	float _video_frame_rate;
 	Crop _crop;

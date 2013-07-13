@@ -79,7 +79,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 		_filters.push_back (Filter::from_id ((*i)->content ()));
 	}
 
-	_first_video = node->optional_number_child<Time> ("FirstVideo");
+	_first_video = node->optional_number_child<double> ("FirstVideo");
 }
 
 FFmpegContent::FFmpegContent (FFmpegContent const & o)

@@ -51,6 +51,7 @@ using std::vector;
 using std::stringstream;
 using std::list;
 using std::min;
+using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -66,28 +67,50 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
-	, _pts_offset (0)
+	, _video_pts_offset (0)
+	, _audio_pts_offset (0)
 	, _just_sought (false)
 {
 	setup_subtitle ();
 
-	if (video && audio && c->audio_stream() && c->first_video() && c->audio_stream()->first_audio) {
-		_pts_offset = compute_pts_offset (c->first_video().get(), c->audio_stream()->first_audio.get(), c->video_frame_rate());
-	}
-}
+	/* Audio and video frame PTS values may not start with 0.  We want
+	   to fiddle them so that:
 
-double
-FFmpegDecoder::compute_pts_offset (double first_video, double first_audio, float video_frame_rate)
-{
-	double const old_first_video = first_video;
-	
-	/* Round the first video to a frame boundary */
-	if (fabs (rint (first_video * video_frame_rate) - first_video * video_frame_rate) > 1e-6) {
-		first_video = ceil (first_video * video_frame_rate) / video_frame_rate;
+	   1.  One of them starts at time 0.
+	   2.  The first video PTS value ends up on a frame boundary.
+
+	   Then we remove big initial gaps in PTS and we allow our
+	   insertion of black frames to work.
+
+	   We will do:
+	     audio_pts_to_use = audio_pts_from_ffmpeg + audio_pts_offset;
+	     video_pts_to_use = video_pts_from_ffmpeg + video_pts_offset;
+	*/
+
+	bool const have_video = video && c->first_video();
+	bool const have_audio = audio && c->audio_stream() && c->audio_stream()->first_audio;
+
+	/* First, make one of them start at 0 */
+
+	if (have_audio && have_video) {
+		_video_pts_offset = _audio_pts_offset = - min (c->first_video().get(), c->audio_stream()->first_audio.get());
+	} else if (have_video) {
+		_video_pts_offset = - c->first_video().get();
 	}
 
-	/* Compute the required offset (also removing any common start delay) */
-	return first_video - old_first_video - min (first_video, first_audio);
+	/* Now adjust both so that the video pts starts on a frame */
+	if (have_video && have_audio) {
+		double first_video = c->first_video().get() + _video_pts_offset;
+		double const old_first_video = first_video;
+		
+		/* Round the first video up to a frame boundary */
+		if (fabs (rint (first_video * c->video_frame_rate()) - first_video * c->video_frame_rate()) > 1e-6) {
+			first_video = ceil (first_video * c->video_frame_rate()) / c->video_frame_rate ();
+		}
+
+		_video_pts_offset += first_video - old_first_video;
+		_audio_pts_offset += first_video - old_first_video;
+	}
 }
 
 FFmpegDecoder::~FFmpegDecoder ()
@@ -274,11 +297,15 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		initial -= 5;
 	}
 
+	if (initial < 0) {
+		initial = 0;
+	}
+
 	/* Initial seek time in the stream's timebase */
-	int64_t const initial_vt = initial / (_ffmpeg_content->video_frame_rate() * time_base);
+	int64_t const initial_vt = ((initial / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) / time_base;
 	/* Wanted final seek time in the stream's timebase */
-	int64_t const final_vt = frame / (_ffmpeg_content->video_frame_rate() * time_base);
-	
+	int64_t const final_vt = ((frame / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) / time_base;
+
 	av_seek_frame (_format_context, _video_stream, initial_vt, AVSEEK_FLAG_BACKWARD);
 
 	avcodec_flush_buffers (video_codec_context());
@@ -309,7 +336,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 					int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 					if (bet >= final_vt) {
 						_video_position = rint (
-							(bet * time_base + _pts_offset)	* _ffmpeg_content->video_frame_rate()
+							(bet * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
 							);
 						av_free_packet (&_packet);
 						break;
@@ -341,7 +368,7 @@ FFmpegDecoder::decode_audio_packet ()
 				if (_audio_position == 0) {
 					/* Where we are in the source, in seconds */
 					double const pts = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-						* av_frame_get_best_effort_timestamp(_frame) - _pts_offset;
+						* av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset;
 
 					if (pts > 0) {
 						/* Emit some silence */
@@ -393,21 +420,20 @@ FFmpegDecoder::decode_video_packet ()
 		graph = *i;
 	}
 
-	list<shared_ptr<Image> > images = graph->process (_frame);
+	list<pair<shared_ptr<Image>, int64_t> > images = graph->process (_frame);
 
 	string post_process = Filter::ffmpeg_strings (_ffmpeg_content->filters()).second;
 	
-	for (list<shared_ptr<Image> >::iterator i = images.begin(); i != images.end(); ++i) {
+	for (list<pair<shared_ptr<Image>, int64_t> >::iterator i = images.begin(); i != images.end(); ++i) {
 
-		shared_ptr<Image> image = *i;
+		shared_ptr<Image> image = i->first;
 		if (!post_process.empty ()) {
 			image = image->post_process (post_process, true);
 		}
 		
-		int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-		if (bet != AV_NOPTS_VALUE) {
+		if (i->second != AV_NOPTS_VALUE) {
 
-			double const pts = bet * av_q2d (_format_context->streams[_video_stream]->time_base) - _pts_offset;
+			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset;
 
 			if (_just_sought) {
 				/* We just did a seek, so disable any attempts to correct for where we

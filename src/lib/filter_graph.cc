@@ -39,6 +39,8 @@ extern "C" {
 using std::stringstream;
 using std::string;
 using std::list;
+using std::pair;
+using std::make_pair;
 using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -132,10 +134,10 @@ FilterGraph::~FilterGraph ()
 /** Take an AVFrame and process it using our configured filters, returning a
  *  set of Images.  Caller handles memory management of the input frame.
  */
-list<shared_ptr<Image> >
+list<pair<shared_ptr<Image>, int64_t> >
 FilterGraph::process (AVFrame* frame)
 {
-	list<shared_ptr<Image> > images;
+	list<pair<shared_ptr<Image>, int64_t> > images;
 
 	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
 		throw DecodeError (N_("could not push buffer into filter chain."));
@@ -146,7 +148,7 @@ FilterGraph::process (AVFrame* frame)
 			break;
 		}
 
-		images.push_back (shared_ptr<Image> (new Image (_frame)));
+		images.push_back (make_pair (shared_ptr<Image> (new Image (_frame)), av_frame_get_best_effort_timestamp (_frame)));
 		av_frame_unref (_frame);
 	}
 	

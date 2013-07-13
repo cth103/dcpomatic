@@ -50,7 +50,9 @@ public:
 		return _subtitle_scale;
 	}
 	
-private:	
+private:
+	friend class ffmpeg_pts_offset_test;
+	
 	/** y offset for placing subtitles, as a proportion of the container height;
 	    +ve is further down the frame, -ve is further up.
 	*/

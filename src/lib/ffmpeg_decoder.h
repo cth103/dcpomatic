@@ -84,6 +84,7 @@ private:
 	bool _decode_video;
 	bool _decode_audio;
 
-	double _pts_offset;
+	double _video_pts_offset;
+	double _audio_pts_offset;
 	bool _just_sought;
 };
