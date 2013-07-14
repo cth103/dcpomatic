@@ -313,7 +313,8 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 	}
 
 	_just_sought = true;
-
+	_video_position = frame;
+	
 	if (frame == 0 || !accurate) {
 		/* We're already there, or we're as close as we need to be */
 		return;

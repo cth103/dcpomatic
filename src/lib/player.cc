@@ -45,7 +45,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-//#define DEBUG_PLAYER 1
+#define DEBUG_PLAYER 1
 
 class Piece
 {
@@ -168,7 +168,7 @@ Player::pass ()
 	case VIDEO:
 		if (earliest_t > _video_position) {
 #ifdef DEBUG_PLAYER
-			cout << "no video here; emitting black frame.\n";
+			cout << "no video here; emitting black frame (earliest=" << earliest_t << ", video_position=" << _video_position << ").\n";
 #endif
 			emit_black ();
 		} else {
@@ -308,10 +308,6 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 			_audio_buffers.make_silent (0, _audio_buffers.frames());
 			_audio_buffers.set_frames (N);
 		}
-			
-		if (N > _audio_buffers.frames()) {
-			cout << "N=" << N << ", ab=" << _audio_buffers.frames() << "\n";
-		}
 		assert (N <= _audio_buffers.frames());
                 shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
                 emit->copy_from (&_audio_buffers, N, 0, 0);
@@ -375,11 +371,14 @@ Player::seek (Time t, bool accurate)
 		s = max (static_cast<Time> (0), s);
 		s = min (vc->length(), s);
 
+		(*i)->video_position = (*i)->audio_position = vc->start() + s;
+
 		FrameRateConversion frc (vc->video_frame_rate(), _film->dcp_video_frame_rate());
 		VideoContent::Frame f = s * vc->video_frame_rate() / (frc.factor() * TIME_HZ);
 		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
 	}
 
+	_video_position = _audio_position = t;
 	/* XXX: don't seek audio because we don't need to... */
 }
 
