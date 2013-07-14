@@ -38,5 +38,34 @@ as you really need one resampler per source.  So it might make more sense
 to put stuff in the decoder.  But then, what's one map of resamplers between friends?
 
 
+\section{Options for what \texttt{Time} is a function of}
+
+I've been trying for a while with \texttt{Time} as a wall-clock
+`real-time' unit.  This means that the following is tricky:
+
+\begin{enumerate}
+\item Add content at 29.97 fps
+\item Length of this content is converted to \texttt{Time} using the
+  current DCP frame rate (which will be 29.97).
+\item Add more content at 25 fps.
+\item This causes the DCP frame rate to be changed to 25 fps, and so
+  the first piece of content is now being run slower and so its length
+  changes.
+\end{enumerate}
+
+I think this is the cause of content being overlapped in this case.
+
+It is tempting to solve this by making Time a subdivsion of DCP video
+frame rate.  This makes things nicer in many ways; you get a 1:1
+mapping of content video frames to Time in most cases, but not when
+video frames are skipped to halve the frame rate, say.  In this case
+you could have a piece of content at 50 fps which is some time $T$
+long at at DCP rate of 50 fps, but half as long at a DCP rate of 25 fps.
+
+I'm fairly sure that there is inherently not a nice representation which
+will obviate the need for things to be recalculated when DCP rate changes.
+
+On the plus side, lengths in \texttt{Time} are computed on-demand from
+lengths kept as source frames.
 
 \end{document}
