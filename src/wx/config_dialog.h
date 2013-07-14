@@ -59,6 +59,7 @@ private:
 	void default_dcp_content_type_changed (wxCommandEvent &);
 	void issuer_changed (wxCommandEvent &);
 	void creator_changed (wxCommandEvent &);
+	void default_j2k_bandwidth_changed (wxCommandEvent &);
 
 	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();
@@ -95,5 +96,6 @@ private:
 	wxButton* _remove_server;
 	wxTextCtrl* _issuer;
 	wxTextCtrl* _creator;
+	wxSpinCtrl* _default_j2k_bandwidth;
 };
 

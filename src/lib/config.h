@@ -118,6 +118,10 @@ public:
 		return _dcp_metadata;
 	}
 
+	int default_j2k_bandwidth () const {
+		return _default_j2k_bandwidth;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -196,6 +200,10 @@ public:
 	void set_dcp_metadata (libdcp::XMLMetadata m) {
 		_dcp_metadata = m;
 	}
+
+	void set_default_j2k_bandwidth (int b) {
+		_default_j2k_bandwidth = b;
+	}
 	
 	void write () const;
 
@@ -239,6 +247,7 @@ private:
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
 	libdcp::XMLMetadata _dcp_metadata;
+	int _default_j2k_bandwidth;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

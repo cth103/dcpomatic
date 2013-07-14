@@ -134,6 +134,11 @@ ConfigDialog::make_misc_panel ()
 	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_dcp_content_type);
 	table->AddSpacer (1);
+
+	add_label_to_sizer (table, _misc_panel, _("Default JPEG2000 bandwidth"), true);
+	_default_j2k_bandwidth = new wxSpinCtrl (_misc_panel);
+	table->Add (_default_j2k_bandwidth, 1);
+	add_label_to_sizer (table, _misc_panel, _("MBps"), false);
 	
 	Config* config = Config::instance ();
 
@@ -192,6 +197,10 @@ ConfigDialog::make_misc_panel ()
 	}
 
 	_default_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_dcp_content_type_changed), 0, this);
+
+	_default_j2k_bandwidth->SetRange (50, 250);
+	_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1e6);
+	_default_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::default_j2k_bandwidth_changed), 0, this);
 }
 
 void
@@ -499,4 +508,10 @@ ConfigDialog::creator_changed (wxCommandEvent &)
 	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 	m.creator = wx_to_std (_creator->GetValue ());
 	Config::instance()->set_dcp_metadata (m);
+}
+
+void
+ConfigDialog::default_j2k_bandwidth_changed (wxCommandEvent &)
+{
+	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1e6);
 }

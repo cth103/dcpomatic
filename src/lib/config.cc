@@ -54,6 +54,7 @@ Config::Config ()
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (0)
+	, _default_j2k_bandwidth (200000000)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -110,6 +111,7 @@ Config::read ()
 
 	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
+	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000); 
 }
 
 void
@@ -241,6 +243,7 @@ Config::write () const
 	_default_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
 
 	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
+	root->add_child("DefaultJ2KBandwidth")->add_child_text (lexical_cast<string> (_default_j2k_bandwidth));
 
 	doc.write_to_file_formatted (file (false));
 }
