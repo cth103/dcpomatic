@@ -138,7 +138,7 @@ Player::pass ()
 			continue;
 		}
 
-		if (dynamic_pointer_cast<VideoDecoder> ((*i)->decoder)) {
+		if (_video && dynamic_pointer_cast<VideoDecoder> ((*i)->decoder)) {
 			if ((*i)->video_position < earliest_t) {
 				earliest_t = (*i)->video_position;
 				earliest = *i;
@@ -146,7 +146,7 @@ Player::pass ()
 			}
 		}
 
-		if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
+		if (_audio && dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
 			if ((*i)->audio_position < earliest_t) {
 				earliest_t = (*i)->audio_position;
 				earliest = *i;
