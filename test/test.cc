@@ -170,8 +170,8 @@ wait_for_jobs ()
 	BOOST_CHECK (!jm->errors());
 }
 
+#include "play_test.cc"
 #include "frame_rate_test.cc"
-#include "seek_test.cc"
 #include "silence_padding_test.cc"
 #include "audio_delay_test.cc"
 #include "ffmpeg_pts_offset.cc"
