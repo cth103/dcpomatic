@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_RECT_H
-#define DVDOMATIC_RECT_H
+#ifndef DCPOMATIC_RECT_H
+#define DCPOMATIC_RECT_H
 
 #include "position.h"
 
