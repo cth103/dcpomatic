@@ -138,7 +138,7 @@ Player::pass ()
 			continue;
 		}
 
-		if (dynamic_pointer_cast<VideoDecoder> ((*i)->decoder)) {
+		if (_video && dynamic_pointer_cast<VideoDecoder> ((*i)->decoder)) {
 			if ((*i)->video_position < earliest_t) {
 				earliest_t = (*i)->video_position;
 				earliest = *i;
@@ -146,7 +146,7 @@ Player::pass ()
 			}
 		}
 
-		if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
+		if (_audio && dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
 			if ((*i)->audio_position < earliest_t) {
 				earliest_t = (*i)->audio_position;
 				earliest = *i;
@@ -237,6 +237,10 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		im->copy (work_image, Position<int> ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
 		work_image = im;
 	}
+
+#ifdef DCPOMATIC_DEBUG
+	_last_video = piece->content;
+#endif	
 
         Video (work_image, same, time);
 	time += TIME_HZ / _film->dcp_video_frame_rate();
@@ -348,7 +352,10 @@ Player::flush ()
 	
 }
 
-/** @return true on error */
+/** Seek so that the next pass() will yield (approximately) the requested frame.
+ *  Pass accurate = true to try harder to get close to the request.
+ *  @return true on error
+ */
 void
 Player::seek (Time t, bool accurate)
 {
@@ -374,11 +381,16 @@ Player::seek (Time t, bool accurate)
 		(*i)->video_position = (*i)->audio_position = vc->start() + s;
 
 		FrameRateConversion frc (vc->video_frame_rate(), _film->dcp_video_frame_rate());
-		VideoContent::Frame f = s * vc->video_frame_rate() / (frc.factor() * TIME_HZ);
+		/* Here we are converting from time (in the DCP) to a frame number in the content.
+		   Hence we need to use the DCP's frame rate and the double/skip correction, not
+		   the source's rate.
+		*/
+		VideoContent::Frame f = s * _film->dcp_video_frame_rate() / (frc.factor() * TIME_HZ);
 		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
 	}
 
 	_video_position = _audio_position = t;
+	
 	/* XXX: don't seek audio because we don't need to... */
 }
 
@@ -501,6 +513,10 @@ Player::resampler (shared_ptr<AudioContent> c)
 void
 Player::emit_black ()
 {
+#ifdef DCPOMATIC_DEBUG
+	_last_video.reset ();
+#endif
+	
 	/* XXX: use same here */
 	Video (_black_frame, false, _video_position);
 	_video_position += _film->video_frames_to_time (1);

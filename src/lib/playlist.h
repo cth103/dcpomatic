@@ -86,6 +86,7 @@ public:
 	Time video_end () const;
 
 	void set_sequence_video (bool);
+	void maybe_sequence_video ();
 
 	mutable boost::signals2::signal<void ()> Changed;
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;

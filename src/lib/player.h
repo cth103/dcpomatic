@@ -75,6 +75,7 @@ public:
 	boost::signals2::signal<void ()> Changed;
 
 private:
+	friend class PlayerWrapper;
 
 	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, bool, VideoContent::Frame);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
@@ -126,6 +127,10 @@ private:
 		Time from;
 		Time to;
 	} _out_subtitle;
+
+#ifdef DCPOMATIC_DEBUG
+	boost::shared_ptr<Content> _last_video;
+#endif	
 };
 
 #endif
