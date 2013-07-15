@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_POSITION_H
-#define DVDOMATIC_POSITION_H
+#ifndef DCPOMATIC_POSITION_H
+#define DCPOMATIC_POSITION_H
 
 /** @struct Position
  *  @brief A position.

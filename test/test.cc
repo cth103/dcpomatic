@@ -52,6 +52,7 @@ using std::stringstream;
 using std::vector;
 using std::min;
 using std::cout;
+using std::cerr;
 using boost::shared_ptr;
 using boost::thread;
 using boost::dynamic_pointer_cast;
@@ -154,12 +155,23 @@ check_dcp (string ref, string check)
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }
 
-static void
+void
 wait_for_jobs ()
 {
-	while (JobManager::instance()->work_to_do ()) {}
+	JobManager* jm = JobManager::instance ();
+	while (jm->work_to_do ()) {}
+	if (jm->errors ()) {
+		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
+			cerr << (*i)->error_summary () << "\n"
+			     << (*i)->error_details () << "\n";
+		}
+	}
+		
+	BOOST_CHECK (!jm->errors());
 }
 
+#include "play_test.cc"
+#include "frame_rate_test.cc"
 #include "silence_padding_test.cc"
 #include "audio_delay_test.cc"
 #include "ffmpeg_pts_offset.cc"
@@ -173,7 +185,6 @@ wait_for_jobs ()
 #include "stream_test.cc"
 #include "util_test.cc"
 #include "ffmpeg_dcp_test.cc"
-#include "frame_rate_test.cc"
 #include "job_test.cc"
 #include "client_server_test.cc"
 #include "image_test.cc"

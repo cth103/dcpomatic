@@ -29,23 +29,14 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 	c->set_ratio (Ratio::from_id ("185"));
 	film->examine_and_add_content (c);
 
-	/* Wait for the examine to finish */
-	while (JobManager::instance()->work_to_do ()) {
-		dcpomatic_sleep (1);
-	}
-
-	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+	wait_for_jobs ();
 	
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp ();
 	film->write_metadata ();
 
-	while (JobManager::instance()->work_to_do ()) {
-		dcpomatic_sleep (1);
-	}
-	
-	BOOST_CHECK_EQUAL (JobManager::instance()->errors(), false);
+	wait_for_jobs ();
 }
 
 /** Test Film::have_dcp().  Requires the output from ffmpeg_dcp_test above */

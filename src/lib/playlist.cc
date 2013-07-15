@@ -75,15 +75,23 @@ Playlist::content_changed (weak_ptr<Content> c, int p)
 	if (p == ContentProperty::LENGTH) {
 		maybe_sequence_video ();
 	}
+<<<<<<< HEAD
 	
 	ContentChanged (c, p);
 }
 
+=======
+
+	ContentChanged (c, p);
+}
+
+>>>>>>> 1ea6a456bc2b4a695f6db4720353c35167597b30
 void
 Playlist::maybe_sequence_video ()
 {
 	if (!_sequence_video || _sequencing_video) {
 		return;
+<<<<<<< HEAD
 	}
 	
 	_sequencing_video = true;
@@ -100,6 +108,24 @@ Playlist::maybe_sequence_video ()
 		last = (*i)->end ();
 	}
 	
+=======
+	}
+	
+	_sequencing_video = true;
+	
+	ContentList cl = _content;
+	sort (cl.begin(), cl.end(), ContentSorter ());
+	Time last = 0;
+	for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
+		if (!dynamic_pointer_cast<VideoContent> (*i)) {
+			continue;
+		}
+		
+		(*i)->set_start (last);
+		last = (*i)->end ();
+	}
+	
+>>>>>>> 1ea6a456bc2b4a695f6db4720353c35167597b30
 	_sequencing_video = false;
 }
 
@@ -231,7 +257,7 @@ Playlist::best_dcp_frame_rate () const
 		candidates.push_back (FrameRateCandidate (float (*i) * 2, *i));
 	}
 
-	/* Pick the best one, bailing early if we hit an exact match */
+	/* Pick the best one */
 	float error = std::numeric_limits<float>::max ();
 	optional<FrameRateCandidate> best;
 	list<FrameRateCandidate>::iterator i = candidates.begin();
@@ -244,7 +270,8 @@ Playlist::best_dcp_frame_rate () const
 				continue;
 			}
 
-			this_error += fabs (i->source - vc->video_frame_rate ());
+			/* Use the largest difference between DCP and source as the "error" */
+			this_error = max (this_error, float (fabs (i->source - vc->video_frame_rate ())));
 		}
 
 		if (this_error < error) {

@@ -338,7 +338,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 			_video_position = rint (
 				(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
 				);
-			
+
 			if (_video_position >= (frame - 1)) {
 				av_free_packet (&_packet);
 				break;
@@ -451,6 +451,8 @@ FFmpegDecoder::decode_video_packet ()
 				/* This PTS is more than one frame forward in time of where we think we should be; emit
 				   a black frame.
 				*/
+
+				/* XXX: I think this should be a copy of the last frame... */
 				boost::shared_ptr<Image> black (
 					new Image (
 						static_cast<AVPixelFormat> (_frame->format),
