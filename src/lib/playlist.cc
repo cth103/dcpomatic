@@ -75,23 +75,16 @@ Playlist::content_changed (weak_ptr<Content> c, int p)
 	if (p == ContentProperty::LENGTH) {
 		maybe_sequence_video ();
 	}
-<<<<<<< HEAD
 	
 	ContentChanged (c, p);
 }
 
-=======
 
-	ContentChanged (c, p);
-}
-
->>>>>>> 1ea6a456bc2b4a695f6db4720353c35167597b30
 void
 Playlist::maybe_sequence_video ()
 {
 	if (!_sequence_video || _sequencing_video) {
 		return;
-<<<<<<< HEAD
 	}
 	
 	_sequencing_video = true;
@@ -108,24 +101,6 @@ Playlist::maybe_sequence_video ()
 		last = (*i)->end ();
 	}
 	
-=======
-	}
-	
-	_sequencing_video = true;
-	
-	ContentList cl = _content;
-	sort (cl.begin(), cl.end(), ContentSorter ());
-	Time last = 0;
-	for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
-		if (!dynamic_pointer_cast<VideoContent> (*i)) {
-			continue;
-		}
-		
-		(*i)->set_start (last);
-		last = (*i)->end ();
-	}
-	
->>>>>>> 1ea6a456bc2b4a695f6db4720353c35167597b30
 	_sequencing_video = false;
 }
 
