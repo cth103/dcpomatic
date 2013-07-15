@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-04 23:59+0100\n"
+"POT-Creation-Date: 2013-07-15 22:07+0100\n"
 "PO-Revision-Date: 2013-04-28 10:31+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -17,122 +17,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/tools/dvdomatic.cc:184
-msgid "&Analyse audio"
-msgstr "&Analizza audio"
+#: src/tools/dcpomatic.cc:309
+msgid "%1 already exists as a file, so you cannot use it for a new film."
+msgstr ""
 
-#: src/tools/dvdomatic.cc:195
+#: src/tools/dcpomatic.cc:196
 msgid "&Edit"
 msgstr "&Modifica"
 
-#: src/tools/dvdomatic.cc:170
+#: src/tools/dcpomatic.cc:169
 msgid "&Exit"
 msgstr ""
 
-#: src/tools/dvdomatic.cc:193
+#: src/tools/dcpomatic.cc:194
 msgid "&File"
 msgstr "&File"
 
-#: src/tools/dvdomatic.cc:198
+#: src/tools/dcpomatic.cc:199
 msgid "&Help"
 msgstr "&Aiuto"
 
-#: src/tools/dvdomatic.cc:197
+#: src/tools/dcpomatic.cc:198
 msgid "&Jobs"
 msgstr "&Lavori"
 
-#: src/tools/dvdomatic.cc:180
+#: src/tools/dcpomatic.cc:183
 msgid "&Make DCP"
 msgstr "&Crea DCP"
 
-#: src/tools/dvdomatic.cc:162
+#: src/tools/dcpomatic.cc:159
 msgid "&Open..."
 msgstr "&Apri..."
 
-#: src/tools/dvdomatic.cc:173 src/tools/dvdomatic.cc:176
+#: src/tools/dcpomatic.cc:176 src/tools/dcpomatic.cc:179
 msgid "&Preferences..."
 msgstr "&Preferenze..."
 
-#: src/tools/dvdomatic.cc:166
+#: src/tools/dcpomatic.cc:163
 msgid "&Properties..."
 msgstr "&Proprieta'..."
 
-#: src/tools/dvdomatic.cc:164
+#: src/tools/dcpomatic.cc:171
+msgid "&Quit"
+msgstr "&Esci"
+
+#: src/tools/dcpomatic.cc:161
 msgid "&Save"
 msgstr "&Salva"
 
-#: src/tools/dvdomatic.cc:181
+#: src/tools/dcpomatic.cc:184
 msgid "&Send DCP to TMS"
 msgstr "&Invia DCP a TMS"
 
-#: src/tools/dvdomatic.cc:438
-msgid ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
-msgstr ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
-
-#: src/tools/dvdomatic.cc:190
+#: src/tools/dcpomatic.cc:191
 msgid "About"
 msgstr "Informazioni"
 
-#: src/tools/dvdomatic.cc:188
+#: src/tools/dcpomatic.cc:189
 #, fuzzy
-msgid "About DVD-o-matic"
+msgid "About DCP-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dvdomatic.cc:520
+#: src/tools/dcpomatic.cc:479
 msgid "Could not load film %1 (%2)"
 msgstr "Non posso caricare il film %s (%s)"
 
-#: src/tools/dvdomatic.cc:360
+#: src/tools/dcpomatic.cc:348
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Non posso aprire il film in %s (%s)"
 
-#: src/tools/dvdomatic.cc:300 src/tools/dvdomatic.cc:431
-#: src/tools/dvdomatic.cc:524
-msgid "DVD-o-matic"
+#: src/tools/dcpomatic.cc:280 src/tools/dcpomatic.cc:490
+#, fuzzy
+msgid "DCP-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dvdomatic.cc:79
+#: src/tools/dcpomatic.cc:77
 msgid "Film changed"
 msgstr "Film modificato"
 
-#: src/tools/dvdomatic.cc:437
-msgid "Free, open-source DCP generation from almost anything."
-msgstr "Genera DCP da quasi tutto, free e open-source."
-
-#: src/tools/dvdomatic.cc:161
+#: src/tools/dcpomatic.cc:158
 msgid "New..."
 msgstr "Nuovo"
 
-#: src/tools/dvdomatic.cc:182
+#: src/tools/dcpomatic.cc:185
 msgid "S&how DCP"
 msgstr "&Mostra DCP"
 
-#: src/tools/dvdomatic.cc:78
+#: src/tools/dcpomatic.cc:76
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Salvare i cambiamenti del film \"%s\" prima di chiudere?"
 
-#: src/tools/dvdomatic.cc:340
+#: src/tools/dcpomatic.cc:327
 msgid "Select film to open"
 msgstr "Seleziona il film da aprire"
 
-#: src/tools/dvdomatic.cc:319
+#: src/tools/dcpomatic.cc:299
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
 
-#: src/tools/dvdomatic.cc:345
+#: src/tools/dcpomatic.cc:332
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
 
-#~ msgid "&Quit"
-#~ msgstr "&Esci"
+#~ msgid "&Analyse audio"
+#~ msgstr "&Analizza audio"
+
+#~ msgid ""
+#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
+#~ "Laursen"
+#~ msgstr ""
+#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
+#~ "Laursen"
+
+#~ msgid "Free, open-source DCP generation from almost anything."
+#~ msgstr "Genera DCP da quasi tutto, free e open-source."
 
 #~ msgid "The directory %1 already exists."
 #~ msgstr "La directory %s esiste gia'."

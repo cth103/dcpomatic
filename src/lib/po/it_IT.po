@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-04 23:59+0100\n"
+"POT-Creation-Date: 2013-07-15 22:07+0100\n"
 "PO-Revision-Date: 2013-04-28 10:26+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -17,55 +17,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/lib/transcode_job.cc:87
+#: src/lib/sndfile_content.cc:70
+msgid "%1 channels, %2kHz, %3 samples"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:193
+#, fuzzy
+msgid "%1 frames; %2 frames per second"
+msgstr "fotogrammi al secondo"
+
+#: src/lib/video_content.cc:131
+msgid "%1x%2 pixels (%3:1)"
+msgstr ""
+
+#: src/lib/transcode_job.cc:81
 msgid "0%"
 msgstr "0%"
 
-#: src/lib/format.cc:75
+#: src/lib/ratio.cc:47
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/format.cc:83
+#: src/lib/ratio.cc:50
 msgid "1.375"
 msgstr "1.375"
 
-#: src/lib/format.cc:95
+#: src/lib/ratio.cc:51
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/format.cc:99
-msgid "1.66 within Flat"
-msgstr "1.66 all'interno di Flat"
-
-#: src/lib/format.cc:107
+#: src/lib/ratio.cc:52
 msgid "16:9"
 msgstr "16:9"
-
-#: src/lib/format.cc:103
-msgid "16:9 within Flat"
-msgstr "16:9 all'interno di Flat"
-
-#: src/lib/format.cc:115
-msgid "16:9 within Scope"
-msgstr "16:9 all'interno di Scope"
 
 #: src/lib/filter.cc:88
 msgid "3D denoiser"
 msgstr "Riduttore di rumore 3D"
 
-#: src/lib/format.cc:79
+#: src/lib/ratio.cc:48
 msgid "4:3"
 msgstr "4:3"
 
-#: src/lib/format.cc:87
-msgid "4:3 within Flat"
-msgstr "4:3 all'interno di  Flat"
-
-#: src/lib/ab_transcode_job.cc:50
-msgid "A/B transcode %1"
-msgstr "Transcodifica A/B %1"
-
-#: src/lib/format.cc:91
+#: src/lib/ratio.cc:49
 msgid "Academy"
 msgstr "Academy"
 
@@ -73,11 +66,11 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Pubblicità"
 
-#: src/lib/job.cc:73
+#: src/lib/job.cc:72
 msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
-#: src/lib/analyse_audio_job.cc:49
+#: src/lib/analyse_audio_job.cc:53
 msgid "Analyse audio of %1"
 msgstr "Analizzo l'audio di %1"
 
@@ -93,7 +86,7 @@ msgstr "Bicubica"
 msgid "Bilinear"
 msgstr "Bilineare"
 
-#: src/lib/job.cc:318
+#: src/lib/job.cc:320
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -101,11 +94,7 @@ msgstr "Cancellato"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Non posso gestire il formato di pixel %1 durante %2"
 
-#: src/lib/encoder.cc:101
-msgid "Cannot resample audio as libswresample is not present"
-msgstr "Non posso ricampionare l'audio perchè libswresample non è presente"
-
-#: src/lib/util.cc:982
+#: src/lib/util.cc:700
 msgid "Centre"
 msgstr "Centro"
 
@@ -137,15 +126,15 @@ msgstr "Non posso scrivere il file remoto (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Deinterlacciatore cubico interpolato"
 
-#: src/lib/util.cc:1057
+#: src/lib/util.cc:723
 msgid "DCP and source have the same rate.\n"
 msgstr "Il DCP e il sorgente hanno la stessa frequenza.\n"
 
-#: src/lib/util.cc:1067
+#: src/lib/util.cc:733
 msgid "DCP will run at %1%% of the source speed.\n"
 msgstr "Il DCP andrà al %1%% della velocità del sorgente.\n"
 
-#: src/lib/util.cc:1060
+#: src/lib/util.cc:726
 msgid "DCP will use every other frame of the source.\n"
 msgstr "Il DCP userà ogni altro fotogramma del sorgente.\n"
 
@@ -168,21 +157,17 @@ msgstr "Filtro deringing"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:1062
+#: src/lib/util.cc:728
 msgid "Each source frame will be doubled in the DCP.\n"
 msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
 
-#: src/lib/job.cc:316
+#: src/lib/job.cc:318
 msgid "Error (%1)"
 msgstr "Errore (%1)"
 
-#: src/lib/examine_content_job.cc:55
+#: src/lib/examine_content_job.cc:45
 msgid "Examine content"
 msgstr "Esamino il contenuto"
-
-#: src/lib/examine_content_job.cc:58
-msgid "Examine content of %1"
-msgstr "Esamino il contenuto di %1"
 
 #: src/lib/filter.cc:72
 msgid "Experimental horizontal deblocking filter 1"
@@ -212,19 +197,15 @@ msgstr "Bilineare rapida"
 msgid "Feature"
 msgstr "Caratteristica"
 
-#: src/lib/format.cc:111
+#: src/lib/ratio.cc:53
 msgid "Flat"
 msgstr "Flat"
-
-#: src/lib/format.cc:127
-msgid "Flat without stretch"
-msgstr "Flat senza stiramento"
 
 #: src/lib/filter.cc:85
 msgid "Force quantizer"
 msgstr "Forza quantizzatore"
 
-#: src/lib/format.cc:123
+#: src/lib/ratio.cc:55
 msgid "Full frame"
 msgstr ""
 
@@ -248,7 +229,11 @@ msgstr "Filtro sblocco orizzontale"
 msgid "Horizontal deblocking filter A"
 msgstr "Filtro A sblocco orizzontale"
 
-#: src/lib/job.cc:97 src/lib/job.cc:106
+#: src/lib/imagemagick_content.cc:50
+msgid "Image: %1"
+msgstr ""
+
+#: src/lib/job.cc:96 src/lib/job.cc:105
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
 "problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
@@ -264,15 +249,15 @@ msgstr "Deinterlacciatore Kernel"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:980
+#: src/lib/util.cc:698
 msgid "Left"
 msgstr "Sinistro"
 
-#: src/lib/util.cc:984
+#: src/lib/util.cc:702
 msgid "Left surround"
 msgstr "Surround sinistro"
 
-#: src/lib/util.cc:983
+#: src/lib/util.cc:701
 msgid "Lfe (sub)"
 msgstr "Lfe(sub)"
 
@@ -297,12 +282,16 @@ msgstr "Varie"
 msgid "Motion compensating deinterlacer"
 msgstr "Dinterlacciatore compensativo di movimento"
 
+#: src/lib/ffmpeg_content.cc:181
+msgid "Movie: %1"
+msgstr ""
+
 #: src/lib/filter.cc:84 src/lib/filter.cc:88 src/lib/filter.cc:89
 #: src/lib/filter.cc:91
 msgid "Noise reduction"
 msgstr "Riduzione del rumore"
 
-#: src/lib/job.cc:314
+#: src/lib/job.cc:316
 msgid "OK (ran for %1)"
 msgstr "OK (eseguito in %1)"
 
@@ -322,15 +311,11 @@ msgstr "Annuncio di pubblico servizio"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/util.cc:535
-msgid "Rec 709"
-msgstr "Rec 709"
-
-#: src/lib/util.cc:981
+#: src/lib/util.cc:699
 msgid "Right"
 msgstr "Destro"
 
-#: src/lib/util.cc:985
+#: src/lib/util.cc:703
 msgid "Right surround"
 msgstr "Surround destro"
 
@@ -338,13 +323,9 @@ msgstr "Surround destro"
 msgid "SSH error (%1)"
 msgstr "Errore SSH (%1)"
 
-#: src/lib/format.cc:119
+#: src/lib/ratio.cc:54
 msgid "Scope"
 msgstr "Scope"
-
-#: src/lib/format.cc:131
-msgid "Scope without stretch"
-msgstr "Scope senza stiramento"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Short"
@@ -353,6 +334,11 @@ msgstr "Corto"
 #: src/lib/scaler.cc:67
 msgid "Sinc"
 msgstr "Sinc"
+
+#: src/lib/sndfile_content.cc:57
+#, fuzzy
+msgid "Sound file: %1"
+msgstr "non riesco ad aprire %1"
 
 #: src/lib/scaler.cc:68
 msgid "Spline"
@@ -374,7 +360,7 @@ msgstr "Riduttore temporale di rumore"
 msgid "Test"
 msgstr "Prova"
 
-#: src/lib/job.cc:79
+#: src/lib/job.cc:78
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -382,11 +368,18 @@ msgstr ""
 "Sul disco dove è memorizzato il film non c'è abbastanza spazio. Liberare "
 "altro spazio e riprovare."
 
+#: src/lib/film.cc:364
+msgid ""
+"This film was created with an older version of DCP-o-matic, and "
+"unfortunately it cannot be loaded into this version.  You will need to "
+"create a new Film, re-add your content and set it up again.  Sorry!"
+msgstr ""
+
 #: src/lib/dcp_content_type.cc:46
 msgid "Trailer"
 msgstr "Prossimamente"
 
-#: src/lib/transcode_job.cc:54
+#: src/lib/transcode_job.cc:50
 msgid "Transcode %1"
 msgstr "Transcodifica %1"
 
@@ -394,11 +387,11 @@ msgstr "Transcodifica %1"
 msgid "Transitional"
 msgstr "Di transizione"
 
-#: src/lib/job.cc:105
+#: src/lib/job.cc:104
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
-#: src/lib/ffmpeg_decoder.cc:387
+#: src/lib/ffmpeg_decoder.cc:264
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato di campionamento audio non riconosciuto (%1)"
 
@@ -426,11 +419,15 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/film.cc:300
+#: src/lib/film.cc:273
+msgid "You must add some content to the DCP before creating it"
+msgstr ""
+
+#: src/lib/film.cc:232
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
-#: src/lib/util.cc:576
+#: src/lib/util.cc:494
 msgid "connect timed out"
 msgstr "connessione scaduta"
 
@@ -438,11 +435,12 @@ msgstr "connessione scaduta"
 msgid "connecting"
 msgstr "mi sto connettendo"
 
-#: src/lib/film.cc:337
-msgid "content"
+#: src/lib/film.cc:269
+#, fuzzy
+msgid "container"
 msgstr "contenuto"
 
-#: src/lib/film.cc:341
+#: src/lib/film.cc:277
 msgid "content type"
 msgstr "tipo di contenuto"
 
@@ -454,31 +452,32 @@ msgstr "copia %1"
 msgid "could not create file %1"
 msgstr "Non posso scrivere il file remoto (%1)"
 
-#: src/lib/ffmpeg_decoder.cc:186
+#: src/lib/ffmpeg.cc:128
 msgid "could not find audio decoder"
 msgstr "non riesco a trovare il decoder audio"
 
-#: src/lib/ffmpeg_decoder.cc:113
+#: src/lib/ffmpeg.cc:76
 msgid "could not find stream information"
 msgstr "non riesco a trovare informazioni sullo streaming"
 
-#: src/lib/ffmpeg_decoder.cc:205
+#: src/lib/ffmpeg_decoder.cc:498
 msgid "could not find subtitle decoder"
 msgstr "non riesco a trovare il decoder dei sottotitoli"
 
-#: src/lib/ffmpeg_decoder.cc:164
+#: src/lib/ffmpeg.cc:107
 msgid "could not find video decoder"
 msgstr "non riesco a trovare il decoder video"
 
-#: src/lib/sndfile_decoder.cc:67
-msgid "could not open external audio file for reading"
-msgstr "non riesco ad aprire il file dell'audio esterno per leggerlo"
+#: src/lib/sndfile_decoder.cc:45
+#, fuzzy
+msgid "could not open audio file for reading"
+msgstr "non riesco ad aprire il file per leggerlo"
 
 #: src/lib/exceptions.cc:29
 msgid "could not open file %1"
 msgstr "non riesco ad aprire %1"
 
-#: src/lib/dcp_video_frame.cc:388
+#: src/lib/dcp_video_frame.cc:263
 msgid "could not open file for reading"
 msgstr "non riesco ad aprire il file per leggerlo"
 
@@ -486,7 +485,7 @@ msgstr "non riesco ad aprire il file per leggerlo"
 msgid "could not read from file %1 (%2)"
 msgstr "non posso leggere dal file %1 (%2)"
 
-#: src/lib/encoder.cc:137 src/lib/encoder.cc:318
+#: src/lib/resampler.cc:76 src/lib/resampler.cc:96
 msgid "could not run sample-rate converter"
 msgstr "non riesco a eseguire il convertitore della frequenza di campionamento"
 
@@ -502,39 +501,27 @@ msgstr "non posso avviare la sessione SSH"
 msgid "could not write to file %1 (%2)"
 msgstr "non posso scrivere il file (%1)"
 
-#: src/lib/sndfile_decoder.cc:89
-msgid "external audio files have differing lengths"
-msgstr "i files dell'audio esterno hanno durata diversa"
-
-#: src/lib/sndfile_decoder.cc:71
-msgid "external audio files must be mono"
-msgstr "i files dell'audio esterno devono essere mono"
-
-#: src/lib/film.cc:333
-msgid "format"
-msgstr "formato"
-
-#: src/lib/transcode_job.cc:100
+#: src/lib/transcode_job.cc:94
 msgid "frames per second"
 msgstr "fotogrammi al secondo"
 
-#: src/lib/util.cc:134
+#: src/lib/util.cc:146
 msgid "hour"
 msgstr "ora"
 
-#: src/lib/util.cc:131 src/lib/util.cc:136
+#: src/lib/util.cc:143 src/lib/util.cc:148
 msgid "hours"
 msgstr "ore"
 
-#: src/lib/util.cc:141
+#: src/lib/util.cc:153
 msgid "minute"
 msgstr "minuto"
 
-#: src/lib/util.cc:143
+#: src/lib/util.cc:155
 msgid "minutes"
 msgstr "minuti"
 
-#: src/lib/util.cc:719
+#: src/lib/util.cc:621
 msgid "missing key %1 in key-value set"
 msgstr "persa la chiave %1 tra i valori chiave"
 
@@ -542,43 +529,81 @@ msgstr "persa la chiave %1 tra i valori chiave"
 msgid "missing required setting %1"
 msgstr "persa la regolazione richiesta %1"
 
-#: src/lib/subtitle.cc:52
+#: src/lib/ffmpeg_decoder.cc:530
 msgid "multi-part subtitles not yet supported"
 msgstr "sottotitoli multi-part non ancora supportati"
 
-#: src/lib/film.cc:300 src/lib/film.cc:345
+#: src/lib/film.cc:232 src/lib/film.cc:281
 msgid "name"
 msgstr "nome"
 
-#: src/lib/imagemagick_decoder.cc:60
-msgid "no still image files found"
-msgstr "file immagini statiche non trovati"
-
-#: src/lib/subtitle.cc:58
+#: src/lib/ffmpeg_decoder.cc:545
 msgid "non-bitmap subtitles not yet supported"
 msgstr "sottotitoli non-bitmap non ancora supportati"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:311
+#: src/lib/job.cc:313
 msgid "remaining"
 msgstr "restano"
 
-#: src/lib/util.cc:533
-msgid "sRGB"
-msgstr "sRGB"
-
-#: src/lib/util.cc:146
+#: src/lib/util.cc:158
 msgid "seconds"
 msgstr "secondi"
 
-#: src/lib/film.cc:311
-msgid "still"
-msgstr "ancora"
+#~ msgid "1.66 within Flat"
+#~ msgstr "1.66 all'interno di Flat"
 
-#: src/lib/film.cc:311
-msgid "video"
-msgstr "video"
+#~ msgid "16:9 within Flat"
+#~ msgstr "16:9 all'interno di Flat"
+
+#~ msgid "16:9 within Scope"
+#~ msgstr "16:9 all'interno di Scope"
+
+#~ msgid "4:3 within Flat"
+#~ msgstr "4:3 all'interno di  Flat"
+
+#~ msgid "A/B transcode %1"
+#~ msgstr "Transcodifica A/B %1"
+
+#~ msgid "Cannot resample audio as libswresample is not present"
+#~ msgstr "Non posso ricampionare l'audio perchè libswresample non è presente"
+
+#~ msgid "Examine content of %1"
+#~ msgstr "Esamino il contenuto di %1"
+
+#~ msgid "Flat without stretch"
+#~ msgstr "Flat senza stiramento"
+
+#~ msgid "Rec 709"
+#~ msgstr "Rec 709"
+
+#~ msgid "Scope without stretch"
+#~ msgstr "Scope senza stiramento"
+
+#~ msgid "could not open external audio file for reading"
+#~ msgstr "non riesco ad aprire il file dell'audio esterno per leggerlo"
+
+#~ msgid "external audio files have differing lengths"
+#~ msgstr "i files dell'audio esterno hanno durata diversa"
+
+#~ msgid "external audio files must be mono"
+#~ msgstr "i files dell'audio esterno devono essere mono"
+
+#~ msgid "format"
+#~ msgstr "formato"
+
+#~ msgid "no still image files found"
+#~ msgstr "file immagini statiche non trovati"
+
+#~ msgid "sRGB"
+#~ msgstr "sRGB"
+
+#~ msgid "still"
+#~ msgstr "ancora"
+
+#~ msgid "video"
+#~ msgstr "video"
 
 #~ msgid "1.33"
 #~ msgstr "1.33"
