@@ -45,6 +45,9 @@ public:
 	static JobManager* instance ();
 
 private:
+	/* This function is part of the test suite */
+	friend void ::wait_for_jobs ();
+	
 	JobManager ();
 	void scheduler ();
 	
