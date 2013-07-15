@@ -20,9 +20,9 @@
 /* Test Playlist::best_dcp_frame_rate and FrameRateConversion
    with a single piece of content.
 */
-BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
+BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 {
-	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test");
+	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_single");
 	/* Get any piece of content, it doesn't matter what */
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
 	film->add_content (content);
@@ -178,6 +178,33 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
 }
+
+/* Test Playlist::best_dcp_frame_rate and FrameRateConversion
+   with two pieces of content.
+*/
+BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
+{
+	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_double");
+	/* Get any old content, it doesn't matter what */
+	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
+	film->add_content (A);
+	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
+	film->add_content (B);
+	wait_for_jobs ();
+
+	/* Run some tests with a limited range of allowed rates */
+	
+	std::list<int> afr;
+	afr.push_back (24);
+	afr.push_back (25);
+	afr.push_back (30);
+	Config::instance()->set_allowed_dcp_frame_rates (afr);
+
+	A->_video_frame_rate = 30;
+	B->_video_frame_rate = 24;
+	BOOST_CHECK_EQUAL (film->playlist()->best_dcp_frame_rate(), 25);
+}
+
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {

@@ -221,7 +221,7 @@ Playlist::best_dcp_frame_rate () const
 		candidates.push_back (FrameRateCandidate (float (*i) * 2, *i));
 	}
 
-	/* Pick the best one, bailing early if we hit an exact match */
+	/* Pick the best one */
 	float error = std::numeric_limits<float>::max ();
 	optional<FrameRateCandidate> best;
 	list<FrameRateCandidate>::iterator i = candidates.begin();
@@ -234,7 +234,8 @@ Playlist::best_dcp_frame_rate () const
 				continue;
 			}
 
-			this_error += fabs (i->source - vc->video_frame_rate ());
+			/* Use the largest difference between DCP and source as the "error" */
+			this_error = max (this_error, float (fabs (i->source - vc->video_frame_rate ())));
 		}
 
 		if (this_error < error) {
