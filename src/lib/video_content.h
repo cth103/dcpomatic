@@ -88,6 +88,8 @@ protected:
 
 private:
 	friend class ffmpeg_pts_offset_test;
+	friend class best_dcp_frame_rate_test;
+	friend class audio_sampling_rate_test;
 	
 	libdcp::Size _video_size;
 	float _video_frame_rate;
