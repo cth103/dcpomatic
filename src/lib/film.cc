@@ -632,6 +632,9 @@ Film::signal_changed (Property p)
 	case Film::CONTENT:
 		set_dcp_video_frame_rate (_playlist->best_dcp_frame_rate ());
 		break;
+	case Film::DCP_VIDEO_FRAME_RATE:
+		_playlist->maybe_sequence_video ();
+		break;
 	default:
 		break;
 	}
