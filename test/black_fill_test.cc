@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
-	while (JobManager::instance()->work_to_do ()) {}
+	wait_for_jobs ();
 
 	contentA->set_video_length (3);
 	contentA->set_start (film->video_frames_to_time (2));
