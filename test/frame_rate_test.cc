@@ -17,10 +17,17 @@
 
 */
 
-/* Test best_dcp_frame_rate and FrameRateConversion */
+/* Test Playlist::best_dcp_frame_rate and FrameRateConversion
+   with a single piece of content.
+*/
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 {
-#if 0	
+	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test");
+	/* Get any piece of content, it doesn't matter what */
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	film->add_content (content);
+	wait_for_jobs ();
+	
 	/* Run some tests with a limited range of allowed rates */
 	
 	std::list<int> afr;
@@ -29,77 +36,88 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 	afr.push_back (30);
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
-	int best = best_dcp_frame_rate (60);
+	content->_video_frame_rate = 60;
+	int best = film->playlist()->best_dcp_frame_rate ();
 	FrameRateConversion frc = FrameRateConversion (60, best);
 	BOOST_CHECK_EQUAL (best, 30);
 	BOOST_CHECK_EQUAL (frc.skip, true);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 	
-	best = best_dcp_frame_rate (50);
+	content->_video_frame_rate = 50;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (50, best);
 	BOOST_CHECK_EQUAL (best, 25);
 	BOOST_CHECK_EQUAL (frc.skip, true);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 
-	best = best_dcp_frame_rate (48);
+	content->_video_frame_rate = 48;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (48, best);
 	BOOST_CHECK_EQUAL (best, 24);
 	BOOST_CHECK_EQUAL (frc.skip, true);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
-	
-	best = best_dcp_frame_rate (30);
+
+	content->_video_frame_rate = 30;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (30, best);
 	BOOST_CHECK_EQUAL (best, 30);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 
-	best = best_dcp_frame_rate (29.97);
+	content->_video_frame_rate = 29.97;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (29.97, best);
 	BOOST_CHECK_EQUAL (best, 30);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
 	
-	best = best_dcp_frame_rate (25);
+	content->_video_frame_rate = 25;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (25, best);
 	BOOST_CHECK_EQUAL (best, 25);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 
-	best = best_dcp_frame_rate (24);
+	content->_video_frame_rate = 24;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (24, best);
 	BOOST_CHECK_EQUAL (best, 24);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 
-	best = best_dcp_frame_rate (14.5);
+	content->_video_frame_rate = 14.5;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (14.5, best);
 	BOOST_CHECK_EQUAL (best, 30);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, true);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
 
-	best = best_dcp_frame_rate (12.6);
+	content->_video_frame_rate = 12.6;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (12.6, best);
 	BOOST_CHECK_EQUAL (best, 25);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, true);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
 
-	best = best_dcp_frame_rate (12.4);
+	content->_video_frame_rate = 12.4;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (12.4, best);
 	BOOST_CHECK_EQUAL (best, 25);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, true);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
 
-	best = best_dcp_frame_rate (12);
+	content->_video_frame_rate = 12;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (12, best);
 	BOOST_CHECK_EQUAL (best, 24);
 	BOOST_CHECK_EQUAL (frc.skip, false);
@@ -115,21 +133,24 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 	afr.push_back (60);
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
-	best = best_dcp_frame_rate (60);
+	content->_video_frame_rate = 60;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (60, best);
 	BOOST_CHECK_EQUAL (best, 60);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 	
-	best = best_dcp_frame_rate (50);
+	content->_video_frame_rate = 50;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (50, best);
 	BOOST_CHECK_EQUAL (best, 50);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, false);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 
-	best = best_dcp_frame_rate (48);
+	content->_video_frame_rate = 48;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (48, best);
 	BOOST_CHECK_EQUAL (best, 48);
 	BOOST_CHECK_EQUAL (frc.skip, false);
@@ -149,7 +170,8 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 	afr.push_back (24);
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
-	best = best_dcp_frame_rate (25);
+	content->_video_frame_rate = 25;
+	best = film->playlist()->best_dcp_frame_rate ();
 	frc = FrameRateConversion (25, best);
 	BOOST_CHECK_EQUAL (best, 24);
 	BOOST_CHECK_EQUAL (frc.skip, false);
@@ -159,55 +181,58 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test)
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
+	shared_ptr<Film> film = new_test_film ("audio_sampling_rate_test");
+	/* Get any piece of content, it doesn't matter what */
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	film->add_content (content);
+	wait_for_jobs ();
+	
 	std::list<int> afr;
 	afr.push_back (24);
 	afr.push_back (25);
 	afr.push_back (30);
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
-	shared_ptr<Film> f = new_test_film ("audio_sampling_rate_test");
-	f->set_source_frame_rate (24);
-	f->set_dcp_frame_rate (24);
+	content->_video_frame_rate = 24;
+	film->set_dcp_video_frame_rate (24);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 48000);
 
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 48000);
 
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 48000);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 80000, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 96000);
 
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 80000, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 96000);
+	content->_video_frame_rate = 23.976;
+	film->set_dcp_video_frame_rate (24);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 47952);
 
-	f->set_source_frame_rate (23.976);
-	f->set_dcp_frame_rate (best_dcp_frame_rate (23.976));
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
+	content->_video_frame_rate = 29.97;
+	film->set_dcp_video_frame_rate (30);
+	BOOST_CHECK_EQUAL (film->dcp_video_frame_rate (), 30);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 47952);
 
-	f->set_source_frame_rate (29.97);
-	f->set_dcp_frame_rate (best_dcp_frame_rate (29.97));
-	BOOST_CHECK_EQUAL (f->dcp_frame_rate (), 30);
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 47952);
+	content->_video_frame_rate = 25;
+	film->set_dcp_video_frame_rate (24);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 50000);
 
-	f->set_source_frame_rate (25);
-	f->set_dcp_frame_rate (24);
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 50000);
-
-	f->set_source_frame_rate (25);
-	f->set_dcp_frame_rate (24);
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), 50000);
+	content->_video_frame_rate = 25;
+	film->set_dcp_video_frame_rate (24);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 50000);
 
 	/* Check some out-there conversions (not the best) */
 	
-	f->set_source_frame_rate (14.99);
-	f->set_dcp_frame_rate (25);
-	f->set_content_audio_stream (shared_ptr<AudioStream> (new FFmpegAudioStream ("a", 42, 16000, 0)));
-	/* The FrameRateConversion within target_audio_sample_rate should choose to double-up
+	content->_video_frame_rate = 14.99;
+	film->set_dcp_video_frame_rate (25);
+	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 16000, 0)));
+	/* The FrameRateConversion within output_audio_frame_rate should choose to double-up
 	   the 14.99 fps video to 30 and then run it slow at 25.
 	*/
-	BOOST_CHECK_EQUAL (f->target_audio_sample_rate(), rint (48000 * 2 * 14.99 / 25));
-#endif	
+	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), rint (48000 * 2 * 14.99 / 25));
 }
 
