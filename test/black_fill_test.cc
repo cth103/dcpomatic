@@ -48,9 +48,7 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 
 	film->make_dcp ();
 
-	while (JobManager::instance()->work_to_do ()) {}
-
-	BOOST_CHECK (!JobManager::instance()->errors());
+	wait_for_jobs ();
 
 	boost::filesystem::path ref;
 	ref = "test";
