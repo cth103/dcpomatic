@@ -119,12 +119,6 @@ seconds_to_hms (int s)
 	return hms.str ();
 }
 
-string
-time_to_hms (Time t)
-{
-	return seconds_to_hms (t / TIME_HZ);
-}
-
 /** @param s Number of seconds.
  *  @return String containing an approximate description of s (e.g. "about 2 hours")
  */
@@ -207,15 +201,11 @@ void
 stacktrace (ostream& out, int levels)
 {
 	void *array[200];
-	size_t size;
-	char **strings;
-	size_t i;
-     
-	size = backtrace (array, 200);
-	strings = backtrace_symbols (array, size);
+	size_t size = backtrace (array, 200);
+	char** strings = backtrace_symbols (array, size);
      
 	if (strings) {
-		for (i = 0; i < size && (levels == 0 || i < size_t(levels)); i++) {
+		for (size_t i = 0; i < size && (levels == 0 || i < size_t(levels)); i++) {
 			out << N_("  ") << demangle (strings[i]) << "\n";
 		}
 		
@@ -563,12 +553,6 @@ stride_round_up (int c, int const * stride, int t)
 {
 	int const a = stride[c] + (t - 1);
 	return a - (a % t);
-}
-
-int
-stride_lookup (int c, int const * stride)
-{
-	return stride[c];
 }
 
 /** Read a sequence of key / value pairs from a text stream;

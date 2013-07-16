@@ -85,9 +85,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 	  << "time_base=1/1:"
 	  << "pixel_aspect=1/1";
 
-	int r;
-
-	if ((r = avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph)) < 0) {
+	if (avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph) < 0) {
 		throw DecodeError (N_("could not create buffer source"));
 	}
 

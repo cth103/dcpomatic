@@ -265,7 +265,6 @@ dcpomatic_setup_i18n ()
 		if (!locale->IsOk()) {
 			delete locale;
 			locale = new wxLocale (wxLANGUAGE_ENGLISH);
-			language = wxLANGUAGE_ENGLISH;
 		}
 	}
 

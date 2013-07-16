@@ -138,16 +138,6 @@ VideoContent::information () const
 }
 
 void
-VideoContent::set_crop (Crop c)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_crop = c;
-	}
-	signal_changed (VideoContentProperty::VIDEO_CROP);
-}
-
-void
 VideoContent::set_left_crop (int c)
 {
 	{

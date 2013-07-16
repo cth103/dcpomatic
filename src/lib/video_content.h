@@ -63,7 +63,6 @@ public:
 		return _video_frame_rate;
 	}
 
-	void set_crop (Crop);
 	void set_left_crop (int);
 	void set_right_crop (int);
 	void set_top_crop (int);

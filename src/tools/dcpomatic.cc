@@ -89,7 +89,10 @@ public:
 		return _dialog->ShowModal ();
 	}
 
-private:	
+private:
+	/* Not defined */
+	FilmChangedDialog (FilmChangedDialog const &);
+	
 	wxMessageDialog* _dialog;
 };
 
@@ -197,13 +200,6 @@ setup_menu (wxMenuBar* m)
 #endif	
 	m->Append (jobs_menu, _("&Jobs"));
 	m->Append (help, _("&Help"));
-}
-
-bool
-window_closed (wxCommandEvent &)
-{
-	maybe_save_then_delete_film ();
-	return false;
 }
 
 class Frame : public wxFrame

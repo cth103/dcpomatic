@@ -969,20 +969,6 @@ FilmEditor::audio_delay_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::setup_main_notebook_size ()
-{
-	_main_notebook->InvalidateBestSize ();
-
-	_content_sizer->Layout ();
-	_content_sizer->SetSizeHints (_content_panel);
-	_dcp_sizer->Layout ();
-	_dcp_sizer->SetSizeHints (_dcp_panel);
-
-	_main_notebook->Fit ();
-	Fit ();
-}
-
-void
 FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);

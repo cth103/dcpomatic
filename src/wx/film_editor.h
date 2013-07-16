@@ -108,7 +108,6 @@ private:
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
 	void setup_scaling_description ();
-	void setup_main_notebook_size ();
 	void setup_content ();
 	void setup_container ();
 	void setup_content_sensitivity ();

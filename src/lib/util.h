@@ -55,7 +55,6 @@ class Scaler;
 class Film;
 
 extern std::string seconds_to_hms (int);
-extern std::string time_to_hms (Time);
 extern std::string seconds_to_approximate_hms (int);
 extern void stacktrace (std::ostream &, int);
 extern std::string dependency_version_summary ();
@@ -108,7 +107,6 @@ struct FrameRateConversion
 
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
-extern int stride_lookup (int c, int const * stride);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);
