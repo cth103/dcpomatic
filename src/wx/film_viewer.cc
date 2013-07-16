@@ -129,7 +129,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player = f->player ();
 	_player->disable_audio ();
 	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _3));
-	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this));
+	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
 	fetch_current_frame_again ();
@@ -377,8 +377,12 @@ FilmViewer::forward_clicked (wxCommandEvent &)
 }
 
 void
-FilmViewer::player_changed ()
+FilmViewer::player_changed (bool frequent)
 {
+	if (frequent) {
+		return;
+	}
+	
 	calculate_sizes ();
 	fetch_current_frame_again ();
 }

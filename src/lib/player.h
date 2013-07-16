@@ -71,8 +71,10 @@ public:
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
 	 *  a seek.
+	 *
+	 *  The parameter is true if these signals are currently likely to be frequent.
 	 */
-	boost::signals2::signal<void ()> Changed;
+	boost::signals2::signal<void (bool)> Changed;
 
 private:
 	friend class PlayerWrapper;
@@ -82,7 +84,7 @@ private:
 	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 	void setup_pieces ();
 	void playlist_changed ();
-	void content_changed (boost::weak_ptr<Content>, int);
+	void content_changed (boost::weak_ptr<Content>, int, bool);
 	void do_seek (Time, bool);
 	void flush ();
 	void emit_black ();

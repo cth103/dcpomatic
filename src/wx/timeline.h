@@ -70,6 +70,7 @@ private:
 	void setup_pixels_per_time_unit ();
 	void resized (wxSizeEvent &);
 	void assign_tracks ();
+	void set_start_from_event (wxMouseEvent &);
 
 	FilmEditor* _film_editor;
 	boost::weak_ptr<Film> _film;

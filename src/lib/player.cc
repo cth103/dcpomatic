@@ -97,7 +97,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _audio_buffers (f->dcp_audio_channels(), 0)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
-	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2));
+	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film->Changed.connect (bind (&Player::film_changed, this, _1));
 	set_video_container_size (_film->container()->size (_film->full_frame ()));
 }
@@ -461,7 +461,7 @@ Player::setup_pieces ()
 }
 
 void
-Player::content_changed (weak_ptr<Content> w, int p)
+Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 {
 	shared_ptr<Content> c = w.lock ();
 	if (!c) {
@@ -469,16 +469,16 @@ Player::content_changed (weak_ptr<Content> w, int p)
 	}
 
 	if (
-		p == ContentProperty::START || p == ContentProperty::LENGTH ||
-		p == VideoContentProperty::VIDEO_CROP || p == VideoContentProperty::VIDEO_RATIO
+		property == ContentProperty::START || property == ContentProperty::LENGTH ||
+		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO
 		) {
 		
 		_have_valid_pieces = false;
-		Changed ();
+		Changed (frequent);
 
-	} else if (p == SubtitleContentProperty::SUBTITLE_OFFSET || p == SubtitleContentProperty::SUBTITLE_SCALE) {
+	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET || property == SubtitleContentProperty::SUBTITLE_SCALE) {
 		update_subtitle ();
-		Changed ();
+		Changed (frequent);
 	}
 }
 
@@ -486,7 +486,7 @@ void
 Player::playlist_changed ()
 {
 	_have_valid_pieces = false;
-	Changed ();
+	Changed (false);
 }
 
 void
@@ -541,7 +541,7 @@ Player::film_changed (Film::Property p)
 	*/
 
 	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER) {
-		Changed ();
+		Changed (false);
 	}
 }
 

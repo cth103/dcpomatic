@@ -89,10 +89,11 @@ public:
 	void maybe_sequence_video ();
 
 	mutable boost::signals2::signal<void ()> Changed;
-	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
+	/** Third parameter is true if signals are currently being emitted frequently */
+	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> ContentChanged;
 	
 private:
-	void content_changed (boost::weak_ptr<Content>, int);
+	void content_changed (boost::weak_ptr<Content>, int, bool);
 	void reconnect ();
 
 	ContentList _content;

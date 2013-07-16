@@ -493,12 +493,28 @@ Timeline::left_down (wxMouseEvent& ev)
 	_left_down = true;
 	_down_point = ev.GetPosition ();
 	_first_move = false;
+
+	if (_down_view) {
+		shared_ptr<Content> c = _down_view->content().lock ();
+		if (c) {
+			c->set_change_signals_frequent (true);
+		}
+	}
 }
 
 void
-Timeline::left_up (wxMouseEvent &)
+Timeline::left_up (wxMouseEvent& ev)
 {
 	_left_down = false;
+
+	if (_down_view) {
+		shared_ptr<Content> c = _down_view->content().lock ();
+		if (c) {
+			c->set_change_signals_frequent (false);
+		}
+	}
+
+	set_start_from_event (ev);
 }
 
 void
@@ -508,6 +524,12 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 		return;
 	}
 
+	set_start_from_event (ev);
+}
+
+void
+Timeline::set_start_from_event (wxMouseEvent& ev)
+{
 	wxPoint const p = ev.GetPosition();
 
 	if (!_first_move) {

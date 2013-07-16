@@ -24,6 +24,7 @@
 #include "util.h"
 
 using std::string;
+using std::set;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -33,6 +34,7 @@ int const ContentProperty::LENGTH = 401;
 Content::Content (shared_ptr<const Film> f, Time s)
 	: _film (f)
 	, _start (s)
+	, _change_signals_frequent (false)
 {
 
 }
@@ -41,12 +43,14 @@ Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
 	: _film (f)
 	, _file (p)
 	, _start (0)
+	, _change_signals_frequent (false)
 {
 
 }
 
 Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: _film (f)
+	, _change_signals_frequent (false)
 {
 	_file = node->string_child ("File");
 	_digest = node->string_child ("Digest");
@@ -59,6 +63,7 @@ Content::Content (Content const & o)
 	, _file (o._file)
 	, _digest (o._digest)
 	, _start (o._start)
+	, _change_signals_frequent (o._change_signals_frequent)
 {
 
 }
@@ -83,7 +88,7 @@ Content::examine (shared_ptr<Job>)
 void
 Content::signal_changed (int p)
 {
-	Changed (shared_from_this (), p);
+	Changed (shared_from_this (), p, _change_signals_frequent);
 }
 
 void

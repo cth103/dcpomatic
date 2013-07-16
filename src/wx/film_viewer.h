@@ -66,7 +66,7 @@ private:
 	void active_jobs_changed (bool);
 	void back_clicked (wxCommandEvent &);
 	void forward_clicked (wxCommandEvent &);
-	void player_changed ();
+	void player_changed (bool);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;

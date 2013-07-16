@@ -20,6 +20,7 @@
 #ifndef DCPOMATIC_CONTENT_H
 #define DCPOMATIC_CONTENT_H
 
+#include <set>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
@@ -79,7 +80,11 @@ public:
 		return start() + length();
 	}
 
-	boost::signals2::signal<void (boost::weak_ptr<Content>, int)> Changed;
+	void set_change_signals_frequent (bool f) {
+		_change_signals_frequent = f;
+	}
+
+	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
 protected:
 	void signal_changed (int);
@@ -91,6 +96,7 @@ private:
 	boost::filesystem::path _file;
 	std::string _digest;
 	Time _start;
+	bool _change_signals_frequent;
 };
 
 #endif

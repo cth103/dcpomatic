@@ -70,13 +70,13 @@ Playlist::~Playlist ()
 }
 
 void
-Playlist::content_changed (weak_ptr<Content> c, int p)
+Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
 {
-	if (p == ContentProperty::LENGTH) {
+	if (property == ContentProperty::LENGTH) {
 		maybe_sequence_video ();
 	}
 	
-	ContentChanged (c, p);
+	ContentChanged (content, property, frequent);
 }
 
 
@@ -285,7 +285,7 @@ Playlist::reconnect ()
 	_content_connections.clear ();
 		
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		_content_connections.push_back ((*i)->Changed.connect (bind (&Playlist::content_changed, this, _1, _2)));
+		_content_connections.push_back ((*i)->Changed.connect (bind (&Playlist::content_changed, this, _1, _2, _3)));
 	}
 }
 
