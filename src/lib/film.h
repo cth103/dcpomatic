@@ -33,24 +33,21 @@
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include "util.h"
-#include "dci_metadata.h"
 #include "types.h"
-#include "ffmpeg_content.h"
 #include "playlist.h"
+#include "dci_metadata.h"
 
 class DCPContentType;
-class Job;
-class Filter;
 class Log;
-class ExamineContentJob;
-class AnalyseAudioJob;
-class ExternalAudioStream;
 class Content;
 class Player;
 
 /** @class Film
+ *
  *  @brief A representation of some audio and video content, and details of
  *  how they should be presented in a DCP.
+ *
+ *  The content of a Film is held in a Playlist (created and managed by the Film)
  */
 class Film : public boost::enable_shared_from_this<Film>
 {
