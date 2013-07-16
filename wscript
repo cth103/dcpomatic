@@ -224,7 +224,7 @@ def git_revision():
     cmd = "LANG= git log --abbrev HEAD^..HEAD ."
     output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
     o = output[0].decode('utf-8')
-    return o.replace ("commit ", "")[0:10]
+    return o.replace("commit ", "")[0:10]
 
 def dist(ctx):
     r = git_revision()
@@ -242,12 +242,16 @@ def dist(ctx):
 
 def create_version_cc(version, cxx_flags):
     commit = git_revision()
+    print "1: ", commit
     if commit is None and os.path.exists('.git_revision'):
-        f = open('.git_revision')
+        f = open('.git_revision', 'r')
         commit = f.readline().strip()
+        print "2: ", commit
     
     if commit is None:
         commit = 'release'
+
+    print commit
 
     try:
         text =  '#include "version.h"\n'
