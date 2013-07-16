@@ -33,6 +33,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	f->set_name ("fred");
 	f->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
 	f->set_container (Ratio::from_id ("185"));
+	f->set_j2k_bandwidth (200000000);
 	f->write_metadata ();
 
 	stringstream s;
