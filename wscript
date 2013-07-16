@@ -242,16 +242,12 @@ def dist(ctx):
 
 def create_version_cc(version, cxx_flags):
     commit = git_revision()
-    print "1: ", commit
     if commit is None and os.path.exists('.git_revision'):
         f = open('.git_revision', 'r')
         commit = f.readline().strip()
-        print "2: ", commit
     
     if commit is None:
         commit = 'release'
-
-    print commit
 
     try:
         text =  '#include "version.h"\n'
