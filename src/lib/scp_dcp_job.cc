@@ -179,11 +179,13 @@ SCPDCPJob::run ()
 			int const t = min (to_do, buffer_size);
 			size_t const read = fread (buffer, 1, t, f);
 			if (read != size_t (t)) {
+				fclose (f);
 				throw ReadFileError (boost::filesystem::path (*i).string());
 			}
 			
 			r = ssh_scp_write (sc.scp, buffer, t);
 			if (r != SSH_OK) {
+				fclose (f);
 				throw NetworkError (String::compose (_("Could not write to remote file (%1)"), ssh_get_error (ss.session)));
 			}
 			to_do -= t;
