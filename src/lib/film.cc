@@ -33,7 +33,6 @@
 #include <libcxml/cxml.h>
 #include "film.h"
 #include "job.h"
-#include "filter.h"
 #include "util.h"
 #include "job_manager.h"
 #include "transcode_job.h"
@@ -47,9 +46,6 @@
 #include "ui_signaller.h"
 #include "playlist.h"
 #include "player.h"
-#include "ffmpeg_content.h"
-#include "imagemagick_content.h"
-#include "sndfile_content.h"
 #include "dcp_content_type.h"
 #include "ratio.h"
 #include "cross.h"
