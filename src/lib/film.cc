@@ -127,27 +127,6 @@ Film::Film (string d)
 	_log.reset (new FileLog ("log"));
 }
 
-Film::Film (Film const & o)
-	: boost::enable_shared_from_this<Film> (o)
-	/* note: the copied film shares the original's log */
-	, _log               (o._log)
-	, _playlist          (new Playlist (o._playlist))
-	, _directory         (o._directory)
-	, _name              (o._name)
-	, _use_dci_name      (o._use_dci_name)
-	, _dcp_content_type  (o._dcp_content_type)
-	, _container         (o._container)
-	, _scaler            (o._scaler)
-	, _with_subtitles    (o._with_subtitles)
-	, _j2k_bandwidth     (o._j2k_bandwidth)
-	, _dci_metadata      (o._dci_metadata)
-	, _dcp_video_frame_rate (o._dcp_video_frame_rate)
-	, _dci_date          (o._dci_date)
-	, _dirty             (o._dirty)
-{
-	_playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
-}
-
 string
 Film::video_identifier () const
 {

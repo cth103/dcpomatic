@@ -53,7 +53,6 @@ class Film : public boost::enable_shared_from_this<Film>
 {
 public:
 	Film (std::string d);
-	Film (Film const &);
 
 	std::string info_dir () const;
 	std::string j2c_path (int f, bool t) const;
@@ -225,6 +224,10 @@ public:
 	static int const state_version;
 
 private:
+
+	/* No copy construction */
+	Film (Film const &);
+	Film & operator= (Film const &);
 	
 	void signal_changed (Property);
 	std::string video_identifier () const;
