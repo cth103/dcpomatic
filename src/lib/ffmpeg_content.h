@@ -24,6 +24,7 @@
 #include "video_content.h"
 #include "audio_content.h"
 #include "subtitle_content.h"
+#include "audio_mapping.h"
 
 class Filter;
 class ffmpeg_pts_offset_test;
@@ -37,7 +38,9 @@ public:
 		, frame_rate (f)
 		, channels (c)
 		, mapping (c)
-	{}
+	{
+		mapping.make_default ();
+	}
 
 	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
 
@@ -52,8 +55,11 @@ public:
 
 private:
 	friend class ffmpeg_pts_offset_test;
+
 	/* Constructor for tests */
-	FFmpegAudioStream () {}
+	FFmpegAudioStream ()
+		: mapping (1)
+	{}
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);

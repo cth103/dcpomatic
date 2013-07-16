@@ -32,6 +32,11 @@ namespace cxml {
 	class Node;
 }
 
+/** A many-to-many mapping from some content channels to DCP channels.
+ *  The number of content channels is set on construction and fixed,
+ *  and then each of those content channels can be mapped to zero or
+ *  more DCP channels.
+ */
 class AudioMapping
 {
 public:
@@ -44,16 +49,21 @@ public:
 	void as_xml (xmlpp::Node *) const;
 
 	void add (int, libdcp::Channel);
+	void make_default ();
 
 	std::list<int> dcp_to_content (libdcp::Channel) const;
 	std::list<std::pair<int, libdcp::Channel> > content_to_dcp () const {
 		return _content_to_dcp;
 	}
 
-	std::list<int> content_channels () const;
+	int content_channels () const {
+		return _content_channels;
+	}
+	
 	std::list<libdcp::Channel> content_to_dcp (int) const;
 
 private:
+	int _content_channels;
 	std::list<std::pair<int, libdcp::Channel> > _content_to_dcp;
 };
 

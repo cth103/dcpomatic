@@ -32,6 +32,7 @@ using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
 AudioMapping::AudioMapping ()
+	: _content_channels (0)
 {
 
 }
@@ -40,13 +41,20 @@ AudioMapping::AudioMapping ()
  *  @param c Number of channels.
  */
 AudioMapping::AudioMapping (int c)
+	: _content_channels (c)
 {
-	if (c == 1) {
+
+}
+
+void
+AudioMapping::make_default ()
+{
+	if (_content_channels == 1) {
 		/* Mono -> Centre */
 		add (0, libdcp::CENTRE);
 	} else {
 		/* 1:1 mapping */
-		for (int i = 0; i < c; ++i) {
+		for (int i = 0; i < _content_channels; ++i) {
 			add (i, static_cast<libdcp::Channel> (i));
 		}
 	}
@@ -54,6 +62,8 @@ AudioMapping::AudioMapping (int c)
 
 AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node)
 {
+	_content_channels = node->number_child<int> ("ContentChannels");
+	
 	list<shared_ptr<cxml::Node> > const c = node->node_children ("Map");
 	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
 		add ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
@@ -79,22 +89,11 @@ AudioMapping::dcp_to_content (libdcp::Channel d) const
 	return c;
 }
 
-list<int>
-AudioMapping::content_channels () const
-{
-	list<int> c;
-	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
-		if (find (c.begin(), c.end(), i->first) == c.end ()) {
-			c.push_back (i->first);
-		}
-	}
-
-	return c;
-}
-
 list<libdcp::Channel>
 AudioMapping::content_to_dcp (int c) const
 {
+	assert (c < _content_channels);
+	
 	list<libdcp::Channel> d;
 	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		if (i->first == c) {
@@ -108,6 +107,8 @@ AudioMapping::content_to_dcp (int c) const
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
+	node->add_child ("ContentChannels")->add_child_text (lexical_cast<string> (_content_channels));
+	
 	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
 		xmlpp::Node* t = node->add_child ("Map");
 		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first));

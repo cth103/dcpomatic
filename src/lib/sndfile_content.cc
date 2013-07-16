@@ -44,11 +44,11 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::pat
 SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
 	, AudioContent (f, node)
+	, _audio_mapping (node->node_child ("AudioMapping"))
 {
 	_audio_channels = node->number_child<int> ("AudioChannels");
 	_audio_length = node->number_child<AudioContent::Frame> ("AudioLength");
 	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
-	_audio_mapping = AudioMapping (node->node_child ("AudioMapping"));
 }
 
 string
@@ -109,6 +109,7 @@ SndfileContent::examine (shared_ptr<Job> job)
 
 	/* XXX: do this in signal_changed...? */
 	_audio_mapping = AudioMapping (_audio_channels);
+	_audio_mapping.make_default ();
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
 }
 

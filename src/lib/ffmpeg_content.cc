@@ -281,12 +281,12 @@ operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
 }
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
+	: mapping (node->node_child ("Mapping"))
 {
 	name = node->string_child ("Name");
 	id = node->number_child<int> ("Id");
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
-	mapping = AudioMapping (node->node_child ("Mapping"));
 	first_audio = node->optional_number_child<double> ("FirstAudio");
 }
 

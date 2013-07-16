@@ -22,6 +22,7 @@
 #include <wx/grid.h>
 #include <libdcp/types.h>
 #include "lib/audio_mapping.h"
+#include "lib/util.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
 
@@ -108,12 +109,16 @@ AudioMappingView::left_click (wxGridEvent& ev)
 	}
 	
 	if (_grid->GetCellValue (ev.GetRow(), ev.GetCol()) == wxT("1")) {
+		cout << "set " << ev.GetRow() << " " << ev.GetCol() << " to 0.\n";
 		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("0"));
 	} else {
+		cout << "set " << ev.GetRow() << " " << ev.GetCol() << " to 1.\n";
 		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("1"));
 	}
 
-	_map = AudioMapping ();
+	_map = AudioMapping (_map.content_channels ());
+	cout << "was: " << _map.dcp_to_content(libdcp::CENTRE).size() << "\n";
+	
 	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
 			if (_grid->GetCellValue (i, j) == wxT ("1")) {
@@ -122,6 +127,7 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		}
 	}
 
+	cout << "changed: " << _map.dcp_to_content(libdcp::CENTRE).size() << "\n";
 	Changed (_map);
 }
 
@@ -134,27 +140,24 @@ AudioMappingView::set (AudioMapping map)
 		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}
 
-	list<int> content_channels = _map.content_channels ();
-	_grid->InsertRows (0, content_channels.size ());
+	_grid->InsertRows (0, _map.content_channels ());
 
-	for (size_t r = 0; r < content_channels.size(); ++r) {
+	for (int r = 0; r < _map.content_channels(); ++r) {
 		for (int c = 1; c < 7; ++c) {
 			_grid->SetCellRenderer (r, c, new CheckBoxRenderer);
 		}
 	}
 	
-	int n = 0;
-	for (list<int>::iterator i = content_channels.begin(); i != content_channels.end(); ++i) {
-		_grid->SetCellValue (n, 0, wxString::Format (wxT("%d"), *i + 1));
+	for (int i = 0; i < _map.content_channels(); ++i) {
+		_grid->SetCellValue (i, 0, wxString::Format (wxT("%d"), i + 1));
 
-		list<libdcp::Channel> const d = _map.content_to_dcp (*i);
+		list<libdcp::Channel> const d = _map.content_to_dcp (i);
 		for (list<libdcp::Channel>::const_iterator j = d.begin(); j != d.end(); ++j) {
 			int const c = static_cast<int>(*j) + 1;
 			if (c < _grid->GetNumberCols ()) {
-				_grid->SetCellValue (n, c, wxT("1"));
+				_grid->SetCellValue (i, c, wxT("1"));
 			}
 		}
-		++n;
 	}
 }
 
