@@ -706,7 +706,7 @@ Film::have_dcp () const
 }
 
 shared_ptr<Player>
-Film::player () const
+Film::make_player () const
 {
 	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
 }

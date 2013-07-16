@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (play_test)
 	/* A is 16 frames long at 25 fps */
 	BOOST_CHECK_EQUAL (B->start(), 16 * TIME_HZ / 25);
 
-	shared_ptr<Player> player = film->player ();
+	shared_ptr<Player> player = film->make_player ();
 	PlayerWrapper wrap (player);
 	/* Seek and audio don't get on at the moment */
 	player->disable_audio ();

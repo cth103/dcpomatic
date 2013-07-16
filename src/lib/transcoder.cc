@@ -64,7 +64,7 @@ audio_proxy (weak_ptr<Encoder> encoder, shared_ptr<const AudioBuffers> audio)
  */
 Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _job (j)
-	, _player (f->player ())
+	, _player (f->make_player ())
 	, _encoder (new Encoder (f, j))
 {
 	_player->Video.connect (bind (video_proxy, _encoder, _1, _2));

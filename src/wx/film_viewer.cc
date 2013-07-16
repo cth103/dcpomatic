@@ -126,7 +126,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		return;
 	}
 
-	_player = f->player ();
+	_player = f->make_player ();
 	_player->disable_audio ();
 	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _3));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));

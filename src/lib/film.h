@@ -98,7 +98,7 @@ public:
 
 	bool have_dcp () const;
 
-	boost::shared_ptr<Player> player () const;
+	boost::shared_ptr<Player> make_player () const;
 	boost::shared_ptr<Playlist> playlist () const;
 
 	OutputAudioFrame dcp_audio_frame_rate () const;
