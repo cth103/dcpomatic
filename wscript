@@ -217,20 +217,36 @@ def build(bld):
 
     bld.add_post_fun(post)
 
+def git_revision():
+    if not os.path.exists('.git'):
+        return None
+
+    cmd = "LANG= git log --abbrev HEAD^..HEAD ."
+    output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
+    o = output[0].decode('utf-8')
+    return o.replace ("commit ", "")[0:10]
+
 def dist(ctx):
+    r = git_revision()
+    if r is not None:
+        f = open('.git_revision', 'w')
+        print >>f,r
+    f.close()
+
     ctx.excl = """
                TODO core *~ src/wx/*~ src/lib/*~ builds/*~ doc/manual/*~ src/tools/*~ *.pyc .waf* build .git
                deps alignment hacks sync *.tar.bz2 *.exe .lock* *build-windows doc/manual/pdf doc/manual/html
                GRSYMS GRTAGS GSYMS GTAGS
                """
 
+
 def create_version_cc(version, cxx_flags):
-    if os.path.exists('.git'):
-        cmd = "LANG= git log --abbrev HEAD^..HEAD ."
-        output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
-        o = output[0].decode('utf-8')
-        commit = o.replace ("commit ", "")[0:10]
-    else:
+    commit = git_revision()
+    if commit is None and os.path.exists('.git_revision'):
+        f = open('.git_revision')
+        commit = f.readline().strip()
+    
+    if commit is None:
         commit = 'release'
 
     try:
