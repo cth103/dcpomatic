@@ -21,9 +21,10 @@
 #define DCPOMATIC_RATIO_H
 
 #include <vector>
+#include <boost/utility.hpp>
 #include <libdcp/util.h>
 
-class Ratio
+class Ratio : public boost::noncopyable
 {
 public:
 	Ratio (float ratio, std::string id, std::string n, std::string d)

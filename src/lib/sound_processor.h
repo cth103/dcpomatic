@@ -26,11 +26,12 @@
 
 #include <string>
 #include <vector>
+#include <boost/utility.hpp>
 
 /** @class SoundProcessor
  *  @brief Class to describe a sound processor.
  */
-class SoundProcessor
+class SoundProcessor : public boost::noncopyable
 {
 public:
 	SoundProcessor (std::string i, std::string n);

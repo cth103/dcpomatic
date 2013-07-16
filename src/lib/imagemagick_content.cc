@@ -80,12 +80,6 @@ ImageMagickContent::examine (shared_ptr<Job> job)
 	take_from_video_examiner (examiner);
 }
 
-shared_ptr<Content>
-ImageMagickContent::clone () const
-{
-	return shared_ptr<Content> (new ImageMagickContent (*this));
-}
-
 void
 ImageMagickContent::set_video_length (VideoContent::Frame len)
 {

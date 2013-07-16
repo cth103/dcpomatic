@@ -82,19 +82,6 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	_first_video = node->optional_number_child<double> ("FirstVideo");
 }
 
-FFmpegContent::FFmpegContent (FFmpegContent const & o)
-	: Content (o)
-	, VideoContent (o)
-	, AudioContent (o)
-	, SubtitleContent (o)
-	, _subtitle_streams (o._subtitle_streams)
-	, _subtitle_stream (o._subtitle_stream)
-	, _audio_streams (o._audio_streams)
-	, _audio_stream (o._audio_stream)
-{
-
-}
-
 void
 FFmpegContent::as_xml (xmlpp::Node* node) const
 {
@@ -331,12 +318,6 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("Name")->add_child_text (name);
 	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
-}
-
-shared_ptr<Content>
-FFmpegContent::clone () const
-{
-	return shared_ptr<Content> (new FFmpegContent (*this));
 }
 
 Time

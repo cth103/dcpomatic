@@ -57,17 +57,6 @@ Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	_start = node->number_child<Time> ("Start");
 }
 
-Content::Content (Content const & o)
-	: boost::enable_shared_from_this<Content> (o)
-	, _film (o._film)
-	, _file (o._file)
-	, _digest (o._digest)
-	, _start (o._start)
-	, _change_signals_frequent (o._change_signals_frequent)
-{
-
-}
-
 void
 Content::as_xml (xmlpp::Node* node) const
 {

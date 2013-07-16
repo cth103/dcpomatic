@@ -26,11 +26,12 @@
 
 #include <string>
 #include <vector>
+#include <boost/utility.hpp>
 
 /** @class Filter
  *  @brief A class to describe one of FFmpeg's video or post-processing filters.
  */
-class Filter
+class Filter : public boost::noncopyable
 {
 public:
 	Filter (std::string, std::string, std::string, std::string, std::string);

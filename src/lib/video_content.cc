@@ -73,16 +73,6 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	}
 }
 
-VideoContent::VideoContent (VideoContent const & o)
-	: Content (o)
-	, _video_length (o._video_length)
-	, _video_size (o._video_size)
-	, _video_frame_rate (o._video_frame_rate)
-	, _ratio (o._ratio)
-{
-
-}
-
 void
 VideoContent::as_xml (xmlpp::Node* node) const
 {

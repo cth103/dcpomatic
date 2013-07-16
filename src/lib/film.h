@@ -49,7 +49,7 @@ class Player;
  *
  *  The content of a Film is held in a Playlist (created and managed by the Film)
  */
-class Film : public boost::enable_shared_from_this<Film>
+class Film : public boost::enable_shared_from_this<Film>, public boost::noncopyable
 {
 public:
 	Film (std::string d);
@@ -225,10 +225,6 @@ public:
 
 private:
 
-	/* No copy construction */
-	Film (Film const &);
-	Film & operator= (Film const &);
-	
 	void signal_changed (Property);
 	std::string video_identifier () const;
 	void playlist_changed ();

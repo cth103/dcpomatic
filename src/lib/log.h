@@ -30,7 +30,7 @@
 /** @class Log
  *  @brief A very simple logging class.
  */
-class Log
+class Log : public boost::noncopyable
 {
 public:
 	Log ();

@@ -39,7 +39,7 @@ class FilterGraph;
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
  */
-class Decoder
+class Decoder : public boost::noncopyable
 {
 public:
 	Decoder (boost::shared_ptr<const Film>);

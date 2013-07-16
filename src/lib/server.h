@@ -50,6 +50,8 @@ public:
 	{}
 
 	ServerDescription (boost::shared_ptr<const cxml::Node>);
+
+	/* Default copy constructor is fine */
 	
 	/** @return server's host name or IP address in string form */
 	std::string host_name () const {
@@ -80,7 +82,7 @@ private:
 	int _threads;
 };
 
-class Server
+class Server : public boost::noncopyable
 {
 public:
 	Server (boost::shared_ptr<Log> log);

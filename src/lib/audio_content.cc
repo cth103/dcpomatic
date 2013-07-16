@@ -58,14 +58,6 @@ AudioContent::AudioContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	_audio_delay = node->number_child<int> ("AudioDelay");
 }
 
-AudioContent::AudioContent (AudioContent const & o)
-	: Content (o)
-	, _audio_gain (o._audio_gain)
-	, _audio_delay (o._audio_delay)
-{
-
-}
-
 void
 AudioContent::as_xml (xmlpp::Node* node) const
 {

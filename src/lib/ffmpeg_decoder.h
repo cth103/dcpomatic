@@ -57,10 +57,6 @@ public:
 private:
 	friend class ::ffmpeg_pts_offset_test;
 
-	/* No copy construction */
-	FFmpegDecoder (FFmpegDecoder const &);
-	FFmpegDecoder& operator= (FFmpegDecoder const &);
-
 	static double compute_pts_offset (double, double, float);
 
 	void setup_subtitle ();

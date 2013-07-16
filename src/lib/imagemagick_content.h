@@ -40,7 +40,6 @@ public:
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	void as_xml (xmlpp::Node *) const;
-	boost::shared_ptr<Content> clone () const;
 	Time length () const;
 
 	std::string identifier () const;

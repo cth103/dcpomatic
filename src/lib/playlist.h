@@ -52,11 +52,10 @@ struct ContentSorter
 	bool operator() (boost::shared_ptr<Content> a, boost::shared_ptr<Content> b);
 };
 
-class Playlist
+class Playlist : public boost::noncopyable
 {
 public:
 	Playlist ();
-	Playlist (boost::shared_ptr<const Playlist>);
 	~Playlist ();
 
 	void as_xml (xmlpp::Node *);

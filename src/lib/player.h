@@ -41,7 +41,7 @@ class Resampler;
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
  */
  
-class Player : public boost::enable_shared_from_this<Player>
+class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);

@@ -32,7 +32,7 @@ class VideoFilter;
 /** @class FilterGraph
  *  @brief A graph of FFmpeg filters.
  */
-class FilterGraph
+class FilterGraph : public boost::noncopyable
 {
 public:
 	FilterGraph (boost::shared_ptr<const FFmpegContent> content, libdcp::Size s, AVPixelFormat p);

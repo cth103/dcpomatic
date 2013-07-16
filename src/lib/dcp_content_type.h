@@ -31,7 +31,7 @@
 /** @class DCPContentType
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
  */
-class DCPContentType
+class DCPContentType : public boost::noncopyable
 {
 public:
 	DCPContentType (std::string, libdcp::ContentKind, std::string);

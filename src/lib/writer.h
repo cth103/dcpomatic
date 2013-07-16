@@ -61,7 +61,7 @@ public:
 bool operator< (QueueItem const & a, QueueItem const & b);
 bool operator== (QueueItem const & a, QueueItem const & b);
 
-class Writer : public ExceptionStore
+class Writer : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Writer (boost::shared_ptr<const Film>, boost::shared_ptr<Job>);

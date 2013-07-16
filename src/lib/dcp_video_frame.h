@@ -36,7 +36,7 @@ class Subtitle;
 /** @class EncodedData
  *  @brief Container for J2K-encoded data.
  */
-class EncodedData
+class EncodedData : public boost::noncopyable
 {
 public:
 	/** @param s Size of data, in bytes */
@@ -63,10 +63,6 @@ public:
 protected:
 	uint8_t* _data; ///< data
 	int _size;      ///< data size in bytes
-
-private:
-	/* No copy construction */
-	EncodedData (EncodedData const &);
 };
 
 /** @class LocallyEncodedData
@@ -102,7 +98,7 @@ public:
  *  Objects of this class are used for the queue that we keep
  *  of images that require encoding.
  */
-class DCPVideoFrame
+class DCPVideoFrame : public boost::noncopyable
 {
 public:
 	DCPVideoFrame (boost::shared_ptr<const Image>, int, int, int, boost::shared_ptr<Log>);

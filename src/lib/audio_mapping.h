@@ -38,6 +38,8 @@ public:
 	AudioMapping ();
 	AudioMapping (int);
 	AudioMapping (boost::shared_ptr<const cxml::Node>);
+
+	/* Default copy constructor is fine */
 	
 	void as_xml (xmlpp::Node *) const;
 

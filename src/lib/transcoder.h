@@ -36,7 +36,7 @@ class Player;
  *  A decoder is selected according to the content type, and the encoder can be specified
  *  as a parameter to the constructor.
  */
-class Transcoder
+class Transcoder : public boost::noncopyable
 {
 public:
 	Transcoder (

@@ -40,7 +40,7 @@ class Ratio;
 /** @class Config
  *  @brief A singleton class holding configuration.
  */
-class Config
+class Config : public boost::noncopyable
 {
 public:
 

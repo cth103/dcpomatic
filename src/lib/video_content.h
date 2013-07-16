@@ -42,7 +42,6 @@ public:
 	VideoContent (boost::shared_ptr<const Film>, Time, VideoContent::Frame);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
-	VideoContent (VideoContent const &);
 
 	void as_xml (xmlpp::Node *) const;
 	virtual std::string information () const;

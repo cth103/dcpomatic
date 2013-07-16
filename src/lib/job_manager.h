@@ -30,7 +30,7 @@ class Job;
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
  */
-class JobManager
+class JobManager : public boost::noncopyable
 {
 public:
 

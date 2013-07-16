@@ -42,20 +42,18 @@ public:
 	static int const LENGTH;
 };
 
-class Content : public boost::enable_shared_from_this<Content>
+class Content : public boost::enable_shared_from_this<Content>, public boost::noncopyable
 {
 public:
 	Content (boost::shared_ptr<const Film>, Time);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
 	Content (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
-	Content (Content const &);
 	virtual ~Content () {}
 	
 	virtual void examine (boost::shared_ptr<Job>);
 	virtual std::string summary () const = 0;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
-	virtual boost::shared_ptr<Content> clone () const = 0;
 	virtual Time length () const = 0;
 
 	boost::filesystem::path file () const {

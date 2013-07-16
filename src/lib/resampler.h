@@ -18,13 +18,14 @@
 */
 
 #include <boost/shared_ptr.hpp>
+#include <boost/utility.hpp>
 extern "C" {
 #include <libswresample/swresample.h>
 }
 
 class AudioBuffers;
 
-class Resampler
+class Resampler : public boost::noncopyable
 {
 public:
 	Resampler (int, int, int);

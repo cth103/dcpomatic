@@ -91,7 +91,6 @@ class FFmpegContent : public VideoContent, public AudioContent, public SubtitleC
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
-	FFmpegContent (FFmpegContent const &);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
@@ -101,7 +100,6 @@ public:
 	std::string summary () const;
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
-	boost::shared_ptr<Content> clone () const;
 	Time length () const;
 
 	std::string identifier () const;

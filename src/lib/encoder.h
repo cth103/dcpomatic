@@ -53,7 +53,7 @@ class Job;
  *  is supplied as uncompressed PCM in blocks of various sizes.
  */
 
-class Encoder
+class Encoder : public boost::noncopyable
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<Job>);

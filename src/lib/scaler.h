@@ -26,11 +26,12 @@
 
 #include <string>
 #include <vector>
+#include <boost/utility.hpp>
 
 /** @class Scaler
  *  @brief Class to describe one of FFmpeg's software scalers
  */
-class Scaler
+class Scaler : public boost::noncopyable
 {
 public:
 	Scaler (int f, std::string i, std::string n);

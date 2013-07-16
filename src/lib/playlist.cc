@@ -55,14 +55,6 @@ Playlist::Playlist ()
 
 }
 
-Playlist::Playlist (shared_ptr<const Playlist> other)
-	: _loop (other->_loop)
-{
-	for (ContentList::const_iterator i = other->_content.begin(); i != other->_content.end(); ++i) {
-		_content.push_back ((*i)->clone ());
-	}
-}
-
 Playlist::~Playlist ()
 {
 	_content.clear ();

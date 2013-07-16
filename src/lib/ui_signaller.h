@@ -27,7 +27,7 @@
 /** A class to allow signals to be emitted from non-UI threads and handled
  *  by a UI thread.
  */
-class UISignaller
+class UISignaller : public boost::noncopyable
 {
 public:
 	/** Create a UISignaller.  Must be called from the UI thread */
