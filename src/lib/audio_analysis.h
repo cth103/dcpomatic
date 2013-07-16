@@ -36,6 +36,8 @@ public:
 
 	AudioPoint ();
 	AudioPoint (std::istream &);
+	AudioPoint (AudioPoint const &);
+	AudioPoint& operator= (AudioPoint const &);
 
 	void write (std::ostream &) const;
 	
@@ -47,7 +49,7 @@ private:
 	float _data[COUNT];
 };
 
-class AudioAnalysis
+class AudioAnalysis : public boost::noncopyable
 {
 public:
 	AudioAnalysis (int c);

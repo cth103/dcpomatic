@@ -30,6 +30,8 @@ public:
 	AudioBuffers (boost::shared_ptr<const AudioBuffers>);
 	~AudioBuffers ();
 
+	AudioBuffers & operator= (AudioBuffers const &);
+
 	void ensure_size (int);
 
 	float** data () const {
@@ -58,6 +60,9 @@ public:
 	void accumulate_frames (AudioBuffers const *, int read_offset, int write_offset, int frames);
 
 private:
+	void allocate (int, int);
+	void deallocate ();
+	
 	/** Number of channels */
 	int _channels;
 	/** Number of frames (where a frame is one sample across all channels) */

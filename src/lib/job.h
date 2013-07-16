@@ -35,7 +35,7 @@ class Film;
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
-class Job : public boost::enable_shared_from_this<Job>
+class Job : public boost::enable_shared_from_this<Job>, public boost::noncopyable
 {
 public:
 	Job (boost::shared_ptr<const Film>);

@@ -48,6 +48,27 @@ AudioPoint::AudioPoint (istream& s)
 	}
 }
 
+AudioPoint::AudioPoint (AudioPoint const & other)
+{
+	for (int i = 0; i < COUNT; ++i) {
+		_data[i] = other._data[i];
+	}
+}
+
+AudioPoint &
+AudioPoint::operator= (AudioPoint const & other)
+{
+	if (this == &other) {
+		return *this;
+	}
+	
+	for (int i = 0; i < COUNT; ++i) {
+		_data[i] = other._data[i];
+	}
+
+	return *this;
+}
+
 void
 AudioPoint::write (ostream& s) const
 {

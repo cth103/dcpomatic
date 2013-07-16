@@ -30,10 +30,55 @@ using boost::shared_ptr;
  *  @param frames Number of frames to reserve space for.
  */
 AudioBuffers::AudioBuffers (int channels, int frames)
-	: _channels (channels)
-	, _frames (frames)
-	, _allocated_frames (frames)
 {
+	allocate (channels, frames);
+}
+
+/** Copy constructor.
+ *  @param other Other AudioBuffers; data is copied.
+ */
+AudioBuffers::AudioBuffers (AudioBuffers const & other)
+{
+	allocate (other._channels, other._frames);
+	copy_from (&other, other._frames, 0, 0);
+}
+
+/* XXX: it's a shame that this is a copy-and-paste of the above;
+   probably fixable with c++0x.
+*/
+AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
+{
+	allocate (other->_channels, other->_frames);
+	copy_from (other.get(), other->_frames, 0, 0);
+}
+
+AudioBuffers &
+AudioBuffers::operator= (AudioBuffers const & other)
+{
+	if (this == &other) {
+		return *this;
+	}
+		
+	deallocate ();
+	allocate (other._channels, other._frames);
+	copy_from (&other, other._frames, 0, 0);
+
+	return *this;
+}
+
+/** AudioBuffers destructor */
+AudioBuffers::~AudioBuffers ()
+{
+	deallocate ();
+}
+
+void
+AudioBuffers::allocate (int channels, int frames)
+{
+	_channels = channels;
+	_frames = frames;
+	_allocated_frames = frames;
+	
 	_data = static_cast<float**> (malloc (_channels * sizeof (float *)));
 	if (!_data) {
 		throw bad_alloc ();
@@ -47,52 +92,8 @@ AudioBuffers::AudioBuffers (int channels, int frames)
 	}
 }
 
-/** Copy constructor.
- *  @param other Other AudioBuffers; data is copied.
- */
-AudioBuffers::AudioBuffers (AudioBuffers const & other)
-	: _channels (other._channels)
-	, _frames (other._frames)
-	, _allocated_frames (other._frames)
-{
-	_data = static_cast<float**> (malloc (_channels * sizeof (float *)));
-	if (!_data) {
-		throw bad_alloc ();
-	}
-	
-	for (int i = 0; i < _channels; ++i) {
-		_data[i] = static_cast<float*> (malloc (_frames * sizeof (float)));
-		if (!_data[i]) {
-			throw bad_alloc ();
-		}
-		memcpy (_data[i], other._data[i], _frames * sizeof (float));
-	}
-}
-
-/* XXX: it's a shame that this is a copy-and-paste of the above;
-   probably fixable with c++0x.
-*/
-AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
-	: _channels (other->_channels)
-	, _frames (other->_frames)
-	, _allocated_frames (other->_frames)
-{
-	_data = static_cast<float**> (malloc (_channels * sizeof (float *)));
-	if (!_data) {
-		throw bad_alloc ();
-	}
-	
-	for (int i = 0; i < _channels; ++i) {
-		_data[i] = static_cast<float*> (malloc (_frames * sizeof (float)));
-		if (!_data[i]) {
-			throw bad_alloc ();
-		}
-		memcpy (_data[i], other->_data[i], _frames * sizeof (float));
-	}
-}
-
-/** AudioBuffers destructor */
-AudioBuffers::~AudioBuffers ()
+void
+AudioBuffers::deallocate ()
 {
 	for (int i = 0; i < _channels; ++i) {
 		free (_data[i]);
