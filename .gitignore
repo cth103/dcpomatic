@@ -18,6 +18,8 @@ doc/manual/extensions.ent
 doc/design/*.pdf
 doc/design/*.log
 doc/design/*.aux
+doc/manual/diagrams/*.pdf
+doc/manual/diagrams/*.png
 .be/id-cache
 *.pyc
 GPATH

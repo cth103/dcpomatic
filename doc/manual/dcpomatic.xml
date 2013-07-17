@@ -50,6 +50,14 @@ DCP-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-li
 
 </section>
 
+<section>
+<title>Acknowledgements</title>
+
+<para>
+This manual uses icons from the <ulink url="http://tango.freedesktop.org/">Tango Desktop Project</ulink>, with thanks.
+</para>
+
+</section>
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
@@ -60,7 +68,7 @@ DCP-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-li
 
 <para>
 To install DCP-o-matic on Windows, simply download the installer from
-<ulink url="http://carlh.net/software/dcpomatic">http://carlh.net</ulink>
+<ulink url="http://dcpomatic.com/">http://dcpomatic.com</ulink>
 and double-click it.  Click through the installer wizard, and
 DCP-o-matic will be installed onto your machine.
 </para>
@@ -81,10 +89,10 @@ version.
 
 <para>
 You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
-Pangolin&rsquo;) or 12.10 (&lsquo;Quantal Quetzal&rsquo;) using
-<code>.deb</code> packages: download the appropriate package from
-<ulink
-url="http://carlh.net/software/dcpomatic">http://carlh.net</ulink> and
+Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;) or 13.04
+(&lsquo;Raring Ringtail&rsquo;) using <code>.deb</code> packages:
+download the appropriate package from <ulink
+url="http://dcpomatic.com">http://dcpomatic.com</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
 and set DCP-o-matic up for you.
 </para>
@@ -942,7 +950,7 @@ after you have created a DCP for a film called &lsquo;DCP Test&rsquo;.
   <title>Creating a new film</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="diagrams/file-structure&scs;"/>
+      <imagedata fileref="diagrams/file-structure&dia;"/>
     </imageobject> 
   </mediaobject>
 </figure>

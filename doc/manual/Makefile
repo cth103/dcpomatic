@@ -2,7 +2,7 @@
 
 all:	html pdf
 
-DIAGRAMS := 
+DIAGRAMS := file-structure.svg
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png click-content-selector.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png \
@@ -83,8 +83,9 @@ html:	$(XML) dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 	xmlto html -m dcpomatic-html.xsl dcpomatic.xml --skip-validation -o html
 
 #	Copy graphics and CSS in
-#	mkdir -p html/diagrams html/graphics
-#	cp diagrams/*.png html/diagrams
+	mkdir -p html/diagrams
+#       mkdir -p html/graphics
+	cp diagrams/*.png html/diagrams
 #	cp graphics/*.png html/graphics
 	cp dcpomatic.css html
 
