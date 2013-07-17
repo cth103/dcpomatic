@@ -560,8 +560,9 @@ how it is getting on with the progress bar in the bottom of its window, as shown
 
 <para>
 When it has finished, the DCP will end up on your disk inside the
-film's directory.  You can then copy this to a projector via a USB
-stick, hard-drive or network connection.
+film's folder.  You can then copy this to a projector via a USB
+stick, hard-drive or network connection.  See <xref
+linkend="ch-files"/> for details about the files that DVD-o-matic creates.
 </para>
 
 <para>
@@ -709,7 +710,7 @@ processors (or processor cores) in your machine.
 <title>Default directory for new films</title>
 
 <para>
-This is the directory which DCP-o-matic will suggest initially as a place to put new films.
+This is the directory (folder) which DCP-o-matic will suggest initially as a place to put new films.
 </para>
 
 </section>
@@ -925,6 +926,63 @@ be noticed when a new encode is started.
 
 </section>
 </section>
+
+</chapter>
+
+<chapter xml:id="ch-files" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Generated files</title>
+
+<para>
+DCP-o-matic generates a number of files as it makes a DCP.  <xref
+linkend="fig-file-structure"/> shows the files that might be generated
+after you have created a DCP for a film called &lsquo;DCP Test&rsquo;.
+</para>
+
+<figure id="fig-file-structure"> 
+  <title>Creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="diagrams/file-structure&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The <code>DCP Test</code> folder is the one that you specify when you
+select the <guilabel>New Film</guilabel> option from DCP-o-matic's
+menu.  Everything is stored inside this folder.
+</para>
+
+<para>
+DCP-o-matic generates some working files as it goes along.  These are as follows:
+<itemizedlist>
+
+<listitem><code>log</code> is a list of notes that DCP-o-matic makes as it goes
+along.  This can be useful for debugging purposes if something goes
+wrong.</listitem>
+
+<listitem><code>metadata</code> stores the settings that you have made
+for this film: things like cropping, output format and so on.</listitem>
+
+<listitem><code>video</code> is where DCP-o-matic writes the DCP's
+video data as it encodes it.</listitem>
+
+<listitem><code>analysis</code> is used to keep the results of audio analysis runs.</listitem>
+
+<listitem><code>info</code> contains details of each video frame that
+DCP-o-matic has written so far.  This is used when an encoding
+operation is interrupted and DCP-o-matic must resume it.</listitem>
+</itemizedlist>
+</para>
+
+<para>
+Following this is the DCP itself:
+<code>DCP-TEST_EN-XX_UK-U_51_2K_CSY_20130218_CSY_OV</code>.  This
+contains some small XML files, which describe the DCP, and two large
+MXF files, which contain the DCP's audio and video data.  This folder
+(<code>DCP-TEST_EN-XX_...</code>) is what you should ingest, or pass
+to the cinema which is showing your DCP.
+</para>
 
 </chapter>
 
