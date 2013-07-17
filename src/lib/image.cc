@@ -243,13 +243,13 @@ void
 Image::make_black ()
 {
 	/* U/V black value for 8-bit colour */
-	static uint8_t const eight_bit_uv =     (1 << 7) - 1;
+	static uint8_t const eight_bit_uv =	(1 << 7) - 1;
 	/* U/V black value for 9-bit colour */
-	static uint16_t const nine_bit_uv =     (1 << 8) - 1;
+	static uint16_t const nine_bit_uv =	(1 << 8) - 1;
 	/* U/V black value for 10-bit colour */
-	static uint16_t const ten_bit_uv =      (1 << 9) - 1;
+	static uint16_t const ten_bit_uv =	(1 << 9) - 1;
 	/* U/V black value for 16-bit colour */
-	static uint16_t const sixteen_bit_uv =  (1 << 15) - 1;
+	static uint16_t const sixteen_bit_uv =	(1 << 15) - 1;
 	
 	switch (_pixel_format) {
 	case PIX_FMT_YUV420P:
@@ -305,9 +305,9 @@ Image::make_black ()
 		for (int y = 0; y < Y; ++y) {
 			for (int x = 0; x < X / 4; ++x) {
 				*p++ = eight_bit_uv; // Cb
-				*p++ = 0;            // Y0
+				*p++ = 0;	     // Y0
 				*p++ = eight_bit_uv; // Cr
-				*p++ = 0;            // Y1
+				*p++ = 0;	     // Y1
 			}
 		}
 		break;

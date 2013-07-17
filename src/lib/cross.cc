@@ -82,8 +82,8 @@ cpu_info ()
 	char buffer[64];
 	N = sizeof (buffer);
 	if (sysctlbyname ("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
-	        info.first = buffer;
-        }
+		info.first = buffer;
+	}
 #endif		
 
 	return info;

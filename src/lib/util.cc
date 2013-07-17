@@ -724,12 +724,12 @@ LocaleGuard::LocaleGuard ()
 {
 	char const * old = setlocale (LC_NUMERIC, 0);
 
-        if (old) {
-                _old = strdup (old);
-                if (strcmp (_old, "C")) {
-                        setlocale (LC_NUMERIC, "C");
-                }
-        }
+	if (old) {
+		_old = strdup (old);
+		if (strcmp (_old, "C")) {
+			setlocale (LC_NUMERIC, "C");
+		}
+	}
 }
 
 LocaleGuard::~LocaleGuard ()

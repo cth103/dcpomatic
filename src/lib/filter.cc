@@ -65,30 +65,30 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 	   
-	maybe_add (N_("pphb"),      _("Horizontal deblocking filter"),                _("De-blocking"),     N_(""),          N_("hb"));
-	maybe_add (N_("ppvb"),      _("Vertical deblocking filter"),                  _("De-blocking"),     N_(""),          N_("vb"));
-	maybe_add (N_("ppha"),      _("Horizontal deblocking filter A"),              _("De-blocking"),     N_(""),          N_("ha"));
-	maybe_add (N_("ppva"),      _("Vertical deblocking filter A"),                _("De-blocking"),     N_(""),          N_("va"));
-	maybe_add (N_("pph1"),      _("Experimental horizontal deblocking filter 1"), _("De-blocking"),     N_(""),          N_("h1"));
-	maybe_add (N_("pphv"),      _("Experimental vertical deblocking filter 1"),   _("De-blocking"),     N_(""),          N_("v1"));
-	maybe_add (N_("ppdr"),      _("Deringing filter"),                            _("Misc"),            N_(""),          N_("dr"));
-	maybe_add (N_("pplb"),      _("Linear blend deinterlacer"),                   _("De-interlacing"),  N_(""),          N_("lb"));
-	maybe_add (N_("ppli"),      _("Linear interpolating deinterlacer"),           _("De-interlacing"),  N_(""),          N_("li"));
-	maybe_add (N_("ppci"),      _("Cubic interpolating deinterlacer"),            _("De-interlacing"),  N_(""),          N_("ci"));
-	maybe_add (N_("ppmd"),      _("Median deinterlacer"),                         _("De-interlacing"),  N_(""),          N_("md"));
-	maybe_add (N_("ppfd"),      _("FFMPEG deinterlacer"),                         _("De-interlacing"),  N_(""),          N_("fd"));
-	maybe_add (N_("ppl5"),      _("FIR low-pass deinterlacer"),                   _("De-interlacing"),  N_(""),          N_("l5"));
-	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"),            _("De-interlacing"),  N_("mcdeint"),   N_(""));
-	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),                         _("De-interlacing"),  N_("kerndeint"), N_(""));
-	maybe_add (N_("yadif"),     _("Yet Another Deinterlacing Filter"),            _("De-interlacing"),  N_("yadif"),     N_(""));
-	maybe_add (N_("pptn"),      _("Temporal noise reducer"),                      _("Noise reduction"), N_(""),          N_("tn"));
-	maybe_add (N_("ppfq"),      _("Force quantizer"),                             _("Misc"),            N_(""),          N_("fq"));
-	maybe_add (N_("gradfun"),   _("Gradient debander"),                           _("Misc"),            N_("gradfun"),   N_(""));
-	maybe_add (N_("unsharp"),   _("Unsharp mask and Gaussian blur"),              _("Misc"),            N_("unsharp"),   N_(""));
-	maybe_add (N_("denoise3d"), _("3D denoiser"),                                 _("Noise reduction"), N_("denoise3d"), N_(""));
-	maybe_add (N_("hqdn3d"),    _("High quality 3D denoiser"),                    _("Noise reduction"), N_("hqdn3d"),    N_(""));
-	maybe_add (N_("telecine"),  _("Telecine filter"),                             _("Misc"),            N_("telecine"),  N_(""));
-	maybe_add (N_("ow"),        _("Overcomplete wavelet denoiser"),               _("Noise reduction"), N_("mp=ow"),     N_(""));
+	maybe_add (N_("pphb"),	    _("Horizontal deblocking filter"),		      _("De-blocking"),	    N_(""),	     N_("hb"));
+	maybe_add (N_("ppvb"),	    _("Vertical deblocking filter"),		      _("De-blocking"),	    N_(""),	     N_("vb"));
+	maybe_add (N_("ppha"),	    _("Horizontal deblocking filter A"),	      _("De-blocking"),	    N_(""),	     N_("ha"));
+	maybe_add (N_("ppva"),	    _("Vertical deblocking filter A"),		      _("De-blocking"),	    N_(""),	     N_("va"));
+	maybe_add (N_("pph1"),	    _("Experimental horizontal deblocking filter 1"), _("De-blocking"),	    N_(""),	     N_("h1"));
+	maybe_add (N_("pphv"),	    _("Experimental vertical deblocking filter 1"),   _("De-blocking"),	    N_(""),	     N_("v1"));
+	maybe_add (N_("ppdr"),	    _("Deringing filter"),			      _("Misc"),	    N_(""),	     N_("dr"));
+	maybe_add (N_("pplb"),	    _("Linear blend deinterlacer"),		      _("De-interlacing"),  N_(""),	     N_("lb"));
+	maybe_add (N_("ppli"),	    _("Linear interpolating deinterlacer"),	      _("De-interlacing"),  N_(""),	     N_("li"));
+	maybe_add (N_("ppci"),	    _("Cubic interpolating deinterlacer"),	      _("De-interlacing"),  N_(""),	     N_("ci"));
+	maybe_add (N_("ppmd"),	    _("Median deinterlacer"),			      _("De-interlacing"),  N_(""),	     N_("md"));
+	maybe_add (N_("ppfd"),	    _("FFMPEG deinterlacer"),			      _("De-interlacing"),  N_(""),	     N_("fd"));
+	maybe_add (N_("ppl5"),	    _("FIR low-pass deinterlacer"),		      _("De-interlacing"),  N_(""),	     N_("l5"));
+	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"),	      _("De-interlacing"),  N_("mcdeint"),   N_(""));
+	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),			      _("De-interlacing"),  N_("kerndeint"), N_(""));
+	maybe_add (N_("yadif"),	    _("Yet Another Deinterlacing Filter"),	      _("De-interlacing"),  N_("yadif"),     N_(""));
+	maybe_add (N_("pptn"),	    _("Temporal noise reducer"),		      _("Noise reduction"), N_(""),	     N_("tn"));
+	maybe_add (N_("ppfq"),	    _("Force quantizer"),			      _("Misc"),	    N_(""),	     N_("fq"));
+	maybe_add (N_("gradfun"),   _("Gradient debander"),			      _("Misc"),	    N_("gradfun"),   N_(""));
+	maybe_add (N_("unsharp"),   _("Unsharp mask and Gaussian blur"),	      _("Misc"),	    N_("unsharp"),   N_(""));
+	maybe_add (N_("denoise3d"), _("3D denoiser"),				      _("Noise reduction"), N_("denoise3d"), N_(""));
+	maybe_add (N_("hqdn3d"),    _("High quality 3D denoiser"),		      _("Noise reduction"), N_("hqdn3d"),    N_(""));
+	maybe_add (N_("telecine"),  _("Telecine filter"),			      _("Misc"),	    N_("telecine"),  N_(""));
+	maybe_add (N_("ow"),	    _("Overcomplete wavelet denoiser"),		      _("Noise reduction"), N_("mp=ow"),     N_(""));
 }
 
 void

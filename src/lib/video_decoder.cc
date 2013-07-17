@@ -35,7 +35,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const Film> f)
 void
 VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
 {
-        Video (image, same, frame);
+	Video (image, same, frame);
 	_video_position = frame + 1;
 }
 

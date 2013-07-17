@@ -86,7 +86,7 @@ Job::run_wrapper ()
 	} catch (boost::thread_interrupted &) {
 
 		set_state (FINISHED_CANCELLED);
- 		
+		
 	} catch (std::exception& e) {
 
 		set_progress (1);

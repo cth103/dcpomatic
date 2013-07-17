@@ -73,11 +73,11 @@ public:
 std::ostream& operator<<(std::ostream& s, Piece const & p)
 {
 	if (dynamic_pointer_cast<FFmpegContent> (p.content)) {
-		s << "\tffmpeg     ";
+		s << "\tffmpeg	   ";
 	} else if (dynamic_pointer_cast<ImageMagickContent> (p.content)) {
 		s << "\timagemagick";
 	} else if (dynamic_pointer_cast<SndfileContent> (p.content)) {
-		s << "\tsndfile    ";
+		s << "\tsndfile	   ";
 	}
 	
 	s << " at " << p.content->start() << " until " << p.content->end();
@@ -126,8 +126,8 @@ Player::pass ()
 	cout << "= PASS\n";
 #endif	
 
-        Time earliest_t = TIME_MAX;
-        shared_ptr<Piece> earliest;
+	Time earliest_t = TIME_MAX;
+	shared_ptr<Piece> earliest;
 	enum {
 		VIDEO,
 		AUDIO
@@ -198,7 +198,7 @@ Player::pass ()
 	cout << "\tpost pass " << _video_position << " " << _audio_position << "\n";
 #endif	
 
-        return false;
+	return false;
 }
 
 void
@@ -242,7 +242,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	_last_video = piece->content;
 #endif	
 
-        Video (work_image, same, time);
+	Video (work_image, same, time);
 	time += TIME_HZ / _film->dcp_video_frame_rate();
 
 	if (frc.repeat) {
@@ -298,13 +298,13 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		time = 0;
 	}
 
-        /* The time of this audio may indicate that some of our buffered audio is not going to
-           be added to any more, so it can be emitted.
-        */
+	/* The time of this audio may indicate that some of our buffered audio is not going to
+	   be added to any more, so it can be emitted.
+	*/
 
-        if (time > _audio_position) {
-                /* We can emit some audio from our buffers */
-                OutputAudioFrame const N = _film->time_to_audio_frames (time - _audio_position);
+	if (time > _audio_position) {
+		/* We can emit some audio from our buffers */
+		OutputAudioFrame const N = _film->time_to_audio_frames (time - _audio_position);
 		if (N > _audio_buffers.frames()) {
 			/* We need some extra silence before whatever is in the buffers */
 			_audio_buffers.ensure_size (N);
@@ -313,21 +313,21 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 			_audio_buffers.set_frames (N);
 		}
 		assert (N <= _audio_buffers.frames());
-                shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
-                emit->copy_from (&_audio_buffers, N, 0, 0);
-                Audio (emit, _audio_position);
-                _audio_position = piece->audio_position = time + _film->audio_frames_to_time (N);
+		shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
+		emit->copy_from (&_audio_buffers, N, 0, 0);
+		Audio (emit, _audio_position);
+		_audio_position = piece->audio_position = time + _film->audio_frames_to_time (N);
 
-                /* And remove it from our buffers */
-                if (_audio_buffers.frames() > N) {
-                        _audio_buffers.move (N, 0, _audio_buffers.frames() - N);
-                }
-                _audio_buffers.set_frames (_audio_buffers.frames() - N);
-        }
+		/* And remove it from our buffers */
+		if (_audio_buffers.frames() > N) {
+			_audio_buffers.move (N, 0, _audio_buffers.frames() - N);
+		}
+		_audio_buffers.set_frames (_audio_buffers.frames() - N);
+	}
 
-        /* Now accumulate the new audio into our buffers */
-        _audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
-        _audio_buffers.accumulate_frames (audio.get(), 0, 0, audio->frames ());
+	/* Now accumulate the new audio into our buffers */
+	_audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
+	_audio_buffers.accumulate_frames (audio.get(), 0, 0, audio->frames ());
 	_audio_buffers.set_frames (_audio_buffers.frames() + audio->frames());
 }
 
@@ -408,7 +408,7 @@ Player::setup_pieces ()
 
 		shared_ptr<Piece> piece (new Piece (*i));
 
-                /* XXX: into content? */
+		/* XXX: into content? */
 
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
 		if (fc) {
