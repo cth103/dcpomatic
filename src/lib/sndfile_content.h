@@ -45,18 +45,18 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	Time length () const;
 
-        /* AudioContent */
-        int audio_channels () const {
+	/* AudioContent */
+	int audio_channels () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_channels;
 	}
 	
-        AudioContent::Frame audio_length () const {
+	AudioContent::Frame audio_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_length;
 	}
 	
-        int content_audio_frame_rate () const {
+	int content_audio_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_frame_rate;
 	}

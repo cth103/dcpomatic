@@ -62,7 +62,7 @@ public:
 
 protected:
 	uint8_t* _data; ///< data
-	int _size;      ///< data size in bytes
+	int _size;	///< data size in bytes
 };
 
 /** @class LocallyEncodedData
@@ -113,13 +113,13 @@ public:
 	
 private:
 	boost::shared_ptr<const Image> _image;
-	int _frame;                      ///< frame index within the DCP's intrinsic duration
-	int _frames_per_second;          ///< Frames per second that we will use for the DCP
-	int _j2k_bandwidth;              ///< J2K bandwidth to use
+	int _frame;			 ///< frame index within the DCP's intrinsic duration
+	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
+	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 
 	boost::shared_ptr<Log> _log; ///< log
 
-	opj_cparameters_t* _parameters;    ///< libopenjpeg's parameters
-	opj_cinfo_t* _cinfo;               ///< libopenjpeg's opj_cinfo_t
-	opj_cio_t* _cio;                   ///< libopenjpeg's opj_cio_t
+	opj_cparameters_t* _parameters;	   ///< libopenjpeg's parameters
+	opj_cinfo_t* _cinfo;		   ///< libopenjpeg's opj_cinfo_t
+	opj_cio_t* _cio;		   ///< libopenjpeg's opj_cio_t
 };

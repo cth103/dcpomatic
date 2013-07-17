@@ -41,7 +41,7 @@ class Region;
  *  @brief A set of content files (video and audio), with knowledge of how they should be arranged into
  *  a DCP.
  *
- * This class holds Content objects, and it knows how they should be arranged.  At the moment
+ * This class holds Content objects, and it knows how they should be arranged.	At the moment
  * the ordering is implicit; video content is placed sequentially, and audio content is taken
  * from the video unless any sound-only files are present.  If sound-only files exist, they
  * are played simultaneously (i.e. they can be split up into multiple files for different channels)

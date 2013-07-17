@@ -94,11 +94,11 @@ struct FrameRateConversion
 	/** true if this DCP will run its video faster or slower than the source
 	 *  without taking into account `repeat' nor `skip'.
 	 *  (e.g. change_speed will be true if
-	 *          source is 29.97fps, DCP is 30fps
-	 *          source is 14.50fps, DCP is 30fps
+	 *	    source is 29.97fps, DCP is 30fps
+	 *	    source is 14.50fps, DCP is 30fps
 	 *  but not if
-	 *          source is 15.00fps, DCP is 30fps
-	 *          source is 12.50fps, DCP is 25fps)
+	 *	    source is 15.00fps, DCP is 30fps
+	 *	    source is 12.50fps, DCP is 25fps)
 	 */
 	bool change_speed;
 

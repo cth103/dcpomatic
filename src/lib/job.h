@@ -80,10 +80,10 @@ protected:
 
 	/** Description of a job's state */
 	enum State {
-		NEW,            ///< the job hasn't been started yet
-		RUNNING,        ///< the job is running
-		PAUSED,         ///< the job has been paused
-		FINISHED_OK,    ///< the job has finished successfully
+		NEW,		///< the job hasn't been started yet
+		RUNNING,	///< the job is running
+		PAUSED,		///< the job has been paused
+		FINISHED_OK,	///< the job has finished successfully
 		FINISHED_ERROR, ///< the job has finished in error
 		FINISHED_CANCELLED ///< the job was cancelled
 	};

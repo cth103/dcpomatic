@@ -53,7 +53,7 @@ private:
  *  spends in one of a set of states.
  *
  *  Once constructed, the caller can call set_state() whenever
- *  its state changes.  When StateTimer is destroyed, it will
+ *  its state changes.	When StateTimer is destroyed, it will
  *  output (to cout) a summary of the time spent in each state.
  */
 class StateTimer

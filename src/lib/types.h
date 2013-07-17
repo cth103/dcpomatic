@@ -29,9 +29,9 @@ class Content;
 
 typedef int64_t Time;
 #define TIME_MAX INT64_MAX
-#define TIME_HZ  ((Time) 96000)
+#define TIME_HZ	 ((Time) 96000)
 typedef int64_t OutputAudioFrame;
-typedef int     OutputVideoFrame;
+typedef int	OutputVideoFrame;
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
