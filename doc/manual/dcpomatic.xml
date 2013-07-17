@@ -68,7 +68,7 @@ This manual uses icons from the <ulink url="http://tango.freedesktop.org/">Tango
 
 <para>
 To install DCP-o-matic on Windows, simply download the installer from
-<ulink url="http://dcpomatic.com/">http://dcpomatic.com</ulink>
+<ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
 and double-click it.  Click through the installer wizard, and
 DCP-o-matic will be installed onto your machine.
 </para>
@@ -85,6 +85,20 @@ version.
 </section>
 
 <section>
+<title>Mac OS X</title>
+
+<para>
+DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
+higher.  To install it, download the <code>DMG</code> from <ulink
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and double
+click to open it.  Then drag the DCP-o-matic icon to your
+<guilabel>Applications</guilabel> folder or wherever else you would
+like to install it.
+</para>
+
+</section>
+
+<section>
 <title>Ubuntu Linux</title>
 
 <para>
@@ -92,7 +106,7 @@ You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
 Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;) or 13.04
 (&lsquo;Raring Ringtail&rsquo;) using <code>.deb</code> packages:
 download the appropriate package from <ulink
-url="http://dcpomatic.com">http://dcpomatic.com</ulink> and
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
 and set DCP-o-matic up for you.
 </para>
@@ -129,7 +143,7 @@ The following dependencies are required:
 <para>
 Once you have installed the development packages for the dependencies,
 download the source code from <ulink
-url="http://carlh.net/software/dcpomatic">http://carlh.net</ulink>,
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>,
 unpack it and run the following commands from inside the source
 directory:
 </para>
@@ -180,7 +194,7 @@ the low-resolution version to save everyone's bandwidth bills.
 <para>
 Now, start DCP-o-matic and its window will open.  First, we will
 create a new &lsquo;film&rsquo;.  A &lsquo;film&rsquo; is how DCP-o-matic refers to
-a piece of content, along with some settings, which we will make into
+some pieces of content, along with some settings, which we will make into
 a DCP.  DCP-o-matic stores its data in a folder on your disk while it
 creates the DCP.  You can create a new film by selecting
 <guilabel>New</guilabel> from the <guilabel>File</guilabel> menu, as
