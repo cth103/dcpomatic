@@ -53,11 +53,11 @@ AudioPlot::AudioPlot (wxWindow* parent)
 		_type_visible[i] = false;
 	}
 
-	_colours.push_back (wxColour (  0,   0,   0));
-	_colours.push_back (wxColour (255,   0,   0));
-	_colours.push_back (wxColour (  0, 255,   0));
+	_colours.push_back (wxColour (	0,   0,	  0));
+	_colours.push_back (wxColour (255,   0,	  0));
+	_colours.push_back (wxColour (	0, 255,	  0));
 	_colours.push_back (wxColour (139,   0, 204));
-	_colours.push_back (wxColour (  0,   0, 255));
+	_colours.push_back (wxColour (	0,   0, 255));
 	_colours.push_back (wxColour (100, 100, 100));
 	
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (AudioPlot::paint), 0, this);

@@ -34,13 +34,13 @@ class RGBPlusAlphaImage;
  *
  *  The film takes the following path through the viewer:
  *
- *  1.  fetch_next_frame() asks our _player to decode some data.  If it does, process_video()
- *      will be called.
+ *  1.	fetch_next_frame() asks our _player to decode some data.  If it does, process_video()
+ *	will be called.
  *
- *  2.  process_video() takes the image from the player (_frame).
+ *  2.	process_video() takes the image from the player (_frame).
  *
- *  3.  fetch_next_frame() calls _panel->Refresh() and _panel->Update() which results in
- *      paint_panel() being called; this creates frame_bitmap from _frame and blits it to the display.
+ *  3.	fetch_next_frame() calls _panel->Refresh() and _panel->Update() which results in
+ *	paint_panel() being called; this creates frame_bitmap from _frame and blits it to the display.
  *
  * fetch_current_frame_again() asks the player to re-emit its current frame on the next pass(), and then
  * starts from step #1.

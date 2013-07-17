@@ -29,6 +29,6 @@ wxUISignaller::wxUISignaller (wxEvtHandler* h)
 void
 wxUISignaller::wake_ui ()
 {
-        wxCommandEvent event (-1, -1);
-        _handler->AddPendingEvent (event);
+	wxCommandEvent event (-1, -1);
+	_handler->AddPendingEvent (event);
 }

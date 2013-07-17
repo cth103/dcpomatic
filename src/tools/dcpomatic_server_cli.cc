@@ -52,7 +52,7 @@ help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION]\n"
 	     << "  -v, --version      show DCP-o-matic version\n"
-	     << "  -h, --help         show this help\n"
+	     << "  -h, --help	      show this help\n"
 	     << "  -t, --threads      number of parallel encoding threads to use\n";
 }
 

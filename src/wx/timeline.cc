@@ -38,7 +38,7 @@ class View
 {
 public:
 	View (Timeline& t)
-	        : _timeline (t)
+		: _timeline (t)
 	{
 
 	}
@@ -148,11 +148,11 @@ private:
 		}
 		
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint    (time_x (start),       y_pos (_track) + 4);
+		path.MoveToPoint    (time_x (start),	   y_pos (_track) + 4);
 		path.AddLineToPoint (time_x (start + len), y_pos (_track) + 4);
 		path.AddLineToPoint (time_x (start + len), y_pos (_track + 1) - 4);
-		path.AddLineToPoint (time_x (start),       y_pos (_track + 1) - 4);
-		path.AddLineToPoint (time_x (start),       y_pos (_track) + 4);
+		path.AddLineToPoint (time_x (start),	   y_pos (_track + 1) - 4);
+		path.AddLineToPoint (time_x (start),	   y_pos (_track) + 4);
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
@@ -230,7 +230,7 @@ class TimeAxisView : public View
 {
 public:
 	TimeAxisView (Timeline& tl, int y)
-	        : View (tl)
+		: View (tl)
 		, _y (y)
 	{}
 	
