@@ -17,6 +17,10 @@
 
 */
 
+#include <boost/filesystem.hpp>
+
+class Film;
+
 extern void wait_for_jobs ();
 extern boost::shared_ptr<Film> new_test_film (std::string);
 extern void check_dcp (std::string, std::string);

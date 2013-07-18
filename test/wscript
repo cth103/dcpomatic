@@ -34,6 +34,7 @@ def build(bld):
                  job_test.cc
                  client_server_test.cc
                  image_test.cc
+                 4k_test.cc
                  """
     obj.target = 'unit-tests'
     obj.install_path = ''
