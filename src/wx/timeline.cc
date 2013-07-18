@@ -219,7 +219,11 @@ private:
 
 	wxString type () const
 	{
-		return _("video");
+		if (dynamic_pointer_cast<FFmpegContent> (content ())) {
+			return _("video");
+		} else {
+			return _("still");
+		}
 	}
 
 	wxColour colour () const
