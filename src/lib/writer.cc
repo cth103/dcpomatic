@@ -358,15 +358,19 @@ Writer::check_existing_picture_mxf ()
 		/* Read the data from the MXF and hash it */
 		fseek (mxf, info.offset, SEEK_SET);
 		EncodedData data (info.size);
-		fread (data.data(), 1, data.size(), mxf);
-		string const existing_hash = md5_digest (data.data(), data.size());
+		size_t const read = fread (data.data(), 1, data.size(), mxf);
+		if (read != static_cast<size_t> (data.size ())) {
+			_film->log()->log (String::compose ("Existing frame %1 is incomplete", _first_nonexistant_frame));
+			break;
+		}
 		
+		string const existing_hash = md5_digest (data.data(), data.size());
 		if (existing_hash != info.hash) {
-			_film->log()->log (String::compose (N_("Existing frame %1 failed hash check"), _first_nonexistant_frame));
+			_film->log()->log (String::compose ("Existing frame %1 failed hash check", _first_nonexistant_frame));
 			break;
 		}
 
-		_film->log()->log (String::compose (N_("Have existing frame %1"), _first_nonexistant_frame));
+		_film->log()->log (String::compose ("Have existing frame %1", _first_nonexistant_frame));
 		++_first_nonexistant_frame;
 	}
 
