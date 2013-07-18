@@ -10,6 +10,7 @@ sources = """
           audio_mapping.cc
           config.cc
           content.cc
+          content_factory.cc
           cross.cc
           dci_metadata.cc
           dcp_content_type.cc

@@ -45,7 +45,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-//#define DEBUG_PLAYER 1
+#define DEBUG_PLAYER 1
 
 class Piece
 {
@@ -401,7 +401,7 @@ Player::setup_pieces ()
 
 	_pieces.clear ();
 
-	Playlist::ContentList content = _playlist->content ();
+	Playlist::ContentList content = _playlist->content_with_loop ();
 	sort (content.begin(), content.end(), ContentSorter ());
 
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {

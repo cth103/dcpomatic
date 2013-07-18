@@ -246,7 +246,7 @@ Film::make_dcp ()
 		throw MissingSettingError (_("container"));
 	}
 
-	if (_playlist->content().empty ()) {
+	if (content_without_loop().empty()) {
 		throw StringError (_("You must add some content to the DCP before creating it"));
 	}
 
@@ -729,9 +729,9 @@ Film::playlist () const
 }
 
 Playlist::ContentList
-Film::content () const
+Film::content_without_loop () const
 {
-	return _playlist->content ();
+	return _playlist->content_without_loop ();
 }
 
 void
@@ -769,9 +769,15 @@ Film::remove_content (shared_ptr<Content> c)
 }
 
 Time
-Film::length () const
+Film::length_with_loop () const
 {
-	return _playlist->length ();
+	return _playlist->length_with_loop ();
+}
+
+Time
+Film::length_without_loop () const
+{
+	return _playlist->length_without_loop ();
 }
 
 bool

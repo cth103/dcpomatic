@@ -164,8 +164,10 @@ FilmViewer::timer (wxTimerEvent &)
 	
 	fetch_next_frame ();
 
-	if (_film->length()) {
-		int const new_slider_position = 4096 * _player->video_position() / _film->length();
+	Time const len = _film->length_with_loop ();
+
+	if (len) {
+		int const new_slider_position = 4096 * _player->video_position() / len;
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -211,7 +213,7 @@ void
 FilmViewer::slider_moved (wxScrollEvent &)
 {
 	if (_film && _player) {
-		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
+		_player->seek (_slider->GetValue() * _film->length_with_loop() / 4096, false);
 		fetch_next_frame ();
 	}
 }

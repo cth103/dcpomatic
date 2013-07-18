@@ -28,6 +28,7 @@
 #include "ffmpeg_content.h"
 #include "imagemagick_decoder.h"
 #include "imagemagick_content.h"
+#include "content_factory.h"
 #include "job.h"
 #include "config.h"
 #include "util.h"
@@ -119,19 +120,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node
 {
 	list<shared_ptr<cxml::Node> > c = node->node_children ("Content");
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
-		string const type = (*i)->string_child ("Type");
-
-		boost::shared_ptr<Content> content;
-
-		if (type == "FFmpeg") {
-			content.reset (new FFmpegContent (film, *i));
-		} else if (type == "ImageMagick") {
-			content.reset (new ImageMagickContent (film, *i));
-		} else if (type == "Sndfile") {
-			content.reset (new SndfileContent (film, *i));
-		}
-
-		_content.push_back (content);
+		_content.push_back (content_factory (film, *i));
 	}
 
 	reconnect ();
@@ -257,7 +246,7 @@ Playlist::best_dcp_frame_rate () const
 }
 
 Time
-Playlist::length () const
+Playlist::length_without_loop () const
 {
 	Time len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
@@ -265,6 +254,12 @@ Playlist::length () const
 	}
 
 	return len;
+}
+
+Time
+Playlist::length_with_loop () const
+{
+	return length_without_loop() * _loop;
 }
 
 void
@@ -304,4 +299,31 @@ bool
 ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 {
 	return a->start() < b->start();
+}
+
+/** @return content in an undefined order, not taking looping into account */
+Playlist::ContentList
+Playlist::content_without_loop () const
+{
+	return _content;
+}
+
+/** @return content in an undefined order, taking looping into account */
+Playlist::ContentList
+Playlist::content_with_loop () const
+{
+	ContentList looped = _content;
+	Time const length = length_without_loop ();
+
+	Time offset = length;
+	for (int i = 1; i < _loop; ++i) {
+		for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+			shared_ptr<Content> copy = (*i)->clone ();
+			copy->set_start (copy->start() + offset);
+			looped.push_back (copy);
+		}
+		offset += length;
+	}
+	
+	return looped;
 }
