@@ -17,38 +17,71 @@
 
 */
 
+#include <libcxml/cxml.h>
+
+using std::pair;
+
 BOOST_AUTO_TEST_CASE (stream_test)
 {
-#if 0	
-	FFmpegAudioStream a ("ffmpeg 4 44100 1 hello there world", boost::optional<int> (1));
-	BOOST_CHECK_EQUAL (a.id(), 4);
-	BOOST_CHECK_EQUAL (a.sample_rate(), 44100);
-	BOOST_CHECK_EQUAL (a.channel_layout(), 1);
-	BOOST_CHECK_EQUAL (a.name(), "hello there world");
-	BOOST_CHECK_EQUAL (a.to_string(), "ffmpeg 4 44100 1 hello there world");
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("FFmpegAudioStream");
+	root->add_child("Name")->add_child_text ("hello there world");
+	root->add_child("Id")->add_child_text ("4");
+	root->add_child("FrameRate")->add_child_text ("44100");
+	root->add_child("Channels")->add_child_text ("2");
+	xmlpp::Element* mapping = root->add_child("Mapping");
+	mapping->add_child("ContentChannels")->add_child_text ("2");
+	{
+		/* L -> L */
+		xmlpp::Element* map = mapping->add_child ("Map");
+		map->add_child("ContentIndex")->add_child_text ("0");
+		map->add_child("DCP")->add_child_text ("0");
+	}
+	{
+		/* L -> C */
+		xmlpp::Element* map = mapping->add_child ("Map");
+		map->add_child("ContentIndex")->add_child_text ("0");
+		map->add_child("DCP")->add_child_text ("2");
+	}
+	{
+		/* R -> R */
+		xmlpp::Element* map = mapping->add_child ("Map");
+		map->add_child("ContentIndex")->add_child_text ("1");
+		map->add_child("DCP")->add_child_text ("1");
+	}
+	{
+		/* R -> C */
+		xmlpp::Element* map = mapping->add_child ("Map");
+		map->add_child("ContentIndex")->add_child_text ("1");
+		map->add_child("DCP")->add_child_text ("2");
+	}
+		
+	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)));
 
-	SndfileStream e ("external 44100 1", boost::optional<int> (1));
-	BOOST_CHECK_EQUAL (e.sample_rate(), 44100);
-	BOOST_CHECK_EQUAL (e.channel_layout(), 1);
-	BOOST_CHECK_EQUAL (e.to_string(), "external 44100 1");
+	BOOST_CHECK_EQUAL (a.id, 4);
+	BOOST_CHECK_EQUAL (a.frame_rate, 44100);
+	BOOST_CHECK_EQUAL (a.channels, 2);
+	BOOST_CHECK_EQUAL (a.name, "hello there world");
+	BOOST_CHECK_EQUAL (a.mapping.content_channels(), 2);
+	BOOST_CHECK_EQUAL (a.mapping.content_to_dcp().size(), 4);
 
-	SubtitleStream s ("5 a b c", boost::optional<int> (1));
-	BOOST_CHECK_EQUAL (s.id(), 5);
-	BOOST_CHECK_EQUAL (s.name(), "a b c");
+	list<pair<int, libdcp::Channel> > m = a.mapping.content_to_dcp ();
+	list<pair<int, libdcp::Channel> >::iterator i = m.begin();
 
-	shared_ptr<AudioStream> ff = audio_stream_factory ("ffmpeg 4 44100 1 hello there world", boost::optional<int> (1));
-	shared_ptr<FFmpegAudioStream> cff = dynamic_pointer_cast<FFmpegAudioStream> (ff);
-	BOOST_CHECK (cff);
-	BOOST_CHECK_EQUAL (cff->id(), 4);
-	BOOST_CHECK_EQUAL (cff->sample_rate(), 44100);
-	BOOST_CHECK_EQUAL (cff->channel_layout(), 1);
-	BOOST_CHECK_EQUAL (cff->name(), "hello there world");
-	BOOST_CHECK_EQUAL (cff->to_string(), "ffmpeg 4 44100 1 hello there world");
+	BOOST_CHECK_EQUAL (i->first, 0);
+	BOOST_CHECK_EQUAL (i->second, libdcp::LEFT);
+	++i;
+	
+	BOOST_CHECK_EQUAL (i->first, 0);
+	BOOST_CHECK_EQUAL (i->second, libdcp::CENTRE);
+	++i;
+	
+	BOOST_CHECK_EQUAL (i->first, 1);
+	BOOST_CHECK_EQUAL (i->second, libdcp::RIGHT);
+	++i;
 
-	shared_ptr<AudioStream> fe = audio_stream_factory ("external 44100 1", boost::optional<int> (1));
-	BOOST_CHECK_EQUAL (fe->sample_rate(), 44100);
-	BOOST_CHECK_EQUAL (fe->channel_layout(), 1);
-	BOOST_CHECK_EQUAL (fe->to_string(), "external 44100 1");
-#endif	
+	BOOST_CHECK_EQUAL (i->first, 1);
+	BOOST_CHECK_EQUAL (i->second, libdcp::CENTRE);
+	++i;
 }
 
