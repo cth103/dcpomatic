@@ -45,7 +45,6 @@ public:
 		
 	void paint (wxGraphicsContext* g)
 	{
-		cout << "base paint " << this << "\n";
 		_last_paint_bbox = bbox ();
 		do_paint (g);
 	}
@@ -146,8 +145,6 @@ private:
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxBRUSHSTYLE_SOLID));
 		}
 
-		cout << "paint " << static_cast<View*> (this) << " " << _content.get() << " @ " << time_x (start) << "\n";
-		
 		wxGraphicsPath path = gc->CreatePath ();
 		path.MoveToPoint    (time_x (start),	   y_pos (_track) + 4);
 		path.AddLineToPoint (time_x (start + len), y_pos (_track) + 4);
@@ -357,7 +354,6 @@ Timeline::paint (wxPaintEvent &)
 
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
 
-	cout << "painting " << _views.size() << "\n";
 	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
 		(*i)->paint (gc);
 	}
@@ -373,7 +369,6 @@ Timeline::playlist_changed ()
 		return;
 	}
 
-	cout << "clearing views.\n";
 	_views.clear ();
 
 	Playlist::ContentList content = fl->playlist()->content_with_loop ();
