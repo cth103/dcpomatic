@@ -757,9 +757,6 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		_subtitle_stream->Clear ();
 		if (ffmpeg_content) {
 			vector<shared_ptr<FFmpegSubtitleStream> > s = ffmpeg_content->subtitle_streams ();
-			if (s.empty ()) {
-				_subtitle_stream->Enable (false);
-			}
 			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
 				_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 			}
@@ -1061,6 +1058,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 	
 	_subtitle_offset->Enable (j);
 	_subtitle_scale->Enable (j);
+	_subtitle_stream->Enable (j);
 }
 
 void
