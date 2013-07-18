@@ -78,20 +78,19 @@ ConfigDialog::make_misc_panel ()
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_misc_panel->SetSizer (s);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 	s->Add (table, 1, wxALL | wxEXPAND, 8);
 
 	_set_language = new wxCheckBox (_misc_panel, wxID_ANY, _("Set language"));
-	table->Add (_set_language, 1, wxEXPAND);
+	table->Add (_set_language, 1);
 	_language = new wxChoice (_misc_panel, wxID_ANY);
 	_language->Append (wxT ("English"));
 	_language->Append (wxT ("Français"));
 	_language->Append (wxT ("Italiano"));
 	_language->Append (wxT ("Español"));
 	_language->Append (wxT ("Svenska"));
-	table->Add (_language, 1, wxEXPAND);
-	table->AddSpacer (0);
+	table->Add (_language);
 
 	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DCP-o-matic to see language changes)"), false);
 	wxFont font = restart->GetFont();
@@ -99,17 +98,19 @@ ConfigDialog::make_misc_panel ()
 	font.SetPointSize (font.GetPointSize() - 1);
 	restart->SetFont (font);
 	table->AddSpacer (0);
-	table->AddSpacer (0);
 
 	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"), true);
 	_num_local_encoding_threads = new wxSpinCtrl (_misc_panel);
 	table->Add (_num_local_encoding_threads, 1);
-	table->AddSpacer (0);
 
-	add_label_to_sizer (table, _misc_panel, _("Default duration of still images"), true);
-	_default_still_length = new wxSpinCtrl (_misc_panel);
-	table->Add (_default_still_length, 1, wxEXPAND);
-	add_label_to_sizer (table, _misc_panel, _("s"), false);
+	{
+		add_label_to_sizer (table, _misc_panel, _("Default duration of still images"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_still_length = new wxSpinCtrl (_misc_panel);
+		s->Add (_default_still_length);
+		add_label_to_sizer (s, _misc_panel, _("s"), false);
+		table->Add (s, 1);
+	}
 
 	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"), true);
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
@@ -118,27 +119,27 @@ ConfigDialog::make_misc_panel ()
 	_default_directory = new wxDirPickerCtrl (_misc_panel, wxDD_DIR_MUST_EXIST);
 #endif
 	table->Add (_default_directory, 1, wxEXPAND);
-	table->AddSpacer (0);
 
 	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"), true);
 	_default_dci_metadata_button = new wxButton (_misc_panel, wxID_ANY, _("Edit..."));
 	table->Add (_default_dci_metadata_button);
-	table->AddSpacer (1);
 
 	add_label_to_sizer (table, _misc_panel, _("Default container"), true);
 	_default_container = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_container);
-	table->AddSpacer (1);
 
 	add_label_to_sizer (table, _misc_panel, _("Default content type"), true);
 	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
 	table->Add (_default_dcp_content_type);
-	table->AddSpacer (1);
 
-	add_label_to_sizer (table, _misc_panel, _("Default JPEG2000 bandwidth"), true);
-	_default_j2k_bandwidth = new wxSpinCtrl (_misc_panel);
-	table->Add (_default_j2k_bandwidth, 1);
-	add_label_to_sizer (table, _misc_panel, _("MBps"), false);
+	{
+		add_label_to_sizer (table, _misc_panel, _("Default JPEG2000 bandwidth"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_j2k_bandwidth = new wxSpinCtrl (_misc_panel);
+		s->Add (_default_j2k_bandwidth);
+		add_label_to_sizer (s, _misc_panel, _("MBps"), false);
+		table->Add (s, 1);
+	}
 	
 	Config* config = Config::instance ();
 
