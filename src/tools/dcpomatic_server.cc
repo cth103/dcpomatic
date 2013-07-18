@@ -20,7 +20,7 @@
 #include <boost/thread.hpp>
 #include <wx/taskbar.h>
 #include <wx/icon.h>
-#include "wx_util.h"
+#include "wx/wx_util.h"
 #include "lib/util.h"
 #include "lib/server.h"
 #include "lib/config.h"

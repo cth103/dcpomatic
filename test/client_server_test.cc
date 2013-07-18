@@ -17,6 +17,17 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include <boost/thread.hpp>
+#include "lib/server.h"
+#include "lib/image.h"
+#include "lib/cross.h"
+#include "lib/dcp_video_frame.h"
+
+using std::list;
+using boost::shared_ptr;
+using boost::thread;
+
 void
 do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription* description, shared_ptr<EncodedData> locally_encoded)
 {

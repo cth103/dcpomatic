@@ -18,9 +18,9 @@
 */
 
 #include <wx/sizer.h>
+#include "lib/film.h"
 #include "dci_metadata_dialog.h"
 #include "wx_util.h"
-#include "film.h"
 
 using boost::shared_ptr;
 

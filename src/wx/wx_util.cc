@@ -24,9 +24,9 @@
 #include <boost/thread.hpp>
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
+#include "lib/config.h"
+#include "lib/util.h"
 #include "wx_util.h"
-#include "config.h"
-#include "util.h"
 
 using namespace std;
 using namespace boost;

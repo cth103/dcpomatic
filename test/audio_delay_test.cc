@@ -17,13 +17,20 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
 #include <libdcp/sound_frame.h>
 #include <libdcp/cpl.h>
 #include <libdcp/reel.h>
 #include <libdcp/sound_asset.h>
-#include "sndfile_content.h"
+#include "lib/sndfile_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
+#include "lib/film.h"
+#include "test.h"
 
+using std::string;
 using boost::lexical_cast;
+using boost::shared_ptr;
 
 static
 void test_audio_delay (int delay_in_ms)

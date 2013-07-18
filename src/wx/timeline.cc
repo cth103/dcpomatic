@@ -20,11 +20,11 @@
 #include <list>
 #include <wx/graphics.h>
 #include <boost/weak_ptr.hpp>
-#include "film.h"
+#include "lib/film.h"
+#include "lib/playlist.h"
 #include "film_editor.h"
 #include "timeline.h"
 #include "wx_util.h"
-#include "lib/playlist.h"
 
 using std::list;
 using std::cout;

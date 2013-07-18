@@ -17,9 +17,14 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
+#include "lib/ffmpeg_content.h"
 
 using std::pair;
+using std::list;
+using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (stream_test)
 {

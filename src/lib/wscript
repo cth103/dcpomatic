@@ -63,7 +63,7 @@ def build(bld):
         obj = bld(features = 'cxx cxxshlib')
 
     obj.name = 'libdcpomatic'
-    obj.export_includes = ['.']
+    obj.export_includes = ['..']
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 

@@ -21,8 +21,8 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <wx/wx.h>
-#include "util.h"
-#include "rect.h"
+#include "lib/util.h"
+#include "lib/rect.h"
 
 class Film;
 class View;

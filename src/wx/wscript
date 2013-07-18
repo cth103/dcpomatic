@@ -57,8 +57,8 @@ def build(bld):
         obj = bld(features = 'cxx cxxshlib')
 
     obj.name   = 'libdcpomatic-wx'
-    obj.includes = [ '..' ]
-    obj.export_includes = ['.']
+#    obj.includes = [ '..' ]
+    obj.export_includes = ['..']
     obj.uselib = 'WXWIDGETS'
     if bld.env.TARGET_LINUX:
         obj.uselib += ' GTK'

@@ -17,6 +17,12 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include "lib/image.h"
+#include "lib/scaler.h"
+
+using boost::shared_ptr;
+
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
 	Image* s = new Image (PIX_FMT_RGB24, libdcp::Size (50, 50), true);

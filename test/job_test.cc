@@ -17,6 +17,14 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/cross.h"
+
+using std::string;
+using boost::shared_ptr;
+
 class TestJob : public Job
 {
 public:

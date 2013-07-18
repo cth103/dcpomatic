@@ -32,15 +32,15 @@
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
-#include "config.h"
-#include "dcp_video_frame.h"
-#include "exceptions.h"
-#include "util.h"
-#include "config.h"
-#include "scaler.h"
-#include "image.h"
-#include "log.h"
-#include "version.h"
+#include "lib/config.h"
+#include "lib/dcp_video_frame.h"
+#include "lib/exceptions.h"
+#include "lib/util.h"
+#include "lib/config.h"
+#include "lib/scaler.h"
+#include "lib/image.h"
+#include "lib/log.h"
+#include "lib/version.h"
 
 using std::cerr;
 using std::string;

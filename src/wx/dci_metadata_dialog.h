@@ -20,7 +20,7 @@
 #include <wx/dialog.h>
 #include <wx/textctrl.h>
 #include <boost/shared_ptr.hpp>
-#include "dci_metadata.h"
+#include "lib/dci_metadata.h"
 
 class Film;
 

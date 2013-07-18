@@ -17,6 +17,11 @@
 
 */
 
+#include <iostream>
+#include <boost/test/unit_test.hpp>
+#include <libdcp/util.h>
+#include "lib/ratio.h"
+
 using std::ostream;
 
 namespace libdcp {

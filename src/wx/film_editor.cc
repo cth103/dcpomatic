@@ -39,18 +39,18 @@
 #include "lib/imagemagick_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/sound_processor.h"
+#include "lib/scaler.h"
+#include "timecode.h"
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
 #include "gain_calculator_dialog.h"
-#include "sound_processor.h"
 #include "dci_metadata_dialog.h"
-#include "scaler.h"
 #include "audio_dialog.h"
 #include "imagemagick_content_dialog.h"
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
-#include "timecode.h"
 
 using std::string;
 using std::cout;

@@ -37,9 +37,9 @@
 #include "lib/video_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/imagemagick_content.h"
+#include "lib/video_decoder.h"
 #include "film_viewer.h"
 #include "wx_util.h"
-#include "video_decoder.h"
 
 using std::string;
 using std::pair;

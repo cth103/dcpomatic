@@ -19,10 +19,10 @@
 
 #include <list>
 #include <wx/graphics.h>
+#include "lib/playlist.h"
 #include "film_editor.h"
 #include "timeline_dialog.h"
 #include "wx_util.h"
-#include "playlist.h"
 
 using std::list;
 using std::cout;

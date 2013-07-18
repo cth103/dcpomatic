@@ -17,45 +17,26 @@
 
 */
 
-#include <fstream>
-#include <iostream>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/date_time.hpp>
+#include <vector>
+#include <list>
 #include <libdcp/dcp.h>
-#include "ratio.h"
-#include "film.h"
-#include "filter.h"
-#include "job_manager.h"
-#include "util.h"
-#include "exceptions.h"
-#include "image.h"
-#include "log.h"
-#include "dcp_video_frame.h"
-#include "config.h"
-#include "server.h"
-#include "cross.h"
-#include "job.h"
-#include "scaler.h"
-#include "ffmpeg_decoder.h"
-#include "sndfile_decoder.h"
-#include "dcp_content_type.h"
-#include "ui_signaller.h"
-#include "ratio.h"
+#include "lib/config.h"
+#include "lib/util.h"
+#include "lib/ui_signaller.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/job.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
 
 using std::string;
-using std::list;
-using std::stringstream;
 using std::vector;
 using std::min;
 using std::cout;
 using std::cerr;
+using std::list;
 using boost::shared_ptr;
-using boost::thread;
-using boost::dynamic_pointer_cast;
 
 struct TestConfig
 {
@@ -76,7 +57,7 @@ struct TestConfig
 
 BOOST_GLOBAL_FIXTURE (TestConfig);
 
-static boost::filesystem::path
+boost::filesystem::path
 test_film_dir (string name)
 {
 	boost::filesystem::path p;
@@ -86,7 +67,7 @@ test_film_dir (string name)
 	return p;
 }
 
-static shared_ptr<Film>
+shared_ptr<Film>
 new_test_film (string name)
 {
 	boost::filesystem::path p = test_film_dir (name);
@@ -137,7 +118,7 @@ note (libdcp::NoteType, string n)
 	cout << n << "\n";
 }
 
-static void
+void
 check_dcp (string ref, string check)
 {
 	libdcp::DCP ref_dcp (ref);
@@ -169,22 +150,3 @@ wait_for_jobs ()
 		
 	BOOST_CHECK (!jm->errors());
 }
-
-#include "play_test.cc"
-#include "frame_rate_test.cc"
-#include "silence_padding_test.cc"
-#include "audio_delay_test.cc"
-#include "ffmpeg_pts_offset.cc"
-#include "ffmpeg_examiner_test.cc"
-#include "black_fill_test.cc"
-#include "scaling_test.cc"
-#include "ratio_test.cc"
-#include "pixel_formats_test.cc"
-#include "make_black_test.cc"
-#include "film_metadata_test.cc"
-#include "stream_test.cc"
-#include "util_test.cc"
-#include "ffmpeg_dcp_test.cc"
-#include "job_test.cc"
-#include "client_server_test.cc"
-#include "image_test.cc"

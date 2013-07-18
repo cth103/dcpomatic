@@ -17,6 +17,16 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include <libdcp/util.h>
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
+#include "lib/image.h"
+#include "lib/scaler.h"
+
+using std::list;
+
 /* Check that Image::make_black works, and doesn't use values which crash
    sws_scale().
 */

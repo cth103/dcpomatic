@@ -17,14 +17,21 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
 #include <libdcp/cpl.h>
 #include <libdcp/dcp.h>
 #include <libdcp/sound_asset.h>
 #include <libdcp/sound_frame.h>
 #include <libdcp/reel.h>
-#include "sndfile_content.h"
+#include "lib/sndfile_content.h"
+#include "lib/film.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
+#include "test.h"
 
+using std::string;
 using boost::lexical_cast;
+using boost::shared_ptr;
 
 static void test_silence_padding (int channels)
 {

@@ -17,6 +17,13 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include "lib/film.h"
+#include "lib/config.h"
+#include "test.h"
+
+using boost::shared_ptr;
+
 /* Test Playlist::best_dcp_frame_rate and FrameRateConversion
    with a single piece of content.
 */

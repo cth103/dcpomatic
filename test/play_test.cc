@@ -17,12 +17,18 @@
 
 */
 
-#include "player.h"
+#include <boost/test/unit_test.hpp>
+#include "lib/player.h"
+#include "lib/ratio.h"
+#include "lib/dcp_content_type.h"
+#include "test.h"
 
 /* This test needs stuff in Player that is only included in debug mode */
 #ifdef DCPOMATIC_DEBUG
 
+using std::cout;
 using boost::optional;
+using boost::shared_ptr;
 
 struct Video
 {

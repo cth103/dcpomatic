@@ -17,6 +17,13 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include "lib/util.h"
+#include "lib/exceptions.h"
+
+using std::string;
+using std::vector;
+
 BOOST_AUTO_TEST_CASE (util_test)
 {
 	string t = "Hello this is a string \"with quotes\" and indeed without them";

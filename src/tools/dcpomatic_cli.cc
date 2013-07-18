@@ -21,16 +21,16 @@
 #include <iomanip>
 #include <getopt.h>
 #include <libdcp/version.h>
-#include "film.h"
-#include "filter.h"
-#include "transcode_job.h"
-#include "job_manager.h"
-#include "util.h"
-#include "scaler.h"
-#include "version.h"
-#include "cross.h"
-#include "config.h"
-#include "log.h"
+#include "lib/film.h"
+#include "lib/filter.h"
+#include "lib/transcode_job.h"
+#include "lib/job_manager.h"
+#include "lib/util.h"
+#include "lib/scaler.h"
+#include "lib/version.h"
+#include "lib/cross.h"
+#include "lib/config.h"
+#include "lib/log.h"
 
 using std::string;
 using std::cerr;

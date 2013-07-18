@@ -17,12 +17,18 @@
 
 */
 
-#include "imagemagick_content.h"
+#include <boost/test/unit_test.hpp>
+#include "lib/imagemagick_content.h"
+#include "lib/ratio.h"
+#include "lib/film.h"
+#include "lib/dcp_content_type.h"
+#include "test.h"
 
 /** @file test/scaling_test.cc
  *  @brief Test scaling and black-padding of images from a still-image source.
  */
 
+using std::string;
 using boost::shared_ptr;
 
 static void scaling_test_for (shared_ptr<Film> film, shared_ptr<VideoContent> content, string image, string container)

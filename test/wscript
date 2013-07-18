@@ -14,6 +14,26 @@ def build(bld):
     obj.name   = 'unit-tests'
     obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML'
     obj.use    = 'libdcpomatic'
-    obj.source = 'test.cc'
+    obj.source = """
+                 test.cc
+                 play_test.cc
+                 frame_rate_test.cc
+                 silence_padding_test.cc
+                 audio_delay_test.cc
+                 ffmpeg_pts_offset.cc
+                 ffmpeg_examiner_test.cc
+                 black_fill_test.cc
+                 scaling_test.cc
+                 ratio_test.cc
+                 pixel_formats_test.cc
+                 make_black_test.cc
+                 film_metadata_test.cc
+                 stream_test.cc
+                 util_test.cc
+                 ffmpeg_dcp_test.cc
+                 job_test.cc
+                 client_server_test.cc
+                 image_test.cc
+                 """
     obj.target = 'unit-tests'
     obj.install_path = ''

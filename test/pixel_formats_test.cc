@@ -17,6 +17,14 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include <list>
+extern "C" {
+#include <libavutil/pixfmt.h>
+#include <libavcodec/avcodec.h>
+}
+#include "lib/image.h"
+
 using std::list;
 using std::cout;
 

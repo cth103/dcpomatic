@@ -17,7 +17,12 @@
 
 */
 
-#include "imagemagick_content.h"
+#include <boost/test/unit_test.hpp>
+#include "lib/imagemagick_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
+#include "test.h"
 
 /** @file test/black_fill_test.cc
  *  @brief Test insertion of black frames between video content.

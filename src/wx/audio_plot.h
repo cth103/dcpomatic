@@ -20,8 +20,8 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
-#include "util.h"
-#include "audio_analysis.h"
+#include "lib/util.h"
+#include "lib/audio_analysis.h"
 
 class AudioPlot : public wxPanel
 {

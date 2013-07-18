@@ -17,6 +17,18 @@
 
 */
 
+#include <sstream>
+#include <boost/test/unit_test.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/date_time.hpp>
+#include "lib/film.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
+
+using std::string;
+using std::stringstream;
+using boost::shared_ptr;
+
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
 	string const test_film = "build/test/film_metadata_test";

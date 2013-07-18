@@ -17,6 +17,16 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include <boost/filesystem.hpp>
+#include "lib/film.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/ratio.h"
+#include "lib/dcp_content_type.h"
+#include "test.h"
+
+using boost::shared_ptr;
+
 /** @file test/ffmpeg_dcp_test.cc
  *  @brief Test scaling and black-padding of images from a still-image source.
  */
