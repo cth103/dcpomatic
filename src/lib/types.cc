@@ -21,6 +21,7 @@
 
 using std::max;
 using std::min;
+using std::string;
 
 bool operator== (Crop const & a, Crop const & b)
 {
@@ -32,3 +33,35 @@ bool operator!= (Crop const & a, Crop const & b)
 	return !(a == b);
 }
 
+/** @param r Resolution.
+ *  @return Untranslated string representation.
+ */
+string
+resolution_to_string (Resolution r)
+{
+	switch (r) {
+	case RESOLUTION_2K:
+		return "2K";
+	case RESOLUTION_4K:
+		return "4K";
+	}
+
+	assert (false);
+	return "";
+}
+
+
+Resolution
+string_to_resolution (string s)
+{
+	if (s == "2K") {
+		return RESOLUTION_2K;
+	}
+
+	if (s == "4K") {
+		return RESOLUTION_4K;
+	}
+
+	assert (false);
+	return RESOLUTION_2K;
+}

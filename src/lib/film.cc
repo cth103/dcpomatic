@@ -88,6 +88,7 @@ Film::Film (string d)
 	, _use_dci_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
+	, _resolution (RESOLUTION_2K)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _with_subtitles (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
@@ -131,6 +132,7 @@ Film::video_identifier () const
 
 	stringstream s;
 	s << container()->id()
+	  << "_" << resolution_to_string (_resolution)
 	  << "_" << _playlist->video_identifier()
 	  << "_" << _dcp_video_frame_rate
 	  << "_" << scaler()->id()
@@ -314,6 +316,7 @@ Film::write_metadata () const
 		root->add_child("Container")->add_child_text (_container->id ());
 	}
 
+	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
 	root->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
@@ -358,6 +361,7 @@ Film::read_metadata ()
 		}
 	}
 
+	_resolution = string_to_resolution (f.string_child ("Resolution"));
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
 	_with_subtitles = f.bool_child ("WithSubtitles");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
@@ -452,7 +456,7 @@ Film::dci_name (bool if_created_now) const
 		}
 	}
 
-	d << "_51_2K";
+	d << "_51_" << resolution_to_string (_resolution);
 
 	if (!dm.studio.empty ()) {
 		d << "_" << dm.studio;
@@ -533,6 +537,16 @@ Film::set_container (Ratio const * c)
 		_container = c;
 	}
 	signal_changed (CONTAINER);
+}
+
+void
+Film::set_resolution (Resolution r)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_resolution = r;
+	}
+	signal_changed (RESOLUTION);
 }
 
 void
@@ -821,5 +835,13 @@ Film::set_sequence_video (bool s)
 libdcp::Size
 Film::full_frame () const
 {
-	return libdcp::Size (2048, 1080);
+	switch (_resolution) {
+	case RESOLUTION_2K:
+		return libdcp::Size (2048, 1080);
+	case RESOLUTION_4K:
+		return libdcp::Size (4096, 2160);
+	}
+
+	assert (false);
+	return libdcp::Size ();
 }

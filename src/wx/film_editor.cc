@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ FilmEditor::make_dcp_panel ()
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Frame Rate"), true, wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Frame Rate"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_frame_rate = new wxChoice (_dcp_panel, wxID_ANY);
 		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
@@ -149,9 +149,14 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP audio channels"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Audio channels"), true, wxGBPosition (r, 0));
 	_dcp_audio_channels = new wxSpinCtrl (_dcp_panel, wxID_ANY);
 	grid->Add (_dcp_audio_channels, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Resolution"), true, wxGBPosition (r, 0));
+	_dcp_resolution = new wxChoice (_dcp_panel, wxID_ANY);
+	grid->Add (_dcp_resolution, wxGBPosition (r, 1));
 	++r;
 
 	{
@@ -191,6 +196,9 @@ FilmEditor::make_dcp_panel ()
 
 	_dcp_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
 	_j2k_bandwidth->SetRange (50, 250);
+
+	_dcp_resolution->Append (_("2K"));
+	_dcp_resolution->Append (_("4K"));
 }
 
 void
@@ -230,6 +238,8 @@ FilmEditor::connect_to_widgets ()
 	_audio_delay->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_audio_stream->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
 	_subtitle_stream->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
+	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
+		
 	_audio_mapping->Changed.connect	 (boost::bind (&FilmEditor::audio_mapping_changed, this, _1));
 	_start->Changed.connect		 (boost::bind (&FilmEditor::start_changed, this));
 	_length->Changed.connect	 (boost::bind (&FilmEditor::length_changed, this));
@@ -578,6 +588,16 @@ FilmEditor::dcp_audio_channels_changed (wxCommandEvent &)
 	_film->set_dcp_audio_channels (_dcp_audio_channels->GetValue ());
 }
 
+void
+FilmEditor::dcp_resolution_changed (wxCommandEvent &)
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_resolution (_dcp_resolution->GetSelection() == 0 ? RESOLUTION_2K : RESOLUTION_4K);
+}
+
 
 /** Called when the metadata stored in the Film object has changed;
  *  so that we can update the GUI.
@@ -624,6 +644,10 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::WITH_SUBTITLES:
 		checked_set (_with_subtitles, _film->with_subtitles ());
 		setup_subtitle_control_sensitivity ();
+		setup_dcp_name ();
+		break;
+	case Film::RESOLUTION:
+		checked_set (_dcp_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
 		setup_dcp_name ();
 		break;
 	case Film::J2K_BANDWIDTH:
@@ -860,6 +884,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::LOOP);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::CONTAINER);
+	film_changed (Film::RESOLUTION);
 	film_changed (Film::SCALER);
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::J2K_BANDWIDTH);

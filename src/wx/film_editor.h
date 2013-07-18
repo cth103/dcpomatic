@@ -97,6 +97,7 @@ private:
 	void length_changed ();
 	void ratio_changed (wxCommandEvent &);
 	void dcp_audio_channels_changed (wxCommandEvent &);
+	void dcp_resolution_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -173,6 +174,7 @@ private:
 	AudioMappingView* _audio_mapping;
 	Timecode* _start;
 	Timecode* _length;
+	wxChoice* _dcp_resolution;
 
 	std::vector<Ratio const *> _ratios;
 

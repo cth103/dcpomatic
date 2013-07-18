@@ -47,7 +47,7 @@ class Player;
  *  @brief A representation of some audio and video content, and details of
  *  how they should be presented in a DCP.
  *
- *  The content of a Film is held in a Playlist (created and managed by the Film)
+ *  The content of a Film is held in a Playlist (created and managed by the Film).
  */
 class Film : public boost::enable_shared_from_this<Film>, public boost::noncopyable
 {
@@ -129,6 +129,7 @@ public:
 		LOOP,
 		DCP_CONTENT_TYPE,
 		CONTAINER,
+		RESOLUTION,
 		SCALER,
 		WITH_SUBTITLES,
 		J2K_BANDWIDTH,
@@ -163,6 +164,11 @@ public:
 	Ratio const * container () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _container;
+	}
+
+	Resolution resolution () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _resolution;
 	}
 
 	Scaler const * scaler () const {
@@ -206,6 +212,7 @@ public:
 	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Ratio const *);
+	void set_resolution (Resolution);
 	void set_scaler (Scaler const *);
 	void set_with_subtitles (bool);
 	void set_j2k_bandwidth (int);
@@ -251,6 +258,8 @@ private:
 	DCPContentType const * _dcp_content_type;
 	/** The container to put this Film in (flat, scope, etc.) */
 	Ratio const * _container;
+	/** DCP resolution (2K or 4K) */
+	Resolution _resolution;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
 	/** True if subtitles should be shown for this film */

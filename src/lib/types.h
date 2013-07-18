@@ -53,4 +53,12 @@ struct Crop
 extern bool operator== (Crop const & a, Crop const & b);
 extern bool operator!= (Crop const & a, Crop const & b);
 
+enum Resolution {
+	RESOLUTION_2K,
+	RESOLUTION_4K
+};
+
+std::string resolution_to_string (Resolution);
+Resolution string_to_resolution (std::string);
+
 #endif
