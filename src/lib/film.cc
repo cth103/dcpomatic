@@ -442,7 +442,7 @@ Film::dci_name (bool if_created_now) const
 
 	if (!dm.audio_language.empty ()) {
 		d << "_" << dm.audio_language;
-		if (!dm.subtitle_language.empty()) {
+		if (!dm.subtitle_language.empty() && with_subtitles()) {
 			d << "-" << dm.subtitle_language;
 		} else {
 			d << "-XX";
@@ -456,7 +456,28 @@ Film::dci_name (bool if_created_now) const
 		}
 	}
 
-	d << "_51_" << resolution_to_string (_resolution);
+	switch (dcp_audio_channels ()) {
+	case 1:
+		d << "_10";
+		break;
+	case 2:
+		d << "_20";
+		break;
+	case 3:
+		d << "_30";
+		break;
+	case 4:
+		d << "_40";
+		break;
+	case 5:
+		d << "_50";
+		break;
+	case 6:
+		d << "_51";
+		break;
+	}
+
+	d << "_" << resolution_to_string (_resolution);
 
 	if (!dm.studio.empty ()) {
 		d << "_" << dm.studio;

@@ -681,6 +681,7 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::DCP_AUDIO_CHANNELS:
 		_dcp_audio_channels->SetValue (_film->dcp_audio_channels ());
 		_audio_mapping->set_channels (_film->dcp_audio_channels ());
+		setup_dcp_name ();
 		break;
 	}
 }
