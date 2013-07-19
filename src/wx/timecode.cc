@@ -59,16 +59,16 @@ Timecode::Timecode (wxWindow* parent)
 	_frames = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_frames->SetMaxLength (2);
 	sizer->Add (_frames);
-	_update_button = new wxButton (this, wxID_ANY, _("Update"));
-	sizer->Add (_update_button, 0, wxLEFT | wxRIGHT, 8);
+	_set_button = new wxButton (this, wxID_ANY, _("Set"));
+	sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
 
 	_hours->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
 	_minutes->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
 	_seconds->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
 	_frames->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
-	_update_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (Timecode::update_clicked), 0, this);
+	_set_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (Timecode::set_clicked), 0, this);
 
-	_update_button->Enable (false);
+	_set_button->Enable (false);
 	
 	SetSizerAndFit (sizer);
 }
@@ -109,12 +109,12 @@ Timecode::get (int fps) const
 void
 Timecode::changed (wxCommandEvent &)
 {
-	_update_button->Enable (true);
+	_set_button->Enable (true);
 }
 
 void
-Timecode::update_clicked (wxCommandEvent &)
+Timecode::set_clicked (wxCommandEvent &)
 {
 	Changed ();
-	_update_button->Enable (false);
+	_set_button->Enable (false);
 }

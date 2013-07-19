@@ -33,12 +33,12 @@ public:
 
 private:
 	void changed (wxCommandEvent &);
-	void update_clicked (wxCommandEvent &);
+	void set_clicked (wxCommandEvent &);
 	
 	wxTextCtrl* _hours;
 	wxTextCtrl* _minutes;
 	wxTextCtrl* _seconds;
 	wxTextCtrl* _frames;
-	wxButton* _update_button;
+	wxButton* _set_button;
 };
 
