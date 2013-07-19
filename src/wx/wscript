@@ -24,6 +24,7 @@ sources = """
           properties_dialog.cc
           repeat_dialog.cc
           server_dialog.cc
+          subtitle_panel.cc
           timecode.cc
           timeline.cc
           timeline_dialog.cc

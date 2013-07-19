@@ -17,25 +17,31 @@
 
 */
 
-#include "film_editor_panel.h"
+#ifndef DCPOMATIC_FILM_EDITOR_PANEL_H
+#define DCPOMATIC_FILM_EDITOR_PANEL_H
 
-class Timecode;
+#include <boost/shared_ptr.hpp>
+#include <wx/wx.h>
+#include "lib/film.h"
 
-class TimingPanel : public FilmEditorPanel
+class FilmEditor;
+class Content;
+
+class FilmEditorPanel : public wxPanel
 {
 public:
-	TimingPanel (FilmEditor *);
+	FilmEditorPanel (FilmEditor *, wxString);
 
-	void film_content_changed (
+	virtual void film_changed (Film::Property) {}
+	virtual void film_content_changed (
 		boost::shared_ptr<Content>,
 		boost::shared_ptr<SubtitleContent>,
 		boost::shared_ptr<FFmpegContent>,
-		int);
-	
-private:
-	void start_changed ();
-	void length_changed ();
-	
-	Timecode* _start;
-	Timecode* _length;
+		int) = 0;
+
+protected:
+	FilmEditor* _editor;
+	wxSizer* _sizer;
 };
+
+#endif

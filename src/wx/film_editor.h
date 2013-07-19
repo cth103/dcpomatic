@@ -39,6 +39,7 @@ class AudioMappingView;
 class Ratio;
 class Timecode;
 class TimingPanel;
+class SubtitlePanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -64,13 +65,17 @@ public:
 	}
 
 	boost::shared_ptr<Content> selected_content ();
+	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
+	
+	bool generally_sensitive () const {
+		return _generally_sensitive;
+	}
 
 private:
 	void make_dcp_panel ();
 	void make_content_panel ();
 	void make_video_panel ();
 	void make_audio_panel ();
-	void make_subtitle_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
@@ -93,16 +98,12 @@ private:
 	void audio_gain_calculate_button_clicked (wxCommandEvent &);
 	void show_audio_clicked (wxCommandEvent &);
 	void audio_delay_changed (wxCommandEvent &);
-	void with_subtitles_toggled (wxCommandEvent &);
-	void subtitle_offset_changed (wxCommandEvent &);
-	void subtitle_scale_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 	void edit_filters_clicked (wxCommandEvent &);
 	void content_timeline_clicked (wxCommandEvent &);
 	void audio_stream_changed (wxCommandEvent &);
-	void subtitle_stream_changed (wxCommandEvent &);
 	void audio_mapping_changed (AudioMapping);
 	void start_changed ();
 	void length_changed ();
@@ -118,7 +119,6 @@ private:
 
 	void set_things_sensitive (bool);
 	void setup_ratios ();
-	void setup_subtitle_control_sensitivity ();
 	void setup_dcp_name ();
 	void setup_show_audio_sensitivity ();
 	void setup_scaling_description ();
@@ -129,8 +129,8 @@ private:
 	void active_jobs_changed (bool);
 	boost::shared_ptr<VideoContent> selected_video_content ();
 	boost::shared_ptr<AudioContent> selected_audio_content ();
-	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
 
+	SubtitlePanel* _subtitle_panel;
 	TimingPanel* _timing_panel;
 
 	wxNotebook* _main_notebook;
@@ -141,7 +141,6 @@ private:
 	wxSizer* _content_sizer;
 	wxPanel* _video_panel;
 	wxPanel* _audio_panel;
-	wxPanel* _subtitle_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -171,9 +170,6 @@ private:
 	wxButton* _audio_gain_calculate_button;
 	wxButton* _show_audio;
 	wxSpinCtrl* _audio_delay;
-	wxCheckBox* _with_subtitles;
-	wxSpinCtrl* _subtitle_offset;
-	wxSpinCtrl* _subtitle_scale;
 	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_frame_rate;
@@ -181,7 +177,6 @@ private:
 	wxButton* _best_dcp_frame_rate;
 	wxChoice* _audio_stream;
 	wxStaticText* _audio_description;
-	wxChoice* _subtitle_stream;
 	AudioMappingView* _audio_mapping;
 	wxChoice* _dcp_resolution;
 

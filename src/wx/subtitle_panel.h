@@ -19,23 +19,31 @@
 
 #include "film_editor_panel.h"
 
-class Timecode;
+class wxCheckBox;
+class wxSpinCtrl;
 
-class TimingPanel : public FilmEditorPanel
+class SubtitlePanel : public FilmEditorPanel
 {
 public:
-	TimingPanel (FilmEditor *);
+	SubtitlePanel (FilmEditor *);
 
+	void film_changed (Film::Property);
 	void film_content_changed (
 		boost::shared_ptr<Content>,
 		boost::shared_ptr<SubtitleContent>,
 		boost::shared_ptr<FFmpegContent>,
 		int);
+
+	void setup_control_sensitivity ();
 	
 private:
-	void start_changed ();
-	void length_changed ();
+	void with_subtitles_toggled (wxCommandEvent &);
+	void offset_changed (wxCommandEvent &);
+	void scale_changed (wxCommandEvent &);
+	void stream_changed (wxCommandEvent &);
 	
-	Timecode* _start;
-	Timecode* _length;
+	wxCheckBox* _with_subtitles;
+	wxSpinCtrl* _offset;
+	wxSpinCtrl* _scale;
+	wxChoice* _stream;
 };

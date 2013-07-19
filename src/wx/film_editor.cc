@@ -51,6 +51,7 @@
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
 #include "timing_panel.h"
+#include "subtitle_panel.h"
 
 using std::string;
 using std::cout;
@@ -226,9 +227,6 @@ FilmEditor::connect_to_widgets ()
 	_dcp_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
 	_best_dcp_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
 	_dcp_audio_channels->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::dcp_audio_channels_changed), 0, this);
-	_with_subtitles->Connect	 (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,	wxCommandEventHandler (FilmEditor::with_subtitles_toggled), 0, this);
-	_subtitle_offset->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::subtitle_offset_changed), 0, this);
-	_subtitle_scale->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::subtitle_scale_changed), 0, this);
 	_j2k_bandwidth->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
 	_audio_gain->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
 	_audio_gain_calculate_button->Connect (
@@ -237,7 +235,6 @@ FilmEditor::connect_to_widgets ()
 	_show_audio->Connect		 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
 	_audio_delay->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
 	_audio_stream->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
-	_subtitle_stream->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
 	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
 	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
 		
@@ -345,8 +342,7 @@ FilmEditor::make_content_panel ()
 	_content_notebook->AddPage (_video_panel, _("Video"), false);
 	make_audio_panel ();
 	_content_notebook->AddPage (_audio_panel, _("Audio"), false);
-	make_subtitle_panel ();
-	_content_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
+	_subtitle_panel = new SubtitlePanel (this);
 	_timing_panel = new TimingPanel (this);
 }
 
@@ -404,46 +400,6 @@ FilmEditor::make_audio_panel ()
 
 	_audio_gain->SetRange (-60, 60);
 	_audio_delay->SetRange (-1000, 1000);
-}
-
-void
-FilmEditor::make_subtitle_panel ()
-{
-	_subtitle_panel = new wxPanel (_content_notebook);
-	wxBoxSizer* subtitle_sizer = new wxBoxSizer (wxVERTICAL);
-	_subtitle_panel->SetSizer (subtitle_sizer);
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	subtitle_sizer->Add (grid, 0, wxALL, 8);
-
-	_with_subtitles = new wxCheckBox (_subtitle_panel, wxID_ANY, _("With Subtitles"));
-	grid->Add (_with_subtitles, 1);
-	grid->AddSpacer (0);
-	
-	{
-		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Offset"), true);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_subtitle_offset = new wxSpinCtrl (_subtitle_panel);
-		s->Add (_subtitle_offset);
-		add_label_to_sizer (s, _subtitle_panel, _("%"), false);
-		grid->Add (s);
-	}
-
-	{
-		add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Scale"), true);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_subtitle_scale = new wxSpinCtrl (_subtitle_panel);
-		s->Add (_subtitle_scale);
-		add_label_to_sizer (s, _subtitle_panel, _("%"), false);
-		grid->Add (s);
-	}
-
-	add_label_to_sizer (grid, _subtitle_panel, _("Subtitle Stream"), true);
-	_subtitle_stream = new wxChoice (_subtitle_panel, wxID_ANY);
-	grid->Add (_subtitle_stream, 1, wxEXPAND);
-	
-	_subtitle_offset->SetRange (-100, 100);
-	_subtitle_scale->SetRange (1, 1000);
-	_subtitle_scale->SetValue (100);
 }
 
 /** Called when the left crop widget has been changed */
@@ -506,28 +462,6 @@ FilmEditor::name_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::subtitle_offset_changed (wxCommandEvent &)
-{
-	shared_ptr<SubtitleContent> c = selected_subtitle_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_subtitle_offset (_subtitle_offset->GetValue() / 100.0);
-}
-
-void
-FilmEditor::subtitle_scale_changed (wxCommandEvent &)
-{
-	shared_ptr<SubtitleContent> c = selected_subtitle_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_subtitle_scale (_subtitle_scale->GetValue() / 100.0);
-}
-
-void
 FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
 {
 	if (!_film) {
@@ -586,13 +520,15 @@ FilmEditor::film_changed (Film::Property p)
 	}
 
 	stringstream s;
+
+	_subtitle_panel->film_changed (p);
+	_timing_panel->film_changed (p);
 		
 	switch (p) {
 	case Film::NONE:
 		break;
 	case Film::CONTENT:
 		setup_content ();
-		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
 		break;
 	case Film::CONTAINER:
@@ -602,17 +538,15 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_name, _film->name());
 		setup_dcp_name ();
 		break;
+	case Film::WITH_SUBTITLES:
+		setup_dcp_name ();
+		break;
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
 		break;
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
-		break;
-	case Film::WITH_SUBTITLES:
-		checked_set (_with_subtitles, _film->with_subtitles ());
-		setup_subtitle_control_sensitivity ();
-		setup_dcp_name ();
 		break;
 	case Film::RESOLUTION:
 		checked_set (_dcp_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
@@ -685,7 +619,8 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
-	_timing_panel->film_content_changed (content, property);
+	_subtitle_panel->film_content_changed (content, subtitle_content, ffmpeg_content, property);
+	_timing_panel->film_content_changed   (content, subtitle_content, ffmpeg_content, property);
 
 	/* We can't use case {} here */
 	
@@ -720,21 +655,6 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		checked_set (_audio_delay, audio_content ? audio_content->audio_delay() : 0);
 	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
 		_audio_mapping->set (audio_content ? audio_content->audio_mapping () : AudioMapping ());
-	} else if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
-		_subtitle_stream->Clear ();
-		if (ffmpeg_content) {
-			vector<shared_ptr<FFmpegSubtitleStream> > s = ffmpeg_content->subtitle_streams ();
-			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
-				_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
-			}
-			
-			if (ffmpeg_content->subtitle_stream()) {
-				checked_set (_subtitle_stream, lexical_cast<string> (ffmpeg_content->subtitle_stream()->id));
-			} else {
-				_subtitle_stream->SetSelection (wxNOT_FOUND);
-			}
-		}
-		setup_subtitle_control_sensitivity ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_audio_stream->Clear ();
 		if (ffmpeg_content) {
@@ -762,10 +682,6 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 			}
 			_dcp_sizer->Layout ();
 		}
-	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET) {
-		checked_set (_subtitle_offset, subtitle_content ? (subtitle_content->subtitle_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
-		checked_set (_subtitle_scale, subtitle_content ? (subtitle_content->subtitle_scale() * 100) : 100);
 	}
 }
 
@@ -894,7 +810,7 @@ FilmEditor::set_things_sensitive (bool s)
 	_audio_delay->Enable (s);
 	_container->Enable (s);
 
-	setup_subtitle_control_sensitivity ();
+	_subtitle_panel->setup_control_sensitivity ();
 	setup_show_audio_sensitivity ();
 	setup_content_sensitivity ();
 	_best_dcp_frame_rate->Enable (s && _film && _film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
@@ -994,36 +910,6 @@ FilmEditor::setup_ratios ()
 	}
 
 	_dcp_sizer->Layout ();
-}
-
-void
-FilmEditor::with_subtitles_toggled (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->set_with_subtitles (_with_subtitles->GetValue ());
-}
-
-void
-FilmEditor::setup_subtitle_control_sensitivity ()
-{
-	bool h = false;
-	if (_generally_sensitive && _film) {
-		h = _film->has_subtitles ();
-	}
-	
-	_with_subtitles->Enable (h);
-
-	bool j = false;
-	if (_film) {
-		j = _film->with_subtitles ();
-	}
-	
-	_subtitle_offset->Enable (j);
-	_subtitle_scale->Enable (j);
-	_subtitle_stream->Enable (j);
 }
 
 void
@@ -1377,33 +1263,6 @@ FilmEditor::audio_stream_changed (wxCommandEvent &)
 		}
 		s << wxT (", ") << fc->content_audio_frame_rate() << _("Hz");
 		_audio_description->SetLabel (s);
-	}
-}
-
-
-
-void
-FilmEditor::subtitle_stream_changed (wxCommandEvent &)
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-	
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (!fc) {
-		return;
-	}
-	
-	vector<shared_ptr<FFmpegSubtitleStream> > a = fc->subtitle_streams ();
-	vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = a.begin ();
-	string const s = string_client_data (_subtitle_stream->GetClientObject (_subtitle_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
-		++i;
-	}
-
-	if (i != a.end ()) {
-		fc->set_subtitle_stream (*i);
 	}
 }
 

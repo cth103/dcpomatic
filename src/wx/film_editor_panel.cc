@@ -17,25 +17,18 @@
 
 */
 
+#include <wx/notebook.h>
 #include "film_editor_panel.h"
+#include "film_editor.h"
 
-class Timecode;
+using boost::shared_ptr;
 
-class TimingPanel : public FilmEditorPanel
+FilmEditorPanel::FilmEditorPanel (FilmEditor* e, wxString name)
+	: wxPanel (e->content_notebook (), wxID_ANY)
+	, _editor (e)
+	, _sizer (new wxBoxSizer (wxVERTICAL))
 {
-public:
-	TimingPanel (FilmEditor *);
+	e->content_notebook()->AddPage (this, name, false);
+	SetSizer (_sizer);
+}
 
-	void film_content_changed (
-		boost::shared_ptr<Content>,
-		boost::shared_ptr<SubtitleContent>,
-		boost::shared_ptr<FFmpegContent>,
-		int);
-	
-private:
-	void start_changed ();
-	void length_changed ();
-	
-	Timecode* _start;
-	Timecode* _length;
-};
