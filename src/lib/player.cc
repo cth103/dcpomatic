@@ -45,7 +45,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-#define DEBUG_PLAYER 1
+//#define DEBUG_PLAYER 1
 
 class Piece
 {

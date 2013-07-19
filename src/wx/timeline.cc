@@ -176,6 +176,8 @@ private:
 
 	void content_changed (int p, bool frequent)
 	{
+		ensure_ui_thread ();
+		
 		if (p == ContentProperty::START || p == ContentProperty::LENGTH) {
 			force_redraw ();
 		}
@@ -378,6 +380,8 @@ Timeline::paint (wxPaintEvent &)
 void
 Timeline::playlist_changed ()
 {
+	ensure_ui_thread ();
+	
 	shared_ptr<const Film> fl = _film.lock ();
 	if (!fl) {
 		return;

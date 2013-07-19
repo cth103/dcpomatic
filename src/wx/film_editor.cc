@@ -672,6 +672,8 @@ FilmEditor::film_changed (Film::Property p)
 void
 FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 {
+	ensure_ui_thread ();
+	
 	if (!_film) {
 		/* We call this method ourselves (as well as using it as a signal handler)
 		   so _film can be 0.

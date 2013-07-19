@@ -23,6 +23,7 @@
 #include "content.h"
 #include "util.h"
 #include "content_factory.h"
+#include "ui_signaller.h"
 
 using std::string;
 using std::set;
@@ -78,7 +79,9 @@ Content::examine (shared_ptr<Job>)
 void
 Content::signal_changed (int p)
 {
-	Changed (shared_from_this (), p, _change_signals_frequent);
+	if (ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Changed), shared_from_this (), p, _change_signals_frequent));
+	}
 }
 
 void
