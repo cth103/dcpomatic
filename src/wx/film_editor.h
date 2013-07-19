@@ -33,13 +33,12 @@ class wxNotebook;
 class wxListCtrl;
 class wxListEvent;
 class Film;
-class AudioDialog;
 class TimelineDialog;
-class AudioMappingView;
 class Ratio;
 class Timecode;
 class TimingPanel;
 class SubtitlePanel;
+class AudioPanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -65,6 +64,8 @@ public:
 	}
 
 	boost::shared_ptr<Content> selected_content ();
+	boost::shared_ptr<VideoContent> selected_video_content ();
+	boost::shared_ptr<AudioContent> selected_audio_content ();
 	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
 	
 	bool generally_sensitive () const {
@@ -75,7 +76,6 @@ private:
 	void make_dcp_panel ();
 	void make_content_panel ();
 	void make_video_panel ();
-	void make_audio_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
@@ -94,19 +94,11 @@ private:
 	void container_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
-	void audio_gain_changed (wxCommandEvent &);
-	void audio_gain_calculate_button_clicked (wxCommandEvent &);
-	void show_audio_clicked (wxCommandEvent &);
-	void audio_delay_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 	void edit_filters_clicked (wxCommandEvent &);
 	void content_timeline_clicked (wxCommandEvent &);
-	void audio_stream_changed (wxCommandEvent &);
-	void audio_mapping_changed (AudioMapping);
-	void start_changed ();
-	void length_changed ();
 	void ratio_changed (wxCommandEvent &);
 	void dcp_audio_channels_changed (wxCommandEvent &);
 	void dcp_resolution_changed (wxCommandEvent &);
@@ -120,16 +112,14 @@ private:
 	void set_things_sensitive (bool);
 	void setup_ratios ();
 	void setup_dcp_name ();
-	void setup_show_audio_sensitivity ();
 	void setup_scaling_description ();
 	void setup_content ();
 	void setup_container ();
 	void setup_content_sensitivity ();
 	
 	void active_jobs_changed (bool);
-	boost::shared_ptr<VideoContent> selected_video_content ();
-	boost::shared_ptr<AudioContent> selected_audio_content ();
 
+	AudioPanel* _audio_panel;
 	SubtitlePanel* _subtitle_panel;
 	TimingPanel* _timing_panel;
 
@@ -140,7 +130,6 @@ private:
 	wxPanel* _content_panel;
 	wxSizer* _content_sizer;
 	wxPanel* _video_panel;
-	wxPanel* _audio_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -166,18 +155,11 @@ private:
 	wxStaticText* _filters;
 	wxButton* _filters_button;
 	wxChoice* _scaler;
-	wxSpinCtrl* _audio_gain;
-	wxButton* _audio_gain_calculate_button;
-	wxButton* _show_audio;
-	wxSpinCtrl* _audio_delay;
-	wxSpinCtrl* _j2k_bandwidth;
+ 	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_frame_rate;
 	wxSpinCtrl* _dcp_audio_channels;
 	wxButton* _best_dcp_frame_rate;
-	wxChoice* _audio_stream;
-	wxStaticText* _audio_description;
-	AudioMappingView* _audio_mapping;
 	wxChoice* _dcp_resolution;
 
 	ContentMenu _menu;
@@ -185,6 +167,5 @@ private:
 	std::vector<Ratio const *> _ratios;
 
 	bool _generally_sensitive;
-	AudioDialog* _audio_dialog;
 	TimelineDialog* _timeline_dialog;
 };

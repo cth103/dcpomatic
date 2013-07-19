@@ -19,24 +19,43 @@
 
 #include "film_editor_panel.h"
 
-class Timecode;
+class wxSpinCtrl;
+class wxButton;
+class wxChoice;
+class wxStaticText;
+class AudioMappingView;
+class AudioDialog;
 
-class TimingPanel : public FilmEditorPanel
+class AudioPanel : public FilmEditorPanel
 {
 public:
-	TimingPanel (FilmEditor *);
+	AudioPanel (FilmEditor *);
 
+	void film_changed (Film::Property);
 	void film_content_changed (
 		boost::shared_ptr<Content>,
 		boost::shared_ptr<AudioContent>,
 		boost::shared_ptr<SubtitleContent>,
 		boost::shared_ptr<FFmpegContent>,
 		int);
+	void content_selection_changed ();
+
+	void setup_sensitivity ();
 	
 private:
-	void start_changed ();
-	void length_changed ();
-	
-	Timecode* _start;
-	Timecode* _length;
+	void gain_changed (wxCommandEvent &);
+	void gain_calculate_button_clicked (wxCommandEvent &);
+	void show_clicked (wxCommandEvent &);
+	void delay_changed (wxCommandEvent &);
+	void stream_changed (wxCommandEvent &);
+	void mapping_changed (AudioMapping);
+
+	wxSpinCtrl* _gain;
+	wxButton* _gain_calculate_button;
+	wxButton* _show;
+	wxSpinCtrl* _delay;
+	wxChoice* _stream;
+	wxStaticText* _description;
+	AudioMappingView* _mapping;
+	AudioDialog* _audio_dialog;
 };

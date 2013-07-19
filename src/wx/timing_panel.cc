@@ -45,7 +45,13 @@ TimingPanel::TimingPanel (FilmEditor* e)
 }
 
 void
-TimingPanel::film_content_changed (shared_ptr<Content> content, shared_ptr<SubtitleContent>, shared_ptr<FFmpegContent>, int property)
+TimingPanel::film_content_changed (
+	shared_ptr<Content> content,
+	shared_ptr<AudioContent>,
+	shared_ptr<SubtitleContent>,
+	shared_ptr<FFmpegContent>,
+	int property
+	)
 {
 	if (property == ContentProperty::START) {
 		if (content) {

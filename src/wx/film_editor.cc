@@ -45,13 +45,11 @@
 #include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
-#include "gain_calculator_dialog.h"
 #include "dci_metadata_dialog.h"
-#include "audio_dialog.h"
 #include "timeline_dialog.h"
-#include "audio_mapping_view.h"
 #include "timing_panel.h"
 #include "subtitle_panel.h"
+#include "audio_panel.h"
 
 using std::string;
 using std::cout;
@@ -72,7 +70,6 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
 	, _menu (f, this)
 	, _generally_sensitive (true)
-	, _audio_dialog (0)
 	, _timeline_dialog (0)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
@@ -228,17 +225,8 @@ FilmEditor::connect_to_widgets ()
 	_best_dcp_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
 	_dcp_audio_channels->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::dcp_audio_channels_changed), 0, this);
 	_j2k_bandwidth->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
-	_audio_gain->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_gain_changed), 0, this);
-	_audio_gain_calculate_button->Connect (
-		wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmEditor::audio_gain_calculate_button_clicked), 0, this
-		);
-	_show_audio->Connect		 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::show_audio_clicked), 0, this);
-	_audio_delay->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_delay_changed), 0, this);
-	_audio_stream->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
 	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
 	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
-		
-	_audio_mapping->Changed.connect	 (boost::bind (&FilmEditor::audio_mapping_changed, this, _1));
 }
 
 void
@@ -340,66 +328,9 @@ FilmEditor::make_content_panel ()
 
 	make_video_panel ();
 	_content_notebook->AddPage (_video_panel, _("Video"), false);
-	make_audio_panel ();
-	_content_notebook->AddPage (_audio_panel, _("Audio"), false);
+	_audio_panel = new AudioPanel (this);
 	_subtitle_panel = new SubtitlePanel (this);
 	_timing_panel = new TimingPanel (this);
-}
-
-void
-FilmEditor::make_audio_panel ()
-{
-	_audio_panel = new wxPanel (_content_notebook);
-	wxBoxSizer* audio_sizer = new wxBoxSizer (wxVERTICAL);
-	_audio_panel->SetSizer (audio_sizer);
-	
-	wxFlexGridSizer* grid = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	audio_sizer->Add (grid, 0, wxALL, 8);
-
-	_show_audio = new wxButton (_audio_panel, wxID_ANY, _("Show Audio..."));
-	grid->Add (_show_audio, 1);
-	grid->AddSpacer (0);
-	grid->AddSpacer (0);
-
-	add_label_to_sizer (grid, _audio_panel, _("Audio Gain"), true);
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_audio_gain = new wxSpinCtrl (_audio_panel);
-		s->Add (_audio_gain, 1);
-		add_label_to_sizer (s, _audio_panel, _("dB"), false);
-		grid->Add (s, 1);
-	}
-	
-	_audio_gain_calculate_button = new wxButton (_audio_panel, wxID_ANY, _("Calculate..."));
-	grid->Add (_audio_gain_calculate_button);
-
-	add_label_to_sizer (grid, _audio_panel, _("Audio Delay"), false);
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_audio_delay = new wxSpinCtrl (_audio_panel);
-		s->Add (_audio_delay, 1);
-		/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-		add_label_to_sizer (s, _audio_panel, _("ms"), false);
-		grid->Add (s);
-	}
-
-	grid->AddSpacer (0);
-
-	add_label_to_sizer (grid, _audio_panel, _("Audio Stream"), true);
-	_audio_stream = new wxChoice (_audio_panel, wxID_ANY);
-	grid->Add (_audio_stream, 1, wxEXPAND);
-	_audio_description = new wxStaticText (_audio_panel, wxID_ANY, wxT (""));
-	grid->AddSpacer (0);
-	
-	grid->Add (_audio_description, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
-	grid->AddSpacer (0);
-	grid->AddSpacer (0);
-	
-	_audio_mapping = new AudioMappingView (_audio_panel);
-	audio_sizer->Add (_audio_mapping, 1, wxEXPAND | wxALL, 6);
-
-	_audio_gain->SetRange (-60, 60);
-	_audio_delay->SetRange (-1000, 1000);
 }
 
 /** Called when the left crop widget has been changed */
@@ -521,6 +452,7 @@ FilmEditor::film_changed (Film::Property p)
 
 	stringstream s;
 
+	_audio_panel->film_changed (p);
 	_subtitle_panel->film_changed (p);
 	_timing_panel->film_changed (p);
 		
@@ -529,7 +461,6 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::CONTENT:
 		setup_content ();
-		setup_show_audio_sensitivity ();
 		break;
 	case Film::CONTAINER:
 		setup_container ();
@@ -582,7 +513,6 @@ FilmEditor::film_changed (Film::Property p)
 	}
 	case Film::DCP_AUDIO_CHANNELS:
 		_dcp_audio_channels->SetValue (_film->dcp_audio_channels ());
-		_audio_mapping->set_channels (_film->dcp_audio_channels ());
 		setup_dcp_name ();
 		break;
 	case Film::SEQUENCE_VIDEO:
@@ -619,8 +549,9 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
-	_subtitle_panel->film_content_changed (content, subtitle_content, ffmpeg_content, property);
-	_timing_panel->film_content_changed   (content, subtitle_content, ffmpeg_content, property);
+	_audio_panel->film_content_changed    (content, audio_content, subtitle_content, ffmpeg_content, property);
+	_subtitle_panel->film_content_changed (content, audio_content, subtitle_content, ffmpeg_content, property);
+	_timing_panel->film_content_changed   (content, audio_content, subtitle_content, ffmpeg_content, property);
 
 	/* We can't use case {} here */
 	
@@ -649,28 +580,8 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 			checked_set (_ratio, -1);
 		}
 		setup_scaling_description ();
-	} else if (property == AudioContentProperty::AUDIO_GAIN) {
-		checked_set (_audio_gain, audio_content ? audio_content->audio_gain() : 0);
-	} else if (property == AudioContentProperty::AUDIO_DELAY) {
-		checked_set (_audio_delay, audio_content ? audio_content->audio_delay() : 0);
-	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
-		_audio_mapping->set (audio_content ? audio_content->audio_mapping () : AudioMapping ());
-	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
-		_audio_stream->Clear ();
-		if (ffmpeg_content) {
-			vector<shared_ptr<FFmpegAudioStream> > a = ffmpeg_content->audio_streams ();
-			for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
-				_audio_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
-			}
-			
-			if (ffmpeg_content->audio_stream()) {
-				checked_set (_audio_stream, lexical_cast<string> (ffmpeg_content->audio_stream()->id));
-			}
-		}
-		setup_show_audio_sensitivity ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
-		setup_show_audio_sensitivity ();
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (ffmpeg_content) {
 			pair<string, string> p = Filter::ffmpeg_strings (ffmpeg_content->filters ());
@@ -792,26 +703,15 @@ FilmEditor::set_things_sensitive (bool s)
 	_name->Enable (s);
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
-	_ratio->Enable (s);
 	_content->Enable (s);
-	_left_crop->Enable (s);
-	_right_crop->Enable (s);
-	_top_crop->Enable (s);
-	_bottom_crop->Enable (s);
-	_filters_button->Enable (s);
-	_scaler->Enable (s);
 	_dcp_content_type->Enable (s);
 	_dcp_frame_rate->Enable (s);
 	_dcp_audio_channels->Enable (s);
 	_j2k_bandwidth->Enable (s);
-	_audio_gain->Enable (s);
-	_audio_gain_calculate_button->Enable (s);
-	_show_audio->Enable (s);
-	_audio_delay->Enable (s);
 	_container->Enable (s);
 
 	_subtitle_panel->setup_control_sensitivity ();
-	setup_show_audio_sensitivity ();
+	_audio_panel->setup_sensitivity ();
 	setup_content_sensitivity ();
 	_best_dcp_frame_rate->Enable (s && _film && _film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
 }
@@ -848,55 +748,6 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 	if (n >= 0) {
 		_film->set_scaler (Scaler::from_index (n));
 	}
-}
-
-void
-FilmEditor::audio_gain_changed (wxCommandEvent &)
-{
-	shared_ptr<AudioContent> ac = selected_audio_content ();
-	if (!ac) {
-		return;
-	}
-
-	ac->set_audio_gain (_audio_gain->GetValue ());
-}
-
-void
-FilmEditor::audio_delay_changed (wxCommandEvent &)
-{
-	shared_ptr<AudioContent> ac = selected_audio_content ();
-	if (!ac) {
-		return;
-	}
-
-	ac->set_audio_delay (_audio_delay->GetValue ());
-}
-
-void
-FilmEditor::audio_gain_calculate_button_clicked (wxCommandEvent &)
-{
-	GainCalculatorDialog* d = new GainCalculatorDialog (this);
-	d->ShowModal ();
-
-	if (d->wanted_fader() == 0 || d->actual_fader() == 0) {
-		d->Destroy ();
-		return;
-	}
-	
-	_audio_gain->SetValue (
-		Config::instance()->sound_processor()->db_for_fader_change (
-			d->wanted_fader (),
-			d->actual_fader ()
-			)
-		);
-
-	/* This appears to be necessary, as the change is not signalled,
-	   I think.
-	*/
-	wxCommandEvent dummy;
-	audio_gain_changed (dummy);
-	
-	d->Destroy ();
 }
 
 void
@@ -954,29 +805,6 @@ FilmEditor::setup_dcp_name ()
 }
 
 void
-FilmEditor::show_audio_clicked (wxCommandEvent &)
-{
-	if (_audio_dialog) {
-		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
-	}
-
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c);
-	if (!ac) {
-		return;
-	}
-	
-	_audio_dialog = new AudioDialog (this);
-	_audio_dialog->Show ();
-	_audio_dialog->set_content (ac);
-}
-
-void
 FilmEditor::best_dcp_frame_rate_clicked (wxCommandEvent &)
 {
 	if (!_film) {
@@ -984,12 +812,6 @@ FilmEditor::best_dcp_frame_rate_clicked (wxCommandEvent &)
 	}
 	
 	_film->set_dcp_video_frame_rate (_film->best_dcp_video_frame_rate ());
-}
-
-void
-FilmEditor::setup_show_audio_sensitivity ()
-{
-	_show_audio->Enable (_film);
 }
 
 void
@@ -1066,11 +888,9 @@ FilmEditor::content_selection_changed (wxListEvent &)
 {
 	setup_content_sensitivity ();
 	shared_ptr<Content> s = selected_content ();
-	
-	if (_audio_dialog && s && dynamic_pointer_cast<AudioContent> (s)) {
-		_audio_dialog->set_content (dynamic_pointer_cast<AudioContent> (s));
-	}
 
+	_audio_panel->content_selection_changed ();
+	
 	film_content_changed (s, ContentProperty::START);
 	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
@@ -1226,60 +1046,6 @@ FilmEditor::content_timeline_clicked (wxCommandEvent &)
 	
 	_timeline_dialog = new TimelineDialog (this, _film);
 	_timeline_dialog->Show ();
-}
-
-void
-FilmEditor::audio_stream_changed (wxCommandEvent &)
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-	
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (!fc) {
-		return;
-	}
-	
-	vector<shared_ptr<FFmpegAudioStream> > a = fc->audio_streams ();
-	vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin ();
-	string const s = string_client_data (_audio_stream->GetClientObject (_audio_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
-		++i;
-	}
-
-	if (i != a.end ()) {
-		fc->set_audio_stream (*i);
-	}
-
-	if (!fc->audio_stream ()) {
-		_audio_description->SetLabel (wxT (""));
-	} else {
-		wxString s;
-		if (fc->audio_channels() == 1) {
-			s << _("1 channel");
-		} else {
-			s << fc->audio_channels() << wxT (" ") << _("channels");
-		}
-		s << wxT (", ") << fc->content_audio_frame_rate() << _("Hz");
-		_audio_description->SetLabel (s);
-	}
-}
-
-void
-FilmEditor::audio_mapping_changed (AudioMapping m)
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-	
-	shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c);
-	if (!ac) {
-		return;
-	}
-
-	ac->set_audio_mapping (m);
 }
 
 void

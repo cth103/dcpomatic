@@ -90,6 +90,7 @@ SubtitlePanel::film_changed (Film::Property property)
 void
 SubtitlePanel::film_content_changed (
 	shared_ptr<Content>,
+	shared_ptr<AudioContent>,
 	shared_ptr<SubtitleContent> subtitle_content,
 	shared_ptr<FFmpegContent> ffmpeg_content,
 	int property
