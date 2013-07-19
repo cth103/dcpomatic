@@ -49,8 +49,7 @@ using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 
 Playlist::Playlist ()
-	: _loop (1)
-	, _sequence_video (true)
+	: _sequence_video (true)
 	, _sequencing_video (false)
 {
 
@@ -109,8 +108,6 @@ Playlist::video_identifier () const
 		}
 	}
 
-	t += lexical_cast<string> (_loop);
-
 	return md5_digest (t.c_str(), t.length());
 }
 
@@ -124,7 +121,6 @@ Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node
 	}
 
 	reconnect ();
-	_loop = node->number_child<int> ("Loop");
 	_sequence_video = node->bool_child ("SequenceVideo");
 }
 
@@ -136,7 +132,6 @@ Playlist::as_xml (xmlpp::Node* node)
 		(*i)->as_xml (node->add_child ("Content"));
 	}
 
-	node->add_child("Loop")->add_child_text(lexical_cast<string> (_loop));
 	node->add_child("SequenceVideo")->add_child_text(_sequence_video ? "1" : "0");
 }
 
@@ -160,13 +155,6 @@ Playlist::remove (shared_ptr<Content> c)
 		_content.erase (i);
 		Changed ();
 	}
-}
-
-void
-Playlist::set_loop (int l)
-{
-	_loop = l;
-	Changed ();
 }
 
 bool
@@ -246,7 +234,7 @@ Playlist::best_dcp_frame_rate () const
 }
 
 Time
-Playlist::length_without_loop () const
+Playlist::length () const
 {
 	Time len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
@@ -254,12 +242,6 @@ Playlist::length_without_loop () const
 	}
 
 	return len;
-}
-
-Time
-Playlist::length_with_loop () const
-{
-	return length_without_loop() * _loop;
 }
 
 void
@@ -301,29 +283,9 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 	return a->start() < b->start();
 }
 
-/** @return content in an undefined order, not taking looping into account */
+/** @return content in an undefined order */
 Playlist::ContentList
-Playlist::content_without_loop () const
+Playlist::content () const
 {
 	return _content;
-}
-
-/** @return content in an undefined order, taking looping into account */
-Playlist::ContentList
-Playlist::content_with_loop () const
-{
-	ContentList looped = _content;
-	Time const length = length_without_loop ();
-
-	Time offset = length;
-	for (int i = 1; i < _loop; ++i) {
-		for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-			shared_ptr<Content> copy = (*i)->clone ();
-			copy->set_start (copy->start() + offset);
-			looped.push_back (copy);
-		}
-		offset += length;
-	}
-	
-	return looped;
 }

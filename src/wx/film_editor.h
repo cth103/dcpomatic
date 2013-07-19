@@ -87,8 +87,6 @@ private:
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
 	void edit_filters_clicked (wxCommandEvent &);
-	void loop_content_toggled (wxCommandEvent &);
-	void loop_count_changed (wxCommandEvent &);
 	void content_timeline_clicked (wxCommandEvent &);
 	void audio_stream_changed (wxCommandEvent &);
 	void subtitle_stream_changed (wxCommandEvent &);
@@ -112,7 +110,6 @@ private:
 	void setup_content ();
 	void setup_container ();
 	void setup_content_sensitivity ();
-	void setup_loop_sensitivity ();
 	
 	void active_jobs_changed (bool);
 	boost::shared_ptr<Content> selected_content ();
@@ -143,8 +140,6 @@ private:
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxButton* _content_timeline;
-	wxCheckBox* _loop_content;
-	wxSpinCtrl* _loop_count;
 	wxButton* _edit_dci_button;
 	wxChoice* _ratio;
 	wxStaticText* _ratio_description;

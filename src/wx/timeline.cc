@@ -375,7 +375,7 @@ Timeline::playlist_changed ()
 
 	_views.clear ();
 
-	Playlist::ContentList content = fl->playlist()->content_with_loop ();
+	Playlist::ContentList content = fl->playlist()->content ();
 
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
@@ -460,7 +460,7 @@ Timeline::setup_pixels_per_time_unit ()
 		return;
 	}
 
-	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length_with_loop();
+	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length ();
 }
 
 void

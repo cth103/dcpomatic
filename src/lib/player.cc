@@ -401,7 +401,7 @@ Player::setup_pieces ()
 
 	_pieces.clear ();
 
-	Playlist::ContentList content = _playlist->content_with_loop ();
+	Playlist::ContentList content = _playlist->content ();
 	sort (content.begin(), content.end(), ContentSorter ());
 
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {

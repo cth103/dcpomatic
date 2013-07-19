@@ -111,6 +111,6 @@ TranscodeJob::remaining_time () const
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	OutputVideoFrame const left = _film->time_to_video_frames (_film->length_with_loop ()) - _transcoder->video_frames_out();
+	OutputVideoFrame const left = _film->time_to_video_frames (_film->length ()) - _transcoder->video_frames_out();
 	return left / fps;
 }

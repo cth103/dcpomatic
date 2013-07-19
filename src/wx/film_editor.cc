@@ -214,8 +214,6 @@ FilmEditor::connect_to_widgets ()
 	_content_add->Connect		 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
 	_content_timeline->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
-	_loop_content->Connect		 (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,	wxCommandEventHandler (FilmEditor::loop_content_toggled), 0, this);
-	_loop_count->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::loop_count_changed), 0, this);
 	_left_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
 	_right_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
 	_top_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
@@ -336,14 +334,6 @@ FilmEditor::make_content_panel ()
 		_content_sizer->Add (s, 0.75, wxEXPAND | wxALL, 6);
 	}
 
-	wxBoxSizer* h = new wxBoxSizer (wxHORIZONTAL);
-	_loop_content = new wxCheckBox (_content_panel, wxID_ANY, _("Loop everything"));
-	h->Add (_loop_content, 0, wxALL, 6);
-	_loop_count = new wxSpinCtrl (_content_panel, wxID_ANY);
-	h->Add (_loop_count, 0, wxALL, 6);
-	add_label_to_sizer (h, _content_panel, _("times"), false);
-	_content_sizer->Add (h, 0, wxALL, 6);
-
 	_content_notebook = new wxNotebook (_content_panel, wxID_ANY);
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
 
@@ -355,8 +345,6 @@ FilmEditor::make_content_panel ()
 	_content_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
 	make_timing_panel ();
 	_content_notebook->AddPage (_timing_panel, _("Timing"), false);
-
-	_loop_count->SetRange (2, 1024);
 }
 
 void
@@ -622,11 +610,6 @@ FilmEditor::film_changed (Film::Property p)
 		setup_subtitle_control_sensitivity ();
 		setup_show_audio_sensitivity ();
 		break;
-	case Film::LOOP:
-		checked_set (_loop_content, _film->loop() > 1);
-		checked_set (_loop_count, _film->loop());
-		setup_loop_sensitivity ();
-		break;
 	case Film::CONTAINER:
 		setup_container ();
 		break;
@@ -879,7 +862,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::NAME);
 	film_changed (Film::USE_DCI_NAME);
 	film_changed (Film::CONTENT);
-	film_changed (Film::LOOP);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::CONTAINER);
 	film_changed (Film::RESOLUTION);
@@ -890,8 +872,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 	film_changed (Film::DCP_AUDIO_CHANNELS);
 
-	if (!_film->content_without_loop().empty ()) {
-		set_selection (_film->content_without_loop().front ());
+	if (!_film->content().empty ()) {
+		set_selection (_film->content().front ());
 	}
 
 	wxListEvent ev;
@@ -926,8 +908,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_show_audio->Enable (s);
 	_audio_delay->Enable (s);
 	_container->Enable (s);
-	_loop_content->Enable (s);
-	_loop_count->Enable (s);
 
 	setup_subtitle_control_sensitivity ();
 	setup_show_audio_sensitivity ();
@@ -1152,7 +1132,7 @@ FilmEditor::setup_content ()
 	
 	_content->DeleteAllItems ();
 
-	Playlist::ContentList content = _film->content_without_loop ();
+	Playlist::ContentList content = _film->content ();
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
 		_content->InsertItem (t, std_to_wx ((*i)->summary ()));
@@ -1260,7 +1240,7 @@ FilmEditor::selected_content ()
 		return shared_ptr<Content> ();
 	}
 
-	Playlist::ContentList c = _film->content_without_loop ();
+	Playlist::ContentList c = _film->content ();
 	if (s < 0 || size_t (s) >= c.size ()) {
 		return shared_ptr<Content> ();
 	}
@@ -1363,30 +1343,6 @@ FilmEditor::setup_scaling_description ()
 	}
 
 	_scaling_description->SetLabel (d);
-}
-
-void
-FilmEditor::loop_content_toggled (wxCommandEvent &)
-{
-	if (_loop_content->GetValue ()) {
-		_film->set_loop (_loop_count->GetValue ());
-	} else {
-		_film->set_loop (1);
-	}
-		
-	setup_loop_sensitivity ();
-}
-
-void
-FilmEditor::loop_count_changed (wxCommandEvent &)
-{
-	_film->set_loop (_loop_count->GetValue ());
-}
-
-void
-FilmEditor::setup_loop_sensitivity ()
-{
-	_loop_count->Enable (_loop_content->GetValue ());
 }
 
 void
@@ -1510,7 +1466,7 @@ FilmEditor::length_changed ()
 void
 FilmEditor::set_selection (weak_ptr<Content> wc)
 {
-	Playlist::ContentList content = _film->content_without_loop ();
+	Playlist::ContentList content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
 		if (content[i] == wc.lock ()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
