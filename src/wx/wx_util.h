@@ -34,6 +34,7 @@ class wxGridBagSizer;
 
 #define DCPOMATIC_SIZER_X_GAP 8
 #define DCPOMATIC_SIZER_Y_GAP 8
+#define DCPOMATIC_DIALOG_BORDER 12
 
 /** @file src/wx/wx_util.h
  *  @brief Some utility functions and classes.

@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include "lib/imagemagick_content.h"
+#include "lib/still_image_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
@@ -37,9 +37,9 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	film->set_name ("black_fill_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence_video (false);
-	shared_ptr<ImageMagickContent> contentA (new ImageMagickContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<StillImageContent> contentA (new StillImageContent (film, "test/data/simple_testcard_640x480.png"));
 	contentA->set_ratio (Ratio::from_id ("185"));
-	shared_ptr<ImageMagickContent> contentB (new ImageMagickContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<StillImageContent> contentB (new StillImageContent (film, "test/data/simple_testcard_640x480.png"));
 	contentB->set_ratio (Ratio::from_id ("185"));
 
 	film->examine_and_add_content (contentA);

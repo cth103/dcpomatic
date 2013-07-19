@@ -38,7 +38,7 @@ GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	table->Add (_actual, 1, wxEXPAND);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

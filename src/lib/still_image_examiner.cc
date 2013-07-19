@@ -19,8 +19,8 @@
 
 #include <iostream>
 #include <Magick++.h>
-#include "imagemagick_content.h"
-#include "imagemagick_examiner.h"
+#include "still_image_content.h"
+#include "still_image_examiner.h"
 #include "film.h"
 
 #include "i18n.h"
@@ -28,30 +28,30 @@
 using std::cout;
 using boost::shared_ptr;
 
-ImageMagickExaminer::ImageMagickExaminer (shared_ptr<const Film> f, shared_ptr<const ImageMagickContent> c)
-	: ImageMagick (c)
+StillImageExaminer::StillImageExaminer (shared_ptr<const Film> f, shared_ptr<const StillImageContent> c)
+	: StillImage (c)
 	, _film (f)
 {
 	using namespace MagickCore;
-	Magick::Image* image = new Magick::Image (_imagemagick_content->file().string());
+	Magick::Image* image = new Magick::Image (_still_image_content->file().string());
 	_video_size = libdcp::Size (image->columns(), image->rows());
 	delete image;
 }
 
 libdcp::Size
-ImageMagickExaminer::video_size () const
+StillImageExaminer::video_size () const
 {
 	return _video_size;
 }
 
 int
-ImageMagickExaminer::video_length () const
+StillImageExaminer::video_length () const
 {
-	return _imagemagick_content->video_length ();
+	return _still_image_content->video_length ();
 }
 
 float
-ImageMagickExaminer::video_frame_rate () const
+StillImageExaminer::video_frame_rate () const
 {
 	boost::shared_ptr<const Film> f = _film.lock ();
 	if (!f) {

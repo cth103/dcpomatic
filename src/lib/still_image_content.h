@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DCPOMATIC_IMAGEMAGICK_CONTENT_H
-#define DCPOMATIC_IMAGEMAGICK_CONTENT_H
+#ifndef DCPOMATIC_STILL_IMAGE_CONTENT_H
+#define DCPOMATIC_STILL_IMAGE_CONTENT_H
 
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
@@ -27,14 +27,14 @@ namespace cxml {
 	class Node;
 }
 
-class ImageMagickContent : public VideoContent
+class StillImageContent : public VideoContent
 {
 public:
-	ImageMagickContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	ImageMagickContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	StillImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	StillImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 
-	boost::shared_ptr<ImageMagickContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<ImageMagickContent> (Content::shared_from_this ());
+	boost::shared_ptr<StillImageContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<StillImageContent> (Content::shared_from_this ());
 	};
 
 	void examine (boost::shared_ptr<Job>);

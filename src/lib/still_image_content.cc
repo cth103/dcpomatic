@@ -18,8 +18,8 @@
 */
 
 #include <libcxml/cxml.h>
-#include "imagemagick_content.h"
-#include "imagemagick_examiner.h"
+#include "still_image_content.h"
+#include "still_image_examiner.h"
 #include "config.h"
 #include "compose.hpp"
 #include "film.h"
@@ -31,14 +31,14 @@ using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
 
-ImageMagickContent::ImageMagickContent (shared_ptr<const Film> f, boost::filesystem::path p)
+StillImageContent::StillImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, VideoContent (f, p)
 {
 
 }
 
-ImageMagickContent::ImageMagickContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+StillImageContent::StillImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
 	, VideoContent (f, node)
 {
@@ -46,13 +46,13 @@ ImageMagickContent::ImageMagickContent (shared_ptr<const Film> f, shared_ptr<con
 }
 
 string
-ImageMagickContent::summary () const
+StillImageContent::summary () const
 {
 	return String::compose (_("%1 [still]"), file().filename().string());
 }
 
 bool
-ImageMagickContent::valid_file (boost::filesystem::path f)
+StillImageContent::valid_file (boost::filesystem::path f)
 {
 	string ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
@@ -60,29 +60,29 @@ ImageMagickContent::valid_file (boost::filesystem::path f)
 }
 
 void
-ImageMagickContent::as_xml (xmlpp::Node* node) const
+StillImageContent::as_xml (xmlpp::Node* node) const
 {
-	node->add_child("Type")->add_child_text ("ImageMagick");
+	node->add_child("Type")->add_child_text ("StillImage");
 	Content::as_xml (node);
 	VideoContent::as_xml (node);
 }
 
 void
-ImageMagickContent::examine (shared_ptr<Job> job)
+StillImageContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	shared_ptr<ImageMagickExaminer> examiner (new ImageMagickExaminer (film, shared_from_this()));
+	shared_ptr<StillImageExaminer> examiner (new StillImageExaminer (film, shared_from_this()));
 
 	take_from_video_examiner (examiner);
 	set_video_length (Config::instance()->default_still_length() * video_frame_rate());
 }
 
 void
-ImageMagickContent::set_video_length (VideoContent::Frame len)
+StillImageContent::set_video_length (VideoContent::Frame len)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -93,7 +93,7 @@ ImageMagickContent::set_video_length (VideoContent::Frame len)
 }
 
 Time
-ImageMagickContent::length () const
+StillImageContent::length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
@@ -103,7 +103,7 @@ ImageMagickContent::length () const
 }
 
 string
-ImageMagickContent::identifier () const
+StillImageContent::identifier () const
 {
 	stringstream s;
 	s << VideoContent::identifier ();

@@ -36,7 +36,7 @@
 #include "lib/filter.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
-#include "lib/imagemagick_content.h"
+#include "lib/still_image_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/sound_processor.h"
@@ -48,7 +48,7 @@
 #include "gain_calculator_dialog.h"
 #include "dci_metadata_dialog.h"
 #include "audio_dialog.h"
-#include "imagemagick_content_dialog.h"
+#include "still_image_content_dialog.h"
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
 
@@ -1166,8 +1166,8 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 
 		shared_ptr<Content> c;
 
-		if (ImageMagickContent::valid_file (p)) {
-			c.reset (new ImageMagickContent (_film, p));
+		if (StillImageContent::valid_file (p)) {
+			c.reset (new StillImageContent (_film, p));
 		} else if (SndfileContent::valid_file (p)) {
 			c.reset (new SndfileContent (_film, p));
 		} else {
@@ -1457,7 +1457,7 @@ FilmEditor::length_changed ()
 		return;
 	}
 
-	shared_ptr<ImageMagickContent> ic = dynamic_pointer_cast<ImageMagickContent> (c);
+	shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c);
 	if (ic) {
 		ic->set_video_length (_length->get(_film->dcp_video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
 	}

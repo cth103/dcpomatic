@@ -22,8 +22,8 @@
 #include "film.h"
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
-#include "imagemagick_decoder.h"
-#include "imagemagick_content.h"
+#include "still_image_decoder.h"
+#include "still_image_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
 #include "subtitle_content.h"
@@ -74,8 +74,8 @@ std::ostream& operator<<(std::ostream& s, Piece const & p)
 {
 	if (dynamic_pointer_cast<FFmpegContent> (p.content)) {
 		s << "\tffmpeg	   ";
-	} else if (dynamic_pointer_cast<ImageMagickContent> (p.content)) {
-		s << "\timagemagick";
+	} else if (dynamic_pointer_cast<StillImageContent> (p.content)) {
+		s << "\tstill image";
 	} else if (dynamic_pointer_cast<SndfileContent> (p.content)) {
 		s << "\tsndfile	   ";
 	}
@@ -421,20 +421,20 @@ Player::setup_pieces ()
 			piece->decoder = fd;
 		}
 		
-		shared_ptr<const ImageMagickContent> ic = dynamic_pointer_cast<const ImageMagickContent> (*i);
+		shared_ptr<const StillImageContent> ic = dynamic_pointer_cast<const StillImageContent> (*i);
 		if (ic) {
-			shared_ptr<ImageMagickDecoder> id;
+			shared_ptr<StillImageDecoder> id;
 			
-			/* See if we can re-use an old ImageMagickDecoder */
+			/* See if we can re-use an old StillImageDecoder */
 			for (list<shared_ptr<Piece> >::const_iterator j = old_pieces.begin(); j != old_pieces.end(); ++j) {
-				shared_ptr<ImageMagickDecoder> imd = dynamic_pointer_cast<ImageMagickDecoder> ((*j)->decoder);
+				shared_ptr<StillImageDecoder> imd = dynamic_pointer_cast<StillImageDecoder> ((*j)->decoder);
 				if (imd && imd->content() == ic) {
 					id = imd;
 				}
 			}
 
 			if (!id) {
-				id.reset (new ImageMagickDecoder (_film, ic));
+				id.reset (new StillImageDecoder (_film, ic));
 				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
 			}
 

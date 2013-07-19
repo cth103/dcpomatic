@@ -20,17 +20,17 @@
 #include <wx/wx.h>
 
 class wxSpinCtrl;
-class ImageMagickContent;
+class StillImageContent;
 class Region;
 
-class ImageMagickContentDialog : public wxDialog
+class StillImageContentDialog : public wxDialog
 {
 public:
-	ImageMagickContentDialog (wxWindow *, boost::shared_ptr<ImageMagickContent>);
+	StillImageContentDialog (wxWindow *, boost::shared_ptr<StillImageContent>);
 
 private:
 	void video_length_changed (wxCommandEvent &);
 
-	boost::weak_ptr<ImageMagickContent> _content;
+	boost::weak_ptr<StillImageContent> _content;
 	wxSpinCtrl* _video_length;
 };

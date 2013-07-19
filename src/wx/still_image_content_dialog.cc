@@ -18,15 +18,15 @@
 */
 
 #include <wx/spinctrl.h>
-#include "lib/imagemagick_content.h"
-#include "imagemagick_content_dialog.h"
+#include "lib/still_image_content.h"
+#include "still_image_content_dialog.h"
 #include "wx_util.h"
 
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr<ImageMagickContent> content)
-	: wxDialog (parent, wxID_ANY, _("Image"))
+StillImageContentDialog::StillImageContentDialog (wxWindow* parent, shared_ptr<StillImageContent> content)
+	: wxDialog (parent, wxID_ANY, _("Stlll Image"))
 	, _content (content)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (3, 6, 6);
@@ -43,7 +43,7 @@ ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr
 	}
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (grid, 1, wxEXPAND | wxALL, 6);
+	overall_sizer->Add (grid, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -55,13 +55,13 @@ ImageMagickContentDialog::ImageMagickContentDialog (wxWindow* parent, shared_ptr
 	overall_sizer->SetSizeHints (this);
 
 	checked_set (_video_length, content->video_length () / 24);
-	_video_length->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ImageMagickContentDialog::video_length_changed), 0, this);
+	_video_length->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (StillImageContentDialog::video_length_changed), 0, this);
 }
 
 void
-ImageMagickContentDialog::video_length_changed (wxCommandEvent &)
+StillImageContentDialog::video_length_changed (wxCommandEvent &)
 {
-	shared_ptr<ImageMagickContent> c = _content.lock ();
+	shared_ptr<StillImageContent> c = _content.lock ();
 	if (!c) {
 		return;
 	}

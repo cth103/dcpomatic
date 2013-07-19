@@ -36,7 +36,7 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/ffmpeg_content.h"
-#include "lib/imagemagick_content.h"
+#include "lib/still_image_content.h"
 #include "lib/video_decoder.h"
 #include "film_viewer.h"
 #include "wx_util.h"

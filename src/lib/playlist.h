@@ -29,8 +29,8 @@
 class Content;
 class FFmpegContent;
 class FFmpegDecoder;
-class ImageMagickContent;
-class ImageMagickDecoder;
+class StillImageMagickContent;
+class StillImageMagickDecoder;
 class SndfileContent;
 class SndfileDecoder;
 class Job;

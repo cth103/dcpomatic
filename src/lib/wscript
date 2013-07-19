@@ -28,9 +28,9 @@ sources = """
           film.cc
           filter.cc
           image.cc
-          imagemagick_content.cc
-          imagemagick_decoder.cc
-          imagemagick_examiner.cc
+          still_image_content.cc
+          still_image_decoder.cc
+          still_image_examiner.cc
           job.cc
           job_manager.cc
           log.cc

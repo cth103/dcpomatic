@@ -39,7 +39,7 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	add_label_to_sizer (table, this, _("Film name"), true);
 	_name = new wxTextCtrl (this, wxID_ANY);

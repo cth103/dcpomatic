@@ -20,8 +20,8 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <Magick++.h>
-#include "imagemagick_content.h"
-#include "imagemagick_decoder.h"
+#include "still_image_content.h"
+#include "still_image_decoder.h"
 #include "image.h"
 #include "film.h"
 #include "exceptions.h"
@@ -32,18 +32,18 @@ using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
 
-ImageMagickDecoder::ImageMagickDecoder (shared_ptr<const Film> f, shared_ptr<const ImageMagickContent> c)
+StillImageDecoder::StillImageDecoder (shared_ptr<const Film> f, shared_ptr<const StillImageContent> c)
 	: Decoder (f)
 	, VideoDecoder (f)
-	, ImageMagick (c)
+	, StillImage (c)
 {
 
 }
 
 void
-ImageMagickDecoder::pass ()
+StillImageDecoder::pass ()
 {
-	if (_video_position >= _imagemagick_content->video_length ()) {
+	if (_video_position >= _still_image_content->video_length ()) {
 		return;
 	}
 
@@ -52,7 +52,7 @@ ImageMagickDecoder::pass ()
 		return;
 	}
 
-	Magick::Image* magick_image = new Magick::Image (_imagemagick_content->file().string ());
+	Magick::Image* magick_image = new Magick::Image (_still_image_content->file().string ());
 	_video_size = libdcp::Size (magick_image->columns(), magick_image->rows());
 	
 	_image.reset (new Image (PIX_FMT_RGB24, _video_size.get(), false));
@@ -75,13 +75,13 @@ ImageMagickDecoder::pass ()
 }
 
 void
-ImageMagickDecoder::seek (VideoContent::Frame frame, bool)
+StillImageDecoder::seek (VideoContent::Frame frame, bool)
 {
 	_video_position = frame;
 }
 
 bool
-ImageMagickDecoder::done () const
+StillImageDecoder::done () const
 {
-	return _video_position >= _imagemagick_content->video_length ();
+	return _video_position >= _still_image_content->video_length ();
 }

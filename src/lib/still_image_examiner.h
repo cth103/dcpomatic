@@ -17,19 +17,19 @@
 
 */
 
-#include "imagemagick.h"
+#include "still_image.h"
 #include "video_examiner.h"
 
 namespace Magick {
 	class Image;
 }
 
-class ImageMagickContent;
+class StillImageContent;
 
-class ImageMagickExaminer : public ImageMagick, public VideoExaminer
+class StillImageExaminer : public StillImage, public VideoExaminer
 {
 public:
-	ImageMagickExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageMagickContent>);
+	StillImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const StillImageContent>);
 
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
