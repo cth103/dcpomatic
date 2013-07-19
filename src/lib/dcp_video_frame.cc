@@ -263,7 +263,11 @@ EncodedData::EncodedData (string file)
 		throw FileError (_("could not open file for reading"), file);
 	}
 	
-	fread (_data, 1, _size, f);
+	size_t const r = fread (_data, 1, _size, f);
+	if (r != size_t (_size)) {
+		throw FileError (_("could not read encoded data"), file);
+	}
+		
 	fclose (f);
 }
 
