@@ -17,6 +17,7 @@
 
 */
 
+#include <wx/wx.h>
 #include <wx/sizer.h>
 #include "lib/film.h"
 #include "dci_metadata_dialog.h"
