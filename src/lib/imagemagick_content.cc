@@ -27,6 +27,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
 
@@ -76,8 +77,8 @@ ImageMagickContent::examine (shared_ptr<Job> job)
 	
 	shared_ptr<ImageMagickExaminer> examiner (new ImageMagickExaminer (film, shared_from_this()));
 
-	set_video_length (Config::instance()->default_still_length() * video_frame_rate());
 	take_from_video_examiner (examiner);
+	set_video_length (Config::instance()->default_still_length() * video_frame_rate());
 }
 
 void
