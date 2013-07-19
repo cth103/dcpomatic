@@ -289,3 +289,18 @@ Playlist::content () const
 {
 	return _content;
 }
+
+void
+Playlist::repeat (shared_ptr<Content> c, int n)
+{
+	Time pos = c->end ();
+	for (int i = 0; i < n; ++i) {
+		shared_ptr<Content> copy = c->clone ();
+		copy->set_start (pos);
+		_content.push_back (copy);
+		pos = copy->end ();
+	}
+
+	reconnect ();
+	Changed ();
+}

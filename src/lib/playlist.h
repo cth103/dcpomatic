@@ -77,6 +77,8 @@ public:
 	void set_sequence_video (bool);
 	void maybe_sequence_video ();
 
+	void repeat (boost::shared_ptr<Content>, int);
+
 	mutable boost::signals2::signal<void ()> Changed;
 	/** Third parameter is true if signals are currently being emitted frequently */
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> ContentChanged;

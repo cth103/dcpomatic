@@ -25,6 +25,7 @@
 #include "film_editor.h"
 #include "timeline.h"
 #include "wx_util.h"
+#include "repeat_dialog.h"
 
 using std::list;
 using std::cout;
@@ -314,6 +315,10 @@ private:
 	int _y;
 };
 
+enum {
+	ID_repeat
+};
+
 Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film_editor (ed)
@@ -324,26 +329,25 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _left_down (false)
 	, _down_view_start (0)
 	, _first_move (false)
+	, _menu (0)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
 #endif	
 
-	setup_pixels_per_time_unit ();
-	
 	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
 	Connect (wxID_ANY, wxEVT_LEFT_DOWN, wxMouseEventHandler (Timeline::left_down), 0, this);
 	Connect (wxID_ANY, wxEVT_LEFT_UP, wxMouseEventHandler (Timeline::left_up), 0, this);
+	Connect (wxID_ANY, wxEVT_RIGHT_DOWN, wxMouseEventHandler (Timeline::right_down), 0, this);
 	Connect (wxID_ANY, wxEVT_MOTION, wxMouseEventHandler (Timeline::mouse_moved), 0, this);
 	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
+	Connect (ID_repeat, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Timeline::repeat), 0, this);
 
 	playlist_changed ();
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
 	_playlist_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
-
-	_views.push_back (_time_axis_view);
 }
 
 void
@@ -374,6 +378,7 @@ Timeline::playlist_changed ()
 	}
 
 	_views.clear ();
+	_views.push_back (_time_axis_view);
 
 	Playlist::ContentList content = fl->playlist()->content ();
 
@@ -387,6 +392,7 @@ Timeline::playlist_changed ()
 	}
 
 	assign_tracks ();
+	setup_pixels_per_time_unit ();
 	Refresh ();
 }
 
@@ -463,8 +469,8 @@ Timeline::setup_pixels_per_time_unit ()
 	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length ();
 }
 
-void
-Timeline::left_down (wxMouseEvent& ev)
+shared_ptr<View>
+Timeline::event_to_view (wxMouseEvent& ev)
 {
 	list<shared_ptr<View> >::iterator i = _views.begin();
 	Position<int> const p (ev.GetX(), ev.GetY());
@@ -472,21 +478,33 @@ Timeline::left_down (wxMouseEvent& ev)
 		++i;
 	}
 
+	if (i == _views.end ()) {
+		return shared_ptr<View> ();
+	}
+
+	return *i;
+}
+
+void
+Timeline::left_down (wxMouseEvent& ev)
+{
+	shared_ptr<View> view = event_to_view (ev);
+
 	_down_view.reset ();
 
-	if (i != _views.end ()) {
-		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
+	if (view) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (view);
 		if (cv) {
 			_down_view = cv;
 			_down_view_start = cv->content()->start ();
 		}
 	}
 
-	for (list<shared_ptr<View> >::iterator j = _views.begin(); j != _views.end(); ++j) {
-		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*j);
+	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv) {
-			cv->set_selected (i == j);
-			if (i == j) {
+			cv->set_selected (view == *i);
+			if (view == *i) {
 				_film_editor->set_selection (cv->content ());
 			}
 		}
@@ -521,6 +539,28 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 	}
 
 	set_start_from_event (ev);
+}
+
+void
+Timeline::right_down (wxMouseEvent& ev)
+{
+	shared_ptr<View> view = event_to_view (ev);
+	shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (view);
+	if (!cv) {
+		return;
+	}
+
+	if (!cv->selected ()) {
+		clear_selection ();
+		cv->set_selected (true);
+	}
+
+	if (!_menu) {
+		_menu = new wxMenu;
+		_menu->Append (ID_repeat, _("Repeat..."));
+	}
+
+	PopupMenu (_menu, ev.GetPosition ());
 }
 
 void
@@ -563,3 +603,48 @@ Timeline::resized (wxSizeEvent &)
 {
 	setup_pixels_per_time_unit ();
 }
+
+void
+Timeline::clear_selection ()
+{
+	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
+		if (cv) {
+			cv->set_selected (false);
+		}
+	}
+}
+
+void
+Timeline::repeat (wxCommandEvent &)
+{
+	shared_ptr<ContentView> sel = selected ();
+	if (!sel) {
+		return;
+	}
+		
+	RepeatDialog d (this);
+	d.ShowModal ();
+
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	film->playlist()->repeat (sel->content (), d.number ());
+	d.Destroy ();
+}
+
+shared_ptr<ContentView>
+Timeline::selected () const
+{
+	for (list<shared_ptr<View> >::const_iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
+		if (cv && cv->selected()) {
+			return cv;
+		}
+	}
+
+	return shared_ptr<ContentView> ();
+}
+		

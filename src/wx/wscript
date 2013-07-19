@@ -21,6 +21,7 @@ sources = """
           job_wrapper.cc
           new_film_dialog.cc
           properties_dialog.cc
+          repeat_dialog.cc
           server_dialog.cc
           timecode.cc
           timeline.cc
