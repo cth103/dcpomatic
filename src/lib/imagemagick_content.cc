@@ -76,7 +76,7 @@ ImageMagickContent::examine (shared_ptr<Job> job)
 	
 	shared_ptr<ImageMagickExaminer> examiner (new ImageMagickExaminer (film, shared_from_this()));
 
-	set_video_length (Config::instance()->default_still_length() * 24);
+	set_video_length (Config::instance()->default_still_length() * video_frame_rate());
 	take_from_video_examiner (examiner);
 }
 
@@ -97,8 +97,8 @@ ImageMagickContent::length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (24, film->dcp_video_frame_rate ());
-	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
+	FrameRateConversion frc (video_frame_rate(), film->dcp_video_frame_rate ());
+	return video_length() * frc.factor() * TIME_HZ / video_frame_rate();
 }
 
 string
