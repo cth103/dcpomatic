@@ -23,6 +23,7 @@
 #include <wx/wx.h>
 #include "lib/util.h"
 #include "lib/rect.h"
+#include "content_menu.h"
 
 class Film;
 class View;
@@ -75,9 +76,6 @@ private:
 	void set_start_from_event (wxMouseEvent &);
 	void clear_selection ();
 
-	void repeat (wxCommandEvent &);
-	void remove (wxCommandEvent &);
-
 	typedef std::vector<boost::shared_ptr<View> > ViewList;
 	typedef std::vector<boost::shared_ptr<ContentView> > ContentViewList;
 
@@ -96,7 +94,7 @@ private:
 	boost::shared_ptr<ContentView> _down_view;
 	Time _down_view_start;
 	bool _first_move;
-	wxMenu* _menu;
+	ContentMenu _menu;
 
 	boost::signals2::scoped_connection _playlist_connection;
 };

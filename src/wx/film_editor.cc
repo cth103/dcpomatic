@@ -69,6 +69,7 @@ using boost::lexical_cast;
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
+	, _menu (f, this)
 	, _generally_sensitive (true)
 	, _audio_dialog (0)
 	, _timeline_dialog (0)
@@ -211,6 +212,7 @@ FilmEditor::connect_to_widgets ()
 	_ratio->Connect			 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::ratio_changed), 0, this);
 	_content->Connect		 (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED,	wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
 	_content->Connect		 (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
+	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK,wxListEventHandler    (FilmEditor::content_right_click), 0, this);
 	_content_add->Connect		 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
 	_content_timeline->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
@@ -689,6 +691,10 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 	}
 
 	shared_ptr<Content> content = weak_content.lock ();
+	if (content != selected_content ()) {
+		return;
+	}
+	
 	shared_ptr<VideoContent> video_content;
 	shared_ptr<AudioContent> audio_content;
 	shared_ptr<SubtitleContent> subtitle_content;
@@ -1515,4 +1521,12 @@ void
 FilmEditor::sequence_video_changed (wxCommandEvent &)
 {
 	_film->set_sequence_video (_sequence_video->GetValue ());
+}
+
+void
+FilmEditor::content_right_click (wxListEvent& ev)
+{
+	ContentList cl;
+	cl.push_back (selected_content ());
+	_menu.popup (cl, ev.GetPoint ());
 }

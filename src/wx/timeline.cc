@@ -25,7 +25,6 @@
 #include "film_editor.h"
 #include "timeline.h"
 #include "wx_util.h"
-#include "repeat_dialog.h"
 
 using std::list;
 using std::cout;
@@ -320,11 +319,6 @@ private:
 	int _y;
 };
 
-enum {
-	ID_repeat,
-	ID_remove
-};
-
 Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film_editor (ed)
@@ -335,7 +329,7 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _left_down (false)
 	, _down_view_start (0)
 	, _first_move (false)
-	, _menu (0)
+	, _menu (film, this)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
@@ -347,9 +341,6 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	Connect (wxID_ANY, wxEVT_RIGHT_DOWN, wxMouseEventHandler (Timeline::right_down), 0, this);
 	Connect (wxID_ANY, wxEVT_MOTION, wxMouseEventHandler (Timeline::mouse_moved), 0, this);
 	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
-
-	Connect (ID_repeat, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Timeline::repeat), 0, this);
-	Connect (ID_remove, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Timeline::remove), 0, this);
 
 	playlist_changed ();
 
@@ -572,14 +563,7 @@ Timeline::right_down (wxMouseEvent& ev)
 		cv->set_selected (true);
 	}
 
-	if (!_menu) {
-		_menu = new wxMenu;
-		_menu->Append (ID_repeat, _("Repeat..."));
-		_menu->AppendSeparator ();
-		_menu->Append (ID_remove, _("Remove"));
-	}
-
-	PopupMenu (_menu, ev.GetPosition ());
+	_menu.popup (selected_content (), ev.GetPosition ());
 }
 
 void
@@ -632,42 +616,6 @@ Timeline::clear_selection ()
 			cv->set_selected (false);
 		}
 	}
-}
-
-void
-Timeline::repeat (wxCommandEvent &)
-{
-	ContentList sel = selected_content ();
-	if (sel.empty ()) {
-		return;
-	}
-		
-	RepeatDialog d (this);
-	d.ShowModal ();
-
-	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
-		return;
-	}
-
-	film->playlist()->repeat (sel, d.number ());
-	d.Destroy ();
-}
-
-void
-Timeline::remove (wxCommandEvent &)
-{
-	ContentList sel = selected_content ();
-	if (sel.empty ()) {
-		return;
-	}
-
-	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
-		return;
-	}
-
-	film->playlist()->remove (sel);
 }
 
 Timeline::ContentViewList

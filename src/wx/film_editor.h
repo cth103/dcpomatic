@@ -27,6 +27,7 @@
 #include <wx/collpane.h>
 #include <boost/signals2.hpp>
 #include "lib/film.h"
+#include "content_menu.h"
 
 class wxNotebook;
 class wxListCtrl;
@@ -97,6 +98,7 @@ private:
 	void dcp_audio_channels_changed (wxCommandEvent &);
 	void dcp_resolution_changed (wxCommandEvent &);
 	void sequence_video_changed (wxCommandEvent &);
+	void content_right_click (wxListEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -172,6 +174,8 @@ private:
 	Timecode* _start;
 	Timecode* _length;
 	wxChoice* _dcp_resolution;
+
+	ContentMenu _menu;
 
 	std::vector<Ratio const *> _ratios;
 
