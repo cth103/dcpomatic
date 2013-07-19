@@ -394,11 +394,17 @@ private:
 #else
 		int r = system ("which nautilus");
 		if (WEXITSTATUS (r) == 0) {
-			system (string ("nautilus " + film->directory()).c_str ());
+			r = system (string ("nautilus " + film->directory()).c_str ());
+			if (WEXITSTATUS (r)) {
+				error_dialog (this, _("Could not show DCP (could not run nautilus)"));
+			}
 		} else {
 			int r = system ("which konqueror");
 			if (WEXITSTATUS (r) == 0) {
-				system (string ("konqueror " + film->directory()).c_str ());
+				r = system (string ("konqueror " + film->directory()).c_str ());
+				if (WEXITSTATUS (r)) {
+					error_dialog (this, _("Could not show DCP (could not run konqueror)"));
+				}
 			}
 		}
 #endif		

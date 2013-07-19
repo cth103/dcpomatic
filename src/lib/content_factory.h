@@ -17,28 +17,6 @@
 
 */
 
-#include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include "lib/types.h"
+class Film;
 
-class Timecode : public wxPanel
-{
-public:
-	Timecode (wxWindow *);
-
-	void set (Time, int);
-	Time get (int) const;
-
-	boost::signals2::signal<void ()> Changed;
-
-private:
-	void changed (wxCommandEvent &);
-	void set_clicked (wxCommandEvent &);
-	
-	wxTextCtrl* _hours;
-	wxTextCtrl* _minutes;
-	wxTextCtrl* _seconds;
-	wxTextCtrl* _frames;
-	wxButton* _set_button;
-};
-
+extern boost::shared_ptr<Content> content_factory (boost::shared_ptr<const Film>, boost::shared_ptr<cxml::Node>);

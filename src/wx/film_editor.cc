@@ -757,9 +757,6 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		_subtitle_stream->Clear ();
 		if (ffmpeg_content) {
 			vector<shared_ptr<FFmpegSubtitleStream> > s = ffmpeg_content->subtitle_streams ();
-			if (s.empty ()) {
-				_subtitle_stream->Enable (false);
-			}
 			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
 				_subtitle_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 			}
@@ -893,8 +890,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 	film_changed (Film::DCP_AUDIO_CHANNELS);
 
-	if (!_film->content().empty ()) {
-		set_selection (_film->content().front ());
+	if (!_film->content_without_loop().empty ()) {
+		set_selection (_film->content_without_loop().front ());
 	}
 
 	wxListEvent ev;
@@ -1061,6 +1058,7 @@ FilmEditor::setup_subtitle_control_sensitivity ()
 	
 	_subtitle_offset->Enable (j);
 	_subtitle_scale->Enable (j);
+	_subtitle_stream->Enable (j);
 }
 
 void
@@ -1154,7 +1152,7 @@ FilmEditor::setup_content ()
 	
 	_content->DeleteAllItems ();
 
-	Playlist::ContentList content = _film->content ();
+	Playlist::ContentList content = _film->content_without_loop ();
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
 		_content->InsertItem (t, std_to_wx ((*i)->summary ()));
@@ -1262,7 +1260,7 @@ FilmEditor::selected_content ()
 		return shared_ptr<Content> ();
 	}
 
-	Playlist::ContentList c = _film->content ();
+	Playlist::ContentList c = _film->content_without_loop ();
 	if (s < 0 || size_t (s) >= c.size ()) {
 		return shared_ptr<Content> ();
 	}
@@ -1512,7 +1510,7 @@ FilmEditor::length_changed ()
 void
 FilmEditor::set_selection (weak_ptr<Content> wc)
 {
-	Playlist::ContentList content = _film->content ();
+	Playlist::ContentList content = _film->content_without_loop ();
 	for (size_t i = 0; i < content.size(); ++i) {
 		if (content[i] == wc.lock ()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);

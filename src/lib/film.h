@@ -106,9 +106,10 @@ public:
 
 	/* Proxies for some Playlist methods */
 
-	Playlist::ContentList content () const;
+	Playlist::ContentList content_without_loop () const;
 
-	Time length () const;
+	Time length_with_loop () const;
+	Time length_without_loop () const;
 	bool has_subtitles () const;
 	OutputVideoFrame best_dcp_video_frame_rate () const;
 

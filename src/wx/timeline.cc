@@ -34,7 +34,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
 
-class View
+class View : public boost::noncopyable
 {
 public:
 	View (Timeline& t)
@@ -86,15 +86,14 @@ public:
 	dcpomatic::Rect<int> bbox () const
 	{
 		shared_ptr<const Film> film = _timeline.film ();
-		shared_ptr<const Content> content = _content.lock ();
-		if (!film || !content) {
+		if (!film) {
 			return dcpomatic::Rect<int> ();
 		}
 		
 		return dcpomatic::Rect<int> (
-			time_x (content->start ()) - 8,
+			time_x (_content->start ()) - 8,
 			y_pos (_track) - 8,
-			content->length () * _timeline.pixels_per_time_unit() + 16,
+			_content->length () * _timeline.pixels_per_time_unit() + 16,
 			_timeline.track_height() + 16
 			);
 	}
@@ -108,7 +107,7 @@ public:
 		return _selected;
 	}
 
-	weak_ptr<Content> content () const {
+	shared_ptr<Content> content () const {
 		return _content;
 	}
 
@@ -128,13 +127,12 @@ private:
 	void do_paint (wxGraphicsContext* gc)
 	{
 		shared_ptr<const Film> film = _timeline.film ();
-		shared_ptr<const Content> content = _content.lock ();
-		if (!film || !content) {
+		if (!film) {
 			return;
 		}
 
-		Time const start = content->start ();
-		Time const len = content->length ();
+		Time const start = _content->start ();
+		Time const len = _content->length ();
 
 		wxColour selected (colour().Red() / 2, colour().Green() / 2, colour().Blue() / 2);
 
@@ -146,7 +144,7 @@ private:
 		} else {
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxBRUSHSTYLE_SOLID));
 		}
-		
+
 		wxGraphicsPath path = gc->CreatePath ();
 		path.MoveToPoint    (time_x (start),	   y_pos (_track) + 4);
 		path.AddLineToPoint (time_x (start + len), y_pos (_track) + 4);
@@ -156,7 +154,7 @@ private:
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
-		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (content->file().filename().string()).data(), type().data());
+		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (_content->file().filename().string()).data(), type().data());
 		wxDouble name_width;
 		wxDouble name_height;
 		wxDouble name_descent;
@@ -180,7 +178,11 @@ private:
 		}
 	}
 
-	boost::weak_ptr<Content> _content;
+	/* This must be a shared_ptr, not a weak_ptr, as in the looped case this
+	   will be the only remaining pointer to the looped content that we get
+	   from the playlist.
+	*/
+	boost::shared_ptr<Content> _content;
 	int _track;
 	bool _selected;
 
@@ -217,7 +219,11 @@ private:
 
 	wxString type () const
 	{
-		return _("video");
+		if (dynamic_pointer_cast<FFmpegContent> (content ())) {
+			return _("video");
+		} else {
+			return _("still");
+		}
 	}
 
 	wxColour colour () const
@@ -369,7 +375,7 @@ Timeline::playlist_changed ()
 
 	_views.clear ();
 
-	Playlist::ContentList content = fl->playlist()->content ();
+	Playlist::ContentList content = fl->playlist()->content_with_loop ();
 
 	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
@@ -401,8 +407,7 @@ Timeline::assign_tracks ()
 			continue;
 		}
 	
-		shared_ptr<Content> acv_content = acv->content().lock ();
-		assert (acv_content);
+		shared_ptr<Content> acv_content = acv->content();
 		
 		int t = 1;
 		while (1) {
@@ -414,12 +419,11 @@ Timeline::assign_tracks ()
 					continue;
 				}
 				
-				shared_ptr<Content> test_content = test->content().lock ();
-				assert (test_content);
+				shared_ptr<Content> test_content = test->content();
 					
 				if (test && test->track() == t) {
-					if ((acv_content->start() <= test_content->start() && test_content->start() <= acv_content->end()) ||
-					    (acv_content->start() <= test_content->end()   && test_content->end()   <= acv_content->end())) {
+					if ((acv_content->start() < test_content->start() && test_content->start() < acv_content->end()) ||
+					    (acv_content->start() < test_content->end()   && test_content->end()   < acv_content->end())) {
 						/* we have an overlap on track `t' */
 						++t;
 						break;
@@ -456,7 +460,7 @@ Timeline::setup_pixels_per_time_unit ()
 		return;
 	}
 
-	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length();
+	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length_with_loop();
 }
 
 void
@@ -474,9 +478,7 @@ Timeline::left_down (wxMouseEvent& ev)
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv) {
 			_down_view = cv;
-			shared_ptr<Content> c = cv->content().lock();
-			assert (c);
-			_down_view_start = c->start ();
+			_down_view_start = cv->content()->start ();
 		}
 	}
 
@@ -495,10 +497,7 @@ Timeline::left_down (wxMouseEvent& ev)
 	_first_move = false;
 
 	if (_down_view) {
-		shared_ptr<Content> c = _down_view->content().lock ();
-		if (c) {
-			c->set_change_signals_frequent (true);
-		}
+		_down_view->content()->set_change_signals_frequent (true);
 	}
 }
 
@@ -508,10 +507,7 @@ Timeline::left_up (wxMouseEvent& ev)
 	_left_down = false;
 
 	if (_down_view) {
-		shared_ptr<Content> c = _down_view->content().lock ();
-		if (c) {
-			c->set_change_signals_frequent (false);
-		}
+		_down_view->content()->set_change_signals_frequent (false);
 	}
 
 	set_start_from_event (ev);
@@ -542,14 +538,11 @@ Timeline::set_start_from_event (wxMouseEvent& ev)
 
 	Time const time_diff = (p.x - _down_point.x) / _pixels_per_time_unit;
 	if (_down_view) {
-		shared_ptr<Content> c = _down_view->content().lock();
-		if (c) {
-			c->set_start (max (static_cast<Time> (0), _down_view_start + time_diff));
+		_down_view->content()->set_start (max (static_cast<Time> (0), _down_view_start + time_diff));
 
-			shared_ptr<Film> film = _film.lock ();
-			assert (film);
-			film->set_sequence_video (false);
-		}
+		shared_ptr<Film> film = _film.lock ();
+		assert (film);
+		film->set_sequence_video (false);
 	}
 }
 

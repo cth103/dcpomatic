@@ -17,28 +17,28 @@
 
 */
 
-#include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include "lib/types.h"
+#include <libcxml/cxml.h>
+#include "ffmpeg_content.h"
+#include "imagemagick_content.h"
+#include "sndfile_content.h"
 
-class Timecode : public wxPanel
+using std::string;
+using boost::shared_ptr;
+
+shared_ptr<Content>
+content_factory (shared_ptr<const Film> film, shared_ptr<cxml::Node> node)
 {
-public:
-	Timecode (wxWindow *);
+	string const type = node->string_child ("Type");
 
-	void set (Time, int);
-	Time get (int) const;
-
-	boost::signals2::signal<void ()> Changed;
-
-private:
-	void changed (wxCommandEvent &);
-	void set_clicked (wxCommandEvent &);
+	boost::shared_ptr<Content> content;
 	
-	wxTextCtrl* _hours;
-	wxTextCtrl* _minutes;
-	wxTextCtrl* _seconds;
-	wxTextCtrl* _frames;
-	wxButton* _set_button;
-};
+	if (type == "FFmpeg") {
+		content.reset (new FFmpegContent (film, node));
+	} else if (type == "ImageMagick") {
+		content.reset (new ImageMagickContent (film, node));
+	} else if (type == "Sndfile") {
+		content.reset (new SndfileContent (film, node));
+	}
 
+	return content;
+}

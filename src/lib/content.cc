@@ -22,6 +22,7 @@
 #include <libcxml/cxml.h>
 #include "content.h"
 #include "util.h"
+#include "content_factory.h"
 
 using std::string;
 using std::set;
@@ -89,4 +90,19 @@ Content::set_start (Time s)
 	}
 
 	signal_changed (ContentProperty::START);
+}
+
+shared_ptr<Content>
+Content::clone () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return shared_ptr<Content> ();
+	}
+	
+	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
+	xmlpp::Document doc;
+	xmlpp::Node* node = doc.create_root_node ("Content");
+	as_xml (node);
+	return content_factory (film, shared_ptr<cxml::Node> (new cxml::Node (node)));
 }

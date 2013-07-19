@@ -56,6 +56,8 @@ public:
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual Time length () const = 0;
 
+	boost::shared_ptr<Content> clone () const;
+	
 	boost::filesystem::path file () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _file;

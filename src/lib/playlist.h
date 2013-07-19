@@ -41,10 +41,7 @@ class Region;
  *  @brief A set of content files (video and audio), with knowledge of how they should be arranged into
  *  a DCP.
  *
- * This class holds Content objects, and it knows how they should be arranged.	At the moment
- * the ordering is implicit; video content is placed sequentially, and audio content is taken
- * from the video unless any sound-only files are present.  If sound-only files exist, they
- * are played simultaneously (i.e. they can be split up into multiple files for different channels)
+ * This class holds Content objects, and it knows how they should be arranged.
  */
 
 struct ContentSorter
@@ -67,10 +64,9 @@ public:
 	bool has_subtitles () const;
 
 	typedef std::vector<boost::shared_ptr<Content> > ContentList;
-	
-	ContentList content () const {
-		return _content;
-	}
+
+	ContentList content_without_loop () const;
+	ContentList content_with_loop () const;
 
 	std::string video_identifier () const;
 
@@ -80,7 +76,9 @@ public:
 	
 	void set_loop (int l);
 
-	Time length () const;
+	Time length_without_loop () const;
+	Time length_with_loop () const;
+	
 	int best_dcp_frame_rate () const;
 	Time video_end () const;
 
