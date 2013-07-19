@@ -48,7 +48,6 @@
 #include "gain_calculator_dialog.h"
 #include "dci_metadata_dialog.h"
 #include "audio_dialog.h"
-#include "still_image_content_dialog.h"
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
 

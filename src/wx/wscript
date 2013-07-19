@@ -17,7 +17,6 @@ sources = """
           filter_dialog.cc
           filter_view.cc
           gain_calculator_dialog.cc
-          still_image_content_dialog.cc
           job_manager_view.cc
           job_wrapper.cc
           new_film_dialog.cc
