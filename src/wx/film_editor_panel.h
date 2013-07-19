@@ -34,7 +34,6 @@ public:
 
 	virtual void film_changed (Film::Property) {}
 	virtual void film_content_changed (boost::shared_ptr<Content>, int) = 0;
-	virtual void content_selection_changed () {}
 
 protected:
 	FilmEditor* _editor;

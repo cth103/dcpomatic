@@ -99,9 +99,6 @@ void
 AudioPanel::film_changed (Film::Property property)
 {
 	switch (property) {
-	case Film::CONTENT:
-		setup_sensitivity ();
-		break;
 	case Film::DCP_AUDIO_CHANNELS:
 		_mapping->set_channels (_editor->film()->dcp_audio_channels ());
 		break;
@@ -115,6 +112,10 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 {
 	shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c);
 	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+
+	if (_audio_dialog && _editor->selected_audio_content()) {
+		_audio_dialog->set_content (_editor->selected_audio_content ());
+	}
 	
 	if (property == AudioContentProperty::AUDIO_GAIN) {
 		checked_set (_gain, ac ? ac->audio_gain() : 0);
@@ -134,9 +135,6 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 				checked_set (_stream, lexical_cast<string> (fc->audio_stream()->id));
 			}
 		}
-		setup_sensitivity ();
-	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
-		setup_sensitivity ();
 	}
 }
 
@@ -210,24 +208,6 @@ AudioPanel::show_clicked (wxCommandEvent &)
 	_audio_dialog = new AudioDialog (this);
 	_audio_dialog->Show ();
 	_audio_dialog->set_content (ac);
-}
-
-
-void
-AudioPanel::setup_sensitivity ()
-{
-	_show->Enable (_editor->film ());
-	_gain->Enable (_editor->generally_sensitive ());
-	_gain_calculate_button->Enable (_editor->generally_sensitive ());
-	_delay->Enable (_editor->generally_sensitive ());
-}
-
-void
-AudioPanel::content_selection_changed ()
-{
-	if (_audio_dialog && _editor->selected_audio_content()) {
-		_audio_dialog->set_content (_editor->selected_audio_content ());
-	}
 }
 
 void

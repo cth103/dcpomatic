@@ -36,10 +36,7 @@ class Film;
 class TimelineDialog;
 class Ratio;
 class Timecode;
-class TimingPanel;
-class SubtitlePanel;
-class AudioPanel;
-class VideoPanel;
+class FilmEditorPanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -69,10 +66,6 @@ public:
 	boost::shared_ptr<AudioContent> selected_audio_content ();
 	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
 	
-	bool generally_sensitive () const {
-		return _generally_sensitive;
-	}
-
 private:
 	void make_dcp_panel ();
 	void make_content_panel ();
@@ -101,7 +94,7 @@ private:
 	void film_changed (Film::Property);
 	void film_content_changed (boost::weak_ptr<Content>, int);
 
-	void set_things_sensitive (bool);
+	void set_general_sensitivity (bool);
 	void setup_dcp_name ();
 	void setup_content ();
 	void setup_container ();
@@ -109,10 +102,11 @@ private:
 	
 	void active_jobs_changed (bool);
 
-	VideoPanel* _video_panel;
-	AudioPanel* _audio_panel;
-	SubtitlePanel* _subtitle_panel;
-	TimingPanel* _timing_panel;
+	FilmEditorPanel* _video_panel;
+	FilmEditorPanel* _audio_panel;
+	FilmEditorPanel* _subtitle_panel;
+	FilmEditorPanel* _timing_panel;
+	std::list<FilmEditorPanel *> _panels;
 
 	wxNotebook* _main_notebook;
 	wxNotebook* _content_notebook;

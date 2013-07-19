@@ -76,11 +76,11 @@ SubtitlePanel::film_changed (Film::Property property)
 {
 	switch (property) {
 	case Film::CONTENT:
-		setup_control_sensitivity ();
+		setup_sensitivity ();
 		break;
 	case Film::WITH_SUBTITLES:
 		checked_set (_with_subtitles, _editor->film()->with_subtitles ());
-		setup_control_sensitivity ();
+		setup_sensitivity ();
 		break;
 	default:
 		break;
@@ -107,7 +107,7 @@ SubtitlePanel::film_content_changed (shared_ptr<Content> c, int property)
 				_stream->SetSelection (wxNOT_FOUND);
 			}
 		}
-		setup_control_sensitivity ();
+		setup_sensitivity ();
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET) {
 		checked_set (_offset, sc ? (sc->subtitle_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
@@ -127,20 +127,16 @@ SubtitlePanel::with_subtitles_toggled (wxCommandEvent &)
 }
 
 void
-SubtitlePanel::setup_control_sensitivity ()
+SubtitlePanel::setup_sensitivity ()
 {
 	bool h = false;
-	if (_editor->generally_sensitive() && _editor->film()) {
-		h = _editor->film()->has_subtitles ();
-	}
-	
-	_with_subtitles->Enable (h);
-
 	bool j = false;
 	if (_editor->film()) {
+		h = _editor->film()->has_subtitles ();
 		j = _editor->film()->with_subtitles ();
 	}
 	
+	_with_subtitles->Enable (h);
 	_offset->Enable (j);
 	_scale->Enable (j);
 	_stream->Enable (j);

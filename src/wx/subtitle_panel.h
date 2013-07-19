@@ -30,13 +30,14 @@ public:
 	void film_changed (Film::Property);
 	void film_content_changed (boost::shared_ptr<Content>, int);
 
-	void setup_control_sensitivity ();
 	
 private:
 	void with_subtitles_toggled (wxCommandEvent &);
 	void offset_changed (wxCommandEvent &);
 	void scale_changed (wxCommandEvent &);
 	void stream_changed (wxCommandEvent &);
+
+	void setup_sensitivity ();
 	
 	wxCheckBox* _with_subtitles;
 	wxSpinCtrl* _offset;

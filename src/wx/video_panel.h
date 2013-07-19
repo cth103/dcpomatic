@@ -17,6 +17,7 @@
 
 */
 
+#include "lib/film.h"
 #include "film_editor_panel.h"
 
 class wxChoice;
@@ -29,10 +30,9 @@ class VideoPanel : public FilmEditorPanel
 public:
 	VideoPanel (FilmEditor *);
 
+	void film_changed (Film::Property);
 	void film_content_changed (boost::shared_ptr<Content>, int);
 
-	void setup_scaling_description ();
-	
 private:
 	void left_crop_changed (wxCommandEvent &);
 	void right_crop_changed (wxCommandEvent &);
@@ -41,6 +41,8 @@ private:
 	void edit_filters_clicked (wxCommandEvent &);
 	void ratio_changed (wxCommandEvent &);
 
+	void setup_scaling_description ();
+	
 	wxChoice* _ratio;
 	wxStaticText* _ratio_description;
 	wxStaticText* _scaling_description;

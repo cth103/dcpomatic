@@ -151,6 +151,18 @@ VideoPanel::bottom_crop_changed (wxCommandEvent &)
 }
 
 void
+VideoPanel::film_changed (Film::Property property)
+{
+	switch (property) {
+	case Film::CONTAINER:
+		setup_scaling_description ();
+		break;
+	default:
+		break;
+	}
+}
+
+void
 VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 {
 	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);

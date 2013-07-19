@@ -257,10 +257,15 @@ FilmEditor::make_content_panel ()
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
 
 	_video_panel = new VideoPanel (this);
+	_panels.push_back (_video_panel);
 	_audio_panel = new AudioPanel (this);
+	_panels.push_back (_audio_panel);
 	_subtitle_panel = new SubtitlePanel (this);
+	_panels.push_back (_subtitle_panel);
 	_timing_panel = new TimingPanel (this);
+	_panels.push_back (_timing_panel);
 }
+
 /** Called when the name widget has been changed */
 void
 FilmEditor::name_changed (wxCommandEvent &)
@@ -332,10 +337,9 @@ FilmEditor::film_changed (Film::Property p)
 
 	stringstream s;
 
-	_video_panel->film_changed (p);
-	_audio_panel->film_changed (p);
-	_subtitle_panel->film_changed (p);
-	_timing_panel->film_changed (p);
+	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
+		(*i)->film_changed (p);
+	}
 		
 	switch (p) {
 	case Film::NONE:
@@ -415,25 +419,13 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 	}
 
 	shared_ptr<Content> content = weak_content.lock ();
-	if (content != selected_content ()) {
+	if (!content || content != selected_content ()) {
 		return;
 	}
-	
-	shared_ptr<VideoContent> video_content;
-	shared_ptr<AudioContent> audio_content;
-	shared_ptr<SubtitleContent> subtitle_content;
-	shared_ptr<FFmpegContent> ffmpeg_content;
-	if (content) {
-		video_content = dynamic_pointer_cast<VideoContent> (content);
-		audio_content = dynamic_pointer_cast<AudioContent> (content);
-		subtitle_content = dynamic_pointer_cast<SubtitleContent> (content);
-		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
-	}
 
-	_video_panel->film_content_changed    (content, property);
-	_audio_panel->film_content_changed    (content, property);
-	_subtitle_panel->film_content_changed (content, property);
-	_timing_panel->film_content_changed   (content, property);
+	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
+		(*i)->film_content_changed (content, property);
+	}
 
 	if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
@@ -458,7 +450,6 @@ FilmEditor::setup_container ()
 	}
 	
 	setup_dcp_name ();
-	_video_panel->setup_scaling_description ();
 }	
 
 /** Called when the container widget has been changed */
@@ -495,7 +486,7 @@ FilmEditor::dcp_content_type_changed (wxCommandEvent &)
 void
 FilmEditor::set_film (shared_ptr<Film> f)
 {
-	set_things_sensitive (f != 0);
+	set_general_sensitivity (f != 0);
 
 	if (_film == f) {
 		return;
@@ -536,28 +527,33 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	content_selection_changed (ev);
 }
 
-/** Updates the sensitivity of lots of widgets to a given value.
- *  @param s true to make sensitive, false to make insensitive.
- */
 void
-FilmEditor::set_things_sensitive (bool s)
+FilmEditor::set_general_sensitivity (bool s)
 {
 	_generally_sensitive = s;
-	
+
+	/* Stuff in the Content / DCP tabs */
 	_name->Enable (s);
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
 	_content->Enable (s);
+	_content_add->Enable (s);
+	_content_remove->Enable (s);
+	_content_timeline->Enable (s);
 	_dcp_content_type->Enable (s);
 	_dcp_frame_rate->Enable (s);
 	_dcp_audio_channels->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_container->Enable (s);
-
-	_subtitle_panel->setup_control_sensitivity ();
-	_audio_panel->setup_sensitivity ();
-	setup_content_sensitivity ();
 	_best_dcp_frame_rate->Enable (s && _film && _film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
+	_sequence_video->Enable (s);
+	_dcp_resolution->Enable (s);
+	_scaler->Enable (s);
+
+	/* Set the panels in the content notebook */
+	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
+		(*i)->Enable (s);
+	}
 }
 
 /** Called when the scaler widget has been changed */
@@ -600,7 +596,7 @@ FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
 void
 FilmEditor::active_jobs_changed (bool a)
 {
-	set_things_sensitive (!a);
+	set_general_sensitivity (!a);
 }
 
 void
@@ -700,8 +696,9 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	setup_content_sensitivity ();
 	shared_ptr<Content> s = selected_content ();
 
-	_audio_panel->content_selection_changed ();
-	
+	/* All other sensitivity in content panels should be triggered by
+	   one of these.
+	*/
 	film_content_changed (s, ContentProperty::START);
 	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
@@ -718,6 +715,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	film_content_changed (s, SubtitleContentProperty::SUBTITLE_SCALE);
 }
 
+/** Set up broad sensitivity based on the type of content that is selected */
 void
 FilmEditor::setup_content_sensitivity ()
 {
@@ -811,6 +809,10 @@ FilmEditor::set_selection (weak_ptr<Content> wc)
 void
 FilmEditor::sequence_video_changed (wxCommandEvent &)
 {
+	if (!_film) {
+		return;
+	}
+	
 	_film->set_sequence_video (_sequence_video->GetValue ());
 }
 

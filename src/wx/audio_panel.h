@@ -33,9 +33,6 @@ public:
 
 	void film_changed (Film::Property);
 	void film_content_changed (boost::shared_ptr<Content>, int);
-	void content_selection_changed ();
-
-	void setup_sensitivity ();
 	
 private:
 	void gain_changed (wxCommandEvent &);
