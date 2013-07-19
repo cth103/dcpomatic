@@ -65,25 +65,19 @@ public:
 
 	typedef std::vector<boost::shared_ptr<Content> > ContentList;
 
-	ContentList content_without_loop () const;
-	ContentList content_with_loop () const;
+	ContentList content () const;
 
 	std::string video_identifier () const;
 
-	int loop () const {
-		return _loop;
-	}
-	
-	void set_loop (int l);
-
-	Time length_without_loop () const;
-	Time length_with_loop () const;
+	Time length () const;
 	
 	int best_dcp_frame_rate () const;
 	Time video_end () const;
 
 	void set_sequence_video (bool);
 	void maybe_sequence_video ();
+
+	void repeat (std::list<boost::shared_ptr<Content> >, int);
 
 	mutable boost::signals2::signal<void ()> Changed;
 	/** Third parameter is true if signals are currently being emitted frequently */
@@ -94,7 +88,6 @@ private:
 	void reconnect ();
 
 	ContentList _content;
-	int _loop;
 	bool _sequence_video;
 	bool _sequencing_video;
 	std::list<boost::signals2::connection> _content_connections;

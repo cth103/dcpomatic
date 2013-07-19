@@ -204,9 +204,9 @@ try
 			}
 			lock.lock ();
 			
-			if (_film->length_with_loop()) {
+			if (_film->length()) {
 				_job->set_progress (
-					float (_full_written + _fake_written + _repeat_written) / _film->time_to_video_frames (_film->length_with_loop())
+					float (_full_written + _fake_written + _repeat_written) / _film->time_to_video_frames (_film->length())
 					);
 			}
 

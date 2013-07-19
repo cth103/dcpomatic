@@ -64,13 +64,19 @@ public:
 private:
 	void paint (wxPaintEvent &);
 	void left_down (wxMouseEvent &);
-	void mouse_moved (wxMouseEvent &);
 	void left_up (wxMouseEvent &);
+	void right_down (wxMouseEvent &);
+	void mouse_moved (wxMouseEvent &);
 	void playlist_changed ();
 	void setup_pixels_per_time_unit ();
 	void resized (wxSizeEvent &);
 	void assign_tracks ();
 	void set_start_from_event (wxMouseEvent &);
+	void clear_selection ();
+	void repeat (wxCommandEvent &);
+
+	boost::shared_ptr<View> event_to_view (wxMouseEvent &);
+	std::list<boost::shared_ptr<ContentView> > selected () const;
 
 	FilmEditor* _film_editor;
 	boost::weak_ptr<Film> _film;
@@ -83,6 +89,7 @@ private:
 	boost::shared_ptr<ContentView> _down_view;
 	Time _down_view_start;
 	bool _first_move;
+	wxMenu* _menu;
 
 	boost::signals2::scoped_connection _playlist_connection;
 };

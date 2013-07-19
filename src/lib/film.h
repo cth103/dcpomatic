@@ -106,15 +106,11 @@ public:
 
 	/* Proxies for some Playlist methods */
 
-	Playlist::ContentList content_without_loop () const;
+	Playlist::ContentList content () const;
 
-	Time length_with_loop () const;
-	Time length_without_loop () const;
+	Time length () const;
 	bool has_subtitles () const;
 	OutputVideoFrame best_dcp_video_frame_rate () const;
-
-	void set_loop (int);
-	int loop () const;
 
 	void set_sequence_video (bool);
 
@@ -127,7 +123,6 @@ public:
 		USE_DCI_NAME,
 		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
 		CONTENT,
-		LOOP,
 		DCP_CONTENT_TYPE,
 		CONTAINER,
 		RESOLUTION,
