@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -96,6 +96,7 @@ private:
 	void ratio_changed (wxCommandEvent &);
 	void dcp_audio_channels_changed (wxCommandEvent &);
 	void dcp_resolution_changed (wxCommandEvent &);
+	void sequence_video_changed (wxCommandEvent &);
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -140,6 +141,7 @@ private:
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxButton* _content_timeline;
+	wxCheckBox* _sequence_video;
 	wxButton* _edit_dci_button;
 	wxChoice* _ratio;
 	wxStaticText* _ratio_description;

@@ -237,6 +237,7 @@ FilmEditor::connect_to_widgets ()
 	_audio_stream->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::audio_stream_changed), 0, this);
 	_subtitle_stream->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::subtitle_stream_changed), 0, this);
 	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
+	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
 		
 	_audio_mapping->Changed.connect	 (boost::bind (&FilmEditor::audio_mapping_changed, this, _1));
 	_start->Changed.connect		 (boost::bind (&FilmEditor::start_changed, this));
@@ -333,6 +334,9 @@ FilmEditor::make_content_panel ()
 
 		_content_sizer->Add (s, 0.75, wxEXPAND | wxALL, 6);
 	}
+
+	_sequence_video = new wxCheckBox (_content_panel, wxID_ANY, _("Keep video in sequence"));
+	_content_sizer->Add (_sequence_video);
 
 	_content_notebook = new wxNotebook (_content_panel, wxID_ANY);
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
@@ -666,6 +670,9 @@ FilmEditor::film_changed (Film::Property p)
 		_audio_mapping->set_channels (_film->dcp_audio_channels ());
 		setup_dcp_name ();
 		break;
+	case Film::SEQUENCE_VIDEO:
+		checked_set (_sequence_video, _film->sequence_video ());
+		break;
 	}
 }
 
@@ -873,6 +880,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 	film_changed (Film::DCP_AUDIO_CHANNELS);
+	film_changed (Film::SEQUENCE_VIDEO);
 
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
@@ -1501,4 +1509,10 @@ FilmEditor::ratio_changed (wxCommandEvent &)
 		assert (n < int (ratios.size()));
 		vc->set_ratio (ratios[n]);
 	}
+}
+
+void
+FilmEditor::sequence_video_changed (wxCommandEvent &)
+{
+	_film->set_sequence_video (_sequence_video->GetValue ());
 }

@@ -112,8 +112,6 @@ public:
 	bool has_subtitles () const;
 	OutputVideoFrame best_dcp_video_frame_rate () const;
 
-	void set_sequence_video (bool);
-
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -131,7 +129,8 @@ public:
 		J2K_BANDWIDTH,
 		DCI_METADATA,
 		DCP_VIDEO_FRAME_RATE,
-		DCP_AUDIO_CHANNELS
+		DCP_AUDIO_CHANNELS,
+		SEQUENCE_VIDEO
 	};
 
 
@@ -198,6 +197,12 @@ public:
 		return _dcp_audio_channels;
 	}
 
+	bool sequence_video () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _sequence_video;
+	}
+	
+
 	/* SET */
 
 	void set_directory (std::string);
@@ -216,6 +221,7 @@ public:
 	void set_dcp_video_frame_rate (int);
 	void set_dcp_audio_channels (int);
 	void set_dci_date_today ();
+	void set_sequence_video (bool);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -269,6 +275,7 @@ private:
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
 	int _dcp_audio_channels;
+	bool _sequence_video;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

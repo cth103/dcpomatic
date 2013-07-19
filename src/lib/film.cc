@@ -95,6 +95,7 @@ Film::Film (string d)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _dcp_video_frame_rate (24)
 	, _dcp_audio_channels (MAX_AUDIO_CHANNELS)
+	, _sequence_video (true)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -122,6 +123,8 @@ Film::Film (string d)
 
 	set_directory (result.string ());
 	_log.reset (new FileLog ("log"));
+
+	_playlist->set_sequence_video (_sequence_video);
 }
 
 string
@@ -324,6 +327,7 @@ Film::write_metadata () const
 	root->add_child("DCPVideoFrameRate")->add_child_text (lexical_cast<string> (_dcp_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 	root->add_child("DCPAudioChannels")->add_child_text (lexical_cast<string> (_dcp_audio_channels));
+	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
@@ -369,6 +373,7 @@ Film::read_metadata ()
 	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	_dcp_audio_channels = f.number_child<int> ("DCPAudioChannels");
+	_sequence_video = f.bool_child ("SequenceVideo");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
@@ -643,6 +648,7 @@ Film::signal_changed (Property p)
 		set_dcp_video_frame_rate (_playlist->best_dcp_frame_rate ());
 		break;
 	case Film::DCP_VIDEO_FRAME_RATE:
+	case Film::SEQUENCE_VIDEO:
 		_playlist->maybe_sequence_video ();
 		break;
 	default:
@@ -838,7 +844,13 @@ Film::dcp_audio_frame_rate () const
 void
 Film::set_sequence_video (bool s)
 {
-	_playlist->set_sequence_video (s);
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_sequence_video = s;
+		_playlist->set_sequence_video (s);
+	}
+	
+	signal_changed (SEQUENCE_VIDEO);
 }
 
 libdcp::Size
