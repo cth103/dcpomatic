@@ -24,6 +24,7 @@
 
 class Film;
 class TimedSubtitle;
+class Image;
 
 class SubtitleDecoder : public virtual Decoder
 {

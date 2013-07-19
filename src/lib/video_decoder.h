@@ -20,10 +20,14 @@
 #ifndef DCPOMATIC_VIDEO_DECODER_H
 #define DCPOMATIC_VIDEO_DECODER_H
 
+#include <boost/signals2.hpp>
+#include <boost/shared_ptr.hpp>
 #include "decoder.h"
+#include "video_content.h"
 #include "util.h"
 
 class VideoContent;
+class Image;
 
 class VideoDecoder : public virtual Decoder
 {

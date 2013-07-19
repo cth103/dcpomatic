@@ -20,6 +20,7 @@
 #include <libcxml/cxml.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
+#include "film.h"
 #include "compose.hpp"
 #include "job.h"
 

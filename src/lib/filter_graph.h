@@ -28,6 +28,7 @@
 
 class Image;
 class VideoFilter;
+class FFmpegContent;
 
 /** @class FilterGraph
  *  @brief A graph of FFmpeg filters.

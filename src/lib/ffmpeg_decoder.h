@@ -39,6 +39,7 @@ extern "C" {
 #include "ffmpeg.h"
 
 class Film;
+class FilterGraph;
 class ffmpeg_pts_offset_test;
 
 /** @class FFmpegDecoder

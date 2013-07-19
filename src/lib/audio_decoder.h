@@ -26,6 +26,7 @@
 
 #include "decoder.h"
 #include "content.h"
+#include "audio_content.h"
 
 class AudioBuffers;
 

@@ -24,17 +24,11 @@
 #ifndef DCPOMATIC_DECODER_H
 #define DCPOMATIC_DECODER_H
 
-#include <vector>
-#include <string>
-#include <stdint.h>
 #include <boost/shared_ptr.hpp>
-#include <boost/signals2.hpp>
-#include "film.h"
+#include <boost/weak_ptr.hpp>
+#include <boost/utility.hpp>
 
-class Image;
-class Log;
-class DelayLine;
-class FilterGraph;
+class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -56,13 +50,6 @@ protected:
 
 	/** The Film that we are decoding in */
 	boost::weak_ptr<const Film> _film;
-
-private:
-	/** This will be called when our Film emits Changed */
-	virtual void film_changed (Film::Property) {}
-
-	/** Connection to our Film */
-	boost::signals2::scoped_connection _film_connection;
 };
 
 #endif

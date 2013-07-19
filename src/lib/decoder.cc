@@ -34,5 +34,5 @@ using boost::shared_ptr;
 Decoder::Decoder (shared_ptr<const Film> f)
 	: _film (f)
 {
-	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
+
 }
