@@ -265,6 +265,7 @@ EncodedData::EncodedData (string file)
 	
 	size_t const r = fread (_data, 1, _size, f);
 	if (r != size_t (_size)) {
+		fclose (f);
 		throw FileError (_("could not read encoded data"), file);
 	}
 		
