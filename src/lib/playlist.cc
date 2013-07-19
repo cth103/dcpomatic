@@ -158,6 +158,23 @@ Playlist::remove (shared_ptr<Content> c)
 	}
 }
 
+void
+Playlist::remove (ContentList c)
+{
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		ContentList::iterator j = _content.begin ();
+		while (j != _content.end() && *j != *i) {
+			++j;
+		}
+	
+		if (j != _content.end ()) {
+			_content.erase (j);
+		}
+	}
+
+	Changed ();
+}
+
 bool
 Playlist::has_subtitles () const
 {
@@ -285,17 +302,17 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 }
 
 /** @return content in an undefined order */
-Playlist::ContentList
+ContentList
 Playlist::content () const
 {
 	return _content;
 }
 
 void
-Playlist::repeat (list<shared_ptr<Content> > c, int n)
+Playlist::repeat (ContentList c, int n)
 {
 	pair<Time, Time> range (TIME_MAX, 0);
-	for (list<shared_ptr<Content> >::iterator i = c.begin(); i != c.end(); ++i) {
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		range.first = min (range.first, (*i)->start ());
 		range.second = max (range.second, (*i)->start ());
 		range.first = min (range.first, (*i)->end ());
@@ -304,7 +321,7 @@ Playlist::repeat (list<shared_ptr<Content> > c, int n)
 
 	Time pos = range.second;
 	for (int i = 0; i < n; ++i) {
-		for (list<shared_ptr<Content> >::iterator i = c.begin(); i != c.end(); ++i) {
+		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 			shared_ptr<Content> copy = (*i)->clone ();
 			copy->set_start (pos + copy->start() - range.first);
 			_content.push_back (copy);

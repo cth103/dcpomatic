@@ -728,7 +728,7 @@ Film::playlist () const
 	return _playlist;
 }
 
-Playlist::ContentList
+ContentList
 Film::content () const
 {
 	return _playlist->content ();

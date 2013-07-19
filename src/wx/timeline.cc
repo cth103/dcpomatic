@@ -81,7 +81,7 @@ public:
 		, _track (t)
 		, _selected (false)
 	{
-		_content_connection = c->Changed.connect (bind (&ContentView::content_changed, this, _2));
+		_content_connection = c->Changed.connect (bind (&ContentView::content_changed, this, _2, _3));
 	}
 
 	dcpomatic::Rect<int> bbox () const
@@ -174,10 +174,15 @@ private:
 		return _timeline.tracks_position().y + t * _timeline.track_height();
 	}
 
-	void content_changed (int p)
+	void content_changed (int p, bool frequent)
 	{
 		if (p == ContentProperty::START || p == ContentProperty::LENGTH) {
 			force_redraw ();
+		}
+
+		if (!frequent) {
+			_timeline.setup_pixels_per_time_unit ();
+			_timeline.Refresh ();
 		}
 	}
 
@@ -314,7 +319,8 @@ private:
 };
 
 enum {
-	ID_repeat
+	ID_repeat,
+	ID_remove
 };
 
 Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
@@ -339,7 +345,9 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	Connect (wxID_ANY, wxEVT_RIGHT_DOWN, wxMouseEventHandler (Timeline::right_down), 0, this);
 	Connect (wxID_ANY, wxEVT_MOTION, wxMouseEventHandler (Timeline::mouse_moved), 0, this);
 	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
+
 	Connect (ID_repeat, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Timeline::repeat), 0, this);
+	Connect (ID_remove, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Timeline::remove), 0, this);
 
 	playlist_changed ();
 
@@ -360,7 +368,7 @@ Timeline::paint (wxPaintEvent &)
 
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
 
-	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		(*i)->paint (gc);
 	}
 
@@ -378,9 +386,9 @@ Timeline::playlist_changed ()
 	_views.clear ();
 	_views.push_back (_time_axis_view);
 
-	Playlist::ContentList content = fl->playlist()->content ();
+	ContentList content = fl->playlist()->content ();
 
-	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
 			_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, 0)));
 		}
@@ -397,7 +405,7 @@ Timeline::playlist_changed ()
 void
 Timeline::assign_tracks ()
 {
-	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv) {
 			cv->set_track (0);
@@ -405,7 +413,7 @@ Timeline::assign_tracks ()
 		}
 	}
 
-	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<AudioContentView> acv = dynamic_pointer_cast<AudioContentView> (*i);
 		if (!acv) {
 			continue;
@@ -415,7 +423,7 @@ Timeline::assign_tracks ()
 		
 		int t = 1;
 		while (1) {
-			list<shared_ptr<View> >::iterator j = _views.begin();
+			ViewList::iterator j = _views.begin();
 			while (j != _views.end()) {
 				shared_ptr<AudioContentView> test = dynamic_pointer_cast<AudioContentView> (*j);
 				if (!test) {
@@ -470,7 +478,7 @@ Timeline::setup_pixels_per_time_unit ()
 shared_ptr<View>
 Timeline::event_to_view (wxMouseEvent& ev)
 {
-	list<shared_ptr<View> >::iterator i = _views.begin();
+	ViewList::iterator i = _views.begin();
 	Position<int> const p (ev.GetX(), ev.GetY());
 	while (i != _views.end() && !(*i)->bbox().contains (p)) {
 		++i;
@@ -496,7 +504,7 @@ Timeline::left_down (wxMouseEvent& ev)
 		_down_view_start = content_view->content()->start ();
 	}
 
-	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (!cv) {
 			continue;
@@ -563,6 +571,8 @@ Timeline::right_down (wxMouseEvent& ev)
 	if (!_menu) {
 		_menu = new wxMenu;
 		_menu->Append (ID_repeat, _("Repeat..."));
+		_menu->AppendSeparator ();
+		_menu->Append (ID_remove, _("Remove"));
 	}
 
 	PopupMenu (_menu, ev.GetPosition ());
@@ -612,7 +622,7 @@ Timeline::resized (wxSizeEvent &)
 void
 Timeline::clear_selection ()
 {
-	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
+	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv) {
 			cv->set_selected (false);
@@ -623,7 +633,7 @@ Timeline::clear_selection ()
 void
 Timeline::repeat (wxCommandEvent &)
 {
-	list<shared_ptr<ContentView> > sel = selected ();
+	ContentList sel = selected_content ();
 	if (sel.empty ()) {
 		return;
 	}
@@ -636,21 +646,32 @@ Timeline::repeat (wxCommandEvent &)
 		return;
 	}
 
-	list<shared_ptr<Content> > content;
-	for (list<shared_ptr<ContentView> >::iterator i = sel.begin(); i != sel.end(); ++i) {
-		content.push_back ((*i)->content ());
-	}
-
-	film->playlist()->repeat (content, d.number ());
+	film->playlist()->repeat (sel, d.number ());
 	d.Destroy ();
 }
 
-list<shared_ptr<ContentView> >
-Timeline::selected () const
+void
+Timeline::remove (wxCommandEvent &)
 {
-	list<shared_ptr<ContentView> > sel;
+	ContentList sel = selected_content ();
+	if (sel.empty ()) {
+		return;
+	}
+
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	film->playlist()->remove (sel);
+}
+
+Timeline::ContentViewList
+Timeline::selected_views () const
+{
+	ContentViewList sel;
 	
-	for (list<shared_ptr<View> >::const_iterator i = _views.begin(); i != _views.end(); ++i) {
+	for (ViewList::const_iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv && cv->selected()) {
 			sel.push_back (cv);
@@ -659,4 +680,16 @@ Timeline::selected () const
 
 	return sel;
 }
-		
+
+ContentList
+Timeline::selected_content () const
+{
+	ContentList sel;
+	ContentViewList views = selected_views ();
+	
+	for (ContentViewList::const_iterator i = views.begin(); i != views.end(); ++i) {
+		sel.push_back ((*i)->content ());
+	}
+
+	return sel;
+}

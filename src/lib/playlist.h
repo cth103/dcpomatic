@@ -60,10 +60,9 @@ public:
 
 	void add (boost::shared_ptr<Content>);
 	void remove (boost::shared_ptr<Content>);
+	void remove (ContentList);
 
 	bool has_subtitles () const;
-
-	typedef std::vector<boost::shared_ptr<Content> > ContentList;
 
 	ContentList content () const;
 
@@ -77,7 +76,7 @@ public:
 	void set_sequence_video (bool);
 	void maybe_sequence_video ();
 
-	void repeat (std::list<boost::shared_ptr<Content> >, int);
+	void repeat (ContentList, int);
 
 	mutable boost::signals2::signal<void ()> Changed;
 	/** Third parameter is true if signals are currently being emitted frequently */

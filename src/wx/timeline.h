@@ -61,6 +61,8 @@ public:
 
 	int tracks () const;
 
+	void setup_pixels_per_time_unit ();
+
 private:
 	void paint (wxPaintEvent &);
 	void left_down (wxMouseEvent &);
@@ -68,19 +70,24 @@ private:
 	void right_down (wxMouseEvent &);
 	void mouse_moved (wxMouseEvent &);
 	void playlist_changed ();
-	void setup_pixels_per_time_unit ();
 	void resized (wxSizeEvent &);
 	void assign_tracks ();
 	void set_start_from_event (wxMouseEvent &);
 	void clear_selection ();
+
 	void repeat (wxCommandEvent &);
+	void remove (wxCommandEvent &);
+
+	typedef std::vector<boost::shared_ptr<View> > ViewList;
+	typedef std::vector<boost::shared_ptr<ContentView> > ContentViewList;
 
 	boost::shared_ptr<View> event_to_view (wxMouseEvent &);
-	std::list<boost::shared_ptr<ContentView> > selected () const;
+	ContentViewList selected_views () const;
+	ContentList selected_content () const;
 
 	FilmEditor* _film_editor;
 	boost::weak_ptr<Film> _film;
-	std::list<boost::shared_ptr<View> > _views;
+	ViewList _views;
 	boost::shared_ptr<TimeAxisView> _time_axis_view;
 	int _tracks;
 	double _pixels_per_time_unit;

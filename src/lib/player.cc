@@ -401,10 +401,10 @@ Player::setup_pieces ()
 
 	_pieces.clear ();
 
-	Playlist::ContentList content = _playlist->content ();
+	ContentList content = _playlist->content ();
 	sort (content.begin(), content.end(), ContentSorter ());
 
-	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
 		shared_ptr<Piece> piece (new Piece (*i));
 

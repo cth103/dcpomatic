@@ -1132,8 +1132,8 @@ FilmEditor::setup_content ()
 	
 	_content->DeleteAllItems ();
 
-	Playlist::ContentList content = _film->content ();
-	for (Playlist::ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+	ContentList content = _film->content ();
+	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
 		_content->InsertItem (t, std_to_wx ((*i)->summary ()));
 		if ((*i)->summary() == selected_summary) {
@@ -1240,7 +1240,7 @@ FilmEditor::selected_content ()
 		return shared_ptr<Content> ();
 	}
 
-	Playlist::ContentList c = _film->content ();
+	ContentList c = _film->content ();
 	if (s < 0 || size_t (s) >= c.size ()) {
 		return shared_ptr<Content> ();
 	}
@@ -1466,7 +1466,7 @@ FilmEditor::length_changed ()
 void
 FilmEditor::set_selection (weak_ptr<Content> wc)
 {
-	Playlist::ContentList content = _film->content ();
+	ContentList content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
 		if (content[i] == wc.lock ()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);

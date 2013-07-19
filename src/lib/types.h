@@ -32,6 +32,7 @@ typedef int64_t Time;
 #define TIME_HZ	 ((Time) 96000)
 typedef int64_t OutputAudioFrame;
 typedef int	OutputVideoFrame;
+typedef std::vector<boost::shared_ptr<Content> > ContentList;
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

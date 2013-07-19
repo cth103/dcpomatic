@@ -106,7 +106,7 @@ public:
 
 	/* Proxies for some Playlist methods */
 
-	Playlist::ContentList content () const;
+	ContentList content () const;
 
 	Time length () const;
 	bool has_subtitles () const;
