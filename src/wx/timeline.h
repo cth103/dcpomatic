@@ -76,7 +76,7 @@ private:
 	void repeat (wxCommandEvent &);
 
 	boost::shared_ptr<View> event_to_view (wxMouseEvent &);
-	boost::shared_ptr<ContentView> selected () const;
+	std::list<boost::shared_ptr<ContentView> > selected () const;
 
 	FilmEditor* _film_editor;
 	boost::weak_ptr<Film> _film;

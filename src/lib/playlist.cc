@@ -42,6 +42,7 @@ using std::min;
 using std::max;
 using std::string;
 using std::stringstream;
+using std::pair;
 using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -291,14 +292,24 @@ Playlist::content () const
 }
 
 void
-Playlist::repeat (shared_ptr<Content> c, int n)
+Playlist::repeat (list<shared_ptr<Content> > c, int n)
 {
-	Time pos = c->end ();
+	pair<Time, Time> range (TIME_MAX, 0);
+	for (list<shared_ptr<Content> >::iterator i = c.begin(); i != c.end(); ++i) {
+		range.first = min (range.first, (*i)->start ());
+		range.second = max (range.second, (*i)->start ());
+		range.first = min (range.first, (*i)->end ());
+		range.second = max (range.second, (*i)->end ());
+	}
+
+	Time pos = range.second;
 	for (int i = 0; i < n; ++i) {
-		shared_ptr<Content> copy = c->clone ();
-		copy->set_start (pos);
-		_content.push_back (copy);
-		pos = copy->end ();
+		for (list<shared_ptr<Content> >::iterator i = c.begin(); i != c.end(); ++i) {
+			shared_ptr<Content> copy = (*i)->clone ();
+			copy->set_start (pos + copy->start() - range.first);
+			_content.push_back (copy);
+		}
+		pos += range.second - range.first;
 	}
 
 	reconnect ();

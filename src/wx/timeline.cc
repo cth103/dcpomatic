@@ -489,25 +489,32 @@ void
 Timeline::left_down (wxMouseEvent& ev)
 {
 	shared_ptr<View> view = event_to_view (ev);
+	shared_ptr<ContentView> content_view = dynamic_pointer_cast<ContentView> (view);
 
 	_down_view.reset ();
 
-	if (view) {
-		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (view);
-		if (cv) {
-			_down_view = cv;
-			_down_view_start = cv->content()->start ();
-		}
+	if (content_view) {
+		_down_view = content_view;
+		_down_view_start = content_view->content()->start ();
 	}
 
 	for (list<shared_ptr<View> >::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
-		if (cv) {
-			cv->set_selected (view == *i);
-			if (view == *i) {
-				_film_editor->set_selection (cv->content ());
-			}
+		if (!cv) {
+			continue;
 		}
+		
+		if (!ev.ShiftDown ()) {
+			cv->set_selected (view == *i);
+		}
+		
+		if (view == *i) {
+			_film_editor->set_selection (cv->content ());
+		}
+	}
+
+	if (content_view && ev.ShiftDown ()) {
+		content_view->set_selected (!content_view->selected ());
 	}
 
 	_left_down = true;
@@ -618,8 +625,8 @@ Timeline::clear_selection ()
 void
 Timeline::repeat (wxCommandEvent &)
 {
-	shared_ptr<ContentView> sel = selected ();
-	if (!sel) {
+	list<shared_ptr<ContentView> > sel = selected ();
+	if (sel.empty ()) {
 		return;
 	}
 		
@@ -631,20 +638,27 @@ Timeline::repeat (wxCommandEvent &)
 		return;
 	}
 
-	film->playlist()->repeat (sel->content (), d.number ());
+	list<shared_ptr<Content> > content;
+	for (list<shared_ptr<ContentView> >::iterator i = sel.begin(); i != sel.end(); ++i) {
+		content.push_back ((*i)->content ());
+	}
+
+	film->playlist()->repeat (content, d.number ());
 	d.Destroy ();
 }
 
-shared_ptr<ContentView>
+list<shared_ptr<ContentView> >
 Timeline::selected () const
 {
+	list<shared_ptr<ContentView> > sel;
+	
 	for (list<shared_ptr<View> >::const_iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (cv && cv->selected()) {
-			return cv;
+			sel.push_back (cv);
 		}
 	}
 
-	return shared_ptr<ContentView> ();
+	return sel;
 }
 		
