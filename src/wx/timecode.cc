@@ -18,6 +18,7 @@
 */
 
 #include <boost/lexical_cast.hpp>
+#include "lib/util.h"
 #include "timecode.h"
 #include "wx_util.h"
 
@@ -27,7 +28,6 @@ using boost::lexical_cast;
 
 Timecode::Timecode (wxWindow* parent)
 	: wxPanel (parent)
-	, _in_set (false)
 {
 	wxClientDC dc (parent);
 	wxSize size = dc.GetTextExtent (wxT ("9999"));
@@ -48,31 +48,34 @@ Timecode::Timecode (wxWindow* parent)
 	_hours->SetMaxLength (2);
 	sizer->Add (_hours);
 	add_label_to_sizer (sizer, this, wxT (":"), false);
-	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
+	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_minutes->SetMaxLength (2);
 	sizer->Add (_minutes);
 	add_label_to_sizer (sizer, this, wxT (":"), false);
-	_seconds = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
+	_seconds = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_seconds->SetMaxLength (2);
 	sizer->Add (_seconds);
 	add_label_to_sizer (sizer, this, wxT ("."), false);
-	_frames = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
+	_frames = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_frames->SetMaxLength (2);
 	sizer->Add (_frames);
+	_update_button = new wxButton (this, wxID_ANY, _("Update"));
+	sizer->Add (_update_button, 0, wxLEFT | wxRIGHT, 8);
 
 	_hours->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
 	_minutes->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
 	_seconds->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
 	_frames->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
+	_update_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (Timecode::update_clicked), 0, this);
 
+	_update_button->Enable (false);
+	
 	SetSizerAndFit (sizer);
 }
 
 void
 Timecode::set (Time t, int fps)
 {
-	_in_set = true;
-	
 	int const h = t / (3600 * TIME_HZ);
 	t -= h * 3600 * TIME_HZ;
 	int const m = t / (60 * TIME_HZ);
@@ -85,8 +88,6 @@ Timecode::set (Time t, int fps)
 	_minutes->SetValue (wxString::Format (wxT ("%d"), m));
 	_seconds->SetValue (wxString::Format (wxT ("%d"), s));
 	_frames->SetValue (wxString::Format (wxT ("%d"), f));
-
-	_in_set = false;
 }
 
 Time
@@ -101,15 +102,19 @@ Timecode::get (int fps) const
 	t += lexical_cast<int> (s.empty() ? "0" : s) * TIME_HZ;
 	string const f = wx_to_std (_frames->GetValue());
 	t += lexical_cast<int> (f.empty() ? "0" : f) * TIME_HZ / fps;
+
 	return t;
 }
 
 void
 Timecode::changed (wxCommandEvent &)
 {
-	if (_in_set) {
-		return;
-	}
-	
+	_update_button->Enable (true);
+}
+
+void
+Timecode::update_clicked (wxCommandEvent &)
+{
 	Changed ();
+	_update_button->Enable (false);
 }
