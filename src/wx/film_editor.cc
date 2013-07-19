@@ -50,6 +50,7 @@
 #include "audio_dialog.h"
 #include "timeline_dialog.h"
 #include "audio_mapping_view.h"
+#include "timing_panel.h"
 
 using std::string;
 using std::cout;
@@ -241,8 +242,6 @@ FilmEditor::connect_to_widgets ()
 	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
 		
 	_audio_mapping->Changed.connect	 (boost::bind (&FilmEditor::audio_mapping_changed, this, _1));
-	_start->Changed.connect		 (boost::bind (&FilmEditor::start_changed, this));
-	_length->Changed.connect	 (boost::bind (&FilmEditor::length_changed, this));
 }
 
 void
@@ -348,8 +347,7 @@ FilmEditor::make_content_panel ()
 	_content_notebook->AddPage (_audio_panel, _("Audio"), false);
 	make_subtitle_panel ();
 	_content_notebook->AddPage (_subtitle_panel, _("Subtitles"), false);
-	make_timing_panel ();
-	_content_notebook->AddPage (_timing_panel, _("Timing"), false);
+	_timing_panel = new TimingPanel (this);
 }
 
 void
@@ -447,24 +445,6 @@ FilmEditor::make_subtitle_panel ()
 	_subtitle_scale->SetRange (1, 1000);
 	_subtitle_scale->SetValue (100);
 }
-
-void
-FilmEditor::make_timing_panel ()
-{
-	_timing_panel = new wxPanel (_content_notebook);
-	wxBoxSizer* timing_sizer = new wxBoxSizer (wxVERTICAL);
-	_timing_panel->SetSizer (timing_sizer);
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
-	timing_sizer->Add (grid, 0, wxALL, 8);
-
-	add_label_to_sizer (grid, _timing_panel, _("Start time"), true);
-	_start = new Timecode (_timing_panel);
-	grid->Add (_start);
-	add_label_to_sizer (grid, _timing_panel, _("Length"), true);
-	_length = new Timecode (_timing_panel);
-	grid->Add (_length);
-}
-
 
 /** Called when the left crop widget has been changed */
 void
@@ -705,21 +685,11 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
+	_timing_panel->film_content_changed (content, property);
+
 	/* We can't use case {} here */
 	
-	if (property == ContentProperty::START) {
-		if (content) {
-			_start->set (content->start (), _film->dcp_video_frame_rate ());
-		} else {
-			_start->set (0, 24);
-		}
-	} else if (property == ContentProperty::LENGTH) {
-		if (content) {
-			_length->set (content->length (), _film->dcp_video_frame_rate ());
-		} else {
-			_length->set (0, 24);
-		}
-	} else if (property == VideoContentProperty::VIDEO_CROP) {
+	if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   video_content ? video_content->crop().left	: 0);
 		checked_set (_right_crop,  video_content ? video_content->crop().right	: 0);
 		checked_set (_top_crop,	   video_content ? video_content->crop().top	: 0);
@@ -1451,31 +1421,6 @@ FilmEditor::audio_mapping_changed (AudioMapping m)
 	}
 
 	ac->set_audio_mapping (m);
-}
-
-void
-FilmEditor::start_changed ()
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_start (_start->get (_film->dcp_video_frame_rate ()));
-}
-
-void
-FilmEditor::length_changed ()
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c);
-	if (ic) {
-		ic->set_video_length (_length->get(_film->dcp_video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
-	}
 }
 
 void

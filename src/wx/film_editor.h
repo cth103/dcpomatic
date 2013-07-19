@@ -38,6 +38,7 @@ class TimelineDialog;
 class AudioMappingView;
 class Ratio;
 class Timecode;
+class TimingPanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -52,13 +53,24 @@ public:
 
 	boost::signals2::signal<void (std::string)> FileChanged;
 
+	/* Stuff for panels */
+	
+	wxNotebook* content_notebook () const {
+		return _content_notebook;
+	}
+
+	boost::shared_ptr<Film> film () const {
+		return _film;
+	}
+
+	boost::shared_ptr<Content> selected_content ();
+
 private:
 	void make_dcp_panel ();
 	void make_content_panel ();
 	void make_video_panel ();
 	void make_audio_panel ();
 	void make_subtitle_panel ();
-	void make_timing_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
@@ -115,10 +127,11 @@ private:
 	void setup_content_sensitivity ();
 	
 	void active_jobs_changed (bool);
-	boost::shared_ptr<Content> selected_content ();
 	boost::shared_ptr<VideoContent> selected_video_content ();
 	boost::shared_ptr<AudioContent> selected_audio_content ();
 	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
+
+	TimingPanel* _timing_panel;
 
 	wxNotebook* _main_notebook;
 	wxNotebook* _content_notebook;
@@ -129,7 +142,6 @@ private:
 	wxPanel* _video_panel;
 	wxPanel* _audio_panel;
 	wxPanel* _subtitle_panel;
-	wxPanel* _timing_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -171,8 +183,6 @@ private:
 	wxStaticText* _audio_description;
 	wxChoice* _subtitle_stream;
 	AudioMappingView* _audio_mapping;
-	Timecode* _start;
-	Timecode* _length;
 	wxChoice* _dcp_resolution;
 
 	ContentMenu _menu;

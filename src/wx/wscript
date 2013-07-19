@@ -13,6 +13,7 @@ sources = """
           dci_metadata_dialog.cc
           dir_picker_ctrl.cc
           film_editor.cc
+          film_editor_panel.cc
           film_viewer.cc
           filter_dialog.cc
           filter_view.cc
@@ -26,6 +27,7 @@ sources = """
           timecode.cc
           timeline.cc
           timeline_dialog.cc
+          timing_panel.cc
           wx_util.cc
           wx_ui_signaller.cc
           """
