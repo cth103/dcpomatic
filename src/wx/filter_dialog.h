@@ -26,6 +26,7 @@
 
 class Film;
 class FilterView;
+class Filter;
 
 /** @class FilterDialog
  *  @brief A dialog to select FFmpeg filters.

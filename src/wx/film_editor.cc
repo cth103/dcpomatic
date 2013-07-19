@@ -42,7 +42,6 @@
 #include "lib/sound_processor.h"
 #include "lib/scaler.h"
 #include "timecode.h"
-#include "filter_dialog.h"
 #include "wx_util.h"
 #include "film_editor.h"
 #include "dci_metadata_dialog.h"
@@ -50,6 +49,7 @@
 #include "timing_panel.h"
 #include "subtitle_panel.h"
 #include "audio_panel.h"
+#include "video_panel.h"
 
 using std::string;
 using std::cout;
@@ -82,8 +82,6 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_dcp_panel ();
 	_main_notebook->AddPage (_dcp_panel, _("DCP"), false);
 	
-	setup_ratios ();
-
 	set_film (f);
 	connect_to_widgets ();
 
@@ -207,18 +205,12 @@ FilmEditor::connect_to_widgets ()
 	_use_dci_name->Connect		 (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,	wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
 	_edit_dci_button->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
 	_container->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::container_changed), 0, this);
-	_ratio->Connect			 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::ratio_changed), 0, this);
 	_content->Connect		 (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED,	wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
 	_content->Connect		 (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
 	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK,wxListEventHandler    (FilmEditor::content_right_click), 0, this);
 	_content_add->Connect		 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
 	_content_remove->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
 	_content_timeline->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
-	_left_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::left_crop_changed), 0, this);
-	_right_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::right_crop_changed), 0, this);
-	_top_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::top_crop_changed), 0, this);
-	_bottom_crop->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::bottom_crop_changed), 0, this);
-	_filters_button->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::edit_filters_clicked), 0, this);
 	_scaler->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
 	_dcp_content_type->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
 	_dcp_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
@@ -227,68 +219,6 @@ FilmEditor::connect_to_widgets ()
 	_j2k_bandwidth->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
 	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
 	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
-}
-
-void
-FilmEditor::make_video_panel ()
-{
-	_video_panel = new wxPanel (_content_notebook);
-	wxBoxSizer* video_sizer = new wxBoxSizer (wxVERTICAL);
-	_video_panel->SetSizer (video_sizer);
-	
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	video_sizer->Add (grid, 0, wxALL, 8);
-
-	int r = 0;
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Left crop"), true, wxGBPosition (r, 0));
-	_left_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_left_crop, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Right crop"), true, wxGBPosition (r, 0));
-	_right_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_right_crop, wxGBPosition (r, 1));
-	++r;
-	
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Top crop"), true, wxGBPosition (r, 0));
-	_top_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_top_crop, wxGBPosition (r, 1));
-	++r;
-	
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Bottom crop"), true, wxGBPosition (r, 0));
-	_bottom_crop = new wxSpinCtrl (_video_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_bottom_crop, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _video_panel, _("Scale to"), true, wxGBPosition (r, 0));
-	_ratio = new wxChoice (_video_panel, wxID_ANY);
-	grid->Add (_ratio, wxGBPosition (r, 1));
-	++r;
-
-	_scaling_description = new wxStaticText (_video_panel, wxID_ANY, wxT ("\n \n \n \n"), wxDefaultPosition, wxDefaultSize);
-	grid->Add (_scaling_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	wxFont font = _scaling_description->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_scaling_description->SetFont(font);
-	++r;
-
-	/* VIDEO-only stuff */
-	{
-		add_label_to_grid_bag_sizer (grid, _video_panel, _("Filters"), true, wxGBPosition (r, 0));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_filters = new wxStaticText (_video_panel, wxID_ANY, _("None"));
-		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-		_filters_button = new wxButton (_video_panel, wxID_ANY, _("Edit..."));
-		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
-		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	}
-	++r;
-
-	_left_crop->SetRange (0, 1024);
-	_top_crop->SetRange (0, 1024);
-	_right_crop->SetRange (0, 1024);
-	_bottom_crop->SetRange (0, 1024);
 }
 
 void
@@ -326,61 +256,11 @@ FilmEditor::make_content_panel ()
 	_content_notebook = new wxNotebook (_content_panel, wxID_ANY);
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
 
-	make_video_panel ();
-	_content_notebook->AddPage (_video_panel, _("Video"), false);
+	_video_panel = new VideoPanel (this);
 	_audio_panel = new AudioPanel (this);
 	_subtitle_panel = new SubtitlePanel (this);
 	_timing_panel = new TimingPanel (this);
 }
-
-/** Called when the left crop widget has been changed */
-void
-FilmEditor::left_crop_changed (wxCommandEvent &)
-{
-	shared_ptr<VideoContent> c = selected_video_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_left_crop (_left_crop->GetValue ());
-}
-
-/** Called when the right crop widget has been changed */
-void
-FilmEditor::right_crop_changed (wxCommandEvent &)
-{
-	shared_ptr<VideoContent> c = selected_video_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_right_crop (_right_crop->GetValue ());
-}
-
-/** Called when the top crop widget has been changed */
-void
-FilmEditor::top_crop_changed (wxCommandEvent &)
-{
-	shared_ptr<VideoContent> c = selected_video_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_top_crop (_top_crop->GetValue ());
-}
-
-/** Called when the bottom crop value has been changed */
-void
-FilmEditor::bottom_crop_changed (wxCommandEvent &)
-{
-	shared_ptr<VideoContent> c = selected_video_content ();
-	if (!c) {
-		return;
-	}
-
-	c->set_bottom_crop (_bottom_crop->GetValue ());
-}
-
 /** Called when the name widget has been changed */
 void
 FilmEditor::name_changed (wxCommandEvent &)
@@ -452,6 +332,7 @@ FilmEditor::film_changed (Film::Property p)
 
 	stringstream s;
 
+	_video_panel->film_changed (p);
 	_audio_panel->film_changed (p);
 	_subtitle_panel->film_changed (p);
 	_timing_panel->film_changed (p);
@@ -549,50 +430,13 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		ffmpeg_content = dynamic_pointer_cast<FFmpegContent> (content);
 	}
 
-	_audio_panel->film_content_changed    (content, audio_content, subtitle_content, ffmpeg_content, property);
-	_subtitle_panel->film_content_changed (content, audio_content, subtitle_content, ffmpeg_content, property);
-	_timing_panel->film_content_changed   (content, audio_content, subtitle_content, ffmpeg_content, property);
+	_video_panel->film_content_changed    (content, property);
+	_audio_panel->film_content_changed    (content, property);
+	_subtitle_panel->film_content_changed (content, property);
+	_timing_panel->film_content_changed   (content, property);
 
-	/* We can't use case {} here */
-	
-	if (property == VideoContentProperty::VIDEO_CROP) {
-		checked_set (_left_crop,   video_content ? video_content->crop().left	: 0);
-		checked_set (_right_crop,  video_content ? video_content->crop().right	: 0);
-		checked_set (_top_crop,	   video_content ? video_content->crop().top	: 0);
-		checked_set (_bottom_crop, video_content ? video_content->crop().bottom : 0);
-		setup_scaling_description ();
-	} else if (property == VideoContentProperty::VIDEO_RATIO) {
-		if (video_content) {
-			int n = 0;
-			vector<Ratio const *> ratios = Ratio::all ();
-			vector<Ratio const *>::iterator i = ratios.begin ();
-			while (i != ratios.end() && *i != video_content->ratio()) {
-				++i;
-				++n;
-			}
-
-			if (i == ratios.end()) {
-				checked_set (_ratio, -1);
-			} else {
-				checked_set (_ratio, n);
-			}
-		} else {
-			checked_set (_ratio, -1);
-		}
-		setup_scaling_description ();
-	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
+	if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
-	} else if (property == FFmpegContentProperty::FILTERS) {
-		if (ffmpeg_content) {
-			pair<string, string> p = Filter::ffmpeg_strings (ffmpeg_content->filters ());
-			if (p.first.empty () && p.second.empty ()) {
-				_filters->SetLabel (_("None"));
-			} else {
-				string const b = p.first + " " + p.second;
-				_filters->SetLabel (std_to_wx (b));
-			}
-			_dcp_sizer->Layout ();
-		}
 	}
 }
 
@@ -614,7 +458,7 @@ FilmEditor::setup_container ()
 	}
 	
 	setup_dcp_name ();
-	setup_scaling_description ();
+	_video_panel->setup_scaling_description ();
 }	
 
 /** Called when the container widget has been changed */
@@ -716,26 +560,6 @@ FilmEditor::set_things_sensitive (bool s)
 	_best_dcp_frame_rate->Enable (s && _film && _film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
 }
 
-/** Called when the `Edit filters' button has been clicked */
-void
-FilmEditor::edit_filters_clicked (wxCommandEvent &)
-{
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (!fc) {
-		return;
-	}
-	
-	FilterDialog* d = new FilterDialog (this, fc->filters());
-	d->ActiveChanged.connect (bind (&FFmpegContent::set_filters, fc, _1));
-	d->ShowModal ();
-	d->Destroy ();
-}
-
 /** Called when the scaler widget has been changed */
 void
 FilmEditor::scaler_changed (wxCommandEvent &)
@@ -748,19 +572,6 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 	if (n >= 0) {
 		_film->set_scaler (Scaler::from_index (n));
 	}
-}
-
-void
-FilmEditor::setup_ratios ()
-{
-	_ratios = Ratio::all ();
-
-	_ratio->Clear ();
-	for (vector<Ratio const *>::iterator i = _ratios.begin(); i != _ratios.end(); ++i) {
-		_ratio->Append (std_to_wx ((*i)->nickname ()));
-	}
-
-	_dcp_sizer->Layout ();
 }
 
 void
@@ -973,70 +784,6 @@ FilmEditor::selected_subtitle_content ()
 }
 
 void
-FilmEditor::setup_scaling_description ()
-{
-	shared_ptr<VideoContent> vc = selected_video_content ();
-	if (!vc) {
-		_scaling_description->SetLabel ("");
-		return;
-	}
-
-	wxString d;
-
-	int lines = 0;
-
-	if (vc->video_size().width && vc->video_size().height) {
-		d << wxString::Format (
-			_("Original video is %dx%d (%.2f:1)\n"),
-			vc->video_size().width, vc->video_size().height,
-			float (vc->video_size().width) / vc->video_size().height
-			);
-		++lines;
-	}
-
-	Crop const crop = vc->crop ();
-	if ((crop.left || crop.right || crop.top || crop.bottom) && vc->video_size() != libdcp::Size (0, 0)) {
-		libdcp::Size cropped = vc->video_size ();
-		cropped.width -= crop.left + crop.right;
-		cropped.height -= crop.top + crop.bottom;
-		d << wxString::Format (
-			_("Cropped to %dx%d (%.2f:1)\n"),
-			cropped.width, cropped.height,
-			float (cropped.width) / cropped.height
-			);
-		++lines;
-	}
-
-	Ratio const * ratio = vc->ratio ();
-	if (ratio) {
-		libdcp::Size container_size = _film->container()->size (_film->full_frame ());
-		
-		libdcp::Size const scaled = ratio->size (container_size);
-		d << wxString::Format (
-			_("Scaled to %dx%d (%.2f:1)\n"),
-			scaled.width, scaled.height,
-			float (scaled.width) / scaled.height
-			);
-		++lines;
-
-		if (scaled != container_size) {
-			d << wxString::Format (
-				_("Padded with black to %dx%d (%.2f:1)\n"),
-				container_size.width, container_size.height,
-				float (container_size.width) / container_size.height
-				);
-			++lines;
-		}
-	}
-
-	for (int i = lines; i < 4; ++i) {
-		d << wxT ("\n ");
-	}
-
-	_scaling_description->SetLabel (d);
-}
-
-void
 FilmEditor::content_timeline_clicked (wxCommandEvent &)
 {
 	if (_timeline_dialog) {
@@ -1058,31 +805,6 @@ FilmEditor::set_selection (weak_ptr<Content> wc)
 		} else {
 			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED | wxLIST_STATE_FOCUSED);
 		}
-	}
-}
-
-void
-FilmEditor::ratio_changed (wxCommandEvent &)
-{
-	if (!_film) {
-		return;
-	}
-
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
-	if (!vc) {
-		return;
-	}
-	
-	int const n = _ratio->GetSelection ();
-	if (n >= 0) {
-		vector<Ratio const *> ratios = Ratio::all ();
-		assert (n < int (ratios.size()));
-		vc->set_ratio (ratios[n]);
 	}
 }
 

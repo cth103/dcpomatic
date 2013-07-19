@@ -33,12 +33,7 @@ public:
 	FilmEditorPanel (FilmEditor *, wxString);
 
 	virtual void film_changed (Film::Property) {}
-	virtual void film_content_changed (
-		boost::shared_ptr<Content>,
-		boost::shared_ptr<AudioContent>,
-		boost::shared_ptr<SubtitleContent>,
-		boost::shared_ptr<FFmpegContent>,
-		int) = 0;
+	virtual void film_content_changed (boost::shared_ptr<Content>, int) = 0;
 	virtual void content_selection_changed () {}
 
 protected:

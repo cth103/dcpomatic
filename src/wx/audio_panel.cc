@@ -111,30 +111,27 @@ AudioPanel::film_changed (Film::Property property)
 }
 
 void
-AudioPanel::film_content_changed (
-	shared_ptr<Content>,
-	shared_ptr<AudioContent> audio_content,
-	shared_ptr<SubtitleContent>,
-	shared_ptr<FFmpegContent> ffmpeg_content,
-	int property
-	)
+AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 {
+	shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c);
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	
 	if (property == AudioContentProperty::AUDIO_GAIN) {
-		checked_set (_gain, audio_content ? audio_content->audio_gain() : 0);
+		checked_set (_gain, ac ? ac->audio_gain() : 0);
 	} else if (property == AudioContentProperty::AUDIO_DELAY) {
-		checked_set (_delay, audio_content ? audio_content->audio_delay() : 0);
+		checked_set (_delay, ac ? ac->audio_delay() : 0);
 	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
-		_mapping->set (audio_content ? audio_content->audio_mapping () : AudioMapping ());
+		_mapping->set (ac ? ac->audio_mapping () : AudioMapping ());
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_stream->Clear ();
-		if (ffmpeg_content) {
-			vector<shared_ptr<FFmpegAudioStream> > a = ffmpeg_content->audio_streams ();
+		if (fc) {
+			vector<shared_ptr<FFmpegAudioStream> > a = fc->audio_streams ();
 			for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
 				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 			}
 			
-			if (ffmpeg_content->audio_stream()) {
-				checked_set (_stream, lexical_cast<string> (ffmpeg_content->audio_stream()->id));
+			if (fc->audio_stream()) {
+				checked_set (_stream, lexical_cast<string> (fc->audio_stream()->id));
 			}
 		}
 		setup_sensitivity ();

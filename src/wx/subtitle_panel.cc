@@ -88,33 +88,30 @@ SubtitlePanel::film_changed (Film::Property property)
 }
 
 void
-SubtitlePanel::film_content_changed (
-	shared_ptr<Content>,
-	shared_ptr<AudioContent>,
-	shared_ptr<SubtitleContent> subtitle_content,
-	shared_ptr<FFmpegContent> ffmpeg_content,
-	int property
-	)
+SubtitlePanel::film_content_changed (shared_ptr<Content> c, int property)
 {
+	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c);
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	
 	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		_stream->Clear ();
-		if (ffmpeg_content) {
-			vector<shared_ptr<FFmpegSubtitleStream> > s = ffmpeg_content->subtitle_streams ();
+		if (fc) {
+			vector<shared_ptr<FFmpegSubtitleStream> > s = fc->subtitle_streams ();
 			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
 				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 			}
 			
-			if (ffmpeg_content->subtitle_stream()) {
-				checked_set (_stream, lexical_cast<string> (ffmpeg_content->subtitle_stream()->id));
+			if (fc->subtitle_stream()) {
+				checked_set (_stream, lexical_cast<string> (fc->subtitle_stream()->id));
 			} else {
 				_stream->SetSelection (wxNOT_FOUND);
 			}
 		}
 		setup_control_sensitivity ();
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET) {
-		checked_set (_offset, subtitle_content ? (subtitle_content->subtitle_offset() * 100) : 0);
+		checked_set (_offset, sc ? (sc->subtitle_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
-		checked_set (_scale, subtitle_content ? (subtitle_content->subtitle_scale() * 100) : 100);
+		checked_set (_scale, sc ? (sc->subtitle_scale() * 100) : 100);
 	}
 
 }

@@ -30,6 +30,7 @@ sources = """
           timeline.cc
           timeline_dialog.cc
           timing_panel.cc
+          video_panel.cc
           wx_util.cc
           wx_ui_signaller.cc
           """

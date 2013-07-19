@@ -32,12 +32,7 @@ public:
 	AudioPanel (FilmEditor *);
 
 	void film_changed (Film::Property);
-	void film_content_changed (
-		boost::shared_ptr<Content>,
-		boost::shared_ptr<AudioContent>,
-		boost::shared_ptr<SubtitleContent>,
-		boost::shared_ptr<FFmpegContent>,
-		int);
+	void film_content_changed (boost::shared_ptr<Content>, int);
 	void content_selection_changed ();
 
 	void setup_sensitivity ();

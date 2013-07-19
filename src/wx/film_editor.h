@@ -39,6 +39,7 @@ class Timecode;
 class TimingPanel;
 class SubtitlePanel;
 class AudioPanel;
+class VideoPanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -75,31 +76,22 @@ public:
 private:
 	void make_dcp_panel ();
 	void make_content_panel ();
-	void make_video_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
 	void name_changed (wxCommandEvent &);
 	void use_dci_name_toggled (wxCommandEvent &);
 	void edit_dci_button_clicked (wxCommandEvent &);
-	void left_crop_changed (wxCommandEvent &);
-	void right_crop_changed (wxCommandEvent &);
-	void top_crop_changed (wxCommandEvent &);
-	void bottom_crop_changed (wxCommandEvent &);
-	void trust_content_headers_changed (wxCommandEvent &);
 	void content_selection_changed (wxListEvent &);
 	void content_add_clicked (wxCommandEvent &);
 	void content_remove_clicked (wxCommandEvent &);
-	void imagemagick_video_length_changed (wxCommandEvent &);
 	void container_changed (wxCommandEvent &);
 	void dcp_content_type_changed (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
 	void dcp_frame_rate_changed (wxCommandEvent &);
 	void best_dcp_frame_rate_clicked (wxCommandEvent &);
-	void edit_filters_clicked (wxCommandEvent &);
 	void content_timeline_clicked (wxCommandEvent &);
-	void ratio_changed (wxCommandEvent &);
 	void dcp_audio_channels_changed (wxCommandEvent &);
 	void dcp_resolution_changed (wxCommandEvent &);
 	void sequence_video_changed (wxCommandEvent &);
@@ -110,15 +102,14 @@ private:
 	void film_content_changed (boost::weak_ptr<Content>, int);
 
 	void set_things_sensitive (bool);
-	void setup_ratios ();
 	void setup_dcp_name ();
-	void setup_scaling_description ();
 	void setup_content ();
 	void setup_container ();
 	void setup_content_sensitivity ();
 	
 	void active_jobs_changed (bool);
 
+	VideoPanel* _video_panel;
 	AudioPanel* _audio_panel;
 	SubtitlePanel* _subtitle_panel;
 	TimingPanel* _timing_panel;
@@ -129,7 +120,6 @@ private:
 	wxSizer* _dcp_sizer;
 	wxPanel* _content_panel;
 	wxSizer* _content_sizer;
-	wxPanel* _video_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -145,15 +135,6 @@ private:
 	wxButton* _content_timeline;
 	wxCheckBox* _sequence_video;
 	wxButton* _edit_dci_button;
-	wxChoice* _ratio;
-	wxStaticText* _ratio_description;
-	wxStaticText* _scaling_description;
-	wxSpinCtrl* _left_crop;
-	wxSpinCtrl* _right_crop;
-	wxSpinCtrl* _top_crop;
-	wxSpinCtrl* _bottom_crop;
-	wxStaticText* _filters;
-	wxButton* _filters_button;
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
