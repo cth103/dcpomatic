@@ -87,14 +87,15 @@ public:
 	dcpomatic::Rect<int> bbox () const
 	{
 		shared_ptr<const Film> film = _timeline.film ();
-		if (!film) {
+		shared_ptr<const Content> content = _content.lock ();
+		if (!film || !content) {
 			return dcpomatic::Rect<int> ();
 		}
 		
 		return dcpomatic::Rect<int> (
-			time_x (_content->start ()) - 8,
+			time_x (content->start ()) - 8,
 			y_pos (_track) - 8,
-			_content->length () * _timeline.pixels_per_time_unit() + 16,
+			content->length () * _timeline.pixels_per_time_unit() + 16,
 			_timeline.track_height() + 16
 			);
 	}
@@ -109,7 +110,7 @@ public:
 	}
 
 	shared_ptr<Content> content () const {
-		return _content;
+		return _content.lock ();
 	}
 
 	void set_track (int t) {
@@ -128,12 +129,13 @@ private:
 	void do_paint (wxGraphicsContext* gc)
 	{
 		shared_ptr<const Film> film = _timeline.film ();
-		if (!film) {
+		shared_ptr<const Content> cont = content ();
+		if (!film || !cont) {
 			return;
 		}
 
-		Time const start = _content->start ();
-		Time const len = _content->length ();
+		Time const start = cont->start ();
+		Time const len = cont->length ();
 
 		wxColour selected (colour().Red() / 2, colour().Green() / 2, colour().Blue() / 2);
 
@@ -155,7 +157,7 @@ private:
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
-		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (_content->file().filename().string()).data(), type().data());
+		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->file().filename().string()).data(), type().data());
 		wxDouble name_width;
 		wxDouble name_height;
 		wxDouble name_descent;
@@ -179,11 +181,7 @@ private:
 		}
 	}
 
-	/* This must be a shared_ptr, not a weak_ptr, as in the looped case this
-	   will be the only remaining pointer to the looped content that we get
-	   from the playlist.
-	*/
-	boost::shared_ptr<Content> _content;
+	boost::weak_ptr<Content> _content;
 	int _track;
 	bool _selected;
 

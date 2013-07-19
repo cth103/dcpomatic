@@ -84,10 +84,10 @@ Timecode::set (Time t, int fps)
 	t -= s * TIME_HZ;
 	int const f = t * fps / TIME_HZ;
 
-	_hours->SetValue (wxString::Format (wxT ("%d"), h));
-	_minutes->SetValue (wxString::Format (wxT ("%d"), m));
-	_seconds->SetValue (wxString::Format (wxT ("%d"), s));
-	_frames->SetValue (wxString::Format (wxT ("%d"), f));
+	checked_set (_hours, lexical_cast<string> (h));
+	checked_set (_minutes, lexical_cast<string> (m));
+	checked_set (_seconds, lexical_cast<string> (s));
+	checked_set (_frames, lexical_cast<string> (f));
 }
 
 Time
