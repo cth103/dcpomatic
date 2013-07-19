@@ -48,7 +48,7 @@ ImageMagickContent::ImageMagickContent (shared_ptr<const Film> f, shared_ptr<con
 string
 ImageMagickContent::summary () const
 {
-	return String::compose (_("Image: %1"), file().filename().string());
+	return String::compose (_("%1 [still]"), file().filename().string());
 }
 
 bool
