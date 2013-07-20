@@ -29,6 +29,7 @@
 #include "film_editor.h"
 
 using std::vector;
+using std::cout;
 using std::string;
 using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
@@ -101,6 +102,7 @@ AudioPanel::film_changed (Film::Property property)
 	switch (property) {
 	case Film::DCP_AUDIO_CHANNELS:
 		_mapping->set_channels (_editor->film()->dcp_audio_channels ());
+		_sizer->Layout ();
 		break;
 	default:
 		break;
@@ -123,6 +125,7 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 		checked_set (_delay, ac ? ac->audio_delay() : 0);
 	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
 		_mapping->set (ac ? ac->audio_mapping () : AudioMapping ());
+		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_stream->Clear ();
 		if (fc) {
