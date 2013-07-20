@@ -239,7 +239,7 @@ private:
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int);
 	std::string filename_safe_name () const;
-	void add_content_weak (boost::weak_ptr<Content>);
+	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;

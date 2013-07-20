@@ -28,6 +28,7 @@
 #include "util.h"
 #include "cross.h"
 #include "ui_signaller.h"
+#include "exceptions.h"
 
 #include "i18n.h"
 
@@ -82,6 +83,16 @@ Job::run_wrapper ()
 		}
 
 		set_error (e.what(), m);
+
+	} catch (OpenFileError& e) {
+
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
+		set_error (
+			String::compose (_("Could not open %1"), e.file().string()),
+			String::compose (_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."), e.file().string())
+			);
 
 	} catch (boost::thread_interrupted &) {
 

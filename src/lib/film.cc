@@ -744,13 +744,18 @@ void
 Film::examine_and_add_content (shared_ptr<Content> c)
 {
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
-	j->Finished.connect (bind (&Film::add_content_weak, this, boost::weak_ptr<Content> (c)));
+	j->Finished.connect (bind (&Film::maybe_add_content, this, boost::weak_ptr<Job> (j), boost::weak_ptr<Content> (c)));
 	JobManager::instance()->add (j);
 }
 
 void
-Film::add_content_weak (weak_ptr<Content> c)
+Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 {
+	shared_ptr<Job> job = j.lock ();
+	if (!job || !job->finished_ok ()) {
+		return;
+	}
+	
 	shared_ptr<Content> content = c.lock ();
 	if (content) {
 		add_content (content);
