@@ -503,6 +503,7 @@ class App : public wxApp
 	catch (exception& e)
 	{
 		error_dialog (0, wxString::Format ("DCP-o-matic could not start: %s", e.what ()));
+		return true;
 	}
 
 	void OnInitCmdLine (wxCmdLineParser& parser)
