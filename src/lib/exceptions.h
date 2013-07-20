@@ -27,6 +27,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <boost/exception/all.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 extern "C" {
 #include <libavutil/pixfmt.h>
@@ -87,7 +88,7 @@ public:
 	/** @param m Error message.
 	 *  @param f Name of the file that this exception concerns.
 	 */
-	FileError (std::string m, std::string f)
+	FileError (std::string m, boost::filesystem::path f)
 		: StringError (m)
 		, _file (f)
 	{}
@@ -95,13 +96,13 @@ public:
 	virtual ~FileError () throw () {}
 
 	/** @return name of the file that this exception concerns */
-	std::string file () const {
+	boost::filesystem::path file () const {
 		return _file;
 	}
 
 private:
 	/** name of the file that this exception concerns */
-	std::string _file;
+	boost::filesystem::path _file;
 };
 	
 
@@ -112,8 +113,7 @@ class OpenFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to open */
-	/* XXX: should be boost::filesystem::path */
-	OpenFileError (std::string f);
+	OpenFileError (boost::filesystem::path f);
 };
 
 /** @class CreateFileError.
@@ -123,7 +123,7 @@ class CreateFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to create */
-	CreateFileError (std::string f);
+	CreateFileError (boost::filesystem::path f);
 };
 
 
@@ -136,7 +136,7 @@ public:
 	/** @param f File that we were trying to read from.
 	 *  @param e errno value, or 0.
 	 */
-	ReadFileError (std::string f, int e = 0);
+	ReadFileError (boost::filesystem::path f, int e = 0);
 };
 
 /** @class WriteFileError.
@@ -148,7 +148,7 @@ public:
 	/** @param f File that we were trying to write to.
 	 *  @param e errno value, or 0.
 	 */
-	WriteFileError (std::string f, int e);
+	WriteFileError (boost::filesystem::path f, int e);
 };
 
 /** @class SettingError.

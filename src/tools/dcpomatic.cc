@@ -437,6 +437,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 class App : public wxApp
 {
 	bool OnInit ()
+	try
 	{
 		if (!wxApp::OnInit()) {
 			return false;
@@ -498,6 +499,10 @@ class App : public wxApp
 		this->Connect (-1, wxEVT_IDLE, wxIdleEventHandler (App::idle));
 
 		return true;
+	}
+	catch (exception& e)
+	{
+		error_dialog (0, wxString::Format ("DCP-o-matic could not start: %s", e.what ()));
 	}
 
 	void OnInitCmdLine (wxCmdLineParser& parser)

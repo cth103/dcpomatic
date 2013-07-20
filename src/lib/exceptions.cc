@@ -25,29 +25,29 @@
 using std::string;
 
 /** @param f File that we were trying to open */
-OpenFileError::OpenFileError (string f)
-	: FileError (String::compose (_("could not open file %1"), f), f)
+OpenFileError::OpenFileError (boost::filesystem::path f)
+	: FileError (String::compose (_("could not open file %1"), f.string()), f)
 {
 
 }
 
 /** @param f File that we were trying to create */
-CreateFileError::CreateFileError (string f)
-	: FileError (String::compose (_("could not create file %1"), f), f)
+CreateFileError::CreateFileError (boost::filesystem::path f)
+	: FileError (String::compose (_("could not create file %1"), f.string()), f)
 {
 
 }
 
-ReadFileError::ReadFileError (string f, int e)
-	: FileError ("", f)
+ReadFileError::ReadFileError (boost::filesystem::path f, int e)
+	: FileError (String::compose (_("could not read from file %1 (%2)"), f.string(), strerror (e)), f)
 {
-	_what = String::compose (_("could not read from file %1 (%2)"), f, strerror (e));
+
 }
 
-WriteFileError::WriteFileError (std::string f, int e)
-	: FileError ("", f)
+WriteFileError::WriteFileError (boost::filesystem::path f, int e)
+	: FileError (String::compose (_("could not write to file %1 (%2)"), f.string(), strerror (e)), f)
 {
-	_what = String::compose (_("could not write to file %1 (%2)"), f, strerror (e));
+	
 }
 
 MissingSettingError::MissingSettingError (string s)
