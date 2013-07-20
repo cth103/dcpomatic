@@ -39,15 +39,15 @@ public:
 		
 	JobManagerView (wxWindow *, Buttons);
 
-	void update ();
-
 private:
-	void periodic (wxTimerEvent &);
 	void cancel_clicked (wxCommandEvent &);
 	void pause_clicked (wxCommandEvent &);
 	void details_clicked (wxCommandEvent &);
 
-	boost::shared_ptr<wxTimer> _timer;
+	void job_added (boost::weak_ptr<Job>);
+	void progress (boost::weak_ptr<Job>);
+	void finished (boost::weak_ptr<Job>);
+
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
 	struct JobRecord {
@@ -56,7 +56,6 @@ private:
 		wxButton* cancel;
 		wxButton* pause;
 		wxButton* details;
-		bool finalised;
 		bool scroll_nudged;
 	};
 		

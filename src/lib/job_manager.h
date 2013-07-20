@@ -39,6 +39,7 @@ public:
 	bool work_to_do () const;
 	bool errors () const;
 
+	boost::signals2::signal<void (boost::weak_ptr<Job>)> JobAdded;
 	boost::signals2::signal<void (bool)> ActiveJobsChanged;
 
 	static JobManager* instance ();

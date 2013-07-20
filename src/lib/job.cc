@@ -215,6 +215,10 @@ Job::set_progress (float p)
 	if (paused ()) {
 		dcpomatic_sleep (1);
 	}
+
+	if (ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Progress)));
+	}
 }
 
 /** @return fractional overall progress, or -1 if not known */

@@ -31,6 +31,7 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::weak_ptr;
 
 JobManager* JobManager::_instance = 0;
 
@@ -43,8 +44,15 @@ JobManager::JobManager ()
 shared_ptr<Job>
 JobManager::add (shared_ptr<Job> j)
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_jobs.push_back (j);
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_jobs.push_back (j);
+	}
+
+	if (ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
+	}
+	
 	return j;
 }
 

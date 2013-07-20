@@ -32,6 +32,7 @@ using std::string;
 using std::list;
 using std::map;
 using boost::shared_ptr;
+using boost::weak_ptr;
 
 /** Must be called in the GUI thread */
 JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
@@ -54,115 +55,110 @@ JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
 
 	SetScrollRate (0, 32);
 
-	Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (JobManagerView::periodic), 0, this);
-	_timer.reset (new wxTimer (this));
-	_timer->Start (1000);
-
-	update ();
+	JobManager::instance()->JobAdded.connect (bind (&JobManagerView::job_added, this, _1));
 }
 
 void
-JobManagerView::periodic (wxTimerEvent &)
+JobManagerView::job_added (weak_ptr<Job> j)
 {
-	update ();
+	shared_ptr<Job> job = j.lock ();
+	if (!job) {
+		return;
+	}
+
+	wxStaticText* m = new wxStaticText (_panel, wxID_ANY, std_to_wx (job->name ()));
+	_table->Insert (0, m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	
+	JobRecord r;
+	int n = 1;
+	r.scroll_nudged = false;
+	r.gauge = new wxGauge (_panel, wxID_ANY, 100);
+	_table->Insert (n, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
+	++n;
+	
+	r.message = new wxStaticText (_panel, wxID_ANY, std_to_wx (""));
+	_table->Insert (n, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	++n;
+	
+	r.cancel = new wxButton (_panel, wxID_ANY, _("Cancel"));
+	r.cancel->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::cancel_clicked), 0, this);
+	_table->Insert (n, r.cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	++n;
+	
+	if (_buttons & PAUSE) {
+		r.pause = new wxButton (_panel, wxID_ANY, _("Pause"));
+		r.pause->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::pause_clicked), 0, this);
+		_table->Insert (n, r.pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+		++n;
+	}
+	
+	r.details = new wxButton (_panel, wxID_ANY, _("Details..."));
+	r.details->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::details_clicked), 0, this);
+	r.details->Enable (false);
+	_table->Insert (n, r.details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	++n;
+	
+	_job_records[job] = r;
+
+	job->Progress.connect (bind (&JobManagerView::progress, this, j));
+	job->Progress.connect (bind (&JobManagerView::finished, this, j));
+	
+	_table->Layout ();
+	FitInside ();
 }
 
-/** Update the view by examining the state of each job.
- *  Must be called in the GUI thread.
- */
 void
-JobManagerView::update ()
+JobManagerView::progress (weak_ptr<Job> j)
 {
-	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
+	shared_ptr<Job> job = j.lock ();
+	if (!job) {
+		return;
+	}
 
-	int index = 0;
+	float const p = job->overall_progress ();
+	if (p >= 0) {
+		checked_set (_job_records[job].message, job->status ());
+		_job_records[job].gauge->SetValue (p * 100);
+	} else {
+		checked_set (_job_records[job].message, wx_to_std (_("Running")));
+		_job_records[job].gauge->Pulse ();
+	}
 
-	for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
+	if (!_job_records[job].scroll_nudged && (job->running () || job->finished())) {
+		int x, y;
+		_job_records[job].gauge->GetPosition (&x, &y);
+		int px, py;
+		GetScrollPixelsPerUnit (&px, &py);
+		int vx, vy;
+		GetViewStart (&vx, &vy);
+		int sx, sy;
+		GetClientSize (&sx, &sy);
 		
-		if (_job_records.find (*i) == _job_records.end ()) {
-			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, std_to_wx ((*i)->name ()));
-			_table->Insert (index, m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
-			
-			JobRecord r;
-			int n = 1;
-			r.finalised = false;
-			r.scroll_nudged = false;
-			r.gauge = new wxGauge (_panel, wxID_ANY, 100);
-			_table->Insert (index + n, r.gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
-			++n;
-			
-			r.message = new wxStaticText (_panel, wxID_ANY, std_to_wx (""));
-			_table->Insert (index + n, r.message, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
-			++n;
-
-			r.cancel = new wxButton (_panel, wxID_ANY, _("Cancel"));
-			r.cancel->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::cancel_clicked), 0, this);
-			_table->Insert (index + n, r.cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
-			++n;
-
-			if (_buttons & PAUSE) {
-				r.pause = new wxButton (_panel, wxID_ANY, _("Pause"));
-				r.pause->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::pause_clicked), 0, this);
-				_table->Insert (index + n, r.pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
-				++n;
-			}
-			
-			r.details = new wxButton (_panel, wxID_ANY, _("Details..."));
-			r.details->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (JobManagerView::details_clicked), 0, this);
-			r.details->Enable (false);
-			_table->Insert (index + n, r.details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
-			++n;
-			
-			_job_records[*i] = r;
-
+		if (y > (vy * py + sy / 2)) {
+			Scroll (-1, y / py);
+			_job_records[job].scroll_nudged = true;
 		}
+	}
 
-		string const st = (*i)->status ();
+	_table->Layout ();
+	FitInside ();
+}
 
-		if (!(*i)->finished ()) {
-			float const p = (*i)->overall_progress ();
-			if (p >= 0) {
-				checked_set (_job_records[*i].message, st);
-				_job_records[*i].gauge->SetValue (p * 100);
-			} else {
-				checked_set (_job_records[*i].message, wx_to_std (_("Running")));
-				_job_records[*i].gauge->Pulse ();
-			}
-
-		}
-
-		if (!_job_records[*i].scroll_nudged && ((*i)->running () || (*i)->finished())) {
-			int x, y;
-			_job_records[*i].gauge->GetPosition (&x, &y);
-			int px, py;
-			GetScrollPixelsPerUnit (&px, &py);
-			int vx, vy;
-			GetViewStart (&vx, &vy);
-			int sx, sy;
-			GetClientSize (&sx, &sy);
-
-			if (y > (vy * py + sy / 2)) {
-				Scroll (-1, y / py);
-				_job_records[*i].scroll_nudged = true;
-			}
-		}
-			
-		if ((*i)->finished() && !_job_records[*i].finalised) {
-			checked_set (_job_records[*i].message, st);
-			if (!(*i)->finished_cancelled()) {
-				_job_records[*i].gauge->SetValue (100);
-			}
-			_job_records[*i].finalised = true;
-			_job_records[*i].cancel->Enable (false);
-			if (!(*i)->error_details().empty ()) {
-				_job_records[*i].details->Enable (true);
-			}
-		}
-
-		index += 5;
-		if (_buttons & PAUSE) {
-			++index;
-		}
+void
+JobManagerView::finished (weak_ptr<Job> j)
+{
+	shared_ptr<Job> job = j.lock ();
+	if (!job) {
+		return;
+	}
+	
+	checked_set (_job_records[job].message, job->status ());
+	if (!job->finished_cancelled ()) {
+		_job_records[job].gauge->SetValue (100);
+	}
+	_job_records[job].cancel->Enable (false);
+	if (!job->error_details().empty ()) {
+		_job_records[job].details->Enable (true);
 	}
 
 	_table->Layout ();
