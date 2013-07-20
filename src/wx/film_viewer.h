@@ -67,6 +67,7 @@ private:
 	void back_clicked (wxCommandEvent &);
 	void forward_clicked (wxCommandEvent &);
 	void player_changed (bool);
+	void set_position_text (Time);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;

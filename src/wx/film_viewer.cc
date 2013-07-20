@@ -122,6 +122,9 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_frame.reset ();
 	_queue.clear ();
 
+	_slider->SetValue (0);
+	set_position_text (0);
+	
 	if (!_film) {
 		return;
 	}
@@ -288,6 +291,18 @@ FilmViewer::process_video (shared_ptr<const Image> image, Time t)
 	_frame = image;
 	_got_frame = true;
 
+	set_position_text (t);
+}
+
+void
+FilmViewer::set_position_text (Time t)
+{
+	if (!_film) {
+		_frame_number->SetLabel ("0");
+		_timecode->SetLabel ("0:0:0.0");
+		return;
+	}
+		
 	double const fps = _film->dcp_video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
 	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ)) + 1));
@@ -300,7 +315,7 @@ FilmViewer::process_video (shared_ptr<const Image> image, Time t)
 	int const s = floor (w);
 	w -= s;
 	int const f = rint (w * fps);
-	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d:%02d"), h, m, s, f));
+	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f));
 }
 
 /** Ask the player to emit its next frame, then update our display */
