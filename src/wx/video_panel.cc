@@ -288,6 +288,7 @@ VideoPanel::setup_scaling_description ()
 	}
 
 	_scaling_description->SetLabel (d);
+	_sizer->Layout ();
 }
 
 
