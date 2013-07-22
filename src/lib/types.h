@@ -40,12 +40,21 @@ enum VideoFrameType
 	VIDEO_FRAME_TYPE_3D_LEFT_RIGHT
 };
 
+enum Eyes
+{
+	EYES_BOTH,
+	EYES_LEFT,
+	EYES_RIGHT,
+	EYES_COUNT
+};
+
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */
 struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
+	Crop (int l, int r, int t, int b) : left (l), right (r), top (t), bottom (b) {}
 
 	/** Number of pixels to remove from the left-hand side */
 	int left;

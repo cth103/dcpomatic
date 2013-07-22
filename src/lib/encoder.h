@@ -66,7 +66,7 @@ public:
 	 *  @param i Video frame image.
 	 *  @param same true if i is the same as the last time we were called.
 	 */
-	void process_video (boost::shared_ptr<const Image> i, bool same);
+	void process_video (boost::shared_ptr<const Image> i, Eyes eyes, bool same);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>);
@@ -100,7 +100,7 @@ private:
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
 
-	bool _have_a_real_frame;
+	bool _have_a_real_frame[EYES_COUNT];
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
 	std::list<boost::thread *> _threads;

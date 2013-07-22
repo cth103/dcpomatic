@@ -202,7 +202,7 @@ Player::pass ()
 }
 
 void
-Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
+Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame)
 {
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	if (!piece) {
@@ -242,11 +242,11 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	_last_video = piece->content;
 #endif	
 
-	Video (work_image, same, time);
+	Video (work_image, eyes, same, time);
 	time += TIME_HZ / _film->dcp_video_frame_rate();
 
 	if (frc.repeat) {
-		Video (work_image, true, time);
+		Video (work_image, eyes, true, time);
 		time += TIME_HZ / _film->dcp_video_frame_rate();
 	}
 
@@ -414,7 +414,7 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
-			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
+			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4));
 			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, piece, _1, _2, _3, _4));
 
@@ -435,7 +435,7 @@ Player::setup_pieces ()
 
 			if (!id) {
 				id.reset (new StillImageDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3));
+				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4));
 			}
 
 			piece->decoder = id;
@@ -479,6 +479,9 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET || property == SubtitleContentProperty::SUBTITLE_SCALE) {
 		update_subtitle ();
 		Changed (frequent);
+	} else if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
+		cout << "vft change.\n";
+		Changed (frequent);
 	}
 }
 
@@ -518,7 +521,7 @@ Player::emit_black ()
 #endif
 	
 	/* XXX: use same here */
-	Video (_black_frame, false, _video_position);
+	Video (_black_frame, EYES_BOTH, false, _video_position);
 	_video_position += _film->video_frames_to_time (1);
 }
 

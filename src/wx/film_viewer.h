@@ -58,7 +58,7 @@ private:
 	void slider_moved (wxScrollEvent &);
 	void play_clicked (wxCommandEvent &);
 	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<const Image>, Time);
+	void process_video (boost::shared_ptr<const Image>, Eyes, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void fetch_current_frame_again ();

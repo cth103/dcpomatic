@@ -151,6 +151,10 @@ FilmEditor::make_dcp_panel ()
 	grid->Add (_dcp_audio_channels, wxGBPosition (r, 1));
 	++r;
 
+	_dcp_3d = new wxCheckBox (_dcp_panel, wxID_ANY, _("3D"));
+	grid->Add (_dcp_3d, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Resolution"), true, wxGBPosition (r, 0));
 	_dcp_resolution = new wxChoice (_dcp_panel, wxID_ANY);
 	grid->Add (_dcp_resolution, wxGBPosition (r, 1));
@@ -219,6 +223,7 @@ FilmEditor::connect_to_widgets ()
 	_j2k_bandwidth->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
 	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
 	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
+	_dcp_3d->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilmEditor::dcp_3d_changed, this));
 }
 
 void
@@ -403,6 +408,9 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SEQUENCE_VIDEO:
 		checked_set (_sequence_video, _film->sequence_video ());
 		break;
+	case Film::DCP_3D:
+		checked_set (_dcp_3d, _film->dcp_3d ());
+		break;
 	}
 }
 
@@ -521,6 +529,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCP_VIDEO_FRAME_RATE);
 	film_changed (Film::DCP_AUDIO_CHANNELS);
 	film_changed (Film::SEQUENCE_VIDEO);
+	film_changed (Film::DCP_3D);
 
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
@@ -549,6 +558,7 @@ FilmEditor::set_general_sensitivity (bool s)
 	_sequence_video->Enable (s);
 	_dcp_resolution->Enable (s);
 	_scaler->Enable (s);
+	_dcp_3d->Enable (s);
 
 	/* Set the panels in the content notebook */
 	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
@@ -823,4 +833,14 @@ FilmEditor::content_right_click (wxListEvent& ev)
 	ContentList cl;
 	cl.push_back (selected_content ());
 	_menu.popup (cl, ev.GetPoint ());
+}
+
+void
+FilmEditor::dcp_3d_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_dcp_3d (_dcp_3d->GetValue ());
 }

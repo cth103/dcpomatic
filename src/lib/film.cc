@@ -95,6 +95,7 @@ Film::Film (string d)
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _dcp_video_frame_rate (24)
 	, _dcp_audio_channels (MAX_AUDIO_CHANNELS)
+	, _dcp_3d (false)
 	, _sequence_video (true)
 	, _dirty (false)
 {
@@ -140,6 +141,10 @@ Film::video_identifier () const
 	  << "_" << _dcp_video_frame_rate
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth();
+
+	if (_dcp_3d) {
+		s << "_3D";
+	}
 
 	return s.str ();
 }
@@ -327,6 +332,7 @@ Film::write_metadata () const
 	root->add_child("DCPVideoFrameRate")->add_child_text (lexical_cast<string> (_dcp_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 	root->add_child("DCPAudioChannels")->add_child_text (lexical_cast<string> (_dcp_audio_channels));
+	root->add_child("DCP3D")->add_child_text (_dcp_3d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));
 
@@ -437,6 +443,14 @@ Film::dci_name (bool if_created_now) const
 
 	if (dcp_content_type()) {
 		d << "_" << dcp_content_type()->dci_name();
+	}
+
+	if (dcp_3d ()) {
+		d << "-3D";
+	}
+
+	if (dcp_video_frame_rate() != 24) {
+		d << "-" << dcp_video_frame_rate();
 	}
 
 	if (container()) {
@@ -636,6 +650,16 @@ Film::set_dcp_audio_channels (int c)
 }
 
 void
+Film::set_dcp_3d (bool t)
+{
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_dcp_3d = t;
+	}
+	signal_changed (DCP_3D);
+}
+
+void
 Film::signal_changed (Property p)
 {
 	{
@@ -667,15 +691,23 @@ Film::set_dci_date_today ()
 }
 
 string
-Film::info_path (int f) const
+Film::info_path (int f, Eyes e) const
 {
 	boost::filesystem::path p;
 	p /= info_dir ();
 
 	stringstream s;
 	s.width (8);
-	s << setfill('0') << f << ".md5";
+	s << setfill('0') << f;
 
+	if (e == EYES_LEFT) {
+		s << ".L";
+	} else if (e == EYES_RIGHT) {
+		s << ".R";
+	}
+
+	s << ".md5";
+	
 	p /= s.str();
 
 	/* info_dir() will already have added any initial bit of the path,
@@ -685,7 +717,7 @@ Film::info_path (int f) const
 }
 
 string
-Film::j2c_path (int f, bool t) const
+Film::j2c_path (int f, Eyes e, bool t) const
 {
 	boost::filesystem::path p;
 	p /= "j2c";
@@ -693,7 +725,15 @@ Film::j2c_path (int f, bool t) const
 
 	stringstream s;
 	s.width (8);
-	s << setfill('0') << f << ".j2c";
+	s << setfill('0') << f;
+
+	if (e == EYES_LEFT) {
+		s << ".L";
+	} else if (e == EYES_RIGHT) {
+		s << ".R";
+	}
+	
+	s << ".j2c";
 
 	if (t) {
 		s << ".tmp";

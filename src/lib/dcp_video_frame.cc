@@ -77,10 +77,11 @@ using libdcp::Size;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const Image> image, int f, int dcp_fps, int bw, shared_ptr<Log> l
+	shared_ptr<const Image> image, int f, Eyes eyes, int dcp_fps, int bw, shared_ptr<Log> l
 	)
 	: _image (image)
 	, _frame (f)
+	, _eyes (eyes)
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _log (l)
@@ -102,7 +103,11 @@ DCPVideoFrame::encode_locally ()
 		);
 		
 	/* Set the max image and component sizes based on frame_rate */
-	int const max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
+	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
+	if (_eyes == EYES_LEFT || _eyes == EYES_RIGHT) {
+		/* In 3D we have only half the normal bandwidth per eye */
+		max_cs_len /= 2;
+	}
 	int const max_comp_size = max_cs_len / 1.25;
 
 	/* get a J2K compressor handle */
@@ -208,12 +213,13 @@ DCPVideoFrame::encode_remotely (ServerDescription const * serv)
 	socket->connect (*endpoint_iterator);
 
 	stringstream s;
-	s << N_("encode please\n")
-	  << N_("width ") << _image->size().width << N_("\n")
-	  << N_("height ") << _image->size().height << N_("\n")
-	  << N_("frame ") << _frame << N_("\n")
-	  << N_("frames_per_second ") << _frames_per_second << N_("\n")
-	  << N_("j2k_bandwidth ") << _j2k_bandwidth << N_("\n");
+	s << "encode please\n"
+	  << "width " << _image->size().width << "\n"
+	  << "height " << _image->size().height << "\n"
+	  << "eyes " << static_cast<int> (_eyes) << "\n"
+	  << "frame " << _frame << "\n"
+	  << "frames_per_second " << _frames_per_second << "\n"
+	  << "j2k_bandwidth " << _j2k_bandwidth << "\n";
 
 	_log->log (String::compose (
 			   N_("Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)"),
@@ -272,9 +278,9 @@ EncodedData::~EncodedData ()
  *  @param frame DCP frame index.
  */
 void
-EncodedData::write (shared_ptr<const Film> film, int frame) const
+EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 {
-	string const tmp_j2c = film->j2c_path (frame, true);
+	string const tmp_j2c = film->j2c_path (frame, eyes, true);
 
 	FILE* f = fopen (tmp_j2c.c_str (), N_("wb"));
 	
@@ -285,16 +291,16 @@ EncodedData::write (shared_ptr<const Film> film, int frame) const
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
-	string const real_j2c = film->j2c_path (frame, false);
+	string const real_j2c = film->j2c_path (frame, eyes, false);
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
 	boost::filesystem::rename (tmp_j2c, real_j2c);
 }
 
 void
-EncodedData::write_info (shared_ptr<const Film> film, int frame, libdcp::FrameInfo fin) const
+EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, libdcp::FrameInfo fin) const
 {
-	string const info = film->info_path (frame);
+	string const info = film->info_path (frame, eyes);
 	ofstream h (info.c_str());
 	fin.write (h);
 }

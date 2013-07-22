@@ -28,6 +28,7 @@
 using std::vector;
 using std::string;
 using std::pair;
+using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
@@ -103,7 +104,7 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->Append (_("2D"));
 	_frame_type->Append (_("3D left/right"));
 
-	_frame_type->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, bind (&VideoPanel::frame_type_changed, this));
+	_frame_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, bind (&VideoPanel::frame_type_changed, this));
 	_left_crop->Connect      (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::left_crop_changed), 0, this);
 	_right_crop->Connect     (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::right_crop_changed), 0, this);
 	_top_crop->Connect       (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::top_crop_changed), 0, this);
@@ -180,7 +181,7 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
 
 	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
-		checked_set (_frame_type, vc->video_frame_type ());
+		checked_set (_frame_type, vc ? vc->video_frame_type () : VIDEO_FRAME_TYPE_2D);
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   vc ? vc->crop().left	: 0);
 		checked_set (_right_crop,  vc ? vc->crop().right	: 0);

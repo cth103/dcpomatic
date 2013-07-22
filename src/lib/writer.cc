@@ -99,7 +99,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 }
 
 void
-Writer::write (shared_ptr<const EncodedData> encoded, int frame)
+Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -107,6 +107,7 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame)
 	qi.type = QueueItem::FULL;
 	qi.encoded = encoded;
 	qi.frame = frame;
+	qi.eyes = eyes;
 	_queue.push_back (qi);
 	++_queued_full_in_memory;
 
@@ -114,17 +115,18 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame)
 }
 
 void
-Writer::fake_write (int frame)
+Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
-	ifstream ifi (_film->info_path (frame).c_str());
+	ifstream ifi (_film->info_path (frame, eyes).c_str());
 	libdcp::FrameInfo info (ifi);
 	
 	QueueItem qi;
 	qi.type = QueueItem::FAKE;
 	qi.size = info.size;
 	qi.frame = frame;
+	qi.eyes = eyes;
 	_queue.push_back (qi);
 
 	_condition.notify_all ();
@@ -135,6 +137,23 @@ void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
 	_sound_asset_writer->write (audio->data(), audio->frames());
+}
+
+/** This must be called from Writer::thread() with an appropriate lock held */
+bool
+Writer::have_sequenced_image_at_queue_head () const
+{
+	if (_queue.empty ()) {
+		return false;
+	}
+
+	/* We assume that we will get either all 2D frames or all 3D frames, not a mixture */
+	
+	bool const eyes_ok = (_queue.front().eyes == EYES_BOTH) ||
+		(_queue.front().eyes == EYES_LEFT && _last_written_eyes == EYES_RIGHT) ||
+		(_queue.front().eyes == EYES_RIGHT && _last_written_eyes == EYES_LEFT);
+	
+	return _queue.front().frame == (_last_written_frame + 1) && eyes_ok;
 }
 
 void
@@ -149,10 +168,7 @@ try
 			
 			_queue.sort ();
 			
-			if (_finish ||
-			    _queued_full_in_memory > _maximum_frames_in_memory ||
-			    (!_queue.empty() && _queue.front().frame == (_last_written_frame + 1))) {
-				
+			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
 				break;
 			}
 			
@@ -166,7 +182,7 @@ try
 		}
 
 		/* Write any frames that we can write; i.e. those that are in sequence */
-		while (!_queue.empty() && _queue.front().frame == (_last_written_frame + 1)) {
+		while (have_sequenced_image_at_queue_head ()) {
 			QueueItem qi = _queue.front ();
 			_queue.pop_front ();
 			if (qi.type == QueueItem::FULL && qi.encoded) {
@@ -179,10 +195,10 @@ try
 			{
 				_film->log()->log (String::compose (N_("Writer FULL-writes %1 to MXF"), qi.frame));
 				if (!qi.encoded) {
-					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, false)));
+					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
 				libdcp::FrameInfo const fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
-				qi.encoded->write_info (_film, qi.frame, fin);
+				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
 				_last_written = qi.encoded;
 				++_full_written;
 				break;
@@ -197,7 +213,7 @@ try
 			{
 				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
 				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size());
-				_last_written->write_info (_film, qi.frame, fin);
+				_last_written->write_info (_film, qi.frame, qi.eyes, fin);
 				++_repeat_written;
 				break;
 			}
@@ -231,7 +247,7 @@ try
 			
 			lock.unlock ();
 			_film->log()->log (String::compose (N_("Writer full (awaiting %1); pushes %2 to disk"), _last_written_frame + 1, qi.frame));
-			qi.encoded->write (_film, qi.frame);
+			qi.encoded->write (_film, qi.frame, qi.eyes);
 			lock.lock ();
 			qi.encoded.reset ();
 			--_queued_full_in_memory;
@@ -324,19 +340,44 @@ Writer::finish ()
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */
 void
-Writer::repeat (int f)
+Writer::repeat (int f, Eyes e)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
 	QueueItem qi;
 	qi.type = QueueItem::REPEAT;
 	qi.frame = f;
+	qi.eyes = e;
 	
 	_queue.push_back (qi);
 
 	_condition.notify_all ();
 }
 
+bool
+Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
+{
+	/* Read the frame info as written */
+	ifstream ifi (_film->info_path (f, eyes).c_str());
+	libdcp::FrameInfo info (ifi);
+	
+	/* Read the data from the MXF and hash it */
+	fseek (mxf, info.offset, SEEK_SET);
+	EncodedData data (info.size);
+	size_t const read = fread (data.data(), 1, data.size(), mxf);
+	if (read != static_cast<size_t> (data.size ())) {
+		_film->log()->log (String::compose ("Existing frame %1 is incomplete", f));
+		return false;
+	}
+	
+	string const existing_hash = md5_digest (data.data(), data.size());
+	if (existing_hash != info.hash) {
+		_film->log()->log (String::compose ("Existing frame %1 failed hash check", f));
+		return false;
+	}
+
+	return true;
+}
 
 void
 Writer::check_existing_picture_mxf ()
@@ -353,23 +394,17 @@ Writer::check_existing_picture_mxf ()
 
 	while (1) {
 
-		/* Read the frame info as written */
-		ifstream ifi (_film->info_path (_first_nonexistant_frame).c_str());
-		libdcp::FrameInfo info (ifi);
-
-		/* Read the data from the MXF and hash it */
-		fseek (mxf, info.offset, SEEK_SET);
-		EncodedData data (info.size);
-		size_t const read = fread (data.data(), 1, data.size(), mxf);
-		if (read != static_cast<size_t> (data.size ())) {
-			_film->log()->log (String::compose ("Existing frame %1 is incomplete", _first_nonexistant_frame));
-			break;
-		}
-		
-		string const existing_hash = md5_digest (data.data(), data.size());
-		if (existing_hash != info.hash) {
-			_film->log()->log (String::compose ("Existing frame %1 failed hash check", _first_nonexistant_frame));
-			break;
+		if (_film->dcp_3d ()) {
+			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_LEFT)) {
+				break;
+			}
+			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_RIGHT)) {
+				break;
+			}
+		} else {
+			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_BOTH)) {
+				break;
+			}
 		}
 
 		_film->log()->log (String::compose ("Have existing frame %1", _first_nonexistant_frame));
@@ -394,11 +429,15 @@ Writer::can_fake_write (int frame) const
 bool
 operator< (QueueItem const & a, QueueItem const & b)
 {
-	return a.frame < b.frame;
+	if (a.frame != b.frame) {
+		return a.frame < b.frame;
+	}
+	
+	return a.eyes == EYES_LEFT && b.eyes == EYES_RIGHT;
 }
 
 bool
 operator== (QueueItem const & a, QueueItem const & b)
 {
-	return a.frame == b.frame;
+	return a.frame == b.frame && a.eyes == b.eyes;
 }

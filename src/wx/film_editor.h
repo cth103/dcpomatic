@@ -89,6 +89,7 @@ private:
 	void dcp_resolution_changed (wxCommandEvent &);
 	void sequence_video_changed (wxCommandEvent &);
 	void content_right_click (wxListEvent &);
+	void dcp_3d_changed ();
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -135,6 +136,7 @@ private:
 	wxChoice* _dcp_frame_rate;
 	wxSpinCtrl* _dcp_audio_channels;
 	wxButton* _best_dcp_frame_rate;
+	wxCheckBox* _dcp_3d;
 	wxChoice* _dcp_resolution;
 
 	ContentMenu _menu;

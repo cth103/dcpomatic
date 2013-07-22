@@ -109,15 +109,12 @@ AudioMappingView::left_click (wxGridEvent& ev)
 	}
 	
 	if (_grid->GetCellValue (ev.GetRow(), ev.GetCol()) == wxT("1")) {
-		cout << "set " << ev.GetRow() << " " << ev.GetCol() << " to 0.\n";
 		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("0"));
 	} else {
-		cout << "set " << ev.GetRow() << " " << ev.GetCol() << " to 1.\n";
 		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("1"));
 	}
 
 	_map = AudioMapping (_map.content_channels ());
-	cout << "was: " << _map.dcp_to_content(libdcp::CENTRE).size() << "\n";
 	
 	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
@@ -127,7 +124,6 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		}
 	}
 
-	cout << "changed: " << _map.dcp_to_content(libdcp::CENTRE).size() << "\n";
 	Changed (_map);
 }
 

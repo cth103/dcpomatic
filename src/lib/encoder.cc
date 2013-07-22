@@ -52,10 +52,11 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _film (f)
 	, _job (j)
 	, _video_frames_out (0)
-	, _have_a_real_frame (false)
 	, _terminate (false)
 {
-	
+	_have_a_real_frame[EYES_BOTH] = false;
+	_have_a_real_frame[EYES_LEFT] = false;
+	_have_a_real_frame[EYES_RIGHT] = false;
 }
 
 Encoder::~Encoder ()
@@ -117,7 +118,7 @@ Encoder::process_end ()
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
 		_film->log()->log (String::compose (N_("Encode left-over frame %1"), (*i)->frame ()));
 		try {
-			_writer->write ((*i)->encode_locally(), (*i)->frame ());
+			_writer->write ((*i)->encode_locally(), (*i)->frame (), (*i)->eyes ());
 			frame_done ();
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
@@ -170,7 +171,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<const Image> image, bool same)
+Encoder::process_video (shared_ptr<const Image> image, Eyes eyes, bool same)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -190,25 +191,25 @@ Encoder::process_video (shared_ptr<const Image> image, bool same)
 	}
 
 	if (_writer->can_fake_write (_video_frames_out)) {
-		_writer->fake_write (_video_frames_out);
-		_have_a_real_frame = false;
+		_writer->fake_write (_video_frames_out, eyes);
+		_have_a_real_frame[eyes] = false;
 		frame_done ();
-	} else if (same && _have_a_real_frame) {
+	} else if (same && _have_a_real_frame[eyes]) {
 		/* Use the last frame that we encoded. */
-		_writer->repeat (_video_frames_out);
+		_writer->repeat (_video_frames_out, eyes);
 		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, _video_frames_out, _film->dcp_video_frame_rate(),
+						  image, _video_frames_out, eyes, _film->dcp_video_frame_rate(),
 						  _film->j2k_bandwidth(), _film->log()
 						  )
 					  ));
 		
 		_condition.notify_all ();
-		_have_a_real_frame = true;
+		_have_a_real_frame[eyes] = true;
 	}
 
 	++_video_frames_out;
@@ -302,7 +303,7 @@ Encoder::encoder_thread (ServerDescription* server)
 		}
 
 		if (encoded) {
-			_writer->write (encoded, vf->frame ());
+			_writer->write (encoded, vf->frame (), vf->eyes ());
 			frame_done ();
 		} else {
 			lock.lock ();

@@ -131,7 +131,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_player = f->make_player ();
 	_player->disable_audio ();
-	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _3));
+	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _4));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
@@ -280,8 +280,12 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<const Image> image, Time t)
+FilmViewer::process_video (shared_ptr<const Image> image, Eyes eyes, Time t)
 {
+	if (eyes == EYES_RIGHT) {
+		return;
+	}
+	
 	if (_got_frame) {
 		/* This is an additional frame emitted by a single pass.  Store it. */
 		_queue.push_front (make_pair (image, t));
@@ -332,7 +336,7 @@ FilmViewer::fetch_next_frame ()
 	_got_frame = false;
 	
 	if (!_queue.empty ()) {
-		process_video (_queue.back().first, _queue.back().second);
+		process_video (_queue.back().first, EYES_BOTH, _queue.back().second);
 		_queue.pop_back ();
 	} else {
 		try {

@@ -60,10 +60,11 @@ public:
 
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
-	 *  Second parameter is true if the image is the same as the last one that was emitted.
-	 *  Third parameter is the time.
+	 *  Second parameter is the eye(s) that should see this image.
+	 *  Third parameter is true if the image is the same as the last one that was emitted.
+	 *  Fourth parameter is the time.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, bool, Time)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, Time)> Video;
 	
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;
@@ -79,7 +80,7 @@ public:
 private:
 	friend class PlayerWrapper;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 	void setup_pieces ();

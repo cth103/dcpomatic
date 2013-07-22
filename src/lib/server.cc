@@ -105,13 +105,14 @@ Server::process (shared_ptr<Socket> socket)
 	int frame = get_required_int (kv, "frame");
 	int frames_per_second = get_required_int (kv, "frames_per_second");
 	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
+	Eyes eyes = static_cast<Eyes> (get_required_int (kv, "eyes"));
 
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
 	image->read_from_socket (socket);
 
 	DCPVideoFrame dcp_video_frame (
-		image, frame, frames_per_second, j2k_bandwidth, _log
+		image, frame, eyes, frames_per_second, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();

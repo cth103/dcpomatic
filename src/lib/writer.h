@@ -22,6 +22,7 @@
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include "exceptions.h"
+#include "types.h"
 
 class Film;
 class EncodedData;
@@ -56,6 +57,7 @@ public:
 	int size;
 	/** frame index */
 	int frame;
+	Eyes eyes;
 };
 
 bool operator< (QueueItem const & a, QueueItem const & b);
@@ -68,16 +70,18 @@ public:
 
 	bool can_fake_write (int) const;
 	
-	void write (boost::shared_ptr<const EncodedData>, int);
-	void fake_write (int);
+	void write (boost::shared_ptr<const EncodedData>, int, Eyes);
+	void fake_write (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
-	void repeat (int f);
+	void repeat (int f, Eyes);
 	void finish ();
 
 private:
 
 	void thread ();
 	void check_existing_picture_mxf ();
+	bool check_existing_picture_mxf_frame (FILE *, int, Eyes);
+	bool have_sequenced_image_at_queue_head () const;
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
@@ -101,6 +105,7 @@ private:
 	boost::shared_ptr<const EncodedData> _last_written;
 	/** the index of the last written frame */
 	int _last_written_frame;
+	Eyes _last_written_eyes;
 	/** maximum number of frames to hold in memory, for when we are managing
 	    ordering
 	*/

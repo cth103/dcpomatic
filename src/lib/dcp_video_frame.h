@@ -47,8 +47,8 @@ public:
 	virtual ~EncodedData ();
 
 	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const Film>, int) const;
-	void write_info (boost::shared_ptr<const Film>, int, libdcp::FrameInfo) const;
+	void write (boost::shared_ptr<const Film>, int, Eyes) const;
+	void write_info (boost::shared_ptr<const Film>, int, Eyes, libdcp::FrameInfo) const;
 
 	/** @return data */
 	uint8_t* data () const {
@@ -101,11 +101,15 @@ public:
 class DCPVideoFrame : public boost::noncopyable
 {
 public:
-	DCPVideoFrame (boost::shared_ptr<const Image>, int, int, int, boost::shared_ptr<Log>);
+	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, int, int, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
 
+	Eyes eyes () const {
+		return _eyes;
+	}
+	
 	int frame () const {
 		return _frame;
 	}
@@ -113,6 +117,7 @@ public:
 private:
 	boost::shared_ptr<const Image> _image;
 	int _frame;			 ///< frame index within the DCP's intrinsic duration
+	Eyes _eyes;
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 

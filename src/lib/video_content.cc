@@ -35,6 +35,7 @@ int const VideoContentProperty::VIDEO_RATIO	 = 4;
 using std::string;
 using std::stringstream;
 using std::setprecision;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
@@ -231,7 +232,7 @@ VideoContent::set_video_frame_type (VideoFrameType t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_video_frame_rate = t;
+		_video_frame_type = t;
 	}
 
 	signal_changed (VideoContentProperty::VIDEO_FRAME_TYPE);

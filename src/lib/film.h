@@ -55,8 +55,8 @@ public:
 	Film (std::string d);
 
 	std::string info_dir () const;
-	std::string j2c_path (int f, bool t) const;
-	std::string info_path (int f) const;
+	std::string j2c_path (int, Eyes, bool) const;
+	std::string info_path (int, Eyes) const;
 	std::string internal_video_mxf_dir () const;
 	std::string internal_video_mxf_filename () const;
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const AudioContent>) const;
@@ -130,7 +130,9 @@ public:
 		DCI_METADATA,
 		DCP_VIDEO_FRAME_RATE,
 		DCP_AUDIO_CHANNELS,
-		SEQUENCE_VIDEO
+		/** The setting of _dcp_3d has been changed */
+		DCP_3D,
+		SEQUENCE_VIDEO,
 	};
 
 
@@ -197,6 +199,11 @@ public:
 		return _dcp_audio_channels;
 	}
 
+	bool dcp_3d () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _dcp_3d;
+	}
+
 	bool sequence_video () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _sequence_video;
@@ -220,6 +227,7 @@ public:
 	void set_dci_metadata (DCIMetadata);
 	void set_dcp_video_frame_rate (int);
 	void set_dcp_audio_channels (int);
+	void set_dcp_3d (bool);
 	void set_dci_date_today ();
 	void set_sequence_video (bool);
 
@@ -275,6 +283,10 @@ private:
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
 	int _dcp_audio_channels;
+	/** If true, the DCP will be written in 3D mode; otherwise in 2D.
+	    This will be regardless of what content is on the playlist.
+	*/
+	bool _dcp_3d;
 	bool _sequence_video;
 
 	/** true if our state has changed since we last saved it */

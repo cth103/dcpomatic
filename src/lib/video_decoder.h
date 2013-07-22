@@ -32,7 +32,7 @@ class Image;
 class VideoDecoder : public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const Film>);
+	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
 
 	/** Seek so that the next pass() will yield (approximately) the requested frame.
 	 *  Pass accurate = true to try harder to get close to the request.
@@ -41,14 +41,16 @@ public:
 
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
-	 *  Second parameter is true if the image is the same as the last one that was emitted.
-	 *  Third parameter is the frame within our source.
+	 *  Second parameter is the eye(s) which should see this image.
+	 *  Third parameter is true if the image is the same as the last one that was emitted for this Eyes value.
+	 *  Fourth parameter is the frame within our source.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, bool, VideoContent::Frame)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame)> Video;
 	
 protected:
 
 	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	boost::shared_ptr<const VideoContent> _video_content;
 	VideoContent::Frame _video_position;
 };
 

@@ -34,7 +34,7 @@ using libdcp::Size;
 
 StillImageDecoder::StillImageDecoder (shared_ptr<const Film> f, shared_ptr<const StillImageContent> c)
 	: Decoder (f)
-	, VideoDecoder (f)
+	, VideoDecoder (f, c)
 	, StillImage (c)
 {
 
