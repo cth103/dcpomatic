@@ -84,28 +84,8 @@ DCPVideoFrame::DCPVideoFrame (
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _log (l)
-	, _parameters (0)
-	, _cinfo (0)
-	, _cio (0)
 {
 	
-}
-
-DCPVideoFrame::~DCPVideoFrame ()
-{
-	if (_cio) {
-		opj_cio_close (_cio);
-	}
-
-	if (_cinfo) {
-		opj_destroy_compress (_cinfo);
-	}
-
-	if (_parameters) {
-		free (_parameters->cp_comment);
-	}
-	
-	delete _parameters;
 }
 
 /** J2K-encode this frame on the local host.
@@ -125,81 +105,90 @@ DCPVideoFrame::encode_locally ()
 	int const max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
 	int const max_comp_size = max_cs_len / 1.25;
 
-	/* Set encoding parameters to default values */
-	_parameters = new opj_cparameters_t;
-	opj_set_default_encoder_parameters (_parameters);
-
-	/* Set default cinema parameters */
-	_parameters->tile_size_on = false;
-	_parameters->cp_tdx = 1;
-	_parameters->cp_tdy = 1;
-	
-	/* Tile part */
-	_parameters->tp_flag = 'C';
-	_parameters->tp_on = 1;
-	
-	/* Tile and Image shall be at (0,0) */
-	_parameters->cp_tx0 = 0;
-	_parameters->cp_ty0 = 0;
-	_parameters->image_offset_x0 = 0;
-	_parameters->image_offset_y0 = 0;
-
-	/* Codeblock size = 32x32 */
-	_parameters->cblockw_init = 32;
-	_parameters->cblockh_init = 32;
-	_parameters->csty |= 0x01;
-	
-	/* The progression order shall be CPRL */
-	_parameters->prog_order = CPRL;
-	
-	/* No ROI */
-	_parameters->roi_compno = -1;
-	
-	_parameters->subsampling_dx = 1;
-	_parameters->subsampling_dy = 1;
-	
-	/* 9-7 transform */
-	_parameters->irreversible = 1;
-	
-	_parameters->tcp_rates[0] = 0;
-	_parameters->tcp_numlayers++;
-	_parameters->cp_disto_alloc = 1;
-	_parameters->cp_rsiz = CINEMA2K;
-	_parameters->cp_comment = strdup (N_("DCP-o-matic"));
-	_parameters->cp_cinema = CINEMA2K_24;
-
-	/* 3 components, so use MCT */
-	_parameters->tcp_mct = 1;
-	
-	/* set max image */
-	_parameters->max_comp_size = max_comp_size;
-	_parameters->tcp_rates[0] = ((float) (3 * xyz->size().width * xyz->size().height * 12)) / (max_cs_len * 8);
-
 	/* get a J2K compressor handle */
-	_cinfo = opj_create_compress (CODEC_J2K);
-	if (_cinfo == 0) {
+	opj_cinfo_t* cinfo = opj_create_compress (CODEC_J2K);
+	if (cinfo == 0) {
 		throw EncodeError (N_("could not create JPEG2000 encoder"));
 	}
 
+	/* Set encoding parameters to default values */
+	opj_cparameters_t parameters;
+	opj_set_default_encoder_parameters (&parameters);
+
+	/* Set default cinema parameters */
+	parameters.tile_size_on = false;
+	parameters.cp_tdx = 1;
+	parameters.cp_tdy = 1;
+	
+	/* Tile part */
+	parameters.tp_flag = 'C';
+	parameters.tp_on = 1;
+	
+	/* Tile and Image shall be at (0,0) */
+	parameters.cp_tx0 = 0;
+	parameters.cp_ty0 = 0;
+	parameters.image_offset_x0 = 0;
+	parameters.image_offset_y0 = 0;
+
+	/* Codeblock size = 32x32 */
+	parameters.cblockw_init = 32;
+	parameters.cblockh_init = 32;
+	parameters.csty |= 0x01;
+	
+	/* The progression order shall be CPRL */
+	parameters.prog_order = CPRL;
+	
+	/* No ROI */
+	parameters.roi_compno = -1;
+	
+	parameters.subsampling_dx = 1;
+	parameters.subsampling_dy = 1;
+	
+	/* 9-7 transform */
+	parameters.irreversible = 1;
+	
+	parameters.tcp_rates[0] = 0;
+	parameters.tcp_numlayers++;
+	parameters.cp_disto_alloc = 1;
+	parameters.cp_rsiz = CINEMA2K;
+	parameters.cp_comment = strdup (N_("DCP-o-matic"));
+	parameters.cp_cinema = CINEMA2K_24;
+
+	/* 3 components, so use MCT */
+	parameters.tcp_mct = 1;
+	
+	/* set max image */
+	parameters.max_comp_size = max_comp_size;
+	parameters.tcp_rates[0] = ((float) (3 * xyz->size().width * xyz->size().height * 12)) / (max_cs_len * 8);
+
 	/* Set event manager to null (openjpeg 1.3 bug) */
-	_cinfo->event_mgr = 0;
+	cinfo->event_mgr = 0;
 
 	/* Setup the encoder parameters using the current image and user parameters */
-	opj_setup_encoder (_cinfo, _parameters, xyz->opj_image ());
+	opj_setup_encoder (cinfo, &parameters, xyz->opj_image ());
 
-	_cio = opj_cio_open ((opj_common_ptr) _cinfo, 0, 0);
-	if (_cio == 0) {
+	opj_cio_t* cio = opj_cio_open ((opj_common_ptr) cinfo, 0, 0);
+	if (cio == 0) {
+		opj_destroy_compress (cinfo);
 		throw EncodeError (N_("could not open JPEG2000 stream"));
 	}
 
-	int const r = opj_encode (_cinfo, _cio, xyz->opj_image(), 0);
+	int const r = opj_encode (cinfo, cio, xyz->opj_image(), 0);
 	if (r == 0) {
+		opj_cio_close (cio);
+		opj_destroy_compress (cinfo);
 		throw EncodeError (N_("JPEG2000 encoding failed"));
 	}
 
 	_log->log (String::compose (N_("Finished locally-encoded frame %1"), _frame));
-	
-	return shared_ptr<EncodedData> (new LocallyEncodedData (_cio->buffer, cio_tell (_cio)));
+
+	shared_ptr<EncodedData> enc (new LocallyEncodedData (cio->buffer, cio_tell (cio)));
+
+	opj_cio_close (cio);
+	free (parameters.cp_comment);
+	opj_destroy_compress (cinfo);
+
+	return enc;
 }
 
 /** Send this frame to a remote server for J2K encoding, then read the result.
