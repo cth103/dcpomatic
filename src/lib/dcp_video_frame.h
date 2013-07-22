@@ -102,7 +102,6 @@ class DCPVideoFrame : public boost::noncopyable
 {
 public:
 	DCPVideoFrame (boost::shared_ptr<const Image>, int, int, int, boost::shared_ptr<Log>);
-	~DCPVideoFrame ();
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
@@ -118,8 +117,4 @@ private:
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 
 	boost::shared_ptr<Log> _log; ///< log
-
-	opj_cparameters_t* _parameters;	   ///< libopenjpeg's parameters
-	opj_cinfo_t* _cinfo;		   ///< libopenjpeg's opj_cinfo_t
-	opj_cio_t* _cio;		   ///< libopenjpeg's opj_cio_t
 };
