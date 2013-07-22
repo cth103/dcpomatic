@@ -30,6 +30,7 @@ using std::string;
 using std::pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::bind;
 
 VideoPanel::VideoPanel (FilmEditor* e)
 	: FilmEditorPanel (e, _("Video"))
@@ -38,6 +39,12 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
+
+	add_label_to_grid_bag_sizer (grid, this, _("Type"), true, wxGBPosition (r, 0));
+	_frame_type = new wxChoice (this, wxID_ANY);
+	grid->Add (_frame_type, wxGBPosition (r, 1));
+	++r;
+	
 	add_label_to_grid_bag_sizer (grid, this, _("Left crop"), true, wxGBPosition (r, 0));
 	_left_crop = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
 	grid->Add (_left_crop, wxGBPosition (r, 1));
@@ -93,11 +100,15 @@ VideoPanel::VideoPanel (FilmEditor* e)
 		_ratio->Append (std_to_wx ((*i)->nickname ()));
 	}
 
-	_ratio->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,  wxCommandEventHandler (VideoPanel::ratio_changed), 0, this);
+	_frame_type->Append (_("2D"));
+	_frame_type->Append (_("3D left/right"));
+
+	_frame_type->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, bind (&VideoPanel::frame_type_changed, this));
 	_left_crop->Connect      (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::left_crop_changed), 0, this);
 	_right_crop->Connect     (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::right_crop_changed), 0, this);
 	_top_crop->Connect       (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::top_crop_changed), 0, this);
 	_bottom_crop->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::bottom_crop_changed), 0, this);
+	_ratio->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,  wxCommandEventHandler (VideoPanel::ratio_changed), 0, this);
 	_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,   wxCommandEventHandler (VideoPanel::edit_filters_clicked), 0, this);
 }
 
@@ -167,8 +178,10 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 {
 	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
 	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	
-	if (property == VideoContentProperty::VIDEO_CROP) {
+
+	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
+		checked_set (_frame_type, vc->video_frame_type ());
+	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   vc ? vc->crop().left	: 0);
 		checked_set (_right_crop,  vc ? vc->crop().right	: 0);
 		checked_set (_top_crop,	   vc ? vc->crop().top	: 0);
@@ -306,5 +319,14 @@ VideoPanel::ratio_changed (wxCommandEvent &)
 		vector<Ratio const *> ratios = Ratio::all ();
 		assert (n < int (ratios.size()));
 		vc->set_ratio (ratios[n]);
+	}
+}
+
+void
+VideoPanel::frame_type_changed ()
+{
+	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
+	if (vc) {
+		vc->set_video_frame_type (static_cast<VideoFrameType> (_frame_type->GetSelection ()));
 	}
 }

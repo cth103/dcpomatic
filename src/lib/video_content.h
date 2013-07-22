@@ -30,6 +30,7 @@ class VideoContentProperty
 public:
 	static int const VIDEO_SIZE;
 	static int const VIDEO_FRAME_RATE;
+	static int const VIDEO_FRAME_TYPE;
 	static int const VIDEO_CROP;
 	static int const VIDEO_RATIO;
 };
@@ -62,10 +63,17 @@ public:
 		return _video_frame_rate;
 	}
 
+	void set_video_frame_type (VideoFrameType);
+
 	void set_left_crop (int);
 	void set_right_crop (int);
 	void set_top_crop (int);
 	void set_bottom_crop (int);
+
+	VideoFrameType video_frame_type () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _video_frame_type;
+	}
 
 	Crop crop () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -92,6 +100,7 @@ private:
 	
 	libdcp::Size _video_size;
 	float _video_frame_rate;
+	VideoFrameType _video_frame_type;
 	Crop _crop;
 	Ratio const * _ratio;
 };

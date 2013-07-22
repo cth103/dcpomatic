@@ -34,6 +34,12 @@ typedef int64_t OutputAudioFrame;
 typedef int	OutputVideoFrame;
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 
+enum VideoFrameType
+{
+	VIDEO_FRAME_TYPE_2D,
+	VIDEO_FRAME_TYPE_3D_LEFT_RIGHT
+};
+
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */

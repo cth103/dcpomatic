@@ -40,16 +40,18 @@ private:
 	void bottom_crop_changed (wxCommandEvent &);
 	void edit_filters_clicked (wxCommandEvent &);
 	void ratio_changed (wxCommandEvent &);
+	void frame_type_changed ();
 
 	void setup_scaling_description ();
-	
-	wxChoice* _ratio;
-	wxStaticText* _ratio_description;
-	wxStaticText* _scaling_description;
+
+	wxChoice* _frame_type;
 	wxSpinCtrl* _left_crop;
 	wxSpinCtrl* _right_crop;
 	wxSpinCtrl* _top_crop;
 	wxSpinCtrl* _bottom_crop;
+	wxChoice* _ratio;
+	wxStaticText* _ratio_description;
+	wxStaticText* _scaling_description;
 	wxStaticText* _filters;
 	wxButton* _filters_button;
 };

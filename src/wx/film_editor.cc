@@ -488,6 +488,9 @@ FilmEditor::set_film (shared_ptr<Film> f)
 {
 	set_general_sensitivity (f != 0);
 
+	wxListEvent ev;
+	content_selection_changed (ev);
+
 	if (_film == f) {
 		return;
 	}
@@ -522,9 +525,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
 	}
-
-	wxListEvent ev;
-	content_selection_changed (ev);
 }
 
 void
@@ -703,6 +703,7 @@ FilmEditor::content_selection_changed (wxListEvent &)
 	film_content_changed (s, ContentProperty::LENGTH);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
 	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
+	film_content_changed (s, VideoContentProperty::VIDEO_FRAME_TYPE);
 	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
 	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);
