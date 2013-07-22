@@ -20,6 +20,7 @@
 
 #include <openjpeg.h>
 #include <libdcp/picture_asset.h>
+#include <libdcp/picture_asset_writer.h>
 #include "util.h"
 
 /** @file  src/dcp_video_frame.h

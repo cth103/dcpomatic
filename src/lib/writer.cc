@@ -71,17 +71,37 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	   film's parameters which affect the video output.  We will hard-link
 	   it into the DCP later.
 	*/
-	
-	_picture_asset.reset (
-		new libdcp::MonoPictureAsset (
-			_film->internal_video_mxf_dir (),
-			_film->internal_video_mxf_filename (),
-			_film->dcp_video_frame_rate (),
-			_film->container()->size (_film->full_frame ())
-			)
-		);
 
-	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
+	if (f->dcp_3d ()) {
+		_stereo_picture_asset.reset (
+			new libdcp::StereoPictureAsset (
+				_film->internal_video_mxf_dir (),
+				_film->internal_video_mxf_filename (),
+				_film->dcp_video_frame_rate (),
+				_film->container()->size (_film->full_frame ())
+				)
+			);
+		
+		_stereo_picture_asset_writer = _stereo_picture_asset->start_write (_first_nonexistant_frame > 0);
+
+		_picture_asset = _stereo_picture_asset;
+		_picture_asset_writer = _stereo_picture_asset_writer;
+		
+	} else {
+		_mono_picture_asset.reset (
+			new libdcp::MonoPictureAsset (
+				_film->internal_video_mxf_dir (),
+				_film->internal_video_mxf_filename (),
+				_film->dcp_video_frame_rate (),
+				_film->container()->size (_film->full_frame ())
+				)
+			);
+
+		_mono_picture_asset_writer = _mono_picture_asset->start_write (_first_nonexistant_frame > 0);
+
+		_picture_asset = _mono_picture_asset;
+		_picture_asset_writer = _mono_picture_asset_writer;
+	}
 
 	_sound_asset.reset (
 		new libdcp::SoundAsset (
@@ -197,23 +217,55 @@ try
 				if (!qi.encoded) {
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
-				libdcp::FrameInfo const fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size(), qi.eyes);
-				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
-				_last_written = qi.encoded;
+
+				if (_mono_picture_asset_writer) {
+					libdcp::FrameInfo fin = _mono_picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
+					qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
+				} else {
+					libdcp::FrameInfo fin = _stereo_picture_asset_writer->write (
+						qi.encoded->data(),
+						qi.encoded->size(),
+						qi.eyes == EYES_LEFT ? libdcp::EYE_LEFT : libdcp::EYE_RIGHT
+						);
+					qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
+				}
+				_last_written[qi.eyes] = qi.encoded;
 				++_full_written;
 				break;
 			}
 			case QueueItem::FAKE:
 				_film->log()->log (String::compose (N_("Writer FAKE-writes %1 to MXF"), qi.frame));
 				_picture_asset_writer->fake_write (qi.size);
-				_last_written.reset ();
+				_last_written[qi.eyes].reset ();
 				++_fake_written;
 				break;
 			case QueueItem::REPEAT:
 			{
 				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
-				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size(), qi.eyes);
-				_last_written->write_info (_film, qi.frame, qi.eyes, fin);
+				if (_mono_picture_asset_writer) {
+
+					libdcp::FrameInfo fin = _mono_picture_asset_writer->write (
+						_last_written[EYES_BOTH]->data(),
+						_last_written[EYES_BOTH]->size()
+						);
+					
+					_last_written[EYES_BOTH]->write_info (_film, qi.frame, qi.eyes, fin);
+					
+				} else {
+					
+					libdcp::FrameInfo fin = _stereo_picture_asset_writer->write (
+						_last_written[EYES_LEFT]->data(), _last_written[EYES_LEFT]->size(), libdcp::EYE_LEFT
+						);
+					
+					_last_written[EYES_LEFT]->write_info (_film, qi.frame, qi.eyes, fin);
+
+					fin = _stereo_picture_asset_writer->write (
+						_last_written[EYES_RIGHT]->data(), _last_written[EYES_RIGHT]->size(), libdcp::EYE_RIGHT
+						);
+
+					_last_written[EYES_RIGHT]->write_info (_film, qi.frame, qi.eyes, fin);
+				}
+					
 				++_repeat_written;
 				break;
 			}
@@ -283,7 +335,7 @@ Writer::finish ()
 	_sound_asset_writer->finalize ();
 	
 	int const frames = _last_written_frame + 1;
-	
+
 	_picture_asset->set_duration (frames);
 
 	/* Hard-link the video MXF into the DCP */

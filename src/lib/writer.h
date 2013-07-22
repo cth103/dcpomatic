@@ -32,6 +32,10 @@ class Job;
 namespace libdcp {
 	class MonoPictureAsset;
 	class MonoPictureAssetWriter;
+	class StereoPictureAsset;
+	class StereoPictureAssetWriter;
+	class PictureAsset;
+	class PictureAssetWriter;
 	class SoundAsset;
 	class SoundAssetWriter;
 }
@@ -102,7 +106,7 @@ private:
 	/** condition to manage thread wakeups */
 	boost::condition _condition;
 	/** the data of the last written frame, or 0 if there isn't one */
-	boost::shared_ptr<const EncodedData> _last_written;
+	boost::shared_ptr<const EncodedData> _last_written[EYES_COUNT];
 	/** the index of the last written frame */
 	int _last_written_frame;
 	Eyes _last_written_eyes;
@@ -122,8 +126,12 @@ private:
 	*/
 	int _pushed_to_disk;
 	
-	boost::shared_ptr<libdcp::MonoPictureAsset> _picture_asset;
-	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _picture_asset_writer;
+	boost::shared_ptr<libdcp::PictureAsset> _picture_asset;
+	boost::shared_ptr<libdcp::PictureAssetWriter> _picture_asset_writer;
+	boost::shared_ptr<libdcp::MonoPictureAsset> _mono_picture_asset;
+	boost::shared_ptr<libdcp::MonoPictureAssetWriter> _mono_picture_asset_writer;
+	boost::shared_ptr<libdcp::StereoPictureAsset> _stereo_picture_asset;
+	boost::shared_ptr<libdcp::StereoPictureAssetWriter> _stereo_picture_asset_writer;
 	boost::shared_ptr<libdcp::SoundAsset> _sound_asset;
 	boost::shared_ptr<libdcp::SoundAssetWriter> _sound_asset_writer;
 };

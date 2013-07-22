@@ -197,7 +197,7 @@ AudioBuffers::move (int from, int to, int frames)
 	assert (frames > 0);
 	assert (frames <= _frames);
 	assert ((from + frames) <= _frames);
-	assert ((to + frames) <= _frames);
+	assert ((to + frames) <= _allocated_frames);
 	
 	for (int i = 0; i < _channels; ++i) {
 		memmove (_data[i] + to, _data[i] + from, frames * sizeof(float));

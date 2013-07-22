@@ -380,6 +380,7 @@ Film::read_metadata ()
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	_dcp_audio_channels = f.number_child<int> ("DCPAudioChannels");
 	_sequence_video = f.bool_child ("SequenceVideo");
+	_dcp_3d = f.bool_child ("DCP3D");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
