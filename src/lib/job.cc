@@ -179,14 +179,20 @@ Job::paused () const
 void
 Job::set_state (State s)
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-	_state = s;
+	bool finished = false;
+	
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_state = s;
 
-	if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
-		_ran_for = elapsed_time ();
-		if (ui_signaller) {
-			ui_signaller->emit (boost::bind (boost::ref (Finished)));
+		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
+			_ran_for = elapsed_time ();
+			finished = true;
 		}
+	}
+
+	if (finished && ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Finished)));
 	}
 }
 
