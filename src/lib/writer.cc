@@ -197,7 +197,7 @@ try
 				if (!qi.encoded) {
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
-				libdcp::FrameInfo const fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
+				libdcp::FrameInfo const fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size(), qi.eyes);
 				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
 				_last_written = qi.encoded;
 				++_full_written;
@@ -212,7 +212,7 @@ try
 			case QueueItem::REPEAT:
 			{
 				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
-				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size());
+				libdcp::FrameInfo const fin = _picture_asset_writer->write (_last_written->data(), _last_written->size(), qi.eyes);
 				_last_written->write_info (_film, qi.frame, qi.eyes, fin);
 				++_repeat_written;
 				break;
