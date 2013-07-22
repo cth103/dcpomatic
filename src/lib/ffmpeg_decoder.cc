@@ -383,7 +383,13 @@ FFmpegDecoder::decode_audio_packet ()
 						audio (silence, _audio_position);
 					}
 				}
-					
+
+				int const data_size = av_samples_get_buffer_size (
+					0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
+					);
+
+				audio (deinterleave_audio (_frame->data, data_size), _audio_position);
+				
 				copy_packet.data += decode_result;
 				copy_packet.size -= decode_result;
 			}
