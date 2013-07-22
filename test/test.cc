@@ -26,6 +26,7 @@
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
+#include "lib/cross.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -149,4 +150,7 @@ wait_for_jobs ()
 	}
 		
 	BOOST_CHECK (!jm->errors());
+
+	/* Hack: wait for ui_signaller signals to fire */
+	dcpomatic_sleep (1);
 }
