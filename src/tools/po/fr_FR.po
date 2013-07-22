@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-15 22:07+0100\n"
-"PO-Revision-Date: 2013-05-10 14:09+0100\n"
+"PO-Revision-Date: 2013-07-16 23:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:309
 msgid "%1 already exists as a file, so you cannot use it for a new film."
-msgstr ""
+msgstr "Le fichier %1 existe déjà, vous ne pouvez l'utiliser pour un nouveau projet."
 
 #: src/tools/dcpomatic.cc:196
 msgid "&Edit"
@@ -26,7 +26,7 @@ msgstr "&Edition"
 
 #: src/tools/dcpomatic.cc:169
 msgid "&Exit"
-msgstr ""
+msgstr "&Quitter"
 
 #: src/tools/dcpomatic.cc:194
 msgid "&File"
@@ -48,7 +48,8 @@ msgstr "&Créer le DCP"
 msgid "&Open..."
 msgstr "&Ouvrir..."
 
-#: src/tools/dcpomatic.cc:176 src/tools/dcpomatic.cc:179
+#: src/tools/dcpomatic.cc:176
+#: src/tools/dcpomatic.cc:179
 msgid "&Preferences..."
 msgstr "&Préférences..."
 
@@ -73,24 +74,22 @@ msgid "About"
 msgstr "A Propos"
 
 #: src/tools/dcpomatic.cc:189
-#, fuzzy
 msgid "About DCP-o-matic"
-msgstr "DVD-o-matic"
+msgstr "À propos de DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:479
-#, fuzzy
 msgid "Could not load film %1 (%2)"
-msgstr "Impossible de charger le film %s (%s)"
+msgstr "Impossible de charger le film %1 (%2)"
 
 #: src/tools/dcpomatic.cc:348
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Impossible d'ouvrir le film à %s (%s)"
 
-#: src/tools/dcpomatic.cc:280 src/tools/dcpomatic.cc:490
-#, fuzzy
+#: src/tools/dcpomatic.cc:280
+#: src/tools/dcpomatic.cc:490
 msgid "DCP-o-matic"
-msgstr "DVD-o-matic"
+msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:77
 msgid "Film changed"
@@ -114,19 +113,12 @@ msgid "Select film to open"
 msgstr "Sélectionner le film à ouvrir"
 
 #: src/tools/dcpomatic.cc:299
-msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
-"use it?"
-msgstr ""
-"Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
+msgid "The directory %1 already exists and is not empty.  Are you sure you want to use it?"
+msgstr "Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
 
 #: src/tools/dcpomatic.cc:332
-msgid ""
-"You did not select a folder.  Make sure that you select a folder before "
-"clicking Open."
-msgstr ""
-"Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur "
-"Ouvrir"
+msgid "You did not select a folder.  Make sure that you select a folder before clicking Open."
+msgstr "Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur Ouvrir"
 
 #~ msgid "&Analyse audio"
 #~ msgstr "&Analyser le son"

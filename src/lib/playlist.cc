@@ -122,7 +122,6 @@ Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node
 	}
 
 	reconnect ();
-	_sequence_video = node->bool_child ("SequenceVideo");
 }
 
 /** @param node <Playlist> node */
@@ -132,8 +131,6 @@ Playlist::as_xml (xmlpp::Node* node)
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 		(*i)->as_xml (node->add_child ("Content"));
 	}
-
-	node->add_child("SequenceVideo")->add_child_text(_sequence_video ? "1" : "0");
 }
 
 void
