@@ -57,6 +57,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	, _finish (false)
 	, _queued_full_in_memory (0)
 	, _last_written_frame (-1)
+	, _last_written_eyes (EYES_RIGHT)
 	, _full_written (0)
 	, _fake_written (0)
 	, _repeat_written (0)
@@ -127,10 +128,21 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 	qi.type = QueueItem::FULL;
 	qi.encoded = encoded;
 	qi.frame = frame;
-	qi.eyes = eyes;
-	_queue.push_back (qi);
-	++_queued_full_in_memory;
 
+	if (_film->dcp_3d() && eyes == EYES_BOTH) {
+		/* 2D material in a 3D DCP; fake the 3D */
+		qi.eyes = EYES_LEFT;
+		_queue.push_back (qi);
+		++_queued_full_in_memory;
+		qi.eyes = EYES_RIGHT;
+		_queue.push_back (qi);
+		++_queued_full_in_memory;
+	} else {
+		qi.eyes = eyes;
+		_queue.push_back (qi);
+		++_queued_full_in_memory;
+	}
+	
 	_condition.notify_all ();
 }
 
@@ -159,7 +171,9 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 
-/** This must be called from Writer::thread() with an appropriate lock held */
+/** This must be called from Writer::thread() with an appropriate lock held,
+ *  and with _queue sorted.
+ */
 bool
 Writer::have_sequenced_image_at_queue_head () const
 {
@@ -167,13 +181,24 @@ Writer::have_sequenced_image_at_queue_head () const
 		return false;
 	}
 
-	/* We assume that we will get either all 2D frames or all 3D frames, not a mixture */
-	
-	bool const eyes_ok = (_queue.front().eyes == EYES_BOTH) ||
-		(_queue.front().eyes == EYES_LEFT && _last_written_eyes == EYES_RIGHT) ||
-		(_queue.front().eyes == EYES_RIGHT && _last_written_eyes == EYES_LEFT);
-	
-	return _queue.front().frame == (_last_written_frame + 1) && eyes_ok;
+	/* The queue should contain only EYES_LEFT/EYES_RIGHT pairs or EYES_BOTH */
+
+	if (_queue.front().eyes == EYES_BOTH) {
+		/* 2D */
+		return _queue.front().frame == (_last_written_frame + 1);
+	}
+
+	/* 3D */
+
+	if (_last_written_eyes == EYES_LEFT && _queue.front().frame == _last_written_frame && _queue.front().eyes == EYES_RIGHT) {
+		return true;
+	}
+
+	if (_last_written_eyes == EYES_RIGHT && _queue.front().frame == (_last_written_frame + 1) && _queue.front().eyes == EYES_LEFT) {
+		return true;
+	}
+
+	return false;
 }
 
 void
@@ -191,7 +216,7 @@ try
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
 				break;
 			}
-			
+
 			TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
 			_condition.wait (lock);
 			TIMING (N_("writer wakes with a queue of %1"), _queue.size());
@@ -245,25 +270,21 @@ try
 				if (_mono_picture_asset_writer) {
 
 					libdcp::FrameInfo fin = _mono_picture_asset_writer->write (
-						_last_written[EYES_BOTH]->data(),
-						_last_written[EYES_BOTH]->size()
+						_last_written[qi.eyes]->data(),
+						_last_written[qi.eyes]->size()
 						);
 					
-					_last_written[EYES_BOTH]->write_info (_film, qi.frame, qi.eyes, fin);
+					_last_written[qi.eyes]->write_info (_film, qi.frame, qi.eyes, fin);
 					
 				} else {
 					
 					libdcp::FrameInfo fin = _stereo_picture_asset_writer->write (
-						_last_written[EYES_LEFT]->data(), _last_written[EYES_LEFT]->size(), libdcp::EYE_LEFT
+						_last_written[qi.eyes]->data(),
+						_last_written[qi.eyes]->size(),
+						qi.eyes == EYES_LEFT ? libdcp::EYE_LEFT : libdcp::EYE_RIGHT
 						);
 					
-					_last_written[EYES_LEFT]->write_info (_film, qi.frame, qi.eyes, fin);
-
-					fin = _stereo_picture_asset_writer->write (
-						_last_written[EYES_RIGHT]->data(), _last_written[EYES_RIGHT]->size(), libdcp::EYE_RIGHT
-						);
-
-					_last_written[EYES_RIGHT]->write_info (_film, qi.frame, qi.eyes, fin);
+					_last_written[qi.eyes]->write_info (_film, qi.frame, qi.eyes, fin);
 				}
 					
 				++_repeat_written;
@@ -271,14 +292,15 @@ try
 			}
 			}
 			lock.lock ();
+
+			_last_written_frame = qi.frame;
+			_last_written_eyes = qi.eyes;
 			
 			if (_film->length()) {
 				_job->set_progress (
 					float (_full_written + _fake_written + _repeat_written) / _film->time_to_video_frames (_film->length())
 					);
 			}
-
-			++_last_written_frame;
 		}
 
 		while (_queued_full_in_memory > _maximum_frames_in_memory) {
@@ -298,7 +320,14 @@ try
 			++_pushed_to_disk;
 			
 			lock.unlock ();
-			_film->log()->log (String::compose (N_("Writer full (awaiting %1); pushes %2 to disk"), _last_written_frame + 1, qi.frame));
+
+			_film->log()->log (
+				String::compose (
+					"Writer full (awaiting %1 [last eye was %2]); pushes %3 to disk",
+					_last_written_frame + 1,
+					_last_written_eyes, qi.frame)
+				);
+			
 			qi.encoded->write (_film, qi.frame, qi.eyes);
 			lock.lock ();
 			qi.encoded.reset ();

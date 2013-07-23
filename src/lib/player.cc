@@ -32,6 +32,7 @@
 #include "image.h"
 #include "ratio.h"
 #include "resampler.h"
+#include "log.h"
 #include "scaler.h"
 
 using std::list;
@@ -240,7 +241,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 
 #ifdef DCPOMATIC_DEBUG
 	_last_video = piece->content;
-#endif	
+#endif
 
 	Video (work_image, eyes, same, time);
 	time += TIME_HZ / _film->dcp_video_frame_rate();

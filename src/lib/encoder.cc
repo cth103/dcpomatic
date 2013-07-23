@@ -175,6 +175,8 @@ Encoder::process_video (shared_ptr<const Image> image, Eyes eyes, bool same)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	/* XXX: discard 3D here if required */
+
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
 		TIMING ("decoder sleeps with queue of %1", _queue.size());
@@ -212,7 +214,9 @@ Encoder::process_video (shared_ptr<const Image> image, Eyes eyes, bool same)
 		_have_a_real_frame[eyes] = true;
 	}
 
-	++_video_frames_out;
+	if (eyes != EYES_LEFT) {
+		++_video_frames_out;
+	}
 }
 
 void
@@ -262,7 +266,7 @@ Encoder::encoder_thread (ServerDescription* server)
 
 		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_film->log()->log (String::compose (N_("Encoder thread %1 pops frame %2 from queue"), boost::this_thread::get_id(), vf->frame()), Log::VERBOSE);
+		_film->log()->log (String::compose (N_("Encoder thread %1 pops frame %2 (%3) from queue"), boost::this_thread::get_id(), vf->frame(), vf->eyes ()));
 		_queue.pop_front ();
 		
 		lock.unlock ();

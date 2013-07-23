@@ -185,7 +185,19 @@ DCPVideoFrame::encode_locally ()
 		throw EncodeError (N_("JPEG2000 encoding failed"));
 	}
 
-	_log->log (String::compose (N_("Finished locally-encoded frame %1"), _frame));
+	switch (_eyes) {
+	case EYES_BOTH:
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for mono"), _frame));
+		break;
+	case EYES_LEFT:
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for L"), _frame));
+		break;
+	case EYES_RIGHT:
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for R"), _frame));
+		break;
+	default:
+		break;
+	}
 
 	shared_ptr<EncodedData> enc (new LocallyEncodedData (cio->buffer, cio_tell (cio)));
 
