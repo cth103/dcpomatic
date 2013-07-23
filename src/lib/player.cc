@@ -481,7 +481,6 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		update_subtitle ();
 		Changed (frequent);
 	} else if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
-		cout << "vft change.\n";
 		Changed (frequent);
 	}
 }
