@@ -410,6 +410,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::THREE_D:
 		checked_set (_three_d, _film->three_d ());
+		setup_dcp_name ();
 		break;
 	}
 }
