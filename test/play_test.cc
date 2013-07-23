@@ -43,7 +43,7 @@ public:
 	PlayerWrapper (shared_ptr<Player> p)
 		: _player (p)
 	{
-		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _3));
+		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _4));
 	}
 
 	void process_video (shared_ptr<const Image> i, bool, Time t)
@@ -122,7 +122,6 @@ BOOST_AUTO_TEST_CASE (play_test)
 	player->seek (10 * TIME_HZ / 25, true);
 	optional<Video> v = wrap.get_video ();
 	BOOST_CHECK (v);
-	cout << (v.get().time * 25 / TIME_HZ) << "\n";
 	BOOST_CHECK_EQUAL (v.get().time, 10 * TIME_HZ / 25);
 }
 
