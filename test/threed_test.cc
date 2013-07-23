@@ -46,6 +46,4 @@ BOOST_AUTO_TEST_CASE (threed_test)
 	film->write_metadata ();
 
 	wait_for_jobs ();
-
-	exit (EXIT_SUCCESS);
 }
