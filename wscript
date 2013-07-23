@@ -35,7 +35,7 @@ def configure(conf):
     conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS and not conf.env.TARGET_OSX
 
     # Common CXXFLAGS
-    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
+    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
                                        '-Wall', '-Wno-attributes', '-Wextra', '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.enable_debug:
@@ -45,7 +45,7 @@ def configure(conf):
 
     # Windows-specific
     if conf.env.TARGET_WINDOWS:
-        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE'])
+        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN'])
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
@@ -64,6 +64,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
         conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dcpomatic"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-D__STDC_LIMIT_MACROS')
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
