@@ -74,7 +74,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	*/
 
 	if (f->dcp_3d ()) {
-		_stereo_picture_asset.reset (
+		_picture_asset.reset (
 			new libdcp::StereoPictureAsset (
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
@@ -83,13 +83,8 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 				)
 			);
 		
-		_stereo_picture_asset_writer = _stereo_picture_asset->start_write (_first_nonexistant_frame > 0);
-
-		_picture_asset = _stereo_picture_asset;
-		_picture_asset_writer = _stereo_picture_asset_writer;
-		
 	} else {
-		_mono_picture_asset.reset (
+		_picture_asset.reset (
 			new libdcp::MonoPictureAsset (
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
@@ -98,12 +93,10 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 				)
 			);
 
-		_mono_picture_asset_writer = _mono_picture_asset->start_write (_first_nonexistant_frame > 0);
-
-		_picture_asset = _mono_picture_asset;
-		_picture_asset_writer = _mono_picture_asset_writer;
 	}
 
+	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
+	
 	_sound_asset.reset (
 		new libdcp::SoundAsset (
 			_film->dir (_film->dcp_name()),
@@ -243,17 +236,8 @@ try
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
 
-				if (_mono_picture_asset_writer) {
-					libdcp::FrameInfo fin = _mono_picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
-					qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
-				} else {
-					libdcp::FrameInfo fin = _stereo_picture_asset_writer->write (
-						qi.encoded->data(),
-						qi.encoded->size(),
-						qi.eyes == EYES_LEFT ? libdcp::EYE_LEFT : libdcp::EYE_RIGHT
-						);
-					qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
-				}
+				libdcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
+				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
 				_last_written[qi.eyes] = qi.encoded;
 				++_full_written;
 				break;
@@ -267,26 +251,12 @@ try
 			case QueueItem::REPEAT:
 			{
 				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
-				if (_mono_picture_asset_writer) {
-
-					libdcp::FrameInfo fin = _mono_picture_asset_writer->write (
-						_last_written[qi.eyes]->data(),
-						_last_written[qi.eyes]->size()
-						);
-					
-					_last_written[qi.eyes]->write_info (_film, qi.frame, qi.eyes, fin);
-					
-				} else {
-					
-					libdcp::FrameInfo fin = _stereo_picture_asset_writer->write (
-						_last_written[qi.eyes]->data(),
-						_last_written[qi.eyes]->size(),
-						qi.eyes == EYES_LEFT ? libdcp::EYE_LEFT : libdcp::EYE_RIGHT
-						);
-					
-					_last_written[qi.eyes]->write_info (_film, qi.frame, qi.eyes, fin);
-				}
-					
+				libdcp::FrameInfo fin = _picture_asset_writer->write (
+					_last_written[qi.eyes]->data(),
+					_last_written[qi.eyes]->size()
+					);
+				
+				_last_written[qi.eyes]->write_info (_film, qi.frame, qi.eyes, fin);
 				++_repeat_written;
 				break;
 			}
