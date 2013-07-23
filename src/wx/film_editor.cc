@@ -205,25 +205,25 @@ FilmEditor::make_dcp_panel ()
 void
 FilmEditor::connect_to_widgets ()
 {
-	_name->Connect			 (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED,		wxCommandEventHandler (FilmEditor::name_changed), 0, this);
-	_use_dci_name->Connect		 (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,	wxCommandEventHandler (FilmEditor::use_dci_name_toggled), 0, this);
-	_edit_dci_button->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::edit_dci_button_clicked), 0, this);
-	_container->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::container_changed), 0, this);
-	_content->Connect		 (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED,	wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
-	_content->Connect		 (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler    (FilmEditor::content_selection_changed), 0, this);
-	_content->Connect                (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK,wxListEventHandler    (FilmEditor::content_right_click), 0, this);
-	_content_add->Connect		 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_add_clicked), 0, this);
-	_content_remove->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_remove_clicked), 0, this);
-	_content_timeline->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
-	_scaler->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
-	_dcp_content_type->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
-	_frame_rate->Connect	         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::frame_rate_changed), 0, this);
-	_best_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::best_frame_rate_clicked), 0, this);
-	_audio_channels->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_channels_changed), 0, this);
-	_j2k_bandwidth->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
-	_resolution->Connect             (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::resolution_changed), 0, this);
-	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
-	_three_d->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilmEditor::three_d_changed, this));
+	_name->Bind		(wxEVT_COMMAND_TEXT_UPDATED, 	      boost::bind (&FilmEditor::name_changed, this));
+	_use_dci_name->Bind	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::use_dci_name_toggled, this));
+	_edit_dci_button->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::edit_dci_button_clicked, this));
+	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::container_changed, this));
+	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_SELECTED,    boost::bind (&FilmEditor::content_selection_changed, this));
+	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_DESELECTED,  boost::bind (&FilmEditor::content_selection_changed, this));
+	_content->Bind          (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&FilmEditor::content_right_click, this, _1));
+	_content_add->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_add_clicked, this));
+	_content_remove->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_remove_clicked, this));
+	_content_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_timeline_clicked, this));
+	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::scaler_changed, this));
+	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::dcp_content_type_changed, this));
+	_frame_rate->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_changed, this));
+	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::best_frame_rate_clicked, this));
+	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::audio_channels_changed, this));
+	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::j2k_bandwidth_changed, this));
+	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::resolution_changed, this));
+	_sequence_video->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::sequence_video_changed, this));
+	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::three_d_changed, this));
 }
 
 void
@@ -273,7 +273,7 @@ FilmEditor::make_content_panel ()
 
 /** Called when the name widget has been changed */
 void
-FilmEditor::name_changed (wxCommandEvent &)
+FilmEditor::name_changed ()
 {
 	if (!_film) {
 		return;
@@ -283,7 +283,7 @@ FilmEditor::name_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
+FilmEditor::j2k_bandwidth_changed ()
 {
 	if (!_film) {
 		return;
@@ -293,7 +293,7 @@ FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::frame_rate_changed (wxCommandEvent &)
+FilmEditor::frame_rate_changed ()
 {
 	if (!_film) {
 		return;
@@ -307,7 +307,7 @@ FilmEditor::frame_rate_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::audio_channels_changed (wxCommandEvent &)
+FilmEditor::audio_channels_changed ()
 {
 	if (!_film) {
 		return;
@@ -317,7 +317,7 @@ FilmEditor::audio_channels_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::resolution_changed (wxCommandEvent &)
+FilmEditor::resolution_changed ()
 {
 	if (!_film) {
 		return;
@@ -462,7 +462,7 @@ FilmEditor::setup_container ()
 
 /** Called when the container widget has been changed */
 void
-FilmEditor::container_changed (wxCommandEvent &)
+FilmEditor::container_changed ()
 {
 	if (!_film) {
 		return;
@@ -478,7 +478,7 @@ FilmEditor::container_changed (wxCommandEvent &)
 
 /** Called when the DCP content type widget has been changed */
 void
-FilmEditor::dcp_content_type_changed (wxCommandEvent &)
+FilmEditor::dcp_content_type_changed ()
 {
 	if (!_film) {
 		return;
@@ -496,8 +496,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 {
 	set_general_sensitivity (f != 0);
 
-	wxListEvent ev;
-	content_selection_changed (ev);
+	content_selection_changed ();
 
 	if (_film == f) {
 		return;
@@ -568,7 +567,7 @@ FilmEditor::set_general_sensitivity (bool s)
 
 /** Called when the scaler widget has been changed */
 void
-FilmEditor::scaler_changed (wxCommandEvent &)
+FilmEditor::scaler_changed ()
 {
 	if (!_film) {
 		return;
@@ -581,7 +580,7 @@ FilmEditor::scaler_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::use_dci_name_toggled (wxCommandEvent &)
+FilmEditor::use_dci_name_toggled ()
 {
 	if (!_film) {
 		return;
@@ -591,7 +590,7 @@ FilmEditor::use_dci_name_toggled (wxCommandEvent &)
 }
 
 void
-FilmEditor::edit_dci_button_clicked (wxCommandEvent &)
+FilmEditor::edit_dci_button_clicked ()
 {
 	if (!_film) {
 		return;
@@ -622,7 +621,7 @@ FilmEditor::setup_dcp_name ()
 }
 
 void
-FilmEditor::best_frame_rate_clicked (wxCommandEvent &)
+FilmEditor::best_frame_rate_clicked ()
 {
 	if (!_film) {
 		return;
@@ -658,7 +657,7 @@ FilmEditor::setup_content ()
 }
 
 void
-FilmEditor::content_add_clicked (wxCommandEvent &)
+FilmEditor::content_add_clicked ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
 	int const r = d->ShowModal ();
@@ -689,19 +688,18 @@ FilmEditor::content_add_clicked (wxCommandEvent &)
 }
 
 void
-FilmEditor::content_remove_clicked (wxCommandEvent &)
+FilmEditor::content_remove_clicked ()
 {
 	shared_ptr<Content> c = selected_content ();
 	if (c) {
 		_film->remove_content (c);
 	}
 
-	wxListEvent ev;
-	content_selection_changed (ev);
+	content_selection_changed ();
 }
 
 void
-FilmEditor::content_selection_changed (wxListEvent &)
+FilmEditor::content_selection_changed ()
 {
 	setup_content_sensitivity ();
 	shared_ptr<Content> s = selected_content ();
@@ -793,7 +791,7 @@ FilmEditor::selected_subtitle_content ()
 }
 
 void
-FilmEditor::content_timeline_clicked (wxCommandEvent &)
+FilmEditor::content_timeline_clicked ()
 {
 	if (_timeline_dialog) {
 		_timeline_dialog->Destroy ();
@@ -818,7 +816,7 @@ FilmEditor::set_selection (weak_ptr<Content> wc)
 }
 
 void
-FilmEditor::sequence_video_changed (wxCommandEvent &)
+FilmEditor::sequence_video_changed ()
 {
 	if (!_film) {
 		return;

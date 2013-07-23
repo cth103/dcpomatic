@@ -34,12 +34,12 @@ public:
 	void film_content_changed (boost::shared_ptr<Content>, int);
 
 private:
-	void left_crop_changed (wxCommandEvent &);
-	void right_crop_changed (wxCommandEvent &);
-	void top_crop_changed (wxCommandEvent &);
-	void bottom_crop_changed (wxCommandEvent &);
-	void edit_filters_clicked (wxCommandEvent &);
-	void ratio_changed (wxCommandEvent &);
+	void left_crop_changed ();
+	void right_crop_changed ();
+	void top_crop_changed ();
+	void bottom_crop_changed ();
+	void edit_filters_clicked ();
+	void ratio_changed ();
 	void frame_type_changed ();
 
 	void setup_scaling_description ();

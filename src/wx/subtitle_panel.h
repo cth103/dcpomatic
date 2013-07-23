@@ -32,10 +32,10 @@ public:
 
 	
 private:
-	void with_subtitles_toggled (wxCommandEvent &);
-	void offset_changed (wxCommandEvent &);
-	void scale_changed (wxCommandEvent &);
-	void stream_changed (wxCommandEvent &);
+	void with_subtitles_toggled ();
+	void offset_changed ();
+	void scale_changed ();
+	void stream_changed ();
 
 	void setup_sensitivity ();
 	

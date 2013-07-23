@@ -104,19 +104,19 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->Append (_("2D"));
 	_frame_type->Append (_("3D left/right"));
 
-	_frame_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, bind (&VideoPanel::frame_type_changed, this));
-	_left_crop->Connect      (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::left_crop_changed), 0, this);
-	_right_crop->Connect     (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::right_crop_changed), 0, this);
-	_top_crop->Connect       (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::top_crop_changed), 0, this);
-	_bottom_crop->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (VideoPanel::bottom_crop_changed), 0, this);
-	_ratio->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,  wxCommandEventHandler (VideoPanel::ratio_changed), 0, this);
-	_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,   wxCommandEventHandler (VideoPanel::edit_filters_clicked), 0, this);
+	_frame_type->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
+	_left_crop->Bind      (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
+	_right_crop->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
+	_top_crop->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
+	_bottom_crop->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
+	_ratio->Bind	      (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
+	_filters_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 }
 
 
 /** Called when the left crop widget has been changed */
 void
-VideoPanel::left_crop_changed (wxCommandEvent &)
+VideoPanel::left_crop_changed ()
 {
 	shared_ptr<VideoContent> c = _editor->selected_video_content ();
 	if (!c) {
@@ -128,7 +128,7 @@ VideoPanel::left_crop_changed (wxCommandEvent &)
 
 /** Called when the right crop widget has been changed */
 void
-VideoPanel::right_crop_changed (wxCommandEvent &)
+VideoPanel::right_crop_changed ()
 {
 	shared_ptr<VideoContent> c = _editor->selected_video_content ();
 	if (!c) {
@@ -140,7 +140,7 @@ VideoPanel::right_crop_changed (wxCommandEvent &)
 
 /** Called when the top crop widget has been changed */
 void
-VideoPanel::top_crop_changed (wxCommandEvent &)
+VideoPanel::top_crop_changed ()
 {
 	shared_ptr<VideoContent> c = _editor->selected_video_content ();
 	if (!c) {
@@ -152,7 +152,7 @@ VideoPanel::top_crop_changed (wxCommandEvent &)
 
 /** Called when the bottom crop value has been changed */
 void
-VideoPanel::bottom_crop_changed (wxCommandEvent &)
+VideoPanel::bottom_crop_changed ()
 {
 	shared_ptr<VideoContent> c = _editor->selected_video_content ();
 	if (!c) {
@@ -222,7 +222,7 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 
 /** Called when the `Edit filters' button has been clicked */
 void
-VideoPanel::edit_filters_clicked (wxCommandEvent &)
+VideoPanel::edit_filters_clicked ()
 {
 	shared_ptr<Content> c = _editor->selected_content ();
 	if (!c) {
@@ -307,7 +307,7 @@ VideoPanel::setup_scaling_description ()
 
 
 void
-VideoPanel::ratio_changed (wxCommandEvent &)
+VideoPanel::ratio_changed ()
 {
 	if (!_editor->film ()) {
 		return;

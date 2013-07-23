@@ -87,11 +87,12 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	_gain->SetRange (-60, 60);
 	_delay->SetRange (-1000, 1000);
 
-	_delay->Connect  (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (AudioPanel::delay_changed), 0, this);
-	_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,  wxCommandEventHandler (AudioPanel::stream_changed), 0, this);
-	_show->Connect   (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,   wxCommandEventHandler (AudioPanel::show_clicked), 0, this);
-	_gain->Connect   (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (AudioPanel::gain_changed), 0, this);
-	_gain_calculate_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (AudioPanel::gain_calculate_button_clicked), 0, this);
+	_delay->Bind  		     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AudioPanel::delay_changed, this));
+	_stream->Bind                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&AudioPanel::stream_changed, this));
+	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::show_clicked, this));
+	_gain->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AudioPanel::gain_changed, this));
+	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
+
 	_mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 }
 
@@ -142,7 +143,7 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 }
 
 void
-AudioPanel::gain_changed (wxCommandEvent &)
+AudioPanel::gain_changed ()
 {
 	shared_ptr<AudioContent> ac = _editor->selected_audio_content ();
 	if (!ac) {
@@ -153,7 +154,7 @@ AudioPanel::gain_changed (wxCommandEvent &)
 }
 
 void
-AudioPanel::delay_changed (wxCommandEvent &)
+AudioPanel::delay_changed ()
 {
 	shared_ptr<AudioContent> ac = _editor->selected_audio_content ();
 	if (!ac) {
@@ -164,7 +165,7 @@ AudioPanel::delay_changed (wxCommandEvent &)
 }
 
 void
-AudioPanel::gain_calculate_button_clicked (wxCommandEvent &)
+AudioPanel::gain_calculate_button_clicked ()
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);
 	d->ShowModal ();
@@ -184,14 +185,13 @@ AudioPanel::gain_calculate_button_clicked (wxCommandEvent &)
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.
 	*/
-	wxCommandEvent dummy;
-	gain_changed (dummy);
+	gain_changed ();
 	
 	d->Destroy ();
 }
 
 void
-AudioPanel::show_clicked (wxCommandEvent &)
+AudioPanel::show_clicked ()
 {
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
@@ -214,7 +214,7 @@ AudioPanel::show_clicked (wxCommandEvent &)
 }
 
 void
-AudioPanel::stream_changed (wxCommandEvent &)
+AudioPanel::stream_changed ()
 {
 	shared_ptr<Content> c = _editor->selected_content ();
 	if (!c) {

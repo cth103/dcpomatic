@@ -35,11 +35,11 @@ public:
 	void film_content_changed (boost::shared_ptr<Content>, int);
 	
 private:
-	void gain_changed (wxCommandEvent &);
-	void gain_calculate_button_clicked (wxCommandEvent &);
-	void show_clicked (wxCommandEvent &);
-	void delay_changed (wxCommandEvent &);
-	void stream_changed (wxCommandEvent &);
+	void gain_changed ();
+	void gain_calculate_button_clicked ();
+	void show_clicked ();
+	void delay_changed ();
+	void stream_changed ();
 	void mapping_changed (AudioMapping);
 
 	wxSpinCtrl* _gain;

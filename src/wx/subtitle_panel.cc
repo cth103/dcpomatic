@@ -65,10 +65,10 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	_scale->SetRange (1, 1000);
 	_scale->SetValue (100);
 
-	_with_subtitles->Connect  (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (SubtitlePanel::with_subtitles_toggled), 0, this);
-	_offset->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (SubtitlePanel::offset_changed), 0, this);
-	_scale->Connect  (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (SubtitlePanel::scale_changed), 0, this);
-	_stream->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,  wxCommandEventHandler (SubtitlePanel::stream_changed), 0, this);
+	_with_subtitles->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::with_subtitles_toggled, this));
+	_offset->Bind         (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::offset_changed, this));
+	_scale->Bind          (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::scale_changed, this));
+	_stream->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
 }
 
 void
@@ -117,7 +117,7 @@ SubtitlePanel::film_content_changed (shared_ptr<Content> c, int property)
 }
 
 void
-SubtitlePanel::with_subtitles_toggled (wxCommandEvent &)
+SubtitlePanel::with_subtitles_toggled ()
 {
 	if (!_editor->film()) {
 		return;
@@ -143,7 +143,7 @@ SubtitlePanel::setup_sensitivity ()
 }
 
 void
-SubtitlePanel::stream_changed (wxCommandEvent &)
+SubtitlePanel::stream_changed ()
 {
 	shared_ptr<Content> c = _editor->selected_content ();
 	if (!c) {
@@ -168,7 +168,7 @@ SubtitlePanel::stream_changed (wxCommandEvent &)
 }
 
 void
-SubtitlePanel::offset_changed (wxCommandEvent &)
+SubtitlePanel::offset_changed ()
 {
 	shared_ptr<SubtitleContent> c = _editor->selected_subtitle_content ();
 	if (!c) {
@@ -179,7 +179,7 @@ SubtitlePanel::offset_changed (wxCommandEvent &)
 }
 
 void
-SubtitlePanel::scale_changed (wxCommandEvent &)
+SubtitlePanel::scale_changed ()
 {
 	shared_ptr<SubtitleContent> c = _editor->selected_subtitle_content ();
 	if (!c) {

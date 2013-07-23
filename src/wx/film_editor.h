@@ -72,22 +72,22 @@ private:
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
-	void name_changed (wxCommandEvent &);
-	void use_dci_name_toggled (wxCommandEvent &);
-	void edit_dci_button_clicked (wxCommandEvent &);
-	void content_selection_changed (wxListEvent &);
-	void content_add_clicked (wxCommandEvent &);
-	void content_remove_clicked (wxCommandEvent &);
-	void container_changed (wxCommandEvent &);
-	void dcp_content_type_changed (wxCommandEvent &);
-	void scaler_changed (wxCommandEvent &);
-	void j2k_bandwidth_changed (wxCommandEvent &);
-	void frame_rate_changed (wxCommandEvent &);
-	void best_frame_rate_clicked (wxCommandEvent &);
-	void content_timeline_clicked (wxCommandEvent &);
-	void audio_channels_changed (wxCommandEvent &);
-	void resolution_changed (wxCommandEvent &);
-	void sequence_video_changed (wxCommandEvent &);
+	void name_changed ();
+	void use_dci_name_toggled ();
+	void edit_dci_button_clicked ();
+	void content_selection_changed ();
+	void content_add_clicked ();
+	void content_remove_clicked ();
+	void container_changed ();
+	void dcp_content_type_changed ();
+	void scaler_changed ();
+	void j2k_bandwidth_changed ();
+	void frame_rate_changed ();
+	void best_frame_rate_clicked ();
+	void content_timeline_clicked ();
+	void audio_channels_changed ();
+	void resolution_changed ();
+	void sequence_video_changed ();
 	void content_right_click (wxListEvent &);
 	void three_d_changed ();
 
