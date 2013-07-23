@@ -43,9 +43,6 @@ AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	copy_from (&other, other._frames, 0, 0);
 }
 
-/* XXX: it's a shame that this is a copy-and-paste of the above;
-   probably fixable with c++0x.
-*/
 AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
 {
 	allocate (other->_channels, other->_frames);
