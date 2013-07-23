@@ -29,7 +29,6 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (threed_test)
 {
-	cout << "here we go.\n";
 	shared_ptr<Film> film = new_test_film ("threed_test");
 	film->set_name ("test_film2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
