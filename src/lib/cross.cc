@@ -39,6 +39,7 @@ using std::pair;
 using std::list;
 using std::ifstream;
 using std::string;
+using std::wstring;
 using std::make_pair;
 using boost::shared_ptr;
 
@@ -53,12 +54,11 @@ dcpomatic_sleep (int s)
 #endif
 }
 
-/** @return A pair containing CPU model name and the number of processors */
-pair<string, int>
+/** @return A string of CPU information (model name etc.) */
+string
 cpu_info ()
 {
-	pair<string, int> info;
-	info.second = 0;
+	string info;
 	
 #ifdef DCPOMATIC_LINUX
 	ifstream f ("/proc/cpuinfo");
@@ -68,24 +68,48 @@ cpu_info ()
 		if (boost::algorithm::starts_with (l, "model name")) {
 			string::size_type const c = l.find (':');
 			if (c != string::npos) {
-				info.first = l.substr (c + 2);
+				info = l.substr (c + 2);
 			}
-		} else if (boost::algorithm::starts_with (l, "processor")) {
-			++info.second;
 		}
 	}
 #endif
 
 #ifdef DCPOMATIC_OSX
-	size_t N = sizeof (info.second);
-	sysctlbyname ("hw.ncpu", &info.second, &N, 0, 0);
 	char buffer[64];
-	N = sizeof (buffer);
+	size_t N = sizeof (buffer);
 	if (sysctlbyname ("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
-		info.first = buffer;
+		info = buffer;
 	}
 #endif		
 
+#ifdef DCPOMATIC_WINDOWS
+	HKEY key;
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &key) != ERROR_SUCCESS) {
+		return info;
+	}
+
+	DWORD type;
+	DWORD data;
+	if (RegQueryValueEx (key, L"ProcessorNameString", 0, &type, 0, &data) != ERROR_SUCCESS) {
+		return info;
+	}
+
+	if (type != REG_SZ) {
+		return info;
+	}
+
+	wstring value (data / sizeof (wchar_t), L'\0');
+	if (RegQueryValueEx (key, L"ProcessorNameString", 0, 0, reinterpret_cast<LPBYTE> (&value[0]), &data) != ERROR_SUCCESS) {
+		RegCloseKey (key);
+		return info;
+	}
+
+	info = string (value.begin(), value.end());
+	
+	RegCloseKey (key);
+
+#endif	
+	
 	return info;
 }
 
