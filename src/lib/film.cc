@@ -123,7 +123,7 @@ Film::Film (string d)
 	}
 
 	set_directory (result.string ());
-	_log.reset (new FileLog ("log"));
+	_log.reset (new FileLog (file ("log")));
 
 	_playlist->set_sequence_video (_sequence_video);
 }
