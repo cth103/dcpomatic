@@ -58,6 +58,6 @@ StillImageExaminer::video_frame_rate () const
 		return 24;
 	}
 
-	return f->dcp_video_frame_rate ();
+	return f->video_frame_rate ();
 }
 

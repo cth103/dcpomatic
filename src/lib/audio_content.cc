@@ -112,3 +112,9 @@ AudioContent::audio_analysis_path () const
 
 	return film->audio_analysis_path (dynamic_pointer_cast<const AudioContent> (shared_from_this ()));
 }
+
+string
+AudioContent::technical_summary () const
+{
+	return String::compose ("audio: channels %1, length %2, raw rate %3, out rate %4", audio_channels(), audio_length(), content_audio_frame_rate(), output_audio_frame_rate());
+}

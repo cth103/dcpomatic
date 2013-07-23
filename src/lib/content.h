@@ -52,6 +52,7 @@ public:
 	
 	virtual void examine (boost::shared_ptr<Job>);
 	virtual std::string summary () const = 0;
+	virtual std::string technical_summary () const;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual Time length () const = 0;

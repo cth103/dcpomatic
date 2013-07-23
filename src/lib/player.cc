@@ -95,7 +95,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _have_valid_pieces (false)
 	, _video_position (0)
 	, _audio_position (0)
-	, _audio_buffers (f->dcp_audio_channels(), 0)
+	, _audio_buffers (f->audio_channels(), 0)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
@@ -213,7 +213,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
 	assert (content);
 
-	FrameRateConversion frc (content->video_frame_rate(), _film->dcp_video_frame_rate());
+	FrameRateConversion frc (content->video_frame_rate(), _film->video_frame_rate());
 	if (frc.skip && (frame % 2) == 1) {
 		return;
 	}
@@ -224,7 +224,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	
 	work_image = work_image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
 
-	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->dcp_video_frame_rate());
+	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->video_frame_rate());
 	
 	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
 		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position);
@@ -244,11 +244,11 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 #endif
 
 	Video (work_image, eyes, same, time);
-	time += TIME_HZ / _film->dcp_video_frame_rate();
+	time += TIME_HZ / _film->video_frame_rate();
 
 	if (frc.repeat) {
 		Video (work_image, eyes, true, time);
-		time += TIME_HZ / _film->dcp_video_frame_rate();
+		time += TIME_HZ / _film->video_frame_rate();
 	}
 
 	_video_position = piece->video_position = time;
@@ -272,7 +272,7 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	}
 
 	/* Remap channels */
-	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->dcp_audio_channels(), audio->frames()));
+	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
 	dcp_mapped->make_silent ();
 	list<pair<int, libdcp::Channel> > map = content->audio_mapping().content_to_dcp ();
 	for (list<pair<int, libdcp::Channel> >::iterator i = map.begin(); i != map.end(); ++i) {
@@ -283,11 +283,11 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 
 	audio = dcp_mapped;
 
-	Time time = content->start() + (frame * TIME_HZ / _film->dcp_audio_frame_rate()) + (content->audio_delay() * TIME_HZ / 1000);
+	Time time = content->start() + (frame * TIME_HZ / _film->audio_frame_rate()) + (content->audio_delay() * TIME_HZ / 1000);
 
 	/* We must cut off anything that comes before the start of all time */
 	if (time < 0) {
-		int const frames = - time * _film->dcp_audio_frame_rate() / TIME_HZ;
+		int const frames = - time * _film->audio_frame_rate() / TIME_HZ;
 		if (frames >= audio->frames ()) {
 			return;
 		}
@@ -381,12 +381,12 @@ Player::seek (Time t, bool accurate)
 
 		(*i)->video_position = (*i)->audio_position = vc->start() + s;
 
-		FrameRateConversion frc (vc->video_frame_rate(), _film->dcp_video_frame_rate());
+		FrameRateConversion frc (vc->video_frame_rate(), _film->video_frame_rate());
 		/* Here we are converting from time (in the DCP) to a frame number in the content.
 		   Hence we need to use the DCP's frame rate and the double/skip correction, not
 		   the source's rate.
 		*/
-		VideoContent::Frame f = s * _film->dcp_video_frame_rate() / (frc.factor() * TIME_HZ);
+		VideoContent::Frame f = s * _film->video_frame_rate() / (frc.factor() * TIME_HZ);
 		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
 	}
 
@@ -529,8 +529,8 @@ Player::emit_black ()
 void
 Player::emit_silence (OutputAudioFrame most)
 {
-	OutputAudioFrame N = min (most, _film->dcp_audio_frame_rate() / 2);
-	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->dcp_audio_channels(), N));
+	OutputAudioFrame N = min (most, _film->audio_frame_rate() / 2);
+	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), N));
 	silence->make_silent ();
 	Audio (silence, _audio_position);
 	_audio_position += _film->audio_frames_to_time (N);

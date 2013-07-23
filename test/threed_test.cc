@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (threed_test)
 	
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	film->set_dcp_3d (true);
+	film->set_three_d (true);
 	film->make_dcp ();
 	film->write_metadata ();
 

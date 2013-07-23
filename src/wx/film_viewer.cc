@@ -268,12 +268,12 @@ FilmViewer::play_clicked (wxCommandEvent &)
 void
 FilmViewer::check_play_state ()
 {
-	if (!_film || _film->dcp_video_frame_rate() == 0) {
+	if (!_film || _film->video_frame_rate() == 0) {
 		return;
 	}
 	
 	if (_play_button->GetValue()) {
-		_timer.Start (1000 / _film->dcp_video_frame_rate());
+		_timer.Start (1000 / _film->video_frame_rate());
 	} else {
 		_timer.Stop ();
 	}
@@ -307,7 +307,7 @@ FilmViewer::set_position_text (Time t)
 		return;
 	}
 		
-	double const fps = _film->dcp_video_frame_rate ();
+	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
 	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ)) + 1));
 	

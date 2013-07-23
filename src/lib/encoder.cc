@@ -205,7 +205,7 @@ Encoder::process_video (shared_ptr<const Image> image, Eyes eyes, bool same)
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, _video_frames_out, eyes, _film->dcp_video_frame_rate(),
+						  image, _video_frames_out, eyes, _film->video_frame_rate(),
 						  _film->j2k_bandwidth(), _film->log()
 						  )
 					  ));

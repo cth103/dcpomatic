@@ -59,6 +59,14 @@ SndfileContent::summary () const
 }
 
 string
+SndfileContent::technical_summary () const
+{
+	return Content::technical_summary() + " - "
+		+ AudioContent::technical_summary ()
+		+ "sndfile";
+}
+
+string
 SndfileContent::information () const
 {
 	if (_audio_frame_rate == 0) {
@@ -141,7 +149,7 @@ SndfileContent::output_audio_frame_rate () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	return film->dcp_audio_frame_rate ();
+	return film->audio_frame_rate ();
 }
 
 void

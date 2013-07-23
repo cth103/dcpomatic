@@ -48,6 +48,7 @@ public:
 	AudioContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
+	std::string technical_summary () const;
 
 	virtual int audio_channels () const = 0;
 	virtual AudioContent::Frame audio_length () const = 0;

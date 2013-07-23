@@ -34,6 +34,7 @@ using std::stringstream;
 using std::vector;
 using std::list;
 using std::cout;
+using std::pair;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -169,6 +170,28 @@ FFmpegContent::summary () const
 }
 
 string
+FFmpegContent::technical_summary () const
+{
+	string as = "none";
+	if (_audio_stream) {
+		as = String::compose ("id %1", _audio_stream->id);
+	}
+
+	string ss = "none";
+	if (_subtitle_stream) {
+		ss = String::compose ("id %1", _subtitle_stream->id);
+	}
+
+	pair<string, string> filt = Filter::ffmpeg_strings (_filters);
+	
+	return Content::technical_summary() + " - "
+		+ VideoContent::technical_summary() + " - "
+		+ String::compose (
+			"ffmpeg: audio %1, subtitle %2, filters %3 %4", as, ss, filt.first, filt.second
+			);
+}
+
+string
 FFmpegContent::information () const
 {
 	if (video_length() == 0 || video_frame_rate() == 0) {
@@ -253,7 +276,7 @@ FFmpegContent::output_audio_frame_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
 
-	FrameRateConversion frc (video_frame_rate(), film->dcp_video_frame_rate());
+	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -262,7 +285,7 @@ FFmpegContent::output_audio_frame_rate () const
 	*/
 
 	if (frc.change_speed) {
-		t *= video_frame_rate() * frc.factor() / film->dcp_video_frame_rate();
+		t *= video_frame_rate() * frc.factor() / film->video_frame_rate();
 	}
 
 	return rint (t);
@@ -326,8 +349,8 @@ FFmpegContent::length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate (), film->dcp_video_frame_rate ());
-	return video_length() * frc.factor() * TIME_HZ / film->dcp_video_frame_rate ();
+	FrameRateConversion frc (video_frame_rate (), film->video_frame_rate ());
+	return video_length() * frc.factor() * TIME_HZ / film->video_frame_rate ();
 }
 
 AudioMapping
@@ -379,3 +402,4 @@ FFmpegContent::identifier () const
 
 	return s.str ();
 }
+

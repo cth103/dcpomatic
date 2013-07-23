@@ -45,7 +45,7 @@ static void test_silence_padding (int channels)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	film->set_dcp_audio_channels (channels);
+	film->set_audio_channels (channels);
 	film->make_dcp ();
 	wait_for_jobs ();
 

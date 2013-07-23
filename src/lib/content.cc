@@ -109,3 +109,9 @@ Content::clone () const
 	as_xml (node);
 	return content_factory (film, shared_ptr<cxml::Node> (new cxml::Node (node)));
 }
+
+string
+Content::technical_summary () const
+{
+	return String::compose ("%1 %2 %3", file(), digest(), start());
+}

@@ -82,14 +82,14 @@ private:
 	void dcp_content_type_changed (wxCommandEvent &);
 	void scaler_changed (wxCommandEvent &);
 	void j2k_bandwidth_changed (wxCommandEvent &);
-	void dcp_frame_rate_changed (wxCommandEvent &);
-	void best_dcp_frame_rate_clicked (wxCommandEvent &);
+	void frame_rate_changed (wxCommandEvent &);
+	void best_frame_rate_clicked (wxCommandEvent &);
 	void content_timeline_clicked (wxCommandEvent &);
-	void dcp_audio_channels_changed (wxCommandEvent &);
-	void dcp_resolution_changed (wxCommandEvent &);
+	void audio_channels_changed (wxCommandEvent &);
+	void resolution_changed (wxCommandEvent &);
 	void sequence_video_changed (wxCommandEvent &);
 	void content_right_click (wxListEvent &);
-	void dcp_3d_changed ();
+	void three_d_changed ();
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -133,11 +133,11 @@ private:
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
-	wxChoice* _dcp_frame_rate;
-	wxSpinCtrl* _dcp_audio_channels;
-	wxButton* _best_dcp_frame_rate;
-	wxCheckBox* _dcp_3d;
-	wxChoice* _dcp_resolution;
+	wxChoice* _frame_rate;
+	wxSpinCtrl* _audio_channels;
+	wxButton* _best_frame_rate;
+	wxCheckBox* _three_d;
+	wxChoice* _resolution;
 
 	ContentMenu _menu;
 

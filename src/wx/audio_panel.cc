@@ -100,8 +100,8 @@ void
 AudioPanel::film_changed (Film::Property property)
 {
 	switch (property) {
-	case Film::DCP_AUDIO_CHANNELS:
-		_mapping->set_channels (_editor->film()->dcp_audio_channels ());
+	case Film::AUDIO_CHANNELS:
+		_mapping->set_channels (_editor->film()->audio_channels ());
 		_sizer->Layout ();
 		break;
 	default:

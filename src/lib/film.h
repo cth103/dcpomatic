@@ -61,8 +61,8 @@ public:
 	std::string internal_video_mxf_filename () const;
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const AudioContent>) const;
 
-	std::string dcp_video_mxf_filename () const;
-	std::string dcp_audio_mxf_filename () const;
+	std::string video_mxf_filename () const;
+	std::string audio_mxf_filename () const;
 
 	void send_dcp_to_tms ();
 	void make_dcp ();
@@ -97,7 +97,7 @@ public:
 	boost::shared_ptr<Player> make_player () const;
 	boost::shared_ptr<Playlist> playlist () const;
 
-	OutputAudioFrame dcp_audio_frame_rate () const;
+	OutputAudioFrame audio_frame_rate () const;
 
 	OutputAudioFrame time_to_audio_frames (Time) const;
 	OutputVideoFrame time_to_video_frames (Time) const;
@@ -110,7 +110,7 @@ public:
 
 	Time length () const;
 	bool has_subtitles () const;
-	OutputVideoFrame best_dcp_video_frame_rate () const;
+	OutputVideoFrame best_video_frame_rate () const;
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -128,10 +128,10 @@ public:
 		WITH_SUBTITLES,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
-		DCP_VIDEO_FRAME_RATE,
-		DCP_AUDIO_CHANNELS,
-		/** The setting of _dcp_3d has been changed */
-		DCP_3D,
+		VIDEO_FRAME_RATE,
+		AUDIO_CHANNELS,
+		/** The setting of _three_d has been changed */
+		THREE_D,
 		SEQUENCE_VIDEO,
 	};
 
@@ -188,20 +188,20 @@ public:
 		return _dci_metadata;
 	}
 
-	/* XXX: -> "video_frame_rate" */
-	int dcp_video_frame_rate () const {
+	/** @return The frame rate of the DCP */
+	int video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_video_frame_rate;
+		return _video_frame_rate;
 	}
 
-	int dcp_audio_channels () const {
+	int audio_channels () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_audio_channels;
+		return _audio_channels;
 	}
 
-	bool dcp_3d () const {
+	bool three_d () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_3d;
+		return _three_d;
 	}
 
 	bool sequence_video () const {
@@ -225,9 +225,9 @@ public:
 	void set_with_subtitles (bool);
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
-	void set_dcp_video_frame_rate (int);
-	void set_dcp_audio_channels (int);
-	void set_dcp_3d (bool);
+	void set_video_frame_rate (int);
+	void set_audio_channels (int);
+	void set_three_d (bool);
 	void set_dci_date_today ();
 	void set_sequence_video (bool);
 
@@ -279,14 +279,15 @@ private:
 	/** DCI naming stuff */
 	DCIMetadata _dci_metadata;
 	/** Frames per second to run our DCP at */
-	int _dcp_video_frame_rate;
+	int _video_frame_rate;
 	/** The date that we should use in a DCI name */
 	boost::gregorian::date _dci_date;
-	int _dcp_audio_channels;
+	/** Number of audio channels to put in the DCP */
+	int _audio_channels;
 	/** If true, the DCP will be written in 3D mode; otherwise in 2D.
 	    This will be regardless of what content is on the playlist.
 	*/
-	bool _dcp_3d;
+	bool _three_d;
 	bool _sequence_video;
 
 	/** true if our state has changed since we last saved it */

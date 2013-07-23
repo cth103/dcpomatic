@@ -138,26 +138,26 @@ FilmEditor::make_dcp_panel ()
 	{
 		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Frame Rate"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_dcp_frame_rate = new wxChoice (_dcp_panel, wxID_ANY);
-		s->Add (_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
-		_best_dcp_frame_rate = new wxButton (_dcp_panel, wxID_ANY, _("Use best"));
-		s->Add (_best_dcp_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+		_frame_rate = new wxChoice (_dcp_panel, wxID_ANY);
+		s->Add (_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
+		_best_frame_rate = new wxButton (_dcp_panel, wxID_ANY, _("Use best"));
+		s->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
 		grid->Add (s, wxGBPosition (r, 1));
 	}
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Audio channels"), true, wxGBPosition (r, 0));
-	_dcp_audio_channels = new wxSpinCtrl (_dcp_panel, wxID_ANY);
-	grid->Add (_dcp_audio_channels, wxGBPosition (r, 1));
+	_audio_channels = new wxSpinCtrl (_dcp_panel, wxID_ANY);
+	grid->Add (_audio_channels, wxGBPosition (r, 1));
 	++r;
 
-	_dcp_3d = new wxCheckBox (_dcp_panel, wxID_ANY, _("3D"));
-	grid->Add (_dcp_3d, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_three_d = new wxCheckBox (_dcp_panel, wxID_ANY, _("3D"));
+	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Resolution"), true, wxGBPosition (r, 0));
-	_dcp_resolution = new wxChoice (_dcp_panel, wxID_ANY);
-	grid->Add (_dcp_resolution, wxGBPosition (r, 1));
+	_resolution = new wxChoice (_dcp_panel, wxID_ANY);
+	grid->Add (_resolution, wxGBPosition (r, 1));
 	++r;
 
 	{
@@ -192,14 +192,14 @@ FilmEditor::make_dcp_panel ()
 
 	list<int> const dfr = Config::instance()->allowed_dcp_frame_rates ();
 	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
-		_dcp_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
+		_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
 
-	_dcp_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
+	_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
 	_j2k_bandwidth->SetRange (50, 250);
 
-	_dcp_resolution->Append (_("2K"));
-	_dcp_resolution->Append (_("4K"));
+	_resolution->Append (_("2K"));
+	_resolution->Append (_("4K"));
 }
 
 void
@@ -217,13 +217,13 @@ FilmEditor::connect_to_widgets ()
 	_content_timeline->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::content_timeline_clicked), 0, this);
 	_scaler->Connect		 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::scaler_changed), 0, this);
 	_dcp_content_type->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::dcp_content_type_changed), 0, this);
-	_dcp_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::dcp_frame_rate_changed), 0, this);
-	_best_dcp_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::best_dcp_frame_rate_clicked), 0, this);
-	_dcp_audio_channels->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::dcp_audio_channels_changed), 0, this);
+	_frame_rate->Connect	         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,	wxCommandEventHandler (FilmEditor::frame_rate_changed), 0, this);
+	_best_frame_rate->Connect	 (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED,	wxCommandEventHandler (FilmEditor::best_frame_rate_clicked), 0, this);
+	_audio_channels->Connect	 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::audio_channels_changed), 0, this);
 	_j2k_bandwidth->Connect		 (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,	wxCommandEventHandler (FilmEditor::j2k_bandwidth_changed), 0, this);
-	_dcp_resolution->Connect         (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::dcp_resolution_changed), 0, this);
+	_resolution->Connect             (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,      wxCommandEventHandler (FilmEditor::resolution_changed), 0, this);
 	_sequence_video->Connect         (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,     wxCommandEventHandler (FilmEditor::sequence_video_changed), 0, this);
-	_dcp_3d->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilmEditor::dcp_3d_changed, this));
+	_three_d->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilmEditor::three_d_changed, this));
 }
 
 void
@@ -293,37 +293,37 @@ FilmEditor::j2k_bandwidth_changed (wxCommandEvent &)
 }
 
 void
-FilmEditor::dcp_frame_rate_changed (wxCommandEvent &)
+FilmEditor::frame_rate_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_dcp_video_frame_rate (
+	_film->set_video_frame_rate (
 		boost::lexical_cast<int> (
-			wx_to_std (_dcp_frame_rate->GetString (_dcp_frame_rate->GetSelection ()))
+			wx_to_std (_frame_rate->GetString (_frame_rate->GetSelection ()))
 			)
 		);
 }
 
 void
-FilmEditor::dcp_audio_channels_changed (wxCommandEvent &)
+FilmEditor::audio_channels_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_dcp_audio_channels (_dcp_audio_channels->GetValue ());
+	_film->set_audio_channels (_audio_channels->GetValue ());
 }
 
 void
-FilmEditor::dcp_resolution_changed (wxCommandEvent &)
+FilmEditor::resolution_changed (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_resolution (_dcp_resolution->GetSelection() == 0 ? RESOLUTION_2K : RESOLUTION_4K);
+	_film->set_resolution (_resolution->GetSelection() == 0 ? RESOLUTION_2K : RESOLUTION_4K);
 }
 
 
@@ -370,7 +370,7 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
 		break;
 	case Film::RESOLUTION:
-		checked_set (_dcp_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
+		checked_set (_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
 		setup_dcp_name ();
 		break;
 	case Film::J2K_BANDWIDTH:
@@ -383,33 +383,33 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::DCI_METADATA:
 		setup_dcp_name ();
 		break;
-	case Film::DCP_VIDEO_FRAME_RATE:
+	case Film::VIDEO_FRAME_RATE:
 	{
 		bool done = false;
-		for (unsigned int i = 0; i < _dcp_frame_rate->GetCount(); ++i) {
-			if (wx_to_std (_dcp_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->dcp_video_frame_rate())) {
-				checked_set (_dcp_frame_rate, i);
+		for (unsigned int i = 0; i < _frame_rate->GetCount(); ++i) {
+			if (wx_to_std (_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->video_frame_rate())) {
+				checked_set (_frame_rate, i);
 				done = true;
 				break;
 			}
 		}
 
 		if (!done) {
-			checked_set (_dcp_frame_rate, -1);
+			checked_set (_frame_rate, -1);
 		}
 
-		_best_dcp_frame_rate->Enable (_film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
+		_best_frame_rate->Enable (_film->best_video_frame_rate () != _film->video_frame_rate ());
 		break;
 	}
-	case Film::DCP_AUDIO_CHANNELS:
-		_dcp_audio_channels->SetValue (_film->dcp_audio_channels ());
+	case Film::AUDIO_CHANNELS:
+		_audio_channels->SetValue (_film->audio_channels ());
 		setup_dcp_name ();
 		break;
 	case Film::SEQUENCE_VIDEO:
 		checked_set (_sequence_video, _film->sequence_video ());
 		break;
-	case Film::DCP_3D:
-		checked_set (_dcp_3d, _film->dcp_3d ());
+	case Film::THREE_D:
+		checked_set (_three_d, _film->three_d ());
 		break;
 	}
 }
@@ -526,10 +526,10 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
-	film_changed (Film::DCP_VIDEO_FRAME_RATE);
-	film_changed (Film::DCP_AUDIO_CHANNELS);
+	film_changed (Film::VIDEO_FRAME_RATE);
+	film_changed (Film::AUDIO_CHANNELS);
 	film_changed (Film::SEQUENCE_VIDEO);
-	film_changed (Film::DCP_3D);
+	film_changed (Film::THREE_D);
 
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
@@ -550,15 +550,15 @@ FilmEditor::set_general_sensitivity (bool s)
 	_content_remove->Enable (s);
 	_content_timeline->Enable (s);
 	_dcp_content_type->Enable (s);
-	_dcp_frame_rate->Enable (s);
-	_dcp_audio_channels->Enable (s);
+	_frame_rate->Enable (s);
+	_audio_channels->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_container->Enable (s);
-	_best_dcp_frame_rate->Enable (s && _film && _film->best_dcp_video_frame_rate () != _film->dcp_video_frame_rate ());
+	_best_frame_rate->Enable (s && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
 	_sequence_video->Enable (s);
-	_dcp_resolution->Enable (s);
+	_resolution->Enable (s);
 	_scaler->Enable (s);
-	_dcp_3d->Enable (s);
+	_three_d->Enable (s);
 
 	/* Set the panels in the content notebook */
 	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
@@ -622,13 +622,13 @@ FilmEditor::setup_dcp_name ()
 }
 
 void
-FilmEditor::best_dcp_frame_rate_clicked (wxCommandEvent &)
+FilmEditor::best_frame_rate_clicked (wxCommandEvent &)
 {
 	if (!_film) {
 		return;
 	}
 	
-	_film->set_dcp_video_frame_rate (_film->best_dcp_video_frame_rate ());
+	_film->set_video_frame_rate (_film->best_video_frame_rate ());
 }
 
 void
@@ -836,11 +836,11 @@ FilmEditor::content_right_click (wxListEvent& ev)
 }
 
 void
-FilmEditor::dcp_3d_changed ()
+FilmEditor::three_d_changed ()
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_dcp_3d (_dcp_3d->GetValue ());
+	_film->set_three_d (_three_d->GetValue ());
 }

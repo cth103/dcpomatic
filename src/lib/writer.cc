@@ -73,12 +73,12 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	   it into the DCP later.
 	*/
 
-	if (f->dcp_3d ()) {
+	if (f->three_d ()) {
 		_picture_asset.reset (
 			new libdcp::StereoPictureAsset (
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
-				_film->dcp_video_frame_rate (),
+				_film->video_frame_rate (),
 				_film->container()->size (_film->full_frame ())
 				)
 			);
@@ -88,7 +88,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 			new libdcp::MonoPictureAsset (
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
-				_film->dcp_video_frame_rate (),
+				_film->video_frame_rate (),
 				_film->container()->size (_film->full_frame ())
 				)
 			);
@@ -100,10 +100,10 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	_sound_asset.reset (
 		new libdcp::SoundAsset (
 			_film->dir (_film->dcp_name()),
-			_film->dcp_audio_mxf_filename (),
-			_film->dcp_video_frame_rate (),
-			_film->dcp_audio_channels (),
-			_film->dcp_audio_frame_rate ()
+			_film->audio_mxf_filename (),
+			_film->video_frame_rate (),
+			_film->audio_channels (),
+			_film->audio_frame_rate ()
 			)
 		);
 	
@@ -122,7 +122,7 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 	qi.encoded = encoded;
 	qi.frame = frame;
 
-	if (_film->dcp_3d() && eyes == EYES_BOTH) {
+	if (_film->three_d() && eyes == EYES_BOTH) {
 		/* 2D material in a 3D DCP; fake the 3D */
 		qi.eyes = EYES_LEFT;
 		_queue.push_back (qi);
@@ -345,7 +345,7 @@ Writer::finish ()
 	
 	boost::filesystem::path to;
 	to /= _film->dir (_film->dcp_name());
-	to /= _film->dcp_video_mxf_filename ();
+	to /= _film->video_mxf_filename ();
 
 	boost::system::error_code ec;
 	boost::filesystem::create_hard_link (from, to, ec);
@@ -358,7 +358,7 @@ Writer::finish ()
 	/* And update the asset */
 
 	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
-	_picture_asset->set_file_name (_film->dcp_video_mxf_filename ());
+	_picture_asset->set_file_name (_film->video_mxf_filename ());
 	_sound_asset->set_duration (frames);
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
@@ -369,7 +369,7 @@ Writer::finish ()
 			_film->dcp_name(),
 			_film->dcp_content_type()->libdcp_kind (),
 			frames,
-			_film->dcp_video_frame_rate ()
+			_film->video_frame_rate ()
 			)
 		);
 	
@@ -445,7 +445,7 @@ Writer::check_existing_picture_mxf ()
 
 	while (1) {
 
-		if (_film->dcp_3d ()) {
+		if (_film->three_d ()) {
 			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_LEFT)) {
 				break;
 			}

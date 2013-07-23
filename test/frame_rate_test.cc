@@ -228,7 +228,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
 	content->_video_frame_rate = 24;
-	film->set_dcp_video_frame_rate (24);
+	film->set_video_frame_rate (24);
 	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 48000);
 
@@ -239,30 +239,30 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 96000);
 
 	content->_video_frame_rate = 23.976;
-	film->set_dcp_video_frame_rate (24);
+	film->set_video_frame_rate (24);
 	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 47952);
 
 	content->_video_frame_rate = 29.97;
-	film->set_dcp_video_frame_rate (30);
-	BOOST_CHECK_EQUAL (film->dcp_video_frame_rate (), 30);
+	film->set_video_frame_rate (30);
+	BOOST_CHECK_EQUAL (film->video_frame_rate (), 30);
 	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 47952);
 
 	content->_video_frame_rate = 25;
-	film->set_dcp_video_frame_rate (24);
+	film->set_video_frame_rate (24);
 	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
 	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 50000);
 
 	content->_video_frame_rate = 25;
-	film->set_dcp_video_frame_rate (24);
+	film->set_video_frame_rate (24);
 	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
 	BOOST_CHECK_EQUAL (content->output_audio_frame_rate(), 50000);
 
 	/* Check some out-there conversions (not the best) */
 	
 	content->_video_frame_rate = 14.99;
-	film->set_dcp_video_frame_rate (25);
+	film->set_video_frame_rate (25);
 	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 16000, 0)));
 	/* The FrameRateConversion within output_audio_frame_rate should choose to double-up
 	   the 14.99 fps video to 30 and then run it slow at 25.

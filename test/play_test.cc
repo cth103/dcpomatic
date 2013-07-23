@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (play_test)
 	BOOST_CHECK_EQUAL (B->video_length(), 16);
 	
 	/* Film should have been set to 25fps */
-	BOOST_CHECK_EQUAL (film->dcp_video_frame_rate(), 25);
+	BOOST_CHECK_EQUAL (film->video_frame_rate(), 25);
 
 	BOOST_CHECK_EQUAL (A->start(), 0);
 	/* A is 16 frames long at 25 fps */

@@ -51,6 +51,14 @@ StillImageContent::summary () const
 	return String::compose (_("%1 [still]"), file().filename().string());
 }
 
+string
+StillImageContent::technical_summary () const
+{
+	return Content::technical_summary() + " - "
+		+ VideoContent::technical_summary() + " - "
+		+ "still";
+}
+
 bool
 StillImageContent::valid_file (boost::filesystem::path f)
 {
@@ -98,7 +106,7 @@ StillImageContent::length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate(), film->dcp_video_frame_rate ());
+	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / video_frame_rate();
 }
 

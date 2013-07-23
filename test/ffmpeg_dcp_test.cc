@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 	BOOST_CHECK (f->have_dcp());
 
 	p /= f->dcp_name();
-	p /= f->dcp_video_mxf_filename();
+	p /= f->video_mxf_filename();
 	boost::filesystem::remove (p);
 	BOOST_CHECK (!f->have_dcp ());
 }

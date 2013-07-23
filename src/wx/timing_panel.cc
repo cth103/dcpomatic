@@ -49,13 +49,13 @@ TimingPanel::film_content_changed (shared_ptr<Content> content, int property)
 {
 	if (property == ContentProperty::START) {
 		if (content) {
-			_start->set (content->start (), _editor->film()->dcp_video_frame_rate ());
+			_start->set (content->start (), _editor->film()->video_frame_rate ());
 		} else {
 			_start->set (0, 24);
 		}
 	} else if (property == ContentProperty::LENGTH) {
 		if (content) {
-			_length->set (content->length (), _editor->film()->dcp_video_frame_rate ());
+			_length->set (content->length (), _editor->film()->video_frame_rate ());
 		} else {
 			_length->set (0, 24);
 		}
@@ -70,7 +70,7 @@ TimingPanel::start_changed ()
 		return;
 	}
 
-	c->set_start (_start->get (_editor->film()->dcp_video_frame_rate ()));
+	c->set_start (_start->get (_editor->film()->video_frame_rate ()));
 }
 
 void
@@ -83,6 +83,6 @@ TimingPanel::length_changed ()
 
 	shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c);
 	if (ic) {
-		ic->set_video_length (_length->get (_editor->film()->dcp_video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
+		ic->set_video_length (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
 	}
 }

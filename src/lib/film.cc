@@ -93,9 +93,9 @@ Film::Film (string d)
 	, _with_subtitles (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
-	, _dcp_video_frame_rate (24)
-	, _dcp_audio_channels (MAX_AUDIO_CHANNELS)
-	, _dcp_3d (false)
+	, _video_frame_rate (24)
+	, _audio_channels (MAX_AUDIO_CHANNELS)
+	, _three_d (false)
 	, _sequence_video (true)
 	, _dirty (false)
 {
@@ -138,11 +138,11 @@ Film::video_identifier () const
 	s << container()->id()
 	  << "_" << resolution_to_string (_resolution)
 	  << "_" << _playlist->video_identifier()
-	  << "_" << _dcp_video_frame_rate
+	  << "_" << _video_frame_rate
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth();
 
-	if (_dcp_3d) {
+	if (_three_d) {
 		s << "_3D";
 	}
 
@@ -172,13 +172,13 @@ Film::internal_video_mxf_filename () const
 }
 
 string
-Film::dcp_video_mxf_filename () const
+Film::video_mxf_filename () const
 {
 	return filename_safe_name() + "_video.mxf";
 }
 
 string
-Film::dcp_audio_mxf_filename () const
+Film::audio_mxf_filename () const
 {
 	return filename_safe_name() + "_audio.mxf";
 }
@@ -224,13 +224,12 @@ Film::make_dcp ()
 		gethostname (buffer, sizeof (buffer));
 		log()->log (String::compose ("Starting to make DCP on %1", buffer));
 	}
-	
-//	log()->log (String::compose ("Content is %1; type %2", content_path(), (content_type() == STILL ? _("still") : _("video"))));
-//	if (length()) {
-//		log()->log (String::compose ("Content length %1", length().get()));
-//	}
-//	log()->log (String::compose ("Content digest %1", content_digest()));
-//	log()->log (String::compose ("Content at %1 fps, DCP at %2 fps", source_frame_rate(), dcp_frame_rate()));
+
+	ContentList cl = content ();
+	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+		log()->log (String::compose ("Content: %1", (*i)->technical_summary()));
+	}
+	log()->log (String::compose ("DCP video rate %2 fps", video_frame_rate()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
 #ifdef DCPOMATIC_DEBUG
@@ -329,10 +328,10 @@ Film::write_metadata () const
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
 	root->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
-	root->add_child("DCPVideoFrameRate")->add_child_text (lexical_cast<string> (_dcp_video_frame_rate));
+	root->add_child("VideoFrameRate")->add_child_text (lexical_cast<string> (_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
-	root->add_child("DCPAudioChannels")->add_child_text (lexical_cast<string> (_dcp_audio_channels));
-	root->add_child("DCP3D")->add_child_text (_dcp_3d ? "1" : "0");
+	root->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
+	root->add_child("3D")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));
 
@@ -376,11 +375,11 @@ Film::read_metadata ()
 	_with_subtitles = f.bool_child ("WithSubtitles");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
-	_dcp_video_frame_rate = f.number_child<int> ("DCPVideoFrameRate");
+	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
-	_dcp_audio_channels = f.number_child<int> ("DCPAudioChannels");
+	_audio_channels = f.number_child<int> ("AudioChannels");
 	_sequence_video = f.bool_child ("SequenceVideo");
-	_dcp_3d = f.bool_child ("DCP3D");
+	_three_d = f.bool_child ("3D");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
@@ -446,12 +445,12 @@ Film::dci_name (bool if_created_now) const
 		d << "_" << dcp_content_type()->dci_name();
 	}
 
-	if (dcp_3d ()) {
+	if (three_d ()) {
 		d << "-3D";
 	}
 
-	if (dcp_video_frame_rate() != 24) {
-		d << "-" << dcp_video_frame_rate();
+	if (video_frame_rate() != 24) {
+		d << "-" << video_frame_rate();
 	}
 
 	if (container()) {
@@ -476,7 +475,7 @@ Film::dci_name (bool if_created_now) const
 		}
 	}
 
-	switch (dcp_audio_channels ()) {
+	switch (audio_channels ()) {
 	case 1:
 		d << "_10";
 		break;
@@ -631,33 +630,33 @@ Film::set_dci_metadata (DCIMetadata m)
 }
 
 void
-Film::set_dcp_video_frame_rate (int f)
+Film::set_video_frame_rate (int f)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_video_frame_rate = f;
+		_video_frame_rate = f;
 	}
-	signal_changed (DCP_VIDEO_FRAME_RATE);
+	signal_changed (VIDEO_FRAME_RATE);
 }
 
 void
-Film::set_dcp_audio_channels (int c)
+Film::set_audio_channels (int c)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_audio_channels = c;
+		_audio_channels = c;
 	}
-	signal_changed (DCP_AUDIO_CHANNELS);
+	signal_changed (AUDIO_CHANNELS);
 }
 
 void
-Film::set_dcp_3d (bool t)
+Film::set_three_d (bool t)
 {
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_3d = t;
+		_three_d = t;
 	}
-	signal_changed (DCP_3D);
+	signal_changed (THREE_D);
 }
 
 void
@@ -670,9 +669,9 @@ Film::signal_changed (Property p)
 
 	switch (p) {
 	case Film::CONTENT:
-		set_dcp_video_frame_rate (_playlist->best_dcp_frame_rate ());
+		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
 		break;
-	case Film::DCP_VIDEO_FRAME_RATE:
+	case Film::VIDEO_FRAME_RATE:
 	case Film::SEQUENCE_VIDEO:
 		_playlist->maybe_sequence_video ();
 		break;
@@ -833,7 +832,7 @@ Film::has_subtitles () const
 }
 
 OutputVideoFrame
-Film::best_dcp_video_frame_rate () const
+Film::best_video_frame_rate () const
 {
 	return _playlist->best_dcp_frame_rate ();
 }
@@ -842,7 +841,7 @@ void
 Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
-		set_dcp_video_frame_rate (_playlist->best_dcp_frame_rate ());
+		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
 	} 
 
 	if (ui_signaller) {
@@ -859,29 +858,29 @@ Film::playlist_changed ()
 OutputAudioFrame
 Film::time_to_audio_frames (Time t) const
 {
-	return t * dcp_audio_frame_rate () / TIME_HZ;
+	return t * audio_frame_rate () / TIME_HZ;
 }
 
 OutputVideoFrame
 Film::time_to_video_frames (Time t) const
 {
-	return t * dcp_video_frame_rate () / TIME_HZ;
+	return t * video_frame_rate () / TIME_HZ;
 }
 
 Time
 Film::audio_frames_to_time (OutputAudioFrame f) const
 {
-	return f * TIME_HZ / dcp_audio_frame_rate ();
+	return f * TIME_HZ / audio_frame_rate ();
 }
 
 Time
 Film::video_frames_to_time (OutputVideoFrame f) const
 {
-	return f * TIME_HZ / dcp_video_frame_rate ();
+	return f * TIME_HZ / video_frame_rate ();
 }
 
 OutputAudioFrame
-Film::dcp_audio_frame_rate () const
+Film::audio_frame_rate () const
 {
 	/* XXX */
 	return 48000;
