@@ -94,7 +94,7 @@ AudioDialog::set_content (shared_ptr<AudioContent> c)
 
 	_content_changed_connection = _content->Changed.connect (bind (&AudioDialog::content_changed, this, _2));
 
-	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_content->file().filename().string()).data()));
+	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_content->path().filename().string()).data()));
 }
 
 void

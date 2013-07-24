@@ -68,8 +68,8 @@ FFmpeg::setup_general ()
 {
 	av_register_all ();
 
-	if (avformat_open_input (&_format_context, _ffmpeg_content->file().string().c_str(), 0, 0) < 0) {
-		throw OpenFileError (_ffmpeg_content->file().string ());
+	if (avformat_open_input (&_format_context, _ffmpeg_content->path().string().c_str(), 0, 0) < 0) {
+		throw OpenFileError (_ffmpeg_content->path().string ());
 	}
 
 	if (avformat_find_stream_info (_format_context, 0) < 0) {

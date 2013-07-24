@@ -156,7 +156,7 @@ private:
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
-		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->file().filename().string()).data(), type().data());
+		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->path().filename().string()).data(), type().data());
 		wxDouble name_width;
 		wxDouble name_height;
 		wxDouble name_descent;

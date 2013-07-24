@@ -55,7 +55,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml:
 string
 SndfileContent::summary () const
 {
-	return String::compose (_("%1 [audio]"), file().filename().string());
+	return String::compose (_("%1 [audio]"), path().filename().string());
 }
 
 string

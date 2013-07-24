@@ -40,7 +40,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 	, _deinterleave_buffer (0)
 {
 	_info.format = 0;
-	_sndfile = sf_open (_sndfile_content->file().string().c_str(), SFM_READ, &_info);
+	_sndfile = sf_open (_sndfile_content->path().string().c_str(), SFM_READ, &_info);
 	if (!_sndfile) {
 		throw DecodeError (_("could not open audio file for reading"));
 	}

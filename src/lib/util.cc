@@ -407,6 +407,44 @@ md5_digest (boost::filesystem::path file)
 	return s.str ();
 }
 
+string
+md5_digest_directory (boost::filesystem::path directory)
+{
+	int const buffer_size = 64 * 1024;
+	char buffer[buffer_size];
+
+	MD5_CTX md5_context;
+	MD5_Init (&md5_context);
+	
+	for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
+		ifstream f (i->path().string().c_str(), std::ios::binary);
+		if (!f.good ()) {
+			throw OpenFileError (i->path().string());
+		}
+	
+		f.seekg (0, std::ios::end);
+		int bytes = f.tellg ();
+		f.seekg (0, std::ios::beg);
+
+		while (bytes > 0) {
+			int const t = min (bytes, buffer_size);
+			f.read (buffer, t);
+			MD5_Update (&md5_context, buffer, t);
+			bytes -= t;
+		}
+	}
+
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	MD5_Final (digest, &md5_context);
+
+	stringstream s;
+	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
+	}
+
+	return s.str ();
+}
+
 static bool
 about_equal (float a, float b)
 {

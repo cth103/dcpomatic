@@ -43,7 +43,7 @@ Content::Content (shared_ptr<const Film> f, Time s)
 
 Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
 	: _film (f)
-	, _file (p)
+	, _path (p)
 	, _start (0)
 	, _change_signals_frequent (false)
 {
@@ -54,7 +54,7 @@ Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: _film (f)
 	, _change_signals_frequent (false)
 {
-	_file = node->string_child ("File");
+	_path = node->string_child ("Path");
 	_digest = node->string_child ("Digest");
 	_start = node->number_child<Time> ("Start");
 }
@@ -63,7 +63,7 @@ void
 Content::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("File")->add_child_text (_file.string());
+	node->add_child("Path")->add_child_text (_path.string());
 	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Start")->add_child_text (lexical_cast<string> (_start));
 }
@@ -71,7 +71,13 @@ Content::as_xml (xmlpp::Node* node) const
 void
 Content::examine (shared_ptr<Job>)
 {
-	string const d = md5_digest (_file);
+	string d;
+	if (boost::filesystem::is_regular_file (_path)) {
+		d = md5_digest (_path);
+	} else {
+		d = md5_digest_directory (_path);
+	}
+	
 	boost::mutex::scoped_lock lm (_mutex);
 	_digest = d;
 }
@@ -113,5 +119,5 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", file(), digest(), start());
+	return String::compose ("%1 %2 %3", path(), digest(), start());
 }

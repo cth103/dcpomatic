@@ -59,12 +59,12 @@ public:
 
 	boost::shared_ptr<Content> clone () const;
 	
-	boost::filesystem::path file () const {
+	boost::filesystem::path path () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _file;
+		return _path;
 	}
 
-	/** @return MD5 digest of the content's file */
+	/** @return MD5 digest of the content's file(s) */
 	std::string digest () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _digest;
@@ -94,7 +94,8 @@ protected:
 	mutable boost::mutex _mutex;
 
 private:
-	boost::filesystem::path _file;
+	/** Path of a file or a directory containing files */
+	boost::filesystem::path _path;
 	std::string _digest;
 	Time _start;
 	bool _change_signals_frequent;
