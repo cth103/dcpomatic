@@ -90,7 +90,7 @@ private:
 	void flush ();
 	void emit_black ();
 	void emit_silence (OutputAudioFrame);
-	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>);
+	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
 	void update_subtitle ();
 

@@ -191,6 +191,18 @@ Player::pass ()
 			cout << "Pass " << *earliest << "\n";
 #endif			
 			earliest->decoder->pass ();
+			
+			if (earliest->decoder->done()) {
+				shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (earliest->content);
+				assert (ac);
+				shared_ptr<Resampler> re = resampler (ac, false);
+				if (re) {
+					shared_ptr<const AudioBuffers> b = re->flush ();
+					if (b->frames ()) {
+						process_audio (earliest, b, ac->audio_length ());
+					}
+				}
+			}
 		}
 		break;
 	}
@@ -267,7 +279,7 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 
 	/* Resample */
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
-		shared_ptr<Resampler> r = resampler (content);
+		shared_ptr<Resampler> r = resampler (content, true);
 		audio = r->run (audio);
 	}
 
@@ -501,11 +513,15 @@ Player::set_video_container_size (libdcp::Size s)
 }
 
 shared_ptr<Resampler>
-Player::resampler (shared_ptr<AudioContent> c)
+Player::resampler (shared_ptr<AudioContent> c, bool create)
 {
 	map<shared_ptr<AudioContent>, shared_ptr<Resampler> >::iterator i = _resamplers.find (c);
 	if (i != _resamplers.end ()) {
 		return i->second;
+	}
+
+	if (!create) {
+		return shared_ptr<Resampler> ();
 	}
 	
 	shared_ptr<Resampler> r (new Resampler (c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()));
