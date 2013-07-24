@@ -330,7 +330,7 @@ Film::write_metadata () const
 	root->add_child("VideoFrameRate")->add_child_text (lexical_cast<string> (_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
 	root->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
-	root->add_child("3D")->add_child_text (_three_d ? "1" : "0");
+	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));
 
@@ -378,7 +378,7 @@ Film::read_metadata ()
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	_audio_channels = f.number_child<int> ("AudioChannels");
 	_sequence_video = f.bool_child ("SequenceVideo");
-	_three_d = f.bool_child ("3D");
+	_three_d = f.bool_child ("ThreeD");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
