@@ -43,6 +43,7 @@ public:
 		, _window (window)
 		, _panel (panel)
 		, _table (table)
+		, _needs_pulse (false)
 	{
 		int n = 0;
 		
@@ -83,6 +84,15 @@ public:
 		panel->FitInside ();
 	}
 
+	void maybe_pulse ()
+	{
+		if (_job->running() && _needs_pulse) {
+			_gauge->Pulse ();
+		}
+
+		_needs_pulse = true;
+	}
+
 private:
 
 	void progress ()
@@ -91,9 +101,7 @@ private:
 		if (p >= 0) {
 			checked_set (_message, _job->status ());
 			_gauge->SetValue (p * 100);
-		} else {
-			checked_set (_message, wx_to_std (_("Running")));
-			_gauge->Pulse ();
+			_needs_pulse = false;
 		}
 
 		_table->Layout ();
@@ -148,6 +156,7 @@ private:
 	wxButton* _cancel;
 	wxButton* _pause;
 	wxButton* _details;
+	bool _needs_pulse;
 };
 
 /** Must be called in the GUI thread */
@@ -171,6 +180,10 @@ JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
 
 	SetScrollRate (0, 32);
 
+	Bind (wxEVT_TIMER, boost::bind (&JobManagerView::periodic, this));
+	_timer.reset (new wxTimer (this));
+	_timer->Start (1000);
+	
 	JobManager::instance()->JobAdded.connect (bind (&JobManagerView::job_added, this, _1));
 }
 
@@ -183,3 +196,10 @@ JobManagerView::job_added (weak_ptr<Job> j)
 	}
 }
 
+void
+JobManagerView::periodic ()
+{
+	for (list<shared_ptr<JobRecord> >::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
+		(*i)->maybe_pulse ();
+	}
+}
