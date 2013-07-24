@@ -166,7 +166,8 @@ FFmpegContent::examine (shared_ptr<Job> job)
 string
 FFmpegContent::summary () const
 {
-	return String::compose (_("%1 [movie]"), path());
+	/* Get the string() here so that the name does not have quotes around it */
+	return String::compose (_("%1 [movie]"), path().filename().string());
 }
 
 string

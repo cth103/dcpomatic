@@ -48,7 +48,8 @@ StillImageContent::StillImageContent (shared_ptr<const Film> f, shared_ptr<const
 string
 StillImageContent::summary () const
 {
-	return String::compose (_("%1 [still]"), path());
+	/* Get the string() here so that the name does not have quotes around it */
+	return String::compose (_("%1 [still]"), path().filename().string());
 }
 
 string
