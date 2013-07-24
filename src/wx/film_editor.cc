@@ -531,9 +531,9 @@ FilmEditor::set_film (shared_ptr<Film> f)
 
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
-	} else {
-		content_selection_changed ();
 	}
+
+	content_selection_changed ();
 }
 
 void

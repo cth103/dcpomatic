@@ -183,6 +183,7 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 
 	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
 		checked_set (_frame_type, vc ? vc->video_frame_type () : VIDEO_FRAME_TYPE_2D);
+		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   vc ? vc->crop().left	: 0);
 		checked_set (_right_crop,  vc ? vc->crop().right	: 0);
@@ -259,15 +260,15 @@ VideoPanel::setup_description ()
 	if (vc->video_size().width && vc->video_size().height) {
 		d << wxString::Format (
 			_("Content video is %dx%d (%.2f:1)\n"),
-			vc->video_size().width, vc->video_size().height,
-			float (vc->video_size().width) / vc->video_size().height
+			vc->video_size_after_3d_split().width, vc->video_size_after_3d_split().height,
+			float (vc->video_size_after_3d_split().width) / vc->video_size_after_3d_split().height
 			);
 		++lines;
 	}
 
 	Crop const crop = vc->crop ();
 	if ((crop.left || crop.right || crop.top || crop.bottom) && vc->video_size() != libdcp::Size (0, 0)) {
-		libdcp::Size cropped = vc->video_size ();
+		libdcp::Size cropped = vc->video_size_after_3d_split ();
 		cropped.width -= crop.left + crop.right;
 		cropped.height -= crop.top + crop.bottom;
 		d << wxString::Format (
