@@ -48,14 +48,14 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioC
 }
 
 void
-AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
+AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame)
 {
 	if (_resampler) {
 		data = _resampler->run (data);
 	} 
 
 	Audio (data, _audio_position);
-	_audio_position = frame + data->frames ();
+	_audio_position += data->frames ();
 }
 
 void
