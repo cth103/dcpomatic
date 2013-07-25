@@ -36,7 +36,7 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioC
 	: Decoder (film)
 	, _audio_position (0)
 {
-	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
+	if (content->content_audio_frame_rate() != content->output_audio_frame_rate() && content->audio_channels ()) {
 		_resampler.reset (
 			new Resampler (
 				content->content_audio_frame_rate(),
