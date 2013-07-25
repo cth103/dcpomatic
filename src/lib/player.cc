@@ -295,6 +295,9 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 
 	audio = dcp_mapped;
 
+	/* Convert frame to time.  After resampling, the frame time (in the DCP rate) will be T_D where
+	   T_D = frame * DCP_rate / original_rate.  Hence the time in seconds is T_D / DCP_rate.
+	*/
 	Time time = content->start() + (frame * TIME_HZ / _film->audio_frame_rate()) + (content->audio_delay() * TIME_HZ / 1000);
 
 	/* We must cut off anything that comes before the start of all time */
