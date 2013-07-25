@@ -187,6 +187,7 @@ FFmpegContent::technical_summary () const
 	
 	return Content::technical_summary() + " - "
 		+ VideoContent::technical_summary() + " - "
+		+ AudioContent::technical_summary() + " - "
 		+ String::compose (
 			"ffmpeg: audio %1, subtitle %2, filters %3 %4", as, ss, filt.first, filt.second
 			);

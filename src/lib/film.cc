@@ -229,7 +229,7 @@ Film::make_dcp ()
 	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
 		log()->log (String::compose ("Content: %1", (*i)->technical_summary()));
 	}
-	log()->log (String::compose ("DCP video rate %2 fps", video_frame_rate()));
+	log()->log (String::compose ("DCP video rate %1 fps", video_frame_rate()));
 	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
 	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
 #ifdef DCPOMATIC_DEBUG
