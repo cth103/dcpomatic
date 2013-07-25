@@ -35,7 +35,6 @@ class Playlist;
 class AudioContent;
 class Piece;
 class Image;
-class Resampler;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
@@ -90,7 +89,6 @@ private:
 	void flush ();
 	void emit_black ();
 	void emit_silence (OutputAudioFrame);
-	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
 	void update_subtitle ();
 
@@ -113,8 +111,6 @@ private:
 
 	libdcp::Size _video_container_size;
 	boost::shared_ptr<Image> _black_frame;
-	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
-	boost::shared_ptr<Resampler> _last_resampler;
 
 	struct {
 		boost::weak_ptr<Piece> piece;

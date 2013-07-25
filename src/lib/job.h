@@ -126,6 +126,8 @@ private:
 	/** true if this job's progress will always be unknown */
 	bool _progress_unknown;
 
+	float _last_set;
+
 	int _ran_for;
 };
 

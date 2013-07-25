@@ -31,7 +31,6 @@
 #include "job.h"
 #include "image.h"
 #include "ratio.h"
-#include "resampler.h"
 #include "log.h"
 #include "scaler.h"
 
@@ -191,18 +190,6 @@ Player::pass ()
 			cout << "Pass " << *earliest << "\n";
 #endif			
 			earliest->decoder->pass ();
-			
-			if (earliest->decoder->done()) {
-				shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (earliest->content);
-				assert (ac);
-				shared_ptr<Resampler> re = resampler (ac, false);
-				if (re) {
-					shared_ptr<const AudioBuffers> b = re->flush ();
-					if (b->frames ()) {
-						process_audio (earliest, b, ac->audio_length ());
-					}
-				}
-			}
 		}
 		break;
 	}
@@ -277,12 +264,6 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
-	/* Resample */
-	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
-		shared_ptr<Resampler> r = resampler (content, true);
-		audio = r->run (audio);
-	}
-
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
 	dcp_mapped->make_silent ();
@@ -295,10 +276,9 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 
 	audio = dcp_mapped;
 
-	/* Convert frame to time.  After resampling, the frame time (in the DCP rate) will be T_D where
-	   T_D = frame * DCP_rate / original_rate.  Hence the time in seconds is T_D / DCP_rate.
-	*/
-	Time time = content->start() + (frame * TIME_HZ / _film->audio_frame_rate()) + (content->audio_delay() * TIME_HZ / 1000);
+	Time time = content->start()
+		+ _film->audio_frames_to_time (frame)
+		+ (content->audio_delay() * TIME_HZ / 1000);
 
 	/* We must cut off anything that comes before the start of all time */
 	if (time < 0) {
@@ -319,7 +299,7 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	*/
 
 	if (time > _audio_position) {
-		/* We can emit some audio from our buffers */
+		/* We can emit some audio from our buffers; this is how many frames */
 		OutputAudioFrame const N = _film->time_to_audio_frames (time - _audio_position);
 		if (N > _audio_buffers.frames()) {
 			/* We need some extra silence before whatever is in the buffers */
@@ -329,10 +309,12 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 			_audio_buffers.set_frames (N);
 		}
 		assert (N <= _audio_buffers.frames());
+
+		/* XXX: not convinced that a copy is necessary here */
 		shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
 		emit->copy_from (&_audio_buffers, N, 0, 0);
 		Audio (emit, _audio_position);
-		_audio_position = piece->audio_position = time + _film->audio_frames_to_time (N);
+		_audio_position = piece->audio_position = _audio_position + _film->audio_frames_to_time (N);
 
 		/* And remove it from our buffers */
 		if (_audio_buffers.frames() > N) {
@@ -513,23 +495,6 @@ Player::set_video_container_size (libdcp::Size s)
 	_video_container_size = s;
 	_black_frame.reset (new Image (PIX_FMT_RGB24, _video_container_size, true));
 	_black_frame->make_black ();
-}
-
-shared_ptr<Resampler>
-Player::resampler (shared_ptr<AudioContent> c, bool create)
-{
-	map<shared_ptr<AudioContent>, shared_ptr<Resampler> >::iterator i = _resamplers.find (c);
-	if (i != _resamplers.end ()) {
-		return i->second;
-	}
-
-	if (!create) {
-		return shared_ptr<Resampler> ();
-	}
-	
-	shared_ptr<Resampler> r (new Resampler (c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()));
-	_resamplers[c] = r;
-	return r;
 }
 
 void

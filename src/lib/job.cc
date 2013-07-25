@@ -34,6 +34,7 @@
 
 using std::string;
 using std::list;
+using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
 
@@ -43,6 +44,7 @@ Job::Job (shared_ptr<const Film> f)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
+	, _last_set (0)
 	, _ran_for (0)
 {
 	descend (1);
@@ -213,6 +215,13 @@ Job::elapsed_time () const
 void
 Job::set_progress (float p)
 {
+	if (fabs (p - _last_set) < 0.01) {
+		/* Calm excessive progress reporting */
+		return;
+	}
+
+	_last_set = p;
+
 	boost::mutex::scoped_lock lm (_progress_mutex);
 	_progress_unknown = false;
 	_stack.back().normalised = p;

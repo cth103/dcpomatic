@@ -21,6 +21,7 @@
 #include "audio_buffers.h"
 #include "exceptions.h"
 #include "log.h"
+#include "resampler.h"
 
 #include "i18n.h"
 
@@ -31,16 +32,30 @@ using std::cout;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<const Film> f)
-	: Decoder (f)
+AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
+	: Decoder (film)
 	, _audio_position (0)
 {
-
+	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
+		_resampler.reset (
+			new Resampler (
+				content->content_audio_frame_rate(),
+				content->output_audio_frame_rate(),
+				content->audio_channels()
+				)
+			);
+	}
 }
 
 void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {
-	Audio (data, frame);
+	/* XXX: no-one's calling _resampler->flush() again */
+	
+	if (_resampler) {
+		data = _resampler->run (data);
+	} 
+
+	Audio (data, _audio_position);
 	_audio_position = frame + data->frames ();
 }
