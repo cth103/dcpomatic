@@ -37,6 +37,12 @@ scaling video, resampling audio).  The resampling is awkward, though,
 as you really need one resampler per source.  So it might make more sense
 to put stuff in the decoder.  But then, what's one map of resamplers between friends?
 
+On the other hand, having the resampler in the player is confusing.  Audio comes in
+at a frame `position', but then it gets resampled and not all of it may emerge from
+the resampler.  This means that the position is meaningless, and we want a count
+of samples out from the resampler (which can be done more elegantly by the decoder's
+\texttt{\_audio\_position}.
+
 
 \section{Options for what \texttt{Time} is a function of}
 
