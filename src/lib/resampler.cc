@@ -42,8 +42,6 @@ Resampler::Resampler (int in, int out, int channels)
 	   input and output layouts are the same.
 	*/
 
-	cout << "resamp for " << _channels << " " << _in_rate << " " << _out_rate << "\n";
-
 	_swr_context = swr_alloc_set_opts (
 		0,
 		av_get_default_channel_layout (_channels),
