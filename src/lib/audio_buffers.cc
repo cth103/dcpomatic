@@ -110,13 +110,21 @@ AudioBuffers::data (int c) const
 }
 
 /** Set the number of frames that these AudioBuffers will report themselves
- *  as having.
+ *  as having.  If we reduce the number of frames, the `lost' frames will
+ *  be silenced.
  *  @param f Frames; must be less than or equal to the number of allocated frames.
  */
 void
 AudioBuffers::set_frames (int f)
 {
 	assert (f <= _allocated_frames);
+
+	for (int c = 0; c < _channels; ++c) {
+		for (int i = f; i < _frames; ++i) {
+			_data[c][i] = 0;
+		}
+	}
+	
 	_frames = f;
 }
 
