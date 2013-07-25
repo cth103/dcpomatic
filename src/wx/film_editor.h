@@ -76,7 +76,8 @@ private:
 	void use_dci_name_toggled ();
 	void edit_dci_button_clicked ();
 	void content_selection_changed ();
-	void content_add_clicked ();
+	void content_add_file_clicked ();
+	void content_add_folder_clicked ();
 	void content_remove_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
@@ -123,7 +124,8 @@ private:
 	wxCheckBox* _use_dci_name;
 	wxChoice* _container;
 	wxListCtrl* _content;
-	wxButton* _content_add;
+	wxButton* _content_add_file;
+	wxButton* _content_add_folder;
 	wxButton* _content_remove;
 	wxButton* _content_earlier;
 	wxButton* _content_later;

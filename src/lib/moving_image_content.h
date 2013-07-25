@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DCPOMATIC_STILL_IMAGE_CONTENT_H
-#define DCPOMATIC_STILL_IMAGE_CONTENT_H
+#ifndef DCPOMATIC_MOVING_IMAGE_CONTENT_H
+#define DCPOMATIC_MOVING_IMAGE_CONTENT_H
 
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
@@ -27,17 +27,17 @@ namespace cxml {
 	class Node;
 }
 
-/** A single image which is to be held on screen for some time (i.e. a slide) */
-class StillImageContent : public VideoContent
+/** A directory of image files which are to be presented as a movie */
+class MovingImageContent : public VideoContent
 {
 public:
-	StillImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	StillImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	MovingImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	MovingImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 
-	boost::shared_ptr<StillImageContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<StillImageContent> (Content::shared_from_this ());
+	boost::shared_ptr<MovingImageContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<MovingImageContent> (Content::shared_from_this ());
 	};
-
+	
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
@@ -45,8 +45,13 @@ public:
 	Time length () const;
 
 	std::string identifier () const;
+
+	std::vector<boost::filesystem::path> const & files () const {
+		return _files;
+	}
 	
-	void set_video_length (VideoContent::Frame);
+private:
+	std::vector<boost::filesystem::path> _files;
 };
 
 #endif

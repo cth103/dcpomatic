@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@
 
 */
 
-#ifndef DCPOMATIC_STILL_IMAGE_H
-#define DCPOMATIC_STILL_IMAGE_H
+#include "video_decoder.h"
+#include "moving_image.h"
 
-class StillImageContent;
+namespace Magick {
+	class Image;
+}
 
-class StillImage
+class MovingImageContent;
+
+class MovingImageDecoder : public VideoDecoder, public MovingImage
 {
 public:
-	StillImage (boost::shared_ptr<const StillImageContent> c)
-		: _still_image_content (c)
-	{}
+	MovingImageDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const MovingImageContent>);
 
-	boost::shared_ptr<const StillImageContent> content () const {
-		return _still_image_content;
-	}
+	/* Decoder */
 
-protected:
-	boost::shared_ptr<const StillImageContent> _still_image_content;
+	void pass ();
+	void seek (VideoContent::Frame, bool);
+	bool done () const;
 };
 
-#endif

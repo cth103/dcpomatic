@@ -20,6 +20,7 @@
 #include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
 #include "still_image_content.h"
+#include "moving_image_content.h"
 #include "sndfile_content.h"
 
 using std::string;
@@ -36,6 +37,8 @@ content_factory (shared_ptr<const Film> film, shared_ptr<cxml::Node> node)
 		content.reset (new FFmpegContent (film, node));
 	} else if (type == "StillImage") {
 		content.reset (new StillImageContent (film, node));
+	} else if (type == "MovingImage") {
+		content.reset (new MovingImageContent (film, node));
 	} else if (type == "Sndfile") {
 		content.reset (new SndfileContent (film, node));
 	}

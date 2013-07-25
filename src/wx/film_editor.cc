@@ -37,6 +37,7 @@
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/still_image_content.h"
+#include "lib/moving_image_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/sound_processor.h"
@@ -212,7 +213,8 @@ FilmEditor::connect_to_widgets ()
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_SELECTED,    boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_DESELECTED,  boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind          (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&FilmEditor::content_right_click, this, _1));
-	_content_add->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_add_clicked, this));
+	_content_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED,        boost::bind (&FilmEditor::content_add_file_clicked, this));
+	_content_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED,      boost::bind (&FilmEditor::content_add_folder_clicked, this));
 	_content_remove->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_remove_clicked, this));
 	_content_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_timeline_clicked, this));
 	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::scaler_changed, this));
@@ -243,8 +245,10 @@ FilmEditor::make_content_panel ()
 		_content->SetColumnWidth (0, 512);
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
-		_content_add = new wxButton (_content_panel, wxID_ANY, _("Add..."));
-		b->Add (_content_add, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file..."));
+		b->Add (_content_add_file, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add folder..."));
+		b->Add (_content_add_folder, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
 		b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
@@ -546,7 +550,8 @@ FilmEditor::set_general_sensitivity (bool s)
 	_use_dci_name->Enable (s);
 	_edit_dci_button->Enable (s);
 	_content->Enable (s);
-	_content_add->Enable (s);
+	_content_add_file->Enable (s);
+	_content_add_folder->Enable (s);
 	_content_remove->Enable (s);
 	_content_timeline->Enable (s);
 	_dcp_content_type->Enable (s);
@@ -658,7 +663,7 @@ FilmEditor::setup_content ()
 }
 
 void
-FilmEditor::content_add_clicked ()
+FilmEditor::content_add_file_clicked ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
 	int const r = d->ShowModal ();
@@ -671,12 +676,14 @@ FilmEditor::content_add_clicked ()
 	wxArrayString paths;
 	d->GetPaths (paths);
 
+	/* XXX: check for lots of files here and do something */
+
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
 		boost::filesystem::path p (wx_to_std (paths[i]));
 
 		shared_ptr<Content> c;
 
-		if (StillImageContent::valid_file (p)) {
+		if (valid_image_file (p)) {
 			c.reset (new StillImageContent (_film, p));
 		} else if (SndfileContent::valid_file (p)) {
 			c.reset (new SndfileContent (_film, p));
@@ -686,6 +693,24 @@ FilmEditor::content_add_clicked ()
 
 		_film->examine_and_add_content (c);
 	}
+}
+
+void
+FilmEditor::content_add_folder_clicked ()
+{
+	wxDirDialog* d = new wxDirDialog (this, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+	int const r = d->ShowModal ();
+	d->Destroy ();
+	
+	if (r != wxID_OK) {
+		return;
+	}
+
+	_film->examine_and_add_content (
+		shared_ptr<MovingImageContent> (
+			new MovingImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ())))
+			)
+		);
 }
 
 void
@@ -729,7 +754,8 @@ FilmEditor::content_selection_changed ()
 void
 FilmEditor::setup_content_sensitivity ()
 {
-	_content_add->Enable (_generally_sensitive);
+	_content_add_file->Enable (_generally_sensitive);
+	_content_add_folder->Enable (_generally_sensitive);
 
 	shared_ptr<Content> selection = selected_content ();
 

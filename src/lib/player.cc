@@ -24,6 +24,8 @@
 #include "ffmpeg_content.h"
 #include "still_image_decoder.h"
 #include "still_image_content.h"
+#include "moving_image_decoder.h"
+#include "moving_image_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
 #include "subtitle_content.h"
@@ -460,6 +462,18 @@ Player::setup_pieces ()
 			}
 
 			piece->decoder = id;
+		}
+
+		shared_ptr<const MovingImageContent> mc = dynamic_pointer_cast<const MovingImageContent> (*i);
+		if (mc) {
+			shared_ptr<MovingImageDecoder> md;
+
+			if (!md) {
+				md.reset (new MovingImageDecoder (_film, mc));
+				md->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4));
+			}
+
+			piece->decoder = md;
 		}
 
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);

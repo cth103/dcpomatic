@@ -28,12 +28,12 @@ sources = """
           film.cc
           filter.cc
           image.cc
-          still_image_content.cc
-          still_image_decoder.cc
-          still_image_examiner.cc
           job.cc
           job_manager.cc
           log.cc
+          moving_image_content.cc
+          moving_image_decoder.cc
+          moving_image_examiner.cc
           player.cc
           playlist.cc
           ratio.cc
@@ -44,6 +44,9 @@ sources = """
           sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc
+          still_image_content.cc
+          still_image_decoder.cc
+          still_image_examiner.cc
           subtitle_content.cc
           subtitle_decoder.cc
           timer.cc

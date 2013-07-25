@@ -18,8 +18,8 @@
 */
 
 #include <libcxml/cxml.h>
-#include "still_image_content.h"
-#include "still_image_examiner.h"
+#include "moving_image_content.h"
+#include "moving_image_examiner.h"
 #include "config.h"
 #include "compose.hpp"
 #include "film.h"
@@ -28,83 +28,83 @@
 
 using std::string;
 using std::cout;
+using std::list;
 using std::stringstream;
+using std::vector;
 using boost::shared_ptr;
 
-StillImageContent::StillImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
+MovingImageContent::MovingImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, VideoContent (f, p)
 {
 
 }
 
-StillImageContent::StillImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+MovingImageContent::MovingImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
 	, VideoContent (f, node)
 {
-	
+	list<shared_ptr<cxml::Node> > c = node->node_children ("File");
+	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+		_files.push_back ((*i)->content ());
+	}
 }
 
 string
-StillImageContent::summary () const
+MovingImageContent::summary () const
 {
 	/* Get the string() here so that the name does not have quotes around it */
-	return String::compose (_("%1 [still]"), path().filename().string());
+	return String::compose (_("%1 [moving images]"), path().filename().string());
 }
 
 string
-StillImageContent::technical_summary () const
+MovingImageContent::technical_summary () const
 {
 	return Content::technical_summary() + " - "
 		+ VideoContent::technical_summary() + " - "
-		+ "still";
+		+ "moving";
 }
 
 void
-StillImageContent::as_xml (xmlpp::Node* node) const
+MovingImageContent::as_xml (xmlpp::Node* node) const
 {
-	node->add_child("Type")->add_child_text ("StillImage");
+	node->add_child("Type")->add_child_text ("MovingImage");
 	Content::as_xml (node);
 	VideoContent::as_xml (node);
+
+	for (vector<boost::filesystem::path>::const_iterator i = _files.begin(); i != _files.end(); ++i) {
+		node->add_child("File")->add_child_text (i->filename().string());
+	}
 }
 
 void
-StillImageContent::examine (shared_ptr<Job> job)
+MovingImageContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	shared_ptr<StillImageExaminer> examiner (new StillImageExaminer (film, shared_from_this()));
+	shared_ptr<MovingImageExaminer> examiner (new MovingImageExaminer (film, shared_from_this(), job));
 
 	take_from_video_examiner (examiner);
-	set_video_length (Config::instance()->default_still_length() * video_frame_rate());
-}
 
-void
-StillImageContent::set_video_length (VideoContent::Frame len)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_video_length = len;
-	}
-
-	signal_changed (ContentProperty::LENGTH);
+	_video_length = examiner->files().size ();
+	_files = examiner->files ();
 }
 
 Time
-StillImageContent::length () const
+MovingImageContent::length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	
+
 	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / video_frame_rate();
 }
 
 string
-StillImageContent::identifier () const
+MovingImageContent::identifier () const
 {
 	stringstream s;
 	s << VideoContent::identifier ();

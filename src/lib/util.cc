@@ -775,3 +775,12 @@ LocaleGuard::~LocaleGuard ()
 	setlocale (LC_NUMERIC, _old);
 	free (_old);
 }
+
+bool
+valid_image_file (boost::filesystem::path f)
+{
+	string ext = f.extension().string();
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp");
+}
+

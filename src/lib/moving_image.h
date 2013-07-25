@@ -17,24 +17,19 @@
 
 */
 
-#ifndef DCPOMATIC_STILL_IMAGE_H
-#define DCPOMATIC_STILL_IMAGE_H
+class MovingImageContent;
 
-class StillImageContent;
-
-class StillImage
+class MovingImage
 {
 public:
-	StillImage (boost::shared_ptr<const StillImageContent> c)
-		: _still_image_content (c)
+	MovingImage (boost::shared_ptr<const MovingImageContent> c)
+		: _moving_image_content (c)
 	{}
 
-	boost::shared_ptr<const StillImageContent> content () const {
-		return _still_image_content;
+	boost::shared_ptr<const MovingImageContent> content () const {
+		return _moving_image_content;
 	}
 
 protected:
-	boost::shared_ptr<const StillImageContent> _still_image_content;
+	boost::shared_ptr<const MovingImageContent> _moving_image_content;
 };
-
-#endif

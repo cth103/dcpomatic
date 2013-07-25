@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,24 +17,31 @@
 
 */
 
-#ifndef DCPOMATIC_STILL_IMAGE_H
-#define DCPOMATIC_STILL_IMAGE_H
+#include "moving_image.h"
+#include "video_examiner.h"
 
-class StillImageContent;
+namespace Magick {
+	class Image;
+}
 
-class StillImage
+class MovingImageContent;
+
+class MovingImageExaminer : public MovingImage, public VideoExaminer
 {
 public:
-	StillImage (boost::shared_ptr<const StillImageContent> c)
-		: _still_image_content (c)
-	{}
+	MovingImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const MovingImageContent>, boost::shared_ptr<Job>);
 
-	boost::shared_ptr<const StillImageContent> content () const {
-		return _still_image_content;
+	float video_frame_rate () const;
+	libdcp::Size video_size () const;
+	VideoContent::Frame video_length () const;
+
+	std::vector<boost::filesystem::path> const & files () const {
+		return _files;
 	}
 
-protected:
-	boost::shared_ptr<const StillImageContent> _still_image_content;
+private:
+	boost::weak_ptr<const Film> _film;
+	boost::optional<libdcp::Size> _video_size;
+	VideoContent::Frame _video_length;
+	std::vector<boost::filesystem::path> _files;
 };
-
-#endif
