@@ -43,11 +43,12 @@ public:
 	 *  cause the object to emit some data.
 	 */
 	virtual void pass () = 0;
-
 	virtual bool done () const = 0;
 
 protected:
 
+	virtual void flush () {};
+	
 	/** The Film that we are decoding in */
 	boost::weak_ptr<const Film> _film;
 };

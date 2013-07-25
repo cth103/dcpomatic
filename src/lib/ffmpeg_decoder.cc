@@ -120,7 +120,32 @@ FFmpegDecoder::~FFmpegDecoder ()
 	if (_subtitle_codec_context) {
 		avcodec_close (_subtitle_codec_context);
 	}
-}	
+}
+
+void
+FFmpegDecoder::flush ()
+{
+	/* Get any remaining frames */
+	
+	_packet.data = 0;
+	_packet.size = 0;
+	
+	/* XXX: should we reset _packet.data and size after each *_decode_* call? */
+	
+	if (_decode_video) {
+		while (decode_video_packet ()) {}
+	}
+	
+	if (_ffmpeg_content->audio_stream() && _decode_audio) {
+		decode_audio_packet ();
+	}
+
+	AudioDecoder::flush ();
+	
+	/* Stop us being asked for any more data */
+	_video_position = _ffmpeg_content->video_length ();
+	_audio_position = _ffmpeg_content->audio_length ();
+}
 
 void
 FFmpegDecoder::pass ()
@@ -137,24 +162,7 @@ FFmpegDecoder::pass ()
 			film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
 		}
 
-		/* Get any remaining frames */
-		
-		_packet.data = 0;
-		_packet.size = 0;
-		
-		/* XXX: should we reset _packet.data and size after each *_decode_* call? */
-		
-		if (_decode_video) {
-			while (decode_video_packet ()) {}
-		}
-
-		if (_ffmpeg_content->audio_stream() && _decode_audio) {
-			decode_audio_packet ();
-		}
-
-		/* Stop us being asked for any more data */
-		_video_position = _ffmpeg_content->video_length ();
-		_audio_position = _ffmpeg_content->audio_length ();
+		flush ();
 		return;
 	}
 

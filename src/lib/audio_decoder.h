@@ -44,6 +44,8 @@ public:
 
 protected:
 
+	void flush ();
+
 	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	/** Frame index of next emission (post resampling) */
 	AudioContent::Frame _audio_position;

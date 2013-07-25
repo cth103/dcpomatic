@@ -50,12 +50,18 @@ AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioC
 void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {
-	/* XXX: no-one's calling _resampler->flush() again */
-	
 	if (_resampler) {
 		data = _resampler->run (data);
 	} 
 
 	Audio (data, _audio_position);
 	_audio_position = frame + data->frames ();
+}
+
+void
+AudioDecoder::flush ()
+{
+	if (_resampler) {
+		_resampler->flush ();
+	}
 }

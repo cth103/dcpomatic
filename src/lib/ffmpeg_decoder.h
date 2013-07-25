@@ -60,6 +60,8 @@ private:
 
 	static double compute_pts_offset (double, double, float);
 
+	void flush ();
+
 	void setup_subtitle ();
 
 	AVSampleFormat audio_sample_format () const;
