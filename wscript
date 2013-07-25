@@ -86,7 +86,7 @@ def configure(conf):
 
     # Dependencies which are dynamically linked everywhere except --static
     # Get libs only when we are dynamically linking
-    conf.check_cfg(package='libdcp',        atleast_version='0.69', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
+    conf.check_cfg(package='libdcp',        atleast_version='0.70', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
     # Remove erroneous escaping of quotes from xmlsec1 defines
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
     conf.check_cfg(package='libcxml',       atleast_version='0.01', args=pkg_config_args(conf), uselib_store='CXML', mandatory=True)
