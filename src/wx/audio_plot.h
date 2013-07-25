@@ -33,6 +33,7 @@ public:
 	void set_type_visible (int t, bool v);
 	void set_gain (float);
 	void set_smoothing (int);
+	void set_message (wxString);
 
 	static const int max_smoothing;
 
@@ -56,6 +57,8 @@ private:
 	int _y_origin;
 	float _x_scale;
 	float _y_scale;
+
+	wxString _message;
 
 	static const int _minimum;
 };

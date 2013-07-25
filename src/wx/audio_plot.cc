@@ -40,6 +40,7 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _gain (0)
 	, _smoothing (max_smoothing / 2)
+	, _message (_("Please wait; audio is being analysed..."))
 {
 #ifndef __WXOSX__	
 	SetDoubleBuffered (true);
@@ -96,6 +97,13 @@ AudioPlot::set_type_visible (int t, bool v)
 }
 
 void
+AudioPlot::set_message (wxString s)
+{
+	_message = s;
+	Refresh ();
+}
+
+void
 AudioPlot::paint (wxPaintEvent &)
 {
 	wxPaintDC dc (this);
@@ -107,7 +115,7 @@ AudioPlot::paint (wxPaintEvent &)
 
 	if (!_analysis || _analysis->channels() == 0) {
 		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
-		gc->DrawText (_("Please wait; audio is being analysed..."), 32, 32);
+		gc->DrawText (_message, 32, 32);
 		return;
 	}
 

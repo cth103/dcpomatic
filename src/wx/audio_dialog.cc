@@ -100,16 +100,14 @@ AudioDialog::set_content (shared_ptr<AudioContent> c)
 void
 AudioDialog::try_to_load_analysis ()
 {
-	shared_ptr<AudioAnalysis> a;
-
-	if (boost::filesystem::exists (_content->audio_analysis_path())) {
-		a.reset (new AudioAnalysis (_content->audio_analysis_path ()));
-	} else {
-		if (IsShown ()) {
-			_content->analyse_audio (bind (&AudioDialog::try_to_load_analysis, this));
-		}
+	if (!boost::filesystem::exists (_content->audio_analysis_path()) && IsShown ()) {
+		_content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
+		return;
 	}
-		
+	
+	shared_ptr<AudioAnalysis> a;
+	
+	a.reset (new AudioAnalysis (_content->audio_analysis_path ()));
 	_plot->set_analysis (a);
 
 	if (_channel_checkbox[0]) {
@@ -121,6 +119,20 @@ AudioDialog::try_to_load_analysis ()
 		_type_checkbox[i]->SetValue (true);
 		_plot->set_type_visible (i, true);
 	}
+}
+
+void
+AudioDialog::analysis_finished ()
+{
+	if (!boost::filesystem::exists (_content->audio_analysis_path())) {
+		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
+		   Give up.
+		*/
+		_plot->set_message (_("Could not analyse audio."));
+		return;
+	}
+
+	try_to_load_analysis ();
 }
 
 void
