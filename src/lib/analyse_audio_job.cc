@@ -74,8 +74,9 @@ AnalyseAudioJob::run ()
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	_done = 0;
+	OutputAudioFrame const len = _film->time_to_audio_frames (_film->length ());
 	while (!player->pass ()) {
-		set_progress (double (_film->audio_frames_to_time (_done)) / _film->length ());
+		set_progress (double (_done) / len);
 	}
 
 	_analysis->write (content->audio_analysis_path ());
