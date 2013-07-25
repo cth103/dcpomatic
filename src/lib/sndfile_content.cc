@@ -55,6 +55,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml:
 string
 SndfileContent::summary () const
 {
+	/* Get the string() here so that the name does not have quotes around it */
 	return String::compose (_("%1 [audio]"), path().filename().string());
 }
 

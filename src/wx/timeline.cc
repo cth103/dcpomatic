@@ -74,10 +74,10 @@ private:
 class ContentView : public View
 {
 public:
-	ContentView (Timeline& tl, shared_ptr<Content> c, int t)
+	ContentView (Timeline& tl, shared_ptr<Content> c)
 		: View (tl)
 		, _content (c)
-		, _track (t)
+		, _track (0)
 		, _selected (false)
 	{
 		_content_connection = c->Changed.connect (bind (&ContentView::content_changed, this, _2, _3));
@@ -197,8 +197,8 @@ private:
 class AudioContentView : public ContentView
 {
 public:
-	AudioContentView (Timeline& tl, shared_ptr<Content> c, int t)
-		: ContentView (tl, c, t)
+	AudioContentView (Timeline& tl, shared_ptr<Content> c)
+		: ContentView (tl, c)
 	{}
 	
 private:
@@ -216,8 +216,8 @@ private:
 class VideoContentView : public ContentView
 {
 public:
-	VideoContentView (Timeline& tl, shared_ptr<Content> c, int t)
-		: ContentView (tl, c, t)
+	VideoContentView (Timeline& tl, shared_ptr<Content> c)
+		: ContentView (tl, c)
 	{}
 
 private:	
@@ -385,10 +385,10 @@ Timeline::playlist_changed ()
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
-			_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i, 0)));
+			_views.push_back (shared_ptr<View> (new VideoContentView (*this, *i)));
 		}
 		if (dynamic_pointer_cast<AudioContent> (*i)) {
-			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i, 0)));
+			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i)));
 		}
 	}
 
@@ -415,7 +415,7 @@ Timeline::assign_tracks ()
 		}
 	
 		shared_ptr<Content> acv_content = acv->content();
-		
+
 		int t = 1;
 		while (1) {
 			ViewList::iterator j = _views.begin();
@@ -429,8 +429,11 @@ Timeline::assign_tracks ()
 				shared_ptr<Content> test_content = test->content();
 					
 				if (test && test->track() == t) {
-					if ((acv_content->start() < test_content->start() && test_content->start() < acv_content->end()) ||
-					    (acv_content->start() < test_content->end()   && test_content->end()   < acv_content->end())) {
+					bool const no_overlap =
+						(acv_content->start() < test_content->start() && acv_content->end() < test_content->start()) ||
+						(acv_content->start() > test_content->end()   && acv_content->end() > test_content->end());
+					
+					if (!no_overlap) {
 						/* we have an overlap on track `t' */
 						++t;
 						break;

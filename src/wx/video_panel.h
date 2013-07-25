@@ -42,7 +42,7 @@ private:
 	void ratio_changed ();
 	void frame_type_changed ();
 
-	void setup_scaling_description ();
+	void setup_description ();
 
 	wxChoice* _frame_type;
 	wxSpinCtrl* _left_crop;
@@ -51,7 +51,7 @@ private:
 	wxSpinCtrl* _bottom_crop;
 	wxChoice* _ratio;
 	wxStaticText* _ratio_description;
-	wxStaticText* _scaling_description;
+	wxStaticText* _description;
 	wxStaticText* _filters;
 	wxButton* _filters_button;
 };

@@ -68,7 +68,8 @@ void
 DirPickerCtrl::browse_clicked (wxCommandEvent &)
 {
 	wxDirDialog* d = new wxDirDialog (this);
-	d->ShowModal ();
-	SetPath (d->GetPath ());
+	if (d->ShowModal () == wxID_OK) {
+		SetPath (d->GetPath ());
+	}
 	d->Destroy ();
 }

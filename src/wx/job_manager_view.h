@@ -42,9 +42,11 @@ public:
 
 private:
 	void job_added (boost::weak_ptr<Job>);
+	void periodic ();
 
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
+	boost::shared_ptr<wxTimer> _timer;
 		
 	std::list<boost::shared_ptr<JobRecord> > _job_records;
 	Buttons _buttons;

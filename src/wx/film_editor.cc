@@ -497,8 +497,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 {
 	set_general_sensitivity (f != 0);
 
-	content_selection_changed ();
-
 	if (_film == f) {
 		return;
 	}
@@ -534,6 +532,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
 	}
+
+	content_selection_changed ();
 }
 
 void

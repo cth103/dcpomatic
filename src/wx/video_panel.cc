@@ -71,14 +71,6 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	grid->Add (_ratio, wxGBPosition (r, 1));
 	++r;
 
-	_scaling_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n"), wxDefaultPosition, wxDefaultSize);
-	grid->Add (_scaling_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	wxFont font = _scaling_description->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_scaling_description->SetFont(font);
-	++r;
-
 	{
 		add_label_to_grid_bag_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -88,6 +80,14 @@ VideoPanel::VideoPanel (FilmEditor* e)
 		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
+	++r;
+
+	_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
+	grid->Add (_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	wxFont font = _description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_description->SetFont(font);
 	++r;
 
 	_left_crop->SetRange (0, 1024);
@@ -167,7 +167,8 @@ VideoPanel::film_changed (Film::Property property)
 {
 	switch (property) {
 	case Film::CONTAINER:
-		setup_scaling_description ();
+	case Film::VIDEO_FRAME_RATE:
+		setup_description ();
 		break;
 	default:
 		break;
@@ -182,12 +183,13 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 
 	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
 		checked_set (_frame_type, vc ? vc->video_frame_type () : VIDEO_FRAME_TYPE_2D);
+		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		checked_set (_left_crop,   vc ? vc->crop().left	: 0);
 		checked_set (_right_crop,  vc ? vc->crop().right	: 0);
 		checked_set (_top_crop,	   vc ? vc->crop().top	: 0);
 		checked_set (_bottom_crop, vc ? vc->crop().bottom : 0);
-		setup_scaling_description ();
+		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_RATIO) {
 		if (vc) {
 			int n = 0;
@@ -206,7 +208,9 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 		} else {
 			checked_set (_ratio, -1);
 		}
-		setup_scaling_description ();
+		setup_description ();
+	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
+		setup_description ();
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (fc) {
 			pair<string, string> p = Filter::ffmpeg_strings (fc->filters ());
@@ -241,11 +245,11 @@ VideoPanel::edit_filters_clicked ()
 }
 
 void
-VideoPanel::setup_scaling_description ()
+VideoPanel::setup_description ()
 {
 	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
 	if (!vc) {
-		_scaling_description->SetLabel ("");
+		_description->SetLabel ("");
 		return;
 	}
 
@@ -255,16 +259,16 @@ VideoPanel::setup_scaling_description ()
 
 	if (vc->video_size().width && vc->video_size().height) {
 		d << wxString::Format (
-			_("Original video is %dx%d (%.2f:1)\n"),
-			vc->video_size().width, vc->video_size().height,
-			float (vc->video_size().width) / vc->video_size().height
+			_("Content video is %dx%d (%.2f:1)\n"),
+			vc->video_size_after_3d_split().width, vc->video_size_after_3d_split().height,
+			float (vc->video_size_after_3d_split().width) / vc->video_size_after_3d_split().height
 			);
 		++lines;
 	}
 
 	Crop const crop = vc->crop ();
 	if ((crop.left || crop.right || crop.top || crop.bottom) && vc->video_size() != libdcp::Size (0, 0)) {
-		libdcp::Size cropped = vc->video_size ();
+		libdcp::Size cropped = vc->video_size_after_3d_split ();
 		cropped.width -= crop.left + crop.right;
 		cropped.height -= crop.top + crop.bottom;
 		d << wxString::Format (
@@ -297,11 +301,17 @@ VideoPanel::setup_scaling_description ()
 		}
 	}
 
-	for (int i = lines; i < 4; ++i) {
+	d << wxString::Format (_("Content frame rate %.4f\n"), vc->video_frame_rate ());
+	++lines;
+	FrameRateConversion frc (vc->video_frame_rate(), _editor->film()->video_frame_rate ());
+	d << frc.description << "\n";
+	++lines;
+
+	for (int i = lines; i < 6; ++i) {
 		d << wxT ("\n ");
 	}
 
-	_scaling_description->SetLabel (d);
+	_description->SetLabel (d);
 	_sizer->Layout ();
 }
 

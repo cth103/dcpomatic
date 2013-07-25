@@ -88,6 +88,8 @@ public:
 		return _ratio;
 	}
 
+	libdcp::Size video_size_after_3d_split () const;
+
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 

@@ -243,3 +243,17 @@ VideoContent::technical_summary () const
 {
 	return String::compose ("video: length %1, size %2x%3, rate %4", video_length(), video_size().width, video_size().height, video_frame_rate());
 }
+
+libdcp::Size
+VideoContent::video_size_after_3d_split () const
+{
+	libdcp::Size const s = video_size ();
+	switch (video_frame_type ()) {
+	case VIDEO_FRAME_TYPE_2D:
+		return s;
+	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+		return libdcp::Size (s.width / 2, s.height);
+	}
+
+	assert (false);
+}
