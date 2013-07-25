@@ -35,7 +35,7 @@ using boost::shared_ptr;
 
 SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const SndfileContent> c)
 	: Decoder (f)
-	, AudioDecoder (f, c)
+	, AudioDecoder (f)
 	, _sndfile_content (c)
 	, _deinterleave_buffer (0)
 {

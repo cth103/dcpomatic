@@ -60,7 +60,7 @@ using libdcp::Size;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio)
 	: Decoder (f)
 	, VideoDecoder (f, c)
-	, AudioDecoder (f, c)
+	, AudioDecoder (f)
 	, SubtitleDecoder (f)
 	, FFmpeg (c)
 	, _subtitle_codec_context (0)
@@ -140,8 +140,6 @@ FFmpegDecoder::flush ()
 		decode_audio_packet ();
 	}
 
-	AudioDecoder::flush ();
-	
 	/* Stop us being asked for any more data */
 	_video_position = _ffmpeg_content->video_length ();
 	_audio_position = _ffmpeg_content->audio_length ();

@@ -22,6 +22,8 @@
 extern "C" {
 #include <libswresample/swresample.h>
 }
+#include "types.h"
+#include "audio_content.h"
 
 class AudioBuffers;
 
@@ -31,7 +33,7 @@ public:
 	Resampler (int, int, int);
 	~Resampler ();
 
-	boost::shared_ptr<const AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
+	std::pair<boost::shared_ptr<const AudioBuffers>, AudioContent::Frame> run (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	boost::shared_ptr<const AudioBuffers> flush ();
 
 private:	

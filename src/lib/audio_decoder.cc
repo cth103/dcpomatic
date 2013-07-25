@@ -32,36 +32,16 @@ using std::cout;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
+AudioDecoder::AudioDecoder (shared_ptr<const Film> film)
 	: Decoder (film)
 	, _audio_position (0)
 {
-	if (content->content_audio_frame_rate() != content->output_audio_frame_rate() && content->audio_channels ()) {
-		_resampler.reset (
-			new Resampler (
-				content->content_audio_frame_rate(),
-				content->output_audio_frame_rate(),
-				content->audio_channels()
-				)
-			);
-	}
+
 }
 
 void
-AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame)
+AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {
-	if (_resampler) {
-		data = _resampler->run (data);
-	} 
-
-	Audio (data, _audio_position);
-	_audio_position += data->frames ();
-}
-
-void
-AudioDecoder::flush ()
-{
-	if (_resampler) {
-		_resampler->flush ();
-	}
+	Audio (data, frame);
+	_audio_position = frame + data->frames ();
 }

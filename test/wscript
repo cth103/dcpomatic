@@ -16,6 +16,7 @@ def build(bld):
     obj.use    = 'libdcpomatic'
     obj.source = """
                  test.cc
+                 resampler_test.cc
                  ffmpeg_audio_test.cc
                  threed_test.cc
                  play_test.cc

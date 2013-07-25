@@ -27,6 +27,8 @@ extern "C" {
 #include "i18n.h"
 
 using std::cout;
+using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 
 Resampler::Resampler (int in, int out, int channels)
@@ -61,9 +63,11 @@ Resampler::~Resampler ()
 	swr_free (&_swr_context);
 }
 
-shared_ptr<const AudioBuffers>
-Resampler::run (shared_ptr<const AudioBuffers> in)
+pair<shared_ptr<const AudioBuffers>, AudioContent::Frame>
+Resampler::run (shared_ptr<const AudioBuffers> in, AudioContent::Frame frame)
 {
+	AudioContent::Frame const resamp_time = swr_next_pts (_swr_context, frame * _out_rate) / _in_rate;
+		
 	/* Compute the resampled frames count and add 32 for luck */
 	int const max_resampled_frames = ceil ((double) in->frames() * _out_rate / _in_rate) + 32;
 	shared_ptr<AudioBuffers> resampled (new AudioBuffers (_channels, max_resampled_frames));
@@ -77,7 +81,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 	}
 	
 	resampled->set_frames (resampled_frames);
-	return resampled;
+	return make_pair (resampled, resamp_time);
 }	
 
 shared_ptr<const AudioBuffers>
