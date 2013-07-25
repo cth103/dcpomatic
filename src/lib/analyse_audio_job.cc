@@ -50,7 +50,7 @@ AnalyseAudioJob::name () const
 		return "";
 	}
 	
-	return String::compose (_("Analyse audio of %1"), content->path());
+	return String::compose (_("Analyse audio of %1"), content->path().filename().string());
 }
 
 void
