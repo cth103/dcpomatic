@@ -43,7 +43,6 @@ public:
 		, _window (window)
 		, _panel (panel)
 		, _table (table)
-		, _needs_pulse (false)
 	{
 		int n = 0;
 		
@@ -86,11 +85,9 @@ public:
 
 	void maybe_pulse ()
 	{
-		if (_job->running() && _needs_pulse) {
+		if (_job->running() && _job->progress_unknown ()) {
 			_gauge->Pulse ();
 		}
-
-		_needs_pulse = true;
 	}
 
 private:
@@ -101,7 +98,6 @@ private:
 		if (p >= 0) {
 			checked_set (_message, _job->status ());
 			_gauge->SetValue (p * 100);
-			_needs_pulse = false;
 		}
 
 		_table->Layout ();
@@ -156,7 +152,6 @@ private:
 	wxButton* _cancel;
 	wxButton* _pause;
 	wxButton* _details;
-	bool _needs_pulse;
 };
 
 /** Must be called in the GUI thread */

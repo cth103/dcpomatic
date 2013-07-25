@@ -70,6 +70,9 @@ public:
 	void ascend ();
 	void descend (float);
 	float overall_progress () const;
+	bool progress_unknown () const {
+		return _progress_unknown;
+	}
 
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
