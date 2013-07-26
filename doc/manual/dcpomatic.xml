@@ -201,7 +201,7 @@ creates the DCP.  You can create a new film by selecting
 shown in <xref linkend="fig-file-new"/>.
 </para>
 
-<figure id="fig-file-new"> 
+<figure id="fig-file-new"> <!-- ok -->
   <title>Creating a new film</title> 
   <mediaobject>
     <imageobject> 
@@ -215,7 +215,7 @@ This will open a dialogue box for the new film, as shown in <xref
 linkend="fig-video-new-film"/>.
 </para>
 
-<figure id="fig-video-new-film"> 
+<figure id="fig-video-new-film"> <!-- ok -->
   <title>Dialogue box for creating a new film</title> 
   <mediaobject>
     <imageobject> 
@@ -234,6 +234,12 @@ will write its working files.
 </para>
 
 <para>
+The folder that you choose should have plenty of free disc space
+available.  As a very rough guide, you will need about 25Mb per second
+of your DCP.  This works out at 1.5Gb per minute, or 90Gb per hour.
+</para>
+
+<para>
 If you always create your DCPs in a particular folder, you can use
 DCP-o-matic's <guilabel>Preferences</guilabel> to make life a little
 easier by setting the default folder that DCP-o-matic will offer in this dialogue.
@@ -243,21 +249,22 @@ See <xref linkend="ch-preferences"/>.
 </section>
 
 <section>
-<title>Selecting content</title>
+<title>Adding content</title>
 
 <para>
-The next step is to set the content that you want to use.  Click the
-content selector, as shown in <xref
-linkend="fig-click-content-selector"/>, and a file chooser will
-open for you to select the content file to use, as shown in <xref
+The next step is to add the content that you want to use.  DCP-o-matic
+can make DCPs from multiple pieces of content, but in this simple
+example we will just use a single piece.  Click the <guilabel>Add
+file...</guilabel> button, and a file chooser will open for you to
+select the content file to use, as shown in <xref
 linkend="fig-video-select-content-file"/>.
 </para>
 
-<figure id="fig-click-content-selector">
-  <title>Opening the content selector</title> 
+<figure id="fig-add-content"> 
+  <title>Adding content</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/click-content-selector&scs;"/>
+      <!-- XXX: clicking the Add file... button -->
     </imageobject> 
   </mediaobject>
 </figure>
@@ -305,107 +312,53 @@ such as <ulink url="http://projects.gnome.org/totem/index.html">Totem</ulink>, <
 </section>
 
 <section>
-<title>Setting up</title>
+<title>Setting up the content</title>
 
 <para>
-Now there are a few things to set up to describe how the DCP should be
-created.  The settings are divided into four tabs: film, video, audio and subtitles.
+Now there are a few things to set up to describe how the content you just added should be used.
+created.  The settings are divided into four tabs: video, audio, subtitles and timing.
 </para>
 
 <section>
-<title>Film tab</title>
+<title>Video content tab</title>
 
 <para>
-The &lsquo;film&rsquo; tab contains settings that pertain to the whole film, as shown in <xref linkend="fig-film-tab"/>.
-</para>
-
-<figure id="fig-film-tab"> 
-  <title>Film settings tab</title>
-  <mediaobject>
-    <imageobject> 
-      <imagedata fileref="screenshots/film-tab&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-The first thing here is the name.  This is generally set to the title
-of the film that is being encoded.  If <guilabel>Use DCI
-name</guilabel> is not ticked, the name that you specify will be used
-as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
-is ticked, the name that you enter will be used as part of a
-DCI-compliant name.
-</para>
-
-<para>
-Underneath the name field is a preview of the name that the DCP will
-get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
-name</guilabel> checkbox.  The DCI name will be composed using details
-of your content's soundtrack, the current date and other things that
-can be specified in the DCI name details dialogue box, which you can
-open by clicking on the <guilabel>Details</guilabel> button.
-</para>
-
-<para>
-If the DCP name is long, it may not all be visible.  You can see the
-full name by hovering the mouse pointer over the partial name.
-</para>
-
-<para>
-The <guilabel>Trust content's header</guilabel> button starts off
-checked, and this means that DCP-o-matic will use the content's header
-information to determine its length.  If, for some reason, this header
-length is wrong, uncheck the <guilabel>Trust content's
-header</guilabel> button and DCP-o-matic will run through the content
-to find its exact length.  This may take a while for large pieces of content.
-</para>
-
-<para>
-Next up is the content type.  This can be
-&lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
-required type from the drop-down list.
-</para>
-
-<para>
-The <guilabel>trim frames</guilabel> settings allow you to trim frames
-from the beginning and end of the content; any trimmed frames will not
-be included in the DCP.
-</para>
-
-</section>
-
-<section>
-<title>Video tab</title>
-
-<para>
-This tab contains settings related to the picture in your DCP, as shown in <xref linkend="fig-video-tab"/>.
+This tab contains settings related to the video (i.e. the picture) of your content, as shown in <xref linkend="fig-video-tab"/>.
 </para>
 
 <figure id="fig-video-tab"> 
   <title>Video settings tab</title>
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/video-tab&scs;"/>
+      <!-- XXX: content video tab -->
     </imageobject> 
   </mediaobject>
 </figure>
 
+<para>The default values in this tab are fine for our example, but the
+options are described here anyway.</para>
+
 <para>
-The first option on this tab is the format.  This will govern the
-shape that DCP-o-matic will make your image into.  Select the aspect
-ratio that your content should be presented in.  The &lsquo;4:3 within
-Flat&rsquo; and &lsquo;16:9 within Flat&rsquo; settings will put the
-image at the specified ratio within a Flat (1.85:1) frame, so that you
-can project the DCP using your projector's Flat preset.
+The first option on this tab is the &lsquo;type&rsquo; of the video.
+This specifies how DCP-o-matic should interpret the video's image.
+<guilabel>2D</guilabel> is the default; this just takes the video
+image as a standard 2D frame.  The other options allow the video to be
+interpreted as 3D; this is described later in the manual.
+<!-- XXX: link -->
 </para>
 
 <para>
-The remaining options can often be left alone, but may sometimes be
-useful.  The &lsquo;crop&rsquo; settings can be used to crop your
-content, which can be used to remove black borders from round the
-edges of DVD images, for example.  The specified number of pixels will
-be trimmed from each edge, and the content image in the right of the
-window will be updated to show the effect of the crop.
+The &lsquo;crop&rsquo; settings can be used to crop your content,
+which can be used to remove black borders from round the edges of DVD
+images, for example.  The specified number of pixels will be trimmed
+from each edge, and the content image in the right of the window will
+be updated to show the effect of the crop.
+</para>
+
+<para>
+The <guilabel>Scale to</guilabel> option governs the shape that
+DCP-o-matic will scale the content's image into.  Select the aspect
+ratio that your content should be presented in.
 </para>
 
 <para>
@@ -414,51 +367,41 @@ filters to the image.  These may be useful to try to improve
 poor-quality sources like DVDs.  We will discuss filtering later in the manual.
 <!-- XXX: link -->
 </para>
-
-<para>
-The &lsquo;scaler&rsquo; is the method that will be used to scale up
-your content to the required size for the DCP, if required.  We will
-discuss the options in more detail later; Bicubic is a fine choice in
-most situations.
-<!-- XXX: link -->
-</para>
-
-<para>
-The &lsquo;colour look-up table&rsquo; specifies the colour space that
-your input content will be expected to be in.  If in doubt, leave it
-set to &lsquo;sRGB&rsquo;.
-</para>
-
-<para>
-Finally, the &lsquo;JPEG2000 bandwidth&rsquo; setting changes how big the final
-image files used within the DCP will be.  Larger numbers will give
-better quality, but correspondingly larger DCPs.  The bandwidth can be
-between 50 and 250 megabits per second (MBps).
-</para>
-
 </section>
 
 <section>
 <title>Audio tab</title>
 
 <para>
-This tab contains settings related to the sound in your DCP, as shown in <xref linkend="fig-audio-tab"/>.
+This tab contains settings related to the sound in your content, as shown in <xref linkend="fig-audio-tab"/>.
 </para>
 
 <figure id="fig-audio-tab"> 
   <title>Audio settings tab</title>
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/audio-tab&scs;"/>
+      <!-- XXX: content audio tab -->
     </imageobject> 
   </mediaobject>
 </figure>
 
+<para>
+Once again, these settings can be left at their defaults for our Sintel example.
+</para>
+
+<para>
+The <guilabel>Show Audio</guilabel> button will instruct DCP-o-matic
+to examine the audio in your content and plot a graph of its level
+over time.  This can be useful for getting a rough idea of how loud
+the sound will be in the cinema auditorium.  The audio graphic is
+discussed in more detail later in the manual.
+<!-- XXX: link -->
+</para>
 
 <para>
 &lsquo;Audio Gain&rsquo; is used to alter the volume of the
 soundtrack.  The specified gain (in dB) will be applied to each sound
-channel before it is written to the DCP.
+channel of your content before it is written to the DCP.
 </para>
 
 <para>
@@ -497,44 +440,40 @@ touch</ulink>.
 </para>
 
 <para>
-&lsquo;Audio Delay&rsquo; is used to adjust the synchronisation
+<guilabel>Audio Delay</guilabel> is used to adjust the synchronisation
 between audio and video.  A positive delay will move the audio later
 with respect to the video, and a negative delay will move it earlier.
 </para>
 
 <para>
-By default the <guilabel>Use content&lsquo;s audio</guilabel> button
-will be selected.  This means that the DCP will use one of the
-soundtracks from your content file; you can select the soundtrack that
-you wish to use from the drop-down box.
+The <guilabel>Audio Stream</guilabel> option allows you to select the
+audio stream to use, if the content contains more than one.  There
+might be different soundtrack languages, for example.
 </para>
 
 <para>
-Note that if your content's audio is mono, DCP-o-matic will place it
-in the centre channel in the DCP.
-</para>
-
-<para>
-Alternatively, you can supply different sound files by clicking the
-<guilabel>Use external audio</guilabel> button and choosing a WAV file
-for any channels that you want to appear in the DCP.  These files can
-be any bit depth and sampling rate, and will be re-sampled and
-bit-depth converted if required.
+The final section in the audio tab is the &lsquo;audio map&rsquo;.
+This governs how sound from the content will be arranged in the DCP.
+Our Sintel clip is in 5.1, so DCP-o-matic will default to assigning
+each channel from the content to the appropriate DCP channel.  This
+audio mapping is described in more detail later in the manual.
+<!-- XXX: link -->
 </para>
 
 </section>
+
 <section>
 <title>Subtitles tab</title>
 
 <para>
-This tab contains settings related to subtitles in your DCP, as shown in <xref linkend="fig-subtitles-tab"/>.
+This tab contains settings related to subtitles in your content, as shown in <xref linkend="fig-subtitles-tab"/>.
 </para>
 
 <figure id="fig-subtitles-tab"> 
   <title>Subtitle settings tab</title>
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/subtitles-tab&scs;"/>
+      <!-- XXX: subtitles tab -->
     </imageobject> 
   </mediaobject>
 </figure>
@@ -552,13 +491,117 @@ control changes their size.
 </para>
 
 <para>
-Future versions of DCP-o-matic will hopefully include the option to
+All being well, future versions of DCP-o-matic will include the option to
 use text subtitles (as is the norm with most professionally-mastered
 DCPs).
 </para>
 
 </section>
 </section>
+
+<section>
+<title>Setting up the DCP</title>
+
+<para>
+Now that we have set up the content that will go into our DCP, we can
+set things up for the DCP itself.  This is done from the
+<guilabel>DCP</guilabel> tab which can be found at the top of the
+DCP-o-matic window (next to the <guilabel>Content</guilabel> tab).
+The DCP tab is shown in foo.
+</para>
+
+<!-- XXX: DCP tab -->
+
+<para>
+The first thing here is the name.  This is generally set to the title
+of the film that is being encoded.  If <guilabel>Use DCI
+name</guilabel> is not ticked, the name that you specify will be used
+as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
+is ticked, the name that you enter will be used as part of a
+DCI-compliant name.  Set the name to something useful, like
+&lsquo;Sintel&rsquo;.
+</para>
+
+<para>
+Underneath the name field is a preview of the name that the DCP will
+get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
+name</guilabel> checkbox.  The DCI name will be composed using details
+of your content's soundtrack, the current date and other things that
+can be specified in the DCI name details dialogue box, which you can
+open by clicking on the <guilabel>Details</guilabel> button.
+</para>
+
+<para>
+If the DCP name is long, it may not all be visible.  You can see the
+full name by hovering the mouse pointer over the partial name.
+</para>
+
+<para>
+The <guilabel>Container</guilabel> option sets the ratio of the image
+in the DCP.  If this ratio is different to the ratio used for any
+content, DCP-o-matic will pad the content with black.  In simple cases
+this should be set to the same ratio as that for the the primary piece
+of video content.  Alternatively, you might want to pillarbox a small
+format into a Flat container: in this case, select the small format
+for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
+</para>
+
+<para>
+Next up is the content type.  This can be
+&lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
+required type from the drop-down list.
+</para>
+
+<para>
+The <guilabel>Frame Rate</guilabel> control sets the frame rate of
+your DCP.  This can be a little tricky to get right.  Ideally, you
+want it to be the same as the video content that you are using.  If it
+is not the same, DCP-o-matic must resort to some tricks to alter your
+content to fit the specified frame rate.  Frame rates are discussed in more detail later.
+<!-- XXX: link -->
+</para>
+
+<para>
+The <guilabel>Use best</guilabel> button sets the DCP video frame rate
+to what DCP-o-matic thinks is the best given the content that you have
+added.
+</para>
+
+<para>
+The <guilabel>Audio Channels</guilabel> control sets the number of
+audio channels that the DCP will have.  If the DCP has any channels
+for which there is no content audio they will be replaced by silence.
+</para>
+
+<para>
+The <guilabel>3D</guilabel> button will set your DCP to 3D mode if it
+is checked.  This is discussed later.
+<!-- XXX: link -->
+</para>
+
+<para>
+The <guilabel>Resolution</guilabel> tab allows you to choose the
+resolution for your DCP.  Use 2K unless you have content that is of
+high enough resolution to be worth presenting in 4K.
+</para>
+
+<para>
+The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big the final
+image files used within the DCP will be.  Larger numbers will give
+better quality, but correspondingly larger DCPs.  The bandwidth can be
+between 50 and 250 megabits per second (MBps).
+</para>
+
+<para>
+Finally, the <guilabel>scaler</guilabel> is the method that will be used to scale up
+your content to the required size for the DCP, if required.  We will
+discuss the options in more detail later; Bicubic is a fine choice in
+most situations.
+<!-- XXX: link -->
+</para>
+
+</section>
+
 
 <section>
 <title>Making the DCP</title>
@@ -601,7 +644,7 @@ DCP-o-matic.  See <xref linkend="sec-tms-upload"/>.
 <title>Creating a still-image DCP</title>
 
 <para>
-DCP-o-matic can also be used to create DCPs of a still image, perhaps
+DCP-o-matic can also be used to create DCPs of one or more still images, perhaps
 for an advertisement or an on-screen announcement.  This chapter shows you
 how to do it.
 </para>
@@ -621,6 +664,8 @@ shown in <xref linkend="fig-still-new-film"/>.
     </imageobject> 
   </mediaobject>
 </figure>
+
+<!-- got to here -->
 
 <para>
 Enter a name and click <guilabel>OK</guilabel>.  Then we set up the
