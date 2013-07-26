@@ -212,17 +212,17 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Connect (ID_file_new, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_new));
-		Connect (ID_file_open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_open));
-		Connect (ID_file_save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_save));
-		Connect (ID_file_properties, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_properties));
-		Connect (wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_exit));
-		Connect (wxID_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::edit_preferences));
-		Connect (ID_jobs_make_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_make_dcp));
-		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
-		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
-		Connect (wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
-		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),             ID_file_new);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),            ID_file_open);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),            ID_file_save);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),      ID_file_properties);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),            wxID_EXIT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),     wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),        ID_jobs_make_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this), ID_jobs_send_dcp_to_tms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),        ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),           wxID_ABOUT);
+		Bind (wxEVT_MENU_OPEN, boost::bind (&Frame::menu_opened, this, _1));
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -287,7 +287,7 @@ private:
 		SetTitle (std_to_wx (s.str()));
 	}
 	
-	void file_new (wxCommandEvent &)
+	void file_new ()
 	{
 		NewFilmDialog* d = new NewFilmDialog (this);
 		int const r = d->ShowModal ();
@@ -324,7 +324,7 @@ private:
 		d->Destroy ();
 	}
 
-	void file_open (wxCommandEvent &)
+	void file_open ()
 	{
 		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		int r;
@@ -354,25 +354,25 @@ private:
 		c->Destroy ();
 	}
 
-	void file_save (wxCommandEvent &)
+	void file_save ()
 	{
 		film->write_metadata ();
 	}
 
-	void file_properties (wxCommandEvent &)
+	void file_properties ()
 	{
 		PropertiesDialog* d = new PropertiesDialog (this, film);
 		d->ShowModal ();
 		d->Destroy ();
 	}
 	
-	void file_exit (wxCommandEvent &)
+	void file_exit ()
 	{
 		maybe_save_then_delete_film ();
 		Close (true);
 	}
 
-	void edit_preferences (wxCommandEvent &)
+	void edit_preferences ()
 	{
 		ConfigDialog* d = new ConfigDialog (this);
 		d->ShowModal ();
@@ -380,17 +380,17 @@ private:
 		Config::instance()->write ();
 	}
 
-	void jobs_make_dcp (wxCommandEvent &)
+	void jobs_make_dcp ()
 	{
 		JobWrapper::make_dcp (this, film);
 	}
 	
-	void jobs_send_dcp_to_tms (wxCommandEvent &)
+	void jobs_send_dcp_to_tms ()
 	{
 		film->send_dcp_to_tms ();
 	}
 
-	void jobs_show_dcp (wxCommandEvent &)
+	void jobs_show_dcp ()
 	{
 #ifdef __WXMSW__
 		string d = film->directory();
@@ -416,7 +416,7 @@ private:
 #endif		
 	}
 
-	void help_about (wxCommandEvent &)
+	void help_about ()
 	{
 		AboutDialog* d = new AboutDialog (this);
 		d->ShowModal ();
