@@ -228,8 +228,6 @@ public:
 		   the dark-grey background on Windows.
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
-		wxBoxSizer* overall_sizer = new wxBoxSizer (wxEXPAND);
-		overall_panel->SetSizer (overall_sizer);
 
 		film_editor = new FilmEditor (film, overall_panel);
 		film_viewer = new FilmViewer (film, overall_panel);
@@ -253,7 +251,7 @@ public:
 		}
 
 		set_film ();
-		SetSizer (main_sizer);
+		overall_panel->SetSizer (main_sizer);
 	}
 
 private:
