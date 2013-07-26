@@ -53,7 +53,7 @@ Config::Config ()
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
-	, _default_dcp_content_type (0)
+	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
 	, _default_j2k_bandwidth (200000000)
 {
 	_allowed_dcp_frame_rates.push_back (24);
