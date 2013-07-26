@@ -245,7 +245,7 @@ FilmEditor::make_content_panel ()
 		_content->SetColumnWidth (0, 512);
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
-		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file..."));
+		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file(s)..."));
 		b->Add (_content_add_file, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add folder..."));
 		b->Add (_content_add_folder, 1, wxEXPAND | wxLEFT | wxRIGHT);
