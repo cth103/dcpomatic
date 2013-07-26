@@ -38,7 +38,7 @@ public:
 	static const int max_smoothing;
 
 private:
-	void paint (wxPaintEvent &);
+	void paint ();
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_AUDIO_CHANNELS];

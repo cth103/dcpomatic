@@ -126,7 +126,7 @@ int const ThreadedStaticText::_update_event_id = 10000;
 ThreadedStaticText::ThreadedStaticText (wxWindow* parent, wxString initial, function<string ()> fn)
 	: wxStaticText (parent, wxID_ANY, initial)
 {
-	Connect (_update_event_id, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ThreadedStaticText::thread_finished), 0, this);
+	Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ThreadedStaticText::thread_finished, this, _1), _update_event_id);
 	_thread = new thread (bind (&ThreadedStaticText::run, this, fn));
 }
 

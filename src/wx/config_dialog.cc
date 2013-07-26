@@ -159,21 +159,21 @@ ConfigDialog::make_misc_panel ()
 
 	setup_language_sensitivity ();
 
-	_set_language->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (ConfigDialog::set_language_changed), 0, this);
-	_language->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::language_changed), 0, this);
+	_set_language->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ConfigDialog::set_language_changed, this));
+	_language->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&ConfigDialog::language_changed,     this));
 
 	_num_local_encoding_threads->SetRange (1, 128);
 	_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
-	_num_local_encoding_threads->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::num_local_encoding_threads_changed), 0, this);
+	_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::num_local_encoding_threads_changed, this));
 
 	_default_still_length->SetRange (1, 3600);
 	_default_still_length->SetValue (config->default_still_length ());
-	_default_still_length->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::default_still_length_changed), 0, this);
+	_default_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_still_length_changed, this));
 
 	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
-	_default_directory->Connect (wxID_ANY, wxEVT_COMMAND_DIRPICKER_CHANGED, wxCommandEventHandler (ConfigDialog::default_directory_changed), 0, this);
+	_default_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&ConfigDialog::default_directory_changed, this));
 
-	_default_dci_metadata_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_default_dci_metadata_clicked), 0, this);
+	_default_dci_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::edit_default_dci_metadata_clicked, this));
 
 	vector<Ratio const *> ratio = Ratio::all ();
 	int n = 0;
@@ -185,7 +185,7 @@ ConfigDialog::make_misc_panel ()
 		++n;
 	}
 
-	_default_container->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_container_changed), 0, this);
+	_default_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ConfigDialog::default_container_changed, this));
 	
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	n = 0;
@@ -197,11 +197,11 @@ ConfigDialog::make_misc_panel ()
 		++n;
 	}
 
-	_default_dcp_content_type->Connect (wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler (ConfigDialog::default_dcp_content_type_changed), 0, this);
+	_default_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ConfigDialog::default_dcp_content_type_changed, this));
 
 	_default_j2k_bandwidth->SetRange (50, 250);
 	_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1e6);
-	_default_j2k_bandwidth->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::default_j2k_bandwidth_changed), 0, this);
+	_default_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_j2k_bandwidth_changed, this));
 }
 
 void
@@ -234,13 +234,13 @@ ConfigDialog::make_tms_panel ()
 	Config* config = Config::instance ();
 	
 	_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
-	_tms_ip->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_ip_changed), 0, this);
+	_tms_ip->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_ip_changed, this));
 	_tms_path->SetValue (std_to_wx (config->tms_path ()));
-	_tms_path->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_path_changed), 0, this);
+	_tms_path->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_path_changed, this));
 	_tms_user->SetValue (std_to_wx (config->tms_user ()));
-	_tms_user->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_user_changed), 0, this);
+	_tms_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_user_changed, this));
 	_tms_password->SetValue (std_to_wx (config->tms_password ()));
-	_tms_password->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_password_changed), 0, this);
+	_tms_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_password_changed, this));
 }
 
 void
@@ -265,9 +265,9 @@ ConfigDialog::make_metadata_panel ()
 	Config* config = Config::instance ();
 
 	_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
-	_issuer->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::issuer_changed), 0, this);
+	_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::issuer_changed, this));
 	_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
-	_creator->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::creator_changed), 0, this);
+	_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::creator_changed, this));
 }
 
 void
@@ -311,18 +311,17 @@ ConfigDialog::make_servers_panel ()
 		add_server_to_control (*i);
 	}
 	
-	_add_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::add_server_clicked), 0, this);
-	_edit_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_server_clicked), 0, this);
-	_remove_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::remove_server_clicked), 0, this);
+	_add_server->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::add_server_clicked,    this));
+	_edit_server->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::edit_server_clicked,   this));
+	_remove_server->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::remove_server_clicked, this));
 
-	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (ConfigDialog::server_selection_changed), 0, this);
-	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler (ConfigDialog::server_selection_changed), 0, this);
-	wxListEvent ev;
-	server_selection_changed (ev);
+	_servers->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&ConfigDialog::server_selection_changed, this));
+	_servers->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&ConfigDialog::server_selection_changed, this));
+	server_selection_changed ();
 }
 
 void
-ConfigDialog::language_changed (wxCommandEvent &)
+ConfigDialog::language_changed ()
 {
 	switch (_language->GetSelection ()) {
 	case 0:
@@ -344,37 +343,37 @@ ConfigDialog::language_changed (wxCommandEvent &)
 }
 
 void
-ConfigDialog::tms_ip_changed (wxCommandEvent &)
+ConfigDialog::tms_ip_changed ()
 {
 	Config::instance()->set_tms_ip (wx_to_std (_tms_ip->GetValue ()));
 }
 
 void
-ConfigDialog::tms_path_changed (wxCommandEvent &)
+ConfigDialog::tms_path_changed ()
 {
 	Config::instance()->set_tms_path (wx_to_std (_tms_path->GetValue ()));
 }
 
 void
-ConfigDialog::tms_user_changed (wxCommandEvent &)
+ConfigDialog::tms_user_changed ()
 {
 	Config::instance()->set_tms_user (wx_to_std (_tms_user->GetValue ()));
 }
 
 void
-ConfigDialog::tms_password_changed (wxCommandEvent &)
+ConfigDialog::tms_password_changed ()
 {
 	Config::instance()->set_tms_password (wx_to_std (_tms_password->GetValue ()));
 }
 
 void
-ConfigDialog::num_local_encoding_threads_changed (wxCommandEvent &)
+ConfigDialog::num_local_encoding_threads_changed ()
 {
 	Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 }
 
 void
-ConfigDialog::default_directory_changed (wxCommandEvent &)
+ConfigDialog::default_directory_changed ()
 {
 	Config::instance()->set_default_directory (wx_to_std (_default_directory->GetPath ()));
 }
@@ -391,7 +390,7 @@ ConfigDialog::add_server_to_control (ServerDescription* s)
 }
 
 void
-ConfigDialog::add_server_clicked (wxCommandEvent &)
+ConfigDialog::add_server_clicked ()
 {
 	ServerDialog* d = new ServerDialog (this, 0);
 	d->ShowModal ();
@@ -405,7 +404,7 @@ ConfigDialog::add_server_clicked (wxCommandEvent &)
 }
 
 void
-ConfigDialog::edit_server_clicked (wxCommandEvent &)
+ConfigDialog::edit_server_clicked ()
 {
 	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (i == -1) {
@@ -429,7 +428,7 @@ ConfigDialog::edit_server_clicked (wxCommandEvent &)
 }
 
 void
-ConfigDialog::remove_server_clicked (wxCommandEvent &)
+ConfigDialog::remove_server_clicked ()
 {
 	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (i >= 0) {
@@ -442,7 +441,7 @@ ConfigDialog::remove_server_clicked (wxCommandEvent &)
 }
 
 void
-ConfigDialog::server_selection_changed (wxListEvent &)
+ConfigDialog::server_selection_changed ()
 {
 	int const i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	_edit_server->Enable (i >= 0);
@@ -450,7 +449,7 @@ ConfigDialog::server_selection_changed (wxListEvent &)
 }
 
 void
-ConfigDialog::edit_default_dci_metadata_clicked (wxCommandEvent &)
+ConfigDialog::edit_default_dci_metadata_clicked ()
 {
 	DCIMetadataDialog* d = new DCIMetadataDialog (this, Config::instance()->default_dci_metadata ());
 	d->ShowModal ();
@@ -459,11 +458,11 @@ ConfigDialog::edit_default_dci_metadata_clicked (wxCommandEvent &)
 }
 
 void
-ConfigDialog::set_language_changed (wxCommandEvent& ev)
+ConfigDialog::set_language_changed ()
 {
 	setup_language_sensitivity ();
 	if (_set_language->GetValue ()) {
-		language_changed (ev);
+		language_changed ();
 	} else {
 		Config::instance()->unset_language ();
 	}
@@ -476,27 +475,27 @@ ConfigDialog::setup_language_sensitivity ()
 }
 
 void
-ConfigDialog::default_still_length_changed (wxCommandEvent &)
+ConfigDialog::default_still_length_changed ()
 {
 	Config::instance()->set_default_still_length (_default_still_length->GetValue ());
 }
 
 void
-ConfigDialog::default_container_changed (wxCommandEvent &)
+ConfigDialog::default_container_changed ()
 {
 	vector<Ratio const *> ratio = Ratio::all ();
 	Config::instance()->set_default_container (ratio[_default_container->GetSelection()]);
 }
 
 void
-ConfigDialog::default_dcp_content_type_changed (wxCommandEvent &)
+ConfigDialog::default_dcp_content_type_changed ()
 {
 	vector<DCPContentType const *> ct = DCPContentType::all ();
 	Config::instance()->set_default_dcp_content_type (ct[_default_dcp_content_type->GetSelection()]);
 }
 
 void
-ConfigDialog::issuer_changed (wxCommandEvent &)
+ConfigDialog::issuer_changed ()
 {
 	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 	m.issuer = wx_to_std (_issuer->GetValue ());
@@ -504,7 +503,7 @@ ConfigDialog::issuer_changed (wxCommandEvent &)
 }
 
 void
-ConfigDialog::creator_changed (wxCommandEvent &)
+ConfigDialog::creator_changed ()
 {
 	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 	m.creator = wx_to_std (_creator->GetValue ());
@@ -512,7 +511,7 @@ ConfigDialog::creator_changed (wxCommandEvent &)
 }
 
 void
-ConfigDialog::default_j2k_bandwidth_changed (wxCommandEvent &)
+ConfigDialog::default_j2k_bandwidth_changed ()
 {
 	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1e6);
 }

@@ -53,19 +53,19 @@ public:
 	void set_film (boost::shared_ptr<Film>);
 
 private:
-	void paint_panel (wxPaintEvent &);
+	void paint_panel ();
 	void panel_sized (wxSizeEvent &);
-	void slider_moved (wxScrollEvent &);
-	void play_clicked (wxCommandEvent &);
-	void timer (wxTimerEvent &);
+	void slider_moved ();
+	void play_clicked ();
+	void timer ();
 	void process_video (boost::shared_ptr<const Image>, Eyes, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void fetch_current_frame_again ();
 	void fetch_next_frame ();
 	void active_jobs_changed (bool);
-	void back_clicked (wxCommandEvent &);
-	void forward_clicked (wxCommandEvent &);
+	void back_clicked ();
+	void forward_clicked ();
 	void player_changed (bool);
 	void set_position_text (Time);
 

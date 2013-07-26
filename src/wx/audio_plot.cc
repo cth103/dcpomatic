@@ -61,7 +61,7 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	_colours.push_back (wxColour (	0,   0, 255));
 	_colours.push_back (wxColour (100, 100, 100));
 	
-	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (AudioPlot::paint), 0, this);
+	Bind (wxEVT_PAINT, boost::bind (&AudioPlot::paint, this));
 	
 	SetMinSize (wxSize (640, 512));
 }
@@ -104,7 +104,7 @@ AudioPlot::set_message (wxString s)
 }
 
 void
-AudioPlot::paint (wxPaintEvent &)
+AudioPlot::paint ()
 {
 	wxPaintDC dc (this);
 

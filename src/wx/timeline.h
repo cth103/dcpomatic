@@ -65,13 +65,13 @@ public:
 	void setup_pixels_per_time_unit ();
 
 private:
-	void paint (wxPaintEvent &);
+	void paint ();
 	void left_down (wxMouseEvent &);
 	void left_up (wxMouseEvent &);
 	void right_down (wxMouseEvent &);
 	void mouse_moved (wxMouseEvent &);
 	void playlist_changed ();
-	void resized (wxSizeEvent &);
+	void resized ();
 	void assign_tracks ();
 	void set_start_from_event (wxMouseEvent &);
 	void clear_selection ();

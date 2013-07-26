@@ -30,8 +30,8 @@ public:
 	ServerDescription* server () const;
 
 private:
-	void host_changed (wxCommandEvent &);
-	void threads_changed (wxCommandEvent &);
+	void host_changed ();
+	void threads_changed ();
 
 	ServerDescription* _server;
 	wxTextCtrl* _host;

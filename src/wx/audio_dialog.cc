@@ -47,7 +47,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
 		side->Add (_channel_checkbox[i], 1, wxEXPAND | wxALL, 3);
-		_channel_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::channel_clicked), 0, this);
+		_channel_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::channel_clicked, this, _1));
 	}
 
 	{
@@ -63,7 +63,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		_type_checkbox[i] = new wxCheckBox (this, wxID_ANY, types[i]);
 		side->Add (_type_checkbox[i], 1, wxEXPAND | wxALL, 3);
-		_type_checkbox[i]->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (AudioDialog::type_clicked), 0, this);
+		_type_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::type_clicked, this, _1));
 	}
 
 	{
@@ -72,7 +72,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 	}
 	
 	_smoothing = new wxSlider (this, wxID_ANY, AudioPlot::max_smoothing / 2, 1, AudioPlot::max_smoothing);
-	_smoothing->Connect (wxID_ANY, wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler (AudioDialog::smoothing_changed), 0, this);
+	_smoothing->Bind (wxEVT_SCROLL_THUMBTRACK, boost::bind (&AudioDialog::smoothing_changed, this));
 	side->Add (_smoothing, 1, wxEXPAND);
 
 	sizer->Add (side, 0, wxALL, 12);
@@ -170,7 +170,7 @@ AudioDialog::type_clicked (wxCommandEvent& ev)
 }
 
 void
-AudioDialog::smoothing_changed (wxScrollEvent &)
+AudioDialog::smoothing_changed ()
 {
 	_plot->set_smoothing (_smoothing->GetValue ());
 }

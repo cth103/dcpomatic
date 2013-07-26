@@ -98,7 +98,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_sizer->Add (_grid, 1, wxEXPAND | wxALL);
 	SetSizerAndFit (_sizer);
 
-	Connect (wxID_ANY, wxEVT_GRID_CELL_LEFT_CLICK, wxGridEventHandler (AudioMappingView::left_click), 0, this);
+	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
 }
 
 void

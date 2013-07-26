@@ -32,8 +32,8 @@ public:
 	boost::signals2::signal<void ()> Changed;
 
 private:
-	void changed (wxCommandEvent &);
-	void set_clicked (wxCommandEvent &);
+	void changed ();
+	void set_clicked ();
 	
 	wxTextCtrl* _hours;
 	wxTextCtrl* _minutes;

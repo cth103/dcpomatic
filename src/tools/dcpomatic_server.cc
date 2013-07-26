@@ -73,12 +73,12 @@ public:
 		SetSizer (_sizer);
 		_sizer->Layout ();
 
-		Connect (ID_timer, wxEVT_TIMER, wxTimerEventHandler (StatusDialog::update));
+		Bind (wxEVT_TIMER, boost::bind (&StatusDialog::update, this), ID_timer);
 		_timer.Start (1000);
 	}
 
 private:
-	void update (wxTimerEvent &)
+	void update ()
 	{
 		_text->ChangeValue (std_to_wx (memory_log->get ()));
 		_sizer->Layout ();
@@ -108,8 +108,8 @@ public:
 		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
 #endif		
 
-		Connect (ID_status, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::status));
-		Connect (ID_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (TaskBarIcon::quit));
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::status, this), ID_status);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::quit, this), ID_quit);
 	}
 	
 	wxMenu* CreatePopupMenu ()
@@ -121,13 +121,13 @@ public:
 	}
 
 private:
-	void status (wxCommandEvent &)
+	void status ()
 	{
 		StatusDialog* d = new StatusDialog;
 		d->Show ();
 	}
 
-	void quit (wxCommandEvent &)
+	void quit ()
 	{
 		wxTheApp->ExitMainLoop ();
 	}

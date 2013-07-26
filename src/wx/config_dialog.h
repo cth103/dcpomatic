@@ -41,25 +41,25 @@ public:
 	ConfigDialog (wxWindow *);
 
 private:
-	void set_language_changed (wxCommandEvent &);
-	void language_changed (wxCommandEvent &);
-	void tms_ip_changed (wxCommandEvent &);
-	void tms_path_changed (wxCommandEvent &);
-	void tms_user_changed (wxCommandEvent &);
-	void tms_password_changed (wxCommandEvent &);
-	void num_local_encoding_threads_changed (wxCommandEvent &);
-	void default_still_length_changed (wxCommandEvent &);
-	void default_directory_changed (wxCommandEvent &);
-	void edit_default_dci_metadata_clicked (wxCommandEvent &);
-	void add_server_clicked (wxCommandEvent &);
-	void edit_server_clicked (wxCommandEvent &);
-	void remove_server_clicked (wxCommandEvent &);
-	void server_selection_changed (wxListEvent &);
-	void default_container_changed (wxCommandEvent &);
-	void default_dcp_content_type_changed (wxCommandEvent &);
-	void issuer_changed (wxCommandEvent &);
-	void creator_changed (wxCommandEvent &);
-	void default_j2k_bandwidth_changed (wxCommandEvent &);
+	void set_language_changed ();
+	void language_changed ();
+	void tms_ip_changed ();
+	void tms_path_changed ();
+	void tms_user_changed ();
+	void tms_password_changed ();
+	void num_local_encoding_threads_changed ();
+	void default_still_length_changed ();
+	void default_directory_changed ();
+	void edit_default_dci_metadata_clicked ();
+	void add_server_clicked ();
+	void edit_server_clicked ();
+	void remove_server_clicked ();
+	void server_selection_changed ();
+	void default_container_changed ();
+	void default_dcp_content_type_changed ();
+	void issuer_changed ();
+	void creator_changed ();
+	void default_j2k_bandwidth_changed ();
 
 	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();

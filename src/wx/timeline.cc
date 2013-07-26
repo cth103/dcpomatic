@@ -335,12 +335,12 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	SetDoubleBuffered (true);
 #endif	
 
-	Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (Timeline::paint), 0, this);
-	Connect (wxID_ANY, wxEVT_LEFT_DOWN, wxMouseEventHandler (Timeline::left_down), 0, this);
-	Connect (wxID_ANY, wxEVT_LEFT_UP, wxMouseEventHandler (Timeline::left_up), 0, this);
-	Connect (wxID_ANY, wxEVT_RIGHT_DOWN, wxMouseEventHandler (Timeline::right_down), 0, this);
-	Connect (wxID_ANY, wxEVT_MOTION, wxMouseEventHandler (Timeline::mouse_moved), 0, this);
-	Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (Timeline::resized), 0, this);
+	Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint,       this));
+	Bind (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,   this, _1));
+	Bind (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,     this, _1));
+	Bind (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,  this, _1));
+	Bind (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved, this, _1));
+	Bind (wxEVT_SIZE,       boost::bind (&Timeline::resized,     this));
 
 	playlist_changed ();
 
@@ -350,7 +350,7 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 }
 
 void
-Timeline::paint (wxPaintEvent &)
+Timeline::paint ()
 {
 	wxPaintDC dc (this);
 
@@ -605,7 +605,7 @@ Timeline::film () const
 }
 
 void
-Timeline::resized (wxSizeEvent &)
+Timeline::resized ()
 {
 	setup_pixels_per_time_unit ();
 }

@@ -40,7 +40,7 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 
 	SetSizerAndFit (_sizer);
 
-	_browse->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (DirPickerCtrl::browse_clicked), 0, this);
+	_browse->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DirPickerCtrl::browse_clicked, this));
 }
 
 void
@@ -65,7 +65,7 @@ DirPickerCtrl::GetPath () const
 }
 
 void
-DirPickerCtrl::browse_clicked (wxCommandEvent &)
+DirPickerCtrl::browse_clicked ()
 {
 	wxDirDialog* d = new wxDirDialog (this);
 	if (d->ShowModal () == wxID_OK) {

@@ -41,7 +41,7 @@ public:
 	boost::signals2::signal<void()> ActiveChanged;
 
 private:
-	void filter_toggled (wxCommandEvent &);
+	void filter_toggled ();
 
 	std::map<Filter const *, wxCheckBox *> _filters;
 };

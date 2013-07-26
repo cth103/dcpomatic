@@ -41,9 +41,9 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 	_threads = new wxSpinCtrl (this, wxID_ANY);
 	table->Add (_threads, 1, wxEXPAND);
 
-	_host->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ServerDialog::host_changed), 0, this);
+	_host->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ServerDialog::host_changed, this));
 	_threads->SetRange (0, 256);
-	_threads->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ServerDialog::threads_changed), 0, this);
+	_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ServerDialog::threads_changed, this));
 
 	_host->SetValue (std_to_wx (_server->host_name ()));
 	_threads->SetValue (_server->threads ());
@@ -62,13 +62,13 @@ ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
 }
 
 void
-ServerDialog::host_changed (wxCommandEvent &)
+ServerDialog::host_changed ()
 {
 	_server->set_host_name (wx_to_std (_host->GetValue ()));
 }
 
 void
-ServerDialog::threads_changed (wxCommandEvent &)
+ServerDialog::threads_changed ()
 {
 	_server->set_threads (_threads->GetValue ());
 }

@@ -37,7 +37,7 @@ private:
 	void content_changed (int);
 	void channel_clicked (wxCommandEvent &);
 	void type_clicked (wxCommandEvent &);
-	void smoothing_changed (wxScrollEvent &);
+	void smoothing_changed ();
 	void try_to_load_analysis ();
 	void analysis_finished ();
 

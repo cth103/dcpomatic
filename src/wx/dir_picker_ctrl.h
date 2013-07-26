@@ -28,7 +28,7 @@ public:
 	void SetPath (wxString);
 
 private:
-	void browse_clicked (wxCommandEvent &);
+	void browse_clicked ();
 	
 	wxWindow* _parent;
 	wxStaticText* _folder;

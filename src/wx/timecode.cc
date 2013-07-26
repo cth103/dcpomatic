@@ -62,11 +62,11 @@ Timecode::Timecode (wxWindow* parent)
 	_set_button = new wxButton (this, wxID_ANY, _("Set"));
 	sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
 
-	_hours->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
-	_minutes->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
-	_seconds->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
-	_frames->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (Timecode::changed), 0, this);
-	_set_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (Timecode::set_clicked), 0, this);
+	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&Timecode::set_clicked, this));
 
 	_set_button->Enable (false);
 	
@@ -107,13 +107,13 @@ Timecode::get (int fps) const
 }
 
 void
-Timecode::changed (wxCommandEvent &)
+Timecode::changed ()
 {
 	_set_button->Enable (true);
 }
 
 void
-Timecode::set_clicked (wxCommandEvent &)
+Timecode::set_clicked ()
 {
 	Changed ();
 	_set_button->Enable (false);

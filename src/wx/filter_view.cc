@@ -64,7 +64,7 @@ FilterView::FilterView (wxWindow* parent, vector<Filter const *> const & active)
 			bool const a = find (active.begin(), active.end(), *j) != active.end ();
 			b->SetValue (a);
 			_filters[*j] = b;
-			b->Connect (wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (FilterView::filter_toggled), 0, this);
+			b->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilterView::filter_toggled, this));
 			sizer->Add (b);
 		}
 
@@ -73,7 +73,7 @@ FilterView::FilterView (wxWindow* parent, vector<Filter const *> const & active)
 }
 
 void
-FilterView::filter_toggled (wxCommandEvent &)
+FilterView::filter_toggled ()
 {
 	ActiveChanged ();
 }

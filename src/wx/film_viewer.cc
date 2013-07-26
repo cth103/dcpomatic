@@ -93,15 +93,15 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
-	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
-	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
-	_slider->Connect (wxID_ANY, wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
-	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEUP, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
-	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
-	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
-	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
-	_back_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmViewer::back_clicked), 0, this);
-	_forward_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (FilmViewer::forward_clicked), 0, this);
+	_panel->Bind          (wxEVT_PAINT,                        boost::bind (&FilmViewer::paint_panel,     this));
+	_panel->Bind          (wxEVT_SIZE,                         boost::bind (&FilmViewer::panel_sized,     this, _1));
+	_slider->Bind         (wxEVT_SCROLL_THUMBTRACK,            boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind         (wxEVT_SCROLL_PAGEUP,                boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,              boost::bind (&FilmViewer::slider_moved,    this));
+	_play_button->Bind    (wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, boost::bind (&FilmViewer::play_clicked,    this));
+	_timer.Bind           (wxEVT_TIMER,                        boost::bind (&FilmViewer::timer,           this));
+	_back_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::back_clicked,    this));
+	_forward_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::forward_clicked, this));
 
 	set_film (f);
 
@@ -159,7 +159,7 @@ FilmViewer::fetch_current_frame_again ()
 }
 
 void
-FilmViewer::timer (wxTimerEvent &)
+FilmViewer::timer ()
 {
 	if (!_player) {
 		return;
@@ -179,7 +179,7 @@ FilmViewer::timer (wxTimerEvent &)
 
 
 void
-FilmViewer::paint_panel (wxPaintEvent &)
+FilmViewer::paint_panel ()
 {
 	wxPaintDC dc (_panel);
 
@@ -213,7 +213,7 @@ FilmViewer::paint_panel (wxPaintEvent &)
 
 
 void
-FilmViewer::slider_moved (wxScrollEvent &)
+FilmViewer::slider_moved ()
 {
 	if (_film && _player) {
 		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
@@ -260,7 +260,7 @@ FilmViewer::calculate_sizes ()
 }
 
 void
-FilmViewer::play_clicked (wxCommandEvent &)
+FilmViewer::play_clicked ()
 {
 	check_play_state ();
 }
@@ -373,7 +373,7 @@ FilmViewer::active_jobs_changed (bool a)
 }
 
 void
-FilmViewer::back_clicked (wxCommandEvent &)
+FilmViewer::back_clicked ()
 {
 	if (!_player) {
 		return;
@@ -388,7 +388,7 @@ FilmViewer::back_clicked (wxCommandEvent &)
 }
 
 void
-FilmViewer::forward_clicked (wxCommandEvent &)
+FilmViewer::forward_clicked ()
 {
 	if (!_player) {
 		return;

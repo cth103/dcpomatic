@@ -502,7 +502,7 @@ class App : public wxApp
 		f->Show ();
 
 		ui_signaller = new wxUISignaller (this);
-		this->Connect (-1, wxEVT_IDLE, wxIdleEventHandler (App::idle));
+		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		return true;
 	}
@@ -536,7 +536,7 @@ class App : public wxApp
 		return true;
 	}
 
-	void idle (wxIdleEvent &)
+	void idle ()
 	{
 		ui_signaller->ui_idle ();
 	}

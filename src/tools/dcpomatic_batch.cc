@@ -62,9 +62,9 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Connect (ID_file_add_film, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_add_film));
-		Connect (ID_file_quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::file_quit));
-		Connect (ID_help_about, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_add_film, this), ID_file_add_film);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_quit, this),     ID_file_quit);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),    ID_help_about);
 
 		wxPanel* panel = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -78,14 +78,14 @@ public:
 
 		wxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
 		wxButton* add = new wxButton (panel, wxID_ANY, _("Add Film..."));
-		add->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (Frame::add_film));
+		add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&Frame::add_film, this));
 		buttons->Add (add, 1, wxALL, 6);
 
 		sizer->Add (buttons, 0, wxALL, 6);
 
 		panel->SetSizer (sizer);
 
-		Connect (wxID_ANY, wxEVT_CLOSE_WINDOW, wxCloseEventHandler (Frame::close));
+		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 	}
 
 private:
@@ -117,19 +117,19 @@ private:
 		ev.Skip ();
 	}
 
-	void file_add_film (wxCommandEvent& ev)
+	void file_add_film ()
 	{
-		add_film (ev);
+		add_film ();
 	}
 	
-	void file_quit (wxCommandEvent &)
+	void file_quit ()
 	{
 		if (should_close ()) {
 			Close (true);
 		}
 	}
 
-	void help_about (wxCommandEvent &)
+	void help_about ()
 	{
 		wxAboutDialogInfo info;
 		info.SetName (_("DCP-o-matic Batch Converter"));
@@ -161,7 +161,7 @@ private:
 		wxAboutBox (info);
 	}
 
-	void add_film (wxCommandEvent &)
+	void add_film ()
 	{
 		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		int r;
@@ -226,12 +226,12 @@ class App : public wxApp
 		f->Show ();
 
 		ui_signaller = new wxUISignaller (this);
-		this->Connect (-1, wxEVT_IDLE, wxIdleEventHandler (App::idle));
+		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		return true;
 	}
 
-	void idle (wxIdleEvent &)
+	void idle ()
 	{
 		ui_signaller->ui_idle ();
 	}
