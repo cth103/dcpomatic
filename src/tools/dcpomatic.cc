@@ -222,12 +222,18 @@ public:
 		Connect (ID_jobs_send_dcp_to_tms, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_send_dcp_to_tms));
 		Connect (ID_jobs_show_dcp, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::jobs_show_dcp));
 		Connect (wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler (Frame::help_about));
-
 		Connect (wxID_ANY, wxEVT_MENU_OPEN, wxMenuEventHandler (Frame::menu_opened));
 
-		film_editor = new FilmEditor (film, this);
-		film_viewer = new FilmViewer (film, this);
-		JobManagerView* job_manager_view = new JobManagerView (this, static_cast<JobManagerView::Buttons> (0));
+		/* Use a panel as the only child of the Frame so that we avoid
+		   the dark-grey background on Windows.
+		*/
+		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
+		wxBoxSizer* overall_sizer = new wxBoxSizer (wxEXPAND);
+		overall_panel->SetSizer (overall_sizer);
+
+		film_editor = new FilmEditor (film, overall_panel);
+		film_viewer = new FilmViewer (film, overall_panel);
+		JobManagerView* job_manager_view = new JobManagerView (overall_panel, static_cast<JobManagerView::Buttons> (0));
 
 		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
 		right_sizer->Add (film_viewer, 2, wxEXPAND | wxALL, 6);
