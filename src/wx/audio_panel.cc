@@ -127,6 +127,8 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
 		_mapping->set (ac ? ac->audio_mapping () : AudioMapping ());
 		_sizer->Layout ();
+	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
+		setup_stream_description ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_stream->Clear ();
 		if (fc) {
@@ -137,6 +139,7 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 			
 			if (fc->audio_stream()) {
 				checked_set (_stream, lexical_cast<string> (fc->audio_stream()->id));
+				setup_stream_description ();
 			}
 		}
 	}
@@ -225,6 +228,10 @@ AudioPanel::stream_changed ()
 	if (!fc) {
 		return;
 	}
+
+	if (_stream->GetSelection() == -1) {
+		return;
+	}
 	
 	vector<shared_ptr<FFmpegAudioStream> > a = fc->audio_streams ();
 	vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin ();
@@ -235,6 +242,22 @@ AudioPanel::stream_changed ()
 
 	if (i != a.end ()) {
 		fc->set_audio_stream (*i);
+	}
+
+	setup_stream_description ();
+}
+
+void
+AudioPanel::setup_stream_description ()
+{
+	shared_ptr<Content> c = _editor->selected_content ();
+	if (!c) {
+		return;
+	}
+	
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	if (!fc) {
+		return;
 	}
 
 	if (!fc->audio_stream ()) {

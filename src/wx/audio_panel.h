@@ -41,6 +41,7 @@ private:
 	void delay_changed ();
 	void stream_changed ();
 	void mapping_changed (AudioMapping);
+	void setup_stream_description ();
 
 	wxSpinCtrl* _gain;
 	wxButton* _gain_calculate_button;
