@@ -45,16 +45,12 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 	for (int i = 0; i < 64; ++i) {
 		buffers->data()[0][i] = i;
 	}
-	TimedAudioBuffers<int> tb = merger.push (buffers, 0);
-
-	/* That should not have caused an emission */
-	BOOST_CHECK_EQUAL (tb.audio, shared_ptr<const AudioBuffers> ());
-	BOOST_CHECK_EQUAL (tb.time, 0);
+	merger.push (buffers, 0);
 
 	/* Push 64 samples, 0 -> 63 at time 22 */
-	tb = merger.push (buffers, 22);
+	merger.push (buffers, 22);
 
-	/* That should have caused an emission of 22 samples at 0 */
+	TimedAudioBuffers<int> tb = merger.pull (22);
 	BOOST_CHECK (tb.audio != shared_ptr<const AudioBuffers> ());
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 22);
 	BOOST_CHECK_EQUAL (tb.time, 0);
@@ -89,9 +85,9 @@ BOOST_AUTO_TEST_CASE (audio_merger_test2)
 	for (int i = 0; i < 64; ++i) {
 		buffers->data()[0][i] = i;
 	}
-	TimedAudioBuffers<int> tb = merger.push (buffers, 9);
+	merger.push (buffers, 9);
 
-	/* That flush should give us 9 samples at 0 */
+	TimedAudioBuffers<int> tb = merger.pull (9);
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 9);
 	BOOST_CHECK_EQUAL (tb.time, 0);
 	

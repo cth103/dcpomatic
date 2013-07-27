@@ -133,7 +133,9 @@ private:
 
 #ifdef DCPOMATIC_DEBUG
 	boost::shared_ptr<Content> _last_video;
-#endif	
+#endif
+
+	bool _last_emit_was_black;
 };
 
 #endif

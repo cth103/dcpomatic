@@ -48,7 +48,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-#define DEBUG_PLAYER 1
+//#define DEBUG_PLAYER 1
 
 class Piece
 {
@@ -98,6 +98,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _video_position (0)
 	, _audio_position (0)
 	, _audio_merger (f->audio_channels(), bind (&Film::time_to_audio_frames, f.get(), _1), bind (&Film::audio_frames_to_time, f.get(), _1))
+	, _last_emit_was_black (false)
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
@@ -191,7 +192,7 @@ Player::pass ()
 		} else {
 #ifdef DEBUG_PLAYER
 			cout << "Pass " << *earliest << "\n";
-#endif			
+#endif
 			earliest->decoder->pass ();
 
 			if (earliest->decoder->done()) {
@@ -205,10 +206,24 @@ Player::pass ()
 					}
 				}
 			}
-	
+
+			
 		}
+
+		Time done_up_to = TIME_MAX;
+		for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+			if (dynamic_pointer_cast<AudioContent> ((*i)->content)) {
+				done_up_to = min (done_up_to, (*i)->audio_position);
+			}
+		}
+
+		TimedAudioBuffers<Time> tb = _audio_merger.pull (done_up_to);
+		Audio (tb.audio, tb.time);
+		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 		break;
 	}
+
+	
 
 #ifdef DEBUG_PLAYER
 	cout << "\tpost pass " << _video_position << " " << _audio_position << "\n";
@@ -266,6 +281,8 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		time += TIME_HZ / _film->video_frame_rate();
 	}
 
+	_last_emit_was_black = false;
+
 	_video_position = piece->video_position = time;
 }
 
@@ -318,15 +335,8 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		time = 0;
 	}
 
-	cout << "push " << audio->frames() << " @ " << time << " from " << content->path() << "\n";
-	TimedAudioBuffers<Time> tb = _audio_merger.push (audio, time);
+	_audio_merger.push (audio, time);
 	piece->audio_position += _film->audio_frames_to_time (audio->frames ());
-	
-	if (tb.audio) {
-		Audio (tb.audio, tb.time);
-		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
-		cout << "output " << tb.audio->frames() << " @ " << tb.time << "\n";
-	}
 }
 
 void
@@ -531,9 +541,9 @@ Player::emit_black ()
 	_last_video.reset ();
 #endif
 	
-	/* XXX: use same here */
-	Video (_black_frame, EYES_BOTH, false, _video_position);
+	Video (_black_frame, EYES_BOTH, _last_emit_was_black, _video_position);
 	_video_position += _film->video_frames_to_time (1);
+	_last_emit_was_black = true;
 }
 
 void
