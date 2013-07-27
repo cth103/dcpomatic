@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DVDOMATIC_AUDIO_BUFFERS_H
+#define DVDOMATIC_AUDIO_BUFFERS_H
+
 #include <boost/shared_ptr.hpp>
 
 /** @class AudioBuffers
@@ -72,3 +75,5 @@ private:
 	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
 	float** _data;
 };
+
+#endif

@@ -97,11 +97,12 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _have_valid_pieces (false)
 	, _video_position (0)
 	, _audio_position (0)
-	, _audio_buffers (f->audio_channels(), 0)
+	, _audio_merger (f->audio_channels(), bind (&Film::time_to_audio_frames, f.get(), _1), bind (&Film::audio_frames_to_time, f.get(), _1))
 {
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film->Changed.connect (bind (&Player::film_changed, this, _1));
+	_audio_merger.Audio.connect (bind (&Player::merger_process_audio, this, _1, _2));
 	set_video_container_size (_film->container()->size (_film->full_frame ()));
 }
 
@@ -318,52 +319,20 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		time = 0;
 	}
 
-	/* The time of this audio may indicate that some of our buffered audio is not going to
-	   be added to any more, so it can be emitted.
-	*/
+	_audio_merger.push (audio, time);
+}
 
-	if (time > _audio_position) {
-		/* We can emit some audio from our buffers; this is how many frames */
-		OutputAudioFrame const N = _film->time_to_audio_frames (time - _audio_position);
-		if (N > _audio_buffers.frames()) {
-			/* We need some extra silence before whatever is in the buffers */
-			_audio_buffers.ensure_size (N);
-			_audio_buffers.move (0, N - _audio_buffers.frames(), _audio_buffers.frames ());
-			_audio_buffers.make_silent (0, _audio_buffers.frames());
-			_audio_buffers.set_frames (N);
-		}
-		assert (N <= _audio_buffers.frames());
-
-		/* XXX: not convinced that a copy is necessary here */
-		shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), N));
-		emit->copy_from (&_audio_buffers, N, 0, 0);
-		Audio (emit, _audio_position);
-
-		_audio_position = piece->audio_position = _audio_position + _film->audio_frames_to_time (N);
-
-		/* And remove it from our buffers */
-		if (_audio_buffers.frames() > N) {
-			_audio_buffers.move (N, 0, _audio_buffers.frames() - N);
-		}
-		_audio_buffers.set_frames (_audio_buffers.frames() - N);
-	}
-
-	/* Now accumulate the new audio into our buffers */
-	_audio_buffers.ensure_size (_audio_buffers.frames() + audio->frames());
-	_audio_buffers.accumulate_frames (audio.get(), 0, 0, audio->frames ());
-	_audio_buffers.set_frames (_audio_buffers.frames() + audio->frames());
+void
+Player::merger_process_audio (shared_ptr<const AudioBuffers> audio, Time time)
+{
+	Audio (audio, time);
+	_audio_position += _film->audio_frames_to_time (audio->frames ());
 }
 
 void
 Player::flush ()
 {
-	if (_audio_buffers.frames() > 0) {
-		shared_ptr<AudioBuffers> emit (new AudioBuffers (_audio_buffers.channels(), _audio_buffers.frames()));
-		emit->copy_from (&_audio_buffers, _audio_buffers.frames(), 0, 0);
-		Audio (emit, _audio_position);
-		_audio_position += _film->audio_frames_to_time (_audio_buffers.frames ());
-		_audio_buffers.set_frames (0);
-	}
+	_audio_merger.flush ();
 
 	while (_video_position < _audio_position) {
 		emit_black ();

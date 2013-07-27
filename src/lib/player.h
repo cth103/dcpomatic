@@ -24,10 +24,11 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include "playlist.h"
-#include "audio_buffers.h"
 #include "content.h"
 #include "film.h"
 #include "rect.h"
+#include "audio_merger.h"
+#include "audio_content.h"
 
 class Job;
 class Film;
@@ -93,6 +94,7 @@ private:
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
 	void update_subtitle ();
+	void merger_process_audio (boost::shared_ptr<const AudioBuffers>, Time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -109,7 +111,7 @@ private:
 	/** The time after the last audio that we emitted */
 	Time _audio_position;
 
-	AudioBuffers _audio_buffers;
+	AudioMerger<Time, AudioContent::Frame> _audio_merger;
 
 	libdcp::Size _video_container_size;
 	boost::shared_ptr<Image> _black_frame;
