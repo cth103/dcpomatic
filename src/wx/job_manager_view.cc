@@ -51,6 +51,8 @@ public:
 		++n;
 	
 		_gauge = new wxGauge (panel, wxID_ANY, 100);
+		/* This seems to be required to allow the gauge to shrink under OS X */
+		_gauge->SetMinSize (wxSize (0, -1));
 		table->Insert (n, _gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		++n;
 		
