@@ -241,7 +241,8 @@ will write its working files.
 The next step is to add the content that you want to use.  DCP-o-matic
 can make DCPs from multiple pieces of content, but in this simple
 example we will just use a single piece.  Click the <guilabel>Add
-file(s)...</guilabel> button, and a file chooser will open for you to
+file(s)...</guilabel> button, as shown in <xref
+linkend="fig-add-file"/>, and a file chooser will open for you to
 select the content file to use, as shown in <xref
 linkend="fig-video-select-content-file"/>.
 </para>
@@ -250,7 +251,7 @@ linkend="fig-video-select-content-file"/>.
   <title>Adding content</title> 
   <mediaobject>
     <imageobject> 
-      <!-- XXX: clicking the Add file... button -->
+      <imagedata fileref="screenshots/add-content&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
@@ -280,7 +281,7 @@ the right of the window, as shown in <xref linkend="fig-examine-content"/>.
   <title>Examining the content</title>
   <mediaobject>
     <imageobject> 
-      <!-- XXX: bit of content and slider -->
+      <imagedata fileref="screenshots/examine-content&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
@@ -292,7 +293,10 @@ that there will be no sound, and playback might not be entirely
 accurate (it may be slightly slower or faster than it should be, for
 example).  This player is really only intended for brief inspection of
 content; if you need to check it more thoroughly, use another player
-such as <ulink url="http://projects.gnome.org/totem/index.html">Totem</ulink>, <ulink url="http://www.mplayerhq.hu/design7/news.html">mplayer</ulink> or <ulink url="http://www.videolan.org/vlc/index.html">VLC</ulink>.
+such as <ulink
+url="http://projects.gnome.org/totem/index.html">Totem</ulink>, <ulink
+url="http://www.mplayerhq.hu/design7/news.html">mplayer</ulink> or
+<ulink url="http://www.videolan.org/vlc/index.html">VLC</ulink>.
 </para>
 
 </section>
@@ -390,7 +394,14 @@ you will see a <guilabel>Length</guilabel> setting, as shown in <xref
 linkend="fig-timing-tab"/>.
 </para>
 
-<!-- XXX: timing tab -->
+<figure id="fig-timing-tab"> 
+  <title>The timing tab</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/timing-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
 
 <para>
 This length is a &lsquo;timecode&rsquo;: it consists of four numbers.
