@@ -48,7 +48,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-//#define DEBUG_PLAYER 1
+#define DEBUG_PLAYER 1
 
 class Piece
 {
@@ -102,7 +102,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film->Changed.connect (bind (&Player::film_changed, this, _1));
-	_audio_merger.Audio.connect (bind (&Player::merger_process_audio, this, _1, _2));
 	set_video_container_size (_film->container()->size (_film->full_frame ()));
 }
 
@@ -319,20 +318,25 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		time = 0;
 	}
 
-	_audio_merger.push (audio, time);
-}
-
-void
-Player::merger_process_audio (shared_ptr<const AudioBuffers> audio, Time time)
-{
-	Audio (audio, time);
-	_audio_position += _film->audio_frames_to_time (audio->frames ());
+	cout << "push " << audio->frames() << " @ " << time << " from " << content->path() << "\n";
+	TimedAudioBuffers<Time> tb = _audio_merger.push (audio, time);
+	piece->audio_position += _film->audio_frames_to_time (audio->frames ());
+	
+	if (tb.audio) {
+		Audio (tb.audio, tb.time);
+		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
+		cout << "output " << tb.audio->frames() << " @ " << tb.time << "\n";
+	}
 }
 
 void
 Player::flush ()
 {
-	_audio_merger.flush ();
+	TimedAudioBuffers<Time> tb = _audio_merger.flush ();
+	if (tb.audio) {
+		Audio (tb.audio, tb.time);
+		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
+	}
 
 	while (_video_position < _audio_position) {
 		emit_black ();

@@ -94,7 +94,6 @@ private:
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
 	void update_subtitle ();
-	void merger_process_audio (boost::shared_ptr<const AudioBuffers>, Time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

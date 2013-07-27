@@ -36,57 +36,39 @@ pass_through (int x)
 	return x;
 }
 
-static void
-process_audio (shared_ptr<const AudioBuffers> audio, int time)
-{
-	last_audio = audio;
-	last_time = time;
-}
-
-static void
-reset ()
-{
-	last_audio.reset ();
-	last_time = 0;
-}
-
 BOOST_AUTO_TEST_CASE (audio_merger_test1)
 {
 	AudioMerger<int, int> merger (1, bind (&pass_through, _1), boost::bind (&pass_through, _1));
-	merger.Audio.connect (bind (&process_audio, _1, _2));
 
-	reset ();
-	
 	/* Push 64 samples, 0 -> 63 at time 0 */
 	shared_ptr<AudioBuffers> buffers (new AudioBuffers (1, 64));
 	for (int i = 0; i < 64; ++i) {
 		buffers->data()[0][i] = i;
 	}
-	merger.push (buffers, 0);
+	TimedAudioBuffers<int> tb = merger.push (buffers, 0);
 
 	/* That should not have caused an emission */
-	BOOST_CHECK_EQUAL (last_audio, shared_ptr<const AudioBuffers> ());
-	BOOST_CHECK_EQUAL (last_time, 0);
+	BOOST_CHECK_EQUAL (tb.audio, shared_ptr<const AudioBuffers> ());
+	BOOST_CHECK_EQUAL (tb.time, 0);
 
 	/* Push 64 samples, 0 -> 63 at time 22 */
-	merger.push (buffers, 22);
+	tb = merger.push (buffers, 22);
 
 	/* That should have caused an emission of 22 samples at 0 */
-	BOOST_CHECK (last_audio != shared_ptr<const AudioBuffers> ());
-	BOOST_CHECK_EQUAL (last_audio->frames(), 22);
-	BOOST_CHECK_EQUAL (last_time, 0);
+	BOOST_CHECK (tb.audio != shared_ptr<const AudioBuffers> ());
+	BOOST_CHECK_EQUAL (tb.audio->frames(), 22);
+	BOOST_CHECK_EQUAL (tb.time, 0);
 
 	/* And they should be a staircase */
 	for (int i = 0; i < 22; ++i) {
-		BOOST_CHECK_EQUAL (last_audio->data()[0][i], i);
+		BOOST_CHECK_EQUAL (tb.audio->data()[0][i], i);
 	}
 
-	reset ();
-	merger.flush ();
+	tb = merger.flush ();
 
 	/* That flush should give us 64 samples at 22 */
-	BOOST_CHECK_EQUAL (last_audio->frames(), 64);
-	BOOST_CHECK_EQUAL (last_time, 22);
+	BOOST_CHECK_EQUAL (tb.audio->frames(), 64);
+	BOOST_CHECK_EQUAL (tb.time, 22);
 
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
@@ -94,41 +76,37 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 		if (i < (64 - 22)) {
 			correct += i + 22;
 		}
-		BOOST_CHECK_EQUAL (last_audio->data()[0][i], correct);
+		BOOST_CHECK_EQUAL (tb.audio->data()[0][i], correct);
 	}
 }
 
 BOOST_AUTO_TEST_CASE (audio_merger_test2)
 {
 	AudioMerger<int, int> merger (1, bind (&pass_through, _1), boost::bind (&pass_through, _1));
-	merger.Audio.connect (bind (&process_audio, _1, _2));
 
-	reset ();
-	
 	/* Push 64 samples, 0 -> 63 at time 9 */
 	shared_ptr<AudioBuffers> buffers (new AudioBuffers (1, 64));
 	for (int i = 0; i < 64; ++i) {
 		buffers->data()[0][i] = i;
 	}
-	merger.push (buffers, 9);
+	TimedAudioBuffers<int> tb = merger.push (buffers, 9);
 
 	/* That flush should give us 9 samples at 0 */
-	BOOST_CHECK_EQUAL (last_audio->frames(), 9);
-	BOOST_CHECK_EQUAL (last_time, 0);
+	BOOST_CHECK_EQUAL (tb.audio->frames(), 9);
+	BOOST_CHECK_EQUAL (tb.time, 0);
 	
 	for (int i = 0; i < 9; ++i) {
-		BOOST_CHECK_EQUAL (last_audio->data()[0][i], 0);
+		BOOST_CHECK_EQUAL (tb.audio->data()[0][i], 0);
 	}
 	
-	reset ();
-	merger.flush ();
+	tb = merger.flush ();
 
 	/* That flush should give us 64 samples at 9 */
-	BOOST_CHECK_EQUAL (last_audio->frames(), 64);
-	BOOST_CHECK_EQUAL (last_time, 9);
+	BOOST_CHECK_EQUAL (tb.audio->frames(), 64);
+	BOOST_CHECK_EQUAL (tb.time, 9);
 	
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
-		BOOST_CHECK_EQUAL (last_audio->data()[0][i], i);
+		BOOST_CHECK_EQUAL (tb.audio->data()[0][i], i);
 	}
 }

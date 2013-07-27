@@ -26,6 +26,7 @@
 #include <libdcp/util.h>
 
 class Content;
+class AudioBuffers;
 
 typedef int64_t Time;
 #define TIME_MAX INT64_MAX
@@ -33,6 +34,22 @@ typedef int64_t Time;
 typedef int64_t OutputAudioFrame;
 typedef int	OutputVideoFrame;
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
+
+template<class T>
+struct TimedAudioBuffers
+{
+	TimedAudioBuffers ()
+		: time (0)
+	{}
+	
+	TimedAudioBuffers (boost::shared_ptr<AudioBuffers> a, T t)
+		: audio (a)
+		, time (t)
+	{}
+	
+	boost::shared_ptr<AudioBuffers> audio;
+	T time;
+};
 
 enum VideoFrameType
 {
