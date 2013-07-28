@@ -45,12 +45,7 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f, shared_ptr<AudioCont
 string
 AnalyseAudioJob::name () const
 {
-	shared_ptr<AudioContent> content = _content.lock ();
-	if (!content) {
-		return "";
-	}
-	
-	return String::compose (_("Analyse audio of %1"), content->path().filename().string());
+	return _("Analyse audio");
 }
 
 void
