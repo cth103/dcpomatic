@@ -9,7 +9,7 @@
 <xsl:param name="latex.output.revhistory">0</xsl:param>
 
 <!-- hack images to vaguely the right size -->
-<xsl:param name="imagedata.default.scale">scale=0.6</xsl:param>
+<xsl:param name="imagedata.default.scale">scale=0.5</xsl:param>
 
 <!-- don't make too-ridiculous section numbers -->
 <xsl:param name="doc.section.depth">3</xsl:param>

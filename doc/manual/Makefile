@@ -2,11 +2,12 @@
 
 all:	html pdf
 
-DIAGRAMS := file-structure.svg
+DIAGRAMS := file-structure.svg 3d-left-right.svg
 
-SCREENSHOTS := file-new.png video-new-film.png still-new-film.png click-content-selector.png video-select-content-file.png \
-               still-select-content-file.png examine-thumbs.png \
-               calculate-audio-gain.png prefs.png making-dcp.png filters.png film-tab.png video-tab.png audio-tab.png subtitles-tab.png
+SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
+               still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
+               calculate-audio-gain.png prefs.png making-dcp.png filters.png video-tab.png audio-tab.png subtitles-tab.png \
+               audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png
 
 XML := dcpomatic.xml
 
@@ -47,6 +48,9 @@ html/screenshots/new-session.png: screenshots/new-session.png
 	mkdir -p html/screenshots
 	convert -resize 75% $< $@
 html/screenshots/export-dialogue.png: screenshots/export-dialogue.png
+	mkdir -p html/screenshots
+	convert -resize 75% $< $@
+html/screenshots/making-dcp.png: screenshots/making-dcp.png
 	mkdir -p html/screenshots
 	convert -resize 75% $< $@
 
