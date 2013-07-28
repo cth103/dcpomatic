@@ -166,11 +166,14 @@ FFmpegDecoder::pass ()
 
 	avcodec_get_frame_defaults (_frame);
 
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
 	if (_packet.stream_index == _video_stream && _decode_video) {
 		decode_video_packet ();
 	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id) {
+	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && film->with_subtitles ()) {
 		decode_subtitle_packet ();
 	}
 
