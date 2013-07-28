@@ -338,13 +338,13 @@ linkend="fig-making-dcp"/>.
 When it has finished, the DCP will end up on your disk inside the
 film's folder.  You can then copy this to a projector via a USB
 stick, hard-drive or network connection.  See <xref
-linkend="ch-files"/> for details about the files that DVD-o-matic creates.
+linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 </para>
 
 <para>
 Alternatively, if you have a projector or TMS that is accessible via
 SCP across your network, you can upload the content directly from
-DCP-o-matic.  See <xref linkend="sec-tms-upload"/>.
+DCP-o-matic.  See the preferences in <xref linkend="sec-prefs-tms"/>.
 </para>
 
 </section>
@@ -424,7 +424,7 @@ to encode a single frame which it can then repeat.
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-<title>Handling content</title>
+<title>Content settings</title>
 
 <para>
 The previous chapters showed DCP generation using the default
@@ -800,7 +800,155 @@ might be different soundtrack languages, for example.
 </section>
 </section>
 
+
+<section>
+<title>Subtitles</title>
+
+<para>
+The subtitles tab contains settings related to subtitles in your
+content, as shown in <xref linkend="fig-subtitles-tab"/>.
+</para>
+
+<figure id="fig-subtitles-tab"> 
+  <title>Subtitle settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/subtitles-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+DCP-o-matic will extract subtitles from the content, if present, and
+they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
+included in the image and not overlaid by the projector).  Note that
+DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
+(automatically) to use non-burnt-in subtitles with these sources.
+Select the <guilabel>With Subtitles</guilabel> checkbox to enable
+subtitles.  The <guilabel>offset</guilabel> control moves the
+subtitles up and down the image, and the <guilabel>scale</guilabel>
+control changes their size.
+</para>
+
+<para>
+All being well, future versions of DCP-o-matic will include the option to
+use text subtitles (as is the norm with most professionally-mastered
+DCPs).
+</para>
+
+</section>
+
+<!-- XXX: timing tab -->
+
 </chapter>
+
+<chapter xml:id="ch-dcp" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>DCP settings</title>
+
+<para>
+This chapter describes the settings that apply to the whole DCP.  The
+controls for these settings are in the <guilabel>DCP</guilabel> tab of
+the main window, as shown in <xref linkend="fig-dcp-tab"/>.
+</para>
+
+<figure id="fig-dcp-tab"> 
+  <title>DCP settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/dcp-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The first thing here is the name.  This is generally set to the title
+of the film that is being encoded.  If <guilabel>Use DCI
+name</guilabel> is not ticked, the name that you specify will be used
+as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
+is ticked, the name that you enter will be used as part of a
+DCI-compliant name.  
+</para>
+
+<para>
+Underneath the name field is a preview of the name that the DCP will
+get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
+name</guilabel> checkbox.  The DCI name will be composed using details
+of your content's soundtrack, the current date and other things that
+can be specified in the DCI name details dialogue box, which you can
+open by clicking on the <guilabel>Details</guilabel> button.
+</para>
+
+<para>
+If the DCP name is long, it may not all be visible.  You can see the
+full name by hovering the mouse pointer over the partial name.
+</para>
+
+<para>
+The <guilabel>Container</guilabel> option sets the ratio of the image
+in the DCP.  If this ratio is different to the ratio used for any
+content, DCP-o-matic will pad the content with black.  In simple cases
+this should be set to the same ratio as that for the the primary piece
+of video content.  Alternatively, you might want to pillarbox a small
+format into a Flat container: in this case, select the small format
+for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
+</para>
+
+<para>
+Next up is the content type.  This can be
+&lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
+required type from the drop-down list.
+</para>
+
+<para>
+The <guilabel>Frame Rate</guilabel> control sets the frame rate of
+your DCP.  This can be a little tricky to get right.  Ideally, you
+want it to be the same as the video content that you are using.  If it
+is not the same, DCP-o-matic must resort to some tricks to alter your
+content to fit the specified frame rate.  Frame rates are discussed in more detail later.
+<!--- XXX: link -->
+</para>
+
+<para>
+The <guilabel>Use best</guilabel> button sets the DCP video frame rate
+to what DCP-o-matic thinks is the best given the content that you have
+added.
+</para>
+
+<para>
+The <guilabel>Audio Channels</guilabel> control sets the number of
+audio channels that the DCP will have.  If the DCP has any channels
+for which there is no content audio they will be replaced by silence.
+</para>
+
+<para>
+The <guilabel>3D</guilabel> button will set your DCP to 3D mode if it
+is checked.  A 3D DCP will then be created, and any 2D content will be
+made 3D compatible by repeating the same frame for both left and right
+eyes.  A 3D DCP can be played back on many 3D systems (e.g.\ Dolby 3D,
+Real-D etc.) but not on a 2D system.
+</para>
+
+<para>
+The <guilabel>Resolution</guilabel> tab allows you to choose the
+resolution for your DCP.  Use 2K unless you have content that is of
+high enough resolution to be worth presenting in 4K.
+</para>
+
+<para>
+The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big the final
+image files used within the DCP will be.  Larger numbers will give
+better quality, but correspondingly larger DCPs.  The bandwidth can be
+between 50 and 250 megabits per second (MBps).
+</para>
+
+<para>
+Finally, the <guilabel>scaler</guilabel> is the method that will be used to scale up
+your content to the required size for the DCP, if required.  Bicubic is a fine choice in
+most situations.
+</para>
+
+</chapter>
+
 
 <chapter xml:id="ch-preferences" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Preferences</title>
@@ -816,34 +964,39 @@ behaviour.  This chapter explains those options.
 <para>
 The preferences dialogue is opened by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  The dialogue is shown in <xref linkend="fig-prefs"/>.
+menu.  The dialogue is split into four tabs.
 </para>
 
-<figure id="fig-prefs"> 
-  <title>Preferences</title> 
+<section>
+<title>Miscellaneous</title>
+
+<para>
+The miscellaneous tab is shown in <xref linkend="fig-prefs-misc"/>.
+</para>
+
+<figure id="fig-prefs-misc"> 
+  <title>Miscellaneous preferences</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/prefs&scs;"/>
+      <imagedata fileref="screenshots/prefs-misc&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
 
 <section>
-<title>TMS setup</title>
+<title>Language</title>
 
 <para>
-The first part of the dialogue gives some options for specifying
-details about your TMS.  If you do this, and your TMS accepts SSH
-connections, you can upload DCPs directly from DCP-o-matic to the TMS.
-This is discussed in <xref linkend="sec-tms-upload"/>.
+If you tick the <guilabel>Set Language</guilabel> checkbox and choose
+a language from the list, that language will be used for DCP-o-matic.
+You will need to restart DCP-o-matic to see the new language.
 </para>
 
 <para>
-<guilabel>TMS IP address</guilabel> should be set to the IP address of
-your TMS, <guilabel>TMS target path</guilabel> to the place that DCPs
-should be uploaded to (which will be relative to the home directory of
-the SSH user).  Finally, the user name and password are the
-credentials required to log into the TMS via SSH.
+The translations for DCP-o-matic have been contributed by helpful
+users.  If your language is not on the last, head to <ulink
+url="http://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
+read about how to contribute a translation.
 </para>
 </section>
 
@@ -860,27 +1013,31 @@ processors (or processor cores) in your machine.
 </section>
 
 <section>
-<title>Default directory for new films</title>
+<title>Defaults</title>
 
 <para>
-This is the directory (folder) which DCP-o-matic will suggest initially as a place to put new films.
+The next few options allow you to set up default values for several
+properties of new films that you create.
 </para>
 
 </section>
-
-<section>
-<title>A/B options</title>
-
-<para>
-These options are for DCP-o-matic's special mode of making A/B
-comparison DCPs for checking the performance of video filters.  Their
-use is described in <xref linkend="sec-ab"/>.
-</para>
-
 </section>
 
 <section>
 <title>Encoding servers</title>
+
+<para>
+The encoding servers tab is shown in <xref linkend="fig-prefs-servers"/>.
+</para>
+
+<figure id="fig-prefs-servers"> 
+  <title>Encoding servers preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-servers&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
 
 <para>
 If you have spare machines sitting around on your network not doing
@@ -894,67 +1051,169 @@ used.
 
 </section>
 
+<section>
+<title>Metadata</title>
+
+<para>
+The metadata tab is shown in <xref linkend="fig-prefs-metadata"/>.
+</para>
+
+<figure id="fig-prefs-metadata"> 
+  <title>Metadata preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-metadata&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This allows you to set up a couple of identifiers that are written
+into the DCP.  The default values should cause no problems.
+</para>
+
+</section>
+
+<section xml:id="prefs-tms">
+<title>TMS</title>
+
+<para>
+The TMS tab (shown in <xref linkend="fig-prefs-tms"/>) gives some
+options for specifying details about your theatre management system
+(TMS).  If you do this, and your TMS accepts SSH connections, you can
+upload DCPs directly from DCP-o-matic to the TMS using the
+<guilabel>Send DCP to TMS</guilabel> option in the
+<guilabel>Jobs</guilabel> menu.
+</para>
+
+<figure id="fig-prefs-tms"> 
+  <title>TMS preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-tms&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+<guilabel>TMS IP address</guilabel> should be set to the IP address of
+your TMS, <guilabel>TMS target path</guilabel> to the place that DCPs
+should be uploaded to (which will be relative to the home directory of
+the SSH user).  Finally, the user name and password are the
+credentials required to log into the TMS via SSH.
+</para>
+</section>
+
+
 </section>
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-<title>Advanced topics</title>
+<title>Frame rates</title>
 
-<para>This chapter describes some parts of DCP-o-matic that are
-probably not essential, but which you might find useful in some
-circumstances.
+<para>
+In an ideal world, a DCP would be created using content at the same
+video frame and audio sampling rates as the DCP.  This is not,
+however, always possible.
 </para>
 
 <section>
-<title>Scaling</title>
+<title>DCP rate limitations</title>
 
 <para>
-If your source material is not of the DCI-specified size, or if it
-uses non-square pixels, DCP-o-matic will need to scale it.  The
-algorithm used to scale is set up by the <guilabel>Scaler</guilabel>
-entry in the film setup area.  We think &lsquo;Bicubic&rsquo; is the
-best all-round option, but tests are ongoing.
+There are some limitations to video and audio rates in DCPs.  This is
+complicated by the fact that not all projectors will play DCPs at the
+same rates.  It is possible to create a DCP which one projector will
+play fine, but another (of a different type) will refuse to play, or
+even refuse to ingest.
+</para>
+
+<section>
+<title>Guaranteed rates</title>
+
+<para>
+The only rates that are (pretty much) guaranteed to work on all DCI
+projectors is 24 frames per second (fps) for video and 48kHz or 96kHz
+for audio.  If you are sending your DCPs to unknown places it wise to
+consider using these rates if at all possible.
 </para>
 
 </section>
 
-<section xml:id="sec-tms-upload">
-<title>TMS upload</title>
+<section>
+<title>Other often-supported rates</title>
+<para>
+Many projectors now in the wild support additional video frame rates:
+25, 30 and 48 fps.
+</para>
+</section>
+
+<section>
+<title>Adapting content to fit the DCP rate</title>
 
 <para>
-If you have configured details of a TMS in the preferences dialogue
-(<xref linkend="ch-preferences"/>) you can upload a completed DCP
-straight to your TMS buy choosing <guilabel>Send DCP to TMS</guilabel>
-from the <guilabel>Jobs</guilabel> menu.
+DCP-o-matic has a few tricks to allow you to use content that is not
+in one of the &lsquo;approved&rsquo; rates.
+</para>
+
+<para>
+Audio is easy: DCP-o-matic can resample to 48kHz from any source rate
+with minimal loss in quality.
+</para>
+
+<para>
+Video rate conversion is harder.  DCP-o-matic's basic strategy to deal
+with a non-supported content rate is to run it at the wrong speed, and
+to adjust the audio to keep it in sync.
+</para>
+
+<para>Let us consider the example of a 25fps source for which you want
+to create a 24fps DCP.  DCP-o-matic will put the frames from the
+source directly into the DCP without modification, but will tell the
+projector to play them back at 24fps.  This means that the DCP's video
+will run slightly slower than the original.
+</para>
+
+<para>
+If DCP-o-matic did nothing else, the result of this would be that the
+audio would be running at the original speed with the video running
+slowly.  Hence the audio would drift slowly out of sync.  To avoid
+this, DCP-o-matic also resamples the audio such that the projector
+will play it too fast by the same amount.  Hence it will sound
+slightly different but will remain in sync with the video.
+</para>
+
+<para>
+For very low or high frame rates, DCP-o-matic can also skip or duplicate frames.
+</para>
+
+</section>
+</section>
+
+<section>
+<title>Setting up</title>
+
+<para>
+The <guilabel>Frame Rate</guilabel> control in the
+<guilabel>DCP</guilabel> tab sets the video frame rate that the DCP
+will use.  Clicking <guilabel>Use best</guilabel> sets the rate to
+what DVD-o-matic thinks is the best for your content.  With this
+button, DCP-o-matic assumes that the whole range of frame rates (24,
+25, 30 and 48fps) are allowable.
+</para>
+
+<para>
+After this, the <guilabel>Video</guilabel> tab for each piece of
+content will give a summary of what DCP-o-matic is doing with that
+content.
 </para>
 
 </section>
 
+</chapter>
 
-<section xml:id="sec-ab">
-<title>A/B comparison</title>
 
-<para>
-When evaluating the effects of different filters or scalers on the
-image quality, A/B mode might be useful.  In this mode, DCP-o-matic
-will generate a DCP where the left half of the image uses some
-&lsquo;reference&rsquo; filtering and scaling, and the right half of
-the image uses a different set of filters and a different scaler.
-This DCP can then be played back on a projector and the image quality
-evaluated.
-</para>
-
-<para>
-To enable A/B mode, click the A/B checkbox in the setup area of the
-DCP-o-matic window.  When you generate your DCP, the left half of the
-screen will use the filters and scaler specified in the <xref
-linkend="ch-preferences">preferences</xref> dialogue, and the right
-half will use the filters and scaler specified in the film setup.
-</para>
-
-</section>
-
-<section xml:id="sec-servers">
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Encoding servers</title>
 
 <para>
@@ -963,7 +1222,7 @@ than one machine at the same time.  An instance of DCP-o-matic can
 offload some of the time-consuming JPEG2000 encoding to any number of
 other machines on a network.  To do this, one &lsquo;master&rsquo;
 machine runs DCP-o-matic, and the &lsquo;server&rsquo; machines run
-a small program called &lsquo;servomatic&rsquo;.
+a small program called &lsquo;dcpomatic_server&rsquo;.
 </para>
 
 <section>
@@ -971,8 +1230,8 @@ a small program called &lsquo;servomatic&rsquo;.
 
 <para>
 There are two options for the encoding server;
-<code>servomatic_cli</code>, which runs on the command line, and
-<code>servomatic_gui</code>, which has a simple GUI.  The command line
+<code>dcpomatic_server_cli</code>, which runs on the command line, and
+<code>dcpomatic_server</code>, which has a simple GUI.  The command line
 version is well-suited to headless servers, especially on Linux, and
 the GUI version works best on Windows where it will put an icon in the
 system tray.
@@ -983,7 +1242,7 @@ To run the command line version, simply enter:
 </para>
 
 <programlisting>
-servomatic_cli
+dcpomatic_server_cli
 </programlisting>
 
 <para>
@@ -993,7 +1252,7 @@ by doing something like:
 </para>
 
 <programlisting>
-servomatic_cli -t 4
+dcpomatic_server_cli -t 4
 </programlisting>
 
 <para>
@@ -1048,7 +1307,6 @@ will have no effect while an encode is running; the changes will only
 be noticed when a new encode is started.
 </para>
 
-</section>
 </section>
 
 </chapter>
@@ -1112,167 +1370,3 @@ to the cinema which is showing your DCP.
 
 
 </book>
-
-
-<!--
-OUTTAKES:
-
-
-<para>
-The folder that you choose should have plenty of free disc space
-available.  As a very rough guide, you will need about 25Mb per second
-of your DCP.  This works out at 1.5Gb per minute, or 90Gb per hour.
-</para>
-
-<para>
-If you always create your DCPs in a particular folder, you can use
-DCP-o-matic's <guilabel>Preferences</guilabel> to make life a little
-easier by setting the default folder that DCP-o-matic will offer in this dialogue.
-See <xref linkend="ch-preferences"/>.
-</para>
-
-
-
-<section>
-<title>Subtitles tab</title>
-
-<para>
-This tab contains settings related to subtitles in your content, as shown in <xref linkend="fig-subtitles-tab"/>.
-</para>
-
-<figure id="fig-subtitles-tab"> 
-  <title>Subtitle settings tab</title>
-  <mediaobject>
-    <imageobject> 
-       XXX: subtitles tab 
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-DCP-o-matic will extract subtitles from the content, if present, and
-they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
-included in the image and not overlaid by the projector).  Note that
-DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
-(automatically) to use non-burnt-in subtitles with these sources.
-Select the <guilabel>With Subtitles</guilabel> checkbox to enable
-subtitles.  The <guilabel>offset</guilabel> control moves the
-subtitles up and down the image, and the <guilabel>scale</guilabel>
-control changes their size.
-</para>
-
-<para>
-All being well, future versions of DCP-o-matic will include the option to
-use text subtitles (as is the norm with most professionally-mastered
-DCPs).
-</para>
-
-</section>
-</section>
-
-<section>
-<title>Setting up the DCP</title>
-
-<para>
-Now that we have set up the content that will go into our DCP, we can
-set things up for the DCP itself.  This is done from the
-<guilabel>DCP</guilabel> tab which can be found at the top of the
-DCP-o-matic window (next to the <guilabel>Content</guilabel> tab).
-The DCP tab is shown in foo.
-</para>
-
- XXX: DCP tab 
-
-<para>
-The first thing here is the name.  This is generally set to the title
-of the film that is being encoded.  If <guilabel>Use DCI
-name</guilabel> is not ticked, the name that you specify will be used
-as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
-is ticked, the name that you enter will be used as part of a
-DCI-compliant name.  Set the name to something useful, like
-&lsquo;Sintel&rsquo;.
-</para>
-
-<para>
-Underneath the name field is a preview of the name that the DCP will
-get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
-name</guilabel> checkbox.  The DCI name will be composed using details
-of your content's soundtrack, the current date and other things that
-can be specified in the DCI name details dialogue box, which you can
-open by clicking on the <guilabel>Details</guilabel> button.
-</para>
-
-<para>
-If the DCP name is long, it may not all be visible.  You can see the
-full name by hovering the mouse pointer over the partial name.
-</para>
-
-<para>
-The <guilabel>Container</guilabel> option sets the ratio of the image
-in the DCP.  If this ratio is different to the ratio used for any
-content, DCP-o-matic will pad the content with black.  In simple cases
-this should be set to the same ratio as that for the the primary piece
-of video content.  Alternatively, you might want to pillarbox a small
-format into a Flat container: in this case, select the small format
-for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
-</para>
-
-<para>
-Next up is the content type.  This can be
-&lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
-required type from the drop-down list.
-</para>
-
-<para>
-The <guilabel>Frame Rate</guilabel> control sets the frame rate of
-your DCP.  This can be a little tricky to get right.  Ideally, you
-want it to be the same as the video content that you are using.  If it
-is not the same, DCP-o-matic must resort to some tricks to alter your
-content to fit the specified frame rate.  Frame rates are discussed in more detail later.
- XXX: link 
-</para>
-
-<para>
-The <guilabel>Use best</guilabel> button sets the DCP video frame rate
-to what DCP-o-matic thinks is the best given the content that you have
-added.
-</para>
-
-<para>
-The <guilabel>Audio Channels</guilabel> control sets the number of
-audio channels that the DCP will have.  If the DCP has any channels
-for which there is no content audio they will be replaced by silence.
-</para>
-
-<para>
-The <guilabel>3D</guilabel> button will set your DCP to 3D mode if it
-is checked.  This is discussed later.
- XXX: link 
-</para>
-
-<para>
-The <guilabel>Resolution</guilabel> tab allows you to choose the
-resolution for your DCP.  Use 2K unless you have content that is of
-high enough resolution to be worth presenting in 4K.
-</para>
-
-<para>
-The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big the final
-image files used within the DCP will be.  Larger numbers will give
-better quality, but correspondingly larger DCPs.  The bandwidth can be
-between 50 and 250 megabits per second (MBps).
-</para>
-
-<para>
-Finally, the <guilabel>scaler</guilabel> is the method that will be used to scale up
-your content to the required size for the DCP, if required.  We will
-discuss the options in more detail later; Bicubic is a fine choice in
-most situations.
- XXX: link 
-</para>
-
-</section>
-
-
-
--->
