@@ -151,8 +151,15 @@ Writer::fake_write (int frame, Eyes eyes)
 	qi.type = QueueItem::FAKE;
 	qi.size = info.size;
 	qi.frame = frame;
-	qi.eyes = eyes;
-	_queue.push_back (qi);
+	if (_film->three_d() && eyes == EYES_BOTH) {
+		qi.eyes = EYES_LEFT;
+		_queue.push_back (qi);
+		qi.eyes = EYES_RIGHT;
+		_queue.push_back (qi);
+	} else {
+		qi.eyes = eyes;
+		_queue.push_back (qi);
+	}
 
 	_condition.notify_all ();
 }
@@ -398,9 +405,15 @@ Writer::repeat (int f, Eyes e)
 	QueueItem qi;
 	qi.type = QueueItem::REPEAT;
 	qi.frame = f;
-	qi.eyes = e;
-	
-	_queue.push_back (qi);
+	if (_film->three_d() && e == EYES_BOTH) {
+		qi.eyes = EYES_LEFT;
+		_queue.push_back (qi);
+		qi.eyes = EYES_RIGHT;
+		_queue.push_back (qi);
+	} else {
+		qi.eyes = e;
+		_queue.push_back (qi);
+	}
 
 	_condition.notify_all ();
 }
@@ -487,8 +500,8 @@ operator< (QueueItem const & a, QueueItem const & b)
 	if (a.frame != b.frame) {
 		return a.frame < b.frame;
 	}
-	
-	return a.eyes == EYES_LEFT && b.eyes == EYES_RIGHT;
+
+	return static_cast<int> (a.eyes) < static_cast<int> (b.eyes);
 }
 
 bool
