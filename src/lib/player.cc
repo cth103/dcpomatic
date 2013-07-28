@@ -100,9 +100,9 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _audio_merger (f->audio_channels(), bind (&Film::time_to_audio_frames, f.get(), _1), bind (&Film::audio_frames_to_time, f.get(), _1))
 	, _last_emit_was_black (false)
 {
-	_playlist->Changed.connect (bind (&Player::playlist_changed, this));
-	_playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
-	_film->Changed.connect (bind (&Player::film_changed, this, _1));
+	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
+	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
+	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	set_video_container_size (_film->container()->size (_film->full_frame ()));
 }
 

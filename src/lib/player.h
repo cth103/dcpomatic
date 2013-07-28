@@ -136,6 +136,10 @@ private:
 #endif
 
 	bool _last_emit_was_black;
+
+	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_changed_connection;
+	boost::signals2::scoped_connection _film_changed_connection;
 };
 
 #endif
