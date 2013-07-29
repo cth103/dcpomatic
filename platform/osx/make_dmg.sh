@@ -40,6 +40,7 @@ universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libkumu-libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libopenjpeg*.dylib $WORK/$libs
+universal_copy $ROOT lib/libavdevice*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavformat*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavfilter*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavutil*.dylib $WORK/$libs
