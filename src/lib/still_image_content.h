@@ -42,7 +42,7 @@ public:
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *) const;
-	Time length () const;
+	Time full_length () const;
 
 	std::string identifier () const;
 	

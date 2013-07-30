@@ -733,8 +733,10 @@ FilmEditor::content_selection_changed ()
 	/* All other sensitivity in content panels should be triggered by
 	   one of these.
 	*/
-	film_content_changed (s, ContentProperty::START);
+	film_content_changed (s, ContentProperty::POSITION);
 	film_content_changed (s, ContentProperty::LENGTH);
+	film_content_changed (s, ContentProperty::TRIM_START);
+	film_content_changed (s, ContentProperty::TRIM_END);
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
 	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
 	film_content_changed (s, VideoContentProperty::VIDEO_FRAME_TYPE);

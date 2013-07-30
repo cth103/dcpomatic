@@ -806,7 +806,7 @@ Film::add_content (shared_ptr<Content> c)
 {
 	/* Add video content after any existing content */
 	if (dynamic_pointer_cast<VideoContent> (c)) {
-		c->set_start (_playlist->video_end ());
+		c->set_position (_playlist->video_end ());
 	}
 
 	_playlist->add (c);

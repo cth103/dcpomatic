@@ -30,12 +30,16 @@ using std::set;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-int const ContentProperty::START = 400;
+int const ContentProperty::POSITION = 400;
 int const ContentProperty::LENGTH = 401;
+int const ContentProperty::TRIM_START = 402;
+int const ContentProperty::TRIM_END = 403;
 
-Content::Content (shared_ptr<const Film> f, Time s)
+Content::Content (shared_ptr<const Film> f, Time p)
 	: _film (f)
-	, _start (s)
+	, _position (p)
+	, _trim_start (0)
+	, _trim_end (0)
 	, _change_signals_frequent (false)
 {
 
@@ -44,7 +48,9 @@ Content::Content (shared_ptr<const Film> f, Time s)
 Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
 	: _film (f)
 	, _path (p)
-	, _start (0)
+	, _position (0)
+	, _trim_start (0)
+	, _trim_end (0)
 	, _change_signals_frequent (false)
 {
 
@@ -56,7 +62,9 @@ Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 {
 	_path = node->string_child ("Path");
 	_digest = node->string_child ("Digest");
-	_start = node->number_child<Time> ("Start");
+	_position = node->number_child<Time> ("Position");
+	_trim_start = node->number_child<Time> ("TrimStart");
+	_trim_end = node->number_child<Time> ("TrimEnd");
 }
 
 void
@@ -65,7 +73,9 @@ Content::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Path")->add_child_text (_path.string());
 	node->add_child("Digest")->add_child_text (_digest);
-	node->add_child("Start")->add_child_text (lexical_cast<string> (_start));
+	node->add_child("Position")->add_child_text (lexical_cast<string> (_position));
+	node->add_child("TrimStart")->add_child_text (lexical_cast<string> (_trim_start));
+	node->add_child("TrimEnd")->add_child_text (lexical_cast<string> (_trim_end));
 }
 
 void
@@ -91,15 +101,38 @@ Content::signal_changed (int p)
 }
 
 void
-Content::set_start (Time s)
+Content::set_position (Time p)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_start = s;
+		_position = p;
 	}
 
-	signal_changed (ContentProperty::START);
+	signal_changed (ContentProperty::POSITION);
 }
+
+void
+Content::set_trim_start (Time t)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_trim_start = t;
+	}
+
+	signal_changed (ContentProperty::TRIM_START);
+}
+
+void
+Content::set_trim_end (Time t)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_trim_end = t;
+	}
+
+	signal_changed (ContentProperty::TRIM_END);
+}
+
 
 shared_ptr<Content>
 Content::clone () const
@@ -119,5 +152,20 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", path(), digest(), start());
+	return String::compose ("%1 %2 %3", path(), digest(), position());
+}
+
+Time
+Content::length_after_trim () const
+{
+	return full_length () - _trim_start - _trim_end;
+}
+
+/** @param t A time relative to the start of this content (not the position).
+ *  @return true if this time is trimmed by our trim settings.
+ */
+bool
+Content::trimmed (Time t) const
+{
+	return (t < trim_start() || t > (full_length() - trim_end ()));
 }

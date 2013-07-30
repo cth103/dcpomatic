@@ -47,9 +47,9 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	wait_for_jobs ();
 
 	contentA->set_video_length (3);
-	contentA->set_start (film->video_frames_to_time (2));
+	contentA->set_position (film->video_frames_to_time (2));
 	contentB->set_video_length (1);
-	contentB->set_start (film->video_frames_to_time (7));
+	contentB->set_position (film->video_frames_to_time (7));
 
 	film->make_dcp ();
 

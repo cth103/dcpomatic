@@ -100,9 +100,9 @@ BOOST_AUTO_TEST_CASE (play_test)
 	/* Film should have been set to 25fps */
 	BOOST_CHECK_EQUAL (film->video_frame_rate(), 25);
 
-	BOOST_CHECK_EQUAL (A->start(), 0);
+	BOOST_CHECK_EQUAL (A->position(), 0);
 	/* A is 16 frames long at 25 fps */
-	BOOST_CHECK_EQUAL (B->start(), 16 * TIME_HZ / 25);
+	BOOST_CHECK_EQUAL (B->position(), 16 * TIME_HZ / 25);
 
 	shared_ptr<Player> player = film->make_player ();
 	PlayerWrapper wrap (player);

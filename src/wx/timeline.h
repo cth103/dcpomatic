@@ -73,7 +73,7 @@ private:
 	void playlist_changed ();
 	void resized ();
 	void assign_tracks ();
-	void set_start_from_event (wxMouseEvent &);
+	void set_position_from_event (wxMouseEvent &);
 	void clear_selection ();
 
 	typedef std::vector<boost::shared_ptr<View> > ViewList;
@@ -92,7 +92,7 @@ private:
 	bool _left_down;
 	wxPoint _down_point;
 	boost::shared_ptr<ContentView> _down_view;
-	Time _down_view_start;
+	Time _down_view_position;
 	bool _first_move;
 	ContentMenu _menu;
 

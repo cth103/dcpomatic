@@ -55,15 +55,15 @@ class Piece
 public:
 	Piece (shared_ptr<Content> c)
 		: content (c)
-		, video_position (c->start ())
-		, audio_position (c->start ())
+		, video_position (c->position ())
+		, audio_position (c->position ())
 	{}
 	
 	Piece (shared_ptr<Content> c, shared_ptr<Decoder> d)
 		: content (c)
 		, decoder (d)
-		, video_position (c->start ())
-		, audio_position (c->start ())
+		, video_position (c->position ())
+		, audio_position (c->position ())
 	{}
 	
 	shared_ptr<Content> content;
@@ -83,7 +83,7 @@ std::ostream& operator<<(std::ostream& s, Piece const & p)
 		s << "\tsndfile	   ";
 	}
 	
-	s << " at " << p.content->start() << " until " << p.content->end();
+	s << " at " << p.content->position() << " until " << p.content->end();
 	
 	return s;
 }
@@ -248,14 +248,19 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		return;
 	}
 
+	Time const relative_time = (frame * frc.factor() * TIME_HZ / _film->video_frame_rate());
+	if (content->trimmed (relative_time)) {
+		return;
+	}
+	
 	shared_ptr<Image> work_image = image->crop (content->crop(), true);
 
 	libdcp::Size const image_size = content->ratio()->size (_video_container_size);
 	
 	work_image = work_image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
 
-	Time time = content->start() + (frame * frc.factor() * TIME_HZ / _film->video_frame_rate());
-	
+	Time time = content->position() + relative_time - content->trim_start ();
+	    
 	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
 		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position);
 	}
@@ -297,6 +302,15 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
+	Time const relative_time = _film->audio_frames_to_time (frame)
+		+ (content->audio_delay() * TIME_HZ / 1000);
+
+	if (content->trimmed (relative_time)) {
+		return;
+	}
+
+	Time time = content->position() + relative_time;
+	
 	/* Resample */
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
 		shared_ptr<Resampler> r = resampler (content, true);
@@ -316,10 +330,6 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	}
 
 	audio = dcp_mapped;
-
-	Time time = content->start()
-		+ _film->audio_frames_to_time (frame)
-		+ (content->audio_delay() * TIME_HZ / 1000);
 
 	/* We must cut off anything that comes before the start of all time */
 	if (time < 0) {
@@ -380,18 +390,18 @@ Player::seek (Time t, bool accurate)
 			continue;
 		}
 		
-		Time s = t - vc->start ();
+		Time s = t - vc->position ();
 		s = max (static_cast<Time> (0), s);
-		s = min (vc->length(), s);
+		s = min (vc->length_after_trim(), s);
 
-		(*i)->video_position = (*i)->audio_position = vc->start() + s;
+		(*i)->video_position = (*i)->audio_position = vc->position() + s;
 
 		FrameRateConversion frc (vc->video_frame_rate(), _film->video_frame_rate());
 		/* Here we are converting from time (in the DCP) to a frame number in the content.
 		   Hence we need to use the DCP's frame rate and the double/skip correction, not
 		   the source's rate.
 		*/
-		VideoContent::Frame f = s * _film->video_frame_rate() / (frc.factor() * TIME_HZ);
+		VideoContent::Frame f = (s + vc->trim_start ()) * _film->video_frame_rate() / (frc.factor() * TIME_HZ);
 		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
 	}
 
@@ -487,7 +497,8 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 	}
 
 	if (
-		property == ContentProperty::START || property == ContentProperty::LENGTH ||
+		property == ContentProperty::POSITION || property == ContentProperty::LENGTH ||
+		property == ContentProperty::TRIM_START || property == ContentProperty::TRIM_END ||
 		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO
 		) {
 		
@@ -622,6 +633,6 @@ Player::update_subtitle ()
 	_out_subtitle.position.y = rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
 	
 	_out_subtitle.image = _in_subtitle.image->scale (libdcp::Size (scaled_size.width, scaled_size.height), Scaler::from_id ("bicubic"), true);
-	_out_subtitle.from = _in_subtitle.from + piece->content->start ();
-	_out_subtitle.to = _in_subtitle.to + piece->content->start ();
+	_out_subtitle.from = _in_subtitle.from + piece->content->position ();
+	_out_subtitle.to = _in_subtitle.to + piece->content->position ();
 }

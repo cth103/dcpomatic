@@ -136,7 +136,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 }
 
 Time
-SndfileContent::length () const
+SndfileContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);

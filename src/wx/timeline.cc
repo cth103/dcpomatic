@@ -92,9 +92,9 @@ public:
 		}
 		
 		return dcpomatic::Rect<int> (
-			time_x (content->start ()) - 8,
+			time_x (content->position ()) - 8,
 			y_pos (_track) - 8,
-			content->length () * _timeline.pixels_per_time_unit() + 16,
+			content->length_after_trim () * _timeline.pixels_per_time_unit() + 16,
 			_timeline.track_height() + 16
 			);
 	}
@@ -133,8 +133,8 @@ private:
 			return;
 		}
 
-		Time const start = cont->start ();
-		Time const len = cont->length ();
+		Time const position = cont->position ();
+		Time const len = cont->length_after_trim ();
 
 		wxColour selected (colour().Red() / 2, colour().Green() / 2, colour().Blue() / 2);
 
@@ -148,11 +148,11 @@ private:
 		}
 
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint    (time_x (start),	   y_pos (_track) + 4);
-		path.AddLineToPoint (time_x (start + len), y_pos (_track) + 4);
-		path.AddLineToPoint (time_x (start + len), y_pos (_track + 1) - 4);
-		path.AddLineToPoint (time_x (start),	   y_pos (_track + 1) - 4);
-		path.AddLineToPoint (time_x (start),	   y_pos (_track) + 4);
+		path.MoveToPoint    (time_x (position),	      y_pos (_track) + 4);
+		path.AddLineToPoint (time_x (position + len), y_pos (_track) + 4);
+		path.AddLineToPoint (time_x (position + len), y_pos (_track + 1) - 4);
+		path.AddLineToPoint (time_x (position),	      y_pos (_track + 1) - 4);
+		path.AddLineToPoint (time_x (position),	      y_pos (_track) + 4);
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
@@ -163,8 +163,8 @@ private:
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (time_x (start), y_pos (_track), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
-		gc->DrawText (name, time_x (start) + 12, y_pos (_track + 1) - name_height - 4);
+		gc->Clip (wxRegion (time_x (position), y_pos (_track), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
+		gc->DrawText (name, time_x (position) + 12, y_pos (_track + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
 
@@ -177,7 +177,7 @@ private:
 	{
 		ensure_ui_thread ();
 		
-		if (p == ContentProperty::START || p == ContentProperty::LENGTH) {
+		if (p == ContentProperty::POSITION || p == ContentProperty::LENGTH) {
 			force_redraw ();
 		}
 
@@ -327,7 +327,7 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _tracks (0)
 	, _pixels_per_time_unit (0)
 	, _left_down (false)
-	, _down_view_start (0)
+	, _down_view_position (0)
 	, _first_move (false)
 	, _menu (film, this)
 {
@@ -430,8 +430,8 @@ Timeline::assign_tracks ()
 					
 				if (test && test->track() == t) {
 					bool const no_overlap =
-						(acv_content->start() < test_content->start() && acv_content->end() < test_content->start()) ||
-						(acv_content->start() > test_content->end()   && acv_content->end() > test_content->end());
+						(acv_content->position() < test_content->position() && acv_content->end() < test_content->position()) ||
+						(acv_content->position() > test_content->end()      && acv_content->end() > test_content->end());
 					
 					if (!no_overlap) {
 						/* we have an overlap on track `t' */
@@ -499,7 +499,7 @@ Timeline::left_down (wxMouseEvent& ev)
 
 	if (content_view) {
 		_down_view = content_view;
-		_down_view_start = content_view->content()->start ();
+		_down_view_position = content_view->content()->position ();
 	}
 
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
@@ -539,7 +539,7 @@ Timeline::left_up (wxMouseEvent& ev)
 		_down_view->content()->set_change_signals_frequent (false);
 	}
 
-	set_start_from_event (ev);
+	set_position_from_event (ev);
 }
 
 void
@@ -549,7 +549,7 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 		return;
 	}
 
-	set_start_from_event (ev);
+	set_position_from_event (ev);
 }
 
 void
@@ -570,7 +570,7 @@ Timeline::right_down (wxMouseEvent& ev)
 }
 
 void
-Timeline::set_start_from_event (wxMouseEvent& ev)
+Timeline::set_position_from_event (wxMouseEvent& ev)
 {
 	wxPoint const p = ev.GetPosition();
 
@@ -584,7 +584,7 @@ Timeline::set_start_from_event (wxMouseEvent& ev)
 
 	Time const time_diff = (p.x - _down_point.x) / _pixels_per_time_unit;
 	if (_down_view) {
-		_down_view->content()->set_start (max (static_cast<Time> (0), _down_view_start + time_diff));
+		_down_view->content()->set_position (max (static_cast<Time> (0), _down_view_position + time_diff));
 
 		shared_ptr<Film> film = _film.lock ();
 		assert (film);

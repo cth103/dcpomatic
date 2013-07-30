@@ -38,8 +38,10 @@ class Film;
 class ContentProperty
 {
 public:
-	static int const START;
+	static int const POSITION;
 	static int const LENGTH;
+	static int const TRIM_START;
+	static int const TRIM_END;
 };
 
 class Content : public boost::enable_shared_from_this<Content>, public boost::noncopyable
@@ -55,7 +57,7 @@ public:
 	virtual std::string technical_summary () const;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
-	virtual Time length () const = 0;
+	virtual Time full_length () const = 0;
 
 	boost::shared_ptr<Content> clone () const;
 	
@@ -70,20 +72,41 @@ public:
 		return _digest;
 	}
 
-	void set_start (Time);
+	void set_position (Time);
 
-	Time start () const {
+	/** Time that this content starts; i.e. the time that the first
+	 *  bit of the content (trimmed or not) will happen.
+	 */
+	Time position () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _start;
+		return _position;
 	}
 
+	void set_trim_start (Time);
+
+	Time trim_start () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _trim_start;
+	}
+
+	void set_trim_end (Time);
+	
+	Time trim_end () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _trim_end;
+	}
+	
 	Time end () const {
-		return start() + length();
+		return position() + length_after_trim();
 	}
 
+	Time length_after_trim () const;
+	
 	void set_change_signals_frequent (bool f) {
 		_change_signals_frequent = f;
 	}
+
+	bool trimmed (Time) const;
 
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
@@ -97,7 +120,9 @@ private:
 	/** Path of a file or a directory containing files */
 	boost::filesystem::path _path;
 	std::string _digest;
-	Time _start;
+	Time _position;
+	Time _trim_start;
+	Time _trim_end;
 	bool _change_signals_frequent;
 };
 

@@ -29,9 +29,13 @@ public:
 	void film_content_changed (boost::shared_ptr<Content>, int);
 	
 private:
-	void start_changed ();
+	void position_changed ();
 	void length_changed ();
+	void trim_start_changed ();
+	void trim_end_changed ();
 	
-	Timecode* _start;
+	Timecode* _position;
 	Timecode* _length;
+	Timecode* _trim_start;
+	Timecode* _trim_end;
 };

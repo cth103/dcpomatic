@@ -94,7 +94,7 @@ MovingImageContent::examine (shared_ptr<Job> job)
 }
 
 Time
-MovingImageContent::length () const
+MovingImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);

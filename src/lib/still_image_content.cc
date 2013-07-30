@@ -94,7 +94,7 @@ StillImageContent::set_video_length (VideoContent::Frame len)
 }
 
 Time
-StillImageContent::length () const
+StillImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);

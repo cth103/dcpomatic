@@ -72,7 +72,6 @@ Playlist::content_changed (weak_ptr<Content> content, int property, bool frequen
 	ContentChanged (content, property, frequent);
 }
 
-
 void
 Playlist::maybe_sequence_video ()
 {
@@ -90,7 +89,7 @@ Playlist::maybe_sequence_video ()
 			continue;
 		}
 		
-		(*i)->set_start (last);
+		(*i)->set_position (last);
 		last = (*i)->end ();
 	}
 	
@@ -295,7 +294,7 @@ Playlist::set_sequence_video (bool s)
 bool
 ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 {
-	return a->start() < b->start();
+	return a->position() < b->position();
 }
 
 /** @return content in an undefined order */
@@ -310,8 +309,8 @@ Playlist::repeat (ContentList c, int n)
 {
 	pair<Time, Time> range (TIME_MAX, 0);
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		range.first = min (range.first, (*i)->start ());
-		range.second = max (range.second, (*i)->start ());
+		range.first = min (range.first, (*i)->position ());
+		range.second = max (range.second, (*i)->position ());
 		range.first = min (range.first, (*i)->end ());
 		range.second = max (range.second, (*i)->end ());
 	}
@@ -320,7 +319,7 @@ Playlist::repeat (ContentList c, int n)
 	for (int i = 0; i < n; ++i) {
 		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 			shared_ptr<Content> copy = (*i)->clone ();
-			copy->set_start (pos + copy->start() - range.first);
+			copy->set_position (pos + copy->position() - range.first);
 			_content.push_back (copy);
 		}
 		pos += range.second - range.first;

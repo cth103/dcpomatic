@@ -34,46 +34,66 @@ TimingPanel::TimingPanel (FilmEditor* e)
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	_sizer->Add (grid, 0, wxALL, 8);
 
-	add_label_to_sizer (grid, this, _("Start time"), true);
-	_start = new Timecode (this);
-	grid->Add (_start);
+	add_label_to_sizer (grid, this, _("Position"), true);
+	_position = new Timecode (this);
+	grid->Add (_position);
 	add_label_to_sizer (grid, this, _("Length"), true);
 	_length = new Timecode (this);
 	grid->Add (_length);
+	add_label_to_sizer (grid, this, _("Trim from start"), true);
+	_trim_start = new Timecode (this);
+	grid->Add (_trim_start);
+	add_label_to_sizer (grid, this, _("Trim from end"), true);
+	_trim_end = new Timecode (this);
+	grid->Add (_trim_end);
 
-	_start->Changed.connect  (boost::bind (&TimingPanel::start_changed, this));
-	_length->Changed.connect (boost::bind (&TimingPanel::length_changed, this));
+	_position->Changed.connect   (boost::bind (&TimingPanel::position_changed, this));
+	_length->Changed.connect     (boost::bind (&TimingPanel::length_changed, this));
+	_trim_start->Changed.connect (boost::bind (&TimingPanel::trim_start_changed, this));
+	_trim_end->Changed.connect   (boost::bind (&TimingPanel::trim_end_changed, this));
 }
 
 void
 TimingPanel::film_content_changed (shared_ptr<Content> content, int property)
 {
-	if (property == ContentProperty::START) {
+	if (property == ContentProperty::POSITION) {
 		if (content) {
-			_start->set (content->start (), _editor->film()->video_frame_rate ());
+			_position->set (content->position (), _editor->film()->video_frame_rate ());
 		} else {
-			_start->set (0, 24);
+			_position->set (0, 24);
 		}
 	} else if (property == ContentProperty::LENGTH) {
 		if (content) {
-			_length->set (content->length (), _editor->film()->video_frame_rate ());
+			_length->set (content->full_length (), _editor->film()->video_frame_rate ());
 		} else {
 			_length->set (0, 24);
 		}
-	}
+	} else if (property == ContentProperty::TRIM_START) {
+		if (content) {
+			_trim_start->set (content->trim_start (), _editor->film()->video_frame_rate ());
+		} else {
+			_trim_start->set (0, 24);
+		}
+	} else if (property == ContentProperty::TRIM_END) {
+		if (content) {
+			_trim_end->set (content->trim_end (), _editor->film()->video_frame_rate ());
+		} else {
+			_trim_end->set (0, 24);
+		}
+	}	
 
 	_length->set_editable (dynamic_pointer_cast<StillImageContent> (content));
 }
 
 void
-TimingPanel::start_changed ()
+TimingPanel::position_changed ()
 {
 	shared_ptr<Content> c = _editor->selected_content ();
 	if (!c) {
 		return;
 	}
 
-	c->set_start (_start->get (_editor->film()->video_frame_rate ()));
+	c->set_position (_position->get (_editor->film()->video_frame_rate ()));
 }
 
 void
@@ -88,4 +108,27 @@ TimingPanel::length_changed ()
 	if (ic) {
 		ic->set_video_length (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
 	}
+}
+
+void
+TimingPanel::trim_start_changed ()
+{
+	shared_ptr<Content> c = _editor->selected_content ();
+	if (!c) {
+		return;
+	}
+
+	c->set_trim_start (_trim_start->get (_editor->film()->video_frame_rate ()));
+}
+
+
+void
+TimingPanel::trim_end_changed ()
+{
+	shared_ptr<Content> c = _editor->selected_content ();
+	if (!c) {
+		return;
+	}
+
+	c->set_trim_end (_trim_end->get (_editor->film()->video_frame_rate ()));
 }

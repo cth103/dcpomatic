@@ -346,7 +346,7 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 }
 
 Time
-FFmpegContent::length () const
+FFmpegContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
