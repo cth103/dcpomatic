@@ -131,7 +131,6 @@ echo '
    end tell
 ' | osascript
 
-chmod -Rf go-w $WORK/mnt
 sync
 
 umount -f $device
