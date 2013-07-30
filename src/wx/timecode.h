@@ -29,16 +29,22 @@ public:
 	void set (Time, int);
 	Time get (int) const;
 
+	void set_editable (bool);
+
 	boost::signals2::signal<void ()> Changed;
 
 private:
 	void changed ();
 	void set_clicked ();
 	
+	wxSizer* _sizer;
+	wxPanel* _editable;
 	wxTextCtrl* _hours;
+	wxStaticText* _hours_label;
 	wxTextCtrl* _minutes;
 	wxTextCtrl* _seconds;
 	wxTextCtrl* _frames;
 	wxButton* _set_button;
+	wxStaticText* _fixed;
 };
 

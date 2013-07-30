@@ -24,6 +24,7 @@
 #include "timecode.h"
 #include "film_editor.h"
 
+using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -60,6 +61,8 @@ TimingPanel::film_content_changed (shared_ptr<Content> content, int property)
 			_length->set (0, 24);
 		}
 	}
+
+	_length->set_editable (dynamic_pointer_cast<StillImageContent> (content));
 }
 
 void

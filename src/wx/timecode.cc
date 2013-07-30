@@ -42,26 +42,33 @@ Timecode::Timecode (wxWindow* parent)
 	}
 
 	validator.SetIncludes (list);
-	
-	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
-	_hours = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
-	_hours->SetMaxLength (2);
-	sizer->Add (_hours);
-	add_label_to_sizer (sizer, this, wxT (":"), false);
-	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
-	_minutes->SetMaxLength (2);
-	sizer->Add (_minutes);
-	add_label_to_sizer (sizer, this, wxT (":"), false);
-	_seconds = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
-	_seconds->SetMaxLength (2);
-	sizer->Add (_seconds);
-	add_label_to_sizer (sizer, this, wxT ("."), false);
-	_frames = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
-	_frames->SetMaxLength (2);
-	sizer->Add (_frames);
-	_set_button = new wxButton (this, wxID_ANY, _("Set"));
-	sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
 
+	_sizer = new wxBoxSizer (wxHORIZONTAL);
+	
+	_editable = new wxPanel (this);
+	wxSizer* editable_sizer = new wxBoxSizer (wxHORIZONTAL);
+	_hours = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_hours->SetMaxLength (2);
+	editable_sizer->Add (_hours);
+	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
+	_minutes = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_minutes->SetMaxLength (2);
+	editable_sizer->Add (_minutes);
+	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
+	_seconds = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_seconds->SetMaxLength (2);
+	editable_sizer->Add (_seconds);
+	add_label_to_sizer (editable_sizer, _editable, wxT ("."), false);
+	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_frames->SetMaxLength (2);
+	editable_sizer->Add (_frames);
+	_set_button = new wxButton (_editable, wxID_ANY, _("Set"));
+	editable_sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
+	_editable->SetSizerAndFit (editable_sizer);
+	_sizer->Add (_editable);
+
+	_fixed = add_label_to_sizer (_sizer, this, wxT ("42"), false);
+	
 	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
 	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
 	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
@@ -69,8 +76,10 @@ Timecode::Timecode (wxWindow* parent)
 	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&Timecode::set_clicked, this));
 
 	_set_button->Enable (false);
-	
-	SetSizerAndFit (sizer);
+
+	set_editable (true);
+
+	SetSizerAndFit (_sizer);
 }
 
 void
@@ -88,6 +97,8 @@ Timecode::set (Time t, int fps)
 	checked_set (_minutes, lexical_cast<string> (m));
 	checked_set (_seconds, lexical_cast<string> (s));
 	checked_set (_frames, lexical_cast<string> (f));
+
+	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02d", h, m, s, f));
 }
 
 Time
@@ -117,4 +128,12 @@ Timecode::set_clicked ()
 {
 	Changed ();
 	_set_button->Enable (false);
+}
+
+void
+Timecode::set_editable (bool e)
+{
+	_editable->Show (e);
+	_fixed->Show (!e);
+	_sizer->Layout ();
 }
