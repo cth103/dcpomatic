@@ -177,7 +177,7 @@ Player::pass ()
 			emit_black ();
 		} else {
 #ifdef DEBUG_PLAYER
-			cout << "Pass " << *earliest << "\n";
+			cout << "Pass video " << *earliest << "\n";
 #endif			
 			earliest->decoder->pass ();
 		}
@@ -186,12 +186,12 @@ Player::pass ()
 	case AUDIO:
 		if (earliest_t > _audio_position) {
 #ifdef DEBUG_PLAYER
-			cout << "no audio here; emitting silence.\n";
+			cout << "no audio here (none until " << earliest_t << "); emitting silence.\n";
 #endif
 			emit_silence (_film->time_to_audio_frames (earliest_t - _audio_position));
 		} else {
 #ifdef DEBUG_PLAYER
-			cout << "Pass " << *earliest << "\n";
+			cout << "Pass audio " << *earliest << "\n";
 #endif
 			earliest->decoder->pass ();
 
@@ -206,27 +206,23 @@ Player::pass ()
 					}
 				}
 			}
-
-			
 		}
-
-		Time done_up_to = TIME_MAX;
-		for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-			if (dynamic_pointer_cast<AudioContent> ((*i)->content)) {
-				done_up_to = min (done_up_to, (*i)->audio_position);
-			}
-		}
-
-		TimedAudioBuffers<Time> tb = _audio_merger.pull (done_up_to);
-		Audio (tb.audio, tb.time);
-		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 		break;
 	}
-
 	
+	Time audio_done_up_to = TIME_MAX;
+	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+		if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
+			audio_done_up_to = min (audio_done_up_to, (*i)->audio_position);
+		}
+	}
+	
+	TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to);
+	Audio (tb.audio, tb.time);
+	_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 
 #ifdef DEBUG_PLAYER
-	cout << "\tpost pass " << _video_position << " " << _audio_position << "\n";
+	cout << "\tpost pass _video_position=" << _video_position << " _audio_position=" << _audio_position << "\n";
 #endif	
 
 	return false;
@@ -302,14 +298,13 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
-	Time const relative_time = _film->audio_frames_to_time (frame)
-		+ (content->audio_delay() * TIME_HZ / 1000);
+	Time const relative_time = _film->audio_frames_to_time (frame);
 
 	if (content->trimmed (relative_time)) {
 		return;
 	}
 
-	Time time = content->position() + relative_time;
+	Time time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time;
 	
 	/* Resample */
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {

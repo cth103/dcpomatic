@@ -144,8 +144,10 @@ wait_for_jobs ()
 	while (jm->work_to_do ()) {}
 	if (jm->errors ()) {
 		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
-			cerr << (*i)->error_summary () << "\n"
-			     << (*i)->error_details () << "\n";
+			if ((*i)->finished_in_error ()) {
+				cerr << (*i)->error_summary () << "\n"
+				     << (*i)->error_details () << "\n";
+			}
 		}
 	}
 		
