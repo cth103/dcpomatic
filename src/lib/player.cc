@@ -216,7 +216,7 @@ Player::pass ()
 			audio_done_up_to = min (audio_done_up_to, (*i)->audio_position);
 		}
 	}
-	
+
 	TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to);
 	Audio (tb.audio, tb.time);
 	_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
@@ -298,14 +298,6 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
-	Time const relative_time = _film->audio_frames_to_time (frame);
-
-	if (content->trimmed (relative_time)) {
-		return;
-	}
-
-	Time time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time;
-	
 	/* Resample */
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
 		shared_ptr<Resampler> r = resampler (content, true);
@@ -313,6 +305,14 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		audio = ro.first;
 		frame = ro.second;
 	}
+	
+	Time const relative_time = _film->audio_frames_to_time (frame);
+
+	if (content->trimmed (relative_time)) {
+		return;
+	}
+
+	Time time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time;
 	
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
