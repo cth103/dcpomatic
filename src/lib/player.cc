@@ -209,18 +209,20 @@ Player::pass ()
 		}
 		break;
 	}
-	
-	Time audio_done_up_to = TIME_MAX;
-	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
-			audio_done_up_to = min (audio_done_up_to, (*i)->audio_position);
+
+	if (_audio) {
+		Time audio_done_up_to = TIME_MAX;
+		for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+			if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
+				audio_done_up_to = min (audio_done_up_to, (*i)->audio_position);
+			}
 		}
+
+		TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to);
+		Audio (tb.audio, tb.time);
+		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 	}
-
-	TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to);
-	Audio (tb.audio, tb.time);
-	_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
-
+		
 #ifdef DEBUG_PLAYER
 	cout << "\tpost pass _video_position=" << _video_position << " _audio_position=" << _audio_position << "\n";
 #endif	
