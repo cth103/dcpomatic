@@ -79,7 +79,7 @@ universal_copy $ENV lib/libltdl*.dylib $WORK/$libs
 universal_copy $ENV lib/libxmlsec1*.dylib $WORK/$libs
 
 for obj in $WORK/$macos/dcpomatic $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
-  deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh)"`
+  deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl)"`
   changes=""
   for dep in $deps; do
     base=`basename $dep`
