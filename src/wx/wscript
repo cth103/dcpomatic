@@ -53,8 +53,8 @@ def configure(conf):
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
     conf.im_msg = 0
-    if wx_version != '2.9.4':
-        conf.fatal('wxwidgets version 2.9.4 is required; %s found' % wx_version)
+    if wx_version != '2.9.4' and wx_version != '2.9.5':
+        conf.fatal('wxwidgets version 2.9.4 or 2.9.5 is required; %s found' % wx_version)
 
 def build(bld):
     if bld.env.STATIC:
