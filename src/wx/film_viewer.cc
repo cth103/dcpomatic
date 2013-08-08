@@ -382,8 +382,13 @@ FilmViewer::back_clicked ()
 	/* Player::video_position is the time after the last frame that we received.
 	   We want to see the one before it, so we need to go back 2.
 	*/
+
+	Time p = _player->video_position() - _film->video_frames_to_time (2);
+	if (p < 0) {
+		p = 0;
+	}
 	
-	_player->seek (_player->video_position() - _film->video_frames_to_time(2), true);
+	_player->seek (p, true);
 	fetch_next_frame ();
 }
 
