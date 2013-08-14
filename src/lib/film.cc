@@ -80,10 +80,10 @@ int const Film::state_version = 4;
 
 /** Construct a Film object in a given directory.
  *
- *  @param d Film directory.
+ *  @param dir Film directory.
  */
 
-Film::Film (string d)
+Film::Film (boost::filesystem::path dir)
 	: _playlist (new Playlist)
 	, _use_dci_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
@@ -108,7 +108,7 @@ Film::Film (string d)
 	   (Code swiped from Adam Bowen on stackoverflow)
 	*/
 	
-	boost::filesystem::path p (boost::filesystem::system_complete (d));
+	boost::filesystem::path p (boost::filesystem::system_complete (dir));
 	boost::filesystem::path result;
 	for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
 		if (*i == "..") {

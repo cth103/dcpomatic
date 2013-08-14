@@ -52,7 +52,7 @@ class AudioContent;
 class Film : public boost::enable_shared_from_this<Film>, public boost::noncopyable
 {
 public:
-	Film (std::string d);
+	Film (boost::filesystem::path);
 
 	std::string info_dir () const;
 	std::string j2c_path (int, Eyes, bool) const;
