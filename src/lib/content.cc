@@ -71,6 +71,7 @@ void
 Content::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	
 	node->add_child("Path")->add_child_text (_path.string());
 	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Position")->add_child_text (lexical_cast<string> (_position));
@@ -81,14 +82,18 @@ Content::as_xml (xmlpp::Node* node) const
 void
 Content::examine (shared_ptr<Job>)
 {
-	string d;
-	if (boost::filesystem::is_regular_file (_path)) {
-		d = md5_digest (_path);
-	} else {
-		d = md5_digest_directory (_path);
-	}
-	
 	boost::mutex::scoped_lock lm (_mutex);
+	boost::filesystem::path p = _path;
+	lm.unlock ();
+	
+	string d;
+	if (boost::filesystem::is_regular_file (p)) {
+		d = md5_digest (p);
+	} else {
+		d = md5_digest_directory (p);
+	}
+
+	lm.lock ();
 	_digest = d;
 }
 
@@ -158,7 +163,7 @@ Content::technical_summary () const
 Time
 Content::length_after_trim () const
 {
-	return full_length () - _trim_start - _trim_end;
+	return full_length() - trim_start() - trim_end();
 }
 
 /** @param t A time relative to the start of this content (not the position).

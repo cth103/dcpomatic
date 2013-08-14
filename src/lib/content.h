@@ -114,6 +114,10 @@ protected:
 	void signal_changed (int);
 
 	boost::weak_ptr<const Film> _film;
+
+	/** _mutex which should be used to protect accesses, as examine
+	    jobs can update content state in threads other than the main one.
+	*/
 	mutable boost::mutex _mutex;
 
 private:

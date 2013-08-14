@@ -117,9 +117,13 @@ SndfileContent::examine (shared_ptr<Job> job)
 	signal_changed (AudioContentProperty::AUDIO_LENGTH);
 	signal_changed (AudioContentProperty::AUDIO_FRAME_RATE);
 
-	/* XXX: do this in signal_changed...? */
-	_audio_mapping = AudioMapping (_audio_channels);
-	_audio_mapping.make_default ();
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		/* XXX: do this in signal_changed...? */
+		_audio_mapping = AudioMapping (_audio_channels);
+		_audio_mapping.make_default ();
+	}
+	
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
 }
 
@@ -129,9 +133,10 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("Sndfile");
 	Content::as_xml (node);
 	AudioContent::as_xml (node);
-	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
-	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (_audio_length));
-	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (_audio_frame_rate));
+
+	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (audio_channels ()));
+	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (audio_length ()));
+	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (content_audio_frame_rate ()));
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }
 
