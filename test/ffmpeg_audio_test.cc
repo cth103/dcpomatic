@@ -27,6 +27,7 @@
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
+#include "lib/ffmpeg_content.h"
 #include "test.h"
 
 using std::string;

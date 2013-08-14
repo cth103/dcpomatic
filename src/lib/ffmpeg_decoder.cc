@@ -42,6 +42,7 @@ extern "C" {
 #include "ffmpeg_decoder.h"
 #include "filter_graph.h"
 #include "audio_buffers.h"
+#include "ffmpeg_content.h"
 
 #include "i18n.h"
 

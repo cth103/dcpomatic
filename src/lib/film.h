@@ -28,19 +28,19 @@
 #include <string>
 #include <vector>
 #include <inttypes.h>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread.hpp>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/filesystem.hpp>
 #include "util.h"
 #include "types.h"
-#include "playlist.h"
 #include "dci_metadata.h"
 
 class DCPContentType;
 class Log;
 class Content;
 class Player;
+class Playlist;
+class AudioContent;
 
 /** @class Film
  *
@@ -139,73 +139,59 @@ public:
 	/* GET */
 
 	std::string directory () const {
-		boost::mutex::scoped_lock lm (_directory_mutex);
 		return _directory;
 	}
 
 	std::string name () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _name;
 	}
 
 	bool use_dci_name () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _use_dci_name;
 	}
 
 	DCPContentType const * dcp_content_type () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_content_type;
 	}
 
 	Ratio const * container () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _container;
 	}
 
 	Resolution resolution () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _resolution;
 	}
 
 	Scaler const * scaler () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _scaler;
 	}
 
 	bool with_subtitles () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _with_subtitles;
 	}
 
 	int j2k_bandwidth () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _j2k_bandwidth;
 	}
 
 	DCIMetadata dci_metadata () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dci_metadata;
 	}
 
 	/** @return The frame rate of the DCP */
 	int video_frame_rate () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _video_frame_rate;
 	}
 
 	int audio_channels () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _audio_channels;
 	}
 
 	bool three_d () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _three_d;
 	}
 
 	bool sequence_video () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _sequence_video;
 	}
 	
@@ -257,8 +243,6 @@ private:
 	 *  must not be relative.
 	 */
 	std::string _directory;
-	/** Mutex for _directory */
-	mutable boost::mutex _directory_mutex;
 	
 	/** Name for DCP-o-matic */
 	std::string _name;
@@ -292,9 +276,6 @@ private:
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
-
-	/** Mutex for all state except _directory */
-	mutable boost::mutex _state_mutex;
 
 	friend class paths_test;
 	friend class film_metadata_test;

@@ -302,7 +302,6 @@ Film::write_metadata () const
 		boost::filesystem::create_directory (directory());
 	}
 	
-	boost::mutex::scoped_lock lm (_state_mutex);
 	LocaleGuard lg;
 
 	boost::filesystem::create_directories (directory());
@@ -343,7 +342,6 @@ Film::write_metadata () const
 void
 Film::read_metadata ()
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
 	LocaleGuard lg;
 
 	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
@@ -391,8 +389,6 @@ Film::read_metadata ()
 string
 Film::dir (string d) const
 {
-	boost::mutex::scoped_lock lm (_directory_mutex);
-	
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= d;
@@ -403,14 +399,11 @@ Film::dir (string d) const
 }
 
 /** Given a file or directory name, return its full path within the Film's directory.
- *  _directory_mutex must not be locked on entry.
  *  Any required parent directories will be created.
  */
 string
 Film::file (string f) const
 {
-	boost::mutex::scoped_lock lm (_directory_mutex);
-
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= f;
@@ -533,7 +526,6 @@ Film::dcp_name (bool if_created_now) const
 void
 Film::set_directory (string d)
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
 	_directory = d;
 	_dirty = true;
 }
@@ -541,130 +533,91 @@ Film::set_directory (string d)
 void
 Film::set_name (string n)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_name = n;
-	}
+	_name = n;
 	signal_changed (NAME);
 }
 
 void
 Film::set_use_dci_name (bool u)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_use_dci_name = u;
-	}
+	_use_dci_name = u;
 	signal_changed (USE_DCI_NAME);
 }
 
 void
 Film::set_dcp_content_type (DCPContentType const * t)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_dcp_content_type = t;
-	}
+	_dcp_content_type = t;
 	signal_changed (DCP_CONTENT_TYPE);
 }
 
 void
 Film::set_container (Ratio const * c)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_container = c;
-	}
+	_container = c;
 	signal_changed (CONTAINER);
 }
 
 void
 Film::set_resolution (Resolution r)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_resolution = r;
-	}
+	_resolution = r;
 	signal_changed (RESOLUTION);
 }
 
 void
 Film::set_scaler (Scaler const * s)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_scaler = s;
-	}
+	_scaler = s;
 	signal_changed (SCALER);
 }
 
 void
 Film::set_with_subtitles (bool w)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_with_subtitles = w;
-	}
+	_with_subtitles = w;
 	signal_changed (WITH_SUBTITLES);
 }
 
 void
 Film::set_j2k_bandwidth (int b)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_j2k_bandwidth = b;
-	}
+	_j2k_bandwidth = b;
 	signal_changed (J2K_BANDWIDTH);
 }
 
 void
 Film::set_dci_metadata (DCIMetadata m)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_dci_metadata = m;
-	}
+	_dci_metadata = m;
 	signal_changed (DCI_METADATA);
 }
 
 void
 Film::set_video_frame_rate (int f)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_video_frame_rate = f;
-	}
+	_video_frame_rate = f;
 	signal_changed (VIDEO_FRAME_RATE);
 }
 
 void
 Film::set_audio_channels (int c)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_audio_channels = c;
-	}
+	_audio_channels = c;
 	signal_changed (AUDIO_CHANNELS);
 }
 
 void
 Film::set_three_d (bool t)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_three_d = t;
-	}
+	_three_d = t;
 	signal_changed (THREE_D);
 }
 
 void
 Film::signal_changed (Property p)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_dirty = true;
-	}
+	_dirty = true;
 
 	switch (p) {
 	case Film::CONTENT:
@@ -769,7 +722,6 @@ Film::make_player () const
 shared_ptr<Playlist>
 Film::playlist () const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
 	return _playlist;
 }
 
@@ -888,12 +840,8 @@ Film::audio_frame_rate () const
 void
 Film::set_sequence_video (bool s)
 {
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_sequence_video = s;
-		_playlist->set_sequence_video (s);
-	}
-	
+	_sequence_video = s;
+	_playlist->set_sequence_video (s);
 	signal_changed (SEQUENCE_VIDEO);
 }
 

@@ -20,6 +20,7 @@
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_decoder.h"
+#include "lib/ffmpeg_content.h"
 #include "test.h"
 
 using boost::shared_ptr;
