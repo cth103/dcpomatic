@@ -801,7 +801,6 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 	}
 }
 
-/** Thread-safe; handled by playlist */
 void
 Film::add_content (shared_ptr<Content> c)
 {

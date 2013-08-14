@@ -90,7 +90,6 @@ private:
 	bool _sequence_video;
 	bool _sequencing_video;
 	std::list<boost::signals2::connection> _content_connections;
-	mutable boost::mutex _mutex;
 };
 
 #endif
