@@ -75,6 +75,8 @@ Playlist::content_changed (weak_ptr<Content> content, int property, bool frequen
 void
 Playlist::maybe_sequence_video ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	if (!_sequence_video || _sequencing_video) {
 		return;
 	}
@@ -99,6 +101,8 @@ Playlist::maybe_sequence_video ()
 string
 Playlist::video_identifier () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	string t;
 	
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
@@ -115,6 +119,8 @@ Playlist::video_identifier () const
 void
 Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	list<shared_ptr<cxml::Node> > c = node->node_children ("Content");
 	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
 		_content.push_back (content_factory (film, *i));
@@ -127,6 +133,8 @@ Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node
 void
 Playlist::as_xml (xmlpp::Node* node)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 		(*i)->as_xml (node->add_child ("Content"));
 	}
@@ -135,21 +143,35 @@ Playlist::as_xml (xmlpp::Node* node)
 void
 Playlist::add (shared_ptr<Content> c)
 {
-	_content.push_back (c);
-	reconnect ();
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_content.push_back (c);
+		reconnect ();
+	}
+	
 	Changed ();
 }
 
 void
 Playlist::remove (shared_ptr<Content> c)
 {
-	ContentList::iterator i = _content.begin ();
-	while (i != _content.end() && *i != c) {
-		++i;
-	}
+	bool changed = false;
 	
-	if (i != _content.end ()) {
-		_content.erase (i);
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		ContentList::iterator i = _content.begin ();
+		while (i != _content.end() && *i != c) {
+			++i;
+		}
+		
+		if (i != _content.end ()) {
+			_content.erase (i);
+			reconnect ();
+			changed = true;
+		}
+	}
+
+	if (changed) {
 		Changed ();
 	}
 }
@@ -157,23 +179,37 @@ Playlist::remove (shared_ptr<Content> c)
 void
 Playlist::remove (ContentList c)
 {
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		ContentList::iterator j = _content.begin ();
-		while (j != _content.end() && *j != *i) {
-			++j;
+	bool changed = false;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+			ContentList::iterator j = _content.begin ();
+			while (j != _content.end() && *j != *i) {
+				++j;
+			}
+			
+			if (j != _content.end ()) {
+				_content.erase (j);
+				changed = true;
+			}
 		}
-	
-		if (j != _content.end ()) {
-			_content.erase (j);
+
+		if (changed) {
+			reconnect ();
 		}
 	}
 
-	Changed ();
+	if (changed) {
+		Changed ();
+	}
 }
 
 bool
 Playlist::has_subtitles () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
 		if (fc && !fc->subtitle_streams().empty()) {
@@ -199,6 +235,8 @@ public:
 int
 Playlist::best_dcp_frame_rate () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
 
 	/* Work out what rates we could manage, including those achieved by using skip / repeat. */
@@ -250,6 +288,8 @@ Playlist::best_dcp_frame_rate () const
 Time
 Playlist::length () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	Time len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		len = max (len, (*i)->end ());
@@ -258,6 +298,7 @@ Playlist::length () const
 	return len;
 }
 
+/* Caller must hold a lock on _mutex */
 void
 Playlist::reconnect ()
 {
@@ -275,6 +316,8 @@ Playlist::reconnect ()
 Time
 Playlist::video_end () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	Time end = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (dynamic_pointer_cast<const VideoContent> (*i)) {
@@ -288,6 +331,7 @@ Playlist::video_end () const
 void
 Playlist::set_sequence_video (bool s)
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_sequence_video = s;
 }
 
@@ -301,30 +345,35 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 ContentList
 Playlist::content () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	return _content;
 }
 
 void
 Playlist::repeat (ContentList c, int n)
 {
-	pair<Time, Time> range (TIME_MAX, 0);
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		range.first = min (range.first, (*i)->position ());
-		range.second = max (range.second, (*i)->position ());
-		range.first = min (range.first, (*i)->end ());
-		range.second = max (range.second, (*i)->end ());
-	}
-
-	Time pos = range.second;
-	for (int i = 0; i < n; ++i) {
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		pair<Time, Time> range (TIME_MAX, 0);
 		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-			shared_ptr<Content> copy = (*i)->clone ();
-			copy->set_position (pos + copy->position() - range.first);
-			_content.push_back (copy);
+			range.first = min (range.first, (*i)->position ());
+			range.second = max (range.second, (*i)->position ());
+			range.first = min (range.first, (*i)->end ());
+			range.second = max (range.second, (*i)->end ());
 		}
-		pos += range.second - range.first;
+		
+		Time pos = range.second;
+		for (int i = 0; i < n; ++i) {
+			for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+				shared_ptr<Content> copy = (*i)->clone ();
+				copy->set_position (pos + copy->position() - range.first);
+				_content.push_back (copy);
+			}
+			pos += range.second - range.first;
+		}
+		
+		reconnect ();
 	}
-
-	reconnect ();
+	
 	Changed ();
 }
