@@ -20,6 +20,7 @@
 #include <boost/filesystem.hpp>
 #include "lib/audio_analysis.h"
 #include "lib/film.h"
+#include "lib/audio_content.h"
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "wx_util.h"

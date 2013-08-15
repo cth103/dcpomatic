@@ -21,6 +21,7 @@
 #include <wx/spinctrl.h>
 #include "lib/config.h"
 #include "lib/sound_processor.h"
+#include "lib/ffmpeg_content.h"
 #include "audio_dialog.h"
 #include "audio_panel.h"
 #include "audio_mapping_view.h"

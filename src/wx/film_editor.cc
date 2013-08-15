@@ -38,6 +38,7 @@
 #include "lib/config.h"
 #include "lib/still_image_content.h"
 #include "lib/moving_image_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/sound_processor.h"

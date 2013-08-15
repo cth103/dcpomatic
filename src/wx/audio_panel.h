@@ -17,6 +17,7 @@
 
 */
 
+#include "lib/audio_mapping.h"
 #include "film_editor_panel.h"
 
 class wxSpinCtrl;

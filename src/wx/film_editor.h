@@ -37,6 +37,7 @@ class TimelineDialog;
 class Ratio;
 class Timecode;
 class FilmEditorPanel;
+class SubtitleContent;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.

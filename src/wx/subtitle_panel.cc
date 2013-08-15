@@ -19,6 +19,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <wx/spinctrl.h>
+#include "lib/ffmpeg_content.h"
 #include "subtitle_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"

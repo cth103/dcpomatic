@@ -18,6 +18,7 @@
 */
 
 #include <wx/wx.h>
+#include "lib/playlist.h"
 #include "lib/film.h"
 #include "content_menu.h"
 #include "repeat_dialog.h"

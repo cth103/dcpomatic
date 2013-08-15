@@ -20,6 +20,7 @@
 #include <wx/spinctrl.h>
 #include "lib/ratio.h"
 #include "lib/filter.h"
+#include "lib/ffmpeg_content.h"
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"
