@@ -43,7 +43,7 @@ ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<Col
 
 	add_label_to_grid_bag_sizer (table, this, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (this, wxID_ANY, wxT (""));
-	table->Add (_name, wxGBPosition (r, 1));
+	table->Add (_name, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 
 	add_label_to_grid_bag_sizer (table, this, _("Input gamma"), true, wxGBPosition (r, 0));
