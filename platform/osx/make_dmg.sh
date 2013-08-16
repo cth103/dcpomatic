@@ -99,6 +99,7 @@ vol_name=DCP-o-matic-$version
 
 mkdir -p $WORK/$vol_name
 cp -r $WORK/$appdir $WORK/$vol_name
+ln -s /Applications $WORK/$vol_name/Applications
 
 rm -f $tmp_dmg "$dmg"
 hdiutil create -srcfolder $WORK/$vol_name -volname $vol_name -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $DMG_SIZE $tmp_dmg
@@ -117,14 +118,12 @@ echo '
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
-           make new alias file at container window to POSIX file "/Applications" with properties {name:"Applications"}
            set position of item "DCP-o-matic.app" of container window to {90, 80}
            set position of item "Applications" of container window to {310, 80}
            close
            open
            update without registering applications
            delay 5
-           eject
      end tell
    end tell
 ' | osascript
