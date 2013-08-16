@@ -104,6 +104,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Manual AC"));
 	supported_by.Add (wxT ("Theo Lipfert"));
 	supported_by.Add (wxT ("Olivier Lemaire"));
+	supported_by.Add (wxT ("Mattias Mattsson"));
 	supported_by.Add (wxT ("Andrä Steiner"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
 	supported_by.Add (wxT ("Kjarten Michaelsen"));
