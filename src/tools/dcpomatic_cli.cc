@@ -116,7 +116,7 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	if (no_remote) {
-		Config::instance()->set_servers (vector<ServerDescription*> ());
+		Config::instance()->set_servers (vector<shared_ptr<ServerDescription> > ());
 	}
 
 	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;

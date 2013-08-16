@@ -21,6 +21,8 @@
 #include "lib/ratio.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/colour_conversion.h"
+#include "lib/config.h"
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"
@@ -30,6 +32,7 @@ using std::vector;
 using std::string;
 using std::pair;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
@@ -83,6 +86,11 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	}
 	++r;
 
+	add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
+	_colour_conversion = new wxChoice (this, wxID_ANY);
+	grid->Add (_colour_conversion, wxGBPosition (r, 1));
+	++r;
+
 	_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
 	grid->Add (_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	wxFont font = _description->GetFont();
@@ -105,13 +113,16 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->Append (_("2D"));
 	_frame_type->Append (_("3D left/right"));
 
-	_frame_type->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
-	_left_crop->Bind      (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
-	_right_crop->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
-	_top_crop->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
-	_bottom_crop->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
-	_ratio->Bind	      (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
-	_filters_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	setup_colour_conversions ();
+
+	_frame_type->Bind        (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
+	_left_crop->Bind         (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
+	_right_crop->Bind        (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
+	_top_crop->Bind          (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
+	_bottom_crop->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
+	_ratio->Bind	         (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
+	_filters_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	_colour_conversion->Bind (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::colour_conversion_changed, this));
 }
 
 
@@ -341,4 +352,19 @@ VideoPanel::frame_type_changed ()
 	if (vc) {
 		vc->set_video_frame_type (static_cast<VideoFrameType> (_frame_type->GetSelection ()));
 	}
+}
+
+void
+VideoPanel::setup_colour_conversions ()
+{
+	vector<shared_ptr<ColourConversion> > cc = Config::instance()->colour_conversions ();
+	for (vector<shared_ptr<ColourConversion> >::iterator i = cc.begin(); i != cc.end(); ++i) {
+		_colour_conversion->Append (std_to_wx ((*i)->name));
+	}
+}
+
+void
+VideoPanel::colour_conversion_changed ()
+{
+
 }

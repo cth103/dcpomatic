@@ -22,6 +22,7 @@
 #include <fstream>
 #include <glib.h>
 #include <boost/filesystem.hpp>
+#include <libdcp/colour_matrix.h>
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"
@@ -30,6 +31,7 @@
 #include "ratio.h"
 #include "dcp_content_type.h"
 #include "sound_processor.h"
+#include "colour_conversion.h"
 
 #include "i18n.h"
 
@@ -62,6 +64,8 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (48);
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
+
+	_colour_conversions.push_back (shared_ptr<ColourConversion> (new ColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::xyz_to_rgb, 2.6)));
 }
 
 void
@@ -81,7 +85,7 @@ Config::read ()
 	
 	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
 	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
-		_servers.push_back (new ServerDescription (*i));
+		_servers.push_back (shared_ptr<ServerDescription> (new ServerDescription (*i)));
 	}
 
 	_tms_ip = f.string_child ("TMSIP");
@@ -111,7 +115,17 @@ Config::read ()
 
 	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
-	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000); 
+	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
+
+	list<shared_ptr<cxml::Node> > cc = f.node_children ("ColourConversion");
+
+	if (!cc.empty ()) {
+		_colour_conversions.clear ();
+	}
+	
+	for (list<shared_ptr<cxml::Node> >::iterator i = cc.begin(); i != cc.end(); ++i) {
+		_colour_conversions.push_back (shared_ptr<ColourConversion> (new ColourConversion (*i)));
+	}
 }
 
 void
@@ -217,7 +231,7 @@ Config::write () const
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
 	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
 	
-	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
+	for (vector<shared_ptr<ServerDescription> >::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Server"));
 	}
 
@@ -244,6 +258,10 @@ Config::write () const
 
 	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (lexical_cast<string> (_default_j2k_bandwidth));
+
+	for (vector<shared_ptr<ColourConversion> >::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
+		(*i)->as_xml (root->add_child ("ColourConversion"));
+	}
 
 	doc.write_to_file_formatted (file (false));
 }

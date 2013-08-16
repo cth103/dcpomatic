@@ -21,13 +21,15 @@
 #include "server_dialog.h"
 #include "wx_util.h"
 
-ServerDialog::ServerDialog (wxWindow* parent, ServerDescription* server)
+using boost::shared_ptr;
+
+ServerDialog::ServerDialog (wxWindow* parent, shared_ptr<ServerDescription> server)
 	: wxDialog (parent, wxID_ANY, _("Server"))
 {
 	if (server) {
 		_server = server;
 	} else {
-		_server = new ServerDescription (wx_to_std (N_("localhost")), 1);
+		_server.reset (new ServerDescription (wx_to_std (N_("localhost")), 1));
 	}
 		
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
@@ -73,7 +75,7 @@ ServerDialog::threads_changed ()
 	_server->set_threads (_threads->GetValue ());
 }
 
-ServerDescription *
+shared_ptr<ServerDescription>
 ServerDialog::server () const
 {
 	return _server;

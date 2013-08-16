@@ -41,6 +41,11 @@ namespace cxml {
 class ServerDescription
 {
 public:
+	ServerDescription ()
+		: _host_name ("")
+		, _threads (1)
+	{}
+	
 	/** @param h Server host name or IP address in string form.
 	 *  @param t Number of threads to use on the server.
 	 */
@@ -73,7 +78,7 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	
-	static ServerDescription * create_from_metadata (std::string v);
+	static boost::shared_ptr<ServerDescription> create_from_metadata (std::string v);
 
 private:
 	/** server's host name */

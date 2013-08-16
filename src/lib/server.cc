@@ -68,17 +68,17 @@ ServerDescription::as_xml (xmlpp::Node* root) const
  *  @param v Metadata.
  *  @return ServerDescription, or 0.
  */
-ServerDescription *
+shared_ptr<ServerDescription>
 ServerDescription::create_from_metadata (string v)
 {
 	vector<string> b;
 	split (b, v, is_any_of (N_(" ")));
 
 	if (b.size() != 2) {
-		return 0;
+		return shared_ptr<ServerDescription> ();
 	}
 
-	return new ServerDescription (b[0], atoi (b[1].c_str ()));
+	return shared_ptr<ServerDescription> (new ServerDescription (b[0], atoi (b[1].c_str ())));
 }
 
 Server::Server (shared_ptr<Log> log)

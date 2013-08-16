@@ -9,6 +9,7 @@ sources = """
           audio_mapping_view.cc
           audio_panel.cc
           audio_plot.cc
+          colour_conversion_dialog.cc
           config_dialog.cc
           content_menu.cc
           dci_metadata_dialog.cc

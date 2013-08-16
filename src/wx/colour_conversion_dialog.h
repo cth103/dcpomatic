@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,22 +18,22 @@
 */
 
 #include <wx/wx.h>
-#include <wx/spinctrl.h>
 
-class ServerDescription;
+class wxSpinCtrlDouble;
+class ColourConversion;
 
-class ServerDialog : public wxDialog
+class ColourConversionDialog : public wxDialog
 {
 public:
-	ServerDialog (wxWindow *, boost::shared_ptr<ServerDescription>);
-
-	boost::shared_ptr<ServerDescription> server () const;
+	ColourConversionDialog (wxWindow *, boost::shared_ptr<ColourConversion>);
 
 private:
-	void host_changed ();
-	void threads_changed ();
-
-	boost::shared_ptr<ServerDescription> _server;
-	wxTextCtrl* _host;
-	wxSpinCtrl* _threads;
+	void changed ();
+	
+	boost::shared_ptr<ColourConversion> _conversion;
+	wxTextCtrl* _name;
+	wxSpinCtrlDouble* _input_gamma;
+	wxCheckBox* _input_gamma_linearised;
+	wxTextCtrl* _matrix[3][3];
+	wxSpinCtrlDouble* _output_gamma;
 };

@@ -26,11 +26,14 @@
 #include <wx/listctrl.h>
 #include <wx/filepicker.h>
 #include "wx_util.h"
+#include "editable_list.h"
 
 class DirPickerCtrl;
 class wxNotebook;
-
 class ServerDescription;
+class ColourConversion;
+class ColourConversionDialog;
+class ServerDialog;
 
 /** @class ConfigDialog
  *  @brief A dialogue to edit DCP-o-matic configuration.
@@ -51,28 +54,25 @@ private:
 	void default_still_length_changed ();
 	void default_directory_changed ();
 	void edit_default_dci_metadata_clicked ();
-	void add_server_clicked ();
-	void edit_server_clicked ();
-	void remove_server_clicked ();
-	void server_selection_changed ();
 	void default_container_changed ();
 	void default_dcp_content_type_changed ();
 	void issuer_changed ();
 	void creator_changed ();
 	void default_j2k_bandwidth_changed ();
 
-	void add_server_to_control (ServerDescription *);
 	void setup_language_sensitivity ();
 
 	void make_misc_panel ();
 	void make_tms_panel ();
 	void make_metadata_panel ();
 	void make_servers_panel ();
+	void make_colour_conversions_panel ();
 
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
 	wxPanel* _tms_panel;
-	wxPanel* _servers_panel;
+	EditableList<ColourConversion, ColourConversionDialog>* _colour_conversions_panel;
+	EditableList<ServerDescription, ServerDialog>* _servers_panel;
 	wxPanel* _metadata_panel;
 	wxCheckBox* _set_language;
 	wxChoice* _language;
@@ -90,10 +90,6 @@ private:
 	wxDirPickerCtrl* _default_directory;
 #endif
 	wxButton* _default_dci_metadata_button;
-	wxListCtrl* _servers;
-	wxButton* _add_server;
-	wxButton* _edit_server;
-	wxButton* _remove_server;
 	wxTextCtrl* _issuer;
 	wxTextCtrl* _creator;
 	wxSpinCtrl* _default_j2k_bandwidth;

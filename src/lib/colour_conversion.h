@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,23 +17,29 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/spinctrl.h>
+#include <boost/utility.hpp>
+#include <boost/numeric/ublas/matrix.hpp>
 
-class ServerDescription;
+namespace cxml {
+	class Node;
+}
 
-class ServerDialog : public wxDialog
+namespace xmlpp {
+	class Node;
+}
+
+class ColourConversion : public boost::noncopyable
 {
 public:
-	ServerDialog (wxWindow *, boost::shared_ptr<ServerDescription>);
+	ColourConversion ();
+	ColourConversion (std::string, float, bool, float const matrix[3][3], float);
+	ColourConversion (boost::shared_ptr<cxml::Node>);
 
-	boost::shared_ptr<ServerDescription> server () const;
+	void as_xml (xmlpp::Node *) const;
 
-private:
-	void host_changed ();
-	void threads_changed ();
-
-	boost::shared_ptr<ServerDescription> _server;
-	wxTextCtrl* _host;
-	wxSpinCtrl* _threads;
+	std::string name;
+	float input_gamma;
+	bool input_gamma_linearised;
+	boost::numeric::ublas::matrix<float> matrix;
+	float output_gamma;
 };

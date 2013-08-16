@@ -71,12 +71,12 @@ void
 Encoder::process_begin ()
 {
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, (ServerDescription *) 0)));
+		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, shared_ptr<ServerDescription> ())));
 	}
 
-	vector<ServerDescription*> servers = Config::instance()->servers ();
+	vector<shared_ptr<ServerDescription> > servers = Config::instance()->servers ();
 
-	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
+	for (vector<shared_ptr<ServerDescription> >::iterator i = servers.begin(); i != servers.end(); ++i) {
 		for (int j = 0; j < (*i)->threads (); ++j) {
 			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, *i)));
 		}
@@ -244,7 +244,7 @@ Encoder::terminate_threads ()
 }
 
 void
-Encoder::encoder_thread (ServerDescription* server)
+Encoder::encoder_thread (shared_ptr<ServerDescription> server)
 {
 	/* Number of seconds that we currently wait between attempts
 	   to connect to the server; not relevant for localhost

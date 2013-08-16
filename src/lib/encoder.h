@@ -81,7 +81,7 @@ private:
 	
 	void frame_done ();
 	
-	void encoder_thread (ServerDescription *);
+	void encoder_thread (boost::shared_ptr<ServerDescription>);
 	void terminate_threads ();
 
 	/** Film that we are encoding */

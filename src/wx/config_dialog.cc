@@ -26,21 +26,28 @@
 #include <boost/filesystem.hpp>
 #include <wx/stdpaths.h>
 #include <wx/notebook.h>
+#include <libdcp/colour_matrix.h>
 #include "lib/config.h"
 #include "lib/server.h"
 #include "lib/ratio.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
 #include "lib/dcp_content_type.h"
+#include "lib/colour_conversion.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "filter_dialog.h"
 #include "server_dialog.h"
 #include "dir_picker_ctrl.h"
 #include "dci_metadata_dialog.h"
+#include "colour_conversion_dialog.h"
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::list;
 using boost::bind;
+using boost::shared_ptr;
+using boost::lexical_cast;
 
 ConfigDialog::ConfigDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
@@ -53,6 +60,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
 	make_servers_panel ();
 	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
+	make_colour_conversions_panel ();
+	_notebook->AddPage (_colour_conversions_panel, _("Colour conversions"), false);
 	make_metadata_panel ();
 	_notebook->AddPage (_metadata_panel, _("Metadata"), false);
 	make_tms_panel ();
@@ -270,54 +279,32 @@ ConfigDialog::make_metadata_panel ()
 	_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::creator_changed, this));
 }
 
+static std::string
+server_column (shared_ptr<ServerDescription> s, int c)
+{
+	switch (c) {
+	case 0:
+		return s->host_name ();
+	case 1:
+		return lexical_cast<string> (s->threads ());
+	}
+
+	return "";
+}
+
 void
 ConfigDialog::make_servers_panel ()
 {
-	_servers_panel = new wxPanel (_notebook);
-	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-	_servers_panel->SetSizer (s);
-
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (0, 1);
-	s->Add (table, 1, wxALL | wxEXPAND, 8);
-
-	Config* config = Config::instance ();
-
-	_servers = new wxListCtrl (_servers_panel, wxID_ANY, wxDefaultPosition, wxSize (220, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
-	wxListItem ip;
-	ip.SetId (0);
-	ip.SetText (_("IP address"));
-	ip.SetWidth (120);
-	_servers->InsertColumn (0, ip);
-	ip.SetId (1);
-	ip.SetText (_("Threads"));
-	ip.SetWidth (80);
-	_servers->InsertColumn (1, ip);
-	table->Add (_servers, 1, wxEXPAND | wxALL);
-
-	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		_add_server = new wxButton (_servers_panel, wxID_ANY, _("Add"));
-		s->Add (_add_server, 0, wxTOP | wxBOTTOM, 2);
-		_edit_server = new wxButton (_servers_panel, wxID_ANY, _("Edit"));
-		s->Add (_edit_server, 0, wxTOP | wxBOTTOM, 2);
-		_remove_server = new wxButton (_servers_panel, wxID_ANY, _("Remove"));
-		s->Add (_remove_server, 0, wxTOP | wxBOTTOM, 2);
-		table->Add (s, 0);
-	}
-
-	vector<ServerDescription*> servers = config->servers ();
-	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		add_server_to_control (*i);
-	}
-	
-	_add_server->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::add_server_clicked,    this));
-	_edit_server->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::edit_server_clicked,   this));
-	_remove_server->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::remove_server_clicked, this));
-
-	_servers->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&ConfigDialog::server_selection_changed, this));
-	_servers->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&ConfigDialog::server_selection_changed, this));
-	server_selection_changed ();
+	vector<string> columns;
+	columns.push_back (wx_to_std (_("IP address")));
+	columns.push_back (wx_to_std (_("Threads")));
+	_servers_panel = new EditableList<ServerDescription, ServerDialog> (
+		_notebook,
+		columns,
+		boost::bind (&Config::servers, Config::instance()),
+		boost::bind (&Config::set_servers, Config::instance(), _1),
+		boost::bind (&server_column, _1, _2)
+		);
 }
 
 void
@@ -376,76 +363,6 @@ void
 ConfigDialog::default_directory_changed ()
 {
 	Config::instance()->set_default_directory (wx_to_std (_default_directory->GetPath ()));
-}
-
-void
-ConfigDialog::add_server_to_control (ServerDescription* s)
-{
-	wxListItem item;
-	int const n = _servers->GetItemCount ();
-	item.SetId (n);
-	_servers->InsertItem (item);
-	_servers->SetItem (n, 0, std_to_wx (s->host_name ()));
-	_servers->SetItem (n, 1, std_to_wx (boost::lexical_cast<string> (s->threads ())));
-}
-
-void
-ConfigDialog::add_server_clicked ()
-{
-	ServerDialog* d = new ServerDialog (this, 0);
-	d->ShowModal ();
-	ServerDescription* s = d->server ();
-	d->Destroy ();
-	
-	add_server_to_control (s);
-	vector<ServerDescription*> o = Config::instance()->servers ();
-	o.push_back (s);
-	Config::instance()->set_servers (o);
-}
-
-void
-ConfigDialog::edit_server_clicked ()
-{
-	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (i == -1) {
-		return;
-	}
-
-	wxListItem item;
-	item.SetId (i);
-	item.SetColumn (0);
-	_servers->GetItem (item);
-
-	vector<ServerDescription*> servers = Config::instance()->servers ();
-	assert (i >= 0 && i < int (servers.size ()));
-
-	ServerDialog* d = new ServerDialog (this, servers[i]);
-	d->ShowModal ();
-	d->Destroy ();
-
-	_servers->SetItem (i, 0, std_to_wx (servers[i]->host_name ()));
-	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> (servers[i]->threads ())));
-}
-
-void
-ConfigDialog::remove_server_clicked ()
-{
-	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (i >= 0) {
-		_servers->DeleteItem (i);
-	}
-
-	vector<ServerDescription*> o = Config::instance()->servers ();
-	o.erase (o.begin() + i);
-	Config::instance()->set_servers (o);
-}
-
-void
-ConfigDialog::server_selection_changed ()
-{
-	int const i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	_edit_server->Enable (i >= 0);
-	_remove_server->Enable (i >= 0);
 }
 
 void
@@ -514,4 +431,24 @@ void
 ConfigDialog::default_j2k_bandwidth_changed ()
 {
 	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1e6);
+}
+
+static std::string
+colour_conversion_column (shared_ptr<ColourConversion> c)
+{
+	return c->name;
+}
+
+void
+ConfigDialog::make_colour_conversions_panel ()
+{
+	vector<string> columns;
+	columns.push_back (wx_to_std (_("Name")));
+	_colour_conversions_panel = new EditableList<ColourConversion, ColourConversionDialog> (
+		_notebook,
+		columns,
+		boost::bind (&Config::colour_conversions, Config::instance()),
+		boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
+		boost::bind (&colour_conversion_column, _1)
+		);
 }

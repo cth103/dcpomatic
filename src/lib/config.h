@@ -36,6 +36,7 @@ class Filter;
 class SoundProcessor;
 class DCPContentType;
 class Ratio;
+class ColourConversion;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -61,7 +62,7 @@ public:
 	}
 
 	/** @return J2K encoding servers to use */
-	std::vector<ServerDescription*> servers () const {
+	std::vector<boost::shared_ptr<ServerDescription> > servers () const {
 		return _servers;
 	}
 
@@ -122,6 +123,10 @@ public:
 		return _default_j2k_bandwidth;
 	}
 
+	std::vector<boost::shared_ptr<ColourConversion> > colour_conversions () const {
+		return _colour_conversions;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -137,7 +142,7 @@ public:
 	}
 
 	/** @param s New list of servers */
-	void set_servers (std::vector<ServerDescription*> s) {
+	void set_servers (std::vector<boost::shared_ptr<ServerDescription> > s) {
 		_servers = s;
 	}
 
@@ -204,6 +209,10 @@ public:
 	void set_default_j2k_bandwidth (int b) {
 		_default_j2k_bandwidth = b;
 	}
+
+	void set_colour_conversions (std::vector<boost::shared_ptr<ColourConversion> > const & c) {
+		_colour_conversions = c;
+	}
 	
 	void write () const;
 
@@ -224,7 +233,7 @@ private:
 	int _server_port;
 
 	/** J2K encoding servers to use */
-	std::vector<ServerDescription *> _servers;
+	std::vector<boost::shared_ptr<ServerDescription> > _servers;
 	/** Scaler to use for the "A" part of A/B comparisons */
 	Scaler const * _reference_scaler;
 	/** Filters to use for the "A" part of A/B comparisons */
@@ -248,6 +257,7 @@ private:
 	DCPContentType const * _default_dcp_content_type;
 	libdcp::XMLMetadata _dcp_metadata;
 	int _default_j2k_bandwidth;
+	std::vector<boost::shared_ptr<ColourConversion> > _colour_conversions;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;
