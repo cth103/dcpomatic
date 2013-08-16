@@ -65,7 +65,13 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
-	_colour_conversions.push_back (shared_ptr<ColourConversion> (new ColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::xyz_to_rgb, 2.6)));
+	_colour_conversions.push_back (shared_ptr<ColourConversion> (
+					       new ColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::xyz_to_rgb, 2.6))
+		);
+	
+	_colour_conversions.push_back (shared_ptr<ColourConversion> (
+					       new ColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::xyz_to_rgb, 2.6))
+		);
 }
 
 void
@@ -197,7 +203,7 @@ Config::file (bool old) const
 	if (old) {
 		p /= ".dvdomatic";
 	} else {
-		p /= ".dcpomatic.xml";
+		p /= "dcpomatic.xml";
 	}
 	return p.string ();
 }
