@@ -102,7 +102,7 @@ public:
 class DCPVideoFrame : public boost::noncopyable
 {
 public:
-	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, int, int, boost::shared_ptr<Log>);
+	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, ColourConversion, int, int, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);
@@ -119,6 +119,7 @@ private:
 	boost::shared_ptr<const Image> _image;
 	int _frame;			 ///< frame index within the DCP's intrinsic duration
 	Eyes _eyes;
+	ColourConversion _conversion;
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 

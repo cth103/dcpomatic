@@ -76,6 +76,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 			image,
 			0,
 			EYES_BOTH,
+			ColourConversion (),
 			24,
 			200000000,
 			log

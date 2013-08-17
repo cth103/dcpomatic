@@ -7,7 +7,7 @@ def dependencies(target):
         return ()
     else:
         return (('ffmpeg-cdist', '0d76267f36cbf01acd6a2a96ad2f7497a1843862'),
-                ('libdcp', 'ee5e932cf0afa1ce24ea5eb0f298be8009cd9689'))
+                ('libdcp', '7b8313c73082cc08b4dc42dc86d0c90a578993b1'))
 
 def build(target):
     cmd = './waf configure --prefix=%s' % target.work_dir_cscript()

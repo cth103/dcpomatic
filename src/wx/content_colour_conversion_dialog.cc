@@ -44,7 +44,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent)
 	table->Add (_preset_choice);
 
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-	overall_sizer->Add (new wxStaticLine (this, wxID_ANY));
+	overall_sizer->Add (new wxStaticLine (this, wxID_ANY), 0, wxEXPAND);
 	overall_sizer->Add (_editor);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);

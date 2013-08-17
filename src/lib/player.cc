@@ -276,11 +276,11 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	_last_video = piece->content;
 #endif
 
-	Video (work_image, eyes, same, time);
+	Video (work_image, eyes, content->colour_conversion(), same, time);
 	time += TIME_HZ / _film->video_frame_rate();
 
 	if (frc.repeat) {
-		Video (work_image, eyes, true, time);
+		Video (work_image, eyes, content->colour_conversion(), true, time);
 		time += TIME_HZ / _film->video_frame_rate();
 	}
 
@@ -549,7 +549,7 @@ Player::emit_black ()
 	_last_video.reset ();
 #endif
 	
-	Video (_black_frame, EYES_BOTH, _last_emit_was_black, _video_position);
+	Video (_black_frame, EYES_BOTH, ColourConversion(), _last_emit_was_black, _video_position);
 	_video_position += _film->video_frames_to_time (1);
 	_last_emit_was_black = true;
 }

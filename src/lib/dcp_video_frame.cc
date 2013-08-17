@@ -77,11 +77,12 @@ using libdcp::Size;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const Image> image, int f, Eyes eyes, int dcp_fps, int bw, shared_ptr<Log> l
+	shared_ptr<const Image> image, int f, Eyes eyes, ColourConversion c, int dcp_fps, int bw, shared_ptr<Log> l
 	)
 	: _image (image)
 	, _frame (f)
 	, _eyes (eyes)
+	, _conversion (c)
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _log (l)
@@ -95,11 +96,27 @@ DCPVideoFrame::DCPVideoFrame (
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
+	shared_ptr<libdcp::LUT> in_lut;
+	if (_conversion.input_gamma_linearised) {
+		in_lut = libdcp::SRGBLinearisedGammaLUT::cache.get (12, _conversion.input_gamma);
+	} else {
+		in_lut = libdcp::GammaLUT::cache.get (12, _conversion.input_gamma);
+	}
+
+	/* XXX: libdcp should probably use boost */
+	
+	double matrix[3][3];
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			matrix[i][j] = _conversion.matrix (i, j);
+		}
+	}
+	
 	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
 		_image,
-		libdcp::SRGBLinearisedGammaLUT::cache.get (12, 2.4),
-		libdcp::GammaLUT::cache.get (16, 1 / 2.6),
-		libdcp::colour_matrix::srgb_to_xyz
+		in_lut,
+		libdcp::GammaLUT::cache.get (16, 1 / _conversion.output_gamma),
+		matrix
 		);
 		
 	/* Set the max image and component sizes based on frame_rate */
@@ -223,6 +240,8 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	shared_ptr<Socket> socket (new Socket);
 
 	socket->connect (*endpoint_iterator);
+
+	/* XXX: colour conversion! */
 
 	stringstream s;
 	s << "encode please\n"

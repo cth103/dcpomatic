@@ -66,7 +66,7 @@ public:
 	 *  @param i Video frame image.
 	 *  @param same true if i is the same as the last time we were called.
 	 */
-	void process_video (boost::shared_ptr<const Image> i, Eyes eyes, bool same);
+	void process_video (boost::shared_ptr<const Image> i, Eyes eyes, ColourConversion, bool same);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>);

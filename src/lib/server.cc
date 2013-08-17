@@ -112,8 +112,10 @@ Server::process (shared_ptr<Socket> socket)
 
 	image->read_from_socket (socket);
 
+	/* XXX: colour conversion... */
+
 	DCPVideoFrame dcp_video_frame (
-		image, frame, eyes, frames_per_second, j2k_bandwidth, _log
+		image, frame, eyes, ColourConversion(), frames_per_second, j2k_bandwidth, _log
 		);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
