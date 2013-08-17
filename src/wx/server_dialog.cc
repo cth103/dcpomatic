@@ -29,9 +29,24 @@ ServerDialog::ServerDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
+        wxClientDC dc (parent);
+	/* XXX: bit of a mystery why we need such a long string here */
+        wxSize size = dc.GetTextExtent (wxT ("255.255.255.255.255.255.255.255"));
+        size.SetHeight (-1);
+
+        wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
+        wxArrayString list;
+
+        wxString n (wxT ("0123456789."));
+        for (size_t i = 0; i < n.Length(); ++i) {
+                list.Add (n[i]);
+        }
+
+        validator.SetIncludes (list);
+	
 	add_label_to_sizer (table, this, _("Host name or IP address"), true);
-	_host = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_host, 1, wxEXPAND);
+	_host = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	table->Add (_host, 1, wxEXPAND | wxALL);
 
 	add_label_to_sizer (table, this, _("Threads to use"), true);
 	_threads = new wxSpinCtrl (this, wxID_ANY);
@@ -40,7 +55,7 @@ ServerDialog::ServerDialog (wxWindow* parent)
 	_threads->SetRange (0, 256);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
