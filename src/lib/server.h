@@ -29,6 +29,7 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
+#include <boost/optional.hpp>
 #include <libxml++/libxml++.h>
 #include "log.h"
 
