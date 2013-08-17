@@ -27,6 +27,7 @@
 #include "video_panel.h"
 #include "wx_util.h"
 #include "film_editor.h"
+#include "content_colour_conversion_dialog.h"
 
 using std::vector;
 using std::string;
@@ -36,6 +37,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
+using boost::optional;
 
 VideoPanel::VideoPanel (FilmEditor* e)
 	: FilmEditorPanel (e, _("Video"))
@@ -78,17 +80,34 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	{
 		add_label_to_grid_bag_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_filters = new wxStaticText (this, wxID_ANY, _("None"));
+
+		wxClientDC dc (this);
+		wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+		size.SetHeight (-1);
+		
+		_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
 		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
 		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
 	++r;
+	
+	{
+		add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-	add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
-	_colour_conversion = new wxChoice (this, wxID_ANY);
-	grid->Add (_colour_conversion, wxGBPosition (r, 1));
+		wxClientDC dc (this);
+		wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+		size.SetHeight (-1);
+		
+		_colour_conversion = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
+
+		s->Add (_colour_conversion, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
+		s->Add (_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
+		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	}
 	++r;
 
 	_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
@@ -113,16 +132,14 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->Append (_("2D"));
 	_frame_type->Append (_("3D left/right"));
 
-	setup_colour_conversions ();
-
-	_frame_type->Bind        (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
-	_left_crop->Bind         (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
-	_right_crop->Bind        (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
-	_top_crop->Bind          (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
-	_bottom_crop->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
-	_ratio->Bind	         (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
-	_filters_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
-	_colour_conversion->Bind (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::colour_conversion_changed, this));
+	_frame_type->Bind               (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
+	_left_crop->Bind                (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
+	_right_crop->Bind               (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
+	_top_crop->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
+	_bottom_crop->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
+	_ratio->Bind	                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
+	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
 
 
@@ -223,6 +240,10 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
+	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
+		optional<size_t> preset = vc ? vc->colour_conversion().preset () : optional<size_t> ();
+		vector<PresetColourConversion> cc = Config::instance()->colour_conversions ();
+		_colour_conversion->SetLabel (preset ? std_to_wx (cc[preset.get()].name) : _("Custom"));
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (fc) {
 			pair<string, string> p = Filter::ffmpeg_strings (fc->filters ());
@@ -355,16 +376,18 @@ VideoPanel::frame_type_changed ()
 }
 
 void
-VideoPanel::setup_colour_conversions ()
+VideoPanel::edit_colour_conversion_clicked ()
 {
-	vector<shared_ptr<ColourConversion> > cc = Config::instance()->colour_conversions ();
-	for (vector<shared_ptr<ColourConversion> >::iterator i = cc.begin(); i != cc.end(); ++i) {
-		_colour_conversion->Append (std_to_wx ((*i)->name));
+	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
+	if (!vc) {
+		return;
 	}
-}
 
-void
-VideoPanel::colour_conversion_changed ()
-{
+	ColourConversion conversion = vc->colour_conversion ();
+	ContentColourConversionDialog* d = new ContentColourConversionDialog (this);
+	d->set (conversion);
+	d->ShowModal ();
 
+	vc->set_colour_conversion (d->get ());
+	d->Destroy ();
 }

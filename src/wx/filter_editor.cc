@@ -17,19 +17,19 @@
 
 */
 
-/** @file  src/filter_view.cc
+/** @file  src/filter_editor.cc
  *  @brief A panel to select FFmpeg filters.
  */
 
 #include <iostream>
 #include <algorithm>
 #include "lib/filter.h"
-#include "filter_view.h"
+#include "filter_editor.h"
 #include "wx_util.h"
 
 using namespace std;
 
-FilterView::FilterView (wxWindow* parent, vector<Filter const *> const & active)
+FilterEditor::FilterEditor (wxWindow* parent, vector<Filter const *> const & active)
 	: wxPanel (parent)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
@@ -64,7 +64,7 @@ FilterView::FilterView (wxWindow* parent, vector<Filter const *> const & active)
 			bool const a = find (active.begin(), active.end(), *j) != active.end ();
 			b->SetValue (a);
 			_filters[*j] = b;
-			b->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilterView::filter_toggled, this));
+			b->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilterEditor::filter_toggled, this));
 			sizer->Add (b);
 		}
 
@@ -73,13 +73,13 @@ FilterView::FilterView (wxWindow* parent, vector<Filter const *> const & active)
 }
 
 void
-FilterView::filter_toggled ()
+FilterEditor::filter_toggled ()
 {
 	ActiveChanged ();
 }
 
 vector<Filter const*>
-FilterView::active () const
+FilterEditor::active () const
 {
 	vector<Filter const *> active;
 	for (map<Filter const *, wxCheckBox*>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {

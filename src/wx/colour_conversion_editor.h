@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,20 +17,32 @@
 
 */
 
+#ifndef DCPOMATIC_COLOUR_CONVERSION_EDITOR_H
+#define DCPOMATIC_COLOUR_CONVERSION_EDITOR_H
+
+#include <boost/signals2.hpp>
 #include <wx/wx.h>
-#include <wx/spinctrl.h>
 
-class ServerDescription;
+class wxSpinCtrlDouble;
+class ColourConversion;
 
-class ServerDialog : public wxDialog
+class ColourConversionEditor : public wxPanel
 {
 public:
-	ServerDialog (wxWindow *);
+	ColourConversionEditor (wxWindow *);
 
-	void set (ServerDescription);
-	ServerDescription get () const;
+	void set (ColourConversion);
+	ColourConversion get () const;
+
+	boost::signals2::signal<void ()> Changed;
 
 private:
-	wxTextCtrl* _host;
-	wxSpinCtrl* _threads;
+	void changed ();
+	
+	wxSpinCtrlDouble* _input_gamma;
+	wxCheckBox* _input_gamma_linearised;
+	wxTextCtrl* _matrix[3][3];
+	wxSpinCtrlDouble* _output_gamma;
 };
+
+#endif

@@ -40,7 +40,7 @@
 #include "server_dialog.h"
 #include "dir_picker_ctrl.h"
 #include "dci_metadata_dialog.h"
-#include "colour_conversion_dialog.h"
+#include "preset_colour_conversion_dialog.h"
 
 using std::vector;
 using std::string;
@@ -280,13 +280,13 @@ ConfigDialog::make_metadata_panel ()
 }
 
 static std::string
-server_column (shared_ptr<ServerDescription> s, int c)
+server_column (ServerDescription s, int c)
 {
 	switch (c) {
 	case 0:
-		return s->host_name ();
+		return s.host_name ();
 	case 1:
-		return lexical_cast<string> (s->threads ());
+		return lexical_cast<string> (s.threads ());
 	}
 
 	return "";
@@ -434,9 +434,9 @@ ConfigDialog::default_j2k_bandwidth_changed ()
 }
 
 static std::string
-colour_conversion_column (shared_ptr<ColourConversion> c)
+colour_conversion_column (PresetColourConversion c)
 {
-	return c->name;
+	return c.name;
 }
 
 void
@@ -444,7 +444,7 @@ ConfigDialog::make_colour_conversions_panel ()
 {
 	vector<string> columns;
 	columns.push_back (wx_to_std (_("Name")));
-	_colour_conversions_panel = new EditableList<ColourConversion, ColourConversionDialog> (
+	_colour_conversions_panel = new EditableList<PresetColourConversion, PresetColourConversionDialog> (
 		_notebook,
 		columns,
 		boost::bind (&Config::colour_conversions, Config::instance()),

@@ -49,6 +49,7 @@ using boost::algorithm::split;
 using boost::thread;
 using boost::bind;
 using boost::scoped_array;
+using boost::optional;
 using libdcp::Size;
 
 ServerDescription::ServerDescription (shared_ptr<const cxml::Node> node)
@@ -68,17 +69,17 @@ ServerDescription::as_xml (xmlpp::Node* root) const
  *  @param v Metadata.
  *  @return ServerDescription, or 0.
  */
-shared_ptr<ServerDescription>
+optional<ServerDescription>
 ServerDescription::create_from_metadata (string v)
 {
 	vector<string> b;
 	split (b, v, is_any_of (N_(" ")));
 
 	if (b.size() != 2) {
-		return shared_ptr<ServerDescription> ();
+		return optional<ServerDescription> ();
 	}
 
-	return shared_ptr<ServerDescription> (new ServerDescription (b[0], atoi (b[1].c_str ())));
+	return ServerDescription (b[0], atoi (b[1].c_str ()));
 }
 
 Server::Server (shared_ptr<Log> log)

@@ -17,7 +17,7 @@
 
 */
 
-/** @file  src/filter_view.h
+/** @file  src/filter_editor.h
  *  @brief A panel to select FFmpeg filters.
  */
 
@@ -28,13 +28,13 @@
 
 class Filter;
 
-/** @class FilterView
+/** @class FilterEditor
  *  @brief A panel to select FFmpeg filters.
  */
-class FilterView : public wxPanel
+class FilterEditor : public wxPanel
 {
 public:
-	FilterView (wxWindow *, std::vector<Filter const *> const &);
+	FilterEditor (wxWindow *, std::vector<Filter const *> const &);
 
 	std::vector<Filter const *> active () const;
 

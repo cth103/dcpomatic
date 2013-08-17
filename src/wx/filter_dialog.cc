@@ -23,14 +23,14 @@
 
 #include "lib/film.h"
 #include "filter_dialog.h"
-#include "filter_view.h"
+#include "filter_editor.h"
 
 using namespace std;
 using boost::bind;
 
 FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
 	: wxDialog (parent, wxID_ANY, wxString (_("Filters")))
-	, _filters (new FilterView (this, f))
+	, _filters (new FilterEditor (this, f))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_filters, 1, wxEXPAND | wxALL, 6);

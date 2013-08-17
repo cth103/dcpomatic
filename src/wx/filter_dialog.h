@@ -25,7 +25,7 @@
 #include <boost/signals2.hpp>
 
 class Film;
-class FilterView;
+class FilterEditor;
 class Filter;
 
 /** @class FilterDialog
@@ -41,5 +41,5 @@ public:
 private:
 	void active_changed ();
 	
-	FilterView* _filters;
+	FilterEditor* _filters;
 };

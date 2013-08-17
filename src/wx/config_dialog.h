@@ -31,8 +31,8 @@
 class DirPickerCtrl;
 class wxNotebook;
 class ServerDescription;
-class ColourConversion;
-class ColourConversionDialog;
+class PresetColourConversion;
+class PresetColourConversionDialog;
 class ServerDialog;
 
 /** @class ConfigDialog
@@ -71,7 +71,7 @@ private:
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
 	wxPanel* _tms_panel;
-	EditableList<ColourConversion, ColourConversionDialog>* _colour_conversions_panel;
+	EditableList<PresetColourConversion, PresetColourConversionDialog>* _colour_conversions_panel;
 	EditableList<ServerDescription, ServerDialog>* _servers_panel;
 	wxPanel* _metadata_panel;
 	wxCheckBox* _set_language;

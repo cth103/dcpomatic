@@ -17,7 +17,11 @@
 
 */
 
+#ifndef DCPOMATIC_COLOUR_CONVERSION_H
+#define DCPOMATIC_COLOUR_CONVERSION_H
+
 #include <boost/utility.hpp>
+#include <boost/optional.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 
 namespace cxml {
@@ -28,18 +32,37 @@ namespace xmlpp {
 	class Node;
 }
 
-class ColourConversion : public boost::noncopyable
+class ColourConversion
 {
 public:
 	ColourConversion ();
-	ColourConversion (std::string, float, bool, float const matrix[3][3], float);
+	ColourConversion (double, bool, double const matrix[3][3], double);
 	ColourConversion (boost::shared_ptr<cxml::Node>);
+
+	virtual void as_xml (xmlpp::Node *) const;
+
+	boost::optional<size_t> preset () const;
+
+	double input_gamma;
+	bool input_gamma_linearised;
+	boost::numeric::ublas::matrix<double> matrix;
+	double output_gamma;
+};
+
+class PresetColourConversion
+{
+public:
+	PresetColourConversion ();
+	PresetColourConversion (std::string, double, bool, double const matrix[3][3], double);
+	PresetColourConversion (boost::shared_ptr<cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 
 	std::string name;
-	float input_gamma;
-	bool input_gamma_linearised;
-	boost::numeric::ublas::matrix<float> matrix;
-	float output_gamma;
+	ColourConversion conversion;
 };
+
+bool operator== (ColourConversion const &, ColourConversion const &);
+bool operator!= (ColourConversion const &, ColourConversion const &);
+
+#endif

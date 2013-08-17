@@ -23,14 +23,17 @@
 #include "video_examiner.h"
 #include "ratio.h"
 #include "compose.hpp"
+#include "config.h"
+#include "colour_conversion.h"
 
 #include "i18n.h"
 
-int const VideoContentProperty::VIDEO_SIZE	 = 0;
-int const VideoContentProperty::VIDEO_FRAME_RATE = 1;
-int const VideoContentProperty::VIDEO_FRAME_TYPE = 2;
-int const VideoContentProperty::VIDEO_CROP	 = 3;
-int const VideoContentProperty::VIDEO_RATIO	 = 4;
+int const VideoContentProperty::VIDEO_SIZE	  = 0;
+int const VideoContentProperty::VIDEO_FRAME_RATE  = 1;
+int const VideoContentProperty::VIDEO_FRAME_TYPE  = 2;
+int const VideoContentProperty::VIDEO_CROP	  = 3;
+int const VideoContentProperty::VIDEO_RATIO	  = 4;
+int const VideoContentProperty::COLOUR_CONVERSION = 5;
 
 using std::string;
 using std::stringstream;
@@ -46,6 +49,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Fram
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _ratio (Ratio::from_id ("185"))
+	, _colour_conversion (Config::instance()->colour_conversions().front().conversion)
 {
 
 }
@@ -56,6 +60,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _ratio (Ratio::from_id ("185"))
+	, _colour_conversion (Config::instance()->colour_conversions().front().conversion)
 {
 
 }
@@ -76,6 +81,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	if (r) {
 		_ratio = Ratio::from_id (r.get ());
 	}
+	_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
 }
 
 void
@@ -94,6 +100,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	if (_ratio) {
 		node->add_child("Ratio")->add_child_text (_ratio->id ());
 	}
+	_colour_conversion.as_xml (node->add_child("ColourConversion"));
 }
 
 void
@@ -256,4 +263,15 @@ VideoContent::video_size_after_3d_split () const
 	}
 
 	assert (false);
+}
+
+void
+VideoContent::set_colour_conversion (ColourConversion c)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_colour_conversion = c;
+	}
+
+	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
 }

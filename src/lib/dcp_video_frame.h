@@ -105,7 +105,7 @@ public:
 	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, int, int, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
-	boost::shared_ptr<EncodedData> encode_remotely (boost::shared_ptr<const ServerDescription>);
+	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);
 
 	Eyes eyes () const {
 		return _eyes;

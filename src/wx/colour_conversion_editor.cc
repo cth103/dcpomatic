@@ -22,16 +22,16 @@
 #include <wx/gbsizer.h>
 #include "lib/colour_conversion.h"
 #include "wx_util.h"
-#include "colour_conversion_dialog.h"
+#include "colour_conversion_editor.h"
 
 using std::string;
 using std::cout;
+using std::stringstream;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<ColourConversion> conversion)
-	: wxDialog (parent, wxID_ANY, _("Colour conversion"))
-	, _conversion (conversion)
+ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
+	: wxPanel (parent, wxID_ANY)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
@@ -40,11 +40,6 @@ ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<Col
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	int r = 0;
-
-	add_label_to_grid_bag_sizer (table, this, _("Name"), true, wxGBPosition (r, 0));
-	_name = new wxTextCtrl (this, wxID_ANY, wxT (""));
-	table->Add (_name, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
-	++r;
 
 	add_label_to_grid_bag_sizer (table, this, _("Input gamma"), true, wxGBPosition (r, 0));
 	_input_gamma = new wxSpinCtrlDouble (this);
@@ -56,7 +51,7 @@ ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<Col
 	++r;
 
         wxClientDC dc (parent);
-        wxSize size = dc.GetTextExtent (wxT ("0.123456789012"));
+        wxSize size = dc.GetTextExtent (wxT ("-0.123456789012345678"));
         size.SetHeight (-1);
 
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
@@ -71,10 +66,10 @@ ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<Col
 
 	add_label_to_grid_bag_sizer (table, this, _("Matrix"), true, wxGBPosition (r, 0));
 	wxFlexGridSizer* matrix_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	for (int x = 0; x < 3; ++x) {
-		for (int y = 0; y < 3; ++y) {
-			_matrix[x][y] = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
-			matrix_sizer->Add (_matrix[x][y]);
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			_matrix[i][j] = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+			matrix_sizer->Add (_matrix[i][j]);
 		}
 	}
 	table->Add (matrix_sizer, wxGBPosition (r, 1));
@@ -91,15 +86,6 @@ ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<Col
 	table->Add (output_sizer, wxGBPosition (r, 1));
 	++r;
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
-
 	_input_gamma->SetRange(0.1, 4.0);
 	_input_gamma->SetDigits (1);
 	_input_gamma->SetIncrement (0.1);
@@ -107,44 +93,60 @@ ColourConversionDialog::ColourConversionDialog (wxWindow* parent, shared_ptr<Col
 	_output_gamma->SetDigits (1);
 	_output_gamma->SetIncrement (0.1);
 
-	_name->SetValue (std_to_wx (conversion->name));
-	_input_gamma->SetValue (conversion->input_gamma);
-	_input_gamma_linearised->SetValue (conversion->input_gamma_linearised);
+	_input_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
+	_input_gamma_linearised->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ColourConversionEditor::changed, this));
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			_matrix[i][j]->SetValue (std_to_wx (lexical_cast<string> (conversion->matrix(i, j))));
+			_matrix[i][j]->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
 		}
 	}
-	_output_gamma->SetValue (conversion->output_gamma);
-
-	_name->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionDialog::changed, this));
-	_input_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionDialog::changed, this));
-	_input_gamma_linearised->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ColourConversionDialog::changed, this));
-	_output_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionDialog::changed, this));
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			_matrix[i][j]->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionDialog::changed, this));
-		}
-	}
+	_output_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
 }
 
 void
-ColourConversionDialog::changed ()
+ColourConversionEditor::set (ColourConversion conversion)
 {
-	_conversion->name = wx_to_std (_name->GetValue ());
-	_conversion->input_gamma = _input_gamma->GetValue ();
-	_conversion->input_gamma_linearised = _input_gamma_linearised->GetValue ();
+	_input_gamma->SetValue (conversion.input_gamma);
+	_input_gamma_linearised->SetValue (conversion.input_gamma_linearised);
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			stringstream s;
+			s.setf (std::ios::fixed, std::ios::floatfield);
+			s.precision (14);
+			s << conversion.matrix (i, j);
+			_matrix[i][j]->SetValue (std_to_wx (s.str ()));
+		}
+	}
+	_output_gamma->SetValue (conversion.output_gamma);
+}
+
+ColourConversion
+ColourConversionEditor::get () const
+{
+	ColourConversion conversion;
+	
+	conversion.input_gamma = _input_gamma->GetValue ();
+	conversion.input_gamma_linearised = _input_gamma_linearised->GetValue ();
 
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			string const v = wx_to_std (_matrix[i][j]->GetValue ());
 			if (v.empty ()) {
-				_conversion->matrix (i, j) = 0;
+				conversion.matrix (i, j) = 0;
 			} else {
-				_conversion->matrix (i, j) = lexical_cast<float> (v);
+				conversion.matrix (i, j) = lexical_cast<double> (v);
 			}
 		}
 	}
-	_conversion->output_gamma = _output_gamma->GetValue ();
-}
 	
+	conversion.output_gamma = _output_gamma->GetValue ();
+
+	return conversion;
+}
+
+void
+ColourConversionEditor::changed ()
+{
+	Changed ();
+}
+

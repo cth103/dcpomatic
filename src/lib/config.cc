@@ -65,13 +65,8 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
-	_colour_conversions.push_back (shared_ptr<ColourConversion> (
-					       new ColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::xyz_to_rgb, 2.6))
-		);
-	
-	_colour_conversions.push_back (shared_ptr<ColourConversion> (
-					       new ColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::xyz_to_rgb, 2.6))
-		);
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::xyz_to_rgb, 2.6));
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::xyz_to_rgb, 2.6));
 }
 
 void
@@ -91,7 +86,7 @@ Config::read ()
 	
 	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
 	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
-		_servers.push_back (shared_ptr<ServerDescription> (new ServerDescription (*i)));
+		_servers.push_back (ServerDescription (*i));
 	}
 
 	_tms_ip = f.string_child ("TMSIP");
@@ -130,7 +125,7 @@ Config::read ()
 	}
 	
 	for (list<shared_ptr<cxml::Node> >::iterator i = cc.begin(); i != cc.end(); ++i) {
-		_colour_conversions.push_back (shared_ptr<ColourConversion> (new ColourConversion (*i)));
+		_colour_conversions.push_back (PresetColourConversion (*i));
 	}
 }
 
@@ -163,7 +158,10 @@ Config::read_old_metadata ()
 		} else if (k == N_("server_port")) {
 			_server_port = atoi (v.c_str ());
 		} else if (k == N_("server")) {
-			_servers.push_back (ServerDescription::create_from_metadata (v));
+			optional<ServerDescription> server = ServerDescription::create_from_metadata (v);
+			if (server) {
+				_servers.push_back (server.get ());
+			}
 		} else if (k == N_("tms_ip")) {
 			_tms_ip = v;
 		} else if (k == N_("tms_path")) {
@@ -237,8 +235,8 @@ Config::write () const
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
 	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
 	
-	for (vector<shared_ptr<ServerDescription> >::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		(*i)->as_xml (root->add_child ("Server"));
+	for (vector<ServerDescription>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
+		i->as_xml (root->add_child ("Server"));
 	}
 
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
@@ -265,8 +263,8 @@ Config::write () const
 	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (lexical_cast<string> (_default_j2k_bandwidth));
 
-	for (vector<shared_ptr<ColourConversion> >::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
-		(*i)->as_xml (root->add_child ("ColourConversion"));
+	for (vector<PresetColourConversion>::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
+		i->as_xml (root->add_child ("ColourConversion"));
 	}
 
 	doc.write_to_file_formatted (file (false));

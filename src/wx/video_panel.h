@@ -41,10 +41,9 @@ private:
 	void edit_filters_clicked ();
 	void ratio_changed ();
 	void frame_type_changed ();
-	void colour_conversion_changed ();
+	void edit_colour_conversion_clicked ();
 
 	void setup_description ();
-	void setup_colour_conversions ();
 
 	wxChoice* _frame_type;
 	wxSpinCtrl* _left_crop;
@@ -56,5 +55,6 @@ private:
 	wxStaticText* _description;
 	wxStaticText* _filters;
 	wxButton* _filters_button;
-	wxChoice* _colour_conversion;
+	wxStaticText* _colour_conversion;
+	wxButton* _colour_conversion_button;
 };

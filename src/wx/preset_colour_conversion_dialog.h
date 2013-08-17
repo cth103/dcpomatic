@@ -19,21 +19,17 @@
 
 #include <wx/wx.h>
 
-class wxSpinCtrlDouble;
-class ColourConversion;
+class ColourConversionEditor;
 
-class ColourConversionDialog : public wxDialog
+class PresetColourConversionDialog : public wxDialog
 {
 public:
-	ColourConversionDialog (wxWindow *, boost::shared_ptr<ColourConversion>);
+	PresetColourConversionDialog (wxWindow *);
+
+	void set (PresetColourConversion);
+	PresetColourConversion get () const;
 
 private:
-	void changed ();
-	
-	boost::shared_ptr<ColourConversion> _conversion;
 	wxTextCtrl* _name;
-	wxSpinCtrlDouble* _input_gamma;
-	wxCheckBox* _input_gamma_linearised;
-	wxTextCtrl* _matrix[3][3];
-	wxSpinCtrlDouble* _output_gamma;
+	ColourConversionEditor* _editor;
 };

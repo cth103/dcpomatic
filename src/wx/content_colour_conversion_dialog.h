@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,19 +18,24 @@
 */
 
 #include <wx/wx.h>
-#include <wx/spinctrl.h>
 
-class ServerDescription;
+class ColourConversionEditor;
 
-class ServerDialog : public wxDialog
+class ContentColourConversionDialog : public wxDialog
 {
 public:
-	ServerDialog (wxWindow *);
+	ContentColourConversionDialog (wxWindow *);
 
-	void set (ServerDescription);
-	ServerDescription get () const;
+	void set (ColourConversion);
+	ColourConversion get () const;
 
 private:
-	wxTextCtrl* _host;
-	wxSpinCtrl* _threads;
+	void check_for_preset ();
+	void preset_check_clicked ();
+	void preset_choice_changed ();
+	
+	wxCheckBox* _preset_check;
+	wxChoice* _preset_choice;
+	ColourConversionEditor* _editor;
+	bool _setting;
 };

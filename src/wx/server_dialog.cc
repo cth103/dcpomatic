@@ -23,15 +23,9 @@
 
 using boost::shared_ptr;
 
-ServerDialog::ServerDialog (wxWindow* parent, shared_ptr<ServerDescription> server)
+ServerDialog::ServerDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Server"))
 {
-	if (server) {
-		_server = server;
-	} else {
-		_server.reset (new ServerDescription (wx_to_std (N_("localhost")), 1));
-	}
-		
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
@@ -43,12 +37,7 @@ ServerDialog::ServerDialog (wxWindow* parent, shared_ptr<ServerDescription> serv
 	_threads = new wxSpinCtrl (this, wxID_ANY);
 	table->Add (_threads, 1, wxEXPAND);
 
-	_host->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ServerDialog::host_changed, this));
 	_threads->SetRange (0, 256);
-	_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ServerDialog::threads_changed, this));
-
-	_host->SetValue (std_to_wx (_server->host_name ()));
-	_threads->SetValue (_server->threads ());
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
@@ -64,20 +53,18 @@ ServerDialog::ServerDialog (wxWindow* parent, shared_ptr<ServerDescription> serv
 }
 
 void
-ServerDialog::host_changed ()
+ServerDialog::set (ServerDescription server)
 {
-	_server->set_host_name (wx_to_std (_host->GetValue ()));
+	_host->SetValue (std_to_wx (server.host_name ()));
+	_threads->SetValue (server.threads ());
 }
 
-void
-ServerDialog::threads_changed ()
+ServerDescription
+ServerDialog::get () const
 {
-	_server->set_threads (_threads->GetValue ());
-}
-
-shared_ptr<ServerDescription>
-ServerDialog::server () const
-{
-	return _server;
+	ServerDescription server;
+	server.set_host_name (wx_to_std (_host->GetValue ()));
+	server.set_threads (_threads->GetValue ());
+	return server;
 }
 

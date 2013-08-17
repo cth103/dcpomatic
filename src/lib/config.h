@@ -29,6 +29,8 @@
 #include <boost/signals2.hpp>
 #include <libdcp/metadata.h>
 #include "dci_metadata.h"
+#include "colour_conversion.h"
+#include "server.h"
 
 class ServerDescription;
 class Scaler;
@@ -36,7 +38,6 @@ class Filter;
 class SoundProcessor;
 class DCPContentType;
 class Ratio;
-class ColourConversion;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -62,7 +63,7 @@ public:
 	}
 
 	/** @return J2K encoding servers to use */
-	std::vector<boost::shared_ptr<ServerDescription> > servers () const {
+	std::vector<ServerDescription> servers () const {
 		return _servers;
 	}
 
@@ -123,7 +124,7 @@ public:
 		return _default_j2k_bandwidth;
 	}
 
-	std::vector<boost::shared_ptr<ColourConversion> > colour_conversions () const {
+	std::vector<PresetColourConversion> colour_conversions () const {
 		return _colour_conversions;
 	}
 
@@ -142,7 +143,7 @@ public:
 	}
 
 	/** @param s New list of servers */
-	void set_servers (std::vector<boost::shared_ptr<ServerDescription> > s) {
+	void set_servers (std::vector<ServerDescription> s) {
 		_servers = s;
 	}
 
@@ -210,7 +211,7 @@ public:
 		_default_j2k_bandwidth = b;
 	}
 
-	void set_colour_conversions (std::vector<boost::shared_ptr<ColourConversion> > const & c) {
+	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
 		_colour_conversions = c;
 	}
 	
@@ -233,7 +234,7 @@ private:
 	int _server_port;
 
 	/** J2K encoding servers to use */
-	std::vector<boost::shared_ptr<ServerDescription> > _servers;
+	std::vector<ServerDescription> _servers;
 	/** Scaler to use for the "A" part of A/B comparisons */
 	Scaler const * _reference_scaler;
 	/** Filters to use for the "A" part of A/B comparisons */
@@ -257,7 +258,7 @@ private:
 	DCPContentType const * _default_dcp_content_type;
 	libdcp::XMLMetadata _dcp_metadata;
 	int _default_j2k_bandwidth;
-	std::vector<boost::shared_ptr<ColourConversion> > _colour_conversions;
+	std::vector<PresetColourConversion> _colour_conversions;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

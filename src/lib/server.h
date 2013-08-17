@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_SERVER_H
+#define DCPOMATIC_SERVER_H
+
 /** @file src/server.h
  *  @brief Class to describe a server to which we can send
  *  encoding work, and a class to implement such a server.
@@ -78,7 +81,7 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	
-	static boost::shared_ptr<ServerDescription> create_from_metadata (std::string v);
+	static boost::optional<ServerDescription> create_from_metadata (std::string);
 
 private:
 	/** server's host name */
@@ -104,3 +107,5 @@ private:
 	boost::condition _worker_condition;
 	boost::shared_ptr<Log> _log;
 };
+
+#endif

@@ -29,7 +29,7 @@ using boost::shared_ptr;
 using boost::thread;
 
 void
-do_remote_encode (shared_ptr<DCPVideoFrame> frame, shared_ptr<ServerDescription> description, shared_ptr<EncodedData> locally_encoded)
+do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription description, shared_ptr<EncodedData> locally_encoded)
 {
 	shared_ptr<EncodedData> remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	shared_ptr<ServerDescription> description (new ServerDescription ("localhost", 2));
+	ServerDescription description ("localhost", 2);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {

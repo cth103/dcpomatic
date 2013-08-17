@@ -26,9 +26,9 @@ public:
 	EditableList (
 		wxWindow* parent,
 		std::vector<std::string> columns,
-		boost::function<std::vector<boost::shared_ptr<T> > ()> get,
-		boost::function<void (std::vector<boost::shared_ptr<T> >)> set,
-		boost::function<std::string (boost::shared_ptr<T>, int)> column
+		boost::function<std::vector<T> ()> get,
+		boost::function<void (std::vector<T>)> set,
+		boost::function<std::string (T, int)> column
 		)
 		: wxPanel (parent)
 		, _get (get)
@@ -66,8 +66,8 @@ public:
 			table->Add (s, 0);
 		}
 
-		std::vector<boost::shared_ptr<T> > current = _get ();
-		for (typename std::vector<boost::shared_ptr<T> >::iterator i = current.begin (); i != current.end(); ++i) {
+		std::vector<T> current = _get ();
+		for (typename std::vector<T>::iterator i = current.begin (); i != current.end(); ++i) {
 			add_to_control (*i);
 		}
 
@@ -77,10 +77,14 @@ public:
 
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&EditableList::selection_changed, this));
+		_list->Bind (wxEVT_SIZE, boost::bind (&EditableList::resized, this, _1));
 		selection_changed ();
+
 	}
 
-	void add_to_control (boost::shared_ptr<T> item)
+private:	
+
+	void add_to_control (T item)
 	{
 		wxListItem list_item;
 		int const n = _list->GetItemCount ();
@@ -101,15 +105,18 @@ public:
 
 	void add_clicked ()
 	{
-		boost::shared_ptr<T> new_item (new T);
-		S* dialog = new S (this, new_item);
+		T new_item;
+		S* dialog = new S (this);
+		dialog->set (new_item);
 		dialog->ShowModal ();
-		dialog->Destroy ();
 
-		add_to_control (new_item);
-		std::vector<boost::shared_ptr<T> > all = _get ();
-		all.push_back (new_item);
+		add_to_control (dialog->get ());
+		
+		std::vector<T> all = _get ();
+		all.push_back (dialog->get ());
 		_set (all);
+		
+		dialog->Destroy ();
 	}
 
 	void edit_clicked ()
@@ -119,13 +126,15 @@ public:
 			return;
 		}
 
-		std::vector<boost::shared_ptr<T> > all = _get ();
+		std::vector<T> all = _get ();
 		assert (item >= 0 && item < int (all.size ()));
 
-		S* dialog = new S (this, all[item]);
+		S* dialog = new S (this);
+		dialog->set (all[item]);
 		dialog->ShowModal ();
+		all[item] = dialog->get ();
 		dialog->Destroy ();
-
+		
 		for (int i = 0; i < _columns; ++i) {
 			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));
 		}
@@ -138,16 +147,24 @@ public:
 			_list->DeleteItem (i);
 		}
 		
-		std::vector<boost::shared_ptr<T> > all = _get ();
+		std::vector<T> all = _get ();
 		all.erase (all.begin() + i);
 		_set (all);
 	}
 
-private:	
-	boost::function <std::vector<boost::shared_ptr<T> > ()> _get;
-	boost::function <void (std::vector<boost::shared_ptr<T> >)> _set;
+	void resized (wxSizeEvent& ev)
+	{
+		int const w = GetSize().GetWidth() / _columns;
+		for (int i = 0; i < _columns; ++i) {
+			_list->SetColumnWidth (i, w);
+		}
+		ev.Skip ();
+	}
+
+	boost::function <std::vector<T> ()> _get;
+	boost::function <void (std::vector<T>)> _set;
 	int _columns;
-	boost::function<std::string (boost::shared_ptr<T>, int)> _column;
+	boost::function<std::string (T, int)> _column;
 
 	wxButton* _add;
 	wxButton* _edit;

@@ -741,6 +741,7 @@ FilmEditor::content_selection_changed ()
 	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
 	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
 	film_content_changed (s, VideoContentProperty::VIDEO_FRAME_TYPE);
+	film_content_changed (s, VideoContentProperty::COLOUR_CONVERSION);
 	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
 	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
 	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);

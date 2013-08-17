@@ -9,8 +9,9 @@ sources = """
           audio_mapping_view.cc
           audio_panel.cc
           audio_plot.cc
-          colour_conversion_dialog.cc
+          colour_conversion_editor.cc
           config_dialog.cc
+          content_colour_conversion_dialog.cc
           content_menu.cc
           dci_metadata_dialog.cc
           dir_picker_ctrl.cc
@@ -18,11 +19,12 @@ sources = """
           film_editor_panel.cc
           film_viewer.cc
           filter_dialog.cc
-          filter_view.cc
+          filter_editor.cc
           gain_calculator_dialog.cc
           job_manager_view.cc
           job_wrapper.cc
           new_film_dialog.cc
+          preset_colour_conversion_dialog.cc
           properties_dialog.cc
           repeat_dialog.cc
           server_dialog.cc

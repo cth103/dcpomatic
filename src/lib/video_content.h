@@ -21,6 +21,7 @@
 #define DCPOMATIC_VIDEO_CONTENT_H
 
 #include "content.h"
+#include "colour_conversion.h"
 
 class VideoExaminer;
 class Ratio;
@@ -33,6 +34,7 @@ public:
 	static int const VIDEO_FRAME_TYPE;
 	static int const VIDEO_CROP;
 	static int const VIDEO_RATIO;
+	static int const COLOUR_CONVERSION;
 };
 
 class VideoContent : public virtual Content
@@ -71,6 +73,8 @@ public:
 	void set_top_crop (int);
 	void set_bottom_crop (int);
 
+	void set_colour_conversion (ColourConversion);
+
 	VideoFrameType video_frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_type;
@@ -86,6 +90,11 @@ public:
 	Ratio const * ratio () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _ratio;
+	}
+
+	ColourConversion colour_conversion () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _colour_conversion;
 	}
 
 	libdcp::Size video_size_after_3d_split () const;
@@ -106,6 +115,7 @@ private:
 	VideoFrameType _video_frame_type;
 	Crop _crop;
 	Ratio const * _ratio;
+	ColourConversion _colour_conversion;
 };
 
 #endif
