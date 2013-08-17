@@ -20,6 +20,11 @@
 #ifndef DCPOMATIC_COLOUR_CONVERSION_H
 #define DCPOMATIC_COLOUR_CONVERSION_H
 
+/* Hack for OS X compile failure; see https://bugs.launchpad.net/hugin/+bug/910160 */
+#ifdef check
+#undef check
+#endif
+
 #include <boost/utility.hpp>
 #include <boost/optional.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
