@@ -143,13 +143,16 @@ private:
 	void remove_clicked ()
 	{
 		int i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (i >= 0) {
-			_list->DeleteItem (i);
+		if (i == -1) {
+			return;
 		}
 		
+		_list->DeleteItem (i);
 		std::vector<T> all = _get ();
 		all.erase (all.begin() + i);
 		_set (all);
+
+		selection_changed ();
 	}
 
 	void resized (wxSizeEvent& ev)
