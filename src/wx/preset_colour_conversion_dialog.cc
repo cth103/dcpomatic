@@ -34,9 +34,10 @@ PresetColourConversionDialog::PresetColourConversionDialog (wxWindow* parent)
 	SetSizer (overall_sizer);
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	table->AddGrowableCol (1, 1);
 	add_label_to_sizer (table, this, _("Name"), true);
 	_name = new wxTextCtrl (this, wxID_ANY, wxT (""));
-	table->Add (_name);
+	table->Add (_name, 1, wxEXPAND | wxALL);
 
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	overall_sizer->Add (new wxStaticLine (this, wxID_ANY), 0, wxEXPAND);
