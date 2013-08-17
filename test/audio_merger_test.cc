@@ -28,7 +28,6 @@ using boost::shared_ptr;
 using boost::bind;
 
 static shared_ptr<const AudioBuffers> last_audio;
-static int last_time;
 
 static int
 pass_through (int x)
