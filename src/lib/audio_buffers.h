@@ -57,6 +57,8 @@ public:
 	void make_silent (int c);
 	void make_silent (int from, int frames);
 
+	void apply_gain (float);
+
 	void copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
 	void move (int from, int to, int frames);
 	void accumulate_channel (AudioBuffers const *, int, int);

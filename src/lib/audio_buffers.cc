@@ -19,6 +19,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <cmath>
 #include <stdexcept>
 #include "audio_buffers.h"
 
@@ -260,3 +261,15 @@ AudioBuffers::accumulate_frames (AudioBuffers const * from, int read_offset, int
 	}
 }
 
+/** @param dB gain in dB */
+void
+AudioBuffers::apply_gain (float dB)
+{
+	float const linear = pow (10, dB / 20);
+	
+	for (int i = 0; i < _channels; ++i) {
+		for (int j = 0; j < _frames; ++j) {
+			_data[i][j] *= linear;
+		}
+	}
+}

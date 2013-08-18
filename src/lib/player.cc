@@ -300,6 +300,13 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
+	/* Gain */
+	if (content->audio_gain() != 0) {
+		shared_ptr<AudioBuffers> gain (new AudioBuffers (audio));
+		gain->apply_gain (content->audio_gain ());
+		audio = gain;
+	}
+
 	/* Resample */
 	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
 		shared_ptr<Resampler> r = resampler (content, true);
