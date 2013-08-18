@@ -225,7 +225,8 @@ VideoContent::identifier () const
 	  << "_" << crop().left
 	  << "_" << crop().right
 	  << "_" << crop().top
-	  << "_" << crop().bottom;
+	  << "_" << crop().bottom
+	  << "_" << colour_conversion().identifier ();
 
 	if (ratio()) {
 		s << "_" << ratio()->id ();

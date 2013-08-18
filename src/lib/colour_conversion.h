@@ -45,6 +45,7 @@ public:
 	ColourConversion (boost::shared_ptr<cxml::Node>);
 
 	virtual void as_xml (xmlpp::Node *) const;
+	std::string identifier () const;
 
 	boost::optional<size_t> preset () const;
 

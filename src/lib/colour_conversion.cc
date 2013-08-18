@@ -23,6 +23,7 @@
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "colour_conversion.h"
+#include "util.h"
 
 #include "i18n.h"
 
@@ -114,6 +115,26 @@ ColourConversion::preset () const
 	}
 
 	return i;
+}
+
+string
+ColourConversion::identifier () const
+{
+	double numbers[12];
+
+	int n = 0;
+	numbers[n++] = input_gamma;
+	numbers[n++] = input_gamma_linearised;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			numbers[n++] = matrix (i, j);
+		}
+	}
+	numbers[n++] = output_gamma;
+
+	assert (n == 12);
+
+	return md5_digest (numbers, 12 * sizeof (double));
 }
 
 PresetColourConversion::PresetColourConversion ()
