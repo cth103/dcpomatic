@@ -85,6 +85,7 @@ File "%deps%/bin/libxmlsec1.dll"
 File "%deps%/bin/libxmlsec1-openssl.dll"
 File "%deps%/bin/libexslt-0.dll"
 File "%deps%/bin/libxslt-1.dll"
+File "%deps%/bin/libffi-6.dll"
 File "%deps%/bin/ffprobe.exe"
 
 File "%binaries%/src/wx/dcpomatic-wx.dll"
