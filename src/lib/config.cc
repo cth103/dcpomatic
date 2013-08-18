@@ -65,8 +65,8 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
-	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::xyz_to_rgb, 2.6));
-	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::xyz_to_rgb, 2.6));
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::srgb_to_xyz, 2.6));
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::srgb_to_xyz, 2.6));
 }
 
 void
