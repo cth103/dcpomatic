@@ -43,7 +43,7 @@ public:
 	PlayerWrapper (shared_ptr<Player> p)
 		: _player (p)
 	{
-		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _4));
+		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _5));
 	}
 
 	void process_video (shared_ptr<const Image> i, bool, Time t)
