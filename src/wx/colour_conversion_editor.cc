@@ -51,7 +51,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	++r;
 
         wxClientDC dc (parent);
-        wxSize size = dc.GetTextExtent (wxT ("-0.123456789012345678"));
+        wxSize size = dc.GetTextExtent (wxT ("-0.12345678901"));
         size.SetHeight (-1);
 
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
@@ -112,7 +112,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 		for (int j = 0; j < 3; ++j) {
 			stringstream s;
 			s.setf (std::ios::fixed, std::ios::floatfield);
-			s.precision (14);
+			s.precision (7);
 			s << conversion.matrix (i, j);
 			_matrix[i][j]->SetValue (std_to_wx (s.str ()));
 		}
