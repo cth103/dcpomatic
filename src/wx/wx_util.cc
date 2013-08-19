@@ -259,6 +259,10 @@ dcpomatic_setup_i18n ()
 		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
 #endif		
 
+#ifdef DCPOMATIC_POSIX
+		locale->AddCatalogLookupPathPrefix (POSIX_LOCALE_PREFIX);
+#endif
+
 		locale->AddCatalog (wxT ("libdcpomatic-wx"));
 		locale->AddCatalog (wxT ("dcpomatic"));
 		
