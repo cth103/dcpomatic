@@ -61,6 +61,7 @@ extern "C" {
 #include "sound_processor.h"
 #include "config.h"
 #include "ratio.h"
+#include "job.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -407,15 +408,24 @@ md5_digest (boost::filesystem::path file)
 	return s.str ();
 }
 
+/** @param job Optional job for which to report progress */
 string
-md5_digest_directory (boost::filesystem::path directory)
+md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 {
 	int const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 
 	MD5_CTX md5_context;
 	MD5_Init (&md5_context);
-	
+
+	int files = 0;
+	if (job) {
+		for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
+			++files;
+		}
+	}
+
+	int j = 0;
 	for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
 		ifstream f (i->path().string().c_str(), std::ios::binary);
 		if (!f.good ()) {
@@ -431,6 +441,11 @@ md5_digest_directory (boost::filesystem::path directory)
 			f.read (buffer, t);
 			MD5_Update (&md5_context, buffer, t);
 			bytes -= t;
+		}
+
+		if (job) {
+			job->set_progress (float (j) / files);
+			++j;
 		}
 	}
 
@@ -781,6 +796,6 @@ valid_image_file (boost::filesystem::path f)
 {
 	string ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
-	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp");
+	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp" || ext == ".tga");
 }
 

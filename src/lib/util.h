@@ -51,8 +51,7 @@ extern "C" {
 /** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 
-class Scaler;
-class Film;
+class Job;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
@@ -63,7 +62,7 @@ extern void dcpomatic_setup ();
 extern void dcpomatic_setup_gettext_i18n (std::string);
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (boost::filesystem::path);
-extern std::string md5_digest_directory (boost::filesystem::path);
+extern std::string md5_digest_directory (boost::filesystem::path, boost::shared_ptr<Job>);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);

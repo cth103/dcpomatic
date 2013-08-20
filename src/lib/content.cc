@@ -80,7 +80,7 @@ Content::as_xml (xmlpp::Node* node) const
 }
 
 void
-Content::examine (shared_ptr<Job>)
+Content::examine (shared_ptr<Job> job)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	boost::filesystem::path p = _path;
@@ -90,7 +90,7 @@ Content::examine (shared_ptr<Job>)
 	if (boost::filesystem::is_regular_file (p)) {
 		d = md5_digest (p);
 	} else {
-		d = md5_digest_directory (p);
+		d = md5_digest_directory (p, job);
 	}
 
 	lm.lock ();

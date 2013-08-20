@@ -41,6 +41,7 @@ class Content;
 class Player;
 class Playlist;
 class AudioContent;
+class Scaler;
 
 /** @class Film
  *

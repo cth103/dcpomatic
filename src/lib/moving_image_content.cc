@@ -23,6 +23,7 @@
 #include "config.h"
 #include "compose.hpp"
 #include "film.h"
+#include "job.h"
 
 #include "i18n.h"
 
@@ -80,12 +81,16 @@ MovingImageContent::as_xml (xmlpp::Node* node) const
 void
 MovingImageContent::examine (shared_ptr<Job> job)
 {
+	job->descend (0.5);
 	Content::examine (job);
+	job->ascend ();
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
+	job->descend (0.5);
 	shared_ptr<MovingImageExaminer> examiner (new MovingImageExaminer (film, shared_from_this(), job));
+	job->ascend ();
 
 	take_from_video_examiner (examiner);
 
