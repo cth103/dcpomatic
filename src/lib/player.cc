@@ -250,8 +250,11 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	if (content->trimmed (relative_time)) {
 		return;
 	}
-	
-	shared_ptr<Image> work_image = image->crop (content->crop(), true);
+
+	/* Convert to RGB first, as FFmpeg doesn't seem to like handling YUV images with odd widths */
+	shared_ptr<Image> work_image = image->scale (image->size (), _film->scaler(), PIX_FMT_RGB24, true);
+
+	shared_ptr<Image> work_image = work_image->crop (content->crop(), true);
 
 	libdcp::Size const image_size = content->ratio()->size (_video_container_size);
 	

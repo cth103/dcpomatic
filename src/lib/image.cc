@@ -420,7 +420,7 @@ Image::allocate ()
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
 	for (int i = 0; i < components(); ++i) {
-		_line_size[i] = _size.width * bytes_per_pixel(i);
+		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
 		_stride[i] = stride_round_up (i, _line_size, _aligned ? 32 : 1);
 		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
 	}
