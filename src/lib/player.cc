@@ -564,6 +564,10 @@ Player::emit_black ()
 void
 Player::emit_silence (OutputAudioFrame most)
 {
+	if (most == 0) {
+		return;
+	}
+	
 	OutputAudioFrame N = min (most, _film->audio_frame_rate() / 2);
 	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), N));
 	silence->make_silent ();
