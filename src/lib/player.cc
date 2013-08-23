@@ -255,7 +255,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 
 	libdcp::Size const image_size = content->ratio()->size (_video_container_size);
 	
-	work_image = work_image->scale_and_convert_to_rgb (image_size, _film->scaler(), true);
+	work_image = work_image->scale (image_size, _film->scaler(), PIX_FMT_RGB24, true);
 
 	Time time = content->position() + relative_time - content->trim_start ();
 	    
@@ -640,7 +640,12 @@ Player::update_subtitle ()
 	_out_subtitle.position.x = rint (_video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_scale ()) / 2)));
 	_out_subtitle.position.y = rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
 	
-	_out_subtitle.image = _in_subtitle.image->scale (libdcp::Size (scaled_size.width, scaled_size.height), Scaler::from_id ("bicubic"), true);
+	_out_subtitle.image = _in_subtitle.image->scale (
+		scaled_size,
+		Scaler::from_id ("bicubic"),
+		_in_subtitle.image->pixel_format (),
+		true
+		);
 	_out_subtitle.from = _in_subtitle.from + piece->content->position ();
 	_out_subtitle.to = _in_subtitle.to + piece->content->position ();
 }

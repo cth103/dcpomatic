@@ -57,8 +57,7 @@ public:
 	int line_factor (int) const;
 	int lines (int) const;
 
-	boost::shared_ptr<Image> scale_and_convert_to_rgb (libdcp::Size, Scaler const *, bool) const;
-	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, bool aligned) const;
+	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
 	void copy (boost::shared_ptr<const Image> image, Position<int> pos);

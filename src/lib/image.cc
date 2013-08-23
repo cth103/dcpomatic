@@ -79,7 +79,7 @@ Image::components () const
 }
 
 shared_ptr<Image>
-Image::scale (libdcp::Size out_size, Scaler const * scaler, bool result_aligned) const
+Image::scale (libdcp::Size out_size, Scaler const * scaler, AVPixelFormat result_format, bool result_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -87,11 +87,11 @@ Image::scale (libdcp::Size out_size, Scaler const * scaler, bool result_aligned)
 	*/
 	assert (aligned ());
 
-	shared_ptr<Image> scaled (new Image (pixel_format(), out_size, result_aligned));
+	shared_ptr<Image> scaled (new Image (result_format, out_size, result_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
-		out_size.width, out_size.height, pixel_format(),
+		out_size.width, out_size.height, result_format,
 		scaler->ffmpeg_id (), 0, 0, 0
 		);
 
@@ -105,40 +105,6 @@ Image::scale (libdcp::Size out_size, Scaler const * scaler, bool result_aligned)
 	sws_freeContext (scale_context);
 
 	return scaled;
-}
-
-/** Scale this image to a given size and convert it to RGB.
- *  @param out_size Output image size in pixels.
- *  @param scaler Scaler to use.
- */
-shared_ptr<Image>
-Image::scale_and_convert_to_rgb (libdcp::Size out_size, Scaler const * scaler, bool result_aligned) const
-{
-	assert (scaler);
-	/* Empirical testing suggests that sws_scale() will crash if
-	   the input image is not aligned.
-	*/
-	assert (aligned ());
-
-	shared_ptr<Image> rgb (new Image (PIX_FMT_RGB24, out_size, result_aligned));
-
-	struct SwsContext* scale_context = sws_getContext (
-		size().width, size().height, pixel_format(),
-		out_size.width, out_size.height, PIX_FMT_RGB24,
-		scaler->ffmpeg_id (), 0, 0, 0
-		);
-
-	/* Scale and convert to RGB from whatever its currently in (which may be RGB) */
-	sws_scale (
-		scale_context,
-		data(), stride(),
-		0, size().height,
-		rgb->data(), rgb->stride()
-		);
-
-	sws_freeContext (scale_context);
-
-	return rgb;
 }
 
 /** Run a FFmpeg post-process on this image and return the processed version.

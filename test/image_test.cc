@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE (crop_image_test2)
 	image = image->crop (crop, true);
 
 	/* Convert it back to RGB to make comparison to black easier */
-	image = image->scale_and_convert_to_rgb (image->size(), Scaler::from_id ("bicubic"), true);
+	image = image->scale (image->size(), Scaler::from_id ("bicubic"), PIX_FMT_RGB24, true);
 
 	/* Check that its still black after the crop */
 	uint8_t* p = image->data()[0];
