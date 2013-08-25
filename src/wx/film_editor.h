@@ -92,6 +92,7 @@ private:
 	void sequence_video_changed ();
 	void content_right_click (wxListEvent &);
 	void three_d_changed ();
+	void standard_changed ();
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
@@ -141,6 +142,7 @@ private:
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
 	wxChoice* _resolution;
+	wxChoice* _standard;
 
 	ContentMenu _menu;
 

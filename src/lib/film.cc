@@ -97,6 +97,7 @@ Film::Film (boost::filesystem::path dir)
 	, _audio_channels (MAX_AUDIO_CHANNELS)
 	, _three_d (false)
 	, _sequence_video (true)
+	, _interop (false)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -141,6 +142,12 @@ Film::video_identifier () const
 	  << "_" << _video_frame_rate
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth();
+
+	if (_interop) {
+		s << "_I";
+	} else {
+		s << "_S";
+	}
 
 	if (_three_d) {
 		s << "_3D";
@@ -331,6 +338,7 @@ Film::write_metadata () const
 	root->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
+	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
@@ -377,6 +385,7 @@ Film::read_metadata ()
 	_audio_channels = f.number_child<int> ("AudioChannels");
 	_sequence_video = f.bool_child ("SequenceVideo");
 	_three_d = f.bool_child ("ThreeD");
+	_interop = f.bool_child ("Interop");
 
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
@@ -612,6 +621,13 @@ Film::set_three_d (bool t)
 {
 	_three_d = t;
 	signal_changed (THREE_D);
+}
+
+void
+Film::set_interop (bool i)
+{
+	_interop = i;
+	signal_changed (INTEROP);
 }
 
 void

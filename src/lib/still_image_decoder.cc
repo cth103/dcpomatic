@@ -55,18 +55,20 @@ StillImageDecoder::pass ()
 	Magick::Image* magick_image = new Magick::Image (_still_image_content->path().string ());
 	_video_size = libdcp::Size (magick_image->columns(), magick_image->rows());
 	
-	_image.reset (new Image (PIX_FMT_RGB24, _video_size.get(), false));
+	_image.reset (new Image (PIX_FMT_RGB24, _video_size.get(), true));
 
 	using namespace MagickCore;
 	
 	uint8_t* p = _image->data()[0];
 	for (int y = 0; y < _video_size->height; ++y) {
+		uint8_t* q = p;
 		for (int x = 0; x < _video_size->width; ++x) {
 			Magick::Color c = magick_image->pixelColor (x, y);
-			*p++ = c.redQuantum() * 255 / QuantumRange;
-			*p++ = c.greenQuantum() * 255 / QuantumRange;
-			*p++ = c.blueQuantum() * 255 / QuantumRange;
+			*q++ = c.redQuantum() * 255 / QuantumRange;
+			*q++ = c.greenQuantum() * 255 / QuantumRange;
+			*q++ = c.blueQuantum() * 255 / QuantumRange;
 		}
+		p += _image->stride()[0];
 	}
 
 	delete magick_image;

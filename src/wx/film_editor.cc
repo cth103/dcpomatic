@@ -172,6 +172,11 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Standard"), true, wxGBPosition (r, 0));
+	_standard = new wxChoice (_dcp_panel, wxID_ANY);
+	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
+
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Scaler"), true, wxGBPosition (r, 0));
 	_scaler = new wxChoice (_dcp_panel, wxID_ANY);
 	grid->Add (_scaler, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -202,6 +207,9 @@ FilmEditor::make_dcp_panel ()
 
 	_resolution->Append (_("2K"));
 	_resolution->Append (_("4K"));
+
+	_standard->Append (_("SMPTE"));
+	_standard->Append (_("Interop"));
 }
 
 void
@@ -227,6 +235,7 @@ FilmEditor::connect_to_widgets ()
 	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::resolution_changed, this));
 	_sequence_video->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::sequence_video_changed, this));
 	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::three_d_changed, this));
+	_standard->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::standard_changed, this));
 }
 
 void
@@ -331,6 +340,15 @@ FilmEditor::resolution_changed ()
 	_film->set_resolution (_resolution->GetSelection() == 0 ? RESOLUTION_2K : RESOLUTION_4K);
 }
 
+void
+FilmEditor::standard_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_interop (_standard->GetSelection() == 1);
+}
 
 /** Called when the metadata stored in the Film object has changed;
  *  so that we can update the GUI.
@@ -416,6 +434,9 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::THREE_D:
 		checked_set (_three_d, _film->three_d ());
 		setup_dcp_name ();
+		break;
+	case Film::INTEROP:
+		checked_set (_standard, _film->interop() ? 1 : 0);
 		break;
 	}
 }
@@ -533,6 +554,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::AUDIO_CHANNELS);
 	film_changed (Film::SEQUENCE_VIDEO);
 	film_changed (Film::THREE_D);
+	film_changed (Film::INTEROP);
 
 	if (!_film->content().empty ()) {
 		set_selection (_film->content().front ());
@@ -565,6 +587,7 @@ FilmEditor::set_general_sensitivity (bool s)
 	_resolution->Enable (s);
 	_scaler->Enable (s);
 	_three_d->Enable (s);
+	_standard->Enable (s);
 
 	/* Set the panels in the content notebook */
 	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {

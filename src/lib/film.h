@@ -134,6 +134,7 @@ public:
 		/** The setting of _three_d has been changed */
 		THREE_D,
 		SEQUENCE_VIDEO,
+		INTEROP,
 	};
 
 
@@ -195,6 +196,10 @@ public:
 	bool sequence_video () const {
 		return _sequence_video;
 	}
+
+	bool interop () const {
+		return _interop;
+	}
 	
 
 	/* SET */
@@ -217,6 +222,7 @@ public:
 	void set_three_d (bool);
 	void set_dci_date_today ();
 	void set_sequence_video (bool);
+	void set_interop (bool);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -274,6 +280,7 @@ private:
 	*/
 	bool _three_d;
 	bool _sequence_video;
+	bool _interop;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

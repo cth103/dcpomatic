@@ -95,7 +95,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 
 	}
 
-	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
+	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0, _film->interop ());
 	
 	_sound_asset.reset (
 		new libdcp::SoundAsset (
@@ -107,7 +107,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 			)
 		);
 	
-	_sound_asset_writer = _sound_asset->start_write ();
+	_sound_asset_writer = _sound_asset->start_write (_film->interop ());
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 }
@@ -391,7 +391,7 @@ Writer::finish ()
 
 	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
-	dcp.write_xml (meta);
+	dcp.write_xml (_film->interop (), meta);
 
 	_film->log()->log (String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk));
 }
