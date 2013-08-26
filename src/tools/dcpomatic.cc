@@ -45,6 +45,8 @@
 #include "lib/version.h"
 #include "lib/ui_signaller.h"
 #include "lib/log.h"
+#include "lib/job_manager.h"
+#include "lib/transcode_job.h"
 
 using std::cout;
 using std::string;
@@ -52,9 +54,11 @@ using std::wstring;
 using std::stringstream;
 using std::map;
 using std::make_pair;
+using std::list;
 using std::exception;
 using std::ofstream;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
@@ -118,15 +122,14 @@ maybe_save_then_delete_film ()
 	film.reset ();
 }
 
-enum Sensitivity {
-	ALWAYS,
-	NEEDS_FILM
-};
+#define ALWAYS                  0x0
+#define NEEDS_FILM              0x1
+#define NOT_DURING_DCP_CREATION 0x2
 
-map<wxMenuItem*, Sensitivity> menu_items;
+map<wxMenuItem*, int> menu_items;
 	
 void
-add_item (wxMenu* menu, wxString text, int id, Sensitivity sens)
+add_item (wxMenu* menu, wxString text, int id, int sens)
 {
 	wxMenuItem* item = menu->Append (id, text);
 	menu_items.insert (make_pair (item, sens));
@@ -135,12 +138,26 @@ add_item (wxMenu* menu, wxString text, int id, Sensitivity sens)
 void
 set_menu_sensitivity ()
 {
-	for (map<wxMenuItem*, Sensitivity>::iterator i = menu_items.begin(); i != menu_items.end(); ++i) {
-		if (i->second == NEEDS_FILM) {
-			i->first->Enable (film != 0);
-		} else {
-			i->first->Enable (true);
+	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
+	list<shared_ptr<Job> >::iterator i = jobs.begin();
+	while (i != jobs.end() && dynamic_pointer_cast<TranscodeJob> (*i) == 0) {
+		++i;
+	}
+	bool const dcp_creation = (i != jobs.end ());
+
+	for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
+
+		bool enabled = true;
+
+		if ((j->second & NEEDS_FILM) && film == 0) {
+			enabled = false;
 		}
+
+		if ((j->second & NOT_DURING_DCP_CREATION) && dcp_creation) {
+			enabled = false;
+		}
+		
+		j->first->Enable (enabled);
 	}
 }
 
@@ -183,9 +200,9 @@ setup_menu (wxMenuBar* m)
 #endif	
 
 	jobs_menu = new wxMenu;
-	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM);
-	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM);
-	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM);
+	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 
 	wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	
@@ -249,6 +266,8 @@ public:
 		} else {
 			file_changed ("");
 		}
+
+		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (set_menu_sensitivity));
 
 		set_film ();
 		overall_panel->SetSizer (main_sizer);
