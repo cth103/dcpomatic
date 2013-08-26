@@ -239,7 +239,9 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this), ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),        ID_jobs_show_dcp);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),           wxID_ABOUT);
+
 		Bind (wxEVT_MENU_OPEN, boost::bind (&Frame::menu_opened, this, _1));
+		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -385,6 +387,10 @@ private:
 	
 	void file_exit ()
 	{
+		if (!should_close ()) {
+			return;
+		}
+		
 		maybe_save_then_delete_film ();
 		Close (true);
 	}
@@ -439,6 +445,34 @@ private:
 		d->ShowModal ();
 		d->Destroy ();
 	}
+
+	bool should_close ()
+	{
+		if (!JobManager::instance()->work_to_do ()) {
+			return true;
+		}
+
+		wxMessageDialog* d = new wxMessageDialog (
+			0,
+			_("There are unfinished jobs; are you sure you want to quit?"),
+			_("Unfinished jobs"),
+			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
+			);
+
+		bool const r = d->ShowModal() == wxID_YES;
+		d->Destroy ();
+		return r;
+	}
+		
+	void close (wxCloseEvent& ev)
+	{
+		if (!should_close ()) {
+			ev.Veto ();
+			return;
+		}
+
+		ev.Skip ();
+	}	
 };
 
 #if wxMINOR_VERSION == 9
