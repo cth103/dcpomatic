@@ -30,12 +30,16 @@ namespace cxml {
 class DCIMetadata
 {
 public:
-	DCIMetadata () {}
+	DCIMetadata ()
+		: content_version (1)
+	{}
+	
 	DCIMetadata (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);
-	
+
+	int content_version;
 	std::string audio_language;
 	std::string subtitle_language;
 	std::string territory;

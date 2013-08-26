@@ -24,10 +24,12 @@
 #include "i18n.h"
 
 using std::string;
+using boost::lexical_cast;
 using boost::shared_ptr;
 
 DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
 {
+	content_version = node->number_child<int> ("ContentVersion");
 	audio_language = node->string_child ("AudioLanguage");
 	subtitle_language = node->string_child ("SubtitleLanguage");
 	territory = node->string_child ("Territory");
@@ -40,6 +42,7 @@ DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
 void
 DCIMetadata::as_xml (xmlpp::Node* root) const
 {
+	root->add_child("ContentVersion")->add_child_text (lexical_cast<string> (content_version));
 	root->add_child("AudioLanguage")->add_child_text (audio_language);
 	root->add_child("SubtitleLanguage")->add_child_text (subtitle_language);
 	root->add_child("Territory")->add_child_text (territory);

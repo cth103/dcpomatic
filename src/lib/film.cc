@@ -444,6 +444,7 @@ Film::dci_name (bool if_created_now) const
 
 	if (dcp_content_type()) {
 		d << "_" << dcp_content_type()->dci_name();
+		d << "-" << dci_metadata().content_version;
 	}
 
 	if (three_d ()) {

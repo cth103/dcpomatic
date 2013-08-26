@@ -22,6 +22,7 @@
 #include <boost/shared_ptr.hpp>
 #include "lib/dci_metadata.h"
 
+class wxSpinCtrl;
 class Film;
 
 class DCIMetadataDialog : public wxDialog
@@ -32,6 +33,7 @@ public:
 	DCIMetadata dci_metadata () const;
 
 private:
+	wxSpinCtrl* _content_version;
 	wxTextCtrl* _audio_language;
 	wxTextCtrl* _subtitle_language;
 	wxTextCtrl* _territory;

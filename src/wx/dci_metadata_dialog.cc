@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/sizer.h>
+#include <wx/spinctrl.h>
 #include "lib/film.h"
 #include "dci_metadata_dialog.h"
 #include "wx_util.h"
@@ -30,6 +31,10 @@ DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
+
+	add_label_to_sizer (table, this, _("Content version"), true);
+	_content_version = new wxSpinCtrl (this, wxID_ANY);
+	table->Add (_content_version, 1, wxEXPAND);
 
 	add_label_to_sizer (table, this, _("Audio Language (e.g. EN)"), true);
 	_audio_language = new wxTextCtrl (this, wxID_ANY);
@@ -59,6 +64,9 @@ DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	_package_type = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_package_type, 1, wxEXPAND);
 
+	_content_version->SetRange (1, 1024);
+
+	_content_version->SetValue (dm.content_version);
 	_audio_language->SetValue (std_to_wx (dm.audio_language));
 	_subtitle_language->SetValue (std_to_wx (dm.subtitle_language));
 	_territory->SetValue (std_to_wx (dm.territory));
@@ -85,6 +93,7 @@ DCIMetadataDialog::dci_metadata () const
 {
 	DCIMetadata dm;
 
+	dm.content_version = _content_version->GetValue ();
 	dm.audio_language = wx_to_std (_audio_language->GetValue ());
 	dm.subtitle_language = wx_to_std (_subtitle_language->GetValue ());
 	dm.territory = wx_to_std (_territory->GetValue ());
