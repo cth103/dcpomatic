@@ -422,7 +422,17 @@ Image::allocate ()
 	for (int i = 0; i < components(); ++i) {
 		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
 		_stride[i] = stride_round_up (i, _line_size, _aligned ? 32 : 1);
-		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i));
+
+		/* The assembler function ff_rgb24ToY_avx (in libswscale/x86/input.asm)
+		   uses a 16-byte fetch to read three bytes (R/G/B) of image data.
+		   Hence on the last pixel of the last line it reads over the end of
+		   the actual data by 1 byte.  If the width of an image is a multiple
+		   of the stride alignment there will be no padding at the end of image lines.
+		   OS X crashes on this illegal read, though other operating systems don't
+		   seem to mind.  The nasty + 1 in this malloc makes sure there is always a byte
+		   for that instruction to read safely.
+		*/
+		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i) + 1);
 	}
 }
 
