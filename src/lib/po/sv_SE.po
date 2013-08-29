@@ -236,10 +236,10 @@ msgstr ""
 #: src/lib/job.cc:96 src/lib/job.cc:105
 msgid ""
 "It is not known what caused this error.  The best idea is to report the "
-"problem to the DCP-o-matic mailing list (dcpomatic@carlh.net)"
+"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
 msgstr ""
 "Det är inte känt vad som orsakade detta fel. Bästa sättet att rapportera "
-"problemet är till DCP-o-matics mejl-lista (dcpomatic@carlh.net)"
+"problemet är till DCP-o-matics mejl-lista (carl@dcpomatic.com)"
 
 #: src/lib/filter.cc:82
 msgid "Kernel deinterlacer"
