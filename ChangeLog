@@ -1,5 +1,8 @@
 2013-08-29  Carl Hetherington  <cth@carlh.net>
 
+	* Fix emissions of large chunks of silence when
+	analysing audio in some cases.
+
 	* Use my @dcpomatic.com email address for now,
 	rather than a non-existant mailing list.
 
