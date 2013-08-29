@@ -28,6 +28,12 @@
 class Content;
 class AudioBuffers;
 
+/** The version number of the protocol used to communicate
+ *  with servers.  Intended to be bumped when incompatibilities
+ *  are introduced.
+ */
+#define SERVER_LINK_VERSION 1
+
 typedef int64_t Time;
 #define TIME_MAX INT64_MAX
 #define TIME_HZ	 ((Time) 96000)

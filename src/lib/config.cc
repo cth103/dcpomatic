@@ -77,7 +77,8 @@ Config::read ()
 		return;
 	}
 
-	cxml::File f (file (false), "Config");
+	cxml::Document f ("Config");
+	f.read_file (file (false));
 	optional<string> c;
 
 	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");

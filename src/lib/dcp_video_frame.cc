@@ -49,6 +49,7 @@
 #include <libdcp/xyz_frame.h>
 #include <libdcp/rgb_xyz.h>
 #include <libdcp/colour_matrix.h>
+#include <libcxml/cxml.h>
 #include "film.h"
 #include "dcp_video_frame.h"
 #include "config.h"
@@ -66,6 +67,7 @@ using std::stringstream;
 using std::ofstream;
 using std::cout;
 using boost::shared_ptr;
+using boost::lexical_cast;
 using libdcp::Size;
 
 #define DCI_COEFFICENT (48.0 / 52.37)
@@ -88,6 +90,26 @@ DCPVideoFrame::DCPVideoFrame (
 	, _log (l)
 {
 	
+}
+
+DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
+	: _image (image)
+	, _log (log)
+{
+	_frame = node->number_child<int> ("Frame");
+	string const eyes = node->string_child ("Eyes");
+	if (eyes == "Both") {
+		_eyes = EYES_BOTH;
+	} else if (eyes == "Left") {
+		_eyes = EYES_LEFT;
+	} else if (eyes == "Right") {
+		_eyes = EYES_RIGHT;
+	} else {
+		assert (false);
+	}
+	_conversion = ColourConversion (node->node_child ("ColourConversion"));
+	_frames_per_second = node->number_child<int> ("FramesPerSecond");
+	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
 }
 
 /** J2K-encode this frame on the local host.
@@ -241,16 +263,16 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 
 	socket->connect (*endpoint_iterator);
 
-	/* XXX: colour conversion! */
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("EncodingRequest");
 
-	stringstream s;
-	s << "encode please\n"
-	  << "width " << _image->size().width << "\n"
-	  << "height " << _image->size().height << "\n"
-	  << "eyes " << static_cast<int> (_eyes) << "\n"
-	  << "frame " << _frame << "\n"
-	  << "frames_per_second " << _frames_per_second << "\n"
-	  << "j2k_bandwidth " << _j2k_bandwidth << "\n";
+	root->add_child("Version")->add_child_text (lexical_cast<string> (SERVER_LINK_VERSION));
+	root->add_child("Width")->add_child_text (lexical_cast<string> (_image->size().width));
+	root->add_child("Height")->add_child_text (lexical_cast<string> (_image->size().height));
+	add_metadata (root);
+
+	stringstream xml;
+	doc.write_to_stream (xml);
 
 	_log->log (String::compose (
 			   N_("Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)"),
@@ -259,8 +281,8 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 			   _image->line_size()[0], _image->line_size()[1], _image->line_size()[2]
 			   ));
 
-	socket->write (s.str().length() + 1);
-	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1);
+	socket->write (xml.str().length() + 1);
+	socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
 
 	_image->write_to_socket (socket);
 
@@ -270,6 +292,31 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	_log->log (String::compose (N_("Finished remotely-encoded frame %1"), _frame));
 	
 	return e;
+}
+
+void
+DCPVideoFrame::add_metadata (xmlpp::Element* el) const
+{
+	el->add_child("Frame")->add_child_text (lexical_cast<string> (_frame));
+
+	switch (_eyes) {
+	case EYES_BOTH:
+		el->add_child("Eyes")->add_child_text ("Both");
+		break;
+	case EYES_LEFT:
+		el->add_child("Eyes")->add_child_text ("Left");
+		break;
+	case EYES_RIGHT:
+		el->add_child("Eyes")->add_child_text ("Right");
+		break;
+	default:
+		assert (false);
+	}
+	
+	_conversion.as_xml (el->add_child("ColourConversion"));
+
+	el->add_child("FramesPerSecond")->add_child_text (lexical_cast<string> (_frames_per_second));
+	el->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
 }
 
 EncodedData::EncodedData (int s)

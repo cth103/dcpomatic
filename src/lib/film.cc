@@ -356,7 +356,8 @@ Film::read_metadata ()
 		throw StringError (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 	}
 
-	cxml::File f (file ("metadata.xml"), "Metadata");
+	cxml::Document f ("Metadata");
+	f.read_file (file ("metadata.xml"));
 	
 	_name = f.string_child ("Name");
 	_use_dci_name = f.bool_child ("UseDCIName");

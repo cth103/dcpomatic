@@ -96,41 +96,35 @@ Server::process (shared_ptr<Socket> socket)
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 	
 	stringstream s (buffer.get());
-	multimap<string, string> kv = read_key_value (s);
-
-	if (get_required_string (kv, "encode") != "please") {
+	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
+	xml->read_stream (s);
+	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
+		_log->log ("Mismatched server/client versions");
 		return -1;
 	}
 
-	libdcp::Size size (get_required_int (kv, "width"), get_required_int (kv, "height"));
-	int frame = get_required_int (kv, "frame");
-	int frames_per_second = get_required_int (kv, "frames_per_second");
-	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
-	Eyes eyes = static_cast<Eyes> (get_required_int (kv, "eyes"));
+	libdcp::Size size (
+		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
+		);
 
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
 	image->read_from_socket (socket);
-
-	/* XXX: colour conversion... */
-
-	DCPVideoFrame dcp_video_frame (
-		image, frame, eyes, ColourConversion(), frames_per_second, j2k_bandwidth, _log
-		);
+	DCPVideoFrame dcp_video_frame (image, xml, _log);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	try {
 		encoded->send (socket);
 	} catch (std::exception& e) {
 		_log->log (String::compose (
-				   N_("Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components"),
-				   frame, encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
+				   "Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components",
+				   dcp_video_frame.frame(), encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
 				   )
 			);
 		throw;
 	}
 
-	return frame;
+	return dcp_video_frame.frame ();
 }
 
 void
