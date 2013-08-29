@@ -1,5 +1,8 @@
 2013-08-29  Carl Hetherington  <cth@carlh.net>
 
+	* Remove limitation to numbers and periods in the
+	server host name dialogue box.
+
 	* Fix stuck-at-99% progress meters (#184).
 
 	* Version 1.01beta1 released.
