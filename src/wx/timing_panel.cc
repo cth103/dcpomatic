@@ -106,7 +106,7 @@ TimingPanel::length_changed ()
 
 	shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c);
 	if (ic) {
-		ic->set_video_length (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ);
+		ic->set_video_length (rint (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
 	}
 }
 
