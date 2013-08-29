@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=build/src/lib:$LD_LIBRARY_PATH
+if [ "$1" == "--debug" ]; then
+    shift
+    gdb --args build/src/tools/server_test $*
+elif [ "$1" == "--valgrind" ]; then
+    shift
+    valgrind --tool="memcheck" build/src/tools/server_test $*
+else
+    build/src/tools/server_test $*
+fi
