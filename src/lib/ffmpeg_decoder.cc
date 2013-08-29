@@ -97,6 +97,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 		_video_pts_offset = _audio_pts_offset = - min (c->first_video().get(), c->audio_stream()->first_audio.get());
 	} else if (have_video) {
 		_video_pts_offset = - c->first_video().get();
+	} else if (have_audio) {
+		_audio_pts_offset = - c->audio_stream()->first_audio.get();
 	}
 
 	/* Now adjust both so that the video pts starts on a frame */
@@ -385,7 +387,7 @@ FFmpegDecoder::decode_audio_packet ()
 				/* Where we are in the source, in seconds */
 				double const pts = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
 					* av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset;
-				
+
 				if (pts > 0) {
 					/* Emit some silence */
 					shared_ptr<AudioBuffers> silence (
