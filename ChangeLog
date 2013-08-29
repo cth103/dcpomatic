@@ -1,5 +1,7 @@
 2013-08-29  Carl Hetherington  <cth@carlh.net>
 
+	* Restore server/client operation (#202).
+
 	* Fix strange rounding of still image durations (#204).
 
 	* Remove limitation to numbers and periods in the

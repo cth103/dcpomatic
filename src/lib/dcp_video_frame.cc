@@ -272,7 +272,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	add_metadata (root);
 
 	stringstream xml;
-	doc.write_to_stream (xml);
+	doc.write_to_stream (xml, "UTF-8");
 
 	_log->log (String::compose (
 			   N_("Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)"),
