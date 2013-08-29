@@ -21,19 +21,19 @@
 #include <iomanip>
 #include <exception>
 #include <getopt.h>
-#include "format.h"
-#include "film.h"
-#include "filter.h"
-#include "util.h"
-#include "scaler.h"
-#include "server.h"
-#include "dcp_video_frame.h"
-#include "decoder.h"
-#include "exceptions.h"
-#include "scaler.h"
-#include "log.h"
-#include "video_decoder.h"
-#include "player.h"
+#include "lib/ratio.h"
+#include "lib/film.h"
+#include "lib/filter.h"
+#include "lib/util.h"
+#include "lib/scaler.h"
+#include "lib/server.h"
+#include "lib/dcp_video_frame.h"
+#include "lib/decoder.h"
+#include "lib/exceptions.h"
+#include "lib/scaler.h"
+#include "lib/log.h"
+#include "lib/video_decoder.h"
+#include "lib/player.h"
 
 using std::cout;
 using std::cerr;
@@ -41,26 +41,16 @@ using std::string;
 using std::pair;
 using boost::shared_ptr;
 
+static shared_ptr<Film> film;
 static ServerDescription* server;
 static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame = 0;
 
 void
-process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub)
+process_video (shared_ptr<const Image> image, Eyes eyes, ColourConversion conversion, Time)
 {
-	shared_ptr<DCPVideoFrame> local (
-		new DCPVideoFrame (
-			image, sub,
-			libdcp::Size (1024, 1024), 0, 0, 0,
-			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, log_)
-		);
-	
-	shared_ptr<DCPVideoFrame> remote (
-		new DCPVideoFrame (
-			image, sub,
-			libdcp::Size (1024, 1024), 0, 0, 0,
-			Scaler::from_id ("bicubic"), frame, 24, "", 0, 250000000, log_)
-		);
+	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (image, frame, eyes, conversion, film->video_frame_rate(), 250000000, log_));
+	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image, frame, eyes, conversion, film->video_frame_rate(), 250000000, log_));
 
 	cout << "Frame " << frame << ": ";
 	cout.flush ();
@@ -72,7 +62,7 @@ process_video (shared_ptr<const Image> image, bool, shared_ptr<Subtitle> sub)
 
 	string remote_error;
 	try {
-		remote_encoded = remote->encode_remotely (server);
+		remote_encoded = remote->encode_remotely (*server);
 	} catch (NetworkError& e) {
 		remote_error = e.what ();
 	}
@@ -148,14 +138,14 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	server = new ServerDescription (server_host, 1);
-	shared_ptr<Film> film (new Film (film_dir));
+	film.reset (new Film (film_dir));
 	film->read_metadata ();
 
-	shared_ptr<Player> player = film->player ();
+	shared_ptr<Player> player = film->make_player ();
 	player->disable_audio ();
 
 	try {
-		player->Video.connect (boost::bind (process_video, _1, _2, _3));
+		player->Video.connect (boost::bind (process_video, _1, _2, _3, _5));
 		bool done = false;
 		while (!done) {
 			done = player->pass ();
