@@ -1,5 +1,9 @@
 2013-08-29  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.01beta1 released.
+
+2013-08-29  Carl Hetherington  <cth@carlh.net>
+
 	* Fix emissions of large chunks of silence when
 	analysing audio in some cases.
 
