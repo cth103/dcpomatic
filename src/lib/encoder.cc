@@ -52,6 +52,7 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _film (f)
 	, _job (j)
 	, _video_frames_out (0)
+	, _state (TRANSCODING)
 	, _terminate (false)
 {
 	_have_a_real_frame[EYES_BOTH] = false;
@@ -125,6 +126,11 @@ Encoder::process_end ()
 		}
 	}
 
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_state = HASHING;
+	}
+		
 	_writer->finish ();
 	_writer.reset ();
 }	
@@ -135,7 +141,7 @@ Encoder::process_end ()
 float
 Encoder::current_encoding_rate () const
 {
-	boost::mutex::scoped_lock lock (_history_mutex);
+	boost::mutex::scoped_lock lock (_state_mutex);
 	if (int (_time_history.size()) < _history_size) {
 		return 0;
 	}
@@ -150,7 +156,7 @@ Encoder::current_encoding_rate () const
 int
 Encoder::video_frames_out () const
 {
-	boost::mutex::scoped_lock (_history_mutex);
+	boost::mutex::scoped_lock (_state_mutex);
 	return _video_frames_out;
 }
 
@@ -160,7 +166,7 @@ Encoder::video_frames_out () const
 void
 Encoder::frame_done ()
 {
-	boost::mutex::scoped_lock lock (_history_mutex);
+	boost::mutex::scoped_lock lock (_state_mutex);
 	
 	struct timeval tv;
 	gettimeofday (&tv, 0);

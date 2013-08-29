@@ -77,6 +77,16 @@ public:
 	float current_encoding_rate () const;
 	int video_frames_out () const;
 
+	enum State {
+		TRANSCODING,
+		HASHING
+	};
+
+	State state () const {
+		boost::mutex::scoped_lock lm (_state_mutex);
+		return _state;
+	}
+
 private:
 	
 	void frame_done ();
@@ -88,8 +98,8 @@ private:
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<Job> _job;
 
-	/** Mutex for _time_history and _last_frame */
-	mutable boost::mutex _history_mutex;
+	/** Mutex for _time_history, _last_frame and _state */
+	mutable boost::mutex _state_mutex;
 	/** List of the times of completion of the last _history_size frames;
 	    first is the most recently completed.
 	*/
@@ -99,6 +109,7 @@ private:
 
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
+	State _state;
 
 	bool _have_a_real_frame[EYES_COUNT];
 	bool _terminate;

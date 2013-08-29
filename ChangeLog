@@ -1,5 +1,7 @@
 2013-08-29  Carl Hetherington  <cth@carlh.net>
 
+	* Fix stuck-at-99% progress meters (#184).
+
 	* Version 1.01beta1 released.
 
 2013-08-29  Carl Hetherington  <cth@carlh.net>
