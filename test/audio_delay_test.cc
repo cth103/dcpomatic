@@ -29,6 +29,7 @@
 #include "test.h"
 
 using std::string;
+using std::cout;
 using boost::lexical_cast;
 using boost::shared_ptr;
 

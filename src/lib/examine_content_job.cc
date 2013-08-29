@@ -26,6 +26,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 
 ExamineContentJob::ExamineContentJob (shared_ptr<const Film> f, shared_ptr<Content> c)

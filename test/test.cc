@@ -39,6 +39,16 @@ using std::cerr;
 using std::list;
 using boost::shared_ptr;
 
+class TestUISignaller : public UISignaller
+{
+public:
+	/* No wakes in tests: we call ui_idle ourselves */
+	void wake_ui ()
+	{
+
+	}
+};
+
 struct TestConfig
 {
 	TestConfig()
@@ -52,7 +62,7 @@ struct TestConfig
 		Config::instance()->set_default_container (static_cast<Ratio*> (0));
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 
-		ui_signaller = new UISignaller ();
+		ui_signaller = new TestUISignaller ();
 	}
 };
 
@@ -141,7 +151,9 @@ void
 wait_for_jobs ()
 {
 	JobManager* jm = JobManager::instance ();
-	while (jm->work_to_do ()) {}
+	while (jm->work_to_do ()) {
+		ui_signaller->ui_idle ();
+	}
 	if (jm->errors ()) {
 		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
 			if ((*i)->finished_in_error ()) {
@@ -153,6 +165,5 @@ wait_for_jobs ()
 		
 	BOOST_CHECK (!jm->errors());
 
-	/* Hack: wait for ui_signaller signals to fire */
-	dcpomatic_sleep (1);
+	ui_signaller->ui_idle ();
 }
