@@ -37,15 +37,8 @@ ServerDialog::ServerDialog (wxWindow* parent)
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
         wxArrayString list;
 
-        wxString n (wxT ("0123456789."));
-        for (size_t i = 0; i < n.Length(); ++i) {
-                list.Add (n[i]);
-        }
-
-        validator.SetIncludes (list);
-	
 	add_label_to_sizer (table, this, _("Host name or IP address"), true);
-	_host = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_host = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
 	table->Add (_host, 1, wxEXPAND | wxALL);
 
 	add_label_to_sizer (table, this, _("Threads to use"), true);

@@ -110,6 +110,8 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	_sound_asset_writer = _sound_asset->start_write (_film->interop ());
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
+
+	_job->descend (0.9);
 }
 
 void
@@ -388,6 +390,18 @@ Writer::finish ()
 							 shared_ptr<libdcp::SubtitleAsset> ()
 							 )
 			       ));
+
+	/* Compute the digests for the assets now so that we can keep track of progress.
+	   We did _job->descend (0.9) in our constructor */
+	_job->ascend ();
+
+	_job->descend (0.1);
+	_picture_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1));
+	_job->ascend ();
+
+	_job->descend (0.1);
+	_sound_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1));
+	_job->ascend ();
 
 	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();

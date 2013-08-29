@@ -91,7 +91,12 @@ TranscodeJob::status () const
 	s << Job::status ();
 
 	if (!finished ()) {
-		s << N_("; ") << fixed << setprecision (1) << fps << N_(" ") << _("frames per second");
+		if (_transcoder->state() == Encoder::TRANSCODING) {
+			s << "; " << fixed << setprecision (1) << fps << N_(" ") << _("frames per second");
+		} else {
+			/* TRANSLATORS: this means `computing a hash' as in a digest of a block of data */
+			s << "; " << _("hashing");
+		}
 	}
 	
 	return s.str ();

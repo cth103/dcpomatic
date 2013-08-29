@@ -18,12 +18,7 @@
 */
 
 #include "types.h"
-
-/** @file  src/transcoder.h
- *
- *  A decoder is selected according to the content type, and the encoder can be specified
- *  as a parameter to the constructor.
- */
+#include "encoder.h"
 
 class Film;
 class Job;
@@ -31,11 +26,7 @@ class Encoder;
 class VideoFilter;
 class Player;
 
-/** @class Transcoder
- *
- *  A decoder is selected according to the content type, and the encoder can be specified
- *  as a parameter to the constructor.
- */
+/** @class Transcoder */
 class Transcoder : public boost::noncopyable
 {
 public:
@@ -47,6 +38,7 @@ public:
 	void go ();
 
 	float current_encoding_rate () const;
+	Encoder::State state () const;
 	int video_frames_out () const;
 
 private:
