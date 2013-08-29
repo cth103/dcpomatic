@@ -1,0 +1,9 @@
+2013-08-29  Carl Hetherington  <cth@carlh.net>
+
+	* Use my @dcpomatic.com email address for now,
+	rather than a non-existant mailing list.
+
+2013-08-28  Carl Hetherington  <cth@carlh.net>
+
+	* Initial DCP-o-matic release.
+

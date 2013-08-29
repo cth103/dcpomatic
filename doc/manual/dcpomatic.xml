@@ -125,7 +125,7 @@ and set DCP-o-matic up for you.
 Installation on non-Ubuntu Linux is currently a little involved, as
 there are no packages available (yet); you will have to compile it
 from source.  If you are using a non-Ubuntu distribution, do let me
-know via the <ulink url="mailto:dcpomatic@carlh.net">mailing
+know via the <ulink url="mailto:carl@dcpomatic.com">mailing
 list</ulink> and I will see about building some packages.
 </para>
 
