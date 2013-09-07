@@ -42,6 +42,8 @@ public:
 	{
 
 	}
+
+	virtual ~View () {}
 		
 	void paint (wxGraphicsContext* g)
 	{
