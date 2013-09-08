@@ -38,7 +38,6 @@ ${EndIf}
 SetOutPath "$INSTDIR\bin"
 
 File "%static_deps%/bin/libintl-8.dll"
-File "%static_deps%/bin/kumu-libdcp.dll"
 File "%static_deps%/bin/libboost_chrono-mt.dll"
 File "%static_deps%/bin/libboost_filesystem-mt.dll"
 File "%static_deps%/bin/libboost_system-mt.dll"
@@ -86,6 +85,7 @@ File "%static_deps%/bin/libxslt-1.dll"
 File "%static_deps%/bin/libffi-6.dll"
 
 File "%cdist_deps%/bin/asdcp-libdcp.dll"
+File "%cdist_deps%/bin/kumu-libdcp.dll"
 File "%cdist_deps%/bin/avcodec-55.dll"
 File "%cdist_deps%/bin/avfilter-3.dll"
 File "%cdist_deps%/bin/avformat-55.dll"
