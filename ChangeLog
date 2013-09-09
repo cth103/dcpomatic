@@ -1,3 +1,7 @@
+2013-09-09  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.03 released.
+
 2013-09-02  Carl Hetherington  <cth@carlh.net>
 
 	* Add missing boost datetime dependency
