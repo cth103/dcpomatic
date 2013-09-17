@@ -43,108 +43,73 @@
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <libdcp/rec709_linearised_gamma_lut.h>
+#include <libdcp/srgb_linearised_gamma_lut.h>
+#include <libdcp/gamma_lut.h>
+#include <libdcp/xyz_frame.h>
+#include <libdcp/rgb_xyz.h>
+#include <libdcp/colour_matrix.h>
+#include <libcxml/cxml.h>
 #include "film.h"
 #include "dcp_video_frame.h"
-#include "lut.h"
 #include "config.h"
-#include "options.h"
 #include "exceptions.h"
 #include "server.h"
 #include "util.h"
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
-#include "subtitle.h"
+
+#include "i18n.h"
 
 using std::string;
 using std::stringstream;
 using std::ofstream;
+using std::cout;
 using boost::shared_ptr;
+using boost::lexical_cast;
+using libdcp::Size;
+
+#define DCI_COEFFICENT (48.0 / 52.37)
 
 /** Construct a DCP video frame.
  *  @param input Input image.
- *  @param out Required size of output, in pixels (including any padding).
- *  @param s Scaler to use.
- *  @param p Number of pixels of padding either side of the image.
- *  @param f Index of the frame within the Film.
- *  @param fps Frames per second of the Film.
- *  @param pp FFmpeg post-processing string to use.
- *  @param clut Colour look-up table to use (see Config::colour_lut_index ())
+ *  @param f Index of the frame within the DCP.
  *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const Image> yuv, shared_ptr<Subtitle> sub,
-	Size out, int p, int subtitle_offset, float subtitle_scale,
-	Scaler const * s, SourceFrame f, float fps, string pp, int clut, int bw, Log* l
+	shared_ptr<const Image> image, int f, Eyes eyes, ColourConversion c, int dcp_fps, int bw, shared_ptr<Log> l
 	)
-	: _input (yuv)
-	, _subtitle (sub)
-	, _out_size (out)
-	, _padding (p)
-	, _subtitle_offset (subtitle_offset)
-	, _subtitle_scale (subtitle_scale)
-	, _scaler (s)
+	: _image (image)
 	, _frame (f)
-	, _frames_per_second (dcp_frame_rate(fps).frames_per_second)
-	, _post_process (pp)
-	, _colour_lut (clut)
+	, _eyes (eyes)
+	, _conversion (c)
+	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _log (l)
-	, _image (0)
-	, _parameters (0)
-	, _cinfo (0)
-	, _cio (0)
 {
 	
 }
 
-/** Create a libopenjpeg container suitable for our output image */
-void
-DCPVideoFrame::create_openjpeg_container ()
+DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
+	: _image (image)
+	, _log (log)
 {
-	for (int i = 0; i < 3; ++i) {
-		_cmptparm[i].dx = 1;
-		_cmptparm[i].dy = 1;
-		_cmptparm[i].w = _out_size.width;
-		_cmptparm[i].h = _out_size.height;
-		_cmptparm[i].x0 = 0;
-		_cmptparm[i].y0 = 0;
-		_cmptparm[i].prec = 12;
-		_cmptparm[i].bpp = 12;
-		_cmptparm[i].sgnd = 0;
+	_frame = node->number_child<int> ("Frame");
+	string const eyes = node->string_child ("Eyes");
+	if (eyes == "Both") {
+		_eyes = EYES_BOTH;
+	} else if (eyes == "Left") {
+		_eyes = EYES_LEFT;
+	} else if (eyes == "Right") {
+		_eyes = EYES_RIGHT;
+	} else {
+		assert (false);
 	}
-
-	_image = opj_image_create (3, &_cmptparm[0], CLRSPC_SRGB);
-	if (_image == 0) {
-		throw EncodeError ("could not create libopenjpeg image");
-	}
-
-	_image->x0 = 0;
-	_image->y0 = 0;
-	_image->x1 = _out_size.width;
-	_image->y1 = _out_size.height;
-}
-
-DCPVideoFrame::~DCPVideoFrame ()
-{
-	if (_image) {
-		opj_image_destroy (_image);
-	}
-
-	if (_cio) {
-		opj_cio_close (_cio);
-	}
-
-	if (_cinfo) {
-		opj_destroy_compress (_cinfo);
-	}
-
-	if (_parameters) {
-		free (_parameters->cp_comment);
-	}
-	
-	delete _parameters;
+	_conversion = ColourConversion (node->node_child ("ColourConversion"));
+	_frames_per_second = node->number_child<int> ("FramesPerSecond");
+	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
 }
 
 /** J2K-encode this frame on the local host.
@@ -153,151 +118,133 @@ DCPVideoFrame::~DCPVideoFrame ()
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	if (!_post_process.empty ()) {
-		_input = _input->post_process (_post_process, true);
+	shared_ptr<libdcp::LUT> in_lut;
+	if (_conversion.input_gamma_linearised) {
+		in_lut = libdcp::SRGBLinearisedGammaLUT::cache.get (12, _conversion.input_gamma);
+	} else {
+		in_lut = libdcp::GammaLUT::cache.get (12, _conversion.input_gamma);
 	}
+
+	/* XXX: libdcp should probably use boost */
 	
-	shared_ptr<Image> prepared = _input->scale_and_convert_to_rgb (_out_size, _padding, _scaler, true);
-
-	if (_subtitle) {
-		Rect tx = subtitle_transformed_area (
-			float (_out_size.width) / _input->size().width,
-			float (_out_size.height) / _input->size().height,
-			_subtitle->area(), _subtitle_offset, _subtitle_scale
-			);
-
-		shared_ptr<Image> im = _subtitle->image()->scale (tx.size(), _scaler, true);
-		prepared->alpha_blend (im, tx.position());
-	}
-
-	create_openjpeg_container ();
-
-	struct {
-		double r, g, b;
-	} s;
-
-	struct {
-		double x, y, z;
-	} d;
-
-	/* Copy our RGB into the openjpeg container, converting to XYZ in the process */
-
-	int jn = 0;
-	for (int y = 0; y < _out_size.height; ++y) {
-		uint8_t* p = prepared->data()[0] + y * prepared->stride()[0];
-		for (int x = 0; x < _out_size.width; ++x) {
-
-			/* In gamma LUT (converting 8-bit input to 12-bit) */
-			s.r = lut_in[_colour_lut][*p++ << 4];
-			s.g = lut_in[_colour_lut][*p++ << 4];
-			s.b = lut_in[_colour_lut][*p++ << 4];
-			
-			/* RGB to XYZ Matrix */
-			d.x = ((s.r * color_matrix[_colour_lut][0][0]) +
-			       (s.g * color_matrix[_colour_lut][0][1]) +
-			       (s.b * color_matrix[_colour_lut][0][2]));
-			
-			d.y = ((s.r * color_matrix[_colour_lut][1][0]) +
-			       (s.g * color_matrix[_colour_lut][1][1]) +
-			       (s.b * color_matrix[_colour_lut][1][2]));
-			
-			d.z = ((s.r * color_matrix[_colour_lut][2][0]) +
-			       (s.g * color_matrix[_colour_lut][2][1]) +
-			       (s.b * color_matrix[_colour_lut][2][2]));
-			
-			/* DCI companding */
-			d.x = d.x * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-			d.y = d.y * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-			d.z = d.z * DCI_COEFFICENT * (DCI_LUT_SIZE - 1);
-			
-			/* Out gamma LUT */
-			_image->comps[0].data[jn] = lut_out[LO_DCI][(int) d.x];
-			_image->comps[1].data[jn] = lut_out[LO_DCI][(int) d.y];
-			_image->comps[2].data[jn] = lut_out[LO_DCI][(int) d.z];
-
-			++jn;
+	double matrix[3][3];
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			matrix[i][j] = _conversion.matrix (i, j);
 		}
 	}
-
+	
+	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
+		_image,
+		in_lut,
+		libdcp::GammaLUT::cache.get (16, 1 / _conversion.output_gamma),
+		matrix
+		);
+		
 	/* Set the max image and component sizes based on frame_rate */
-	int const max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
+	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
+	if (_eyes == EYES_LEFT || _eyes == EYES_RIGHT) {
+		/* In 3D we have only half the normal bandwidth per eye */
+		max_cs_len /= 2;
+	}
 	int const max_comp_size = max_cs_len / 1.25;
 
+	/* get a J2K compressor handle */
+	opj_cinfo_t* cinfo = opj_create_compress (CODEC_J2K);
+	if (cinfo == 0) {
+		throw EncodeError (N_("could not create JPEG2000 encoder"));
+	}
+
 	/* Set encoding parameters to default values */
-	_parameters = new opj_cparameters_t;
-	opj_set_default_encoder_parameters (_parameters);
+	opj_cparameters_t parameters;
+	opj_set_default_encoder_parameters (&parameters);
 
 	/* Set default cinema parameters */
-	_parameters->tile_size_on = false;
-	_parameters->cp_tdx = 1;
-	_parameters->cp_tdy = 1;
+	parameters.tile_size_on = false;
+	parameters.cp_tdx = 1;
+	parameters.cp_tdy = 1;
 	
 	/* Tile part */
-	_parameters->tp_flag = 'C';
-	_parameters->tp_on = 1;
+	parameters.tp_flag = 'C';
+	parameters.tp_on = 1;
 	
 	/* Tile and Image shall be at (0,0) */
-	_parameters->cp_tx0 = 0;
-	_parameters->cp_ty0 = 0;
-	_parameters->image_offset_x0 = 0;
-	_parameters->image_offset_y0 = 0;
+	parameters.cp_tx0 = 0;
+	parameters.cp_ty0 = 0;
+	parameters.image_offset_x0 = 0;
+	parameters.image_offset_y0 = 0;
 
 	/* Codeblock size = 32x32 */
-	_parameters->cblockw_init = 32;
-	_parameters->cblockh_init = 32;
-	_parameters->csty |= 0x01;
+	parameters.cblockw_init = 32;
+	parameters.cblockh_init = 32;
+	parameters.csty |= 0x01;
 	
 	/* The progression order shall be CPRL */
-	_parameters->prog_order = CPRL;
+	parameters.prog_order = CPRL;
 	
 	/* No ROI */
-	_parameters->roi_compno = -1;
+	parameters.roi_compno = -1;
 	
-	_parameters->subsampling_dx = 1;
-	_parameters->subsampling_dy = 1;
+	parameters.subsampling_dx = 1;
+	parameters.subsampling_dy = 1;
 	
 	/* 9-7 transform */
-	_parameters->irreversible = 1;
+	parameters.irreversible = 1;
 	
-	_parameters->tcp_rates[0] = 0;
-	_parameters->tcp_numlayers++;
-	_parameters->cp_disto_alloc = 1;
-	_parameters->cp_rsiz = CINEMA2K;
-	_parameters->cp_comment = strdup ("DVD-o-matic");
-	_parameters->cp_cinema = CINEMA2K_24;
+	parameters.tcp_rates[0] = 0;
+	parameters.tcp_numlayers++;
+	parameters.cp_disto_alloc = 1;
+	parameters.cp_rsiz = CINEMA2K;
+	parameters.cp_comment = strdup (N_("DCP-o-matic"));
+	parameters.cp_cinema = CINEMA2K_24;
 
 	/* 3 components, so use MCT */
-	_parameters->tcp_mct = 1;
+	parameters.tcp_mct = 1;
 	
 	/* set max image */
-	_parameters->max_comp_size = max_comp_size;
-	_parameters->tcp_rates[0] = ((float) (3 * _image->comps[0].w * _image->comps[0].h * _image->comps[0].prec)) / (max_cs_len * 8);
-
-	/* get a J2K compressor handle */
-	_cinfo = opj_create_compress (CODEC_J2K);
-	if (_cinfo == 0) {
-		throw EncodeError ("could not create JPEG2000 encoder");
-	}
+	parameters.max_comp_size = max_comp_size;
+	parameters.tcp_rates[0] = ((float) (3 * xyz->size().width * xyz->size().height * 12)) / (max_cs_len * 8);
 
 	/* Set event manager to null (openjpeg 1.3 bug) */
-	_cinfo->event_mgr = 0;
+	cinfo->event_mgr = 0;
 
 	/* Setup the encoder parameters using the current image and user parameters */
-	opj_setup_encoder (_cinfo, _parameters, _image);
+	opj_setup_encoder (cinfo, &parameters, xyz->opj_image ());
 
-	_cio = opj_cio_open ((opj_common_ptr) _cinfo, 0, 0);
-	if (_cio == 0) {
-		throw EncodeError ("could not open JPEG2000 stream");
+	opj_cio_t* cio = opj_cio_open ((opj_common_ptr) cinfo, 0, 0);
+	if (cio == 0) {
+		opj_destroy_compress (cinfo);
+		throw EncodeError (N_("could not open JPEG2000 stream"));
 	}
 
-	int const r = opj_encode (_cinfo, _cio, _image, 0);
+	int const r = opj_encode (cinfo, cio, xyz->opj_image(), 0);
 	if (r == 0) {
-		throw EncodeError ("JPEG2000 encoding failed");
+		opj_cio_close (cio);
+		opj_destroy_compress (cinfo);
+		throw EncodeError (N_("JPEG2000 encoding failed"));
 	}
 
-	_log->log (String::compose ("Finished locally-encoded frame %1", _frame));
-	
-	return shared_ptr<EncodedData> (new LocallyEncodedData (_cio->buffer, cio_tell (_cio)));
+	switch (_eyes) {
+	case EYES_BOTH:
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for mono"), _frame));
+		break;
+	case EYES_LEFT:
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for L"), _frame));
+		break;
+	case EYES_RIGHT:
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for R"), _frame));
+		break;
+	default:
+		break;
+	}
+
+	shared_ptr<EncodedData> enc (new LocallyEncodedData (cio->buffer, cio_tell (cio)));
+
+	opj_cio_close (cio);
+	free (parameters.cp_comment);
+	opj_destroy_compress (cinfo);
+
+	return enc;
 }
 
 /** Send this frame to a remote server for J2K encoding, then read the result.
@@ -305,100 +252,135 @@ DCPVideoFrame::encode_locally ()
  *  @return Encoded data.
  */
 shared_ptr<EncodedData>
-DCPVideoFrame::encode_remotely (ServerDescription const * serv)
+DCPVideoFrame::encode_remotely (ServerDescription serv)
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);
-	boost::asio::ip::tcp::resolver::query query (serv->host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
+	boost::asio::ip::tcp::resolver::query query (serv.host_name(), boost::lexical_cast<string> (Config::instance()->server_port ()));
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	shared_ptr<Socket> socket (new Socket);
 
-	socket->connect (*endpoint_iterator, 30);
+	socket->connect (*endpoint_iterator);
 
-	stringstream s;
-	s << "encode please\n"
-	  << "input_width " << _input->size().width << "\n"
-	  << "input_height " << _input->size().height << "\n"
-	  << "input_pixel_format " << _input->pixel_format() << "\n"
-	  << "output_width " << _out_size.width << "\n"
-	  << "output_height " << _out_size.height << "\n"
-	  << "padding " <<  _padding << "\n"
-	  << "subtitle_offset " << _subtitle_offset << "\n"
-	  << "subtitle_scale " << _subtitle_scale << "\n"
-	  << "scaler " << _scaler->id () << "\n"
-	  << "frame " << _frame << "\n"
-	  << "frames_per_second " << _frames_per_second << "\n";
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("EncodingRequest");
 
-	if (!_post_process.empty()) {
-		s << "post_process " << _post_process << "\n";
-	}
-	
-	s << "colour_lut " << _colour_lut << "\n"
-	  << "j2k_bandwidth " << _j2k_bandwidth << "\n";
+	root->add_child("Version")->add_child_text (lexical_cast<string> (SERVER_LINK_VERSION));
+	root->add_child("Width")->add_child_text (lexical_cast<string> (_image->size().width));
+	root->add_child("Height")->add_child_text (lexical_cast<string> (_image->size().height));
+	add_metadata (root);
 
-	if (_subtitle) {
-		s << "subtitle_x " << _subtitle->position().x << "\n"
-		  << "subtitle_y " << _subtitle->position().y << "\n"
-		  << "subtitle_width " << _subtitle->image()->size().width << "\n"
-		  << "subtitle_height " << _subtitle->image()->size().height << "\n";
-	}
+	stringstream xml;
+	doc.write_to_stream (xml, "UTF-8");
 
 	_log->log (String::compose (
-			   "Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)",
-			   _input->pixel_format(), _input->components(),
-			   _input->lines(0), _input->lines(1), _input->lines(2),
-			   _input->line_size()[0], _input->line_size()[1], _input->line_size()[2]
+			   N_("Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)"),
+			   _image->pixel_format(), _image->components(),
+			   _image->lines(0), _image->lines(1), _image->lines(2),
+			   _image->line_size()[0], _image->line_size()[1], _image->line_size()[2]
 			   ));
-	
-	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
 
-	_input->write_to_socket (socket);
-	if (_subtitle) {
-		_subtitle->image()->write_to_socket (socket);
-	}
+	socket->write (xml.str().length() + 1);
+	socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
 
-	char buffer[32];
-	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	socket->consume (strlen (buffer) + 1);
-	shared_ptr<EncodedData> e (new RemotelyEncodedData (atoi (buffer)));
+	_image->write_to_socket (socket);
 
-	/* now read the rest */
-	socket->read_definite_and_consume (e->data(), e->size(), 30);
+	shared_ptr<EncodedData> e (new RemotelyEncodedData (socket->read_uint32 ()));
+	socket->read (e->data(), e->size());
 
-	_log->log (String::compose ("Finished remotely-encoded frame %1", _frame));
+	_log->log (String::compose (N_("Finished remotely-encoded frame %1"), _frame));
 	
 	return e;
 }
 
+void
+DCPVideoFrame::add_metadata (xmlpp::Element* el) const
+{
+	el->add_child("Frame")->add_child_text (lexical_cast<string> (_frame));
+
+	switch (_eyes) {
+	case EYES_BOTH:
+		el->add_child("Eyes")->add_child_text ("Both");
+		break;
+	case EYES_LEFT:
+		el->add_child("Eyes")->add_child_text ("Left");
+		break;
+	case EYES_RIGHT:
+		el->add_child("Eyes")->add_child_text ("Right");
+		break;
+	default:
+		assert (false);
+	}
+	
+	_conversion.as_xml (el->add_child("ColourConversion"));
+
+	el->add_child("FramesPerSecond")->add_child_text (lexical_cast<string> (_frames_per_second));
+	el->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
+}
+
+EncodedData::EncodedData (int s)
+	: _data (new uint8_t[s])
+	, _size (s)
+{
+
+}
+
+EncodedData::EncodedData (string file)
+{
+	_size = boost::filesystem::file_size (file);
+	_data = new uint8_t[_size];
+
+	FILE* f = fopen (file.c_str(), N_("rb"));
+	if (!f) {
+		throw FileError (_("could not open file for reading"), file);
+	}
+	
+	size_t const r = fread (_data, 1, _size, f);
+	if (r != size_t (_size)) {
+		fclose (f);
+		throw FileError (_("could not read encoded data"), file);
+	}
+		
+	fclose (f);
+}
+
+
+EncodedData::~EncodedData ()
+{
+	delete[] _data;
+}
+
 /** Write this data to a J2K file.
- *  @param opt Options.
- *  @param frame Frame index.
+ *  @param Film Film.
+ *  @param frame DCP frame index.
  */
 void
-EncodedData::write (shared_ptr<const EncodeOptions> opt, SourceFrame frame)
+EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 {
-	string const tmp_j2k = opt->frame_out_path (frame, true);
+	string const tmp_j2c = film->j2c_path (frame, eyes, true);
 
-	FILE* f = fopen (tmp_j2k.c_str (), "wb");
+	FILE* f = fopen (tmp_j2c.c_str (), N_("wb"));
 	
 	if (!f) {
-		throw WriteFileError (tmp_j2k, errno);
+		throw WriteFileError (tmp_j2c, errno);
 	}
 
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
-	string const real_j2k = opt->frame_out_path (frame, false);
+	string const real_j2c = film->j2c_path (frame, eyes, false);
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
-	boost::filesystem::rename (tmp_j2k, real_j2k);
+	boost::filesystem::rename (tmp_j2c, real_j2c);
+}
 
-	/* Write a file containing the hash */
-	string const hash = opt->hash_out_path (frame, false);
-	ofstream h (hash.c_str());
-	h << md5_digest (_data, _size) << "\n";
-	h.close ();
+void
+EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, libdcp::FrameInfo fin) const
+{
+	string const info = film->info_path (frame, eyes);
+	ofstream h (info.c_str());
+	fin.write (h);
 }
 
 /** Send this data to a socket.
@@ -407,20 +389,19 @@ EncodedData::write (shared_ptr<const EncodeOptions> opt, SourceFrame frame)
 void
 EncodedData::send (shared_ptr<Socket> socket)
 {
-	stringstream s;
-	s << _size;
-	socket->write ((uint8_t *) s.str().c_str(), s.str().length() + 1, 30);
-	socket->write (_data, _size, 30);
+	socket->write (_size);
+	socket->write (_data, _size);
+}
+
+LocallyEncodedData::LocallyEncodedData (uint8_t* d, int s)
+	: EncodedData (s)
+{
+	memcpy (_data, d, s);
 }
 
 /** @param s Size of data in bytes */
 RemotelyEncodedData::RemotelyEncodedData (int s)
-	: EncodedData (new uint8_t[s], s)
+	: EncodedData (s)
 {
 
-}
-
-RemotelyEncodedData::~RemotelyEncodedData ()
-{
-	delete[] _data;
 }

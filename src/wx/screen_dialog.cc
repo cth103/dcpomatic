@@ -35,11 +35,11 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, "Name");
+	add_label_to_sizer (table, this, "Name", true);
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1));
 	table->Add (_name, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Certificate");
+	add_label_to_sizer (table, this, "Certificate", true);
 	_certificate_load = new wxButton (this, wxID_ANY, wxT ("Load from file..."));
 	table->Add (_certificate_load, 1, wxEXPAND);
 

@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DCP-o-matic FRENCH\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-15 22:07+0100\n"
+"PO-Revision-Date: 2013-07-16 23:13+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/tools/dcpomatic.cc:309
+msgid "%1 already exists as a file, so you cannot use it for a new film."
+msgstr "Le fichier %1 existe déjà, vous ne pouvez l'utiliser pour un nouveau projet."
+
+#: src/tools/dcpomatic.cc:196
+msgid "&Edit"
+msgstr "&Edition"
+
+#: src/tools/dcpomatic.cc:169
+msgid "&Exit"
+msgstr "&Quitter"
+
+#: src/tools/dcpomatic.cc:194
+msgid "&File"
+msgstr "&Fichier"
+
+#: src/tools/dcpomatic.cc:199
+msgid "&Help"
+msgstr "&Aide"
+
+#: src/tools/dcpomatic.cc:198
+msgid "&Jobs"
+msgstr "&Travaux"
+
+#: src/tools/dcpomatic.cc:183
+msgid "&Make DCP"
+msgstr "&Créer le DCP"
+
+#: src/tools/dcpomatic.cc:159
+msgid "&Open..."
+msgstr "&Ouvrir..."
+
+#: src/tools/dcpomatic.cc:176
+#: src/tools/dcpomatic.cc:179
+msgid "&Preferences..."
+msgstr "&Préférences..."
+
+#: src/tools/dcpomatic.cc:163
+msgid "&Properties..."
+msgstr "&Propriétés..."
+
+#: src/tools/dcpomatic.cc:171
+msgid "&Quit"
+msgstr "&Quitter"
+
+#: src/tools/dcpomatic.cc:161
+msgid "&Save"
+msgstr "&Enregistrer"
+
+#: src/tools/dcpomatic.cc:184
+msgid "&Send DCP to TMS"
+msgstr "&Envoyer le DCP dans le TMS"
+
+#: src/tools/dcpomatic.cc:191
+msgid "About"
+msgstr "A Propos"
+
+#: src/tools/dcpomatic.cc:189
+msgid "About DCP-o-matic"
+msgstr "À propos de DCP-o-matic"
+
+#: src/tools/dcpomatic.cc:479
+msgid "Could not load film %1 (%2)"
+msgstr "Impossible de charger le film %1 (%2)"
+
+#: src/tools/dcpomatic.cc:348
+#, c-format
+msgid "Could not open film at %s (%s)"
+msgstr "Impossible d'ouvrir le film à %s (%s)"
+
+#: src/tools/dcpomatic.cc:280
+#: src/tools/dcpomatic.cc:490
+msgid "DCP-o-matic"
+msgstr "DCP-o-matic"
+
+#: src/tools/dcpomatic.cc:77
+msgid "Film changed"
+msgstr "Film changé"
+
+#: src/tools/dcpomatic.cc:158
+msgid "New..."
+msgstr "Nouveau..."
+
+#: src/tools/dcpomatic.cc:185
+msgid "S&how DCP"
+msgstr "Voir le DCP"
+
+#: src/tools/dcpomatic.cc:76
+#, c-format
+msgid "Save changes to film \"%s\" before closing?"
+msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
+
+#: src/tools/dcpomatic.cc:327
+msgid "Select film to open"
+msgstr "Sélectionner le film à ouvrir"
+
+#: src/tools/dcpomatic.cc:299
+msgid "The directory %1 already exists and is not empty.  Are you sure you want to use it?"
+msgstr "Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
+
+#: src/tools/dcpomatic.cc:332
+msgid "You did not select a folder.  Make sure that you select a folder before clicking Open."
+msgstr "Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur Ouvrir"
+
+#~ msgid "&Analyse audio"
+#~ msgstr "&Analyser le son"
+
+#~ msgid ""
+#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
+#~ "Laursen"
+#~ msgstr ""
+#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
+#~ "Laursen"
+
+#~ msgid "Free, open-source DCP generation from almost anything."
+#~ msgstr "Création de DCP libre et open-source à partir de presque tout."
+
+#, fuzzy
+#~ msgid "The directory %1 already exists."
+#~ msgstr "Le dossier %s existe déjà."

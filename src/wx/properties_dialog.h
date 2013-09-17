@@ -32,8 +32,7 @@ private:
 
 	boost::shared_ptr<Film> _film;
 	wxStaticText* _frames;
-	wxStaticText* _disk_for_frames;
-	wxStaticText* _total_disk;
+	wxStaticText* _disk;
 	ThreadedStaticText* _encoded;
 };
 

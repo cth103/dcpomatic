@@ -1,37 +1,37 @@
-/** @mainpage DVD-o-matic
+/** @mainpage DCP-o-matic
  *
- *  DVD-o-matic is a tool to create digital cinema packages (DCPs) from
+ *  DCP-o-matic is a tool to create digital cinema packages (DCPs) from
  *  video files, or from sets of TIFF image files.  It is written in C++
  *  and distributed under the GPL.
  *
  *  Video files are decoded using FFmpeg (http://ffmpeg.org), so any video
- *  supported by FFmpeg should be usable with DVD-o-matic.  DVD-o-matic's output has been
+ *  supported by FFmpeg should be usable with DCP-o-matic.  DCP-o-matic's output has been
  *  tested on numerous digital projectors.
  *
- *  DVD-o-matic allows you to crop black borders from movies, scale them to the correct
+ *  DCP-o-matic allows you to crop black borders from movies, scale them to the correct
  *  aspect ratio and apply FFmpeg filters.  The time-consuming encoding of JPEG2000 files
  *  can be parallelised amongst any number of processors on the local host and any number
  *  of servers over a network.
  *
- *  DVD-o-matic can also make DCPs from still images, for advertisements and such-like.
+ *  DCP-o-matic can also make DCPs from still images, for advertisements and such-like.
  * 
- *  Parts of DVD-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
+ *  Parts of DCP-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
  *  written by Terrence Meiczinger.
  *
- *  DVD-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
+ *  DCP-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
  *  and libsndfile (http://www.mega-nerd.com/libsndfile/) for WAV file manipulation.  It
  *  also makes heavy use of the boost libraries (http://www.boost.org/).  ImageMagick
  *  (http://www.imagemagick.org/) is used for still-image encoding and decoding, and the GUI is
  *  built using wxWidgets (http://wxwidgets.org/).  It also uses libmhash (http://mhash.sourceforge.net/)
  *  for debugging purposes.
  *
- *  Thanks are due to the authors and communities of all DVD-o-matic's dependencies.
+ *  Thanks are due to the authors and communities of all DCP-o-matic's dependencies.
  * 
- *  DVD-o-matic is distributed in the hope that there are still cinemas with projectionists
+ *  DCP-o-matic is distributed in the hope that there are still cinemas with projectionists
  *  who might want to use it.  As Mark Kermode says, "if it doesn't have a projectionist
  *  it's not a cinema - it's a sweetshop with a video-screen."
  *
  *  Email correspondance is welcome to cth@carlh.net
  *
- *  More details can be found at http://carlh.net/software/dvdomatic
+ *  More details can be found at http://carlh.net/software/dcpomatic
  */

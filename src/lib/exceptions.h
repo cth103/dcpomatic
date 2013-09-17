@@ -17,13 +17,21 @@
 
 */
 
+#ifndef DCPOMATIC_EXCEPTIONS_H
+#define DCPOMATIC_EXCEPTIONS_H
+
 /** @file  src/exceptions.h
  *  @brief Our exceptions.
  */
 
 #include <stdexcept>
-#include <sstream>
 #include <cstring>
+#include <boost/exception/all.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 
 /** @class StringError
  *  @brief A parent class for exceptions using messages held in a std::string
@@ -80,7 +88,7 @@ public:
 	/** @param m Error message.
 	 *  @param f Name of the file that this exception concerns.
 	 */
-	FileError (std::string m, std::string f)
+	FileError (std::string m, boost::filesystem::path f)
 		: StringError (m)
 		, _file (f)
 	{}
@@ -88,13 +96,13 @@ public:
 	virtual ~FileError () throw () {}
 
 	/** @return name of the file that this exception concerns */
-	std::string file () const {
+	boost::filesystem::path file () const {
 		return _file;
 	}
 
 private:
 	/** name of the file that this exception concerns */
-	std::string _file;
+	boost::filesystem::path _file;
 };
 	
 
@@ -105,9 +113,7 @@ class OpenFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to open */
-	OpenFileError (std::string f)
-		: FileError ("could not open file " + f, f)
-	{}
+	OpenFileError (boost::filesystem::path f);
 };
 
 /** @class CreateFileError.
@@ -117,9 +123,7 @@ class CreateFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to create */
-	CreateFileError (std::string f)
-		: FileError ("could not create file " + f, f)
-	{}
+	CreateFileError (boost::filesystem::path f);
 };
 
 
@@ -132,16 +136,7 @@ public:
 	/** @param f File that we were trying to read from.
 	 *  @param e errno value, or 0.
 	 */
-	ReadFileError (std::string f, int e = 0)
-		: FileError ("", f)
-	{
-		std::stringstream s;
-		s << "could not read from file " << f;
-		if (e) {
-			s << " (" << strerror (e) << ")";
-		}
-		_what = s.str ();
-	}
+	ReadFileError (boost::filesystem::path f, int e = 0);
 };
 
 /** @class WriteFileError.
@@ -153,16 +148,7 @@ public:
 	/** @param f File that we were trying to write to.
 	 *  @param e errno value, or 0.
 	 */
-	WriteFileError (std::string f, int e)
-		: FileError ("", f)
-	{
-		std::stringstream s;
-		s << "could not write to file " << f;
-		if (e) {
-			s << " (" << strerror (e) << ")";
-		}
-		_what = s.str ();
-	}
+	WriteFileError (boost::filesystem::path f, int e);
 };
 
 /** @class SettingError.
@@ -197,9 +183,7 @@ class MissingSettingError : public SettingError
 {
 public:
 	/** @param s Name of setting that was required */
-	MissingSettingError (std::string s)
-		: SettingError (s, "missing required setting " + s)
-	{}
+	MissingSettingError (std::string s);
 };
 
 /** @class BadSettingError
@@ -232,3 +216,38 @@ public:
 		: StringError (s)
 	{}
 };
+
+class PixelFormatError : public StringError
+{
+public:
+	PixelFormatError (std::string o, AVPixelFormat f);
+};
+
+class ExceptionStore
+{
+public:
+	bool thrown () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _exception;
+	}
+	
+	void rethrow () {
+		boost::mutex::scoped_lock lm (_mutex);
+		boost::rethrow_exception (_exception);
+	}
+
+protected:	
+	
+	void store_current () {
+		boost::mutex::scoped_lock lm (_mutex);
+		_exception = boost::current_exception ();
+	}
+
+private:
+	boost::exception_ptr _exception;
+	mutable boost::mutex _mutex;
+};
+
+	
+
+#endif

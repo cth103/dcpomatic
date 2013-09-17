@@ -25,42 +25,50 @@
 #include <iomanip>
 #include <wx/tglbtn.h>
 #include "lib/film.h"
-#include "lib/format.h"
+#include "lib/ratio.h"
 #include "lib/util.h"
 #include "lib/job_manager.h"
-#include "lib/options.h"
-#include "lib/subtitle.h"
 #include "lib/image.h"
 #include "lib/scaler.h"
 #include "lib/exceptions.h"
 #include "lib/examine_content_job.h"
+#include "lib/filter.h"
+#include "lib/player.h"
+#include "lib/video_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/still_image_content.h"
+#include "lib/video_decoder.h"
 #include "film_viewer.h"
 #include "wx_util.h"
-#include "video_decoder.h"
 
 using std::string;
 using std::pair;
+using std::min;
 using std::max;
 using std::cout;
 using std::list;
+using std::make_pair;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
+using boost::weak_ptr;
+using libdcp::Size;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
-	, _play_button (new wxToggleButton (this, wxID_ANY, wxT ("Play")))
+	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
+	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
+	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
+	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
+	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _got_frame (false)
-	, _out_width (0)
-	, _out_height (0)
-	, _panel_width (0)
-	, _panel_height (0)
-	, _clear_required (false)
 {
+#ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
-#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION >= 9	
+#endif
+	
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-#endif	
 	
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
@@ -68,18 +76,32 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_v_sizer->Add (_panel, 1, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
+
+	wxBoxSizer* time_sizer = new wxBoxSizer (wxVERTICAL);
+	time_sizer->Add (_frame_number, 0, wxEXPAND);
+	time_sizer->Add (_timecode, 0, wxEXPAND);
+
+	h_sizer->Add (_back_button, 0, wxALL, 2);
+	h_sizer->Add (time_sizer, 0, wxEXPAND);
+	h_sizer->Add (_forward_button, 0, wxALL, 2);
 	h_sizer->Add (_play_button, 0, wxEXPAND);
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
-	_v_sizer->Add (h_sizer, 0, wxEXPAND);
+	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
 
-	_panel->Connect (wxID_ANY, wxEVT_PAINT, wxPaintEventHandler (FilmViewer::paint_panel), 0, this);
-	_panel->Connect (wxID_ANY, wxEVT_SIZE, wxSizeEventHandler (FilmViewer::panel_sized), 0, this);
-	_slider->Connect (wxID_ANY, wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
-	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEUP, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
-	_slider->Connect (wxID_ANY, wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler (FilmViewer::slider_moved), 0, this);
-	_play_button->Connect (wxID_ANY, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler (FilmViewer::play_clicked), 0, this);
-	_timer.Connect (wxID_ANY, wxEVT_TIMER, wxTimerEventHandler (FilmViewer::timer), 0, this);
+	_frame_number->SetMinSize (wxSize (84, -1));
+	_back_button->SetMinSize (wxSize (32, -1));
+	_forward_button->SetMinSize (wxSize (32, -1));
+
+	_panel->Bind          (wxEVT_PAINT,                        boost::bind (&FilmViewer::paint_panel,     this));
+	_panel->Bind          (wxEVT_SIZE,                         boost::bind (&FilmViewer::panel_sized,     this, _1));
+	_slider->Bind         (wxEVT_SCROLL_THUMBTRACK,            boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind         (wxEVT_SCROLL_PAGEUP,                boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,              boost::bind (&FilmViewer::slider_moved,    this));
+	_play_button->Bind    (wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, boost::bind (&FilmViewer::play_clicked,    this));
+	_timer.Bind           (wxEVT_TIMER,                        boost::bind (&FilmViewer::timer,           this));
+	_back_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::back_clicked,    this));
+	_forward_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::forward_clicked, this));
 
 	set_film (f);
 
@@ -89,95 +111,66 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 }
 
 void
-FilmViewer::film_changed (Film::Property p)
-{
-	switch (p) {
-	case Film::FORMAT:
-		calculate_sizes ();
-		update_from_raw ();
-		break;
-	case Film::CONTENT:
-	{
-		shared_ptr<DecodeOptions> o (new DecodeOptions);
-		o->decode_audio = false;
-		o->decode_subtitles = true;
-		o->video_sync = false;
-		_decoders = decoder_factory (_film, o, 0);
-		_decoders.video->Video.connect (bind (&FilmViewer::process_video, this, _1, _2, _3));
-		_decoders.video->OutputChanged.connect (boost::bind (&FilmViewer::decoder_changed, this));
-		_decoders.video->set_subtitle_stream (_film->subtitle_stream());
-		calculate_sizes ();
-		get_frame ();
-		_panel->Refresh ();
-		_slider->Show (_film->content_type() == VIDEO);
-		_play_button->Show (_film->content_type() == VIDEO);
-		_v_sizer->Layout ();
-		break;
-	}
-	case Film::WITH_SUBTITLES:
-	case Film::SUBTITLE_OFFSET:
-	case Film::SUBTITLE_SCALE:
-	case Film::SCALER:
-		update_from_raw ();
-		break;
-	case Film::SUBTITLE_STREAM:
-		_decoders.video->set_subtitle_stream (_film->subtitle_stream ());
-		break;
-	default:
-		break;
-	}
-}
-
-void
 FilmViewer::set_film (shared_ptr<Film> f)
 {
 	if (_film == f) {
 		return;
 	}
-	
+
 	_film = f;
 
+	_frame.reset ();
+	_queue.clear ();
+
+	_slider->SetValue (0);
+	set_position_text (0);
+	
 	if (!_film) {
 		return;
 	}
 
-	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
+	_player = f->make_player ();
+	_player->disable_audio ();
+	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _5));
+	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
-	film_changed (Film::CONTENT);
-	film_changed (Film::CROP);
-	film_changed (Film::FORMAT);
-	film_changed (Film::WITH_SUBTITLES);
-	film_changed (Film::SUBTITLE_OFFSET);
-	film_changed (Film::SUBTITLE_SCALE);
-	film_changed (Film::SUBTITLE_STREAM);
+	calculate_sizes ();
+	fetch_current_frame_again ();
 }
 
 void
-FilmViewer::decoder_changed ()
+FilmViewer::fetch_current_frame_again ()
 {
-	if (_decoders.video->seek_to_last ()) {
+	if (!_player) {
 		return;
 	}
 
-	get_frame ();
-	_panel->Refresh ();
-	_panel->Update ();
+	/* Player::video_position is the time after the last frame that we received.
+	   We want to see it again, so seek back one frame.
+	*/
+
+	Time p = _player->video_position() - _film->video_frames_to_time (1);
+	if (p < 0) {
+		p = 0;
+	}
+
+	_player->seek (p, true);
+	fetch_next_frame ();
 }
 
 void
-FilmViewer::timer (wxTimerEvent &)
+FilmViewer::timer ()
 {
-	if (!_film) {
+	if (!_player) {
 		return;
 	}
 	
-	_panel->Refresh ();
-	_panel->Update ();
+	fetch_next_frame ();
 
-	get_frame ();
+	Time const len = _film->length ();
 
-	if (_film->length()) {
-		int const new_slider_position = 4096 * _decoders.video->last_source_time() / (_film->length().get() / _film->frames_per_second());
+	if (len) {
+		int const new_slider_position = 4096 * _player->video_position() / len;
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -186,125 +179,88 @@ FilmViewer::timer (wxTimerEvent &)
 
 
 void
-FilmViewer::paint_panel (wxPaintEvent &)
+FilmViewer::paint_panel ()
 {
 	wxPaintDC dc (_panel);
 
-	if (_clear_required) {
-		dc.Clear ();
-		_clear_required = false;
-	}
-
-	if (!_display_frame || !_film || !_out_width || !_out_height) {
+	if (!_frame || !_film || !_out_size.width || !_out_size.height) {
 		dc.Clear ();
 		return;
 	}
 
-	wxImage frame (_out_width, _out_height, _display_frame->data()[0], true);
+	shared_ptr<Image> packed_frame (new Image (_frame, false));
+
+	wxImage frame (_out_size.width, _out_size.height, packed_frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);
 	dc.DrawBitmap (frame_bitmap, 0, 0);
 
-	if (_film->with_subtitles() && _display_sub) {
-		wxImage sub (_display_sub->size().width, _display_sub->size().height, _display_sub->data()[0], _display_sub->alpha(), true);
-		wxBitmap sub_bitmap (sub);
-		dc.DrawBitmap (sub_bitmap, _display_sub_position.x, _display_sub_position.y);
+	if (_out_size.width < _panel_size.width) {
+		wxPen p (GetBackgroundColour ());
+		wxBrush b (GetBackgroundColour ());
+		dc.SetPen (p);
+		dc.SetBrush (b);
+		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
 	}
+
+	if (_out_size.height < _panel_size.height) {
+		wxPen p (GetBackgroundColour ());
+		wxBrush b (GetBackgroundColour ());
+		dc.SetPen (p);
+		dc.SetBrush (b);
+		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
+	}		
 }
 
 
 void
-FilmViewer::slider_moved (wxScrollEvent &)
+FilmViewer::slider_moved ()
 {
-	if (!_film || !_film->length()) {
-		return;
+	if (_film && _player) {
+		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
+		fetch_next_frame ();
 	}
-	
-	if (_decoders.video->seek (_slider->GetValue() * _film->length().get() / (4096 * _film->frames_per_second()))) {
-		return;
-	}
-	
-	get_frame ();
-	_panel->Refresh ();
-	_panel->Update ();
 }
 
 void
 FilmViewer::panel_sized (wxSizeEvent& ev)
 {
-	_panel_width = ev.GetSize().GetWidth();
-	_panel_height = ev.GetSize().GetHeight();
+	_panel_size.width = ev.GetSize().GetWidth();
+	_panel_size.height = ev.GetSize().GetHeight();
 	calculate_sizes ();
-	update_from_raw ();
+	fetch_current_frame_again ();
 }
-
-void
-FilmViewer::update_from_raw ()
-{
-	if (!_raw_frame) {
-		return;
-	}
-
-	raw_to_display ();
-	
-	_panel->Refresh ();
-	_panel->Update ();
-}
-
-void
-FilmViewer::raw_to_display ()
-{
-	if (!_raw_frame || _out_width < 64 || _out_height < 64 || !_film) {
-		return;
-	}
-
-	Size old_size;
-	if (_display_frame) {
-		old_size = _display_frame->size();
-	}
-
-	/* Get a compacted image as we have to feed it to wxWidgets */
-	_display_frame = _raw_frame->scale_and_convert_to_rgb (Size (_out_width, _out_height), 0, _film->scaler(), false);
-
-	if (old_size != _display_frame->size()) {
-		_clear_required = true;
-	}
-
-	if (_raw_sub) {
-		Rect tx = subtitle_transformed_area (
-			float (_out_width) / _film->size().width,
-			float (_out_height) / _film->size().height,
-			_raw_sub->area(), _film->subtitle_offset(), _film->subtitle_scale()
-			);
-		
-		_display_sub.reset (new RGBPlusAlphaImage (_raw_sub->image()->scale (tx.size(), _film->scaler(), false)));
-		_display_sub_position = tx.position();
-	} else {
-		_display_sub.reset ();
-	}
-}	
 
 void
 FilmViewer::calculate_sizes ()
 {
-	if (!_film) {
+	if (!_film || !_player) {
 		return;
 	}
+
+	Ratio const * container = _film->container ();
 	
-	float const panel_ratio = static_cast<float> (_panel_width) / _panel_height;
-	float const film_ratio = _film->format() ? _film->format()->ratio_as_float(_film) : 1.78;
+	float const panel_ratio = static_cast<float> (_panel_size.width) / _panel_size.height;
+	float const film_ratio = container ? container->ratio () : 1.78;
+			
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
-		_out_width = _panel_width;
-		_out_height = _out_width / film_ratio;
+		_out_size.width = _panel_size.width;
+		_out_size.height = _out_size.width / film_ratio;
 	} else {
-		/* panel is more widescreen than the film; clamp heignt */
-		_out_height = _panel_height;
-		_out_width = _out_height * film_ratio;
+		/* panel is more widescreen than the film; clamp height */
+		_out_size.height = _panel_size.height;
+		_out_size.width = _out_size.height * film_ratio;
 	}
+
+	/* Catch silly values */
+	_out_size.width = max (64, _out_size.width);
+	_out_size.height = max (64, _out_size.height);
+
+	_player->set_video_container_size (_out_size);
 }
 
 void
-FilmViewer::play_clicked (wxCommandEvent &)
+FilmViewer::play_clicked ()
 {
 	check_play_state ();
 }
@@ -312,48 +268,88 @@ FilmViewer::play_clicked (wxCommandEvent &)
 void
 FilmViewer::check_play_state ()
 {
-	if (!_film) {
+	if (!_film || _film->video_frame_rate() == 0) {
 		return;
 	}
 	
 	if (_play_button->GetValue()) {
-		_timer.Start (1000 / _film->frames_per_second());
+		_timer.Start (1000 / _film->video_frame_rate());
 	} else {
 		_timer.Stop ();
 	}
 }
 
 void
-FilmViewer::process_video (shared_ptr<Image> image, bool, shared_ptr<Subtitle> sub)
+FilmViewer::process_video (shared_ptr<const Image> image, Eyes eyes, Time t)
 {
-	_raw_frame = image;
-	_raw_sub = sub;
-
-	raw_to_display ();
-
+	if (eyes == EYES_RIGHT) {
+		return;
+	}
+	
+	if (_got_frame) {
+		/* This is an additional frame emitted by a single pass.  Store it. */
+		_queue.push_front (make_pair (image, t));
+		return;
+	}
+	
+	_frame = image;
 	_got_frame = true;
+
+	set_position_text (t);
 }
 
 void
-FilmViewer::get_frame ()
+FilmViewer::set_position_text (Time t)
 {
-	/* Clear our raw frame in case we don't get a new one */
-	_raw_frame.reset ();
-	
-	try {
-		_got_frame = false;
-		while (!_got_frame) {
-			if (_decoders.video->pass ()) {
-				/* We didn't get a frame before the decoder gave up,
-				   so clear our display frame.
-				*/
-				_display_frame.reset ();
-				break;
-			}
-		}
-	} catch (DecodeError& e) {
-		error_dialog (this, String::compose ("Could not decode video for view (%1)", e.what()));
+	if (!_film) {
+		_frame_number->SetLabel ("0");
+		_timecode->SetLabel ("0:0:0.0");
+		return;
 	}
+		
+	double const fps = _film->video_frame_rate ();
+	/* Count frame number from 1 ... not sure if this is the best idea */
+	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ)) + 1));
+	
+	double w = static_cast<double>(t) / TIME_HZ;
+	int const h = (w / 3600);
+	w -= h * 3600;
+	int const m = (w / 60);
+	w -= m * 60;
+	int const s = floor (w);
+	w -= s;
+	int const f = rint (w * fps);
+	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f));
+}
+
+/** Ask the player to emit its next frame, then update our display */
+void
+FilmViewer::fetch_next_frame ()
+{
+	/* Clear our frame in case we don't get a new one */
+	_frame.reset ();
+
+	if (!_player) {
+		return;
+	}
+
+	_got_frame = false;
+	
+	if (!_queue.empty ()) {
+		process_video (_queue.back().first, EYES_BOTH, _queue.back().second);
+		_queue.pop_back ();
+	} else {
+		try {
+			while (!_got_frame && !_player->pass ()) {}
+		} catch (DecodeError& e) {
+			_play_button->SetValue (false);
+			check_play_state ();
+			error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
+		}
+	}
+
+	_panel->Refresh ();
+	_panel->Update ();
 }
 
 void
@@ -376,3 +372,43 @@ FilmViewer::active_jobs_changed (bool a)
 	_play_button->Enable (!a);
 }
 
+void
+FilmViewer::back_clicked ()
+{
+	if (!_player) {
+		return;
+	}
+
+	/* Player::video_position is the time after the last frame that we received.
+	   We want to see the one before it, so we need to go back 2.
+	*/
+
+	Time p = _player->video_position() - _film->video_frames_to_time (2);
+	if (p < 0) {
+		p = 0;
+	}
+	
+	_player->seek (p, true);
+	fetch_next_frame ();
+}
+
+void
+FilmViewer::forward_clicked ()
+{
+	if (!_player) {
+		return;
+	}
+
+	fetch_next_frame ();
+}
+
+void
+FilmViewer::player_changed (bool frequent)
+{
+	if (frequent) {
+		return;
+	}
+	
+	calculate_sizes ();
+	fetch_current_frame_again ();
+}

@@ -1,15 +1,46 @@
 def configure(conf):
+    boost_test_suffix=''
+    if conf.env.TARGET_WINDOWS:
+        boost_test_suffix='-mt'
+
     conf.check_cxx(fragment = """
                               #define BOOST_TEST_MODULE Config test\n
     			      #include <boost/test/unit_test.hpp>\n
                               int main() {}
-                              """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework-mt', uselib_store = 'BOOST_TEST')
+                              """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework%s' % boost_test_suffix, uselib_store = 'BOOST_TEST')
 
 def build(bld):
     obj = bld(features = 'cxx cxxprogram')
     obj.name   = 'unit-tests'
-    obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
-    obj.use    = 'libdvdomatic'
-    obj.source = 'test.cc'
+    obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML'
+    obj.use    = 'libdcpomatic'
+    obj.source = """
+                 test.cc
+                 colour_conversion_test.cc
+                 audio_delay_test.cc
+                 silence_padding_test.cc
+                 audio_merger_test.cc
+                 resampler_test.cc
+                 ffmpeg_audio_test.cc
+                 threed_test.cc
+                 play_test.cc
+                 frame_rate_test.cc
+                 ffmpeg_pts_offset.cc
+                 ffmpeg_examiner_test.cc
+                 black_fill_test.cc
+                 scaling_test.cc
+                 ratio_test.cc
+                 pixel_formats_test.cc
+                 make_black_test.cc
+                 film_metadata_test.cc
+                 stream_test.cc
+                 util_test.cc
+                 ffmpeg_dcp_test.cc
+                 job_test.cc
+                 client_server_test.cc
+                 image_test.cc
+                 4k_test.cc
+                 """
+
     obj.target = 'unit-tests'
     obj.install_path = ''

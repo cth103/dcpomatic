@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_LOG_H
-#define DVDOMATIC_LOG_H
+#ifndef DCPOMATIC_LOG_H
+#define DCPOMATIC_LOG_H
 
 /** @file src/log.h
  *  @brief A very simple logging class.
@@ -30,7 +30,7 @@
 /** @class Log
  *  @brief A very simple logging class.
  */
-class Log
+class Log : public boost::noncopyable
 {
 public:
 	Log ();

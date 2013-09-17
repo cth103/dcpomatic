@@ -28,11 +28,11 @@ CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, string 
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, "Name");
+	add_label_to_sizer (table, this, "Name", true);
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (256, -1));
 	table->Add (_name, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Email address for KDM delivery");
+	add_label_to_sizer (table, this, "Email address for KDM delivery", true);
 	_email = new wxTextCtrl (this, wxID_ANY, std_to_wx (email), wxDefaultPosition, wxSize (256, -1));
 	table->Add (_email, 1, wxEXPAND);
 

@@ -22,172 +22,92 @@
  *  @brief Some utility functions and classes.
  */
 
-#ifndef DVDOMATIC_UTIL_H
-#define DVDOMATIC_UTIL_H
+#ifndef DCPOMATIC_UTIL_H
+#define DCPOMATIC_UTIL_H
 
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
+#include <boost/optional.hpp>
+#include <boost/filesystem.hpp>
+#include <libdcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
 #include "compose.hpp"
+#include "types.h"
+#include "video_content.h"
 
-#ifdef DVDOMATIC_DEBUG
+#ifdef DCPOMATIC_DEBUG
 #define TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
 #else
 #define TIMING(...)
 #endif
 
+#undef check
+
 /** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 
-class Scaler;
+class Job;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
 extern void stacktrace (std::ostream &, int);
 extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
-extern void dvdomatic_setup ();
+extern void dcpomatic_setup ();
+extern void dcpomatic_setup_gettext_i18n (std::string);
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
-extern std::string md5_digest (std::string);
+extern std::string md5_digest (boost::filesystem::path);
+extern std::string md5_digest_directory (boost::filesystem::path, boost::shared_ptr<Job>);
 extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
+extern std::string audio_channel_name (int);
+extern bool valid_image_file (boost::filesystem::path);
+#ifdef DCPOMATIC_WINDOWS
+extern boost::filesystem::path mo_path ();
+#endif
 
-typedef int SourceFrame;
-
-struct DCPFrameRate
+struct FrameRateConversion
 {
-	/** frames per second for the DCP */
-	int frames_per_second;
-	/** Skip every `skip' frames.  e.g. if this is 1, we skip nothing;
-	 *  if it's 2, we skip every other frame.
-	 */
-	int skip;
-	/** true if this DCP will run its video faster than the source
-	 *  (e.g. if the source is 29.97fps and we will run the DCP at 30fps)
-	 */
-	bool run_fast;
-};
+	FrameRateConversion (float, int);
 
-enum ContentType {
-	STILL, ///< content is still images
-	VIDEO  ///< content is a video
-};
+	/** @return factor by which to multiply a source frame rate
+	    to get the effective rate after any skip or repeat has happened.
+	*/
+	float factor () const {
+		if (skip) {
+			return 0.5;
+		} else if (repeat) {
+			return 2;
+		}
 
-/** @class Size
- *  @brief Representation of the size of something */
-struct Size
-{
-	/** Construct a zero Size */
-	Size ()
-		: width (0)
-		, height (0)
-	{}
-
-	/** @param w Width.
-	 *  @param h Height.
-	 */
-	Size (int w, int h)
-		: width (w)
-		, height (h)
-	{}
-
-	/** width */
-	int width;
-	/** height */
-	int height;
-};
-
-extern bool operator== (Size const & a, Size const & b);
-extern bool operator!= (Size const & a, Size const & b);
-
-/** @struct Crop
- *  @brief A description of the crop of an image or video.
- */
-struct Crop
-{
-	Crop () : left (0), right (0), top (0), bottom (0) {}
-
-	/** Number of pixels to remove from the left-hand side */
-	int left;
-	/** Number of pixels to remove from the right-hand side */
-	int right;
-	/** Number of pixels to remove from the top */
-	int top;
-	/** Number of pixels to remove from the bottom */
-	int bottom;
-};
-
-extern bool operator== (Crop const & a, Crop const & b);
-extern bool operator!= (Crop const & a, Crop const & b);
-
-/** @struct Position
- *  @brief A position.
- */
-struct Position
-{
-	Position ()
-		: x (0)
-		, y (0)
-	{}
-
-	Position (int x_, int y_)
-		: x (x_)
-		, y (y_)
-	{}
-
-	/** x coordinate */
-	int x;
-	/** y coordinate */
-	int y;
-};
-
-/** @struct Rect
- *  @brief A rectangle.
- */
-struct Rect
-{
-	Rect ()
-		: x (0)
-		, y (0)
-		, width (0)
-		, height (0)
-	{}
-
-	Rect (int x_, int y_, int w_, int h_)
-		: x (x_)
-		, y (y_)
-		, width (w_)
-		, height (h_)
-	{}
-
-	int x;
-	int y;
-	int width;
-	int height;
-
-	Position position () const {
-		return Position (x, y);
+		return 1;
 	}
 
-	Size size () const {
-		return Size (width, height);
-	}
+	/** true to skip every other frame */
+	bool skip;
+	/** true to repeat every frame once */
+	bool repeat;
+	/** true if this DCP will run its video faster or slower than the source
+	 *  without taking into account `repeat' nor `skip'.
+	 *  (e.g. change_speed will be true if
+	 *	    source is 29.97fps, DCP is 30fps
+	 *	    source is 14.50fps, DCP is 30fps
+	 *  but not if
+	 *	    source is 15.00fps, DCP is 30fps
+	 *	    source is 12.50fps, DCP is 25fps)
+	 */
+	bool change_speed;
 
-	Rect intersection (Rect const & other) const;
+	std::string description;
 };
 
-extern std::string crop_string (Position, Size);
-extern int dcp_audio_sample_rate (int);
-extern DCPFrameRate dcp_frame_rate (float);
-extern int dcp_audio_channels (int);
-extern std::string colour_lut_index_to_name (int index);
+extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
-extern int stride_lookup (int c, int const * stride);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);
@@ -197,90 +117,52 @@ extern std::string get_optional_string (std::multimap<std::string, std::string> 
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
- *  that are useful for DVD-o-matic.
+ *  that are useful for DCP-o-matic.
  *
  *  This class wraps some things that I could not work out how to do with boost;
- *  most notably, sync read/write calls with timeouts, and the ability to peek into
- *  data being read.
+ *  most notably, sync read/write calls with timeouts.
  */
 class Socket
 {
 public:
-	Socket ();
+	Socket (int timeout = 30);
 
 	/** @return Our underlying socket */
 	boost::asio::ip::tcp::socket& socket () {
 		return _socket;
 	}
 
-	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint, int timeout);
-	void write (uint8_t const * data, int size, int timeout);
+	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint);
+
+	void write (uint32_t n);
+	void write (uint8_t const * data, int size);
 	
-	void read_definite_and_consume (uint8_t* data, int size, int timeout);
-	void read_indefinite (uint8_t* data, int size, int timeout);
-	void consume (int amount);
+	void read (uint8_t* data, int size);
+	uint32_t read_uint32 ();
 	
 private:
 	void check ();
-	int read (uint8_t* data, int size, int timeout);
 
 	Socket (Socket const &);
 
 	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
-	/** a buffer for small reads */
-	uint8_t _buffer[1024];
-	/** amount of valid data in the buffer */
-	int _buffer_data;
+	int _timeout;
 };
 
-/** @class AudioBuffers
- *  @brief A class to hold multi-channel audio data in float format.
- */
-class AudioBuffers
+extern int64_t video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second);
+
+class LocaleGuard
 {
 public:
-	AudioBuffers (int channels, int frames);
-	AudioBuffers (AudioBuffers const &);
-	~AudioBuffers ();
-
-	float** data () const {
-		return _data;
-	}
+	LocaleGuard ();
+	~LocaleGuard ();
 	
-	float* data (int) const;
-
-	int channels () const {
-		return _channels;
-	}
-
-	int frames () const {
-		return _frames;
-	}
-
-	void set_frames (int f);
-
-	void make_silent ();
-	void make_silent (int c);
-
-	void copy_from (AudioBuffers* from, int frames_to_copy, int read_offset, int write_offset);
-	void move (int from, int to, int frames);
-
 private:
-	/** Number of channels */
-	int _channels;
-	/** Number of frames (where a frame is one sample across all channels) */
-	int _frames;
-	/** Number of frames that _data can hold */
-	int _allocated_frames;
-	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
-	float** _data;
+	char* _old;
 };
 
-extern int64_t video_frames_to_audio_frames (SourceFrame v, float audio_sample_rate, float frames_per_second);
-extern bool still_image_file (std::string);
-extern std::pair<std::string, int> cpu_info ();
 
 #endif
 

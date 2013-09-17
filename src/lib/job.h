@@ -21,23 +21,24 @@
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
 
-#ifndef DVDOMATIC_JOB_H
-#define DVDOMATIC_JOB_H
+#ifndef DCPOMATIC_JOB_H
+#define DCPOMATIC_JOB_H
 
 #include <string>
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread.hpp>
 
 class Film;
 
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
-class Job : public boost::enable_shared_from_this<Job>
+class Job : public boost::enable_shared_from_this<Job>, public boost::noncopyable
 {
 public:
-	Job (boost::shared_ptr<Film> s, boost::shared_ptr<Job> req);
+	Job (boost::shared_ptr<const Film>);
 	virtual ~Job() {}
 
 	/** @return user-readable name of this job */
@@ -46,14 +47,20 @@ public:
 	virtual void run () = 0;
 	
 	void start ();
+	void pause ();
+	void resume ();
+	void cancel ();
 
 	bool is_new () const;
 	bool running () const;
 	bool finished () const;
 	bool finished_ok () const;
 	bool finished_in_error () const;
+	bool finished_cancelled () const;
+	bool paused () const;
 
-	std::string error () const;
+	std::string error_summary () const;
+	std::string error_details () const;
 
 	int elapsed_time () const;
 	virtual std::string status () const;
@@ -63,11 +70,12 @@ public:
 	void ascend ();
 	void descend (float);
 	float overall_progress () const;
-
-	boost::shared_ptr<Job> required () const {
-		return _required;
+	bool progress_unknown () const {
+		return _progress_unknown;
 	}
 
+	boost::signals2::signal<void()> Progress;
+	/** Emitted from the UI thread when the job is finished */
 	boost::signals2::signal<void()> Finished;
 
 protected:
@@ -76,30 +84,32 @@ protected:
 
 	/** Description of a job's state */
 	enum State {
-		NEW,           ///< the job hasn't been started yet
-		RUNNING,       ///< the job is running
-		FINISHED_OK,   ///< the job has finished successfully
-		FINISHED_ERROR ///< the job has finished in error
+		NEW,		///< the job hasn't been started yet
+		RUNNING,	///< the job is running
+		PAUSED,		///< the job has been paused
+		FINISHED_OK,	///< the job has finished successfully
+		FINISHED_ERROR, ///< the job has finished in error
+		FINISHED_CANCELLED ///< the job was cancelled
 	};
 	
 	void set_state (State);
-	void set_error (std::string e);
+	void set_error (std::string s, std::string d);
 
-	/** Film for this job */
-	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<const Film> _film;
 
 private:
 
 	void run_wrapper ();
 
-	boost::shared_ptr<Job> _required;
+	boost::thread* _thread;
 
 	/** mutex for _state and _error */
 	mutable boost::mutex _state_mutex;
 	/** current state of the job */
 	State _state;
-	/** message for an error that has occurred (when state == FINISHED_ERROR) */
-	std::string _error;
+	/** summary of an error that has occurred (when state == FINISHED_ERROR) */
+	std::string _error_summary;
+	std::string _error_details;
 
 	/** time that this job was started */
 	time_t _start_time;
@@ -118,6 +128,8 @@ private:
 
 	/** true if this job's progress will always be unknown */
 	bool _progress_unknown;
+
+	float _last_set;
 
 	int _ran_for;
 };

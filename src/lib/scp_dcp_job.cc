@@ -34,6 +34,8 @@
 #include "log.h"
 #include "film.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::stringstream;
 using std::min;
@@ -47,7 +49,7 @@ public:
 	{
 		session = ssh_new ();
 		if (session == 0) {
-			throw NetworkError ("Could not start SSH session");
+			throw NetworkError (_("could not start SSH session"));
 		}
 	}
 
@@ -81,7 +83,7 @@ public:
 	{
 		scp = ssh_scp_new (s, SSH_SCP_WRITE | SSH_SCP_RECURSIVE, Config::instance()->tms_path().c_str ());
 		if (!scp) {
-			throw NetworkError (String::compose ("Could not start SCP session (%1)", ssh_get_error (s)));
+			throw NetworkError (String::compose (_("could not start SCP session (%1)"), ssh_get_error (s)));
 		}
 	}
 
@@ -94,9 +96,9 @@ public:
 };
 
 
-SCPDCPJob::SCPDCPJob (shared_ptr<Film> f, shared_ptr<Job> req)
-	: Job (f, req)
-	, _status ("Waiting")
+SCPDCPJob::SCPDCPJob (shared_ptr<const Film> f)
+	: Job (f)
+	, _status (_("Waiting"))
 {
 
 }
@@ -104,17 +106,17 @@ SCPDCPJob::SCPDCPJob (shared_ptr<Film> f, shared_ptr<Job> req)
 string
 SCPDCPJob::name () const
 {
-	return "Copy DCP to TMS";
+	return _("Copy DCP to TMS");
 }
 
 void
 SCPDCPJob::run ()
 {
-	_film->log()->log ("SCP DCP job starting");
+	_film->log()->log (N_("SCP DCP job starting"));
 	
 	SSHSession ss;
 	
-	set_status ("connecting");
+	set_status (_("connecting"));
 	
 	ssh_options_set (ss.session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
 	ssh_options_set (ss.session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
@@ -123,29 +125,29 @@ SCPDCPJob::run ()
 	
 	int r = ss.connect ();
 	if (r != SSH_OK) {
-		throw NetworkError (String::compose ("Could not connect to server %1 (%2)", Config::instance()->tms_ip(), ssh_get_error (ss.session)));
+		throw NetworkError (String::compose (_("Could not connect to server %1 (%2)"), Config::instance()->tms_ip(), ssh_get_error (ss.session)));
 	}
 	
 	int const state = ssh_is_server_known (ss.session);
 	if (state == SSH_SERVER_ERROR) {
-		throw NetworkError (String::compose ("SSH error (%1)", ssh_get_error (ss.session)));
+		throw NetworkError (String::compose (_("SSH error (%1)"), ssh_get_error (ss.session)));
 	}
 	
 	r = ssh_userauth_password (ss.session, 0, Config::instance()->tms_password().c_str ());
 	if (r != SSH_AUTH_SUCCESS) {
-		throw NetworkError (String::compose ("Failed to authenticate with server (%1)", ssh_get_error (ss.session)));
+		throw NetworkError (String::compose (_("Failed to authenticate with server (%1)"), ssh_get_error (ss.session)));
 	}
 	
 	SSHSCP sc (ss.session);
 	
 	r = ssh_scp_init (sc.scp);
 	if (r != SSH_OK) {
-		throw NetworkError (String::compose ("Could not start SCP session (%1)", ssh_get_error (ss.session)));
+		throw NetworkError (String::compose (_("Could not start SCP session (%1)"), ssh_get_error (ss.session)));
 	}
 	
 	r = ssh_scp_push_directory (sc.scp, _film->dcp_name().c_str(), S_IRWXU);
 	if (r != SSH_OK) {
-		throw NetworkError (String::compose ("Could not create remote directory %1 (%2)", _film->dcp_name(), ssh_get_error (ss.session)));
+		throw NetworkError (String::compose (_("Could not create remote directory %1 (%2)"), _film->dcp_name(), ssh_get_error (ss.session)));
 	}
 	
 	string const dcp_dir = _film->dir (_film->dcp_name());
@@ -161,33 +163,30 @@ SCPDCPJob::run ()
 	
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
 		
-		/* Aah, the sweet smell of progress */
-#if BOOST_FILESYSTEM_VERSION == 3		
 		string const leaf = boost::filesystem::path(*i).leaf().generic_string ();
-#else
-		string const leaf = i->leaf ();
-#endif
 		
-		set_status ("copying " + leaf);
+		set_status (String::compose (_("copying %1"), leaf));
 		
 		boost::uintmax_t to_do = boost::filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
 
-		FILE* f = fopen (boost::filesystem::path (*i).string().c_str(), "rb");
+		FILE* f = fopen (boost::filesystem::path (*i).string().c_str(), N_("rb"));
 		if (f == 0) {
-			throw NetworkError (String::compose ("Could not open %1 to send", *i));
+			throw NetworkError (String::compose (_("Could not open %1 to send"), *i));
 		}
 
 		while (to_do > 0) {
 			int const t = min (to_do, buffer_size);
 			size_t const read = fread (buffer, 1, t, f);
 			if (read != size_t (t)) {
+				fclose (f);
 				throw ReadFileError (boost::filesystem::path (*i).string());
 			}
 			
 			r = ssh_scp_write (sc.scp, buffer, t);
 			if (r != SSH_OK) {
-				throw NetworkError (String::compose ("Could not write to remote file (%1)", ssh_get_error (ss.session)));
+				fclose (f);
+				throw NetworkError (String::compose (_("Could not write to remote file (%1)"), ssh_get_error (ss.session)));
 			}
 			to_do -= t;
 			bytes_transferred += t;
@@ -199,7 +198,7 @@ SCPDCPJob::run ()
 	}
 	
 	set_progress (1);
-	set_status ("");
+	set_status (N_(""));
 	set_state (FINISHED_OK);
 }
 
@@ -210,7 +209,7 @@ SCPDCPJob::status () const
 	stringstream s;
 	s << Job::status ();
 	if (!_status.empty ()) {
-		s << "; " << _status;
+		s << N_("; ") << _status;
 	}
 	return s.str ();
 }

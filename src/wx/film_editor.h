@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-
+ 
 /** @file src/film_editor.h
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
  */
@@ -27,10 +27,17 @@
 #include <wx/collpane.h>
 #include <boost/signals2.hpp>
 #include "lib/film.h"
+#include "content_menu.h"
 
 class wxNotebook;
-
+class wxListCtrl;
+class wxListEvent;
 class Film;
+class TimelineDialog;
+class Ratio;
+class Timecode;
+class FilmEditorPanel;
+class SubtitleContent;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -41,146 +48,108 @@ public:
 	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
-	void setup_visibility ();
+	void set_selection (boost::weak_ptr<Content>);
 
 	boost::signals2::signal<void (std::string)> FileChanged;
 
+	/* Stuff for panels */
+	
+	wxNotebook* content_notebook () const {
+		return _content_notebook;
+	}
+
+	boost::shared_ptr<Film> film () const {
+		return _film;
+	}
+
+	boost::shared_ptr<Content> selected_content ();
+	boost::shared_ptr<VideoContent> selected_video_content ();
+	boost::shared_ptr<AudioContent> selected_audio_content ();
+	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
+	
 private:
-	void make_film_panel ();
-	void make_video_panel ();
-	void make_audio_panel ();
-	void make_subtitle_panel ();
+	void make_dcp_panel ();
+	void make_content_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
-	void name_changed (wxCommandEvent &);
-	void use_dci_name_toggled (wxCommandEvent &);
-	void edit_dci_button_clicked (wxCommandEvent &);
-	void left_crop_changed (wxCommandEvent &);
-	void right_crop_changed (wxCommandEvent &);
-	void top_crop_changed (wxCommandEvent &);
-	void bottom_crop_changed (wxCommandEvent &);
-	void content_changed (wxCommandEvent &);
-	void trust_content_header_changed (wxCommandEvent &);
-	void format_changed (wxCommandEvent &);
-	void dcp_trim_start_changed (wxCommandEvent &);
-	void dcp_trim_end_changed (wxCommandEvent &);
-	void multiple_reels_toggled (wxCommandEvent &);
-	void reel_size_changed (wxCommandEvent &);
-	void dcp_content_type_changed (wxCommandEvent &);
-	void encrypted_toggled (wxCommandEvent &);
-	void dcp_ab_toggled (wxCommandEvent &);
-	void scaler_changed (wxCommandEvent &);
-	void audio_gain_changed (wxCommandEvent &);
-	void audio_gain_calculate_button_clicked (wxCommandEvent &);
-	void audio_delay_changed (wxCommandEvent &);
-	void with_subtitles_toggled (wxCommandEvent &);
-	void subtitle_offset_changed (wxCommandEvent &);
-	void subtitle_scale_changed (wxCommandEvent &);
-	void colour_lut_changed (wxCommandEvent &);
-	void j2k_bandwidth_changed (wxCommandEvent &);
-	void still_duration_changed (wxCommandEvent &);
-	void audio_stream_changed (wxCommandEvent &);
-	void subtitle_stream_changed (wxCommandEvent &);
-	void use_audio_changed (wxCommandEvent &);
-	void external_audio_changed (wxCommandEvent &);
+	void name_changed ();
+	void use_dci_name_toggled ();
+	void edit_dci_button_clicked ();
+	void content_selection_changed ();
+	void content_add_file_clicked ();
+	void content_add_folder_clicked ();
+	void content_remove_clicked ();
+	void container_changed ();
+	void dcp_content_type_changed ();
+	void scaler_changed ();
+	void j2k_bandwidth_changed ();
+	void frame_rate_changed ();
+	void best_frame_rate_clicked ();
+	void content_timeline_clicked ();
+	void audio_channels_changed ();
+	void resolution_changed ();
+	void sequence_video_changed ();
+	void content_right_click (wxListEvent &);
+	void three_d_changed ();
+	void standard_changed ();
+	void encrypted_toggled ();
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
+	void film_content_changed (boost::weak_ptr<Content>, int);
 
-	/* Button clicks */
-	void edit_filters_clicked (wxCommandEvent &);
-
-	void set_things_sensitive (bool);
-	void setup_formats ();
-	void setup_subtitle_control_sensitivity ();
-	void setup_audio_control_sensitivity ();
-	void setup_reel_control_sensitivity ();
-	void setup_streams ();
-	void setup_audio_details ();
+	void set_general_sensitivity (bool);
+	void setup_dcp_name ();
+	void setup_content ();
+	void setup_container ();
+	void setup_content_sensitivity ();
 	
-	wxControl* video_control (wxControl *);
-	wxControl* still_control (wxControl *);
-
 	void active_jobs_changed (bool);
 
-	wxNotebook* _notebook;
-	wxPanel* _film_panel;
-	wxSizer* _film_sizer;
-	wxPanel* _video_panel;
-	wxSizer* _video_sizer;
-	wxPanel* _audio_panel;
-	wxSizer* _audio_sizer;
-	wxPanel* _subtitle_panel;
-	wxSizer* _subtitle_sizer;
+	FilmEditorPanel* _video_panel;
+	FilmEditorPanel* _audio_panel;
+	FilmEditorPanel* _subtitle_panel;
+	FilmEditorPanel* _timing_panel;
+	std::list<FilmEditorPanel *> _panels;
+
+	wxNotebook* _main_notebook;
+	wxNotebook* _content_notebook;
+	wxPanel* _dcp_panel;
+	wxSizer* _dcp_sizer;
+	wxPanel* _content_panel;
+	wxSizer* _content_sizer;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
-	/** The Film's name */
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_dci_name;
+	wxChoice* _container;
+	wxListCtrl* _content;
+	wxButton* _content_add_file;
+	wxButton* _content_add_folder;
+	wxButton* _content_remove;
+	wxButton* _content_earlier;
+	wxButton* _content_later;
+	wxButton* _content_timeline;
+	wxCheckBox* _sequence_video;
 	wxButton* _edit_dci_button;
-	/** The Film's format */
-	wxComboBox* _format;
-	/** The Film's content file */
-	wxFilePickerCtrl* _content;
-	wxCheckBox* _trust_content_header;
-	/** The Film's left crop */
-	wxSpinCtrl* _left_crop;
-	/** The Film's right crop */
-	wxSpinCtrl* _right_crop;
-	/** The Film's top crop */
-	wxSpinCtrl* _top_crop;
-	/** The Film's bottom crop */
-	wxSpinCtrl* _bottom_crop;
-	/** Currently-applied filters */
-	wxStaticText* _filters;
-	/** Button to open the filters dialogue */
-	wxButton* _filters_button;
-	/** The Film's scaler */
-	wxComboBox* _scaler;
-	wxRadioButton* _use_content_audio;
-	wxComboBox* _audio_stream;
-	wxRadioButton* _use_external_audio;
-	wxFilePickerCtrl* _external_audio[MAX_AUDIO_CHANNELS];
-	/** The Film's audio gain */
-	wxSpinCtrl* _audio_gain;
-	/** A button to open the gain calculation dialogue */
-	wxButton* _audio_gain_calculate_button;
-	/** The Film's audio delay */
-	wxSpinCtrl* _audio_delay;
-	wxCheckBox* _with_subtitles;
-	wxComboBox* _subtitle_stream;
-	wxSpinCtrl* _subtitle_offset;
-	wxSpinCtrl* _subtitle_scale;
-	wxComboBox* _colour_lut;
-	wxSpinCtrl* _j2k_bandwidth;
-	/** The Film's DCP content type */
-	wxComboBox* _dcp_content_type;
-	/** The Film's frames per second */
-	wxStaticText* _frames_per_second;
-	/** The Film's original size */
-	wxStaticText* _original_size;
-	/** The Film's length */
-	wxStaticText* _length;
-	/** The Film's audio details */
-	wxStaticText* _audio;
-	/** The Film's duration for still sources */
-	wxSpinCtrl* _still_duration;
-
-	wxSpinCtrl* _dcp_trim_start;
-	wxSpinCtrl* _dcp_trim_end;
+	wxChoice* _scaler;
+ 	wxSpinCtrl* _j2k_bandwidth;
+	wxChoice* _dcp_content_type;
+	wxChoice* _frame_rate;
+	wxSpinCtrl* _audio_channels;
+	wxButton* _best_frame_rate;
+	wxCheckBox* _three_d;
+	wxChoice* _resolution;
+	wxChoice* _standard;
 	wxCheckBox* _encrypted;
-	wxCheckBox* _multiple_reels;
-	wxSpinCtrl* _reel_size;
-	/** Selector to generate an A/B comparison DCP */
-	wxCheckBox* _dcp_ab;
 
-	std::list<wxControl*> _video_controls;
-	std::list<wxControl*> _still_controls;
+	ContentMenu _menu;
 
-	std::vector<Format const *> _formats;
+	std::vector<Ratio const *> _ratios;
 
 	bool _generally_sensitive;
+	TimelineDialog* _timeline_dialog;
 };

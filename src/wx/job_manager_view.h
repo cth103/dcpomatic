@@ -26,6 +26,7 @@
 #include <wx/wx.h>
 
 class Job;
+class JobRecord;
 
 /** @class JobManagerView
  *  @brief Class which is a wxPanel for showing the progress of jobs.
@@ -33,21 +34,20 @@ class Job;
 class JobManagerView : public wxScrolledWindow
 {
 public:
-	JobManagerView (wxWindow *);
-
-	void update ();
-
-private:
-	void periodic (wxTimerEvent &);
-
-	boost::shared_ptr<wxTimer> _timer;
-	wxPanel* _panel;
-	wxFlexGridSizer* _table;
-	struct JobRecord {
-		wxGauge* gauge;
-		wxStaticText* message;
-		bool finalised;
+	enum Buttons {
+		PAUSE = 0x1,
 	};
 		
-	std::map<boost::shared_ptr<Job>, JobRecord> _job_records;
+	JobManagerView (wxWindow *, Buttons);
+
+private:
+	void job_added (boost::weak_ptr<Job>);
+	void periodic ();
+
+	wxPanel* _panel;
+	wxFlexGridSizer* _table;
+	boost::shared_ptr<wxTimer> _timer;
+		
+	std::list<boost::shared_ptr<JobRecord> > _job_records;
+	Buttons _buttons;
 };

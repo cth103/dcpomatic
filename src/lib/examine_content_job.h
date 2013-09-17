@@ -17,22 +17,22 @@
 
 */
 
-/** @file  src/examine_content_job.h
- *  @brief A class to obtain the length and MD5 digest of a content file.
- */
-
+#include <boost/shared_ptr.hpp>
 #include "job.h"
 
-/** @class ExamineContentJob
- *  @brief A class to obtain the length and MD5 digest of a content file.
- */
+class Content;
+class Log;
+
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob (boost::shared_ptr<Film>, boost::shared_ptr<Job> req);
+	ExamineContentJob (boost::shared_ptr<const Film>, boost::shared_ptr<Content>);
 	~ExamineContentJob ();
 
 	std::string name () const;
 	void run ();
+
+private:
+	boost::shared_ptr<Content> _content;
 };
 

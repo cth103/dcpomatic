@@ -21,16 +21,17 @@
  *  @brief A class to describe one of FFmpeg's software scalers.
  */
 
-#ifndef DVDOMATIC_SCALER_H
-#define DVDOMATIC_SCALER_H
+#ifndef DCPOMATIC_SCALER_H
+#define DCPOMATIC_SCALER_H
 
 #include <string>
 #include <vector>
+#include <boost/utility.hpp>
 
 /** @class Scaler
  *  @brief Class to describe one of FFmpeg's software scalers
  */
-class Scaler
+class Scaler : public boost::noncopyable
 {
 public:
 	Scaler (int f, std::string i, std::string n);

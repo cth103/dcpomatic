@@ -25,15 +25,12 @@ class ServerDescription;
 class ServerDialog : public wxDialog
 {
 public:
-	ServerDialog (wxWindow *, ServerDescription *);
+	ServerDialog (wxWindow *);
 
-	ServerDescription* server () const;
+	void set (ServerDescription);
+	ServerDescription get () const;
 
 private:
-	void host_changed (wxCommandEvent &);
-	void threads_changed (wxCommandEvent &);
-
-	ServerDescription* _server;
 	wxTextCtrl* _host;
 	wxSpinCtrl* _threads;
 };

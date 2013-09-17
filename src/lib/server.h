@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_SERVER_H
+#define DCPOMATIC_SERVER_H
+
 /** @file src/server.h
  *  @brief Class to describe a server to which we can send
  *  encoding work, and a class to implement such a server.
@@ -26,9 +29,15 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
+#include <boost/optional.hpp>
+#include <libxml++/libxml++.h>
 #include "log.h"
 
 class Socket;
+
+namespace cxml {
+	class Node;
+}
 
 /** @class ServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
@@ -36,6 +45,11 @@ class Socket;
 class ServerDescription
 {
 public:
+	ServerDescription ()
+		: _host_name ("")
+		, _threads (1)
+	{}
+	
 	/** @param h Server host name or IP address in string form.
 	 *  @param t Number of threads to use on the server.
 	 */
@@ -44,6 +58,10 @@ public:
 		, _threads (t)
 	{}
 
+	ServerDescription (boost::shared_ptr<const cxml::Node>);
+
+	/* Default copy constructor is fine */
+	
 	/** @return server's host name or IP address in string form */
 	std::string host_name () const {
 		return _host_name;
@@ -62,9 +80,9 @@ public:
 		_threads = t;
 	}
 
-	std::string as_metadata () const;
+	void as_xml (xmlpp::Node *) const;
 	
-	static ServerDescription * create_from_metadata (std::string v);
+	static boost::optional<ServerDescription> create_from_metadata (std::string);
 
 private:
 	/** server's host name */
@@ -73,10 +91,10 @@ private:
 	int _threads;
 };
 
-class Server
+class Server : public boost::noncopyable
 {
 public:
-	Server (Log* log);
+	Server (boost::shared_ptr<Log> log);
 
 	void run (int num_threads);
 
@@ -88,5 +106,7 @@ private:
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
-	Log* _log;
+	boost::shared_ptr<Log> _log;
 };
+
+#endif

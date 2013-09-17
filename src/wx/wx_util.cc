@@ -24,6 +24,8 @@
 #include <boost/thread.hpp>
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
+#include "lib/config.h"
+#include "lib/util.h"
 #include "wx_util.h"
 
 using namespace std;
@@ -33,13 +35,45 @@ using namespace boost;
  *  @param s Sizer to add to.
  *  @param p Parent window for the wxStaticText.
  *  @param t Text for the wxStaticText.
+ *  @param left true if this label is a `left label'; ie the sort
+ *  of label which should be right-aligned on OS X.
  *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
-add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
+#ifdef __WXOSX__
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop)
+#else
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop)
+#endif
 {
-	wxStaticText* m = new wxStaticText (p, wxID_ANY, std_to_wx (t));
-	s->Add (m, prop, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+	}
+#endif	
+	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
+	s->Add (m, prop, flags, 6);
+	return m;
+}
+
+wxStaticText *
+#ifdef __WXOSX__
+add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
+#else
+add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, wxGBPosition pos, wxGBSpan span)
+#endif
+{
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+	}
+#endif	
+	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
+	s->Add (m, pos, span, flags);
 	return m;
 }
 
@@ -48,12 +82,22 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, string t, int prop)
  *  @param m Message.
  */
 void
-error_dialog (wxWindow* parent, string m)
+error_dialog (wxWindow* parent, wxString m)
 {
-	wxMessageDialog* d = new wxMessageDialog (parent, std_to_wx (m), wxT ("DVD-o-matic"), wxOK);
+	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK);
 	d->ShowModal ();
 	d->Destroy ();
 }
+
+bool
+confirm_dialog (wxWindow* parent, wxString m)
+{
+	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
+	int const r = d->ShowModal ();
+	d->Destroy ();
+	return r == wxID_YES;
+}
+	
 
 /** @param s wxWidgets string.
  *  @return Corresponding STL string.
@@ -79,10 +123,10 @@ int const ThreadedStaticText::_update_event_id = 10000;
  *  @param initial Initial text for the wxStaticText while the computation is being run.
  *  @param fn Function which works out what the wxStaticText content should be and returns it.
  */
-ThreadedStaticText::ThreadedStaticText (wxWindow* parent, string initial, function<string ()> fn)
-	: wxStaticText (parent, wxID_ANY, std_to_wx (initial))
+ThreadedStaticText::ThreadedStaticText (wxWindow* parent, wxString initial, function<string ()> fn)
+	: wxStaticText (parent, wxID_ANY, initial)
 {
-	Connect (_update_event_id, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ThreadedStaticText::thread_finished), 0, this);
+	Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ThreadedStaticText::thread_finished, this, _1), _update_event_id);
 	_thread = new thread (bind (&ThreadedStaticText::run, this, fn));
 }
 
@@ -138,22 +182,15 @@ checked_set (wxSpinCtrl* widget, int value)
 }
 
 void
-checked_set (wxComboBox* widget, int value)
+checked_set (wxChoice* widget, int value)
 {
 	if (widget->GetSelection() != value) {
-		if (value == wxNOT_FOUND) {
-			/* Work around an apparent wxWidgets bug; SetSelection (wxNOT_FOUND)
-			   appears not to work sometimes.
-			*/
-			widget->SetValue (wxT (""));
-		} else {
-			widget->SetSelection (value);
-		}
+		widget->SetSelection (value);
 	}
 }
 
 void
-checked_set (wxComboBox* widget, string value)
+checked_set (wxChoice* widget, string value)
 {
 	wxClientData* o = 0;
 	if (widget->GetSelection() != -1) {
@@ -178,6 +215,14 @@ checked_set (wxTextCtrl* widget, string value)
 }
 
 void
+checked_set (wxStaticText* widget, string value)
+{
+	if (widget->GetLabel() != std_to_wx (value)) {
+		widget->SetLabel (std_to_wx (value));
+	}
+}
+
+void
 checked_set (wxCheckBox* widget, bool value)
 {
 	if (widget->GetValue() != value) {
@@ -190,5 +235,44 @@ checked_set (wxRadioButton* widget, bool value)
 {
 	if (widget->GetValue() != value) {
 		widget->SetValue (value);
+	}
+}
+
+void
+dcpomatic_setup_i18n ()
+{
+	int language = wxLANGUAGE_DEFAULT;
+
+	boost::optional<string> config_lang = Config::instance()->language ();
+	if (config_lang && !config_lang->empty ()) {
+		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
+		if (li) {
+			language = li->Language;
+		}
+	}
+
+	wxLocale* locale = 0;
+	if (wxLocale::IsAvailable (language)) {
+		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
+
+#ifdef DCPOMATIC_WINDOWS
+		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
+#endif		
+
+#ifdef DCPOMATIC_POSIX
+		locale->AddCatalogLookupPathPrefix (POSIX_LOCALE_PREFIX);
+#endif
+
+		locale->AddCatalog (wxT ("libdcpomatic-wx"));
+		locale->AddCatalog (wxT ("dcpomatic"));
+		
+		if (!locale->IsOk()) {
+			delete locale;
+			locale = new wxLocale (wxLANGUAGE_ENGLISH);
+		}
+	}
+
+	if (locale) {
+		dcpomatic_setup_gettext_i18n (wx_to_std (locale->GetCanonicalName ()));
 	}
 }

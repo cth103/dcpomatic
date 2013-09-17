@@ -18,20 +18,25 @@
 */
 
 /** @file src/config_dialog.h
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/listctrl.h>
 #include <wx/filepicker.h>
+#include "wx_util.h"
+#include "editable_list.h"
 
 class DirPickerCtrl;
-
+class wxNotebook;
 class ServerDescription;
+class PresetColourConversion;
+class PresetColourConversionDialog;
+class ServerDialog;
 
 /** @class ConfigDialog
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 class ConfigDialog : public wxDialog
 {
@@ -39,38 +44,54 @@ public:
 	ConfigDialog (wxWindow *);
 
 private:
-	void tms_ip_changed (wxCommandEvent &);
-	void tms_path_changed (wxCommandEvent &);
-	void tms_user_changed (wxCommandEvent &);
-	void tms_password_changed (wxCommandEvent &);
-	void num_local_encoding_threads_changed (wxCommandEvent &);
-	void default_directory_changed (wxCommandEvent &);
-	void reference_scaler_changed (wxCommandEvent &);
-	void edit_reference_filters_clicked (wxCommandEvent &);
-	void reference_filters_changed (std::vector<Filter const *>);
-	void add_server_clicked (wxCommandEvent &);
-	void edit_server_clicked (wxCommandEvent &);
-	void remove_server_clicked (wxCommandEvent &);
-	void server_selection_changed (wxListEvent &);
+	void set_language_changed ();
+	void language_changed ();
+	void tms_ip_changed ();
+	void tms_path_changed ();
+	void tms_user_changed ();
+	void tms_password_changed ();
+	void num_local_encoding_threads_changed ();
+	void default_still_length_changed ();
+	void default_directory_changed ();
+	void edit_default_dci_metadata_clicked ();
+	void default_container_changed ();
+	void default_dcp_content_type_changed ();
+	void issuer_changed ();
+	void creator_changed ();
+	void default_j2k_bandwidth_changed ();
 
-	void add_server_to_control (ServerDescription *);
-	
+	void setup_language_sensitivity ();
+
+	void make_misc_panel ();
+	void make_tms_panel ();
+	void make_metadata_panel ();
+	void make_servers_panel ();
+	void make_colour_conversions_panel ();
+
+	wxNotebook* _notebook;
+	wxPanel* _misc_panel;
+	wxPanel* _tms_panel;
+	EditableList<PresetColourConversion, PresetColourConversionDialog>* _colour_conversions_panel;
+	EditableList<ServerDescription, ServerDialog>* _servers_panel;
+	wxPanel* _metadata_panel;
+	wxCheckBox* _set_language;
+	wxChoice* _language;
+	wxChoice* _default_container;
+	wxChoice* _default_dcp_content_type;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;
 	wxTextCtrl* _tms_user;
 	wxTextCtrl* _tms_password;
 	wxSpinCtrl* _num_local_encoding_threads;
-#ifdef __WXMSW__	
+	wxSpinCtrl* _default_still_length;
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _default_directory;
 #else
 	wxDirPickerCtrl* _default_directory;
-#endif	
-	wxComboBox* _reference_scaler;
-	wxStaticText* _reference_filters;
-	wxButton* _reference_filters_button;
-	wxListCtrl* _servers;
-	wxButton* _add_server;
-	wxButton* _edit_server;
-	wxButton* _remove_server;
+#endif
+	wxButton* _default_dci_metadata_button;
+	wxTextCtrl* _issuer;
+	wxTextCtrl* _creator;
+	wxSpinCtrl* _default_j2k_bandwidth;
 };
 

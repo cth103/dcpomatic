@@ -18,60 +18,61 @@
 */
 
 /** @file  src/film.h
- *  @brief A representation of a piece of video (with sound), including naming,
- *  the source content file, and how it should be presented in a DCP.
+ *  @brief A representation of some audio and video content, and details of
+ *  how they should be presented in a DCP.
  */
 
-#ifndef DVDOMATIC_FILM_H
-#define DVDOMATIC_FILM_H
+#ifndef DCPOMATIC_FILM_H
+#define DCPOMATIC_FILM_H
 
 #include <string>
 #include <vector>
 #include <inttypes.h>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread.hpp>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
-extern "C" {
-#include <libavcodec/avcodec.h>
-}
-#include "dcp_content_type.h"
+#include <boost/filesystem.hpp>
 #include "util.h"
-#include "stream.h"
+#include "types.h"
+#include "dci_metadata.h"
 
-class Format;
-class Job;
-class Filter;
+class DCPContentType;
 class Log;
-class ExamineContentJob;
-class ExternalAudioStream;
+class Content;
+class Player;
+class Playlist;
+class AudioContent;
+class Scaler;
 class Screen;
 
 /** @class Film
- *  @brief A representation of a video, maybe with sound.
  *
- *  A representation of a piece of video (maybe with sound), including naming,
- *  the source content file, and how it should be presented in a DCP.
+ *  @brief A representation of some audio and video content, and details of
+ *  how they should be presented in a DCP.
+ *
+ *  The content of a Film is held in a Playlist (created and managed by the Film).
  */
-class Film : public boost::enable_shared_from_this<Film>
+class Film : public boost::enable_shared_from_this<Film>, public boost::noncopyable
 {
 public:
-	Film (std::string d, bool must_exist = true);
-	Film (Film const &);
-	~Film ();
+	Film (boost::filesystem::path);
 
-	std::string j2k_dir () const;
+	std::string info_dir () const;
+	std::string j2c_path (int, Eyes, bool) const;
+	std::string info_path (int, Eyes) const;
+	std::string internal_video_mxf_dir () const;
+	std::string internal_video_mxf_filename () const;
+	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const AudioContent>) const;
 
-	void examine_content ();
+	std::string video_mxf_filename () const;
+	std::string audio_mxf_filename () const;
+
 	void send_dcp_to_tms ();
-
-	void make_dcp (bool);
+	void make_dcp ();
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
 	 */
-	Log* log () const {
+	boost::shared_ptr<Log> log () const {
 		return _log;
 	}
 
@@ -80,27 +81,38 @@ public:
 	std::string file (std::string f) const;
 	std::string dir (std::string d) const;
 
-	std::string content_path () const;
-	ContentType content_type () const;
-	
-	int target_audio_sample_rate () const;
-	
-	void write_metadata () const;
 	void read_metadata ();
+	void write_metadata () const;
 
-	Size cropped_size (Size) const;
-	boost::optional<int> dcp_length () const;
-	std::string dci_name () const;
-	std::string dcp_name () const;
+	std::string dci_name (bool if_created_now) const;
+	std::string dcp_name (bool if_created_now = false) const;
 
 	/** @return true if our state has changed since we last saved it */
 	bool dirty () const {
 		return _dirty;
 	}
 
-	int audio_channels () const;
+	libdcp::Size full_frame () const;
 
-	void set_dci_date_today ();
+	bool have_dcp () const;
+
+	boost::shared_ptr<Player> make_player () const;
+	boost::shared_ptr<Playlist> playlist () const;
+
+	OutputAudioFrame audio_frame_rate () const;
+
+	OutputAudioFrame time_to_audio_frames (Time) const;
+	OutputVideoFrame time_to_video_frames (Time) const;
+	Time video_frames_to_time (OutputVideoFrame) const;
+	Time audio_frames_to_time (OutputAudioFrame) const;
+
+	/* Proxies for some Playlist methods */
+
+	ContentList content () const;
+
+	Time length () const;
+	bool has_subtitles () const;
+	OutputVideoFrame best_video_frame_rate () const;
 
 	void make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
@@ -116,424 +128,180 @@ public:
 		NONE,
 		NAME,
 		USE_DCI_NAME,
+		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
 		CONTENT,
-		TRUST_CONTENT_HEADER,
 		DCP_CONTENT_TYPE,
-		FORMAT,
-		CROP,
-		FILTERS,
+		CONTAINER,
+		RESOLUTION,
 		SCALER,
-		DCP_TRIM_START,
-		DCP_TRIM_END,
-		REEL_SIZE,
-		DCP_AB,
-		CONTENT_AUDIO_STREAM,
-		EXTERNAL_AUDIO,
-		USE_CONTENT_AUDIO,
-		AUDIO_GAIN,
-		AUDIO_DELAY,
-		STILL_DURATION,
-		SUBTITLE_STREAM,
 		WITH_SUBTITLES,
-		SUBTITLE_OFFSET,
-		SUBTITLE_SCALE,
 		ENCRYPTED,
-		COLOUR_LUT,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
-		SIZE,
-		LENGTH,
-		CONTENT_AUDIO_STREAMS,
-		SUBTITLE_STREAMS,
-		FRAMES_PER_SECOND,
+		VIDEO_FRAME_RATE,
+		AUDIO_CHANNELS,
+		/** The setting of _three_d has been changed */
+		THREE_D,
+		SEQUENCE_VIDEO,
+		INTEROP,
 	};
 
 
 	/* GET */
 
 	std::string directory () const {
-		boost::mutex::scoped_lock lm (_directory_mutex);
 		return _directory;
 	}
 
 	std::string name () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _name;
 	}
 
 	bool use_dci_name () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _use_dci_name;
 	}
 
-	std::string content () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _content;
-	}
-
-	bool trust_content_header () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _trust_content_header;
-	}
-
 	DCPContentType const * dcp_content_type () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _dcp_content_type;
 	}
 
-	Format const * format () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _format;
+	Ratio const * container () const {
+		return _container;
 	}
 
-	Crop crop () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _crop;
-	}
-
-	std::vector<Filter const *> filters () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _filters;
+	Resolution resolution () const {
+		return _resolution;
 	}
 
 	Scaler const * scaler () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _scaler;
 	}
 
-	SourceFrame dcp_trim_start () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_trim_start;
-	}
-
-	SourceFrame dcp_trim_end () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_trim_end;
-	}
-
-	boost::optional<uint64_t> reel_size () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _reel_size;
-	}
-	
-	bool dcp_ab () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _dcp_ab;
-	}
-
-	boost::shared_ptr<AudioStream> content_audio_stream () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _content_audio_stream;
-	}
-
-	std::vector<std::string> external_audio () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _external_audio;
-	}
-
-	bool use_content_audio () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _use_content_audio;
-	}
-	
-	float audio_gain () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_gain;
-	}
-
-	int audio_delay () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_delay;
-	}
-
-	int still_duration () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _still_duration;
-	}
-
-	boost::shared_ptr<SubtitleStream> subtitle_stream () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_stream;
-	}
-
 	bool with_subtitles () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _with_subtitles;
 	}
 
-	int subtitle_offset () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_offset;
-	}
-
-	float subtitle_scale () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_scale;
-	}
-
 	bool encrypted () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _encrypted;
 	}
 
-	int colour_lut () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _colour_lut;
-	}
-
 	int j2k_bandwidth () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
 		return _j2k_bandwidth;
 	}
 
-	std::string audio_language () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _audio_language;
-	}
-	
-	std::string subtitle_language () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_language;
-	}
-	
-	std::string territory () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _territory;
-	}
-	
-	std::string rating () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _rating;
-	}
-	
-	std::string studio () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _studio;
-	}
-	
-	std::string facility () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _facility;
-	}
-	
-	std::string package_type () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _package_type;
+	DCIMetadata dci_metadata () const {
+		return _dci_metadata;
 	}
 
-	Size size () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _size;
+	/** @return The frame rate of the DCP */
+	int video_frame_rate () const {
+		return _video_frame_rate;
 	}
 
-	boost::optional<SourceFrame> length () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _length;
-	}
-	
-	std::string content_digest () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _content_digest;
-	}
-	
-	std::vector<boost::shared_ptr<AudioStream> > content_audio_streams () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _content_audio_streams;
+	int audio_channels () const {
+		return _audio_channels;
 	}
 
-	std::vector<boost::shared_ptr<SubtitleStream> > subtitle_streams () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		return _subtitle_streams;
-	}
-	
-	float frames_per_second () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
-		if (content_type() == STILL) {
-			return 24;
-		}
-		
-		return _frames_per_second;
+	bool three_d () const {
+		return _three_d;
 	}
 
-	boost::shared_ptr<AudioStream> audio_stream () const;
+	bool sequence_video () const {
+		return _sequence_video;
+	}
 
+	bool interop () const {
+		return _interop;
+	}
 	
+
 	/* SET */
 
 	void set_directory (std::string);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
-	void set_content (std::string);
-	void set_trust_content_header (bool);
+	void examine_and_add_content (boost::shared_ptr<Content>);
+	void add_content (boost::shared_ptr<Content>);
+	void remove_content (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
-	void set_format (Format const *);
-	void set_crop (Crop);
-	void set_left_crop (int);
-	void set_right_crop (int);
-	void set_top_crop (int);
-	void set_bottom_crop (int);
-	void set_filters (std::vector<Filter const *>);
+	void set_container (Ratio const *);
+	void set_resolution (Resolution);
 	void set_scaler (Scaler const *);
-	void set_dcp_trim_start (int);
-	void set_dcp_trim_end (int);
-	void set_reel_size (uint64_t);
-	void unset_reel_size ();
-	void set_dcp_ab (bool);
-	void set_content_audio_stream (boost::shared_ptr<AudioStream>);
-	void set_external_audio (std::vector<std::string>);
-	void set_use_content_audio (bool);
-	void set_audio_gain (float);
-	void set_audio_delay (int);
-	void set_still_duration (int);
-	void set_subtitle_stream (boost::shared_ptr<SubtitleStream>);
 	void set_with_subtitles (bool);
-	void set_subtitle_offset (int);
-	void set_subtitle_scale (float);
 	void set_encrypted (bool);
-	void set_colour_lut (int);
 	void set_j2k_bandwidth (int);
-	void set_audio_language (std::string);
-	void set_subtitle_language (std::string);
-	void set_territory (std::string);
-	void set_rating (std::string);
-	void set_studio (std::string);
-	void set_facility (std::string);
-	void set_package_type (std::string);
-	void set_size (Size);
-	void set_length (SourceFrame);
-	void unset_length ();
-	void set_content_digest (std::string);
-	void set_content_audio_streams (std::vector<boost::shared_ptr<AudioStream> >);
-	void set_subtitle_streams (std::vector<boost::shared_ptr<SubtitleStream> >);
-	void set_frames_per_second (float);
+	void set_dci_metadata (DCIMetadata);
+	void set_video_frame_rate (int);
+	void set_audio_channels (int);
+	void set_three_d (bool);
+	void set_dci_date_today ();
+	void set_sequence_video (bool);
+	void set_interop (bool);
 
-	/** Emitted when some property has changed */
+	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
+
+	/** Emitted when some property of our content has changed */
+	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 
 	/** Current version number of the state file */
 	static int const state_version;
 
 private:
-	
-	/** Log to write to */
-	Log* _log;
-
-	/** Any running ExamineContentJob, or 0 */
-	boost::shared_ptr<ExamineContentJob> _examine_content_job;
-
-	/** The date that we should use in a DCI name */
-	boost::gregorian::date _dci_date;
 
 	void signal_changed (Property);
-	void examine_content_finished ();
+	std::string video_identifier () const;
+	void playlist_changed ();
+	void playlist_content_changed (boost::weak_ptr<Content>, int);
+	std::string filename_safe_name () const;
+	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
+
+	/** Log to write to */
+	boost::shared_ptr<Log> _log;
+	boost::shared_ptr<Playlist> _playlist;
 
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
 	 */
 	std::string _directory;
-	/** Mutex for _directory */
-	mutable boost::mutex _directory_mutex;
 	
-	/** Name for DVD-o-matic */
+	/** Name for DCP-o-matic */
 	std::string _name;
 	/** True if a auto-generated DCI-compliant name should be used for our DCP */
 	bool _use_dci_name;
-	/** File or directory containing content; may be relative to our directory
-	 *  or an absolute path.
-	 */
-	std::string _content;
-	/** If this is true, we will believe the length specified by the content
-	 *  file's header; if false, we will run through the whole content file
-	 *  the first time we see it in order to obtain the length.
-	 */
-	bool _trust_content_header;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
-	/** The format to present this Film in (flat, scope, etc.) */
-	Format const * _format;
-	/** The crop to apply to the source */
-	Crop _crop;
-	/** Video filters that should be used when generating DCPs */
-	std::vector<Filter const *> _filters;
+	/** The container to put this Film in (flat, scope, etc.) */
+	Ratio const * _container;
+	/** DCP resolution (2K or 4K) */
+	Resolution _resolution;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** Frames to trim off the start of the DCP */
-	int _dcp_trim_start;
-	/** Frames to trim off the end of the DCP */
-	int _dcp_trim_end;
-	/** Approximate target reel size in bytes; if not set, use a single reel */
-	boost::optional<uint64_t> _reel_size;
-	/** true to create an A/B comparison DCP, where the left half of the image
-	    is the video without any filters or post-processing, and the right half
-	    has the specified filters and post-processing.
-	*/
-	bool _dcp_ab;
-	/** The audio stream to use from our content */
-	boost::shared_ptr<AudioStream> _content_audio_stream;
-	/** List of filenames of external audio files, in channel order
-	    (L, R, C, Lfe, Ls, Rs)
-	*/
-	std::vector<std::string> _external_audio;
-	/** true to use audio from our content file; false to use external audio */
-	bool _use_content_audio;
-	/** Gain to apply to audio in dB */
-	float _audio_gain;
-	/** Delay to apply to audio (positive moves audio later) in milliseconds */
-	int _audio_delay;
-	/** Duration to make still-sourced films (in seconds) */
-	int _still_duration;
-	boost::shared_ptr<SubtitleStream> _subtitle_stream;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
-	/** y offset for placing subtitles, in source pixels; +ve is further down
-	    the frame, -ve is further up.
-	*/
-	int _subtitle_offset;
-	/** scale factor to apply to subtitles */
-	float _subtitle_scale;
 	bool _encrypted;
-
-	/** index of colour LUT to use when converting RGB to XYZ.
-	 *  0: sRGB
-	 *  1: Rec 709
-	 */
-	int _colour_lut;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
-	
-	/* DCI naming stuff */
-	std::string _audio_language;
-	std::string _subtitle_language;
-	std::string _territory;
-	std::string _rating;
-	std::string _studio;
-	std::string _facility;
-	std::string _package_type;
-
-	/* Data which are cached to speed things up */
-
-	/** Size, in pixels, of the source (ignoring cropping) */
-	Size _size;
-	/** The length of the source, in video frames (as far as we know) */
-	boost::optional<SourceFrame> _length;
-	/** MD5 digest of our content file */
-	std::string _content_digest;
-	/** The audio streams in our content */
-	std::vector<boost::shared_ptr<AudioStream> > _content_audio_streams;
-	/** A stream to represent possible external audio (will always exist) */
-	boost::shared_ptr<AudioStream> _external_audio_stream;
-	/** the subtitle streams that we can use */
-	std::vector<boost::shared_ptr<SubtitleStream> > _subtitle_streams;
-	/** Frames per second of the source */
-	float _frames_per_second;
+	/** DCI naming stuff */
+	DCIMetadata _dci_metadata;
+	/** Frames per second to run our DCP at */
+	int _video_frame_rate;
+	/** The date that we should use in a DCI name */
+	boost::gregorian::date _dci_date;
+	/** Number of audio channels to put in the DCP */
+	int _audio_channels;
+	/** If true, the DCP will be written in 3D mode; otherwise in 2D.
+	    This will be regardless of what content is on the playlist.
+	*/
+	bool _three_d;
+	bool _sequence_video;
+	bool _interop;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
 
-	/** Mutex for all state except _directory */
-	mutable boost::mutex _state_mutex;
-
 	friend class paths_test;
+	friend class film_metadata_test;
 };
 
 #endif

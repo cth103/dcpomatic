@@ -1,4 +1,364 @@
-dvdomatic (0.71beta2-1) UNRELEASED; urgency=low
+dcpomatic (1.03-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * New upstream release.
+  * New upstream release.
+  * New upstream release.
+  * New upstream release.
+  * New upstream release.
+  * New upstream release.
+
+ -- Carl Hetherington <carl@d1stkfactory>  Mon, 09 Sep 2013 23:56:05 +0100
+
+dcpomatic (0.87-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 26 Apr 2013 09:53:27 +0100
+
+dcpomatic (0.86-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 23 Apr 2013 08:13:13 +0100
+
+dcpomatic (0.85-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 23 Apr 2013 00:08:20 +0100
+
+dcpomatic (0.84-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 21 Apr 2013 17:49:54 +0100
+
+dcpomatic (0.84beta5-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 21 Apr 2013 00:06:12 +0100
+
+dcpomatic (0.84beta4-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 19 Apr 2013 17:41:58 +0100
+
+dcpomatic (0.84beta3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 19 Apr 2013 11:36:37 +0100
+
+dcpomatic (0.84beta2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 19 Apr 2013 11:12:09 +0100
+
+dcpomatic (0.84beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 18 Apr 2013 23:32:17 +0100
+
+dcpomatic (0.83-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 10 Apr 2013 12:48:25 +0100
+
+dcpomatic (0.82-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 09 Apr 2013 23:43:35 +0100
+
+dcpomatic (0.82beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 09 Apr 2013 21:48:56 +0100
+
+dcpomatic (0.81-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 09 Apr 2013 19:48:04 +0100
+
+dcpomatic (0.81beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 09 Apr 2013 15:37:32 +0100
+
+dcpomatic (0.80-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 07 Apr 2013 23:48:12 +0100
+
+dcpomatic (0.80beta4-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 07 Apr 2013 23:08:49 +0100
+
+dcpomatic (0.80beta3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 07 Apr 2013 22:44:29 +0100
+
+dcpomatic (0.80beta2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 07 Apr 2013 22:19:34 +0100
+
+dcpomatic (0.80beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 07 Apr 2013 18:21:33 +0100
+
+dcpomatic (0.79-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Mon, 01 Apr 2013 22:37:03 +0100
+
+dcpomatic (0.78-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 31 Mar 2013 02:43:03 +0100
+
+dcpomatic (0.78beta16-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 28 Mar 2013 16:28:05 +0000
+
+dcpomatic (0.78beta15-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 28 Mar 2013 14:25:56 +0000
+
+dcpomatic (0.78beta14-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 28 Mar 2013 10:38:07 +0000
+
+dcpomatic (0.78beta13-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 27 Mar 2013 12:26:55 +0000
+
+dcpomatic (0.78beta12-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 26 Mar 2013 21:13:54 +0000
+
+dcpomatic (0.78beta11-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 26 Mar 2013 17:34:49 +0000
+
+dcpomatic (0.78beta10-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 26 Mar 2013 11:35:15 +0000
+
+dcpomatic (0.78beta9-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 26 Mar 2013 10:36:05 +0000
+
+dcpomatic (0.78beta8-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 26 Mar 2013 00:59:36 +0000
+
+dcpomatic (0.78beta7-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 26 Mar 2013 00:19:21 +0000
+
+dcpomatic (0.78beta6-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Mon, 25 Mar 2013 00:08:10 +0000
+
+dcpomatic (0.78beta5-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 21 Mar 2013 16:32:21 +0000
+
+dcpomatic (0.78beta4-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 20 Mar 2013 15:01:10 +0000
+
+dcpomatic (0.78beta3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 20 Mar 2013 10:49:17 +0000
+
+dcpomatic (0.78beta2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 19 Mar 2013 21:35:50 +0000
+
+dcpomatic (0.78beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 19 Mar 2013 20:50:54 +0000
+
+dcpomatic (0.77-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 14 Mar 2013 17:12:03 +0000
+
+dcpomatic (0.77beta2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 14 Mar 2013 15:50:43 +0000
+
+dcpomatic (0.77beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 14 Mar 2013 15:14:01 +0000
+
+dcpomatic (0.76-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 05 Mar 2013 13:30:28 +0000
+
+dcpomatic (0.76beta3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Tue, 05 Mar 2013 12:47:20 +0000
+
+dcpomatic (0.76beta2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 01 Mar 2013 18:32:16 +0000
+
+dcpomatic (0.76beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Fri, 01 Mar 2013 17:36:55 +0000
+
+dcpomatic (0.75-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 27 Feb 2013 11:03:07 +0000
+
+dcpomatic (0.75beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 27 Feb 2013 08:20:42 +0000
+
+dcpomatic (0.74-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sat, 23 Feb 2013 22:57:20 +0000
+
+dcpomatic (0.74beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sat, 23 Feb 2013 21:44:22 +0000
+
+dcpomatic (0.73-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 21 Feb 2013 00:43:40 +0000
+
+dcpomatic (0.73beta9-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Wed, 20 Feb 2013 23:40:24 +0000
+
+dcpomatic (0.73beta8-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Mon, 18 Feb 2013 22:35:51 +0000
+
+dcpomatic (0.73beta7-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Mon, 18 Feb 2013 20:38:51 +0000
+
+dcpomatic (0.73beta6-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 17 Feb 2013 23:05:56 +0000
+
+dcpomatic (0.73beta3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sun, 17 Feb 2013 23:05:05 +0000
+
+dcpomatic (0.73beta2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sat, 16 Feb 2013 22:42:32 +0000
+
+dcpomatic (0.73beta1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Sat, 16 Feb 2013 21:19:24 +0000
+
+dcpomatic (0.72-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 24 Jan 2013 15:31:57 +0000
+
+dcpomatic (0.71-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Carl Hetherington <carl@houllier.lan>  Thu, 24 Jan 2013 11:36:04 +0000
+
+dcpomatic (0.70-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * New upstream release.
@@ -6,7 +366,7 @@ dvdomatic (0.71beta2-1) UNRELEASED; urgency=low
 
  -- Carl Hetherington <cth@carlh.net>  Sat, 12 Jan 2013 23:07:15 +0000
 
-dvdomatic (0.70beta3-1) UNRELEASED; urgency=low
+dcpomatic (0.70beta3-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * New upstream release.
@@ -15,13 +375,13 @@ dvdomatic (0.70beta3-1) UNRELEASED; urgency=low
 
  -- Carl Hetherington <cth@carlh.net>  Sun, 06 Jan 2013 23:44:24 +0000
 
-dvdomatic (0.68-1) UNRELEASED; urgency=low
+dcpomatic (0.68-1) UNRELEASED; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Sun, 23 Dec 2012 01:43:44 +0000
 
-dvdomatic (0.68beta10-1) UNRELEASED; urgency=low
+dcpomatic (0.68beta10-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * New upstream release.
@@ -31,91 +391,91 @@ dvdomatic (0.68beta10-1) UNRELEASED; urgency=low
 
  -- Carl Hetherington <cth@carlh.net>  Sat, 22 Dec 2012 13:27:27 +0000
 
-dvdomatic (0.68beta5-1) unstable; urgency=low
+dcpomatic (0.68beta5-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Thu, 20 Dec 2012 07:53:46 +0000
 
-dvdomatic (0.68beta4-1) unstable; urgency=low
+dcpomatic (0.68beta4-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Thu, 20 Dec 2012 07:48:45 +0000
 
-dvdomatic (0.68beta3-1) unstable; urgency=low
+dcpomatic (0.68beta3-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Thu, 20 Dec 2012 00:35:45 +0000
 
-dvdomatic (0.68beta2-1) unstable; urgency=low
+dcpomatic (0.68beta2-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Wed, 19 Dec 2012 11:22:58 +0000
 
-dvdomatic (0.68beta1-1) unstable; urgency=low
+dcpomatic (0.68beta1-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Wed, 19 Dec 2012 10:11:13 +0000
 
-dvdomatic (0.67-1) unstable; urgency=low
+dcpomatic (0.67-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Tue, 18 Dec 2012 23:49:27 +0000
 
-dvdomatic (0.66-1) unstable; urgency=low
+dcpomatic (0.66-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Tue, 18 Dec 2012 11:29:04 +0000
 
-dvdomatic (0.65-1) unstable; urgency=low
+dcpomatic (0.65-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Tue, 18 Dec 2012 09:24:56 +0000
 
-dvdomatic (0.64-1) unstable; urgency=low
+dcpomatic (0.64-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Thu, 13 Dec 2012 21:52:09 +0000
 
-dvdomatic (0.63pre-1) unstable; urgency=low
+dcpomatic (0.63pre-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Tue, 11 Dec 2012 23:15:52 +0000
 
-dvdomatic (0.60-1) unstable; urgency=low
+dcpomatic (0.60-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Tue, 11 Dec 2012 22:46:04 +0000
 
-dvdomatic (0.59-1) unstable; urgency=low
+dcpomatic (0.59-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Mon, 10 Dec 2012 20:58:19 +0000
 
-dvdomatic (0.59beta5-1) unstable; urgency=low
+dcpomatic (0.59beta5-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Sun, 09 Dec 2012 23:51:55 +0000
 
-dvdomatic (0.59beta4-1) unstable; urgency=low
+dcpomatic (0.59beta4-1) unstable; urgency=low
 
   * New upstream release.
 
  -- Carl Hetherington <carl@houllier.lan>  Sun, 09 Dec 2012 21:38:00 +0000
 
-dvdomatic (0.59beta1-1) unstable; urgency=low
+dcpomatic (0.59beta1-1) unstable; urgency=low
 
   * Initial release.
 

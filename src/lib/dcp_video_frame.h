@@ -19,14 +19,15 @@
 */
 
 #include <openjpeg.h>
+#include <libdcp/picture_asset.h>
+#include <libdcp/picture_asset_writer.h>
 #include "util.h"
 
 /** @file  src/dcp_video_frame.h
  *  @brief A single frame of video destined for a DCP.
  */
 
-class FilmState;
-class EncodeOptions;
+class Film;
 class ServerDescription;
 class Scaler;
 class Image;
@@ -36,21 +37,19 @@ class Subtitle;
 /** @class EncodedData
  *  @brief Container for J2K-encoded data.
  */
-class EncodedData
+class EncodedData : public boost::noncopyable
 {
 public:
-	/** @param d Data (will not be freed by this class, but may be by subclasses)
-	 *  @param s Size of data, in bytes.
-	 */
-	EncodedData (uint8_t* d, int s)
-		: _data (d)
-		, _size (s)
-	{}
+	/** @param s Size of data, in bytes */
+	EncodedData (int s);
 
-	virtual ~EncodedData () {}
+	EncodedData (std::string f);
+
+	virtual ~EncodedData ();
 
 	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const EncodeOptions>, SourceFrame);
+	void write (boost::shared_ptr<const Film>, int, Eyes) const;
+	void write_info (boost::shared_ptr<const Film>, int, Eyes, libdcp::FrameInfo) const;
 
 	/** @return data */
 	uint8_t* data () const {
@@ -64,7 +63,7 @@ public:
 
 protected:
 	uint8_t* _data; ///< data
-	int _size;      ///< data size in bytes
+	int _size;	///< data size in bytes
 };
 
 /** @class LocallyEncodedData
@@ -75,12 +74,10 @@ protected:
 class LocallyEncodedData : public EncodedData
 {
 public:
-	/** @param d Data (which will not be freed by this class)
+	/** @param d Data (which will be copied by this class)
 	 *  @param s Size of data, in bytes.
 	 */
-	LocallyEncodedData (uint8_t* d, int s)
-		: EncodedData (d, s)
-	{}
+	LocallyEncodedData (uint8_t* d, int s);
 };
 
 /** @class RemotelyEncodedData
@@ -91,7 +88,6 @@ class RemotelyEncodedData : public EncodedData
 {
 public:
 	RemotelyEncodedData (int s);
-	~RemotelyEncodedData ();
 };
 
 /** @class DCPVideoFrame
@@ -103,44 +99,33 @@ public:
  *  Objects of this class are used for the queue that we keep
  *  of images that require encoding.
  */
-class DCPVideoFrame
+class DCPVideoFrame : public boost::noncopyable
 {
 public:
-	DCPVideoFrame (
-		boost::shared_ptr<const Image>, boost::shared_ptr<Subtitle>, Size,
-		int, int, float, Scaler const *, SourceFrame, float, std::string, int, int, Log *
-		);
-	
-	virtual ~DCPVideoFrame ();
+	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, ColourConversion, int, int, boost::shared_ptr<Log>);
+	DCPVideoFrame (boost::shared_ptr<const Image>, boost::shared_ptr<const cxml::Node>, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
-	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription const *);
+	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);
 
-	SourceFrame frame () const {
+	Eyes eyes () const {
+		return _eyes;
+	}
+	
+	int frame () const {
 		return _frame;
 	}
 	
 private:
-	void create_openjpeg_container ();
 
-	boost::shared_ptr<const Image> _input; ///< the input image
-	boost::shared_ptr<Subtitle> _subtitle; ///< any subtitle that should be on the image
-	Size _out_size;                  ///< the required size of the output, in pixels
-	int _padding;
-	int _subtitle_offset;
-	float _subtitle_scale;
-	Scaler const * _scaler;          ///< scaler to use
-	SourceFrame _frame;              ///< frame index within the Film's source
-	int _frames_per_second;          ///< Frames per second that we will use for the DCP (rounded)
-	std::string _post_process;       ///< FFmpeg post-processing string to use
-	int _colour_lut;                 ///< Colour look-up table to use
-	int _j2k_bandwidth;              ///< J2K bandwidth to use
+	void add_metadata (xmlpp::Element *) const;
+	
+	boost::shared_ptr<const Image> _image;
+	int _frame;			 ///< frame index within the DCP's intrinsic duration
+	Eyes _eyes;
+	ColourConversion _conversion;
+	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
+	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 
-	Log* _log; ///< log
-
-	opj_image_cmptparm_t _cmptparm[3]; ///< libopenjpeg's opj_image_cmptparm_t
-	opj_image* _image;                 ///< libopenjpeg's image container 
-	opj_cparameters_t* _parameters;    ///< libopenjpeg's parameters
-	opj_cinfo_t* _cinfo;               ///< libopenjpeg's opj_cinfo_t
-	opj_cio_t* _cio;                   ///< libopenjpeg's opj_cio_t
+	boost::shared_ptr<Log> _log; ///< log
 };

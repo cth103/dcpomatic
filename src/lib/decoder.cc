@@ -21,56 +21,18 @@
  *  @brief Parent class for decoders of content.
  */
 
-#include <iostream>
-#include <stdint.h>
-#include <boost/lexical_cast.hpp>
 #include "film.h"
-#include "format.h"
-#include "job.h"
-#include "options.h"
-#include "exceptions.h"
-#include "image.h"
-#include "util.h"
-#include "log.h"
 #include "decoder.h"
-#include "delay_line.h"
-#include "subtitle.h"
-#include "filter_graph.h"
 
-using std::string;
-using std::stringstream;
-using std::min;
-using std::pair;
-using std::list;
+#include "i18n.h"
+
 using boost::shared_ptr;
-using boost::optional;
 
 /** @param f Film.
- *  @param o Options.
- *  @param j Job that we are running within, or 0
+ *  @param o Decode options.
  */
-Decoder::Decoder (boost::shared_ptr<Film> f, boost::shared_ptr<const DecodeOptions> o, Job* j)
+Decoder::Decoder (shared_ptr<const Film> f)
 	: _film (f)
-	, _opt (o)
-	, _job (j)
 {
-	_film_connection = f->Changed.connect (bind (&Decoder::film_changed, this, _1));
-}
 
-/** Seek to a position as a source timestamp in seconds.
- *  @return true on error.
- */
-bool
-Decoder::seek (double)
-{
-	throw DecodeError ("decoder does not support seek");
-}
-
-/** Seek so that the next frame we will produce is the same as the last one.
- *  @return true on error.
- */
-bool
-Decoder::seek_to_last ()
-{
-	throw DecodeError ("decoder does not support seek");
 }

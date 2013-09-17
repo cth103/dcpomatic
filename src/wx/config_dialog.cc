@@ -18,153 +18,57 @@
 */
 
 /** @file src/config_dialog.cc
- *  @brief A dialogue to edit DVD-o-matic configuration.
+ *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
 #include <wx/stdpaths.h>
+#include <wx/notebook.h>
+#include <libdcp/colour_matrix.h>
 #include "lib/config.h"
 #include "lib/server.h"
-#include "lib/format.h"
+#include "lib/ratio.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
+#include "lib/dcp_content_type.h"
+#include "lib/colour_conversion.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "filter_dialog.h"
 #include "server_dialog.h"
 #include "dir_picker_ctrl.h"
+#include "dci_metadata_dialog.h"
+#include "preset_colour_conversion_dialog.h"
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::list;
 using boost::bind;
+using boost::shared_ptr;
+using boost::lexical_cast;
 
 ConfigDialog::ConfigDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("DVD-o-matic Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, 6, 6);
-	table->AddGrowableCol (1, 1);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_notebook = new wxNotebook (this, wxID_ANY);
+	s->Add (_notebook, 1);
 
-	add_label_to_sizer (table, this, "TMS IP address");
-	_tms_ip = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_tms_ip, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "TMS target path");
-	_tms_path = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_tms_path, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "TMS user name");
-	_tms_user = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_tms_user, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "TMS password");
-	_tms_password = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_tms_password, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "Threads to use for encoding on this host");
-	_num_local_encoding_threads = new wxSpinCtrl (this);
-	table->Add (_num_local_encoding_threads, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "Default directory for new films");
-#ifdef __WXMSW__
-	_default_directory = new DirPickerCtrl (this);
-#else	
-	_default_directory = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
-#endif
-	table->Add (_default_directory, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	add_label_to_sizer (table, this, "Reference scaler for A/B");
-	_reference_scaler = new wxComboBox (this, wxID_ANY);
-	vector<Scaler const *> const sc = Scaler::all ();
-	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_reference_scaler->Append (std_to_wx ((*i)->name ()));
-	}
-
-	table->Add (_reference_scaler, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	{
-		add_label_to_sizer (table, this, "Reference filters for A/B");
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_reference_filters = new wxStaticText (this, wxID_ANY, wxT (""));
-		s->Add (_reference_filters, 1, wxEXPAND);
-		_reference_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
-		s->Add (_reference_filters_button, 0);
-		table->Add (s, 1, wxEXPAND);
-		table->AddSpacer (0);
-	}
-
-	add_label_to_sizer (table, this, "Encoding Servers");
-	_servers = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (220, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
-	wxListItem ip;
-	ip.SetId (0);
-	ip.SetText (_("IP address"));
-	ip.SetWidth (120);
-	_servers->InsertColumn (0, ip);
-	ip.SetId (1);
-	ip.SetText (_("Threads"));
-	ip.SetWidth (80);
-	_servers->InsertColumn (1, ip);
-	table->Add (_servers, 1, wxEXPAND | wxALL);
-
-	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		_add_server = new wxButton (this, wxID_ANY, _("Add"));
-		s->Add (_add_server);
-		_edit_server = new wxButton (this, wxID_ANY, _("Edit"));
-		s->Add (_edit_server);
-		_remove_server = new wxButton (this, wxID_ANY, _("Remove"));
-		s->Add (_remove_server);
-		table->Add (s, 0);
-	}
-		
-	Config* config = Config::instance ();
-
-	_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
-	_tms_ip->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_ip_changed), 0, this);
-	_tms_path->SetValue (std_to_wx (config->tms_path ()));
-	_tms_path->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_path_changed), 0, this);
-	_tms_user->SetValue (std_to_wx (config->tms_user ()));
-	_tms_user->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_user_changed), 0, this);
-	_tms_password->SetValue (std_to_wx (config->tms_password ()));
-	_tms_password->Connect (wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (ConfigDialog::tms_password_changed), 0, this);
-
-	_num_local_encoding_threads->SetRange (1, 128);
-	_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
-	_num_local_encoding_threads->Connect (wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler (ConfigDialog::num_local_encoding_threads_changed), 0, this);
-
-	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
-	_default_directory->Connect (wxID_ANY, wxEVT_COMMAND_DIRPICKER_CHANGED, wxCommandEventHandler (ConfigDialog::default_directory_changed), 0, this);
-
-	_reference_scaler->SetSelection (Scaler::as_index (config->reference_scaler ()));
-	_reference_scaler->Connect (wxID_ANY, wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler (ConfigDialog::reference_scaler_changed), 0, this);
-
-	pair<string, string> p = Filter::ffmpeg_strings (config->reference_filters ());
-	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
-	_reference_filters_button->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_reference_filters_clicked), 0, this);
-
-	vector<ServerDescription*> servers = config->servers ();
-	for (vector<ServerDescription*>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		add_server_to_control (*i);
-	}
-	
-	_add_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::add_server_clicked), 0, this);
-	_edit_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::edit_server_clicked), 0, this);
-	_remove_server->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ConfigDialog::remove_server_clicked), 0, this);
-
-	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler (ConfigDialog::server_selection_changed), 0, this);
-	_servers->Connect (wxID_ANY, wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler (ConfigDialog::server_selection_changed), 0, this);
-	wxListEvent ev;
-	server_selection_changed (ev);
+	make_misc_panel ();
+	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
+	make_servers_panel ();
+	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
+	make_colour_conversions_panel ();
+	_notebook->AddPage (_colour_conversions_panel, _("Colour conversions"), false);
+	make_metadata_panel ();
+	_notebook->AddPage (_metadata_panel, _("Metadata"), false);
+	make_tms_panel ();
+	_notebook->AddPage (_tms_panel, _("TMS"), false);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
+	overall_sizer->Add (s, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -177,133 +81,374 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 }
 
 void
-ConfigDialog::tms_ip_changed (wxCommandEvent &)
+ConfigDialog::make_misc_panel ()
+{
+	_misc_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_misc_panel->SetSizer (s);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	table->AddGrowableCol (1, 1);
+	s->Add (table, 1, wxALL | wxEXPAND, 8);
+
+	_set_language = new wxCheckBox (_misc_panel, wxID_ANY, _("Set language"));
+	table->Add (_set_language, 1);
+	_language = new wxChoice (_misc_panel, wxID_ANY);
+	_language->Append (wxT ("English"));
+	_language->Append (wxT ("Français"));
+	_language->Append (wxT ("Italiano"));
+	_language->Append (wxT ("Español"));
+	_language->Append (wxT ("Svenska"));
+	table->Add (_language);
+
+	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DCP-o-matic to see language changes)"), false);
+	wxFont font = restart->GetFont();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	font.SetPointSize (font.GetPointSize() - 1);
+	restart->SetFont (font);
+	table->AddSpacer (0);
+
+	add_label_to_sizer (table, _misc_panel, _("Threads to use for encoding on this host"), true);
+	_num_local_encoding_threads = new wxSpinCtrl (_misc_panel);
+	table->Add (_num_local_encoding_threads, 1);
+
+	{
+		add_label_to_sizer (table, _misc_panel, _("Default duration of still images"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_still_length = new wxSpinCtrl (_misc_panel);
+		s->Add (_default_still_length);
+		add_label_to_sizer (s, _misc_panel, _("s"), false);
+		table->Add (s, 1);
+	}
+
+	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"), true);
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+	_default_directory = new DirPickerCtrl (_misc_panel);
+#else	
+	_default_directory = new wxDirPickerCtrl (_misc_panel, wxDD_DIR_MUST_EXIST);
+#endif
+	table->Add (_default_directory, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"), true);
+	_default_dci_metadata_button = new wxButton (_misc_panel, wxID_ANY, _("Edit..."));
+	table->Add (_default_dci_metadata_button);
+
+	add_label_to_sizer (table, _misc_panel, _("Default container"), true);
+	_default_container = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_container);
+
+	add_label_to_sizer (table, _misc_panel, _("Default content type"), true);
+	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
+	table->Add (_default_dcp_content_type);
+
+	{
+		add_label_to_sizer (table, _misc_panel, _("Default JPEG2000 bandwidth"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_j2k_bandwidth = new wxSpinCtrl (_misc_panel);
+		s->Add (_default_j2k_bandwidth);
+		add_label_to_sizer (s, _misc_panel, _("MBps"), false);
+		table->Add (s, 1);
+	}
+	
+	Config* config = Config::instance ();
+
+	_set_language->SetValue (config->language ());
+
+	if (config->language().get_value_or ("") == "fr") {
+		_language->SetSelection (1);
+	} else if (config->language().get_value_or ("") == "it") {
+		_language->SetSelection (2);
+	} else if (config->language().get_value_or ("") == "es") {
+		_language->SetSelection (3);
+	} else if (config->language().get_value_or ("") == "sv") {
+		_language->SetSelection (4);
+	} else {
+		_language->SetSelection (0);
+	}
+
+	setup_language_sensitivity ();
+
+	_set_language->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ConfigDialog::set_language_changed, this));
+	_language->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&ConfigDialog::language_changed,     this));
+
+	_num_local_encoding_threads->SetRange (1, 128);
+	_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
+	_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::num_local_encoding_threads_changed, this));
+
+	_default_still_length->SetRange (1, 3600);
+	_default_still_length->SetValue (config->default_still_length ());
+	_default_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_still_length_changed, this));
+
+	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
+	_default_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&ConfigDialog::default_directory_changed, this));
+
+	_default_dci_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::edit_default_dci_metadata_clicked, this));
+
+	vector<Ratio const *> ratio = Ratio::all ();
+	int n = 0;
+	for (vector<Ratio const *>::iterator i = ratio.begin(); i != ratio.end(); ++i) {
+		_default_container->Append (std_to_wx ((*i)->nickname ()));
+		if (*i == config->default_container ()) {
+			_default_container->SetSelection (n);
+		}
+		++n;
+	}
+
+	_default_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ConfigDialog::default_container_changed, this));
+	
+	vector<DCPContentType const *> const ct = DCPContentType::all ();
+	n = 0;
+	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
+		_default_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
+		if (*i == config->default_dcp_content_type ()) {
+			_default_dcp_content_type->SetSelection (n);
+		}
+		++n;
+	}
+
+	_default_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ConfigDialog::default_dcp_content_type_changed, this));
+
+	_default_j2k_bandwidth->SetRange (50, 250);
+	_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1e6);
+	_default_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_j2k_bandwidth_changed, this));
+}
+
+void
+ConfigDialog::make_tms_panel ()
+{
+	_tms_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_tms_panel->SetSizer (s);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	table->AddGrowableCol (1, 1);
+	s->Add (table, 1, wxALL | wxEXPAND, 8);
+
+	add_label_to_sizer (table, _tms_panel, _("IP address"), true);
+	_tms_ip = new wxTextCtrl (_tms_panel, wxID_ANY);
+	table->Add (_tms_ip, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _tms_panel, _("Target path"), true);
+	_tms_path = new wxTextCtrl (_tms_panel, wxID_ANY);
+	table->Add (_tms_path, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _tms_panel, _("User name"), true);
+	_tms_user = new wxTextCtrl (_tms_panel, wxID_ANY);
+	table->Add (_tms_user, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _tms_panel, _("Password"), true);
+	_tms_password = new wxTextCtrl (_tms_panel, wxID_ANY);
+	table->Add (_tms_password, 1, wxEXPAND);
+
+	Config* config = Config::instance ();
+	
+	_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
+	_tms_ip->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_ip_changed, this));
+	_tms_path->SetValue (std_to_wx (config->tms_path ()));
+	_tms_path->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_path_changed, this));
+	_tms_user->SetValue (std_to_wx (config->tms_user ()));
+	_tms_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_user_changed, this));
+	_tms_password->SetValue (std_to_wx (config->tms_password ()));
+	_tms_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::tms_password_changed, this));
+}
+
+void
+ConfigDialog::make_metadata_panel ()
+{
+	_metadata_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_metadata_panel->SetSizer (s);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	table->AddGrowableCol (1, 1);
+	s->Add (table, 1, wxALL | wxEXPAND, 8);
+
+	add_label_to_sizer (table, _metadata_panel, _("Issuer"), true);
+	_issuer = new wxTextCtrl (_metadata_panel, wxID_ANY);
+	table->Add (_issuer, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _metadata_panel, _("Creator"), true);
+	_creator = new wxTextCtrl (_metadata_panel, wxID_ANY);
+	table->Add (_creator, 1, wxEXPAND);
+
+	Config* config = Config::instance ();
+
+	_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
+	_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::issuer_changed, this));
+	_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
+	_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::creator_changed, this));
+}
+
+static std::string
+server_column (ServerDescription s, int c)
+{
+	switch (c) {
+	case 0:
+		return s.host_name ();
+	case 1:
+		return lexical_cast<string> (s.threads ());
+	}
+
+	return "";
+}
+
+void
+ConfigDialog::make_servers_panel ()
+{
+	vector<string> columns;
+	columns.push_back (wx_to_std (_("IP address")));
+	columns.push_back (wx_to_std (_("Threads")));
+	_servers_panel = new EditableList<ServerDescription, ServerDialog> (
+		_notebook,
+		columns,
+		boost::bind (&Config::servers, Config::instance()),
+		boost::bind (&Config::set_servers, Config::instance(), _1),
+		boost::bind (&server_column, _1, _2)
+		);
+}
+
+void
+ConfigDialog::language_changed ()
+{
+	switch (_language->GetSelection ()) {
+	case 0:
+		Config::instance()->set_language ("en");
+		break;
+	case 1:
+		Config::instance()->set_language ("fr");
+		break;
+	case 2:
+		Config::instance()->set_language ("it");
+		break;
+	case 3:
+		Config::instance()->set_language ("es");
+		break;
+	case 4:
+		Config::instance()->set_language ("sv");
+		break;
+	}
+}
+
+void
+ConfigDialog::tms_ip_changed ()
 {
 	Config::instance()->set_tms_ip (wx_to_std (_tms_ip->GetValue ()));
 }
 
 void
-ConfigDialog::tms_path_changed (wxCommandEvent &)
+ConfigDialog::tms_path_changed ()
 {
 	Config::instance()->set_tms_path (wx_to_std (_tms_path->GetValue ()));
 }
 
 void
-ConfigDialog::tms_user_changed (wxCommandEvent &)
+ConfigDialog::tms_user_changed ()
 {
 	Config::instance()->set_tms_user (wx_to_std (_tms_user->GetValue ()));
 }
 
 void
-ConfigDialog::tms_password_changed (wxCommandEvent &)
+ConfigDialog::tms_password_changed ()
 {
 	Config::instance()->set_tms_password (wx_to_std (_tms_password->GetValue ()));
 }
 
 void
-ConfigDialog::num_local_encoding_threads_changed (wxCommandEvent &)
+ConfigDialog::num_local_encoding_threads_changed ()
 {
 	Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 }
 
 void
-ConfigDialog::default_directory_changed (wxCommandEvent &)
+ConfigDialog::default_directory_changed ()
 {
 	Config::instance()->set_default_directory (wx_to_std (_default_directory->GetPath ()));
 }
 
 void
-ConfigDialog::add_server_to_control (ServerDescription* s)
+ConfigDialog::edit_default_dci_metadata_clicked ()
 {
-	wxListItem item;
-	int const n = _servers->GetItemCount ();
-	item.SetId (n);
-	_servers->InsertItem (item);
-	_servers->SetItem (n, 0, std_to_wx (s->host_name ()));
-	_servers->SetItem (n, 1, std_to_wx (boost::lexical_cast<string> (s->threads ())));
-}
-
-void
-ConfigDialog::add_server_clicked (wxCommandEvent &)
-{
-	ServerDialog* d = new ServerDialog (this, 0);
+	DCIMetadataDialog* d = new DCIMetadataDialog (this, Config::instance()->default_dci_metadata ());
 	d->ShowModal ();
-	ServerDescription* s = d->server ();
-	d->Destroy ();
-	
-	add_server_to_control (s);
-	vector<ServerDescription*> o = Config::instance()->servers ();
-	o.push_back (s);
-	Config::instance()->set_servers (o);
-}
-
-void
-ConfigDialog::edit_server_clicked (wxCommandEvent &)
-{
-	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (i == -1) {
-		return;
-	}
-
-	wxListItem item;
-	item.SetId (i);
-	item.SetColumn (0);
-	_servers->GetItem (item);
-
-	vector<ServerDescription*> servers = Config::instance()->servers ();
-	assert (i >= 0 && i < int (servers.size ()));
-
-	ServerDialog* d = new ServerDialog (this, servers[i]);
-	d->ShowModal ();
-	d->Destroy ();
-
-	_servers->SetItem (i, 0, std_to_wx (servers[i]->host_name ()));
-	_servers->SetItem (i, 1, std_to_wx (boost::lexical_cast<string> (servers[i]->threads ())));
-}
-
-void
-ConfigDialog::remove_server_clicked (wxCommandEvent &)
-{
-	int i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (i >= 0) {
-		_servers->DeleteItem (i);
-	}
-
-	vector<ServerDescription*> o = Config::instance()->servers ();
-	o.erase (o.begin() + i);
-	Config::instance()->set_servers (o);
-}
-
-void
-ConfigDialog::server_selection_changed (wxListEvent &)
-{
-	int const i = _servers->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	_edit_server->Enable (i >= 0);
-	_remove_server->Enable (i >= 0);
-}
-
-void
-ConfigDialog::reference_scaler_changed (wxCommandEvent &)
-{
-	int const n = _reference_scaler->GetSelection ();
-	if (n >= 0) {
-		Config::instance()->set_reference_scaler (Scaler::from_index (n));
-	}
-}
-
-void
-ConfigDialog::edit_reference_filters_clicked (wxCommandEvent &)
-{
-	FilterDialog* d = new FilterDialog (this, Config::instance()->reference_filters ());
-	d->ActiveChanged.connect (boost::bind (&ConfigDialog::reference_filters_changed, this, _1));
-	d->ShowModal ();
+	Config::instance()->set_default_dci_metadata (d->dci_metadata ());
 	d->Destroy ();
 }
 
 void
-ConfigDialog::reference_filters_changed (vector<Filter const *> f)
+ConfigDialog::set_language_changed ()
 {
-	Config::instance()->set_reference_filters (f);
-	pair<string, string> p = Filter::ffmpeg_strings (Config::instance()->reference_filters ());
-	_reference_filters->SetLabel (std_to_wx (p.first + " " + p.second));
+	setup_language_sensitivity ();
+	if (_set_language->GetValue ()) {
+		language_changed ();
+	} else {
+		Config::instance()->unset_language ();
+	}
+}
+
+void
+ConfigDialog::setup_language_sensitivity ()
+{
+	_language->Enable (_set_language->GetValue ());
+}
+
+void
+ConfigDialog::default_still_length_changed ()
+{
+	Config::instance()->set_default_still_length (_default_still_length->GetValue ());
+}
+
+void
+ConfigDialog::default_container_changed ()
+{
+	vector<Ratio const *> ratio = Ratio::all ();
+	Config::instance()->set_default_container (ratio[_default_container->GetSelection()]);
+}
+
+void
+ConfigDialog::default_dcp_content_type_changed ()
+{
+	vector<DCPContentType const *> ct = DCPContentType::all ();
+	Config::instance()->set_default_dcp_content_type (ct[_default_dcp_content_type->GetSelection()]);
+}
+
+void
+ConfigDialog::issuer_changed ()
+{
+	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	m.issuer = wx_to_std (_issuer->GetValue ());
+	Config::instance()->set_dcp_metadata (m);
+}
+
+void
+ConfigDialog::creator_changed ()
+{
+	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	m.creator = wx_to_std (_creator->GetValue ());
+	Config::instance()->set_dcp_metadata (m);
+}
+
+void
+ConfigDialog::default_j2k_bandwidth_changed ()
+{
+	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1e6);
+}
+
+static std::string
+colour_conversion_column (PresetColourConversion c)
+{
+	return c.name;
+}
+
+void
+ConfigDialog::make_colour_conversions_panel ()
+{
+	vector<string> columns;
+	columns.push_back (wx_to_std (_("Name")));
+	_colour_conversions_panel = new EditableList<PresetColourConversion, PresetColourConversionDialog> (
+		_notebook,
+		columns,
+		boost::bind (&Config::colour_conversions, Config::instance()),
+		boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
+		boost::bind (&colour_conversion_column, _1)
+		);
 }

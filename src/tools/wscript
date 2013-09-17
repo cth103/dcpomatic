@@ -1,19 +1,34 @@
+import os
+import glob
+from waflib import Logs
+import i18n
+
 def build(bld):
-    for t in ['makedcp', 'servomatic_cli']:
+    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test']:
         obj = bld(features = 'cxx cxxprogram')
-        obj.uselib = 'BOOST_THREAD OPENJPEG DCP AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
+        obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS'
         obj.includes = ['..']
-        obj.use    = ['libdvdomatic']
+        obj.use    = ['libdcpomatic']
         obj.source = '%s.cc' % t
         obj.target = t
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dvdomatic', 'servomatic_gui']:
+        for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server']:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC'
+            obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML WXWIDGETS'
+            if bld.env.STATIC:
+                obj.uselib += ' GTK'
             obj.includes = ['..']
-            obj.use    = ['libdvdomatic', 'libdvdomatic-wx']
+            obj.use    = ['libdcpomatic', 'libdcpomatic-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../windows/dvdomatic.rc'
+                obj.source += ' ../../platform/windows/dcpomatic.rc'
             obj.target = t
+
+        i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic', bld)
+
+def pot(bld):
+    i18n.pot(os.path.join('src', 'tools'), 'dcpomatic.cc', 'dcpomatic')
+
+def pot_merge(bld):
+    i18n.pot_merge(os.path.join('src', 'tools'), 'dcpomatic')

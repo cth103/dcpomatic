@@ -21,19 +21,20 @@
  *  @brief A class to describe one of FFmpeg's video or post-processing filters.
  */
 
-#ifndef DVDOMATIC_FILTER_H
-#define DVDOMATIC_FILTER_H
+#ifndef DCPOMATIC_FILTER_H
+#define DCPOMATIC_FILTER_H
 
 #include <string>
 #include <vector>
+#include <boost/utility.hpp>
 
 /** @class Filter
  *  @brief A class to describe one of FFmpeg's video or post-processing filters.
  */
-class Filter
+class Filter : public boost::noncopyable
 {
 public:
-	Filter (std::string, std::string, std::string, std::string);
+	Filter (std::string, std::string, std::string, std::string, std::string);
 
 	/** @return our id */
 	std::string id () const {
@@ -54,6 +55,10 @@ public:
 	std::string pp () const {
 		return _pp;
 	}
+
+	std::string category () const {
+		return _category;
+	}
 	
 	static std::vector<Filter const *> all ();
 	static Filter const * from_id (std::string);
@@ -66,6 +71,7 @@ private:
 	std::string _id;
 	/** user-visible name */
 	std::string _name;
+	std::string _category;
 	/** string for a FFmpeg video filter descriptor */
 	std::string _vf;
 	/** string for a FFmpeg post-processing descriptor */
@@ -73,6 +79,7 @@ private:
 
 	/** all available filters */
 	static std::vector<Filter const *> _filters;
+	static void maybe_add (std::string, std::string, std::string, std::string, std::string);
 };
 
 #endif

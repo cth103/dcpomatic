@@ -22,36 +22,120 @@
 #include <fstream>
 #include <glib.h>
 #include <boost/filesystem.hpp>
+#include <libdcp/colour_matrix.h>
+#include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"
 #include "scaler.h"
 #include "filter.h"
+#include "ratio.h"
+#include "dcp_content_type.h"
 #include "sound_processor.h"
-#include "cinema.h"
+#include "colour_conversion.h"
+
+#include "i18n.h"
 
 using std::vector;
 using std::ifstream;
 using std::string;
 using std::ofstream;
 using std::list;
+using std::max;
 using boost::shared_ptr;
+using boost::lexical_cast;
+using boost::optional;
 
 Config* Config::_instance = 0;
 
 /** Construct default configuration */
 Config::Config ()
-	: _num_local_encoding_threads (2)
+	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
 	, _server_port (6192)
-	, _reference_scaler (Scaler::from_id ("bicubic"))
-	, _tms_path (".")
-	, _sound_processor (SoundProcessor::from_id ("dolby_cp750"))
+	, _tms_path (N_("."))
+	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _default_still_length (10)
+	, _default_container (Ratio::from_id ("185"))
+	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
+	, _default_j2k_bandwidth (200000000)
 {
-	ifstream f (read_file().c_str ());
+	_allowed_dcp_frame_rates.push_back (24);
+	_allowed_dcp_frame_rates.push_back (25);
+	_allowed_dcp_frame_rates.push_back (30);
+	_allowed_dcp_frame_rates.push_back (48);
+	_allowed_dcp_frame_rates.push_back (50);
+	_allowed_dcp_frame_rates.push_back (60);
+
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::srgb_to_xyz, 2.6));
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::srgb_to_xyz, 2.6));
+}
+
+void
+Config::read ()
+{
+	if (!boost::filesystem::exists (file (false))) {
+		read_old_metadata ();
+		return;
+	}
+
+	cxml::Document f ("Config");
+	f.read_file (file (false));
+	optional<string> c;
+
+	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
+	_default_directory = f.string_child ("DefaultDirectory");
+	_server_port = f.number_child<int> ("ServerPort");
+	
+	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
+	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
+		_servers.push_back (ServerDescription (*i));
+	}
+
+	_tms_ip = f.string_child ("TMSIP");
+	_tms_path = f.string_child ("TMSPath");
+	_tms_user = f.string_child ("TMSUser");
+	_tms_password = f.string_child ("TMSPassword");
+
+	c = f.optional_string_child ("SoundProcessor");
+	if (c) {
+		_sound_processor = SoundProcessor::from_id (c.get ());
+	}
+
+	_language = f.optional_string_child ("Language");
+
+	c = f.optional_string_child ("DefaultContainer");
+	if (c) {
+		_default_container = Ratio::from_id (c.get ());
+	}
+
+	c = f.optional_string_child ("DefaultDCPContentType");
+	if (c) {
+		_default_dcp_content_type = DCPContentType::from_dci_name (c.get ());
+	}
+
+	_dcp_metadata.issuer = f.optional_string_child ("DCPMetadataIssuer").get_value_or ("");
+	_dcp_metadata.creator = f.optional_string_child ("DCPMetadataCreator").get_value_or ("");
+
+	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
+	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
+	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
+
+	list<shared_ptr<cxml::Node> > cc = f.node_children ("ColourConversion");
+
+	if (!cc.empty ()) {
+		_colour_conversions.clear ();
+	}
+	
+	for (list<shared_ptr<cxml::Node> >::iterator i = cc.begin(); i != cc.end(); ++i) {
+		_colour_conversions.push_back (PresetColourConversion (*i));
+	}
+}
+
+void
+Config::read_old_metadata ()
+{
+	ifstream f (file(true).c_str ());
 	string line;
 
-	shared_ptr<Cinema> cinema;
-	shared_ptr<Screen> screen;
-	
 	while (getline (f, line)) {
 		if (line.empty ()) {
 			continue;
@@ -69,76 +153,58 @@ Config::Config ()
 		string const k = line.substr (0, s);
 		string const v = line.substr (s + 1);
 
-		if (k == "num_local_encoding_threads") {
+		if (k == N_("num_local_encoding_threads")) {
 			_num_local_encoding_threads = atoi (v.c_str ());
-		} else if (k == "default_directory") {
+		} else if (k == N_("default_directory")) {
 			_default_directory = v;
-		} else if (k == "server_port") {
+		} else if (k == N_("server_port")) {
 			_server_port = atoi (v.c_str ());
-		} else if (k == "reference_scaler") {
-			_reference_scaler = Scaler::from_id (v);
-		} else if (k == "reference_filter") {
-			_reference_filters.push_back (Filter::from_id (v));
-		} else if (k == "server") {
-			_servers.push_back (ServerDescription::create_from_metadata (v));
-		} else if (k == "tms_ip") {
+		} else if (k == N_("server")) {
+			optional<ServerDescription> server = ServerDescription::create_from_metadata (v);
+			if (server) {
+				_servers.push_back (server.get ());
+			}
+		} else if (k == N_("tms_ip")) {
 			_tms_ip = v;
-		} else if (k == "tms_path") {
+		} else if (k == N_("tms_path")) {
 			_tms_path = v;
-		} else if (k == "tms_user") {
+		} else if (k == N_("tms_user")) {
 			_tms_user = v;
-		} else if (k == "tms_password") {
+		} else if (k == N_("tms_password")) {
 			_tms_password = v;
-		} else if (k == "sound_processor") {
+		} else if (k == N_("sound_processor")) {
 			_sound_processor = SoundProcessor::from_id (v);
-		} else if (k == "cinema") {
-			if (cinema) {
-				_cinemas.push_back (cinema);
-			}
-			cinema.reset (new Cinema (v, ""));
-		} else if (k == "cinema_email") {
-			assert (cinema);
-			cinema->email = v;
-		} else if (k == "screen") {
-			assert (cinema);
-			if (screen) {
-				cinema->screens.push_back (screen);
-			}
-			screen.reset (new Screen (v, shared_ptr<libdcp::Certificate> ()));
-		} else if (k == "screen_certificate") {
-			assert (screen);
-			shared_ptr<Certificate> c (new libdcp::Certificate);
-			c->set_from_string (v);
+		} else if (k == "language") {
+			_language = v;
+		} else if (k == "default_container") {
+			_default_container = Ratio::from_id (v);
+		} else if (k == "default_dcp_content_type") {
+			_default_dcp_content_type = DCPContentType::from_dci_name (v);
+		} else if (k == "dcp_metadata_issuer") {
+			_dcp_metadata.issuer = v;
+		} else if (k == "dcp_metadata_creator") {
+			_dcp_metadata.creator = v;
+		} else if (k == "dcp_metadata_issue_date") {
+			_dcp_metadata.issue_date = v;
 		}
-	}
 
-	if (cinema) {
-		_cinemas.push_back (cinema);
+		_default_dci_metadata.read_old_metadata (k, v);
 	}
 }
 
 /** @return Filename to write configuration to */
 string
-Config::write_file () const
+Config::file (bool old) const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
-	p /= "dvdomatic";
-	boost::filesystem::create_directory (p);
-	p /= "config";
-	return p.string ();
-}
-
-string
-Config::read_file () const
-{
-	if (boost::filesystem::exists (write_file ())) {
-		return write_file ();
+	boost::system::error_code ec;
+	boost::filesystem::create_directory (p, ec);
+	if (old) {
+		p /= ".dvdomatic";
+	} else {
+		p /= "dcpomatic.xml";
 	}
-	
-	boost::filesystem::path p;
-	p /= g_get_user_config_dir ();
-	p /= ".dvdomatic";
 	return p.string ();
 }
 
@@ -159,6 +225,13 @@ Config::instance ()
 {
 	if (_instance == 0) {
 		_instance = new Config;
+		try {
+			_instance->read ();
+		} catch (...) {
+			/* configuration load failed; never mind, just
+			   stick with the default.
+			*/
+		}
 	}
 
 	return _instance;
@@ -168,33 +241,46 @@ Config::instance ()
 void
 Config::write () const
 {
-	ofstream f (write_file().c_str ());
-	f << "num_local_encoding_threads " << _num_local_encoding_threads << "\n"
-	  << "default_directory " << _default_directory << "\n"
-	  << "server_port " << _server_port << "\n"
-	  << "reference_scaler " << _reference_scaler->id () << "\n";
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Config");
 
-	for (vector<Filter const *>::const_iterator i = _reference_filters.begin(); i != _reference_filters.end(); ++i) {
-		f << "reference_filter " << (*i)->id () << "\n";
-	}
+	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
+	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
+	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
 	
-	for (vector<ServerDescription*>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		f << "server " << (*i)->as_metadata () << "\n";
+	for (vector<ServerDescription>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
+		i->as_xml (root->add_child ("Server"));
 	}
 
-	f << "tms_ip " << _tms_ip << "\n";
-	f << "tms_path " << _tms_path << "\n";
-	f << "tms_user " << _tms_user << "\n";
-	f << "tms_password " << _tms_password << "\n";
-	f << "sound_processor " << _sound_processor->id () << "\n";
-
-	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
-		f << "cinema " << (*i)->name << "\n";
-		f << "cinema_email " << (*i)->email << "\n";
-		for (list<shared_ptr<Screen> >::iterator j = (*i)->screens.begin(); j != (*i)->screens.end(); ++j) {
-			f << "screen " << (*j)->name << "\n";
-		}
+	root->add_child("TMSIP")->add_child_text (_tms_ip);
+	root->add_child("TMSPath")->add_child_text (_tms_path);
+	root->add_child("TMSUser")->add_child_text (_tms_user);
+	root->add_child("TMSPassword")->add_child_text (_tms_password);
+	if (_sound_processor) {
+		root->add_child("SoundProcessor")->add_child_text (_sound_processor->id ());
 	}
+	if (_language) {
+		root->add_child("Language")->add_child_text (_language.get());
+	}
+	if (_default_container) {
+		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
+	}
+	if (_default_dcp_content_type) {
+		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->dci_name ());
+	}
+	root->add_child("DCPMetadataIssuer")->add_child_text (_dcp_metadata.issuer);
+	root->add_child("DCPMetadataCreator")->add_child_text (_dcp_metadata.creator);
+
+	_default_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
+
+	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
+	root->add_child("DefaultJ2KBandwidth")->add_child_text (lexical_cast<string> (_default_j2k_bandwidth));
+
+	for (vector<PresetColourConversion>::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
+		i->as_xml (root->add_child ("ColourConversion"));
+	}
+
+	doc.write_to_file_formatted (file (false));
 }
 
 string
@@ -205,4 +291,11 @@ Config::default_directory_or (string a) const
 	}
 
 	return _default_directory;
+}
+
+void
+Config::drop ()
+{
+	delete _instance;
+	_instance = 0;
 }

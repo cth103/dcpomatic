@@ -1,5 +1,66 @@
+import os
+import glob
+from waflib import Logs
+import i18n
+
+sources = """
+          about_dialog.cc
+          audio_dialog.cc
+          audio_mapping_view.cc
+          audio_panel.cc
+          audio_plot.cc
+          cinema_dialog.cc
+          colour_conversion_editor.cc
+          config_dialog.cc
+          content_colour_conversion_dialog.cc
+          content_menu.cc
+          dci_metadata_dialog.cc
+          dir_picker_ctrl.cc
+          film_editor.cc
+          film_editor_panel.cc
+          film_viewer.cc
+          filter_dialog.cc
+          filter_editor.cc
+          gain_calculator_dialog.cc
+          job_manager_view.cc
+          job_wrapper.cc
+          kdm_dialog.cc
+          new_film_dialog.cc
+          preset_colour_conversion_dialog.cc
+          properties_dialog.cc
+          repeat_dialog.cc
+          screen_dialog.cc
+          server_dialog.cc
+          subtitle_panel.cc
+          timecode.cc
+          timeline.cc
+          timeline_dialog.cc
+          timing_panel.cc
+          video_panel.cc
+          wx_util.cc
+          wx_ui_signaller.cc
+          """
+
 def configure(conf):
-    conf.check_cfg(package = '', path = 'wx-config', args = '--cppflags --cxxflags --libs', uselib_store = 'WXWIDGETS', mandatory = True)
+    args = '--cppflags --cxxflags'
+    if not conf.env.STATIC:
+        args += ' --libs'
+
+    conf.check_cfg(msg='Checking for wxWidgets', package='', path=conf.options.wx_config, args=args,
+                   uselib_store='WXWIDGETS', mandatory=True)
+
+    if conf.env.STATIC:
+	# wx-config returns its static libraries as full paths, without -l prefixes, which confuses
+        # check_cfg(), so just hard-code it all.
+        conf.env.STLIB_WXWIDGETS = ['wx_gtk2u_xrc-2.9', 'wx_gtk2u_qa-2.9', 'wx_baseu_net-2.9', 'wx_gtk2u_html-2.9',
+                                    'wx_gtk2u_adv-2.9', 'wx_gtk2u_core-2.9', 'wx_baseu_xml-2.9', 'wx_baseu-2.9']
+        conf.env.LIB_WXWIDGETS = ['tiff', 'SM', 'dl', 'jpeg', 'png', 'X11']
+ 
+    conf.in_msg = 1
+    wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
+    conf.im_msg = 0
+    if wx_version != '2.9.4' and wx_version != '2.9.5':
+        conf.fatal('wxwidgets version 2.9.4 or 2.9.5 is required; %s found' % wx_version)
 
 def build(bld):
     if bld.env.STATIC:
@@ -7,30 +68,20 @@ def build(bld):
     else:
         obj = bld(features = 'cxx cxxshlib')
 
-    obj.name   = 'libdvdomatic-wx'
-    obj.includes = [ '..' ]
-    obj.export_includes = ['.']
+    obj.name   = 'libdcpomatic-wx'
+#    obj.includes = [ '..' ]
+    obj.export_includes = ['..']
     obj.uselib = 'WXWIDGETS'
-    obj.use = 'libdvdomatic'
-    obj.source = """
-                 config_dialog.cc
-                 dci_name_dialog.cc
-                 dir_picker_ctrl.cc
-                 film_editor.cc
-                 film_viewer.cc
-                 filter_dialog.cc
-                 filter_view.cc
-                 gain_calculator_dialog.cc
-                 job_manager_view.cc
-                 job_wrapper.cc
-                 kdm_dialog.cc
-                 cinema_dialog.cc
-                 new_film_dialog.cc
-                 screen_dialog.cc
-                 properties_dialog.cc
-                 server_dialog.cc
-                 wx_util.cc
-                 wx_ui_signaller.cc
-                 """
+    if bld.env.TARGET_LINUX:
+        obj.uselib += ' GTK'
+    obj.use = 'libdcpomatic'
+    obj.source = sources
+    obj.target = 'dcpomatic-wx'
 
-    obj.target = 'dvdomatic-wx'
+    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic-wx', bld)
+
+def pot(bld):
+    i18n.pot(os.path.join('src', 'wx'), sources, 'libdcpomatic-wx')
+
+def pot_merge(bld):
+    i18n.pot_merge(os.path.join('src', 'wx'), 'libdcpomatic-wx')

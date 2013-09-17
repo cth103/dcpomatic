@@ -17,7 +17,7 @@
 
 */
 
-#include "ui_signaller.h"
+#include "lib/ui_signaller.h"
 
 class wxEvtHandler;
 

@@ -36,41 +36,28 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("Film Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 	, _film (film)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 3, 6);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	add_label_to_sizer (table, this, "Frames");
-	_frames = new wxStaticText (this, wxID_ANY, std_to_wx (""));
+	add_label_to_sizer (table, this, _("Frames"), true);
+	_frames = new wxStaticText (this, wxID_ANY, wxT (""));
 	table->Add (_frames, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, "Disk space required for frames");
-	_disk_for_frames = new wxStaticText (this, wxID_ANY, std_to_wx (""));
-	table->Add (_disk_for_frames, 1, wxALIGN_CENTER_VERTICAL);
-	
-	add_label_to_sizer (table, this, "Total disk space required");
-	_total_disk = new wxStaticText (this, wxID_ANY, std_to_wx (""));
-	table->Add (_total_disk, 1, wxALIGN_CENTER_VERTICAL);
+	add_label_to_sizer (table, this, _("Disk space required"), true);
+	_disk = new wxStaticText (this, wxID_ANY, wxT (""));
+	table->Add (_disk, 1, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer (table, this, "Frames already encoded");
-	_encoded = new ThreadedStaticText (this, "counting...", boost::bind (&PropertiesDialog::frames_already_encoded, this));
+	add_label_to_sizer (table, this, _("Frames already encoded"), true);
+	_encoded = new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this));
 	table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 
-	if (_film->length()) {
-		_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length().get())));
-		double const disk = ((double) _film->j2k_bandwidth() / 8) * _film->length().get() / (_film->frames_per_second () * 1073741824);
-		stringstream s;
-		s << fixed << setprecision (1) << disk << "Gb";
-		_disk_for_frames->SetLabel (std_to_wx (s.str ()));
-		stringstream t;
-		t << fixed << setprecision (1) << (disk * 2) << "Gb";
-		_total_disk->SetLabel (std_to_wx (t.str ()));
-	} else {
-		_frames->SetLabel (_("unknown"));
-		_disk_for_frames->SetLabel (_("unknown"));
-		_total_disk->SetLabel (_("unknown"));
-	}
+	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->time_to_video_frames (_film->length()))));
+	double const disk = ((double) _film->j2k_bandwidth() / 8) * _film->length() / (TIME_HZ * 1073741824.0f);
+	stringstream s;
+	s << fixed << setprecision (1) << disk << wx_to_std (_("Gb"));
+	_disk->SetLabel (std_to_wx (s.str ()));
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 0, wxALL, 6);
+	overall_sizer->Add (table, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 	
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -91,9 +78,9 @@ PropertiesDialog::frames_already_encoded () const
 		return "";
 	}
 	
-	if (_film->dcp_length()) {
+	if (_film->length()) {
 		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << ((_film->encoded_frames() - _film->dcp_trim_start()) * 100 / _film->dcp_length().get()) << "%)";
+		u << " (" << (_film->encoded_frames() * 100 / _film->time_to_video_frames (_film->length())) << "%)";
 	}
 	return u.str ();
 }

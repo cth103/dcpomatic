@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,60 +21,36 @@
  *  @brief Parent class for decoders of content.
  */
 
-#ifndef DVDOMATIC_DECODER_H
-#define DVDOMATIC_DECODER_H
+#ifndef DCPOMATIC_DECODER_H
+#define DCPOMATIC_DECODER_H
 
-#include <vector>
-#include <string>
-#include <stdint.h>
 #include <boost/shared_ptr.hpp>
-#include <boost/signals2.hpp>
-#include "util.h"
-#include "stream.h"
-#include "video_source.h"
-#include "audio_source.h"
-#include "film.h"
+#include <boost/weak_ptr.hpp>
+#include <boost/utility.hpp>
 
-class Job;
-class DecodeOptions;
-class Image;
-class Log;
-class DelayLine;
-class TimedSubtitle;
-class Subtitle;
-class FilterGraph;
+class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
- *
- *  These classes can be instructed run through their content (by
- *  calling ::go), and they emit signals when video or audio data is
- *  ready for something else to process.
  */
-class Decoder
+class Decoder : public boost::noncopyable
 {
 public:
-	Decoder (boost::shared_ptr<Film>, boost::shared_ptr<const DecodeOptions>, Job *);
+	Decoder (boost::shared_ptr<const Film>);
 	virtual ~Decoder () {}
 
-	virtual bool pass () = 0;
-	virtual bool seek (double);
-	virtual bool seek_to_last ();
-
-	boost::signals2::signal<void()> OutputChanged;
+	/** Perform one decode pass of the content, which may or may not
+	 *  cause the object to emit some data.
+	 */
+	virtual void pass () = 0;
+	virtual bool done () const = 0;
 
 protected:
-	/** our Film */
-	boost::shared_ptr<Film> _film;
-	/** our options */
-	boost::shared_ptr<const DecodeOptions> _opt;
-	/** associated Job, or 0 */
-	Job* _job;
 
-private:
-	virtual void film_changed (Film::Property) {}
+	virtual void flush () {};
 	
-	boost::signals2::scoped_connection _film_connection;
+	/** The Film that we are decoding in */
+	boost::weak_ptr<const Film> _film;
 };
 
 #endif

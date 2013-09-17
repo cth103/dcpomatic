@@ -24,9 +24,7 @@
 #include <boost/shared_ptr.hpp>
 #include "job.h"
 
-class Encoder;
-class DecodeOptions;
-class EncodeOptions;
+class Transcoder;
 
 /** @class TranscodeJob
  *  @brief A job which transcodes from one format to another.
@@ -34,17 +32,14 @@ class EncodeOptions;
 class TranscodeJob : public Job
 {
 public:
-	TranscodeJob (boost::shared_ptr<Film> f, boost::shared_ptr<const DecodeOptions> od, boost::shared_ptr<const EncodeOptions> oe, boost::shared_ptr<Job> req);
+	TranscodeJob (boost::shared_ptr<const Film> f);
 	
 	std::string name () const;
 	void run ();
 	std::string status () const;
 
-protected:
+private:
 	int remaining_time () const;
 
-private:
-	boost::shared_ptr<const DecodeOptions> _decode_opt;
-	boost::shared_ptr<const EncodeOptions> _encode_opt;
-	boost::shared_ptr<Encoder> _encoder;
+	boost::shared_ptr<Transcoder> _transcoder;
 };

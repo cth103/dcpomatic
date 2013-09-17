@@ -23,16 +23,27 @@
 
 #include <wx/wx.h>
 #include "lib/film.h"
-#include "lib/decoder_factory.h"
 
 class wxToggleButton;
 class FFmpegPlayer;
 class Image;
 class RGBPlusAlphaImage;
-class Subtitle;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
+ *
+ *  The film takes the following path through the viewer:
+ *
+ *  1.	fetch_next_frame() asks our _player to decode some data.  If it does, process_video()
+ *	will be called.
+ *
+ *  2.	process_video() takes the image from the player (_frame).
+ *
+ *  3.	fetch_next_frame() calls _panel->Refresh() and _panel->Update() which results in
+ *	paint_panel() being called; this creates frame_bitmap from _frame and blits it to the display.
+ *
+ * fetch_current_frame_again() asks the player to re-emit its current frame on the next pass(), and then
+ * starts from step #1.
  */
 class FilmViewer : public wxPanel
 {
@@ -42,41 +53,42 @@ public:
 	void set_film (boost::shared_ptr<Film>);
 
 private:
-	void film_changed (Film::Property);
-	void paint_panel (wxPaintEvent &);
+	void paint_panel ();
 	void panel_sized (wxSizeEvent &);
-	void slider_moved (wxScrollEvent &);
-	void play_clicked (wxCommandEvent &);
-	void timer (wxTimerEvent &);
-	void process_video (boost::shared_ptr<Image>, bool, boost::shared_ptr<Subtitle>);
+	void slider_moved ();
+	void play_clicked ();
+	void timer ();
+	void process_video (boost::shared_ptr<const Image>, Eyes, Time);
 	void calculate_sizes ();
 	void check_play_state ();
-	void update_from_raw ();
-	void decoder_changed ();
-	void raw_to_display ();
-	void get_frame ();
+	void fetch_current_frame_again ();
+	void fetch_next_frame ();
 	void active_jobs_changed (bool);
+	void back_clicked ();
+	void forward_clicked ();
+	void player_changed (bool);
+	void set_position_text (Time);
 
 	boost::shared_ptr<Film> _film;
+	boost::shared_ptr<Player> _player;
 
-	wxBoxSizer* _v_sizer;
+	wxSizer* _v_sizer;
 	wxPanel* _panel;
 	wxSlider* _slider;
+	wxButton* _back_button;
+	wxButton* _forward_button;
+	wxStaticText* _frame_number;
+	wxStaticText* _timecode;
 	wxToggleButton* _play_button;
 	wxTimer _timer;
 
-	Decoders _decoders;
-	boost::shared_ptr<Image> _raw_frame;
-	boost::shared_ptr<Subtitle> _raw_sub;
-	boost::shared_ptr<Image> _display_frame;
-	boost::shared_ptr<RGBPlusAlphaImage> _display_sub;
-	Position _display_sub_position;
+	boost::shared_ptr<const Image> _frame;
 	bool _got_frame;
 
-	int _out_width;
-	int _out_height;
-	int _panel_width;
-	int _panel_height;
+	/** Size of our output (including padding if we have any) */
+	libdcp::Size _out_size;
+	/** Size of the panel that we have available */
+	libdcp::Size _panel_size;
 
-	bool _clear_required;
+	std::list<std::pair<boost::shared_ptr<const Image>, Time> > _queue;
 };

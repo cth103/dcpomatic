@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/filepicker.h>
+#include "wx_util.h"
 
 class DirPickerCtrl;
 
@@ -26,14 +27,16 @@ class NewFilmDialog : public wxDialog
 {
 public:
 	NewFilmDialog (wxWindow *);
+	~NewFilmDialog ();
 
 	std::string get_path () const;
 
 private:
 	wxTextCtrl* _name;
-#ifdef __WXMSW__	
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
-#else
+#else	
 	wxDirPickerCtrl* _folder;
 #endif	
+	static boost::optional<std::string> _directory;
 };

@@ -17,58 +17,33 @@
 
 */
 
-/** @file  src/transcoder.h
- *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
- *
- *  A decoder is selected according to the content type, and the encoder can be specified
- *  as a parameter to the constructor.
- */
-
-#include "decoder_factory.h"
+#include "types.h"
+#include "encoder.h"
 
 class Film;
 class Job;
 class Encoder;
-class FilmState;
-class Matcher;
 class VideoFilter;
-class Gain;
-class VideoDecoder;
-class AudioDecoder;
-class DelayLine;
-class EncodeOptions;
-class DecodeOptions;
+class Player;
 
-/** @class Transcoder
- *  @brief A class which takes a FilmState and some Options, then uses those to transcode a Film.
- *
- *  A decoder is selected according to the content type, and the encoder can be specified
- *  as a parameter to the constructor.
- */
-class Transcoder
+/** @class Transcoder */
+class Transcoder : public boost::noncopyable
 {
 public:
 	Transcoder (
-		boost::shared_ptr<Film> f,
-		boost::shared_ptr<const DecodeOptions> o,
-		Job* j,
-		boost::shared_ptr<Encoder> e
+		boost::shared_ptr<const Film> f,
+		boost::shared_ptr<Job> j
 		);
 
 	void go ();
 
-	boost::shared_ptr<VideoDecoder> video_decoder () const {
-		return _decoders.video;
-	}
+	float current_encoding_rate () const;
+	Encoder::State state () const;
+	int video_frames_out () const;
 
-protected:
+private:
 	/** A Job that is running this Transcoder, or 0 */
-	Job* _job;
-	/** The encoder that we will use */
+	boost::shared_ptr<Job> _job;
+	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Encoder> _encoder;
-	/** The decoders that we will use */
-	Decoders _decoders;
-	boost::shared_ptr<Matcher> _matcher;
-	boost::shared_ptr<DelayLine> _delay_line;
-	boost::shared_ptr<Gain> _gain;
 };

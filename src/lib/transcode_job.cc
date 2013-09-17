@@ -25,10 +25,10 @@
 #include <iomanip>
 #include "transcode_job.h"
 #include "film.h"
-#include "format.h"
 #include "transcoder.h"
 #include "log.h"
-#include "encoder.h"
+
+#include "i18n.h"
 
 using std::string;
 using std::stringstream;
@@ -37,13 +37,9 @@ using std::setprecision;
 using boost::shared_ptr;
 
 /** @param s Film to use.
- *  @param o Options.
- *  @param req Job that must be completed before this job is run.
  */
-TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> od, shared_ptr<const EncodeOptions> oe, shared_ptr<Job> req)
-	: Job (f, req)
-	, _decode_opt (od)
-	, _encode_opt (oe)
+TranscodeJob::TranscodeJob (shared_ptr<const Film> f)
+	: Job (f)
 {
 	
 }
@@ -51,7 +47,7 @@ TranscodeJob::TranscodeJob (shared_ptr<Film> f, shared_ptr<const DecodeOptions> 
 string
 TranscodeJob::name () const
 {
-	return String::compose ("Transcode %1", _film->name());
+	return String::compose (_("Transcode %1"), _film->name());
 }
 
 void
@@ -59,22 +55,20 @@ TranscodeJob::run ()
 {
 	try {
 
-		_film->log()->log ("Transcode job starting");
-		_film->log()->log (String::compose ("Audio delay is %1ms", _film->audio_delay()));
+		_film->log()->log (N_("Transcode job starting"));
 
-		_encoder.reset (new Encoder (_film, _encode_opt));
-		Transcoder w (_film, _decode_opt, this, _encoder);
-		w.go ();
+		_transcoder.reset (new Transcoder (_film, shared_from_this ()));
+		_transcoder->go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
 
-		_film->log()->log ("Transcode job completed successfully");
+		_film->log()->log (N_("Transcode job completed successfully"));
 
 	} catch (std::exception& e) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		_film->log()->log (String::compose ("Transcode job failed (%1)", e.what()));
+		_film->log()->log (String::compose (N_("Transcode job failed (%1)"), e.what()));
 
 		throw;
 	}
@@ -83,16 +77,11 @@ TranscodeJob::run ()
 string
 TranscodeJob::status () const
 {
-	if (!_encoder) {
-		return "0%";
+	if (!_transcoder) {
+		return _("0%");
 	}
 
-	if (_encoder->skipping () && !finished ()) {
-		return "skipping already-encoded frames";
-	}
-		
-	
-	float const fps = _encoder->current_frames_per_second ();
+	float const fps = _transcoder->current_encoding_rate ();
 	if (fps == 0) {
 		return Job::status ();
 	}
@@ -102,7 +91,12 @@ TranscodeJob::status () const
 	s << Job::status ();
 
 	if (!finished ()) {
-		s << "; " << fixed << setprecision (1) << fps << " frames per second";
+		if (_transcoder->state() == Encoder::TRANSCODING) {
+			s << "; " << fixed << setprecision (1) << fps << N_(" ") << _("frames per second");
+		} else {
+			/* TRANSLATORS: this means `computing a hash' as in a digest of a block of data */
+			s << "; " << _("hashing");
+		}
 	}
 	
 	return s.str ();
@@ -111,16 +105,17 @@ TranscodeJob::status () const
 int
 TranscodeJob::remaining_time () const
 {
-	float fps = _encoder->current_frames_per_second ();
+	if (!_transcoder) {
+		return 0;
+	}
+	
+	float fps = _transcoder->current_encoding_rate ();
+
 	if (fps == 0) {
 		return 0;
 	}
 
-	if (!_film->dcp_length()) {
-		return 0;
-	}
-
-	/* We assume that dcp_length() is valid, if it is set */
-	SourceFrame const left = _film->dcp_trim_start() + _film->dcp_length().get() - _encoder->video_frame();
+	/* Compute approximate proposed length here, as it's only here that we need it */
+	OutputVideoFrame const left = _film->time_to_video_frames (_film->length ()) - _transcoder->video_frames_out();
 	return left / fps;
 }

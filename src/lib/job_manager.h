@@ -30,21 +30,24 @@ class Job;
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
  */
-class JobManager
+class JobManager : public boost::noncopyable
 {
 public:
 
 	boost::shared_ptr<Job> add (boost::shared_ptr<Job>);
-	void add_after (boost::shared_ptr<Job> after, boost::shared_ptr<Job> j);
 	std::list<boost::shared_ptr<Job> > get () const;
 	bool work_to_do () const;
 	bool errors () const;
 
+	boost::signals2::signal<void (boost::weak_ptr<Job>)> JobAdded;
 	boost::signals2::signal<void (bool)> ActiveJobsChanged;
 
 	static JobManager* instance ();
 
 private:
+	/* This function is part of the test suite */
+	friend void ::wait_for_jobs ();
+	
 	JobManager ();
 	void scheduler ();
 	

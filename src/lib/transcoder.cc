@@ -28,101 +28,71 @@
 #include <boost/signals2.hpp>
 #include "transcoder.h"
 #include "encoder.h"
-#include "decoder_factory.h"
 #include "film.h"
-#include "matcher.h"
-#include "delay_line.h"
-#include "options.h"
-#include "gain.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
+#include "player.h"
+#include "job.h"
 
 using std::string;
-using std::cout;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-/** Construct a transcoder using a Decoder that we create and a supplied Encoder.
- *  @param f Film that we are transcoding.
- *  @param o Decode options.
- *  @param j Job that we are running under, or 0.
- *  @param e Encoder to use.
- */
-Transcoder::Transcoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j, shared_ptr<Encoder> e)
-	: _job (j)
-	, _encoder (e)
-	, _decoders (decoder_factory (f, o, j))
+static void
+video_proxy (weak_ptr<Encoder> encoder, shared_ptr<const Image> image, Eyes eyes, ColourConversion conversion, bool same)
 {
-	assert (_encoder);
-
-	if (f->audio_stream()) {
-		shared_ptr<AudioStream> st = f->audio_stream();
-		_matcher.reset (new Matcher (f->log(), st->sample_rate(), f->frames_per_second()));
-		_delay_line.reset (new DelayLine (f->log(), st->channels(), f->audio_delay() * st->sample_rate() / 1000));
-		_gain.reset (new Gain (f->log(), f->audio_gain()));
-	}
-
-	/* Set up the decoder to use the film's set streams */
-	_decoders.video->set_subtitle_stream (f->subtitle_stream ());
-	if (_decoders.audio) {
-		_decoders.audio->set_audio_stream (f->audio_stream ());
-	}
-
-	if (_matcher) {
-		_decoders.video->connect_video (_matcher);
-		_matcher->connect_video (_encoder);
-	} else {
-		_decoders.video->connect_video (_encoder);
-	}
-	
-	if (_matcher && _delay_line && _decoders.audio) {
-		_decoders.audio->connect_audio (_delay_line);
-		_delay_line->connect_audio (_matcher);
-		_matcher->connect_audio (_gain);
-		_gain->connect_audio (_encoder);
+	shared_ptr<Encoder> e = encoder.lock ();
+	if (e) {
+		e->process_video (image, eyes, conversion, same);
 	}
 }
 
-/** Run the decoder, passing its output to the encoder, until the decoder
- *  has no more data to present.
+static void
+audio_proxy (weak_ptr<Encoder> encoder, shared_ptr<const AudioBuffers> audio)
+{
+	shared_ptr<Encoder> e = encoder.lock ();
+	if (e) {
+		e->process_audio (audio);
+	}
+}
+
+/** Construct a transcoder using a Decoder that we create and a supplied Encoder.
+ *  @param f Film that we are transcoding.
+ *  @param j Job that we are running under, or 0.
+ *  @param e Encoder to use.
  */
+Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
+	: _job (j)
+	, _player (f->make_player ())
+	, _encoder (new Encoder (f, j))
+{
+	_player->Video.connect (bind (video_proxy, _encoder, _1, _2, _3, _4));
+	_player->Audio.connect (bind (audio_proxy, _encoder, _1));
+}
+
 void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
-	try {
-		bool done[2] = { false, false };
-		
-		while (1) {
-			if (!done[0]) {
-				done[0] = _decoders.video->pass ();
-				_decoders.video->set_progress ();
-			}
-
-			if (!done[1] && _decoders.audio && dynamic_pointer_cast<Decoder> (_decoders.audio) != dynamic_pointer_cast<Decoder> (_decoders.video)) {
-				done[1] = _decoders.audio->pass ();
-			} else {
-				done[1] = true;
-			}
-
-			if (done[0] && done[1]) {
-				break;
-			}
-		}
-		
-	} catch (...) {
-		_encoder->process_end ();
-		throw;
-	}
-	
-	if (_delay_line) {
-		_delay_line->process_end ();
-	}
-	if (_matcher) {
-		_matcher->process_end ();
-	}
-	if (_gain) {
-		_gain->process_end ();
-	}
+	while (!_player->pass ()) {}
 	_encoder->process_end ();
+}
+
+float
+Transcoder::current_encoding_rate () const
+{
+	return _encoder->current_encoding_rate ();
+}
+
+int
+Transcoder::video_frames_out () const
+{
+	return _encoder->video_frames_out ();
+}
+
+Encoder::State
+Transcoder::state () const
+{
+	return _encoder->state ();
 }

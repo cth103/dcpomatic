@@ -1,0 +1,77 @@
+\documentclass{article}
+\begin{document}
+
+We are trying to implement full-ish playlist based content specification.  The timing is awkward.
+
+\section{Reference timing}
+
+Frame rates of things can vary a lot; content can be in pretty much
+anything, and DCP video and audio frame rates may change on a whim
+depending on what is best for a given set of content.  This suggests
+(albeit without strong justification) the need for a frame-rate-independent unit of time.
+
+So far we've been using a time type called \texttt{Time} expressed in
+$\mathtt{TIME\_HZ}^{-1}$; e.g. \texttt{TIME\_HZ} units is 1 second.
+\texttt{TIME\_HZ} is chosen to be divisible by lots of frame and
+sample rates.
+
+We express content start time as a \texttt{Time}.
+
+
+\section{Timing at different stages of the chain}
+
+Let's try this: decoders produce sequences of (perhaps) video frames
+and (perhaps) audio frames.  There are no gaps.  They are at the
+content's native frame rates and are synchronised (meaning that if
+they are played together, at the content's frame rates, they will be
+in sync).  The decoders give timestamps for each piece of their
+output, which are \emph{simple indices} (\texttt{ContentVideoFrame}
+and \texttt{ContentAudioFrame}).  Decoders know nothing of \texttt{Time}.
+
+
+\section{Split of stuff between decoders and player}
+
+In some ways it seems nice to have decoders which produce the rawest
+possible data and make the player sort it out (e.g.\ cropping and
+scaling video, resampling audio).  The resampling is awkward, though,
+as you really need one resampler per source.  So it might make more sense
+to put stuff in the decoder.  But then, what's one map of resamplers between friends?
+
+On the other hand, having the resampler in the player is confusing.  Audio comes in
+at a frame `position', but then it gets resampled and not all of it may emerge from
+the resampler.  This means that the position is meaningless, and we want a count
+of samples out from the resampler (which can be done more elegantly by the decoder's
+\texttt{\_audio\_position}.
+
+
+\section{Options for what \texttt{Time} is a function of}
+
+I've been trying for a while with \texttt{Time} as a wall-clock
+`real-time' unit.  This means that the following is tricky:
+
+\begin{enumerate}
+\item Add content at 29.97 fps
+\item Length of this content is converted to \texttt{Time} using the
+  current DCP frame rate (which will be 29.97).
+\item Add more content at 25 fps.
+\item This causes the DCP frame rate to be changed to 25 fps, and so
+  the first piece of content is now being run slower and so its length
+  changes.
+\end{enumerate}
+
+I think this is the cause of content being overlapped in this case.
+
+It is tempting to solve this by making Time a subdivsion of DCP video
+frame rate.  This makes things nicer in many ways; you get a 1:1
+mapping of content video frames to Time in most cases, but not when
+video frames are skipped to halve the frame rate, say.  In this case
+you could have a piece of content at 50 fps which is some time $T$
+long at at DCP rate of 50 fps, but half as long at a DCP rate of 25 fps.
+
+I'm fairly sure that there is inherently not a nice representation which
+will obviate the need for things to be recalculated when DCP rate changes.
+
+On the plus side, lengths in \texttt{Time} are computed on-demand from
+lengths kept as source frames.
+
+\end{document}

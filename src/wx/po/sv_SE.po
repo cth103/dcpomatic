@@ -1,0 +1,679 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DCP-o-matic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-15 22:07+0100\n"
+"PO-Revision-Date: 2013-04-09 10:13+0100\n"
+"Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: src/wx/film_editor.cc:426 src/wx/film_editor.cc:435
+msgid "%"
+msgstr "%"
+
+#: src/wx/about_dialog.cc:77
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+
+#: src/wx/config_dialog.cc:96
+msgid "(restart DCP-o-matic to see language changes)"
+msgstr "(starta om DCP-o-matic för att se språkändringar)"
+
+#: src/wx/film_editor.cc:1423
+msgid "1 channel"
+msgstr "1 kanal"
+
+#: src/wx/about_dialog.cc:30
+#, fuzzy
+msgid "About DCP-o-matic"
+msgstr "DCP-o-matic"
+
+#: src/wx/config_dialog.cc:299
+msgid "Add"
+msgstr "Lägg till"
+
+#: src/wx/film_editor.cc:317
+msgid "Add..."
+msgstr ""
+
+#: src/wx/audio_dialog.cc:32 src/wx/film_editor.cc:343
+msgid "Audio"
+msgstr "Audio"
+
+#: src/wx/film_editor.cc:379
+msgid "Audio Delay"
+msgstr "Audio Fördröjning"
+
+#: src/wx/film_editor.cc:367
+msgid "Audio Gain"
+msgstr "Audio Förstärkning"
+
+#: src/wx/dci_metadata_dialog.cc:33
+msgid "Audio Language (e.g. EN)"
+msgstr "Audio Språk (ex. SV)"
+
+#: src/wx/film_editor.cc:391
+#, fuzzy
+msgid "Audio Stream"
+msgstr "Audio Fördröjning"
+
+#: src/wx/job_wrapper.cc:38
+#, c-format
+msgid "Bad setting for %s (%s)"
+msgstr "Felaktig inställning för %s (%s)"
+
+#: src/wx/film_editor.cc:264
+msgid "Bottom crop"
+msgstr "Nedre beskärning"
+
+#: src/wx/dir_picker_ctrl.cc:38
+msgid "Browse..."
+msgstr "Bläddra..."
+
+#: src/wx/gain_calculator_dialog.cc:36
+msgid "But I have to use fader"
+msgstr "Men jag måste använda mixervolym"
+
+#: src/wx/audio_mapping_view.cc:192
+msgid "C"
+msgstr ""
+
+#: src/wx/film_editor.cc:376
+msgid "Calculate..."
+msgstr "Beräkna..."
+
+#: src/wx/job_manager_view.cc:98
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: src/wx/audio_dialog.cc:43
+msgid "Channels"
+msgstr "Kanaler"
+
+#: src/wx/film_editor.cc:1163
+msgid "Choose a file or files"
+msgstr ""
+
+#: src/wx/film_editor.cc:131
+#, fuzzy
+msgid "Container"
+msgstr "Innehåll"
+
+#: src/wx/film_editor.cc:82
+msgid "Content"
+msgstr "Innehåll"
+
+#: src/wx/film_editor.cc:136
+msgid "Content Type"
+msgstr "Innehållstyp"
+
+#: src/wx/audio_mapping_view.cc:181
+#, fuzzy
+msgid "Content channel"
+msgstr "1 kanal"
+
+#: src/wx/film_viewer.cc:326
+#, c-format
+msgid "Could not decode video for view (%s)"
+msgstr "Kunde inte avkoda video för visning (%s)"
+
+#: src/wx/job_wrapper.cc:40
+#, c-format
+msgid "Could not make DCP: %s"
+msgstr "Kunde inte skapa DCP: %s"
+
+#: src/wx/new_film_dialog.cc:48
+msgid "Create in folder"
+msgstr "Skapa i katalog"
+
+#: src/wx/config_dialog.cc:260
+#, fuzzy
+msgid "Creator"
+msgstr "Skapa i katalog"
+
+#: src/wx/film_editor.cc:1322
+#, c-format
+msgid "Cropped to %dx%d (%.2f:1)\n"
+msgstr "Beskuren till %dx%d (%.2f:1)\n"
+
+#: src/wx/dci_metadata_dialog.cc:28
+msgid "DCI name"
+msgstr "DCI namn"
+
+#: src/wx/film_editor.cc:84
+msgid "DCP"
+msgstr ""
+
+#: src/wx/film_editor.cc:142
+msgid "DCP Frame Rate"
+msgstr "DCP bildhastighet"
+
+#: src/wx/film_editor.cc:115
+msgid "DCP Name"
+msgstr "DCP Namn"
+
+#: src/wx/film_editor.cc:152
+#, fuzzy
+msgid "DCP audio channels"
+msgstr "kanaler"
+
+#: src/wx/about_dialog.cc:44 src/wx/wx_util.cc:87 src/wx/wx_util.cc:95
+msgid "DCP-o-matic"
+msgstr "DCP-o-matic"
+
+#: src/wx/config_dialog.cc:46
+msgid "DCP-o-matic Preferences"
+msgstr "DCP-o-matic Inställningar"
+
+#: src/wx/audio_dialog.cc:97
+#, c-format
+msgid "DCP-o-matic audio - %s"
+msgstr "DCP-o-matic audio - %s"
+
+#: src/wx/config_dialog.cc:123
+msgid "Default DCI name details"
+msgstr "Detaljer om förvalda DCI-namn"
+
+#: src/wx/config_dialog.cc:138
+#, fuzzy
+msgid "Default JPEG2000 bandwidth"
+msgstr "JPEG2000 bandbredd"
+
+#: src/wx/config_dialog.cc:128
+#, fuzzy
+msgid "Default container"
+msgstr "Innehållstyp"
+
+#: src/wx/config_dialog.cc:133
+#, fuzzy
+msgid "Default content type"
+msgstr "Innehållstyp"
+
+#: src/wx/config_dialog.cc:114
+msgid "Default directory for new films"
+msgstr "Förvald katalog för nya filmer"
+
+#: src/wx/config_dialog.cc:109
+#, fuzzy
+msgid "Default duration of still images"
+msgstr "Förvald katalog för nya filmer"
+
+#: src/wx/film_editor.cc:127 src/wx/job_manager_view.cc:110
+msgid "Details..."
+msgstr "Detaljer..."
+
+#: src/wx/properties_dialog.cc:45
+msgid "Disk space required"
+msgstr "Diskutrymme som krävs"
+
+#: src/wx/imagemagick_content_dialog.cc:36
+msgid "Duration"
+msgstr "Längd"
+
+#: src/wx/config_dialog.cc:301
+msgid "Edit"
+msgstr "Redigera"
+
+#: src/wx/config_dialog.cc:124 src/wx/film_editor.cc:288
+msgid "Edit..."
+msgstr "Redigera..."
+
+#: src/wx/config_dialog.cc:55
+#, fuzzy
+msgid "Encoding servers"
+msgstr "Kodningsservrar"
+
+#: src/wx/dci_metadata_dialog.cc:53
+msgid "Facility (e.g. DLA)"
+msgstr "Företag (ex. DLA)"
+
+#: src/wx/properties_dialog.cc:36
+msgid "Film Properties"
+msgstr "Film Egenskaper"
+
+#: src/wx/new_film_dialog.cc:44
+msgid "Film name"
+msgstr "film namn"
+
+#: src/wx/film_editor.cc:284 src/wx/filter_dialog.cc:32
+msgid "Filters"
+msgstr "Filter"
+
+#: src/wx/properties_dialog.cc:41
+msgid "Frames"
+msgstr "Bildrutor"
+
+#: src/wx/properties_dialog.cc:49
+msgid "Frames already encoded"
+msgstr "Bildrutor redan kodade"
+
+#: src/wx/about_dialog.cc:60
+msgid "Free, open-source DCP generation from almost anything."
+msgstr ""
+
+#: src/wx/gain_calculator_dialog.cc:27
+msgid "Gain Calculator"
+msgstr "Volym Kalkylator"
+
+#: src/wx/properties_dialog.cc:56
+msgid "Gb"
+msgstr "Gb"
+
+#: src/wx/server_dialog.cc:36
+msgid "Host name or IP address"
+msgstr "Värd-namn eller IP-adress"
+
+#: src/wx/film_editor.cc:1427
+msgid "Hz"
+msgstr "Hz"
+
+#: src/wx/gain_calculator_dialog.cc:32
+msgid "I want to play this back at fader"
+msgstr "Jag vill spela upp detta med mixervolym"
+
+#: src/wx/config_dialog.cc:217 src/wx/config_dialog.cc:288
+msgid "IP address"
+msgstr "IP-adress"
+
+#: src/wx/imagemagick_content_dialog.cc:29
+msgid "Image"
+msgstr ""
+
+#: src/wx/config_dialog.cc:256
+msgid "Issuer"
+msgstr ""
+
+#: src/wx/film_editor.cc:158
+msgid "JPEG2000 bandwidth"
+msgstr "JPEG2000 bandbredd"
+
+#: src/wx/audio_mapping_view.cc:184
+msgid "L"
+msgstr ""
+
+#: src/wx/film_editor.cc:249
+msgid "Left crop"
+msgstr "Vänster beskärning"
+
+#: src/wx/film_editor.cc:460
+msgid "Length"
+msgstr "Längd"
+
+#: src/wx/audio_mapping_view.cc:196
+msgid "Lfe"
+msgstr ""
+
+#: src/wx/film_editor.cc:330
+msgid "Loop everything"
+msgstr ""
+
+#: src/wx/audio_mapping_view.cc:200
+#, fuzzy
+msgid "Ls"
+msgstr "s"
+
+#: src/wx/config_dialog.cc:141 src/wx/film_editor.cc:162
+msgid "MBps"
+msgstr "MBps"
+
+#: src/wx/config_dialog.cc:57
+msgid "Metadata"
+msgstr ""
+
+#: src/wx/config_dialog.cc:53
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/wx/dir_picker_ctrl.cc:52
+msgid "My Documents"
+msgstr "Mina Dokument"
+
+#: src/wx/film_editor.cc:110
+msgid "Name"
+msgstr "Namn"
+
+#: src/wx/new_film_dialog.cc:35
+msgid "New Film"
+msgstr "Ny Film"
+
+#: src/wx/film_editor.cc:286 src/wx/film_editor.cc:769
+msgid "None"
+msgstr "Inget"
+
+#: src/wx/film_editor.cc:1309
+#, c-format
+msgid "Original video is %dx%d (%.2f:1)\n"
+msgstr "Original-videon är %dx%d (%.2f:1)\n"
+
+#: src/wx/dci_metadata_dialog.cc:57
+msgid "Package Type (e.g. OV)"
+msgstr "Förpackningstyp (ex. OV)"
+
+#: src/wx/film_editor.cc:1343
+#, c-format
+msgid "Padded with black to %dx%d (%.2f:1)\n"
+msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
+
+#: src/wx/config_dialog.cc:229
+#, fuzzy
+msgid "Password"
+msgstr "TMS lösenord"
+
+#: src/wx/job_manager_view.cc:104 src/wx/job_manager_view.cc:206
+msgid "Pause"
+msgstr ""
+
+#: src/wx/audio_dialog.cc:59
+msgid "Peak"
+msgstr "Topp"
+
+#: src/wx/film_viewer.cc:64
+msgid "Play"
+msgstr "Spela"
+
+#: src/wx/audio_plot.cc:110
+msgid "Please wait; audio is being analysed..."
+msgstr "Vänligen vänta; audio analyseras..."
+
+#: src/wx/audio_mapping_view.cc:188
+msgid "R"
+msgstr ""
+
+#: src/wx/audio_dialog.cc:60
+msgid "RMS"
+msgstr "RMS"
+
+#: src/wx/dci_metadata_dialog.cc:45
+msgid "Rating (e.g. 15)"
+msgstr "Klassificering (ex. 15)"
+
+#: src/wx/config_dialog.cc:303 src/wx/film_editor.cc:319
+msgid "Remove"
+msgstr "Ta bort"
+
+#: src/wx/job_manager_view.cc:209
+msgid "Resume"
+msgstr ""
+
+#: src/wx/film_editor.cc:254
+msgid "Right crop"
+msgstr "Höger beskärning"
+
+#: src/wx/audio_mapping_view.cc:204
+#, fuzzy
+msgid "Rs"
+msgstr "s"
+
+#: src/wx/job_manager_view.cc:128
+msgid "Running"
+msgstr "Körs"
+
+#: src/wx/film_editor.cc:269
+#, fuzzy
+msgid "Scale to"
+msgstr "Omskalare"
+
+#: src/wx/film_editor.cc:1335
+#, c-format
+msgid "Scaled to %dx%d (%.2f:1)\n"
+msgstr "Skalad till %dx%d (%.2f:1)\n"
+
+#: src/wx/film_editor.cc:167
+msgid "Scaler"
+msgstr "Omskalare"
+
+#: src/wx/server_dialog.cc:25
+msgid "Server"
+msgstr "Server"
+
+#: src/wx/config_dialog.cc:85
+msgid "Set language"
+msgstr "Välj språk"
+
+#: src/wx/film_editor.cc:362
+msgid "Show Audio..."
+msgstr "Visa Audio..."
+
+#: src/wx/audio_dialog.cc:70
+msgid "Smoothing"
+msgstr "Utjämning"
+
+#: src/wx/film_editor.cc:457
+#, fuzzy
+msgid "Start time"
+msgstr "Start"
+
+#: src/wx/dci_metadata_dialog.cc:49
+msgid "Studio (e.g. TCF)"
+msgstr "Studio (ex. TCF)"
+
+#: src/wx/dci_metadata_dialog.cc:37
+msgid "Subtitle Language (e.g. FR)"
+msgstr "Undertextspråk (ex. SV)"
+
+#: src/wx/film_editor.cc:422
+msgid "Subtitle Offset"
+msgstr "Undertext Förskjutning"
+
+#: src/wx/film_editor.cc:431
+msgid "Subtitle Scale"
+msgstr "Undertext Skalning"
+
+#: src/wx/film_editor.cc:439
+#, fuzzy
+msgid "Subtitle Stream"
+msgstr "Undertext Skalning"
+
+#: src/wx/film_editor.cc:345
+msgid "Subtitles"
+msgstr "Undertexter"
+
+#: src/wx/about_dialog.cc:120
+msgid "Supported by"
+msgstr ""
+
+#: src/wx/config_dialog.cc:59
+#, fuzzy
+msgid "TMS"
+msgstr "RMS"
+
+#: src/wx/config_dialog.cc:221
+#, fuzzy
+msgid "Target path"
+msgstr "TMS målsökväg"
+
+#: src/wx/dci_metadata_dialog.cc:41
+msgid "Territory (e.g. UK)"
+msgstr "Område (ex. SV)"
+
+#: src/wx/config_dialog.cc:292
+msgid "Threads"
+msgstr "Trådar"
+
+#: src/wx/server_dialog.cc:40
+msgid "Threads to use"
+msgstr "Antal trådar att använda"
+
+#: src/wx/config_dialog.cc:104
+msgid "Threads to use for encoding on this host"
+msgstr "Antal trådar att använda vid kodning på denna maskin"
+
+#: src/wx/audio_plot.cc:140
+msgid "Time"
+msgstr "Tid"
+
+#: src/wx/timeline_dialog.cc:32
+#, fuzzy
+msgid "Timeline"
+msgstr "Tid"
+
+#: src/wx/film_editor.cc:321
+msgid "Timeline..."
+msgstr ""
+
+#: src/wx/film_editor.cc:347
+msgid "Timing"
+msgstr ""
+
+#: src/wx/film_editor.cc:259
+msgid "Top crop"
+msgstr "Övre beskärning"
+
+#: src/wx/about_dialog.cc:99
+msgid "Translated by"
+msgstr ""
+
+#: src/wx/audio_dialog.cc:54
+msgid "Type"
+msgstr "Typ"
+
+#: src/wx/film_editor.cc:125
+msgid "Use DCI name"
+msgstr "Använd DCI-namnet"
+
+#: src/wx/film_editor.cc:146
+msgid "Use best"
+msgstr "Använd bästa"
+
+#: src/wx/config_dialog.cc:225
+#, fuzzy
+msgid "User name"
+msgstr "Använd DCI-namnet"
+
+#: src/wx/film_editor.cc:341
+msgid "Video"
+msgstr "Video"
+
+#: src/wx/film_editor.cc:417
+msgid "With Subtitles"
+msgstr "Med Undertexter"
+
+#: src/wx/about_dialog.cc:90
+msgid "Written by"
+msgstr ""
+
+#: src/wx/timeline.cc:200
+#, fuzzy
+msgid "audio"
+msgstr "Audio"
+
+#: src/wx/film_editor.cc:1425
+msgid "channels"
+msgstr "kanaler"
+
+#: src/wx/properties_dialog.cc:50
+msgid "counting..."
+msgstr "räknar..."
+
+#: src/wx/film_editor.cc:372
+msgid "dB"
+msgstr "dB"
+
+#. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
+#: src/wx/film_editor.cc:385
+msgid "ms"
+msgstr "ms"
+
+#. / TRANSLATORS: this is an abbreviation for seconds, the unit of time
+#: src/wx/config_dialog.cc:112 src/wx/imagemagick_content_dialog.cc:41
+msgid "s"
+msgstr "s"
+
+#: src/wx/film_editor.cc:334
+msgid "times"
+msgstr ""
+
+#: src/wx/timeline.cc:220
+#, fuzzy
+msgid "video"
+msgstr "Video"
+
+#~ msgid "A/B"
+#~ msgstr "A/B"
+
+#~ msgid "Audio will be resampled from %dHz to %dHz\n"
+#~ msgstr "Audio kommer att samplas om från %dHz till %dHz\n"
+
+#~ msgid "Colour look-up table"
+#~ msgstr "Färguppslagningstabell"
+
+#~ msgid "Could not open content file (%s)"
+#~ msgstr "Kunde inte öppna innehållsfilen (%s)"
+
+#~ msgid "Could not set content: %s"
+#~ msgstr "Kunde inte fastställa innehåll: %s"
+
+#, fuzzy
+#~ msgid "DVD-o-matic Preferences"
+#~ msgstr "DVD-o-matic Inställningar"
+
+#~ msgid "End"
+#~ msgstr "Slut"
+
+#~ msgid "Film"
+#~ msgstr "Film"
+
+#~ msgid "Format"
+#~ msgstr "Format"
+
+#~ msgid "Original Frame Rate"
+#~ msgstr "Ursprunglig bildhastighet"
+
+#, fuzzy
+#~ msgid "Reference filters"
+#~ msgstr "Referensfilter för A/B"
+
+#, fuzzy
+#~ msgid "Reference scaler"
+#~ msgstr "Referensomskalare för A/B"
+
+#~ msgid "Select Audio File"
+#~ msgstr "Välj audiofil"
+
+#~ msgid "Select Content File"
+#~ msgstr "Välj innehållsfil"
+
+#~ msgid "Trim frames"
+#~ msgstr "Skippa bilder"
+
+#, fuzzy
+#~ msgid "Trim method"
+#~ msgstr "Skippa bilder"
+
+#~ msgid "Trust content's header"
+#~ msgstr "Lita på källans information"
+
+#~ msgid "Use content's audio"
+#~ msgstr "Använd innehållets audio"
+
+#~ msgid "Use external audio"
+#~ msgstr "Använd extern audio"
+
+#~ msgid "frames"
+#~ msgstr "bilder"
+
+#~ msgid "pixels"
+#~ msgstr "pixlar"
+
+#~ msgid "unknown"
+#~ msgstr "okänt"
+
+#~ msgid "TMS IP address"
+#~ msgstr "TMS IP-adress"
+
+#~ msgid "TMS user name"
+#~ msgstr "TMS användarnamn"
+
+#~ msgid "Original Size"
+#~ msgstr "Ursprunglig Storlek"

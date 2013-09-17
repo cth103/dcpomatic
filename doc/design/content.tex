@@ -1,0 +1,195 @@
+\documentclass{article}
+\begin{document}
+
+\section{Status quo}
+
+As at 0.78 there is an unfortunate mish-mash of code to handle the
+input `content' the goes into a DCP.
+
+The Film has a `content' file name.  This is guessed to be either a
+movie (for FFmpeg) or a still-image (for ImageMagick) based on its
+extension.  We also have `external audio', which is a set of WAV files
+for libsndfile, and a flag to enable that.
+
+The `content' file is badly named and limiting.  We can't have
+multiple content files, and it's not really the `content' as such (it
+used to be, but increasingly it's only a part of the content, on equal
+footing with `external' audio).
+
+The choice of sources for sound is expressed clumsily by the
+AudioStream class hierarchy.
+
+
+\section{Targets}
+
+We want to be able to implement the following:
+
+\begin{itemize}
+\item Immediately:
+\begin{itemize}
+\item Multiple still images, each with their own duration, made into a `slide-show'
+\item Lack of bugs in adding WAV-file audio to still images.
+\item External subtitle files (either XML or SRT) to be converted to XML subtitles in the DCP.
+\end{itemize}
+
+\item In the future:
+\begin{itemize}
+\item Playlist-style multiple video / audio (perhaps).
+\end{itemize}
+\end{itemize}
+
+
+\section{Content hierarchy}
+
+One idea is to have a hierarchy of Content classes (\texttt{Content},
+\texttt{\{Video/Audio\}Content}, \texttt{FFmpegContent}, \texttt{ImageMagickContent},
+\texttt{SndfileContent}).
+
+Then the Film has a list of these, and decides what to put into the
+DCP based on some rules.  These rules would probably be fixed (for
+now), with the possibility to expand later into some kind of playlist.
+
+
+\section{Immediate questions}
+
+\subsection{What Film attributes are video-content specific, and which are general?}
+
+Questionable attributes:
+
+\begin{itemize}
+\item Trust content header
+\item Crop
+\item Filters
+
+Post-processing (held as part of the filters description) is done in
+the encoder, by which time all knowledge of the source is lost.
+
+\item Scaler
+\item Trim start/end
+
+Messily tied in with the encoding side.  We want to implement this
+using start/end point specifications in the DCP reel, otherwise
+modifying the trim points requires a complete re-encode.
+
+\item Audio gain
+\item Audio delay
+\item With subtitles
+\item Subtitle offset/scale
+\item Colour LUT
+\end{itemize}
+
+Attributes that I think must remain in Film:
+\begin{itemize}
+\item DCP content type
+\item Format
+\item A/B
+\item J2K bandwidth
+\end{itemize}
+
+Part of the consideration here is that per-content attributes need to
+be represented in the GUI differently to how things are represented
+now.
+
+Bear in mind also that, as it stands, the only options for video are:
+
+\begin{enumerate}
+\item An FFmpeg video
+\item A set of stills
+\end{enumerate}
+
+and so the need for multiple scalers, crop and filters is
+questionable.  Also, there is one set of audio (either from WAVs or
+from the FFMpeg file), so per-content audio gain/delay is also
+questionable.  Trust content header is only applicable for FFmpeg
+content, really.  Similarly trim, with-subtitles, subtitle details,
+colour LUT; basically none of it is really important right now.
+
+Hence it may be sensible to keep everything in Film and move it later
+along YAGNI lines.
+
+
+\subsection{Who answers questions like: ``what is the length of video?''?}
+
+If we have FFmpeg video, the question is easy to answer.  For a set of
+stills, it is less easy.  Who knows that we are sticking them all
+together end-to-end, with different durations for each?
+
+If we have one-content-object equalling one file, the content objects
+will presumably know how long their file should be displayed for.
+There would appear to be two options following this:
+
+\begin{enumerate}
+\item There is one \texttt{ImageMagickDecoder} which is fed all the
+  files, and outputs them in order.  The magic knowledge is then
+  within this class, really.
+\item There are multiple \texttt{ImageMagickDecoder} classes, one per
+  \texttt{..Content}, and some controlling (`playlist') class to manage
+  them.  The `playlist' is then itself a
+  \texttt{\{Video/Audio\}Source}, and has the magic knowledge.
+\end{enumerate}
+
+
+\section{Playlist approach}
+
+Let's try the playlist approach.  We define a hierarchy of content classes:
+
+\begin{verbatim}
+
+class Content
+{
+public:
+  boost::filesystem::path file () const;
+};
+
+class VideoContent : virtual public Content
+{
+public:
+  VideoContentFrame video_length () const;
+  float video_frame_rate () const;
+  libdcp::Size size () const;
+
+};
+
+class AudioContent : virtual public Content
+{
+
+};
+
+class FFmpegContent : public VideoContent, public AudioContent
+{
+public:
+  .. stream stuff ..
+};
+
+class ImageMagickContent : public VideoContent
+{
+
+};
+
+class SndfileContent : public AudioContent
+{
+public:
+  .. channel allocation for this file ..
+};
+\end{verbatim}
+
+Then Film has a \texttt{Playlist} which has a
+\texttt{vector<shared\_ptr<Content> >}.  It can answer questions
+about audio/video length, frame rate, audio channels and so on.
+
+\texttt{Playlist} can also be a source of video and audio, so clients can do:
+
+\begin{verbatim}
+shared_ptr<Playlist> p = film->playlist ();
+p->Video.connect (foo);
+p->Audio.connect (foo);
+while (!p->pass ()) {
+  /* carry on */
+}
+\end{verbatim}
+
+Playlist could be created on-demand for all the difference it would
+make.  And perhaps it should, since it will hold Decoders which are
+probably run-once.
+
+\end{document}

@@ -43,9 +43,6 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
 {
 	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
-
-	add_label_to_sizer (vertical, this, "Make KDMs for");
-
 	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
 	
 	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS);
@@ -63,37 +60,37 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
 
 	_add_cinema = new wxButton (this, wxID_ANY, _("Add Cinema..."));
-	target_buttons->Add (_add_cinema, 1, 0, 6);
+	target_buttons->Add (_add_cinema, 1, wxEXPAND, 6);
 	_edit_cinema = new wxButton (this, wxID_ANY, _("Edit Cinema..."));
-	target_buttons->Add (_edit_cinema, 1, 0, 6);
+	target_buttons->Add (_edit_cinema, 1, wxEXPAND, 6);
 	_remove_cinema = new wxButton (this, wxID_ANY, _("Remove Cinema"));
-	target_buttons->Add (_remove_cinema, 1, 0, 6);
+	target_buttons->Add (_remove_cinema, 1, wxEXPAND, 6);
 	
 	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
-	target_buttons->Add (_add_screen, 1, 0, 6);
+	target_buttons->Add (_add_screen, 1, wxEXPAND, 6);
 	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
-	target_buttons->Add (_edit_screen, 1, 0, 6);
+	target_buttons->Add (_edit_screen, 1, wxEXPAND, 6);
 	_remove_screen = new wxButton (this, wxID_ANY, _("Remove Screen"));
-	target_buttons->Add (_remove_screen, 1, 0, 6);
+	target_buttons->Add (_remove_screen, 1, wxEXPAND, 6);
 
 	targets->Add (target_buttons, 0, 0, 6);
 
 	vertical->Add (targets, 1, wxEXPAND | wxALL, 6);
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 2, 6);
-	add_label_to_sizer (table, this, "From");
+	add_label_to_sizer (table, this, "From", true);
 	_from_date = new wxDatePickerCtrl (this, wxID_ANY);
 	table->Add (_from_date, 1, wxEXPAND);
 	_from_time = new wxTimePickerCtrl (this, wxID_ANY);
 	table->Add (_from_time, 1, wxEXPAND);
 	
-	add_label_to_sizer (table, this, "Until");
+	add_label_to_sizer (table, this, "Until", true);
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY);
 	table->Add (_until_date, 1, wxEXPAND);
 	_until_time = new wxTimePickerCtrl (this, wxID_ANY);
 	table->Add (_until_time, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Write to");
+	add_label_to_sizer (table, this, "Write to", true);
 
 #ifdef __WXMSW__
 	_folder = new DirPickerCtrl (this);
@@ -105,7 +102,7 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	
 	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		vertical->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}

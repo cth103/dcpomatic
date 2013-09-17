@@ -26,7 +26,7 @@
 class SCPDCPJob : public Job
 {
 public:
-	SCPDCPJob (boost::shared_ptr<Film>, boost::shared_ptr<Job> req);
+	SCPDCPJob (boost::shared_ptr<const Film>);
 
 	std::string name () const;
 	void run ();
@@ -34,7 +34,7 @@ public:
 
 private:
 	void set_status (std::string);
-	
+
 	mutable boost::mutex _status_mutex;
 	std::string _status;
 };

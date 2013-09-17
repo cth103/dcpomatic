@@ -1,0 +1,74 @@
+import glob
+import shutil
+import os
+
+def dependencies(target):
+    return (('ffmpeg-cdist', '77e9115b172ec6e4f0da0a5525f32fb28bae5f09'),
+            ('libdcp', '08f4fe13bbff1a674930d55ab95fd181ebd0c265'))
+
+def build(target):
+    cmd = './waf configure --prefix=%s' % target.work_dir_cscript()
+    if target.platform == 'windows':
+        cmd += ' --target-windows'
+    elif target.platform == 'linux':
+        cmd += ' --static'
+    target.command(cmd)
+
+    target.command('./waf')
+
+    if target.platform == 'linux' or target.platform == 'osx':
+        target.command('./waf install')
+
+
+def package(target, version):
+    if target.platform == 'windows':
+        shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
+        target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
+        target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
+        target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+        target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
+        target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
+        return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
+    elif target.platform == 'linux':
+        if target.bits == 32:
+            cpu = 'i386'
+        else:
+            cpu = 'amd64'
+
+        shutil.copyfile('platform/linux/control-%s-%d' % (target.version, target.bits), 'debian/control')
+        target.command('./waf dist')
+        f = open('debian/files', 'w')
+        print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
+        shutil.rmtree('build/deb', ignore_errors=True)
+
+        os.makedirs('build/deb')
+        os.chdir('build/deb')
+        shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
+        target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
+        os.chdir('dcpomatic-%s' % version)
+        target.command('dch -b -v %s-1 "New upstream release."' % version)
+        target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
+        target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
+        target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
+        target.command('dpkg-buildpackage')
+        
+        debs = []
+        for p in glob.glob('../*.deb'):
+            debs.append(os.path.abspath(p))
+
+        return debs
+    elif target.platform == 'osx':
+        target.command('bash platform/osx/make_dmg.sh')
+        return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])
+
+def make_pot(target):
+    target.command('./waf pot')
+    return [os.path.abspath('build/src/lib/libdcpomatic.pot'),
+            os.path.abspath('build/src/wx/libdcpomatic-wx.pot'),
+	    os.path.abspath('build/src/tools/dcpomatic.pot')]
+
+def make_manual(target):
+    os.chdir('doc/manual')
+    target.command('make')
+    return [os.path.abspath('pdf'), os.path.abspath('html')]

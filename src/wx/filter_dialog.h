@@ -25,7 +25,8 @@
 #include <boost/signals2.hpp>
 
 class Film;
-class FilterView;
+class FilterEditor;
+class Filter;
 
 /** @class FilterDialog
  *  @brief A dialog to select FFmpeg filters.
@@ -40,5 +41,5 @@ public:
 private:
 	void active_changed ();
 	
-	FilterView* _filters;
+	FilterEditor* _filters;
 };

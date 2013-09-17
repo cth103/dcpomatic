@@ -28,13 +28,16 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/scoped_array.hpp>
+#include <libcxml/cxml.h>
 #include "server.h"
 #include "util.h"
 #include "scaler.h"
 #include "image.h"
 #include "dcp_video_frame.h"
 #include "config.h"
-#include "subtitle.h"
+
+#include "i18n.h"
 
 using std::string;
 using std::stringstream;
@@ -45,34 +48,41 @@ using boost::algorithm::is_any_of;
 using boost::algorithm::split;
 using boost::thread;
 using boost::bind;
+using boost::scoped_array;
+using boost::optional;
+using libdcp::Size;
+
+ServerDescription::ServerDescription (shared_ptr<const cxml::Node> node)
+{
+	_host_name = node->string_child ("HostName");
+	_threads = node->number_child<int> ("Threads");
+}
+
+void
+ServerDescription::as_xml (xmlpp::Node* root) const
+{
+	root->add_child("HostName")->add_child_text (_host_name);
+	root->add_child("Threads")->add_child_text (boost::lexical_cast<string> (_threads));
+}
 
 /** Create a server description from a string of metadata returned from as_metadata().
  *  @param v Metadata.
  *  @return ServerDescription, or 0.
  */
-ServerDescription *
+optional<ServerDescription>
 ServerDescription::create_from_metadata (string v)
 {
 	vector<string> b;
-	split (b, v, is_any_of (" "));
+	split (b, v, is_any_of (N_(" ")));
 
 	if (b.size() != 2) {
-		return 0;
+		return optional<ServerDescription> ();
 	}
 
-	return new ServerDescription (b[0], atoi (b[1].c_str ()));
+	return ServerDescription (b[0], atoi (b[1].c_str ()));
 }
 
-/** @return Description of this server as text */
-string
-ServerDescription::as_metadata () const
-{
-	stringstream s;
-	s << _host_name << " " << _threads;
-	return s.str ();
-}
-
-Server::Server (Log* log)
+Server::Server (shared_ptr<Log> log)
 	: _log (log)
 {
 
@@ -81,53 +91,26 @@ Server::Server (Log* log)
 int
 Server::process (shared_ptr<Socket> socket)
 {
-	char buffer[512];
-	socket->read_indefinite ((uint8_t *) buffer, sizeof (buffer), 30);
-	socket->consume (strlen (buffer) + 1);
+	uint32_t length = socket->read_uint32 ();
+	scoped_array<char> buffer (new char[length]);
+	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 	
-	stringstream s (buffer);
-	multimap<string, string> kv = read_key_value (s);
-
-	if (get_required_string (kv, "encode") != "please") {
+	stringstream s (buffer.get());
+	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
+	xml->read_stream (s);
+	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
+		_log->log ("Mismatched server/client versions");
 		return -1;
 	}
 
-	Size in_size (get_required_int (kv, "input_width"), get_required_int (kv, "input_height"));
-	int pixel_format_int = get_required_int (kv, "input_pixel_format");
-	Size out_size (get_required_int (kv, "output_width"), get_required_int (kv, "output_height"));
-	int padding = get_required_int (kv, "padding");
-	int subtitle_offset = get_required_int (kv, "subtitle_offset");
-	float subtitle_scale = get_required_float (kv, "subtitle_scale");
-	string scaler_id = get_required_string (kv, "scaler");
-	int frame = get_required_int (kv, "frame");
-	int frames_per_second = get_required_int (kv, "frames_per_second");
-	string post_process = get_optional_string (kv, "post_process");
-	int colour_lut_index = get_required_int (kv, "colour_lut");
-	int j2k_bandwidth = get_required_int (kv, "j2k_bandwidth");
-	Position subtitle_position (get_optional_int (kv, "subtitle_x"), get_optional_int (kv, "subtitle_y"));
-	Size subtitle_size (get_optional_int (kv, "subtitle_width"), get_optional_int (kv, "subtitle_height"));
+	libdcp::Size size (
+		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
+		);
 
-	/* This checks that colour_lut_index is within range */
-	colour_lut_index_to_name (colour_lut_index);
-
-	PixelFormat pixel_format = (PixelFormat) pixel_format_int;
-	Scaler const * scaler = Scaler::from_id (scaler_id);
-	
-	shared_ptr<Image> image (new SimpleImage (pixel_format, in_size, true));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
 	image->read_from_socket (socket);
-
-	shared_ptr<Subtitle> sub;
-	if (subtitle_size.width && subtitle_size.height) {
-		shared_ptr<Image> subtitle_image (new SimpleImage (PIX_FMT_RGBA, subtitle_size, true));
-		subtitle_image->read_from_socket (socket);
-		sub.reset (new Subtitle (subtitle_position, subtitle_image));
-	}
-
-	DCPVideoFrame dcp_video_frame (
-		image, sub, out_size, padding, subtitle_offset, subtitle_scale,
-		scaler, frame, frames_per_second, post_process, colour_lut_index, j2k_bandwidth, _log
-		);
+	DCPVideoFrame dcp_video_frame (image, xml, _log);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
 	try {
@@ -135,13 +118,13 @@ Server::process (shared_ptr<Socket> socket)
 	} catch (std::exception& e) {
 		_log->log (String::compose (
 				   "Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components",
-				   frame, encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
+				   dcp_video_frame.frame(), encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
 				   )
 			);
 		throw;
 	}
 
-	return frame;
+	return dcp_video_frame.frame ();
 }
 
 void
@@ -166,7 +149,7 @@ Server::worker_thread ()
 		try {
 			frame = process (socket);
 		} catch (std::exception& e) {
-			_log->log (String::compose ("Error: %1", e.what()));
+			_log->log (String::compose (N_("Error: %1"), e.what()));
 		}
 		
 		socket.reset ();
@@ -176,7 +159,7 @@ Server::worker_thread ()
 		if (frame >= 0) {
 			struct timeval end;
 			gettimeofday (&end, 0);
-			_log->log (String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)));
+			_log->log (String::compose (N_("Encoded frame %1 in %2"), frame, seconds (end) - seconds (start)));
 		}
 		
 		_worker_condition.notify_all ();
@@ -186,7 +169,7 @@ Server::worker_thread ()
 void
 Server::run (int num_threads)
 {
-	_log->log (String::compose ("Server starting with %1 threads", num_threads));
+	_log->log (String::compose (N_("Server starting with %1 threads"), num_threads));
 	
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));

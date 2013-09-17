@@ -1,0 +1,658 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LIBDCPOMATIC\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-15 22:07+0100\n"
+"PO-Revision-Date: 2013-04-02 19:10-0500\n"
+"Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
+"Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
+"Language: es-ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: src/lib/sndfile_content.cc:70
+msgid "%1 channels, %2kHz, %3 samples"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:193
+#, fuzzy
+msgid "%1 frames; %2 frames per second"
+msgstr "fotogramas por segundo"
+
+#: src/lib/video_content.cc:131
+msgid "%1x%2 pixels (%3:1)"
+msgstr ""
+
+#: src/lib/transcode_job.cc:81
+msgid "0%"
+msgstr "0%"
+
+#: src/lib/ratio.cc:47
+msgid "1.19"
+msgstr "1.19"
+
+#: src/lib/ratio.cc:50
+msgid "1.375"
+msgstr "1.375"
+
+#: src/lib/ratio.cc:51
+msgid "1.66"
+msgstr "1.66"
+
+#: src/lib/ratio.cc:52
+msgid "16:9"
+msgstr "16:9"
+
+#: src/lib/filter.cc:88
+msgid "3D denoiser"
+msgstr "reducción de ruido 3D"
+
+#: src/lib/ratio.cc:48
+msgid "4:3"
+msgstr ""
+
+#: src/lib/ratio.cc:49
+msgid "Academy"
+msgstr "Academy"
+
+#: src/lib/dcp_content_type.cc:53
+msgid "Advertisement"
+msgstr "Publicidad"
+
+#: src/lib/job.cc:72
+msgid "An error occurred whilst handling the file %1."
+msgstr "Ha ocurrido un error con el fichero %1."
+
+#: src/lib/analyse_audio_job.cc:53
+msgid "Analyse audio of %1"
+msgstr "Analizar audio de %1"
+
+#: src/lib/scaler.cc:64
+msgid "Area"
+msgstr "Área"
+
+#: src/lib/scaler.cc:62
+msgid "Bicubic"
+msgstr "Bicúbico"
+
+#: src/lib/scaler.cc:69
+msgid "Bilinear"
+msgstr "Bilineal"
+
+#: src/lib/job.cc:320
+msgid "Cancelled"
+msgstr ""
+
+#: src/lib/exceptions.cc:60
+msgid "Cannot handle pixel format %1 during %2"
+msgstr ""
+
+#: src/lib/util.cc:700
+msgid "Centre"
+msgstr ""
+
+#: src/lib/scp_dcp_job.cc:109
+msgid "Copy DCP to TMS"
+msgstr "Copiar DCP al TMS"
+
+#: src/lib/scp_dcp_job.cc:128
+msgid "Could not connect to server %1 (%2)"
+msgstr "No se pudo conectar al servidor %1 (%2)"
+
+#: src/lib/scp_dcp_job.cc:150
+msgid "Could not create remote directory %1 (%2)"
+msgstr "No se pudo crear la carpeta remota %1 (%2)"
+
+#: src/lib/scp_dcp_job.cc:175
+msgid "Could not open %1 to send"
+msgstr "No se pudo abrir %1 para enviar"
+
+#: src/lib/scp_dcp_job.cc:145
+msgid "Could not start SCP session (%1)"
+msgstr "No se pudo iniciar la sesión SCP (%1)"
+
+#: src/lib/scp_dcp_job.cc:187
+msgid "Could not write to remote file (%1)"
+msgstr "No se pudo escribir el fichero remoto (%1)"
+
+#: src/lib/filter.cc:77
+msgid "Cubic interpolating deinterlacer"
+msgstr "Desentrelazado por interpolación cúbica"
+
+#: src/lib/util.cc:723
+msgid "DCP and source have the same rate.\n"
+msgstr "La fuente y el DCP tienen la misma velocidad.\n"
+
+#: src/lib/util.cc:733
+#, fuzzy
+msgid "DCP will run at %1%% of the source speed.\n"
+msgstr "El DCP se reproducirá al %1%% de la velocidad de la fuente.\n"
+
+#: src/lib/util.cc:726
+msgid "DCP will use every other frame of the source.\n"
+msgstr "El DCP usará fotogramas alternos de la fuente.\n"
+
+#: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:70
+#: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
+msgid "De-blocking"
+msgstr "De-blocking"
+
+#: src/lib/filter.cc:75 src/lib/filter.cc:76 src/lib/filter.cc:77
+#: src/lib/filter.cc:78 src/lib/filter.cc:79 src/lib/filter.cc:80
+#: src/lib/filter.cc:81 src/lib/filter.cc:82 src/lib/filter.cc:83
+msgid "De-interlacing"
+msgstr "Desentrelazado"
+
+#: src/lib/filter.cc:74
+msgid "Deringing filter"
+msgstr "Deringing filter"
+
+#: src/lib/dolby_cp750.cc:27
+msgid "Dolby CP750"
+msgstr "Dolby CP750"
+
+#: src/lib/util.cc:728
+msgid "Each source frame will be doubled in the DCP.\n"
+msgstr "Se doblará cada fotograma de la fuente en el DCP.\n"
+
+#: src/lib/job.cc:318
+msgid "Error (%1)"
+msgstr "Error (%1)"
+
+#: src/lib/examine_content_job.cc:45
+msgid "Examine content"
+msgstr "Examinar contenido"
+
+#: src/lib/filter.cc:72
+msgid "Experimental horizontal deblocking filter 1"
+msgstr "Experimental horizontal deblocking filter 1"
+
+#: src/lib/filter.cc:73
+msgid "Experimental vertical deblocking filter 1"
+msgstr "Experimental vertical deblocking filter 1"
+
+#: src/lib/filter.cc:79
+msgid "FFMPEG deinterlacer"
+msgstr "Desentrelazado FFMPEG"
+
+#: src/lib/filter.cc:80
+msgid "FIR low-pass deinterlacer"
+msgstr "Desentrelazado paso bajo FIR"
+
+#: src/lib/scp_dcp_job.cc:138
+msgid "Failed to authenticate with server (%1)"
+msgstr "Fallo al identificarse con el servidor (%1)"
+
+#: src/lib/scaler.cc:70
+msgid "Fast Bilinear"
+msgstr "Bilineal rápido"
+
+#: src/lib/dcp_content_type.cc:44
+msgid "Feature"
+msgstr "Película"
+
+#: src/lib/ratio.cc:53
+msgid "Flat"
+msgstr "Flat"
+
+#: src/lib/filter.cc:85
+msgid "Force quantizer"
+msgstr "Force quantizer"
+
+#: src/lib/ratio.cc:55
+msgid "Full frame"
+msgstr ""
+
+#: src/lib/scaler.cc:65
+msgid "Gaussian"
+msgstr "Gaussiano"
+
+#: src/lib/filter.cc:86
+msgid "Gradient debander"
+msgstr "Gradient debander"
+
+#: src/lib/filter.cc:89
+msgid "High quality 3D denoiser"
+msgstr "Reductor de ruido 3D de alta calidad"
+
+#: src/lib/filter.cc:68
+msgid "Horizontal deblocking filter"
+msgstr "Horizontal deblocking filter"
+
+#: src/lib/filter.cc:70
+msgid "Horizontal deblocking filter A"
+msgstr "Horizontal deblocking filter A"
+
+#: src/lib/imagemagick_content.cc:50
+msgid "Image: %1"
+msgstr ""
+
+#: src/lib/job.cc:96 src/lib/job.cc:105
+msgid ""
+"It is not known what caused this error.  The best idea is to report the "
+"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
+msgstr ""
+"Error desconocido. La mejor idea es informar del problema a la lista de "
+"correo de DCP-o-matic (carl@dcpomatic.com)"
+
+#: src/lib/filter.cc:82
+msgid "Kernel deinterlacer"
+msgstr "Kernel deinterlacer"
+
+#: src/lib/scaler.cc:66
+msgid "Lanczos"
+msgstr "Lanczos"
+
+#: src/lib/util.cc:698
+msgid "Left"
+msgstr ""
+
+#: src/lib/util.cc:702
+msgid "Left surround"
+msgstr ""
+
+#: src/lib/util.cc:701
+msgid "Lfe (sub)"
+msgstr ""
+
+#: src/lib/filter.cc:75
+msgid "Linear blend deinterlacer"
+msgstr "Linear blend deinterlacer"
+
+#: src/lib/filter.cc:76
+msgid "Linear interpolating deinterlacer"
+msgstr "Linear interpolating deinterlacer"
+
+#: src/lib/filter.cc:78
+msgid "Median deinterlacer"
+msgstr "Median deinterlacer"
+
+#: src/lib/filter.cc:74 src/lib/filter.cc:85 src/lib/filter.cc:86
+#: src/lib/filter.cc:87 src/lib/filter.cc:90
+msgid "Misc"
+msgstr "Miscelánea"
+
+#: src/lib/filter.cc:81
+msgid "Motion compensating deinterlacer"
+msgstr "Motion compensating deinterlacer"
+
+#: src/lib/ffmpeg_content.cc:181
+msgid "Movie: %1"
+msgstr ""
+
+#: src/lib/filter.cc:84 src/lib/filter.cc:88 src/lib/filter.cc:89
+#: src/lib/filter.cc:91
+msgid "Noise reduction"
+msgstr "Reducción de ruido"
+
+#: src/lib/job.cc:316
+msgid "OK (ran for %1)"
+msgstr "OK (ejecución %1)"
+
+#: src/lib/filter.cc:91
+msgid "Overcomplete wavelet denoiser"
+msgstr "Overcomplete wavelet denoiser"
+
+#: src/lib/dcp_content_type.cc:51
+msgid "Policy"
+msgstr "Policy"
+
+#: src/lib/dcp_content_type.cc:52
+msgid "Public Service Announcement"
+msgstr "Anuncio de servicio público"
+
+#: src/lib/dcp_content_type.cc:49
+msgid "Rating"
+msgstr "Clasificación"
+
+#: src/lib/util.cc:699
+msgid "Right"
+msgstr ""
+
+#: src/lib/util.cc:703
+msgid "Right surround"
+msgstr ""
+
+#: src/lib/scp_dcp_job.cc:133
+msgid "SSH error (%1)"
+msgstr "error SSH (%1)"
+
+#: src/lib/ratio.cc:54
+msgid "Scope"
+msgstr "Scope"
+
+#: src/lib/dcp_content_type.cc:45
+msgid "Short"
+msgstr "Cortometraje"
+
+#: src/lib/scaler.cc:67
+msgid "Sinc"
+msgstr "Sinc"
+
+#: src/lib/sndfile_content.cc:57
+#, fuzzy
+msgid "Sound file: %1"
+msgstr "no se pudo abrir el fichero para lectura"
+
+#: src/lib/scaler.cc:68
+msgid "Spline"
+msgstr "Spline"
+
+#: src/lib/dcp_content_type.cc:50
+msgid "Teaser"
+msgstr "Teaser"
+
+#: src/lib/filter.cc:90
+msgid "Telecine filter"
+msgstr "Filtro telecine"
+
+#: src/lib/filter.cc:84
+msgid "Temporal noise reducer"
+msgstr "Temporal noise reducer"
+
+#: src/lib/dcp_content_type.cc:47
+msgid "Test"
+msgstr "Test"
+
+#: src/lib/job.cc:78
+msgid ""
+"The drive that the film is stored on is low in disc space.  Free some more "
+"space and try again."
+msgstr ""
+"En el dispositivo donde se encuentra la película queda poco espacio. Libere "
+"espacio en el disco y pruebe de nuevo."
+
+#: src/lib/film.cc:364
+msgid ""
+"This film was created with an older version of DCP-o-matic, and "
+"unfortunately it cannot be loaded into this version.  You will need to "
+"create a new Film, re-add your content and set it up again.  Sorry!"
+msgstr ""
+
+#: src/lib/dcp_content_type.cc:46
+msgid "Trailer"
+msgstr "Trailer"
+
+#: src/lib/transcode_job.cc:50
+msgid "Transcode %1"
+msgstr "Codificar %1"
+
+#: src/lib/dcp_content_type.cc:48
+msgid "Transitional"
+msgstr "Transitional"
+
+#: src/lib/job.cc:104
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: src/lib/ffmpeg_decoder.cc:264
+msgid "Unrecognised audio sample format (%1)"
+msgstr "Formato de audio desconocido (%1)"
+
+#: src/lib/filter.cc:87
+msgid "Unsharp mask and Gaussian blur"
+msgstr "Máscara de desenfoque Gaussiano"
+
+#: src/lib/filter.cc:69
+msgid "Vertical deblocking filter"
+msgstr "Vertical deblocking filter"
+
+#: src/lib/filter.cc:71
+msgid "Vertical deblocking filter A"
+msgstr "Vertical deblocking filter A"
+
+#: src/lib/scp_dcp_job.cc:101
+msgid "Waiting"
+msgstr "Esperando"
+
+#: src/lib/scaler.cc:63
+msgid "X"
+msgstr "X"
+
+#: src/lib/filter.cc:83
+msgid "Yet Another Deinterlacing Filter"
+msgstr "Yet Another Deinterlacing Filter"
+
+#: src/lib/film.cc:273
+msgid "You must add some content to the DCP before creating it"
+msgstr ""
+
+#: src/lib/film.cc:232
+msgid "cannot contain slashes"
+msgstr "no puede contener barras"
+
+#: src/lib/util.cc:494
+msgid "connect timed out"
+msgstr "tiempo de conexión agotado"
+
+#: src/lib/scp_dcp_job.cc:119
+msgid "connecting"
+msgstr "conectando"
+
+#: src/lib/film.cc:269
+#, fuzzy
+msgid "container"
+msgstr "contenido"
+
+#: src/lib/film.cc:277
+msgid "content type"
+msgstr "tipo de contenido"
+
+#: src/lib/scp_dcp_job.cc:168
+msgid "copying %1"
+msgstr "copiando %1"
+
+#: src/lib/exceptions.cc:36
+#, fuzzy
+msgid "could not create file %1"
+msgstr "No se pudo escribir el fichero remoto (%1)"
+
+#: src/lib/ffmpeg.cc:128
+msgid "could not find audio decoder"
+msgstr "no se encontró el decodificador de audio"
+
+#: src/lib/ffmpeg.cc:76
+msgid "could not find stream information"
+msgstr "no se pudo encontrar información del flujo"
+
+#: src/lib/ffmpeg_decoder.cc:498
+msgid "could not find subtitle decoder"
+msgstr "no se pudo encontrar decodificador de subtítutlos"
+
+#: src/lib/ffmpeg.cc:107
+msgid "could not find video decoder"
+msgstr "no se pudo encontrar decodificador de vídeo"
+
+#: src/lib/sndfile_decoder.cc:45
+#, fuzzy
+msgid "could not open audio file for reading"
+msgstr "no se pudo abrir el fichero para lectura"
+
+#: src/lib/exceptions.cc:29
+#, fuzzy
+msgid "could not open file %1"
+msgstr "no se pudo abrir el fichero para lectura"
+
+#: src/lib/dcp_video_frame.cc:263
+msgid "could not open file for reading"
+msgstr "no se pudo abrir el fichero para lectura"
+
+#: src/lib/exceptions.cc:44
+#, fuzzy
+msgid "could not read from file %1 (%2)"
+msgstr "No se pudo crear la carpeta remota %1 (%2)"
+
+#: src/lib/resampler.cc:76 src/lib/resampler.cc:96
+msgid "could not run sample-rate converter"
+msgstr "no se pudo ejecutar el conversor de velocidad"
+
+#: src/lib/scp_dcp_job.cc:86
+msgid "could not start SCP session (%1)"
+msgstr "no se pudo abrir la sesión SCP (%1)"
+
+#: src/lib/scp_dcp_job.cc:52
+msgid "could not start SSH session"
+msgstr "no se pudo abrir la sesión SSH"
+
+#: src/lib/exceptions.cc:50
+#, fuzzy
+msgid "could not write to file %1 (%2)"
+msgstr "No se pudo escribir el fichero remoto (%1)"
+
+#: src/lib/transcode_job.cc:94
+msgid "frames per second"
+msgstr "fotogramas por segundo"
+
+#: src/lib/util.cc:146
+msgid "hour"
+msgstr "hora"
+
+#: src/lib/util.cc:143 src/lib/util.cc:148
+msgid "hours"
+msgstr "horas"
+
+#: src/lib/util.cc:153
+msgid "minute"
+msgstr "minuto"
+
+#: src/lib/util.cc:155
+msgid "minutes"
+msgstr "minutos"
+
+#: src/lib/util.cc:621
+msgid "missing key %1 in key-value set"
+msgstr "falta la clave %1 en el par clave-valor"
+
+#: src/lib/exceptions.cc:54
+msgid "missing required setting %1"
+msgstr ""
+
+#: src/lib/ffmpeg_decoder.cc:530
+msgid "multi-part subtitles not yet supported"
+msgstr "todavía no se soportan subtítulos en múltiples partes"
+
+#: src/lib/film.cc:232 src/lib/film.cc:281
+msgid "name"
+msgstr "nombre"
+
+#: src/lib/ffmpeg_decoder.cc:545
+msgid "non-bitmap subtitles not yet supported"
+msgstr "todavía no se soportan subtítulos que no son en mapas de bits"
+
+#. / TRANSLATORS: remaining here follows an amount of time that is remaining
+#. / on an operation.
+#: src/lib/job.cc:313
+msgid "remaining"
+msgstr "pendiente"
+
+#: src/lib/util.cc:158
+msgid "seconds"
+msgstr "segundos"
+
+#~ msgid "1.66 within Flat"
+#~ msgstr "1.66 en Flat"
+
+#~ msgid "16:9 within Flat"
+#~ msgstr "16:9 en Flat"
+
+#, fuzzy
+#~ msgid "16:9 within Scope"
+#~ msgstr "16:9 en Flat"
+
+#~ msgid "4:3 within Flat"
+#~ msgstr "4:3 en Flat"
+
+#~ msgid "A/B transcode %1"
+#~ msgstr "Codificación A/B %1"
+
+#~ msgid "Cannot resample audio as libswresample is not present"
+#~ msgstr ""
+#~ "No se puede redimensionar el sonido porque no se encuentra libswresample"
+
+#~ msgid "Examine content of %1"
+#~ msgstr "Examinar contenido de %1"
+
+#~ msgid "Flat without stretch"
+#~ msgstr "Flat sin deformación"
+
+#~ msgid "Rec 709"
+#~ msgstr "Rec 709"
+
+#~ msgid "Scope without stretch"
+#~ msgstr "Scope sin deformación"
+
+#~ msgid "could not open external audio file for reading"
+#~ msgstr "no se pudo leer el fichero externo  de audio"
+
+#~ msgid "external audio files have differing lengths"
+#~ msgstr "los ficheros externos de sonido tienen duraciones diferentes"
+
+#~ msgid "external audio files must be mono"
+#~ msgstr "los ficheros externos de sonido deben ser mono"
+
+#~ msgid "format"
+#~ msgstr "formato"
+
+#~ msgid "no still image files found"
+#~ msgstr "no se encuentran imágenes fijas"
+
+#~ msgid "sRGB"
+#~ msgstr "sRGB"
+
+#~ msgid "still"
+#~ msgstr "imagen fija"
+
+#~ msgid "video"
+#~ msgstr "vídeo"
+
+#~ msgid "1.33"
+#~ msgstr "1.33"
+
+#~ msgid "Source scaled to 1.19:1"
+#~ msgstr "Fuente escalada a 1.19:1"
+
+#~ msgid "Source scaled to 1.33:1"
+#~ msgstr "Fuente escalada a 1.33:1"
+
+#~ msgid "Source scaled to 1.33:1 then pillarboxed to Flat"
+#~ msgstr "Fuente escalada a 1.33:1 con bandas hasta Flat"
+
+#~ msgid "Source scaled to 1.375:1"
+#~ msgstr "Fuente escalada a 1.375:1"
+
+#~ msgid "Source scaled to 1.37:1 (Academy ratio)"
+#~ msgstr "Fuente escalada a 1.37:1 (Academy)"
+
+#~ msgid "Source scaled to 1.66:1"
+#~ msgstr "Fuente escalada a 1.66:1"
+
+#~ msgid "Source scaled to 1.66:1 then pillarboxed to Flat"
+#~ msgstr "Fuente escalada a 1.66:1 con bandas hasta Flat"
+
+#~ msgid "Source scaled to 1.78:1"
+#~ msgstr "Fuente escalada a 1.78:1"
+
+#~ msgid "Source scaled to 1.78:1 then pillarboxed to Flat"
+#~ msgstr "Fuente escalada a 1.78:1 con bandas hasta Flat"
+
+#~ msgid "Source scaled to Flat (1.85:1)"
+#~ msgstr "Fuente escalada a Flat (1.85:1)"
+
+#~ msgid "Source scaled to Scope (2.39:1)"
+#~ msgstr "Fuente escalada a Scope (2.39:1)"
+
+#~ msgid "Source scaled to fit Flat preserving its aspect ratio"
+#~ msgstr "Fuente escalada a Flat conservando el ratio de aspecto"
+
+#~ msgid "Source scaled to fit Scope preserving its aspect ratio"
+#~ msgstr "Fuente escalada a Scope conservando el ratio de aspecto"
+
+#~ msgid "adding to queue of %1"
+#~ msgstr "añadiendo a la cola de %1"

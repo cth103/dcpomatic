@@ -21,16 +21,17 @@
  *  @brief A class to describe a sound processor.
  */
 
-#ifndef DVDOMATIC_SOUND_PROCESSOR_H
-#define DVDOMATIC_SOUND_PROCESSOR_H
+#ifndef DCPOMATIC_SOUND_PROCESSOR_H
+#define DCPOMATIC_SOUND_PROCESSOR_H
 
 #include <string>
 #include <vector>
+#include <boost/utility.hpp>
 
 /** @class SoundProcessor
  *  @brief Class to describe a sound processor.
  */
-class SoundProcessor
+class SoundProcessor : public boost::noncopyable
 {
 public:
 	SoundProcessor (std::string i, std::string n);

@@ -21,8 +21,8 @@
  *  @brief A set of classes to describe video images.
  */
 
-#ifndef DVDOMATIC_IMAGE_H
-#define DVDOMATIC_IMAGE_H
+#ifndef DCPOMATIC_IMAGE_H
+#define DCPOMATIC_IMAGE_H
 
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -31,50 +31,36 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
+#include <libdcp/image.h>
 #include "util.h"
-#include "ffmpeg_compatibility.h"
+#include "position.h"
 
 class Scaler;
-class RGBFrameImage;
-class SimpleImage;
 
-/** @class Image
- *  @brief Parent class for wrappers of some image, in some format, that
- *  can present a set of components and a size in pixels.
- *
- *  This class also has some conversion / processing methods.
- *
- *  The main point of this class (and its subclasses) is to abstract
- *  details of FFmpeg's memory management and varying data formats.
- */
-class Image
+class Image : public libdcp::Image
 {
 public:
-	Image (AVPixelFormat p)
-		: _pixel_format (p)
-	{}
+	Image (AVPixelFormat, libdcp::Size, bool);
+	Image (AVFrame *);
+	Image (Image const &);
+	Image (boost::shared_ptr<const Image>, bool);
+	Image& operator= (Image const &);
+	~Image ();
 	
-	virtual ~Image () {}
-
-	/** @return Array of pointers to arrays of the component data */
-	virtual uint8_t ** data () const = 0;
-
-	/** @return Array of sizes of the data in each line, in bytes (without any alignment padding bytes) */
-	virtual int * line_size () const = 0;
-
-	/** @return Array of strides for each line (including any alignment padding bytes) */
-	virtual int * stride () const = 0;
-
-	/** @return Size of the image, in pixels */
-	virtual Size size () const = 0;
+	uint8_t ** data () const;
+	int * line_size () const;
+	int * stride () const;
+	libdcp::Size size () const;
+	bool aligned () const;
 
 	int components () const;
+	int line_factor (int) const;
 	int lines (int) const;
 
-	boost::shared_ptr<Image> scale_and_convert_to_rgb (Size out_size, int padding, Scaler const * scaler, bool aligned) const;
-	boost::shared_ptr<Image> scale (Size, Scaler const *, bool aligned) const;
+	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
-	void alpha_blend (boost::shared_ptr<const Image> image, Position pos);
+	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
+	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 	
 	void make_black ();
@@ -86,76 +72,20 @@ public:
 		return _pixel_format;
 	}
 
-protected:
-	virtual void swap (Image &);
-	float bytes_per_pixel (int) const;
-
-private:	
-	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
-};
-
-/** @class FilterBufferImage
- *  @brief An Image that is held in an AVFilterBufferRef.
- */
-class FilterBufferImage : public Image
-{
-public:
-	FilterBufferImage (AVPixelFormat, AVFilterBufferRef *);
-	~FilterBufferImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	int * stride () const;
-	Size size () const;
-
 private:
-	/* Not allowed */
-	FilterBufferImage (FilterBufferImage const &);
-	FilterBufferImage& operator= (FilterBufferImage const &);
+	friend class pixel_formats_test;
 	
-	AVFilterBufferRef* _buffer;
-};
-
-/** @class SimpleImage
- *  @brief An Image for which memory is allocated using a `simple' av_malloc().
- */
-class SimpleImage : public Image
-{
-public:
-	SimpleImage (AVPixelFormat, Size, bool);
-	SimpleImage (SimpleImage const &);
-	SimpleImage& operator= (SimpleImage const &);
-	~SimpleImage ();
-
-	uint8_t ** data () const;
-	int * line_size () const;
-	int * stride () const;
-	Size size () const;
-
-protected:
 	void allocate ();
-	void swap (SimpleImage &);
+	void swap (Image &);
+	float bytes_per_pixel (int) const;
+	void yuv_16_black (uint16_t);
+	static uint16_t swap_16 (uint16_t);
 	
-private:
-	Size _size; ///< size in pixels
+	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
 	bool _aligned;
-};
-
-class RGBPlusAlphaImage : public SimpleImage
-{
-public:
-	RGBPlusAlphaImage (boost::shared_ptr<const Image>);
-	~RGBPlusAlphaImage ();
-
-	uint8_t* alpha () const {
-		return _alpha;
-	}
-	
-private:
-	uint8_t* _alpha;
 };
 
 #endif

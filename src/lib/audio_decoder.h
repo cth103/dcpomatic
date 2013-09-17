@@ -21,38 +21,30 @@
  *  @brief Parent class for audio decoders.
  */
 
-#ifndef DVDOMATIC_AUDIO_DECODER_H
-#define DVDOMATIC_AUDIO_DECODER_H
+#ifndef DCPOMATIC_AUDIO_DECODER_H
+#define DCPOMATIC_AUDIO_DECODER_H
 
-#include "audio_source.h"
-#include "stream.h"
 #include "decoder.h"
+#include "content.h"
+#include "audio_content.h"
+
+class AudioBuffers;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public AudioSource, public virtual Decoder
+class AudioDecoder : public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<Film>, boost::shared_ptr<const DecodeOptions>, Job *);
+	AudioDecoder (boost::shared_ptr<const Film>);
 
-	virtual void set_audio_stream (boost::shared_ptr<AudioStream>);
-
-	/** @return Audio stream that we are using */
-	boost::shared_ptr<AudioStream> audio_stream () const {
-		return _audio_stream;
-	}
-
-	/** @return All available audio streams */
-	std::vector<boost::shared_ptr<AudioStream> > audio_streams () const {
-		return _audio_streams;
-	}
+	/** Emitted when some audio data is ready */
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame)> Audio;
 
 protected:
-	/** Audio stream that we are using */
-	boost::shared_ptr<AudioStream> _audio_stream;
-	/** All available audio streams */
-	std::vector<boost::shared_ptr<AudioStream> > _audio_streams;
+
+	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
+	AudioContent::Frame _audio_position;
 };
 
 #endif

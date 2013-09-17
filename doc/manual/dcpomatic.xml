@@ -1,0 +1,1372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book [
+<!ENTITY % sgml.features "IGNORE">
+<!ENTITY % xml.features "INCLUDE">
+<!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.5//EN"
+   "/usr/share/xml/docbook/schema/dtd/4.5/dbcentx.mod">
+%dbcent;
+<!ENTITY % extensions SYSTEM "extensions.ent">
+%extensions;
+]>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+
+<!-- By good luck or good management, the scale parameter to imagedata
+     appears only to affect PDF output.  HTML scaling is done in the
+     Makefile.
+-->
+
+<bookinfo>
+<title>DCP-o-matic</title>
+<author><firstname>Carl</firstname><surname>Hetherington</surname></author>
+</bookinfo>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Introduction</title>
+
+<para>
+Hello, and welcome to DCP-o-matic!
+</para>
+
+<section>
+<title>What is DCP-o-matic?</title>
+
+<para>
+DCP-o-matic is a program to generate <ulink
+url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
+Cinema Packages</ulink> (DCPs) from DVDs, Blu-Rays, video files such as MP4
+and AVI, or still images.  The resulting DCPs will play on modern digital
+cinema projectors.
+</para>
+
+<para>
+You might find it useful to make DVDs easier to present, to encode
+independently-shot feature films, or to generate local advertising for
+your cinema.
+</para>
+
+</section>
+
+<section>
+<title>Licence</title>
+
+<para>
+DCP-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL</ulink>.
+</para>
+
+</section>
+
+<section>
+<title>Acknowledgements</title>
+
+<para>
+This manual uses icons from the <ulink url="http://tango.freedesktop.org/">Tango Desktop Project</ulink>, with thanks.
+</para>
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Installation</title>
+
+<section>
+<title>Windows</title>
+
+<para>
+To install DCP-o-matic on Windows, simply download the installer from
+<ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+and double-click it.  Click through the installer wizard, and
+DCP-o-matic will be installed onto your machine.
+</para>
+
+<para>
+If you are using a 32-bit version of Windows, you will need the 32-bit
+installer.  For 64-bit Windows, either installer will work, but I
+suggest you used the 64-bit version as it will allow DCP-o-matic to
+use more memory.  You may find that DCP-o-matic crashes if you run
+many parallel encoding threads (more than 4) on the 32-bit
+version.
+</para>
+
+</section>
+
+<section>
+<title>Mac OS X</title>
+
+<para>
+DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
+higher.  To install it, download the <code>DMG</code> from <ulink
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and double
+click to open it.  Then drag the DCP-o-matic icon to your
+<guilabel>Applications</guilabel> folder or wherever else you would
+like to install it.
+</para>
+
+</section>
+
+<section>
+<title>Ubuntu Linux</title>
+
+<para>
+You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
+Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;) or 13.04
+(&lsquo;Raring Ringtail&rsquo;) using <code>.deb</code> packages:
+download the appropriate package from <ulink
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
+double-click it.  Ubuntu will install the necessary bits and pieces
+and set DCP-o-matic up for you.
+</para>
+
+</section>
+
+<section>
+<title>Other Linux distributions</title>
+
+<para>
+Installation on non-Ubuntu Linux is currently a little involved, as
+there are no packages available (yet); you will have to compile it
+from source.  If you are using a non-Ubuntu distribution, do let me
+know via the <ulink url="mailto:carl@dcpomatic.com">mailing
+list</ulink> and I will see about building some packages.
+</para>
+
+<para>
+The following dependencies are required:
+<itemizedlist>
+<listitem><ulink url="http://ffmpeg.org/">FFmpeg</ulink></listitem>
+<listitem><ulink url="http://www.mega-nerd.com/libsndfile/">libsndfile</ulink></listitem>
+<listitem><ulink url="http://www.openssl.org/">OpenSSL</ulink></listitem>
+<listitem><ulink url="http://www.openjpeg.org/">libopenjpeg</ulink></listitem>
+<listitem><ulink url="http://www.imagemagick.org/script/index.php">ImageMagick</ulink></listitem>
+<listitem><ulink url="http://www.boost.org/">Boost</ulink></listitem>
+<listitem><ulink url="http://www.libssh.org/">libssh</ulink></listitem>
+<listitem><ulink url="http://www.gtk.org/">GTK</ulink></listitem>
+<listitem><ulink url="http://www.wxwidgets.org/">wxWidgets</ulink></listitem>
+<listitem><ulink url="http://carlh.net/software/libdcp/">libdcp</ulink></listitem>
+</itemizedlist>
+</para>
+
+<para>
+Once you have installed the development packages for the dependencies,
+download the source code from <ulink
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>,
+unpack it and run the following commands from inside the source
+directory:
+</para>
+
+<programlisting>
+./waf configure
+./waf build
+sudo ./waf install
+</programlisting>
+
+<para>
+With any luck, this will build and install DCP-o-matic on your system.  To run it, enter:
+</para>
+
+<programlisting>
+dcpomatic
+</programlisting>
+
+<para>
+in a shell.
+</para>
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Creating a video DCP</title>
+
+<para>
+In this chapter we will see how to create a video DCP using
+DCP-o-matic.  We will gloss over the details and look at the basics.
+</para>
+
+<section>
+<title>Creating a new film</title>
+
+<para>
+Let's make a very simple DCP to see how DCP-o-matic works.  First, we
+need some content.  Download the low-resolution trailer for the open
+movie <ulink url="http://sintel.org/">Sintel</ulink> from <ulink
+url="http://ftp.nluug.nl/ftp/graphics/blender/apricot/trailer/Sintel_Trailer1.480p.DivX_Plus_HD.mkv">their
+website</ulink>.  Generally, of course, one would want to use the
+highest-resolution material available, but for this test we will use
+the low-resolution version to save everyone's bandwidth bills.
+</para>
+
+<para>
+Now, start DCP-o-matic and its window will open.  First, we will
+create a new &lsquo;film&rsquo;.  A &lsquo;film&rsquo; is how DCP-o-matic refers to
+some pieces of content, along with some settings, which we will make into
+a DCP.  DCP-o-matic stores its data in a folder on your disk while it
+creates the DCP.  You can create a new film by selecting
+<guilabel>New</guilabel> from the <guilabel>File</guilabel> menu, as
+shown in <xref linkend="fig-file-new"/>.
+</para>
+
+<figure id="fig-file-new">
+  <title>Creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/file-new&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This will open a dialogue box for the new film, as shown in <xref
+linkend="fig-video-new-film"/>.
+</para>
+
+<figure id="fig-video-new-film">
+  <title>Dialogue box for creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/video-new-film&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+In this dialogue box you can choose a name for the film.  This will be
+used to name the folder to store its data in, and also as the initial
+name for the DCP itself.  You can also choose whereabouts you want to create
+the film.  In the example from the figure, DCP-o-matic will create a
+folder called &lsquo;DCP Test&rsquo; inside my home folder (carl) into which it
+will write its working files.
+</para>
+
+</section>
+
+<section>
+<title>Adding content</title>
+
+<para>
+The next step is to add the content that you want to use.  DCP-o-matic
+can make DCPs from multiple pieces of content, but in this simple
+example we will just use a single piece.  Click the <guilabel>Add
+file(s)...</guilabel> button, as shown in <xref
+linkend="fig-add-file"/>, and a file chooser will open for you to
+select the content file to use, as shown in <xref
+linkend="fig-video-select-content-file"/>.
+</para>
+
+<figure id="fig-add-file"> 
+  <title>Adding content files</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/add-file&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<figure id="fig-video-select-content-file"> 
+  <title>Selecting a video content file</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/video-select-content-file&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Select your content file and click <guilabel>Open</guilabel>.  In this
+case we are using the Sintel trailer that we downloaded earlier.
+</para>
+
+<para>
+When you do this, DCP-o-matic will take a look at your file.  After a
+short while (when the progress bar at the bottom right of the window
+has finished), you can look through your content using the slider to
+the right of the window, as shown in <xref linkend="fig-examine-content"/>.
+</para>
+
+<figure id="fig-examine-content"> 
+  <title>Examining the content</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/examine-content&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Dragging the slider will move through your video.  You can also click
+the <guilabel>Play</guilabel> button to play the content back.  Note
+that there will be no sound, and playback might not be entirely
+accurate (it may be slightly slower or faster than it should be, for
+example).  This player is really only intended for brief inspection of
+content; if you need to check it more thoroughly, use another player
+such as <ulink
+url="http://projects.gnome.org/totem/index.html">Totem</ulink>, <ulink
+url="http://www.mplayerhq.hu/design7/news.html">mplayer</ulink> or
+<ulink url="http://www.videolan.org/vlc/index.html">VLC</ulink>.
+</para>
+
+</section>
+
+
+
+<section>
+<title>Making the DCP</title>
+
+<para>In most cases, some adjustments would be made to DCP-o-matic's
+settings once the content has been added.  For our simple test,
+however, the default values will suffice, so we can go straight onto
+making the DCP.</para>
+
+<para>
+Choose <guilabel>Make DCP</guilabel> from the
+<guilabel>Jobs</guilabel> menu.  DCP-o-matic will encode your DCP.
+This may take some time (many hours in some cases).  While the job is
+in progress, DCP-o-matic will update you on how it is getting on with
+the progress bar in the bottom of its window, as shown in <xref
+linkend="fig-making-dcp"/>.
+</para>
+
+<figure id="fig-making-dcp">
+  <title>Making the DCP</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata scale="30" fileref="screenshots/making-dcp&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+When it has finished, the DCP will end up on your disk inside the
+film's folder.  You can then copy this to a projector via a USB
+stick, hard-drive or network connection.  See <xref
+linkend="ch-files"/> for details about the files that DCP-o-matic creates.
+</para>
+
+<para>
+Alternatively, if you have a projector or TMS that is accessible via
+SCP across your network, you can upload the content directly from
+DCP-o-matic.  See the preferences in <xref linkend="sec-prefs-tms"/>.
+</para>
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Creating a still-image DCP</title>
+
+<para>
+DCP-o-matic can also be used to create DCPs of one or more still images, perhaps
+for an advertisement or an on-screen announcement.  This chapter shows you
+how to do it.
+</para>
+
+<para>
+As with video DCPs, the first step is to create a new
+&lsquo;Film&rsquo;; select <guilabel>New</guilabel> from the
+<guilabel>File</guilabel> menu and the new film dialogue will open as
+shown in <xref linkend="fig-still-new-film"/>.
+</para>
+
+<figure id="fig-still-new-film"> 
+  <title>Dialogue box for creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/still-new-film&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Enter a name and click <guilabel>OK</guilabel>.  Now we need to add
+the content.  As before, click <guilabel>Add file(s)...</guilabel>.
+For our example, we will add a single image file, as shown in <xref
+linkend="fig-still-select-content-file"/>.
+</para>
+
+<figure id="fig-still-select-content-file"> 
+  <title>Selecting a still content file</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/still-select-content-file&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+As with video DCPs, most of the default settings will be fine for a
+simple test.  The one thing that you might wish to change is the
+length of the still.  Select the <guilabel>Timing</guilabel> tab and
+you will see a <guilabel>Length</guilabel> setting, as shown in <xref
+linkend="fig-timing-tab"/>.
+</para>
+
+<figure id="fig-timing-tab"> 
+  <title>The timing tab</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/timing-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This length is a &lsquo;timecode&rsquo;: it consists of four numbers.
+The first is hours, the second minutes, the third seconds, and the
+fourth frames.  Enter the duration that you want and then click <guilabel>Set</guilabel>.
+</para>
+
+<para>
+Finally, as with video, you can choose <guilabel>Make DCP</guilabel>
+from the <guilabel>Jobs</guilabel> menu to create your DCP.  This will
+be much quicker than creating a video DCP, as DCP-o-matic only needs
+to encode a single frame which it can then repeat.
+</para>
+
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Content settings</title>
+
+<para>
+The previous chapters showed DCP generation using the default
+settings.  DCP-o-matic offers a range of features to adjust the
+content that goes into your DCP, and this chapter describes those features in
+detail.
+</para>
+
+<section>
+<title>Adding and removing content</title>
+
+<para>
+At the top of the <guilabel>Content</guilabel> tab is a list of the
+content that will go into our DCP.  There can be as many pieces of
+content as you like, and they can be of the following types:
+</para>
+
+<itemizedlist>
+<listitem>Movie &mdash; a file containing some video, probably some
+audio and possibly some subtitles; for example, a MOV, MP4 or VOB.
+</listitem>
+
+<listitem>Sound &mdash; a file containing one or more channels of
+audio; for example, a WAV or AIFF file.
+</listitem>
+
+<listitem>Still image &mdash; a file containing a single still image; for
+example, a JPEG, PNG or TIFF file.
+</listitem>
+
+<listitem>Moving image &mdash; a directory containing many still
+images which should be treated as the frames of a video.
+</listitem>
+</itemizedlist>
+
+<para>
+To add one or more movie, sound or still-image files, select
+<guilabel>Add file(s)...</guilabel> and choose them from the selector.
+To add a directory of images, choose <guilabel>Add
+directory...</guilabel> and do similar.
+</para>
+
+<para>
+You can remove a piece of content by clicking on its name and then
+clicking the <guilabel>Remove</guilabel> button.
+</para>
+
+</section>
+<section>
+<title>Content Properties</title>
+
+<para>
+Below the content list are the controls to set content properties.  To
+adjust the properties for a piece of content, click its name in the
+content list.  The content property controls will then become active
+for that piece of content.
+</para>
+
+<para>
+The content properties are split up into four sections:
+<guilabel>Video</guilabel>, <guilabel>Audio</guilabel>,
+<guilabel>Subtitles</guilabel> and <guilabel>Timing</guilabel>.  Not
+all of these sections will be active for all content types.  The controls
+in each section are described below.
+</para>
+
+</section>
+
+<section>
+<title>Video</title>
+
+<para>
+The <guilabel>Video</guilabel> tab controls properties of the image, as shown in <xref linkend="fig-video-tab"/>.
+</para>
+
+<figure id="fig-video-tab"> 
+  <title>Video settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/video-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<section>
+<title>Image type</title>
+
+<para>
+The first option on this tab is the &lsquo;type&rsquo; of the video.
+This specifies how DCP-o-matic should interpret the video's image.
+<guilabel>2D</guilabel> is the default; this just takes the video
+image as a standard 2D frame.  The other option <guilabel>3D
+left/right</guilabel> tells DCP-o-matic to interpret the frame as a
+left-right pair, as shown in <xref linkend="fig-3d-left-right"/>.
+</para>
+
+<figure id="fig-3d-left-right"> 
+  <title>3D left/right image type</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/3d-left-right&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This option can be used to generate a 3D DCP.  Other means of creating
+3D will be added in the future.
+</para>
+
+</section>
+
+
+<!-- ============================================================== -->
+<section>
+<title>Filtering</title>
+
+<para>
+The &lsquo;filters&rsquo; settings allow you to apply various video
+filters to the image.  These may be useful to try to improve
+poor-quality sources like DVDs.  You can set up the filters by clicking the
+<guilabel>Edit</guilabel> button next to the filters entry in the
+setup area of the DCP-o-matic window; this opens the filters selector
+as shown in <xref linkend="fig-filters"/>.
+</para>
+
+<figure id="fig-filters"> 
+  <title>Filters selector</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/filters&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+After changing the filters setup, you will need to regenerate the DCP
+to see the effect on the cinema screen.  The preview in DCP-o-matic
+will update itself whenever filters are changed, though of course this
+image is much smaller and of lower resolution than a projected image!
+</para>
+</section>
+
+
+<!-- ============================================================== -->
+<section>
+<title>Other settings</title>
+
+<para>
+The &lsquo;crop&rsquo; settings can be used to crop your content,
+which can be used to remove black borders from round the edges of DVD
+images, for example.  The specified number of pixels will be trimmed
+from each edge, and the content image in the right of the window will
+be updated to show the effect of the crop.
+</para>
+
+<para>
+The <guilabel>Scale to</guilabel> option governs the shape that
+DCP-o-matic will scale the content's image into.  Select the aspect
+ratio that your content should be presented in.
+</para>
+
+</section>
+<section>
+<title>Video description</title>
+
+<para>
+At the bottom of the video tab is a short description of what will
+happen to your video with the current settings.  In the example of
+<xref linkend="fig-video-tab"/>, DCP-o-matic is telling you that the
+video file is 1920x1080 pixels (which is a ratio of 1.78:1).  Since
+the controls specify &lsquo;Flat&rsquo; for the ratio, DCP-o-matic
+scales the content image to 1998x1080, which is the DCI flat
+resolution at 2K.
+</para>
+
+<para>
+This description also gives the frame rate of the content and what
+will happen to it when it is played at the DCP's frame rate.
+<!-- XXX: link to more detailed discussion of this -->
+</para>
+
+</section>
+
+</section>
+
+<section>
+<title>Audio</title>
+
+<para>
+The <guilabel>Audio</guilabel> tab controls properties of the image, as shown in <xref linkend="fig-audio-tab"/>.
+</para>
+
+<figure id="fig-audio-tab"> 
+  <title>Audio settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/audio-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<section>
+<title>Show audio</title>
+
+<para>
+The <guilabel>Show Audio</guilabel> button will instruct DCP-o-matic
+to examine the audio in your content and plot a graph of its level
+over time.  This can be useful for getting a rough idea of how loud
+the sound will be in the cinema auditorium.  A typical plot is shown
+in <xref linkend="fig-audio-plot"/>
+</para>
+
+<figure id="fig-audio-plot"> 
+  <title>Audio plot</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/audio-plot&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The plot gives the audio level (vertical axis, in dB) with time
+(horizontal axis).  0dB represents full scale, so if there is anything
+near this you are in danger of clipping the projector's audio outputs.
+</para>
+
+<para>
+There are two plot types: the peak level and the RMS, which can be
+shown or hidden using the check-boxes on the right hand side of the
+window.
+</para>
+
+<para>
+The channel check-boxes will show or hide the plot(s) for
+the corresponding channels in the DCP.
+</para>
+
+<para>
+The smoothing slider applies a variable degree of temporal smoothing
+to the plots, which can make them easier to read in some cases.
+</para>
+
+<para>
+Obviously the audio plot is no substitute for listening in an
+auditorium, but it can be useful to get levels in the right rough area.
+</para>
+
+</section>
+
+<section>
+<title>The audio map</title>
+
+<para>
+The section at the bottom of the audio tab is the &lsquo;audio
+map&rsquo;.  This governs how sound from the content will be arranged
+in the DCP.
+</para>
+
+<para>
+Down the left-hand side of the map is the list of audio channels in
+the currently-selected piece of content.  Along the top is each
+channel in the DCP.  A checked box means that the corresponding
+content channel will be copied into the corresponding DCP channel.
+</para>
+
+<para>
+Consider, for example, the case in <xref linkend="fig-audio-map-eg1"/>.
+</para>
+
+<figure id="fig-audio-map-eg1">
+  <title>Audio map example 1</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/audio-map-eg1&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Here, we have two channels in the source which are mapped to left and
+right, respectively, in the DCP.  If we modify that as in <xref
+linkend="fig-audio-map-eg2"/>
+</para>
+
+<figure id="fig-audio-map-eg2">
+  <title>Audio map example 2</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/audio-map-eg2&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+we now have the content's streams mapped to left and right and also
+mixed together and placed in the DCP's centre channel.
+</para>
+
+<figure id="fig-audio-map-eg3">
+  <title>Audio map example 3</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/audio-map-eg3&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+As a final example, the map in <xref linkend="fig-audio-map-eg3"/>
+shows the mapping of a 5.1 source into a 5.1 DCP.
+</para>
+
+</section>
+
+<section>
+<title>Other controls</title>
+
+<para>
+&lsquo;Audio Gain&rsquo; is used to alter the volume of the
+soundtrack.  The specified gain (in dB) will be applied to each sound
+channel of your content before it is written to the DCP.
+</para>
+
+<para>
+If you use a sound processor that DCP-o-matic knows about, it can help
+you calculate changes in gain that you should apply.  Say, for
+example, that you make a test DCP and find that you have to run it at
+volume 5 instead of volume 7 to get a good sound level in the screen.
+If this is the case, click the <guilabel>Calculate...</guilabel>
+button next to the audio gain entry, and the dialogue box in <xref
+linkend="fig-calculate-audio-gain"/> will open.
+</para>
+
+<figure id="fig-calculate-audio-gain"> 
+  <title>Calculating audio gain</title>
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/calculate-audio-gain&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+For our example, put 5 in the first box and 7 in the second and click
+<guilabel>OK</guilabel>.  DCP-o-matic will calculate the audio gain
+that it should apply to make this happen.  Then you can re-make the
+DCP (this will be reasonably fast, as the video data will already have
+been done) and it should play back at the correct volume with 7 on
+your sound-rack fader.
+</para>
+
+<para>
+Current versions of DCP-o-matic only know about the Dolby CP750.  If
+you use a different sound processor, and know the gain curve of its
+volume control, <ulink url="mailto:cth@carlh.net">get in
+touch</ulink>.
+</para>
+
+<para>
+<guilabel>Audio Delay</guilabel> is used to adjust the synchronisation
+between audio and video.  A positive delay will move the audio later
+with respect to the video, and a negative delay will move it earlier.
+</para>
+
+<para>
+The <guilabel>Audio Stream</guilabel> option allows you to select the
+audio stream to use, if the content contains more than one.  There
+might be different soundtrack languages, for example.
+</para>
+
+</section>
+</section>
+
+
+<section>
+<title>Subtitles</title>
+
+<para>
+The subtitles tab contains settings related to subtitles in your
+content, as shown in <xref linkend="fig-subtitles-tab"/>.
+</para>
+
+<figure id="fig-subtitles-tab"> 
+  <title>Subtitle settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/subtitles-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+DCP-o-matic will extract subtitles from the content, if present, and
+they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
+included in the image and not overlaid by the projector).  Note that
+DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
+(automatically) to use non-burnt-in subtitles with these sources.
+Select the <guilabel>With Subtitles</guilabel> checkbox to enable
+subtitles.  The <guilabel>offset</guilabel> control moves the
+subtitles up and down the image, and the <guilabel>scale</guilabel>
+control changes their size.
+</para>
+
+<para>
+All being well, future versions of DCP-o-matic will include the option to
+use text subtitles (as is the norm with most professionally-mastered
+DCPs).
+</para>
+
+</section>
+
+<!-- XXX: timing tab -->
+
+</chapter>
+
+<chapter xml:id="ch-dcp" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>DCP settings</title>
+
+<para>
+This chapter describes the settings that apply to the whole DCP.  The
+controls for these settings are in the <guilabel>DCP</guilabel> tab of
+the main window, as shown in <xref linkend="fig-dcp-tab"/>.
+</para>
+
+<figure id="fig-dcp-tab"> 
+  <title>DCP settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/dcp-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The first thing here is the name.  This is generally set to the title
+of the film that is being encoded.  If <guilabel>Use DCI
+name</guilabel> is not ticked, the name that you specify will be used
+as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
+is ticked, the name that you enter will be used as part of a
+DCI-compliant name.  
+</para>
+
+<para>
+Underneath the name field is a preview of the name that the DCP will
+get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
+name</guilabel> checkbox.  The DCI name will be composed using details
+of your content's soundtrack, the current date and other things that
+can be specified in the DCI name details dialogue box, which you can
+open by clicking on the <guilabel>Details</guilabel> button.
+</para>
+
+<para>
+If the DCP name is long, it may not all be visible.  You can see the
+full name by hovering the mouse pointer over the partial name.
+</para>
+
+<para>
+The <guilabel>Container</guilabel> option sets the ratio of the image
+in the DCP.  If this ratio is different to the ratio used for any
+content, DCP-o-matic will pad the content with black.  In simple cases
+this should be set to the same ratio as that for the the primary piece
+of video content.  Alternatively, you might want to pillarbox a small
+format into a Flat container: in this case, select the small format
+for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
+</para>
+
+<para>
+Next up is the content type.  This can be
+&lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
+required type from the drop-down list.
+</para>
+
+<para>
+The <guilabel>Frame Rate</guilabel> control sets the frame rate of
+your DCP.  This can be a little tricky to get right.  Ideally, you
+want it to be the same as the video content that you are using.  If it
+is not the same, DCP-o-matic must resort to some tricks to alter your
+content to fit the specified frame rate.  Frame rates are discussed in more detail later.
+<!--- XXX: link -->
+</para>
+
+<para>
+The <guilabel>Use best</guilabel> button sets the DCP video frame rate
+to what DCP-o-matic thinks is the best given the content that you have
+added.
+</para>
+
+<para>
+The <guilabel>Audio Channels</guilabel> control sets the number of
+audio channels that the DCP will have.  If the DCP has any channels
+for which there is no content audio they will be replaced by silence.
+</para>
+
+<para>
+The <guilabel>3D</guilabel> button will set your DCP to 3D mode if it
+is checked.  A 3D DCP will then be created, and any 2D content will be
+made 3D compatible by repeating the same frame for both left and right
+eyes.  A 3D DCP can be played back on many 3D systems (e.g.\ Dolby 3D,
+Real-D etc.) but not on a 2D system.
+</para>
+
+<para>
+The <guilabel>Resolution</guilabel> tab allows you to choose the
+resolution for your DCP.  Use 2K unless you have content that is of
+high enough resolution to be worth presenting in 4K.
+</para>
+
+<para>
+The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big the final
+image files used within the DCP will be.  Larger numbers will give
+better quality, but correspondingly larger DCPs.  The bandwidth can be
+between 50 and 250 megabits per second (MBps).
+</para>
+
+<para>
+Finally, the <guilabel>scaler</guilabel> is the method that will be used to scale up
+your content to the required size for the DCP, if required.  Bicubic is a fine choice in
+most situations.
+</para>
+
+</chapter>
+
+
+<chapter xml:id="ch-preferences" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Preferences</title>
+
+<para>
+DCP-o-matic provides a few preferences which can be used to modify its
+behaviour.  This chapter explains those options.
+</para>
+
+<section>
+<title>The preferences dialogue</title>
+
+<para>
+The preferences dialogue is opened by choosing
+<guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
+menu.  The dialogue is split into four tabs.
+</para>
+
+<section>
+<title>Miscellaneous</title>
+
+<para>
+The miscellaneous tab is shown in <xref linkend="fig-prefs-misc"/>.
+</para>
+
+<figure id="fig-prefs-misc"> 
+  <title>Miscellaneous preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-misc&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<section>
+<title>Language</title>
+
+<para>
+If you tick the <guilabel>Set Language</guilabel> checkbox and choose
+a language from the list, that language will be used for DCP-o-matic.
+You will need to restart DCP-o-matic to see the new language.
+</para>
+
+<para>
+The translations for DCP-o-matic have been contributed by helpful
+users.  If your language is not on the last, head to <ulink
+url="http://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
+read about how to contribute a translation.
+</para>
+</section>
+
+<section>
+<title>Threads</title>
+
+<para>
+When DCP-o-matic is encoding DCPs it can use multiple parallel threads
+to speed things up.  Set this value to the number of threads
+DCP-o-matic should use.  This would typically be set to the number of
+processors (or processor cores) in your machine.
+</para>
+
+</section>
+
+<section>
+<title>Defaults</title>
+
+<para>
+The next few options allow you to set up default values for several
+properties of new films that you create.
+</para>
+
+</section>
+</section>
+
+<section>
+<title>Encoding servers</title>
+
+<para>
+The encoding servers tab is shown in <xref linkend="fig-prefs-servers"/>.
+</para>
+
+<figure id="fig-prefs-servers"> 
+  <title>Encoding servers preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-servers&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+If you have spare machines sitting around on your network not doing
+much, they can be pressed into service to speed up DCP encodes.  This
+is done by running a small server program on the machine, which will
+encode video sent to it by the &lsquo;master&rsquo; DCP-o-matic.  This
+option is described in more detail in <xref linkend="sec-servers"/>.
+Use these preferences to specify the encoding servers that should be
+used.
+</para>
+
+</section>
+
+<section>
+<title>Metadata</title>
+
+<para>
+The metadata tab is shown in <xref linkend="fig-prefs-metadata"/>.
+</para>
+
+<figure id="fig-prefs-metadata"> 
+  <title>Metadata preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-metadata&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This allows you to set up a couple of identifiers that are written
+into the DCP.  The default values should cause no problems.
+</para>
+
+</section>
+
+<section xml:id="prefs-tms">
+<title>TMS</title>
+
+<para>
+The TMS tab (shown in <xref linkend="fig-prefs-tms"/>) gives some
+options for specifying details about your theatre management system
+(TMS).  If you do this, and your TMS accepts SSH connections, you can
+upload DCPs directly from DCP-o-matic to the TMS using the
+<guilabel>Send DCP to TMS</guilabel> option in the
+<guilabel>Jobs</guilabel> menu.
+</para>
+
+<figure id="fig-prefs-tms"> 
+  <title>TMS preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-tms&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+<guilabel>TMS IP address</guilabel> should be set to the IP address of
+your TMS, <guilabel>TMS target path</guilabel> to the place that DCPs
+should be uploaded to (which will be relative to the home directory of
+the SSH user).  Finally, the user name and password are the
+credentials required to log into the TMS via SSH.
+</para>
+</section>
+
+
+</section>
+</chapter>
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Frame rates</title>
+
+<para>
+In an ideal world, a DCP would be created using content at the same
+video frame and audio sampling rates as the DCP.  This is not,
+however, always possible.
+</para>
+
+<section>
+<title>DCP rate limitations</title>
+
+<para>
+There are some limitations to video and audio rates in DCPs.  This is
+complicated by the fact that not all projectors will play DCPs at the
+same rates.  It is possible to create a DCP which one projector will
+play fine, but another (of a different type) will refuse to play, or
+even refuse to ingest.
+</para>
+
+<section>
+<title>Guaranteed rates</title>
+
+<para>
+The only rates that are (pretty much) guaranteed to work on all DCI
+projectors is 24 frames per second (fps) for video and 48kHz or 96kHz
+for audio.  If you are sending your DCPs to unknown places it wise to
+consider using these rates if at all possible.
+</para>
+
+</section>
+
+<section>
+<title>Other often-supported rates</title>
+<para>
+Many projectors now in the wild support additional video frame rates:
+25, 30 and 48 fps.
+</para>
+</section>
+
+<section>
+<title>Adapting content to fit the DCP rate</title>
+
+<para>
+DCP-o-matic has a few tricks to allow you to use content that is not
+in one of the &lsquo;approved&rsquo; rates.
+</para>
+
+<para>
+Audio is easy: DCP-o-matic can resample to 48kHz from any source rate
+with minimal loss in quality.
+</para>
+
+<para>
+Video rate conversion is harder.  DCP-o-matic's basic strategy to deal
+with a non-supported content rate is to run it at the wrong speed, and
+to adjust the audio to keep it in sync.
+</para>
+
+<para>Let us consider the example of a 25fps source for which you want
+to create a 24fps DCP.  DCP-o-matic will put the frames from the
+source directly into the DCP without modification, but will tell the
+projector to play them back at 24fps.  This means that the DCP's video
+will run slightly slower than the original.
+</para>
+
+<para>
+If DCP-o-matic did nothing else, the result of this would be that the
+audio would be running at the original speed with the video running
+slowly.  Hence the audio would drift slowly out of sync.  To avoid
+this, DCP-o-matic also resamples the audio such that the projector
+will play it too fast by the same amount.  Hence it will sound
+slightly different but will remain in sync with the video.
+</para>
+
+<para>
+For very low or high frame rates, DCP-o-matic can also skip or duplicate frames.
+</para>
+
+</section>
+</section>
+
+<section>
+<title>Setting up</title>
+
+<para>
+The <guilabel>Frame Rate</guilabel> control in the
+<guilabel>DCP</guilabel> tab sets the video frame rate that the DCP
+will use.  Clicking <guilabel>Use best</guilabel> sets the rate to
+what DVD-o-matic thinks is the best for your content.  With this
+button, DCP-o-matic assumes that the whole range of frame rates (24,
+25, 30 and 48fps) are allowable.
+</para>
+
+<para>
+After this, the <guilabel>Video</guilabel> tab for each piece of
+content will give a summary of what DCP-o-matic is doing with that
+content.
+</para>
+
+</section>
+
+</chapter>
+
+
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Encoding servers</title>
+
+<para>
+One way to increase the speed of DCP encoding is to use more
+than one machine at the same time.  An instance of DCP-o-matic can
+offload some of the time-consuming JPEG2000 encoding to any number of
+other machines on a network.  To do this, one &lsquo;master&rsquo;
+machine runs DCP-o-matic, and the &lsquo;server&rsquo; machines run
+a small program called &lsquo;dcpomatic_server&rsquo;.
+</para>
+
+<section>
+<title>Running the servers</title>
+
+<para>
+There are two options for the encoding server;
+<code>dcpomatic_server_cli</code>, which runs on the command line, and
+<code>dcpomatic_server</code>, which has a simple GUI.  The command line
+version is well-suited to headless servers, especially on Linux, and
+the GUI version works best on Windows where it will put an icon in the
+system tray.
+</para>
+
+<para>
+To run the command line version, simply enter:
+</para>
+
+<programlisting>
+dcpomatic_server_cli
+</programlisting>
+
+<para>
+at a command prompt.  If you are running the program on a machine with
+a multi-core processor, you can run multiple parallel encoding threads
+by doing something like:
+</para>
+
+<programlisting>
+dcpomatic_server_cli -t 4
+</programlisting>
+
+<para>
+to run 4 threads in parallel.
+</para>
+
+<para>
+To run the GUI version on windows, run the &lsquo;DCP-o-matic encode
+server&rsquo; from the start menu.  An icon will appear in the system
+tray; right-click it to open a menu from whence you can quit the
+server or open a window to show its status.
+</para>
+
+</section>
+<section>
+<title>Setting up DCP-o-matic</title>
+
+<para>
+Once your servers are running, you need to tell your master
+DCP-o-matic instance about them.  Start DCP-o-matic and open the
+<guilabel>Preferences</guilabel> dialog from the
+<guilabel>Edit</guilabel> menu.  At the bottom of this dialog is a
+section where you can add, edit and remove encoding servers.  For each
+encoding server you need only specify its IP address and the number of
+threads that it is running, so that DCP-o-matic knows how many
+parallel encode jobs to send to the server.
+</para>
+
+<para>
+Once this is done, any encodes that you start will split the workload
+up between the master machine and the servers.
+</para>
+
+</section>
+<section>
+<title>Some notes about encode servers</title>
+
+<para>
+DCP-o-matic does not mind if servers come and go; if a server
+disappears, DCP-o-matic will stop sending work to it, and will check
+it every minute or so in case it has come back online.
+</para>
+
+<para>
+You will probably find that using a 1Gb/s or faster network will
+provide a significant speed-up compared to a 100Mb/s network.
+</para>
+
+<para>
+Making changes to the server configuration in the master DCP-o-matic
+will have no effect while an encode is running; the changes will only
+be noticed when a new encode is started.
+</para>
+
+</section>
+
+</chapter>
+
+<chapter xml:id="ch-files" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Generated files</title>
+
+<para>
+DCP-o-matic generates a number of files as it makes a DCP.  <xref
+linkend="fig-file-structure"/> shows the files that might be generated
+after you have created a DCP for a film called &lsquo;DCP Test&rsquo;.
+</para>
+
+<figure id="fig-file-structure"> 
+  <title>Creating a new film</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="diagrams/file-structure&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The <code>DCP Test</code> folder is the one that you specify when you
+select the <guilabel>New Film</guilabel> option from DCP-o-matic's
+menu.  Everything is stored inside this folder.
+</para>
+
+<para>
+DCP-o-matic generates some working files as it goes along.  These are as follows:
+<itemizedlist>
+
+<listitem><code>log</code> is a list of notes that DCP-o-matic makes as it goes
+along.  This can be useful for debugging purposes if something goes
+wrong.</listitem>
+
+<listitem><code>metadata</code> stores the settings that you have made
+for this film: things like cropping, output format and so on.</listitem>
+
+<listitem><code>video</code> is where DCP-o-matic writes the DCP's
+video data as it encodes it.</listitem>
+
+<listitem><code>analysis</code> is used to keep the results of audio analysis runs.</listitem>
+
+<listitem><code>info</code> contains details of each video frame that
+DCP-o-matic has written so far.  This is used when an encoding
+operation is interrupted and DCP-o-matic must resume it.</listitem>
+</itemizedlist>
+</para>
+
+<para>
+Following this is the DCP itself:
+<code>DCP-TEST_EN-XX_UK-U_51_2K_CSY_20130218_CSY_OV</code>.  This
+contains some small XML files, which describe the DCP, and two large
+MXF files, which contain the DCP's audio and video data.  This folder
+(<code>DCP-TEST_EN-XX_...</code>) is what you should ingest, or pass
+to the cinema which is showing your DCP.
+</para>
+
+</chapter>
+
+
+</book>

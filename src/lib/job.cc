@@ -26,21 +26,25 @@
 #include <libdcp/exceptions.h>
 #include "job.h"
 #include "util.h"
+#include "cross.h"
+#include "ui_signaller.h"
+#include "exceptions.h"
+
+#include "i18n.h"
 
 using std::string;
 using std::list;
+using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
 
-/** @param s Film that we are operating on.
- *  @param req Job that must be completed before this job is run.
- */
-Job::Job (shared_ptr<Film> f, shared_ptr<Job> req)
+Job::Job (shared_ptr<const Film> f)
 	: _film (f)
-	, _required (req)
+	, _thread (0)
 	, _state (NEW)
 	, _start_time (0)
 	, _progress_unknown (false)
+	, _last_set (0)
 	, _ran_for (0)
 {
 	descend (1);
@@ -52,7 +56,7 @@ Job::start ()
 {
 	set_state (RUNNING);
 	_start_time = time (0);
-	boost::thread (boost::bind (&Job::run_wrapper, this));
+	_thread = new boost::thread (boost::bind (&Job::run_wrapper, this));
 }
 
 /** A wrapper for the ::run() method to catch exceptions */
@@ -67,19 +71,52 @@ Job::run_wrapper ()
 		
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error (String::compose ("%1 (%2)", e.what(), boost::filesystem::path (e.filename()).leaf()));
+		
+		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
+
+		try {
+			boost::filesystem::space_info const s = boost::filesystem::space (e.filename());
+			if (s.available < pow (1024, 3)) {
+				m += N_("\n\n");
+				m += _("The drive that the film is stored on is low in disc space.  Free some more space and try again.");
+			}
+		} catch (...) {
+
+		}
+
+		set_error (e.what(), m);
+
+	} catch (OpenFileError& e) {
+
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
+		set_error (
+			String::compose (_("Could not open %1"), e.file().string()),
+			String::compose (_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."), e.file().string())
+			);
+
+	} catch (boost::thread_interrupted &) {
+
+		set_state (FINISHED_CANCELLED);
 		
 	} catch (std::exception& e) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error (e.what ());
+		set_error (
+			e.what (),
+			_("It is not known what caused this error.  The best idea is to report the problem to the DCP-o-matic mailing list (carl@dcpomatic.com)")
+			);
 
 	} catch (...) {
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		set_error ("unknown exception");
+		set_error (
+			_("Unknown error"),
+			_("It is not known what caused this error.  The best idea is to report the problem to the DCP-o-matic mailing list (carl@dcpomatic.com)")
+			);
 
 	}
 }
@@ -105,7 +142,7 @@ bool
 Job::finished () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return _state == FINISHED_OK || _state == FINISHED_ERROR;
+	return _state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED;
 }
 
 /** @return true if the job has finished successfully */
@@ -124,18 +161,40 @@ Job::finished_in_error () const
 	return _state == FINISHED_ERROR;
 }
 
+bool
+Job::finished_cancelled () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _state == FINISHED_CANCELLED;
+}
+
+bool
+Job::paused () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _state == PAUSED;
+}
+	
 /** Set the state of this job.
  *  @param s New state.
  */
 void
 Job::set_state (State s)
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-	_state = s;
+	bool finished = false;
+	
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		_state = s;
 
-	if (_state == FINISHED_OK || _state == FINISHED_ERROR) {
-		_ran_for = elapsed_time ();
-		Finished ();
+		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
+			_ran_for = elapsed_time ();
+			finished = true;
+		}
+	}
+
+	if (finished && ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Finished)));
 	}
 }
 
@@ -156,9 +215,25 @@ Job::elapsed_time () const
 void
 Job::set_progress (float p)
 {
+	if (fabs (p - _last_set) < 0.01) {
+		/* Calm excessive progress reporting */
+		return;
+	}
+
+	_last_set = p;
+
 	boost::mutex::scoped_lock lm (_progress_mutex);
 	_progress_unknown = false;
 	_stack.back().normalised = p;
+	boost::this_thread::interruption_point ();
+
+	if (paused ()) {
+		dcpomatic_sleep (1);
+	}
+
+	if (ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Progress)));
+	}
 }
 
 /** @return fractional overall progress, or -1 if not known */
@@ -211,22 +286,30 @@ Job::descend (float a)
 	_stack.push_back (Level (a));
 }
 
-/** @return Any error string that the job has generated */
 string
-Job::error () const
+Job::error_details () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return _error;
+	return _error_details;
+}
+
+/** @return A summary of any error that the job has generated */
+string
+Job::error_summary () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _error_summary;
 }
 
 /** Set the current error string.
  *  @param e New error string.
  */
 void
-Job::set_error (string e)
+Job::set_error (string s, string d)
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	_error = e;
+	_error_summary = s;
+	_error_details = d;
 }
 
 /** Say that this job's progress will be unknown until further notice */
@@ -245,15 +328,26 @@ Job::status () const
 	int const t = elapsed_time ();
 	int const r = remaining_time ();
 
+	int pc = rint (p * 100);
+	if (pc == 100) {
+		/* 100% makes it sound like we've finished when we haven't */
+		pc = 99;
+	}
+
 	stringstream s;
-	if (!finished () && p >= 0 && t > 10 && r > 0) {
-		s << rint (p * 100) << "%; " << seconds_to_approximate_hms (r) << " remaining";
-	} else if (!finished () && (t <= 10 || r == 0)) {
-		s << rint (p * 100) << "%";
+	if (!finished ()) {
+		s << pc << N_("%");
+		if (p >= 0 && t > 10 && r > 0) {
+			/// TRANSLATORS: remaining here follows an amount of time that is remaining
+			/// on an operation.
+			s << "; " << seconds_to_approximate_hms (r) << " " << _("remaining");
+		}
 	} else if (finished_ok ()) {
-		s << "OK (ran for " << seconds_to_hms (_ran_for) << ")";
+		s << String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
 	} else if (finished_in_error ()) {
-		s << "Error (" << error() << ")";
+		s << String::compose (_("Error (%1)"), error_summary());
+	} else if (finished_cancelled ()) {
+		s << _("Cancelled");
 	}
 
 	return s.str ();
@@ -264,4 +358,31 @@ int
 Job::remaining_time () const
 {
 	return elapsed_time() / overall_progress() - elapsed_time();
+}
+
+void
+Job::cancel ()
+{
+	if (!_thread) {
+		return;
+	}
+
+	_thread->interrupt ();
+	_thread->join ();
+}
+
+void
+Job::pause ()
+{
+	if (running ()) {
+		set_state (PAUSED);
+	}
+}
+
+void
+Job::resume ()
+{
+	if (paused ()) {
+		set_state (RUNNING);
+	}
 }

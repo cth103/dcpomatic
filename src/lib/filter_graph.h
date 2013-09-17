@@ -21,32 +21,33 @@
  *  @brief A graph of FFmpeg filters.
  */
 
-#ifndef DVDOMATIC_FILTER_GRAPH_H
-#define DVDOMATIC_FILTER_GRAPH_H
+#ifndef DCPOMATIC_FILTER_GRAPH_H
+#define DCPOMATIC_FILTER_GRAPH_H
 
 #include "util.h"
-#include "ffmpeg_compatibility.h"
 
 class Image;
 class VideoFilter;
-class FFmpegDecoder;
+class FFmpegContent;
 
 /** @class FilterGraph
  *  @brief A graph of FFmpeg filters.
  */
-class FilterGraph
+class FilterGraph : public boost::noncopyable
 {
 public:
-	FilterGraph (boost::shared_ptr<Film> film, FFmpegDecoder* decoder, Size s, AVPixelFormat p);
+	FilterGraph (boost::shared_ptr<const FFmpegContent> content, libdcp::Size s, AVPixelFormat p);
+	~FilterGraph ();
 
-	bool can_process (Size s, AVPixelFormat p) const;
-	std::list<boost::shared_ptr<Image> > process (AVFrame const * frame);
+	bool can_process (libdcp::Size s, AVPixelFormat p) const;
+	std::list<std::pair<boost::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
 
 private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
-	Size _size; ///< size of the images that this chain can process
+	libdcp::Size _size; ///< size of the images that this chain can process
 	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
+	AVFrame* _frame;
 };
 
 #endif

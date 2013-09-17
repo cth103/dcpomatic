@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
+#include <wx/filepicker.h>
 #include <boost/filesystem.hpp>
 #include "dir_picker_ctrl.h"
 #include "wx_util.h"
@@ -39,7 +40,7 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 
 	SetSizerAndFit (_sizer);
 
-	_browse->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (DirPickerCtrl::browse_clicked), 0, this);
+	_browse->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DirPickerCtrl::browse_clicked, this));
 }
 
 void
@@ -50,12 +51,11 @@ DirPickerCtrl::SetPath (wxString p)
 	if (_path == wxStandardPaths::Get().GetDocumentsDir()) {
 		_folder->SetLabel (_("My Documents"));
 	} else {
-#if BOOST_FILESYSTEM_VERSION == 3		
 		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
-#else
-		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf()));
-#endif		
 	}
+
+	wxCommandEvent ev (wxEVT_COMMAND_DIRPICKER_CHANGED, wxID_ANY);
+	GetEventHandler()->ProcessEvent (ev);
 }
 
 wxString
@@ -65,10 +65,11 @@ DirPickerCtrl::GetPath () const
 }
 
 void
-DirPickerCtrl::browse_clicked (wxCommandEvent &)
+DirPickerCtrl::browse_clicked ()
 {
 	wxDirDialog* d = new wxDirDialog (this);
-	d->ShowModal ();
-	SetPath (d->GetPath ());
+	if (d->ShowModal () == wxID_OK) {
+		SetPath (d->GetPath ());
+	}
 	d->Destroy ();
 }

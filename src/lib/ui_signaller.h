@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_UI_SIGNALLER_H
-#define DVDOMATIC_UI_SIGNALLER_H
+#ifndef DCPOMATIC_UI_SIGNALLER_H
+#define DCPOMATIC_UI_SIGNALLER_H
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
@@ -27,7 +27,7 @@
 /** A class to allow signals to be emitted from non-UI threads and handled
  *  by a UI thread.
  */
-class UISignaller
+class UISignaller : public boost::noncopyable
 {
 public:
 	/** Create a UISignaller.  Must be called from the UI thread */
@@ -60,7 +60,10 @@ public:
 	}
 
 	/** This should wake the UI and make it call ui_idle() */
-	virtual void wake_ui () = 0;
+	virtual void wake_ui () {
+		/* This is only a sensible implementation when there is no GUI... */
+		ui_idle ();
+	}
 
 private:
 	/** A io_service which is used as the conduit for messages */

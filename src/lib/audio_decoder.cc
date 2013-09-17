@@ -18,19 +18,30 @@
 */
 
 #include "audio_decoder.h"
-#include "stream.h"
+#include "audio_buffers.h"
+#include "exceptions.h"
+#include "log.h"
+#include "resampler.h"
 
+#include "i18n.h"
+
+using std::stringstream;
+using std::list;
+using std::pair;
+using std::cout;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<Film> f, shared_ptr<const DecodeOptions> o, Job* j)
-	: Decoder (f, o, j)
+AudioDecoder::AudioDecoder (shared_ptr<const Film> film)
+	: Decoder (film)
+	, _audio_position (0)
 {
 
 }
 
 void
-AudioDecoder::set_audio_stream (shared_ptr<AudioStream> s)
+AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
 {
-	_audio_stream = s;
+	Audio (data, frame);
+	_audio_position = frame + data->frames ();
 }

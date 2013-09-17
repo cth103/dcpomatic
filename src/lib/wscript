@@ -1,61 +1,94 @@
+import os
+import i18n
+
+sources = """
+          analyse_audio_job.cc
+          audio_analysis.cc
+          audio_buffers.cc
+          audio_content.cc
+          audio_decoder.cc
+          audio_mapping.cc
+          colour_conversion.cc
+          config.cc
+          content.cc
+          content_factory.cc
+          cross.cc
+          dci_metadata.cc
+          dcp_content_type.cc
+          dcp_video_frame.cc
+          decoder.cc
+          dolby_cp750.cc
+          encoder.cc
+          examine_content_job.cc
+          exceptions.cc
+          filter_graph.cc
+          ffmpeg.cc
+          ffmpeg_content.cc
+          ffmpeg_decoder.cc
+          ffmpeg_examiner.cc
+          film.cc
+          filter.cc
+          image.cc
+          job.cc
+          job_manager.cc
+          log.cc
+          moving_image_content.cc
+          moving_image_decoder.cc
+          moving_image_examiner.cc
+          player.cc
+          playlist.cc
+          ratio.cc
+          resampler.cc
+          scp_dcp_job.cc
+          scaler.cc
+          server.cc
+          sndfile_content.cc
+          sndfile_decoder.cc
+          sound_processor.cc
+          still_image_content.cc
+          still_image_decoder.cc
+          still_image_examiner.cc
+          subtitle_content.cc
+          subtitle_decoder.cc
+          timer.cc
+          transcode_job.cc
+          transcoder.cc
+          types.cc
+          ui_signaller.cc
+          util.cc
+          video_content.cc
+          video_decoder.cc
+          writer.cc
+          """
+
 def build(bld):
     if bld.env.STATIC:
         obj = bld(features = 'cxx cxxstlib')
     else:
         obj = bld(features = 'cxx cxxshlib')
 
-    obj.name = 'libdvdomatic'
-    obj.export_includes = ['.']
-    obj.uselib = 'AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE SNDFILE BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 OPENJPEG POSTPROC TIFF MAGICK SSH DCP GLIB'
-    if bld.env.TARGET_WINDOWS:
-        obj.uselib += ' WINSOCK2'
-    obj.source = """
-		 ab_transcode_job.cc
-		 ab_transcoder.cc
-                 audio_decoder.cc
-                 audio_source.cc
-                 check_hashes_job.cc
-		 config.cc
-                 combiner.cc
-                 cross.cc
-		 dcp_content_type.cc
-		 dcp_video_frame.cc
-                 decoder.cc
-                 decoder_factory.cc
-                 delay_line.cc
-                 dolby_cp750.cc
-		 encoder.cc
-		 examine_content_job.cc
-		 external_audio_decoder.cc
-                 filter_graph.cc
-                 ffmpeg_compatibility.cc
-                 ffmpeg_decoder.cc
-    	         film.cc
-		 filter.cc
-		 format.cc
-                 gain.cc
-                 image.cc
-                 imagemagick_decoder.cc
-		 job.cc
-		 job_manager.cc
-		 log.cc
-		 lut.cc
-		 make_dcp_job.cc
-                 matcher.cc
-                 scp_dcp_job.cc
-		 scaler.cc
-		 server.cc
-                 sound_processor.cc
-                 stream.cc
-                 subtitle.cc
-                 timer.cc
-		 transcode_job.cc
-		 transcoder.cc
-                 ui_signaller.cc
-		 util.cc
-		 version.cc
-                 video_decoder.cc
-                 video_source.cc
-		 """
+    obj.name = 'libdcpomatic'
+    obj.export_includes = ['..']
+    obj.uselib = """
+                 AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
+                 BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 
+                 SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
+                 """
 
-    obj.target = 'dvdomatic'
+    obj.source = sources + ' version.cc'
+
+    if bld.env.TARGET_WINDOWS:
+        obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY SHLWAPI'
+        obj.source += ' stack.cpp'
+    if bld.env.STATIC:
+        obj.uselib += ' XML++'
+
+    obj.target = 'dcpomatic'
+
+    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdcpomatic', bld)
+
+def pot(bld):
+    i18n.pot(os.path.join('src', 'lib'), sources, 'libdcpomatic')
+
+def pot_merge(bld):
+    i18n.pot_merge(os.path.join('src', 'lib'), 'libdcpomatic')

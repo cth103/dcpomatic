@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DVDOMATIC_DCP_CONTENT_TYPE_H
-#define DVDOMATIC_DCP_CONTENT_TYPE_H
+#ifndef DCPOMATIC_DCP_CONTENT_TYPE_H
+#define DCPOMATIC_DCP_CONTENT_TYPE_H
 
 /** @file src/content_type.h
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
@@ -31,7 +31,7 @@
 /** @class DCPContentType
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
  */
-class DCPContentType
+class DCPContentType : public boost::noncopyable
 {
 public:
 	DCPContentType (std::string, libdcp::ContentKind, std::string);
@@ -50,6 +50,7 @@ public:
 	}
 
 	static DCPContentType const * from_pretty_name (std::string);
+	static DCPContentType const * from_dci_name (std::string);
 	static DCPContentType const * from_index (int);
 	static int as_index (DCPContentType const *);
 	static std::vector<DCPContentType const *> all ();
