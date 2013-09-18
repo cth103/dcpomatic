@@ -924,7 +924,7 @@ for which there is no content audio they will be replaced by silence.
 The <guilabel>3D</guilabel> button will set your DCP to 3D mode if it
 is checked.  A 3D DCP will then be created, and any 2D content will be
 made 3D compatible by repeating the same frame for both left and right
-eyes.  A 3D DCP can be played back on many 3D systems (e.g.\ Dolby 3D,
+eyes.  A 3D DCP can be played back on many 3D systems (e.g. Dolby 3D,
 Real-D etc.) but not on a 2D system.
 </para>
 
