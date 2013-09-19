@@ -70,6 +70,7 @@ extern bool valid_image_file (boost::filesystem::path);
 #ifdef DCPOMATIC_WINDOWS
 extern boost::filesystem::path mo_path ();
 #endif
+extern std::string tidy_for_filename (std::string);
 
 struct FrameRateConversion
 {

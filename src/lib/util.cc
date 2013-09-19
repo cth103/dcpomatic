@@ -800,3 +800,18 @@ valid_image_file (boost::filesystem::path f)
 	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp" || ext == ".tga");
 }
 
+string
+tidy_for_filename (string f)
+{
+	string t;
+	for (size_t i = 0; i < f.length(); ++i) {
+		if (isalpha (f[i]) || f[i] == '_' || f[i] == '-') {
+			t += f[i];
+		} else {
+			t += '_';
+		}
+	}
+
+	return t;
+}
+	

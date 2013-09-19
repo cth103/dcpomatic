@@ -96,10 +96,10 @@ Film::Film (boost::filesystem::path dir)
 	, _resolution (RESOLUTION_2K)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _with_subtitles (false)
+	, _encrypted (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _video_frame_rate (24)
-	, _encrypted (false)
 	, _audio_channels (MAX_AUDIO_CHANNELS)
 	, _three_d (false)
 	, _sequence_video (true)
@@ -346,6 +346,7 @@ Film::write_metadata () const
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
+	root->add_child("Key")->add_child_text (_key.hex ());
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	doc.write_to_file_formatted (file ("metadata.xml"));
@@ -395,7 +396,7 @@ Film::read_metadata ()
 	_sequence_video = f.bool_child ("SequenceVideo");
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
-
+	_key = libdcp::Key (f.string_child ("Key"));
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
 
 	_dirty = false;
@@ -910,19 +911,19 @@ Film::make_kdms (
 	{
 		boost::filesystem::path p (sd);
 		p /= "ca.self-signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
 	}
 
 	{
 		boost::filesystem::path p (sd);
 		p /= "intermediate.signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
 	}
 
 	{
 		boost::filesystem::path p (sd);
 		p /= "leaf.signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
 	}
 
 	boost::filesystem::path signer_key (sd);
@@ -950,12 +951,12 @@ Film::make_kdms (
 		libdcp::DCP dcp (dcps.front ());
 		dcp.read ();
 		
-		/* XXX: single CPL only */
 		shared_ptr<xmlpp::Document> kdm = dcp.cpls().front()->make_kdm (
 			signer, (*i)->certificate, from, until, _interop, libdcp::MXFMetadata (), Config::instance()->dcp_metadata ()
 			);
 
 		boost::filesystem::path out = directory;
+		out /= tidy_for_filename ((*i)->cinema->name) + "_" + tidy_for_filename ((*i)->name);
 		out /= "kdm.xml";
 		kdm->write_to_file_formatted (out.string());
 	}

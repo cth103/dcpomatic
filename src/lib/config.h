@@ -275,7 +275,6 @@ private:
 	libdcp::XMLMetadata _dcp_metadata;
 	int _default_j2k_bandwidth;
 	std::vector<PresetColourConversion> _colour_conversions;
-
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 
 	/** Singleton instance, or 0 */

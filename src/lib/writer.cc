@@ -79,8 +79,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
 				_film->video_frame_rate (),
-				_film->container()->size (_film->full_frame ()),
-				_film->encrypted ()
+				_film->container()->size (_film->full_frame ())
 				)
 			);
 		
@@ -90,13 +89,16 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
 				_film->video_frame_rate (),
-				_film->container()->size (_film->full_frame ()),
-				_film->encrypted ()
+				_film->container()->size (_film->full_frame ())
 				)
 			);
 
 	}
 
+	if (_film->encrypted ()) {
+		_picture_asset->set_key (_film->key ());
+	}
+	
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0, _film->interop ());
 	
 	_sound_asset.reset (
@@ -105,10 +107,13 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 			_film->audio_mxf_filename (),
 			_film->video_frame_rate (),
 			_film->audio_channels (),
-			_film->audio_frame_rate (),
-			_film->encrypted ()
+			_film->audio_frame_rate ()
 			)
 		);
+
+	if (_film->encrypted ()) {
+		_sound_asset->set_key (_film->key ());
+	}
 	
 	_sound_asset_writer = _sound_asset->start_write (_film->interop ());
 

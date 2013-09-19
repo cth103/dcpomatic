@@ -84,14 +84,15 @@ void
 ScreenDialog::load_certificate (wxCommandEvent &)
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
-	d->ShowModal ();
-	
-	try {
-		_certificate.reset (new libdcp::Certificate (wx_to_std (d->GetPath ())));
-		_certificate_text->SetValue (_certificate->certificate ());
-	} catch (libdcp::MiscError& e) {
-		error_dialog (this, String::compose ("Could not read certificate file (%1)", e.what()));
-	}
 
+	if (d->ShowModal () == wxID_OK) {
+		try {
+			_certificate.reset (new libdcp::Certificate (boost::filesystem::path (wx_to_std (d->GetPath ()))));
+			_certificate_text->SetValue (_certificate->certificate ());
+		} catch (libdcp::MiscError& e) {
+			error_dialog (this, String::compose ("Could not read certificate file (%1)", e.what()));
+		}
+	}
+	
 	d->Destroy ();
 }

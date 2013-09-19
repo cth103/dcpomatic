@@ -183,7 +183,8 @@ KDMDialog::add_cinema (shared_ptr<Cinema> c)
 {
 	_cinemas[_targets->AppendItem (_root, std_to_wx (c->name))] = c;
 
-	for (list<shared_ptr<Screen> >::iterator i = c->screens.begin(); i != c->screens.end(); ++i) {
+	list<shared_ptr<Screen> > sc = c->screens ();
+	for (list<shared_ptr<Screen> >::iterator i = sc.begin(); i != sc.end(); ++i) {
 		add_screen (c, *i);
 	}
 }
@@ -267,7 +268,7 @@ KDMDialog::add_screen_clicked (wxCommandEvent &)
 	d->ShowModal ();
 
 	shared_ptr<Screen> s (new Screen (d->name(), d->certificate()));
-	c->screens.push_back (s);
+	c->add_screen (s);
 	add_screen (c, s);
 
 	Config::instance()->write ();
@@ -306,7 +307,8 @@ KDMDialog::remove_screen_clicked (wxCommandEvent &)
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 
 	map<wxTreeItemId, shared_ptr<Cinema> >::iterator i = _cinemas.begin ();
-	while (i != _cinemas.end() && find (i->second->screens.begin(), i->second->screens.end(), s.second) == i->second->screens.end()) {
+	list<shared_ptr<Screen> > sc = i->second->screens ();
+	while (i != _cinemas.end() && find (sc.begin(), sc.end(), s.second) == sc.end()) {
 		++i;
 	}
 
@@ -314,7 +316,7 @@ KDMDialog::remove_screen_clicked (wxCommandEvent &)
 		return;
 	}
 
-	i->second->screens.remove (s.second);
+	i->second->remove_screen (s.second);
 	_targets->Delete (s.first);
 
 	Config::instance()->write ();
@@ -327,7 +329,8 @@ KDMDialog::screens () const
 
 	list<pair<wxTreeItemId, shared_ptr<Cinema> > > cinemas = selected_cinemas ();
 	for (list<pair<wxTreeItemId, shared_ptr<Cinema> > >::iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
-		for (list<shared_ptr<Screen> >::iterator j = i->second->screens.begin(); j != i->second->screens.end(); ++j) {
+		list<shared_ptr<Screen> > sc = i->second->screens ();
+		for (list<shared_ptr<Screen> >::const_iterator j = sc.begin(); j != sc.end(); ++j) {
 			s.push_back (*j);
 		}
 	}

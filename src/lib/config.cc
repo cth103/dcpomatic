@@ -32,6 +32,7 @@
 #include "dcp_content_type.h"
 #include "sound_processor.h"
 #include "colour_conversion.h"
+#include "cinema.h"
 
 #include "i18n.h"
 
@@ -127,6 +128,11 @@ Config::read ()
 	
 	for (list<shared_ptr<cxml::Node> >::iterator i = cc.begin(); i != cc.end(); ++i) {
 		_colour_conversions.push_back (PresetColourConversion (*i));
+	}
+
+	list<shared_ptr<cxml::Node> > cin = f.node_children ("Cinema");
+	for (list<shared_ptr<cxml::Node> >::iterator i = cin.begin(); i != cin.end(); ++i) {
+		_cinemas.push_back (shared_ptr<Cinema> (new Cinema (*i)));
 	}
 }
 
@@ -278,6 +284,10 @@ Config::write () const
 
 	for (vector<PresetColourConversion>::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
 		i->as_xml (root->add_child ("ColourConversion"));
+	}
+
+	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
+		(*i)->as_xml (root->add_child ("Cinema"));
 	}
 
 	doc.write_to_file_formatted (file(false).string ());

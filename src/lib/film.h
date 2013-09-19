@@ -31,6 +31,7 @@
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/filesystem.hpp>
+#include <libdcp/key.h>
 #include "util.h"
 #include "types.h"
 #include "dci_metadata.h"
@@ -120,6 +121,10 @@ public:
 		boost::posix_time::ptime until,
 		std::string directory
 		) const;
+
+	libdcp::Key key () const {
+		return _key;
+	}
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
@@ -296,6 +301,7 @@ private:
 	bool _three_d;
 	bool _sequence_video;
 	bool _interop;
+	libdcp::Key _key;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
