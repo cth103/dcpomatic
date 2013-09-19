@@ -96,10 +96,10 @@ Film::Film (boost::filesystem::path dir)
 	, _resolution (RESOLUTION_2K)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _with_subtitles (false)
-	, _encrypted (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _video_frame_rate (24)
+	, _encrypted (false)
 	, _audio_channels (MAX_AUDIO_CHANNELS)
 	, _three_d (false)
 	, _sequence_video (true)
@@ -390,6 +390,7 @@ Film::read_metadata ()
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
+	_encrypted = f.bool_child ("Encrypted");
 	_audio_channels = f.number_child<int> ("AudioChannels");
 	_sequence_video = f.bool_child ("SequenceVideo");
 	_three_d = f.bool_child ("ThreeD");

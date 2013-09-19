@@ -234,6 +234,7 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::dcp_content_type_changed, this));
 	_frame_rate->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_changed, this));
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::best_frame_rate_clicked, this));
+	_encrypted->Bind        (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::encrypted_toggled, this));
 	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::audio_channels_changed, this));
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::j2k_bandwidth_changed, this));
 	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::resolution_changed, this));
@@ -443,7 +444,7 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
-		_audio_channels->SetValue (_film->audio_channels ());
+		checked_set (_audio_channels, _film->audio_channels ());
 		setup_dcp_name ();
 		break;
 	case Film::SEQUENCE_VIDEO:
@@ -571,6 +572,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
 	film_changed (Film::AUDIO_CHANNELS);
+	film_changed (Film::ENCRYPTED);
 	film_changed (Film::SEQUENCE_VIDEO);
 	film_changed (Film::THREE_D);
 	film_changed (Film::INTEROP);
