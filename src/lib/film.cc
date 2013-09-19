@@ -31,8 +31,9 @@
 #include <boost/date_time.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
-#include <libdcp/crypt_chain.h>
+#include <libdcp/signer_chain.h>
 #include <libdcp/cpl.h>
+#include <libdcp/signer.h>
 #include "film.h"
 #include "job.h"
 #include "util.h"
@@ -78,6 +79,7 @@ using boost::ends_with;
 using boost::starts_with;
 using boost::optional;
 using libdcp::Size;
+using libdcp::Signer;
 
 int const Film::state_version = 4;
 
@@ -897,33 +899,35 @@ Film::make_kdms (
 	string directory
 	) const
 {
-	string const cd = Config::instance()->crypt_chain_directory ();
-	if (boost::filesystem::is_empty (cd)) {
-		libdcp::make_crypt_chain (cd);
+	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
+	if (boost::filesystem::is_empty (sd)) {
+		libdcp::make_signer_chain (sd);
 	}
 
 	libdcp::CertificateChain chain;
 
 	{
-		boost::filesystem::path p (cd);
+		boost::filesystem::path p (sd);
 		p /= "ca.self-signed.pem";
 		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
 	}
 
 	{
-		boost::filesystem::path p (cd);
+		boost::filesystem::path p (sd);
 		p /= "intermediate.signed.pem";
 		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
 	}
 
 	{
-		boost::filesystem::path p (cd);
+		boost::filesystem::path p (sd);
 		p /= "leaf.signed.pem";
 		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p.string ())));
 	}
 
-	boost::filesystem::path signer_key (cd);
+	boost::filesystem::path signer_key (sd);
 	signer_key /= "leaf.key";
+
+	shared_ptr<const Signer> signer (new Signer (chain, signer_key));
 
 	/* Find the DCP to make the KDM for */
 	string const dir = this->directory ();
@@ -947,7 +951,7 @@ Film::make_kdms (
 		
 		/* XXX: single CPL only */
 		shared_ptr<xmlpp::Document> kdm = dcp.cpls().front()->make_kdm (
-			chain, signer_key.string(), (*i)->certificate, from, until, _interop, libdcp::MXFMetadata (), Config::instance()->dcp_metadata ()
+			signer, (*i)->certificate, from, until, _interop, libdcp::MXFMetadata (), Config::instance()->dcp_metadata ()
 			);
 
 		boost::filesystem::path out = directory;

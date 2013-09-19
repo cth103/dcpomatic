@@ -179,7 +179,7 @@ ConfigDialog::make_misc_panel ()
 	_default_still_length->SetValue (config->default_still_length ());
 	_default_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_still_length_changed, this));
 
-	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()))));
+	_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 	_default_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&ConfigDialog::default_directory_changed, this));
 
 	_default_dci_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ConfigDialog::edit_default_dci_metadata_clicked, this));

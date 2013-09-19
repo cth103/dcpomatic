@@ -949,6 +949,18 @@ most situations.
 
 </chapter>
 
+<chapter xml:id="ch-encryption" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Encryption</title>
+
+<para>
+It is not required that DCPs be encrypted, but they can be.  This
+chapter describes how DCPs are signed and encrypted, and how KDMs
+work.  It also discusses how DCP-o-matic can create encrypted DCPs and
+KDMs for them.
+</para>
+
+</chapter>
+
 
 <chapter xml:id="ch-preferences" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Preferences</title>

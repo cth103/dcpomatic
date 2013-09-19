@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include <boost/filesystem.hpp>
 #include <libdcp/metadata.h>
 #include "dci_metadata.h"
 #include "colour_conversion.h"
@@ -52,11 +53,11 @@ public:
 		return _num_local_encoding_threads;
 	}
 
-	std::string default_directory () const {
+	boost::filesystem::path default_directory () const {
 		return _default_directory;
 	}
 
-	std::string default_directory_or (std::string a) const;
+	boost::filesystem::path default_directory_or (boost::filesystem::path a) const;
 
 	/** @return port to use for J2K encoding servers */
 	int server_port () const {
@@ -138,7 +139,7 @@ public:
 		_num_local_encoding_threads = n;
 	}
 
-	void set_default_directory (std::string d) {
+	void set_default_directory (boost::filesystem::path d) {
 		_default_directory = d;
 	}
 
@@ -230,21 +231,21 @@ public:
 	
 	void write () const;
 
-	std::string crypt_chain_directory () const;
+	boost::filesystem::path signer_chain_directory () const;
 
 	static Config* instance ();
 	static void drop ();
 
 private:
 	Config ();
-	std::string file (bool) const;
+	boost::filesystem::path file (bool) const;
 	void read ();
 	void read_old_metadata ();
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
 	/** default directory to put new films in */
-	std::string _default_directory;
+	boost::filesystem::path _default_directory;
 	/** port to use for J2K encoding servers */
 	int _server_port;
 

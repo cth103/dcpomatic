@@ -73,13 +73,14 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	   it into the DCP later.
 	*/
 
-	if (f->three_d ()) {
+	if (_film->three_d ()) {
 		_picture_asset.reset (
 			new libdcp::StereoPictureAsset (
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
 				_film->video_frame_rate (),
-				_film->container()->size (_film->full_frame ())
+				_film->container()->size (_film->full_frame ()),
+				_film->encrypted ()
 				)
 			);
 		
@@ -89,7 +90,8 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 				_film->internal_video_mxf_dir (),
 				_film->internal_video_mxf_filename (),
 				_film->video_frame_rate (),
-				_film->container()->size (_film->full_frame ())
+				_film->container()->size (_film->full_frame ()),
+				_film->encrypted ()
 				)
 			);
 
@@ -103,7 +105,8 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 			_film->audio_mxf_filename (),
 			_film->video_frame_rate (),
 			_film->audio_channels (),
-			_film->audio_frame_rate ()
+			_film->audio_frame_rate (),
+			_film->encrypted ()
 			)
 		);
 	

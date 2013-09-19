@@ -193,7 +193,7 @@ Config::read_old_metadata ()
 }
 
 /** @return Filename to write configuration to */
-string
+boost::filesystem::path
 Config::file (bool old) const
 {
 	boost::filesystem::path p;
@@ -205,18 +205,18 @@ Config::file (bool old) const
 	} else {
 		p /= "dcpomatic.xml";
 	}
-	return p.string ();
+	return p;
 }
 
-string
-Config::crypt_chain_directory () const
+boost::filesystem::path
+Config::signer_chain_directory () const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
 	p /= "dvdomatic";
 	p /= "crypt";
 	boost::filesystem::create_directories (p);
-	return p.string ();
+	return p;
 }
 
 /** @return Singleton instance */
@@ -245,7 +245,7 @@ Config::write () const
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
 	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
-	root->add_child("DefaultDirectory")->add_child_text (_default_directory);
+	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
 	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
 	
 	for (vector<ServerDescription>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
@@ -280,11 +280,11 @@ Config::write () const
 		i->as_xml (root->add_child ("ColourConversion"));
 	}
 
-	doc.write_to_file_formatted (file (false));
+	doc.write_to_file_formatted (file(false).string ());
 }
 
-string
-Config::default_directory_or (string a) const
+boost::filesystem::path
+Config::default_directory_or (boost::filesystem::path a) const
 {
 	if (_default_directory.empty() || !boost::filesystem::exists (_default_directory)) {
 		return a;
