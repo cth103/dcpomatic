@@ -3,7 +3,7 @@ import shutil
 import os
 
 def dependencies(target):
-    return (('ffmpeg-cdist', '77e9115b172ec6e4f0da0a5525f32fb28bae5f09'),
+    return (('ffmpeg-cdist', 'b1219246a0cce9a4b916669d506bb33c925225c3'),
             ('libdcp', '08f4fe13bbff1a674930d55ab95fd181ebd0c265'))
 
 def build(target):
