@@ -48,6 +48,24 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	pix_fmts.push_back (AV_PIX_FMT_YUVJ420P);
 	pix_fmts.push_back (AV_PIX_FMT_YUVJ422P);
 	pix_fmts.push_back (AV_PIX_FMT_YUVJ444P);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA420P9BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA422P9BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA444P9BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA420P9LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA422P9LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA444P9LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA420P10BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA422P10BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA444P10BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA420P10LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA422P10LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA444P10LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA420P16BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA422P16BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA444P16BE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA420P16LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA422P16LE);
+	pix_fmts.push_back (AV_PIX_FMT_YUVA444P16LE);
 
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
