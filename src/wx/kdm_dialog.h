@@ -69,7 +69,7 @@ private:
 	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
 	wxTimePickerCtrl* _until_time;
-#ifdef __WXMSW__	
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;

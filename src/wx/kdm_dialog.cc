@@ -26,7 +26,7 @@
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
 #include "wx_util.h"
-#ifdef __WXMSW__
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 #include "dir_picker_ctrl.h"
 #else
 #include <wx/filepicker.h>
@@ -92,10 +92,10 @@ KDMDialog::KDMDialog (wxWindow* parent)
 
 	add_label_to_sizer (table, this, "Write to", true);
 
-#ifdef __WXMSW__
-	_folder = new DirPickerCtrl (this);
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+	_folder = new DirPickerCtrl (this); 
 #else	
-	_folder = new wxDirPickerCtrl (this, wxDD_DIR_MUST_EXIST);
+	_folder = new wxDirPickerCtrl (this, wxID_ANY);
 #endif
 
 	table->Add (_folder, 1, wxEXPAND);
@@ -176,6 +176,9 @@ KDMDialog::setup_sensitivity ()
 	_add_screen->Enable (sc);
 	_edit_screen->Enable (ss);
 	_remove_screen->Enable (ss);
+
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
+	ok->Enable (sc || sc);
 }
 
 void

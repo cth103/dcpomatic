@@ -31,7 +31,7 @@ Cinema::Cinema (shared_ptr<const cxml::Node> node)
 
 	list<shared_ptr<cxml::Node> > s = node->node_children ("Screen");
 	for (list<shared_ptr<cxml::Node> >::iterator i = s.begin(); i != s.end(); ++i) {
-		_screens.push_back (shared_ptr<Screen> (new Screen (*i)));
+		add_screen (shared_ptr<Screen> (new Screen (*i)));
 	}
 }
 

@@ -275,6 +275,8 @@ dcpomatic_setup ()
 #endif	
 	
 	avfilter_register_all ();
+
+	libdcp::init ();
 	
 	Ratio::setup_ratios ();
 	DCPContentType::setup_dcp_content_types ();

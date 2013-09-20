@@ -933,26 +933,31 @@ Film::make_kdms (
 
 	/* Find the DCP to make the KDM for */
 	string const dir = this->directory ();
-	list<string> dcps;
+	list<boost::filesystem::path> dcps;
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
-		if (boost::filesystem::is_directory (*i) && i->path().leaf() != "j2c" && i->path().leaf() != "wavs") {
-			dcps.push_back (i->path().string());
+		if (boost::filesystem::is_directory (*i) && i->path().leaf() != "j2c" && i->path().leaf() != "video" && i->path().leaf() != "info") {
+			dcps.push_back (i->path());
 		}
 	}
 
 	if (dcps.empty()) {
-		throw KDMError ("Could not find DCP to make KDM for");
+		throw KDMError (_("Could not find DCP to make KDM for"));
 	} else if (dcps.size() > 1) {
-		throw KDMError ("More than one possible DCP to make KDM for");
+		throw KDMError (_("More than one possible DCP to make KDM for"));
 	}
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
 
 		libdcp::DCP dcp (dcps.front ());
-		dcp.read ();
+
+		try {
+			dcp.read ();
+		} catch (...) {
+			throw KDMError (_("Could not read DCP to make KDM for"));
+		}
 		
 		shared_ptr<xmlpp::Document> kdm = dcp.cpls().front()->make_kdm (
-			signer, (*i)->certificate, from, until, _interop, libdcp::MXFMetadata (), Config::instance()->dcp_metadata ()
+			signer, (*i)->certificate, key (), from, until, _interop, libdcp::MXFMetadata (), Config::instance()->dcp_metadata ()
 			);
 
 		boost::filesystem::path out = directory;
