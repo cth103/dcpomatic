@@ -22,6 +22,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <wx/wx.h>
 #include <wx/treectrl.h>
+#include "wx_util.h"
 
 class wxTreeCtrl;
 class wxDatePickerCtrl;
