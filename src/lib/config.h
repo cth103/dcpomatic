@@ -134,6 +134,14 @@ public:
 		return _colour_conversions;
 	}
 
+	std::string mail_server () const {
+		return _mail_server;
+	}
+
+	std::string kdm_from () const {
+		return _kdm_from;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -228,6 +236,14 @@ public:
 	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
 		_colour_conversions = c;
 	}
+
+	void set_mail_server (std::string s) {
+		_mail_server = s;
+	}
+
+	void set_kdm_from (std::string f) {
+		_kdm_from = f;
+	}
 	
 	void write () const;
 
@@ -276,6 +292,8 @@ private:
 	int _default_j2k_bandwidth;
 	std::vector<PresetColourConversion> _colour_conversions;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
+	std::string _mail_server;
+	std::string _kdm_from;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

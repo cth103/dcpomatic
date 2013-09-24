@@ -112,6 +112,14 @@ ConfigDialog::make_misc_panel ()
 	_num_local_encoding_threads = new wxSpinCtrl (_misc_panel);
 	table->Add (_num_local_encoding_threads, 1);
 
+	add_label_to_sizer (table, _misc_panel, _("Outgoing mail server"), true);
+	_mail_server = new wxTextCtrl (_misc_panel, wxID_ANY);
+	table->Add (_mail_server, 1, wxEXPAND | wxALL);
+
+	add_label_to_sizer (table, _misc_panel, _("From address for KDM emails"), true);
+	_kdm_from = new wxTextCtrl (_misc_panel, wxID_ANY);
+	table->Add (_kdm_from, 1, wxEXPAND | wxALL);
+	
 	{
 		add_label_to_sizer (table, _misc_panel, _("Default duration of still images"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -174,6 +182,11 @@ ConfigDialog::make_misc_panel ()
 	_num_local_encoding_threads->SetRange (1, 128);
 	_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
 	_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::num_local_encoding_threads_changed, this));
+
+	_mail_server->SetValue (std_to_wx (config->mail_server ()));
+	_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::mail_server_changed, this));
+	_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
+	_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::kdm_from_changed, this));
 
 	_default_still_length->SetRange (1, 3600);
 	_default_still_length->SetValue (config->default_still_length ());
@@ -451,4 +464,17 @@ ConfigDialog::make_colour_conversions_panel ()
 		boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
 		boost::bind (&colour_conversion_column, _1)
 		);
+}
+
+void
+ConfigDialog::mail_server_changed ()
+{
+	Config::instance()->set_mail_server (wx_to_std (_mail_server->GetValue ()));
+}
+
+
+void
+ConfigDialog::kdm_from_changed ()
+{
+	Config::instance()->set_kdm_from (wx_to_std (_kdm_from->GetValue ()));
 }

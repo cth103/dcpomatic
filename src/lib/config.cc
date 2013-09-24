@@ -139,6 +139,9 @@ Config::read ()
 		cinema->read_screens (*i);
 		_cinemas.push_back (cinema);
 	}
+
+	_mail_server = f.string_child ("MailServer");
+	_kdm_from = f.string_child ("KDMFrom");
 }
 
 void
@@ -294,6 +297,9 @@ Config::write () const
 	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Cinema"));
 	}
+
+	root->add_child("MailServer")->add_child_text (_mail_server);
+	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 
 	doc.write_to_file_formatted (file(false).string ());
 }

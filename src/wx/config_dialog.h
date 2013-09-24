@@ -59,6 +59,8 @@ private:
 	void issuer_changed ();
 	void creator_changed ();
 	void default_j2k_bandwidth_changed ();
+	void mail_server_changed ();
+	void kdm_from_changed ();
 
 	void setup_language_sensitivity ();
 
@@ -83,6 +85,8 @@ private:
 	wxTextCtrl* _tms_user;
 	wxTextCtrl* _tms_password;
 	wxSpinCtrl* _num_local_encoding_threads;
+	wxTextCtrl* _mail_server;
+	wxTextCtrl* _kdm_from;
 	wxSpinCtrl* _default_still_length;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _default_directory;
