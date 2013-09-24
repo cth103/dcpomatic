@@ -961,8 +961,7 @@ Film::make_kdms (
 			);
 
 		boost::filesystem::path out = directory;
-		out /= tidy_for_filename ((*i)->cinema->name) + "_" + tidy_for_filename ((*i)->name);
-		out /= "kdm.xml";
+		out /= tidy_for_filename ((*i)->cinema->name) + "_" + tidy_for_filename ((*i)->name) + ".kdm.xml";
 		kdm->write_to_file_formatted (out.string());
 	}
 }

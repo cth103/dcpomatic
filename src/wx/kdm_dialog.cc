@@ -20,6 +20,7 @@
 #include <wx/treectrl.h>
 #include <wx/datectrl.h>
 #include <wx/timectrl.h>
+#include <wx/stdpaths.h>
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "kdm_dialog.h"
@@ -98,6 +99,8 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	_folder = new wxDirPickerCtrl (this, wxID_ANY);
 #endif
 
+	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
+	
 	table->Add (_folder, 1, wxEXPAND);
 	
 	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
