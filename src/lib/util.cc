@@ -807,7 +807,7 @@ tidy_for_filename (string f)
 {
 	string t;
 	for (size_t i = 0; i < f.length(); ++i) {
-		if (isalpha (f[i]) || f[i] == '_' || f[i] == '-') {
+		if (isalnum (f[i]) || f[i] == '_' || f[i] == '-') {
 			t += f[i];
 		} else {
 			t += '_';

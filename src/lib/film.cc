@@ -961,6 +961,8 @@ Film::make_kdms (
 		time_t now = time (0);
 		struct tm* tm = localtime (&now);
 		string const issue_date = libdcp::tm_to_string (tm);
+
+		dcp.cpls().front()->set_mxf_keys (key ());
 		
 		libdcp::KDM kdm (
 			dcp.cpls().front(), signer, (*i)->certificate, from, until, "DCP-o-matic", issue_date
