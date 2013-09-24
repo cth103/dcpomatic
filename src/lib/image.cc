@@ -185,17 +185,22 @@ Image::crop (Crop crop, bool aligned) const
 
 /** Blacken a YUV image whose bits per pixel is rounded up to 16 */
 void
-Image::yuv_16_black (uint16_t v)
+Image::yuv_16_black (uint16_t v, bool alpha)
 {
 	memset (data()[0], 0, lines(0) * stride()[0]);
 	for (int i = 1; i < 3; ++i) {
 		int16_t* p = reinterpret_cast<int16_t*> (data()[i]);
-		for (int y = 0; y < size().height; ++y) {
+		for (int y = 0; y < lines(i); ++y) {
+			/* We divide by 2 here because we are writing 2 bytes at a time */
 			for (int x = 0; x < line_size()[i] / 2; ++x) {
 				p[x] = v;
 			}
 			p += stride()[i] / 2;
 		}
+	}
+
+	if (alpha) {
+		memset (data()[3], 0, lines(3) * stride()[3]);
 	}
 }
 
@@ -236,27 +241,63 @@ Image::make_black ()
 
 	case PIX_FMT_YUV422P9LE:
 	case PIX_FMT_YUV444P9LE:
-		yuv_16_black (nine_bit_uv);
+		yuv_16_black (nine_bit_uv, false);
 		break;
 
 	case PIX_FMT_YUV422P9BE:
 	case PIX_FMT_YUV444P9BE:
-		yuv_16_black (swap_16 (nine_bit_uv));
+		yuv_16_black (swap_16 (nine_bit_uv), false);
 		break;
 		
 	case PIX_FMT_YUV422P10LE:
 	case PIX_FMT_YUV444P10LE:
-		yuv_16_black (ten_bit_uv);
+		yuv_16_black (ten_bit_uv, false);
 		break;
 
 	case PIX_FMT_YUV422P16LE:
 	case PIX_FMT_YUV444P16LE:
-		yuv_16_black (sixteen_bit_uv);
+		yuv_16_black (sixteen_bit_uv, false);
 		break;
 		
 	case PIX_FMT_YUV444P10BE:
 	case PIX_FMT_YUV422P10BE:
-		yuv_16_black (swap_16 (ten_bit_uv));
+		yuv_16_black (swap_16 (ten_bit_uv), false);
+		break;
+
+	case AV_PIX_FMT_YUVA420P9BE:
+	case AV_PIX_FMT_YUVA422P9BE:
+	case AV_PIX_FMT_YUVA444P9BE:
+		yuv_16_black (swap_16 (nine_bit_uv), true);
+		break;
+		
+	case AV_PIX_FMT_YUVA420P9LE:
+	case AV_PIX_FMT_YUVA422P9LE:
+	case AV_PIX_FMT_YUVA444P9LE:
+		yuv_16_black (nine_bit_uv, true);
+		break;
+		
+	case AV_PIX_FMT_YUVA420P10BE:
+	case AV_PIX_FMT_YUVA422P10BE:
+	case AV_PIX_FMT_YUVA444P10BE:
+		yuv_16_black (swap_16 (ten_bit_uv), true);
+		break;
+		
+	case AV_PIX_FMT_YUVA420P10LE:
+	case AV_PIX_FMT_YUVA422P10LE:
+	case AV_PIX_FMT_YUVA444P10LE:
+		yuv_16_black (ten_bit_uv, true);
+		break;
+		
+	case AV_PIX_FMT_YUVA420P16BE:
+	case AV_PIX_FMT_YUVA422P16BE:
+	case AV_PIX_FMT_YUVA444P16BE:
+		yuv_16_black (swap_16 (sixteen_bit_uv), true);
+		break;
+		
+	case AV_PIX_FMT_YUVA420P16LE:
+	case AV_PIX_FMT_YUVA422P16LE:
+	case AV_PIX_FMT_YUVA444P16LE:
+		yuv_16_black (sixteen_bit_uv, true);
 		break;
 
 	case PIX_FMT_RGB24:		

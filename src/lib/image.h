@@ -78,7 +78,7 @@ private:
 	void allocate ();
 	void swap (Image &);
 	float bytes_per_pixel (int) const;
-	void yuv_16_black (uint16_t);
+	void yuv_16_black (uint16_t, bool);
 	static uint16_t swap_16 (uint16_t);
 	
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
