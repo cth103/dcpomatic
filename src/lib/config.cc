@@ -132,7 +132,12 @@ Config::read ()
 
 	list<shared_ptr<cxml::Node> > cin = f.node_children ("Cinema");
 	for (list<shared_ptr<cxml::Node> >::iterator i = cin.begin(); i != cin.end(); ++i) {
-		_cinemas.push_back (shared_ptr<Cinema> (new Cinema (*i)));
+		/* Slightly grotty two-part construction of Cinema here so that we can use
+		   shared_from_this.
+		*/
+		shared_ptr<Cinema> cinema (new Cinema (*i));
+		cinema->read_screens (*i);
+		_cinemas.push_back (cinema);
 	}
 }
 

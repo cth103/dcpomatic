@@ -25,10 +25,18 @@ using std::list;
 using boost::shared_ptr;
 
 Cinema::Cinema (shared_ptr<const cxml::Node> node)
+	: name (node->string_child ("Name"))
+	, email (node->string_child ("Email"))
 {
-	name = node->string_child ("Name");
-	email = node->string_child ("Email");
 
+}
+
+/* This is necessary so that we can use shared_from_this in add_screen (which cannot be done from
+   a constructor)
+*/
+void
+Cinema::read_screens (shared_ptr<const cxml::Node> node)
+{
 	list<shared_ptr<cxml::Node> > s = node->node_children ("Screen");
 	for (list<shared_ptr<cxml::Node> >::iterator i = s.begin(); i != s.end(); ++i) {
 		add_screen (shared_ptr<Screen> (new Screen (*i)));

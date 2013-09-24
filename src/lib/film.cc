@@ -34,6 +34,8 @@
 #include <libdcp/signer_chain.h>
 #include <libdcp/cpl.h>
 #include <libdcp/signer.h>
+#include <libdcp/util.h>
+#include <libdcp/kdm.h>
 #include "film.h"
 #include "job.h"
 #include "util.h"
@@ -955,14 +957,18 @@ Film::make_kdms (
 		} catch (...) {
 			throw KDMError (_("Could not read DCP to make KDM for"));
 		}
+
+		time_t now = time (0);
+		struct tm* tm = localtime (&now);
+		string const issue_date = libdcp::tm_to_string (tm);
 		
-		shared_ptr<xmlpp::Document> kdm = dcp.cpls().front()->make_kdm (
-			signer, (*i)->certificate, key (), from, until, _interop, libdcp::MXFMetadata (), Config::instance()->dcp_metadata ()
+		libdcp::KDM kdm (
+			dcp.cpls().front(), signer, (*i)->certificate, from, until, "DCP-o-matic", issue_date
 			);
 
 		boost::filesystem::path out = directory;
 		out /= tidy_for_filename ((*i)->cinema->name) + "_" + tidy_for_filename ((*i)->name) + ".kdm.xml";
-		kdm->write_to_file_formatted (out.string());
+		kdm.as_xml (out);
 	}
 }
 	

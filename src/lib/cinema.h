@@ -53,6 +53,8 @@ public:
 
 	Cinema (boost::shared_ptr<const cxml::Node>);
 
+	void read_screens (boost::shared_ptr<const cxml::Node>);
+
 	void as_xml (xmlpp::Element *) const;
 
 	void add_screen (boost::shared_ptr<Screen>);
