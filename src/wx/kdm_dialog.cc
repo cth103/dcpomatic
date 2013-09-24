@@ -181,7 +181,7 @@ KDMDialog::setup_sensitivity ()
 	_remove_screen->Enable (ss);
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
-	ok->Enable (sc || sc);
+	ok->Enable (sc || ss);
 }
 
 void
