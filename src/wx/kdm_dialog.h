@@ -42,6 +42,7 @@ public:
 	boost::posix_time::ptime from () const;
 	boost::posix_time::ptime until () const;
 	std::string directory () const;
+	bool write_to () const;
 
 private:
 	void add_cinema (boost::shared_ptr<Cinema>);

@@ -32,6 +32,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/filesystem.hpp>
 #include <libdcp/key.h>
+#include <libdcp/kdm.h>
 #include "util.h"
 #include "types.h"
 #include "dci_metadata.h"
@@ -115,11 +116,10 @@ public:
 	bool has_subtitles () const;
 	OutputVideoFrame best_video_frame_rate () const;
 
-	void make_kdms (
+	std::list<libdcp::KDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::posix_time::ptime from,
-		boost::posix_time::ptime until,
-		std::string directory
+		boost::posix_time::ptime until
 		) const;
 
 	libdcp::Key key () const {

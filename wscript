@@ -119,6 +119,17 @@ def configure(conf):
         conf.env.STLIB_POSTPROC   = ['postproc']
         conf.env.STLIB_SWRESAMPLE = ['swresample']
         conf.env.STLIB_OPENJPEG   = ['openjpeg']
+        conf.env.STLIB_QUICKMAIL  = ['quickmail']
+    else:
+        conf.check_cxx(fragment="""
+                            #include <quickmail.h>
+                            int main(void) { quickmail_initialize (); }
+                            """,
+                       mandatory=True,
+                       msg='Checking for quickmail',
+                       libpath='/usr/local/lib',
+                       lib='quickmail',
+                       uselib_store='QUICKMAIL')
 
     # Dependencies which are always dynamically linked
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
@@ -126,6 +137,15 @@ def configure(conf):
     conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
     conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
     conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
+
+    conf.check_cxx(fragment="""
+                            #include <zip.h>
+                            int main(void) { zip_open ("foo", 0, 0); }
+                            """,
+                   mandatory=True,
+                   msg='Checking for libzip',
+                   lib='zip',
+                   uselib_store='ZIP')
 
     conf.check_cxx(fragment="""
                             #include <boost/version.hpp>\n

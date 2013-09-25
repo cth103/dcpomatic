@@ -895,12 +895,11 @@ Film::full_frame () const
 	return libdcp::Size ();
 }
 
-void
+list<libdcp::KDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::posix_time::ptime from,
-	boost::posix_time::ptime until,
-	string directory
+	boost::posix_time::ptime until
 	) const
 {
 	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
@@ -948,6 +947,8 @@ Film::make_kdms (
 		throw KDMError (_("More than one possible DCP to make KDM for"));
 	}
 
+	list<libdcp::KDM> kdms;
+
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
 
 		libdcp::DCP dcp (dcps.front ());
@@ -963,14 +964,10 @@ Film::make_kdms (
 		string const issue_date = libdcp::tm_to_string (tm);
 
 		dcp.cpls().front()->set_mxf_keys (key ());
-		
-		libdcp::KDM kdm (
-			dcp.cpls().front(), signer, (*i)->certificate, from, until, "DCP-o-matic", issue_date
-			);
 
-		boost::filesystem::path out = directory;
-		out /= tidy_for_filename ((*i)->cinema->name) + "_" + tidy_for_filename ((*i)->name) + ".kdm.xml";
-		kdm.as_xml (out);
+		kdms.push_back (libdcp::KDM (dcp.cpls().front(), signer, (*i)->certificate, from, until, "DCP-o-matic", issue_date));
 	}
+
+	return kdms;
 }
 	

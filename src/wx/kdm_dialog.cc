@@ -385,3 +385,9 @@ KDMDialog::directory () const
 {
 	return wx_to_std (_folder->GetPath ());
 }
+
+bool
+KDMDialog::write_to () const
+{
+	return _write_to->GetValue ();
+}

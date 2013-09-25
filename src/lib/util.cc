@@ -54,7 +54,6 @@ extern "C" {
 #include <libpostproc/postprocess.h>
 #include <libavutil/pixfmt.h>
 }
-#include <curl/curl.h>
 #include "util.h"
 #include "exceptions.h"
 #include "scaler.h"
@@ -816,54 +815,4 @@ tidy_for_filename (string f)
 	}
 
 	return t;
-}
-
-struct EmailState
-{
-	string message;
-	int done;
-};
-
-static size_t
-send_email_function (void* ptr, size_t size, size_t nmemb, void* userdata)
-{
-	EmailState* state = reinterpret_cast<EmailState*> (userdata);
-
-	int const now = min (size * nmemb, state->message.length() - state->done);
-
-	memcpy (ptr, state->message.c_str() + state->done, now);
-	state->done += now;
-
-	return now;
-}
-	
-bool
-send_email (string from, string to, string message)
-{
-	CURL* curl = curl_easy_init ();
-	if (!curl) {
-		return true;
-	}
-
-	string const url = "smtp://" + Config::instance()->mail_server();
-
-	curl_easy_setopt (curl, CURLOPT_URL, url.c_str ());
-	curl_easy_setopt (curl, CURLOPT_MAIL_FROM, from.c_str ());
-	struct curl_slist* recipients = 0;
-	recipients = curl_slist_append (recipients, to.c_str ());
-	curl_easy_setopt (curl, CURLOPT_READFUNCTION, send_email_function);
-
-	EmailState state;
-	state.message = message;
-	state.done = 0;
-	curl_easy_setopt (curl, CURLOPT_READDATA, &state);
-
-	if (curl_easy_perform (curl) != CURLE_OK) {
-		return true;
-	}
-
-	curl_slist_free_all (recipients);
-	curl_easy_cleanup (curl);
-
-	return false;
 }

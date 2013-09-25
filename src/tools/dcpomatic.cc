@@ -29,6 +29,8 @@
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
+#include <quickmail.h>
+#include <zip.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
@@ -49,6 +51,7 @@
 #include "lib/job_manager.h"
 #include "lib/transcode_job.h"
 #include "lib/exceptions.h"
+#include "lib/cinema.h"
 
 using std::cout;
 using std::string;
@@ -221,6 +224,25 @@ setup_menu (wxMenuBar* m)
 #endif	
 	m->Append (jobs_menu, _("&Jobs"));
 	m->Append (help, _("&Help"));
+}
+
+struct ScreenKDM
+{
+	ScreenKDM (shared_ptr<Screen> s, libdcp::KDM k)
+		: screen (s)
+		, kdm (k)
+	{}
+	
+	shared_ptr<Screen> screen;
+	libdcp::KDM kdm;
+};
+
+/* Not complete but sufficient for our purposes (we're using
+   ScreenKDM in a list where all the screens will be unique).
+*/
+bool operator== (ScreenKDM const & a, ScreenKDM const & b)
+{
+	return a.screen == b.screen;
 }
 
 class Frame : public wxFrame
@@ -420,19 +442,120 @@ private:
 		}
 		
 		KDMDialog* d = new KDMDialog (this);
-		if (d->ShowModal () == wxID_OK) {
-			try {
-				film->make_kdms (
-					d->screens (),
-					d->from (),
-					d->until (),
-					d->directory ()
-					);
-			} catch (KDMError& e) {
-				error_dialog (this, e.what ());
-			}
+		if (d->ShowModal () != wxID_OK) {
+			d->Destroy ();
+			return;
 		}
 		
+		try {
+			list<shared_ptr<Screen> > screens = d->screens ();
+			list<libdcp::KDM> kdms = film->make_kdms (
+				screens,
+				d->from (),
+				d->until ()
+				);
+
+			list<ScreenKDM> screen_kdms;
+			
+			list<shared_ptr<Screen> >::iterator i = screens.begin ();
+			list<libdcp::KDM>::iterator j = kdms.begin ();
+			while (i != screens.end() && j != kdms.end ()) {
+				screen_kdms.push_back (ScreenKDM (*i, *j));
+				++i;
+				++j;
+			}
+			
+			if (d->write_to ()) {
+				/* Write KDMs to the specified directory */
+				for (list<ScreenKDM>::iterator i = screen_kdms.begin(); i != screen_kdms.end(); ++i) {
+					boost::filesystem::path out = d->directory ();
+					out /= tidy_for_filename (i->screen->cinema->name) + "_" + tidy_for_filename (i->screen->name) + ".kdm.xml";
+					i->kdm.as_xml (out);
+				}
+			} else {
+				while (!screen_kdms.empty ()) {
+
+					/* Get all the screens from a single cinema */
+
+					shared_ptr<Cinema> cinema;
+					list<ScreenKDM> cinema_screen_kdms;
+
+					list<ScreenKDM>::iterator i = screen_kdms.begin ();
+					cinema = i->screen->cinema;
+					cinema_screen_kdms.push_back (*i);
+					list<ScreenKDM>::iterator j = i;
+					++i;
+					screen_kdms.remove (*j);
+
+					while (i != screen_kdms.end ()) {
+						if (i->screen->cinema == cinema) {
+							cinema_screen_kdms.push_back (*i);
+							list<ScreenKDM>::iterator j = i;
+							++i;
+							screen_kdms.remove (*j);
+						} else {
+							++i;
+						}
+					}
+
+					/* Make a ZIP file of this cinema's KDMs */
+					
+					boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
+					zip_file /= boost::filesystem::unique_path().string() + ".zip";
+					struct zip* zip = zip_open (zip_file.c_str(), ZIP_CREATE | ZIP_EXCL, 0);
+					if (!zip) {
+						throw FileError ("could not create ZIP file", zip_file);
+					}
+
+					list<shared_ptr<string> > kdm_strings;
+
+					for (list<ScreenKDM>::const_iterator i = cinema_screen_kdms.begin(); i != cinema_screen_kdms.end(); ++i) {
+						shared_ptr<string> kdm (new string (i->kdm.as_xml ()));
+						kdm_strings.push_back (kdm);
+						
+						struct zip_source* source = zip_source_buffer (zip, kdm->c_str(), kdm->length(), 0);
+						if (!source) {
+							throw StringError ("could not create ZIP source");
+						}
+						
+						string const name = tidy_for_filename (i->screen->cinema->name) + "_" +
+							tidy_for_filename (i->screen->name) + ".kdm.xml";
+						
+						if (zip_add (zip, name.c_str(), source) == -1) {
+							throw StringError ("failed to add KDM to ZIP archive");
+						}
+					}
+
+					if (zip_close (zip) == -1) {
+						throw StringError ("failed to close ZIP archive");
+					}
+
+					/* Send email */
+
+					quickmail_initialize ();
+					quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), "KDM delivery");
+					quickmail_add_to (mail, cinema->email.c_str ());
+
+					string body = Config::instance()->kdm_email().c_str();
+					boost::algorithm::replace_all (body, "$DCP_NAME", film->dcp_name ());
+					
+					quickmail_set_body (mail, body.c_str());
+					quickmail_add_attachment_file (mail, zip_file.c_str());
+					char const* error = quickmail_send (mail, Config::instance()->mail_server().c_str(), 25, "", "");
+					if (error) {
+						quickmail_destroy (mail);
+						throw StringError (String::compose ("Failed to send KDM email (%1)", error));
+					}
+					quickmail_destroy (mail);
+
+					film->log()->log (String::compose ("Send KDM email to %1", cinema->email));
+				}
+			}
+			
+		} catch (KDMError& e) {
+			error_dialog (this, e.what ());
+		}
+	
 		d->Destroy ();
 	}
 	
