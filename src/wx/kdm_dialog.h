@@ -46,13 +46,12 @@ public:
 private:
 	void add_cinema (boost::shared_ptr<Cinema>);
 	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
-	void targets_selection_changed (wxCommandEvent &);
-	void add_cinema_clicked (wxCommandEvent &);
-	void edit_cinema_clicked (wxCommandEvent &);
-	void remove_cinema_clicked (wxCommandEvent &);
-	void add_screen_clicked (wxCommandEvent &);
-	void edit_screen_clicked (wxCommandEvent &);
-	void remove_screen_clicked (wxCommandEvent &);
+	void add_cinema_clicked ();
+	void edit_cinema_clicked ();
+	void remove_cinema_clicked ();
+	void add_screen_clicked ();
+	void edit_screen_clicked ();
+	void remove_screen_clicked ();
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void setup_sensitivity ();
@@ -70,11 +69,13 @@ private:
 	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
 	wxTimePickerCtrl* _until_time;
+	wxRadioButton* _write_to;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;
 #endif
+	wxRadioButton* _email;
 
 	wxTreeItemId _root;
 	std::map<wxTreeItemId, boost::shared_ptr<Cinema> > _cinemas;

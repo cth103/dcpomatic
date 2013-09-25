@@ -66,6 +66,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 	_notebook->AddPage (_metadata_panel, _("Metadata"), false);
 	make_tms_panel ();
 	_notebook->AddPage (_tms_panel, _("TMS"), false);
+	make_kdm_email_panel ();
+	_notebook->AddPage (_kdm_email_panel, _("KDM email"), false);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (s, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -477,4 +479,24 @@ void
 ConfigDialog::kdm_from_changed ()
 {
 	Config::instance()->set_kdm_from (wx_to_std (_kdm_from->GetValue ()));
+}
+
+void
+ConfigDialog::make_kdm_email_panel ()
+{
+	_kdm_email_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_kdm_email_panel->SetSizer (s);
+
+	_kdm_email = new wxTextCtrl (_kdm_email_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+	s->Add (_kdm_email, 1, wxEXPAND | wxALL);
+
+	_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::kdm_email_changed, this));
+	_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
+}
+
+void
+ConfigDialog::kdm_email_changed ()
+{
+	Config::instance()->set_kdm_email (wx_to_std (_kdm_email->GetValue ()));
 }

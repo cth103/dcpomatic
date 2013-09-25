@@ -58,6 +58,9 @@ Config::Config ()
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
 	, _default_j2k_bandwidth (200000000)
+	, _kdm_email (
+		"Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nBest regards,\nDCP-o-matic"
+		)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -142,6 +145,7 @@ Config::read ()
 
 	_mail_server = f.string_child ("MailServer");
 	_kdm_from = f.string_child ("KDMFrom");
+	_kdm_email = f.string_child ("KDMEmail");
 }
 
 void
@@ -300,6 +304,7 @@ Config::write () const
 
 	root->add_child("MailServer")->add_child_text (_mail_server);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
+	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
 	doc.write_to_file_formatted (file(false).string ());
 }

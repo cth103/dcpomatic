@@ -125,6 +125,7 @@ def configure(conf):
     conf.check_cfg(package='glib-2.0', args='--cflags --libs', uselib_store='GLIB', mandatory=True)
     conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
     conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+    conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
 
     conf.check_cxx(fragment="""
                             #include <boost/version.hpp>\n

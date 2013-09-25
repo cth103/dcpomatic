@@ -61,6 +61,7 @@ private:
 	void default_j2k_bandwidth_changed ();
 	void mail_server_changed ();
 	void kdm_from_changed ();
+	void kdm_email_changed ();
 
 	void setup_language_sensitivity ();
 
@@ -69,6 +70,7 @@ private:
 	void make_metadata_panel ();
 	void make_servers_panel ();
 	void make_colour_conversions_panel ();
+	void make_kdm_email_panel ();
 
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
@@ -97,5 +99,7 @@ private:
 	wxTextCtrl* _issuer;
 	wxTextCtrl* _creator;
 	wxSpinCtrl* _default_j2k_bandwidth;
+	wxPanel* _kdm_email_panel;
+	wxTextCtrl* _kdm_email;
 };
 

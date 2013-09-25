@@ -79,19 +79,20 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	vertical->Add (targets, 1, wxEXPAND | wxALL, 6);
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 2, 6);
-	add_label_to_sizer (table, this, "From", true);
+	add_label_to_sizer (table, this, _("From"), true);
 	_from_date = new wxDatePickerCtrl (this, wxID_ANY);
 	table->Add (_from_date, 1, wxEXPAND);
 	_from_time = new wxTimePickerCtrl (this, wxID_ANY);
 	table->Add (_from_time, 1, wxEXPAND);
 	
-	add_label_to_sizer (table, this, "Until", true);
+	add_label_to_sizer (table, this, _("Until"), true);
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY);
 	table->Add (_until_date, 1, wxEXPAND);
 	_until_time = new wxTimePickerCtrl (this, wxID_ANY);
 	table->Add (_until_time, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Write to", true);
+	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
+	table->Add (_write_to, 1, wxEXPAND);
 
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	_folder = new DirPickerCtrl (this); 
@@ -102,6 +103,11 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
 	
 	table->Add (_folder, 1, wxEXPAND);
+	table->AddSpacer (0);
+
+	_email = new wxRadioButton (this, wxID_ANY, _("Send by email"));
+	table->Add (_email, 1, wxEXPAND);
+	table->AddSpacer (0);
 	
 	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
 
@@ -110,15 +116,18 @@ KDMDialog::KDMDialog (wxWindow* parent)
 		vertical->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	_targets->Connect (wxID_ANY, wxEVT_COMMAND_TREE_SEL_CHANGED, wxCommandEventHandler (KDMDialog::targets_selection_changed), 0, this);
+	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
-	_add_cinema->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::add_cinema_clicked), 0, this);
-	_edit_cinema->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::edit_cinema_clicked), 0, this);
-	_remove_cinema->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::remove_cinema_clicked), 0, this);
+	_add_cinema->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::add_cinema_clicked, this));
+	_edit_cinema->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::edit_cinema_clicked, this));
+	_remove_cinema->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::remove_cinema_clicked, this));
 
-	_add_screen->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::add_screen_clicked), 0, this);
-	_edit_screen->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::edit_screen_clicked), 0, this);
-	_remove_screen->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (KDMDialog::remove_screen_clicked), 0, this);
+	_add_screen->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::add_screen_clicked, this));
+	_edit_screen->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::edit_screen_clicked, this));
+	_remove_screen->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::remove_screen_clicked, this));
+
+	_write_to->Bind      (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
+	_email->Bind         (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 	
@@ -162,12 +171,6 @@ KDMDialog::selected_screens () const
 }
 
 void
-KDMDialog::targets_selection_changed (wxCommandEvent &)
-{
-	setup_sensitivity ();
-}
-
-void
 KDMDialog::setup_sensitivity ()
 {
 	bool const sc = selected_cinemas().size() == 1;
@@ -182,6 +185,8 @@ KDMDialog::setup_sensitivity ()
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
 	ok->Enable (sc || ss);
+
+	_folder->Enable (_write_to->GetValue ());
 }
 
 void
@@ -211,7 +216,7 @@ KDMDialog::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 }
 
 void
-KDMDialog::add_cinema_clicked (wxCommandEvent &)
+KDMDialog::add_cinema_clicked ()
 {
 	CinemaDialog* d = new CinemaDialog (this, "Add Cinema");
 	d->ShowModal ();
@@ -226,7 +231,7 @@ KDMDialog::add_cinema_clicked (wxCommandEvent &)
 }
 
 void
-KDMDialog::edit_cinema_clicked (wxCommandEvent &)
+KDMDialog::edit_cinema_clicked ()
 {
 	if (selected_cinemas().size() != 1) {
 		return;
@@ -247,7 +252,7 @@ KDMDialog::edit_cinema_clicked (wxCommandEvent &)
 }
 
 void
-KDMDialog::remove_cinema_clicked (wxCommandEvent &)
+KDMDialog::remove_cinema_clicked ()
 {
 	if (selected_cinemas().size() != 1) {
 		return;
@@ -262,7 +267,7 @@ KDMDialog::remove_cinema_clicked (wxCommandEvent &)
 }
 
 void
-KDMDialog::add_screen_clicked (wxCommandEvent &)
+KDMDialog::add_screen_clicked ()
 {
 	if (selected_cinemas().size() != 1) {
 		return;
@@ -283,7 +288,7 @@ KDMDialog::add_screen_clicked (wxCommandEvent &)
 }
 
 void
-KDMDialog::edit_screen_clicked (wxCommandEvent &)
+KDMDialog::edit_screen_clicked ()
 {
 	if (selected_screens().size() != 1) {
 		return;
@@ -304,7 +309,7 @@ KDMDialog::edit_screen_clicked (wxCommandEvent &)
 }
 
 void
-KDMDialog::remove_screen_clicked (wxCommandEvent &)
+KDMDialog::remove_screen_clicked ()
 {
 	if (selected_screens().size() != 1) {
 		return;

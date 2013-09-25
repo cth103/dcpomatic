@@ -142,6 +142,10 @@ public:
 		return _kdm_from;
 	}
 
+	std::string kdm_email () const {
+		return _kdm_email;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -244,6 +248,10 @@ public:
 	void set_kdm_from (std::string f) {
 		_kdm_from = f;
 	}
+
+	void set_kdm_email (std::string e) {
+		_kdm_email = e;
+	}
 	
 	void write () const;
 
@@ -294,6 +302,7 @@ private:
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
 	std::string _kdm_from;
+	std::string _kdm_email;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;
