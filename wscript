@@ -126,7 +126,7 @@ def configure(conf):
                             int main(void) { quickmail_initialize (); }
                             """,
                        mandatory=True,
-                       msg='Checking for quickmail',
+                       msg='Checking for libquickmail',
                        libpath='/usr/local/lib',
                        lib='quickmail',
                        uselib_store='QUICKMAIL')

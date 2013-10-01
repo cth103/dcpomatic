@@ -19,7 +19,8 @@
 
 #include <fstream>
 #include <cerrno>
-#include <libdcp/picture_asset.h>
+#include <libdcp/mono_picture_asset.h>
+#include <libdcp/stereo_picture_asset.h>
 #include <libdcp/sound_asset.h>
 #include <libdcp/picture_frame.h>
 #include <libdcp/reel.h>
@@ -77,9 +78,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 		_picture_asset.reset (
 			new libdcp::StereoPictureAsset (
 				_film->internal_video_mxf_dir (),
-				_film->internal_video_mxf_filename (),
-				_film->video_frame_rate (),
-				_film->container()->size (_film->full_frame ())
+				_film->internal_video_mxf_filename ()
 				)
 			);
 		
@@ -87,35 +86,37 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 		_picture_asset.reset (
 			new libdcp::MonoPictureAsset (
 				_film->internal_video_mxf_dir (),
-				_film->internal_video_mxf_filename (),
-				_film->video_frame_rate (),
-				_film->container()->size (_film->full_frame ())
+				_film->internal_video_mxf_filename ()
 				)
 			);
 
 	}
 
+	_picture_asset->set_edit_rate (_film->video_frame_rate ());
+	_picture_asset->set_size (_film->container()->size (_film->full_frame ()));
+
 	if (_film->encrypted ()) {
 		_picture_asset->set_key (_film->key ());
 	}
 	
-	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0, _film->interop ());
+	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 	
 	_sound_asset.reset (
 		new libdcp::SoundAsset (
 			_film->dir (_film->dcp_name()),
-			_film->audio_mxf_filename (),
-			_film->video_frame_rate (),
-			_film->audio_channels (),
-			_film->audio_frame_rate ()
+			_film->audio_mxf_filename ()
 			)
 		);
+
+	_sound_asset->set_edit_rate (_film->video_frame_rate ());
+	_sound_asset->set_channels (_film->audio_channels ());
+	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
 
 	if (_film->encrypted ()) {
 		_sound_asset->set_key (_film->key ());
 	}
 	
-	_sound_asset_writer = _sound_asset->start_write (_film->interop ());
+	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
