@@ -137,15 +137,7 @@ def configure(conf):
     conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
     conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
     conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
-
-    conf.check_cxx(fragment="""
-                            #include <zip.h>
-                            int main(void) { zip_open ("foo", 0, 0); }
-                            """,
-                   mandatory=True,
-                   msg='Checking for libzip',
-                   lib='zip',
-                   uselib_store='ZIP')
+    conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
 
     conf.check_cxx(fragment="""
                             #include <boost/version.hpp>\n
