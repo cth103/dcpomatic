@@ -22,7 +22,6 @@
 #include <libdcp/mono_picture_asset.h>
 #include <libdcp/stereo_picture_asset.h>
 #include <libdcp/sound_asset.h>
-#include <libdcp/picture_frame.h>
 #include <libdcp/reel.h>
 #include <libdcp/dcp.h>
 #include <libdcp/cpl.h>
