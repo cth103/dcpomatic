@@ -46,6 +46,8 @@
 #include <magick/version.h>
 #include <libdcp/version.h>
 #include <libdcp/util.h>
+#include <libdcp/signer_chain.h>
+#include <libdcp/signer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -816,3 +818,38 @@ tidy_for_filename (string f)
 
 	return t;
 }
+
+shared_ptr<const libdcp::Signer>
+make_signer ()
+{
+	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
+	if (boost::filesystem::is_empty (sd)) {
+		libdcp::make_signer_chain (sd);
+	}
+
+	libdcp::CertificateChain chain;
+
+	{
+		boost::filesystem::path p (sd);
+		p /= "ca.self-signed.pem";
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
+	}
+
+	{
+		boost::filesystem::path p (sd);
+		p /= "intermediate.signed.pem";
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
+	}
+
+	{
+		boost::filesystem::path p (sd);
+		p /= "leaf.signed.pem";
+		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
+	}
+
+	boost::filesystem::path signer_key (sd);
+	signer_key /= "leaf.key";
+
+	return shared_ptr<const libdcp::Signer> (new libdcp::Signer (chain, signer_key));
+}
+

@@ -51,6 +51,10 @@ extern "C" {
 /** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 
+namespace libdcp {
+	class Signer;
+}
+
 class Job;
 
 extern std::string seconds_to_hms (int);
@@ -71,6 +75,7 @@ extern bool valid_image_file (boost::filesystem::path);
 extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
+boost::shared_ptr<const libdcp::Signer> make_signer ();
 
 struct FrameRateConversion
 {

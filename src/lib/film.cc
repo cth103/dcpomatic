@@ -895,42 +895,14 @@ Film::full_frame () const
 	return libdcp::Size ();
 }
 
-list<libdcp::KDM>
-Film::make_kdms (
-	list<shared_ptr<Screen> > screens,
+libdcp::KDM
+Film::make_kdm (
+	shared_ptr<libdcp::Certificate> target,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until
 	) const
 {
-	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
-	if (boost::filesystem::is_empty (sd)) {
-		libdcp::make_signer_chain (sd);
-	}
-
-	libdcp::CertificateChain chain;
-
-	{
-		boost::filesystem::path p (sd);
-		p /= "ca.self-signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
-	}
-
-	{
-		boost::filesystem::path p (sd);
-		p /= "intermediate.signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
-	}
-
-	{
-		boost::filesystem::path p (sd);
-		p /= "leaf.signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
-	}
-
-	boost::filesystem::path signer_key (sd);
-	signer_key /= "leaf.key";
-
-	shared_ptr<const Signer> signer (new Signer (chain, signer_key));
+	shared_ptr<const Signer> signer = make_signer ();
 
 	/* Find the DCP to make the KDM for */
 	string const dir = this->directory ();
@@ -947,25 +919,34 @@ Film::make_kdms (
 		throw KDMError (_("More than one possible DCP to make KDM for"));
 	}
 
+	libdcp::DCP dcp (dcps.front ());
+	
+	try {
+		dcp.read ();
+	} catch (...) {
+		throw KDMError (_("Could not read DCP to make KDM for"));
+	}
+	
+	time_t now = time (0);
+	struct tm* tm = localtime (&now);
+	string const issue_date = libdcp::tm_to_string (tm);
+	
+	dcp.cpls().front()->set_mxf_keys (key ());
+	
+	return libdcp::KDM (dcp.cpls().front(), signer, target, from, until, "DCP-o-matic", issue_date);
+}
+
+list<libdcp::KDM>
+Film::make_kdms (
+	list<shared_ptr<Screen> > screens,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime until
+	) const
+{
 	list<libdcp::KDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-
-		libdcp::DCP dcp (dcps.front ());
-
-		try {
-			dcp.read ();
-		} catch (...) {
-			throw KDMError (_("Could not read DCP to make KDM for"));
-		}
-
-		time_t now = time (0);
-		struct tm* tm = localtime (&now);
-		string const issue_date = libdcp::tm_to_string (tm);
-
-		dcp.cpls().front()->set_mxf_keys (key ());
-
-		kdms.push_back (libdcp::KDM (dcp.cpls().front(), signer, (*i)->certificate, from, until, "DCP-o-matic", issue_date));
+		kdms.push_back (make_kdm ((*i)->certificate, from, until));
 	}
 
 	return kdms;

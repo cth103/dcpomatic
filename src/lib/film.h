@@ -116,6 +116,13 @@ public:
 	bool has_subtitles () const;
 	OutputVideoFrame best_video_frame_rate () const;
 
+	libdcp::KDM
+	make_kdm (
+		boost::shared_ptr<libdcp::Certificate> target,
+		boost::posix_time::ptime from,
+		boost::posix_time::ptime until
+		) const;
+	
 	std::list<libdcp::KDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::posix_time::ptime from,

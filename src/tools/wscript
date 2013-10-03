@@ -4,7 +4,7 @@ from waflib import Logs
 import i18n
 
 def build(bld):
-    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test']:
+    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm']:
         obj = bld(features = 'cxx cxxprogram')
         obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS'
         obj.includes = ['..']
