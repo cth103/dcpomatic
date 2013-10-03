@@ -221,7 +221,8 @@ Config::file (bool old) const
 	if (old) {
 		p /= ".dvdomatic";
 	} else {
-		p /= "dcpomatic.xml";
+		p /= "dcpomatic";
+		p /= "config.xml";
 	}
 	return p;
 }
@@ -231,7 +232,7 @@ Config::signer_chain_directory () const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
-	p /= "dvdomatic";
+	p /= "dcpomatic";
 	p /= "crypt";
 	boost::filesystem::create_directories (p);
 	return p;
