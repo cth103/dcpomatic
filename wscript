@@ -128,7 +128,7 @@ def configure(conf):
                        mandatory=True,
                        msg='Checking for libquickmail',
                        libpath='/usr/local/lib',
-                       lib='quickmail',
+                       lib=['quickmail', 'curl'],
                        uselib_store='QUICKMAIL')
 
     # Dependencies which are always dynamically linked
