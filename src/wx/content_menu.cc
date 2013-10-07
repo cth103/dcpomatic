@@ -27,7 +27,7 @@ using std::cout;
 using boost::shared_ptr;
 
 enum {
-	ID_repeat,
+	ID_repeat = 1,
 	ID_remove
 };
 
