@@ -236,14 +236,13 @@ boost::filesystem::path
 openssl_path ()
 {
 #ifdef DCPOMATIC_WINDOWS
-
 	wchar_t dir[512];
 	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
 	PathRemoveFileSpec (dir);
 	
 	boost::filesystem::path path = dir;
 	path /= "openssl.exe";
-	return path
+	return path;
 #else	
 	/* We assume that it's on the path for Linux and OS X */
 	return "openssl";
