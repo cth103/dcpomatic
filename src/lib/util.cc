@@ -65,6 +65,7 @@ extern "C" {
 #include "config.h"
 #include "ratio.h"
 #include "job.h"
+#include "cross.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -824,7 +825,7 @@ make_signer ()
 {
 	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
 	if (boost::filesystem::is_empty (sd)) {
-		libdcp::make_signer_chain (sd);
+		libdcp::make_signer_chain (sd, openssl_path ());
 	}
 
 	libdcp::CertificateChain chain;
