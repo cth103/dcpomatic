@@ -83,6 +83,7 @@ File "%static_deps%/bin/libxmlsec1-openssl.dll"
 File "%static_deps%/bin/libexslt-0.dll"
 File "%static_deps%/bin/libxslt-1.dll"
 File "%static_deps%/bin/libffi-6.dll"
+File "%static_deps%/bin/openssl.exe"
 
 File "%cdist_deps%/bin/asdcp-libdcp.dll"
 File "%cdist_deps%/bin/kumu-libdcp.dll"
