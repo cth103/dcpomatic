@@ -52,7 +52,7 @@ Config* Config::_instance = 0;
 Config::Config ()
 	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
 	, _server_port (6192)
-	, _tms_path (N_("."))
+	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
@@ -151,7 +151,7 @@ Config::read ()
 void
 Config::read_old_metadata ()
 {
-	ifstream f (file(true).c_str ());
+	ifstream f (file(true).string().c_str ());
 	string line;
 
 	while (getline (f, line)) {

@@ -502,7 +502,7 @@ private:
 					
 					boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 					zip_file /= boost::filesystem::unique_path().string() + ".zip";
-					struct zip* zip = zip_open (zip_file.c_str(), ZIP_CREATE | ZIP_EXCL, 0);
+					struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, 0);
 					if (!zip) {
 						throw FileError ("could not create ZIP file", zip_file);
 					}
@@ -540,7 +540,7 @@ private:
 					boost::algorithm::replace_all (body, "$DCP_NAME", film->dcp_name ());
 					
 					quickmail_set_body (mail, body.c_str());
-					quickmail_add_attachment_file (mail, zip_file.c_str());
+					quickmail_add_attachment_file (mail, zip_file.string().c_str());
 					char const* error = quickmail_send (mail, Config::instance()->mail_server().c_str(), 25, "", "");
 					if (error) {
 						quickmail_destroy (mail);
