@@ -1,5 +1,10 @@
 2013-10-09  Carl Hetherington  <cth@carlh.net>
 
+	* Bump libdcp version to pull in speculative fix
+	for AuthorizedDeviceList thumbprints in KDMs.
+
+2013-10-09  Carl Hetherington  <cth@carlh.net>
+
 	* Version 1.08 released.
 
 2013-10-09  Carl Hetherington  <cth@carlh.net>
