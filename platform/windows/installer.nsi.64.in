@@ -85,6 +85,8 @@ File "%static_deps%/bin/libxslt-1.dll"
 File "%static_deps%/bin/libffi-6.dll"
 File "%static_deps%/bin/openssl.exe"
 File "%static_deps%/bin/libcurl-4.dll"
+File "%static_deps%/bin/ssleay32.dll"
+File "%static_deps%/bin/libzip-2.dll"
 
 File "%cdist_deps%/bin/asdcp-libdcp.dll"
 File "%cdist_deps%/bin/kumu-libdcp.dll"
