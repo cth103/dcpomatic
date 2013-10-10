@@ -262,6 +262,9 @@ int main (int argc, char* argv[])
 		} catch (FileError& e) {
 			cerr << argv[0] << ": " << e.what() << " (" << e.file().string() << ")\n";
 			exit (EXIT_FAILURE);
+		} catch (KDMError& e) {
+			cerr << argv[0] << ": " << e.what() << "\n";
+			exit (EXIT_FAILURE);
 		}
 	}
 
