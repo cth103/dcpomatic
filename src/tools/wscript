@@ -15,7 +15,7 @@ def build(bld):
     if not bld.env.DISABLE_GUI:
         for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server']:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML WXWIDGETS ZIP QUICKMAIL'
+            obj.uselib = 'DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML WXWIDGETS'
             if bld.env.STATIC:
                 obj.uselib += ' GTK'
             obj.includes = ['..']

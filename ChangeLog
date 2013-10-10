@@ -1,5 +1,7 @@
 2013-10-10  Carl Hetherington  <cth@carlh.net>
 
+	* Various improvements to dcpomatic_kdm.
+
 	* libdcp fix to incorrect signature digests.
 
 2013-10-09  Carl Hetherington  <cth@carlh.net>

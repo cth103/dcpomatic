@@ -32,6 +32,7 @@ sources = """
           image.cc
           job.cc
           job_manager.cc
+          kdm.cc
           log.cc
           moving_image_content.cc
           moving_image_decoder.cc
@@ -74,7 +75,7 @@ def build(bld):
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
-                 CURL
+                 CURL ZIP QUICKMAIL
                  """
 
     obj.source = sources + ' version.cc'
