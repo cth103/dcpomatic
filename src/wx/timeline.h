@@ -64,6 +64,14 @@ public:
 
 	void setup_pixels_per_time_unit ();
 
+	void set_snap (bool s) {
+		_snap = s;
+	}
+
+	bool snap () const {
+		return _snap;
+	}
+
 private:
 	void paint ();
 	void left_down (wxMouseEvent &);
@@ -95,6 +103,7 @@ private:
 	Time _down_view_position;
 	bool _first_move;
 	ContentMenu _menu;
+	bool _snap;
 
 	boost::signals2::scoped_connection _playlist_connection;
 };

@@ -30,5 +30,8 @@ public:
 	TimelineDialog (FilmEditor *, boost::shared_ptr<Film>);
 
 private:
+	void snap_toggled ();
+	
 	Timeline _timeline;
+	wxCheckBox* _snap;
 };

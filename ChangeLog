@@ -1,5 +1,7 @@
 2013-10-10  Carl Hetherington  <cth@carlh.net>
 
+	* Basic snapping in the timeline.
+
 	* Various improvements to dcpomatic_kdm.
 
 2013-10-10  Carl Hetherington  <cth@carlh.net>

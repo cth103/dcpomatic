@@ -33,10 +33,24 @@ TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
 	, _timeline (this, ed, film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	
+
+	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
+	_snap = new wxCheckBox (this, wxID_ANY, _("Snap"));
+	controls->Add (_snap);
+
+	sizer->Add (controls, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
 
 	SetSizer (sizer);
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
+
+	_snap->SetValue (_timeline.snap ());
+	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::snap_toggled, this));
+}
+
+void
+TimelineDialog::snap_toggled ()
+{
+	_timeline.set_snap (_snap->GetValue ());
 }

@@ -33,7 +33,9 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
+using boost::optional;
 
+/** Parent class for components of the timeline (e.g. a piece of content or an axis) */
 class View : public boost::noncopyable
 {
 public:
@@ -332,6 +334,7 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _down_view_position (0)
 	, _first_move (false)
 	, _menu (film, this)
+	, _snap (true)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
@@ -577,6 +580,9 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 	wxPoint const p = ev.GetPosition();
 
 	if (!_first_move) {
+		/* We haven't moved yet; in that case, we must move the mouse some reasonable distance
+		   before the drag is considered to have started.
+		*/
 		int const dist = sqrt (pow (p.x - _down_point.x, 2) + pow (p.y - _down_point.y, 2));
 		if (dist < 8) {
 			return;
@@ -584,9 +590,56 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		_first_move = true;
 	}
 
-	Time const time_diff = (p.x - _down_point.x) / _pixels_per_time_unit;
 	if (_down_view) {
-		_down_view->content()->set_position (max (static_cast<Time> (0), _down_view_position + time_diff));
+		Time new_position = _down_view_position + (p.x - _down_point.x) / _pixels_per_time_unit;
+		
+		if (_snap) {
+
+			bool first = true;
+			Time nearest_distance = TIME_MAX;
+			Time nearest_new_position = TIME_MAX;
+			
+			/* Find the nearest content edge; this is inefficient */
+			for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
+				shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
+				if (!cv || cv == _down_view) {
+					continue;
+				}
+
+				{
+					/* Snap starts to ends */
+					Time const d = abs (cv->content()->end() - new_position);
+					if (first || d < nearest_distance) {
+						nearest_distance = d;
+						nearest_new_position = cv->content()->end();
+					}
+				}
+
+				{
+					/* Snap ends to starts */
+					Time const d = abs (cv->content()->position() - (new_position + _down_view->content()->length_after_trim()));
+					if (d < nearest_distance) {
+						nearest_distance = d;
+						nearest_new_position = cv->content()->position() - _down_view->content()->length_after_trim ();
+					}
+				}
+
+				first = false;
+			}
+
+			if (!first) {
+				/* Snap if it's close; `close' means within a proportion of the time on the timeline */
+				if (nearest_distance < (width() / pixels_per_time_unit()) / 32) {
+					new_position = nearest_new_position;
+				}
+			}
+		}
+		
+		if (new_position < 0) {
+			new_position = 0;
+		}
+	
+		_down_view->content()->set_position (new_position);
 
 		shared_ptr<Film> film = _film.lock ();
 		assert (film);
