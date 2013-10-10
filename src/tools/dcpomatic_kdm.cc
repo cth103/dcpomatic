@@ -26,34 +26,91 @@
 #include "lib/exceptions.h"
 
 using std::string;
+using std::stringstream;
 using std::cout;
 using std::cerr;
 using std::list;
 using boost::shared_ptr;
 
+static string program_name;
+
 static void
-help (string n)
+help ()
 {
-	cerr << "Syntax: " << n << " [OPTION] [<FILM>]\n"
-	     << "  -h, --help        show this help\n"
-	     << "  -o, --output      output file or directory\n"
-	     << "  -f, --valid-from  valid from time (e.g. \"2013-09-28 01:41:51\")\n"
-	     << "  -t, --valid-to    valid to time (e.g. \"2014-09-28 01:41:51\")\n"
-	     << "  -c, --certificate file containing projector certificate\n"
-	     << "  -z, --zip         ZIP each cinema's KDMs into its own file\n"
-	     << "      --cinema      specify a cinema, either by name or email address\n"
-	     << "      --cinemas     list known cinemas from the DCP-o-matic settings\n";
+	cerr << "Syntax: " << program_name << " [OPTION] [<FILM>]\n"
+		"  -h, --help             show this help\n"
+		"  -o, --output           output file or directory\n"
+		"  -f, --valid-from       valid from time (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
+		"  -t, --valid-to         valid to time (e.g. \"2014-09-28 01:41:51\")\n"
+		"  -d, --valid-duration   valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
+		"  -z, --zip              ZIP each cinema's KDMs into its own file\n"
+		"  -v, --verbose          be verbose\n"
+		"  -c, --cinema           specify a cinema, either by name or email address\n"
+		"      --cinemas          list known cinemas from the DCP-o-matic settings\n"
+		"      --certificate file containing projector certificate\n\n"
+		"For example:\n\n"
+		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n\n"
+		"(Fred's Cinema must have been set up in DCP-o-matic's KDM window)\n"
+		"\tdcpomatic_kdm -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie\n\n";
+}
+
+static void
+error (string m)
+{
+	cerr << program_name << ": " << m << "\n";
+	exit (EXIT_FAILURE);
+}
+
+static boost::posix_time::ptime
+time_from_string (string t)
+{
+	if (t == "now") {
+		return boost::posix_time::second_clock::local_time ();
+	}
+
+	return boost::posix_time::time_from_string (t);
+}
+
+static boost::posix_time::time_duration
+duration_from_string (string d)
+{
+	stringstream s (d);
+	int N;
+	string unit;
+	s >> N >> unit;
+
+	if (N == 0) {
+		cerr << "Could not understand duration \"" << d << "\"\n";
+		exit (EXIT_FAILURE);
+	}
+
+	if (unit == "year" || unit == "years") {
+		return boost::posix_time::time_duration (N * 24 * 365, 0, 0, 0);
+	} else if (unit == "week" || unit == "weeks") {
+		return boost::posix_time::time_duration (N * 24 * 7, 0, 0, 0);
+	} else if (unit == "day" || unit == "days") {
+		return boost::posix_time::time_duration (N * 24, 0, 0, 0);
+	} else if (unit == "hour" || unit == "hours") {
+		return boost::posix_time::time_duration (N, 0, 0, 0);
+	}
+
+	cerr << "Could not understand duration \"" << d << "\"\n";
+	exit (EXIT_FAILURE);
 }
 
 int main (int argc, char* argv[])
 {
 	boost::filesystem::path output;
-	boost::posix_time::ptime valid_from;
-	boost::posix_time::ptime valid_to;
+	boost::optional<boost::posix_time::ptime> valid_from;
+	boost::optional<boost::posix_time::ptime> valid_to;
 	string certificate_file;
 	bool zip = false;
 	string cinema_name;
 	bool cinemas = false;
+	string duration_string;
+	bool verbose = false;
+
+	program_name = argv[0];
 	
 	int option_index = 0;
 	while (1) {
@@ -62,14 +119,16 @@ int main (int argc, char* argv[])
 			{ "output", required_argument, 0, 'o'},
 			{ "valid-from", required_argument, 0, 'f'},
 			{ "valid-to", required_argument, 0, 't'},
-			{ "certificate", required_argument, 0, 'c' },
-			{ "cinema", required_argument, 0, 'A' },
+			{ "certificate", required_argument, 0, 'A' },
+			{ "cinema", required_argument, 0, 'c' },
 			{ "cinemas", no_argument, 0, 'B' },
 			{ "zip", no_argument, 0, 'z' },
+			{ "duration", required_argument, 0, 'd' },
+			{ "verbose", no_argument, 0, 'v' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:f:t:c:A:Bz", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:f:t:c:A:Bzd:v", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -77,21 +136,21 @@ int main (int argc, char* argv[])
 
 		switch (c) {
 		case 'h':
-			help (argv[0]);
+			help ();
 			exit (EXIT_SUCCESS);
 		case 'o':
 			output = optarg;
 			break;
 		case 'f':
-			valid_from = boost::posix_time::time_from_string (optarg);
+			valid_from = time_from_string (optarg);
 			break;
 		case 't':
-			valid_to = boost::posix_time::time_from_string (optarg);
-			break;
-		case 'c':
-			certificate_file = optarg;
+			valid_to = time_from_string (optarg);
 			break;
 		case 'A':
+			certificate_file = optarg;
+			break;
+		case 'c':
 			cinema_name = optarg;
 			break;
 		case 'B':
@@ -99,6 +158,12 @@ int main (int argc, char* argv[])
 			break;
 		case 'z':
 			zip = true;
+			break;
+		case 'd':
+			duration_string = optarg;
+			break;
+		case 'v':
+			verbose = true;
 			break;
 		}
 	}
@@ -111,14 +176,26 @@ int main (int argc, char* argv[])
 		exit (EXIT_SUCCESS);
 	}
 
+	if (duration_string.empty() && !valid_to) {
+		error ("you must specify a --valid-duration or --valid-to");
+	}
+
+	if (!valid_from) {
+		error ("you must specify --valid-from");
+		exit (EXIT_FAILURE);
+	}
+
 	if (optind >= argc) {
-		help (argv[0]);
+		help ();
 		exit (EXIT_FAILURE);
 	}
 
 	if (cinema_name.empty() && certificate_file.empty()) {
-		cerr << argv[0] << ": you must specify either a cinema, a screen or a certificate file\n";
-		exit (EXIT_FAILURE);
+		error ("you must specify either a cinema, a screen or a certificate file");
+	}
+
+	if (!duration_string.empty ()) {
+		valid_to = valid_from.get() + duration_from_string (duration_string);
 	}
 
 	string const film_dir = argv[optind];
@@ -129,15 +206,30 @@ int main (int argc, char* argv[])
 	try {
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
+		if (verbose) {
+			cout << "Read film " << film->name () << "\n";
+		}
 	} catch (std::exception& e) {
-		cerr << argv[0] << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
+		cerr << program_name << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
 	}
 
+	if (verbose) {
+		cout << "Making KDMs valid from " << valid_from.get() << " to " << valid_to.get() << "\n";
+	}
+
 	if (cinema_name.empty ()) {
+
+		if (output.empty ()) {
+			error ("you must specify --output");
+		}
+		
 		shared_ptr<libdcp::Certificate> certificate (new libdcp::Certificate (boost::filesystem::path (certificate_file)));
-		libdcp::KDM kdm = film->make_kdm (certificate, valid_from, valid_to);
+		libdcp::KDM kdm = film->make_kdm (certificate, valid_from.get(), valid_to.get());
 		kdm.as_xml (output);
+		if (verbose) {
+			cout << "Generated KDM " << output << " for certificate.\n";
+		}
 	} else {
 
 		list<shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
@@ -147,15 +239,25 @@ int main (int argc, char* argv[])
 		}
 
 		if (i == cinemas.end ()) {
-			cerr << argv[0] << ": could not find cinema \"" << cinema_name << "\"\n";
+			cerr << program_name << ": could not find cinema \"" << cinema_name << "\"\n";
 			exit (EXIT_FAILURE);
+		}
+
+		if (output.empty ()) {
+			output = ".";
 		}
 
 		try {
 			if (zip) {
-				write_kdm_zip_files (film, (*i)->screens(), valid_from, valid_to, output);
+				write_kdm_zip_files (film, (*i)->screens(), valid_from.get(), valid_to.get(), output);
+				if (verbose) {
+					cout << "Wrote ZIP files to " << output << "\n";
+				}
 			} else {
-				write_kdm_files (film, (*i)->screens(), valid_from, valid_to, output);
+				write_kdm_files (film, (*i)->screens(), valid_from.get(), valid_to.get(), output);
+				if (verbose) {
+					cout << "Wrote KDM files to " << output << "\n";
+				}
 			}
 		} catch (FileError& e) {
 			cerr << argv[0] << ": " << e.what() << " (" << e.file().string() << ")\n";
