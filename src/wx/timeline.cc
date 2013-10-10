@@ -75,6 +75,8 @@ private:
 	dcpomatic::Rect<int> _last_paint_bbox;
 };
 
+
+/** Parent class for views of pieces of content */
 class ContentView : public View
 {
 public:
@@ -322,6 +324,7 @@ private:
 private:
 	int _y;
 };
+
 
 Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
