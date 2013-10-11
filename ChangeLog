@@ -1,3 +1,8 @@
+2013-10-11  Carl Hetherington  <cth@carlh.net>
+
+	* Fix failure to create signer certificates
+	on Windows.
+
 2013-10-10  Carl Hetherington  <cth@carlh.net>
 
 	* Basic snapping in the timeline.
