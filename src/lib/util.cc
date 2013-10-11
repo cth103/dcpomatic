@@ -824,10 +824,28 @@ shared_ptr<const libdcp::Signer>
 make_signer ()
 {
 	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
-	if (boost::filesystem::is_empty (sd)) {
-		libdcp::make_signer_chain (sd, openssl_path ());
-	}
 
+	/* Remake the chain if any of it is missing */
+	
+	list<boost::filesystem::path> files;
+	files.push_back ("ca.self-signed.pem");
+	files.push_back ("intermediate.signed.pem");
+	files.push_back ("leaf.signed.pem");
+	files.push_back ("leaf.key");
+
+	list<boost::filesystem::path>::const_iterator i = files.begin();
+	while (i != files.end()) {
+		boost::filesystem::path p (sd);
+		sd /= *i;
+		if (!boost::filesystem::exists (sd)) {
+			boost::filesystem::remove_all (sd);
+			libdcp::make_signer_chain (sd, openssl_path ());
+			break;
+		}
+
+		++i;
+	}
+	
 	libdcp::CertificateChain chain;
 
 	{
