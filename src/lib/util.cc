@@ -836,8 +836,8 @@ make_signer ()
 	list<boost::filesystem::path>::const_iterator i = files.begin();
 	while (i != files.end()) {
 		boost::filesystem::path p (sd);
-		sd /= *i;
-		if (!boost::filesystem::exists (sd)) {
+		p /= *i;
+		if (!boost::filesystem::exists (p)) {
 			boost::filesystem::remove_all (sd);
 			libdcp::make_signer_chain (sd, openssl_path ());
 			break;
