@@ -839,6 +839,7 @@ make_signer ()
 		p /= *i;
 		if (!boost::filesystem::exists (p)) {
 			boost::filesystem::remove_all (sd);
+			boost::filesystem::create_directories (sd);
 			libdcp::make_signer_chain (sd, openssl_path ());
 			break;
 		}
