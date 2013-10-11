@@ -1,5 +1,9 @@
 2013-10-11  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.12 released.
+
+2013-10-11  Carl Hetherington  <cth@carlh.net>
+
 	* Fix failure to create signer certificates
 	on Windows.
 
