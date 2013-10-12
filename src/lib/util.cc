@@ -69,6 +69,9 @@ extern "C" {
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
+#ifdef DCPOMATIC_OSX
+#include <ltdl.h>
+#endif
 
 #include "i18n.h"
 
