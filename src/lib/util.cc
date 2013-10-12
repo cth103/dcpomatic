@@ -288,6 +288,7 @@ dcpomatic_setup ()
 	*/
 	boost::filesystem::path lib = app_contents ();
 	lib /= "lib";
+	cout << "adding search dir " << lib.c_str() << "\n";
 	lt_dladdsearchdir (lib.c_str ());
 #endif	
 
