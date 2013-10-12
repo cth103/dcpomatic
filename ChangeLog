@@ -1,3 +1,7 @@
+2013-10-12  Carl Hetherington  <cth@carlh.net>
+
+	* Fix linux static build.
+
 2013-10-11  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.12 released.
