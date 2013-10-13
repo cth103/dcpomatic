@@ -127,8 +127,11 @@ app_contents ()
 	}
 	
 	boost::filesystem::path path (buffer);
+	std::cout << "start " << path << "\n";
 	path.remove_filename ();
+	std::cout << "then " << path << "\n";
 	path.remove_filename ();
+	std::cout << "and then " << path << "\n";
 	return path;
 }
 #endif
