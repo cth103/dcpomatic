@@ -69,9 +69,6 @@ extern "C" {
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
-#ifdef DCPOMATIC_OSX
-#include <ltdl.h>
-#endif
 
 #include "i18n.h"
 
@@ -288,8 +285,6 @@ dcpomatic_setup ()
 	*/
 	boost::filesystem::path lib = app_contents ();
 	lib /= "lib";
-	std::cout << "adding search dir " << lib.c_str() << "\n";
-//	lt_dladdsearchdir (lib.c_str ());
 	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
 #endif	
 
