@@ -289,7 +289,8 @@ dcpomatic_setup ()
 	boost::filesystem::path lib = app_contents ();
 	lib /= "lib";
 	std::cout << "adding search dir " << lib.c_str() << "\n";
-	lt_dladdsearchdir (lib.c_str ());
+//	lt_dladdsearchdir (lib.c_str ());
+	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
 #endif	
 
 	libdcp::init ();
