@@ -71,6 +71,7 @@ Config::Config ()
 
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::srgb_to_xyz, 2.6));
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, libdcp::colour_matrix::srgb_to_xyz, 2.6));
+	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), 2.4, false, libdcp::colour_matrix::rec709_to_xyz, 2.2));
 }
 
 void
@@ -84,6 +85,8 @@ Config::read ()
 	cxml::Document f ("Config");
 	f.read_file (file (false));
 	optional<string> c;
+
+	optional<int> version = f.optional_number_child<int> ("Version");
 
 	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
 	_default_directory = f.string_child ("DefaultDirectory");
@@ -131,6 +134,13 @@ Config::read ()
 	
 	for (list<shared_ptr<cxml::Node> >::iterator i = cc.begin(); i != cc.end(); ++i) {
 		_colour_conversions.push_back (PresetColourConversion (*i));
+	}
+
+	if (!version) {
+		/* Loading version 0 (before Rec. 709 was added as a preset).
+		   Add it in.
+		*/
+		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), 2.4, false, libdcp::colour_matrix::rec709_to_xyz, 2.2));
 	}
 
 	list<shared_ptr<cxml::Node> > cin = f.node_children ("Cinema");
@@ -263,6 +273,7 @@ Config::write () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
+	root->add_child("Version")->add_child_text ("1");
 	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
 	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
