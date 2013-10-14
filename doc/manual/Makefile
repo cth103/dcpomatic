@@ -7,7 +7,7 @@ DIAGRAMS := file-structure.svg 3d-left-right.svg
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
                calculate-audio-gain.png prefs.png making-dcp.png filters.png video-tab.png audio-tab.png subtitles-tab.png \
-               audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png
+               audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png
 
 XML := dcpomatic.xml
 
