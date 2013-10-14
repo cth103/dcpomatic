@@ -109,6 +109,8 @@ private:
 	friend class best_dcp_frame_rate_test_single;
 	friend class best_dcp_frame_rate_test_double;
 	friend class audio_sampling_rate_test;
+
+	void setup_default_colour_conversion ();
 	
 	libdcp::Size _video_size;
 	float _video_frame_rate;

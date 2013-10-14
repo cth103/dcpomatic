@@ -19,6 +19,7 @@
 
 #include <iomanip>
 #include <libcxml/cxml.h>
+#include <libdcp/colour_matrix.h>
 #include "video_content.h"
 #include "video_examiner.h"
 #include "ratio.h"
@@ -49,9 +50,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Fram
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _ratio (Ratio::from_id ("185"))
-	, _colour_conversion (Config::instance()->colour_conversions().front().conversion)
 {
-
+	setup_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
@@ -60,9 +60,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _ratio (Ratio::from_id ("185"))
-	, _colour_conversion (Config::instance()->colour_conversions().front().conversion)
 {
-
+	setup_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
@@ -101,6 +100,12 @@ VideoContent::as_xml (xmlpp::Node* node) const
 		node->add_child("Ratio")->add_child_text (_ratio->id ());
 	}
 	_colour_conversion.as_xml (node->add_child("ColourConversion"));
+}
+
+void
+VideoContent::setup_default_colour_conversion ()
+{
+	_colour_conversion = PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::srgb_to_xyz, 2.6).conversion;
 }
 
 void
