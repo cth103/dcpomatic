@@ -35,6 +35,7 @@
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
 #endif
+#include "exceptions.h"
 
 using std::pair;
 using std::list;
@@ -114,6 +115,28 @@ cpu_info ()
 	return info;
 }
 
+#ifdef DCPOMATIC_OSX
+/** @return Path of the Contents directory in the .app */
+boost::filesystem::path
+app_contents ()
+{
+	uint32_t size = 1024;
+	char buffer[size];
+	if (_NSGetExecutablePath (buffer, &size)) {
+		throw StringError ("_NSGetExecutablePath failed");
+	}
+	
+	boost::filesystem::path path (buffer);
+	path = boost::filesystem::canonical (path);
+	std::cout << "start " << path << "\n";
+	path = path.parent_path ();
+	std::cout << "then " << path << "\n";
+	path = path.parent_path ();
+	std::cout << "and then " << path << "\n";
+	return path;
+}
+#endif
+
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, shared_ptr<Log> log)
 {
@@ -189,15 +212,8 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 #endif
 
 #ifdef DCPOMATIC_OSX
-	uint32_t size = 1024;
-	char buffer[size];
-	if (_NSGetExecutablePath (buffer, &size)) {
-		log->log ("_NSGetExecutablePath failed");
-		return;
-	}
-	
-	boost::filesystem::path path (buffer);
-	path.remove_filename ();
+	boost::filesystem::path path = app_contents();
+	path /= "MacOS";
 	path /= "ffprobe";
 	
 	string ffprobe = path.string() + " \"" + content.string() + "\" 2> \"" + out.string() + "\"";

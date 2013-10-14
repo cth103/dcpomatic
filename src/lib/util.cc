@@ -279,6 +279,15 @@ dcpomatic_setup ()
 	
 	avfilter_register_all ();
 
+#ifdef DCPOMATIC_OSX
+	/* Add our lib directory to the libltdl search path so that
+	   xmlsec can find xmlsec1-openssl.
+	*/
+	boost::filesystem::path lib = app_contents ();
+	lib /= "lib";
+	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
+#endif	
+
 	libdcp::init ();
 	
 	Ratio::setup_ratios ();
