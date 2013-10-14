@@ -3,6 +3,8 @@
 	* Fix some crashes in the KDM dialogue when coming
 	out of the add screen without giving a certificate.
 
+	* Really fix libltdl search path on OS X.
+
 2013-10-13  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.14 released.
