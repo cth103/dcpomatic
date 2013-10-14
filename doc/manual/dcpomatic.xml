@@ -950,6 +950,12 @@ between 50 and 250 megabits per second (MBps).
 </para>
 
 <para>
+The <guilabel>Standard</guilabel> option specifies which of the two
+DCP standards DCP-o-matic should use.  If in doubt, use SMPTE (the
+more modern of the two).
+</para>
+
+<para>
 Finally, the <guilabel>scaler</guilabel> is the method that will be used to scale up
 your content to the required size for the DCP, if required.  Bicubic is a fine choice in
 most situations.
