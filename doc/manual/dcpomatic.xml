@@ -142,6 +142,7 @@ The following dependencies are required:
 <listitem><ulink url="http://www.gtk.org/">GTK</ulink></listitem>
 <listitem><ulink url="http://www.wxwidgets.org/">wxWidgets</ulink></listitem>
 <listitem><ulink url="http://carlh.net/software/libdcp/">libdcp</ulink></listitem>
+<listitem><ulink url="http://carlh.net/software/libcxml/">libcxml</ulink></listitem>
 </itemizedlist>
 </para>
 
@@ -824,7 +825,7 @@ they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
 included in the image and not overlaid by the projector).  Note that
 DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
 (automatically) to use non-burnt-in subtitles with these sources.
-Select the <guilabel>With Subtitles</guilabel> checkbox to enable
+Select the <guilabel>With Subtitles</guilabel> check-box to enable
 subtitles.  The <guilabel>offset</guilabel> control moves the
 subtitles up and down the image, and the <guilabel>scale</guilabel>
 control changes their size.
@@ -872,7 +873,7 @@ DCI-compliant name.
 <para>
 Underneath the name field is a preview of the name that the DCP will
 get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
-name</guilabel> checkbox.  The DCI name will be composed using details
+name</guilabel> check-box.  The DCI name will be composed using details
 of your content's soundtrack, the current date and other things that
 can be specified in the DCI name details dialogue box, which you can
 open by clicking on the <guilabel>Details</guilabel> button.
@@ -904,8 +905,15 @@ The <guilabel>Frame Rate</guilabel> control sets the frame rate of
 your DCP.  This can be a little tricky to get right.  Ideally, you
 want it to be the same as the video content that you are using.  If it
 is not the same, DCP-o-matic must resort to some tricks to alter your
-content to fit the specified frame rate.  Frame rates are discussed in more detail later.
-<!--- XXX: link -->
+content to fit the specified frame rate.  Frame rates are discussed in
+more detail in <xref linkend="ch-frame-rates"/>.
+</para>
+
+<para>
+The <guilabel>Encrypted</guilabel> check-box will set whether the DCP
+should be encrypted or not.  If this is ticked, the DCP will require a
+KDM to play back.  Encryption is discussed in <xref
+linkend="ch-encryption"/>.
 </para>
 
 <para>
@@ -954,10 +962,183 @@ most situations.
 
 <para>
 It is not required that DCPs be encrypted, but they can be.  This
-chapter describes how DCPs are signed and encrypted, and how KDMs
-work.  It also discusses how DCP-o-matic can create encrypted DCPs and
-KDMs for them.
+chapter discusses the basic principles of DCP encryption, and how
+DCP-o-matic can create encrypted DCPs and KDMs for them.
 </para>
+
+<section>
+<title>Basics</title>
+
+<para>
+DCPs can be encrypted.  This means that the picture and sound data are
+encoded in such a way that only cinemas &lsquo;approved&rsquo; by the
+DCP's creators can read them.  In particular, this means copies of the
+DCP can be distributed by insecure means: if an ne'er-do-well called
+Mallory obtains a hard drive containing an encrypted DCP, there is no
+way that he can play it.  Only those cinemas who receive a key
+delivery message (KDM) can play the DCP.
+</para>
+
+<section>
+<title>How it works (in a nutshell)</title>
+
+<para>
+This section attempts to summarise how DCP encryption works.  You can
+skip it if you like.  You may need some knowledge of encryption
+methods to understand it.
+</para>
+
+<para>
+We suppose that we are trying to distribute a DCP to
+Alice's cinema, without a troublemaker called Mallory being able to
+watch it himself.
+</para>
+
+<para>
+There are two main families of encryption techniques.  The first,
+symmetric-key encryption, allows us to encode some data using some
+numeric key.  After encoding, no-one can decode the data unless they
+know the key.
+</para>
+
+<para>
+The first step in a DCP encryption is to encode its data with some key
+using symmetric-key encryption.  The encrypted DCP can then be sent
+anywhere, safe in the knowledge that even if Mallory got hold of a
+copy, he could not decrypt it.
+</para>
+
+<para>
+Alice, however, needs to know the key so she can play the DCP in her
+cinema.  A simple approach might be for us to send Alice the key.
+However, if Mallory can intercept the DCP, he might also be able to
+intercept our communication of the key to Alice.  Furthermore, if Alice
+happened to know Mallory, she could just send him a copy of the key.
+</para>
+
+<para>
+The clever bit in DCP encryption requires the use of public-key
+encryption.  With this technique we can encrypt a block of data using
+some &lsquo;public&rsquo; key.  That data can then only be decrypted
+using a <emphasis>different</emphasis> &lsquo;private&rsquo; key.  The
+private and public keys are related mathematically, but it is
+extremely hard (or rather, virtually impossible) to derive the private
+key from the public key.
+</para>
+
+<para>
+Public-key encryption allows us to distribute the DCP's key to Alice
+securely.  The manufacturer of Alice's projector generates a public
+and private key.  They hide the private key deep inside the bowels of
+the projector (inside an integrated circuit) where no-one can read it.
+They then make the public key available to anyone who is interested.
+</para>
+
+<para>
+We take our DCP's symmetric key and encrypt it using the public key of
+Alice's projector.  We send the result to Alice over email (using a
+format called a Key Delivery Message, or KDM).  Her projector then
+decrypts our message using its private key, yielding the magic
+symmetric key which can decrypt the DCP.
+</para>
+
+<para>
+If is fine if Mallory intercepts our email to Alice, since the only
+key which can decrypt the message is the private key buried inside
+Alice's projector.  The projector manufacturer is very careful that
+no-one ever finds out what this key is.  Our DCP is secure: only Alice
+can play it back, since only her projector knows the key (even Alice
+does not).
+</para>
+
+</section>
+</section>
+
+<section>
+<title>Encryption using DCP-o-matic</title>
+
+<para>
+There are two steps to distributing an encrypted DCP.  First, the
+DCP's data must be encrypted, and secondly KDMs must be generated for
+those cinemas that are allowed to play the DCP.
+</para>
+
+<para>
+The first part is simple: ticking the <guilabel>Encrypted</guilabel>
+box in the <guilabel>DCP</guilabel> tab of DCP-o-matic will encrypt
+the DCP using a random key that DCP-o-matic generates.  The key will
+be written to the film's metadata file, so that should be kept
+secure.
+</para>
+
+<para>
+A DCP that is generated with the <guilabel>Encrypted</guilabel> box
+ticked will not play on any projector as-is (it will be marked as
+&lsquo;locked&rsquo;, or whatever the projector manufacturer's term
+is).
+</para>
+
+<para>
+The second part is to generate KDMs for the cinemas that you wish to
+allow to play your DCP.  This is done using the <guilabel>Make
+KDMs</guilabel> option on the <guilabel>Jobs</guilabel> menu.  This
+will open the KDM dialogue box, as shown in <xref linkend="fig-kdm"/>.
+</para>
+
+<figure id="fig-kdm">
+  <title>KDM dialog</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/kdm&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+In order to generate KDMs for a particular projector, you need to know
+its <emphasis>certificate</emphasis>.  These are usually made
+available by the projector manufacturers as text files with a
+<code>.pem</code> extension.
+</para>
+
+<para>
+DCP-o-matic can store these certificates to make life easier.  It
+stores details of cinemas and screens within those cinemas.  Each
+screen has a certificate for its projector.  DCP-o-matic can generate
+KDMs for any screens that it knows about.
+</para>
+
+<para>
+To add a cinema, click <guilabel>Add Cinema...</guilabel>.  This opens
+a dialogue box into which you can enter the cinema's name, and
+optionally an email address.  This email address can be used to
+get DCP-o-matic to deliver KDMs via email, but it is optional.
+</para>
+
+<para>
+Once you have added a cinema, select it by clicking on its name, then
+click <guilabel>Add Screen...</guilabel>.  The resulting dialogue
+allows you to enter a name for the screen and load in its certificate
+from a file.  The certificate should be in SHA256 PEM format.
+</para>
+
+<para>
+Once you have set up all the screens that you need KDMs for,
+DCP-o-matic can generate KDMs for the last DCP that you generated for
+the currently-loaded film.  Select the cinemas and/or screens that you
+want KDMs for and fill in the start and end dates and times.  
+</para>
+
+<para>
+Finally, choose what you want to do with the KDMs.  They can be
+written to disk, to a location that you can specify by clicking
+<guilabel>Browse</guilabel>.  Alternatively, if you choose
+<guilabel>Send by email</guilabel> the KDMs will be zipped up and
+emailed to the appropriate cinema email addresses.  Click OK to
+generate the KDMs.
+</para>
+
+</section>
 
 </chapter>
 
@@ -1035,7 +1216,7 @@ properties of new films that you create.
 </section>
 </section>
 
-<section>
+<section xml:id="sec-prefs-servers">
 <title>Encoding servers</title>
 
 <para>
@@ -1056,7 +1237,7 @@ If you have spare machines sitting around on your network not doing
 much, they can be pressed into service to speed up DCP encodes.  This
 is done by running a small server program on the machine, which will
 encode video sent to it by the &lsquo;master&rsquo; DCP-o-matic.  This
-option is described in more detail in <xref linkend="sec-servers"/>.
+option is described in more detail in <xref linkend="ch-servers"/>.
 Use these preferences to specify the encoding servers that should be
 used.
 </para>
@@ -1086,7 +1267,7 @@ into the DCP.  The default values should cause no problems.
 
 </section>
 
-<section xml:id="prefs-tms">
+<section xml:id="sec-prefs-tms">
 <title>TMS</title>
 
 <para>
@@ -1120,7 +1301,7 @@ credentials required to log into the TMS via SSH.
 </section>
 </chapter>
 
-<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xml:id="ch-frame-rates">
 <title>Frame rates</title>
 
 <para>
@@ -1225,7 +1406,7 @@ content.
 </chapter>
 
 
-<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xml:id="ch-servers">
 <title>Encoding servers</title>
 
 <para>
