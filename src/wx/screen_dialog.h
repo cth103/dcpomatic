@@ -30,7 +30,8 @@ public:
 	boost::shared_ptr<libdcp::Certificate> certificate () const;
 	
 private:
-	void load_certificate (wxCommandEvent &);
+	void load_certificate ();
+	void setup_sensitivity ();
 	
 	wxTextCtrl* _name;
 	wxButton* _certificate_load;

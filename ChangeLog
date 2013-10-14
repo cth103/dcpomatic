@@ -1,3 +1,8 @@
+2013-10-14  Carl Hetherington  <cth@carlh.net>
+
+	* Fix some crashes in the KDM dialogue when coming
+	out of the add screen without giving a certificate.
+
 2013-10-13  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.14 released.
@@ -7,7 +12,7 @@
 	* Add some missing libraries to the OS X build.
 
 2013-10-12  Carl Hetherington  <cth@carlh.net>
-	
+
 	* Version 1.13 released.
 
 2013-10-12  Carl Hetherington  <cth@carlh.net>

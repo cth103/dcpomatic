@@ -65,7 +65,9 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_certificate_load->Connect (wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (ScreenDialog::load_certificate), 0, this);
+	_certificate_load->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::load_certificate, this));
+
+	setup_sensitivity ();
 }
 
 string
@@ -81,7 +83,7 @@ ScreenDialog::certificate () const
 }
 
 void
-ScreenDialog::load_certificate (wxCommandEvent &)
+ScreenDialog::load_certificate ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
 
@@ -95,4 +97,13 @@ ScreenDialog::load_certificate (wxCommandEvent &)
 	}
 	
 	d->Destroy ();
+
+	setup_sensitivity ();
+}
+
+void
+ScreenDialog::setup_sensitivity ()
+{
+	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
+	ok->Enable (_certificate);
 }

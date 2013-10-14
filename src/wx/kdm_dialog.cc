@@ -276,7 +276,9 @@ KDMDialog::add_screen_clicked ()
 	shared_ptr<Cinema> c = selected_cinemas().front().second;
 	
 	ScreenDialog* d = new ScreenDialog (this, "Add Screen");
-	d->ShowModal ();
+	if (d->ShowModal () != wxID_OK) {
+		return;
+	}
 
 	shared_ptr<Screen> s (new Screen (d->name(), d->certificate()));
 	c->add_screen (s);
