@@ -1,5 +1,7 @@
 2013-10-15  Carl Hetherington  <cth@carlh.net>
 
+	* Include film title in KDM filenames.
+
 	* Allow no-stretch scaling like in DVD-o-matic.
 
 2013-10-14  Carl Hetherington  <cth@carlh.net>

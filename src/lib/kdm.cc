@@ -44,12 +44,18 @@ struct ScreenKDM
 	libdcp::KDM kdm;
 };
 
+static string
+kdm_filename (shared_ptr<Film> film, ScreenKDM kdm)
+{
+	return tidy_for_filename (film->name()) + "_" + tidy_for_filename (kdm.screen->cinema->name) + "_" + tidy_for_filename (kdm.screen->name) + ".kdm.xml";
+}
+
 struct CinemaKDMs
 {
 	shared_ptr<Cinema> cinema;
 	list<ScreenKDM> screen_kdms;
 
-	void make_zip_file (boost::filesystem::path zip_file) const
+	void make_zip_file (shared_ptr<Film> film, boost::filesystem::path zip_file) const
 	{
 		int error;
 		struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -71,10 +77,7 @@ struct CinemaKDMs
 				throw StringError ("could not create ZIP source");
 			}
 			
-			string const name = tidy_for_filename (i->screen->cinema->name) + "_" +
-				tidy_for_filename (i->screen->name) + ".kdm.xml";
-			
-			if (zip_add (zip, name.c_str(), source) == -1) {
+			if (zip_add (zip, kdm_filename (film, *i).c_str(), source) == -1) {
 				throw StringError ("failed to add KDM to ZIP archive");
 			}
 		}
@@ -158,7 +161,7 @@ write_kdm_files (
 	/* Write KDMs to the specified directory */
 	for (list<ScreenKDM>::iterator i = screen_kdms.begin(); i != screen_kdms.end(); ++i) {
 		boost::filesystem::path out = directory;
-		out /= tidy_for_filename (i->screen->cinema->name) + "_" + tidy_for_filename (i->screen->name) + ".kdm.xml";
+		out /= kdm_filename (film, *i);
 		i->kdm.as_xml (out);
 	}
 }
@@ -173,7 +176,7 @@ write_kdm_zip_files (
 	for (list<CinemaKDMs>::const_iterator i = cinema_kdms.begin(); i != cinema_kdms.end(); ++i) {
 		boost::filesystem::path path = directory;
 		path /= tidy_for_filename (i->cinema->name) + ".zip";
-		i->make_zip_file (path);
+		i->make_zip_file (film, path);
 	}
 }
 
@@ -186,7 +189,7 @@ email_kdms (shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boost::pos
 		
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 		zip_file /= boost::filesystem::unique_path().string() + ".zip";
-		i->make_zip_file (zip_file);
+		i->make_zip_file (film, zip_file);
 		
 		/* Send email */
 		
