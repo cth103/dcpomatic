@@ -80,7 +80,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	}
 
 	_picture_asset->set_edit_rate (_film->video_frame_rate ());
-	_picture_asset->set_size (_film->container()->size (_film->full_frame ()));
+	_picture_asset->set_size (fit_ratio_within (_film->container()->ratio(), _film->full_frame ()));
 
 	if (_film->encrypted ()) {
 		_picture_asset->set_key (_film->key ());

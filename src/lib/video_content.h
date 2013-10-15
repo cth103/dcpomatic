@@ -87,6 +87,7 @@ public:
 
 	void set_ratio (Ratio const *);
 
+	/** @return ratio to scale to, or 0 if the content's own ratio should be preserved. */
 	Ratio const * ratio () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _ratio;
@@ -98,6 +99,7 @@ public:
 	}
 
 	libdcp::Size video_size_after_3d_split () const;
+	libdcp::Size video_size_after_crop () const;
 
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);

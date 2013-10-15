@@ -155,10 +155,7 @@ Image::post_process (string pp, bool aligned) const
 shared_ptr<Image>
 Image::crop (Crop crop, bool aligned) const
 {
-	libdcp::Size cropped_size = size ();
-	cropped_size.width -= crop.left + crop.right;
-	cropped_size.height -= crop.top + crop.bottom;
-
+	libdcp::Size cropped_size = crop.apply (size ());
 	shared_ptr<Image> out (new Image (pixel_format(), cropped_size, aligned));
 
 	for (int c = 0; c < components(); ++c) {

@@ -19,6 +19,7 @@
 
 #include <libdcp/types.h>
 #include "ratio.h"
+#include "util.h"
 
 #include "i18n.h"
 
@@ -27,19 +28,6 @@ using std::stringstream;
 using std::vector;
 
 vector<Ratio const *> Ratio::_ratios;
-
-libdcp::Size
-Ratio::size (libdcp::Size full_frame) const
-{
-	if (_ratio < static_cast<float>(full_frame.width) / full_frame.height) {
-		return libdcp::Size (full_frame.height * _ratio, full_frame.height);
-	} else {
-		return libdcp::Size (full_frame.width, full_frame.width / _ratio);
-	}
-
-	return libdcp::Size ();
-}
-
 
 void
 Ratio::setup_ratios ()

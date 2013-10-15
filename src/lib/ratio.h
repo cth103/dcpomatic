@@ -34,8 +34,6 @@ public:
 		, _dci_name (d)
 	{}
 
-	libdcp::Size size (libdcp::Size) const;
-
 	std::string id () const {
 		return _id;
 	}

@@ -21,6 +21,7 @@
 #include <boost/test/unit_test.hpp>
 #include <libdcp/util.h>
 #include "lib/ratio.h"
+#include "lib/util.h"
 
 using std::ostream;
 
@@ -41,38 +42,38 @@ BOOST_AUTO_TEST_CASE (ratio_test)
 
 	Ratio const * r = Ratio::from_id ("119");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1285, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1285, 1080));
 
 	r = Ratio::from_id ("133");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1436, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1436, 1080));
 
 	r = Ratio::from_id ("137");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1480, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1480, 1080));
 
 	r = Ratio::from_id ("138");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1485, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1485, 1080));
 
 	r = Ratio::from_id ("166");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1793, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1793, 1080));
 
 	r = Ratio::from_id ("178");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1920, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1920, 1080));
 
 	r = Ratio::from_id ("185");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (1998, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (1998, 1080));
 
 	r = Ratio::from_id ("239");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (2048, 858));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (2048, 858));
 
 	r = Ratio::from_id ("full-frame");
 	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (r->size(libdcp::Size (2048, 1080)), libdcp::Size (2048, 1080));
+	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), libdcp::Size (2048, 1080)), libdcp::Size (2048, 1080));
 }
 

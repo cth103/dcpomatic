@@ -87,6 +87,21 @@ struct Crop
 	int top;
 	/** Number of pixels to remove from the bottom */
 	int bottom;
+
+	libdcp::Size apply (libdcp::Size s, int minimum = 4) const {
+		s.width -= left + right;
+		s.height -= top + bottom;
+
+		if (s.width < minimum) {
+			s.width = minimum;
+		}
+
+		if (s.height < minimum) {
+			s.height = minimum;
+		}
+		
+		return s;
+	}
 };
 
 extern bool operator== (Crop const & a, Crop const & b);

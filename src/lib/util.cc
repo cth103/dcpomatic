@@ -882,3 +882,12 @@ make_signer ()
 	return shared_ptr<const libdcp::Signer> (new libdcp::Signer (chain, signer_key));
 }
 
+libdcp::Size
+fit_ratio_within (float ratio, libdcp::Size full_frame)
+{
+	if (ratio < full_frame.ratio ()) {
+		return libdcp::Size (full_frame.height * ratio, full_frame.height);
+	}
+	
+	return libdcp::Size (full_frame.width, full_frame.width / ratio);
+}

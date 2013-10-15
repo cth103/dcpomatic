@@ -66,6 +66,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 
 VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
+	, _ratio (0)
 {
 	_video_length = node->number_child<VideoContent::Frame> ("VideoLength");
 	_video_size.width = node->number_child<int> ("VideoWidth");
@@ -139,7 +140,7 @@ VideoContent::information () const
 		_("%1x%2 pixels (%3:1)"),
 		video_size().width,
 		video_size().height,
-		setprecision (3), float (video_size().width) / video_size().height
+		setprecision (3), video_size().ratio ()
 		);
 	
 	return s.str ();
@@ -280,4 +281,11 @@ VideoContent::set_colour_conversion (ColourConversion c)
 	}
 
 	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
+}
+
+/** @return Video size after 3D split and crop */
+libdcp::Size
+VideoContent::video_size_after_crop () const
+{
+	return crop().apply (video_size_after_3d_split ());
 }

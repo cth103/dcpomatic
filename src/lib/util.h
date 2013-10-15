@@ -75,7 +75,8 @@ extern bool valid_image_file (boost::filesystem::path);
 extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
-boost::shared_ptr<const libdcp::Signer> make_signer ();
+extern boost::shared_ptr<const libdcp::Signer> make_signer ();
+extern libdcp::Size fit_ratio_within (float ratio, libdcp::Size);
 
 struct FrameRateConversion
 {

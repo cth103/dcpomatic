@@ -23,6 +23,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
+#include "lib/util.h"
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"
@@ -128,6 +129,7 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	for (vector<Ratio const *>::iterator i = ratios.begin(); i != ratios.end(); ++i) {
 		_ratio->Append (std_to_wx ((*i)->nickname ()));
 	}
+	_ratio->Append (_("No stretch"));
 
 	_frame_type->Append (_("2D"));
 	_frame_type->Append (_("3D left/right"));
@@ -230,7 +232,7 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 			}
 
 			if (i == ratios.end()) {
-				checked_set (_ratio, -1);
+				checked_set (_ratio, ratios.size ());
 			} else {
 				checked_set (_ratio, n);
 			}
@@ -293,45 +295,45 @@ VideoPanel::setup_description ()
 	if (vc->video_size().width && vc->video_size().height) {
 		d << wxString::Format (
 			_("Content video is %dx%d (%.2f:1)\n"),
-			vc->video_size_after_3d_split().width, vc->video_size_after_3d_split().height,
-			float (vc->video_size_after_3d_split().width) / vc->video_size_after_3d_split().height
+			vc->video_size_after_3d_split().width,
+			vc->video_size_after_3d_split().height,
+			vc->video_size_after_3d_split().ratio ()
 			);
 		++lines;
 	}
 
 	Crop const crop = vc->crop ();
 	if ((crop.left || crop.right || crop.top || crop.bottom) && vc->video_size() != libdcp::Size (0, 0)) {
-		libdcp::Size cropped = vc->video_size_after_3d_split ();
-		cropped.width -= crop.left + crop.right;
-		cropped.height -= crop.top + crop.bottom;
+		libdcp::Size cropped = vc->video_size_after_crop ();
 		d << wxString::Format (
 			_("Cropped to %dx%d (%.2f:1)\n"),
 			cropped.width, cropped.height,
-			float (cropped.width) / cropped.height
+			cropped.ratio ()
 			);
 		++lines;
 	}
 
 	Ratio const * ratio = vc->ratio ();
-	if (ratio) {
-		libdcp::Size container_size = _editor->film()->container()->size (_editor->film()->full_frame ());
-		
-		libdcp::Size const scaled = ratio->size (container_size);
+	libdcp::Size container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
+	float const ratio_value = ratio ? ratio->ratio() : vc->video_size_after_crop().ratio ();
+
+	/* We have a specified ratio to scale to */
+	libdcp::Size const scaled = fit_ratio_within (ratio_value, container_size);
+	
+	d << wxString::Format (
+		_("Scaled to %dx%d (%.2f:1)\n"),
+		scaled.width, scaled.height,
+		scaled.ratio ()
+		);
+	++lines;
+	
+	if (scaled != container_size) {
 		d << wxString::Format (
-			_("Scaled to %dx%d (%.2f:1)\n"),
-			scaled.width, scaled.height,
-			float (scaled.width) / scaled.height
+			_("Padded with black to %dx%d (%.2f:1)\n"),
+			container_size.width, container_size.height,
+			container_size.ratio ()
 			);
 		++lines;
-
-		if (scaled != container_size) {
-			d << wxString::Format (
-				_("Padded with black to %dx%d (%.2f:1)\n"),
-				container_size.width, container_size.height,
-				float (container_size.width) / container_size.height
-				);
-			++lines;
-		}
 	}
 
 	d << wxString::Format (_("Content frame rate %.4f\n"), vc->video_frame_rate ());
@@ -361,8 +363,11 @@ VideoPanel::ratio_changed ()
 	int const n = _ratio->GetSelection ();
 	if (n >= 0) {
 		vector<Ratio const *> ratios = Ratio::all ();
-		assert (n < int (ratios.size()));
-		vc->set_ratio (ratios[n]);
+		if (n < int (ratios.size ())) {
+			vc->set_ratio (ratios[n]);
+		} else {
+			vc->set_ratio (0);
+		}
 	}
 }
 

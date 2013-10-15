@@ -239,7 +239,7 @@ FilmViewer::calculate_sizes ()
 
 	Ratio const * container = _film->container ();
 	
-	float const panel_ratio = static_cast<float> (_panel_size.width) / _panel_size.height;
+	float const panel_ratio = _panel_size.ratio ();
 	float const film_ratio = container ? container->ratio () : 1.78;
 			
 	if (panel_ratio < film_ratio) {
