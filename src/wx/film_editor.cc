@@ -43,6 +43,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/sound_processor.h"
 #include "lib/scaler.h"
+#include "lib/playlist.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -229,6 +230,8 @@ FilmEditor::connect_to_widgets ()
 	_content_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED,        boost::bind (&FilmEditor::content_add_file_clicked, this));
 	_content_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED,      boost::bind (&FilmEditor::content_add_folder_clicked, this));
 	_content_remove->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_remove_clicked, this));
+	_content_earlier->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_earlier_clicked, this));
+	_content_later->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_later_clicked, this));
 	_content_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_timeline_clicked, this));
 	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::scaler_changed, this));
 	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::dcp_content_type_changed, this));
@@ -266,6 +269,10 @@ FilmEditor::make_content_panel ()
 		b->Add (_content_add_folder, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
 		b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		_content_earlier = new wxButton (_content_panel, wxID_UP);
+		b->Add (_content_earlier, 1, wxEXPAND);
+		_content_later = new wxButton (_content_panel, wxID_DOWN);
+		b->Add (_content_later, 1, wxEXPAND);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
 		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
 
@@ -597,6 +604,8 @@ FilmEditor::set_general_sensitivity (bool s)
 	_content_add_file->Enable (s);
 	_content_add_folder->Enable (s);
 	_content_remove->Enable (s);
+	_content_earlier->Enable (s);
+	_content_later->Enable (s);
 	_content_timeline->Enable (s);
 	_dcp_content_type->Enable (s);
 	_encrypted->Enable (s);
@@ -809,6 +818,8 @@ FilmEditor::setup_content_sensitivity ()
 	shared_ptr<Content> selection = selected_content ();
 
 	_content_remove->Enable (selection && _generally_sensitive);
+	_content_earlier->Enable (selection && _generally_sensitive);
+	_content_later->Enable (selection && _generally_sensitive);
 	_content_timeline->Enable (_generally_sensitive);
 
 	_video_panel->Enable	(selection && dynamic_pointer_cast<VideoContent>  (selection) && _generally_sensitive);
@@ -917,4 +928,18 @@ FilmEditor::three_d_changed ()
 	}
 
 	_film->set_three_d (_three_d->GetValue ());
+}
+
+void
+FilmEditor::content_earlier_clicked ()
+{
+	_film->move_content_earlier (selected_content ());
+	content_selection_changed ();
+}
+
+void
+FilmEditor::content_later_clicked ()
+{
+	_film->move_content_later (selected_content ());
+	content_selection_changed ();
 }

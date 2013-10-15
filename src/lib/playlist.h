@@ -61,6 +61,8 @@ public:
 	void add (boost::shared_ptr<Content>);
 	void remove (boost::shared_ptr<Content>);
 	void remove (ContentList);
+	void move_earlier (boost::shared_ptr<Content>);
+	void move_later (boost::shared_ptr<Content>);
 
 	bool has_subtitles () const;
 
@@ -86,6 +88,7 @@ private:
 	void content_changed (boost::weak_ptr<Content>, int, bool);
 	void reconnect ();
 
+	/** List of content.  Kept sorted in position order. */
 	ContentList _content;
 	bool _sequence_video;
 	bool _sequencing_video;

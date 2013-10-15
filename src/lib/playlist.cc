@@ -82,9 +82,8 @@ Playlist::maybe_sequence_video ()
 	_sequencing_video = true;
 	
 	ContentList cl = _content;
-	sort (cl.begin(), cl.end(), ContentSorter ());
 	Time last = 0;
-	for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
+	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (!dynamic_pointer_cast<VideoContent> (*i)) {
 			continue;
 		}
@@ -92,6 +91,8 @@ Playlist::maybe_sequence_video ()
 		(*i)->set_position (last);
 		last = (*i)->end ();
 	}
+
+	/* This won't change order, so it does not need a sort */
 	
 	_sequencing_video = false;
 }
@@ -120,6 +121,8 @@ Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node
 		_content.push_back (content_factory (film, *i));
 	}
 
+	sort (_content.begin(), _content.end(), ContentSorter ());
+
 	reconnect ();
 }
 
@@ -136,6 +139,7 @@ void
 Playlist::add (shared_ptr<Content> c)
 {
 	_content.push_back (c);
+	sort (_content.begin(), _content.end(), ContentSorter ());
 	reconnect ();
 	Changed ();
 }
@@ -152,6 +156,8 @@ Playlist::remove (shared_ptr<Content> c)
 		_content.erase (i);
 		Changed ();
 	}
+
+	/* This won't change order, so it does not need a sort */
 }
 
 void
@@ -168,6 +174,8 @@ Playlist::remove (ContentList c)
 		}
 	}
 
+	/* This won't change order, so it does not need a sort */
+	
 	Changed ();
 }
 
@@ -325,6 +333,60 @@ Playlist::repeat (ContentList c, int n)
 		pos += range.second - range.first;
 	}
 
+	sort (_content.begin(), _content.end(), ContentSorter ());
+	
 	reconnect ();
+	Changed ();
+}
+
+void
+Playlist::move_earlier (shared_ptr<Content> c)
+{
+	sort (_content.begin(), _content.end(), ContentSorter ());
+	
+	ContentList::iterator previous = _content.end ();
+	ContentList::iterator i = _content.begin();
+	while (i != _content.end() && *i != c) {
+		previous = i;
+		++i;
+	}
+
+	assert (i != _content.end ());
+	if (previous == _content.end ()) {
+		return;
+	}
+	
+	Time const p = (*previous)->position ();
+	(*previous)->set_position (p + c->length_after_trim ());
+	c->set_position (p);
+	sort (_content.begin(), _content.end(), ContentSorter ());
+	
+	Changed ();
+}
+
+void
+Playlist::move_later (shared_ptr<Content> c)
+{
+	sort (_content.begin(), _content.end(), ContentSorter ());
+	
+	ContentList::iterator i = _content.begin();
+	while (i != _content.end() && *i != c) {
+		++i;
+	}
+
+	assert (i != _content.end ());
+
+	ContentList::iterator next = i;
+	++next;
+
+	if (next == _content.end ()) {
+		return;
+	}
+
+	Time const p = (*next)->position ();
+	(*next)->set_position (c->position ());
+	c->set_position (p + c->length_after_trim ());
+	sort (_content.begin(), _content.end(), ContentSorter ());
+	
 	Changed ();
 }

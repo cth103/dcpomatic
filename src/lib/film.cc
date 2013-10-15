@@ -806,6 +806,18 @@ Film::remove_content (shared_ptr<Content> c)
 	_playlist->remove (c);
 }
 
+void
+Film::move_content_earlier (shared_ptr<Content> c)
+{
+	_playlist->move_earlier (c);
+}
+
+void
+Film::move_content_later (shared_ptr<Content> c)
+{
+	_playlist->move_later (c);
+}
+
 Time
 Film::length () const
 {
@@ -951,4 +963,3 @@ Film::make_kdms (
 
 	return kdms;
 }
-	

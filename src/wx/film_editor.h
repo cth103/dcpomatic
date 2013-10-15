@@ -80,6 +80,8 @@ private:
 	void content_add_file_clicked ();
 	void content_add_folder_clicked ();
 	void content_remove_clicked ();
+	void content_earlier_clicked ();
+	void content_later_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
 	void scaler_changed ();

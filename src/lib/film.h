@@ -235,6 +235,8 @@ public:
 	void examine_and_add_content (boost::shared_ptr<Content>);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
+	void move_content_earlier (boost::shared_ptr<Content>);
+	void move_content_later (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Ratio const *);
 	void set_resolution (Resolution);
