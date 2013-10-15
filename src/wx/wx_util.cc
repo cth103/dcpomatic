@@ -151,6 +151,7 @@ void
 ThreadedStaticText::thread_finished (wxCommandEvent& ev)
 {
 	SetLabel (ev.GetString ());
+	Finished ();
 }
 
 string

@@ -29,8 +29,10 @@ public:
 
 private:
 	std::string frames_already_encoded () const;
+	void layout ();
 
 	boost::shared_ptr<Film> _film;
+	wxFlexGridSizer* _table;
 	wxStaticText* _frames;
 	wxStaticText* _disk;
 	ThreadedStaticText* _encoded;

@@ -24,6 +24,7 @@
 #include <wx/gbsizer.h>
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
+#include <boost/signals2.hpp>
 #ifdef __WXGTK__
 #include <gtk/gtk.h>
 #endif
@@ -58,6 +59,9 @@ class ThreadedStaticText : public wxStaticText
 public:
 	ThreadedStaticText (wxWindow* parent, wxString initial, boost::function<std::string ()> fn);
 	~ThreadedStaticText ();
+
+	/** Emitted in the UI thread when the text has been set up */
+	boost::signals2::signal<void()> Finished;
 
 private:
 	void run (boost::function<std::string ()> fn);
