@@ -59,6 +59,8 @@ public:
 
 	void set_video_container_size (libdcp::Size);
 
+	void repeat_last_video ();
+
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
 	 *  Second parameter is the eye(s) that should see this image.
@@ -137,6 +139,14 @@ private:
 #endif
 
 	bool _last_emit_was_black;
+
+	struct {
+		boost::weak_ptr<Piece> weak_piece;
+		boost::shared_ptr<const Image> image;
+		Eyes eyes;
+		bool same;
+		VideoContent::Frame frame;
+	} _last_process_video;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;

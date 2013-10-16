@@ -190,6 +190,13 @@ Player::pass ()
 void
 Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame)
 {
+	/* Keep a note of what came in so that we can repeat it if required */
+	_last_process_video.weak_piece = weak_piece;
+	_last_process_video.image = image;
+	_last_process_video.eyes = eyes;
+	_last_process_video.same = same;
+	_last_process_video.frame = frame;
+	
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	if (!piece) {
 		return;
@@ -607,4 +614,21 @@ Player::update_subtitle ()
 		);
 	_out_subtitle.from = _in_subtitle.from + piece->content->position ();
 	_out_subtitle.to = _in_subtitle.to + piece->content->position ();
+}
+
+/** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles */
+void
+Player::repeat_last_video ()
+{
+	if (!_last_process_video.image) {
+		return;
+	}
+
+	process_video (
+		_last_process_video.weak_piece,
+		_last_process_video.image,
+		_last_process_video.eyes,
+		_last_process_video.same,
+		_last_process_video.frame
+		);
 }

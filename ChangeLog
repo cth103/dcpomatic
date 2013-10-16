@@ -1,3 +1,8 @@
+2013-10-16  Carl Hetherington  <cth@carlh.net>
+
+	* Speed up response to some settings changes
+	(e.g. crop) (#196).
+
 2013-10-15  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.16 released.

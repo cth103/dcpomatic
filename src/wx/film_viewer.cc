@@ -135,7 +135,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
-	fetch_current_frame_again ();
+	fetch_next_frame ();
 }
 
 void
@@ -145,17 +145,14 @@ FilmViewer::fetch_current_frame_again ()
 		return;
 	}
 
-	/* Player::video_position is the time after the last frame that we received.
-	   We want to see it again, so seek back one frame.
+	/* We could do this with a seek and a fetch_next_frame, but this is
+	   a shortcut to make it quicker.
 	*/
 
-	Time p = _player->video_position() - _film->video_frames_to_time (1);
-	if (p < 0) {
-		p = 0;
-	}
-
-	_player->seek (p, true);
-	fetch_next_frame ();
+	_got_frame = false;
+	_player->repeat_last_video ();
+	_panel->Refresh ();
+	_panel->Update ();
 }
 
 void
