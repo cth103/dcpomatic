@@ -528,6 +528,8 @@ class App : public wxApp
 	bool OnInit ()
 	try
 	{
+		SetAppName (_("DCP-o-matic"));
+		
 		if (!wxApp::OnInit()) {
 			return false;
 		}
