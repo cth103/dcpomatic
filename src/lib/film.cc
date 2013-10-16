@@ -131,7 +131,7 @@ Film::Film (boost::filesystem::path dir)
 		}
 	}
 
-	set_directory (result.string ());
+	set_directory (result);
 	_log.reset (new FileLog (file ("log")));
 
 	_playlist->set_sequence_video (_sequence_video);
@@ -313,13 +313,13 @@ Film::encoded_frames () const
 void
 Film::write_metadata () const
 {
-	if (!boost::filesystem::exists (directory())) {
-		boost::filesystem::create_directory (directory());
+	if (!boost::filesystem::exists (directory ())) {
+		boost::filesystem::create_directory (directory ());
 	}
 	
 	LocaleGuard lg;
 
-	boost::filesystem::create_directories (directory());
+	boost::filesystem::create_directories (directory ());
 
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Metadata");
@@ -546,7 +546,7 @@ Film::dcp_name (bool if_created_now) const
 
 
 void
-Film::set_directory (string d)
+Film::set_directory (boost::filesystem::path d)
 {
 	_directory = d;
 	_dirty = true;
@@ -917,7 +917,7 @@ Film::make_kdm (
 	shared_ptr<const Signer> signer = make_signer ();
 
 	/* Find the DCP to make the KDM for */
-	string const dir = this->directory ();
+	boost::filesystem::path const dir = this->directory ();
 	list<boost::filesystem::path> dcps;
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
 		if (

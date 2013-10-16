@@ -161,7 +161,7 @@ public:
 
 	/* GET */
 
-	std::string directory () const {
+	boost::filesystem::path directory () const {
 		return _directory;
 	}
 
@@ -229,7 +229,7 @@ public:
 
 	/* SET */
 
-	void set_directory (std::string);
+	void set_directory (boost::filesystem::path);
 	void set_name (std::string);
 	void set_use_dci_name (bool);
 	void examine_and_add_content (boost::shared_ptr<Content>);
@@ -277,7 +277,7 @@ private:
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
 	 */
-	std::string _directory;
+	boost::filesystem::path _directory;
 	
 	/** Name for DCP-o-matic */
 	std::string _name;

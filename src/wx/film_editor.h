@@ -50,7 +50,7 @@ public:
 	void set_film (boost::shared_ptr<Film>);
 	void set_selection (boost::weak_ptr<Content>);
 
-	boost::signals2::signal<void (std::string)> FileChanged;
+	boost::signals2::signal<void (boost::filesystem::path)> FileChanged;
 
 	/* Stuff for panels */
 	

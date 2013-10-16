@@ -302,12 +302,12 @@ private:
 		set_menu_sensitivity ();
 	}
 
-	void file_changed (string f)
+	void file_changed (boost::filesystem::path f)
 	{
 		stringstream s;
 		s << wx_to_std (_("DCP-o-matic"));
 		if (!f.empty ()) {
-			s << " - " << f;
+			s << " - " << f.string ();
 		}
 		
 		SetTitle (std_to_wx (s.str()));
@@ -455,14 +455,14 @@ private:
 #else
 		int r = system ("which nautilus");
 		if (WEXITSTATUS (r) == 0) {
-			r = system (string ("nautilus " + film->directory()).c_str ());
+			r = system (string ("nautilus " + film->directory().string()).c_str ());
 			if (WEXITSTATUS (r)) {
 				error_dialog (this, _("Could not show DCP (could not run nautilus)"));
 			}
 		} else {
 			int r = system ("which konqueror");
 			if (WEXITSTATUS (r) == 0) {
-				r = system (string ("konqueror " + film->directory()).c_str ());
+				r = system (string ("konqueror " + film->directory().string()).c_str ());
 				if (WEXITSTATUS (r)) {
 					error_dialog (this, _("Could not show DCP (could not run konqueror)"));
 				}
