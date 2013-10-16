@@ -48,8 +48,6 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-//#define DEBUG_PLAYER 1
-
 class Piece
 {
 public:
@@ -71,23 +69,6 @@ public:
 	Time video_position;
 	Time audio_position;
 };
-
-#ifdef DEBUG_PLAYER
-std::ostream& operator<<(std::ostream& s, Piece const & p)
-{
-	if (dynamic_pointer_cast<FFmpegContent> (p.content)) {
-		s << "\tffmpeg	   ";
-	} else if (dynamic_pointer_cast<StillImageContent> (p.content)) {
-		s << "\tstill image";
-	} else if (dynamic_pointer_cast<SndfileContent> (p.content)) {
-		s << "\tsndfile	   ";
-	}
-	
-	s << " at " << p.content->position() << " until " << p.content->end();
-	
-	return s;
-}
-#endif	
 
 Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	: _film (f)
@@ -126,10 +107,6 @@ Player::pass ()
 		_have_valid_pieces = true;
 	}
 
-#ifdef DEBUG_PLAYER
-	cout << "= PASS\n";
-#endif	
-
 	Time earliest_t = TIME_MAX;
 	shared_ptr<Piece> earliest;
 	enum {
@@ -160,10 +137,6 @@ Player::pass ()
 	}
 
 	if (!earliest) {
-#ifdef DEBUG_PLAYER
-		cout << "no earliest piece.\n";
-#endif		
-		
 		flush ();
 		return true;
 	}
@@ -171,28 +144,16 @@ Player::pass ()
 	switch (type) {
 	case VIDEO:
 		if (earliest_t > _video_position) {
-#ifdef DEBUG_PLAYER
-			cout << "no video here; emitting black frame (earliest=" << earliest_t << ", video_position=" << _video_position << ").\n";
-#endif
 			emit_black ();
 		} else {
-#ifdef DEBUG_PLAYER
-			cout << "Pass video " << *earliest << "\n";
-#endif			
 			earliest->decoder->pass ();
 		}
 		break;
 
 	case AUDIO:
 		if (earliest_t > _audio_position) {
-#ifdef DEBUG_PLAYER
-			cout << "no audio here (none until " << earliest_t << "); emitting silence.\n";
-#endif
 			emit_silence (_film->time_to_audio_frames (earliest_t - _audio_position));
 		} else {
-#ifdef DEBUG_PLAYER
-			cout << "Pass audio " << *earliest << "\n";
-#endif
 			earliest->decoder->pass ();
 
 			if (earliest->decoder->done()) {
@@ -223,10 +184,6 @@ Player::pass ()
 		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 	}
 		
-#ifdef DEBUG_PLAYER
-	cout << "\tpost pass _video_position=" << _video_position << " _audio_position=" << _audio_position << "\n";
-#endif	
-
 	return false;
 }
 
@@ -487,13 +444,6 @@ Player::setup_pieces ()
 
 		_pieces.push_back (piece);
 	}
-
-#ifdef DEBUG_PLAYER
-	cout << "=== Player setup:\n";
-	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		cout << *(i->get()) << "\n";
-	}
-#endif	
 }
 
 void
