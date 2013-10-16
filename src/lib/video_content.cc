@@ -227,7 +227,7 @@ string
 VideoContent::identifier () const
 {
 	stringstream s;
-	s << Content::digest()
+	s << Content::identifier()
 	  << "_" << crop().left
 	  << "_" << crop().right
 	  << "_" << crop().top

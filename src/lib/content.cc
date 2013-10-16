@@ -26,6 +26,7 @@
 #include "ui_signaller.h"
 
 using std::string;
+using std::stringstream;
 using std::set;
 using boost::shared_ptr;
 using boost::lexical_cast;
@@ -173,4 +174,20 @@ bool
 Content::trimmed (Time t) const
 {
 	return (t < trim_start() || t > (full_length() - trim_end ()));
+}
+
+/** @return string which includes everything about how this content affects
+ *  its playlist.
+ */
+string
+Content::identifier () const
+{
+	stringstream s;
+	
+	s << Content::digest()
+	  << "_" << position()
+	  << "_" << trim_start()
+	  << "_" << trim_end();
+
+	return s.str ();
 }

@@ -58,6 +58,7 @@ public:
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual Time full_length () const = 0;
+	virtual std::string identifier () const;
 
 	boost::shared_ptr<Content> clone () const;
 	
