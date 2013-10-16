@@ -920,7 +920,11 @@ Film::make_kdm (
 	string const dir = this->directory ();
 	list<boost::filesystem::path> dcps;
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
-		if (boost::filesystem::is_directory (*i) && i->path().leaf() != "j2c" && i->path().leaf() != "video" && i->path().leaf() != "info") {
+		if (
+			boost::filesystem::is_directory (*i) &&
+			i->path().leaf() != "j2c" && i->path().leaf() != "video" && i->path().leaf() != "info" && i->path().leaf() != "analysis"
+			) {
+			
 			dcps.push_back (i->path());
 		}
 	}
