@@ -232,6 +232,7 @@ Config::file (bool old) const
 		p /= ".dvdomatic";
 	} else {
 		p /= "dcpomatic";
+		boost::filesystem::create_directory (p, ec);
 		p /= "config.xml";
 	}
 	return p;
