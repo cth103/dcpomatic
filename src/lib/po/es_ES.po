@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-10 10:45+0100\n"
+"POT-Creation-Date: 2013-10-16 09:45+0100\n"
 "PO-Revision-Date: 2013-04-02 19:10-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "%1 frames; %2 frames per second"
 msgstr "fotogramas por segundo"
 
-#: src/lib/video_content.cc:134
+#: src/lib/video_content.cc:140
 msgid "%1x%2 pixels (%3:1)"
 msgstr ""
 
@@ -51,19 +51,19 @@ msgstr ""
 msgid "0%"
 msgstr "0%"
 
-#: src/lib/ratio.cc:47
+#: src/lib/ratio.cc:35
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/ratio.cc:50
+#: src/lib/ratio.cc:38
 msgid "1.375"
 msgstr "1.375"
 
-#: src/lib/ratio.cc:51
+#: src/lib/ratio.cc:39
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:52
+#: src/lib/ratio.cc:40
 msgid "16:9"
 msgstr "16:9"
 
@@ -71,11 +71,11 @@ msgstr "16:9"
 msgid "3D denoiser"
 msgstr "reducción de ruido 3D"
 
-#: src/lib/ratio.cc:48
+#: src/lib/ratio.cc:36
 msgid "4:3"
 msgstr ""
 
-#: src/lib/ratio.cc:49
+#: src/lib/ratio.cc:37
 msgid "Academy"
 msgstr "Academy"
 
@@ -112,11 +112,11 @@ msgstr ""
 msgid "Cannot handle pixel format %1 during %2"
 msgstr ""
 
-#: src/lib/util.cc:743
+#: src/lib/util.cc:752
 msgid "Centre"
 msgstr ""
 
-#: src/lib/util.cc:766
+#: src/lib/util.cc:775
 #, fuzzy
 msgid "Content and DCP have the same rate.\n"
 msgstr "La fuente y el DCP tienen la misma velocidad.\n"
@@ -133,7 +133,7 @@ msgstr "No se pudo conectar al servidor %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "No se pudo crear la carpeta remota %1 (%2)"
 
-#: src/lib/film.cc:917
+#: src/lib/film.cc:929
 #, fuzzy
 msgid "Could not find DCP to make KDM for"
 msgstr "no se encontró el decodificador de audio"
@@ -147,7 +147,7 @@ msgstr "no se pudo abrir el fichero para lectura"
 msgid "Could not open %1 to send"
 msgstr "No se pudo abrir %1 para enviar"
 
-#: src/lib/film.cc:927
+#: src/lib/film.cc:939
 msgid "Could not read DCP to make KDM for"
 msgstr ""
 
@@ -163,12 +163,12 @@ msgstr "No se pudo escribir el fichero remoto (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Desentrelazado por interpolación cúbica"
 
-#: src/lib/util.cc:776
+#: src/lib/util.cc:785
 #, fuzzy
 msgid "DCP will run at %1%% of the content speed.\n"
 msgstr "El DCP se reproducirá al %1%% de la velocidad de la fuente.\n"
 
-#: src/lib/util.cc:769
+#: src/lib/util.cc:778
 #, fuzzy
 msgid "DCP will use every other frame of the content.\n"
 msgstr "El DCP usará fotogramas alternos de la fuente.\n"
@@ -198,7 +198,7 @@ msgstr "Deringing filter"
 msgid "Dolby CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:771
+#: src/lib/util.cc:780
 #, fuzzy
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Se doblará cada fotograma de la fuente en el DCP.\n"
@@ -239,7 +239,7 @@ msgstr "Bilineal rápido"
 msgid "Feature"
 msgstr "Película"
 
-#: src/lib/ratio.cc:53
+#: src/lib/ratio.cc:41
 msgid "Flat"
 msgstr "Flat"
 
@@ -247,7 +247,7 @@ msgstr "Flat"
 msgid "Force quantizer"
 msgstr "Force quantizer"
 
-#: src/lib/ratio.cc:55
+#: src/lib/ratio.cc:43
 msgid "Full frame"
 msgstr ""
 
@@ -287,15 +287,15 @@ msgstr "Kernel deinterlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:741
+#: src/lib/util.cc:750
 msgid "Left"
 msgstr ""
 
-#: src/lib/util.cc:745
+#: src/lib/util.cc:754
 msgid "Left surround"
 msgstr ""
 
-#: src/lib/util.cc:744
+#: src/lib/util.cc:753
 msgid "Lfe (sub)"
 msgstr ""
 
@@ -316,7 +316,7 @@ msgstr "Median deinterlacer"
 msgid "Misc"
 msgstr "Miscelánea"
 
-#: src/lib/film.cc:919
+#: src/lib/film.cc:931
 msgid "More than one possible DCP to make KDM for"
 msgstr ""
 
@@ -349,11 +349,16 @@ msgstr "Anuncio de servicio público"
 msgid "Rating"
 msgstr "Clasificación"
 
-#: src/lib/util.cc:742
+#: src/lib/config.cc:74 src/lib/config.cc:143
+#, fuzzy
+msgid "Rec. 709"
+msgstr "Rec 709"
+
+#: src/lib/util.cc:751
 msgid "Right"
 msgstr ""
 
-#: src/lib/util.cc:746
+#: src/lib/util.cc:755
 msgid "Right surround"
 msgstr ""
 
@@ -361,7 +366,7 @@ msgstr ""
 msgid "SSH error (%1)"
 msgstr "error SSH (%1)"
 
-#: src/lib/ratio.cc:54
+#: src/lib/ratio.cc:42
 msgid "Scope"
 msgstr "Scope"
 
@@ -464,7 +469,7 @@ msgstr ""
 msgid "cannot contain slashes"
 msgstr "no puede contener barras"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:552
 msgid "connect timed out"
 msgstr "tiempo de conexión agotado"
 
@@ -575,7 +580,7 @@ msgstr "minuto"
 msgid "minutes"
 msgstr "minutos"
 
-#: src/lib/util.cc:664
+#: src/lib/util.cc:673
 msgid "missing key %1 in key-value set"
 msgstr "falta la clave %1 en el par clave-valor"
 
@@ -605,7 +610,7 @@ msgstr ""
 msgid "remaining"
 msgstr "pendiente"
 
-#: src/lib/config.cc:72
+#: src/lib/config.cc:72 src/lib/video_content.cc:109
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -650,9 +655,6 @@ msgstr ""
 
 #~ msgid "Flat without stretch"
 #~ msgstr "Flat sin deformación"
-
-#~ msgid "Rec 709"
-#~ msgstr "Rec 709"
 
 #~ msgid "Scope without stretch"
 #~ msgstr "Scope sin deformación"

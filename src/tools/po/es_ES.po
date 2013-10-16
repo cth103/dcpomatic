@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-10 10:45+0100\n"
+"POT-Creation-Date: 2013-10-16 09:46+0100\n"
 "PO-Revision-Date: 2013-03-23 21:08-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -17,129 +17,129 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/tools/dcpomatic.cc:357
+#: src/tools/dcpomatic.cc:337
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:223
+#: src/tools/dcpomatic.cc:222
 msgid "&Edit"
 msgstr "&Editar"
 
-#: src/tools/dcpomatic.cc:195
+#: src/tools/dcpomatic.cc:194
 msgid "&Exit"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:221
+#: src/tools/dcpomatic.cc:220
 msgid "&File"
 msgstr "&Archivo"
 
-#: src/tools/dcpomatic.cc:226
+#: src/tools/dcpomatic.cc:225
 msgid "&Help"
 msgstr "&Ayuda"
 
-#: src/tools/dcpomatic.cc:225
+#: src/tools/dcpomatic.cc:224
 msgid "&Jobs"
 msgstr "&Tareas"
 
-#: src/tools/dcpomatic.cc:209
+#: src/tools/dcpomatic.cc:208
 msgid "&Make DCP"
 msgstr "&Crear DCP"
 
-#: src/tools/dcpomatic.cc:185
+#: src/tools/dcpomatic.cc:184
 msgid "&Open..."
 msgstr "&Abrir..."
 
-#: src/tools/dcpomatic.cc:202 src/tools/dcpomatic.cc:205
+#: src/tools/dcpomatic.cc:201 src/tools/dcpomatic.cc:204
 msgid "&Preferences..."
 msgstr "&Preferencias..."
 
-#: src/tools/dcpomatic.cc:189
+#: src/tools/dcpomatic.cc:188
 msgid "&Properties..."
 msgstr "&Propiedades..."
 
-#: src/tools/dcpomatic.cc:197
+#: src/tools/dcpomatic.cc:196
 msgid "&Quit"
 msgstr "&Salir"
 
-#: src/tools/dcpomatic.cc:187
+#: src/tools/dcpomatic.cc:186
 msgid "&Save"
 msgstr "&Guardar"
 
-#: src/tools/dcpomatic.cc:211
+#: src/tools/dcpomatic.cc:210
 msgid "&Send DCP to TMS"
 msgstr "&Enviar DCP al TMS"
 
-#: src/tools/dcpomatic.cc:218
+#: src/tools/dcpomatic.cc:217
 msgid "About"
 msgstr "Acerca de"
 
-#: src/tools/dcpomatic.cc:216
+#: src/tools/dcpomatic.cc:215
 #, fuzzy
 msgid "About DCP-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dcpomatic.cc:690
+#: src/tools/dcpomatic.cc:571
 #, fuzzy
 msgid "Could not load film %1 (%2)"
 msgstr "No se pudo cargar la película %s (%s)"
 
-#: src/tools/dcpomatic.cc:396
+#: src/tools/dcpomatic.cc:376
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "No se pudo cargar la película en %s (%s)"
 
-#: src/tools/dcpomatic.cc:586
+#: src/tools/dcpomatic.cc:467
 msgid "Could not show DCP (could not run konqueror)"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:579
+#: src/tools/dcpomatic.cc:460
 msgid "Could not show DCP (could not run nautilus)"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:328 src/tools/dcpomatic.cc:701
+#: src/tools/dcpomatic.cc:308 src/tools/dcpomatic.cc:582
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:86
+#: src/tools/dcpomatic.cc:85
 msgid "Film changed"
 msgstr "Película cambiada"
 
-#: src/tools/dcpomatic.cc:210
+#: src/tools/dcpomatic.cc:209
 msgid "Make &KDMs..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:184
+#: src/tools/dcpomatic.cc:183
 msgid "New..."
 msgstr "Nuevo..."
 
-#: src/tools/dcpomatic.cc:212
+#: src/tools/dcpomatic.cc:211
 msgid "S&how DCP"
 msgstr "&Mostrar DCP"
 
-#: src/tools/dcpomatic.cc:85
+#: src/tools/dcpomatic.cc:84
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:375
+#: src/tools/dcpomatic.cc:355
 msgid "Select film to open"
 msgstr "Selecciona la película a abrir"
 
-#: src/tools/dcpomatic.cc:347
+#: src/tools/dcpomatic.cc:327
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:608
+#: src/tools/dcpomatic.cc:489
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:609
+#: src/tools/dcpomatic.cc:490
 msgid "Unfinished jobs"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:380
+#: src/tools/dcpomatic.cc:360
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
