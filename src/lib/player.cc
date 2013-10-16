@@ -506,17 +506,22 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 
 	if (
 		property == ContentProperty::POSITION || property == ContentProperty::LENGTH ||
-		property == ContentProperty::TRIM_START || property == ContentProperty::TRIM_END ||
-		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO
+		property == ContentProperty::TRIM_START || property == ContentProperty::TRIM_END
 		) {
 		
 		_have_valid_pieces = false;
 		Changed (frequent);
 
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET || property == SubtitleContentProperty::SUBTITLE_SCALE) {
+
 		update_subtitle ();
 		Changed (frequent);
-	} else if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
+
+	} else if (
+		property == VideoContentProperty::VIDEO_FRAME_TYPE || property == VideoContentProperty::VIDEO_CROP ||
+		property == VideoContentProperty::VIDEO_RATIO
+		) {
+		
 		Changed (frequent);
 	}
 }
