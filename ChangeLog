@@ -1,5 +1,11 @@
 2013-10-16  Carl Hetherington  <cth@carlh.net>
 
+	* Hopefully fix crash on closing preferences window
+	when ~/.config/dcpomatic does not exist.
+
+	* Allow specification of the DCP to make KDMs for,
+	in case there is more than one.
+
 	* Speed up response to some settings changes
 	(e.g. crop) (#196).
 
