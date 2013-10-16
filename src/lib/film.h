@@ -96,7 +96,7 @@ public:
 
 	libdcp::Size full_frame () const;
 
-	bool have_dcp () const;
+	std::list<boost::filesystem::path> dcps () const;
 
 	boost::shared_ptr<Player> make_player () const;
 	boost::shared_ptr<Playlist> playlist () const;
@@ -119,12 +119,14 @@ public:
 	libdcp::KDM
 	make_kdm (
 		boost::shared_ptr<libdcp::Certificate> target,
+		boost::filesystem::path dcp,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until
 		) const;
 	
 	std::list<libdcp::KDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
+		boost::filesystem::path dcp,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until
 		) const;

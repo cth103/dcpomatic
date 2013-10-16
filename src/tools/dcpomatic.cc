@@ -129,6 +129,7 @@ maybe_save_then_delete_film ()
 #define ALWAYS                  0x0
 #define NEEDS_FILM              0x1
 #define NOT_DURING_DCP_CREATION 0x2
+#define NEEDS_DCP               0x4
 
 map<wxMenuItem*, int> menu_items;
 	
@@ -148,6 +149,7 @@ set_menu_sensitivity ()
 		++i;
 	}
 	bool const dcp_creation = (i != jobs.end ());
+	bool const have_dcp = !film->dcps().empty ();
 
 	for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
 
@@ -158,6 +160,10 @@ set_menu_sensitivity ()
 		}
 
 		if ((j->second & NOT_DURING_DCP_CREATION) && dcp_creation) {
+			enabled = false;
+		}
+
+		if ((j->second & NEEDS_DCP) && !have_dcp) {
 			enabled = false;
 		}
 		
@@ -206,9 +212,9 @@ setup_menu (wxMenuBar* m)
 
 	jobs_menu = new wxMenu;
 	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
-	add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM);
-	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION);
-	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+	add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM | NEEDS_DCP);
+	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
+	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
 
 	wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	
@@ -247,7 +253,6 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),        ID_jobs_show_dcp);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),           wxID_ABOUT);
 
-		Bind (wxEVT_MENU_OPEN, boost::bind (&Frame::menu_opened, this, _1));
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
 		/* Use a panel as the only child of the Frame so that we avoid
@@ -283,17 +288,6 @@ public:
 	}
 
 private:
-
-	void menu_opened (wxMenuEvent& ev)
-	{
-		if (ev.GetMenu() != jobs_menu) {
-			return;
-		}
-
-		bool const have_dcp = false;//film && film->have_dcp();
-		jobs_menu->Enable (ID_jobs_send_dcp_to_tms, have_dcp);
-		jobs_menu->Enable (ID_jobs_show_dcp, have_dcp);
-	}
 
 	void set_film ()
 	{
@@ -421,7 +415,7 @@ private:
 			return;
 		}
 		
-		KDMDialog* d = new KDMDialog (this);
+		KDMDialog* d = new KDMDialog (this, film);
 		if (d->ShowModal () != wxID_OK) {
 			d->Destroy ();
 			return;
@@ -429,9 +423,9 @@ private:
 
 		try {
 			if (d->write_to ()) {
-				write_kdm_files (film, d->screens (), d->from (), d->until (), d->directory ());
+				write_kdm_files (film, d->screens (), d->dcp (), d->from (), d->until (), d->directory ());
 			} else {
-				email_kdms (film, d->screens (), d->from (), d->until ());
+				email_kdms (film, d->screens (), d->dcp (), d->from (), d->until ());
 			}
 		} catch (KDMError& e) {
 			error_dialog (this, e.what ());

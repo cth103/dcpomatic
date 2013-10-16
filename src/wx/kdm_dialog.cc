@@ -21,8 +21,10 @@
 #include <wx/datectrl.h>
 #include <wx/timectrl.h>
 #include <wx/stdpaths.h>
+#include <wx/listctrl.h>
 #include "lib/cinema.h"
 #include "lib/config.h"
+#include "lib/film.h"
 #include "kdm_dialog.h"
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
@@ -37,10 +39,11 @@ using std::string;
 using std::map;
 using std::list;
 using std::pair;
+using std::cout;
 using std::make_pair;
 using boost::shared_ptr;
 
-KDMDialog::KDMDialog (wxWindow* parent)
+KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
 {
 	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
@@ -91,6 +94,31 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	_until_time = new wxTimePickerCtrl (this, wxID_ANY);
 	table->Add (_until_time, 1, wxEXPAND);
 
+	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
+
+	_dcps = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+	wxListItem ip;
+	ip.SetId (0);
+	ip.SetText (_("DCP"));
+	ip.SetWidth (400);
+	_dcps->InsertColumn (0, ip);
+	vertical->Add (_dcps, 0, wxEXPAND | wxALL, 6);
+	
+	list<boost::filesystem::path> dcps = film->dcps ();
+	for (list<boost::filesystem::path>::const_iterator i = dcps.begin(); i != dcps.end(); ++i) {
+		wxListItem item;
+		int const n = _dcps->GetItemCount ();
+		item.SetId (n);
+		_dcps->InsertItem (item);
+		_dcps->SetItem (n, 0, std_to_wx (i->string ()));
+
+		if (dcps.size() == 1 || i->string() == film->dcp_name ()) {
+			_dcps->SetItemState (n, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+		}
+	}
+	
+	table = new wxFlexGridSizer (3, 2, 6);
+
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
 
@@ -125,6 +153,9 @@ KDMDialog::KDMDialog (wxWindow* parent)
 	_add_screen->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::add_screen_clicked, this));
 	_edit_screen->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::edit_screen_clicked, this));
 	_remove_screen->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::remove_screen_clicked, this));
+
+	_dcps->Bind          (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&KDMDialog::setup_sensitivity, this));
+	_dcps->Bind          (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	_write_to->Bind      (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
 	_email->Bind         (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
@@ -175,6 +206,7 @@ KDMDialog::setup_sensitivity ()
 {
 	bool const sc = selected_cinemas().size() == 1;
 	bool const ss = selected_screens().size() == 1;
+	bool const sd = _dcps->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1;
 	
 	_edit_cinema->Enable (sc);
 	_remove_cinema->Enable (sc);
@@ -184,7 +216,7 @@ KDMDialog::setup_sensitivity ()
 	_remove_screen->Enable (ss);
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
-	ok->Enable (sc || ss);
+	ok->Enable ((sc || ss) && sd);
 
 	_folder->Enable (_write_to->GetValue ());
 }
@@ -382,7 +414,15 @@ KDMDialog::until () const
 	return posix_time (_until_date, _until_time);
 }
 
-string
+boost::filesystem::path
+KDMDialog::dcp () const
+{
+	int const item = _dcps->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	assert (item >= 0);
+	return wx_to_std (_dcps->GetItemText (item));
+}
+
+boost::filesystem::path
 KDMDialog::directory () const
 {
 	return wx_to_std (_folder->GetPath ());

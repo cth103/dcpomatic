@@ -98,9 +98,15 @@ operator== (ScreenKDM const & a, ScreenKDM const & b)
 }
 
 static list<ScreenKDM>
-make_screen_kdms (shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boost::posix_time::ptime from, boost::posix_time::ptime to)
+make_screen_kdms (
+	shared_ptr<Film> film,
+	list<shared_ptr<Screen> > screens,
+	boost::filesystem::path dcp,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime to
+	)
 {
-	list<libdcp::KDM> kdms = film->make_kdms (screens, from, to);
+	list<libdcp::KDM> kdms = film->make_kdms (screens, dcp, from, to);
 	   
 	list<ScreenKDM> screen_kdms;
 	
@@ -116,9 +122,15 @@ make_screen_kdms (shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boos
 }
 
 static list<CinemaKDMs>
-make_cinema_kdms (shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boost::posix_time::ptime from, boost::posix_time::ptime to)
+make_cinema_kdms (
+	shared_ptr<Film> film,
+	list<shared_ptr<Screen> > screens,
+	boost::filesystem::path dcp,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime to
+	)
 {
-	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, from, to);
+	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, dcp, from, to);
 	list<CinemaKDMs> cinema_kdms;
 
 	while (!screen_kdms.empty ()) {
@@ -153,10 +165,15 @@ make_cinema_kdms (shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boos
 
 void
 write_kdm_files (
-	shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boost::posix_time::ptime from, boost::posix_time::ptime to, boost::filesystem::path directory
+	shared_ptr<Film> film,
+	list<shared_ptr<Screen> > screens,
+	boost::filesystem::path dcp,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime to,
+	boost::filesystem::path directory
 	)
 {
-	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, from, to);
+	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, dcp, from, to);
 
 	/* Write KDMs to the specified directory */
 	for (list<ScreenKDM>::iterator i = screen_kdms.begin(); i != screen_kdms.end(); ++i) {
@@ -168,10 +185,15 @@ write_kdm_files (
 
 void
 write_kdm_zip_files (
-	shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boost::posix_time::ptime from, boost::posix_time::ptime to, boost::filesystem::path directory
+	shared_ptr<Film> film,
+	list<shared_ptr<Screen> > screens,
+	boost::filesystem::path dcp,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime to,
+	boost::filesystem::path directory
 	)
 {
-	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, from, to);
+	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, dcp, from, to);
 
 	for (list<CinemaKDMs>::const_iterator i = cinema_kdms.begin(); i != cinema_kdms.end(); ++i) {
 		boost::filesystem::path path = directory;
@@ -181,9 +203,15 @@ write_kdm_zip_files (
 }
 
 void
-email_kdms (shared_ptr<Film> film, list<shared_ptr<Screen> > screens, boost::posix_time::ptime from, boost::posix_time::ptime to)
+email_kdms (
+	shared_ptr<Film> film,
+	list<shared_ptr<Screen> > screens,
+	boost::filesystem::path dcp,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime to
+	)
 {
-	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, from, to);
+	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, dcp, from, to);
 
 	for (list<CinemaKDMs>::const_iterator i = cinema_kdms.begin(); i != cinema_kdms.end(); ++i) {
 		

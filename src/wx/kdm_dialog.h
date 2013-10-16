@@ -36,12 +36,13 @@ class Screen;
 class KDMDialog : public wxDialog
 {
 public:
-	KDMDialog (wxWindow *);
+	KDMDialog (wxWindow *, boost::shared_ptr<const Film>);
 
 	std::list<boost::shared_ptr<Screen> > screens () const;
 	boost::posix_time::ptime from () const;
 	boost::posix_time::ptime until () const;
-	std::string directory () const;
+	boost::filesystem::path dcp () const;
+	boost::filesystem::path directory () const;
 	bool write_to () const;
 
 private:
@@ -70,6 +71,7 @@ private:
 	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
 	wxTimePickerCtrl* _until_time;
+	wxListCtrl* _dcps;
 	wxRadioButton* _write_to;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;

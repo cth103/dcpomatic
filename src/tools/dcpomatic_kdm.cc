@@ -218,6 +218,16 @@ int main (int argc, char* argv[])
 		cout << "Making KDMs valid from " << valid_from.get() << " to " << valid_to.get() << "\n";
 	}
 
+	/* XXX: allow specification of this */
+	list<boost::filesystem::path> dcps = film->dcps ();
+	if (dcps.empty ()) {
+		error ("no DCPs found in film");
+	} else if (dcps.size() > 1) {
+		error ("more than one DCP found in film");
+	}
+
+	boost::filesystem::path dcp = dcps.front ();
+
 	if (cinema_name.empty ()) {
 
 		if (output.empty ()) {
@@ -225,7 +235,7 @@ int main (int argc, char* argv[])
 		}
 		
 		shared_ptr<libdcp::Certificate> certificate (new libdcp::Certificate (boost::filesystem::path (certificate_file)));
-		libdcp::KDM kdm = film->make_kdm (certificate, valid_from.get(), valid_to.get());
+		libdcp::KDM kdm = film->make_kdm (certificate, dcp, valid_from.get(), valid_to.get());
 		kdm.as_xml (output);
 		if (verbose) {
 			cout << "Generated KDM " << output << " for certificate.\n";
@@ -249,12 +259,12 @@ int main (int argc, char* argv[])
 
 		try {
 			if (zip) {
-				write_kdm_zip_files (film, (*i)->screens(), valid_from.get(), valid_to.get(), output);
+				write_kdm_zip_files (film, (*i)->screens(), dcp, valid_from.get(), valid_to.get(), output);
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				write_kdm_files (film, (*i)->screens(), valid_from.get(), valid_to.get(), output);
+				write_kdm_files (film, (*i)->screens(), dcp, valid_from.get(), valid_to.get(), output);
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";
 				}

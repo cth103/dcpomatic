@@ -724,22 +724,30 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	return file (p.string ());
 }
 
-/** Make an educated guess as to whether we have a complete DCP
- *  or not.
- *  @return true if we do.
- */
-
-bool
-Film::have_dcp () const
+/** @return List of subdirectories (not full paths) containing DCPs that can be successfully libdcp::DCP::read() */
+list<boost::filesystem::path>
+Film::dcps () const
 {
-	try {
-		libdcp::DCP dcp (dir (dcp_name()));
-		dcp.read ();
-	} catch (...) {
-		return false;
-	}
+	list<boost::filesystem::path> out;
+	
+	boost::filesystem::path const dir = directory ();
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
+		if (
+			boost::filesystem::is_directory (*i) &&
+			i->path().leaf() != "j2c" && i->path().leaf() != "video" && i->path().leaf() != "info" && i->path().leaf() != "analysis"
+			) {
 
-	return true;
+			try {
+				libdcp::DCP dcp (*i);
+				dcp.read ();
+				out.push_back (i->path().leaf ());
+			} catch (...) {
+
+			}
+		}
+	}
+	
+	return out;
 }
 
 shared_ptr<Player>
@@ -910,32 +918,14 @@ Film::full_frame () const
 libdcp::KDM
 Film::make_kdm (
 	shared_ptr<libdcp::Certificate> target,
+	boost::filesystem::path dcp_dir,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until
 	) const
 {
 	shared_ptr<const Signer> signer = make_signer ();
 
-	/* Find the DCP to make the KDM for */
-	boost::filesystem::path const dir = this->directory ();
-	list<boost::filesystem::path> dcps;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
-		if (
-			boost::filesystem::is_directory (*i) &&
-			i->path().leaf() != "j2c" && i->path().leaf() != "video" && i->path().leaf() != "info" && i->path().leaf() != "analysis"
-			) {
-			
-			dcps.push_back (i->path());
-		}
-	}
-
-	if (dcps.empty()) {
-		throw KDMError (_("Could not find DCP to make KDM for"));
-	} else if (dcps.size() > 1) {
-		throw KDMError (_("More than one possible DCP to make KDM for"));
-	}
-
-	libdcp::DCP dcp (dcps.front ());
+	libdcp::DCP dcp (dir (dcp_dir.string ()));
 	
 	try {
 		dcp.read ();
@@ -955,6 +945,7 @@ Film::make_kdm (
 list<libdcp::KDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
+	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until
 	) const
@@ -962,7 +953,7 @@ Film::make_kdms (
 	list<libdcp::KDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		kdms.push_back (make_kdm ((*i)->certificate, from, until));
+		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until));
 	}
 
 	return kdms;
