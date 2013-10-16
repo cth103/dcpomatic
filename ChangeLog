@@ -1,5 +1,9 @@
 2013-10-16  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.17 released.
+
+2013-10-16  Carl Hetherington  <cth@carlh.net>
+
 	* Hopefully fix crash on closing preferences window
 	when ~/.config/dcpomatic does not exist.
 
