@@ -148,7 +148,7 @@ set_menu_sensitivity ()
 	while (i != jobs.end() && dynamic_pointer_cast<TranscodeJob> (*i) == 0) {
 		++i;
 	}
-	bool const dcp_creation = (i != jobs.end ());
+	bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
 	bool const have_dcp = film && !film->dcps().empty ();
 
 	for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
