@@ -149,7 +149,7 @@ set_menu_sensitivity ()
 		++i;
 	}
 	bool const dcp_creation = (i != jobs.end ());
-	bool const have_dcp = !film->dcps().empty ();
+	bool const have_dcp = film && !film->dcps().empty ();
 
 	for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
 

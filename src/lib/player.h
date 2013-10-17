@@ -59,7 +59,7 @@ public:
 
 	void set_video_container_size (libdcp::Size);
 
-	void repeat_last_video ();
+	bool repeat_last_video ();
 
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.

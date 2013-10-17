@@ -616,12 +616,14 @@ Player::update_subtitle ()
 	_out_subtitle.to = _in_subtitle.to + piece->content->position ();
 }
 
-/** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles */
-void
+/** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.
+ *  @return false if this could not be done.
+ */
+bool
 Player::repeat_last_video ()
 {
 	if (!_last_process_video.image) {
-		return;
+		return false;
 	}
 
 	process_video (
@@ -631,4 +633,6 @@ Player::repeat_last_video ()
 		_last_process_video.same,
 		_last_process_video.frame
 		);
+
+	return true;
 }

@@ -150,7 +150,10 @@ FilmViewer::fetch_current_frame_again ()
 	*/
 
 	_got_frame = false;
-	_player->repeat_last_video ();
+	if (!_player->repeat_last_video ()) {
+		fetch_next_frame ();
+	}
+	
 	_panel->Refresh ();
 	_panel->Update ();
 }
