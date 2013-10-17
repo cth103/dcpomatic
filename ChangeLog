@@ -1,5 +1,7 @@
 2013-10-17  Carl Hetherington  <cth@carlh.net>
 
+	* Fix Make DCP menu option sensitivity (#230).
+
 	* Forward-port fix from master; use 1000000 rather
 	than 1e6 for J2K bandwidth arithmetic to ensure
 	that it's done with integers.
