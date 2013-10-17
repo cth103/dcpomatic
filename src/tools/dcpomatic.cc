@@ -442,7 +442,7 @@ private:
 	void jobs_show_dcp ()
 	{
 #ifdef __WXMSW__
-		string d = film->directory();
+		string d = film->directory().string ();
 		wstring w;
 		w.assign (d.begin(), d.end());
 		ShellExecute (0, L"open", w.c_str(), 0, 0, SW_SHOWDEFAULT);
