@@ -315,7 +315,7 @@ FilmEditor::j2k_bandwidth_changed ()
 		return;
 	}
 	
-	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1e6);
+	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
 }
 
 void
@@ -423,7 +423,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	case Film::J2K_BANDWIDTH:
-		checked_set (_j2k_bandwidth, double (_film->j2k_bandwidth()) / 1e6);
+		checked_set (_j2k_bandwidth, double (_film->j2k_bandwidth()) / 1000000);
 		break;
 	case Film::USE_DCI_NAME:
 		checked_set (_use_dci_name, _film->use_dci_name ());

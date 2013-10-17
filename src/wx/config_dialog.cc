@@ -224,7 +224,7 @@ ConfigDialog::make_misc_panel ()
 	_default_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ConfigDialog::default_dcp_content_type_changed, this));
 
 	_default_j2k_bandwidth->SetRange (50, 250);
-	_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1e6);
+	_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1000000);
 	_default_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_j2k_bandwidth_changed, this));
 }
 
@@ -445,7 +445,7 @@ ConfigDialog::creator_changed ()
 void
 ConfigDialog::default_j2k_bandwidth_changed ()
 {
-	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1e6);
+	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1000000);
 }
 
 static std::string
