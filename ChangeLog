@@ -1,3 +1,7 @@
+2013-10-18  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug with incorrect validity times given to KDMs.
+
 2013-10-17  Carl Hetherington  <cth@carlh.net>
 
 	* Fix Make DCP menu option sensitivity (#230).
