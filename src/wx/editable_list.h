@@ -138,6 +138,8 @@ private:
 		for (int i = 0; i < _columns; ++i) {
 			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));
 		}
+
+		_set (all);
 	}
 
 	void remove_clicked ()

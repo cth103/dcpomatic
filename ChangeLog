@@ -1,5 +1,7 @@
 2013-10-19  Carl Hetherington  <cth@carlh.net>
 
+	* Fix non-saving of colour transform presets.
+
 	* Some improvements in progress reporting, especially
 	for long encodes.
 
