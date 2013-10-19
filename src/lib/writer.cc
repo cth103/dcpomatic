@@ -137,7 +137,7 @@ Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
-	ifstream ifi (_film->info_path (frame, eyes).c_str());
+	ifstream ifi (_film->info_path (frame, eyes).string().c_str());
 	libdcp::FrameInfo info (ifi);
 	
 	QueueItem qi;
@@ -421,7 +421,7 @@ bool
 Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 {
 	/* Read the frame info as written */
-	ifstream ifi (_film->info_path (f, eyes).c_str());
+	ifstream ifi (_film->info_path (f, eyes).string().c_str());
 	libdcp::FrameInfo info (ifi);
 	if (info.size == 0) {
 		_film->log()->log (String::compose ("Existing frame %1 has no info file", f));
