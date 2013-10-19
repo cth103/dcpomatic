@@ -29,6 +29,7 @@ using std::vector;
 AboutDialog::AboutDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("About DCP-o-matic"))
 {
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	
 	wxFont title_font (*wxNORMAL_FONT);
@@ -124,8 +125,15 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	add_section (_("Supported by"), supported_by);
 
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
+
+	overall_sizer->Add (sizer);
+
+	wxSizer* buttons = CreateButtonSizer (wxOK);
+	if (buttons) {
+		overall_sizer->Add (buttons, 1, wxEXPAND | wxALL, 4);
+	}
 	
-	SetSizerAndFit (sizer);
+	SetSizerAndFit (overall_sizer);
 }
 
 void
