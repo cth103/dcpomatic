@@ -150,7 +150,7 @@ SCPDCPJob::run ()
 		throw NetworkError (String::compose (_("Could not create remote directory %1 (%2)"), _film->dcp_name(), ssh_get_error (ss.session)));
 	}
 	
-	string const dcp_dir = _film->dir (_film->dcp_name());
+	boost::filesystem::path const dcp_dir = _film->dir (_film->dcp_name());
 	
 	boost::uintmax_t bytes_to_transfer = 0;
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {

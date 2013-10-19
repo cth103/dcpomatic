@@ -58,15 +58,15 @@ class Film : public boost::enable_shared_from_this<Film>, public boost::noncopya
 public:
 	Film (boost::filesystem::path);
 
-	std::string info_dir () const;
-	std::string j2c_path (int, Eyes, bool) const;
-	std::string info_path (int, Eyes) const;
-	std::string internal_video_mxf_dir () const;
-	std::string internal_video_mxf_filename () const;
+	boost::filesystem::path info_dir () const;
+	boost::filesystem::path j2c_path (int, Eyes, bool) const;
+	boost::filesystem::path info_path (int, Eyes) const;
+	boost::filesystem::path internal_video_mxf_dir () const;
+	boost::filesystem::path internal_video_mxf_filename () const;
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const AudioContent>) const;
 
-	std::string video_mxf_filename () const;
-	std::string audio_mxf_filename () const;
+	boost::filesystem::path video_mxf_filename () const;
+	boost::filesystem::path audio_mxf_filename () const;
 
 	void send_dcp_to_tms ();
 	void make_dcp ();
@@ -80,8 +80,8 @@ public:
 
 	int encoded_frames () const;
 	
-	std::string file (std::string f) const;
-	std::string dir (std::string d) const;
+	boost::filesystem::path file (boost::filesystem::path f) const;
+	boost::filesystem::path dir (boost::filesystem::path d) const;
 
 	void read_metadata ();
 	void write_metadata () const;

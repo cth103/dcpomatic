@@ -326,7 +326,7 @@ EncodedData::EncodedData (int s)
 
 }
 
-EncodedData::EncodedData (string file)
+EncodedData::EncodedData (boost::filesystem::path file)
 {
 	_size = boost::filesystem::file_size (file);
 	_data = new uint8_t[_size];
@@ -358,7 +358,7 @@ EncodedData::~EncodedData ()
 void
 EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 {
-	string const tmp_j2c = film->j2c_path (frame, eyes, true);
+	boost::filesystem::path const tmp_j2c = film->j2c_path (frame, eyes, true);
 
 	FILE* f = fopen (tmp_j2c.c_str (), N_("wb"));
 	
@@ -369,7 +369,7 @@ EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 	fwrite (_data, 1, _size, f);
 	fclose (f);
 
-	string const real_j2c = film->j2c_path (frame, eyes, false);
+	boost::filesystem::path const real_j2c = film->j2c_path (frame, eyes, false);
 
 	/* Rename the file from foo.j2c.tmp to foo.j2c now that it is complete */
 	boost::filesystem::rename (tmp_j2c, real_j2c);
@@ -378,7 +378,7 @@ EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 void
 EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, libdcp::FrameInfo fin) const
 {
-	string const info = film->info_path (frame, eyes);
+	boost::filesystem::path const info = film->info_path (frame, eyes);
 	ofstream h (info.c_str());
 	fin.write (h);
 }

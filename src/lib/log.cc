@@ -93,7 +93,7 @@ Log::set_level (string l)
 }
 
 /** @param file Filename to write log to */
-FileLog::FileLog (string file)
+FileLog::FileLog (boost::filesystem::path file)
 	: _file (file)
 {
 

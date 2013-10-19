@@ -43,7 +43,7 @@ public:
 	/** @param s Size of data, in bytes */
 	EncodedData (int s);
 
-	EncodedData (std::string f);
+	EncodedData (boost::filesystem::path);
 
 	virtual ~EncodedData ();
 

@@ -165,34 +165,34 @@ Film::video_identifier () const
 }
 	  
 /** @return The path to the directory to write video frame info files to */
-string
+boost::filesystem::path
 Film::info_dir () const
 {
 	boost::filesystem::path p;
 	p /= "info";
 	p /= video_identifier ();
-	return dir (p.string());
+	return dir (p);
 }
 
-string
+boost::filesystem::path
 Film::internal_video_mxf_dir () const
 {
 	return dir ("video");
 }
 
-string
+boost::filesystem::path
 Film::internal_video_mxf_filename () const
 {
 	return video_identifier() + ".mxf";
 }
 
-string
+boost::filesystem::path
 Film::video_mxf_filename () const
 {
 	return filename_safe_name() + "_video.mxf";
 }
 
-string
+boost::filesystem::path
 Film::audio_mxf_filename () const
 {
 	return filename_safe_name() + "_audio.mxf";
@@ -351,7 +351,7 @@ Film::write_metadata () const
 	root->add_child("Key")->add_child_text (_key.hex ());
 	_playlist->as_xml (root->add_child ("Playlist"));
 
-	doc.write_to_file_formatted (file ("metadata.xml"));
+	doc.write_to_file_formatted (file("metadata.xml").string ());
 	
 	_dirty = false;
 }
@@ -407,8 +407,8 @@ Film::read_metadata ()
 /** Given a directory name, return its full path within the Film's directory.
  *  The directory (and its parents) will be created if they do not exist.
  */
-string
-Film::dir (string d) const
+boost::filesystem::path
+Film::dir (boost::filesystem::path d) const
 {
 	boost::filesystem::path p;
 	p /= _directory;
@@ -416,14 +416,14 @@ Film::dir (string d) const
 	
 	boost::filesystem::create_directories (p);
 	
-	return p.string ();
+	return p;
 }
 
 /** Given a file or directory name, return its full path within the Film's directory.
  *  Any required parent directories will be created.
  */
-string
-Film::file (string f) const
+boost::filesystem::path
+Film::file (boost::filesystem::path f) const
 {
 	boost::filesystem::path p;
 	p /= _directory;
@@ -431,7 +431,7 @@ Film::file (string f) const
 
 	boost::filesystem::create_directories (p.parent_path ());
 	
-	return p.string ();
+	return p;
 }
 
 /** @return a DCI-compliant name for a DCP of this film */
@@ -671,7 +671,7 @@ Film::set_dci_date_today ()
 	_dci_date = boost::gregorian::day_clock::local_day ();
 }
 
-string
+boost::filesystem::path
 Film::info_path (int f, Eyes e) const
 {
 	boost::filesystem::path p;
@@ -694,10 +694,10 @@ Film::info_path (int f, Eyes e) const
 	/* info_dir() will already have added any initial bit of the path,
 	   so don't call file() on this.
 	*/
-	return p.string ();
+	return p;
 }
 
-string
+boost::filesystem::path
 Film::j2c_path (int f, Eyes e, bool t) const
 {
 	boost::filesystem::path p;
@@ -721,7 +721,7 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	}
 
 	p /= s.str();
-	return file (p.string ());
+	return file (p);
 }
 
 /** @return List of subdirectories (not full paths) containing DCPs that can be successfully libdcp::DCP::read() */

@@ -26,6 +26,7 @@
 
 #include <string>
 #include <boost/thread/mutex.hpp>
+#include <boost/filesystem.hpp>
 
 /** @class Log
  *  @brief A very simple logging class.
@@ -62,12 +63,12 @@ private:
 class FileLog : public Log
 {
 public:
-	FileLog (std::string file);
+	FileLog (boost::filesystem::path file);
 
 private:
 	void do_log (std::string m);
 	/** filename to write to */
-	std::string _file;
+	boost::filesystem::path _file;
 };
 
 #endif
