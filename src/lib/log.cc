@@ -102,7 +102,7 @@ FileLog::FileLog (boost::filesystem::path file)
 void
 FileLog::do_log (string m)
 {
-	ofstream f (_file.c_str(), fstream::app);
+	ofstream f (_file.string().c_str(), fstream::app);
 	f << m << N_("\n");
 }
 
