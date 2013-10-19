@@ -64,14 +64,16 @@ public:
 
 	int elapsed_time () const;
 	virtual std::string status () const;
+	std::string sub_name () const {
+		return _sub_name;
+	}
 
 	void set_progress_unknown ();
 	void set_progress (float);
-	void ascend ();
-	void descend (float);
-	float overall_progress () const;
+	void sub (std::string);
+	float progress () const;
 	bool progress_unknown () const {
-		return _progress_unknown;
+		return !_progress;
 	}
 
 	boost::signals2::signal<void()> Progress;
@@ -111,25 +113,13 @@ private:
 	std::string _error_summary;
 	std::string _error_details;
 
-	/** time that this job was started */
+	/** time that this sub-job was started */
 	time_t _start_time;
+	std::string _sub_name;
 
-	/** mutex for _stack and _progress_unknown */
+	/** mutex for _progress */
 	mutable boost::mutex _progress_mutex;
-
-	struct Level {
-		Level (float a) : allocation (a), normalised (0) {}
-
-		float allocation;
-		float normalised;
-	};
-
-	std::list<Level> _stack;
-
-	/** true if this job's progress will always be unknown */
-	bool _progress_unknown;
-
-	float _last_set;
+	boost::optional<float> _progress;
 
 	int _ran_for;
 };

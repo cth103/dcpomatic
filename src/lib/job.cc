@@ -43,11 +43,10 @@ Job::Job (shared_ptr<const Film> f)
 	, _thread (0)
 	, _state (NEW)
 	, _start_time (0)
-	, _progress_unknown (false)
-	, _last_set (0)
+	, _progress (0)
 	, _ran_for (0)
 {
-	descend (1);
+
 }
 
 /** Start the job in a separate thread, returning immediately */
@@ -198,7 +197,7 @@ Job::set_state (State s)
 	}
 }
 
-/** @return Time (in seconds) that this job has been running */
+/** @return Time (in seconds) that this sub-job has been running */
 int
 Job::elapsed_time () const
 {
@@ -215,16 +214,13 @@ Job::elapsed_time () const
 void
 Job::set_progress (float p)
 {
-	if (fabs (p - _last_set) < 0.01) {
+	if (fabs (p - progress()) < 0.01) {
 		/* Calm excessive progress reporting */
 		return;
 	}
 
-	_last_set = p;
-
 	boost::mutex::scoped_lock lm (_progress_mutex);
-	_progress_unknown = false;
-	_stack.back().normalised = p;
+	_progress = p;
 	boost::this_thread::interruption_point ();
 
 	if (paused ()) {
@@ -236,54 +232,23 @@ Job::set_progress (float p)
 	}
 }
 
-/** @return fractional overall progress, or -1 if not known */
+/** @return fractional progress of this sub-job, or -1 if not known */
 float
-Job::overall_progress () const
+Job::progress () const
 {
 	boost::mutex::scoped_lock lm (_progress_mutex);
-	if (_progress_unknown) {
-		return -1;
-	}
-
-	float overall = 0;
-	float factor = 1;
-	for (list<Level>::const_iterator i = _stack.begin(); i != _stack.end(); ++i) {
-		factor *= i->allocation;
-		overall += i->normalised * factor;
-	}
-
-	if (overall > 1) {
-		overall = 1;
-	}
-	
-	return overall;
+	return _progress.get_value_or (-1);
 }
 
-/** Ascend up one level in terms of progress reporting; see descend() */
 void
-Job::ascend ()
+Job::sub (string n)
 {
-	boost::mutex::scoped_lock lm (_progress_mutex);
+	{
+		boost::mutex::scoped_lock lm (_progress_mutex);
+		_sub_name = n;
+	}
 	
-	assert (!_stack.empty ());
-	float const a = _stack.back().allocation;
-	_stack.pop_back ();
-	_stack.back().normalised += a;
-}
-
-/** Descend down one level in terms of progress reporting; e.g. if
- *  there is a task which is split up into N subtasks, each of which
- *  report their progress from 0 to 100%, call descend() before executing
- *  each subtask, and ascend() afterwards to ensure that overall progress
- *  is reported correctly.
- *
- *  @param a Fraction (from 0 to 1) of the current task to allocate to the subtask.
- */
-void
-Job::descend (float a)
-{
-	boost::mutex::scoped_lock lm (_progress_mutex);
-	_stack.push_back (Level (a));
+	set_progress (0);
 }
 
 string
@@ -317,14 +282,14 @@ void
 Job::set_progress_unknown ()
 {
 	boost::mutex::scoped_lock lm (_progress_mutex);
-	_progress_unknown = true;
+	_progress.reset ();
 }
 
 /** @return Human-readable status of this job */
 string
 Job::status () const
 {
-	float const p = overall_progress ();
+	float const p = progress ();
 	int const t = elapsed_time ();
 	int const r = remaining_time ();
 
@@ -353,11 +318,11 @@ Job::status () const
 	return s.str ();
 }
 
-/** @return An estimate of the remaining time for this job, in seconds */
+/** @return An estimate of the remaining time for this sub-job, in seconds */
 int
 Job::remaining_time () const
 {
-	return elapsed_time() / overall_progress() - elapsed_time();
+	return elapsed_time() / progress() - elapsed_time();
 }
 
 void

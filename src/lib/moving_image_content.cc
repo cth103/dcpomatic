@@ -81,16 +81,14 @@ MovingImageContent::as_xml (xmlpp::Node* node) const
 void
 MovingImageContent::examine (shared_ptr<Job> job)
 {
-	job->descend (0.5);
+	job->sub (_("Computing digest"));
 	Content::examine (job);
-	job->ascend ();
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	
-	job->descend (0.5);
+
+	job->sub (_("Examining content"));
 	shared_ptr<MovingImageExaminer> examiner (new MovingImageExaminer (film, shared_from_this(), job));
-	job->ascend ();
 
 	take_from_video_examiner (examiner);
 

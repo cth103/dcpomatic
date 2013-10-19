@@ -91,8 +91,3 @@ Transcoder::video_frames_out () const
 	return _encoder->video_frames_out ();
 }
 
-Encoder::State
-Transcoder::state () const
-{
-	return _encoder->state ();
-}

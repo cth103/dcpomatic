@@ -65,9 +65,10 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 {
 	/* Remove any old DCP */
 	boost::filesystem::remove_all (_film->dir (_film->dcp_name ()));
-	
+
+	_job->sub (_("Checking existing image data"));
 	check_existing_picture_mxf ();
-	
+
 	/* Create our picture asset in a subdirectory, named according to those
 	   film's parameters which affect the video output.  We will hard-link
 	   it into the DCP later.
@@ -101,7 +102,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
-	_job->descend (0.9);
+	_job->sub (_("Encoding image data"));
 }
 
 void
@@ -381,17 +382,11 @@ Writer::finish ()
 							 )
 			       ));
 
-	/* Compute the digests for the assets now so that we can keep track of progress.
-	   We did _job->descend (0.9) in our constructor */
-	_job->ascend ();
-
-	_job->descend (0.1);
+	_job->sub (_("Computing image digest"));
 	_picture_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1));
-	_job->ascend ();
 
-	_job->descend (0.1);
+	_job->sub (_("Computing audio digest"));
 	_sound_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1));
-	_job->ascend ();
 
 	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
@@ -468,7 +463,14 @@ Writer::check_existing_picture_mxf ()
 		return;
 	}
 
+	int N = 0;
+	for (boost::filesystem::directory_iterator i (_film->info_dir ()); i != boost::filesystem::directory_iterator (); ++i) {
+		++N;
+	}
+
 	while (1) {
+
+		_job->set_progress (float (_first_nonexistant_frame) / N);
 
 		if (_film->three_d ()) {
 			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_LEFT)) {

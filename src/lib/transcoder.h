@@ -38,7 +38,6 @@ public:
 	void go ();
 
 	float current_encoding_rate () const;
-	Encoder::State state () const;
 	int video_frames_out () const;
 
 private:

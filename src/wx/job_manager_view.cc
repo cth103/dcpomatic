@@ -46,8 +46,9 @@ public:
 	{
 		int n = 0;
 		
-		wxStaticText* m = new wxStaticText (panel, wxID_ANY, std_to_wx (_job->name ()));
-		table->Insert (n, m, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+		_name = new wxStaticText (panel, wxID_ANY, "");
+		_name->SetLabelMarkup ("<b>" + _job->name () + "</b>");
+		table->Insert (n, _name, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 		++n;
 	
 		_gauge = new wxGauge (panel, wxID_ANY, 100);
@@ -96,9 +97,14 @@ private:
 
 	void progress ()
 	{
-		float const p = _job->overall_progress ();
+		float const p = _job->progress ();
 		if (p >= 0) {
 			checked_set (_message, _job->status ());
+			string const n = "<b>" + _job->name () + "</b>\n" + _job->sub_name ();
+			if (n != _last_name) {
+				_name->SetLabelMarkup (std_to_wx (n));
+				_last_name = n;
+			}
 			_gauge->SetValue (p * 100);
 		}
 
@@ -149,11 +155,13 @@ private:
 	wxScrolledWindow* _window;
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
+	wxStaticText* _name;
 	wxGauge* _gauge;
 	wxStaticText* _message;
 	wxButton* _cancel;
 	wxButton* _pause;
 	wxButton* _details;
+	std::string _last_name;
 };
 
 /** Must be called in the GUI thread */

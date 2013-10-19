@@ -52,7 +52,6 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _film (f)
 	, _job (j)
 	, _video_frames_out (0)
-	, _state (TRANSCODING)
 	, _terminate (false)
 {
 	_have_a_real_frame[EYES_BOTH] = false;
@@ -124,11 +123,6 @@ Encoder::process_end ()
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
 		}
-	}
-
-	{
-		boost::mutex::scoped_lock lm (_state_mutex);
-		_state = HASHING;
 	}
 		
 	_writer->finish ();
