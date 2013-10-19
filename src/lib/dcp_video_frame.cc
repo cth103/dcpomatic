@@ -331,7 +331,7 @@ EncodedData::EncodedData (boost::filesystem::path file)
 	_size = boost::filesystem::file_size (file);
 	_data = new uint8_t[_size];
 
-	FILE* f = fopen (file.c_str(), N_("rb"));
+	FILE* f = fopen (file.string().c_str(), N_("rb"));
 	if (!f) {
 		throw FileError (_("could not open file for reading"), file);
 	}
@@ -360,7 +360,7 @@ EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 {
 	boost::filesystem::path const tmp_j2c = film->j2c_path (frame, eyes, true);
 
-	FILE* f = fopen (tmp_j2c.c_str (), N_("wb"));
+	FILE* f = fopen (tmp_j2c.string().c_str (), N_("wb"));
 	
 	if (!f) {
 		throw WriteFileError (tmp_j2c, errno);
@@ -379,7 +379,7 @@ void
 EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, libdcp::FrameInfo fin) const
 {
 	boost::filesystem::path const info = film->info_path (frame, eyes);
-	ofstream h (info.c_str());
+	ofstream h (info.string().c_str());
 	fin.write (h);
 }
 
