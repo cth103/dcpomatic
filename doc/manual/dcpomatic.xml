@@ -1567,5 +1567,36 @@ to the cinema which is showing your DCP.
 
 </chapter>
 
+<chapter>
+<title>Loose ends</title>
+
+<para>
+This chapter collects a few notes on bits of DCP-o-matic that do not fit elsewhere in the manual.
+</para>
+
+<section>
+<title>Resuming encodes</title>
+
+<para>
+If you cancel a DCP encoding run half-way through, or your computer
+crashes... fear not.  DCP-o-matic takes care to ensure that, in most
+cases, it can resume encoding from where it left off.  When you
+re-start a DCP creation, using the same settings are a previous run,
+DCP-o-matic will first check that the existing picture frames are
+correct, and then resume from where it left off.  The checking of
+existing frames does take some time, but it is much faster than
+running a full re-encode.
+</para>
+
+<para>
+This resumption is achieved by writing a digest (hash) to disk for
+every image frame that is written.  On resumption, the existing MXF
+file for image data is read and its contents checked against the
+hashes.
+</para>
+
+</section>
+
+</chapter>
 
 </book>
