@@ -1,3 +1,8 @@
+2013-10-20  Carl Hetherington  <cth@carlh.net>
+
+	* Allow specification of subtitle language even if DVD-o-matic
+	isn't providing the subtitles.
+
 2013-10-19  Carl Hetherington  <cth@carlh.net>
 
 	* Fix non-saving of colour transform presets.

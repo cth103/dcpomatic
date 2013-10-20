@@ -475,7 +475,7 @@ Film::dci_name (bool if_created_now) const
 
 	if (!dm.audio_language.empty ()) {
 		d << "_" << dm.audio_language;
-		if (!dm.subtitle_language.empty() && with_subtitles()) {
+		if (!dm.subtitle_language.empty()) {
 			d << "-" << dm.subtitle_language;
 		} else {
 			d << "-XX";
