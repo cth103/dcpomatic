@@ -744,7 +744,7 @@ audio_channel_name (int c)
 	assert (MAX_AUDIO_CHANNELS == 6);
 
 	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	   enhancement channel (sub-woofer)./
+	   enhancement channel (sub-woofer).
 	*/
 	string const channels[] = {
 		_("Left"),
@@ -760,24 +760,28 @@ audio_channel_name (int c)
 
 FrameRateConversion::FrameRateConversion (float source, int dcp)
 	: skip (false)
-	, repeat (false)
+	, repeat (1)
 	, change_speed (false)
 {
-	if (fabs (source / 2.0 - dcp) < (fabs (source - dcp))) {
+	if (source > (dcp * 2)) {
 		skip = true;
-	} else if (fabs (source * 2 - dcp) < fabs (source - dcp)) {
-		repeat = true;
+	}
+
+	if (source < dcp) {
+		repeat = floor (source / dcp);
 	}
 
 	change_speed = !about_equal (source * factor(), dcp);
 
-	if (!skip && !repeat && !change_speed) {
+	if (!skip && repeat == 1 && !change_speed) {
 		description = _("Content and DCP have the same rate.\n");
 	} else {
 		if (skip) {
 			description = _("DCP will use every other frame of the content.\n");
-		} else if (repeat) {
+		} else if (repeat == 2) {
 			description = _("Each content frame will be doubled in the DCP.\n");
+		} else if (repeat > 2) {
+			description = String::compose (_("Each content frame will be repeated %1 more times in the DCP.\n"), repeat - 1);
 		}
 
 		if (change_speed) {

@@ -88,17 +88,15 @@ struct FrameRateConversion
 	float factor () const {
 		if (skip) {
 			return 0.5;
-		} else if (repeat) {
-			return 2;
 		}
 
-		return 1;
+		return repeat;
 	}
 
 	/** true to skip every other frame */
 	bool skip;
-	/** true to repeat every frame once */
-	bool repeat;
+	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */
+	int repeat;
 	/** true if this DCP will run its video faster or slower than the source
 	 *  without taking into account `repeat' nor `skip'.
 	 *  (e.g. change_speed will be true if

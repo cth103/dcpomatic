@@ -247,11 +247,6 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	Video (work_image, eyes, content->colour_conversion(), same, time);
 	time += TIME_HZ / _film->video_frame_rate();
 
-	if (frc.repeat) {
-		Video (work_image, eyes, content->colour_conversion(), true, time);
-		time += TIME_HZ / _film->video_frame_rate();
-	}
-
 	_last_emit_was_black = false;
 
 	_video_position = piece->video_position = time;
