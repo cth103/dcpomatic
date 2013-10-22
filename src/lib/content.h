@@ -38,6 +38,7 @@ class Film;
 class ContentProperty
 {
 public:
+	static int const PATH;
 	static int const POSITION;
 	static int const LENGTH;
 	static int const TRIM_START;
@@ -61,11 +62,15 @@ public:
 	virtual std::string identifier () const;
 
 	boost::shared_ptr<Content> clone () const;
+
+	void set_path (boost::filesystem::path);
 	
 	boost::filesystem::path path () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _path;
 	}
+
+	bool path_valid () const;
 
 	/** @return MD5 digest of the content's file(s) */
 	std::string digest () const {

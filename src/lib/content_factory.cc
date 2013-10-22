@@ -22,6 +22,7 @@
 #include "still_image_content.h"
 #include "moving_image_content.h"
 #include "sndfile_content.h"
+#include "util.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -41,6 +42,22 @@ content_factory (shared_ptr<const Film> film, shared_ptr<cxml::Node> node)
 		content.reset (new MovingImageContent (film, node));
 	} else if (type == "Sndfile") {
 		content.reset (new SndfileContent (film, node));
+	}
+
+	return content;
+}
+
+shared_ptr<Content>
+content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
+{
+	shared_ptr<Content> content;
+		
+	if (valid_image_file (path)) {
+		content.reset (new StillImageContent (film, path));
+	} else if (SndfileContent::valid_file (path)) {
+		content.reset (new SndfileContent (film, path));
+	} else {
+		content.reset (new FFmpegContent (film, path));
 	}
 
 	return content;

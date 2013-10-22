@@ -36,13 +36,18 @@ public:
 	void popup (ContentList, wxPoint);
 
 private:
-	void repeat (wxCommandEvent &);
-	void remove (wxCommandEvent &);
+	void repeat ();
+	void find_missing ();
+	void remove ();
+	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 	
 	wxMenu* _menu;
 	boost::weak_ptr<Film> _film;
 	wxWindow* _parent;
 	ContentList _content;
+	wxMenuItem* _repeat;
+	wxMenuItem* _find_missing;
+	wxMenuItem* _remove;
 };
 
 #endif
