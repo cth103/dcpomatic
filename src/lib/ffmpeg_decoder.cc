@@ -61,7 +61,7 @@ using libdcp::Size;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio)
 	: Decoder (f)
 	, VideoDecoder (f, c)
-	, AudioDecoder (f)
+	, AudioDecoder (f, c)
 	, SubtitleDecoder (f)
 	, FFmpeg (c)
 	, _subtitle_codec_context (0)

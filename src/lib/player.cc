@@ -55,6 +55,8 @@ public:
 		: content (c)
 		, video_position (c->position ())
 		, audio_position (c->position ())
+		, repeat_to_do (0)
+		, repeat_done (0)
 	{}
 	
 	Piece (shared_ptr<Content> c, shared_ptr<Decoder> d)
@@ -63,11 +65,50 @@ public:
 		, video_position (c->position ())
 		, audio_position (c->position ())
 	{}
+
+	void set_repeat (IncomingVideo video, int num)
+	{
+		cout << "Set repeat " << num << "\n";
+		repeat_video = video;
+		repeat_to_do = num;
+		repeat_done = 0;
+	}
+
+	void reset_repeat ()
+	{
+		repeat_video.image.reset ();
+		repeat_to_do = 0;
+		repeat_done = 0;
+	}
+
+	bool repeating () const
+	{
+		return repeat_done != repeat_to_do;
+	}
+
+	void repeat (Player* player)
+	{
+		cout << "repeating; " << repeat_done << "\n";
+		player->process_video (
+			repeat_video.weak_piece,
+			repeat_video.image,
+			repeat_video.eyes,
+			repeat_video.same,
+			repeat_video.frame,
+			(repeat_done + 1) * (TIME_HZ / player->_film->video_frame_rate ())
+			);
+
+		++repeat_done;
+	}
 	
 	shared_ptr<Content> content;
 	shared_ptr<Decoder> decoder;
 	Time video_position;
 	Time audio_position;
+
+	IncomingVideo repeat_video;
+	int repeat_to_do;
+	int repeat_done;
 };
 
 Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
@@ -116,6 +157,7 @@ Player::pass ()
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 		if ((*i)->decoder->done ()) {
+			cout << "Scan: done.\n";
 			continue;
 		}
 
@@ -137,20 +179,31 @@ Player::pass ()
 	}
 
 	if (!earliest) {
+		cout << "No earliest: out.\n";
 		flush ();
 		return true;
 	}
 
+	cout << "Earliest: " << earliest_t << "\n";
+
 	switch (type) {
 	case VIDEO:
+		cout << "VIDEO.\n";
 		if (earliest_t > _video_position) {
 			emit_black ();
 		} else {
-			earliest->decoder->pass ();
+			if (earliest->repeating ()) {
+				cout << "-repeating.\n";
+				earliest->repeat (this);
+			} else {
+				cout << "-passing.\n";
+				earliest->decoder->pass ();
+			}
 		}
 		break;
 
 	case AUDIO:
+		cout << "SOUND.\n";
 		if (earliest_t > _audio_position) {
 			emit_silence (_film->time_to_audio_frames (earliest_t - _audio_position));
 		} else {
@@ -188,14 +241,16 @@ Player::pass ()
 }
 
 void
-Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame)
+Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, Time extra)
 {
+	cout << "PLAYER RECEIVES A VIDEO FRAME, extra " << extra << "\n";
+	
 	/* Keep a note of what came in so that we can repeat it if required */
-	_last_process_video.weak_piece = weak_piece;
-	_last_process_video.image = image;
-	_last_process_video.eyes = eyes;
-	_last_process_video.same = same;
-	_last_process_video.frame = frame;
+	_last_incoming_video.weak_piece = weak_piece;
+	_last_incoming_video.image = image;
+	_last_incoming_video.eyes = eyes;
+	_last_incoming_video.same = same;
+	_last_incoming_video.frame = frame;
 	
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	if (!piece) {
@@ -225,7 +280,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	
 	work_image = work_image->scale (image_size, _film->scaler(), PIX_FMT_RGB24, true);
 
-	Time time = content->position() + relative_time - content->trim_start ();
+	Time time = content->position() + relative_time + extra - content->trim_start ();
 	    
 	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
 		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position);
@@ -245,11 +300,16 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 #endif
 
 	Video (work_image, eyes, content->colour_conversion(), same, time);
+
 	time += TIME_HZ / _film->video_frame_rate();
-
 	_last_emit_was_black = false;
-
 	_video_position = piece->video_position = time;
+
+	cout << "frc.repeat=" << frc.repeat << "; vp now " << _video_position << "\n";
+
+	if (frc.repeat > 1 && !piece->repeating ()) {
+		piece->set_repeat (_last_incoming_video, frc.repeat - 1);
+	}
 }
 
 void
@@ -370,10 +430,12 @@ Player::seek (Time t, bool accurate)
 		*/
 		VideoContent::Frame f = (s + vc->trim_start ()) * _film->video_frame_rate() / (frc.factor() * TIME_HZ);
 		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
+
+		(*i)->reset_repeat ();
 	}
 
 	_video_position = _audio_position = t;
-	
+
 	/* XXX: don't seek audio because we don't need to... */
 }
 
@@ -397,7 +459,7 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
-			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4));
+			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4, 0));
 			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, piece, _1, _2, _3, _4));
 
@@ -418,7 +480,7 @@ Player::setup_pieces ()
 
 			if (!id) {
 				id.reset (new StillImageDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4));
+				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4, 0));
 			}
 
 			piece->decoder = id;
@@ -430,7 +492,7 @@ Player::setup_pieces ()
 
 			if (!md) {
 				md.reset (new MovingImageDecoder (_film, mc));
-				md->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4));
+				md->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4, 0));
 			}
 
 			piece->decoder = md;
@@ -617,16 +679,17 @@ Player::update_subtitle ()
 bool
 Player::repeat_last_video ()
 {
-	if (!_last_process_video.image) {
+	if (!_last_incoming_video.image) {
 		return false;
 	}
 
 	process_video (
-		_last_process_video.weak_piece,
-		_last_process_video.image,
-		_last_process_video.eyes,
-		_last_process_video.same,
-		_last_process_video.frame
+		_last_incoming_video.weak_piece,
+		_last_incoming_video.image,
+		_last_incoming_video.eyes,
+		_last_incoming_video.same,
+		_last_incoming_video.frame,
+		0
 		);
 
 	return true;

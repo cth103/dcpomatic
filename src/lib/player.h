@@ -41,6 +41,16 @@ class Resampler;
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
  */
+
+struct IncomingVideo
+{
+public:
+	boost::weak_ptr<Piece> weak_piece;
+	boost::shared_ptr<const Image> image;
+	Eyes eyes;
+	bool same;
+	VideoContent::Frame frame;
+};
  
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
@@ -83,8 +93,9 @@ public:
 
 private:
 	friend class PlayerWrapper;
+	friend class Piece;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame);
+	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, Time);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 	void setup_pieces ();
@@ -140,13 +151,7 @@ private:
 
 	bool _last_emit_was_black;
 
-	struct {
-		boost::weak_ptr<Piece> weak_piece;
-		boost::shared_ptr<const Image> image;
-		Eyes eyes;
-		bool same;
-		VideoContent::Frame frame;
-	} _last_process_video;
+	IncomingVideo _last_incoming_video;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;

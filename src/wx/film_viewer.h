@@ -89,6 +89,4 @@ private:
 	libdcp::Size _out_size;
 	/** Size of the panel that we have available */
 	libdcp::Size _panel_size;
-
-	std::list<std::pair<boost::shared_ptr<const Image>, Time> > _queue;
 };

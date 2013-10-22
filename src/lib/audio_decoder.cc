@@ -32,8 +32,9 @@ using std::cout;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<const Film> film)
+AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
 	: Decoder (film)
+	, _audio_content (content)
 	, _audio_position (0)
 {
 
@@ -44,4 +45,13 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame fr
 {
 	Audio (data, frame);
 	_audio_position = frame + data->frames ();
+}
+
+/** This is a bit odd, but necessary when we have (e.g.) FFmpegDecoders with no audio.
+ *  The player needs to know that there is no audio otherwise it will keep prompting the XXX
+ */
+bool
+AudioDecoder::has_audio () const
+{
+	return _audio_content->channels () > 0;
 }

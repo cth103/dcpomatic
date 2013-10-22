@@ -768,7 +768,7 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 	}
 
 	if (source < dcp) {
-		repeat = floor (source / dcp);
+		repeat = floor (dcp / source);
 	}
 
 	change_speed = !about_equal (source * factor(), dcp);

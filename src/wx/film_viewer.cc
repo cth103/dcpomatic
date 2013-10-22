@@ -120,8 +120,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_film = f;
 
 	_frame.reset ();
-	_queue.clear ();
-
+	
 	_slider->SetValue (0);
 	set_position_text (0);
 	
@@ -286,12 +285,6 @@ FilmViewer::process_video (shared_ptr<const Image> image, Eyes eyes, Time t)
 		return;
 	}
 	
-	if (_got_frame) {
-		/* This is an additional frame emitted by a single pass.  Store it. */
-		_queue.push_front (make_pair (image, t));
-		return;
-	}
-	
 	_frame = image;
 	_got_frame = true;
 
@@ -335,17 +328,12 @@ FilmViewer::fetch_next_frame ()
 
 	_got_frame = false;
 	
-	if (!_queue.empty ()) {
-		process_video (_queue.back().first, EYES_BOTH, _queue.back().second);
-		_queue.pop_back ();
-	} else {
-		try {
-			while (!_got_frame && !_player->pass ()) {}
-		} catch (DecodeError& e) {
-			_play_button->SetValue (false);
-			check_play_state ();
-			error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
-		}
+	try {
+		while (!_got_frame && !_player->pass ()) {}
+	} catch (DecodeError& e) {
+		_play_button->SetValue (false);
+		check_play_state ();
+		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
 	}
 
 	_panel->Refresh ();
