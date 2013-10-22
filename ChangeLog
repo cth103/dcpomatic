@@ -1,5 +1,9 @@
 2013-10-22  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.20 released.
+
+2013-10-22  Carl Hetherington  <cth@carlh.net>
+
 	* Allow films to be loaded when content is missing,
 	and then that content can be re-found.
 
