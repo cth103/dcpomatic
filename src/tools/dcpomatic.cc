@@ -501,21 +501,12 @@ private:
 	}	
 };
 
-#if wxMINOR_VERSION == 9
 static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_OPTION, "l", "log", "set log level (silent, verbose or timing)", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
-#else
-static const wxCmdLineEntryDesc command_line_description[] = {
-	{ wxCMD_LINE_OPTION, wxT("l"), wxT("log"), wxT("set log level (silent, verbose or timing)"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_SWITCH, wxT("n"), wxT("new"), wxT("create new film"), wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_PARAM, 0, 0, wxT("film to load or create"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_NONE, wxT(""), wxT(""), wxT(""), wxCmdLineParamType (0), 0 }
-};
-#endif
 
 class App : public wxApp
 {
