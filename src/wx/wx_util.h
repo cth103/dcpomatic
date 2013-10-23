@@ -85,9 +85,10 @@ extern void checked_set (wxRadioButton* widget, bool value);
 extern void checked_set (wxStaticText* widget, std::string value);
 
 /* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
+   This also seems to apply to 2.24.20 in Ubuntu 13.10
    Use our own dir picker as this is the least bad option I can think of.
 */
-#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && GTK_MICRO_VERSION == 17)
+#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && (GTK_MICRO_VERSION == 17 || GTK_MICRO_VERSION == 20))
 #define DCPOMATIC_USE_OWN_DIR_PICKER
 #endif
 
