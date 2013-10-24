@@ -844,6 +844,12 @@ Film::best_video_frame_rate () const
 	return _playlist->best_dcp_frame_rate ();
 }
 
+bool
+Film::content_paths_valid () const
+{
+	return _playlist->content_paths_valid ();
+}
+
 void
 Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {

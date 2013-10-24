@@ -44,6 +44,8 @@
 #include "lib/sound_processor.h"
 #include "lib/scaler.h"
 #include "lib/playlist.h"
+#include "lib/content.h"
+#include "lib/content_factory.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -490,6 +492,8 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 
 	if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_dcp_name ();
+	} else if (property == ContentProperty::PATH) {
+		setup_content ();
 	}
 }
 
@@ -705,9 +709,21 @@ FilmEditor::setup_content ()
 	ContentList content = _film->content ();
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
-		_content->InsertItem (t, std_to_wx ((*i)->summary ()));
+		bool const valid = (*i)->path_valid ();
+
+		string s = (*i)->summary ();
+		if (!valid) {
+			s = _("MISSING: ") + s;
+		}
+			
+		_content->InsertItem (t, std_to_wx (s));
+
 		if ((*i)->summary() == selected_summary) {
 			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+		}
+
+		if (!valid) {
+			_content->SetItemTextColour (t, *wxRED);
 		}
 	}
 
@@ -734,19 +750,7 @@ FilmEditor::content_add_file_clicked ()
 	/* XXX: check for lots of files here and do something */
 
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		boost::filesystem::path p (wx_to_std (paths[i]));
-
-		shared_ptr<Content> c;
-
-		if (valid_image_file (p)) {
-			c.reset (new StillImageContent (_film, p));
-		} else if (SndfileContent::valid_file (p)) {
-			c.reset (new SndfileContent (_film, p));
-		} else {
-			c.reset (new FFmpegContent (_film, p));
-		}
-
-		_film->examine_and_add_content (c);
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
 	}
 }
 
@@ -916,7 +920,9 @@ void
 FilmEditor::content_right_click (wxListEvent& ev)
 {
 	ContentList cl;
-	cl.push_back (selected_content ());
+	if (selected_content ()) {
+		cl.push_back (selected_content ());
+	}
 	_menu.popup (cl, ev.GetPoint ());
 }
 

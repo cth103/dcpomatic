@@ -31,10 +31,11 @@ using std::set;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-int const ContentProperty::POSITION = 400;
-int const ContentProperty::LENGTH = 401;
-int const ContentProperty::TRIM_START = 402;
-int const ContentProperty::TRIM_END = 403;
+int const ContentProperty::PATH = 400;
+int const ContentProperty::POSITION = 401;
+int const ContentProperty::LENGTH = 402;
+int const ContentProperty::TRIM_START = 403;
+int const ContentProperty::TRIM_END = 404;
 
 Content::Content (shared_ptr<const Film> f, Time p)
 	: _film (f)
@@ -191,3 +192,18 @@ Content::identifier () const
 
 	return s.str ();
 }
+
+bool
+Content::path_valid () const
+{
+	return boost::filesystem::exists (_path);
+}
+
+void
+Content::set_path (boost::filesystem::path path)
+{
+	_path = path;
+	signal_changed (ContentProperty::PATH);
+}
+
+	

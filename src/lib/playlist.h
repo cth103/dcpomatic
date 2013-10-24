@@ -80,6 +80,8 @@ public:
 
 	void repeat (ContentList, int);
 
+	bool content_paths_valid () const;
+
 	mutable boost::signals2::signal<void ()> Changed;
 	/** Third parameter is true if signals are currently being emitted frequently */
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> ContentChanged;

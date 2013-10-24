@@ -334,6 +334,10 @@ FilmViewer::fetch_next_frame ()
 		_play_button->SetValue (false);
 		check_play_state ();
 		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
+	} catch (OpenFileError& e) {
+		/* There was a problem opening a content file; we'll let this slide as it
+		   probably means a missing content file, which we're already taking care of.
+		*/
 	}
 
 	_panel->Refresh ();
