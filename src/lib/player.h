@@ -50,6 +50,7 @@ public:
 	Eyes eyes;
 	bool same;
 	VideoContent::Frame frame;
+	Time extra;
 };
  
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable

@@ -48,10 +48,11 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame fr
 }
 
 /** This is a bit odd, but necessary when we have (e.g.) FFmpegDecoders with no audio.
- *  The player needs to know that there is no audio otherwise it will keep prompting the XXX
+ *  The player needs to know that there is no audio otherwise it will keep trying to
+ *  pass() the decoder to get it to emit audio.
  */
 bool
 AudioDecoder::has_audio () const
 {
-	return _audio_content->channels () > 0;
+	return _audio_content->audio_channels () > 0;
 }

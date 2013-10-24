@@ -66,9 +66,9 @@ public:
 		, audio_position (c->position ())
 	{}
 
+	/** Set this piece to repeat a video frame a given number of times */
 	void set_repeat (IncomingVideo video, int num)
 	{
-		cout << "Set repeat " << num << "\n";
 		repeat_video = video;
 		repeat_to_do = num;
 		repeat_done = 0;
@@ -88,12 +88,11 @@ public:
 
 	void repeat (Player* player)
 	{
-		cout << "repeating; " << repeat_done << "\n";
 		player->process_video (
 			repeat_video.weak_piece,
 			repeat_video.image,
 			repeat_video.eyes,
-			repeat_video.same,
+			repeat_done > 0,
 			repeat_video.frame,
 			(repeat_done + 1) * (TIME_HZ / player->_film->video_frame_rate ())
 			);
@@ -157,11 +156,13 @@ Player::pass ()
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 		if ((*i)->decoder->done ()) {
-			cout << "Scan: done.\n";
 			continue;
 		}
 
-		if (_video && dynamic_pointer_cast<VideoDecoder> ((*i)->decoder)) {
+		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> ((*i)->decoder);
+		shared_ptr<AudioDecoder> ad = dynamic_pointer_cast<AudioDecoder> ((*i)->decoder);
+
+		if (_video && vd) {
 			if ((*i)->video_position < earliest_t) {
 				earliest_t = (*i)->video_position;
 				earliest = *i;
@@ -169,7 +170,7 @@ Player::pass ()
 			}
 		}
 
-		if (_audio && dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
+		if (_audio && ad && ad->has_audio ()) {
 			if ((*i)->audio_position < earliest_t) {
 				earliest_t = (*i)->audio_position;
 				earliest = *i;
@@ -179,31 +180,24 @@ Player::pass ()
 	}
 
 	if (!earliest) {
-		cout << "No earliest: out.\n";
 		flush ();
 		return true;
 	}
 
-	cout << "Earliest: " << earliest_t << "\n";
-
 	switch (type) {
 	case VIDEO:
-		cout << "VIDEO.\n";
 		if (earliest_t > _video_position) {
 			emit_black ();
 		} else {
 			if (earliest->repeating ()) {
-				cout << "-repeating.\n";
 				earliest->repeat (this);
 			} else {
-				cout << "-passing.\n";
 				earliest->decoder->pass ();
 			}
 		}
 		break;
 
 	case AUDIO:
-		cout << "SOUND.\n";
 		if (earliest_t > _audio_position) {
 			emit_silence (_film->time_to_audio_frames (earliest_t - _audio_position));
 		} else {
@@ -240,17 +234,17 @@ Player::pass ()
 	return false;
 }
 
+/** @param extra Amount of extra time to add to the content frame's time (for repeat) */
 void
 Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, Time extra)
 {
-	cout << "PLAYER RECEIVES A VIDEO FRAME, extra " << extra << "\n";
-	
 	/* Keep a note of what came in so that we can repeat it if required */
 	_last_incoming_video.weak_piece = weak_piece;
 	_last_incoming_video.image = image;
 	_last_incoming_video.eyes = eyes;
 	_last_incoming_video.same = same;
 	_last_incoming_video.frame = frame;
+	_last_incoming_video.extra = extra;
 	
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	if (!piece) {
@@ -304,8 +298,6 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	time += TIME_HZ / _film->video_frame_rate();
 	_last_emit_was_black = false;
 	_video_position = piece->video_position = time;
-
-	cout << "frc.repeat=" << frc.repeat << "; vp now " << _video_position << "\n";
 
 	if (frc.repeat > 1 && !piece->repeating ()) {
 		piece->set_repeat (_last_incoming_video, frc.repeat - 1);
@@ -693,7 +685,7 @@ Player::repeat_last_video ()
 		_last_incoming_video.eyes,
 		_last_incoming_video.same,
 		_last_incoming_video.frame,
-		0
+		_last_incoming_video.extra
 		);
 
 	return true;
