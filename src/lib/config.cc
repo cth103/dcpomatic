@@ -319,7 +319,9 @@ Config::write () const
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
+	std::cout << "dcpomatic: writing configuration to " << file(false).string() << "\n";
 	doc.write_to_file_formatted (file(false).string ());
+	std::cout << "dcpomatic: wrote configuration to " << file(false).string() << "\n";
 }
 
 boost::filesystem::path
