@@ -101,7 +101,11 @@ AudioDialog::set_content (shared_ptr<AudioContent> c)
 void
 AudioDialog::try_to_load_analysis ()
 {
-	if (!boost::filesystem::exists (_content->audio_analysis_path()) && IsShown ()) {
+	if (!IsShown ()) {
+		return;
+	}
+	
+	if (!boost::filesystem::exists (_content->audio_analysis_path())) {
 		_content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
 		return;
 	}
