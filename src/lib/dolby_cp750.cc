@@ -24,7 +24,7 @@
 using namespace std;
 
 DolbyCP750::DolbyCP750 ()
-	: SoundProcessor ("dolby_cp750", _("Dolby CP750"))
+	: SoundProcessor ("dolby_cp750", _("Dolby CP650 and CP750"))
 {
 
 }

@@ -780,9 +780,9 @@ your sound-rack fader.
 </para>
 
 <para>
-Current versions of DCP-o-matic only know about the Dolby CP750.  If
-you use a different sound processor, and know the gain curve of its
-volume control, <ulink url="mailto:cth@carlh.net">get in
+Current versions of DCP-o-matic only know about the Dolby CP650 and
+CP750.  If you use a different sound processor, and know the gain
+curve of its volume control, <ulink url="mailto:carl@dcpomatic.com">get in
 touch</ulink>.
 </para>
 
