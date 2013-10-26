@@ -42,6 +42,8 @@ using std::string;
 using std::ofstream;
 using std::list;
 using std::max;
+using std::exception;
+using std::cerr;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
@@ -257,10 +259,13 @@ Config::instance ()
 		_instance = new Config;
 		try {
 			_instance->read ();
-		} catch (...) {
+		} catch (exception& e) {
 			/* configuration load failed; never mind, just
 			   stick with the default.
 			*/
+			cerr << "dcpomatic: failed to load configuration (" << e.what() << "\n";
+		} catch (...) {
+			cerr << "dcpomatic: failed to load configuration\n";
 		}
 	}
 
