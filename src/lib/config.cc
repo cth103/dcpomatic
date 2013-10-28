@@ -33,6 +33,7 @@
 #include "sound_processor.h"
 #include "colour_conversion.h"
 #include "cinema.h"
+#include "util.h"
 
 #include "i18n.h"
 
@@ -79,6 +80,8 @@ Config::Config ()
 void
 Config::read ()
 {
+	LocaleGuard lg;
+	
 	if (!boost::filesystem::exists (file (false))) {
 		read_old_metadata ();
 		return;
@@ -263,7 +266,7 @@ Config::instance ()
 			/* configuration load failed; never mind, just
 			   stick with the default.
 			*/
-			cerr << "dcpomatic: failed to load configuration (" << e.what() << "\n";
+			cerr << "dcpomatic: failed to load configuration (" << e.what() << ")\n";
 		} catch (...) {
 			cerr << "dcpomatic: failed to load configuration\n";
 		}
@@ -276,6 +279,8 @@ Config::instance ()
 void
 Config::write () const
 {
+	LocaleGuard lg;
+	
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 

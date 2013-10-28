@@ -12,7 +12,7 @@ elif [ "$1" == "--callgrind" ]; then
     valgrind --tool="callgrind" build/src/tools/dcpomatic $*
 elif [ "$1" == "--i18n" ]; then
     shift
-    LANGUAGE=fr_FR.UTF8 LANG=fr_FR.UTF8 build/src/tools/dcpomatic "$*"
+    LANGUAGE=fr_FR.UTF8 LANG=fr_FR.UTF8 LC_ALL=fr_FR.UTF8 build/src/tools/dcpomatic "$*"
 else
     build/src/tools/dcpomatic $*
 fi
