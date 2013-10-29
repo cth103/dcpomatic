@@ -102,7 +102,9 @@ public:
 	
 	shared_ptr<Content> content;
 	shared_ptr<Decoder> decoder;
+	/** Time of the last video we emitted relative to the start of the DCP */
 	Time video_position;
+	/** Time of the last audio we emitted relative to the start of the DCP */
 	Time audio_position;
 
 	IncomingVideo repeat_video;
@@ -408,20 +410,19 @@ Player::seek (Time t, bool accurate)
 		if (!vc) {
 			continue;
 		}
-		
+
+		/* s is the offset of t from the start position of this content */
 		Time s = t - vc->position ();
 		s = max (static_cast<Time> (0), s);
 		s = min (vc->length_after_trim(), s);
 
+		/* Hence set the piece positions to the `global' time */
 		(*i)->video_position = (*i)->audio_position = vc->position() + s;
 
-		FrameRateConversion frc (vc->video_frame_rate(), _film->video_frame_rate());
-		/* Here we are converting from time (in the DCP) to a frame number in the content.
-		   Hence we need to use the DCP's frame rate and the double/skip correction, not
-		   the source's rate.
-		*/
-		VideoContent::Frame f = (s + vc->trim_start ()) * _film->video_frame_rate() / (frc.factor() * TIME_HZ);
-		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (f, accurate);
+		/* And seek the decoder */
+		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (
+			vc->time_to_content_video_frames (s + vc->trim_start ()), accurate
+			);
 
 		(*i)->reset_repeat ();
 	}
@@ -455,6 +456,7 @@ Player::setup_pieces ()
 			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, piece, _1, _2, _3, _4));
 
+			fd->seek (fc->time_to_content_video_frames (fc->trim_start ()), true);
 			piece->decoder = fd;
 		}
 		

@@ -26,6 +26,8 @@
 #include "compose.hpp"
 #include "config.h"
 #include "colour_conversion.h"
+#include "util.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -288,4 +290,22 @@ libdcp::Size
 VideoContent::video_size_after_crop () const
 {
 	return crop().apply (video_size_after_3d_split ());
+}
+
+/** @param t A time offset from the start of this piece of content.
+ *  @return Corresponding frame index.
+ */
+VideoContent::Frame
+VideoContent::time_to_content_video_frames (Time t) const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate());
+
+	/* Here we are converting from time (in the DCP) to a frame number in the content.
+	   Hence we need to use the DCP's frame rate and the double/skip correction, not
+	   the source's rate.
+	*/
+	return t * film->video_frame_rate() / (frc.factor() * TIME_HZ);
 }

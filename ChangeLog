@@ -1,5 +1,8 @@
 2013-10-29  Carl Hetherington  <cth@carlh.net>
 
+	* Improve performance when start-trimming
+	large files.
+
 	* Fix audio problems when start-trimming.
 
 2013-10-28  Carl Hetherington  <cth@carlh.net>

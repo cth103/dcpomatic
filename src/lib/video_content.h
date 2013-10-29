@@ -101,6 +101,8 @@ public:
 	libdcp::Size video_size_after_3d_split () const;
 	libdcp::Size video_size_after_crop () const;
 
+	VideoContent::Frame time_to_content_video_frames (Time) const;
+
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
