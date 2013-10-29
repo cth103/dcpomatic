@@ -31,6 +31,7 @@
 using std::string;
 using std::list;
 using std::map;
+using std::min;
 using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -105,7 +106,8 @@ private:
 				_name->SetLabelMarkup (std_to_wx (n));
 				_last_name = n;
 			}
-			_gauge->SetValue (p * 100);
+			int const pp = min (100.0f, p * 100);
+			_gauge->SetValue (pp);
 		}
 
 		_table->Layout ();
