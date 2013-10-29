@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# Syntax: make_dmg.sh <builddir>
+#
+# e.g. make_dmg.sh /Users/carl/cdist
 
 set -e
 
@@ -8,7 +12,7 @@ version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 DMG_SIZE=256
 WORK=build/platform/osx
 ENV=/Users/carl/Environments/osx
-ROOT=/Users/carl/cdist
+ROOT=$1
 
 appdir="DCP-o-matic.app"
 approot=$appdir/Contents

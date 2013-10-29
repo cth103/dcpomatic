@@ -59,7 +59,7 @@ def package(target, version):
 
         return debs
     elif target.platform == 'osx':
-        target.command('bash platform/osx/make_dmg.sh')
+        target.command('bash platform/osx/make_dmg.sh %s' % target.work_dir_cscript())
         return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])
 
 def make_pot(target):
