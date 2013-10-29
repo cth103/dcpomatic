@@ -336,7 +336,7 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		return;
 	}
 
-	Time time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time;
+	Time time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time - content->trim_start ();
 	
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
@@ -574,7 +574,7 @@ Player::emit_black ()
 #ifdef DCPOMATIC_DEBUG
 	_last_video.reset ();
 #endif
-	
+
 	Video (_black_frame, EYES_BOTH, ColourConversion(), _last_emit_was_black, _video_position);
 	_video_position += _film->video_frames_to_time (1);
 	_last_emit_was_black = true;
