@@ -103,7 +103,7 @@ public:
 	}
 	
 	Time end () const {
-		return position() + length_after_trim();
+		return position() + length_after_trim() - 1;
 	}
 
 	Time length_after_trim () const;
