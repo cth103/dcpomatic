@@ -101,12 +101,28 @@ public:
 private:
 	void worker_thread ();
 	int process (boost::shared_ptr<Socket> socket);
+	void broadcast_thread ();
+	void broadcast_received ();
 
 	std::vector<boost::thread *> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
 	boost::shared_ptr<Log> _log;
+
+	struct Broadcast {
+
+		Broadcast ()
+			: thread (0)
+			, socket (0)
+		{}
+		
+		boost::thread* thread;
+		boost::asio::ip::udp::socket* socket;
+		char buffer[64];
+		boost::asio::ip::udp::endpoint send_endpoint;
+		
+	} _broadcast;
 };
 
 #endif
