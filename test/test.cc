@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <list>
+#include <libxml++/libxml++.h>
 #include <libdcp/dcp.h>
 #include "lib/config.h"
 #include "lib/util.h"
@@ -145,6 +146,64 @@ check_dcp (string ref, string check)
 	options.mxf_names_can_differ = true;
 	
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
+}
+
+void
+check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
+{
+	BOOST_CHECK_EQUAL (ref->get_name (), test->get_name ());
+	BOOST_CHECK_EQUAL (ref->get_namespace_prefix (), test->get_namespace_prefix ());
+
+	if (find (ignore.begin(), ignore.end(), ref->get_name()) != ignore.end ()) {
+		return;
+	}
+	    
+	xmlpp::Element::NodeList ref_children = ref->get_children ();
+	xmlpp::Element::NodeList test_children = test->get_children ();
+	BOOST_CHECK_EQUAL (ref_children.size (), test_children.size ());
+
+	xmlpp::Element::NodeList::iterator k = ref_children.begin ();
+	xmlpp::Element::NodeList::iterator l = test_children.begin ();
+	while (k != ref_children.end ()) {
+		
+		/* XXX: should be doing xmlpp::EntityReference, xmlpp::XIncludeEnd, xmlpp::XIncludeStart */
+
+		xmlpp::Element* ref_el = dynamic_cast<xmlpp::Element*> (*k);
+		xmlpp::Element* test_el = dynamic_cast<xmlpp::Element*> (*l);
+		BOOST_CHECK ((ref_el && test_el) || (!ref_el && !test_el));
+		if (ref_el && test_el) {
+			check_xml (ref_el, test_el, ignore);
+		}
+
+		xmlpp::ContentNode* ref_cn = dynamic_cast<xmlpp::ContentNode*> (*k);
+		xmlpp::ContentNode* test_cn = dynamic_cast<xmlpp::ContentNode*> (*l);
+		BOOST_CHECK ((ref_cn && test_cn) || (!ref_cn && !test_cn));
+		if (ref_cn && test_cn) {
+			BOOST_CHECK_EQUAL (ref_cn->get_content(), test_cn->get_content ());
+		}
+
+		xmlpp::Attribute* ref_at = dynamic_cast<xmlpp::Attribute*> (*k);
+		xmlpp::Attribute* test_at = dynamic_cast<xmlpp::Attribute*> (*l);
+		BOOST_CHECK ((ref_at && test_at) || (!ref_at && !test_at));
+		if (ref_at && test_at) {
+			BOOST_CHECK_EQUAL (ref_at->get_name(), test_at->get_name ());
+			BOOST_CHECK_EQUAL (ref_at->get_value(), test_at->get_value ());
+		}
+
+		++k;
+		++l;
+	}
+}
+
+void
+check_xml (boost::filesystem::path ref, boost::filesystem::path test, list<string> ignore)
+{
+	xmlpp::DomParser* ref_parser = new xmlpp::DomParser (ref.string ());
+	xmlpp::Element* ref_root = ref_parser->get_document()->get_root_node ();
+	xmlpp::DomParser* test_parser = new xmlpp::DomParser (test.string ());
+	xmlpp::Element* test_root = test_parser->get_document()->get_root_node ();
+
+	check_xml (ref_root, test_root, ignore);
 }
 
 void
