@@ -72,16 +72,18 @@ Encoder::~Encoder ()
 	}
 }
 
-/** Add a worker thread for a remote server.  Caller must hold
+/** Add a worker thread for a each thread on a remote server.  Caller must hold
  *  a lock on _mutex, or know that one is not currently required to
  *  safely modify _threads.
  */
 void
-Encoder::add_worker_thread (ServerDescription d)
+Encoder::add_worker_threads (ServerDescription d)
 {
-	_threads.push_back (
-		make_pair (d, new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)))
-		);
+	for (int i = 0; i < d.threads(); ++i) {
+		_threads.push_back (
+			make_pair (d, new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)))
+			);
+	}
 }
 
 void
@@ -99,9 +101,7 @@ Encoder::process_begin ()
 	vector<ServerDescription> servers = Config::instance()->servers ();
 
 	for (vector<ServerDescription>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		for (int j = 0; j < i->threads (); ++j) {
-			add_worker_thread (*i);
-		}
+		add_worker_threads (*i);
 	}
 
 	_broadcast_thread = new boost::thread (boost::bind (&Encoder::broadcast_thread, this));
@@ -432,10 +432,7 @@ Encoder::listen_thread ()
 			}
 
 			if (i == _threads.end ()) {
-				cout << "Adding a thread for " << ip << "\n";
-				add_worker_thread (ServerDescription (ip, xml->number_child<int> ("Threads")));
-			} else {
-				cout << "Already know about " << ip << "\n";
+				add_worker_threads (ServerDescription (ip, xml->number_child<int> ("Threads")));
 			}
 		}
 	}
