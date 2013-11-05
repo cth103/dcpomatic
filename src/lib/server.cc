@@ -158,7 +158,8 @@ Server::worker_thread ()
 		} catch (std::exception& e) {
 			_log->log (String::compose ("Error: %1", e.what()));
 		}
-		
+
+		string const ip = socket->socket().remote_endpoint().address().to_string();
 		socket.reset ();
 		
 		lock.lock ();
@@ -168,7 +169,7 @@ Server::worker_thread ()
 			gettimeofday (&end, 0);
 
 			string const message = String::compose (
-				"Encoded frame %1 from %2 in %3s", frame, socket->socket().remote_endpoint().address().to_string(), seconds(end) - seconds(start)
+				"Encoded frame %1 from %2 in %3s", frame, ip, seconds(end) - seconds(start)
 				);
 			
 			if (_verbose) {
