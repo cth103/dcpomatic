@@ -1,3 +1,10 @@
+2013-11-05  Carl Hetherington  <cth@carlh.net>
+
+	* Auto-detect encoding servers on the local
+	subnet(s).
+
+	* Tweak verbosity of command-line encoding servers.
+
 2013-11-04  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.25 released.
