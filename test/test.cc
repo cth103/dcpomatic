@@ -58,7 +58,7 @@ struct TestConfig
 
 		Config::instance()->set_num_local_encoding_threads (1);
 		Config::instance()->set_servers (vector<ServerDescription> ());
-		Config::instance()->set_server_port (61920);
+		Config::instance()->set_server_port_base (61920);
 		Config::instance()->set_default_dci_metadata (DCIMetadata ());
 		Config::instance()->set_default_container (static_cast<Ratio*> (0));
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));

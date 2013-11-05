@@ -133,13 +133,15 @@ class Socket
 {
 public:
 	Socket (int timeout = 30);
+	~Socket ();
 
 	/** @return Our underlying socket */
 	boost::asio::ip::tcp::socket& socket () {
 		return _socket;
 	}
 
-	void connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint);
+	void connect (boost::asio::ip::tcp::endpoint);
+	void accept (int);
 
 	void write (uint32_t n);
 	void write (uint8_t const * data, int size);
@@ -155,6 +157,7 @@ private:
 	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
+	boost::asio::ip::tcp::acceptor* _acceptor;
 	int _timeout;
 };
 

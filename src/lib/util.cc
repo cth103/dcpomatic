@@ -90,6 +90,7 @@ using std::istream;
 using std::numeric_limits;
 using std::pair;
 using std::ofstream;
+using std::cout;
 using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
@@ -518,17 +519,27 @@ dcp_audio_frame_rate (int fs)
 Socket::Socket (int timeout)
 	: _deadline (_io_service)
 	, _socket (_io_service)
+	, _acceptor (0)
 	, _timeout (timeout)
 {
 	_deadline.expires_at (boost::posix_time::pos_infin);
 	check ();
 }
 
+Socket::~Socket ()
+{
+	delete _acceptor;
+}
+
 void
 Socket::check ()
 {
 	if (_deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now ()) {
-		_socket.close ();
+		if (_acceptor) {
+			_acceptor->cancel ();
+		} else {
+			_socket.close ();
+		}
 		_deadline.expires_at (boost::posix_time::pos_infin);
 	}
 
@@ -539,7 +550,7 @@ Socket::check ()
  *  @param endpoint End-point to connect to.
  */
 void
-Socket::connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> const & endpoint)
+Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 {
 	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
 	boost::system::error_code ec = boost::asio::error::would_block;
@@ -548,8 +559,32 @@ Socket::connect (boost::asio::ip::basic_resolver_entry<boost::asio::ip::tcp> con
 		_io_service.run_one();
 	} while (ec == boost::asio::error::would_block);
 
-	if (ec || !_socket.is_open ()) {
+	if (ec) {
+		throw NetworkError (ec.message ());
+	}
+
+	if (!_socket.is_open ()) {
 		throw NetworkError (_("connect timed out"));
+	}
+}
+
+void
+Socket::accept (int port)
+{
+	_acceptor = new boost::asio::ip::tcp::acceptor (_io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), port));
+	
+	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	boost::system::error_code ec = boost::asio::error::would_block;
+	_acceptor->async_accept (_socket, boost::lambda::var(ec) = boost::lambda::_1);
+	do {
+		_io_service.run_one ();
+	} while (ec == boost::asio::error::would_block );
+
+	delete _acceptor;
+	_acceptor = 0;
+	
+	if (ec) {
+		throw NetworkError (ec.message ());
 	}
 }
 

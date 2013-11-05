@@ -53,6 +53,7 @@ using boost::thread;
 using boost::bind;
 using boost::scoped_array;
 using boost::optional;
+using boost::lexical_cast;
 using libdcp::Size;
 
 ServerDescription::ServerDescription (shared_ptr<const cxml::Node> node)
@@ -76,7 +77,7 @@ optional<ServerDescription>
 ServerDescription::create_from_metadata (string v)
 {
 	vector<string> b;
-	split (b, v, is_any_of (N_(" ")));
+	split (b, v, is_any_of (" "));
 
 	if (b.size() != 2) {
 		return optional<ServerDescription> ();
@@ -152,7 +153,7 @@ Server::worker_thread ()
 		try {
 			frame = process (socket);
 		} catch (std::exception& e) {
-			_log->log (String::compose (N_("Error: %1"), e.what()));
+			_log->log (String::compose ("Error: %1", e.what()));
 		}
 		
 		socket.reset ();
@@ -162,7 +163,8 @@ Server::worker_thread ()
 		if (frame >= 0) {
 			struct timeval end;
 			gettimeofday (&end, 0);
-			_log->log (String::compose (N_("Encoded frame %1 in %2"), frame, seconds (end) - seconds (start)));
+			cout << String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)) << "\n";
+			_log->log (String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)));
 		}
 		
 		_worker_condition.notify_all ();
@@ -181,7 +183,12 @@ Server::run (int num_threads)
 	_broadcast.thread = new thread (bind (&Server::broadcast_thread, this));
 	
 	boost::asio::io_service io_service;
-	boost::asio::ip::tcp::acceptor acceptor (io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port ()));
+
+	boost::asio::ip::tcp::acceptor acceptor (
+		io_service,
+		boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port_base ())
+		);
+	
 	while (1) {
 		shared_ptr<Socket> socket (new Socket);
 		acceptor.accept (socket->socket ());
@@ -204,7 +211,7 @@ Server::broadcast_thread ()
 	boost::asio::io_service io_service;
 
 	boost::asio::ip::address address = boost::asio::ip::address_v4::any ();
-	boost::asio::ip::udp::endpoint listen_endpoint (address, Config::instance()->server_port ());
+	boost::asio::ip::udp::endpoint listen_endpoint (address, Config::instance()->server_port_base() + 1);
 
 	_broadcast.socket = new boost::asio::ip::udp::socket (io_service);
 	_broadcast.socket->open (listen_endpoint.protocol ());
@@ -224,8 +231,24 @@ Server::broadcast_received ()
 {
 	_broadcast.buffer[sizeof(_broadcast.buffer) - 1] = '\0';
 
-	cout << _broadcast.buffer << "\n";
-	
+	if (strcmp (_broadcast.buffer, DCPOMATIC_HELLO) == 0) {
+		/* Reply to the client saying what we can do */
+		xmlpp::Document doc;
+		xmlpp::Element* root = doc.create_root_node ("ServerAvailable");
+		root->add_child("Threads")->add_child_text (lexical_cast<string> (_worker_threads.size ()));
+		stringstream xml;
+		doc.write_to_stream (xml, "UTF-8");
+
+		shared_ptr<Socket> socket (new Socket);
+		try {
+			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), Config::instance()->server_port_base() + 1));
+			socket->write (xml.str().length() + 1);
+			socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
+		} catch (...) {
+
+		}
+	}
+		
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
 		_broadcast.send_endpoint, boost::bind (&Server::broadcast_received, this)

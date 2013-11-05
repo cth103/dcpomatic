@@ -36,6 +36,7 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 #include "util.h"
+#include "config.h"
 
 class Image;
 class AudioBuffers;
@@ -83,6 +84,9 @@ private:
 	
 	void encoder_thread (boost::optional<ServerDescription>);
 	void terminate_threads ();
+	void broadcast_thread ();
+	void listen_thread ();
+	void add_worker_thread (ServerDescription);
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
@@ -103,11 +107,16 @@ private:
 	bool _have_a_real_frame[EYES_COUNT];
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
-	std::list<boost::thread *> _threads;
+	typedef std::list<std::pair<boost::optional<ServerDescription>, boost::thread *> > ThreadList;
+	ThreadList _threads;
 	mutable boost::mutex _mutex;
 	boost::condition _condition;
 
 	boost::shared_ptr<Writer> _writer;
+
+	/** A thread to periodically issue broadcasts to find encoding servers */
+	boost::thread* _broadcast_thread;
+	boost::thread* _listen_thread;
 };
 
 #endif

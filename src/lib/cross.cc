@@ -51,6 +51,7 @@ using std::wstring;
 using std::make_pair;
 using boost::shared_ptr;
 
+/** @param s Number of seconds to sleep for */
 void
 dcpomatic_sleep (int s)
 {
