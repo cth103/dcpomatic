@@ -166,7 +166,7 @@ private:
 
 	void main_thread ()
 	{
-		Server server (memory_log);
+		Server server (memory_log, false);
 		server.run (Config::instance()->num_local_encoding_threads ());
 	}
 

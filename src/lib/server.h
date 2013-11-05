@@ -94,7 +94,7 @@ private:
 class Server : public boost::noncopyable
 {
 public:
-	Server (boost::shared_ptr<Log> log);
+	Server (boost::shared_ptr<Log> log, bool verbose);
 
 	void run (int num_threads);
 
@@ -109,6 +109,7 @@ private:
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
 	boost::shared_ptr<Log> _log;
+	bool _verbose;
 
 	struct Broadcast {
 

@@ -46,6 +46,7 @@ using std::multimap;
 using std::vector;
 using std::list;
 using std::cout;
+using std::cerr;
 using boost::shared_ptr;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
@@ -86,8 +87,9 @@ ServerDescription::create_from_metadata (string v)
 	return ServerDescription (b[0], atoi (b[1].c_str ()));
 }
 
-Server::Server (shared_ptr<Log> log)
+Server::Server (shared_ptr<Log> log, bool verbose)
 	: _log (log)
+	, _verbose (verbose)
 {
 
 }
@@ -103,6 +105,7 @@ Server::process (shared_ptr<Socket> socket)
 	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
 	xml->read_stream (s);
 	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
+		cerr << "Mismatched server/client versions\n";
 		_log->log ("Mismatched server/client versions");
 		return -1;
 	}
@@ -163,8 +166,16 @@ Server::worker_thread ()
 		if (frame >= 0) {
 			struct timeval end;
 			gettimeofday (&end, 0);
-			cout << String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)) << "\n";
-			_log->log (String::compose ("Encoded frame %1 in %2", frame, seconds (end) - seconds (start)));
+
+			string const message = String::compose (
+				"Encoded frame %1 from %2 in %3s", frame, socket->socket().remote_endpoint().address().to_string(), seconds(end) - seconds(start)
+				);
+			
+			if (_verbose) {
+				cout << message << "\n";
+			}
+
+			_log->log (message);
 		}
 		
 		_worker_condition.notify_all ();
@@ -174,7 +185,10 @@ Server::worker_thread ()
 void
 Server::run (int num_threads)
 {
-	_log->log (String::compose (N_("Server starting with %1 threads"), num_threads));
+	_log->log (String::compose ("Server starting with %1 threads", num_threads));
+	if (_verbose) {
+		cout << "DCP-o-matic server started with " << num_threads << " threads.\n";
+	}
 	
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));

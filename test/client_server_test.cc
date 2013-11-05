@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
 	BOOST_ASSERT (locally_encoded);
 	
-	Server* server = new Server (log);
+	Server* server = new Server (log, true);
 
 	new thread (boost::bind (&Server::run, server, 2));
 
