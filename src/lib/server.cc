@@ -149,17 +149,18 @@ Server::worker_thread ()
 		lock.unlock ();
 
 		int frame = -1;
+		string ip;
 
 		struct timeval start;
 		gettimeofday (&start, 0);
 		
 		try {
 			frame = process (socket);
+			ip = socket->socket().remote_endpoint().address().to_string();
 		} catch (std::exception& e) {
 			_log->log (String::compose ("Error: %1", e.what()));
 		}
 
-		string const ip = socket->socket().remote_endpoint().address().to_string();
 		socket.reset ();
 		
 		lock.lock ();
