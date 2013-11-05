@@ -51,6 +51,8 @@ extern "C" {
 /** The maximum number of audio channels that we can cope with */
 #define MAX_AUDIO_CHANNELS 6
 
+#define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
+
 namespace libdcp {
 	class Signer;
 }

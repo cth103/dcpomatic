@@ -36,6 +36,7 @@
 #include "image.h"
 #include "dcp_video_frame.h"
 #include "config.h"
+#include "cross.h"
 
 #include "i18n.h"
 
@@ -43,6 +44,7 @@ using std::string;
 using std::stringstream;
 using std::multimap;
 using std::vector;
+using std::list;
 using boost::shared_ptr;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
@@ -176,6 +178,29 @@ Server::run (int num_threads)
 	}
 
 	boost::asio::io_service io_service;
+
+	/* Broadcast our presence on our interfaces */
+	list<string> interfaces = network_interfaces ();
+	for (list<string>::iterator i = interfaces.begin(); i != interfaces.end(); ++i) {
+		boost::system::error_code error;
+
+		boost::asio::ip::udp::socket socket (io_service);
+		socket.open (boost::asio::ip::udp::v4(), error);
+		if (error) {
+			break;
+		}
+
+		socket.set_option (boost::asio::ip::udp::socket::reuse_address (true));
+		socket.set_option (boost::asio::socket_base::broadcast (true));
+	
+		boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port ());
+
+		string const data = DCPOMATIC_HELLO;
+		socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+		socket.close (error);
+	}
+
+	/* Wait to be given things to do */
 	boost::asio::ip::tcp::acceptor acceptor (io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port ()));
 	while (1) {
 		shared_ptr<Socket> socket (new Socket);

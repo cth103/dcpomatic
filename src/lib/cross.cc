@@ -35,6 +35,12 @@
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
 #endif
+#ifdef DCPOMATIC_POSIX
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#endif
 #include "exceptions.h"
 
 using std::pair;
@@ -261,4 +267,29 @@ openssl_path ()
 	return "openssl";
 #endif
 
+}
+
+list<string>
+network_interfaces ()
+{
+	list<string> interfaces;
+	
+#ifdef DCPOMATIC_POSIX
+	struct ifaddrs* addresses = 0;
+
+	getifaddrs (&addresses);
+
+	for (struct ifaddrs* i = addresses; i; i = i->ifa_next) {
+		if (i->ifa_addr->sa_family == AF_INET) {
+			void* p = &((struct sockaddr_in *) i->ifa_addr)->sin_addr;
+			char b[INET_ADDRSTRLEN];
+			inet_ntop (AF_INET, p, b, INET_ADDRSTRLEN);
+			interfaces.push_back (b);
+		}
+	}
+
+	freeifaddrs (addresses);
+#endif
+
+	return interfaces;
 }
