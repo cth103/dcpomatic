@@ -72,4 +72,4 @@ def make_manual(target):
     os.chdir('doc/manual')
     target.command('make')
     target.command('pdflatex colour.tex')
-    return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colours.pdf')]
+    return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colour.pdf')]
