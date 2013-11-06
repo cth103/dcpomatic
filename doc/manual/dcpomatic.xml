@@ -108,12 +108,23 @@ like to install it.
 
 <para>
 You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
-Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;) or 13.04
-(&lsquo;Raring Ringtail&rsquo;) using <code>.deb</code> packages:
-download the appropriate package from <ulink
+Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;), 13.04
+(&lsquo;Raring Ringtail&rsquo;) or 13.10 (&lsquo;Saucy
+Salamander&rsquo;) using <code>.deb</code> packages: download the
+appropriate package from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
 and set DCP-o-matic up for you.
+</para>
+
+</section>
+
+<section>
+<title>Debian Linux</title>
+
+<para>
+Packages are also available for Debian 7 (squeeze) from <ulink
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
 </para>
 
 </section>
@@ -139,8 +150,13 @@ The following dependencies are required:
 <listitem><ulink url="http://www.imagemagick.org/script/index.php">ImageMagick</ulink></listitem>
 <listitem><ulink url="http://www.boost.org/">Boost</ulink></listitem>
 <listitem><ulink url="http://www.libssh.org/">libssh</ulink></listitem>
-<listitem><ulink url="http://www.gtk.org/">GTK</ulink></listitem>
+<listitem><ulink url="http://www.gtk.org/">GTK (on Linux)</ulink></listitem>
 <listitem><ulink url="http://www.wxwidgets.org/">wxWidgets</ulink></listitem>
+<listitem><ulink url="http://freecode.com/projects/libquickmail">libquickmail</ulink></listitem>
+<listitem><ulink url="http://libxmlplusplus.sourceforge.net/">libxml++</ulink></listitem>
+<listitem><ulink url="http://www.aleksey.com/xmlsec/">xmlsec</ulink></listitem>
+<listitem><ulink url="http://curl.haxx.se/">curl</ulink></listitem>
+<listitem><ulink url="http://www.nih.at/libzip/">libzip</ulink></listitem>
 <listitem><ulink url="http://carlh.net/software/libdcp/">libdcp</ulink></listitem>
 <listitem><ulink url="http://carlh.net/software/libcxml/">libcxml</ulink></listitem>
 </itemizedlist>
