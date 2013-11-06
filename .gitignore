@@ -20,6 +20,9 @@ doc/design/*.log
 doc/design/*.aux
 doc/manual/diagrams/*.pdf
 doc/manual/diagrams/*.png
+doc/manual/colour.pdf
+doc/manual/colour.log
+doc/manual/colour.aux
 .be/id-cache
 *.pyc
 GPATH

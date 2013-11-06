@@ -1,0 +1,59 @@
+\documentclass{article}
+
+\pagestyle{empty}
+\usepackage{amsmath,mathtools}
+\title{Colour conversion in DCP-o-matic}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+Conversion from an RGB pixel $(r, g, b)$ is done in three steps.
+First, the input gamma $\gamma_i$ is applied.  This is done in one of
+two ways, depending on the setting of the ``linearise input gamma
+curve for low values'' option.  If linearisation is disabled, we use:
+
+\begin{align*}
+r' &= r^{\gamma_i} \\
+g' &= g^{\gamma_i} \\
+b' &= b^{\gamma_i}
+\end{align*}
+
+otherwise, with linearisation enabled, we use:
+
+\begin{align*}
+r' &= \begin{dcases}
+\frac{r}{12.92} & r \leq 0.04045 \\
+\left(\frac{r + 0.055}{1.055}\right)^{\gamma_i} & r > 0.04045
+\end{dcases}
+\end{align*}
+
+Next, the colour transformation matrix is used to convert to XYZ:
+
+\begin{align*}
+\left[\begin{array}{c}
+x \\
+y \\
+z
+\end{array}\right] &=
+\left[\begin{array}{ccc}
+m_{11} & m_{12} & m_{13} \\
+m_{21} & m_{22} & m_{23} \\
+m_{31} & m_{32} & m_{33}
+\end{array}\right]
+\left[\begin{array}{c}
+r' \\
+g' \\
+b'
+\end{array}\right]
+\end{align*}
+
+Finally, the output gamma $\gamma_o$ is applied to give our final XYZ values $(x', y', z')$:
+
+\begin{align*}
+x' &= x^{1/\gamma_o} \\
+y' &= y^{1/\gamma_o} \\
+z' &= z^{1/\gamma_o} \\
+\end{align*}
+
+\end{document}

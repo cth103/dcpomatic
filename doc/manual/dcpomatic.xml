@@ -8,7 +8,7 @@
 <!ENTITY % extensions SYSTEM "extensions.ent">
 %extensions;
 ]>
-<book xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<book xmlns="http://docbook.org/ns/docbook" xmlns:mml="http://www.w3.org/1998/Math/MathML" version="5.0" xml:lang="en">
 
 <!-- By good luck or good management, the scale parameter to imagedata
      appears only to affect PDF output.  HTML scaling is done in the
@@ -1163,7 +1163,7 @@ behaviour.  This chapter explains those options.
 <para>
 The preferences dialogue is opened by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  The dialogue is split into four tabs.
+menu.  The dialogue is split into five tabs.
 </para>
 
 <section>
@@ -1205,8 +1205,21 @@ read about how to contribute a translation.
 <para>
 When DCP-o-matic is encoding DCPs it can use multiple parallel threads
 to speed things up.  Set this value to the number of threads
-DCP-o-matic should use.  This would typically be set to the number of
-processors (or processor cores) in your machine.
+DCP-o-matic should use.  This should normally be the number of
+processors (or processor cores) in your machine.  DCP-o-matic will try
+to set this up correctly when you run it for the first time.
+</para>
+
+</section>
+
+<section>
+<title>KDM emails</title>
+
+<para>
+DCP-o-matic can send KDMs (see <xref linkend="ch-encryption"/>) to
+cinemas (or anywhere else) via email.  To make this work, enter a
+suitable outgoing mail (SMTP) server and &lsquo;from&rsquo; address
+for these emails.
 </para>
 
 </section>
@@ -1222,30 +1235,36 @@ properties of new films that you create.
 </section>
 </section>
 
-<section xml:id="sec-prefs-servers">
-<title>Encoding servers</title>
+<section>
+<title>Colour conversions</title>
 
 <para>
-The encoding servers tab is shown in <xref linkend="fig-prefs-servers"/>.
+The colour conversions tab is shown in <xref linkend="fig-prefs-colour-conversions"/>.
 </para>
 
-<figure id="fig-prefs-servers"> 
-  <title>Encoding servers preferences</title> 
+<figure id="fig-prefs-colour-conversions">
+  <title>Colour conversions preferences</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/prefs-servers&scs;"/>
+      <imagedata fileref="screenshots/prefs-colour-conversions&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
 
 <para>
-If you have spare machines sitting around on your network not doing
-much, they can be pressed into service to speed up DCP encodes.  This
-is done by running a small server program on the machine, which will
-encode video sent to it by the &lsquo;master&rsquo; DCP-o-matic.  This
-option is described in more detail in <xref linkend="ch-servers"/>.
-Use these preferences to specify the encoding servers that should be
-used.
+As part of the encoding process, DCP-o-matic has to convert the colour
+space of the source files that you use into XYZ, the colour space used
+by the DCI standard.
+</para>
+
+<para>
+Colour conversion is discussed in more detail in a separate document
+<ulink url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</a>.
+</para>
+
+<para>
+These preferences control a list of presets which are suitable for
+converting from common input colour spaces to XYZ.
 </para>
 
 </section>
@@ -1303,8 +1322,32 @@ credentials required to log into the TMS via SSH.
 </para>
 </section>
 
+<section>
+<title>KDM email</title>
+
+<para>
+The KDM email is shown in <xref linkend="fig-prefs-kdm-email"/>.
+</para>
+
+<figure id="fig-prefs-kdm-email"> 
+  <title>KDM email preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-kdm-email&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+This is a template for the email that is used to send KDMs out to
+cinemas.  You can change it to say whatever you like.  The
+&lsquo;magic&rsquo; string <code>$CPL_NAME</code> will be replaced by
+DCP's title.
+</para>
 
 </section>
+</section>
+
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xml:id="ch-frame-rates">
@@ -1421,7 +1464,12 @@ than one machine at the same time.  An instance of DCP-o-matic can
 offload some of the time-consuming JPEG2000 encoding to any number of
 other machines on a network.  To do this, one &lsquo;master&rsquo;
 machine runs DCP-o-matic, and the &lsquo;server&rsquo; machines run
-a small program called &lsquo;dcpomatic_server&rsquo;.
+a small program called <code>dcpomatic_server</code>.
+</para>
+
+<para>
+The master and server machines do not need to be the same type, so you
+can mix Windows PCs, Macs and Linux machines as you wish.
 </para>
 
 <section>
@@ -1465,24 +1513,28 @@ tray; right-click it to open a menu from whence you can quit the
 server or open a window to show its status.
 </para>
 
+<para>If you would rather not bother installing DCP-o-matic on your
+server computers, the other option is to use the live-CD
+image that you can download from the <ulink
+url="http://dcpomatic.com/">DCP-o-matic web site.</ulink></para>
+
+<para>Either burn the image to CD, or write it to a USB stick (using
+something like <ulink
+url="http://unetbootin.sourceforge.net/">unetbootin</ulink>).  Boot a
+PC from the CD or USB stick and it becomes a DCP-o-matic server
+without touching your standard operating system install.
+</para>
+
 </section>
 <section>
 <title>Setting up DCP-o-matic</title>
 
 <para>
-Once your servers are running, you need to tell your master
-DCP-o-matic instance about them.  Start DCP-o-matic and open the
-<guilabel>Preferences</guilabel> dialog from the
-<guilabel>Edit</guilabel> menu.  At the bottom of this dialog is a
-section where you can add, edit and remove encoding servers.  For each
-encoding server you need only specify its IP address and the number of
-threads that it is running, so that DCP-o-matic knows how many
-parallel encode jobs to send to the server.
-</para>
-
-<para>
-Once this is done, any encodes that you start will split the workload
-up between the master machine and the servers.
+DCP-o-matic periodically looks on the local network for servers.  Any
+that it finds are given work to do during encodes.  Selecting
+<guilabel>Encoding Servers</guilabel> from the
+<guilabel>Tools</guilabel> menu brings up a window which shows that
+servers that DCP-o-matic has found.
 </para>
 
 </section>
@@ -1500,13 +1552,28 @@ You will probably find that using a 1Gb/s or faster network will
 provide a significant speed-up compared to a 100Mb/s network.
 </para>
 
+</section>
+
+</chapter>
+
+<chapter xml:id="ch-colour-conversions" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Colour conversions</title>
+
 <para>
-Making changes to the server configuration in the master DCP-o-matic
-will have no effect while an encode is running; the changes will only
-be noticed when a new encode is started.
+As part of the encoding process, DCP-o-matic has to convert the colour
+space of the source files that you use into XYZ, the colour space used
+by the DCI standard.
 </para>
 
-</section>
+<para>
+In order to do this, source colour is converted in three steps:
+</para>
+
+<itemizedlist>
+<listitem>Input gamma correction.</listitem>
+<listitem>Multiplication by a conversion matrix.</listitem>
+<listitem>Output gamma correction.</listitem>
+</itemizedlist>
 
 </chapter>
 
