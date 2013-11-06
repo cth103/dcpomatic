@@ -71,5 +71,5 @@ def make_pot(target):
 def make_manual(target):
     os.chdir('doc/manual')
     target.command('make')
-    target.cmomand('pdflatex colour.tex')
+    target.command('pdflatex colour.tex')
     return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colours.pdf')]
