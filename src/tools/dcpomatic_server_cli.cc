@@ -54,7 +54,8 @@ help (string n)
 	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help	      show this help\n"
 	     << "  -t, --threads      number of parallel encoding threads to use\n"
-	     << "  --verbose          be verbose\n";
+	     << "  --verbose          be verbose to stdout\n"
+	     << "  --log              write a log file of activity\n";
 }
 
 int
@@ -62,6 +63,7 @@ main (int argc, char* argv[])
 {
 	int num_threads = Config::instance()->num_local_encoding_threads ();
 	bool verbose = false;
+	bool write_log = false;
 
 	int option_index = 0;
 	while (1) {
@@ -70,10 +72,11 @@ main (int argc, char* argv[])
 			{ "help", no_argument, 0, 'h'},
 			{ "threads", required_argument, 0, 't'},
 			{ "verbose", no_argument, 0, 'A'},
+			{ "log", no_argument, 0, 'B'},
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vht:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vht:AB", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -92,12 +95,22 @@ main (int argc, char* argv[])
 		case 'A':
 			verbose = true;
 			break;
+		case 'B':
+			write_log = true;
+			break;
 		}
 	}
 
 	Scaler::setup_scalers ();
-	shared_ptr<FileLog> log (new FileLog ("dcpomatic_server_cli.log"));
+	shared_ptr<Log> log;
+	if (write_log) {
+		log.reset (new FileLog ("dcpomatic_server_cli.log"));
+	} else {
+		log.reset (new NullLog);
+	}
+	
 	Server server (log, verbose);
+	
 	try {
 		server.run (num_threads);
 	} catch (boost::system::system_error e) {

@@ -71,4 +71,12 @@ private:
 	boost::filesystem::path _file;
 };
 
+class NullLog : public Log
+{
+public:
+
+private:	
+	void do_log (std::string) {}
+};
+
 #endif
