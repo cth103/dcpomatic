@@ -297,7 +297,11 @@ Image::make_black ()
 		yuv_16_black (sixteen_bit_uv, true);
 		break;
 
-	case PIX_FMT_RGB24:		
+	case PIX_FMT_RGB24:
+	case PIX_FMT_ARGB:
+	case PIX_FMT_RGBA:
+	case PIX_FMT_ABGR:
+	case PIX_FMT_BGRA:
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
 

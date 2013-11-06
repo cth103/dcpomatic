@@ -37,6 +37,10 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 
 	list<AVPixelFormat> pix_fmts;
 	pix_fmts.push_back (AV_PIX_FMT_RGB24);
+	pix_fmts.push_back (AV_PIX_FMT_ARGB);
+	pix_fmts.push_back (AV_PIX_FMT_RGBA);
+	pix_fmts.push_back (AV_PIX_FMT_ABGR);
+	pix_fmts.push_back (AV_PIX_FMT_BGRA);
 	pix_fmts.push_back (AV_PIX_FMT_YUV420P);
 	pix_fmts.push_back (AV_PIX_FMT_YUV422P10LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV422P16LE);
