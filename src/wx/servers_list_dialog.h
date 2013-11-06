@@ -19,7 +19,6 @@
 
 #include <wx/wx.h>
 #include <wx/listctrl.h>
-#include "lib/server_finder.h"
 
 class ServersListDialog : public wxDialog
 {
@@ -29,7 +28,6 @@ public:
 private:
 	void server_found (ServerDescription);
 
-	ServerFinder _server_finder;
 	std::list<ServerDescription> _servers;
 	wxListCtrl* _list;
 };

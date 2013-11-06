@@ -27,34 +27,18 @@
 
 using std::string;
 using std::stringstream;
+using std::list;
 using boost::shared_ptr;
 using boost::scoped_array;
+
+ServerFinder* ServerFinder::_instance = 0;
 
 ServerFinder::ServerFinder ()
 	: _broadcast_thread (0)
 	, _listen_thread (0)
-	, _terminate (false)
 {
 	_broadcast_thread = new boost::thread (boost::bind (&ServerFinder::broadcast_thread, this));
 	_listen_thread = new boost::thread (boost::bind (&ServerFinder::listen_thread, this));
-}
-
-ServerFinder::~ServerFinder ()
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_terminate = true;
-	}
-	
-	if (_broadcast_thread && _broadcast_thread->joinable ()) {
-		_broadcast_thread->join ();
-	}
-	delete _broadcast_thread;
-
-	if (_listen_thread && _listen_thread->joinable ()) {
-		_listen_thread->join ();
-	}
-	delete _listen_thread;
 }
 
 void
@@ -74,16 +58,8 @@ ServerFinder::broadcast_thread ()
         boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);            
 
 	while (1) {
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_terminate) {
-			socket.close (error);
-			return;
-		}
-		
-		string data = DCPOMATIC_HELLO;
+		string const data = DCPOMATIC_HELLO;
 		socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
-
-		lm.unlock ();
 		dcpomatic_sleep (10);
 	}
 }
@@ -92,14 +68,6 @@ void
 ServerFinder::listen_thread ()
 {
 	while (1) {
-		{
-			/* See if we need to stop */
-			boost::mutex::scoped_lock lm (_mutex);
-			if (_terminate) {
-				return;
-			}
-		}
-
 		shared_ptr<Socket> sock (new Socket (10));
 
 		try {
@@ -116,9 +84,44 @@ ServerFinder::listen_thread ()
 		shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
 		xml->read_stream (s);
 
-		ui_signaller->emit (boost::bind (boost::ref (ServerFound), ServerDescription (
-							 sock->socket().remote_endpoint().address().to_string (),
-							 xml->number_child<int> ("Threads")
-							 )));
+		boost::mutex::scoped_lock lm (_mutex);
+
+		string const ip = sock->socket().remote_endpoint().address().to_string ();
+		list<ServerDescription>::const_iterator i = _servers.begin();
+		while (i != _servers.end() && i->host_name() != ip) {
+			++i;
+		}
+
+		if (i == _servers.end ()) {
+			ServerDescription sd (ip, xml->number_child<int> ("Threads"));
+			_servers.push_back (sd);
+			ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
+		}
 	}
 }
+
+void
+ServerFinder::connect (boost::function<void (ServerDescription)> fn)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	/* Emit the current list of servers */
+	for (list<ServerDescription>::iterator i = _servers.begin(); i != _servers.end(); ++i) {
+		fn (*i);
+	}
+
+	ServerFound.connect (fn);
+}
+
+ServerFinder*
+ServerFinder::instance ()
+{
+	if (!_instance) {
+		_instance = new ServerFinder ();
+	}
+
+	return _instance;
+}
+
+	
+       

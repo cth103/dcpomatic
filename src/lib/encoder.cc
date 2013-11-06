@@ -79,9 +79,7 @@ void
 Encoder::add_worker_threads (ServerDescription d)
 {
 	for (int i = 0; i < d.threads(); ++i) {
-		_threads.push_back (
-			make_pair (d, new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)))
-			);
+		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)));
 	}
 }
 
@@ -89,12 +87,7 @@ void
 Encoder::process_begin ()
 {
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_threads.push_back (
-			make_pair (
-				optional<ServerDescription> (),
-				new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ()))
-				)
-			);
+		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
 	}
 
 	vector<ServerDescription> servers = Config::instance()->servers ();
@@ -104,8 +97,7 @@ Encoder::process_begin ()
 	}
 
 	_writer.reset (new Writer (_film, _job));
-	_server_finder.reset (new ServerFinder ());
-	_server_finder->ServerFound.connect (boost::bind (&Encoder::server_found, this, _1));
+	ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
 }
 
 
@@ -257,11 +249,11 @@ Encoder::terminate_threads ()
 		_condition.notify_all ();
 	}
 
-	for (ThreadList::iterator i = _threads.begin(); i != _threads.end(); ++i) {
-		if (i->second->joinable ()) {
-			i->second->join ();
+	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
+		if ((*i)->joinable ()) {
+			(*i)->join ();
 		}
-		delete i->second;
+		delete *i;
 	}
 
 	_threads.clear ();
@@ -354,14 +346,5 @@ Encoder::encoder_thread (optional<ServerDescription> server)
 void
 Encoder::server_found (ServerDescription s)
 {
-	/* See if we already know about this server */
-	boost::mutex::scoped_lock lm (_mutex);
-	ThreadList::iterator i = _threads.begin();
-	while (i != _threads.end() && (!i->first || i->first.get().host_name() != s.host_name())) {
-		++i;
-	}
-	
-	if (i == _threads.end ()) {
-		add_worker_threads (s);
-	}
+	add_worker_threads (s);
 }

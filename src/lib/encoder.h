@@ -107,13 +107,11 @@ private:
 	bool _have_a_real_frame[EYES_COUNT];
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
-	typedef std::list<std::pair<boost::optional<ServerDescription>, boost::thread *> > ThreadList;
-	ThreadList _threads;
+	std::list<boost::thread *> _threads;
 	mutable boost::mutex _mutex;
 	boost::condition _condition;
 
 	boost::shared_ptr<Writer> _writer;
-	boost::shared_ptr<ServerFinder> _server_finder;
 };
 
 #endif

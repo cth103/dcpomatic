@@ -32,6 +32,7 @@
 #include <boost/optional.hpp>
 #include <libxml++/libxml++.h>
 #include "log.h"
+#include "exceptions.h"
 
 class Socket;
 
@@ -91,7 +92,7 @@ private:
 	int _threads;
 };
 
-class Server : public boost::noncopyable
+class Server : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Server (boost::shared_ptr<Log> log, bool verbose);

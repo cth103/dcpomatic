@@ -98,6 +98,14 @@ main (int argc, char* argv[])
 	Scaler::setup_scalers ();
 	shared_ptr<FileLog> log (new FileLog ("dcpomatic_server_cli.log"));
 	Server server (log, verbose);
-	server.run (num_threads);
+	try {
+		server.run (num_threads);
+	} catch (boost::system::system_error e) {
+		if (e.code() == boost::system::errc::address_in_use) {
+			cerr << argv[0] << ": address already in use.  Is another DCP-o-matic server instance already running?\n";
+			exit (EXIT_FAILURE);
+		}
+		cerr << argv[0] << ": " << e.what() << "\n";
+	}
 	return 0;
 }

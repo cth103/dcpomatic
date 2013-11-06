@@ -209,7 +209,7 @@ Server::run (int num_threads)
 {
 	_log->log (String::compose ("Server starting with %1 threads", num_threads));
 	if (_verbose) {
-		cout << "DCP-o-matic server started with " << num_threads << " threads.\n";
+		cout << "DCP-o-matic server starting with " << num_threads << " threads.\n";
 	}
 	
 	for (int i = 0; i < num_threads; ++i) {
@@ -243,6 +243,7 @@ Server::run (int num_threads)
 
 void
 Server::broadcast_thread ()
+try
 {
 	boost::asio::io_service io_service;
 
@@ -260,6 +261,10 @@ Server::broadcast_thread ()
 		);
 
 	io_service.run ();
+}
+catch (...)
+{
+	store_current ();
 }
 
 void

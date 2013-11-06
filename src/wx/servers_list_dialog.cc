@@ -18,6 +18,7 @@
 */
 
 #include <boost/lexical_cast.hpp>
+#include "lib/server_finder.h"
 #include "servers_list_dialog.h"
 #include "wx_util.h"
 
@@ -60,21 +61,12 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 	s->Layout ();
 	s->SetSizeHints (this);
 	
-	_server_finder.ServerFound.connect (boost::bind (&ServersListDialog::server_found, this, _1));
+	ServerFinder::instance()->connect (boost::bind (&ServersListDialog::server_found, this, _1));
 }
 
 void
 ServersListDialog::server_found (ServerDescription s)
 {
-	list<ServerDescription>::const_iterator i = _servers.begin();
-	while (i != _servers.end() && i->host_name() != s.host_name()) {
-		++i;
-	}
-
-	if (i != _servers.end ()) {
-		return;
-	}
-
 	wxListItem list_item;
 	int const n = _list->GetItemCount ();
 	list_item.SetId (n);

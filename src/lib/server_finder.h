@@ -23,19 +23,25 @@
 class ServerFinder
 {
 public:
-	ServerFinder ();
-	~ServerFinder ();
+	void connect (boost::function<void (ServerDescription)>);
 
-	boost::signals2::signal<void (ServerDescription)> ServerFound;
+	static ServerFinder* instance ();
 
 private:
+	ServerFinder ();
+
 	void broadcast_thread ();
 	void listen_thread ();
+
+	boost::signals2::signal<void (ServerDescription)> ServerFound;
 	
-	/** A thread to periodically issue broadcasts to find encoding servers */
+	/** Thread to periodically issue broadcasts to find encoding servers */
 	boost::thread* _broadcast_thread;
+	/** Thread to listen to the responses from servers */
 	boost::thread* _listen_thread;
 
-	bool _terminate;
+	std::list<ServerDescription> _servers;
 	boost::mutex _mutex;
+
+	static ServerFinder* _instance;
 };
