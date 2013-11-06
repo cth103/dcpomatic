@@ -40,6 +40,7 @@
 #include "wx/wx_ui_signaller.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
+#include "wx/servers_list_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -180,6 +181,7 @@ enum {
 	ID_jobs_make_kdms,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
+	ID_tools_encoding_servers,
 };
 
 void
@@ -216,6 +218,9 @@ setup_menu (wxMenuBar* m)
 	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
 	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
 
+	wxMenu* tools = new wxMenu;
+	add_item (tools, _("Encoding Servers..."), ID_tools_encoding_servers, 0);
+
 	wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	
 	add_item (help, _("About DCP-o-matic"), wxID_ABOUT, ALWAYS);
@@ -228,6 +233,7 @@ setup_menu (wxMenuBar* m)
 	m->Append (edit, _("&Edit"));
 #endif	
 	m->Append (jobs_menu, _("&Jobs"));
+	m->Append (tools, _("&Tools"));
 	m->Append (help, _("&Help"));
 }
 
@@ -236,22 +242,24 @@ class Frame : public wxFrame
 public:
 	Frame (wxString const & title)
 		: wxFrame (NULL, -1, title)
+		, _servers_list_dialog (0)
 	{
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),             ID_file_new);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),            ID_file_open);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),            ID_file_save);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),      ID_file_properties);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),            wxID_EXIT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),     wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),        ID_jobs_make_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),       ID_jobs_make_kdms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this), ID_jobs_send_dcp_to_tms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),        ID_jobs_show_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),           wxID_ABOUT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),               ID_file_new);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),              ID_file_open);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),              ID_file_save);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),        ID_file_properties);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),              wxID_EXIT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),       wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),          ID_jobs_make_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),         ID_jobs_make_kdms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),   ID_jobs_send_dcp_to_tms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),          ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this), ID_tools_encoding_servers);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),             wxID_ABOUT);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
@@ -465,6 +473,15 @@ private:
 #endif		
 	}
 
+	void tools_encoding_servers ()
+	{
+		if (!_servers_list_dialog) {
+			_servers_list_dialog = new ServersListDialog (this);
+		}
+
+		_servers_list_dialog->Show ();
+	}
+
 	void help_about ()
 	{
 		AboutDialog* d = new AboutDialog (this);
@@ -498,7 +515,9 @@ private:
 		}
 
 		ev.Skip ();
-	}	
+	}
+
+	ServersListDialog* _servers_list_dialog;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

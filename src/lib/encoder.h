@@ -46,6 +46,7 @@ class DCPVideoFrame;
 class EncodedData;
 class Writer;
 class Job;
+class ServerFinder;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -84,9 +85,8 @@ private:
 	
 	void encoder_thread (boost::optional<ServerDescription>);
 	void terminate_threads ();
-	void broadcast_thread ();
-	void listen_thread ();
 	void add_worker_threads (ServerDescription);
+	void server_found (ServerDescription);
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
@@ -113,10 +113,7 @@ private:
 	boost::condition _condition;
 
 	boost::shared_ptr<Writer> _writer;
-
-	/** A thread to periodically issue broadcasts to find encoding servers */
-	boost::thread* _broadcast_thread;
-	boost::thread* _listen_thread;
+	boost::shared_ptr<ServerFinder> _server_finder;
 };
 
 #endif
