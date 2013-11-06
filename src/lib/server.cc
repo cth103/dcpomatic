@@ -47,6 +47,8 @@ using std::vector;
 using std::list;
 using std::cout;
 using std::cerr;
+using std::setprecision;
+using std::fixed;
 using boost::shared_ptr;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
@@ -94,8 +96,11 @@ Server::Server (shared_ptr<Log> log, bool verbose)
 
 }
 
+/** @param after_read Filled in with gettimeofday() after reading the input from the network.
+ *  @param after_encode Filled in with gettimeofday() after encoding the image.
+ */
 int
-Server::process (shared_ptr<Socket> socket)
+Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct timeval& after_encode)
 {
 	uint32_t length = socket->read_uint32 ();
 	scoped_array<char> buffer (new char[length]);
@@ -118,8 +123,13 @@ Server::process (shared_ptr<Socket> socket)
 
 	image->read_from_socket (socket);
 	DCPVideoFrame dcp_video_frame (image, xml, _log);
+
+	gettimeofday (&after_read, 0);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
+
+	gettimeofday (&after_encode, 0);
+	
 	try {
 		encoded->send (socket);
 	} catch (std::exception& e) {
@@ -152,14 +162,20 @@ Server::worker_thread ()
 		string ip;
 
 		struct timeval start;
+		struct timeval after_read;
+		struct timeval after_encode;
+		struct timeval end;
+		
 		gettimeofday (&start, 0);
 		
 		try {
-			frame = process (socket);
+			frame = process (socket, after_read, after_encode);
 			ip = socket->socket().remote_endpoint().address().to_string();
 		} catch (std::exception& e) {
 			_log->log (String::compose ("Error: %1", e.what()));
 		}
+
+		gettimeofday (&end, 0);
 
 		socket.reset ();
 		
@@ -169,15 +185,19 @@ Server::worker_thread ()
 			struct timeval end;
 			gettimeofday (&end, 0);
 
-			string const message = String::compose (
-				"Encoded frame %1 from %2 in %3s", frame, ip, seconds(end) - seconds(start)
-				);
-			
+			stringstream message;
+			message.precision (2);
+			message << fixed
+				<< "Encoded frame " << frame << " from " << ip << ": "
+				<< "receive " << (seconds(after_read) - seconds(start)) << "s "
+				<< "encode " << (seconds(after_encode) - seconds(after_read)) << "s "
+				<< "send " << (seconds(end) - seconds(after_encode)) << "s.";
+						   
 			if (_verbose) {
-				cout << message << "\n";
+				cout << message.str() << "\n";
 			}
 
-			_log->log (message);
+			_log->log (message.str ());
 		}
 		
 		_worker_condition.notify_all ();

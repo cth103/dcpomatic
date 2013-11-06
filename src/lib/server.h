@@ -100,7 +100,7 @@ public:
 
 private:
 	void worker_thread ();
-	int process (boost::shared_ptr<Socket> socket);
+	int process (boost::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
 	void broadcast_thread ();
 	void broadcast_received ();
 
