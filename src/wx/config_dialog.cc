@@ -432,7 +432,8 @@ ConfigDialog::make_colour_conversions_panel ()
 		columns,
 		boost::bind (&Config::colour_conversions, Config::instance()),
 		boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
-		boost::bind (&colour_conversion_column, _1)
+		boost::bind (&colour_conversion_column, _1),
+		300
 		);
 }
 
@@ -457,7 +458,7 @@ ConfigDialog::make_kdm_email_panel ()
 	_kdm_email_panel->SetSizer (s);
 
 	_kdm_email = new wxTextCtrl (_kdm_email_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
-	s->Add (_kdm_email, 1, wxEXPAND | wxALL);
+	s->Add (_kdm_email, 1, wxEXPAND | wxALL, 12);
 
 	_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::kdm_email_changed, this));
 	_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));

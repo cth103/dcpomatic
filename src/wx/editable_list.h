@@ -28,7 +28,8 @@ public:
 		std::vector<std::string> columns,
 		boost::function<std::vector<T> ()> get,
 		boost::function<void (std::vector<T>)> set,
-		boost::function<std::string (T, int)> column
+		boost::function<std::string (T, int)> column,
+		int height = 100
 		)
 		: wxPanel (parent)
 		, _get (get)
@@ -43,7 +44,7 @@ public:
 		table->AddGrowableCol (0, 1);
 		s->Add (table, 1, wxALL | wxEXPAND, 8);
 
-		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
+		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, height), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 		for (size_t i = 0; i < columns.size(); ++i) {
 			wxListItem ip;
