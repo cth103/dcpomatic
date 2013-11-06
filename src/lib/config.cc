@@ -102,11 +102,6 @@ Config::read ()
 	}
 	_server_port_base = b.get ();
 	
-	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
-	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
-		_servers.push_back (ServerDescription (*i));
-	}
-
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
 	_tms_user = f.string_child ("TMSUser");
@@ -197,11 +192,6 @@ Config::read_old_metadata ()
 			_default_directory = v;
 		} else if (k == N_("server_port")) {
 			_server_port_base = atoi (v.c_str ());
-		} else if (k == N_("server")) {
-			optional<ServerDescription> server = ServerDescription::create_from_metadata (v);
-			if (server) {
-				_servers.push_back (server.get ());
-			}
 		} else if (k == N_("tms_ip")) {
 			_tms_ip = v;
 		} else if (k == N_("tms_path")) {
@@ -293,11 +283,6 @@ Config::write () const
 	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
 	root->add_child("ServerPortBase")->add_child_text (lexical_cast<string> (_server_port_base));
-	
-	for (vector<ServerDescription>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		i->as_xml (root->add_child ("Server"));
-	}
-
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
 	root->add_child("TMSPath")->add_child_text (_tms_path);
 	root->add_child("TMSUser")->add_child_text (_tms_user);
@@ -334,9 +319,7 @@ Config::write () const
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
-	std::cout << "dcpomatic: writing configuration to " << file(false).string() << "\n";
 	doc.write_to_file_formatted (file(false).string ());
-	std::cout << "dcpomatic: wrote configuration to " << file(false).string() << "\n";
 }
 
 boost::filesystem::path

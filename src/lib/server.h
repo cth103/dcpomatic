@@ -59,8 +59,6 @@ public:
 		, _threads (t)
 	{}
 
-	ServerDescription (boost::shared_ptr<const cxml::Node>);
-
 	/* Default copy constructor is fine */
 	
 	/** @return server's host name or IP address in string form */
@@ -80,10 +78,6 @@ public:
 	void set_threads (int t) {
 		_threads = t;
 	}
-
-	void as_xml (xmlpp::Node *) const;
-	
-	static boost::optional<ServerDescription> create_from_metadata (std::string);
 
 private:
 	/** server's host name */

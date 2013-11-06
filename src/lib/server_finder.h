@@ -27,6 +27,10 @@ public:
 
 	static ServerFinder* instance ();
 
+	void disable () {
+		_disabled = true;
+	}
+
 private:
 	ServerFinder ();
 
@@ -34,6 +38,8 @@ private:
 	void listen_thread ();
 
 	boost::signals2::signal<void (ServerDescription)> ServerFound;
+
+	bool _disabled;
 	
 	/** Thread to periodically issue broadcasts to find encoding servers */
 	boost::thread* _broadcast_thread;

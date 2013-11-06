@@ -28,7 +28,6 @@
 #include <wx/notebook.h>
 #include <libdcp/colour_matrix.h>
 #include "lib/config.h"
-#include "lib/server.h"
 #include "lib/ratio.h"
 #include "lib/scaler.h"
 #include "lib/filter.h"
@@ -37,7 +36,6 @@
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "filter_dialog.h"
-#include "server_dialog.h"
 #include "dir_picker_ctrl.h"
 #include "dci_metadata_dialog.h"
 #include "preset_colour_conversion_dialog.h"
@@ -58,8 +56,6 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	make_misc_panel ();
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
-	make_servers_panel ();
-	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
 	make_colour_conversions_panel ();
 	_notebook->AddPage (_colour_conversions_panel, _("Colour conversions"), false);
 	make_metadata_panel ();
@@ -292,34 +288,6 @@ ConfigDialog::make_metadata_panel ()
 	_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::issuer_changed, this));
 	_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
 	_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::creator_changed, this));
-}
-
-static std::string
-server_column (ServerDescription s, int c)
-{
-	switch (c) {
-	case 0:
-		return s.host_name ();
-	case 1:
-		return lexical_cast<string> (s.threads ());
-	}
-
-	return "";
-}
-
-void
-ConfigDialog::make_servers_panel ()
-{
-	vector<string> columns;
-	columns.push_back (wx_to_std (_("IP address")));
-	columns.push_back (wx_to_std (_("Threads")));
-	_servers_panel = new EditableList<ServerDescription, ServerDialog> (
-		_notebook,
-		columns,
-		boost::bind (&Config::servers, Config::instance()),
-		boost::bind (&Config::set_servers, Config::instance(), _1),
-		boost::bind (&server_column, _1, _2)
-		);
 }
 
 void

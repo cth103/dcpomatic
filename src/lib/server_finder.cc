@@ -34,7 +34,8 @@ using boost::scoped_array;
 ServerFinder* ServerFinder::_instance = 0;
 
 ServerFinder::ServerFinder ()
-	: _broadcast_thread (0)
+	: _disabled (false)
+	, _broadcast_thread (0)
 	, _listen_thread (0)
 {
 	_broadcast_thread = new boost::thread (boost::bind (&ServerFinder::broadcast_thread, this));
@@ -103,6 +104,10 @@ ServerFinder::listen_thread ()
 void
 ServerFinder::connect (boost::function<void (ServerDescription)> fn)
 {
+	if (_disabled) {
+		return;
+	}
+	
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Emit the current list of servers */

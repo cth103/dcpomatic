@@ -90,12 +90,6 @@ Encoder::process_begin ()
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
 	}
 
-	vector<ServerDescription> servers = Config::instance()->servers ();
-
-	for (vector<ServerDescription>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		add_worker_threads (*i);
-	}
-
 	_writer.reset (new Writer (_film, _job));
 	ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
 }

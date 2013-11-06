@@ -32,6 +32,7 @@
 #include "lib/config.h"
 #include "lib/log.h"
 #include "lib/ui_signaller.h"
+#include "lib/server_finder.h"
 
 using std::string;
 using std::cerr;
@@ -118,7 +119,7 @@ main (int argc, char* argv[])
 	ui_signaller = new UISignaller ();
 
 	if (no_remote) {
-		Config::instance()->set_servers (vector<ServerDescription> ());
+		ServerFinder::instance()->disable ();
 	}
 
 	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;

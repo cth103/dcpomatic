@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <wx/listctrl.h>
+#include "lib/server.h"
 
 class ServersListDialog : public wxDialog
 {

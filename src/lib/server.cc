@@ -59,36 +59,6 @@ using boost::optional;
 using boost::lexical_cast;
 using libdcp::Size;
 
-ServerDescription::ServerDescription (shared_ptr<const cxml::Node> node)
-{
-	_host_name = node->string_child ("HostName");
-	_threads = node->number_child<int> ("Threads");
-}
-
-void
-ServerDescription::as_xml (xmlpp::Node* root) const
-{
-	root->add_child("HostName")->add_child_text (_host_name);
-	root->add_child("Threads")->add_child_text (boost::lexical_cast<string> (_threads));
-}
-
-/** Create a server description from a string of metadata returned from as_metadata().
- *  @param v Metadata.
- *  @return ServerDescription, or 0.
- */
-optional<ServerDescription>
-ServerDescription::create_from_metadata (string v)
-{
-	vector<string> b;
-	split (b, v, is_any_of (" "));
-
-	if (b.size() != 2) {
-		return optional<ServerDescription> ();
-	}
-
-	return ServerDescription (b[0], atoi (b[1].c_str ()));
-}
-
 Server::Server (shared_ptr<Log> log, bool verbose)
 	: _log (log)
 	, _verbose (verbose)
