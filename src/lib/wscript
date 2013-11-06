@@ -44,6 +44,7 @@ sources = """
           scp_dcp_job.cc
           scaler.cc
           server.cc
+          server_finder.cc
           sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc

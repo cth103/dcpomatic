@@ -31,6 +31,7 @@
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/log.h"
+#include "lib/ui_signaller.h"
 
 using std::string;
 using std::cerr;
@@ -114,6 +115,7 @@ main (int argc, char* argv[])
 	film_dir = argv[optind];
 			
 	dcpomatic_setup ();
+	ui_signaller = new UISignaller ();
 
 	if (no_remote) {
 		Config::instance()->set_servers (vector<ServerDescription> ());
