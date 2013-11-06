@@ -36,6 +36,7 @@
 #include "image.h"
 #include "dcp_video_frame.h"
 #include "config.h"
+#include "cross.h"
 
 #include "i18n.h"
 
@@ -43,6 +44,11 @@ using std::string;
 using std::stringstream;
 using std::multimap;
 using std::vector;
+using std::list;
+using std::cout;
+using std::cerr;
+using std::setprecision;
+using std::fixed;
 using boost::shared_ptr;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
@@ -50,6 +56,7 @@ using boost::thread;
 using boost::bind;
 using boost::scoped_array;
 using boost::optional;
+using boost::lexical_cast;
 using libdcp::Size;
 
 ServerDescription::ServerDescription (shared_ptr<const cxml::Node> node)
@@ -73,7 +80,7 @@ optional<ServerDescription>
 ServerDescription::create_from_metadata (string v)
 {
 	vector<string> b;
-	split (b, v, is_any_of (N_(" ")));
+	split (b, v, is_any_of (" "));
 
 	if (b.size() != 2) {
 		return optional<ServerDescription> ();
@@ -82,14 +89,18 @@ ServerDescription::create_from_metadata (string v)
 	return ServerDescription (b[0], atoi (b[1].c_str ()));
 }
 
-Server::Server (shared_ptr<Log> log)
+Server::Server (shared_ptr<Log> log, bool verbose)
 	: _log (log)
+	, _verbose (verbose)
 {
 
 }
 
+/** @param after_read Filled in with gettimeofday() after reading the input from the network.
+ *  @param after_encode Filled in with gettimeofday() after encoding the image.
+ */
 int
-Server::process (shared_ptr<Socket> socket)
+Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct timeval& after_encode)
 {
 	uint32_t length = socket->read_uint32 ();
 	scoped_array<char> buffer (new char[length]);
@@ -99,6 +110,7 @@ Server::process (shared_ptr<Socket> socket)
 	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
 	xml->read_stream (s);
 	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
+		cerr << "Mismatched server/client versions\n";
 		_log->log ("Mismatched server/client versions");
 		return -1;
 	}
@@ -111,8 +123,13 @@ Server::process (shared_ptr<Socket> socket)
 
 	image->read_from_socket (socket);
 	DCPVideoFrame dcp_video_frame (image, xml, _log);
+
+	gettimeofday (&after_read, 0);
 	
 	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
+
+	gettimeofday (&after_encode, 0);
+	
 	try {
 		encoded->send (socket);
 	} catch (std::exception& e) {
@@ -142,16 +159,24 @@ Server::worker_thread ()
 		lock.unlock ();
 
 		int frame = -1;
+		string ip;
 
 		struct timeval start;
+		struct timeval after_read;
+		struct timeval after_encode;
+		struct timeval end;
+		
 		gettimeofday (&start, 0);
 		
 		try {
-			frame = process (socket);
+			frame = process (socket, after_read, after_encode);
+			ip = socket->socket().remote_endpoint().address().to_string();
 		} catch (std::exception& e) {
-			_log->log (String::compose (N_("Error: %1"), e.what()));
+			_log->log (String::compose ("Error: %1", e.what()));
 		}
-		
+
+		gettimeofday (&end, 0);
+
 		socket.reset ();
 		
 		lock.lock ();
@@ -159,7 +184,20 @@ Server::worker_thread ()
 		if (frame >= 0) {
 			struct timeval end;
 			gettimeofday (&end, 0);
-			_log->log (String::compose (N_("Encoded frame %1 in %2"), frame, seconds (end) - seconds (start)));
+
+			stringstream message;
+			message.precision (2);
+			message << fixed
+				<< "Encoded frame " << frame << " from " << ip << ": "
+				<< "receive " << (seconds(after_read) - seconds(start)) << "s "
+				<< "encode " << (seconds(after_encode) - seconds(after_read)) << "s "
+				<< "send " << (seconds(end) - seconds(after_encode)) << "s.";
+						   
+			if (_verbose) {
+				cout << message.str() << "\n";
+			}
+
+			_log->log (message.str ());
 		}
 		
 		_worker_condition.notify_all ();
@@ -169,14 +207,24 @@ Server::worker_thread ()
 void
 Server::run (int num_threads)
 {
-	_log->log (String::compose (N_("Server starting with %1 threads"), num_threads));
+	_log->log (String::compose ("Server starting with %1 threads", num_threads));
+	if (_verbose) {
+		cout << "DCP-o-matic server started with " << num_threads << " threads.\n";
+	}
 	
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));
 	}
 
+	_broadcast.thread = new thread (bind (&Server::broadcast_thread, this));
+	
 	boost::asio::io_service io_service;
-	boost::asio::ip::tcp::acceptor acceptor (io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port ()));
+
+	boost::asio::ip::tcp::acceptor acceptor (
+		io_service,
+		boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port_base ())
+		);
+	
 	while (1) {
 		shared_ptr<Socket> socket (new Socket);
 		acceptor.accept (socket->socket ());
@@ -191,4 +239,54 @@ Server::run (int num_threads)
 		_queue.push_back (socket);
 		_worker_condition.notify_all ();
 	}
+}
+
+void
+Server::broadcast_thread ()
+{
+	boost::asio::io_service io_service;
+
+	boost::asio::ip::address address = boost::asio::ip::address_v4::any ();
+	boost::asio::ip::udp::endpoint listen_endpoint (address, Config::instance()->server_port_base() + 1);
+
+	_broadcast.socket = new boost::asio::ip::udp::socket (io_service);
+	_broadcast.socket->open (listen_endpoint.protocol ());
+	_broadcast.socket->bind (listen_endpoint);
+
+	_broadcast.socket->async_receive_from (
+		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
+		_broadcast.send_endpoint,
+		boost::bind (&Server::broadcast_received, this)
+		);
+
+	io_service.run ();
+}
+
+void
+Server::broadcast_received ()
+{
+	_broadcast.buffer[sizeof(_broadcast.buffer) - 1] = '\0';
+
+	if (strcmp (_broadcast.buffer, DCPOMATIC_HELLO) == 0) {
+		/* Reply to the client saying what we can do */
+		xmlpp::Document doc;
+		xmlpp::Element* root = doc.create_root_node ("ServerAvailable");
+		root->add_child("Threads")->add_child_text (lexical_cast<string> (_worker_threads.size ()));
+		stringstream xml;
+		doc.write_to_stream (xml, "UTF-8");
+
+		shared_ptr<Socket> socket (new Socket);
+		try {
+			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), Config::instance()->server_port_base() + 1));
+			socket->write (xml.str().length() + 1);
+			socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
+		} catch (...) {
+
+		}
+	}
+		
+	_broadcast.socket->async_receive_from (
+		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
+		_broadcast.send_endpoint, boost::bind (&Server::broadcast_received, this)
+		);
 }

@@ -82,14 +82,14 @@ Playlist::maybe_sequence_video ()
 	_sequencing_video = true;
 	
 	ContentList cl = _content;
-	Time last = 0;
+	Time next = 0;
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (!dynamic_pointer_cast<VideoContent> (*i)) {
 			continue;
 		}
 		
-		(*i)->set_position (last);
-		last = (*i)->end ();
+		(*i)->set_position (next);
+		next = (*i)->end() + 1;
 	}
 
 	/* This won't change order, so it does not need a sort */
@@ -260,7 +260,7 @@ Playlist::length () const
 {
 	Time len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		len = max (len, (*i)->end ());
+		len = max (len, (*i)->end() + 1);
 	}
 
 	return len;

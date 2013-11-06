@@ -59,9 +59,9 @@ public:
 
 	boost::filesystem::path default_directory_or (boost::filesystem::path a) const;
 
-	/** @return port to use for J2K encoding servers */
-	int server_port () const {
-		return _server_port;
+	/** @return base port number to use for J2K encoding servers */
+	int server_port_base () const {
+		return _server_port_base;
 	}
 
 	/** @return J2K encoding servers to use */
@@ -156,8 +156,8 @@ public:
 	}
 
 	/** @param p New server port */
-	void set_server_port (int p) {
-		_server_port = p;
+	void set_server_port_base (int p) {
+		_server_port_base = p;
 	}
 
 	/** @param s New list of servers */
@@ -270,8 +270,10 @@ private:
 	int _num_local_encoding_threads;
 	/** default directory to put new films in */
 	boost::filesystem::path _default_directory;
-	/** port to use for J2K encoding servers */
-	int _server_port;
+	/** base port number to use for J2K encoding servers;
+	 *  this port and the one above it will be used.
+	 */
+	int _server_port_base;
 
 	/** J2K encoding servers to use */
 	std::vector<ServerDescription> _servers;

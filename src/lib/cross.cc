@@ -35,6 +35,12 @@
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
 #endif
+#ifdef DCPOMATIC_POSIX
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#endif
 #include "exceptions.h"
 
 using std::pair;
@@ -45,6 +51,7 @@ using std::wstring;
 using std::make_pair;
 using boost::shared_ptr;
 
+/** @param s Number of seconds to sleep for */
 void
 dcpomatic_sleep (int s)
 {

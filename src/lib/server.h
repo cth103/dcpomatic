@@ -94,19 +94,36 @@ private:
 class Server : public boost::noncopyable
 {
 public:
-	Server (boost::shared_ptr<Log> log);
+	Server (boost::shared_ptr<Log> log, bool verbose);
 
 	void run (int num_threads);
 
 private:
 	void worker_thread ();
-	int process (boost::shared_ptr<Socket> socket);
+	int process (boost::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
+	void broadcast_thread ();
+	void broadcast_received ();
 
 	std::vector<boost::thread *> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
 	boost::shared_ptr<Log> _log;
+	bool _verbose;
+
+	struct Broadcast {
+
+		Broadcast ()
+			: thread (0)
+			, socket (0)
+		{}
+		
+		boost::thread* thread;
+		boost::asio::ip::udp::socket* socket;
+		char buffer[64];
+		boost::asio::ip::udp::endpoint send_endpoint;
+		
+	} _broadcast;
 };
 
 #endif

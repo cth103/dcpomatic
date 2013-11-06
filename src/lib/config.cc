@@ -54,7 +54,7 @@ Config* Config::_instance = 0;
 /** Construct default configuration */
 Config::Config ()
 	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
-	, _server_port (6192)
+	, _server_port_base (6192)
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _default_still_length (10)
@@ -95,7 +95,12 @@ Config::read ()
 
 	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
 	_default_directory = f.string_child ("DefaultDirectory");
-	_server_port = f.number_child<int> ("ServerPort");
+
+	boost::optional<int> b = f.optional_number_child<int> ("ServerPort");
+	if (!b) {
+		b = f.optional_number_child<int> ("ServerPortBase");
+	}
+	_server_port_base = b.get ();
 	
 	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
 	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
@@ -191,7 +196,7 @@ Config::read_old_metadata ()
 		} else if (k == N_("default_directory")) {
 			_default_directory = v;
 		} else if (k == N_("server_port")) {
-			_server_port = atoi (v.c_str ());
+			_server_port_base = atoi (v.c_str ());
 		} else if (k == N_("server")) {
 			optional<ServerDescription> server = ServerDescription::create_from_metadata (v);
 			if (server) {
@@ -287,7 +292,7 @@ Config::write () const
 	root->add_child("Version")->add_child_text ("1");
 	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
-	root->add_child("ServerPort")->add_child_text (lexical_cast<string> (_server_port));
+	root->add_child("ServerPortBase")->add_child_text (lexical_cast<string> (_server_port_base));
 	
 	for (vector<ServerDescription>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
 		i->as_xml (root->add_child ("Server"));

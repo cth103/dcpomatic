@@ -53,13 +53,15 @@ help (string n)
 	cerr << "Syntax: " << n << " [OPTION]\n"
 	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help	      show this help\n"
-	     << "  -t, --threads      number of parallel encoding threads to use\n";
+	     << "  -t, --threads      number of parallel encoding threads to use\n"
+	     << "  --verbose          be verbose\n";
 }
 
 int
 main (int argc, char* argv[])
 {
 	int num_threads = Config::instance()->num_local_encoding_threads ();
+	bool verbose = false;
 
 	int option_index = 0;
 	while (1) {
@@ -67,6 +69,7 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "threads", required_argument, 0, 't'},
+			{ "verbose", no_argument, 0, 'A'},
 			{ 0, 0, 0, 0 }
 		};
 
@@ -86,12 +89,15 @@ main (int argc, char* argv[])
 		case 't':
 			num_threads = atoi (optarg);
 			break;
+		case 'A':
+			verbose = true;
+			break;
 		}
 	}
 
 	Scaler::setup_scalers ();
-	shared_ptr<FileLog> log (new FileLog ("servomatic.log"));
-	Server server (log);
+	shared_ptr<FileLog> log (new FileLog ("dcpomatic_server_cli.log"));
+	Server server (log, verbose);
 	server.run (num_threads);
 	return 0;
 }

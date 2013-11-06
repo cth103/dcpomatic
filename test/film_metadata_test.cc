@@ -24,9 +24,11 @@
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
+#include "test.h"
 
 using std::string;
 using std::stringstream;
+using std::list;
 using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
@@ -48,9 +50,9 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	f->set_j2k_bandwidth (200000000);
 	f->write_metadata ();
 
-	stringstream s;
-	s << "diff -u test/data/metadata.xml.ref " << test_film << "/metadata.xml";
-	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
+	list<string> ignore;
+	ignore.push_back ("Key");
+	check_xml ("test/data/metadata.xml.ref", test_film + "/metadata.xml", ignore);
 
 	shared_ptr<Film> g (new Film (test_film));
 	g->read_metadata ();
@@ -60,5 +62,5 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_EQUAL (g->container(), Ratio::from_id ("185"));
 	
 	g->write_metadata ();
-	BOOST_CHECK_EQUAL (::system (s.str().c_str ()), 0);
+	check_xml ("test/data/metadata.xml.ref", test_film + "/metadata.xml", ignore);
 }

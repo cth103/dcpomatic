@@ -16,6 +16,9 @@ def build(bld):
     obj.use    = 'libdcpomatic'
     obj.source = """
                  test.cc
+                 scaling_test.cc
+                 film_metadata_test.cc
+                 frame_rate_test.cc
                  colour_conversion_test.cc
                  audio_delay_test.cc
                  silence_padding_test.cc
@@ -24,15 +27,12 @@ def build(bld):
                  ffmpeg_audio_test.cc
                  threed_test.cc
                  play_test.cc
-                 frame_rate_test.cc
                  ffmpeg_pts_offset.cc
                  ffmpeg_examiner_test.cc
                  black_fill_test.cc
-                 scaling_test.cc
                  ratio_test.cc
                  pixel_formats_test.cc
                  make_black_test.cc
-                 film_metadata_test.cc
                  stream_test.cc
                  util_test.cc
                  ffmpeg_dcp_test.cc

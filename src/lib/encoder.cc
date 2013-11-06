@@ -22,6 +22,8 @@
  */
 
 #include <iostream>
+#include <boost/lambda/lambda.hpp>
+#include <libcxml/cxml.h>
 #include "encoder.h"
 #include "util.h"
 #include "film.h"
@@ -44,6 +46,7 @@ using std::min;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
+using boost::scoped_array;
 
 int const Encoder::_history_size = 25;
 
@@ -53,6 +56,8 @@ Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	, _job (j)
 	, _video_frames_out (0)
 	, _terminate (false)
+	, _broadcast_thread (0)
+	, _listen_thread (0)
 {
 	_have_a_real_frame[EYES_BOTH] = false;
 	_have_a_real_frame[EYES_LEFT] = false;
@@ -67,20 +72,40 @@ Encoder::~Encoder ()
 	}
 }
 
+/** Add a worker thread for a each thread on a remote server.  Caller must hold
+ *  a lock on _mutex, or know that one is not currently required to
+ *  safely modify _threads.
+ */
+void
+Encoder::add_worker_threads (ServerDescription d)
+{
+	for (int i = 0; i < d.threads(); ++i) {
+		_threads.push_back (
+			make_pair (d, new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)))
+			);
+	}
+}
+
 void
 Encoder::process_begin ()
 {
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
+		_threads.push_back (
+			make_pair (
+				optional<ServerDescription> (),
+				new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ()))
+				)
+			);
 	}
 
 	vector<ServerDescription> servers = Config::instance()->servers ();
 
 	for (vector<ServerDescription>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		for (int j = 0; j < i->threads (); ++j) {
-			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, *i)));
-		}
+		add_worker_threads (*i);
 	}
+
+	_broadcast_thread = new boost::thread (boost::bind (&Encoder::broadcast_thread, this));
+	_listen_thread = new boost::thread (boost::bind (&Encoder::listen_thread, this));
 
 	_writer.reset (new Writer (_film, _job));
 }
@@ -228,19 +253,30 @@ Encoder::process_audio (shared_ptr<const AudioBuffers> data)
 void
 Encoder::terminate_threads ()
 {
-	boost::mutex::scoped_lock lock (_mutex);
-	_terminate = true;
-	_condition.notify_all ();
-	lock.unlock ();
+	{
+		boost::mutex::scoped_lock lock (_mutex);
+		_terminate = true;
+		_condition.notify_all ();
+	}
 
-	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
-		if ((*i)->joinable ()) {
-			(*i)->join ();
+	for (ThreadList::iterator i = _threads.begin(); i != _threads.end(); ++i) {
+		if (i->second->joinable ()) {
+			i->second->join ();
 		}
-		delete *i;
+		delete i->second;
 	}
 
 	_threads.clear ();
+		     
+	if (_broadcast_thread && _broadcast_thread->joinable ()) {
+		_broadcast_thread->join ();
+	}
+	delete _broadcast_thread;
+
+	if (_listen_thread && _listen_thread->joinable ()) {
+		_listen_thread->join ();
+	}
+	delete _listen_thread;
 }
 
 void
@@ -324,5 +360,80 @@ Encoder::encoder_thread (optional<ServerDescription> server)
 
 		lock.lock ();
 		_condition.notify_all ();
+	}
+}
+
+void
+Encoder::broadcast_thread ()
+{
+	boost::system::error_code error;
+	boost::asio::io_service io_service;
+	boost::asio::ip::udp::socket socket (io_service);
+	socket.open (boost::asio::ip::udp::v4(), error);
+	if (error) {
+		throw NetworkError ("failed to set up broadcast socket");
+	}
+
+        socket.set_option (boost::asio::ip::udp::socket::reuse_address (true));
+        socket.set_option (boost::asio::socket_base::broadcast (true));
+	
+        boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);            
+
+	while (1) {
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_terminate) {
+			socket.close (error);
+			return;
+		}
+		
+		string data = DCPOMATIC_HELLO;
+		socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+
+		lm.unlock ();
+		dcpomatic_sleep (10);
+	}
+}
+
+void
+Encoder::listen_thread ()
+{
+	while (1) {
+		{
+			/* See if we need to stop */
+			boost::mutex::scoped_lock lm (_mutex);
+			if (_terminate) {
+				return;
+			}
+		}
+
+		shared_ptr<Socket> sock (new Socket (10));
+
+		try {
+			sock->accept (Config::instance()->server_port_base() + 1);
+		} catch (std::exception& e) {
+			continue;
+		}
+
+		uint32_t length = sock->read_uint32 ();
+		scoped_array<char> buffer (new char[length]);
+		sock->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+		
+		stringstream s (buffer.get());
+		shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
+		xml->read_stream (s);
+
+		{
+			/* See if we already know about this server */
+			string const ip = sock->socket().remote_endpoint().address().to_string ();
+			boost::mutex::scoped_lock lm (_mutex);
+			ThreadList::iterator i = _threads.begin();
+			while (i != _threads.end() && (!i->first || i->first->host_name() != ip)) {
+				++i;
+			}
+
+			if (i == _threads.end ()) {
+				add_worker_threads (ServerDescription (ip, xml->number_child<int> ("Threads")));
+			}
+		}
 	}
 }
