@@ -2,10 +2,12 @@
 
 export LD_LIBRARY_PATH=build/src/lib:$LD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
-    gdb --args build/test/unit-tests --catch_system_errors=no
+    shift;
+    gdb --args build/test/unit-tests --catch_system_errors=no $*
 elif [ "$1" == "--valgrind" ]; then
-    valgrind --tool="memcheck" --leak-check=full build/test/unit-tests
+    shift;
+    valgrind --tool="memcheck" --leak-check=full build/test/unit-tests $*
 else
-    build/test/unit-tests --catch_system_errors=no
+    build/test/unit-tests --catch_system_errors=no $*
 fi
 
