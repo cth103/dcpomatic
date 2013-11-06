@@ -31,6 +31,7 @@ sources = """
           repeat_dialog.cc
           screen_dialog.cc
           server_dialog.cc
+          servers_list_dialog.cc
           subtitle_panel.cc
           timecode.cc
           timeline.cc
