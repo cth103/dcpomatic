@@ -383,10 +383,10 @@ Writer::finish ()
 			       ));
 
 	_job->sub (_("Computing image digest"));
-	_picture_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1));
+	_picture_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1, false));
 
 	_job->sub (_("Computing audio digest"));
-	_sound_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1));
+	_sound_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1, false));
 
 	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();

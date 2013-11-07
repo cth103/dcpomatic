@@ -69,7 +69,7 @@ public:
 	}
 
 	void set_progress_unknown ();
-	void set_progress (float);
+	void set_progress (float, bool force = false);
 	void sub (std::string);
 	float progress () const;
 	bool progress_unknown () const {

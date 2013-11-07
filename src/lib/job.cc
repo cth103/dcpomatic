@@ -212,9 +212,9 @@ Job::elapsed_time () const
  *  @param p Progress (from 0 to 1)
  */
 void
-Job::set_progress (float p)
+Job::set_progress (float p, bool force)
 {
-	if (fabs (p - progress()) < 0.01) {
+	if (!force && fabs (p - progress()) < 0.01) {
 		/* Calm excessive progress reporting */
 		return;
 	}
@@ -248,7 +248,7 @@ Job::sub (string n)
 		_sub_name = n;
 	}
 	
-	set_progress (0);
+	set_progress (0, true);
 }
 
 string
