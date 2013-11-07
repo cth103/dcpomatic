@@ -354,7 +354,13 @@ private:
 
 	void file_open ()
 	{
-		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog* c = new wxDirDialog (
+			this,
+			_("Select film to open"),
+			std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()),
+			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
+			);
+		
 		int r;
 		while (1) {
 			r = c->ShowModal ();
