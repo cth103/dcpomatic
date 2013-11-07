@@ -1572,27 +1572,6 @@ provide a significant speed-up compared to a 100Mb/s network.
 
 </chapter>
 
-<chapter xml:id="ch-colour-conversions" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-<title>Colour conversions</title>
-
-<para>
-As part of the encoding process, DCP-o-matic has to convert the colour
-space of the source files that you use into XYZ, the colour space used
-by the DCI standard.
-</para>
-
-<para>
-In order to do this, source colour is converted in three steps:
-</para>
-
-<itemizedlist>
-<listitem>Input gamma correction.</listitem>
-<listitem>Multiplication by a conversion matrix.</listitem>
-<listitem>Output gamma correction.</listitem>
-</itemizedlist>
-
-</chapter>
-
 <chapter xml:id="ch-files" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Generated files</title>
 
