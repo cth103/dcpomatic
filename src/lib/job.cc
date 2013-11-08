@@ -189,6 +189,7 @@ Job::set_state (State s)
 		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
 			_ran_for = elapsed_time ();
 			finished = true;
+			_sub_name.clear ();
 		}
 	}
 

@@ -90,8 +90,8 @@ TranscodeJob::status () const
 
 	s << Job::status ();
 
-	if (!finished ()) {
-		s << "; " << fixed << setprecision (1) << fps << N_(" ") << _("frames per second");
+	if (!finished () && !_transcoder->finishing ()) {
+		s << "; " << fixed << setprecision (1) << fps << " " << _("frames per second");
 	}
 	
 	return s.str ();

@@ -40,9 +40,15 @@ public:
 	float current_encoding_rate () const;
 	int video_frames_out () const;
 
+	/** @return true if we are in the process of calling Encoder::process_end */
+	bool finishing () const {
+		return _finishing;
+	}
+
 private:
 	/** A Job that is running this Transcoder, or 0 */
 	boost::shared_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Encoder> _encoder;
+	bool _finishing;
 };

@@ -66,6 +66,7 @@ Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _job (j)
 	, _player (f->make_player ())
 	, _encoder (new Encoder (f, j))
+	, _finishing (false)
 {
 	_player->Video.connect (bind (video_proxy, _encoder, _1, _2, _3, _4));
 	_player->Audio.connect (bind (audio_proxy, _encoder, _1));
@@ -76,6 +77,8 @@ Transcoder::go ()
 {
 	_encoder->process_begin ();
 	while (!_player->pass ()) {}
+
+	_finishing = true;
 	_encoder->process_end ();
 }
 

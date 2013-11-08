@@ -96,16 +96,25 @@ public:
 
 private:
 
+	void update_job_name ()
+	{
+		string n = "<b>" + _job->name () + "</b>";
+		if (!_job->sub_name().empty ()) {
+			n += "\n" + _job->sub_name ();
+		}
+		
+		if (n != _last_name) {
+			_name->SetLabelMarkup (std_to_wx (n));
+			_last_name = n;
+		}
+	}
+
 	void progress ()
 	{
 		float const p = _job->progress ();
 		if (p >= 0) {
 			checked_set (_message, _job->status ());
-			string const n = "<b>" + _job->name () + "</b>\n" + _job->sub_name ();
-			if (n != _last_name) {
-				_name->SetLabelMarkup (std_to_wx (n));
-				_last_name = n;
-			}
+			update_job_name ();
 			int const pp = min (100.0f, p * 100);
 			_gauge->SetValue (pp);
 		}
@@ -117,6 +126,8 @@ private:
 	void finished ()
 	{
 		checked_set (_message, _job->status ());
+		update_job_name ();
+		
 		if (!_job->finished_cancelled ()) {
 			_gauge->SetValue (100);
 		}
