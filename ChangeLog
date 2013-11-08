@@ -1,3 +1,8 @@
+2013-11-08  Carl Hetherington  <carl@ubuntu>
+
+	* Fix strange behaviour of J2K bandwidth control
+	on 32-bit Linux.
+
 2013-11-07  Carl Hetherington  <cth@carlh.net>
 
 	* Open file dialog starts in the configured DCP directory,
