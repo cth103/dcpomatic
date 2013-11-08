@@ -49,8 +49,8 @@ help ()
 		"      --cinemas          list known cinemas from the DCP-o-matic settings\n"
 		"      --certificate file containing projector certificate\n\n"
 		"For example:\n\n"
-		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n\n"
-		"(Fred's Cinema must have been set up in DCP-o-matic's KDM window)\n"
+		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
+		"(Fred's Cinema must have been set up in DCP-o-matic's KDM window)\n\n"
 		"\tdcpomatic_kdm -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie\n\n";
 }
 
