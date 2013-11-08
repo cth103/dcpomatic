@@ -425,7 +425,7 @@ FilmEditor::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	case Film::J2K_BANDWIDTH:
-		checked_set (_j2k_bandwidth, double (_film->j2k_bandwidth()) / 1000000);
+		checked_set (_j2k_bandwidth, _film->j2k_bandwidth() / 1000000);
 		break;
 	case Film::USE_DCI_NAME:
 		checked_set (_use_dci_name, _film->use_dci_name ());
