@@ -360,6 +360,10 @@ Playlist::move_earlier (shared_ptr<Content> c)
 	(*previous)->set_position (p + c->length_after_trim ());
 	c->set_position (p);
 	sort (_content.begin(), _content.end(), ContentSorter ());
+
+	for (i = _content.begin(); i != _content.end(); ++i) {
+		cout << (*i)->position() << " " << (*i)->path() << "\n";
+	}
 	
 	Changed ();
 }

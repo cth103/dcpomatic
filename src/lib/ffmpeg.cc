@@ -58,7 +58,7 @@ FFmpeg::~FFmpeg ()
 		}
 	}
 
-	av_free (_frame);
+	avcodec_free_frame (&_frame);
 	
 	avformat_close_input (&_format_context);
 }

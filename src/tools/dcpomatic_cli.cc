@@ -201,6 +201,11 @@ main (int argc, char* argv[])
 		}
 	}
 
+	/* This is just to stop valgrind reporting leaks due to JobManager
+	   indirectly holding onto codecs.
+	*/
+	JobManager::drop ();
+	
 	return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 

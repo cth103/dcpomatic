@@ -138,3 +138,10 @@ JobManager::instance ()
 
 	return _instance;
 }
+
+void
+JobManager::drop ()
+{
+	delete _instance;
+	_instance = 0;
+}

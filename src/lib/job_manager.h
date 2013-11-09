@@ -43,6 +43,7 @@ public:
 	boost::signals2::signal<void (bool)> ActiveJobsChanged;
 
 	static JobManager* instance ();
+	static void drop ();
 
 private:
 	/* This function is part of the test suite */
