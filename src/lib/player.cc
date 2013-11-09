@@ -452,9 +452,9 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
-			fd->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4, 0));
-			fd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
-			fd->Subtitle.connect (bind (&Player::process_subtitle, this, piece, _1, _2, _3, _4));
+			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
+			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
+			fd->Subtitle.connect (bind (&Player::process_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
 
 			fd->seek (fc->time_to_content_video_frames (fc->trim_start ()), true);
 			piece->decoder = fd;
@@ -474,7 +474,7 @@ Player::setup_pieces ()
 
 			if (!id) {
 				id.reset (new StillImageDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4, 0));
+				id->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
 			}
 
 			piece->decoder = id;
@@ -486,7 +486,7 @@ Player::setup_pieces ()
 
 			if (!md) {
 				md.reset (new MovingImageDecoder (_film, mc));
-				md->Video.connect (bind (&Player::process_video, this, piece, _1, _2, _3, _4, 0));
+				md->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
 			}
 
 			piece->decoder = md;
@@ -495,7 +495,7 @@ Player::setup_pieces ()
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
 		if (sc) {
 			shared_ptr<AudioDecoder> sd (new SndfileDecoder (_film, sc));
-			sd->Audio.connect (bind (&Player::process_audio, this, piece, _1, _2));
+			sd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
 
 			piece->decoder = sd;
 		}

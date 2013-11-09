@@ -339,6 +339,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		}
 
 		if (_packet.stream_index != _video_stream) {
+			av_free_packet (&_packet);
 			continue;
 		}
 		

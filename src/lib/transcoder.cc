@@ -59,12 +59,10 @@ audio_proxy (weak_ptr<Encoder> encoder, shared_ptr<const AudioBuffers> audio)
 
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
  *  @param f Film that we are transcoding.
- *  @param j Job that we are running under, or 0.
  *  @param e Encoder to use.
  */
 Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
-	: _job (j)
-	, _player (f->make_player ())
+	: _player (f->make_player ())
 	, _encoder (new Encoder (f, j))
 	, _finishing (false)
 {

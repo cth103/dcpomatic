@@ -46,10 +46,11 @@ using std::ifstream;
 using std::list;
 using std::cout;
 using boost::shared_ptr;
+using boost::weak_ptr;
 
 int const Writer::_maximum_frames_in_memory = 8;
 
-Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
+Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	: _film (f)
 	, _job (j)
 	, _first_nonexistant_frame (0)
@@ -66,7 +67,9 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 	/* Remove any old DCP */
 	boost::filesystem::remove_all (_film->dir (_film->dcp_name ()));
 
-	_job->sub (_("Checking existing image data"));
+	shared_ptr<Job> job = _job.lock ();
+
+	job->sub (_("Checking existing image data"));
 	check_existing_picture_mxf ();
 
 	/* Create our picture asset in a subdirectory, named according to those
@@ -102,7 +105,7 @@ Writer::Writer (shared_ptr<const Film> f, shared_ptr<Job> j)
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
-	_job->sub (_("Encoding image data"));
+	job->sub (_("Encoding image data"));
 }
 
 void
@@ -267,7 +270,9 @@ try
 			_last_written_eyes = qi.eyes;
 			
 			if (_film->length()) {
-				_job->set_progress (
+				shared_ptr<Job> job = _job.lock ();
+				assert (job);
+				job->set_progress (
 					float (_full_written + _fake_written + _repeat_written) / _film->time_to_video_frames (_film->length())
 					);
 			}
@@ -382,11 +387,14 @@ Writer::finish ()
 							 )
 			       ));
 
-	_job->sub (_("Computing image digest"));
-	_picture_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1, false));
+	shared_ptr<Job> job = _job.lock ();
+	assert (job);
 
-	_job->sub (_("Computing audio digest"));
-	_sound_asset->compute_digest (boost::bind (&Job::set_progress, _job.get(), _1, false));
+	job->sub (_("Computing image digest"));
+	_picture_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
+
+	job->sub (_("Computing audio digest"));
+	_sound_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
 
 	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
@@ -470,7 +478,10 @@ Writer::check_existing_picture_mxf ()
 
 	while (1) {
 
-		_job->set_progress (float (_first_nonexistant_frame) / N);
+		shared_ptr<Job> job = _job.lock ();
+		assert (job);
+
+		job->set_progress (float (_first_nonexistant_frame) / N);
 
 		if (_film->three_d ()) {
 			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_LEFT)) {

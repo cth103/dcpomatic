@@ -21,7 +21,6 @@
 #include "encoder.h"
 
 class Film;
-class Job;
 class Encoder;
 class VideoFilter;
 class Player;
@@ -30,10 +29,7 @@ class Player;
 class Transcoder : public boost::noncopyable
 {
 public:
-	Transcoder (
-		boost::shared_ptr<const Film> f,
-		boost::shared_ptr<Job> j
-		);
+	Transcoder (boost::shared_ptr<const Film>, boost::shared_ptr<Job>);
 
 	void go ();
 
@@ -46,8 +42,6 @@ public:
 	}
 
 private:
-	/** A Job that is running this Transcoder, or 0 */
-	boost::shared_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Encoder> _encoder;
 	bool _finishing;

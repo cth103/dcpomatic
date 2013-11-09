@@ -58,7 +58,7 @@ class ServerFinder;
 class Encoder : public boost::noncopyable
 {
 public:
-	Encoder (boost::shared_ptr<const Film> f, boost::shared_ptr<Job>);
+	Encoder (boost::shared_ptr<const Film> f, boost::weak_ptr<Job>);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
@@ -90,7 +90,7 @@ private:
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
-	boost::shared_ptr<Job> _job;
+	boost::weak_ptr<Job> _job;
 
 	/** Mutex for _time_history and _last_frame */
 	mutable boost::mutex _state_mutex;

@@ -46,13 +46,14 @@ using std::cout;
 using std::min;
 using std::make_pair;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::optional;
 using boost::scoped_array;
 
 int const Encoder::_history_size = 25;
 
 /** @param f Film that we are encoding */
-Encoder::Encoder (shared_ptr<const Film> f, shared_ptr<Job> j)
+Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j)
 	: _film (f)
 	, _job (j)
 	, _video_frames_out (0)
