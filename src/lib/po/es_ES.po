@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-16 09:45+0100\n"
-"PO-Revision-Date: 2013-04-02 19:10-0500\n"
+"PO-Revision-Date: 2013-11-09 03:09-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es-ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: src/lib/sndfile_content.cc:59
 msgid "%1 [audio]"
@@ -106,15 +106,15 @@ msgstr "Bilineal"
 
 #: src/lib/job.cc:350
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #: src/lib/exceptions.cc:60
 msgid "Cannot handle pixel format %1 during %2"
-msgstr ""
+msgstr "No se puede usar el formato de pixel %1 para %2"
 
 #: src/lib/util.cc:752
 msgid "Centre"
-msgstr ""
+msgstr "Centro"
 
 #: src/lib/util.cc:775
 #, fuzzy
@@ -149,7 +149,7 @@ msgstr "No se pudo abrir %1 para enviar"
 
 #: src/lib/film.cc:939
 msgid "Could not read DCP to make KDM for"
-msgstr ""
+msgstr "No se pudo leer el DCP para hacer el KDM"
 
 #: src/lib/scp_dcp_job.cc:145
 msgid "Could not start SCP session (%1)"
@@ -178,6 +178,8 @@ msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
 msgstr ""
+"DCP-o-matic no pudo abrir el fichero %1. Quizás no existe o está en un "
+"formato inesperado."
 
 #: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:70
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
@@ -289,11 +291,11 @@ msgstr "Lanczos"
 
 #: src/lib/util.cc:750
 msgid "Left"
-msgstr ""
+msgstr "Izquierda"
 
 #: src/lib/util.cc:754
 msgid "Left surround"
-msgstr ""
+msgstr "Surround izquierda"
 
 #: src/lib/util.cc:753
 msgid "Lfe (sub)"
@@ -318,7 +320,7 @@ msgstr "Miscelánea"
 
 #: src/lib/film.cc:931
 msgid "More than one possible DCP to make KDM for"
-msgstr ""
+msgstr "Más de un DCP posible para crear el KDM"
 
 #: src/lib/filter.cc:81
 msgid "Motion compensating deinterlacer"
@@ -356,11 +358,11 @@ msgstr "Rec 709"
 
 #: src/lib/util.cc:751
 msgid "Right"
-msgstr ""
+msgstr "Derecha"
 
 #: src/lib/util.cc:755
 msgid "Right surround"
-msgstr ""
+msgstr "Surround derecha"
 
 #: src/lib/scp_dcp_job.cc:133
 msgid "SSH error (%1)"
@@ -412,6 +414,9 @@ msgid ""
 "unfortunately it cannot be loaded into this version.  You will need to "
 "create a new Film, re-add your content and set it up again.  Sorry!"
 msgstr ""
+"Esta película se creó con una versión antigua de DCP-o-matic, y "
+"desgraciadamente no s puede cargar. Necesitas crear una nueva película, "
+"volver a añadir y configurar ton contenido. ¡Lo siento!"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Trailer"
@@ -439,7 +444,7 @@ msgstr "Máscara de desenfoque Gaussiano"
 
 #: src/lib/colour_conversion.cc:141
 msgid "Untitled"
-msgstr ""
+msgstr "Sin título"
 
 #: src/lib/filter.cc:69
 msgid "Vertical deblocking filter"
@@ -463,7 +468,7 @@ msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/film.cc:271
 msgid "You must add some content to the DCP before creating it"
-msgstr ""
+msgstr "Tienes que añadir contenido al DCP antes de crearlo."
 
 #: src/lib/film.cc:232
 msgid "cannot contain slashes"
@@ -555,6 +560,7 @@ msgstr "No se pudo escribir el fichero remoto (%1)"
 #: src/lib/moving_image_examiner.cc:82
 msgid "first frame in moving image directory is number %1"
 msgstr ""
+"primera imagen en el directorio de imagen en movimiento es la número %1"
 
 #: src/lib/transcode_job.cc:95
 msgid "frames per second"
@@ -562,7 +568,7 @@ msgstr "fotogramas por segundo"
 
 #: src/lib/transcode_job.cc:98
 msgid "hashing"
-msgstr ""
+msgstr "firmando"
 
 #: src/lib/util.cc:145
 msgid "hour"
@@ -586,7 +592,7 @@ msgstr "falta la clave %1 en el par clave-valor"
 
 #: src/lib/exceptions.cc:54
 msgid "missing required setting %1"
-msgstr ""
+msgstr "falta una configuración obligatoria %1"
 
 #: src/lib/ffmpeg_decoder.cc:553
 msgid "multi-part subtitles not yet supported"
@@ -603,6 +609,7 @@ msgstr "todavía no se soportan subtítulos que no son en mapas de bits"
 #: src/lib/moving_image_examiner.cc:78
 msgid "only %1 file(s) found in moving image directory"
 msgstr ""
+"solo el fichero(s) %1 se encuentra en el directorio de imagen en movimiento"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
@@ -616,7 +623,7 @@ msgstr "sRGB"
 
 #: src/lib/config.cc:73
 msgid "sRGB non-linearised"
-msgstr ""
+msgstr "sRGB no-lineal"
 
 #: src/lib/util.cc:157
 msgid "seconds"
@@ -624,7 +631,7 @@ msgstr "segundos"
 
 #: src/lib/moving_image_examiner.cc:86
 msgid "there are %1 images in the directory but the last one is number %2"
-msgstr ""
+msgstr "hay %1 imágenes en el directorio, la última es la %2"
 
 #, fuzzy
 #~ msgid "Sound file: %1"
