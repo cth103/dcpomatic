@@ -6,7 +6,7 @@ if [ "$1" == "--debug" ]; then
     gdb --args build/src/tools/dcpomatic_cli "$@"
 elif [ "$1" == "--valgrind" ]; then
     shift
-    valgrind --tool="memcheck" --leak-check=full --show-reachable=yes build/src/tools/dcpomatic_cli "$@"
+    valgrind --tool="memcheck" --leak-check=full --show-reachable=yes --num-callers=24 build/src/tools/dcpomatic_cli "$@"
 else
     build/src/tools/dcpomatic_cli "$@"
 fi
