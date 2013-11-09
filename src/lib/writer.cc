@@ -68,6 +68,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	boost::filesystem::remove_all (_film->dir (_film->dcp_name ()));
 
 	shared_ptr<Job> job = _job.lock ();
+	assert (job);
 
 	job->sub (_("Checking existing image data"));
 	check_existing_picture_mxf ();
