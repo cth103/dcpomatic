@@ -23,6 +23,7 @@ extern "C" {
 #include "resampler.h"
 #include "audio_buffers.h"
 #include "exceptions.h"
+#include "compose.hpp"
 
 #include "i18n.h"
 
@@ -77,7 +78,9 @@ Resampler::run (shared_ptr<const AudioBuffers> in, AudioContent::Frame frame)
 		);
 	
 	if (resampled_frames < 0) {
-		throw EncodeError (_("could not run sample-rate converter"));
+		char buf[256];
+		av_strerror (resampled_frames, buf, sizeof(buf));
+		throw EncodeError (String::compose (_("could not run sample-rate converter for %1 samples (%2) (%3)"), in->frames(), resampled_frames, buf));
 	}
 	
 	resampled->set_frames (resampled_frames);

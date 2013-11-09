@@ -23,6 +23,7 @@
 
 #include <list>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread.hpp>
 #include <boost/signals2.hpp>
 
 class Job;
@@ -50,12 +51,15 @@ private:
 	friend void ::wait_for_jobs ();
 	
 	JobManager ();
+	~JobManager ();
 	void scheduler ();
 	
 	mutable boost::mutex _mutex;
 	std::list<boost::shared_ptr<Job> > _jobs;
+	bool _terminate;
 
 	bool _last_active_jobs;
+	boost::thread* _scheduler;
 
 	static JobManager* _instance;
 };

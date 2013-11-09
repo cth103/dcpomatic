@@ -37,9 +37,23 @@ using boost::weak_ptr;
 JobManager* JobManager::_instance = 0;
 
 JobManager::JobManager ()
-	: _last_active_jobs (false)
+	: _terminate (false)
+	, _last_active_jobs (false)
+	, _scheduler (new boost::thread (boost::bind (&JobManager::scheduler, this)))
 {
-	boost::thread (boost::bind (&JobManager::scheduler, this));
+	
+}
+
+JobManager::~JobManager ()
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_terminate = true;
+	}
+
+	if (_scheduler->joinable ()) {
+		_scheduler->join ();
+	}
 }
 
 shared_ptr<Job>
@@ -98,6 +112,10 @@ JobManager::scheduler ()
 
 		{
 			boost::mutex::scoped_lock lm (_mutex);
+			if (_terminate) {
+				return;
+			}
+			
 			for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
 
 				if (!(*i)->finished ()) {

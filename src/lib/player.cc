@@ -564,6 +564,12 @@ Player::resampler (shared_ptr<AudioContent> c, bool create)
 	if (!create) {
 		return shared_ptr<Resampler> ();
 	}
+
+	_film->log()->log (
+		String::compose (
+			"Creating new resampler for %1 to %2 with %3 channels", c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()
+			)
+		);
 	
 	shared_ptr<Resampler> r (new Resampler (c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()));
 	_resamplers[c] = r;
