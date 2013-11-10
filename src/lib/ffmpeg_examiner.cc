@@ -160,9 +160,11 @@ FFmpegExaminer::stream_name (AVStream* s) const
 		}
 	}
 
-	if (n.str().empty()) {
-		n << "unknown";
+	if (!n.str().empty()) {
+		n << "; ";
 	}
+
+	n << s->codec->channels << " channels";
 
 	return n.str ();
 }
