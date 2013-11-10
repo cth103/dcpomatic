@@ -26,6 +26,9 @@
 #include <libdcp/util.h>
 
 class Content;
+class VideoContent;
+class AudioContent;
+class SubtitleContent;
 class AudioBuffers;
 
 /** The version number of the protocol used to communicate
@@ -40,6 +43,9 @@ typedef int64_t Time;
 typedef int64_t OutputAudioFrame;
 typedef int	OutputVideoFrame;
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
+typedef std::vector<boost::shared_ptr<VideoContent> > VideoContentList;
+typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
+typedef std::vector<boost::shared_ptr<SubtitleContent> > SubtitleContentList;
 
 template<class T>
 struct TimedAudioBuffers

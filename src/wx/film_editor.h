@@ -62,10 +62,10 @@ public:
 		return _film;
 	}
 
-	boost::shared_ptr<Content> selected_content ();
-	boost::shared_ptr<VideoContent> selected_video_content ();
-	boost::shared_ptr<AudioContent> selected_audio_content ();
-	boost::shared_ptr<SubtitleContent> selected_subtitle_content ();
+	ContentList selected_content ();
+	VideoContentList selected_video_content ();
+	AudioContentList selected_audio_content ();
+	SubtitleContentList selected_subtitle_content ();
 	
 private:
 	void make_dcp_panel ();

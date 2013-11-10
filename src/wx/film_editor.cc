@@ -258,7 +258,7 @@ FilmEditor::make_content_panel ()
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		
-		_content = new wxListCtrl (_content_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL);
+		_content = new wxListCtrl (_content_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
 		_content->InsertColumn (0, wxT(""));
@@ -832,53 +832,69 @@ FilmEditor::setup_content_sensitivity ()
 	_timing_panel->Enable	(selection && _generally_sensitive);
 }
 
-shared_ptr<Content>
+ContentList
 FilmEditor::selected_content ()
 {
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
-		return shared_ptr<Content> ();
+	ContentList sel;
+	long int s = -1;
+	while (1) {
+		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (s == -1) {
+			break;
+		}
+
+		sel.push_back (_film->content[s]);
 	}
 
-	ContentList c = _film->content ();
-	if (s < 0 || size_t (s) >= c.size ()) {
-		return shared_ptr<Content> ();
-	}
-	
-	return c[s];
+	return sel;
 }
 
-shared_ptr<VideoContent>
+VideoContentList
 FilmEditor::selected_video_content ()
 {
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return shared_ptr<VideoContent> ();
+	ContentList c = selected_content ();
+	VideoContentList vc;
+	
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
+		if (t) {
+			vc.push_back (t);
+		}
 	}
 
-	return dynamic_pointer_cast<VideoContent> (c);
+	return vc;
 }
 
-shared_ptr<AudioContent>
+AudioContentList
 FilmEditor::selected_audio_content ()
 {
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return shared_ptr<AudioContent> ();
+	ContentList c = selected_content ();
+	AudioContentList ac;
+	
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		shared_ptr<AudioContent> t = dynamic_pointer_cast<AudioContent> (*i);
+		if (t) {
+			ac.push_back (t);
+		}
 	}
 
-	return dynamic_pointer_cast<AudioContent> (c);
+	return ac;
 }
 
-shared_ptr<SubtitleContent>
+SubtitleContentList
 FilmEditor::selected_subtitle_content ()
 {
-	shared_ptr<Content> c = selected_content ();
-	if (!c) {
-		return shared_ptr<SubtitleContent> ();
+	ContentList c = selected_content ();
+	SubtitleContentList sc;
+	
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		shared_ptr<SubtitleContent> t = dynamic_pointer_cast<SubtitleContent> (*i);
+		if (t) {
+			sc.push_back (t);
+		}
 	}
 
-	return dynamic_pointer_cast<SubtitleContent> (c);
+	return sc;
 }
 
 void
