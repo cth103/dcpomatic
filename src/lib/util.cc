@@ -930,8 +930,8 @@ libdcp::Size
 fit_ratio_within (float ratio, libdcp::Size full_frame)
 {
 	if (ratio < full_frame.ratio ()) {
-		return libdcp::Size (full_frame.height * ratio, full_frame.height);
+		return libdcp::Size (rint (full_frame.height * ratio), full_frame.height);
 	}
 	
-	return libdcp::Size (full_frame.width, full_frame.width / ratio);
+	return libdcp::Size (full_frame.width, rint (full_frame.width / ratio));
 }

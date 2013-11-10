@@ -1,3 +1,8 @@
+2013-11-10  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully get rid of spurious black lines around
+	preview.
+
 2013-11-08  Carl Hetherington  <carl@ubuntu>
 
 	* Fix strange behaviour of J2K bandwidth control
