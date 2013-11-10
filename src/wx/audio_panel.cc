@@ -130,6 +130,7 @@ AudioPanel::film_content_changed (shared_ptr<Content> c, int property)
 		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_stream_description ();
+		_mapping->set (ac ? ac->audio_mapping () : AudioMapping ());
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_stream->Clear ();
 		if (fc) {
