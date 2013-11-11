@@ -89,32 +89,41 @@ SubtitlePanel::film_changed (Film::Property property)
 }
 
 void
-SubtitlePanel::film_content_changed (shared_ptr<Content> c, int property)
+SubtitlePanel::film_content_changed (int property)
 {
-	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c);
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
+	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
+	SubtitleContentList sc = _editor->selected_subtitle_content ();
+
+	shared_ptr<FFmpegContent> fcs;
+	if (fc.size() == 1) {
+		fcs = fc.front ();
+	}
+
+	shared_ptr<SubtitleContent> scs;
+	if (sc.size() == 1) {
+		scs = sc.front ();
+	}
 	
 	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		_stream->Clear ();
-		if (fc) {
-			vector<shared_ptr<FFmpegSubtitleStream> > s = fc->subtitle_streams ();
+		if (fcs) {
+			vector<shared_ptr<FFmpegSubtitleStream> > s = fcs->subtitle_streams ();
 			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
 				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
 			}
 			
-			if (fc->subtitle_stream()) {
-				checked_set (_stream, lexical_cast<string> (fc->subtitle_stream()->id));
+			if (fcs->subtitle_stream()) {
+				checked_set (_stream, lexical_cast<string> (fcs->subtitle_stream()->id));
 			} else {
 				_stream->SetSelection (wxNOT_FOUND);
 			}
 		}
 		setup_sensitivity ();
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET) {
-		checked_set (_offset, sc ? (sc->subtitle_offset() * 100) : 0);
+		checked_set (_offset, scs ? (scs->subtitle_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
-		checked_set (_scale, sc ? (sc->subtitle_scale() * 100) : 100);
+		checked_set (_scale, scs ? (scs->subtitle_scale() * 100) : 100);
 	}
-
 }
 
 void
@@ -146,17 +155,14 @@ SubtitlePanel::setup_sensitivity ()
 void
 SubtitlePanel::stream_changed ()
 {
-	shared_ptr<Content> c = _editor->selected_content ();
-	if (!c) {
+	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
+	if (fc.size() != 1) {
 		return;
 	}
+
+	shared_ptr<FFmpegContent> fcs = fc.front ();
 	
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (!fc) {
-		return;
-	}
-	
-	vector<shared_ptr<FFmpegSubtitleStream> > a = fc->subtitle_streams ();
+	vector<shared_ptr<FFmpegSubtitleStream> > a = fcs->subtitle_streams ();
 	vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = a.begin ();
 	string const s = string_client_data (_stream->GetClientObject (_stream->GetSelection ()));
 	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
@@ -164,29 +170,32 @@ SubtitlePanel::stream_changed ()
 	}
 
 	if (i != a.end ()) {
-		fc->set_subtitle_stream (*i);
+		fcs->set_subtitle_stream (*i);
 	}
 }
 
 void
 SubtitlePanel::offset_changed ()
 {
-	shared_ptr<SubtitleContent> c = _editor->selected_subtitle_content ();
-	if (!c) {
-		return;
+	SubtitleContentList c = _editor->selected_subtitle_content ();
+	if (c.size() == 1) {
+		c.front()->set_subtitle_offset (_offset->GetValue() / 100.0);
 	}
-
-	c->set_subtitle_offset (_offset->GetValue() / 100.0);
 }
 
 void
 SubtitlePanel::scale_changed ()
 {
-	shared_ptr<SubtitleContent> c = _editor->selected_subtitle_content ();
-	if (!c) {
-		return;
+	SubtitleContentList c = _editor->selected_subtitle_content ();
+	if (c.size() == 1) {
+		c.front()->set_subtitle_scale (_scale->GetValue() / 100.0);
 	}
-
-	c->set_subtitle_scale (_scale->GetValue() / 100.0);
 }
 
+void
+SubtitlePanel::content_selection_changed ()
+{
+
+}
+
+       

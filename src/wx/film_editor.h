@@ -66,6 +66,7 @@ public:
 	VideoContentList selected_video_content ();
 	AudioContentList selected_audio_content ();
 	SubtitleContentList selected_subtitle_content ();
+	FFmpegContentList selected_ffmpeg_content ();
 	
 private:
 	void make_dcp_panel ();
@@ -99,7 +100,7 @@ private:
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
-	void film_content_changed (boost::weak_ptr<Content>, int);
+	void film_content_changed (int);
 
 	void set_general_sensitivity (bool);
 	void setup_dcp_name ();

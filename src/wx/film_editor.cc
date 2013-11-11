@@ -470,7 +470,7 @@ FilmEditor::film_changed (Film::Property p)
 }
 
 void
-FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
+FilmEditor::film_content_changed (int property)
 {
 	ensure_ui_thread ();
 	
@@ -481,13 +481,8 @@ FilmEditor::film_content_changed (weak_ptr<Content> weak_content, int property)
 		return;
 	}
 
-	shared_ptr<Content> content = weak_content.lock ();
-	if (!content || content != selected_content ()) {
-		return;
-	}
-
 	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->film_content_changed (content, property);
+		(*i)->film_content_changed (property);
 	}
 
 	if (property == FFmpegContentProperty::AUDIO_STREAM) {
@@ -561,7 +556,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 
 	if (_film) {
 		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
-		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _1, _2));
+		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _2));
 	}
 
 	if (_film) {
@@ -775,9 +770,9 @@ FilmEditor::content_add_folder_clicked ()
 void
 FilmEditor::content_remove_clicked ()
 {
-	shared_ptr<Content> c = selected_content ();
-	if (c) {
-		_film->remove_content (c);
+	ContentList c = selected_content ();
+	if (c.size() == 1) {
+		_film->remove_content (c.front ());
 	}
 
 	content_selection_changed ();
@@ -787,29 +782,10 @@ void
 FilmEditor::content_selection_changed ()
 {
 	setup_content_sensitivity ();
-	shared_ptr<Content> s = selected_content ();
 
-	/* All other sensitivity in content panels should be triggered by
-	   one of these.
-	*/
-	film_content_changed (s, ContentProperty::POSITION);
-	film_content_changed (s, ContentProperty::LENGTH);
-	film_content_changed (s, ContentProperty::TRIM_START);
-	film_content_changed (s, ContentProperty::TRIM_END);
-	film_content_changed (s, VideoContentProperty::VIDEO_CROP);
-	film_content_changed (s, VideoContentProperty::VIDEO_RATIO);
-	film_content_changed (s, VideoContentProperty::VIDEO_FRAME_TYPE);
-	film_content_changed (s, VideoContentProperty::COLOUR_CONVERSION);
-	film_content_changed (s, AudioContentProperty::AUDIO_GAIN);
-	film_content_changed (s, AudioContentProperty::AUDIO_DELAY);
-	film_content_changed (s, AudioContentProperty::AUDIO_MAPPING);
-	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAM);
-	film_content_changed (s, FFmpegContentProperty::AUDIO_STREAMS);
-	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAM);
-	film_content_changed (s, FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (s, FFmpegContentProperty::FILTERS);
-	film_content_changed (s, SubtitleContentProperty::SUBTITLE_OFFSET);
-	film_content_changed (s, SubtitleContentProperty::SUBTITLE_SCALE);
+	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
+		(*i)->content_selection_changed ();
+	}
 }
 
 /** Set up broad sensitivity based on the type of content that is selected */
@@ -819,17 +795,18 @@ FilmEditor::setup_content_sensitivity ()
 	_content_add_file->Enable (_generally_sensitive);
 	_content_add_folder->Enable (_generally_sensitive);
 
-	shared_ptr<Content> selection = selected_content ();
+	ContentList selection = selected_content ();
+	VideoContentList video_selection = selected_video_content ();
 
-	_content_remove->Enable (selection && _generally_sensitive);
-	_content_earlier->Enable (selection && _generally_sensitive);
-	_content_later->Enable (selection && _generally_sensitive);
+	_content_remove->Enable   (selection.size() == 1 && _generally_sensitive);
+	_content_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
+	_content_later->Enable    (selection.size() == 1 && _generally_sensitive);
 	_content_timeline->Enable (_generally_sensitive);
 
-	_video_panel->Enable	(selection && dynamic_pointer_cast<VideoContent>  (selection) && _generally_sensitive);
-	_audio_panel->Enable	(selection && dynamic_pointer_cast<AudioContent>  (selection) && _generally_sensitive);
-	_subtitle_panel->Enable (selection && dynamic_pointer_cast<FFmpegContent> (selection) && _generally_sensitive);
-	_timing_panel->Enable	(selection && _generally_sensitive);
+	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
+	_audio_panel->Enable	(selection.size() == 1 && dynamic_pointer_cast<AudioContent>  (selection.front()) && _generally_sensitive);
+	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<FFmpegContent> (selection.front()) && _generally_sensitive);
+	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
 }
 
 ContentList
@@ -843,7 +820,7 @@ FilmEditor::selected_content ()
 			break;
 		}
 
-		sel.push_back (_film->content[s]);
+		sel.push_back (_film->content()[s]);
 	}
 
 	return sel;
@@ -897,6 +874,22 @@ FilmEditor::selected_subtitle_content ()
 	return sc;
 }
 
+FFmpegContentList
+FilmEditor::selected_ffmpeg_content ()
+{
+	ContentList c = selected_content ();
+	FFmpegContentList sc;
+	
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (*i);
+		if (t) {
+			sc.push_back (t);
+		}
+	}
+
+	return sc;
+}
+
 void
 FilmEditor::content_timeline_clicked ()
 {
@@ -935,11 +928,7 @@ FilmEditor::sequence_video_changed ()
 void
 FilmEditor::content_right_click (wxListEvent& ev)
 {
-	ContentList cl;
-	if (selected_content ()) {
-		cl.push_back (selected_content ());
-	}
-	_menu.popup (cl, ev.GetPoint ());
+	_menu.popup (selected_content (), ev.GetPoint ());
 }
 
 void
@@ -955,13 +944,19 @@ FilmEditor::three_d_changed ()
 void
 FilmEditor::content_earlier_clicked ()
 {
-	_film->move_content_earlier (selected_content ());
-	content_selection_changed ();
+	ContentList sel = selected_content ();
+	if (sel.size() == 1) {
+		_film->move_content_earlier (sel.front ());
+		content_selection_changed ();
+	}
 }
 
 void
 FilmEditor::content_later_clicked ()
 {
-	_film->move_content_later (selected_content ());
-	content_selection_changed ();
+	ContentList sel = selected_content ();
+	if (sel.size() == 1) {
+		_film->move_content_later (sel.front ());
+		content_selection_changed ();
+	}
 }

@@ -26,7 +26,8 @@ class TimingPanel : public FilmEditorPanel
 public:
 	TimingPanel (FilmEditor *);
 
-	void film_content_changed (boost::shared_ptr<Content>, int);
+	void film_content_changed (int);
+	void content_selection_changed ();
 	
 private:
 	void position_changed ();

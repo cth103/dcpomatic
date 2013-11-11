@@ -54,8 +54,14 @@ TimingPanel::TimingPanel (FilmEditor* e)
 }
 
 void
-TimingPanel::film_content_changed (shared_ptr<Content> content, int property)
+TimingPanel::film_content_changed (int property)
 {
+	ContentList cl = _editor->selected_content ();
+	shared_ptr<Content> content;
+	if (cl.size() == 1) {
+		content = cl.front ();
+	}
+	
 	if (property == ContentProperty::POSITION) {
 		if (content) {
 			_position->set (content->position (), _editor->film()->video_frame_rate ());
@@ -88,47 +94,45 @@ TimingPanel::film_content_changed (shared_ptr<Content> content, int property)
 void
 TimingPanel::position_changed ()
 {
-	shared_ptr<Content> c = _editor->selected_content ();
-	if (!c) {
-		return;
+	ContentList c = _editor->selected_content ();
+	if (c.size() == 1) {
+		c.front()->set_position (_position->get (_editor->film()->video_frame_rate ()));
 	}
-
-	c->set_position (_position->get (_editor->film()->video_frame_rate ()));
 }
 
 void
 TimingPanel::length_changed ()
 {
-	shared_ptr<Content> c = _editor->selected_content ();
-	if (!c) {
-		return;
-	}
-
-	shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c);
-	if (ic) {
-		ic->set_video_length (rint (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
+	ContentList c = _editor->selected_content ();
+	if (c.size() == 1) {
+		shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c.front ());
+		if (ic) {
+			ic->set_video_length (rint (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
+		}
 	}
 }
 
 void
 TimingPanel::trim_start_changed ()
 {
-	shared_ptr<Content> c = _editor->selected_content ();
-	if (!c) {
-		return;
+	ContentList c = _editor->selected_content ();
+	if (c.size() == 1) {
+		c.front()->set_trim_start (_trim_start->get (_editor->film()->video_frame_rate ()));
 	}
-
-	c->set_trim_start (_trim_start->get (_editor->film()->video_frame_rate ()));
 }
 
 
 void
 TimingPanel::trim_end_changed ()
 {
-	shared_ptr<Content> c = _editor->selected_content ();
-	if (!c) {
-		return;
+	ContentList c = _editor->selected_content ();
+	if (c.size() == 1) {
+		c.front()->set_trim_end (_trim_end->get (_editor->film()->video_frame_rate ()));
 	}
+}
 
-	c->set_trim_end (_trim_end->get (_editor->film()->video_frame_rate ()));
+void
+TimingPanel::content_selection_changed ()
+{
+
 }

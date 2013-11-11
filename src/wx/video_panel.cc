@@ -29,6 +29,7 @@
 #include "wx_util.h"
 #include "film_editor.h"
 #include "content_colour_conversion_dialog.h"
+#include "multiple_widget.h"
 
 using std::vector;
 using std::string;
@@ -54,23 +55,23 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Left crop"), true, wxGBPosition (r, 0));
-	_left_crop = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_left_crop, wxGBPosition (r, 1));
+	_left_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_left_crop->add (grid, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Right crop"), true, wxGBPosition (r, 0));
-	_right_crop = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_right_crop, wxGBPosition (r, 1));
+	_right_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_right_crop->add (grid, wxGBPosition (r, 1));
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Top crop"), true, wxGBPosition (r, 0));
-	_top_crop = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_top_crop, wxGBPosition (r, 1));
+	_top_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_top_crop->add (grid, wxGBPosition (r,1 ));
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Bottom crop"), true, wxGBPosition (r, 0));
-	_bottom_crop = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1));
-	grid->Add (_bottom_crop, wxGBPosition (r, 1));
+	_bottom_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_bottom_crop->add (grid, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
@@ -119,10 +120,10 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_description->SetFont(font);
 	++r;
 
-	_left_crop->SetRange (0, 1024);
-	_top_crop->SetRange (0, 1024);
-	_right_crop->SetRange (0, 1024);
-	_bottom_crop->SetRange (0, 1024);
+	_left_crop->wrapped()->SetRange (0, 1024);
+	_top_crop->wrapped()->SetRange (0, 1024);
+	_right_crop->wrapped()->SetRange (0, 1024);
+	_bottom_crop->wrapped()->SetRange (0, 1024);
 
 	vector<Ratio const *> ratios = Ratio::all ();
 	_ratio->Clear ();
@@ -135,10 +136,11 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->Append (_("3D left/right"));
 
 	_frame_type->Bind               (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
-	_left_crop->Bind                (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
-	_right_crop->Bind               (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
-	_top_crop->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
-	_bottom_crop->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
+	_left_crop->SetAllSame.connect  (boost::bind (&VideoPanel::set_left_crop_same, this));
+	_left_crop->wrapped()->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
+	_right_crop->wrapped()->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
+	_top_crop->wrapped()->Bind      (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
+	_bottom_crop->wrapped()->Bind   (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
 	_ratio->Bind	                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
@@ -149,48 +151,40 @@ VideoPanel::VideoPanel (FilmEditor* e)
 void
 VideoPanel::left_crop_changed ()
 {
-	shared_ptr<VideoContent> c = _editor->selected_video_content ();
-	if (!c) {
-		return;
+	VideoContentList c = _editor->selected_video_content ();
+	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_left_crop (_left_crop->wrapped()->GetValue ());
 	}
-
-	c->set_left_crop (_left_crop->GetValue ());
 }
 
 /** Called when the right crop widget has been changed */
 void
 VideoPanel::right_crop_changed ()
 {
-	shared_ptr<VideoContent> c = _editor->selected_video_content ();
-	if (!c) {
-		return;
+	VideoContentList c = _editor->selected_video_content ();
+	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_right_crop (_right_crop->wrapped()->GetValue ());
 	}
-
-	c->set_right_crop (_right_crop->GetValue ());
 }
 
 /** Called when the top crop widget has been changed */
 void
 VideoPanel::top_crop_changed ()
 {
-	shared_ptr<VideoContent> c = _editor->selected_video_content ();
-	if (!c) {
-		return;
+	VideoContentList c = _editor->selected_video_content ();
+	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_top_crop (_top_crop->wrapped()->GetValue ());
 	}
-
-	c->set_top_crop (_top_crop->GetValue ());
 }
 
 /** Called when the bottom crop value has been changed */
 void
 VideoPanel::bottom_crop_changed ()
 {
-	shared_ptr<VideoContent> c = _editor->selected_video_content ();
-	if (!c) {
-		return;
+	VideoContentList c = _editor->selected_video_content ();
+	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_bottom_crop (_bottom_crop->wrapped()->GetValue ());
 	}
-
-	c->set_bottom_crop (_bottom_crop->GetValue ());
 }
 
 void
@@ -207,26 +201,31 @@ VideoPanel::film_changed (Film::Property property)
 }
 
 void
-VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
+VideoPanel::film_content_changed (int property)
 {
-	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-
+	VideoContentList vc = _editor->selected_video_content ();
+	shared_ptr<VideoContent> vcs;
+	shared_ptr<FFmpegContent> fcs;
+	if (!vc.empty ()) {
+		vcs = vc.front ();
+		fcs = dynamic_pointer_cast<FFmpegContent> (vcs);
+	}
+	
 	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
-		checked_set (_frame_type, vc ? vc->video_frame_type () : VIDEO_FRAME_TYPE_2D);
+		checked_set (_frame_type, vcs ? vcs->video_frame_type () : VIDEO_FRAME_TYPE_2D);
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
-		checked_set (_left_crop,   vc ? vc->crop().left	: 0);
-		checked_set (_right_crop,  vc ? vc->crop().right	: 0);
-		checked_set (_top_crop,	   vc ? vc->crop().top	: 0);
-		checked_set (_bottom_crop, vc ? vc->crop().bottom : 0);
+		set_multiple<VideoContent> (vc, _left_crop, &VideoContent::left_crop);
+		set_multiple<VideoContent> (vc, _right_crop, &VideoContent::right_crop);
+		set_multiple<VideoContent> (vc, _top_crop, &VideoContent::top_crop);
+		set_multiple<VideoContent> (vc, _bottom_crop, &VideoContent::bottom_crop);
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_RATIO) {
-		if (vc) {
+		if (vcs) {
 			int n = 0;
 			vector<Ratio const *> ratios = Ratio::all ();
 			vector<Ratio const *>::iterator i = ratios.begin ();
-			while (i != ratios.end() && *i != vc->ratio()) {
+			while (i != ratios.end() && *i != vcs->ratio()) {
 				++i;
 				++n;
 			}
@@ -243,12 +242,12 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
-		optional<size_t> preset = vc ? vc->colour_conversion().preset () : optional<size_t> ();
+		optional<size_t> preset = vcs ? vcs->colour_conversion().preset () : optional<size_t> ();
 		vector<PresetColourConversion> cc = Config::instance()->colour_conversions ();
 		_colour_conversion->SetLabel (preset ? std_to_wx (cc[preset.get()].name) : _("Custom"));
 	} else if (property == FFmpegContentProperty::FILTERS) {
-		if (fc) {
-			pair<string, string> p = Filter::ffmpeg_strings (fc->filters ());
+		if (fcs) {
+			pair<string, string> p = Filter::ffmpeg_strings (fcs->filters ());
 			if (p.first.empty () && p.second.empty ()) {
 				_filters->SetLabel (_("None"));
 			} else {
@@ -263,18 +262,13 @@ VideoPanel::film_content_changed (shared_ptr<Content> c, int property)
 void
 VideoPanel::edit_filters_clicked ()
 {
-	shared_ptr<Content> c = _editor->selected_content ();
-	if (!c) {
+	FFmpegContentList c = _editor->selected_ffmpeg_content ();
+	if (c.size() != 1) {
 		return;
 	}
 
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c);
-	if (!fc) {
-		return;
-	}
-	
-	FilterDialog* d = new FilterDialog (this, fc->filters());
-	d->ActiveChanged.connect (bind (&FFmpegContent::set_filters, fc, _1));
+	FilterDialog* d = new FilterDialog (this, c.front()->filters());
+	d->ActiveChanged.connect (bind (&FFmpegContent::set_filters, c.front(), _1));
 	d->ShowModal ();
 	d->Destroy ();
 }
@@ -282,29 +276,34 @@ VideoPanel::edit_filters_clicked ()
 void
 VideoPanel::setup_description ()
 {
-	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
-	if (!vc) {
+	FFmpegContentList vc = _editor->selected_ffmpeg_content ();
+	if (vc.empty ()) {
 		_description->SetLabel ("");
 		return;
+	} else if (vc.size() > 1) {
+		_description->SetLabel (_("Multiple content selected"));
+		return;
 	}
+
+	shared_ptr<FFmpegContent> vcs = vc.front ();
 
 	wxString d;
 
 	int lines = 0;
 
-	if (vc->video_size().width && vc->video_size().height) {
+	if (vcs->video_size().width && vcs->video_size().height) {
 		d << wxString::Format (
 			_("Content video is %dx%d (%.2f:1)\n"),
-			vc->video_size_after_3d_split().width,
-			vc->video_size_after_3d_split().height,
-			vc->video_size_after_3d_split().ratio ()
+			vcs->video_size_after_3d_split().width,
+			vcs->video_size_after_3d_split().height,
+			vcs->video_size_after_3d_split().ratio ()
 			);
 		++lines;
 	}
 
-	Crop const crop = vc->crop ();
-	if ((crop.left || crop.right || crop.top || crop.bottom) && vc->video_size() != libdcp::Size (0, 0)) {
-		libdcp::Size cropped = vc->video_size_after_crop ();
+	Crop const crop = vcs->crop ();
+	if ((crop.left || crop.right || crop.top || crop.bottom) && vcs->video_size() != libdcp::Size (0, 0)) {
+		libdcp::Size cropped = vcs->video_size_after_crop ();
 		d << wxString::Format (
 			_("Cropped to %dx%d (%.2f:1)\n"),
 			cropped.width, cropped.height,
@@ -313,9 +312,9 @@ VideoPanel::setup_description ()
 		++lines;
 	}
 
-	Ratio const * ratio = vc->ratio ();
+	Ratio const * ratio = vcs->ratio ();
 	libdcp::Size container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
-	float const ratio_value = ratio ? ratio->ratio() : vc->video_size_after_crop().ratio ();
+	float const ratio_value = ratio ? ratio->ratio() : vcs->video_size_after_crop().ratio ();
 
 	/* We have a specified ratio to scale to */
 	libdcp::Size const scaled = fit_ratio_within (ratio_value, container_size);
@@ -336,9 +335,9 @@ VideoPanel::setup_description ()
 		++lines;
 	}
 
-	d << wxString::Format (_("Content frame rate %.4f\n"), vc->video_frame_rate ());
+	d << wxString::Format (_("Content frame rate %.4f\n"), vcs->video_frame_rate ());
 	++lines;
-	FrameRateConversion frc (vc->video_frame_rate(), _editor->film()->video_frame_rate ());
+	FrameRateConversion frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
 	d << frc.description << "\n";
 	++lines;
 
@@ -358,15 +357,18 @@ VideoPanel::ratio_changed ()
 		return;
 	}
 
-	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
+	VideoContentList vc = _editor->selected_video_content ();
+	if (vc.size() != 1) {
+		return;
+	}
 	
 	int const n = _ratio->GetSelection ();
 	if (n >= 0) {
 		vector<Ratio const *> ratios = Ratio::all ();
 		if (n < int (ratios.size ())) {
-			vc->set_ratio (ratios[n]);
+			vc.front()->set_ratio (ratios[n]);
 		} else {
-			vc->set_ratio (0);
+			vc.front()->set_ratio (0);
 		}
 	}
 }
@@ -374,25 +376,62 @@ VideoPanel::ratio_changed ()
 void
 VideoPanel::frame_type_changed ()
 {
-	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
-	if (vc) {
-		vc->set_video_frame_type (static_cast<VideoFrameType> (_frame_type->GetSelection ()));
+	VideoContentList vc = _editor->selected_video_content ();
+	if (vc.size() == 1) {
+		vc.front()->set_video_frame_type (static_cast<VideoFrameType> (_frame_type->GetSelection ()));
 	}
 }
 
 void
 VideoPanel::edit_colour_conversion_clicked ()
 {
-	shared_ptr<VideoContent> vc = _editor->selected_video_content ();
-	if (!vc) {
+	VideoContentList vc = _editor->selected_video_content ();
+	if (vc.size() != 1) {
 		return;
 	}
 
-	ColourConversion conversion = vc->colour_conversion ();
+	ColourConversion conversion = vc.front()->colour_conversion ();
 	ContentColourConversionDialog* d = new ContentColourConversionDialog (this);
 	d->set (conversion);
 	d->ShowModal ();
 
-	vc->set_colour_conversion (d->get ());
+	vc.front()->set_colour_conversion (d->get ());
 	d->Destroy ();
 }
+
+void
+VideoPanel::content_selection_changed ()
+{
+	VideoContentList sel = _editor->selected_video_content ();
+	bool const single = sel.size() == 1;
+	bool const multiple = sel.size() > 1;
+
+	/* Things that are allowed with multiple selections */
+	_left_crop->wrapped()->Enable   (single || multiple);
+	_right_crop->wrapped()->Enable  (single || multiple);
+	_top_crop->wrapped()->Enable    (single || multiple);
+	_bottom_crop->wrapped()->Enable (single || multiple);
+
+	/* Things that are only allowed with single selections */
+	_frame_type->Enable (single);
+	_ratio->Enable (single);
+	_filters_button->Enable (single);
+	_colour_conversion_button->Enable (single);
+
+	film_content_changed (VideoContentProperty::VIDEO_FRAME_TYPE);
+	film_content_changed (VideoContentProperty::VIDEO_CROP);
+	film_content_changed (VideoContentProperty::VIDEO_RATIO);
+	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
+	film_content_changed (FFmpegContentProperty::FILTERS);
+}
+
+void
+VideoPanel::set_left_crop_same ()
+{
+	VideoContentList sel = _editor->selected_video_content ();
+	for (VideoContentList::iterator i = sel.begin(); i != sel.end(); ++i) {
+		(*i)->set_left_crop (sel.front()->left_crop ());
+	}
+}
+

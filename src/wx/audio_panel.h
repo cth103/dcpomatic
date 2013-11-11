@@ -33,7 +33,8 @@ public:
 	AudioPanel (FilmEditor *);
 
 	void film_changed (Film::Property);
-	void film_content_changed (boost::shared_ptr<Content>, int);
+	void film_content_changed (int);
+	void content_selection_changed ();
 	
 private:
 	void gain_changed ();

@@ -33,7 +33,10 @@ public:
 	FilmEditorPanel (FilmEditor *, wxString);
 
 	virtual void film_changed (Film::Property) {}
-	virtual void film_content_changed (boost::shared_ptr<Content>, int) = 0;
+	/** Called when a given property of one of the selected Contents changes */
+	virtual void film_content_changed (int) = 0;
+	/** Called when the list of selected Contents changes */
+	virtual void content_selection_changed () = 0;
 
 protected:
 	FilmEditor* _editor;

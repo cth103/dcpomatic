@@ -29,6 +29,7 @@ class Content;
 class VideoContent;
 class AudioContent;
 class SubtitleContent;
+class FFmpegContent;
 class AudioBuffers;
 
 /** The version number of the protocol used to communicate
@@ -46,6 +47,7 @@ typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<VideoContent> > VideoContentList;
 typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
 typedef std::vector<boost::shared_ptr<SubtitleContent> > SubtitleContentList;
+typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 
 template<class T>
 struct TimedAudioBuffers

@@ -19,6 +19,7 @@
 
 #include "lib/film.h"
 #include "film_editor_panel.h"
+#include "multiple_widget.h"
 
 class wxChoice;
 class wxStaticText;
@@ -31,9 +32,11 @@ public:
 	VideoPanel (FilmEditor *);
 
 	void film_changed (Film::Property);
-	void film_content_changed (boost::shared_ptr<Content>, int);
+	void film_content_changed (int);
+	void content_selection_changed ();
 
 private:
+	void set_left_crop_same ();
 	void left_crop_changed ();
 	void right_crop_changed ();
 	void top_crop_changed ();
@@ -46,10 +49,10 @@ private:
 	void setup_description ();
 
 	wxChoice* _frame_type;
-	wxSpinCtrl* _left_crop;
-	wxSpinCtrl* _right_crop;
-	wxSpinCtrl* _top_crop;
-	wxSpinCtrl* _bottom_crop;
+	MultipleWidget<wxSpinCtrl>* _left_crop;
+	MultipleWidget<wxSpinCtrl>* _right_crop;
+	MultipleWidget<wxSpinCtrl>* _top_crop;
+	MultipleWidget<wxSpinCtrl>* _bottom_crop;
 	wxChoice* _ratio;
 	wxStaticText* _ratio_description;
 	wxStaticText* _description;

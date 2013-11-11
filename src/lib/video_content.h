@@ -85,6 +85,26 @@ public:
 		return _crop;
 	}
 
+	int left_crop () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _crop.left;
+	}
+
+	int right_crop () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _crop.right;
+	}
+
+	int top_crop () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _crop.top;
+	}
+
+	int bottom_crop () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _crop.bottom;
+	}
+	
 	void set_ratio (Ratio const *);
 
 	/** @return ratio to scale to, or 0 if the content's own ratio should be preserved. */
