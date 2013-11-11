@@ -50,16 +50,28 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Gain"), true, wxGBPosition (r, 0));
-	_gain = new wxSpinCtrl (this);
-	grid->Add (_gain, wxGBPosition (r, 1));
+	_gain = new ContentWidget<AudioContent, wxSpinCtrl> (
+		this,
+		new wxSpinCtrl (this),
+		AudioContentProperty::AUDIO_GAIN,
+		boost::mem_fn (&AudioContent::audio_gain),
+		boost::mem_fn (&AudioContent::set_audio_gain)
+		);
+	_gain->add (grid, wxGBPosition (r, 1));
 	add_label_to_grid_bag_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
 	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
 	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), false, wxGBPosition (r, 0));
-	_delay = new wxSpinCtrl (this);
-	grid->Add (_delay, wxGBPosition (r, 1));
+	_delay = new ContentWidget<AudioContent, wxSpinCtrl> (
+		this,
+		new wxSpinCtrl (this),
+		AudioContentProperty::AUDIO_DELAY,
+		boost::mem_fn (&AudioContent::audio_delay),
+		boost::mem_fn (&AudioContent::set_audio_delay)
+		);
+	_delay->add (grid, wxGBPosition (r,1 ));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
 	++r;
@@ -76,13 +88,11 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	_mapping = new AudioMappingView (this);
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
-	_gain->SetRange (-60, 60);
-	_delay->SetRange (-1000, 1000);
+	_gain->wrapped()->SetRange (-60, 60);
+	_delay->wrapped()->SetRange (-1000, 1000);
 
-	_delay->Bind  		     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AudioPanel::delay_changed, this));
 	_stream->Bind                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&AudioPanel::stream_changed, this));
 	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::show_clicked, this));
-	_gain->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AudioPanel::gain_changed, this));
 	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
 	_mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
@@ -117,11 +127,7 @@ AudioPanel::film_content_changed (int property)
 		_audio_dialog->set_content (acs);
 	}
 	
-	if (property == AudioContentProperty::AUDIO_GAIN) {
-		checked_set (_gain, acs ? acs->audio_gain() : 0);
-	} else if (property == AudioContentProperty::AUDIO_DELAY) {
-		checked_set (_delay, acs ? acs->audio_delay() : 0);
-	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
+	if (property == AudioContentProperty::AUDIO_MAPPING) {
 		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
 		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
@@ -144,28 +150,6 @@ AudioPanel::film_content_changed (int property)
 }
 
 void
-AudioPanel::gain_changed ()
-{
-	AudioContentList ac = _editor->selected_audio_content ();
-	if (ac.size() != 1) {
-		return;
-	}
-
-	ac.front()->set_audio_gain (_gain->GetValue ());
-}
-
-void
-AudioPanel::delay_changed ()
-{
-	AudioContentList ac = _editor->selected_audio_content ();
-	if (ac.size() != 1) {
-		return;
-	}
-
-	ac.front()->set_audio_delay (_delay->GetValue ());
-}
-
-void
 AudioPanel::gain_calculate_button_clicked ()
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);
@@ -176,7 +160,7 @@ AudioPanel::gain_calculate_button_clicked ()
 		return;
 	}
 	
-	_gain->SetValue (
+	_gain->wrapped()->SetValue (
 		Config::instance()->sound_processor()->db_for_fader_change (
 			d->wanted_fader (),
 			d->actual_fader ()
@@ -186,7 +170,7 @@ AudioPanel::gain_calculate_button_clicked ()
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.
 	*/
-	gain_changed ();
+	_gain->update_from_model ();
 	
 	d->Destroy ();
 }
@@ -273,5 +257,16 @@ AudioPanel::mapping_changed (AudioMapping m)
 void
 AudioPanel::content_selection_changed ()
 {
+	AudioContentList sel = _editor->selected_audio_content ();
+	
+	_gain->set_content (sel);
+	_delay->set_content (sel);
 
+	_show->Enable (sel.size() == 1);
+	_stream->Enable (sel.size() == 1);
+	_mapping->Enable (sel.size() == 1);
+
+	film_content_changed (AudioContentProperty::AUDIO_MAPPING);
+	film_content_changed (FFmpegContentProperty::AUDIO_STREAM);
+	film_content_changed (FFmpegContentProperty::AUDIO_STREAMS);
 }

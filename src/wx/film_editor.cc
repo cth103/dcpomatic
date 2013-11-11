@@ -797,6 +797,7 @@ FilmEditor::setup_content_sensitivity ()
 
 	ContentList selection = selected_content ();
 	VideoContentList video_selection = selected_video_content ();
+	AudioContentList audio_selection = selected_audio_content ();
 
 	_content_remove->Enable   (selection.size() == 1 && _generally_sensitive);
 	_content_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
@@ -804,7 +805,7 @@ FilmEditor::setup_content_sensitivity ()
 	_content_timeline->Enable (_generally_sensitive);
 
 	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
-	_audio_panel->Enable	(selection.size() == 1 && dynamic_pointer_cast<AudioContent>  (selection.front()) && _generally_sensitive);
+	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
 	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<FFmpegContent> (selection.front()) && _generally_sensitive);
 	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
 }

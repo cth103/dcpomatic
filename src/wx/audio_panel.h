@@ -19,6 +19,7 @@
 
 #include "lib/audio_mapping.h"
 #include "film_editor_panel.h"
+#include "content_widget.h"
 
 class wxSpinCtrl;
 class wxButton;
@@ -37,18 +38,16 @@ public:
 	void content_selection_changed ();
 	
 private:
-	void gain_changed ();
 	void gain_calculate_button_clicked ();
 	void show_clicked ();
-	void delay_changed ();
 	void stream_changed ();
 	void mapping_changed (AudioMapping);
 	void setup_stream_description ();
 
-	wxSpinCtrl* _gain;
+	ContentWidget<AudioContent, wxSpinCtrl>* _gain;
 	wxButton* _gain_calculate_button;
 	wxButton* _show;
-	wxSpinCtrl* _delay;
+	ContentWidget<AudioContent, wxSpinCtrl>* _delay;
 	wxChoice* _stream;
 	wxStaticText* _description;
 	AudioMappingView* _mapping;

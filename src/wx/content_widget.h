@@ -87,6 +87,28 @@ public:
 		_sizer->Add (_wrapped, _position);
 	}
 
+
+	void update_from_model ()
+	{
+		if (_content.empty ()) {
+			set_single ();
+			return;
+		}
+
+		typename List::iterator i = _content.begin ();
+		int const v = boost::bind (_getter, _content.front().get())();
+		while (i != _content.end() && boost::bind (_getter, i->get())() == v) {
+			++i;
+		}
+
+		if (i == _content.end ()) {
+			set_single ();
+			checked_set (_wrapped, v);
+		} else {
+			set_multiple ();
+		}
+	}
+
 private:
 	
 	void set_single ()
@@ -129,27 +151,6 @@ private:
 			/* Only update our view on the last time round this loop */
 			_ignore_model_changes = i < (_content.size() - 1);
 			boost::bind (_setter, _content[i].get(), _wrapped->GetValue ()) ();
-		}
-	}
-
-	void update_from_model ()
-	{
-		if (_content.empty ()) {
-			set_single ();
-			return;
-		}
-
-		typename List::iterator i = _content.begin ();
-		int const v = boost::bind (_getter, _content.front().get())();
-		while (i != _content.end() && boost::bind (_getter, i->get())() == v) {
-			++i;
-		}
-
-		if (i == _content.end ()) {
-			set_single ();
-			checked_set (_wrapped, v);
-		} else {
-			set_multiple ();
 		}
 	}
 
