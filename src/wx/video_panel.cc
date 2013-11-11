@@ -29,7 +29,7 @@
 #include "wx_util.h"
 #include "film_editor.h"
 #include "content_colour_conversion_dialog.h"
-#include "multiple_widget.h"
+#include "content_widget.h"
 
 using std::vector;
 using std::string;
@@ -55,22 +55,46 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Left crop"), true, wxGBPosition (r, 0));
-	_left_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_left_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+		this,
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		VideoContentProperty::VIDEO_CROP,
+		boost::mem_fn (&VideoContent::left_crop),
+		boost::mem_fn (&VideoContent::set_left_crop)
+		);
 	_left_crop->add (grid, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Right crop"), true, wxGBPosition (r, 0));
-	_right_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_right_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+		this,
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		VideoContentProperty::VIDEO_CROP,
+		boost::mem_fn (&VideoContent::right_crop),
+		boost::mem_fn (&VideoContent::set_right_crop)
+		);
 	_right_crop->add (grid, wxGBPosition (r, 1));
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Top crop"), true, wxGBPosition (r, 0));
-	_top_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_top_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+		this,
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		VideoContentProperty::VIDEO_CROP,
+		boost::mem_fn (&VideoContent::top_crop),
+		boost::mem_fn (&VideoContent::set_top_crop)
+		);
 	_top_crop->add (grid, wxGBPosition (r,1 ));
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Bottom crop"), true, wxGBPosition (r, 0));
-	_bottom_crop = new MultipleWidget<wxSpinCtrl> (this, new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)));
+	_bottom_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+		this,
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		VideoContentProperty::VIDEO_CROP,
+		boost::mem_fn (&VideoContent::bottom_crop),
+		boost::mem_fn (&VideoContent::set_bottom_crop)
+		);
 	_bottom_crop->add (grid, wxGBPosition (r, 1));
 	++r;
 
@@ -136,55 +160,9 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->Append (_("3D left/right"));
 
 	_frame_type->Bind               (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
-	_left_crop->SetAllSame.connect  (boost::bind (&VideoPanel::set_left_crop_same, this));
-	_left_crop->wrapped()->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::left_crop_changed, this));
-	_right_crop->wrapped()->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::right_crop_changed, this));
-	_top_crop->wrapped()->Bind      (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::top_crop_changed, this));
-	_bottom_crop->wrapped()->Bind   (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&VideoPanel::bottom_crop_changed, this));
 	_ratio->Bind	                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
-}
-
-
-/** Called when the left crop widget has been changed */
-void
-VideoPanel::left_crop_changed ()
-{
-	VideoContentList c = _editor->selected_video_content ();
-	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_left_crop (_left_crop->wrapped()->GetValue ());
-	}
-}
-
-/** Called when the right crop widget has been changed */
-void
-VideoPanel::right_crop_changed ()
-{
-	VideoContentList c = _editor->selected_video_content ();
-	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_right_crop (_right_crop->wrapped()->GetValue ());
-	}
-}
-
-/** Called when the top crop widget has been changed */
-void
-VideoPanel::top_crop_changed ()
-{
-	VideoContentList c = _editor->selected_video_content ();
-	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_top_crop (_top_crop->wrapped()->GetValue ());
-	}
-}
-
-/** Called when the bottom crop value has been changed */
-void
-VideoPanel::bottom_crop_changed ()
-{
-	VideoContentList c = _editor->selected_video_content ();
-	for (VideoContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_bottom_crop (_bottom_crop->wrapped()->GetValue ());
-	}
 }
 
 void
@@ -215,10 +193,6 @@ VideoPanel::film_content_changed (int property)
 		checked_set (_frame_type, vcs ? vcs->video_frame_type () : VIDEO_FRAME_TYPE_2D);
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
-		set_multiple<VideoContent> (vc, _left_crop, &VideoContent::left_crop);
-		set_multiple<VideoContent> (vc, _right_crop, &VideoContent::right_crop);
-		set_multiple<VideoContent> (vc, _top_crop, &VideoContent::top_crop);
-		set_multiple<VideoContent> (vc, _bottom_crop, &VideoContent::bottom_crop);
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_RATIO) {
 		if (vcs) {
@@ -404,13 +378,11 @@ VideoPanel::content_selection_changed ()
 {
 	VideoContentList sel = _editor->selected_video_content ();
 	bool const single = sel.size() == 1;
-	bool const multiple = sel.size() > 1;
 
-	/* Things that are allowed with multiple selections */
-	_left_crop->wrapped()->Enable   (single || multiple);
-	_right_crop->wrapped()->Enable  (single || multiple);
-	_top_crop->wrapped()->Enable    (single || multiple);
-	_bottom_crop->wrapped()->Enable (single || multiple);
+	_left_crop->set_content (sel);
+	_right_crop->set_content (sel);
+	_top_crop->set_content (sel);
+	_bottom_crop->set_content (sel);
 
 	/* Things that are only allowed with single selections */
 	_frame_type->Enable (single);
@@ -425,13 +397,3 @@ VideoPanel::content_selection_changed ()
 	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
 	film_content_changed (FFmpegContentProperty::FILTERS);
 }
-
-void
-VideoPanel::set_left_crop_same ()
-{
-	VideoContentList sel = _editor->selected_video_content ();
-	for (VideoContentList::iterator i = sel.begin(); i != sel.end(); ++i) {
-		(*i)->set_left_crop (sel.front()->left_crop ());
-	}
-}
-
