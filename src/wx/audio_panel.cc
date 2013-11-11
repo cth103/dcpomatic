@@ -40,47 +40,38 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	: FilmEditorPanel (e, _("Audio"))
 	, _audio_dialog (0)
 {
-	wxFlexGridSizer* grid = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
 
+	int r = 0;
+
 	_show = new wxButton (this, wxID_ANY, _("Show Audio..."));
-	grid->Add (_show, 1);
-	grid->AddSpacer (0);
-	grid->AddSpacer (0);
+	grid->Add (_show, wxGBPosition (r, 0));
+	++r;
 
-	add_label_to_sizer (grid, this, _("Audio Gain"), true);
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_gain = new wxSpinCtrl (this);
-		s->Add (_gain, 1);
-		add_label_to_sizer (s, this, _("dB"), false);
-		grid->Add (s, 1);
-	}
-	
+	add_label_to_grid_bag_sizer (grid, this, _("Audio Gain"), true, wxGBPosition (r, 0));
+	_gain = new wxSpinCtrl (this);
+	grid->Add (_gain, wxGBPosition (r, 1));
+	add_label_to_grid_bag_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
 	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
-	grid->Add (_gain_calculate_button);
+	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
+	++r;
 
-	add_label_to_sizer (grid, this, _("Audio Delay"), false);
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_delay = new wxSpinCtrl (this);
-		s->Add (_delay, 1);
-		/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-		add_label_to_sizer (s, this, _("ms"), false);
-		grid->Add (s);
-	}
+	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), false, wxGBPosition (r, 0));
+	_delay = new wxSpinCtrl (this);
+	grid->Add (_delay, wxGBPosition (r, 1));
+	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
+	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
+	++r;
 
-	grid->AddSpacer (0);
-
-	add_label_to_sizer (grid, this, _("Audio Stream"), true);
+	add_label_to_grid_bag_sizer (grid, this, _("Audio Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
-	grid->Add (_stream, 1, wxEXPAND);
-	_description = new wxStaticText (this, wxID_ANY, wxT (""));
-	grid->AddSpacer (0);
+	grid->Add (_stream, wxGBPosition (r, 1));
+	++r;
 	
-	grid->Add (_description, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, 8);
-	grid->AddSpacer (0);
-	grid->AddSpacer (0);
+	_description = new wxStaticText (this, wxID_ANY, wxT (""));
+	grid->Add (_description, wxGBPosition (r, 0));
+	++r;
 	
 	_mapping = new AudioMappingView (this);
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
