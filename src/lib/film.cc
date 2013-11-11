@@ -151,6 +151,12 @@ Film::video_identifier () const
 	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth();
 
+	if (encrypted ()) {
+		s << "_E";
+	} else {
+		s << "_P";
+	}
+
 	if (_interop) {
 		s << "_I";
 	} else {
