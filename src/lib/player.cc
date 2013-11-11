@@ -223,6 +223,10 @@ Player::pass ()
 	if (_audio) {
 		Time audio_done_up_to = TIME_MAX;
 		for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
+			if ((*i)->decoder->done ()) {
+				continue;
+			}
+
 			if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
 				audio_done_up_to = min (audio_done_up_to, (*i)->audio_position);
 			}

@@ -1,3 +1,8 @@
+2013-11-11  Carl Hetherington  <cth@carlh.net>
+
+	* Somewhat speculative fix for slow-downs and
+	large memory consumption with multi-content playlists.
+
 2013-11-10  Carl Hetherington  <cth@carlh.net>
 
 	* Hopefully get rid of spurious black lines around
