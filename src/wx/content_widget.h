@@ -31,30 +31,39 @@
  *
  *  @param S Type containing the content being represented (e.g. VideoContent)
  *  @param T Type of the widget (e.g. wxSpinCtrl)
+ *  @param U Data type of state as used by the model.
+ *  @param V Data type of state as used by the view.
  */
-template <class S, class T>
+template <class S, class T, typename U, typename V>
 class ContentWidget
 {
 public:
 	/** @param parent Parent window.
 	 *  @param wrapped Control widget that we are wrapping.
 	 *  @param property ContentProperty that the widget is handling.
-	 *  @param getter Function on the Content to get the value.
-	 *  @param setter Function on the Content to set the value.
+	 *  @param model_getter Function on the Content to get the value.
+	 *  @param model_setter Function on the Content to set the value.
 	 */
-	ContentWidget (wxWindow* parent, T* wrapped, int property, boost::function<int (S*)> getter, boost::function<void (S*, int)> setter)
+	ContentWidget (
+		wxWindow* parent,
+		T* wrapped,
+		int property,
+		boost::function<U (S*)> model_getter,
+		boost::function<void (S*, U)> model_setter,
+		boost::function<V (T*)> view_getter
+		)
 		: _wrapped (wrapped)
 		, _sizer (0)
 		, _button (new wxButton (parent, wxID_ANY, _("Multiple values")))
 		, _property (property)
-		, _getter (getter)
-		, _setter (setter)
+		, _model_getter (model_getter)
+		, _model_setter (model_setter)
+		, _view_getter (view_getter)
 		, _ignore_model_changes (false)
 	{
 		_button->SetToolTip (_("Click the button to set all selected content to the same value."));
 		_button->Hide ();
 		_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentWidget::button_clicked, this));
-		_wrapped->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ContentWidget::view_changed, this));
 	}
 
 	T* wrapped () const {
@@ -68,6 +77,8 @@ public:
 		for (typename std::list<boost::signals2::connection>::iterator i = _connections.begin(); i != _connections.end(); ++i) {
 			i->disconnect ();
 		}
+
+		_connections.clear ();
 		
 		_content = content;
 
@@ -87,7 +98,6 @@ public:
 		_sizer->Add (_wrapped, _position);
 	}
 
-
 	void update_from_model ()
 	{
 		if (_content.empty ()) {
@@ -96,8 +106,8 @@ public:
 		}
 
 		typename List::iterator i = _content.begin ();
-		int const v = boost::bind (_getter, _content.front().get())();
-		while (i != _content.end() && boost::bind (_getter, i->get())() == v) {
+		U const v = boost::bind (_model_getter, _content.front().get())();
+		while (i != _content.end() && boost::bind (_model_getter, i->get())() == v) {
 			++i;
 		}
 
@@ -109,6 +119,15 @@ public:
 		}
 	}
 
+	void view_changed ()
+	{
+		for (size_t i = 0; i < _content.size(); ++i) {
+			/* Only update our view on the last time round this loop */
+			_ignore_model_changes = i < (_content.size() - 1);
+			boost::bind (_model_setter, _content[i].get(), static_cast<U> (boost::bind (_view_getter, _wrapped)()))();
+		}
+	}
+	
 private:
 	
 	void set_single ()
@@ -139,18 +158,9 @@ private:
 
 	void button_clicked ()
 	{
-		int const v = boost::bind (_getter, _content.front().get())();
+		U const v = boost::bind (_model_getter, _content.front().get())();
 		for (typename List::iterator i = _content.begin (); i != _content.end(); ++i) {
-			boost::bind (_setter, i->get(), v) ();
-		}
-	}
-
-	void view_changed ()
-	{
-		for (size_t i = 0; i < _content.size(); ++i) {
-			/* Only update our view on the last time round this loop */
-			_ignore_model_changes = i < (_content.size() - 1);
-			boost::bind (_setter, _content[i].get(), _wrapped->GetValue ()) ();
+			boost::bind (_model_setter, i->get(), v) ();
 		}
 	}
 
@@ -167,10 +177,35 @@ private:
 	wxButton* _button;
 	List _content;
 	int _property;
-	boost::function<int (S*)> _getter;
-	boost::function<void (S*, int)> _setter;
+	boost::function<U (S*)> _model_getter;
+	boost::function<void (S*, U)> _model_setter;
+	boost::function<V (T*)> _view_getter;
 	std::list<boost::signals2::connection> _connections;
 	bool _ignore_model_changes;
+};
+
+template <class S>
+class ContentSpinCtrl : public ContentWidget<S, wxSpinCtrl, int, int>
+{
+public:
+	ContentSpinCtrl (wxWindow* parent, wxSpinCtrl* wrapped, int property, boost::function<int (S*)> getter, boost::function<void (S*, int)> setter)
+		: ContentWidget<S, wxSpinCtrl, int, int> (parent, wrapped, property, getter, setter, boost::mem_fn (&wxSpinCtrl::GetValue))
+	{
+		wrapped->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ContentWidget<S, wxSpinCtrl, int, int>::view_changed, this));
+	}
+
+};
+
+template <class S, class U>
+class ContentChoice : public ContentWidget<S, wxChoice, U, int>
+{
+public:
+	ContentChoice (wxWindow* parent, wxChoice* wrapped, int property, boost::function<U (S*)> getter, boost::function<void (S*, U)> setter)
+		: ContentWidget<S, wxChoice, U, int> (parent, wrapped, property, getter, setter, boost::mem_fn (&wxChoice::GetSelection))
+	{
+		wrapped->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ContentWidget<S, wxChoice, U, int>::view_changed, this));
+	}
+
 };
 
 #endif

@@ -50,12 +50,18 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	int r = 0;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Type"), true, wxGBPosition (r, 0));
-	_frame_type = new wxChoice (this, wxID_ANY);
-	grid->Add (_frame_type, wxGBPosition (r, 1));
+	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
+		this,
+		new wxChoice (this, wxID_ANY),
+		VideoContentProperty::VIDEO_FRAME_TYPE,
+		boost::mem_fn (&VideoContent::video_frame_type),
+		boost::mem_fn (&VideoContent::set_video_frame_type)
+		);
+	_frame_type->add (grid, wxGBPosition (r, 1));
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Left crop"), true, wxGBPosition (r, 0));
-	_left_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
@@ -66,7 +72,7 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Right crop"), true, wxGBPosition (r, 0));
-	_right_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
@@ -77,7 +83,7 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Top crop"), true, wxGBPosition (r, 0));
-	_top_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
@@ -88,7 +94,7 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Bottom crop"), true, wxGBPosition (r, 0));
-	_bottom_crop = new ContentWidget<VideoContent, wxSpinCtrl> (
+	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
@@ -156,10 +162,9 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	}
 	_ratio->Append (_("No stretch"));
 
-	_frame_type->Append (_("2D"));
-	_frame_type->Append (_("3D left/right"));
+	_frame_type->wrapped()->Append (_("2D"));
+	_frame_type->wrapped()->Append (_("3D left/right"));
 
-	_frame_type->Bind               (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::frame_type_changed, this));
 	_ratio->Bind	                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
@@ -190,7 +195,6 @@ VideoPanel::film_content_changed (int property)
 	}
 	
 	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
-		checked_set (_frame_type, vcs ? vcs->video_frame_type () : VIDEO_FRAME_TYPE_2D);
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		setup_description ();
@@ -348,15 +352,6 @@ VideoPanel::ratio_changed ()
 }
 
 void
-VideoPanel::frame_type_changed ()
-{
-	VideoContentList vc = _editor->selected_video_content ();
-	if (vc.size() == 1) {
-		vc.front()->set_video_frame_type (static_cast<VideoFrameType> (_frame_type->GetSelection ()));
-	}
-}
-
-void
 VideoPanel::edit_colour_conversion_clicked ()
 {
 	VideoContentList vc = _editor->selected_video_content ();
@@ -383,14 +378,13 @@ VideoPanel::content_selection_changed ()
 	_right_crop->set_content (sel);
 	_top_crop->set_content (sel);
 	_bottom_crop->set_content (sel);
+	_frame_type->set_content (sel);
 
 	/* Things that are only allowed with single selections */
-	_frame_type->Enable (single);
 	_ratio->Enable (single);
 	_filters_button->Enable (single);
 	_colour_conversion_button->Enable (single);
 
-	film_content_changed (VideoContentProperty::VIDEO_FRAME_TYPE);
 	film_content_changed (VideoContentProperty::VIDEO_CROP);
 	film_content_changed (VideoContentProperty::VIDEO_RATIO);
 	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);

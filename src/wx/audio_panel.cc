@@ -50,13 +50,14 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Gain"), true, wxGBPosition (r, 0));
-	_gain = new ContentWidget<AudioContent, wxSpinCtrl> (
+	_gain = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
 		AudioContentProperty::AUDIO_GAIN,
 		boost::mem_fn (&AudioContent::audio_gain),
 		boost::mem_fn (&AudioContent::set_audio_gain)
 		);
+	
 	_gain->add (grid, wxGBPosition (r, 1));
 	add_label_to_grid_bag_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
 	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
@@ -64,13 +65,14 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), false, wxGBPosition (r, 0));
-	_delay = new ContentWidget<AudioContent, wxSpinCtrl> (
+	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
 		AudioContentProperty::AUDIO_DELAY,
 		boost::mem_fn (&AudioContent::audio_delay),
 		boost::mem_fn (&AudioContent::set_audio_delay)
 		);
+	
 	_delay->add (grid, wxGBPosition (r,1 ));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));

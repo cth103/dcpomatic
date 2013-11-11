@@ -38,16 +38,15 @@ public:
 private:
 	void edit_filters_clicked ();
 	void ratio_changed ();
-	void frame_type_changed ();
 	void edit_colour_conversion_clicked ();
 
 	void setup_description ();
 
-	wxChoice* _frame_type;
-	ContentWidget<VideoContent, wxSpinCtrl>* _left_crop;
-	ContentWidget<VideoContent, wxSpinCtrl>* _right_crop;
-	ContentWidget<VideoContent, wxSpinCtrl>* _top_crop;
-	ContentWidget<VideoContent, wxSpinCtrl>* _bottom_crop;
+	ContentChoice<VideoContent, VideoFrameType>* _frame_type;
+	ContentSpinCtrl<VideoContent>*               _left_crop;
+	ContentSpinCtrl<VideoContent>*               _right_crop;
+	ContentSpinCtrl<VideoContent>*               _top_crop;
+	ContentSpinCtrl<VideoContent>*               _bottom_crop;
 	wxChoice* _ratio;
 	wxStaticText* _ratio_description;
 	wxStaticText* _description;

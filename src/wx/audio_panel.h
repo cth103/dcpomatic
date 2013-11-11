@@ -44,10 +44,10 @@ private:
 	void mapping_changed (AudioMapping);
 	void setup_stream_description ();
 
-	ContentWidget<AudioContent, wxSpinCtrl>* _gain;
+	ContentSpinCtrl<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;
 	wxButton* _show;
-	ContentWidget<AudioContent, wxSpinCtrl>* _delay;
+	ContentSpinCtrl<AudioContent>* _delay;
 	wxChoice* _stream;
 	wxStaticText* _description;
 	AudioMappingView* _mapping;
