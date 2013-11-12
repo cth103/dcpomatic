@@ -47,9 +47,9 @@ help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
 	     << "  -v, --version      show DCP-o-matic version\n"
-	     << "  -h, --help	      show this help\n"
-	     << "  -d, --deps	      list DCP-o-matic dependency details and quit\n"
-	     << "  -f, --flags	      show flags passed to C++ compiler on build\n"
+	     << "  -h, --help         show this help\n"
+	     << "  -d, --deps         list DCP-o-matic dependency details and quit\n"
+	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
 	     << "\n"
