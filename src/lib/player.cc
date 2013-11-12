@@ -221,20 +221,22 @@ Player::pass ()
 	}
 
 	if (_audio) {
-		Time audio_done_up_to = TIME_MAX;
+		boost::optional<Time> audio_done_up_to;
 		for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 			if ((*i)->decoder->done ()) {
 				continue;
 			}
 
 			if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
-				audio_done_up_to = min (audio_done_up_to, (*i)->audio_position);
+				audio_done_up_to = min (audio_done_up_to.get_value_or (TIME_MAX), (*i)->audio_position);
 			}
 		}
 
-		TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to);
-		Audio (tb.audio, tb.time);
-		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
+		if (audio_done_up_to) {
+			TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to.get ());
+			Audio (tb.audio, tb.time);
+			_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
+		}
 	}
 		
 	return false;
