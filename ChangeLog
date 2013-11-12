@@ -1,5 +1,9 @@
 2013-11-12  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.29 released.
+
+2013-11-12  Carl Hetherington  <cth@carlh.net>
+
 	* Fix bad_alloc exception on audio analysis (and
 	probably elsewhere).
 
