@@ -44,6 +44,7 @@ public:
 		, _window (window)
 		, _panel (panel)
 		, _table (table)
+		, _pause (0)
 	{
 		int n = 0;
 		
@@ -133,6 +134,9 @@ private:
 		}
 		
 		_cancel->Enable (false);
+		if (_pause) {
+			_pause->Enable (false);
+		}
 		if (!_job->error_details().empty ()) {
 			_details->Enable (true);
 		}
