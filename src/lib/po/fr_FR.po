@@ -88,7 +88,7 @@ msgstr "Une erreur s'est produite lors du traitement du fichier %1."
 #: src/lib/analyse_audio_job.cc:48
 #, fuzzy
 msgid "Analyse audio"
-msgstr "Analyse du son de %1"
+msgstr "Analyse du son"
 
 #: src/lib/scaler.cc:64
 msgid "Area"
