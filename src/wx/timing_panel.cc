@@ -134,5 +134,17 @@ TimingPanel::trim_end_changed ()
 void
 TimingPanel::content_selection_changed ()
 {
+	VideoContentList sel = _editor->selected_video_content ();
+	bool const single = sel.size() == 1;
 
+	/* Things that are only allowed with single selections */
+	_position->Enable (single);
+	_length->Enable (single);
+	_trim_start->Enable (single);
+	_trim_end->Enable (single);
+	
+	film_content_changed (ContentProperty::POSITION);
+	film_content_changed (ContentProperty::LENGTH);
+	film_content_changed (ContentProperty::TRIM_START);
+	film_content_changed (ContentProperty::TRIM_END);
 }

@@ -195,7 +195,7 @@ SubtitlePanel::scale_changed ()
 void
 SubtitlePanel::content_selection_changed ()
 {
-
+	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_OFFSET);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_SCALE);
 }
-
-       
