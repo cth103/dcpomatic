@@ -1,5 +1,8 @@
 2013-11-14  Carl Hetherington  <cth@carlh.net>
 
+	* Support modification of certain properties when
+	there are several selected pieces of content.
+
 	* Add server configuration back in.
 
 2013-11-12  Carl Hetherington  <cth@carlh.net>
