@@ -31,7 +31,9 @@
 #include <libdcp/metadata.h>
 #include "dci_metadata.h"
 #include "colour_conversion.h"
+#include "server.h"
 
+class ServerDescription;
 class Scaler;
 class Filter;
 class SoundProcessor;
@@ -62,11 +64,29 @@ public:
 		return _server_port_base;
 	}
 
+	void set_use_any_servers (bool u) {
+		_use_any_servers = u;
+	}
+
+	bool use_any_servers () const {
+		return _use_any_servers;
+	}
+
+	/** @param s New list of servers */
+	void set_servers (std::vector<std::string> s) {
+		_servers = s;
+	}
+
+	/** @return Host names / IP addresses of J2K encoding servers that should definitely be used */
+	std::vector<std::string> servers () const {
+		return _servers;
+	}
+
 	/** @return The IP address of a TMS that we can copy DCPs to */
 	std::string tms_ip () const {
 		return _tms_ip;
 	}
-
+	
 	/** @return The path on a TMS that we should write DCPs to */
 	std::string tms_path () const {
 		return _tms_path;
@@ -262,6 +282,10 @@ private:
 	 *  this port and the one above it will be used.
 	 */
 	int _server_port_base;
+	/** true to broadcast on the `any' address to look for servers */
+	bool _use_any_servers;
+	/** J2K encoding servers that should definitely be used */
+	std::vector<std::string> _servers;
 	/** Scaler to use for the "A" part of A/B comparisons */
 	Scaler const * _reference_scaler;
 	/** Filters to use for the "A" part of A/B comparisons */

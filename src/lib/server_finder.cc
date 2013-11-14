@@ -28,6 +28,7 @@
 using std::string;
 using std::stringstream;
 using std::list;
+using std::vector;
 using boost::shared_ptr;
 using boost::scoped_array;
 
@@ -55,12 +56,29 @@ ServerFinder::broadcast_thread ()
 
         socket.set_option (boost::asio::ip::udp::socket::reuse_address (true));
         socket.set_option (boost::asio::socket_base::broadcast (true));
-	
-        boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);            
 
+	string const data = DCPOMATIC_HELLO;
+	
 	while (1) {
-		string const data = DCPOMATIC_HELLO;
-		socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+		if (Config::instance()->use_any_servers ()) {
+			/* Broadcast to look for servers */
+			boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);
+			socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+		}
+
+		/* Query our `definite' servers (if there are any) */
+		vector<string> servers = Config::instance()->servers ();
+		for (vector<string>::const_iterator i = servers.begin(); i != servers.end(); ++i) {
+			try {
+				boost::asio::ip::udp::resolver resolver (io_service);
+				boost::asio::ip::udp::resolver::query query (*i);
+				boost::asio::ip::udp::endpoint end_point (*resolver.resolve (query));
+				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+			} catch (...) {
+
+			}
+		}
+		
 		dcpomatic_sleep (10);
 	}
 }

@@ -1,3 +1,20 @@
+2013-11-14  Carl Hetherington  <cth@carlh.net>
+
+	* Add server configuration back in.
+
+2013-11-12  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.29 released.
+
+2013-11-12  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bad_alloc exception on audio analysis (and
+	probably elsewhere).
+
+2013-11-11  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.28 released.
+
 2013-11-11  Carl Hetherington  <cth@carlh.net>
 
 	* Somewhat speculative fix for slow-downs and

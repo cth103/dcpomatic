@@ -277,7 +277,7 @@ Encoder::encoder_thread (optional<ServerDescription> server)
 
 		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		_film->log()->log (String::compose (N_("Encoder thread %1 pops frame %2 (%3) from queue"), boost::this_thread::get_id(), vf->frame(), vf->eyes ()));
+		TIMING ("encoder thread %1 pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->frame(), vf->eyes ());
 		_queue.pop_front ();
 		
 		lock.unlock ();

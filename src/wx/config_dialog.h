@@ -32,6 +32,7 @@ class DirPickerCtrl;
 class wxNotebook;
 class PresetColourConversion;
 class PresetColourConversionDialog;
+class ServerDialog;
 
 /** @class ConfigDialog
  *  @brief A dialogue to edit DCP-o-matic configuration.
@@ -60,10 +61,12 @@ private:
 	void mail_server_changed ();
 	void kdm_from_changed ();
 	void kdm_email_changed ();
+	void use_any_servers_changed ();
 
 	void setup_language_sensitivity ();
 
 	void make_misc_panel ();
+	void make_servers_panel ();
 	void make_tms_panel ();
 	void make_metadata_panel ();
 	void make_colour_conversions_panel ();
@@ -71,6 +74,7 @@ private:
 
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
+	wxPanel* _servers_panel;
 	wxPanel* _tms_panel;
 	EditableList<PresetColourConversion, PresetColourConversionDialog>* _colour_conversions_panel;
 	wxPanel* _metadata_panel;
@@ -97,5 +101,7 @@ private:
 	wxSpinCtrl* _default_j2k_bandwidth;
 	wxPanel* _kdm_email_panel;
 	wxTextCtrl* _kdm_email;
+	wxCheckBox* _use_any_servers;
+	EditableList<std::string, ServerDialog>* _servers_list;
 };
 
