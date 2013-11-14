@@ -84,6 +84,9 @@ extern void checked_set (wxCheckBox* widget, bool value);
 extern void checked_set (wxRadioButton* widget, bool value);
 extern void checked_set (wxStaticText* widget, std::string value);
 
+extern int wx_get (wxChoice* widget);
+extern int wx_get (wxSpinCtrl* widget);
+
 /* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
    This also seems to apply to 2.24.20 in Ubuntu 13.10
    Use our own dir picker as this is the least bad option I can think of.

@@ -50,7 +50,8 @@ public:
 		int property,
 		boost::function<U (S*)> model_getter,
 		boost::function<void (S*, U)> model_setter,
-		boost::function<V (T*)> view_getter
+		boost::function<U (V)> view_to_model,
+		boost::function<V (U)> model_to_view
 		)
 		: _wrapped (wrapped)
 		, _sizer (0)
@@ -58,7 +59,8 @@ public:
 		, _property (property)
 		, _model_getter (model_getter)
 		, _model_setter (model_setter)
-		, _view_getter (view_getter)
+		, _view_to_model (view_to_model)
+		, _model_to_view (model_to_view)
 		, _ignore_model_changes (false)
 	{
 		_button->SetToolTip (_("Click the button to set all selected content to the same value."));
@@ -66,12 +68,15 @@ public:
 		_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentWidget::button_clicked, this));
 	}
 
-	T* wrapped () const {
+	/** @return the widget that we are wrapping */
+	T* wrapped () const
+	{
 		return _wrapped;
 	}
 
 	typedef std::vector<boost::shared_ptr<S> > List;
 
+	/** Set the content that this control is working on (i.e. the selected content) */
 	void set_content (List content)
 	{
 		for (typename std::list<boost::signals2::connection>::iterator i = _connections.begin(); i != _connections.end(); ++i) {
@@ -91,6 +96,7 @@ public:
 		}
 	}
 
+	/** Add this widget to a wxGridBagSizer */
 	void add (wxGridBagSizer* sizer, wxGBPosition position)
 	{
 		_sizer = sizer;
@@ -98,6 +104,7 @@ public:
 		_sizer->Add (_wrapped, _position);
 	}
 
+	/** Update the view from the model */
 	void update_from_model ()
 	{
 		if (_content.empty ()) {
@@ -113,7 +120,7 @@ public:
 
 		if (i == _content.end ()) {
 			set_single ();
-			checked_set (_wrapped, v);
+			checked_set (_wrapped, _model_to_view (v));
 		} else {
 			set_multiple ();
 		}
@@ -121,11 +128,11 @@ public:
 
 	void view_changed ()
 	{
+		_ignore_model_changes = true;
 		for (size_t i = 0; i < _content.size(); ++i) {
-			/* Only update our view on the last time round this loop */
-			_ignore_model_changes = i < (_content.size() - 1);
-			boost::bind (_model_setter, _content[i].get(), static_cast<U> (boost::bind (_view_getter, _wrapped)()))();
+			boost::bind (_model_setter, _content[i].get(), _view_to_model (wx_get (_wrapped))) ();
 		}
+		_ignore_model_changes = false;
 	}
 	
 private:
@@ -179,29 +186,64 @@ private:
 	int _property;
 	boost::function<U (S*)> _model_getter;
 	boost::function<void (S*, U)> _model_setter;
-	boost::function<V (T*)> _view_getter;
+	boost::function<U (V)> _view_to_model;
+	boost::function<V (U)> _model_to_view;
 	std::list<boost::signals2::connection> _connections;
 	bool _ignore_model_changes;
 };
+
+template <typename U, typename V>
+V caster (U x)
+{
+	return static_cast<V> (x);
+}
 
 template <class S>
 class ContentSpinCtrl : public ContentWidget<S, wxSpinCtrl, int, int>
 {
 public:
-	ContentSpinCtrl (wxWindow* parent, wxSpinCtrl* wrapped, int property, boost::function<int (S*)> getter, boost::function<void (S*, int)> setter)
-		: ContentWidget<S, wxSpinCtrl, int, int> (parent, wrapped, property, getter, setter, boost::mem_fn (&wxSpinCtrl::GetValue))
+	ContentSpinCtrl (
+		wxWindow* parent,
+		wxSpinCtrl* wrapped,
+		int property,
+		boost::function<int (S*)> getter,
+		boost::function<void (S*, int)> setter
+		)
+		: ContentWidget<S, wxSpinCtrl, int, int> (
+			parent,
+			wrapped,
+			property,
+			getter, setter,
+			&caster<int, int>,
+			&caster<int, int>
+			)
 	{
 		wrapped->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ContentWidget<S, wxSpinCtrl, int, int>::view_changed, this));
 	}
-
 };
 
 template <class S, class U>
 class ContentChoice : public ContentWidget<S, wxChoice, U, int>
 {
 public:
-	ContentChoice (wxWindow* parent, wxChoice* wrapped, int property, boost::function<U (S*)> getter, boost::function<void (S*, U)> setter)
-		: ContentWidget<S, wxChoice, U, int> (parent, wrapped, property, getter, setter, boost::mem_fn (&wxChoice::GetSelection))
+	ContentChoice (
+		wxWindow* parent,
+		wxChoice* wrapped,
+		int property,
+		boost::function<U (S*)> getter,
+		boost::function<void (S*, U)> setter,
+		boost::function<U (int)> view_to_model,
+		boost::function<int (U)> model_to_view
+		)
+		: ContentWidget<S, wxChoice, U, int> (
+			parent,
+			wrapped,
+			property,
+			getter,
+			setter,
+			view_to_model,
+			model_to_view
+			)
 	{
 		wrapped->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ContentWidget<S, wxChoice, U, int>::view_changed, this));
 	}

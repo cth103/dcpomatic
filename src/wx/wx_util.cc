@@ -277,3 +277,15 @@ dcpomatic_setup_i18n ()
 		dcpomatic_setup_gettext_i18n (wx_to_std (locale->GetCanonicalName ()));
 	}
 }
+
+int
+wx_get (wxSpinCtrl* w)
+{
+	return w->GetValue ();
+}
+
+int
+wx_get (wxChoice* w)
+{
+	return w->GetSelection ();
+}

@@ -41,6 +41,31 @@ using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 
+static Ratio const *
+index_to_ratio (int n)
+{
+	assert (n >= 0);
+	
+	vector<Ratio const *> ratios = Ratio::all ();
+	if (n >= int (ratios.size ())) {
+		return 0;
+	}
+
+	return ratios[n];
+}
+
+static int
+ratio_to_index (Ratio const * r)
+{
+	vector<Ratio const *> ratios = Ratio::all ();
+	size_t i = 0;
+	while (i < ratios.size() && ratios[i] != r) {
+		++i;
+	}
+
+	return i;
+}
+
 VideoPanel::VideoPanel (FilmEditor* e)
 	: FilmEditorPanel (e, _("Video"))
 {
@@ -55,7 +80,9 @@ VideoPanel::VideoPanel (FilmEditor* e)
 		new wxChoice (this, wxID_ANY),
 		VideoContentProperty::VIDEO_FRAME_TYPE,
 		boost::mem_fn (&VideoContent::video_frame_type),
-		boost::mem_fn (&VideoContent::set_video_frame_type)
+		boost::mem_fn (&VideoContent::set_video_frame_type),
+		&caster<int, VideoFrameType>,
+		&caster<VideoFrameType, int>
 		);
 	_frame_type->add (grid, wxGBPosition (r, 1));
 	++r;
@@ -105,8 +132,16 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
-	_ratio = new wxChoice (this, wxID_ANY);
-	grid->Add (_ratio, wxGBPosition (r, 1));
+	_ratio = new ContentChoice<VideoContent, Ratio const *> (
+		this,
+		new wxChoice (this, wxID_ANY),
+		VideoContentProperty::VIDEO_RATIO,
+		boost::mem_fn (&VideoContent::ratio),
+		boost::mem_fn (&VideoContent::set_ratio),
+		&index_to_ratio,
+		&ratio_to_index
+		);
+	_ratio->add (grid, wxGBPosition (r, 1));
 	++r;
 
 	{
@@ -156,16 +191,15 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_bottom_crop->wrapped()->SetRange (0, 1024);
 
 	vector<Ratio const *> ratios = Ratio::all ();
-	_ratio->Clear ();
+	_ratio->wrapped()->Clear ();
 	for (vector<Ratio const *>::iterator i = ratios.begin(); i != ratios.end(); ++i) {
-		_ratio->Append (std_to_wx ((*i)->nickname ()));
+		_ratio->wrapped()->Append (std_to_wx ((*i)->nickname ()));
 	}
-	_ratio->Append (_("No stretch"));
+	_ratio->wrapped()->Append (_("No stretch"));
 
 	_frame_type->wrapped()->Append (_("2D"));
 	_frame_type->wrapped()->Append (_("3D left/right"));
 
-	_ratio->Bind	                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::ratio_changed, this));
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
@@ -199,23 +233,6 @@ VideoPanel::film_content_changed (int property)
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_RATIO) {
-		if (vcs) {
-			int n = 0;
-			vector<Ratio const *> ratios = Ratio::all ();
-			vector<Ratio const *>::iterator i = ratios.begin ();
-			while (i != ratios.end() && *i != vcs->ratio()) {
-				++i;
-				++n;
-			}
-
-			if (i == ratios.end()) {
-				checked_set (_ratio, ratios.size ());
-			} else {
-				checked_set (_ratio, n);
-			}
-		} else {
-			checked_set (_ratio, -1);
-		}
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
@@ -327,30 +344,6 @@ VideoPanel::setup_description ()
 	_sizer->Layout ();
 }
 
-
-void
-VideoPanel::ratio_changed ()
-{
-	if (!_editor->film ()) {
-		return;
-	}
-
-	VideoContentList vc = _editor->selected_video_content ();
-	if (vc.size() != 1) {
-		return;
-	}
-	
-	int const n = _ratio->GetSelection ();
-	if (n >= 0) {
-		vector<Ratio const *> ratios = Ratio::all ();
-		if (n < int (ratios.size ())) {
-			vc.front()->set_ratio (ratios[n]);
-		} else {
-			vc.front()->set_ratio (0);
-		}
-	}
-}
-
 void
 VideoPanel::edit_colour_conversion_clicked ()
 {
@@ -379,14 +372,13 @@ VideoPanel::content_selection_changed ()
 	_top_crop->set_content (sel);
 	_bottom_crop->set_content (sel);
 	_frame_type->set_content (sel);
+	_ratio->set_content (sel);
 
 	/* Things that are only allowed with single selections */
-	_ratio->Enable (single);
 	_filters_button->Enable (single);
 	_colour_conversion_button->Enable (single);
 
 	film_content_changed (VideoContentProperty::VIDEO_CROP);
-	film_content_changed (VideoContentProperty::VIDEO_RATIO);
 	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
 	film_content_changed (FFmpegContentProperty::FILTERS);

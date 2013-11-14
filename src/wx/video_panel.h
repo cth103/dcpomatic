@@ -37,7 +37,6 @@ public:
 
 private:
 	void edit_filters_clicked ();
-	void ratio_changed ();
 	void edit_colour_conversion_clicked ();
 
 	void setup_description ();
@@ -47,7 +46,7 @@ private:
 	ContentSpinCtrl<VideoContent>*               _right_crop;
 	ContentSpinCtrl<VideoContent>*               _top_crop;
 	ContentSpinCtrl<VideoContent>*               _bottom_crop;
-	wxChoice* _ratio;
+	ContentChoice<VideoContent, Ratio const *>*  _ratio;
 	wxStaticText* _ratio_description;
 	wxStaticText* _description;
 	wxStaticText* _filters;
