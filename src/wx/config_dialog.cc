@@ -39,6 +39,7 @@
 #include "dir_picker_ctrl.h"
 #include "dci_metadata_dialog.h"
 #include "preset_colour_conversion_dialog.h"
+#include "server_dialog.h"
 
 using std::vector;
 using std::string;
@@ -56,6 +57,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	make_misc_panel ();
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
+	make_servers_panel ();
+	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
 	make_colour_conversions_panel ();
 	_notebook->AddPage (_colour_conversions_panel, _("Colour conversions"), false);
 	make_metadata_panel ();
@@ -288,6 +291,44 @@ ConfigDialog::make_metadata_panel ()
 	_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::issuer_changed, this));
 	_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
 	_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::creator_changed, this));
+}
+
+static string 
+server_column (string s)
+{
+	return s;
+}
+
+void
+ConfigDialog::make_servers_panel ()
+{
+	_servers_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_servers_panel->SetSizer (s);
+
+	_use_any_servers = new wxCheckBox (_servers_panel, wxID_ANY, _("Use all servers"));
+	s->Add (_use_any_servers, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+	
+	vector<string> columns;
+	columns.push_back (wx_to_std (_("IP address / host name")));
+	_servers_list = new EditableList<std::string, ServerDialog> (
+		_servers_panel,
+		columns,
+		boost::bind (&Config::servers, Config::instance()),
+		boost::bind (&Config::set_servers, Config::instance(), _1),
+		boost::bind (&server_column, _1)
+		);
+
+	s->Add (_servers_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
+
+	_use_any_servers->SetValue (Config::instance()->use_any_servers ());
+	_use_any_servers->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ConfigDialog::use_any_servers_changed, this));
+}
+
+void
+ConfigDialog::use_any_servers_changed ()
+{
+	Config::instance()->set_use_any_servers (_use_any_servers->GetValue ());
 }
 
 void

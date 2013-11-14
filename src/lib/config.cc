@@ -22,6 +22,7 @@
 #include <fstream>
 #include <glib.h>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include <libdcp/colour_matrix.h>
 #include <libcxml/cxml.h>
 #include "config.h"
@@ -48,6 +49,8 @@ using std::cerr;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
+using boost::algorithm::is_any_of;
+using boost::algorithm::split;
 
 Config* Config::_instance = 0;
 
@@ -55,6 +58,7 @@ Config* Config::_instance = 0;
 Config::Config ()
 	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
 	, _server_port_base (6192)
+	, _use_any_servers (true)
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _default_still_length (10)
@@ -101,6 +105,18 @@ Config::read ()
 		b = f.optional_number_child<int> ("ServerPortBase");
 	}
 	_server_port_base = b.get ();
+
+	boost::optional<bool> u = f.optional_bool_child ("UseAnyServers");
+	_use_any_servers = u.get_value_or (true);
+
+	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
+	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
+		if ((*i)->node_children("HostName").size() == 1) {
+			_servers.push_back ((*i)->string_child ("HostName"));
+		} else {
+			_servers.push_back ((*i)->content ());
+		}
+	}
 	
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
@@ -192,6 +208,12 @@ Config::read_old_metadata ()
 			_default_directory = v;
 		} else if (k == N_("server_port")) {
 			_server_port_base = atoi (v.c_str ());
+		} else if (k == N_("server")) {
+			vector<string> b;
+			split (b, v, is_any_of (" "));
+			if (b.size() == 2) {
+				_servers.push_back (b[0]);
+			}
 		} else if (k == N_("tms_ip")) {
 			_tms_ip = v;
 		} else if (k == N_("tms_path")) {
@@ -283,6 +305,12 @@ Config::write () const
 	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
 	root->add_child("ServerPortBase")->add_child_text (lexical_cast<string> (_server_port_base));
+	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
+	
+	for (vector<string>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
+		root->add_child("Server")->add_child_text (*i);
+	}
+
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
 	root->add_child("TMSPath")->add_child_text (_tms_path);
 	root->add_child("TMSUser")->add_child_text (_tms_user);
