@@ -1,3 +1,8 @@
+2013-11-15  Carl Hetherington  <cth@carlh.net>
+
+	* Use 2 decimal places for gamma controls instead
+	of 1.
+
 2013-11-14  Carl Hetherington  <cth@carlh.net>
 
 	* Support modification of certain properties when
