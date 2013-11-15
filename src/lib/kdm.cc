@@ -229,7 +229,7 @@ email_kdms (
 		boost::algorithm::replace_all (body, "$DCP_NAME", film->dcp_name ());
 		
 		quickmail_set_body (mail, body.c_str());
-		quickmail_add_attachment_file (mail, zip_file.string().c_str());
+		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");
 		char const* error = quickmail_send (mail, Config::instance()->mail_server().c_str(), 25, "", "");
 		if (error) {
 			quickmail_destroy (mail);
