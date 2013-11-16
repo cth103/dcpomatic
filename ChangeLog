@@ -1,5 +1,7 @@
 2013-11-16  Carl Hetherington  <cth@carlh.net>
 
+	* Bump bundled FFmpeg version to current git master.
+
 	* Fix erroneous reset of visible channels in audio
 	level dialog when changing gain.
 
