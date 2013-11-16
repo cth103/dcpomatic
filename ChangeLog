@@ -1,3 +1,8 @@
+2013-11-16  Carl Hetherington  <cth@carlh.net>
+
+	* Fix erroneous reset of visible channels in audio
+	level dialog when changing gain.
+
 2013-11-15  Carl Hetherington  <cth@carlh.net>
 
 	* Use 2 decimal places for gamma controls instead

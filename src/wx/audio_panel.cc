@@ -125,10 +125,6 @@ AudioPanel::film_content_changed (int property)
 		fcs = dynamic_pointer_cast<FFmpegContent> (acs);
 	}
 	
-	if (_audio_dialog && acs) {
-		_audio_dialog->set_content (acs);
-	}
-	
 	if (property == AudioContentProperty::AUDIO_MAPPING) {
 		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
 		_sizer->Layout ();
@@ -260,6 +256,10 @@ void
 AudioPanel::content_selection_changed ()
 {
 	AudioContentList sel = _editor->selected_audio_content ();
+
+	if (_audio_dialog && sel.size() == 1) {
+		_audio_dialog->set_content (sel.front ());
+	}
 	
 	_gain->set_content (sel);
 	_delay->set_content (sel);
