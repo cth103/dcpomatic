@@ -127,9 +127,11 @@ check_file (string ref, string check)
 }
 
 static void
-note (libdcp::NoteType, string n)
+note (libdcp::NoteType t, string n)
 {
-	cout << n << "\n";
+	if (t == libdcp::ERROR) {
+		cerr << n << "\n";
+	}
 }
 
 void

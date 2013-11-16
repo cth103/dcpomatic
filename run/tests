@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# e.g. --run_tests=foo
 
 export LD_LIBRARY_PATH=build/src/lib:$LD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
