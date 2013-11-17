@@ -74,11 +74,12 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
         # libxml2 seems to be linked against this on Ubuntu but it doesn't mention it in its .pc file
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
-        if conf.env.STATIC:
-            conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
-        else:
-            # On Linux we need to be able to include <gtk/gtk.h> to check GTK's version
-            conf.check_cfg(package='gtk+-2.0', args='--cflags', uselib_store='GTK', mandatory=True)
+        if not conf.env.DISABLE_GUI:
+            if conf.env.STATIC:
+                conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
+            else:
+                # On Linux we need to be able to include <gtk/gtk.h> to check GTK's version
+                conf.check_cfg(package='gtk+-2.0', args='--cflags', uselib_store='GTK', mandatory=True)
 
     # OSX-specific
     if conf.env.TARGET_OSX:
