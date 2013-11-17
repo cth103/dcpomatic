@@ -1,5 +1,7 @@
 2013-11-17  Carl Hetherington  <cth@carlh.net>
 
+	* Fix specified-server discovery.
+
 	* Version 1.30 released.
 
 2013-11-17  Carl Hetherington  <cth@carlh.net>

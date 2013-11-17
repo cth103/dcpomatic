@@ -29,8 +29,10 @@ using std::string;
 using std::stringstream;
 using std::list;
 using std::vector;
+using std::cout;
 using boost::shared_ptr;
 using boost::scoped_array;
+using boost::lexical_cast;
 
 ServerFinder* ServerFinder::_instance = 0;
 
@@ -69,9 +71,13 @@ ServerFinder::broadcast_thread ()
 		/* Query our `definite' servers (if there are any) */
 		vector<string> servers = Config::instance()->servers ();
 		for (vector<string>::const_iterator i = servers.begin(); i != servers.end(); ++i) {
+			if (server_found (*i)) {
+				/* Don't bother asking a server that we already know about */
+				continue;
+			}
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
-				boost::asio::ip::udp::resolver::query query (*i);
+				boost::asio::ip::udp::resolver::query query (*i, lexical_cast<string> (Config::instance()->server_port_base() + 1));
 				boost::asio::ip::udp::endpoint end_point (*resolver.resolve (query));
 				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
 			} catch (...) {
@@ -103,20 +109,25 @@ ServerFinder::listen_thread ()
 		shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
 		xml->read_stream (s);
 
-		boost::mutex::scoped_lock lm (_mutex);
-
 		string const ip = sock->socket().remote_endpoint().address().to_string ();
-		list<ServerDescription>::const_iterator i = _servers.begin();
-		while (i != _servers.end() && i->host_name() != ip) {
-			++i;
-		}
-
-		if (i == _servers.end ()) {
+		if (!server_found (ip)) {
 			ServerDescription sd (ip, xml->number_child<int> ("Threads"));
 			_servers.push_back (sd);
 			ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
 		}
 	}
+}
+
+bool
+ServerFinder::server_found (string ip) const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	list<ServerDescription>::const_iterator i = _servers.begin();
+	while (i != _servers.end() && i->host_name() != ip) {
+		++i;
+	}
+
+	return i != _servers.end ();
 }
 
 void

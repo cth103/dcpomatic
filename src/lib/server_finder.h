@@ -37,6 +37,8 @@ private:
 	void broadcast_thread ();
 	void listen_thread ();
 
+	bool server_found (std::string) const;
+
 	boost::signals2::signal<void (ServerDescription)> ServerFound;
 
 	bool _disabled;
@@ -47,7 +49,7 @@ private:
 	boost::thread* _listen_thread;
 
 	std::list<ServerDescription> _servers;
-	boost::mutex _mutex;
+	mutable boost::mutex _mutex;
 
 	static ServerFinder* _instance;
 };
