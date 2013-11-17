@@ -64,6 +64,8 @@ ColourConversion::ColourConversion (double i, bool il, double const m[3][3], dou
 ColourConversion::ColourConversion (shared_ptr<cxml::Node> node)
 	: matrix (3, 3)
 {
+	LocaleGuard lg;
+	
 	input_gamma = node->number_child<double> ("InputGamma");
 	input_gamma_linearised = node->bool_child ("InputGammaLinearised");
 
@@ -86,6 +88,8 @@ ColourConversion::ColourConversion (shared_ptr<cxml::Node> node)
 void
 ColourConversion::as_xml (xmlpp::Node* node) const
 {
+	LocaleGuard lg;
+	
 	node->add_child("InputGamma")->add_child_text (lexical_cast<string> (input_gamma));
 	node->add_child("InputGammaLinearised")->add_child_text (input_gamma_linearised ? "1" : "0");
 

@@ -19,6 +19,7 @@
 
 #include <libcxml/cxml.h>
 #include "subtitle_content.h"
+#include "util.h"
 
 using std::string;
 using boost::shared_ptr;
@@ -40,6 +41,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxm
 	, _subtitle_offset (0)
 	, _subtitle_scale (1)
 {
+	LocaleGuard lg;
+	
 	_subtitle_offset = node->number_child<float> ("SubtitleOffset");
 	_subtitle_scale = node->number_child<float> ("SubtitleScale");
 }
@@ -47,6 +50,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxm
 void
 SubtitleContent::as_xml (xmlpp::Node* root) const
 {
+	LocaleGuard lg;
+	
 	root->add_child("SubtitleOffset")->add_child_text (lexical_cast<string> (_subtitle_offset));
 	root->add_child("SubtitleScale")->add_child_text (lexical_cast<string> (_subtitle_scale));
 }

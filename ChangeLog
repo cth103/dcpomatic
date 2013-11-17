@@ -1,3 +1,8 @@
+2013-11-17  Carl Hetherington  <cth@carlh.net>
+
+	* Speculative fix for servers crashing with different
+	locales to clients.
+
 2013-11-16  Carl Hetherington  <cth@carlh.net>
 
 	* Bump bundled FFmpeg version to current git master.

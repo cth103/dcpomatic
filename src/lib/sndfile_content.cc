@@ -23,6 +23,7 @@
 #include "film.h"
 #include "compose.hpp"
 #include "job.h"
+#include "util.h"
 
 #include "i18n.h"
 

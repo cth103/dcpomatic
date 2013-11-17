@@ -54,6 +54,8 @@ AudioContent::AudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
 AudioContent::AudioContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
 {
+	LocaleGuard lg;
+	
 	_audio_gain = node->number_child<float> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
 }
@@ -61,6 +63,8 @@ AudioContent::AudioContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 void
 AudioContent::as_xml (xmlpp::Node* node) const
 {
+	LocaleGuard lg;
+	
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("AudioGain")->add_child_text (lexical_cast<string> (_audio_gain));
 	node->add_child("AudioDelay")->add_child_text (lexical_cast<string> (_audio_delay));
