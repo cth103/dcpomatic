@@ -33,6 +33,7 @@ using std::string;
 using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
+using boost::lexical_cast;
 
 boost::mutex FFmpeg::_mutex;
 
@@ -68,7 +69,14 @@ FFmpeg::setup_general ()
 {
 	av_register_all ();
 
-	if (avformat_open_input (&_format_context, _ffmpeg_content->path().string().c_str(), 0, 0) < 0) {
+	AVDictionary* options = 0;
+	/* These durations are in microseconds, and represent how far into the content file
+	   we will look for streams.
+	*/
+	av_dict_set (&options, "analyzeduration", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+	av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+	
+	if (avformat_open_input (&_format_context, _ffmpeg_content->path().string().c_str(), 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path().string ());
 	}
 
