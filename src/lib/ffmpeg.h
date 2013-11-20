@@ -41,7 +41,7 @@ class FFmpegContent;
 class FFmpeg
 {
 public:
-	FFmpeg (boost::shared_ptr<const FFmpegContent>);
+	FFmpeg (boost::shared_ptr<const FFmpegContent>, bool);
 	virtual ~FFmpeg ();
 
 	boost::shared_ptr<const FFmpegContent> ffmpeg_content () const {
@@ -67,7 +67,7 @@ protected:
 	static boost::mutex _mutex;
 
 private:
-	void setup_general ();
+	void setup_general (bool);
 	void setup_video ();
 	void setup_audio ();
 };

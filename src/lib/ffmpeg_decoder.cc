@@ -63,7 +63,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, VideoDecoder (f, c)
 	, AudioDecoder (f, c)
 	, SubtitleDecoder (f)
-	, FFmpeg (c)
+	, FFmpeg (c, false)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 	, _decode_video (video)

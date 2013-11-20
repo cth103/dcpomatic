@@ -37,13 +37,14 @@ using boost::lexical_cast;
 
 boost::mutex FFmpeg::_mutex;
 
-FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
+/** @param long_probe true to do a long probe of the file looking for streams */
+FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c, bool long_probe)
 	: _ffmpeg_content (c)
 	, _format_context (0)
 	, _frame (0)
 	, _video_stream (-1)
 {
-	setup_general ();
+	setup_general (long_probe);
 	setup_video ();
 	setup_audio ();
 }
@@ -65,16 +66,18 @@ FFmpeg::~FFmpeg ()
 }
 
 void
-FFmpeg::setup_general ()
+FFmpeg::setup_general (bool long_probe)
 {
 	av_register_all ();
 
 	AVDictionary* options = 0;
-	/* These durations are in microseconds, and represent how far into the content file
-	   we will look for streams.
-	*/
-	av_dict_set (&options, "analyzeduration", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
-	av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+	if (long_probe) {
+		/* These durations are in microseconds, and represent how far into the content file
+		   we will look for streams.
+		*/
+		av_dict_set (&options, "analyzeduration", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+		av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+	}
 	
 	if (avformat_open_input (&_format_context, _ffmpeg_content->path().string().c_str(), 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path().string ());

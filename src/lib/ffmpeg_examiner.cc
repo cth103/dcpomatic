@@ -32,7 +32,7 @@ using boost::shared_ptr;
 using boost::optional;
 
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
-	: FFmpeg (c)
+	: FFmpeg (c, true)
 {
 	/* Find audio and subtitle streams */
 
