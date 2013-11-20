@@ -41,6 +41,7 @@
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
 #include "wx/servers_list_dialog.h"
+#include "wx/hints_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -181,6 +182,7 @@ enum {
 	ID_jobs_make_kdms,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
+	ID_tools_hints,
 	ID_tools_encoding_servers,
 };
 
@@ -219,6 +221,7 @@ setup_menu (wxMenuBar* m)
 	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
 
 	wxMenu* tools = new wxMenu;
+	add_item (tools, _("Hints..."), ID_tools_hints, 0);
 	add_item (tools, _("Encoding Servers..."), ID_tools_encoding_servers, 0);
 
 	wxMenu* help = new wxMenu;
@@ -258,6 +261,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),         ID_jobs_make_kdms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),   ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),          ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),            ID_tools_hints);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this), ID_tools_encoding_servers);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),             wxID_ABOUT);
 
@@ -479,6 +483,15 @@ private:
 #endif		
 	}
 
+	void tools_hints ()
+	{
+		if (!_hints_dialog) {
+			_hints_dialog = new HintsDialog (this, film);
+		}
+
+		_hints_dialog->Show ();
+	}
+
 	void tools_encoding_servers ()
 	{
 		if (!_servers_list_dialog) {
@@ -523,6 +536,7 @@ private:
 		ev.Skip ();
 	}
 
+	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
 };
 
