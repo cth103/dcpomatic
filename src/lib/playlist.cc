@@ -116,8 +116,8 @@ Playlist::video_identifier () const
 void
 Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node)
 {
-	list<shared_ptr<cxml::Node> > c = node->node_children ("Content");
-	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
+	list<cxml::NodePtr> c = node->node_children ("Content");
+	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
 		_content.push_back (content_factory (film, *i));
 	}
 

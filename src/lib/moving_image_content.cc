@@ -45,8 +45,8 @@ MovingImageContent::MovingImageContent (shared_ptr<const Film> f, shared_ptr<con
 	: Content (f, node)
 	, VideoContent (f, node)
 {
-	list<shared_ptr<cxml::Node> > c = node->node_children ("File");
-	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+	list<cxml::NodePtr> c = node->node_children ("File");
+	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		_files.push_back ((*i)->content ());
 	}
 }

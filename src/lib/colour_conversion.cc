@@ -61,7 +61,7 @@ ColourConversion::ColourConversion (double i, bool il, double const m[3][3], dou
 	}
 }
 
-ColourConversion::ColourConversion (shared_ptr<cxml::Node> node)
+ColourConversion::ColourConversion (cxml::NodePtr node)
 	: matrix (3, 3)
 {
 	LocaleGuard lg;
@@ -75,8 +75,8 @@ ColourConversion::ColourConversion (shared_ptr<cxml::Node> node)
 		}
 	}
 
-	list<shared_ptr<cxml::Node> > m = node->node_children ("Matrix");
-	for (list<shared_ptr<cxml::Node> >::iterator i = m.begin(); i != m.end(); ++i) {
+	list<cxml::NodePtr> m = node->node_children ("Matrix");
+	for (list<cxml::NodePtr>::iterator i = m.begin(); i != m.end(); ++i) {
 		int const ti = (*i)->number_attribute<int> ("i");
 		int const tj = (*i)->number_attribute<int> ("j");
 		matrix(ti, tj) = lexical_cast<double> ((*i)->content ());
@@ -154,7 +154,7 @@ PresetColourConversion::PresetColourConversion (string n, double i, bool il, dou
 
 }
 
-PresetColourConversion::PresetColourConversion (shared_ptr<cxml::Node> node)
+PresetColourConversion::PresetColourConversion (cxml::NodePtr node)
 	: conversion (node)
 {
 	name = node->string_child ("Name");

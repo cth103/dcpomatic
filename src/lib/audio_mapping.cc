@@ -64,8 +64,8 @@ AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node)
 {
 	_content_channels = node->number_child<int> ("ContentChannels");
 	
-	list<shared_ptr<cxml::Node> > const c = node->node_children ("Map");
-	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+	list<cxml::NodePtr> const c = node->node_children ("Map");
+	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		add ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
 	}
 }

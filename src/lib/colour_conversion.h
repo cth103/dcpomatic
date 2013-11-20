@@ -28,10 +28,7 @@
 #include <boost/utility.hpp>
 #include <boost/optional.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
-
-namespace cxml {
-	class Node;
-}
+#include <libcxml/cxml.h>
 
 namespace xmlpp {
 	class Node;
@@ -42,7 +39,7 @@ class ColourConversion
 public:
 	ColourConversion ();
 	ColourConversion (double, bool, double const matrix[3][3], double);
-	ColourConversion (boost::shared_ptr<cxml::Node>);
+	ColourConversion (cxml::NodePtr);
 
 	virtual void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
@@ -60,7 +57,7 @@ class PresetColourConversion
 public:
 	PresetColourConversion ();
 	PresetColourConversion (std::string, double, bool, double const matrix[3][3], double);
-	PresetColourConversion (boost::shared_ptr<cxml::Node>);
+	PresetColourConversion (cxml::NodePtr);
 
 	void as_xml (xmlpp::Node *) const;
 

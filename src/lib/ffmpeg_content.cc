@@ -59,8 +59,8 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	, AudioContent (f, node)
 	, SubtitleContent (f, node)
 {
-	list<shared_ptr<cxml::Node> > c = node->node_children ("SubtitleStream");
-	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
+	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_subtitle_stream = _subtitle_streams.back ();
@@ -68,7 +68,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	}
 
 	c = node->node_children ("AudioStream");
-	for (list<shared_ptr<cxml::Node> >::const_iterator i = c.begin(); i != c.end(); ++i) {
+	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_audio_stream = _audio_streams.back ();
@@ -76,7 +76,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	}
 
 	c = node->node_children ("Filter");
-	for (list<shared_ptr<cxml::Node> >::iterator i = c.begin(); i != c.end(); ++i) {
+	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
 		_filters.push_back (Filter::from_id ((*i)->content ()));
 	}
 

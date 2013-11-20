@@ -28,7 +28,7 @@ using std::string;
 using boost::shared_ptr;
 
 shared_ptr<Content>
-content_factory (shared_ptr<const Film> film, shared_ptr<cxml::Node> node)
+content_factory (shared_ptr<const Film> film, cxml::NodePtr node)
 {
 	string const type = node->string_child ("Type");
 

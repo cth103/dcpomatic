@@ -37,8 +37,8 @@ Cinema::Cinema (shared_ptr<const cxml::Node> node)
 void
 Cinema::read_screens (shared_ptr<const cxml::Node> node)
 {
-	list<shared_ptr<cxml::Node> > s = node->node_children ("Screen");
-	for (list<shared_ptr<cxml::Node> >::iterator i = s.begin(); i != s.end(); ++i) {
+	list<cxml::NodePtr> s = node->node_children ("Screen");
+	for (list<cxml::NodePtr>::iterator i = s.begin(); i != s.end(); ++i) {
 		add_screen (shared_ptr<Screen> (new Screen (*i)));
 	}
 }

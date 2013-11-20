@@ -19,5 +19,5 @@
 
 class Film;
 
-extern boost::shared_ptr<Content> content_factory (boost::shared_ptr<const Film>, boost::shared_ptr<cxml::Node>);
+extern boost::shared_ptr<Content> content_factory (boost::shared_ptr<const Film>, cxml::NodePtr);
 extern boost::shared_ptr<Content> content_factory (boost::shared_ptr<const Film>, boost::filesystem::path);

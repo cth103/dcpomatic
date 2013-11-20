@@ -153,7 +153,7 @@ Content::clone () const
 	xmlpp::Document doc;
 	xmlpp::Node* node = doc.create_root_node ("Content");
 	as_xml (node);
-	return content_factory (film, shared_ptr<cxml::Node> (new cxml::Node (node)));
+	return content_factory (film, cxml::NodePtr(new cxml::Node (node)));
 }
 
 string

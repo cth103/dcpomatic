@@ -109,8 +109,8 @@ Config::read ()
 	boost::optional<bool> u = f.optional_bool_child ("UseAnyServers");
 	_use_any_servers = u.get_value_or (true);
 
-	list<shared_ptr<cxml::Node> > servers = f.node_children ("Server");
-	for (list<shared_ptr<cxml::Node> >::iterator i = servers.begin(); i != servers.end(); ++i) {
+	list<cxml::NodePtr> servers = f.node_children ("Server");
+	for (list<cxml::NodePtr>::iterator i = servers.begin(); i != servers.end(); ++i) {
 		if ((*i)->node_children("HostName").size() == 1) {
 			_servers.push_back ((*i)->string_child ("HostName"));
 		} else {
@@ -147,13 +147,13 @@ Config::read ()
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 
-	list<shared_ptr<cxml::Node> > cc = f.node_children ("ColourConversion");
+	list<cxml::NodePtr> cc = f.node_children ("ColourConversion");
 
 	if (!cc.empty ()) {
 		_colour_conversions.clear ();
 	}
 	
-	for (list<shared_ptr<cxml::Node> >::iterator i = cc.begin(); i != cc.end(); ++i) {
+	for (list<cxml::NodePtr>::iterator i = cc.begin(); i != cc.end(); ++i) {
 		_colour_conversions.push_back (PresetColourConversion (*i));
 	}
 
@@ -164,8 +164,8 @@ Config::read ()
 		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), 2.2, false, libdcp::colour_matrix::rec709_to_xyz, 2.6));
 	}
 
-	list<shared_ptr<cxml::Node> > cin = f.node_children ("Cinema");
-	for (list<shared_ptr<cxml::Node> >::iterator i = cin.begin(); i != cin.end(); ++i) {
+	list<cxml::NodePtr> cin = f.node_children ("Cinema");
+	for (list<cxml::NodePtr>::iterator i = cin.begin(); i != cin.end(); ++i) {
 		/* Slightly grotty two-part construction of Cinema here so that we can use
 		   shared_from_this.
 		*/
