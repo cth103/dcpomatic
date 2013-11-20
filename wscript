@@ -91,7 +91,7 @@ def configure(conf):
     conf.check_cfg(package='libdcp',        atleast_version='0.81', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
     # Remove erroneous escaping of quotes from xmlsec1 defines
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
-    conf.check_cfg(package='libcxml',       atleast_version='0.01', args=pkg_config_args(conf), uselib_store='CXML', mandatory=True)
+    conf.check_cfg(package='libcxml',       atleast_version='0.08', args=pkg_config_args(conf), uselib_store='CXML', mandatory=True)
     conf.check_cfg(package='libavformat',   args=pkg_config_args(conf), uselib_store='AVFORMAT',   mandatory=True)
     conf.check_cfg(package='libavfilter',   args=pkg_config_args(conf), uselib_store='AVFILTER',   mandatory=True)
     conf.check_cfg(package='libavcodec',    args=pkg_config_args(conf), uselib_store='AVCODEC',    mandatory=True)
