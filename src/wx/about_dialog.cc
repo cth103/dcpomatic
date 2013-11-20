@@ -124,6 +124,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Wolfram Weber"));
 	supported_by.Add (wxT ("Randy Stankey"));
 	supported_by.Add (wxT ("Frank Cianciolo"));
+	supported_by.Add (wxT ("Rodolfo Giuliano"));
 	add_section (_("Supported by"), supported_by);
 
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
