@@ -73,4 +73,14 @@ whatever it wanted in the back-end.  It would either coalesce content
 or make the decoder handle multiple content; the former would preserve
 the \texttt{Piece} stuff.
 
+\section{Attempt 1}
+
+An alternative might be to change \texttt{Piece} so that it can
+represent multiple pieces of content, then give these to the decoder; i.e.
+
+\begin{itemize}
+\item 1 \texttt{Content} $\to$ 1 file
+\item 1 \texttt{Piece} $\to$ 1 \texttt{Decoder} $\to$ many \texttt{Content}
+\end{itemize}
+
 \end{document}
