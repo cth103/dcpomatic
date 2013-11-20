@@ -1,0 +1,76 @@
+\documentclass{article}
+\title{VOBs}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+VOB files are tricky.  They appear to be components of a complete
+media file which have been chopped up with no regard for packets.
+Therefore they must be interpreted as if they had been joined together
+with \texttt{cat}.
+
+This is true, at least, with one test (``The Blues Brothers'' DVD)
+which has its first VOB-to-VOB transition when Elwood looks at the
+`Murph and the Magictones' business card.
+
+Solutions:
+\begin{enumerate}
+\item Fiddle the decoders so that they pass on bits of packets
+  to the next decoder in line; this appears to be difficult.
+\item Coalesce VOB files into one big `file' (or virtual file)
+  for feeding to FFmpeg.
+\end{enumerate}
+
+The second solution is easy enough to do, but the UI is tricky.  As
+far as I can see the user has explicitly to request this behaviour, as
+coalescing two normal video files will cause problems.  If they do
+request it, how should it be represented?
+
+\begin{enumerate}
+\item In the UI?
+\begin{enumerate}
+\item Select VOBs and coalesce or
+\item Coalese all files by some switch?
+\end{enumerate}
+\item In the back-end?
+\begin{enumerate}
+\item A single \texttt{Content} has multiple files or
+\item A single \texttt{Decoder} has multiple \texttt{Content}s.
+\end{enumerate}
+\end{enumerate}
+
+UI-wise, there will have to be some heuristic or nudging to get the
+user to do the right thing.  It probably does not matter.
+
+The back-end is trickier.  There is currently a 1:1 map of back-end
+content to UI content.  To preserve that, we would have to:
+
+\begin{enumerate}
+\item Have some hierarchy to enable grouped content (so that 1:1
+  decoder--content is preserved).  This removes the 1:1 between
+  content and file, which is nice for everything except this
+  special (nasty) VOB case.
+\item Allow a single decoder to manage multiple pieces of content.
+  The problem with this is that the \texttt{Player} has
+  \texttt{Piece}s, which are 1:1 decoder--content maps.  1--many for
+  decoder--content screws anything done with \texttt{Piece}s --- seek
+  (at least).
+\end{enumerate}
+
+Probably have to think about this from the UI point of view; first,
+the user adds 4 VOB files (1 by 1) which should eventually be
+coalesced.  Either:
+
+\begin{enumerate}
+\item They are coalesced magically with a switch, or
+\item The user must specifically coalesce them, and then the result
+  must be reflected in the UI.
+\end{enumerate}
+
+The first option could be done in the \texttt{Player} if it created
+whatever it wanted in the back-end.  It would either coalesce content
+or make the decoder handle multiple content; the former would preserve
+the \texttt{Piece} stuff.
+
+\end{document}

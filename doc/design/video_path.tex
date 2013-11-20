@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[explicit]{titlesec}
+\usepackage{lipsum,framed,color,xcolor}
+\definecolor{shadecolor}{rgb}{1,0.8,0.3}
+\titleformat{name=\subsection,numberless}{\ttfamily}{}{0em}{\colorbox{shadecolor}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{{#1}}}}\title{Video paths}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\emph{Encoder} calls \texttt{Player::pass()} repeatedly.
+
+\subsection*{Player::pass()}
+
+Look through all `pieces' (content, decoder, video/audio position) and
+find earliest last emission.  Call \texttt{pass()} on earliest
+decoder.
+
+\subsection*{FFmpegDecoder::pass()}
+
+Decoder may or may not generate a frame.  Adjust for gaps in PTS.
+(FFmpegDecoder does FFmpeg filtering here).
+
+\subsection*{VideoDecoder::video(image, same, frame)}
+
+The \emph{frame} parameter is the frame within the source.  This
+handles 3D and emits \texttt{Video}, which is caught by
+\texttt{Player::process\_video}.
+
+\subsection*{Player::process\_video(piece, image, eyes, same, frame)}
+
+\begin{itemize}
+\item Trim
+\item Crop
+\item Scale
+\item Superposition of burnt-in subtitles.
+\end{itemize}
+
+Emits \texttt{Video} which is caught by \texttt{Encoder::process\_video}.
+
+\end{document}
