@@ -103,9 +103,13 @@ The immediate `shame' about this is that most content is happy being
 just one file.  Details of content path(s) are used for:
 
 \begin{itemize}
-\item Presentation to the user.
-\item Actually opening the files to decode / examine them.
-\item UI to `find' missing content.
+\item \emph{[UI]} Presentation to the user.
+\item \emph{[UI]} UI to `find' missing content.
+\item \emph{[Back-end]} Actually opening the files to decode / examine them.
 \end{itemize}
+
+If we create the coalesced \texttt{Content} on building the pieces for
+the player, it will never appear in the user interface.  This means
+that it needs only the \emph{[back-end]} interfaces.
 
 \end{document}
