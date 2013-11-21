@@ -56,7 +56,7 @@ def configure(conf):
         # check_cfg(), so just hard-code it all.
         conf.env.STLIB_WXWIDGETS = ['wx_gtk2u_richtext-2.9', 'wx_gtk2u_xrc-2.9', 'wx_gtk2u_qa-2.9', 'wx_baseu_net-2.9', 'wx_gtk2u_html-2.9',
                                     'wx_gtk2u_adv-2.9', 'wx_gtk2u_core-2.9', 'wx_baseu_xml-2.9', 'wx_baseu-2.9']
-        conf.env.LIB_WXWIDGETS = ['tiff', 'SM', 'dl', 'jpeg', 'png', 'X11']
+        conf.env.LIB_WXWIDGETS = ['tiff', 'SM', 'dl', 'jpeg', 'png', 'X11', 'expat']
  
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
