@@ -73,6 +73,7 @@ whatever it wanted in the back-end.  It would either coalesce content
 or make the decoder handle multiple content; the former would preserve
 the \texttt{Piece} stuff.
 
+
 \section{Attempt 1}
 
 An alternative might be to change \texttt{Piece} so that it can
@@ -81,6 +82,30 @@ represent multiple pieces of content, then give these to the decoder; i.e.
 \begin{itemize}
 \item 1 \texttt{Content} $\to$ 1 file
 \item 1 \texttt{Piece} $\to$ 1 \texttt{Decoder} $\to$ many \texttt{Content}
+\end{itemize}
+
+At first glance the disadvantage seems to be that where once we had a
+piece of content, we now have a list, and so there has to be
+non-trival extra work each time we look at that piece of content
+(effectively coalescing that content on the fly).  This suggests that
+the \texttt{Content} should take multiple files so that the management
+of that is done within \texttt{Content}
+
+
+\section{Attempt 2}
+
+\begin{itemize}
+\item 1 \texttt{Content} $\to$ many files
+\item 1 \texttt{Piece} $\to$ 1 \texttt{Decoder} $\to$ 1 \texttt{Content}
+\end{itemize}
+
+The immediate `shame' about this is that most content is happy being
+just one file.  Details of content path(s) are used for:
+
+\begin{itemize}
+\item Presentation to the user.
+\item Actually opening the files to decode / examine them.
+\item UI to `find' missing content.
 \end{itemize}
 
 \end{document}
