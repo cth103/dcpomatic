@@ -98,7 +98,6 @@ MovingImageExaminer::video_size () const
 int
 MovingImageExaminer::video_length () const
 {
-	cout << "ex video length is " << _video_length << "\n";
 	return _video_length;
 }
 
