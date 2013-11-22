@@ -20,11 +20,12 @@
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 #include <Magick++.h>
-#include "moving_image_content.h"
-#include "moving_image_examiner.h"
+#include "image_content.h"
+#include "image_examiner.h"
 #include "film.h"
 #include "job.h"
 #include "exceptions.h"
+#include "config.h"
 
 #include "i18n.h"
 
@@ -33,19 +34,23 @@ using std::list;
 using std::sort;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::bad_lexical_cast;
 
-MovingImageExaminer::MovingImageExaminer (shared_ptr<const Film> film, shared_ptr<const MovingImageContent> content, shared_ptr<Job> job)
-	: MovingImage (content)
-	, _film (film)
+ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job> job)
+	: _film (film)
+	, _image_content (content)
 	, _video_length (0)
 {
 	list<unsigned int> frames;
 	size_t const N = content->number_of_paths ();
 
-	int j = 0;
 	for (size_t i = 0; i < N; ++i) {
 		boost::filesystem::path const p = content->path (i);
-		frames.push_back (lexical_cast<int> (p.stem().string()));
+		try {
+			frames.push_back (lexical_cast<int> (p.stem().string()));
+		} catch (bad_lexical_cast &) {
+			/* We couldn't turn that filename into a number; never mind */
+		}
 		
 		if (!_video_size) {
 			using namespace MagickCore;
@@ -59,36 +64,34 @@ MovingImageExaminer::MovingImageExaminer (shared_ptr<const Film> film, shared_pt
 
 	frames.sort ();
 	
-	if (frames.size() < 2) {
-		throw StringError (String::compose (_("only %1 file(s) found in moving image directory"), frames.size ()));
-	}
-
-	if (frames.front() != 0 && frames.front() != 1) {
+	if (N > 1 && frames.front() != 0 && frames.front() != 1) {
 		throw StringError (String::compose (_("first frame in moving image directory is number %1"), frames.front ()));
 	}
 
-	if (frames.back() != frames.size() && frames.back() != (frames.size() - 1)) {
+	if (N > 1 && frames.back() != frames.size() && frames.back() != (frames.size() - 1)) {
 		throw StringError (String::compose (_("there are %1 images in the directory but the last one is number %2"), frames.size(), frames.back ()));
 	}
 
-	_video_length = frames.size ();
+	if (content->still ()) {
+		_video_length = Config::instance()->default_still_length() * video_frame_rate();
+	} else {
+		_video_length = _image_content->number_of_paths ();
+	}
 }
 
 libdcp::Size
-MovingImageExaminer::video_size () const
+ImageExaminer::video_size () const
 {
 	return _video_size.get ();
 }
 
-int
-MovingImageExaminer::video_length () const
-{
-	return _video_length;
-}
-
 float
-MovingImageExaminer::video_frame_rate () const
+ImageExaminer::video_frame_rate () const
 {
-	return 24;
-}
+	boost::shared_ptr<const Film> f = _film.lock ();
+	if (!f) {
+		return 24;
+	}
 
+	return f->video_frame_rate ();
+}

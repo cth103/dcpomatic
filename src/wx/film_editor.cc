@@ -36,8 +36,7 @@
 #include "lib/filter.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
-#include "lib/still_image_content.h"
-#include "lib/moving_image_content.h"
+#include "lib/image_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
@@ -761,8 +760,8 @@ FilmEditor::content_add_folder_clicked ()
 	}
 
 	_film->examine_and_add_content (
-		shared_ptr<MovingImageContent> (
-			new MovingImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ())))
+		shared_ptr<ImageContent> (
+			new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ())))
 			)
 		);
 }

@@ -28,6 +28,7 @@
 using std::string;
 using std::stringstream;
 using std::set;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 

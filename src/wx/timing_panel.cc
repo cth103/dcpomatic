@@ -18,7 +18,7 @@
 */
 
 #include "lib/content.h"
-#include "lib/still_image_content.h"
+#include "lib/image_content.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
@@ -88,7 +88,8 @@ TimingPanel::film_content_changed (int property)
 		}
 	}	
 
-	_length->set_editable (dynamic_pointer_cast<StillImageContent> (content));
+	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
+	_length->set_editable (ic && ic->still ());
 }
 
 void
@@ -105,8 +106,8 @@ TimingPanel::length_changed ()
 {
 	ContentList c = _editor->selected_content ();
 	if (c.size() == 1) {
-		shared_ptr<StillImageContent> ic = dynamic_pointer_cast<StillImageContent> (c.front ());
-		if (ic) {
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
+		if (ic && ic->still ()) {
 			ic->set_video_length (rint (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
 		}
 	}

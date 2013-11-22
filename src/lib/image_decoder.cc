@@ -20,8 +20,8 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <Magick++.h>
-#include "moving_image_content.h"
-#include "moving_image_decoder.h"
+#include "image_content.h"
+#include "image_decoder.h"
 #include "image.h"
 #include "film.h"
 #include "exceptions.h"
@@ -32,29 +32,34 @@ using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
 
-MovingImageDecoder::MovingImageDecoder (shared_ptr<const Film> f, shared_ptr<const MovingImageContent> c)
+ImageDecoder::ImageDecoder (shared_ptr<const Film> f, shared_ptr<const ImageContent> c)
 	: Decoder (f)
 	, VideoDecoder (f, c)
-	, MovingImage (c)
+	, _image_content (c)
 {
 
 }
 
 void
-MovingImageDecoder::pass ()
+ImageDecoder::pass ()
 {
-	if (_video_position >= _moving_image_content->video_length ()) {
+	if (_video_position >= _image_content->video_length ()) {
 		return;
 	}
 
-	Magick::Image* magick_image = new Magick::Image (_moving_image_content->path(_video_position).string ());
+	if (_image && _image_content->still ()) {
+		video (_image, true, _video_position);
+		return;
+	}
+
+	Magick::Image* magick_image = new Magick::Image (_image_content->path(_video_position).string ());
 	libdcp::Size size (magick_image->columns(), magick_image->rows());
 
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
+	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 
 	using namespace MagickCore;
 	
-	uint8_t* p = image->data()[0];
+	uint8_t* p = _image->data()[0];
 	for (int y = 0; y < size.height; ++y) {
 		uint8_t* q = p;
 		for (int x = 0; x < size.width; ++x) {
@@ -63,22 +68,22 @@ MovingImageDecoder::pass ()
 			*q++ = c.greenQuantum() * 255 / QuantumRange;
 			*q++ = c.blueQuantum() * 255 / QuantumRange;
 		}
-		p += image->stride()[0];
+		p += _image->stride()[0];
 	}
 
 	delete magick_image;
 
-	video (image, false, _video_position);
+	video (_image, false, _video_position);
 }
 
 void
-MovingImageDecoder::seek (VideoContent::Frame frame, bool)
+ImageDecoder::seek (VideoContent::Frame frame, bool)
 {
 	_video_position = frame;
 }
 
 bool
-MovingImageDecoder::done () const
+ImageDecoder::done () const
 {
-	return _video_position >= _moving_image_content->video_length ();
+	return _video_position >= _image_content->video_length ();
 }

@@ -19,8 +19,7 @@
 
 #include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
-#include "still_image_content.h"
-#include "moving_image_content.h"
+#include "image_content.h"
 #include "sndfile_content.h"
 #include "util.h"
 
@@ -36,10 +35,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node)
 	
 	if (type == "FFmpeg") {
 		content.reset (new FFmpegContent (film, node));
-	} else if (type == "StillImage") {
-		content.reset (new StillImageContent (film, node));
-	} else if (type == "MovingImage") {
-		content.reset (new MovingImageContent (film, node));
+	} else if (type == "Image") {
+		content.reset (new ImageContent (film, node));
 	} else if (type == "Sndfile") {
 		content.reset (new SndfileContent (film, node));
 	}
@@ -53,7 +50,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 	shared_ptr<Content> content;
 		
 	if (valid_image_file (path)) {
-		content.reset (new StillImageContent (film, path));
+		content.reset (new ImageContent (film, path));
 	} else if (SndfileContent::valid_file (path)) {
 		content.reset (new SndfileContent (film, path));
 	} else {

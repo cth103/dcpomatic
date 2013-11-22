@@ -22,10 +22,8 @@
 #include "film.h"
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
-#include "still_image_decoder.h"
-#include "still_image_content.h"
-#include "moving_image_decoder.h"
-#include "moving_image_content.h"
+#include "image_decoder.h"
+#include "image_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
 #include "subtitle_content.h"
@@ -466,36 +464,24 @@ Player::setup_pieces ()
 			piece->decoder = fd;
 		}
 		
-		shared_ptr<const StillImageContent> ic = dynamic_pointer_cast<const StillImageContent> (*i);
+		shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (*i);
 		if (ic) {
-			shared_ptr<StillImageDecoder> id;
+			bool reusing = false;
 			
-			/* See if we can re-use an old StillImageDecoder */
+			/* See if we can re-use an old ImageDecoder */
 			for (list<shared_ptr<Piece> >::const_iterator j = old_pieces.begin(); j != old_pieces.end(); ++j) {
-				shared_ptr<StillImageDecoder> imd = dynamic_pointer_cast<StillImageDecoder> ((*j)->decoder);
+				shared_ptr<ImageDecoder> imd = dynamic_pointer_cast<ImageDecoder> ((*j)->decoder);
 				if (imd && imd->content() == ic) {
-					id = imd;
+					piece = *j;
+					reusing = true;
 				}
 			}
 
-			if (!id) {
-				id.reset (new StillImageDecoder (_film, ic));
+			if (!reusing) {
+				shared_ptr<ImageDecoder> id (new ImageDecoder (_film, ic));
 				id->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
+				piece->decoder = id;
 			}
-
-			piece->decoder = id;
-		}
-
-		shared_ptr<const MovingImageContent> mc = dynamic_pointer_cast<const MovingImageContent> (*i);
-		if (mc) {
-			shared_ptr<MovingImageDecoder> md;
-
-			if (!md) {
-				md.reset (new MovingImageDecoder (_film, mc));
-				md->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
-			}
-
-			piece->decoder = md;
 		}
 
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);

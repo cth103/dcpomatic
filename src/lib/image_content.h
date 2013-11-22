@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DCPOMATIC_STILL_IMAGE_CONTENT_H
-#define DCPOMATIC_STILL_IMAGE_CONTENT_H
+#ifndef DCPOMATIC_IMAGE_CONTENT_H
+#define DCPOMATIC_IMAGE_CONTENT_H
 
 #include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
@@ -27,15 +27,14 @@ namespace cxml {
 	class Node;
 }
 
-/** A single image which is to be held on screen for some time (i.e. a slide) */
-class StillImageContent : public VideoContent
+class ImageContent : public VideoContent
 {
 public:
-	StillImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	StillImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	ImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	ImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 
-	boost::shared_ptr<StillImageContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<StillImageContent> (Content::shared_from_this ());
+	boost::shared_ptr<ImageContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<ImageContent> (Content::shared_from_this ());
 	};
 
 	void examine (boost::shared_ptr<Job>);
@@ -47,6 +46,7 @@ public:
 	std::string identifier () const;
 	
 	void set_video_length (VideoContent::Frame);
+	bool still () const;
 };
 
 #endif

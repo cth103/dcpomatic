@@ -21,7 +21,7 @@
 #include <wx/dirdlg.h>
 #include "lib/playlist.h"
 #include "lib/film.h"
-#include "lib/moving_image_content.h"
+#include "lib/image_content.h"
 #include "lib/content_factory.h"
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
@@ -126,11 +126,12 @@ ContentMenu::find_missing ()
 	shared_ptr<Content> content;
 
 	/* XXX: a bit nasty */
-	if (dynamic_pointer_cast<MovingImageContent> (_content.front ())) {
+	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (_content.front ());
+	if (ic && !ic->still ()) {
 		wxDirDialog* d = new wxDirDialog (0, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
 		int const r = d->ShowModal ();
 		if (r == wxID_OK) {
-			content.reset (new MovingImageContent (film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
+			content.reset (new ImageContent (film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
 		}
 		d->Destroy ();
 	} else {

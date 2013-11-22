@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,26 +17,31 @@
 
 */
 
-#include "moving_image.h"
-#include "video_examiner.h"
+#include "video_decoder.h"
 
 namespace Magick {
 	class Image;
 }
 
-class MovingImageContent;
+class ImageContent;
 
-class MovingImageExaminer : public MovingImage, public VideoExaminer
+class ImageDecoder : public VideoDecoder
 {
 public:
-	MovingImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const MovingImageContent>, boost::shared_ptr<Job>);
+	ImageDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageContent>);
 
-	float video_frame_rate () const;
-	libdcp::Size video_size () const;
-	VideoContent::Frame video_length () const;
+	boost::shared_ptr<const ImageContent> content () {
+		return _image_content;
+	}
+
+	/* Decoder */
+
+	void pass ();
+	void seek (VideoContent::Frame, bool);
+	bool done () const;
 
 private:
-	boost::weak_ptr<const Film> _film;
-	boost::optional<libdcp::Size> _video_size;
-	VideoContent::Frame _video_length;
+	boost::shared_ptr<const ImageContent> _image_content;
+	boost::shared_ptr<Image> _image;
 };
+

@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include "lib/still_image_content.h"
+#include "lib/image_content.h"
 #include "lib/ratio.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	shared_ptr<Film> film = new_test_film ("scaling_test");
 	film->set_dcp_content_type (DCPContentType::from_dci_name ("FTR"));
 	film->set_name ("scaling_test");
-	shared_ptr<StillImageContent> imc (new StillImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> imc (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 
 	film->examine_and_add_content (imc);
 
