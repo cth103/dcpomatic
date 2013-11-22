@@ -67,7 +67,7 @@ public:
 	
 	boost::filesystem::path path () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _path;
+		return _paths.front ();
 	}
 
 	bool path_valid () const;
@@ -127,8 +127,8 @@ protected:
 	mutable boost::mutex _mutex;
 
 private:
-	/** Path of a file or a directory containing files */
-	boost::filesystem::path _path;
+	/** Paths of our data files */
+	std::vector<boost::filesystem::path> _paths;
 	std::string _digest;
 	Time _position;
 	Time _trim_start;

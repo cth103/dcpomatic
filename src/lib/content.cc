@@ -49,20 +49,19 @@ Content::Content (shared_ptr<const Film> f, Time p)
 
 Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
 	: _film (f)
-	, _path (p)
 	, _position (0)
 	, _trim_start (0)
 	, _trim_end (0)
 	, _change_signals_frequent (false)
 {
-
+	_paths.push_back (p);
 }
 
 Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: _film (f)
 	, _change_signals_frequent (false)
 {
-	_path = node->string_child ("Path");
+	_paths.push_back (node->string_child ("Path"));
 	_digest = node->string_child ("Digest");
 	_position = node->number_child<Time> ("Position");
 	_trim_start = node->number_child<Time> ("TrimStart");
@@ -74,7 +73,7 @@ Content::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	
-	node->add_child("Path")->add_child_text (_path.string());
+	node->add_child("Path")->add_child_text (_paths.front().string());
 	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Position")->add_child_text (lexical_cast<string> (_position));
 	node->add_child("TrimStart")->add_child_text (lexical_cast<string> (_trim_start));
@@ -85,7 +84,7 @@ void
 Content::examine (shared_ptr<Job> job)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	boost::filesystem::path p = _path;
+	boost::filesystem::path p = _paths.front ();
 	lm.unlock ();
 	
 	string d;
@@ -196,13 +195,14 @@ Content::identifier () const
 bool
 Content::path_valid () const
 {
-	return boost::filesystem::exists (_path);
+	return boost::filesystem::exists (_paths.front ());
 }
 
 void
 Content::set_path (boost::filesystem::path path)
 {
-	_path = path;
+	_paths.clear ();
+	_paths.push_back (path);
 	signal_changed (ContentProperty::PATH);
 }
 
