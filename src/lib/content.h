@@ -48,6 +48,7 @@ public:
 class Content : public boost::enable_shared_from_this<Content>, public boost::noncopyable
 {
 public:
+	Content (boost::shared_ptr<const Film>);
 	Content (boost::shared_ptr<const Film>, Time);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
 	Content (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
@@ -70,6 +71,16 @@ public:
 		return _paths.front ();
 	}
 
+	size_t number_of_paths () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _paths.size ();
+	}
+
+	boost::filesystem::path path (size_t i) const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _paths[i];
+	}
+	
 	bool path_valid () const;
 
 	/** @return MD5 digest of the content's file(s) */
@@ -126,9 +137,10 @@ protected:
 	*/
 	mutable boost::mutex _mutex;
 
-private:
 	/** Paths of our data files */
 	std::vector<boost::filesystem::path> _paths;
+	
+private:
 	std::string _digest;
 	Time _position;
 	Time _trim_start;

@@ -35,20 +35,23 @@ using std::vector;
 using boost::shared_ptr;
 
 MovingImageContent::MovingImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
-	, VideoContent (f, p)
+	: Content (f)
+	, VideoContent (f)
 {
+	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
+		if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
+			_paths.push_back (i->path ());
+		}
+	}
 
+	sort (_paths.begin(), _paths.end());
 }
 
 MovingImageContent::MovingImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: Content (f, node)
 	, VideoContent (f, node)
 {
-	list<cxml::NodePtr> c = node->node_children ("File");
-	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_files.push_back ((*i)->content ());
-	}
+	
 }
 
 string
@@ -72,10 +75,6 @@ MovingImageContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("MovingImage");
 	Content::as_xml (node);
 	VideoContent::as_xml (node);
-
-	for (vector<boost::filesystem::path>::const_iterator i = _files.begin(); i != _files.end(); ++i) {
-		node->add_child("File")->add_child_text (i->filename().string());
-	}
 }
 
 void
@@ -92,8 +91,7 @@ MovingImageContent::examine (shared_ptr<Job> job)
 
 	take_from_video_examiner (examiner);
 
-	_video_length = examiner->files().size ();
-	_files = examiner->files ();
+	_video_length = number_of_paths ();
 }
 
 Time

@@ -46,6 +46,16 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
 
+VideoContent::VideoContent (shared_ptr<const Film> f)
+	: Content (f)
+	, _video_length (0)
+	, _video_frame_rate (0)
+	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
+	, _ratio (Ratio::from_id ("185"))
+{
+	setup_default_colour_conversion ();
+}
+
 VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Frame len)
 	: Content (f, s)
 	, _video_length (len)

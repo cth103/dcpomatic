@@ -47,24 +47,23 @@ MovingImageDecoder::pass ()
 		return;
 	}
 
-	boost::filesystem::path path = _moving_image_content->path ();
-	path /= _moving_image_content->files()[_video_position];
-
-	Magick::Image* magick_image = new Magick::Image (path.string());
+	Magick::Image* magick_image = new Magick::Image (_moving_image_content->path(_video_position).string ());
 	libdcp::Size size (magick_image->columns(), magick_image->rows());
 
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, false));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
 	using namespace MagickCore;
 	
 	uint8_t* p = image->data()[0];
 	for (int y = 0; y < size.height; ++y) {
+		uint8_t* q = p;
 		for (int x = 0; x < size.width; ++x) {
 			Magick::Color c = magick_image->pixelColor (x, y);
-			*p++ = c.redQuantum() * 255 / QuantumRange;
-			*p++ = c.greenQuantum() * 255 / QuantumRange;
-			*p++ = c.blueQuantum() * 255 / QuantumRange;
+			*q++ = c.redQuantum() * 255 / QuantumRange;
+			*q++ = c.greenQuantum() * 255 / QuantumRange;
+			*q++ = c.blueQuantum() * 255 / QuantumRange;
 		}
+		p += image->stride()[0];
 	}
 
 	delete magick_image;

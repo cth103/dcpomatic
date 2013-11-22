@@ -45,13 +45,6 @@ public:
 	Time full_length () const;
 
 	std::string identifier () const;
-
-	std::vector<boost::filesystem::path> const & files () const {
-		return _files;
-	}
-	
-private:
-	std::vector<boost::filesystem::path> _files;
 };
 
 #endif

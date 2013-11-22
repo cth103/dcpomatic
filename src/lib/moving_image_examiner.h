@@ -35,13 +35,8 @@ public:
 	libdcp::Size video_size () const;
 	VideoContent::Frame video_length () const;
 
-	std::vector<boost::filesystem::path> const & files () const {
-		return _files;
-	}
-
 private:
 	boost::weak_ptr<const Film> _film;
 	boost::optional<libdcp::Size> _video_size;
 	VideoContent::Frame _video_length;
-	std::vector<boost::filesystem::path> _files;
 };

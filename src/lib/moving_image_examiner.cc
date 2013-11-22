@@ -40,39 +40,24 @@ MovingImageExaminer::MovingImageExaminer (shared_ptr<const Film> film, shared_pt
 	, _video_length (0)
 {
 	list<unsigned int> frames;
-	unsigned int files = 0;
-	
-	for (boost::filesystem::directory_iterator i(content->path()); i != boost::filesystem::directory_iterator(); ++i) {
-		if (boost::filesystem::is_regular_file (i->path ())) {
-			++files;
-		}
-	}
+	size_t const N = content->number_of_paths ();
 
 	int j = 0;
-	for (boost::filesystem::directory_iterator i(content->path()); i != boost::filesystem::directory_iterator(); ++i) {
-		if (!boost::filesystem::is_regular_file (i->path ())) {
-			continue;
+	for (size_t i = 0; i < N; ++i) {
+		boost::filesystem::path const p = content->path (i);
+		frames.push_back (lexical_cast<int> (p.stem().string()));
+		
+		if (!_video_size) {
+			using namespace MagickCore;
+			Magick::Image* image = new Magick::Image (p.string());
+			_video_size = libdcp::Size (image->columns(), image->rows());
+			delete image;
 		}
-
-		if (valid_image_file (i->path ())) {
-			int n = lexical_cast<int> (i->path().stem().string());
-			frames.push_back (n);
-			_files.push_back (i->path().filename ());
-
-			if (!_video_size) {
-				using namespace MagickCore;
-				Magick::Image* image = new Magick::Image (i->path().string());
-				_video_size = libdcp::Size (image->columns(), image->rows());
-				delete image;
-			}
-		}
-
-		job->set_progress (float (j) / files);
-		++j;
+	
+		job->set_progress (float (i) / N);
 	}
 
 	frames.sort ();
-	sort (_files.begin(), _files.end ());
 	
 	if (frames.size() < 2) {
 		throw StringError (String::compose (_("only %1 file(s) found in moving image directory"), frames.size ()));

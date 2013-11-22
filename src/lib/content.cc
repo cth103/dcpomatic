@@ -37,6 +37,16 @@ int const ContentProperty::LENGTH = 402;
 int const ContentProperty::TRIM_START = 403;
 int const ContentProperty::TRIM_END = 404;
 
+Content::Content (shared_ptr<const Film> f)
+	: _film (f)
+	, _position (0)
+	, _trim_start (0)
+	, _trim_end (0)
+	, _change_signals_frequent (false)
+{
+
+}
+
 Content::Content (shared_ptr<const Film> f, Time p)
 	: _film (f)
 	, _position (p)
