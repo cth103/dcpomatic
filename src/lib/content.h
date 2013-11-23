@@ -68,6 +68,11 @@ public:
 
 	std::string path_summary () const;
 
+	std::vector<boost::filesystem::path> paths () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _paths;
+	}
+
 	size_t number_of_paths () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _paths.size ();

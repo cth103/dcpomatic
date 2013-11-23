@@ -26,9 +26,12 @@
 class FileGroup
 {
 public:
+	FileGroup ();
 	FileGroup (boost::filesystem::path);
 	FileGroup (std::vector<boost::filesystem::path> const &);
 	~FileGroup ();
+
+	void set_paths (std::vector<boost::filesystem::path> const &);
 
 	int64_t seek (int64_t, int) const;
 	int read (uint8_t*, int) const;

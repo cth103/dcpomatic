@@ -40,6 +40,9 @@ boost::mutex FFmpeg::_mutex;
 /** @param long_probe true to do a long probe of the file looking for streams */
 FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c, bool long_probe)
 	: _ffmpeg_content (c)
+	, _avio_buffer (0)
+	, _avio_buffer_size (4096)
+	, _avio_context (0)
 	, _format_context (0)
 	, _frame (0)
 	, _video_stream (-1)
@@ -65,11 +68,33 @@ FFmpeg::~FFmpeg ()
 	avformat_close_input (&_format_context);
 }
 
+static int
+avio_read_wrapper (void* data, uint8_t* buffer, int amount)
+{
+	return reinterpret_cast<FFmpeg*>(data)->avio_read (buffer, amount);
+}
+
+static int64_t
+avio_seek_wrapper (void* data, int64_t offset, int whence)
+{
+	if (whence == AVSEEK_SIZE) {
+		return reinterpret_cast<FFmpeg*>(data)->avio_length ();
+	}
+			
+	return reinterpret_cast<FFmpeg*>(data)->avio_seek (offset, whence);
+}
+
 void
 FFmpeg::setup_general (bool long_probe)
 {
 	av_register_all ();
 
+	_file_group.set_paths (_ffmpeg_content->paths ());
+	_avio_buffer = static_cast<uint8_t*> (av_malloc (_avio_buffer_size));
+	_avio_context = avio_alloc_context (_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
+	_format_context = avformat_alloc_context ();
+	_format_context->pb = _avio_context;
+	
 	AVDictionary* options = 0;
 	if (long_probe) {
 		/* These durations are in microseconds, and represent how far into the content file
@@ -156,4 +181,22 @@ AVCodecContext *
 FFmpeg::audio_codec_context () const
 {
 	return _format_context->streams[_ffmpeg_content->audio_stream()->id]->codec;
+}
+
+int
+FFmpeg::avio_read (uint8_t* buffer, int const amount)
+{
+	return _file_group.read (buffer, amount);
+}
+
+int64_t
+FFmpeg::avio_seek (int64_t const pos, int whence)
+{
+	return _file_group.seek (pos, whence);
+}
+
+int64_t
+FFmpeg::avio_size ()
+{
+	return _file_group.length ();
 }

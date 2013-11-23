@@ -26,6 +26,7 @@
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
+#include "file_group.h"
 
 struct AVFilterGraph;
 struct AVCodecContext;
@@ -35,6 +36,7 @@ struct AVFrame;
 struct AVBufferContext;
 struct AVCodec;
 struct AVStream;
+struct AVIOContext;
 
 class FFmpegContent;
 
@@ -48,16 +50,25 @@ public:
 		return _ffmpeg_content;
 	}
 
+	int avio_read (uint8_t *, int);
+	int64_t avio_seek (int64_t, int);
+	int64_t avio_length ();
+
 protected:
 	AVCodecContext* video_codec_context () const;
 	AVCodecContext* audio_codec_context () const;
 	
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
+	uint8_t* _avio_buffer;
+	int _avio_buffer_size;
+	AVIOContext* _avio_context;
+	FileGroup _file_group;
+	
 	AVFormatContext* _format_context;
 	AVPacket _packet;
 	AVFrame* _frame;
-
+	
 	int _video_stream;
 
 	/* It would appear (though not completely verified) that one must have

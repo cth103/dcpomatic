@@ -25,6 +25,13 @@
 using std::vector;
 using std::cout;
 
+FileGroup::FileGroup ()
+	: _current_path (0)
+	, _current_file (0)
+{
+
+}
+
 FileGroup::FileGroup (boost::filesystem::path p)
 	: _current_path (0)
 	, _current_file (0)
@@ -49,6 +56,13 @@ FileGroup::~FileGroup ()
 	}
 }
 
+void
+FileGroup::set_paths (vector<boost::filesystem::path> const & p)
+{
+	_paths = p;
+	ensure_open_path (0);
+	seek (0, SEEK_SET);
+}
 
 /** Ensure that the given path index in the content is the _current_file */
 void
