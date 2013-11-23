@@ -22,6 +22,7 @@ sources = """
           encoder.cc
           examine_content_job.cc
           exceptions.cc
+          file_group.cc
           filter_graph.cc
           ffmpeg.cc
           ffmpeg_content.cc

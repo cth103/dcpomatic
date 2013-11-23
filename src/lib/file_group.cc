@@ -18,9 +18,6 @@
 */
 
 #include <cstdio>
-extern "C" {
-#include <libavformat/avio.h>
-}
 #include <sndfile.h>
 #include "file_group.h"
 #include "exceptions.h"
@@ -96,8 +93,6 @@ FileGroup::seek (int64_t pos, int whence) const
 	case SEEK_END:
 		full_pos = len - pos;
 		break;
-	case AVSEEK_SIZE:
-		return len;
 	}
 
 	/* Seek to full_pos */

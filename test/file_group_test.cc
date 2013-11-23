@@ -21,9 +21,6 @@
 #include <cstdio>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
-extern "C" {
-#include <libavformat/avio.h>
-}
 #include "lib/file_group.h"
 
 using std::vector;
@@ -107,7 +104,4 @@ BOOST_AUTO_TEST_CASE (file_group_test)
 	BOOST_CHECK_EQUAL (fg.seek (1077, SEEK_END), total_length - 1077);
 	BOOST_CHECK_EQUAL (fg.read (test, 256), 256);
 	BOOST_CHECK_EQUAL (memcmp (data + total_length - 1077, test, 256), 0);
-
-	/* AVSEEK_SIZE */
-	BOOST_CHECK_EQUAL (fg.seek (-1, AVSEEK_SIZE), total_length);
 }
