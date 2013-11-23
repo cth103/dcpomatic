@@ -57,7 +57,7 @@ string
 SndfileContent::summary () const
 {
 	/* Get the string() here so that the name does not have quotes around it */
-	return String::compose (_("%1 [audio]"), path().filename().string());
+	return String::compose (_("%1 [audio]"), path_summary ());
 }
 
 string

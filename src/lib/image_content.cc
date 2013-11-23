@@ -60,12 +60,15 @@ ImageContent::ImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 string
 ImageContent::summary () const
 {
+	string s = path_summary () + " ";
 	/* Get the string() here so that the name does not have quotes around it */
 	if (still ()) {
-		return String::compose (_("%1 [still]"), path().filename().string());
+		s += _("[still]");
+	} else {
+		s += _("[moving images]");
 	}
 
-	return String::compose (_("%1 [moving images]"), path().filename().string());
+	return s;
 }
 
 string

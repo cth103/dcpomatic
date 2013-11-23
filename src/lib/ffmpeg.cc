@@ -79,8 +79,8 @@ FFmpeg::setup_general (bool long_probe)
 		av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
 	}
 	
-	if (avformat_open_input (&_format_context, _ffmpeg_content->path().string().c_str(), 0, &options) < 0) {
-		throw OpenFileError (_ffmpeg_content->path().string ());
+	if (avformat_open_input (&_format_context, _ffmpeg_content->path(0).string().c_str(), 0, &options) < 0) {
+		throw OpenFileError (_ffmpeg_content->path(0).string ());
 	}
 
 	if (avformat_find_stream_info (_format_context, 0) < 0) {

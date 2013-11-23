@@ -80,7 +80,7 @@ HintsDialog::film_changed ()
 	ContentList content = film->content ();
 	int vob = 0;
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
-		if (boost::algorithm::starts_with ((*i)->path().filename().string(), "VTS_")) {
+		if (boost::algorithm::starts_with ((*i)->path(0).filename().string(), "VTS_")) {
 			++vob;
 		}
 	}

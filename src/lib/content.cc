@@ -169,7 +169,7 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", path(), digest(), position());
+	return String::compose ("%1 %2 %3", path_summary(), digest(), position());
 }
 
 Time
@@ -217,4 +217,15 @@ Content::set_path (boost::filesystem::path path)
 	signal_changed (ContentProperty::PATH);
 }
 
-	
+string
+Content::path_summary () const
+{
+	/* XXX: should handle multiple paths more gracefully */
+
+	string s = path(0).filename().string ();
+	if (number_of_paths() > 1) {
+		s += " ...";
+	}
+
+	return s;
+}

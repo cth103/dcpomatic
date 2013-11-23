@@ -65,11 +65,8 @@ public:
 	boost::shared_ptr<Content> clone () const;
 
 	void set_path (boost::filesystem::path);
-	
-	boost::filesystem::path path () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _paths.front ();
-	}
+
+	std::string path_summary () const;
 
 	size_t number_of_paths () const {
 		boost::mutex::scoped_lock lm (_mutex);

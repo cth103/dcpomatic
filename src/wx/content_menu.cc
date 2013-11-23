@@ -180,5 +180,5 @@ ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_pt
 		return;
 	}
 
-	old_content->set_path (new_content->path ());
+	old_content->set_path (new_content->path (0));
 }
