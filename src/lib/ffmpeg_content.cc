@@ -26,6 +26,7 @@
 #include "filter.h"
 #include "film.h"
 #include "log.h"
+#include "exceptions.h"
 
 #include "i18n.h"
 
@@ -37,6 +38,7 @@ using std::cout;
 using std::pair;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::dynamic_pointer_cast;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
@@ -81,6 +83,33 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	}
 
 	_first_video = node->optional_number_child<double> ("FirstVideo");
+}
+
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, vector<boost::shared_ptr<Content> > c)
+	: Content (f, c)
+	, VideoContent (f, c)
+	, AudioContent (f, c)
+	, SubtitleContent (f, c)
+{
+	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
+	assert (ref);
+	
+	for (size_t i = 0; i < c.size(); ++i) {
+		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
+		if (*(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+			throw JoinError (_("Content to be joined must use the same subtitle stream."));
+		}
+
+		if (*(fc->_audio_stream.get()) != *(ref->_audio_stream.get())) {
+			throw JoinError (_("Content to be joined must use the same audio stream."));
+		}
+	}
+
+	_subtitle_streams = ref->subtitle_streams ();
+	_subtitle_stream = ref->subtitle_stream ();
+	_audio_streams = ref->audio_streams ();
+	_audio_stream = ref->audio_stream ();
+	_first_video = ref->_first_video;
 }
 
 void
@@ -300,9 +329,21 @@ operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b)
 }
 
 bool
+operator!= (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b)
+{
+	return a.id != b.id;
+}
+
+bool
 operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
 {
 	return a.id == b.id;
+}
+
+bool
+operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
+{
+	return a.id != b.id;
 }
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)

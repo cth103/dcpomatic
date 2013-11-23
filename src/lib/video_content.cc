@@ -28,6 +28,7 @@
 #include "colour_conversion.h"
 #include "util.h"
 #include "film.h"
+#include "exceptions.h"
 
 #include "i18n.h"
 
@@ -42,9 +43,11 @@ using std::string;
 using std::stringstream;
 using std::setprecision;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 
 VideoContent::VideoContent (shared_ptr<const Film> f)
 	: Content (f)
@@ -94,6 +97,48 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 		_ratio = Ratio::from_id (r.get ());
 	}
 	_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
+}
+
+VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
+	: Content (f, c)
+{
+	shared_ptr<VideoContent> ref = dynamic_pointer_cast<VideoContent> (c[0]);
+	assert (ref);
+	
+	for (size_t i = 0; i < c.size(); ++i) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c[i]);
+
+		if (vc->video_size() != ref->video_size()) {
+			throw JoinError (_("Content to be joined must have the same picture size."));
+		}
+
+		if (vc->video_frame_rate() != ref->video_frame_rate()) {
+			throw JoinError (_("Content to be joined must have the same video frame rate."));
+		}
+
+		if (vc->video_frame_type() != ref->video_frame_type()) {
+			throw JoinError (_("Content to be joined must have the same video frame type."));
+		}
+
+		if (vc->crop() != ref->crop()) {
+			throw JoinError (_("Content to be joined must have the same crop."));
+		}
+
+		if (vc->ratio() != ref->ratio()) {
+			throw JoinError (_("Content to be joined must have the same ratio."));
+		}
+
+		if (vc->colour_conversion() != ref->colour_conversion()) {
+			throw JoinError (_("Content to be joined must have the same colour conversion."));
+		}
+	}
+
+	_video_size = ref->video_size ();
+	_video_frame_rate = ref->video_frame_rate ();
+	_video_frame_type = ref->video_frame_type ();
+	_crop = ref->crop ();
+	_ratio = ref->ratio ();
+	_colour_conversion = ref->colour_conversion ();
 }
 
 void

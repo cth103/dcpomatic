@@ -24,11 +24,16 @@
 #include "util.h"
 #include "content_factory.h"
 #include "ui_signaller.h"
+#include "exceptions.h"
+
+#include "i18n.h"
 
 using std::string;
 using std::stringstream;
 using std::set;
+using std::list;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -72,19 +77,42 @@ Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 	: _film (f)
 	, _change_signals_frequent (false)
 {
-	_paths.push_back (node->string_child ("Path"));
+	list<cxml::NodePtr> path_children = node->node_children ("Path");
+	for (list<cxml::NodePtr>::const_iterator i = path_children.begin(); i != path_children.end(); ++i) {
+		_paths.push_back ((*i)->content ());
+	}
 	_digest = node->string_child ("Digest");
 	_position = node->number_child<Time> ("Position");
 	_trim_start = node->number_child<Time> ("TrimStart");
 	_trim_end = node->number_child<Time> ("TrimEnd");
 }
 
+Content::Content (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
+	: _film (f)
+	, _position (c.front()->position ())
+	, _trim_start (c.front()->trim_start ())
+	, _trim_end (c.back()->trim_end ())
+	, _change_signals_frequent (false)
+{
+	for (size_t i = 0; i < c.size(); ++i) {
+		if (i > 0 && c[i]->trim_start ()) {
+			throw JoinError (_("Only the first piece of content to be joined can have a start trim."));
+		}
+
+		if (i < (c.size() - 1) && c[i]->trim_end ()) {
+			throw JoinError (_("Only the last piece of content to be joined can have an end trim."));
+		}
+	}
+}
+
 void
 Content::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
-	node->add_child("Path")->add_child_text (_paths.front().string());
+
+	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
+		node->add_child("Path")->add_child_text (i->string ());
+	}
 	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Position")->add_child_text (lexical_cast<string> (_position));
 	node->add_child("TrimStart")->add_child_text (lexical_cast<string> (_trim_start));
@@ -95,15 +123,10 @@ void
 Content::examine (shared_ptr<Job> job)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	boost::filesystem::path p = _paths.front ();
+	vector<boost::filesystem::path> p = _paths;
 	lm.unlock ();
 	
-	string d;
-	if (boost::filesystem::is_regular_file (p)) {
-		d = md5_digest (p);
-	} else {
-		d = md5_digest_directory (p, job);
-	}
+	string const d = md5_digest (p, job);
 
 	lm.lock ();
 	_digest = d;
@@ -206,7 +229,13 @@ Content::identifier () const
 bool
 Content::path_valid () const
 {
-	return boost::filesystem::exists (_paths.front ());
+	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
+		if (!boost::filesystem::exists (*i)) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void

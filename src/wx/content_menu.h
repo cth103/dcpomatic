@@ -37,6 +37,7 @@ public:
 
 private:
 	void repeat ();
+	void join ();
 	void find_missing ();
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
@@ -46,6 +47,7 @@ private:
 	wxWindow* _parent;
 	ContentList _content;
 	wxMenuItem* _repeat;
+	wxMenuItem* _join;
 	wxMenuItem* _find_missing;
 	wxMenuItem* _remove;
 };

@@ -104,7 +104,14 @@ private:
 	/** name of the file that this exception concerns */
 	boost::filesystem::path _file;
 };
-	
+
+class JoinError : public StringError
+{
+public:
+	JoinError (std::string s)
+		: StringError (s)
+	{}
+};
 
 /** @class OpenFileError.
  *  @brief Indicates that some error occurred when trying to open a file.

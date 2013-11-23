@@ -25,17 +25,20 @@
 #include "lib/content_factory.h"
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
+#include "lib/exceptions.h"
 #include "content_menu.h"
 #include "repeat_dialog.h"
 #include "wx_util.h"
 
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 enum {
 	ID_repeat = 1,
+	ID_join,
 	ID_find_missing,
 	ID_remove
 };
@@ -46,11 +49,13 @@ ContentMenu::ContentMenu (shared_ptr<Film> f, wxWindow* p)
 	, _parent (p)
 {
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
+	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::repeat, this), ID_repeat);
+	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::join, this), ID_join);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
 }
@@ -65,6 +70,16 @@ ContentMenu::popup (ContentList c, wxPoint p)
 {
 	_content = c;
 	_repeat->Enable (!_content.empty ());
+
+	int n = 0;
+	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+		if (dynamic_pointer_cast<FFmpegContent> (*i)) {
+			++n;
+		}
+	}
+	
+	_join->Enable (n > 1);
+	
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->path_valid ());
 	_remove->Enable (!_content.empty ());
 	_parent->PopupMenu (_menu, p);
@@ -92,6 +107,35 @@ ContentMenu::repeat ()
 	d->Destroy ();
 
 	_content.clear ();
+}
+
+void
+ContentMenu::join ()
+{
+	vector<shared_ptr<Content> > fc;
+	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+		shared_ptr<FFmpegContent> f = dynamic_pointer_cast<FFmpegContent> (*i);
+		if (f) {
+			fc.push_back (f);
+		}
+	}
+
+	assert (fc.size() > 1);
+
+	shared_ptr<Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	try {
+		shared_ptr<FFmpegContent> joined (new FFmpegContent (film, fc));
+		for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+			film->remove_content (*i);
+		}
+		film->add_content (joined);
+	} catch (JoinError& e) {
+		error_dialog (_parent, std_to_wx (e.what ()));
+	}
 }
 
 void

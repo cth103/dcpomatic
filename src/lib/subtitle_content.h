@@ -34,6 +34,7 @@ class SubtitleContent : public virtual Content
 public:
 	SubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	SubtitleContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	SubtitleContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 	
 	void as_xml (xmlpp::Node *) const;
 

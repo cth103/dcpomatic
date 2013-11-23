@@ -22,8 +22,12 @@
 #include "analyse_audio_job.h"
 #include "job_manager.h"
 #include "film.h"
+#include "exceptions.h"
+
+#include "i18n.h"
 
 using std::string;
+using std::vector;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
@@ -58,6 +62,28 @@ AudioContent::AudioContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	
 	_audio_gain = node->number_child<float> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
+}
+
+AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
+	: Content (f, c)
+{
+	shared_ptr<AudioContent> ref = dynamic_pointer_cast<AudioContent> (c[0]);
+	assert (ref);
+	
+	for (size_t i = 0; i < c.size(); ++i) {
+		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c[i]);
+
+		if (ac->audio_gain() != ref->audio_gain()) {
+			throw JoinError (_("Content to be joined must have the same audio gain."));
+		}
+
+		if (ac->audio_delay() != ref->audio_delay()) {
+			throw JoinError (_("Content to be joined must have the same audio delay."));
+		}
+	}
+
+	_audio_gain = ref->audio_gain ();
+	_audio_delay = ref->audio_delay ();
 }
 
 void

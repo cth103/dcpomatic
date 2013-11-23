@@ -23,6 +23,7 @@
 
 using std::string;
 using std::vector;
+using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (util_test)
 {
@@ -43,8 +44,12 @@ BOOST_AUTO_TEST_CASE (util_test)
 
 BOOST_AUTO_TEST_CASE (md5_digest_test)
 {
-	string const t = md5_digest ("test/data/md5.test");
+	vector<boost::filesystem::path> p;
+	p.push_back ("test/data/md5.test");
+	string const t = md5_digest (p, shared_ptr<Job> ());
 	BOOST_CHECK_EQUAL (t, "15058685ba99decdc4398c7634796eb0");
 
-	BOOST_CHECK_THROW (md5_digest ("foobar"), OpenFileError);
+	p.clear ();
+	p.push_back ("foobar");
+	BOOST_CHECK_THROW (md5_digest (p, shared_ptr<Job> ()), OpenFileError);
 }

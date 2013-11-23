@@ -50,12 +50,12 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 			
 			_audio_streams.push_back (
 				shared_ptr<FFmpegAudioStream> (
-					new FFmpegAudioStream (stream_name (s), i, s->codec->sample_rate, s->codec->channels)
+					new FFmpegAudioStream (audio_stream_name (s), i, s->codec->sample_rate, s->codec->channels)
 					)
 				);
 
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (stream_name (s), i)));
+			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (subtitle_stream_name (s), i)));
 		}
 	}
 
@@ -141,6 +141,36 @@ FFmpegExaminer::video_length () const
 }
 
 string
+FFmpegExaminer::audio_stream_name (AVStream* s) const
+{
+	stringstream n;
+
+	n << stream_name (s);
+
+	if (!n.str().empty()) {
+		n << "; ";
+	}
+
+	n << s->codec->channels << " channels";
+
+	return n.str ();
+}
+
+string
+FFmpegExaminer::subtitle_stream_name (AVStream* s) const
+{
+	stringstream n;
+
+	n << stream_name (s);
+
+	if (n.str().empty()) {
+		n << _("unknown");
+	}
+
+	return n.str ();
+}
+
+string
 FFmpegExaminer::stream_name (AVStream* s) const
 {
 	stringstream n;
@@ -159,12 +189,6 @@ FFmpegExaminer::stream_name (AVStream* s) const
 			n << title->value;
 		}
 	}
-
-	if (!n.str().empty()) {
-		n << "; ";
-	}
-
-	n << s->codec->channels << " channels";
 
 	return n.str ();
 }

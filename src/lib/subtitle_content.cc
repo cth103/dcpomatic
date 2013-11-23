@@ -20,10 +20,15 @@
 #include <libcxml/cxml.h>
 #include "subtitle_content.h"
 #include "util.h"
+#include "exceptions.h"
+
+#include "i18n.h"
 
 using std::string;
+using std::vector;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::dynamic_pointer_cast;
 
 int const SubtitleContentProperty::SUBTITLE_OFFSET = 500;
 int const SubtitleContentProperty::SUBTITLE_SCALE = 501;
@@ -45,6 +50,28 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxm
 	
 	_subtitle_offset = node->number_child<float> ("SubtitleOffset");
 	_subtitle_scale = node->number_child<float> ("SubtitleScale");
+}
+
+SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
+	: Content (f, c)
+{
+	shared_ptr<SubtitleContent> ref = dynamic_pointer_cast<SubtitleContent> (c[0]);
+	assert (ref);
+	
+	for (size_t i = 0; i < c.size(); ++i) {
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c[i]);
+
+		if (sc->subtitle_offset() != ref->subtitle_offset()) {
+			throw JoinError (_("Content to be joined must have the same subtitle offset."));
+		}
+
+		if (sc->subtitle_scale() != ref->subtitle_scale()) {
+			throw JoinError (_("Content to be joined must have the same subtitle scale."));
+		}
+	}
+
+	_subtitle_offset = ref->subtitle_offset ();
+	_subtitle_scale = ref->subtitle_scale ();
 }
 
 void

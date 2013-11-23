@@ -47,6 +47,8 @@ public:
 	
 private:
 	std::string stream_name (AVStream* s) const;
+	std::string audio_stream_name (AVStream* s) const;
+	std::string subtitle_stream_name (AVStream* s) const;
 	boost::optional<double> frame_time (int) const;
 	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;

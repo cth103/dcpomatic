@@ -46,6 +46,7 @@ public:
 	AudioContent (boost::shared_ptr<const Film>, Time);
 	AudioContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	AudioContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	AudioContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;

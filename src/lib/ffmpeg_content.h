@@ -63,6 +63,7 @@ private:
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
+extern bool operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
 
 class FFmpegSubtitleStream
 {
@@ -81,6 +82,7 @@ public:
 };
 
 extern bool operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
+extern bool operator!= (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
 
 class FFmpegContentProperty : public VideoContentProperty
 {
@@ -97,6 +99,7 @@ class FFmpegContent : public VideoContent, public AudioContent, public SubtitleC
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	FFmpegContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
@@ -153,7 +156,7 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _first_video;
 	}
-	
+
 private:
 	friend class ffmpeg_pts_offset_test;
 	

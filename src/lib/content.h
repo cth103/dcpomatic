@@ -52,6 +52,7 @@ public:
 	Content (boost::shared_ptr<const Film>, Time);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
 	Content (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	Content (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 	virtual ~Content () {}
 	
 	virtual void examine (boost::shared_ptr<Job>);

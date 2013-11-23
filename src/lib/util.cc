@@ -386,47 +386,9 @@ md5_digest (void const * data, int size)
 	return s.str ();
 }
 
-/** @param file File name.
- *  @return MD5 digest of file's contents.
- */
-string
-md5_digest (boost::filesystem::path file)
-{
-	ifstream f (file.string().c_str(), std::ios::binary);
-	if (!f.good ()) {
-		throw OpenFileError (file.string());
-	}
-	
-	f.seekg (0, std::ios::end);
-	int bytes = f.tellg ();
-	f.seekg (0, std::ios::beg);
-
-	int const buffer_size = 64 * 1024;
-	char buffer[buffer_size];
-
-	MD5_CTX md5_context;
-	MD5_Init (&md5_context);
-	while (bytes > 0) {
-		int const t = min (bytes, buffer_size);
-		f.read (buffer, t);
-		MD5_Update (&md5_context, buffer, t);
-		bytes -= t;
-	}
-
-	unsigned char digest[MD5_DIGEST_LENGTH];
-	MD5_Final (digest, &md5_context);
-
-	stringstream s;
-	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
-	}
-
-	return s.str ();
-}
-
 /** @param job Optional job for which to report progress */
 string
-md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
+md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 {
 	int const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
@@ -434,18 +396,10 @@ md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 	MD5_CTX md5_context;
 	MD5_Init (&md5_context);
 
-	int files = 0;
-	if (job) {
-		for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
-			++files;
-		}
-	}
-
-	int j = 0;
-	for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
-		ifstream f (i->path().string().c_str(), std::ios::binary);
+	for (size_t i = 0; i < files.size(); ++i) {
+		ifstream f (files[i].string().c_str(), std::ios::binary);
 		if (!f.good ()) {
-			throw OpenFileError (i->path().string());
+			throw OpenFileError (files[i].string());
 		}
 	
 		f.seekg (0, std::ios::end);
@@ -460,8 +414,7 @@ md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 		}
 
 		if (job) {
-			job->set_progress (float (j) / files);
-			++j;
+			job->set_progress (float (i) / files.size ());
 		}
 	}
 
