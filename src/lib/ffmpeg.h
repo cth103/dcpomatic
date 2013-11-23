@@ -52,7 +52,6 @@ public:
 
 	int avio_read (uint8_t *, int);
 	int64_t avio_seek (int64_t, int);
-	int64_t avio_length ();
 
 protected:
 	AVCodecContext* video_codec_context () const;

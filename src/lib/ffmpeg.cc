@@ -77,10 +77,6 @@ avio_read_wrapper (void* data, uint8_t* buffer, int amount)
 static int64_t
 avio_seek_wrapper (void* data, int64_t offset, int whence)
 {
-	if (whence == AVSEEK_SIZE) {
-		return reinterpret_cast<FFmpeg*>(data)->avio_length ();
-	}
-			
 	return reinterpret_cast<FFmpeg*>(data)->avio_seek (offset, whence);
 }
 
@@ -104,7 +100,7 @@ FFmpeg::setup_general (bool long_probe)
 		av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
 	}
 	
-	if (avformat_open_input (&_format_context, _ffmpeg_content->path(0).string().c_str(), 0, &options) < 0) {
+	if (avformat_open_input (&_format_context, 0, 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path(0).string ());
 	}
 
@@ -192,11 +188,9 @@ FFmpeg::avio_read (uint8_t* buffer, int const amount)
 int64_t
 FFmpeg::avio_seek (int64_t const pos, int whence)
 {
+	if (whence == AVSEEK_SIZE) {
+		return _file_group.length ();
+	}
+	
 	return _file_group.seek (pos, whence);
-}
-
-int64_t
-FFmpeg::avio_size ()
-{
-	return _file_group.length ();
 }
