@@ -73,8 +73,6 @@ FileGroup::ensure_open_path (size_t p) const
 int64_t
 FileGroup::seek (int64_t pos, int whence) const
 {
-	int64_t const len = length ();
-	
 	/* Convert pos to `full_pos', which is an offset from the start
 	   of all the files.
 	*/
@@ -91,7 +89,7 @@ FileGroup::seek (int64_t pos, int whence) const
 		full_pos += pos;
 		break;
 	case SEEK_END:
-		full_pos = len - pos;
+		full_pos = length() - pos;
 		break;
 	}
 

@@ -62,8 +62,7 @@ BOOST_AUTO_TEST_CASE (file_group_test)
 		base += length[i];
 	}
 
-	FileGroup fg;
-	fg.set_paths (name);
+	FileGroup fg (name);
 	uint8_t test[65536];
 
 	int pos = 0;
