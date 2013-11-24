@@ -83,7 +83,7 @@ using boost::optional;
 using libdcp::Size;
 using libdcp::Signer;
 
-int const Film::state_version = 4;
+int const Film::state_version = 5;
 
 /** Construct a Film object in a given directory.
  *
@@ -374,6 +374,8 @@ Film::read_metadata ()
 
 	cxml::Document f ("Metadata");
 	f.read_file (file ("metadata.xml"));
+
+	int const version = f.number_child<int> ("Version");
 	
 	_name = f.string_child ("Name");
 	_use_dci_name = f.bool_child ("UseDCIName");
@@ -405,7 +407,7 @@ Film::read_metadata ()
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
 	_key = libdcp::Key (f.string_child ("Key"));
-	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"));
+	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), version);
 
 	_dirty = false;
 }

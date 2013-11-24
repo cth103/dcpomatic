@@ -50,7 +50,7 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 }
 
 
-ImageContent::ImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+ImageContent::ImageContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int)
 	: Content (f, node)
 	, VideoContent (f, node)
 {

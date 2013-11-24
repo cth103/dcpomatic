@@ -24,6 +24,8 @@ extern "C" {
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_content.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::cout;
 using std::max;
@@ -32,7 +34,7 @@ using boost::shared_ptr;
 using boost::optional;
 
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
-	: FFmpeg (c, true)
+	: FFmpeg (c)
 {
 	/* Find audio and subtitle streams */
 
@@ -50,12 +52,12 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 			
 			_audio_streams.push_back (
 				shared_ptr<FFmpegAudioStream> (
-					new FFmpegAudioStream (audio_stream_name (s), i, s->codec->sample_rate, s->codec->channels)
+					new FFmpegAudioStream (audio_stream_name (s), s->id, s->codec->sample_rate, s->codec->channels)
 					)
 				);
 
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (subtitle_stream_name (s), i)));
+			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (subtitle_stream_name (s), s->id)));
 		}
 	}
 
@@ -78,9 +80,9 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 			}
 		} else {
 			for (size_t i = 0; i < _audio_streams.size(); ++i) {
-				if (_packet.stream_index == _audio_streams[i]->id && !_audio_streams[i]->first_audio) {
+				if (_packet.stream_index == _audio_streams[i]->index (_format_context) && !_audio_streams[i]->first_audio) {
 					if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-						_audio_streams[i]->first_audio = frame_time (_audio_streams[i]->id);
+						_audio_streams[i]->first_audio = frame_time (_audio_streams[i]->index (_format_context));
 					}
 				}
 			}

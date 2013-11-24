@@ -17,6 +17,9 @@
 
 */
 
+extern "C" {
+#include <libavformat/avformat.h>
+}
 #include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
 #include "ffmpeg_examiner.h"
@@ -55,7 +58,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path 
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
 	: Content (f, node)
 	, VideoContent (f, node)
 	, AudioContent (f, node)
@@ -63,7 +66,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 {
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i)));
+		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i, version)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_subtitle_stream = _subtitle_streams.back ();
 		}
@@ -71,7 +74,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 
 	c = node->node_children ("AudioStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i)));
+		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i, version)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_audio_stream = _audio_streams.back ();
 		}
@@ -93,10 +96,10 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, vector<boost::shared_ptr
 {
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	assert (ref);
-	
+
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (*(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+		if (f->with_subtitles() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
 
@@ -346,11 +349,33 @@ operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
 	return a.id != b.id;
 }
 
-FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
-	: mapping (node->node_child ("Mapping"))
+FFmpegStream::FFmpegStream (shared_ptr<const cxml::Node> node, int version)
+	: _legacy_id (false)
 {
 	name = node->string_child ("Name");
 	id = node->number_child<int> ("Id");
+	if (version == 4 || node->optional_bool_child ("LegacyId")) {
+		_legacy_id = true;
+	}
+}
+
+void
+FFmpegStream::as_xml (xmlpp::Node* root) const
+{
+	root->add_child("Name")->add_child_text (name);
+	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
+	if (_legacy_id) {
+		/* Write this so that version > 4 files are read in correctly
+		   if the Id came originally from a version <= 4 file.
+		*/
+		root->add_child("LegacyId")->add_child_text ("1");
+	}
+}
+
+FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node, int version)
+	: FFmpegStream (node, version)
+	, mapping (node->node_child ("Mapping"))
+{
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");
 	first_audio = node->optional_number_child<double> ("FirstAudio");
@@ -359,8 +384,7 @@ FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node)
 void
 FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("Name")->add_child_text (name);
-	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
+	FFmpegStream::as_xml (root);
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
 	if (first_audio) {
@@ -369,21 +393,57 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	mapping.as_xml (root->add_child("Mapping"));
 }
 
+int
+FFmpegStream::index (AVFormatContext const * fc) const
+{
+	if (_legacy_id) {
+		return id;
+	}
+	
+	size_t i = 0;
+	while (i < fc->nb_streams) {
+		if (fc->streams[i]->id == id) {
+			return i;
+		}
+		++i;
+	}
+
+	assert (false);
+}
+
+AVStream *
+FFmpegStream::stream (AVFormatContext const * fc) const
+{
+	if (_legacy_id) {
+		return fc->streams[id];
+	}
+	
+	size_t i = 0;
+	while (i < fc->nb_streams) {
+		if (fc->streams[i]->id == id) {
+			return fc->streams[i];
+		}
+		++i;
+	}
+
+	assert (false);
+	return 0;
+}
+
 /** Construct a SubtitleStream from a value returned from to_string().
  *  @param t String returned from to_string().
  *  @param v State file version.
  */
-FFmpegSubtitleStream::FFmpegSubtitleStream (shared_ptr<const cxml::Node> node)
+FFmpegSubtitleStream::FFmpegSubtitleStream (shared_ptr<const cxml::Node> node, int version)
+	: FFmpegStream (node, version)
 {
-	name = node->string_child ("Name");
-	id = node->number_child<int> ("Id");
+	
 }
 
 void
 FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("Name")->add_child_text (name);
-	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
+	FFmpegStream::as_xml (root);
 }
 
 Time

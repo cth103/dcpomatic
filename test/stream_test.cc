@@ -21,6 +21,7 @@
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 
 using std::pair;
 using std::list;
@@ -61,7 +62,7 @@ BOOST_AUTO_TEST_CASE (stream_test)
 		map->add_child("DCP")->add_child_text ("2");
 	}
 		
-	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)));
+	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), Film::state_version);
 
 	BOOST_CHECK_EQUAL (a.id, 4);
 	BOOST_CHECK_EQUAL (a.frame_rate, 44100);

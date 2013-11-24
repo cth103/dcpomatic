@@ -43,7 +43,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::pat
 
 }
 
-SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int)
 	: Content (f, node)
 	, AudioContent (f, node)
 	, _audio_mapping (node->node_child ("AudioMapping"))

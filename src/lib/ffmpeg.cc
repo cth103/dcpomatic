@@ -37,8 +37,7 @@ using boost::lexical_cast;
 
 boost::mutex FFmpeg::_mutex;
 
-/** @param long_probe true to do a long probe of the file looking for streams */
-FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c, bool long_probe)
+FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	: _ffmpeg_content (c)
 	, _avio_buffer (0)
 	, _avio_buffer_size (4096)
@@ -47,7 +46,7 @@ FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c, bool long_probe)
 	, _frame (0)
 	, _video_stream (-1)
 {
-	setup_general (long_probe);
+	setup_general ();
 	setup_video ();
 	setup_audio ();
 }
@@ -81,7 +80,7 @@ avio_seek_wrapper (void* data, int64_t offset, int whence)
 }
 
 void
-FFmpeg::setup_general (bool long_probe)
+FFmpeg::setup_general ()
 {
 	av_register_all ();
 
@@ -92,13 +91,11 @@ FFmpeg::setup_general (bool long_probe)
 	_format_context->pb = _avio_context;
 	
 	AVDictionary* options = 0;
-	if (long_probe) {
-		/* These durations are in microseconds, and represent how far into the content file
-		   we will look for streams.
-		*/
-		av_dict_set (&options, "analyzeduration", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
-		av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
-	}
+	/* These durations are in microseconds, and represent how far into the content file
+	   we will look for streams.
+	*/
+	av_dict_set (&options, "analyzeduration", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+	av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
 	
 	if (avformat_open_input (&_format_context, 0, 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path(0).string ());
@@ -176,7 +173,7 @@ FFmpeg::video_codec_context () const
 AVCodecContext *
 FFmpeg::audio_codec_context () const
 {
-	return _format_context->streams[_ffmpeg_content->audio_stream()->id]->codec;
+	return _ffmpeg_content->audio_stream()->stream(_format_context)->codec;
 }
 
 int

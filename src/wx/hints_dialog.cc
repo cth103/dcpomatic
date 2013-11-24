@@ -87,7 +87,7 @@ HintsDialog::film_changed ()
 
 	if (vob > 1) {
 		hint = true;
-		_text->WriteText (wxString::Format (_("You have %d files that look like they are VOB files from DVD.  You should coalesce them to ensure smooth joins between the files."), vob));
+		_text->WriteText (wxString::Format (_("You have %d files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
 		_text->Newline ();
 	}
 

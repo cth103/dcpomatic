@@ -25,6 +25,7 @@
 #include "content_factory.h"
 #include "ui_signaller.h"
 #include "exceptions.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -101,6 +102,10 @@ Content::Content (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
 
 		if (i < (c.size() - 1) && c[i]->trim_end ()) {
 			throw JoinError (_("Only the last piece of content to be joined can have an end trim."));
+		}
+
+		for (size_t j = 0; j < c[i]->number_of_paths(); ++j) {
+			_paths.push_back (c[i]->path (j));
 		}
 	}
 }
@@ -186,7 +191,7 @@ Content::clone () const
 	xmlpp::Document doc;
 	xmlpp::Node* node = doc.create_root_node ("Content");
 	as_xml (node);
-	return content_factory (film, cxml::NodePtr(new cxml::Node (node)));
+	return content_factory (film, cxml::NodePtr (new cxml::Node (node)), Film::state_version);
 }
 
 string
@@ -250,6 +255,8 @@ string
 Content::path_summary () const
 {
 	/* XXX: should handle multiple paths more gracefully */
+
+	assert (number_of_paths ());
 
 	string s = path(0).filename().string ();
 	if (number_of_paths() > 1) {

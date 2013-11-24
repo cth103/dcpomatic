@@ -101,10 +101,11 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 
 VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
 	: Content (f, c)
+	, _video_length (0)
 {
 	shared_ptr<VideoContent> ref = dynamic_pointer_cast<VideoContent> (c[0]);
 	assert (ref);
-	
+
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c[i]);
 
@@ -131,6 +132,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 		if (vc->colour_conversion() != ref->colour_conversion()) {
 			throw JoinError (_("Content to be joined must have the same colour conversion."));
 		}
+
+		_video_length += vc->video_length ();
 	}
 
 	_video_size = ref->video_size ();

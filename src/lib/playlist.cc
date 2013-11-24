@@ -113,11 +113,11 @@ Playlist::video_identifier () const
 
 /** @param node <Playlist> node */
 void
-Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node)
+Playlist::set_from_xml (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
 {
 	list<cxml::NodePtr> c = node->node_children ("Content");
 	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
-		_content.push_back (content_factory (film, *i));
+		_content.push_back (content_factory (film, *i, version));
 	}
 
 	sort (_content.begin(), _content.end(), ContentSorter ());

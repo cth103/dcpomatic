@@ -820,7 +820,9 @@ FilmEditor::selected_content ()
 			break;
 		}
 
-		sel.push_back (_film->content()[s]);
+		if (s < int (_film->content().size ())) {
+			sel.push_back (_film->content()[s]);
+		}
 	}
 
 	return sel;

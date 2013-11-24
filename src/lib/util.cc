@@ -91,6 +91,7 @@ using std::numeric_limits;
 using std::pair;
 using std::ofstream;
 using std::cout;
+using std::streampos;
 using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
@@ -396,6 +397,11 @@ md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 	MD5_CTX md5_context;
 	MD5_Init (&md5_context);
 
+	vector<int64_t> sizes;
+	for (size_t i = 0; i < files.size(); ++i) {
+		sizes.push_back (boost::filesystem::file_size (files[i]));
+	}
+
 	for (size_t i = 0; i < files.size(); ++i) {
 		ifstream f (files[i].string().c_str(), std::ios::binary);
 		if (!f.good ()) {
@@ -403,18 +409,19 @@ md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 		}
 	
 		f.seekg (0, std::ios::end);
-		int bytes = f.tellg ();
+		streampos const bytes = f.tellg ();
 		f.seekg (0, std::ios::beg);
 
-		while (bytes > 0) {
-			int const t = min (bytes, buffer_size);
+		streampos remaining = bytes;
+		while (remaining > 0) {
+			int const t = min (remaining, streampos (buffer_size));
 			f.read (buffer, t);
 			MD5_Update (&md5_context, buffer, t);
-			bytes -= t;
-		}
+			remaining -= t;
 
-		if (job) {
-			job->set_progress (float (i) / files.size ());
+			if (job) {
+				job->set_progress ((float (i) + 1 - float(remaining) / bytes) / files.size ());
+			}
 		}
 	}
 

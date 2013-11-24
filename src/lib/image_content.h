@@ -31,7 +31,7 @@ class ImageContent : public VideoContent
 {
 public:
 	ImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	ImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	ImageContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int);
 
 	boost::shared_ptr<ImageContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<ImageContent> (Content::shared_from_this ());

@@ -43,7 +43,7 @@ class FFmpegContent;
 class FFmpeg
 {
 public:
-	FFmpeg (boost::shared_ptr<const FFmpegContent>, bool);
+	FFmpeg (boost::shared_ptr<const FFmpegContent>);
 	virtual ~FFmpeg ();
 
 	boost::shared_ptr<const FFmpegContent> ffmpeg_content () const {
@@ -67,7 +67,8 @@ protected:
 	AVFormatContext* _format_context;
 	AVPacket _packet;
 	AVFrame* _frame;
-	
+
+	/** Index of video stream within AVFormatContext */
 	int _video_stream;
 
 	/* It would appear (though not completely verified) that one must have
@@ -77,7 +78,7 @@ protected:
 	static boost::mutex _mutex;
 
 private:
-	void setup_general (bool);
+	void setup_general ();
 	void setup_video ();
 	void setup_audio ();
 };

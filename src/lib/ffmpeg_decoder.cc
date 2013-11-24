@@ -63,7 +63,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, VideoDecoder (f, c)
 	, AudioDecoder (f, c)
 	, SubtitleDecoder (f)
-	, FFmpeg (c, false)
+	, FFmpeg (c)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 	, _decode_video (video)
@@ -171,12 +171,14 @@ FFmpegDecoder::pass ()
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
+
+	int const si = _packet.stream_index;
 	
-	if (_packet.stream_index == _video_stream && _decode_video) {
+	if (si == _video_stream && _decode_video) {
 		decode_video_packet ();
-	} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->id && _decode_audio) {
+	} else if (_ffmpeg_content->audio_stream() && si == _ffmpeg_content->audio_stream()->index (_format_context) && _decode_audio) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _packet.stream_index == _ffmpeg_content->subtitle_stream()->id && film->with_subtitles ()) {
+	} else if (_ffmpeg_content->subtitle_stream() && si == _ffmpeg_content->subtitle_stream()->index (_format_context) && film->with_subtitles ()) {
 		decode_subtitle_packet ();
 	}
 
@@ -511,11 +513,11 @@ FFmpegDecoder::setup_subtitle ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	
-	if (!_ffmpeg_content->subtitle_stream() || _ffmpeg_content->subtitle_stream()->id >= int (_format_context->nb_streams)) {
+	if (!_ffmpeg_content->subtitle_stream() || _ffmpeg_content->subtitle_stream()->index (_format_context) >= int (_format_context->nb_streams)) {
 		return;
 	}
 
-	_subtitle_codec_context = _format_context->streams[_ffmpeg_content->subtitle_stream()->id]->codec;
+	_subtitle_codec_context = _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
 	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
 
 	if (_subtitle_codec == 0) {

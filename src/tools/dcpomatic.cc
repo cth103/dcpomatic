@@ -246,6 +246,7 @@ public:
 	Frame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _servers_list_dialog (0)
+		, _hints_dialog (0)
 	{
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);

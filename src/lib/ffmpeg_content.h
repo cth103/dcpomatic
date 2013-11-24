@@ -26,15 +26,44 @@
 #include "subtitle_content.h"
 #include "audio_mapping.h"
 
+struct AVFormatContext;
+struct AVStream;
+
 class Filter;
 class ffmpeg_pts_offset_test;
 
-class FFmpegAudioStream
+class FFmpegStream
+{
+public:
+	FFmpegStream (std::string n, int i)
+		: name (n)
+		, id (i)
+		, _legacy_id (false)
+	{}
+				
+	FFmpegStream (boost::shared_ptr<const cxml::Node>, int);
+
+	void as_xml (xmlpp::Node *) const;
+
+	/** @param c An AVFormatContext.
+	 *  @return Stream index within the AVFormatContext.
+	 */
+	int index (AVFormatContext const * c) const;
+	AVStream* stream (AVFormatContext const * c) const;
+
+	std::string name;
+	int id;
+	
+private:
+	/** If this is true, id is in fact the index */
+	bool _legacy_id;
+};
+
+class FFmpegAudioStream : public FFmpegStream
 {
 public:
 	FFmpegAudioStream (std::string n, int i, int f, int c)
-		: name (n)
-		, id (i)
+		: FFmpegStream (n, i)
 		, frame_rate (f)
 		, channels (c)
 		, mapping (c)
@@ -42,12 +71,10 @@ public:
 		mapping.make_default ();
 	}
 
-	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>);
+	FFmpegAudioStream (boost::shared_ptr<const cxml::Node>, int);
 
 	void as_xml (xmlpp::Node *) const;
-	
-	std::string name;
-	int id;
+
 	int frame_rate;
 	int channels;
 	AudioMapping mapping;
@@ -58,27 +85,24 @@ private:
 
 	/* Constructor for tests */
 	FFmpegAudioStream ()
-		: mapping (1)
+		: FFmpegStream ("", 0)
+		, mapping (1)
 	{}
 };
 
 extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
 extern bool operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
 
-class FFmpegSubtitleStream
+class FFmpegSubtitleStream : public FFmpegStream
 {
 public:
 	FFmpegSubtitleStream (std::string n, int i)
-		: name (n)
-		, id (i)
+		: FFmpegStream (n, i)
 	{}
 	
-	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>);
+	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>, int);
 
 	void as_xml (xmlpp::Node *) const;
-	
-	std::string name;
-	int id;
 };
 
 extern bool operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
@@ -98,7 +122,7 @@ class FFmpegContent : public VideoContent, public AudioContent, public SubtitleC
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int version);
 	FFmpegContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
