@@ -51,5 +51,5 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 
 	p.clear ();
 	p.push_back ("foobar");
-	BOOST_CHECK_THROW (md5_digest (p, shared_ptr<Job> ()), OpenFileError);
+	BOOST_CHECK_THROW (md5_digest (p, shared_ptr<Job> ()), std::runtime_error);
 }
