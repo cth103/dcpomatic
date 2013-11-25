@@ -80,7 +80,6 @@ using std::endl;
 using std::vector;
 using std::hex;
 using std::setw;
-using std::ifstream;
 using std::ios;
 using std::min;
 using std::max;
@@ -394,29 +393,28 @@ md5_digest (void const * data, int size)
 string
 md5_digest (boost::filesystem::path file)
 {
-	ifstream f (file.string().c_str(), std::ios::binary);
-	if (!f.good ()) {
+	FILE* f = fopen_boost (file, "rb");
+	if (!f) {
 		throw OpenFileError (file.string());
 	}
-	
-	f.seekg (0, std::ios::end);
-	int bytes = f.tellg ();
-	f.seekg (0, std::ios::beg);
 
-	int const buffer_size = 64 * 1024;
+	boost::uintmax_t bytes = boost::filesystem::file_size (file);
+
+	boost::uintmax_t const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 
 	MD5_CTX md5_context;
 	MD5_Init (&md5_context);
 	while (bytes > 0) {
 		int const t = min (bytes, buffer_size);
-		f.read (buffer, t);
+		fread (buffer, 1, t, f);
 		MD5_Update (&md5_context, buffer, t);
 		bytes -= t;
 	}
 
 	unsigned char digest[MD5_DIGEST_LENGTH];
 	MD5_Final (digest, &md5_context);
+	fclose (f);
 
 	stringstream s;
 	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
@@ -430,7 +428,7 @@ md5_digest (boost::filesystem::path file)
 string
 md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 {
-	int const buffer_size = 64 * 1024;
+	boost::uintmax_t const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 
 	MD5_CTX md5_context;
@@ -445,18 +443,16 @@ md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 
 	int j = 0;
 	for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
-		ifstream f (i->path().string().c_str(), std::ios::binary);
-		if (!f.good ()) {
+		FILE* f = fopen_boost (i->path(), "rb");
+		if (!f) {
 			throw OpenFileError (i->path().string());
 		}
-	
-		f.seekg (0, std::ios::end);
-		int bytes = f.tellg ();
-		f.seekg (0, std::ios::beg);
+
+		boost::uintmax_t bytes = boost::filesystem::file_size (i->path ());
 
 		while (bytes > 0) {
 			int const t = min (bytes, buffer_size);
-			f.read (buffer, t);
+			fread (buffer, 1, t, f);
 			MD5_Update (&md5_context, buffer, t);
 			bytes -= t;
 		}
@@ -465,6 +461,8 @@ md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 			job->set_progress (float (j) / files);
 			++j;
 		}
+
+		fclose (f);
 	}
 
 	unsigned char digest[MD5_DIGEST_LENGTH];
