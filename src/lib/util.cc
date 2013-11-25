@@ -39,6 +39,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/locale.hpp>
 #include <glib.h>
 #include <openjpeg.h>
 #include <openssl/md5.h>
