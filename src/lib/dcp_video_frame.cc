@@ -59,12 +59,12 @@
 #include "scaler.h"
 #include "image.h"
 #include "log.h"
+#include "cross.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::stringstream;
-using std::ofstream;
 using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
@@ -379,8 +379,9 @@ void
 EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, libdcp::FrameInfo fin) const
 {
 	boost::filesystem::path const info = film->info_path (frame, eyes);
-	ofstream h (info.string().c_str());
+	FILE* h = fopen_boost (info, "w");
 	fin.write (h);
+	fclose (h);
 }
 
 /** Send this data to a socket.

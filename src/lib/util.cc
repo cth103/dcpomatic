@@ -89,7 +89,6 @@ using std::multimap;
 using std::istream;
 using std::numeric_limits;
 using std::pair;
-using std::ofstream;
 using std::cout;
 using boost::shared_ptr;
 using boost::thread;
@@ -260,8 +259,11 @@ seconds (struct timeval t)
 LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 {
 	dbg::stack s;
-	ofstream f (backtrace_file.string().c_str());
-	std::copy(s.begin(), s.end(), std::ostream_iterator<dbg::stack_frame>(f, "\n"));
+	FILE* f = fopen_boost (backtrace_file, "w");
+	for (dbg::stack_frame::const_iterator i = s.begin(); i != s.end(); ++i) {
+		fprintf (f, "%p %s %d %s", i->instruction, i->function.c_str(), i->line, i->module.c_str());
+	}
+	fclose (f);
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif
