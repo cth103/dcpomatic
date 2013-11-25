@@ -29,7 +29,7 @@ public:
 	NewFilmDialog (wxWindow *);
 	~NewFilmDialog ();
 
-	std::string get_path () const;
+	boost::filesystem::path get_path () const;
 
 private:
 	wxTextCtrl* _name;

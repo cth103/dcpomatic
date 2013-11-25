@@ -105,7 +105,7 @@ confirm_dialog (wxWindow* parent, wxString m)
 string
 wx_to_std (wxString s)
 {
-	return string (s.mb_str ());
+	return string (s.ToUTF8 ());
 }
 
 /** @param s STL string.
