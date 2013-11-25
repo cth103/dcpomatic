@@ -745,7 +745,7 @@ FilmEditor::content_add_file_clicked ()
 	/* XXX: check for lots of files here and do something */
 
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+		_film->examine_and_add_content (content_factory (_film, paths[i].utf8_str().data ()));
 	}
 }
 
