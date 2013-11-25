@@ -21,9 +21,10 @@
  *  @brief A very simple logging class.
  */
 
-#include <fstream>
 #include <time.h>
+#include <cstdio>
 #include "log.h"
+#include "cross.h"
 
 #include "i18n.h"
 
@@ -102,7 +103,8 @@ FileLog::FileLog (boost::filesystem::path file)
 void
 FileLog::do_log (string m)
 {
-	ofstream f (_file.string().c_str(), fstream::app);
-	f << m << N_("\n");
+	FILE* f = fopen_boost (_file, "a");
+	fprintf (f, "%s\n", m.c_str ());
+	fclose (f);
 }
 
