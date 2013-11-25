@@ -70,6 +70,9 @@ cpu_info ()
 	string info;
 	
 #ifdef DCPOMATIC_LINUX
+	/* This use of ifstream is ok; the filename can never
+	   be non-Latin
+	*/
 	ifstream f ("/proc/cpuinfo");
 	while (f.good ()) {
 		string l;

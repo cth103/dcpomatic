@@ -181,6 +181,7 @@ Config::read ()
 void
 Config::read_old_metadata ()
 {
+	/* XXX: this won't work with non-Latin filenames */
 	ifstream f (file(true).string().c_str ());
 	string line;
 
