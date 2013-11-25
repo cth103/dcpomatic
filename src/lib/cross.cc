@@ -269,3 +269,19 @@ openssl_path ()
 #endif
 
 }
+
+/* Apparently there is no way to create an ofstream using a UTF-8
+   filename under Windows.  We are hence reduced to using fopen
+   with this wrapper.
+*/
+FILE *
+fopen_boost (boost::filesystem::path p, string t)
+{
+#ifdef DCPOMATIC_WINDOWS
+        wstring w (t.begin(), t.end());
+	/* c_str() here should give a UTF-16 string */
+        return _wfopen (p.c_str(), w.c_str ());
+#else
+        return fopen (p.c_str(), t.c_str ());
+#endif
+}

@@ -33,3 +33,4 @@ extern boost::filesystem::path openssl_path ();
 #ifdef DCPOMATIC_OSX
 extern boost::filesystem::path app_contents ();
 #endif
+extern FILE * fopen_boost (boost::filesystem::path, std::string);

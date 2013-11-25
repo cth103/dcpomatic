@@ -62,7 +62,6 @@ using std::map;
 using std::make_pair;
 using std::list;
 using std::exception;
-using std::ofstream;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 

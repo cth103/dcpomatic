@@ -41,7 +41,6 @@
 using std::vector;
 using std::ifstream;
 using std::string;
-using std::ofstream;
 using std::list;
 using std::max;
 using std::exception;
