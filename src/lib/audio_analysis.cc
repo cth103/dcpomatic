@@ -20,15 +20,14 @@
 #include <stdint.h>
 #include <cmath>
 #include <cassert>
-#include <fstream>
+#include <cstdio>
 #include <boost/filesystem.hpp>
 #include "audio_analysis.h"
+#include "cross.h"
 
 using std::ostream;
 using std::istream;
 using std::string;
-using std::ofstream;
-using std::ifstream;
 using std::vector;
 using std::cout;
 using std::max;
@@ -41,10 +40,10 @@ AudioPoint::AudioPoint ()
 	}
 }
 
-AudioPoint::AudioPoint (istream& s)
+AudioPoint::AudioPoint (FILE* f)
 {
 	for (int i = 0; i < COUNT; ++i) {
-		s >> _data[i];
+		fscanf (f, "%f", &_data[i]);
 	}
 }
 
@@ -70,10 +69,10 @@ AudioPoint::operator= (AudioPoint const & other)
 }
 
 void
-AudioPoint::write (ostream& s) const
+AudioPoint::write (FILE* f) const
 {
 	for (int i = 0; i < COUNT; ++i) {
-		s << _data[i] << "\n";
+		fprintf (f, "%f\n", _data[i]);
 	}
 }
 	
@@ -85,15 +84,15 @@ AudioAnalysis::AudioAnalysis (int channels)
 
 AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
-	ifstream f (filename.string().c_str ());
+	FILE* f = fopen_boost (filename, "r");
 
 	int channels;
-	f >> channels;
+	fscanf (f, "%d", &channels);
 	_data.resize (channels);
 
 	for (int i = 0; i < channels; ++i) {
 		int points;
-		f >> points;
+		fscanf (f, "%d", &points);
 		for (int j = 0; j < points; ++j) {
 			_data[i].push_back (AudioPoint (f));
 		}
@@ -130,17 +129,19 @@ AudioAnalysis::points (int c) const
 void
 AudioAnalysis::write (boost::filesystem::path filename)
 {
-	string tmp = filename.string() + ".tmp";
+	boost::filesystem::path tmp = filename;
+	tmp.replace_extension (".tmp");
 
-	ofstream f (tmp.c_str ());
-	f << _data.size() << "\n";
+	FILE* f = fopen_boost (tmp, "w");
+
+	fprintf (f, "%ld\n", _data.size ());
 	for (vector<vector<AudioPoint> >::iterator i = _data.begin(); i != _data.end(); ++i) {
-		f << i->size () << "\n";
+		fprintf (f, "%ld\n", i->size ());
 		for (vector<AudioPoint>::iterator j = i->begin(); j != i->end(); ++j) {
 			j->write (f);
 		}
 	}
 
-	f.close ();
+	fclose (f);
 	boost::filesystem::rename (tmp, filename);
 }

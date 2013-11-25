@@ -53,8 +53,8 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 		BOOST_CHECK (b.points(i) == points);
 		for (int j = 0; j < points; ++j) {
 			AudioPoint p = b.get_point (i, j);
-			BOOST_CHECK_CLOSE (p[AudioPoint::PEAK], random_float (), 0.1);
-			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  random_float (), 0.1);
+			BOOST_CHECK_CLOSE (p[AudioPoint::PEAK], random_float (), 1);
+			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  random_float (), 1);
 		}
 	}
 }
