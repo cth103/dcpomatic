@@ -33,7 +33,7 @@ StillImageExaminer::StillImageExaminer (shared_ptr<const Film> f, shared_ptr<con
 	, _film (f)
 {
 	using namespace MagickCore;
-	Magick::Image* image = new Magick::Image (_still_image_content->path().string());
+	Magick::Image* image = new Magick::Image (_still_image_content->path().c_str ());
 	_video_size = libdcp::Size (image->columns(), image->rows());
 	delete image;
 }
