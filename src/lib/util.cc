@@ -277,6 +277,13 @@ dcpomatic_setup ()
 	backtrace_file /= g_get_user_config_dir ();
 	backtrace_file /= "backtrace.txt";
 	SetUnhandledExceptionFilter(exception_handler);
+
+	/* Dark voodoo which, I think, gets boost::filesystem::path to
+	   correctly convert UTF-8 strings to paths, and also paths
+	   back to UTF-8 strings (on path::string()).
+	*/
+	std::locale::global (boost::locale::generator().generate (""));
+	boost::filesystem::path::imbue (std::locale ());
 #endif	
 	
 	avfilter_register_all ();
