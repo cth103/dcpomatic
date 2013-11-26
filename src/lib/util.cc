@@ -282,6 +282,14 @@ dcpomatic_setup ()
 	/* Dark voodoo which, I think, gets boost::filesystem::path to
 	   correctly convert UTF-8 strings to paths, and also paths
 	   back to UTF-8 strings (on path::string()).
+
+	   After this, constructing boost::filesystem::paths from strings
+	   converts from UTF-8 to UTF-16 inside the path.  Then
+	   path::string().c_str() gives UTF-8 and
+	   path::c_str()          gives UTF-16.
+
+	   This is all Windows-only.  AFAICT Linux/OS X use UTF-8 everywhere,
+	   so things are much simpler.
 	*/
 	std::locale::global (boost::locale::generator().generate (""));
 	boost::filesystem::path::imbue (std::locale ());
