@@ -246,6 +246,22 @@ public:
 		: wxFrame (NULL, -1, title)
 		, _servers_list_dialog (0)
 	{
+#ifdef DCPOMATIC_WINDOWS_CONSOLE		
+                AllocConsole();
+		
+		HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+		int hCrt = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
+		FILE* hf_out = _fdopen(hCrt, "w");
+		setvbuf(hf_out, NULL, _IONBF, 1);
+		*stdout = *hf_out;
+		
+		HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+		hCrt = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
+		FILE* hf_in = _fdopen(hCrt, "r");
+		setvbuf(hf_in, NULL, _IONBF, 128);
+		*stdin = *hf_in;
+#endif
+
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
