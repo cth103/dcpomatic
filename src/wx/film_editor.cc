@@ -733,9 +733,9 @@ FilmEditor::content_add_file_clicked ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
 	int const r = d->ShowModal ();
-	d->Destroy ();
 
 	if (r != wxID_OK) {
+		d->Destroy ();
 		return;
 	}
 
@@ -747,6 +747,8 @@ FilmEditor::content_add_file_clicked ()
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
 		_film->examine_and_add_content (content_factory (_film, wx_to_std (d->GetPath ())));
 	}
+
+	d->Destroy ();
 }
 
 void
