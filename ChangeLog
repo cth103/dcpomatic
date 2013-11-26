@@ -1,5 +1,7 @@
 2013-11-26  Carl Hetherington  <cth@carlh.net>
 
+	* Updated fr_FR translation from Lilian Lefranc.
+
 	* A whole load of fixes for lots of bugs when handling filenames
 	using non-Latin characters on Windows.
 

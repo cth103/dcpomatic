@@ -8,30 +8,29 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-16 09:45+0100\n"
-"PO-Revision-Date: 2013-07-16 23:11+0100\n"
+"PO-Revision-Date: 2013-11-25 19:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/lib/sndfile_content.cc:59
 msgid "%1 [audio]"
-msgstr ""
+msgstr "%1 [audio]"
 
 #: src/lib/ffmpeg_content.cc:170
 msgid "%1 [movie]"
-msgstr ""
+msgstr "%1 [vidéo]"
 
 #: src/lib/moving_image_content.cc:58
 msgid "%1 [moving images]"
-msgstr ""
+msgstr "%1 [diaporama]"
 
 #: src/lib/still_image_content.cc:52
-#, fuzzy
 msgid "%1 [still]"
-msgstr "fixe"
+msgstr "%1 [fixe]"
 
 #: src/lib/sndfile_content.cc:80
 msgid "%1 channels, %2kHz, %3 samples"
@@ -132,14 +131,12 @@ msgid "Could not create remote directory %1 (%2)"
 msgstr "Création du dossier distant %1 (%2) impossible"
 
 #: src/lib/film.cc:929
-#, fuzzy
 msgid "Could not find DCP to make KDM for"
-msgstr "décodeur audio introuvable"
+msgstr "DCP introuvable pour fabrication de KDM"
 
 #: src/lib/job.cc:95
-#, fuzzy
 msgid "Could not open %1"
-msgstr "lecture du fichier (%1) impossible"
+msgstr "lecture du fichier %1 impossible"
 
 #: src/lib/scp_dcp_job.cc:175
 msgid "Could not open %1 to send"
@@ -147,7 +144,7 @@ msgstr "Ouverture de %1 pour envoi impossible"
 
 #: src/lib/film.cc:939
 msgid "Could not read DCP to make KDM for"
-msgstr ""
+msgstr "DCP illisible pour fabrication de KDM"
 
 #: src/lib/scp_dcp_job.cc:145
 msgid "Could not start SCP session (%1)"
@@ -175,7 +172,7 @@ msgstr "Le DCP utilisera une image sur deux de la source.\n"
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
-msgstr ""
+msgstr "DCP-o-matic ne peut pas ouvrir le fichier %1"
 
 #: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:70
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
@@ -316,7 +313,7 @@ msgstr "Divers"
 
 #: src/lib/film.cc:931
 msgid "More than one possible DCP to make KDM for"
-msgstr ""
+msgstr "Il y a plusieurs DCP pour lesquels faire la KDM"
 
 #: src/lib/filter.cc:81
 msgid "Motion compensating deinterlacer"
@@ -348,9 +345,8 @@ msgid "Rating"
 msgstr "Classification"
 
 #: src/lib/config.cc:74 src/lib/config.cc:143
-#, fuzzy
 msgid "Rec. 709"
-msgstr "Rec 709"
+msgstr "Rec. 709"
 
 #: src/lib/util.cc:751
 msgid "Right"
@@ -440,7 +436,7 @@ msgstr "Adoucissement et flou Gaussien"
 
 #: src/lib/colour_conversion.cc:141
 msgid "Untitled"
-msgstr ""
+msgstr "Sans titre"
 
 #: src/lib/filter.cc:69
 msgid "Vertical deblocking filter"
@@ -479,9 +475,8 @@ msgid "connecting"
 msgstr "connexion"
 
 #: src/lib/film.cc:267
-#, fuzzy
 msgid "container"
-msgstr "contenu"
+msgstr "conteneur"
 
 #: src/lib/film.cc:275
 msgid "content type"
@@ -512,9 +507,8 @@ msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
 #: src/lib/sndfile_decoder.cc:45
-#, fuzzy
 msgid "could not open audio file for reading"
-msgstr "lecture du fichier impossible"
+msgstr "lecture du fichier audio impossible"
 
 #: src/lib/exceptions.cc:29
 msgid "could not open file %1"
@@ -525,9 +519,8 @@ msgid "could not open file for reading"
 msgstr "lecture du fichier impossible"
 
 #: src/lib/dcp_video_frame.cc:342
-#, fuzzy
 msgid "could not read encoded data"
-msgstr "décodeur audio introuvable"
+msgstr "lecture des données encodées impossible"
 
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"
@@ -551,7 +544,7 @@ msgstr "Écriture vers fichier distant (%1) impossible (%2)"
 
 #: src/lib/moving_image_examiner.cc:82
 msgid "first frame in moving image directory is number %1"
-msgstr ""
+msgstr "la première image dans le dossier est la numéro %1"
 
 #: src/lib/transcode_job.cc:95
 msgid "frames per second"
@@ -559,7 +552,7 @@ msgstr "images par seconde"
 
 #: src/lib/transcode_job.cc:98
 msgid "hashing"
-msgstr ""
+msgstr "calcul du hash"
 
 #: src/lib/util.cc:145
 msgid "hour"
@@ -599,7 +592,7 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 
 #: src/lib/moving_image_examiner.cc:78
 msgid "only %1 file(s) found in moving image directory"
-msgstr ""
+msgstr "Seulement %1 fichier(s) trouvé(s) dans le dossier de diaporama"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
@@ -613,7 +606,7 @@ msgstr "sRGB"
 
 #: src/lib/config.cc:73
 msgid "sRGB non-linearised"
-msgstr ""
+msgstr "sRGB non linéarisé"
 
 #: src/lib/util.cc:157
 msgid "seconds"
@@ -621,7 +614,7 @@ msgstr "secondes"
 
 #: src/lib/moving_image_examiner.cc:86
 msgid "there are %1 images in the directory but the last one is number %2"
-msgstr ""
+msgstr "il y a %1 images dans le dossier mais la dernière est la numéro %2"
 
 #~ msgid "Image: %1"
 #~ msgstr "Image : %1"
