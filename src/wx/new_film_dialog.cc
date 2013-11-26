@@ -74,11 +74,11 @@ NewFilmDialog::~NewFilmDialog ()
 	_directory = wx_to_std (_folder->GetPath ());
 }
 
-string
+boost::filesystem::path
 NewFilmDialog::get_path () const
 {
 	filesystem::path p;
 	p /= wx_to_std (_folder->GetPath ());
 	p /= wx_to_std (_name->GetValue ());
-	return p.string ();
+	return p;
 }

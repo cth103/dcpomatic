@@ -186,6 +186,14 @@ def configure(conf):
                             uselib_store='BOOST_DATETIME')
 
     conf.check_cxx(fragment="""
+    			    #include <boost/locale.hpp>\n
+    			    int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
+			    """, msg='Checking for boost locale library',
+                            libpath='/usr/local/lib',
+                            lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                            uselib_store='BOOST_LOCALE')
+
+    conf.check_cxx(fragment="""
     			    #include <boost/signals2.hpp>\n
     			    int main() { boost::signals2::signal<void (int)> x; }\n
 			    """,

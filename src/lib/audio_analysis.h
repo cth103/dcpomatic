@@ -20,7 +20,6 @@
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
-#include <iostream>
 #include <vector>
 #include <list>
 #include <boost/filesystem.hpp>
@@ -35,11 +34,11 @@ public:
 	};
 
 	AudioPoint ();
-	AudioPoint (std::istream &);
+	AudioPoint (FILE *);
 	AudioPoint (AudioPoint const &);
 	AudioPoint& operator= (AudioPoint const &);
 
-	void write (std::ostream &) const;
+	void write (FILE *) const;
 	
 	float& operator[] (int t) {
 		return _data[t];

@@ -39,6 +39,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/locale.hpp>
 #include <glib.h>
 #include <openjpeg.h>
 #include <openssl/md5.h>
@@ -80,7 +81,6 @@ using std::endl;
 using std::vector;
 using std::hex;
 using std::setw;
-using std::ifstream;
 using std::ios;
 using std::min;
 using std::max;
@@ -89,7 +89,6 @@ using std::multimap;
 using std::istream;
 using std::numeric_limits;
 using std::pair;
-using std::ofstream;
 using std::cout;
 using boost::shared_ptr;
 using boost::thread;
@@ -260,8 +259,11 @@ seconds (struct timeval t)
 LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 {
 	dbg::stack s;
-	ofstream f (backtrace_file.string().c_str());
-	std::copy(s.begin(), s.end(), std::ostream_iterator<dbg::stack_frame>(f, "\n"));
+	FILE* f = fopen_boost (backtrace_file, "w");
+	for (dbg::stack::const_iterator i = s.begin(); i != s.end(); ++i) {
+		fprintf (f, "%p %s %d %s", i->instruction, i->function.c_str(), i->line, i->module.c_str());
+	}
+	fclose (f);
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif
@@ -276,6 +278,21 @@ dcpomatic_setup ()
 	backtrace_file /= g_get_user_config_dir ();
 	backtrace_file /= "backtrace.txt";
 	SetUnhandledExceptionFilter(exception_handler);
+
+	/* Dark voodoo which, I think, gets boost::filesystem::path to
+	   correctly convert UTF-8 strings to paths, and also paths
+	   back to UTF-8 strings (on path::string()).
+
+	   After this, constructing boost::filesystem::paths from strings
+	   converts from UTF-8 to UTF-16 inside the path.  Then
+	   path::string().c_str() gives UTF-8 and
+	   path::c_str()          gives UTF-16.
+
+	   This is all Windows-only.  AFAICT Linux/OS X use UTF-8 everywhere,
+	   so things are much simpler.
+	*/
+	std::locale::global (boost::locale::generator().generate (""));
+	boost::filesystem::path::imbue (std::locale ());
 #endif	
 	
 	avfilter_register_all ();
@@ -392,29 +409,28 @@ md5_digest (void const * data, int size)
 string
 md5_digest (boost::filesystem::path file)
 {
-	ifstream f (file.string().c_str(), std::ios::binary);
-	if (!f.good ()) {
+	FILE* f = fopen_boost (file, "rb");
+	if (!f) {
 		throw OpenFileError (file.string());
 	}
-	
-	f.seekg (0, std::ios::end);
-	int bytes = f.tellg ();
-	f.seekg (0, std::ios::beg);
 
-	int const buffer_size = 64 * 1024;
+	boost::uintmax_t bytes = boost::filesystem::file_size (file);
+
+	boost::uintmax_t const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 
 	MD5_CTX md5_context;
 	MD5_Init (&md5_context);
 	while (bytes > 0) {
 		int const t = min (bytes, buffer_size);
-		f.read (buffer, t);
+		fread (buffer, 1, t, f);
 		MD5_Update (&md5_context, buffer, t);
 		bytes -= t;
 	}
 
 	unsigned char digest[MD5_DIGEST_LENGTH];
 	MD5_Final (digest, &md5_context);
+	fclose (f);
 
 	stringstream s;
 	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
@@ -428,7 +444,7 @@ md5_digest (boost::filesystem::path file)
 string
 md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 {
-	int const buffer_size = 64 * 1024;
+	boost::uintmax_t const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 
 	MD5_CTX md5_context;
@@ -443,18 +459,16 @@ md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 
 	int j = 0;
 	for (boost::filesystem::directory_iterator i(directory); i != boost::filesystem::directory_iterator(); ++i) {
-		ifstream f (i->path().string().c_str(), std::ios::binary);
-		if (!f.good ()) {
+		FILE* f = fopen_boost (i->path(), "rb");
+		if (!f) {
 			throw OpenFileError (i->path().string());
 		}
-	
-		f.seekg (0, std::ios::end);
-		int bytes = f.tellg ();
-		f.seekg (0, std::ios::beg);
+
+		boost::uintmax_t bytes = boost::filesystem::file_size (i->path ());
 
 		while (bytes > 0) {
 			int const t = min (bytes, buffer_size);
-			f.read (buffer, t);
+			fread (buffer, 1, t, f);
 			MD5_Update (&md5_context, buffer, t);
 			bytes -= t;
 		}
@@ -463,6 +477,8 @@ md5_digest_directory (boost::filesystem::path directory, shared_ptr<Job> job)
 			job->set_progress (float (j) / files);
 			++j;
 		}
+
+		fclose (f);
 	}
 
 	unsigned char digest[MD5_DIGEST_LENGTH];
