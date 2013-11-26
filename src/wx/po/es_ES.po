@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-26 22:24+0000\n"
+"POT-Creation-Date: 2013-11-26 22:26+0000\n"
 "PO-Revision-Date: 2013-11-09 03:00-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -312,6 +312,10 @@ msgstr "Servidores de codificación"
 #, fuzzy
 msgid "Encoding servers"
 msgstr "Servidores de codificación"
+
+#: src/wx/film_editor.cc:154
+msgid "Encrypted"
+msgstr ""
 
 #: src/wx/dci_metadata_dialog.cc:59
 msgid "Facility (e.g. DLA)"
