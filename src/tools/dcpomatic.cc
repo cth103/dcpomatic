@@ -347,7 +347,7 @@ private:
 					    std_to_wx (
 						    String::compose (wx_to_std (_("The directory %1 already exists and is not empty.  "
 										  "Are you sure you want to use it?")),
-								     d->get_path().c_str())
+								     d->get_path().string().c_str())
 						    )
 					    )) {
 					return;
