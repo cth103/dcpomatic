@@ -151,7 +151,7 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
-	_encrypted = new wxCheckBox (_dcp_panel, wxID_ANY, wxT ("Encrypted"));
+	_encrypted = new wxCheckBox (_dcp_panel, wxID_ANY, _("Encrypted"));
 	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
