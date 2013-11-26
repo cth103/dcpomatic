@@ -731,7 +731,10 @@ FilmEditor::setup_content ()
 void
 FilmEditor::content_add_file_clicked ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
+	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
+	   non-Latin filenames or paths.
+	*/
+	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE | wxFD_CHANGE_DIR);
 	int const r = d->ShowModal ();
 
 	if (r != wxID_OK) {
