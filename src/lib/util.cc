@@ -39,7 +39,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
+#endif
 #include <glib.h>
 #include <openjpeg.h>
 #include <openssl/md5.h>

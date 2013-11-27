@@ -185,13 +185,16 @@ def configure(conf):
                             lib=['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                             uselib_store='BOOST_DATETIME')
 
-    conf.check_cxx(fragment="""
-    			    #include <boost/locale.hpp>\n
-    			    int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
-			    """, msg='Checking for boost locale library',
-                            libpath='/usr/local/lib',
-                            lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
-                            uselib_store='BOOST_LOCALE')
+    # Only Windows versions require boost::locale, which is handy, as it was only introduced in
+    # boost 1.48 and so isn't (easily) available on old Ubuntus.
+    if conf.env.TARGET_WINDOWS:
+        conf.check_cxx(fragment="""
+    			        #include <boost/locale.hpp>\n
+    			        int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
+			        """, msg='Checking for boost locale library',
+                                libpath='/usr/local/lib',
+                                lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                                uselib_store='BOOST_LOCALE')
 
     conf.check_cxx(fragment="""
     			    #include <boost/signals2.hpp>\n
