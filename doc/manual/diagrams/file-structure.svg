@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="file-structure.svg">
   <defs
      id="defs4">
     <marker
@@ -2529,10 +2529,10 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="961"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
+     inkscape:window-width="1366"
+     inkscape:window-height="714"
+     inkscape:window-x="0"
+     inkscape:window-y="283"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -2542,7 +2542,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -5736,43 +5736,43 @@
        sodipodi:nodetypes="cc" />
     <path
        style="color:#000000;fill:none;stroke:#8f5902;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 181.68106,157.3527 12.5586,0 0,192.56519 -13.39584,0"
+       d="m 201.68106,157.3527 12.5586,0 0,192.56519 -13.39584,0"
        id="path9382"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Inconsolata;-inkscape-font-specification:Inconsolata"
-       x="205.96103"
+       x="225.96103"
        y="241.07671"
        id="text9384"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan9386"
-         x="205.96103"
+         x="225.96103"
          y="241.07671">DCP-o-matic's</tspan><tspan
          sodipodi:role="line"
-         x="205.96103"
-         y="256.07669"
+         x="225.96103"
+         y="256.07672"
          id="tspan9388">working</tspan><tspan
          sodipodi:role="line"
-         x="205.96103"
-         y="271.07669"
+         x="225.96103"
+         y="271.07672"
          id="tspan9390">files</tspan></text>
     <path
        style="color:#000000;fill:none;stroke:#8f5902;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 444.5744,360.802 12.5586,0 0,272.94023 -13.39584,0"
+       d="m 486.5744,360.802 12.5586,0 0,272.94023 -13.39584,0"
        id="path9382-3"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Inconsolata;-inkscape-font-specification:Inconsolata"
-       x="468.01709"
+       x="510.01709"
        y="500.62109"
        id="text9410"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan9412"
-         x="468.01709"
+         x="510.01709"
          y="500.62109">DCP</tspan></text>
   </g>
 </svg>

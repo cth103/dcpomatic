@@ -150,7 +150,7 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
-	_encrypted = new wxCheckBox (_dcp_panel, wxID_ANY, wxT ("Encrypted"));
+	_encrypted = new wxCheckBox (_dcp_panel, wxID_ANY, _("Encrypted"));
 	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
@@ -730,11 +730,14 @@ FilmEditor::setup_content ()
 void
 FilmEditor::content_add_file_clicked ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
+	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
+	   non-Latin filenames or paths.
+	*/
+	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE | wxFD_CHANGE_DIR);
 	int const r = d->ShowModal ();
-	d->Destroy ();
 
 	if (r != wxID_OK) {
+		d->Destroy ();
 		return;
 	}
 
@@ -744,8 +747,10 @@ FilmEditor::content_add_file_clicked ()
 	/* XXX: check for lots of files here and do something */
 
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (d->GetPath ())));
 	}
+
+	d->Destroy ();
 }
 
 void

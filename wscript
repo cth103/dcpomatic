@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dcpomatic'
-VERSION = '1.35pre'
+VERSION = '1.38pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -88,7 +88,7 @@ def configure(conf):
 
     # Dependencies which are dynamically linked everywhere except --static
     # Get libs only when we are dynamically linking
-    conf.check_cfg(package='libdcp',        atleast_version='0.83', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
+    conf.check_cfg(package='libdcp',        atleast_version='0.85', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
     # Remove erroneous escaping of quotes from xmlsec1 defines
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
     conf.check_cfg(package='libcxml',       atleast_version='0.08', args=pkg_config_args(conf), uselib_store='CXML', mandatory=True)
@@ -184,6 +184,17 @@ def configure(conf):
                             libpath='/usr/local/lib',
                             lib=['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                             uselib_store='BOOST_DATETIME')
+
+    # Only Windows versions require boost::locale, which is handy, as it was only introduced in
+    # boost 1.48 and so isn't (easily) available on old Ubuntus.
+    if conf.env.TARGET_WINDOWS:
+        conf.check_cxx(fragment="""
+    			        #include <boost/locale.hpp>\n
+    			        int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
+			        """, msg='Checking for boost locale library',
+                                libpath='/usr/local/lib',
+                                lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                                uselib_store='BOOST_LOCALE')
 
     conf.check_cxx(fragment="""
     			    #include <boost/signals2.hpp>\n

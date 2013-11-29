@@ -36,13 +36,13 @@
 #include "audio_mapping.h"
 #include "config.h"
 #include "job.h"
+#include "cross.h"
 
 #include "i18n.h"
 
 using std::make_pair;
 using std::pair;
 using std::string;
-using std::ifstream;
 using std::list;
 using std::cout;
 using boost::shared_ptr;
@@ -141,8 +141,9 @@ Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
-	ifstream ifi (_film->info_path (frame, eyes).string().c_str());
+	FILE* ifi = fopen_boost (_film->info_path (frame, eyes), "r");
 	libdcp::FrameInfo info (ifi);
+	fclose (ifi);
 	
 	QueueItem qi;
 	qi.type = QueueItem::FAKE;
@@ -430,8 +431,9 @@ bool
 Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 {
 	/* Read the frame info as written */
-	ifstream ifi (_film->info_path (f, eyes).string().c_str());
+	FILE* ifi = fopen_boost (_film->info_path (f, eyes), "r");
 	libdcp::FrameInfo info (ifi);
+	fclose (ifi);
 	if (info.size == 0) {
 		_film->log()->log (String::compose ("Existing frame %1 has no info file", f));
 		return false;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 09:46+0100\n"
+"POT-Creation-Date: 2013-11-26 22:26+0000\n"
 "PO-Revision-Date: 2013-04-09 10:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -17,128 +17,141 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: src/tools/dcpomatic.cc:337
+#: src/tools/dcpomatic.cc:358
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:222
+#: src/tools/dcpomatic.cc:235
 msgid "&Edit"
 msgstr "&Redigera"
 
-#: src/tools/dcpomatic.cc:194
+#: src/tools/dcpomatic.cc:203
 msgid "&Exit"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:220
+#: src/tools/dcpomatic.cc:233
 msgid "&File"
 msgstr "&Fil"
 
-#: src/tools/dcpomatic.cc:225
+#: src/tools/dcpomatic.cc:239
 msgid "&Help"
 msgstr "&Hjälp"
 
-#: src/tools/dcpomatic.cc:224
+#: src/tools/dcpomatic.cc:237
 msgid "&Jobs"
 msgstr "&Jobb"
 
-#: src/tools/dcpomatic.cc:208
+#: src/tools/dcpomatic.cc:217
 msgid "&Make DCP"
 msgstr "&Skapa DCP"
 
-#: src/tools/dcpomatic.cc:184
+#: src/tools/dcpomatic.cc:193
 msgid "&Open..."
 msgstr "&Öppna"
 
-#: src/tools/dcpomatic.cc:201 src/tools/dcpomatic.cc:204
+#: src/tools/dcpomatic.cc:210 src/tools/dcpomatic.cc:213
 msgid "&Preferences..."
 msgstr "&Inställningar"
 
-#: src/tools/dcpomatic.cc:188
+#: src/tools/dcpomatic.cc:197
 msgid "&Properties..."
 msgstr "&Egenskaper"
 
-#: src/tools/dcpomatic.cc:196
+#: src/tools/dcpomatic.cc:205
 msgid "&Quit"
 msgstr "&Avsluta"
 
-#: src/tools/dcpomatic.cc:186
+#: src/tools/dcpomatic.cc:195
 msgid "&Save"
 msgstr "&Spara"
 
-#: src/tools/dcpomatic.cc:210
+#: src/tools/dcpomatic.cc:219
 msgid "&Send DCP to TMS"
 msgstr "&Skicka DCP till TMS"
 
-#: src/tools/dcpomatic.cc:217
+#: src/tools/dcpomatic.cc:238
+msgid "&Tools"
+msgstr ""
+
+#: src/tools/dcpomatic.cc:230
 msgid "About"
 msgstr "Om"
 
-#: src/tools/dcpomatic.cc:215
+#: src/tools/dcpomatic.cc:228
 #, fuzzy
 msgid "About DCP-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dcpomatic.cc:571
+#: src/tools/dcpomatic.cc:612
 msgid "Could not load film %1 (%2)"
 msgstr "Kunde inte öppna filmen %1 (%2)"
 
-#: src/tools/dcpomatic.cc:376
+#: src/tools/dcpomatic.cc:403
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Kunde inte öppna filmen vid %s (%s)"
 
-#: src/tools/dcpomatic.cc:467
+#: src/tools/dcpomatic.cc:494
 msgid "Could not show DCP (could not run konqueror)"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:460
+#: src/tools/dcpomatic.cc:487
 msgid "Could not show DCP (could not run nautilus)"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:308 src/tools/dcpomatic.cc:582
+#: src/tools/dcpomatic.cc:329 src/tools/dcpomatic.cc:570
+#: src/tools/dcpomatic.cc:623
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:85
+#: src/tools/dcpomatic.cc:224
+msgid "Encoding Servers..."
+msgstr ""
+
+#: src/tools/dcpomatic.cc:86
 msgid "Film changed"
 msgstr "Film ändrad"
 
-#: src/tools/dcpomatic.cc:209
+#: src/tools/dcpomatic.cc:223
+msgid "Hints..."
+msgstr ""
+
+#: src/tools/dcpomatic.cc:218
 msgid "Make &KDMs..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:183
+#: src/tools/dcpomatic.cc:192
 msgid "New..."
 msgstr "Ny..."
 
-#: src/tools/dcpomatic.cc:211
+#: src/tools/dcpomatic.cc:220
 msgid "S&how DCP"
 msgstr "&Visa DCP"
 
-#: src/tools/dcpomatic.cc:84
+#: src/tools/dcpomatic.cc:85
 #, fuzzy, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Spara ändringarna till filmen \"%s\" före avslut?"
 
-#: src/tools/dcpomatic.cc:355
+#: src/tools/dcpomatic.cc:378
 msgid "Select film to open"
 msgstr "Välj film att öppna"
 
-#: src/tools/dcpomatic.cc:327
+#: src/tools/dcpomatic.cc:348
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:489
+#: src/tools/dcpomatic.cc:534
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:490
+#: src/tools/dcpomatic.cc:535
 msgid "Unfinished jobs"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:360
+#: src/tools/dcpomatic.cc:387
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

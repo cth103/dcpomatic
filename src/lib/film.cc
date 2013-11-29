@@ -64,8 +64,6 @@ using std::multimap;
 using std::pair;
 using std::map;
 using std::vector;
-using std::ifstream;
-using std::ofstream;
 using std::setfill;
 using std::min;
 using std::make_pair;
