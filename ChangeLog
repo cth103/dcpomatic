@@ -1,5 +1,8 @@
 2013-11-29  Carl Hetherington  <cth@carlh.net>
 
+	* Add option to join input files together
+	to help with multiple VOB files from DVDs.
+
 	* Fix build for 32-bit versions of OS X.
 
 2013-11-27  Carl Hetherington  <cth@carlh.net>
