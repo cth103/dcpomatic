@@ -244,8 +244,8 @@ class Frame : public wxFrame
 public:
 	Frame (wxString const & title)
 		: wxFrame (NULL, -1, title)
-		, _servers_list_dialog (0)
 		, _hints_dialog (0)
+		, _servers_list_dialog (0)
 	{
 #ifdef DCPOMATIC_WINDOWS_CONSOLE		
                 AllocConsole();
