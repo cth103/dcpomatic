@@ -91,7 +91,9 @@ for obj in $WORK/$macos/dcpomatic $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
   changes=""
   for dep in $deps; do
     base=`basename $dep`
-    changes="$changes -change $dep @executable_path/../lib/$base"
+    # $dep will be a path within 64/; make a 32/ path too
+    dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
+    changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
   done
   if test "x$changes" != "x"; then
     install_name_tool $changes $obj
