@@ -119,17 +119,17 @@ AudioContent::set_audio_delay (int d)
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
 }
 
-void
+boost::signals2::connection
 AudioContent::analyse_audio (boost::function<void()> finished)
 {
 	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
-		return;
-	}
+	assert (film);
 	
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, dynamic_pointer_cast<AudioContent> (shared_from_this())));
-	job->Finished.connect (finished);
+	boost::signals2::connection c = job->Finished.connect (finished);
 	JobManager::instance()->add (job);
+
+	return c;
 }
 
 boost::filesystem::path

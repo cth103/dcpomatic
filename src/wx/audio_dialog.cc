@@ -87,7 +87,7 @@ void
 AudioDialog::set_content (shared_ptr<AudioContent> c)
 {
 	_content_changed_connection.disconnect ();
-	
+
 	_content = c;
 
 	try_to_load_analysis ();
@@ -104,9 +104,9 @@ AudioDialog::try_to_load_analysis ()
 	if (!IsShown ()) {
 		return;
 	}
-	
+
 	if (!boost::filesystem::exists (_content->audio_analysis_path())) {
-		_content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
+		_analysis_finished_connection = _content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
 		return;
 	}
 	

@@ -47,4 +47,5 @@ private:
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;
 	boost::signals2::scoped_connection _content_changed_connection;
+	boost::signals2::scoped_connection _analysis_finished_connection;
 };

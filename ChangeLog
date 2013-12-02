@@ -1,5 +1,7 @@
 2013-12-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on double-click of "show audio" button (#278).
+
 	* Version 1.40 released.
 
 2013-12-02  Carl Hetherington  <cth@carlh.net>
