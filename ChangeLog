@@ -1,3 +1,8 @@
+2013-12-02  Carl Hetherington  <cth@carlh.net>
+
+	* Fix erroneous disabling of timing panel with
+	audio-only sources.
+
 2013-11-30  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.39 released.

@@ -135,7 +135,7 @@ TimingPanel::trim_end_changed ()
 void
 TimingPanel::content_selection_changed ()
 {
-	VideoContentList sel = _editor->selected_video_content ();
+	ContentList sel = _editor->selected_content ();
 	bool const single = sel.size() == 1;
 
 	/* Things that are only allowed with single selections */
