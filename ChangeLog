@@ -1,5 +1,8 @@
 2013-12-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on checking non-existing frame info
+	files.
+
 	* Fix erroneous disabling of timing panel with
 	audio-only sources.
 

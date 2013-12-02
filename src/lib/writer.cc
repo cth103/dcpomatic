@@ -432,6 +432,11 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 {
 	/* Read the frame info as written */
 	FILE* ifi = fopen_boost (_film->info_path (f, eyes), "r");
+	if (!ifi) {
+		_film->log()->log (String::compose ("Existing frame %1 has no info file", f));
+		return false;
+	}
+	
 	libdcp::FrameInfo info (ifi);
 	fclose (ifi);
 	if (info.size == 0) {
