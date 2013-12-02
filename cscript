@@ -183,3 +183,6 @@ def make_manual(target):
     target.command('make')
     target.command('pdflatex colour.tex')
     return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colour.pdf')]
+
+def test(target):
+    target.command('run/tests')
