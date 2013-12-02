@@ -185,4 +185,5 @@ def make_manual(target):
     return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colour.pdf')]
 
 def test(target):
+    target.set('LC_ALL', 'C')
     target.command('run/tests')
