@@ -1,5 +1,7 @@
 2013-12-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix problems with FFmpeg files that have all-zero stream IDs.
+
 	* Fix crash on checking non-existing frame info
 	files.
 
