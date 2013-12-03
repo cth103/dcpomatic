@@ -37,20 +37,24 @@ TimingPanel::TimingPanel (FilmEditor* e)
 	add_label_to_sizer (grid, this, _("Position"), true);
 	_position = new Timecode (this);
 	grid->Add (_position);
-	add_label_to_sizer (grid, this, _("Length"), true);
-	_length = new Timecode (this);
-	grid->Add (_length);
+	add_label_to_sizer (grid, this, _("Full length"), true);
+	_full_length = new Timecode (this);
+	grid->Add (_full_length);
 	add_label_to_sizer (grid, this, _("Trim from start"), true);
 	_trim_start = new Timecode (this);
 	grid->Add (_trim_start);
 	add_label_to_sizer (grid, this, _("Trim from end"), true);
 	_trim_end = new Timecode (this);
 	grid->Add (_trim_end);
+	add_label_to_sizer (grid, this, _("Play length"), true);
+	_play_length = new Timecode (this);
+	grid->Add (_play_length);
 
-	_position->Changed.connect   (boost::bind (&TimingPanel::position_changed, this));
-	_length->Changed.connect     (boost::bind (&TimingPanel::length_changed, this));
-	_trim_start->Changed.connect (boost::bind (&TimingPanel::trim_start_changed, this));
-	_trim_end->Changed.connect   (boost::bind (&TimingPanel::trim_end_changed, this));
+	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
+	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
+	_trim_start->Changed.connect  (boost::bind (&TimingPanel::trim_start_changed, this));
+	_trim_end->Changed.connect    (boost::bind (&TimingPanel::trim_end_changed, this));
+	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
 }
 
 void
@@ -70,26 +74,33 @@ TimingPanel::film_content_changed (int property)
 		}
 	} else if (property == ContentProperty::LENGTH) {
 		if (content) {
-			_length->set (content->full_length (), _editor->film()->video_frame_rate ());
+			_full_length->set (content->full_length (), _editor->film()->video_frame_rate ());
+			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
 		} else {
-			_length->set (0, 24);
+			_full_length->set (0, 24);
+			_play_length->set (0, 24);
 		}
 	} else if (property == ContentProperty::TRIM_START) {
 		if (content) {
 			_trim_start->set (content->trim_start (), _editor->film()->video_frame_rate ());
+			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
 		} else {
 			_trim_start->set (0, 24);
+			_play_length->set (0, 24);
 		}
 	} else if (property == ContentProperty::TRIM_END) {
 		if (content) {
 			_trim_end->set (content->trim_end (), _editor->film()->video_frame_rate ());
+			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
 		} else {
 			_trim_end->set (0, 24);
+			_play_length->set (0, 24);
 		}
 	}	
 
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
-	_length->set_editable (ic && ic->still ());
+	_full_length->set_editable (ic && ic->still ());
+	_play_length->set_editable (!ic || !ic->still ());
 }
 
 void
@@ -102,13 +113,13 @@ TimingPanel::position_changed ()
 }
 
 void
-TimingPanel::length_changed ()
+TimingPanel::full_length_changed ()
 {
 	ContentList c = _editor->selected_content ();
 	if (c.size() == 1) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
 		if (ic && ic->still ()) {
-			ic->set_video_length (rint (_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
+			ic->set_video_length (rint (_full_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
 		}
 	}
 }
@@ -133,6 +144,15 @@ TimingPanel::trim_end_changed ()
 }
 
 void
+TimingPanel::play_length_changed ()
+{
+	ContentList c = _editor->selected_content ();
+	if (c.size() == 1) {
+		c.front()->set_trim_end (c.front()->full_length() - _play_length->get (_editor->film()->video_frame_rate()) - c.front()->trim_start());
+	}
+}
+
+void
 TimingPanel::content_selection_changed ()
 {
 	ContentList sel = _editor->selected_content ();
@@ -140,9 +160,10 @@ TimingPanel::content_selection_changed ()
 
 	/* Things that are only allowed with single selections */
 	_position->Enable (single);
-	_length->Enable (single);
+	_full_length->Enable (single);
 	_trim_start->Enable (single);
 	_trim_end->Enable (single);
+	_play_length->Enable (single);
 	
 	film_content_changed (ContentProperty::POSITION);
 	film_content_changed (ContentProperty::LENGTH);

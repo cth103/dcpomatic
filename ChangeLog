@@ -1,3 +1,8 @@
+2013-12-03  Carl Hetherington  <cth@carlh.net>
+
+	* Add "play length" control to avoid having to do arithmetic to
+	get end-trims right in some cases (#261).
+
 2013-12-02  Carl Hetherington  <cth@carlh.net>
 
 	* Fix breakage to adding multiple files at the same time.

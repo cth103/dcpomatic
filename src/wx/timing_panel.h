@@ -31,12 +31,14 @@ public:
 	
 private:
 	void position_changed ();
-	void length_changed ();
+	void full_length_changed ();
 	void trim_start_changed ();
 	void trim_end_changed ();
+	void play_length_changed ();
 	
 	Timecode* _position;
-	Timecode* _length;
+	Timecode* _full_length;
 	Timecode* _trim_start;
 	Timecode* _trim_end;
+	Timecode* _play_length;
 };
