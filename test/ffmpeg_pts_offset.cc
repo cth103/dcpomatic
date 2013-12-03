@@ -65,8 +65,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		content->_first_video = frame + 0.0215;
 		content->_audio_stream->first_audio = 0;
 		FFmpegDecoder decoder (film, content, true, true);
-		BOOST_CHECK_EQUAL (decoder._video_pts_offset, (frame - 0.0215));
-		BOOST_CHECK_EQUAL (decoder._audio_pts_offset, (frame - 0.0215));
+		BOOST_CHECK_CLOSE (decoder._video_pts_offset, (frame - 0.0215), 0.00001);
+		BOOST_CHECK_CLOSE (decoder._audio_pts_offset, (frame - 0.0215), 0.00001);
 	}
 
 	{
