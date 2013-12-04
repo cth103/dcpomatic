@@ -1,5 +1,7 @@
 2013-12-04  Carl Hetherington  <cth@carlh.net>
 
+	* Make signatures optional (#273).
+
 	* Only do scale/crop/window/subtitle overlay if a frame is going
 	to be encoded for the DCP.
 

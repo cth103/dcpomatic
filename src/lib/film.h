@@ -149,6 +149,7 @@ public:
 		RESOLUTION,
 		SCALER,
 		WITH_SUBTITLES,
+		SIGNED,
 		ENCRYPTED,
 		J2K_BANDWIDTH,
 		DCI_METADATA,
@@ -195,6 +196,11 @@ public:
 		return _with_subtitles;
 	}
 
+	/* signed is a reserved word */
+	bool is_signed () const {
+		return _signed;
+	}
+	
 	bool encrypted () const {
 		return _encrypted;
 	}
@@ -244,6 +250,7 @@ public:
 	void set_resolution (Resolution);
 	void set_scaler (Scaler const *);
 	void set_with_subtitles (bool);
+	void set_signed (bool);
 	void set_encrypted (bool);
 	void set_j2k_bandwidth (int);
 	void set_dci_metadata (DCIMetadata);
@@ -295,6 +302,7 @@ private:
 	Scaler const * _scaler;
 	/** True if subtitles should be shown for this film */
 	bool _with_subtitles;
+	bool _signed;
 	bool _encrypted;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;

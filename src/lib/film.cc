@@ -96,6 +96,7 @@ Film::Film (boost::filesystem::path dir)
 	, _resolution (RESOLUTION_2K)
 	, _scaler (Scaler::from_id ("bicubic"))
 	, _with_subtitles (false)
+	, _signed (true)
 	, _encrypted (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
@@ -351,6 +352,7 @@ Film::write_metadata () const
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
+	root->add_child("Signed")->add_child_text (_signed ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	root->add_child("Key")->add_child_text (_key.hex ());
 	_playlist->as_xml (root->add_child ("Playlist"));
@@ -399,6 +401,7 @@ Film::read_metadata ()
 	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
 	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
+	_signed = f.optional_bool_child("Signed").get_value_or (true);
 	_encrypted = f.bool_child ("Encrypted");
 	_audio_channels = f.number_child<int> ("AudioChannels");
 	_sequence_video = f.bool_child ("SequenceVideo");
@@ -760,6 +763,13 @@ shared_ptr<Player>
 Film::make_player () const
 {
 	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
+}
+
+void
+Film::set_signed (bool s)
+{
+	_signed = s;
+	signal_changed (SIGNED);
 }
 
 void

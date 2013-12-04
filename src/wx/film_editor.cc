@@ -150,6 +150,10 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
+	_signed = new wxCheckBox (_dcp_panel, wxID_ANY, _("Signed"));
+	grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+	
 	_encrypted = new wxCheckBox (_dcp_panel, wxID_ANY, _("Encrypted"));
 	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
@@ -238,6 +242,7 @@ FilmEditor::connect_to_widgets ()
 	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::dcp_content_type_changed, this));
 	_frame_rate->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_changed, this));
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::best_frame_rate_clicked, this));
+	_signed->Bind           (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::signed_toggled, this));
 	_encrypted->Bind        (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::encrypted_toggled, this));
 	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::audio_channels_changed, this));
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::j2k_bandwidth_changed, this));
@@ -317,6 +322,16 @@ FilmEditor::j2k_bandwidth_changed ()
 	}
 	
 	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
+}
+
+void
+FilmEditor::signed_toggled ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_signed (_signed->GetValue ());
 }
 
 void
@@ -416,8 +431,17 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
 		break;
+	case Film::SIGNED:
+		checked_set (_signed, _film->is_signed ());
+		break;
 	case Film::ENCRYPTED:
 		checked_set (_encrypted, _film->encrypted ());
+		if (_film->encrypted ()) {
+			_film->set_signed (true);
+			_signed->Enable (false);
+		} else {
+			_signed->Enable (_generally_sensitive);
+		}
 		break;
 	case Film::RESOLUTION:
 		checked_set (_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
@@ -572,12 +596,12 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::RESOLUTION);
 	film_changed (Film::SCALER);
 	film_changed (Film::WITH_SUBTITLES);
+	film_changed (Film::SIGNED);
 	film_changed (Film::ENCRYPTED);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::DCI_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
 	film_changed (Film::AUDIO_CHANNELS);
-	film_changed (Film::ENCRYPTED);
 	film_changed (Film::SEQUENCE_VIDEO);
 	film_changed (Film::THREE_D);
 	film_changed (Film::INTEROP);
@@ -606,6 +630,13 @@ FilmEditor::set_general_sensitivity (bool s)
 	_content_later->Enable (s);
 	_content_timeline->Enable (s);
 	_dcp_content_type->Enable (s);
+
+	bool si = s;
+	if (_film && _film->encrypted ()) {
+		si = false;
+	}
+	_signed->Enable (si);
+	
 	_encrypted->Enable (s);
 	_frame_rate->Enable (s);
 	_audio_channels->Enable (s);

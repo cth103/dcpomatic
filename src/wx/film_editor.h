@@ -96,6 +96,7 @@ private:
 	void content_right_click (wxListEvent &);
 	void three_d_changed ();
 	void standard_changed ();
+	void signed_toggled ();
 	void encrypted_toggled ();
 
 	/* Handle changes to the model */
@@ -147,6 +148,7 @@ private:
 	wxCheckBox* _three_d;
 	wxChoice* _resolution;
 	wxChoice* _standard;
+	wxCheckBox* _signed;
 	wxCheckBox* _encrypted;
 
 	ContentMenu _menu;
