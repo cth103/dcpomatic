@@ -34,6 +34,7 @@
 #include "cross.h"
 #include "writer.h"
 #include "server_finder.h"
+#include "player.h"
 
 #include "i18n.h"
 
@@ -181,7 +182,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<const Image> image, Eyes eyes, ColourConversion conversion, bool same)
+Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -215,7 +216,7 @@ Encoder::process_video (shared_ptr<const Image> image, Eyes eyes, ColourConversi
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image, _video_frames_out, eyes, conversion, _film->video_frame_rate(),
+						  image->image(), _video_frames_out, eyes, conversion, _film->video_frame_rate(),
 						  _film->j2k_bandwidth(), _film->log()
 						  )
 					  ));

@@ -28,6 +28,7 @@ class wxToggleButton;
 class FFmpegPlayer;
 class Image;
 class RGBPlusAlphaImage;
+class PlayerImage;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
@@ -58,7 +59,7 @@ private:
 	void slider_moved ();
 	void play_clicked ();
 	void timer ();
-	void process_video (boost::shared_ptr<const Image>, Eyes, Time);
+	void process_video (boost::shared_ptr<PlayerImage>, Eyes, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void fetch_current_frame_again ();

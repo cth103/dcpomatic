@@ -47,10 +47,10 @@ static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame = 0;
 
 void
-process_video (shared_ptr<const Image> image, Eyes eyes, ColourConversion conversion, Time)
+process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, Time)
 {
-	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (image, frame, eyes, conversion, film->video_frame_rate(), 250000000, log_));
-	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image, frame, eyes, conversion, film->video_frame_rate(), 250000000, log_));
+	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (image->image(), frame, eyes, conversion, film->video_frame_rate(), 250000000, log_));
+	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image->image(), frame, eyes, conversion, film->video_frame_rate(), 250000000, log_));
 
 	cout << "Frame " << frame << ": ";
 	cout.flush ();

@@ -275,13 +275,13 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<const Image> image, Eyes eyes, Time t)
+FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, Time t)
 {
 	if (eyes == EYES_RIGHT) {
 		return;
 	}
 	
-	_frame = image;
+	_frame = image->image ();
 	_got_frame = true;
 
 	set_position_text (t);

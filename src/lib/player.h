@@ -52,6 +52,28 @@ public:
 	VideoContent::Frame frame;
 	Time extra;
 };
+
+/** A wrapper for an Image which contains some pending operations; these may
+ *  not be necessary if the receiver of the PlayerImage throws it away.
+ */
+class PlayerImage
+{
+public:
+	PlayerImage (boost::shared_ptr<const Image>, Crop, libdcp::Size, libdcp::Size, Scaler const *);
+
+	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
+	
+	boost::shared_ptr<Image> image ();
+
+private:
+	boost::shared_ptr<const Image> _in;
+	Crop _crop;
+	libdcp::Size _inter_size;
+	libdcp::Size _out_size;
+	Scaler const * _scaler;
+	boost::shared_ptr<const Image> _subtitle_image;
+	Position<int> _subtitle_position;
+};
  
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
@@ -79,7 +101,7 @@ public:
 	 *  Fourth parameter is true if the image is the same as the last one that was emitted.
 	 *  Fifth parameter is the time.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, ColourConversion, bool, Time)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, Time)> Video;
 	
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;
@@ -128,7 +150,7 @@ private:
 	AudioMerger<Time, AudioContent::Frame> _audio_merger;
 
 	libdcp::Size _video_container_size;
-	boost::shared_ptr<Image> _black_frame;
+	boost::shared_ptr<PlayerImage> _black_frame;
 	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
 	struct {

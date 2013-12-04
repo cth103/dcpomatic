@@ -273,23 +273,32 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	Time const time = content->position() + relative_time + extra - content->trim_start ();
 	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
 	libdcp::Size const image_size = fit_ratio_within (ratio, _video_container_size);
-	
-	shared_ptr<Image> work_image = image->crop_scale_window (content->crop(), image_size, _video_container_size, _film->scaler(), PIX_FMT_RGB24, false);
 
-	Position<int> const container_offset (
-		(_video_container_size.width - image_size.width) / 2,
-		(_video_container_size.height - image_size.width) / 2
+	shared_ptr<PlayerImage> pi (
+		new PlayerImage (
+			image,
+			content->crop(),
+			image_size,
+			_video_container_size,
+			_film->scaler()
+			)
 		);
-
+	
 	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
-		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position + container_offset);
-	}
 
+		Position<int> const container_offset (
+			(_video_container_size.width - image_size.width) / 2,
+			(_video_container_size.height - image_size.width) / 2
+			);
+
+		pi->set_subtitle (_out_subtitle.image, _out_subtitle.position + container_offset);
+	}
+					    
 #ifdef DCPOMATIC_DEBUG
 	_last_video = piece->content;
 #endif
 
-	Video (work_image, eyes, content->colour_conversion(), same, time);
+	Video (pi, eyes, content->colour_conversion(), same, time);
 
 	_last_emit_was_black = false;
 	_video_position = piece->video_position = (time + TIME_HZ / _film->video_frame_rate());
@@ -530,8 +539,19 @@ void
 Player::set_video_container_size (libdcp::Size s)
 {
 	_video_container_size = s;
-	_black_frame.reset (new Image (PIX_FMT_RGB24, _video_container_size, true));
-	_black_frame->make_black ();
+
+	shared_ptr<Image> im (new Image (PIX_FMT_RGB24, _video_container_size, true));
+	im->make_black ();
+	
+	_black_frame.reset (
+		new PlayerImage (
+			im,
+			Crop(),
+			_video_container_size,
+			_video_container_size,
+			Scaler::from_id ("bicubic")
+			)
+		);
 }
 
 shared_ptr<Resampler>
@@ -678,4 +698,41 @@ Player::repeat_last_video ()
 		);
 
 	return true;
+}
+
+PlayerImage::PlayerImage (
+	shared_ptr<const Image> in,
+	Crop crop,
+	libdcp::Size inter_size,
+	libdcp::Size out_size,
+	Scaler const * scaler
+	)
+	: _in (in)
+	, _crop (crop)
+	, _inter_size (inter_size)
+	, _out_size (out_size)
+	, _scaler (scaler)
+{
+
+}
+
+void
+PlayerImage::set_subtitle (shared_ptr<const Image> image, Position<int> pos)
+{
+	_subtitle_image = image;
+	_subtitle_position = pos;
+}
+
+shared_ptr<Image>
+PlayerImage::image ()
+{
+	shared_ptr<Image> out = _in->crop_scale_window (_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
+
+	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
+
+	if (_subtitle_image) {
+		out->alpha_blend (_subtitle_image, _subtitle_position);
+	}
+
+	return out;
 }

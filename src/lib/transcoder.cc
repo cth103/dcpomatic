@@ -40,7 +40,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 static void
-video_proxy (weak_ptr<Encoder> encoder, shared_ptr<const Image> image, Eyes eyes, ColourConversion conversion, bool same)
+video_proxy (weak_ptr<Encoder> encoder, shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
 {
 	shared_ptr<Encoder> e = encoder.lock ();
 	if (e) {

@@ -46,11 +46,11 @@ public:
 		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _5));
 	}
 
-	void process_video (shared_ptr<const Image> i, bool, Time t)
+	void process_video (shared_ptr<PlayerImage> i, bool, Time t)
 	{
 		Video v;
 		v.content = _player->_last_video;
-		v.image = i;
+		v.image = i->image ();
 		v.time = t;
 		_queue.push_front (v);
 	}

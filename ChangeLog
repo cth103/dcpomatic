@@ -1,5 +1,8 @@
 2013-12-04  Carl Hetherington  <cth@carlh.net>
 
+	* Only do scale/crop/window/subtitle overlay if a frame is going
+	to be encoded for the DCP.
+
 	* Several optimisations to video processing, which should
 	speed up the player a bit.
 
