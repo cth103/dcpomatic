@@ -185,9 +185,7 @@ FilmViewer::paint_panel ()
 		return;
 	}
 
-	shared_ptr<Image> packed_frame (new Image (_frame, false));
-
-	wxImage frame (_out_size.width, _out_size.height, packed_frame->data()[0], true);
+	wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);
 	dc.DrawBitmap (frame_bitmap, 0, 0);
 

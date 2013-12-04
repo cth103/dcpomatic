@@ -78,8 +78,9 @@ Image::components () const
 	return d->nb_components;
 }
 
+/** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size' */
 shared_ptr<Image>
-Image::scale (libdcp::Size out_size, Scaler const * scaler, AVPixelFormat result_format, bool result_aligned) const
+Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -87,11 +88,55 @@ Image::scale (libdcp::Size out_size, Scaler const * scaler, AVPixelFormat result
 	*/
 	assert (aligned ());
 
-	shared_ptr<Image> scaled (new Image (result_format, out_size, result_aligned));
+	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned));
+	out->make_black ();
+	
+	libdcp::Size cropped_size = crop.apply (size ());
+
+	struct SwsContext* scale_context = sws_getContext (
+		cropped_size.width, cropped_size.height, pixel_format(),
+		inter_size.width, inter_size.height, out_format,
+		scaler->ffmpeg_id (), 0, 0, 0
+		);
+
+	uint8_t* scale_in_data[components()];
+	for (int c = 0; c < components(); ++c) {
+		scale_in_data[c] = data()[c] + int (rint (bytes_per_pixel(c) * crop.left)) + stride()[c] * (crop.top / line_factor(c));
+	}
+
+	Position<int> const corner ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2);
+
+	uint8_t* scale_out_data[components()];
+	for (int c = 0; c < components(); ++c) {
+		scale_out_data[c] = out->data()[c] + int (rint (out->bytes_per_pixel(c) * corner.x)) + out->stride()[c] * corner.y;
+	}
+
+	sws_scale (
+		scale_context,
+		scale_in_data, stride(),
+		0, cropped_size.height,
+		scale_out_data, out->stride()
+		);
+
+	sws_freeContext (scale_context);
+
+	return out;	
+}
+
+shared_ptr<Image>
+Image::scale (libdcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
+{
+	assert (scaler);
+	/* Empirical testing suggests that sws_scale() will crash if
+	   the input image is not aligned.
+	*/
+	assert (aligned ());
+
+	shared_ptr<Image> scaled (new Image (out_format, out_size, out_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
-		out_size.width, out_size.height, result_format,
+		out_size.width, out_size.height, out_format,
 		scaler->ffmpeg_id (), 0, 0, 0
 		);
 

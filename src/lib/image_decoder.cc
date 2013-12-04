@@ -52,7 +52,7 @@ ImageDecoder::pass ()
 		return;
 	}
 
-	Magick::Image* magick_image = new Magick::Image (_image_content->path(_video_position).string ());
+	Magick::Image* magick_image = new Magick::Image (_image_content->path (_image_content->still() ? 0 : _video_position).string ());
 	libdcp::Size size (magick_image->columns(), magick_image->rows());
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));

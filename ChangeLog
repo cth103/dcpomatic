@@ -1,3 +1,8 @@
+2013-12-04  Carl Hetherington  <cth@carlh.net>
+
+	* Several optimisations to video processing, which should
+	speed up the player a bit.
+
 2013-12-03  Carl Hetherington  <cth@carlh.net>
 
 	* Add "play length" control to avoid having to do arithmetic to

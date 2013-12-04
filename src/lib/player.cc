@@ -270,29 +270,19 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		return;
 	}
 
-	/* Convert to RGB first, as FFmpeg doesn't seem to like handling YUV images with odd widths */
-	shared_ptr<Image> work_image = image->scale (image->size (), _film->scaler(), PIX_FMT_RGB24, true);
-
-	work_image = work_image->crop (content->crop(), true);
-
+	Time const time = content->position() + relative_time + extra - content->trim_start ();
 	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
-	libdcp::Size image_size = fit_ratio_within (ratio, _video_container_size);
+	libdcp::Size const image_size = fit_ratio_within (ratio, _video_container_size);
 	
-	work_image = work_image->scale (image_size, _film->scaler(), PIX_FMT_RGB24, true);
+	shared_ptr<Image> work_image = image->crop_scale_window (content->crop(), image_size, _video_container_size, _film->scaler(), PIX_FMT_RGB24, false);
 
-	Time time = content->position() + relative_time + extra - content->trim_start ();
-	    
+	Position<int> const container_offset (
+		(_video_container_size.width - image_size.width) / 2,
+		(_video_container_size.height - image_size.width) / 2
+		);
+
 	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
-		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position);
-	}
-
-	if (image_size != _video_container_size) {
-		assert (image_size.width <= _video_container_size.width);
-		assert (image_size.height <= _video_container_size.height);
-		shared_ptr<Image> im (new Image (PIX_FMT_RGB24, _video_container_size, true));
-		im->make_black ();
-		im->copy (work_image, Position<int> ((_video_container_size.width - image_size.width) / 2, (_video_container_size.height - image_size.height) / 2));
-		work_image = im;
+		work_image->alpha_blend (_out_subtitle.image, _out_subtitle.position + container_offset);
 	}
 
 #ifdef DCPOMATIC_DEBUG
@@ -301,9 +291,8 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 
 	Video (work_image, eyes, content->colour_conversion(), same, time);
 
-	time += TIME_HZ / _film->video_frame_rate();
 	_last_emit_was_black = false;
-	_video_position = piece->video_position = time;
+	_video_position = piece->video_position = (time + TIME_HZ / _film->video_frame_rate());
 
 	if (frc.repeat > 1 && !piece->repeating ()) {
 		piece->set_repeat (_last_incoming_video, frc.repeat - 1);

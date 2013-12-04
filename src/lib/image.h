@@ -59,11 +59,13 @@ public:
 
 	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
-	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
-	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
+
+	boost::shared_ptr<Image> crop_scale_window (Crop c, libdcp::Size, libdcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	
 	void make_black ();
+	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
+	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
 
 	void read_from_socket (boost::shared_ptr<Socket>);
 	void write_to_socket (boost::shared_ptr<Socket>) const;
