@@ -1,3 +1,7 @@
+2013-12-07  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.41 released.
+
 2013-12-05  Carl Hetherington  <cth@carlh.net>
 
 	* Improve the correctness of lengths reported by sound files to fix
