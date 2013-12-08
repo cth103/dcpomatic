@@ -144,7 +144,6 @@ Player::pass ()
 {
 	if (!_have_valid_pieces) {
 		setup_pieces ();
-		_have_valid_pieces = true;
 	}
 
 	Time earliest_t = TIME_MAX;
@@ -400,7 +399,6 @@ Player::seek (Time t, bool accurate)
 {
 	if (!_have_valid_pieces) {
 		setup_pieces ();
-		_have_valid_pieces = true;
 	}
 
 	if (_pieces.empty ()) {
@@ -492,6 +490,8 @@ Player::setup_pieces ()
 
 		_pieces.push_back (piece);
 	}
+
+	_have_valid_pieces = true;
 }
 
 void
@@ -684,7 +684,7 @@ Player::update_subtitle ()
 bool
 Player::repeat_last_video ()
 {
-	if (!_last_incoming_video.image) {
+	if (!_last_incoming_video.image || !_have_valid_pieces) {
 		return false;
 	}
 
