@@ -1,5 +1,9 @@
 2013-12-09  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.42 released.
+
+2013-12-09  Carl Hetherington  <cth@carlh.net>
+
 	* Fix make_black for pixel format 7 (#288).
 
 2013-12-08  Carl Hetherington  <cth@carlh.net>
