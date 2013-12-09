@@ -268,6 +268,7 @@ Image::make_black ()
 	case PIX_FMT_YUV420P:
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
+	case PIX_FMT_YUV411P:
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		memset (data()[1], eight_bit_uv, lines(1) * stride()[1]);
 		memset (data()[2], eight_bit_uv, lines(2) * stride()[2]);
