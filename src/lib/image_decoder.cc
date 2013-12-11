@@ -77,9 +77,9 @@ ImageDecoder::pass ()
 }
 
 void
-ImageDecoder::seek (VideoContent::Frame frame, bool)
+ImageDecoder::seek (Time time, bool)
 {
-	_video_position = frame;
+	_video_position = _video_content->time_to_content_video_frames (time);
 }
 
 bool

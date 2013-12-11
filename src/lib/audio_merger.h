@@ -97,8 +97,15 @@ public:
 		if (_buffers->frames() == 0) {
 			return TimedAudioBuffers<T> ();
 		}
-		
+
 		return TimedAudioBuffers<T> (_buffers, _last_pull);
+	}
+
+	void
+	clear (Time t)
+	{
+		_last_pull = t;
+		_buffers.reset (new AudioBuffers (_buffers->channels(), 0));
 	}
 	
 private:

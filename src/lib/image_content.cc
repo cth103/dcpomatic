@@ -126,7 +126,7 @@ ImageContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate ());
+	FrameRateChange frc (video_frame_rate(), film->video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / video_frame_rate();
 }
 

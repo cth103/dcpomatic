@@ -79,9 +79,9 @@ extern std::string tidy_for_filename (std::string);
 extern boost::shared_ptr<const libdcp::Signer> make_signer ();
 extern libdcp::Size fit_ratio_within (float ratio, libdcp::Size);
 
-struct FrameRateConversion
+struct FrameRateChange
 {
-	FrameRateConversion (float, int);
+	FrameRateChange (float, int);
 
 	/** @return factor by which to multiply a source frame rate
 	    to get the effective rate after any skip or repeat has happened.
@@ -108,6 +108,11 @@ struct FrameRateConversion
 	 *	    source is 12.50fps, DCP is 25fps)
 	 */
 	bool change_speed;
+
+	/** Amount by which the video is being sped-up in the DCP; e.g. for a
+	 *  24fps source in a 25fps DCP this would be 25/24.
+	 */
+	float speed_up;
 
 	std::string description;
 };

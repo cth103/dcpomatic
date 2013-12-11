@@ -118,3 +118,9 @@ SndfileDecoder::done () const
 {
 	return _audio_position >= _sndfile_content->audio_length ();
 }
+
+void
+SndfileDecoder::seek (Time t, bool accurate)
+{
+	/* XXX */
+}

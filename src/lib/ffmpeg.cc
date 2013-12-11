@@ -191,6 +191,10 @@ FFmpeg::video_codec_context () const
 AVCodecContext *
 FFmpeg::audio_codec_context () const
 {
+	if (!_ffmpeg_content->audio_stream ()) {
+		return 0;
+	}
+	
 	return _ffmpeg_content->audio_stream()->stream(_format_context)->codec;
 }
 

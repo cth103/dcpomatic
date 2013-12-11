@@ -235,7 +235,7 @@ Player::pass ()
 			_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 		}
 	}
-		
+
 	return false;
 }
 
@@ -259,7 +259,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
 	assert (content);
 
-	FrameRateConversion frc (content->video_frame_rate(), _film->video_frame_rate());
+	FrameRateChange frc (content->video_frame_rate(), _film->video_frame_rate());
 	if (frc.skip && (frame % 2) == 1) {
 		return;
 	}
@@ -420,16 +420,12 @@ Player::seek (Time t, bool accurate)
 		(*i)->video_position = (*i)->audio_position = vc->position() + s;
 
 		/* And seek the decoder */
-		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (
-			vc->time_to_content_video_frames (s + vc->trim_start ()), accurate
-			);
-
+		dynamic_pointer_cast<VideoDecoder>((*i)->decoder)->seek (s + vc->trim_start (), accurate);
 		(*i)->reset_repeat ();
 	}
 
 	_video_position = _audio_position = t;
-
-	/* XXX: don't seek audio because we don't need to... */
+	_audio_merger.clear (t);
 }
 
 void
@@ -456,7 +452,7 @@ Player::setup_pieces ()
 			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
 
-			fd->seek (fc->time_to_content_video_frames (fc->trim_start ()), true);
+			fd->seek (fc->trim_start (), true);
 			piece->decoder = fd;
 		}
 		

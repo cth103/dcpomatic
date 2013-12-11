@@ -27,6 +27,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>
+#include "types.h"
 
 class Film;
 
@@ -43,6 +44,14 @@ public:
 	 *  cause the object to emit some data.
 	 */
 	virtual void pass () = 0;
+
+	/** Seek so that the next pass() will yield the next thing
+	 *  (video/sound frame, subtitle etc.) at or after the requested
+	 *  time.  Pass accurate = true to try harder to get close to
+	 *  the request.
+	 */
+	virtual void seek (Time time, bool accurate) = 0;
+
 	virtual bool done () const = 0;
 
 protected:

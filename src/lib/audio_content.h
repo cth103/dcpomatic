@@ -74,6 +74,8 @@ public:
 		return _audio_delay;
 	}
 
+	Frame time_to_content_audio_frames (Time, Time) const;
+	
 private:
 	/** Gain to apply to audio in dB */
 	float _audio_gain;

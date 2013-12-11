@@ -37,7 +37,7 @@ public:
 	/* Decoder */
 
 	void pass ();
-	void seek (VideoContent::Frame, bool);
+	void seek (Time, bool);
 	bool done () const;
 
 private:

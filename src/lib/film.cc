@@ -866,6 +866,12 @@ Film::content_paths_valid () const
 	return _playlist->content_paths_valid ();
 }
 
+FrameRateChange
+Film::active_frame_rate_change (Time t) const
+{
+	return _playlist->active_frame_rate_change (t, video_frame_rate ());
+}
+
 void
 Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {

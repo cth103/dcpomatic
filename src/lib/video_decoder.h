@@ -34,11 +34,6 @@ class VideoDecoder : public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
 
-	/** Seek so that the next pass() will yield (approximately) the requested frame.
-	 *  Pass accurate = true to try harder to get close to the request.
-	 */
-	virtual void seek (VideoContent::Frame frame, bool accurate) = 0;
-
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
 	 *  Second parameter is the eye(s) which should see this image.

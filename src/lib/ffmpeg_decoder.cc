@@ -297,70 +297,132 @@ FFmpegDecoder::bytes_per_audio_sample () const
 	return av_get_bytes_per_sample (audio_sample_format ());
 }
 
-void
-FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
+int
+FFmpegDecoder::minimal_run (boost::function<bool (int)> finished)
 {
-	double const time_base = av_q2d (_format_context->streams[_video_stream]->time_base);
+	int frames_read = 0;
+	
+	while (!finished (frames_read)) {
+		int r = av_read_frame (_format_context, &_packet);
+		if (r < 0) {
+			return -1;
+		}
 
-	/* If we are doing an accurate seek, our initial shot will be 5 frames (5 being
-	   a number plucked from the air) earlier than we want to end up.  The loop below
-	   will hopefully then step through to where we want to be.
-	*/
-	int initial = frame;
+		++frames_read;
 
-	if (accurate) {
-		initial -= 5;
+		double const time_base = av_q2d (_format_context->streams[_packet.stream_index]->time_base);
+
+		if (_packet.stream_index == _video_stream) {
+
+			avcodec_get_frame_defaults (_frame);
+			
+			int finished = 0;
+			r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
+			if (r >= 0 && finished) {
+				_video_position = rint (
+					(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
+					);
+			}
+
+		} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->index (_format_context)) {
+
+			AVPacket copy_packet = _packet;
+
+			while (copy_packet.size > 0) {
+
+				int finished;
+				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &finished, &copy_packet);
+				if (r >= 0 && finished) {
+					_audio_position = rint (
+						(av_frame_get_best_effort_timestamp (_frame) * time_base + _audio_pts_offset) *
+						_ffmpeg_content->audio_stream()->frame_rate
+						);
+				}
+
+				copy_packet.data += r;
+				copy_packet.size -= r;
+			}
+		}
+
+		av_free_packet (&_packet);
 	}
 
-	if (initial < 0) {
-		initial = 0;
+	return frames_read;
+}
+
+bool
+FFmpegDecoder::seek_overrun_finished (Time seek) const
+{
+	return (
+		_video_position >= _ffmpeg_content->time_to_content_video_frames (seek) ||
+		_audio_position >= _ffmpeg_content->time_to_content_audio_frames (seek, _ffmpeg_content->position())
+		);
+}
+
+bool
+FFmpegDecoder::seek_final_finished (int n, int done) const
+{
+	return n == done;
+}
+
+void
+FFmpegDecoder::seek_and_flush (Time t)
+{
+	int64_t const initial_v = ((_ffmpeg_content->time_to_content_video_frames (t) / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) /
+		av_q2d (_format_context->streams[_video_stream]->time_base);
+
+	av_seek_frame (_format_context, _video_stream, initial_v, AVSEEK_FLAG_BACKWARD);
+
+	shared_ptr<FFmpegAudioStream> as = _ffmpeg_content->audio_stream ();
+	if (as) {
+		int64_t initial_a = ((_ffmpeg_content->time_to_content_audio_frames (t, t) / as->frame_rate) - _audio_pts_offset) /
+			av_q2d (as->stream(_format_context)->time_base);
+
+		av_seek_frame (_format_context, as->index (_format_context), initial_a, AVSEEK_FLAG_BACKWARD);
 	}
-
-	/* Initial seek time in the stream's timebase */
-	int64_t const initial_vt = ((initial / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) / time_base;
-
-	av_seek_frame (_format_context, _video_stream, initial_vt, AVSEEK_FLAG_BACKWARD);
 
 	avcodec_flush_buffers (video_codec_context());
+	if (audio_codec_context ()) {
+		avcodec_flush_buffers (audio_codec_context ());
+	}
 	if (_subtitle_codec_context) {
 		avcodec_flush_buffers (_subtitle_codec_context);
 	}
 
-	_just_sought = true;
-	_video_position = frame;
+	_video_position = _ffmpeg_content->time_to_content_video_frames (t);
+	_audio_position = _ffmpeg_content->time_to_content_audio_frames (t, t);
+}
+
+void
+FFmpegDecoder::seek (Time time, bool accurate)
+{
+	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
+	   a number plucked from the air) earlier than we want to end up.  The loop below
+	   will hopefully then step through to where we want to be.
+	*/
+
+	Time pre_roll = accurate ? (0.2 * TIME_HZ) : 0;
+	Time initial_seek = time - pre_roll;
+	if (initial_seek < 0) {
+		initial_seek = 0;
+	}
 	
-	if (frame == 0 || !accurate) {
+	/* Initial seek time in the video stream's timebase */
+
+	seek_and_flush (initial_seek);
+
+	_just_sought = true;
+	
+	if (time == 0 || !accurate) {
 		/* We're already there, or we're as close as we need to be */
 		return;
 	}
 
-	while (1) {
-		int r = av_read_frame (_format_context, &_packet);
-		if (r < 0) {
-			return;
-		}
+	int const N = minimal_run (boost::bind (&FFmpegDecoder::seek_overrun_finished, this, time));
 
-		if (_packet.stream_index != _video_stream) {
-			av_free_packet (&_packet);
-			continue;
-		}
-		
-		avcodec_get_frame_defaults (_frame);
-		
-		int finished = 0;
-		r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
-		if (r >= 0 && finished) {
-			_video_position = rint (
-				(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
-				);
-
-			if (_video_position >= (frame - 1)) {
-				av_free_packet (&_packet);
-				break;
-			}
-		}
-		
-		av_free_packet (&_packet);
+	seek_and_flush (initial_seek);
+	if (N > 0) {
+		minimal_run (boost::bind (&FFmpegDecoder::seek_final_finished, this, N - 1, _1));
 	}
 }
 
@@ -377,6 +439,7 @@ FFmpegDecoder::decode_audio_packet ()
 
 		int frame_finished;
 		int const decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
+
 		if (decode_result < 0) {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);

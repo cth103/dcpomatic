@@ -772,7 +772,7 @@ audio_channel_name (int c)
 	return channels[c];
 }
 
-FrameRateConversion::FrameRateConversion (float source, int dcp)
+FrameRateChange::FrameRateChange (float source, int dcp)
 	: skip (false)
 	, repeat (1)
 	, change_speed (false)
@@ -790,7 +790,8 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 		repeat = round (dcp / source);
 	}
 
-	change_speed = !about_equal (source * factor(), dcp);
+	speed_up = dcp / (source * factor());
+	change_speed = !about_equal (speed_up, 1.0);
 
 	if (!skip && repeat == 1 && !change_speed) {
 		description = _("Content and DCP have the same rate.\n");

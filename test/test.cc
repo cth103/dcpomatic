@@ -53,9 +53,9 @@ public:
 
 struct TestConfig
 {
-	TestConfig()
+	TestConfig ()
 	{
-		dcpomatic_setup();
+		dcpomatic_setup ();
 
 		Config::instance()->set_num_local_encoding_threads (1);
 		Config::instance()->set_server_port_base (61920);

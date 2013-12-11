@@ -292,6 +292,23 @@ Playlist::video_end () const
 	return end;
 }
 
+FrameRateChange
+Playlist::active_frame_rate_change (Time t, int dcp_video_frame_rate) const
+{
+	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
+		if (!vc) {
+			break;
+		}
+
+		if (vc->position() >= t && t < vc->end()) {
+			return FrameRateChange (vc->video_frame_rate(), dcp_video_frame_rate);
+		}
+	}
+
+	return FrameRateChange (dcp_video_frame_rate, dcp_video_frame_rate);
+}
+
 void
 Playlist::set_sequence_video (bool s)
 {

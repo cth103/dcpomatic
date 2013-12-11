@@ -148,3 +148,27 @@ AudioContent::technical_summary () const
 {
 	return String::compose ("audio: channels %1, length %2, raw rate %3, out rate %4", audio_channels(), audio_length(), content_audio_frame_rate(), output_audio_frame_rate());
 }
+
+/** Note: this is not particularly fast, as the FrameRateChange lookup
+ *  is not very intelligent.
+ *
+ *  @param t Some duration to convert.
+ *  @param at The time within the DCP to get the active frame rate change from; i.e. a point at which
+ *  the `controlling' video content is active.
+ */
+AudioContent::Frame
+AudioContent::time_to_content_audio_frames (Time t, Time at) const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	/* Consider the case where we're running a 25fps video at 24fps (i.e. slow)
+	   Our audio is at 44.1kHz.  We will resample it to 48000 * 25 / 24 and then
+	   run it at 48kHz (i.e. slow, to match).
+
+	   After 1 second, we'll have run the equivalent of 44.1kHz * 24 / 25 samples
+	   in the source.
+	*/
+	
+	return rint (t * content_audio_frame_rate() * film->active_frame_rate_change(at).speed_up / TIME_HZ);
+}

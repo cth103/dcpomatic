@@ -52,7 +52,7 @@ public:
 	~FFmpegDecoder ();
 
 	void pass ();
-	void seek (VideoContent::Frame, bool);
+	void seek (Time time, bool);
 	bool done () const;
 
 private:
@@ -73,6 +73,11 @@ private:
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
+
+	bool seek_overrun_finished (Time) const;
+	bool seek_final_finished (int, int) const;
+	int minimal_run (boost::function<bool (int)>);
+	void seek_and_flush (int64_t);
 
 	AVCodecContext* _subtitle_codec_context; ///< may be 0 if there is no subtitle
 	AVCodec* _subtitle_codec;		 ///< may be 0 if there is no subtitle

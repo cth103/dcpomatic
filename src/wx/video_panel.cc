@@ -332,7 +332,7 @@ VideoPanel::setup_description ()
 
 	d << wxString::Format (_("Content frame rate %.4f\n"), vcs->video_frame_rate ());
 	++lines;
-	FrameRateConversion frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
+	FrameRateChange frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
 	d << frc.description << "\n";
 	++lines;
 
