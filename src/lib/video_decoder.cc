@@ -28,27 +28,24 @@ using boost::shared_ptr;
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
 	: Decoder (f)
 	, _video_content (c)
-	, _video_position (0)
 {
 
 }
 
 void
-VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
+VideoDecoder::video (shared_ptr<const Image> image, bool same, ContentTime time)
 {
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		Video (image, EYES_BOTH, same, frame);
+		Video (image, EYES_BOTH, same, time);
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	{
 		int const half = image->size().width / 2;
-		Video (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, frame);
-		Video (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, frame);
+		Video (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, time);
+		Video (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, time);
 		break;
 	}
 	}
-	
-	_video_position = frame + 1;
 }
 

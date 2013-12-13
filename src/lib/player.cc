@@ -86,13 +86,23 @@ public:
 
 	void repeat (Player* player)
 	{
+		shared_ptr<Piece> p = repeat_video.weak_piece.lock ();
+		if (!p) {
+			return;
+		}
+
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (p->content);
+		if (!vc) {
+			return;
+		}
+			
 		player->process_video (
 			repeat_video.weak_piece,
 			repeat_video.image,
 			repeat_video.eyes,
 			repeat_done > 0,
-			repeat_video.frame,
-			(repeat_done + 1) * (TIME_HZ / player->_film->video_frame_rate ())
+			repeat_video.time,
+			(repeat_done + 1) * (TIME_HZ / vc->video_frame_rate ())
 			);
 
 		++repeat_done;
@@ -241,14 +251,14 @@ Player::pass ()
 
 /** @param extra Amount of extra time to add to the content frame's time (for repeat) */
 void
-Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, DCPTime extra)
+Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, ContentTime time, ContentTime extra)
 {
 	/* Keep a note of what came in so that we can repeat it if required */
 	_last_incoming_video.weak_piece = weak_piece;
 	_last_incoming_video.image = image;
 	_last_incoming_video.eyes = eyes;
 	_last_incoming_video.same = same;
-	_last_incoming_video.frame = frame;
+	_last_incoming_video.time = time;
 	_last_incoming_video.extra = extra;
 	
 	shared_ptr<Piece> piece = weak_piece.lock ();
@@ -689,7 +699,7 @@ Player::repeat_last_video ()
 		_last_incoming_video.image,
 		_last_incoming_video.eyes,
 		_last_incoming_video.same,
-		_last_incoming_video.frame,
+		_last_incoming_video.time,
 		_last_incoming_video.extra
 		);
 

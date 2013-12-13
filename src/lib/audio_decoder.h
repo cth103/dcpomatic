@@ -41,13 +41,12 @@ public:
 	bool has_audio () const;
 
 	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, ContentTime)> Audio;
 
 protected:
 
-	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
+	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
 	boost::shared_ptr<const AudioContent> _audio_content;
-	AudioContent::Frame _audio_position;
 };
 
 #endif

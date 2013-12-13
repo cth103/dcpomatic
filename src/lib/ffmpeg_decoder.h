@@ -90,5 +90,4 @@ private:
 
 	double _video_pts_offset;
 	double _audio_pts_offset;
-	bool _just_sought;
 };

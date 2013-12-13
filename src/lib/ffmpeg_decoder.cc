@@ -70,7 +70,6 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _decode_audio (audio)
 	, _video_pts_offset (0)
 	, _audio_pts_offset (0)
-	, _just_sought (false)
 {
 	setup_subtitle ();
 
@@ -411,8 +410,6 @@ FFmpegDecoder::seek (DCPTime time, bool accurate)
 
 	seek_and_flush (initial_seek);
 
-	_just_sought = true;
-	
 	if (time == 0 || !accurate) {
 		/* We're already there, or we're as close as we need to be */
 		return;
@@ -448,31 +445,14 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
-			
-			if (_audio_position == 0) {
-				/* Where we are in the source, in seconds */
-				double const pts = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-					* av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset;
-
-				if (pts > 0) {
-					/* Emit some silence */
-					shared_ptr<AudioBuffers> silence (
-						new AudioBuffers (
-							_ffmpeg_content->audio_channels(),
-							pts * _ffmpeg_content->content_audio_frame_rate()
-							)
-						);
-					
-					silence->make_silent ();
-					audio (silence, _audio_position);
-				}
-			}
+			Time const t = (av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
+					* av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset) * TIME_HZ;
 			
 			int const data_size = av_samples_get_buffer_size (
 				0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
 			
-			audio (deinterleave_audio (_frame->data, data_size), _audio_position);
+			audio (deinterleave_audio (_frame->data, data_size), t);
 		}
 			
 		copy_packet.data += decode_result;
@@ -521,45 +501,8 @@ FFmpegDecoder::decode_video_packet ()
 		}
 		
 		if (i->second != AV_NOPTS_VALUE) {
-
-			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset;
-
-			if (_just_sought) {
-				/* We just did a seek, so disable any attempts to correct for where we
-				   are / should be.
-				*/
-				_video_position = rint (pts * _ffmpeg_content->video_frame_rate ());
-				_just_sought = false;
-			}
-
-			double const next = _video_position / _ffmpeg_content->video_frame_rate();
-			double const one_frame = 1 / _ffmpeg_content->video_frame_rate ();
-			double delta = pts - next;
-
-			while (delta > one_frame) {
-				/* This PTS is more than one frame forward in time of where we think we should be; emit
-				   a black frame.
-				*/
-
-				/* XXX: I think this should be a copy of the last frame... */
-				boost::shared_ptr<Image> black (
-					new Image (
-						static_cast<AVPixelFormat> (_frame->format),
-						libdcp::Size (video_codec_context()->width, video_codec_context()->height),
-						true
-						)
-					);
-				
-				black->make_black ();
-				video (image, false, _video_position);
-				delta -= one_frame;
-			}
-
-			if (delta > -one_frame) {
-				/* This PTS is within a frame of being right; emit this (otherwise it will be dropped) */
-				video (image, false, _video_position);
-			}
-				
+			Time const t = (i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset) * TIME_HZ;
+			video (image, false, t);
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);

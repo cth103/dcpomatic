@@ -38,15 +38,14 @@ public:
 	 *  First parameter is the video image.
 	 *  Second parameter is the eye(s) which should see this image.
 	 *  Third parameter is true if the image is the same as the last one that was emitted for this Eyes value.
-	 *  Fourth parameter is the frame within our source.
+	 *  Fourth parameter is the time within our source.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, ContentTime)> Video;
 	
 protected:
 
-	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	void video (boost::shared_ptr<const Image>, bool, ContentTime);
 	boost::shared_ptr<const VideoContent> _video_content;
-	VideoContent::Frame _video_position;
 };
 
 #endif

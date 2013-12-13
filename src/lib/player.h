@@ -49,8 +49,8 @@ public:
 	boost::shared_ptr<const Image> image;
 	Eyes eyes;
 	bool same;
-	VideoContent::Frame frame;
-	DCPTime extra;
+	ContentTime time;
+	ContentTime extra;
 };
 
 /** A wrapper for an Image which contains some pending operations; these may
@@ -118,8 +118,8 @@ private:
 	friend class PlayerWrapper;
 	friend class Piece;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, DCPTime);
-	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
+	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, ContentTime, ContentTime);
+	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, DCPTime, DCPTime);
 	void setup_pieces ();
 	void playlist_changed ();
