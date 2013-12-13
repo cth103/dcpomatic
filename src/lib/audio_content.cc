@@ -39,7 +39,7 @@ int const AudioContentProperty::AUDIO_GAIN = 203;
 int const AudioContentProperty::AUDIO_DELAY = 204;
 int const AudioContentProperty::AUDIO_MAPPING = 205;
 
-AudioContent::AudioContent (shared_ptr<const Film> f, Time s)
+AudioContent::AudioContent (shared_ptr<const Film> f, DCPTime s)
 	: Content (f, s)
 	, _audio_gain (0)
 	, _audio_delay (0)
@@ -157,7 +157,7 @@ AudioContent::technical_summary () const
  *  the `controlling' video content is active.
  */
 AudioContent::Frame
-AudioContent::time_to_content_audio_frames (Time t, Time at) const
+AudioContent::time_to_content_audio_frames (DCPTime t, DCPTime at) const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);

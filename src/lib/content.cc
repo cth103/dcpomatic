@@ -54,7 +54,7 @@ Content::Content (shared_ptr<const Film> f)
 
 }
 
-Content::Content (shared_ptr<const Film> f, Time p)
+Content::Content (shared_ptr<const Film> f, DCPTime p)
 	: _film (f)
 	, _position (p)
 	, _trim_start (0)
@@ -83,9 +83,9 @@ Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 		_paths.push_back ((*i)->content ());
 	}
 	_digest = node->string_child ("Digest");
-	_position = node->number_child<Time> ("Position");
-	_trim_start = node->number_child<Time> ("TrimStart");
-	_trim_end = node->number_child<Time> ("TrimEnd");
+	_position = node->number_child<DCPTime> ("Position");
+	_trim_start = node->number_child<DCPTime> ("TrimStart");
+	_trim_end = node->number_child<DCPTime> ("TrimEnd");
 }
 
 Content::Content (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -146,7 +146,7 @@ Content::signal_changed (int p)
 }
 
 void
-Content::set_position (Time p)
+Content::set_position (DCPTime p)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -157,7 +157,7 @@ Content::set_position (Time p)
 }
 
 void
-Content::set_trim_start (Time t)
+Content::set_trim_start (DCPTime t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -168,7 +168,7 @@ Content::set_trim_start (Time t)
 }
 
 void
-Content::set_trim_end (Time t)
+Content::set_trim_end (DCPTime t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -200,7 +200,7 @@ Content::technical_summary () const
 	return String::compose ("%1 %2 %3", path_summary(), digest(), position());
 }
 
-Time
+DCPTime
 Content::length_after_trim () const
 {
 	return full_length() - trim_start() - trim_end();
@@ -210,7 +210,7 @@ Content::length_after_trim () const
  *  @return true if this time is trimmed by our trim settings.
  */
 bool
-Content::trimmed (Time t) const
+Content::trimmed (DCPTime t) const
 {
 	return (t < trim_start() || t > (full_length() - trim_end ()));
 }

@@ -120,7 +120,7 @@ ImageContent::set_video_length (VideoContent::Frame len)
 	signal_changed (ContentProperty::LENGTH);
 }
 
-Time
+DCPTime
 ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();

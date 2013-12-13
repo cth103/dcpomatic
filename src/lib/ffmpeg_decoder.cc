@@ -351,7 +351,7 @@ FFmpegDecoder::minimal_run (boost::function<bool (int)> finished)
 }
 
 bool
-FFmpegDecoder::seek_overrun_finished (Time seek) const
+FFmpegDecoder::seek_overrun_finished (DCPTime seek) const
 {
 	return (
 		_video_position >= _ffmpeg_content->time_to_content_video_frames (seek) ||
@@ -366,7 +366,7 @@ FFmpegDecoder::seek_final_finished (int n, int done) const
 }
 
 void
-FFmpegDecoder::seek_and_flush (Time t)
+FFmpegDecoder::seek_and_flush (DCPTime t)
 {
 	int64_t const initial_v = ((_ffmpeg_content->time_to_content_video_frames (t) / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) /
 		av_q2d (_format_context->streams[_video_stream]->time_base);
@@ -394,15 +394,15 @@ FFmpegDecoder::seek_and_flush (Time t)
 }
 
 void
-FFmpegDecoder::seek (Time time, bool accurate)
+FFmpegDecoder::seek (DCPTime time, bool accurate)
 {
 	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
 	   a number plucked from the air) earlier than we want to end up.  The loop below
 	   will hopefully then step through to where we want to be.
 	*/
 
-	Time pre_roll = accurate ? (0.2 * TIME_HZ) : 0;
-	Time initial_seek = time - pre_roll;
+	DCPTime pre_roll = accurate ? (0.2 * TIME_HZ) : 0;
+	DCPTime initial_seek = time - pre_roll;
 	if (initial_seek < 0) {
 		initial_seek = 0;
 	}
@@ -625,8 +625,8 @@ FFmpegDecoder::decode_subtitle_packet ()
 	double const packet_time = static_cast<double> (sub.pts) / AV_TIME_BASE;
 	
 	/* hence start time for this sub */
-	Time const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
-	Time const to = (packet_time + (double (sub.end_display_time) / 1e3)) * TIME_HZ;
+	DCPTime const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
+	DCPTime const to = (packet_time + (double (sub.end_display_time) / 1e3)) * TIME_HZ;
 
 	AVSubtitleRect const * rect = sub.rects[0];
 

@@ -102,7 +102,7 @@ public:
 	}
 
 	void
-	clear (Time t)
+	clear (DCPTime t)
 	{
 		_last_pull = t;
 		_buffers.reset (new AudioBuffers (_buffers->channels(), 0));

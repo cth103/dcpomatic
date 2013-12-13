@@ -279,7 +279,7 @@ FilmEditor::make_content_panel ()
 		b->Add (_content_earlier, 1, wxEXPAND);
 		_content_later = new wxButton (_content_panel, wxID_DOWN);
 		b->Add (_content_later, 1, wxEXPAND);
-		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
+		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("DCPTimeline..."));
 		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
 
 		s->Add (b, 0, wxALL, 4);
@@ -936,7 +936,7 @@ FilmEditor::content_timeline_clicked ()
 		_timeline_dialog = 0;
 	}
 	
-	_timeline_dialog = new TimelineDialog (this, _film);
+	_timeline_dialog = new DCPTimelineDialog (this, _film);
 	_timeline_dialog->Show ();
 }
 

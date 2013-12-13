@@ -842,7 +842,7 @@ Film::move_content_later (shared_ptr<Content> c)
 	_playlist->move_later (c);
 }
 
-Time
+DCPTime
 Film::length () const
 {
 	return _playlist->length ();
@@ -867,7 +867,7 @@ Film::content_paths_valid () const
 }
 
 FrameRateChange
-Film::active_frame_rate_change (Time t) const
+Film::active_frame_rate_change (DCPTime t) const
 {
 	return _playlist->active_frame_rate_change (t, video_frame_rate ());
 }
@@ -891,24 +891,24 @@ Film::playlist_changed ()
 }	
 
 OutputAudioFrame
-Film::time_to_audio_frames (Time t) const
+Film::time_to_audio_frames (DCPTime t) const
 {
 	return t * audio_frame_rate () / TIME_HZ;
 }
 
 OutputVideoFrame
-Film::time_to_video_frames (Time t) const
+Film::time_to_video_frames (DCPTime t) const
 {
 	return t * video_frame_rate () / TIME_HZ;
 }
 
-Time
+DCPTime
 Film::audio_frames_to_time (OutputAudioFrame f) const
 {
 	return f * TIME_HZ / audio_frame_rate ();
 }
 
-Time
+DCPTime
 Film::video_frames_to_time (OutputVideoFrame f) const
 {
 	return f * TIME_HZ / video_frame_rate ();

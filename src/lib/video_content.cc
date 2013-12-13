@@ -59,7 +59,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	setup_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Frame len)
+VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, VideoContent::Frame len)
 	: Content (f, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
@@ -355,7 +355,7 @@ VideoContent::video_size_after_crop () const
  *  is that of the next complete frame which starts after `t'.
  */
 VideoContent::Frame
-VideoContent::time_to_content_video_frames (Time t) const
+VideoContent::time_to_content_video_frames (DCPTime t) const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);

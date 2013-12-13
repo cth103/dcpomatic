@@ -120,7 +120,7 @@ SndfileDecoder::done () const
 }
 
 void
-SndfileDecoder::seek (Time t, bool accurate)
+SndfileDecoder::seek (DCPTime t, bool accurate)
 {
 	/* XXX */
 }

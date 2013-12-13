@@ -37,7 +37,7 @@ public:
 	/* Decoder */
 
 	void pass ();
-	void seek (Time, bool);
+	void seek (DCPTime, bool);
 	bool done () const;
 
 private:

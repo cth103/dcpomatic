@@ -100,10 +100,10 @@ public:
 	
 	shared_ptr<Content> content;
 	shared_ptr<Decoder> decoder;
-	/** Time of the last video we emitted relative to the start of the DCP */
-	Time video_position;
-	/** Time of the last audio we emitted relative to the start of the DCP */
-	Time audio_position;
+	/** DCPTime of the last video we emitted relative to the start of the DCP */
+	DCPTime video_position;
+	/** DCPTime of the last audio we emitted relative to the start of the DCP */
+	DCPTime audio_position;
 
 	IncomingVideo repeat_video;
 	int repeat_to_do;
@@ -146,7 +146,7 @@ Player::pass ()
 		setup_pieces ();
 	}
 
-	Time earliest_t = TIME_MAX;
+	DCPTime earliest_t = TIME_MAX;
 	shared_ptr<Piece> earliest;
 	enum {
 		VIDEO,
@@ -218,7 +218,7 @@ Player::pass ()
 	}
 
 	if (_audio) {
-		boost::optional<Time> audio_done_up_to;
+		boost::optional<DCPTime> audio_done_up_to;
 		for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 			if ((*i)->decoder->done ()) {
 				continue;
@@ -230,7 +230,7 @@ Player::pass ()
 		}
 
 		if (audio_done_up_to) {
-			TimedAudioBuffers<Time> tb = _audio_merger.pull (audio_done_up_to.get ());
+			TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (audio_done_up_to.get ());
 			Audio (tb.audio, tb.time);
 			_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 		}
@@ -241,7 +241,7 @@ Player::pass ()
 
 /** @param extra Amount of extra time to add to the content frame's time (for repeat) */
 void
-Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, Time extra)
+Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, DCPTime extra)
 {
 	/* Keep a note of what came in so that we can repeat it if required */
 	_last_incoming_video.weak_piece = weak_piece;
@@ -264,12 +264,12 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 		return;
 	}
 
-	Time const relative_time = (frame * frc.factor() * TIME_HZ / _film->video_frame_rate());
+	DCPTime const relative_time = (frame * frc.factor() * TIME_HZ / _film->video_frame_rate());
 	if (content->trimmed (relative_time)) {
 		return;
 	}
 
-	Time const time = content->position() + relative_time + extra - content->trim_start ();
+	DCPTime const time = content->position() + relative_time + extra - content->trim_start ();
 	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
 	libdcp::Size const image_size = fit_ratio_within (ratio, _video_container_size);
 
@@ -333,13 +333,13 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 		frame = ro.second;
 	}
 	
-	Time const relative_time = _film->audio_frames_to_time (frame);
+	DCPTime const relative_time = _film->audio_frames_to_time (frame);
 
 	if (content->trimmed (relative_time)) {
 		return;
 	}
 
-	Time time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time - content->trim_start ();
+	DCPTime time = content->position() + (content->audio_delay() * TIME_HZ / 1000) + relative_time - content->trim_start ();
 	
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
@@ -374,7 +374,7 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 void
 Player::flush ()
 {
-	TimedAudioBuffers<Time> tb = _audio_merger.flush ();
+	TimedAudioBuffers<DCPTime> tb = _audio_merger.flush ();
 	if (tb.audio) {
 		Audio (tb.audio, tb.time);
 		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
@@ -395,7 +395,7 @@ Player::flush ()
  *  @return true on error
  */
 void
-Player::seek (Time t, bool accurate)
+Player::seek (DCPTime t, bool accurate)
 {
 	if (!_have_valid_pieces) {
 		setup_pieces ();
@@ -412,8 +412,8 @@ Player::seek (Time t, bool accurate)
 		}
 
 		/* s is the offset of t from the start position of this content */
-		Time s = t - vc->position ();
-		s = max (static_cast<Time> (0), s);
+		DCPTime s = t - vc->position ();
+		s = max (static_cast<DCPTime> (0), s);
 		s = min (vc->length_after_trim(), s);
 
 		/* Hence set the piece positions to the `global' time */
@@ -613,7 +613,7 @@ Player::film_changed (Film::Property p)
 }
 
 void
-Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
+Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, DCPTime from, DCPTime to)
 {
 	_in_subtitle.piece = weak_piece;
 	_in_subtitle.image = image;

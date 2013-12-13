@@ -103,19 +103,19 @@ public:
 
 	OutputAudioFrame audio_frame_rate () const;
 
-	OutputAudioFrame time_to_audio_frames (Time) const;
-	OutputVideoFrame time_to_video_frames (Time) const;
-	Time video_frames_to_time (OutputVideoFrame) const;
-	Time audio_frames_to_time (OutputAudioFrame) const;
+	OutputAudioFrame time_to_audio_frames (DCPTime) const;
+	OutputVideoFrame time_to_video_frames (DCPTime) const;
+	DCPTime video_frames_to_time (OutputVideoFrame) const;
+	DCPTime audio_frames_to_time (OutputAudioFrame) const;
 
 	/* Proxies for some Playlist methods */
 
 	ContentList content () const;
-	Time length () const;
+	DCPTime length () const;
 	bool has_subtitles () const;
 	OutputVideoFrame best_video_frame_rate () const;
 	bool content_paths_valid () const;
-	FrameRateChange active_frame_rate_change (Time) const;
+	FrameRateChange active_frame_rate_change (DCPTime) const;
 
 	libdcp::KDM
 	make_kdm (

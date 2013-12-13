@@ -33,7 +33,7 @@ public:
 	void run ();
 
 private:
-	void audio (boost::shared_ptr<const AudioBuffers>, Time);
+	void audio (boost::shared_ptr<const AudioBuffers>, DCPTime);
 
 	boost::weak_ptr<AudioContent> _content;
 	OutputAudioFrame _done;

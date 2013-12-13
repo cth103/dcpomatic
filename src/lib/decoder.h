@@ -50,7 +50,7 @@ public:
 	 *  time.  Pass accurate = true to try harder to get close to
 	 *  the request.
 	 */
-	virtual void seek (Time time, bool accurate) = 0;
+	virtual void seek (DCPTime time, bool accurate) = 0;
 
 	virtual bool done () const = 0;
 

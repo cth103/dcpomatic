@@ -50,7 +50,7 @@ public:
 	Eyes eyes;
 	bool same;
 	VideoContent::Frame frame;
-	Time extra;
+	DCPTime extra;
 };
 
 /** A wrapper for an Image which contains some pending operations; these may
@@ -84,9 +84,9 @@ public:
 	void disable_audio ();
 
 	bool pass ();
-	void seek (Time, bool);
+	void seek (DCPTime, bool);
 
-	Time video_position () const {
+	DCPTime video_position () const {
 		return _video_position;
 	}
 
@@ -101,10 +101,10 @@ public:
 	 *  Fourth parameter is true if the image is the same as the last one that was emitted.
 	 *  Fifth parameter is the time.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, Time)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, DCPTime)> Video;
 	
 	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, DCPTime)> Audio;
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -118,13 +118,13 @@ private:
 	friend class PlayerWrapper;
 	friend class Piece;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, Time);
+	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, DCPTime);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
-	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
+	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, DCPTime, DCPTime);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int, bool);
-	void do_seek (Time, bool);
+	void do_seek (DCPTime, bool);
 	void flush ();
 	void emit_black ();
 	void emit_silence (OutputAudioFrame);
@@ -143,11 +143,11 @@ private:
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
 	/** The time after the last video that we emitted */
-	Time _video_position;
+	DCPTime _video_position;
 	/** The time after the last audio that we emitted */
-	Time _audio_position;
+	DCPTime _audio_position;
 
-	AudioMerger<Time, AudioContent::Frame> _audio_merger;
+	AudioMerger<DCPTime, AudioContent::Frame> _audio_merger;
 
 	libdcp::Size _video_container_size;
 	boost::shared_ptr<PlayerImage> _black_frame;
@@ -157,15 +157,15 @@ private:
 		boost::weak_ptr<Piece> piece;
 		boost::shared_ptr<Image> image;
 		dcpomatic::Rect<double> rect;
-		Time from;
-		Time to;
+		DCPTime from;
+		DCPTime to;
 	} _in_subtitle;
 
 	struct {
 		boost::shared_ptr<Image> image;
 		Position<int> position;
-		Time from;
-		Time to;
+		DCPTime from;
+		DCPTime to;
 	} _out_subtitle;
 
 #ifdef DCPOMATIC_DEBUG

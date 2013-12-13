@@ -30,7 +30,7 @@ public:
 	~SndfileDecoder ();
 
 	void pass ();
-	void seek (Time, bool);
+	void seek (DCPTime, bool);
 	bool done () const;
 
 	int audio_channels () const;

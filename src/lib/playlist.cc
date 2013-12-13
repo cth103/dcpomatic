@@ -81,7 +81,7 @@ Playlist::maybe_sequence_video ()
 	_sequencing_video = true;
 	
 	ContentList cl = _content;
-	Time next = 0;
+	DCPTime next = 0;
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (!dynamic_pointer_cast<VideoContent> (*i)) {
 			continue;
@@ -254,10 +254,10 @@ Playlist::best_dcp_frame_rate () const
 	return best->dcp;
 }
 
-Time
+DCPTime
 Playlist::length () const
 {
-	Time len = 0;
+	DCPTime len = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		len = max (len, (*i)->end() + 1);
 	}
@@ -279,10 +279,10 @@ Playlist::reconnect ()
 	}
 }
 
-Time
+DCPTime
 Playlist::video_end () const
 {
-	Time end = 0;
+	DCPTime end = 0;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (dynamic_pointer_cast<const VideoContent> (*i)) {
 			end = max (end, (*i)->end ());
@@ -293,7 +293,7 @@ Playlist::video_end () const
 }
 
 FrameRateChange
-Playlist::active_frame_rate_change (Time t, int dcp_video_frame_rate) const
+Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 {
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
@@ -331,7 +331,7 @@ Playlist::content () const
 void
 Playlist::repeat (ContentList c, int n)
 {
-	pair<Time, Time> range (TIME_MAX, 0);
+	pair<DCPTime, DCPTime> range (TIME_MAX, 0);
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		range.first = min (range.first, (*i)->position ());
 		range.second = max (range.second, (*i)->position ());
@@ -339,7 +339,7 @@ Playlist::repeat (ContentList c, int n)
 		range.second = max (range.second, (*i)->end ());
 	}
 
-	Time pos = range.second;
+	DCPTime pos = range.second;
 	for (int i = 0; i < n; ++i) {
 		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 			shared_ptr<Content> copy = (*i)->clone ();
@@ -372,7 +372,7 @@ Playlist::move_earlier (shared_ptr<Content> c)
 		return;
 	}
 	
-	Time const p = (*previous)->position ();
+	DCPTime const p = (*previous)->position ();
 	(*previous)->set_position (p + c->length_after_trim ());
 	c->set_position (p);
 	sort (_content.begin(), _content.end(), ContentSorter ());
@@ -399,7 +399,7 @@ Playlist::move_later (shared_ptr<Content> c)
 		return;
 	}
 
-	Time const p = (*next)->position ();
+	DCPTime const p = (*next)->position ();
 	(*next)->set_position (c->position ());
 	c->set_position (p + c->length_after_trim ());
 	sort (_content.begin(), _content.end(), ContentSorter ());

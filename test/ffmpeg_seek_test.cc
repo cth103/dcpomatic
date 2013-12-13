@@ -31,11 +31,11 @@ using boost::shared_ptr;
 
 #define FFMPEG_SEEK_TEST_DEBUG 1
 
-boost::optional<Time> first_video;
-boost::optional<Time> first_audio;
+boost::optional<DCPTime> first_video;
+boost::optional<DCPTime> first_audio;
 
 static void
-process_video (shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, Time t)
+process_video (shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, DCPTime t)
 {
 	if (!first_video) {
 		first_video = t;
@@ -43,7 +43,7 @@ process_video (shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, Time t)
 }
 
 static void
-process_audio (shared_ptr<const AudioBuffers>, Time t)
+process_audio (shared_ptr<const AudioBuffers>, DCPTime t)
 {
 	if (!first_audio) {
 		first_audio = t;
@@ -51,7 +51,7 @@ process_audio (shared_ptr<const AudioBuffers>, Time t)
 }
 
 static string
-print_time (Time t, float fps)
+print_time (DCPTime t, float fps)
 {
 	stringstream s;
 	s << t << " " << (float(t) / TIME_HZ) << "s " << (float(t) * fps / TIME_HZ) << "f";
@@ -59,7 +59,7 @@ print_time (Time t, float fps)
 }
 
 static void
-check (shared_ptr<Player> p, Time t)
+check (shared_ptr<Player> p, DCPTime t)
 {
 	first_video.reset ();
 	first_audio.reset ();

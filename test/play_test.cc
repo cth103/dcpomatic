@@ -34,7 +34,7 @@ struct Video
 {
 	boost::shared_ptr<Content> content;
 	boost::shared_ptr<const Image> image;
-	Time time;
+	DCPTime time;
 };
 
 class PlayerWrapper
@@ -46,7 +46,7 @@ public:
 		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _5));
 	}
 
-	void process_video (shared_ptr<PlayerImage> i, bool, Time t)
+	void process_video (shared_ptr<PlayerImage> i, bool, DCPTime t)
 	{
 		Video v;
 		v.content = _player->_last_video;
@@ -67,7 +67,7 @@ public:
 		return v;
 	}
 
-	void seek (Time t, bool ac)
+	void seek (DCPTime t, bool ac)
 	{
 		_player->seek (t, ac);
 		_queue.clear ();

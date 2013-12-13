@@ -19,7 +19,7 @@
 
 #include "film_editor_panel.h"
 
-class Timecode;
+class DCPTimecode;
 
 class TimingPanel : public FilmEditorPanel
 {
@@ -36,9 +36,9 @@ private:
 	void trim_end_changed ();
 	void play_length_changed ();
 	
-	Timecode* _position;
-	Timecode* _full_length;
-	Timecode* _trim_start;
-	Timecode* _trim_end;
-	Timecode* _play_length;
+	DCPTimecode* _position;
+	DCPTimecode* _full_length;
+	DCPTimecode* _trim_start;
+	DCPTimecode* _trim_end;
+	DCPTimecode* _play_length;
 };

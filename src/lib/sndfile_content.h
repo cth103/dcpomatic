@@ -44,7 +44,7 @@ public:
 	std::string technical_summary () const;
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
-	Time full_length () const;
+	DCPTime full_length () const;
 
 	/* AudioContent */
 	int audio_channels () const {

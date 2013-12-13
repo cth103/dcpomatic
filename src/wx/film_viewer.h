@@ -59,7 +59,7 @@ private:
 	void slider_moved ();
 	void play_clicked ();
 	void timer ();
-	void process_video (boost::shared_ptr<PlayerImage>, Eyes, Time);
+	void process_video (boost::shared_ptr<PlayerImage>, Eyes, DCPTime);
 	void calculate_sizes ();
 	void check_play_state ();
 	void fetch_current_frame_again ();
@@ -68,7 +68,7 @@ private:
 	void back_clicked ();
 	void forward_clicked ();
 	void player_changed (bool);
-	void set_position_text (Time);
+	void set_position_text (DCPTime);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;

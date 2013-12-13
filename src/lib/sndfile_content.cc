@@ -141,7 +141,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }
 
-Time
+DCPTime
 SndfileContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();

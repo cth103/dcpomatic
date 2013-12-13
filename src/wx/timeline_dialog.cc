@@ -28,8 +28,8 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 
-TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
-	: wxDialog (ed, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+DCPTimelineDialog::DCPTimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
+	: wxDialog (ed, wxID_ANY, _("DCPTimeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
 	, _timeline (this, ed, film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
@@ -46,11 +46,11 @@ TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
 	sizer->SetSizeHints (this);
 
 	_snap->SetValue (_timeline.snap ());
-	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::snap_toggled, this));
+	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPTimelineDialog::snap_toggled, this));
 }
 
 void
-TimelineDialog::snap_toggled ()
+DCPTimelineDialog::snap_toggled ()
 {
 	_timeline.set_snap (_snap->GetValue ());
 }

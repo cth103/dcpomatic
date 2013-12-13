@@ -21,13 +21,13 @@
 #include <wx/wx.h>
 #include "lib/types.h"
 
-class Timecode : public wxPanel
+class DCPTimecode : public wxPanel
 {
 public:
-	Timecode (wxWindow *);
+	DCPTimecode (wxWindow *);
 
-	void set (Time, int);
-	Time get (int) const;
+	void set (DCPTime, int);
+	DCPTime get (int) const;
 
 	void set_editable (bool);
 

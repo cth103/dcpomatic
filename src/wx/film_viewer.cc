@@ -164,7 +164,7 @@ FilmViewer::timer ()
 	
 	fetch_next_frame ();
 
-	Time const len = _film->length ();
+	DCPTime const len = _film->length ();
 
 	if (len) {
 		int const new_slider_position = 4096 * _player->video_position() / len;
@@ -275,7 +275,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, Time t)
+FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, DCPTime t)
 {
 	if (eyes == EYES_RIGHT) {
 		return;
@@ -288,7 +288,7 @@ FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, Time t)
 }
 
 void
-FilmViewer::set_position_text (Time t)
+FilmViewer::set_position_text (DCPTime t)
 {
 	if (!_film) {
 		_frame_number->SetLabel ("0");
@@ -371,7 +371,7 @@ FilmViewer::back_clicked ()
 	   We want to see the one before it, so we need to go back 2.
 	*/
 
-	Time p = _player->video_position() - _film->video_frames_to_time (2);
+	DCPTime p = _player->video_position() - _film->video_frames_to_time (2);
 	if (p < 0) {
 		p = 0;
 	}
