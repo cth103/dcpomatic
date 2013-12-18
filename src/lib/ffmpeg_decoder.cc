@@ -88,7 +88,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	*/
 
 	bool const have_video = video && c->first_video();
-	bool const have_audio = audio && c->audio_stream() && c->audio_stream()->first_audio;
+	bool const have_audio = _decode_audio && c->audio_stream () && c->audio_stream()->first_audio;
 
 	/* First, make one of them start at 0 */
 
@@ -142,12 +142,15 @@ FFmpegDecoder::flush ()
 		decode_audio_packet ();
 	}
 
+#if 0	
+	/* XXX */
 	/* Stop us being asked for any more data */
 	_video_position = _ffmpeg_content->video_length ();
 	_audio_position = _ffmpeg_content->audio_length ();
+#endif	
 }
 
-void
+bool
 FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
@@ -163,7 +166,7 @@ FFmpegDecoder::pass ()
 		}
 
 		flush ();
-		return;
+		return true;
 	}
 
 	avcodec_get_frame_defaults (_frame);
@@ -182,6 +185,7 @@ FFmpegDecoder::pass ()
 	}
 
 	av_free_packet (&_packet);
+	return false;
 }
 
 /** @param data pointer to array of pointers to buffers.
@@ -297,14 +301,22 @@ FFmpegDecoder::bytes_per_audio_sample () const
 }
 
 int
-FFmpegDecoder::minimal_run (boost::function<bool (int)> finished)
+FFmpegDecoder::minimal_run (boost::function<bool (ContentTime, ContentTime, int)> finished)
 {
 	int frames_read = 0;
-	
-	while (!finished (frames_read)) {
+	ContentTime last_video = 0;
+	ContentTime last_audio = 0;
+	bool flushing = false;
+
+	while (!finished (last_video, last_audio, frames_read)) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
-			return -1;
+			/* We should flush our decoders here, possibly yielding a few more frames,
+			   but the consequence of having to do that is too hideous to contemplate.
+			   Instead we give up and say that you can't seek too close to the end
+			   of a file.
+			*/
+			return frames_read;
 		}
 
 		++frames_read;
@@ -318,31 +330,28 @@ FFmpegDecoder::minimal_run (boost::function<bool (int)> finished)
 			int finished = 0;
 			r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 			if (r >= 0 && finished) {
-				_video_position = rint (
-					(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
+				last_video = rint (
+					(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * TIME_HZ
 					);
 			}
-
+				
 		} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->index (_format_context)) {
-
 			AVPacket copy_packet = _packet;
-
 			while (copy_packet.size > 0) {
 
 				int finished;
-				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &finished, &copy_packet);
+				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &finished, &_packet);
 				if (r >= 0 && finished) {
-					_audio_position = rint (
-						(av_frame_get_best_effort_timestamp (_frame) * time_base + _audio_pts_offset) *
-						_ffmpeg_content->audio_stream()->frame_rate
+					last_audio = rint (
+						(av_frame_get_best_effort_timestamp (_frame) * time_base + _audio_pts_offset) *	TIME_HZ
 						);
 				}
-
+					
 				copy_packet.data += r;
 				copy_packet.size -= r;
 			}
 		}
-
+		
 		av_free_packet (&_packet);
 	}
 
@@ -350,12 +359,9 @@ FFmpegDecoder::minimal_run (boost::function<bool (int)> finished)
 }
 
 bool
-FFmpegDecoder::seek_overrun_finished (DCPTime seek) const
+FFmpegDecoder::seek_overrun_finished (ContentTime seek, ContentTime last_video, ContentTime last_audio) const
 {
-	return (
-		_video_position >= _ffmpeg_content->time_to_content_video_frames (seek) ||
-		_audio_position >= _ffmpeg_content->time_to_content_audio_frames (seek, _ffmpeg_content->position())
-		);
+	return last_video >= seek || last_audio >= seek;
 }
 
 bool
@@ -365,16 +371,16 @@ FFmpegDecoder::seek_final_finished (int n, int done) const
 }
 
 void
-FFmpegDecoder::seek_and_flush (DCPTime t)
+FFmpegDecoder::seek_and_flush (ContentTime t)
 {
-	int64_t const initial_v = ((_ffmpeg_content->time_to_content_video_frames (t) / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) /
+	int64_t const initial_v = ((double (t) / TIME_HZ) - _video_pts_offset) /
 		av_q2d (_format_context->streams[_video_stream]->time_base);
 
 	av_seek_frame (_format_context, _video_stream, initial_v, AVSEEK_FLAG_BACKWARD);
 
 	shared_ptr<FFmpegAudioStream> as = _ffmpeg_content->audio_stream ();
 	if (as) {
-		int64_t initial_a = ((_ffmpeg_content->time_to_content_audio_frames (t, t) / as->frame_rate) - _audio_pts_offset) /
+		int64_t initial_a = ((double (t) / TIME_HZ) - _audio_pts_offset) /
 			av_q2d (as->stream(_format_context)->time_base);
 
 		av_seek_frame (_format_context, as->index (_format_context), initial_a, AVSEEK_FLAG_BACKWARD);
@@ -387,21 +393,20 @@ FFmpegDecoder::seek_and_flush (DCPTime t)
 	if (_subtitle_codec_context) {
 		avcodec_flush_buffers (_subtitle_codec_context);
 	}
-
-	_video_position = _ffmpeg_content->time_to_content_video_frames (t);
-	_audio_position = _ffmpeg_content->time_to_content_audio_frames (t, t);
 }
 
 void
-FFmpegDecoder::seek (DCPTime time, bool accurate)
+FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
+	Decoder::seek (time, accurate);
+	
 	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
 	   a number plucked from the air) earlier than we want to end up.  The loop below
 	   will hopefully then step through to where we want to be.
 	*/
 
-	DCPTime pre_roll = accurate ? (0.2 * TIME_HZ) : 0;
-	DCPTime initial_seek = time - pre_roll;
+	ContentTime pre_roll = accurate ? (0.2 * TIME_HZ) : 0;
+	ContentTime initial_seek = time - pre_roll;
 	if (initial_seek < 0) {
 		initial_seek = 0;
 	}
@@ -415,11 +420,11 @@ FFmpegDecoder::seek (DCPTime time, bool accurate)
 		return;
 	}
 
-	int const N = minimal_run (boost::bind (&FFmpegDecoder::seek_overrun_finished, this, time));
-
+	int const N = minimal_run (boost::bind (&FFmpegDecoder::seek_overrun_finished, this, time, _1, _2));
+	
 	seek_and_flush (initial_seek);
 	if (N > 0) {
-		minimal_run (boost::bind (&FFmpegDecoder::seek_final_finished, this, N - 1, _1));
+		minimal_run (boost::bind (&FFmpegDecoder::seek_final_finished, this, N - 1, _3));
 	}
 }
 
@@ -445,9 +450,11 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
-			Time const t = (av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-					* av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset) * TIME_HZ;
-			
+			ContentTime const t = rint (
+				(av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
+				 * av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset) * TIME_HZ
+				);
+
 			int const data_size = av_samples_get_buffer_size (
 				0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
@@ -501,7 +508,7 @@ FFmpegDecoder::decode_video_packet ()
 		}
 		
 		if (i->second != AV_NOPTS_VALUE) {
-			Time const t = (i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset) * TIME_HZ;
+			ContentTime const t = rint ((i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset) * TIME_HZ);
 			video (image, false, t);
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
@@ -535,14 +542,6 @@ FFmpegDecoder::setup_subtitle ()
 	}
 }
 
-bool
-FFmpegDecoder::done () const
-{
-	bool const vd = !_decode_video || (_video_position >= _ffmpeg_content->video_length());
-	bool const ad = !_decode_audio || !_ffmpeg_content->audio_stream() || (_audio_position >= _ffmpeg_content->audio_length());
-	return vd && ad;
-}
-	
 void
 FFmpegDecoder::decode_subtitle_packet ()
 {

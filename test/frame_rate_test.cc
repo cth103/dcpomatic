@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, 2);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
-	BOOST_CHECK_CLOSE (frc.speed_up, 2 * 14.99 / 24, 0.1);
+	BOOST_CHECK_CLOSE (frc.speed_up, 24 / (2 * 14.99), 0.1);
 
 	/* Check some conversions with limited DCP targets */
 

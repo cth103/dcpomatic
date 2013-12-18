@@ -29,6 +29,7 @@
 #include "rect.h"
 #include "audio_merger.h"
 #include "audio_content.h"
+#include "decoded.h"
 
 class Job;
 class Film;
@@ -38,22 +39,8 @@ class Piece;
 class Image;
 class Resampler;
 
-/** @class Player
- *  @brief A class which can `play' a Playlist; emitting its audio and video.
- */
-
-struct IncomingVideo
-{
-public:
-	boost::weak_ptr<Piece> weak_piece;
-	boost::shared_ptr<const Image> image;
-	Eyes eyes;
-	bool same;
-	ContentTime time;
-	ContentTime extra;
-};
-
-/** A wrapper for an Image which contains some pending operations; these may
+/** @class PlayerImage
+ *  @brief A wrapper for an Image which contains some pending operations; these may
  *  not be necessary if the receiver of the PlayerImage throws it away.
  */
 class PlayerImage
@@ -75,6 +62,10 @@ private:
 	Position<int> _subtitle_position;
 };
  
+/** @class Player
+ *  @brief A class which can `play' a Playlist; emitting its audio and video.
+ */
+
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
@@ -118,9 +109,6 @@ private:
 	friend class PlayerWrapper;
 	friend class Piece;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, ContentTime, ContentTime);
-	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, ContentTime);
-	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, DCPTime, DCPTime);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int, bool);
@@ -131,6 +119,8 @@ private:
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
 	void update_subtitle ();
+	void emit_video (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedVideo>);
+	void emit_audio (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedAudio>);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -155,17 +145,12 @@ private:
 
 	struct {
 		boost::weak_ptr<Piece> piece;
-		boost::shared_ptr<Image> image;
-		dcpomatic::Rect<double> rect;
-		DCPTime from;
-		DCPTime to;
+		boost::shared_ptr<DecodedSubtitle> subtitle;
 	} _in_subtitle;
 
 	struct {
-		boost::shared_ptr<Image> image;
 		Position<int> position;
-		DCPTime from;
-		DCPTime to;
+		boost::shared_ptr<DecodedSubtitle> subtitle;
 	} _out_subtitle;
 
 #ifdef DCPOMATIC_DEBUG
@@ -174,7 +159,12 @@ private:
 
 	bool _last_emit_was_black;
 
-	IncomingVideo _last_incoming_video;
+	struct {
+		boost::weak_ptr<Piece> weak_piece;
+		boost::shared_ptr<DecodedVideo> video;
+	} _last_incoming_video;
+
+	bool _just_did_inaccurate_seek;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;

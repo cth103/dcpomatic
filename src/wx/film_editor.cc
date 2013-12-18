@@ -279,7 +279,7 @@ FilmEditor::make_content_panel ()
 		b->Add (_content_earlier, 1, wxEXPAND);
 		_content_later = new wxButton (_content_panel, wxID_DOWN);
 		b->Add (_content_later, 1, wxEXPAND);
-		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("DCPTimeline..."));
+		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
 		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
 
 		s->Add (b, 0, wxALL, 4);

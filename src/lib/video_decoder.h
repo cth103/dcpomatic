@@ -25,6 +25,7 @@
 #include "decoder.h"
 #include "video_content.h"
 #include "util.h"
+#include "decoded.h"
 
 class VideoContent;
 class Image;
@@ -34,14 +35,10 @@ class VideoDecoder : public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
 
-	/** Emitted when a video frame is ready.
-	 *  First parameter is the video image.
-	 *  Second parameter is the eye(s) which should see this image.
-	 *  Third parameter is true if the image is the same as the last one that was emitted for this Eyes value.
-	 *  Fourth parameter is the time within our source.
-	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, ContentTime)> Video;
-	
+	boost::shared_ptr<const VideoContent> video_content () const {
+		return _video_content;
+	}
+
 protected:
 
 	void video (boost::shared_ptr<const Image>, bool, ContentTime);

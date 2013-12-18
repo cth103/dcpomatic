@@ -36,3 +36,32 @@ Decoder::Decoder (shared_ptr<const Film> f)
 {
 
 }
+
+shared_ptr<Decoded>
+Decoder::peek ()
+{
+	while (_pending.empty () && !pass ()) {}
+
+	if (_pending.empty ()) {
+		return shared_ptr<Decoded> ();
+	}
+
+	return _pending.front ();
+}
+
+shared_ptr<Decoded>
+Decoder::get ()
+{
+	shared_ptr<Decoded> d = peek ();
+	if (d) {
+		_pending.pop_front ();
+	}
+
+	return d;
+}
+
+void
+Decoder::seek (ContentTime, bool)
+{
+	_pending.clear ();
+}

@@ -106,8 +106,6 @@ BOOST_AUTO_TEST_CASE (play_test)
 
 	shared_ptr<Player> player = film->make_player ();
 	PlayerWrapper wrap (player);
-	/* Seek and audio don't get on at the moment */
-	player->disable_audio ();
 
 	for (int i = 0; i < 32; ++i) {
 		optional<Video> v = wrap.get_video ();
@@ -119,10 +117,10 @@ BOOST_AUTO_TEST_CASE (play_test)
 		}
 	}
 
-	player->seek (10 * TIME_HZ / 25, true);
+	player->seek (6 * TIME_HZ / 25, true);
 	optional<Video> v = wrap.get_video ();
 	BOOST_CHECK (v);
-	BOOST_CHECK_EQUAL (v.get().time, 10 * TIME_HZ / 25);
+	BOOST_CHECK_EQUAL (v.get().time, 6 * TIME_HZ / 25);
 }
 
 #endif

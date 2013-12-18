@@ -29,15 +29,18 @@ public:
 	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SndfileContent>);
 	~SndfileDecoder ();
 
-	void pass ();
-	void seek (DCPTime, bool);
-	bool done () const;
+	void seek (ContentTime, bool);
 
 	int audio_channels () const;
 	AudioContent::Frame audio_length () const;
 	int audio_frame_rate () const;
 
 private:
+	bool has_audio () const {
+		return true;
+	}
+	bool pass ();
+	
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;

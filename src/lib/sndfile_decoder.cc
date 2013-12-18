@@ -55,9 +55,13 @@ SndfileDecoder::~SndfileDecoder ()
 	delete[] _deinterleave_buffer;
 }
 
-void
+bool
 SndfileDecoder::pass ()
 {
+	if (_remaining == 0) {
+		return true;
+	}
+	
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
@@ -93,6 +97,8 @@ SndfileDecoder::pass ()
 	audio (data, _done);
 	_done += this_time;
 	_remaining -= this_time;
+
+	return true;
 }
 
 int
@@ -113,14 +119,10 @@ SndfileDecoder::audio_frame_rate () const
 	return _info.samplerate;
 }
 
-bool
-SndfileDecoder::done () const
-{
-	return _audio_position >= _sndfile_content->audio_length ();
-}
-
 void
-SndfileDecoder::seek (DCPTime t, bool accurate)
+SndfileDecoder::seek (ContentTime t, bool accurate)
 {
+	Decoder::seek (t, accurate);
+	
 	/* XXX */
 }

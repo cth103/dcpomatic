@@ -30,6 +30,7 @@
 #include "types.h"
 
 class Film;
+class Decoded;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -40,26 +41,31 @@ public:
 	Decoder (boost::shared_ptr<const Film>);
 	virtual ~Decoder () {}
 
-	/** Perform one decode pass of the content, which may or may not
-	 *  cause the object to emit some data.
-	 */
-	virtual void pass () = 0;
-
-	/** Seek so that the next pass() will yield the next thing
+	/** Seek so that the next get_*() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
 	 *  time.  Pass accurate = true to try harder to get close to
 	 *  the request.
 	 */
-	virtual void seek (DCPTime time, bool accurate) = 0;
-
-	virtual bool done () const = 0;
+	virtual void seek (ContentTime time, bool accurate);
+	
+	boost::shared_ptr<Decoded> peek ();
+	boost::shared_ptr<Decoded> get ();
 
 protected:
 
+	/** Perform one decode pass of the content, which may or may not
+	 *  result in a complete quantum (Decoded object) of decoded stuff
+	 *  being made ready.
+	 *  @return true if the decoder is done (i.e. no more data will be
+	 *  produced by any future calls to pass() without a seek() first).
+	 */
+	virtual bool pass () = 0;
 	virtual void flush () {};
 	
 	/** The Film that we are decoding in */
 	boost::weak_ptr<const Film> _film;
+
+	std::list<boost::shared_ptr<Decoded> > _pending;
 };
 
 #endif

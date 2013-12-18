@@ -21,6 +21,7 @@
 #include "subtitle_decoder.h"
 
 using boost::shared_ptr;
+using boost::optional;
 
 SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
 	: Decoder (f)
@@ -35,5 +36,5 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
 void
 SubtitleDecoder::subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, DCPTime from, DCPTime to)
 {
-	Subtitle (image, rect, from, to);
+	_pending.push_back (shared_ptr<DecodedSubtitle> (new DecodedSubtitle (image, rect, from, to)));
 }

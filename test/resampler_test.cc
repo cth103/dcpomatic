@@ -34,13 +34,14 @@ resampler_test_one (int from, int to)
 
 	/* 3 hours */
 	int64_t const N = from * 60 * 60 * 3;
+
+	/* XXX: no longer checks anything */
 	
 	for (int64_t i = 0; i < N; i += 1000) {
 		shared_ptr<AudioBuffers> a (new AudioBuffers (1, 1000));
 		a->make_silent ();
-		pair<shared_ptr<const AudioBuffers>, AudioContent::Frame> r = resamp.run (a, i);
-		BOOST_CHECK_EQUAL (r.second, total_out);
-		total_out += r.first->frames ();
+		shared_ptr<const AudioBuffers> r = resamp.run (a);
+		total_out += r->frames ();
 	}
 }	
 		

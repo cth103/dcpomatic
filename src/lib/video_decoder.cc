@@ -24,6 +24,7 @@
 
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
 	: Decoder (f)
@@ -32,20 +33,20 @@ VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoCont
 
 }
 
+/** Called by subclasses when they have a video frame ready */
 void
 VideoDecoder::video (shared_ptr<const Image> image, bool same, ContentTime time)
 {
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		Video (image, EYES_BOTH, same, time);
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image, EYES_BOTH, same, time)));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	{
 		int const half = image->size().width / 2;
-		Video (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, time);
-		Video (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, time);
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, time)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, time)));
 		break;
 	}
 	}
 }
-
