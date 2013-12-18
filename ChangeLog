@@ -1,5 +1,8 @@
 2013-12-18  Carl Hetherington  <cth@carlh.net>
 
+	* Fix non-update of display when changing video frame type (2D,
+	3D left/right etc.)
+
 	* Restore video information in video tab when using still images.
 
 	* Hopefully fix exception on new film in some strange cases.

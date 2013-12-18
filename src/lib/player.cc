@@ -504,7 +504,8 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 
 	if (
 		property == ContentProperty::POSITION || property == ContentProperty::LENGTH ||
-		property == ContentProperty::TRIM_START || property == ContentProperty::TRIM_END
+		property == ContentProperty::TRIM_START || property == ContentProperty::TRIM_END ||
+		property == VideoContentProperty::VIDEO_FRAME_TYPE 
 		) {
 		
 		_have_valid_pieces = false;
@@ -515,10 +516,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		update_subtitle ();
 		Changed (frequent);
 
-	} else if (
-		property == VideoContentProperty::VIDEO_FRAME_TYPE || property == VideoContentProperty::VIDEO_CROP ||
-		property == VideoContentProperty::VIDEO_RATIO
-		) {
+	} else if (property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO) {
 		
 		Changed (frequent);
 
