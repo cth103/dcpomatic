@@ -1,5 +1,7 @@
 2013-12-18  Carl Hetherington  <cth@carlh.net>
 
+	* Bump libdcp version again for a fix to XML validity for 3D.
+
 	* Version 1.43 released.
 
 2013-12-18  Carl Hetherington  <cth@carlh.net>
