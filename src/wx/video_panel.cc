@@ -271,7 +271,7 @@ VideoPanel::edit_filters_clicked ()
 void
 VideoPanel::setup_description ()
 {
-	FFmpegContentList vc = _editor->selected_ffmpeg_content ();
+	VideoContentList vc = _editor->selected_video_content ();
 	if (vc.empty ()) {
 		_description->SetLabel ("");
 		return;
@@ -280,7 +280,7 @@ VideoPanel::setup_description ()
 		return;
 	}
 
-	shared_ptr<FFmpegContent> vcs = vc.front ();
+	shared_ptr<VideoContent> vcs = vc.front ();
 
 	wxString d;
 
