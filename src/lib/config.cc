@@ -353,7 +353,13 @@ Config::write () const
 boost::filesystem::path
 Config::default_directory_or (boost::filesystem::path a) const
 {
-	if (_default_directory.empty() || !boost::filesystem::exists (_default_directory)) {
+	if (_default_directory.empty()) {
+		return a;
+	}
+
+	boost::system::error_code ec;
+	bool const e = boost::filesystem::exists (_default_directory, ec);
+	if (ec || !e) {
 		return a;
 	}
 
