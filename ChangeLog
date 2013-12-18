@@ -1,5 +1,7 @@
 2013-12-18  Carl Hetherington  <cth@carlh.net>
 
+	* Restore video information in video tab when using still images.
+
 	* Hopefully fix exception on new film in some strange cases.
 
 2013-12-09  Carl Hetherington  <cth@carlh.net>
