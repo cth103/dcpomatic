@@ -141,13 +141,6 @@ FFmpegDecoder::flush ()
 	if (_ffmpeg_content->audio_stream() && _decode_audio) {
 		decode_audio_packet ();
 	}
-
-#if 0	
-	/* XXX */
-	/* Stop us being asked for any more data */
-	_video_position = _ffmpeg_content->video_length ();
-	_audio_position = _ffmpeg_content->audio_length ();
-#endif	
 }
 
 bool
