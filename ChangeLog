@@ -1,5 +1,9 @@
 2013-12-18  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.43 released.
+
+2013-12-18  Carl Hetherington  <cth@carlh.net>
+
 	* Update libdcp version to get fix for 3D IntrinsicDuration.
 
 	* Fix progress reporting when making 3D DCPs.
