@@ -31,7 +31,6 @@
 #include "job.h"
 #include "image.h"
 #include "ratio.h"
-#include "resampler.h"
 #include "log.h"
 #include "scaler.h"
 
@@ -112,21 +111,6 @@ Player::pass ()
 		if (dec) {
 			dec->set_dcp_times ((*i)->frc.speed_up, (*i)->content->position());
 		}
-
-		/* XXX: don't know what to do with this */
-#if 0		
-		if (ad->done()) {
-			shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> ((*i)->content);
-			assert (ac);
-			shared_ptr<Resampler> re = resampler (ac, false);
-			if (re) {
-				shared_ptr<const AudioBuffers> b = re->flush ();
-				if (b->frames ()) {
-					process_audio (earliest, b, ac->audio_length ());
-				}
-			}
-		}
-#endif		
 
 		if (dec && dec->dcp_time < earliest_time) {
 			earliest_piece = *i;
@@ -277,11 +261,6 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 		audio->data = gain;
 	}
 
-	/* Resample */
-	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
-		audio->data = resampler(content, true)->run (audio->data);
-	}
-	
 	if (content->trimmed (audio->dcp_time - content->position ())) {
 		return;
 	}
@@ -511,29 +490,6 @@ Player::set_video_container_size (libdcp::Size s)
 			Scaler::from_id ("bicubic")
 			)
 		);
-}
-
-shared_ptr<Resampler>
-Player::resampler (shared_ptr<AudioContent> c, bool create)
-{
-	map<shared_ptr<AudioContent>, shared_ptr<Resampler> >::iterator i = _resamplers.find (c);
-	if (i != _resamplers.end ()) {
-		return i->second;
-	}
-
-	if (!create) {
-		return shared_ptr<Resampler> ();
-	}
-
-	_film->log()->log (
-		String::compose (
-			"Creating new resampler for %1 to %2 with %3 channels", c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()
-			)
-		);
-	
-	shared_ptr<Resampler> r (new Resampler (c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()));
-	_resamplers[c] = r;
-	return r;
 }
 
 void

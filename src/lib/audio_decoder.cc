@@ -35,12 +35,33 @@ using boost::shared_ptr;
 AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
 	: Decoder (film)
 	, _audio_content (content)
+	, _last_audio (0)
 {
-
+	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
+		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));
+	}
 }
 
 void
 AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 {
+	if (_resampler) {
+		data = _resampler->run (data);
+	}
+	
 	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (data, time)));
+	_last_audio = time + (data->frames() * TIME_HZ / _audio_content->output_audio_frame_rate());
+}
+
+void
+AudioDecoder::flush ()
+{
+	if (!_resampler) {
+		return;
+	}
+
+	shared_ptr<const AudioBuffers> b = _resampler->flush ();
+	if (b) {
+		audio (b, _last_audio);
+	}
 }

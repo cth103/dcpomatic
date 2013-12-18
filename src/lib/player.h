@@ -37,7 +37,6 @@ class Playlist;
 class AudioContent;
 class Piece;
 class Image;
-class Resampler;
 
 /** @class PlayerImage
  *  @brief A wrapper for an Image which contains some pending operations; these may
@@ -116,7 +115,6 @@ private:
 	void flush ();
 	void emit_black ();
 	void emit_silence (OutputAudioFrame);
-	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
 	void update_subtitle ();
 	void emit_video (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedVideo>);
@@ -141,7 +139,6 @@ private:
 
 	libdcp::Size _video_container_size;
 	boost::shared_ptr<PlayerImage> _black_frame;
-	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
 	struct {
 		boost::weak_ptr<Piece> piece;

@@ -30,6 +30,7 @@
 #include "decoded.h"
 
 class AudioBuffers;
+class Resampler;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
@@ -38,7 +39,7 @@ class AudioDecoder : public virtual Decoder
 {
 public:
 	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
-
+	
 	boost::shared_ptr<const AudioContent> audio_content () const {
 		return _audio_content;
 	}
@@ -46,8 +47,12 @@ public:
 protected:
 
 	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
-	
-	boost::shared_ptr<const AudioContent> _audio_content;	
+	void flush ();
+
+	boost::shared_ptr<const AudioContent> _audio_content;
+	boost::shared_ptr<Resampler> _resampler;
+	/* End time of last audio that we wrote to _pending; only used for flushing the resampler */
+	ContentTime _last_audio;
 };
 
 #endif

@@ -141,6 +141,8 @@ FFmpegDecoder::flush ()
 	if (_ffmpeg_content->audio_stream() && _decode_audio) {
 		decode_audio_packet ();
 	}
+
+	AudioDecoder::flush ();
 }
 
 bool
