@@ -119,6 +119,7 @@ struct FrameRateChange
 
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
+extern DCPTime time_round_up (DCPTime, DCPTime);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);

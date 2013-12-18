@@ -915,3 +915,10 @@ fit_ratio_within (float ratio, libdcp::Size full_frame)
 	
 	return libdcp::Size (full_frame.width, rint (full_frame.width / ratio));
 }
+
+DCPTime
+time_round_up (DCPTime t, DCPTime nearest)
+{
+	DCPTime const a = t + nearest - 1;
+	return a - (a % nearest);
+}

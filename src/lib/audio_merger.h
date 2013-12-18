@@ -37,6 +37,8 @@ public:
 	TimedAudioBuffers<T>
 	pull (T time)
 	{
+		assert (time >= _last_pull);
+		
 		TimedAudioBuffers<T> out;
 		
 		F const to_return = _t_to_f (time - _last_pull);

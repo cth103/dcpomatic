@@ -351,8 +351,10 @@ Player::seek (DCPTime t, bool accurate)
 		(*i)->decoder->seek (ct, accurate);
 	}
 
-	_video_position = _audio_position = t;
-	_audio_merger.clear (t);
+	_video_position = time_round_up (t, TIME_HZ / _film->video_frame_rate());
+	_audio_position = time_round_up (t, TIME_HZ / _film->audio_frame_rate());
+
+	_audio_merger.clear (_audio_position);
 
 	if (!accurate) {
 		/* We just did an inaccurate seek, so it's likely that the next thing seen

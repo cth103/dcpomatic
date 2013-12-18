@@ -28,11 +28,13 @@ using std::cout;
 using std::string;
 using std::stringstream;
 using boost::shared_ptr;
+using boost::optional;
 
 #define FFMPEG_SEEK_TEST_DEBUG 1
 
-boost::optional<DCPTime> first_video;
-boost::optional<DCPTime> first_audio;
+optional<DCPTime> first_video;
+optional<DCPTime> first_audio;
+shared_ptr<Film> film;
 
 static void
 process_video (shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, DCPTime t)
@@ -77,14 +79,18 @@ check (shared_ptr<Player> p, DCPTime t)
 	cout << "First video " << print_time (first_video.get(), 24) << "\n";
 	cout << "First audio " << print_time (first_audio.get(), 24) << "\n";
 #endif	
-	
+
+	/* Outputs should be on or after seek time */
 	BOOST_CHECK (first_video.get() >= t);
 	BOOST_CHECK (first_audio.get() >= t);
+	/* And should be rounded to frame boundaries */
+	BOOST_CHECK ((first_video.get() % (TIME_HZ / film->video_frame_rate())) == 0);
+	BOOST_CHECK ((first_audio.get() % (TIME_HZ / film->audio_frame_rate())) == 0);
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_seek_test)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_test");
+	film = new_test_film ("ffmpeg_audio_test");
 	film->set_name ("ffmpeg_audio_test");
 	film->set_container (Ratio::from_id ("185"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/staircase.mov"));
