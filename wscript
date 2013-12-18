@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dcpomatic'
-VERSION = '1.44pre'
+VERSION = '1.45pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -88,7 +88,7 @@ def configure(conf):
 
     # Dependencies which are dynamically linked everywhere except --static
     # Get libs only when we are dynamically linking
-    conf.check_cfg(package='libdcp',        atleast_version='0.87', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
+    conf.check_cfg(package='libdcp',        atleast_version='0.88', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
     # Remove erroneous escaping of quotes from xmlsec1 defines
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
     conf.check_cfg(package='libcxml',       atleast_version='0.08', args=pkg_config_args(conf), uselib_store='CXML', mandatory=True)
