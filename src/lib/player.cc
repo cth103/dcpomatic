@@ -158,8 +158,20 @@ Player::pass ()
 
 	if (dv) {
 		if (!_just_did_inaccurate_seek && earliest_time > _video_position) {
-			/* XXX: if we're inside some content, repeat the last frame... otherwise emit black */
-			emit_black ();
+
+			/* See if we're inside some video content */
+			list<shared_ptr<Piece> >::iterator i = _pieces.begin();
+			while (i != _pieces.end() && ((*i)->content->position() >= _video_position || _video_position >= (*i)->content->end())) {
+				++i;
+			}
+
+			if (i == _pieces.end() || !_last_incoming_video.video || !_have_valid_pieces) {
+				/* We're outside all video content */
+				emit_black ();
+			} else {
+				_last_incoming_video.video->dcp_time = _video_position;
+				emit_video (_last_incoming_video.weak_piece, _last_incoming_video.video);
+			}
 		} else {
 			emit_video (earliest_piece, dv);
 			earliest_piece->decoder->get ();

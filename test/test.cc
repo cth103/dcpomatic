@@ -95,10 +95,10 @@ new_test_film (string name)
 }
 
 static void
-check_file (string ref, string check)
+check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	uintmax_t N = boost::filesystem::file_size (ref);
-	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size(check));
+	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
 	FILE* ref_file = fopen (ref.c_str(), "rb");
 	BOOST_CHECK (ref_file);
 	FILE* check_file = fopen (check.c_str(), "rb");
@@ -135,7 +135,7 @@ note (libdcp::NoteType t, string n)
 }
 
 void
-check_dcp (string ref, string check)
+check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	libdcp::DCP ref_dcp (ref);
 	ref_dcp.read ();
