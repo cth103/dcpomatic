@@ -1,5 +1,7 @@
 2013-12-18  Carl Hetherington  <cth@carlh.net>
 
+	* Fix progress reporting when making 3D DCPs.
+
 	* Fix non-update of display when changing video frame type (2D,
 	3D left/right etc.)
 
