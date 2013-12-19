@@ -1,3 +1,7 @@
+2013-12-19  Carl Hetherington  <cth@carlh.net>
+
+	* Bump libdcp version again for a crash fix for 32-bit Windows.
+
 2013-12-18  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.44 released.
