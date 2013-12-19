@@ -301,7 +301,6 @@ FFmpegDecoder::minimal_run (boost::function<bool (ContentTime, ContentTime, int)
 	int frames_read = 0;
 	ContentTime last_video = 0;
 	ContentTime last_audio = 0;
-	bool flushing = false;
 
 	while (!finished (last_video, last_audio, frames_read)) {
 		int r = av_read_frame (_format_context, &_packet);
