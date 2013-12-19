@@ -29,16 +29,16 @@
 #include <map>
 #include <sys/time.h>
 
-/** @class PeriodDCPTimer
+/** @class PeriodTimer
  *  @brief A class to allow timing of a period within the caller.
  *
  *  On destruction, it will output the time since its construction.
  */
-class PeriodDCPTimer
+class PeriodTimer
 {
 public:
-	PeriodDCPTimer (std::string n);
-	~PeriodDCPTimer ();
+	PeriodTimer (std::string n);
+	~PeriodTimer ();
 	
 private:
 
@@ -48,19 +48,19 @@ private:
 	struct timeval _start;
 };
 
-/** @class StateDCPTimer
+/** @class StateTimer
  *  @brief A class to allow measurement of the amount of time a program
  *  spends in one of a set of states.
  *
  *  Once constructed, the caller can call set_state() whenever
- *  its state changes.	When StateDCPTimer is destroyed, it will
+ *  its state changes.	When StateTimer is destroyed, it will
  *  output (to cout) a summary of the time spent in each state.
  */
-class StateDCPTimer
+class StateTimer
 {
 public:
-	StateDCPTimer (std::string n, std::string s);
-	~StateDCPTimer ();
+	StateTimer (std::string n, std::string s);
+	~StateTimer ();
 
 	void set_state (std::string s);
 

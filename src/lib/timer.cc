@@ -31,14 +31,14 @@
 using namespace std;
 
 /** @param n Name to use when giving output */
-PeriodDCPTimer::PeriodDCPTimer (string n)
+PeriodTimer::PeriodTimer (string n)
 	: _name (n)
 {
 	gettimeofday (&_start, 0);
 }
 
-/** Destroy PeriodDCPTimer and output the time elapsed since its construction */
-PeriodDCPTimer::~PeriodDCPTimer ()
+/** Destroy PeriodTimer and output the time elapsed since its construction */
+PeriodTimer::~PeriodTimer ()
 {
 	struct timeval stop;
 	gettimeofday (&stop, 0);
@@ -48,7 +48,7 @@ PeriodDCPTimer::~PeriodDCPTimer ()
 /** @param n Name to use when giving output.
  *  @param s Initial state.
  */
-StateDCPTimer::StateDCPTimer (string n, string s)
+StateTimer::StateTimer (string n, string s)
 	: _name (n)
 {
 	struct timeval t;
@@ -59,7 +59,7 @@ StateDCPTimer::StateDCPTimer (string n, string s)
 
 /** @param s New state that the caller is in */
 void
-StateDCPTimer::set_state (string s)
+StateTimer::set_state (string s)
 {
 	double const last = _time;
 	struct timeval t;
@@ -74,8 +74,8 @@ StateDCPTimer::set_state (string s)
 	_state = s;
 }
 
-/** Destroy StateDCPTimer and generate a summary of the state timings on cout */
-StateDCPTimer::~StateDCPTimer ()
+/** Destroy StateTimer and generate a summary of the state timings on cout */
+StateTimer::~StateTimer ()
 {
 	if (_state.empty ()) {
 		return;
