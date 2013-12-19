@@ -140,7 +140,7 @@ Player::pass ()
 	shared_ptr<DecodedAudio> da = dynamic_pointer_cast<DecodedAudio> (earliest_decoded);
 	shared_ptr<DecodedSubtitle> ds = dynamic_pointer_cast<DecodedSubtitle> (earliest_decoded);
 
-	if (dv) {
+	if (dv && _video) {
 		if (!_just_did_inaccurate_seek && earliest_time > _video_position) {
 
 			/* See if we're inside some video content */
@@ -160,14 +160,14 @@ Player::pass ()
 			emit_video (earliest_piece, dv);
 			earliest_piece->decoder->get ();
 		}
-	} else if (da) {
+	} else if (da && _audio) {
 		if (!_just_did_inaccurate_seek && earliest_time > _audio_position) {
 			emit_silence (earliest_time - _audio_position);
 		} else {
 			emit_audio (earliest_piece, da);
 			earliest_piece->decoder->get ();
 		}
-	} else if (ds) {
+	} else if (ds && _video) {
 		_in_subtitle.piece = earliest_piece;
 		_in_subtitle.subtitle = ds;
 		update_subtitle ();
