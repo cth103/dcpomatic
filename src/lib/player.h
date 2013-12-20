@@ -49,7 +49,7 @@ public:
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
 	
-	boost::shared_ptr<Image> image ();
+	boost::shared_ptr<Image> image (AVPixelFormat, bool);
 
 private:
 	boost::shared_ptr<const Image> _in;
@@ -81,6 +81,7 @@ public:
 	}
 
 	void set_video_container_size (libdcp::Size);
+	void set_approximate_size ();
 
 	bool repeat_last_video ();
 
@@ -162,6 +163,7 @@ private:
 	} _last_incoming_video;
 
 	bool _just_did_inaccurate_seek;
+	bool _approximate_size;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;

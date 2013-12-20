@@ -71,6 +71,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _audio_merger (f->audio_channels(), bind (&Film::time_to_audio_frames, f.get(), _1), bind (&Film::audio_frames_to_time, f.get(), _1))
 	, _last_emit_was_black (false)
 	, _just_did_inaccurate_seek (false)
+	, _approximate_size (false)
 {
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
@@ -207,7 +208,11 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 	}
 
 	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
-	libdcp::Size const image_size = fit_ratio_within (ratio, _video_container_size);
+	libdcp::Size image_size = fit_ratio_within (ratio, _video_container_size);
+	if (_approximate_size) {
+		image_size.width &= ~3;
+		image_size.height &= ~3;
+	}
 
 	shared_ptr<PlayerImage> pi (
 		new PlayerImage (
@@ -600,6 +605,13 @@ Player::repeat_last_video ()
 	return true;
 }
 
+void
+Player::set_approximate_size ()
+{
+	_approximate_size = true;
+}
+			      
+
 PlayerImage::PlayerImage (
 	shared_ptr<const Image> in,
 	Crop crop,
@@ -624,10 +636,10 @@ PlayerImage::set_subtitle (shared_ptr<const Image> image, Position<int> pos)
 }
 
 shared_ptr<Image>
-PlayerImage::image ()
+PlayerImage::image (AVPixelFormat format, bool aligned)
 {
-	shared_ptr<Image> out = _in->crop_scale_window (_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
-
+	shared_ptr<Image> out = _in->crop_scale_window (_crop, _inter_size, _out_size, _scaler, format, aligned);
+	
 	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
 
 	if (_subtitle_image) {
@@ -636,3 +648,4 @@ PlayerImage::image ()
 
 	return out;
 }
+

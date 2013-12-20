@@ -36,6 +36,7 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
+#include "lib/timer.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -128,6 +129,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_player = f->make_player ();
 	_player->disable_audio ();
+	_player->set_approximate_size ();
 	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _5));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
@@ -280,8 +282,12 @@ FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, DCPTime t)
 	if (eyes == EYES_RIGHT) {
 		return;
 	}
-	
-	_frame = image->image ();
+
+	/* Going via BGRA here makes the scaler faster then using RGB24 directly (about
+	   twice on x86 Linux).
+	*/
+	shared_ptr<Image> im = image->image (PIX_FMT_BGRA, true);
+	_frame = im->scale (im->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
 	_got_frame = true;
 
 	set_position_text (t);

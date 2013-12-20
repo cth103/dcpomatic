@@ -216,7 +216,7 @@ Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversi
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image->image(), _video_frames_out, eyes, conversion, _film->video_frame_rate(),
+						  image->image(PIX_FMT_RGB24, false), _video_frames_out, eyes, conversion, _film->video_frame_rate(),
 						  _film->j2k_bandwidth(), _film->log()
 						  )
 					  ));

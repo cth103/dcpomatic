@@ -31,6 +31,7 @@ extern "C" {
 #include "image.h"
 #include "exceptions.h"
 #include "scaler.h"
+#include "timer.h"
 
 using std::string;
 using std::min;
@@ -94,9 +95,9 @@ Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_s
 	libdcp::Size cropped_size = crop.apply (size ());
 
 	struct SwsContext* scale_context = sws_getContext (
-		cropped_size.width, cropped_size.height, pixel_format(),
-		inter_size.width, inter_size.height, out_format,
-		scaler->ffmpeg_id (), 0, 0, 0
+			cropped_size.width, cropped_size.height, pixel_format(),
+			inter_size.width, inter_size.height, out_format,
+			scaler->ffmpeg_id (), 0, 0, 0
 		);
 
 	uint8_t* scale_in_data[components()];
