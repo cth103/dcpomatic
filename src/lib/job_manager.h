@@ -27,6 +27,7 @@
 #include <boost/signals2.hpp>
 
 class Job;
+extern void wait_for_jobs ();
 
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
