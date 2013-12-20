@@ -141,7 +141,6 @@ echo '
 chmod -Rf go-w /Volumes/"$vol_name"/$appdir
 sync
 
-umount -f $device
 hdiutil eject $device
 hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
 sips -i $WORK/$resources/DCP-o-matic.icns

@@ -143,6 +143,10 @@ public:
 		return _default_j2k_bandwidth;
 	}
 
+	int default_audio_delay () const {
+		return _default_audio_delay;
+	}
+
 	std::vector<PresetColourConversion> colour_conversions () const {
 		return _colour_conversions;
 	}
@@ -245,6 +249,10 @@ public:
 		_default_j2k_bandwidth = b;
 	}
 
+	void set_default_audio_delay (int d) {
+		_default_audio_delay = d;
+	}
+
 	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
 		_colour_conversions = c;
 	}
@@ -309,6 +317,7 @@ private:
 	DCPContentType const * _default_dcp_content_type;
 	libdcp::XMLMetadata _dcp_metadata;
 	int _default_j2k_bandwidth;
+	int _default_audio_delay;
 	std::vector<PresetColourConversion> _colour_conversions;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;

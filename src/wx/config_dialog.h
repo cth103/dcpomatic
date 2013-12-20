@@ -58,6 +58,7 @@ private:
 	void issuer_changed ();
 	void creator_changed ();
 	void default_j2k_bandwidth_changed ();
+	void default_audio_delay_changed ();
 	void mail_server_changed ();
 	void kdm_from_changed ();
 	void kdm_email_changed ();
@@ -99,6 +100,7 @@ private:
 	wxTextCtrl* _issuer;
 	wxTextCtrl* _creator;
 	wxSpinCtrl* _default_j2k_bandwidth;
+	wxSpinCtrl* _default_audio_delay;
 	wxPanel* _kdm_email_panel;
 	wxTextCtrl* _kdm_email;
 	wxCheckBox* _use_any_servers;
