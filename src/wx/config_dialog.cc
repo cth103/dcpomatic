@@ -158,6 +158,15 @@ ConfigDialog::make_misc_panel ()
 		add_label_to_sizer (s, _misc_panel, _("MBps"), false);
 		table->Add (s, 1);
 	}
+
+	{
+		add_label_to_sizer (table, _misc_panel, _("Default audio delay"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_audio_delay = new wxSpinCtrl (_misc_panel);
+		s->Add (_default_audio_delay);
+		add_label_to_sizer (s, _misc_panel, _("ms"), false);
+		table->Add (s, 1);
+	}
 	
 	Config* config = Config::instance ();
 
@@ -225,6 +234,10 @@ ConfigDialog::make_misc_panel ()
 	_default_j2k_bandwidth->SetRange (50, 250);
 	_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1000000);
 	_default_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_j2k_bandwidth_changed, this));
+
+	_default_audio_delay->SetRange (-1000, 1000);
+	_default_audio_delay->SetValue (config->default_audio_delay ());
+	_default_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_audio_delay_changed, this));
 }
 
 void
@@ -455,6 +468,12 @@ void
 ConfigDialog::default_j2k_bandwidth_changed ()
 {
 	Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1000000);
+}
+
+void
+ConfigDialog::default_audio_delay_changed ()
+{
+	Config::instance()->set_default_audio_delay (_default_audio_delay->GetValue());
 }
 
 static std::string

@@ -1,5 +1,7 @@
 2013-12-20  Carl Hetherington  <cth@carlh.net>
 
+	* Add configuration option for default audio delay (#276).
+
 	* Version 1.46 released.
 
 2013-12-19  Carl Hetherington  <cth@carlh.net>

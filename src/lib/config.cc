@@ -64,6 +64,7 @@ Config::Config ()
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
 	, _default_j2k_bandwidth (200000000)
+	, _default_audio_delay (0)
 	, _kdm_email (
 		"Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nBest regards,\nDCP-o-matic"
 		)
@@ -145,6 +146,7 @@ Config::read ()
 	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
+	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
 
 	list<cxml::NodePtr> cc = f.node_children ("ColourConversion");
 
@@ -334,6 +336,7 @@ Config::write () const
 
 	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (lexical_cast<string> (_default_j2k_bandwidth));
+	root->add_child("DefaultAudioDelay")->add_child_text (lexical_cast<string> (_default_audio_delay));
 
 	for (vector<PresetColourConversion>::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
 		i->as_xml (root->add_child ("ColourConversion"));

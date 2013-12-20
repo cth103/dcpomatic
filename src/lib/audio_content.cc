@@ -23,6 +23,7 @@
 #include "job_manager.h"
 #include "film.h"
 #include "exceptions.h"
+#include "config.h"
 
 #include "i18n.h"
 
@@ -42,7 +43,7 @@ int const AudioContentProperty::AUDIO_MAPPING = 205;
 AudioContent::AudioContent (shared_ptr<const Film> f, Time s)
 	: Content (f, s)
 	, _audio_gain (0)
-	, _audio_delay (0)
+	, _audio_delay (Config::instance()->default_audio_delay ())
 {
 
 }
@@ -50,7 +51,7 @@ AudioContent::AudioContent (shared_ptr<const Film> f, Time s)
 AudioContent::AudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _audio_gain (0)
-	, _audio_delay (0)
+	, _audio_delay (Config::instance()->default_audio_delay ())
 {
 
 }
