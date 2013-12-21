@@ -17,6 +17,12 @@
 
 */
 
+/** @file  test/ffmpeg_seek_test.cc
+ *  @brief Test seek using Player with an FFmpegDecoder; note that the player
+ *  can hide problems with FFmpegDecoder seeking as it will skip frames / insert
+ *  black as it sees fit.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/player.h"
 #include "lib/ffmpeg_decoder.h"
@@ -88,10 +94,11 @@ check (shared_ptr<Player> p, DCPTime t)
 	BOOST_CHECK ((first_audio.get() % (TIME_HZ / film->audio_frame_rate())) == 0);
 }
 
+/* Test basic seeking */
 BOOST_AUTO_TEST_CASE (ffmpeg_seek_test)
 {
-	film = new_test_film ("ffmpeg_audio_test");
-	film->set_name ("ffmpeg_audio_test");
+	film = new_test_film ("ffmpeg_seek_test");
+	film->set_name ("ffmpeg_seek_test");
 	film->set_container (Ratio::from_id ("185"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/staircase.mov"));
 	c->set_ratio (Ratio::from_id ("185"));
@@ -108,5 +115,3 @@ BOOST_AUTO_TEST_CASE (ffmpeg_seek_test)
 	check (player, 0.2 * TIME_HZ);
 	check (player, 0.3 * TIME_HZ);
 }
-
-

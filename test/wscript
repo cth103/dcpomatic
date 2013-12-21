@@ -39,7 +39,9 @@ def build(bld):
                  repeat_frame_test.cc
                  resampler_test.cc
                  scaling_test.cc
+                 seek_zero_test.cc
                  silence_padding_test.cc
+                 skip_frame_test.cc
                  stream_test.cc
                  test.cc
                  threed_test.cc

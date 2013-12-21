@@ -142,7 +142,8 @@ Player::pass ()
 	shared_ptr<DecodedSubtitle> ds = dynamic_pointer_cast<DecodedSubtitle> (earliest_decoded);
 
 	if (dv && _video) {
-		if (!_just_did_inaccurate_seek && earliest_time > _video_position) {
+		DCPTime const frame = TIME_HZ / _film->video_frame_rate ();
+		if (!_just_did_inaccurate_seek && earliest_time > (_video_position + frame)) {
 
 			/* See if we're inside some video content */
 			list<shared_ptr<Piece> >::iterator i = _pieces.begin();
@@ -157,10 +158,19 @@ Player::pass ()
 				_last_incoming_video.video->dcp_time = _video_position;
 				emit_video (_last_incoming_video.weak_piece, _last_incoming_video.video);
 			}
+
 		} else {
-			emit_video (earliest_piece, dv);
+			if (
+				dv->dcp_time >= _video_position &&
+				!earliest_piece->content->trimmed (dv->dcp_time - earliest_piece->content->position ())
+				) {
+				
+				emit_video (earliest_piece, dv);
+			}
+		
 			earliest_piece->decoder->get ();
 		}
+
 	} else if (da && _audio) {
 		if (!_just_did_inaccurate_seek && earliest_time > _audio_position) {
 			emit_silence (earliest_time - _audio_position);
@@ -196,16 +206,6 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 	assert (content);
 
 	FrameRateChange frc (content->video_frame_rate(), _film->video_frame_rate());
-#if 0
-	XXX
-	if (frc.skip && (frame % 2) == 1) {
-		return;
-	}
-#endif	
-
-	if (content->trimmed (video->dcp_time - content->position ())) {
-		return;
-	}
 
 	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
 	libdcp::Size image_size = fit_ratio_within (ratio, _video_container_size);

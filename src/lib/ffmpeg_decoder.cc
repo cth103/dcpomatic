@@ -296,11 +296,11 @@ FFmpegDecoder::bytes_per_audio_sample () const
 }
 
 int
-FFmpegDecoder::minimal_run (boost::function<bool (ContentTime, ContentTime, int)> finished)
+FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optional<ContentTime>, int)> finished)
 {
 	int frames_read = 0;
-	ContentTime last_video = 0;
-	ContentTime last_audio = 0;
+	optional<ContentTime> last_video;
+	optional<ContentTime> last_audio;
 
 	while (!finished (last_video, last_audio, frames_read)) {
 		int r = av_read_frame (_format_context, &_packet);
@@ -353,9 +353,9 @@ FFmpegDecoder::minimal_run (boost::function<bool (ContentTime, ContentTime, int)
 }
 
 bool
-FFmpegDecoder::seek_overrun_finished (ContentTime seek, ContentTime last_video, ContentTime last_audio) const
+FFmpegDecoder::seek_overrun_finished (ContentTime seek, optional<ContentTime> last_video, optional<ContentTime> last_audio) const
 {
-	return last_video >= seek || last_audio >= seek;
+	return (last_video && last_video.get() >= seek) || (last_audio && last_audio.get() >= seek);
 }
 
 bool
@@ -369,16 +369,11 @@ FFmpegDecoder::seek_and_flush (ContentTime t)
 {
 	int64_t const initial_v = ((double (t) / TIME_HZ) - _video_pts_offset) /
 		av_q2d (_format_context->streams[_video_stream]->time_base);
+	
+	int64_t const initial_a = ((double (t) / TIME_HZ) - _audio_pts_offset) /
+		av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base);
 
-	av_seek_frame (_format_context, _video_stream, initial_v, AVSEEK_FLAG_BACKWARD);
-
-	shared_ptr<FFmpegAudioStream> as = _ffmpeg_content->audio_stream ();
-	if (as) {
-		int64_t initial_a = ((double (t) / TIME_HZ) - _audio_pts_offset) /
-			av_q2d (as->stream(_format_context)->time_base);
-
-		av_seek_frame (_format_context, as->index (_format_context), initial_a, AVSEEK_FLAG_BACKWARD);
-	}
+	av_seek_frame (_format_context, _video_stream, min (initial_v, initial_a), AVSEEK_FLAG_BACKWARD);
 
 	avcodec_flush_buffers (video_codec_context());
 	if (audio_codec_context ()) {
@@ -409,8 +404,8 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 
 	seek_and_flush (initial_seek);
 
-	if (time == 0 || !accurate) {
-		/* We're already there, or we're as close as we need to be */
+	if (!accurate) {
+		/* That'll do */
 		return;
 	}
 
