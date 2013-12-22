@@ -160,6 +160,7 @@ Player::pass ()
 			}
 
 		} else {
+			
 			if (
 				dv->dcp_time >= _video_position &&
 				!earliest_piece->content->trimmed (dv->dcp_time - earliest_piece->content->position ())
@@ -245,7 +246,11 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 	Video (pi, video->eyes, content->colour_conversion(), video->same, video->dcp_time);
 	
 	_last_emit_was_black = false;
-	_video_position = rint (video->dcp_time + TIME_HZ / _film->video_frame_rate());
+
+	/* This is a bit of a hack; don't update _video_position if EYES_RIGHT is on its way */
+	if (video->eyes != EYES_LEFT) {
+		_video_position = rint (video->dcp_time + TIME_HZ / _film->video_frame_rate());
+	}
 }
 
 void
