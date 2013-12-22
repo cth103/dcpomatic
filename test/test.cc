@@ -62,6 +62,7 @@ struct TestConfig
 		Config::instance()->set_default_dci_metadata (DCIMetadata ());
 		Config::instance()->set_default_container (static_cast<Ratio*> (0));
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
+		Config::instance()->set_default_audio_delay (0);
 
 		ServerFinder::instance()->disable ();
 

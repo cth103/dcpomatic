@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/ffmpeg_audio_test.cc
+ *  @brief A simple test of reading audio from an FFmpeg file.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <libdcp/cpl.h>
 #include <libdcp/dcp.h>

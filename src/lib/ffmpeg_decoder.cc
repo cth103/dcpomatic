@@ -367,13 +367,19 @@ FFmpegDecoder::seek_final_finished (int n, int done) const
 void
 FFmpegDecoder::seek_and_flush (ContentTime t)
 {
-	int64_t const initial_v = ((double (t) / TIME_HZ) - _video_pts_offset) /
+	int64_t s = ((double (t) / TIME_HZ) - _video_pts_offset) /
 		av_q2d (_format_context->streams[_video_stream]->time_base);
 	
-	int64_t const initial_a = ((double (t) / TIME_HZ) - _audio_pts_offset) /
-		av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base);
+	if (_ffmpeg_content->audio_stream ()) {
+		s = min (
+			s, int64_t (
+				((double (t) / TIME_HZ) - _audio_pts_offset) /
+				av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base)
+				)
+			);
+	}
 
-	av_seek_frame (_format_context, _video_stream, min (initial_v, initial_a), AVSEEK_FLAG_BACKWARD);
+	av_seek_frame (_format_context, _video_stream, s, AVSEEK_FLAG_BACKWARD);
 
 	avcodec_flush_buffers (video_codec_context());
 	if (audio_codec_context ()) {

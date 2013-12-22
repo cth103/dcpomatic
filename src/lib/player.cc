@@ -142,8 +142,8 @@ Player::pass ()
 	shared_ptr<DecodedSubtitle> ds = dynamic_pointer_cast<DecodedSubtitle> (earliest_decoded);
 
 	if (dv && _video) {
-		DCPTime const frame = TIME_HZ / _film->video_frame_rate ();
-		if (!_just_did_inaccurate_seek && earliest_time > (_video_position + frame)) {
+		DCPTime const half_frame = TIME_HZ / (2 * _film->video_frame_rate ());
+		if (!_just_did_inaccurate_seek && earliest_time > (_video_position + half_frame)) {
 
 			/* See if we're inside some video content */
 			list<shared_ptr<Piece> >::iterator i = _pieces.begin();
@@ -243,7 +243,7 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 #endif
 
 	Video (pi, video->eyes, content->colour_conversion(), video->same, video->dcp_time);
-
+	
 	_last_emit_was_black = false;
 	_video_position = rint (video->dcp_time + TIME_HZ / _film->video_frame_rate());
 }
@@ -520,6 +520,7 @@ Player::emit_silence (DCPTime most)
 	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), t * _film->audio_frame_rate() / TIME_HZ));
 	silence->make_silent ();
 	Audio (silence, _audio_position);
+	
 	_audio_position += t;
 }
 
