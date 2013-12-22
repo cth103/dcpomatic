@@ -143,7 +143,12 @@ Player::pass ()
 
 	if (dv && _video) {
 		DCPTime const half_frame = TIME_HZ / (2 * _film->video_frame_rate ());
-		if (!_just_did_inaccurate_seek && earliest_time > (_video_position + half_frame)) {
+
+		if (_just_did_inaccurate_seek) {
+			/* Just emit; no subtlety */
+			emit_video (earliest_piece, dv);
+			earliest_piece->decoder->get ();
+		} else if (earliest_time > (_video_position + half_frame)) {
 
 			/* See if we're inside some video content */
 			list<shared_ptr<Piece> >::iterator i = _pieces.begin();
@@ -160,12 +165,12 @@ Player::pass ()
 			}
 
 		} else {
-			
+
 			if (
 				dv->dcp_time >= _video_position &&
 				!earliest_piece->content->trimmed (dv->dcp_time - earliest_piece->content->position ())
 				) {
-				
+
 				emit_video (earliest_piece, dv);
 			}
 		
@@ -442,6 +447,11 @@ Player::setup_pieces ()
 	}
 
 	_have_valid_pieces = true;
+
+	/* The Piece for the _last_incoming_video will no longer be valid */
+	_last_incoming_video.video.reset ();
+
+	_video_position = _audio_position = 0;
 }
 
 void
