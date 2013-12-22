@@ -45,7 +45,6 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	std::cout << film->dir (film->dcp_name ()) << "\n";
 	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));
 }
 
