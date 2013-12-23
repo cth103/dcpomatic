@@ -155,6 +155,14 @@ public:
 		return _mail_server;
 	}
 
+	std::string mail_user () const {
+		return _mail_user;
+	}
+
+	std::string mail_password () const {
+		return _mail_password;
+	}
+
 	std::string kdm_from () const {
 		return _kdm_from;
 	}
@@ -261,6 +269,14 @@ public:
 		_mail_server = s;
 	}
 
+	void set_mail_user (std::string u) {
+		_mail_user = u;
+	}
+
+	void set_mail_password (std::string p) {
+		_mail_password = p;
+	}
+
 	void set_kdm_from (std::string f) {
 		_kdm_from = f;
 	}
@@ -321,6 +337,8 @@ private:
 	std::vector<PresetColourConversion> _colour_conversions;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
+	std::string _mail_user;
+	std::string _mail_password;
 	std::string _kdm_from;
 	std::string _kdm_email;
 

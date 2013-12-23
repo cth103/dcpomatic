@@ -57,6 +57,8 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 
 	make_misc_panel ();
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
+	make_defaults_panel ();
+	_notebook->AddPage (_defaults_panel, _("Defaults"), false);
 	make_servers_panel ();
 	_notebook->AddPage (_servers_panel, _("Encoding servers"), false);
 	make_colour_conversions_panel ();
@@ -117,56 +119,21 @@ ConfigDialog::make_misc_panel ()
 	_mail_server = new wxTextCtrl (_misc_panel, wxID_ANY);
 	table->Add (_mail_server, 1, wxEXPAND | wxALL);
 
+	add_label_to_sizer (table, _misc_panel, _("Mail user name"), true);
+	_mail_user = new wxTextCtrl (_misc_panel, wxID_ANY);
+	table->Add (_mail_user, 1, wxEXPAND | wxALL);
+
+	add_label_to_sizer (table, _misc_panel, _("Mail password"), true);
+	_mail_password = new wxTextCtrl (_misc_panel, wxID_ANY);
+	table->Add (_mail_password, 1, wxEXPAND | wxALL);
+
+	wxStaticText* plain = add_label_to_sizer (table, _misc_panel, _("(password will be stored on disk in plaintext)"), false);
+	plain->SetFont (font);
+	table->AddSpacer (0);
+	
 	add_label_to_sizer (table, _misc_panel, _("From address for KDM emails"), true);
 	_kdm_from = new wxTextCtrl (_misc_panel, wxID_ANY);
 	table->Add (_kdm_from, 1, wxEXPAND | wxALL);
-	
-	{
-		add_label_to_sizer (table, _misc_panel, _("Default duration of still images"), true);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_default_still_length = new wxSpinCtrl (_misc_panel);
-		s->Add (_default_still_length);
-		add_label_to_sizer (s, _misc_panel, _("s"), false);
-		table->Add (s, 1);
-	}
-
-	add_label_to_sizer (table, _misc_panel, _("Default directory for new films"), true);
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-	_default_directory = new DirPickerCtrl (_misc_panel);
-#else	
-	_default_directory = new wxDirPickerCtrl (_misc_panel, wxDD_DIR_MUST_EXIST);
-#endif
-	table->Add (_default_directory, 1, wxEXPAND);
-
-	add_label_to_sizer (table, _misc_panel, _("Default DCI name details"), true);
-	_default_dci_metadata_button = new wxButton (_misc_panel, wxID_ANY, _("Edit..."));
-	table->Add (_default_dci_metadata_button);
-
-	add_label_to_sizer (table, _misc_panel, _("Default container"), true);
-	_default_container = new wxChoice (_misc_panel, wxID_ANY);
-	table->Add (_default_container);
-
-	add_label_to_sizer (table, _misc_panel, _("Default content type"), true);
-	_default_dcp_content_type = new wxChoice (_misc_panel, wxID_ANY);
-	table->Add (_default_dcp_content_type);
-
-	{
-		add_label_to_sizer (table, _misc_panel, _("Default JPEG2000 bandwidth"), true);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_default_j2k_bandwidth = new wxSpinCtrl (_misc_panel);
-		s->Add (_default_j2k_bandwidth);
-		add_label_to_sizer (s, _misc_panel, _("MBps"), false);
-		table->Add (s, 1);
-	}
-
-	{
-		add_label_to_sizer (table, _misc_panel, _("Default audio delay"), true);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_default_audio_delay = new wxSpinCtrl (_misc_panel);
-		s->Add (_default_audio_delay);
-		add_label_to_sizer (s, _misc_panel, _("ms"), false);
-		table->Add (s, 1);
-	}
 	
 	Config* config = Config::instance ();
 
@@ -195,9 +162,74 @@ ConfigDialog::make_misc_panel ()
 
 	_mail_server->SetValue (std_to_wx (config->mail_server ()));
 	_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::mail_server_changed, this));
+	_mail_user->SetValue (std_to_wx (config->mail_user ()));
+	_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::mail_user_changed, this));
+	_mail_password->SetValue (std_to_wx (config->mail_password ()));
+	_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::mail_password_changed, this));
 	_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
 	_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::kdm_from_changed, this));
+}
 
+void
+ConfigDialog::make_defaults_panel ()
+{
+	_defaults_panel = new wxPanel (_notebook);
+	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	_defaults_panel->SetSizer (s);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	table->AddGrowableCol (1, 1);
+	s->Add (table, 1, wxALL | wxEXPAND, 8);
+
+	{
+		add_label_to_sizer (table, _defaults_panel, _("Default duration of still images"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_still_length = new wxSpinCtrl (_defaults_panel);
+		s->Add (_default_still_length);
+		add_label_to_sizer (s, _defaults_panel, _("s"), false);
+		table->Add (s, 1);
+	}
+
+	add_label_to_sizer (table, _defaults_panel, _("Default directory for new films"), true);
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+	_default_directory = new DirPickerCtrl (_defaults_panel);
+#else	
+	_default_directory = new wxDirPickerCtrl (_defaults_panel, wxDD_DIR_MUST_EXIST);
+#endif
+	table->Add (_default_directory, 1, wxEXPAND);
+
+	add_label_to_sizer (table, _defaults_panel, _("Default DCI name details"), true);
+	_default_dci_metadata_button = new wxButton (_defaults_panel, wxID_ANY, _("Edit..."));
+	table->Add (_default_dci_metadata_button);
+
+	add_label_to_sizer (table, _defaults_panel, _("Default container"), true);
+	_default_container = new wxChoice (_defaults_panel, wxID_ANY);
+	table->Add (_default_container);
+
+	add_label_to_sizer (table, _defaults_panel, _("Default content type"), true);
+	_default_dcp_content_type = new wxChoice (_defaults_panel, wxID_ANY);
+	table->Add (_default_dcp_content_type);
+
+	{
+		add_label_to_sizer (table, _defaults_panel, _("Default JPEG2000 bandwidth"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_j2k_bandwidth = new wxSpinCtrl (_defaults_panel);
+		s->Add (_default_j2k_bandwidth);
+		add_label_to_sizer (s, _defaults_panel, _("MBps"), false);
+		table->Add (s, 1);
+	}
+
+	{
+		add_label_to_sizer (table, _defaults_panel, _("Default audio delay"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_default_audio_delay = new wxSpinCtrl (_defaults_panel);
+		s->Add (_default_audio_delay);
+		add_label_to_sizer (s, _defaults_panel, _("ms"), false);
+		table->Add (s, 1);
+	}
+
+	Config* config = Config::instance ();
+	
 	_default_still_length->SetRange (1, 3600);
 	_default_still_length->SetValue (config->default_still_length ());
 	_default_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&ConfigDialog::default_still_length_changed, this));
@@ -503,6 +535,17 @@ ConfigDialog::mail_server_changed ()
 	Config::instance()->set_mail_server (wx_to_std (_mail_server->GetValue ()));
 }
 
+void
+ConfigDialog::mail_user_changed ()
+{
+	Config::instance()->set_mail_user (wx_to_std (_mail_user->GetValue ()));
+}
+
+void
+ConfigDialog::mail_password_changed ()
+{
+	Config::instance()->set_mail_password (wx_to_std (_mail_password->GetValue ()));
+}
 
 void
 ConfigDialog::kdm_from_changed ()

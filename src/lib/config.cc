@@ -176,6 +176,8 @@ Config::read ()
 	}
 
 	_mail_server = f.string_child ("MailServer");
+	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
+	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 	_kdm_from = f.string_child ("KDMFrom");
 	_kdm_email = f.string_child ("KDMEmail");
 }
@@ -347,6 +349,8 @@ Config::write () const
 	}
 
 	root->add_child("MailServer")->add_child_text (_mail_server);
+	root->add_child("MailUser")->add_child_text (_mail_user);
+	root->add_child("MailPassword")->add_child_text (_mail_password);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 

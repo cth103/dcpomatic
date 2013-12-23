@@ -1,5 +1,7 @@
 2013-12-23  Carl Hetherington  <cth@carlh.net>
 
+	* Add TLS/SSL support to KDM email sending.
+
 	* Add $START_TIME and $END_TIME as variables for the KDM email.
 
 	* Add top/bottom option for 3D frames.

@@ -53,6 +53,7 @@
 #include "lib/exceptions.h"
 #include "lib/cinema.h"
 #include "lib/kdm.h"
+#include "lib/send_kdm_email_job.h"
 
 using std::cout;
 using std::string;
@@ -459,7 +460,9 @@ private:
 			if (d->write_to ()) {
 				write_kdm_files (film, d->screens (), d->dcp (), d->from (), d->until (), d->directory ());
 			} else {
-				email_kdms (film, d->screens (), d->dcp (), d->from (), d->until ());
+				JobManager::instance()->add (
+					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->dcp (), d->from (), d->until ()))
+					);
 			}
 		} catch (KDMError& e) {
 			error_dialog (this, e.what ());
