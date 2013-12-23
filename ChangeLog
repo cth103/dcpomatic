@@ -1,5 +1,9 @@
 2013-12-23  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.48 released.
+
+2013-12-23  Carl Hetherington  <cth@carlh.net>
+
 	* Add TLS/SSL support to KDM email sending.
 
 2013-12-23  Carl Hetherington  <cth@carlh.net>
