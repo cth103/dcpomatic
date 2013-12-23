@@ -1,5 +1,9 @@
 2013-12-23  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.47 released.
+
+2013-12-23  Carl Hetherington  <cth@carlh.net>
+
 	* Add $START_TIME and $END_TIME as variables for the KDM email.
 
 	* Add top/bottom option for 3D frames.
