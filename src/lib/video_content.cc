@@ -327,6 +327,8 @@ VideoContent::video_size_after_3d_split () const
 		return s;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		return libdcp::Size (s.width / 2, s.height);
+	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+		return libdcp::Size (s.width, s.height / 2);
 	}
 
 	assert (false);

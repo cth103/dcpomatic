@@ -1,3 +1,7 @@
+2013-12-23  Carl Hetherington  <cth@carlh.net>
+
+	* Add top/bottom option for 3D frames.
+
 2013-12-20  Carl Hetherington  <cth@carlh.net>
 
 	* Add configuration option for default audio delay (#276).
