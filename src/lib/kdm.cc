@@ -31,6 +31,7 @@
 
 using std::list;
 using std::string;
+using std::stringstream;
 using boost::shared_ptr;
 
 struct ScreenKDM
@@ -226,14 +227,20 @@ email_kdms (
 		quickmail_add_to (mail, i->cinema->email.c_str ());
 		
 		string body = Config::instance()->kdm_email().c_str();
-		boost::algorithm::replace_all (body, "$DCP_NAME", film->dcp_name ());
-		
+		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());
+		stringstream start;
+		start << from.date() << " " << from.time_of_day();
+		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
+		stringstream end;
+		end << to.date() << " " << to.time_of_day();
+		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
+
 		quickmail_set_body (mail, body.c_str());
 		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");
 		char const* error = quickmail_send (mail, Config::instance()->mail_server().c_str(), 25, "", "");
 		if (error) {
 			quickmail_destroy (mail);
-			throw StringError (String::compose ("Failed to send KDM email (%1)", error));
+			throw KDMError (String::compose ("Failed to send KDM email (%1)", error));
 		}
 		quickmail_destroy (mail);
 	}
