@@ -79,6 +79,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 			ColourConversion (),
 			24,
 			200000000,
+			RESOLUTION_2K,
 			log
 			)
 		);
