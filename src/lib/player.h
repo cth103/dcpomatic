@@ -148,7 +148,9 @@ private:
 
 	struct {
 		Position<int> position;
-		boost::shared_ptr<DecodedSubtitle> subtitle;
+		boost::shared_ptr<Image> image;
+		DCPTime from;
+		DCPTime to;
 	} _out_subtitle;
 
 #ifdef DCPOMATIC_DEBUG

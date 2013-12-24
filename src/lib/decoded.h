@@ -94,13 +94,12 @@ public:
 		, dcp_time_to (0)
 	{}
 
-	/* XXX: content/dcp time here */
-	DecodedSubtitle (boost::shared_ptr<Image> im, dcpomatic::Rect<double> r, DCPTime f, DCPTime t)
+	DecodedSubtitle (boost::shared_ptr<Image> im, dcpomatic::Rect<double> r, ContentTime f, ContentTime t)
 		: Decoded (f)
 		, image (im)
 		, rect (r)
 		, content_time_to (t)
-		, dcp_time_to (t)
+		, dcp_time_to (0)
 	{}
 
 	void set_dcp_times (float speed_up, DCPTime offset) {

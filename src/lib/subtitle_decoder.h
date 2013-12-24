@@ -33,5 +33,5 @@ public:
 	SubtitleDecoder (boost::shared_ptr<const Film>);
 
 protected:
-	void subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, DCPTime, DCPTime);
+	void subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, ContentTime, ContentTime);
 };

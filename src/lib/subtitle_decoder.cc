@@ -34,7 +34,7 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
  *  Image may be 0 to say that there is no current subtitle.
  */
 void
-SubtitleDecoder::subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, DCPTime from, DCPTime to)
+SubtitleDecoder::subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, ContentTime from, ContentTime to)
 {
 	_pending.push_back (shared_ptr<DecodedSubtitle> (new DecodedSubtitle (image, rect, from, to)));
 }

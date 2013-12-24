@@ -232,8 +232,8 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 	
 	if (
 		_film->with_subtitles () &&
-		_out_subtitle.subtitle->image &&
-		video->dcp_time >= _out_subtitle.subtitle->dcp_time && video->dcp_time <= _out_subtitle.subtitle->dcp_time_to
+		_out_subtitle.image &&
+		video->dcp_time >= _out_subtitle.from && video->dcp_time <= _out_subtitle.to
 		) {
 
 		Position<int> const container_offset (
@@ -241,7 +241,7 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 			(_video_container_size.height - image_size.width) / 2
 			);
 
-		pi->set_subtitle (_out_subtitle.subtitle->image, _out_subtitle.position + container_offset);
+		pi->set_subtitle (_out_subtitle.image, _out_subtitle.position + container_offset);
 	}
 					    
 #ifdef DCPOMATIC_DEBUG
@@ -561,7 +561,7 @@ Player::update_subtitle ()
 	}
 
 	if (!_in_subtitle.subtitle->image) {
-		_out_subtitle.subtitle->image.reset ();
+		_out_subtitle.image.reset ();
 		return;
 	}
 
@@ -591,16 +591,16 @@ Player::update_subtitle ()
 	
 	_out_subtitle.position.x = rint (_video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_scale ()) / 2)));
 	_out_subtitle.position.y = rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
-	
-	_out_subtitle.subtitle->image = _in_subtitle.subtitle->image->scale (
+
+	_out_subtitle.image = _in_subtitle.subtitle->image->scale (
 		scaled_size,
 		Scaler::from_id ("bicubic"),
-		_in_subtitle.subtitle->image->pixel_format (),
+		PIX_FMT_RGBA,
 		true
 		);
-	
-	_out_subtitle.subtitle->dcp_time = _in_subtitle.subtitle->dcp_time;
-	_out_subtitle.subtitle->dcp_time = _in_subtitle.subtitle->dcp_time;
+
+	_out_subtitle.from = _in_subtitle.subtitle->dcp_time;
+	_out_subtitle.to = _in_subtitle.subtitle->dcp_time_to;
 }
 
 /** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.

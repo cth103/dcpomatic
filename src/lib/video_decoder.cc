@@ -51,8 +51,8 @@ VideoDecoder::video (shared_ptr<const Image> image, bool same, ContentTime time)
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
 	{
 		int const half = image->size().height / 2;
-		Video (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same, frame);
-		Video (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, frame);
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same, time)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, time)));
 		break;
 	}
 	}
