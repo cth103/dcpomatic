@@ -60,6 +60,8 @@ private:
 	void default_j2k_bandwidth_changed ();
 	void default_audio_delay_changed ();
 	void mail_server_changed ();
+	void mail_user_changed ();
+	void mail_password_changed ();
 	void kdm_from_changed ();
 	void kdm_email_changed ();
 	void use_any_servers_changed ();
@@ -67,6 +69,7 @@ private:
 	void setup_language_sensitivity ();
 
 	void make_misc_panel ();
+	void make_defaults_panel ();
 	void make_servers_panel ();
 	void make_tms_panel ();
 	void make_metadata_panel ();
@@ -75,6 +78,7 @@ private:
 
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
+	wxPanel* _defaults_panel;
 	wxPanel* _servers_panel;
 	wxPanel* _tms_panel;
 	EditableList<PresetColourConversion, PresetColourConversionDialog>* _colour_conversions_panel;
@@ -89,6 +93,8 @@ private:
 	wxTextCtrl* _tms_password;
 	wxSpinCtrl* _num_local_encoding_threads;
 	wxTextCtrl* _mail_server;
+	wxTextCtrl* _mail_user;
+	wxTextCtrl* _mail_password;
 	wxTextCtrl* _kdm_from;
 	wxSpinCtrl* _default_still_length;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER

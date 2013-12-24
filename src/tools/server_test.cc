@@ -50,11 +50,11 @@ void
 process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, DCPTime)
 {
 	shared_ptr<DCPVideoFrame> local  (
-		new DCPVideoFrame (image->image (PIX_FMT_RGB24, false), frame, eyes, conversion, film->video_frame_rate(), 250000000, log_)
+		new DCPVideoFrame (image->image (PIX_FMT_RGB24, false), frame, eyes, conversion, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_)
 		);
 	
 	shared_ptr<DCPVideoFrame> remote (
-		new DCPVideoFrame (image->image (PIX_FMT_RGB24, false), frame, eyes, conversion, film->video_frame_rate(), 250000000, log_)
+		new DCPVideoFrame (image->image (PIX_FMT_RGB24, false), frame, eyes, conversion, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_)
 		);
 
 	cout << "Frame " << frame << ": ";

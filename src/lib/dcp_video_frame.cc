@@ -79,7 +79,7 @@ using libdcp::Size;
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const Image> image, int f, Eyes eyes, ColourConversion c, int dcp_fps, int bw, shared_ptr<Log> l
+	shared_ptr<const Image> image, int f, Eyes eyes, ColourConversion c, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
 	)
 	: _image (image)
 	, _frame (f)
@@ -87,6 +87,7 @@ DCPVideoFrame::DCPVideoFrame (
 	, _conversion (c)
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
+	, _resolution (r)
 	, _log (l)
 {
 	
@@ -110,6 +111,7 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cx
 	_conversion = ColourConversion (node->node_child ("ColourConversion"));
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
 	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
+	_resolution = Resolution (node->optional_number_child<int>("J2KBandwidth").get_value_or (RESOLUTION_2K));
 }
 
 /** J2K-encode this frame on the local host.
@@ -194,9 +196,9 @@ DCPVideoFrame::encode_locally ()
 	parameters.tcp_rates[0] = 0;
 	parameters.tcp_numlayers++;
 	parameters.cp_disto_alloc = 1;
-	parameters.cp_rsiz = CINEMA2K;
+	parameters.cp_rsiz = _resolution == RESOLUTION_2K ? CINEMA2K : CINEMA4K;
 	parameters.cp_comment = strdup (N_("DCP-o-matic"));
-	parameters.cp_cinema = CINEMA2K_24;
+	parameters.cp_cinema = _resolution == RESOLUTION_2K ? CINEMA2K_24 : CINEMA4K_24;
 
 	/* 3 components, so use MCT */
 	parameters.tcp_mct = 1;
@@ -317,6 +319,7 @@ DCPVideoFrame::add_metadata (xmlpp::Element* el) const
 
 	el->add_child("FramesPerSecond")->add_child_text (lexical_cast<string> (_frames_per_second));
 	el->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
+	el->add_child("Resolution")->add_child_text (lexical_cast<string> (int (_resolution)));
 }
 
 EncodedData::EncodedData (int s)

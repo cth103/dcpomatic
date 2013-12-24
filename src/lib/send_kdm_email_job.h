@@ -17,35 +17,28 @@
 
 */
 
-#include <boost/date_time.hpp>
 #include <boost/filesystem.hpp>
+#include "job.h"
 
 class Screen;
-class Film;
 
-extern void write_kdm_files (
-	boost::shared_ptr<const Film> film,
-	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
-	boost::filesystem::path directory
-	);
+class SendKDMEmailJob : public Job
+{
+public:
+	SendKDMEmailJob (
+		boost::shared_ptr<const Film>,
+		std::list<boost::shared_ptr<Screen> >,
+		boost::filesystem::path,
+		boost::posix_time::ptime,
+		boost::posix_time::ptime
+		);
 
-extern void write_kdm_zip_files (
-	boost::shared_ptr<const Film> film,
-	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
-	boost::filesystem::path directory
-	);
+	std::string name () const;
+	void run ();
 
-extern void email_kdms (
-	boost::shared_ptr<const Film> film,
-	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to
-	);
-
+private:
+	std::list<boost::shared_ptr<Screen> > _screens;
+	boost::filesystem::path _dcp;
+	boost::posix_time::ptime _from;
+	boost::posix_time::ptime _to;
+};

@@ -44,6 +44,7 @@ sources = """
           resampler.cc
           scp_dcp_job.cc
           scaler.cc
+          send_kdm_email_job.cc
           server.cc
           server_finder.cc
           sndfile_content.cc

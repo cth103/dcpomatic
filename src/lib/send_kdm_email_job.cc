@@ -17,35 +17,53 @@
 
 */
 
-#include <boost/date_time.hpp>
-#include <boost/filesystem.hpp>
+#include "send_kdm_email_job.h"
+#include "compose.hpp"
+#include "film.h"
+#include "kdm.h"
 
-class Screen;
-class Film;
+#include "i18n.h"
 
-extern void write_kdm_files (
-	boost::shared_ptr<const Film> film,
-	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
-	boost::filesystem::path directory
-	);
+using std::string;
+using std::list;
+using boost::shared_ptr;
 
-extern void write_kdm_zip_files (
-	boost::shared_ptr<const Film> film,
-	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
-	boost::filesystem::path directory
-	);
-
-extern void email_kdms (
-	boost::shared_ptr<const Film> film,
-	std::list<boost::shared_ptr<Screen> > screens,
+SendKDMEmailJob::SendKDMEmailJob (
+	shared_ptr<const Film> f,
+	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime to
-	);
+	)
+	: Job (f)
+	, _screens (screens)
+	, _dcp (dcp)
+	, _from (from)
+	, _to (to)
+{
 
+}
+
+string
+SendKDMEmailJob::name () const
+{
+	return String::compose (_("Email KDMs for %1"), _film->name());
+}
+
+void
+SendKDMEmailJob::run ()
+{
+	try {
+		
+		set_progress_unknown ();
+		email_kdms (_film, _screens, _dcp, _from, _to);
+		set_progress (1);
+		set_state (FINISHED_OK);
+		
+	} catch (std::exception& e) {
+
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+		throw;
+	}
+}

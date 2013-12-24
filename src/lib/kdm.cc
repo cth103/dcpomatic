@@ -31,6 +31,7 @@
 
 using std::list;
 using std::string;
+using std::stringstream;
 using boost::shared_ptr;
 
 struct ScreenKDM
@@ -45,7 +46,7 @@ struct ScreenKDM
 };
 
 static string
-kdm_filename (shared_ptr<Film> film, ScreenKDM kdm)
+kdm_filename (shared_ptr<const Film> film, ScreenKDM kdm)
 {
 	return tidy_for_filename (film->name()) + "_" + tidy_for_filename (kdm.screen->cinema->name) + "_" + tidy_for_filename (kdm.screen->name) + ".kdm.xml";
 }
@@ -55,7 +56,7 @@ struct CinemaKDMs
 	shared_ptr<Cinema> cinema;
 	list<ScreenKDM> screen_kdms;
 
-	void make_zip_file (shared_ptr<Film> film, boost::filesystem::path zip_file) const
+	void make_zip_file (shared_ptr<const Film> film, boost::filesystem::path zip_file) const
 	{
 		int error;
 		struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -99,7 +100,7 @@ operator== (ScreenKDM const & a, ScreenKDM const & b)
 
 static list<ScreenKDM>
 make_screen_kdms (
-	shared_ptr<Film> film,
+	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
@@ -123,7 +124,7 @@ make_screen_kdms (
 
 static list<CinemaKDMs>
 make_cinema_kdms (
-	shared_ptr<Film> film,
+	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
@@ -165,7 +166,7 @@ make_cinema_kdms (
 
 void
 write_kdm_files (
-	shared_ptr<Film> film,
+	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
@@ -185,7 +186,7 @@ write_kdm_files (
 
 void
 write_kdm_zip_files (
-	shared_ptr<Film> film,
+	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
@@ -204,7 +205,7 @@ write_kdm_zip_files (
 
 void
 email_kdms (
-	shared_ptr<Film> film,
+	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
@@ -226,14 +227,30 @@ email_kdms (
 		quickmail_add_to (mail, i->cinema->email.c_str ());
 		
 		string body = Config::instance()->kdm_email().c_str();
-		boost::algorithm::replace_all (body, "$DCP_NAME", film->dcp_name ());
-		
+		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());
+		stringstream start;
+		start << from.date() << " " << from.time_of_day();
+		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
+		stringstream end;
+		end << to.date() << " " << to.time_of_day();
+		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
+
 		quickmail_set_body (mail, body.c_str());
 		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");
-		char const* error = quickmail_send (mail, Config::instance()->mail_server().c_str(), 25, "", "");
+
+		int const port = Config::instance()->mail_user().empty() ? 25 : 587;
+
+		char const* error = quickmail_send (
+			mail,
+			Config::instance()->mail_server().c_str(),
+			port,
+			Config::instance()->mail_user().c_str(),
+			Config::instance()->mail_password().c_str()
+			);
+		
 		if (error) {
 			quickmail_destroy (mail);
-			throw StringError (String::compose ("Failed to send KDM email (%1)", error));
+			throw KDMError (String::compose ("Failed to send KDM email (%1)", error));
 		}
 		quickmail_destroy (mail);
 	}
