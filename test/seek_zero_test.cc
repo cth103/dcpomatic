@@ -45,10 +45,10 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	wait_for_jobs ();
 
 	FFmpegDecoder decoder (film, content, true, false);
-	shared_ptr<Decoded> a = decoder.get ();
+	shared_ptr<Decoded> a = decoder.peek ();
 	cout << a->content_time << "\n";
 	decoder.seek (0, true);
-	shared_ptr<Decoded> b = decoder.get ();
+	shared_ptr<Decoded> b = decoder.peek ();
 	cout << b->content_time << "\n";
 
 	/* a will be after no seek, and b after a seek to zero, which should

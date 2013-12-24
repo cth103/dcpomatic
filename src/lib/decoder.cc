@@ -23,6 +23,7 @@
 
 #include "film.h"
 #include "decoder.h"
+#include "decoded.h"
 
 #include "i18n.h"
 
@@ -37,10 +38,19 @@ Decoder::Decoder (shared_ptr<const Film> f)
 
 }
 
+class DecodedSorter
+{
+public:
+	bool operator() (shared_ptr<Decoded> a, shared_ptr<Decoded> b)
+	{
+		return a->dcp_time < b->dcp_time;
+	}
+};
+
 shared_ptr<Decoded>
 Decoder::peek ()
 {
-	while (_pending.empty () && !pass ()) {}
+	while (_pending.empty() && !pass ()) {}
 
 	if (_pending.empty ()) {
 		return shared_ptr<Decoded> ();
@@ -49,15 +59,12 @@ Decoder::peek ()
 	return _pending.front ();
 }
 
-shared_ptr<Decoded>
-Decoder::get ()
+void
+Decoder::consume ()
 {
-	shared_ptr<Decoded> d = peek ();
-	if (d) {
+	if (!_pending.empty ()) {
 		_pending.pop_front ();
 	}
-
-	return d;
 }
 
 void

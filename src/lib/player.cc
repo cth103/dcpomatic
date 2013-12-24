@@ -147,7 +147,7 @@ Player::pass ()
 		if (_just_did_inaccurate_seek) {
 			/* Just emit; no subtlety */
 			emit_video (earliest_piece, dv);
-			earliest_piece->decoder->get ();
+			earliest_piece->decoder->consume ();
 		} else if (earliest_time > (_video_position + half_frame)) {
 
 			/* See if we're inside some video content */
@@ -167,14 +167,14 @@ Player::pass ()
 		} else {
 
 			if (
-				dv->dcp_time >= _video_position &&
+				abs (dv->dcp_time - _video_position) < half_frame &&
 				!earliest_piece->content->trimmed (dv->dcp_time - earliest_piece->content->position ())
 				) {
 
 				emit_video (earliest_piece, dv);
 			}
 		
-			earliest_piece->decoder->get ();
+			earliest_piece->decoder->consume ();
 		}
 
 	} else if (da && _audio) {
@@ -182,13 +182,13 @@ Player::pass ()
 			emit_silence (earliest_time - _audio_position);
 		} else {
 			emit_audio (earliest_piece, da);
-			earliest_piece->decoder->get ();
+			earliest_piece->decoder->consume ();
 		}
 	} else if (ds && _video) {
 		_in_subtitle.piece = earliest_piece;
 		_in_subtitle.subtitle = ds;
 		update_subtitle ();
-		earliest_piece->decoder->get ();
+		earliest_piece->decoder->consume ();
 	}
 
 	_just_did_inaccurate_seek = false;

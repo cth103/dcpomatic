@@ -49,7 +49,7 @@ public:
 	virtual void seek (ContentTime time, bool accurate);
 	
 	boost::shared_ptr<Decoded> peek ();
-	boost::shared_ptr<Decoded> get ();
+	void consume ();
 
 protected:
 
