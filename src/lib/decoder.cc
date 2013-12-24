@@ -38,15 +38,6 @@ Decoder::Decoder (shared_ptr<const Film> f)
 
 }
 
-class DecodedSorter
-{
-public:
-	bool operator() (shared_ptr<Decoded> a, shared_ptr<Decoded> b)
-	{
-		return a->dcp_time < b->dcp_time;
-	}
-};
-
 shared_ptr<Decoded>
 Decoder::peek ()
 {
