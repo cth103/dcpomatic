@@ -262,7 +262,7 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 
 		Position<int> const container_offset (
 			(_video_container_size.width - image_size.width) / 2,
-			(_video_container_size.height - image_size.width) / 2
+			(_video_container_size.height - image_size.height) / 2
 			);
 
 		pi->set_subtitle (_out_subtitle.image, _out_subtitle.position + container_offset);
