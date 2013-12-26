@@ -376,11 +376,18 @@ Image::make_black ()
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
-	/* Only implemented for RGBA onto BGRA so far */
-	assert (_pixel_format == PIX_FMT_BGRA && other->pixel_format() == PIX_FMT_RGBA);
+	int this_bpp = 0;
+	int other_bpp = 0;
 
-	int const this_bpp = 4;
-	int const other_bpp = 4;
+	if (_pixel_format == PIX_FMT_BGRA && other->pixel_format() == PIX_FMT_RGBA) {
+		this_bpp = 4;
+		other_bpp = 4;
+	} else if (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA) {
+		this_bpp = 3;
+		other_bpp = 4;
+	} else {
+		assert (false);
+	}
 
 	int start_tx = position.x;
 	int start_ox = 0;
