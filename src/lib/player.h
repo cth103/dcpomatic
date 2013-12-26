@@ -120,6 +120,7 @@ private:
 	void update_subtitle ();
 	void emit_video (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedVideo>);
 	void emit_audio (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedAudio>);
+	void step_video_position (boost::shared_ptr<DecodedVideo>);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

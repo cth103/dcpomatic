@@ -132,6 +132,9 @@ Player::pass ()
 	if (earliest_audio != TIME_MAX) {
 		TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (earliest_audio);
 		Audio (tb.audio, tb.time);
+		/* This assumes that the audio_frames_to_time conversion is exact
+		   so that there are no accumulated errors caused by rounding.
+		*/
 		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 	}
 
@@ -141,19 +144,26 @@ Player::pass ()
 	shared_ptr<DecodedAudio> da = dynamic_pointer_cast<DecodedAudio> (earliest_decoded);
 	shared_ptr<DecodedSubtitle> ds = dynamic_pointer_cast<DecodedSubtitle> (earliest_decoded);
 
-	if (dv && _video) {
-		DCPTime const half_frame = TIME_HZ / (2 * _film->video_frame_rate ());
+	/* Will be set to false if we shouldn't consume the peeked DecodedThing */
+	bool consume = true;
 
-		bool consume = true;
+	/* This is the margin either side of _{video,audio}_position that we will accept
+	   as a starting point for a frame consecutive to the previous.
+	*/
+	DCPTime const margin = TIME_HZ / (2 * _film->video_frame_rate ());
+	
+	if (dv && _video) {
 
 		if (_just_did_inaccurate_seek) {
 
 			/* Just emit; no subtlety */
 			emit_video (earliest_piece, dv);
+			step_video_position (dv);
 			
-		} else if (abs (dv->dcp_time - _video_position) > half_frame) {
+		} else if (dv->dcp_time - _video_position > margin) {
 
-			/* See if we're inside some video content */
+			/* Too far ahead */
+
 			list<shared_ptr<Piece> >::iterator i = _pieces.begin();
 			while (i != _pieces.end() && ((*i)->content->position() >= _video_position || _video_position >= (*i)->content->end())) {
 				++i;
@@ -163,34 +173,48 @@ Player::pass ()
 				/* We're outside all video content */
 				emit_black ();
 			} else {
+				/* We're inside some video; repeat the frame */
 				_last_incoming_video.video->dcp_time = _video_position;
 				emit_video (_last_incoming_video.weak_piece, _last_incoming_video.video);
+				step_video_position (_last_incoming_video.video);
 			}
 
 			consume = false;
 
-		} else if (abs (dv->dcp_time - _video_position) < half_frame) {
+		} else if (abs (dv->dcp_time - _video_position) < margin) {
+			/* We're ok */
 			emit_video (earliest_piece, dv);
+			step_video_position (dv);
+		} else {
+			/* Too far behind: skip */
 		}
-
-		if (consume) {
-			earliest_piece->decoder->consume ();
-		}			
 
 	} else if (da && _audio) {
-		if (!_just_did_inaccurate_seek && earliest_time > _audio_position) {
-			emit_silence (earliest_time - _audio_position);
-		} else {
+
+		if (_just_did_inaccurate_seek) {
+			/* Just emit; no subtlety */
 			emit_audio (earliest_piece, da);
-			earliest_piece->decoder->consume ();
+		} else if (da->dcp_time - _audio_position > margin) {
+			/* Too far ahead */
+			emit_silence (da->dcp_time - _audio_position);
+			consume = false;
+		} else if (abs (da->dcp_time - _audio_position) < margin) {
+			/* We're ok */
+			emit_audio (earliest_piece, da);
+		} else {
+			/* Too far behind: skip */
 		}
+		
 	} else if (ds && _video) {
 		_in_subtitle.piece = earliest_piece;
 		_in_subtitle.subtitle = ds;
 		update_subtitle ();
-		earliest_piece->decoder->consume ();
 	}
 
+	if (consume) {
+		earliest_piece->decoder->consume ();
+	}			
+	
 	_just_did_inaccurate_seek = false;
 
 	return false;
@@ -251,10 +275,17 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 	Video (pi, video->eyes, content->colour_conversion(), video->same, video->dcp_time);
 	
 	_last_emit_was_black = false;
+}
 
+void
+Player::step_video_position (shared_ptr<DecodedVideo> video)
+{
 	/* This is a bit of a hack; don't update _video_position if EYES_RIGHT is on its way */
 	if (video->eyes != EYES_LEFT) {
-		_video_position = rint (video->dcp_time + TIME_HZ / _film->video_frame_rate());
+		/* This assumes that the video_frames_to_time conversion is exact
+		   so that there are no accumulated errors caused by rounding.
+		*/
+		_video_position += _film->video_frames_to_time (1);
 	}
 }
 
