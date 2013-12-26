@@ -189,12 +189,11 @@ Player::pass ()
 			/* Too far behind: skip */
 		}
 
+		_just_did_inaccurate_seek = false;
+
 	} else if (da && _audio) {
 
-		if (_just_did_inaccurate_seek) {
-			/* Just emit; no subtlety */
-			emit_audio (earliest_piece, da);
-		} else if (da->dcp_time - _audio_position > margin) {
+		if (da->dcp_time - _audio_position > margin) {
 			/* Too far ahead */
 			emit_silence (da->dcp_time - _audio_position);
 			consume = false;
@@ -215,8 +214,6 @@ Player::pass ()
 		earliest_piece->decoder->consume ();
 	}			
 	
-	_just_did_inaccurate_seek = false;
-
 	return false;
 }
 
