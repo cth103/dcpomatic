@@ -552,6 +552,8 @@ private:
 			return;
 		}
 
+		maybe_save_then_delete_film ();
+
 		ev.Skip ();
 	}
 
