@@ -211,6 +211,7 @@ VideoPanel::film_changed (Film::Property property)
 	switch (property) {
 	case Film::CONTAINER:
 	case Film::VIDEO_FRAME_RATE:
+	case Film::RESOLUTION:
 		setup_description ();
 		break;
 	default:
