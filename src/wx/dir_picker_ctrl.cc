@@ -29,7 +29,6 @@ using namespace boost;
 
 DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 	: wxPanel (parent)
-	, _parent (parent)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 

@@ -47,7 +47,6 @@ private:
 	ContentSpinCtrl<VideoContent>*               _top_crop;
 	ContentSpinCtrl<VideoContent>*               _bottom_crop;
 	ContentChoice<VideoContent, Ratio const *>*  _ratio;
-	wxStaticText* _ratio_description;
 	wxStaticText* _description;
 	wxStaticText* _filters;
 	wxButton* _filters_button;

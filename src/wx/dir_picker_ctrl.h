@@ -30,7 +30,6 @@ public:
 private:
 	void browse_clicked ();
 	
-	wxWindow* _parent;
 	wxStaticText* _folder;
 	wxButton* _browse;
 	wxString _path;
