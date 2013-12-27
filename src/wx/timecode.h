@@ -40,7 +40,6 @@ private:
 	wxSizer* _sizer;
 	wxPanel* _editable;
 	wxTextCtrl* _hours;
-	wxStaticText* _hours_label;
 	wxTextCtrl* _minutes;
 	wxTextCtrl* _seconds;
 	wxTextCtrl* _frames;
