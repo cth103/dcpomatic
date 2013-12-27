@@ -197,6 +197,24 @@ DCPVideoFrame::encode_locally ()
 	parameters.tcp_numlayers++;
 	parameters.cp_disto_alloc = 1;
 	parameters.cp_rsiz = _resolution == RESOLUTION_2K ? CINEMA2K : CINEMA4K;
+	if (_resolution == RESOLUTION_4K) {
+		parameters.numpocs = 2;
+		parameters.POC[0].tile = 1;
+		parameters.POC[0].resno0 = 0; 
+		parameters.POC[0].compno0 = 0;
+		parameters.POC[0].layno1 = 1;
+		parameters.POC[0].resno1 = parameters.numresolution - 1;
+		parameters.POC[0].compno1 = 3;
+		parameters.POC[0].prg1 = CPRL;
+		parameters.POC[1].tile = 1;
+		parameters.POC[1].resno0 = parameters.numresolution - 1; 
+		parameters.POC[1].compno0 = 0;
+		parameters.POC[1].layno1 = 1;
+		parameters.POC[1].resno1 = parameters.numresolution;
+		parameters.POC[1].compno1 = 3;
+		parameters.POC[1].prg1 = CPRL;
+	}
+	
 	parameters.cp_comment = strdup (N_("DCP-o-matic"));
 	parameters.cp_cinema = _resolution == RESOLUTION_2K ? CINEMA2K_24 : CINEMA4K_24;
 
