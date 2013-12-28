@@ -114,7 +114,6 @@ public:
 	Time length () const;
 	bool has_subtitles () const;
 	OutputVideoFrame best_video_frame_rate () const;
-	bool content_paths_valid () const;
 
 	libdcp::KDM
 	make_kdm (

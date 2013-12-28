@@ -1,3 +1,7 @@
+2013-12-28  Carl Hetherington  <cth@carlh.net>
+
+	* Fix failure to load films with missing still image content (#300).
+
 2013-12-27  Carl Hetherington  <cth@carlh.net>
 
 	* Fix non-update of video information on changing DCP resolution (#299).

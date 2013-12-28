@@ -232,7 +232,7 @@ Content::identifier () const
 }
 
 bool
-Content::path_valid () const
+Content::paths_valid () const
 {
 	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
 		if (!boost::filesystem::exists (*i)) {
