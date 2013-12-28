@@ -54,7 +54,14 @@ ImageDecoder::pass ()
 		return false;
 	}
 
-	Magick::Image* magick_image = new Magick::Image (_image_content->path (_image_content->still() ? 0 : _video_position).string ());
+	Magick::Image* magick_image = 0;
+	boost::filesystem::path const path = _image_content->path (_image_content->still() ? 0 : _video_position);
+	try {
+		magick_image = new Magick::Image (path.string ());
+	} catch (...) {
+		throw OpenFileError (path);
+	}
+	
 	libdcp::Size size (magick_image->columns(), magick_image->rows());
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));

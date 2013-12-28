@@ -84,7 +84,7 @@ public:
 		return _paths[i];
 	}
 	
-	bool path_valid () const;
+	bool paths_valid () const;
 
 	/** @return MD5 digest of the content's file(s) */
 	std::string digest () const {

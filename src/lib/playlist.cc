@@ -406,15 +406,3 @@ Playlist::move_later (shared_ptr<Content> c)
 	
 	Changed ();
 }
-
-bool
-Playlist::content_paths_valid () const
-{
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		if (!(*i)->path_valid ()) {
-			return false;
-		}
-	}
-
-	return true;
-}

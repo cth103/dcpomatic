@@ -734,7 +734,7 @@ FilmEditor::setup_content ()
 	ContentList content = _film->content ();
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
-		bool const valid = (*i)->path_valid ();
+		bool const valid = (*i)->paths_valid ();
 
 		string s = (*i)->summary ();
 		if (!valid) {

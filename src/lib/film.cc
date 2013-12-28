@@ -860,12 +860,6 @@ Film::best_video_frame_rate () const
 	return _playlist->best_dcp_frame_rate ();
 }
 
-bool
-Film::content_paths_valid () const
-{
-	return _playlist->content_paths_valid ();
-}
-
 FrameRateChange
 Film::active_frame_rate_change (DCPTime t) const
 {

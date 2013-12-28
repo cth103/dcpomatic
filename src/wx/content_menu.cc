@@ -80,7 +80,7 @@ ContentMenu::popup (ContentList c, wxPoint p)
 	
 	_join->Enable (n > 1);
 	
-	_find_missing->Enable (_content.size() == 1 && !_content.front()->path_valid ());
+	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
 	_remove->Enable (!_content.empty ());
 	_parent->PopupMenu (_menu, p);
 }
