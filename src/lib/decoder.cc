@@ -27,6 +27,7 @@
 
 #include "i18n.h"
 
+using std::cout;
 using boost::shared_ptr;
 
 /** @param f Film.
@@ -34,6 +35,7 @@ using boost::shared_ptr;
  */
 Decoder::Decoder (shared_ptr<const Film> f)
 	: _film (f)
+	, _done (false)
 {
 
 }
@@ -41,9 +43,11 @@ Decoder::Decoder (shared_ptr<const Film> f)
 shared_ptr<Decoded>
 Decoder::peek ()
 {
-	while (_pending.empty() && !pass ()) {}
+	while (!_done && _pending.empty ()) {
+		_done = pass ();
+	}
 
-	if (_pending.empty ()) {
+	if (_done) {
 		return shared_ptr<Decoded> ();
 	}
 
@@ -62,4 +66,5 @@ void
 Decoder::seek (ContentTime, bool)
 {
 	_pending.clear ();
+	_done = false;
 }

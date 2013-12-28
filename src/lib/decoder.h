@@ -66,6 +66,7 @@ protected:
 	boost::weak_ptr<const Film> _film;
 
 	std::list<boost::shared_ptr<Decoded> > _pending;
+	bool _done;
 };
 
 #endif
