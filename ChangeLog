@@ -1,5 +1,7 @@
 2013-12-28  Carl Hetherington  <cth@carlh.net>
 
+	* Speculative fix for "find missing" not working on OS X (#255).
+
 	* Fix failure to load films with missing still image content (#300).
 
 2013-12-27  Carl Hetherington  <cth@carlh.net>

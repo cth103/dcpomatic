@@ -336,7 +336,7 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _left_down (false)
 	, _down_view_position (0)
 	, _first_move (false)
-	, _menu (film, this)
+	, _menu (this)
 	, _snap (true)
 {
 #ifndef __WXOSX__
@@ -574,7 +574,7 @@ Timeline::right_down (wxMouseEvent& ev)
 		cv->set_selected (true);
 	}
 
-	_menu.popup (selected_content (), ev.GetPosition ());
+	_menu.popup (_film, selected_content (), ev.GetPosition ());
 }
 
 void

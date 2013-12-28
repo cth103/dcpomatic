@@ -43,9 +43,8 @@ enum {
 	ID_remove
 };
 
-ContentMenu::ContentMenu (shared_ptr<Film> f, wxWindow* p)
+ContentMenu::ContentMenu (wxWindow* p)
 	: _menu (new wxMenu)
-	, _film (f)
 	, _parent (p)
 {
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
@@ -66,8 +65,9 @@ ContentMenu::~ContentMenu ()
 }
 
 void
-ContentMenu::popup (ContentList c, wxPoint p)
+ContentMenu::popup (weak_ptr<Film> f, ContentList c, wxPoint p)
 {
+	_film = f;
 	_content = c;
 	_repeat->Enable (!_content.empty ());
 
