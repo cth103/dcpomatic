@@ -111,7 +111,7 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cx
 	_conversion = ColourConversion (node->node_child ("ColourConversion"));
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
 	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
-	_resolution = Resolution (node->optional_number_child<int>("J2KBandwidth").get_value_or (RESOLUTION_2K));
+	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or (RESOLUTION_2K));
 }
 
 /** J2K-encode this frame on the local host.
