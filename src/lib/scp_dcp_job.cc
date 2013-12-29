@@ -33,6 +33,7 @@
 #include "config.h"
 #include "log.h"
 #include "film.h"
+#include "cross.h"
 
 #include "i18n.h"
 
