@@ -18,6 +18,7 @@
 */
 
 #include <stdint.h>
+#include <algorithm>
 #include "player.h"
 #include "film.h"
 #include "ffmpeg_decoder.h"
