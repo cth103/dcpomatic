@@ -21,6 +21,7 @@
 #include <sndfile.h>
 #include "file_group.h"
 #include "exceptions.h"
+#include "cross.h"
 
 using std::vector;
 using std::cout;
@@ -78,7 +79,7 @@ FileGroup::ensure_open_path (size_t p) const
 	}
 
 	_current_path = p;
-	_current_file = fopen (_paths[_current_path].string().c_str(), "rb");
+	_current_file = fopen_boost (_paths[_current_path], "rb");
 	if (_current_file == 0) {
 		throw OpenFileError (_paths[_current_path]);
 	}

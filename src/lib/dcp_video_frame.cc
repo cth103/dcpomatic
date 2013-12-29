@@ -111,7 +111,7 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cx
 	_conversion = ColourConversion (node->node_child ("ColourConversion"));
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
 	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
-	_resolution = Resolution (node->optional_number_child<int>("J2KBandwidth").get_value_or (RESOLUTION_2K));
+	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or (RESOLUTION_2K));
 }
 
 /** J2K-encode this frame on the local host.
@@ -352,7 +352,7 @@ EncodedData::EncodedData (boost::filesystem::path file)
 	_size = boost::filesystem::file_size (file);
 	_data = new uint8_t[_size];
 
-	FILE* f = fopen (file.string().c_str(), N_("rb"));
+	FILE* f = fopen_boost (file, "rb");
 	if (!f) {
 		throw FileError (_("could not open file for reading"), file);
 	}
@@ -381,7 +381,7 @@ EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 {
 	boost::filesystem::path const tmp_j2c = film->j2c_path (frame, eyes, true);
 
-	FILE* f = fopen (tmp_j2c.string().c_str (), N_("wb"));
+	FILE* f = fopen_boost (tmp_j2c, "wb");
 	
 	if (!f) {
 		throw WriteFileError (tmp_j2c, errno);

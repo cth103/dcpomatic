@@ -72,7 +72,7 @@ using boost::lexical_cast;
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
-	, _menu (f, this)
+	, _menu (this)
 	, _generally_sensitive (true)
 	, _timeline_dialog (0)
 {
@@ -284,7 +284,7 @@ FilmEditor::make_content_panel ()
 
 		s->Add (b, 0, wxALL, 4);
 
-		_content_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
+		_content_sizer->Add (s, 0, wxEXPAND | wxALL, 6);
 	}
 
 	_sequence_video = new wxCheckBox (_content_panel, wxID_ANY, _("Keep video in sequence"));
@@ -966,7 +966,7 @@ FilmEditor::sequence_video_changed ()
 void
 FilmEditor::content_right_click (wxListEvent& ev)
 {
-	_menu.popup (selected_content (), ev.GetPoint ());
+	_menu.popup (_film, selected_content (), ev.GetPoint ());
 }
 
 void

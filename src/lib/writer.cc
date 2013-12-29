@@ -478,7 +478,7 @@ Writer::check_existing_picture_mxf ()
 	boost::filesystem::path p;
 	p /= _film->internal_video_mxf_dir ();
 	p /= _film->internal_video_mxf_filename ();
-	FILE* mxf = fopen (p.string().c_str(), "rb");
+	FILE* mxf = fopen_boost (p, "rb");
 	if (!mxf) {
 		_film->log()->log (String::compose ("Could not open existing MXF at %1 (errno=%2)", p.string(), errno));
 		return;

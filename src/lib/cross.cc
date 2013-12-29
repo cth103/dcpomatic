@@ -187,7 +187,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 		return;
 	}
 
-	FILE* o = fopen (out.string().c_str(), "w");
+	FILE* o = fopen_boost (out, "w");
 	if (!o) {
 		log->log ("ffprobe call failed (could not create output file)");
 		return;

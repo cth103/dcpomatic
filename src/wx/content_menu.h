@@ -30,10 +30,10 @@ class Film;
 class ContentMenu
 {
 public:
-	ContentMenu (boost::shared_ptr<Film>, wxWindow *);
+	ContentMenu (wxWindow *);
 	~ContentMenu ();
 
-	void popup (ContentList, wxPoint);
+	void popup (boost::weak_ptr<Film>, ContentList, wxPoint);
 
 private:
 	void repeat ();
@@ -43,6 +43,7 @@ private:
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 	
 	wxMenu* _menu;
+	/** Film that we are working with; set up by popup() */
 	boost::weak_ptr<Film> _film;
 	wxWindow* _parent;
 	ContentList _content;
