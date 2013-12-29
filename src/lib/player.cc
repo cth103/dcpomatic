@@ -131,7 +131,7 @@ Player::pass ()
 	}
 
 	if (earliest_audio != TIME_MAX) {
-		TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (max (0L, earliest_audio));
+		TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (max (int64_t (0), earliest_audio));
 		Audio (tb.audio, tb.time);
 		/* This assumes that the audio_frames_to_time conversion is exact
 		   so that there are no accumulated errors caused by rounding.
