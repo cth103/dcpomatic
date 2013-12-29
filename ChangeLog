@@ -1,3 +1,7 @@
+2013-12-29  Carl Hetherington  <cth@carlh.net>
+
+	* Fix failure to load content from directories with non-Latin names.
+
 2013-12-28  Carl Hetherington  <cth@carlh.net>
 
 	* Speculative fix for "find missing" not working on OS X (#255).
