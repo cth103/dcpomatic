@@ -284,7 +284,7 @@ FilmEditor::make_content_panel ()
 
 		s->Add (b, 0, wxALL, 4);
 
-		_content_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
+		_content_sizer->Add (s, 0, wxEXPAND | wxALL, 6);
 	}
 
 	_sequence_video = new wxCheckBox (_content_panel, wxID_ANY, _("Keep video in sequence"));
