@@ -110,7 +110,7 @@ Player::pass ()
 		shared_ptr<Decoded> dec = (*i)->decoder->peek ();
 
 		if (dec) {
-			dec->set_dcp_times ((*i)->frc.speed_up, (*i)->content->position());
+			dec->set_dcp_times ((*i)->frc.speed_up, (*i)->content->position() - (*i)->content->trim_start());
 		}
 
 		if (dec && dec->dcp_time < earliest_time) {
