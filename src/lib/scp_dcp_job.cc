@@ -170,7 +170,7 @@ SCPDCPJob::run ()
 		boost::uintmax_t to_do = boost::filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
 
-		FILE* f = fopen (boost::filesystem::path (*i).string().c_str(), N_("rb"));
+		FILE* f = fopen_boost (boost::filesystem::path (*i), "rb");
 		if (f == 0) {
 			throw NetworkError (String::compose (_("Could not open %1 to send"), *i));
 		}
