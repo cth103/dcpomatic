@@ -9,7 +9,7 @@ def configure(conf):
         conf.env.append_value('LINKFLAGS', ['-mconsole'])
 
 def build(bld):
-    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm']:
+    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm', 'dcpomatic_create']:
         obj = bld(features = 'cxx cxxprogram')
         obj.uselib = 'BOOST_THREAD OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS QUICKMAIL'
         obj.includes = ['..']

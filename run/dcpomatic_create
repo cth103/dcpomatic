@@ -1,0 +1,18 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
+if [ "$1" == "--debug" ]; then
+    shift
+    gdb --args build/src/tools/dcpomatic_create $*
+elif [ "$1" == "--valgrind" ]; then
+    shift
+    valgrind --tool="memcheck" build/src/tools/dcpomatic_create $*
+elif [ "$1" == "--callgrind" ]; then
+    shift
+    valgrind --tool="callgrind" build/src/tools/dcpomatic_create $*
+elif [ "$1" == "--perf" ]; then
+    shift
+    perf record build/src/tools/dcpomatic_create $*
+else
+    build/src/tools/dcpomatic_create $*
+fi
