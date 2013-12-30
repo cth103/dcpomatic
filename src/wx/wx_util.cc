@@ -140,10 +140,17 @@ ThreadedStaticText::~ThreadedStaticText ()
 /** Run our thread and post the result to the GUI thread via AddPendingEvent */
 void
 ThreadedStaticText::run (function<string ()> fn)
+try
 {
 	wxCommandEvent ev (wxEVT_COMMAND_TEXT_UPDATED, _update_event_id);
 	ev.SetString (std_to_wx (fn ()));
 	GetEventHandler()->AddPendingEvent (ev);
+}
+catch (...)
+{
+	/* Ignore exceptions; marginally better than the program quitting, but
+	   only marginally.
+	*/
 }
 
 /** Called in the GUI thread when our worker thread has finished */
