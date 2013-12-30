@@ -56,7 +56,7 @@ class PlayerImage;
  *  is supplied as uncompressed PCM in blocks of various sizes.
  */
 
-class Encoder : public boost::noncopyable
+class Encoder : public boost::noncopyable, public ExceptionStore
 {
 public:
 	Encoder (boost::shared_ptr<const Film> f, boost::weak_ptr<Job>);
