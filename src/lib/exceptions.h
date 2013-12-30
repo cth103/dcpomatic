@@ -230,17 +230,30 @@ public:
 	PixelFormatError (std::string o, AVPixelFormat f);
 };
 
+/** A parent class for classes which have a need to catch and
+ *  re-throw exceptions.  This is intended for classes
+ *  which run their own thread; they should do something like
+ *
+ *  void my_thread ()
+ *  try {
+ *    // do things which might throw exceptions
+ *  } catch (...) {
+ *    store_current ();
+ *  }
+ *
+ *  and then in another thread call rethrow().  If any
+ *  exception was thrown by my_thread it will be stored by
+ *  store_current() and then rethrow() will re-throw it where
+ *  it can be handled.
+ */
 class ExceptionStore
 {
 public:
-	bool thrown () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _exception;
-	}
-	
 	void rethrow () {
 		boost::mutex::scoped_lock lm (_mutex);
-		boost::rethrow_exception (_exception);
+		if (_exception) {
+			boost::rethrow_exception (_exception);
+		}
 	}
 
 protected:	

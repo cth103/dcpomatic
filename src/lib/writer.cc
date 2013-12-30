@@ -335,9 +335,7 @@ Writer::finish ()
 	lock.unlock ();
 
 	_thread->join ();
-	if (thrown ()) {
-		rethrow ();
-	}
+	rethrow ();
 	
 	delete _thread;
 	_thread = 0;
