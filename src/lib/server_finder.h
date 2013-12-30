@@ -20,7 +20,7 @@
 #include <boost/signals2.hpp>
 #include "server.h"
 
-class ServerFinder
+class ServerFinder : public ExceptionStore
 {
 public:
 	void connect (boost::function<void (ServerDescription)>);

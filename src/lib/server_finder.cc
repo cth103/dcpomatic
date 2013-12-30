@@ -47,6 +47,7 @@ ServerFinder::ServerFinder ()
 
 void
 ServerFinder::broadcast_thread ()
+try
 {
 	boost::system::error_code error;
 	boost::asio::io_service io_service;
@@ -88,9 +89,14 @@ ServerFinder::broadcast_thread ()
 		dcpomatic_sleep (10);
 	}
 }
+catch (...)
+{
+	store_current ();
+}
 
 void
 ServerFinder::listen_thread ()
+try
 {
 	while (1) {
 		shared_ptr<Socket> sock (new Socket (10));
@@ -116,6 +122,10 @@ ServerFinder::listen_thread ()
 			ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
 		}
 	}
+}
+catch (...)
+{
+	store_current ();
 }
 
 bool

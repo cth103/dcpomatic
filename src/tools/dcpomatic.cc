@@ -54,6 +54,7 @@
 #include "lib/cinema.h"
 #include "lib/kdm.h"
 #include "lib/send_kdm_email_job.h"
+#include "lib/server_finder.h"
 
 using std::cout;
 using std::string;
@@ -632,8 +633,12 @@ class App : public wxApp
 		f->Show ();
 
 		ui_signaller = new wxUISignaller (this);
-		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
+		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
+		_timer.reset (new wxTimer (this));
+		_timer->Start (1000);
+		
 		return true;
 	}
 	catch (exception& e)
@@ -670,6 +675,17 @@ class App : public wxApp
 	{
 		ui_signaller->ui_idle ();
 	}
+
+	void check ()
+	{
+		try {
+			ServerFinder::instance()->rethrow ();
+		} catch (exception& e) {
+			error_dialog (0, std_to_wx (e.what ()));
+		}
+	}
+
+	shared_ptr<wxTimer> _timer;
 };
 
 IMPLEMENT_APP (App)
