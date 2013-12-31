@@ -98,7 +98,7 @@ SndfileDecoder::pass ()
 	_done += this_time;
 	_remaining -= this_time;
 
-	return true;
+	return _remaining == 0;
 }
 
 int
