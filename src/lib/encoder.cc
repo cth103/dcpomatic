@@ -96,7 +96,6 @@ Encoder::process_begin ()
 	ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
 }
 
-
 void
 Encoder::process_end ()
 {
@@ -199,9 +198,12 @@ Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversi
 		return;
 	}
 
-	if (_writer->thrown ()) {
-		_writer->rethrow ();
-	}
+	_writer->rethrow ();
+	/* Re-throw any exception raised by one of our threads.  If more
+	   than one has thrown an exception, only one will be rethrown, I think;
+	   but then, if that happens something has gone badly wrong.
+	*/
+	rethrow ();
 
 	if (_writer->can_fake_write (_video_frames_out)) {
 		_writer->fake_write (_video_frames_out, eyes);
@@ -257,6 +259,7 @@ Encoder::terminate_threads ()
 
 void
 Encoder::encoder_thread (optional<ServerDescription> server)
+try
 {
 	/* Number of seconds that we currently wait between attempts
 	   to connect to the server; not relevant for localhost
@@ -337,6 +340,10 @@ Encoder::encoder_thread (optional<ServerDescription> server)
 		lock.lock ();
 		_condition.notify_all ();
 	}
+}
+catch (...)
+{
+	store_current ();
 }
 
 void

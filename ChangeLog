@@ -1,3 +1,9 @@
+2013-12-30  Carl Hetherington  <cth@carlh.net>
+
+	* Put catches around a few threads which could have uncaught exceptions.
+
+	* Add nascent dcpomatic_create command-line program to create films.
+
 2013-12-29  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.53 released.

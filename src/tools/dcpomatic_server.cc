@@ -27,6 +27,7 @@
 
 using std::cout;
 using std::string;
+using std::exception;
 using boost::shared_ptr;
 using boost::thread;
 using boost::bind;
@@ -133,7 +134,7 @@ private:
 	}
 };
 
-class App : public wxApp
+class App : public wxApp, public ExceptionStore
 {
 public:
 	App ()
@@ -154,6 +155,10 @@ private:
 
 		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));
+
+		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
+		_timer.reset (new wxTimer (this));
+		_timer->Start (1000);
 		
 		return true;
 	}
@@ -165,13 +170,29 @@ private:
 	}
 
 	void main_thread ()
-	{
+	try {
 		Server server (memory_log, false);
 		server.run (Config::instance()->num_local_encoding_threads ());
+	} catch (...) {
+		store_current ();
+	}
+
+	void check ()
+	{
+		try {
+			rethrow ();
+		} catch (exception& e) {
+			error_dialog (0, std_to_wx (e.what ()));
+			wxTheApp->ExitMainLoop ();
+		} catch (...) {
+			error_dialog (0, _("An unknown error has occurred with the DCP-o-matic server."));
+			wxTheApp->ExitMainLoop ();
+		}
 	}
 
 	boost::thread* _thread;
 	TaskBarIcon* _icon;
+	shared_ptr<wxTimer> _timer;
 };
 
 IMPLEMENT_APP (App)

@@ -343,16 +343,16 @@ void
 Player::flush ()
 {
 	TimedAudioBuffers<DCPTime> tb = _audio_merger.flush ();
-	if (tb.audio) {
+	if (_audio && tb.audio) {
 		Audio (tb.audio, tb.time);
 		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
 	}
 
-	while (_video_position < _audio_position) {
+	while (_video && _video_position < _audio_position) {
 		emit_black ();
 	}
 
-	while (_audio_position < _video_position) {
+	while (_audio && _audio_position < _video_position) {
 		emit_silence (_video_position - _audio_position);
 	}
 	
