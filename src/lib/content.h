@@ -126,8 +126,6 @@ public:
 		_change_signals_frequent = f;
 	}
 
-	bool trimmed (DCPTime) const;
-
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
 protected:

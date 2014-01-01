@@ -206,15 +206,6 @@ Content::length_after_trim () const
 	return full_length() - trim_start() - trim_end();
 }
 
-/** @param t A time relative to the start of this content (not the position).
- *  @return true if this time is trimmed by our trim settings.
- */
-bool
-Content::trimmed (DCPTime t) const
-{
-	return (t < trim_start() || t > (full_length() - trim_end ()));
-}
-
 /** @return string which includes everything about how this content affects
  *  its playlist.
  */
