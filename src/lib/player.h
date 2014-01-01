@@ -60,6 +60,38 @@ private:
 	boost::shared_ptr<const Image> _subtitle_image;
 	Position<int> _subtitle_position;
 };
+
+class PlayerStatistics
+{
+public:
+	struct Video {
+		Video ()
+			: black (0)
+			, repeat (0)
+			, good (0)
+			, skip (0)
+		{}
+		
+		int black;
+		int repeat;
+		int good;
+		int skip;
+	} video;
+
+	struct Audio {
+		Audio ()
+			: silence (0)
+			, good (0)
+			, skip (0)
+		{}
+		
+		int64_t silence;
+		int64_t good;
+		int64_t skip;
+	} audio;
+
+	void dump (boost::shared_ptr<Log>) const;
+};
  
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
@@ -85,6 +117,8 @@ public:
 
 	bool repeat_last_video ();
 
+	PlayerStatistics const & statistics () const;
+	
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
 	 *  Second parameter is the eye(s) that should see this image.
@@ -167,6 +201,8 @@ private:
 
 	bool _just_did_inaccurate_seek;
 	bool _approximate_size;
+
+	PlayerStatistics _statistics;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;

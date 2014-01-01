@@ -197,11 +197,13 @@ Player::pass ()
 			if (i == _pieces.end() || !_last_incoming_video.video || !_have_valid_pieces) {
 				/* We're outside all video content */
 				emit_black ();
+				_statistics.video.black++;
 			} else {
 				/* We're inside some video; repeat the frame */
 				_last_incoming_video.video->dcp_time = _video_position;
 				emit_video (_last_incoming_video.weak_piece, _last_incoming_video.video);
 				step_video_position (_last_incoming_video.video);
+				_statistics.video.repeat++;
 			}
 
 			consume = false;
@@ -210,8 +212,10 @@ Player::pass ()
 			/* We're ok */
 			emit_video (earliest_piece, dv);
 			step_video_position (dv);
+			_statistics.video.good++;
 		} else {
 			/* Too far behind: skip */
+			_statistics.video.skip++;
 		}
 
 		_just_did_inaccurate_seek = false;
@@ -222,11 +226,14 @@ Player::pass ()
 			/* Too far ahead */
 			emit_silence (da->dcp_time - _audio_position);
 			consume = false;
+			_statistics.audio.silence += (da->dcp_time - _audio_position);
 		} else if (abs (da->dcp_time - _audio_position) < margin) {
 			/* We're ok */
 			emit_audio (earliest_piece, da);
+			_statistics.audio.good += da->data->frames();
 		} else {
 			/* Too far behind: skip */
+			_statistics.audio.skip += da->data->frames();
 		}
 		
 	} else if (ds && _video) {
@@ -715,3 +722,15 @@ PlayerImage::image (AVPixelFormat format, bool aligned)
 	return out;
 }
 
+void
+PlayerStatistics::dump (shared_ptr<Log> log) const
+{
+	log->log (String::compose ("Video: %1 good %2 skipped %3 black %4 repeat", video.good, video.skip, video.black, video.repeat));
+	log->log (String::compose ("Audio: %1 good %2 skipped %3 silence", audio.good, audio.skip, audio.silence));
+}
+
+PlayerStatistics const &
+Player::statistics () const
+{
+	return _statistics;
+}
