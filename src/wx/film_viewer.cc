@@ -213,8 +213,14 @@ void
 FilmViewer::slider_moved ()
 {
 	if (_film && _player) {
-		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
-		fetch_next_frame ();
+		try {
+			_player->seek (_slider->GetValue() * _film->length() / 4096, false);
+			fetch_next_frame ();
+		} catch (OpenFileError& e) {
+			/* There was a problem opening a content file; we'll let this slide as it
+			   probably means a missing content file, which we're already taking care of.
+			*/
+		}
 	}
 }
 
@@ -382,8 +388,14 @@ FilmViewer::back_clicked ()
 		p = 0;
 	}
 	
-	_player->seek (p, true);
-	fetch_next_frame ();
+	try {
+		_player->seek (p, true);
+		fetch_next_frame ();
+	} catch (OpenFileError& e) {
+		/* There was a problem opening a content file; we'll let this slide as it
+		   probably means a missing content file, which we're already taking care of.
+		*/
+	}
 }
 
 void

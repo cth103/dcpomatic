@@ -108,13 +108,37 @@ Player::pass ()
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 
-		shared_ptr<Decoded> dec = (*i)->decoder->peek ();
+		DCPTime const offset = (*i)->content->position() - (*i)->content->trim_start();
+		
+		bool done = false;
+		shared_ptr<Decoded> dec;
+		while (!done) {
+			dec = (*i)->decoder->peek ();
+			if (!dec) {
+				/* Decoder has nothing else to give us */
+				break;
+			}
 
-		if (dec) {
-			dec->set_dcp_times ((*i)->frc.speed_up, (*i)->content->position() - (*i)->content->trim_start());
+			dec->set_dcp_times ((*i)->frc.speed_up, offset);
+			DCPTime const t = dec->dcp_time - offset;
+			if (t >= (*i)->content->full_length() - (*i)->content->trim_end ()) {
+				/* In the end-trimmed part; decoder has nothing eles to give us */
+				dec.reset ();
+				done = true;
+			} else if (t >= (*i)->content->trim_start ()) {
+				/* Within the un-trimmed part; everything's ok */
+				done = true;
+			} else {
+				/* Within the start-trimmed part; get something else */
+				(*i)->decoder->consume ();
+			}
 		}
 
-		if (dec && dec->dcp_time < earliest_time) {
+		if (!dec) {
+			continue;
+		}
+
+		if (dec->dcp_time < earliest_time) {
 			earliest_piece = *i;
 			earliest_decoded = dec;
 			earliest_time = dec->dcp_time;
@@ -305,10 +329,6 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 		audio->data = gain;
 	}
 
-	if (content->trimmed (audio->dcp_time - content->position ())) {
-		return;
-	}
-
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->data->frames()));
 	dcp_mapped->make_silent ();
@@ -380,7 +400,7 @@ Player::seek (DCPTime t, bool accurate)
 		s = min ((*i)->content->length_after_trim(), s);
 
 		/* Convert this to the content time */
-		ContentTime ct = (s * (*i)->frc.speed_up) + (*i)->content->trim_start ();
+		ContentTime ct = (s + (*i)->content->trim_start()) * (*i)->frc.speed_up;
 
 		/* And seek the decoder */
 		(*i)->decoder->seek (ct, accurate);
@@ -470,7 +490,8 @@ Player::setup_pieces ()
 			}
 		}
 
-		decoder->seek ((*i)->trim_start (), true);
+		ContentTime st = (*i)->trim_start() * frc->speed_up;
+		decoder->seek (st, true);
 		
 		_pieces.push_back (shared_ptr<Piece> (new Piece (*i, decoder, frc.get ())));
 	}
