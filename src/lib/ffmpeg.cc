@@ -62,7 +62,7 @@ FFmpeg::~FFmpeg ()
 		}
 	}
 
-	avcodec_free_frame (&_frame);
+	av_frame_free (&_frame);
 	
 	avformat_close_input (&_format_context);
 }
@@ -136,7 +136,7 @@ FFmpeg::setup_general ()
 		}
 	}
 
-	_frame = avcodec_alloc_frame ();
+	_frame = av_frame_alloc ();
 	if (_frame == 0) {
 		throw DecodeError (N_("could not allocate frame"));
 	}
