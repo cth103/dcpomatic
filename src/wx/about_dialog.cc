@@ -75,7 +75,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	t = new wxStaticText (
 		this, wxID_ANY,
-		_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"),
+		_("(C) 2012-2014 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
 	
@@ -126,6 +126,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Frank Cianciolo"));
 	supported_by.Add (wxT ("Rodolfo Giuliano"));
 	supported_by.Add (wxT ("Sylvain Mielle"));
+	supported_by.Add (wxT ("Ivan Pullman"));
 	add_section (_("Supported by"), supported_by);
 
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
