@@ -114,7 +114,7 @@ def make_control(version, bits, filename):
     print >>f,'  digital projectors.'
 
 def dependencies(target):
-    return (('ffmpeg-cdist', '0b7ef017aca8b572914518c759db1e234d8fc505'),
+    return (('ffmpeg-cdist', 'a629ea68a20d990b4e61c16067e91563d8d08f50'),
             ('libdcp', 'v0.91'))
 
 def build(target):
