@@ -135,10 +135,10 @@ FFmpegExaminer::video_size () const
 }
 
 /** @return Length (in video frames) according to our content's header */
-VideoContent::Frame
+VideoFrame
 FFmpegExaminer::video_length () const
 {
-	VideoContent::Frame const length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
+	VideoFrame const length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
 	return max (1, length);
 }
 

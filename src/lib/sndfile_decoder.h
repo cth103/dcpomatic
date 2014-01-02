@@ -32,7 +32,7 @@ public:
 	void seek (ContentTime, bool);
 
 	int audio_channels () const;
-	AudioContent::Frame audio_length () const;
+	AudioFrame audio_length () const;
 	int audio_frame_rate () const;
 
 private:
@@ -44,7 +44,7 @@ private:
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;
-	AudioContent::Frame _done;
-	AudioContent::Frame _remaining;
+	AudioFrame _done;
+	AudioFrame _remaining;
 	float* _deinterleave_buffer;
 };

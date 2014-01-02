@@ -157,7 +157,7 @@ AudioContent::technical_summary () const
  *  @param at The time within the DCP to get the active frame rate change from; i.e. a point at which
  *  the `controlling' video content is active.
  */
-AudioContent::Frame
+AudioFrame
 AudioContent::time_to_content_audio_frames (DCPTime t, DCPTime at) const
 {
 	shared_ptr<const Film> film = _film.lock ();

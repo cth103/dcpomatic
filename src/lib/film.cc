@@ -854,7 +854,7 @@ Film::has_subtitles () const
 	return _playlist->has_subtitles ();
 }
 
-OutputVideoFrame
+VideoFrame
 Film::best_video_frame_rate () const
 {
 	return _playlist->best_dcp_frame_rate ();
@@ -884,31 +884,31 @@ Film::playlist_changed ()
 	signal_changed (CONTENT);
 }	
 
-OutputAudioFrame
+AudioFrame
 Film::time_to_audio_frames (DCPTime t) const
 {
 	return t * audio_frame_rate () / TIME_HZ;
 }
 
-OutputVideoFrame
+VideoFrame
 Film::time_to_video_frames (DCPTime t) const
 {
 	return t * video_frame_rate () / TIME_HZ;
 }
 
 DCPTime
-Film::audio_frames_to_time (OutputAudioFrame f) const
+Film::audio_frames_to_time (AudioFrame f) const
 {
 	return f * TIME_HZ / audio_frame_rate ();
 }
 
 DCPTime
-Film::video_frames_to_time (OutputVideoFrame f) const
+Film::video_frames_to_time (VideoFrame f) const
 {
 	return f * TIME_HZ / video_frame_rate ();
 }
 
-OutputAudioFrame
+AudioFrame
 Film::audio_frame_rate () const
 {
 	/* XXX */

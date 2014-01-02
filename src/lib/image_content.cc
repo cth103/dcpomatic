@@ -110,7 +110,7 @@ ImageContent::examine (shared_ptr<Job> job)
 }
 
 void
-ImageContent::set_video_length (VideoContent::Frame len)
+ImageContent::set_video_length (VideoFrame len)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

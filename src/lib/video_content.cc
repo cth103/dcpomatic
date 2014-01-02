@@ -59,7 +59,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	setup_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, VideoContent::Frame len)
+VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, VideoFrame len)
 	: Content (f, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
@@ -83,7 +83,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	: Content (f, node)
 	, _ratio (0)
 {
-	_video_length = node->number_child<VideoContent::Frame> ("VideoLength");
+	_video_length = node->number_child<VideoFrame> ("VideoLength");
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
@@ -356,7 +356,7 @@ VideoContent::video_size_after_crop () const
  *  @return Corresponding frame index, rounded up so that the frame index
  *  is that of the next complete frame which starts after `t'.
  */
-VideoContent::Frame
+VideoFrame
 VideoContent::time_to_content_video_frames (DCPTime t) const
 {
 	shared_ptr<const Film> film = _film.lock ();

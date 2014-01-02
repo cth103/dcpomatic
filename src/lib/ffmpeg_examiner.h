@@ -31,7 +31,7 @@ public:
 	
 	float video_frame_rate () const;
 	libdcp::Size video_size () const;
-	VideoContent::Frame video_length () const;
+	VideoFrame video_length () const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;

@@ -107,7 +107,7 @@ SndfileDecoder::audio_channels () const
 	return _info.channels;
 }
 
-AudioContent::Frame
+AudioFrame
 SndfileDecoder::audio_length () const
 {
 	return _info.frames;

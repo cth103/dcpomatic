@@ -163,7 +163,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 
-	VideoContent::Frame video_length = 0;
+	VideoFrame video_length = 0;
 	video_length = examiner->video_length ();
 	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length));
 
@@ -262,12 +262,12 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
-AudioContent::Frame
+AudioFrame
 FFmpegContent::audio_length () const
 {
 	int const cafr = content_audio_frame_rate ();
 	int const vfr  = video_frame_rate ();
-	VideoContent::Frame const vl = video_length ();
+	VideoFrame const vl = video_length ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_audio_stream) {

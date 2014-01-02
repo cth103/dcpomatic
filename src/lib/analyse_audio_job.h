@@ -36,7 +36,7 @@ private:
 	void audio (boost::shared_ptr<const AudioBuffers>, DCPTime);
 
 	boost::weak_ptr<AudioContent> _content;
-	OutputAudioFrame _done;
+	AudioFrame _done;
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;
 

@@ -45,7 +45,7 @@ public:
 
 	std::string identifier () const;
 	
-	void set_video_length (VideoContent::Frame);
+	void set_video_length (VideoFrame);
 	bool still () const;
 };
 

@@ -52,7 +52,7 @@ public:
 	std::string technical_summary () const;
 
 	virtual int audio_channels () const = 0;
-	virtual AudioContent::Frame audio_length () const = 0;
+	virtual AudioFrame audio_length () const = 0;
 	virtual int content_audio_frame_rate () const = 0;
 	virtual int output_audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;

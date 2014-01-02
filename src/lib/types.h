@@ -42,8 +42,8 @@ typedef int64_t DCPTime;
 #define TIME_MAX INT64_MAX
 #define TIME_HZ	 ((DCPTime) 96000)
 typedef int64_t ContentTime;
-typedef int64_t OutputAudioFrame;
-typedef int	OutputVideoFrame;
+typedef int64_t AudioFrame;
+typedef int	VideoFrame;
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<VideoContent> > VideoContentList;
 typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
