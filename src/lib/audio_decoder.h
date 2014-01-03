@@ -44,15 +44,17 @@ public:
 		return _audio_content;
 	}
 
+	void seek (ContentTime time, bool accurate);
+	
 protected:
 
-	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
+	virtual ContentTime first_audio () const = 0;
+	void audio (boost::shared_ptr<const AudioBuffers>);
 	void flush ();
 
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;
-	/* End time of last audio that we wrote to _pending; only used for flushing the resampler */
-	ContentTime _last_audio;
+	AudioFrame _audio_position;
 };
 
 #endif

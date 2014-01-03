@@ -49,7 +49,7 @@ ImageDecoder::pass ()
 	}
 
 	if (_image && _image_content->still ()) {
-		video (_image, true, _video_position * TIME_HZ / _video_content->video_frame_rate ());
+		video (_image, true, _video_position);
 		++_video_position;
 		return false;
 	}
@@ -82,7 +82,7 @@ ImageDecoder::pass ()
 
 	delete magick_image;
 
-	video (_image, false, _video_position * TIME_HZ / _video_content->video_frame_rate ());
+	video (_image, false, _video_position);
 	++_video_position;
 
 	return false;

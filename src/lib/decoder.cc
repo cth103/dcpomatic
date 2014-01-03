@@ -47,7 +47,7 @@ Decoder::peek ()
 		_done = pass ();
 	}
 
-	if (_done) {
+	if (_done && _pending.empty ()) {
 		return shared_ptr<Decoded> ();
 	}
 

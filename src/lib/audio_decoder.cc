@@ -22,6 +22,8 @@
 #include "exceptions.h"
 #include "log.h"
 #include "resampler.h"
+#include "util.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -35,22 +37,26 @@ using boost::shared_ptr;
 AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
 	: Decoder (film)
 	, _audio_content (content)
-	, _last_audio (0)
+	, _audio_position (0)
 {
 	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
 		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));
 	}
 }
 
+/** Audio timestamping is made hard by many factors, but the final nail in the coffin is resampling.
+ *  We have to assume that we are feeding continuous data into the resampler, and so we get continuous
+ *  data out.  Hence we do the timestamping here, post-resampler, just by counting samples.
+ */
 void
-AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
+AudioDecoder::audio (shared_ptr<const AudioBuffers> data)
 {
 	if (_resampler) {
 		data = _resampler->run (data);
 	}
 	
-	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (data, time)));
-	_last_audio = time + (data->frames() * TIME_HZ / _audio_content->output_audio_frame_rate());
+	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (data, _audio_position)));
+	_audio_position += data->frames ();
 }
 
 void
@@ -62,6 +68,17 @@ AudioDecoder::flush ()
 
 	shared_ptr<const AudioBuffers> b = _resampler->flush ();
 	if (b) {
-		audio (b, _last_audio);
+		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (b, _audio_position)));
+		_audio_position += b->frames ();
 	}
+}
+
+void
+AudioDecoder::seek (ContentTime t, bool)
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	FrameRateChange frc = film->active_frame_rate_change (_audio_content->position ());
+	_audio_position = (t + first_audio()) / frc.speed_up;
 }

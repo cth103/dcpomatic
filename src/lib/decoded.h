@@ -22,6 +22,7 @@
 
 #include "types.h"
 #include "rect.h"
+#include "util.h"
 
 class Image;
 
@@ -29,20 +30,13 @@ class Decoded
 {
 public:
 	Decoded ()
-		: content_time (0)
-		, dcp_time (0)
-	{}
-
-	Decoded (DCPTime ct)
-		: content_time (ct)
-		, dcp_time (0)
+		: dcp_time (0)
 	{}
 
 	virtual ~Decoded () {}
 
-	virtual void set_dcp_times (float speed_up, DCPTime offset) = 0;
+	virtual void set_dcp_times (VideoFrame, AudioFrame, FrameRateChange, DCPTime) = 0;
 
-	ContentTime content_time;
 	DCPTime dcp_time;
 };
 
@@ -53,62 +47,70 @@ public:
 	DecodedVideo ()
 		: eyes (EYES_BOTH)
 		, same (false)
+		, frame (0)
 	{}
 
-	DecodedVideo (boost::shared_ptr<const Image> im, Eyes e, bool s, ContentTime ct)
-		: Decoded (ct)
-		, image (im)
+	DecodedVideo (boost::shared_ptr<const Image> im, Eyes e, bool s, VideoFrame f)
+		: image (im)
 		, eyes (e)
 		, same (s)
+		, frame (f)
 	{}
 
-	void set_dcp_times (float speed_up, DCPTime offset) {
-		dcp_time = rint (content_time / speed_up) + offset;
+	void set_dcp_times (VideoFrame video_frame_rate, AudioFrame, FrameRateChange frc, DCPTime offset)
+	{
+		dcp_time = frame * TIME_HZ * frc.factor() / video_frame_rate + offset;
 	}
 	
 	boost::shared_ptr<const Image> image;
 	Eyes eyes;
 	bool same;
+	VideoFrame frame;
 };
 
 class DecodedAudio : public Decoded
 {
 public:
-	DecodedAudio (boost::shared_ptr<const AudioBuffers> d, ContentTime ct)
-		: Decoded (ct)
-		, data (d)
+	DecodedAudio (boost::shared_ptr<const AudioBuffers> d, AudioFrame f)
+		: data (d)
+		, frame (f)
 	{}
 
-	void set_dcp_times (float speed_up, DCPTime offset) {
-		dcp_time = rint (content_time / speed_up) + offset;
+	void set_dcp_times (VideoFrame, AudioFrame audio_frame_rate, FrameRateChange, DCPTime offset)
+	{
+		dcp_time = frame * TIME_HZ / audio_frame_rate + offset;
 	}
 	
 	boost::shared_ptr<const AudioBuffers> data;
+	AudioFrame frame;
 };
 
 class DecodedSubtitle : public Decoded
 {
 public:
 	DecodedSubtitle ()
-		: content_time_to (0)
+		: content_time (0)
+		, content_time_to (0)
 		, dcp_time_to (0)
 	{}
 
 	DecodedSubtitle (boost::shared_ptr<Image> im, dcpomatic::Rect<double> r, ContentTime f, ContentTime t)
-		: Decoded (f)
-		, image (im)
+		: image (im)
 		, rect (r)
+		, content_time (f)
 		, content_time_to (t)
 		, dcp_time_to (0)
 	{}
 
-	void set_dcp_times (float speed_up, DCPTime offset) {
-		dcp_time = rint (content_time / speed_up) + offset;
-		dcp_time_to = rint (content_time_to / speed_up) + offset;
+	void set_dcp_times (VideoFrame, AudioFrame, FrameRateChange frc, DCPTime offset)
+	{
+		dcp_time = rint (content_time / frc.speed_up) + offset;
+		dcp_time_to = rint (content_time_to / frc.speed_up) + offset;
 	}
 
 	boost::shared_ptr<Image> image;
 	dcpomatic::Rect<double> rect;
+	ContentTime content_time;
 	ContentTime content_time_to;
 	DCPTime dcp_time_to;
 };

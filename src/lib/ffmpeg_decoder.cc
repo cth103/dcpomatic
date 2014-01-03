@@ -68,8 +68,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
-	, _video_pts_offset (0)
-	, _audio_pts_offset (0)
+	, _pts_offset (0)
 {
 	setup_subtitle ();
 
@@ -82,9 +81,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	   Then we remove big initial gaps in PTS and we allow our
 	   insertion of black frames to work.
 
-	   We will do:
-	     audio_pts_to_use = audio_pts_from_ffmpeg + audio_pts_offset;
-	     video_pts_to_use = video_pts_from_ffmpeg + video_pts_offset;
+	   We will do pts_to_use = pts_from_ffmpeg + pts_offset;
 	*/
 
 	bool const have_video = video && c->first_video();
@@ -93,16 +90,16 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	/* First, make one of them start at 0 */
 
 	if (have_audio && have_video) {
-		_video_pts_offset = _audio_pts_offset = - min (c->first_video().get(), c->audio_stream()->first_audio.get());
+		_pts_offset = - min (c->first_video().get(), c->audio_stream()->first_audio.get());
 	} else if (have_video) {
-		_video_pts_offset = - c->first_video().get();
+		_pts_offset = - c->first_video().get();
 	} else if (have_audio) {
-		_audio_pts_offset = - c->audio_stream()->first_audio.get();
+		_pts_offset = - c->audio_stream()->first_audio.get();
 	}
 
 	/* Now adjust both so that the video pts starts on a frame */
 	if (have_video && have_audio) {
-		double first_video = c->first_video().get() + _video_pts_offset;
+		double first_video = c->first_video().get() + _pts_offset;
 		double const old_first_video = first_video;
 		
 		/* Round the first video up to a frame boundary */
@@ -110,8 +107,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 			first_video = ceil (first_video * c->video_frame_rate()) / c->video_frame_rate ();
 		}
 
-		_video_pts_offset += first_video - old_first_video;
-		_audio_pts_offset += first_video - old_first_video;
+		_pts_offset += first_video - old_first_video;
 	}
 }
 
@@ -325,10 +321,10 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 			r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 			if (r >= 0 && finished) {
 				last_video = rint (
-					(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * TIME_HZ
+					(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * TIME_HZ
 					);
 			}
-				
+
 		} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->index (_format_context)) {
 			AVPacket copy_packet = _packet;
 			while (copy_packet.size > 0) {
@@ -337,7 +333,7 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &finished, &_packet);
 				if (r >= 0 && finished) {
 					last_audio = rint (
-						(av_frame_get_best_effort_timestamp (_frame) * time_base + _audio_pts_offset) *	TIME_HZ
+						(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * TIME_HZ
 						);
 				}
 					
@@ -367,17 +363,20 @@ FFmpegDecoder::seek_final_finished (int n, int done) const
 void
 FFmpegDecoder::seek_and_flush (ContentTime t)
 {
-	int64_t s = ((double (t) / TIME_HZ) - _video_pts_offset) /
+	int64_t s = ((double (t) / TIME_HZ) - _pts_offset) /
 		av_q2d (_format_context->streams[_video_stream]->time_base);
-	
+
 	if (_ffmpeg_content->audio_stream ()) {
 		s = min (
 			s, int64_t (
-				((double (t) / TIME_HZ) - _audio_pts_offset) /
+				((double (t) / TIME_HZ) - _pts_offset) /
 				av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base)
 				)
 			);
 	}
+
+	/* Ridiculous empirical hack */
+	s--;
 
 	av_seek_frame (_format_context, _video_stream, s, AVSEEK_FLAG_BACKWARD);
 
@@ -394,6 +393,7 @@ void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
 	Decoder::seek (time, accurate);
+	AudioDecoder::seek (time, accurate);
 	
 	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
 	   a number plucked from the air) earlier than we want to end up.  The loop below
@@ -405,7 +405,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	if (initial_seek < 0) {
 		initial_seek = 0;
 	}
-	
+
 	/* Initial seek time in the video stream's timebase */
 
 	seek_and_flush (initial_seek);
@@ -416,7 +416,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	}
 
 	int const N = minimal_run (boost::bind (&FFmpegDecoder::seek_overrun_finished, this, time, _1, _2));
-	
+
 	seek_and_flush (initial_seek);
 	if (N > 0) {
 		minimal_run (boost::bind (&FFmpegDecoder::seek_final_finished, this, N - 1, _3));
@@ -445,16 +445,11 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
-			ContentTime const t = rint (
-				(av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-				 * av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset) * TIME_HZ
-				);
-
 			int const data_size = av_samples_get_buffer_size (
 				0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
 			
-			audio (deinterleave_audio (_frame->data, data_size), t);
+			audio (deinterleave_audio (_frame->data, data_size));
 		}
 			
 		copy_packet.data += decode_result;
@@ -503,8 +498,9 @@ FFmpegDecoder::decode_video_packet ()
 		}
 		
 		if (i->second != AV_NOPTS_VALUE) {
-			ContentTime const t = rint ((i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset) * TIME_HZ);
-			video (image, false, t);
+			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset;
+			VideoFrame const f = rint (pts * _ffmpeg_content->video_frame_rate ());
+			video (image, false, f);
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);
@@ -606,4 +602,14 @@ FFmpegDecoder::decode_subtitle_packet ()
 			  
 	
 	avsubtitle_free (&sub);
+}
+
+ContentTime
+FFmpegDecoder::first_audio () const
+{
+	if (!_ffmpeg_content->audio_stream ()) {
+		return 0;
+	}
+
+	return _ffmpeg_content->audio_stream()->first_audio.get_value_or(0) + _pts_offset;
 }
