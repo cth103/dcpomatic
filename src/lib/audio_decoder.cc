@@ -54,7 +54,7 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data)
 	if (_resampler) {
 		data = _resampler->run (data);
 	}
-	
+
 	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (data, _audio_position)));
 	_audio_position += data->frames ();
 }
@@ -80,5 +80,5 @@ AudioDecoder::seek (ContentTime t, bool)
 	assert (film);
 	
 	FrameRateChange frc = film->active_frame_rate_change (_audio_content->position ());
-	_audio_position = (t + first_audio()) / frc.speed_up;
+	_audio_position = ((t + first_audio()) / frc.speed_up) * film->audio_frame_rate() / TIME_HZ;
 }
