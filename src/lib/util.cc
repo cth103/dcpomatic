@@ -539,7 +539,7 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
-		throw NetworkError (ec.message ());
+		throw NetworkError (String::compose (_("error during async_connect (%1)"), ec.value ()));
 	}
 
 	if (!_socket.is_open ()) {
@@ -563,7 +563,7 @@ Socket::accept (int port)
 	_acceptor = 0;
 	
 	if (ec) {
-		throw NetworkError (ec.message ());
+		throw NetworkError (String::compose (_("error during async_accept (%1)"), ec.value ()));
 	}
 }
 
@@ -584,7 +584,7 @@ Socket::write (uint8_t const * data, int size)
 	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
-		throw NetworkError (ec.message ());
+		throw NetworkError (String::compose (_("error during async_write (%1)"), ec.value ()));
 	}
 }
 
@@ -612,7 +612,7 @@ Socket::read (uint8_t* data, int size)
 	} while (ec == boost::asio::error::would_block);
 	
 	if (ec) {
-		throw NetworkError (ec.message ());
+		throw NetworkError (String::compose (_("error during async_read (%1)"), ec.value ()));
 	}
 }
 
