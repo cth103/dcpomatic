@@ -1,3 +1,9 @@
+2014-01-03  Carl Hetherington  <cth@carlh.net>
+
+	* New de_DE translation from Markus Raab.
+
+	* Work-around mysterious call of pure virtual method inside boost.
+
 2014-01-01  Carl Hetherington  <cth@carlh.net>
 
 	* Bump ffmpeg version.
