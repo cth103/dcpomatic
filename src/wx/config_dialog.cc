@@ -102,6 +102,7 @@ ConfigDialog::make_misc_panel ()
 	_language->Append (wxT ("Italiano"));
 	_language->Append (wxT ("Español"));
 	_language->Append (wxT ("Svenska"));
+	_language->Append (wxT ("Deutsch"));
 	table->Add (_language);
 
 	wxStaticText* restart = add_label_to_sizer (table, _misc_panel, _("(restart DCP-o-matic to see language changes)"), false);
@@ -147,6 +148,8 @@ ConfigDialog::make_misc_panel ()
 		_language->SetSelection (3);
 	} else if (config->language().get_value_or ("") == "sv") {
 		_language->SetSelection (4);
+	} else if (config->language().get_value_or ("") == "de") {
+		_language->SetSelection (5);
 	} else {
 		_language->SetSelection (0);
 	}
@@ -394,6 +397,9 @@ ConfigDialog::language_changed ()
 		break;
 	case 4:
 		Config::instance()->set_language ("sv");
+		break;
+	case 5:
+		Config::instance()->set_language ("de");
 		break;
 	}
 }
