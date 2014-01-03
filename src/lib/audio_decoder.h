@@ -48,13 +48,12 @@ public:
 	
 protected:
 
-	virtual ContentTime first_audio () const = 0;
-	void audio (boost::shared_ptr<const AudioBuffers>);
+	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
 
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;
-	AudioFrame _audio_position;
+	boost::optional<AudioFrame> _audio_position;
 };
 
 #endif

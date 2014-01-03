@@ -172,11 +172,6 @@ Player::pass ()
 	/* Will be set to false if we shouldn't consume the peeked DecodedThing */
 	bool consume = true;
 
-	/* This is the margin either side of _{video,audio}_position that we will accept
-	   as a starting point for a frame consecutive to the previous.
-	*/
-	DCPTime const margin = TIME_HZ / (2 * _film->video_frame_rate ());
-	
 	if (dv && _video) {
 
 		if (_just_did_inaccurate_seek) {
@@ -185,7 +180,7 @@ Player::pass ()
 			emit_video (earliest_piece, dv);
 			step_video_position (dv);
 			
-		} else if (dv->dcp_time - _video_position > margin) {
+		} else if (dv->dcp_time > _video_position) {
 
 			/* Too far ahead */
 
@@ -208,7 +203,7 @@ Player::pass ()
 
 			consume = false;
 
-		} else if (abs (dv->dcp_time - _video_position) < margin) {
+		} else if (dv->dcp_time == _video_position) {
 			/* We're ok */
 			emit_video (earliest_piece, dv);
 			step_video_position (dv);
@@ -222,12 +217,12 @@ Player::pass ()
 
 	} else if (da && _audio) {
 
-		if (da->dcp_time - _audio_position > margin) {
+		if (da->dcp_time > _audio_position) {
 			/* Too far ahead */
 			emit_silence (da->dcp_time - _audio_position);
 			consume = false;
 			_statistics.audio.silence += (da->dcp_time - _audio_position);
-		} else if (abs (da->dcp_time - _audio_position) < margin) {
+		} else if (da->dcp_time == _audio_position) {
 			/* We're ok */
 			emit_audio (earliest_piece, da);
 			_statistics.audio.good += da->data->frames();

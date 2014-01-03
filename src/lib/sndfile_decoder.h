@@ -36,15 +36,12 @@ public:
 	int audio_frame_rate () const;
 
 private:
-	ContentTime first_audio () const {
-		return 0;
-	}
-
 	bool pass ();
 	
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;
+	AudioFrame _done;
 	AudioFrame _remaining;
 	float* _deinterleave_buffer;
 };

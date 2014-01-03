@@ -445,11 +445,17 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
+			ContentTime const ct = (
+				av_frame_get_best_effort_timestamp (_frame) *
+				av_q2d (_ffmpeg_content->audio_stream()->stream (_format_context)->time_base)
+				+ _pts_offset
+				) * TIME_HZ;
+			
 			int const data_size = av_samples_get_buffer_size (
 				0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
 				);
-			
-			audio (deinterleave_audio (_frame->data, data_size));
+
+			audio (deinterleave_audio (_frame->data, data_size), ct);
 		}
 			
 		copy_packet.data += decode_result;
@@ -602,14 +608,4 @@ FFmpegDecoder::decode_subtitle_packet ()
 			  
 	
 	avsubtitle_free (&sub);
-}
-
-ContentTime
-FFmpegDecoder::first_audio () const
-{
-	if (!_ffmpeg_content->audio_stream ()) {
-		return 0;
-	}
-
-	return _ffmpeg_content->audio_stream()->first_audio.get_value_or(0) + _pts_offset;
 }

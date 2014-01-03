@@ -45,6 +45,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 		throw DecodeError (_("could not open audio file for reading"));
 	}
 
+	_done = 0;
 	_remaining = _info.frames;
 }
 
@@ -93,7 +94,8 @@ SndfileDecoder::pass ()
 	}
 		
 	data->set_frames (this_time);
-	audio (data);
+	audio (data, _done * TIME_HZ / audio_frame_rate ());
+	_done += this_time;
 	_remaining -= this_time;
 
 	return _remaining == 0;
@@ -123,5 +125,6 @@ SndfileDecoder::seek (ContentTime t, bool accurate)
 	Decoder::seek (t, accurate);
 	AudioDecoder::seek (t, accurate);
 
+	_done = t * audio_frame_rate() / TIME_HZ;
 	_remaining = _info.frames - _done;
 }

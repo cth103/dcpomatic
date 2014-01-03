@@ -40,6 +40,14 @@ Decoder::Decoder (shared_ptr<const Film> f)
 
 }
 
+struct DecodedSorter
+{
+	bool operator() (shared_ptr<Decoded> a, shared_ptr<Decoded> b)
+	{
+		return a->dcp_time < b->dcp_time;
+	}
+};
+
 shared_ptr<Decoded>
 Decoder::peek ()
 {
@@ -51,6 +59,7 @@ Decoder::peek ()
 		return shared_ptr<Decoded> ();
 	}
 
+	_pending.sort (DecodedSorter ());
 	return _pending.front ();
 }
 

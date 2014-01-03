@@ -58,7 +58,6 @@ private:
 
 	bool pass ();
 	void flush ();
-	ContentTime first_audio () const;
 
 	void setup_subtitle ();
 
