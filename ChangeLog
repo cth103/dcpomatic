@@ -1,5 +1,9 @@
 2014-01-03  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.55 released.
+
+2014-01-03  Carl Hetherington  <cth@carlh.net>
+
 	* New de_DE translation from Markus Raab.
 
 	* Work-around mysterious call of pure virtual method inside boost.
