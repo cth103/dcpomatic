@@ -1,0 +1,164 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-31 11:04+0000\n"
+"PO-Revision-Date: 2014-01-02 13:17+0100\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: de\n"
+
+#: src/tools/dcpomatic.cc:361
+msgid "%1 already exists as a file, so you cannot use it for a new film."
+msgstr ""
+"%1 existiert bereits als Datei, kann also nicht für einen neuen Film benutzt "
+"werden."
+
+#: src/tools/dcpomatic.cc:237
+msgid "&Edit"
+msgstr "&Bearbeiten"
+
+#: src/tools/dcpomatic.cc:205
+msgid "&Exit"
+msgstr "%Ende"
+
+#: src/tools/dcpomatic.cc:235
+msgid "&File"
+msgstr "&Datei"
+
+#: src/tools/dcpomatic.cc:241
+msgid "&Help"
+msgstr "&Hilfe"
+
+#: src/tools/dcpomatic.cc:239
+msgid "&Jobs"
+msgstr "&Aufgaben"
+
+#: src/tools/dcpomatic.cc:219
+msgid "&Make DCP"
+msgstr "&DCP erstellen"
+
+#: src/tools/dcpomatic.cc:195
+msgid "&Open..."
+msgstr "&Öffnen..."
+
+#: src/tools/dcpomatic.cc:212 src/tools/dcpomatic.cc:215
+msgid "&Preferences..."
+msgstr "&Einstellungen..."
+
+#: src/tools/dcpomatic.cc:199
+msgid "&Properties..."
+msgstr "&Eigenschaften..."
+
+#: src/tools/dcpomatic.cc:207
+msgid "&Quit"
+msgstr "&Beenden"
+
+#: src/tools/dcpomatic.cc:197
+msgid "&Save"
+msgstr "&Speichern"
+
+#: src/tools/dcpomatic.cc:221
+msgid "&Send DCP to TMS"
+msgstr "&DCP an TMS senden"
+
+#: src/tools/dcpomatic.cc:240
+msgid "&Tools"
+msgstr "&Werkzeuge"
+
+#: src/tools/dcpomatic.cc:232
+msgid "About"
+msgstr "Über"
+
+#: src/tools/dcpomatic.cc:230
+msgid "About DCP-o-matic"
+msgstr "Über DCP-o-matic"
+
+#: src/tools/dcpomatic.cc:619
+msgid "Could not load film %1 (%2)"
+msgstr "Film %1 (%2) konnte nicht geladen werden"
+
+#: src/tools/dcpomatic.cc:406
+#, c-format
+msgid "Could not open film at %s (%s)"
+msgstr "Der Film konnte nicht bei %s (%s) geöffnet werden"
+
+#: src/tools/dcpomatic.cc:499
+msgid "Could not show DCP (could not run konqueror)"
+msgstr "DCP kann nicht gezeigt werden (Konqueror konnte nicht geladen werden)"
+
+#: src/tools/dcpomatic.cc:492
+msgid "Could not show DCP (could not run nautilus)"
+msgstr "DCP Kann nicht gezeigt werden (Nautilus konnte nicht geladen werden)"
+
+#: src/tools/dcpomatic.cc:332 src/tools/dcpomatic.cc:577
+#: src/tools/dcpomatic.cc:630
+msgid "DCP-o-matic"
+msgstr "DCP-o-matic"
+
+#: src/tools/dcpomatic.cc:226
+msgid "Encoding Servers..."
+msgstr "Encoding Server..."
+
+#: src/tools/dcpomatic.cc:88
+msgid "Film changed"
+msgstr "Film gewechselt"
+
+#: src/tools/dcpomatic.cc:225
+msgid "Hints..."
+msgstr "Tips..."
+
+#: src/tools/dcpomatic.cc:220
+msgid "Make &KDMs..."
+msgstr "&KDM erstellen..."
+
+#: src/tools/dcpomatic.cc:194
+msgid "New..."
+msgstr "Neu..."
+
+#: src/tools/dcpomatic.cc:222
+msgid "S&how DCP"
+msgstr "Z&eige DCP"
+
+#: src/tools/dcpomatic.cc:87
+#, c-format
+msgid "Save changes to film \"%s\" before closing?"
+msgstr "Änderungen des Films \"%s\" für dem Schließen speichern ?"
+
+#: src/tools/dcpomatic.cc:381
+msgid "Select film to open"
+msgstr "Zu öffnenden Film auswählen"
+
+#: src/tools/dcpomatic.cc:351
+msgid ""
+"The directory %1 already exists and is not empty.  Are you sure you want to "
+"use it?"
+msgstr ""
+"Der Ordner %1 existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
+"benutzen ?"
+
+#: src/tools/dcpomatic.cc:539
+msgid "There are unfinished jobs; are you sure you want to quit?"
+msgstr ""
+"Manche Aufgaben sind nicht erledigt; sind Sie sicher dass Sie Beenden "
+"wollen ?"
+
+#: src/tools/dcpomatic.cc:540
+msgid "Unfinished jobs"
+msgstr "Unerledigte Aufgaben"
+
+#: src/tools/dcpomatic.cc:390
+msgid ""
+"You did not select a folder.  Make sure that you select a folder before "
+"clicking Open."
+msgstr "Kein Ordner ausgewählt. Wählen Sie vor dem Öffnen einen Ordner aus."
