@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-05 18:00+0000\n"
-"PO-Revision-Date: 2014-01-03 14:27+0100\n"
+"PO-Revision-Date: 2014-01-05 23:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -248,6 +248,14 @@ msgid ""
 "Best regards,\n"
 "DCP-o-matic"
 msgstr ""
+"Sehr geehrter Vorführer,\n"
+"\n"
+"Anbei finden Sie den KDM für den Film $CPL_NAME.\n"
+"\n"
+"Der Schlüssel ist vom $START_TIME bis zum $END_TIME gültig.\n"
+"\n"
+"Mit freundlichen Grüßen,\n"
+"DCP-o-matic"
 
 #: src/lib/filter.cc:74
 msgid "Deringing filter"
@@ -635,19 +643,19 @@ msgstr "Datei %1 kann nicht geschrieben werden (%2)"
 
 #: src/lib/util.cc:566
 msgid "error during async_accept (%1)"
-msgstr ""
+msgstr "error during async_accept (%1)"
 
 #: src/lib/util.cc:542
 msgid "error during async_connect (%1)"
-msgstr ""
+msgstr "error during async_connect (%1)"
 
 #: src/lib/util.cc:615
 msgid "error during async_read (%1)"
-msgstr ""
+msgstr "error during async_read (%1)"
 
 #: src/lib/util.cc:587
 msgid "error during async_write (%1)"
-msgstr ""
+msgstr "error during async_write (%1)"
 
 #: src/lib/image_examiner.cc:68
 msgid "first frame in moving image directory is number %1"

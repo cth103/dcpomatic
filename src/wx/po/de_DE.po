@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-05 18:00+0000\n"
-"PO-Revision-Date: 2014-01-03 13:51+0100\n"
+"PO-Revision-Date: 2014-01-05 23:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -23,7 +23,6 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:78
-#, fuzzy
 msgid ""
 "(C) 2012-2014 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 msgstr ""
@@ -299,7 +298,7 @@ msgstr "Festplattenplatz benötigt"
 
 #: src/wx/film_editor.cc:280
 msgid "Down"
-msgstr ""
+msgstr "Nach unten"
 
 #: src/wx/kdm_dialog.cc:68
 msgid "Edit Cinema..."
@@ -774,7 +773,7 @@ msgstr "Bis"
 
 #: src/wx/film_editor.cc:278
 msgid "Up"
-msgstr ""
+msgstr "Nach oben"
 
 #: src/wx/film_editor.cc:126
 msgid "Use DCI name"
