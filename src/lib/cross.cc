@@ -288,3 +288,13 @@ fopen_boost (boost::filesystem::path p, string t)
         return fopen (p.c_str(), t.c_str ());
 #endif
 }
+
+int
+dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
+{
+#ifdef DCPOMATIC_WINDOWS
+	return _fseeki64 (stream, offset, whence);
+#else	
+	return fseek (stream, offset, whence);
+#endif	
+}

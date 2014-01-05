@@ -448,11 +448,7 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 	}
 	
 	/* Read the data from the MXF and hash it */
-#ifdef DCPOMATIC_WINDOWS
-	_fseeki64 (mxf, info.offset, SEEK_SET);
-#else	
-	fseek (mxf, info.offset, SEEK_SET);
-#endif	
+	dcpomatic_fseek (mxf, info.offset, SEEK_SET);
 	EncodedData data (info.size);
 	size_t const read = fread (data.data(), 1, data.size(), mxf);
 	if (read != static_cast<size_t> (data.size ())) {

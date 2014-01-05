@@ -125,7 +125,7 @@ FileGroup::seek (int64_t pos, int whence) const
 	}
 
 	ensure_open_path (i);
-	fseek (_current_file, sub_pos, SEEK_SET);
+	dcpomatic_fseek (_current_file, sub_pos, SEEK_SET);
 	return full_pos;
 }
 

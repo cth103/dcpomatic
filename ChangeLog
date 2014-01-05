@@ -1,3 +1,7 @@
+2014-01-05  Carl Hetherington  <cth@carlh.net>
+
+	* Use _fseeki64 on Windows when reading content files.
+
 2014-01-03  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.56 released.
