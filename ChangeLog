@@ -1,5 +1,9 @@
 2014-01-05  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.57 released.
+
+2014-01-05  Carl Hetherington  <cth@carlh.net>
+
 	* Use _fseeki64 on Windows when reading content files.
 
 	* Various small fixes to i18n.
