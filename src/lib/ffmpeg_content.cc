@@ -374,7 +374,7 @@ FFmpegStream::as_xml (xmlpp::Node* root) const
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node, int version)
 	: FFmpegStream (node, version)
-	, mapping (node->node_child ("Mapping"))
+	, mapping (node->node_child ("Mapping"), version)
 {
 	frame_rate = node->number_child<int> ("FrameRate");
 	channels = node->number_child<int64_t> ("Channels");

@@ -1,5 +1,7 @@
 2014-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Basics of per-channel audio gain (#247).
+
 	* Give a warning on make DCP if it seems unlikely that the disk
 	will have enough space to store the finished DCP (#92).
 

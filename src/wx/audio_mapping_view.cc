@@ -25,22 +25,23 @@
 #include "lib/util.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
+#include "audio_gain_dialog.h"
 
 using std::cout;
 using std::list;
+using std::string;
+using std::max;
 using boost::shared_ptr;
+using boost::lexical_cast;
 
-/* This could go away with wxWidgets 2.9, which has an API call
-   to find these values.
-*/
+#define INDICATOR_SIZE 20
 
-#ifdef __WXMSW__
-#define CHECKBOX_WIDTH 16
-#define CHECKBOX_HEIGHT 16
-#else
-#define CHECKBOX_WIDTH 20
-#define CHECKBOX_HEIGHT 20
-#endif
+enum {
+	ID_off = 1,
+	ID_full = 2,
+	ID_minus3dB = 3,
+	ID_edit = 4
+};
 
 class NoSelectionStringRenderer : public wxGridCellStringRenderer
 {
@@ -51,40 +52,62 @@ public:
 	}
 };
 
-class CheckBoxRenderer : public wxGridCellRenderer
+class ValueRenderer : public wxGridCellRenderer
 {
 public:
 
 	void Draw (wxGrid& grid, wxGridCellAttr &, wxDC& dc, const wxRect& rect, int row, int col, bool)
 	{
-		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 0, wxPENSTYLE_SOLID));
+		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 1, wxPENSTYLE_SOLID));
+		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
 		dc.DrawRectangle (rect);
+
+		int const xo = (rect.GetWidth() - INDICATOR_SIZE) / 2;
+		int const yo = (rect.GetHeight() - INDICATOR_SIZE) / 2;
+
+		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
+		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
+		dc.DrawRectangle (wxRect (rect.GetLeft() + xo, rect.GetTop() + yo, INDICATOR_SIZE, INDICATOR_SIZE));
+
+		float const value = lexical_cast<float> (wx_to_std (grid.GetCellValue (row, col)));
+		float const value_dB = 20 * log10 (value);
+		int const range = 18;
+		int height = 0;
+		if (value_dB > -range) {
+			height = INDICATOR_SIZE * (1 + value_dB / range);
+		}
+
+		height = max (0, height);
 		
-		wxRendererNative::Get().DrawCheckBox (
-			&grid,
-			dc, rect,
-			grid.GetCellValue (row, col) == wxT("1") ? static_cast<int>(wxCONTROL_CHECKED) : 0
-			);
+		if (value > 0) {
+			/* Make sure we get a little bit of the marker if there is any gain */
+			height = max (3, height);
+		}
+
+		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (0, 255, 0), wxBRUSHSTYLE_SOLID));
+		dc.DrawRectangle (wxRect (rect.GetLeft() + xo, rect.GetTop() + yo + INDICATOR_SIZE - height, INDICATOR_SIZE, height));
 	}
 
 	wxSize GetBestSize (wxGrid &, wxGridCellAttr &, wxDC &, int, int)
 	{
-		return wxSize (CHECKBOX_WIDTH + 4, CHECKBOX_HEIGHT + 4);
+		return wxSize (INDICATOR_SIZE + 4, INDICATOR_SIZE + 4);
 	}
 	
 	wxGridCellRenderer* Clone () const
 	{
-		return new CheckBoxRenderer;
+		return new ValueRenderer;
 	}
 };
 
 
 AudioMappingView::AudioMappingView (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
+	, _menu_row (0)
+	, _menu_column (1)
 {
 	_grid = new wxGrid (this, wxID_ANY);
 
-	_grid->CreateGrid (0, 7);
+	_grid->CreateGrid (0, MAX_AUDIO_CHANNELS + 1);
 	_grid->HideRowLabels ();
 	_grid->DisableDragRowSize ();
 	_grid->DisableDragColSize ();
@@ -99,6 +122,18 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	SetSizerAndFit (_sizer);
 
 	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
+	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
+
+	_menu = new wxMenu;
+	_menu->Append (ID_off, _("Off"));
+	_menu->Append (ID_full, _("Full"));
+	_menu->Append (ID_minus3dB, _("-3dB"));
+	_menu->Append (ID_edit, _("Edit..."));
+
+	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::off, this), ID_off);
+	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::full, this), ID_full);
+	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::minus3dB, this), ID_minus3dB);
+	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::edit, this), ID_edit);
 }
 
 void
@@ -107,56 +142,104 @@ AudioMappingView::left_click (wxGridEvent& ev)
 	if (ev.GetCol() == 0) {
 		return;
 	}
+
+	libdcp::Channel d = static_cast<libdcp::Channel> (ev.GetCol() - 1);
 	
-	if (_grid->GetCellValue (ev.GetRow(), ev.GetCol()) == wxT("1")) {
-		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("0"));
+	if (_map.get (ev.GetRow(), d) > 0) {
+		_map.set (ev.GetRow(), d, 0);
 	} else {
-		_grid->SetCellValue (ev.GetRow(), ev.GetCol(), wxT("1"));
+		_map.set (ev.GetRow(), d, 1);
 	}
 
-	_map = AudioMapping (_map.content_channels ());
-	
-	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
-		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			if (_grid->GetCellValue (i, j) == wxT ("1")) {
-				_map.add (i, static_cast<libdcp::Channel> (j - 1));
-			}
-		}
-	}
-
+	update_cells ();
 	Changed (_map);
+}
+
+void
+AudioMappingView::right_click (wxGridEvent& ev)
+{
+	if (ev.GetCol() == 0) {
+		return;
+	}
+
+	_menu_row = ev.GetRow ();
+	_menu_column = ev.GetCol ();
+	PopupMenu (_menu, ev.GetPosition ());
+}
+
+void
+AudioMappingView::off ()
+{
+	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 0);
+	update_cells ();
+	Changed (_map);
+}
+
+void
+AudioMappingView::full ()
+{
+	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 1);
+	update_cells ();
+	Changed (_map);
+}
+
+void
+AudioMappingView::minus3dB ()
+{
+	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 1 / sqrt (2));
+	update_cells ();
+	Changed (_map);
+}
+
+void
+AudioMappingView::edit ()
+{
+	libdcp::Channel d = static_cast<libdcp::Channel> (_menu_column - 1);
+	
+	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_row, _menu_column - 1, _map.get (_menu_row, d));
+	if (dialog->ShowModal () == wxID_OK) {
+		_map.set (_menu_row, d, dialog->value ());
+		update_cells ();
+		Changed (_map);
+	}
+	
+	dialog->Destroy ();
 }
 
 void
 AudioMappingView::set (AudioMapping map)
 {
 	_map = map;
-	
+	update_cells ();
+}
+
+void
+AudioMappingView::update_cells ()
+{
 	if (_grid->GetNumberRows ()) {
 		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}
 
 	_grid->InsertRows (0, _map.content_channels ());
 
-	for (int r = 0; r < _map.content_channels(); ++r) {
-		for (int c = 1; c < 7; ++c) {
-			_grid->SetCellRenderer (r, c, new CheckBoxRenderer);
+	for (int i = 0; i < _map.content_channels(); ++i) {
+		for (int j = 0; j < MAX_AUDIO_CHANNELS; ++j) {
+			_grid->SetCellRenderer (i, j + 1, new ValueRenderer);
 		}
 	}
 	
 	for (int i = 0; i < _map.content_channels(); ++i) {
 		_grid->SetCellValue (i, 0, wxString::Format (wxT("%d"), i + 1));
 
-		list<libdcp::Channel> const d = _map.content_to_dcp (i);
-		for (list<libdcp::Channel>::const_iterator j = d.begin(); j != d.end(); ++j) {
-			int const c = static_cast<int>(*j) + 1;
-			if (c < _grid->GetNumberCols ()) {
-				_grid->SetCellValue (i, c, wxT("1"));
-			}
+		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
+			_grid->SetCellValue (i, j, std_to_wx (lexical_cast<string> (_map.get (i, static_cast<libdcp::Channel> (j - 1)))));
 		}
 	}
+
+	_grid->AutoSize ();
 }
 
+/** @param c Number of DCP channels */
 void
 AudioMappingView::set_channels (int c)
 {
@@ -169,7 +252,7 @@ AudioMappingView::set_channels (int c)
 		set_column_labels ();
 	}
 
-	set (_map);
+	update_cells ();
 }
 
 void

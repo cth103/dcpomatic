@@ -344,10 +344,18 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
 	dcp_mapped->make_silent ();
-	list<pair<int, libdcp::Channel> > map = content->audio_mapping().content_to_dcp ();
-	for (list<pair<int, libdcp::Channel> >::iterator i = map.begin(); i != map.end(); ++i) {
-		if (i->first < audio->channels() && i->second < dcp_mapped->channels()) {
-			dcp_mapped->accumulate_channel (audio.get(), i->first, i->second);
+
+	AudioMapping map = content->audio_mapping ();
+	for (int i = 0; i < map.content_channels(); ++i) {
+		for (int j = 0; j < _film->audio_channels(); ++j) {
+			if (map.get (i, static_cast<libdcp::Channel> (j)) > 0) {
+				dcp_mapped->accumulate_channel (
+					audio.get(),
+					i,
+					static_cast<libdcp::Channel> (j),
+					map.get (i, static_cast<libdcp::Channel> (j))
+					);
+			}
 		}
 	}
 

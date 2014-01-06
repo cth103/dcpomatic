@@ -108,6 +108,7 @@ AudioPanel::film_changed (Film::Property property)
 	case Film::AUDIO_CHANNELS:
 		_mapping->set_channels (_editor->film()->audio_channels ());
 		_sizer->Layout ();
+		_sizer->Fit (this);
 		break;
 	default:
 		break;
@@ -131,6 +132,7 @@ AudioPanel::film_content_changed (int property)
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_stream_description ();
 		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
+		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_stream->Clear ();
 		if (fcs) {

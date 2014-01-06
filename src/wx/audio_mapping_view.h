@@ -34,9 +34,20 @@ public:
 
 private:
 	void left_click (wxGridEvent &);
+	void right_click (wxGridEvent &);
 	void set_column_labels ();
+	void update_cells ();
+
+	void off ();
+	void full ();
+	void minus3dB ();
+	void edit ();
 
 	wxGrid* _grid;
 	wxSizer* _sizer;
 	AudioMapping _map;
+
+	wxMenu* _menu;
+	int _menu_row;
+	int _menu_column;
 };

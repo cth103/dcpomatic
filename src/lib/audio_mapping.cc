@@ -21,6 +21,7 @@
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include "audio_mapping.h"
+#include "util.h"
 
 using std::list;
 using std::cout;
@@ -41,77 +42,86 @@ AudioMapping::AudioMapping ()
  *  @param c Number of channels.
  */
 AudioMapping::AudioMapping (int c)
-	: _content_channels (c)
 {
+	setup (c);
+}
 
+void
+AudioMapping::setup (int c)
+{
+	_content_channels = c;
+	
+	_gain.resize (_content_channels);
+	for (int i = 0; i < _content_channels; ++i) {
+		_gain[i].resize (MAX_AUDIO_CHANNELS);
+	}
 }
 
 void
 AudioMapping::make_default ()
 {
+	for (int i = 0; i < _content_channels; ++i) {
+		for (int j = 0; j < MAX_AUDIO_CHANNELS; ++j) {
+			_gain[i][j] = 0;
+		}
+	}
+
 	if (_content_channels == 1) {
 		/* Mono -> Centre */
-		add (0, libdcp::CENTRE);
+		set (0, libdcp::CENTRE, 1);
 	} else {
 		/* 1:1 mapping */
 		for (int i = 0; i < _content_channels; ++i) {
-			add (i, static_cast<libdcp::Channel> (i));
+			set (i, static_cast<libdcp::Channel> (i), 1);
 		}
 	}
 }
 
-AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node)
+AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node, int state_version)
 {
-	_content_channels = node->number_child<int> ("ContentChannels");
-	
-	list<cxml::NodePtr> const c = node->node_children ("Map");
-	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		add ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")));
+	setup (node->number_child<int> ("ContentChannels"));
+
+	if (state_version <= 5) {
+		/* Old-style: on/off mapping */
+		list<cxml::NodePtr> const c = node->node_children ("Map");
+		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
+			set ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")), 1);
+		}
+	} else {
+		list<cxml::NodePtr> const c = node->node_children ("Gain");
+		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
+			set (
+				(*i)->number_attribute<int> ("Content"),
+				static_cast<libdcp::Channel> ((*i)->number_attribute<int> ("DCP")),
+				lexical_cast<float> ((*i)->content ())
+				);
+		}
 	}
 }
 
 void
-AudioMapping::add (int c, libdcp::Channel d)
+AudioMapping::set (int c, libdcp::Channel d, float g)
 {
-	_content_to_dcp.push_back (make_pair (c, d));
+	_gain[c][d] = g;
 }
 
-list<int>
-AudioMapping::dcp_to_content (libdcp::Channel d) const
+float
+AudioMapping::get (int c, libdcp::Channel d) const
 {
-	list<int> c;
-	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
-		if (i->second == d) {
-			c.push_back (i->first);
-		}
-	}
-
-	return c;
-}
-
-list<libdcp::Channel>
-AudioMapping::content_to_dcp (int c) const
-{
-	assert (c < _content_channels);
-	
-	list<libdcp::Channel> d;
-	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
-		if (i->first == c) {
-			d.push_back (i->second);
-		}
-	}
-
-	return d;
+	return _gain[c][d];
 }
 
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
 	node->add_child ("ContentChannels")->add_child_text (lexical_cast<string> (_content_channels));
-	
-	for (list<pair<int, libdcp::Channel> >::const_iterator i = _content_to_dcp.begin(); i != _content_to_dcp.end(); ++i) {
-		xmlpp::Node* t = node->add_child ("Map");
-		t->add_child ("ContentIndex")->add_child_text (lexical_cast<string> (i->first));
-		t->add_child ("DCP")->add_child_text (lexical_cast<string> (i->second));
+
+	for (int c = 0; c < _content_channels; ++c) {
+		for (int d = 0; d < MAX_AUDIO_CHANNELS; ++d) {
+			xmlpp::Element* t = node->add_child ("Gain");
+			t->set_attribute ("Content", lexical_cast<string> (c));
+			t->set_attribute ("DCP", lexical_cast<string> (d));
+			t->add_child_text (lexical_cast<string> (get (c, static_cast<libdcp::Channel> (d))));
+		}
 	}
 }

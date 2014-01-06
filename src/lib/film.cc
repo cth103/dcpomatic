@@ -81,7 +81,10 @@ using boost::optional;
 using libdcp::Size;
 using libdcp::Signer;
 
-int const Film::state_version = 5;
+/* 5 -> 6
+ * AudioMapping XML changed.
+ */
+int const Film::state_version = 6;
 
 /** Construct a Film object in a given directory.
  *
