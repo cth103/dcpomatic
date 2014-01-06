@@ -100,7 +100,11 @@ FileGroup::seek (int64_t pos, int whence) const
 		for (size_t i = 0; i < _current_path; ++i) {
 			full_pos += boost::filesystem::file_size (_paths[i]);
 		}
+#ifdef DCPOMATIC_WINDOWS
+		full_pos += _ftelli64 (_current_file);
+#else		
 		full_pos += ftell (_current_file);
+#endif		
 		full_pos += pos;
 		break;
 	case SEEK_END:
