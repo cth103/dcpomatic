@@ -442,6 +442,15 @@ private:
 
 	void jobs_make_dcp ()
 	{
+		double required;
+		double available;
+
+		if (!film->should_be_enough_disk_space (required, available)) {
+			if (!confirm_dialog (this, wxString::Format (_("The DCP for this film will take up about %.1f Gb, and the disk that you are using only has %.1f Gb available.  Do you want to continue anyway?"), required, available))) {
+				return;
+			}
+		}
+		
 		JobWrapper::make_dcp (this, film);
 	}
 

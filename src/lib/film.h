@@ -108,6 +108,9 @@ public:
 	Time video_frames_to_time (OutputVideoFrame) const;
 	Time audio_frames_to_time (OutputAudioFrame) const;
 
+	uint64_t required_disk_space () const;
+	bool should_be_enough_disk_space (double &, double &) const;
+	
 	/* Proxies for some Playlist methods */
 
 	ContentList content () const;
