@@ -82,7 +82,7 @@ def build(bld):
     i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic-wx', bld)
 
 def pot(bld):
-    i18n.pot(os.path.join('src', 'wx'), sources, 'libdcpomatic-wx')
+    i18n.pot(os.path.join('src', 'wx'), sources + " editable_list.h", 'libdcpomatic-wx')
 
 def pot_merge(bld):
     i18n.pot_merge(os.path.join('src', 'wx'), 'libdcpomatic-wx')

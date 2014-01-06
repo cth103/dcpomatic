@@ -1,3 +1,34 @@
+2014-01-06  Carl Hetherington  <cth@carlh.net>
+
+	* Make sure forced languages override the environment for gettext()
+	as well as wxWidgets' i18n code (#108).
+
+	* Bump libdcp version to get a fix for VOLINDEX/ASSETMAP file extensions
+	with interop (#206).
+
+	* Fix subtitle colouring (#152).
+
+	* Fix mis-timed subtitles when there is a non-zero video PTS offset.
+
+	* Remove seemingly unnecessary checks on image directories.
+
+	* Leave DCP directory creation until the last minute to help
+	avoid half-eaten directories being left around (#174).
+
+2014-01-05  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.57 released.
+
+2014-01-05  Carl Hetherington  <cth@carlh.net>
+
+	* Use _fseeki64 on Windows when reading content files.
+
+	* Various small fixes to i18n.
+
+2014-01-03  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.56 released.
+
 2014-01-03  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.55 released.

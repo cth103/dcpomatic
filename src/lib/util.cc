@@ -350,6 +350,8 @@ dcpomatic_setup_gettext_i18n (string lang)
 		putenv (cmd);
 		snprintf (cmd, sizeof(cmd), "LANG=%s", lang.c_str ());
 		putenv (cmd);
+		snprintf (cmd, sizeof(cmd), "LC_ALL=%s", lang.c_str ());
+		putenv (cmd);
 	}
 
 	setlocale (LC_ALL, "");

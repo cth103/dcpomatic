@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-31 11:04+0000\n"
-"PO-Revision-Date: 2014-01-03 13:51+0100\n"
+"POT-Creation-Date: 2014-01-05 18:00+0000\n"
+"PO-Revision-Date: 2014-01-05 23:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: de\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
 msgid "%"
@@ -24,15 +24,15 @@ msgstr "%"
 
 #: src/wx/about_dialog.cc:78
 msgid ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+"(C) 2012-2014 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 msgstr ""
-"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+"(C) 2012-2014 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
-#: src/wx/config_dialog.cc:130
+#: src/wx/config_dialog.cc:131
 msgid "(password will be stored on disk in plaintext)"
 msgstr "(Passwort wird in Klartext gespeichert)"
 
-#: src/wx/config_dialog.cc:107
+#: src/wx/config_dialog.cc:108
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(DCP-o-matic zum ändern der Sprache neu starten)"
 
@@ -87,6 +87,10 @@ msgstr "Datei(en) hinzufügen..."
 #: src/wx/film_editor.cc:274
 msgid "Add folder..."
 msgstr "Ordner hinzufügen..."
+
+#: src/wx/editable_list.h:61
+msgid "Add..."
+msgstr "Hinzufügen..."
 
 #: src/wx/audio_dialog.cc:33 src/wx/audio_panel.cc:40
 msgid "Audio"
@@ -214,7 +218,7 @@ msgstr "DCP konnte nicht erstellt werden: %s"
 msgid "Create in folder"
 msgstr "In Ordner erstellen"
 
-#: src/wx/config_dialog.cc:329
+#: src/wx/config_dialog.cc:332
 msgid "Creator"
 msgstr "Ersteller"
 
@@ -252,31 +256,31 @@ msgstr "DCP-o-matic Einstellungen"
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic Ton - %s"
 
-#: src/wx/config_dialog.cc:201
+#: src/wx/config_dialog.cc:204
 msgid "Default DCI name details"
 msgstr "Standard DCI Name Details"
 
-#: src/wx/config_dialog.cc:214
+#: src/wx/config_dialog.cc:217
 msgid "Default JPEG2000 bandwidth"
 msgstr "Standard JPEG2000 Bandbreite"
 
-#: src/wx/config_dialog.cc:223
+#: src/wx/config_dialog.cc:226
 msgid "Default audio delay"
 msgstr "Standard Ton Delay"
 
-#: src/wx/config_dialog.cc:205
+#: src/wx/config_dialog.cc:208
 msgid "Default container"
 msgstr "Standard Container"
 
-#: src/wx/config_dialog.cc:209
+#: src/wx/config_dialog.cc:212
 msgid "Default content type"
 msgstr "Standard Inhalt Typ"
 
-#: src/wx/config_dialog.cc:193
+#: src/wx/config_dialog.cc:196
 msgid "Default directory for new films"
 msgstr "Standard Ordner für neue Filme"
 
-#: src/wx/config_dialog.cc:185
+#: src/wx/config_dialog.cc:188
 msgid "Default duration of still images"
 msgstr "Satndard Länge der Standbilder"
 
@@ -292,6 +296,10 @@ msgstr "Details..."
 msgid "Disk space required"
 msgstr "Festplattenplatz benötigt"
 
+#: src/wx/film_editor.cc:280
+msgid "Down"
+msgstr "Nach unten"
+
 #: src/wx/kdm_dialog.cc:68
 msgid "Edit Cinema..."
 msgstr "Kino bearbeiten..."
@@ -300,8 +308,8 @@ msgstr "Kino bearbeiten..."
 msgid "Edit Screen..."
 msgstr "Saal bearbeiten..."
 
-#: src/wx/config_dialog.cc:202 src/wx/video_panel.cc:157
-#: src/wx/video_panel.cc:174
+#: src/wx/config_dialog.cc:205 src/wx/video_panel.cc:157
+#: src/wx/video_panel.cc:174 src/wx/editable_list.h:63
 msgid "Edit..."
 msgstr "Bearbeiten..."
 
@@ -357,7 +365,7 @@ msgstr "Kostenlose open-source DCP Erstellung von fast allem."
 msgid "From"
 msgstr "Von"
 
-#: src/wx/config_dialog.cc:134
+#: src/wx/config_dialog.cc:135
 msgid "From address for KDM emails"
 msgstr "Von Adresse für KDM Emails"
 
@@ -393,11 +401,11 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Ich möchte bei dieser Lautstärke spielen"
 
-#: src/wx/config_dialog.cc:286
+#: src/wx/config_dialog.cc:289
 msgid "IP address"
 msgstr "IP Adresse"
 
-#: src/wx/config_dialog.cc:358
+#: src/wx/config_dialog.cc:361
 msgid "IP address / host name"
 msgstr "IP Adresse / Host Name"
 
@@ -409,7 +417,7 @@ msgstr "Eingangs Gamma"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:325
+#: src/wx/config_dialog.cc:328
 msgid "Issuer"
 msgstr "Herausgeber"
 
@@ -449,7 +457,7 @@ msgstr "Linearisiere Eingangs Gamma für niedrige Werte"
 msgid "Ls"
 msgstr "SL"
 
-#: src/wx/config_dialog.cc:218 src/wx/film_editor.cc:180
+#: src/wx/config_dialog.cc:221 src/wx/film_editor.cc:180
 msgid "MBps"
 msgstr "MBps"
 
@@ -457,11 +465,11 @@ msgstr "MBps"
 msgid "MISSING: "
 msgstr "FEHLT:"
 
-#: src/wx/config_dialog.cc:126
+#: src/wx/config_dialog.cc:127
 msgid "Mail password"
 msgstr "Mail Passwort"
 
-#: src/wx/config_dialog.cc:122
+#: src/wx/config_dialog.cc:123
 msgid "Mail user name"
 msgstr "Mail Benutzername"
 
@@ -489,7 +497,7 @@ msgstr "Mehrere Inhalte ausgewählt"
 msgid "My Documents"
 msgstr "Meine Dokumente"
 
-#: src/wx/config_dialog.cc:521 src/wx/film_editor.cc:111
+#: src/wx/config_dialog.cc:527 src/wx/film_editor.cc:111
 #: src/wx/preset_colour_conversion_dialog.cc:38
 msgid "Name"
 msgstr "Name"
@@ -506,7 +514,7 @@ msgstr "Ohne Zerrung"
 msgid "None"
 msgstr "Kein"
 
-#: src/wx/config_dialog.cc:118
+#: src/wx/config_dialog.cc:119
 msgid "Outgoing mail server"
 msgstr "Ausgehender Mail Server"
 
@@ -523,7 +531,7 @@ msgstr "Paket Typ (e.g. OV)"
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Mit Schwarz gefüllt auf %dx%d (%.2f:1)\n"
 
-#: src/wx/config_dialog.cc:298
+#: src/wx/config_dialog.cc:301
 msgid "Password"
 msgstr "Passwort"
 
@@ -564,6 +572,7 @@ msgid "Rating (e.g. 15)"
 msgstr "FSK (z.B. 12)"
 
 #: src/wx/content_menu.cc:54 src/wx/film_editor.cc:276
+#: src/wx/editable_list.h:65
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -684,7 +693,7 @@ msgstr "Untertitel Spur"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:129
+#: src/wx/about_dialog.cc:131
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -692,7 +701,7 @@ msgstr "Unterstützt durch"
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:290
+#: src/wx/config_dialog.cc:293
 msgid "Target path"
 msgstr "Zielpfad"
 
@@ -718,7 +727,7 @@ msgstr "Keine Tipps: Alles sieht gut aus !"
 msgid "Threads"
 msgstr "Kerne"
 
-#: src/wx/config_dialog.cc:114
+#: src/wx/config_dialog.cc:115
 msgid "Threads to use for encoding on this host"
 msgstr "Auf diesem Host zu benutzende Kerne"
 
@@ -742,7 +751,7 @@ msgstr "Timing"
 msgid "Top crop"
 msgstr "Oben beschneiden"
 
-#: src/wx/about_dialog.cc:100
+#: src/wx/about_dialog.cc:101
 msgid "Translated by"
 msgstr "Übersetzt von"
 
@@ -762,11 +771,15 @@ msgstr "Typ"
 msgid "Until"
 msgstr "Bis"
 
+#: src/wx/film_editor.cc:278
+msgid "Up"
+msgstr "Nach oben"
+
 #: src/wx/film_editor.cc:126
 msgid "Use DCI name"
 msgstr "DCI Name benutzen"
 
-#: src/wx/config_dialog.cc:354
+#: src/wx/config_dialog.cc:357
 msgid "Use all servers"
 msgstr "Alle Server benutzen"
 
@@ -778,7 +791,7 @@ msgstr "Beste benutzen"
 msgid "Use preset"
 msgstr "Preset benutzen"
 
-#: src/wx/config_dialog.cc:294
+#: src/wx/config_dialog.cc:297
 msgid "User name"
 msgstr "Benutzer Name"
 
@@ -850,11 +863,11 @@ msgid "dB"
 msgstr "dB"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:78 src/wx/config_dialog.cc:227
+#: src/wx/audio_panel.cc:78 src/wx/config_dialog.cc:230
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/config_dialog.cc:189
+#: src/wx/config_dialog.cc:192
 msgid "s"
 msgstr "s"
 

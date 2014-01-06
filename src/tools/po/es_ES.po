@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-26 22:26+0000\n"
+"POT-Creation-Date: 2014-01-05 18:00+0000\n"
 "PO-Revision-Date: 2013-11-09 02:47-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -17,143 +17,143 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#: src/tools/dcpomatic.cc:358
+#: src/tools/dcpomatic.cc:361
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr "%1 ya existe como fichero, no puedes usarlo para una nueva película."
 
-#: src/tools/dcpomatic.cc:235
+#: src/tools/dcpomatic.cc:237
 msgid "&Edit"
 msgstr "&Editar"
 
-#: src/tools/dcpomatic.cc:203
+#: src/tools/dcpomatic.cc:205
 msgid "&Exit"
 msgstr "&Salir"
 
-#: src/tools/dcpomatic.cc:233
+#: src/tools/dcpomatic.cc:235
 msgid "&File"
 msgstr "&Archivo"
 
-#: src/tools/dcpomatic.cc:239
+#: src/tools/dcpomatic.cc:241
 msgid "&Help"
 msgstr "&Ayuda"
 
-#: src/tools/dcpomatic.cc:237
+#: src/tools/dcpomatic.cc:239
 msgid "&Jobs"
 msgstr "&Tareas"
 
-#: src/tools/dcpomatic.cc:217
+#: src/tools/dcpomatic.cc:219
 msgid "&Make DCP"
 msgstr "&Crear DCP"
 
-#: src/tools/dcpomatic.cc:193
+#: src/tools/dcpomatic.cc:195
 msgid "&Open..."
 msgstr "&Abrir..."
 
-#: src/tools/dcpomatic.cc:210 src/tools/dcpomatic.cc:213
+#: src/tools/dcpomatic.cc:212 src/tools/dcpomatic.cc:215
 msgid "&Preferences..."
 msgstr "&Preferencias..."
 
-#: src/tools/dcpomatic.cc:197
+#: src/tools/dcpomatic.cc:199
 msgid "&Properties..."
 msgstr "&Propiedades..."
 
-#: src/tools/dcpomatic.cc:205
+#: src/tools/dcpomatic.cc:207
 msgid "&Quit"
 msgstr "&Salir"
 
-#: src/tools/dcpomatic.cc:195
+#: src/tools/dcpomatic.cc:197
 msgid "&Save"
 msgstr "&Guardar"
 
-#: src/tools/dcpomatic.cc:219
+#: src/tools/dcpomatic.cc:221
 msgid "&Send DCP to TMS"
 msgstr "&Enviar DCP al TMS"
 
-#: src/tools/dcpomatic.cc:238
+#: src/tools/dcpomatic.cc:240
 msgid "&Tools"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:230
+#: src/tools/dcpomatic.cc:232
 msgid "About"
 msgstr "Acerca de"
 
-#: src/tools/dcpomatic.cc:228
+#: src/tools/dcpomatic.cc:230
 #, fuzzy
 msgid "About DCP-o-matic"
 msgstr "DVD-o-matic"
 
-#: src/tools/dcpomatic.cc:612
+#: src/tools/dcpomatic.cc:619
 #, fuzzy
 msgid "Could not load film %1 (%2)"
 msgstr "No se pudo cargar la película %s (%s)"
 
-#: src/tools/dcpomatic.cc:403
+#: src/tools/dcpomatic.cc:406
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "No se pudo cargar la película en %s (%s)"
 
-#: src/tools/dcpomatic.cc:494
+#: src/tools/dcpomatic.cc:499
 msgid "Could not show DCP (could not run konqueror)"
 msgstr "No se pudo mostrar el DCP (no se pudo ejecutar konqueror)"
 
-#: src/tools/dcpomatic.cc:487
+#: src/tools/dcpomatic.cc:492
 msgid "Could not show DCP (could not run nautilus)"
 msgstr "No se pudo mostrar el DCP (no se pudo ejecutar nautilus)"
 
-#: src/tools/dcpomatic.cc:329 src/tools/dcpomatic.cc:570
-#: src/tools/dcpomatic.cc:623
+#: src/tools/dcpomatic.cc:332 src/tools/dcpomatic.cc:577
+#: src/tools/dcpomatic.cc:630
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:224
+#: src/tools/dcpomatic.cc:226
 msgid "Encoding Servers..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:86
+#: src/tools/dcpomatic.cc:88
 msgid "Film changed"
 msgstr "Película cambiada"
 
-#: src/tools/dcpomatic.cc:223
+#: src/tools/dcpomatic.cc:225
 msgid "Hints..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:218
+#: src/tools/dcpomatic.cc:220
 msgid "Make &KDMs..."
 msgstr "Crear &KDMs..."
 
-#: src/tools/dcpomatic.cc:192
+#: src/tools/dcpomatic.cc:194
 msgid "New..."
 msgstr "Nuevo..."
 
-#: src/tools/dcpomatic.cc:220
+#: src/tools/dcpomatic.cc:222
 msgid "S&how DCP"
 msgstr "&Mostrar DCP"
 
-#: src/tools/dcpomatic.cc:85
+#: src/tools/dcpomatic.cc:87
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Guardar cambios de la película \"%s\" antes de cerrar?"
 
-#: src/tools/dcpomatic.cc:378
+#: src/tools/dcpomatic.cc:381
 msgid "Select film to open"
 msgstr "Selecciona la película a abrir"
 
-#: src/tools/dcpomatic.cc:348
+#: src/tools/dcpomatic.cc:351
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
 "El directorio %1 ya existe y no está vacío. ¿Estás seguro de querer usarlo?"
 
-#: src/tools/dcpomatic.cc:534
+#: src/tools/dcpomatic.cc:539
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Hay trabajos sin finalizar; ¿estás seguro de querer cerrar?"
 
-#: src/tools/dcpomatic.cc:535
+#: src/tools/dcpomatic.cc:540
 msgid "Unfinished jobs"
 msgstr "Trabajos sin finalizar"
 
-#: src/tools/dcpomatic.cc:387
+#: src/tools/dcpomatic.cc:390
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-31 11:04+0000\n"
-"PO-Revision-Date: 2014-01-03 14:27+0100\n"
+"POT-Creation-Date: 2014-01-05 18:00+0000\n"
+"PO-Revision-Date: 2014-01-05 23:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: de\n"
 
 #: src/lib/sndfile_content.cc:60
 msgid "%1 [audio]"
@@ -236,6 +236,26 @@ msgstr "De-Blocking"
 #: src/lib/filter.cc:81 src/lib/filter.cc:82 src/lib/filter.cc:83
 msgid "De-interlacing"
 msgstr "De-Interlacer"
+
+#: src/lib/config.cc:69
+msgid ""
+"Dear Projectionist\n"
+"\n"
+"Please find attached KDMs for $CPL_NAME.\n"
+"\n"
+"The KDMs are valid from $START_TIME until $END_TIME.\n"
+"\n"
+"Best regards,\n"
+"DCP-o-matic"
+msgstr ""
+"Sehr geehrter Vorführer,\n"
+"\n"
+"Anbei finden Sie den KDM für den Film $CPL_NAME.\n"
+"\n"
+"Der Schlüssel ist vom $START_TIME bis zum $END_TIME gültig.\n"
+"\n"
+"Mit freundlichen Grüßen,\n"
+"DCP-o-matic"
 
 #: src/lib/filter.cc:74
 msgid "Deringing filter"
@@ -620,6 +640,22 @@ msgstr "SSH Session kann nicht gestartet werden"
 #: src/lib/exceptions.cc:48
 msgid "could not write to file %1 (%2)"
 msgstr "Datei %1 kann nicht geschrieben werden (%2)"
+
+#: src/lib/util.cc:566
+msgid "error during async_accept (%1)"
+msgstr "error during async_accept (%1)"
+
+#: src/lib/util.cc:542
+msgid "error during async_connect (%1)"
+msgstr "error during async_connect (%1)"
+
+#: src/lib/util.cc:615
+msgid "error during async_read (%1)"
+msgstr "error during async_read (%1)"
+
+#: src/lib/util.cc:587
+msgid "error during async_write (%1)"
+msgstr "error during async_write (%1)"
 
 #: src/lib/image_examiner.cc:68
 msgid "first frame in moving image directory is number %1"

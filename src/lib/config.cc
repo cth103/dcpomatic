@@ -66,7 +66,7 @@ Config::Config ()
 	, _default_j2k_bandwidth (200000000)
 	, _default_audio_delay (0)
 	, _kdm_email (
-		"Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nThe KDMs are valid from $START_TIME until $END_TIME.\n\nBest regards,\nDCP-o-matic"
+		_("Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nThe KDMs are valid from $START_TIME until $END_TIME.\n\nBest regards,\nDCP-o-matic")
 		)
 {
 	_allowed_dcp_frame_rates.push_back (24);

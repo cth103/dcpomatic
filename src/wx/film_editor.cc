@@ -275,9 +275,9 @@ FilmEditor::make_content_panel ()
 		b->Add (_content_add_folder, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
 		b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
-		_content_earlier = new wxButton (_content_panel, wxID_UP);
+		_content_earlier = new wxButton (_content_panel, wxID_ANY, _("Up"));
 		b->Add (_content_earlier, 1, wxEXPAND);
-		_content_later = new wxButton (_content_panel, wxID_DOWN);
+		_content_later = new wxButton (_content_panel, wxID_ANY, _("Down"));
 		b->Add (_content_later, 1, wxEXPAND);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
 		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
