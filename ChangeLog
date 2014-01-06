@@ -1,5 +1,8 @@
 2014-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Bump libdcp version to get a fix for VOLINDEX/ASSETMAP file extensions
+	with interop (#206).
+
 	* Fix subtitle colouring (#152).
 
 	* Fix mis-timed subtitles when there is a non-zero video PTS offset.
