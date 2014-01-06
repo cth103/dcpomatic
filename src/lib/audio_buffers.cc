@@ -210,9 +210,11 @@ AudioBuffers::move (int from, int to, int frames)
 	}
 }
 
-/** Add data from from `from', `from_channel' to our channel `to_channel' */
+/** Add data from from `from', `from_channel' to our channel `to_channel'.
+ *  @param gain Linear gain to apply to the data before it is added.
+ */
 void
-AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel)
+AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain)
 {
 	int const N = frames ();
 	assert (from->frames() == N);
@@ -222,7 +224,7 @@ AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, i
 	float* d = _data[to_channel];
 
 	for (int i = 0; i < N; ++i) {
-		*d++ += *s++;
+		*d++ += (*s++) * gain;
 	}
 }
 
