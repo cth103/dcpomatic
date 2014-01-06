@@ -41,36 +41,10 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	, _image_content (content)
 	, _video_length (0)
 {
-	list<unsigned int> frames;
-	size_t const N = content->number_of_paths ();
-
-	for (size_t i = 0; i < N; ++i) {
-		boost::filesystem::path const p = content->path (i);
-		try {
-			frames.push_back (lexical_cast<int> (p.stem().string()));
-		} catch (bad_lexical_cast &) {
-			/* We couldn't turn that filename into a number; never mind */
-		}
-		
-		if (!_video_size) {
-			using namespace MagickCore;
-			Magick::Image* image = new Magick::Image (p.string());
-			_video_size = libdcp::Size (image->columns(), image->rows());
-			delete image;
-		}
-	
-		job->set_progress (float (i) / N);
-	}
-
-	frames.sort ();
-	
-	if (N > 1 && frames.front() != 0 && frames.front() != 1) {
-		throw StringError (String::compose (_("first frame in moving image directory is number %1"), frames.front ()));
-	}
-
-	if (N > 1 && frames.back() != frames.size() && frames.back() != (frames.size() - 1)) {
-		throw StringError (String::compose (_("there are %1 images in the directory but the last one is number %2"), frames.size(), frames.back ()));
-	}
+	using namespace MagickCore;
+	Magick::Image* image = new Magick::Image (content->path(0).string());
+	_video_size = libdcp::Size (image->columns(), image->rows());
+	delete image;
 
 	if (content->still ()) {
 		_video_length = Config::instance()->default_still_length() * video_frame_rate();
