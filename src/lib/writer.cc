@@ -92,8 +92,11 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	}
 	
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
-	
-	_sound_asset.reset (new libdcp::SoundAsset (_film->dir (_film->dcp_name()), _film->audio_mxf_filename ()));
+
+	/* Write the sound asset into the film directory so that we leave the creation
+	   of the DCP directory until the last minute.
+	*/
+	_sound_asset.reset (new libdcp::SoundAsset (_film->dir ("."), _film->audio_mxf_filename ()));
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
 	_sound_asset->set_channels (_film->audio_channels ());
 	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
@@ -348,20 +351,19 @@ Writer::finish ()
 	_picture_asset->set_duration (frames);
 
 	/* Hard-link the video MXF into the DCP */
-
-	boost::filesystem::path from;
-	from /= _film->internal_video_mxf_dir();
-	from /= _film->internal_video_mxf_filename();
+	boost::filesystem::path video_from;
+	video_from /= _film->internal_video_mxf_dir();
+	video_from /= _film->internal_video_mxf_filename();
 	
-	boost::filesystem::path to;
-	to /= _film->dir (_film->dcp_name());
-	to /= _film->video_mxf_filename ();
+	boost::filesystem::path video_to;
+	video_to /= _film->dir (_film->dcp_name());
+	video_to /= _film->video_mxf_filename ();
 
 	boost::system::error_code ec;
-	boost::filesystem::create_hard_link (from, to, ec);
+	boost::filesystem::create_hard_link (video_from, video_to, ec);
 	if (ec) {
 		/* hard link failed; copy instead */
-		boost::filesystem::copy_file (from, to);
+		boost::filesystem::copy_file (video_from, video_to);
 		_film->log()->log ("Hard-link failed; fell back to copying");
 	}
 
@@ -369,6 +371,23 @@ Writer::finish ()
 
 	_picture_asset->set_directory (_film->dir (_film->dcp_name ()));
 	_picture_asset->set_file_name (_film->video_mxf_filename ());
+
+	/* Move the audio MXF into the DCP */
+	
+	boost::filesystem::path audio_from;
+	audio_from /= _film->dir (".");
+	audio_from /= _film->audio_mxf_filename ();
+
+	boost::filesystem::path audio_to;
+	audio_to /= _film->dir (_film->dcp_name ());
+	audio_to /= _film->audio_mxf_filename ();
+	
+	boost::filesystem::rename (audio_from, audio_to, ec);
+	if (ec) {
+		throw FileError (String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), audio_from);
+	}
+
+	_sound_asset->set_directory (_film->dir (_film->dcp_name ()));
 	_sound_asset->set_duration (frames);
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
