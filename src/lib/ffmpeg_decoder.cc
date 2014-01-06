@@ -559,7 +559,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Subtitle PTS in seconds (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP)
 	*/
-	double const packet_time = static_cast<double> (sub.pts) / AV_TIME_BASE;
+	double const packet_time = (static_cast<double> (sub.pts ) / AV_TIME_BASE) + _video_pts_offset;
 	
 	/* hence start time for this sub */
 	Time const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
