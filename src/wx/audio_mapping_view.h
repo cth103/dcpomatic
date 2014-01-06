@@ -35,8 +35,10 @@ public:
 private:
 	void left_click (wxGridEvent &);
 	void right_click (wxGridEvent &);
+	void mouse_moved (wxMouseEvent &);
 	void set_column_labels ();
 	void update_cells ();
+	void map_changed ();
 
 	void off ();
 	void full ();
@@ -50,4 +52,7 @@ private:
 	wxMenu* _menu;
 	int _menu_row;
 	int _menu_column;
+
+	int _last_tooltip_row;
+	int _last_tooltip_column;
 };

@@ -104,6 +104,8 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 	, _menu_row (0)
 	, _menu_column (1)
+	, _last_tooltip_row (0)
+	, _last_tooltip_column (0)
 {
 	_grid = new wxGrid (this, wxID_ANY);
 
@@ -123,6 +125,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 
 	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
 	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
+	_grid->GetGridWindow()->Bind (wxEVT_MOTION, boost::bind (&AudioMappingView::mouse_moved, this, _1));
 
 	_menu = new wxMenu;
 	_menu->Append (ID_off, _("Off"));
@@ -135,6 +138,14 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::minus3dB, this), ID_minus3dB);
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::edit, this), ID_edit);
 }
+
+void
+AudioMappingView::map_changed ()
+{
+	update_cells ();
+	Changed (_map);
+	_last_tooltip_column = -1;
+}	
 
 void
 AudioMappingView::left_click (wxGridEvent& ev)
@@ -151,8 +162,7 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		_map.set (ev.GetRow(), d, 1);
 	}
 
-	update_cells ();
-	Changed (_map);
+	map_changed ();
 }
 
 void
@@ -171,24 +181,21 @@ void
 AudioMappingView::off ()
 {
 	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 0);
-	update_cells ();
-	Changed (_map);
+	map_changed ();
 }
 
 void
 AudioMappingView::full ()
 {
 	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 1);
-	update_cells ();
-	Changed (_map);
+	map_changed ();
 }
 
 void
 AudioMappingView::minus3dB ()
 {
 	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 1 / sqrt (2));
-	update_cells ();
-	Changed (_map);
+	map_changed ();
 }
 
 void
@@ -199,8 +206,7 @@ AudioMappingView::edit ()
 	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_row, _menu_column - 1, _map.get (_menu_row, d));
 	if (dialog->ShowModal () == wxID_OK) {
 		_map.set (_menu_row, d, dialog->value ());
-		update_cells ();
-		Changed (_map);
+		map_changed ();
 	}
 	
 	dialog->Destroy ();
@@ -287,4 +293,41 @@ AudioMappingView::set_column_labels ()
 	}
 
 	_grid->AutoSize ();
+}
+
+void
+AudioMappingView::mouse_moved (wxMouseEvent& ev)
+{
+	int xx;
+	int yy;
+	_grid->CalcUnscrolledPosition (ev.GetX(), ev.GetY(), &xx, &yy);
+
+	int const row = _grid->YToRow (yy);
+	int const column = _grid->XToCol (xx);
+
+	if (row < 0 || column < 1) {
+		_grid->GetGridWindow()->SetToolTip ("");
+		_last_tooltip_row = row;
+		_last_tooltip_column = column;
+	}
+
+	if (row != _last_tooltip_row || column != _last_tooltip_column) {
+
+		wxString s;
+		float const gain = _map.get (row, static_cast<libdcp::Channel> (column - 1));
+		if (gain == 0) {
+			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), row + 1, column);
+		} else if (gain == 1) {
+			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d unaltered."), row + 1, column);
+		} else {
+			float const dB = 20 * log10 (gain);
+			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."), row + 1, column, dB);
+		}
+		
+		_grid->GetGridWindow()->SetToolTip (s + " " + _("Right click to change gain."));
+		_last_tooltip_row = row;
+		_last_tooltip_column = column;
+	}
+
+        ev.Skip ();
 }
