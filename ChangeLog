@@ -1,5 +1,8 @@
 2014-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Make sure forced languages override the environment for gettext()
+	as well as wxWidgets' i18n code (#108).
+
 	* Bump libdcp version to get a fix for VOLINDEX/ASSETMAP file extensions
 	with interop (#206).
 
