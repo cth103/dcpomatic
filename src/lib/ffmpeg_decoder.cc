@@ -570,21 +570,27 @@ FFmpegDecoder::decode_subtitle_packet ()
 	if (rect->type != SUBTITLE_BITMAP) {
 		throw DecodeError (_("non-bitmap subtitles not yet supported"));
 	}
-	
+
+	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
+	   G, third B, fourth A.
+	*/
 	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
-	/* sub_p looks up into a RGB palette which is here */
+	/* sub_p looks up into a BGRA palette which is here
+	   (i.e. first byte B, second G, third R, fourth A)
+	*/
 	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
 	/* Start of the output data */
 	uint32_t* out_p = (uint32_t *) image->data()[0];
-	
+
 	for (int y = 0; y < rect->h; ++y) {
 		uint8_t* sub_line_p = sub_p;
 		uint32_t* out_line_p = out_p;
 		for (int x = 0; x < rect->w; ++x) {
-			*out_line_p++ = palette[*sub_line_p++];
+			uint32_t const p = palette[*sub_line_p++];
+			*out_line_p++ = ((p & 0xff) << 16) | (p & 0xff00) | ((p & 0xff0000) >> 16) | (p & 0xff000000);
 		}
 		sub_p += rect->pict.linesize[0];
 		out_p += image->stride()[0] / sizeof (uint32_t);
