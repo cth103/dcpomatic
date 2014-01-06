@@ -1,5 +1,7 @@
 2014-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Remove seemingly unnecessary checks on image directories.
+
 	* Leave DCP directory creation until the last minute to help
 	avoid half-eaten directories being left around (#174).
 
