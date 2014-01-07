@@ -57,6 +57,7 @@ sources = """
           transcoder.cc
           types.cc
           ui_signaller.cc
+          update.cc
           util.cc
           video_content.cc
           video_decoder.cc

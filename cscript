@@ -114,8 +114,8 @@ def make_control(version, bits, filename):
     print >>f,'  digital projectors.'
 
 def dependencies(target):
-    return (('ffmpeg-cdist', 'a629ea68a20d990b4e61c16067e91563d8d08f50'),
-            ('libdcp', 'v0.92'))
+    return (('ffmpeg-cdist', '5ac3a6af077c10f07c31954c372a8f29e4e18e2a'),
+            ('libdcp', 'cc8c14b765038405e75d7436cf0da3d56b61063b'))
 
 def build(target):
     cmd = './waf configure --prefix=%s' % target.work_dir_cscript()

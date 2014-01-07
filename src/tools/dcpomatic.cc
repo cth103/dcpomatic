@@ -55,6 +55,7 @@
 #include "lib/kdm.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/server_finder.h"
+#include "lib/update.h"
 
 using std::cout;
 using std::string;
@@ -185,6 +186,7 @@ enum {
 	ID_jobs_show_dcp,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
+	ID_tools_check_for_updates
 };
 
 void
@@ -223,7 +225,8 @@ setup_menu (wxMenuBar* m)
 
 	wxMenu* tools = new wxMenu;
 	add_item (tools, _("Hints..."), ID_tools_hints, 0);
-	add_item (tools, _("Encoding Servers..."), ID_tools_encoding_servers, 0);
+	add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
+	add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
 
 	wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	
@@ -269,19 +272,20 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),               ID_file_new);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),              ID_file_open);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),              ID_file_save);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),        ID_file_properties);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),              wxID_EXIT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),       wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),          ID_jobs_make_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),         ID_jobs_make_kdms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),   ID_jobs_send_dcp_to_tms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),          ID_jobs_show_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),            ID_tools_hints);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this), ID_tools_encoding_servers);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),             wxID_ABOUT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),                ID_file_new);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),               ID_file_open);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),               ID_file_save);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),         ID_file_properties);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),           ID_jobs_make_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),          ID_jobs_make_kdms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),           ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),             ID_tools_hints);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this),  ID_tools_encoding_servers);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
@@ -528,6 +532,12 @@ private:
 		}
 
 		_servers_list_dialog->Show ();
+	}
+
+	void tools_check_for_updates ()
+	{
+		UpdateChecker c;
+		c.run ();
 	}
 
 	void help_about ()
