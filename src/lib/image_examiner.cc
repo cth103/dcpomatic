@@ -36,7 +36,7 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
-ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job> job)
+ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
 	: _film (film)
 	, _image_content (content)
 	, _video_length (0)

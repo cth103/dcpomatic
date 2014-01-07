@@ -135,6 +135,14 @@ ConfigDialog::make_misc_panel ()
 	add_label_to_sizer (table, _misc_panel, _("From address for KDM emails"), true);
 	_kdm_from = new wxTextCtrl (_misc_panel, wxID_ANY);
 	table->Add (_kdm_from, 1, wxEXPAND | wxALL);
+
+	_check_for_updates = new wxCheckBox (_misc_panel, wxID_ANY, _("Check for updates on startup"));
+	table->Add (_check_for_updates, 1, wxEXPAND | wxALL);
+	table->AddSpacer (0);
+
+	_check_for_test_updates = new wxCheckBox (_misc_panel, wxID_ANY, _("Check for testing updates as well as stable ones"));
+	table->Add (_check_for_test_updates, 1, wxEXPAND | wxALL);
+	table->AddSpacer (0);
 	
 	Config* config = Config::instance ();
 
@@ -171,6 +179,10 @@ ConfigDialog::make_misc_panel ()
 	_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::mail_password_changed, this));
 	_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
 	_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ConfigDialog::kdm_from_changed, this));
+	_check_for_updates->SetValue (config->check_for_updates ());
+	_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ConfigDialog::check_for_updates_changed, this));
+	_check_for_test_updates->SetValue (config->check_for_test_updates ());
+	_check_for_test_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ConfigDialog::check_for_test_updates_changed, this));
 }
 
 void
@@ -577,4 +589,16 @@ void
 ConfigDialog::kdm_email_changed ()
 {
 	Config::instance()->set_kdm_email (wx_to_std (_kdm_email->GetValue ()));
+}
+
+void
+ConfigDialog::check_for_updates_changed ()
+{
+	Config::instance()->set_check_for_updates (_check_for_updates->GetValue ());
+}
+
+void
+ConfigDialog::check_for_test_updates_changed ()
+{
+	Config::instance()->set_check_for_test_updates (_check_for_test_updates->GetValue ());
 }

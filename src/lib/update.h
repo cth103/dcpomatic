@@ -19,6 +19,7 @@
 
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread/condition.hpp>
 #include <curl/curl.h>
 
 class UpdateChecker
@@ -27,7 +28,7 @@ public:
 	UpdateChecker ();
 	~UpdateChecker ();
 
-	void run (bool);
+	void run ();
 
 	enum State {
 		YES,
@@ -46,10 +47,15 @@ public:
 		return _stable;
 	}
 
-	/** @return true if this check was run at startup, otherwise false */
-	bool startup () const {
+	std::string test () {
 		boost::mutex::scoped_lock lm (_data_mutex);
-		return _startup;
+		return _test;
+	}
+	
+	/** @return true if the list signal emission was the first */
+	bool last_emit_was_first () const {
+		boost::mutex::scoped_lock lm (_data_mutex);
+		return _emits == 1;
 	}
 
 	size_t write_callback (void *, size_t, size_t);
@@ -62,18 +68,20 @@ private:
 	static UpdateChecker* _instance;
 
 	void set_state (State);
+	void thread ();
 
 	char* _buffer;
 	int _offset;
 	CURL* _curl;
 
-	/** mutex to protect _state, _stable and _startup */
+	/** mutex to protect _state, _stable, _test and _emits */
 	mutable boost::mutex _data_mutex;
 	State _state;
 	std::string _stable;
-	/** true if this check was run at startup, otherwise false */
-	bool _startup;
+	std::string _test;
+	int _emits;
 
-	/** mutex to ensure that only one query runs at once */
-	boost::mutex _single_thread_mutex;
+	boost::thread* _thread;
+	boost::mutex _process_mutex;
+	boost::condition _condition;
 };

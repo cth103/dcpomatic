@@ -47,7 +47,7 @@ UpdateChecker::UpdateChecker ()
 	, _offset (0)
 	, _curl (0)
 	, _state (NOT_RUN)
-	, _startup (true)
+	, _emits (0)
 {
 	curl_global_init (CURL_GLOBAL_ALL);
 	_curl = curl_easy_init ();
@@ -59,66 +59,78 @@ UpdateChecker::UpdateChecker ()
 	
 	string const agent = "dcpomatic/" + string (dcpomatic_version);
 	curl_easy_setopt (_curl, CURLOPT_USERAGENT, agent.c_str ());
+
+	_thread = new boost::thread (boost::bind (&UpdateChecker::thread, this));
 }
 
 UpdateChecker::~UpdateChecker ()
 {
+	/* We are not cleaning up our thread, but hey well */
+	
 	curl_easy_cleanup (_curl);
 	curl_global_cleanup ();
 	delete[] _buffer;
 }
 
 void
-UpdateChecker::run (bool startup)
-try
+UpdateChecker::run ()
 {
-	boost::mutex::scoped_lock lm (_single_thread_mutex);
-
-	{
-		boost::mutex::scoped_lock lm (_data_mutex);
-		_startup = startup;
-	}
-	
-	_offset = 0;
-	
-	int r = curl_easy_perform (_curl);
-	if (r != CURLE_OK) {
-		set_state (FAILED);
-		return;
-	}
-	
-	_buffer[_offset] = '\0';
-	stringstream s;
-	s << _buffer;
-	cxml::Document doc ("Update");
-	doc.read_stream (s);
-
-	{
-		boost::mutex::scoped_lock lm (_data_mutex);
-		_stable = doc.string_child ("Stable");
-	}
-	
-	string current = string (dcpomatic_version);
-	bool current_pre = false;
-	if (boost::algorithm::ends_with (current, "pre")) {
-		current = current.substr (0, current.length() - 3);
-		current_pre = true;
-	}
-
-	float current_float = lexical_cast<float> (current);
-	if (current_pre) {
-		current_float -= 0.005;
-	}
-
-	if (current_float < lexical_cast<float> (_stable)) {
-		set_state (YES);
-	} else {
-		set_state (NO);
-	}
-} catch (...) {
-	set_state (FAILED);
+	boost::mutex::scoped_lock lm (_process_mutex);
+	_condition.notify_one ();
 }
 
+void
+UpdateChecker::thread ()
+{
+	while (1) {
+		boost::mutex::scoped_lock lock (_process_mutex);
+		_condition.wait (lock);
+		lock.unlock ();
+		
+		try {
+			_offset = 0;
+			
+			int r = curl_easy_perform (_curl);
+			if (r != CURLE_OK) {
+				set_state (FAILED);
+				return;
+			}
+			
+			_buffer[_offset] = '\0';
+			stringstream s;
+			s << _buffer;
+			cxml::Document doc ("Update");
+			doc.read_stream (s);
+			
+			{
+				boost::mutex::scoped_lock lm (_data_mutex);
+				_stable = doc.string_child ("Stable");
+				_test = doc.string_child ("Test");
+			}
+			
+			string current = string (dcpomatic_version);
+			bool current_pre = false;
+			if (boost::algorithm::ends_with (current, "pre")) {
+				current = current.substr (0, current.length() - 3);
+				current_pre = true;
+			}
+			
+			float current_float = lexical_cast<float> (current);
+			if (current_pre) {
+				current_float -= 0.005;
+			}
+			
+			if (current_float < lexical_cast<float> (_stable)) {
+				set_state (YES);
+			} else {
+				set_state (NO);
+			}
+		} catch (...) {
+			set_state (FAILED);
+		}
+	}
+}
+	
 size_t
 UpdateChecker::write_callback (void* data, size_t size, size_t nmemb)
 {
@@ -134,8 +146,9 @@ UpdateChecker::set_state (State s)
 	{
 		boost::mutex::scoped_lock lm (_data_mutex);
 		_state = s;
+		_emits++;
 	}
-	
+
 	ui_signaller->emit (boost::bind (boost::ref (StateChanged)));
 }
 

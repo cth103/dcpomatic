@@ -42,6 +42,7 @@
 #include "wx/kdm_dialog.h"
 #include "wx/servers_list_dialog.h"
 #include "wx/hints_dialog.h"
+#include "wx/update_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -536,7 +537,7 @@ private:
 
 	void tools_check_for_updates ()
 	{
-		UpdateChecker::instance()->run (false);
+		UpdateChecker::instance()->run ();
 	}
 
 	void help_about ()
@@ -650,15 +651,18 @@ class App : public wxApp
 		_frame->Maximize ();
 		_frame->Show ();
 
-		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
-
 		ui_signaller = new wxUISignaller (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
-		
+
+		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
+		if (Config::instance()->check_for_updates ()) {
+			UpdateChecker::instance()->run ();
+		}
+
 		return true;
 	}
 	catch (exception& e)
@@ -709,21 +713,19 @@ class App : public wxApp
 	{
 		switch (UpdateChecker::instance()->state ()) {
 		case UpdateChecker::YES:
-			error_dialog (
-				_frame,
-				wxString::Format (
-					_("A new version %s of DCP-o-matic is available from http://dcpomatic.com/download"),
-					std_to_wx (UpdateChecker::instance()->stable()).wx_str ()
-					)
-				);
+		{
+			UpdateDialog* dialog = new UpdateDialog (_frame, UpdateChecker::instance()->stable (), UpdateChecker::instance()->test ());
+			dialog->ShowModal ();
+			dialog->Destroy ();
 			break;
+		}
 		case UpdateChecker::NO:
-			if (!UpdateChecker::instance()->startup ()) {
+			if (!UpdateChecker::instance()->last_emit_was_first ()) {
 				error_dialog (_frame, _("There are no new versions of DCP-o-matic available."));
 			}
 			break;
 		case UpdateChecker::FAILED:
-			if (!UpdateChecker::instance()->startup ()) {
+			if (!UpdateChecker::instance()->last_emit_was_first ()) {
 				error_dialog (_frame, _("The DCP-o-matic download server could not be contacted."));
 			}
 		default:
