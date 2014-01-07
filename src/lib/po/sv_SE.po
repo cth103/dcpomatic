@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-05 18:00+0000\n"
+"POT-Creation-Date: 2014-01-07 20:01+0000\n"
 "PO-Revision-Date: 2013-04-10 15:35+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -103,7 +103,7 @@ msgstr "Avbruten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/util.cc:766
+#: src/lib/util.cc:768
 msgid "Centre"
 msgstr "Mitt"
 
@@ -111,7 +111,7 @@ msgstr "Mitt"
 msgid "Checking existing image data"
 msgstr ""
 
-#: src/lib/writer.cc:401
+#: src/lib/writer.cc:420
 msgid "Computing audio digest"
 msgstr ""
 
@@ -119,11 +119,11 @@ msgstr ""
 msgid "Computing digest"
 msgstr ""
 
-#: src/lib/writer.cc:398
+#: src/lib/writer.cc:417
 msgid "Computing image digest"
 msgstr ""
 
-#: src/lib/util.cc:796
+#: src/lib/util.cc:798
 #, fuzzy
 msgid "Content and DCP have the same rate.\n"
 msgstr "DCP och källa har samma bildfrekvens.\n"
@@ -197,7 +197,7 @@ msgstr "kunde inte öppna fil %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/film.cc:949
+#: src/lib/film.cc:952
 msgid "Could not read DCP to make KDM for"
 msgstr ""
 
@@ -213,12 +213,12 @@ msgstr "Kunde inte skriva till fjärrfil (%1)"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Kubiskt interpolerande avflätare"
 
-#: src/lib/util.cc:808
+#: src/lib/util.cc:810
 #, fuzzy
 msgid "DCP will run at %1%% of the content speed.\n"
 msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 
-#: src/lib/util.cc:799
+#: src/lib/util.cc:801
 #, fuzzy
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
@@ -261,12 +261,12 @@ msgstr "Avringningsfilter"
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/util.cc:801
+#: src/lib/util.cc:803
 #, fuzzy
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
 
-#: src/lib/util.cc:803
+#: src/lib/util.cc:805
 #, fuzzy
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
@@ -275,7 +275,7 @@ msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
 msgid "Email KDMs for %1"
 msgstr ""
 
-#: src/lib/writer.cc:109
+#: src/lib/writer.cc:112
 msgid "Encoding image data"
 msgstr ""
 
@@ -363,15 +363,15 @@ msgstr "Kernel-avflätare"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:764
+#: src/lib/util.cc:766
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:768
+#: src/lib/util.cc:770
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:767
+#: src/lib/util.cc:769
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -429,16 +429,16 @@ msgstr "Offentligt Servicemeddelande"
 msgid "Rating"
 msgstr "Klassificeringsklipp"
 
-#: src/lib/config.cc:81 src/lib/config.cc:165
+#: src/lib/config.cc:83 src/lib/config.cc:167
 #, fuzzy
 msgid "Rec. 709"
 msgstr "Rec 709"
 
-#: src/lib/util.cc:765
+#: src/lib/util.cc:767
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:769
+#: src/lib/util.cc:771
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -486,7 +486,7 @@ msgstr ""
 "Enheten som filmen lagras på har för lite ledigt utrymme. Frigör utrymme och "
 "försök igen."
 
-#: src/lib/film.cc:372
+#: src/lib/film.cc:375
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -544,7 +544,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:276
+#: src/lib/film.cc:279
 msgid "You must add some content to the DCP before creating it"
 msgstr ""
 
@@ -557,12 +557,12 @@ msgstr ""
 msgid "[still]"
 msgstr "stillbild"
 
-#: src/lib/film.cc:237
+#: src/lib/film.cc:240
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
 # Svengelska
-#: src/lib/util.cc:546
+#: src/lib/util.cc:548
 #, fuzzy
 msgid "connect timed out"
 msgstr "uppkopplingen tajmade ur"
@@ -571,12 +571,12 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:275
 #, fuzzy
 msgid "container"
 msgstr "innehåll"
 
-#: src/lib/film.cc:280
+#: src/lib/film.cc:283
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -603,6 +603,10 @@ msgstr "kunde inte hitta undertext-avkodare"
 #: src/lib/ffmpeg.cc:154
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
+
+#: src/lib/writer.cc:387
+msgid "could not move audio MXF into the DCP (%1)"
+msgstr ""
 
 #: src/lib/sndfile_decoder.cc:45
 #, fuzzy
@@ -647,24 +651,20 @@ msgstr "kunde inte starta SSH-session"
 msgid "could not write to file %1 (%2)"
 msgstr "kunde inte skriva till fil %1 (%2)"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "error during async_accept (%1)"
 msgstr ""
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:544
 msgid "error during async_connect (%1)"
 msgstr ""
 
-#: src/lib/util.cc:615
+#: src/lib/util.cc:617
 msgid "error during async_read (%1)"
 msgstr ""
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:589
 msgid "error during async_write (%1)"
-msgstr ""
-
-#: src/lib/image_examiner.cc:68
-msgid "first frame in moving image directory is number %1"
 msgstr ""
 
 #: src/lib/transcode_job.cc:94
@@ -687,7 +687,7 @@ msgstr "minut"
 msgid "minutes"
 msgstr "minuter"
 
-#: src/lib/util.cc:687
+#: src/lib/util.cc:689
 msgid "missing key %1 in key-value set"
 msgstr "saknad nyckel %1 i nyckel-värde grupp"
 
@@ -703,7 +703,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:237 src/lib/film.cc:284
+#: src/lib/film.cc:240 src/lib/film.cc:287
 msgid "name"
 msgstr "namn"
 
@@ -717,11 +717,11 @@ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/config.cc:79 src/lib/video_content.cc:169
+#: src/lib/config.cc:81 src/lib/video_content.cc:169
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/config.cc:80
+#: src/lib/config.cc:82
 msgid "sRGB non-linearised"
 msgstr ""
 
@@ -733,10 +733,6 @@ msgstr "sekunder"
 #, fuzzy
 msgid "still"
 msgstr "stillbild"
-
-#: src/lib/image_examiner.cc:72
-msgid "there are %1 images in the directory but the last one is number %2"
-msgstr ""
 
 #: src/lib/ffmpeg_examiner.cc:169
 #, fuzzy
