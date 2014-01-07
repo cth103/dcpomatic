@@ -1,5 +1,8 @@
 2014-01-07  Carl Hetherington  <cth@carlh.net>
 
+	* Fix Windows build of FFmpeg to link against zlib, which fixes parsing
+	of some .mov files.
+
 	* Very primitive check-for-updates feature added.
 
 	* Allow still-moving-image sources to have their frame rate specified.
