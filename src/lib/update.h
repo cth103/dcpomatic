@@ -84,4 +84,5 @@ private:
 	boost::thread* _thread;
 	boost::mutex _process_mutex;
 	boost::condition _condition;
+	int _to_do;
 };

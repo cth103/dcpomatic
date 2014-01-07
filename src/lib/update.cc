@@ -48,6 +48,7 @@ UpdateChecker::UpdateChecker ()
 	, _curl (0)
 	, _state (NOT_RUN)
 	, _emits (0)
+	, _to_do (0)
 {
 	curl_global_init (CURL_GLOBAL_ALL);
 	_curl = curl_easy_init ();
@@ -76,6 +77,7 @@ void
 UpdateChecker::run ()
 {
 	boost::mutex::scoped_lock lm (_process_mutex);
+	_to_do++;
 	_condition.notify_one ();
 }
 
@@ -84,7 +86,10 @@ UpdateChecker::thread ()
 {
 	while (1) {
 		boost::mutex::scoped_lock lock (_process_mutex);
-		_condition.wait (lock);
+		while (_to_do == 0) {
+			_condition.wait (lock);
+		}
+		--_to_do;
 		lock.unlock ();
 		
 		try {
