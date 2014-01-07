@@ -1,5 +1,7 @@
 2014-01-07  Carl Hetherington  <cth@carlh.net>
 
+	* Very primitive check-for-updates feature added.
+
 	* Allow still-moving-image sources to have their frame rate specified.
 
 2014-01-06  Carl Hetherington  <cth@carlh.net>
