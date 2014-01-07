@@ -20,6 +20,7 @@
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
+#include <boost/thread.hpp>
 #include <curl/curl.h>
 
 class UpdateChecker
