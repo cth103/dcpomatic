@@ -1,5 +1,9 @@
 2014-01-07  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.58 released.
+
+2014-01-07  Carl Hetherington  <cth@carlh.net>
+
 	* Fix Windows build of FFmpeg to link against zlib, which fixes parsing
 	of some .mov files.
 
