@@ -35,10 +35,14 @@ private:
 	void trim_start_changed ();
 	void trim_end_changed ();
 	void play_length_changed ();
+	void video_frame_rate_changed ();
+	void set_video_frame_rate ();
 	
 	Timecode* _position;
 	Timecode* _full_length;
 	Timecode* _trim_start;
 	Timecode* _trim_end;
 	Timecode* _play_length;
+	wxTextCtrl* _video_frame_rate;
+	wxButton* _set_video_frame_rate;
 };

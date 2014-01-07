@@ -25,8 +25,10 @@
 #include "film_editor.h"
 
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::lexical_cast;
 
 TimingPanel::TimingPanel (FilmEditor* e)
 	: FilmEditorPanel (e, _("Timing"))
@@ -50,11 +52,24 @@ TimingPanel::TimingPanel (FilmEditor* e)
 	_play_length = new Timecode (this);
 	grid->Add (_play_length);
 
+	{
+		add_label_to_sizer (grid, this, _("Video frame rate"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_video_frame_rate = new wxTextCtrl (this, wxID_ANY);
+		s->Add (_video_frame_rate, 1, wxEXPAND);
+		_set_video_frame_rate = new wxButton (this, wxID_ANY, _("Set"));
+		_set_video_frame_rate->Enable (false);
+		s->Add (_set_video_frame_rate, 0, wxLEFT | wxRIGHT, 8);
+		grid->Add (s, 1, wxEXPAND);
+	}
+
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
 	_trim_start->Changed.connect  (boost::bind (&TimingPanel::trim_start_changed, this));
 	_trim_end->Changed.connect    (boost::bind (&TimingPanel::trim_end_changed, this));
 	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
+	_video_frame_rate->Bind       (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TimingPanel::video_frame_rate_changed, this));
+	_set_video_frame_rate->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::set_video_frame_rate, this));
 }
 
 void
@@ -96,11 +111,24 @@ TimingPanel::film_content_changed (int property)
 			_trim_end->set (0, 24);
 			_play_length->set (0, 24);
 		}
-	}	
+	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
+		if (content) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (content);
+			if (vc) {
+				_video_frame_rate->SetValue (std_to_wx (lexical_cast<string> (vc->video_frame_rate ())));
+			} else {
+				_video_frame_rate->SetValue ("24");
+			}
+		} else {
+			_video_frame_rate->SetValue ("24");
+		}
+	}
 
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
 	_full_length->set_editable (ic && ic->still ());
 	_play_length->set_editable (!ic || !ic->still ());
+	_video_frame_rate->Enable (ic && !ic->still ());
+	_set_video_frame_rate->Enable (false);
 }
 
 void
@@ -153,6 +181,25 @@ TimingPanel::play_length_changed ()
 }
 
 void
+TimingPanel::video_frame_rate_changed ()
+{
+	_set_video_frame_rate->Enable (true);
+}
+
+void
+TimingPanel::set_video_frame_rate ()
+{
+	ContentList c = _editor->selected_content ();
+	if (c.size() == 1) {
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
+		if (ic) {
+			ic->set_video_frame_rate (lexical_cast<float> (wx_to_std (_video_frame_rate->GetValue ())));
+			_set_video_frame_rate->Enable (false);
+		}
+	}
+}
+
+void
 TimingPanel::content_selection_changed ()
 {
 	ContentList sel = _editor->selected_content ();
@@ -164,9 +211,11 @@ TimingPanel::content_selection_changed ()
 	_trim_start->Enable (single);
 	_trim_end->Enable (single);
 	_play_length->Enable (single);
+	_video_frame_rate->Enable (single);
 	
 	film_content_changed (ContentProperty::POSITION);
 	film_content_changed (ContentProperty::LENGTH);
 	film_content_changed (ContentProperty::TRIM_START);
 	film_content_changed (ContentProperty::TRIM_END);
+	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }

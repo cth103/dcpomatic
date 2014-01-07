@@ -524,7 +524,10 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		update_subtitle ();
 		Changed (frequent);
 
-	} else if (property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO) {
+	} else if (
+		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO ||
+		property == VideoContentProperty::VIDEO_FRAME_RATE
+		) {
 		
 		Changed (frequent);
 
@@ -617,7 +620,7 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER) {
+	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
 	}
 }

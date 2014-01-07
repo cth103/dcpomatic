@@ -47,6 +47,7 @@ public:
 	
 	void set_video_length (VideoContent::Frame);
 	bool still () const;
+	void set_video_frame_rate (float);
 };
 
 #endif

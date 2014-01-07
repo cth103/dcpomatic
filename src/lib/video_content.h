@@ -129,6 +129,7 @@ protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
 	VideoContent::Frame _video_length;
+	float _video_frame_rate;
 
 private:
 	friend class ffmpeg_pts_offset_test;
@@ -139,7 +140,6 @@ private:
 	void setup_default_colour_conversion ();
 	
 	libdcp::Size _video_size;
-	float _video_frame_rate;
 	VideoFrameType _video_frame_type;
 	Crop _crop;
 	Ratio const * _ratio;
