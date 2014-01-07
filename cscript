@@ -115,7 +115,7 @@ def make_control(version, bits, filename):
 
 def dependencies(target):
     return (('ffmpeg-cdist', '5ac3a6af077c10f07c31954c372a8f29e4e18e2a'),
-            ('libdcp', 'cc8c14b765038405e75d7436cf0da3d56b61063b'))
+            ('libdcp', '3a148fab61d2b23379589a4f0f256c21950742b8'))
 
 def build(target):
     cmd = './waf configure --prefix=%s' % target.work_dir_cscript()

@@ -536,8 +536,7 @@ private:
 
 	void tools_check_for_updates ()
 	{
-		UpdateChecker c;
-		c.run ();
+		UpdateChecker::instance()->run (false);
 	}
 
 	void help_about ()
@@ -646,10 +645,12 @@ class App : public wxApp
 			film->set_name (boost::filesystem::path (film_to_create).filename().generic_string ());
 		}
 
-		Frame* f = new Frame (_("DCP-o-matic"));
-		SetTopWindow (f);
-		f->Maximize ();
-		f->Show ();
+		_frame = new Frame (_("DCP-o-matic"));
+		SetTopWindow (_frame);
+		_frame->Maximize ();
+		_frame->Show ();
+
+		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
 
 		ui_signaller = new wxUISignaller (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
@@ -704,6 +705,33 @@ class App : public wxApp
 		}
 	}
 
+	void update_checker_state_changed ()
+	{
+		switch (UpdateChecker::instance()->state ()) {
+		case UpdateChecker::YES:
+			error_dialog (
+				_frame,
+				wxString::Format (
+					_("A new version %s of DCP-o-matic is available from http://dcpomatic.com/download"),
+					std_to_wx (UpdateChecker::instance()->stable()).wx_str ()
+					)
+				);
+			break;
+		case UpdateChecker::NO:
+			if (!UpdateChecker::instance()->startup ()) {
+				error_dialog (_frame, _("There are no new versions of DCP-o-matic available."));
+			}
+			break;
+		case UpdateChecker::FAILED:
+			if (!UpdateChecker::instance()->startup ()) {
+				error_dialog (_frame, _("The DCP-o-matic download server could not be contacted."));
+			}
+		default:
+			break;
+		}
+	}
+
+	wxFrame* _frame;
 	shared_ptr<wxTimer> _timer;
 };
 

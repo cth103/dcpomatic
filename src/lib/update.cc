@@ -19,10 +19,12 @@
 
 #include <string>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
 #include <curl/curl.h>
 #include <libcxml/cxml.h>
 #include "update.h"
 #include "version.h"
+#include "ui_signaller.h"
 
 #define BUFFER_SIZE 1024
 
@@ -30,18 +32,9 @@ using std::cout;
 using std::min;
 using std::string;
 using std::stringstream;
+using boost::lexical_cast;
 
-UpdateChecker::UpdateChecker ()
-	: _buffer (new char[BUFFER_SIZE])
-	, _offset (0)
-{
-	
-}
-
-UpdateChecker::~UpdateChecker ()
-{
-	delete[] _buffer;
-}
+UpdateChecker* UpdateChecker::_instance = 0;
 
 static size_t
 write_callback_wrapper (void* data, size_t size, size_t nmemb, void* user)
@@ -49,40 +42,111 @@ write_callback_wrapper (void* data, size_t size, size_t nmemb, void* user)
 	return reinterpret_cast<UpdateChecker*>(user)->write_callback (data, size, nmemb);
 }
 
-UpdateChecker::Result
-UpdateChecker::run ()
+UpdateChecker::UpdateChecker ()
+	: _buffer (new char[BUFFER_SIZE])
+	, _offset (0)
+	, _curl (0)
+	, _state (NOT_RUN)
+	, _startup (true)
 {
 	curl_global_init (CURL_GLOBAL_ALL);
-	CURL* curl = curl_easy_init ();
-	if (!curl) {
-		return MAYBE;
-	}
+	_curl = curl_easy_init ();
 
-	curl_easy_setopt (curl, CURLOPT_URL, "http://dcpomatic.com/update.php");
-	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, write_callback_wrapper);
-	curl_easy_setopt (curl, CURLOPT_WRITEDATA, this);
+	curl_easy_setopt (_curl, CURLOPT_URL, "http://dcpomatic.com/update");
+	curl_easy_setopt (_curl, CURLOPT_WRITEFUNCTION, write_callback_wrapper);
+	curl_easy_setopt (_curl, CURLOPT_WRITEDATA, this);
+	curl_easy_setopt (_curl, CURLOPT_TIMEOUT, 20);
+	
 	string const agent = "dcpomatic/" + string (dcpomatic_version);
-	curl_easy_setopt (curl, CURLOPT_USERAGENT, agent.c_str ());
-	int r = curl_easy_perform (curl);
-	if (r != CURLE_OK) {
-		return MAYBE;
-	}
+	curl_easy_setopt (_curl, CURLOPT_USERAGENT, agent.c_str ());
+}
 
-	_buffer[BUFFER_SIZE-1] = '\0';
+UpdateChecker::~UpdateChecker ()
+{
+	curl_easy_cleanup (_curl);
+	curl_global_cleanup ();
+	delete[] _buffer;
+}
+
+void
+UpdateChecker::run (bool startup)
+try
+{
+	boost::mutex::scoped_lock lm (_single_thread_mutex);
+
+	{
+		boost::mutex::scoped_lock lm (_data_mutex);
+		_startup = startup;
+	}
+	
+	_offset = 0;
+	
+	int r = curl_easy_perform (_curl);
+	if (r != CURLE_OK) {
+		set_state (FAILED);
+		return;
+	}
+	
+	_buffer[_offset] = '\0';
 	stringstream s;
 	s << _buffer;
 	cxml::Document doc ("Update");
 	doc.read_stream (s);
 
-	cout << doc.string_child ("Stable") << "\n";
-	return YES;
+	{
+		boost::mutex::scoped_lock lm (_data_mutex);
+		_stable = doc.string_child ("Stable");
+	}
+	
+	string current = string (dcpomatic_version);
+	bool current_pre = false;
+	if (boost::algorithm::ends_with (current, "pre")) {
+		current = current.substr (0, current.length() - 3);
+		current_pre = true;
+	}
+
+	float current_float = lexical_cast<float> (current);
+	if (current_pre) {
+		current_float -= 0.005;
+	}
+
+	if (current_float < lexical_cast<float> (_stable)) {
+		set_state (YES);
+	} else {
+		set_state (NO);
+	}
+} catch (...) {
+	set_state (FAILED);
 }
 
 size_t
 UpdateChecker::write_callback (void* data, size_t size, size_t nmemb)
 {
-	size_t const t = min (size * nmemb, size_t (BUFFER_SIZE - _offset));
+	size_t const t = min (size * nmemb, size_t (BUFFER_SIZE - _offset - 1));
 	memcpy (_buffer + _offset, data, t);
 	_offset += t;
 	return t;
 }
+
+void
+UpdateChecker::set_state (State s)
+{
+	{
+		boost::mutex::scoped_lock lm (_data_mutex);
+		_state = s;
+	}
+	
+	ui_signaller->emit (boost::bind (boost::ref (StateChanged)));
+}
+
+UpdateChecker *
+UpdateChecker::instance ()
+{
+	if (!_instance) {
+		_instance = new UpdateChecker ();
+	}
+
+	return _instance;
+}
+
+	

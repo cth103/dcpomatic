@@ -17,23 +17,63 @@
 
 */
 
+#include <boost/signals2.hpp>
+#include <boost/thread/mutex.hpp>
+#include <curl/curl.h>
+
 class UpdateChecker
 {
 public:
 	UpdateChecker ();
 	~UpdateChecker ();
 
-	enum Result {
+	void run (bool);
+
+	enum State {
 		YES,
-		MAYBE,
-		NO
+		FAILED,
+		NO,
+		NOT_RUN
 	};
 
-	Result run ();
+	State state () {
+		boost::mutex::scoped_lock lm (_data_mutex);
+		return _state;
+	}
+	
+	std::string stable () {
+		boost::mutex::scoped_lock lm (_data_mutex);
+		return _stable;
+	}
+
+	/** @return true if this check was run at startup, otherwise false */
+	bool startup () const {
+		boost::mutex::scoped_lock lm (_data_mutex);
+		return _startup;
+	}
 
 	size_t write_callback (void *, size_t, size_t);
 
+	boost::signals2::signal<void (void)> StateChanged;
+
+	static UpdateChecker* instance ();
+
 private:	
+	static UpdateChecker* _instance;
+
+	void set_state (State);
+
 	char* _buffer;
 	int _offset;
+	CURL* _curl;
+
+	/** mutex to protect _state, _stable and _startup */
+	mutable boost::mutex _data_mutex;
+	State _state;
+	std::string _stable;
+	/** true if this check was run at startup, otherwise false */
+	bool _startup;
+
+	/** mutex to ensure that only one query runs at once */
+	boost::mutex _single_thread_mutex;
 };
