@@ -714,7 +714,11 @@ class App : public wxApp
 		switch (UpdateChecker::instance()->state ()) {
 		case UpdateChecker::YES:
 		{
-			UpdateDialog* dialog = new UpdateDialog (_frame, UpdateChecker::instance()->stable (), UpdateChecker::instance()->test ());
+			string test;
+			if (Config::instance()->check_for_test_updates ()) {
+				test = UpdateChecker::instance()->test ();
+			}
+			UpdateDialog* dialog = new UpdateDialog (_frame, UpdateChecker::instance()->stable (), test);
 			dialog->ShowModal ();
 			dialog->Destroy ();
 			break;
