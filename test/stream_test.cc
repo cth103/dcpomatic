@@ -35,6 +35,9 @@ BOOST_AUTO_TEST_CASE (stream_test)
 	root->add_child("Id")->add_child_text ("4");
 	root->add_child("FrameRate")->add_child_text ("44100");
 	root->add_child("Channels")->add_child_text ("2");
+
+	/* This is the state file version 5 description of the mapping */
+	
 	xmlpp::Element* mapping = root->add_child("Mapping");
 	mapping->add_child("ContentChannels")->add_child_text ("2");
 	{
@@ -62,7 +65,7 @@ BOOST_AUTO_TEST_CASE (stream_test)
 		map->add_child("DCP")->add_child_text ("2");
 	}
 		
-	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), Film::state_version);
+	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), 5);
 
 	BOOST_CHECK_EQUAL (a.id, 4);
 	BOOST_CHECK_EQUAL (a.frame_rate, 44100);
