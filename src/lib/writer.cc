@@ -172,15 +172,15 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 
-/** This must be called from Writer::thread() with an appropriate lock held,
- *  and with _queue sorted.
- */
+/** This must be called from Writer::thread() with an appropriate lock held */
 bool
 Writer::have_sequenced_image_at_queue_head () const
 {
 	if (_queue.empty ()) {
 		return false;
 	}
+
+	_queue.sort ();
 
 	/* The queue should contain only EYES_LEFT/EYES_RIGHT pairs or EYES_BOTH */
 
@@ -212,8 +212,6 @@ try
 
 		while (1) {
 			
-			_queue.sort ();
-			
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
 				break;
 			}
@@ -227,7 +225,7 @@ try
 			return;
 		}
 
-		/* Write any frames that we can write; i.e. those that are in sequence */
+		/* Write any frames that we can write; i.e. those that are in sequence. */
 		while (have_sequenced_image_at_queue_head ()) {
 			QueueItem qi = _queue.front ();
 			_queue.pop_front ();
