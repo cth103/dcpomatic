@@ -108,7 +108,6 @@ AudioPanel::film_changed (Film::Property property)
 	case Film::AUDIO_CHANNELS:
 		_mapping->set_channels (_editor->film()->audio_channels ());
 		_sizer->Layout ();
-		_sizer->Fit (this);
 		break;
 	default:
 		break;
