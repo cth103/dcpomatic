@@ -96,7 +96,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	/* Write the sound asset into the film directory so that we leave the creation
 	   of the DCP directory until the last minute.
 	*/
-	_sound_asset.reset (new libdcp::SoundAsset (_film->dir ("."), _film->audio_mxf_filename ()));
+	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
 	_sound_asset->set_channels (_film->audio_channels ());
 	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
@@ -373,18 +373,16 @@ Writer::finish ()
 	_picture_asset->set_file_name (_film->video_mxf_filename ());
 
 	/* Move the audio MXF into the DCP */
-	
-	boost::filesystem::path audio_from;
-	audio_from /= _film->dir (".");
-	audio_from /= _film->audio_mxf_filename ();
 
 	boost::filesystem::path audio_to;
 	audio_to /= _film->dir (_film->dcp_name ());
 	audio_to /= _film->audio_mxf_filename ();
 	
-	boost::filesystem::rename (audio_from, audio_to, ec);
+	boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
 	if (ec) {
-		throw FileError (String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), audio_from);
+		throw FileError (
+			String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
+			);
 	}
 
 	_sound_asset->set_directory (_film->dir (_film->dcp_name ()));
