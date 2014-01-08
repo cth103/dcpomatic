@@ -174,7 +174,7 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 
 /** This must be called from Writer::thread() with an appropriate lock held */
 bool
-Writer::have_sequenced_image_at_queue_head () const
+Writer::have_sequenced_image_at_queue_head ()
 {
 	if (_queue.empty ()) {
 		return false;
