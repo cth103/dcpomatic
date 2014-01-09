@@ -48,7 +48,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-int const Writer::_maximum_frames_in_memory = 8;
+int const Writer::_maximum_frames_in_memory = Config::num_local_encoding_threads() + 4;
 
 Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	: _film (f)
@@ -291,7 +291,8 @@ try
 			   Write some FULL frames to disk.
 			*/
 
-			/* Find one */
+			/* Find one from the back of the queue */
+			_queue.sort ();
 			list<QueueItem>::reverse_iterator i = _queue.rbegin ();
 			while (i != _queue.rend() && (i->type != QueueItem::FULL || !i->encoded)) {
 				++i;
