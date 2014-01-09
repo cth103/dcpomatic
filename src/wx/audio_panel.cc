@@ -64,7 +64,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), false, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), true, wxGBPosition (r, 0));
 	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
