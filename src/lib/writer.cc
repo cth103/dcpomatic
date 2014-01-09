@@ -106,6 +106,9 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	}
 	
 	_sound_asset_writer = _sound_asset->start_write ();
+#ifdef DCPOMATIC_WINDOWS	
+	_film->log()->log (String::compose ("DEBUG: %1", GetLastError ()));
+#endif	
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
