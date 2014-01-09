@@ -167,8 +167,6 @@ FFmpegDecoder::pass ()
 		return;
 	}
 
-	avcodec_get_frame_defaults (_frame);
-
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
@@ -344,8 +342,6 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 			av_free_packet (&_packet);
 			continue;
 		}
-		
-		avcodec_get_frame_defaults (_frame);
 		
 		int finished = 0;
 		r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
