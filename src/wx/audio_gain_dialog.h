@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,42 +17,17 @@
 
 */
 
-#include <boost/signals2.hpp>
 #include <wx/wx.h>
-#include <wx/grid.h>
-#include "lib/audio_mapping.h"
 
-class AudioMappingView : public wxPanel
+class wxSpinCtrlDouble;
+
+class AudioGainDialog : public wxDialog
 {
 public:
-	AudioMappingView (wxWindow *);
+	AudioGainDialog (wxWindow *, int, int, float);
 
-	void set (AudioMapping);
-	void set_channels (int);
-
-	boost::signals2::signal<void (AudioMapping)> Changed;
-
+	float value () const;
+	
 private:
-	void left_click (wxGridEvent &);
-	void right_click (wxGridEvent &);
-	void mouse_moved (wxMouseEvent &);
-	void set_column_labels ();
-	void update_cells ();
-	void map_changed ();
-
-	void off ();
-	void full ();
-	void minus3dB ();
-	void edit ();
-
-	wxGrid* _grid;
-	wxSizer* _sizer;
-	AudioMapping _map;
-
-	wxMenu* _menu;
-	int _menu_row;
-	int _menu_column;
-
-	int _last_tooltip_row;
-	int _last_tooltip_column;
+	wxSpinCtrlDouble* _gain;
 };

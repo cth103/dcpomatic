@@ -42,6 +42,7 @@
 #include "wx/kdm_dialog.h"
 #include "wx/servers_list_dialog.h"
 #include "wx/hints_dialog.h"
+#include "wx/update_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -55,6 +56,7 @@
 #include "lib/kdm.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/server_finder.h"
+#include "lib/update.h"
 
 using std::cout;
 using std::string;
@@ -185,6 +187,7 @@ enum {
 	ID_jobs_show_dcp,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
+	ID_tools_check_for_updates
 };
 
 void
@@ -223,7 +226,8 @@ setup_menu (wxMenuBar* m)
 
 	wxMenu* tools = new wxMenu;
 	add_item (tools, _("Hints..."), ID_tools_hints, 0);
-	add_item (tools, _("Encoding Servers..."), ID_tools_encoding_servers, 0);
+	add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
+	add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
 
 	wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	
@@ -269,19 +273,20 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),               ID_file_new);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),              ID_file_open);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),              ID_file_save);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),        ID_file_properties);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),              wxID_EXIT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),       wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),          ID_jobs_make_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),         ID_jobs_make_kdms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),   ID_jobs_send_dcp_to_tms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),          ID_jobs_show_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),            ID_tools_hints);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this), ID_tools_encoding_servers);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),             wxID_ABOUT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),                ID_file_new);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),               ID_file_open);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),               ID_file_save);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),         ID_file_properties);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),           ID_jobs_make_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),          ID_jobs_make_kdms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),           ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),             ID_tools_hints);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this),  ID_tools_encoding_servers);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
@@ -442,6 +447,15 @@ private:
 
 	void jobs_make_dcp ()
 	{
+		double required;
+		double available;
+
+		if (!film->should_be_enough_disk_space (required, available)) {
+			if (!confirm_dialog (this, wxString::Format (_("The DCP for this film will take up about %.1f Gb, and the disk that you are using only has %.1f Gb available.  Do you want to continue anyway?"), required, available))) {
+				return;
+			}
+		}
+		
 		JobWrapper::make_dcp (this, film);
 	}
 
@@ -519,6 +533,11 @@ private:
 		}
 
 		_servers_list_dialog->Show ();
+	}
+
+	void tools_check_for_updates ()
+	{
+		UpdateChecker::instance()->run ();
 	}
 
 	void help_about ()
@@ -627,10 +646,10 @@ class App : public wxApp
 			film->set_name (boost::filesystem::path (film_to_create).filename().generic_string ());
 		}
 
-		Frame* f = new Frame (_("DCP-o-matic"));
-		SetTopWindow (f);
-		f->Maximize ();
-		f->Show ();
+		_frame = new Frame (_("DCP-o-matic"));
+		SetTopWindow (_frame);
+		_frame->Maximize ();
+		_frame->Show ();
 
 		ui_signaller = new wxUISignaller (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
@@ -638,7 +657,12 @@ class App : public wxApp
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
-		
+
+		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
+		if (Config::instance()->check_for_updates ()) {
+			UpdateChecker::instance()->run ();
+		}
+
 		return true;
 	}
 	catch (exception& e)
@@ -685,6 +709,35 @@ class App : public wxApp
 		}
 	}
 
+	void update_checker_state_changed ()
+	{
+		switch (UpdateChecker::instance()->state ()) {
+		case UpdateChecker::YES:
+		{
+			string test;
+			if (Config::instance()->check_for_test_updates ()) {
+				test = UpdateChecker::instance()->test ();
+			}
+			UpdateDialog* dialog = new UpdateDialog (_frame, UpdateChecker::instance()->stable (), test);
+			dialog->ShowModal ();
+			dialog->Destroy ();
+			break;
+		}
+		case UpdateChecker::NO:
+			if (!UpdateChecker::instance()->last_emit_was_first ()) {
+				error_dialog (_frame, _("There are no new versions of DCP-o-matic available."));
+			}
+			break;
+		case UpdateChecker::FAILED:
+			if (!UpdateChecker::instance()->last_emit_was_first ()) {
+				error_dialog (_frame, _("The DCP-o-matic download server could not be contacted."));
+			}
+		default:
+			break;
+		}
+	}
+
+	wxFrame* _frame;
 	shared_ptr<wxTimer> _timer;
 };
 

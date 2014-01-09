@@ -19,7 +19,7 @@
 
 #include "film_editor_panel.h"
 
-class DCPTimecode;
+class Timecode;
 
 class TimingPanel : public FilmEditorPanel
 {
@@ -35,10 +35,14 @@ private:
 	void trim_start_changed ();
 	void trim_end_changed ();
 	void play_length_changed ();
+	void video_frame_rate_changed ();
+	void set_video_frame_rate ();
 	
-	DCPTimecode* _position;
-	DCPTimecode* _full_length;
-	DCPTimecode* _trim_start;
-	DCPTimecode* _trim_end;
-	DCPTimecode* _play_length;
+	Timecode* _position;
+	Timecode* _full_length;
+	Timecode* _trim_start;
+	Timecode* _trim_end;
+	Timecode* _play_length;
+	wxTextCtrl* _video_frame_rate;
+	wxButton* _set_video_frame_rate;
 };

@@ -48,7 +48,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-int const Writer::_maximum_frames_in_memory = 8;
+int const Writer::_maximum_frames_in_memory = Config::instance()->num_local_encoding_threads() + 4;
 
 Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	: _film (f)
@@ -94,9 +94,16 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
 	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.
+	   of the DCP directory until the last minute.  Some versions of windows inexplicably
+	   don't like overwriting existing files here, so try to remove it using boost.
 	*/
-	_sound_asset.reset (new libdcp::SoundAsset (_film->dir ("."), _film->audio_mxf_filename ()));
+	boost::system::error_code ec;
+	boost::filesystem::remove (_film->file (_film->audio_mxf_filename ()), ec);
+	if (ec) {
+		_film->log()->log (String::compose ("Could not remove existing audio MXF file (%1)", ec.value ()));
+	}
+
+	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
 	_sound_asset->set_channels (_film->audio_channels ());
 	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
@@ -172,15 +179,15 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 
-/** This must be called from Writer::thread() with an appropriate lock held,
- *  and with _queue sorted.
- */
+/** This must be called from Writer::thread() with an appropriate lock held */
 bool
-Writer::have_sequenced_image_at_queue_head () const
+Writer::have_sequenced_image_at_queue_head ()
 {
 	if (_queue.empty ()) {
 		return false;
 	}
+
+	_queue.sort ();
 
 	/* The queue should contain only EYES_LEFT/EYES_RIGHT pairs or EYES_BOTH */
 
@@ -212,8 +219,6 @@ try
 
 		while (1) {
 			
-			_queue.sort ();
-			
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
 				break;
 			}
@@ -227,7 +232,7 @@ try
 			return;
 		}
 
-		/* Write any frames that we can write; i.e. those that are in sequence */
+		/* Write any frames that we can write; i.e. those that are in sequence. */
 		while (have_sequenced_image_at_queue_head ()) {
 			QueueItem qi = _queue.front ();
 			_queue.pop_front ();
@@ -293,7 +298,8 @@ try
 			   Write some FULL frames to disk.
 			*/
 
-			/* Find one */
+			/* Find one from the back of the queue */
+			_queue.sort ();
 			list<QueueItem>::reverse_iterator i = _queue.rbegin ();
 			while (i != _queue.rend() && (i->type != QueueItem::FULL || !i->encoded)) {
 				++i;
@@ -373,18 +379,16 @@ Writer::finish ()
 	_picture_asset->set_file_name (_film->video_mxf_filename ());
 
 	/* Move the audio MXF into the DCP */
-	
-	boost::filesystem::path audio_from;
-	audio_from /= _film->dir (".");
-	audio_from /= _film->audio_mxf_filename ();
 
 	boost::filesystem::path audio_to;
 	audio_to /= _film->dir (_film->dcp_name ());
 	audio_to /= _film->audio_mxf_filename ();
 	
-	boost::filesystem::rename (audio_from, audio_to, ec);
+	boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
 	if (ec) {
-		throw FileError (String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), audio_from);
+		throw FileError (
+			String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
+			);
 	}
 
 	_sound_asset->set_directory (_film->dir (_film->dcp_name ()));

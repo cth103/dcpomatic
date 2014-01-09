@@ -76,6 +76,9 @@ private:
 	void make_colour_conversions_panel ();
 	void make_kdm_email_panel ();
 
+	void check_for_updates_changed ();
+	void check_for_test_updates_changed ();
+
 	wxNotebook* _notebook;
 	wxPanel* _misc_panel;
 	wxPanel* _defaults_panel;
@@ -110,6 +113,8 @@ private:
 	wxPanel* _kdm_email_panel;
 	wxTextCtrl* _kdm_email;
 	wxCheckBox* _use_any_servers;
+	wxCheckBox* _check_for_updates;
+	wxCheckBox* _check_for_test_updates;
 	EditableList<std::string, ServerDialog>* _servers_list;
 };
 

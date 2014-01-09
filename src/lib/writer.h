@@ -85,7 +85,7 @@ private:
 	void thread ();
 	void check_existing_picture_mxf ();
 	bool check_existing_picture_mxf_frame (FILE *, int, Eyes);
-	bool have_sequenced_image_at_queue_head () const;
+	bool have_sequenced_image_at_queue_head ();
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;

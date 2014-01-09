@@ -334,10 +334,17 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->data->frames()));
 	dcp_mapped->make_silent ();
-	list<pair<int, libdcp::Channel> > map = content->audio_mapping().content_to_dcp ();
-	for (list<pair<int, libdcp::Channel> >::iterator i = map.begin(); i != map.end(); ++i) {
-		if (i->first < audio->data->channels() && i->second < dcp_mapped->channels()) {
-			dcp_mapped->accumulate_channel (audio->data.get(), i->first, i->second);
+	AudioMapping map = content->audio_mapping ();
+	for (int i = 0; i < map.content_channels(); ++i) {
+		for (int j = 0; j < _film->audio_channels(); ++j) {
+			if (map.get (i, static_cast<libdcp::Channel> (j)) > 0) {
+				dcp_mapped->accumulate_channel (
+					audio->data.get(),
+					i,
+					static_cast<libdcp::Channel> (j),
+					map.get (i, static_cast<libdcp::Channel> (j))
+					);
+			}
 		}
 	}
 
@@ -528,7 +535,10 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		update_subtitle ();
 		Changed (frequent);
 
-	} else if (property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO) {
+	} else if (
+		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO ||
+		property == VideoContentProperty::VIDEO_FRAME_RATE
+		) {
 		
 		Changed (frequent);
 
@@ -599,7 +609,7 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER) {
+	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
 	}
 }

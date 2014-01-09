@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,33 +17,15 @@
 
 */
 
-#include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include "lib/types.h"
-
-class Timecode : public wxPanel
+class UpdateDialog
 {
 public:
-	Timecode (wxWindow *);
-
-	void set (DCPTime, int);
-	DCPTime get (int) const;
-
-	void set_editable (bool);
-
-	boost::signals2::signal<void ()> Changed;
+	UpdateDialog (wxWindow *);
 
 private:
-	void changed ();
-	void set_clicked ();
-	
-	wxSizer* _sizer;
-	wxPanel* _editable;
-	wxTextCtrl* _hours;
-	wxTextCtrl* _minutes;
-	wxTextCtrl* _seconds;
-	wxTextCtrl* _frames;
-	wxButton* _set_button;
-	wxStaticText* _fixed;
+	wxGauge* _gauge;
+	wxStaticText* _message;
+	boost::thread* _thread;
+	boost::optional<UpdateChecker::Result> _result;
+	std::string _stable;
 };
-

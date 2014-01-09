@@ -20,7 +20,7 @@
 #ifndef DCPOMATIC_AUDIO_MAPPING_H
 #define DCPOMATIC_AUDIO_MAPPING_H
 
-#include <list>
+#include <vector>
 #include <libdcp/types.h>
 #include <boost/shared_ptr.hpp>
 
@@ -34,37 +34,34 @@ namespace cxml {
 
 /** A many-to-many mapping from some content channels to DCP channels.
  *  The number of content channels is set on construction and fixed,
- *  and then each of those content channels can be mapped to zero or
- *  more DCP channels.
+ *  and then each of those content channels are mapped to each DCP channel
+ *  by a linear gain.
  */
 class AudioMapping
 {
 public:
 	AudioMapping ();
 	AudioMapping (int);
-	AudioMapping (boost::shared_ptr<const cxml::Node>);
+	AudioMapping (boost::shared_ptr<const cxml::Node>, int);
 
 	/* Default copy constructor is fine */
 	
 	void as_xml (xmlpp::Node *) const;
 
-	void add (int, libdcp::Channel);
 	void make_default ();
 
-	std::list<int> dcp_to_content (libdcp::Channel) const;
-	std::list<std::pair<int, libdcp::Channel> > content_to_dcp () const {
-		return _content_to_dcp;
-	}
+	void set (int, libdcp::Channel, float);
+	float get (int, libdcp::Channel) const;
 
 	int content_channels () const {
 		return _content_channels;
 	}
 	
-	std::list<libdcp::Channel> content_to_dcp (int) const;
-
 private:
+	void setup (int);
+	
 	int _content_channels;
-	std::list<std::pair<int, libdcp::Channel> > _content_to_dcp;
+	std::vector<std::vector<float> > _gain;
 };
 
 #endif

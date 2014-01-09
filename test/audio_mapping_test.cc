@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,42 +17,28 @@
 
 */
 
-#include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include <wx/grid.h>
+#include <boost/test/unit_test.hpp>
 #include "lib/audio_mapping.h"
+#include "lib/util.h"
 
-class AudioMappingView : public wxPanel
+/* Basic tests of the AudioMapping class, which itself
+   doesn't really do much.
+*/
+BOOST_AUTO_TEST_CASE (audio_mapping_test)
 {
-public:
-	AudioMappingView (wxWindow *);
+	AudioMapping none;
+	BOOST_CHECK_EQUAL (none.content_channels(), 0);
 
-	void set (AudioMapping);
-	void set_channels (int);
+	AudioMapping four (4);
+	BOOST_CHECK_EQUAL (four.content_channels(), 4);
+	four.make_default ();
 
-	boost::signals2::signal<void (AudioMapping)> Changed;
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < MAX_AUDIO_CHANNELS; ++j) {
+			BOOST_CHECK_EQUAL (four.get (i, static_cast<libdcp::Channel> (j)), i == j ? 1 : 0);
+		}
+	}
 
-private:
-	void left_click (wxGridEvent &);
-	void right_click (wxGridEvent &);
-	void mouse_moved (wxMouseEvent &);
-	void set_column_labels ();
-	void update_cells ();
-	void map_changed ();
-
-	void off ();
-	void full ();
-	void minus3dB ();
-	void edit ();
-
-	wxGrid* _grid;
-	wxSizer* _sizer;
-	AudioMapping _map;
-
-	wxMenu* _menu;
-	int _menu_row;
-	int _menu_column;
-
-	int _last_tooltip_row;
-	int _last_tooltip_column;
-};
+	four.set (0, libdcp::RIGHT, 1);
+	BOOST_CHECK_EQUAL (four.get (0, libdcp::RIGHT), 1);
+}

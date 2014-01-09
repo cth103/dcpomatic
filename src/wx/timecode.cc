@@ -26,7 +26,7 @@ using std::string;
 using std::cout;
 using boost::lexical_cast;
 
-DCPTimecode::DCPTimecode (wxWindow* parent)
+Timecode::Timecode (wxWindow* parent)
 	: wxPanel (parent)
 {
 	wxClientDC dc (parent);
@@ -69,11 +69,11 @@ DCPTimecode::DCPTimecode (wxWindow* parent)
 
 	_fixed = add_label_to_sizer (_sizer, this, wxT ("42"), false);
 	
-	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&DCPTimecode::changed, this));
-	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&DCPTimecode::changed, this));
-	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&DCPTimecode::changed, this));
-	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&DCPTimecode::changed, this));
-	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DCPTimecode::set_clicked, this));
+	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
+	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&Timecode::set_clicked, this));
 
 	_set_button->Enable (false);
 
@@ -83,7 +83,7 @@ DCPTimecode::DCPTimecode (wxWindow* parent)
 }
 
 void
-DCPTimecode::set (DCPTime t, int fps)
+Timecode::set (DCPTime t, int fps)
 {
 	int const h = t / (3600 * TIME_HZ);
 	t -= h * 3600 * TIME_HZ;
@@ -102,7 +102,7 @@ DCPTimecode::set (DCPTime t, int fps)
 }
 
 DCPTime
-DCPTimecode::get (int fps) const
+Timecode::get (int fps) const
 {
 	DCPTime t = 0;
 	string const h = wx_to_std (_hours->GetValue ());
@@ -118,20 +118,20 @@ DCPTimecode::get (int fps) const
 }
 
 void
-DCPTimecode::changed ()
+Timecode::changed ()
 {
 	_set_button->Enable (true);
 }
 
 void
-DCPTimecode::set_clicked ()
+Timecode::set_clicked ()
 {
 	Changed ();
 	_set_button->Enable (false);
 }
 
 void
-DCPTimecode::set_editable (bool e)
+Timecode::set_editable (bool e)
 {
 	_editable->Show (e);
 	_fixed->Show (!e);

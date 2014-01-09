@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dcpomatic'
-VERSION = '1.58pre'
+VERSION = '1.61.2pre'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -15,6 +15,7 @@ def options(opt):
     opt.add_option('--static', action='store_true', default=False, help='build statically, and link statically to libdcp and FFmpeg')
     opt.add_option('--magickpp-config', action='store', default='Magick++-config', help='path to Magick++-config')
     opt.add_option('--wx-config', action='store', default='wx-config', help='path to wx-config')
+    opt.add_option('--address-sanitizer', action='store_true', default=False, help='build with address sanitizer')
 
 def pkg_config_args(conf):
     if conf.env.STATIC:
@@ -42,6 +43,10 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG'])
     else:
         conf.env.append_value('CXXFLAGS', '-O2')
+
+    if conf.options.address_sanitizer:
+        conf.env.append_value('CXXFLAGS', ['-fsanitize=address', '-fno-omit-frame-pointer'])
+        conf.env.append_value('LINKFLAGS', ['-fsanitize=address'])
 
     # Windows-specific
     if conf.env.TARGET_WINDOWS:

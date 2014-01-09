@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,27 +17,25 @@
 
 */
 
-#include "cinema_dialog.h"
+#include <cmath>
+#include <wx/spinctrl.h>
+#include "audio_gain_dialog.h"
 #include "wx_util.h"
 
-using std::string;
-
-CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, string email)
-	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
+	: wxDialog (parent, wxID_ANY, _("Channel gain"))
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, _("Name"), true);
-	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (256, -1));
-	table->Add (_name, 1, wxEXPAND);
+	add_label_to_sizer (table, this, wxString::Format (_("Gain for content channel %d in DCP channel %d"), c + 1, d + 1), false);
+	_gain = new wxSpinCtrlDouble (this);
+	table->Add (_gain);
 
-	add_label_to_sizer (table, this, _("Email address for KDM delivery"), true);
-	_email = new wxTextCtrl (this, wxID_ANY, std_to_wx (email), wxDefaultPosition, wxSize (256, -1));
-	table->Add (_email, 1, wxEXPAND);
+	add_label_to_sizer (table, this, _("dB"), false);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
+	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
@@ -47,16 +45,20 @@ CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, string 
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+
+	_gain->SetRange (-144, 0);
+	_gain->SetDigits (1);
+	_gain->SetIncrement (0.1);
+
+	_gain->SetValue (20 * log10 (v));
 }
 
-string
-CinemaDialog::name () const
+float
+AudioGainDialog::value () const
 {
-	return wx_to_std (_name->GetValue());
-}
-
-string
-CinemaDialog::email () const
-{
-	return wx_to_std (_email->GetValue());
+	if (_gain->GetValue() <= -144) {
+		return 0;
+	}
+	
+	return pow (10, _gain->GetValue () / 20);
 }

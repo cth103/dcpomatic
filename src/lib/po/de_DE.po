@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-05 18:00+0000\n"
+"POT-Creation-Date: 2014-01-07 20:01+0000\n"
 "PO-Revision-Date: 2014-01-05 23:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr "Abgebrochen"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Cannot handle pixel format %1 during %2"
 
-#: src/lib/util.cc:766
+#: src/lib/util.cc:768
 msgid "Centre"
 msgstr "Center"
 
@@ -110,7 +110,7 @@ msgstr "Center"
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
-#: src/lib/writer.cc:401
+#: src/lib/writer.cc:420
 msgid "Computing audio digest"
 msgstr "Ton berechnen"
 
@@ -118,11 +118,11 @@ msgstr "Ton berechnen"
 msgid "Computing digest"
 msgstr "Teil berechnen"
 
-#: src/lib/writer.cc:398
+#: src/lib/writer.cc:417
 msgid "Computing image digest"
 msgstr "Bild berechnen"
 
-#: src/lib/util.cc:796
+#: src/lib/util.cc:798
 msgid "Content and DCP have the same rate.\n"
 msgstr "Inhalt und DCP haben die selbe Rate.\n"
 
@@ -194,7 +194,7 @@ msgstr "%1 konnte nicht geöffnet werden."
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum senden geöffnet werden"
 
-#: src/lib/film.cc:949
+#: src/lib/film.cc:952
 msgid "Could not read DCP to make KDM for"
 msgstr "DCP konnte nicht zur Schlüsselerstellung geöffnet werden"
 
@@ -210,11 +210,11 @@ msgstr "Remote Datei (%1) kann nicht gespeichert werden"
 msgid "Cubic interpolating deinterlacer"
 msgstr "Kubisch interpolierender Deinterlacer"
 
-#: src/lib/util.cc:808
+#: src/lib/util.cc:810
 msgid "DCP will run at %1%% of the content speed.\n"
 msgstr "DCP läuft mit %1% der Orginal Geschwindigkeit.\n"
 
-#: src/lib/util.cc:799
+#: src/lib/util.cc:801
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP benutzt jedes ungerade Bild des Inhalts.\n"
 
@@ -265,11 +265,11 @@ msgstr "De-Ringer"
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 und CP750"
 
-#: src/lib/util.cc:801
+#: src/lib/util.cc:803
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Jedes Bild des Inhalts wird im DCP verdoppelt.\n"
 
-#: src/lib/util.cc:803
+#: src/lib/util.cc:805
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Jedes Bild des Inhalts wird %1 mal im DCP wiederholt.\n"
 
@@ -277,7 +277,7 @@ msgstr "Jedes Bild des Inhalts wird %1 mal im DCP wiederholt.\n"
 msgid "Email KDMs for %1"
 msgstr "Email KDMs für %1"
 
-#: src/lib/writer.cc:109
+#: src/lib/writer.cc:112
 msgid "Encoding image data"
 msgstr "Bilddaten bearbeiten"
 
@@ -365,15 +365,15 @@ msgstr "Kernel De-Interlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:764
+#: src/lib/util.cc:766
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:768
+#: src/lib/util.cc:770
 msgid "Left surround"
 msgstr "Links Surround"
 
-#: src/lib/util.cc:767
+#: src/lib/util.cc:769
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -431,15 +431,15 @@ msgstr "Werbung"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/config.cc:81 src/lib/config.cc:165
+#: src/lib/config.cc:83 src/lib/config.cc:167
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:765
+#: src/lib/util.cc:767
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:769
+#: src/lib/util.cc:771
 msgid "Right surround"
 msgstr "Rechts Surround"
 
@@ -487,7 +487,7 @@ msgstr ""
 "Das Laufwer auf dem der Film gespeichert werden soll hat zu wenig Freien "
 "Speicher. Bitte Speicher freigeben und nochmals versuchen."
 
-#: src/lib/film.cc:372
+#: src/lib/film.cc:375
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -545,7 +545,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Noch ein anderer De-Interlacer"
 
-#: src/lib/film.cc:276
+#: src/lib/film.cc:279
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen einen Inhalt hinzufügen bevor Sie ein DCP erstellen können."
 
@@ -557,11 +557,11 @@ msgstr "[Bewegte Bilder]"
 msgid "[still]"
 msgstr "[Standbild]"
 
-#: src/lib/film.cc:237
+#: src/lib/film.cc:240
 msgid "cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:548
 msgid "connect timed out"
 msgstr "Zeit zur Verbindung abgelaufen"
 
@@ -569,11 +569,11 @@ msgstr "Zeit zur Verbindung abgelaufen"
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:275
 msgid "container"
 msgstr "Container"
 
-#: src/lib/film.cc:280
+#: src/lib/film.cc:283
 msgid "content type"
 msgstr "Inhalt Typ"
 
@@ -600,6 +600,10 @@ msgstr "Untertitel-Decoder nicht gefunden"
 #: src/lib/ffmpeg.cc:154
 msgid "could not find video decoder"
 msgstr "Bild-Decoder nicht gefunden"
+
+#: src/lib/writer.cc:387
+msgid "could not move audio MXF into the DCP (%1)"
+msgstr ""
 
 #: src/lib/sndfile_decoder.cc:45
 msgid "could not open audio file for reading"
@@ -641,25 +645,21 @@ msgstr "SSH Session kann nicht gestartet werden"
 msgid "could not write to file %1 (%2)"
 msgstr "Datei %1 kann nicht geschrieben werden (%2)"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "error during async_accept (%1)"
 msgstr "error during async_accept (%1)"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:544
 msgid "error during async_connect (%1)"
 msgstr "error during async_connect (%1)"
 
-#: src/lib/util.cc:615
+#: src/lib/util.cc:617
 msgid "error during async_read (%1)"
 msgstr "error during async_read (%1)"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:589
 msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
-
-#: src/lib/image_examiner.cc:68
-msgid "first frame in moving image directory is number %1"
-msgstr "Erstes Bild im Bilderordner ist Nummer %1"
 
 #: src/lib/transcode_job.cc:94
 msgid "frames per second"
@@ -681,7 +681,7 @@ msgstr "Minute"
 msgid "minutes"
 msgstr "Minuten"
 
-#: src/lib/util.cc:687
+#: src/lib/util.cc:689
 msgid "missing key %1 in key-value set"
 msgstr "Key %1 in Key-value set fehlt"
 
@@ -697,7 +697,7 @@ msgstr "wird verschoben"
 msgid "multi-part subtitles not yet supported"
 msgstr "Multi-Part Untertitel noch nicht unterstützt"
 
-#: src/lib/film.cc:237 src/lib/film.cc:284
+#: src/lib/film.cc:240 src/lib/film.cc:287
 msgid "name"
 msgstr "Name"
 
@@ -711,11 +711,11 @@ msgstr "Nur Bitmap Untertitel werden unterstützt"
 msgid "remaining"
 msgstr "verbleibend"
 
-#: src/lib/config.cc:79 src/lib/video_content.cc:169
+#: src/lib/config.cc:81 src/lib/video_content.cc:169
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/config.cc:80
+#: src/lib/config.cc:82
 msgid "sRGB non-linearised"
 msgstr "sRGB nicht linearisiert"
 
@@ -727,10 +727,12 @@ msgstr "Sekunden"
 msgid "still"
 msgstr "Standbild"
 
-#: src/lib/image_examiner.cc:72
-msgid "there are %1 images in the directory but the last one is number %2"
-msgstr "Im Ordner sind %1 Bilder aber die letzte Nummer ist %2"
-
 #: src/lib/ffmpeg_examiner.cc:169
 msgid "unknown"
 msgstr "unbekannt"
+
+#~ msgid "first frame in moving image directory is number %1"
+#~ msgstr "Erstes Bild im Bilderordner ist Nummer %1"
+
+#~ msgid "there are %1 images in the directory but the last one is number %2"
+#~ msgstr "Im Ordner sind %1 Bilder aber die letzte Nummer ist %2"

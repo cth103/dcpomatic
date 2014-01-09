@@ -150,6 +150,10 @@ Content::set_position (DCPTime p)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
+		if (p == _position) {
+			return;
+		}
+		
 		_position = p;
 	}
 

@@ -171,6 +171,14 @@ public:
 		return _kdm_email;
 	}
 
+	bool check_for_updates () const {
+		return _check_for_updates;
+	}
+
+	bool check_for_test_updates () const {
+		return _check_for_test_updates;
+	}
+	
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -284,6 +292,14 @@ public:
 	void set_kdm_email (std::string e) {
 		_kdm_email = e;
 	}
+
+	void set_check_for_updates (bool c) {
+		_check_for_updates = c;
+	}
+
+	void set_check_for_test_updates (bool c) {
+		_check_for_test_updates = c;
+	}
 	
 	void write () const;
 
@@ -341,6 +357,9 @@ private:
 	std::string _mail_password;
 	std::string _kdm_from;
 	std::string _kdm_email;
+	/** true to check for updates on startup */
+	bool _check_for_updates;
+	bool _check_for_test_updates;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

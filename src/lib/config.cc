@@ -68,6 +68,8 @@ Config::Config ()
 	, _kdm_email (
 		_("Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nThe KDMs are valid from $START_TIME until $END_TIME.\n\nBest regards,\nDCP-o-matic")
 		)
+	, _check_for_updates (false)
+	, _check_for_test_updates (false)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -180,6 +182,9 @@ Config::read ()
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 	_kdm_from = f.string_child ("KDMFrom");
 	_kdm_email = f.string_child ("KDMEmail");
+
+	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
+	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
 }
 
 void
@@ -353,6 +358,9 @@ Config::write () const
 	root->add_child("MailPassword")->add_child_text (_mail_password);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
+
+	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
+	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
 
 	doc.write_to_file_formatted (file(false).string ());
 }

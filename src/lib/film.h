@@ -108,6 +108,9 @@ public:
 	DCPTime video_frames_to_time (VideoFrame) const;
 	DCPTime audio_frames_to_time (AudioFrame) const;
 
+	uint64_t required_disk_space () const;
+	bool should_be_enough_disk_space (double &, double &) const;
+	
 	/* Proxies for some Playlist methods */
 
 	ContentList content () const;

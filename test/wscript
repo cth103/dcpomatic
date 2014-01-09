@@ -18,6 +18,7 @@ def build(bld):
                  4k_test.cc
                  audio_analysis_test.cc
                  audio_delay_test.cc
+                 audio_mapping_test.cc
                  audio_merger_test.cc
                  black_fill_test.cc
                  client_server_test.cc

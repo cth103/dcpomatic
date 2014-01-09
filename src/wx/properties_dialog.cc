@@ -52,7 +52,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	_table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->time_to_video_frames (_film->length()))));
-	double const disk = ((double) _film->j2k_bandwidth() / 8) * _film->length() / (TIME_HZ * 1073741824.0f);
+	double const disk = double (_film->required_disk_space()) / 1073741824.0f;
 	stringstream s;
 	s << fixed << setprecision (1) << disk << wx_to_std (_("Gb"));
 	_disk->SetLabel (std_to_wx (s.str ()));

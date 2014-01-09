@@ -35,6 +35,9 @@ BOOST_AUTO_TEST_CASE (stream_test)
 	root->add_child("Id")->add_child_text ("4");
 	root->add_child("FrameRate")->add_child_text ("44100");
 	root->add_child("Channels")->add_child_text ("2");
+
+	/* This is the state file version 5 description of the mapping */
+	
 	xmlpp::Element* mapping = root->add_child("Mapping");
 	mapping->add_child("ContentChannels")->add_child_text ("2");
 	{
@@ -62,32 +65,19 @@ BOOST_AUTO_TEST_CASE (stream_test)
 		map->add_child("DCP")->add_child_text ("2");
 	}
 		
-	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), Film::state_version);
+	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), 5);
 
 	BOOST_CHECK_EQUAL (a.id, 4);
 	BOOST_CHECK_EQUAL (a.frame_rate, 44100);
 	BOOST_CHECK_EQUAL (a.channels, 2);
 	BOOST_CHECK_EQUAL (a.name, "hello there world");
 	BOOST_CHECK_EQUAL (a.mapping.content_channels(), 2);
-	BOOST_CHECK_EQUAL (a.mapping.content_to_dcp().size(), 4);
 
-	list<pair<int, libdcp::Channel> > m = a.mapping.content_to_dcp ();
-	list<pair<int, libdcp::Channel> >::iterator i = m.begin();
-
-	BOOST_CHECK_EQUAL (i->first, 0);
-	BOOST_CHECK_EQUAL (i->second, libdcp::LEFT);
-	++i;
-	
-	BOOST_CHECK_EQUAL (i->first, 0);
-	BOOST_CHECK_EQUAL (i->second, libdcp::CENTRE);
-	++i;
-	
-	BOOST_CHECK_EQUAL (i->first, 1);
-	BOOST_CHECK_EQUAL (i->second, libdcp::RIGHT);
-	++i;
-
-	BOOST_CHECK_EQUAL (i->first, 1);
-	BOOST_CHECK_EQUAL (i->second, libdcp::CENTRE);
-	++i;
+	BOOST_CHECK_EQUAL (a.mapping.get (0, libdcp::LEFT), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (0, libdcp::RIGHT), 0);
+	BOOST_CHECK_EQUAL (a.mapping.get (0, libdcp::CENTRE), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (1, libdcp::LEFT), 0);
+	BOOST_CHECK_EQUAL (a.mapping.get (1, libdcp::RIGHT), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (1, libdcp::CENTRE), 1);
 }
 

@@ -144,3 +144,19 @@ ImageContent::still () const
 {
 	return number_of_paths() == 1;
 }
+
+void
+ImageContent::set_video_frame_rate (float r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_video_frame_rate == r) {
+			return;
+		}
+		
+		_video_frame_rate = r;
+	}
+	
+	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+}
+

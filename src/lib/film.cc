@@ -81,7 +81,10 @@ using boost::optional;
 using libdcp::Size;
 using libdcp::Signer;
 
-int const Film::state_version = 5;
+/* 5 -> 6
+ * AudioMapping XML changed.
+ */
+int const Film::state_version = 6;
 
 /** Construct a Film object in a given directory.
  *
@@ -979,4 +982,29 @@ Film::make_kdms (
 	}
 
 	return kdms;
+}
+
+/** @return The approximate disk space required to encode a DCP of this film with the
+ *  current settings, in bytes.
+ */
+uint64_t
+Film::required_disk_space () const
+{
+	return uint64_t (j2k_bandwidth() / 8) * length() / TIME_HZ;
+}
+
+/** This method checks the disk that the Film is on and tries to decide whether or not
+ *  there will be enough space to make a DCP for it.  If so, true is returned; if not,
+ *  false is returned and required and availabe are filled in with the amount of disk space
+ *  required and available respectively (in Gb).
+ *
+ *  Note: the decision made by this method isn't, of course, 100% reliable.
+ */
+bool
+Film::should_be_enough_disk_space (double& required, double& available) const
+{
+	boost::filesystem::space_info s = boost::filesystem::space (internal_video_mxf_dir ());
+	required = double (required_disk_space ()) / 1073741824.0f;
+	available = double (s.available) / 1073741824.0f;
+	return (available - required) > 1;
 }

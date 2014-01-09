@@ -64,7 +64,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), false, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), true, wxGBPosition (r, 0));
 	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
@@ -73,7 +73,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 		boost::mem_fn (&AudioContent::set_audio_delay)
 		);
 	
-	_delay->add (grid, wxGBPosition (r,1 ));
+	_delay->add (grid, wxGBPosition (r, 1));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
 	++r;
@@ -81,10 +81,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, wxGBPosition (r, 1));
-	++r;
-	
-	_description = new wxStaticText (this, wxID_ANY, wxT (""));
-	grid->Add (_description, wxGBPosition (r, 0));
+	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 3));
 	++r;
 	
 	_mapping = new AudioMappingView (this);
@@ -131,6 +128,7 @@ AudioPanel::film_content_changed (int property)
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
 		setup_stream_description ();
 		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
+		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
 		_stream->Clear ();
 		if (fcs) {
@@ -224,6 +222,7 @@ AudioPanel::setup_stream_description ()
 {
 	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
 	if (fc.size() != 1) {
+		_description->SetLabel ("");
 		return;
 	}
 
