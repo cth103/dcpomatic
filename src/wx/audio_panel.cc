@@ -73,7 +73,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 		boost::mem_fn (&AudioContent::set_audio_delay)
 		);
 	
-	_delay->add (grid, wxGBPosition (r,1 ));
+	_delay->add (grid, wxGBPosition (r, 1));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
 	++r;
@@ -81,10 +81,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, wxGBPosition (r, 1));
-	++r;
-	
-	_description = new wxStaticText (this, wxID_ANY, wxT (""));
-	grid->Add (_description, wxGBPosition (r, 0));
+	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 3));
 	++r;
 	
 	_mapping = new AudioMappingView (this);
