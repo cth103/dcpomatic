@@ -48,7 +48,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-int const Writer::_maximum_frames_in_memory = Config::num_local_encoding_threads() + 4;
+int const Writer::_maximum_frames_in_memory = Config::instance()->num_local_encoding_threads() + 4;
 
 Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	: _film (f)
