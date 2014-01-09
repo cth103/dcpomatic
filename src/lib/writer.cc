@@ -94,8 +94,15 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
 	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.
+	   of the DCP directory until the last minute.  Some versions of windows inexplicably
+	   don't like overwriting existing files here, so try to remove it using boost.
 	*/
+	boost::system::error_code ec;
+	boost::filesystem::remove (_film->file (_film->audio_mxf_filename ()), ec);
+	if (ec) {
+		_film->log()->log (String::compose ("Could not remove existing audio MXF file (%1)", ec.value ()));
+	}
+
 	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
 	_sound_asset->set_channels (_film->audio_channels ());
@@ -106,9 +113,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	}
 	
 	_sound_asset_writer = _sound_asset->start_write ();
-#ifdef DCPOMATIC_WINDOWS	
-	_film->log()->log (String::compose ("DEBUG: %1", GetLastError ()));
-#endif	
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
