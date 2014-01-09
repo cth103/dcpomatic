@@ -222,6 +222,7 @@ AudioPanel::setup_stream_description ()
 {
 	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
 	if (fc.size() != 1) {
+		_description->SetLabel ("");
 		return;
 	}
 
