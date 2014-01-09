@@ -1,5 +1,9 @@
 2014-01-09  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.61.0 released.
+
+2014-01-09  Carl Hetherington  <cth@carlh.net>
+
 	* Hopefully fix somewhat inexplicable inability of Windows to open
 	new files on top of old ones in some circumstances (with audio
 	MXFs).
