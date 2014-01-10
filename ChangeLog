@@ -1,5 +1,8 @@
 2014-01-10  Carl Hetherington  <cth@carlh.net>
 
+	* Try to stop the queue of things to write filling up excessively
+	on fast CPUs.
+
 	* Try to fix double "are you sure" prompt on quitting with active jobs.
 
 2014-01-09  Carl Hetherington  <cth@carlh.net>

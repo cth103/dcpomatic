@@ -129,6 +129,10 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		_full_condition.wait (lock);
+	}
+
 	QueueItem qi;
 	qi.type = QueueItem::FULL;
 	qi.encoded = encoded;
@@ -148,7 +152,7 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 		++_queued_full_in_memory;
 	}
 	
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 void
@@ -156,6 +160,10 @@ Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		_full_condition.wait (lock);
+	}
+	
 	FILE* ifi = fopen_boost (_film->info_path (frame, eyes), "r");
 	libdcp::FrameInfo info (ifi);
 	fclose (ifi);
@@ -174,7 +182,7 @@ Writer::fake_write (int frame, Eyes eyes)
 		_queue.push_back (qi);
 	}
 
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 /** This method is not thread safe */
@@ -229,7 +237,7 @@ try
 			}
 
 			TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
-			_condition.wait (lock);
+			_empty_condition.wait (lock);
 			TIMING (N_("writer wakes with a queue of %1"), _queue.size());
 		}
 
@@ -345,7 +353,8 @@ Writer::finish ()
 	
 	boost::mutex::scoped_lock lock (_mutex);
 	_finish = true;
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
+	_full_condition.notify_all ();
 	lock.unlock ();
 
 	_thread->join ();
@@ -433,7 +442,9 @@ Writer::finish ()
 	meta.set_issue_date_now ();
 	dcp.write_xml (_film->interop (), meta, _film->is_signed() ? make_signer () : shared_ptr<const libdcp::Signer> ());
 
-	_film->log()->log (String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk));
+	_film->log()->log (
+		String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk)
+		);
 }
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */
@@ -442,6 +453,10 @@ Writer::repeat (int f, Eyes e)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		_full_condition.wait (lock);
+	}
+	
 	QueueItem qi;
 	qi.type = QueueItem::REPEAT;
 	qi.frame = f;
@@ -455,7 +470,7 @@ Writer::repeat (int f, Eyes e)
 		_queue.push_back (qi);
 	}
 
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 bool

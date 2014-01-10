@@ -103,8 +103,10 @@ private:
 	int _queued_full_in_memory;
 	/** mutex for thread state */
 	mutable boost::mutex _mutex;
-	/** condition to manage thread wakeups */
-	boost::condition _condition;
+	/** condition to manage thread wakeups when we have nothing to do  */
+	boost::condition _empty_condition;
+	/** condition to manage thread wakeups when we have too much to do */
+	boost::condition _full_condition;
 	/** the data of the last written frame, or 0 if there isn't one */
 	boost::shared_ptr<const EncodedData> _last_written[EYES_COUNT];
 	/** the index of the last written frame */
