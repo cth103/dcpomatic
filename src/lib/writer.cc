@@ -337,6 +337,8 @@ try
 			qi.encoded.reset ();
 			--_queued_full_in_memory;
 		}
+
+		_full_condition.notify_all ();
 	}
 }
 catch (...)
