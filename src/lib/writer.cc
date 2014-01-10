@@ -98,9 +98,14 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	   don't like overwriting existing files here, so try to remove it using boost.
 	*/
 	boost::system::error_code ec;
-	boost::filesystem::remove (_film->file (_film->audio_mxf_filename ()), ec);
+	boost::filesystem::remove_all (_film->file (_film->audio_mxf_filename ()), ec);
 	if (ec) {
-		_film->log()->log (String::compose ("Could not remove existing audio MXF file (%1)", ec.value ()));
+		_film->log()->log (
+			String::compose (
+				"Could not remove existing audio MXF file %1 (%2)",
+				_film->file (_film->audio_mxf_filename ()),
+				ec.value ())
+			);
 	}
 
 	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
