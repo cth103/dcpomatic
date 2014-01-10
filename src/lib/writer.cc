@@ -91,8 +91,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_picture_asset->set_key (_film->key ());
 	}
 	
-	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
-
 	/* Write the sound asset into the film directory so that we leave the creation
 	   of the DCP directory until the last minute.  Some versions of windows inexplicably
 	   don't like overwriting existing files here, so try to remove it using boost.
@@ -107,6 +105,8 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 				ec.value ())
 			);
 	}
+
+	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
 	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
