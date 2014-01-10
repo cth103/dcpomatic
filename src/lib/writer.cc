@@ -45,6 +45,7 @@ using std::pair;
 using std::string;
 using std::list;
 using std::cout;
+using std::stringstream;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
@@ -91,21 +92,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_picture_asset->set_key (_film->key ());
 	}
 	
-	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.  Some versions of windows inexplicably
-	   don't like overwriting existing files here, so try to remove it using boost.
-	*/
-	boost::system::error_code ec;
-	boost::filesystem::remove_all (_film->file (_film->audio_mxf_filename ()), ec);
-	if (ec) {
-		_film->log()->log (
-			String::compose (
-				"Could not remove existing audio MXF file %1 (%2)",
-				_film->file (_film->audio_mxf_filename ()),
-				ec.value ())
-			);
-	}
-
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
 	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
@@ -117,6 +103,39 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_sound_asset->set_key (_film->key ());
 	}
 	
+	/* Write the sound asset into the film directory so that we leave the creation
+	   of the DCP directory until the last minute.  Some versions of windows inexplicably
+	   don't like overwriting existing files here, so try to remove it using boost.
+	*/
+	boost::system::error_code ec;
+	boost::filesystem::remove_all (_film->file (_film->audio_mxf_filename ()), ec);
+	if (ec) {
+
+		stringstream s;
+		boost::filesystem::path p = _film->file (_film->audio_mxf_filename ());
+		s << p << "\n"
+		  << "exists=" << boost::filesystem::exists (p) << "\n"
+		  << "file_size=" << boost::filesystem::file_size (p) << "\n"
+		  << "hard_link_count=" << boost::filesystem::hard_link_count (p) << "\n"
+		  << "is_directory=" << boost::filesystem::is_directory (p) << "\n"
+		  << "is_empty=" << boost::filesystem::is_empty (p) << "\n"
+		  << "is_other=" << boost::filesystem::is_other (p) << "\n"
+		  << "is_regular_file=" << boost::filesystem::is_regular_file (p) << "\n"
+		  << "last_write_time=" << boost::filesystem::last_write_time (p) << "\n"
+		  << "type=" << boost::filesystem::status (p).type () << "\n"
+		  << "permissions=" << boost::filesystem::status (p).permissions () << "\n";
+
+		_film->log()->log (s.str ());
+		
+		_film->log()->log (
+			String::compose (
+				"Could not remove existing audio MXF file %1 (%2)",
+				_film->file (_film->audio_mxf_filename ()),
+				ec.value ()
+				)
+			);
+	}
+
 	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
