@@ -1,3 +1,16 @@
+2014-01-11  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully fix error on restarting a cancelled transcode job
+	on Windows.
+
+2014-01-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.62.2 released.
+
+2014-01-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.62.1 released.
+
 2014-01-10  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.62.0 released.

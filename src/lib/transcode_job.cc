@@ -64,12 +64,11 @@ TranscodeJob::run ()
 
 		_film->log()->log (N_("Transcode job completed successfully"));
 
-	} catch (std::exception& e) {
-
+	} catch (...) {
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		_film->log()->log (String::compose (N_("Transcode job failed (%1)"), e.what()));
-
+		_film->log()->log (N_("Transcode job failed or cancelled"));
+		_transcoder.reset ();
 		throw;
 	}
 }
@@ -78,7 +77,7 @@ string
 TranscodeJob::status () const
 {
 	if (!_transcoder) {
-		return _("0%");
+		return Job::status ();
 	}
 
 	float const fps = _transcoder->current_encoding_rate ();

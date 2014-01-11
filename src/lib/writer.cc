@@ -45,6 +45,7 @@ using std::pair;
 using std::string;
 using std::list;
 using std::cout;
+using std::stringstream;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
@@ -91,21 +92,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_picture_asset->set_key (_film->key ());
 	}
 	
-	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.  Some versions of windows inexplicably
-	   don't like overwriting existing files here, so try to remove it using boost.
-	*/
-	boost::system::error_code ec;
-	boost::filesystem::remove_all (_film->file (_film->audio_mxf_filename ()), ec);
-	if (ec) {
-		_film->log()->log (
-			String::compose (
-				"Could not remove existing audio MXF file %1 (%2)",
-				_film->file (_film->audio_mxf_filename ()),
-				ec.value ())
-			);
-	}
-
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
 	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
@@ -117,11 +103,19 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_sound_asset->set_key (_film->key ());
 	}
 	
+	/* Write the sound asset into the film directory so that we leave the creation
+	   of the DCP directory until the last minute.
+	*/
 	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
 	job->sub (_("Encoding image data"));
+}
+
+Writer::~Writer ()
+{
+	terminate_thread (false);
 }
 
 void
@@ -347,23 +341,31 @@ catch (...)
 }
 
 void
-Writer::finish ()
+Writer::terminate_thread (bool can_throw)
 {
-	if (!_thread) {
-		return;
-	}
-	
 	boost::mutex::scoped_lock lock (_mutex);
 	_finish = true;
 	_empty_condition.notify_all ();
 	_full_condition.notify_all ();
 	lock.unlock ();
 
-	_thread->join ();
-	rethrow ();
+ 	_thread->join ();
+	if (can_throw) {
+		rethrow ();
+	}
 	
 	delete _thread;
 	_thread = 0;
+}	
+
+void
+Writer::finish ()
+{
+	if (!_thread) {
+		return;
+	}
+	
+	terminate_thread (true);
 
 	_picture_asset_writer->finalize ();
 	_sound_asset_writer->finalize ();
