@@ -1,0 +1,93 @@
+/*
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
+#include "subrip_content.h"
+#include "util.h"
+
+#include "i18n.h"
+
+using std::stringstream;
+using std::string;
+using boost::shared_ptr;
+
+SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::path path)
+	: Content (film, path)
+	, SubtitleContent (film, path)
+{
+
+}
+
+SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
+	: Content (film, node)
+	, SubtitleContent (film, node)
+{
+
+}
+
+void
+SubRipContent::examine (boost::shared_ptr<Job>)
+{
+
+}
+
+string
+SubRipContent::summary () const
+{
+	return path_summary() + " " + _("[subtitles]");
+}
+
+string
+SubRipContent::technical_summary () const
+{
+	return Content::technical_summary() + " - " + _("SubRip subtitles");
+}
+
+string
+SubRipContent::information () const
+{
+	
+}
+	
+void
+SubRipContent::as_xml (xmlpp::Node* node)
+{
+	node->add_child("Type")->add_child_text ("SubRip");
+	Content::as_xml (node);
+	SubtitleContent::as_xml (node);
+}
+
+Time
+SubRipContent::full_length () const
+{
+
+}
+
+string
+SubRipContent::identifier () const
+{
+	LocaleGuard lg;
+
+	stringstream s;
+	s << Content::identifier()
+	  << "_" << subtitle_scale()
+	  << "_" << subtitle_offset();
+
+	return s.str ();
+}
+

@@ -40,6 +40,7 @@ def build(bld):
                  scaling_test.cc
                  silence_padding_test.cc
                  stream_test.cc
+                 subrip_test.cc
                  test.cc
                  threed_test.cc
                  util_test.cc

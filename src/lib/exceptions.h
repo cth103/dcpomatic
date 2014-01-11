@@ -230,6 +230,13 @@ public:
 	PixelFormatError (std::string o, AVPixelFormat f);
 };
 
+/** An error that occurs while parsing a SubRip file */
+class SubRipError : public FileError
+{
+public:
+	SubRipError (std::string, std::string, boost::filesystem::path);
+};
+
 /** A parent class for classes which have a need to catch and
  *  re-throw exceptions.  This is intended for classes
  *  which run their own thread; they should do something like

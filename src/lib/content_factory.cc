@@ -21,6 +21,7 @@
 #include "ffmpeg_content.h"
 #include "image_content.h"
 #include "sndfile_content.h"
+#include "subrip_content.h"
 #include "util.h"
 
 using std::string;
@@ -39,6 +40,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version)
 		content.reset (new ImageContent (film, node, version));
 	} else if (type == "Sndfile") {
 		content.reset (new SndfileContent (film, node, version));
+	} else if (type == "SubRip") {
+		content.reset (new SubRipContent (film, node, version));
 	}
 
 	return content;
@@ -48,11 +51,16 @@ shared_ptr<Content>
 content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 {
 	shared_ptr<Content> content;
+
+	string ext = path.extension().string ();
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 		
 	if (valid_image_file (path)) {
 		content.reset (new ImageContent (film, path));
 	} else if (SndfileContent::valid_file (path)) {
 		content.reset (new SndfileContent (film, path));
+	} else if (ext == ".srt") {
+		content.reset (new SubRipContent (film, path));
 	} else {
 		content.reset (new FFmpegContent (film, path));
 	}

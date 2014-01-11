@@ -56,8 +56,14 @@ MissingSettingError::MissingSettingError (string s)
 
 }
 
-PixelFormatError::PixelFormatError (std::string o, AVPixelFormat f)
+PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
 	: StringError (String::compose (_("Cannot handle pixel format %1 during %2"), f, o))
+{
+
+}
+
+SubRipError::SubRipError (string saw, string expecting, boost::filesystem::path f)
+	: FileError (String::compose (_("Error in SubRip file: saw %1 while expecting %2"), saw, expecting), f)
 {
 
 }
