@@ -71,6 +71,7 @@ class Writer : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Writer (boost::shared_ptr<const Film>, boost::weak_ptr<Job>);
+	~Writer ();
 
 	bool can_fake_write (int) const;
 	
@@ -83,6 +84,7 @@ public:
 private:
 
 	void thread ();
+	void terminate_thread (bool);
 	void check_existing_picture_mxf ();
 	bool check_existing_picture_mxf_frame (FILE *, int, Eyes);
 	bool have_sequenced_image_at_queue_head ();

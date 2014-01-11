@@ -104,43 +104,18 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	}
 	
 	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.  Some versions of windows inexplicably
-	   don't like overwriting existing files here, so try to remove it using boost.
+	   of the DCP directory until the last minute.
 	*/
-	boost::system::error_code ec;
-	boost::filesystem::remove_all (_film->file (_film->audio_mxf_filename ()), ec);
-	if (ec) {
-
-		stringstream s;
-		boost::filesystem::path p = _film->file (_film->audio_mxf_filename ());
-		s << p << "\n"
-		  << "exists=" << boost::filesystem::exists (p) << "\n"
-		  << "file_size=" << boost::filesystem::file_size (p) << "\n"
-		  << "hard_link_count=" << boost::filesystem::hard_link_count (p) << "\n"
-		  << "is_directory=" << boost::filesystem::is_directory (p) << "\n"
-		  << "is_empty=" << boost::filesystem::is_empty (p) << "\n"
-		  << "is_other=" << boost::filesystem::is_other (p) << "\n"
-		  << "is_regular_file=" << boost::filesystem::is_regular_file (p) << "\n"
-		  << "last_write_time=" << boost::filesystem::last_write_time (p) << "\n"
-		  << "type=" << boost::filesystem::status (p).type () << "\n"
-		  << "permissions=" << boost::filesystem::status (p).permissions () << "\n";
-
-		_film->log()->log (s.str ());
-		
-		_film->log()->log (
-			String::compose (
-				"Could not remove existing audio MXF file %1 (%2)",
-				_film->file (_film->audio_mxf_filename ()),
-				ec.value ()
-				)
-			);
-	}
-
 	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
 	job->sub (_("Encoding image data"));
+}
+
+Writer::~Writer ()
+{
+	terminate_thread (false);
 }
 
 void
@@ -366,23 +341,31 @@ catch (...)
 }
 
 void
-Writer::finish ()
+Writer::terminate_thread (bool can_throw)
 {
-	if (!_thread) {
-		return;
-	}
-	
 	boost::mutex::scoped_lock lock (_mutex);
 	_finish = true;
 	_empty_condition.notify_all ();
 	_full_condition.notify_all ();
 	lock.unlock ();
 
-	_thread->join ();
-	rethrow ();
+ 	_thread->join ();
+	if (can_throw) {
+		rethrow ();
+	}
 	
 	delete _thread;
 	_thread = 0;
+}	
+
+void
+Writer::finish ()
+{
+	if (!_thread) {
+		return;
+	}
+	
+	terminate_thread (true);
 
 	_picture_asset_writer->finalize ();
 	_sound_asset_writer->finalize ();
