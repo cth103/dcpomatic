@@ -344,6 +344,10 @@ void
 Writer::terminate_thread (bool can_throw)
 {
 	boost::mutex::scoped_lock lock (_mutex);
+	if (_thread == 0) {
+		return;
+	}
+	
 	_finish = true;
 	_empty_condition.notify_all ();
 	_full_condition.notify_all ();
