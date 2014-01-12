@@ -1,15 +1,6 @@
-2014-01-11  Carl Hetherington  <cth@carlh.net>
+2014-01-12  Carl Hetherington  <cth@carlh.net>
 
-	* Hopefully fix error on restarting a cancelled transcode job
-	on Windows.
-
-2014-01-10  Carl Hetherington  <cth@carlh.net>
-
-	* Version 1.62.2 released.
-
-2014-01-10  Carl Hetherington  <cth@carlh.net>
-
-	* Version 1.62.1 released.
+	* Fix crashes when using -3dB options in locales with a , decimal separator.
 
 2014-01-10  Carl Hetherington  <cth@carlh.net>
 
