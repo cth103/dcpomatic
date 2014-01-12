@@ -32,4 +32,7 @@ public:
 	void as_xml (xmlpp::Node *);
 	Time full_length () const;
 	std::string identifier () const;
+
+private:
+	Time _length;
 };

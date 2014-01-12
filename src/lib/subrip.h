@@ -29,6 +29,8 @@ class SubRip
 public:
 	SubRip (boost::shared_ptr<SubRipContent>);
 
+	Time length () const;
+
 private:
 	friend class subrip_time_test;
 	friend class subrip_coordinate_test;

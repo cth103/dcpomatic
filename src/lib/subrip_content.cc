@@ -41,9 +41,12 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml
 }
 
 void
-SubRipContent::examine (boost::shared_ptr<Job>)
+SubRipContent::examine (boost::shared_ptr<Job> job)
 {
-
+	Content::examine (job);
+	SubRip s (shared_from_this ());
+	boost::mutex::scoped_lock lm (_mutex);
+	_length = s.length ();
 }
 
 string
@@ -75,7 +78,10 @@ SubRipContent::as_xml (xmlpp::Node* node)
 Time
 SubRipContent::full_length () const
 {
-
+	/* XXX: this assumes that the timing of the SubRip file is appropriate
+	   for the DCP's frame rate.
+	*/
+	return _length;
 }
 
 string

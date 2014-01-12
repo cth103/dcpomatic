@@ -213,3 +213,14 @@ SubRip::convert_content (list<string> t)
 
 	return pieces;
 }
+
+Time
+SubRip::length () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_subtitles.empty ()) {
+		return 0;
+	}
+
+	return _subtitles.back().to;
+}
