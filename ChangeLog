@@ -1,11 +1,14 @@
 2014-01-13  Carl Hetherington  <cth@carlh.net>
 
+	* Change 4:3 and 5:3 ratios to be precise rather than 1.33:1 and 1.66:1, and
+	also tweak 1.19:1 (#306).
+
 	* Version 1.63.0 released.
 
 2014-01-12  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crashes when using -3dB options in locales with a , decimal separator.
-	
+
 	* Version 1.62.3 released.
 
 2014-01-11  Carl Hetherington  <cth@carlh.net>
