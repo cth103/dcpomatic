@@ -1,3 +1,7 @@
+2014-01-13  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.63.0 released.
+
 2014-01-12  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crashes when using -3dB options in locales with a , decimal separator.
