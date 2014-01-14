@@ -292,6 +292,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 
 		pi->set_subtitle (_out_subtitle.image, _out_subtitle.position + container_offset);
 	}
+		
 					    
 #ifdef DCPOMATIC_DEBUG
 	_last_video = piece->content;
@@ -683,8 +684,18 @@ Player::update_subtitle ()
 		_in_subtitle.image->pixel_format (),
 		true
 		);
-	_out_subtitle.from = _in_subtitle.from + piece->content->position ();
-	_out_subtitle.to = _in_subtitle.to + piece->content->position ();
+
+	/* XXX: hack */
+	Time from = _in_subtitle.from;
+	Time to = _in_subtitle.to;
+	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (piece->content);
+	if (vc) {
+		from = rint (from * vc->video_frame_rate() / _film->video_frame_rate());
+		to = rint (to * vc->video_frame_rate() / _film->video_frame_rate());
+	}
+	
+	_out_subtitle.from = from * piece->content->position ();
+	_out_subtitle.to = to + piece->content->position ();
 }
 
 /** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.
