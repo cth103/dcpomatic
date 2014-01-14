@@ -224,7 +224,8 @@ Player::pass ()
 				continue;
 			}
 
-			if (dynamic_pointer_cast<AudioDecoder> ((*i)->decoder)) {
+			shared_ptr<AudioDecoder> ad = dynamic_pointer_cast<AudioDecoder> ((*i)->decoder);
+			if (ad && ad->has_audio ()) {
 				audio_done_up_to = min (audio_done_up_to.get_value_or (TIME_MAX), (*i)->audio_position);
 			}
 		}

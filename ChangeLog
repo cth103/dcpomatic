@@ -1,5 +1,8 @@
 2014-01-14  Carl Hetherington  <cth@carlh.net>
 
+	* Fix problems with adding new soundtracks to FFmpeg content with
+	no audio track.
+
 	* Updated de_DE translation from Markus Raab.
 
 	* Version 1.63.1 released.
