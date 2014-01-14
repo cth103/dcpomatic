@@ -1,5 +1,9 @@
 2014-01-14  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.63.1 released.
+
+2014-01-14  Carl Hetherington  <cth@carlh.net>
+
 	* Try to fix subtitle problems when the video frame rate is being changed
 	from content to DCP.
 
