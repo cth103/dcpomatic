@@ -67,6 +67,8 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+
+	_name->SetFocus ();
 }
 
 NewFilmDialog::~NewFilmDialog ()

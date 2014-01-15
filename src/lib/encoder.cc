@@ -68,9 +68,6 @@ Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j)
 Encoder::~Encoder ()
 {
 	terminate_threads ();
-	if (_writer) {
-		_writer->finish ();
-	}
 }
 
 /** Add a worker thread for a each thread on a remote server.  Caller must hold

@@ -265,6 +265,14 @@ Film::make_dcp ()
 #else
 	log()->log ("libdcp built in optimised mode.");
 #endif
+
+#ifdef DCPOMATIC_WINDOWS
+	OSVERSIONINFO info;
+	info.dwOSVersionInfoSize = sizeof (info);
+	GetVersionEx (&info);
+	log()->log (String::compose ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion));
+#endif	
+	
 	log()->log (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ()));
 	list<pair<string, string> > const m = mount_info ();
 	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {

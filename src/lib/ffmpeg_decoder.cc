@@ -160,8 +160,6 @@ FFmpegDecoder::pass ()
 		return true;
 	}
 
-	avcodec_get_frame_defaults (_frame);
-
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
@@ -561,8 +559,13 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Subtitle PTS in seconds (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP)
 	*/
+<<<<<<< HEAD
 	double const packet_time = (static_cast<double> (sub.pts ) / AV_TIME_BASE) + _pts_offset;
 	
+=======
+	double const packet_time = (static_cast<double> (sub.pts ) / AV_TIME_BASE) + _video_pts_offset;
+
+>>>>>>> master
 	/* hence start time for this sub */
 	ContentTime const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
 	ContentTime const to = (packet_time + (double (sub.end_display_time) / 1e3)) * TIME_HZ;

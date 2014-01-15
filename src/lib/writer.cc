@@ -45,6 +45,7 @@ using std::pair;
 using std::string;
 using std::list;
 using std::cout;
+using std::stringstream;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
@@ -86,6 +87,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 
 	_picture_asset->set_edit_rate (_film->video_frame_rate ());
 	_picture_asset->set_size (fit_ratio_within (_film->container()->ratio(), _film->full_frame ()));
+	_picture_asset->set_interop (_film->interop ());
 
 	if (_film->encrypted ()) {
 		_picture_asset->set_key (_film->key ());
@@ -93,25 +95,19 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.  Some versions of windows inexplicably
-	   don't like overwriting existing files here, so try to remove it using boost.
-	*/
-	boost::system::error_code ec;
-	boost::filesystem::remove (_film->file (_film->audio_mxf_filename ()), ec);
-	if (ec) {
-		_film->log()->log (String::compose ("Could not remove existing audio MXF file (%1)", ec.value ()));
-	}
-
 	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
 	_sound_asset->set_channels (_film->audio_channels ());
 	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
+	_sound_asset->set_interop (_film->interop ());
 
 	if (_film->encrypted ()) {
 		_sound_asset->set_key (_film->key ());
 	}
 	
+	/* Write the sound asset into the film directory so that we leave the creation
+	   of the DCP directory until the last minute.
+	*/
 	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
@@ -119,10 +115,19 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	job->sub (_("Encoding image data"));
 }
 
+Writer::~Writer ()
+{
+	terminate_thread (false);
+}
+
 void
 Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
+
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		_full_condition.wait (lock);
+	}
 
 	QueueItem qi;
 	qi.type = QueueItem::FULL;
@@ -143,7 +148,7 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 		++_queued_full_in_memory;
 	}
 	
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 void
@@ -151,6 +156,10 @@ Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		_full_condition.wait (lock);
+	}
+	
 	FILE* ifi = fopen_boost (_film->info_path (frame, eyes), "r");
 	libdcp::FrameInfo info (ifi);
 	fclose (ifi);
@@ -169,7 +178,7 @@ Writer::fake_write (int frame, Eyes eyes)
 		_queue.push_back (qi);
 	}
 
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 /** This method is not thread safe */
@@ -224,7 +233,7 @@ try
 			}
 
 			TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
-			_condition.wait (lock);
+			_empty_condition.wait (lock);
 			TIMING (N_("writer wakes with a queue of %1"), _queue.size());
 		}
 
@@ -324,6 +333,8 @@ try
 			qi.encoded.reset ();
 			--_queued_full_in_memory;
 		}
+
+		_full_condition.notify_all ();
 	}
 }
 catch (...)
@@ -332,22 +343,35 @@ catch (...)
 }
 
 void
+Writer::terminate_thread (bool can_throw)
+{
+	boost::mutex::scoped_lock lock (_mutex);
+	if (_thread == 0) {
+		return;
+	}
+	
+	_finish = true;
+	_empty_condition.notify_all ();
+	_full_condition.notify_all ();
+	lock.unlock ();
+
+ 	_thread->join ();
+	if (can_throw) {
+		rethrow ();
+	}
+	
+	delete _thread;
+	_thread = 0;
+}	
+
+void
 Writer::finish ()
 {
 	if (!_thread) {
 		return;
 	}
 	
-	boost::mutex::scoped_lock lock (_mutex);
-	_finish = true;
-	_condition.notify_all ();
-	lock.unlock ();
-
-	_thread->join ();
-	rethrow ();
-	
-	delete _thread;
-	_thread = 0;
+	terminate_thread (true);
 
 	_picture_asset_writer->finalize ();
 	_sound_asset_writer->finalize ();
@@ -428,7 +452,9 @@ Writer::finish ()
 	meta.set_issue_date_now ();
 	dcp.write_xml (_film->interop (), meta, _film->is_signed() ? make_signer () : shared_ptr<const libdcp::Signer> ());
 
-	_film->log()->log (String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk));
+	_film->log()->log (
+		String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk)
+		);
 }
 
 /** Tell the writer that frame `f' should be a repeat of the frame before it */
@@ -437,6 +463,10 @@ Writer::repeat (int f, Eyes e)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		_full_condition.wait (lock);
+	}
+	
 	QueueItem qi;
 	qi.type = QueueItem::REPEAT;
 	qi.frame = f;
@@ -450,7 +480,7 @@ Writer::repeat (int f, Eyes e)
 		_queue.push_back (qi);
 	}
 
-	_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 bool

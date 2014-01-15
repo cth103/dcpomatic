@@ -291,6 +291,7 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 
 		pi->set_subtitle (_out_subtitle.image, _out_subtitle.position + container_offset);
 	}
+		
 					    
 #ifdef DCPOMATIC_DEBUG
 	_last_video = piece->content;
@@ -661,8 +662,22 @@ Player::update_subtitle ()
 		true
 		);
 
+<<<<<<< HEAD
 	_out_subtitle.from = _in_subtitle.subtitle->dcp_time;
 	_out_subtitle.to = _in_subtitle.subtitle->dcp_time_to;
+=======
+	/* XXX: hack */
+	Time from = _in_subtitle.from;
+	Time to = _in_subtitle.to;
+	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (piece->content);
+	if (vc) {
+		from = rint (from * vc->video_frame_rate() / _film->video_frame_rate());
+		to = rint (to * vc->video_frame_rate() / _film->video_frame_rate());
+	}
+	
+	_out_subtitle.from = from * piece->content->position ();
+	_out_subtitle.to = to + piece->content->position ();
+>>>>>>> master
 }
 
 /** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.

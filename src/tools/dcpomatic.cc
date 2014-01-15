@@ -429,11 +429,6 @@ private:
 	
 	void file_exit ()
 	{
-		if (!should_close ()) {
-			return;
-		}
-		
-		maybe_save_then_delete_film ();
 		Close (true);
 	}
 

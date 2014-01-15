@@ -71,6 +71,7 @@ class Writer : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Writer (boost::shared_ptr<const Film>, boost::weak_ptr<Job>);
+	~Writer ();
 
 	bool can_fake_write (int) const;
 	
@@ -83,6 +84,7 @@ public:
 private:
 
 	void thread ();
+	void terminate_thread (bool);
 	void check_existing_picture_mxf ();
 	bool check_existing_picture_mxf_frame (FILE *, int, Eyes);
 	bool have_sequenced_image_at_queue_head ();
@@ -103,8 +105,10 @@ private:
 	int _queued_full_in_memory;
 	/** mutex for thread state */
 	mutable boost::mutex _mutex;
-	/** condition to manage thread wakeups */
-	boost::condition _condition;
+	/** condition to manage thread wakeups when we have nothing to do  */
+	boost::condition _empty_condition;
+	/** condition to manage thread wakeups when we have too much to do */
+	boost::condition _full_condition;
 	/** the data of the last written frame, or 0 if there isn't one */
 	boost::shared_ptr<const EncodedData> _last_written[EYES_COUNT];
 	/** the index of the last written frame */
