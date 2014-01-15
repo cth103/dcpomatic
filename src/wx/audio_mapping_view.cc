@@ -58,6 +58,8 @@ public:
 
 	void Draw (wxGrid& grid, wxGridCellAttr &, wxDC& dc, const wxRect& rect, int row, int col, bool)
 	{
+		LocaleGuard lg;
+	
 		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 1, wxPENSTYLE_SOLID));
 		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
 		dc.DrawRectangle (rect);
@@ -222,6 +224,8 @@ AudioMappingView::set (AudioMapping map)
 void
 AudioMappingView::update_cells ()
 {
+	LocaleGuard lg;
+	
 	if (_grid->GetNumberRows ()) {
 		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-07 20:01+0000\n"
-"PO-Revision-Date: 2014-01-02 13:17+0100\n"
+"PO-Revision-Date: 2014-01-14 19:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -86,7 +86,7 @@ msgstr "Über DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:230
 msgid "Check for updates"
-msgstr ""
+msgstr "Auf Updates überprüfen"
 
 #: src/tools/dcpomatic.cc:638
 msgid "Could not load film %1 (%2)"
@@ -111,7 +111,6 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:229
-#, fuzzy
 msgid "Encoding servers..."
 msgstr "Encoding Server..."
 
@@ -150,10 +149,12 @@ msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
+"Das DCP für diesen Film wird etwa %.1f GB groß. Auf dem ausgewählten "
+"Laufwerk sind aber nur %.1f GB frei. Möchten Sie trotzdem weitermachen ?"
 
 #: src/tools/dcpomatic.cc:729
 msgid "The DCP-o-matic download server could not be contacted."
-msgstr ""
+msgstr "Der DCP-o-matic Download Server ist nicht erreichbar."
 
 #: src/tools/dcpomatic.cc:356
 msgid ""
@@ -165,7 +166,7 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:724
 msgid "There are no new versions of DCP-o-matic available."
-msgstr ""
+msgstr "Es ist keine neue Version des DCP-o-matic verfügbar."
 
 #: src/tools/dcpomatic.cc:558
 msgid "There are unfinished jobs; are you sure you want to quit?"

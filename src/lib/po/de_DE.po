@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-07 20:01+0000\n"
-"PO-Revision-Date: 2014-01-05 23:06+0100\n"
+"PO-Revision-Date: 2014-01-14 19:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -603,7 +603,7 @@ msgstr "Bild-Decoder nicht gefunden"
 
 #: src/lib/writer.cc:387
 msgid "could not move audio MXF into the DCP (%1)"
-msgstr ""
+msgstr "Ton MXF kann nicht in das DCP verschoben werden (%1)"
 
 #: src/lib/sndfile_decoder.cc:45
 msgid "could not open audio file for reading"

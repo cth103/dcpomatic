@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-07 20:01+0000\n"
-"PO-Revision-Date: 2014-01-05 23:08+0100\n"
+"PO-Revision-Date: 2014-01-14 20:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -38,7 +38,7 @@ msgstr "(DCP-o-matic zum ändern der Sprache neu starten)"
 
 #: src/wx/audio_mapping_view.cc:133
 msgid "-3dB"
-msgstr ""
+msgstr "-3dB"
 
 #: src/wx/colour_conversion_editor.cc:83
 msgid "1 / "
@@ -74,7 +74,7 @@ msgstr "4K"
 
 #: src/wx/update_dialog.cc:34
 msgid "A new version of DCP-o-matic is available."
-msgstr ""
+msgstr "Es ist eine neue Version von DCP-o-matic verfügbar."
 
 #: src/wx/about_dialog.cc:30
 msgid "About DCP-o-matic"
@@ -129,6 +129,7 @@ msgstr "Ton Kanäle"
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
+"Der Ton von Kanal %d wird ohne Veränderung an das DCP Kanal %d weitergegeben."
 
 #: src/wx/audio_mapping_view.cc:324
 #, c-format
@@ -136,6 +137,8 @@ msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
 "%.1fdB."
 msgstr ""
+"Der Ton von Kanal %d wird wird an das DCP Kanal %d mit %.1fdB Pegel "
+"weitergegeben."
 
 #: src/wx/job_wrapper.cc:38
 #, c-format
@@ -167,9 +170,8 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: src/wx/audio_gain_dialog.cc:26
-#, fuzzy
 msgid "Channel gain"
-msgstr "Kanäle"
+msgstr "Kanal Pegel"
 
 #: src/wx/audio_dialog.cc:44
 msgid "Channels"
@@ -177,11 +179,11 @@ msgstr "Kanäle"
 
 #: src/wx/config_dialog.cc:143
 msgid "Check for testing updates as well as stable ones"
-msgstr ""
+msgstr "Überprüfung auf Updates auch für Test-Versionen."
 
 #: src/wx/config_dialog.cc:139
 msgid "Check for updates on startup"
-msgstr ""
+msgstr "Beim Starten auf Updates überprüfen."
 
 #: src/wx/content_menu.cc:182
 msgid "Choose a file"
@@ -349,9 +351,8 @@ msgid "Edit..."
 msgstr "Bearbeiten..."
 
 #: src/wx/cinema_dialog.cc:35
-#, fuzzy
 msgid "Email address for KDM delivery"
-msgstr "Von Adresse für KDM Emails"
+msgstr "Email Adresse für KDM Zustellung"
 
 #: src/wx/servers_list_dialog.cc:30
 msgid "Encoding Servers"
@@ -411,7 +412,7 @@ msgstr "Von Adresse für KDM Emails"
 
 #: src/wx/audio_mapping_view.cc:132
 msgid "Full"
-msgstr ""
+msgstr "Ein"
 
 #: src/wx/timing_panel.cc:42
 msgid "Full length"
@@ -424,7 +425,7 @@ msgstr "Lautstärken Rechner"
 #: src/wx/audio_gain_dialog.cc:31
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
-msgstr ""
+msgstr "Pegel des Kanals %d im DCP Kanal %d"
 
 #: src/wx/properties_dialog.cc:57
 msgid "Gb"
@@ -557,12 +558,12 @@ msgstr "Neuer Film"
 
 #: src/wx/update_dialog.cc:36
 msgid "New versions of DCP-o-matic are available."
-msgstr ""
+msgstr "Eine neue Version von DCP-o-matic ist verfügbar."
 
 #: src/wx/audio_mapping_view.cc:319
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
-msgstr ""
+msgstr "Der Ton von Kanal %d wird nicht an das DCP Kanal %d weitergegeben."
 
 #: src/wx/video_panel.cc:198
 msgid "No stretch"
@@ -574,7 +575,7 @@ msgstr "Kein"
 
 #: src/wx/audio_mapping_view.cc:131
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: src/wx/config_dialog.cc:119
 msgid "Outgoing mail server"
@@ -668,7 +669,7 @@ msgstr "Neustart"
 
 #: src/wx/audio_mapping_view.cc:327
 msgid "Right click to change gain."
-msgstr ""
+msgstr "Rechtsklick für Pegeländerung"
 
 #: src/wx/video_panel.cc:101
 msgid "Right crop"
@@ -732,9 +733,8 @@ msgid "Snap"
 msgstr "Einschnappen"
 
 #: src/wx/update_dialog.cc:43
-#, fuzzy
 msgid "Stable version "
-msgstr "Inhalt Version"
+msgstr "Stabile Version"
 
 #: src/wx/film_editor.cc:185
 msgid "Standard"
@@ -781,9 +781,8 @@ msgid "Territory (e.g. UK)"
 msgstr "Gebiet (z.B. UK)"
 
 #: src/wx/update_dialog.cc:48
-#, fuzzy
 msgid "Test version "
-msgstr "Inhalt Version"
+msgstr "Test Version"
 
 #: src/wx/content_menu.cc:223
 msgid ""
@@ -853,7 +852,7 @@ msgstr "Nach oben"
 
 #: src/wx/update_dialog.cc:27
 msgid "Update"
-msgstr ""
+msgstr "Update"
 
 #: src/wx/film_editor.cc:126
 msgid "Use DCI name"
@@ -880,9 +879,8 @@ msgid "Video"
 msgstr "Bild"
 
 #: src/wx/timing_panel.cc:56
-#, fuzzy
 msgid "Video frame rate"
-msgstr "Bild Rate"
+msgstr "Bildwiederholrate"
 
 #: src/wx/subtitle_panel.cc:39
 msgid "With Subtitles"

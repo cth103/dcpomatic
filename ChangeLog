@@ -1,3 +1,38 @@
+2014-01-15  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully fix badly-labelled MXFs when in Interop mode.
+
+2014-01-14  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.63.2 released.
+
+2014-01-14  Carl Hetherington  <cth@carlh.net>
+
+	* Fix problems with adding new soundtracks to FFmpeg content with
+	no audio track.
+
+	* Updated de_DE translation from Markus Raab.
+
+	* Version 1.63.1 released.
+
+2014-01-14  Carl Hetherington  <cth@carlh.net>
+
+	* Try to fix subtitle problems when the video frame rate is being changed
+	from content to DCP.
+
+2014-01-13  Carl Hetherington  <cth@carlh.net>
+
+	* Change 4:3 and 5:3 ratios to be precise rather than 1.33:1 and 1.66:1, and
+	also tweak 1.19:1 (#306).
+
+	* Version 1.63.0 released.
+
+2014-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crashes when using -3dB options in locales with a , decimal separator.
+
+	* Version 1.62.3 released.
+
 2014-01-11  Carl Hetherington  <cth@carlh.net>
 
 	* Hopefully fix error on restarting a cancelled transcode job
