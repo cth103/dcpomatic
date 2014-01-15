@@ -1,5 +1,9 @@
 2014-01-14  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.63.2 released.
+
+2014-01-14  Carl Hetherington  <cth@carlh.net>
+
 	* Fix problems with adding new soundtracks to FFmpeg content with
 	no audio track.
 
