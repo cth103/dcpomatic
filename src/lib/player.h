@@ -23,6 +23,7 @@
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <libdcp/subtitle_asset.h>
 #include "playlist.h"
 #include "content.h"
 #include "film.h"
@@ -120,7 +121,8 @@ private:
 
 	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, Time);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
-	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
+	void process_image_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
+	void process_text_subtitle (boost::weak_ptr<Piece>, std::list<libdcp::Subtitle>);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int, bool);
@@ -130,7 +132,8 @@ private:
 	void emit_silence (OutputAudioFrame);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
 	void film_changed (Film::Property);
-	void update_subtitle ();
+	void update_subtitle_from_image ();
+	void update_subtitle_from_text ();
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -159,7 +162,9 @@ private:
 		dcpomatic::Rect<double> rect;
 		Time from;
 		Time to;
-	} _in_subtitle;
+	} _image_subtitle;
+
+	std::list<libdcp::Subtitle> _text_subtitles;
 
 	struct {
 		boost::shared_ptr<Image> image;

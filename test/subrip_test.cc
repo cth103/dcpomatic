@@ -18,10 +18,15 @@
 */
 
 #include <boost/test/unit_test.hpp>
+#include <libdcp/subtitle_asset.h>
 #include "lib/subrip.h"
 #include "lib/subrip_content.h"
+#include "lib/subrip_decoder.h"
+#include "lib/render_subtitles.h"
+#include "test.h"
 
 using std::list;
+using std::vector;
 using std::string;
 using boost::shared_ptr;
 
@@ -121,7 +126,7 @@ BOOST_AUTO_TEST_CASE (subrip_parse_test)
 
 	SubRip s (content);
 
-	list<SubRipSubtitle>::const_iterator i = s._subtitles.begin();
+	vector<SubRipSubtitle>::const_iterator i = s._subtitles.begin();
 
 	BOOST_CHECK (i != s._subtitles.end ());
 	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 49.200) * TIME_HZ);
@@ -168,4 +173,33 @@ BOOST_AUTO_TEST_CASE (subrip_parse_test)
 
 	++i;
 	BOOST_CHECK (i == s._subtitles.end ());
+}
+
+static list<libdcp::Subtitle> subtitles;
+
+static void
+process_subtitle (list<libdcp::Subtitle> s)
+{
+	subtitles = s;
+}
+
+
+/** Test rendering of a SubRip subtitle */
+BOOST_AUTO_TEST_CASE (subrip_render_test)
+{
+	shared_ptr<SubRipContent> content (new SubRipContent (shared_ptr<Film> (), "test/data/subrip.srt"));
+	content->examine (shared_ptr<Job> ());
+	BOOST_CHECK_EQUAL (content->full_length(), ((3 * 60) + 56.471) * TIME_HZ);
+
+	shared_ptr<Film> film = new_test_film ("subrip_render_test");
+
+	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (film, content));
+	decoder->TextSubtitle.connect (boost::bind (&process_subtitle, _1));
+	decoder->pass ();
+
+	shared_ptr<Image> image;
+	Position<int> position;
+	render_subtitles (subtitles, libdcp::Size (1998, 1080), image, position);
+	write_image (image, "build/test/subrip_render_test.png");
+	check_file ("build/test/subrip_render_test.png", "test/data/subrip_render_test.png");
 }

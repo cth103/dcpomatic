@@ -47,6 +47,7 @@
 #include <openssl/md5.h>
 #include <magick/MagickCore.h>
 #include <magick/version.h>
+#include <pangomm/init.h>
 #include <libdcp/version.h>
 #include <libdcp/util.h>
 #include <libdcp/signer_chain.h>
@@ -309,6 +310,7 @@ dcpomatic_setup ()
 	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
 #endif	
 
+	Pango::init ();
 	libdcp::init ();
 	
 	Ratio::setup_ratios ();

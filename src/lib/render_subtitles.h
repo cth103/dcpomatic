@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,11 @@
 
 */
 
-#ifndef DCPOMATIC_SUBTITLE_DECODER_H
-#define DCPOMATIC_SUBTITLE_DECODER_H
-
-#include <boost/signals2.hpp>
 #include <libdcp/subtitle_asset.h>
-#include "decoder.h"
-#include "rect.h"
-#include "types.h"
+#include <libdcp/util.h>
+#include "position.h"
 
-class Film;
-class TimedSubtitle;
 class Image;
 
-class SubtitleDecoder : public virtual Decoder
-{
-public:
-	SubtitleDecoder (boost::shared_ptr<const Film>);
-
-	boost::signals2::signal<void (boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time)> ImageSubtitle;
-	boost::signals2::signal<void (std::list<libdcp::Subtitle>)> TextSubtitle;
-
-protected:
-	void image_subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
-	void text_subtitle (std::list<libdcp::Subtitle>);
-};
-
-#endif
+void
+render_subtitles (std::list<libdcp::Subtitle>, libdcp::Size, boost::shared_ptr<Image> &, Position<int> &);

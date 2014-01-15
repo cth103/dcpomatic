@@ -546,7 +546,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	   indicate that the previous subtitle should stop.
 	*/
 	if (sub.num_rects <= 0) {
-		subtitle (shared_ptr<Image> (), dcpomatic::Rect<double> (), 0, 0);
+		image_subtitle (shared_ptr<Image> (), dcpomatic::Rect<double> (), 0, 0);
 		return;
 	} else if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
@@ -594,7 +594,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 
 	libdcp::Size const vs = _ffmpeg_content->video_size ();
 
-	subtitle (
+	image_subtitle (
 		image,
 		dcpomatic::Rect<double> (
 			static_cast<double> (rect->x) / vs.width,

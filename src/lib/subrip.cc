@@ -34,7 +34,7 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::algorithm::trim;
 
-SubRip::SubRip (shared_ptr<SubRipContent> content)
+SubRip::SubRip (shared_ptr<const SubRipContent> content)
 {
 	FILE* f = fopen_boost (content->path (0), "r");
 	if (!f) {

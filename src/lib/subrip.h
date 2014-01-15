@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_SUBRIP_H
+#define DCPOMATIC_SUBRIP_H
+
 #include "subrip_subtitle.h"
 
 class SubRipContent;
@@ -28,10 +31,13 @@ class subrip_parse_test;
 class SubRip
 {
 public:
-	SubRip (boost::shared_ptr<SubRipContent>);
+	SubRip (boost::shared_ptr<const SubRipContent>);
 
 	Time length () const;
 
+protected:
+	std::vector<SubRipSubtitle> _subtitles;
+	
 private:
 	friend class subrip_time_test;
 	friend class subrip_coordinate_test;
@@ -42,6 +48,6 @@ private:
 	static int convert_coordinate (std::string);
 	static std::list<SubRipSubtitlePiece> convert_content (std::list<std::string>);
 	static void maybe_content (std::list<SubRipSubtitlePiece> &, SubRipSubtitlePiece &);
-
-	std::list<SubRipSubtitle> _subtitles;
 };
+
+#endif

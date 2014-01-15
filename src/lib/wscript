@@ -41,6 +41,7 @@ sources = """
           player.cc
           playlist.cc
           ratio.cc
+          render_subtitles.cc
           resampler.cc
           scp_dcp_job.cc
           scaler.cc
@@ -52,6 +53,7 @@ sources = """
           sound_processor.cc
           subrip.cc
           subrip_content.cc
+          subrip_decoder.cc
           subtitle_content.cc
           subtitle_decoder.cc
           timer.cc
@@ -78,7 +80,7 @@ def build(bld):
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
-                 CURL ZIP QUICKMAIL
+                 CURL ZIP QUICKMAIL PANGOMM CAIROMM
                  """
 
     obj.source = sources + ' version.cc'

@@ -27,6 +27,8 @@
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
 #include "subtitle_content.h"
+#include "subrip_decoder.h"
+#include "subrip_content.h"
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
@@ -34,6 +36,7 @@
 #include "resampler.h"
 #include "log.h"
 #include "scaler.h"
+#include "render_subtitles.h"
 
 using std::list;
 using std::cout;
@@ -464,7 +467,8 @@ Player::setup_pieces ()
 			
 			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
 			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
-			fd->Subtitle.connect (bind (&Player::process_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
+			fd->ImageSubtitle.connect (bind (&Player::process_image_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
+			fd->TextSubtitle.connect (bind (&Player::process_text_subtitle, this, weak_ptr<Piece> (piece), _1));
 
 			fd->seek (fc->time_to_content_video_frames (fc->trim_start ()), true);
 			piece->decoder = fd;
@@ -498,6 +502,14 @@ Player::setup_pieces ()
 			piece->decoder = sd;
 		}
 
+		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (*i);
+		if (rc) {
+			shared_ptr<SubRipDecoder> sd (new SubRipDecoder (_film, rc));
+			sd->TextSubtitle.connect (bind (&Player::process_text_subtitle, this, weak_ptr<Piece> (piece), _1));
+
+			piece->decoder = sd;
+		}
+
 		_pieces.push_back (piece);
 	}
 
@@ -523,7 +535,8 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 
 	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET || property == SubtitleContentProperty::SUBTITLE_SCALE) {
 
-		update_subtitle ();
+		update_subtitle_from_image ();
+		update_subtitle_from_text ();
 		Changed (frequent);
 
 	} else if (
@@ -628,26 +641,35 @@ Player::film_changed (Film::Property p)
 }
 
 void
-Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
+Player::process_image_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
 {
-	_in_subtitle.piece = weak_piece;
-	_in_subtitle.image = image;
-	_in_subtitle.rect = rect;
-	_in_subtitle.from = from;
-	_in_subtitle.to = to;
+	_image_subtitle.piece = weak_piece;
+	_image_subtitle.image = image;
+	_image_subtitle.rect = rect;
+	_image_subtitle.from = from;
+	_image_subtitle.to = to;
 
-	update_subtitle ();
+	update_subtitle_from_image ();
 }
 
 void
-Player::update_subtitle ()
+Player::process_text_subtitle (weak_ptr<Piece>, list<libdcp::Subtitle> s)
 {
-	shared_ptr<Piece> piece = _in_subtitle.piece.lock ();
+	_text_subtitles = s;
+	
+	update_subtitle_from_text ();
+}
+
+/** Update _out_subtitle from _image_subtitle */
+void
+Player::update_subtitle_from_image ()
+{
+	shared_ptr<Piece> piece = _image_subtitle.piece.lock ();
 	if (!piece) {
 		return;
 	}
 
-	if (!_in_subtitle.image) {
+	if (!_image_subtitle.image) {
 		_out_subtitle.image.reset ();
 		return;
 	}
@@ -655,7 +677,7 @@ Player::update_subtitle ()
 	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (piece->content);
 	assert (sc);
 
-	dcpomatic::Rect<double> in_rect = _in_subtitle.rect;
+	dcpomatic::Rect<double> in_rect = _image_subtitle.rect;
 	libdcp::Size scaled_size;
 
 	in_rect.y += sc->subtitle_offset ();
@@ -679,16 +701,16 @@ Player::update_subtitle ()
 	_out_subtitle.position.x = rint (_video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_scale ()) / 2)));
 	_out_subtitle.position.y = rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
 	
-	_out_subtitle.image = _in_subtitle.image->scale (
+	_out_subtitle.image = _image_subtitle.image->scale (
 		scaled_size,
 		Scaler::from_id ("bicubic"),
-		_in_subtitle.image->pixel_format (),
+		_image_subtitle.image->pixel_format (),
 		true
 		);
 
 	/* XXX: hack */
-	Time from = _in_subtitle.from;
-	Time to = _in_subtitle.to;
+	Time from = _image_subtitle.from;
+	Time to = _image_subtitle.to;
 	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (piece->content);
 	if (vc) {
 		from = rint (from * vc->video_frame_rate() / _film->video_frame_rate());
@@ -719,6 +741,17 @@ Player::repeat_last_video ()
 		);
 
 	return true;
+}
+
+void
+Player::update_subtitle_from_text ()
+{
+	if (_text_subtitles.empty ()) {
+		_out_subtitle.image.reset ();
+		return;
+	}
+
+	render_subtitles (_text_subtitles, _video_container_size, _out_subtitle.image, _out_subtitle.position);
 }
 
 PlayerImage::PlayerImage (

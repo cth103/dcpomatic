@@ -145,6 +145,8 @@ def configure(conf):
     conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
     conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
+    conf.check_cfg(package='pangomm-1.4', args='--cflags --libs', uselib_store='PANGOMM', mandatory=True)
+    conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
 
     conf.check_cxx(fragment="""
                             #include <boost/version.hpp>\n

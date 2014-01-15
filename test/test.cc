@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <list>
+#include <Magick++.h>
 #include <libxml++/libxml++.h>
 #include <libdcp/dcp.h>
 #include "lib/config.h"
@@ -29,6 +30,7 @@
 #include "lib/job.h"
 #include "lib/cross.h"
 #include "lib/server_finder.h"
+#include "lib/image.h"
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -94,7 +96,7 @@ new_test_film (string name)
 	return f;
 }
 
-static void
+void
 check_file (string ref, string check)
 {
 	uintmax_t N = boost::filesystem::file_size (ref);
@@ -229,4 +231,13 @@ wait_for_jobs ()
 	BOOST_CHECK (!jm->errors());
 
 	ui_signaller->ui_idle ();
+}
+
+void
+write_image (shared_ptr<const Image> image, boost::filesystem::path file)
+{
+	using namespace MagickCore;
+
+	Magick::Image m (image->size().width, image->size().height, "ARGB", CharPixel, (void *) image->data()[0]);
+	m.write (file.string ());
 }
