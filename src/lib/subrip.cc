@@ -29,6 +29,7 @@
 using std::string;
 using std::list;
 using std::vector;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::algorithm::trim;
@@ -54,8 +55,12 @@ SubRip::SubRip (shared_ptr<SubRipContent> content)
 	
 	while (!feof (f)) {
 		fgets (buffer, sizeof (buffer), f);
+		if (feof (f)) {
+			break;
+		}
+		
 		string line (buffer);
-		trim (line);
+		trim_right_if (line, boost::is_any_of ("\n\r"));
 		
 		switch (state) {
 		case COUNTER:
@@ -93,6 +98,7 @@ SubRip::SubRip (shared_ptr<SubRipContent> content)
 				current->y1 = convert_coordinate (p[5]);
 				current->y2 = convert_coordinate (p[6]);
 			}
+			state = CONTENT;
 			break;
 		}
 		case CONTENT:
@@ -107,6 +113,11 @@ SubRip::SubRip (shared_ptr<SubRipContent> content)
 			}
 			break;
 		}
+	}
+
+	if (state == CONTENT) {
+		current->pieces = convert_content (lines);
+		_subtitles.push_back (current.get ());
 	}
 
 	fclose (f);
@@ -217,7 +228,6 @@ SubRip::convert_content (list<string> t)
 Time
 SubRip::length () const
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	if (_subtitles.empty ()) {
 		return 0;
 	}

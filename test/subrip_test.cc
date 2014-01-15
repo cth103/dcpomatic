@@ -115,6 +115,57 @@ BOOST_AUTO_TEST_CASE (subrip_content_test)
 /** Test parsing of full SubRip file content */
 BOOST_AUTO_TEST_CASE (subrip_parse_test)
 {
-	SubRipContent content (shared_ptr<Film> (), "test/data/subrip.srt");
-	content.examine (shared_ptr<Job> ());
+	shared_ptr<SubRipContent> content (new SubRipContent (shared_ptr<Film> (), "test/data/subrip.srt"));
+	content->examine (shared_ptr<Job> ());
+	BOOST_CHECK_EQUAL (content->full_length(), ((3 * 60) + 56.471) * TIME_HZ);
+
+	SubRip s (content);
+
+	list<SubRipSubtitle>::const_iterator i = s._subtitles.begin();
+
+	BOOST_CHECK (i != s._subtitles.end ());
+	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 49.200) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 52.351) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
+	BOOST_CHECK_EQUAL (i->pieces.front().text, "This is a subtitle, and it goes over two lines.");
+
+	++i;
+	BOOST_CHECK (i != s._subtitles.end ());
+	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 52.440) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 54.351) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
+	BOOST_CHECK_EQUAL (i->pieces.front().text, "We have emboldened this");
+	BOOST_CHECK_EQUAL (i->pieces.front().bold, true);
+
+	++i;
+	BOOST_CHECK (i != s._subtitles.end ());
+	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 54.440) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 56.590) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
+	BOOST_CHECK_EQUAL (i->pieces.front().text, "And italicised this.");
+	BOOST_CHECK_EQUAL (i->pieces.front().italic, true);
+
+	++i;
+	BOOST_CHECK (i != s._subtitles.end ());
+	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 56.680) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 58.955) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
+	BOOST_CHECK_EQUAL (i->pieces.front().text, "Shall I compare thee to a summers' day?");
+
+	++i;
+	BOOST_CHECK (i != s._subtitles.end ());
+	BOOST_CHECK_EQUAL (i->from, ((2 * 60) + 0.840) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->to, ((2 * 60) + 3.400) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
+	BOOST_CHECK_EQUAL (i->pieces.front().text, "Is this a dagger I see before me?");
+
+	++i;
+	BOOST_CHECK (i != s._subtitles.end ());
+	BOOST_CHECK_EQUAL (i->from, ((3 * 60) + 54.560) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->to, ((3 * 60) + 56.471) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
+	BOOST_CHECK_EQUAL (i->pieces.front().text, "Hello world.");
+
+	++i;
+	BOOST_CHECK (i == s._subtitles.end ());
 }

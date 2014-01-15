@@ -25,6 +25,10 @@ public:
 	SubRipContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	SubRipContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int);
 
+	boost::shared_ptr<SubRipContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<SubRipContent> (Content::shared_from_this ());
+	}
+	
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;

@@ -23,6 +23,7 @@ class SubRipContent;
 class subrip_time_test;
 class subrip_coordinate_test;
 class subrip_content_test;
+class subrip_parse_test;
 
 class SubRip
 {
@@ -35,6 +36,7 @@ private:
 	friend class subrip_time_test;
 	friend class subrip_coordinate_test;
 	friend class subrip_content_test;
+	friend class subrip_parse_test;
 	
 	static Time convert_time (std::string);
 	static int convert_coordinate (std::string);

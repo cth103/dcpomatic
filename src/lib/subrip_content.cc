@@ -19,6 +19,7 @@
 
 #include "subrip_content.h"
 #include "util.h"
+#include "subrip.h"
 
 #include "i18n.h"
 
@@ -33,7 +34,7 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 
 }
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
+SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int)
 	: Content (film, node)
 	, SubtitleContent (film, node)
 {
@@ -96,4 +97,3 @@ SubRipContent::identifier () const
 
 	return s.str ();
 }
-
