@@ -841,7 +841,7 @@ FilmEditor::setup_content_sensitivity ()
 
 	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
 	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
-	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<FFmpegContent> (selection.front()) && _generally_sensitive);
+	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<SubtitleContent> (selection.front()) && _generally_sensitive);
 	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
 }
 
