@@ -25,9 +25,10 @@
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
+#include "decoded.h"
 
 class Film;
-class TimedSubtitle;
+class DCPTimedSubtitle;
 class Image;
 
 class SubtitleDecoder : public virtual Decoder
@@ -35,11 +36,8 @@ class SubtitleDecoder : public virtual Decoder
 public:
 	SubtitleDecoder (boost::shared_ptr<const Film>);
 
-	boost::signals2::signal<void (boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time)> ImageSubtitle;
-	boost::signals2::signal<void (std::list<libdcp::Subtitle>)> TextSubtitle;
-
 protected:
-	void image_subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
+	void image_subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, ContentTime, ContentTime);
 	void text_subtitle (std::list<libdcp::Subtitle>);
 };
 

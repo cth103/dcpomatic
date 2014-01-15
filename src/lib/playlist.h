@@ -25,6 +25,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include "ffmpeg_content.h"
 #include "audio_mapping.h"
+#include "util.h"
 
 class Content;
 class FFmpegContent;
@@ -70,10 +71,11 @@ public:
 
 	std::string video_identifier () const;
 
-	Time length () const;
+	DCPTime length () const;
 	
 	int best_dcp_frame_rate () const;
-	Time video_end () const;
+	DCPTime video_end () const;
+	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;
 
 	void set_sequence_video (bool);
 	void maybe_sequence_video ();

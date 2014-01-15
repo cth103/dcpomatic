@@ -24,8 +24,8 @@ class Image;
 
 extern void wait_for_jobs ();
 extern boost::shared_ptr<Film> new_test_film (std::string);
-extern void check_dcp (std::string, std::string);
-extern void check_file (std::string ref, std::string check);
+extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
+extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_xml (boost::filesystem::path, boost::filesystem::path, std::list<std::string>);
 extern boost::filesystem::path test_film_dir (std::string);
 extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file);

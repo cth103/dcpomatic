@@ -31,6 +31,7 @@ extern "C" {
 #include "image.h"
 #include "exceptions.h"
 #include "scaler.h"
+#include "timer.h"
 
 using std::string;
 using std::min;
@@ -94,9 +95,9 @@ Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_s
 	libdcp::Size cropped_size = crop.apply (size ());
 
 	struct SwsContext* scale_context = sws_getContext (
-		cropped_size.width, cropped_size.height, pixel_format(),
-		inter_size.width, inter_size.height, out_format,
-		scaler->ffmpeg_id (), 0, 0, 0
+			cropped_size.width, cropped_size.height, pixel_format(),
+			inter_size.width, inter_size.height, out_format,
+			scaler->ffmpeg_id (), 0, 0, 0
 		);
 
 	uint8_t* scale_in_data[components()];
@@ -375,8 +376,18 @@ Image::make_black ()
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
-	/* Only implemented for RGBA onto RGB24 so far */
-	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA);
+	int this_bpp = 0;
+	int other_bpp = 0;
+
+	if (_pixel_format == PIX_FMT_BGRA && other->pixel_format() == PIX_FMT_RGBA) {
+		this_bpp = 4;
+		other_bpp = 4;
+	} else if (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGBA) {
+		this_bpp = 3;
+		other_bpp = 4;
+	} else {
+		assert (false);
+	}
 
 	int start_tx = position.x;
 	int start_ox = 0;
@@ -395,15 +406,15 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 
 	for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-		uint8_t* tp = data()[0] + ty * stride()[0] + position.x * 3;
+		uint8_t* tp = data()[0] + ty * stride()[0] + position.x * this_bpp;
 		uint8_t* op = other->data()[0] + oy * other->stride()[0];
 		for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 			float const alpha = float (op[3]) / 255;
 			tp[0] = (tp[0] * (1 - alpha)) + op[0] * alpha;
 			tp[1] = (tp[1] * (1 - alpha)) + op[1] * alpha;
 			tp[2] = (tp[2] * (1 - alpha)) + op[2] * alpha;
-			tp += 3;
-			op += 4;
+			tp += this_bpp;
+			op += other_bpp;
 		}
 	}
 }

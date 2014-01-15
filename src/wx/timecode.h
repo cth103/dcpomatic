@@ -26,8 +26,8 @@ class Timecode : public wxPanel
 public:
 	Timecode (wxWindow *);
 
-	void set (Time, int);
-	Time get (int) const;
+	void set (DCPTime, int);
+	DCPTime get (int) const;
 
 	void set_editable (bool);
 

@@ -10,7 +10,7 @@ def configure(conf):
                               """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework%s' % boost_test_suffix, uselib_store = 'BOOST_TEST')
 
 def build(bld):
-    obj = bld(features = 'cxx cxxprogram')
+    obj = bld(features='cxx cxxprogram')
     obj.name   = 'unit-tests'
     obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML'
     obj.use    = 'libdcpomatic'
@@ -27,6 +27,7 @@ def build(bld):
                  ffmpeg_dcp_test.cc
                  ffmpeg_examiner_test.cc
                  ffmpeg_pts_offset.cc
+                 ffmpeg_seek_test.cc
                  file_group_test.cc
                  film_metadata_test.cc
                  frame_rate_test.cc
@@ -36,9 +37,12 @@ def build(bld):
                  pixel_formats_test.cc
                  play_test.cc
                  ratio_test.cc
+                 repeat_frame_test.cc
                  resampler_test.cc
                  scaling_test.cc
+                 seek_zero_test.cc
                  silence_padding_test.cc
+                 skip_frame_test.cc
                  stream_test.cc
                  subrip_test.cc
                  test.cc
@@ -47,4 +51,16 @@ def build(bld):
                  """
 
     obj.target = 'unit-tests'
+    obj.install_path = ''
+
+    obj = bld(features='cxx cxxprogram')
+    obj.name   = 'long-unit-tests'
+    obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML'
+    obj.use    = 'libdcpomatic'
+    obj.source = """
+                 test.cc
+                 long_ffmpeg_seek_test.cc
+                 """
+
+    obj.target = 'long-unit-tests'
     obj.install_path = ''

@@ -22,6 +22,8 @@
 #include "exceptions.h"
 #include "log.h"
 #include "resampler.h"
+#include "util.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -35,24 +37,53 @@ using boost::shared_ptr;
 AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
 	: Decoder (film)
 	, _audio_content (content)
-	, _audio_position (0)
 {
+	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
+		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));
+	}
+}
 
+/** Audio timestamping is made hard by many factors, but the final nail in the coffin is resampling.
+ *  We have to assume that we are feeding continuous data into the resampler, and so we get continuous
+ *  data out.  Hence we do the timestamping here, post-resampler, just by counting samples.
+ *
+ *  The time is passed in here so that after a seek we can set up our _audio_position.  The
+ *  time is ignored once this has been done.
+ */
+void
+AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
+{
+	if (_resampler) {
+		data = _resampler->run (data);
+	}
+
+	if (!_audio_position) {
+		shared_ptr<const Film> film = _film.lock ();
+		assert (film);
+		FrameRateChange frc = film->active_frame_rate_change (_audio_content->position ());
+		_audio_position = (double (time) / frc.speed_up) * film->audio_frame_rate() / TIME_HZ;
+	}
+
+	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (data, _audio_position.get ())));
+	_audio_position = _audio_position.get() + data->frames ();
 }
 
 void
-AudioDecoder::audio (shared_ptr<const AudioBuffers> data, AudioContent::Frame frame)
+AudioDecoder::flush ()
 {
-	Audio (data, frame);
-	_audio_position = frame + data->frames ();
+	if (!_resampler) {
+		return;
+	}
+
+	shared_ptr<const AudioBuffers> b = _resampler->flush ();
+	if (b) {
+		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (b, _audio_position.get ())));
+		_audio_position = _audio_position.get() + b->frames ();
+	}
 }
 
-/** This is a bit odd, but necessary when we have (e.g.) FFmpegDecoders with no audio.
- *  The player needs to know that there is no audio otherwise it will keep trying to
- *  pass() the decoder to get it to emit audio.
- */
-bool
-AudioDecoder::has_audio () const
+void
+AudioDecoder::seek (ContentTime, bool)
 {
-	return _audio_content->audio_channels () > 0;
+	_audio_position.reset ();
 }

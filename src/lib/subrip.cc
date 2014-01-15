@@ -123,10 +123,10 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 	fclose (f);
 }
 
-Time
+ContentTime
 SubRip::convert_time (string t)
 {
-	Time r = 0;
+	ContentTime r = 0;
 
 	vector<string> a;
 	boost::algorithm::split (a, t, boost::is_any_of (":"));
@@ -225,7 +225,7 @@ SubRip::convert_content (list<string> t)
 	return pieces;
 }
 
-Time
+ContentTime
 SubRip::length () const
 {
 	if (_subtitles.empty ()) {

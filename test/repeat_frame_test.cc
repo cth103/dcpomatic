@@ -18,39 +18,33 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include "lib/audio_buffers.h"
-#include "lib/resampler.h"
+#include "test.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/dcp_content_type.h"
 
-using std::pair;
-using std::cout;
 using boost::shared_ptr;
 
-static void
-resampler_test_one (int from, int to)
-{
-	Resampler resamp (from, to, 1);
-
-	int total_out = 0;
-
-	/* 3 hours */
-	int64_t const N = from * 60 * 60 * 3;
-
-	/* XXX: no longer checks anything */
-	
-	for (int64_t i = 0; i < N; i += 1000) {
-		shared_ptr<AudioBuffers> a (new AudioBuffers (1, 1000));
-		a->make_silent ();
-		shared_ptr<const AudioBuffers> r = resamp.run (a);
-		total_out += r->frames ();
-	}
-}	
-		
-/** Check that the timings that come back from the resampler correspond
-    to the number of samples it generates.
+/* Test the repeat of frames by the player when putting a 24fps
+   source into a 48fps DCP.
 */
-BOOST_AUTO_TEST_CASE (resampler_test)
+BOOST_AUTO_TEST_CASE (repeat_frame_test)
 {
-	resampler_test_one (44100, 48000);
-	resampler_test_one (44100, 46080);
-	resampler_test_one (44100, 50000);
+	shared_ptr<Film> film = new_test_film ("repeat_frame_test");
+	film->set_name ("repeat_frame_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/red_24.mp4"));
+	c->set_ratio (Ratio::from_id ("185"));
+	film->examine_and_add_content (c);
+
+	wait_for_jobs ();
+
+	film->set_video_frame_rate (48);
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));
 }
+

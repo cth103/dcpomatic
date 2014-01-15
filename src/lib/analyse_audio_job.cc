@@ -69,7 +69,7 @@ AnalyseAudioJob::run ()
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	_done = 0;
-	OutputAudioFrame const len = _film->time_to_audio_frames (_film->length ());
+	AudioFrame const len = _film->time_to_audio_frames (_film->length ());
 	while (!player->pass ()) {
 		set_progress (double (_done) / len);
 	}
@@ -81,7 +81,7 @@ AnalyseAudioJob::run ()
 }
 
 void
-AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, Time)
+AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, DCPTime)
 {
 	for (int i = 0; i < b->frames(); ++i) {
 		for (int j = 0; j < b->channels(); ++j) {

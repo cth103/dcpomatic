@@ -31,9 +31,13 @@ SubRipDecoder::SubRipDecoder (shared_ptr<const Film> film, shared_ptr<const SubR
 
 }
 
-void
+bool
 SubRipDecoder::pass ()
 {
+	if (_next >= _subtitles.size ()) {
+		return true;
+	}
+	
 	list<libdcp::Subtitle> out;
 	for (list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin(); i != _subtitles[_next].pieces.end(); ++i) {
 		out.push_back (
@@ -57,10 +61,5 @@ SubRipDecoder::pass ()
 
 	text_subtitle (out);
 	_next++;
-}
-
-bool
-SubRipDecoder::done () const
-{
-	return _next == _subtitles.size ();
+	return false;
 }

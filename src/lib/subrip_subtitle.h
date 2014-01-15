@@ -46,8 +46,8 @@ struct SubRipSubtitle
 		, to (0)
 	{}
 	
-	Time from;
-	Time to;
+	ContentTime from;
+	ContentTime to;
 	boost::optional<int> x1;
 	boost::optional<int> x2;
 	boost::optional<int> y1;

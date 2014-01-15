@@ -29,6 +29,7 @@ using std::list;
 using std::vector;
 using std::string;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** Test SubRip::convert_time */
 BOOST_AUTO_TEST_CASE (subrip_time_test)
@@ -175,15 +176,6 @@ BOOST_AUTO_TEST_CASE (subrip_parse_test)
 	BOOST_CHECK (i == s._subtitles.end ());
 }
 
-static list<libdcp::Subtitle> subtitles;
-
-static void
-process_subtitle (list<libdcp::Subtitle> s)
-{
-	subtitles = s;
-}
-
-
 /** Test rendering of a SubRip subtitle */
 BOOST_AUTO_TEST_CASE (subrip_render_test)
 {
@@ -194,12 +186,11 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (film, content));
-	decoder->TextSubtitle.connect (boost::bind (&process_subtitle, _1));
-	decoder->pass ();
+	shared_ptr<DecodedTextSubtitle> dts = dynamic_pointer_cast<DecodedTextSubtitle> (decoder->peek ());
 
 	shared_ptr<Image> image;
 	Position<int> position;
-	render_subtitles (subtitles, libdcp::Size (1998, 1080), image, position);
+	render_subtitles (dts->subs, libdcp::Size (1998, 1080), image, position);
 	write_image (image, "build/test/subrip_render_test.png");
 	check_file ("build/test/subrip_render_test.png", "test/data/subrip_render_test.png");
 }

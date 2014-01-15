@@ -36,20 +36,22 @@ ImageDecoder::ImageDecoder (shared_ptr<const Film> f, shared_ptr<const ImageCont
 	: Decoder (f)
 	, VideoDecoder (f, c)
 	, _image_content (c)
+	, _video_position (0)
 {
 
 }
 
-void
+bool
 ImageDecoder::pass ()
 {
 	if (_video_position >= _image_content->video_length ()) {
-		return;
+		return true;
 	}
 
 	if (_image && _image_content->still ()) {
 		video (_image, true, _video_position);
-		return;
+		++_video_position;
+		return false;
 	}
 
 	Magick::Image* magick_image = 0;
@@ -81,16 +83,15 @@ ImageDecoder::pass ()
 	delete magick_image;
 
 	video (_image, false, _video_position);
+	++_video_position;
+
+	return false;
 }
 
 void
-ImageDecoder::seek (VideoContent::Frame frame, bool)
+ImageDecoder::seek (ContentTime time, bool accurate)
 {
-	_video_position = frame;
-}
-
-bool
-ImageDecoder::done () const
-{
-	return _video_position >= _image_content->video_length ();
+	Decoder::seek (time, accurate);
+	
+	_video_position = rint (time * _video_content->video_frame_rate() / TIME_HZ);
 }

@@ -101,12 +101,12 @@ public:
 	boost::shared_ptr<Player> make_player () const;
 	boost::shared_ptr<Playlist> playlist () const;
 
-	OutputAudioFrame audio_frame_rate () const;
+	AudioFrame audio_frame_rate () const;
 
-	OutputAudioFrame time_to_audio_frames (Time) const;
-	OutputVideoFrame time_to_video_frames (Time) const;
-	Time video_frames_to_time (OutputVideoFrame) const;
-	Time audio_frames_to_time (OutputAudioFrame) const;
+	AudioFrame time_to_audio_frames (DCPTime) const;
+	VideoFrame time_to_video_frames (DCPTime) const;
+	DCPTime video_frames_to_time (VideoFrame) const;
+	DCPTime audio_frames_to_time (AudioFrame) const;
 
 	uint64_t required_disk_space () const;
 	bool should_be_enough_disk_space (double &, double &) const;
@@ -114,9 +114,10 @@ public:
 	/* Proxies for some Playlist methods */
 
 	ContentList content () const;
-	Time length () const;
+	DCPTime length () const;
 	bool has_subtitles () const;
-	OutputVideoFrame best_video_frame_rate () const;
+	VideoFrame best_video_frame_rate () const;
+	FrameRateChange active_frame_rate_change (DCPTime) const;
 
 	libdcp::KDM
 	make_kdm (

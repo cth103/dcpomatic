@@ -23,9 +23,11 @@
 
 #include "film.h"
 #include "decoder.h"
+#include "decoded.h"
 
 #include "i18n.h"
 
+using std::cout;
 using boost::shared_ptr;
 
 /** @param f Film.
@@ -33,6 +35,45 @@ using boost::shared_ptr;
  */
 Decoder::Decoder (shared_ptr<const Film> f)
 	: _film (f)
+	, _done (false)
 {
 
+}
+
+struct DecodedSorter
+{
+	bool operator() (shared_ptr<Decoded> a, shared_ptr<Decoded> b)
+	{
+		return a->dcp_time < b->dcp_time;
+	}
+};
+
+shared_ptr<Decoded>
+Decoder::peek ()
+{
+	while (!_done && _pending.empty ()) {
+		_done = pass ();
+	}
+
+	if (_done && _pending.empty ()) {
+		return shared_ptr<Decoded> ();
+	}
+
+	_pending.sort (DecodedSorter ());
+	return _pending.front ();
+}
+
+void
+Decoder::consume ()
+{
+	if (!_pending.empty ()) {
+		_pending.pop_front ();
+	}
+}
+
+void
+Decoder::seek (ContentTime, bool)
+{
+	_pending.clear ();
+	_done = false;
 }

@@ -59,7 +59,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	setup_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Frame len)
+VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, VideoFrame len)
 	: Content (f, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
@@ -83,7 +83,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	: Content (f, node)
 	, _ratio (0)
 {
-	_video_length = node->number_child<VideoContent::Frame> ("VideoLength");
+	_video_length = node->number_child<VideoFrame> ("VideoLength");
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
@@ -353,19 +353,21 @@ VideoContent::video_size_after_crop () const
 }
 
 /** @param t A time offset from the start of this piece of content.
- *  @return Corresponding frame index.
+ *  @return Corresponding frame index, rounded up so that the frame index
+ *  is that of the next complete frame which starts after `t'.
  */
-VideoContent::Frame
-VideoContent::time_to_content_video_frames (Time t) const
+VideoFrame
+VideoContent::time_to_content_video_frames (DCPTime t) const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate());
-
 	/* Here we are converting from time (in the DCP) to a frame number in the content.
 	   Hence we need to use the DCP's frame rate and the double/skip correction, not
-	   the source's rate.
+	   the source's rate; source rate will be equal to DCP rate if we ignore
+	   double/skip.  There's no need to call Film::active_frame_rate_change() here
+	   as we know that we are it (since we're video).
 	*/
-	return t * film->video_frame_rate() / (frc.factor() * TIME_HZ);
+	FrameRateChange frc (video_frame_rate(), film->video_frame_rate());
+	return ceil (t * film->video_frame_rate() / (frc.factor() * TIME_HZ));
 }

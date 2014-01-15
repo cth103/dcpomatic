@@ -27,8 +27,10 @@
 #include "decoder.h"
 #include "content.h"
 #include "audio_content.h"
+#include "decoded.h"
 
 class AudioBuffers;
+class Resampler;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
@@ -37,17 +39,21 @@ class AudioDecoder : public virtual Decoder
 {
 public:
 	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
+	
+	boost::shared_ptr<const AudioContent> audio_content () const {
+		return _audio_content;
+	}
 
-	bool has_audio () const;
-
-	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame)> Audio;
-
+	void seek (ContentTime time, bool accurate);
+	
 protected:
 
-	void audio (boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
+	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
+	void flush ();
+
 	boost::shared_ptr<const AudioContent> _audio_content;
-	AudioContent::Frame _audio_position;
+	boost::shared_ptr<Resampler> _resampler;
+	boost::optional<AudioFrame> _audio_position;
 };
 
 #endif

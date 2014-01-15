@@ -55,15 +55,16 @@ public:
 
 struct TestConfig
 {
-	TestConfig()
+	TestConfig ()
 	{
-		dcpomatic_setup();
+		dcpomatic_setup ();
 
 		Config::instance()->set_num_local_encoding_threads (1);
 		Config::instance()->set_server_port_base (61920);
 		Config::instance()->set_default_dci_metadata (DCIMetadata ());
 		Config::instance()->set_default_container (static_cast<Ratio*> (0));
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
+		Config::instance()->set_default_audio_delay (0);
 
 		ServerFinder::instance()->disable ();
 
@@ -97,10 +98,10 @@ new_test_film (string name)
 }
 
 void
-check_file (string ref, string check)
+check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	uintmax_t N = boost::filesystem::file_size (ref);
-	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size(check));
+	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
 	FILE* ref_file = fopen (ref.c_str(), "rb");
 	BOOST_CHECK (ref_file);
 	FILE* check_file = fopen (check.c_str(), "rb");
@@ -137,7 +138,7 @@ note (libdcp::NoteType t, string n)
 }
 
 void
-check_dcp (string ref, string check)
+check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	libdcp::DCP ref_dcp (ref);
 	ref_dcp.read ();

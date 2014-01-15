@@ -751,7 +751,7 @@ ensure_ui_thread ()
  *  @return Equivalent number of audio frames for `v'.
  */
 int64_t
-video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second)
+video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second)
 {
 	return ((int64_t) v * audio_sample_rate / frames_per_second);
 }
@@ -776,7 +776,7 @@ audio_channel_name (int c)
 	return channels[c];
 }
 
-FrameRateConversion::FrameRateConversion (float source, int dcp)
+FrameRateChange::FrameRateChange (float source, int dcp)
 	: skip (false)
 	, repeat (1)
 	, change_speed (false)
@@ -794,7 +794,8 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 		repeat = round (dcp / source);
 	}
 
-	change_speed = !about_equal (source * factor(), dcp);
+	speed_up = dcp / (source * factor());
+	change_speed = !about_equal (speed_up, 1.0);
 
 	if (!skip && repeat == 1 && !change_speed) {
 		description = _("Content and DCP have the same rate.\n");
@@ -917,4 +918,11 @@ fit_ratio_within (float ratio, libdcp::Size full_frame)
 	}
 	
 	return libdcp::Size (full_frame.width, rint (full_frame.width / ratio));
+}
+
+DCPTime
+time_round_up (DCPTime t, DCPTime nearest)
+{
+	DCPTime const a = t + nearest - 1;
+	return a - (a % nearest);
 }

@@ -24,38 +24,38 @@
 
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 
 VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
 	: Decoder (f)
 	, _video_content (c)
-	, _video_position (0)
 {
 
 }
 
+/** Called by subclasses when they have a video frame ready */
 void
-VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
+VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoFrame frame)
 {
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		Video (image, EYES_BOTH, same, frame);
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image, EYES_BOTH, same, frame)));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	{
 		int const half = image->size().width / 2;
-		Video (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, frame);
-		Video (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, frame);
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, frame)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, frame)));
 		break;
 	}
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
 	{
 		int const half = image->size().height / 2;
-		Video (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same, frame);
-		Video (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, frame);
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same, frame)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, frame)));
 		break;
 	}
+	default:
+		assert (false);
 	}
-	
-	_video_position = frame + 1;
 }
-

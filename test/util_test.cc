@@ -53,3 +53,17 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 	p.push_back ("foobar");
 	BOOST_CHECK_THROW (md5_digest (p, shared_ptr<Job> ()), std::runtime_error);
 }
+
+/* Straightforward test of time_round_up_test */
+BOOST_AUTO_TEST_CASE (time_round_up_test)
+{
+	BOOST_CHECK_EQUAL (time_round_up (0, 2), 0);
+	BOOST_CHECK_EQUAL (time_round_up (1, 2), 2);
+	BOOST_CHECK_EQUAL (time_round_up (2, 2), 2);
+	BOOST_CHECK_EQUAL (time_round_up (3, 2), 4);
+	
+	BOOST_CHECK_EQUAL (time_round_up (0, 42), 0);
+	BOOST_CHECK_EQUAL (time_round_up (1, 42), 42);
+	BOOST_CHECK_EQUAL (time_round_up (42, 42), 42);
+	BOOST_CHECK_EQUAL (time_round_up (43, 42), 84);
+}

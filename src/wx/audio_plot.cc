@@ -145,7 +145,7 @@ AudioPlot::paint ()
 	gc->SetPen (*wxLIGHT_GREY_PEN);
 	gc->StrokePath (grid);
 
-	gc->DrawText (_("Time"), data_width, _height - _y_origin + db_label_height / 2);
+	gc->DrawText (_("DCPTime"), data_width, _height - _y_origin + db_label_height / 2);
 	
 	if (_type_visible[AudioPoint::PEAK]) {
 		for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {

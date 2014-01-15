@@ -37,6 +37,8 @@ public:
 	TimedAudioBuffers<T>
 	pull (T time)
 	{
+		assert (time >= _last_pull);
+		
 		TimedAudioBuffers<T> out;
 		
 		F const to_return = _t_to_f (time - _last_pull);
@@ -97,8 +99,15 @@ public:
 		if (_buffers->frames() == 0) {
 			return TimedAudioBuffers<T> ();
 		}
-		
+
 		return TimedAudioBuffers<T> (_buffers, _last_pull);
+	}
+
+	void
+	clear (DCPTime t)
+	{
+		_last_pull = t;
+		_buffers.reset (new AudioBuffers (_buffers->channels(), 0));
 	}
 	
 private:

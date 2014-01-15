@@ -33,7 +33,7 @@ class SubRip
 public:
 	SubRip (boost::shared_ptr<const SubRipContent>);
 
-	Time length () const;
+	ContentTime length () const;
 
 protected:
 	std::vector<SubRipSubtitle> _subtitles;
@@ -44,7 +44,7 @@ private:
 	friend class subrip_content_test;
 	friend class subrip_parse_test;
 	
-	static Time convert_time (std::string);
+	static ContentTime convert_time (std::string);
 	static int convert_coordinate (std::string);
 	static std::list<SubRipSubtitlePiece> convert_content (std::list<std::string>);
 	static void maybe_content (std::list<SubRipSubtitlePiece> &, SubRipSubtitlePiece &);

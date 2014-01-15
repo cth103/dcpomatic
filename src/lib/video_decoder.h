@@ -25,6 +25,7 @@
 #include "decoder.h"
 #include "video_content.h"
 #include "util.h"
+#include "decoded.h"
 
 class VideoContent;
 class Image;
@@ -34,24 +35,14 @@ class VideoDecoder : public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
 
-	/** Seek so that the next pass() will yield (approximately) the requested frame.
-	 *  Pass accurate = true to try harder to get close to the request.
-	 */
-	virtual void seek (VideoContent::Frame frame, bool accurate) = 0;
+	boost::shared_ptr<const VideoContent> video_content () const {
+		return _video_content;
+	}
 
-	/** Emitted when a video frame is ready.
-	 *  First parameter is the video image.
-	 *  Second parameter is the eye(s) which should see this image.
-	 *  Third parameter is true if the image is the same as the last one that was emitted for this Eyes value.
-	 *  Fourth parameter is the frame within our source.
-	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame)> Video;
-	
 protected:
 
-	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	void video (boost::shared_ptr<const Image>, bool, VideoFrame);
 	boost::shared_ptr<const VideoContent> _video_content;
-	VideoContent::Frame _video_position;
 };
 
 #endif

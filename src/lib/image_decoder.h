@@ -34,14 +34,13 @@ public:
 		return _image_content;
 	}
 
-	/* Decoder */
-
-	void pass ();
-	void seek (VideoContent::Frame, bool);
-	bool done () const;
+	void seek (ContentTime, bool);
 
 private:
+	bool pass ();
+	
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::shared_ptr<Image> _image;
+	VideoFrame _video_position;
 };
 

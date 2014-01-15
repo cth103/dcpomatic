@@ -83,7 +83,7 @@ Timecode::Timecode (wxWindow* parent)
 }
 
 void
-Timecode::set (Time t, int fps)
+Timecode::set (DCPTime t, int fps)
 {
 	int const h = t / (3600 * TIME_HZ);
 	t -= h * 3600 * TIME_HZ;
@@ -101,10 +101,10 @@ Timecode::set (Time t, int fps)
 	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02d", h, m, s, f));
 }
 
-Time
+DCPTime
 Timecode::get (int fps) const
 {
-	Time t = 0;
+	DCPTime t = 0;
 	string const h = wx_to_std (_hours->GetValue ());
 	t += lexical_cast<int> (h.empty() ? "0" : h) * 3600 * TIME_HZ;
 	string const m = wx_to_std (_minutes->GetValue());

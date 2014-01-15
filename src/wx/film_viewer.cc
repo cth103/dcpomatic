@@ -36,6 +36,7 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
+#include "lib/timer.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -128,6 +129,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_player = f->make_player ();
 	_player->disable_audio ();
+	_player->set_approximate_size ();
 	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _5));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
@@ -164,7 +166,7 @@ FilmViewer::timer ()
 	
 	fetch_next_frame ();
 
-	Time const len = _film->length ();
+	DCPTime const len = _film->length ();
 
 	if (len) {
 		int const new_slider_position = 4096 * _player->video_position() / len;
@@ -211,8 +213,14 @@ void
 FilmViewer::slider_moved ()
 {
 	if (_film && _player) {
-		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
-		fetch_next_frame ();
+		try {
+			_player->seek (_slider->GetValue() * _film->length() / 4096, false);
+			fetch_next_frame ();
+		} catch (OpenFileError& e) {
+			/* There was a problem opening a content file; we'll let this slide as it
+			   probably means a missing content file, which we're already taking care of.
+			*/
+		}
 	}
 }
 
@@ -251,6 +259,13 @@ FilmViewer::calculate_sizes ()
 	_out_size.width = max (64, _out_size.width);
 	_out_size.height = max (64, _out_size.height);
 
+	/* The player will round its image down to the nearest 4 pixels
+	   to speed up its scale, so do similar here to avoid black borders
+	   around things.  This is a bit of a hack.
+	*/
+	_out_size.width &= ~3;
+	_out_size.height &= ~3;
+
 	_player->set_video_container_size (_out_size);
 }
 
@@ -275,20 +290,24 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, Time t)
+FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, DCPTime t)
 {
 	if (eyes == EYES_RIGHT) {
 		return;
 	}
-	
-	_frame = image->image ();
+
+	/* Going via BGRA here makes the scaler faster then using RGB24 directly (about
+	   twice on x86 Linux).
+	*/
+	shared_ptr<Image> im = image->image (PIX_FMT_BGRA, true);
+	_frame = im->scale (im->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
 	_got_frame = true;
 
 	set_position_text (t);
 }
 
 void
-FilmViewer::set_position_text (Time t)
+FilmViewer::set_position_text (DCPTime t)
 {
 	if (!_film) {
 		_frame_number->SetLabel ("0");
@@ -371,13 +390,19 @@ FilmViewer::back_clicked ()
 	   We want to see the one before it, so we need to go back 2.
 	*/
 
-	Time p = _player->video_position() - _film->video_frames_to_time (2);
+	DCPTime p = _player->video_position() - _film->video_frames_to_time (2);
 	if (p < 0) {
 		p = 0;
 	}
 	
-	_player->seek (p, true);
-	fetch_next_frame ();
+	try {
+		_player->seek (p, true);
+		fetch_next_frame ();
+	} catch (OpenFileError& e) {
+		/* There was a problem opening a content file; we'll let this slide as it
+		   probably means a missing content file, which we're already taking care of.
+		*/
+	}
 }
 
 void

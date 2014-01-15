@@ -44,7 +44,7 @@ public:
 	std::string technical_summary () const;
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
-	Time full_length () const;
+	DCPTime full_length () const;
 
 	/* AudioContent */
 	int audio_channels () const {
@@ -52,7 +52,7 @@ public:
 		return _audio_channels;
 	}
 	
-	AudioContent::Frame audio_length () const {
+	AudioFrame audio_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_length;
 	}
@@ -75,7 +75,7 @@ public:
 
 private:
 	int _audio_channels;
-	AudioContent::Frame _audio_length;
+	AudioFrame _audio_length;
 	int _audio_frame_rate;
 	AudioMapping _audio_mapping;
 };

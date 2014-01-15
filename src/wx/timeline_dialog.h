@@ -24,14 +24,14 @@
 
 class Playlist;
 
-class TimelineDialog : public wxDialog
+class DCPTimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog (FilmEditor *, boost::shared_ptr<Film>);
+	DCPTimelineDialog (FilmEditor *, boost::shared_ptr<Film>);
 
 private:
 	void snap_toggled ();
 	
-	Timeline _timeline;
+	DCPTimeline _timeline;
 	wxCheckBox* _snap;
 };

@@ -62,7 +62,8 @@ audio_proxy (weak_ptr<Encoder> encoder, shared_ptr<const AudioBuffers> audio)
  *  @param e Encoder to use.
  */
 Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
-	: _player (f->make_player ())
+	: _film (f)
+	, _player (f->make_player ())
 	, _encoder (new Encoder (f, j))
 	, _finishing (false)
 {
@@ -78,6 +79,8 @@ Transcoder::go ()
 
 	_finishing = true;
 	_encoder->process_end ();
+
+	_player->statistics().dump (_film->log ());
 }
 
 float

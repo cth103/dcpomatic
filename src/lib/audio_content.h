@@ -43,7 +43,7 @@ class AudioContent : public virtual Content
 public:
 	typedef int64_t Frame;
 	
-	AudioContent (boost::shared_ptr<const Film>, Time);
+	AudioContent (boost::shared_ptr<const Film>, DCPTime);
 	AudioContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	AudioContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	AudioContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
@@ -52,7 +52,7 @@ public:
 	std::string technical_summary () const;
 
 	virtual int audio_channels () const = 0;
-	virtual AudioContent::Frame audio_length () const = 0;
+	virtual AudioFrame audio_length () const = 0;
 	virtual int content_audio_frame_rate () const = 0;
 	virtual int output_audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
@@ -74,6 +74,8 @@ public:
 		return _audio_delay;
 	}
 
+	Frame time_to_content_audio_frames (DCPTime, DCPTime) const;
+	
 private:
 	/** Gain to apply to audio in dB */
 	float _audio_gain;

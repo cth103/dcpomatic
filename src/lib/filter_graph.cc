@@ -122,7 +122,8 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 		throw DecodeError (N_("could not configure filter graph."));
 	}
 
-	/* XXX: leaking `inputs' / `outputs' ? */
+	avfilter_inout_free (&inputs);
+	avfilter_inout_free (&outputs);
 }
 
 FilterGraph::~FilterGraph ()

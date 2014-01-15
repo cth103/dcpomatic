@@ -51,15 +51,12 @@ public:
 	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio);
 	~FFmpegDecoder ();
 
-	void pass ();
-	void seek (VideoContent::Frame, bool);
-	bool done () const;
+	void seek (ContentTime time, bool);
 
 private:
 	friend class ::ffmpeg_pts_offset_test;
 
-	static double compute_pts_offset (double, double, float);
-
+	bool pass ();
 	void flush ();
 
 	void setup_subtitle ();
@@ -74,6 +71,11 @@ private:
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
+	bool seek_overrun_finished (ContentTime, boost::optional<ContentTime>, boost::optional<ContentTime>) const;
+	bool seek_final_finished (int, int) const;
+	int minimal_run (boost::function<bool (boost::optional<ContentTime>, boost::optional<ContentTime>, int)>);
+	void seek_and_flush (int64_t);
+
 	AVCodecContext* _subtitle_codec_context; ///< may be 0 if there is no subtitle
 	AVCodec* _subtitle_codec;		 ///< may be 0 if there is no subtitle
 	
@@ -83,7 +85,5 @@ private:
 	bool _decode_video;
 	bool _decode_audio;
 
-	double _video_pts_offset;
-	double _audio_pts_offset;
-	bool _just_sought;
+	double _pts_offset;
 };

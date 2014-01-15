@@ -34,7 +34,7 @@ struct Video
 {
 	boost::shared_ptr<Content> content;
 	boost::shared_ptr<const Image> image;
-	Time time;
+	DCPTime time;
 };
 
 class PlayerWrapper
@@ -46,11 +46,11 @@ public:
 		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _5));
 	}
 
-	void process_video (shared_ptr<PlayerImage> i, bool, Time t)
+	void process_video (shared_ptr<PlayerImage> i, bool, DCPTime t)
 	{
 		Video v;
 		v.content = _player->_last_video;
-		v.image = i->image ();
+		v.image = i->image (PIX_FMT_RGB24, false);
 		v.time = t;
 		_queue.push_front (v);
 	}
@@ -67,7 +67,7 @@ public:
 		return v;
 	}
 
-	void seek (Time t, bool ac)
+	void seek (DCPTime t, bool ac)
 	{
 		_player->seek (t, ac);
 		_queue.clear ();
@@ -106,8 +106,6 @@ BOOST_AUTO_TEST_CASE (play_test)
 
 	shared_ptr<Player> player = film->make_player ();
 	PlayerWrapper wrap (player);
-	/* Seek and audio don't get on at the moment */
-	player->disable_audio ();
 
 	for (int i = 0; i < 32; ++i) {
 		optional<Video> v = wrap.get_video ();
@@ -119,10 +117,10 @@ BOOST_AUTO_TEST_CASE (play_test)
 		}
 	}
 
-	player->seek (10 * TIME_HZ / 25, true);
+	player->seek (6 * TIME_HZ / 25, true);
 	optional<Video> v = wrap.get_video ();
 	BOOST_CHECK (v);
-	BOOST_CHECK_EQUAL (v.get().time, 10 * TIME_HZ / 25);
+	BOOST_CHECK_EQUAL (v.get().time, 6 * TIME_HZ / 25);
 }
 
 #endif

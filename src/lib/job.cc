@@ -198,7 +198,7 @@ Job::set_state (State s)
 	}
 }
 
-/** @return Time (in seconds) that this sub-job has been running */
+/** @return DCPTime (in seconds) that this sub-job has been running */
 int
 Job::elapsed_time () const
 {

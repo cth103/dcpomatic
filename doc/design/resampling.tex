@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{amsmath}
 \begin{document}
 
 Here is what resampling we need to do.  Content video is at $C_V$ fps, audio at $C_A$.  
@@ -18,6 +19,7 @@ $C_V$ is a DCI rate, $C_A$ is not.  e.g.\ if $C_V = 24$, $C_A = 44.1\times{}10^3
 \textbf{Resample $C_A$ to the DCI rate.}
 
 \section{Hard case 1}
+\label{sec:hard1}
 
 $C_V$ is not a DCI rate, $C_A$ is, e.g.\ if $C_V = 25$, $C_A =
 48\times{}10^3$.  We will run the video at a nearby DCI rate $F_V$,
@@ -31,5 +33,24 @@ resample audio to $25 * 48\times{}10^3 / 24 = 50\times{}10^3$.
 \medskip
 \textbf{Resample $C_A$ to $C_V C_A / F_V$}
 
+\section{Hard case 2}
+
+Neither $C_V$ nor $C_A$ is not a DCI rate, e.g.\ if $C_V = 25$, $C_A =
+44.1\times{}10^3$.  We will run the video at a nearby DCI rate $F_V$,
+meaning that it will run faster or slower than it should.  We first
+resample the audio to a DCI rate $F_A$, then perform as with
+Section~\ref{sec:hard1} above.
+
+\medskip
+\textbf{Resample $C_A$ to $C_V F_A / F_V$}
+
+
+\section{The general case}
+
+Given a DCP running at $F_V$ and $F_A$ and a piece of content at $C_V$
+and $C_A$, resample the audio to $R_A$ where
+\begin{align*}
+R_A &= \frac{C_V F_A}{F_V}
+\end{align*}
 
 \end{document}

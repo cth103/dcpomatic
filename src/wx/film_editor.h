@@ -33,9 +33,9 @@ class wxNotebook;
 class wxListCtrl;
 class wxListEvent;
 class Film;
-class TimelineDialog;
+class DCPTimelineDialog;
 class Ratio;
-class Timecode;
+class DCPTimecode;
 class FilmEditorPanel;
 class SubtitleContent;
 
@@ -156,5 +156,5 @@ private:
 	std::vector<Ratio const *> _ratios;
 
 	bool _generally_sensitive;
-	TimelineDialog* _timeline_dialog;
+	DCPTimelineDialog* _timeline_dialog;
 };

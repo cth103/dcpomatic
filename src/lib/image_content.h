@@ -41,11 +41,11 @@ public:
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *) const;
-	Time full_length () const;
+	DCPTime full_length () const;
 
 	std::string identifier () const;
 	
-	void set_video_length (VideoContent::Frame);
+	void set_video_length (VideoFrame);
 	bool still () const;
 	void set_video_frame_rate (float);
 };

@@ -110,7 +110,7 @@ ImageContent::examine (shared_ptr<Job> job)
 }
 
 void
-ImageContent::set_video_length (VideoContent::Frame len)
+ImageContent::set_video_length (VideoFrame len)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -120,13 +120,13 @@ ImageContent::set_video_length (VideoContent::Frame len)
 	signal_changed (ContentProperty::LENGTH);
 }
 
-Time
+DCPTime
 ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate ());
+	FrameRateChange frc (video_frame_rate(), film->video_frame_rate ());
 	return video_length() * frc.factor() * TIME_HZ / video_frame_rate();
 }
 

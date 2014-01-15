@@ -76,7 +76,7 @@ SubRipContent::as_xml (xmlpp::Node* node)
 	SubtitleContent::as_xml (node);
 }
 
-Time
+DCPTime
 SubRipContent::full_length () const
 {
 	/* XXX: this assumes that the timing of the SubRip file is appropriate

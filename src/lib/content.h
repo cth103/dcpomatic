@@ -49,7 +49,7 @@ class Content : public boost::enable_shared_from_this<Content>, public boost::no
 {
 public:
 	Content (boost::shared_ptr<const Film>);
-	Content (boost::shared_ptr<const Film>, Time);
+	Content (boost::shared_ptr<const Film>, DCPTime);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
 	Content (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	Content (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
@@ -60,7 +60,7 @@ public:
 	virtual std::string technical_summary () const;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
-	virtual Time full_length () const = 0;
+	virtual DCPTime full_length () const = 0;
 	virtual std::string identifier () const;
 
 	boost::shared_ptr<Content> clone () const;
@@ -92,41 +92,39 @@ public:
 		return _digest;
 	}
 
-	void set_position (Time);
+	void set_position (DCPTime);
 
-	/** Time that this content starts; i.e. the time that the first
+	/** DCPTime that this content starts; i.e. the time that the first
 	 *  bit of the content (trimmed or not) will happen.
 	 */
-	Time position () const {
+	DCPTime position () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _position;
 	}
 
-	void set_trim_start (Time);
+	void set_trim_start (DCPTime);
 
-	Time trim_start () const {
+	DCPTime trim_start () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_start;
 	}
 
-	void set_trim_end (Time);
+	void set_trim_end (DCPTime);
 	
-	Time trim_end () const {
+	DCPTime trim_end () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_end;
 	}
 	
-	Time end () const {
+	DCPTime end () const {
 		return position() + length_after_trim() - 1;
 	}
 
-	Time length_after_trim () const;
+	DCPTime length_after_trim () const;
 	
 	void set_change_signals_frequent (bool f) {
 		_change_signals_frequent = f;
 	}
-
-	bool trimmed (Time) const;
 
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
@@ -145,9 +143,9 @@ protected:
 	
 private:
 	std::string _digest;
-	Time _position;
-	Time _trim_start;
-	Time _trim_end;
+	DCPTime _position;
+	DCPTime _trim_start;
+	DCPTime _trim_end;
 	bool _change_signals_frequent;
 };
 

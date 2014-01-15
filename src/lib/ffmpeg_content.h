@@ -134,13 +134,13 @@ public:
 	std::string technical_summary () const;
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
-	Time full_length () const;
+	DCPTime full_length () const;
 
 	std::string identifier () const;
 	
 	/* AudioContent */
 	int audio_channels () const;
-	AudioContent::Frame audio_length () const;
+	AudioFrame audio_length () const;
 	int content_audio_frame_rate () const;
 	int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;

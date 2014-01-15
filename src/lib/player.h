@@ -30,6 +30,7 @@
 #include "rect.h"
 #include "audio_merger.h"
 #include "audio_content.h"
+#include "decoded.h"
 
 class Job;
 class Film;
@@ -37,24 +38,9 @@ class Playlist;
 class AudioContent;
 class Piece;
 class Image;
-class Resampler;
 
-/** @class Player
- *  @brief A class which can `play' a Playlist; emitting its audio and video.
- */
-
-struct IncomingVideo
-{
-public:
-	boost::weak_ptr<Piece> weak_piece;
-	boost::shared_ptr<const Image> image;
-	Eyes eyes;
-	bool same;
-	VideoContent::Frame frame;
-	Time extra;
-};
-
-/** A wrapper for an Image which contains some pending operations; these may
+/** @class PlayerImage
+ *  @brief A wrapper for an Image which contains some pending operations; these may
  *  not be necessary if the receiver of the PlayerImage throws it away.
  */
 class PlayerImage
@@ -64,7 +50,7 @@ public:
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
 	
-	boost::shared_ptr<Image> image ();
+	boost::shared_ptr<Image> image (AVPixelFormat, bool);
 
 private:
 	boost::shared_ptr<const Image> _in;
@@ -75,7 +61,43 @@ private:
 	boost::shared_ptr<const Image> _subtitle_image;
 	Position<int> _subtitle_position;
 };
+
+class PlayerStatistics
+{
+public:
+	struct Video {
+		Video ()
+			: black (0)
+			, repeat (0)
+			, good (0)
+			, skip (0)
+		{}
+		
+		int black;
+		int repeat;
+		int good;
+		int skip;
+	} video;
+
+	struct Audio {
+		Audio ()
+			: silence (0)
+			, good (0)
+			, skip (0)
+		{}
+		
+		int64_t silence;
+		int64_t good;
+		int64_t skip;
+	} audio;
+
+	void dump (boost::shared_ptr<Log>) const;
+};
  
+/** @class Player
+ *  @brief A class which can `play' a Playlist; emitting its audio and video.
+ */
+
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
@@ -85,16 +107,19 @@ public:
 	void disable_audio ();
 
 	bool pass ();
-	void seek (Time, bool);
+	void seek (DCPTime, bool);
 
-	Time video_position () const {
+	DCPTime video_position () const {
 		return _video_position;
 	}
 
 	void set_video_container_size (libdcp::Size);
+	void set_approximate_size ();
 
 	bool repeat_last_video ();
 
+	PlayerStatistics const & statistics () const;
+	
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
 	 *  Second parameter is the eye(s) that should see this image.
@@ -102,10 +127,10 @@ public:
 	 *  Fourth parameter is true if the image is the same as the last one that was emitted.
 	 *  Fifth parameter is the time.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, Time)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerImage>, Eyes, ColourConversion, bool, DCPTime)> Video;
 	
 	/** Emitted when some audio data is ready */
-	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, DCPTime)> Audio;
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -119,21 +144,19 @@ private:
 	friend class PlayerWrapper;
 	friend class Piece;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, Time);
-	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
-	void process_image_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
-	void process_text_subtitle (boost::weak_ptr<Piece>, std::list<libdcp::Subtitle>);
 	void setup_pieces ();
 	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int, bool);
-	void do_seek (Time, bool);
+	void do_seek (DCPTime, bool);
 	void flush ();
 	void emit_black ();
-	void emit_silence (OutputAudioFrame);
-	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<AudioContent>, bool);
+	void emit_silence (AudioFrame);
 	void film_changed (Film::Property);
 	void update_subtitle_from_image ();
 	void update_subtitle_from_text ();
+	void emit_video (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedVideo>);
+	void emit_audio (boost::weak_ptr<Piece>, boost::shared_ptr<DecodedAudio>);
+	void step_video_position (boost::shared_ptr<DecodedVideo>);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -146,31 +169,30 @@ private:
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
 	/** The time after the last video that we emitted */
-	Time _video_position;
+	DCPTime _video_position;
 	/** The time after the last audio that we emitted */
-	Time _audio_position;
+	DCPTime _audio_position;
 
-	AudioMerger<Time, AudioContent::Frame> _audio_merger;
+	AudioMerger<DCPTime, AudioFrame> _audio_merger;
 
 	libdcp::Size _video_container_size;
 	boost::shared_ptr<PlayerImage> _black_frame;
-	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
 	struct {
 		boost::weak_ptr<Piece> piece;
-		boost::shared_ptr<Image> image;
-		dcpomatic::Rect<double> rect;
-		Time from;
-		Time to;
+		boost::shared_ptr<DecodedImageSubtitle> subtitle;
 	} _image_subtitle;
 
-	std::list<libdcp::Subtitle> _text_subtitles;
-
 	struct {
-		boost::shared_ptr<Image> image;
+		boost::weak_ptr<Piece> piece;
+		boost::shared_ptr<DecodedTextSubtitle> subtitle;
+	} _text_subtitle;
+	
+	struct {
 		Position<int> position;
-		Time from;
-		Time to;
+		boost::shared_ptr<Image> image;
+		DCPTime from;
+		DCPTime to;
 	} _out_subtitle;
 
 #ifdef DCPOMATIC_DEBUG
@@ -179,7 +201,15 @@ private:
 
 	bool _last_emit_was_black;
 
-	IncomingVideo _last_incoming_video;
+	struct {
+		boost::weak_ptr<Piece> weak_piece;
+		boost::shared_ptr<DecodedVideo> video;
+	} _last_incoming_video;
+
+	bool _just_did_inaccurate_seek;
+	bool _approximate_size;
+
+	PlayerStatistics _statistics;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;

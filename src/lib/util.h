@@ -79,9 +79,9 @@ extern std::string tidy_for_filename (std::string);
 extern boost::shared_ptr<const libdcp::Signer> make_signer ();
 extern libdcp::Size fit_ratio_within (float ratio, libdcp::Size);
 
-struct FrameRateConversion
+struct FrameRateChange
 {
-	FrameRateConversion (float, int);
+	FrameRateChange (float, int);
 
 	/** @return factor by which to multiply a source frame rate
 	    to get the effective rate after any skip or repeat has happened.
@@ -109,11 +109,17 @@ struct FrameRateConversion
 	 */
 	bool change_speed;
 
+	/** Amount by which the video is being sped-up in the DCP; e.g. for a
+	 *  24fps source in a 25fps DCP this would be 25/24.
+	 */
+	float speed_up;
+
 	std::string description;
 };
 
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
+extern DCPTime time_round_up (DCPTime, DCPTime);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);
@@ -160,7 +166,7 @@ private:
 	int _timeout;
 };
 
-extern int64_t video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second);
+extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
 
 class LocaleGuard
 {
