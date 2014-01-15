@@ -87,6 +87,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 
 	_picture_asset->set_edit_rate (_film->video_frame_rate ());
 	_picture_asset->set_size (fit_ratio_within (_film->container()->ratio(), _film->full_frame ()));
+	_picture_asset->set_interop (_film->interop ());
 
 	if (_film->encrypted ()) {
 		_picture_asset->set_key (_film->key ());
@@ -98,6 +99,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	_sound_asset->set_edit_rate (_film->video_frame_rate ());
 	_sound_asset->set_channels (_film->audio_channels ());
 	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
+	_sound_asset->set_interop (_film->interop ());
 
 	if (_film->encrypted ()) {
 		_sound_asset->set_key (_film->key ());
