@@ -68,8 +68,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
-	, _video_pts_offset (0)
-	, _audio_pts_offset (0)
+	, _pts_offset (0)
 	, _just_sought (false)
 {
 	setup_subtitle ();
@@ -84,8 +83,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	   insertion of black frames to work.
 
 	   We will do:
-	     audio_pts_to_use = audio_pts_from_ffmpeg + audio_pts_offset;
-	     video_pts_to_use = video_pts_from_ffmpeg + video_pts_offset;
+	     audio_pts_to_use = audio_pts_from_ffmpeg + pts_offset;
+	     video_pts_to_use = video_pts_from_ffmpeg + pts_offset;
 	*/
 
 	bool const have_video = video && c->first_video();
@@ -94,16 +93,16 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 	/* First, make one of them start at 0 */
 
 	if (have_audio && have_video) {
-		_video_pts_offset = _audio_pts_offset = - min (c->first_video().get(), c->audio_stream()->first_audio.get());
+		_pts_offset = - min (c->first_video().get(), c->audio_stream()->first_audio.get());
 	} else if (have_video) {
-		_video_pts_offset = - c->first_video().get();
+		_pts_offset = - c->first_video().get();
 	} else if (have_audio) {
-		_audio_pts_offset = - c->audio_stream()->first_audio.get();
+		_pts_offset = - c->audio_stream()->first_audio.get();
 	}
 
 	/* Now adjust both so that the video pts starts on a frame */
 	if (have_video && have_audio) {
-		double first_video = c->first_video().get() + _video_pts_offset;
+		double first_video = c->first_video().get() + _pts_offset;
 		double const old_first_video = first_video;
 		
 		/* Round the first video up to a frame boundary */
@@ -111,8 +110,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegC
 			first_video = ceil (first_video * c->video_frame_rate()) / c->video_frame_rate ();
 		}
 
-		_video_pts_offset += first_video - old_first_video;
-		_audio_pts_offset += first_video - old_first_video;
+		_pts_offset += first_video - old_first_video;
 	}
 }
 
@@ -315,7 +313,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 	}
 
 	/* Initial seek time in the stream's timebase */
-	int64_t const initial_vt = ((initial / _ffmpeg_content->video_frame_rate()) - _video_pts_offset) / time_base;
+	int64_t const initial_vt = ((initial / _ffmpeg_content->video_frame_rate()) - _pts_offset) / time_base;
 
 	av_seek_frame (_format_context, _video_stream, initial_vt, AVSEEK_FLAG_BACKWARD);
 
@@ -347,7 +345,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 		if (r >= 0 && finished) {
 			_video_position = rint (
-				(av_frame_get_best_effort_timestamp (_frame) * time_base + _video_pts_offset) * _ffmpeg_content->video_frame_rate()
+				(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * _ffmpeg_content->video_frame_rate()
 				);
 
 			if (_video_position >= (frame - 1)) {
@@ -385,7 +383,7 @@ FFmpegDecoder::decode_audio_packet ()
 			if (_audio_position == 0) {
 				/* Where we are in the source, in seconds */
 				double const pts = av_q2d (_format_context->streams[copy_packet.stream_index]->time_base)
-					* av_frame_get_best_effort_timestamp(_frame) + _audio_pts_offset;
+					* av_frame_get_best_effort_timestamp(_frame) + _pts_offset;
 
 				if (pts > 0) {
 					/* Emit some silence */
@@ -455,7 +453,7 @@ FFmpegDecoder::decode_video_packet ()
 		
 		if (i->second != AV_NOPTS_VALUE) {
 
-			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _video_pts_offset;
+			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset;
 
 			if (_just_sought) {
 				/* We just did a seek, so disable any attempts to correct for where we
@@ -555,7 +553,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Subtitle PTS in seconds (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP)
 	*/
-	double const packet_time = (static_cast<double> (sub.pts ) / AV_TIME_BASE) + _video_pts_offset;
+	double const packet_time = (static_cast<double> (sub.pts ) / AV_TIME_BASE) + _pts_offset;
 
 	/* hence start time for this sub */
 	Time const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
