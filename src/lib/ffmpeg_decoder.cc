@@ -322,7 +322,16 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		avcodec_flush_buffers (_subtitle_codec_context);
 	}
 
-	_just_sought = true;
+	/* This !accurate is piling hack upon hack; setting _just_sought to true
+	   even with accurate == true defeats our attempt to align the start
+	   of the video and audio.  Here we disable that defeat when accurate == true
+	   i.e. when we are making a DCP rather than just previewing one.
+	   Ewww.  This should be gone in 2.0.
+	*/
+	if (!accurate) {
+		_just_sought = true;
+	}
+	
 	_video_position = frame;
 	
 	if (frame == 0 || !accurate) {

@@ -1,3 +1,7 @@
+2014-01-21  Carl Hetherington  <cth@carlh.net>
+
+	* Potentially major fix for bad A/V sync.
+
 2014-01-19  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.63.4 released.
