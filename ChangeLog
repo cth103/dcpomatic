@@ -1,3 +1,7 @@
+2014-01-23  Carl Hetherington  <cth@carlh.net>
+
+	* Fix recovery of DCP encoding after a crash with a 3D DCP.
+
 2014-01-21  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.63.5 released.
