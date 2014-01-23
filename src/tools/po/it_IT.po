@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2013-04-28 10:31+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -86,7 +86,7 @@ msgstr "DVD-o-matic"
 msgid "Check for updates"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:638
+#: src/tools/dcpomatic.cc:633
 msgid "Could not load film %1 (%2)"
 msgstr "Non posso caricare il film %s (%s)"
 
@@ -95,16 +95,16 @@ msgstr "Non posso caricare il film %s (%s)"
 msgid "Could not open film at %s (%s)"
 msgstr "Non posso aprire il film in %s (%s)"
 
-#: src/tools/dcpomatic.cc:513
+#: src/tools/dcpomatic.cc:508
 msgid "Could not show DCP (could not run konqueror)"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:506
+#: src/tools/dcpomatic.cc:501
 msgid "Could not show DCP (could not run nautilus)"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:596
-#: src/tools/dcpomatic.cc:649
+#: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:591
+#: src/tools/dcpomatic.cc:644
 #, fuzzy
 msgid "DCP-o-matic"
 msgstr "DVD-o-matic"
@@ -142,14 +142,14 @@ msgstr "Salvare i cambiamenti del film \"%s\" prima di chiudere?"
 msgid "Select film to open"
 msgstr "Seleziona il film da aprire"
 
-#: src/tools/dcpomatic.cc:454
+#: src/tools/dcpomatic.cc:449
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:729
+#: src/tools/dcpomatic.cc:728
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr ""
 
@@ -159,15 +159,15 @@ msgid ""
 "use it?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:724
+#: src/tools/dcpomatic.cc:723
 msgid "There are no new versions of DCP-o-matic available."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:558
+#: src/tools/dcpomatic.cc:553
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:559
+#: src/tools/dcpomatic.cc:554
 msgid "Unfinished jobs"
 msgstr ""
 

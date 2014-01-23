@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2013-11-25 19:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -36,10 +36,6 @@ msgstr "%1 images ; %2 images par seconde"
 #: src/lib/video_content.cc:200
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixels (%3:1)"
-
-#: src/lib/transcode_job.cc:81
-msgid "0%"
-msgstr "0%"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
@@ -106,11 +102,11 @@ msgstr "Format du pixel %1 non géré par %2"
 msgid "Centre"
 msgstr "Centre"
 
-#: src/lib/writer.cc:73
+#: src/lib/writer.cc:74
 msgid "Checking existing image data"
 msgstr ""
 
-#: src/lib/writer.cc:420
+#: src/lib/writer.cc:448
 msgid "Computing audio digest"
 msgstr ""
 
@@ -118,7 +114,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr ""
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:445
 msgid "Computing image digest"
 msgstr ""
 
@@ -195,7 +191,7 @@ msgstr "lecture du fichier %1 impossible"
 msgid "Could not open %1 to send"
 msgstr "Ouverture de %1 pour envoi impossible"
 
-#: src/lib/film.cc:952
+#: src/lib/film.cc:960
 msgid "Could not read DCP to make KDM for"
 msgstr "DCP illisible pour fabrication de KDM"
 
@@ -273,7 +269,7 @@ msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 msgid "Email KDMs for %1"
 msgstr ""
 
-#: src/lib/writer.cc:112
+#: src/lib/writer.cc:115
 msgid "Encoding image data"
 msgstr ""
 
@@ -483,7 +479,7 @@ msgstr ""
 "Le disque contenant le film est plein. Libérez de l'espace et essayez à "
 "nouveau."
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:383
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -509,7 +505,7 @@ msgstr "Transitional"
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: src/lib/ffmpeg_decoder.cc:278
+#: src/lib/ffmpeg_decoder.cc:274
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Échantillonnage audio (%1) inconnu"
 
@@ -541,7 +537,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/film.cc:279
+#: src/lib/film.cc:287
 msgid "You must add some content to the DCP before creating it"
 msgstr "Ajoutez un contenu pour créer le DCP"
 
@@ -567,11 +563,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:275
+#: src/lib/film.cc:283
 msgid "container"
 msgstr "conteneur"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:291
 msgid "content type"
 msgstr "type de contenu"
 
@@ -591,7 +587,7 @@ msgstr "décodeur audio introuvable"
 msgid "could not find stream information"
 msgstr "information du flux introuvable"
 
-#: src/lib/ffmpeg_decoder.cc:524
+#: src/lib/ffmpeg_decoder.cc:527
 msgid "could not find subtitle decoder"
 msgstr "décodeur de sous-titre introuvable"
 
@@ -599,7 +595,7 @@ msgstr "décodeur de sous-titre introuvable"
 msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
-#: src/lib/writer.cc:387
+#: src/lib/writer.cc:414
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr ""
 
@@ -660,7 +656,7 @@ msgstr ""
 msgid "error during async_write (%1)"
 msgstr ""
 
-#: src/lib/transcode_job.cc:94
+#: src/lib/transcode_job.cc:93
 msgid "frames per second"
 msgstr "images par seconde"
 
@@ -692,15 +688,15 @@ msgstr "paramètre %1 manquant"
 msgid "moving"
 msgstr ""
 
-#: src/lib/ffmpeg_decoder.cc:556
+#: src/lib/ffmpeg_decoder.cc:559
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:240 src/lib/film.cc:287
+#: src/lib/film.cc:240 src/lib/film.cc:295
 msgid "name"
 msgstr "nom"
 
-#: src/lib/ffmpeg_decoder.cc:571
+#: src/lib/ffmpeg_decoder.cc:574
 msgid "non-bitmap subtitles not yet supported"
 msgstr "sous-titres non-bitmap non supportés actuellement"
 
@@ -727,10 +723,13 @@ msgstr "secondes"
 msgid "still"
 msgstr "%1 [fixe]"
 
-#: src/lib/ffmpeg_examiner.cc:169
+#: src/lib/ffmpeg_examiner.cc:168
 #, fuzzy
 msgid "unknown"
 msgstr "Erreur inconnue"
+
+#~ msgid "0%"
+#~ msgstr "0%"
 
 #~ msgid "first frame in moving image directory is number %1"
 #~ msgstr "la première image dans le dossier est la numéro %1"

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
-"Language: sv_SE\n"
 
 #: src/lib/sndfile_content.cc:60
 msgid "%1 [audio]"
@@ -36,10 +36,6 @@ msgstr "%1 bilder; %2 bilder per sekund"
 #: src/lib/video_content.cc:200
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixlar (%3:1)"
-
-#: src/lib/transcode_job.cc:81
-msgid "0%"
-msgstr "0%"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
@@ -105,11 +101,11 @@ msgstr "Kan inte hantera pixelformat %1 under %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/writer.cc:73
+#: src/lib/writer.cc:74
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintligt bilddata"
 
-#: src/lib/writer.cc:420
+#: src/lib/writer.cc:448
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
@@ -117,7 +113,7 @@ msgstr "Beräknar audiosammanfattning"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:445
 msgid "Computing image digest"
 msgstr "Beräknar bildsammanfattning"
 
@@ -194,7 +190,7 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/film.cc:952
+#: src/lib/film.cc:960
 msgid "Could not read DCP to make KDM for"
 msgstr "Kunde inte läsa DCP för att skapa KDM"
 
@@ -277,7 +273,7 @@ msgstr ""
 msgid "Email KDMs for %1"
 msgstr "E-posta KDM:er för %1"
 
-#: src/lib/writer.cc:112
+#: src/lib/writer.cc:115
 msgid "Encoding image data"
 msgstr "Kodar bild-data"
 
@@ -488,7 +484,7 @@ msgstr ""
 "Enheten som filmen lagras på har för lite ledigt utrymme. Frigör utrymme och "
 "försök igen."
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:383
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -515,7 +511,7 @@ msgid "Unknown error"
 msgstr "Okänt fel"
 
 # Svengelska
-#: src/lib/ffmpeg_decoder.cc:278
+#: src/lib/ffmpeg_decoder.cc:274
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Okänt audio-sampelformat (%1)"
 
@@ -548,7 +544,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:279
+#: src/lib/film.cc:287
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
@@ -573,11 +569,11 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:275
+#: src/lib/film.cc:283
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:291
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -597,7 +593,7 @@ msgstr "kunde inte hitta audio-avkodare"
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/ffmpeg_decoder.cc:524
+#: src/lib/ffmpeg_decoder.cc:527
 msgid "could not find subtitle decoder"
 msgstr "kunde inte hitta undertext-avkodare"
 
@@ -605,7 +601,7 @@ msgstr "kunde inte hitta undertext-avkodare"
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
 
-#: src/lib/writer.cc:387
+#: src/lib/writer.cc:414
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "kunde inte flytta audio-MXF in i DCP:n (%1)"
 
@@ -666,7 +662,7 @@ msgstr "fel vid async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
-#: src/lib/transcode_job.cc:94
+#: src/lib/transcode_job.cc:93
 msgid "frames per second"
 msgstr "bilder per sekund"
 
@@ -699,15 +695,15 @@ msgstr "saknad nödvändig inställning %1"
 msgid "moving"
 msgstr "rörlig"
 
-#: src/lib/ffmpeg_decoder.cc:556
+#: src/lib/ffmpeg_decoder.cc:559
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:240 src/lib/film.cc:287
+#: src/lib/film.cc:240 src/lib/film.cc:295
 msgid "name"
 msgstr "namn"
 
-#: src/lib/ffmpeg_decoder.cc:571
+#: src/lib/ffmpeg_decoder.cc:574
 msgid "non-bitmap subtitles not yet supported"
 msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 
@@ -733,9 +729,12 @@ msgstr "sekunder"
 msgid "still"
 msgstr "stillbild"
 
-#: src/lib/ffmpeg_examiner.cc:169
+#: src/lib/ffmpeg_examiner.cc:168
 msgid "unknown"
 msgstr "okänd"
+
+#~ msgid "0%"
+#~ msgstr "0%"
 
 #, fuzzy
 #~ msgid "Examining content"

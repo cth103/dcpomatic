@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2013-04-28 10:27+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(riavviare DCP-o-matic per vedere i cambiamenti di lingua)"
 
-#: src/wx/audio_mapping_view.cc:133
+#: src/wx/audio_mapping_view.cc:135
 msgid "-3dB"
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr ""
 msgid "1 / "
 msgstr ""
 
-#: src/wx/audio_panel.cc:239
+#: src/wx/audio_panel.cc:236
 msgid "1 channel"
 msgstr "1 canale"
 
@@ -125,13 +125,13 @@ msgstr "Ritardo dell'audio"
 msgid "Audio channels"
 msgstr "canali"
 
-#: src/wx/audio_mapping_view.cc:321
+#: src/wx/audio_mapping_view.cc:325
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:324
+#: src/wx/audio_mapping_view.cc:328
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -155,7 +155,7 @@ msgstr "Sfoglia..."
 msgid "But I have to use fader"
 msgstr "Ma dovrò riprodurre con il fader a"
 
-#: src/wx/audio_mapping_view.cc:280
+#: src/wx/audio_mapping_view.cc:284
 msgid "C"
 msgstr ""
 
@@ -220,7 +220,7 @@ msgstr "Contenuto"
 msgid "Content Type"
 msgstr "Tipo di contenuto"
 
-#: src/wx/audio_mapping_view.cc:269
+#: src/wx/audio_mapping_view.cc:273
 #, fuzzy
 msgid "Content channel"
 msgstr "1 canale"
@@ -356,7 +356,7 @@ msgstr "Modifica..."
 msgid "Edit Screen..."
 msgstr "Modifica..."
 
-#: src/wx/audio_mapping_view.cc:134 src/wx/config_dialog.cc:217
+#: src/wx/audio_mapping_view.cc:136 src/wx/config_dialog.cc:217
 #: src/wx/video_panel.cc:157 src/wx/video_panel.cc:174
 #: src/wx/editable_list.h:63
 msgid "Edit..."
@@ -425,7 +425,7 @@ msgstr ""
 msgid "From address for KDM emails"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:132
+#: src/wx/audio_mapping_view.cc:134
 msgid "Full"
 msgstr ""
 
@@ -458,7 +458,7 @@ msgstr ""
 msgid "Host name or IP address"
 msgstr "Nome dell'Host o indirizzo IP"
 
-#: src/wx/audio_panel.cc:243
+#: src/wx/audio_panel.cc:240
 msgid "Hz"
 msgstr "Hz"
 
@@ -503,7 +503,7 @@ msgstr ""
 msgid "Keep video in sequence"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:272
+#: src/wx/audio_mapping_view.cc:276
 msgid "L"
 msgstr ""
 
@@ -511,7 +511,7 @@ msgstr ""
 msgid "Left crop"
 msgstr "Taglio a sinistra"
 
-#: src/wx/audio_mapping_view.cc:284
+#: src/wx/audio_mapping_view.cc:288
 msgid "Lfe"
 msgstr ""
 
@@ -519,7 +519,7 @@ msgstr ""
 msgid "Linearise input gamma curve for low values"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:288
+#: src/wx/audio_mapping_view.cc:292
 #, fuzzy
 msgid "Ls"
 msgstr "s"
@@ -580,7 +580,7 @@ msgstr "Nuovo Film"
 msgid "New versions of DCP-o-matic are available."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:319
+#: src/wx/audio_mapping_view.cc:323
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
@@ -593,7 +593,7 @@ msgstr ""
 msgid "None"
 msgstr "Nessuno"
 
-#: src/wx/audio_mapping_view.cc:131
+#: src/wx/audio_mapping_view.cc:133
 msgid "Off"
 msgstr ""
 
@@ -644,7 +644,7 @@ msgstr "Attendere prego; sto analizzando l'audio..."
 msgid "Position"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:276
+#: src/wx/audio_mapping_view.cc:280
 msgid "R"
 msgstr ""
 
@@ -692,7 +692,7 @@ msgstr ""
 msgid "Resume"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:327
+#: src/wx/audio_mapping_view.cc:331
 msgid "Right click to change gain."
 msgstr ""
 
@@ -700,7 +700,7 @@ msgstr ""
 msgid "Right crop"
 msgstr "Taglio a destra"
 
-#: src/wx/audio_mapping_view.cc:292
+#: src/wx/audio_mapping_view.cc:296
 #, fuzzy
 msgid "Rs"
 msgstr "s"
@@ -961,7 +961,7 @@ msgstr ""
 msgid "audio"
 msgstr "Audio"
 
-#: src/wx/audio_panel.cc:241
+#: src/wx/audio_panel.cc:238
 msgid "channels"
 msgstr "canali"
 

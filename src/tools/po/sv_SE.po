@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
-"Language: sv_SE\n"
 
 #: src/tools/dcpomatic.cc:366
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -85,7 +85,7 @@ msgstr "Om DCP-o-matic"
 msgid "Check for updates"
 msgstr "Leta efter uppdateringar"
 
-#: src/tools/dcpomatic.cc:638
+#: src/tools/dcpomatic.cc:633
 msgid "Could not load film %1 (%2)"
 msgstr "Kunde inte öppna filmen %1 (%2)"
 
@@ -94,16 +94,16 @@ msgstr "Kunde inte öppna filmen %1 (%2)"
 msgid "Could not open film at %s (%s)"
 msgstr "Kunde inte öppna filmen vid %s (%s)"
 
-#: src/tools/dcpomatic.cc:513
+#: src/tools/dcpomatic.cc:508
 msgid "Could not show DCP (could not run konqueror)"
 msgstr "Kunde inte visa DCP (kunde inte köra konqueror)"
 
-#: src/tools/dcpomatic.cc:506
+#: src/tools/dcpomatic.cc:501
 msgid "Could not show DCP (could not run nautilus)"
 msgstr "Kunde inte visa DCP (kunde inte köra nautilus)"
 
-#: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:596
-#: src/tools/dcpomatic.cc:649
+#: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:591
+#: src/tools/dcpomatic.cc:644
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -140,7 +140,7 @@ msgstr "Spara ändringarna till filmen \"%s\" före avslut?"
 msgid "Select film to open"
 msgstr "Välj film att öppna"
 
-#: src/tools/dcpomatic.cc:454
+#: src/tools/dcpomatic.cc:449
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
@@ -149,7 +149,7 @@ msgstr ""
 "DCP:n för denna film kommer att uppta ungefär %.1f Gb, och disken du "
 "använder har bara %.1f Gb ledigt. Vill du fortsätta ändå?"
 
-#: src/tools/dcpomatic.cc:729
+#: src/tools/dcpomatic.cc:728
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "DCP-o-matics nedladdningsserver kunde inte kontaktas."
 
@@ -161,15 +161,15 @@ msgstr ""
 "Foldern %1 finns redan och är inte tom. Är du säker på att du vill använda "
 "den?"
 
-#: src/tools/dcpomatic.cc:724
+#: src/tools/dcpomatic.cc:723
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Det finns inga nya versioner av DCP-o-matic tillgängligt."
 
-#: src/tools/dcpomatic.cc:558
+#: src/tools/dcpomatic.cc:553
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Det finns oasvlutade jobb; är du säker på att du vill avsluta?"
 
-#: src/tools/dcpomatic.cc:559
+#: src/tools/dcpomatic.cc:554
 msgid "Unfinished jobs"
 msgstr "Oavslutade jobb"
 

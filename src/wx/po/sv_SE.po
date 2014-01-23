@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
-"Language: sv_SE\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
 msgid "%"
@@ -35,7 +35,7 @@ msgstr "(lösenord sparas på disk i klartext)"
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(starta om DCP-o-matic för att se språkändringar)"
 
-#: src/wx/audio_mapping_view.cc:133
+#: src/wx/audio_mapping_view.cc:135
 msgid "-3dB"
 msgstr "-3dB"
 
@@ -43,7 +43,7 @@ msgstr "-3dB"
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/audio_panel.cc:239
+#: src/wx/audio_panel.cc:236
 msgid "1 channel"
 msgstr "1 kanal"
 
@@ -123,7 +123,7 @@ msgstr "Audioström"
 msgid "Audio channels"
 msgstr "Audio-kanaler"
 
-#: src/wx/audio_mapping_view.cc:321
+#: src/wx/audio_mapping_view.cc:325
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
@@ -131,7 +131,7 @@ msgstr ""
 "Audio kommer att överföras från innehållskanal %d till DCP-kanal %d "
 "oförändrad."
 
-#: src/wx/audio_mapping_view.cc:324
+#: src/wx/audio_mapping_view.cc:328
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -157,7 +157,7 @@ msgstr "Bläddra..."
 msgid "But I have to use fader"
 msgstr "Men jag måste använda mixervolym"
 
-#: src/wx/audio_mapping_view.cc:280
+#: src/wx/audio_mapping_view.cc:284
 msgid "C"
 msgstr "C"
 
@@ -218,7 +218,7 @@ msgstr "Innehåll"
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: src/wx/audio_mapping_view.cc:269
+#: src/wx/audio_mapping_view.cc:273
 msgid "Content channel"
 msgstr "Innehållskanal"
 
@@ -345,7 +345,7 @@ msgstr "Redigera Cinema..."
 msgid "Edit Screen..."
 msgstr "Redigera Skärm..."
 
-#: src/wx/audio_mapping_view.cc:134 src/wx/config_dialog.cc:217
+#: src/wx/audio_mapping_view.cc:136 src/wx/config_dialog.cc:217
 #: src/wx/video_panel.cc:157 src/wx/video_panel.cc:174
 #: src/wx/editable_list.h:63
 msgid "Edit..."
@@ -412,7 +412,7 @@ msgstr "Avsändare"
 msgid "From address for KDM emails"
 msgstr "Avsändare för KDM-mejl"
 
-#: src/wx/audio_mapping_view.cc:132
+#: src/wx/audio_mapping_view.cc:134
 msgid "Full"
 msgstr "Full"
 
@@ -445,7 +445,7 @@ msgstr "Dator"
 msgid "Host name or IP address"
 msgstr "Datornamn eller IP-adress"
 
-#: src/wx/audio_panel.cc:243
+#: src/wx/audio_panel.cc:240
 msgid "Hz"
 msgstr "Hz"
 
@@ -490,7 +490,7 @@ msgstr "KDM mejl"
 msgid "Keep video in sequence"
 msgstr "Behåll video i sekvens"
 
-#: src/wx/audio_mapping_view.cc:272
+#: src/wx/audio_mapping_view.cc:276
 msgid "L"
 msgstr "V"
 
@@ -498,7 +498,7 @@ msgstr "V"
 msgid "Left crop"
 msgstr "Vänster beskärning"
 
-#: src/wx/audio_mapping_view.cc:284
+#: src/wx/audio_mapping_view.cc:288
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -506,7 +506,7 @@ msgstr "Lfe"
 msgid "Linearise input gamma curve for low values"
 msgstr "Linjärisera indatas gammakurva för låga värden"
 
-#: src/wx/audio_mapping_view.cc:288
+#: src/wx/audio_mapping_view.cc:292
 msgid "Ls"
 msgstr "Vs"
 
@@ -564,7 +564,7 @@ msgstr "Ny Film"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Nya versioner av DCP-o-matic finns tillgängligt."
 
-#: src/wx/audio_mapping_view.cc:319
+#: src/wx/audio_mapping_view.cc:323
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
@@ -579,7 +579,7 @@ msgstr "Ingen utsträckning"
 msgid "None"
 msgstr "Inget"
 
-#: src/wx/audio_mapping_view.cc:131
+#: src/wx/audio_mapping_view.cc:133
 msgid "Off"
 msgstr "Av"
 
@@ -628,7 +628,7 @@ msgstr "Vänligen vänta; audio analyseras..."
 msgid "Position"
 msgstr "Position"
 
-#: src/wx/audio_mapping_view.cc:276
+#: src/wx/audio_mapping_view.cc:280
 msgid "R"
 msgstr "H"
 
@@ -674,7 +674,7 @@ msgstr "Upplösning"
 msgid "Resume"
 msgstr "Fortsätt"
 
-#: src/wx/audio_mapping_view.cc:327
+#: src/wx/audio_mapping_view.cc:331
 msgid "Right click to change gain."
 msgstr "Högerklicka för att ändra förstärkning."
 
@@ -682,7 +682,7 @@ msgstr "Högerklicka för att ändra förstärkning."
 msgid "Right crop"
 msgstr "Höger beskärning"
 
-#: src/wx/audio_mapping_view.cc:292
+#: src/wx/audio_mapping_view.cc:296
 msgid "Rs"
 msgstr "Hs"
 
@@ -941,7 +941,7 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/audio_panel.cc:241
+#: src/wx/audio_panel.cc:238
 msgid "channels"
 msgstr "kanaler"
 

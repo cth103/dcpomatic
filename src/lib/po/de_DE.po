@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2014-01-14 19:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,10 +37,6 @@ msgstr "%1 Bilder; %2 Bilder pro Sekunde"
 #: src/lib/video_content.cc:200
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixel (%3:1)"
-
-#: src/lib/transcode_job.cc:81
-msgid "0%"
-msgstr "0%"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
@@ -106,11 +102,11 @@ msgstr "Cannot handle pixel format %1 during %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/writer.cc:73
+#: src/lib/writer.cc:74
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
-#: src/lib/writer.cc:420
+#: src/lib/writer.cc:448
 msgid "Computing audio digest"
 msgstr "Ton berechnen"
 
@@ -118,7 +114,7 @@ msgstr "Ton berechnen"
 msgid "Computing digest"
 msgstr "Teil berechnen"
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:445
 msgid "Computing image digest"
 msgstr "Bild berechnen"
 
@@ -194,7 +190,7 @@ msgstr "%1 konnte nicht geöffnet werden."
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum senden geöffnet werden"
 
-#: src/lib/film.cc:952
+#: src/lib/film.cc:960
 msgid "Could not read DCP to make KDM for"
 msgstr "DCP konnte nicht zur Schlüsselerstellung geöffnet werden"
 
@@ -277,7 +273,7 @@ msgstr "Jedes Bild des Inhalts wird %1 mal im DCP wiederholt.\n"
 msgid "Email KDMs for %1"
 msgstr "Email KDMs für %1"
 
-#: src/lib/writer.cc:112
+#: src/lib/writer.cc:115
 msgid "Encoding image data"
 msgstr "Bilddaten bearbeiten"
 
@@ -487,7 +483,7 @@ msgstr ""
 "Das Laufwer auf dem der Film gespeichert werden soll hat zu wenig Freien "
 "Speicher. Bitte Speicher freigeben und nochmals versuchen."
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:383
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -513,7 +509,7 @@ msgstr "Übergang"
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: src/lib/ffmpeg_decoder.cc:278
+#: src/lib/ffmpeg_decoder.cc:274
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Ton Sample Format (%1) nicht erkannt."
 
@@ -545,7 +541,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Noch ein anderer De-Interlacer"
 
-#: src/lib/film.cc:279
+#: src/lib/film.cc:287
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen einen Inhalt hinzufügen bevor Sie ein DCP erstellen können."
 
@@ -569,11 +565,11 @@ msgstr "Zeit zur Verbindung abgelaufen"
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:275
+#: src/lib/film.cc:283
 msgid "container"
 msgstr "Container"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:291
 msgid "content type"
 msgstr "Inhalt Typ"
 
@@ -593,7 +589,7 @@ msgstr "Kein Ton Decoder gefunden."
 msgid "could not find stream information"
 msgstr "Keine Spur-Information gefunden"
 
-#: src/lib/ffmpeg_decoder.cc:524
+#: src/lib/ffmpeg_decoder.cc:527
 msgid "could not find subtitle decoder"
 msgstr "Untertitel-Decoder nicht gefunden"
 
@@ -601,7 +597,7 @@ msgstr "Untertitel-Decoder nicht gefunden"
 msgid "could not find video decoder"
 msgstr "Bild-Decoder nicht gefunden"
 
-#: src/lib/writer.cc:387
+#: src/lib/writer.cc:414
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "Ton MXF kann nicht in das DCP verschoben werden (%1)"
 
@@ -661,7 +657,7 @@ msgstr "error during async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
 
-#: src/lib/transcode_job.cc:94
+#: src/lib/transcode_job.cc:93
 msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
@@ -693,15 +689,15 @@ msgstr "Benötigte Einstellung %1 fehlt"
 msgid "moving"
 msgstr "wird verschoben"
 
-#: src/lib/ffmpeg_decoder.cc:556
+#: src/lib/ffmpeg_decoder.cc:559
 msgid "multi-part subtitles not yet supported"
 msgstr "Multi-Part Untertitel noch nicht unterstützt"
 
-#: src/lib/film.cc:240 src/lib/film.cc:287
+#: src/lib/film.cc:240 src/lib/film.cc:295
 msgid "name"
 msgstr "Name"
 
-#: src/lib/ffmpeg_decoder.cc:571
+#: src/lib/ffmpeg_decoder.cc:574
 msgid "non-bitmap subtitles not yet supported"
 msgstr "Nur Bitmap Untertitel werden unterstützt"
 
@@ -727,9 +723,12 @@ msgstr "Sekunden"
 msgid "still"
 msgstr "Standbild"
 
-#: src/lib/ffmpeg_examiner.cc:169
+#: src/lib/ffmpeg_examiner.cc:168
 msgid "unknown"
 msgstr "unbekannt"
+
+#~ msgid "0%"
+#~ msgstr "0%"
 
 #~ msgid "first frame in moving image directory is number %1"
 #~ msgstr "Erstes Bild im Bilderordner ist Nummer %1"
