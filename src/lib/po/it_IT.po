@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2013-04-28 10:26+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -37,10 +37,6 @@ msgstr "fotogrammi al secondo"
 #: src/lib/video_content.cc:200
 msgid "%1x%2 pixels (%3:1)"
 msgstr ""
-
-#: src/lib/transcode_job.cc:81
-msgid "0%"
-msgstr "0%"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
@@ -107,11 +103,11 @@ msgstr "Non posso gestire il formato di pixel %1 durante %2"
 msgid "Centre"
 msgstr "Centro"
 
-#: src/lib/writer.cc:73
+#: src/lib/writer.cc:74
 msgid "Checking existing image data"
 msgstr ""
 
-#: src/lib/writer.cc:420
+#: src/lib/writer.cc:448
 msgid "Computing audio digest"
 msgstr ""
 
@@ -119,7 +115,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr ""
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:445
 msgid "Computing image digest"
 msgstr ""
 
@@ -197,7 +193,7 @@ msgstr "non riesco ad aprire %1"
 msgid "Could not open %1 to send"
 msgstr "Non posso aprire %1 da inviare"
 
-#: src/lib/film.cc:952
+#: src/lib/film.cc:960
 msgid "Could not read DCP to make KDM for"
 msgstr ""
 
@@ -275,7 +271,7 @@ msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
 msgid "Email KDMs for %1"
 msgstr ""
 
-#: src/lib/writer.cc:112
+#: src/lib/writer.cc:115
 msgid "Encoding image data"
 msgstr ""
 
@@ -486,7 +482,7 @@ msgstr ""
 "Sul disco dove è memorizzato il film non c'è abbastanza spazio. Liberare "
 "altro spazio e riprovare."
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:383
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -509,7 +505,7 @@ msgstr "Di transizione"
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
-#: src/lib/ffmpeg_decoder.cc:278
+#: src/lib/ffmpeg_decoder.cc:274
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato di campionamento audio non riconosciuto (%1)"
 
@@ -541,7 +537,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/film.cc:279
+#: src/lib/film.cc:287
 msgid "You must add some content to the DCP before creating it"
 msgstr ""
 
@@ -566,12 +562,12 @@ msgstr "connessione scaduta"
 msgid "connecting"
 msgstr "mi sto connettendo"
 
-#: src/lib/film.cc:275
+#: src/lib/film.cc:283
 #, fuzzy
 msgid "container"
 msgstr "contenuto"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:291
 msgid "content type"
 msgstr "tipo di contenuto"
 
@@ -591,7 +587,7 @@ msgstr "non riesco a trovare il decoder audio"
 msgid "could not find stream information"
 msgstr "non riesco a trovare informazioni sullo streaming"
 
-#: src/lib/ffmpeg_decoder.cc:524
+#: src/lib/ffmpeg_decoder.cc:527
 msgid "could not find subtitle decoder"
 msgstr "non riesco a trovare il decoder dei sottotitoli"
 
@@ -599,7 +595,7 @@ msgstr "non riesco a trovare il decoder dei sottotitoli"
 msgid "could not find video decoder"
 msgstr "non riesco a trovare il decoder video"
 
-#: src/lib/writer.cc:387
+#: src/lib/writer.cc:414
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr ""
 
@@ -662,7 +658,7 @@ msgstr ""
 msgid "error during async_write (%1)"
 msgstr ""
 
-#: src/lib/transcode_job.cc:94
+#: src/lib/transcode_job.cc:93
 msgid "frames per second"
 msgstr "fotogrammi al secondo"
 
@@ -694,15 +690,15 @@ msgstr "persa la regolazione richiesta %1"
 msgid "moving"
 msgstr ""
 
-#: src/lib/ffmpeg_decoder.cc:556
+#: src/lib/ffmpeg_decoder.cc:559
 msgid "multi-part subtitles not yet supported"
 msgstr "sottotitoli multi-part non ancora supportati"
 
-#: src/lib/film.cc:240 src/lib/film.cc:287
+#: src/lib/film.cc:240 src/lib/film.cc:295
 msgid "name"
 msgstr "nome"
 
-#: src/lib/ffmpeg_decoder.cc:571
+#: src/lib/ffmpeg_decoder.cc:574
 msgid "non-bitmap subtitles not yet supported"
 msgstr "sottotitoli non-bitmap non ancora supportati"
 
@@ -729,10 +725,13 @@ msgstr "secondi"
 msgid "still"
 msgstr "ancora"
 
-#: src/lib/ffmpeg_examiner.cc:169
+#: src/lib/ffmpeg_examiner.cc:168
 #, fuzzy
 msgid "unknown"
 msgstr "Errore sconosciuto"
+
+#~ msgid "0%"
+#~ msgstr "0%"
 
 #, fuzzy
 #~ msgid "Examining content"

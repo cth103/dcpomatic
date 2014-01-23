@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2014-01-14 20:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr "(Passwort wird in Klartext gespeichert)"
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(DCP-o-matic zum ändern der Sprache neu starten)"
 
-#: src/wx/audio_mapping_view.cc:133
+#: src/wx/audio_mapping_view.cc:135
 msgid "-3dB"
 msgstr "-3dB"
 
@@ -44,7 +44,7 @@ msgstr "-3dB"
 msgid "1 / "
 msgstr "1/"
 
-#: src/wx/audio_panel.cc:239
+#: src/wx/audio_panel.cc:236
 msgid "1 channel"
 msgstr "1 Kanal"
 
@@ -124,14 +124,14 @@ msgstr "Tonspur"
 msgid "Audio channels"
 msgstr "Ton Kanäle"
 
-#: src/wx/audio_mapping_view.cc:321
+#: src/wx/audio_mapping_view.cc:325
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
 "Der Ton von Kanal %d wird ohne Veränderung an das DCP Kanal %d weitergegeben."
 
-#: src/wx/audio_mapping_view.cc:324
+#: src/wx/audio_mapping_view.cc:328
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -157,7 +157,7 @@ msgstr "Durchsuchen..."
 msgid "But I have to use fader"
 msgstr "Aber ich muss diese Lautstärke benutzen"
 
-#: src/wx/audio_mapping_view.cc:280
+#: src/wx/audio_mapping_view.cc:284
 msgid "C"
 msgstr "C"
 
@@ -218,7 +218,7 @@ msgstr "Inhalt"
 msgid "Content Type"
 msgstr "Inhalt Typ"
 
-#: src/wx/audio_mapping_view.cc:269
+#: src/wx/audio_mapping_view.cc:273
 msgid "Content channel"
 msgstr "Inhalt Kanal"
 
@@ -344,7 +344,7 @@ msgstr "Kino bearbeiten..."
 msgid "Edit Screen..."
 msgstr "Saal bearbeiten..."
 
-#: src/wx/audio_mapping_view.cc:134 src/wx/config_dialog.cc:217
+#: src/wx/audio_mapping_view.cc:136 src/wx/config_dialog.cc:217
 #: src/wx/video_panel.cc:157 src/wx/video_panel.cc:174
 #: src/wx/editable_list.h:63
 msgid "Edit..."
@@ -410,7 +410,7 @@ msgstr "Von"
 msgid "From address for KDM emails"
 msgstr "Von Adresse für KDM Emails"
 
-#: src/wx/audio_mapping_view.cc:132
+#: src/wx/audio_mapping_view.cc:134
 msgid "Full"
 msgstr "Ein"
 
@@ -443,7 +443,7 @@ msgstr "Host"
 msgid "Host name or IP address"
 msgstr "Host Name oder IP-Adresse"
 
-#: src/wx/audio_panel.cc:243
+#: src/wx/audio_panel.cc:240
 msgid "Hz"
 msgstr "Hz"
 
@@ -487,7 +487,7 @@ msgstr "KDM Email"
 msgid "Keep video in sequence"
 msgstr "Bildreihenfolge behalten"
 
-#: src/wx/audio_mapping_view.cc:272
+#: src/wx/audio_mapping_view.cc:276
 msgid "L"
 msgstr "L"
 
@@ -495,7 +495,7 @@ msgstr "L"
 msgid "Left crop"
 msgstr "Links beschneiden"
 
-#: src/wx/audio_mapping_view.cc:284
+#: src/wx/audio_mapping_view.cc:288
 msgid "Lfe"
 msgstr "LFE"
 
@@ -503,7 +503,7 @@ msgstr "LFE"
 msgid "Linearise input gamma curve for low values"
 msgstr "Linearisiere Eingangs Gamma für niedrige Werte"
 
-#: src/wx/audio_mapping_view.cc:288
+#: src/wx/audio_mapping_view.cc:292
 msgid "Ls"
 msgstr "SL"
 
@@ -560,7 +560,7 @@ msgstr "Neuer Film"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Eine neue Version von DCP-o-matic ist verfügbar."
 
-#: src/wx/audio_mapping_view.cc:319
+#: src/wx/audio_mapping_view.cc:323
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Der Ton von Kanal %d wird nicht an das DCP Kanal %d weitergegeben."
@@ -573,7 +573,7 @@ msgstr "Ohne Zerrung"
 msgid "None"
 msgstr "Kein"
 
-#: src/wx/audio_mapping_view.cc:131
+#: src/wx/audio_mapping_view.cc:133
 msgid "Off"
 msgstr "Aus"
 
@@ -622,7 +622,7 @@ msgstr "Bitte warten; Ton wird analysiert..."
 msgid "Position"
 msgstr "Position"
 
-#: src/wx/audio_mapping_view.cc:276
+#: src/wx/audio_mapping_view.cc:280
 msgid "R"
 msgstr "R"
 
@@ -667,7 +667,7 @@ msgstr "Auflösung"
 msgid "Resume"
 msgstr "Neustart"
 
-#: src/wx/audio_mapping_view.cc:327
+#: src/wx/audio_mapping_view.cc:331
 msgid "Right click to change gain."
 msgstr "Rechtsklick für Pegeländerung"
 
@@ -675,7 +675,7 @@ msgstr "Rechtsklick für Pegeländerung"
 msgid "Right crop"
 msgstr "Rechts beschneiden"
 
-#: src/wx/audio_mapping_view.cc:292
+#: src/wx/audio_mapping_view.cc:296
 msgid "Rs"
 msgstr "SR"
 
@@ -933,7 +933,7 @@ msgstr ""
 msgid "audio"
 msgstr "Ton"
 
-#: src/wx/audio_panel.cc:241
+#: src/wx/audio_panel.cc:238
 msgid "channels"
 msgstr "Kanäle"
 

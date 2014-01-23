@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2013-11-25 19:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -37,7 +37,7 @@ msgid "(restart DCP-o-matic to see language changes)"
 msgstr ""
 "(redémarrez DCP-o-matic pour que les changements de langue prennent effet)"
 
-#: src/wx/audio_mapping_view.cc:133
+#: src/wx/audio_mapping_view.cc:135
 msgid "-3dB"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr ""
 msgid "1 / "
 msgstr ""
 
-#: src/wx/audio_panel.cc:239
+#: src/wx/audio_panel.cc:236
 msgid "1 channel"
 msgstr "1 canal"
 
@@ -125,13 +125,13 @@ msgstr "Flux audio"
 msgid "Audio channels"
 msgstr "Canaux audios"
 
-#: src/wx/audio_mapping_view.cc:321
+#: src/wx/audio_mapping_view.cc:325
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:324
+#: src/wx/audio_mapping_view.cc:328
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -155,7 +155,7 @@ msgstr "Parcourir..."
 msgid "But I have to use fader"
 msgstr "Je souhaite utiliser ce volume"
 
-#: src/wx/audio_mapping_view.cc:280
+#: src/wx/audio_mapping_view.cc:284
 msgid "C"
 msgstr "C"
 
@@ -218,7 +218,7 @@ msgstr "Contenu"
 msgid "Content Type"
 msgstr "Type de Contenu"
 
-#: src/wx/audio_mapping_view.cc:269
+#: src/wx/audio_mapping_view.cc:273
 msgid "Content channel"
 msgstr "Contenu audio"
 
@@ -346,7 +346,7 @@ msgstr "Éditer le cinéma"
 msgid "Edit Screen..."
 msgstr "Éditer la salle"
 
-#: src/wx/audio_mapping_view.cc:134 src/wx/config_dialog.cc:217
+#: src/wx/audio_mapping_view.cc:136 src/wx/config_dialog.cc:217
 #: src/wx/video_panel.cc:157 src/wx/video_panel.cc:174
 #: src/wx/editable_list.h:63
 msgid "Edit..."
@@ -413,7 +413,7 @@ msgstr "À partir du"
 msgid "From address for KDM emails"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:132
+#: src/wx/audio_mapping_view.cc:134
 msgid "Full"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgstr ""
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
-#: src/wx/audio_panel.cc:243
+#: src/wx/audio_panel.cc:240
 msgid "Hz"
 msgstr "Hz"
 
@@ -491,7 +491,7 @@ msgstr "e-mail des KDM"
 msgid "Keep video in sequence"
 msgstr "Garder la vidéo en séquence"
 
-#: src/wx/audio_mapping_view.cc:272
+#: src/wx/audio_mapping_view.cc:276
 msgid "L"
 msgstr "L"
 
@@ -499,7 +499,7 @@ msgstr "L"
 msgid "Left crop"
 msgstr "Découpe gauche"
 
-#: src/wx/audio_mapping_view.cc:284
+#: src/wx/audio_mapping_view.cc:288
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -507,7 +507,7 @@ msgstr "Lfe"
 msgid "Linearise input gamma curve for low values"
 msgstr "Linéariser la courbe gamma d'entrée pour les bas niveaux"
 
-#: src/wx/audio_mapping_view.cc:288
+#: src/wx/audio_mapping_view.cc:292
 msgid "Ls"
 msgstr "Ls"
 
@@ -567,7 +567,7 @@ msgstr "Nouveau Film"
 msgid "New versions of DCP-o-matic are available."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:319
+#: src/wx/audio_mapping_view.cc:323
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
@@ -580,7 +580,7 @@ msgstr "Pas d'étirement"
 msgid "None"
 msgstr "Aucun"
 
-#: src/wx/audio_mapping_view.cc:131
+#: src/wx/audio_mapping_view.cc:133
 msgid "Off"
 msgstr ""
 
@@ -629,7 +629,7 @@ msgstr "Merci de patienter ; analyse de la piste son..."
 msgid "Position"
 msgstr "Position"
 
-#: src/wx/audio_mapping_view.cc:276
+#: src/wx/audio_mapping_view.cc:280
 msgid "R"
 msgstr "R"
 
@@ -674,7 +674,7 @@ msgstr "Résolution"
 msgid "Resume"
 msgstr "Reprendre"
 
-#: src/wx/audio_mapping_view.cc:327
+#: src/wx/audio_mapping_view.cc:331
 msgid "Right click to change gain."
 msgstr ""
 
@@ -682,7 +682,7 @@ msgstr ""
 msgid "Right crop"
 msgstr "Découpe droite"
 
-#: src/wx/audio_mapping_view.cc:292
+#: src/wx/audio_mapping_view.cc:296
 msgid "Rs"
 msgstr "Rs"
 
@@ -931,7 +931,7 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/audio_panel.cc:241
+#: src/wx/audio_panel.cc:238
 msgid "channels"
 msgstr "canaux"
 

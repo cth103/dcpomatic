@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-07 20:01+0000\n"
+"POT-Creation-Date: 2014-01-23 00:18+0000\n"
 "PO-Revision-Date: 2013-11-09 02:47-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -86,7 +86,7 @@ msgstr "DVD-o-matic"
 msgid "Check for updates"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:638
+#: src/tools/dcpomatic.cc:633
 #, fuzzy
 msgid "Could not load film %1 (%2)"
 msgstr "No se pudo cargar la película %s (%s)"
@@ -96,16 +96,16 @@ msgstr "No se pudo cargar la película %s (%s)"
 msgid "Could not open film at %s (%s)"
 msgstr "No se pudo cargar la película en %s (%s)"
 
-#: src/tools/dcpomatic.cc:513
+#: src/tools/dcpomatic.cc:508
 msgid "Could not show DCP (could not run konqueror)"
 msgstr "No se pudo mostrar el DCP (no se pudo ejecutar konqueror)"
 
-#: src/tools/dcpomatic.cc:506
+#: src/tools/dcpomatic.cc:501
 msgid "Could not show DCP (could not run nautilus)"
 msgstr "No se pudo mostrar el DCP (no se pudo ejecutar nautilus)"
 
-#: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:596
-#: src/tools/dcpomatic.cc:649
+#: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:591
+#: src/tools/dcpomatic.cc:644
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -142,14 +142,14 @@ msgstr "Guardar cambios de la película \"%s\" antes de cerrar?"
 msgid "Select film to open"
 msgstr "Selecciona la película a abrir"
 
-#: src/tools/dcpomatic.cc:454
+#: src/tools/dcpomatic.cc:449
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:729
+#: src/tools/dcpomatic.cc:728
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr ""
 
@@ -160,15 +160,15 @@ msgid ""
 msgstr ""
 "El directorio %1 ya existe y no está vacío. ¿Estás seguro de querer usarlo?"
 
-#: src/tools/dcpomatic.cc:724
+#: src/tools/dcpomatic.cc:723
 msgid "There are no new versions of DCP-o-matic available."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:558
+#: src/tools/dcpomatic.cc:553
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Hay trabajos sin finalizar; ¿estás seguro de querer cerrar?"
 
-#: src/tools/dcpomatic.cc:559
+#: src/tools/dcpomatic.cc:554
 msgid "Unfinished jobs"
 msgstr "Trabajos sin finalizar"
 

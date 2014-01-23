@@ -104,7 +104,7 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
 	FILE* ref_file = fopen (ref.c_str(), "rb");
 	BOOST_CHECK (ref_file);
-	FILE* check_file = fopen (check.c_str(), "rb");
+	FILE* check_file = fopen_boost (check, "rb");
 	BOOST_CHECK (check_file);
 	
 	int const buffer_size = 65536;
