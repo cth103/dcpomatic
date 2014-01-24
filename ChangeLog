@@ -1,3 +1,7 @@
+2014-01-24  Carl Hetherington  <cth@carlh.net>
+
+	* Try to fix repeatedly-reported exceptions.
+
 2014-01-23  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.63.6 released.
