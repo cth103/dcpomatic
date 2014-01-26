@@ -63,7 +63,7 @@ Config::Config ()
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
-	, _default_j2k_bandwidth (200000000)
+	, _default_j2k_bandwidth (100000000)
 	, _default_audio_delay (0)
 	, _kdm_email (
 		_("Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nThe KDMs are valid from $START_TIME until $END_TIME.\n\nBest regards,\nDCP-o-matic")
