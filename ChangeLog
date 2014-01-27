@@ -1,3 +1,7 @@
+2014-01-28  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to not install main program / server on Windows.
+
 2014-01-26  Carl Hetherington  <cth@carlh.net>
 
 	* Change default JPEG2000 bandwith to 100MBps.
