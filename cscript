@@ -123,7 +123,7 @@ def make_control(version, bits, filename, debug):
             print >>f,'Architecture: amd64'
         print >>f,'Section: debug'
         print >>f,'Priority: extra'
-        print >>f,'Depends: ${dcpomatic:Depends}, ${misc:Depends}'
+        packages('Depends', depends[version], f)
         print >>f,'Description: debugging symbols for dcpomatic'
         print >>f,'  This package contains the debugging symbols for dcpomatic.'
         print >>f,''
