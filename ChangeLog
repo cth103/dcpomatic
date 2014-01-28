@@ -1,5 +1,7 @@
 2014-01-28  Carl Hetherington  <cth@carlh.net>
 
+	* Use Mbit/s instead of the incorrect MBps.
+
 	* Try to prevent Windows machines going to sleep during encodes.
 
 	* Add option to not install main program / server on Windows.
