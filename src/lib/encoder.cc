@@ -180,6 +180,8 @@ Encoder::frame_done ()
 void
 Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
 {
+	kick ();
+	
 	boost::mutex::scoped_lock lock (_mutex);
 
 	/* XXX: discard 3D here if required */

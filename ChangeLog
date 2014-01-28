@@ -1,3 +1,7 @@
+2014-01-28  Carl Hetherington  <cth@carlh.net>
+
+	* Try to prevent Windows machines going to sleep during encodes.
+
 2014-01-26  Carl Hetherington  <cth@carlh.net>
 
 	* Change default JPEG2000 bandwith to 100MBps.

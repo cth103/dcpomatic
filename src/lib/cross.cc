@@ -298,3 +298,11 @@ dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
 	return fseek (stream, offset, whence);
 #endif	
 }
+
+void
+kick ()
+{
+#ifdef DCPOMATIC_WINDOWS
+	SetThreadExecutionState (ES_CONTINUOUS);
+#endif	
+}
