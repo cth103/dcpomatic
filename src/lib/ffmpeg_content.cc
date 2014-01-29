@@ -62,7 +62,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 	: Content (f, node)
 	, VideoContent (f, node)
 	, AudioContent (f, node)
-	, SubtitleContent (f, node)
+	, SubtitleContent (f, node, version)
 {
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {

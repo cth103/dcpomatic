@@ -1,5 +1,7 @@
 2014-01-29  Carl Hetherington  <cth@carlh.net>
 
+	* Add subtitle X offset option.
+
 	* Fix missing subtitles when subtitled content is at a non-zero position.
 
 2014-01-28  Carl Hetherington  <cth@carlh.net>

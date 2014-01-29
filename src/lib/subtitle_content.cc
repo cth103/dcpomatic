@@ -30,25 +30,34 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
-int const SubtitleContentProperty::SUBTITLE_OFFSET = 500;
-int const SubtitleContentProperty::SUBTITLE_SCALE = 501;
+int const SubtitleContentProperty::SUBTITLE_X_OFFSET = 500;
+int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
+int const SubtitleContentProperty::SUBTITLE_SCALE = 502;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
-	, _subtitle_offset (0)
+	, _subtitle_x_offset (0)
+	, _subtitle_y_offset (0)
 	, _subtitle_scale (1)
 {
 
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
 	: Content (f, node)
-	, _subtitle_offset (0)
+	, _subtitle_x_offset (0)
+	, _subtitle_y_offset (0)
 	, _subtitle_scale (1)
 {
 	LocaleGuard lg;
+
+	if (version >= 7) {
+		_subtitle_x_offset = node->number_child<float> ("SubtitleXOffset");
+		_subtitle_y_offset = node->number_child<float> ("SubtitleYOffset");
+	} else {
+		_subtitle_y_offset = node->number_child<float> ("SubtitleOffset");
+	}
 	
-	_subtitle_offset = node->number_child<float> ("SubtitleOffset");
 	_subtitle_scale = node->number_child<float> ("SubtitleScale");
 }
 
@@ -61,8 +70,12 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c[i]);
 
-		if (sc->subtitle_offset() != ref->subtitle_offset()) {
-			throw JoinError (_("Content to be joined must have the same subtitle offset."));
+		if (sc->subtitle_x_offset() != ref->subtitle_x_offset()) {
+			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
+		}
+		
+		if (sc->subtitle_y_offset() != ref->subtitle_y_offset()) {
+			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
 
 		if (sc->subtitle_scale() != ref->subtitle_scale()) {
@@ -70,7 +83,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 		}
 	}
 
-	_subtitle_offset = ref->subtitle_offset ();
+	_subtitle_x_offset = ref->subtitle_x_offset ();
+	_subtitle_y_offset = ref->subtitle_y_offset ();
 	_subtitle_scale = ref->subtitle_scale ();
 }
 
@@ -79,18 +93,29 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 {
 	LocaleGuard lg;
 	
-	root->add_child("SubtitleOffset")->add_child_text (lexical_cast<string> (_subtitle_offset));
+	root->add_child("SubtitleXOffset")->add_child_text (lexical_cast<string> (_subtitle_x_offset));
+	root->add_child("SubtitleYOffset")->add_child_text (lexical_cast<string> (_subtitle_y_offset));
 	root->add_child("SubtitleScale")->add_child_text (lexical_cast<string> (_subtitle_scale));
 }
 
 void
-SubtitleContent::set_subtitle_offset (double o)
+SubtitleContent::set_subtitle_x_offset (double o)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_offset = o;
+		_subtitle_x_offset = o;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_OFFSET);
+	signal_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
+}
+
+void
+SubtitleContent::set_subtitle_y_offset (double o)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_subtitle_y_offset = o;
+	}
+	signal_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
 }
 
 void

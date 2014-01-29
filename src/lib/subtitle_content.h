@@ -25,7 +25,8 @@
 class SubtitleContentProperty
 {
 public:
-	static int const SUBTITLE_OFFSET;
+	static int const SUBTITLE_X_OFFSET;
+	static int const SUBTITLE_Y_OFFSET;
 	static int const SUBTITLE_SCALE;
 };
 
@@ -33,17 +34,23 @@ class SubtitleContent : public virtual Content
 {
 public:
 	SubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	SubtitleContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	SubtitleContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int version);
 	SubtitleContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 	
 	void as_xml (xmlpp::Node *) const;
 
-	void set_subtitle_offset (double);
+	void set_subtitle_x_offset (double);
+	void set_subtitle_y_offset (double);
 	void set_subtitle_scale (double);
 
-	double subtitle_offset () const {
+	double subtitle_x_offset () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_offset;
+		return _subtitle_x_offset;
+	}
+
+	double subtitle_y_offset () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _subtitle_y_offset;
 	}
 
 	double subtitle_scale () const {
@@ -53,11 +60,15 @@ public:
 	
 private:
 	friend class ffmpeg_pts_offset_test;
-	
+
+	/** x offset for placing subtitles, as a proportion of the container width;
+	 * +ve is further right, -ve is further left.
+	 */
+	double _subtitle_x_offset;
 	/** y offset for placing subtitles, as a proportion of the container height;
-	    +ve is further down the frame, -ve is further up.
-	*/
-	double _subtitle_offset;
+	 *  +ve is further down the frame, -ve is further up.
+	 */
+	double _subtitle_y_offset;
 	/** scale factor to apply to subtitles */
 	double _subtitle_scale;
 };

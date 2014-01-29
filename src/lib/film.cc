@@ -83,8 +83,10 @@ using libdcp::Signer;
 
 /* 5 -> 6
  * AudioMapping XML changed.
+ * 6 -> 7
+ * Subtitle offset changed to subtitle y offset, and subtitle x offset added.
  */
-int const Film::state_version = 6;
+int const Film::state_version = 7;
 
 /** Construct a Film object in a given directory.
  *
