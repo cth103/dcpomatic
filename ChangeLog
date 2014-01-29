@@ -1,3 +1,7 @@
+2014-01-29  Carl Hetherington  <cth@carlh.net>
+
+	* Fix missing subtitles when subtitled content is at a non-zero position.
+
 2014-01-28  Carl Hetherington  <cth@carlh.net>
 
 	* Use Mbit/s instead of the incorrect MBps.

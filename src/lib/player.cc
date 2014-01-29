@@ -695,7 +695,7 @@ Player::update_subtitle ()
 		to = rint (to * vc->video_frame_rate() / _film->video_frame_rate());
 	}
 	
-	_out_subtitle.from = from * piece->content->position ();
+	_out_subtitle.from = from + piece->content->position ();
 	_out_subtitle.to = to + piece->content->position ();
 }
 
