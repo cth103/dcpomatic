@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -145,12 +145,19 @@ msgstr "Innehåll som ska sammanfogas måste använda samma bildstorlek."
 msgid "Content to be joined must have the same ratio."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
 
-#: src/lib/subtitle_content.cc:65
-msgid "Content to be joined must have the same subtitle offset."
+#: src/lib/subtitle_content.cc:74
+#, fuzzy
+msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma förskjutning på undertexten."
 
-#: src/lib/subtitle_content.cc:69
+#: src/lib/subtitle_content.cc:78
+#, fuzzy
+msgid "Content to be joined must have the same subtitle Y offset."
+msgstr ""
+"Innehåll som ska sammanfogas måste använda samma förskjutning på undertexten."
+
+#: src/lib/subtitle_content.cc:82
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "Innehåll som ska sammanfogas måste använda samma skala på undertexten."
 
@@ -190,7 +197,7 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/film.cc:960
+#: src/lib/film.cc:962
 msgid "Could not read DCP to make KDM for"
 msgstr "Kunde inte läsa DCP för att skapa KDM"
 
@@ -484,7 +491,7 @@ msgstr ""
 "Enheten som filmen lagras på har för lite ledigt utrymme. Frigör utrymme och "
 "försök igen."
 
-#: src/lib/film.cc:383
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -544,7 +551,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:287
+#: src/lib/film.cc:289
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
@@ -556,7 +563,7 @@ msgstr "[rörliga bilder]"
 msgid "[still]"
 msgstr "[stillbild]"
 
-#: src/lib/film.cc:240
+#: src/lib/film.cc:242
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
@@ -569,11 +576,11 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:285
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:293
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -662,7 +669,7 @@ msgstr "fel vid async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
-#: src/lib/transcode_job.cc:93
+#: src/lib/transcode_job.cc:94
 msgid "frames per second"
 msgstr "bilder per sekund"
 
@@ -699,7 +706,7 @@ msgstr "rörlig"
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:240 src/lib/film.cc:295
+#: src/lib/film.cc:242 src/lib/film.cc:297
 msgid "name"
 msgstr "namn"
 

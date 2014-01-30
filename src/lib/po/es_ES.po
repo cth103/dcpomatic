@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
 "PO-Revision-Date: 2013-11-09 03:09-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -148,11 +148,17 @@ msgstr ""
 msgid "Content to be joined must have the same ratio."
 msgstr ""
 
-#: src/lib/subtitle_content.cc:65
-msgid "Content to be joined must have the same subtitle offset."
-msgstr ""
+#: src/lib/subtitle_content.cc:74
+#, fuzzy
+msgid "Content to be joined must have the same subtitle X offset."
+msgstr "La fuente y el DCP tienen la misma velocidad.\n"
 
-#: src/lib/subtitle_content.cc:69
+#: src/lib/subtitle_content.cc:78
+#, fuzzy
+msgid "Content to be joined must have the same subtitle Y offset."
+msgstr "La fuente y el DCP tienen la misma velocidad.\n"
+
+#: src/lib/subtitle_content.cc:82
 msgid "Content to be joined must have the same subtitle scale."
 msgstr ""
 
@@ -193,7 +199,7 @@ msgstr "no se pudo abrir el fichero para lectura"
 msgid "Could not open %1 to send"
 msgstr "No se pudo abrir %1 para enviar"
 
-#: src/lib/film.cc:960
+#: src/lib/film.cc:962
 msgid "Could not read DCP to make KDM for"
 msgstr "No se pudo leer el DCP para hacer el KDM"
 
@@ -484,7 +490,7 @@ msgstr ""
 "En el dispositivo donde se encuentra la película queda poco espacio. Libere "
 "espacio en el disco y pruebe de nuevo."
 
-#: src/lib/film.cc:383
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -542,7 +548,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:287
+#: src/lib/film.cc:289
 msgid "You must add some content to the DCP before creating it"
 msgstr "Tienes que añadir contenido al DCP antes de crearlo."
 
@@ -555,7 +561,7 @@ msgstr ""
 msgid "[still]"
 msgstr "imagen fija"
 
-#: src/lib/film.cc:240
+#: src/lib/film.cc:242
 msgid "cannot contain slashes"
 msgstr "no puede contener barras"
 
@@ -567,12 +573,12 @@ msgstr "tiempo de conexión agotado"
 msgid "connecting"
 msgstr "conectando"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:285
 #, fuzzy
 msgid "container"
 msgstr "contenido"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:293
 msgid "content type"
 msgstr "tipo de contenido"
 
@@ -667,7 +673,7 @@ msgstr ""
 msgid "error during async_write (%1)"
 msgstr ""
 
-#: src/lib/transcode_job.cc:93
+#: src/lib/transcode_job.cc:94
 msgid "frames per second"
 msgstr "fotogramas por segundo"
 
@@ -703,7 +709,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "todavía no se soportan subtítulos en múltiples partes"
 
-#: src/lib/film.cc:240 src/lib/film.cc:295
+#: src/lib/film.cc:242 src/lib/film.cc:297
 msgid "name"
 msgstr "nombre"
 

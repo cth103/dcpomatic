@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
 "PO-Revision-Date: 2014-01-25 16:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,6 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.6.3\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
+#: src/wx/subtitle_panel.cc:66
 msgid "%"
 msgstr "%"
 
@@ -515,10 +516,6 @@ msgstr "Linéariser la courbe gamma d'entrée pour les bas niveaux"
 msgid "Ls"
 msgstr "Ls"
 
-#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
-msgid "MBps"
-msgstr "MBps"
-
 #: src/wx/film_editor.cc:741
 msgid "MISSING: "
 msgstr "MANQUANT:"
@@ -540,6 +537,10 @@ msgstr "Générer les KDMs"
 #: src/wx/colour_conversion_editor.cc:67
 msgid "Matrix"
 msgstr "Matrice"
+
+#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
+msgid "Mbit/s"
+msgstr ""
 
 #: src/wx/config_dialog.cc:67
 msgid "Metadata"
@@ -760,17 +761,23 @@ msgstr "Studio (ex. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Langue de sous-titres (ex. FR)"
 
-#: src/wx/subtitle_panel.cc:44
-msgid "Subtitle Offset"
-msgstr "Décalage du sous-titre"
-
-#: src/wx/subtitle_panel.cc:53
+#: src/wx/subtitle_panel.cc:62
 msgid "Subtitle Scale"
 msgstr "Taille du sous-titre"
 
-#: src/wx/subtitle_panel.cc:61
+#: src/wx/subtitle_panel.cc:70
 msgid "Subtitle Stream"
 msgstr "Flux de sous-titre"
+
+#: src/wx/subtitle_panel.cc:44
+#, fuzzy
+msgid "Subtitle X Offset"
+msgstr "Décalage du sous-titre"
+
+#: src/wx/subtitle_panel.cc:53
+#, fuzzy
+msgid "Subtitle Y Offset"
+msgstr "Décalage du sous-titre"
 
 #: src/wx/subtitle_panel.cc:34
 msgid "Subtitles"
@@ -979,6 +986,9 @@ msgstr "fois"
 #: src/wx/timeline.cc:234
 msgid "video"
 msgstr "vidéo"
+
+#~ msgid "MBps"
+#~ msgstr "MBps"
 
 #~ msgid "Length"
 #~ msgstr "Longueur / durée"
