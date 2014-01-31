@@ -151,12 +151,12 @@ msgstr ""
 #: src/lib/subtitle_content.cc:74
 #, fuzzy
 msgid "Content to be joined must have the same subtitle X offset."
-msgstr "La fuente y el DCP tienen la misma velocidad.\n"
+msgstr "La fuente y el DCP tienen la misma velocidad."
 
 #: src/lib/subtitle_content.cc:78
 #, fuzzy
 msgid "Content to be joined must have the same subtitle Y offset."
-msgstr "La fuente y el DCP tienen la misma velocidad.\n"
+msgstr "La fuente y el DCP tienen la misma velocidad."
 
 #: src/lib/subtitle_content.cc:82
 msgid "Content to be joined must have the same subtitle scale."
