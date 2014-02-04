@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
 "PO-Revision-Date: 2013-04-28 10:27+0100\n"
 "Last-Translator: Maci <macibro@gmail.com>\n"
 "Language-Team: \n"
@@ -18,6 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.5.5\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
+#: src/wx/subtitle_panel.cc:66
 msgid "%"
 msgstr "%"
 
@@ -524,10 +525,6 @@ msgstr ""
 msgid "Ls"
 msgstr "s"
 
-#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
-msgid "MBps"
-msgstr "MBps"
-
 #: src/wx/film_editor.cc:741
 msgid "MISSING: "
 msgstr ""
@@ -548,6 +545,10 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:67
 msgid "Matrix"
+msgstr ""
+
+#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
+msgid "Mbit/s"
 msgstr ""
 
 #: src/wx/config_dialog.cc:67
@@ -777,18 +778,24 @@ msgstr "Studio (es. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Lingua dei Sottotitoli (es. FR)"
 
-#: src/wx/subtitle_panel.cc:44
-msgid "Subtitle Offset"
-msgstr "Sfalsamento dei Sottotitoli"
-
-#: src/wx/subtitle_panel.cc:53
+#: src/wx/subtitle_panel.cc:62
 msgid "Subtitle Scale"
 msgstr "Scala dei Sottotitoli"
 
-#: src/wx/subtitle_panel.cc:61
+#: src/wx/subtitle_panel.cc:70
 #, fuzzy
 msgid "Subtitle Stream"
 msgstr "Scala dei Sottotitoli"
+
+#: src/wx/subtitle_panel.cc:44
+#, fuzzy
+msgid "Subtitle X Offset"
+msgstr "Sfalsamento dei Sottotitoli"
+
+#: src/wx/subtitle_panel.cc:53
+#, fuzzy
+msgid "Subtitle Y Offset"
+msgstr "Sfalsamento dei Sottotitoli"
 
 #: src/wx/subtitle_panel.cc:34
 msgid "Subtitles"
@@ -994,6 +1001,9 @@ msgstr ""
 #, fuzzy
 msgid "video"
 msgstr "Video"
+
+#~ msgid "MBps"
+#~ msgstr "MBps"
 
 #~ msgid "Length"
 #~ msgstr "Lunghezza"

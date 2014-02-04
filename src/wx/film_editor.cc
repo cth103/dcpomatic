@@ -177,7 +177,7 @@ FilmEditor::make_dcp_panel ()
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_j2k_bandwidth = new wxSpinCtrl (_dcp_panel, wxID_ANY);
 		s->Add (_j2k_bandwidth, 1);
-		add_label_to_sizer (s, _dcp_panel, _("MBps"), false);
+		add_label_to_sizer (s, _dcp_panel, _("Mbit/s"), false);
 		grid->Add (s, wxGBPosition (r, 1));
 	}
 	++r;

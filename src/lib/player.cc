@@ -547,7 +547,11 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		_have_valid_pieces = false;
 		Changed (frequent);
 
-	} else if (property == SubtitleContentProperty::SUBTITLE_OFFSET || property == SubtitleContentProperty::SUBTITLE_SCALE) {
+	} else if (
+		property == SubtitleContentProperty::SUBTITLE_X_OFFSET ||
+		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
+		property == SubtitleContentProperty::SUBTITLE_SCALE
+		) {
 
 		update_subtitle_from_image ();
 		update_subtitle_from_text ();
@@ -651,7 +655,8 @@ Player::update_subtitle_from_image ()
 	dcpomatic::Rect<double> in_rect = _image_subtitle.subtitle->rect;
 	libdcp::Size scaled_size;
 
-	in_rect.y += sc->subtitle_offset ();
+	in_rect.x += sc->subtitle_x_offset ();
+	in_rect.y += sc->subtitle_y_offset ();
 
 	/* We will scale the subtitle up to fit _video_container_size, and also by the additional subtitle_scale */
 	scaled_size.width = in_rect.width * _video_container_size.width * sc->subtitle_scale ();
@@ -679,8 +684,8 @@ Player::update_subtitle_from_image ()
 		true
 		);
 	
-	_out_subtitle.from = _image_subtitle.subtitle->dcp_time;
-	_out_subtitle.to = _image_subtitle.subtitle->dcp_time_to;
+	_out_subtitle.from = _image_subtitle.subtitle->dcp_time + piece->content->position ();
+	_out_subtitle.to = _image_subtitle.subtitle->dcp_time_to + piece->content->position ();
 }
 
 /** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
 "PO-Revision-Date: 2014-01-14 20:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
+#: src/wx/subtitle_panel.cc:66
 msgid "%"
 msgstr "%"
 
@@ -507,10 +508,6 @@ msgstr "Linearisiere Eingangs Gamma für niedrige Werte"
 msgid "Ls"
 msgstr "SL"
 
-#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
-msgid "MBps"
-msgstr "MBps"
-
 #: src/wx/film_editor.cc:741
 msgid "MISSING: "
 msgstr "FEHLT:"
@@ -530,6 +527,10 @@ msgstr "KDMs erstellen"
 #: src/wx/colour_conversion_editor.cc:67
 msgid "Matrix"
 msgstr "Matrix"
+
+#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
+msgid "Mbit/s"
+msgstr ""
 
 #: src/wx/config_dialog.cc:67
 msgid "Metadata"
@@ -748,17 +749,23 @@ msgstr "Studio (z.B. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Untertitel Sprache (z.B. EN)"
 
-#: src/wx/subtitle_panel.cc:44
-msgid "Subtitle Offset"
-msgstr "Untertitel Offset"
-
-#: src/wx/subtitle_panel.cc:53
+#: src/wx/subtitle_panel.cc:62
 msgid "Subtitle Scale"
 msgstr "Untertitel Größe"
 
-#: src/wx/subtitle_panel.cc:61
+#: src/wx/subtitle_panel.cc:70
 msgid "Subtitle Stream"
 msgstr "Untertitel Spur"
+
+#: src/wx/subtitle_panel.cc:44
+#, fuzzy
+msgid "Subtitle X Offset"
+msgstr "Untertitel Offset"
+
+#: src/wx/subtitle_panel.cc:53
+#, fuzzy
+msgid "Subtitle Y Offset"
+msgstr "Untertitel Offset"
 
 #: src/wx/subtitle_panel.cc:34
 msgid "Subtitles"
@@ -965,3 +972,6 @@ msgstr "Zeiten"
 #: src/wx/timeline.cc:234
 msgid "video"
 msgstr "Bild"
+
+#~ msgid "MBps"
+#~ msgstr "MBps"

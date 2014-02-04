@@ -19,6 +19,7 @@
 
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
+#include <wx/cmdline.h>
 #include <wx/wx.h>
 #include "lib/version.h"
 #include "lib/compose.hpp"
@@ -30,7 +31,10 @@
 #include "wx/wx_ui_signaller.h"
 #include "wx/job_manager_view.h"
 
+using std::exception;
 using boost::shared_ptr;
+
+static std::string film_to_load;
 
 enum {
 	ID_file_add_film = 1,
@@ -190,6 +194,11 @@ private:
 	}
 };
 
+static const wxCmdLineEntryDesc command_line_description[] = {
+	{ wxCMD_LINE_PARAM, 0, 0, "film to load", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
+};
+
 class App : public wxApp
 {
 	bool OnInit ()
@@ -228,12 +237,38 @@ class App : public wxApp
 		ui_signaller = new wxUISignaller (this);
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
+		shared_ptr<Film> film;
+		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
+			try {
+				film.reset (new Film (film_to_load));
+				film->read_metadata ();
+				film->make_dcp ();
+			} catch (exception& e) {
+				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load, e.what())));
+			}
+		}
+
 		return true;
 	}
 
 	void idle ()
 	{
 		ui_signaller->ui_idle ();
+	}
+
+	void OnInitCmdLine (wxCmdLineParser& parser)
+	{
+		parser.SetDesc (command_line_description);
+		parser.SetSwitchChars (wxT ("-"));
+	}
+
+	bool OnCmdLineParsed (wxCmdLineParser& parser)
+	{
+		if (parser.GetParamCount() > 0) {
+			film_to_load = wx_to_std (parser.GetParam(0));
+		}
+
+		return true;
 	}
 };
 

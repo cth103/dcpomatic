@@ -230,7 +230,7 @@ ConfigDialog::make_defaults_panel ()
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_default_j2k_bandwidth = new wxSpinCtrl (_defaults_panel);
 		s->Add (_default_j2k_bandwidth);
-		add_label_to_sizer (s, _defaults_panel, _("MBps"), false);
+		add_label_to_sizer (s, _defaults_panel, _("Mbit/s"), false);
 		table->Add (s, 1);
 	}
 

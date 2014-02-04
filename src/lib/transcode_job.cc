@@ -63,6 +63,7 @@ TranscodeJob::run ()
 		set_state (FINISHED_OK);
 
 		_film->log()->log (N_("Transcode job completed successfully"));
+		_transcoder.reset ();
 
 	} catch (...) {
 		set_progress (1);

@@ -260,6 +260,7 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		if (_exception) {
 			boost::rethrow_exception (_exception);
+			_exception = boost::exception_ptr ();
 		}
 	}
 

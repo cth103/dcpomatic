@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
-"PO-Revision-Date: 2013-11-25 19:37+0100\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
+"PO-Revision-Date: 2014-01-25 16:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/lib/sndfile_content.cc:60
 msgid "%1 [audio]"
@@ -104,19 +104,19 @@ msgstr "Centre"
 
 #: src/lib/writer.cc:74
 msgid "Checking existing image data"
-msgstr ""
+msgstr "Recherche de données images existantes"
 
 #: src/lib/writer.cc:448
 msgid "Computing audio digest"
-msgstr ""
+msgstr "Fabrication rendu audio"
 
 #: src/lib/image_content.cc:100
 msgid "Computing digest"
-msgstr ""
+msgstr "fabrication rendu"
 
 #: src/lib/writer.cc:445
 msgid "Computing image digest"
-msgstr ""
+msgstr "Fabrication rendu image"
 
 #: src/lib/util.cc:798
 #, fuzzy
@@ -147,11 +147,17 @@ msgstr ""
 msgid "Content to be joined must have the same ratio."
 msgstr ""
 
-#: src/lib/subtitle_content.cc:65
-msgid "Content to be joined must have the same subtitle offset."
-msgstr ""
+#: src/lib/subtitle_content.cc:74
+#, fuzzy
+msgid "Content to be joined must have the same subtitle X offset."
+msgstr "Le DCP et la source ont les mêmes cadences."
 
-#: src/lib/subtitle_content.cc:69
+#: src/lib/subtitle_content.cc:78
+#, fuzzy
+msgid "Content to be joined must have the same subtitle Y offset."
+msgstr "Le DCP et la source ont les mêmes cadences."
+
+#: src/lib/subtitle_content.cc:82
 msgid "Content to be joined must have the same subtitle scale."
 msgstr ""
 
@@ -191,7 +197,7 @@ msgstr "lecture du fichier %1 impossible"
 msgid "Could not open %1 to send"
 msgstr "Ouverture de %1 pour envoi impossible"
 
-#: src/lib/film.cc:960
+#: src/lib/film.cc:962
 msgid "Could not read DCP to make KDM for"
 msgstr "DCP illisible pour fabrication de KDM"
 
@@ -271,7 +277,7 @@ msgstr ""
 
 #: src/lib/writer.cc:115
 msgid "Encoding image data"
-msgstr ""
+msgstr "encodage des données image"
 
 #: src/lib/job.cc:314
 msgid "Error (%1)"
@@ -401,11 +407,11 @@ msgstr "OK (processus %1)"
 
 #: src/lib/content.cc:100
 msgid "Only the first piece of content to be joined can have a start trim."
-msgstr ""
+msgstr "Seul le premier contenu à joindre peut avoir un coupure de début."
 
 #: src/lib/content.cc:104
 msgid "Only the last piece of content to be joined can have an end trim."
-msgstr ""
+msgstr "Seul le dernier contenu à joindre peut avoir une coupure en fin."
 
 #: src/lib/filter.cc:91
 msgid "Overcomplete wavelet denoiser"
@@ -479,7 +485,7 @@ msgstr ""
 "Le disque contenant le film est plein. Libérez de l'espace et essayez à "
 "nouveau."
 
-#: src/lib/film.cc:383
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -537,7 +543,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/film.cc:287
+#: src/lib/film.cc:289
 msgid "You must add some content to the DCP before creating it"
 msgstr "Ajoutez un contenu pour créer le DCP"
 
@@ -551,7 +557,7 @@ msgstr "%1 [diaporama]"
 msgid "[still]"
 msgstr "%1 [fixe]"
 
-#: src/lib/film.cc:240
+#: src/lib/film.cc:242
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
@@ -563,11 +569,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:285
 msgid "container"
 msgstr "conteneur"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:293
 msgid "content type"
 msgstr "type de contenu"
 
@@ -597,7 +603,7 @@ msgstr "décodeur vidéo introuvable"
 
 #: src/lib/writer.cc:414
 msgid "could not move audio MXF into the DCP (%1)"
-msgstr ""
+msgstr "ne peut déplacer un MXF son dans le DCP (%1)"
 
 #: src/lib/sndfile_decoder.cc:45
 msgid "could not open audio file for reading"
@@ -656,7 +662,7 @@ msgstr ""
 msgid "error during async_write (%1)"
 msgstr ""
 
-#: src/lib/transcode_job.cc:93
+#: src/lib/transcode_job.cc:94
 msgid "frames per second"
 msgstr "images par seconde"
 
@@ -692,7 +698,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:240 src/lib/film.cc:295
+#: src/lib/film.cc:242 src/lib/film.cc:297
 msgid "name"
 msgstr "nom"
 

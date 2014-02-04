@@ -1,3 +1,43 @@
+2014-02-02  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.64.0 released.
+
+2014-01-29  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.63.8 released.
+
+2014-01-29  Carl Hetherington  <cth@carlh.net>
+
+	* Add subtitle X offset option.
+
+	* Fix missing subtitles when subtitled content is at a non-zero position.
+
+2014-01-28  Carl Hetherington  <cth@carlh.net>
+
+	* Use Mbit/s instead of the incorrect MBps.
+
+	* Version 1.63.7 released.
+
+2014-01-28  Carl Hetherington  <cth@carlh.net>
+
+	* Try to prevent Windows machines going to sleep during encodes.
+
+	* Add option to not install main program / server on Windows.
+
+2014-01-26  Carl Hetherington  <cth@carlh.net>
+
+	* Change default JPEG2000 bandwith to 100MBps.
+
+	* Updated fr_FR translation from Theirry Journet.
+
+2014-01-24  Carl Hetherington  <cth@carlh.net>
+
+	* Try to fix repeatedly-reported exceptions.
+
+2014-01-23  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.63.6 released.
+
 2014-01-23  Carl Hetherington  <cth@carlh.net>
 
 	* Fix recovery of DCP encoding after a crash with a 3D DCP.

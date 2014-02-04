@@ -33,14 +33,16 @@ public:
 	
 private:
 	void with_subtitles_toggled ();
-	void offset_changed ();
+	void x_offset_changed ();
+	void y_offset_changed ();
 	void scale_changed ();
 	void stream_changed ();
 
 	void setup_sensitivity ();
 	
 	wxCheckBox* _with_subtitles;
-	wxSpinCtrl* _offset;
+	wxSpinCtrl* _x_offset;
+	wxSpinCtrl* _y_offset;
 	wxSpinCtrl* _scale;
 	wxChoice* _stream;
 };

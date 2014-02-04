@@ -35,3 +35,4 @@ extern boost::filesystem::path app_contents ();
 #endif
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
+void kick ();

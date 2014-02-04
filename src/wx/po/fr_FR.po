@@ -7,17 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
-"PO-Revision-Date: 2013-11-25 19:28+0100\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
+"PO-Revision-Date: 2014-01-25 16:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
+#: src/wx/subtitle_panel.cc:66
 msgid "%"
 msgstr "%"
 
@@ -30,7 +31,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:131
 msgid "(password will be stored on disk in plaintext)"
-msgstr ""
+msgstr "(le mot de passe sera enregistré sur le disque au format texte)"
 
 #: src/wx/config_dialog.cc:108
 msgid "(restart DCP-o-matic to see language changes)"
@@ -39,11 +40,11 @@ msgstr ""
 
 #: src/wx/audio_mapping_view.cc:135
 msgid "-3dB"
-msgstr ""
+msgstr "-3dB"
 
 #: src/wx/colour_conversion_editor.cc:83
 msgid "1 / "
-msgstr ""
+msgstr "1/"
 
 #: src/wx/audio_panel.cc:236
 msgid "1 channel"
@@ -51,15 +52,15 @@ msgstr "1 canal"
 
 #: src/wx/video_panel.cc:200
 msgid "2D"
-msgstr ""
+msgstr "2D"
 
 #: src/wx/film_editor.cc:218
 msgid "2K"
-msgstr ""
+msgstr "2K"
 
 #: src/wx/film_editor.cc:166
 msgid "3D"
-msgstr ""
+msgstr "3D"
 
 #: src/wx/video_panel.cc:201
 msgid "3D left/right"
@@ -67,15 +68,15 @@ msgstr "3D gauche/droite"
 
 #: src/wx/video_panel.cc:202
 msgid "3D top/bottom"
-msgstr ""
+msgstr "3D dessus/dessous"
 
 #: src/wx/film_editor.cc:219
 msgid "4K"
-msgstr ""
+msgstr "4K"
 
 #: src/wx/update_dialog.cc:34
 msgid "A new version of DCP-o-matic is available."
-msgstr ""
+msgstr "Une nouvelle version de DCP-o-matic est disponible"
 
 #: src/wx/about_dialog.cc:30
 msgid "About DCP-o-matic"
@@ -130,6 +131,8 @@ msgstr "Canaux audios"
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
+"Le son du canal audio %d sera transféré au canal audio du DCP %d sans "
+"modification."
 
 #: src/wx/audio_mapping_view.cc:328
 #, c-format
@@ -137,6 +140,8 @@ msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
 "%.1fdB."
 msgstr ""
+"Le son du canal audio %d sera transféré au canal audio du DCP %d avec un "
+"gain de %.1fdB."
 
 #: src/wx/job_wrapper.cc:38
 #, c-format
@@ -178,11 +183,11 @@ msgstr "Canaux"
 
 #: src/wx/config_dialog.cc:143
 msgid "Check for testing updates as well as stable ones"
-msgstr ""
+msgstr "Recherche de mises à jour en test aussi bien que stables."
 
 #: src/wx/config_dialog.cc:139
 msgid "Check for updates on startup"
-msgstr ""
+msgstr "Recherche de mises à jour au démarrage."
 
 #: src/wx/content_menu.cc:182
 #, fuzzy
@@ -336,7 +341,7 @@ msgstr "Espace disque requis"
 
 #: src/wx/film_editor.cc:280
 msgid "Down"
-msgstr ""
+msgstr "Descendre"
 
 #: src/wx/kdm_dialog.cc:68
 msgid "Edit Cinema..."
@@ -354,7 +359,7 @@ msgstr "Éditer..."
 
 #: src/wx/cinema_dialog.cc:35
 msgid "Email address for KDM delivery"
-msgstr ""
+msgstr "Adresse email pour l'envoi de KDM"
 
 #: src/wx/servers_list_dialog.cc:30
 #, fuzzy
@@ -367,7 +372,7 @@ msgstr "Serveurs d'encodage"
 
 #: src/wx/film_editor.cc:157
 msgid "Encrypted"
-msgstr ""
+msgstr "Crypté"
 
 #: src/wx/dci_metadata_dialog.cc:59
 msgid "Facility (e.g. DLA)"
@@ -387,7 +392,7 @@ msgstr "Filtres"
 
 #: src/wx/content_menu.cc:52
 msgid "Find missing..."
-msgstr ""
+msgstr "Recherche de l'élément manquant..."
 
 #: src/wx/film_editor.cc:143
 msgid "Frame Rate"
@@ -411,15 +416,15 @@ msgstr "À partir du"
 
 #: src/wx/config_dialog.cc:135
 msgid "From address for KDM emails"
-msgstr ""
+msgstr "Email expéditeur pour les envoi de KDM"
 
 #: src/wx/audio_mapping_view.cc:134
 msgid "Full"
-msgstr ""
+msgstr "Plein"
 
 #: src/wx/timing_panel.cc:42
 msgid "Full length"
-msgstr ""
+msgstr "Durée totale"
 
 #: src/wx/gain_calculator_dialog.cc:27
 msgid "Gain Calculator"
@@ -428,7 +433,7 @@ msgstr "Calculateur de gain"
 #: src/wx/audio_gain_dialog.cc:31
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
-msgstr ""
+msgstr "Gain pour le canal audio %d dans le canal du DCP %d"
 
 #: src/wx/properties_dialog.cc:57
 msgid "Gb"
@@ -436,11 +441,11 @@ msgstr "Gb"
 
 #: src/wx/hints_dialog.cc:26
 msgid "Hints"
-msgstr ""
+msgstr "Avertissements"
 
 #: src/wx/servers_list_dialog.cc:40
 msgid "Host"
-msgstr ""
+msgstr "Hôtes"
 
 #: src/wx/server_dialog.cc:41
 msgid "Host name or IP address"
@@ -469,7 +474,7 @@ msgstr "Gamma d'entrée"
 
 #: src/wx/film_editor.cc:222
 msgid "Interop"
-msgstr ""
+msgstr "MXF-Interop"
 
 #: src/wx/config_dialog.cc:340
 msgid "Issuer"
@@ -481,7 +486,7 @@ msgstr "Qualité JPEG2000"
 
 #: src/wx/content_menu.cc:51
 msgid "Join"
-msgstr ""
+msgstr "Ajouter"
 
 #: src/wx/config_dialog.cc:71
 msgid "KDM email"
@@ -511,13 +516,9 @@ msgstr "Linéariser la courbe gamma d'entrée pour les bas niveaux"
 msgid "Ls"
 msgstr "Ls"
 
-#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
-msgid "MBps"
-msgstr "MBps"
-
 #: src/wx/film_editor.cc:741
 msgid "MISSING: "
-msgstr ""
+msgstr "MANQUANT:"
 
 #: src/wx/config_dialog.cc:127
 #, fuzzy
@@ -536,6 +537,10 @@ msgstr "Générer les KDMs"
 #: src/wx/colour_conversion_editor.cc:67
 msgid "Matrix"
 msgstr "Matrice"
+
+#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
+msgid "Mbit/s"
+msgstr ""
 
 #: src/wx/config_dialog.cc:67
 msgid "Metadata"
@@ -565,12 +570,12 @@ msgstr "Nouveau Film"
 
 #: src/wx/update_dialog.cc:36
 msgid "New versions of DCP-o-matic are available."
-msgstr ""
+msgstr "De nouvelles versions de DCP-o-matic sont disponibles."
 
 #: src/wx/audio_mapping_view.cc:323
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
-msgstr ""
+msgstr "Aucun son ne passera du canal audio %d au canal du DCP %d."
 
 #: src/wx/video_panel.cc:198
 msgid "No stretch"
@@ -582,7 +587,7 @@ msgstr "Aucun"
 
 #: src/wx/audio_mapping_view.cc:133
 msgid "Off"
-msgstr ""
+msgstr "Eteint"
 
 #: src/wx/config_dialog.cc:119
 msgid "Outgoing mail server"
@@ -619,7 +624,7 @@ msgstr "Lecture"
 
 #: src/wx/timing_panel.cc:51
 msgid "Play length"
-msgstr ""
+msgstr "Durée de lecture"
 
 #: src/wx/audio_plot.cc:43
 msgid "Please wait; audio is being analysed..."
@@ -676,7 +681,7 @@ msgstr "Reprendre"
 
 #: src/wx/audio_mapping_view.cc:331
 msgid "Right click to change gain."
-msgstr ""
+msgstr "Cliquez droit pour modifier le gain."
 
 #: src/wx/video_panel.cc:101
 msgid "Right crop"
@@ -688,7 +693,7 @@ msgstr "Rs"
 
 #: src/wx/film_editor.cc:221
 msgid "SMPTE"
-msgstr ""
+msgstr "SMPTE"
 
 #: src/wx/video_panel.cc:134
 msgid "Scale to"
@@ -729,7 +734,7 @@ msgstr "Analyser le son..."
 
 #: src/wx/film_editor.cc:153
 msgid "Signed"
-msgstr ""
+msgstr "Signé"
 
 #: src/wx/audio_dialog.cc:71
 msgid "Smoothing"
@@ -737,7 +742,7 @@ msgstr "Lissage"
 
 #: src/wx/timeline_dialog.cc:38
 msgid "Snap"
-msgstr ""
+msgstr "Echnager"
 
 #: src/wx/update_dialog.cc:43
 #, fuzzy
@@ -756,17 +761,23 @@ msgstr "Studio (ex. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Langue de sous-titres (ex. FR)"
 
-#: src/wx/subtitle_panel.cc:44
-msgid "Subtitle Offset"
-msgstr "Décalage du sous-titre"
-
-#: src/wx/subtitle_panel.cc:53
+#: src/wx/subtitle_panel.cc:62
 msgid "Subtitle Scale"
 msgstr "Taille du sous-titre"
 
-#: src/wx/subtitle_panel.cc:61
+#: src/wx/subtitle_panel.cc:70
 msgid "Subtitle Stream"
 msgstr "Flux de sous-titre"
+
+#: src/wx/subtitle_panel.cc:44
+#, fuzzy
+msgid "Subtitle X Offset"
+msgstr "Décalage du sous-titre"
+
+#: src/wx/subtitle_panel.cc:53
+#, fuzzy
+msgid "Subtitle Y Offset"
+msgstr "Décalage du sous-titre"
 
 #: src/wx/subtitle_panel.cc:34
 msgid "Subtitles"
@@ -799,10 +810,13 @@ msgid ""
 "missing.  Either try again with the correct content file or remove the "
 "missing content."
 msgstr ""
+"Les fichiers de contenu que vous avez spécifiés ne sont pas les mêmes que "
+"ceux detectés comme manquants. Vous pouvez réessayer avec les contenus "
+"corrects ou supprimer les contenus manquants."
 
 #: src/wx/hints_dialog.cc:97
 msgid "There are no hints: everything looks good!"
-msgstr ""
+msgstr "Il n'y a aucun avertissement: tout semble correct!"
 
 #: src/wx/servers_list_dialog.cc:48
 msgid "Threads"
@@ -826,7 +840,7 @@ msgstr "Timeline..."
 
 #: src/wx/timing_panel.cc:34
 msgid "Timing"
-msgstr ""
+msgstr "Durée"
 
 #: src/wx/video_panel.cc:112
 msgid "Top crop"
@@ -854,11 +868,11 @@ msgstr "Jusqu'au"
 
 #: src/wx/film_editor.cc:278
 msgid "Up"
-msgstr ""
+msgstr "Monter"
 
 #: src/wx/update_dialog.cc:27
 msgid "Update"
-msgstr ""
+msgstr "Mise à jour."
 
 #: src/wx/film_editor.cc:126
 msgid "Use DCI name"
@@ -866,7 +880,7 @@ msgstr "Utiliser le nom DCI"
 
 #: src/wx/config_dialog.cc:369
 msgid "Use all servers"
-msgstr ""
+msgstr "Utiliser tous les serveurs."
 
 #: src/wx/film_editor.cc:147
 msgid "Use best"
@@ -895,7 +909,7 @@ msgstr "Avec sous-titres"
 
 #: src/wx/kdm_dialog.cc:122
 msgid "Write to"
-msgstr ""
+msgstr "Ecrire à"
 
 #: src/wx/about_dialog.cc:91
 msgid "Written by"
@@ -907,6 +921,8 @@ msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"%d fichiers ressemblent à des fichiers VOB de DVD. Vous devriez les ajouter "
+"afin de vous assurer d'une jonction correcte entre vos fichiers."
 
 #: src/wx/hints_dialog.cc:76
 #, c-format
@@ -914,18 +930,25 @@ msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"La cadence image de votre DCP (%d ips) peut créer des problèmes avec "
+"quelques projecteurs (anciens).  Utilisez plutôt une cadence de 24 ou 48 "
+"images par seconde pour assurer une plus grande compatibilité."
 
 #: src/wx/hints_dialog.cc:66
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
 msgstr ""
+"Votre DCP posséde un nombre impair de canaux audio.  Cela peut créer des "
+"problèmes de lecture."
 
 #: src/wx/hints_dialog.cc:70
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
+"Votre DCP a moins de 6 canaux audio.  Cela peut créer des problèmes de "
+"lecture sur certains projecteurs."
 
 #: src/wx/timeline.cc:213
 msgid "audio"
@@ -954,15 +977,18 @@ msgstr "s"
 
 #: src/wx/timeline.cc:236
 msgid "still"
-msgstr ""
+msgstr "fixe"
 
 #: src/wx/repeat_dialog.cc:37
 msgid "times"
-msgstr ""
+msgstr "fois"
 
 #: src/wx/timeline.cc:234
 msgid "video"
 msgstr "vidéo"
+
+#~ msgid "MBps"
+#~ msgstr "MBps"
 
 #~ msgid "Length"
 #~ msgstr "Longueur / durée"

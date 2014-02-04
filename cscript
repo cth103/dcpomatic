@@ -91,7 +91,7 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print >>f,s[:-2]
 
-def make_control(version, bits, filename):
+def make_control(version, bits, filename, debug):
     f = open(filename, 'w')
     print >>f,'Source: dcpomatic'
     print >>f,'Section: video'
@@ -108,10 +108,25 @@ def make_control(version, bits, filename):
         print >>f,'Architecture: amd64'
 
     packages('Depends', depends[version], f)
+
     print >>f,'Description: Generator of Digital Cinema Packages (DCPs)'
     print >>f,'  DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio'
     print >>f,'  files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant'
     print >>f,'  digital projectors.'
+
+    if debug:
+        print >>f,''
+        print >>f,'Package: dcpomatic-dbg'
+        if bits == 32:
+            print >>f,'Architecture: i386'
+        else:
+            print >>f,'Architecture: amd64'
+        print >>f,'Section: debug'
+        print >>f,'Priority: extra'
+        packages('Depends', depends[version], f)
+        print >>f,'Description: debugging symbols for dcpomatic'
+        print >>f,'  This package contains the debugging symbols for dcpomatic.'
+        print >>f,''
 
 def dependencies(target):
     return (('ffmpeg-cdist', '5ac3a6af077c10f07c31954c372a8f29e4e18e2a'),
@@ -146,7 +161,7 @@ def package(target, version):
         else:
             cpu = 'amd64'
 
-        make_control(target.version, target.bits, 'debian/control')
+        make_control(target.version, target.bits, 'debian/control', target.debug)
         target.command('./waf dist')
         f = open('debian/files', 'w')
         print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)

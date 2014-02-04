@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-23 00:18+0000\n"
+"POT-Creation-Date: 2014-01-30 21:51+0000\n"
 "PO-Revision-Date: 2013-11-09 03:00-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -18,6 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.5.7\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
+#: src/wx/subtitle_panel.cc:66
 msgid "%"
 msgstr "%"
 
@@ -528,10 +529,6 @@ msgstr "Hacer lineal la curva de gamma de entrada para valores bajos"
 msgid "Ls"
 msgstr "s"
 
-#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
-msgid "MBps"
-msgstr "MBps"
-
 #: src/wx/film_editor.cc:741
 msgid "MISSING: "
 msgstr ""
@@ -552,6 +549,10 @@ msgstr "Crear KDMs"
 
 #: src/wx/colour_conversion_editor.cc:67
 msgid "Matrix"
+msgstr ""
+
+#: src/wx/config_dialog.cc:233 src/wx/film_editor.cc:180
+msgid "Mbit/s"
 msgstr ""
 
 #: src/wx/config_dialog.cc:67
@@ -781,18 +782,24 @@ msgstr "Estudio (ej. TCF)"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma del subtítulo (ej. EN)"
 
-#: src/wx/subtitle_panel.cc:44
-msgid "Subtitle Offset"
-msgstr "Desplazamiento del subtítulo"
-
-#: src/wx/subtitle_panel.cc:53
+#: src/wx/subtitle_panel.cc:62
 msgid "Subtitle Scale"
 msgstr "Escala del subtítulo"
 
-#: src/wx/subtitle_panel.cc:61
+#: src/wx/subtitle_panel.cc:70
 #, fuzzy
 msgid "Subtitle Stream"
 msgstr "Escala del subtítulo"
+
+#: src/wx/subtitle_panel.cc:44
+#, fuzzy
+msgid "Subtitle X Offset"
+msgstr "Desplazamiento del subtítulo"
+
+#: src/wx/subtitle_panel.cc:53
+#, fuzzy
+msgid "Subtitle Y Offset"
+msgstr "Desplazamiento del subtítulo"
 
 #: src/wx/subtitle_panel.cc:34
 msgid "Subtitles"
@@ -998,6 +1005,9 @@ msgstr ""
 #, fuzzy
 msgid "video"
 msgstr "Vídeo"
+
+#~ msgid "MBps"
+#~ msgstr "MBps"
 
 #~ msgid "Length"
 #~ msgstr "Longitud"

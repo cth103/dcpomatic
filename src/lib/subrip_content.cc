@@ -34,9 +34,9 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 
 }
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int)
+SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
 	: Content (film, node)
-	, SubtitleContent (film, node)
+	, SubtitleContent (film, node, version)
 {
 
 }
@@ -93,7 +93,8 @@ SubRipContent::identifier () const
 	stringstream s;
 	s << Content::identifier()
 	  << "_" << subtitle_scale()
-	  << "_" << subtitle_offset();
+	  << "_" << subtitle_x_offset()
+	  << "_" << subtitle_y_offset();
 
 	return s.str ();
 }

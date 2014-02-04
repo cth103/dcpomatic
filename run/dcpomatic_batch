@@ -6,7 +6,7 @@ if [ "$1" == "--debug" ]; then
     gdb --args build/src/tools/dcpomatic_batch $*
 elif [ "$1" == "--valgrind" ]; then
     shift
-    valgrind --tool="memcheck" build/src/tools/dcpomatic_batch $*
+    valgrind --tool="memcheck" --suppressions=valgrind.supp --leak-check=full --show-reachable=yes build/src/tools/dcpomatic_batch $*
 elif [ "$1" == "--callgrind" ]; then
     shift
     valgrind --tool="callgrind" build/src/tools/dcpomatic_batch $*

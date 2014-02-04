@@ -1,4 +1,217 @@
-def build(bld):
-    bld.new_task_gen(features='subst', source='installer.nsi.32.in', target='installer.32.nsi', version=bld.env.VERSION)
-    bld.new_task_gen(features='subst', source='installer.nsi.64.in', target='installer.64.nsi', version=bld.env.VERSION)
+from __future__ import print_function
+import os
+
+def write_installer(bits, version):
+    try:
+        os.makedirs('build/platform/windows')
+    except:
+        pass
+
+    f = open('build/platform/windows/installer.%d.nsi' % bits, 'w')
+    print('!include "MUI2.nsh"', file=f)
+    if bits == 64:
+        print('!include "x64.nsh"', file=f)
+
+    print('Name "DCP-o-matic"', file=f)
+    print('RequestExecutionLevel admin', file=f)
+
+    print('outFile "DCP-o-matic %s %d-bit Installer.exe"' % (version, bits), file=f)
+    print("""
+!define MUI_ICON "%resources%/dcpomatic.ico"
+!define MUI_UNICON "%resources%/dcpomatic.ico"
+!define MUI_SPECIALBITMAP "%resources%/dcpomatic.bmp"
+!include "Sections.nsh"
+
+InstallDir "$PROGRAMFILES\\DCP-o-matic"
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "../../../COPYING"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_COMPONENTS
+
+Section "Common files (required)" SEC_COMMON
+SectionIn RO
+    """, file=f)
+
+    if bits == 64:
+        print("""
+${If} ${RunningX64}
+   DetailPrint "Installer running on 64-bit host"
+   ; disable registry redirection (enable access to 64-bit portion of registry)
+   SetRegView 64
+   ; change install dir
+   StrCpy $INSTDIR "$PROGRAMFILES64\DCP-o-matic"
+${EndIf}
+        """, file=f)
+
+    print("""
+SetOutPath "$INSTDIR\\bin"
+WriteUninstaller "$INSTDIR\Uninstall.exe"
+
+File "%static_deps%/bin/libintl-8.dll"
+File "%static_deps%/bin/libboost_chrono-mt.dll"
+File "%static_deps%/bin/libboost_filesystem-mt.dll"
+File "%static_deps%/bin/libboost_system-mt.dll"
+File "%static_deps%/bin/libboost_thread_win32-mt.dll"
+File "%static_deps%/bin/libboost_date_time-mt.dll"
+File "%static_deps%/bin/libboost_locale-mt.dll"
+File "%static_deps%/bin/libeay32.dll"
+File "%static_deps%/bin/libgcc_s_sjlj-1.dll"
+File "%static_deps%/bin/libgio-2.0-0.dll"
+File "%static_deps%/bin/libglib-2.0-0.dll"
+File "%static_deps%/bin/libgobject-2.0-0.dll"
+File "%static_deps%/bin/libiconv-2.dll"
+File "%static_deps%/bin/libjpeg-8.dll"
+File "%static_deps%/bin/libMagick++-6.Q16-3.dll"
+File "%static_deps%/bin/libMagickCore-6.Q16-1.dll"
+File "%static_deps%/bin/libMagickWand-6.Q16-1.dll"
+File "%static_deps%/bin/libpng15-15.dll"
+File "%static_deps%/bin/libsigc-2.0-0.dll"
+File "%static_deps%/bin/libsndfile-1.dll"
+File "%static_deps%/bin/libssh.dll"
+File "%static_deps%/bin/libstdc++-6.dll"
+File "%static_deps%/bin/zlib1.dll"
+File "%static_deps%/bin/libjpeg-8.dll"
+File "%static_deps%/bin/wxbase30u_gcc_custom.dll"
+File "%static_deps%/bin/wxmsw30u_core_gcc_custom.dll"
+File "%static_deps%/bin/wxmsw30u_adv_gcc_custom.dll"
+File "%static_deps%/bin/wxmsw30u_richtext_gcc_custom.dll"
+File "%static_deps%/bin/wxmsw30u_html_gcc_custom.dll"
+File "%static_deps%/bin/wxbase30u_xml_gcc_custom.dll"
+File "%static_deps%/bin/libcairo-2.dll"
+File "%static_deps%/bin/libfreetype-6.dll"
+File "%static_deps%/bin/libgthread-2.0-0.dll"
+File "%static_deps%/bin/libpango-1.0-0.dll"
+File "%static_deps%/bin/libgmodule-2.0-0.dll"
+File "%static_deps%/bin/libpangocairo-1.0-0.dll"
+File "%static_deps%/bin/libpangowin32-1.0-0.dll"
+File "%static_deps%/bin/libtiff-5.dll"
+File "%static_deps%/bin/libglibmm-2.4-1.dll"
+File "%static_deps%/bin/libxml++-2.6-2.dll"
+File "%static_deps%/bin/libxml2-2.dll"
+File "%static_deps%/bin/libpixman-1-0.dll"
+File "%static_deps%/bin/libfontconfig-1.dll"
+File "%static_deps%/bin/libexpat-1.dll"
+File "%static_deps%/bin/libbz2.dll"
+File "%static_deps%/bin/libxmlsec1.dll"
+File "%static_deps%/bin/libxmlsec1-openssl.dll"
+File "%static_deps%/bin/libexslt-0.dll"
+File "%static_deps%/bin/libxslt-1.dll"
+File "%static_deps%/bin/libffi-6.dll"
+File "%static_deps%/bin/openssl.exe"
+File "%static_deps%/bin/libcurl-4.dll"
+File "%static_deps%/bin/ssleay32.dll"
+File "%static_deps%/bin/libzip-2.dll"
+
+File "%cdist_deps%/bin/asdcp-libdcp.dll"
+File "%cdist_deps%/bin/kumu-libdcp.dll"
+File "%cdist_deps%/bin/avcodec-55.dll"
+File "%cdist_deps%/bin/avfilter-4.dll"
+File "%cdist_deps%/bin/avformat-55.dll"
+File "%cdist_deps%/bin/avutil-52.dll"
+File "%cdist_deps%/bin/avdevice-55.dll"
+File "%cdist_deps%/bin/dcp.dll"
+File "%cdist_deps%/bin/libopenjpeg-1.dll"
+File "%cdist_deps%/bin/postproc-52.dll"
+File "%cdist_deps%/bin/swresample-0.dll"
+File "%cdist_deps%/bin/swscale-2.dll"
+File "%cdist_deps%/bin/cxml.dll"
+File "%cdist_deps%/bin/ffprobe.exe"
+
+File "%binaries%/src/wx/dcpomatic-wx.dll"
+File "%binaries%/src/lib/dcpomatic.dll"
+
+# I don't know why, but sometimes it seems that 
+# delegates.xml must be in with the binaries, and
+# sometimes in the $PROFILE.  Meh.
+File "%static_deps%/etc/ImageMagick-6/delegates.xml"
+SetOutPath "$PROFILE\\.magick"
+File "%static_deps%/etc/ImageMagick-6/delegates.xml"
+
+SetOutPath "$INSTDIR\\locale\\fr\\LC_MESSAGES"
+File "%binaries%/src/lib/mo/fr_FR/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/fr_FR/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/fr_FR/dcpomatic.mo"
+SetOutPath "$INSTDIR\\locale\\it\\LC_MESSAGES"
+File "%binaries%/src/lib/mo/it_IT/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/it_IT/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/it_IT/dcpomatic.mo"
+SetOutPath "$INSTDIR\\locale\\es\\LC_MESSAGES"
+File "%binaries%/src/lib/mo/es_ES/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/es_ES/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/es_ES/dcpomatic.mo"
+SetOutPath "$INSTDIR\\locale\\sv\\LC_MESSAGES"
+File "%binaries%/src/lib/mo/sv_SE/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/sv_SE/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/sv_SE/dcpomatic.mo"
+SetOutPath "$INSTDIR\\locale\\de\\LC_MESSAGES"
+File "%binaries%/src/lib/mo/de_DE/libdcpomatic.mo"
+File "%binaries%/src/wx/mo/de_DE/libdcpomatic-wx.mo"
+File "%binaries%/src/tools/mo/de_DE/dcpomatic.mo"
+
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "DisplayName" "DCP-o-matic (remove only)"
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "UninstallString" "$INSTDIR\\Uninstall.exe"
+WriteUninstaller "$INSTDIR\\Uninstall.exe"
+
+SectionEnd
+
+Section "DCP-o-matic" SEC_MASTER
+SetOutPath "$INSTDIR\\bin"
+CreateDirectory "$SMPROGRAMS\\DCP-o-matic"
+File "%binaries%/src/tools/dcpomatic.exe"
+File "%binaries%/src/tools/dcpomatic_batch.exe"
+File "%binaries%/src/tools/dcpomatic_cli.exe"
+CreateShortCut "$DESKTOP\\DCP-o-matic.lnk" "$INSTDIR\\bin\\dcpomatic.exe" ""
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic.lnk" "$INSTDIR\\bin\\dcpomatic.exe" "" "$INSTDIR\\bin\\dcpomatic.exe" 0
+CreateShortCut "$DESKTOP\\DCP-o-matic batch converter.lnk" "$INSTDIR\\bin\\dcpomatic_batch.exe" ""
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic batch converter.lnk" "$INSTDIR\\bin\\dcpomatic.exe" "" "$INSTDIR\\bin\\dcpomatic_batch.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "DisplayName" "DCP-o-matic (remove only)"
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "UninstallString" "$INSTDIR\\Uninstall.exe"
+WriteUninstaller "$INSTDIR\\Uninstall.exe"
+SectionEnd
+
+Section "Encode server" SEC_SERVER
+SetOutPath "$INSTDIR\\bin"
+CreateDirectory "$SMPROGRAMS\\DCP-o-matic"
+File "%binaries%/src/tools/dcpomatic_server_cli.exe"
+File "%binaries%/src/tools/dcpomatic_server.exe"
+CreateShortCut "$DESKTOP\\DCP-o-matic encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" ""
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" "" "$INSTDIR\\bin\\dcpomatic_server.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+SectionEnd
+
+LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic"
+LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic encode server"
+
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER} $(DESC_SEC_MASTER)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER} $(DESC_SEC_SERVER)
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
+!insertmacro MUI_LANGUAGE "English"
+
+Section "Uninstall"
+RMDir /r "$INSTDIR\\*.*"    
+RMDir "$INSTDIR"
+Delete "$DESKTOP\\DCP-o-matic.lnk"
+Delete "$DESKTOP\\DCP-o-matic batch converter.lnk"
+Delete "$DESKTOP\\DCP-o-matic encode server.lnk"
+Delete "$SMPROGRAMS\\DCP-o-matic\\*.*"
+RmDir  "$SMPROGRAMS\\DCP-o-matic"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic"
+ SectionEnd
+    """, file=f)
     
+
+def build(bld):
+    write_installer(32, bld.env.VERSION)
+    write_installer(64, bld.env.VERSION)
