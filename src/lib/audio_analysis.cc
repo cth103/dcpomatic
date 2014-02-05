@@ -93,10 +93,21 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 	for (int i = 0; i < channels; ++i) {
 		int points;
 		fscanf (f, "%d", &points);
+		if (feof (f)) {
+			fclose (f);
+			return;
+		}
+		
 		for (int j = 0; j < points; ++j) {
 			_data[i].push_back (AudioPoint (f));
+			if (feof (f)) {
+				fclose (f);
+				return;
+			}
 		}
 	}
+
+	fclose (f);
 }
 
 void

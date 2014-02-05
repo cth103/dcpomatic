@@ -474,7 +474,7 @@ void
 Timeline::setup_pixels_per_time_unit ()
 {
 	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
+	if (!film || film->length() == 0) {
 		return;
 	}
 

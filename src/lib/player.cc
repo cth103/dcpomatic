@@ -62,6 +62,8 @@ public:
 		, decoder (d)
 		, video_position (c->position ())
 		, audio_position (c->position ())
+		, repeat_to_do (0)
+		, repeat_done (0)
 	{}
 
 	/** Set this piece to repeat a video frame a given number of times */

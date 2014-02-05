@@ -1,5 +1,7 @@
 2014-02-05  Carl Hetherington  <cth@carlh.net>
 
+	* A variety of fixes to small problems found by Coverity.
+
 	* Updates to it_IT translation from William Fanelli.
 
 2014-02-02  Carl Hetherington  <cth@carlh.net>

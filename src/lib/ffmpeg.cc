@@ -146,7 +146,8 @@ void
 FFmpeg::setup_video ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
+
+	assert (_video_stream >= 0);
 	AVCodecContext* context = _format_context->streams[_video_stream]->codec;
 	AVCodec* codec = avcodec_find_decoder (context->codec_id);
 

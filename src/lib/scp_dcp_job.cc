@@ -191,8 +191,10 @@ SCPDCPJob::run ()
 			}
 			to_do -= t;
 			bytes_transferred += t;
-			
-			set_progress ((double) bytes_transferred / bytes_to_transfer);
+
+			if (bytes_to_transfer > 0) {
+				set_progress ((double) bytes_transferred / bytes_to_transfer);
+			}
 		}
 
 		fclose (f);

@@ -86,6 +86,8 @@ private:
 	/* Constructor for tests */
 	FFmpegAudioStream ()
 		: FFmpegStream ("", 0)
+		, frame_rate (0)
+		, channels (0)
 		, mapping (1)
 	{}
 };
