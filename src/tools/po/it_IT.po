@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-30 21:51+0000\n"
-"PO-Revision-Date: 2013-04-28 10:31+0100\n"
-"Last-Translator: Maci <macibro@gmail.com>\n"
+"PO-Revision-Date: 2014-02-03 09:36+0100\n"
+"Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
-"Language: Italiano\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/tools/dcpomatic.cc:366
 msgid "%1 already exists as a file, so you cannot use it for a new film."
-msgstr ""
+msgstr "%1 esiste già il file, non è possibile usarlo per un nuovo film"
 
 #: src/tools/dcpomatic.cc:241
 msgid "&Edit"
@@ -27,7 +27,7 @@ msgstr "&Modifica"
 
 #: src/tools/dcpomatic.cc:208
 msgid "&Exit"
-msgstr ""
+msgstr "&Esci"
 
 #: src/tools/dcpomatic.cc:239
 msgid "&File"
@@ -71,20 +71,19 @@ msgstr "&Invia DCP a TMS"
 
 #: src/tools/dcpomatic.cc:244
 msgid "&Tools"
-msgstr ""
+msgstr "&Strumenti"
 
 #: src/tools/dcpomatic.cc:236
 msgid "About"
 msgstr "Informazioni"
 
 #: src/tools/dcpomatic.cc:234
-#, fuzzy
 msgid "About DCP-o-matic"
-msgstr "DVD-o-matic"
+msgstr "Su DVD-o-matic"
 
 #: src/tools/dcpomatic.cc:230
 msgid "Check for updates"
-msgstr ""
+msgstr "Controlla aggiornamenti"
 
 #: src/tools/dcpomatic.cc:633
 msgid "Could not load film %1 (%2)"
@@ -105,9 +104,8 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:337 src/tools/dcpomatic.cc:591
 #: src/tools/dcpomatic.cc:644
-#, fuzzy
 msgid "DCP-o-matic"
-msgstr "DVD-o-matic"
+msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:229
 msgid "Encoding servers..."
@@ -119,7 +117,7 @@ msgstr "Film modificato"
 
 #: src/tools/dcpomatic.cc:228
 msgid "Hints..."
-msgstr ""
+msgstr "Suggerimenti..."
 
 #: src/tools/dcpomatic.cc:223
 msgid "Make &KDMs..."
@@ -148,34 +146,38 @@ msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
+"Il DCP di questo film occupa %.1f Gb, ma il disco che stai usando dispone di "
+"%.1f Gb liberi.  Vuoi continuare ugualmente?"
 
 #: src/tools/dcpomatic.cc:728
 msgid "The DCP-o-matic download server could not be contacted."
-msgstr ""
+msgstr "Il download server di DCP-o-matic non può essere contattato."
 
 #: src/tools/dcpomatic.cc:356
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr ""
+msgstr "La cartella %1 esiste già e non è vuota.  Sei sicuro di volerla usare?"
 
 #: src/tools/dcpomatic.cc:723
 msgid "There are no new versions of DCP-o-matic available."
-msgstr ""
+msgstr "Non ci sono nuove versioni di DCP-o-matic disponibili."
 
 #: src/tools/dcpomatic.cc:553
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr ""
+msgstr "C'è un processo in corso: sei sicuro di voler uscire?"
 
 #: src/tools/dcpomatic.cc:554
 msgid "Unfinished jobs"
-msgstr ""
+msgstr "Processo in corso"
 
 #: src/tools/dcpomatic.cc:395
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
+"Non hai selezionato una cartella. Assicurati di selezionare una cartella "
+"prima di cliccare Apri."
 
 #~ msgid "&Analyse audio"
 #~ msgstr "&Analizza audio"
