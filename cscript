@@ -137,52 +137,88 @@ def build(target, options):
     if target.platform == 'windows':
         cmd += ' --target-windows'
     elif target.platform == 'linux':
-        cmd += ' --static'
-    target.command(cmd)
+        if target.distro == 'debian' or target.distro == 'ubuntu':
+            cmd += ' --target-debian'
+        elif target.distro == 'centos':
+            cmd += ' --target-centos'
 
+    target.command(cmd)
     target.command('./waf')
 
     if target.platform == 'linux' or target.platform == 'osx':
         target.command('./waf install')
 
+def package_windows(target):
+    shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
+    target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+    target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
+    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
+    target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+    target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
+    target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
+    return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
+
+def package_debian(target, cpu):
+    make_control(target.version, target.bits, 'debian/control')
+    target.command('./waf dist')
+    f = open('debian/files', 'w')
+    print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
+    shutil.rmtree('build/deb', ignore_errors=True)
+    
+    os.makedirs('build/deb')
+    os.chdir('build/deb')
+    shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
+    target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
+    os.chdir('dcpomatic-%s' % version)
+    target.command('dch -b -v %s-1 "New upstream release."' % version)
+    target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
+    target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
+    target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
+    target.command('dpkg-buildpackage')
+    
+    debs = []
+    for p in glob.glob('../*.deb'):
+        debs.append(os.path.abspath(p))
+    
+    return debs
+
+def package_centos(target, cpu, version):
+    os.makedirs('%s/rpmbuild/BUILD' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/RPMS' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/SOURCES' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/SPECS' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/SRPMS' % target.work_dir_cdist())
+
+    f = open('%s/.rpmmacros' % target.dir_in_chroot, 'w')
+    print >>f,"%%_topdir %srpmbuild" % target.dir_in_chroot
+    f.close()
+
+    target.command('./waf dist')
+    shutil.copyfile(
+        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version),
+        "%s/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version)
+        )
+
+    target.command('rpmbuild -bb build/platform/linux/dcpomatic.spec')
+    rpms = []
+    for p in glob.glob('%s/rpmbuild/RPMS/x86_64/*.rpm' % target.work_dir_cdist()):
+        rpms.append(os.path.abspath(p))
+
+    return rpms
+
 def package(target, version):
+    if target.bits == 32:
+        cpu = 'i386'
+    else:
+        cpu = 'amd64'
+
     if target.platform == 'windows':
-        shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
-        target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
-        target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
-        target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
-        target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
-        return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
+        return package_windows(target)
     elif target.platform == 'linux':
-        if target.bits == 32:
-            cpu = 'i386'
-        else:
-            cpu = 'amd64'
-
-        make_control(target.version, target.bits, 'debian/control', target.debug)
-        target.command('./waf dist')
-        f = open('debian/files', 'w')
-        print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
-        shutil.rmtree('build/deb', ignore_errors=True)
-
-        os.makedirs('build/deb')
-        os.chdir('build/deb')
-        shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
-        target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
-        os.chdir('dcpomatic-%s' % version)
-        target.command('dch -b -v %s-1 "New upstream release."' % version)
-        target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
-        target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
-        target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
-        target.command('dpkg-buildpackage')
-        
-        debs = []
-        for p in glob.glob('../*.deb'):
-            debs.append(os.path.abspath(p))
-
-        return debs
+	if target.distro == 'debian' or target.distro == 'ubuntu':
+            return package_debian(target, cpu)
+        elif target.distro == 'centos':
+            return package_centos(target, cpu, version)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.work_dir_cscript())
         return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])

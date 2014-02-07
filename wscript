@@ -11,29 +11,166 @@ def options(opt):
 
     opt.add_option('--enable-debug', action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui', action='store_true', default=False, help='disable building of GUI tools')
-    opt.add_option('--target-windows', action='store_true', default=False, help='set up to do a cross-compile to Windows')
-    opt.add_option('--static', action='store_true', default=False, help='build statically, and link statically to libdcp and FFmpeg')
+    opt.add_option('--target-windows', action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
+    opt.add_option('--target-debian', action='store_true', default=False, help='set up to compile for a Debian/Ubuntu package')
+    opt.add_option('--target-centos', action='store_true', default=False, help='set up to compile for a Centos package')
     opt.add_option('--magickpp-config', action='store', default='Magick++-config', help='path to Magick++-config')
     opt.add_option('--wx-config', action='store', default='wx-config', help='path to wx-config')
     opt.add_option('--address-sanitizer', action='store_true', default=False, help='build with address sanitizer')
+    opt.add_option('--install-prefix', default=None, help='prefix of where DCP-o-matic will be installed')
 
-def pkg_config_args(conf):
-    if conf.env.STATIC:
-        return '--cflags'
+def static_ffmpeg(conf):
+    conf.check_cfg(package='libavformat', args='--cflags', uselib_store='AVFORMAT', mandatory=True)
+    conf.env.STLIB_AVFORMAT = ['avformat']
+    conf.check_cfg(package='libavfilter', args='--cflags', uselib_store='AVFILTER', mandatory=True)
+    conf.env.STLIB_AVFILTER = ['avfilter', 'swresample']
+    conf.check_cfg(package='libavcodec', args='--cflags', uselib_store='AVCODEC', mandatory=True)
+    conf.env.STLIB_AVCODEC = ['avcodec']
+    conf.env.LIB_AVCODEC = ['z']
+    conf.check_cfg(package='libavutil', args='--cflags', uselib_store='AVUTIL', mandatory=True)
+    conf.env.STLIB_AVUTIL = ['avutil']
+    conf.check_cfg(package='libswscale', args='--cflags', uselib_store='SWSCALE', mandatory=True)
+    conf.env.STLIB_SWSCALE = ['swscale']
+    conf.check_cfg(package='libswresample', args='--cflags', uselib_store='SWRESAMPLE', mandatory=True)
+    conf.env.STLIB_SWRESAMPLE = ['swresample']
+    conf.check_cfg(package='libpostproc', args='--cflags', uselib_store='POSTPROC', mandatory=True)
+    conf.env.STLIB_POSTPROC = ['postproc']
+
+def dynamic_ffmpeg(conf):
+    conf.check_cfg(package='libavformat', args='--cflags --libs', uselib_store='AVFORMAT', mandatory=True)
+    conf.check_cfg(package='libavfilter', args='--cflags --libs', uselib_store='AVFILTER', mandatory=True)
+    conf.check_cfg(package='libavcodec', args='--cflags --libs', uselib_store='AVCODEC', mandatory=True)
+    conf.check_cfg(package='libavutil', args='--cflags --libs', uselib_store='AVUTIL', mandatory=True)
+    conf.check_cfg(package='libswscale', args='--cflags --libs', uselib_store='SWSCALE', mandatory=True)
+    conf.check_cfg(package='libswresample', args='--cflags --libs', uselib_store='SWRESAMPLE', mandatory=True)
+    conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=True)
+
+def static_openjpeg(conf):
+    conf.check_cfg(package='libopenjpeg', args='--cflags', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
+    conf.check_cfg(package='libopenjpeg', args='--cflags', max_version='1.5.1', mandatory=True)
+    conf.env.STLIB_OPENJPEG = ['openjpeg']
+
+def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
+    conf.check_cfg(package='libdcp', atleast_version='0.92', args='--cflags', uselib_store='DCP', mandatory=True)
+    conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
+    conf.env.STLIB_DCP = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
+    conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
+
+    if static_boost:
+        conf.env.STLIB_DCP.append('boost_system')
+
+    if static_xmlpp:
+        conf.env.STLIB_DCP.append('xml++-2.6')
     else:
-        return '--cflags --libs'
+        conf.env.LIB_DCP.append('xml++-2.6')
+
+    if static_xmlsec:
+        conf.env.STLIB_DCP.append('xmlsec1-openssl')
+        conf.env.STLIB_DCP.append('xmlsec1')
+    else:
+        conf.env.LIB_DCP.append('xmlsec1-openssl')
+        conf.env.LIB_DCP.append('xmlsec1')
+
+    if static_ssh:
+        conf.env.STLIB_DCP.append('ssh')
+    else:
+        conf.env.LIB_DCP.append('ssh')
+
+
+
+def dynamic_dcp(conf):
+    conf.check_cfg(package='libdcp', atleast_version='0.92', args='--cflags --libs', uselib_store='DCP', mandatory=True)
+    conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
+
+def dynamic_ssh(conf):
+    conf.check_cc(fragment="""
+                           #include <libssh/libssh.h>\n
+                           int main () {\n
+                           ssh_session s = ssh_new ();\n
+                           return 0;\n
+                           }
+                           """, msg='Checking for library libssh', mandatory=True, lib='ssh', uselib_store='SSH')
+
+def dynamic_boost(conf, lib_suffix, thread):
+    conf.check_cxx(fragment="""
+                            #include <boost/version.hpp>\n
+                            #if BOOST_VERSION < 104500\n
+                            #error boost too old\n
+                            #endif\n
+                            int main(void) { return 0; }\n
+                            """,
+                   mandatory=True,
+                   msg='Checking for boost library >= 1.45',
+                   okmsg='yes',
+                   errmsg='too old\nPlease install boost version 1.45 or higher.')
+
+    conf.check_cxx(fragment="""
+    			    #include <boost/thread.hpp>\n
+    			    int main() { boost::thread t (); }\n
+			    """, msg='Checking for boost threading library',
+			    libpath='/usr/local/lib',
+                            lib=[thread, 'boost_system%s' % lib_suffix],
+                            uselib_store='BOOST_THREAD')
+
+    conf.check_cxx(fragment="""
+    			    #include <boost/filesystem.hpp>\n
+    			    int main() { boost::filesystem::copy_file ("a", "b"); }\n
+			    """, msg='Checking for boost filesystem library',
+                            libpath='/usr/local/lib',
+                            lib=['boost_filesystem%s' % lib_suffix, 'boost_system%s' % lib_suffix],
+                            uselib_store='BOOST_FILESYSTEM')
+
+    conf.check_cxx(fragment="""
+    			    #include <boost/date_time.hpp>\n
+    			    int main() { boost::gregorian::day_clock::local_day(); }\n
+			    """, msg='Checking for boost datetime library',
+                            libpath='/usr/local/lib',
+                            lib=['boost_date_time%s' % lib_suffix, 'boost_system%s' % lib_suffix],
+                            uselib_store='BOOST_DATETIME')
+
+    conf.check_cxx(fragment="""
+    			    #include <boost/signals2.hpp>\n
+    			    int main() { boost::signals2::signal<void (int)> x; }\n
+			    """,
+                            msg='Checking for boost signals2 library',
+                            uselib_store='BOOST_SIGNALS2')
+
+def static_boost(conf, lib_suffix):
+    conf.env.STLIB_BOOST_THREAD = ['boost_thread']
+    conf.env.STLIB_BOOST_FILESYSTEM = ['boost_filesystem%s' % lib_suffix]
+    conf.env.STLIB_BOOST_DATETIME = ['boost_date_time%s' % lib_suffix, 'boost_system%s' % lib_suffix]
+    conf.env.STLIB_BOOST_SIGNALS2 = ['boost_signals2']
+
+def dynamic_quickmail(conf):
+    conf.check_cxx(fragment="""
+                            #include <quickmail.h>
+                            int main(void) { quickmail_initialize (); }
+                            """,
+                   mandatory=True,
+                   msg='Checking for libquickmail',
+                   libpath='/usr/local/lib',
+                   lib=['quickmail', 'curl'],
+                   uselib_store='QUICKMAIL')
 
 def configure(conf):
     conf.load('compiler_cxx')
     if conf.options.target_windows:
         conf.load('winres')
 
+    # conf.options -> conf.env
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
-    conf.env.STATIC = conf.options.static
+    conf.env.TARGET_DEBIAN = conf.options.target_debian
+    conf.env.TARGET_CENTOS = conf.options.target_centos
     conf.env.VERSION = VERSION
     conf.env.TARGET_OSX = sys.platform == 'darwin'
     conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS and not conf.env.TARGET_OSX
+    # true if we should build dcpomatic/libdcpomatic/libdcpomatic-wx statically
+    conf.env.BUILD_STATIC = conf.options.target_debian or conf.options.target_centos
+    if conf.options.install_prefix is None:
+        conf.env.INSTALL_PREFIX = conf.env.PREFIX
+    else:
+        conf.env.INSTALL_PREFIX = conf.options.install_prefix
 
     # Common CXXFLAGS
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
@@ -48,7 +185,11 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', ['-fsanitize=address', '-fno-omit-frame-pointer'])
         conf.env.append_value('LINKFLAGS', ['-fsanitize=address'])
 
-    # Windows-specific
+    #
+    # Platform-specific CFLAGS hacks and other tinkering
+    #
+
+    # Windows
     if conf.env.TARGET_WINDOWS:
         conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN'])
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
@@ -65,7 +206,7 @@ def configure(conf):
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread_win32-mt'
 
-    # POSIX-specific
+    # POSIX
     if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
         conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
@@ -74,125 +215,55 @@ def configure(conf):
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
 
-    # Linux-specific
+    # Linux
     if conf.env.TARGET_LINUX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
+
+    if conf.env.TARGET_DEBIAN:
         # libxml2 seems to be linked against this on Ubuntu but it doesn't mention it in its .pc file
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
-        if not conf.env.DISABLE_GUI:
-            if conf.env.STATIC:
-                conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
-            else:
-                # On Linux we need to be able to include <gtk/gtk.h> to check GTK's version
-                conf.check_cfg(package='gtk+-2.0', args='--cflags', uselib_store='GTK', mandatory=True)
+        
+    if not conf.env.DISABLE_GUI:
+        if conf.env.TARGET_DEBIAN or conf.env.TARGET_CENTOS:
+            conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
-    # OSX-specific
+    # OSX
     if conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_OSX')
         conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
 
-    # Dependencies which are dynamically linked everywhere except --static
-    # Get libs only when we are dynamically linking
-    conf.check_cfg(package='libdcp',        atleast_version='0.92', args=pkg_config_args(conf), uselib_store='DCP',  mandatory=True)
-    # Remove erroneous escaping of quotes from xmlsec1 defines
-    conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
-    conf.check_cfg(package='libcxml',       atleast_version='0.08', args=pkg_config_args(conf), uselib_store='CXML', mandatory=True)
-    conf.check_cfg(package='libavformat',   args=pkg_config_args(conf), uselib_store='AVFORMAT',   mandatory=True)
-    conf.check_cfg(package='libavfilter',   args=pkg_config_args(conf), uselib_store='AVFILTER',   mandatory=True)
-    conf.check_cfg(package='libavcodec',    args=pkg_config_args(conf), uselib_store='AVCODEC',    mandatory=True)
-    conf.check_cfg(package='libavutil',     args=pkg_config_args(conf), uselib_store='AVUTIL',     mandatory=True)
-    conf.check_cfg(package='libswscale',    args=pkg_config_args(conf), uselib_store='SWSCALE',    mandatory=True)
-    conf.check_cfg(package='libswresample', args=pkg_config_args(conf), uselib_store='SWRESAMPLE', mandatory=True)
-    conf.check_cfg(package='libpostproc',   args=pkg_config_args(conf), uselib_store='POSTPROC',   mandatory=True)
-    conf.check_cfg(package='libopenjpeg',   args=pkg_config_args(conf), atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
-    conf.check_cfg(package='libopenjpeg',   args=pkg_config_args(conf), max_version='1.5.1', mandatory=True)
+    #
+    # Dependencies.
+    # There's probably a neater way of expressing these, but I've gone for brute force for now.
+    #
 
-    if conf.env.STATIC:
-        # This is hackio grotesquio for static builds (ie for .deb packages).  We need to link some things
-        # statically and some dynamically, or things get horribly confused and the dynamic linker (I think)
-        # crashes.  These calls do what the check_cfg calls would have done, but specify the
-        # different bits as static or dynamic as required.  It'll break if you look at it funny, but
-        # I think anyone else who builds would do so dynamically.
-        conf.env.STLIB_CXML       = ['cxml']
-        conf.env.STLIB_DCP        = ['dcp', 'asdcp-libdcp', 'kumu-libdcp']
-        conf.env.LIB_DCP          = ['glibmm-2.4', 'xml++-2.6', 'ssl', 'crypto', 'bz2', 'xmlsec1', 'xmlsec1-openssl', 'xslt']
-        conf.env.STLIB_CXML       = ['cxml']
-        conf.env.STLIB_AVFORMAT   = ['avformat']
-        conf.env.STLIB_AVFILTER   = ['avfilter', 'swresample']
-        conf.env.STLIB_AVCODEC    = ['avcodec']
-        conf.env.LIB_AVCODEC      = ['z']
-        conf.env.STLIB_AVUTIL     = ['avutil']
-        conf.env.STLIB_SWSCALE    = ['swscale']
-        conf.env.STLIB_POSTPROC   = ['postproc']
-        conf.env.STLIB_SWRESAMPLE = ['swresample']
-        conf.env.STLIB_OPENJPEG   = ['openjpeg']
-        conf.env.STLIB_QUICKMAIL  = ['quickmail']
-    else:
-        conf.check_cxx(fragment="""
-                            #include <quickmail.h>
-                            int main(void) { quickmail_initialize (); }
-                            """,
-                       mandatory=True,
-                       msg='Checking for libquickmail',
-                       libpath='/usr/local/lib',
-                       lib=['quickmail', 'curl'],
-                       uselib_store='QUICKMAIL')
+    if conf.env.TARGET_DEBIAN:
+        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags', uselib_store='CXML', mandatory=True)
+        conf.env.STLIB_CXML = ['cxml']
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+        conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
+        conf.env.STLIB_QUICKMAIL = ['quickmail']
+        static_ffmpeg(conf)
+        static_openjpeg(conf)
+        static_dcp(conf, False, False, False, False)
+        dynamic_boost(conf, boost_lib_suffix, boost_thread)
 
-    # Dependencies which are always dynamically linked
-    conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
-    conf.check_cfg(package='glib-2.0', args='--cflags --libs', uselib_store='GLIB', mandatory=True)
-    conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
-    conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
-    conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
-    conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
+    if conf.env.TARGET_CENTOS:
+        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags --libs-only-L', uselib_store='CXML', mandatory=True)
+        conf.env.STLIB_CXML = ['cxml', 'boost_filesystem']
+        conf.check_cfg(package='libcurl', args='--cflags --libs-only-L', uselib_store='CURL', mandatory=True)
+        conf.env.STLIB_CURL = ['curl']
+        conf.env.LIB_CURL = ['ssh2', 'idn']
+        conf.env.STLIB_QUICKMAIL = ['quickmail', 'curl']
+        conf.env.LIB_QUICKMAIL = ['ssh2', 'idn']
+        static_ffmpeg(conf)
+        static_openjpeg(conf)
+        static_dcp(conf, True, True, True, True)
+        static_boost(conf, boost_lib_suffix)
 
-    conf.check_cxx(fragment="""
-                            #include <boost/version.hpp>\n
-                            #if BOOST_VERSION < 104500\n
-                            #error boost too old\n
-                            #endif\n
-                            int main(void) { return 0; }\n
-                            """,
-                   mandatory=True,
-                   msg='Checking for boost library >= 1.45',
-                   okmsg='yes',
-                   errmsg='too old\nPlease install boost version 1.45 or higher.')
-
-    conf.check_cc(fragment="""
-                           #include <libssh/libssh.h>\n
-                           int main () {\n
-                           ssh_session s = ssh_new ();\n
-                           return 0;\n
-                           }
-                           """, msg='Checking for library libssh', mandatory=True, lib='ssh', uselib_store='SSH')
-
-    conf.check_cxx(fragment="""
-    			    #include <boost/thread.hpp>\n
-    			    int main() { boost::thread t (); }\n
-			    """, msg='Checking for boost threading library',
-			    libpath='/usr/local/lib',
-                            lib=[boost_thread, 'boost_system%s' % boost_lib_suffix],
-                            uselib_store='BOOST_THREAD')
-
-    conf.check_cxx(fragment="""
-    			    #include <boost/filesystem.hpp>\n
-    			    int main() { boost::filesystem::copy_file ("a", "b"); }\n
-			    """, msg='Checking for boost filesystem library',
-                            libpath='/usr/local/lib',
-                            lib=['boost_filesystem%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
-                            uselib_store='BOOST_FILESYSTEM')
-
-    conf.check_cxx(fragment="""
-    			    #include <boost/date_time.hpp>\n
-    			    int main() { boost::gregorian::day_clock::local_day(); }\n
-			    """, msg='Checking for boost datetime library',
-                            libpath='/usr/local/lib',
-                            lib=['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
-                            uselib_store='BOOST_DATETIME')
-
-    # Only Windows versions require boost::locale, which is handy, as it was only introduced in
-    # boost 1.48 and so isn't (easily) available on old Ubuntus.
     if conf.env.TARGET_WINDOWS:
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+        conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
         conf.check_cxx(fragment="""
     			        #include <boost/locale.hpp>\n
     			        int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
@@ -200,13 +271,28 @@ def configure(conf):
                                 libpath='/usr/local/lib',
                                 lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                                 uselib_store='BOOST_LOCALE')
+        dynamic_quickmail(conf)
+        dynamic_boost(conf, boost_lib_suffix, boost_thread)
+        dynamic_ffmpeg(conf)
+        dynamic_dcp(conf)
+        dynamic_ssh(conf)
 
-    conf.check_cxx(fragment="""
-    			    #include <boost/signals2.hpp>\n
-    			    int main() { boost::signals2::signal<void (int)> x; }\n
-			    """,
-                            msg='Checking for boost signals2 library',
-                            uselib_store='BOOST_SIGNALS2')
+    # Not packaging; just a straight build
+    if not conf.env.TARGET_WINDOWS and not conf.env.TARGET_DEBIAN and not conf.env.TARGET_CENTOS:
+        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags --libs', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+        conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
+        dynamic_quickmail(conf)
+        dynamic_boost(conf, boost_lib_suffix, boost_thread)
+        dynamic_ffmpeg(conf)
+        dynamic_dcp(conf)
+        dynamic_ssh(conf)
+
+    # Dependencies which are always dynamically linked
+    conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
+    conf.check_cfg(package='glib-2.0', args='--cflags --libs', uselib_store='GLIB', mandatory=True)
+    conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+    conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
 
     conf.check_cc(fragment="""
                            #include <glib.h>

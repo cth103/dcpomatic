@@ -1,3 +1,7 @@
+2014-02-07  Carl Hetherington  <cth@carlh.net>
+
+	* Add basic stuff to build RPMs for Centos.
+
 2014-02-05  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.64.2 released.
