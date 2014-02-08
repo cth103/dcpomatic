@@ -2,88 +2,88 @@ import glob
 import shutil
 import os
 
-build_depends = {'debhelper': '8.0.0',
-                 'python': '2.7.3',
-                 'g++': '4:4.6.3',
-                 'pkg-config': '0.26',
-                 'libssh-dev': '0.5.2',
-                 'libboost-filesystem-dev': '1.46.0',
-                 'libboost-thread-dev': '1.46.0',
-                 'libsndfile1-dev': '1.0.25',
-                 'libmagick++-dev': '8:6.6.9.7',
-                 'libgtk2.0-dev': '2.24.10'}
+deb_build_depends = {'debhelper': '8.0.0',
+                     'python': '2.7.3',
+                     'g++': '4:4.6.3',
+                     'pkg-config': '0.26',
+                     'libssh-dev': '0.5.2',
+                     'libboost-filesystem-dev': '1.46.0',
+                     'libboost-thread-dev': '1.46.0',
+                     'libsndfile1-dev': '1.0.25',
+                     'libmagick++-dev': '8:6.6.9.7',
+                     'libgtk2.0-dev': '2.24.10'}
 
-depends = dict()
+deb_depends = dict()
 
-depends['12.04'] = {'libc6': '2.15',
-                    'libssh-4': '0.5.2',
-                    'libboost-filesystem1.46.1': '1.46.1',
-                    'libboost-thread1.46.1': '1.46.1',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++4': '8:6.6.9.7',
-                    'libxml++2.6-2': '2.34.1',
-                    'libgtk2.0-0': '2.24.10',
-                    'libxmlsec1': '1.2.14-1.2build1',
-                    'libxmlsec1-openssl': '1.2.14-1.2build1',
-                    'libboost-date-time1.46.1': '1.46.1',
-                    'libcurl3': '7.22.0-3ubuntu4',
-                    'libzip2': '0.10-1ubuntu1'}
+deb_depends['12.04'] = {'libc6': '2.15',
+                        'libssh-4': '0.5.2',
+                        'libboost-filesystem1.46.1': '1.46.1',
+                        'libboost-thread1.46.1': '1.46.1',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++4': '8:6.6.9.7',
+                        'libxml++2.6-2': '2.34.1',
+                        'libgtk2.0-0': '2.24.10',
+                        'libxmlsec1': '1.2.14-1.2build1',
+                        'libxmlsec1-openssl': '1.2.14-1.2build1',
+                        'libboost-date-time1.46.1': '1.46.1',
+                        'libcurl3': '7.22.0-3ubuntu4',
+                        'libzip2': '0.10-1ubuntu1'}
 
-depends['12.10'] = {'libc6': '2.15',
-                    'libssh-4': '0.5.2',
-                    'libboost-filesystem1.49.0': '1.49.0',
-                    'libboost-thread1.49.0': '1.49.0',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.34.2',
-                    'libgtk2.0-0': '2.24.13',
-                    'libxmlsec1': '1.2.18-2',
-                    'libxmlsec1-openssl': '1.2.18-2',
-                    'libboost-date-time1.49.0': '1.49.0',
-                    'libcurl3': '7.27.0-1ubuntu1',
-                    'libzip2': '0.10.1-1.1'}
+deb_depends['12.10'] = {'libc6': '2.15',
+                        'libssh-4': '0.5.2',
+                        'libboost-filesystem1.49.0': '1.49.0',
+                        'libboost-thread1.49.0': '1.49.0',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++5': '8:6.7.7.10',
+                        'libxml++2.6-2': '2.34.2',
+                        'libgtk2.0-0': '2.24.13',
+                        'libxmlsec1': '1.2.18-2',
+                        'libxmlsec1-openssl': '1.2.18-2',
+                        'libboost-date-time1.49.0': '1.49.0',
+                        'libcurl3': '7.27.0-1ubuntu1',
+                        'libzip2': '0.10.1-1.1'}
 
-depends['13.04'] = {'libc6': '2.15',
-                    'libssh-4': '0.5.2',
-                    'libboost-filesystem1.49.0': '1.49.0',
-                    'libboost-thread1.49.0': '1.49.0',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.34.2',
-                    'libgtk2.0-0': '2.24.13',
-                    'libxmlsec1': '1.2.18-2',
-                    'libxmlsec1-openssl': '1.2.18-2',
-                    'libboost-date-time1.49.0': '1.49.0',
-                    'libcurl3': '7.29.0-1ubuntu3',
-                    'libzip2': '0.10.1-1.1'}
+deb_depends['13.04'] = {'libc6': '2.15',
+                        'libssh-4': '0.5.2',
+                        'libboost-filesystem1.49.0': '1.49.0',
+                        'libboost-thread1.49.0': '1.49.0',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++5': '8:6.7.7.10',
+                        'libxml++2.6-2': '2.34.2',
+                        'libgtk2.0-0': '2.24.13',
+                        'libxmlsec1': '1.2.18-2',
+                        'libxmlsec1-openssl': '1.2.18-2',
+                        'libboost-date-time1.49.0': '1.49.0',
+                        'libcurl3': '7.29.0-1ubuntu3',
+                        'libzip2': '0.10.1-1.1'}
 
-depends['13.10'] = {'libc6': '2.17-93',
+deb_depends['13.10'] = {'libc6': '2.17-93',
+                        'libssh-4': '0.5.4',
+                        'libboost-filesystem1.53.0': '1.53.0',
+                        'libboost-thread1.53.0': '1.53.0',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++5': '8:6.7.7.10',
+                        'libxml++2.6-2': '2.36.0',
+                        'libgtk2.0-0': '2.24.20',
+                        'libxmlsec1': '1.2.18-2',
+                        'libxmlsec1-openssl': '1.2.18-2',
+                        'libboost-date-time1.49.0': '1.49.0',
+                        'libcurl3': '7.29.0-1ubuntu3',
+                        'libzip2': '0.10.1-1.1'}
+
+deb_depends['7'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
-                    'libboost-filesystem1.53.0': '1.53.0',
-                    'libboost-thread1.53.0': '1.53.0',
+                    'libboost-filesystem1.49.0': '1.49.0',
+                    'libboost-thread1.49.0': '1.49.0',
                     'libsndfile1': '1.0.25',
                     'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.36.0',
-                    'libgtk2.0-0': '2.24.20',
-                    'libxmlsec1': '1.2.18-2',
-                    'libxmlsec1-openssl': '1.2.18-2',
+                    'libxml++2.6-2': '2.34.2',
+                    'libgtk2.0-0': '2.24.10',
+                    'libxmlsec1': '1.2.18',
                     'libboost-date-time1.49.0': '1.49.0',
-                    'libcurl3': '7.29.0-1ubuntu3',
-                    'libzip2': '0.10.1-1.1'}
-
-depends['7'] = {'libc6': '2.13',
-                'libssh-4': '0.5.4',
-                'libboost-filesystem1.49.0': '1.49.0',
-                'libboost-thread1.49.0': '1.49.0',
-                'libsndfile1': '1.0.25',
-                'libmagick++5': '8:6.7.7.10',
-                'libxml++2.6-2': '2.34.2',
-                'libgtk2.0-0': '2.24.10',
-                'libxmlsec1': '1.2.18',
-                'libboost-date-time1.49.0': '1.49.0',
-                'libxmlsec1-openssl': '1.2.18',
-                'libcurl3': '7.26.0',
-                'libzip2': '0.10.1'}
+                    'libxmlsec1-openssl': '1.2.18',
+                    'libcurl3': '7.26.0',
+                    'libzip2': '0.10.1'}
 
 def packages(name, packages, f):
     s = '%s: ' % name
@@ -91,13 +91,13 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print >>f,s[:-2]
 
-def make_control(version, bits, filename, debug):
+def make_control(debian_version, bits, filename, debug):
     f = open(filename, 'w')
     print >>f,'Source: dcpomatic'
     print >>f,'Section: video'
     print >>f,'Priority: extra'
     print >>f,'Maintainer: Carl Hetherington <carl@dcpomatic.com>'
-    packages('Build-Depends', build_depends, f)
+    packages('Build-Depends', deb_build_depends, f)
     print >>f,'Standards-Version: 3.9.3'
     print >>f,'Homepage: http://dcpomatic.com/'
     print >>f,''
@@ -107,7 +107,7 @@ def make_control(version, bits, filename, debug):
     else:
         print >>f,'Architecture: amd64'
 
-    packages('Depends', depends[version], f)
+    packages('Depends', deb_depends[debian_version], f)
 
     print >>f,'Description: Generator of Digital Cinema Packages (DCPs)'
     print >>f,'  DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio'
@@ -123,7 +123,7 @@ def make_control(version, bits, filename, debug):
             print >>f,'Architecture: amd64'
         print >>f,'Section: debug'
         print >>f,'Priority: extra'
-        packages('Depends', depends[version], f)
+        packages('Depends', deb_depends[debian_version], f)
         print >>f,'Description: debugging symbols for dcpomatic'
         print >>f,'  This package contains the debugging symbols for dcpomatic.'
         print >>f,''
@@ -158,7 +158,7 @@ def package_windows(target):
     target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
     return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
 
-def package_debian(target, cpu):
+def package_debian(target, cpu, version):
     make_control(target.version, target.bits, 'debian/control', target.debug)
     target.command('./waf dist')
     f = open('debian/files', 'w')
@@ -216,7 +216,7 @@ def package(target, version):
             cpu	= 'amd64'
 
 	if target.distro == 'debian' or target.distro == 'ubuntu':
-            return package_debian(target, cpu)
+            return package_debian(target, cpu, version)
         elif target.distro == 'centos':
             return package_centos(target, cpu, version)
     elif target.platform == 'osx':
