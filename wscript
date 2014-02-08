@@ -9,15 +9,15 @@ def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
 
-    opt.add_option('--enable-debug', action='store_true', default=False, help='build with debugging information and without optimisation')
-    opt.add_option('--disable-gui', action='store_true', default=False, help='disable building of GUI tools')
-    opt.add_option('--target-windows', action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
-    opt.add_option('--target-debian', action='store_true', default=False, help='set up to compile for a Debian/Ubuntu package')
-    opt.add_option('--target-centos', action='store_true', default=False, help='set up to compile for a Centos package')
-    opt.add_option('--magickpp-config', action='store', default='Magick++-config', help='path to Magick++-config')
-    opt.add_option('--wx-config', action='store', default='wx-config', help='path to wx-config')
+    opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
+    opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
+    opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
+    opt.add_option('--target-debian',     action='store_true', default=False, help='set up to compile for a Debian/Ubuntu package')
+    opt.add_option('--target-centos',     action='store_true', default=False, help='set up to compile for a Centos package')
+    opt.add_option('--magickpp-config',   action='store',      default='Magick++-config', help='path to Magick++-config')
+    opt.add_option('--wx-config',         action='store',      default='wx-config', help='path to wx-config')
     opt.add_option('--address-sanitizer', action='store_true', default=False, help='build with address sanitizer')
-    opt.add_option('--install-prefix', default=None, help='prefix of where DCP-o-matic will be installed')
+    opt.add_option('--install-prefix',                         default=None,  help='prefix of where DCP-o-matic will be installed')
 
 def static_ffmpeg(conf):
     conf.check_cfg(package='libavformat', args='--cflags', uselib_store='AVFORMAT', mandatory=True)
@@ -225,9 +225,8 @@ def configure(conf):
         # libxml2 seems to be linked against this on Ubuntu but it doesn't mention it in its .pc file
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
         
-    if not conf.env.DISABLE_GUI:
-        if conf.env.TARGET_DEBIAN or conf.env.TARGET_CENTOS:
-            conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
+    if not conf.env.DISABLE_GUI and conf.env.TARGET_LINUX:
+        conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
     # OSX
     if conf.env.TARGET_OSX:
