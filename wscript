@@ -80,8 +80,6 @@ def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
     else:
         conf.env.LIB_DCP.append('ssh')
 
-
-
 def dynamic_dcp(conf):
     conf.check_cfg(package='libdcp', atleast_version='0.92', args='--cflags --libs', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
@@ -291,6 +289,7 @@ def configure(conf):
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
         dynamic_ffmpeg(conf)
         dynamic_dcp(conf)
+        dynamic_openjpeg(conf)
         dynamic_ssh(conf)
 
     # Dependencies which are always dynamically linked
