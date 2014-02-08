@@ -159,7 +159,7 @@ def package_windows(target):
     return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
 
 def package_debian(target, cpu):
-    make_control(target.version, target.bits, 'debian/control')
+    make_control(target.version, target.bits, 'debian/control', target.debug)
     target.command('./waf dist')
     f = open('debian/files', 'w')
     print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
