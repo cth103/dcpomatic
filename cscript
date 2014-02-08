@@ -207,14 +207,14 @@ def package_centos(target, cpu, version):
     return rpms
 
 def package(target, version):
-    if target.bits == 32:
-        cpu = 'i386'
-    else:
-        cpu = 'amd64'
-
     if target.platform == 'windows':
         return package_windows(target)
     elif target.platform == 'linux':
+        if target.bits == 32:
+    	    cpu = 'i386'
+        else:	
+            cpu	= 'amd64'
+
 	if target.distro == 'debian' or target.distro == 'ubuntu':
             return package_debian(target, cpu)
         elif target.distro == 'centos':
