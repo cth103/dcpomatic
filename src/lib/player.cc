@@ -456,6 +456,10 @@ Player::setup_pieces ()
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
+		if (!(*i)->paths_valid ()) {
+			continue;
+		}
+
 		shared_ptr<Piece> piece (new Piece (*i));
 
 		/* XXX: into content? */
