@@ -50,6 +50,10 @@ def static_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags', max_version='1.5.1', mandatory=True)
     conf.env.STLIB_OPENJPEG = ['openjpeg']
 
+def dynamic_openjpeg(conf):
+    conf.check_cfg(package='libopenjpeg', args='--cflags --libs', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
+    conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.1', mandatory=True)
+
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
     conf.check_cfg(package='libdcp', atleast_version='0.92', args='--cflags', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
@@ -274,6 +278,7 @@ def configure(conf):
         dynamic_quickmail(conf)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
         dynamic_ffmpeg(conf)
+        dynamic_openjpeg(conf)
         dynamic_dcp(conf)
         dynamic_ssh(conf)
 
