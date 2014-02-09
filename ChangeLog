@@ -1,5 +1,7 @@
 2014-02-09  Carl Hetherington  <cth@carlh.net>
 
+	* Some small bits of increased low-memory stability.
+
 	* Version 1.64.7 released.
 
 2014-02-08  Carl Hetherington  <cth@carlh.net>

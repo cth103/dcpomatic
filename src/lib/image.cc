@@ -498,13 +498,13 @@ Image::Image (AVPixelFormat p, libdcp::Size s, bool aligned)
 void
 Image::allocate ()
 {
-	_data = (uint8_t **) av_malloc (4 * sizeof (uint8_t *));
+	_data = (uint8_t **) wrapped_av_malloc (4 * sizeof (uint8_t *));
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
 	
-	_line_size = (int *) av_malloc (4 * sizeof (int));
+	_line_size = (int *) wrapped_av_malloc (4 * sizeof (int));
 	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
 	
-	_stride = (int *) av_malloc (4 * sizeof (int));
+	_stride = (int *) wrapped_av_malloc (4 * sizeof (int));
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
 	for (int i = 0; i < components(); ++i) {
@@ -520,7 +520,7 @@ Image::allocate ()
 		   seem to mind.  The nasty + 1 in this malloc makes sure there is always a byte
 		   for that instruction to read safely.
 		*/
-		_data[i] = (uint8_t *) av_malloc (_stride[i] * lines (i) + 1);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * lines (i) + 1);
 	}
 }
 

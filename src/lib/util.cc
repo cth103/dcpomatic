@@ -27,6 +27,7 @@
 #include <iostream>
 #include <fstream>
 #include <climits>
+#include <stdexcept>
 #ifdef DCPOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
@@ -92,6 +93,7 @@ using std::istream;
 using std::numeric_limits;
 using std::pair;
 using std::cout;
+using std::bad_alloc;
 using std::streampos;
 using boost::shared_ptr;
 using boost::thread;
@@ -916,3 +918,14 @@ fit_ratio_within (float ratio, libdcp::Size full_frame)
 	
 	return libdcp::Size (full_frame.width, rint (full_frame.width / ratio));
 }
+
+void *
+wrapped_av_malloc (size_t s)
+{
+	void* p = av_malloc (s);
+	if (!p) {
+		throw bad_alloc ();
+	}
+	return p;
+}
+		
