@@ -104,6 +104,7 @@ try
 		try {
 			sock->accept (Config::instance()->server_port_base() + 1);
 		} catch (std::exception& e) {
+			dcpomatic_sleep (60);
 			continue;
 		}
 
