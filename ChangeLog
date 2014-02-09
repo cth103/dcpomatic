@@ -1,5 +1,7 @@
 2014-02-09  Carl Hetherington  <cth@carlh.net>
 
+	* Possibly fix repeated no route to host errors in some cases.
+
 	* Some small bits of increased low-memory stability.
 
 	* Version 1.64.7 released.
