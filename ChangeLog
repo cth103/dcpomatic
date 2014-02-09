@@ -1,5 +1,8 @@
 2014-02-09  Carl Hetherington  <cth@carlh.net>
 
+	* Build with a more careful version of libopenjpeg that handles
+	out-of-memory conditions slightly better.
+
 	* Possibly fix repeated no route to host errors in some cases.
 
 	* Some small bits of increased low-memory stability.

@@ -104,6 +104,11 @@ void
 FileLog::do_log (string m)
 {
 	FILE* f = fopen_boost (_file, "a");
+	if (!f) {
+		cout << m << "\n";
+		return;
+	}
+
 	fprintf (f, "%s\n", m.c_str ());
 	fclose (f);
 }
