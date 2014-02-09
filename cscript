@@ -130,7 +130,7 @@ def make_control(debian_version, bits, filename, debug):
 
 def dependencies(target):
     return (('ffmpeg-cdist', '5ac3a6af077c10f07c31954c372a8f29e4e18e2a'),
-            ('libdcp', 'a7dac85'))
+            ('libdcp', 'a6bc997'))
 
 def build(target, options):
     cmd = './waf configure --prefix=%s' % target.work_dir_cscript()
@@ -201,7 +201,11 @@ def package_centos(target, cpu, version):
 
     target.command('rpmbuild -bb build/platform/linux/dcpomatic.spec')
     rpms = []
-    for p in glob.glob('%s/rpmbuild/RPMS/x86_64/*.rpm' % target.work_dir_cdist()):
+
+    if cpu == "amd64":
+        cpu = "x86_64"
+
+    for p in glob.glob('%s/rpmbuild/RPMS/%s/*.rpm' % (target.work_dir_cdist(), cpu)):
         rpms.append(os.path.abspath(p))
 
     return rpms
