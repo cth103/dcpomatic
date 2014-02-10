@@ -295,7 +295,9 @@ terminate ()
 			  << std::endl;
 	}
 
+#ifdef DCPOMATIC_POSIX
 	stacktrace (cout, 50);
+#endif
 	abort();
 }
 
