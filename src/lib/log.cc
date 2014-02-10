@@ -105,7 +105,7 @@ FileLog::do_log (string m)
 {
 	FILE* f = fopen_boost (_file, "a");
 	if (!f) {
-		cout << m << "\n";
+		cout << "(could not log to " << _file.string() << "): " << m << "\n";
 		return;
 	}
 
