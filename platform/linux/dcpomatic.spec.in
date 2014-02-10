@@ -5,6 +5,7 @@ Release:1%{?dist}
 License:GPL
 Group:Applications/Multimedia
 URL:http://dcpomatic.com/
+Requires: ImageMagick-c++, glibmm24, libzip
 
 %description
 DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio
