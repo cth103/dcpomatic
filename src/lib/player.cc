@@ -545,6 +545,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 
 	} else if (property == ContentProperty::PATH) {
 
+		_have_valid_pieces = false;
 		Changed (frequent);
 	}
 }
