@@ -100,17 +100,20 @@ TranscodeJob::status () const
 int
 TranscodeJob::remaining_time () const
 {
-	if (!_transcoder) {
+	/* _transcoder might be destroyed by the job-runner thread */
+	shared_ptr<Transcoder> t = _transcoder;
+	
+	if (!t) {
 		return 0;
 	}
 	
-	float fps = _transcoder->current_encoding_rate ();
+	float fps = t->current_encoding_rate ();
 
 	if (fps == 0) {
 		return 0;
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	VideoFrame const left = _film->time_to_video_frames (_film->length ()) - _transcoder->video_frames_out();
+	VideoFrame const left = _film->time_to_video_frames (_film->length ()) - t->video_frames_out();
 	return left / fps;
 }

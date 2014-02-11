@@ -20,6 +20,7 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+#include <stdexcept>
 #include <getopt.h>
 #include <boost/filesystem.hpp>
 #include "lib/version.h"
@@ -34,6 +35,7 @@ using std::string;
 using std::cout;
 using std::cerr;
 using std::list;
+using std::exception;
 using boost::shared_ptr;
 
 static void
@@ -98,31 +100,37 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 	ui_signaller = new UISignaller ();
 
-	shared_ptr<Film> film (new Film (output));
-	if (!name.empty ()) {
-		film->set_name (name);
-	}
-
-	for (int i = optind; i < argc; ++i) {
-		film->examine_and_add_content (content_factory (film, argv[i]));
-	}
-
-	JobManager* jm = JobManager::instance ();
-	while (jm->work_to_do ()) {
-		ui_signaller->ui_idle ();
-	}
-
-	if (jm->errors ()) {
-		list<shared_ptr<Job> > jobs = jm->get ();
-		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
-			if ((*i)->finished_in_error ()) {
-				cerr << (*i)->error_summary () << "\n"
-				     << (*i)->error_details () << "\n";
-			}
+	try {
+		shared_ptr<Film> film (new Film (output));
+		if (!name.empty ()) {
+			film->set_name (name);
 		}
+		
+		for (int i = optind; i < argc; ++i) {
+			film->examine_and_add_content (content_factory (film, argv[i]));
+		}
+		
+		JobManager* jm = JobManager::instance ();
+		while (jm->work_to_do ()) {
+			ui_signaller->ui_idle ();
+		}
+		
+		if (jm->errors ()) {
+			list<shared_ptr<Job> > jobs = jm->get ();
+			for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
+				if ((*i)->finished_in_error ()) {
+					cerr << (*i)->error_summary () << "\n"
+					     << (*i)->error_details () << "\n";
+				}
+			}
+			exit (EXIT_FAILURE);
+		}
+		
+		film->write_metadata ();
+	} catch (exception& e) {
+		cerr << argv[0] << ": " << e.what() << "\n";
 		exit (EXIT_FAILURE);
 	}
-
-	film->write_metadata ();
+		
 	return 0;
 }

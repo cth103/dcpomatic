@@ -1,0 +1,70 @@
+Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files
+Name:dcpomatic
+Version:@version@
+Release:1%{?dist}
+License:GPL
+Group:Applications/Multimedia
+URL:http://dcpomatic.com/
+Requires: ImageMagick-c++, glibmm24, libzip
+
+%description
+DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio
+files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant
+digital projectors.
+
+%files
+%{_bindir}/dcpomatic
+%{_bindir}/dcpomatic_batch
+%{_bindir}/dcpomatic_cli
+%{_bindir}/dcpomatic_create
+%{_bindir}/dcpomatic_kdm
+%{_bindir}/dcpomatic_server
+%{_bindir}/dcpomatic_server_cli
+%{_datadir}/applications/dcpomatic.desktop
+%{_datadir}/applications/dcpomatic_batch.desktop
+%{_datadir}/applications/dcpomatic_server.desktop
+%{_datadir}/dcpomatic/taskbar_icon.png
+%{_datadir}/icons/hicolor/128x128/apps/dcpomatic.png
+%{_datadir}/icons/hicolor/22x22/apps/dcpomatic.png
+%{_datadir}/icons/hicolor/32x32/apps/dcpomatic.png
+%{_datadir}/icons/hicolor/48x48/apps/dcpomatic.png
+%{_datadir}/icons/hicolor/64x64/apps/dcpomatic.png
+%{_datadir}/locale/de_DE/LC_MESSAGES/dcpomatic.mo
+%{_datadir}/locale/de_DE/LC_MESSAGES/libdcpomatic-wx.mo
+%{_datadir}/locale/de_DE/LC_MESSAGES/libdcpomatic.mo
+%{_datadir}/locale/es_ES/LC_MESSAGES/dcpomatic.mo
+%{_datadir}/locale/es_ES/LC_MESSAGES/libdcpomatic-wx.mo
+%{_datadir}/locale/es_ES/LC_MESSAGES/libdcpomatic.mo
+%{_datadir}/locale/fr_FR/LC_MESSAGES/dcpomatic.mo
+%{_datadir}/locale/fr_FR/LC_MESSAGES/libdcpomatic-wx.mo
+%{_datadir}/locale/fr_FR/LC_MESSAGES/libdcpomatic.mo
+%{_datadir}/locale/it_IT/LC_MESSAGES/dcpomatic.mo
+%{_datadir}/locale/it_IT/LC_MESSAGES/libdcpomatic-wx.mo
+%{_datadir}/locale/it_IT/LC_MESSAGES/libdcpomatic.mo
+%{_datadir}/locale/sv_SE/LC_MESSAGES/dcpomatic.mo
+%{_datadir}/locale/sv_SE/LC_MESSAGES/libdcpomatic-wx.mo
+%{_datadir}/locale/sv_SE/LC_MESSAGES/libdcpomatic.mo
+
+%prep
+rm -rf $RPM_BUILD_DIR/dcpomatic-@version@
+tar xjf $RPM_SOURCE_DIR/dcpomatic-@version@.tar.bz2
+%build
+cd dcpomatic-@version@
+export PKG_CONFIG_PATH=/home/carl/lib/pkgconfig:/usr/local/lib/pkgconfig
+CXXFLAGS="-I/home/carl/include" LDFLAGS="-L/home/carl/lib" ./waf configure --prefix=%{buildroot}/usr --install-prefix=/usr --target-centos
+./waf
+%install
+cd dcpomatic-@version@
+./waf install
+
+%post
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+
+%postun
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :

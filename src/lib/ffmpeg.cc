@@ -26,6 +26,7 @@ extern "C" {
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
 #include "exceptions.h"
+#include "util.h"
 
 #include "i18n.h"
 
@@ -85,7 +86,7 @@ FFmpeg::setup_general ()
 	av_register_all ();
 
 	_file_group.set_paths (_ffmpeg_content->paths ());
-	_avio_buffer = static_cast<uint8_t*> (av_malloc (_avio_buffer_size));
+	_avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc (_avio_buffer_size));
 	_avio_context = avio_alloc_context (_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
 	_format_context = avformat_alloc_context ();
 	_format_context->pb = _avio_context;
@@ -146,7 +147,8 @@ void
 FFmpeg::setup_video ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
+
+	assert (_video_stream >= 0);
 	AVCodecContext* context = _format_context->streams[_video_stream]->codec;
 	AVCodec* codec = avcodec_find_decoder (context->codec_id);
 

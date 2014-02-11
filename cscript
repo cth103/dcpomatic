@@ -2,88 +2,88 @@ import glob
 import shutil
 import os
 
-build_depends = {'debhelper': '8.0.0',
-                 'python': '2.7.3',
-                 'g++': '4:4.6.3',
-                 'pkg-config': '0.26',
-                 'libssh-dev': '0.5.2',
-                 'libboost-filesystem-dev': '1.46.0',
-                 'libboost-thread-dev': '1.46.0',
-                 'libsndfile1-dev': '1.0.25',
-                 'libmagick++-dev': '8:6.6.9.7',
-                 'libgtk2.0-dev': '2.24.10'}
+deb_build_depends = {'debhelper': '8.0.0',
+                     'python': '2.7.3',
+                     'g++': '4:4.6.3',
+                     'pkg-config': '0.26',
+                     'libssh-dev': '0.5.2',
+                     'libboost-filesystem-dev': '1.46.0',
+                     'libboost-thread-dev': '1.46.0',
+                     'libsndfile1-dev': '1.0.25',
+                     'libmagick++-dev': '8:6.6.9.7',
+                     'libgtk2.0-dev': '2.24.10'}
 
-depends = dict()
+deb_depends = dict()
 
-depends['12.04'] = {'libc6': '2.15',
-                    'libssh-4': '0.5.2',
-                    'libboost-filesystem1.46.1': '1.46.1',
-                    'libboost-thread1.46.1': '1.46.1',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++4': '8:6.6.9.7',
-                    'libxml++2.6-2': '2.34.1',
-                    'libgtk2.0-0': '2.24.10',
-                    'libxmlsec1': '1.2.14-1.2build1',
-                    'libxmlsec1-openssl': '1.2.14-1.2build1',
-                    'libboost-date-time1.46.1': '1.46.1',
-                    'libcurl3': '7.22.0-3ubuntu4',
-                    'libzip2': '0.10-1ubuntu1'}
+deb_depends['12.04'] = {'libc6': '2.15',
+                        'libssh-4': '0.5.2',
+                        'libboost-filesystem1.46.1': '1.46.1',
+                        'libboost-thread1.46.1': '1.46.1',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++4': '8:6.6.9.7',
+                        'libxml++2.6-2': '2.34.1',
+                        'libgtk2.0-0': '2.24.10',
+                        'libxmlsec1': '1.2.14-1.2build1',
+                        'libxmlsec1-openssl': '1.2.14-1.2build1',
+                        'libboost-date-time1.46.1': '1.46.1',
+                        'libcurl3': '7.22.0-3ubuntu4',
+                        'libzip2': '0.10-1ubuntu1'}
 
-depends['12.10'] = {'libc6': '2.15',
-                    'libssh-4': '0.5.2',
-                    'libboost-filesystem1.49.0': '1.49.0',
-                    'libboost-thread1.49.0': '1.49.0',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.34.2',
-                    'libgtk2.0-0': '2.24.13',
-                    'libxmlsec1': '1.2.18-2',
-                    'libxmlsec1-openssl': '1.2.18-2',
-                    'libboost-date-time1.49.0': '1.49.0',
-                    'libcurl3': '7.27.0-1ubuntu1',
-                    'libzip2': '0.10.1-1.1'}
+deb_depends['12.10'] = {'libc6': '2.15',
+                        'libssh-4': '0.5.2',
+                        'libboost-filesystem1.49.0': '1.49.0',
+                        'libboost-thread1.49.0': '1.49.0',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++5': '8:6.7.7.10',
+                        'libxml++2.6-2': '2.34.2',
+                        'libgtk2.0-0': '2.24.13',
+                        'libxmlsec1': '1.2.18-2',
+                        'libxmlsec1-openssl': '1.2.18-2',
+                        'libboost-date-time1.49.0': '1.49.0',
+                        'libcurl3': '7.27.0-1ubuntu1',
+                        'libzip2': '0.10.1-1.1'}
 
-depends['13.04'] = {'libc6': '2.15',
-                    'libssh-4': '0.5.2',
-                    'libboost-filesystem1.49.0': '1.49.0',
-                    'libboost-thread1.49.0': '1.49.0',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.34.2',
-                    'libgtk2.0-0': '2.24.13',
-                    'libxmlsec1': '1.2.18-2',
-                    'libxmlsec1-openssl': '1.2.18-2',
-                    'libboost-date-time1.49.0': '1.49.0',
-                    'libcurl3': '7.29.0-1ubuntu3',
-                    'libzip2': '0.10.1-1.1'}
+deb_depends['13.04'] = {'libc6': '2.15',
+                        'libssh-4': '0.5.2',
+                        'libboost-filesystem1.49.0': '1.49.0',
+                        'libboost-thread1.49.0': '1.49.0',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++5': '8:6.7.7.10',
+                        'libxml++2.6-2': '2.34.2',
+                        'libgtk2.0-0': '2.24.13',
+                        'libxmlsec1': '1.2.18-2',
+                        'libxmlsec1-openssl': '1.2.18-2',
+                        'libboost-date-time1.49.0': '1.49.0',
+                        'libcurl3': '7.29.0-1ubuntu3',
+                        'libzip2': '0.10.1-1.1'}
 
-depends['13.10'] = {'libc6': '2.17-93',
+deb_depends['13.10'] = {'libc6': '2.17-93',
+                        'libssh-4': '0.5.4',
+                        'libboost-filesystem1.53.0': '1.53.0',
+                        'libboost-thread1.53.0': '1.53.0',
+                        'libsndfile1': '1.0.25',
+                        'libmagick++5': '8:6.7.7.10',
+                        'libxml++2.6-2': '2.36.0',
+                        'libgtk2.0-0': '2.24.20',
+                        'libxmlsec1': '1.2.18-2',
+                        'libxmlsec1-openssl': '1.2.18-2',
+                        'libboost-date-time1.49.0': '1.49.0',
+                        'libcurl3': '7.29.0-1ubuntu3',
+                        'libzip2': '0.10.1-1.1'}
+
+deb_depends['7'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
-                    'libboost-filesystem1.53.0': '1.53.0',
-                    'libboost-thread1.53.0': '1.53.0',
+                    'libboost-filesystem1.49.0': '1.49.0',
+                    'libboost-thread1.49.0': '1.49.0',
                     'libsndfile1': '1.0.25',
                     'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.36.0',
-                    'libgtk2.0-0': '2.24.20',
-                    'libxmlsec1': '1.2.18-2',
-                    'libxmlsec1-openssl': '1.2.18-2',
+                    'libxml++2.6-2': '2.34.2',
+                    'libgtk2.0-0': '2.24.10',
+                    'libxmlsec1': '1.2.18',
                     'libboost-date-time1.49.0': '1.49.0',
-                    'libcurl3': '7.29.0-1ubuntu3',
-                    'libzip2': '0.10.1-1.1'}
-
-depends['7'] = {'libc6': '2.13',
-                'libssh-4': '0.5.4',
-                'libboost-filesystem1.49.0': '1.49.0',
-                'libboost-thread1.49.0': '1.49.0',
-                'libsndfile1': '1.0.25',
-                'libmagick++5': '8:6.7.7.10',
-                'libxml++2.6-2': '2.34.2',
-                'libgtk2.0-0': '2.24.10',
-                'libxmlsec1': '1.2.18',
-                'libboost-date-time1.49.0': '1.49.0',
-                'libxmlsec1-openssl': '1.2.18',
-                'libcurl3': '7.26.0',
-                'libzip2': '0.10.1'}
+                    'libxmlsec1-openssl': '1.2.18',
+                    'libcurl3': '7.26.0',
+                    'libzip2': '0.10.1'}
 
 def packages(name, packages, f):
     s = '%s: ' % name
@@ -91,13 +91,13 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print >>f,s[:-2]
 
-def make_control(version, bits, filename, debug):
+def make_control(debian_version, bits, filename, debug):
     f = open(filename, 'w')
     print >>f,'Source: dcpomatic'
     print >>f,'Section: video'
     print >>f,'Priority: extra'
     print >>f,'Maintainer: Carl Hetherington <carl@dcpomatic.com>'
-    packages('Build-Depends', build_depends, f)
+    packages('Build-Depends', deb_build_depends, f)
     print >>f,'Standards-Version: 3.9.3'
     print >>f,'Homepage: http://dcpomatic.com/'
     print >>f,''
@@ -107,7 +107,7 @@ def make_control(version, bits, filename, debug):
     else:
         print >>f,'Architecture: amd64'
 
-    packages('Depends', depends[version], f)
+    packages('Depends', deb_depends[debian_version], f)
 
     print >>f,'Description: Generator of Digital Cinema Packages (DCPs)'
     print >>f,'  DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio'
@@ -123,66 +123,106 @@ def make_control(version, bits, filename, debug):
             print >>f,'Architecture: amd64'
         print >>f,'Section: debug'
         print >>f,'Priority: extra'
-        packages('Depends', depends[version], f)
+        packages('Depends', deb_depends[debian_version], f)
         print >>f,'Description: debugging symbols for dcpomatic'
         print >>f,'  This package contains the debugging symbols for dcpomatic.'
         print >>f,''
 
 def dependencies(target):
     return (('ffmpeg-cdist', '5ac3a6af077c10f07c31954c372a8f29e4e18e2a'),
-            ('libdcp', '054cc86'))
+            ('libdcp', 'f74c462'))
 
 def build(target, options):
     cmd = './waf configure --prefix=%s' % target.work_dir_cscript()
     if target.platform == 'windows':
         cmd += ' --target-windows'
     elif target.platform == 'linux':
-        cmd += ' --static'
-    target.command(cmd)
+        if target.distro == 'debian' or target.distro == 'ubuntu':
+            cmd += ' --target-debian'
+        elif target.distro == 'centos':
+            cmd += ' --target-centos'
 
+    target.command(cmd)
     target.command('./waf')
 
     if target.platform == 'linux' or target.platform == 'osx':
         target.command('./waf install')
 
+def package_windows(target):
+    shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
+    target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+    target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
+    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
+    target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+    target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
+    target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
+    return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
+
+def package_debian(target, cpu, version):
+    make_control(target.version, target.bits, 'debian/control', target.debug)
+    target.command('./waf dist')
+    f = open('debian/files', 'w')
+    print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
+    shutil.rmtree('build/deb', ignore_errors=True)
+    
+    os.makedirs('build/deb')
+    os.chdir('build/deb')
+    shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
+    target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
+    os.chdir('dcpomatic-%s' % version)
+    target.command('dch -b -v %s-1 "New upstream release."' % version)
+    target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
+    target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
+    target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
+    target.command('dpkg-buildpackage')
+    
+    debs = []
+    for p in glob.glob('../*.deb'):
+        debs.append(os.path.abspath(p))
+    
+    return debs
+
+def package_centos(target, cpu, version):
+    os.makedirs('%s/rpmbuild/BUILD' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/RPMS' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/SOURCES' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/SPECS' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/SRPMS' % target.work_dir_cdist())
+
+    f = open('%s/.rpmmacros' % target.dir_in_chroot, 'w')
+    print >>f,"%%_topdir %srpmbuild" % target.dir_in_chroot
+    f.close()
+
+    target.command('./waf dist')
+    shutil.copyfile(
+        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version),
+        "%s/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version)
+        )
+
+    target.command('rpmbuild -bb build/platform/linux/dcpomatic.spec')
+    rpms = []
+
+    if cpu == "amd64":
+        cpu = "x86_64"
+
+    for p in glob.glob('%s/rpmbuild/RPMS/%s/*.rpm' % (target.work_dir_cdist(), cpu)):
+        rpms.append(os.path.abspath(p))
+
+    return rpms
+
 def package(target, version):
     if target.platform == 'windows':
-        shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
-        target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
-        target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
-        target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-        target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
-        target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
-        return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
+        return package_windows(target)
     elif target.platform == 'linux':
         if target.bits == 32:
-            cpu = 'i386'
-        else:
-            cpu = 'amd64'
+    	    cpu = 'i386'
+        else:	
+            cpu	= 'amd64'
 
-        make_control(target.version, target.bits, 'debian/control', target.debug)
-        target.command('./waf dist')
-        f = open('debian/files', 'w')
-        print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
-        shutil.rmtree('build/deb', ignore_errors=True)
-
-        os.makedirs('build/deb')
-        os.chdir('build/deb')
-        shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
-        target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
-        os.chdir('dcpomatic-%s' % version)
-        target.command('dch -b -v %s-1 "New upstream release."' % version)
-        target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
-        target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
-        target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
-        target.command('dpkg-buildpackage')
-        
-        debs = []
-        for p in glob.glob('../*.deb'):
-            debs.append(os.path.abspath(p))
-
-        return debs
+	if target.distro == 'debian' or target.distro == 'ubuntu':
+            return package_debian(target, cpu, version)
+        elif target.distro == 'centos':
+            return package_centos(target, cpu, version)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.work_dir_cscript())
         return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])

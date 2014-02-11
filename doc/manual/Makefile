@@ -2,7 +2,7 @@
 
 all:	html pdf
 
-DIAGRAMS := file-structure.svg 3d-left-right.svg
+DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \

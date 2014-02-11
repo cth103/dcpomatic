@@ -450,6 +450,10 @@ Player::setup_pieces ()
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 
+		if (!(*i)->paths_valid ()) {
+			continue;
+		}
+		
 		shared_ptr<Decoder> decoder;
 		optional<FrameRateChange> frc;
 
@@ -566,6 +570,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 
 	} else if (property == ContentProperty::PATH) {
 
+		_have_valid_pieces = false;
 		Changed (frequent);
 	}
 }

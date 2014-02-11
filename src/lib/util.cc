@@ -27,6 +27,7 @@
 #include <iostream>
 #include <fstream>
 #include <climits>
+#include <stdexcept>
 #ifdef DCPOMATIC_POSIX
 #include <execinfo.h>
 #include <cxxabi.h>
@@ -93,7 +94,9 @@ using std::istream;
 using std::numeric_limits;
 using std::pair;
 using std::cout;
+using std::bad_alloc;
 using std::streampos;
+using std::set_terminate;
 using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
@@ -272,6 +275,33 @@ LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 }
 #endif
 
+/* From http://stackoverflow.com/questions/2443135/how-do-i-find-where-an-exception-was-thrown-in-c */
+void
+terminate ()
+{
+	static bool tried_throw = false;
+
+	try {
+		// try once to re-throw currently active exception
+		if (!tried_throw++) {
+			throw;
+		}
+	}
+	catch (const std::exception &e) {
+		std::cerr << __FUNCTION__ << " caught unhandled exception. what(): "
+			  << e.what() << std::endl;
+	}
+	catch (...) {
+		std::cerr << __FUNCTION__ << " caught unknown/unhandled exception." 
+			  << std::endl;
+	}
+
+#ifdef DCPOMATIC_POSIX
+	stacktrace (cout, 50);
+#endif
+	abort();
+}
+
 /** Call the required functions to set up DCP-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
@@ -308,7 +338,9 @@ dcpomatic_setup ()
 	boost::filesystem::path lib = app_contents ();
 	lib /= "lib";
 	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
-#endif	
+#endif
+
+	set_terminate (terminate);
 
 	Pango::init ();
 	libdcp::init ();
@@ -925,4 +957,14 @@ time_round_up (DCPTime t, DCPTime nearest)
 {
 	DCPTime const a = t + nearest - 1;
 	return a - (a % nearest);
+}
+
+void *
+wrapped_av_malloc (size_t s)
+{
+	void* p = av_malloc (s);
+	if (!p) {
+		throw bad_alloc ();
+	}
+	return p;
 }

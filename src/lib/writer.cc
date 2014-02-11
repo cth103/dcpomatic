@@ -541,7 +541,9 @@ Writer::check_existing_picture_mxf ()
 		shared_ptr<Job> job = _job.lock ();
 		assert (job);
 
-		job->set_progress (float (_first_nonexistant_frame) / N);
+		if (N > 0) {
+			job->set_progress (float (_first_nonexistant_frame) / N);
+		}
 
 		if (_film->three_d ()) {
 			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_LEFT)) {

@@ -1,19 +1,25 @@
 def build(bld):
-    d = { 'PREFIX' : '${PREFIX' }
+    d = { 'INSTALL_PREFIX' : bld.env.INSTALL_PREFIX }
+    d = { 'VERSION' : bld.env.VERSION }
 
-    obj = bld(features = 'subst')
+    obj = bld(features='subst')
     obj.source = 'dcpomatic.desktop.in'
     obj.target = 'dcpomatic.desktop'
     obj.dict = d
 
-    obj = bld(features = 'subst')
+    obj = bld(features='subst')
     obj.source = 'dcpomatic_batch.desktop.in'
     obj.target = 'dcpomatic_batch.desktop'
     obj.dict = d
 
-    obj = bld(features = 'subst')
+    obj = bld(features='subst')
     obj.source = 'dcpomatic_server.desktop.in'
     obj.target = 'dcpomatic_server.desktop'
+    obj.dict = d
+
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic.spec.in'
+    obj.target = 'dcpomatic.spec'
     obj.dict = d
 
     bld.install_files('${PREFIX}/share/applications', ['dcpomatic.desktop', 'dcpomatic_batch.desktop', 'dcpomatic_server.desktop'])

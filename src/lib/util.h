@@ -126,6 +126,7 @@ extern float get_required_float (std::multimap<std::string, std::string> const &
 extern std::string get_required_string (std::multimap<std::string, std::string> const & kv, std::string k);
 extern int get_optional_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern std::string get_optional_string (std::multimap<std::string, std::string> const & kv, std::string k);
+extern void* wrapped_av_malloc (size_t);
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things

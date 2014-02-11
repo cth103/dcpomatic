@@ -474,8 +474,10 @@ private:
 					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->dcp (), d->from (), d->until ()))
 					);
 			}
-		} catch (KDMError& e) {
+		} catch (exception& e) {
 			error_dialog (this, e.what ());
+		} catch (...) {
+			error_dialog (this, _("An unknown exeception occurred."));
 		}
 	
 		d->Destroy ();

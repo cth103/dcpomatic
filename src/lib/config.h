@@ -193,14 +193,6 @@ public:
 		_server_port_base = p;
 	}
 
-	void set_reference_scaler (Scaler const * s) {
-		_reference_scaler = s;
-	}
-	
-	void set_reference_filters (std::vector<Filter const *> const & f) {
-		_reference_filters = f;
-	}
-
 	/** @param i IP address of a TMS that we can copy DCPs to */
 	void set_tms_ip (std::string i) {
 		_tms_ip = i;
@@ -326,10 +318,6 @@ private:
 	bool _use_any_servers;
 	/** J2K encoding servers that should definitely be used */
 	std::vector<std::string> _servers;
-	/** Scaler to use for the "A" part of A/B comparisons */
-	Scaler const * _reference_scaler;
-	/** Filters to use for the "A" part of A/B comparisons */
-	std::vector<Filter const *> _reference_filters;
 	/** The IP address of a TMS that we can copy DCPs to */
 	std::string _tms_ip;
 	/** The path on a TMS that we should write DCPs to */

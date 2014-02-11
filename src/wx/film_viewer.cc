@@ -46,6 +46,7 @@ using std::min;
 using std::max;
 using std::cout;
 using std::list;
+using std::bad_alloc;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
@@ -127,7 +128,14 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		return;
 	}
 
-	_player = f->make_player ();
+	try {
+		_player = f->make_player ();
+	} catch (bad_alloc) {
+		error_dialog (this, _("There is not enough free memory to do that."));
+		_film.reset ();
+		return;
+	}
+	
 	_player->disable_audio ();
 	_player->set_approximate_size ();
 	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _5));

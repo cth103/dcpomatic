@@ -72,7 +72,7 @@ This manual uses icons from the <ulink url="http://tango.freedesktop.org/">Tango
 <title>Windows</title>
 
 <para>
-To install DCP-o-matic on Windows, simply download the installer from
+To install DCP-o-matic on Windows, download the installer from
 <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
 and double-click it.  Click through the installer wizard, and
 DCP-o-matic will be installed onto your machine.
@@ -121,12 +121,19 @@ and set DCP-o-matic up for you.
 
 <section>
 <title>Debian Linux</title>
-
 <para>
 Packages are also available for Debian 7 (squeeze) from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
 </para>
+</section>
 
+<section>
+<title>Arch Linux</title>
+<para>
+Packages for Arch Linux are available from <ulink
+url="https://aur.archlinux.org/packages/dcpomatic/">https://aur.archlinux.org/packages/dcpomatic/</ulink>,
+thanks to Stefan Karner.
+</para>
 </section>
 
 <section>
@@ -533,8 +540,8 @@ The <guilabel>Video</guilabel> tab controls properties of the image, as shown in
 The first option on this tab is the &lsquo;type&rsquo; of the video.
 This specifies how DCP-o-matic should interpret the video's image.
 <guilabel>2D</guilabel> is the default; this just takes the video
-image as a standard 2D frame.  The other option <guilabel>3D
-left/right</guilabel> tells DCP-o-matic to interpret the frame as a
+image as a standard 2D frame.  The <guilabel>3D
+left/right</guilabel> option tells DCP-o-matic to interpret the frame as a
 left-right pair, as shown in <xref linkend="fig-3d-left-right"/>.
 </para>
 
@@ -548,9 +555,19 @@ left-right pair, as shown in <xref linkend="fig-3d-left-right"/>.
 </figure>
 
 <para>
-This option can be used to generate a 3D DCP.  Other means of creating
-3D will be added in the future.
+Alternatively the <guilabel>3D top/bottom</guilabel> option tells
+DCP-o-matic to see the frame as a top-bottom pair, as shown in <xref
+linkend="fig-3d-top-bottom"/>.
 </para>
+
+<figure id="fig-3d-top-bottom"> 
+  <title>3D top/bottom image type</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/3d-top-bottom&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
 
 </section>
 
@@ -962,7 +979,7 @@ high enough resolution to be worth presenting in 4K.
 The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big the final
 image files used within the DCP will be.  Larger numbers will give
 better quality, but correspondingly larger DCPs.  The bandwidth can be
-between 50 and 250 megabits per second (MBps).
+between 50 and 250 megabits per second (Mbit/s).
 </para>
 
 <para>

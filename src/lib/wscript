@@ -69,7 +69,7 @@ sources = """
           """
 
 def build(bld):
-    if bld.env.STATIC:
+    if bld.env.BUILD_STATIC:
         obj = bld(features = 'cxx cxxstlib')
     else:
         obj = bld(features = 'cxx cxxshlib')
@@ -88,7 +88,7 @@ def build(bld):
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY SHLWAPI MSWSOCK BOOST_LOCALE'
         obj.source += ' stack.cpp'
-    if bld.env.STATIC:
+    if bld.env.BUILD_STATIC:
         obj.uselib += ' XML++'
 
     obj.target = 'dcpomatic'

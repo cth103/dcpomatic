@@ -142,14 +142,14 @@ main (int argc, char* argv[])
 
 	dcpomatic_setup ();
 
-	server = new ServerDescription (server_host, 1);
-	film.reset (new Film (film_dir));
-	film->read_metadata ();
-
-	shared_ptr<Player> player = film->make_player ();
-	player->disable_audio ();
-
 	try {
+		server = new ServerDescription (server_host, 1);
+		film.reset (new Film (film_dir));
+		film->read_metadata ();
+		
+		shared_ptr<Player> player = film->make_player ();
+		player->disable_audio ();
+
 		player->Video.connect (boost::bind (process_video, _1, _2, _3, _5));
 		bool done = false;
 		while (!done) {

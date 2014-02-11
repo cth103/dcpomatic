@@ -259,7 +259,9 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel) const
 			p += pow (*j, 2);
 		}
 
-		p = sqrt (p / smoothing.size ());
+		if (smoothing.size() > 0) {
+			p = sqrt (p / smoothing.size ());
+		}
 
 		path.AddLineToPoint (_db_label_width + i * _x_scale, y_for_linear (p));
 	}

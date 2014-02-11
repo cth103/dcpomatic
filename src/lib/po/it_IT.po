@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-30 21:51+0000\n"
-"PO-Revision-Date: 2013-04-28 10:26+0100\n"
-"Last-Translator: Maci <macibro@gmail.com>\n"
+"PO-Revision-Date: 2014-02-03 10:48+0100\n"
+"Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
-"Language: Italiano\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/lib/sndfile_content.cc:60
 msgid "%1 [audio]"
@@ -30,9 +30,8 @@ msgid "%1 channels, %2kHz, %3 samples"
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:237
-#, fuzzy
 msgid "%1 frames; %2 frames per second"
-msgstr "fotogrammi al secondo"
+msgstr "%1 fotogrammi; %2 fotogrammi al secondo"
 
 #: src/lib/video_content.cc:200
 msgid "%1x%2 pixels (%3:1)"
@@ -149,14 +148,14 @@ msgid "Content to be joined must have the same ratio."
 msgstr ""
 
 #: src/lib/subtitle_content.cc:74
-#, fuzzy
 msgid "Content to be joined must have the same subtitle X offset."
-msgstr "Il DCP e il sorgente hanno la stessa frequenza."
+msgstr ""
+"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:78
-#, fuzzy
 msgid "Content to be joined must have the same subtitle Y offset."
-msgstr "Il DCP e il sorgente hanno la stessa frequenza."
+msgstr ""
+"Il contenuto da unire deve avere lo stesso spostamento Y dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:82
 msgid "Content to be joined must have the same subtitle scale."
@@ -191,9 +190,8 @@ msgid "Could not create remote directory %1 (%2)"
 msgstr "Non posso creare la directory remota %1 (%2)"
 
 #: src/lib/job.cc:94
-#, fuzzy
 msgid "Could not open %1"
-msgstr "non riesco ad aprire %1"
+msgstr "Non riesco ad aprire %1"
 
 #: src/lib/scp_dcp_job.cc:176
 msgid "Could not open %1 to send"
@@ -230,6 +228,8 @@ msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
 msgstr ""
+"DCP-o-matic non può aprire il file %1. Non esiste oppure è in un formato non "
+"riconosciuto."
 
 #: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:70
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
@@ -253,6 +253,14 @@ msgid ""
 "Best regards,\n"
 "DCP-o-matic"
 msgstr ""
+"Spett. Proiezionista\n"
+"\n"
+"troverà in allegato le KDMs per $CPL_NAME.\n"
+"\n"
+"Le KDM sono valide da $START_TIME fino a $END_TIME.\n"
+"\n"
+"Distinti saluti,\n"
+"DCP-o-matic"
 
 #: src/lib/filter.cc:74
 msgid "Deringing filter"
@@ -264,14 +272,12 @@ msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP750"
 
 #: src/lib/util.cc:803
-#, fuzzy
 msgid "Each content frame will be doubled in the DCP.\n"
-msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
+msgstr "Ogni fotogramma del sorgente sarà duplicato nel DCP.\n"
 
 #: src/lib/util.cc:805
-#, fuzzy
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "Ogni fotogramma del sorgente sarà raddoppiato nel DCP.\n"
+msgstr "Ogni fotogramma del sorgente sarà ripetuto %1 volte nel DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:50
 msgid "Email KDMs for %1"
@@ -291,11 +297,11 @@ msgstr "Esamino il contenuto"
 
 #: src/lib/filter.cc:72
 msgid "Experimental horizontal deblocking filter 1"
-msgstr "Filtro di sblocco sperimentale orizzontale 1"
+msgstr "Filtro deblocking orizzontale sperimentale 1"
 
 #: src/lib/filter.cc:73
 msgid "Experimental vertical deblocking filter 1"
-msgstr "Filtro di sblocco sperimentale verticale 1"
+msgstr "Filtro deblocking verticale sperimentale 1"
 
 #: src/lib/filter.cc:79
 msgid "FFMPEG deinterlacer"
@@ -327,7 +333,7 @@ msgstr "Forza quantizzatore"
 
 #: src/lib/ratio.cc:43
 msgid "Full frame"
-msgstr ""
+msgstr "Schermo intero"
 
 #: src/lib/scaler.cc:65
 msgid "Gaussian"
@@ -343,11 +349,11 @@ msgstr "Riduttore di rumore 3D di alta qualità"
 
 #: src/lib/filter.cc:68
 msgid "Horizontal deblocking filter"
-msgstr "Filtro sblocco orizzontale"
+msgstr "Filtro deblocking orizzontale"
 
 #: src/lib/filter.cc:70
 msgid "Horizontal deblocking filter A"
-msgstr "Filtro A sblocco orizzontale"
+msgstr "Filtro deblocking orizzontale A"
 
 #: src/lib/job.cc:108 src/lib/job.cc:117
 msgid ""
@@ -396,7 +402,7 @@ msgstr "Varie"
 
 #: src/lib/filter.cc:81
 msgid "Motion compensating deinterlacer"
-msgstr "Dinterlacciatore compensativo di movimento"
+msgstr "Dinterlacciatore con compensazione di movimento"
 
 #: src/lib/filter.cc:84 src/lib/filter.cc:88 src/lib/filter.cc:89
 #: src/lib/filter.cc:91
@@ -494,6 +500,10 @@ msgid ""
 "unfortunately it cannot be loaded into this version.  You will need to "
 "create a new Film, re-add your content and set it up again.  Sorry!"
 msgstr ""
+"Questo film è stato creato con una vecchia versione di DCP-o-matic, e "
+"purtroppo non può essere caricato in questa versione. Sarà necessario creare "
+"un nuovo film, ri-aggiungere i tuoi contenuti e configurarlo di nuovo. Ci "
+"dispiace!"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Trailer"
@@ -521,7 +531,7 @@ msgstr "Maschera unsharp e sfocatura Gaussiana"
 
 #: src/lib/colour_conversion.cc:145
 msgid "Untitled"
-msgstr ""
+msgstr "Senza titolo"
 
 #: src/lib/filter.cc:69
 msgid "Vertical deblocking filter"
@@ -545,7 +555,7 @@ msgstr "Altro filtro di deinterlacciamento"
 
 #: src/lib/film.cc:289
 msgid "You must add some content to the DCP before creating it"
-msgstr ""
+msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
 #: src/lib/image_content.cc:68
 msgid "[moving images]"
@@ -569,9 +579,8 @@ msgid "connecting"
 msgstr "mi sto connettendo"
 
 #: src/lib/film.cc:285
-#, fuzzy
 msgid "container"
-msgstr "contenuto"
+msgstr "contenitore"
 
 #: src/lib/film.cc:293
 msgid "content type"
@@ -606,9 +615,8 @@ msgid "could not move audio MXF into the DCP (%1)"
 msgstr ""
 
 #: src/lib/sndfile_decoder.cc:45
-#, fuzzy
 msgid "could not open audio file for reading"
-msgstr "non riesco ad aprire il file per leggerlo"
+msgstr "non riesco ad aprire il file in lettura"
 
 #: src/lib/exceptions.cc:29
 msgid "could not open file %1"
@@ -720,7 +728,7 @@ msgstr "sRGB"
 
 #: src/lib/config.cc:82
 msgid "sRGB non-linearised"
-msgstr ""
+msgstr "sRGB non linearizzato"
 
 #: src/lib/util.cc:160
 msgid "seconds"

@@ -65,8 +65,12 @@ try
 	while (1) {
 		if (Config::instance()->use_any_servers ()) {
 			/* Broadcast to look for servers */
-			boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);
-			socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+			try {
+				boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);
+				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+			} catch (...) {
+
+			}
 		}
 
 		/* Query our `definite' servers (if there are any) */
@@ -104,6 +108,7 @@ try
 		try {
 			sock->accept (Config::instance()->server_port_base() + 1);
 		} catch (std::exception& e) {
+			dcpomatic_sleep (60);
 			continue;
 		}
 

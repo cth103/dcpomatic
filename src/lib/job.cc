@@ -68,9 +68,6 @@ Job::run_wrapper ()
 
 	} catch (libdcp::FileError& e) {
 		
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-		
 		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
 
 		try {
@@ -84,39 +81,48 @@ Job::run_wrapper ()
 		}
 
 		set_error (e.what(), m);
-
-	} catch (OpenFileError& e) {
-
 		set_progress (1);
 		set_state (FINISHED_ERROR);
+		
+	} catch (OpenFileError& e) {
 
 		set_error (
 			String::compose (_("Could not open %1"), e.file().string()),
 			String::compose (_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."), e.file().string())
 			);
 
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
 	} catch (boost::thread_interrupted &) {
 
 		set_state (FINISHED_CANCELLED);
+
+	} catch (std::bad_alloc& e) {
+
+		set_error (_("Out of memory"), _("There was not enough memory to do this."));
+		set_progress (1);
+		set_state (FINISHED_ERROR);
 		
 	} catch (std::exception& e) {
 
-		set_progress (1);
-		set_state (FINISHED_ERROR);
 		set_error (
 			e.what (),
 			_("It is not known what caused this error.  The best idea is to report the problem to the DCP-o-matic mailing list (carl@dcpomatic.com)")
 			);
 
-	} catch (...) {
-
 		set_progress (1);
 		set_state (FINISHED_ERROR);
+		
+	} catch (...) {
+
 		set_error (
 			_("Unknown error"),
 			_("It is not known what caused this error.  The best idea is to report the problem to the DCP-o-matic mailing list (carl@dcpomatic.com)")
 			);
 
+		set_progress (1);
+		set_state (FINISHED_ERROR);
 	}
 }
 

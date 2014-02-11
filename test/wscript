@@ -12,7 +12,7 @@ def configure(conf):
 def build(bld):
     obj = bld(features='cxx cxxprogram')
     obj.name   = 'unit-tests'
-    obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML'
+    obj.uselib = 'BOOST_TEST BOOST_THREAD DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML'
     obj.use    = 'libdcpomatic'
     obj.source = """
                  4k_test.cc
