@@ -17,11 +17,11 @@
 
 */
 
-#include <libdcp/subtitle_asset.h>
+#include <libdcp/subtitle_string.h>
 #include <libdcp/util.h>
 #include "position.h"
 
 class Image;
 
 void
-render_subtitles (std::list<libdcp::Subtitle>, libdcp::Size, boost::shared_ptr<Image> &, Position<int> &);
+render_subtitles (std::list<dcp::SubtitleString>, dcp::Size, boost::shared_ptr<Image> &, Position<int> &);

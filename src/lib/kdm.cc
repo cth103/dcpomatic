@@ -36,13 +36,13 @@ using boost::shared_ptr;
 
 struct ScreenKDM
 {
-	ScreenKDM (shared_ptr<Screen> s, libdcp::KDM k)
+	ScreenKDM (shared_ptr<Screen> s, dcp::KDM k)
 		: screen (s)
 		, kdm (k)
 	{}
 	
 	shared_ptr<Screen> screen;
-	libdcp::KDM kdm;
+	dcp::KDM kdm;
 };
 
 static string
@@ -107,12 +107,12 @@ make_screen_kdms (
 	boost::posix_time::ptime to
 	)
 {
-	list<libdcp::KDM> kdms = film->make_kdms (screens, dcp, from, to);
+	list<dcp::KDM> kdms = film->make_kdms (screens, dcp, from, to);
 	   
 	list<ScreenKDM> screen_kdms;
 	
 	list<shared_ptr<Screen> >::iterator i = screens.begin ();
-	list<libdcp::KDM>::iterator j = kdms.begin ();
+	list<dcp::KDM>::iterator j = kdms.begin ();
 	while (i != screens.end() && j != kdms.end ()) {
 		screen_kdms.push_back (ScreenKDM (*i, *j));
 		++i;

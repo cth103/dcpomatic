@@ -78,8 +78,8 @@ using boost::to_upper_copy;
 using boost::ends_with;
 using boost::starts_with;
 using boost::optional;
-using libdcp::Size;
-using libdcp::Signer;
+using dcp::Size;
+using dcp::Signer;
 
 /* 5 -> 6
  * AudioMapping XML changed.
@@ -420,7 +420,7 @@ Film::read_metadata ()
 	_sequence_video = f.bool_child ("SequenceVideo");
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
-	_key = libdcp::Key (f.string_child ("Key"));
+	_key = dcp::Key (f.string_child ("Key"));
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), version);
 
 	_dirty = false;
@@ -746,7 +746,7 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	return file (p);
 }
 
-/** @return List of subdirectories (not full paths) containing DCPs that can be successfully libdcp::DCP::read() */
+/** @return List of subdirectories (not full paths) containing DCPs that can be successfully dcp::DCP::read() */
 list<boost::filesystem::path>
 Film::dcps () const
 {
@@ -760,7 +760,7 @@ Film::dcps () const
 			) {
 
 			try {
-				libdcp::DCP dcp (*i);
+				dcp::DCP dcp (*i);
 				dcp.read ();
 				out.push_back (i->path().leaf ());
 			} catch (...) {
@@ -936,23 +936,23 @@ Film::set_sequence_video (bool s)
 	signal_changed (SEQUENCE_VIDEO);
 }
 
-libdcp::Size
+dcp::Size
 Film::full_frame () const
 {
 	switch (_resolution) {
 	case RESOLUTION_2K:
-		return libdcp::Size (2048, 1080);
+		return dcp::Size (2048, 1080);
 	case RESOLUTION_4K:
-		return libdcp::Size (4096, 2160);
+		return dcp::Size (4096, 2160);
 	}
 
 	assert (false);
-	return libdcp::Size ();
+	return dcp::Size ();
 }
 
-libdcp::KDM
+dcp::KDM
 Film::make_kdm (
-	shared_ptr<libdcp::Certificate> target,
+	shared_ptr<dcp::Certificate> target,
 	boost::filesystem::path dcp_dir,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until
@@ -960,7 +960,7 @@ Film::make_kdm (
 {
 	shared_ptr<const Signer> signer = make_signer ();
 
-	libdcp::DCP dcp (dir (dcp_dir.string ()));
+	dcp::DCP dcp (dir (dcp_dir.string ()));
 	
 	try {
 		dcp.read ();
@@ -970,14 +970,14 @@ Film::make_kdm (
 	
 	time_t now = time (0);
 	struct tm* tm = localtime (&now);
-	string const issue_date = libdcp::tm_to_string (tm);
+	string const issue_date = dcp::tm_to_string (tm);
 	
 	dcp.cpls().front()->set_mxf_keys (key ());
 	
-	return libdcp::KDM (dcp.cpls().front(), signer, target, from, until, "DCP-o-matic", issue_date);
+	return dcp::KDM (dcp.cpls().front(), signer, target, from, until, "DCP-o-matic", issue_date);
 }
 
-list<libdcp::KDM>
+list<dcp::KDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
@@ -985,7 +985,7 @@ Film::make_kdms (
 	boost::posix_time::ptime until
 	) const
 {
-	list<libdcp::KDM> kdms;
+	list<dcp::KDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
 		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until));

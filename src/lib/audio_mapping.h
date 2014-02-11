@@ -50,8 +50,8 @@ public:
 
 	void make_default ();
 
-	void set (int, libdcp::Channel, float);
-	float get (int, libdcp::Channel) const;
+	void set (int, dcp::Channel, float);
+	float get (int, dcp::Channel) const;
 
 	int content_channels () const {
 		return _content_channels;

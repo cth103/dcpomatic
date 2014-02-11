@@ -30,7 +30,7 @@ public:
 	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>);
 	
 	float video_frame_rate () const;
-	libdcp::Size video_size () const;
+	dcp::Size video_size () const;
 	VideoFrame video_length () const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {

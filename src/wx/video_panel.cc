@@ -299,8 +299,8 @@ VideoPanel::setup_description ()
 	}
 
 	Crop const crop = vcs->crop ();
-	if ((crop.left || crop.right || crop.top || crop.bottom) && vcs->video_size() != libdcp::Size (0, 0)) {
-		libdcp::Size cropped = vcs->video_size_after_crop ();
+	if ((crop.left || crop.right || crop.top || crop.bottom) && vcs->video_size() != dcp::Size (0, 0)) {
+		dcp::Size cropped = vcs->video_size_after_crop ();
 		d << wxString::Format (
 			_("Cropped to %dx%d (%.2f:1)\n"),
 			cropped.width, cropped.height,
@@ -310,11 +310,11 @@ VideoPanel::setup_description ()
 	}
 
 	Ratio const * ratio = vcs->ratio ();
-	libdcp::Size container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
+	dcp::Size container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
 	float const ratio_value = ratio ? ratio->ratio() : vcs->video_size_after_crop().ratio ();
 
 	/* We have a specified ratio to scale to */
-	libdcp::Size const scaled = fit_ratio_within (ratio_value, container_size);
+	dcp::Size const scaled = fit_ratio_within (ratio_value, container_size);
 	
 	d << wxString::Format (
 		_("Scaled to %dx%d (%.2f:1)\n"),

@@ -66,7 +66,7 @@ Job::run_wrapper ()
 
 		run ();
 
-	} catch (libdcp::FileError& e) {
+	} catch (dcp::FileError& e) {
 		
 		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
 

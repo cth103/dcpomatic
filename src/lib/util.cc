@@ -101,7 +101,7 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::lexical_cast;
 using boost::optional;
-using libdcp::Size;
+using dcp::Size;
 
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
@@ -251,7 +251,7 @@ dependency_version_summary ()
 	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
 	  << MagickVersion << N_(", ")
 	  << N_("libssh ") << ssh_version (0) << N_(", ")
-	  << N_("libdcp ") << libdcp::version << N_(" git ") << libdcp::git_commit;
+	  << N_("libdcp ") << dcp::version << N_(" git ") << dcp::git_commit;
 
 	return s.str ();
 }
@@ -343,7 +343,7 @@ dcpomatic_setup ()
 	set_terminate (terminate);
 
 	Pango::init ();
-	libdcp::init ();
+	dcp::init ();
 	
 	Ratio::setup_ratios ();
 	DCPContentType::setup_dcp_content_types ();
@@ -889,7 +889,7 @@ tidy_for_filename (string f)
 	return t;
 }
 
-shared_ptr<const libdcp::Signer>
+shared_ptr<const dcp::Signer>
 make_signer ()
 {
 	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
@@ -909,47 +909,47 @@ make_signer ()
 		if (!boost::filesystem::exists (p)) {
 			boost::filesystem::remove_all (sd);
 			boost::filesystem::create_directories (sd);
-			libdcp::make_signer_chain (sd, openssl_path ());
+			dcp::make_signer_chain (sd, openssl_path ());
 			break;
 		}
 
 		++i;
 	}
 	
-	libdcp::CertificateChain chain;
+	dcp::CertificateChain chain;
 
 	{
 		boost::filesystem::path p (sd);
 		p /= "ca.self-signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
+		chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate (p)));
 	}
 
 	{
 		boost::filesystem::path p (sd);
 		p /= "intermediate.signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
+		chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate (p)));
 	}
 
 	{
 		boost::filesystem::path p (sd);
 		p /= "leaf.signed.pem";
-		chain.add (shared_ptr<libdcp::Certificate> (new libdcp::Certificate (p)));
+		chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate (p)));
 	}
 
 	boost::filesystem::path signer_key (sd);
 	signer_key /= "leaf.key";
 
-	return shared_ptr<const libdcp::Signer> (new libdcp::Signer (chain, signer_key));
+	return shared_ptr<const dcp::Signer> (new dcp::Signer (chain, signer_key));
 }
 
-libdcp::Size
-fit_ratio_within (float ratio, libdcp::Size full_frame)
+dcp::Size
+fit_ratio_within (float ratio, dcp::Size full_frame)
 {
 	if (ratio < full_frame.ratio ()) {
-		return libdcp::Size (rint (full_frame.height * ratio), full_frame.height);
+		return dcp::Size (rint (full_frame.height * ratio), full_frame.height);
 	}
 	
-	return libdcp::Size (full_frame.width, rint (full_frame.width / ratio));
+	return dcp::Size (full_frame.width, rint (full_frame.width / ratio));
 }
 
 DCPTime

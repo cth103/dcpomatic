@@ -56,7 +56,7 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
-using libdcp::Size;
+using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio)
 	: Decoder (f)
@@ -474,7 +474,7 @@ FFmpegDecoder::decode_video_packet ()
 	shared_ptr<FilterGraph> graph;
 	
 	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process (libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
+	while (i != _filter_graphs.end() && !(*i)->can_process (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
 		++i;
 	}
 
@@ -482,7 +482,7 @@ FFmpegDecoder::decode_video_packet ()
 		shared_ptr<const Film> film = _film.lock ();
 		assert (film);
 
-		graph.reset (new FilterGraph (_ffmpeg_content, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+		graph.reset (new FilterGraph (_ffmpeg_content, dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
 		_filter_graphs.push_back (graph);
 
 		film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
@@ -574,7 +574,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
 	   G, third B, fourth A.
 	*/
-	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, libdcp::Size (rect->w, rect->h), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
@@ -596,7 +596,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
 
-	libdcp::Size const vs = _ffmpeg_content->video_size ();
+	dcp::Size const vs = _ffmpeg_content->video_size ();
 
 	image_subtitle (
 		image,

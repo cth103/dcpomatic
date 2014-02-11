@@ -57,7 +57,7 @@ using boost::bind;
 using boost::scoped_array;
 using boost::optional;
 using boost::lexical_cast;
-using libdcp::Size;
+using dcp::Size;
 
 Server::Server (shared_ptr<Log> log, bool verbose)
 	: _log (log)
@@ -85,7 +85,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 		return -1;
 	}
 
-	libdcp::Size size (
+	dcp::Size size (
 		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
 		);
 

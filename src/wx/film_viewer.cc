@@ -51,7 +51,7 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::weak_ptr;
-using libdcp::Size;
+using dcp::Size;
 
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)

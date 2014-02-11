@@ -87,7 +87,7 @@ private:
 	bool _got_frame;
 
 	/** Size of our output (including padding if we have any) */
-	libdcp::Size _out_size;
+	dcp::Size _out_size;
 	/** Size of the panel that we have available */
-	libdcp::Size _panel_size;
+	dcp::Size _panel_size;
 };

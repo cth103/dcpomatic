@@ -30,7 +30,7 @@
 
 using std::cout;
 using boost::shared_ptr;
-using libdcp::Size;
+using dcp::Size;
 
 ImageDecoder::ImageDecoder (shared_ptr<const Film> f, shared_ptr<const ImageContent> c)
 	: Decoder (f)
@@ -62,7 +62,7 @@ ImageDecoder::pass ()
 		throw OpenFileError (path);
 	}
 	
-	libdcp::Size size (magick_image->columns(), magick_image->rows());
+	dcp::Size size (magick_image->columns(), magick_image->rows());
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 

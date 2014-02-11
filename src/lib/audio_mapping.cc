@@ -68,11 +68,11 @@ AudioMapping::make_default ()
 
 	if (_content_channels == 1) {
 		/* Mono -> Centre */
-		set (0, libdcp::CENTRE, 1);
+		set (0, dcp::CENTRE, 1);
 	} else {
 		/* 1:1 mapping */
 		for (int i = 0; i < _content_channels; ++i) {
-			set (i, static_cast<libdcp::Channel> (i), 1);
+			set (i, static_cast<dcp::Channel> (i), 1);
 		}
 	}
 }
@@ -85,14 +85,14 @@ AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node, int state_version
 		/* Old-style: on/off mapping */
 		list<cxml::NodePtr> const c = node->node_children ("Map");
 		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-			set ((*i)->number_child<int> ("ContentIndex"), static_cast<libdcp::Channel> ((*i)->number_child<int> ("DCP")), 1);
+			set ((*i)->number_child<int> ("ContentIndex"), static_cast<dcp::Channel> ((*i)->number_child<int> ("DCP")), 1);
 		}
 	} else {
 		list<cxml::NodePtr> const c = node->node_children ("Gain");
 		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 			set (
 				(*i)->number_attribute<int> ("Content"),
-				static_cast<libdcp::Channel> ((*i)->number_attribute<int> ("DCP")),
+				static_cast<dcp::Channel> ((*i)->number_attribute<int> ("DCP")),
 				lexical_cast<float> ((*i)->content ())
 				);
 		}
@@ -100,13 +100,13 @@ AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node, int state_version
 }
 
 void
-AudioMapping::set (int c, libdcp::Channel d, float g)
+AudioMapping::set (int c, dcp::Channel d, float g)
 {
 	_gain[c][d] = g;
 }
 
 float
-AudioMapping::get (int c, libdcp::Channel d) const
+AudioMapping::get (int c, dcp::Channel d) const
 {
 	return _gain[c][d];
 }
@@ -121,7 +121,7 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 			xmlpp::Element* t = node->add_child ("Gain");
 			t->set_attribute ("Content", lexical_cast<string> (c));
 			t->set_attribute ("DCP", lexical_cast<string> (d));
-			t->add_child_text (lexical_cast<string> (get (c, static_cast<libdcp::Channel> (d))));
+			t->add_child_text (lexical_cast<string> (get (c, static_cast<dcp::Channel> (d))));
 		}
 	}
 }

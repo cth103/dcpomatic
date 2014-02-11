@@ -156,7 +156,7 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		return;
 	}
 
-	libdcp::Channel d = static_cast<libdcp::Channel> (ev.GetCol() - 1);
+	dcp::Channel d = static_cast<dcp::Channel> (ev.GetCol() - 1);
 	
 	if (_map.get (ev.GetRow(), d) > 0) {
 		_map.set (ev.GetRow(), d, 0);
@@ -182,28 +182,28 @@ AudioMappingView::right_click (wxGridEvent& ev)
 void
 AudioMappingView::off ()
 {
-	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 0);
+	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), 0);
 	map_changed ();
 }
 
 void
 AudioMappingView::full ()
 {
-	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 1);
+	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), 1);
 	map_changed ();
 }
 
 void
 AudioMappingView::minus3dB ()
 {
-	_map.set (_menu_row, static_cast<libdcp::Channel> (_menu_column - 1), 1 / sqrt (2));
+	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), 1 / sqrt (2));
 	map_changed ();
 }
 
 void
 AudioMappingView::edit ()
 {
-	libdcp::Channel d = static_cast<libdcp::Channel> (_menu_column - 1);
+	dcp::Channel d = static_cast<dcp::Channel> (_menu_column - 1);
 	
 	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_row, _menu_column - 1, _map.get (_menu_row, d));
 	if (dialog->ShowModal () == wxID_OK) {
@@ -242,7 +242,7 @@ AudioMappingView::update_cells ()
 		_grid->SetCellValue (i, 0, wxString::Format (wxT("%d"), i + 1));
 
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			_grid->SetCellValue (i, j, std_to_wx (lexical_cast<string> (_map.get (i, static_cast<libdcp::Channel> (j - 1)))));
+			_grid->SetCellValue (i, j, std_to_wx (lexical_cast<string> (_map.get (i, static_cast<dcp::Channel> (j - 1)))));
 		}
 	}
 
@@ -318,7 +318,7 @@ AudioMappingView::mouse_moved (wxMouseEvent& ev)
 	if (row != _last_tooltip_row || column != _last_tooltip_column) {
 
 		wxString s;
-		float const gain = _map.get (row, static_cast<libdcp::Channel> (column - 1));
+		float const gain = _map.get (row, static_cast<dcp::Channel> (column - 1));
 		if (gain == 0) {
 			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), row + 1, column);
 		} else if (gain == 1) {

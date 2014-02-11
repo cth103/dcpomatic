@@ -270,7 +270,7 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 	FrameRateChange frc (content->video_frame_rate(), _film->video_frame_rate());
 
 	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
-	libdcp::Size image_size = fit_ratio_within (ratio, _video_container_size);
+	dcp::Size image_size = fit_ratio_within (ratio, _video_container_size);
 	if (_approximate_size) {
 		image_size.width &= ~3;
 		image_size.height &= ~3;
@@ -346,12 +346,12 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 	AudioMapping map = content->audio_mapping ();
 	for (int i = 0; i < map.content_channels(); ++i) {
 		for (int j = 0; j < _film->audio_channels(); ++j) {
-			if (map.get (i, static_cast<libdcp::Channel> (j)) > 0) {
+			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
 				dcp_mapped->accumulate_channel (
 					audio->data.get(),
 					i,
-					static_cast<libdcp::Channel> (j),
-					map.get (i, static_cast<libdcp::Channel> (j))
+					static_cast<dcp::Channel> (j),
+					map.get (i, static_cast<dcp::Channel> (j))
 					);
 			}
 		}
@@ -583,7 +583,7 @@ Player::playlist_changed ()
 }
 
 void
-Player::set_video_container_size (libdcp::Size s)
+Player::set_video_container_size (dcp::Size s)
 {
 	_video_container_size = s;
 
@@ -658,7 +658,7 @@ Player::update_subtitle_from_image ()
 	assert (sc);
 
 	dcpomatic::Rect<double> in_rect = _image_subtitle.subtitle->rect;
-	libdcp::Size scaled_size;
+	dcp::Size scaled_size;
 
 	in_rect.x += sc->subtitle_x_offset ();
 	in_rect.y += sc->subtitle_y_offset ();
@@ -731,8 +731,8 @@ Player::set_approximate_size ()
 PlayerImage::PlayerImage (
 	shared_ptr<const Image> in,
 	Crop crop,
-	libdcp::Size inter_size,
-	libdcp::Size out_size,
+	dcp::Size inter_size,
+	dcp::Size out_size,
 	Scaler const * scaler
 	)
 	: _in (in)

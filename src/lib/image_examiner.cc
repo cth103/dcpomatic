@@ -43,7 +43,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 {
 	using namespace MagickCore;
 	Magick::Image* image = new Magick::Image (content->path(0).string());
-	_video_size = libdcp::Size (image->columns(), image->rows());
+	_video_size = dcp::Size (image->columns(), image->rows());
 	delete image;
 
 	if (content->still ()) {
@@ -53,7 +53,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	}
 }
 
-libdcp::Size
+dcp::Size
 ImageExaminer::video_size () const
 {
 	return _video_size.get ();

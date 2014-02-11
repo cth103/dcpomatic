@@ -43,7 +43,7 @@ ColourConversion::ColourConversion ()
 {
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			matrix (i, j) = libdcp::colour_matrix::srgb_to_xyz[i][j];
+			matrix (i, j) = dcp::colour_matrix::srgb_to_xyz[i][j];
 		}
 	}
 }

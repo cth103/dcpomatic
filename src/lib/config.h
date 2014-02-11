@@ -135,7 +135,7 @@ public:
 		return _default_dcp_content_type;
 	}
 
-	libdcp::XMLMetadata dcp_metadata () const {
+	dcp::XMLMetadata dcp_metadata () const {
 		return _dcp_metadata;
 	}
 
@@ -249,7 +249,7 @@ public:
 		_default_dcp_content_type = t;
 	}
 
-	void set_dcp_metadata (libdcp::XMLMetadata m) {
+	void set_dcp_metadata (dcp::XMLMetadata m) {
 		_dcp_metadata = m;
 	}
 
@@ -335,7 +335,7 @@ private:
 	int _default_still_length;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
-	libdcp::XMLMetadata _dcp_metadata;
+	dcp::XMLMetadata _dcp_metadata;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	std::vector<PresetColourConversion> _colour_conversions;

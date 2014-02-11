@@ -29,7 +29,7 @@ namespace cxml {
 class Screen
 {
 public:
-	Screen (std::string const & n, boost::shared_ptr<libdcp::Certificate> cert)
+	Screen (std::string const & n, boost::shared_ptr<dcp::Certificate> cert)
 		: name (n)
 		, certificate (cert)
 	{}
@@ -40,7 +40,7 @@ public:
 	
 	boost::shared_ptr<Cinema> cinema;
 	std::string name;
-	boost::shared_ptr<libdcp::Certificate> certificate;
+	boost::shared_ptr<dcp::Certificate> certificate;
 };
 
 class Cinema : public boost::enable_shared_from_this<Cinema>

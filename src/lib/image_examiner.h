@@ -31,7 +31,7 @@ public:
 	ImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageContent>, boost::shared_ptr<Job>);
 
 	float video_frame_rate () const;
-	libdcp::Size video_size () const;
+	dcp::Size video_size () const;
 	VideoFrame video_length () const {
 		return _video_length;
 	}
@@ -39,6 +39,6 @@ public:
 private:
 	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<const ImageContent> _image_content;
-	boost::optional<libdcp::Size> _video_size;
+	boost::optional<dcp::Size> _video_size;
 	VideoFrame _video_length;
 };

@@ -23,7 +23,6 @@
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <libdcp/subtitle_asset.h>
 #include "playlist.h"
 #include "content.h"
 #include "film.h"
@@ -46,7 +45,7 @@ class Image;
 class PlayerImage
 {
 public:
-	PlayerImage (boost::shared_ptr<const Image>, Crop, libdcp::Size, libdcp::Size, Scaler const *);
+	PlayerImage (boost::shared_ptr<const Image>, Crop, dcp::Size, dcp::Size, Scaler const *);
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
 	
@@ -55,8 +54,8 @@ public:
 private:
 	boost::shared_ptr<const Image> _in;
 	Crop _crop;
-	libdcp::Size _inter_size;
-	libdcp::Size _out_size;
+	dcp::Size _inter_size;
+	dcp::Size _out_size;
 	Scaler const * _scaler;
 	boost::shared_ptr<const Image> _subtitle_image;
 	Position<int> _subtitle_position;
@@ -113,7 +112,7 @@ public:
 		return _video_position;
 	}
 
-	void set_video_container_size (libdcp::Size);
+	void set_video_container_size (dcp::Size);
 	void set_approximate_size ();
 
 	bool repeat_last_video ();
@@ -175,7 +174,7 @@ private:
 
 	AudioMerger<DCPTime, AudioFrame> _audio_merger;
 
-	libdcp::Size _video_container_size;
+	dcp::Size _video_container_size;
 	boost::shared_ptr<PlayerImage> _black_frame;
 
 	struct {

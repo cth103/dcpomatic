@@ -127,10 +127,10 @@ FFmpegExaminer::video_frame_rate () const
 	return av_q2d (s->r_frame_rate);
 }
 
-libdcp::Size
+dcp::Size
 FFmpegExaminer::video_size () const
 {
-	return libdcp::Size (video_codec_context()->width, video_codec_context()->height);
+	return dcp::Size (video_codec_context()->width, video_codec_context()->height);
 }
 
 /** @return Length (in video frames) according to our content's header */

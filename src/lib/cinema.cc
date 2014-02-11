@@ -70,7 +70,7 @@ Cinema::remove_screen (shared_ptr<Screen> s)
 Screen::Screen (shared_ptr<const cxml::Node> node)
 {
 	name = node->string_child ("Name");
-	certificate = shared_ptr<libdcp::Certificate> (new libdcp::Certificate (node->string_child ("Certificate")));
+	certificate = shared_ptr<dcp::Certificate> (new dcp::Certificate (node->string_child ("Certificate")));
 }
 
 void

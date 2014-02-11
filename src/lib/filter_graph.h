@@ -36,16 +36,16 @@ class FFmpegContent;
 class FilterGraph : public boost::noncopyable
 {
 public:
-	FilterGraph (boost::shared_ptr<const FFmpegContent> content, libdcp::Size s, AVPixelFormat p);
+	FilterGraph (boost::shared_ptr<const FFmpegContent> content, dcp::Size s, AVPixelFormat p);
 	~FilterGraph ();
 
-	bool can_process (libdcp::Size s, AVPixelFormat p) const;
+	bool can_process (dcp::Size s, AVPixelFormat p) const;
 	std::list<std::pair<boost::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
 
 private:
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
-	libdcp::Size _size; ///< size of the images that this chain can process
+	dcp::Size _size; ///< size of the images that this chain can process
 	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
 	AVFrame* _frame;
 };

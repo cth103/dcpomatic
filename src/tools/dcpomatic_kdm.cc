@@ -234,8 +234,8 @@ int main (int argc, char* argv[])
 			error ("you must specify --output");
 		}
 		
-		shared_ptr<libdcp::Certificate> certificate (new libdcp::Certificate (boost::filesystem::path (certificate_file)));
-		libdcp::KDM kdm = film->make_kdm (certificate, dcp, valid_from.get(), valid_to.get());
+		shared_ptr<dcp::Certificate> certificate (new dcp::Certificate (boost::filesystem::path (certificate_file)));
+		dcp::KDM kdm = film->make_kdm (certificate, dcp, valid_from.get(), valid_to.get());
 		kdm.as_xml (output);
 		if (verbose) {
 			cout << "Generated KDM " << output << " for certificate.\n";

@@ -37,10 +37,10 @@ extern "C" {
 
 class Scaler;
 
-class Image : public libdcp::Image
+class Image : public dcp::Image
 {
 public:
-	Image (AVPixelFormat, libdcp::Size, bool);
+	Image (AVPixelFormat, dcp::Size, bool);
 	Image (AVFrame *);
 	Image (Image const &);
 	Image (boost::shared_ptr<const Image>, bool);
@@ -50,18 +50,18 @@ public:
 	uint8_t ** data () const;
 	int * line_size () const;
 	int * stride () const;
-	libdcp::Size size () const;
+	dcp::Size size () const;
 	bool aligned () const;
 
 	int components () const;
 	int line_factor (int) const;
 	int lines (int) const;
 
-	boost::shared_ptr<Image> scale (libdcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
+	boost::shared_ptr<Image> scale (dcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 
-	boost::shared_ptr<Image> crop_scale_window (Crop c, libdcp::Size, libdcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
+	boost::shared_ptr<Image> crop_scale_window (Crop c, dcp::Size, dcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	
 	void make_black ();
 	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);

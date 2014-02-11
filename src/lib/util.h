@@ -32,6 +32,7 @@
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <libdcp/util.h>
+#include <libdcp/signer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -76,8 +77,8 @@ extern bool valid_image_file (boost::filesystem::path);
 extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
-extern boost::shared_ptr<const libdcp::Signer> make_signer ();
-extern libdcp::Size fit_ratio_within (float ratio, libdcp::Size);
+extern boost::shared_ptr<const dcp::Signer> make_signer ();
+extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 
 struct FrameRateChange
 {

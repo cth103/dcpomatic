@@ -43,8 +43,6 @@
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
-#include <libdcp/rec709_linearised_gamma_lut.h>
-#include <libdcp/srgb_linearised_gamma_lut.h>
 #include <libdcp/gamma_lut.h>
 #include <libdcp/xyz_frame.h>
 #include <libdcp/rgb_xyz.h>
@@ -68,7 +66,7 @@ using std::stringstream;
 using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
-using libdcp::Size;
+using dcp::Size;
 
 #define DCI_COEFFICENT (48.0 / 52.37)
 
@@ -120,12 +118,8 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cx
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	shared_ptr<libdcp::LUT> in_lut;
-	if (_conversion.input_gamma_linearised) {
-		in_lut = libdcp::SRGBLinearisedGammaLUT::cache.get (12, _conversion.input_gamma);
-	} else {
-		in_lut = libdcp::GammaLUT::cache.get (12, _conversion.input_gamma);
-	}
+	shared_ptr<dcp::GammaLUT> in_lut;
+	in_lut = dcp::GammaLUT::cache.get (12, _conversion.input_gamma, _conversion.input_gamma_linearised);
 
 	/* XXX: libdcp should probably use boost */
 	
@@ -136,10 +130,10 @@ DCPVideoFrame::encode_locally ()
 		}
 	}
 	
-	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
+	shared_ptr<dcp::XYZFrame> xyz = dcp::rgb_to_xyz (
 		_image,
 		in_lut,
-		libdcp::GammaLUT::cache.get (16, 1 / _conversion.output_gamma),
+		dcp::GammaLUT::cache.get (16, 1 / _conversion.output_gamma, false),
 		matrix
 		);
 		
@@ -397,7 +391,7 @@ EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 }
 
 void
-EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, libdcp::FrameInfo fin) const
+EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, dcp::FrameInfo fin) const
 {
 	boost::filesystem::path const info = film->info_path (frame, eyes);
 	FILE* h = fopen_boost (info, "w");

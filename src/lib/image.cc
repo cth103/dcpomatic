@@ -37,7 +37,7 @@ using std::string;
 using std::min;
 using std::cout;
 using boost::shared_ptr;
-using libdcp::Size;
+using dcp::Size;
 
 int
 Image::line_factor (int n) const
@@ -81,7 +81,7 @@ Image::components () const
 
 /** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size' */
 shared_ptr<Image>
-Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
+Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -92,7 +92,7 @@ Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_s
 	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned));
 	out->make_black ();
 	
-	libdcp::Size cropped_size = crop.apply (size ());
+	dcp::Size cropped_size = crop.apply (size ());
 
 	struct SwsContext* scale_context = sws_getContext (
 			cropped_size.width, cropped_size.height, pixel_format(),
@@ -125,7 +125,7 @@ Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_s
 }
 
 shared_ptr<Image>
-Image::scale (libdcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
+Image::scale (dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
 {
 	assert (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -201,7 +201,7 @@ Image::post_process (string pp, bool aligned) const
 shared_ptr<Image>
 Image::crop (Crop crop, bool aligned) const
 {
-	libdcp::Size cropped_size = crop.apply (size ());
+	dcp::Size cropped_size = crop.apply (size ());
 	shared_ptr<Image> out (new Image (pixel_format(), cropped_size, aligned));
 
 	for (int c = 0; c < components(); ++c) {
@@ -498,8 +498,8 @@ Image::bytes_per_pixel (int c) const
  *  @param p Pixel format.
  *  @param s Size in pixels.
  */
-Image::Image (AVPixelFormat p, libdcp::Size s, bool aligned)
-	: libdcp::Image (s)
+Image::Image (AVPixelFormat p, dcp::Size s, bool aligned)
+	: dcp::Image (s)
 	, _pixel_format (p)
 	, _aligned (aligned)
 {
@@ -536,7 +536,7 @@ Image::allocate ()
 }
 
 Image::Image (Image const & other)
-	: libdcp::Image (other)
+	: dcp::Image (other)
 	,  _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
 {
@@ -554,7 +554,7 @@ Image::Image (Image const & other)
 }
 
 Image::Image (AVFrame* frame)
-	: libdcp::Image (libdcp::Size (frame->width, frame->height))
+	: dcp::Image (dcp::Size (frame->width, frame->height))
 	, _pixel_format (static_cast<AVPixelFormat> (frame->format))
 	, _aligned (true)
 {
@@ -573,7 +573,7 @@ Image::Image (AVFrame* frame)
 }
 
 Image::Image (shared_ptr<const Image> other, bool aligned)
-	: libdcp::Image (other)
+	: dcp::Image (other)
 	, _pixel_format (other->_pixel_format)
 	, _aligned (aligned)
 {
@@ -606,7 +606,7 @@ Image::operator= (Image const & other)
 void
 Image::swap (Image & other)
 {
-	libdcp::Image::swap (other);
+	dcp::Image::swap (other);
 	
 	std::swap (_pixel_format, other._pixel_format);
 
@@ -649,7 +649,7 @@ Image::stride () const
 	return _stride;
 }
 
-libdcp::Size
+dcp::Size
 Image::size () const
 {
 	return _size;

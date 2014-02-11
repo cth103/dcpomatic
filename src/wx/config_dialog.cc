@@ -501,7 +501,7 @@ ConfigDialog::default_dcp_content_type_changed ()
 void
 ConfigDialog::issuer_changed ()
 {
-	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	dcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 	m.issuer = wx_to_std (_issuer->GetValue ());
 	Config::instance()->set_dcp_metadata (m);
 }
@@ -509,7 +509,7 @@ ConfigDialog::issuer_changed ()
 void
 ConfigDialog::creator_changed ()
 {
-	libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+	dcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 	m.creator = wx_to_std (_creator->GetValue ());
 	Config::instance()->set_dcp_metadata (m);
 }

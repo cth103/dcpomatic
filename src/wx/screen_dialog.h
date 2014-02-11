@@ -24,10 +24,10 @@
 class ScreenDialog : public wxDialog
 {
 public:
-	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::shared_ptr<libdcp::Certificate> c = boost::shared_ptr<libdcp::Certificate> ());
+	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::shared_ptr<dcp::Certificate> c = boost::shared_ptr<dcp::Certificate> ());
 
 	std::string name () const;
-	boost::shared_ptr<libdcp::Certificate> certificate () const;
+	boost::shared_ptr<dcp::Certificate> certificate () const;
 	
 private:
 	void load_certificate ();
@@ -37,5 +37,5 @@ private:
 	wxButton* _certificate_load;
 	wxTextCtrl* _certificate_text;
 
-	boost::shared_ptr<libdcp::Certificate> _certificate;
+	boost::shared_ptr<dcp::Certificate> _certificate;
 };

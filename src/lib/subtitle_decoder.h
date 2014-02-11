@@ -21,7 +21,7 @@
 #define DCPOMATIC_SUBTITLE_DECODER_H
 
 #include <boost/signals2.hpp>
-#include <libdcp/subtitle_asset.h>
+#include <libdcp/subtitle_string.h>
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
@@ -38,7 +38,7 @@ public:
 
 protected:
 	void image_subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, ContentTime, ContentTime);
-	void text_subtitle (std::list<libdcp::Subtitle>);
+	void text_subtitle (std::list<dcp::SubtitleString>);
 };
 
 #endif

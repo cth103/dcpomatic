@@ -19,9 +19,9 @@
 
 #include <fstream>
 #include <cerrno>
-#include <libdcp/mono_picture_asset.h>
-#include <libdcp/stereo_picture_asset.h>
-#include <libdcp/sound_asset.h>
+#include <libdcp/mono_picture_mxf.h>
+#include <libdcp/stereo_picture_mxf.h>
+#include <libdcp/sound_mxf.h>
 #include <libdcp/reel.h>
 #include <libdcp/dcp.h>
 #include <libdcp/cpl.h>
@@ -80,26 +80,24 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	*/
 
 	if (_film->three_d ()) {
-		_picture_asset.reset (new libdcp::StereoPictureAsset (_film->internal_video_mxf_dir (), _film->internal_video_mxf_filename ()));
+		_picture_mxf.reset (new dcp::StereoPictureMXF (_film->internal_video_mxf_dir (), _film->internal_video_mxf_filename ()));
 	} else {
-		_picture_asset.reset (new libdcp::MonoPictureAsset (_film->internal_video_mxf_dir (), _film->internal_video_mxf_filename ()));
+		_picture_mxf.reset (new dcp::MonoPictureMXF (_film->internal_video_mxf_dir (), _film->internal_video_mxf_filename ()));
 	}
 
-	_picture_asset->set_edit_rate (_film->video_frame_rate ());
-	_picture_asset->set_size (fit_ratio_within (_film->container()->ratio(), _film->full_frame ()));
-	_picture_asset->set_interop (_film->interop ());
+	_picture_mxf->set_edit_rate (_film->video_frame_rate ());
+	_picture_mxf->set_size (fit_ratio_within (_film->container()->ratio(), _film->full_frame ()));
 
 	if (_film->encrypted ()) {
 		_picture_asset->set_key (_film->key ());
 	}
 	
-	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
+	_picture_mxf_writer = _picture_asset->start_write (_first_nonexistant_frame > 0, _film->interop() ? dcp::INTEROP : dcp::SMPTE);
 
-	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
-	_sound_asset->set_edit_rate (_film->video_frame_rate ());
-	_sound_asset->set_channels (_film->audio_channels ());
-	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
-	_sound_asset->set_interop (_film->interop ());
+	_sound_mxf.reset (new dcp::SoundMXF (_film->directory (), _film->audio_mxf_filename ()));
+	_sound_mxf->set_edit_rate (_film->video_frame_rate ());
+	_sound_mxf->set_channels (_film->audio_channels ());
+	_sound_mxf->set_sampling_rate (_film->audio_frame_rate ());
 
 	if (_film->encrypted ()) {
 		_sound_asset->set_key (_film->key ());
@@ -161,7 +159,7 @@ Writer::fake_write (int frame, Eyes eyes)
 	}
 	
 	FILE* ifi = fopen_boost (_film->info_path (frame, eyes), "r");
-	libdcp::FrameInfo info (ifi);
+	dcp::FrameInfo info (ifi);
 	fclose (ifi);
 	
 	QueueItem qi;
@@ -258,7 +256,7 @@ try
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
 
-				libdcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
+				dcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
 				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
 				_last_written[qi.eyes] = qi.encoded;
 				++_full_written;
@@ -273,7 +271,7 @@ try
 			case QueueItem::REPEAT:
 			{
 				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
-				libdcp::FrameInfo fin = _picture_asset_writer->write (
+				dcp::FrameInfo fin = _picture_asset_writer->write (
 					_last_written[qi.eyes]->data(),
 					_last_written[qi.eyes]->size()
 					);
@@ -418,10 +416,10 @@ Writer::finish ()
 	_sound_asset->set_directory (_film->dir (_film->dcp_name ()));
 	_sound_asset->set_duration (frames);
 	
-	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
+	dcp::DCP dcp (_film->dir (_film->dcp_name()));
 
-	shared_ptr<libdcp::CPL> cpl (
-		new libdcp::CPL (
+	shared_ptr<dcp::CPL> cpl (
+		new dcp::CPL (
 			_film->dir (_film->dcp_name()),
 			_film->dcp_name(),
 			_film->dcp_content_type()->libdcp_kind (),
@@ -432,10 +430,10 @@ Writer::finish ()
 	
 	dcp.add_cpl (cpl);
 
-	cpl->add_reel (shared_ptr<libdcp::Reel> (new libdcp::Reel (
+	cpl->add_reel (shared_ptr<dcp::Reel> (new dcp::Reel (
 							 _picture_asset,
 							 _sound_asset,
-							 shared_ptr<libdcp::SubtitleAsset> ()
+							 shared_ptr<dcp::SubtitleAsset> ()
 							 )
 			       ));
 
@@ -448,9 +446,9 @@ Writer::finish ()
 	job->sub (_("Computing audio digest"));
 	_sound_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
 
-	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
+	dcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
-	dcp.write_xml (_film->interop (), meta, _film->is_signed() ? make_signer () : shared_ptr<const libdcp::Signer> ());
+	dcp.write_xml (_film->interop (), meta, _film->is_signed() ? make_signer () : shared_ptr<const dcp::Signer> ());
 
 	_film->log()->log (
 		String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk)
@@ -493,7 +491,7 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 		return false;
 	}
 	
-	libdcp::FrameInfo info (ifi);
+	dcp::FrameInfo info (ifi);
 	fclose (ifi);
 	if (info.size == 0) {
 		_film->log()->log (String::compose ("Existing frame %1 has no info file", f));

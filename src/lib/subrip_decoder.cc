@@ -17,6 +17,7 @@
 
 */
 
+#include <libdcp/subtitle_string.h>
 #include "subrip_decoder.h"
 
 using std::list;
@@ -38,21 +39,21 @@ SubRipDecoder::pass ()
 		return true;
 	}
 	
-	list<libdcp::Subtitle> out;
+	list<dcp::SubtitleString> out;
 	for (list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin(); i != _subtitles[_next].pieces.end(); ++i) {
 		out.push_back (
-			libdcp::Subtitle (
+			dcp::SubtitleString (
 				"Arial",
 				i->italic,
-				libdcp::Color (255, 255, 255),
+				dcp::Color (255, 255, 255),
 				72,
 				_subtitles[_next].from,
 				_subtitles[_next].to,
 				0.9,
-				libdcp::BOTTOM,
+				dcp::BOTTOM,
 				i->text,
-				libdcp::NONE,
-				libdcp::Color (255, 255, 255),
+				dcp::NONE,
+				dcp::Color (255, 255, 255),
 				0,
 				0
 				)

@@ -41,7 +41,7 @@ SubtitleDecoder::image_subtitle (shared_ptr<Image> image, dcpomatic::Rect<double
 }
 
 void
-SubtitleDecoder::text_subtitle (list<libdcp::Subtitle> s)
+SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
 {
 	_pending.push_back (shared_ptr<DecodedTextSubtitle> (new DecodedTextSubtitle (s)));
 }

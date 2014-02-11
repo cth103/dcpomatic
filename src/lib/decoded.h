@@ -20,7 +20,7 @@
 #ifndef DCPOMATIC_LIB_DECODED_H
 #define DCPOMATIC_LIB_DECODED_H
 
-#include <libdcp/subtitle_asset.h>
+#include <libdcp/subtitle_string.h>
 #include "types.h"
 #include "rect.h"
 #include "util.h"
@@ -123,7 +123,7 @@ public:
 		: dcp_time_to (0)
 	{}
 
-	DecodedTextSubtitle (std::list<libdcp::Subtitle> s)
+	DecodedTextSubtitle (std::list<dcp::SubtitleString> s)
 		: subs (s)
 	{}
 
@@ -138,7 +138,7 @@ public:
 		dcp_time_to = rint (subs.front().out().to_ticks() * 4 * TIME_HZ / frc.speed_up) + offset;
 	}
 
-	std::list<libdcp::Subtitle> subs;
+	std::list<dcp::SubtitleString> subs;
 	DCPTime dcp_time_to;
 };
 

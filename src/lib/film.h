@@ -94,7 +94,7 @@ public:
 		return _dirty;
 	}
 
-	libdcp::Size full_frame () const;
+	dcp::Size full_frame () const;
 
 	std::list<boost::filesystem::path> dcps () const;
 
@@ -119,22 +119,22 @@ public:
 	VideoFrame best_video_frame_rate () const;
 	FrameRateChange active_frame_rate_change (DCPTime) const;
 
-	libdcp::KDM
+	dcp::KDM
 	make_kdm (
-		boost::shared_ptr<libdcp::Certificate> target,
+		boost::shared_ptr<dcp::Certificate> target,
 		boost::filesystem::path dcp,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until
 		) const;
 	
-	std::list<libdcp::KDM> make_kdms (
+	std::list<dcp::KDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path dcp,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until
 		) const;
 
-	libdcp::Key key () const {
+	dcp::Key key () const {
 		return _key;
 	}
 
@@ -323,7 +323,7 @@ private:
 	bool _three_d;
 	bool _sequence_video;
 	bool _interop;
-	libdcp::Key _key;
+	dcp::Key _key;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

@@ -58,7 +58,7 @@ public:
 		return _video_length;
 	}
 
-	libdcp::Size video_size () const {
+	dcp::Size video_size () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_size;
 	}
@@ -120,8 +120,8 @@ public:
 		return _colour_conversion;
 	}
 
-	libdcp::Size video_size_after_3d_split () const;
-	libdcp::Size video_size_after_crop () const;
+	dcp::Size video_size_after_3d_split () const;
+	dcp::Size video_size_after_crop () const;
 
 	VideoFrame time_to_content_video_frames (DCPTime) const;
 
@@ -139,7 +139,7 @@ private:
 
 	void setup_default_colour_conversion ();
 	
-	libdcp::Size _video_size;
+	dcp::Size _video_size;
 	VideoFrameType _video_frame_type;
 	Crop _crop;
 	Ratio const * _ratio;

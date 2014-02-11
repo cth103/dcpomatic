@@ -32,14 +32,14 @@ using boost::shared_ptr;
 using boost::optional;
 
 static int
-calculate_position (libdcp::VAlign v_align, double v_position, int target_height, int offset)
+calculate_position (dcp::VAlign v_align, double v_position, int target_height, int offset)
 {
 	switch (v_align) {
-	case libdcp::TOP:
+	case dcp::TOP:
 		return (v_position / 100) * target_height - offset;
-	case libdcp::CENTER:
+	case dcp::CENTER:
 		return (0.5 + v_position / 100) * target_height - offset;
-	case libdcp::BOTTOM:
+	case dcp::BOTTOM:
 		return (1.0 - v_position / 100) * target_height - offset;
 	}
 
@@ -47,7 +47,7 @@ calculate_position (libdcp::VAlign v_align, double v_position, int target_height
 }
 
 void
-render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_ptr<Image>& image, Position<int>& position)
+render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target, shared_ptr<Image>& image, Position<int>& position)
 {
 	if (subtitles.empty ()) {
 		image.reset ();
@@ -57,7 +57,7 @@ render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_
 	/* Estimate height that the subtitle image needs to be */
 	optional<int> top;
 	optional<int> bottom;
-	for (list<libdcp::Subtitle>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
+	for (list<dcp::SubtitleString>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
 		int const b = calculate_position (i->v_align(), i->v_position(), target.height, 0);
 		int const t = b - i->size() * target.height / (11 * 72);
 
@@ -68,7 +68,7 @@ render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_
 	top = top.get() - 32;
 	bottom = bottom.get() + 32;
 
-	image.reset (new Image (PIX_FMT_RGBA, libdcp::Size (target.width, bottom.get() - top.get ()), false));
+	image.reset (new Image (PIX_FMT_RGBA, dcp::Size (target.width, bottom.get() - top.get ()), false));
 	image->make_black ();
 
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
@@ -87,7 +87,7 @@ render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_
 
 	context->set_line_width (1);
 
-	for (list<libdcp::Subtitle>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
+	for (list<dcp::SubtitleString>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
 		string f = i->font ();
 		if (f.empty ()) {
 			f = "Arial";
@@ -104,9 +104,9 @@ render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_
 		/* XXX */
 		float fade_factor = 1;
 #if 0		
-		libdcp::Time now (time * 1000 / (4 * TIME_HZ));
-		libdcp::Time end_fade_up = i->in() + i->fade_up_time ();
-		libdcp::Time start_fade_down = i->out() - i->fade_down_time ();
+		dcp::Time now (time * 1000 / (4 * TIME_HZ));
+		dcp::Time end_fade_up = i->in() + i->fade_up_time ();
+		dcp::Time start_fade_down = i->out() - i->fade_down_time ();
 		if (now < end_fade_up) {
 			fade_factor = (now - i->in()) / i->fade_up_time();
 		} else if (now > start_fade_down) {
@@ -121,9 +121,9 @@ render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_
 		int const x = 0;
 		int const y = calculate_position (i->v_align (), i->v_position (), target.height, (layout->get_baseline() / PANGO_SCALE) + top.get ());
 
-		if (i->effect() == libdcp::SHADOW) {
+		if (i->effect() == dcp::SHADOW) {
 			/* Drop-shadow effect */
-			libdcp::Color const ec = i->effect_color ();
+			dcp::Color const ec = i->effect_color ();
 			context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 			context->move_to (x + 4, y + 4);
 			layout->add_to_cairo_context (context);
@@ -132,15 +132,15 @@ render_subtitles (list<libdcp::Subtitle> subtitles, libdcp::Size target, shared_
 
 		/* The actual subtitle */
 		context->move_to (x, y);
-		libdcp::Color const c = i->color ();
+		dcp::Color const c = i->color ();
 		context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
 		layout->add_to_cairo_context (context);
 		context->fill ();
 
-		if (i->effect() == libdcp::BORDER) {
+		if (i->effect() == dcp::BORDER) {
 			/* Border effect */
 			context->move_to (x, y);
-			libdcp::Color ec = i->effect_color ();
+			dcp::Color ec = i->effect_color ();
 			context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 			layout->add_to_cairo_context (context);
 			context->stroke ();

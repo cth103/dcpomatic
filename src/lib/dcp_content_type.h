@@ -34,14 +34,14 @@
 class DCPContentType : public boost::noncopyable
 {
 public:
-	DCPContentType (std::string, libdcp::ContentKind, std::string);
+	DCPContentType (std::string, dcp::ContentKind, std::string);
 
 	/** @return user-visible `pretty' name */
 	std::string pretty_name () const {
 		return _pretty_name;
 	}
 
-	libdcp::ContentKind libdcp_kind () const {
+	dcp::ContentKind libdcp_kind () const {
 		return _libdcp_kind;
 	}
 
@@ -58,7 +58,7 @@ public:
 
 private:
 	std::string _pretty_name;
-	libdcp::ContentKind _libdcp_kind;
+	dcp::ContentKind _libdcp_kind;
 	std::string _dci_name;
 
 	/** All available DCP content types */

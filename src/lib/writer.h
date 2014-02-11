@@ -29,15 +29,15 @@ class EncodedData;
 class AudioBuffers;
 class Job;
 
-namespace libdcp {
-	class MonoPictureAsset;
-	class MonoPictureAssetWriter;
-	class StereoPictureAsset;
-	class StereoPictureAssetWriter;
-	class PictureAsset;
-	class PictureAssetWriter;
-	class SoundAsset;
-	class SoundAssetWriter;
+namespace dcp {
+	class MonoPictureMXF;
+	class MonoPictureMXFWriter;
+	class StereoPictureMXF;
+	class StereoPictureMXFWriter;
+	class PictureMXF;
+	class PictureMXFWriter;
+	class SoundMXF;
+	class SoundMXFWriter;
 }
 
 struct QueueItem
@@ -130,8 +130,8 @@ private:
 	*/
 	int _pushed_to_disk;
 	
-	boost::shared_ptr<libdcp::PictureAsset> _picture_asset;
-	boost::shared_ptr<libdcp::PictureAssetWriter> _picture_asset_writer;
-	boost::shared_ptr<libdcp::SoundAsset> _sound_asset;
-	boost::shared_ptr<libdcp::SoundAssetWriter> _sound_asset_writer;
+	boost::shared_ptr<dcp::PictureMXF> _picture_mxf;
+	boost::shared_ptr<dcp::PictureMXFWriter> _picture_mxf_writer;
+	boost::shared_ptr<dcp::SoundMXF> _sound_mxf;
+	boost::shared_ptr<dcp::SoundMXFWriter> _sound_mxf_writer;
 };

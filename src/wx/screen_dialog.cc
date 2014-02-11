@@ -28,7 +28,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_ptr<libdcp::Certificate> certificate)
+ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_ptr<dcp::Certificate> certificate)
 	: wxDialog (parent, wxID_ANY, std_to_wx (title))
 	, _certificate (certificate)
 {
@@ -76,7 +76,7 @@ ScreenDialog::name () const
 	return wx_to_std (_name->GetValue());
 }
 
-shared_ptr<libdcp::Certificate>
+shared_ptr<dcp::Certificate>
 ScreenDialog::certificate () const
 {
 	return _certificate;
@@ -89,9 +89,9 @@ ScreenDialog::load_certificate ()
 
 	if (d->ShowModal () == wxID_OK) {
 		try {
-			_certificate.reset (new libdcp::Certificate (boost::filesystem::path (wx_to_std (d->GetPath ()))));
+			_certificate.reset (new dcp::Certificate (boost::filesystem::path (wx_to_std (d->GetPath ()))));
 			_certificate_text->SetValue (_certificate->certificate ());
-		} catch (libdcp::MiscError& e) {
+		} catch (dcp::MiscError& e) {
 			error_dialog (this, String::compose ("Could not read certificate file (%1)", e.what()));
 		}
 	}

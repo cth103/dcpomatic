@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
     Taken from code Copyright (C) 2010-2011 Terrence Meiczinger
 
     This program is free software; you can redistribute it and/or modify
@@ -18,9 +18,7 @@
 
 */
 
-#include <openjpeg.h>
-#include <libdcp/picture_asset.h>
-#include <libdcp/picture_asset_writer.h>
+#include <libdcp/picture_mxf_writer.h>
 #include "util.h"
 
 /** @file  src/dcp_video_frame.h
@@ -49,7 +47,7 @@ public:
 
 	void send (boost::shared_ptr<Socket> socket);
 	void write (boost::shared_ptr<const Film>, int, Eyes) const;
-	void write_info (boost::shared_ptr<const Film>, int, Eyes, libdcp::FrameInfo) const;
+	void write_info (boost::shared_ptr<const Film>, int, Eyes, dcp::FrameInfo) const;
 
 	/** @return data */
 	uint8_t* data () const {

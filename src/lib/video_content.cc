@@ -166,14 +166,14 @@ VideoContent::as_xml (xmlpp::Node* node) const
 void
 VideoContent::setup_default_colour_conversion ()
 {
-	_colour_conversion = PresetColourConversion (_("sRGB"), 2.4, true, libdcp::colour_matrix::srgb_to_xyz, 2.6).conversion;
+	_colour_conversion = PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6).conversion;
 }
 
 void
 VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
-	libdcp::Size const vs = d->video_size ();
+	dcp::Size const vs = d->video_size ();
 	float const vfr = d->video_frame_rate ();
 	
 	{
@@ -318,17 +318,17 @@ VideoContent::technical_summary () const
 	return String::compose ("video: length %1, size %2x%3, rate %4", video_length(), video_size().width, video_size().height, video_frame_rate());
 }
 
-libdcp::Size
+dcp::Size
 VideoContent::video_size_after_3d_split () const
 {
-	libdcp::Size const s = video_size ();
+	dcp::Size const s = video_size ();
 	switch (video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
 		return s;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		return libdcp::Size (s.width / 2, s.height);
+		return dcp::Size (s.width / 2, s.height);
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		return libdcp::Size (s.width, s.height / 2);
+		return dcp::Size (s.width, s.height / 2);
 	}
 
 	assert (false);
@@ -346,7 +346,7 @@ VideoContent::set_colour_conversion (ColourConversion c)
 }
 
 /** @return Video size after 3D split and crop */
-libdcp::Size
+dcp::Size
 VideoContent::video_size_after_crop () const
 {
 	return crop().apply (video_size_after_3d_split ());
