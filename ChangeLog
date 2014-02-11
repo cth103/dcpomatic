@@ -1,5 +1,9 @@
 2014-02-11  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.64.12 released.
+
+2014-02-11  Carl Hetherington  <cth@carlh.net>
+
 	* Be more careful when catching exceptions from KDM creation.
 
 2014-02-10  Carl Hetherington  <cth@carlh.net>
