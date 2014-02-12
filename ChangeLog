@@ -1,5 +1,8 @@
 2014-02-12  Carl Hetherington  <cth@carlh.net>
 
+	* Make the batch converter remember its last directory
+	for the film picker (#318).
+
 	* Add dcpomatic_batch to OS X .app.
 
 2014-02-11  Carl Hetherington  <cth@carlh.net>

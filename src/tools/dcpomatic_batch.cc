@@ -168,6 +168,10 @@ private:
 	void add_film ()
 	{
 		wxDirDialog* c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		if (_last_parent) {
+			c->SetPath (std_to_wx (_last_parent.get().string ()));
+		}
+		
 		int r;
 		while (1) {
 			r = c->ShowModal ();
@@ -190,8 +194,12 @@ private:
 			}
 		}
 
+		_last_parent = boost::filesystem::path (wx_to_std (c->GetPath ())).parent_path ();
+
 		c->Destroy ();
 	}
+
+	boost::optional<boost::filesystem::path> _last_parent;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
