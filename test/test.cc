@@ -130,9 +130,9 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 }
 
 static void
-note (libdcp::NoteType t, string n)
+note (dcp::NoteType t, string n)
 {
-	if (t == libdcp::ERROR) {
+	if (t == dcp::ERROR) {
 		cerr << n << "\n";
 	}
 }
@@ -140,16 +140,16 @@ note (libdcp::NoteType t, string n)
 void
 check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 {
-	libdcp::DCP ref_dcp (ref);
+	dcp::DCP ref_dcp (ref);
 	ref_dcp.read ();
-	libdcp::DCP check_dcp (check);
+	dcp::DCP check_dcp (check);
 	check_dcp.read ();
 
-	libdcp::EqualityOptions options;
+	dcp::EqualityOptions options;
 	options.max_mean_pixel_error = 5;
 	options.max_std_dev_pixel_error = 5;
 	options.max_audio_sample_error = 255;
-	options.cpl_names_can_differ = true;
+	options.cpl_annotation_texts_can_differ = true;
 	options.mxf_names_can_differ = true;
 	
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));

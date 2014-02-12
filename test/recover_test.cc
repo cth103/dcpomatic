@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/stereo_picture_asset.h>
+#include <libdcp/stereo_picture_mxf.h>
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"
@@ -30,7 +30,7 @@ using std::string;
 using boost::shared_ptr;
 
 static void
-note (libdcp::NoteType, string n)
+note (dcp::NoteType, string n)
 {
 	cout << n << "\n";
 }
@@ -62,10 +62,10 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<libdcp::StereoPictureAsset> A (new libdcp::StereoPictureAsset ("build/test/recover_test", "original.mxf"));
-	shared_ptr<libdcp::StereoPictureAsset> B (new libdcp::StereoPictureAsset ("build/test/recover_test/video", "185_2K_58a090f8d70a2b410c534120d35e5256_24_bicubic_200000000_P_S_3D.mxf"));
+	shared_ptr<dcp::StereoPictureMXF> A (new dcp::StereoPictureMXF ("build/test/recover_test/original.mxf"));
+	shared_ptr<dcp::StereoPictureMXF> B (new dcp::StereoPictureMXF ("build/test/recover_test/video/185_2K_58a090f8d70a2b410c534120d35e5256_24_bicubic_200000000_P_S_3D.mxf"));
 
-	libdcp::EqualityOptions eq;
+	dcp::EqualityOptions eq;
 	eq.mxf_names_can_differ = true;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
 }

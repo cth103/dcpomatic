@@ -73,11 +73,11 @@ BOOST_AUTO_TEST_CASE (stream_test)
 	BOOST_CHECK_EQUAL (a.name, "hello there world");
 	BOOST_CHECK_EQUAL (a.mapping.content_channels(), 2);
 
-	BOOST_CHECK_EQUAL (a.mapping.get (0, libdcp::LEFT), 1);
-	BOOST_CHECK_EQUAL (a.mapping.get (0, libdcp::RIGHT), 0);
-	BOOST_CHECK_EQUAL (a.mapping.get (0, libdcp::CENTRE), 1);
-	BOOST_CHECK_EQUAL (a.mapping.get (1, libdcp::LEFT), 0);
-	BOOST_CHECK_EQUAL (a.mapping.get (1, libdcp::RIGHT), 1);
-	BOOST_CHECK_EQUAL (a.mapping.get (1, libdcp::CENTRE), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (0, dcp::LEFT), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (0, dcp::RIGHT), 0);
+	BOOST_CHECK_EQUAL (a.mapping.get (0, dcp::CENTRE), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (1, dcp::LEFT), 0);
+	BOOST_CHECK_EQUAL (a.mapping.get (1, dcp::RIGHT), 1);
+	BOOST_CHECK_EQUAL (a.mapping.get (1, dcp::CENTRE), 1);
 }
 

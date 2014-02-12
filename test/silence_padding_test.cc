@@ -20,9 +20,10 @@
 #include <boost/test/unit_test.hpp>
 #include <libdcp/cpl.h>
 #include <libdcp/dcp.h>
-#include <libdcp/sound_asset.h>
+#include <libdcp/sound_mxf.h>
 #include <libdcp/sound_frame.h>
 #include <libdcp/reel.h>
+#include <libdcp/reel_sound_asset.h>
 #include "lib/sndfile_content.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
@@ -52,56 +53,56 @@ static void test_silence_padding (int channels)
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
 	path /= film->dcp_name ();
-	libdcp::DCP check (path.string ());
+	dcp::DCP check (path.string ());
 	check.read ();
 
-	shared_ptr<const libdcp::SoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
+	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
-	BOOST_CHECK (sound_asset->channels () == channels);
+	BOOST_CHECK (sound_asset->mxf()->channels () == channels);
 
 	/* Sample index in the DCP */
 	int n = 0;
 	/* DCP sound asset frame */
 	int frame = 0;
 
-	while (n < sound_asset->intrinsic_duration()) {
-		shared_ptr<const libdcp::SoundFrame> sound_frame = sound_asset->get_frame (frame++);
+	while (n < sound_asset->mxf()->intrinsic_duration()) {
+		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->mxf()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 		
-		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->channels())) {
+		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->mxf()->channels())) {
 
-			if (sound_asset->channels() > 0) {
+			if (sound_asset->mxf()->channels() > 0) {
 				/* L should be silent */
 				int const sample = d[i + 0] | (d[i + 1] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
-			if (sound_asset->channels() > 1) {
+			if (sound_asset->mxf()->channels() > 1) {
 				/* R should be silent */
 				int const sample = d[i + 2] | (d[i + 3] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 			
-			if (sound_asset->channels() > 2) {
+			if (sound_asset->mxf()->channels() > 2) {
 				/* Mono input so it will appear on centre */
 				int const sample = d[i + 7] | (d[i + 8] << 8);
 				BOOST_CHECK_EQUAL (sample, n);
 			}
 
-			if (sound_asset->channels() > 3) {
+			if (sound_asset->mxf()->channels() > 3) {
 				/* Lfe should be silent */
 				int const sample = d[i + 9] | (d[i + 10] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
-			if (sound_asset->channels() > 4) {
+			if (sound_asset->mxf()->channels() > 4) {
 				/* Ls should be silent */
 				int const sample = d[i + 11] | (d[i + 12] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
 
-			if (sound_asset->channels() > 5) {
+			if (sound_asset->mxf()->channels() > 5) {
 				/* Rs should be silent */
 				int const sample = d[i + 13] | (d[i + 14] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);

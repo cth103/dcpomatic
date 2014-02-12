@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/subtitle_asset.h>
+#include <libdcp/subtitle_content.h>
 #include "lib/subrip.h"
 #include "lib/subrip_content.h"
 #include "lib/subrip_decoder.h"
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 
 	shared_ptr<Image> image;
 	Position<int> position;
-	render_subtitles (dts->subs, libdcp::Size (1998, 1080), image, position);
+	render_subtitles (dts->subs, dcp::Size (1998, 1080), image, position);
 	write_image (image, "build/test/subrip_render_test.png");
 	check_file ("build/test/subrip_render_test.png", "test/data/subrip_render_test.png");
 }

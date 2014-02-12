@@ -35,10 +35,10 @@ BOOST_AUTO_TEST_CASE (audio_mapping_test)
 
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < MAX_AUDIO_CHANNELS; ++j) {
-			BOOST_CHECK_EQUAL (four.get (i, static_cast<libdcp::Channel> (j)), i == j ? 1 : 0);
+			BOOST_CHECK_EQUAL (four.get (i, static_cast<dcp::Channel> (j)), i == j ? 1 : 0);
 		}
 	}
 
-	four.set (0, libdcp::RIGHT, 1);
-	BOOST_CHECK_EQUAL (four.get (0, libdcp::RIGHT), 1);
+	four.set (0, dcp::RIGHT, 1);
+	BOOST_CHECK_EQUAL (four.get (0, dcp::RIGHT), 1);
 }

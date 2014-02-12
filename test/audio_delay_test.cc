@@ -21,7 +21,8 @@
 #include <libdcp/sound_frame.h>
 #include <libdcp/cpl.h>
 #include <libdcp/reel.h>
-#include <libdcp/sound_asset.h>
+#include <libdcp/sound_mxf.h>
+#include <libdcp/reel_sound_asset.h>
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
@@ -53,10 +54,10 @@ void test_audio_delay (int delay_in_ms)
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
 	path /= film->dcp_name ();
-	libdcp::DCP check (path.string ());
+	dcp::DCP check (path.string ());
 	check.read ();
 
-	shared_ptr<const libdcp::SoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
+	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
 
 	/* Sample index in the DCP */
@@ -66,11 +67,11 @@ void test_audio_delay (int delay_in_ms)
 	/* Delay in frames */
 	int const delay_in_frames = delay_in_ms * 48000 / 1000;
 
-	while (n < sound_asset->intrinsic_duration()) {
-		shared_ptr<const libdcp::SoundFrame> sound_frame = sound_asset->get_frame (frame++);
+	while (n < sound_asset->mxf()->intrinsic_duration()) {
+		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->mxf()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 		
-		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->channels())) {
+		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->mxf()->channels())) {
 
 			/* Mono input so it will appear on centre */
 			int const sample = d[i + 7] | (d[i + 8] << 8);

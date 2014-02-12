@@ -28,7 +28,7 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
-	Image* s = new Image (PIX_FMT_RGB24, libdcp::Size (50, 50), true);
+	Image* s = new Image (PIX_FMT_RGB24, dcp::Size (50, 50), true);
 	BOOST_CHECK_EQUAL (s->components(), 1);
 	/* 160 is 150 aligned to the nearest 32 bytes */
 	BOOST_CHECK_EQUAL (s->stride()[0], 160);
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
-	Image* u = new Image (PIX_FMT_YUV422P, libdcp::Size (150, 150), false);
+	Image* u = new Image (PIX_FMT_YUV422P, dcp::Size (150, 150), false);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->components(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 160);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 
 BOOST_AUTO_TEST_CASE (compact_image_test)
 {
-	Image* s = new Image (PIX_FMT_RGB24, libdcp::Size (50, 50), false);
+	Image* s = new Image (PIX_FMT_RGB24, dcp::Size (50, 50), false);
 	BOOST_CHECK_EQUAL (s->components(), 1);
 	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
 
 	/* assignment operator */
-	Image* u = new Image (PIX_FMT_YUV422P, libdcp::Size (150, 150), true);
+	Image* u = new Image (PIX_FMT_YUV422P, dcp::Size (150, 150), true);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->components(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 50 * 3);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 BOOST_AUTO_TEST_CASE (crop_image_test)
 {
 	/* This was to check out a bug with valgrind, and is probably not very useful */
-	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, libdcp::Size (16, 16), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, dcp::Size (16, 16), true));
 	image->make_black ();
 	Crop crop;
 	crop.top = 3;
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (crop_image_test)
 BOOST_AUTO_TEST_CASE (crop_image_test2)
 {
 	/* Here's a 1998 x 1080 image which is black */
-	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, libdcp::Size (1998, 1080), true));
+	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
 	image->make_black ();
 
 	/* Crop it by 1 pixel */
@@ -170,7 +170,7 @@ boost::shared_ptr<Image>
 read_file (string file)
 {
 	Magick::Image magick_image (file.c_str ());
-	libdcp::Size size (magick_image.columns(), magick_image.rows());
+	dcp::Size size (magick_image.columns(), magick_image.rows());
 
 	boost::shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
 
@@ -214,7 +214,7 @@ write_file (shared_ptr<Image> image, string file)
 
 static
 void
-crop_scale_window_single (AVPixelFormat in_format, libdcp::Size in_size, Crop crop, libdcp::Size inter_size, libdcp::Size out_size)
+crop_scale_window_single (AVPixelFormat in_format, dcp::Size in_size, Crop crop, dcp::Size inter_size, dcp::Size out_size)
 {
 	/* Set up our test image */
 	shared_ptr<Image> test (new Image (in_format, in_size, true));
@@ -262,12 +262,12 @@ crop_scale_window_single (AVPixelFormat in_format, libdcp::Size in_size, Crop cr
 /** Test Image::crop_scale_window against separate calls to crop/scale/copy */
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
-	crop_scale_window_single (AV_PIX_FMT_YUV422P, libdcp::Size (640, 480), Crop (), libdcp::Size (640, 480), libdcp::Size (640, 480));
-	crop_scale_window_single (AV_PIX_FMT_YUV422P, libdcp::Size (640, 480), Crop (2, 4, 6, 8), libdcp::Size (640, 480), libdcp::Size (640, 480));
-	crop_scale_window_single (AV_PIX_FMT_YUV422P, libdcp::Size (640, 480), Crop (2, 4, 6, 8), libdcp::Size (1920, 1080), libdcp::Size (1998, 1080));
-	crop_scale_window_single (AV_PIX_FMT_YUV422P, libdcp::Size (640, 480), Crop (1, 4, 6, 8), libdcp::Size (1920, 1080), libdcp::Size (1998, 1080));
-	crop_scale_window_single (AV_PIX_FMT_YUV420P, libdcp::Size (640, 480), Crop (16, 16, 0, 0), libdcp::Size (1920, 1080), libdcp::Size (1998, 1080));
-	crop_scale_window_single (AV_PIX_FMT_YUV420P, libdcp::Size (640, 480), Crop (16, 3, 3, 0), libdcp::Size (1920, 1080), libdcp::Size (1998, 1080));
-	crop_scale_window_single (AV_PIX_FMT_RGB24, libdcp::Size (1000, 800), Crop (0, 0, 0, 0), libdcp::Size (1920, 1080), libdcp::Size (1998, 1080));
-	crop_scale_window_single (AV_PIX_FMT_RGB24, libdcp::Size (1000, 800), Crop (55, 0, 1, 9), libdcp::Size (1920, 1080), libdcp::Size (1998, 1080));
+	crop_scale_window_single (AV_PIX_FMT_YUV422P, dcp::Size (640, 480), Crop (), dcp::Size (640, 480), dcp::Size (640, 480));
+	crop_scale_window_single (AV_PIX_FMT_YUV422P, dcp::Size (640, 480), Crop (2, 4, 6, 8), dcp::Size (640, 480), dcp::Size (640, 480));
+	crop_scale_window_single (AV_PIX_FMT_YUV422P, dcp::Size (640, 480), Crop (2, 4, 6, 8), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
+	crop_scale_window_single (AV_PIX_FMT_YUV422P, dcp::Size (640, 480), Crop (1, 4, 6, 8), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
+	crop_scale_window_single (AV_PIX_FMT_YUV420P, dcp::Size (640, 480), Crop (16, 16, 0, 0), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
+	crop_scale_window_single (AV_PIX_FMT_YUV420P, dcp::Size (640, 480), Crop (16, 3, 3, 0), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
+	crop_scale_window_single (AV_PIX_FMT_RGB24, dcp::Size (1000, 800), Crop (0, 0, 0, 0), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
+	crop_scale_window_single (AV_PIX_FMT_RGB24, dcp::Size (1000, 800), Crop (55, 0, 1, 9), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
 }

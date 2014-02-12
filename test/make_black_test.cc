@@ -32,8 +32,8 @@ using std::list;
 */
 BOOST_AUTO_TEST_CASE (make_black_test)
 {
-	libdcp::Size in_size (512, 512);
-	libdcp::Size out_size (1024, 1024);
+	dcp::Size in_size (512, 512);
+	dcp::Size out_size (1024, 1024);
 
 	list<AVPixelFormat> pix_fmts;
 	pix_fmts.push_back (AV_PIX_FMT_RGB24);
