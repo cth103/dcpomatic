@@ -130,8 +130,17 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Sylvain Mielle"));
 	supported_by.Add (wxT ("Ivan Pullman"));
 	supported_by.Add (wxT ("Aldo Midali"));
+	supported_by.Add (wxT ("Jeff Boot"));
 	add_section (_("Supported by"), supported_by);
 
+	wxString reporters;
+	reporters.Add (wxT ("Greg Rooke"));
+	reporters.Add (wxT ("Olivier Lemaire"));
+	reporters.Add (wxT ("Trever Anderson"));
+	reporters.Add (wxT ("Wolfgang Woehl"));
+	reporters.Add (wxT ("Jonathan Jensen"));
+	add_section (_("Bug reports and feature suggestions by"));
+	
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
 
 	overall_sizer->Add (sizer);
