@@ -134,26 +134,27 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Jeff Boot"));
 	add_section (_("Supported by"), supported_by);
 
-	wxArrayString reporters;
-	reporters.Add (wxT ("Greg Rooke"));
-	reporters.Add (wxT ("Olivier Lemaire"));
-	reporters.Add (wxT ("Trever Anderson"));
-	reporters.Add (wxT ("Wolfgang Woehl"));
-	reporters.Add (wxT ("Jonathan Jensen"));
-	reporters.Add (wxT ("Anders Nordentoft-Madsen"));
-	reporters.Add (wxT ("Lilian Lefranc"));
-	reporters.Add (wxT ("Gérald Maruccia"));
-	reporters.Add (wxT ("John Convertino"));
-	reporters.Add (wxT ("Mike Blakesley"));
-	reporters.Add (wxT ("Simon Kesselman"));
-	reporters.Add (wxT ("Gavin Lewarne"));
-	reporters.Add (wxT ("Thierry Journet"));
-	reporters.Add (wxT ("Carsten Kurz"));
-	reporters.Add (wxT ("Karim Senoucci"));
-	reporters.Add (wxT ("Paul Willmott"));
-	reporters.Add (wxT ("Mattias Mattsson"));
-	reporters.Add (wxT ("Andreas Eli"));
-	add_section (_("Bug reports and feature suggestions by"), reporters);
+	wxArrayString testers;
+	testers.Add (wxT ("Greg Rooke"));
+	testers.Add (wxT ("Olivier Lemaire"));
+	testers.Add (wxT ("Trever Anderson"));
+	testers.Add (wxT ("Wolfgang Woehl"));
+	testers.Add (wxT ("Jonathan Jensen"));
+	testers.Add (wxT ("Anders Nordentoft-Madsen"));
+	testers.Add (wxT ("Lilian Lefranc"));
+	testers.Add (wxT ("Gérald Maruccia"));
+	testers.Add (wxT ("John Convertino"));
+	testers.Add (wxT ("Mike Blakesley"));
+	testers.Add (wxT ("Simon Kesselman"));
+	testers.Add (wxT ("Gavin Lewarne"));
+	testers.Add (wxT ("Thierry Journet"));
+	testers.Add (wxT ("Carsten Kurz"));
+	testers.Add (wxT ("Karim Senoucci"));
+	testers.Add (wxT ("Paul Willmott"));
+	testers.Add (wxT ("Mattias Mattsson"));
+	testers.Add (wxT ("Andreas Eli"));
+	testers.Add (wxT ("Roop Chand"));
+	add_section (_("Tested by"), testers);
 	
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
 
