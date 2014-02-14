@@ -139,6 +139,12 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	reporters.Add (wxT ("Trever Anderson"));
 	reporters.Add (wxT ("Wolfgang Woehl"));
 	reporters.Add (wxT ("Jonathan Jensen"));
+	reporters.Add (wxT ("Anders Nordentoft-Madsen"));
+	reporters.Add (wxT ("Lilian Lefranc"));
+	reporters.Add (wxT ("Gérald Maruccia"));
+	reporters.Add (wxT ("John Convertino"));
+	reporters.Add (wxT ("Mike Blakesley"));
+	reporters.Add (wxT ("Simon Kesselman"));
 	add_section (_("Bug reports and feature suggestions by"));
 	
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
