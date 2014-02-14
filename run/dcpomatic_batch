@@ -7,6 +7,9 @@ if [ "$1" == "--debug" ]; then
 elif [ "$1" == "--valgrind" ]; then
     shift
     valgrind --tool="memcheck" --suppressions=valgrind.supp --leak-check=full --show-reachable=yes build/src/tools/dcpomatic_batch $*
+elif [ "$1" == "--massif" ]; then
+    shift
+    valgrind --tool="massif" build/src/tools/dcpomatic_batch $*
 elif [ "$1" == "--callgrind" ]; then
     shift
     valgrind --tool="callgrind" build/src/tools/dcpomatic_batch $*
