@@ -110,6 +110,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Mattias Mattsson"));
 	supported_by.Add (wxT ("Andrä Steiner"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
+	supported_by.Add (wxT ("Mike Stiebing"));
 	supported_by.Add (wxT ("Kjarten Michaelsen"));
 	supported_by.Add (wxT ("Jussi Siponen"));
 	supported_by.Add (wxT ("Cinema Clarici"));
@@ -133,7 +134,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Jeff Boot"));
 	add_section (_("Supported by"), supported_by);
 
-	wxString reporters;
+	wxArrayString reporters;
 	reporters.Add (wxT ("Greg Rooke"));
 	reporters.Add (wxT ("Olivier Lemaire"));
 	reporters.Add (wxT ("Trever Anderson"));
@@ -145,7 +146,14 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	reporters.Add (wxT ("John Convertino"));
 	reporters.Add (wxT ("Mike Blakesley"));
 	reporters.Add (wxT ("Simon Kesselman"));
-	add_section (_("Bug reports and feature suggestions by"));
+	reporters.Add (wxT ("Gavin Lewarne"));
+	reporters.Add (wxT ("Thierry Journet"));
+	reporters.Add (wxT ("Carsten Kurz"));
+	reporters.Add (wxT ("Karim Senoucci"));
+	reporters.Add (wxT ("Paul Willmott"));
+	reporters.Add (wxT ("Mattias Mattsson"));
+	reporters.Add (wxT ("Andreas Eli"));
+	add_section (_("Bug reports and feature suggestions by"), reporters);
 	
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
 
