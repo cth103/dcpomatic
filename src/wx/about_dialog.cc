@@ -133,6 +133,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Aldo Midali"));
 	supported_by.Add (wxT ("Jeff Boot"));
 	supported_by.Add (wxT ("Filip Kovcin"));
+	supported_by.Add (wxT ("Adam Colt"));
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString testers;
@@ -161,6 +162,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	testers.Add (wxT ("Bill Lam"));
 	testers.Add (wxT ("Pepijn Klijs"));
 	testers.Add (wxT ("Will Meadows"));
+	testers.Add (wxT ("Adam Colt"));
 	add_section (_("Tested by"), testers);
 	
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
