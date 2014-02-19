@@ -78,6 +78,8 @@ extern boost::filesystem::path mo_path ();
 extern std::string tidy_for_filename (std::string);
 extern boost::shared_ptr<const libdcp::Signer> make_signer ();
 extern libdcp::Size fit_ratio_within (float ratio, libdcp::Size);
+extern std::string entities_to_text (std::string e);
+extern std::map<std::string, std::string> split_get_request (std::string url);
 
 struct FrameRateConversion
 {

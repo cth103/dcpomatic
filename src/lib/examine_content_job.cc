@@ -46,6 +46,12 @@ ExamineContentJob::name () const
 	return _("Examine content");
 }
 
+string
+ExamineContentJob::json_name () const
+{
+	return N_("examine_content");
+}
+
 void
 ExamineContentJob::run ()
 {

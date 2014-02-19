@@ -33,6 +33,7 @@
 #include "lib/log.h"
 #include "lib/ui_signaller.h"
 #include "lib/server_finder.h"
+#include "lib/json_server.h"
 
 using std::string;
 using std::cerr;
@@ -52,6 +53,8 @@ help (string n)
 	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
+	     << "  -j, --json <port>  run a JSON server on the specified port\n"
+	     << "  -k, --keep-going   keep running even when the job is complete\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
@@ -63,6 +66,8 @@ main (int argc, char* argv[])
 	bool progress = true;
 	bool no_remote = false;
 	int log_level = 0;
+	int json_port = 0;
+	bool keep_going = false;
 
 	int option_index = 0;
 	while (1) {
@@ -74,10 +79,12 @@ main (int argc, char* argv[])
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
 			{ "log-level", required_argument, 0, 'l' },
+			{ "json", required_argument, 0, 'j' },
+			{ "keep-going", no_argument, 0, 'k' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdfnrl:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdfnrl:j:k", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -105,6 +112,12 @@ main (int argc, char* argv[])
 		case 'l':
 			log_level = atoi (optarg);
 			break;
+		case 'j':
+			json_port = atoi (optarg);
+			break;
+		case 'k':
+			keep_going = true;
+			break;
 		}
 	}
 
@@ -120,6 +133,10 @@ main (int argc, char* argv[])
 
 	if (no_remote) {
 		ServerFinder::instance()->disable ();
+	}
+
+	if (json_port) {
+		new JSONServer (json_port);
 	}
 
 	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;
@@ -198,6 +215,12 @@ main (int argc, char* argv[])
 
 		if (unfinished == 0 || finished_in_error != 0) {
 			should_stop = true;
+		}
+	}
+
+	if (keep_going) {
+		while (1) {
+			dcpomatic_sleep (3600);
 		}
 	}
 

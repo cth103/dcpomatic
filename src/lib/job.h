@@ -43,6 +43,7 @@ public:
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;
+	virtual std::string json_name () const = 0;
 	/** Run this job in the current thread. */
 	virtual void run () = 0;
 	
@@ -64,6 +65,7 @@ public:
 
 	int elapsed_time () const;
 	virtual std::string status () const;
+	std::string json_status () const;
 	std::string sub_name () const {
 		return _sub_name;
 	}

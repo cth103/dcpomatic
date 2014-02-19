@@ -89,6 +89,7 @@ using std::min;
 using std::max;
 using std::list;
 using std::multimap;
+using std::map;
 using std::istream;
 using std::numeric_limits;
 using std::pair;
@@ -939,6 +940,52 @@ make_signer ()
 	return shared_ptr<const libdcp::Signer> (new libdcp::Signer (chain, signer_key));
 }
 
+map<string, string>
+split_get_request (string url)
+{
+	enum {
+		AWAITING_QUESTION_MARK,
+		KEY,
+		VALUE
+	} state = AWAITING_QUESTION_MARK;
+	
+	map<string, string> r;
+	string k;
+	string v;
+	for (size_t i = 0; i < url.length(); ++i) {
+		switch (state) {
+		case AWAITING_QUESTION_MARK:
+			if (url[i] == '?') {
+				state = KEY;
+			}
+			break;
+		case KEY:
+			if (url[i] == '=') {
+				v.clear ();
+				state = VALUE;
+			} else {
+				k += url[i];
+			}
+			break;
+		case VALUE:
+			if (url[i] == '&') {
+				r.insert (make_pair (k, v));
+				k.clear ();
+				state = KEY;
+			} else {
+				v += url[i];
+			}
+			break;
+		}
+	}
+
+	if (state == VALUE) {
+		r.insert (make_pair (k, v));
+	}
+
+	return r;
+}
+
 libdcp::Size
 fit_ratio_within (float ratio, libdcp::Size full_frame)
 {
@@ -959,3 +1006,10 @@ wrapped_av_malloc (size_t s)
 	return p;
 }
 		
+string
+entities_to_text (string e)
+{
+	boost::algorithm::replace_all (e, "%3A", ":");
+	boost::algorithm::replace_all (e, "%2F", "/");
+	return e;
+}

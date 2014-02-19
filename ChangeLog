@@ -1,3 +1,7 @@
+2014-02-19  Carl Hetherington  <cth@carlh.net>
+
+	* Add some basic JSON stuff.
+
 2014-02-18  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.64.14 released.
