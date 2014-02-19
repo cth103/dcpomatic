@@ -57,6 +57,7 @@
 #include "lib/send_kdm_email_job.h"
 #include "lib/server_finder.h"
 #include "lib/update.h"
+#include "lib/content_factory.h"
 
 using std::cout;
 using std::string;
@@ -75,6 +76,7 @@ static shared_ptr<Film> film;
 static std::string log_level;
 static std::string film_to_load;
 static std::string film_to_create;
+static std::string content_to_add;
 static wxMenu* jobs_menu = 0;
 
 static void set_menu_sensitivity ();
@@ -581,7 +583,8 @@ private:
 static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_OPTION, "l", "log", "set log level (silent, verbose or timing)", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_OPTION, "c", "content", "add content file", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
 
@@ -643,6 +646,10 @@ class App : public wxApp
 			film->set_name (boost::filesystem::path (film_to_create).filename().generic_string ());
 		}
 
+		if (!content_to_add.empty ()) {
+			film->examine_and_add_content (content_factory (film, content_to_add));
+		}
+
 		_frame = new Frame (_("DCP-o-matic"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
@@ -680,8 +687,13 @@ class App : public wxApp
 			if (parser.Found (wxT ("new"))) {
 				film_to_create = wx_to_std (parser.GetParam (0));
 			} else {
-				film_to_load = wx_to_std (parser.GetParam(0));
+				film_to_load = wx_to_std (parser.GetParam (0));
 			}
+		}
+
+		wxString content;
+		if (parser.Found (wxT ("content"), &content)) {
+			content_to_add = wx_to_std (content);
 		}
 
 		wxString log;
