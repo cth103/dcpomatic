@@ -24,6 +24,7 @@
 #include "job_manager.h"
 #include "job.h"
 #include "util.h"
+#include "film.h"
 #include "transcode_job.h"
 
 using std::string;
@@ -157,11 +158,15 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		json << "{ \"jobs\": [";
 		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 
-			json << "{ "
-			     << "\"name\": \""   << (*i)->json_name() << "\", "
+			json << "{ ";
+
+			if ((*i)->film()) {
+				json << "\"dcp\": \"" << (*i)->film()->dcp_name() << "\", ";
+			}
+			
+			json << "\"name\": \""   << (*i)->json_name() << "\", "
 			     << "\"progress\": " << (*i)->progress () << ", "
 			     << "\"status\": \"" << (*i)->json_status() << "\"";
-			
 			json << " }";
 			
 			list<shared_ptr<Job> >::iterator j = i;

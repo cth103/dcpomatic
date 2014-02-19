@@ -78,6 +78,10 @@ public:
 		return !_progress;
 	}
 
+	boost::shared_ptr<const Film> film () const {
+		return _film;
+	}
+
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
 	boost::signals2::signal<void()> Finished;
