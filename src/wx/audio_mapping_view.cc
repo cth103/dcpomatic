@@ -271,6 +271,10 @@ AudioMappingView::set_column_labels ()
 	int const c = _grid->GetNumberCols ();
 	
 	_grid->SetColLabelValue (0, _("Content channel"));
+
+#if MAX_AUDIO_CHANNELS != 8
+#warning AudioMappingView::set_column_labels() is expecting the wrong MAX_AUDIO_CHANNELS
+#endif	
 	
 	if (c > 0) {
 		_grid->SetColLabelValue (1, _("L"));
@@ -296,6 +300,14 @@ AudioMappingView::set_column_labels ()
 		_grid->SetColLabelValue (6, _("Rs"));
 	}
 
+	if (c > 6) {
+		_grid->SetColLabelValue (7, _("HI"));
+	}
+
+	if (c > 7) {
+		_grid->SetColLabelValue (8, _("VI"));
+	}
+	
 	_grid->AutoSize ();
 }
 

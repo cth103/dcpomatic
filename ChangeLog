@@ -1,3 +1,7 @@
+2014-02-20  Carl Hetherington  <cth@carlh.net>
+
+	* Basic support for 7.1 / HI/VI audio tracks.
+
 2014-02-19  Carl Hetherington  <cth@carlh.net>
 
 	* Add some basic JSON stuff.

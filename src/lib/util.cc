@@ -790,10 +790,11 @@ video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, fl
 string
 audio_channel_name (int c)
 {
-	assert (MAX_AUDIO_CHANNELS == 6);
+	assert (MAX_AUDIO_CHANNELS == 8);
 
 	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	   enhancement channel (sub-woofer).
+	   enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
+	   VI is the visually-impaired audio track (audio describe).
 	*/
 	string const channels[] = {
 		_("Left"),
@@ -802,6 +803,8 @@ audio_channel_name (int c)
 		_("Lfe (sub)"),
 		_("Left surround"),
 		_("Right surround"),
+		_("HI"),
+		_("VI")
 	};
 
 	return channels[c];
