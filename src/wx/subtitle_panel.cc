@@ -120,11 +120,11 @@ SubtitlePanel::film_content_changed (int property)
 		if (fcs) {
 			vector<shared_ptr<FFmpegSubtitleStream> > s = fcs->subtitle_streams ();
 			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
-				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
+				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id ()))));
 			}
 			
 			if (fcs->subtitle_stream()) {
-				checked_set (_stream, lexical_cast<string> (fcs->subtitle_stream()->id));
+				checked_set (_stream, lexical_cast<string> (fcs->subtitle_stream()->id ()));
 			} else {
 				_stream->SetSelection (wxNOT_FOUND);
 			}
@@ -179,7 +179,7 @@ SubtitlePanel::stream_changed ()
 	vector<shared_ptr<FFmpegSubtitleStream> > a = fcs->subtitle_streams ();
 	vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = a.begin ();
 	string const s = string_client_data (_stream->GetClientObject (_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
+	while (i != a.end() && lexical_cast<string> ((*i)->id ()) != s) {
 		++i;
 	}
 

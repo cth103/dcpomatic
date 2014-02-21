@@ -207,12 +207,12 @@ FFmpegContent::technical_summary () const
 {
 	string as = "none";
 	if (_audio_stream) {
-		as = String::compose ("id %1", _audio_stream->id);
+		as = String::compose ("id %1", _audio_stream->id ());
 	}
 
 	string ss = "none";
 	if (_subtitle_stream) {
-		ss = String::compose ("id %1", _subtitle_stream->id);
+		ss = String::compose ("id %1", _subtitle_stream->id ());
 	}
 
 	pair<string, string> filt = Filter::ffmpeg_strings (_filters);
@@ -326,34 +326,22 @@ FFmpegContent::output_audio_frame_rate () const
 }
 
 bool
-operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b)
+operator== (FFmpegStream const & a, FFmpegStream const & b)
 {
-	return a.id == b.id;
+	return a._id == b._id;
 }
 
 bool
-operator!= (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b)
+operator!= (FFmpegStream const & a, FFmpegStream const & b)
 {
-	return a.id != b.id;
-}
-
-bool
-operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
-{
-	return a.id == b.id;
-}
-
-bool
-operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b)
-{
-	return a.id != b.id;
+	return a._id != b._id;
 }
 
 FFmpegStream::FFmpegStream (shared_ptr<const cxml::Node> node, int version)
-	: _legacy_id (false)
+	: name (node->string_child ("Name"))
+	, _id (node->number_child<int> ("Id"))
+	, _legacy_id (false)
 {
-	name = node->string_child ("Name");
-	id = node->number_child<int> ("Id");
 	if (version == 4 || node->optional_bool_child ("LegacyId")) {
 		_legacy_id = true;
 	}
@@ -363,7 +351,7 @@ void
 FFmpegStream::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("Name")->add_child_text (name);
-	root->add_child("Id")->add_child_text (lexical_cast<string> (id));
+	root->add_child("Id")->add_child_text (lexical_cast<string> (_id));
 	if (_legacy_id) {
 		/* Write this so that version > 4 files are read in correctly
 		   if the Id came originally from a version <= 4 file.
@@ -397,12 +385,12 @@ bool
 FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
 {
 	if (_legacy_id) {
-		return id == index;
+		return _id == index;
 	}
 	
 	size_t i = 0;
 	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == id) {
+		if (fc->streams[i]->id == _id) {
 			return int (i) == index;
 		}
 		++i;
@@ -415,16 +403,16 @@ AVStream *
 FFmpegStream::stream (AVFormatContext const * fc) const
 {
 	if (_legacy_id) {
-		if (id >= int (fc->nb_streams)) {
+		if (_id >= int (fc->nb_streams)) {
 			return 0;
 		}
 		
-		return fc->streams[id];
+		return fc->streams[_id];
 	}
 	
 	size_t i = 0;
 	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == id) {
+		if (fc->streams[i]->id == _id) {
 			return fc->streams[i];
 		}
 		++i;
@@ -500,7 +488,7 @@ FFmpegContent::identifier () const
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_subtitle_stream) {
-		s << "_" << _subtitle_stream->id;
+		s << "_" << _subtitle_stream->id ();
 	}
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {

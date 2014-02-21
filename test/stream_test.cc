@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (stream_test)
 		
 	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), 5);
 
-	BOOST_CHECK_EQUAL (a.id, 4);
+	BOOST_CHECK_EQUAL (a.id(), 4);
 	BOOST_CHECK_EQUAL (a.frame_rate, 44100);
 	BOOST_CHECK_EQUAL (a.channels, 2);
 	BOOST_CHECK_EQUAL (a.name, "hello there world");

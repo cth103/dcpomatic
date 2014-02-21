@@ -37,7 +37,7 @@ class FFmpegStream
 public:
 	FFmpegStream (std::string n, int i)
 		: name (n)
-		, id (i)
+		, _id (i)
 		, _legacy_id (false)
 	{}
 				
@@ -52,10 +52,16 @@ public:
 	bool uses_index (AVFormatContext const * c, int index) const;
 	AVStream* stream (AVFormatContext const * c) const;
 
+	int id () const {
+		return _id;
+	}
 	std::string name;
-	int id;
+
+	friend bool operator== (FFmpegStream const & a, FFmpegStream const & b);
+	friend bool operator!= (FFmpegStream const & a, FFmpegStream const & b);
 	
 private:
+	int _id;
 	/** If this is true, id is in fact the index */
 	bool _legacy_id;
 };
@@ -93,9 +99,6 @@ private:
 	{}
 };
 
-extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
-extern bool operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
-
 class FFmpegSubtitleStream : public FFmpegStream
 {
 public:
@@ -107,9 +110,6 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 };
-
-extern bool operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
-extern bool operator!= (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
 
 class FFmpegContentProperty : public VideoContentProperty
 {
