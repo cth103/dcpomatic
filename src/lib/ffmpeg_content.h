@@ -46,9 +46,10 @@ public:
 	void as_xml (xmlpp::Node *) const;
 
 	/** @param c An AVFormatContext.
-	 *  @return Stream index within the AVFormatContext.
+	 *  @param index A stream index within the AVFormatContext.
+	 *  @return true if this FFmpegStream uses the given stream index.
 	 */
-	int index (AVFormatContext const * c) const;
+	bool uses_index (AVFormatContext const * c, int index) const;
 	AVStream* stream (AVFormatContext const * c) const;
 
 	std::string name;

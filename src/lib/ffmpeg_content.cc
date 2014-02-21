@@ -393,22 +393,22 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	mapping.as_xml (root->add_child("Mapping"));
 }
 
-int
-FFmpegStream::index (AVFormatContext const * fc) const
+bool
+FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
 {
 	if (_legacy_id) {
-		return id;
+		return id == index;
 	}
 	
 	size_t i = 0;
 	while (i < fc->nb_streams) {
 		if (fc->streams[i]->id == id) {
-			return i;
+			return int (i) == index;
 		}
 		++i;
 	}
 
-	assert (false);
+	return false;
 }
 
 AVStream *

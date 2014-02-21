@@ -49,7 +49,7 @@ private:
 	std::string stream_name (AVStream* s) const;
 	std::string audio_stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
-	boost::optional<double> frame_time (int) const;
+	boost::optional<double> frame_time (AVStream* s) const;
 	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;

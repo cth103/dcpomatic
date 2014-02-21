@@ -75,13 +75,13 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 
 		if (_packet.stream_index == _video_stream && !_first_video) {
 			if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-				_first_video = frame_time (_video_stream);
+				_first_video = frame_time (_format_context->streams[_video_stream]);
 			}
 		} else {
 			for (size_t i = 0; i < _audio_streams.size(); ++i) {
-				if (_packet.stream_index == _audio_streams[i]->index (_format_context) && !_audio_streams[i]->first_audio) {
+				if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index) && !_audio_streams[i]->first_audio) {
 					if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-						_audio_streams[i]->first_audio = frame_time (_audio_streams[i]->index (_format_context));
+						_audio_streams[i]->first_audio = frame_time (_audio_streams[i]->stream (_format_context));
 					}
 				}
 			}
@@ -103,13 +103,13 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 }
 
 optional<double>
-FFmpegExaminer::frame_time (int stream) const
+FFmpegExaminer::frame_time (AVStream* s) const
 {
 	optional<double> t;
 	
 	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 	if (bet != AV_NOPTS_VALUE) {
-		t = bet * av_q2d (_format_context->streams[stream]->time_base);
+		t = bet * av_q2d (s->time_base);
 	}
 
 	return t;

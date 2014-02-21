@@ -172,9 +172,9 @@ FFmpegDecoder::pass ()
 	
 	if (si == _video_stream && _decode_video) {
 		decode_video_packet ();
-	} else if (_ffmpeg_content->audio_stream() && si == _ffmpeg_content->audio_stream()->index (_format_context) && _decode_audio) {
+	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si) && _decode_audio) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && si == _ffmpeg_content->subtitle_stream()->index (_format_context) && film->with_subtitles ()) {
+	} else if (_ffmpeg_content->subtitle_stream() && _ffmpeg_content->subtitle_stream()->uses_index (_format_context, si) && film->with_subtitles ()) {
 		decode_subtitle_packet ();
 	}
 
