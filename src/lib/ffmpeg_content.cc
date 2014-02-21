@@ -415,6 +415,10 @@ AVStream *
 FFmpegStream::stream (AVFormatContext const * fc) const
 {
 	if (_legacy_id) {
+		if (id >= int (fc->nb_streams)) {
+			return 0;
+		}
+		
 		return fc->streams[id];
 	}
 	

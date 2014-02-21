@@ -516,15 +516,19 @@ FFmpegDecoder::setup_subtitle ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	
-	if (!_ffmpeg_content->subtitle_stream() || _ffmpeg_content->subtitle_stream()->index (_format_context) >= int (_format_context->nb_streams)) {
+	if (!_ffmpeg_content->subtitle_stream()) {
 		return;
 	}
 
 	_subtitle_codec_context = _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
+	if (_subtitle_codec_context == 0) {
+		throw DecodeError (N_("could not find subtitle stream"));
+	}
+
 	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
 
 	if (_subtitle_codec == 0) {
-		throw DecodeError (_("could not find subtitle decoder"));
+		throw DecodeError (N_("could not find subtitle decoder"));
 	}
 	
 	if (avcodec_open2 (_subtitle_codec_context, _subtitle_codec, 0) < 0) {
