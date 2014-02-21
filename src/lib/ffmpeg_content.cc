@@ -207,12 +207,12 @@ FFmpegContent::technical_summary () const
 {
 	string as = "none";
 	if (_audio_stream) {
-		as = String::compose ("id %1", _audio_stream->id ());
+		as = _audio_stream->technical_summary ();
 	}
 
 	string ss = "none";
 	if (_subtitle_stream) {
-		ss = String::compose ("id %1", _subtitle_stream->id ());
+		ss = _subtitle_stream->technical_summary ();
 	}
 
 	pair<string, string> filt = Filter::ffmpeg_strings (_filters);
@@ -467,7 +467,7 @@ FFmpegContent::identifier () const
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_subtitle_stream) {
-		s << "_" << _subtitle_stream->id ();
+		s << "_" << _subtitle_stream->identifier ();
 	}
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
