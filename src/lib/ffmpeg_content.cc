@@ -66,7 +66,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 {
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i, version)));
+		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_subtitle_stream = _subtitle_streams.back ();
 		}
@@ -337,14 +337,11 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 	return a._id != b._id;
 }
 
-FFmpegStream::FFmpegStream (shared_ptr<const cxml::Node> node, int version)
+FFmpegStream::FFmpegStream (shared_ptr<const cxml::Node> node)
 	: name (node->string_child ("Name"))
 	, _id (node->number_child<int> ("Id"))
-	, _legacy_id (false)
 {
-	if (version == 4 || node->optional_bool_child ("LegacyId")) {
-		_legacy_id = true;
-	}
+
 }
 
 void
@@ -352,16 +349,10 @@ FFmpegStream::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("Name")->add_child_text (name);
 	root->add_child("Id")->add_child_text (lexical_cast<string> (_id));
-	if (_legacy_id) {
-		/* Write this so that version > 4 files are read in correctly
-		   if the Id came originally from a version <= 4 file.
-		*/
-		root->add_child("LegacyId")->add_child_text ("1");
-	}
 }
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node, int version)
-	: FFmpegStream (node, version)
+	: FFmpegStream (node)
 	, mapping (node->node_child ("Mapping"), version)
 {
 	frame_rate = node->number_child<int> ("FrameRate");
@@ -384,10 +375,6 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 bool
 FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
 {
-	if (_legacy_id) {
-		return _id == index;
-	}
-	
 	size_t i = 0;
 	while (i < fc->nb_streams) {
 		if (fc->streams[i]->id == _id) {
@@ -402,14 +389,6 @@ FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
 AVStream *
 FFmpegStream::stream (AVFormatContext const * fc) const
 {
-	if (_legacy_id) {
-		if (_id >= int (fc->nb_streams)) {
-			return 0;
-		}
-		
-		return fc->streams[_id];
-	}
-	
 	size_t i = 0;
 	while (i < fc->nb_streams) {
 		if (fc->streams[i]->id == _id) {
@@ -426,8 +405,8 @@ FFmpegStream::stream (AVFormatContext const * fc) const
  *  @param t String returned from to_string().
  *  @param v State file version.
  */
-FFmpegSubtitleStream::FFmpegSubtitleStream (shared_ptr<const cxml::Node> node, int version)
-	: FFmpegStream (node, version)
+FFmpegSubtitleStream::FFmpegSubtitleStream (shared_ptr<const cxml::Node> node)
+	: FFmpegStream (node)
 {
 	
 }

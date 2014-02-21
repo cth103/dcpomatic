@@ -324,6 +324,17 @@ public:
 		overall_panel->SetSizer (main_sizer);
 	}
 
+	void check_film_state_version (int v)
+	{
+		if (v == 4) {
+			error_dialog (
+				this,
+				_("This film was created with an old version of DVD-o-matic and may not load correctly "
+				  "in this version.  Please check the film's settings carefully.")
+				);
+		}
+	}
+
 private:
 
 	void set_film ()
@@ -405,6 +416,7 @@ private:
 			try {
 				film.reset (new Film (wx_to_std (c->GetPath ())));
 				film->read_metadata ();
+				check_film_state_version (film->state_version ());
 				film->log()->set_level (log_level);
 				set_film ();
 			} catch (std::exception& e) {
@@ -662,6 +674,8 @@ class App : public wxApp
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
 
+		_frame->check_film_state_version (film->state_version ());
+
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
 		if (Config::instance()->check_for_updates ()) {
 			UpdateChecker::instance()->run ();
@@ -746,7 +760,7 @@ class App : public wxApp
 		}
 	}
 
-	wxFrame* _frame;
+	Frame* _frame;
 	shared_ptr<wxTimer> _timer;
 };
 

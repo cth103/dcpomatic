@@ -138,6 +138,10 @@ public:
 		return _key;
 	}
 
+	int state_version () const {
+		return _state_version;
+	}
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -271,7 +275,7 @@ public:
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 
 	/** Current version number of the state file */
-	static int const state_version;
+	static int const current_state_version;
 
 private:
 
@@ -324,6 +328,8 @@ private:
 	bool _sequence_video;
 	bool _interop;
 	libdcp::Key _key;
+
+	int _state_version;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

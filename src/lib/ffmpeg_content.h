@@ -38,10 +38,9 @@ public:
 	FFmpegStream (std::string n, int i)
 		: name (n)
 		, _id (i)
-		, _legacy_id (false)
 	{}
 				
-	FFmpegStream (boost::shared_ptr<const cxml::Node>, int);
+	FFmpegStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 
@@ -62,8 +61,6 @@ public:
 	
 private:
 	int _id;
-	/** If this is true, id is in fact the index */
-	bool _legacy_id;
 };
 
 class FFmpegAudioStream : public FFmpegStream
@@ -106,7 +103,7 @@ public:
 		: FFmpegStream (n, i)
 	{}
 	
-	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>, int);
+	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 };
