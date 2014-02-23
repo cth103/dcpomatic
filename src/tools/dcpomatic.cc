@@ -674,7 +674,9 @@ class App : public wxApp
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
 
-		_frame->check_film_state_version (film->state_version ());
+		if (film) {
+			_frame->check_film_state_version (film->state_version ());
+		}
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
 		if (Config::instance()->check_for_updates ()) {
