@@ -1,3 +1,8 @@
+2014-02-23  Carl Hetherington  <cth@carlh.net>
+
+	* Bump ffmpeg library to git head to fix problems with
+	misrecognised frame rates in some MOV files.
+
 2014-02-20  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.64.15 released.

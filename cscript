@@ -129,7 +129,7 @@ def make_control(debian_version, bits, filename, debug):
         print >>f,''
 
 def dependencies(target):
-    return (('ffmpeg-cdist', '5ac3a6af077c10f07c31954c372a8f29e4e18e2a'),
+    return (('ffmpeg-cdist', '08827fa4e1d483511e6135c424d2ca9c56a9ed50'),
             ('libdcp', '5839998'))
 
 def build(target, options):
