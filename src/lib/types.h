@@ -23,7 +23,7 @@
 #include <vector>
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
-#include <libdcp/util.h>
+#include <dcp/util.h>
 
 class Content;
 class VideoContent;

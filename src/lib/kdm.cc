@@ -21,7 +21,7 @@
 #include <boost/shared_ptr.hpp>
 #include <quickmail.h>
 #include <zip.h>
-#include <libdcp/kdm.h>
+#include <dcp/kdm.h>
 #include "kdm.h"
 #include "cinema.h"
 #include "exceptions.h"

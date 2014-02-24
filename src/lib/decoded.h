@@ -20,7 +20,7 @@
 #ifndef DCPOMATIC_LIB_DECODED_H
 #define DCPOMATIC_LIB_DECODED_H
 
-#include <libdcp/subtitle_string.h>
+#include <dcp/subtitle_string.h>
 #include "types.h"
 #include "rect.h"
 #include "util.h"

@@ -22,7 +22,7 @@
 
 #include <vector>
 #include <boost/utility.hpp>
-#include <libdcp/util.h>
+#include <dcp/util.h>
 
 class Ratio : public boost::noncopyable
 {

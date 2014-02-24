@@ -49,10 +49,10 @@
 #include <magick/MagickCore.h>
 #include <magick/version.h>
 #include <pangomm/init.h>
-#include <libdcp/version.h>
-#include <libdcp/util.h>
-#include <libdcp/signer_chain.h>
-#include <libdcp/signer.h>
+#include <dcp/version.h>
+#include <dcp/util.h>
+#include <dcp/signer_chain.h>
+#include <dcp/signer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -992,8 +992,8 @@ split_get_request (string url)
 	return r;
 }
 
-libdcp::Size
-fit_ratio_within (float ratio, libdcp::Size full_frame)
+dcp::Size
+fit_ratio_within (float ratio, dcp::Size full_frame)
 {
 	if (ratio < full_frame.ratio ()) {
 		return dcp::Size (rint (full_frame.height * ratio), full_frame.height);

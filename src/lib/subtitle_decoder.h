@@ -21,7 +21,7 @@
 #define DCPOMATIC_SUBTITLE_DECODER_H
 
 #include <boost/signals2.hpp>
-#include <libdcp/subtitle_string.h>
+#include <dcp/subtitle_string.h>
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"

@@ -23,7 +23,7 @@
 #include <glib.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <libdcp/colour_matrix.h>
+#include <dcp/colour_matrix.h>
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"

@@ -43,10 +43,10 @@
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
-#include <libdcp/gamma_lut.h>
-#include <libdcp/xyz_frame.h>
-#include <libdcp/rgb_xyz.h>
-#include <libdcp/colour_matrix.h>
+#include <dcp/gamma_lut.h>
+#include <dcp/xyz_frame.h>
+#include <dcp/rgb_xyz.h>
+#include <dcp/colour_matrix.h>
 #include <libcxml/cxml.h>
 #include "film.h"
 #include "dcp_video_frame.h"

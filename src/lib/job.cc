@@ -23,7 +23,7 @@
 
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
-#include <libdcp/exceptions.h>
+#include <dcp/exceptions.h>
 #include "job.h"
 #include "util.h"
 #include "cross.h"

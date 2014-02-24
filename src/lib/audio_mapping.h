@@ -21,7 +21,7 @@
 #define DCPOMATIC_AUDIO_MAPPING_H
 
 #include <vector>
-#include <libdcp/types.h>
+#include <dcp/types.h>
 #include <boost/shared_ptr.hpp>
 
 namespace xmlpp {

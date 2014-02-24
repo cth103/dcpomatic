@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/colour_matrix.h>
+#include <dcp/colour_matrix.h>
 #include "lib/colour_conversion.h"
 
 using std::cout;

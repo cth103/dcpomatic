@@ -19,7 +19,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <libxml++/libxml++.h>
-#include <libdcp/colour_matrix.h>
+#include <dcp/colour_matrix.h>
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "colour_conversion.h"

@@ -19,7 +19,7 @@
 
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
-#include <libdcp/certificates.h>
+#include <dcp/certificates.h>
 
 class ScreenDialog : public wxDialog
 {

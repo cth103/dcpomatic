@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/stereo_picture_mxf.h>
+#include <dcp/stereo_picture_mxf.h>
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"

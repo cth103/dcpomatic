@@ -21,7 +21,7 @@
 #include <list>
 #include <Magick++.h>
 #include <libxml++/libxml++.h>
-#include <libdcp/dcp.h>
+#include <dcp/dcp.h>
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/ui_signaller.h"

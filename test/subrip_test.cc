@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/subtitle_content.h>
+#include <dcp/subtitle_content.h>
 #include "lib/subrip.h"
 #include "lib/subrip_content.h"
 #include "lib/subrip_decoder.h"

@@ -17,7 +17,7 @@
 
 */
 
-#include <libdcp/types.h>
+#include <dcp/types.h>
 #include "ratio.h"
 #include "util.h"
 

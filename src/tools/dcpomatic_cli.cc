@@ -20,7 +20,7 @@
 #include <iostream>
 #include <iomanip>
 #include <getopt.h>
-#include <libdcp/version.h>
+#include <dcp/version.h>
 #include "lib/film.h"
 #include "lib/filter.h"
 #include "lib/transcode_job.h"

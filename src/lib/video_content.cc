@@ -19,7 +19,7 @@
 
 #include <iomanip>
 #include <libcxml/cxml.h>
-#include <libdcp/colour_matrix.h>
+#include <dcp/colour_matrix.h>
 #include "video_content.h"
 #include "video_examiner.h"
 #include "ratio.h"

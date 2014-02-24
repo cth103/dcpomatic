@@ -19,7 +19,7 @@
 
 #include <iostream>
 #include <boost/test/unit_test.hpp>
-#include <libdcp/util.h>
+#include <dcp/util.h>
 #include "lib/ratio.h"
 #include "lib/util.h"
 

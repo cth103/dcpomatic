@@ -18,7 +18,7 @@
 */
 
 #include <getopt.h>
-#include <libdcp/certificates.h>
+#include <dcp/certificates.h>
 #include "lib/film.h"
 #include "lib/cinema.h"
 #include "lib/kdm.h"

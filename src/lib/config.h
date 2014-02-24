@@ -28,7 +28,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
-#include <libdcp/metadata.h>
+#include <dcp/metadata.h>
 #include "dci_metadata.h"
 #include "colour_conversion.h"
 #include "server.h"

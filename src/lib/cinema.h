@@ -18,7 +18,7 @@
 */
 
 #include <boost/enable_shared_from_this.hpp>
-#include <libdcp/certificates.h>
+#include <dcp/certificates.h>
 
 class Cinema;
 

@@ -26,7 +26,7 @@
 #include <boost/filesystem.hpp>
 #include <wx/stdpaths.h>
 #include <wx/notebook.h>
-#include <libdcp/colour_matrix.h>
+#include <dcp/colour_matrix.h>
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/scaler.h"

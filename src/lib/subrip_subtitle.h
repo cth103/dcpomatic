@@ -21,7 +21,7 @@
 #define DCPOMATIC_SUBRIP_SUBTITLE_H
 
 #include <boost/optional.hpp>
-#include <libdcp/types.h>
+#include <dcp/types.h>
 #include "types.h"
 
 struct SubRipSubtitlePiece

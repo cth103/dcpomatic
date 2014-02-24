@@ -19,16 +19,16 @@
 
 #include <fstream>
 #include <cerrno>
-#include <libdcp/mono_picture_mxf.h>
-#include <libdcp/stereo_picture_mxf.h>
-#include <libdcp/sound_mxf.h>
-#include <libdcp/sound_mxf_writer.h>
-#include <libdcp/reel.h>
-#include <libdcp/reel_mono_picture_asset.h>
-#include <libdcp/reel_stereo_picture_asset.h>
-#include <libdcp/reel_sound_asset.h>
-#include <libdcp/dcp.h>
-#include <libdcp/cpl.h>
+#include <dcp/mono_picture_mxf.h>
+#include <dcp/stereo_picture_mxf.h>
+#include <dcp/sound_mxf.h>
+#include <dcp/sound_mxf_writer.h>
+#include <dcp/reel.h>
+#include <dcp/reel_mono_picture_asset.h>
+#include <dcp/reel_stereo_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/dcp.h>
+#include <dcp/cpl.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"

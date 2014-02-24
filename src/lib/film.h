@@ -31,8 +31,8 @@
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/filesystem.hpp>
-#include <libdcp/key.h>
-#include <libdcp/kdm.h>
+#include <dcp/key.h>
+#include <dcp/kdm.h>
 #include "util.h"
 #include "types.h"
 #include "dci_metadata.h"

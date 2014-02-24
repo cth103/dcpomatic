@@ -17,8 +17,8 @@
 
 */
 
-#include <libdcp/subtitle_string.h>
-#include <libdcp/util.h>
+#include <dcp/subtitle_string.h>
+#include <dcp/util.h>
 #include "position.h"
 
 class Image;

@@ -17,7 +17,7 @@
 
 */
 
-#include <libdcp/subtitle_string.h>
+#include <dcp/subtitle_string.h>
 #include "subrip_decoder.h"
 
 using std::list;

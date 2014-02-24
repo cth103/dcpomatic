@@ -31,11 +31,11 @@
 #include <boost/date_time.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
-#include <libdcp/signer_chain.h>
-#include <libdcp/cpl.h>
-#include <libdcp/signer.h>
-#include <libdcp/util.h>
-#include <libdcp/kdm.h>
+#include <dcp/signer_chain.h>
+#include <dcp/cpl.h>
+#include <dcp/signer.h>
+#include <dcp/util.h>
+#include <dcp/kdm.h>
 #include "film.h"
 #include "job.h"
 #include "util.h"

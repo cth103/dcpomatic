@@ -18,7 +18,7 @@
 
 */
 
-#include <libdcp/picture_mxf_writer.h>
+#include <dcp/picture_mxf_writer.h>
 #include "util.h"
 
 /** @file  src/dcp_video_frame.h

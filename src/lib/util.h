@@ -31,8 +31,8 @@
 #include <boost/asio.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
-#include <libdcp/util.h>
-#include <libdcp/signer.h>
+#include <dcp/util.h>
+#include <dcp/signer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>

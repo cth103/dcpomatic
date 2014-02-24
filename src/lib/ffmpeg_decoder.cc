@@ -323,7 +323,7 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 					);
 			}
 
-		} else if (_ffmpeg_content->audio_stream() && _packet.stream_index == _ffmpeg_content->audio_stream()->index (_format_context)) {
+		} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, _packet.stream_index)) {
 			AVPacket copy_packet = _packet;
 			while (copy_packet.size > 0) {
 

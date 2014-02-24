@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/util.h>
+#include <dcp/util.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }

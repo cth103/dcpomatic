@@ -31,7 +31,7 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
-#include <libdcp/image.h>
+#include <dcp/image.h>
 #include "util.h"
 #include "position.h"
 

@@ -20,7 +20,7 @@
 #include <wx/wx.h>
 #include <wx/renderer.h>
 #include <wx/grid.h>
-#include <libdcp/types.h>
+#include <dcp/types.h>
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
 #include "audio_mapping_view.h"

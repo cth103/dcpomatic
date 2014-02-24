@@ -19,7 +19,7 @@
 
 #include <wx/filepicker.h>
 #include <wx/validate.h>
-#include <libdcp/exceptions.h>
+#include <dcp/exceptions.h>
 #include "lib/compose.hpp"
 #include "screen_dialog.h"
 #include "wx_util.h"

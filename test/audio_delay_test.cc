@@ -18,11 +18,11 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <libdcp/sound_frame.h>
-#include <libdcp/cpl.h>
-#include <libdcp/reel.h>
-#include <libdcp/sound_mxf.h>
-#include <libdcp/reel_sound_asset.h>
+#include <dcp/sound_frame.h>
+#include <dcp/cpl.h>
+#include <dcp/reel.h>
+#include <dcp/sound_mxf.h>
+#include <dcp/reel_sound_asset.h>
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
