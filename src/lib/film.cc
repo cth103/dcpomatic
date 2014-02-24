@@ -86,14 +86,14 @@ using dcp::Signer;
  * 6 -> 7
  * Subtitle offset changed to subtitle y offset, and subtitle x offset added.
  */
-int const Film::state_version = 7;
+int const Film::current_state_version = 7;
 
 /** Construct a Film object in a given directory.
  *
  *  @param dir Film directory.
  */
 
-Film::Film (boost::filesystem::path dir)
+Film::Film (boost::filesystem::path dir, bool log)
 	: _playlist (new Playlist)
 	, _use_dci_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
@@ -106,10 +106,11 @@ Film::Film (boost::filesystem::path dir)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
 	, _dci_metadata (Config::instance()->default_dci_metadata ())
 	, _video_frame_rate (24)
-	, _audio_channels (MAX_AUDIO_CHANNELS)
+	, _audio_channels (6)
 	, _three_d (false)
 	, _sequence_video (true)
 	, _interop (false)
+	, _state_version (current_state_version)
 	, _dirty (false)
 {
 	set_dci_date_today ();
@@ -136,7 +137,11 @@ Film::Film (boost::filesystem::path dir)
 	}
 
 	set_directory (result);
-	_log.reset (new FileLog (file ("log")));
+	if (log) {
+		_log.reset (new FileLog (file ("log")));
+	} else {
+		_log.reset (new NullLog);
+	}
 
 	_playlist->set_sequence_video (_sequence_video);
 }
@@ -327,22 +332,15 @@ Film::encoded_frames () const
 	return N;
 }
 
-/** Write state to our `metadata' file */
-void
-Film::write_metadata () const
+shared_ptr<xmlpp::Document>
+Film::metadata () const
 {
-	if (!boost::filesystem::exists (directory ())) {
-		boost::filesystem::create_directory (directory ());
-	}
-	
 	LocaleGuard lg;
 
-	boost::filesystem::create_directories (directory ());
+	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
+	xmlpp::Element* root = doc->create_root_node ("Metadata");
 
-	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("Metadata");
-
-	root->add_child("Version")->add_child_text (lexical_cast<string> (state_version));
+	root->add_child("Version")->add_child_text (lexical_cast<string> (current_state_version));
 	root->add_child("Name")->add_child_text (_name);
 	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
 
@@ -370,8 +368,16 @@ Film::write_metadata () const
 	root->add_child("Key")->add_child_text (_key.hex ());
 	_playlist->as_xml (root->add_child ("Playlist"));
 
-	doc.write_to_file_formatted (file("metadata.xml").string ());
-	
+	return doc;
+}
+
+/** Write state to our `metadata' file */
+void
+Film::write_metadata () const
+{
+	boost::filesystem::create_directories (directory ());
+	shared_ptr<xmlpp::Document> doc = metadata ();
+	doc->write_to_file_formatted (file("metadata.xml").string ());
 	_dirty = false;
 }
 
@@ -388,7 +394,7 @@ Film::read_metadata ()
 	cxml::Document f ("Metadata");
 	f.read_file (file ("metadata.xml"));
 
-	int const version = f.number_child<int> ("Version");
+	_state_version = f.number_child<int> ("Version");
 	
 	_name = f.string_child ("Name");
 	_use_dci_name = f.bool_child ("UseDCIName");
@@ -421,7 +427,7 @@ Film::read_metadata ()
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
 	_key = dcp::Key (f.string_child ("Key"));
-	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), version);
+	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version);
 
 	_dirty = false;
 }

@@ -110,6 +110,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Mattias Mattsson"));
 	supported_by.Add (wxT ("Andrä Steiner"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
+	supported_by.Add (wxT ("Mike Stiebing"));
 	supported_by.Add (wxT ("Kjarten Michaelsen"));
 	supported_by.Add (wxT ("Jussi Siponen"));
 	supported_by.Add (wxT ("Cinema Clarici"));
@@ -130,8 +131,41 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Sylvain Mielle"));
 	supported_by.Add (wxT ("Ivan Pullman"));
 	supported_by.Add (wxT ("Aldo Midali"));
+	supported_by.Add (wxT ("Jeff Boot"));
+	supported_by.Add (wxT ("Filip Kovcin"));
+	supported_by.Add (wxT ("Adam Colt"));
 	add_section (_("Supported by"), supported_by);
 
+	wxArrayString testers;
+	testers.Add (wxT ("Greg Rooke"));
+	testers.Add (wxT ("Olivier Lemaire"));
+	testers.Add (wxT ("Trever Anderson"));
+	testers.Add (wxT ("Wolfgang Woehl"));
+	testers.Add (wxT ("Jonathan Jensen"));
+	testers.Add (wxT ("Anders Nordentoft-Madsen"));
+	testers.Add (wxT ("Lilian Lefranc"));
+	testers.Add (wxT ("Gérald Maruccia"));
+	testers.Add (wxT ("John Convertino"));
+	testers.Add (wxT ("Mike Blakesley"));
+	testers.Add (wxT ("Simon Kesselman"));
+	testers.Add (wxT ("Gavin Lewarne"));
+	testers.Add (wxT ("Thierry Journet"));
+	testers.Add (wxT ("Carsten Kurz"));
+	testers.Add (wxT ("Karim Senoucci"));
+	testers.Add (wxT ("Paul Willmott"));
+	testers.Add (wxT ("Mattias Mattsson"));
+	testers.Add (wxT ("Andreas Eli"));
+	testers.Add (wxT ("Roop Chand"));
+	testers.Add (wxT ("Peter Puchner"));
+	testers.Add (wxT ("David Booty"));
+	testers.Add (wxT ("Maurizio Giampà"));
+	testers.Add (wxT ("Bill Lam"));
+	testers.Add (wxT ("Pepijn Klijs"));
+	testers.Add (wxT ("Will Meadows"));
+	testers.Add (wxT ("Adam Colt"));
+	testers.Add (wxT ("Markus Raab"));
+	add_section (_("Tested by"), testers);
+	
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
 
 	overall_sizer->Add (sizer);

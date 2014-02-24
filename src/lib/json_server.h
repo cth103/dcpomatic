@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,15 @@
 
 */
 
-#include "job.h"
-#include "audio_analysis.h"
-#include "types.h"
-
-class AudioBuffers;
-class AudioContent;
-
-class AnalyseAudioJob : public Job
+class JSONServer
 {
 public:
-	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<AudioContent>);
-
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	JSONServer (int port);
 
 private:
-	void audio (boost::shared_ptr<const AudioBuffers>, DCPTime);
-
-	boost::weak_ptr<AudioContent> _content;
-	AudioFrame _done;
-	int64_t _samples_per_point;
-	std::vector<AudioPoint> _current;
-
-	boost::shared_ptr<AudioAnalysis> _analysis;
-
-	static const int _num_points;
+	void run (int port);
+	void handle (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	void request (std::string url, boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
 };
 
+	

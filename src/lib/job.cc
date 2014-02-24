@@ -239,7 +239,7 @@ Job::set_progress (float p, bool force)
 	}
 }
 
-/** @return fractional progress of this sub-job, or -1 if not known */
+/** @return fractional progress of the current sub-job, or -1 if not known */
 float
 Job::progress () const
 {
@@ -323,6 +323,29 @@ Job::status () const
 	}
 
 	return s.str ();
+}
+
+string
+Job::json_status () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+
+	switch (_state) {
+	case NEW:
+		return N_("new");
+	case RUNNING:
+		return N_("running");
+	case PAUSED:
+		return N_("paused");
+	case FINISHED_OK:
+		return N_("finished_ok");
+	case FINISHED_ERROR:
+		return N_("finished_error");
+	case FINISHED_CANCELLED:
+		return N_("finished_cancelled");
+	}
+
+	return "";
 }
 
 /** @return An estimate of the remaining time for this sub-job, in seconds */

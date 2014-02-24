@@ -35,6 +35,7 @@ public:
 	TranscodeJob (boost::shared_ptr<const Film> f);
 	
 	std::string name () const;
+	std::string json_name () const;
 	void run ();
 	std::string status () const;
 

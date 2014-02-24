@@ -50,7 +50,7 @@ extern "C" {
 #undef check
 
 /** The maximum number of audio channels that we can cope with */
-#define MAX_AUDIO_CHANNELS 6
+#define MAX_AUDIO_CHANNELS 8
 
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
 
@@ -79,6 +79,8 @@ extern boost::filesystem::path mo_path ();
 extern std::string tidy_for_filename (std::string);
 extern boost::shared_ptr<const dcp::Signer> make_signer ();
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
+extern std::string entities_to_text (std::string e);
+extern std::map<std::string, std::string> split_get_request (std::string url);
 
 struct FrameRateChange
 {

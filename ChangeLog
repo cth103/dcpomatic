@@ -1,3 +1,28 @@
+2014-02-23  Carl Hetherington  <cth@carlh.net>
+
+	* Bump ffmpeg library to git head to fix problems with
+	misrecognised frame rates in some MOV files.
+
+2014-02-20  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.64.15 released.
+
+2014-02-20  Carl Hetherington  <cth@carlh.net>
+
+	* Basic support for 7.1 / HI/VI audio tracks.
+
+2014-02-19  Carl Hetherington  <cth@carlh.net>
+
+	* Add some basic JSON stuff.
+
+2014-02-18  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.64.14 released.
+
+2014-02-18  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.64.13 released.
+
 2014-02-12  Carl Hetherington  <cth@carlh.net>
 
 	* Make the batch converter remember its last directory

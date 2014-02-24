@@ -37,26 +37,35 @@ class FFmpegStream
 public:
 	FFmpegStream (std::string n, int i)
 		: name (n)
-		, id (i)
-		, _legacy_id (false)
+		, _id (i)
 	{}
 				
-	FFmpegStream (boost::shared_ptr<const cxml::Node>, int);
+	FFmpegStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 
 	/** @param c An AVFormatContext.
-	 *  @return Stream index within the AVFormatContext.
+	 *  @param index A stream index within the AVFormatContext.
+	 *  @return true if this FFmpegStream uses the given stream index.
 	 */
-	int index (AVFormatContext const * c) const;
+	bool uses_index (AVFormatContext const * c, int index) const;
 	AVStream* stream (AVFormatContext const * c) const;
 
+	std::string technical_summary () const {
+		return "id " + boost::lexical_cast<std::string> (_id);
+	}
+
+	std::string identifier () const {
+		return boost::lexical_cast<std::string> (_id);
+	}
+
 	std::string name;
-	int id;
+
+	friend bool operator== (FFmpegStream const & a, FFmpegStream const & b);
+	friend bool operator!= (FFmpegStream const & a, FFmpegStream const & b);
 	
 private:
-	/** If this is true, id is in fact the index */
-	bool _legacy_id;
+	int _id;
 };
 
 class FFmpegAudioStream : public FFmpegStream
@@ -92,9 +101,6 @@ private:
 	{}
 };
 
-extern bool operator== (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
-extern bool operator!= (FFmpegAudioStream const & a, FFmpegAudioStream const & b);
-
 class FFmpegSubtitleStream : public FFmpegStream
 {
 public:
@@ -102,13 +108,10 @@ public:
 		: FFmpegStream (n, i)
 	{}
 	
-	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>, int);
+	FFmpegSubtitleStream (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 };
-
-extern bool operator== (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
-extern bool operator!= (FFmpegSubtitleStream const & a, FFmpegSubtitleStream const & b);
 
 class FFmpegContentProperty : public VideoContentProperty
 {

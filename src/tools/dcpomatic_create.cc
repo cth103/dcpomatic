@@ -30,6 +30,8 @@
 #include "lib/job_manager.h"
 #include "lib/ui_signaller.h"
 #include "lib/job.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
 
 using std::string;
 using std::cout;
@@ -37,22 +39,33 @@ using std::cerr;
 using std::list;
 using std::exception;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 static void
 help (string n)
 {
-	cerr << "Create a film directory (ready for making a DCP) from some content files.\n"
+	cerr << "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
+	     << "A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
+	     << "will be written to stdout.\n"
 	     << "Syntax: " << n << " [OPTION] <CONTENT> [<CONTENT> ...]\n"
-	     << "  -v, --version   show DCP-o-matic version\n"
-	     << "  -h, --help      show this help\n"
-	     << "  -n, --name      film name\n"
-	     << "  -o, --output    output directory (required)\n";
+	     << "  -v, --version                 show DCP-o-matic version\n"
+	     << "  -h, --help                    show this help\n"
+	     << "  -n, --name <name>             film name\n"
+	     << "  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
+	     << "      --container-ratio         119, 133, 137, 138, 166, 178, 185 or 239\n"
+	     << "      --content-ratio           119, 133, 137, 138, 166, 178, 185 or 239\n"
+	     << "  -o, --output <dir>            output directory\n";
 }
 
 int
 main (int argc, char* argv[])
 {
+	dcpomatic_setup ();
+
 	string name;
+	DCPContentType const * dcp_content_type = DCPContentType::from_dci_name ("TST");
+	Ratio const * container_ratio = 0;
+	Ratio const * content_ratio = 0;
 	boost::filesystem::path output;
 	
 	int option_index = 0;
@@ -61,11 +74,14 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "name", required_argument, 0, 'n'},
+			{ "dcp-content-type", required_argument, 0, 'c'},
+			{ "container-ratio", required_argument, 0, 'A'},
+			{ "content-ratio", required_argument, 0, 'B'},
 			{ "output", required_argument, 0, 'o'},
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:o:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:c:A:B:o:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -80,6 +96,30 @@ main (int argc, char* argv[])
 		case 'n':
 			name = optarg;
 			break;
+		case 'c':
+			dcp_content_type = DCPContentType::from_dci_name (optarg);
+			if (dcp_content_type == 0) {
+				cerr << "Bad DCP content type.\n";
+				help (argv[0]);
+				exit (EXIT_FAILURE);
+			}
+			break;
+		case 'A':
+			container_ratio = Ratio::from_id (optarg);
+			if (container_ratio == 0) {
+				cerr << "Bad container ratio.\n";
+				help (argv[0]);
+				exit (EXIT_FAILURE);
+			}
+			break;
+		case 'B':
+			content_ratio = Ratio::from_id (optarg);
+			if (content_ratio == 0) {
+				cerr << "Bad content ratio " << optarg << ".\n";
+				help (argv[0]);
+				exit (EXIT_FAILURE);
+			}
+			break;
 		case 'o':
 			output = optarg;
 			break;
@@ -91,23 +131,33 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	if (output.empty ()) {
-		cerr << "Missing required option -o or --output.\n"
-		     << "Use " << argv[0] << " --help for help.\n";
+	if (!content_ratio) {
+		cerr << "Missing required option --content-ratio.\n";
+		help (argv[0]);
 		exit (EXIT_FAILURE);
 	}
 
-	dcpomatic_setup ();
+	if (!container_ratio) {
+		container_ratio = content_ratio;
+	}
+
 	ui_signaller = new UISignaller ();
 
 	try {
-		shared_ptr<Film> film (new Film (output));
+		shared_ptr<Film> film (new Film (output, false));
 		if (!name.empty ()) {
 			film->set_name (name);
 		}
+
+		film->set_container (container_ratio);
 		
 		for (int i = optind; i < argc; ++i) {
-			film->examine_and_add_content (content_factory (film, argv[i]));
+			shared_ptr<Content> c = content_factory (film, argv[i]);
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
+			if (vc) {
+				vc->set_ratio (content_ratio);
+			}
+			film->examine_and_add_content (c);
 		}
 		
 		JobManager* jm = JobManager::instance ();
@@ -125,8 +175,12 @@ main (int argc, char* argv[])
 			}
 			exit (EXIT_FAILURE);
 		}
-		
-		film->write_metadata ();
+
+		if (!output.empty ()) {
+			film->write_metadata ();
+		} else {
+			film->metadata()->write_to_stream_formatted (cout);
+		}
 	} catch (exception& e) {
 		cerr << argv[0] << ": " << e.what() << "\n";
 		exit (EXIT_FAILURE);

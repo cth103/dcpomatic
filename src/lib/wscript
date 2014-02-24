@@ -37,6 +37,7 @@ sources = """
           job.cc
           job_manager.cc
           kdm.cc
+          json_server.cc
           log.cc
           player.cc
           playlist.cc

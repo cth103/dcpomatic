@@ -57,6 +57,9 @@ public:
 	
 	virtual void examine (boost::shared_ptr<Job>);
 	virtual std::string summary () const = 0;
+	/** @return Technical details of this content; these are written to logs to
+	 *  help with debugging.
+	 */
 	virtual std::string technical_summary () const;
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;

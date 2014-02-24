@@ -43,6 +43,7 @@ public:
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;
+	virtual std::string json_name () const = 0;
 	/** Run this job in the current thread. */
 	virtual void run () = 0;
 	
@@ -64,6 +65,7 @@ public:
 
 	int elapsed_time () const;
 	virtual std::string status () const;
+	std::string json_status () const;
 	std::string sub_name () const {
 		return _sub_name;
 	}
@@ -74,6 +76,10 @@ public:
 	float progress () const;
 	bool progress_unknown () const {
 		return !_progress;
+	}
+
+	boost::shared_ptr<const Film> film () const {
+		return _film;
 	}
 
 	boost::signals2::signal<void()> Progress;

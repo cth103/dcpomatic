@@ -90,6 +90,7 @@ using std::min;
 using std::max;
 using std::list;
 using std::multimap;
+using std::map;
 using std::istream;
 using std::numeric_limits;
 using std::pair;
@@ -791,10 +792,11 @@ video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frame
 string
 audio_channel_name (int c)
 {
-	assert (MAX_AUDIO_CHANNELS == 6);
+	assert (MAX_AUDIO_CHANNELS == 8);
 
 	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	   enhancement channel (sub-woofer).
+	   enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
+	   VI is the visually-impaired audio track (audio describe).
 	*/
 	string const channels[] = {
 		_("Left"),
@@ -803,6 +805,8 @@ audio_channel_name (int c)
 		_("Lfe (sub)"),
 		_("Left surround"),
 		_("Right surround"),
+		_("HI"),
+		_("VI")
 	};
 
 	return channels[c];
@@ -942,8 +946,54 @@ make_signer ()
 	return shared_ptr<const dcp::Signer> (new dcp::Signer (chain, signer_key));
 }
 
-dcp::Size
-fit_ratio_within (float ratio, dcp::Size full_frame)
+map<string, string>
+split_get_request (string url)
+{
+	enum {
+		AWAITING_QUESTION_MARK,
+		KEY,
+		VALUE
+	} state = AWAITING_QUESTION_MARK;
+	
+	map<string, string> r;
+	string k;
+	string v;
+	for (size_t i = 0; i < url.length(); ++i) {
+		switch (state) {
+		case AWAITING_QUESTION_MARK:
+			if (url[i] == '?') {
+				state = KEY;
+			}
+			break;
+		case KEY:
+			if (url[i] == '=') {
+				v.clear ();
+				state = VALUE;
+			} else {
+				k += url[i];
+			}
+			break;
+		case VALUE:
+			if (url[i] == '&') {
+				r.insert (make_pair (k, v));
+				k.clear ();
+				state = KEY;
+			} else {
+				v += url[i];
+			}
+			break;
+		}
+	}
+
+	if (state == VALUE) {
+		r.insert (make_pair (k, v));
+	}
+
+	return r;
+}
+
+libdcp::Size
+fit_ratio_within (float ratio, libdcp::Size full_frame)
 {
 	if (ratio < full_frame.ratio ()) {
 		return dcp::Size (rint (full_frame.height * ratio), full_frame.height);
@@ -967,4 +1017,12 @@ wrapped_av_malloc (size_t s)
 		throw bad_alloc ();
 	}
 	return p;
+}
+		
+string
+entities_to_text (string e)
+{
+	boost::algorithm::replace_all (e, "%3A", ":");
+	boost::algorithm::replace_all (e, "%2F", "/");
+	return e;
 }

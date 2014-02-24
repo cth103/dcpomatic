@@ -56,7 +56,7 @@ class Screen;
 class Film : public boost::enable_shared_from_this<Film>, public boost::noncopyable
 {
 public:
-	Film (boost::filesystem::path);
+	Film (boost::filesystem::path, bool log = true);
 
 	boost::filesystem::path info_dir () const;
 	boost::filesystem::path j2c_path (int, Eyes, bool) const;
@@ -85,6 +85,7 @@ public:
 
 	void read_metadata ();
 	void write_metadata () const;
+	boost::shared_ptr<xmlpp::Document> metadata () const;
 
 	std::string dci_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
@@ -136,6 +137,10 @@ public:
 
 	dcp::Key key () const {
 		return _key;
+	}
+
+	int state_version () const {
+		return _state_version;
 	}
 
 	/** Identifiers for the parts of our state;
@@ -271,7 +276,7 @@ public:
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
 
 	/** Current version number of the state file */
-	static int const state_version;
+	static int const current_state_version;
 
 private:
 
@@ -324,6 +329,8 @@ private:
 	bool _sequence_video;
 	bool _interop;
 	dcp::Key _key;
+
+	int _state_version;
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;

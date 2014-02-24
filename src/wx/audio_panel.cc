@@ -134,11 +134,11 @@ AudioPanel::film_content_changed (int property)
 		if (fcs) {
 			vector<shared_ptr<FFmpegAudioStream> > a = fcs->audio_streams ();
 			for (vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin(); i != a.end(); ++i) {
-				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx (lexical_cast<string> ((*i)->id))));
+				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx ((*i)->identifier ())));
 			}
 			
 			if (fcs->audio_stream()) {
-				checked_set (_stream, lexical_cast<string> (fcs->audio_stream()->id));
+				checked_set (_stream, fcs->audio_stream()->identifier ());
 				setup_stream_description ();
 			}
 		}
@@ -206,7 +206,7 @@ AudioPanel::stream_changed ()
 	vector<shared_ptr<FFmpegAudioStream> > a = fcs->audio_streams ();
 	vector<shared_ptr<FFmpegAudioStream> >::iterator i = a.begin ();
 	string const s = string_client_data (_stream->GetClientObject (_stream->GetSelection ()));
-	while (i != a.end() && lexical_cast<string> ((*i)->id) != s) {
+	while (i != a.end() && (*i)->identifier () != s) {
 		++i;
 	}
 
