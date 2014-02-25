@@ -122,8 +122,10 @@ Player::pass ()
 				break;
 			}
 
+
 			dec->set_dcp_times (_film->video_frame_rate(), _film->audio_frame_rate(), (*i)->frc, offset);
 			DCPTime const t = dec->dcp_time - offset;
+			cout << "Peeked " << (*i)->content->paths()[0] << " for " << t << " cf " << ((*i)->content->full_length() - (*i)->content->trim_end ()) << "\n";
 			if (t >= ((*i)->content->full_length() - (*i)->content->trim_end ())) {
 				/* In the end-trimmed part; decoder has nothing else to give us */
 				dec.reset ();
@@ -173,7 +175,6 @@ Player::pass ()
 	shared_ptr<DecodedImageSubtitle> dis = dynamic_pointer_cast<DecodedImageSubtitle> (earliest_decoded);
 	shared_ptr<DecodedTextSubtitle> dts = dynamic_pointer_cast<DecodedTextSubtitle> (earliest_decoded);
 
-#if 0	
 	if (dv) {
 		cout << "Video @ " << dv->dcp_time << " " << (double(dv->dcp_time) / TIME_HZ) << ".\n";
 	} else if (da) {
@@ -183,7 +184,6 @@ Player::pass ()
 	} else if (dts) {
 		cout << "Text sub.\n";
 	}
-#endif	
 	
 	/* Will be set to false if we shouldn't consume the peeked DecodedThing */
 	bool consume = true;
@@ -432,6 +432,7 @@ Player::seek (DCPTime t, bool accurate)
 		ContentTime ct = (s + (*i)->content->trim_start()) * (*i)->frc.speed_up;
 
 		/* And seek the decoder */
+		cout << "seek " << (*i)->content->paths()[0] << " to " << ct << "\n";
 		(*i)->decoder->seek (ct, accurate);
 	}
 

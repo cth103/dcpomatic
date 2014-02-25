@@ -372,13 +372,15 @@ FFmpegDecoder::seek_and_flush (ContentTime t)
 			);
 	}
 
+	cout << "S&F " << t << "\n";
+
 	/* Ridiculous empirical hack */
 	s--;
 	if (s < 0) {
 		s = 0;
 	}
 
-	av_seek_frame (_format_context, _video_stream, s, AVSEEK_FLAG_BACKWARD);
+	av_seek_frame (_format_context, _video_stream, s, 0);
 
 	avcodec_flush_buffers (video_codec_context());
 	if (audio_codec_context ()) {
