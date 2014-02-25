@@ -193,7 +193,7 @@ msgstr "No se pudo crear la carpeta remota %1 (%2)"
 #: src/lib/job.cc:94
 #, fuzzy
 msgid "Could not open %1"
-msgstr "no se pudo abrir el fichero para lectura"
+msgstr "no se pudo abrir el fichero %1"
 
 #: src/lib/scp_dcp_job.cc:176
 msgid "Could not open %1 to send"
@@ -619,7 +619,7 @@ msgstr "no se pudo abrir el fichero para lectura"
 #: src/lib/exceptions.cc:29
 #, fuzzy
 msgid "could not open file %1"
-msgstr "no se pudo abrir el fichero para lectura"
+msgstr "no se pudo abrir el fichero %1"
 
 #: src/lib/dcp_video_frame.cc:357
 msgid "could not open file for reading"
