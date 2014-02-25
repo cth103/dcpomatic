@@ -136,9 +136,8 @@ FFmpegDecoder::flush ()
 	
 	if (_ffmpeg_content->audio_stream() && _decode_audio) {
 		decode_audio_packet ();
+		AudioDecoder::flush ();
 	}
-
-	AudioDecoder::flush ();
 }
 
 bool
@@ -391,7 +390,9 @@ void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
 	Decoder::seek (time, accurate);
-	AudioDecoder::seek (time, accurate);
+	if (_decode_audio) {
+		AudioDecoder::seek (time, accurate);
+	}
 	
 	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
 	   a number plucked from the air) earlier than we want to end up.  The loop below

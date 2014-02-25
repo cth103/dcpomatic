@@ -25,7 +25,9 @@
 
 using std::stringstream;
 using std::string;
+using std::cout;
 using boost::shared_ptr;
+using boost::lexical_cast;
 
 SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
@@ -37,6 +39,7 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
+	, _length (node->number_child<DCPTime> ("Length"))
 {
 
 }
@@ -69,11 +72,14 @@ SubRipContent::information () const
 }
 	
 void
-SubRipContent::as_xml (xmlpp::Node* node)
+SubRipContent::as_xml (xmlpp::Node* node) const
 {
+	LocaleGuard lg;
+	
 	node->add_child("Type")->add_child_text ("SubRip");
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
+	node->add_child("Length")->add_child_text (lexical_cast<string> (_length));
 }
 
 DCPTime

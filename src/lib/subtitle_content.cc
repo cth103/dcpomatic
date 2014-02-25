@@ -26,6 +26,7 @@
 
 using std::string;
 using std::vector;
+using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
