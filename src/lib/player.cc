@@ -405,7 +405,6 @@ Player::flush ()
 	while (_audio && _audio_position < _video_position) {
 		emit_silence (_video_position - _audio_position);
 	}
-	
 }
 
 /** Seek so that the next pass() will yield (approximately) the requested frame.
