@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/writer.h
+ *  @brief Writer class.
+ */
+
 #include <list>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
@@ -66,6 +70,17 @@ public:
 
 bool operator< (QueueItem const & a, QueueItem const & b);
 bool operator== (QueueItem const & a, QueueItem const & b);
+
+/** @class Writer
+ *  @brief Class to manage writing JPEG2000 and audio data to MXFs on disk.
+ *
+ *  This class creates sound and picture MXFs, then takes EncodedData
+ *  or AudioBuffers objects (containing image or sound data respectively)
+ *  and writes them to the MXFs.
+ *
+ *  ::write() for EncodedData can be called out of order, and the Writer
+ *  will sort it out.  write() for AudioBuffers must be called in order.
+ */
 
 class Writer : public ExceptionStore, public boost::noncopyable
 {
