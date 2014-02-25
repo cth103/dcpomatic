@@ -173,6 +173,18 @@ Player::pass ()
 	shared_ptr<DecodedImageSubtitle> dis = dynamic_pointer_cast<DecodedImageSubtitle> (earliest_decoded);
 	shared_ptr<DecodedTextSubtitle> dts = dynamic_pointer_cast<DecodedTextSubtitle> (earliest_decoded);
 
+#if 0	
+	if (dv) {
+		cout << "Video @ " << dv->dcp_time << " " << (double(dv->dcp_time) / TIME_HZ) << ".\n";
+	} else if (da) {
+		cout << "Audio.\n";
+	} else if (dis) {
+		cout << "Image sub.\n";
+	} else if (dts) {
+		cout << "Text sub.\n";
+	}
+#endif	
+	
 	/* Will be set to false if we shouldn't consume the peeked DecodedThing */
 	bool consume = true;
 

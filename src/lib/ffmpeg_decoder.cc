@@ -374,6 +374,9 @@ FFmpegDecoder::seek_and_flush (ContentTime t)
 
 	/* Ridiculous empirical hack */
 	s--;
+	if (s < 0) {
+		s = 0;
+	}
 
 	av_seek_frame (_format_context, _video_stream, s, AVSEEK_FLAG_BACKWARD);
 
