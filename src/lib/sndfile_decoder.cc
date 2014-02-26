@@ -18,6 +18,10 @@
 */
 
 #include <iostream>
+#ifdef DCPOMATIC_WINDOWS
+#include <windows.h>
+#define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
+#endif
 #include <sndfile.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
@@ -40,7 +44,14 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const Film> f, shared_ptr<const Sndfi
 	, _deinterleave_buffer (0)
 {
 	_info.format = 0;
+
+	/* Here be monsters.  See fopen_boost for similar shenanigans */
+#ifdef DCPOMATIC_WINDOWS
+	_sndfile = sf_wchar_open (_sndfile_content->path(0).c_str(), SFM_READ, &_info);
+#else	
 	_sndfile = sf_open (_sndfile_content->path(0).string().c_str(), SFM_READ, &_info);
+#endif
+	
 	if (!_sndfile) {
 		throw DecodeError (_("could not open audio file for reading"));
 	}
