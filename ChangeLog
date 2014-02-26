@@ -1,5 +1,7 @@
 2014-02-26  Carl Hetherington  <cth@carlh.net>
 
+	* Fix missing RMS audio analysis plots in some cases.
+
 	* Fix failure to load sound files with
 	non-ASCII paths.
 

@@ -23,6 +23,8 @@
 #include "lib/util.h"
 #include "lib/audio_analysis.h"
 
+class Metrics;
+
 class AudioPlot : public wxPanel
 {
 public:
@@ -39,6 +41,9 @@ public:
 
 private:
 	void paint ();
+	void plot_peak (wxGraphicsPath &, int, Metrics const &) const;
+	void plot_rms (wxGraphicsPath &, int, Metrics const &) const;
+	float y_for_linear (float, Metrics const &) const;
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_AUDIO_CHANNELS];
@@ -47,16 +52,6 @@ private:
 	float _gain;
 	int _smoothing;
 	std::vector<wxColour> _colours;
-
-	void plot_peak (wxGraphicsPath &, int) const;
-	void plot_rms (wxGraphicsPath &, int) const;
-	float y_for_linear (float) const;
-
-	double _db_label_width;
-	int _height;
-	int _y_origin;
-	float _x_scale;
-	float _y_scale;
 
 	wxString _message;
 
