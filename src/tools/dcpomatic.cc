@@ -81,6 +81,8 @@ static wxMenu* jobs_menu = 0;
 
 static void set_menu_sensitivity ();
 
+// #define DCPOMATIC_WINDOWS_CONSOLE 1
+
 class FilmChangedDialog
 {
 public:
@@ -255,7 +257,7 @@ public:
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
 	{
-#ifdef DCPOMATIC_WINDOWS_CONSOLE		
+#if defined(DCPOMATIC_WINDOWS) && defined(DCPOMATIC_WINDOWS_CONSOLE)
                 AllocConsole();
 		
 		HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
