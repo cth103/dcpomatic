@@ -58,7 +58,7 @@ Timecode::Timecode (wxWindow* parent)
 	_seconds = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_seconds->SetMaxLength (2);
 	editable_sizer->Add (_seconds);
-	add_label_to_sizer (editable_sizer, _editable, wxT ("."), false);
+	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
 	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_frames->SetMaxLength (2);
 	editable_sizer->Add (_frames);
