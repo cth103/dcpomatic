@@ -147,7 +147,7 @@ SndfileContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
-	AudioFrame const len = audio_length() * output_audio_frame_rate() / content_audio_frame_rate ();
+	AudioFrame const len = divide_with_round (audio_length() * output_audio_frame_rate(), content_audio_frame_rate ());
 	
 	/* XXX: this depends on whether, alongside this audio, we are running video slower or faster than
 	   it should be.  The calculation above works out the output audio frames assuming that we are just

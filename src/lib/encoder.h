@@ -37,6 +37,7 @@ extern "C" {
 }
 #include "util.h"
 #include "config.h"
+#include "cross.h"
 
 class Image;
 class AudioBuffers;
@@ -113,6 +114,7 @@ private:
 	boost::condition _condition;
 
 	boost::shared_ptr<Writer> _writer;
+	Waker _waker;
 };
 
 #endif

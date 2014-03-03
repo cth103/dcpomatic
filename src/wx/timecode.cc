@@ -58,7 +58,7 @@ Timecode::Timecode (wxWindow* parent)
 	_seconds = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_seconds->SetMaxLength (2);
 	editable_sizer->Add (_seconds);
-	add_label_to_sizer (editable_sizer, _editable, wxT ("."), false);
+	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
 	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
 	_frames->SetMaxLength (2);
 	editable_sizer->Add (_frames);
@@ -91,7 +91,7 @@ Timecode::set (DCPTime t, int fps)
 	t -= m * 60 * TIME_HZ;
 	int const s = t / TIME_HZ;
 	t -= s * TIME_HZ;
-	int const f = t * fps / TIME_HZ;
+	int const f = divide_with_round (t * fps, TIME_HZ);
 
 	checked_set (_hours, lexical_cast<string> (h));
 	checked_set (_minutes, lexical_cast<string> (m));

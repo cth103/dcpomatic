@@ -17,7 +17,13 @@
 
 */
 
+#ifndef DCPOMATIC_CROSS_H
+#define DCPOMATIC_CROSS_H
+
 #include <boost/filesystem.hpp>
+#ifdef DCPOMATIC_OSX
+#include <IOKit/pwr_mgt/IOPMLib.h>
+#endif
 
 #ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
@@ -35,4 +41,23 @@ extern boost::filesystem::path app_contents ();
 #endif
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
-void kick ();
+
+/** A class which tries to keep the computer awake on various operating systems.
+ *  Create a Waker to prevent sleep, and call ::nudge every so often (every minute or so).
+ *  Destroy the Waker to allow sleep again.
+ */
+class Waker
+{
+public:
+	Waker ();
+	~Waker ();
+
+	void nudge ();
+
+private:
+#ifdef DCPOMATIC_OSX
+	IOPMAssertionID _assertion_id;
+#endif
+};
+
+#endif

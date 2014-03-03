@@ -906,25 +906,25 @@ Film::playlist_changed ()
 AudioFrame
 Film::time_to_audio_frames (DCPTime t) const
 {
-	return t * audio_frame_rate () / TIME_HZ;
+	return divide_with_round (t * audio_frame_rate (), TIME_HZ);
 }
 
 VideoFrame
 Film::time_to_video_frames (DCPTime t) const
 {
-	return t * video_frame_rate () / TIME_HZ;
+	return divide_with_round (t * video_frame_rate (), TIME_HZ);
 }
 
 DCPTime
 Film::audio_frames_to_time (AudioFrame f) const
 {
-	return f * TIME_HZ / audio_frame_rate ();
+	return divide_with_round (f * TIME_HZ, audio_frame_rate ());
 }
 
 DCPTime
 Film::video_frames_to_time (VideoFrame f) const
 {
-	return f * TIME_HZ / video_frame_rate ();
+	return divide_with_round (f * TIME_HZ, video_frame_rate ());
 }
 
 AudioFrame

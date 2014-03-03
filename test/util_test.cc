@@ -25,7 +25,7 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (util_test)
+BOOST_AUTO_TEST_CASE (split_at_spaces_considering_quotes_test)
 {
 	string t = "Hello this is a string \"with quotes\" and indeed without them";
 	vector<string> b = split_at_spaces_considering_quotes (t);
@@ -66,4 +66,18 @@ BOOST_AUTO_TEST_CASE (time_round_up_test)
 	BOOST_CHECK_EQUAL (time_round_up (1, 42), 42);
 	BOOST_CHECK_EQUAL (time_round_up (42, 42), 42);
 	BOOST_CHECK_EQUAL (time_round_up (43, 42), 84);
+}
+
+
+BOOST_AUTO_TEST_CASE (divide_with_round_test)
+{
+	BOOST_CHECK_EQUAL (divide_with_round (0, 4), 0);
+	BOOST_CHECK_EQUAL (divide_with_round (1, 4), 0);
+	BOOST_CHECK_EQUAL (divide_with_round (2, 4), 1);
+	BOOST_CHECK_EQUAL (divide_with_round (3, 4), 1);
+	BOOST_CHECK_EQUAL (divide_with_round (4, 4), 1);
+	BOOST_CHECK_EQUAL (divide_with_round (5, 4), 1);
+	BOOST_CHECK_EQUAL (divide_with_round (6, 4), 2);
+
+	BOOST_CHECK_EQUAL (divide_with_round (1000, 500), 2);
 }

@@ -1,3 +1,9 @@
+2014-03-03  Carl Hetherington  <cth@carlh.net>
+
+	* Fix rounding of timecodes in at least some cases (#323).
+
+	* Try to prevent OS X from sleeping during DCP encode.
+
 2014-02-26  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.64.17 released.
