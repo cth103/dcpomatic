@@ -34,6 +34,7 @@
 #ifdef DCPOMATIC_OSX
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
+#include <IOKit/pwr_mgt/IOPMLib.h>
 #endif
 #ifdef DCPOMATIC_POSIX
 #include <sys/types.h>
@@ -300,9 +301,23 @@ dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
 }
 
 void
-kick ()
+Waker::nudge ()
 {
 #ifdef DCPOMATIC_WINDOWS
 	SetThreadExecutionState (ES_CONTINUOUS);
+#endif	
+}
+
+Waker::Waker ()
+{
+#ifdef DCPOMATIC_OSX	
+        IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
+#endif	
+}
+
+Waker::~Waker ()
+{
+#ifdef DCPOMATIC_OSX	
+	IOPMAssertionRelease (_assertion_id);
 #endif	
 }
