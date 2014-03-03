@@ -1016,3 +1016,13 @@ entities_to_text (string e)
 	boost::algorithm::replace_all (e, "%2F", "/");
 	return e;
 }
+
+int64_t
+divide_with_round (int64_t a, int64_t b)
+{
+	if (a % b >= (b / 2)) {
+		return (a + b - 1) / b;
+	} else {
+		return a / b;
+	}
+}

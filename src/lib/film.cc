@@ -900,25 +900,25 @@ Film::playlist_changed ()
 OutputAudioFrame
 Film::time_to_audio_frames (Time t) const
 {
-	return t * audio_frame_rate () / TIME_HZ;
+	return divide_with_round (t * audio_frame_rate (), TIME_HZ);
 }
 
 OutputVideoFrame
 Film::time_to_video_frames (Time t) const
 {
-	return t * video_frame_rate () / TIME_HZ;
+	return divide_with_round (t * video_frame_rate (), TIME_HZ);
 }
 
 Time
 Film::audio_frames_to_time (OutputAudioFrame f) const
 {
-	return f * TIME_HZ / audio_frame_rate ();
+	return divide_with_round (f * TIME_HZ, audio_frame_rate ());
 }
 
 Time
 Film::video_frames_to_time (OutputVideoFrame f) const
 {
-	return f * TIME_HZ / video_frame_rate ();
+	return divide_with_round (f * TIME_HZ, video_frame_rate ());
 }
 
 OutputAudioFrame

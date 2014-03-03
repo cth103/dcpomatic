@@ -91,7 +91,7 @@ Timecode::set (Time t, int fps)
 	t -= m * 60 * TIME_HZ;
 	int const s = t / TIME_HZ;
 	t -= s * TIME_HZ;
-	int const f = t * fps / TIME_HZ;
+	int const f = divide_with_round (t * fps, TIME_HZ);
 
 	checked_set (_hours, lexical_cast<string> (h));
 	checked_set (_minutes, lexical_cast<string> (m));
