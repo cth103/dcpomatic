@@ -38,9 +38,9 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence_video (false);
 	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	contentA->set_ratio (Ratio::from_id ("185"));
+	contentA->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	contentB->set_ratio (Ratio::from_id ("185"));
+	contentB->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);

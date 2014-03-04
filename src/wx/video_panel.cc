@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
 */
 
 #include <wx/spinctrl.h>
-#include "lib/ratio.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/ratio.h"
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"
@@ -41,29 +41,26 @@ using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 
-static Ratio const *
-index_to_ratio (int n)
+static VideoContentScale
+index_to_scale (int n)
 {
+	vector<VideoContentScale> scales = VideoContentScale::all ();
 	assert (n >= 0);
-	
-	vector<Ratio const *> ratios = Ratio::all ();
-	if (n >= int (ratios.size ())) {
-		return 0;
-	}
-
-	return ratios[n];
+	assert (n < int (scales.size ()));
+	return scales[n];
 }
 
 static int
-ratio_to_index (Ratio const * r)
+scale_to_index (VideoContentScale scale)
 {
-	vector<Ratio const *> ratios = Ratio::all ();
-	size_t i = 0;
-	while (i < ratios.size() && ratios[i] != r) {
-		++i;
+	vector<VideoContentScale> scales = VideoContentScale::all ();
+	for (size_t i = 0; i < scales.size(); ++i) {
+		if (scales[i] == scale) {
+			return i;
+		}
 	}
 
-	return i;
+	assert (false);
 }
 
 VideoPanel::VideoPanel (FilmEditor* e)
@@ -132,16 +129,16 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
-	_ratio = new ContentChoice<VideoContent, Ratio const *> (
+	_scale = new ContentChoice<VideoContent, VideoContentScale> (
 		this,
 		new wxChoice (this, wxID_ANY),
-		VideoContentProperty::VIDEO_RATIO,
-		boost::mem_fn (&VideoContent::ratio),
-		boost::mem_fn (&VideoContent::set_ratio),
-		&index_to_ratio,
-		&ratio_to_index
+		VideoContentProperty::VIDEO_SCALE,
+		boost::mem_fn (&VideoContent::scale),
+		boost::mem_fn (&VideoContent::set_scale),
+		&index_to_scale,
+		&scale_to_index
 		);
-	_ratio->add (grid, wxGBPosition (r, 1));
+	_scale->add (grid, wxGBPosition (r, 1));
 	++r;
 
 	{
@@ -190,12 +187,11 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_right_crop->wrapped()->SetRange (0, 1024);
 	_bottom_crop->wrapped()->SetRange (0, 1024);
 
-	vector<Ratio const *> ratios = Ratio::all ();
-	_ratio->wrapped()->Clear ();
-	for (vector<Ratio const *>::iterator i = ratios.begin(); i != ratios.end(); ++i) {
-		_ratio->wrapped()->Append (std_to_wx ((*i)->nickname ()));
+	vector<VideoContentScale> scales = VideoContentScale::all ();
+	_scale->wrapped()->Clear ();
+	for (vector<VideoContentScale>::iterator i = scales.begin(); i != scales.end(); ++i) {
+		_scale->wrapped()->Append (std_to_wx (i->name ()));
 	}
-	_ratio->wrapped()->Append (_("No stretch"));
 
 	_frame_type->wrapped()->Append (_("2D"));
 	_frame_type->wrapped()->Append (_("3D left/right"));
@@ -234,7 +230,7 @@ VideoPanel::film_content_changed (int property)
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
 		setup_description ();
-	} else if (property == VideoContentProperty::VIDEO_RATIO) {
+	} else if (property == VideoContentProperty::VIDEO_SCALE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
@@ -309,19 +305,17 @@ VideoPanel::setup_description ()
 		++lines;
 	}
 
-	Ratio const * ratio = vcs->ratio ();
-	dcp::Size container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
-	float const ratio_value = ratio ? ratio->ratio() : vcs->video_size_after_crop().ratio ();
+	dcp::Size const container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
+	dcp::Size const scaled = vcs->scale().size (vcs, container_size);
 
-	/* We have a specified ratio to scale to */
-	dcp::Size const scaled = fit_ratio_within (ratio_value, container_size);
-	
-	d << wxString::Format (
-		_("Scaled to %dx%d (%.2f:1)\n"),
-		scaled.width, scaled.height,
-		scaled.ratio ()
-		);
-	++lines;
+	if (scaled != vcs->video_size_after_crop ()) {
+		d << wxString::Format (
+			_("Scaled to %dx%d (%.2f:1)\n"),
+			scaled.width, scaled.height,
+			scaled.ratio ()
+			);
+		++lines;
+	}
 	
 	if (scaled != container_size) {
 		d << wxString::Format (
@@ -374,7 +368,7 @@ VideoPanel::content_selection_changed ()
 	_top_crop->set_content (sel);
 	_bottom_crop->set_content (sel);
 	_frame_type->set_content (sel);
-	_ratio->set_content (sel);
+	_scale->set_content (sel);
 
 	/* Things that are only allowed with single selections */
 	_filters_button->Enable (single);

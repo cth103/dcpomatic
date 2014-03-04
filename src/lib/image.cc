@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,9 +33,12 @@ extern "C" {
 #include "scaler.h"
 #include "timer.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::min;
 using std::cout;
+using std::cerr;
 using boost::shared_ptr;
 using dcp::Size;
 
@@ -89,26 +92,38 @@ Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, S
 	*/
 	assert (aligned ());
 
+	assert (out_size.width >= inter_size.width);
+	assert (out_size.height >= inter_size.height);
+
+	/* Here's an image of out_size */
 	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned));
 	out->make_black ();
-	
-	dcp::Size cropped_size = crop.apply (size ());
 
+	/* Size of the image after any crop */
+	dcp::Size const cropped_size = crop.apply (size ());
+
+	/* Scale context for a scale from cropped_size to inter_size */
 	struct SwsContext* scale_context = sws_getContext (
 			cropped_size.width, cropped_size.height, pixel_format(),
 			inter_size.width, inter_size.height, out_format,
 			scaler->ffmpeg_id (), 0, 0, 0
 		);
 
+	if (!scale_context) {
+		throw StringError (N_("Could not allocate SwsContext"));
+	}
+
+	/* Prepare input data pointers with crop */
 	uint8_t* scale_in_data[components()];
 	for (int c = 0; c < components(); ++c) {
 		scale_in_data[c] = data()[c] + int (rint (bytes_per_pixel(c) * crop.left)) + stride()[c] * (crop.top / line_factor(c));
 	}
 
+	/* Corner of the image within out_size */
 	Position<int> const corner ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2);
 
-	uint8_t* scale_out_data[components()];
-	for (int c = 0; c < components(); ++c) {
+	uint8_t* scale_out_data[out->components()];
+	for (int c = 0; c < out->components(); ++c) {
 		scale_out_data[c] = out->data()[c] + int (rint (out->bytes_per_pixel(c) * corner.x)) + out->stride()[c] * corner.y;
 	}
 

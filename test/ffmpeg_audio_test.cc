@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_test");
 	film->set_name ("ffmpeg_audio_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/staircase.mov"));
-	c->set_ratio (Ratio::from_id ("185"));
+	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();

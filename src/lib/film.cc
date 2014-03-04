@@ -85,8 +85,10 @@ using dcp::Signer;
  * AudioMapping XML changed.
  * 6 -> 7
  * Subtitle offset changed to subtitle y offset, and subtitle x offset added.
+ * 7 -> 8
+ * Use <Scale> tag in <VideoContent> rather than <Ratio>.
  */
-int const Film::current_state_version = 7;
+int const Film::current_state_version = 8;
 
 /** Construct a Film object in a given directory.
  *

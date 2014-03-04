@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path 
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
 	: Content (f, node)
-	, VideoContent (f, node)
+	, VideoContent (f, node, version)
 	, AudioContent (f, node)
 	, SubtitleContent (f, node, version)
 {

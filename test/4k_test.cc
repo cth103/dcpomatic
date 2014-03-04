@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 	shared_ptr<Film> film = new_test_film ("4k_test");
 	film->set_name ("4k_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
-	c->set_ratio (Ratio::from_id ("185"));
+	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->set_resolution (RESOLUTION_4K);
 	film->set_dcp_content_type (DCPContentType::from_dci_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));

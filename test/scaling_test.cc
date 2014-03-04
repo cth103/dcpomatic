@@ -33,7 +33,7 @@ using boost::shared_ptr;
 
 static void scaling_test_for (shared_ptr<Film> film, shared_ptr<VideoContent> content, string image, string container)
 {
-	content->set_ratio (Ratio::from_id (image));
+	content->set_scale (VideoContentScale (Ratio::from_id (image)));
 	film->set_container (Ratio::from_id (container));
 	film->make_dcp ();
 
