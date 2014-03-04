@@ -155,7 +155,7 @@ main (int argc, char* argv[])
 			shared_ptr<Content> c = content_factory (film, argv[i]);
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
 			if (vc) {
-				vc->set_ratio (content_ratio);
+				vc->set_scale (VideoContentScale (content_ratio));
 			}
 			film->examine_and_add_content (c);
 		}

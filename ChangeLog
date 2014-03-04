@@ -1,3 +1,7 @@
+2014-03-04  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to disable all scaling of the input video.
+
 2014-03-03  Carl Hetherington  <cth@carlh.net>
 
 	* Fix rounding of timecodes in at least some cases (#323).

@@ -273,8 +273,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	}
 
 	Time const time = content->position() + relative_time + extra - content->trim_start ();
-	float const ratio = content->ratio() ? content->ratio()->ratio() : content->video_size_after_crop().ratio();
-	libdcp::Size const image_size = fit_ratio_within (ratio, _video_container_size);
+	libdcp::Size const image_size = content->scale().size (content, _video_container_size);
 
 	shared_ptr<PlayerImage> pi (
 		new PlayerImage (
@@ -537,7 +536,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		Changed (frequent);
 
 	} else if (
-		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_RATIO ||
+		property == VideoContentProperty::VIDEO_CROP || property == VideoContentProperty::VIDEO_SCALE ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE
 		) {
 		

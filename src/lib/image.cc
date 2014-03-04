@@ -32,9 +32,12 @@ extern "C" {
 #include "exceptions.h"
 #include "scaler.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::min;
 using std::cout;
+using std::cerr;
 using boost::shared_ptr;
 using libdcp::Size;
 
@@ -88,26 +91,38 @@ Image::crop_scale_window (Crop crop, libdcp::Size inter_size, libdcp::Size out_s
 	*/
 	assert (aligned ());
 
+	assert (out_size.width >= inter_size.width);
+	assert (out_size.height >= inter_size.height);
+
+	/* Here's an image of out_size */
 	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned));
 	out->make_black ();
-	
-	libdcp::Size cropped_size = crop.apply (size ());
 
+	/* Size of the image after any crop */
+	libdcp::Size const cropped_size = crop.apply (size ());
+
+	/* Scale context for a scale from cropped_size to inter_size */
 	struct SwsContext* scale_context = sws_getContext (
 		cropped_size.width, cropped_size.height, pixel_format(),
 		inter_size.width, inter_size.height, out_format,
 		scaler->ffmpeg_id (), 0, 0, 0
 		);
 
+	if (!scale_context) {
+		throw StringError (N_("Could not allocate SwsContext"));
+	}
+
+	/* Prepare input data pointers with crop */
 	uint8_t* scale_in_data[components()];
 	for (int c = 0; c < components(); ++c) {
 		scale_in_data[c] = data()[c] + int (rint (bytes_per_pixel(c) * crop.left)) + stride()[c] * (crop.top / line_factor(c));
 	}
 
+	/* Corner of the image within out_size */
 	Position<int> const corner ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2);
 
-	uint8_t* scale_out_data[components()];
-	for (int c = 0; c < components(); ++c) {
+	uint8_t* scale_out_data[out->components()];
+	for (int c = 0; c < out->components(); ++c) {
 		scale_out_data[c] = out->data()[c] + int (rint (out->bytes_per_pixel(c) * corner.x)) + out->stride()[c] * corner.y;
 	}
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 #include <libdcp/colour_matrix.h>
 #include "video_content.h"
 #include "video_examiner.h"
-#include "ratio.h"
 #include "compose.hpp"
+#include "ratio.h"
 #include "config.h"
 #include "colour_conversion.h"
 #include "util.h"
@@ -36,7 +36,7 @@ int const VideoContentProperty::VIDEO_SIZE	  = 0;
 int const VideoContentProperty::VIDEO_FRAME_RATE  = 1;
 int const VideoContentProperty::VIDEO_FRAME_TYPE  = 2;
 int const VideoContentProperty::VIDEO_CROP	  = 3;
-int const VideoContentProperty::VIDEO_RATIO	  = 4;
+int const VideoContentProperty::VIDEO_SCALE	  = 4;
 int const VideoContentProperty::COLOUR_CONVERSION = 5;
 
 using std::string;
@@ -49,12 +49,14 @@ using boost::lexical_cast;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
+vector<VideoContentScale> VideoContentScale::_scales;
+
 VideoContent::VideoContent (shared_ptr<const Film> f)
 	: Content (f)
 	, _video_length (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _ratio (Ratio::from_id ("185"))
+	, _scale (Ratio::from_id ("185"))
 {
 	setup_default_colour_conversion ();
 }
@@ -64,7 +66,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Fram
 	, _video_length (len)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _ratio (Ratio::from_id ("185"))
+	, _scale (Ratio::from_id ("185"))
 {
 	setup_default_colour_conversion ();
 }
@@ -74,14 +76,13 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_length (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _ratio (Ratio::from_id ("185"))
+	, _scale (Ratio::from_id ("185"))
 {
 	setup_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
 	: Content (f, node)
-	, _ratio (0)
 {
 	_video_length = node->number_child<VideoContent::Frame> ("VideoLength");
 	_video_size.width = node->number_child<int> ("VideoWidth");
@@ -92,10 +93,16 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	_crop.right = node->number_child<int> ("RightCrop");
 	_crop.top = node->number_child<int> ("TopCrop");
 	_crop.bottom = node->number_child<int> ("BottomCrop");
-	optional<string> r = node->optional_string_child ("Ratio");
-	if (r) {
-		_ratio = Ratio::from_id (r.get ());
+
+	if (version <= 7) {
+		optional<string> r = node->optional_string_child ("Ratio");
+		if (r) {
+			_scale = VideoContentScale (Ratio::from_id (r.get ()));
+		}
+	} else {
+		_scale = VideoContentScale (node->node_child ("Scale"));
 	}
+	
 	_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
 }
 
@@ -125,8 +132,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 			throw JoinError (_("Content to be joined must have the same crop."));
 		}
 
-		if (vc->ratio() != ref->ratio()) {
-			throw JoinError (_("Content to be joined must have the same ratio."));
+		if (vc->scale() != ref->scale()) {
+			throw JoinError (_("Content to be joined must have the same scale setting."));
 		}
 
 		if (vc->colour_conversion() != ref->colour_conversion()) {
@@ -140,7 +147,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 	_video_frame_rate = ref->video_frame_rate ();
 	_video_frame_type = ref->video_frame_type ();
 	_crop = ref->crop ();
-	_ratio = ref->ratio ();
+	_scale = ref->scale ();
 	_colour_conversion = ref->colour_conversion ();
 }
 
@@ -157,9 +164,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
 	node->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
 	node->add_child("BottomCrop")->add_child_text (boost::lexical_cast<string> (_crop.bottom));
-	if (_ratio) {
-		node->add_child("Ratio")->add_child_text (_ratio->id ());
-	}
+	_scale.as_xml (node->add_child("Scale"));
 	_colour_conversion.as_xml (node->add_child("ColourConversion"));
 }
 
@@ -268,18 +273,18 @@ VideoContent::set_bottom_crop (int c)
 }
 
 void
-VideoContent::set_ratio (Ratio const * r)
+VideoContent::set_scale (VideoContentScale s)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		if (_ratio == r) {
+		if (_scale == s) {
 			return;
 		}
 
-		_ratio = r;
+		_scale = s;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_RATIO);
+	signal_changed (VideoContentProperty::VIDEO_SCALE);
 }
 
 /** @return string which includes everything about how this content looks */
@@ -292,11 +297,8 @@ VideoContent::identifier () const
 	  << "_" << crop().right
 	  << "_" << crop().top
 	  << "_" << crop().bottom
+	  << "_" << scale().id()
 	  << "_" << colour_conversion().identifier ();
-
-	if (ratio()) {
-		s << "_" << ratio()->id ();
-	}
 
 	return s.str ();
 }
@@ -368,4 +370,114 @@ VideoContent::time_to_content_video_frames (Time t) const
 	   the source's rate.
 	*/
 	return t * film->video_frame_rate() / (frc.factor() * TIME_HZ);
+}
+
+VideoContentScale::VideoContentScale (Ratio const * r)
+	: _ratio (r)
+	, _scale (true)
+{
+
+}
+
+VideoContentScale::VideoContentScale ()
+	: _ratio (0)
+	, _scale (false)
+{
+
+}
+
+VideoContentScale::VideoContentScale (bool scale)
+	: _ratio (0)
+	, _scale (scale)
+{
+
+}
+
+VideoContentScale::VideoContentScale (shared_ptr<cxml::Node> node)
+	: _ratio (0)
+	, _scale (true)
+{
+	optional<string> r = node->optional_string_child ("Ratio");
+	if (r) {
+		_ratio = Ratio::from_id (r.get ());
+	} else {
+		_scale = node->bool_child ("Scale");
+	}
+}
+
+void
+VideoContentScale::as_xml (xmlpp::Node* node) const
+{
+	if (_ratio) {
+		node->add_child("Ratio")->add_child_text (_ratio->id ());
+	} else {
+		node->add_child("Scale")->add_child_text (_scale ? "1" : "0");
+	}
+}
+
+string
+VideoContentScale::id () const
+{
+	stringstream s;
+	
+	if (_ratio) {
+		s << _ratio->id () << "_";
+	} else {
+		s << (_scale ? "S1" : "S0");
+	}
+	
+	return s.str ();
+}
+
+string
+VideoContentScale::name () const
+{
+	if (_ratio) {
+		return _ratio->nickname ();
+	}
+
+	if (_scale) {
+		return _("No stretch");
+	}
+
+	return _("No scale");
+}
+
+libdcp::Size
+VideoContentScale::size (shared_ptr<const VideoContent> c, libdcp::Size container) const
+{
+	if (_ratio) {
+		return fit_ratio_within (_ratio->ratio (), container);
+	}
+
+	/* Force scale if the container is smaller than the content's image */
+	if (_scale || container.width < c->video_size().width || container.height < c->video_size().height) {
+		return fit_ratio_within (c->video_size().ratio (), container);
+	}
+
+	return c->video_size ();
+}
+
+void
+VideoContentScale::setup_scales ()
+{
+	vector<Ratio const *> ratios = Ratio::all ();
+	for (vector<Ratio const *>::const_iterator i = ratios.begin(); i != ratios.end(); ++i) {
+		_scales.push_back (VideoContentScale (*i));
+	}
+
+	_scales.push_back (VideoContentScale (true));
+	_scales.push_back (VideoContentScale (false));
+}
+
+bool
+operator== (VideoContentScale const & a, VideoContentScale const & b)
+{
+	return (a.ratio() == b.ratio() && a.scale() == b.scale());
+}
+
+bool
+operator!= (VideoContentScale const & a, VideoContentScale const & b)
+{
+	return (a.ratio() != b.ratio() || a.scale() != b.scale());
 }

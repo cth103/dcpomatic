@@ -41,12 +41,12 @@ private:
 
 	void setup_description ();
 
-	ContentChoice<VideoContent, VideoFrameType>* _frame_type;
-	ContentSpinCtrl<VideoContent>*               _left_crop;
-	ContentSpinCtrl<VideoContent>*               _right_crop;
-	ContentSpinCtrl<VideoContent>*               _top_crop;
-	ContentSpinCtrl<VideoContent>*               _bottom_crop;
-	ContentChoice<VideoContent, Ratio const *>*  _ratio;
+	ContentChoice<VideoContent, VideoFrameType>*    _frame_type;
+	ContentSpinCtrl<VideoContent>*                  _left_crop;
+	ContentSpinCtrl<VideoContent>*                  _right_crop;
+	ContentSpinCtrl<VideoContent>*                  _top_crop;
+	ContentSpinCtrl<VideoContent>*                  _bottom_crop;
+	ContentChoice<VideoContent, VideoContentScale>* _scale;
 	wxStaticText* _description;
 	wxStaticText* _filters;
 	wxButton* _filters_button;

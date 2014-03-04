@@ -33,9 +33,45 @@ public:
 	static int const VIDEO_FRAME_RATE;
 	static int const VIDEO_FRAME_TYPE;
 	static int const VIDEO_CROP;
-	static int const VIDEO_RATIO;
+	static int const VIDEO_SCALE;
 	static int const COLOUR_CONVERSION;
 };
+
+class VideoContentScale
+{
+public:
+	VideoContentScale ();
+	VideoContentScale (Ratio const *);
+	VideoContentScale (bool);
+	VideoContentScale (boost::shared_ptr<cxml::Node>);
+
+	libdcp::Size size (boost::shared_ptr<const VideoContent>, libdcp::Size) const;
+	std::string id () const;
+	std::string name () const;
+	void as_xml (xmlpp::Node *) const;
+
+	Ratio const * ratio () const {
+		return _ratio;
+	}
+
+	bool scale () const {
+		return _scale;
+	}
+
+	static void setup_scales ();
+	static std::vector<VideoContentScale> all () {
+		return _scales;
+	}
+
+private:
+	Ratio const * _ratio;
+	bool _scale;
+
+	static std::vector<VideoContentScale> _scales;
+};
+
+bool operator== (VideoContentScale const & a, VideoContentScale const & b);
+bool operator!= (VideoContentScale const & a, VideoContentScale const & b);
 
 class VideoContent : public virtual Content
 {
@@ -45,7 +81,7 @@ public:
 	VideoContent (boost::shared_ptr<const Film>);
 	VideoContent (boost::shared_ptr<const Film>, Time, VideoContent::Frame);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int);
 	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
@@ -75,8 +111,9 @@ public:
 	void set_top_crop (int);
 	void set_bottom_crop (int);
 
+	void set_scale (VideoContentScale);
 	void set_colour_conversion (ColourConversion);
-
+	
 	VideoFrameType video_frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_type;
@@ -106,13 +143,11 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _crop.bottom;
 	}
-	
-	void set_ratio (Ratio const *);
 
-	/** @return ratio to scale to, or 0 if the content's own ratio should be preserved. */
-	Ratio const * ratio () const {
+	/** @return Description of how to scale this content (if indeed it should be scaled) */
+	VideoContentScale scale () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _ratio;
+		return _scale;
 	}
 
 	ColourConversion colour_conversion () const {
@@ -142,7 +177,7 @@ private:
 	libdcp::Size _video_size;
 	VideoFrameType _video_frame_type;
 	Crop _crop;
-	Ratio const * _ratio;
+	VideoContentScale _scale;
 	ColourConversion _colour_conversion;
 };
 

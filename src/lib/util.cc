@@ -70,6 +70,7 @@ extern "C" {
 #include "ratio.h"
 #include "job.h"
 #include "cross.h"
+#include "video_content.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -345,6 +346,7 @@ dcpomatic_setup ()
 	libdcp::init ();
 	
 	Ratio::setup_ratios ();
+	VideoContentScale::setup_scales ();
 	DCPContentType::setup_dcp_content_types ();
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();
