@@ -41,6 +41,7 @@
 #include "config.h"
 #include "job.h"
 #include "cross.h"
+#include "audio_buffers.h"
 
 #include "i18n.h"
 
@@ -294,7 +295,7 @@ try
 			if (_film->length()) {
 				shared_ptr<Job> job = _job.lock ();
 				assert (job);
-				int total = _film->time_to_video_frames (_film->length ());
+				int64_t total = _film->length().frames (_film->video_frame_rate ());
 				if (_film->three_d ()) {
 					/* _full_written and so on are incremented for each eye, so we need to double the total
 					   frames to get the correct progress.

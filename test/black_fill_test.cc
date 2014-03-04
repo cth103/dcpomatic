@@ -46,10 +46,10 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	film->examine_and_add_content (contentB);
 	wait_for_jobs ();
 
-	contentA->set_video_length (3);
-	contentA->set_position (film->video_frames_to_time (2));
-	contentB->set_video_length (1);
-	contentB->set_position (film->video_frames_to_time (7));
+	contentA->set_video_length (ContentTime::from_frames (3, 24));
+	contentA->set_position (DCPTime::from_frames (2, film->video_frame_rate ()));
+	contentB->set_video_length (ContentTime::from_frames (1, 24));
+	contentB->set_position (DCPTime::from_frames (7, film->video_frame_rate ()));
 
 	film->make_dcp ();
 

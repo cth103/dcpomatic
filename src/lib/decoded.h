@@ -31,13 +31,23 @@ class Decoded
 {
 public:
 	Decoded ()
-		: dcp_time (0)
+		: content_time (0)
+		, dcp_time (0)
+	{}
+
+	Decoded (ContentTime t)
+		: content_time (t)
+		, dcp_time (0)
 	{}
 
 	virtual ~Decoded () {}
 
-	virtual void set_dcp_times (VideoFrame, AudioFrame, FrameRateChange, DCPTime) = 0;
+	virtual void set_dcp_times (FrameRateChange frc, DCPTime offset)
+	{
+		dcp_time = DCPTime (content_time, frc) + offset;
+	}
 
+	ContentTime content_time;
 	DCPTime dcp_time;
 };
 
@@ -48,98 +58,85 @@ public:
 	DecodedVideo ()
 		: eyes (EYES_BOTH)
 		, same (false)
-		, frame (0)
 	{}
 
-	DecodedVideo (boost::shared_ptr<const Image> im, Eyes e, bool s, VideoFrame f)
-		: image (im)
+	DecodedVideo (ContentTime t, boost::shared_ptr<const Image> im, Eyes e, bool s)
+		: Decoded (t)
+		, image (im)
 		, eyes (e)
 		, same (s)
-		, frame (f)
 	{}
 
-	void set_dcp_times (VideoFrame video_frame_rate, AudioFrame, FrameRateChange frc, DCPTime offset)
-	{
-		dcp_time = frame * TIME_HZ * frc.factor() / video_frame_rate + offset;
-	}
-	
 	boost::shared_ptr<const Image> image;
 	Eyes eyes;
 	bool same;
-	VideoFrame frame;
 };
 
 class DecodedAudio : public Decoded
 {
 public:
-	DecodedAudio (boost::shared_ptr<const AudioBuffers> d, AudioFrame f)
-		: data (d)
-		, frame (f)
+	DecodedAudio (ContentTime t, boost::shared_ptr<const AudioBuffers> d)
+		: Decoded (t)
+		, data (d)
 	{}
-
-	void set_dcp_times (VideoFrame, AudioFrame audio_frame_rate, FrameRateChange, DCPTime offset)
-	{
-		dcp_time = frame * TIME_HZ / audio_frame_rate + offset;
-	}
 	
 	boost::shared_ptr<const AudioBuffers> data;
-	AudioFrame frame;
 };
 
 class DecodedImageSubtitle : public Decoded
 {
 public:
 	DecodedImageSubtitle ()
-		: content_time (0)
-		, content_time_to (0)
+		: content_time_to (0)
 		, dcp_time_to (0)
 	{}
 
-	DecodedImageSubtitle (boost::shared_ptr<Image> im, dcpomatic::Rect<double> r, ContentTime f, ContentTime t)
-		: image (im)
-		, rect (r)
-		, content_time (f)
+	DecodedImageSubtitle (ContentTime f, ContentTime t, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+		: Decoded (f)
 		, content_time_to (t)
 		, dcp_time_to (0)
+		, image (im)
+		, rect (r)
 	{}
 
-	void set_dcp_times (VideoFrame, AudioFrame, FrameRateChange frc, DCPTime offset)
+	void set_dcp_times (FrameRateChange frc, DCPTime offset)
 	{
-		dcp_time = rint (content_time / frc.speed_up) + offset;
-		dcp_time_to = rint (content_time_to / frc.speed_up) + offset;
+		Decoded::set_dcp_times (frc, offset);
+		dcp_time_to = DCPTime (content_time_to, frc) + offset;
 	}
 
-	boost::shared_ptr<Image> image;
-	dcpomatic::Rect<double> rect;
-	ContentTime content_time;
 	ContentTime content_time_to;
 	DCPTime dcp_time_to;
+	boost::shared_ptr<Image> image;
+	dcpomatic::Rect<double> rect;
 };
 
 class DecodedTextSubtitle : public Decoded
 {
 public:
 	DecodedTextSubtitle ()
-		: dcp_time_to (0)
+		: content_time_to (0)
+		, dcp_time_to (0)
 	{}
 
+	/* Assuming that all subs are at the same time */
 	DecodedTextSubtitle (std::list<dcp::SubtitleString> s)
-		: subs (s)
-	{}
-
-	void set_dcp_times (VideoFrame, AudioFrame, FrameRateChange frc, DCPTime offset)
+		: Decoded (ContentTime::from_seconds (subs.front().in().to_ticks() * 4 / 1000.0))
+		, content_time_to (ContentTime::from_seconds (subs.front().out().to_ticks() * 4 / 1000.0))
+		, subs (s)
 	{
-		if (subs.empty ()) {
-			return;
-		}
-
-		/* Assuming that all subs are at the same time */
-		dcp_time = rint (subs.front().in().to_ticks() * 4 * TIME_HZ / frc.speed_up) + offset;
-		dcp_time_to = rint (subs.front().out().to_ticks() * 4 * TIME_HZ / frc.speed_up) + offset;
+		
 	}
 
-	std::list<dcp::SubtitleString> subs;
+	void set_dcp_times (FrameRateChange frc, DCPTime offset)
+	{
+		Decoded::set_dcp_times (frc, offset);
+		dcp_time_to = DCPTime (content_time_to, frc) + offset;
+	}
+
+	ContentTime content_time_to;
 	DCPTime dcp_time_to;
+	std::list<dcp::SubtitleString> subs;
 };
 
 #endif

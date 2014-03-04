@@ -873,7 +873,7 @@ Film::has_subtitles () const
 	return _playlist->has_subtitles ();
 }
 
-VideoFrame
+int
 Film::best_video_frame_rate () const
 {
 	return _playlist->best_dcp_frame_rate ();
@@ -903,31 +903,7 @@ Film::playlist_changed ()
 	signal_changed (CONTENT);
 }	
 
-AudioFrame
-Film::time_to_audio_frames (DCPTime t) const
-{
-	return divide_with_round (t * audio_frame_rate (), TIME_HZ);
-}
-
-VideoFrame
-Film::time_to_video_frames (DCPTime t) const
-{
-	return divide_with_round (t * video_frame_rate (), TIME_HZ);
-}
-
-DCPTime
-Film::audio_frames_to_time (AudioFrame f) const
-{
-	return divide_with_round (f * TIME_HZ, audio_frame_rate ());
-}
-
-DCPTime
-Film::video_frames_to_time (VideoFrame f) const
-{
-	return divide_with_round (f * TIME_HZ, video_frame_rate ());
-}
-
-AudioFrame
+int
 Film::audio_frame_rate () const
 {
 	/* XXX */
@@ -1006,7 +982,7 @@ Film::make_kdms (
 uint64_t
 Film::required_disk_space () const
 {
-	return uint64_t (j2k_bandwidth() / 8) * length() / TIME_HZ;
+	return uint64_t (j2k_bandwidth() / 8) * length().seconds();
 }
 
 /** This method checks the disk that the Film is on and tries to decide whether or not

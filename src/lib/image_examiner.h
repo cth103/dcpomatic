@@ -32,7 +32,7 @@ public:
 
 	float video_frame_rate () const;
 	dcp::Size video_size () const;
-	VideoFrame video_length () const {
+	ContentTime video_length () const {
 		return _video_length;
 	}
 
@@ -40,5 +40,5 @@ private:
 	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::optional<dcp::Size> _video_size;
-	VideoFrame _video_length;
+	ContentTime _video_length;
 };

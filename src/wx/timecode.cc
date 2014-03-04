@@ -85,13 +85,13 @@ Timecode::Timecode (wxWindow* parent)
 void
 Timecode::set (DCPTime t, int fps)
 {
-	int const h = t / (3600 * TIME_HZ);
-	t -= h * 3600 * TIME_HZ;
-	int const m = t / (60 * TIME_HZ);
-	t -= m * 60 * TIME_HZ;
-	int const s = t / TIME_HZ;
-	t -= s * TIME_HZ;
-	int const f = divide_with_round (t * fps, TIME_HZ);
+	int const h = t.seconds() / 3600;
+	t -= DCPTime::from_seconds (h * 3600);
+	int const m = t.seconds() / 60;
+	t -= DCPTime::from_seconds (m * 60);
+	int const s = t.seconds();
+	t -= DCPTime::from_seconds (s);
+	int const f = rint (t.seconds() * fps);
 
 	checked_set (_hours, lexical_cast<string> (h));
 	checked_set (_minutes, lexical_cast<string> (m));
@@ -104,15 +104,15 @@ Timecode::set (DCPTime t, int fps)
 DCPTime
 Timecode::get (int fps) const
 {
-	DCPTime t = 0;
+	DCPTime t;
 	string const h = wx_to_std (_hours->GetValue ());
-	t += lexical_cast<int> (h.empty() ? "0" : h) * 3600 * TIME_HZ;
+	t += DCPTime::from_seconds (lexical_cast<int> (h.empty() ? "0" : h) * 3600);
 	string const m = wx_to_std (_minutes->GetValue());
-	t += lexical_cast<int> (m.empty() ? "0" : m) * 60 * TIME_HZ;
+	t += DCPTime::from_seconds (lexical_cast<int> (m.empty() ? "0" : m) * 60);
 	string const s = wx_to_std (_seconds->GetValue());
-	t += lexical_cast<int> (s.empty() ? "0" : s) * TIME_HZ;
+	t += DCPTime::from_seconds (lexical_cast<int> (s.empty() ? "0" : s));
 	string const f = wx_to_std (_frames->GetValue());
-	t += lexical_cast<int> (f.empty() ? "0" : f) * TIME_HZ / fps;
+	t += DCPTime::from_seconds (lexical_cast<double> (f.empty() ? "0" : f) / fps);
 
 	return t;
 }

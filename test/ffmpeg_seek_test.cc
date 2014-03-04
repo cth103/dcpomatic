@@ -62,7 +62,7 @@ static string
 print_time (DCPTime t, float fps)
 {
 	stringstream s;
-	s << t << " " << (float(t) / TIME_HZ) << "s " << (float(t) * fps / TIME_HZ) << "f";
+	s << t << " " << t.seconds() << "s " << t.frames (fps) << "f";
 	return s.str ();
 }
 
@@ -90,8 +90,8 @@ check (shared_ptr<Player> p, DCPTime t)
 	BOOST_CHECK (first_video.get() >= t);
 	BOOST_CHECK (first_audio.get() >= t);
 	/* And should be rounded to frame boundaries */
-	BOOST_CHECK ((first_video.get() % (TIME_HZ / film->video_frame_rate())) == 0);
-	BOOST_CHECK ((first_audio.get() % (TIME_HZ / film->audio_frame_rate())) == 0);
+	BOOST_CHECK (first_video.get() == first_video.get().round_up (film->video_frame_rate()));
+	BOOST_CHECK (first_audio.get() == first_audio.get().round_up (film->audio_frame_rate()));
 }
 
 /* Test basic seeking */
@@ -110,8 +110,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_seek_test)
 	player->Video.connect (boost::bind (&process_video, _1, _2, _3, _4, _5));
 	player->Audio.connect (boost::bind (&process_audio, _1, _2));
 
-	check (player, 0);
-	check (player, 0.1 * TIME_HZ);
-	check (player, 0.2 * TIME_HZ);
-	check (player, 0.3 * TIME_HZ);
+	check (player, DCPTime::from_seconds (0));
+	check (player, DCPTime::from_seconds (0.1));
+	check (player, DCPTime::from_seconds (0.2));
+	check (player, DCPTime::from_seconds (0.3));
 }

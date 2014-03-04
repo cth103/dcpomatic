@@ -51,7 +51,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	_encoded->Finished.connect (boost::bind (&PropertiesDialog::layout, this));
 	_table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
 
-	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->time_to_video_frames (_film->length()))));
+	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length().frames (_film->video_frame_rate ()))));
 	double const disk = double (_film->required_disk_space()) / 1073741824.0f;
 	stringstream s;
 	s << fixed << setprecision (1) << disk << wx_to_std (_("Gb"));
@@ -88,7 +88,7 @@ PropertiesDialog::frames_already_encoded () const
 	
 	if (_film->length()) {
 		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << (_film->encoded_frames() * 100 / _film->time_to_video_frames (_film->length())) << "%)";
+		u << " (" << (_film->encoded_frames() * 100 / _film->length().frames (_film->video_frame_rate ())) << "%)";
 	}
 	return u.str ();
 }

@@ -47,11 +47,11 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 
 	FFmpegDecoder decoder (film, content, true, false);
 	shared_ptr<DecodedVideo> a = dynamic_pointer_cast<DecodedVideo> (decoder.peek ());
-	decoder.seek (0, true);
+	decoder.seek (ContentTime(), true);
 	shared_ptr<DecodedVideo> b = dynamic_pointer_cast<DecodedVideo> (decoder.peek ());
 
 	/* a will be after no seek, and b after a seek to zero, which should
 	   have the same effect.
 	*/
-	BOOST_CHECK_EQUAL (a->frame, b->frame);
+	BOOST_CHECK_EQUAL (a->content_time, b->content_time);
 }

@@ -81,48 +81,8 @@ extern boost::shared_ptr<const dcp::Signer> make_signer ();
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 extern std::string entities_to_text (std::string e);
 extern std::map<std::string, std::string> split_get_request (std::string url);
-
-struct FrameRateChange
-{
-	FrameRateChange (float, int);
-
-	/** @return factor by which to multiply a source frame rate
-	    to get the effective rate after any skip or repeat has happened.
-	*/
-	float factor () const {
-		if (skip) {
-			return 0.5;
-		}
-
-		return repeat;
-	}
-
-	/** true to skip every other frame */
-	bool skip;
-	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */
-	int repeat;
-	/** true if this DCP will run its video faster or slower than the source
-	 *  without taking into account `repeat' nor `skip'.
-	 *  (e.g. change_speed will be true if
-	 *	    source is 29.97fps, DCP is 30fps
-	 *	    source is 14.50fps, DCP is 30fps
-	 *  but not if
-	 *	    source is 15.00fps, DCP is 30fps
-	 *	    source is 12.50fps, DCP is 25fps)
-	 */
-	bool change_speed;
-
-	/** Amount by which the video is being sped-up in the DCP; e.g. for a
-	 *  24fps source in a 25fps DCP this would be 25/24.
-	 */
-	float speed_up;
-
-	std::string description;
-};
-
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
-extern DCPTime time_round_up (DCPTime, DCPTime);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);
@@ -170,8 +130,6 @@ private:
 	boost::asio::ip::tcp::acceptor* _acceptor;
 	int _timeout;
 };
-
-extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
 
 class LocaleGuard
 {

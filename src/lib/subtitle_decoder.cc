@@ -37,7 +37,7 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
 void
 SubtitleDecoder::image_subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, ContentTime from, ContentTime to)
 {
-	_pending.push_back (shared_ptr<DecodedImageSubtitle> (new DecodedImageSubtitle (image, rect, from, to)));
+	_pending.push_back (shared_ptr<DecodedImageSubtitle> (new DecodedImageSubtitle (from, to, image, rect)));
 }
 
 void

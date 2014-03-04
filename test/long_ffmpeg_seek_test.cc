@@ -54,7 +54,7 @@ static string
 print_time (DCPTime t, float fps)
 {
 	stringstream s;
-	s << t << " " << (float(t) / TIME_HZ) << "s " << (float(t) * fps / TIME_HZ) << "f";
+	s << t << " " << t.seconds() << "s " << t.frames(fps) << "f";
 	return s.str ();
 }
 
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (long_ffmpeg_seek_test)
 	player->Audio.connect (boost::bind (&process_audio, _1, _2));
 
 	for (float i = 0; i < 10; i += 0.1) {
-		check (player, i * TIME_HZ);
+		check (player, DCPTime::from_seconds (i));
 	}
 }
 

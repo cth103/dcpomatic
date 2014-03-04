@@ -126,18 +126,18 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 ContentTime
 SubRip::convert_time (string t)
 {
-	ContentTime r = 0;
+	ContentTime r;
 
 	vector<string> a;
 	boost::algorithm::split (a, t, boost::is_any_of (":"));
 	assert (a.size() == 3);
-	r += lexical_cast<int> (a[0]) * 60 * 60 * TIME_HZ;
-	r += lexical_cast<int> (a[1]) * 60 * TIME_HZ;
+	r += ContentTime::from_seconds (lexical_cast<int> (a[0]) * 60 * 60);
+	r += ContentTime::from_seconds (lexical_cast<int> (a[1]) * 60);
 
 	vector<string> b;
 	boost::algorithm::split (b, a[2], boost::is_any_of (","));
-	r += lexical_cast<int> (b[0]) * TIME_HZ;
-	r += lexical_cast<int> (b[1]) * TIME_HZ / 1000;
+	r += ContentTime::from_seconds (lexical_cast<int> (b[0]));
+	r += ContentTime::from_seconds (lexical_cast<float> (b[1]) / 1000);
 
 	return r;
 }
@@ -229,7 +229,7 @@ ContentTime
 SubRip::length () const
 {
 	if (_subtitles.empty ()) {
-		return 0;
+		return ContentTime ();
 	}
 
 	return _subtitles.back().to;

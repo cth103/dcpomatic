@@ -60,12 +60,11 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	if (!_audio_position) {
 		shared_ptr<const Film> film = _film.lock ();
 		assert (film);
-		FrameRateChange frc = film->active_frame_rate_change (_audio_content->position ());
-		_audio_position = (double (time) / frc.speed_up) * film->audio_frame_rate() / TIME_HZ;
+		_audio_position = time;
 	}
 
-	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (data, _audio_position.get ())));
-	_audio_position = _audio_position.get() + data->frames ();
+	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (_audio_position.get (), data)));
+	_audio_position = _audio_position.get() + ContentTime (data->frames (), _audio_content->output_audio_frame_rate ());
 }
 
 void
@@ -77,8 +76,8 @@ AudioDecoder::flush ()
 
 	shared_ptr<const AudioBuffers> b = _resampler->flush ();
 	if (b) {
-		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (b, _audio_position.get ())));
-		_audio_position = _audio_position.get() + b->frames ();
+		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (_audio_position.get (), b)));
+		_audio_position = _audio_position.get() + ContentTime (b->frames (), _audio_content->output_audio_frame_rate ());
 	}
 }
 

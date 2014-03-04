@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,33 +17,19 @@
 
 */
 
-#include "job.h"
-#include "audio_analysis.h"
-#include "types.h"
 #include "dcpomatic_time.h"
 
-class AudioBuffers;
-class AudioContent;
-
-class AnalyseAudioJob : public Job
+ContentTime::ContentTime (DCPTime d, FrameRateChange f)
+	: Time (rint (d.get() * f.speed_up))
 {
-public:
-	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<AudioContent>);
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+}
 
-private:
-	void audio (boost::shared_ptr<const AudioBuffers>, DCPTime);
+DCPTime min (DCPTime a, DCPTime b)
+{
+	if (a < b) {
+		return a;
+	}
 
-	boost::weak_ptr<AudioContent> _content;
-	int64_t _done;
-	int64_t _samples_per_point;
-	std::vector<AudioPoint> _current;
-
-	boost::shared_ptr<AudioAnalysis> _analysis;
-
-	static const int _num_points;
-};
-
+	return b;
+}

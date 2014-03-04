@@ -149,7 +149,7 @@ private:
 	void do_seek (DCPTime, bool);
 	void flush ();
 	void emit_black ();
-	void emit_silence (AudioFrame);
+	void emit_silence (DCPTime);
 	void film_changed (Film::Property);
 	void update_subtitle_from_image ();
 	void update_subtitle_from_text ();
@@ -172,7 +172,7 @@ private:
 	/** The time after the last audio that we emitted */
 	DCPTime _audio_position;
 
-	AudioMerger<DCPTime, AudioFrame> _audio_merger;
+	AudioMerger _audio_merger;
 
 	dcp::Size _video_container_size;
 	boost::shared_ptr<PlayerImage> _black_frame;

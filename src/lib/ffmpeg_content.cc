@@ -163,9 +163,8 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 
-	VideoFrame video_length = 0;
-	video_length = examiner->video_length ();
-	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length));
+	ContentTime video_length = examiner->video_length ();
+	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ())));
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -228,7 +227,7 @@ FFmpegContent::technical_summary () const
 string
 FFmpegContent::information () const
 {
-	if (video_length() == 0 || video_frame_rate() == 0) {
+	if (video_length() == ContentTime (0) || video_frame_rate() == ContentTime (0)) {
 		return "";
 	}
 	
@@ -262,19 +261,17 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
-AudioFrame
+ContentTime
 FFmpegContent::audio_length () const
 {
-	int const cafr = content_audio_frame_rate ();
-	int const vfr  = video_frame_rate ();
-	VideoFrame const vl = video_length ();
-
-	boost::mutex::scoped_lock lm (_mutex);
-	if (!_audio_stream) {
-		return 0;
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (!_audio_stream) {
+			return ContentTime ();
+		}
 	}
-	
-	return video_frames_to_audio_frames (vl, cafr, vfr);
+
+	return video_length();
 }
 
 int
@@ -421,9 +418,7 @@ FFmpegContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	
-	FrameRateChange frc (video_frame_rate (), film->video_frame_rate ());
-	return video_length() * frc.factor() * TIME_HZ / film->video_frame_rate ();
+	return DCPTime (video_length(), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
 }
 
 AudioMapping

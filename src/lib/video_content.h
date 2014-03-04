@@ -43,7 +43,7 @@ public:
 	typedef int Frame;
 
 	VideoContent (boost::shared_ptr<const Film>);
-	VideoContent (boost::shared_ptr<const Film>, DCPTime, VideoFrame);
+	VideoContent (boost::shared_ptr<const Film>, DCPTime, ContentTime);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
 	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
@@ -53,7 +53,7 @@ public:
 	virtual std::string information () const;
 	virtual std::string identifier () const;
 
-	VideoFrame video_length () const {
+	ContentTime video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;
 	}
@@ -123,12 +123,12 @@ public:
 	dcp::Size video_size_after_3d_split () const;
 	dcp::Size video_size_after_crop () const;
 
-	VideoFrame time_to_content_video_frames (DCPTime) const;
+	ContentTime dcp_time_to_content_time (DCPTime) const;
 
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
-	VideoFrame _video_length;
+	ContentTime _video_length;
 	float _video_frame_rate;
 
 private:

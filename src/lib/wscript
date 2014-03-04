@@ -8,6 +8,7 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc
+          audio_merger.cc
           cinema.cc
           colour_conversion.cc
           config.cc
@@ -17,6 +18,7 @@ sources = """
           dci_metadata.cc
           dcp_content_type.cc
           dcp_video_frame.cc
+          dcpomatic_time.cc
           decoder.cc
           dolby_cp750.cc
           encoder.cc
@@ -30,6 +32,7 @@ sources = """
           ffmpeg_examiner.cc
           film.cc
           filter.cc
+          frame_rate_change.cc
           image.cc
           image_content.cc
           image_decoder.cc

@@ -29,12 +29,12 @@ class Film;
 class View;
 class ContentView;
 class FilmEditor;
-class DCPTimeAxisView;
+class TimeAxisView;
 
-class DCPTimeline : public wxPanel
+class Timeline : public wxPanel
 {
 public:
-	DCPTimeline (wxWindow *, FilmEditor *, boost::shared_ptr<Film>);
+	Timeline (wxWindow *, FilmEditor *, boost::shared_ptr<Film>);
 
 	boost::shared_ptr<const Film> film () const;
 
@@ -52,8 +52,8 @@ public:
 		return 48;
 	}
 
-	double pixels_per_time_unit () const {
-		return _pixels_per_time_unit;
+	double pixels_per_second () const {
+		return _pixels_per_second;
 	}
 
 	Position<int> tracks_position () const {
@@ -62,7 +62,7 @@ public:
 
 	int tracks () const;
 
-	void setup_pixels_per_time_unit ();
+	void setup_pixels_per_second ();
 
 	void set_snap (bool s) {
 		_snap = s;
@@ -94,9 +94,9 @@ private:
 	FilmEditor* _film_editor;
 	boost::weak_ptr<Film> _film;
 	ViewList _views;
-	boost::shared_ptr<DCPTimeAxisView> _time_axis_view;
+	boost::shared_ptr<TimeAxisView> _time_axis_view;
 	int _tracks;
-	double _pixels_per_time_unit;
+	double _pixels_per_second;
 	bool _left_down;
 	wxPoint _down_point;
 	boost::shared_ptr<ContentView> _down_view;

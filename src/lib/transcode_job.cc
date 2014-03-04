@@ -103,6 +103,7 @@ TranscodeJob::status () const
 	return s.str ();
 }
 
+/** @return Approximate remaining time in seconds */
 int
 TranscodeJob::remaining_time () const
 {
@@ -120,6 +121,5 @@ TranscodeJob::remaining_time () const
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	VideoFrame const left = _film->time_to_video_frames (_film->length ()) - t->video_frames_out();
-	return left / fps;
+	return (_film->length().frames (_film->video_frame_rate ()) - t->video_frames_out()) / fps;
 }

@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 
 	wait_for_jobs ();
 	
-	imc->set_video_length (1);
+	imc->set_video_length (ContentTime::from_frames (1, 24));
 
 	scaling_test_for (film, imc, "133", "185");
 	scaling_test_for (film, imc, "185", "185");

@@ -83,9 +83,9 @@ Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
 		_paths.push_back ((*i)->content ());
 	}
 	_digest = node->string_child ("Digest");
-	_position = node->number_child<DCPTime> ("Position");
-	_trim_start = node->number_child<DCPTime> ("TrimStart");
-	_trim_end = node->number_child<DCPTime> ("TrimEnd");
+	_position = DCPTime (node->number_child<double> ("Position"));
+	_trim_start = DCPTime (node->number_child<double> ("TrimStart"));
+	_trim_end = DCPTime (node->number_child<double> ("TrimEnd"));
 }
 
 Content::Content (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -119,9 +119,9 @@ Content::as_xml (xmlpp::Node* node) const
 		node->add_child("Path")->add_child_text (i->string ());
 	}
 	node->add_child("Digest")->add_child_text (_digest);
-	node->add_child("Position")->add_child_text (lexical_cast<string> (_position));
-	node->add_child("TrimStart")->add_child_text (lexical_cast<string> (_trim_start));
-	node->add_child("TrimEnd")->add_child_text (lexical_cast<string> (_trim_end));
+	node->add_child("Position")->add_child_text (lexical_cast<string> (_position.get ()));
+	node->add_child("TrimStart")->add_child_text (lexical_cast<string> (_trim_start.get ()));
+	node->add_child("TrimEnd")->add_child_text (lexical_cast<string> (_trim_end.get ()));
 }
 
 void

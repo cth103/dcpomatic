@@ -22,6 +22,7 @@
 #include "player.h"
 #include "film.h"
 #include "ffmpeg_decoder.h"
+#include "audio_buffers.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
 #include "image_content.h"
@@ -72,7 +73,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _have_valid_pieces (false)
 	, _video_position (0)
 	, _audio_position (0)
-	, _audio_merger (f->audio_channels(), bind (&Film::time_to_audio_frames, f.get(), _1), bind (&Film::audio_frames_to_time, f.get(), _1))
+	, _audio_merger (f->audio_channels(), f->audio_frame_rate ())
 	, _last_emit_was_black (false)
 	, _just_did_inaccurate_seek (false)
 	, _approximate_size (false)
@@ -106,8 +107,8 @@ Player::pass ()
 
 	shared_ptr<Piece> earliest_piece;
 	shared_ptr<Decoded> earliest_decoded;
-	DCPTime earliest_time = TIME_MAX;
-	DCPTime earliest_audio = TIME_MAX;
+	DCPTime earliest_time = DCPTime::max ();
+	DCPTime earliest_audio = DCPTime::max ();
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
 
@@ -123,7 +124,7 @@ Player::pass ()
 			}
 
 
-			dec->set_dcp_times (_film->video_frame_rate(), _film->audio_frame_rate(), (*i)->frc, offset);
+			dec->set_dcp_times ((*i)->frc, offset);
 			DCPTime const t = dec->dcp_time - offset;
 			cout << "Peeked " << (*i)->content->paths()[0] << " for " << t << " cf " << ((*i)->content->full_length() - (*i)->content->trim_end ()) << "\n";
 			if (t >= ((*i)->content->full_length() - (*i)->content->trim_end ())) {
@@ -159,13 +160,16 @@ Player::pass ()
 		return true;
 	}
 
-	if (earliest_audio != TIME_MAX) {
-		TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (max (int64_t (0), earliest_audio));
+	if (earliest_audio != DCPTime::max ()) {
+		if (earliest_audio.get() < 0) {
+			earliest_audio = DCPTime ();
+		}
+		TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (earliest_audio);
 		Audio (tb.audio, tb.time);
-		/* This assumes that the audio_frames_to_time conversion is exact
+		/* This assumes that the audio-frames-to-time conversion is exact
 		   so that there are no accumulated errors caused by rounding.
 		*/
-		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
+		_audio_position += DCPTime::from_frames (tb.audio->frames(), _film->audio_frame_rate ());
 	}
 
 	/* Emit the earliest thing */
@@ -175,16 +179,6 @@ Player::pass ()
 	shared_ptr<DecodedImageSubtitle> dis = dynamic_pointer_cast<DecodedImageSubtitle> (earliest_decoded);
 	shared_ptr<DecodedTextSubtitle> dts = dynamic_pointer_cast<DecodedTextSubtitle> (earliest_decoded);
 
-	if (dv) {
-		cout << "Video @ " << dv->dcp_time << " " << (double(dv->dcp_time) / TIME_HZ) << ".\n";
-	} else if (da) {
-		cout << "Audio.\n";
-	} else if (dis) {
-		cout << "Image sub.\n";
-	} else if (dts) {
-		cout << "Text sub.\n";
-	}
-	
 	/* Will be set to false if we shouldn't consume the peeked DecodedThing */
 	bool consume = true;
 
@@ -327,10 +321,10 @@ Player::step_video_position (shared_ptr<DecodedVideo> video)
 {
 	/* This is a bit of a hack; don't update _video_position if EYES_RIGHT is on its way */
 	if (video->eyes != EYES_LEFT) {
-		/* This assumes that the video_frames_to_time conversion is exact
+		/* This assumes that the video-frames-to-time conversion is exact
 		   so that there are no accumulated errors caused by rounding.
 		*/
-		_video_position += _film->video_frames_to_time (1);
+		_video_position += DCPTime::from_frames (1, _film->video_frame_rate ());
 	}
 }
 
@@ -372,9 +366,9 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 	audio->data = dcp_mapped;
 
 	/* Delay */
-	audio->dcp_time += content->audio_delay() * TIME_HZ / 1000;
-	if (audio->dcp_time < 0) {
-		int const frames = - audio->dcp_time * _film->audio_frame_rate() / TIME_HZ;
+	audio->dcp_time += DCPTime::from_seconds (content->audio_delay() / 1000.0);
+	if (audio->dcp_time < DCPTime (0)) {
+		int const frames = - audio->dcp_time.frames (_film->audio_frame_rate());
 		if (frames >= audio->data->frames ()) {
 			return;
 		}
@@ -383,7 +377,7 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 		trimmed->copy_from (audio->data.get(), audio->data->frames() - frames, frames, 0);
 
 		audio->data = trimmed;
-		audio->dcp_time = 0;
+		audio->dcp_time = DCPTime ();
 	}
 
 	_audio_merger.push (audio->data, audio->dcp_time);
@@ -395,7 +389,7 @@ Player::flush ()
 	TimedAudioBuffers<DCPTime> tb = _audio_merger.flush ();
 	if (_audio && tb.audio) {
 		Audio (tb.audio, tb.time);
-		_audio_position += _film->audio_frames_to_time (tb.audio->frames ());
+		_audio_position += DCPTime::from_frames (tb.audio->frames (), _film->audio_frame_rate ());
 	}
 
 	while (_video && _video_position < _audio_position) {
@@ -429,15 +423,14 @@ Player::seek (DCPTime t, bool accurate)
 		s = min ((*i)->content->length_after_trim(), s);
 
 		/* Convert this to the content time */
-		ContentTime ct = (s + (*i)->content->trim_start()) * (*i)->frc.speed_up;
+		ContentTime ct (s + (*i)->content->trim_start(), (*i)->frc);
 
 		/* And seek the decoder */
-		cout << "seek " << (*i)->content->paths()[0] << " to " << ct << "\n";
 		(*i)->decoder->seek (ct, accurate);
 	}
 
-	_video_position = time_round_up (t, TIME_HZ / _film->video_frame_rate());
-	_audio_position = time_round_up (t, TIME_HZ / _film->audio_frame_rate());
+	_video_position = t.round_up (_film->video_frame_rate());
+	_audio_position = t.round_up (_film->audio_frame_rate());
 
 	_audio_merger.clear (_audio_position);
 
@@ -470,7 +463,7 @@ Player::setup_pieces ()
 		optional<FrameRateChange> frc;
 
 		/* Work out a FrameRateChange for the best overlap video for this content, in case we need it below */
-		DCPTime best_overlap_t = 0;
+		DCPTime best_overlap_t;
 		shared_ptr<VideoContent> best_overlap;
 		for (ContentList::iterator j = content.begin(); j != content.end(); ++j) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*j);
@@ -532,7 +525,7 @@ Player::setup_pieces ()
 			frc = best_overlap_frc;
 		}
 
-		ContentTime st = (*i)->trim_start() * frc->speed_up;
+		ContentTime st ((*i)->trim_start(), frc.get ());
 		decoder->seek (st, true);
 		
 		_pieces.push_back (shared_ptr<Piece> (new Piece (*i, decoder, frc.get ())));
@@ -543,7 +536,8 @@ Player::setup_pieces ()
 	/* The Piece for the _last_incoming_video will no longer be valid */
 	_last_incoming_video.video.reset ();
 
-	_video_position = _audio_position = 0;
+	_video_position = DCPTime ();
+	_audio_position = DCPTime ();
 }
 
 void
@@ -621,7 +615,7 @@ Player::emit_black ()
 #endif
 
 	Video (_black_frame, EYES_BOTH, ColourConversion(), _last_emit_was_black, _video_position);
-	_video_position += _film->video_frames_to_time (1);
+	_video_position += DCPTime::from_frames (1, _film->video_frame_rate ());
 	_last_emit_was_black = true;
 }
 
@@ -632,8 +626,8 @@ Player::emit_silence (DCPTime most)
 		return;
 	}
 	
-	DCPTime t = min (most, TIME_HZ / 2);
-	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), t * _film->audio_frame_rate() / TIME_HZ));
+	DCPTime t = min (most, DCPTime::from_seconds (0.5));
+	shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), t.frames (_film->audio_frame_rate())));
 	silence->make_silent ();
 	Audio (silence, _audio_position);
 	

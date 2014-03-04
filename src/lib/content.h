@@ -27,6 +27,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <libxml++/libxml++.h>
 #include "types.h"
+#include "dcpomatic_time.h"
 
 namespace cxml {
 	class Node;
@@ -120,7 +121,7 @@ public:
 	}
 	
 	DCPTime end () const {
-		return position() + length_after_trim() - 1;
+		return position() + length_after_trim();
 	}
 
 	DCPTime length_after_trim () const;

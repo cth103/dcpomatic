@@ -317,9 +317,7 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 			int finished = 0;
 			r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 			if (r >= 0 && finished) {
-				last_video = rint (
-					(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * TIME_HZ
-					);
+				last_video = ContentTime::from_seconds (av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset);
 			}
 
 		} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, _packet.stream_index)) {
@@ -329,9 +327,7 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 				int finished;
 				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &finished, &_packet);
 				if (r >= 0 && finished) {
-					last_audio = rint (
-						(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * TIME_HZ
-						);
+					last_audio = ContentTime::from_seconds (av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset);
 				}
 					
 				copy_packet.data += r;
@@ -360,19 +356,13 @@ FFmpegDecoder::seek_final_finished (int n, int done) const
 void
 FFmpegDecoder::seek_and_flush (ContentTime t)
 {
-	int64_t s = ((double (t) / TIME_HZ) - _pts_offset) /
-		av_q2d (_format_context->streams[_video_stream]->time_base);
+	int64_t s = (t.seconds() - _pts_offset) / av_q2d (_format_context->streams[_video_stream]->time_base);
 
 	if (_ffmpeg_content->audio_stream ()) {
 		s = min (
-			s, int64_t (
-				((double (t) / TIME_HZ) - _pts_offset) /
-				av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base)
-				)
+			s, int64_t ((t.seconds() - _pts_offset) / av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base))
 			);
 	}
-
-	cout << "S&F " << t << "\n";
 
 	/* Ridiculous empirical hack */
 	s--;
@@ -404,10 +394,10 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	   will hopefully then step through to where we want to be.
 	*/
 
-	ContentTime pre_roll = accurate ? (0.2 * TIME_HZ) : 0;
+	ContentTime pre_roll = accurate ? ContentTime::from_seconds (0.2) : ContentTime (0);
 	ContentTime initial_seek = time - pre_roll;
-	if (initial_seek < 0) {
-		initial_seek = 0;
+	if (initial_seek < ContentTime (0)) {
+		initial_seek = ContentTime (0);
 	}
 
 	/* Initial seek time in the video stream's timebase */
@@ -449,11 +439,11 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
-			ContentTime const ct = (
+			ContentTime const ct = ContentTime::from_seconds (
 				av_frame_get_best_effort_timestamp (_frame) *
 				av_q2d (_ffmpeg_content->audio_stream()->stream (_format_context)->time_base)
 				+ _pts_offset
-				) * TIME_HZ;
+				);
 			
 			int const data_size = av_samples_get_buffer_size (
 				0, audio_codec_context()->channels, _frame->nb_samples, audio_sample_format (), 1
@@ -508,9 +498,7 @@ FFmpegDecoder::decode_video_packet ()
 		}
 		
 		if (i->second != AV_NOPTS_VALUE) {
-			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset;
-			VideoFrame const f = rint (pts * _ffmpeg_content->video_frame_rate ());
-			video (image, false, f);
+			video (image, false, ContentTime::from_seconds (i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset));
 		} else {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);
@@ -560,7 +548,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	   indicate that the previous subtitle should stop.
 	*/
 	if (sub.num_rects <= 0) {
-		image_subtitle (shared_ptr<Image> (), dcpomatic::Rect<double> (), 0, 0);
+		image_subtitle (shared_ptr<Image> (), dcpomatic::Rect<double> (), ContentTime (), ContentTime ());
 		return;
 	} else if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
@@ -572,8 +560,8 @@ FFmpegDecoder::decode_subtitle_packet ()
 	double const packet_time = (static_cast<double> (sub.pts) / AV_TIME_BASE) + _pts_offset;
 	
 	/* hence start time for this sub */
-	ContentTime const from = (packet_time + (double (sub.start_display_time) / 1e3)) * TIME_HZ;
-	ContentTime const to = (packet_time + (double (sub.end_display_time) / 1e3)) * TIME_HZ;
+	ContentTime const from = ContentTime::from_seconds (packet_time + (double (sub.start_display_time) / 1e3));
+	ContentTime const to = ContentTime::from_seconds (packet_time + (double (sub.end_display_time) / 1e3));
 
 	AVSubtitleRect const * rect = sub.rects[0];
 

@@ -936,7 +936,7 @@ FilmEditor::content_timeline_clicked ()
 		_timeline_dialog = 0;
 	}
 	
-	_timeline_dialog = new DCPTimelineDialog (this, _film);
+	_timeline_dialog = new TimelineDialog (this, _film);
 	_timeline_dialog->Show ();
 }
 

@@ -39,7 +39,6 @@ using boost::bad_lexical_cast;
 ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
 	: _film (film)
 	, _image_content (content)
-	, _video_length (0)
 {
 	using namespace MagickCore;
 	Magick::Image* image = new Magick::Image (content->path(0).string());
@@ -47,9 +46,9 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	delete image;
 
 	if (content->still ()) {
-		_video_length = Config::instance()->default_still_length() * video_frame_rate();
+		_video_length = ContentTime (Config::instance()->default_still_length());
 	} else {
-		_video_length = _image_content->number_of_paths ();
+		_video_length = ContentTime (double (_image_content->number_of_paths ()) / video_frame_rate ());
 	}
 }
 

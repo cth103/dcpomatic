@@ -36,7 +36,6 @@ ImageDecoder::ImageDecoder (shared_ptr<const Film> f, shared_ptr<const ImageCont
 	: Decoder (f)
 	, VideoDecoder (f, c)
 	, _image_content (c)
-	, _video_position (0)
 {
 
 }
@@ -50,12 +49,16 @@ ImageDecoder::pass ()
 
 	if (_image && _image_content->still ()) {
 		video (_image, true, _video_position);
-		++_video_position;
+		_video_position += ContentTime::from_frames (1, _image_content->video_frame_rate ());
 		return false;
 	}
 
 	Magick::Image* magick_image = 0;
-	boost::filesystem::path const path = _image_content->path (_image_content->still() ? 0 : _video_position);
+
+	boost::filesystem::path const path = _image_content->path (
+		_image_content->still() ? 0 : _video_position.frames (_image_content->video_frame_rate ())
+		);
+	
 	try {
 		magick_image = new Magick::Image (path.string ());
 	} catch (...) {
@@ -83,7 +86,7 @@ ImageDecoder::pass ()
 	delete magick_image;
 
 	video (_image, false, _video_position);
-	++_video_position;
+	_video_position += ContentTime::from_frames (1, _image_content->video_frame_rate ());
 
 	return false;
 }
@@ -92,6 +95,5 @@ void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
 	Decoder::seek (time, accurate);
-	
-	_video_position = rint (time * _video_content->video_frame_rate() / TIME_HZ);
+	_video_position = time;
 }

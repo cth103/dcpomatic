@@ -41,7 +41,7 @@ public:
 
 protected:
 
-	void video (boost::shared_ptr<const Image>, bool, VideoFrame);
+	void video (boost::shared_ptr<const Image>, bool, ContentTime);
 	boost::shared_ptr<const VideoContent> _video_content;
 };
 

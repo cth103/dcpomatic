@@ -23,6 +23,7 @@
 #include <boost/optional.hpp>
 #include <dcp/types.h>
 #include "types.h"
+#include "dcpomatic_time.h"
 
 struct SubRipSubtitlePiece
 {

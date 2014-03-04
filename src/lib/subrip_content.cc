@@ -20,6 +20,7 @@
 #include "subrip_content.h"
 #include "util.h"
 #include "subrip.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -39,7 +40,7 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
-	, _length (node->number_child<DCPTime> ("Length"))
+	, _length (node->number_child<int64_t> ("Length"))
 {
 
 }
@@ -50,7 +51,8 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 	Content::examine (job);
 	SubRip s (shared_from_this ());
 	boost::mutex::scoped_lock lm (_mutex);
-	_length = s.length ();
+	shared_ptr<const Film> film = _film.lock ();
+	_length = DCPTime (s.length (), film->active_frame_rate_change (position ()));
 }
 
 string

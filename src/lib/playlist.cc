@@ -81,14 +81,14 @@ Playlist::maybe_sequence_video ()
 	_sequencing_video = true;
 	
 	ContentList cl = _content;
-	DCPTime next = 0;
+	DCPTime next;
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (!dynamic_pointer_cast<VideoContent> (*i)) {
 			continue;
 		}
 		
 		(*i)->set_position (next);
-		next = (*i)->end() + 1;
+		next = (*i)->end() + DCPTime::delta ();
 	}
 
 	/* This won't change order, so it does not need a sort */
@@ -257,9 +257,9 @@ Playlist::best_dcp_frame_rate () const
 DCPTime
 Playlist::length () const
 {
-	DCPTime len = 0;
+	DCPTime len;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		len = max (len, (*i)->end() + 1);
+		len = max (len, (*i)->end() + DCPTime::delta ());
 	}
 
 	return len;
@@ -282,7 +282,7 @@ Playlist::reconnect ()
 DCPTime
 Playlist::video_end () const
 {
-	DCPTime end = 0;
+	DCPTime end;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		if (dynamic_pointer_cast<const VideoContent> (*i)) {
 			end = max (end, (*i)->end ());
@@ -331,7 +331,7 @@ Playlist::content () const
 void
 Playlist::repeat (ContentList c, int n)
 {
-	pair<DCPTime, DCPTime> range (TIME_MAX, 0);
+	pair<DCPTime, DCPTime> range (DCPTime::max (), DCPTime ());
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		range.first = min (range.first, (*i)->position ());
 		range.second = max (range.second, (*i)->position ());

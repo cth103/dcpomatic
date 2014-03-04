@@ -35,24 +35,24 @@ VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoCont
 
 /** Called by subclasses when they have a video frame ready */
 void
-VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoFrame frame)
+VideoDecoder::video (shared_ptr<const Image> image, bool same, ContentTime time)
 {
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image, EYES_BOTH, same, frame)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (time, image, EYES_BOTH, same)));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	{
 		int const half = image->size().width / 2;
-		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, frame)));
-		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, frame)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (time, image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (time, image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same)));
 		break;
 	}
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
 	{
 		int const half = image->size().height / 2;
-		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same, frame)));
-		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, frame)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (time, image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same)));
+		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (time, image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same)));
 		break;
 	}
 	default:

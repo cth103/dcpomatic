@@ -49,7 +49,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, shared_ptr<const cxml:
 	, _audio_mapping (node->node_child ("AudioMapping"), version)
 {
 	_audio_channels = node->number_child<int> ("AudioChannels");
-	_audio_length = node->number_child<AudioFrame> ("AudioLength");
+	_audio_length = ContentTime (node->number_child<int64_t> ("AudioLength"));
 	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
 }
 
@@ -146,16 +146,7 @@ SndfileContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-
-	AudioFrame const len = divide_with_round (audio_length() * output_audio_frame_rate(), content_audio_frame_rate ());
-	
-	/* XXX: this depends on whether, alongside this audio, we are running video slower or faster than
-	   it should be.  The calculation above works out the output audio frames assuming that we are just
-	   resampling the audio: it would be incomplete if, for example, we were running this audio alongside
-	   25fps video that was being run at 24fps.
-	*/
-	
-	return film->audio_frames_to_time (len);
+	return DCPTime (audio_length(), film->active_frame_rate_change (position ()));
 }
 
 int

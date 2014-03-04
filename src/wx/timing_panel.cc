@@ -85,31 +85,31 @@ TimingPanel::film_content_changed (int property)
 		if (content) {
 			_position->set (content->position (), _editor->film()->video_frame_rate ());
 		} else {
-			_position->set (0, 24);
+			_position->set (DCPTime () , 24);
 		}
 	} else if (property == ContentProperty::LENGTH || property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		if (content) {
 			_full_length->set (content->full_length (), _editor->film()->video_frame_rate ());
 			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
 		} else {
-			_full_length->set (0, 24);
-			_play_length->set (0, 24);
+			_full_length->set (DCPTime (), 24);
+			_play_length->set (DCPTime (), 24);
 		}
 	} else if (property == ContentProperty::TRIM_START) {
 		if (content) {
 			_trim_start->set (content->trim_start (), _editor->film()->video_frame_rate ());
 			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
 		} else {
-			_trim_start->set (0, 24);
-			_play_length->set (0, 24);
+			_trim_start->set (DCPTime (), 24);
+			_play_length->set (DCPTime (), 24);
 		}
 	} else if (property == ContentProperty::TRIM_END) {
 		if (content) {
 			_trim_end->set (content->trim_end (), _editor->film()->video_frame_rate ());
 			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
 		} else {
-			_trim_end->set (0, 24);
-			_play_length->set (0, 24);
+			_trim_end->set (DCPTime (), 24);
+			_play_length->set (DCPTime (), 24);
 		}
 	}
 
@@ -149,7 +149,8 @@ TimingPanel::full_length_changed ()
 	if (c.size() == 1) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
 		if (ic && ic->still ()) {
-			ic->set_video_length (rint (_full_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
+			/* XXX: No effective FRC here... is this right? */
+			ic->set_video_length (ContentTime (_full_length->get (_editor->film()->video_frame_rate()), FrameRateChange (1, 1)));
 		}
 	}
 }

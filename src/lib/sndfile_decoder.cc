@@ -105,7 +105,7 @@ SndfileDecoder::pass ()
 	}
 		
 	data->set_frames (this_time);
-	audio (data, _done * TIME_HZ / audio_frame_rate ());
+	audio (data, ContentTime::from_frames (_done, audio_frame_rate ()));
 	_done += this_time;
 	_remaining -= this_time;
 
@@ -118,10 +118,10 @@ SndfileDecoder::audio_channels () const
 	return _info.channels;
 }
 
-AudioFrame
+ContentTime
 SndfileDecoder::audio_length () const
 {
-	return _info.frames;
+	return ContentTime::from_frames (_info.frames, audio_frame_rate ());
 }
 
 int
@@ -136,6 +136,6 @@ SndfileDecoder::seek (ContentTime t, bool accurate)
 	Decoder::seek (t, accurate);
 	AudioDecoder::seek (t, accurate);
 
-	_done = t * audio_frame_rate() / TIME_HZ;
+	_done = t.frames (audio_frame_rate ());
 	_remaining = _info.frames - _done;
 }

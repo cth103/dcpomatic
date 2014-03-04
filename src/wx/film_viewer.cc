@@ -122,7 +122,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_frame.reset ();
 	
 	_slider->SetValue (0);
-	set_position_text (0);
+	set_position_text (DCPTime ());
 	
 	if (!_film) {
 		return;
@@ -222,7 +222,7 @@ FilmViewer::slider_moved ()
 {
 	if (_film && _player) {
 		try {
-			_player->seek (_slider->GetValue() * _film->length() / 4096, false);
+			_player->seek (DCPTime (_film->length().get() * _slider->GetValue() / 4096), false);
 			fetch_next_frame ();
 		} catch (OpenFileError& e) {
 			/* There was a problem opening a content file; we'll let this slide as it
@@ -325,9 +325,9 @@ FilmViewer::set_position_text (DCPTime t)
 		
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t * fps / TIME_HZ)) + 1));
+	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t.seconds() * fps)) + 1));
 	
-	double w = static_cast<double>(t) / TIME_HZ;
+	double w = t.seconds ();
 	int const h = (w / 3600);
 	w -= h * 3600;
 	int const m = (w / 60);
@@ -398,9 +398,9 @@ FilmViewer::back_clicked ()
 	   We want to see the one before it, so we need to go back 2.
 	*/
 
-	DCPTime p = _player->video_position() - _film->video_frames_to_time (2);
+	DCPTime p = _player->video_position() - DCPTime::from_frames (2, _film->video_frame_rate ());
 	if (p < 0) {
-		p = 0;
+		p = DCPTime ();
 	}
 	
 	try {

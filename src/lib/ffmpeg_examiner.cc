@@ -102,14 +102,14 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 	}
 }
 
-optional<double>
+optional<ContentTime>
 FFmpegExaminer::frame_time (AVStream* s) const
 {
-	optional<double> t;
+	optional<ContentTime> t;
 	
 	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 	if (bet != AV_NOPTS_VALUE) {
-		t = bet * av_q2d (s->time_base);
+		t = ContentTime (bet * av_q2d (s->time_base));
 	}
 
 	return t;
@@ -133,12 +133,12 @@ FFmpegExaminer::video_size () const
 	return dcp::Size (video_codec_context()->width, video_codec_context()->height);
 }
 
-/** @return Length (in video frames) according to our content's header */
-VideoFrame
+/** @return Length according to our content's header */
+ContentTime
 FFmpegExaminer::video_length () const
 {
-	VideoFrame const length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
-	return max (1, length);
+	ContentTime const length = ContentTime::from_seconds (double (_format_context->duration) / AV_TIME_BASE);
+	return ContentTime (1, length.get ());
 }
 
 string

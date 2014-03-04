@@ -53,7 +53,7 @@ protected:
 
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;
-	boost::optional<AudioFrame> _audio_position;
+	boost::optional<ContentTime> _audio_position;
 };
 
 #endif

@@ -18,6 +18,7 @@
 */
 
 #include "audio_analysis.h"
+#include "audio_buffers.h"
 #include "analyse_audio_job.h"
 #include "compose.hpp"
 #include "film.h"
@@ -69,13 +70,13 @@ AnalyseAudioJob::run ()
 	
 	player->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1, _2));
 
-	_samples_per_point = max (int64_t (1), _film->time_to_audio_frames (_film->length()) / _num_points);
+	int64_t const len = _film->length().frames (_film->audio_frame_rate());
+	_samples_per_point = max (int64_t (1), len / _num_points);
 
 	_current.resize (_film->audio_channels ());
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	_done = 0;
-	AudioFrame const len = _film->time_to_audio_frames (_film->length ());
 	while (!player->pass ()) {
 		set_progress (double (_done) / len);
 	}

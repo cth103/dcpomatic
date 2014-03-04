@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (play_test)
 
 	BOOST_CHECK_EQUAL (A->position(), 0);
 	/* A is 16 frames long at 25 fps */
-	BOOST_CHECK_EQUAL (B->position(), 16 * TIME_HZ / 25);
+	BOOST_CHECK_EQUAL (B->position(), DCPTime::from_frames (16, 25));
 
 	shared_ptr<Player> player = film->make_player ();
 	PlayerWrapper wrap (player);
@@ -117,10 +117,10 @@ BOOST_AUTO_TEST_CASE (play_test)
 		}
 	}
 
-	player->seek (6 * TIME_HZ / 25, true);
+	player->seek (DCPTime::from_frames (6, 25), true);
 	optional<Video> v = wrap.get_video ();
 	BOOST_CHECK (v);
-	BOOST_CHECK_EQUAL (v.get().time, 6 * TIME_HZ / 25);
+	BOOST_CHECK_EQUAL (v.get().time, DCPTime::from_frames (6, 25));
 }
 
 #endif

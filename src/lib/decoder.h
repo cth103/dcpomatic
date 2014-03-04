@@ -28,6 +28,7 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>
 #include "types.h"
+#include "dcpomatic_time.h"
 
 class Film;
 class Decoded;

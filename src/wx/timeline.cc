@@ -39,7 +39,7 @@ using boost::optional;
 class View : public boost::noncopyable
 {
 public:
-	View (DCPTimeline& t)
+	View (Timeline& t)
 		: _timeline (t)
 	{
 
@@ -64,12 +64,12 @@ public:
 protected:
 	virtual void do_paint (wxGraphicsContext *) = 0;
 	
-	int time_x (DCPTime t) const
+	int time_x (double t) const
 	{
-		return _timeline.tracks_position().x + t * _timeline.pixels_per_time_unit();
+		return _timeline.tracks_position().x + t * _timeline.pixels_per_second ();
 	}
 	
-	DCPTimeline& _timeline;
+	Timeline& _timeline;
 
 private:
 	dcpomatic::Rect<int> _last_paint_bbox;
@@ -80,7 +80,7 @@ private:
 class ContentView : public View
 {
 public:
-	ContentView (DCPTimeline& tl, shared_ptr<Content> c)
+	ContentView (Timeline& tl, shared_ptr<Content> c)
 		: View (tl)
 		, _content (c)
 		, _track (0)
@@ -100,7 +100,7 @@ public:
 		return dcpomatic::Rect<int> (
 			time_x (content->position ()) - 8,
 			y_pos (_track) - 8,
-			content->length_after_trim () * _timeline.pixels_per_time_unit() + 16,
+			content->length_after_trim().seconds() * _timeline.pixels_per_second() + 16,
 			_timeline.track_height() + 16
 			);
 	}
@@ -169,7 +169,7 @@ private:
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (time_x (position), y_pos (_track), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
+		gc->Clip (wxRegion (time_x (position), y_pos (_track), len.seconds() * _timeline.pixels_per_second(), _timeline.track_height()));
 		gc->DrawText (name, time_x (position) + 12, y_pos (_track + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
@@ -188,7 +188,7 @@ private:
 		}
 
 		if (!frequent) {
-			_timeline.setup_pixels_per_time_unit ();
+			_timeline.setup_pixels_per_second ();
 			_timeline.Refresh ();
 		}
 	}
@@ -203,7 +203,7 @@ private:
 class AudioContentView : public ContentView
 {
 public:
-	AudioContentView (DCPTimeline& tl, shared_ptr<Content> c)
+	AudioContentView (Timeline& tl, shared_ptr<Content> c)
 		: ContentView (tl, c)
 	{}
 	
@@ -222,7 +222,7 @@ private:
 class VideoContentView : public ContentView
 {
 public:
-	VideoContentView (DCPTimeline& tl, shared_ptr<Content> c)
+	VideoContentView (Timeline& tl, shared_ptr<Content> c)
 		: ContentView (tl, c)
 	{}
 
@@ -243,10 +243,10 @@ private:
 	}
 };
 
-class DCPTimeAxisView : public View
+class TimeAxisView : public View
 {
 public:
-	DCPTimeAxisView (DCPTimeline& tl, int y)
+	TimeAxisView (Timeline& tl, int y)
 		: View (tl)
 		, _y (y)
 	{}
@@ -268,18 +268,18 @@ private:
 	{
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
 		
-		int mark_interval = rint (128 / (TIME_HZ * _timeline.pixels_per_time_unit ()));
+		double mark_interval = rint (128 / _timeline.pixels_per_second ());
 		if (mark_interval > 5) {
-			mark_interval -= mark_interval % 5;
+			mark_interval -= int (rint (mark_interval)) % 5;
 		}
 		if (mark_interval > 10) {
-			mark_interval -= mark_interval % 10;
+			mark_interval -= int (rint (mark_interval)) % 10;
 		}
 		if (mark_interval > 60) {
-			mark_interval -= mark_interval % 60;
+			mark_interval -= int (rint (mark_interval)) % 60;
 		}
 		if (mark_interval > 3600) {
-			mark_interval -= mark_interval % 3600;
+			mark_interval -= int (rint (mark_interval)) % 3600;
 		}
 		
 		if (mark_interval < 1) {
@@ -291,14 +291,15 @@ private:
 		path.AddLineToPoint (_timeline.width(), _y);
 		gc->StrokePath (path);
 
-		DCPTime t = 0;
-		while ((t * _timeline.pixels_per_time_unit()) < _timeline.width()) {
+		/* Time in seconds */
+		double t;
+		while ((t * _timeline.pixels_per_second()) < _timeline.width()) {
 			wxGraphicsPath path = gc->CreatePath ();
 			path.MoveToPoint (time_x (t), _y - 4);
 			path.AddLineToPoint (time_x (t), _y + 4);
 			gc->StrokePath (path);
 
-			int tc = t / TIME_HZ;
+			double tc = t;
 			int const h = tc / 3600;
 			tc -= h * 3600;
 			int const m = tc / 60;
@@ -312,12 +313,12 @@ private:
 			wxDouble str_leading;
 			gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
 			
-			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_time_unit();
+			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_second();
 			if ((tx + str_width) < _timeline.width()) {
 				gc->DrawText (str, time_x (t), _y + 16);
 			}
 			
-			t += mark_interval * TIME_HZ;
+			t += mark_interval;
 		}
 	}
 
@@ -326,13 +327,13 @@ private:
 };
 
 
-DCPTimeline::DCPTimeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
+Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film_editor (ed)
 	, _film (film)
-	, _time_axis_view (new DCPTimeAxisView (*this, 32))
+	, _time_axis_view (new TimeAxisView (*this, 32))
 	, _tracks (0)
-	, _pixels_per_time_unit (0)
+	, _pixels_per_second (0)
 	, _left_down (false)
 	, _down_view_position (0)
 	, _first_move (false)
@@ -343,22 +344,22 @@ DCPTimeline::DCPTimeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> fil
 	SetDoubleBuffered (true);
 #endif	
 
-	Bind (wxEVT_PAINT,      boost::bind (&DCPTimeline::paint,       this));
-	Bind (wxEVT_LEFT_DOWN,  boost::bind (&DCPTimeline::left_down,   this, _1));
-	Bind (wxEVT_LEFT_UP,    boost::bind (&DCPTimeline::left_up,     this, _1));
-	Bind (wxEVT_RIGHT_DOWN, boost::bind (&DCPTimeline::right_down,  this, _1));
-	Bind (wxEVT_MOTION,     boost::bind (&DCPTimeline::mouse_moved, this, _1));
-	Bind (wxEVT_SIZE,       boost::bind (&DCPTimeline::resized,     this));
+	Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint,       this));
+	Bind (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,   this, _1));
+	Bind (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,     this, _1));
+	Bind (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,  this, _1));
+	Bind (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved, this, _1));
+	Bind (wxEVT_SIZE,       boost::bind (&Timeline::resized,     this));
 
 	playlist_changed ();
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
-	_playlist_connection = film->playlist()->Changed.connect (bind (&DCPTimeline::playlist_changed, this));
+	_playlist_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
 }
 
 void
-DCPTimeline::paint ()
+Timeline::paint ()
 {
 	wxPaintDC dc (this);
 
@@ -377,7 +378,7 @@ DCPTimeline::paint ()
 }
 
 void
-DCPTimeline::playlist_changed ()
+Timeline::playlist_changed ()
 {
 	ensure_ui_thread ();
 	
@@ -401,12 +402,12 @@ DCPTimeline::playlist_changed ()
 	}
 
 	assign_tracks ();
-	setup_pixels_per_time_unit ();
+	setup_pixels_per_second ();
 	Refresh ();
 }
 
 void
-DCPTimeline::assign_tracks ()
+Timeline::assign_tracks ()
 {
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
@@ -465,24 +466,24 @@ DCPTimeline::assign_tracks ()
 }
 
 int
-DCPTimeline::tracks () const
+Timeline::tracks () const
 {
 	return _tracks;
 }
 
 void
-DCPTimeline::setup_pixels_per_time_unit ()
+Timeline::setup_pixels_per_second ()
 {
 	shared_ptr<const Film> film = _film.lock ();
 	if (!film || film->length() == 0) {
 		return;
 	}
 
-	_pixels_per_time_unit = static_cast<double>(width() - x_offset() * 2) / film->length ();
+	_pixels_per_second = static_cast<double>(width() - x_offset() * 2) / film->length().seconds ();
 }
 
 shared_ptr<View>
-DCPTimeline::event_to_view (wxMouseEvent& ev)
+Timeline::event_to_view (wxMouseEvent& ev)
 {
 	ViewList::iterator i = _views.begin();
 	Position<int> const p (ev.GetX(), ev.GetY());
@@ -498,7 +499,7 @@ DCPTimeline::event_to_view (wxMouseEvent& ev)
 }
 
 void
-DCPTimeline::left_down (wxMouseEvent& ev)
+Timeline::left_down (wxMouseEvent& ev)
 {
 	shared_ptr<View> view = event_to_view (ev);
 	shared_ptr<ContentView> content_view = dynamic_pointer_cast<ContentView> (view);
@@ -539,7 +540,7 @@ DCPTimeline::left_down (wxMouseEvent& ev)
 }
 
 void
-DCPTimeline::left_up (wxMouseEvent& ev)
+Timeline::left_up (wxMouseEvent& ev)
 {
 	_left_down = false;
 
@@ -551,7 +552,7 @@ DCPTimeline::left_up (wxMouseEvent& ev)
 }
 
 void
-DCPTimeline::mouse_moved (wxMouseEvent& ev)
+Timeline::mouse_moved (wxMouseEvent& ev)
 {
 	if (!_left_down) {
 		return;
@@ -561,7 +562,7 @@ DCPTimeline::mouse_moved (wxMouseEvent& ev)
 }
 
 void
-DCPTimeline::right_down (wxMouseEvent& ev)
+Timeline::right_down (wxMouseEvent& ev)
 {
 	shared_ptr<View> view = event_to_view (ev);
 	shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (view);
@@ -578,7 +579,7 @@ DCPTimeline::right_down (wxMouseEvent& ev)
 }
 
 void
-DCPTimeline::set_position_from_event (wxMouseEvent& ev)
+Timeline::set_position_from_event (wxMouseEvent& ev)
 {
 	wxPoint const p = ev.GetPosition();
 
@@ -597,13 +598,13 @@ DCPTimeline::set_position_from_event (wxMouseEvent& ev)
 		return;
 	}
 	
-	DCPTime new_position = _down_view_position + (p.x - _down_point.x) / _pixels_per_time_unit;
+	DCPTime new_position = _down_view_position + DCPTime::from_seconds ((p.x - _down_point.x) / _pixels_per_second);
 	
 	if (_snap) {
 		
 		bool first = true;
-		DCPTime nearest_distance = TIME_MAX;
-		DCPTime nearest_new_position = TIME_MAX;
+		DCPTime nearest_distance = DCPTime::max ();
+		DCPTime nearest_new_position = DCPTime::max ();
 		
 		/* Find the nearest content edge; this is inefficient */
 		for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
@@ -614,7 +615,7 @@ DCPTimeline::set_position_from_event (wxMouseEvent& ev)
 			
 			{
 				/* Snap starts to ends */
-				DCPTime const d = abs (cv->content()->end() - new_position);
+				DCPTime const d = DCPTime (cv->content()->end() - new_position).abs ();
 				if (first || d < nearest_distance) {
 					nearest_distance = d;
 					nearest_new_position = cv->content()->end();
@@ -623,7 +624,10 @@ DCPTimeline::set_position_from_event (wxMouseEvent& ev)
 			
 			{
 				/* Snap ends to starts */
-				DCPTime const d = abs (cv->content()->position() - (new_position + _down_view->content()->length_after_trim()));
+				DCPTime const d = DCPTime (
+					cv->content()->position() - (new_position + _down_view->content()->length_after_trim())
+					).abs ();
+				
 				if (d < nearest_distance) {
 					nearest_distance = d;
 					nearest_new_position = cv->content()->position() - _down_view->content()->length_after_trim ();
@@ -635,14 +639,14 @@ DCPTimeline::set_position_from_event (wxMouseEvent& ev)
 		
 		if (!first) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
-			if (nearest_distance < (width() / pixels_per_time_unit()) / 32) {
+			if (nearest_distance < (width() / pixels_per_second()) / 32) {
 				new_position = nearest_new_position;
 			}
 		}
 	}
 	
 	if (new_position < 0) {
-		new_position = 0;
+		new_position = DCPTime ();
 	}
 	
 	_down_view->content()->set_position (new_position);
@@ -653,25 +657,25 @@ DCPTimeline::set_position_from_event (wxMouseEvent& ev)
 }
 
 void
-DCPTimeline::force_redraw (dcpomatic::Rect<int> const & r)
+Timeline::force_redraw (dcpomatic::Rect<int> const & r)
 {
 	RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
 }
 
 shared_ptr<const Film>
-DCPTimeline::film () const
+Timeline::film () const
 {
 	return _film.lock ();
 }
 
 void
-DCPTimeline::resized ()
+Timeline::resized ()
 {
-	setup_pixels_per_time_unit ();
+	setup_pixels_per_second ();
 }
 
 void
-DCPTimeline::clear_selection ()
+Timeline::clear_selection ()
 {
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
@@ -681,8 +685,8 @@ DCPTimeline::clear_selection ()
 	}
 }
 
-DCPTimeline::ContentViewList
-DCPTimeline::selected_views () const
+Timeline::ContentViewList
+Timeline::selected_views () const
 {
 	ContentViewList sel;
 	
@@ -697,7 +701,7 @@ DCPTimeline::selected_views () const
 }
 
 ContentList
-DCPTimeline::selected_content () const
+Timeline::selected_content () const
 {
 	ContentList sel;
 	ContentViewList views = selected_views ();

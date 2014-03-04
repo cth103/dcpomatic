@@ -34,8 +34,8 @@ using boost::dynamic_pointer_cast;
 /** Test SubRip::convert_time */
 BOOST_AUTO_TEST_CASE (subrip_time_test)
 {
-	BOOST_CHECK_EQUAL (SubRip::convert_time ("00:03:10,500"), rint (((3 * 60) + 10 + 0.5) * TIME_HZ));
-	BOOST_CHECK_EQUAL (SubRip::convert_time ("04:19:51,782"), rint (((4 * 3600) + (19 * 60) + 51 + 0.782) * TIME_HZ));
+	BOOST_CHECK_EQUAL (SubRip::convert_time ("00:03:10,500"), ContentTime::from_seconds ((3 * 60) + 10 + 0.5));
+	BOOST_CHECK_EQUAL (SubRip::convert_time ("04:19:51,782"), ContentTime::from_seconds ((4 * 3600) + (19 * 60) + 51 + 0.782));
 }
 
 /** Test SubRip::convert_coordinate */
@@ -123,52 +123,52 @@ BOOST_AUTO_TEST_CASE (subrip_parse_test)
 {
 	shared_ptr<SubRipContent> content (new SubRipContent (shared_ptr<Film> (), "test/data/subrip.srt"));
 	content->examine (shared_ptr<Job> ());
-	BOOST_CHECK_EQUAL (content->full_length(), ((3 * 60) + 56.471) * TIME_HZ);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
 	SubRip s (content);
 
 	vector<SubRipSubtitle>::const_iterator i = s._subtitles.begin();
 
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 49.200) * TIME_HZ);
-	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 52.351) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->from, DCPTime::from_seconds ((1 * 60) + 49.200));
+	BOOST_CHECK_EQUAL (i->to, DCPTime::from_seconds ((1 * 60) + 52.351));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "This is a subtitle, and it goes over two lines.");
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 52.440) * TIME_HZ);
-	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 54.351) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->from, DCPTime::from_seconds ((1 * 60) + 52.440));
+	BOOST_CHECK_EQUAL (i->to, DCPTime::from_seconds ((1 * 60) + 54.351));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "We have emboldened this");
 	BOOST_CHECK_EQUAL (i->pieces.front().bold, true);
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 54.440) * TIME_HZ);
-	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 56.590) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->from, DCPTime::from_seconds ((1 * 60) + 54.440));
+	BOOST_CHECK_EQUAL (i->to, DCPTime::from_seconds ((1 * 60) + 56.590));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "And italicised this.");
 	BOOST_CHECK_EQUAL (i->pieces.front().italic, true);
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ((1 * 60) + 56.680) * TIME_HZ);
-	BOOST_CHECK_EQUAL (i->to, ((1 * 60) + 58.955) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->from, DCPTime::from_seconds ((1 * 60) + 56.680));
+	BOOST_CHECK_EQUAL (i->to, DCPTime::from_seconds ((1 * 60) + 58.955));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "Shall I compare thee to a summers' day?");
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ((2 * 60) + 0.840) * TIME_HZ);
-	BOOST_CHECK_EQUAL (i->to, ((2 * 60) + 3.400) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->from, DCPTime::from_seconds ((2 * 60) + 0.840));
+	BOOST_CHECK_EQUAL (i->to, DCPTime::from_seconds ((2 * 60) + 3.400));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "Is this a dagger I see before me?");
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ((3 * 60) + 54.560) * TIME_HZ);
-	BOOST_CHECK_EQUAL (i->to, ((3 * 60) + 56.471) * TIME_HZ);
+	BOOST_CHECK_EQUAL (i->from, DCPTime::from_seconds ((3 * 60) + 54.560));
+	BOOST_CHECK_EQUAL (i->to, DCPTime::from_seconds ((3 * 60) + 56.471));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "Hello world.");
 
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 {
 	shared_ptr<SubRipContent> content (new SubRipContent (shared_ptr<Film> (), "test/data/subrip.srt"));
 	content->examine (shared_ptr<Job> ());
-	BOOST_CHECK_EQUAL (content->full_length(), ((3 * 60) + 56.471) * TIME_HZ);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
 
