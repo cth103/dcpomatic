@@ -150,6 +150,7 @@ main (int argc, char* argv[])
 		}
 
 		film->set_container (container_ratio);
+		film->set_dcp_content_type (dcp_content_type);
 		
 		for (int i = optind; i < argc; ++i) {
 			shared_ptr<Content> c = content_factory (film, argv[i]);

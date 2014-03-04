@@ -397,6 +397,9 @@ Film::read_metadata ()
 	f.read_file (file ("metadata.xml"));
 
 	_state_version = f.number_child<int> ("Version");
+	if (_state_version > current_state_version) {
+		throw StringError (_("This film was created with a newer version of DCP-o-matic, and it cannot be loaded into this version.  Sorry!"));
+	}
 	
 	_name = f.string_child ("Name");
 	_use_dci_name = f.bool_child ("UseDCIName");
