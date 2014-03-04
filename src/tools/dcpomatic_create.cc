@@ -179,7 +179,7 @@ main (int argc, char* argv[])
 		if (!output.empty ()) {
 			film->write_metadata ();
 		} else {
-			film->metadata()->write_to_stream_formatted (cout);
+			film->metadata()->write_to_stream_formatted (cout, "UTF-8");
 		}
 	} catch (exception& e) {
 		cerr << argv[0] << ": " << e.what() << "\n";
