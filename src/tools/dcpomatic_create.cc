@@ -182,9 +182,9 @@ main (int argc, char* argv[])
 		}
 		
 		JobManager* jm = JobManager::instance ();
-		while (jm->work_to_do ()) {
-			ui_signaller->ui_idle ();
-		}
+
+		while (jm->work_to_do ()) {}
+		while (ui_signaller->ui_idle() > 0) {}
 
 		ContentList content = film->content ();
 		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
