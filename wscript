@@ -231,7 +231,7 @@ def configure(conf):
     # OSX
     if conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_OSX')
-        conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
+        conf.env.append_value('LINKFLAGS', ['-headerpad_max_install_names', '-framework IOKit', '-framework Foundation'])
 
     #
     # Dependencies.
