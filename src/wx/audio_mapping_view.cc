@@ -34,7 +34,7 @@ using std::max;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-#define INDICATOR_SIZE 20
+#define INDICATOR_SIZE 16
 
 enum {
 	ID_off = 1,
@@ -270,9 +270,9 @@ AudioMappingView::set_column_labels ()
 {
 	int const c = _grid->GetNumberCols ();
 	
-	_grid->SetColLabelValue (0, _("Content channel"));
+	_grid->SetColLabelValue (0, _("Content"));
 
-#if MAX_AUDIO_CHANNELS != 8
+#if MAX_AUDIO_CHANNELS != 12
 #warning AudioMappingView::set_column_labels() is expecting the wrong MAX_AUDIO_CHANNELS
 #endif	
 	
@@ -307,7 +307,23 @@ AudioMappingView::set_column_labels ()
 	if (c > 7) {
 		_grid->SetColLabelValue (8, _("VI"));
 	}
-	
+
+	if (c > 8) {
+		_grid->SetColLabelValue (9, _("Lc"));
+	}
+
+	if (c > 9) {
+		_grid->SetColLabelValue (10, _("Rc"));
+	}
+
+	if (c > 10) {
+		_grid->SetColLabelValue (11, _("BsL"));
+	}
+
+	if (c > 11) {
+		_grid->SetColLabelValue (12, _("BsR"));
+	}
+
 	_grid->AutoSize ();
 }
 

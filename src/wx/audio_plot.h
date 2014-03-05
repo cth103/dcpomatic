@@ -23,7 +23,7 @@
 #include "lib/util.h"
 #include "lib/audio_analysis.h"
 
-class Metrics;
+struct Metrics;
 
 class AudioPlot : public wxPanel
 {

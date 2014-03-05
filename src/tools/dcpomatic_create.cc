@@ -32,6 +32,7 @@
 #include "lib/job.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
+#include "lib/image_content.h"
 
 using std::string;
 using std::cout;
@@ -52,10 +53,20 @@ help (string n)
 	     << "  -h, --help                    show this help\n"
 	     << "  -n, --name <name>             film name\n"
 	     << "  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
-	     << "      --container-ratio         119, 133, 137, 138, 166, 178, 185 or 239\n"
-	     << "      --content-ratio           119, 133, 137, 138, 166, 178, 185 or 239\n"
+	     << "      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
+	     << "      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
+	     << "  -s, --still-length <n>        number of seconds that still content should last\n"
 	     << "  -o, --output <dir>            output directory\n";
 }
+
+class SimpleUISignaller : public UISignaller
+{
+public:
+	/* Do nothing in this method so that UI events happen in our thread
+	   when we call UISignaller::ui_idle().
+	*/
+	void wake_ui () {}
+};
 
 int
 main (int argc, char* argv[])
@@ -66,6 +77,7 @@ main (int argc, char* argv[])
 	DCPContentType const * dcp_content_type = DCPContentType::from_dci_name ("TST");
 	Ratio const * container_ratio = 0;
 	Ratio const * content_ratio = 0;
+	int still_length = 10;
 	boost::filesystem::path output;
 	
 	int option_index = 0;
@@ -77,11 +89,12 @@ main (int argc, char* argv[])
 			{ "dcp-content-type", required_argument, 0, 'c'},
 			{ "container-ratio", required_argument, 0, 'A'},
 			{ "content-ratio", required_argument, 0, 'B'},
+			{ "still-length", required_argument, 0, 's'},
 			{ "output", required_argument, 0, 'o'},
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:c:A:B:o:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:c:A:B:s:o:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -120,6 +133,9 @@ main (int argc, char* argv[])
 				exit (EXIT_FAILURE);
 			}
 			break;
+		case 's':
+			still_length = atoi (optarg);
+			break;
 		case 'o':
 			output = optarg;
 			break;
@@ -132,8 +148,7 @@ main (int argc, char* argv[])
 	}
 
 	if (!content_ratio) {
-		cerr << "Missing required option --content-ratio.\n";
-		help (argv[0]);
+		cerr << argv[0] << ": missing required option --content-ratio.\n";
 		exit (EXIT_FAILURE);
 	}
 
@@ -141,7 +156,12 @@ main (int argc, char* argv[])
 		container_ratio = content_ratio;
 	}
 
-	ui_signaller = new UISignaller ();
+	if (optind == argc) {
+		cerr << argv[0] << ": no content specified.\n";
+		exit (EXIT_FAILURE);
+	}
+
+	ui_signaller = new SimpleUISignaller ();
 
 	try {
 		shared_ptr<Film> film (new Film (output, false));
@@ -150,6 +170,7 @@ main (int argc, char* argv[])
 		}
 
 		film->set_container (container_ratio);
+		film->set_dcp_content_type (dcp_content_type);
 		
 		for (int i = optind; i < argc; ++i) {
 			shared_ptr<Content> c = content_factory (film, argv[i]);
@@ -164,7 +185,15 @@ main (int argc, char* argv[])
 		while (jm->work_to_do ()) {
 			ui_signaller->ui_idle ();
 		}
-		
+
+		ContentList content = film->content ();
+		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
+			if (ic) {
+				ic->set_video_length (still_length * 24);
+			}
+		}
+
 		if (jm->errors ()) {
 			list<shared_ptr<Job> > jobs = jm->get ();
 			for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {

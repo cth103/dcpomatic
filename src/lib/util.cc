@@ -756,7 +756,7 @@ ensure_ui_thread ()
 string
 audio_channel_name (int c)
 {
-	assert (MAX_AUDIO_CHANNELS == 8);
+	assert (MAX_AUDIO_CHANNELS == 12);
 
 	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
 	   enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
@@ -769,8 +769,12 @@ audio_channel_name (int c)
 		_("Lfe (sub)"),
 		_("Left surround"),
 		_("Right surround"),
-		_("HI"),
-		_("VI")
+		_("Hearing impaired"),
+		_("Visually impaired"),
+		_("Left centre"),
+		_("Right centre"),
+		_("Left rear surround"),
+		_("Right rear surround"),
 	};
 
 	return channels[c];
