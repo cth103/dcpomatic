@@ -148,13 +148,17 @@ main (int argc, char* argv[])
 	}
 
 	if (!content_ratio) {
-		cerr << "Missing required option --content-ratio.\n";
-		help (argv[0]);
+		cerr << argv[0] << ": missing required option --content-ratio.\n";
 		exit (EXIT_FAILURE);
 	}
 
 	if (!container_ratio) {
 		container_ratio = content_ratio;
+	}
+
+	if (optind == argc) {
+		cerr << argv[0] << ": no content specified.\n";
+		exit (EXIT_FAILURE);
 	}
 
 	ui_signaller = new SimpleUISignaller ();
