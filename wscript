@@ -175,7 +175,7 @@ def configure(conf):
         conf.env.INSTALL_PREFIX = conf.options.install_prefix
 
     # Common CXXFLAGS
-    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-mfpmath=sse', '-ffast-math', '-fno-strict-aliasing',
+    conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-ffast-math', '-fno-strict-aliasing',
                                        '-Wall', '-Wno-attributes', '-Wextra', '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.enable_debug:
@@ -193,7 +193,12 @@ def configure(conf):
 
     # Windows
     if conf.env.TARGET_WINDOWS:
-        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_WINDOWS', '-DWIN32_LEAN_AND_MEAN', '-DBOOST_USE_WINDOWS_H', '-DUNICODE', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN'])
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_WINDOWS')
+        conf.env.append_value('CXXFLAGS', '-DWIN32_LEAN_AND_MEAN')
+        conf.env.append_value('CXXFLAGS', '-DBOOST_USE_WINDOWS_H')
+        conf.env.append_value('CXXFLAGS', '-DUNICODE')
+        conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
+        conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
@@ -219,6 +224,7 @@ def configure(conf):
 
     # Linux
     if conf.env.TARGET_LINUX:
+        conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
 
     if conf.env.TARGET_DEBIAN:
