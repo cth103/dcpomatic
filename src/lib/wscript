@@ -80,6 +80,9 @@ def build(bld):
                  CURL ZIP QUICKMAIL
                  """
 
+    if bld.env.TARGET_OSX:
+        obj.framework = ['IOKit', 'Foundation']
+
     obj.source = sources + ' version.cc'
 
     if bld.env.TARGET_WINDOWS:
