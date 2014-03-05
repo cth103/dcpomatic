@@ -1,5 +1,9 @@
 2014-03-05  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.64.19 released.
+
+2014-03-05  Carl Hetherington  <cth@carlh.net>
+
 	* Bump maximum audio channels to 12 so that we can
 	(crudely at least) get BsL/BsR.
 
