@@ -55,8 +55,8 @@ public:
 	}
 
 	/** Call this in the UI when it is idle */
-	void ui_idle () {
-		_service.poll ();
+	size_t ui_idle () {
+		return _service.poll ();
 	}
 
 	/** This should wake the UI and make it call ui_idle() */

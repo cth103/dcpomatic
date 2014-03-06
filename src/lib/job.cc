@@ -186,33 +186,22 @@ Job::paused () const
 void
 Job::set_state (State s)
 {
-	bool const finished = (s == FINISHED_OK || s == FINISHED_ERROR || s == FINISHED_CANCELLED);
-	
-	/* Do this first, so that we handle things that should happen on finish before the
-	 * job is actually marked as such.  This is important for callers that do:
-	 *
-	 * while (JobManager::work_to_do ()) {
-	 *   ui_signaller->ui_idle ();
-	 * }
-	 *
-	 * as otherwise this loop can finish before the Finished handler has been executed
-	 * (job finishes, calls set_state(), this sets the state and sets a pending signal
-	 * for Finished, but this is never called as a ui_idle() never happens as work_to_do()
-	 * is now false).
-	 */
-	if (finished && ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (Finished)));
-	}
+	bool finished = false;
 
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
 		_state = s;
 
-		if (finished) {
+		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
 			_ran_for = elapsed_time ();
+			finished = true;
 			_sub_name.clear ();
 		}
 	}
+
+	if (finished && ui_signaller) {
+		ui_signaller->emit (boost::bind (boost::ref (Finished)));
+	}	
 }
 
 /** @return DCPTime (in seconds) that this sub-job has been running */

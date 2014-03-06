@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (long_ffmpeg_seek_test)
 	film->set_name ("long_ffmpeg_audio_test");
 	film->set_container (Ratio::from_id ("185"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/long_data/dolby_aurora.vob"));
-	c->set_ratio (Ratio::from_id ("185"));
+	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
