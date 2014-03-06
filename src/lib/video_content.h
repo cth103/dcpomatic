@@ -45,7 +45,7 @@ public:
 	VideoContentScale (bool);
 	VideoContentScale (boost::shared_ptr<cxml::Node>);
 
-	libdcp::Size size (boost::shared_ptr<const VideoContent>, libdcp::Size) const;
+	dcp::Size size (boost::shared_ptr<const VideoContent>, dcp::Size) const;
 	std::string id () const;
 	std::string name () const;
 	void as_xml (xmlpp::Node *) const;

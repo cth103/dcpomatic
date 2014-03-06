@@ -275,7 +275,7 @@ Player::emit_video (weak_ptr<Piece> weak_piece, shared_ptr<DecodedVideo> video)
 
 	FrameRateChange frc (content->video_frame_rate(), _film->video_frame_rate());
 
-	dcp::Size const image_size = content->scale().size (content, _video_container_size);
+	dcp::Size image_size = content->scale().size (content, _video_container_size);
 	if (_approximate_size) {
 		image_size.width &= ~3;
 		image_size.height &= ~3;

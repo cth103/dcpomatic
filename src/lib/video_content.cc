@@ -436,8 +436,8 @@ VideoContentScale::name () const
 	return _("No scale");
 }
 
-libdcp::Size
-VideoContentScale::size (shared_ptr<const VideoContent> c, libdcp::Size container) const
+dcp::Size
+VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size container) const
 {
 	if (_ratio) {
 		return fit_ratio_within (_ratio->ratio (), container);
