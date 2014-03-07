@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 
 	AudioAnalysis b ("build/test/audio_analysis_test");
 	for (int i = 0; i < channels; ++i) {
-		BOOST_CHECK (b.points(i) == points);
+		BOOST_CHECK_EQUAL (b.points(i), points);
 		for (int j = 0; j < points; ++j) {
 			AudioPoint p = b.get_point (i, j);
 			BOOST_CHECK_CLOSE (p[AudioPoint::PEAK], random_float (), 1);

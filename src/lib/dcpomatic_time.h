@@ -21,6 +21,7 @@
 #define DCPOMATIC_TIME_H
 
 #include <cmath>
+#include <ostream>
 #include <stdint.h>
 #include "frame_rate_change.h"
 
@@ -53,10 +54,6 @@ public:
 	template <typename T>
 	int64_t frames (T r) const {
 		return rint (_t * r / HZ);
-	}
-
-	operator bool () const {
-		return _t != 0;
 	}
 
 protected:
@@ -109,6 +106,10 @@ public:
 		return *this;
 	}
 
+	ContentTime operator- () const {
+		return ContentTime (-_t);
+	}
+
 	ContentTime operator- (ContentTime const & o) const {
 		return ContentTime (_t - o._t);
 	}
@@ -117,6 +118,17 @@ public:
 		_t -= o._t;
 		return *this;
 	}
+
+	/** Round up to the nearest sampling interval
+	 *  at some sampling rate.
+	 *  @param r Sampling rate.
+	 */
+	ContentTime round_up (int r) {
+		int64_t const n = HZ / r;
+		int64_t const a = _t + n - 1;
+		return ContentTime (a - (a % n));
+	}
+	
 
 	static ContentTime from_seconds (double s) {
 		return ContentTime (s * HZ);
@@ -127,6 +139,8 @@ public:
 		return ContentTime (f * HZ / r);
 	}
 };
+
+std::ostream& operator<< (std::ostream& s, ContentTime t);
 
 class DCPTime : public Time
 {
@@ -210,5 +224,6 @@ public:
 };
 
 DCPTime min (DCPTime a, DCPTime b);
+std::ostream& operator<< (std::ostream& s, DCPTime t);
 
 #endif

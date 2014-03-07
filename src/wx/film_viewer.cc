@@ -176,8 +176,8 @@ FilmViewer::timer ()
 
 	DCPTime const len = _film->length ();
 
-	if (len) {
-		int const new_slider_position = 4096 * _player->video_position() / len;
+	if (len.get ()) {
+		int const new_slider_position = 4096 * _player->video_position().get() / len.get();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -399,7 +399,7 @@ FilmViewer::back_clicked ()
 	*/
 
 	DCPTime p = _player->video_position() - DCPTime::from_frames (2, _film->video_frame_rate ());
-	if (p < 0) {
+	if (p < DCPTime ()) {
 		p = DCPTime ();
 	}
 	

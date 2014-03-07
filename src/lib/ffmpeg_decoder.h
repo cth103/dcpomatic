@@ -85,5 +85,5 @@ private:
 	bool _decode_video;
 	bool _decode_audio;
 
-	double _pts_offset;
+	ContentTime _pts_offset;
 };

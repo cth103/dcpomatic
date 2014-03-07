@@ -19,6 +19,8 @@
 
 #include "dcpomatic_time.h"
 
+using std::ostream;
+
 ContentTime::ContentTime (DCPTime d, FrameRateChange f)
 	: Time (rint (d.get() * f.speed_up))
 {
@@ -32,4 +34,18 @@ DCPTime min (DCPTime a, DCPTime b)
 	}
 
 	return b;
+}
+
+ostream &
+operator<< (ostream& s, ContentTime t)
+{
+	s << "[CONT " << t.get() << " " << t.seconds() << "s]";
+	return s;
+}
+
+ostream &
+operator<< (ostream& s, DCPTime t)
+{
+	s << "[DCP " << t.get() << " " << t.seconds() << "s]";
+	return s;
 }

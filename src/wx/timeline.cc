@@ -64,9 +64,9 @@ public:
 protected:
 	virtual void do_paint (wxGraphicsContext *) = 0;
 	
-	int time_x (double t) const
+	int time_x (DCPTime t) const
 	{
-		return _timeline.tracks_position().x + t * _timeline.pixels_per_second ();
+		return _timeline.tracks_position().x + t.seconds() * _timeline.pixels_per_second ();
 	}
 	
 	Timeline& _timeline;
@@ -292,14 +292,14 @@ private:
 		gc->StrokePath (path);
 
 		/* Time in seconds */
-		double t;
-		while ((t * _timeline.pixels_per_second()) < _timeline.width()) {
+		DCPTime t;
+		while ((t.seconds() * _timeline.pixels_per_second()) < _timeline.width()) {
 			wxGraphicsPath path = gc->CreatePath ();
 			path.MoveToPoint (time_x (t), _y - 4);
 			path.AddLineToPoint (time_x (t), _y + 4);
 			gc->StrokePath (path);
 
-			double tc = t;
+			double tc = t.seconds ();
 			int const h = tc / 3600;
 			tc -= h * 3600;
 			int const m = tc / 60;
@@ -313,12 +313,12 @@ private:
 			wxDouble str_leading;
 			gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
 			
-			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_second();
+			int const tx = _timeline.x_offset() + t.seconds() * _timeline.pixels_per_second();
 			if ((tx + str_width) < _timeline.width()) {
 				gc->DrawText (str, time_x (t), _y + 16);
 			}
 			
-			t += mark_interval;
+			t += DCPTime::from_seconds (mark_interval);
 		}
 	}
 
@@ -475,7 +475,7 @@ void
 Timeline::setup_pixels_per_second ()
 {
 	shared_ptr<const Film> film = _film.lock ();
-	if (!film || film->length() == 0) {
+	if (!film || film->length() == DCPTime ()) {
 		return;
 	}
 
@@ -639,13 +639,13 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		
 		if (!first) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
-			if (nearest_distance < (width() / pixels_per_second()) / 32) {
+			if (nearest_distance < DCPTime::from_seconds ((width() / pixels_per_second()) / 32)) {
 				new_position = nearest_new_position;
 			}
 		}
 	}
 	
-	if (new_position < 0) {
+	if (new_position < DCPTime ()) {
 		new_position = DCPTime ();
 	}
 	

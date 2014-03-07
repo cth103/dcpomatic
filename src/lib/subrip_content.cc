@@ -81,7 +81,7 @@ SubRipContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("SubRip");
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
-	node->add_child("Length")->add_child_text (lexical_cast<string> (_length));
+	node->add_child("Length")->add_child_text (lexical_cast<string> (_length.get ()));
 }
 
 DCPTime

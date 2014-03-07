@@ -62,7 +62,7 @@ static string
 print_time (DCPTime t, float fps)
 {
 	stringstream s;
-	s << t << " " << t.seconds() << "s " << t.frames (fps) << "f";
+	s << t.seconds() << "s " << t.frames (fps) << "f";
 	return s.str ();
 }
 
@@ -90,8 +90,8 @@ check (shared_ptr<Player> p, DCPTime t)
 	BOOST_CHECK (first_video.get() >= t);
 	BOOST_CHECK (first_audio.get() >= t);
 	/* And should be rounded to frame boundaries */
-	BOOST_CHECK (first_video.get() == first_video.get().round_up (film->video_frame_rate()));
-	BOOST_CHECK (first_audio.get() == first_audio.get().round_up (film->audio_frame_rate()));
+	BOOST_CHECK_EQUAL (first_video.get(), first_video.get().round_up (film->video_frame_rate()));
+	BOOST_CHECK_EQUAL (first_audio.get(), first_audio.get().round_up (film->audio_frame_rate()));
 }
 
 /* Test basic seeking */

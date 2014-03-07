@@ -87,7 +87,7 @@ public:
 	int frame_rate;
 	int channels;
 	AudioMapping mapping;
-	boost::optional<double> first_audio;
+	boost::optional<ContentTime> first_audio;
 
 private:
 	friend class ffmpeg_pts_offset_test;
@@ -181,7 +181,7 @@ public:
 	void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
 	void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
 
-	boost::optional<double> first_video () const {
+	boost::optional<ContentTime> first_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _first_video;
 	}
@@ -193,7 +193,7 @@ private:
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::shared_ptr<FFmpegAudioStream> _audio_stream;
-	boost::optional<double> _first_video;
+	boost::optional<ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
 };

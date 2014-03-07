@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ public:
 			, skip (0)
 		{}
 		
-		int64_t silence;
+		DCPTime silence;
 		int64_t good;
 		int64_t skip;
 	} audio;

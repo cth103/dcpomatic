@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -57,15 +57,15 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 /* Straightforward test of DCPTime::round_up */
 BOOST_AUTO_TEST_CASE (dcptime_round_up_test)
 {
-	BOOST_CHECK_EQUAL (DCPTime (0).round_up (DCPTime::HZ / 2), 0);
-	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 2), 2);
-	BOOST_CHECK_EQUAL (DCPTime (2).round_up (DCPTime::HZ / 2), 2);
-	BOOST_CHECK_EQUAL (DCPTime (3).round_up (DCPTime::HZ / 2), 4);
+	BOOST_CHECK_EQUAL (DCPTime (0).round_up (DCPTime::HZ / 2), DCPTime (0));
+	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 2), DCPTime (2));
+	BOOST_CHECK_EQUAL (DCPTime (2).round_up (DCPTime::HZ / 2), DCPTime (2));
+	BOOST_CHECK_EQUAL (DCPTime (3).round_up (DCPTime::HZ / 2), DCPTime (4));
 	
-	BOOST_CHECK_EQUAL (DCPTime (0).round_up (DCPTime::HZ / 42), 0);
-	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 42), 42);
-	BOOST_CHECK_EQUAL (DCPTime (42).round_up (DCPTime::HZ / 42), 42);
-	BOOST_CHECK_EQUAL (DCPTime (43).round_up (DCPTime::HZ / 42), 84);
+	BOOST_CHECK_EQUAL (DCPTime (0).round_up (DCPTime::HZ / 42), DCPTime (0));
+	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 42), DCPTime (42));
+	BOOST_CHECK_EQUAL (DCPTime (42).round_up (DCPTime::HZ / 42), DCPTime (42));
+	BOOST_CHECK_EQUAL (DCPTime (43).round_up (DCPTime::HZ / 42), DCPTime (84));
 }
 
 

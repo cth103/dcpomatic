@@ -81,7 +81,7 @@ SndfileContent::information () const
 		_("%1 channels, %2kHz, %3 samples"),
 		audio_channels(),
 		content_audio_frame_rate() / 1000.0,
-		audio_length()
+		audio_length().frames (content_audio_frame_rate ())
 		);
 	
 	return s.str ();
@@ -136,7 +136,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	AudioContent::as_xml (node);
 
 	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (audio_channels ()));
-	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (audio_length ()));
+	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (audio_length().get ()));
 	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (content_audio_frame_rate ()));
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }

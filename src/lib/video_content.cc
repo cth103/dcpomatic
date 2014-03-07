@@ -155,7 +155,7 @@ void
 VideoContent::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("VideoLength")->add_child_text (lexical_cast<string> (_video_length));
+	node->add_child("VideoLength")->add_child_text (lexical_cast<string> (_video_length.get ()));
 	node->add_child("VideoWidth")->add_child_text (lexical_cast<string> (_video_size.width));
 	node->add_child("VideoHeight")->add_child_text (lexical_cast<string> (_video_size.height));
 	node->add_child("VideoFrameRate")->add_child_text (lexical_cast<string> (_video_frame_rate));
@@ -180,11 +180,13 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	dcp::Size const vs = d->video_size ();
 	float const vfr = d->video_frame_rate ();
+	cout << "taking " << vfr << "\n";
 	
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_size = vs;
 		_video_frame_rate = vfr;
+		cout << "and then " << _video_frame_rate << "\n";
 	}
 	
 	signal_changed (VideoContentProperty::VIDEO_SIZE);
@@ -317,7 +319,13 @@ VideoContent::set_video_frame_type (VideoFrameType t)
 string
 VideoContent::technical_summary () const
 {
-	return String::compose ("video: length %1, size %2x%3, rate %4", video_length(), video_size().width, video_size().height, video_frame_rate());
+	return String::compose (
+		"video: length %1, size %2x%3, rate %4",
+		video_length().seconds(),
+		video_size().width,
+		video_size().height,
+		video_frame_rate()
+		);
 }
 
 dcp::Size

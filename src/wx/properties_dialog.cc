@@ -85,10 +85,11 @@ PropertiesDialog::frames_already_encoded () const
 	} catch (boost::thread_interrupted &) {
 		return "";
 	}
-	
-	if (_film->length()) {
+
+	uint64_t const frames = _film->length().frames (_film->video_frame_rate ());
+	if (frames) {
 		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << (_film->encoded_frames() * 100 / _film->length().frames (_film->video_frame_rate ())) << "%)";
+		u << " (" << (_film->encoded_frames() * 100 / frames) << "%)";
 	}
 	return u.str ();
 }

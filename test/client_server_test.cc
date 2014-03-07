@@ -36,7 +36,7 @@ do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription description
 	BOOST_CHECK (remotely_encoded);
 	
 	BOOST_CHECK_EQUAL (locally_encoded->size(), remotely_encoded->size());
-	BOOST_CHECK (memcmp (locally_encoded->data(), remotely_encoded->data(), locally_encoded->size()) == 0);
+	BOOST_CHECK_EQUAL (memcmp (locally_encoded->data(), remotely_encoded->data(), locally_encoded->size()), 0);
 }
 
 BOOST_AUTO_TEST_CASE (client_server_test)

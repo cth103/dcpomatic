@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 
 	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
-	BOOST_CHECK (sound_asset->mxf()->channels () == 6);
+	BOOST_CHECK_EQUAL (sound_asset->mxf()->channels (), 6);
 
 	/* Sample index in the DCP */
 	int n = 0;

@@ -50,9 +50,9 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (t->data() != s->data());
 	BOOST_CHECK (t->data()[0] != s->data()[0]);
 	BOOST_CHECK (t->line_size() != s->line_size());
-	BOOST_CHECK (t->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK_EQUAL (t->line_size()[0], s->line_size()[0]);
 	BOOST_CHECK (t->stride() != s->stride());
-	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
+	BOOST_CHECK_EQUAL (t->stride()[0], s->stride()[0]);
 
 	/* assignment operator */
 	Image* u = new Image (PIX_FMT_YUV422P, dcp::Size (150, 150), false);
@@ -67,9 +67,9 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (u->data() != s->data());
 	BOOST_CHECK (u->data()[0] != s->data()[0]);
 	BOOST_CHECK (u->line_size() != s->line_size());
-	BOOST_CHECK (u->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK_EQUAL (u->line_size()[0], s->line_size()[0]);
 	BOOST_CHECK (u->stride() != s->stride());
-	BOOST_CHECK (u->stride()[0] == s->stride()[0]);
+	BOOST_CHECK_EQUAL (u->stride()[0], s->stride()[0]);
 
 	delete s;
 	delete t;
@@ -99,9 +99,9 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (t->data() != s->data());
 	BOOST_CHECK (t->data()[0] != s->data()[0]);
 	BOOST_CHECK (t->line_size() != s->line_size());
-	BOOST_CHECK (t->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK_EQUAL (t->line_size()[0], s->line_size()[0]);
 	BOOST_CHECK (t->stride() != s->stride());
-	BOOST_CHECK (t->stride()[0] == s->stride()[0]);
+	BOOST_CHECK_EQUAL (t->stride()[0], s->stride()[0]);
 
 	/* assignment operator */
 	Image* u = new Image (PIX_FMT_YUV422P, dcp::Size (150, 150), true);
@@ -116,9 +116,9 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (u->data() != s->data());
 	BOOST_CHECK (u->data()[0] != s->data()[0]);
 	BOOST_CHECK (u->line_size() != s->line_size());
-	BOOST_CHECK (u->line_size()[0] == s->line_size()[0]);
+	BOOST_CHECK_EQUAL (u->line_size()[0], s->line_size()[0]);
 	BOOST_CHECK (u->stride() != s->stride());
-	BOOST_CHECK (u->stride()[0] == s->stride()[0]);
+	BOOST_CHECK_EQUAL (u->stride()[0], s->stride()[0]);
 
 	delete s;
 	delete t;

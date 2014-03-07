@@ -58,7 +58,7 @@ static void test_silence_padding (int channels)
 
 	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
-	BOOST_CHECK (sound_asset->mxf()->channels () == channels);
+	BOOST_CHECK_EQUAL (sound_asset->mxf()->channels (), channels);
 
 	/* Sample index in the DCP */
 	int n = 0;

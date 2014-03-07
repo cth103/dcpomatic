@@ -121,6 +121,7 @@ FFmpegExaminer::video_frame_rate () const
 	AVStream* s = _format_context->streams[_video_stream];
 
 	if (s->avg_frame_rate.num && s->avg_frame_rate.den) {
+		cout << "here we bitchen well are " << av_q2d (s->avg_frame_rate) << "\n";
 		return av_q2d (s->avg_frame_rate);
 	}
 
@@ -138,7 +139,7 @@ ContentTime
 FFmpegExaminer::video_length () const
 {
 	ContentTime const length = ContentTime::from_seconds (double (_format_context->duration) / AV_TIME_BASE);
-	return ContentTime (1, length.get ());
+	return ContentTime (max (int64_t (1), length.get ()));
 }
 
 string

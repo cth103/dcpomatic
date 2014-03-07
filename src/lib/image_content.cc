@@ -133,7 +133,7 @@ ImageContent::identifier () const
 {
 	stringstream s;
 	s << VideoContent::identifier ();
-	s << "_" << video_length();
+	s << "_" << video_length().get();
 	return s.str ();
 }
 

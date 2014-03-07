@@ -147,7 +147,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	}
 
 	if (_first_video) {
-		node->add_child("FirstVideo")->add_child_text (lexical_cast<string> (_first_video.get ()));
+		node->add_child("FirstVideo")->add_child_text (lexical_cast<string> (_first_video.get().get()));
 	}
 }
 
@@ -162,6 +162,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	assert (film);
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
+	take_from_video_examiner (examiner);
 
 	ContentTime video_length = examiner->video_length ();
 	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ())));
@@ -183,8 +184,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 		_first_video = examiner->first_video ();
 	}
-
-	take_from_video_examiner (examiner);
 
 	signal_changed (ContentProperty::LENGTH);
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
@@ -227,13 +226,13 @@ FFmpegContent::technical_summary () const
 string
 FFmpegContent::information () const
 {
-	if (video_length() == ContentTime (0) || video_frame_rate() == ContentTime (0)) {
+	if (video_length() == ContentTime (0) || video_frame_rate() == 0) {
 		return "";
 	}
 	
 	stringstream s;
 	
-	s << String::compose (_("%1 frames; %2 frames per second"), video_length(), video_frame_rate()) << "\n";
+	s << String::compose (_("%1 frames; %2 frames per second"), video_length().frames (video_frame_rate()), video_frame_rate()) << "\n";
 	s << VideoContent::information ();
 
 	return s.str ();
@@ -363,7 +362,7 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
 	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
 	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio.get ()));
+		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio.get().get()));
 	}
 	mapping.as_xml (root->add_child("Mapping"));
 }

@@ -126,7 +126,6 @@ Player::pass ()
 
 			dec->set_dcp_times ((*i)->frc, offset);
 			DCPTime const t = dec->dcp_time - offset;
-			cout << "Peeked " << (*i)->content->paths()[0] << " for " << t << " cf " << ((*i)->content->full_length() - (*i)->content->trim_end ()) << "\n";
 			if (t >= ((*i)->content->full_length() - (*i)->content->trim_end ())) {
 				/* In the end-trimmed part; decoder has nothing else to give us */
 				dec.reset ();
@@ -621,7 +620,7 @@ Player::emit_black ()
 void
 Player::emit_silence (DCPTime most)
 {
-	if (most == 0) {
+	if (most == DCPTime ()) {
 		return;
 	}
 	
@@ -774,7 +773,7 @@ void
 PlayerStatistics::dump (shared_ptr<Log> log) const
 {
 	log->log (String::compose ("Video: %1 good %2 skipped %3 black %4 repeat", video.good, video.skip, video.black, video.repeat));
-	log->log (String::compose ("Audio: %1 good %2 skipped %3 silence", audio.good, audio.skip, audio.silence));
+	log->log (String::compose ("Audio: %1 good %2 skipped %3 silence", audio.good, audio.skip, audio.silence.seconds()));
 }
 
 PlayerStatistics const &

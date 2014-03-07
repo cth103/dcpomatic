@@ -96,11 +96,11 @@ Content::Content (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
 	, _change_signals_frequent (false)
 {
 	for (size_t i = 0; i < c.size(); ++i) {
-		if (i > 0 && c[i]->trim_start ()) {
+		if (i > 0 && c[i]->trim_start() > DCPTime()) {
 			throw JoinError (_("Only the first piece of content to be joined can have a start trim."));
 		}
 
-		if (i < (c.size() - 1) && c[i]->trim_end ()) {
+		if (i < (c.size() - 1) && c[i]->trim_end () > DCPTime()) {
 			throw JoinError (_("Only the last piece of content to be joined can have an end trim."));
 		}
 
@@ -201,7 +201,7 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", path_summary(), digest(), position());
+	return String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
 }
 
 DCPTime
@@ -219,9 +219,9 @@ Content::identifier () const
 	stringstream s;
 	
 	s << Content::digest()
-	  << "_" << position()
-	  << "_" << trim_start()
-	  << "_" << trim_end();
+	  << "_" << position().get()
+	  << "_" << trim_start().get()
+	  << "_" << trim_end().get();
 
 	return s.str ();
 }

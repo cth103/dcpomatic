@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 	TimedAudioBuffers<DCPTime> tb = merger.pull (DCPTime::from_frames (22, frame_rate));
 	BOOST_CHECK (tb.audio != shared_ptr<const AudioBuffers> ());
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 22);
-	BOOST_CHECK_EQUAL (tb.time, 0);
+	BOOST_CHECK_EQUAL (tb.time, DCPTime ());
 
 	/* And they should be a staircase */
 	for (int i = 0; i < 22; ++i) {
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test2)
 
 	TimedAudioBuffers<DCPTime> tb = merger.pull (DCPTime::from_frames (9, frame_rate));
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 9);
-	BOOST_CHECK_EQUAL (tb.time, 0);
+	BOOST_CHECK_EQUAL (tb.time, DCPTime ());
 	
 	for (int i = 0; i < 9; ++i) {
 		BOOST_CHECK_EQUAL (tb.audio->data()[0][i], 0);
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test2)
 
 	/* That flush should give us 64 samples at 9 */
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.time, 9);
+	BOOST_CHECK_EQUAL (tb.time, DCPTime::from_frames (9, frame_rate));
 	
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
