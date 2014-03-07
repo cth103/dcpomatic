@@ -123,7 +123,6 @@ Player::pass ()
 				break;
 			}
 
-
 			dec->set_dcp_times ((*i)->frc, offset);
 			DCPTime const t = dec->dcp_time - offset;
 			if (t >= ((*i)->content->full_length() - (*i)->content->trim_end ())) {
