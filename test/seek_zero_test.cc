@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	FFmpegDecoder decoder (film, content, true, false);
+	FFmpegDecoder decoder (content, film->log(), true, false, false);
 	shared_ptr<DecodedVideo> a = dynamic_pointer_cast<DecodedVideo> (decoder.peek ());
 	decoder.seek (ContentTime(), true);
 	shared_ptr<DecodedVideo> b = dynamic_pointer_cast<DecodedVideo> (decoder.peek ());

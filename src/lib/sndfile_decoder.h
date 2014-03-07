@@ -26,7 +26,7 @@ class SndfileContent;
 class SndfileDecoder : public AudioDecoder
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SndfileContent>);
+	SndfileDecoder (boost::shared_ptr<const SndfileContent>);
 	~SndfileDecoder ();
 
 	void seek (ContentTime, bool);

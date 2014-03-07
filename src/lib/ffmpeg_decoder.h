@@ -38,7 +38,7 @@ extern "C" {
 #include "subtitle_decoder.h"
 #include "ffmpeg.h"
 
-class Film;
+class Log;
 class FilterGraph;
 class ffmpeg_pts_offset_test;
 
@@ -48,7 +48,7 @@ class ffmpeg_pts_offset_test;
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder, public FFmpeg
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const FFmpegContent>, bool video, bool audio);
+	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>, bool video, bool audio, bool subtitles);
 	~FFmpegDecoder ();
 
 	void seek (ContentTime time, bool);
@@ -76,6 +76,7 @@ private:
 	int minimal_run (boost::function<bool (boost::optional<ContentTime>, boost::optional<ContentTime>, int)>);
 	void seek_and_flush (ContentTime);
 
+	boost::shared_ptr<Log> _log;
 	AVCodecContext* _subtitle_codec_context; ///< may be 0 if there is no subtitle
 	AVCodec* _subtitle_codec;		 ///< may be 0 if there is no subtitle
 	
@@ -84,6 +85,7 @@ private:
 
 	bool _decode_video;
 	bool _decode_audio;
+	bool _decode_subtitles;
 
 	ContentTime _pts_offset;
 };

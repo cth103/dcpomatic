@@ -21,7 +21,6 @@
  *  @brief Parent class for decoders of content.
  */
 
-#include "film.h"
 #include "decoder.h"
 #include "decoded.h"
 
@@ -30,12 +29,10 @@
 using std::cout;
 using boost::shared_ptr;
 
-/** @param f Film.
- *  @param o Decode options.
+/** @param o Decode options.
  */
-Decoder::Decoder (shared_ptr<const Film> f)
-	: _film (f)
-	, _done (false)
+Decoder::Decoder ()
+	: _done (false)
 {
 
 }

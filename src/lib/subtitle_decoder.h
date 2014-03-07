@@ -34,7 +34,7 @@ class Image;
 class SubtitleDecoder : public virtual Decoder
 {
 public:
-	SubtitleDecoder (boost::shared_ptr<const Film>);
+	SubtitleDecoder ();
 
 protected:
 	void image_subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, ContentTime, ContentTime);

@@ -158,13 +158,13 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	Content::examine (job);
 
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
 
 	ContentTime video_length = examiner->video_length ();
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
 	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ())));
 
 	{

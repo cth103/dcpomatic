@@ -486,7 +486,7 @@ Player::setup_pieces ()
 		/* FFmpeg */
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
 		if (fc) {
-			decoder.reset (new FFmpegDecoder (_film, fc, _video, _audio));
+			decoder.reset (new FFmpegDecoder (fc, _film->log(), _video, _audio, _film->with_subtitles ()));
 			frc = FrameRateChange (fc->video_frame_rate(), _film->video_frame_rate());
 		}
 
@@ -502,7 +502,7 @@ Player::setup_pieces ()
 			}
 
 			if (!decoder) {
-				decoder.reset (new ImageDecoder (_film, ic));
+				decoder.reset (new ImageDecoder (ic));
 			}
 
 			frc = FrameRateChange (ic->video_frame_rate(), _film->video_frame_rate());
@@ -511,14 +511,14 @@ Player::setup_pieces ()
 		/* SndfileContent */
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
 		if (sc) {
-			decoder.reset (new SndfileDecoder (_film, sc));
+			decoder.reset (new SndfileDecoder (sc));
 			frc = best_overlap_frc;
 		}
 
 		/* SubRipContent */
 		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (*i);
 		if (rc) {
-			decoder.reset (new SubRipDecoder (_film, rc));
+			decoder.reset (new SubRipDecoder (rc));
 			frc = best_overlap_frc;
 		}
 

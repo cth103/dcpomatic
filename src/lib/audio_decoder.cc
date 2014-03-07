@@ -23,7 +23,6 @@
 #include "log.h"
 #include "resampler.h"
 #include "util.h"
-#include "film.h"
 
 #include "i18n.h"
 
@@ -34,9 +33,8 @@ using std::cout;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<const Film> film, shared_ptr<const AudioContent> content)
-	: Decoder (film)
-	, _audio_content (content)
+AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
+	: _audio_content (content)
 {
 	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
 		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));
@@ -58,8 +56,6 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	}
 
 	if (!_audio_position) {
-		shared_ptr<const Film> film = _film.lock ();
-		assert (film);
 		_audio_position = time;
 	}
 

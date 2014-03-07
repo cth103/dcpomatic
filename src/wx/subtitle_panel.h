@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 class wxCheckBox;
 class wxSpinCtrl;
+class SubtitleView;
 
 class SubtitlePanel : public FilmEditorPanel
 {
@@ -37,6 +38,7 @@ private:
 	void y_offset_changed ();
 	void scale_changed ();
 	void stream_changed ();
+	void view_clicked ();
 
 	void setup_sensitivity ();
 	
@@ -45,4 +47,6 @@ private:
 	wxSpinCtrl* _y_offset;
 	wxSpinCtrl* _scale;
 	wxChoice* _stream;
+	wxButton* _view_button;
+	SubtitleView* _view;
 };

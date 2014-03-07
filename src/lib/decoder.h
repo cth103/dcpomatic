@@ -30,7 +30,6 @@
 #include "types.h"
 #include "dcpomatic_time.h"
 
-class Film;
 class Decoded;
 
 /** @class Decoder.
@@ -39,7 +38,7 @@ class Decoded;
 class Decoder : public boost::noncopyable
 {
 public:
-	Decoder (boost::shared_ptr<const Film>);
+	Decoder ();
 	virtual ~Decoder () {}
 
 	/** Seek so that the next peek() will yield the next thing
@@ -67,9 +66,6 @@ protected:
 	virtual bool pass () = 0;
 	virtual void flush () {};
 	
-	/** The Film that we are decoding in */
-	boost::weak_ptr<const Film> _film;
-
 	std::list<boost::shared_ptr<Decoded> > _pending;
 	bool _done;
 };

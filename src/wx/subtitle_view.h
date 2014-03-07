@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,17 @@
 
 */
 
-#include "video_decoder.h"
+#include <boost/shared_ptr.hpp>
+#include <wx/wx.h>
+#include <wx/listctrl.h>
 
-namespace Magick {
-	class Image;
-}
+class SubRipContent;
 
-class ImageContent;
-
-class ImageDecoder : public VideoDecoder
+class SubtitleView : public wxDialog
 {
 public:
-	ImageDecoder (boost::shared_ptr<const ImageContent>);
+	SubtitleView (wxWindow *, boost::shared_ptr<SubRipContent>);
 
-	boost::shared_ptr<const ImageContent> content () {
-		return _image_content;
-	}
-
-	void seek (ContentTime, bool);
-
-private:
-	bool pass ();
-	
-	boost::shared_ptr<const ImageContent> _image_content;
-	boost::shared_ptr<Image> _image;
-	ContentTime _video_position;
+private:	
+	wxListCtrl* _list;
 };
-

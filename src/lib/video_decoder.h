@@ -33,7 +33,7 @@ class Image;
 class VideoDecoder : public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const VideoContent>);
+	VideoDecoder (boost::shared_ptr<const VideoContent>);
 
 	boost::shared_ptr<const VideoContent> video_content () const {
 		return _video_content;

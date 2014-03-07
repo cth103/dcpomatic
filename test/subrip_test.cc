@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
 
-	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (film, content));
+	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
 	shared_ptr<DecodedTextSubtitle> dts = dynamic_pointer_cast<DecodedTextSubtitle> (decoder->peek ());
 
 	shared_ptr<Image> image;

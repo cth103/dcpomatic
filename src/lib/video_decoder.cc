@@ -26,9 +26,8 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoContent> c)
-	: Decoder (f)
-	, _video_content (c)
+VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
+	: _video_content (c)
 {
 
 }

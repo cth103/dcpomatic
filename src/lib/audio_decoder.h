@@ -38,7 +38,7 @@ class Resampler;
 class AudioDecoder : public virtual Decoder
 {
 public:
-	AudioDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const AudioContent>);
+	AudioDecoder (boost::shared_ptr<const AudioContent>);
 	
 	boost::shared_ptr<const AudioContent> audio_content () const {
 		return _audio_content;

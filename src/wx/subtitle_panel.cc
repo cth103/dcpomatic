@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,9 +20,11 @@
 #include <boost/lexical_cast.hpp>
 #include <wx/spinctrl.h>
 #include "lib/ffmpeg_content.h"
+#include "lib/subrip_content.h"
 #include "subtitle_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"
+#include "subtitle_view.h"
 
 using std::vector;
 using std::string;
@@ -32,6 +34,7 @@ using boost::dynamic_pointer_cast;
 
 SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	: FilmEditorPanel (e, _("Subtitles"))
+	, _view (0)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
@@ -70,6 +73,9 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	add_label_to_sizer (grid, this, _("Subtitle Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, 1, wxEXPAND);
+
+	_view_button = new wxButton (this, wxID_ANY, _("View..."));
+	grid->Add (_view_button);
 	
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
@@ -81,6 +87,7 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	_y_offset->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
 	_scale->Bind          (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::scale_changed, this));
 	_stream->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
+	_view_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::view_clicked, this));
 }
 
 void
@@ -164,6 +171,9 @@ SubtitlePanel::setup_sensitivity ()
 	_y_offset->Enable (j);
 	_scale->Enable (j);
 	_stream->Enable (j);
+
+	SubtitleContentList c = _editor->selected_subtitle_content ();
+	_view_button->Enable (c.size() == 1);
 }
 
 void
@@ -222,4 +232,22 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_SCALE);
+}
+
+void
+SubtitlePanel::view_clicked ()
+{
+	if (_view) {
+		_view->Destroy ();
+		_view = 0;
+	}
+
+	SubtitleContentList c = _editor->selected_subtitle_content ();
+	assert (c.size() == 1);
+	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
+	if (sr) {
+		_view = new SubtitleView (this, sr);
+	}
+
+	_view->Show ();
 }

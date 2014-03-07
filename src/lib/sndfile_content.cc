@@ -102,10 +102,7 @@ SndfileContent::examine (shared_ptr<Job> job)
 	job->set_progress_unknown ();
 	Content::examine (job);
 
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-
-	SndfileDecoder dec (film, shared_from_this());
+	SndfileDecoder dec (shared_from_this());
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

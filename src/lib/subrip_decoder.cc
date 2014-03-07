@@ -23,10 +23,8 @@
 using std::list;
 using boost::shared_ptr;
 
-SubRipDecoder::SubRipDecoder (shared_ptr<const Film> film, shared_ptr<const SubRipContent> content)
-	: Decoder (film)
-	, SubtitleDecoder (film)
-	, SubRip (content)
+SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
+	: SubRip (content)
 	, _next (0)
 {
 

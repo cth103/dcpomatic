@@ -33,7 +33,6 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
-#include "film.h"
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
@@ -58,16 +57,16 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> f, shared_ptr<const FFmpegContent> c, bool video, bool audio)
-	: Decoder (f)
-	, VideoDecoder (f, c)
-	, AudioDecoder (f, c)
-	, SubtitleDecoder (f)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool video, bool audio, bool subtitles)
+	: VideoDecoder (c)
+	, AudioDecoder (c)
 	, FFmpeg (c)
+	, _log (log)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 	, _decode_video (video)
 	, _decode_audio (audio)
+	, _decode_subtitles (subtitles)
 	, _pts_offset (0)
 {
 	setup_subtitle ();
@@ -144,17 +143,12 @@ FFmpegDecoder::pass ()
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
-			shared_ptr<const Film> film = _film.lock ();
-			assert (film);
-			film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
+			_log->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
 		}
 
 		flush ();
 		return true;
 	}
-
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
 
 	int const si = _packet.stream_index;
 	
@@ -162,7 +156,7 @@ FFmpegDecoder::pass ()
 		decode_video_packet ();
 	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si) && _decode_audio) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _ffmpeg_content->subtitle_stream()->uses_index (_format_context, si) && film->with_subtitles ()) {
+	} else if (_ffmpeg_content->subtitle_stream() && _ffmpeg_content->subtitle_stream()->uses_index (_format_context, si) && _decode_subtitles) {
 		decode_subtitle_packet ();
 	}
 
@@ -427,9 +421,7 @@ FFmpegDecoder::decode_audio_packet ()
 		int const decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
 
 		if (decode_result < 0) {
-			shared_ptr<const Film> film = _film.lock ();
-			assert (film);
-			film->log()->log (String::compose ("avcodec_decode_audio4 failed (%1)", decode_result));
+			_log->log (String::compose ("avcodec_decode_audio4 failed (%1)", decode_result));
 			return;
 		}
 
@@ -469,13 +461,9 @@ FFmpegDecoder::decode_video_packet ()
 	}
 
 	if (i == _filter_graphs.end ()) {
-		shared_ptr<const Film> film = _film.lock ();
-		assert (film);
-
 		graph.reset (new FilterGraph (_ffmpeg_content, dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
 		_filter_graphs.push_back (graph);
-
-		film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
+		_log->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
 	} else {
 		graph = *i;
 	}
@@ -494,9 +482,7 @@ FFmpegDecoder::decode_video_packet ()
 		if (i->second != AV_NOPTS_VALUE) {
 			video (image, false, ContentTime::from_seconds (i->second * av_q2d (_format_context->streams[_video_stream]->time_base)) + _pts_offset);
 		} else {
-			shared_ptr<const Film> film = _film.lock ();
-			assert (film);
-			film->log()->log ("Dropping frame without PTS");
+			_log->log ("Dropping frame without PTS");
 		}
 	}
 

@@ -32,9 +32,8 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
 
-ImageDecoder::ImageDecoder (shared_ptr<const Film> f, shared_ptr<const ImageContent> c)
-	: Decoder (f)
-	, VideoDecoder (f, c)
+ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
+	: VideoDecoder (c)
 	, _image_content (c)
 {
 

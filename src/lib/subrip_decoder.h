@@ -28,8 +28,9 @@ class SubRipContent;
 class SubRipDecoder : public SubtitleDecoder, public SubRip
 {
 public:
-	SubRipDecoder (boost::shared_ptr<const Film>, boost::shared_ptr<const SubRipContent>);
-	
+	SubRipDecoder (boost::shared_ptr<const SubRipContent>);
+
+protected:	
 	bool pass ();
 
 private:

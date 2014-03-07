@@ -24,8 +24,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-SubtitleDecoder::SubtitleDecoder (shared_ptr<const Film> f)
-	: Decoder (f)
+SubtitleDecoder::SubtitleDecoder ()
 {
 
 }
