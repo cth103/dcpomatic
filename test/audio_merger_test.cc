@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 	/* Push 64 samples, 0 -> 63 at time 22 */
 	merger.push (buffers, DCPTime::from_frames (22, frame_rate));
 
-	TimedAudioBuffers<DCPTime> tb = merger.pull (DCPTime::from_frames (22, frame_rate));
+	TimedAudioBuffers tb = merger.pull (DCPTime::from_frames (22, frame_rate));
 	BOOST_CHECK (tb.audio != shared_ptr<const AudioBuffers> ());
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 22);
 	BOOST_CHECK_EQUAL (tb.time, DCPTime ());
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test2)
 	}
 	merger.push (buffers, DCPTime::from_frames (9, frame_rate));
 
-	TimedAudioBuffers<DCPTime> tb = merger.pull (DCPTime::from_frames (9, frame_rate));
+	TimedAudioBuffers tb = merger.pull (DCPTime::from_frames (9, frame_rate));
 	BOOST_CHECK_EQUAL (tb.audio->frames(), 9);
 	BOOST_CHECK_EQUAL (tb.time, DCPTime ());
 	

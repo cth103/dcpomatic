@@ -33,12 +33,12 @@ AudioMerger::AudioMerger (int channels, int frame_rate)
 }
 
 
-TimedAudioBuffers<DCPTime>
+TimedAudioBuffers
 AudioMerger::pull (DCPTime time)
 {
 	assert (time >= _last_pull);
 	
-	TimedAudioBuffers<DCPTime> out;
+	TimedAudioBuffers out;
 	
 	int64_t const to_return = DCPTime (time - _last_pull).frames (_frame_rate);
 	out.audio.reset (new AudioBuffers (_buffers->channels(), to_return));
@@ -74,14 +74,14 @@ AudioMerger::push (shared_ptr<const AudioBuffers> audio, DCPTime time)
 	_buffers->set_frames (after);
 }
 
-TimedAudioBuffers<DCPTime>
+TimedAudioBuffers
 AudioMerger::flush ()
 {
 	if (_buffers->frames() == 0) {
-		return TimedAudioBuffers<DCPTime> ();
+		return TimedAudioBuffers ();
 	}
 	
-	return TimedAudioBuffers<DCPTime> (_buffers, _last_pull);
+	return TimedAudioBuffers (_buffers, _last_pull);
 }
 
 void

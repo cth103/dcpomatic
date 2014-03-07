@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <boost/shared_ptr.hpp>
 #include <dcp/util.h>
+#include "dcpomatic_time.h"
 
 class Content;
 class VideoContent;
@@ -44,20 +45,19 @@ typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
 typedef std::vector<boost::shared_ptr<SubtitleContent> > SubtitleContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 
-template<class T>
 struct TimedAudioBuffers
 {
 	TimedAudioBuffers ()
 		: time (0)
 	{}
 	
-	TimedAudioBuffers (boost::shared_ptr<AudioBuffers> a, T t)
+	TimedAudioBuffers (boost::shared_ptr<AudioBuffers> a, DCPTime t)
 		: audio (a)
 		, time (t)
 	{}
 	
 	boost::shared_ptr<AudioBuffers> audio;
-	T time;
+	DCPTime time;
 };
 
 enum VideoFrameType

@@ -121,7 +121,6 @@ FFmpegExaminer::video_frame_rate () const
 	AVStream* s = _format_context->streams[_video_stream];
 
 	if (s->avg_frame_rate.num && s->avg_frame_rate.den) {
-		cout << "here we bitchen well are " << av_q2d (s->avg_frame_rate) << "\n";
 		return av_q2d (s->avg_frame_rate);
 	}
 

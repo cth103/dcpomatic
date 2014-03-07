@@ -162,7 +162,7 @@ Player::pass ()
 		if (earliest_audio.get() < 0) {
 			earliest_audio = DCPTime ();
 		}
-		TimedAudioBuffers<DCPTime> tb = _audio_merger.pull (earliest_audio);
+		TimedAudioBuffers tb = _audio_merger.pull (earliest_audio);
 		Audio (tb.audio, tb.time);
 		/* This assumes that the audio-frames-to-time conversion is exact
 		   so that there are no accumulated errors caused by rounding.
@@ -383,7 +383,7 @@ Player::emit_audio (weak_ptr<Piece> weak_piece, shared_ptr<DecodedAudio> audio)
 void
 Player::flush ()
 {
-	TimedAudioBuffers<DCPTime> tb = _audio_merger.flush ();
+	TimedAudioBuffers tb = _audio_merger.flush ();
 	if (_audio && tb.audio) {
 		Audio (tb.audio, tb.time);
 		_audio_position += DCPTime::from_frames (tb.audio->frames (), _film->audio_frame_rate ());

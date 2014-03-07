@@ -50,9 +50,11 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
 	SubRip s (shared_from_this ());
-	boost::mutex::scoped_lock lm (_mutex);
 	shared_ptr<const Film> film = _film.lock ();
-	_length = DCPTime (s.length (), film->active_frame_rate_change (position ()));
+	DCPTime len (s.length (), film->active_frame_rate_change (position ()));
+
+	boost::mutex::scoped_lock lm (_mutex);
+	_length = len;
 }
 
 string

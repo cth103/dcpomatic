@@ -29,9 +29,9 @@ public:
 	/** Pull audio up to a given time; after this call, no more data can be pushed
 	 *  before the specified time.
 	 */
-	TimedAudioBuffers<DCPTime> pull (DCPTime time);
+	TimedAudioBuffers pull (DCPTime time);
 	void push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time);
-	TimedAudioBuffers<DCPTime> flush ();
+	TimedAudioBuffers flush ();
 	void clear (DCPTime t);
 	
 private:

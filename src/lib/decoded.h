@@ -121,8 +121,8 @@ public:
 
 	/* Assuming that all subs are at the same time */
 	DecodedTextSubtitle (std::list<dcp::SubtitleString> s)
-		: Decoded (ContentTime::from_seconds (subs.front().in().to_ticks() * 4 / 1000.0))
-		, content_time_to (ContentTime::from_seconds (subs.front().out().to_ticks() * 4 / 1000.0))
+		: Decoded (ContentTime::from_seconds (s.front().in().to_ticks() * 4 / 1000.0))
+		, content_time_to (ContentTime::from_seconds (s.front().out().to_ticks() * 4 / 1000.0))
 		, subs (s)
 	{
 		
