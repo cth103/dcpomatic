@@ -1,5 +1,7 @@
 2014-03-08  Carl Hetherington  <cth@carlh.net>
 
+	* Fix incorrect audio analyses on multiple-stream content.
+
 	* Support for unsigned 8-bit audio (hmm!).
 
 2014-03-06  Carl Hetherington  <cth@carlh.net>

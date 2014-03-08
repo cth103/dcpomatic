@@ -477,3 +477,23 @@ FFmpegContent::identifier () const
 	return s.str ();
 }
 
+boost::filesystem::path
+FFmpegContent::audio_analysis_path () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return boost::filesystem::path ();
+	}
+
+	/* We need to include the stream ID in this path so that we get different
+	   analyses for each stream.
+	*/
+
+	boost::filesystem::path p = film->audio_analysis_dir ();
+	string name = digest ();
+	if (audio_stream ()) {
+		name += "_" + audio_stream()->identifier ();
+	}
+	p /= name;
+	return p;
+}

@@ -150,6 +150,7 @@ public:
 	int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);
+	boost::filesystem::path audio_analysis_path () const;
 
 	void set_filters (std::vector<Filter const *> const &);
 	

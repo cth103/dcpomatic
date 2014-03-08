@@ -57,9 +57,9 @@ public:
 	virtual int output_audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
 	virtual void set_audio_mapping (AudioMapping) = 0;
+	virtual boost::filesystem::path audio_analysis_path () const;
 
 	boost::signals2::connection analyse_audio (boost::function<void()>);
-	boost::filesystem::path audio_analysis_path () const;
 
 	void set_audio_gain (float);
 	void set_audio_delay (int);

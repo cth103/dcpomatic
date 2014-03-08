@@ -232,11 +232,9 @@ Film::filename_safe_name () const
 }
 
 boost::filesystem::path
-Film::audio_analysis_path (shared_ptr<const AudioContent> c) const
+Film::audio_analysis_dir () const
 {
-	boost::filesystem::path p = dir ("analysis");
-	p /= c->digest();
-	return p;
+	return dir ("analysis");
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */
