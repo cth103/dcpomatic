@@ -182,6 +182,23 @@ FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_ffmpeg_content->audio_channels(), frames));
 
 	switch (audio_sample_format()) {
+	case AV_SAMPLE_FMT_U8:
+	{
+		uint8_t* p = reinterpret_cast<uint8_t *> (data[0]);
+		int sample = 0;
+		int channel = 0;
+		for (int i = 0; i < total_samples; ++i) {
+			audio->data(channel)[sample] = float(*p++) / (1 << 23);
+
+			++channel;
+			if (channel == _ffmpeg_content->audio_channels()) {
+				channel = 0;
+				++sample;
+			}
+		}
+	}
+	break;
+	
 	case AV_SAMPLE_FMT_S16:
 	{
 		int16_t* p = reinterpret_cast<int16_t *> (data[0]);
