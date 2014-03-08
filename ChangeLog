@@ -1,5 +1,9 @@
 2014-03-08  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.65.1 released.
+
+2014-03-08  Carl Hetherington  <cth@carlh.net>
+
 	* Fix incorrect audio analyses on multiple-stream content.
 
 	* Support for unsigned 8-bit audio (hmm!).
