@@ -939,6 +939,7 @@ Film::set_sequence_video (bool s)
 	signal_changed (SEQUENCE_VIDEO);
 }
 
+/** @return Size of the largest possible image in whatever resolution we are using */
 libdcp::Size
 Film::full_frame () const
 {
@@ -951,6 +952,13 @@ Film::full_frame () const
 
 	assert (false);
 	return libdcp::Size ();
+}
+
+/** @return Size of the frame */
+libdcp::Size
+Film::frame_size () const
+{
+	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
 libdcp::KDM

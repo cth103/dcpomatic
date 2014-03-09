@@ -126,7 +126,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
-	set_video_container_size (fit_ratio_within (_film->container()->ratio (), _film->full_frame ()));
+	set_video_container_size (_film->frame_size ());
 }
 
 void
@@ -273,7 +273,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	}
 
 	Time const time = content->position() + relative_time + extra - content->trim_start ();
-	libdcp::Size const image_size = content->scale().size (content, _video_container_size);
+	libdcp::Size const image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 
 	shared_ptr<PlayerImage> pi (
 		new PlayerImage (

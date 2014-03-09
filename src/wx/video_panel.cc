@@ -305,8 +305,8 @@ VideoPanel::setup_description ()
 		++lines;
 	}
 
-	libdcp::Size const container_size = fit_ratio_within (_editor->film()->container()->ratio (), _editor->film()->full_frame ());
-	libdcp::Size const scaled = vcs->scale().size (vcs, container_size);
+	libdcp::Size const container_size = _editor->film()->frame_size ();
+	libdcp::Size const scaled = vcs->scale().size (vcs, container_size, container_size);
 
 	if (scaled != vcs->video_size_after_crop ()) {
 		d << wxString::Format (

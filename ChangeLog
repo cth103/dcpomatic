@@ -1,3 +1,7 @@
+2014-03-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix display of no-scale display mode in the player.
+
 2014-03-08  Carl Hetherington  <cth@carlh.net>
 
 	* Fix incorrect audio analyses on multiple-stream content.

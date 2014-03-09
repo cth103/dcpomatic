@@ -96,6 +96,7 @@ public:
 	}
 
 	libdcp::Size full_frame () const;
+	libdcp::Size frame_size () const;
 
 	std::list<boost::filesystem::path> dcps () const;
 
