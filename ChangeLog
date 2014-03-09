@@ -1,5 +1,9 @@
 2014-03-09  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.65.2 released.
+
+2014-03-09  Carl Hetherington  <cth@carlh.net>
+
 	* Restore old behaviour of "no-stretch" mode with crop.
 
 	* Fix display of no-scale display mode in the player.
