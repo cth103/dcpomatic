@@ -1,5 +1,7 @@
 2014-03-09  Carl Hetherington  <cth@carlh.net>
 
+	* Restore old behaviour of "no-stretch" mode with crop.
+
 	* Fix display of no-scale display mode in the player.
 
 2014-03-08  Carl Hetherington  <cth@carlh.net>

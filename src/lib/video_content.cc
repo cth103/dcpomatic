@@ -453,9 +453,11 @@ VideoContentScale::size (shared_ptr<const VideoContent> c, libdcp::Size display_
 		return fit_ratio_within (_ratio->ratio (), display_container);
 	}
 
+	libdcp::Size const ac = c->video_size_after_crop ();
+
 	/* Force scale if the film_container is smaller than the content's image */
-	if (_scale || film_container.width < c->video_size().width || film_container.height < c->video_size().height) {
-		return fit_ratio_within (c->video_size().ratio (), display_container);
+	if (_scale || film_container.width < ac.width || film_container.height < ac.height) {
+		return fit_ratio_within (ac.ratio (), display_container);
 	}
 
 	/* Scale the image so that it will be in the right place in film_container, even if display_container is a
