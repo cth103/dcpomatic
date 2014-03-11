@@ -1,9 +1,14 @@
 #!/bin/bash
 
 export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=/Users/carl/Environments/osx/64/lib:build/src/lib:build/src/wx:build/src/asdcplib/src:$DYLD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
     shift
-    gdb --args build/src/tools/dcpomatic $*
+    if [ `which gdb` ]; then
+      gdb --args build/src/tools/dcpomatic $*
+    else
+      lldb build/src/tools/dcpomatic $*
+    fi
 elif [ "$1" == "--valgrind" ]; then
     shift
     valgrind --tool="memcheck" build/src/tools/dcpomatic $*
