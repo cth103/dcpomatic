@@ -104,6 +104,14 @@ done
 cp build/platform/osx/Info.plist $WORK/$approot
 cp icons/dcpomatic.icns $WORK/$resources/DCP-o-matic.icns
 
+# i18n: .mo files
+for l in de_DE es_ES fr_FR it_IT sv_SE; do
+  mkdir $WORK/$resources/$l
+  cp build/src/lib/mo/$1/*.mo $WORK/$resources/$l
+  cp build/src/wx/mo/$1/*.mo $WORK/$resources/$l
+  cp build/src/tools/mo/$1/*.mo $WORK/$resources/$l
+done
+
 tmp_dmg=$WORK/dcpomatic_tmp.dmg
 dmg="$WORK/DCP-o-matic $version.dmg"
 vol_name=DCP-o-matic-$version
