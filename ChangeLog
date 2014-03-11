@@ -1,3 +1,11 @@
+2014-03-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.66.0 released.
+
+2014-03-09  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.65.2 released.
+
 2014-03-09  Carl Hetherington  <cth@carlh.net>
 
 	* Restore old behaviour of "no-stretch" mode with crop.
