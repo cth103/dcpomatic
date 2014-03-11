@@ -40,6 +40,9 @@
 
 #include "i18n.h"
 
+/* OS X strikes again */
+#undef set_key
+
 using std::make_pair;
 using std::pair;
 using std::string;

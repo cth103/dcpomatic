@@ -310,8 +310,11 @@ Waker::nudge ()
 
 Waker::Waker ()
 {
-#ifdef DCPOMATIC_OSX	
-        IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
+#ifdef DCPOMATIC_OSX
+	/* We should use this */
+        // IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
+	/* but it's not available on 10.5, so we use this */
+        IOPMAssertionCreate (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, &_assertion_id);
 #endif	
 }
 
