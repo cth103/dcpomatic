@@ -107,9 +107,9 @@ cp icons/dcpomatic.icns $WORK/$resources/DCP-o-matic.icns
 # i18n: .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE; do
   mkdir $WORK/$resources/$lang
-  cp build/src/lib/mo/$lang/*.mo $WORK/$resources/$l
-  cp build/src/wx/mo/$lang/*.mo $WORK/$resources/$l
-  cp build/src/tools/mo/$lang/*.mo $WORK/$resources/$l
+  cp build/src/lib/mo/$lang/*.mo $WORK/$resources/$lang
+  cp build/src/wx/mo/$lang/*.mo $WORK/$resources/$lang
+  cp build/src/tools/mo/$lang/*.mo $WORK/$resources/$lang
 done
 
 tmp_dmg=$WORK/dcpomatic_tmp.dmg
