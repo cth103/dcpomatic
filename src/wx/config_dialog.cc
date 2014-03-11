@@ -53,7 +53,7 @@ ConfigDialog::ConfigDialog (wxWindow* parent)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	_notebook = new wxNotebook (this, wxID_ANY);
-	s->Add (_notebook, 1);
+	s->Add (_notebook, 1, wxEXPAND);
 
 	make_misc_panel ();
 	_notebook->AddPage (_misc_panel, _("Miscellaneous"), true);
