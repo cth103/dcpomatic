@@ -1,3 +1,7 @@
+2014-03-12  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully fix i18n on OS X (#324).
+
 2014-03-10  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.0 released.
