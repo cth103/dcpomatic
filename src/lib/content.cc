@@ -195,7 +195,10 @@ Content::clone () const
 	xmlpp::Document doc;
 	xmlpp::Node* node = doc.create_root_node ("Content");
 	as_xml (node);
-	return content_factory (film, cxml::NodePtr (new cxml::Node (node)), Film::current_state_version);
+
+	/* notes is unused here (we assume) */
+	list<string> notes;
+	return content_factory (film, cxml::NodePtr (new cxml::Node (node)), Film::current_state_version, notes);
 }
 
 string

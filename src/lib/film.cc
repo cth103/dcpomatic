@@ -381,8 +381,10 @@ Film::write_metadata () const
 	_dirty = false;
 }
 
-/** Read state from our metadata file */
-void
+/** Read state from our metadata file.
+ *  @return Notes about things that the user should know about, or empty.
+ */
+list<string>
 Film::read_metadata ()
 {
 	LocaleGuard lg;
@@ -430,9 +432,13 @@ Film::read_metadata ()
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
 	_key = libdcp::Key (f.string_child ("Key"));
-	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version);
+
+	list<string> notes;
+	/* This method is the only one that can return notes (so far) */
+	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
 	_dirty = false;
+	return notes;
 }
 
 /** Given a directory name, return its full path within the Film's directory.

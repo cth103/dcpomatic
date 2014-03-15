@@ -240,12 +240,11 @@ VideoPanel::film_content_changed (int property)
 		_colour_conversion->SetLabel (preset ? std_to_wx (cc[preset.get()].name) : _("Custom"));
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (fcs) {
-			pair<string, string> p = Filter::ffmpeg_strings (fcs->filters ());
-			if (p.first.empty () && p.second.empty ()) {
+			string const p = Filter::ffmpeg_string (fcs->filters ());
+			if (p.empty ()) {
 				_filters->SetLabel (_("None"));
 			} else {
-				string const b = p.first + " " + p.second;
-				_filters->SetLabel (std_to_wx (b));
+				_filters->SetLabel (std_to_wx (p));
 			}
 		}
 	}

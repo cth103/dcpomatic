@@ -127,7 +127,7 @@ class FFmpegContent : public VideoContent, public AudioContent, public SubtitleC
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int version);
+	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int version, std::list<std::string> &);
 	FFmpegContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
