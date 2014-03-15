@@ -83,15 +83,20 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 2, 6);
 	add_label_to_sizer (table, this, _("From"), true);
-	_from_date = new wxDatePickerCtrl (this, wxID_ANY);
+	wxDateTime from;
+	from.SetToCurrent ();
+	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from);
 	table->Add (_from_date, 1, wxEXPAND);
-	_from_time = new wxTimePickerCtrl (this, wxID_ANY);
+	_from_time = new wxTimePickerCtrl (this, wxID_ANY, from);
 	table->Add (_from_time, 1, wxEXPAND);
-	
+
 	add_label_to_sizer (table, this, _("Until"), true);
-	_until_date = new wxDatePickerCtrl (this, wxID_ANY);
+	wxDateTime to = from;
+	/* 1 week from now */
+	to.Add (wxDateSpan (0, 0, 1, 0));
+	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_date, 1, wxEXPAND);
-	_until_time = new wxTimePickerCtrl (this, wxID_ANY);
+	_until_time = new wxTimePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_time, 1, wxEXPAND);
 
 	vertical->Add (table, 0, wxEXPAND | wxALL, 6);

@@ -1,3 +1,8 @@
+2014-03-15  Carl Hetherington  <cth@carlh.net>
+
+	* Fix KDM dialog to predictably set up its initial range to
+	a week from now.
+
 2014-03-12  Carl Hetherington  <cth@carlh.net>
 
 	* Hopefully fix i18n on OS X (#324).
