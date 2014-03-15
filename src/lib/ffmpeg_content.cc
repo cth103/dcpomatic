@@ -58,7 +58,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path 
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version, list<string>& notes)
 	: Content (f, node)
 	, VideoContent (f, node, version)
 	, AudioContent (f, node)
@@ -82,7 +82,12 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 
 	c = node->node_children ("Filter");
 	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
-		_filters.push_back (Filter::from_id ((*i)->content ()));
+		Filter const * f = Filter::from_id ((*i)->content ());
+		if (f) {
+			_filters.push_back (f);
+		} else {
+			notes.push_back (String::compose (_("DCP-o-matic no longer supports the `%1' filter, so it has been turned off."), (*i)->content()));
+		}
 	}
 
 	_first_video = node->optional_number_child<double> ("FirstVideo");

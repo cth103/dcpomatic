@@ -83,7 +83,7 @@ public:
 	boost::filesystem::path file (boost::filesystem::path f) const;
 	boost::filesystem::path dir (boost::filesystem::path d) const;
 
-	void read_metadata ();
+	std::list<std::string> read_metadata ();
 	void write_metadata () const;
 	boost::shared_ptr<xmlpp::Document> metadata () const;
 
