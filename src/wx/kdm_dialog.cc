@@ -149,6 +149,8 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 		vertical->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
+	_write_to->SetValue (true);
+
 	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	_add_cinema->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::add_cinema_clicked, this));
