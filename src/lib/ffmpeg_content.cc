@@ -215,13 +215,13 @@ FFmpegContent::technical_summary () const
 		ss = _subtitle_stream->technical_summary ();
 	}
 
-	pair<string, string> filt = Filter::ffmpeg_strings (_filters);
+	string filt = Filter::ffmpeg_string (_filters);
 	
 	return Content::technical_summary() + " - "
 		+ VideoContent::technical_summary() + " - "
 		+ AudioContent::technical_summary() + " - "
 		+ String::compose (
-			"ffmpeg: audio %1, subtitle %2, filters %3 %4", as, ss, filt.first, filt.second
+			"ffmpeg: audio %1, subtitle %2, filters %3", as, ss, filt
 			);
 }
 

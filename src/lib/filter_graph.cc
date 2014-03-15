@@ -60,7 +60,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 {
 	_frame = av_frame_alloc ();
 	
-	string filters = Filter::ffmpeg_strings (content->filters()).first;
+	string filters = Filter::ffmpeg_string (content->filters());
 	if (filters.empty ()) {
 		filters = "copy";
 	}

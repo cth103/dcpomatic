@@ -33,8 +33,6 @@ def static_ffmpeg(conf):
     conf.env.STLIB_SWSCALE = ['swscale']
     conf.check_cfg(package='libswresample', args='--cflags', uselib_store='SWRESAMPLE', mandatory=True)
     conf.env.STLIB_SWRESAMPLE = ['swresample']
-    conf.check_cfg(package='libpostproc', args='--cflags', uselib_store='POSTPROC', mandatory=True)
-    conf.env.STLIB_POSTPROC = ['postproc']
 
 def dynamic_ffmpeg(conf):
     conf.check_cfg(package='libavformat', args='--cflags --libs', uselib_store='AVFORMAT', mandatory=True)
@@ -43,7 +41,6 @@ def dynamic_ffmpeg(conf):
     conf.check_cfg(package='libavutil', args='--cflags --libs', uselib_store='AVUTIL', mandatory=True)
     conf.check_cfg(package='libswscale', args='--cflags --libs', uselib_store='SWSCALE', mandatory=True)
     conf.check_cfg(package='libswresample', args='--cflags --libs', uselib_store='SWRESAMPLE', mandatory=True)
-    conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=True)
 
 def static_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
