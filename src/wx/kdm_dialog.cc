@@ -122,7 +122,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 		}
 	}
 	
-	table = new wxFlexGridSizer (3, 2, 6);
+	table = new wxFlexGridSizer (2, 2, 6);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
@@ -130,13 +130,12 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	_folder = new DirPickerCtrl (this); 
 #else	
-	_folder = new wxDirPickerCtrl (this, wxID_ANY);
+	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
 	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
 	
 	table->Add (_folder, 1, wxEXPAND);
-	table->AddSpacer (0);
 
 	_email = new wxRadioButton (this, wxID_ANY, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);

@@ -1,5 +1,7 @@
 2014-03-15  Carl Hetherington  <cth@carlh.net>
 
+	* Improve appearance of new film and KDM dialogs on OS X.
+
 	* Fix KDM dialog to predictably set up its initial range to
 	a week from now.
 
