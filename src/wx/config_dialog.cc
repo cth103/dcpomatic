@@ -52,11 +52,25 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-class GeneralPage : public wxStockPreferencesPage
+class Page
 {
 public:
-	GeneralPage ()
+	Page (wxSize panel_size, int border)
+		: _panel_size (panel_size)
+		, _border (border)
+	{}
+
+protected:
+	wxSize _panel_size;
+	int _border;
+};
+
+class GeneralPage : public wxStockPreferencesPage, public Page
+{
+public:
+	GeneralPage (wxSize panel_size, int border)
 		: wxStockPreferencesPage (Kind_General)
+		, Page (panel_size, border)
 	{}
 
 	wxWindow* CreateWindow (wxWindow* parent)
@@ -67,7 +81,7 @@ public:
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		_set_language = new wxCheckBox (panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, 1);
@@ -248,9 +262,13 @@ private:
 	wxCheckBox* _check_for_test_updates;
 };
 
-class DefaultsPage : public wxPreferencesPage
+class DefaultsPage : public wxPreferencesPage, public Page
 {
 public:
+	DefaultsPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("Defaults");
@@ -271,7 +289,7 @@ public:
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		{
 			add_label_to_sizer (table, panel, _("Default duration of still images"), true);
@@ -449,9 +467,13 @@ private:
 	wxTextCtrl* _creator;
 };
 
-class EncodingServersPage : public wxPreferencesPage
+class EncodingServersPage : public wxPreferencesPage, public Page
 {
 public:
+	EncodingServersPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("Servers");
@@ -466,12 +488,12 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 		
 		_use_any_servers = new wxCheckBox (panel, wxID_ANY, _("Use all servers"));
-		s->Add (_use_any_servers, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+		s->Add (_use_any_servers, 0, wxALL, _border);
 		
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("IP address / host name")));
@@ -483,7 +505,7 @@ public:
 			boost::bind (&EncodingServersPage::server_column, this, _1)
 			);
 		
-		s->Add (_servers_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
+		s->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 		
 		_use_any_servers->SetValue (Config::instance()->use_any_servers ());
 		_use_any_servers->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
@@ -507,8 +529,13 @@ private:
 	EditableList<string, ServerDialog>* _servers_list;
 };
 
-class ColourConversionsPage : public wxPreferencesPage
+class ColourConversionsPage : public wxPreferencesPage, public Page
 {
+public:
+	ColourConversionsPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("Colour Conversions");
@@ -522,16 +549,23 @@ class ColourConversionsPage : public wxPreferencesPage
 #endif	
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
+		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+		panel->SetSizer (s);
+
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("Name")));
-		return new EditableList<PresetColourConversion, PresetColourConversionDialog> (
-			parent,
+		wxPanel* list = new EditableList<PresetColourConversion, PresetColourConversionDialog> (
+			panel,
 			columns,
 			boost::bind (&Config::colour_conversions, Config::instance()),
 			boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
 			boost::bind (&ColourConversionsPage::colour_conversion_column, this, _1),
 			300
 			);
+
+		s->Add (list, 1, wxEXPAND | wxALL, _border);
+		return panel;
 	}
 
 private:
@@ -541,8 +575,13 @@ private:
 	}
 };
 
-class TMSPage : public wxPreferencesPage
+class TMSPage : public wxPreferencesPage, public Page
 {
+public:
+	TMSPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+
 	wxString GetName () const
 	{
 		return _("TMS");
@@ -557,13 +596,13 @@ class TMSPage : public wxPreferencesPage
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		add_label_to_sizer (table, panel, _("IP address"), true);
 		_tms_ip = new wxTextCtrl (panel, wxID_ANY);
@@ -622,9 +661,14 @@ private:
 	wxTextCtrl* _tms_password;
 };
 
-class KDMEmailPage : public wxPreferencesPage
+class KDMEmailPage : public wxPreferencesPage, public Page
 {
 public:
+
+	KDMEmailPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("KDM Email");
@@ -639,12 +683,17 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
+		/* We have to force both width and height of this one */
+#ifdef DCPOMATIC_OSX
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, wxSize (480, 128));
+#else		
 		wxPanel* panel = new wxPanel (parent);
+#endif		
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 		
-		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
-		s->Add (_kdm_email, 1, wxEXPAND | wxALL, 12);
+		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
+		s->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
 		
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
 		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
@@ -665,11 +714,25 @@ wxPreferencesEditor*
 create_config_dialog ()
 {
 	wxPreferencesEditor* e = new wxPreferencesEditor ();
-	e->AddPage (new GeneralPage);
-	e->AddPage (new DefaultsPage);
-	e->AddPage (new EncodingServersPage);
-	e->AddPage (new ColourConversionsPage);
-	e->AddPage (new TMSPage);
-	e->AddPage (new KDMEmailPage);
+
+#ifdef DCPOMATIC_OSX
+	/* Width that we force some of the config panels to be on OSX so that
+	   the containing window doesn't shrink too much when we select those panels.
+	   This is obviously an unpleasant hack.
+	*/
+	wxSize ps = wxSize (480, -1);
+#else
+	wxSize ps = wxDefaultSize ();
+#endif
+	int const border = 16;
+	
+	e->AddPage (new GeneralPage (ps, border));
+	e->AddPage (new DefaultsPage (ps, border));
+	e->AddPage (new EncodingServersPage (ps, border));
+	e->AddPage (new ColourConversionsPage (ps, border));
+	e->AddPage (new TMSPage (ps, border));
+	e->AddPage (new KDMEmailPage (ps, border));
 	return e;
 }
+
+#undef PANEL_SIZE
