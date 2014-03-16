@@ -1,5 +1,10 @@
 2014-03-15  Carl Hetherington  <cth@carlh.net>
 
+	* Improve appearance of new film and KDM dialogs on OS X.
+
+	* Fix KDM dialog to predictably set up its initial range to
+	a week from now.
+
 	* Remove support for FFmpeg post-processing filters as they apparently
 	do not support > 8bpp.  I don't think they are worth the pain of
 	quantizing and then telling the user what has happened.
@@ -7,6 +12,7 @@
 2014-03-12  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.1 released.
+>>>>>>> 80faa28d7fd23ad811a9b837622f7e0cff1f2335
 
 2014-03-12  Carl Hetherington  <cth@carlh.net>
 
