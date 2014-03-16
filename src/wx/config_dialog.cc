@@ -425,13 +425,13 @@ class EncodingServersPage : public wxPreferencesPage
 public:
 	wxString GetName () const
 	{
-		return _("Encoding Servers");
+		return _("Servers");
 	}
 
 #ifdef DCPOMATIC_OSX	
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap ("servers", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
 #endif	
 
