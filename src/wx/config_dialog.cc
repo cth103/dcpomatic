@@ -633,7 +633,7 @@ public:
 #ifdef DCPOMATIC_OSX	
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap ("kdm_email", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
 #endif	
 
