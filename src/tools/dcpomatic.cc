@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
+#include <wx/preferences.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
@@ -280,6 +281,7 @@ public:
 		: wxFrame (NULL, -1, title)
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
+		, _config_dialog (0)
 	{
 #if defined(DCPOMATIC_WINDOWS) && defined(DCPOMATIC_WINDOWS_CONSOLE)
                 AllocConsole();
@@ -460,10 +462,10 @@ private:
 
 	void edit_preferences ()
 	{
-		ConfigDialog* d = new ConfigDialog (this);
-		d->ShowModal ();
-		d->Destroy ();
-		Config::instance()->write ();
+		if (!_config_dialog) {
+			_config_dialog = create_config_dialog ();
+		}
+		_config_dialog->Show (this);
 	}
 
 	void jobs_make_dcp ()
@@ -602,6 +604,7 @@ private:
 
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
+	wxPreferencesEditor* _config_dialog;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
