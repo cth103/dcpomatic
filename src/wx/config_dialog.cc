@@ -52,11 +52,25 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-class GeneralPage : public wxStockPreferencesPage
+class Page
 {
 public:
-	GeneralPage ()
+	Page (wxSize panel_size, int border)
+		: _panel_size (panel_size)
+		, _border (border)
+	{}
+
+protected:
+	wxSize _panel_size;
+	int _border;
+};
+
+class GeneralPage : public wxStockPreferencesPage, public Page
+{
+public:
+	GeneralPage (wxSize panel_size, int border)
 		: wxStockPreferencesPage (Kind_General)
+		, Page (panel_size, border)
 	{}
 
 	wxWindow* CreateWindow (wxWindow* parent)
@@ -67,7 +81,7 @@ public:
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		_set_language = new wxCheckBox (panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, 1);
@@ -248,9 +262,13 @@ private:
 	wxCheckBox* _check_for_test_updates;
 };
 
-class DefaultsPage : public wxPreferencesPage
+class DefaultsPage : public wxPreferencesPage, public Page
 {
 public:
+	DefaultsPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("Defaults");
@@ -271,42 +289,42 @@ public:
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		{
 			add_label_to_sizer (table, panel, _("Default duration of still images"), true);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_default_still_length = new wxSpinCtrl (panel);
-			s->Add (_default_still_length);
+			_still_length = new wxSpinCtrl (panel);
+			s->Add (_still_length);
 			add_label_to_sizer (s, panel, _("s"), false);
 			table->Add (s, 1);
 		}
 		
 		add_label_to_sizer (table, panel, _("Default directory for new films"), true);
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-		_default_directory = new DirPickerCtrl (panel);
+		_directory = new DirPickerCtrl (panel);
 #else	
-		_default_directory = new wxDirPickerCtrl (panel, wxDD_DIR_MUST_EXIST);
+		_directory = new wxDirPickerCtrl (panel, wxDD_DIR_MUST_EXIST);
 #endif
-		table->Add (_default_directory, 1, wxEXPAND);
+		table->Add (_directory, 1, wxEXPAND);
 		
 		add_label_to_sizer (table, panel, _("Default DCI name details"), true);
-		_default_dci_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
-		table->Add (_default_dci_metadata_button);
+		_dci_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
+		table->Add (_dci_metadata_button);
 		
 		add_label_to_sizer (table, panel, _("Default container"), true);
-		_default_container = new wxChoice (panel, wxID_ANY);
-		table->Add (_default_container);
+		_container = new wxChoice (panel, wxID_ANY);
+		table->Add (_container);
 		
 		add_label_to_sizer (table, panel, _("Default content type"), true);
-		_default_dcp_content_type = new wxChoice (panel, wxID_ANY);
-		table->Add (_default_dcp_content_type);
+		_dcp_content_type = new wxChoice (panel, wxID_ANY);
+		table->Add (_dcp_content_type);
 		
 		{
 			add_label_to_sizer (table, panel, _("Default JPEG2000 bandwidth"), true);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_default_j2k_bandwidth = new wxSpinCtrl (panel);
-			s->Add (_default_j2k_bandwidth);
+			_j2k_bandwidth = new wxSpinCtrl (panel);
+			s->Add (_j2k_bandwidth);
 			add_label_to_sizer (s, panel, _("Mbit/s"), false);
 			table->Add (s, 1);
 		}
@@ -314,75 +332,88 @@ public:
 		{
 			add_label_to_sizer (table, panel, _("Default audio delay"), true);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_default_audio_delay = new wxSpinCtrl (panel);
-			s->Add (_default_audio_delay);
+			_audio_delay = new wxSpinCtrl (panel);
+			s->Add (_audio_delay);
 			add_label_to_sizer (s, panel, _("ms"), false);
 			table->Add (s, 1);
 		}
+
+		add_label_to_sizer (table, panel, _("Default issuer"), true);
+		_issuer = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_issuer, 1, wxEXPAND);
+
+		add_label_to_sizer (table, panel, _("Default creator"), true);
+		_creator = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_creator, 1, wxEXPAND);
 		
 		Config* config = Config::instance ();
 		
-		_default_still_length->SetRange (1, 3600);
-		_default_still_length->SetValue (config->default_still_length ());
-		_default_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::default_still_length_changed, this));
+		_still_length->SetRange (1, 3600);
+		_still_length->SetValue (config->default_still_length ());
+		_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::still_length_changed, this));
 		
-		_default_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
-		_default_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::default_directory_changed, this));
+		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
+		_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 		
-		_default_dci_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_default_dci_metadata_clicked, this, parent));
+		_dci_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_dci_metadata_clicked, this, parent));
 		
 		vector<Ratio const *> ratio = Ratio::all ();
 		int n = 0;
 		for (vector<Ratio const *>::iterator i = ratio.begin(); i != ratio.end(); ++i) {
-			_default_container->Append (std_to_wx ((*i)->nickname ()));
+			_container->Append (std_to_wx ((*i)->nickname ()));
 			if (*i == config->default_container ()) {
-				_default_container->SetSelection (n);
+				_container->SetSelection (n);
 			}
 			++n;
 		}
 		
-		_default_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::default_container_changed, this));
+		_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::container_changed, this));
 		
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
 		n = 0;
 		for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
-			_default_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
+			_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 			if (*i == config->default_dcp_content_type ()) {
-				_default_dcp_content_type->SetSelection (n);
+				_dcp_content_type->SetSelection (n);
 			}
 			++n;
 		}
 		
-		_default_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::default_dcp_content_type_changed, this));
+		_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
 		
-		_default_j2k_bandwidth->SetRange (50, 250);
-		_default_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1000000);
-		_default_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::default_j2k_bandwidth_changed, this));
+		_j2k_bandwidth->SetRange (50, 250);
+		_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1000000);
+		_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::j2k_bandwidth_changed, this));
 		
-		_default_audio_delay->SetRange (-1000, 1000);
-		_default_audio_delay->SetValue (config->default_audio_delay ());
-		_default_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::default_audio_delay_changed, this));
+		_audio_delay->SetRange (-1000, 1000);
+		_audio_delay->SetValue (config->default_audio_delay ());
+		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
+
+		_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
+		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::issuer_changed, this));
+		_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
+		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::creator_changed, this));
 
 		return panel;
 	}
 
 private:
-	void default_j2k_bandwidth_changed ()
+	void j2k_bandwidth_changed ()
 	{
-		Config::instance()->set_default_j2k_bandwidth (_default_j2k_bandwidth->GetValue() * 1000000);
+		Config::instance()->set_default_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
 	}
 	
-	void default_audio_delay_changed ()
+	void audio_delay_changed ()
 	{
-		Config::instance()->set_default_audio_delay (_default_audio_delay->GetValue());
+		Config::instance()->set_default_audio_delay (_audio_delay->GetValue());
 	}
 
-	void default_directory_changed ()
+	void directory_changed ()
 	{
-		Config::instance()->set_default_directory (wx_to_std (_default_directory->GetPath ()));
+		Config::instance()->set_default_directory (wx_to_std (_directory->GetPath ()));
 	}
 
-	void edit_default_dci_metadata_clicked (wxWindow* parent)
+	void edit_dci_metadata_clicked (wxWindow* parent)
 	{
 		DCIMetadataDialog* d = new DCIMetadataDialog (parent, Config::instance()->default_dci_metadata ());
 		d->ShowModal ();
@@ -390,39 +421,59 @@ private:
 		d->Destroy ();
 	}
 
-	void default_still_length_changed ()
+	void still_length_changed ()
 	{
-		Config::instance()->set_default_still_length (_default_still_length->GetValue ());
+		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
 	
-	void default_container_changed ()
+	void container_changed ()
 	{
 		vector<Ratio const *> ratio = Ratio::all ();
-		Config::instance()->set_default_container (ratio[_default_container->GetSelection()]);
+		Config::instance()->set_default_container (ratio[_container->GetSelection()]);
 	}
 	
-	void default_dcp_content_type_changed ()
+	void dcp_content_type_changed ()
 	{
 		vector<DCPContentType const *> ct = DCPContentType::all ();
-		Config::instance()->set_default_dcp_content_type (ct[_default_dcp_content_type->GetSelection()]);
+		Config::instance()->set_default_dcp_content_type (ct[_dcp_content_type->GetSelection()]);
+	}
+
+	void issuer_changed ()
+	{
+		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+		m.issuer = wx_to_std (_issuer->GetValue ());
+		Config::instance()->set_dcp_metadata (m);
 	}
 	
-	wxSpinCtrl* _default_j2k_bandwidth;
-	wxSpinCtrl* _default_audio_delay;
-	wxButton* _default_dci_metadata_button;
-	wxSpinCtrl* _default_still_length;
+	void creator_changed ()
+	{
+		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+		m.creator = wx_to_std (_creator->GetValue ());
+		Config::instance()->set_dcp_metadata (m);
+	}
+	
+	wxSpinCtrl* _j2k_bandwidth;
+	wxSpinCtrl* _audio_delay;
+	wxButton* _dci_metadata_button;
+	wxSpinCtrl* _still_length;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-	DirPickerCtrl* _default_directory;
+	DirPickerCtrl* _directory;
 #else
-	wxDirPickerCtrl* _default_directory;
+	wxDirPickerCtrl* _directory;
 #endif
-	wxChoice* _default_container;
-	wxChoice* _default_dcp_content_type;
+	wxChoice* _container;
+	wxChoice* _dcp_content_type;
+	wxTextCtrl* _issuer;
+	wxTextCtrl* _creator;
 };
 
-class EncodingServersPage : public wxPreferencesPage
+class EncodingServersPage : public wxPreferencesPage, public Page
 {
 public:
+	EncodingServersPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("Servers");
@@ -437,12 +488,12 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 		
 		_use_any_servers = new wxCheckBox (panel, wxID_ANY, _("Use all servers"));
-		s->Add (_use_any_servers, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+		s->Add (_use_any_servers, 0, wxALL, _border);
 		
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("IP address / host name")));
@@ -454,7 +505,7 @@ public:
 			boost::bind (&EncodingServersPage::server_column, this, _1)
 			);
 		
-		s->Add (_servers_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
+		s->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 		
 		_use_any_servers->SetValue (Config::instance()->use_any_servers ());
 		_use_any_servers->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
@@ -478,8 +529,13 @@ private:
 	EditableList<string, ServerDialog>* _servers_list;
 };
 
-class ColourConversionsPage : public wxPreferencesPage
+class ColourConversionsPage : public wxPreferencesPage, public Page
 {
+public:
+	ColourConversionsPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("Colour Conversions");
@@ -488,21 +544,28 @@ class ColourConversionsPage : public wxPreferencesPage
 #ifdef DCPOMATIC_OSX	
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap ("colour_conversions", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
 #endif	
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
+		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+		panel->SetSizer (s);
+
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("Name")));
-		return new EditableList<PresetColourConversion, PresetColourConversionDialog> (
-			parent,
+		wxPanel* list = new EditableList<PresetColourConversion, PresetColourConversionDialog> (
+			panel,
 			columns,
 			boost::bind (&Config::colour_conversions, Config::instance()),
 			boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
 			boost::bind (&ColourConversionsPage::colour_conversion_column, this, _1),
 			300
 			);
+
+		s->Add (list, 1, wxEXPAND | wxALL, _border);
+		return panel;
 	}
 
 private:
@@ -512,69 +575,13 @@ private:
 	}
 };
 
-class MetadataPage : public wxPreferencesPage
+class TMSPage : public wxPreferencesPage, public Page
 {
-	wxString GetName () const
-	{
-		return _("Metadata");
-	}
+public:
+	TMSPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
 
-#ifdef DCPOMATIC_OSX	
-	wxBitmap GetLargeIcon () const
-	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
-	}
-#endif	
-
-	wxWindow* CreateWindow (wxWindow* parent)
-	{
-		wxPanel* panel = new wxPanel (parent);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
-		
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
-		
-		add_label_to_sizer (table, panel, _("Issuer"), true);
-		_issuer = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_issuer, 1, wxEXPAND);
-		
-		add_label_to_sizer (table, panel, _("Creator"), true);
-		_creator = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_creator, 1, wxEXPAND);
-		
-		Config* config = Config::instance ();
-		
-		_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
-		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&MetadataPage::issuer_changed, this));
-		_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
-		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&MetadataPage::creator_changed, this));
-
-		return panel;
-	}		
-
-private:
-	wxTextCtrl* _issuer;
-	wxTextCtrl* _creator;
-	
-	void issuer_changed ()
-	{
-		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
-		m.issuer = wx_to_std (_issuer->GetValue ());
-		Config::instance()->set_dcp_metadata (m);
-	}
-	
-	void creator_changed ()
-	{
-		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
-		m.creator = wx_to_std (_creator->GetValue ());
-		Config::instance()->set_dcp_metadata (m);
-	}
-};
-
-class TMSPage : public wxPreferencesPage
-{
 	wxString GetName () const
 	{
 		return _("TMS");
@@ -583,19 +590,19 @@ class TMSPage : public wxPreferencesPage
 #ifdef DCPOMATIC_OSX	
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap ("tms", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
 #endif	
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		add_label_to_sizer (table, panel, _("IP address"), true);
 		_tms_ip = new wxTextCtrl (panel, wxID_ANY);
@@ -654,9 +661,14 @@ private:
 	wxTextCtrl* _tms_password;
 };
 
-class KDMEmailPage : public wxPreferencesPage
+class KDMEmailPage : public wxPreferencesPage, public Page
 {
 public:
+
+	KDMEmailPage (wxSize panel_size, int border)
+		: Page (panel_size, border)
+	{}
+	
 	wxString GetName () const
 	{
 		return _("KDM Email");
@@ -665,18 +677,23 @@ public:
 #ifdef DCPOMATIC_OSX	
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap ("kdm_email", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
 #endif	
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
+		/* We have to force both width and height of this one */
+#ifdef DCPOMATIC_OSX
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, wxSize (480, 128));
+#else		
 		wxPanel* panel = new wxPanel (parent);
+#endif		
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 		
-		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
-		s->Add (_kdm_email, 1, wxEXPAND | wxALL, 12);
+		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
+		s->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
 		
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
 		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
@@ -697,12 +714,24 @@ wxPreferencesEditor*
 create_config_dialog ()
 {
 	wxPreferencesEditor* e = new wxPreferencesEditor ();
-	e->AddPage (new GeneralPage);
-	e->AddPage (new DefaultsPage);
-	e->AddPage (new EncodingServersPage);
-	e->AddPage (new ColourConversionsPage);
-	e->AddPage (new MetadataPage);
-	e->AddPage (new TMSPage);
-	e->AddPage (new KDMEmailPage);
+
+#ifdef DCPOMATIC_OSX
+	/* Width that we force some of the config panels to be on OSX so that
+	   the containing window doesn't shrink too much when we select those panels.
+	   This is obviously an unpleasant hack.
+	*/
+	wxSize ps = wxSize (480, -1);
+	int const border = 16;
+#else
+	wxSize ps = wxDefaultSize;
+	int const border = 8;
+#endif
+	
+	e->AddPage (new GeneralPage (ps, border));
+	e->AddPage (new DefaultsPage (ps, border));
+	e->AddPage (new EncodingServersPage (ps, border));
+	e->AddPage (new ColourConversionsPage (ps, border));
+	e->AddPage (new TMSPage (ps, border));
+	e->AddPage (new KDMEmailPage (ps, border));
 	return e;
 }

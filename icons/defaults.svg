@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="defaults.svg"
+   inkscape:export-filename="/home/carl/src/dcpomatic/icons/defaults.png"
+   inkscape:export-xdpi="9.7627115"
+   inkscape:export-ydpi="9.7627115">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -99,5 +102,12 @@
          d="m 167,421.36218 181,0"
          style="color:#000000;fill:none;stroke:#008080;stroke-width:10.62992096;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
+    <rect
+       style="color:#000000;fill:none;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3880"
+       width="295"
+       height="295"
+       x="74"
+       y="360.36218" />
   </g>
 </svg>
