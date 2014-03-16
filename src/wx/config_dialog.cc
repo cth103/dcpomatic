@@ -259,7 +259,7 @@ public:
 #ifdef DCPOMATIC_OSX	
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("blank", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap ("defaults", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
 #endif	
 
