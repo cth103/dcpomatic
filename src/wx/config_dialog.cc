@@ -721,10 +721,11 @@ create_config_dialog ()
 	   This is obviously an unpleasant hack.
 	*/
 	wxSize ps = wxSize (480, -1);
+	int const border = 16;
 #else
 	wxSize ps = wxDefaultSize;
+	int const border = 8;
 #endif
-	int const border = 16;
 	
 	e->AddPage (new GeneralPage (ps, border));
 	e->AddPage (new DefaultsPage (ps, border));
