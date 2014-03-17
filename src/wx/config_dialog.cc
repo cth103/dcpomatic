@@ -440,14 +440,14 @@ private:
 
 	void issuer_changed ()
 	{
-		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+		dcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 		m.issuer = wx_to_std (_issuer->GetValue ());
 		Config::instance()->set_dcp_metadata (m);
 	}
 	
 	void creator_changed ()
 	{
-		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
+		dcp::XMLMetadata m = Config::instance()->dcp_metadata ();
 		m.creator = wx_to_std (_creator->GetValue ());
 		Config::instance()->set_dcp_metadata (m);
 	}
