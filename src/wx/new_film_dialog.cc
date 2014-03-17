@@ -50,7 +50,7 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	_folder = new DirPickerCtrl (this); 
 #else	
-	_folder = new wxDirPickerCtrl (this, wxID_ANY);
+	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
 	if (!_directory) {

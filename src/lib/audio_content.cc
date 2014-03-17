@@ -141,7 +141,9 @@ AudioContent::audio_analysis_path () const
 		return boost::filesystem::path ();
 	}
 
-	return film->audio_analysis_path (dynamic_pointer_cast<const AudioContent> (shared_from_this ()));
+	boost::filesystem::path p = film->audio_analysis_dir ();
+	p /= digest ();
+	return p;
 }
 
 string

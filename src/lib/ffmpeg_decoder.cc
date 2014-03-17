@@ -487,14 +487,9 @@ FFmpegDecoder::decode_video_packet ()
 
 	list<pair<shared_ptr<Image>, int64_t> > images = graph->process (_frame);
 
-	string post_process = Filter::ffmpeg_strings (_ffmpeg_content->filters()).second;
-	
 	for (list<pair<shared_ptr<Image>, int64_t> >::iterator i = images.begin(); i != images.end(); ++i) {
 
 		shared_ptr<Image> image = i->first;
-		if (!post_process.empty ()) {
-			image = image->post_process (post_process, true);
-		}
 		
 		if (i->second != AV_NOPTS_VALUE) {
 			video (image, false, ContentTime::from_seconds (i->second * av_q2d (_format_context->streams[_video_stream]->time_base)) + _pts_offset);

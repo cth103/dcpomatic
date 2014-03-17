@@ -29,12 +29,16 @@
 #include <boost/utility.hpp>
 
 /** @class Filter
- *  @brief A class to describe one of FFmpeg's video or post-processing filters.
+ *  @brief A class to describe one of FFmpeg's video filters.
+ *
+ *  We don't support FFmpeg's post-processing filters here as they cannot cope with greater than
+ *  8bpp.  FFmpeg quantizes e.g. yuv422p10le down to yuv422p before running such filters, which
+ *  we don't really want to do.
  */
 class Filter : public boost::noncopyable
 {
 public:
-	Filter (std::string, std::string, std::string, std::string, std::string);
+	Filter (std::string, std::string, std::string, std::string);
 
 	/** @return our id */
 	std::string id () const {
@@ -51,11 +55,6 @@ public:
 		return _vf;
 	}
 	
-	/** @return string for a FFmpeg post-processing descriptor */
-	std::string pp () const {
-		return _pp;
-	}
-
 	std::string category () const {
 		return _category;
 	}
@@ -63,7 +62,7 @@ public:
 	static std::vector<Filter const *> all ();
 	static Filter const * from_id (std::string);
 	static void setup_filters ();
-	static std::pair<std::string, std::string> ffmpeg_strings (std::vector<Filter const *> const &);
+	static std::string ffmpeg_string (std::vector<Filter const *> const &);
 
 private:
 
@@ -74,12 +73,10 @@ private:
 	std::string _category;
 	/** string for a FFmpeg video filter descriptor */
 	std::string _vf;
-	/** string for a FFmpeg post-processing descriptor */
-	std::string _pp;
 
 	/** all available filters */
 	static std::vector<Filter const *> _filters;
-	static void maybe_add (std::string, std::string, std::string, std::string, std::string);
+	static void maybe_add (std::string, std::string, std::string, std::string);
 };
 
 #endif

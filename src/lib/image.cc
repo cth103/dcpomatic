@@ -168,51 +168,6 @@ Image::scale (dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_forma
 	return scaled;
 }
 
-/** Run a FFmpeg post-process on this image and return the processed version.
- *  @param pp Flags for the required set of post processes.
- *  @return Post-processed image.
- */
-shared_ptr<Image>
-Image::post_process (string pp, bool aligned) const
-{
-	shared_ptr<Image> out (new Image (pixel_format(), size (), aligned));
-
-	int pp_format = 0;
-	switch (pixel_format()) {
-	case PIX_FMT_YUV420P:
-		pp_format = PP_FORMAT_420;
-		break;
-	case PIX_FMT_YUV422P10LE:
-	case PIX_FMT_YUV422P:
-	case PIX_FMT_UYVY422:
-		pp_format = PP_FORMAT_422;
-		break;
-	case PIX_FMT_YUV444P:
-	case PIX_FMT_YUV444P9BE:
-	case PIX_FMT_YUV444P9LE:
-	case PIX_FMT_YUV444P10BE:
-	case PIX_FMT_YUV444P10LE:
-		pp_format = PP_FORMAT_444;
-	default:
-		throw PixelFormatError ("post_process", pixel_format());
-	}
-		
-	pp_mode* mode = pp_get_mode_by_name_and_quality (pp.c_str (), PP_QUALITY_MAX);
-	pp_context* context = pp_get_context (size().width, size().height, pp_format | PP_CPU_CAPS_MMX2);
-
-	pp_postprocess (
-		(const uint8_t **) data(), stride(),
-		out->data(), out->stride(),
-		size().width, size().height,
-		0, 0, mode, context, 0
-		);
-		
-	pp_free_mode (mode);
-	pp_free_context (context);
-
-	return out;
-}
-
 shared_ptr<Image>
 Image::crop (Crop crop, bool aligned) const
 {

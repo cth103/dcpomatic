@@ -18,6 +18,7 @@
 */
 
 #include <wx/wx.h>
+#include <wx/listctrl.h>
 
 template<class T, class S>
 class EditableList : public wxPanel

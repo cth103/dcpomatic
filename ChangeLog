@@ -2,7 +2,50 @@
 
 	* Add subtitle view.
 
+2014-03-17  Carl Hetherington  <cth@carlh.net>
+
+	* Improve appearance of config dialog on OS X.
+
+2014-03-15  Carl Hetherington  <cth@carlh.net>
+
+	* Improve appearance of new film and KDM dialogs on OS X.
+
+	* Fix KDM dialog to predictably set up its initial range to
+	a week from now.
+
+	* Remove support for FFmpeg post-processing filters as they apparently
+	do not support > 8bpp.  I don't think they are worth the pain of
+	quantizing and then telling the user what has happened.
+
+2014-03-12  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.66.1 released.
+
+2014-03-12  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully fix i18n on OS X (#324).
+
+2014-03-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.66.0 released.
+
+2014-03-09  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.65.2 released.
+
+2014-03-09  Carl Hetherington  <cth@carlh.net>
+
+	* Restore old behaviour of "no-stretch" mode with crop.
+
+	* Fix display of no-scale display mode in the player.
+
 2014-03-08  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.65.1 released.
+
+2014-03-08  Carl Hetherington  <cth@carlh.net>
+
+	* Fix incorrect audio analyses on multiple-stream content.
 
 	* Support for unsigned 8-bit audio (hmm!).
 

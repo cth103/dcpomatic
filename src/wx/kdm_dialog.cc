@@ -83,15 +83,20 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, 2, 6);
 	add_label_to_sizer (table, this, _("From"), true);
-	_from_date = new wxDatePickerCtrl (this, wxID_ANY);
+	wxDateTime from;
+	from.SetToCurrent ();
+	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from);
 	table->Add (_from_date, 1, wxEXPAND);
-	_from_time = new wxTimePickerCtrl (this, wxID_ANY);
+	_from_time = new wxTimePickerCtrl (this, wxID_ANY, from);
 	table->Add (_from_time, 1, wxEXPAND);
-	
+
 	add_label_to_sizer (table, this, _("Until"), true);
-	_until_date = new wxDatePickerCtrl (this, wxID_ANY);
+	wxDateTime to = from;
+	/* 1 week from now */
+	to.Add (wxDateSpan (0, 0, 1, 0));
+	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_date, 1, wxEXPAND);
-	_until_time = new wxTimePickerCtrl (this, wxID_ANY);
+	_until_time = new wxTimePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_time, 1, wxEXPAND);
 
 	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
@@ -117,7 +122,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 		}
 	}
 	
-	table = new wxFlexGridSizer (3, 2, 6);
+	table = new wxFlexGridSizer (2, 2, 6);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
@@ -125,13 +130,12 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	_folder = new DirPickerCtrl (this); 
 #else	
-	_folder = new wxDirPickerCtrl (this, wxID_ANY);
+	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
 	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
 	
 	table->Add (_folder, 1, wxEXPAND);
-	table->AddSpacer (0);
 
 	_email = new wxRadioButton (this, wxID_ANY, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);
@@ -143,6 +147,8 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	if (buttons) {
 		vertical->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
+
+	_write_to->SetValue (true);
 
 	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, boost::bind (&KDMDialog::setup_sensitivity, this));
 

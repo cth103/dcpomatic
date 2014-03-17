@@ -127,7 +127,7 @@ class FFmpegContent : public VideoContent, public AudioContent, public SubtitleC
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int version);
+	FFmpegContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int version, std::list<std::string> &);
 	FFmpegContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
@@ -150,6 +150,7 @@ public:
 	int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);
+	boost::filesystem::path audio_analysis_path () const;
 
 	void set_filters (std::vector<Filter const *> const &);
 	

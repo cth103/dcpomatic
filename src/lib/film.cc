@@ -232,11 +232,9 @@ Film::filename_safe_name () const
 }
 
 boost::filesystem::path
-Film::audio_analysis_path (shared_ptr<const AudioContent> c) const
+Film::audio_analysis_dir () const
 {
-	boost::filesystem::path p = dir ("analysis");
-	p /= c->digest();
-	return p;
+	return dir ("analysis");
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */
@@ -383,8 +381,10 @@ Film::write_metadata () const
 	_dirty = false;
 }
 
-/** Read state from our metadata file */
-void
+/** Read state from our metadata file.
+ *  @return Notes about things that the user should know about, or empty.
+ */
+list<string>
 Film::read_metadata ()
 {
 	LocaleGuard lg;
@@ -432,9 +432,13 @@ Film::read_metadata ()
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
 	_key = dcp::Key (f.string_child ("Key"));
-	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version);
+
+	list<string> notes;
+	/* This method is the only one that can return notes (so far) */
+	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
 	_dirty = false;
+	return notes;
 }
 
 /** Given a directory name, return its full path within the Film's directory.
@@ -923,6 +927,7 @@ Film::set_sequence_video (bool s)
 	signal_changed (SEQUENCE_VIDEO);
 }
 
+/** @return Size of the largest possible image in whatever resolution we are using */
 dcp::Size
 Film::full_frame () const
 {
@@ -935,6 +940,13 @@ Film::full_frame () const
 
 	assert (false);
 	return dcp::Size ();
+}
+
+/** @return Size of the frame */
+dcp::Size
+Film::frame_size () const
+{
+	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
 dcp::KDM

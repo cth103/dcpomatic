@@ -66,6 +66,7 @@ public:
 
 	void set_use_any_servers (bool u) {
 		_use_any_servers = u;
+		write ();
 	}
 
 	bool use_any_servers () const {
@@ -75,6 +76,7 @@ public:
 	/** @param s New list of servers */
 	void set_servers (std::vector<std::string> s) {
 		_servers = s;
+		write ();
 	}
 
 	/** @return Host names / IP addresses of J2K encoding servers that should definitely be used */
@@ -182,35 +184,42 @@ public:
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
+		write ();
 	}
 
 	void set_default_directory (boost::filesystem::path d) {
 		_default_directory = d;
+		write ();
 	}
 
 	/** @param p New server port */
 	void set_server_port_base (int p) {
 		_server_port_base = p;
+		write ();
 	}
 
 	/** @param i IP address of a TMS that we can copy DCPs to */
 	void set_tms_ip (std::string i) {
 		_tms_ip = i;
+		write ();
 	}
 
 	/** @param p Path on a TMS that we should write DCPs to */
 	void set_tms_path (std::string p) {
 		_tms_path = p;
+		write ();
 	}
 
 	/** @param u User name to log into the TMS with */
 	void set_tms_user (std::string u) {
 		_tms_user = u;
+		write ();
 	}
 
 	/** @param p Password to log into the TMS with */
 	void set_tms_password (std::string p) {
 		_tms_password = p;
+		write ();
 	}
 
 	void add_cinema (boost::shared_ptr<Cinema> c) {
@@ -223,74 +232,92 @@ public:
 
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
 		_allowed_dcp_frame_rates = r;
+		write ();
 	}
 
 	void set_default_dci_metadata (DCIMetadata d) {
 		_default_dci_metadata = d;
+		write ();
 	}
 
 	void set_language (std::string l) {
 		_language = l;
+		write ();
 	}
 
 	void unset_language () {
 		_language = boost::none;
+		write ();
 	}
 
 	void set_default_still_length (int s) {
 		_default_still_length = s;
+		write ();
 	}
 
 	void set_default_container (Ratio const * c) {
 		_default_container = c;
+		write ();
 	}
 
 	void set_default_dcp_content_type (DCPContentType const * t) {
 		_default_dcp_content_type = t;
+		write ();
 	}
 
 	void set_dcp_metadata (dcp::XMLMetadata m) {
 		_dcp_metadata = m;
+		write ();
 	}
 
 	void set_default_j2k_bandwidth (int b) {
 		_default_j2k_bandwidth = b;
+		write ();
 	}
 
 	void set_default_audio_delay (int d) {
 		_default_audio_delay = d;
+		write ();
 	}
 
 	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
 		_colour_conversions = c;
+		write ();
 	}
 
 	void set_mail_server (std::string s) {
 		_mail_server = s;
+		write ();
 	}
 
 	void set_mail_user (std::string u) {
 		_mail_user = u;
+		write ();
 	}
 
 	void set_mail_password (std::string p) {
 		_mail_password = p;
+		write ();
 	}
 
 	void set_kdm_from (std::string f) {
 		_kdm_from = f;
+		write ();
 	}
 
 	void set_kdm_email (std::string e) {
 		_kdm_email = e;
+		write ();
 	}
 
 	void set_check_for_updates (bool c) {
 		_check_for_updates = c;
+		write ();
 	}
 
 	void set_check_for_test_updates (bool c) {
 		_check_for_test_updates = c;
+		write ();
 	}
 	
 	void write () const;

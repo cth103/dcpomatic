@@ -25,17 +25,18 @@
 #include "util.h"
 
 using std::string;
+using std::list;
 using boost::shared_ptr;
 
 shared_ptr<Content>
-content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version)
+content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, list<string>& notes)
 {
 	string const type = node->string_child ("Type");
 
 	boost::shared_ptr<Content> content;
 	
 	if (type == "FFmpeg") {
-		content.reset (new FFmpegContent (film, node, version));
+		content.reset (new FFmpegContent (film, node, version, notes));
 	} else if (type == "Image") {
 		content.reset (new ImageContent (film, node, version));
 	} else if (type == "Sndfile") {

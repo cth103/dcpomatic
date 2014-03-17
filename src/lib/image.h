@@ -58,7 +58,6 @@ public:
 	int lines (int) const;
 
 	boost::shared_ptr<Image> scale (dcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
-	boost::shared_ptr<Image> post_process (std::string, bool aligned) const;
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 
 	boost::shared_ptr<Image> crop_scale_window (Crop c, dcp::Size, dcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;

@@ -45,6 +45,9 @@
 
 #include "i18n.h"
 
+/* OS X strikes again */
+#undef set_key
+
 using std::make_pair;
 using std::pair;
 using std::string;
@@ -91,7 +94,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_picture_mxf.reset (new dcp::MonoPictureMXF (dcp::Fraction (_film->video_frame_rate (), 1)));
 	}
 
-	_picture_mxf->set_size (fit_ratio_within (_film->container()->ratio(), _film->full_frame ()));
+	_picture_mxf->set_size (_film->frame_size ());
 
 	if (_film->encrypted ()) {
 		_picture_mxf->set_key (_film->key ());

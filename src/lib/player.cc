@@ -81,7 +81,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
-	set_video_container_size (fit_ratio_within (_film->container()->ratio (), _film->full_frame ()));
+	set_video_container_size (_film->frame_size ());
 }
 
 void

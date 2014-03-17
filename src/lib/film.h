@@ -63,7 +63,7 @@ public:
 	boost::filesystem::path info_path (int, Eyes) const;
 	boost::filesystem::path internal_video_mxf_dir () const;
 	boost::filesystem::path internal_video_mxf_filename () const;
-	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const AudioContent>) const;
+	boost::filesystem::path audio_analysis_dir () const;
 
 	boost::filesystem::path video_mxf_filename () const;
 	boost::filesystem::path audio_mxf_filename () const;
@@ -83,7 +83,7 @@ public:
 	boost::filesystem::path file (boost::filesystem::path f) const;
 	boost::filesystem::path dir (boost::filesystem::path d) const;
 
-	void read_metadata ();
+	std::list<std::string> read_metadata ();
 	void write_metadata () const;
 	boost::shared_ptr<xmlpp::Document> metadata () const;
 
@@ -96,6 +96,7 @@ public:
 	}
 
 	dcp::Size full_frame () const;
+	dcp::Size frame_size () const;
 
 	std::list<boost::filesystem::path> dcps () const;
 

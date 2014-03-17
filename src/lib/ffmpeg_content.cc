@@ -58,7 +58,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path 
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version, list<string>& notes)
 	: Content (f, node)
 	, VideoContent (f, node, version)
 	, AudioContent (f, node)
@@ -82,7 +82,12 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::N
 
 	c = node->node_children ("Filter");
 	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
-		_filters.push_back (Filter::from_id ((*i)->content ()));
+		Filter const * f = Filter::from_id ((*i)->content ());
+		if (f) {
+			_filters.push_back (f);
+		} else {
+			notes.push_back (String::compose (_("DCP-o-matic no longer supports the `%1' filter, so it has been turned off."), (*i)->content()));
+		}
 	}
 
 	_first_video = node->optional_number_child<double> ("FirstVideo");
@@ -213,13 +218,13 @@ FFmpegContent::technical_summary () const
 		ss = _subtitle_stream->technical_summary ();
 	}
 
-	pair<string, string> filt = Filter::ffmpeg_strings (_filters);
+	string filt = Filter::ffmpeg_string (_filters);
 	
 	return Content::technical_summary() + " - "
 		+ VideoContent::technical_summary() + " - "
 		+ AudioContent::technical_summary() + " - "
 		+ String::compose (
-			"ffmpeg: audio %1, subtitle %2, filters %3 %4", as, ss, filt.first, filt.second
+			"ffmpeg: audio %1, subtitle %2, filters %3", as, ss, filt
 			);
 }
 
@@ -470,3 +475,23 @@ FFmpegContent::identifier () const
 	return s.str ();
 }
 
+boost::filesystem::path
+FFmpegContent::audio_analysis_path () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return boost::filesystem::path ();
+	}
+
+	/* We need to include the stream ID in this path so that we get different
+	   analyses for each stream.
+	*/
+
+	boost::filesystem::path p = film->audio_analysis_dir ();
+	string name = digest ();
+	if (audio_stream ()) {
+		name += "_" + audio_stream()->identifier ();
+	}
+	p /= name;
+	return p;
+}

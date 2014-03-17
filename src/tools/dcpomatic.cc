@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
+#include <wx/preferences.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
@@ -114,7 +115,7 @@ private:
 };
 
 
-void
+static void
 maybe_save_then_delete_film ()
 {
 	if (!film) {
@@ -135,6 +136,30 @@ maybe_save_then_delete_film ()
 	film.reset ();
 }
 
+static void
+check_film_state_version (int v)
+{
+	if (v == 4) {
+		error_dialog (
+			0,
+			_("This film was created with an old version of DVD-o-matic and may not load correctly "
+			  "in this version.  Please check the film's settings carefully.")
+			);
+	}
+}
+
+static void
+load_film (boost::filesystem::path file)
+{
+	film.reset (new Film (file));
+	list<string> const notes = film->read_metadata ();
+	check_film_state_version (film->state_version ());
+	for (list<string>::const_iterator i = notes.begin(); i != notes.end(); ++i) {
+		error_dialog (0, std_to_wx (*i));
+	}
+	film->log()->set_level (log_level);
+}
+
 #define ALWAYS                  0x0
 #define NEEDS_FILM              0x1
 #define NOT_DURING_DCP_CREATION 0x2
@@ -142,14 +167,14 @@ maybe_save_then_delete_film ()
 
 map<wxMenuItem*, int> menu_items;
 	
-void
+static void
 add_item (wxMenu* menu, wxString text, int id, int sens)
 {
 	wxMenuItem* item = menu->Append (id, text);
 	menu_items.insert (make_pair (item, sens));
 }
 
-void
+static void
 set_menu_sensitivity ()
 {
 	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
@@ -194,7 +219,7 @@ enum {
 	ID_tools_check_for_updates
 };
 
-void
+static void
 setup_menu (wxMenuBar* m)
 {
 	wxMenu* file = new wxMenu;
@@ -256,6 +281,7 @@ public:
 		: wxFrame (NULL, -1, title)
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
+		, _config_dialog (0)
 	{
 #if defined(DCPOMATIC_WINDOWS) && defined(DCPOMATIC_WINDOWS_CONSOLE)
                 AllocConsole();
@@ -324,17 +350,6 @@ public:
 
 		set_film ();
 		overall_panel->SetSizer (main_sizer);
-	}
-
-	void check_film_state_version (int v)
-	{
-		if (v == 4) {
-			error_dialog (
-				this,
-				_("This film was created with an old version of DVD-o-matic and may not load correctly "
-				  "in this version.  Please check the film's settings carefully.")
-				);
-		}
 	}
 
 private:
@@ -416,10 +431,7 @@ private:
 		if (r == wxID_OK) {
 			maybe_save_then_delete_film ();
 			try {
-				film.reset (new Film (wx_to_std (c->GetPath ())));
-				film->read_metadata ();
-				check_film_state_version (film->state_version ());
-				film->log()->set_level (log_level);
+				load_film (wx_to_std (c->GetPath ()));
 				set_film ();
 			} catch (std::exception& e) {
 				wxString p = c->GetPath ();
@@ -450,10 +462,10 @@ private:
 
 	void edit_preferences ()
 	{
-		ConfigDialog* d = new ConfigDialog (this);
-		d->ShowModal ();
-		d->Destroy ();
-		Config::instance()->write ();
+		if (!_config_dialog) {
+			_config_dialog = create_config_dialog ();
+		}
+		_config_dialog->Show (this);
 	}
 
 	void jobs_make_dcp ()
@@ -592,6 +604,7 @@ private:
 
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
+	wxPreferencesEditor* _config_dialog;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
@@ -645,9 +658,7 @@ class App : public wxApp
 
 		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
 			try {
-				film.reset (new Film (film_to_load));
-				film->read_metadata ();
-				film->log()->set_level (log_level);
+				load_film (film_to_load);
 			} catch (exception& e) {
 				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load, e.what())));
 			}
@@ -677,7 +688,7 @@ class App : public wxApp
 		_timer->Start (1000);
 
 		if (film) {
-			_frame->check_film_state_version (film->state_version ());
+			check_film_state_version (film->state_version ());
 		}
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
