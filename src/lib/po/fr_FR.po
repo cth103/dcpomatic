@@ -550,12 +550,12 @@ msgstr "Ajoutez un contenu pour créer le DCP"
 #: src/lib/image_content.cc:68
 #, fuzzy
 msgid "[moving images]"
-msgstr "%1 [diaporama]"
+msgstr "[diaporama]"
 
 #: src/lib/image_content.cc:66
 #, fuzzy
 msgid "[still]"
-msgstr "%1 [fixe]"
+msgstr "[fixe]"
 
 #: src/lib/film.cc:242
 msgid "cannot contain slashes"
