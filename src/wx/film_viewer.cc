@@ -219,7 +219,12 @@ void
 FilmViewer::slider_moved ()
 {
 	if (_film && _player) {
-		_player->seek (_slider->GetValue() * _film->length() / 4096, false);
+		Time t = _slider->GetValue() * _film->length() / 4096;
+		/* Ensure that we hit the end of the film at the end of the slider */
+		if (t >= _film->length ()) {
+			t = _film->length() - _film->video_frames_to_time (1);
+		}
+		_player->seek (t, false);
 		fetch_next_frame ();
 	}
 }
