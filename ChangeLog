@@ -1,3 +1,7 @@
+2014-03-17  Carl Hetherington  <cth@carlh.net>
+
+	* Improve appearance of config dialog on OS X.
+
 2014-03-15  Carl Hetherington  <cth@carlh.net>
 
 	* Improve appearance of new film and KDM dialogs on OS X.
@@ -12,7 +16,6 @@
 2014-03-12  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.1 released.
->>>>>>> 80faa28d7fd23ad811a9b837622f7e0cff1f2335
 
 2014-03-12  Carl Hetherington  <cth@carlh.net>
 
