@@ -722,7 +722,7 @@ create_config_dialog ()
 	*/
 	wxSize ps = wxSize (480, -1);
 #else
-	wxSize ps = wxDefaultSize ();
+	wxSize ps = wxDefaultSize;
 #endif
 	int const border = 16;
 	
@@ -734,5 +734,3 @@ create_config_dialog ()
 	e->AddPage (new KDMEmailPage (ps, border));
 	return e;
 }
-
-#undef PANEL_SIZE
