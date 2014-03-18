@@ -1,5 +1,9 @@
 2014-03-18  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.66.3 released.
+
+2014-03-18  Carl Hetherington  <cth@carlh.net>
+
 	* Fix bad rounding of timecodes.
 
 	* Tentative support for 3D from alternate frames of the source.
