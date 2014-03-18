@@ -1,5 +1,7 @@
 2014-03-18  Carl Hetherington  <cth@carlh.net>
 
+	* Fix bad rounding of timecodes.
+
 	* Tentative support for 3D from alternate frames of the source.
 
 2014-03-17  Carl Hetherington  <cth@carlh.net>

@@ -85,20 +85,24 @@ Timecode::Timecode (wxWindow* parent)
 void
 Timecode::set (Time t, int fps)
 {
-	int const h = t / (3600 * TIME_HZ);
-	t -= h * 3600 * TIME_HZ;
-	int const m = t / (60 * TIME_HZ);
-	t -= m * 60 * TIME_HZ;
-	int const s = t / TIME_HZ;
-	t -= s * TIME_HZ;
-	int const f = divide_with_round (t * fps, TIME_HZ);
+	/* Do this calculation with frames so that we can round
+	   to a frame boundary at the start rather than the end.
+	*/
+	int64_t f = divide_with_round (t * fps, TIME_HZ);
+	
+	int const h = f / (3600 * fps);
+	f -= h * 3600 * fps;
+	int const m = f / (60 * fps);
+	f -= m * 60 * fps;
+	int const s = f / fps;
+	f -= s * fps;
 
 	checked_set (_hours, lexical_cast<string> (h));
 	checked_set (_minutes, lexical_cast<string> (m));
 	checked_set (_seconds, lexical_cast<string> (s));
 	checked_set (_frames, lexical_cast<string> (f));
 
-	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02d", h, m, s, f));
+	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02ld", h, m, s, f));
 }
 
 Time
