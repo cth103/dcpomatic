@@ -51,6 +51,9 @@ protected:
 
 	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
 	boost::shared_ptr<const VideoContent> _video_content;
+	/** This is in frames without taking 3D into account (e.g. if we are doing 3D alternate,
+	 *  this would equal 2 on the left-eye second frame (not 1)).
+	 */
 	VideoContent::Frame _video_position;
 };
 

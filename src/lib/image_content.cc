@@ -127,7 +127,7 @@ ImageContent::full_length () const
 	assert (film);
 	
 	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate ());
-	return video_length() * frc.factor() * TIME_HZ / video_frame_rate();
+	return video_length_after_3d_combine() * frc.factor() * TIME_HZ / video_frame_rate();
 }
 
 string

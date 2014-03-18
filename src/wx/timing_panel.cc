@@ -87,7 +87,11 @@ TimingPanel::film_content_changed (int property)
 		} else {
 			_position->set (0, 24);
 		}
-	} else if (property == ContentProperty::LENGTH || property == VideoContentProperty::VIDEO_FRAME_RATE) {
+	} else if (
+		property == ContentProperty::LENGTH ||
+		property == VideoContentProperty::VIDEO_FRAME_RATE ||
+		property == VideoContentProperty::VIDEO_FRAME_TYPE
+		) {
 		if (content) {
 			_full_length->set (content->full_length (), _editor->film()->video_frame_rate ());
 			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());

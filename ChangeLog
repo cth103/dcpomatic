@@ -1,3 +1,7 @@
+2014-03-18  Carl Hetherington  <cth@carlh.net>
+
+	* Tentative support for 3D from alternate frames of the source.
+
 2014-03-17  Carl Hetherington  <cth@carlh.net>
 
 	* Improve behaviour of the position slider at the end of films.

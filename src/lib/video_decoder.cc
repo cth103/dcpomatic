@@ -40,6 +40,9 @@ VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Fra
 	case VIDEO_FRAME_TYPE_2D:
 		Video (image, EYES_BOTH, same, frame);
 		break;
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+		Video (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, same, frame / 2);
+		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	{
 		int const half = image->size().width / 2;

@@ -89,13 +89,13 @@ BOOST_AUTO_TEST_CASE (play_test)
 	film->examine_and_add_content (A);
 	wait_for_jobs ();
 
-	BOOST_CHECK_EQUAL (A->video_length(), 16);
+	BOOST_CHECK_EQUAL (A->video_length_after_3d_combine(), 16);
 
 	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/red_30.mp4"));
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
 
-	BOOST_CHECK_EQUAL (B->video_length(), 16);
+	BOOST_CHECK_EQUAL (B->video_length_after_3d_combine(), 16);
 	
 	/* Film should have been set to 25fps */
 	BOOST_CHECK_EQUAL (film->video_frame_rate(), 25);

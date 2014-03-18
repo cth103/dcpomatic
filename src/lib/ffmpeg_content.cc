@@ -239,7 +239,7 @@ FFmpegContent::information () const
 	
 	stringstream s;
 	
-	s << String::compose (_("%1 frames; %2 frames per second"), video_length(), video_frame_rate()) << "\n";
+	s << String::compose (_("%1 frames; %2 frames per second"), video_length_after_3d_combine(), video_frame_rate()) << "\n";
 	s << VideoContent::information ();
 
 	return s.str ();
@@ -272,7 +272,7 @@ FFmpegContent::audio_length () const
 {
 	int const cafr = content_audio_frame_rate ();
 	int const vfr  = video_frame_rate ();
-	VideoContent::Frame const vl = video_length ();
+	VideoContent::Frame const vl = video_length_after_3d_combine ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_audio_stream) {
@@ -429,7 +429,7 @@ FFmpegContent::full_length () const
 	assert (film);
 	
 	FrameRateConversion frc (video_frame_rate (), film->video_frame_rate ());
-	return video_length() * frc.factor() * TIME_HZ / film->video_frame_rate ();
+	return video_length_after_3d_combine() * frc.factor() * TIME_HZ / film->video_frame_rate ();
 }
 
 AudioMapping

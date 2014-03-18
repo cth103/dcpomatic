@@ -142,7 +142,7 @@ FFmpegDecoder::flush ()
 	}
 
 	/* Stop us being asked for any more data */
-	_video_position = _ffmpeg_content->video_length ();
+	_video_position = _ffmpeg_content->video_length_after_3d_combine ();
 	_audio_position = _ffmpeg_content->audio_length ();
 }
 

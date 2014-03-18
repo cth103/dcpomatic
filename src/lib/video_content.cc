@@ -317,7 +317,10 @@ VideoContent::set_video_frame_type (VideoFrameType t)
 string
 VideoContent::technical_summary () const
 {
-	return String::compose ("video: length %1, size %2x%3, rate %4", video_length(), video_size().width, video_size().height, video_frame_rate());
+	return String::compose (
+		"video: length %1, size %2x%3, rate %4",
+		video_length_after_3d_combine(), video_size().width, video_size().height, video_frame_rate()
+		);
 }
 
 libdcp::Size
@@ -326,6 +329,7 @@ VideoContent::video_size_after_3d_split () const
 	libdcp::Size const s = video_size ();
 	switch (video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 		return s;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		return libdcp::Size (s.width / 2, s.height);
