@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,8 +40,8 @@ help ()
 	cerr << "Syntax: " << program_name << " [OPTION] [<FILM>]\n"
 		"  -h, --help             show this help\n"
 		"  -o, --output           output file or directory\n"
-		"  -f, --valid-from       valid from time (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
-		"  -t, --valid-to         valid to time (e.g. \"2014-09-28 01:41:51\")\n"
+		"  -f, --valid-from       valid from time (in local time zone) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
+		"  -t, --valid-to         valid to time (in local time zone) (e.g. \"2014-09-28 01:41:51\")\n"
 		"  -d, --valid-duration   valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
 		"  -z, --zip              ZIP each cinema's KDMs into its own file\n"
 		"  -v, --verbose          be verbose\n"
@@ -235,7 +235,7 @@ int main (int argc, char* argv[])
 		}
 		
 		shared_ptr<dcp::Certificate> certificate (new dcp::Certificate (boost::filesystem::path (certificate_file)));
-		dcp::KDM kdm = film->make_kdm (certificate, dcp, valid_from.get(), valid_to.get());
+		dcp::EncryptedKDM kdm = film->make_kdm (certificate, dcp, valid_from.get(), valid_to.get());
 		kdm.as_xml (output);
 		if (verbose) {
 			cout << "Generated KDM " << output << " for certificate.\n";
@@ -259,12 +259,12 @@ int main (int argc, char* argv[])
 
 		try {
 			if (zip) {
-				write_kdm_zip_files (film, (*i)->screens(), dcp, valid_from.get(), valid_to.get(), output);
+				write_kdm_zip_files (film, (*i)->screens(), dcp, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				write_kdm_files (film, (*i)->screens(), dcp, valid_from.get(), valid_to.get(), output);
+				write_kdm_files (film, (*i)->screens(), dcp, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";
 				}

@@ -21,7 +21,7 @@
 #include <boost/shared_ptr.hpp>
 #include <quickmail.h>
 #include <zip.h>
-#include <dcp/kdm.h>
+#include <dcp/encrypted_kdm.h>
 #include "kdm.h"
 #include "cinema.h"
 #include "exceptions.h"
@@ -36,13 +36,13 @@ using boost::shared_ptr;
 
 struct ScreenKDM
 {
-	ScreenKDM (shared_ptr<Screen> s, dcp::KDM k)
+	ScreenKDM (shared_ptr<Screen> s, dcp::EncryptedKDM k)
 		: screen (s)
 		, kdm (k)
 	{}
 	
 	shared_ptr<Screen> screen;
-	dcp::KDM kdm;
+	dcp::EncryptedKDM kdm;
 };
 
 static string
@@ -103,16 +103,16 @@ make_screen_kdms (
 	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to
+	dcp::LocalTime from,
+	dcp::LocalTime to
 	)
 {
-	list<dcp::KDM> kdms = film->make_kdms (screens, dcp, from, to);
+	list<dcp::EncryptedKDM> kdms = film->make_kdms (screens, dcp, from, to);
 	   
 	list<ScreenKDM> screen_kdms;
 	
 	list<shared_ptr<Screen> >::iterator i = screens.begin ();
-	list<dcp::KDM>::iterator j = kdms.begin ();
+	list<dcp::EncryptedKDM>::iterator j = kdms.begin ();
 	while (i != screens.end() && j != kdms.end ()) {
 		screen_kdms.push_back (ScreenKDM (*i, *j));
 		++i;
@@ -127,8 +127,8 @@ make_cinema_kdms (
 	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to
+	dcp::LocalTime from,
+	dcp::LocalTime to
 	)
 {
 	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, dcp, from, to);
@@ -169,8 +169,8 @@ write_kdm_files (
 	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
+	dcp::LocalTime from,
+	dcp::LocalTime to,
 	boost::filesystem::path directory
 	)
 {
@@ -189,8 +189,8 @@ write_kdm_zip_files (
 	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
+	dcp::LocalTime from,
+	dcp::LocalTime to,
 	boost::filesystem::path directory
 	)
 {
@@ -208,8 +208,8 @@ email_kdms (
 	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to
+	dcp::LocalTime from,
+	dcp::LocalTime to
 	)
 {
 	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, dcp, from, to);

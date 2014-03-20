@@ -28,14 +28,13 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/date_time.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include <dcp/signer_chain.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
 #include <dcp/util.h>
-#include <dcp/kdm.h>
+#include <dcp/local_time.h>
 #include "film.h"
 #include "job.h"
 #include "util.h"
@@ -949,12 +948,12 @@ Film::frame_size () const
 	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
-dcp::KDM
+dcp::EncryptedKDM
 Film::make_kdm (
 	shared_ptr<dcp::Certificate> target,
 	boost::filesystem::path dcp_dir,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime until
+	dcp::LocalTime from,
+	dcp::LocalTime until
 	) const
 {
 	shared_ptr<const Signer> signer = make_signer ();
@@ -967,24 +966,22 @@ Film::make_kdm (
 		throw KDMError (_("Could not read DCP to make KDM for"));
 	}
 	
-	time_t now = time (0);
-	struct tm* tm = localtime (&now);
-	string const issue_date = dcp::tm_to_string (tm);
-	
 	dcp.cpls().front()->set_mxf_keys (key ());
 	
-	return dcp::KDM (dcp.cpls().front(), signer, target, from, until, "DCP-o-matic", issue_date);
+	return dcp::DecryptedKDM (
+		dcp.cpls().front(), from, until, "DCP-o-matic", dcp.cpls().front()->content_title_text(), dcp::LocalTime().as_string()
+		).encrypt (signer, target);
 }
 
-list<dcp::KDM>
+list<dcp::EncryptedKDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime until
+	dcp::LocalTime from,
+	dcp::LocalTime until
 	) const
 {
-	list<dcp::KDM> kdms;
+	list<dcp::EncryptedKDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
 		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until));

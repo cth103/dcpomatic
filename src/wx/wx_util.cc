@@ -123,7 +123,7 @@ int const ThreadedStaticText::_update_event_id = 10000;
  *  @param initial Initial text for the wxStaticText while the computation is being run.
  *  @param fn Function which works out what the wxStaticText content should be and returns it.
  */
-ThreadedStaticText::ThreadedStaticText (wxWindow* parent, wxString initial, function<string ()> fn)
+ThreadedStaticText::ThreadedStaticText (wxWindow* parent, wxString initial, boost::function<string ()> fn)
 	: wxStaticText (parent, wxID_ANY, initial)
 {
 	Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ThreadedStaticText::thread_finished, this, _1), _update_event_id);
@@ -139,7 +139,7 @@ ThreadedStaticText::~ThreadedStaticText ()
 
 /** Run our thread and post the result to the GUI thread via AddPendingEvent */
 void
-ThreadedStaticText::run (function<string ()> fn)
+ThreadedStaticText::run (boost::function<string ()> fn)
 try
 {
 	wxCommandEvent ev (wxEVT_COMMAND_TEXT_UPDATED, _update_event_id);

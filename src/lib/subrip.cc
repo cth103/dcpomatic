@@ -18,6 +18,7 @@
 */
 
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "subrip.h"
 #include "subrip_content.h"
 #include "subrip_subtitle.h"

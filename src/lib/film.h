@@ -32,7 +32,8 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/filesystem.hpp>
 #include <dcp/key.h>
-#include <dcp/kdm.h>
+#include <dcp/decrypted_kdm.h>
+#include <dcp/encrypted_kdm.h>
 #include "util.h"
 #include "types.h"
 #include "dci_metadata.h"
@@ -116,19 +117,19 @@ public:
 	int best_video_frame_rate () const;
 	FrameRateChange active_frame_rate_change (DCPTime) const;
 
-	dcp::KDM
+	dcp::EncryptedKDM
 	make_kdm (
 		boost::shared_ptr<dcp::Certificate> target,
 		boost::filesystem::path dcp,
-		boost::posix_time::ptime from,
-		boost::posix_time::ptime until
+		dcp::LocalTime from,
+		dcp::LocalTime until
 		) const;
 	
-	std::list<dcp::KDM> make_kdms (
+	std::list<dcp::EncryptedKDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path dcp,
-		boost::posix_time::ptime from,
-		boost::posix_time::ptime until
+		dcp::LocalTime from,
+		dcp::LocalTime until
 		) const;
 
 	dcp::Key key () const {

@@ -105,5 +105,5 @@ void
 ScreenDialog::setup_sensitivity ()
 {
 	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
-	ok->Enable (_certificate);
+	ok->Enable (_certificate.get ());
 }

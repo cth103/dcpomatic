@@ -222,12 +222,12 @@ FilmViewer::slider_moved ()
 {
 	if (_film && _player) {
 		try {
-			Time t = _slider->GetValue() * _film->length() / 4096;
+			DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
 			/* Ensure that we hit the end of the film at the end of the slider */
 			if (t >= _film->length ()) {
-				t = _film->length() - _film->video_frames_to_time (1);
+				t = _film->length() - DCPTime::from_frames (1, _film->video_frame_rate ());
 			}
-			_player->seek (DCPTime (_film->length().get() * _slider->GetValue() / 4096), false);
+			_player->seek (t, false);
 			fetch_next_frame ();
 		} catch (OpenFileError& e) {
 			/* There was a problem opening a content file; we'll let this slide as it
