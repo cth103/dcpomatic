@@ -36,7 +36,7 @@ class Scaler : public boost::noncopyable
 public:
 	Scaler (int f, std::string i, std::string n);
 
-	/** @return id used for calls to FFmpeg's pp_postprocess */
+	/** @return id used for calls to FFmpeg's sws_getContext */
 	int ffmpeg_id () const {
 		return _ffmpeg_id;
 	}

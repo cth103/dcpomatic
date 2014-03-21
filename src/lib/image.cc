@@ -26,7 +26,6 @@ extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
 #include <libavutil/pixdesc.h>
-#include <libpostproc/postprocess.h>
 }
 #include "image.h"
 #include "exceptions.h"

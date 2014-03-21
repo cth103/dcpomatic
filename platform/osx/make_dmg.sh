@@ -55,7 +55,6 @@ universal_copy $ROOT lib/libavfilter*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavutil*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavcodec*.dylib $WORK/$libs
 universal_copy $ROOT lib/libswscale*.dylib $WORK/$libs
-universal_copy $ROOT lib/libpostproc*.dylib $WORK/$libs
 universal_copy $ROOT lib/libswresample*.dylib $WORK/$libs
 universal_copy $ROOT bin/ffprobe $WORK/$macos
 universal_copy $ENV lib/libboost_system.dylib $WORK/$libs
@@ -103,6 +102,11 @@ done
 
 cp build/platform/osx/Info.plist $WORK/$approot
 cp icons/dcpomatic.icns $WORK/$resources/DCP-o-matic.icns
+cp icons/colour_conversions.png $WORK/$resources
+cp icons/defaults.png $WORK/$resources
+cp icons/kdm_email.png $WORK/$resources
+cp icons/servers.png $WORK/$resources
+cp icons/tms.png $WORK/$resources
 
 # i18n: .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE; do

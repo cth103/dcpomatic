@@ -96,6 +96,15 @@ public:
 		return _video_length;
 	}
 
+	ContentTime video_length_after_3d_combine () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_video_frame_type == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+			return ContentTime (_video_length.get() / 2);
+		}
+		
+		return _video_length;
+	}
+
 	dcp::Size video_size () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_size;

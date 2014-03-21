@@ -29,7 +29,6 @@
 #include <boost/thread/mutex.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
-#include <libpostproc/postprocess.h>
 }
 #include "util.h"
 #include "decoder.h"

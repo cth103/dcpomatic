@@ -40,6 +40,9 @@ VideoDecoder::video (shared_ptr<const Image> image, bool same, ContentTime time)
 	case VIDEO_FRAME_TYPE_2D:
 		_pending.push_back (shared_ptr<DecodedVideo> (new DecodedVideo (time, image, EYES_BOTH, same)));
 		break;
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+		Video (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, same);
+		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	{
 		int const half = image->size().width / 2;

@@ -125,7 +125,7 @@ ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	return DCPTime (video_length(), FrameRateChange (video_frame_rate(), film->video_frame_rate()));
+	return DCPTime (video_length_after_3d_combine(), FrameRateChange (video_frame_rate(), film->video_frame_rate()));
 }
 
 string

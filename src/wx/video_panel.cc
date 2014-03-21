@@ -196,6 +196,7 @@ VideoPanel::VideoPanel (FilmEditor* e)
 	_frame_type->wrapped()->Append (_("2D"));
 	_frame_type->wrapped()->Append (_("3D left/right"));
 	_frame_type->wrapped()->Append (_("3D top/bottom"));
+	_frame_type->wrapped()->Append (_("3D alternate"));
 
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));

@@ -237,7 +237,7 @@ FFmpegContent::information () const
 	
 	stringstream s;
 	
-	s << String::compose (_("%1 frames; %2 frames per second"), video_length().frames (video_frame_rate()), video_frame_rate()) << "\n";
+	s << String::compose (_("%1 frames; %2 frames per second"), video_length_after_3d_combine().frames (video_frame_rate()), video_frame_rate()) << "\n";
 	s << VideoContent::information ();
 
 	return s.str ();
@@ -268,14 +268,12 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 ContentTime
 FFmpegContent::audio_length () const
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (!_audio_stream) {
-			return ContentTime ();
-		}
+	boost::mutex::scoped_lock lm (_mutex);
+	if (!_audio_stream) {
+		return ContentTime ();
 	}
 
-	return video_length();
+	return video_length ();
 }
 
 int
@@ -422,7 +420,7 @@ FFmpegContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	return DCPTime (video_length(), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
+	return DCPTime (video_length_after_3d_combine(), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
 }
 
 AudioMapping

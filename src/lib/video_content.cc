@@ -319,7 +319,7 @@ VideoContent::technical_summary () const
 {
 	return String::compose (
 		"video: length %1, size %2x%3, rate %4",
-		video_length().seconds(),
+		video_length_after_3d_combine().seconds(),
 		video_size().width,
 		video_size().height,
 		video_frame_rate()
@@ -332,6 +332,7 @@ VideoContent::video_size_after_3d_split () const
 	dcp::Size const s = video_size ();
 	switch (video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 		return s;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		return dcp::Size (s.width / 2, s.height);

@@ -58,7 +58,6 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavfilter/avfiltergraph.h>
-#include <libpostproc/postprocess.h>
 #include <libavutil/pixfmt.h>
 }
 #include "util.h"
@@ -249,7 +248,6 @@ dependency_version_summary ()
 	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
 	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
 	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
-	  << N_("libpostproc ") << ffmpeg_version_to_string (postproc_version()) << N_(", ")
 	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
 	  << MagickVersion << N_(", ")
 	  << N_("libssh ") << ssh_version (0) << N_(", ")
