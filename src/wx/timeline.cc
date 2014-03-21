@@ -243,6 +243,25 @@ private:
 	}
 };
 
+class SubtitleContentView : public ContentView
+{
+public:
+	SubtitleContentView (Timeline& tl, shared_ptr<Content> c)
+		: ContentView (tl, c)
+	{}
+
+private:
+	wxString type () const
+	{
+		return _("subtitles");
+	}
+
+	wxColour colour () const
+	{
+		return wxColour (163, 255, 154, 255);
+	}
+};
+
 class TimeAxisView : public View
 {
 public:
@@ -399,6 +418,9 @@ Timeline::playlist_changed ()
 		if (dynamic_pointer_cast<AudioContent> (*i)) {
 			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i)));
 		}
+		if (dynamic_pointer_cast<SubtitleContent> (*i)) {
+			_views.push_back (shared_ptr<View> (new SubtitleContentView (*this, *i)));
+		}
 	}
 
 	assign_tracks ();
@@ -409,38 +431,55 @@ Timeline::playlist_changed ()
 void
 Timeline::assign_tracks ()
 {
+	list<shared_ptr<VideoContentView> > video;
+	list<shared_ptr<AudioContentView> > audio;
+	list<shared_ptr<SubtitleContentView> > subtitle;
+
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
-		if (cv) {
-			cv->set_track (0);
-			_tracks = 1;
+		shared_ptr<VideoContentView> v = dynamic_pointer_cast<VideoContentView> (*i);
+		if (v) {
+			video.push_back (v);
+		}
+		
+		shared_ptr<AudioContentView> a = dynamic_pointer_cast<AudioContentView> (*i);
+		if (a) {
+			audio.push_back (a);
+		}
+
+		shared_ptr<SubtitleContentView> s = dynamic_pointer_cast<SubtitleContentView> (*i);
+		if (s) {
+			subtitle.push_back (s);
 		}
 	}
 
-	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-		shared_ptr<AudioContentView> acv = dynamic_pointer_cast<AudioContentView> (*i);
-		if (!acv) {
-			continue;
+	_tracks = 0;
+	if (!video.empty ()) {
+		for (list<shared_ptr<VideoContentView> >::iterator i = video.begin(); i != video.end(); ++i) {
+			(*i)->set_track (_tracks);
 		}
+		++_tracks;
+	}
 	
-		shared_ptr<Content> acv_content = acv->content();
+	if (!subtitle.empty ()) {
+		for (list<shared_ptr<SubtitleContentView> >::iterator i = subtitle.begin(); i != subtitle.end(); ++i) {
+			(*i)->set_track (_tracks);
+		}
+		++_tracks;
+	}
 
-		int t = 1;
+	int const audio_start = _tracks;
+
+	for (list<shared_ptr<AudioContentView> >::iterator i = audio.begin(); i != audio.end(); ++i) {
+		shared_ptr<Content> acv_content = (*i)->content();
+
+		int t = audio_start;
 		while (1) {
-			ViewList::iterator j = _views.begin();
-			while (j != _views.end()) {
-				shared_ptr<AudioContentView> test = dynamic_pointer_cast<AudioContentView> (*j);
-				if (!test) {
-					++j;
-					continue;
-				}
-				
-				shared_ptr<Content> test_content = test->content();
-					
-				if (test && test->track() == t) {
+			list<shared_ptr<AudioContentView> >::iterator j = audio.begin ();
+			while (j != audio.end()) {
+				if ((*j)->track() == t) {
 					bool const no_overlap =
-						(acv_content->position() < test_content->position() && acv_content->end() < test_content->position()) ||
-						(acv_content->position() > test_content->end()      && acv_content->end() > test_content->end());
+						(acv_content->position() < (*j)->content()->position() && acv_content->end() < (*j)->content()->position()) ||
+						(acv_content->position() > (*j)->content()->end()      && acv_content->end() > (*j)->content()->end());
 					
 					if (!no_overlap) {
 						/* we have an overlap on track `t' */
@@ -452,13 +491,13 @@ Timeline::assign_tracks ()
 				++j;
 			}
 
-			if (j == _views.end ()) {
+			if (j == audio.end ()) {
 				/* no overlap on `t' */
 				break;
 			}
 		}
 
-		acv->set_track (t);
+		(*i)->set_track (t);
 		_tracks = max (_tracks, t + 1);
 	}
 
