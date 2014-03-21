@@ -46,7 +46,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	delete image;
 
 	if (content->still ()) {
-		_video_length = ContentTime (Config::instance()->default_still_length());
+		_video_length = ContentTime::from_seconds (Config::instance()->default_still_length());
 	} else {
 		_video_length = ContentTime (double (_image_content->number_of_paths ()) / video_frame_rate ());
 	}
