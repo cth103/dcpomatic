@@ -104,6 +104,10 @@ public:
 		add_label_to_sizer (table, panel, _("Threads to use for encoding on this host"), true);
 		_num_local_encoding_threads = new wxSpinCtrl (panel);
 		table->Add (_num_local_encoding_threads, 1);
+
+		add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
+		_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
+		table->Add (_maximum_j2k_bandwidth, 1);
 		
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
@@ -159,6 +163,10 @@ public:
 		_num_local_encoding_threads->SetRange (1, 128);
 		_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
 		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
+
+		_maximum_j2k_bandwidth->SetRange (1, 500);
+		_maximum_j2k_bandwidth->SetValue (config->maximum_j2k_bandwidth() / 1000000);
+		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::maximum_j2k_bandwidth_changed, this));
 		
 		_mail_server->SetValue (std_to_wx (config->mail_server ()));
 		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::mail_server_changed, this));
@@ -250,10 +258,16 @@ private:
 	{
 		Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 	}
+
+	void maximum_j2k_bandwidth_changed ()
+	{
+		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
+	}
 	
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
+	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;

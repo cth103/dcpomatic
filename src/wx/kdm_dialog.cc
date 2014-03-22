@@ -263,8 +263,6 @@ KDMDialog::add_cinema_clicked ()
 	Config::instance()->add_cinema (c);
 	add_cinema (c);
 
-	Config::instance()->write ();
-	
 	d->Destroy ();
 }
 
@@ -284,7 +282,7 @@ KDMDialog::edit_cinema_clicked ()
 	c.second->email = d->email ();
 	_targets->SetItemText (c.first, std_to_wx (d->name()));
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 
 	d->Destroy ();	
 }
@@ -300,8 +298,6 @@ KDMDialog::remove_cinema_clicked ()
 
 	Config::instance()->remove_cinema (c.second);
 	_targets->Delete (c.first);
-
-	Config::instance()->write ();	
 }
 
 void
@@ -322,7 +318,7 @@ KDMDialog::add_screen_clicked ()
 	c->add_screen (s);
 	add_screen (c, s);
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 
 	d->Destroy ();
 }
@@ -343,7 +339,7 @@ KDMDialog::edit_screen_clicked ()
 	s.second->certificate = d->certificate ();
 	_targets->SetItemText (s.first, std_to_wx (d->name()));
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 
 	d->Destroy ();
 }
@@ -370,7 +366,7 @@ KDMDialog::remove_screen_clicked ()
 	i->second->remove_screen (s.second);
 	_targets->Delete (s.first);
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 }
 
 list<shared_ptr<Screen> >
