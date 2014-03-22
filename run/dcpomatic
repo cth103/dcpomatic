@@ -27,7 +27,6 @@ if [ `uname -s` == "Darwin" ]; then
   cp $DEP/libavutil*.dylib $lib
   cp $DEP/libavcodec*.dylib $lib
   cp $DEP/libswscale*.dylib $lib
-  cp $DEP/libpostproc*.dylib $lib
   cp $DEP/libswresample*.dylib $lib
   cp $ENV/libboost_system.dylib $lib
   cp $ENV/libboost_filesystem.dylib $lib
@@ -77,7 +76,8 @@ if [ `uname -s` == "Darwin" ]; then
     fi
   done  
   
-  open $app
+  cd build/platform/osx/DCP-o-matic.app/Contents/MacOS
+  ./dcpomatic  
 
 else
   export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
