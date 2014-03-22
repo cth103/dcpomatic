@@ -29,6 +29,12 @@ namespace cxml {
 	class Node;
 }
 
+class SndfileContentProperty
+{
+public:
+	static int const VIDEO_FRAME_RATE;
+};
+
 class SndfileContent : public AudioContent
 {
 public:
@@ -69,6 +75,17 @@ public:
 		return _audio_mapping;
 	}
 
+	void set_video_frame_rate (float r) {
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			_video_frame_rate = r;
+		}
+
+		signal_changed (SndfileContentProperty::VIDEO_FRAME_RATE);
+	}
+
+	float video_frame_rate () const;
+
 	void set_audio_mapping (AudioMapping);
 	
 	static bool valid_file (boost::filesystem::path);
@@ -78,6 +95,10 @@ private:
 	AudioContent::Frame _audio_length;
 	int _audio_frame_rate;
 	AudioMapping _audio_mapping;
+	/** Video frame rate that this audio has been prepared for,
+	    if specified.
+	*/
+	boost::optional<float> _video_frame_rate;
 };
 
 #endif

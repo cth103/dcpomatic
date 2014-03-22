@@ -1,5 +1,8 @@
 2014-03-22  Carl Hetherington  <cth@carlh.net>
 
+	* Allow specification of the video frame rate that a sound file
+	was prepared for.
+
 	* Another attempt to fix colour conversion dialog strange behaviour
 	on OS X.
 

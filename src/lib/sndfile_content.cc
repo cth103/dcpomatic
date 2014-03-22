@@ -33,6 +33,8 @@ using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
+int const SndfileContentProperty::VIDEO_FRAME_RATE = 600;
+
 SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, AudioContent (f, p)
@@ -147,13 +149,11 @@ SndfileContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
-	OutputAudioFrame const len = divide_with_round (audio_length() * output_audio_frame_rate(), content_audio_frame_rate ());
-	
-	/* XXX: this depends on whether, alongside this audio, we are running video slower or faster than
-	   it should be.  The calculation above works out the output audio frames assuming that we are just
-	   resampling the audio: it would be incomplete if, for example, we were running this audio alongside
-	   25fps video that was being run at 24fps.
-	*/
+	float const rate = _video_frame_rate.get_value_or (film->video_frame_rate ());
+	OutputAudioFrame const len = divide_with_round (
+		audio_length() * output_audio_frame_rate() * rate,
+		content_audio_frame_rate() * film->video_frame_rate()
+		);
 	
 	return film->audio_frames_to_time (len);
 }
@@ -176,4 +176,19 @@ SndfileContent::set_audio_mapping (AudioMapping m)
 	}
 
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+}
+
+float
+SndfileContent::video_frame_rate () const
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_video_frame_rate) {
+			return _video_frame_rate.get ();
+		}
+	}
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	return film->video_frame_rate ();
 }
