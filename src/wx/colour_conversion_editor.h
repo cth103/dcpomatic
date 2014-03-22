@@ -38,6 +38,11 @@ public:
 
 private:
 	void changed ();
+	void changed (wxSpinCtrlDouble *);
+
+	void set_spin_ctrl (wxSpinCtrlDouble *, double);
+
+	std::map<wxSpinCtrlDouble*, double> _last_spin_ctrl_value;
 	
 	wxSpinCtrlDouble* _input_gamma;
 	wxCheckBox* _input_gamma_linearised;

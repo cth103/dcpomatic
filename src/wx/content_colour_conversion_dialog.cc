@@ -20,6 +20,7 @@
 #include <wx/statline.h>
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
+#include "lib/util.h"
 #include "wx_util.h"
 #include "content_colour_conversion_dialog.h"
 #include "colour_conversion_editor.h"
@@ -78,7 +79,7 @@ ContentColourConversionDialog::set (ColourConversion c)
 	_setting = true;
 	_editor->set (c);
 	_setting = false;
-	
+
 	check_for_preset ();
 }
 
@@ -93,7 +94,11 @@ ContentColourConversionDialog::check_for_preset ()
 
 	_preset_check->SetValue (preset);
 	_preset_choice->Enable (preset);
-	_preset_choice->SetSelection (preset.get_value_or (-1));
+	if (preset) {
+		_preset_choice->SetSelection (preset.get ());
+	} else {
+		_preset_choice->SetSelection (-1);
+	}
 }
 
 void
@@ -112,7 +117,7 @@ void
 ContentColourConversionDialog::preset_choice_changed ()
 {
 	vector<PresetColourConversion> presets = Config::instance()->colour_conversions ();
-	int const s = _preset_choice->GetSelection();
+	int const s = _preset_choice->GetCurrentSelection();
 	if (s != -1) {
 		set (presets[s].conversion);
 	}
