@@ -1,5 +1,9 @@
 2014-03-22  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.66.4 released.
+
+2014-03-22  Carl Hetherington  <cth@carlh.net>
+
 	* Allow specification of the video frame rate that a sound file
 	was prepared for.
 
