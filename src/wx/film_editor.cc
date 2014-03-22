@@ -270,17 +270,17 @@ FilmEditor::make_content_panel ()
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
 		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file(s)..."));
-		b->Add (_content_add_file, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_add_file, 1, wxEXPAND | wxALL, 2);
 		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add folder..."));
-		b->Add (_content_add_folder, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_add_folder, 1, wxEXPAND | wxALL, 2);
 		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
-		b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_remove, 1, wxEXPAND | wxALL, 2);
 		_content_earlier = new wxButton (_content_panel, wxID_ANY, _("Up"));
-		b->Add (_content_earlier, 1, wxEXPAND);
+		b->Add (_content_earlier, 1, wxEXPAND | wxALL, 2);
 		_content_later = new wxButton (_content_panel, wxID_ANY, _("Down"));
-		b->Add (_content_later, 1, wxEXPAND);
+		b->Add (_content_later, 1, wxEXPAND | wxALL, 2);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
-		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_timeline, 1, wxEXPAND | wxALL, 2);
 
 		s->Add (b, 0, wxALL, 4);
 
