@@ -1,5 +1,7 @@
 2014-03-23  Carl Hetherington  <cth@carlh.net>
 
+	* Attempt to fix format string specifier error on Windows.
+
 	* Version 1.66.5 released.
 
 2014-03-22  Carl Hetherington  <cth@carlh.net>
