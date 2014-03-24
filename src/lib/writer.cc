@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -98,20 +98,22 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	
 	_picture_asset_writer = _picture_asset->start_write (_first_nonexistant_frame > 0);
 
-	_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
-	_sound_asset->set_edit_rate (_film->video_frame_rate ());
-	_sound_asset->set_channels (_film->audio_channels ());
-	_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
-	_sound_asset->set_interop (_film->interop ());
+	if (_film->audio_channels ()) {
+		_sound_asset.reset (new libdcp::SoundAsset (_film->directory (), _film->audio_mxf_filename ()));
+		_sound_asset->set_edit_rate (_film->video_frame_rate ());
+		_sound_asset->set_channels (_film->audio_channels ());
+		_sound_asset->set_sampling_rate (_film->audio_frame_rate ());
+		_sound_asset->set_interop (_film->interop ());
 
-	if (_film->encrypted ()) {
-		_sound_asset->set_key (_film->key ());
+		if (_film->encrypted ()) {
+			_sound_asset->set_key (_film->key ());
+		}
+		
+		/* Write the sound asset into the film directory so that we leave the creation
+		   of the DCP directory until the last minute.
+		*/
+		_sound_asset_writer = _sound_asset->start_write ();
 	}
-	
-	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.
-	*/
-	_sound_asset_writer = _sound_asset->start_write ();
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
@@ -188,7 +190,9 @@ Writer::fake_write (int frame, Eyes eyes)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
-	_sound_asset_writer->write (audio->data(), audio->frames());
+	if (_sound_asset) {
+		_sound_asset_writer->write (audio->data(), audio->frames());
+	}
 }
 
 /** This must be called from Writer::thread() with an appropriate lock held */
@@ -377,7 +381,9 @@ Writer::finish ()
 	terminate_thread (true);
 
 	_picture_asset_writer->finalize ();
-	_sound_asset_writer->finalize ();
+	if (_sound_asset_writer) {
+		_sound_asset_writer->finalize ();
+	}
 	
 	int const frames = _last_written_frame + 1;
 
@@ -407,19 +413,21 @@ Writer::finish ()
 
 	/* Move the audio MXF into the DCP */
 
-	boost::filesystem::path audio_to;
-	audio_to /= _film->dir (_film->dcp_name ());
-	audio_to /= _film->audio_mxf_filename ();
-	
-	boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
-	if (ec) {
-		throw FileError (
-			String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
-			);
+	if (_sound_asset) {
+		boost::filesystem::path audio_to;
+		audio_to /= _film->dir (_film->dcp_name ());
+		audio_to /= _film->audio_mxf_filename ();
+		
+		boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
+		if (ec) {
+			throw FileError (
+				String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
+				);
+		}
+		
+		_sound_asset->set_directory (_film->dir (_film->dcp_name ()));
+		_sound_asset->set_duration (frames);
 	}
-
-	_sound_asset->set_directory (_film->dir (_film->dcp_name ()));
-	_sound_asset->set_duration (frames);
 	
 	libdcp::DCP dcp (_film->dir (_film->dcp_name()));
 
@@ -448,8 +456,10 @@ Writer::finish ()
 	job->sub (_("Computing image digest"));
 	_picture_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
 
-	job->sub (_("Computing audio digest"));
-	_sound_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
+	if (_sound_asset) {
+		job->sub (_("Computing audio digest"));
+		_sound_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
+	}
 
 	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
