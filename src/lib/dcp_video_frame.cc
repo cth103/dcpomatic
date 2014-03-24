@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
     Taken from code Copyright (C) 2010-2011 Terrence Meiczinger
 
     This program is free software; you can redistribute it and/or modify
@@ -294,12 +294,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	stringstream xml;
 	doc.write_to_stream (xml, "UTF-8");
 
-	_log->log (String::compose (
-			   N_("Sending to remote; pixel format %1, components %2, lines (%3,%4,%5), line sizes (%6,%7,%8)"),
-			   _image->pixel_format(), _image->components(),
-			   _image->lines(0), _image->lines(1), _image->lines(2),
-			   _image->line_size()[0], _image->line_size()[1], _image->line_size()[2]
-			   ));
+	_log->log (String::compose (N_("Sending frame %1 to remote"), _frame));
 
 	socket->write (xml.str().length() + 1);
 	socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
