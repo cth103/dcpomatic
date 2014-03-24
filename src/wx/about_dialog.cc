@@ -118,6 +118,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Silvio Giuliano"));
 	supported_by.Add (wxT ("Flor Guillaume"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
+	supported_by.Add (wxT ("Chris Kay"));
 	supported_by.Add (wxT ("Adam Klotblixt"));
 	supported_by.Add (wxT ("Filip Kovcin"));
 	supported_by.Add (wxT ("Carsten Kurz"));
