@@ -1,5 +1,9 @@
 2014-03-24  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.66.7 released.
+
+2014-03-24  Carl Hetherington  <cth@carlh.net>
+
 	* Fix error on creating DCPs without audio.
 
 2014-03-23  Carl Hetherington  <cth@carlh.net>
