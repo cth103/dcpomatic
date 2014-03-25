@@ -48,7 +48,7 @@ class EncodedData;
 class Writer;
 class Job;
 class ServerFinder;
-class PlayerImage;
+class DCPVideo;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -67,10 +67,9 @@ public:
 	void process_begin ();
 
 	/** Call with a frame of video.
-	 *  @param i Video frame image.
-	 *  @param same true if i is the same as the last time we were called.
+	 *  @param f Video frame.
 	 */
-	void process_video (boost::shared_ptr<PlayerImage> i, Eyes eyes, ColourConversion, bool same);
+	void process_video (boost::shared_ptr<DCPVideo> f);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>);
@@ -106,7 +105,6 @@ private:
 	/** Number of video frames written for the DCP so far */
 	int _video_frames_out;
 
-	bool _have_a_real_frame[EYES_COUNT];
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
 	std::list<boost::thread *> _threads;

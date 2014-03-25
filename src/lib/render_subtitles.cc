@@ -28,6 +28,7 @@ using std::cout;
 using std::string;
 using std::min;
 using std::max;
+using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -46,12 +47,11 @@ calculate_position (dcp::VAlign v_align, double v_position, int target_height, i
 	return 0;
 }
 
-void
-render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target, shared_ptr<Image>& image, Position<int>& position)
+PositionImage
+render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 {
 	if (subtitles.empty ()) {
-		image.reset ();
-		return;
+		return PositionImage ();
 	}
 
 	/* Estimate height that the subtitle image needs to be */
@@ -68,7 +68,7 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target, shared_
 	top = top.get() - 32;
 	bottom = bottom.get() + 32;
 
-	image.reset (new Image (PIX_FMT_RGBA, dcp::Size (target.width, bottom.get() - top.get ()), false));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (target.width, bottom.get() - top.get ()), false));
 	image->make_black ();
 
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
@@ -146,5 +146,7 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target, shared_
 			context->stroke ();
 		}
 	}
+
+	return PositionImage (image, Position<int> (0, top.get ()));
 }
 

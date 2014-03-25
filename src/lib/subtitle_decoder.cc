@@ -29,18 +29,44 @@ SubtitleDecoder::SubtitleDecoder ()
 
 }
 
-
 /** Called by subclasses when an image subtitle is ready.
  *  Image may be 0 to say that there is no current subtitle.
  */
 void
-SubtitleDecoder::image_subtitle (shared_ptr<Image> image, dcpomatic::Rect<double> rect, ContentTime from, ContentTime to)
+SubtitleDecoder::image_subtitle (ContentTime from, ContentTime to, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
-	_pending.push_back (shared_ptr<DecodedImageSubtitle> (new DecodedImageSubtitle (from, to, image, rect)));
+	_decoded_image_subtitles.push_back (shared_ptr<ContentImageSubtitle> (new ContentImageSubtitle (from, to, image, rect)));
 }
 
 void
 SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
 {
-	_pending.push_back (shared_ptr<DecodedTextSubtitle> (new DecodedTextSubtitle (s)));
+	_decoded_text_subtitles.push_back (shared_ptr<ContentTextSubtitle> (new ContentTextSubtitle (s)));
+}
+
+template <class T>
+list<shared_ptr<T> >
+get (list<shared_ptr<T> > const & subs, ContentTime from, ContentTime to)
+{
+	/* XXX: inefficient */
+	list<shared_ptr<T> > out;
+	for (typename list<shared_ptr<T> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
+		if ((*i)->from() <= to && (*i)->to() >= from) {
+			out.push_back (*i);
+		}
+	}
+
+	return out;
+}
+
+list<shared_ptr<ContentTextSubtitle> >
+SubtitleDecoder::get_text_subtitles (ContentTime from, ContentTime to)
+{
+	return get<ContentTextSubtitle> (_decoded_text_subtitles, from, to);
+}
+
+list<shared_ptr<ContentImageSubtitle> >
+SubtitleDecoder::get_image_subtitles (ContentTime from, ContentTime to)
+{
+	return get<ContentImageSubtitle> (_decoded_image_subtitles, from, to);
 }

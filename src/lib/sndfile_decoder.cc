@@ -131,7 +131,6 @@ SndfileDecoder::audio_frame_rate () const
 void
 SndfileDecoder::seek (ContentTime t, bool accurate)
 {
-	Decoder::seek (t, accurate);
 	AudioDecoder::seek (t, accurate);
 
 	_done = t.frames (audio_frame_rate ());

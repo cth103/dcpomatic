@@ -66,10 +66,7 @@ AnalyseAudioJob::run ()
 	shared_ptr<Playlist> playlist (new Playlist);
 	playlist->add (content);
 	shared_ptr<Player> player (new Player (_film, playlist));
-	player->disable_video ();
 	
-	player->Audio.connect (bind (&AnalyseAudioJob::audio, this, _1, _2));
-
 	int64_t const len = _film->length().frames (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
 
@@ -77,8 +74,10 @@ AnalyseAudioJob::run ()
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	_done = 0;
-	while (!player->pass ()) {
-		set_progress (double (_done) / len);
+	DCPTime const block = DCPTime::from_seconds (1.0 / 8);
+	for (DCPTime t; t < _film->length(); t += block) {
+		analyse (player->get_audio (t, block, false));
+		set_progress (t.seconds() / _film->length().seconds());
 	}
 
 	_analysis->write (content->audio_analysis_path ());
@@ -88,7 +87,7 @@ AnalyseAudioJob::run ()
 }
 
 void
-AnalyseAudioJob::audio (shared_ptr<const AudioBuffers> b, DCPTime)
+AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 {
 	for (int i = 0; i < b->frames(); ++i) {
 		for (int j = 0; j < b->channels(); ++j) {

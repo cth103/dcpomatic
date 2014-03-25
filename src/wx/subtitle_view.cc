@@ -18,7 +18,7 @@
 */
 
 #include "lib/subrip_decoder.h"
-#include "lib/decoded.h"
+#include "lib/content_subtitle.h"
 #include "subtitle_view.h"
 
 using std::list;
@@ -63,25 +63,16 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<SubRipContent> content)
 	}
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
+	list<shared_ptr<ContentTextSubtitle> > subs = decoder->get_text_subtitles (ContentTime(), ContentTime::max ());
 	int n = 0;
-	while (1) {
-		shared_ptr<Decoded> dec = decoder->peek ();
-		if (!dec) {
-			break;
-		}
-
-		shared_ptr<DecodedTextSubtitle> sub = dynamic_pointer_cast<DecodedTextSubtitle> (dec);
-		assert (sub);
-
-		for (list<dcp::SubtitleString>::const_iterator i = sub->subs.begin(); i != sub->subs.end(); ++i) {
+	for (list<shared_ptr<ContentTextSubtitle> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
+		for (list<dcp::SubtitleString>::const_iterator j = (*i)->subs.begin(); j != (*i)->subs.end(); ++j) {
 			wxListItem list_item;
 			list_item.SetId (n);
 			_list->InsertItem (list_item);
-			_list->SetItem (n, 2, i->text ());
+			_list->SetItem (n, 2, j->text ());
 			++n;
 		}
-
-		decoder->consume ();
 	}
 
 	SetSizerAndFit (sizer);

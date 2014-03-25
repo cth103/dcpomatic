@@ -35,6 +35,7 @@
 #include "writer.h"
 #include "server_finder.h"
 #include "player.h"
+#include "dcp_video.h"
 
 #include "i18n.h"
 
@@ -60,9 +61,7 @@ Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j)
 	, _video_frames_out (0)
 	, _terminate (false)
 {
-	_have_a_real_frame[EYES_BOTH] = false;
-	_have_a_real_frame[EYES_LEFT] = false;
-	_have_a_real_frame[EYES_RIGHT] = false;
+
 }
 
 Encoder::~Encoder ()
@@ -178,7 +177,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
+Encoder::process_video (shared_ptr<DCPVideo> frame)
 {
 	_waker.nudge ();
 	
@@ -205,28 +204,28 @@ Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversi
 	rethrow ();
 
 	if (_writer->can_fake_write (_video_frames_out)) {
-		_writer->fake_write (_video_frames_out, eyes);
-		_have_a_real_frame[eyes] = false;
-		frame_done ();
-	} else if (same && _have_a_real_frame[eyes]) {
-		/* Use the last frame that we encoded. */
-		_writer->repeat (_video_frames_out, eyes);
+		_writer->fake_write (_video_frames_out, frame->eyes ());
 		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image->image(PIX_FMT_RGB24, false), _video_frames_out, eyes, conversion, _film->video_frame_rate(),
-						  _film->j2k_bandwidth(), _film->resolution(), _film->log()
+						  frame->image(PIX_FMT_RGB24, false),
+						  _video_frames_out,
+						  frame->eyes(),
+						  frame->conversion(),
+						  _film->video_frame_rate(),
+						  _film->j2k_bandwidth(),
+						  _film->resolution(),
+						  _film->log()
 						  )
 					  ));
 		
 		_condition.notify_all ();
-		_have_a_real_frame[eyes] = true;
 	}
 
-	if (eyes != EYES_LEFT) {
+	if (frame->eyes() != EYES_LEFT) {
 		++_video_frames_out;
 	}
 }

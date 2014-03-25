@@ -34,6 +34,7 @@
 #include "lib/log.h"
 #include "lib/video_decoder.h"
 #include "lib/player.h"
+#include "lib/dcp_video.h"
 
 using std::cout;
 using std::cerr;
@@ -44,23 +45,27 @@ using boost::shared_ptr;
 static shared_ptr<Film> film;
 static ServerDescription* server;
 static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
-static int frame = 0;
+static int frame_count = 0;
 
 void
-process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, DCPTime)
+process_video (shared_ptr<DCPVideo> frame)
 {
 	shared_ptr<DCPVideoFrame> local  (
-		new DCPVideoFrame (image->image (PIX_FMT_RGB24, false), frame, eyes, conversion, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_)
+		new DCPVideoFrame (
+			frame->image (PIX_FMT_RGB24, false), frame_count, frame->eyes(), frame->conversion(), film->video_frame_rate(), 250000000, RESOLUTION_2K, log_
+			)
 		);
 	
 	shared_ptr<DCPVideoFrame> remote (
-		new DCPVideoFrame (image->image (PIX_FMT_RGB24, false), frame, eyes, conversion, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_)
+		new DCPVideoFrame (
+			frame->image (PIX_FMT_RGB24, false), frame_count, frame->eyes(), frame->conversion(), film->video_frame_rate(), 250000000, RESOLUTION_2K, log_
+			)
 		);
 
-	cout << "Frame " << frame << ": ";
+	cout << "Frame " << frame_count << ": ";
 	cout.flush ();
 
-	++frame;
+	++frame_count;
 
 	shared_ptr<EncodedData> local_encoded = local->encode_locally ();
 	shared_ptr<EncodedData> remote_encoded;
@@ -148,12 +153,10 @@ main (int argc, char* argv[])
 		film->read_metadata ();
 		
 		shared_ptr<Player> player = film->make_player ();
-		player->disable_audio ();
 
-		player->Video.connect (boost::bind (process_video, _1, _2, _3, _5));
-		bool done = false;
-		while (!done) {
-			done = player->pass ();
+		DCPTime const frame = DCPTime::from_frames (1, film->video_frame_rate ());
+		for (DCPTime t; t < film->length(); t += frame) {
+			process_video (player->get_video (t, true));
 		}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";

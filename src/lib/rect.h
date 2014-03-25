@@ -42,6 +42,13 @@ public:
 		, height (0)
 	{}
 
+	Rect (Position<T> p, T w_, T h_)
+		: x (p.x)
+		, y (p.y)
+		, width (w_)
+		, height (h_)
+	{}
+
 	Rect (T x_, T y_, T w_, T h_)
 		: x (x_)
 		, y (y_)
@@ -54,11 +61,13 @@ public:
 	T width;
 	T height;
 
-	Position<T> position () const {
+	Position<T> position () const
+	{
 		return Position<T> (x, y);
 	}
 
-	Rect<T> intersection (Rect<T> const & other) const {
+	Rect<T> intersection (Rect<T> const & other) const
+	{
 		T const tx = max (x, other.x);
 		T const ty = max (y, other.y);
 	
@@ -69,7 +78,16 @@ public:
 			);
 	}
 
-	bool contains (Position<T> p) const {
+	void extend (Rect<T> const & other)
+	{
+		x = std::min (x, other.x);
+		y = std::min (y, other.y);
+		width = std::max (x + width, other.x + other.width) - x;
+		height = std::max (y + height, other.y + other.height) - y;
+	}
+
+	bool contains (Position<T> p) const
+	{
 		return (p.x >= x && p.x <= (x + width) && p.y >= y && p.y <= (y + height));
 	}
 };

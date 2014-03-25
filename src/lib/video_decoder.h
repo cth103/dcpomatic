@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,15 +25,17 @@
 #include "decoder.h"
 #include "video_content.h"
 #include "util.h"
-#include "decoded.h"
 
 class VideoContent;
 class Image;
+class ContentVideo;
 
 class VideoDecoder : public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const VideoContent>);
+	VideoDecoder (boost::shared_ptr<const VideoContent> c);
+
+	boost::shared_ptr<ContentVideo> get_video (VideoFrame frame, bool accurate);
 
 	boost::shared_ptr<const VideoContent> video_content () const {
 		return _video_content;
@@ -41,8 +43,12 @@ public:
 
 protected:
 
-	void video (boost::shared_ptr<const Image>, bool, ContentTime);
+	void seek (ContentTime time, bool accurate);
+	void video (boost::shared_ptr<const Image>, VideoFrame frame);
+	boost::shared_ptr<ContentVideo> decoded_video (VideoFrame frame);
+
 	boost::shared_ptr<const VideoContent> _video_content;
+	std::list<boost::shared_ptr<ContentVideo> > _decoded_video;
 };
 
 #endif

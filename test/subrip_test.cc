@@ -186,11 +186,10 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
-	shared_ptr<DecodedTextSubtitle> dts = dynamic_pointer_cast<DecodedTextSubtitle> (decoder->peek ());
+	list<shared_ptr<ContentTextSubtitle> > cts = decoder->get_text_subtitles (ContentTime::from_seconds (109), ContentTime::from_seconds (110));
+	BOOST_CHECK_EQUAL (cts.size(), 1);
 
-	shared_ptr<Image> image;
-	Position<int> position;
-	render_subtitles (dts->subs, dcp::Size (1998, 1080), image, position);
-	write_image (image, "build/test/subrip_render_test.png");
+	PositionImage image = render_subtitles (cts.front()->subs, dcp::Size (1998, 1080));
+	write_image (image.image, "build/test/subrip_render_test.png");
 	check_file ("build/test/subrip_render_test.png", "test/data/subrip_render_test.png");
 }

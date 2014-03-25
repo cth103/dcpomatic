@@ -30,6 +30,17 @@ SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
 
 }
 
+void
+SubRipDecoder::seek (ContentTime time, bool)
+{
+	_next = 0;
+	list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin();
+	while (i != _subtitles[_next].pieces.end() && _subtitles[_next].from < time) {
+		++i;
+	}
+	
+}
+
 bool
 SubRipDecoder::pass ()
 {

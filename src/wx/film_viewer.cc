@@ -37,6 +37,7 @@
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
 #include "lib/timer.h"
+#include "lib/dcp_video.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -62,7 +63,6 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
-	, _got_frame (false)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -136,31 +136,25 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		return;
 	}
 	
-	_player->disable_audio ();
 	_player->set_approximate_size ();
-	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _5));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
-	fetch_next_frame ();
+	get (_position, true);
 }
 
 void
-FilmViewer::fetch_current_frame_again ()
+FilmViewer::get (DCPTime p, bool accurate)
 {
-	if (!_player) {
-		return;
+	shared_ptr<DCPVideo> dcp_video = _player->get_video (p, accurate);
+	if (dcp_video) {
+		_frame = dcp_video->image (PIX_FMT_BGRA, true);
+		_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
+	} else {
+		_frame.reset ();
 	}
 
-	/* We could do this with a seek and a fetch_next_frame, but this is
-	   a shortcut to make it quicker.
-	*/
-
-	_got_frame = false;
-	if (!_player->repeat_last_video ()) {
-		fetch_next_frame ();
-	}
-	
+	set_position_text (p);
 	_panel->Refresh ();
 	_panel->Update ();
 }
@@ -172,12 +166,12 @@ FilmViewer::timer ()
 		return;
 	}
 	
-	fetch_next_frame ();
+	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
 
 	DCPTime const len = _film->length ();
 
 	if (len.get ()) {
-		int const new_slider_position = 4096 * _player->video_position().get() / len.get();
+		int const new_slider_position = 4096 * _position.get() / len.get();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -220,21 +214,16 @@ FilmViewer::paint_panel ()
 void
 FilmViewer::slider_moved ()
 {
-	if (_film && _player) {
-		try {
-			DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
-			/* Ensure that we hit the end of the film at the end of the slider */
-			if (t >= _film->length ()) {
-				t = _film->length() - DCPTime::from_frames (1, _film->video_frame_rate ());
-			}
-			_player->seek (t, false);
-			fetch_next_frame ();
-		} catch (OpenFileError& e) {
-			/* There was a problem opening a content file; we'll let this slide as it
-			   probably means a missing content file, which we're already taking care of.
-			*/
-		}
+	if (!_film || !_player) {
+		return;
 	}
+
+	DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
+	/* Ensure that we hit the end of the film at the end of the slider */
+	if (t >= _film->length ()) {
+		t = _film->length() - DCPTime::from_frames (1, _film->video_frame_rate ());
+	}
+	get (t, false);
 }
 
 void
@@ -243,7 +232,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	_panel_size.width = ev.GetSize().GetWidth();
 	_panel_size.height = ev.GetSize().GetHeight();
 	calculate_sizes ();
-	fetch_current_frame_again ();
+	get (_position, true);
 }
 
 void
@@ -303,23 +292,6 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, DCPTime t)
-{
-	if (eyes == EYES_RIGHT) {
-		return;
-	}
-
-	/* Going via BGRA here makes the scaler faster then using RGB24 directly (about
-	   twice on x86 Linux).
-	*/
-	shared_ptr<Image> im = image->image (PIX_FMT_BGRA, true);
-	_frame = im->scale (im->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
-	_got_frame = true;
-
-	set_position_text (t);
-}
-
-void
 FilmViewer::set_position_text (DCPTime t)
 {
 	if (!_film) {
@@ -341,35 +313,6 @@ FilmViewer::set_position_text (DCPTime t)
 	w -= s;
 	int const f = rint (w * fps);
 	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f));
-}
-
-/** Ask the player to emit its next frame, then update our display */
-void
-FilmViewer::fetch_next_frame ()
-{
-	/* Clear our frame in case we don't get a new one */
-	_frame.reset ();
-
-	if (!_player) {
-		return;
-	}
-
-	_got_frame = false;
-	
-	try {
-		while (!_got_frame && !_player->pass ()) {}
-	} catch (DecodeError& e) {
-		_play_button->SetValue (false);
-		check_play_state ();
-		error_dialog (this, wxString::Format (_("Could not decode video for view (%s)"), std_to_wx(e.what()).data()));
-	} catch (OpenFileError& e) {
-		/* There was a problem opening a content file; we'll let this slide as it
-		   probably means a missing content file, which we're already taking care of.
-		*/
-	}
-
-	_panel->Refresh ();
-	_panel->Update ();
 }
 
 void
@@ -399,23 +342,12 @@ FilmViewer::back_clicked ()
 		return;
 	}
 
-	/* Player::video_position is the time after the last frame that we received.
-	   We want to see the one before it, so we need to go back 2.
-	*/
-
-	DCPTime p = _player->video_position() - DCPTime::from_frames (2, _film->video_frame_rate ());
+	DCPTime p = _position - DCPTime::from_frames (1, _film->video_frame_rate ());
 	if (p < DCPTime ()) {
 		p = DCPTime ();
 	}
-	
-	try {
-		_player->seek (p, true);
-		fetch_next_frame ();
-	} catch (OpenFileError& e) {
-		/* There was a problem opening a content file; we'll let this slide as it
-		   probably means a missing content file, which we're already taking care of.
-		*/
-	}
+
+	get (p, true);
 }
 
 void
@@ -425,7 +357,7 @@ FilmViewer::forward_clicked ()
 		return;
 	}
 
-	fetch_next_frame ();
+	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
 }
 
 void
@@ -436,5 +368,5 @@ FilmViewer::player_changed (bool frequent)
 	}
 
 	calculate_sizes ();
-	fetch_current_frame_again ();
+	get (_position, true);
 }

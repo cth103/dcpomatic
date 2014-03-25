@@ -8,18 +8,18 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc
-          audio_merger.cc
           cinema.cc
           colour_conversion.cc
           config.cc
           content.cc
           content_factory.cc
+          content_subtitle.cc
           cross.cc
           dci_metadata.cc
           dcp_content_type.cc
+          dcp_video.cc
           dcp_video_frame.cc
           dcpomatic_time.cc
-          decoder.cc
           dolby_cp750.cc
           encoder.cc
           examine_content_job.cc

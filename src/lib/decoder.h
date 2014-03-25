@@ -31,6 +31,7 @@
 #include "dcpomatic_time.h"
 
 class Decoded;
+class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -38,36 +39,16 @@ class Decoded;
 class Decoder : public boost::noncopyable
 {
 public:
-	Decoder ();
 	virtual ~Decoder () {}
 
+protected:	
 	/** Seek so that the next peek() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
 	 *  time.  Pass accurate = true to try harder to get close to
 	 *  the request.
 	 */
-	virtual void seek (ContentTime time, bool accurate);
-	
-	boost::shared_ptr<Decoded> peek ();
-
-	/* Consume the last peek()ed thing so that it won't be returned
-	 * from the next peek().
-	 */
-	void consume ();
-
-protected:
-
-	/** Perform one decode pass of the content, which may or may not
-	 *  result in a complete quantum (Decoded object) of decoded stuff
-	 *  being added to _pending.
-	 *  @return true if the decoder is done (i.e. no more data will be
-	 *  produced by any future calls to pass() without a seek() first).
-	 */
+	virtual void seek (ContentTime time, bool accurate) = 0;
 	virtual bool pass () = 0;
-	virtual void flush () {};
-	
-	std::list<boost::shared_ptr<Decoded> > _pending;
-	bool _done;
 };
 
 #endif

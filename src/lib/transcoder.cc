@@ -39,24 +39,6 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-static void
-video_proxy (weak_ptr<Encoder> encoder, shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
-{
-	shared_ptr<Encoder> e = encoder.lock ();
-	if (e) {
-		e->process_video (image, eyes, conversion, same);
-	}
-}
-
-static void
-audio_proxy (weak_ptr<Encoder> encoder, shared_ptr<const AudioBuffers> audio)
-{
-	shared_ptr<Encoder> e = encoder.lock ();
-	if (e) {
-		e->process_audio (audio);
-	}
-}
-
 /** Construct a transcoder using a Decoder that we create and a supplied Encoder.
  *  @param f Film that we are transcoding.
  *  @param e Encoder to use.
@@ -67,15 +49,19 @@ Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	, _encoder (new Encoder (f, j))
 	, _finishing (false)
 {
-	_player->Video.connect (bind (video_proxy, _encoder, _1, _2, _3, _4));
-	_player->Audio.connect (bind (audio_proxy, _encoder, _1));
+
 }
 
 void
 Transcoder::go ()
 {
 	_encoder->process_begin ();
-	while (!_player->pass ()) {}
+
+	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
+	for (DCPTime t; t < _film->length(); t += frame) {
+		_encoder->process_video (_player->get_video (t, true));
+		_encoder->process_audio (_player->get_audio (t, frame, true));
+	}
 
 	_finishing = true;
 	_encoder->process_end ();

@@ -138,6 +138,10 @@ public:
 	static ContentTime from_frames (int64_t f, T r) {
 		return ContentTime (f * HZ / r);
 	}
+
+	static ContentTime max () {
+		return ContentTime (INT64_MAX);
+	}
 };
 
 std::ostream& operator<< (std::ostream& s, ContentTime t);

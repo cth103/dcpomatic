@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,14 +47,13 @@ class ffmpeg_pts_offset_test;
 class FFmpegDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder, public FFmpeg
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>, bool video, bool audio, bool subtitles);
+	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>);
 	~FFmpegDecoder ();
-
-	void seek (ContentTime time, bool);
 
 private:
 	friend class ::ffmpeg_pts_offset_test;
 
+	void seek (ContentTime time, bool);
 	bool pass ();
 	void flush ();
 
@@ -81,10 +80,6 @@ private:
 	
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
-
-	bool _decode_video;
-	bool _decode_audio;
-	bool _decode_subtitles;
 
 	ContentTime _pts_offset;
 };

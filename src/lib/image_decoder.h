@@ -28,7 +28,7 @@ class ImageContent;
 class ImageDecoder : public VideoDecoder
 {
 public:
-	ImageDecoder (boost::shared_ptr<const ImageContent>);
+	ImageDecoder (boost::shared_ptr<const ImageContent> c);
 
 	boost::shared_ptr<const ImageContent> content () {
 		return _image_content;
@@ -41,6 +41,6 @@ private:
 	
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::shared_ptr<Image> _image;
-	ContentTime _video_position;
+	VideoFrame _video_position;
 };
 

@@ -46,9 +46,9 @@
 #include <glib.h>
 #include <openjpeg.h>
 #include <openssl/md5.h>
+#include <pangomm/init.h>
 #include <magick/MagickCore.h>
 #include <magick/version.h>
-#include <pangomm/init.h>
 #include <dcp/version.h>
 #include <dcp/util.h>
 #include <dcp/signer_chain.h>
@@ -71,6 +71,7 @@ extern "C" {
 #include "job.h"
 #include "cross.h"
 #include "video_content.h"
+#include "rect.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -235,24 +236,6 @@ ffmpeg_version_to_string (int v)
 {
 	stringstream s;
 	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
-	return s.str ();
-}
-
-/** Return a user-readable string summarising the versions of our dependencies */
-string
-dependency_version_summary ()
-{
-	stringstream s;
-	s << N_("libopenjpeg ") << opj_version () << N_(", ")
-	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
-	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
-	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
-	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
-	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
-	  << MagickVersion << N_(", ")
-	  << N_("libssh ") << ssh_version (0) << N_(", ")
-	  << N_("libdcp ") << dcp::version << N_(" git ") << dcp::git_commit;
-
 	return s.str ();
 }
 
@@ -955,4 +938,22 @@ divide_with_round (int64_t a, int64_t b)
 	} else {
 		return a / b;
 	}
+}
+
+/** Return a user-readable string summarising the versions of our dependencies */
+string
+dependency_version_summary ()
+{
+	stringstream s;
+	s << N_("libopenjpeg ") << opj_version () << N_(", ")
+	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
+	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
+	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
+	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
+	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
+	  << MagickVersion << N_(", ")
+	  << N_("libssh ") << ssh_version (0) << N_(", ")
+	  << N_("libdcp ") << dcp::version << N_(" git ") << dcp::git_commit;
+
+	return s.str ();
 }

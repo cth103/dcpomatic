@@ -35,7 +35,7 @@ public:
 	void run ();
 
 private:
-	void audio (boost::shared_ptr<const AudioBuffers>, DCPTime);
+	void analyse (boost::shared_ptr<const AudioBuffers>);
 
 	boost::weak_ptr<AudioContent> _content;
 	int64_t _done;

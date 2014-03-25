@@ -34,6 +34,7 @@ extern "C" {
 #include <dcp/image.h>
 #include "util.h"
 #include "position.h"
+#include "position_image.h"
 
 class Scaler;
 
@@ -63,6 +64,7 @@ public:
 	boost::shared_ptr<Image> crop_scale_window (Crop c, dcp::Size, dcp::Size, Scaler const *, AVPixelFormat, bool aligned) const;
 	
 	void make_black ();
+	void make_transparent ();
 	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
 	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
 
@@ -88,5 +90,7 @@ private:
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
 	bool _aligned;
 };
+
+extern PositionImage merge (std::list<PositionImage> images);
 
 #endif

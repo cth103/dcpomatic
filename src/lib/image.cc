@@ -31,6 +31,7 @@ extern "C" {
 #include "exceptions.h"
 #include "scaler.h"
 #include "timer.h"
+#include "rect.h"
 
 #include "i18n.h"
 
@@ -38,6 +39,7 @@ using std::string;
 using std::min;
 using std::cout;
 using std::cerr;
+using std::list;
 using boost::shared_ptr;
 using dcp::Size;
 
@@ -343,6 +345,16 @@ Image::make_black ()
 }
 
 void
+Image::make_transparent ()
+{
+	if (_pixel_format != PIX_FMT_RGBA) {
+		throw PixelFormatError ("make_transparent()", _pixel_format);
+	}
+
+	memset (data()[0], 0, lines(0) * stride()[0]);
+}
+
+void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
 	int this_bpp = 0;
@@ -630,3 +642,23 @@ Image::aligned () const
 	return _aligned;
 }
 
+PositionImage
+merge (list<PositionImage> images)
+{
+	if (images.empty ()) {
+		return PositionImage ();
+	}
+
+	dcpomatic::Rect<int> all (images.front().position, images.front().image->size().width, images.front().image->size().height);
+	for (list<PositionImage>::const_iterator i = images.begin(); i != images.end(); ++i) {
+		all.extend (dcpomatic::Rect<int> (i->position, i->image->size().width, i->image->size().height));
+	}
+
+	shared_ptr<Image> merged (new Image (images.front().image->pixel_format (), dcp::Size (all.width, all.height), true));
+	merged->make_transparent ();
+	for (list<PositionImage>::const_iterator i = images.begin(); i != images.end(); ++i) {
+		merged->alpha_blend (i->image, i->position);
+	}
+
+	return PositionImage (merged, all.position ());
+}

@@ -28,6 +28,7 @@
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_decoder.h"
+#include "lib/content_video.h"
 #include "test.h"
 
 using std::cout;
@@ -45,13 +46,9 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	FFmpegDecoder decoder (content, film->log(), true, false, false);
-	shared_ptr<DecodedVideo> a = dynamic_pointer_cast<DecodedVideo> (decoder.peek ());
-	decoder.seek (ContentTime(), true);
-	shared_ptr<DecodedVideo> b = dynamic_pointer_cast<DecodedVideo> (decoder.peek ());
-
-	/* a will be after no seek, and b after a seek to zero, which should
-	   have the same effect.
-	*/
-	BOOST_CHECK_EQUAL (a->content_time, b->content_time);
+	FFmpegDecoder decoder (content, film->log());
+	shared_ptr<ContentVideo> a = decoder.get_video (0, true);
+	shared_ptr<ContentVideo> b = decoder.get_video (0, true);
+	BOOST_CHECK_EQUAL (a->frame, 0);
+	BOOST_CHECK_EQUAL (b->frame, 0);
 }

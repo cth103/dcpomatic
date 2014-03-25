@@ -19,9 +19,6 @@
 
 #include <dcp/subtitle_string.h>
 #include <dcp/util.h>
-#include "position.h"
+#include "position_image.h"
 
-class Image;
-
-void
-render_subtitles (std::list<dcp::SubtitleString>, dcp::Size, boost::shared_ptr<Image> &, Position<int> &);
+PositionImage render_subtitles (std::list<dcp::SubtitleString>, dcp::Size);

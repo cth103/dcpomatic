@@ -42,21 +42,19 @@ ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
 bool
 ImageDecoder::pass ()
 {
-	if (_video_position >= _image_content->video_length ()) {
+	if (_video_position >= _image_content->video_length().frames (_image_content->video_frame_rate ())) {
 		return true;
 	}
 
 	if (_image && _image_content->still ()) {
-		video (_image, true, _video_position);
-		_video_position += ContentTime::from_frames (1, _image_content->video_frame_rate ());
+		video (_image, _video_position);
+		++_video_position;
 		return false;
 	}
 
 	Magick::Image* magick_image = 0;
 
-	boost::filesystem::path const path = _image_content->path (
-		_image_content->still() ? 0 : _video_position.frames (_image_content->video_frame_rate ())
-		);
+	boost::filesystem::path const path = _image_content->path (_image_content->still() ? 0 : _video_position);
 	
 	try {
 		magick_image = new Magick::Image (path.string ());
@@ -84,8 +82,8 @@ ImageDecoder::pass ()
 
 	delete magick_image;
 
-	video (_image, false, _video_position);
-	_video_position += ContentTime::from_frames (1, _image_content->video_frame_rate ());
+	video (_image, _video_position);
+	++_video_position;
 
 	return false;
 }
@@ -93,6 +91,6 @@ ImageDecoder::pass ()
 void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
-	_video_position = time;
+	VideoDecoder::seek (time, accurate);
+	_video_position = time.frames (_image_content->video_frame_rate ());
 }

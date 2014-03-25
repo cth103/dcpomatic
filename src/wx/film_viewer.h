@@ -32,19 +32,6 @@ class PlayerImage;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
- *
- *  The film takes the following path through the viewer:
- *
- *  1.	fetch_next_frame() asks our _player to decode some data.  If it does, process_video()
- *	will be called.
- *
- *  2.	process_video() takes the image from the player (_frame).
- *
- *  3.	fetch_next_frame() calls _panel->Refresh() and _panel->Update() which results in
- *	paint_panel() being called; this creates frame_bitmap from _frame and blits it to the display.
- *
- * fetch_current_frame_again() asks the player to re-emit its current frame on the next pass(), and then
- * starts from step #1.
  */
 class FilmViewer : public wxPanel
 {
@@ -59,16 +46,14 @@ private:
 	void slider_moved ();
 	void play_clicked ();
 	void timer ();
-	void process_video (boost::shared_ptr<PlayerImage>, Eyes, DCPTime);
 	void calculate_sizes ();
 	void check_play_state ();
-	void fetch_current_frame_again ();
-	void fetch_next_frame ();
 	void active_jobs_changed (bool);
 	void back_clicked ();
 	void forward_clicked ();
 	void player_changed (bool);
 	void set_position_text (DCPTime);
+	void get (DCPTime, bool);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -84,7 +69,7 @@ private:
 	wxTimer _timer;
 
 	boost::shared_ptr<const Image> _frame;
-	bool _got_frame;
+	DCPTime _position;
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;

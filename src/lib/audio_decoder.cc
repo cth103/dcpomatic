@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "log.h"
 #include "resampler.h"
 #include "util.h"
+#include "film.h"
 
 #include "i18n.h"
 
@@ -41,7 +42,47 @@ AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 	}
 }
 
-/** Audio timestamping is made hard by many factors, but the final nail in the coffin is resampling.
+shared_ptr<ContentAudio>
+AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
+{
+	shared_ptr<ContentAudio> dec;
+
+	AudioFrame const end = frame + length - 1;
+		
+	if (frame < _decoded_audio.frame || end > (_decoded_audio.frame + length * 4)) {
+		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
+		seek (ContentTime::from_frames (frame, _audio_content->content_audio_frame_rate()), accurate);
+	}
+
+	/* Now enough pass() calls will either:
+	 *  (a) give us what we want, or
+	 *  (b) hit the end of the decoder.
+	 *
+	 * If we are being accurate, we want the right frames,
+	 * otherwise any frames will do.
+	 */
+	if (accurate) {
+		while (!pass() && _decoded_audio.audio->frames() < length) {}
+	} else {
+		while (!pass() && (_decoded_audio.frame > frame || (_decoded_audio.frame + _decoded_audio.audio->frames()) < end)) {}
+	}
+	
+	/* Clean up decoded */
+
+	AudioFrame const decoded_offset = frame - _decoded_audio.frame;
+	AudioFrame const amount_left = _decoded_audio.audio->frames() - decoded_offset;
+	_decoded_audio.audio->move (decoded_offset, 0, amount_left);
+	_decoded_audio.audio->set_frames (amount_left);
+
+	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded_audio.audio->channels(), length));
+	out->copy_from (_decoded_audio.audio.get(), length, frame - _decoded_audio.frame, 0);
+
+	return shared_ptr<ContentAudio> (new ContentAudio (out, frame));
+}
+
+/** Called by subclasses when audio data is ready.
+ *
+ *  Audio timestamping is made hard by many factors, but perhaps the most entertaining is resampling.
  *  We have to assume that we are feeding continuous data into the resampler, and so we get continuous
  *  data out.  Hence we do the timestamping here, post-resampler, just by counting samples.
  *
@@ -56,13 +97,20 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	}
 
 	if (!_audio_position) {
-		_audio_position = time;
+		_audio_position = time.frames (_audio_content->output_audio_frame_rate ());
 	}
 
-	_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (_audio_position.get (), data)));
-	_audio_position = _audio_position.get() + ContentTime (data->frames (), _audio_content->output_audio_frame_rate ());
+	assert (_audio_position >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
+
+	/* Resize _decoded_audio to fit the new data */
+	_decoded_audio.audio->ensure_size (_audio_position.get() + data->frames() - _decoded_audio.frame);
+
+	/* Copy new data in */
+	_decoded_audio.audio->copy_from (data.get(), data->frames(), 0, _audio_position.get() - _decoded_audio.frame);
+	_audio_position = _audio_position.get() + data->frames ();
 }
 
+/* XXX: called? */
 void
 AudioDecoder::flush ()
 {
@@ -70,11 +118,13 @@ AudioDecoder::flush ()
 		return;
 	}
 
+	/*
 	shared_ptr<const AudioBuffers> b = _resampler->flush ();
 	if (b) {
-		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (_audio_position.get (), b)));
-		_audio_position = _audio_position.get() + ContentTime (b->frames (), _audio_content->output_audio_frame_rate ());
+		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (b, _audio_position.get ())));
+		_audio_position = _audio_position.get() + b->frames ();
 	}
+	*/
 }
 
 void

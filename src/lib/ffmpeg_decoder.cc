@@ -57,17 +57,13 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool video, bool audio, bool subtitles)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
 	: VideoDecoder (c)
 	, AudioDecoder (c)
 	, FFmpeg (c)
 	, _log (log)
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
-	, _decode_video (video)
-	, _decode_audio (audio)
-	, _decode_subtitles (subtitles)
-	, _pts_offset (0)
 {
 	setup_subtitle ();
 
@@ -83,8 +79,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	   We will do pts_to_use = pts_from_ffmpeg + pts_offset;
 	*/
 
-	bool const have_video = video && c->first_video();
-	bool const have_audio = _decode_audio && c->audio_stream () && c->audio_stream()->first_audio;
+	bool const have_video = c->first_video();
+	bool const have_audio = c->audio_stream () && c->audio_stream()->first_audio;
 
 	/* First, make one of them start at 0 */
 
@@ -123,11 +119,9 @@ FFmpegDecoder::flush ()
 	
 	/* XXX: should we reset _packet.data and size after each *_decode_* call? */
 	
-	if (_decode_video) {
-		while (decode_video_packet ()) {}
-	}
+	while (decode_video_packet ()) {}
 	
-	if (_ffmpeg_content->audio_stream() && _decode_audio) {
+	if (_ffmpeg_content->audio_stream()) {
 		decode_audio_packet ();
 		AudioDecoder::flush ();
 	}
@@ -152,11 +146,11 @@ FFmpegDecoder::pass ()
 
 	int const si = _packet.stream_index;
 	
-	if (si == _video_stream && _decode_video) {
+	if (si == _video_stream) {
 		decode_video_packet ();
-	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si) && _decode_audio) {
+	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si)) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _ffmpeg_content->subtitle_stream()->uses_index (_format_context, si) && _decode_subtitles) {
+	} else if (_ffmpeg_content->subtitle_stream() && _ffmpeg_content->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
 	}
 
@@ -390,10 +384,8 @@ FFmpegDecoder::seek_and_flush (ContentTime t)
 void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
-	if (_decode_audio) {
-		AudioDecoder::seek (time, accurate);
-	}
+	VideoDecoder::seek (time, accurate);
+	AudioDecoder::seek (time, accurate);
 	
 	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
 	   a number plucked from the air) earlier than we want to end up.  The loop below
@@ -492,7 +484,8 @@ FFmpegDecoder::decode_video_packet ()
 		shared_ptr<Image> image = i->first;
 		
 		if (i->second != AV_NOPTS_VALUE) {
-			video (image, false, ContentTime::from_seconds (i->second * av_q2d (_format_context->streams[_video_stream]->time_base)) + _pts_offset);
+			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset.seconds ();
+			video (image, rint (pts * _ffmpeg_content->video_frame_rate ()));
 		} else {
 			_log->log ("Dropping frame without PTS");
 		}
@@ -540,7 +533,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	   indicate that the previous subtitle should stop.
 	*/
 	if (sub.num_rects <= 0) {
-		image_subtitle (shared_ptr<Image> (), dcpomatic::Rect<double> (), ContentTime (), ContentTime ());
+		image_subtitle (ContentTime (), ContentTime (), shared_ptr<Image> (), dcpomatic::Rect<double> ());
 		return;
 	} else if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
@@ -589,17 +582,16 @@ FFmpegDecoder::decode_subtitle_packet ()
 	dcp::Size const vs = _ffmpeg_content->video_size ();
 
 	image_subtitle (
+		from,
+		to,
 		image,
 		dcpomatic::Rect<double> (
 			static_cast<double> (rect->x) / vs.width,
 			static_cast<double> (rect->y) / vs.height,
 			static_cast<double> (rect->w) / vs.width,
 			static_cast<double> (rect->h) / vs.height
-			),
-		from,
-		to
+			)
 		);
-			  
 	
 	avsubtitle_free (&sub);
 }

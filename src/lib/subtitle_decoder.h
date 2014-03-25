@@ -20,12 +20,11 @@
 #ifndef DCPOMATIC_SUBTITLE_DECODER_H
 #define DCPOMATIC_SUBTITLE_DECODER_H
 
-#include <boost/signals2.hpp>
 #include <dcp/subtitle_string.h>
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
-#include "decoded.h"
+#include "content_subtitle.h"
 
 class Film;
 class DCPTimedSubtitle;
@@ -36,9 +35,15 @@ class SubtitleDecoder : public virtual Decoder
 public:
 	SubtitleDecoder ();
 
+	std::list<boost::shared_ptr<ContentImageSubtitle> > get_image_subtitles (ContentTime from, ContentTime to);
+	std::list<boost::shared_ptr<ContentTextSubtitle> > get_text_subtitles (ContentTime from, ContentTime to);
+
 protected:
-	void image_subtitle (boost::shared_ptr<Image>, dcpomatic::Rect<double>, ContentTime, ContentTime);
+	void image_subtitle (ContentTime from, ContentTime to, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void text_subtitle (std::list<dcp::SubtitleString>);
+
+	std::list<boost::shared_ptr<ContentImageSubtitle> > _decoded_image_subtitles;
+	std::list<boost::shared_ptr<ContentTextSubtitle> > _decoded_text_subtitles;
 };
 
 #endif

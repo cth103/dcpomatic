@@ -138,8 +138,6 @@ private:
 	int _full_written;
 	/** number of FAKE written frames */
 	int _fake_written;
-	/** number of REPEAT written frames */
-	int _repeat_written;
 	/** number of frames pushed to disk and then recovered
 	    due to the limit of frames to be held in memory.
 	*/

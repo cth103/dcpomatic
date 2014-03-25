@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -71,7 +71,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	, _last_written_eyes (EYES_RIGHT)
 	, _full_written (0)
 	, _fake_written (0)
-	, _repeat_written (0)
 	, _pushed_to_disk (0)
 {
 	/* Remove any old DCP */
@@ -277,18 +276,6 @@ try
 				_last_written[qi.eyes].reset ();
 				++_fake_written;
 				break;
-			case QueueItem::REPEAT:
-			{
-				_film->log()->log (String::compose (N_("Writer REPEAT-writes %1 to MXF"), qi.frame));
-				dcp::FrameInfo fin = _picture_mxf_writer->write (
-					_last_written[qi.eyes]->data(),
-					_last_written[qi.eyes]->size()
-					);
-				
-				_last_written[qi.eyes]->write_info (_film, qi.frame, qi.eyes, fin);
-				++_repeat_written;
-				break;
-			}
 			}
 			lock.lock ();
 
@@ -305,7 +292,7 @@ try
 				total *= 2;
 			}
 			if (total) {
-				job->set_progress (float (_full_written + _fake_written + _repeat_written) / total);
+				job->set_progress (float (_full_written + _fake_written) / total);
 			}
 		}
 
@@ -454,34 +441,8 @@ Writer::finish ()
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, _film->is_signed() ? make_signer () : shared_ptr<const dcp::Signer> ());
 
 	_film->log()->log (
-		String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT; %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk)
+		String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 pushed to disk"), _full_written, _fake_written, _pushed_to_disk)
 		);
-}
-
-/** Tell the writer that frame `f' should be a repeat of the frame before it */
-void
-Writer::repeat (int f, Eyes e)
-{
-	boost::mutex::scoped_lock lock (_mutex);
-
-	while (_queued_full_in_memory > _maximum_frames_in_memory) {
-		_full_condition.wait (lock);
-	}
-	
-	QueueItem qi;
-	qi.type = QueueItem::REPEAT;
-	qi.frame = f;
-	if (_film->three_d() && e == EYES_BOTH) {
-		qi.eyes = EYES_LEFT;
-		_queue.push_back (qi);
-		qi.eyes = EYES_RIGHT;
-		_queue.push_back (qi);
-	} else {
-		qi.eyes = e;
-		_queue.push_back (qi);
-	}
-
-	_empty_condition.notify_all ();
 }
 
 bool

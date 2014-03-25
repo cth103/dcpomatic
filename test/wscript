@@ -19,7 +19,6 @@ def build(bld):
                  audio_analysis_test.cc
                  audio_delay_test.cc
                  audio_mapping_test.cc
-                 audio_merger_test.cc
                  black_fill_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc
@@ -27,7 +26,6 @@ def build(bld):
                  ffmpeg_dcp_test.cc
                  ffmpeg_examiner_test.cc
                  ffmpeg_pts_offset.cc
-                 ffmpeg_seek_test.cc
                  file_group_test.cc
                  film_metadata_test.cc
                  frame_rate_test.cc
@@ -35,7 +33,6 @@ def build(bld):
                  job_test.cc
                  make_black_test.cc
                  pixel_formats_test.cc
-                 play_test.cc
                  ratio_test.cc
                  repeat_frame_test.cc
                  recover_test.cc
@@ -60,7 +57,6 @@ def build(bld):
     obj.use    = 'libdcpomatic'
     obj.source = """
                  test.cc
-                 long_ffmpeg_seek_test.cc
                  """
 
     obj.target = 'long-unit-tests'

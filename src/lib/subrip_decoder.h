@@ -30,7 +30,8 @@ class SubRipDecoder : public SubtitleDecoder, public SubRip
 public:
 	SubRipDecoder (boost::shared_ptr<const SubRipContent>);
 
-protected:	
+protected:
+	void seek (ContentTime time, bool accurate);
 	bool pass ();
 
 private:
