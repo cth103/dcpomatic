@@ -271,7 +271,7 @@ AudioContent::Frame
 FFmpegContent::audio_length () const
 {
 	int const cafr = content_audio_frame_rate ();
-	int const vfr  = video_frame_rate ();
+	float const vfr = video_frame_rate ();
 	VideoContent::Frame const vl = video_length_after_3d_combine ();
 
 	boost::mutex::scoped_lock lm (_mutex);
