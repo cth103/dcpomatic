@@ -176,6 +176,24 @@ private:
 	char* _old;
 };
 
+class ScopedTemporary
+{
+public:
+	ScopedTemporary ();
+	~ScopedTemporary ();
+
+	boost::filesystem::path file () const {
+		return _file;
+	}
+	
+	char const * c_str () const;
+	FILE* open (char const *);
+	void close ();
+
+private:
+	boost::filesystem::path _file;
+	FILE* _open;
+};
 
 #endif
 

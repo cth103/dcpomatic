@@ -1,3 +1,7 @@
+2014-03-25  Carl Hetherington  <cth@carlh.net>
+
+	* Add support for downloading Doremi server certificates.
+
 2014-03-24  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.7 released.

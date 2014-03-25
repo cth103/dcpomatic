@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 #include <boost/shared_ptr.hpp>
 #include <libdcp/certificates.h>
 
+class Progress;
+
 class ScreenDialog : public wxDialog
 {
 public:
@@ -30,11 +32,17 @@ public:
 	boost::shared_ptr<libdcp::Certificate> certificate () const;
 	
 private:
-	void load_certificate ();
+	void select_certificate ();
+	void load_certificate (boost::filesystem::path);
+	void download_certificate ();
 	void setup_sensitivity ();
 	
 	wxTextCtrl* _name;
-	wxButton* _certificate_load;
+	wxChoice* _manufacturer;
+	wxTextCtrl* _serial;
+	Progress* _progress;
+	wxButton* _load_certificate;
+	wxButton* _download_certificate;
 	wxTextCtrl* _certificate_text;
 
 	boost::shared_ptr<libdcp::Certificate> _certificate;

@@ -1030,3 +1030,38 @@ divide_with_round (int64_t a, int64_t b)
 		return a / b;
 	}
 }
+
+ScopedTemporary::ScopedTemporary ()
+	: _open (0)
+{
+	_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path ();
+}
+
+ScopedTemporary::~ScopedTemporary ()
+{
+	close ();	
+	boost::system::error_code ec;
+	boost::filesystem::remove (_file, ec);
+}
+
+char const *
+ScopedTemporary::c_str () const
+{
+	return _file.string().c_str ();
+}
+
+FILE*
+ScopedTemporary::open (char const * params)
+{
+	_open = fopen (c_str(), params);
+	return _open;
+}
+
+void
+ScopedTemporary::close ()
+{
+	if (_open) {
+		fclose (_open);
+		_open = 0;
+	}
+}
