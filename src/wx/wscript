@@ -17,6 +17,9 @@ sources = """
           content_menu.cc
           dci_metadata_dialog.cc
           dir_picker_ctrl.cc
+          dolby_certificate_dialog.cc
+          doremi_certificate_dialog.cc
+          download_certificate_dialog.cc
           film_editor.cc
           film_editor_panel.cc
           film_viewer.cc
@@ -29,7 +32,6 @@ sources = """
           kdm_dialog.cc
           new_film_dialog.cc
           preset_colour_conversion_dialog.cc
-          progress.cc
           properties_dialog.cc
           repeat_dialog.cc
           screen_dialog.cc

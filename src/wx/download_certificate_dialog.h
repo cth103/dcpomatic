@@ -17,22 +17,30 @@
 
 */
 
-#include <wx/wx.h>
+#ifndef DCPOMATIC_DOWNLOAD_CERTIFICATE_DIALOG_H
+#define DCPOMATIC_DOWNLOAD_CERTIFICATE_DIALOG_H
 
-class Progress : public wxPanel
+#include <wx/wx.h>
+#include <boost/function.hpp>
+#include <boost/filesystem.hpp>
+
+class DownloadCertificateDialog : public wxDialog
 {
 public:
-	Progress (wxWindow* parent);
+	DownloadCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
+	virtual void setup () {}
+
+protected:
+	void add_common_widgets ();
 	
-	/** Set progress value.
-	 *  @param v Progress from 0 to 100.
-	 */
-	void set_value (int v);
-	void set_message (wxString);
+	boost::function<void (boost::filesystem::path)> _load;
+	wxSizer* _overall_sizer;
+	wxGauge* _gauge;
+	wxStaticText* _message;
+	wxButton* _download;
 
 private:
-	void run_gui_loop ();
-	
-	wxGauge* _gauge;
-	wxStaticText* _label;
+	virtual void download () = 0;
 };
+
+#endif

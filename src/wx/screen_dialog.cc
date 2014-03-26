@@ -19,14 +19,13 @@
 
 #include <wx/filepicker.h>
 #include <wx/validate.h>
-#include <curl/curl.h>
-#include <zip.h>
 #include <libdcp/exceptions.h>
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include "screen_dialog.h"
 #include "wx_util.h"
-#include "progress.h"
+#include "doremi_certificate_dialog.h"
+#include "dolby_certificate_dialog.h"
 
 using std::string;
 using std::cout;
@@ -47,21 +46,13 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	_manufacturer = new wxChoice (this, wxID_ANY);
 	table->Add (_manufacturer, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, "Server serial number", true);
-	_serial = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_serial, 1, wxEXPAND);
-	
-	add_label_to_sizer (table, this, "Certificate", true);
+	add_label_to_sizer (table, this, _("Certificate"), true);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_load_certificate = new wxButton (this, wxID_ANY, _("Load from file..."));
 	_download_certificate = new wxButton (this, wxID_ANY, _("Download"));
 	s->Add (_load_certificate, 1, wxEXPAND);
 	s->Add (_download_certificate, 1, wxEXPAND);
 	table->Add (s, 1, wxEXPAND);
-
-	table->AddSpacer (0);
-	_progress = new Progress (this);
-	table->Add (_progress, 1, wxEXPAND);
 
 	table->AddSpacer (0);
 	_certificate_text = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (320, 256), wxTE_MULTILINE | wxTE_READONLY);
@@ -87,13 +78,13 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 
 	_manufacturer->Append (_("Unknown"));
 	_manufacturer->Append (_("Doremi"));
+	_manufacturer->Append (_("Dolby"));
 	_manufacturer->Append (_("Other"));
 	_manufacturer->SetSelection (0);
 
 	_load_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::select_certificate, this));
 	_download_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_certificate, this));
 	_manufacturer->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ScreenDialog::setup_sensitivity, this));
-	_serial->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ScreenDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 }
@@ -125,89 +116,27 @@ void
 ScreenDialog::select_certificate ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
-
 	if (d->ShowModal () == wxID_OK) {
 		load_certificate (boost::filesystem::path (wx_to_std (d->GetPath ())));
 	}
-	
 	d->Destroy ();
 
 	setup_sensitivity ();
-}
-
-static size_t
-ftp_data (void* buffer, size_t size, size_t nmemb, void* stream)
-{
-	FILE* f = reinterpret_cast<FILE*> (stream);
-	return fwrite (buffer, size, nmemb, f);
 }
 
 void
 ScreenDialog::download_certificate ()
 {
 	if (_manufacturer->GetStringSelection() == _("Doremi")) {
-		string const serial = wx_to_std (_serial->GetValue ());
-		if (serial.length() != 6) {
-			error_dialog (this, _("Doremi serial numbers must have 6 numbers"));
-			return;
-		}
-
-		CURL* curl = curl_easy_init ();
-		if (!curl) {
-			error_dialog (this, N_("Could not set up libcurl"));
-			return;
-		}
-
-		string const url = String::compose (
-			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/dcp2000-%2.dcicerts.zip",
-			serial.substr(0, 3), serial
-			);
-
-		curl_easy_setopt (curl, CURLOPT_URL, url.c_str ());
-
-		ScopedTemporary temp_zip;
-		FILE* f = temp_zip.open ("wb");
-		curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ftp_data);
-		curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
-		_progress->set_message (_("Downloading certificate from Doremi"));
-		CURLcode const cr = curl_easy_perform (curl);
-		_progress->set_value (50);
-		temp_zip.close ();
-		curl_easy_cleanup (curl);
-		if (cr != CURLE_OK) {
-			_progress->set_message (wxString::Format (_("Certificate download failed (%d)"), cr));
-			return;
-		}
-
-		_progress->set_message (_("Unpacking"));
-		struct zip* zip = zip_open (temp_zip.c_str(), 0, 0);
-		if (!zip) {
-			_progress->set_message ("Could not open certificate ZIP file");
-			return;
-		}
-
-		string const name_in_zip = String::compose ("dcp2000-%1.cert.sha256.pem", serial);
-		struct zip_file* zip_file = zip_fopen (zip, name_in_zip.c_str(), 0);
-		if (!zip_file) {
-			_progress->set_message ("Could not find certificate in ZIP file");
-			return;
-		}
-
-		ScopedTemporary temp_cert;
-		f = temp_cert.open ("wb");
-		char buffer[4096];
-		while (1) {
-			int const N = zip_fread (zip_file, buffer, sizeof (buffer));
-			fwrite (buffer, 1, N, f);
-			if (N < int (sizeof (buffer))) {
-				break;
-			}
-		}
-		temp_cert.close ();
-
-		_progress->set_value (100);
-		_progress->set_message (_("OK"));
-		load_certificate (temp_cert.file ());
+		DownloadCertificateDialog* d = new DoremiCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
+		d->setup ();
+		d->ShowModal ();
+		d->Destroy ();
+	} else if (_manufacturer->GetStringSelection() == _("Dolby")) {
+		DownloadCertificateDialog* d = new DolbyCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
+		d->setup ();
+		d->ShowModal ();
+		d->Destroy ();
 	}
 }
 
@@ -217,5 +146,8 @@ ScreenDialog::setup_sensitivity ()
 	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
 	ok->Enable (_certificate);
 
-	_download_certificate->Enable (_manufacturer->GetStringSelection() == _("Doremi") && !_serial->GetValue().IsEmpty ());
+	_download_certificate->Enable (
+		_manufacturer->GetStringSelection() == _("Doremi") ||
+		_manufacturer->GetStringSelection() == _("Dolby")
+		);
 }

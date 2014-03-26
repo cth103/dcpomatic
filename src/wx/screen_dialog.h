@@ -39,8 +39,6 @@ private:
 	
 	wxTextCtrl* _name;
 	wxChoice* _manufacturer;
-	wxTextCtrl* _serial;
-	Progress* _progress;
 	wxButton* _load_certificate;
 	wxButton* _download_certificate;
 	wxTextCtrl* _certificate_text;

@@ -17,44 +17,22 @@
 
 */
 
-#include <string>
-#include "progress.h"
-#include "wx_util.h"
+#include <curl/curl.h>
+#include "download_certificate_dialog.h"
 
-using std::string;
-
-Progress::Progress (wxWindow* parent)
-	: wxPanel (parent, wxID_ANY)
+class DolbyCertificateDialog : public DownloadCertificateDialog
 {
-	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+public:
+	DolbyCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
 
-	_gauge = new wxGauge (this, wxID_ANY, 100);
-	s->Add (_gauge, 1, wxEXPAND);
-	_label = new wxStaticText (this, wxID_ANY, wxT (""));
-	s->Add (_label, 1, wxEXPAND);
+	void setup ();
 
-	SetSizerAndFit (s);
-}
+private:
+	void download ();
+	void country_selected ();
+	void cinema_selected ();
+	std::list<std::string> ftp_ls (std::string) const;
 
-void
-Progress::set_value (int v)
-{
-	_gauge->SetValue (v);
-	run_gui_loop ();
-}
-
-void
-Progress::set_message (wxString s)
-{
-	_label->SetLabel (s);
-	run_gui_loop ();
-}
-
-void
-Progress::run_gui_loop ()
-{
-	while (wxTheApp->Pending ()) {
-		wxTheApp->Dispatch ();
-	}
-}
-
+	wxChoice* _country;
+	wxChoice* _cinema;
+};
