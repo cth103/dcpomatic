@@ -30,6 +30,7 @@ sources = """
           ffmpeg_examiner.cc
           film.cc
           filter.cc
+          internet.cc
           image.cc
           image_content.cc
           image_decoder.cc

@@ -37,10 +37,12 @@ DownloadCertificateDialog::add_common_widgets ()
 	_download = add (new wxButton (this, wxID_ANY, _("Download")));
 
 	add_spacer ();
-	_gauge = add (new wxGauge (this, wxID_ANY, 100));
-
-	add_spacer ();
 	_message = add (new wxStaticText (this, wxID_ANY, wxT ("")));
+
+	wxFont font = _message->GetFont();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	font.SetPointSize (font.GetPointSize() - 1);
+	_message->SetFont (font);
 	
 	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);

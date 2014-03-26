@@ -35,7 +35,6 @@ protected:
 	
 	boost::function<void (boost::filesystem::path)> _load;
 	wxSizer* _overall_sizer;
-	wxGauge* _gauge;
 	wxStaticText* _message;
 	wxButton* _download;
 

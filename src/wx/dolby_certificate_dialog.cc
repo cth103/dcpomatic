@@ -17,15 +17,21 @@
 
 */
 
+#include <boost/algorithm/string.hpp>
 #include <curl/curl.h>
 #include "lib/compose.hpp"
+#include "lib/internet.h"
 #include "dolby_certificate_dialog.h"
 #include "wx_util.h"
 
 using std::list;
 using std::string;
+using std::vector;
 using std::stringstream;
 using std::cout;
+using boost::optional;
+using boost::algorithm::split;
+using boost::algorithm::is_any_of;
 
 DolbyCertificateDialog::DolbyCertificateDialog (wxWindow* parent, boost::function<void (boost::filesystem::path)> load)
 	: DownloadCertificateDialog (parent, load)
@@ -38,71 +44,25 @@ DolbyCertificateDialog::DolbyCertificateDialog (wxWindow* parent, boost::functio
 	_cinema = add (new wxChoice (this, wxID_ANY));
 	_cinema->Append (N_("Motion Picture Solutions London Mobile & QC"));
 
+	add (_("Serial number"), true);
+	_serial = add (new wxChoice (this, wxID_ANY));
+
 	add_common_widgets ();
 
 	_country->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::country_selected, this));
 	_cinema->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::cinema_selected, this));
+	_serial->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::serial_selected, this));
 	Bind (wxEVT_IDLE, boost::bind (&DolbyCertificateDialog::setup_countries, this));
 
 	_country->Clear ();
 	_cinema->Clear ();
 }
 
-static size_t
-ftp_data_ls (void* buffer, size_t size, size_t nmemb, void* data)
-{
-	string* s = reinterpret_cast<string *> (data);
-	uint8_t* b = reinterpret_cast<uint8_t *> (buffer);
-	for (size_t i = 0; i < (size * nmemb); ++i) {
-		*s += b[i];
-	}
-	return nmemb;
-}
-
 list<string>
-DolbyCertificateDialog::ftp_ls (string dir) const
+DolbyCertificateDialog::get_dir (string dir) const
 {
-	CURL* curl = curl_easy_init ();
-	if (!curl) {
-		_message->SetLabel (N_("Could not set up libcurl"));
-		return list<string> ();
-	}
-
 	string url = String::compose ("ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1", dir);
-	if (url.substr (url.length() - 1, 1) != "/") {
-		url += "/";
-	}
-	curl_easy_setopt (curl, CURLOPT_URL, url.c_str ());
-
-	string ls_raw;
-	struct curl_slist* commands = 0;
-	commands = curl_slist_append (commands, "NLST");
-	curl_easy_setopt (curl, CURLOPT_POSTQUOTE, commands);
-	curl_easy_setopt (curl, CURLOPT_WRITEDATA, &ls_raw);
-	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ftp_data_ls);
-	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
-	CURLcode const r = curl_easy_perform (curl);
-	if (r != CURLE_OK) {
-		_message->SetLabel (_("Problem occurred when contacting Dolby."));
-		return list<string> ();
-	}
-
-	stringstream s (ls_raw);
-	string line;
-	list<string> ls;
-	while (s.good ()) {
-		getline (s, line);
-		if (line.length() > 55) {
-			string const file = line.substr (55);
-			if (file != "." && file != "..") {
-				ls.push_back (file);
-			}
-		}
-	}
-
-	curl_easy_cleanup (curl);
-
-	return ls;
+	return ftp_ls (url);
 }
 
 void
@@ -117,7 +77,7 @@ DolbyCertificateDialog::setup_countries ()
 	_country->SetSelection (0);
 	run_gui_loop ();
 	
-	list<string> const countries = ftp_ls ("");
+	list<string> const countries = get_dir ("");
 	_country->Clear ();
 	for (list<string>::const_iterator i = countries.begin(); i != countries.end(); ++i) {
 		_country->Append (std_to_wx (*i));
@@ -132,7 +92,7 @@ DolbyCertificateDialog::country_selected ()
 	_cinema->SetSelection (0);
 	run_gui_loop ();
 	
-	list<string> const cinemas = ftp_ls (wx_to_std (_country->GetStringSelection()));
+	list<string> const cinemas = get_dir (wx_to_std (_country->GetStringSelection()));
 	_cinema->Clear ();
 	for (list<string>::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
 		_cinema->Append (std_to_wx (*i));
@@ -142,11 +102,58 @@ DolbyCertificateDialog::country_selected ()
 void
 DolbyCertificateDialog::cinema_selected ()
 {
+	_serial->Clear ();
+	_serial->Append (_("Fetching..."));
+	_serial->SetSelection (0);
+	run_gui_loop ();
+
+	string const dir = String::compose ("%1/%2", wx_to_std (_country->GetStringSelection()), wx_to_std (_cinema->GetStringSelection()));
+	list<string> const zips = get_dir (dir);
+
+	_serial->Clear ();
+	for (list<string>::const_iterator i = zips.begin(); i != zips.end(); ++i) {
+		vector<string> a;
+		split (a, *i, is_any_of ("-_"));
+		if (a.size() >= 4) {
+			_serial->Append (std_to_wx (a[3]), new wxStringClientData (std_to_wx (*i)));
+		}
+	}
+}
+
+void
+DolbyCertificateDialog::serial_selected ()
+{
 	_download->Enable (true);
 }
 
 void
 DolbyCertificateDialog::download ()
 {
+	_message->SetLabel (_("Downloading certificate"));
+	run_gui_loop ();
 
+	string const zip = string_client_data (_serial->GetClientObject (_serial->GetSelection ()));
+
+	string const file = String::compose (
+		"%1/%2/%3",
+		wx_to_std (_country->GetStringSelection()),
+		wx_to_std (_cinema->GetStringSelection()),
+		zip
+		);
+
+	/* Work out the certificate file name inside the zip */
+	vector<string> b;
+	split (b, zip, is_any_of ("_"));
+	if (b.size() < 2) {
+		_message->SetLabel (_("Unexpected certificate filename form"));
+		return;
+	}
+	string const cert = b[0] + "_" + b[1] + ".pem.crt";
+	
+	optional<string> error = get_from_zip_url (file, cert, _load);
+	if (error) {
+		error_dialog (this, std_to_wx (error.get ()));
+	}
+
+	_message->SetLabel (wxT (""));
 }

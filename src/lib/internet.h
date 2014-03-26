@@ -17,23 +17,9 @@
 
 */
 
-#include <curl/curl.h>
-#include "download_certificate_dialog.h"
+#include <boost/optional.hpp>
+#include <boost/function.hpp>
+#include <boost/filesystem.hpp>
 
-class DolbyCertificateDialog : public DownloadCertificateDialog
-{
-public:
-	DolbyCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
-
-private:
-	void download ();
-	void setup_countries ();
-	void country_selected ();
-	void cinema_selected ();
-	void serial_selected ();
-	std::list<std::string> get_dir (std::string) const;
-
-	wxChoice* _country;
-	wxChoice* _cinema;
-	wxChoice* _serial;
-};
+boost::optional<std::string> get_from_zip_url (std::string url, std::string file, boost::function<void (boost::filesystem::path)> load);
+std::list<std::string> ftp_ls (std::string dir);
