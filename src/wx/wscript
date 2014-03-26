@@ -38,6 +38,7 @@ sources = """
           server_dialog.cc
           servers_list_dialog.cc
           subtitle_panel.cc
+          table_dialog.cc
           timecode.cc
           timeline.cc
           timeline_dialog.cc

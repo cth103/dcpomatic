@@ -30,13 +30,8 @@ using boost::function;
 DoremiCertificateDialog::DoremiCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
 	: DownloadCertificateDialog (parent, load)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-
-	add_label_to_sizer (table, this, _("Server serial number"), true);
-	_serial = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_serial, 1, wxEXPAND);
-
-	_overall_sizer->Add (table, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
+	add (_("Server serial number"), true);
+	_serial = add (new wxTextCtrl (this, wxID_ANY));
 
 	add_common_widgets ();
 }

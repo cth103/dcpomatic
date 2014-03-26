@@ -25,10 +25,9 @@ class DolbyCertificateDialog : public DownloadCertificateDialog
 public:
 	DolbyCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
 
-	void setup ();
-
 private:
 	void download ();
+	void setup_countries ();
 	void country_selected ();
 	void cinema_selected ();
 	std::list<std::string> ftp_ls (std::string) const;

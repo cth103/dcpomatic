@@ -17,9 +17,9 @@
 
 */
 
-#include <wx/wx.h>
+#include "table_dialog.h"
 
-class ServerDialog : public wxDialog
+class ServerDialog : public TableDialog
 {
 public:
 	ServerDialog (wxWindow *);

@@ -25,11 +25,8 @@ using std::string;
 using boost::shared_ptr;
 
 ServerDialog::ServerDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Server"))
+	: TableDialog (parent, _("Server"), 2, true)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
-
         wxClientDC dc (parent);
 	/* XXX: bit of a mystery why we need such a long string here */
         wxSize size = dc.GetTextExtent (wxT ("255.255.255.255.255.255.255.255"));
@@ -38,21 +35,10 @@ ServerDialog::ServerDialog (wxWindow* parent)
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
         wxArrayString list;
 
-	add_label_to_sizer (table, this, _("Host name or IP address"), true);
-	_host = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
-	table->Add (_host, 1, wxEXPAND | wxALL);
+	add (_("Host name or IP address"), true);
+	_host = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size));
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	layout ();
 }
 
 void

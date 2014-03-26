@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,47 +33,26 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 
 PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
-	: wxDialog (parent, wxID_ANY, _("Film Properties"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+	: TableDialog (parent, _("Film Properties"), 2, false)
 	, _film (film)
 {
-	_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	add (_("Frames"), true);
+	_frames = add (new wxStaticText (this, wxID_ANY, wxT ("")));
 
-	add_label_to_sizer (_table, this, _("Frames"), true);
-	_frames = new wxStaticText (this, wxID_ANY, wxT (""));
-	_table->Add (_frames, 1, wxALIGN_CENTER_VERTICAL);
+	add (_("Disk space required"), true);
+	_disk = add (new wxStaticText (this, wxID_ANY, wxT ("")));
 
-	add_label_to_sizer (_table, this, _("Disk space required"), true);
-	_disk = new wxStaticText (this, wxID_ANY, wxT (""));
-	_table->Add (_disk, 1, wxALIGN_CENTER_VERTICAL);
-
-	add_label_to_sizer (_table, this, _("Frames already encoded"), true);
-	_encoded = new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this));
+	add (_("Frames already encoded"), true);
+	_encoded = add (new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this)));
 	_encoded->Finished.connect (boost::bind (&PropertiesDialog::layout, this));
-	_table->Add (_encoded, 1, wxALIGN_CENTER_VERTICAL);
-
+	
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->time_to_video_frames (_film->length()))));
 	double const disk = double (_film->required_disk_space()) / 1073741824.0f;
 	stringstream s;
 	s << fixed << setprecision (1) << disk << wx_to_std (_("Gb"));
 	_disk->SetLabel (std_to_wx (s.str ()));
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (_table, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
-	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (overall_sizer);
-	overall_sizer->SetSizeHints (this);
-}
-
-void
-PropertiesDialog::layout ()
-{
-	_table->Layout ();
-	Fit ();
+	layout ();
 }
 
 string

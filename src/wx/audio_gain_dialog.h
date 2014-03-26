@@ -17,11 +17,11 @@
 
 */
 
-#include <wx/wx.h>
+#include "table_dialog.h"
 
 class wxSpinCtrlDouble;
 
-class AudioGainDialog : public wxDialog
+class AudioGainDialog : public TableDialog
 {
 public:
 	AudioGainDialog (wxWindow *, int, int, float);

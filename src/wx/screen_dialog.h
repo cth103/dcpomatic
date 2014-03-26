@@ -20,10 +20,11 @@
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <libdcp/certificates.h>
+#include "table_dialog.h"
 
 class Progress;
 
-class ScreenDialog : public wxDialog
+class ScreenDialog : public TableDialog
 {
 public:
 	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::shared_ptr<libdcp::Certificate> c = boost::shared_ptr<libdcp::Certificate> ());

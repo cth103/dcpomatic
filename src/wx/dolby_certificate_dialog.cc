@@ -30,23 +30,19 @@ using std::cout;
 DolbyCertificateDialog::DolbyCertificateDialog (wxWindow* parent, boost::function<void (boost::filesystem::path)> load)
 	: DownloadCertificateDialog (parent, load)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-
-	_country = new wxChoice (this, wxID_ANY);
-	add_label_to_sizer (table, this, _("Country"), true);
-	table->Add (_country, 1, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+	add (_("Country"), true);
+	_country = add (new wxChoice (this, wxID_ANY));
 	_country->Append (N_("Hashemite Kingdom of Jordan"));
 	
-	_cinema = new wxChoice (this, wxID_ANY);
-	add_label_to_sizer (table, this, _("Cinema"), true);
-	table->Add (_cinema, 1, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-	_cinema->Append (N_("Wometco Dominicana Palacio Del Cine"));
-	_overall_sizer->Add (table);
+	add (_("Cinema"), true);
+	_cinema = add (new wxChoice (this, wxID_ANY));
+	_cinema->Append (N_("Motion Picture Solutions London Mobile & QC"));
 
 	add_common_widgets ();
 
 	_country->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::country_selected, this));
 	_cinema->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::cinema_selected, this));
+	Bind (wxEVT_IDLE, boost::bind (&DolbyCertificateDialog::setup_countries, this));
 
 	_country->Clear ();
 	_cinema->Clear ();
@@ -110,28 +106,37 @@ DolbyCertificateDialog::ftp_ls (string dir) const
 }
 
 void
-DolbyCertificateDialog::setup ()
+DolbyCertificateDialog::setup_countries ()
 {
-	_message->SetLabel (_("Fetching available countries"));
+	if (_country->GetCount() > 0) {
+		/* Already set up */
+		return;
+	}
+	
+	_country->Append (_("Fetching..."));
+	_country->SetSelection (0);
 	run_gui_loop ();
+	
 	list<string> const countries = ftp_ls ("");
+	_country->Clear ();
 	for (list<string>::const_iterator i = countries.begin(); i != countries.end(); ++i) {
 		_country->Append (std_to_wx (*i));
 	}
-	_message->SetLabel ("");
 }
 
 void
 DolbyCertificateDialog::country_selected ()
 {
-	_message->SetLabel (_("Fetching available cinemas"));
+	_cinema->Clear ();
+	_cinema->Append (_("Fetching..."));
+	_cinema->SetSelection (0);
 	run_gui_loop ();
+	
 	list<string> const cinemas = ftp_ls (wx_to_std (_country->GetStringSelection()));
 	_cinema->Clear ();
 	for (list<string>::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
 		_cinema->Append (std_to_wx (*i));
 	}
-	_message->SetLabel ("");
 }
 
 void

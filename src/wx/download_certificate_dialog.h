@@ -23,12 +23,12 @@
 #include <wx/wx.h>
 #include <boost/function.hpp>
 #include <boost/filesystem.hpp>
+#include "table_dialog.h"
 
-class DownloadCertificateDialog : public wxDialog
+class DownloadCertificateDialog : public TableDialog
 {
 public:
 	DownloadCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
-	virtual void setup () {}
 
 protected:
 	void add_common_widgets ();

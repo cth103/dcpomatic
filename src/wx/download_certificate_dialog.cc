@@ -24,31 +24,26 @@
 using boost::function;
 
 DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
-	: wxDialog (parent, wxID_ANY, _("Download certificate"))
+	: TableDialog (parent, _("Download certificate"), 2, true)
 	, _load (load)
 {
-	_overall_sizer = new wxBoxSizer (wxVERTICAL);
+
 }
 
 void
 DownloadCertificateDialog::add_common_widgets ()
 {
-	_download = new wxButton (this, wxID_ANY, _("Download"));
-	_overall_sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
-	_gauge = new wxGauge (this, wxID_ANY, 100);
-	_overall_sizer->Add (_gauge, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
-	_message = new wxStaticText (this, wxID_ANY, wxT (""));
-	_overall_sizer->Add (_message, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
+	add_spacer ();
+	_download = add (new wxButton (this, wxID_ANY, _("Download")));
+
+	add_spacer ();
+	_gauge = add (new wxGauge (this, wxID_ANY, 100));
+
+	add_spacer ();
+	_message = add (new wxStaticText (this, wxID_ANY, wxT ("")));
 	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (_overall_sizer);
-	_overall_sizer->Layout ();
-	_overall_sizer->SetSizeHints (this);
-
 	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
+
+	layout ();
 }

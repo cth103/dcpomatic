@@ -23,34 +23,19 @@
 #include "wx_util.h"
 
 AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
-	: wxDialog (parent, wxID_ANY, _("Channel gain"))
+	: TableDialog (parent, _("Channel gain"), 3, true)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
-
-	add_label_to_sizer (table, this, wxString::Format (_("Gain for content channel %d in DCP channel %d"), c + 1, d + 1), false);
-	_gain = new wxSpinCtrlDouble (this);
-	table->Add (_gain);
-
-	add_label_to_sizer (table, this, _("dB"), false);
-
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	add (wxString::Format (_("Gain for content channel %d in DCP channel %d"), c + 1, d + 1), false);
+	_gain = add (new wxSpinCtrlDouble (this));
+	add (_("dB"), false);
 
 	_gain->SetRange (-144, 0);
 	_gain->SetDigits (1);
 	_gain->SetIncrement (0.1);
 
 	_gain->SetValue (20 * log10 (v));
+
+	layout ();
 }
 
 float

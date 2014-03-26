@@ -32,29 +32,24 @@ using std::cout;
 using boost::shared_ptr;
 
 ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_ptr<libdcp::Certificate> certificate)
-	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+	: TableDialog (parent, std_to_wx (title), 2, true)
 	, _certificate (certificate)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
-	table->AddGrowableCol (1, 1);
+	add ("Name", true);
+	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1)));
 
-	add_label_to_sizer (table, this, "Name", true);
-	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1));
-	table->Add (_name, 1, wxEXPAND);
+	add ("Server manufacturer", true);
+	_manufacturer = add (new wxChoice (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, "Server manufacturer", true);
-	_manufacturer = new wxChoice (this, wxID_ANY);
-	table->Add (_manufacturer, 1, wxEXPAND);
-
-	add_label_to_sizer (table, this, _("Certificate"), true);
+	add (_("Certificate"), true);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_load_certificate = new wxButton (this, wxID_ANY, _("Load from file..."));
 	_download_certificate = new wxButton (this, wxID_ANY, _("Download"));
 	s->Add (_load_certificate, 1, wxEXPAND);
 	s->Add (_download_certificate, 1, wxEXPAND);
-	table->Add (s, 1, wxEXPAND);
+	add (s);
 
-	table->AddSpacer (0);
+	add_spacer ();
 	_certificate_text = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (320, 256), wxTE_MULTILINE | wxTE_READONLY);
 	if (certificate) {
 		_certificate_text->SetValue (certificate->certificate ());
@@ -62,19 +57,7 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	wxFont font = wxSystemSettings::GetFont (wxSYS_ANSI_FIXED_FONT);
 	font.SetPointSize (font.GetPointSize() / 2);
 	_certificate_text->SetFont (font);
-	table->Add (_certificate_text, 1, wxEXPAND);
-
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
-	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	add (_certificate_text);
 
 	_manufacturer->Append (_("Unknown"));
 	_manufacturer->Append (_("Doremi"));
@@ -87,6 +70,7 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	_manufacturer->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ScreenDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
+	layout ();
 }
 
 string
@@ -129,12 +113,10 @@ ScreenDialog::download_certificate ()
 {
 	if (_manufacturer->GetStringSelection() == _("Doremi")) {
 		DownloadCertificateDialog* d = new DoremiCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
-		d->setup ();
 		d->ShowModal ();
 		d->Destroy ();
 	} else if (_manufacturer->GetStringSelection() == _("Dolby")) {
 		DownloadCertificateDialog* d = new DolbyCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
-		d->setup ();
 		d->ShowModal ();
 		d->Destroy ();
 	}

@@ -23,30 +23,15 @@
 using std::string;
 
 CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, string email)
-	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+	: TableDialog (parent, std_to_wx (title), 2, true)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
+	add (_("Name"), true);
+	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (256, -1)));
 
-	add_label_to_sizer (table, this, _("Name"), true);
-	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (256, -1));
-	table->Add (_name, 1, wxEXPAND);
+	add (_("Email address for KDM delivery"), true);
+	_email = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (email), wxDefaultPosition, wxSize (256, -1)));
 
-	add_label_to_sizer (table, this, _("Email address for KDM delivery"), true);
-	_email = new wxTextCtrl (this, wxID_ANY, std_to_wx (email), wxDefaultPosition, wxSize (256, -1));
-	table->Add (_email, 1, wxEXPAND);
-
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
-	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	layout ();
 }
 
 string

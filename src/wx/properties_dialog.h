@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,21 +18,20 @@
 */
 
 #include <wx/wx.h>
+#include "table_dialog.h"
 
 class Film;
 class ThreadedStaticText;
 
-class PropertiesDialog : public wxDialog
+class PropertiesDialog : public TableDialog
 {
 public:
 	PropertiesDialog (wxWindow *, boost::shared_ptr<Film>);
 
 private:
 	std::string frames_already_encoded () const;
-	void layout ();
 
 	boost::shared_ptr<Film> _film;
-	wxFlexGridSizer* _table;
 	wxStaticText* _frames;
 	wxStaticText* _disk;
 	ThreadedStaticText* _encoded;
