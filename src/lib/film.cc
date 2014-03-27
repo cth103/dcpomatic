@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -246,7 +246,12 @@ Film::make_dcp ()
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
-	
+
+	/* It seems to make sense to auto-save metadata here, since the make DCP may last
+	   a long time, and crashes/power failures are moderately likely.
+	 */
+	write_metadata ();
+
 	log()->log (String::compose ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
 
 	{
