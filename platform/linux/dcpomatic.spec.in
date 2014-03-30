@@ -44,6 +44,9 @@ digital projectors.
 %{_datadir}/locale/sv_SE/LC_MESSAGES/dcpomatic.mo
 %{_datadir}/locale/sv_SE/LC_MESSAGES/libdcpomatic-wx.mo
 %{_datadir}/locale/sv_SE/LC_MESSAGES/libdcpomatic.mo
+%{_datadir}/locale/nl_NL/LC_MESSAGES/dcpomatic.mo
+%{_datadir}/locale/nl_NL/LC_MESSAGES/libdcpomatic-wx.mo
+%{_datadir}/locale/nl_NL/LC_MESSAGES/libdcpomatic.mo
 
 %prep
 rm -rf $RPM_BUILD_DIR/dcpomatic-@version@

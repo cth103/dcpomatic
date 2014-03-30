@@ -109,7 +109,7 @@ cp icons/servers.png $WORK/$resources
 cp icons/tms.png $WORK/$resources
 
 # i18n: .mo files
-for lang in de_DE es_ES fr_FR it_IT sv_SE; do
+for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
   mkdir $WORK/$resources/$lang
   cp build/src/lib/mo/$lang/*.mo $WORK/$resources/$lang
   cp build/src/wx/mo/$lang/*.mo $WORK/$resources/$lang

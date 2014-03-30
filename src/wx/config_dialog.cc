@@ -86,12 +86,13 @@ public:
 		_set_language = new wxCheckBox (panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, 1);
 		_language = new wxChoice (panel, wxID_ANY);
+		_language->Append (wxT ("Deutsch"));
 		_language->Append (wxT ("English"));
+		_language->Append (wxT ("Español"));
 		_language->Append (wxT ("Français"));
 		_language->Append (wxT ("Italiano"));
-		_language->Append (wxT ("Español"));
+		_language->Append (wxT ("Nederlands"));
 		_language->Append (wxT ("Svenska"));
-		_language->Append (wxT ("Deutsch"));
 		table->Add (_language);
 		
 		wxStaticText* restart = add_label_to_sizer (table, panel, _("(restart DCP-o-matic to see language changes)"), false);
@@ -142,17 +143,19 @@ public:
 		_set_language->SetValue (config->language ());
 		
 		if (config->language().get_value_or ("") == "fr") {
-			_language->SetSelection (1);
-		} else if (config->language().get_value_or ("") == "it") {
-		_language->SetSelection (2);
-		} else if (config->language().get_value_or ("") == "es") {
 			_language->SetSelection (3);
-		} else if (config->language().get_value_or ("") == "sv") {
+		} else if (config->language().get_value_or ("") == "it") {
 			_language->SetSelection (4);
+		} else if (config->language().get_value_or ("") == "es") {
+			_language->SetSelection (2);
+		} else if (config->language().get_value_or ("") == "sv") {
+			_language->SetSelection (6);
 		} else if (config->language().get_value_or ("") == "de") {
+			_language->SetSelection (0);
+		} else if (config->language().get_value_or ("") == "nl") {
 			_language->SetSelection (5);
 		} else {
-			_language->SetSelection (0);
+			_language->SetSelection (1);
 		}
 		
 		setup_language_sensitivity ();
@@ -204,22 +207,25 @@ private:
 	{
 		switch (_language->GetSelection ()) {
 		case 0:
-			Config::instance()->set_language ("en");
+			Config::instance()->set_language ("de");
 			break;
 		case 1:
-			Config::instance()->set_language ("fr");
+			Config::instance()->set_language ("en");
 			break;
 		case 2:
-			Config::instance()->set_language ("it");
-			break;
-		case 3:
 			Config::instance()->set_language ("es");
 			break;
+		case 3:
+			Config::instance()->set_language ("fr");
+			break;
 		case 4:
-			Config::instance()->set_language ("sv");
+			Config::instance()->set_language ("it");
 			break;
 		case 5:
-			Config::instance()->set_language ("de");
+			Config::instance()->set_language ("nl");
+			break;
+		case 6:
+			Config::instance()->set_language ("sv");
 			break;
 		}
 	}
