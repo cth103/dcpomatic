@@ -2,9 +2,11 @@
 
 	* Version 1.66.8 released.
 
+	* nl_NL translation from Theo Kooijmans.
+
 2014-03-27  Carl Hetherington  <cth@carlh.net>
 
-	* Auto-save film metadata before starting DCP encode. 
+	* Auto-save film metadata before starting DCP encode.
 
 2014-03-25  Carl Hetherington  <cth@carlh.net>
 
@@ -23,7 +25,7 @@
 	* Version 1.66.6 released.
 
 2014-03-23  Carl Hetherington  <cth@carlh.net>
-	
+
 	* Attempt to fix format string specifier error on Windows.
 
 	* Version 1.66.5 released.
