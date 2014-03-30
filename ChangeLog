@@ -1,3 +1,7 @@
+2014-03-30  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.66.8 released.
+
 2014-03-27  Carl Hetherington  <cth@carlh.net>
 
 	* Auto-save film metadata before starting DCP encode. 
