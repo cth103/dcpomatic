@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 19:45+0000\n"
+"POT-Creation-Date: 2014-03-30 13:18+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -105,7 +105,7 @@ msgstr "Center"
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintligt bilddata"
 
-#: src/lib/writer.cc:451
+#: src/lib/writer.cc:460
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
@@ -113,7 +113,7 @@ msgstr "Beräknar audiosammanfattning"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/writer.cc:448
+#: src/lib/writer.cc:456
 msgid "Computing image digest"
 msgstr "Beräknar bildsammanfattning"
 
@@ -198,7 +198,12 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/film.cc:985
+#: src/lib/internet.cc:71
+#, fuzzy
+msgid "Could not open downloaded ZIP file"
+msgstr "kunde inte öppna fil %1"
+
+#: src/lib/film.cc:990
 msgid "Could not read DCP to make KDM for"
 msgstr "Kunde inte läsa DCP för att skapa KDM"
 
@@ -258,6 +263,10 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 och CP750"
 
+#: src/lib/internet.cc:64
+msgid "Download failed (%1/%2 error %3)"
+msgstr ""
+
 #: src/lib/util.cc:843
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Varje bild från källan kommer att användas två gånger i DCPn.\n"
@@ -271,7 +280,7 @@ msgstr ""
 msgid "Email KDMs for %1"
 msgstr "E-posta KDM:er för %1"
 
-#: src/lib/writer.cc:118
+#: src/lib/writer.cc:120
 msgid "Encoding image data"
 msgstr "Kodar bild-data"
 
@@ -475,7 +484,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:401
+#: src/lib/film.cc:406
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -485,7 +494,7 @@ msgstr ""
 "inte öppnas i denna version. Du måste skapa en ny Film, lägga till ditt "
 "innehåll och konfigurera allt igen. Ursäkta!"
 
-#: src/lib/film.cc:393
+#: src/lib/film.cc:398
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -506,6 +515,10 @@ msgstr "Konvertera %1"
 #: src/lib/dcp_content_type.cc:48
 msgid "Transitional"
 msgstr "Transitional"
+
+#: src/lib/internet.cc:76
+msgid "Unexpected ZIP file contents"
+msgstr ""
 
 #: src/lib/job.cc:120
 msgid "Unknown error"
@@ -541,7 +554,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:294
+#: src/lib/film.cc:299
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
@@ -566,11 +579,11 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:290
+#: src/lib/film.cc:295
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:298
+#: src/lib/film.cc:303
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -594,7 +607,7 @@ msgstr "kunde inte hitta information om strömmen"
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:424
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "kunde inte flytta audio-MXF in i DCP:n (%1)"
 
@@ -606,11 +619,11 @@ msgstr "kunde inte öppna audio-fil för läsning"
 msgid "could not open file %1"
 msgstr "kunde inte öppna fil %1"
 
-#: src/lib/dcp_video_frame.cc:357
+#: src/lib/dcp_video_frame.cc:352
 msgid "could not open file for reading"
 msgstr "kunde inte öppna fil för läsning"
 
-#: src/lib/dcp_video_frame.cc:363
+#: src/lib/dcp_video_frame.cc:358
 msgid "could not read encoded data"
 msgstr "kunde inte läsa kodat data"
 
@@ -692,7 +705,7 @@ msgstr "rörlig"
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:247 src/lib/film.cc:302
+#: src/lib/film.cc:247 src/lib/film.cc:307
 msgid "name"
 msgstr "namn"
 

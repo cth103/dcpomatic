@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 19:45+0000\n"
+"POT-Creation-Date: 2014-03-30 13:18+0100\n"
 "PO-Revision-Date: 2014-01-14 19:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,7 +106,7 @@ msgstr "Center"
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
-#: src/lib/writer.cc:451
+#: src/lib/writer.cc:460
 msgid "Computing audio digest"
 msgstr "Ton berechnen"
 
@@ -114,7 +114,7 @@ msgstr "Ton berechnen"
 msgid "Computing digest"
 msgstr "Teil berechnen"
 
-#: src/lib/writer.cc:448
+#: src/lib/writer.cc:456
 msgid "Computing image digest"
 msgstr "Bild berechnen"
 
@@ -197,7 +197,12 @@ msgstr "%1 konnte nicht geöffnet werden."
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum senden geöffnet werden"
 
-#: src/lib/film.cc:985
+#: src/lib/internet.cc:71
+#, fuzzy
+msgid "Could not open downloaded ZIP file"
+msgstr "Datei %1 kann nicht geöffnet werden."
+
+#: src/lib/film.cc:990
 msgid "Could not read DCP to make KDM for"
 msgstr "DCP konnte nicht zur Schlüsselerstellung geöffnet werden"
 
@@ -258,6 +263,10 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 und CP750"
 
+#: src/lib/internet.cc:64
+msgid "Download failed (%1/%2 error %3)"
+msgstr ""
+
 #: src/lib/util.cc:843
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Jedes Bild des Inhalts wird im DCP verdoppelt.\n"
@@ -270,7 +279,7 @@ msgstr "Jedes Bild des Inhalts wird %1 mal im DCP wiederholt.\n"
 msgid "Email KDMs for %1"
 msgstr "Email KDMs für %1"
 
-#: src/lib/writer.cc:118
+#: src/lib/writer.cc:120
 msgid "Encoding image data"
 msgstr "Bilddaten bearbeiten"
 
@@ -472,7 +481,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:401
+#: src/lib/film.cc:406
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -482,7 +491,7 @@ msgstr ""
 "leider nicht in dieser Version geladen werden. Sie müssen den Film neu "
 "erstellen. Entschuldigung !"
 
-#: src/lib/film.cc:393
+#: src/lib/film.cc:398
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -503,6 +512,10 @@ msgstr "Wandle %1 um."
 #: src/lib/dcp_content_type.cc:48
 msgid "Transitional"
 msgstr "Übergang"
+
+#: src/lib/internet.cc:76
+msgid "Unexpected ZIP file contents"
+msgstr ""
 
 #: src/lib/job.cc:120
 msgid "Unknown error"
@@ -536,7 +549,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Noch ein anderer De-Interlacer"
 
-#: src/lib/film.cc:294
+#: src/lib/film.cc:299
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen einen Inhalt hinzufügen bevor Sie ein DCP erstellen können."
 
@@ -560,11 +573,11 @@ msgstr "Zeit zur Verbindung abgelaufen"
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:290
+#: src/lib/film.cc:295
 msgid "container"
 msgstr "Container"
 
-#: src/lib/film.cc:298
+#: src/lib/film.cc:303
 msgid "content type"
 msgstr "Inhalt Typ"
 
@@ -588,7 +601,7 @@ msgstr "Keine Spur-Information gefunden"
 msgid "could not find video decoder"
 msgstr "Bild-Decoder nicht gefunden"
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:424
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "Ton MXF kann nicht in das DCP verschoben werden (%1)"
 
@@ -600,11 +613,11 @@ msgstr "Tondatei kann nicht zum lesen geöffnet werden."
 msgid "could not open file %1"
 msgstr "Datei %1 kann nicht geöffnet werden."
 
-#: src/lib/dcp_video_frame.cc:357
+#: src/lib/dcp_video_frame.cc:352
 msgid "could not open file for reading"
 msgstr "Datei konnte nicht zum lesen geöffnet werden."
 
-#: src/lib/dcp_video_frame.cc:363
+#: src/lib/dcp_video_frame.cc:358
 msgid "could not read encoded data"
 msgstr "Encodier Daten nicht gefunden."
 
@@ -684,7 +697,7 @@ msgstr "wird verschoben"
 msgid "multi-part subtitles not yet supported"
 msgstr "Multi-Part Untertitel noch nicht unterstützt"
 
-#: src/lib/film.cc:247 src/lib/film.cc:302
+#: src/lib/film.cc:247 src/lib/film.cc:307
 msgid "name"
 msgstr "Name"
 

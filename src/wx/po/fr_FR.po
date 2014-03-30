@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 19:45+0000\n"
+"POT-Creation-Date: 2014-03-30 13:18+0100\n"
 "PO-Revision-Date: 2014-01-25 16:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -122,7 +122,7 @@ msgstr "Délai audio"
 msgid "Audio Gain"
 msgstr "Gain audio"
 
-#: src/wx/dci_metadata_dialog.cc:39
+#: src/wx/dci_metadata_dialog.cc:35
 msgid "Audio Language (e.g. EN)"
 msgstr "Langue audio (ex. FR)"
 
@@ -172,7 +172,7 @@ msgstr ""
 msgid "BsR"
 msgstr ""
 
-#: src/wx/gain_calculator_dialog.cc:36
+#: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
 msgstr "Je souhaite utiliser ce volume"
 
@@ -187,6 +187,11 @@ msgstr "Calcul..."
 #: src/wx/job_manager_view.cc:66
 msgid "Cancel"
 msgstr "Annuler"
+
+#: src/wx/screen_dialog.cc:44
+#, fuzzy
+msgid "Certificate"
+msgstr "Sélectionner le certificat"
 
 #: src/wx/audio_gain_dialog.cc:26
 #, fuzzy
@@ -218,6 +223,11 @@ msgstr "Choisissez un ou plusieurs fichiers"
 msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
+#: src/wx/dolby_certificate_dialog.cc:43
+#, fuzzy
+msgid "Cinema"
+msgstr "Ajout cinéma"
+
 #: src/wx/config_dialog.cc:555
 #, fuzzy
 msgid "Colour Conversions"
@@ -245,7 +255,7 @@ msgstr "Type de Contenu"
 msgid "Content frame rate %.4f\n"
 msgstr "Cadence du contenu %.4f\n"
 
-#: src/wx/dci_metadata_dialog.cc:35
+#: src/wx/dci_metadata_dialog.cc:32
 msgid "Content version"
 msgstr "Version du contenu"
 
@@ -268,7 +278,11 @@ msgstr "Décodage de la vidéo pour visualisation impossible (%s)"
 msgid "Could not make DCP: %s"
 msgstr "Impossible de créer le DCP : %s"
 
-#: src/wx/new_film_dialog.cc:48
+#: src/wx/dolby_certificate_dialog.cc:39
+msgid "Country"
+msgstr ""
+
+#: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
 msgstr "Créer dans le dossier"
 
@@ -350,13 +364,41 @@ msgstr "Format par défaut"
 msgid "Details..."
 msgstr "Détails..."
 
-#: src/wx/properties_dialog.cc:45
+#: src/wx/properties_dialog.cc:42
 msgid "Disk space required"
 msgstr "Espace disque requis"
+
+#: src/wx/screen_dialog.cc:64 src/wx/screen_dialog.cc:118
+#: src/wx/screen_dialog.cc:133
+msgid "Dolby"
+msgstr ""
+
+#: src/wx/screen_dialog.cc:63 src/wx/screen_dialog.cc:114
+#: src/wx/screen_dialog.cc:132
+msgid "Doremi"
+msgstr ""
+
+#: src/wx/doremi_certificate_dialog.cc:46
+msgid "Doremi serial numbers must have 6 digits"
+msgstr ""
 
 #: src/wx/film_editor.cc:288
 msgid "Down"
 msgstr "Descendre"
+
+#: src/wx/download_certificate_dialog.cc:37 src/wx/screen_dialog.cc:47
+#, fuzzy
+msgid "Download"
+msgstr "Descendre"
+
+#: src/wx/download_certificate_dialog.cc:27
+msgid "Download certificate"
+msgstr ""
+
+#: src/wx/dolby_certificate_dialog.cc:132
+#: src/wx/doremi_certificate_dialog.cc:50
+msgid "Downloading certificate"
+msgstr ""
 
 #: src/wx/kdm_dialog.cc:68
 msgid "Edit Cinema..."
@@ -372,7 +414,7 @@ msgstr "Éditer la salle"
 msgid "Edit..."
 msgstr "Éditer..."
 
-#: src/wx/cinema_dialog.cc:35
+#: src/wx/cinema_dialog.cc:31
 msgid "Email address for KDM delivery"
 msgstr "Adresse email pour l'envoi de KDM"
 
@@ -385,15 +427,21 @@ msgstr "Serveurs d'encodage"
 msgid "Encrypted"
 msgstr "Crypté"
 
-#: src/wx/dci_metadata_dialog.cc:59
+#: src/wx/dci_metadata_dialog.cc:50
 msgid "Facility (e.g. DLA)"
 msgstr "Laboratoire (ex. DLA)"
+
+#: src/wx/dolby_certificate_dialog.cc:76 src/wx/dolby_certificate_dialog.cc:91
+#: src/wx/dolby_certificate_dialog.cc:106
+#, fuzzy
+msgid "Fetching..."
+msgstr "calcul..."
 
 #: src/wx/properties_dialog.cc:36
 msgid "Film Properties"
 msgstr "Propriétés du film"
 
-#: src/wx/new_film_dialog.cc:44
+#: src/wx/new_film_dialog.cc:37
 msgid "Film name"
 msgstr "Nom du Film"
 
@@ -409,11 +457,11 @@ msgstr "Recherche de l'élément manquant..."
 msgid "Frame Rate"
 msgstr "Cadence image"
 
-#: src/wx/properties_dialog.cc:41
+#: src/wx/properties_dialog.cc:39
 msgid "Frames"
 msgstr "Images"
 
-#: src/wx/properties_dialog.cc:49
+#: src/wx/properties_dialog.cc:45
 msgid "Frames already encoded"
 msgstr "Images déjà encodées"
 
@@ -441,12 +489,12 @@ msgstr "Durée totale"
 msgid "Gain Calculator"
 msgstr "Calculateur de gain"
 
-#: src/wx/audio_gain_dialog.cc:31
+#: src/wx/audio_gain_dialog.cc:28
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain pour le canal audio %d dans le canal du DCP %d"
 
-#: src/wx/properties_dialog.cc:57
+#: src/wx/properties_dialog.cc:52
 msgid "Gb"
 msgstr "Gb"
 
@@ -462,7 +510,7 @@ msgstr "Avertissements"
 msgid "Host"
 msgstr "Hôtes"
 
-#: src/wx/server_dialog.cc:41
+#: src/wx/server_dialog.cc:38
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
@@ -470,7 +518,7 @@ msgstr "Nom de l'hôte ou adresse IP"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/wx/gain_calculator_dialog.cc:32
+#: src/wx/gain_calculator_dialog.cc:29
 msgid "I want to play this back at fader"
 msgstr "Je veux le jouer à ce volume"
 
@@ -529,6 +577,10 @@ msgstr "Lfe"
 msgid "Linearise input gamma curve for low values"
 msgstr "Linéariser la courbe gamma d'entrée pour les bas niveaux"
 
+#: src/wx/screen_dialog.cc:46
+msgid "Load from file..."
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:296
 msgid "Ls"
 msgstr "Ls"
@@ -573,7 +625,7 @@ msgstr "Type de contenu par défaut"
 msgid "My Documents"
 msgstr "Mes Documents"
 
-#: src/wx/cinema_dialog.cc:31 src/wx/config_dialog.cc:571
+#: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:571
 #: src/wx/film_editor.cc:113 src/wx/preset_colour_conversion_dialog.cc:38
 msgid "Name"
 msgstr "Nom"
@@ -599,6 +651,10 @@ msgstr "Aucun"
 msgid "Off"
 msgstr "Eteint"
 
+#: src/wx/screen_dialog.cc:65
+msgid "Other"
+msgstr ""
+
 #: src/wx/config_dialog.cc:112
 msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortante"
@@ -607,7 +663,7 @@ msgstr "Serveurs de messagerie sortante"
 msgid "Output gamma"
 msgstr "Gamma de sortie"
 
-#: src/wx/dci_metadata_dialog.cc:63
+#: src/wx/dci_metadata_dialog.cc:53
 msgid "Package Type (e.g. OV)"
 msgstr "Type de paquet (ex. OV)"
 
@@ -652,7 +708,7 @@ msgstr "R"
 msgid "RMS"
 msgstr "RMS"
 
-#: src/wx/dci_metadata_dialog.cc:51
+#: src/wx/dci_metadata_dialog.cc:44
 msgid "Rating (e.g. 15)"
 msgstr "Rating (ex. 15)"
 
@@ -674,7 +730,7 @@ msgstr "Supprimer le cinéma"
 msgid "Remove Screen"
 msgstr "Supprimer la salle"
 
-#: src/wx/repeat_dialog.cc:33
+#: src/wx/repeat_dialog.cc:26
 msgid "Repeat"
 msgstr "Répéter"
 
@@ -723,7 +779,7 @@ msgstr "Mis à l'échelle de %dx%d (%.2f:1)\n"
 msgid "Scaler"
 msgstr "Mise à l'échelle"
 
-#: src/wx/screen_dialog.cc:88
+#: src/wx/screen_dialog.cc:102
 msgid "Select Certificate File"
 msgstr "Sélectionner le certificat"
 
@@ -731,9 +787,17 @@ msgstr "Sélectionner le certificat"
 msgid "Send by email"
 msgstr "Envoyé par e-mail"
 
+#: src/wx/dolby_certificate_dialog.cc:47
+msgid "Serial number"
+msgstr ""
+
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Serveur"
+
+#: src/wx/doremi_certificate_dialog.cc:35
+msgid "Server serial number"
+msgstr ""
 
 #: src/wx/config_dialog.cc:493
 #, fuzzy
@@ -773,11 +837,11 @@ msgstr "Version du contenu"
 msgid "Standard"
 msgstr "Standard"
 
-#: src/wx/dci_metadata_dialog.cc:55
+#: src/wx/dci_metadata_dialog.cc:47
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (ex. TCF)"
 
-#: src/wx/dci_metadata_dialog.cc:43
+#: src/wx/dci_metadata_dialog.cc:38
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Langue de sous-titres (ex. FR)"
 
@@ -803,7 +867,7 @@ msgstr "Décalage du sous-titre"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -815,7 +879,7 @@ msgstr "TMS"
 msgid "Target path"
 msgstr "Chemin d'accès"
 
-#: src/wx/dci_metadata_dialog.cc:47
+#: src/wx/dci_metadata_dialog.cc:41
 msgid "Territory (e.g. UK)"
 msgstr "Territoire (ex. FR)"
 
@@ -824,7 +888,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version du contenu"
 
-#: src/wx/about_dialog.cc:186
+#: src/wx/about_dialog.cc:187
 #, fuzzy
 msgid "Tested by"
 msgstr "Traduit par"
@@ -890,6 +954,16 @@ msgstr "Images coupées depuis le début"
 #: src/wx/audio_dialog.cc:55 src/wx/video_panel.cc:74
 msgid "Type"
 msgstr "Type"
+
+#: src/wx/dolby_certificate_dialog.cc:148
+#, fuzzy
+msgid "Unexpected certificate filename form"
+msgstr "Sélectionner le certificat"
+
+#: src/wx/screen_dialog.cc:62
+#, fuzzy
+msgid "Unknown"
+msgstr "inconnu"
 
 #: src/wx/kdm_dialog.cc:93
 msgid "Until"
@@ -991,11 +1065,11 @@ msgstr "audio"
 msgid "channels"
 msgstr "canaux"
 
-#: src/wx/properties_dialog.cc:50
+#: src/wx/properties_dialog.cc:46
 msgid "counting..."
 msgstr "calcul..."
 
-#: src/wx/audio_gain_dialog.cc:35 src/wx/audio_panel.cc:62
+#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:62
 msgid "dB"
 msgstr "dB"
 
@@ -1012,7 +1086,7 @@ msgstr "s"
 msgid "still"
 msgstr "fixe"
 
-#: src/wx/repeat_dialog.cc:37
+#: src/wx/repeat_dialog.cc:28
 msgid "times"
 msgstr "fois"
 
@@ -1140,9 +1214,6 @@ msgstr "vidéo"
 
 #~ msgid "pixels"
 #~ msgstr "pixels"
-
-#~ msgid "unknown"
-#~ msgstr "inconnu"
 
 #~ msgid "TMS IP address"
 #~ msgstr "Adresse IP du TMS"

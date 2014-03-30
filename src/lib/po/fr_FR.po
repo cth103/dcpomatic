@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 19:45+0000\n"
+"POT-Creation-Date: 2014-03-30 13:18+0100\n"
 "PO-Revision-Date: 2014-01-25 16:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -106,7 +106,7 @@ msgstr "Centre"
 msgid "Checking existing image data"
 msgstr "Recherche de données images existantes"
 
-#: src/lib/writer.cc:451
+#: src/lib/writer.cc:460
 msgid "Computing audio digest"
 msgstr "Fabrication rendu audio"
 
@@ -114,7 +114,7 @@ msgstr "Fabrication rendu audio"
 msgid "Computing digest"
 msgstr "fabrication rendu"
 
-#: src/lib/writer.cc:448
+#: src/lib/writer.cc:456
 msgid "Computing image digest"
 msgstr "Fabrication rendu image"
 
@@ -198,7 +198,12 @@ msgstr "lecture du fichier %1 impossible"
 msgid "Could not open %1 to send"
 msgstr "Ouverture de %1 pour envoi impossible"
 
-#: src/lib/film.cc:985
+#: src/lib/internet.cc:71
+#, fuzzy
+msgid "Could not open downloaded ZIP file"
+msgstr "lecture du fichier (%1) impossible"
+
+#: src/lib/film.cc:990
 msgid "Could not read DCP to make KDM for"
 msgstr "DCP illisible pour fabrication de KDM"
 
@@ -252,6 +257,10 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP750"
 
+#: src/lib/internet.cc:64
+msgid "Download failed (%1/%2 error %3)"
+msgstr ""
+
 #: src/lib/util.cc:843
 #, fuzzy
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -266,7 +275,7 @@ msgstr "Chaque image source sera dupliquée dans le DCP.\n"
 msgid "Email KDMs for %1"
 msgstr ""
 
-#: src/lib/writer.cc:118
+#: src/lib/writer.cc:120
 msgid "Encoding image data"
 msgstr "encodage des données image"
 
@@ -469,7 +478,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:401
+#: src/lib/film.cc:406
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -479,7 +488,7 @@ msgstr ""
 "impossible. Créez un nouveau projet, ajoutez du contenu et  reparamétrez. "
 "Désolé !"
 
-#: src/lib/film.cc:393
+#: src/lib/film.cc:398
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -500,6 +509,10 @@ msgstr "Transcodage %1"
 #: src/lib/dcp_content_type.cc:48
 msgid "Transitional"
 msgstr "Transitional"
+
+#: src/lib/internet.cc:76
+msgid "Unexpected ZIP file contents"
+msgstr ""
 
 #: src/lib/job.cc:120
 msgid "Unknown error"
@@ -533,7 +546,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/film.cc:294
+#: src/lib/film.cc:299
 msgid "You must add some content to the DCP before creating it"
 msgstr "Ajoutez un contenu pour créer le DCP"
 
@@ -559,11 +572,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:290
+#: src/lib/film.cc:295
 msgid "container"
 msgstr "conteneur"
 
-#: src/lib/film.cc:298
+#: src/lib/film.cc:303
 msgid "content type"
 msgstr "type de contenu"
 
@@ -587,7 +600,7 @@ msgstr "information du flux introuvable"
 msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
-#: src/lib/writer.cc:417
+#: src/lib/writer.cc:424
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "ne peut déplacer un MXF son dans le DCP (%1)"
 
@@ -599,11 +612,11 @@ msgstr "lecture du fichier audio impossible"
 msgid "could not open file %1"
 msgstr "lecture du fichier (%1) impossible"
 
-#: src/lib/dcp_video_frame.cc:357
+#: src/lib/dcp_video_frame.cc:352
 msgid "could not open file for reading"
 msgstr "lecture du fichier impossible"
 
-#: src/lib/dcp_video_frame.cc:363
+#: src/lib/dcp_video_frame.cc:358
 msgid "could not read encoded data"
 msgstr "lecture des données encodées impossible"
 
@@ -684,7 +697,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:247 src/lib/film.cc:302
+#: src/lib/film.cc:247 src/lib/film.cc:307
 msgid "name"
 msgstr "nom"
 
