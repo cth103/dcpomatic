@@ -55,6 +55,7 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	FILE* f = temp_zip.open ("wb");
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_zip_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
+	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
 
 	CURLcode const cr = curl_easy_perform (curl);
 

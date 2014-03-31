@@ -33,7 +33,9 @@ DoremiCertificateDialog::DoremiCertificateDialog (wxWindow* parent, function<voi
 	: DownloadCertificateDialog (parent, load)
 {
 	add (_("Server serial number"), true);
-	_serial = add (new wxTextCtrl (this, wxID_ANY));
+	_serial = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1)));
+
+	_serial->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DoremiCertificateDialog::set_sensitivity, this));
 
 	add_common_widgets ();
 }
@@ -48,6 +50,7 @@ DoremiCertificateDialog::download ()
 	}
 
 	_message->SetLabel (_("Downloading certificate"));
+	run_gui_loop ();
 
 	optional<string> error = get_from_zip_url (
 		String::compose (
@@ -61,6 +64,13 @@ DoremiCertificateDialog::download ()
 	if (error) {
 		error_dialog (this, std_to_wx (error.get ()));
 	} else {
-		_message->SetLabel (wxT (""));
+		_message->SetLabel (wxT ("Certificate downloaded"));
 	}
 }
+
+void
+DoremiCertificateDialog::set_sensitivity ()
+{
+	_download->Enable (!_serial->IsEmpty ());
+}
+

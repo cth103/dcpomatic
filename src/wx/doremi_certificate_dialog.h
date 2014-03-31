@@ -26,6 +26,7 @@ public:
 
 private:
 	void download ();
+        void set_sensitivity ();
 
 	wxTextCtrl* _serial;
 };
