@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ try
 
 	string const data = DCPOMATIC_HELLO;
 	
-	while (1) {
+	while (true) {
 		if (Config::instance()->use_any_servers ()) {
 			/* Broadcast to look for servers */
 			try {
@@ -103,12 +103,11 @@ ServerFinder::listen_thread ()
 try
 {
 	while (1) {
-		shared_ptr<Socket> sock (new Socket (10));
+		shared_ptr<Socket> sock (new Socket (60));
 
 		try {
 			sock->accept (Config::instance()->server_port_base() + 1);
 		} catch (std::exception& e) {
-			dcpomatic_sleep (60);
 			continue;
 		}
 
