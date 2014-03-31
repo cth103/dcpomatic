@@ -354,9 +354,11 @@ KDMDialog::remove_screen_clicked ()
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 
 	map<wxTreeItemId, shared_ptr<Cinema> >::iterator i = _cinemas.begin ();
-	list<shared_ptr<Screen> > sc = i->second->screens ();
-	while (i != _cinemas.end() && find (sc.begin(), sc.end(), s.second) == sc.end()) {
-		++i;
+	while (i != _cinemas.end ()) {
+		list<shared_ptr<Screen> > sc = i->second->screens ();
+		if (find (sc.begin(), sc.end(), s.second) != sc.end ()) {
+			break;
+		}
 	}
 
 	if (i == _cinemas.end()) {
