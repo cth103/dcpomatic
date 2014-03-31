@@ -143,6 +143,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Wolfgang Woehl"));
 	supported_by.Add (wxT ("Wolfram Weber"));
 	supported_by.Add (wxT ("Frank de Wulf"));
+	supported_by.Add (wxT ("Pavel Zhdanko"));
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;
