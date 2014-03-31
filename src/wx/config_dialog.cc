@@ -743,7 +743,10 @@ create_config_dialog ()
 	wxSize ps = wxSize (480, -1);
 	int const border = 16;
 #else
-	wxSize ps = wxDefaultSize;
+	/* We seem to need to specify height here, otherwise the general panel
+	   is too short (at least on Linux).
+	 */
+	wxSize ps = wxSize (-1, 400);
 	int const border = 8;
 #endif
 	
