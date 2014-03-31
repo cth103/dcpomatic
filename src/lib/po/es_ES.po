@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 13:18+0100\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2013-11-09 03:09-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -200,7 +200,7 @@ msgstr "no se pudo abrir el fichero %1"
 msgid "Could not open %1 to send"
 msgstr "No se pudo abrir %1 para enviar"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:72
 #, fuzzy
 msgid "Could not open downloaded ZIP file"
 msgstr "no se pudo abrir el fichero %1"
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/internet.cc:64
+#: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
 msgstr ""
 
@@ -515,7 +515,7 @@ msgstr "Codificar %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
 msgstr ""
 

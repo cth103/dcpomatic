@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 13:18+0100\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -198,7 +198,7 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:72
 #, fuzzy
 msgid "Could not open downloaded ZIP file"
 msgstr "kunde inte öppna fil %1"
@@ -263,7 +263,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 och CP750"
 
-#: src/lib/internet.cc:64
+#: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
 msgstr ""
 
@@ -516,7 +516,7 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
 msgstr ""
 

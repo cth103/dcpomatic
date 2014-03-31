@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 13:18+0100\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2014-02-03 10:48+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -199,7 +199,7 @@ msgstr "Non riesco ad aprire %1"
 msgid "Could not open %1 to send"
 msgstr "Non posso aprire %1 da inviare"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:72
 #, fuzzy
 msgid "Could not open downloaded ZIP file"
 msgstr "non riesco ad aprire %1"
@@ -268,7 +268,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/internet.cc:64
+#: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
 msgstr ""
 
@@ -522,7 +522,7 @@ msgstr "Transcodifica %1"
 msgid "Transitional"
 msgstr "Di transizione"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
 msgstr ""
 

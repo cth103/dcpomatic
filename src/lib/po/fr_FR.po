@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 13:18+0100\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2014-01-25 16:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -198,7 +198,7 @@ msgstr "lecture du fichier %1 impossible"
 msgid "Could not open %1 to send"
 msgstr "Ouverture de %1 pour envoi impossible"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:72
 #, fuzzy
 msgid "Could not open downloaded ZIP file"
 msgstr "lecture du fichier (%1) impossible"
@@ -257,7 +257,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP750"
 
-#: src/lib/internet.cc:64
+#: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
 msgstr ""
 
@@ -510,7 +510,7 @@ msgstr "Transcodage %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
 msgstr ""
 

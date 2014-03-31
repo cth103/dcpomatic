@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 12:21+0000\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2014-03-30 19:39+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: nl_NL\n"
 
 #: src/lib/sndfile_content.cc:62
 msgid "%1 [audio]"
@@ -194,7 +194,7 @@ msgstr "Kan niet openen %1"
 msgid "Could not open %1 to send"
 msgstr "Kan niet openen %1 om te verzenden"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:72
 msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownloade ZIP bestand niet openen"
 
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 and CP750"
 
-#: src/lib/internet.cc:64
+#: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Fout met download(%1/%2 error %3)"
 
@@ -511,7 +511,7 @@ msgstr "Omzetten %1"
 msgid "Transitional"
 msgstr "Bumper"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte ZIP file inhoud"
 

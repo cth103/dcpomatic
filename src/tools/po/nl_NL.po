@@ -7,22 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 12:21+0000\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2014-03-30 19:38+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: nl_NL\n"
 
 #: src/tools/dcpomatic.cc:396
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr ""
 "%1 Dit bestand bestaat al, hierdoor kunt u het niet gebruiken voor een "
 "nieuwe film"
+
+#: src/tools/dcpomatic_batch.cc:49
+msgid "&Add Film..."
+msgstr "Open een DCP map"
 
 #: src/tools/dcpomatic.cc:270
 msgid "&Edit"
@@ -32,11 +36,11 @@ msgstr "&Edit"
 msgid "&Exit"
 msgstr "&Afsluiten"
 
-#: src/tools/dcpomatic.cc:268
+#: src/tools/dcpomatic.cc:268 src/tools/dcpomatic_batch.cc:55
 msgid "&File"
 msgstr "&Bestand"
 
-#: src/tools/dcpomatic.cc:274
+#: src/tools/dcpomatic.cc:274 src/tools/dcpomatic_batch.cc:56
 msgid "&Help"
 msgstr "&Help"
 
@@ -60,7 +64,7 @@ msgstr "&Voorkeuren..."
 msgid "&Properties..."
 msgstr "&Instellingen..."
 
-#: src/tools/dcpomatic.cc:239
+#: src/tools/dcpomatic.cc:239 src/tools/dcpomatic_batch.cc:50
 msgid "&Quit"
 msgstr "&Afsluiten"
 
@@ -76,13 +80,22 @@ msgstr "&Verstuur DCP naar TMS"
 msgid "&Tools"
 msgstr "&Gereedschappen"
 
-#: src/tools/dcpomatic.cc:265
+#: src/tools/dcpomatic_batch.cc:146
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+
+#: src/tools/dcpomatic.cc:265 src/tools/dcpomatic_batch.cc:53
 msgid "About"
 msgstr "Over.."
 
 #: src/tools/dcpomatic.cc:263
 msgid "About DCP-o-matic"
 msgstr "Over DCP-o-matic"
+
+#: src/tools/dcpomatic_batch.cc:84
+msgid "Add Film..."
+msgstr ""
 
 #: src/tools/dcpomatic.cc:508
 msgid "An unknown exeception occurred."
@@ -92,11 +105,11 @@ msgstr "Er is een onbekende fout opgetreden."
 msgid "Check for updates"
 msgstr "Controleer op updates"
 
-#: src/tools/dcpomatic.cc:663
+#: src/tools/dcpomatic.cc:663 src/tools/dcpomatic_batch.cc:255
 msgid "Could not load film %1 (%2)"
 msgstr "Kan film niet openen %1 (%2)"
 
-#: src/tools/dcpomatic.cc:439
+#: src/tools/dcpomatic.cc:439 src/tools/dcpomatic_batch.cc:193
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Kan film niet openen in  %s (%s)"
@@ -114,6 +127,10 @@ msgstr "Kan DCP niet vertonen (Kan Nautilus niet starten)"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
+#: src/tools/dcpomatic_batch.cc:139 src/tools/dcpomatic_batch.cc:240
+msgid "DCP-o-matic Batch Converter"
+msgstr ""
+
 #: src/tools/dcpomatic.cc:258
 msgid "Encoding servers..."
 msgstr "Render servers..."
@@ -121,6 +138,10 @@ msgstr "Render servers..."
 #: src/tools/dcpomatic.cc:95
 msgid "Film changed"
 msgstr "Film is veranderd"
+
+#: src/tools/dcpomatic_batch.cc:145
+msgid "Free, open-source DCP generation from almost anything."
+msgstr ""
 
 #: src/tools/dcpomatic.cc:257
 msgid "Hints..."
@@ -143,7 +164,7 @@ msgstr "S&hoe DCP"
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Bewaar veranderingen naar film \"%s\" voor afsluiten?"
 
-#: src/tools/dcpomatic.cc:416
+#: src/tools/dcpomatic.cc:416 src/tools/dcpomatic_batch.cc:170
 msgid "Select film to open"
 msgstr "Kies een film om te openen"
 
@@ -170,7 +191,7 @@ msgstr "De map %1 bestaat al en is niet leeg. Wilt u deze toch gebruiken?"
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Er is geen nieuwere versie van DCP-o-matic beschikbaar."
 
-#: src/tools/dcpomatic.cc:583
+#: src/tools/dcpomatic.cc:583 src/tools/dcpomatic_batch.cc:104
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr ""
 "Er zijn nog niet afgeronde projecten, weet u zeker dat u wilt afsluiten?"
@@ -183,11 +204,11 @@ msgstr ""
 "Deze film is gemaakt met een oude versie van DCP-o-matic en opent mogelijk "
 "niet goed in de huidige versie.  Controleer alle instellingen zorgvuldig."
 
-#: src/tools/dcpomatic.cc:584
+#: src/tools/dcpomatic.cc:584 src/tools/dcpomatic_batch.cc:105
 msgid "Unfinished jobs"
 msgstr "Niet afgemaakte projecten"
 
-#: src/tools/dcpomatic.cc:425
+#: src/tools/dcpomatic.cc:425 src/tools/dcpomatic_batch.cc:179
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

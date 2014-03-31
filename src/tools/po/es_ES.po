@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 13:18+0100\n"
+"POT-Creation-Date: 2014-03-31 16:10+0100\n"
 "PO-Revision-Date: 2013-11-09 02:47-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -21,6 +21,10 @@ msgstr ""
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr "%1 ya existe como fichero, no puedes usarlo para una nueva película."
 
+#: src/tools/dcpomatic_batch.cc:49
+msgid "&Add Film..."
+msgstr ""
+
 #: src/tools/dcpomatic.cc:270
 msgid "&Edit"
 msgstr "&Editar"
@@ -29,11 +33,11 @@ msgstr "&Editar"
 msgid "&Exit"
 msgstr "&Salir"
 
-#: src/tools/dcpomatic.cc:268
+#: src/tools/dcpomatic.cc:268 src/tools/dcpomatic_batch.cc:55
 msgid "&File"
 msgstr "&Archivo"
 
-#: src/tools/dcpomatic.cc:274
+#: src/tools/dcpomatic.cc:274 src/tools/dcpomatic_batch.cc:56
 msgid "&Help"
 msgstr "&Ayuda"
 
@@ -57,7 +61,7 @@ msgstr "&Preferencias..."
 msgid "&Properties..."
 msgstr "&Propiedades..."
 
-#: src/tools/dcpomatic.cc:239
+#: src/tools/dcpomatic.cc:239 src/tools/dcpomatic_batch.cc:50
 msgid "&Quit"
 msgstr "&Salir"
 
@@ -73,7 +77,13 @@ msgstr "&Enviar DCP al TMS"
 msgid "&Tools"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:265
+#: src/tools/dcpomatic_batch.cc:146
+msgid ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+msgstr ""
+"(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
+
+#: src/tools/dcpomatic.cc:265 src/tools/dcpomatic_batch.cc:53
 msgid "About"
 msgstr "Acerca de"
 
@@ -81,6 +91,10 @@ msgstr "Acerca de"
 #, fuzzy
 msgid "About DCP-o-matic"
 msgstr "DVD-o-matic"
+
+#: src/tools/dcpomatic_batch.cc:84
+msgid "Add Film..."
+msgstr ""
 
 #: src/tools/dcpomatic.cc:508
 msgid "An unknown exeception occurred."
@@ -90,12 +104,12 @@ msgstr ""
 msgid "Check for updates"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:663
+#: src/tools/dcpomatic.cc:663 src/tools/dcpomatic_batch.cc:255
 #, fuzzy
 msgid "Could not load film %1 (%2)"
 msgstr "No se pudo cargar la película %s (%s)"
 
-#: src/tools/dcpomatic.cc:439
+#: src/tools/dcpomatic.cc:439 src/tools/dcpomatic_batch.cc:193
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "No se pudo cargar la película en %s (%s)"
@@ -113,6 +127,10 @@ msgstr "No se pudo mostrar el DCP (no se pudo ejecutar nautilus)"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
+#: src/tools/dcpomatic_batch.cc:139 src/tools/dcpomatic_batch.cc:240
+msgid "DCP-o-matic Batch Converter"
+msgstr ""
+
 #: src/tools/dcpomatic.cc:258
 msgid "Encoding servers..."
 msgstr ""
@@ -120,6 +138,12 @@ msgstr ""
 #: src/tools/dcpomatic.cc:95
 msgid "Film changed"
 msgstr "Película cambiada"
+
+#: src/tools/dcpomatic_batch.cc:145
+msgid "Free, open-source DCP generation from almost anything."
+msgstr ""
+"Generación de DCP a partir de casi cualquier fuente, libre y de código "
+"abierto."
 
 #: src/tools/dcpomatic.cc:257
 msgid "Hints..."
@@ -142,7 +166,7 @@ msgstr "&Mostrar DCP"
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Guardar cambios de la película \"%s\" antes de cerrar?"
 
-#: src/tools/dcpomatic.cc:416
+#: src/tools/dcpomatic.cc:416 src/tools/dcpomatic_batch.cc:170
 msgid "Select film to open"
 msgstr "Selecciona la película a abrir"
 
@@ -168,7 +192,7 @@ msgstr ""
 msgid "There are no new versions of DCP-o-matic available."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:583
+#: src/tools/dcpomatic.cc:583 src/tools/dcpomatic_batch.cc:104
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Hay trabajos sin finalizar; ¿estás seguro de querer cerrar?"
 
@@ -178,11 +202,11 @@ msgid ""
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:584
+#: src/tools/dcpomatic.cc:584 src/tools/dcpomatic_batch.cc:105
 msgid "Unfinished jobs"
 msgstr "Trabajos sin finalizar"
 
-#: src/tools/dcpomatic.cc:425
+#: src/tools/dcpomatic.cc:425 src/tools/dcpomatic_batch.cc:179
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
@@ -192,18 +216,6 @@ msgstr ""
 
 #~ msgid "&Analyse audio"
 #~ msgstr "&Analizar audio"
-
-#~ msgid ""
-#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-#~ "Laursen"
-#~ msgstr ""
-#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-#~ "Laursen"
-
-#~ msgid "Free, open-source DCP generation from almost anything."
-#~ msgstr ""
-#~ "Generación de DCP a partir de casi cualquier fuente, libre y de código "
-#~ "abierto."
 
 #, fuzzy
 #~ msgid "The directory %1 already exists."
