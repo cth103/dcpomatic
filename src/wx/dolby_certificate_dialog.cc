@@ -135,7 +135,7 @@ DolbyCertificateDialog::download ()
 	string const zip = string_client_data (_serial->GetClientObject (_serial->GetSelection ()));
 
 	string const file = String::compose (
-		"%1/%2/%3",
+		"ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1/%2/%3",
 		wx_to_std (_country->GetStringSelection()),
 		wx_to_std (_cinema->GetStringSelection()),
 		zip
@@ -149,11 +149,11 @@ DolbyCertificateDialog::download ()
 		return;
 	}
 	string const cert = b[0] + "_" + b[1] + ".pem.crt";
-	
+
 	optional<string> error = get_from_zip_url (file, cert, _load);
 	if (error) {
-		error_dialog (this, std_to_wx (error.get ()));
+		_message->SetLabel (std_to_wx (error.get ()));
+	} else {
+		_message->SetLabel (_("Certificate downloaded"));
 	}
-
-	_message->SetLabel (wxT (""));
 }

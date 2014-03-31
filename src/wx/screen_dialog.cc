@@ -120,6 +120,8 @@ ScreenDialog::download_certificate ()
 		d->ShowModal ();
 		d->Destroy ();
 	}
+
+	setup_sensitivity ();
 }
 
 void

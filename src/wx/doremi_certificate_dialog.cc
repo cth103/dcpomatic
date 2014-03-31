@@ -64,7 +64,7 @@ DoremiCertificateDialog::download ()
 	if (error) {
 		error_dialog (this, std_to_wx (error.get ()));
 	} else {
-		_message->SetLabel (wxT ("Certificate downloaded"));
+		_message->SetLabel (_("Certificate downloaded"));
 	}
 }
 
