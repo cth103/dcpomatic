@@ -25,17 +25,17 @@
 #include "decoder.h"
 #include "video_content.h"
 #include "util.h"
+#include "content_video.h"
 
 class VideoContent;
 class Image;
-class ContentVideo;
 
 class VideoDecoder : public virtual Decoder
 {
 public:
 	VideoDecoder (boost::shared_ptr<const VideoContent> c);
 
-	boost::shared_ptr<ContentVideo> get_video (VideoFrame frame, bool accurate);
+	boost::optional<ContentVideo> get_video (VideoFrame frame, bool accurate);
 
 	boost::shared_ptr<const VideoContent> video_content () const {
 		return _video_content;
@@ -45,10 +45,10 @@ protected:
 
 	void seek (ContentTime time, bool accurate);
 	void video (boost::shared_ptr<const Image>, VideoFrame frame);
-	boost::shared_ptr<ContentVideo> decoded_video (VideoFrame frame);
+	boost::optional<ContentVideo> decoded_video (VideoFrame frame);
 
 	boost::shared_ptr<const VideoContent> _video_content;
-	std::list<boost::shared_ptr<ContentVideo> > _decoded_video;
+	std::list<ContentVideo> _decoded_video;
 };
 
 #endif

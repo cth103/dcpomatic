@@ -138,7 +138,7 @@ private:
 	{
 		std::list<boost::shared_ptr<Piece> > overlaps;
 		for (typename std::list<boost::shared_ptr<Piece> >::const_iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-			if (boost::dynamic_pointer_cast<C> ((*i)->content) && (*i)->content->position() >= t && (*i)->content->end() < t) {
+			if (boost::dynamic_pointer_cast<C> ((*i)->content) && (*i)->content->position() <= t && t < (*i)->content->end()) {
 				overlaps.push_back (*i);
 			}
 		}

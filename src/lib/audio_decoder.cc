@@ -36,6 +36,7 @@ using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 	: _audio_content (content)
+	, _decoded_audio (shared_ptr<AudioBuffers> (new AudioBuffers (content->audio_channels(), 0)), 0)
 {
 	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
 		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));

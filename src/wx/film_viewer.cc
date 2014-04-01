@@ -122,7 +122,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_frame.reset ();
 	
 	_slider->SetValue (0);
-	set_position_text (DCPTime ());
+	set_position_text ();
 	
 	if (!_film) {
 		return;
@@ -146,6 +146,10 @@ FilmViewer::set_film (shared_ptr<Film> f)
 void
 FilmViewer::get (DCPTime p, bool accurate)
 {
+	if (!_player) {
+		return;
+	}
+
 	shared_ptr<DCPVideo> dcp_video = _player->get_video (p, accurate);
 	if (dcp_video) {
 		_frame = dcp_video->image (PIX_FMT_BGRA, true);
@@ -154,7 +158,9 @@ FilmViewer::get (DCPTime p, bool accurate)
 		_frame.reset ();
 	}
 
-	set_position_text (p);
+	_position = p;
+	
+	set_position_text ();
 	_panel->Refresh ();
 	_panel->Update ();
 }
@@ -162,10 +168,6 @@ FilmViewer::get (DCPTime p, bool accurate)
 void
 FilmViewer::timer ()
 {
-	if (!_player) {
-		return;
-	}
-	
 	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
 
 	DCPTime const len = _film->length ();
@@ -214,7 +216,7 @@ FilmViewer::paint_panel ()
 void
 FilmViewer::slider_moved ()
 {
-	if (!_film || !_player) {
+	if (!_film) {
 		return;
 	}
 
@@ -292,7 +294,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::set_position_text (DCPTime t)
+FilmViewer::set_position_text ()
 {
 	if (!_film) {
 		_frame_number->SetLabel ("0");
@@ -302,9 +304,9 @@ FilmViewer::set_position_text (DCPTime t)
 		
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (t.seconds() * fps)) + 1));
+	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (_position.seconds() * fps)) + 1));
 	
-	double w = t.seconds ();
+	double w = _position.seconds ();
 	int const h = (w / 3600);
 	w -= h * 3600;
 	int const m = (w / 60);
@@ -338,10 +340,6 @@ FilmViewer::active_jobs_changed (bool a)
 void
 FilmViewer::back_clicked ()
 {
-	if (!_player) {
-		return;
-	}
-
 	DCPTime p = _position - DCPTime::from_frames (1, _film->video_frame_rate ());
 	if (p < DCPTime ()) {
 		p = DCPTime ();
@@ -353,10 +351,6 @@ FilmViewer::back_clicked ()
 void
 FilmViewer::forward_clicked ()
 {
-	if (!_player) {
-		return;
-	}
-
 	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
 }
 

@@ -319,7 +319,8 @@ Player::get_video (DCPTime time, bool accurate)
 	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
 	assert (content);
 
-	shared_ptr<ContentVideo> dec = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+	optional<ContentVideo> dec = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+	assert (dec);
 
 	dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 	if (_approximate_size) {

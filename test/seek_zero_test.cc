@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 BOOST_AUTO_TEST_CASE (seek_zero_test)
 {
@@ -47,8 +48,8 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	wait_for_jobs ();
 
 	FFmpegDecoder decoder (content, film->log());
-	shared_ptr<ContentVideo> a = decoder.get_video (0, true);
-	shared_ptr<ContentVideo> b = decoder.get_video (0, true);
+	optional<ContentVideo> a = decoder.get_video (0, true);
+	optional<ContentVideo> b = decoder.get_video (0, true);
 	BOOST_CHECK_EQUAL (a->frame, 0);
 	BOOST_CHECK_EQUAL (b->frame, 0);
 }
