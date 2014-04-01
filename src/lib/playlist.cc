@@ -64,7 +64,7 @@ Playlist::~Playlist ()
 void
 Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
 {
-	if (property == ContentProperty::LENGTH) {
+	if (property == ContentProperty::LENGTH || property == VideoContentProperty::VIDEO_FRAME_TYPE) {
 		maybe_sequence_video ();
 	}
 	
@@ -81,14 +81,21 @@ Playlist::maybe_sequence_video ()
 	_sequencing_video = true;
 	
 	ContentList cl = _content;
-	Time next = 0;
+	Time next_left = 0;
+	Time next_right = 0;
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		if (!dynamic_pointer_cast<VideoContent> (*i)) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+		if (!vc) {
 			continue;
 		}
-		
-		(*i)->set_position (next);
-		next = (*i)->end() + 1;
+	
+		if (vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+			vc->set_position (next_right);
+			next_right = vc->end() + 1;
+		} else {
+			vc->set_position (next_left);
+			next_left = vc->end() + 1;
+		}
 	}
 
 	/* This won't change order, so it does not need a sort */
