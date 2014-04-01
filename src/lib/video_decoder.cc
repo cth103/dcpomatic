@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -57,6 +57,12 @@ VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Fra
 		Video (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, frame);
 		break;
 	}
+	case VIDEO_FRAME_TYPE_3D_LEFT:
+		Video (image, EYES_LEFT, same, frame);
+		break;
+	case VIDEO_FRAME_TYPE_3D_RIGHT:
+		Video (image, EYES_RIGHT, same, frame);
+		break;
 	}
 	
 	_video_position = frame + 1;
