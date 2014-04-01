@@ -105,16 +105,18 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_first_nonexistant_frame > 0
 		);
 
-	_sound_mxf.reset (new dcp::SoundMXF (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels ()));
+	if (_film->audio_channels ()) {
+		_sound_mxf.reset (new dcp::SoundMXF (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels ()));
 
-	if (_film->encrypted ()) {
-		_sound_mxf->set_key (_film->key ());
-	}
+		if (_film->encrypted ()) {
+			_sound_mxf->set_key (_film->key ());
+		}
 	
-	/* Write the sound MXF into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.
-	*/
-	_sound_mxf_writer = _sound_mxf->start_write (_film->directory() / _film->audio_mxf_filename(), _film->interop() ? dcp::INTEROP : dcp::SMPTE);
+		/* Write the sound MXF into the film directory so that we leave the creation
+		   of the DCP directory until the last minute.
+		*/
+		_sound_mxf_writer = _sound_mxf->start_write (_film->directory() / _film->audio_mxf_filename(), _film->interop() ? dcp::INTEROP : dcp::SMPTE);
+	}
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
@@ -191,7 +193,9 @@ Writer::fake_write (int frame, Eyes eyes)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
-	_sound_mxf_writer->write (audio->data(), audio->frames());
+	if (_sound_mxf_writer) {
+		_sound_mxf_writer->write (audio->data(), audio->frames());
+	}
 }
 
 /** This must be called from Writer::thread() with an appropriate lock held */
@@ -368,7 +372,9 @@ Writer::finish ()
 	terminate_thread (true);
 
 	_picture_mxf_writer->finalize ();
-	_sound_mxf_writer->finalize ();
+	if (_sound_mxf_writer) {
+		_sound_mxf_writer->finalize ();
+	}
 	
 	/* Hard-link the video MXF into the DCP */
 	boost::filesystem::path video_from;
@@ -389,15 +395,17 @@ Writer::finish ()
 
 	/* Move the audio MXF into the DCP */
 
-	boost::filesystem::path audio_to;
-	audio_to /= _film->dir (_film->dcp_name ());
-	audio_to /= _film->audio_mxf_filename ();
-	
-	boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
-	if (ec) {
-		throw FileError (
-			String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
-			);
+	if (_sound_mxf) {
+		boost::filesystem::path audio_to;
+		audio_to /= _film->dir (_film->dcp_name ());
+		audio_to /= _film->audio_mxf_filename ();
+		
+		boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
+		if (ec) {
+			throw FileError (
+				String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
+				);
+		}
 	}
 
 	dcp::DCP dcp (_film->dir (_film->dcp_name()));
@@ -433,8 +441,10 @@ Writer::finish ()
 	job->sub (_("Computing image digest"));
 	_picture_mxf->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
 
-	job->sub (_("Computing audio digest"));
-	_sound_mxf->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+	if (_sound_mxf) {
+		job->sub (_("Computing audio digest"));
+		_sound_mxf->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+	}
 
 	dcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();

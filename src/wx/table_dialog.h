@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,31 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/spinctrl.h>
-#include "table_dialog.h"
+#ifndef DCPOMATIC_TABLE_DIALOG_H
+#define DCPOMATIC_TABLE_DIALOG_H
 
-class RepeatDialog : public TableDialog
+#include <wx/wx.h>
+
+class TableDialog : public wxDialog
 {
 public:
-	RepeatDialog (wxWindow *);
+	TableDialog (wxWindow* parent, wxString title, int columns, bool cancel);
 
-	int number () const;
+protected:
+	template<class T>
+	T* add (T* w) {
+		_table->Add (w, 1, wxEXPAND);
+		return w;
+	}
 
-private:
-	wxSpinCtrl* _number;
+	void add (wxString text, bool label);
+	void add_spacer ();
+	
+	void layout ();
+
+private:	
+	wxSizer* _overall_sizer;
+	wxFlexGridSizer* _table;
 };
+
+#endif

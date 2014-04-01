@@ -93,20 +93,20 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	_output_gamma->SetDigits (2);
 	_output_gamma->SetIncrement (0.1);
 
-	_input_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
+	_input_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this, _input_gamma));
 	_input_gamma_linearised->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ColourConversionEditor::changed, this));
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			_matrix[i][j]->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
 		}
 	}
-	_output_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
+	_output_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this, _output_gamma));
 }
 
 void
 ColourConversionEditor::set (ColourConversion conversion)
 {
-	_input_gamma->SetValue (conversion.input_gamma);
+	set_spin_ctrl (_input_gamma, conversion.input_gamma);
 	_input_gamma_linearised->SetValue (conversion.input_gamma_linearised);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
@@ -117,7 +117,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 			_matrix[i][j]->SetValue (std_to_wx (s.str ()));
 		}
 	}
-	_output_gamma->SetValue (conversion.output_gamma);
+	set_spin_ctrl (_output_gamma, conversion.output_gamma);
 }
 
 ColourConversion
@@ -148,5 +148,26 @@ void
 ColourConversionEditor::changed ()
 {
 	Changed ();
+}
+
+void
+ColourConversionEditor::changed (wxSpinCtrlDouble* sc)
+{
+	/* On OS X, it seems that in some cases when a wxSpinCtrlDouble loses focus
+	   it emits an erroneous changed signal, which messes things up.
+	   Check for that here.
+	*/
+	if (fabs (_last_spin_ctrl_value[sc] - sc->GetValue()) < 1e-3) {
+		return;
+	}
+	
+	Changed ();
+}
+
+void
+ColourConversionEditor::set_spin_ctrl (wxSpinCtrlDouble* control, double value)
+{
+	_last_spin_ctrl_value[control] = value;
+	control->SetValue (value);
 }
 

@@ -70,7 +70,11 @@ enum VideoFrameType
 	VIDEO_FRAME_TYPE_2D,
 	VIDEO_FRAME_TYPE_3D_LEFT_RIGHT,
 	VIDEO_FRAME_TYPE_3D_TOP_BOTTOM,
-	VIDEO_FRAME_TYPE_3D_ALTERNATE
+	VIDEO_FRAME_TYPE_3D_ALTERNATE,
+	/** This content is all the left frames of some 3D */
+	VIDEO_FRAME_TYPE_3D_LEFT,
+	/** This content is all the right frames of some 3D */
+	VIDEO_FRAME_TYPE_3D_RIGHT
 };
 
 enum Eyes

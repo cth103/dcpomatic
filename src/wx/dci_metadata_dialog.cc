@@ -27,42 +27,31 @@
 using boost::shared_ptr;
 
 DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
-	: wxDialog (parent, wxID_ANY, _("DCI name"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: TableDialog (parent, _("DCI name"), 2, true)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
+	add (_("Content version"), true);
+	_content_version = add (new wxSpinCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Content version"), true);
-	_content_version = new wxSpinCtrl (this, wxID_ANY);
-	table->Add (_content_version, 1, wxEXPAND);
+	add (_("Audio Language (e.g. EN)"), true);
+	_audio_language = add (new wxTextCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Audio Language (e.g. EN)"), true);
-	_audio_language = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_audio_language, 1, wxEXPAND);
-
-	add_label_to_sizer (table, this, _("Subtitle Language (e.g. FR)"), true);
-	_subtitle_language = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_subtitle_language, 1, wxEXPAND);
+	add (_("Subtitle Language (e.g. FR)"), true);
+	_subtitle_language = add (new wxTextCtrl (this, wxID_ANY));
 	
-	add_label_to_sizer (table, this, _("Territory (e.g. UK)"), true);
-	_territory = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_territory, 1, wxEXPAND);
+	add (_("Territory (e.g. UK)"), true);
+	_territory = add (new wxTextCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Rating (e.g. 15)"), true);
-	_rating = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_rating, 1, wxEXPAND);
+	add (_("Rating (e.g. 15)"), true);
+	_rating = add (new wxTextCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Studio (e.g. TCF)"), true);
-	_studio = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_studio, 1, wxEXPAND);
+	add (_("Studio (e.g. TCF)"), true);
+	_studio = add (new wxTextCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Facility (e.g. DLA)"), true);
-	_facility = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_facility, 1, wxEXPAND);
+	add (_("Facility (e.g. DLA)"), true);
+	_facility = add (new wxTextCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Package Type (e.g. OV)"), true);
-	_package_type = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_package_type, 1, wxEXPAND);
+	add (_("Package Type (e.g. OV)"), true);
+	_package_type = add (new wxTextCtrl (this, wxID_ANY));
 
 	_content_version->SetRange (1, 1024);
 
@@ -75,17 +64,7 @@ DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	_facility->SetValue (std_to_wx (dm.facility));
 	_package_type->SetValue (std_to_wx (dm.package_type));
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-	
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	layout ();
 }
 
 DCIMetadata

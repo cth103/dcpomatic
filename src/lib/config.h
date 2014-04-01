@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ public:
 
 	void set_use_any_servers (bool u) {
 		_use_any_servers = u;
-		write ();
+		changed ();
 	}
 
 	bool use_any_servers () const {
@@ -76,7 +76,7 @@ public:
 	/** @param s New list of servers */
 	void set_servers (std::vector<std::string> s) {
 		_servers = s;
-		write ();
+		changed ();
 	}
 
 	/** @return Host names / IP addresses of J2K encoding servers that should definitely be used */
@@ -89,7 +89,7 @@ public:
 		return _tms_ip;
 	}
 	
-	/** @return The path on a TMS that we should write DCPs to */
+	/** @return The path on a TMS that we should changed DCPs to */
 	std::string tms_path () const {
 		return _tms_path;
 	}
@@ -180,149 +180,161 @@ public:
 	bool check_for_test_updates () const {
 		return _check_for_test_updates;
 	}
+
+	int maximum_j2k_bandwidth () const {
+		return _maximum_j2k_bandwidth;
+	}
 	
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
-		write ();
+		changed ();
 	}
 
 	void set_default_directory (boost::filesystem::path d) {
 		_default_directory = d;
-		write ();
+		changed ();
 	}
 
 	/** @param p New server port */
 	void set_server_port_base (int p) {
 		_server_port_base = p;
-		write ();
+		changed ();
 	}
 
 	/** @param i IP address of a TMS that we can copy DCPs to */
 	void set_tms_ip (std::string i) {
 		_tms_ip = i;
-		write ();
+		changed ();
 	}
 
-	/** @param p Path on a TMS that we should write DCPs to */
+	/** @param p Path on a TMS that we should changed DCPs to */
 	void set_tms_path (std::string p) {
 		_tms_path = p;
-		write ();
+		changed ();
 	}
 
 	/** @param u User name to log into the TMS with */
 	void set_tms_user (std::string u) {
 		_tms_user = u;
-		write ();
+		changed ();
 	}
 
 	/** @param p Password to log into the TMS with */
 	void set_tms_password (std::string p) {
 		_tms_password = p;
-		write ();
+		changed ();
 	}
 
 	void add_cinema (boost::shared_ptr<Cinema> c) {
 		_cinemas.push_back (c);
+		changed ();
 	}
 
 	void remove_cinema (boost::shared_ptr<Cinema> c) {
 		_cinemas.remove (c);
+		changed ();
 	}
 
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
 		_allowed_dcp_frame_rates = r;
-		write ();
+		changed ();
 	}
 
 	void set_default_dci_metadata (DCIMetadata d) {
 		_default_dci_metadata = d;
-		write ();
+		changed ();
 	}
 
 	void set_language (std::string l) {
 		_language = l;
-		write ();
+		changed ();
 	}
 
 	void unset_language () {
 		_language = boost::none;
-		write ();
+		changed ();
 	}
 
 	void set_default_still_length (int s) {
 		_default_still_length = s;
-		write ();
+		changed ();
 	}
 
 	void set_default_container (Ratio const * c) {
 		_default_container = c;
-		write ();
+		changed ();
 	}
 
 	void set_default_dcp_content_type (DCPContentType const * t) {
 		_default_dcp_content_type = t;
-		write ();
+		changed ();
 	}
 
 	void set_dcp_metadata (dcp::XMLMetadata m) {
 		_dcp_metadata = m;
-		write ();
+		changed ();
 	}
 
 	void set_default_j2k_bandwidth (int b) {
 		_default_j2k_bandwidth = b;
-		write ();
+		changed ();
 	}
 
 	void set_default_audio_delay (int d) {
 		_default_audio_delay = d;
-		write ();
+		changed ();
 	}
 
 	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
 		_colour_conversions = c;
-		write ();
+		changed ();
 	}
 
 	void set_mail_server (std::string s) {
 		_mail_server = s;
-		write ();
+		changed ();
 	}
 
 	void set_mail_user (std::string u) {
 		_mail_user = u;
-		write ();
+		changed ();
 	}
 
 	void set_mail_password (std::string p) {
 		_mail_password = p;
-		write ();
+		changed ();
 	}
 
 	void set_kdm_from (std::string f) {
 		_kdm_from = f;
-		write ();
+		changed ();
 	}
 
 	void set_kdm_email (std::string e) {
 		_kdm_email = e;
-		write ();
+		changed ();
 	}
 
 	void set_check_for_updates (bool c) {
 		_check_for_updates = c;
-		write ();
+		changed ();
 	}
 
 	void set_check_for_test_updates (bool c) {
 		_check_for_test_updates = c;
-		write ();
+		changed ();
+	}
+
+	void set_maximum_j2k_bandwidth (int b) {
+		_maximum_j2k_bandwidth = b;
+		changed ();
 	}
 	
-	void write () const;
-
 	boost::filesystem::path signer_chain_directory () const;
+
+	void changed ();
+	boost::signals2::signal<void ()> Changed;
 
 	static Config* instance ();
 	static void drop ();
@@ -332,6 +344,7 @@ private:
 	boost::filesystem::path file (bool) const;
 	void read ();
 	void read_old_metadata ();
+	void write () const;
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
@@ -375,6 +388,8 @@ private:
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;
+	/** maximum allowed J2K bandwidth in bits per second */
+	int _maximum_j2k_bandwidth;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

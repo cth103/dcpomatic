@@ -17,33 +17,35 @@
 
 */
 
-#include <cmath>
-#include <wx/spinctrl.h>
-#include "audio_gain_dialog.h"
+#include <boost/bind.hpp>
+#include "download_certificate_dialog.h"
 #include "wx_util.h"
 
-AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
-	: TableDialog (parent, _("Channel gain"), 3, true)
+using boost::function;
+
+DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
+	: TableDialog (parent, _("Download certificate"), 2, true)
+	, _load (load)
 {
-	add (wxString::Format (_("Gain for content channel %d in DCP channel %d"), c + 1, d + 1), false);
-	_gain = add (new wxSpinCtrlDouble (this));
-	add (_("dB"), false);
 
-	_gain->SetRange (-144, 0);
-	_gain->SetDigits (1);
-	_gain->SetIncrement (0.1);
-
-	_gain->SetValue (20 * log10 (v));
-
-	layout ();
 }
 
-float
-AudioGainDialog::value () const
+void
+DownloadCertificateDialog::add_common_widgets ()
 {
-	if (_gain->GetValue() <= -144) {
-		return 0;
-	}
+	add_spacer ();
+	_download = add (new wxButton (this, wxID_ANY, _("Download")));
+
+	add_spacer ();
+	_message = add (new wxStaticText (this, wxID_ANY, wxT ("")));
+
+	wxFont font = _message->GetFont();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	font.SetPointSize (font.GetPointSize() - 1);
+	_message->SetFont (font);
 	
-	return pow (10, _gain->GetValue () / 20);
+	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
+	_download->Enable (false);
+
+	layout ();
 }

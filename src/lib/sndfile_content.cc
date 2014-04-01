@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -165,3 +165,4 @@ SndfileContent::set_audio_mapping (AudioMapping m)
 
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
 }
+

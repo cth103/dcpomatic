@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -222,7 +222,7 @@ KDMDialog::setup_sensitivity ()
 	_remove_screen->Enable (ss);
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
-	ok->Enable ((sc || ss) && sd);
+	ok->Enable ((selected_cinemas().size() > 0 || selected_screens().size() > 0) && sd);
 
 	_folder->Enable (_write_to->GetValue ());
 }
@@ -263,8 +263,6 @@ KDMDialog::add_cinema_clicked ()
 	Config::instance()->add_cinema (c);
 	add_cinema (c);
 
-	Config::instance()->write ();
-	
 	d->Destroy ();
 }
 
@@ -284,7 +282,7 @@ KDMDialog::edit_cinema_clicked ()
 	c.second->email = d->email ();
 	_targets->SetItemText (c.first, std_to_wx (d->name()));
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 
 	d->Destroy ();	
 }
@@ -300,8 +298,6 @@ KDMDialog::remove_cinema_clicked ()
 
 	Config::instance()->remove_cinema (c.second);
 	_targets->Delete (c.first);
-
-	Config::instance()->write ();	
 }
 
 void
@@ -322,7 +318,7 @@ KDMDialog::add_screen_clicked ()
 	c->add_screen (s);
 	add_screen (c, s);
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 
 	d->Destroy ();
 }
@@ -343,7 +339,7 @@ KDMDialog::edit_screen_clicked ()
 	s.second->certificate = d->certificate ();
 	_targets->SetItemText (s.first, std_to_wx (d->name()));
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 
 	d->Destroy ();
 }
@@ -358,9 +354,11 @@ KDMDialog::remove_screen_clicked ()
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 
 	map<wxTreeItemId, shared_ptr<Cinema> >::iterator i = _cinemas.begin ();
-	list<shared_ptr<Screen> > sc = i->second->screens ();
-	while (i != _cinemas.end() && find (sc.begin(), sc.end(), s.second) == sc.end()) {
-		++i;
+	while (i != _cinemas.end ()) {
+		list<shared_ptr<Screen> > sc = i->second->screens ();
+		if (find (sc.begin(), sc.end(), s.second) != sc.end ()) {
+			break;
+		}
 	}
 
 	if (i == _cinemas.end()) {
@@ -370,7 +368,7 @@ KDMDialog::remove_screen_clicked ()
 	i->second->remove_screen (s.second);
 	_targets->Delete (s.first);
 
-	Config::instance()->write ();
+	Config::instance()->changed ();
 }
 
 list<shared_ptr<Screen> >

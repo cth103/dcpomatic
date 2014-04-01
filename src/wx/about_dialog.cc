@@ -99,6 +99,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Lilian Lefranc"));
 	translated_by.Add (wxT ("Olivier Perriere"));
 	translated_by.Add (wxT ("Markus Raab"));
+	translated_by.Add (wxT ("Theo Kooijmans"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString artwork_by;
@@ -118,6 +119,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Silvio Giuliano"));
 	supported_by.Add (wxT ("Flor Guillaume"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
+	supported_by.Add (wxT ("Chris Kay"));
 	supported_by.Add (wxT ("Adam Klotblixt"));
 	supported_by.Add (wxT ("Filip Kovcin"));
 	supported_by.Add (wxT ("Carsten Kurz"));
@@ -141,6 +143,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Wolfgang Woehl"));
 	supported_by.Add (wxT ("Wolfram Weber"));
 	supported_by.Add (wxT ("Frank de Wulf"));
+	supported_by.Add (wxT ("Pavel Zhdanko"));
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;
@@ -179,6 +182,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Greg Rooke"));
 	tested_by.Add (wxT ("Karim Senoucci"));
 	tested_by.Add (wxT ("Simon Vannarath"));
+	tested_by.Add (wxT ("Andrew Walls"));
 	tested_by.Add (wxT ("Andreas Weiss"));
 	tested_by.Add (wxT ("Paul Willmott"));
 	tested_by.Add (wxT ("Wolfgang Woehl"));

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,29 +21,35 @@
 #include <wx/validate.h>
 #include <dcp/exceptions.h>
 #include "lib/compose.hpp"
+#include "lib/util.h"
 #include "screen_dialog.h"
 #include "wx_util.h"
+#include "doremi_certificate_dialog.h"
+#include "dolby_certificate_dialog.h"
 
 using std::string;
 using std::cout;
 using boost::shared_ptr;
 
 ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_ptr<dcp::Certificate> certificate)
-	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+	: TableDialog (parent, std_to_wx (title), 2, true)
 	, _certificate (certificate)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, 6, 6);
-	table->AddGrowableCol (1, 1);
+	add ("Name", true);
+	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1)));
 
-	add_label_to_sizer (table, this, "Name", true);
-	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1));
-	table->Add (_name, 1, wxEXPAND);
+	add ("Server manufacturer", true);
+	_manufacturer = add (new wxChoice (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, "Certificate", true);
-	_certificate_load = new wxButton (this, wxID_ANY, wxT ("Load from file..."));
-	table->Add (_certificate_load, 1, wxEXPAND);
+	add (_("Certificate"), true);
+	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	_load_certificate = new wxButton (this, wxID_ANY, _("Load from file..."));
+	_download_certificate = new wxButton (this, wxID_ANY, _("Download"));
+	s->Add (_load_certificate, 1, wxEXPAND);
+	s->Add (_download_certificate, 1, wxEXPAND);
+	add (s);
 
-	table->AddSpacer (0);
+	add_spacer ();
 	_certificate_text = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (320, 256), wxTE_MULTILINE | wxTE_READONLY);
 	if (certificate) {
 		_certificate_text->SetValue (certificate->certificate ());
@@ -51,23 +57,20 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	wxFont font = wxSystemSettings::GetFont (wxSYS_ANSI_FIXED_FONT);
 	font.SetPointSize (font.GetPointSize() / 2);
 	_certificate_text->SetFont (font);
-	table->Add (_certificate_text, 1, wxEXPAND);
+	add (_certificate_text);
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, 6);
-	
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
+	_manufacturer->Append (_("Unknown"));
+	_manufacturer->Append (_("Doremi"));
+	_manufacturer->Append (_("Dolby"));
+	_manufacturer->Append (_("Other"));
+	_manufacturer->SetSelection (0);
 
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
-
-	_certificate_load->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::load_certificate, this));
+	_load_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::select_certificate, this));
+	_download_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_certificate, this));
+	_manufacturer->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ScreenDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
+	layout ();
 }
 
 string
@@ -83,20 +86,40 @@ ScreenDialog::certificate () const
 }
 
 void
-ScreenDialog::load_certificate ()
+ScreenDialog::load_certificate (boost::filesystem::path file)
+{
+	try {
+		_certificate.reset (new dcp::Certificate (file));
+		_certificate_text->SetValue (_certificate->certificate ());
+	} catch (dcp::MiscError& e) {
+		error_dialog (this, String::compose ("Could not read certificate file (%1)", e.what()));
+	}
+}
+
+void
+ScreenDialog::select_certificate ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
-
 	if (d->ShowModal () == wxID_OK) {
-		try {
-			_certificate.reset (new dcp::Certificate (boost::filesystem::path (wx_to_std (d->GetPath ()))));
-			_certificate_text->SetValue (_certificate->certificate ());
-		} catch (dcp::MiscError& e) {
-			error_dialog (this, String::compose ("Could not read certificate file (%1)", e.what()));
-		}
+		load_certificate (boost::filesystem::path (wx_to_std (d->GetPath ())));
 	}
-	
 	d->Destroy ();
+
+	setup_sensitivity ();
+}
+
+void
+ScreenDialog::download_certificate ()
+{
+	if (_manufacturer->GetStringSelection() == _("Doremi")) {
+		DownloadCertificateDialog* d = new DoremiCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
+		d->ShowModal ();
+		d->Destroy ();
+	} else if (_manufacturer->GetStringSelection() == _("Dolby")) {
+		DownloadCertificateDialog* d = new DolbyCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
+		d->ShowModal ();
+		d->Destroy ();
+	}
 
 	setup_sensitivity ();
 }
@@ -106,4 +129,9 @@ ScreenDialog::setup_sensitivity ()
 {
 	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
 	ok->Enable (_certificate.get ());
+
+	_download_certificate->Enable (
+		_manufacturer->GetStringSelection() == _("Doremi") ||
+		_manufacturer->GetStringSelection() == _("Dolby")
+		);
 }

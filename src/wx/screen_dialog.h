@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,8 +20,11 @@
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <dcp/certificates.h>
+#include "table_dialog.h"
 
-class ScreenDialog : public wxDialog
+class Progress;
+
+class ScreenDialog : public TableDialog
 {
 public:
 	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::shared_ptr<dcp::Certificate> c = boost::shared_ptr<dcp::Certificate> ());
@@ -30,11 +33,15 @@ public:
 	boost::shared_ptr<dcp::Certificate> certificate () const;
 	
 private:
-	void load_certificate ();
+	void select_certificate ();
+	void load_certificate (boost::filesystem::path);
+	void download_certificate ();
 	void setup_sensitivity ();
 	
 	wxTextCtrl* _name;
-	wxButton* _certificate_load;
+	wxChoice* _manufacturer;
+	wxButton* _load_certificate;
+	wxButton* _download_certificate;
 	wxTextCtrl* _certificate_text;
 
 	boost::shared_ptr<dcp::Certificate> _certificate;

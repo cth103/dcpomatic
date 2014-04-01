@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,30 +21,15 @@
 #include "wx_util.h"
 
 RepeatDialog::RepeatDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Repeat Content"))
+	: TableDialog (parent, _("Repeat Content"), 3, true)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (overall_sizer);
-	
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-
-	add_label_to_sizer (table, this, _("Repeat"), true);
-	_number = new wxSpinCtrl (this, wxID_ANY);
-	table->Add (_number, 1);
-
-	add_label_to_sizer (table, this, _("times"), false);
+	add (_("Repeat"), true);
+	_number = add (new wxSpinCtrl (this, wxID_ANY));
+	add (_("times"), false);
 
 	_number->SetRange (1, 1024);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	layout ();
 }
 
 int

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,23 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/spinctrl.h>
-#include "table_dialog.h"
+#include <curl/curl.h>
+#include "download_certificate_dialog.h"
 
-class RepeatDialog : public TableDialog
+class DolbyCertificateDialog : public DownloadCertificateDialog
 {
 public:
-	RepeatDialog (wxWindow *);
-
-	int number () const;
+	DolbyCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
 
 private:
-	wxSpinCtrl* _number;
+	void download ();
+	void setup_countries ();
+	void country_selected ();
+	void cinema_selected ();
+	void serial_selected ();
+	std::list<std::string> get_dir (std::string) const;
+
+	wxChoice* _country;
+	wxChoice* _cinema;
+	wxChoice* _serial;
 };

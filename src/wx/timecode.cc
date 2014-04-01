@@ -102,7 +102,7 @@ Timecode::set (DCPTime t, int fps)
 	checked_set (_seconds, lexical_cast<string> (s));
 	checked_set (_frames, lexical_cast<string> (f));
 
-	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02ld", h, m, s, f));
+	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02" wxLongLongFmtSpec "d", h, m, s, f));
 }
 
 DCPTime

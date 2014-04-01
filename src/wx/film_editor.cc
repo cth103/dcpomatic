@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -92,6 +92,8 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmEditor::active_jobs_changed, this, _1)
 		);
+
+	Config::instance()->Changed.connect (boost::bind (&FilmEditor::config_changed, this));
 	
 	SetSizerAndFit (s);
 }
@@ -213,7 +215,7 @@ FilmEditor::make_dcp_panel ()
 	}
 
 	_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
-	_j2k_bandwidth->SetRange (1, 250);
+	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
 
 	_resolution->Append (_("2K"));
 	_resolution->Append (_("4K"));
@@ -268,19 +270,25 @@ FilmEditor::make_content_panel ()
 		_content->InsertColumn (0, wxT(""));
 		_content->SetColumnWidth (0, 512);
 
+#ifdef DCPOMATIC_OSX
+		int const pad = 2;
+#else
+		int const pad = 0;
+#endif		
+
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
 		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file(s)..."));
-		b->Add (_content_add_file, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_add_file, 1, wxEXPAND | wxALL, pad);
 		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add folder..."));
-		b->Add (_content_add_folder, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_add_folder, 1, wxEXPAND | wxALL, pad);
 		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
-		b->Add (_content_remove, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_remove, 1, wxEXPAND | wxALL, pad);
 		_content_earlier = new wxButton (_content_panel, wxID_ANY, _("Up"));
-		b->Add (_content_earlier, 1, wxEXPAND);
+		b->Add (_content_earlier, 1, wxEXPAND | wxALL, pad);
 		_content_later = new wxButton (_content_panel, wxID_ANY, _("Down"));
-		b->Add (_content_later, 1, wxEXPAND);
+		b->Add (_content_later, 1, wxEXPAND | wxALL, pad);
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
-		b->Add (_content_timeline, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		b->Add (_content_timeline, 1, wxEXPAND | wxALL, pad);
 
 		s->Add (b, 0, wxALL, 4);
 
@@ -997,4 +1005,10 @@ FilmEditor::content_later_clicked ()
 		_film->move_content_later (sel.front ());
 		content_selection_changed ();
 	}
+}
+
+void
+FilmEditor::config_changed ()
+{
+	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
 }

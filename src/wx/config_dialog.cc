@@ -86,12 +86,13 @@ public:
 		_set_language = new wxCheckBox (panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, 1);
 		_language = new wxChoice (panel, wxID_ANY);
+		_language->Append (wxT ("Deutsch"));
 		_language->Append (wxT ("English"));
+		_language->Append (wxT ("Español"));
 		_language->Append (wxT ("Français"));
 		_language->Append (wxT ("Italiano"));
-		_language->Append (wxT ("Español"));
+		_language->Append (wxT ("Nederlands"));
 		_language->Append (wxT ("Svenska"));
-		_language->Append (wxT ("Deutsch"));
 		table->Add (_language);
 		
 		wxStaticText* restart = add_label_to_sizer (table, panel, _("(restart DCP-o-matic to see language changes)"), false);
@@ -104,6 +105,10 @@ public:
 		add_label_to_sizer (table, panel, _("Threads to use for encoding on this host"), true);
 		_num_local_encoding_threads = new wxSpinCtrl (panel);
 		table->Add (_num_local_encoding_threads, 1);
+
+		add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
+		_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
+		table->Add (_maximum_j2k_bandwidth, 1);
 		
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
@@ -138,17 +143,19 @@ public:
 		_set_language->SetValue (config->language ());
 		
 		if (config->language().get_value_or ("") == "fr") {
-			_language->SetSelection (1);
-		} else if (config->language().get_value_or ("") == "it") {
-		_language->SetSelection (2);
-		} else if (config->language().get_value_or ("") == "es") {
 			_language->SetSelection (3);
-		} else if (config->language().get_value_or ("") == "sv") {
+		} else if (config->language().get_value_or ("") == "it") {
 			_language->SetSelection (4);
+		} else if (config->language().get_value_or ("") == "es") {
+			_language->SetSelection (2);
+		} else if (config->language().get_value_or ("") == "sv") {
+			_language->SetSelection (6);
 		} else if (config->language().get_value_or ("") == "de") {
+			_language->SetSelection (0);
+		} else if (config->language().get_value_or ("") == "nl") {
 			_language->SetSelection (5);
 		} else {
-			_language->SetSelection (0);
+			_language->SetSelection (1);
 		}
 		
 		setup_language_sensitivity ();
@@ -159,6 +166,10 @@ public:
 		_num_local_encoding_threads->SetRange (1, 128);
 		_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
 		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
+
+		_maximum_j2k_bandwidth->SetRange (1, 500);
+		_maximum_j2k_bandwidth->SetValue (config->maximum_j2k_bandwidth() / 1000000);
+		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::maximum_j2k_bandwidth_changed, this));
 		
 		_mail_server->SetValue (std_to_wx (config->mail_server ()));
 		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::mail_server_changed, this));
@@ -196,22 +207,25 @@ private:
 	{
 		switch (_language->GetSelection ()) {
 		case 0:
-			Config::instance()->set_language ("en");
+			Config::instance()->set_language ("de");
 			break;
 		case 1:
-			Config::instance()->set_language ("fr");
+			Config::instance()->set_language ("en");
 			break;
 		case 2:
-			Config::instance()->set_language ("it");
-			break;
-		case 3:
 			Config::instance()->set_language ("es");
 			break;
+		case 3:
+			Config::instance()->set_language ("fr");
+			break;
 		case 4:
-			Config::instance()->set_language ("sv");
+			Config::instance()->set_language ("it");
 			break;
 		case 5:
-			Config::instance()->set_language ("de");
+			Config::instance()->set_language ("nl");
+			break;
+		case 6:
+			Config::instance()->set_language ("sv");
 			break;
 		}
 	}
@@ -250,10 +264,16 @@ private:
 	{
 		Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 	}
+
+	void maximum_j2k_bandwidth_changed ()
+	{
+		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
+	}
 	
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
+	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;
@@ -723,7 +743,10 @@ create_config_dialog ()
 	wxSize ps = wxSize (480, -1);
 	int const border = 16;
 #else
-	wxSize ps = wxDefaultSize;
+	/* We seem to need to specify height here, otherwise the general panel
+	   is too short (at least on Linux).
+	 */
+	wxSize ps = wxSize (-1, 400);
 	int const border = 8;
 #endif
 	

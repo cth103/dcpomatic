@@ -76,6 +76,7 @@ Encoder::~Encoder ()
 void
 Encoder::add_worker_threads (ServerDescription d)
 {
+	_film->log()->log (String::compose (N_("Adding %1 worker threads for remote %2"), d.host_name ()));
 	for (int i = 0; i < d.threads(); ++i) {
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)));
 	}

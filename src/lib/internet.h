@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,9 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/spinctrl.h>
-#include "table_dialog.h"
+#include <boost/optional.hpp>
+#include <boost/function.hpp>
+#include <boost/filesystem.hpp>
 
-class RepeatDialog : public TableDialog
-{
-public:
-	RepeatDialog (wxWindow *);
-
-	int number () const;
-
-private:
-	wxSpinCtrl* _number;
-};
+boost::optional<std::string> get_from_zip_url (std::string url, std::string file, boost::function<void (boost::filesystem::path)> load);
+std::list<std::string> ftp_ls (std::string dir);

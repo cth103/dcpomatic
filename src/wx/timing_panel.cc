@@ -19,6 +19,7 @@
 
 #include "lib/content.h"
 #include "lib/image_content.h"
+#include "lib/sndfile_content.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
@@ -80,10 +81,12 @@ TimingPanel::film_content_changed (int property)
 	if (cl.size() == 1) {
 		content = cl.front ();
 	}
+
+	int const film_video_frame_rate = _editor->film()->video_frame_rate ();
 	
 	if (property == ContentProperty::POSITION) {
 		if (content) {
-			_position->set (content->position (), _editor->film()->video_frame_rate ());
+			_position->set (content->position (), film_video_frame_rate);
 		} else {
 			_position->set (DCPTime () , 24);
 		}
@@ -93,24 +96,24 @@ TimingPanel::film_content_changed (int property)
 		property == VideoContentProperty::VIDEO_FRAME_TYPE
 		) {
 		if (content) {
-			_full_length->set (content->full_length (), _editor->film()->video_frame_rate ());
-			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
+			_full_length->set (content->full_length (), film_video_frame_rate);
+			_play_length->set (content->length_after_trim (), film_video_frame_rate);
 		} else {
 			_full_length->set (DCPTime (), 24);
 			_play_length->set (DCPTime (), 24);
 		}
 	} else if (property == ContentProperty::TRIM_START) {
 		if (content) {
-			_trim_start->set (content->trim_start (), _editor->film()->video_frame_rate ());
-			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
+			_trim_start->set (content->trim_start (), film_video_frame_rate);
+			_play_length->set (content->length_after_trim (), film_video_frame_rate);
 		} else {
 			_trim_start->set (DCPTime (), 24);
 			_play_length->set (DCPTime (), 24);
 		}
 	} else if (property == ContentProperty::TRIM_END) {
 		if (content) {
-			_trim_end->set (content->trim_end (), _editor->film()->video_frame_rate ());
-			_play_length->set (content->length_after_trim (), _editor->film()->video_frame_rate ());
+			_trim_end->set (content->trim_end (), film_video_frame_rate);
+			_play_length->set (content->length_after_trim (), film_video_frame_rate);
 		} else {
 			_trim_end->set (DCPTime (), 24);
 			_play_length->set (DCPTime (), 24);
@@ -131,9 +134,10 @@ TimingPanel::film_content_changed (int property)
 	}
 
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
+	shared_ptr<SndfileContent> sc = dynamic_pointer_cast<SndfileContent> (content);
 	_full_length->set_editable (ic && ic->still ());
 	_play_length->set_editable (!ic || !ic->still ());
-	_video_frame_rate->Enable (ic && !ic->still ());
+	_video_frame_rate->Enable ((ic && !ic->still ()) || sc);
 	_set_video_frame_rate->Enable (false);
 }
 
@@ -201,8 +205,8 @@ TimingPanel::set_video_frame_rate ()
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
 		if (ic) {
 			ic->set_video_frame_rate (lexical_cast<float> (wx_to_std (_video_frame_rate->GetValue ())));
-			_set_video_frame_rate->Enable (false);
 		}
+		_set_video_frame_rate->Enable (false);
 	}
 }
 

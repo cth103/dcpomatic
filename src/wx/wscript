@@ -17,6 +17,9 @@ sources = """
           content_menu.cc
           dci_metadata_dialog.cc
           dir_picker_ctrl.cc
+          dolby_certificate_dialog.cc
+          doremi_certificate_dialog.cc
+          download_certificate_dialog.cc
           film_editor.cc
           film_editor_panel.cc
           film_viewer.cc
@@ -36,6 +39,7 @@ sources = """
           servers_list_dialog.cc
           subtitle_panel.cc
           subtitle_view.cc
+          table_dialog.cc
           timecode.cc
           timeline.cc
           timeline_dialog.cc

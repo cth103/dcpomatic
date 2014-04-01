@@ -33,6 +33,7 @@ sources = """
           film.cc
           filter.cc
           frame_rate_change.cc
+          internet.cc
           image.cc
           image_content.cc
           image_decoder.cc

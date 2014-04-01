@@ -87,7 +87,7 @@ universal_copy $ENV lib/libcurl*.dylib $WORK/$libs
 universal_copy $ENV lib/libffi*.dylib $WORK/$libs
 
 for obj in $WORK/$macos/dcpomatic $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
-  deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl)"`
+  deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl|libxmlsec)"`
   changes=""
   for dep in $deps; do
     base=`basename $dep`
@@ -109,7 +109,7 @@ cp icons/servers.png $WORK/$resources
 cp icons/tms.png $WORK/$resources
 
 # i18n: .mo files
-for lang in de_DE es_ES fr_FR it_IT sv_SE; do
+for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
   mkdir $WORK/$resources/$lang
   cp build/src/lib/mo/$lang/*.mo $WORK/$resources/$lang
   cp build/src/wx/mo/$lang/*.mo $WORK/$resources/$lang

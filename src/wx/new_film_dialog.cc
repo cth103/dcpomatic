@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,20 +32,12 @@ using namespace boost;
 boost::optional<boost::filesystem::path> NewFilmDialog::_directory;
 
 NewFilmDialog::NewFilmDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("New Film"))
+	: TableDialog (parent, _("New Film"), 2, true)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (overall_sizer);
-	
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	add (_("Film name"), true);
+	_name = add (new wxTextCtrl (this, wxID_ANY));
 
-	add_label_to_sizer (table, this, _("Film name"), true);
-	_name = new wxTextCtrl (this, wxID_ANY);
-	table->Add (_name, 0, wxEXPAND);
-
-	add_label_to_sizer (table, this, _("Create in folder"), true);
+	add (_("Create in folder"), true);
 
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	_folder = new DirPickerCtrl (this); 
@@ -58,17 +50,11 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	}
 	
 	_folder->SetPath (std_to_wx (_directory.get().string()));
-	table->Add (_folder, 1, wxEXPAND);
-
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	add (_folder);
 
 	_name->SetFocus ();
+
+	layout ();
 }
 
 NewFilmDialog::~NewFilmDialog ()

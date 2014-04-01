@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,7 +83,6 @@ public:
 	ContentView (Timeline& tl, shared_ptr<Content> c)
 		: View (tl)
 		, _content (c)
-		, _track (0)
 		, _selected (false)
 	{
 		_content_connection = c->Changed.connect (bind (&ContentView::content_changed, this, _2, _3));
@@ -91,6 +90,8 @@ public:
 
 	dcpomatic::Rect<int> bbox () const
 	{
+		assert (_track);
+
 		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> content = _content.lock ();
 		if (!film || !content) {
@@ -99,7 +100,7 @@ public:
 		
 		return dcpomatic::Rect<int> (
 			time_x (content->position ()) - 8,
-			y_pos (_track) - 8,
+			y_pos (_track.get()) - 8,
 			content->length_after_trim().seconds() * _timeline.pixels_per_second() + 16,
 			_timeline.track_height() + 16
 			);
@@ -122,7 +123,7 @@ public:
 		_track = t;
 	}
 
-	int track () const {
+	optional<int> track () const {
 		return _track;
 	}
 
@@ -133,6 +134,8 @@ private:
 
 	void do_paint (wxGraphicsContext* gc)
 	{
+		assert (_track);
+
 		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> cont = content ();
 		if (!film || !cont) {
@@ -154,11 +157,11 @@ private:
 		}
 
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint    (time_x (position),	      y_pos (_track) + 4);
-		path.AddLineToPoint (time_x (position + len), y_pos (_track) + 4);
-		path.AddLineToPoint (time_x (position + len), y_pos (_track + 1) - 4);
-		path.AddLineToPoint (time_x (position),	      y_pos (_track + 1) - 4);
-		path.AddLineToPoint (time_x (position),	      y_pos (_track) + 4);
+		path.MoveToPoint    (time_x (position),	      y_pos (_track.get()) + 4);
+		path.AddLineToPoint (time_x (position + len), y_pos (_track.get()) + 4);
+		path.AddLineToPoint (time_x (position + len), y_pos (_track.get() + 1) - 4);
+		path.AddLineToPoint (time_x (position),	      y_pos (_track.get() + 1) - 4);
+		path.AddLineToPoint (time_x (position),	      y_pos (_track.get()) + 4);
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
@@ -169,8 +172,8 @@ private:
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (time_x (position), y_pos (_track), len.seconds() * _timeline.pixels_per_second(), _timeline.track_height()));
-		gc->DrawText (name, time_x (position) + 12, y_pos (_track + 1) - name_height - 4);
+		gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second(), _timeline.track_height()));
+		gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
 
@@ -194,7 +197,7 @@ private:
 	}
 
 	boost::weak_ptr<Content> _content;
-	int _track;
+	optional<int> _track;
 	bool _selected;
 
 	boost::signals2::scoped_connection _content_connection;
@@ -431,55 +434,30 @@ Timeline::playlist_changed ()
 void
 Timeline::assign_tracks ()
 {
-	list<shared_ptr<VideoContentView> > video;
-	list<shared_ptr<AudioContentView> > audio;
-	list<shared_ptr<SubtitleContentView> > subtitle;
-
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-		shared_ptr<VideoContentView> v = dynamic_pointer_cast<VideoContentView> (*i);
-		if (v) {
-			video.push_back (v);
-		}
-		
-		shared_ptr<AudioContentView> a = dynamic_pointer_cast<AudioContentView> (*i);
-		if (a) {
-			audio.push_back (a);
+		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
+		if (!cv) {
+			continue;
 		}
 
-		shared_ptr<SubtitleContentView> s = dynamic_pointer_cast<SubtitleContentView> (*i);
-		if (s) {
-			subtitle.push_back (s);
-		}
-	}
+		shared_ptr<Content> content = cv->content();
 
-	_tracks = 0;
-	if (!video.empty ()) {
-		for (list<shared_ptr<VideoContentView> >::iterator i = video.begin(); i != video.end(); ++i) {
-			(*i)->set_track (_tracks);
-		}
-		++_tracks;
-	}
-	
-	if (!subtitle.empty ()) {
-		for (list<shared_ptr<SubtitleContentView> >::iterator i = subtitle.begin(); i != subtitle.end(); ++i) {
-			(*i)->set_track (_tracks);
-		}
-		++_tracks;
-	}
-
-	int const audio_start = _tracks;
-
-	for (list<shared_ptr<AudioContentView> >::iterator i = audio.begin(); i != audio.end(); ++i) {
-		shared_ptr<Content> acv_content = (*i)->content();
-
-		int t = audio_start;
-		while (1) {
-			list<shared_ptr<AudioContentView> >::iterator j = audio.begin ();
-			while (j != audio.end()) {
-				if ((*j)->track() == t) {
+		int t = 0;
+		while (true) {
+			ViewList::iterator j = _views.begin();
+			while (j != _views.end()) {
+				shared_ptr<ContentView> test = dynamic_pointer_cast<ContentView> (*j);
+				if (!test) {
+					++j;
+					continue;
+				}
+				
+				shared_ptr<Content> test_content = test->content();
+					
+				if (test && test->track() && test->track().get() == t) {
 					bool const no_overlap =
-						(acv_content->position() < (*j)->content()->position() && acv_content->end() < (*j)->content()->position()) ||
-						(acv_content->position() > (*j)->content()->end()      && acv_content->end() > (*j)->content()->end());
+						(content->position() < test_content->position() && content->end() < test_content->position()) ||
+						(content->position() > test_content->end()      && content->end() > test_content->end());
 					
 					if (!no_overlap) {
 						/* we have an overlap on track `t' */
@@ -491,13 +469,13 @@ Timeline::assign_tracks ()
 				++j;
 			}
 
-			if (j == audio.end ()) {
+			if (j == _views.end ()) {
 				/* no overlap on `t' */
 				break;
 			}
 		}
 
-		(*i)->set_track (t);
+		cv->set_track (t);
 		_tracks = max (_tracks, t + 1);
 	}
 

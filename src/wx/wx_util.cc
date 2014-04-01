@@ -296,3 +296,11 @@ wx_get (wxChoice* w)
 {
 	return w->GetSelection ();
 }
+
+void
+run_gui_loop ()
+{
+	while (wxTheApp->Pending ()) {
+		wxTheApp->Dispatch ();
+	}
+}

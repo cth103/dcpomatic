@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,16 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/spinctrl.h>
-#include "table_dialog.h"
+#include "download_certificate_dialog.h"
 
-class RepeatDialog : public TableDialog
+class DoremiCertificateDialog : public DownloadCertificateDialog
 {
 public:
-	RepeatDialog (wxWindow *);
-
-	int number () const;
+	DoremiCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
 
 private:
-	wxSpinCtrl* _number;
+	void download ();
+        void set_sensitivity ();
+
+	wxTextCtrl* _serial;
 };

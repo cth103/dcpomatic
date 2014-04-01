@@ -55,8 +55,6 @@ public:
 		    state but we use the data that is already on disk.
 		*/
 		FAKE,
-		/** this is a repeat of the last frame to be written */
-		REPEAT
 	} type;
 
 	/** encoded data for FULL */

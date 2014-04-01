@@ -35,7 +35,7 @@ def build(bld):
         i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic', bld)
 
 def pot(bld):
-    i18n.pot(os.path.join('src', 'tools'), 'dcpomatic.cc', 'dcpomatic')
+    i18n.pot(os.path.join('src', 'tools'), 'dcpomatic.cc dcpomatic_batch.cc', 'dcpomatic')
 
 def pot_merge(bld):
     i18n.pot_merge(os.path.join('src', 'tools'), 'dcpomatic')

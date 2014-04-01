@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,29 +24,15 @@
 using namespace boost;
 
 GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Gain Calculator"))
+	: TableDialog (parent, _("Gain Calculator"), 2, true)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
+	add (_("I want to play this back at fader"), true);
+	_wanted = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC)));
 
-	add_label_to_sizer (table, this, _("I want to play this back at fader"), true);
-	_wanted = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
-	table->Add (_wanted, 1, wxEXPAND);
+	add (_("But I have to use fader"), true);
+	_actual = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC)));
 
-	add_label_to_sizer (table, this, _("But I have to use fader"), true);
-	_actual = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC));
-	table->Add (_actual, 1, wxEXPAND);
-
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-	
-	SetSizer (overall_sizer);
-	overall_sizer->SetSizeHints (this);
+	layout ();
 }
 
 float

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,10 +20,11 @@
 #include <wx/wx.h>
 #include <wx/filepicker.h>
 #include "wx_util.h"
+#include "table_dialog.h"
 
 class DirPickerCtrl;
 
-class NewFilmDialog : public wxDialog
+class NewFilmDialog : public TableDialog
 {
 public:
 	NewFilmDialog (wxWindow *);

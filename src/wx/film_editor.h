@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -110,6 +110,7 @@ private:
 	void setup_content_sensitivity ();
 	
 	void active_jobs_changed (bool);
+	void config_changed ();
 
 	FilmEditorPanel* _video_panel;
 	FilmEditorPanel* _audio_panel;

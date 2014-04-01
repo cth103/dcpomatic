@@ -8,7 +8,7 @@ def command(c):
 
 def pot(dir, sources, name):
     s = ""
-    for f in sources.split('\n'):
+    for f in sources.split():
         t = f.strip()
         if len(t) > 0:
             s += (os.path.join(dir, t)) + " "

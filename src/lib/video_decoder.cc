@@ -118,6 +118,12 @@ VideoDecoder::video (shared_ptr<const Image> image, VideoFrame frame)
 		_decoded_video.push_back (ContentVideo (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, frame));
 		break;
 	}
+	case VIDEO_FRAME_TYPE_3D_LEFT:
+		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, frame));
+		break;
+	case VIDEO_FRAME_TYPE_3D_RIGHT:
+		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, frame));
+		break;
 	default:
 		assert (false);
 	}

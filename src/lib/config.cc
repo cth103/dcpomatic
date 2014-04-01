@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@ Config::Config ()
 		)
 	, _check_for_updates (false)
 	, _check_for_test_updates (false)
+	, _maximum_j2k_bandwidth (250000000)
 {
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -185,6 +186,8 @@ Config::read ()
 
 	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
 	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
+
+	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
 }
 
 void
@@ -362,6 +365,8 @@ Config::write () const
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
 	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
 
+	root->add_child("MaximumJ2KBandwidth")->add_child_text (lexical_cast<string> (_maximum_j2k_bandwidth));
+
 	doc.write_to_file_formatted (file(false).string ());
 }
 
@@ -386,4 +391,11 @@ Config::drop ()
 {
 	delete _instance;
 	_instance = 0;
+}
+
+void
+Config::changed ()
+{
+	write ();
+	Changed ();
 }

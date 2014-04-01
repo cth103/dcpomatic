@@ -48,6 +48,7 @@ extern wxStaticText* add_label_to_grid_bag_sizer (wxGridBagSizer *, wxWindow *, 
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
 extern void dcpomatic_setup_i18n ();
+extern void run_gui_loop ();
 
 /** @class ThreadedStaticText
  *
