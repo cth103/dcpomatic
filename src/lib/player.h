@@ -131,6 +131,7 @@ private:
 	VideoFrame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	AudioFrame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
+	boost::shared_ptr<DCPVideo> black_dcp_video (DCPTime) const;
 
 	template<class C>
 	std::list<boost::shared_ptr<Piece> >

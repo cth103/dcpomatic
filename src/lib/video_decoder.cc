@@ -29,7 +29,12 @@ using boost::shared_ptr;
 using boost::optional;
 
 VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
+#ifdef DCPOMATIC_DEBUG
+	: test_gaps (0)
+	, _video_content (c)
+#else
 	: _video_content (c)
+#endif
 {
 
 }
@@ -56,13 +61,34 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 
 	optional<ContentVideo> dec;
 
-	/* Now enough pass() calls will either:
+	/* Now enough pass() calls should either:
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
 	if (accurate) {
-		/* We are being accurate, so we want the right frame */
-		while (!decoded_video (frame) && !pass ()) {}
+		/* We are being accurate, so we want the right frame.
+		 * This could all be one statement but it's split up for clarity.
+		 */
+		while (true) {
+			if (decoded_video (frame)) {
+				/* We got what we want */
+				break;
+			}
+
+			if (pass ()) {
+				/* The decoder has nothing more for us */
+				break;
+			}
+
+			if (!_decoded_video.empty() && _decoded_video.front().frame > frame) {
+				/* We're never going to get the frame we want.  Perhaps the caller is asking
+				 * for a video frame before the content's video starts (if its audio
+				 * begins before its video, for example).
+				 */
+				break;
+			}
+		}
+
 		dec = decoded_video (frame);
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
@@ -85,9 +111,16 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 void
 VideoDecoder::video (shared_ptr<const Image> image, VideoFrame frame)
 {
+	/* We should not receive the same thing twice */
+	assert (_decoded_video.empty() || frame != _decoded_video.back().frame);
+
 	/* Fill in gaps */
 	/* XXX: 3D */
+
 	while (!_decoded_video.empty () && (_decoded_video.back().frame + 1) < frame) {
+#ifdef DCPOMATIC_DEBUG
+		test_gaps++;
+#endif
 		_decoded_video.push_back (
 			ContentVideo (
 				_decoded_video.back().image,

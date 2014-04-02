@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -313,9 +313,9 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 
 			avcodec_get_frame_defaults (_frame);
 			
-			int finished = 0;
-			r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
-			if (r >= 0 && finished) {
+			int got_picture = 0;
+			r = avcodec_decode_video2 (video_codec_context(), _frame, &got_picture, &_packet);
+			if (r >= 0 && got_picture) {
 				last_video = ContentTime::from_seconds (av_frame_get_best_effort_timestamp (_frame) * time_base) + _pts_offset;
 			}
 
@@ -323,9 +323,9 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 			AVPacket copy_packet = _packet;
 			while (copy_packet.size > 0) {
 
-				int finished;
-				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &finished, &_packet);
-				if (r >= 0 && finished) {
+				int got_frame;
+				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &got_frame, &_packet);
+				if (r >= 0 && got_frame) {
 					last_audio = ContentTime::from_seconds (av_frame_get_best_effort_timestamp (_frame) * time_base) + _pts_offset;
 				}
 					
@@ -387,12 +387,12 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	VideoDecoder::seek (time, accurate);
 	AudioDecoder::seek (time, accurate);
 	
-	/* If we are doing an accurate seek, our initial shot will be 200ms (200 being
+	/* If we are doing an accurate seek, our initial shot will be 2s (2 being
 	   a number plucked from the air) earlier than we want to end up.  The loop below
 	   will hopefully then step through to where we want to be.
 	*/
 
-	ContentTime pre_roll = accurate ? ContentTime::from_seconds (0.2) : ContentTime (0);
+	ContentTime pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
 	ContentTime initial_seek = time - pre_roll;
 	if (initial_seek < ContentTime (0)) {
 		initial_seek = ContentTime (0);
@@ -551,7 +551,9 @@ FFmpegDecoder::decode_subtitle_packet ()
 	AVSubtitleRect const * rect = sub.rects[0];
 
 	if (rect->type != SUBTITLE_BITMAP) {
-		throw DecodeError (_("non-bitmap subtitles not yet supported"));
+		/* XXX */
+		// throw DecodeError (_("non-bitmap subtitles not yet supported"));
+		return;
 	}
 
 	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second

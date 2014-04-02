@@ -288,6 +288,23 @@ Player::set_approximate_size ()
 }
 
 shared_ptr<DCPVideo>
+Player::black_dcp_video (DCPTime time) const
+{
+	return shared_ptr<DCPVideo> (
+		new DCPVideo (
+			_black_image,
+			EYES_BOTH,
+			Crop (),
+			_video_container_size,
+			_video_container_size,
+			Scaler::from_id ("bicubic"),
+			Config::instance()->colour_conversions().front().conversion,
+			time
+		)
+	);
+}
+
+shared_ptr<DCPVideo>
 Player::get_video (DCPTime time, bool accurate)
 {
 	if (!_have_valid_pieces) {
@@ -296,19 +313,8 @@ Player::get_video (DCPTime time, bool accurate)
 	
 	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (time);
 	if (ov.empty ()) {
-		/* No video content at this time: return a black frame */
-		return shared_ptr<DCPVideo> (
-			new DCPVideo (
-				_black_image,
-				EYES_BOTH,
-				Crop (),
-				_video_container_size,
-				_video_container_size,
-				Scaler::from_id ("bicubic"),
-				Config::instance()->colour_conversions().front().conversion,
-				time
-				)
-			);
+		/* No video content at this time */
+		return black_dcp_video (time);
 	}
 
 	/* Create a DCPVideo from the content's video at this time */
@@ -320,7 +326,9 @@ Player::get_video (DCPTime time, bool accurate)
 	assert (content);
 
 	optional<ContentVideo> dec = decoder->get_video (dcp_to_content_video (piece, time), accurate);
-	assert (dec);
+	if (!dec) {
+		return black_dcp_video (time);
+	}
 
 	dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 	if (_approximate_size) {

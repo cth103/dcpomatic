@@ -42,10 +42,12 @@ public:
 	virtual ~Decoder () {}
 
 protected:	
-	/** Seek so that the next peek() will yield the next thing
+	/** Seek so that the next pass() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
 	 *  time.  Pass accurate = true to try harder to get close to
-	 *  the request.
+	 *  the request.  Note that seeking to time t may mean that
+	 *  the next pass() yields, for example, audio at time t and then
+	 *  video before it.
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
 	virtual bool pass () = 0;

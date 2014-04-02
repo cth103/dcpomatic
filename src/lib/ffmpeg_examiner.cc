@@ -109,7 +109,7 @@ FFmpegExaminer::frame_time (AVStream* s) const
 	
 	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
 	if (bet != AV_NOPTS_VALUE) {
-		t = ContentTime (bet * av_q2d (s->time_base));
+		t = ContentTime::from_seconds (bet * av_q2d (s->time_base));
 	}
 
 	return t;
@@ -118,13 +118,11 @@ FFmpegExaminer::frame_time (AVStream* s) const
 float
 FFmpegExaminer::video_frame_rate () const
 {
-	AVStream* s = _format_context->streams[_video_stream];
-
-	if (s->avg_frame_rate.num && s->avg_frame_rate.den) {
-		return av_q2d (s->avg_frame_rate);
-	}
-
-	return av_q2d (s->r_frame_rate);
+	/* This use of r_frame_rate is debateable; there's a few different
+	 * frame rates in the format context, but this one seems to be the most
+	 * reliable.
+	 */
+	return av_q2d (av_stream_get_r_frame_rate (_format_context->streams[_video_stream]));
 }
 
 dcp::Size

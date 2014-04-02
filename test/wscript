@@ -24,6 +24,8 @@ def build(bld):
                  colour_conversion_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
+                 ffmpeg_decoder_seek_test.cc
+                 ffmpeg_decoder_sequential_test.cc
                  ffmpeg_examiner_test.cc
                  ffmpeg_pts_offset.cc
                  file_group_test.cc

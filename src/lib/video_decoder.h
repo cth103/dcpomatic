@@ -41,6 +41,10 @@ public:
 		return _video_content;
 	}
 
+#ifdef DCPOMATIC_DEBUG
+	int test_gaps;
+#endif
+
 protected:
 
 	void seek (ContentTime time, bool accurate);

@@ -66,6 +66,9 @@ BOOST_AUTO_TEST_CASE (dcptime_round_up_test)
 	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 42), DCPTime (42));
 	BOOST_CHECK_EQUAL (DCPTime (42).round_up (DCPTime::HZ / 42), DCPTime (42));
 	BOOST_CHECK_EQUAL (DCPTime (43).round_up (DCPTime::HZ / 42), DCPTime (84));
+
+	/* Check that rounding up to non-integer frame rates works */
+	BOOST_CHECK_EQUAL (DCPTime (45312).round_up (29.976), DCPTime (48045));
 }
 
 
