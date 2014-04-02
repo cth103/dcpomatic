@@ -123,12 +123,11 @@ public:
 	 *  at some sampling rate.
 	 *  @param r Sampling rate.
 	 */
-	ContentTime round_up (int r) {
-		int64_t const n = HZ / r;
+	ContentTime round_up (float r) {
+		int64_t const n = rint (HZ / r);
 		int64_t const a = _t + n - 1;
 		return ContentTime (a - (a % n));
 	}
-	
 
 	static ContentTime from_seconds (double s) {
 		return ContentTime (s * HZ);
@@ -199,8 +198,8 @@ public:
 	 *  at some sampling rate.
 	 *  @param r Sampling rate.
 	 */
-	DCPTime round_up (int r) {
-		int64_t const n = HZ / r;
+	DCPTime round_up (float r) {
+		int64_t const n = rint (HZ / r);
 		int64_t const a = _t + n - 1;
 		return DCPTime (a - (a % n));
 	}
