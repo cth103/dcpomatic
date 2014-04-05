@@ -156,7 +156,7 @@ msgstr "Falsche Einstellung für %s (%s)"
 
 #: src/wx/video_panel.cc:120
 msgid "Bottom crop"
-msgstr "Unterkante beschneiden"
+msgstr "Unten beschneiden"
 
 #: src/wx/dir_picker_ctrl.cc:37
 msgid "Browse..."
@@ -349,7 +349,7 @@ msgstr "Standard Ordner für neue Filme"
 
 #: src/wx/config_dialog.cc:315
 msgid "Default duration of still images"
-msgstr "Satndard Länge der Standbilder"
+msgstr "Standard Länge der Standbilder"
 
 #: src/wx/config_dialog.cc:361
 #, fuzzy
@@ -428,7 +428,7 @@ msgstr "Verschlüsselt"
 
 #: src/wx/dci_metadata_dialog.cc:50
 msgid "Facility (e.g. DLA)"
-msgstr "Einrichtung (z.B. DXL)"
+msgstr "Hersteller (z.B. DXL)"
 
 #: src/wx/dolby_certificate_dialog.cc:76 src/wx/dolby_certificate_dialog.cc:91
 #: src/wx/dolby_certificate_dialog.cc:106
@@ -474,7 +474,7 @@ msgstr "Von"
 
 #: src/wx/config_dialog.cc:129
 msgid "From address for KDM emails"
-msgstr "Von Adresse für KDM Emails"
+msgstr "Absender Adresse für KDM Emails"
 
 #: src/wx/audio_mapping_view.cc:134
 msgid "Full"

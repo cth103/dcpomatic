@@ -2,6 +2,10 @@
 
 	* Add subtitle view.
 
+2014-04-02  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.66.10 released.
+
 2014-04-01  Carl Hetherington  <cth@carlh.net>
 
 	* Basic support for separate left/right-eye files or directories
