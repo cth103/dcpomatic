@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-31 16:10+0100\n"
-"PO-Revision-Date: 2014-01-25 16:13+0100\n"
+"PO-Revision-Date: 2014-04-06 03:02+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -74,9 +74,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Une erreur s'est produite lors du traitement du fichier %1."
 
 #: src/lib/analyse_audio_job.cc:48
-#, fuzzy
 msgid "Analyse audio"
-msgstr "Analyse du son"
+msgstr "Analyse audio"
 
 #: src/lib/scaler.cc:64
 msgid "Area"
@@ -119,64 +118,66 @@ msgid "Computing image digest"
 msgstr "Fabrication rendu image"
 
 #: src/lib/util.cc:838
-#, fuzzy
 msgid "Content and DCP have the same rate.\n"
-msgstr "Le DCP et la source ont les mêmes cadences.\n"
+msgstr "Le DCP et la source ont la même cadence image.\n"
 
 #: src/lib/audio_content.cc:82
 msgid "Content to be joined must have the same audio delay."
-msgstr ""
+msgstr "Le contenu à ajouter doit présenter le même délais audio"
 
 #: src/lib/audio_content.cc:78
 msgid "Content to be joined must have the same audio gain."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir le même gain audio"
 
 #: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same colour conversion."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir le même type de conversion couleur"
 
 #: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same crop."
 msgstr ""
+"le contenu à ajouter doit avoir les mêmes valeurs de \"crop\" ou découpage"
 
 #: src/lib/video_content.cc:120
 msgid "Content to be joined must have the same picture size."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir la même taille d'image"
 
 #: src/lib/video_content.cc:136
-#, fuzzy
 msgid "Content to be joined must have the same scale setting."
-msgstr "Le DCP et la source ont les mêmes cadences."
+msgstr ""
+"Le contenu à ajouter doit avoir les mêmes paramètres de mise à l'échelle"
 
 #: src/lib/subtitle_content.cc:74
-#, fuzzy
 msgid "Content to be joined must have the same subtitle X offset."
-msgstr "Le DCP et la source ont les mêmes cadences."
+msgstr ""
+"Le contenu à ajouter doit avoir le même positionnement horizontal des sous-"
+"titres"
 
 #: src/lib/subtitle_content.cc:78
-#, fuzzy
 msgid "Content to be joined must have the same subtitle Y offset."
-msgstr "Le DCP et la source ont les mêmes cadences."
+msgstr ""
+"Le contenu à ajouter doit avoir le même positionnement vertical des sous-"
+"titres"
 
 #: src/lib/subtitle_content.cc:82
 msgid "Content to be joined must have the same subtitle scale."
-msgstr ""
+msgstr "le contenu à ajouter doit avoir le même positionnement de sous-titre"
 
 #: src/lib/video_content.cc:124
 msgid "Content to be joined must have the same video frame rate."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir la même cadence d'images"
 
 #: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same video frame type."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir le même type de trame vidéo"
 
 #: src/lib/ffmpeg_content.cc:112
 msgid "Content to be joined must use the same audio stream."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir le même flux audio"
 
 #: src/lib/ffmpeg_content.cc:108
 msgid "Content to be joined must use the same subtitle stream."
-msgstr ""
+msgstr "Le contenu à ajouter doit avoir le même flux sous titre"
 
 #: src/lib/scp_dcp_job.cc:110
 msgid "Copy DCP to TMS"
@@ -199,9 +200,8 @@ msgid "Could not open %1 to send"
 msgstr "Ouverture de %1 pour envoi impossible"
 
 #: src/lib/internet.cc:72
-#, fuzzy
 msgid "Could not open downloaded ZIP file"
-msgstr "lecture du fichier (%1) impossible"
+msgstr "Ouverture du fichier Zip impossible"
 
 #: src/lib/film.cc:990
 msgid "Could not read DCP to make KDM for"
@@ -216,9 +216,8 @@ msgid "Could not write to remote file (%1)"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
 #: src/lib/util.cc:850
-#, fuzzy
 msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "La cadence du DCP sera %1%% par rapport à la source.\n"
+msgstr "Le DCP sera lu à %1%% de la vitesse du contenu source.\n"
 
 #: src/lib/util.cc:841
 #, fuzzy
@@ -234,7 +233,7 @@ msgstr "DCP-o-matic ne peut pas ouvrir le fichier %1"
 #: src/lib/ffmpeg_content.cc:89
 msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
-msgstr ""
+msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 
 #: src/lib/filter.cc:65 src/lib/filter.cc:66 src/lib/filter.cc:67
 msgid "De-interlacing"
@@ -253,27 +252,24 @@ msgid ""
 msgstr ""
 
 #: src/lib/dolby_cp750.cc:27
-#, fuzzy
 msgid "Dolby CP650 and CP750"
-msgstr "Dolby CP750"
+msgstr "Dolby CP650 et CP750"
 
 #: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
-msgstr ""
+msgstr "Echec de téléchargement (%1/%2 erreur %3)"
 
 #: src/lib/util.cc:843
-#, fuzzy
 msgid "Each content frame will be doubled in the DCP.\n"
-msgstr "Chaque image source sera dupliquée dans le DCP.\n"
+msgstr "Chaque image source sera doublée dans le DCP.\n"
 
 #: src/lib/util.cc:845
-#, fuzzy
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "Chaque image source sera dupliquée dans le DCP.\n"
+msgstr "Chaque image source sera répetée %1 fois dans le DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:50
 msgid "Email KDMs for %1"
-msgstr ""
+msgstr "Envoyer KDM par email pour %1"
 
 #: src/lib/writer.cc:120
 msgid "Encoding image data"
@@ -317,7 +313,7 @@ msgstr "Corrections des bandes du dégradé"
 
 #: src/lib/util.cc:806
 msgid "Hearing impaired"
-msgstr ""
+msgstr "Déficients Auditifs"
 
 #: src/lib/filter.cc:71
 msgid "High quality 3D denoiser"
@@ -345,12 +341,11 @@ msgstr "Gauche"
 
 #: src/lib/util.cc:808
 msgid "Left centre"
-msgstr ""
+msgstr "Centre Gauche"
 
 #: src/lib/util.cc:810
-#, fuzzy
 msgid "Left rear surround"
-msgstr "Arrière gauche"
+msgstr "Surround arrière gauche"
 
 #: src/lib/util.cc:804
 msgid "Left surround"
@@ -370,12 +365,11 @@ msgstr "Désentrelaceur par compensation de mouvement"
 
 #: src/lib/video_content.cc:447
 msgid "No scale"
-msgstr ""
+msgstr "Pas de mise à l'échelle"
 
 #: src/lib/video_content.cc:444
-#, fuzzy
 msgid "No stretch"
-msgstr "Flat sans déformation"
+msgstr "Sans déformation"
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -387,15 +381,15 @@ msgstr "OK (processus %1)"
 
 #: src/lib/content.cc:100
 msgid "Only the first piece of content to be joined can have a start trim."
-msgstr "Seul le premier contenu à joindre peut avoir un coupure de début."
+msgstr "Seul le premier contenu à ajouter peut avoir un coupure de début."
 
 #: src/lib/content.cc:104
 msgid "Only the last piece of content to be joined can have an end trim."
-msgstr "Seul le dernier contenu à joindre peut avoir une coupure en fin."
+msgstr "Seul le dernier contenu à ajouter peut avoir une coupure en fin."
 
 #: src/lib/job.cc:103
 msgid "Out of memory"
-msgstr ""
+msgstr "Hors capacité mémoire"
 
 #: src/lib/filter.cc:73
 msgid "Overcomplete wavelet denoiser"
@@ -423,12 +417,11 @@ msgstr "Droite"
 
 #: src/lib/util.cc:809
 msgid "Right centre"
-msgstr ""
+msgstr "Centre Droit"
 
 #: src/lib/util.cc:811
-#, fuzzy
 msgid "Right rear surround"
-msgstr "Arrière droite"
+msgstr "Surround arrière droite"
 
 #: src/lib/util.cc:805
 msgid "Right surround"
@@ -476,17 +469,15 @@ msgstr ""
 
 #: src/lib/job.cc:103
 msgid "There was not enough memory to do this."
-msgstr ""
+msgstr "Il n'y avait pas assez de mémoire pour faire cela."
 
 #: src/lib/film.cc:406
-#, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr ""
-"Ce projet a été créé avec une ancienne version de DCP-o-matic, chargement "
-"impossible. Créez un nouveau projet, ajoutez du contenu et  reparamétrez. "
-"Désolé !"
+"Ce film a été créé avec une nouvelle version de DCP-o-matic et il ne peut "
+"être ouvert dans cette version du programme. Désolé!"
 
 #: src/lib/film.cc:398
 msgid ""
@@ -512,7 +503,7 @@ msgstr "Transitional"
 
 #: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
-msgstr ""
+msgstr "Contenu de fichier ZIP non géré."
 
 #: src/lib/job.cc:120
 msgid "Unknown error"
@@ -532,7 +523,7 @@ msgstr "Sans titre"
 
 #: src/lib/util.cc:807
 msgid "Visually impaired"
-msgstr ""
+msgstr "Déficients Visuels"
 
 #: src/lib/scp_dcp_job.cc:102
 msgid "Waiting"
@@ -551,9 +542,8 @@ msgid "You must add some content to the DCP before creating it"
 msgstr "Ajoutez un contenu pour créer le DCP"
 
 #: src/lib/image_content.cc:68
-#, fuzzy
 msgid "[moving images]"
-msgstr "[diaporama]"
+msgstr "[Déplacement d'images]"
 
 #: src/lib/image_content.cc:66
 #, fuzzy
@@ -629,9 +619,10 @@ msgid "could not run sample-rate converter"
 msgstr "conversion de la fréquence d'échantillonnage impossible"
 
 #: src/lib/resampler.cc:83
-#, fuzzy
 msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
-msgstr "conversion de la fréquence d'échantillonnage impossible"
+msgstr ""
+"n'a pas pu convertir la fréquence d'échantillonnage pour %1 échantillons "
+"(%2) (%3)"
 
 #: src/lib/scp_dcp_job.cc:87
 msgid "could not start SCP session (%1)"
@@ -647,19 +638,19 @@ msgstr "Écriture vers fichier distant (%1) impossible (%2)"
 
 #: src/lib/util.cc:601
 msgid "error during async_accept (%1)"
-msgstr ""
+msgstr "erreur pendant async_accept (%1)"
 
 #: src/lib/util.cc:577
 msgid "error during async_connect (%1)"
-msgstr ""
+msgstr "erreur pendant async_connect (%1)"
 
 #: src/lib/util.cc:650
 msgid "error during async_read (%1)"
-msgstr ""
+msgstr "erreur pendant async_read (%1)"
 
 #: src/lib/util.cc:622
 msgid "error during async_write (%1)"
-msgstr ""
+msgstr "erreur pendant async_write (%1)"
 
 #: src/lib/transcode_job.cc:100
 msgid "frames per second"
@@ -691,7 +682,7 @@ msgstr "paramètre %1 manquant"
 
 #: src/lib/image_content.cc:83
 msgid "moving"
-msgstr ""
+msgstr "déplacement"
 
 #: src/lib/ffmpeg_decoder.cc:575
 msgid "multi-part subtitles not yet supported"
@@ -729,9 +720,8 @@ msgid "still"
 msgstr "%1 [fixe]"
 
 #: src/lib/ffmpeg_examiner.cc:168
-#, fuzzy
 msgid "unknown"
-msgstr "Erreur inconnue"
+msgstr "Inconnu"
 
 #~ msgid "Cubic interpolating deinterlacer"
 #~ msgstr "Désentrelacement cubique interpolé"
