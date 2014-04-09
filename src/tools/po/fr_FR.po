@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-31 16:10+0100\n"
-"PO-Revision-Date: 2014-01-25 16:20+0100\n"
+"PO-Revision-Date: 2014-04-06 03:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:49
 msgid "&Add Film..."
-msgstr ""
+msgstr "&Ajouter Film..."
 
 #: src/tools/dcpomatic.cc:270
 msgid "&Edit"
@@ -94,11 +94,11 @@ msgstr "À propos de DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:84
 msgid "Add Film..."
-msgstr ""
+msgstr "Ajouter Film..."
 
 #: src/tools/dcpomatic.cc:508
 msgid "An unknown exeception occurred."
-msgstr ""
+msgstr "Une exception inconnue est arrivée"
 
 #: src/tools/dcpomatic.cc:259
 msgid "Check for updates"
@@ -128,7 +128,7 @@ msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:139 src/tools/dcpomatic_batch.cc:240
 msgid "DCP-o-matic Batch Converter"
-msgstr ""
+msgstr "DCP-o-matic - Convertisseur Batch"
 
 #: src/tools/dcpomatic.cc:258
 msgid "Encoding servers..."
@@ -200,6 +200,9 @@ msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
+"Ce film a été créé avec une ancienne version de DVD-o-matic et ne eut pas "
+"être ouvert correctement dans cette version. Veuillez vérifier les "
+"paramètres de réglages très attentivement."
 
 #: src/tools/dcpomatic.cc:584 src/tools/dcpomatic_batch.cc:105
 msgid "Unfinished jobs"
