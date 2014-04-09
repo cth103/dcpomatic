@@ -73,6 +73,9 @@ AudioBuffers::~AudioBuffers ()
 void
 AudioBuffers::allocate (int channels, int frames)
 {
+	assert (frames >= 0);
+	assert (channels >= 0);
+
 	_channels = channels;
 	_frames = frames;
 	_allocated_frames = frames;
