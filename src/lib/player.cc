@@ -410,6 +410,13 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> ((*i)->decoder);
 		assert (decoder);
 
+		if (content->content_audio_frame_rate() == 0) {
+			/* This AudioContent has no audio (e.g. if it is an FFmpegContent with no
+			 * audio stream).
+			 */
+			continue;
+		}
+
 		AudioFrame const content_time = dcp_to_content_audio (*i, time);
 
 		/* Audio from this piece's decoder (which might be more than what we asked for) */
