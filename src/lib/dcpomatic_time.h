@@ -135,6 +135,7 @@ public:
 
 	template <class T>
 	static ContentTime from_frames (int64_t f, T r) {
+		assert (r > 0);
 		return ContentTime (f * HZ / r);
 	}
 
@@ -214,6 +215,7 @@ public:
 
 	template <class T>
 	static DCPTime from_frames (int64_t f, T r) {
+		assert (r > 0);
 		return DCPTime (f * HZ / r);
 	}
 
