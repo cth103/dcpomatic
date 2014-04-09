@@ -431,7 +431,9 @@ Writer::finish ()
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelStereoPictureAsset (stereo, 0)));
 	}
 
-	reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_mxf, 0)));
+	if (_sound_mxf) {
+		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_mxf, 0)));
+	}
 	
 	cpl->add (reel);
 
