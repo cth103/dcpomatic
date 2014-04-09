@@ -31,6 +31,7 @@ using std::stringstream;
 using std::list;
 using std::pair;
 using std::cout;
+using std::min;
 using boost::optional;
 using boost::shared_ptr;
 
@@ -55,6 +56,8 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 		seek (ContentTime::from_frames (frame, _audio_content->content_audio_frame_rate()), accurate);
 	}
 
+	AudioFrame decoded_offset = 0;
+	
 	/* Now enough pass() calls will either:
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
@@ -64,19 +67,21 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 	 */
 	if (accurate) {
 		while (!pass() && _decoded_audio.audio->frames() < length) {}
+		/* Use decoded_offset of 0, as we don't really care what frames we return */
 	} else {
 		while (!pass() && (_decoded_audio.frame > frame || (_decoded_audio.frame + _decoded_audio.audio->frames()) < end)) {}
+		decoded_offset = frame - _decoded_audio.frame;
 	}
+
+	AudioFrame const amount_left = _decoded_audio.audio->frames() - decoded_offset;
+	
+	AudioFrame const to_return = min (amount_left, length);
+	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded_audio.audio->channels(), to_return));
+	out->copy_from (_decoded_audio.audio.get(), to_return, decoded_offset, 0);
 	
 	/* Clean up decoded */
-
-	AudioFrame const decoded_offset = frame - _decoded_audio.frame;
-	AudioFrame const amount_left = _decoded_audio.audio->frames() - decoded_offset;
-	_decoded_audio.audio->move (decoded_offset, 0, amount_left);
-	_decoded_audio.audio->set_frames (amount_left);
-
-	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded_audio.audio->channels(), length));
-	out->copy_from (_decoded_audio.audio.get(), length, frame - _decoded_audio.frame, 0);
+	_decoded_audio.audio->move (decoded_offset + to_return, 0, amount_left - to_return);
+	_decoded_audio.audio->set_frames (amount_left - to_return);
 
 	return shared_ptr<ContentAudio> (new ContentAudio (out, frame));
 }
