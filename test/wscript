@@ -34,6 +34,7 @@ def build(bld):
                  image_test.cc
                  job_test.cc
                  make_black_test.cc
+                 player_silence_padding_test.cc
                  pixel_formats_test.cc
                  ratio_test.cc
                  repeat_frame_test.cc
