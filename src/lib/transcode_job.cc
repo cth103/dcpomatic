@@ -34,6 +34,7 @@ using std::string;
 using std::stringstream;
 using std::fixed;
 using std::setprecision;
+using std::cout;
 using boost::shared_ptr;
 
 /** @param s Film to use.
@@ -72,9 +73,6 @@ TranscodeJob::run ()
 		_transcoder.reset ();
 
 	} catch (...) {
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-		_film->log()->log (N_("Transcode job failed or cancelled"));
 		_transcoder.reset ();
 		throw;
 	}
