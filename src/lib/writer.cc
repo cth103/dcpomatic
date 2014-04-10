@@ -393,6 +393,8 @@ Writer::finish ()
 		_film->log()->log ("Hard-link failed; fell back to copying");
 	}
 
+	_picture_mxf->set_file (video_to);
+
 	/* Move the audio MXF into the DCP */
 
 	if (_sound_mxf) {
@@ -406,6 +408,8 @@ Writer::finish ()
 				String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
 				);
 		}
+
+		_sound_mxf->set_file (audio_to);
 	}
 
 	dcp::DCP dcp (_film->dir (_film->dcp_name()));
@@ -424,15 +428,18 @@ Writer::finish ()
 	shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (_picture_mxf);
 	if (mono) {
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelMonoPictureAsset (mono, 0)));
+		dcp.add (mono);
 	}
 
 	shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (_picture_mxf);
 	if (stereo) {
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelStereoPictureAsset (stereo, 0)));
+		dcp.add (stereo);
 	}
 
 	if (_sound_mxf) {
 		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_mxf, 0)));
+		dcp.add (_sound_mxf);
 	}
 	
 	cpl->add (reel);
@@ -450,6 +457,7 @@ Writer::finish ()
 
 	dcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
+
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, _film->is_signed() ? make_signer () : shared_ptr<const dcp::Signer> ());
 
 	_film->log()->log (
