@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@
 #include "cross.h"
 #include "ui_signaller.h"
 #include "exceptions.h"
+#include "film.h"
+#include "log.h"
 
 #include "i18n.h"
 
@@ -67,7 +69,7 @@ Job::run_wrapper ()
 		run ();
 
 	} catch (dcp::FileError& e) {
-		
+
 		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
 
 		try {
@@ -279,6 +281,7 @@ Job::error_summary () const
 void
 Job::set_error (string s, string d)
 {
+	_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d));
 	boost::mutex::scoped_lock lm (_state_mutex);
 	_error_summary = s;
 	_error_details = d;
