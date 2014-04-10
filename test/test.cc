@@ -223,10 +223,19 @@ wait_for_jobs ()
 		ui_signaller->ui_idle ();
 	}
 	if (jm->errors ()) {
+		int N = 0;
 		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
 			if ((*i)->finished_in_error ()) {
-				cerr << (*i)->error_summary () << "\n"
-				     << (*i)->error_details () << "\n";
+				++N;
+			}
+		}
+		cerr << N << " errors.\n";
+
+		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
+			if ((*i)->finished_in_error ()) {
+				cerr << (*i)->name() << ":\n"
+				     << "\tsummary: " << (*i)->error_summary () << "\n"
+				     << "\tdetails: " << (*i)->error_details () << "\n";
 			}
 		}
 	}
