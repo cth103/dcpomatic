@@ -268,8 +268,7 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 ContentTime
 FFmpegContent::audio_length () const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	if (!_audio_stream) {
+	if (!audio_stream ()) {
 		return ContentTime ();
 	}
 
