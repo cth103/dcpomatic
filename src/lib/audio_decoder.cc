@@ -109,7 +109,9 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	assert (_audio_position >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
 
 	/* Resize _decoded_audio to fit the new data */
-	_decoded_audio.audio->ensure_size (_audio_position.get() + data->frames() - _decoded_audio.frame);
+	int const new_size = _audio_position.get() + data->frames() - _decoded_audio.frame;
+	_decoded_audio.audio->ensure_size (new_size);
+	_decoded_audio.audio->set_frames (new_size);
 
 	/* Copy new data in */
 	_decoded_audio.audio->copy_from (data.get(), data->frames(), 0, _audio_position.get() - _decoded_audio.frame);
