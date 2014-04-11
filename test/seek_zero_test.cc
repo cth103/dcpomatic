@@ -47,9 +47,18 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
+	/* Work out the first video frame index that we will be given, taking into account
+	 * the difference between first video and first audio.
+	 */
+	ContentTime video_delay = content->first_video().get() - content->audio_stream()->first_audio.get();
+	if (video_delay < ContentTime ()) {
+		video_delay = ContentTime ();
+	}
+
+	VideoFrame const first_frame = video_delay.round_up (content->video_frame_rate ()).frames (content->video_frame_rate ());
+
 	FFmpegDecoder decoder (content, film->log());
-	optional<ContentVideo> a = decoder.get_video (0, true);
-	optional<ContentVideo> b = decoder.get_video (0, true);
-	BOOST_CHECK_EQUAL (a->frame, 0);
-	BOOST_CHECK_EQUAL (b->frame, 0);
+	optional<ContentVideo> a = decoder.get_video (first_frame, true);
+	BOOST_CHECK (a);
+	BOOST_CHECK_EQUAL (a->frame, first_frame);
 }
