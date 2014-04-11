@@ -57,6 +57,7 @@ protected:
 	void seek (ContentTime time, bool accurate);
 	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
+	void reset_decoded_audio ();
 
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;

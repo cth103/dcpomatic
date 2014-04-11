@@ -37,11 +37,18 @@ using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 	: _audio_content (content)
-	, _decoded_audio (shared_ptr<AudioBuffers> (new AudioBuffers (content->audio_channels(), 0)), 0)
 {
 	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
 		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));
 	}
+
+	reset_decoded_audio ();
+}
+
+void
+AudioDecoder::reset_decoded_audio ()
+{
+	_decoded_audio = ContentAudio (shared_ptr<AudioBuffers> (new AudioBuffers (_audio_content->audio_channels(), 0)), 0);
 }
 
 shared_ptr<ContentAudio>
@@ -106,7 +113,7 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 		_audio_position = time.frames (_audio_content->output_audio_frame_rate ());
 	}
 
-	assert (_audio_position >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
+	assert (_audio_position.get() >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
 
 	/* Resize _decoded_audio to fit the new data */
 	int const new_size = _audio_position.get() + data->frames() - _decoded_audio.frame;
@@ -139,4 +146,5 @@ void
 AudioDecoder::seek (ContentTime, bool)
 {
 	_audio_position.reset ();
+	reset_decoded_audio ();
 }
