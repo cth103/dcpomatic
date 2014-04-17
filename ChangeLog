@@ -1,3 +1,10 @@
+2014-04-17  Carl Hetherington  <cth@carlh.net>
+
+	* Fix update of the gain control when using the gain calculator
+	dialog.
+
+	Reported-by: Andy Neddermeyer
+
 2014-04-07  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.11 released.
