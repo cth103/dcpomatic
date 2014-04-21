@@ -71,6 +71,20 @@ deb_depends['13.10'] = {'libc6': '2.17-93',
                         'libcurl3': '7.29.0-1ubuntu3',
                         'libzip2': '0.10.1-1.1'}
 
+deb_depends['14.04'] = {'libc6': '2.19-0ubuntu6',
+                        'libssh-4': '0.6.1-0ubuntu3',
+                        'libboost-filesystem1.54.0': '1.54.0-4ubuntu3',
+                        'libboost-thread1.54.0': '1.54.0-4ubuntu3',
+                        'libsndfile1': '1.0.25-7ubuntu2',
+                        'libmagick++5': '8:6.7.7.10-6ubuntu3',
+                        'libxml++2.6-2': '2.36.0-2ubuntu1',
+                        'libgtk2.0-0': '2.24.23-0ubuntu1',
+                        'libxmlsec1': '1.2.18-2ubuntu1',
+                        'libxmlsec1-openssl': '1.2.18-2ubuntu1',
+                        'libboost-date-time1.54.0': '1.54.0-4ubuntu3',
+                        'libcurl3': '7.35.0-1ubuntu2',
+                        'libzip2': '0.10.1-1.2'}
+
 deb_depends['7'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
                     'libboost-filesystem1.49.0': '1.49.0',
