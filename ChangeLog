@@ -1,9 +1,11 @@
+2014-04-21  Carl Hetherington  <cth@carlh.net>
+
+	* Update to es_ES translation from Manuel AC.
+
 2014-04-17  Carl Hetherington  <cth@carlh.net>
 
 	* Fix update of the gain control when using the gain calculator
 	dialog.
-
-	Reported-by: Andy Neddermeyer
 
 	* Version 1.66.12 released.
 
