@@ -30,6 +30,7 @@
 #include "audio_merger.h"
 #include "audio_content.h"
 #include "piece.h"
+#include "subtitle.h"
 
 class Job;
 class Film;
@@ -142,20 +143,7 @@ private:
 	boost::shared_ptr<PlayerImage> _black_frame;
 	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
-	struct {
-		boost::weak_ptr<Piece> piece;
-		boost::shared_ptr<Image> image;
-		dcpomatic::Rect<double> rect;
-		Time from;
-		Time to;
-	} _in_subtitle;
-
-	struct {
-		boost::shared_ptr<Image> image;
-		Position<int> position;
-		Time from;
-		Time to;
-	} _out_subtitle;
+	boost::optional<Subtitle> _subtitle;
 
 #ifdef DCPOMATIC_DEBUG
 	boost::shared_ptr<Content> _last_video;

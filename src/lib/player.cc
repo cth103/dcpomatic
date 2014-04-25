@@ -219,14 +219,14 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 			)
 		);
 	
-	if (_film->with_subtitles () && _out_subtitle.image && time >= _out_subtitle.from && time <= _out_subtitle.to) {
+	if (_film->with_subtitles () && _subtitle && _subtitle->out_image() && _subtitle->covers (time)) {
 
 		Position<int> const container_offset (
 			(_video_container_size.width - image_size.width) / 2,
 			(_video_container_size.height - image_size.width) / 2
 			);
 
-		pi->set_subtitle (_out_subtitle.image, _out_subtitle.position + container_offset);
+		pi->set_subtitle (_subtitle->out_image(), _subtitle->out_position() + container_offset);
 	}
 		
 					    
@@ -466,7 +466,9 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == SubtitleContentProperty::SUBTITLE_SCALE
 		) {
 
-		update_subtitle ();
+		if (_subtitle) {
+			_subtitle->update (_film, _video_container_size);
+		}
 		Changed (frequent);
 
 	} else if (
@@ -574,74 +576,7 @@ Player::film_changed (Film::Property p)
 void
 Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
 {
-	_in_subtitle.piece = weak_piece;
-	_in_subtitle.image = image;
-	_in_subtitle.rect = rect;
-	_in_subtitle.from = from;
-	_in_subtitle.to = to;
-
-	update_subtitle ();
-}
-
-void
-Player::update_subtitle ()
-{
-	shared_ptr<Piece> piece = _in_subtitle.piece.lock ();
-	if (!piece) {
-		return;
-	}
-
-	if (!_in_subtitle.image) {
-		_out_subtitle.image.reset ();
-		return;
-	}
-
-	shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (piece->content);
-	assert (sc);
-
-	dcpomatic::Rect<double> in_rect = _in_subtitle.rect;
-	libdcp::Size scaled_size;
-
-	in_rect.x += sc->subtitle_x_offset ();
-	in_rect.y += sc->subtitle_y_offset ();
-
-	/* We will scale the subtitle up to fit _video_container_size, and also by the additional subtitle_scale */
-	scaled_size.width = in_rect.width * _video_container_size.width * sc->subtitle_scale ();
-	scaled_size.height = in_rect.height * _video_container_size.height * sc->subtitle_scale ();
-
-	/* Then we need a corrective translation, consisting of two parts:
-	 *
-	 * 1.  that which is the result of the scaling of the subtitle by _video_container_size; this will be
-	 *     rect.x * _video_container_size.width and rect.y * _video_container_size.height.
-	 *
-	 * 2.  that to shift the origin of the scale by subtitle_scale to the centre of the subtitle; this will be
-	 *     (width_before_subtitle_scale * (1 - subtitle_scale) / 2) and
-	 *     (height_before_subtitle_scale * (1 - subtitle_scale) / 2).
-	 *
-	 * Combining these two translations gives these expressions.
-	 */
-	
-	_out_subtitle.position.x = rint (_video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_scale ()) / 2)));
-	_out_subtitle.position.y = rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
-	
-	_out_subtitle.image = _in_subtitle.image->scale (
-		scaled_size,
-		Scaler::from_id ("bicubic"),
-		_in_subtitle.image->pixel_format (),
-		true
-		);
-
-	/* XXX: hack */
-	Time from = _in_subtitle.from;
-	Time to = _in_subtitle.to;
-	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (piece->content);
-	if (vc) {
-		from = rint (from * vc->video_frame_rate() / _film->video_frame_rate());
-		to = rint (to * vc->video_frame_rate() / _film->video_frame_rate());
-	}
-	
-	_out_subtitle.from = from + piece->content->position ();
-	_out_subtitle.to = to + piece->content->position ();
+	_subtitle = Subtitle (_film, _video_container_size, weak_piece, image, rect, from, to);
 }
 
 /** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.
