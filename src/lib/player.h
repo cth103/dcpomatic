@@ -29,6 +29,7 @@
 #include "rect.h"
 #include "audio_merger.h"
 #include "audio_content.h"
+#include "piece.h"
 
 class Job;
 class Film;
@@ -37,21 +38,6 @@ class AudioContent;
 class Piece;
 class Image;
 class Resampler;
-
-/** @class Player
- *  @brief A class which can `play' a Playlist; emitting its audio and video.
- */
-
-struct IncomingVideo
-{
-public:
-	boost::weak_ptr<Piece> weak_piece;
-	boost::shared_ptr<const Image> image;
-	Eyes eyes;
-	bool same;
-	VideoContent::Frame frame;
-	Time extra;
-};
 
 /** A wrapper for an Image which contains some pending operations; these may
  *  not be necessary if the receiver of the PlayerImage throws it away.
@@ -75,6 +61,9 @@ private:
 	Position<int> _subtitle_position;
 };
  
+/** @class Player
+ *  @brief A class which can `play' a Playlist; emitting its audio and video.
+ */
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:

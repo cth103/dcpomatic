@@ -40,6 +40,7 @@ sources = """
           kdm.cc
           json_server.cc
           log.cc
+          piece.cc
           player.cc
           playlist.cc
           ratio.cc
