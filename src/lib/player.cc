@@ -219,17 +219,34 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 			)
 		);
 	
-	if (_film->with_subtitles () && _subtitle && _subtitle->out_image() && _subtitle->covers (time)) {
-
-		Position<int> const container_offset (
-			(_video_container_size.width - image_size.width) / 2,
-			(_video_container_size.height - image_size.width) / 2
-			);
-
-		pi->set_subtitle (_subtitle->out_image(), _subtitle->out_position() + container_offset);
+	if (_film->with_subtitles ()) {
+		for (list<Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+			if (i->covers (time)) {
+				/* This may be true for more than one of _subtitles, but the last (latest-starting)
+				   one is the one we want to use, so that's ok.
+				*/
+				Position<int> const container_offset (
+					(_video_container_size.width - image_size.width) / 2,
+					(_video_container_size.height - image_size.width) / 2
+					);
+				
+				pi->set_subtitle (i->out_image(), i->out_position() + container_offset);
+			}
+		}
 	}
+
+	/* Clear out old subtitles */
+	for (list<Subtitle>::iterator i = _subtitles.begin(); i != _subtitles.end(); ) {
+		list<Subtitle>::iterator j = i;
+		++j;
 		
-					    
+		if (i->ends_before (time)) {
+			_subtitles.erase (i);
+		}
+
+		i = j;
+	}
+
 #ifdef DCPOMATIC_DEBUG
 	_last_video = piece->content;
 #endif
@@ -466,9 +483,10 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == SubtitleContentProperty::SUBTITLE_SCALE
 		) {
 
-		if (_subtitle) {
-			_subtitle->update (_film, _video_container_size);
+		for (list<Subtitle>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+			i->update (_film, _video_container_size);
 		}
+		
 		Changed (frequent);
 
 	} else if (
@@ -576,7 +594,14 @@ Player::film_changed (Film::Property p)
 void
 Player::process_subtitle (weak_ptr<Piece> weak_piece, shared_ptr<Image> image, dcpomatic::Rect<double> rect, Time from, Time to)
 {
-	_subtitle = Subtitle (_film, _video_container_size, weak_piece, image, rect, from, to);
+	if (!image) {
+		/* A null image means that we should stop any current subtitles at `from' */
+		for (list<Subtitle>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+			i->set_stop (from);
+		}
+	} else {
+		_subtitles.push_back (Subtitle (_film, _video_container_size, weak_piece, image, rect, from, to));
+	}
 }
 
 /** Re-emit the last frame that was emitted, using current settings for crop, ratio, scaler and subtitles.

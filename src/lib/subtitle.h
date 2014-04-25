@@ -19,6 +19,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/optional.hpp>
 #include <libdcp/util.h>
 #include "rect.h"
 #include "types.h"
@@ -34,8 +35,15 @@ public:
 	Subtitle (boost::shared_ptr<const Film>, libdcp::Size, boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 
 	void update (boost::shared_ptr<const Film>, libdcp::Size);
+	void set_stop (Time t) {
+		_stop = t;
+		check_out_to ();
+	}
 
 	bool covers (Time t) const;
+	bool ends_before (Time t) const {
+		return _out_to < t;
+	}
 
 	boost::shared_ptr<Image> out_image () const {
 		return _out_image;
@@ -45,7 +53,9 @@ public:
 		return _out_position;
 	}
 	
-private:	
+private:
+	void check_out_to ();
+	
 	boost::weak_ptr<Piece> _piece;
 	boost::shared_ptr<Image> _in_image;
 	dcpomatic::Rect<double> _in_rect;
@@ -56,4 +66,7 @@ private:
 	Position<int> _out_position;
 	Time _out_from;
 	Time _out_to;
+
+	/** Time at which this subtitle should stop (overriding _out_to) */
+	boost::optional<Time> _stop;
 };

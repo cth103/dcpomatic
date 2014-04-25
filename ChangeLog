@@ -1,3 +1,8 @@
+2014-04-25  Carl Hetherington  <cth@carlh.net>
+
+	* Fix subtitle display when the next subtitle is decoded before the previous
+	one has finished.
+
 2014-04-24  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.14 released.

@@ -97,10 +97,20 @@ Subtitle::update (shared_ptr<const Film> film, libdcp::Size video_container_size
 	
 	_out_from = from + piece->content->position ();
 	_out_to = to + piece->content->position ();
+
+	check_out_to ();
 }
 
 bool
 Subtitle::covers (Time t) const
 {
 	return _out_from <= t && t <= _out_to;
+}
+
+void
+Subtitle::check_out_to ()
+{
+	if (_stop && _out_to > _stop.get ()) {
+		_out_to = _stop.get ();
+	}
 }

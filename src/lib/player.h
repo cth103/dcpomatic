@@ -143,7 +143,7 @@ private:
 	boost::shared_ptr<PlayerImage> _black_frame;
 	std::map<boost::shared_ptr<AudioContent>, boost::shared_ptr<Resampler> > _resamplers;
 
-	boost::optional<Subtitle> _subtitle;
+	std::list<Subtitle> _subtitles;
 
 #ifdef DCPOMATIC_DEBUG
 	boost::shared_ptr<Content> _last_video;
