@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	if (content->still ()) {
 		_video_length = ContentTime::from_seconds (Config::instance()->default_still_length());
 	} else {
-		_video_length = ContentTime (double (_image_content->number_of_paths ()) / video_frame_rate ());
+		_video_length = ContentTime::from_frames (_image_content->number_of_paths (), video_frame_rate ());
 	}
 }
 
