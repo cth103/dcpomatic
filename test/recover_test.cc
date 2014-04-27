@@ -52,18 +52,20 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
+	boost::filesystem::path const video = "build/test/recover_test/video/185_2K_aa7e8a4665281568bbe11645a3d4ba4e_24_bicubic_200000000_P_S_3D.mxf";
+
 	boost::filesystem::copy_file (
-		"build/test/recover_test/video/185_2K_58a090f8d70a2b410c534120d35e5256_24_bicubic_200000000_P_S_3D.mxf",
+		video,
 		"build/test/recover_test/original.mxf"
 		);
 	
-	boost::filesystem::resize_file ("build/test/recover_test/video/185_2K_58a090f8d70a2b410c534120d35e5256_24_bicubic_200000000_P_S_3D.mxf", 2 * 1024 * 1024);
+	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
 	film->make_dcp ();
 	wait_for_jobs ();
 
 	shared_ptr<dcp::StereoPictureMXF> A (new dcp::StereoPictureMXF ("build/test/recover_test/original.mxf"));
-	shared_ptr<dcp::StereoPictureMXF> B (new dcp::StereoPictureMXF ("build/test/recover_test/video/185_2K_58a090f8d70a2b410c534120d35e5256_24_bicubic_200000000_P_S_3D.mxf"));
+	shared_ptr<dcp::StereoPictureMXF> B (new dcp::StereoPictureMXF (video));
 
 	dcp::EqualityOptions eq;
 	eq.mxf_names_can_differ = true;
