@@ -44,7 +44,11 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 				_paths.push_back (i->path ());
 			}
 		}
-		
+
+		if (_paths.empty()) {
+			throw FileError (_("No valid image files were found in the folder."), p);
+		}
+		       		
 		sort (_paths.begin(), _paths.end());
 	}
 }

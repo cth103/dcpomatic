@@ -733,6 +733,17 @@ class App : public wxApp
 		return true;
 	}
 
+	bool OnExceptionInMainLoop ()
+	{
+		error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
+		return false;
+	}
+		
+	void OnUnhandledException ()
+	{
+		error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
+	}
+
 	void idle ()
 	{
 		ui_signaller->ui_idle ();
