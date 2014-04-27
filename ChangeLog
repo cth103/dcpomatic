@@ -1,5 +1,7 @@
 2014-04-27  Carl Hetherington  <cth@carlh.net>
 
+	* Add .dpx to the list of acceptable image files.
+
 	* Slightly better handling of uncaught exceptions.
 
 	* Use our own directory picker on 14.04 (as well as 13.04 and 13.10) as
