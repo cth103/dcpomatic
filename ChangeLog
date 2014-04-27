@@ -1,3 +1,8 @@
+2014-04-27  Carl Hetherington  <cth@carlh.net>
+
+	* Use our own directory picker on 14.04 (as well as 13.04 and 13.10) as
+	it appears that the same bug remains.
+
 2014-04-25  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.66.15 released.
