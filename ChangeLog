@@ -1,5 +1,9 @@
 2014-04-27  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.66.16 released.
+
+2014-04-27  Carl Hetherington  <cth@carlh.net>
+
 	* Add .dpx to the list of acceptable image files.
 
 	* Slightly better handling of uncaught exceptions.
