@@ -31,6 +31,7 @@
 #include "dcpomatic_time.h"
 #include "content_subtitle.h"
 #include "position_image.h"
+#include "piece.h"
 
 class Job;
 class Film;
@@ -73,18 +74,26 @@ public:
 	void dump (boost::shared_ptr<Log>) const;
 };
 
-class Piece
+/** A wrapper for an Image which contains some pending operations; these may
+ *  not be necessary if the receiver of the PlayerImage throws it away.
+ */
+class PlayerImage
 {
 public:
-	Piece (boost::shared_ptr<Content> c, boost::shared_ptr<Decoder> d, FrameRateChange f)
-		: content (c)
-		, decoder (d)
-		, frc (f)
-	{}
+	PlayerImage (boost::shared_ptr<const Image>, Crop, dcp::Size, dcp::Size, Scaler const *);
 
-	boost::shared_ptr<Content> content;
-	boost::shared_ptr<Decoder> decoder;
-	FrameRateChange frc;
+	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
+	
+	boost::shared_ptr<Image> image ();
+	
+private:
+	boost::shared_ptr<const Image> _in;
+	Crop _crop;
+	dcp::Size _inter_size;
+	dcp::Size _out_size;
+	Scaler const * _scaler;
+	boost::shared_ptr<const Image> _subtitle_image;
+	Position<int> _subtitle_position;
 };
 
 /** @class Player

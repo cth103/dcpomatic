@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-31 16:10+0100\n"
-"PO-Revision-Date: 2014-04-06 03:30+0100\n"
+"PO-Revision-Date: 2014-04-18 22:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -107,7 +107,7 @@ msgstr "Ajouter..."
 
 #: src/wx/about_dialog.cc:107
 msgid "Artwork by"
-msgstr "Thème artistique par"
+msgstr "Thème par"
 
 #: src/wx/audio_dialog.cc:33 src/wx/audio_panel.cc:40
 msgid "Audio"
@@ -205,7 +205,7 @@ msgstr "Canaux"
 
 #: src/wx/config_dialog.cc:137
 msgid "Check for testing updates as well as stable ones"
-msgstr "Recherche de mises à jour - version test et stables."
+msgstr "Recherche toutes mises à jour : test et stables."
 
 #: src/wx/config_dialog.cc:133
 msgid "Check for updates on startup"
@@ -229,16 +229,16 @@ msgstr "Cinéma"
 
 #: src/wx/config_dialog.cc:561
 msgid "Colour Conversions"
-msgstr "Conversions couleurs"
+msgstr "Conversions Couleurs"
 
 #: src/wx/content_colour_conversion_dialog.cc:34
 #: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:161
 msgid "Colour conversion"
-msgstr "Conversion colorimétrique"
+msgstr "Espace Couleurs"
 
 #: src/wx/film_editor.cc:134
 msgid "Container"
-msgstr "Contenu"
+msgstr "Format"
 
 #: src/wx/audio_mapping_view.cc:273 src/wx/film_editor.cc:85
 msgid "Content"
@@ -328,11 +328,11 @@ msgstr "Délais audio par défaut"
 
 #: src/wx/config_dialog.cc:335
 msgid "Default container"
-msgstr "Type de contenu par défaut"
+msgstr "Format par défaut"
 
 #: src/wx/config_dialog.cc:339
 msgid "Default content type"
-msgstr "Type de contenu par défaut"
+msgstr "Catégorie par défaut"
 
 #: src/wx/config_dialog.cc:365
 msgid "Default creator"
@@ -340,7 +340,7 @@ msgstr "Créateur par défaut"
 
 #: src/wx/config_dialog.cc:323
 msgid "Default directory for new films"
-msgstr "Dossier par défaut pour nouveaux films"
+msgstr "Dossier par défaut pour les DCP"
 
 #: src/wx/config_dialog.cc:315
 msgid "Default duration of still images"
@@ -571,7 +571,7 @@ msgstr "Chargement depuis fichier..."
 
 #: src/wx/audio_mapping_view.cc:296
 msgid "Ls"
-msgstr "SG"
+msgstr "Sr.G"
 
 #: src/wx/film_editor.cc:749
 msgid "MISSING: "
@@ -743,7 +743,7 @@ msgstr "Découpe droite"
 
 #: src/wx/audio_mapping_view.cc:300
 msgid "Rs"
-msgstr "SD"
+msgstr "Sr.D"
 
 #: src/wx/film_editor.cc:223
 msgid "SMPTE"
@@ -836,11 +836,11 @@ msgstr "Flux de sous-titre"
 
 #: src/wx/subtitle_panel.cc:44
 msgid "Subtitle X Offset"
-msgstr "Position Horiz."
+msgstr "Position Horizontale"
 
 #: src/wx/subtitle_panel.cc:53
 msgid "Subtitle Y Offset"
-msgstr "Position Vertic."
+msgstr "Position Verticale"
 
 #: src/wx/subtitle_panel.cc:34
 msgid "Subtitles"
@@ -922,11 +922,11 @@ msgstr "Traduit par"
 
 #: src/wx/timing_panel.cc:49
 msgid "Trim from end"
-msgstr "Images coupées depuis la fin"
+msgstr "Exclure à la fin"
 
 #: src/wx/timing_panel.cc:46
 msgid "Trim from start"
-msgstr "Images coupées depuis le début"
+msgstr "Exclure au début"
 
 #: src/wx/audio_dialog.cc:55 src/wx/video_panel.cc:74
 msgid "Type"
@@ -982,7 +982,7 @@ msgstr "Vidéo"
 
 #: src/wx/timing_panel.cc:57
 msgid "Video frame rate"
-msgstr "Cadence images vidéo"
+msgstr "Cadence vidéo"
 
 #: src/wx/subtitle_panel.cc:39
 msgid "With Subtitles"

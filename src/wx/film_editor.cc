@@ -803,11 +803,16 @@ FilmEditor::content_add_folder_clicked ()
 		return;
 	}
 
-	_film->examine_and_add_content (
-		shared_ptr<ImageContent> (
-			new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ())))
-			)
-		);
+	shared_ptr<ImageContent> ic;
+	
+	try {
+		ic.reset (new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
+	} catch (FileError& e) {
+		error_dialog (this, std_to_wx (e.what ()));
+		return;
+	}
+
+	_film->examine_and_add_content (ic);
 }
 
 void

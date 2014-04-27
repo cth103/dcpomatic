@@ -108,9 +108,8 @@ like to install it.
 
 <para>
 You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
-Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;), 13.04
-(&lsquo;Raring Ringtail&rsquo;) or 13.10 (&lsquo;Saucy
-Salamander&rsquo;) using <code>.deb</code> packages: download the
+Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;), 13.10 (&lsquo;Saucy
+Salamander&rsquo;) or 14.04 (&lsquo;Trusty Tahr&rsquo;) using <code>.deb</code> packages: download the
 appropriate package from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
@@ -122,7 +121,15 @@ and set DCP-o-matic up for you.
 <section>
 <title>Debian Linux</title>
 <para>
-Packages are also available for Debian 7 (squeeze) from <ulink
+Packages are available for Debian 7 (squeeze) from <ulink
+url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
+</para>
+</section>
+
+<section>
+<title>Centos Linux</title>
+<para>
+Packages are available for Centos 6.5 from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
 </para>
 </section>

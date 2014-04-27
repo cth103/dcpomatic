@@ -166,7 +166,7 @@ AudioPanel::gain_calculate_button_clicked ()
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.
 	*/
-	_gain->update_from_model ();
+	_gain->view_changed ();
 	
 	d->Destroy ();
 }

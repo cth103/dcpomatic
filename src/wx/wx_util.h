@@ -89,10 +89,10 @@ extern int wx_get (wxChoice* widget);
 extern int wx_get (wxSpinCtrl* widget);
 
 /* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
-   This also seems to apply to 2.24.20 in Ubuntu 13.10
+   This also seems to apply to 2.24.20 in Ubuntu 13.10 and 2.24.23 in Ubuntu 14.04.
    Use our own dir picker as this is the least bad option I can think of.
 */
-#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && (GTK_MICRO_VERSION == 17 || GTK_MICRO_VERSION == 20))
+#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && (GTK_MICRO_VERSION == 17 || GTK_MICRO_VERSION == 20 || GTK_MICRO_VERSION == 23))
 #define DCPOMATIC_USE_OWN_DIR_PICKER
 #endif
 
