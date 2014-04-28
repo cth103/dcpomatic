@@ -17,6 +17,12 @@
 
 */
 
+/** @file  test/audio_delay_test.cc
+ *  @brief Test encode using some SndfileContents which have audio delays.
+ *
+ *  The output is checked algorithmically using knowledge of the input.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <dcp/sound_frame.h>
 #include <dcp/cpl.h>
@@ -86,7 +92,6 @@ void test_audio_delay (int delay_in_ms)
 		}
 	}
 }
-
 
 /* Test audio delay when specified in a piece of audio content */
 BOOST_AUTO_TEST_CASE (audio_delay_test)

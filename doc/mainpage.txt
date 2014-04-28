@@ -1,7 +1,7 @@
 /** @mainpage DCP-o-matic
  *
  *  DCP-o-matic is a tool to create digital cinema packages (DCPs) from
- *  video files, or from sets of TIFF image files.  It is written in C++
+ *  video files, or from sets of image files.  It is written in C++
  *  and distributed under the GPL.
  *
  *  Video files are decoded using FFmpeg (http://ffmpeg.org), so any video
@@ -26,12 +26,8 @@
  *  for debugging purposes.
  *
  *  Thanks are due to the authors and communities of all DCP-o-matic's dependencies.
- * 
- *  DCP-o-matic is distributed in the hope that there are still cinemas with projectionists
- *  who might want to use it.  As Mark Kermode says, "if it doesn't have a projectionist
- *  it's not a cinema - it's a sweetshop with a video-screen."
  *
- *  Email correspondance is welcome to cth@carlh.net
+ *  Email correspondance is welcome to carl@dcpomatic.com
  *
- *  More details can be found at http://carlh.net/software/dcpomatic
+ *  More details can be found at http://dcpomatic.com/
  */

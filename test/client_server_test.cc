@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,14 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  test/client_server_test.cc
+ *  @brief Test the server class.
+ *
+ *  Create a test image and then encode it using the standard mechanism
+ *  and also using a Server object running on localhost.  Compare the resulting
+ *  encoded data to check that they are the same.
+ */
 
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>

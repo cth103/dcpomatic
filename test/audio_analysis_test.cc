@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/audio_analysis_test.cc
+ *  @brief Check serialisation of audio analyses.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_analysis.h"
 
@@ -26,7 +30,6 @@ random_float ()
 	return (float (rand ()) / RAND_MAX) * 2 - 1;
 }
 
-/* Check serialisation of audio analyses */
 BOOST_AUTO_TEST_CASE (audio_analysis_test)
 {
 	int const channels = 3;

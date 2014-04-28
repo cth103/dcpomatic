@@ -17,6 +17,12 @@
 
 */
 
+/** @file  test/4k_test.cc
+ *  @brief Run a 4K encode from a simple input.
+ *
+ *  The output is checked against test/data/4k_test.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"

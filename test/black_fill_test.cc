@@ -25,7 +25,7 @@
 #include "test.h"
 
 /** @file test/black_fill_test.cc
- *  @brief Test insertion of black frames between video content.
+ *  @brief Test insertion of black frames between separate bits of video content.
  */
 
 using boost::shared_ptr;

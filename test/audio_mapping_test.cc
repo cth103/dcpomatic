@@ -17,13 +17,14 @@
 
 */
 
+/** @file  test/audio_mapping_test.cc
+ *  @brief Basic tests of the AudioMapping class, which itself doesn't really do much.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
 
-/* Basic tests of the AudioMapping class, which itself
-   doesn't really do much.
-*/
 BOOST_AUTO_TEST_CASE (audio_mapping_test)
 {
 	AudioMapping none;
