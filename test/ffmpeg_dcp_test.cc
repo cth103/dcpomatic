@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,12 @@
 
 */
 
+/** @file test/ffmpeg_dcp_test.cc
+ *  @brief Test creation of a very simple DCP from some FFmpegContent (data/test.mp4).
+ *
+ *  Also a quick test of Film::have_dcp ().
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 #include "lib/film.h"
@@ -26,10 +32,6 @@
 #include "test.h"
 
 using boost::shared_ptr;
-
-/** @file test/ffmpeg_dcp_test.cc
- *  @brief Test scaling and black-padding of images from a still-image source.
- */
 
 BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 {
