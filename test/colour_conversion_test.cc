@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,13 +17,16 @@
 
 */
 
+/** @file  test/colour_conversion_test.cc
+ *  @brief Basic test of identifier() for ColourConversion (i.e. a hash of the numbers)
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <dcp/colour_matrix.h>
 #include "lib/colour_conversion.h"
 
 using std::cout;
 
-/* Basic test of identifier() for ColourConversion (i.e. a hash of the numbers) */
 BOOST_AUTO_TEST_CASE (colour_conversion_test)
 {
 	ColourConversion A (2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6);
