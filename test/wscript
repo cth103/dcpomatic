@@ -17,6 +17,7 @@ def build(bld):
     obj.source = """
                  4k_test.cc
                  audio_analysis_test.cc
+                 audio_buffers_test.cc
                  audio_delay_test.cc
                  audio_mapping_test.cc
                  black_fill_test.cc

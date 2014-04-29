@@ -6,6 +6,7 @@ They can be grouped roughly into the following:
 * Self-contained tests of single classes / method sets
 
 AudioAnalysis:    audio_analysis_test
+AudioBuffers:     audio_buffers_test
 AudioMapping:     audio_mapping_test
 ColourConversion: colour_conversion_test
 FileGroup:        file_group_test
