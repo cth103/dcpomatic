@@ -44,12 +44,12 @@ def dynamic_ffmpeg(conf):
 
 def static_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
-    conf.check_cfg(package='libopenjpeg', args='--cflags', max_version='1.5.1', mandatory=True)
+    conf.check_cfg(package='libopenjpeg', args='--cflags', max_version='1.5.2', mandatory=True)
     conf.env.STLIB_OPENJPEG = ['openjpeg']
 
 def dynamic_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags --libs', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
-    conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.1', mandatory=True)
+    conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.2', mandatory=True)
 
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
     conf.check_cfg(package='libdcp', atleast_version='0.92', args='--cflags', uselib_store='DCP', mandatory=True)
