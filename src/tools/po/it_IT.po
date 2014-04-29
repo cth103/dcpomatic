@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-02-03 09:36+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -95,6 +95,12 @@ msgstr "Su DVD-o-matic"
 msgid "Add Film..."
 msgstr ""
 
+#: src/tools/dcpomatic.cc:738 src/tools/dcpomatic.cc:744
+msgid ""
+"An unknown exception occurred.  Please report this problem to the DCP-o-"
+"matic author (carl@dcpomatic.com)."
+msgstr ""
+
 #: src/tools/dcpomatic.cc:508
 msgid "An unknown exeception occurred."
 msgstr ""
@@ -175,7 +181,7 @@ msgstr ""
 "Il DCP di questo film occupa %.1f Gb, ma il disco che stai usando dispone di "
 "%.1f Gb liberi.  Vuoi continuare ugualmente?"
 
-#: src/tools/dcpomatic.cc:771
+#: src/tools/dcpomatic.cc:782
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Il download server di DCP-o-matic non può essere contattato."
 
@@ -185,7 +191,7 @@ msgid ""
 "use it?"
 msgstr "La cartella %1 esiste già e non è vuota.  Sei sicuro di volerla usare?"
 
-#: src/tools/dcpomatic.cc:766
+#: src/tools/dcpomatic.cc:777
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Non ci sono nuove versioni di DCP-o-matic disponibili."
 

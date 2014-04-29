@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-04-18 22:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -65,8 +65,17 @@ msgstr "3D"
 msgid "3D alternate"
 msgstr "3D alternatif"
 
+#: src/wx/video_panel.cc:200
+msgid "3D left only"
+msgstr ""
+
 #: src/wx/video_panel.cc:197
 msgid "3D left/right"
+msgstr "3D gauche/droite"
+
+#: src/wx/video_panel.cc:201
+#, fuzzy
+msgid "3D right only"
 msgstr "3D gauche/droite"
 
 #: src/wx/video_panel.cc:198
@@ -105,7 +114,7 @@ msgstr "Ajout dossier..."
 msgid "Add..."
 msgstr "Ajouter..."
 
-#: src/wx/about_dialog.cc:107
+#: src/wx/about_dialog.cc:108
 msgid "Artwork by"
 msgstr "Thème par"
 
@@ -248,7 +257,7 @@ msgstr "Contenu"
 msgid "Content Type"
 msgstr "Type de Contenu"
 
-#: src/wx/video_panel.cc:329
+#: src/wx/video_panel.cc:331
 #, c-format
 msgid "Content frame rate %.4f\n"
 msgstr "Cadence du contenu %.4f\n"
@@ -257,7 +266,7 @@ msgstr "Cadence du contenu %.4f\n"
 msgid "Content version"
 msgstr "Version du contenu"
 
-#: src/wx/video_panel.cc:289
+#: src/wx/video_panel.cc:291
 #, c-format
 msgid "Content video is %dx%d (%.2f:1)\n"
 msgstr "Le contenu vidéo est %dx%d (%.2f:1)\n"
@@ -284,12 +293,12 @@ msgstr "Pays"
 msgid "Create in folder"
 msgstr "Créer dans le dossier"
 
-#: src/wx/video_panel.cc:301
+#: src/wx/video_panel.cc:303
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
 msgstr "Découpe de %dx%d (%.2f:1)\n"
 
-#: src/wx/video_panel.cc:241
+#: src/wx/video_panel.cc:243
 msgid "Custom"
 msgstr "Personnalisé"
 
@@ -601,7 +610,7 @@ msgstr "Qualité JPEG2000 Maxi"
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/video_panel.cc:277
+#: src/wx/video_panel.cc:279
 msgid "Multiple content selected"
 msgstr "Contenus multiples sélectionnés"
 
@@ -627,7 +636,7 @@ msgstr "De nouvelles versions de DCP-o-matic sont disponibles."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Aucun son ne passera du canal audio %d au canal %d du DCP."
 
-#: src/wx/video_panel.cc:152 src/wx/video_panel.cc:246
+#: src/wx/video_panel.cc:152 src/wx/video_panel.cc:248
 msgid "None"
 msgstr "Aucun"
 
@@ -651,7 +660,7 @@ msgstr "Gamma de sortie"
 msgid "Package Type (e.g. OV)"
 msgstr "Type de paquet (ex. OV)"
 
-#: src/wx/video_panel.cc:322
+#: src/wx/video_panel.cc:324
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Enveloppe noire de %dx%d (%.2f:1)\n"
@@ -753,7 +762,7 @@ msgstr "SMPTE"
 msgid "Scale to"
 msgstr "Mise à l'échelle"
 
-#: src/wx/video_panel.cc:313
+#: src/wx/video_panel.cc:315
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
 msgstr "Mis à l'échelle de %dx%d (%.2f:1)\n"
@@ -846,7 +855,7 @@ msgstr "Position Verticale"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:148
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -866,7 +875,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version Test"
 
-#: src/wx/about_dialog.cc:188
+#: src/wx/about_dialog.cc:190
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -916,7 +925,7 @@ msgstr "Durée"
 msgid "Top crop"
 msgstr "Découpe haut"
 
-#: src/wx/about_dialog.cc:103
+#: src/wx/about_dialog.cc:104
 msgid "Translated by"
 msgstr "Traduit par"
 
@@ -1031,7 +1040,7 @@ msgstr ""
 "Votre DCP a moins de 6 canaux audio.  Cela peut créer des problèmes de "
 "lecture sur certains projecteurs."
 
-#: src/wx/timeline.cc:213
+#: src/wx/timeline.cc:216
 msgid "audio"
 msgstr "audio"
 
@@ -1056,7 +1065,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:236
+#: src/wx/timeline.cc:239
 msgid "still"
 msgstr "fixe"
 
@@ -1064,7 +1073,7 @@ msgstr "fixe"
 msgid "times"
 msgstr "fois"
 
-#: src/wx/timeline.cc:234
+#: src/wx/timeline.cc:237
 msgid "video"
 msgstr "vidéo"
 

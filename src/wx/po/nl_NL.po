@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-03-30 19:40+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <TKooijmans@universaldv.nl>\n"
@@ -65,8 +65,17 @@ msgstr "3D"
 msgid "3D alternate"
 msgstr "3D alternate"
 
+#: src/wx/video_panel.cc:200
+msgid "3D left only"
+msgstr ""
+
 #: src/wx/video_panel.cc:197
 msgid "3D left/right"
+msgstr "3D links/rechts"
+
+#: src/wx/video_panel.cc:201
+#, fuzzy
+msgid "3D right only"
 msgstr "3D links/rechts"
 
 #: src/wx/video_panel.cc:198
@@ -105,7 +114,7 @@ msgstr "Voeg map toe..."
 msgid "Add..."
 msgstr "Toevoegen.."
 
-#: src/wx/about_dialog.cc:107
+#: src/wx/about_dialog.cc:108
 msgid "Artwork by"
 msgstr "Artwork door"
 
@@ -250,7 +259,7 @@ msgstr "Content"
 msgid "Content Type"
 msgstr "Content Type"
 
-#: src/wx/video_panel.cc:329
+#: src/wx/video_panel.cc:331
 #, c-format
 msgid "Content frame rate %.4f\n"
 msgstr "Content frame rate %.4f\n"
@@ -259,7 +268,7 @@ msgstr "Content frame rate %.4f\n"
 msgid "Content version"
 msgstr "Content versie"
 
-#: src/wx/video_panel.cc:289
+#: src/wx/video_panel.cc:291
 #, c-format
 msgid "Content video is %dx%d (%.2f:1)\n"
 msgstr "Content video is %dx%d (%.2f:1)\n"
@@ -286,12 +295,12 @@ msgstr "Land"
 msgid "Create in folder"
 msgstr "Maak in map"
 
-#: src/wx/video_panel.cc:301
+#: src/wx/video_panel.cc:303
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
 msgstr "Cropped naar %dx%d (%.2f:1)\n"
 
-#: src/wx/video_panel.cc:241
+#: src/wx/video_panel.cc:243
 msgid "Custom"
 msgstr "aangepast"
 
@@ -603,7 +612,7 @@ msgstr "Maximum JPEG2000 bandbreedte"
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/video_panel.cc:277
+#: src/wx/video_panel.cc:279
 msgid "Multiple content selected"
 msgstr "Meedere content geselecteerd"
 
@@ -631,7 +640,7 @@ msgstr ""
 "Er wordt geen audio van het content kanaal %d doorgestuurd naar DCP kanaal "
 "%d."
 
-#: src/wx/video_panel.cc:152 src/wx/video_panel.cc:246
+#: src/wx/video_panel.cc:152 src/wx/video_panel.cc:248
 msgid "None"
 msgstr "Geen"
 
@@ -655,7 +664,7 @@ msgstr "Output gamma"
 msgid "Package Type (e.g. OV)"
 msgstr "Package Type (e.g. OV)"
 
-#: src/wx/video_panel.cc:322
+#: src/wx/video_panel.cc:324
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Opgevuld met zwart tot %dx%d (%.2f:1)\n"
@@ -757,7 +766,7 @@ msgstr "SMPTE"
 msgid "Scale to"
 msgstr "Schaal tot"
 
-#: src/wx/video_panel.cc:313
+#: src/wx/video_panel.cc:315
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
 msgstr "Geschaald naar %dx%d (%.2f:1)\n"
@@ -850,7 +859,7 @@ msgstr "Ondertitel Y offset"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:148
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -870,7 +879,7 @@ msgstr "Grondgebied (vb NL)"
 msgid "Test version "
 msgstr "Test Versie"
 
-#: src/wx/about_dialog.cc:188
+#: src/wx/about_dialog.cc:190
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -920,7 +929,7 @@ msgstr "Timing"
 msgid "Top crop"
 msgstr "Top crop"
 
-#: src/wx/about_dialog.cc:103
+#: src/wx/about_dialog.cc:104
 msgid "Translated by"
 msgstr "Vertaald door"
 
@@ -1034,7 +1043,7 @@ msgstr ""
 "Uw DCP heeft minder dan 6 audio kanalen. This kan problemen geven op sommige "
 "projectors."
 
-#: src/wx/timeline.cc:213
+#: src/wx/timeline.cc:216
 msgid "audio"
 msgstr "audio"
 
@@ -1059,7 +1068,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:236
+#: src/wx/timeline.cc:239
 msgid "still"
 msgstr "still"
 
@@ -1067,6 +1076,6 @@ msgstr "still"
 msgid "times"
 msgstr "tijden"
 
-#: src/wx/timeline.cc:234
+#: src/wx/timeline.cc:237
 msgid "video"
 msgstr "video"
