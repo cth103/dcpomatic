@@ -61,7 +61,7 @@ public:
 
 	void copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
 	void move (int from, int to, int frames);
-	void accumulate_channel (AudioBuffers const *, int, int, float gain = 1);
+	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
 	void accumulate_frames (AudioBuffers const *, int read_offset, int write_offset, int frames);
 
 private:
