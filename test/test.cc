@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/test.cc
+ *  @brief Overall test stuff and useful methods for tests.
+ */
+
 #include <vector>
 #include <list>
 #include <Magick++.h>

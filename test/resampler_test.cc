@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,11 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  test/resampler_test.cc
+ *  @brief Check that the timings that come back from the resampler correspond
+ *  to the number of samples it generates.
+ */
 
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_buffers.h"
@@ -44,9 +49,6 @@ resampler_test_one (int from, int to)
 	}
 }	
 		
-/** Check that the timings that come back from the resampler correspond
-    to the number of samples it generates.
-*/
 BOOST_AUTO_TEST_CASE (resampler_test)
 {
 	resampler_test_one (44100, 48000);

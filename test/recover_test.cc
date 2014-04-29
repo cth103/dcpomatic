@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/recover_test.cc
+ *  @brief Test recovery of a DCP transcode after a crash.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <dcp/stereo_picture_mxf.h>
 #include "lib/film.h"
@@ -35,7 +39,6 @@ note (dcp::NoteType, string n)
 	cout << n << "\n";
 }
 
-/** Test recovery of a DCP transcode after a crash */
 BOOST_AUTO_TEST_CASE (recover_test)
 {
 	shared_ptr<Film> film = new_test_film ("recover_test");

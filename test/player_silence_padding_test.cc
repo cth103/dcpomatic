@@ -17,6 +17,10 @@
 
 */
 
+/* @file  test/player_silence_padding_test.cc
+ * @brief Check that the Player correctly generates silence when used with a silent FFmpegContent.
+ */
+
 #include <iostream>
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
@@ -30,7 +34,6 @@
 using std::cout;
 using boost::shared_ptr;
 
-/* Check that the Player correctly generates silence when used with a silent FFmpegContent */
 BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 {
 	shared_ptr<Film> film = new_test_film ("player_silence_padding_test");

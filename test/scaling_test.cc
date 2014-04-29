@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@
 
 */
 
+/** @file test/scaling_test.cc
+ *  @brief Test scaling and black-padding of images from a still-image source.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/image_content.h"
 #include "lib/ratio.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "test.h"
-
-/** @file test/scaling_test.cc
- *  @brief Test scaling and black-padding of images from a still-image source.
- */
 
 using std::string;
 using boost::shared_ptr;

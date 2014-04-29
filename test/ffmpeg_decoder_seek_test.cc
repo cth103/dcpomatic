@@ -17,6 +17,14 @@
 
 */
 
+/** @file  test/ffmpeg_decoder_seek_test.cc
+ *  @brief Check that get_video() returns the frame indexes that we ask for
+ *  for FFmpegDecoder.
+ *
+ *  This doesn't check that the contents of those frames are right, which
+ *  it probably should.
+ */
+
 #include <vector>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>

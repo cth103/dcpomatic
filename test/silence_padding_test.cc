@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  test/silence_padding_test.cc
+ *  @brief Test the padding (with silence) of a mono source to a 6-channel DCP.
+ */
 
 #include <boost/test/unit_test.hpp>
 #include <dcp/cpl.h>
@@ -34,7 +38,8 @@ using std::string;
 using boost::lexical_cast;
 using boost::shared_ptr;
 
-static void test_silence_padding (int channels)
+static void
+test_silence_padding (int channels)
 {
 	string const film_name = "silence_padding_test_" + lexical_cast<string> (channels);
 	shared_ptr<Film> film = new_test_film (film_name);

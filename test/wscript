@@ -27,7 +27,7 @@ def build(bld):
                  ffmpeg_decoder_seek_test.cc
                  ffmpeg_decoder_sequential_test.cc
                  ffmpeg_examiner_test.cc
-                 ffmpeg_pts_offset.cc
+                 ffmpeg_pts_offset_test.cc
                  file_group_test.cc
                  film_metadata_test.cc
                  frame_rate_test.cc

@@ -1,0 +1,48 @@
+DCP-o-matic unit tests
+----------------------
+
+They can be grouped roughly into the following:
+
+* Self-contained tests of single classes / method sets
+
+AudioAnalysis:    audio_analysis_test
+AudioMapping:     audio_mapping_test
+ColourConversion: colour_conversion_test
+FileGroup:        file_group_test
+Image:            image_test, pixel_formats_test, make_black_test
+Job/JobManager:   job_test
+SubRip:           subrip_test
+Ratio:            ratio_test
+Resampler:	  resampler_test
+util.cc:          util_test
+
+* "Complete" builds of DCPs with various characteristics, aiming
+to test broad areas of code
+
+4k_test
+threed_test
+
+* Tests of fairly specific areas
+
+audio_delay_test
+black_fill_test
+client_server_test
+film_metadata_test
+frame_rate_test
+player_silence_padding_test
+recover_test
+repeat_frame_test
+scaling_test
+silence_padding_test
+skip_frame_test
+
+  - FFmpeg decoding
+
+  ffmpeg_audio_test
+  ffmpeg_dcp_test
+  ffmpeg_decoder_seek_test
+  ffmpeg_decoder_sequential_test
+  ffmpeg_examiner_test
+  ffmpeg_pts_offset_test
+  seek_zero_test.cc
+  stream_test

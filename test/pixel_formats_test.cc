@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,13 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  src/pixel_formats_test.cc
+ *  @brief Make sure that Image::lines() and Image::bytes_per_pixel() return the right
+ *  things for various pixel formats.
+ *
+ *  @see test/image_test.cc
+ */
 
 #include <boost/test/unit_test.hpp>
 #include <list>

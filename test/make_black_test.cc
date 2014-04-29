@@ -17,6 +17,13 @@
 
 */
 
+/** @file  test/make_black_test.cc
+ *  @brief Check that Image::make_black works, and doesn't use values which crash
+ *  sws_scale().
+ *
+ *  @see test/image_test.cc
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <dcp/util.h>
 extern "C" {
@@ -27,9 +34,6 @@ extern "C" {
 
 using std::list;
 
-/* Check that Image::make_black works, and doesn't use values which crash
-   sws_scale().
-*/
 BOOST_AUTO_TEST_CASE (make_black_test)
 {
 	dcp::Size in_size (512, 512);

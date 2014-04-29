@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,11 @@
 
 */
 
+/** @file  test/frame_rate_test.cc
+ *  @brief Tests for FrameRateChange and the computation of the best
+ *  frame rate for the DCP.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/config.h"
@@ -26,7 +31,7 @@
 
 using boost::shared_ptr;
 
-/* Test Playlist::best_dcp_frame_rate and FrameRateConversion
+/* Test Playlist::best_dcp_frame_rate and FrameRateChange
    with a single piece of content.
 */
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)

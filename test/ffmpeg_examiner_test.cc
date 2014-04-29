@@ -17,6 +17,11 @@
 
 */
 
+/** @file  test/ffmpeg_examiner_test.cc
+ *  @brief Check that the FFmpegExaminer can extract the first video and audio time
+ *  correctly from data/count300bd24.m2ts.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/ffmpeg_examiner.h"
 #include "lib/ffmpeg_content.h"

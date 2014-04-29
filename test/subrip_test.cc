@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/subrip_test.cc
+ *  @brief Various tests of the subrip code.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <dcp/subtitle_content.h>
 #include "lib/subrip.h"

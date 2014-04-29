@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,13 @@
 
 */
 
+/** @file  test/skip_frame_test.cc
+ *  @brief Test the skip of frames by the player when putting a 48fps
+ *  source into a 24fps DCP.
+ *
+ *  @see test/repeat_frame_test.cc
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "test.h"
 #include "lib/film.h"
@@ -26,9 +33,6 @@
 
 using boost::shared_ptr;
 
-/* Test the skip of frames by the player when putting a 48fps
-   source into a 24fps DCP.
-*/
 BOOST_AUTO_TEST_CASE (skip_frame_test)
 {
 	shared_ptr<Film> film = new_test_film ("skip_frame_test");

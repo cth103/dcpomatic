@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,12 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  test/image_test.cc
+ *  @brief Tests of the Image class.
+ *
+ *  @see test/make_black_test.cc, test/pixel_formats_test.cc
+ */
 
 #include <boost/test/unit_test.hpp>
 #include <Magick++.h>

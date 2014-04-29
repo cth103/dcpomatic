@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/film_metadata_test.cc
+ *  @brief Test some basic reading/writing of film metadata.
+ */
+
 #include <sstream>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
@@ -33,13 +37,9 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
-	string const test_film = "build/test/film_metadata_test";
-	
-	if (boost::filesystem::exists (test_film)) {
-		boost::filesystem::remove_all (test_film);
-	}
+	shared_ptr<Film> f = new_test_film ("film_metadata_test");
+	boost::filesystem::path dir = test_film_dir ("film_metadata_test");
 
-	shared_ptr<Film> f (new Film (test_film));
 	f->_dci_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (f->container() == 0);
 	BOOST_CHECK (f->dcp_content_type() == 0);
@@ -52,9 +52,9 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	list<string> ignore;
 	ignore.push_back ("Key");
-	check_xml ("test/data/metadata.xml.ref", test_film + "/metadata.xml", ignore);
+	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 
-	shared_ptr<Film> g (new Film (test_film));
+	shared_ptr<Film> g (new Film (dir));
 	g->read_metadata ();
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");
@@ -62,5 +62,5 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_EQUAL (g->container(), Ratio::from_id ("185"));
 	
 	g->write_metadata ();
-	check_xml ("test/data/metadata.xml.ref", test_film + "/metadata.xml", ignore);
+	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 }

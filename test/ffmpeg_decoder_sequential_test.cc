@@ -17,6 +17,11 @@
 
 */
 
+/** @file  test/ffmpeg_decoder_sequential_test.cc
+ *  @brief Check that the FFmpeg decoder produces sequential frames without gaps or dropped frames;
+ *  (dropped frames being checked by assert() in VideoDecoder).  Also that the decoder picks up frame rates correctly.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 #include "lib/ffmpeg_content.h"
@@ -64,13 +69,10 @@ test (boost::filesystem::path file, float fps, int first)
 	BOOST_CHECK_EQUAL (decoder.test_gaps, 0);
 }
 
-/** Check that the FFmpeg decoder produces sequential frames without gaps or dropped frames;
- *  (dropped frames being checked by assert() in VideoDecoder).  Also that the decoder picks up frame rates correctly.
- */
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {
-	//test ("boon_telly.mkv", 29.97, 0);
-	//test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 0);
+	test ("boon_telly.mkv", 29.97, 0);
+	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 0);
 	test ("prophet_clip.mkv", 23.976, 12);
 }
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,13 @@
 
 */
 
+/** @file  test/repeat_frame_test.cc
+ *  @brief Test the repeat of frames by the player when putting a 24fps
+ *  source into a 48fps DCP.
+ *
+ *  @see test/skip_frame_test.cc
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "test.h"
 #include "lib/film.h"
@@ -26,9 +33,6 @@
 
 using boost::shared_ptr;
 
-/* Test the repeat of frames by the player when putting a 24fps
-   source into a 48fps DCP.
-*/
 BOOST_AUTO_TEST_CASE (repeat_frame_test)
 {
 	shared_ptr<Film> film = new_test_film ("repeat_frame_test");

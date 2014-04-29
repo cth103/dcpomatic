@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  test/ffmpeg_pts_offset_test.cc
+ *  @brief Check the computation of _pts_offset in FFmpegDecoder.
+ */
 
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"

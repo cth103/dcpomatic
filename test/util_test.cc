@@ -17,6 +17,10 @@
 
 */
 
+/** @file  test/util_test.cc
+ *  @brief Test various utility methods.
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/util.h"
 #include "lib/exceptions.h"
