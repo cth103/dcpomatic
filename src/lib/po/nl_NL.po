@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-03-30 19:39+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -110,7 +110,7 @@ msgstr "Controleer bestaande videodata"
 msgid "Computing audio digest"
 msgstr "Verwerk audio data"
 
-#: src/lib/image_content.cc:100
+#: src/lib/image_content.cc:104
 msgid "Computing digest"
 msgstr "Verwerken..."
 
@@ -326,9 +326,10 @@ msgid "High quality 3D denoiser"
 msgstr "High quality 3D denoiser"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
+#, fuzzy
 msgid ""
-"It is not known what caused this error.  The best idea is to report the "
-"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
+"It is not known what caused this error.  Please report the problem to the "
+"DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
 "Dit is een onbekende fout. U kunt deze het beste melden bij de DCP-o-matic "
 "mailing lijst (carl@dcpomatic.com)"
@@ -369,13 +370,17 @@ msgstr "Diverse"
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
 
-#: src/lib/video_content.cc:447
+#: src/lib/video_content.cc:449
 msgid "No scale"
 msgstr "Niet vergroten of verkleinen"
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:446
 msgid "No stretch"
 msgstr "Niet uitvullen"
+
+#: src/lib/image_content.cc:49
+msgid "No valid image files were found in the folder."
+msgstr ""
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -551,11 +556,11 @@ msgstr "Yet Another Deinterlacing Filter"
 msgid "You must add some content to the DCP before creating it"
 msgstr "U moet wat content toevoegen voor het maken van de DCP"
 
-#: src/lib/image_content.cc:68
+#: src/lib/image_content.cc:72
 msgid "[moving images]"
 msgstr "[bewegend beeld]"
 
-#: src/lib/image_content.cc:66
+#: src/lib/image_content.cc:70
 msgid "[still]"
 msgstr "[still]"
 
@@ -687,7 +692,7 @@ msgstr "ontbrekende key %1 in key-value set"
 msgid "missing required setting %1"
 msgstr "ontbrekende verplichte setting %1"
 
-#: src/lib/image_content.cc:83
+#: src/lib/image_content.cc:87
 msgid "moving"
 msgstr "bewegend"
 
@@ -721,7 +726,7 @@ msgstr "sRGB non-linearised"
 msgid "seconds"
 msgstr "secondes"
 
-#: src/lib/image_content.cc:81
+#: src/lib/image_content.cc:85
 msgid "still"
 msgstr "still"
 

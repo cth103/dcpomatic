@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -64,8 +64,17 @@ msgstr "3D"
 msgid "3D alternate"
 msgstr ""
 
+#: src/wx/video_panel.cc:200
+msgid "3D left only"
+msgstr ""
+
 #: src/wx/video_panel.cc:197
 msgid "3D left/right"
+msgstr "3D left/right"
+
+#: src/wx/video_panel.cc:201
+#, fuzzy
+msgid "3D right only"
 msgstr "3D left/right"
 
 #: src/wx/video_panel.cc:198
@@ -104,7 +113,7 @@ msgstr "Lägg till folder..."
 msgid "Add..."
 msgstr "Lägg till..."
 
-#: src/wx/about_dialog.cc:107
+#: src/wx/about_dialog.cc:108
 msgid "Artwork by"
 msgstr ""
 
@@ -252,7 +261,7 @@ msgstr "Innehåll"
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: src/wx/video_panel.cc:329
+#: src/wx/video_panel.cc:331
 #, c-format
 msgid "Content frame rate %.4f\n"
 msgstr "Innehållets bildhastighet %.4f\n"
@@ -261,7 +270,7 @@ msgstr "Innehållets bildhastighet %.4f\n"
 msgid "Content version"
 msgstr "Innehållsversion"
 
-#: src/wx/video_panel.cc:289
+#: src/wx/video_panel.cc:291
 #, c-format
 msgid "Content video is %dx%d (%.2f:1)\n"
 msgstr "Original-videon är %dx%d (%.2f:1)\n"
@@ -288,13 +297,13 @@ msgstr ""
 msgid "Create in folder"
 msgstr "Skapa i katalog"
 
-#: src/wx/video_panel.cc:301
+#: src/wx/video_panel.cc:303
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
 msgstr "Beskuren till %dx%d (%.2f:1)\n"
 
 # sammanhang?
-#: src/wx/video_panel.cc:241
+#: src/wx/video_panel.cc:243
 msgid "Custom"
 msgstr "Special"
 
@@ -616,7 +625,7 @@ msgid "Mbit/s"
 msgstr ""
 
 # Låter mysko
-#: src/wx/video_panel.cc:277
+#: src/wx/video_panel.cc:279
 msgid "Multiple content selected"
 msgstr "Flera innehåll valda"
 
@@ -644,7 +653,7 @@ msgstr ""
 "Ingen audio kommer att överföras från innehållskanalen %d till DCP-kanalen "
 "%d."
 
-#: src/wx/video_panel.cc:152 src/wx/video_panel.cc:246
+#: src/wx/video_panel.cc:152 src/wx/video_panel.cc:248
 msgid "None"
 msgstr "Inget"
 
@@ -668,7 +677,7 @@ msgstr "Utdata gamma"
 msgid "Package Type (e.g. OV)"
 msgstr "Förpackningstyp (ex. OV)"
 
-#: src/wx/video_panel.cc:322
+#: src/wx/video_panel.cc:324
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
@@ -772,7 +781,7 @@ msgstr "SMPTE"
 msgid "Scale to"
 msgstr "Skala om till"
 
-#: src/wx/video_panel.cc:313
+#: src/wx/video_panel.cc:315
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
 msgstr "Skalad till %dx%d (%.2f:1)\n"
@@ -869,7 +878,7 @@ msgstr "Undertext Förskjutning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:148
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -889,7 +898,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:188
+#: src/wx/about_dialog.cc:190
 #, fuzzy
 msgid "Tested by"
 msgstr "Översatt av"
@@ -940,7 +949,7 @@ msgstr "Tajming"
 msgid "Top crop"
 msgstr "Övre beskärning"
 
-#: src/wx/about_dialog.cc:103
+#: src/wx/about_dialog.cc:104
 msgid "Translated by"
 msgstr "Översatt av"
 
@@ -1057,7 +1066,7 @@ msgstr ""
 "Din DCP har mindre än 6 audiokanaler. Detta kan medföra problem på vissa "
 "projektorer."
 
-#: src/wx/timeline.cc:213
+#: src/wx/timeline.cc:216
 msgid "audio"
 msgstr "audio"
 
@@ -1082,7 +1091,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:236
+#: src/wx/timeline.cc:239
 msgid "still"
 msgstr "stillbild"
 
@@ -1091,7 +1100,7 @@ msgstr "stillbild"
 msgid "times"
 msgstr "tider"
 
-#: src/wx/timeline.cc:234
+#: src/wx/timeline.cc:237
 msgid "video"
 msgstr "video"
 

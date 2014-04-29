@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-02-03 10:48+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Computing audio digest"
 msgstr ""
 
-#: src/lib/image_content.cc:100
+#: src/lib/image_content.cc:104
 msgid "Computing digest"
 msgstr ""
 
@@ -333,9 +333,10 @@ msgid "High quality 3D denoiser"
 msgstr "Riduttore di rumore 3D di alta qualità"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
+#, fuzzy
 msgid ""
-"It is not known what caused this error.  The best idea is to report the "
-"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
+"It is not known what caused this error.  Please report the problem to the "
+"DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
 "Non sappiamo cosa ha causato questo errore. La cosa migliore è inviare un "
 "report del problema alla mailing list di DCP-o-matic (carl@dcpomatic.com)"
@@ -377,14 +378,18 @@ msgstr "Varie"
 msgid "Motion compensating deinterlacer"
 msgstr "Dinterlacciatore con compensazione di movimento"
 
-#: src/lib/video_content.cc:447
+#: src/lib/video_content.cc:449
 msgid "No scale"
 msgstr ""
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:446
 #, fuzzy
 msgid "No stretch"
 msgstr "Flat senza stiramento"
+
+#: src/lib/image_content.cc:49
+msgid "No valid image files were found in the folder."
+msgstr ""
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -562,11 +567,11 @@ msgstr "Altro filtro di deinterlacciamento"
 msgid "You must add some content to the DCP before creating it"
 msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
-#: src/lib/image_content.cc:68
+#: src/lib/image_content.cc:72
 msgid "[moving images]"
 msgstr ""
 
-#: src/lib/image_content.cc:66
+#: src/lib/image_content.cc:70
 #, fuzzy
 msgid "[still]"
 msgstr "ancora"
@@ -701,7 +706,7 @@ msgstr "persa la chiave %1 tra i valori chiave"
 msgid "missing required setting %1"
 msgstr "persa la regolazione richiesta %1"
 
-#: src/lib/image_content.cc:83
+#: src/lib/image_content.cc:87
 msgid "moving"
 msgstr ""
 
@@ -735,7 +740,7 @@ msgstr "sRGB non linearizzato"
 msgid "seconds"
 msgstr "secondi"
 
-#: src/lib/image_content.cc:81
+#: src/lib/image_content.cc:85
 #, fuzzy
 msgid "still"
 msgstr "ancora"
