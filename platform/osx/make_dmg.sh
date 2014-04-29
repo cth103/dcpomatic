@@ -85,6 +85,7 @@ universal_copy $ENV lib/libzip*.dylib $WORK/$libs
 universal_copy $ENV lib/libquickmail*.dylib $WORK/$libs
 universal_copy $ENV lib/libcurl*.dylib $WORK/$libs
 universal_copy $ENV lib/libffi*.dylib $WORK/$libs
+universal_copy $ENV lib/libiconv*.dylib $WORK/$libs
 
 for obj in $WORK/$macos/dcpomatic $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
   deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl|libxmlsec)"`

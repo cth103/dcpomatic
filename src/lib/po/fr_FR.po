@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-04-18 22:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -109,7 +109,7 @@ msgstr "Recherche de données images existantes"
 msgid "Computing audio digest"
 msgstr "Fabrication rendu audio"
 
-#: src/lib/image_content.cc:100
+#: src/lib/image_content.cc:104
 msgid "Computing digest"
 msgstr "fabrication rendu"
 
@@ -320,9 +320,10 @@ msgid "High quality 3D denoiser"
 msgstr "Débruiteur 3D haute qualité"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
+#, fuzzy
 msgid ""
-"It is not known what caused this error.  The best idea is to report the "
-"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
+"It is not known what caused this error.  Please report the problem to the "
+"DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
 "Erreur indéterminée. Merci de rapporter le problème à la liste DCP-o-matic "
 "(carl@dcpomatic.com)"
@@ -363,13 +364,17 @@ msgstr "Divers"
 msgid "Motion compensating deinterlacer"
 msgstr "Désentrelaceur par compensation de mouvement"
 
-#: src/lib/video_content.cc:447
+#: src/lib/video_content.cc:449
 msgid "No scale"
 msgstr "Pas de mise à l'échelle"
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:446
 msgid "No stretch"
 msgstr "Sans déformation"
+
+#: src/lib/image_content.cc:49
+msgid "No valid image files were found in the folder."
+msgstr ""
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -541,11 +546,11 @@ msgstr "Un autre filtre de désentrelacement"
 msgid "You must add some content to the DCP before creating it"
 msgstr "Ajoutez un contenu pour créer le DCP"
 
-#: src/lib/image_content.cc:68
+#: src/lib/image_content.cc:72
 msgid "[moving images]"
 msgstr "[Déplacement d'images]"
 
-#: src/lib/image_content.cc:66
+#: src/lib/image_content.cc:70
 #, fuzzy
 msgid "[still]"
 msgstr "[fixe]"
@@ -680,7 +685,7 @@ msgstr "clé %1 non sélectionnée"
 msgid "missing required setting %1"
 msgstr "paramètre %1 manquant"
 
-#: src/lib/image_content.cc:83
+#: src/lib/image_content.cc:87
 msgid "moving"
 msgstr "déplacement"
 
@@ -714,7 +719,7 @@ msgstr "sRGB non linéarisé"
 msgid "seconds"
 msgstr "secondes"
 
-#: src/lib/image_content.cc:81
+#: src/lib/image_content.cc:85
 #, fuzzy
 msgid "still"
 msgstr "%1 [fixe]"

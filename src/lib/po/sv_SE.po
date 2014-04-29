@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -109,7 +109,7 @@ msgstr "Kontrollerar befintligt bilddata"
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
-#: src/lib/image_content.cc:100
+#: src/lib/image_content.cc:104
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
@@ -329,9 +329,10 @@ msgid "High quality 3D denoiser"
 msgstr "Högkvalitets 3D-brusreducering"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
+#, fuzzy
 msgid ""
-"It is not known what caused this error.  The best idea is to report the "
-"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
+"It is not known what caused this error.  Please report the problem to the "
+"DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
 "Det är inte känt vad som orsakade detta fel. Bästa sättet att rapportera "
 "problemet är till DCP-o-matics mejl-lista (carl@dcpomatic.com)"
@@ -373,14 +374,18 @@ msgstr "Diverse"
 msgid "Motion compensating deinterlacer"
 msgstr "Rörelsekompenserande avflätare"
 
-#: src/lib/video_content.cc:447
+#: src/lib/video_content.cc:449
 msgid "No scale"
 msgstr ""
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:446
 #, fuzzy
 msgid "No stretch"
 msgstr "Flat utan utsträckning"
+
+#: src/lib/image_content.cc:49
+msgid "No valid image files were found in the folder."
+msgstr ""
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -558,11 +563,11 @@ msgstr "Yet Another Deinterlacing Filter"
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
-#: src/lib/image_content.cc:68
+#: src/lib/image_content.cc:72
 msgid "[moving images]"
 msgstr "[rörliga bilder]"
 
-#: src/lib/image_content.cc:66
+#: src/lib/image_content.cc:70
 msgid "[still]"
 msgstr "[stillbild]"
 
@@ -697,7 +702,7 @@ msgid "missing required setting %1"
 msgstr "saknad nödvändig inställning %1"
 
 # Sammanhang?
-#: src/lib/image_content.cc:83
+#: src/lib/image_content.cc:87
 msgid "moving"
 msgstr "rörlig"
 
@@ -731,7 +736,7 @@ msgstr "sRGB icke-linjär"
 msgid "seconds"
 msgstr "sekunder"
 
-#: src/lib/image_content.cc:81
+#: src/lib/image_content.cc:85
 msgid "still"
 msgstr "stillbild"
 

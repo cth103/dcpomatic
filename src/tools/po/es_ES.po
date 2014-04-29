@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-04-20 10:21-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -95,6 +95,12 @@ msgstr "Acerca de DVD-o-matic"
 msgid "Add Film..."
 msgstr "Añadir película..."
 
+#: src/tools/dcpomatic.cc:738 src/tools/dcpomatic.cc:744
+msgid ""
+"An unknown exception occurred.  Please report this problem to the DCP-o-"
+"matic author (carl@dcpomatic.com)."
+msgstr ""
+
 #: src/tools/dcpomatic.cc:508
 msgid "An unknown exeception occurred."
 msgstr "Ha ocurrido un error desconocido."
@@ -178,7 +184,7 @@ msgstr ""
 "seleccionado solo tiene %.1f Gb disponibles.  Quieres continuar de todas "
 "formas?"
 
-#: src/tools/dcpomatic.cc:771
+#: src/tools/dcpomatic.cc:782
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Imposible conectar con el servidor de descarga de DCP-o-matic."
 
@@ -189,7 +195,7 @@ msgid ""
 msgstr ""
 "El directorio %1 ya existe y no está vacío. ¿Estás seguro de querer usarlo?"
 
-#: src/tools/dcpomatic.cc:766
+#: src/tools/dcpomatic.cc:777
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "No hay disponibles nuevas versiones de DCP-o-matic."
 

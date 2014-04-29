@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-31 16:10+0100\n"
+"POT-Creation-Date: 2014-04-29 09:14+0100\n"
 "PO-Revision-Date: 2014-04-20 10:12-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -109,7 +109,7 @@ msgstr "Comprobando las imágenes existentes"
 msgid "Computing audio digest"
 msgstr "Calculando la firma resumen del audio"
 
-#: src/lib/image_content.cc:100
+#: src/lib/image_content.cc:104
 msgid "Computing digest"
 msgstr "Calculando la firma resumen"
 
@@ -325,9 +325,10 @@ msgid "High quality 3D denoiser"
 msgstr "Reductor de ruido 3D de alta calidad"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
+#, fuzzy
 msgid ""
-"It is not known what caused this error.  The best idea is to report the "
-"problem to the DCP-o-matic mailing list (carl@dcpomatic.com)"
+"It is not known what caused this error.  Please report the problem to the "
+"DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
 "Error desconocido. La mejor idea es informar del problema a la lista de "
 "correo de DCP-o-matic (carl@dcpomatic.com)"
@@ -368,13 +369,17 @@ msgstr "Miscelánea"
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
 
-#: src/lib/video_content.cc:447
+#: src/lib/video_content.cc:449
 msgid "No scale"
 msgstr "No redimensionar"
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:446
 msgid "No stretch"
 msgstr "Sin deformación"
+
+#: src/lib/image_content.cc:49
+msgid "No valid image files were found in the folder."
+msgstr ""
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -548,11 +553,11 @@ msgstr "Yet Another Deinterlacing Filter"
 msgid "You must add some content to the DCP before creating it"
 msgstr "Tienes que añadir contenido al DCP antes de crearlo."
 
-#: src/lib/image_content.cc:68
+#: src/lib/image_content.cc:72
 msgid "[moving images]"
 msgstr "[imágenes en movimiento]"
 
-#: src/lib/image_content.cc:66
+#: src/lib/image_content.cc:70
 msgid "[still]"
 msgstr "[imagen fija]"
 
@@ -684,7 +689,7 @@ msgstr "falta la clave %1 en el par clave-valor"
 msgid "missing required setting %1"
 msgstr "falta una configuración obligatoria %1"
 
-#: src/lib/image_content.cc:83
+#: src/lib/image_content.cc:87
 msgid "moving"
 msgstr "moviendo"
 
@@ -718,7 +723,7 @@ msgstr "sRGB no-lineal"
 msgid "seconds"
 msgstr "segundos"
 
-#: src/lib/image_content.cc:81
+#: src/lib/image_content.cc:85
 msgid "still"
 msgstr "imagen fija"
 
