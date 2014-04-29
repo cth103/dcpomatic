@@ -3,7 +3,7 @@ import os
 from waflib import Logs
 
 def command(c):
-    print c
+    print(c)
     os.system(c)
 
 def pot(dir, sources, name):
