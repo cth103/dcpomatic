@@ -258,6 +258,8 @@ void
 AudioBuffers::accumulate_frames (AudioBuffers const * from, int read_offset, int write_offset, int frames)
 {
 	assert (_channels == from->channels ());
+	assert (read_offset >= 0);
+	assert (write_offset >= 0);
 
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < frames; ++j) {

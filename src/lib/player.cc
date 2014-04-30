@@ -311,7 +311,11 @@ Player::get_video (DCPTime time, bool accurate)
 		setup_pieces ();
 	}
 	
-	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (time);
+	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
+		time,
+		time + DCPTime::from_frames (1, _film->video_frame_rate ())
+		);
+		
 	if (ov.empty ()) {
 		/* No video content at this time */
 		return black_dcp_video (time);
@@ -351,7 +355,11 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Add subtitles */
 
-	ov = overlaps<SubtitleContent> (time);
+	ov = overlaps<SubtitleContent> (
+		time,
+		time + DCPTime::from_frames (1, _film->video_frame_rate ())
+		);
+	
 	list<PositionImage> sub_images;
 	
 	for (list<shared_ptr<Piece> >::const_iterator i = ov.begin(); i != ov.end(); ++i) {
@@ -398,7 +406,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
 	audio->make_silent ();
 	
-	list<shared_ptr<Piece> > ov = overlaps<AudioContent> (time);
+	list<shared_ptr<Piece> > ov = overlaps<AudioContent> (time, time + length);
 	if (ov.empty ()) {
 		return audio;
 	}
@@ -417,10 +425,21 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			continue;
 		}
 
-		AudioFrame const content_time = dcp_to_content_audio (*i, time);
+		/* The time that we should request from the content */
+		DCPTime request = time - DCPTime::from_seconds (content->audio_delay() / 1000.0);
+		DCPTime offset;
+		if (request < DCPTime ()) {
+			/* We went off the start of the content, so we will need to offset
+			   the stuff we get back.
+			*/
+			offset = -request;
+			request = DCPTime ();
+		}
 
-		/* Audio from this piece's decoder (which might be more than what we asked for) */
-		shared_ptr<ContentAudio> all = decoder->get_audio (content_time, length_frames, accurate);
+		AudioFrame const content_frame = dcp_to_content_audio (*i, request);
+
+		/* Audio from this piece's decoder (which might be more or less than what we asked for) */
+		shared_ptr<ContentAudio> all = decoder->get_audio (content_frame, length_frames, accurate);
 
 		/* Gain */
 		if (content->audio_gain() != 0) {
@@ -447,25 +466,13 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		}
 		
 		all->audio = dcp_mapped;
-		
-		/* Delay */
-		/* XXX
-		audio->dcp_time += content->audio_delay() * TIME_HZ / 1000;
-		if (audio->dcp_time < 0) {
-			int const frames = - audio->dcp_time * _film->audio_frame_rate() / TIME_HZ;
-			if (frames >= audio->audio->frames ()) {
-				return;
-			}
-			
-			shared_ptr<AudioBuffers> trimmed (new AudioBuffers (audio->audio->channels(), audio->audio->frames() - frames));
-			trimmed->copy_from (audio->audio.get(), audio->audio->frames() - frames, frames, 0);
-			
-			audio->audio = trimmed;
-			audio->dcp_time = 0;
-		}
-		*/
 
-		audio->accumulate_frames (all->audio.get(), all->frame - content_time, 0, min (AudioFrame (all->audio->frames()), length_frames));
+		audio->accumulate_frames (
+			all->audio.get(),
+			content_frame - all->frame,
+			offset.frames (_film->audio_frame_rate()),
+			min (AudioFrame (all->audio->frames()), length_frames) - offset.frames (_film->audio_frame_rate ())
+			);
 	}
 
 	return audio;

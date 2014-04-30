@@ -7,10 +7,12 @@ They can be grouped roughly into the following:
 
 AudioAnalysis:    audio_analysis_test
 AudioBuffers:     audio_buffers_test
+AudioDecoder:     audio_decoder_test
 AudioMapping:     audio_mapping_test
 ColourConversion: colour_conversion_test
 FileGroup:        file_group_test
 Image:            image_test, pixel_formats_test, make_black_test
+Player:           player_test
 Job/JobManager:   job_test
 SubRip:           subrip_test
 Ratio:            ratio_test
@@ -30,7 +32,6 @@ black_fill_test
 client_server_test
 film_metadata_test
 frame_rate_test
-player_silence_padding_test
 recover_test
 repeat_frame_test
 scaling_test

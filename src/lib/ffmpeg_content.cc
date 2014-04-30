@@ -449,7 +449,7 @@ void
 FFmpegContent::set_audio_mapping (AudioMapping m)
 {
 	audio_stream()->mapping = m;
-	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+	AudioContent::set_audio_mapping (m);
 }
 
 string

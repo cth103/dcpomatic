@@ -32,6 +32,7 @@ using std::list;
 using std::pair;
 using std::cout;
 using std::min;
+using std::max;
 using boost::optional;
 using boost::shared_ptr;
 
@@ -63,6 +64,9 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 		seek (ContentTime::from_frames (frame, _audio_content->content_audio_frame_rate()), accurate);
 	}
 
+	/* Offset of the data that we want from the start of _decoded_audio.audio
+	   (to be set up shortly)
+	*/
 	AudioFrame decoded_offset = 0;
 	
 	/* Now enough pass() calls will either:
@@ -73,22 +77,32 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 	 * otherwise any frames will do.
 	 */
 	if (accurate) {
-		while (!pass() && _decoded_audio.audio->frames() < length) {}
-		/* Use decoded_offset of 0, as we don't really care what frames we return */
-	} else {
+		/* Keep stuffing data into _decoded_audio until we have enough data, or the subclass does not want to give us any more */
 		while (!pass() && (_decoded_audio.frame > frame || (_decoded_audio.frame + _decoded_audio.audio->frames()) < end)) {}
 		decoded_offset = frame - _decoded_audio.frame;
+	} else {
+		while (!pass() && _decoded_audio.audio->frames() < length) {}
+		/* Use decoded_offset of 0, as we don't really care what frames we return */
 	}
 
+	/* The amount of data available in _decoded_audio.audio starting from `frame'.  This could be -ve
+	   if pass() returned true before we got enough data
+	*/
 	AudioFrame const amount_left = _decoded_audio.audio->frames() - decoded_offset;
 	
-	AudioFrame const to_return = min (amount_left, length);
+	/* We will return either that, or the requested amount, whichever is smaller */
+	AudioFrame const to_return = max ((AudioFrame) 0, min (amount_left, length));
+
+	/* Copy our data to the output */
 	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded_audio.audio->channels(), to_return));
 	out->copy_from (_decoded_audio.audio.get(), to_return, decoded_offset, 0);
 	
-	/* Clean up decoded */
+	/* Clean up decoded; first, move the data after what we just returned to the start of the buffer */
 	_decoded_audio.audio->move (decoded_offset + to_return, 0, amount_left - to_return);
+	/* And set up the number of frames we have left */
 	_decoded_audio.audio->set_frames (amount_left - to_return);
+	/* Also bump where those frames are in terms of the content */
+	_decoded_audio.frame += decoded_offset + to_return;
 
 	return shared_ptr<ContentAudio> (new ContentAudio (out, frame));
 }

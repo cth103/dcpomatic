@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,11 +39,11 @@ AudioMapping::AudioMapping ()
 }
 
 /** Create a default AudioMapping for a given channel count.
- *  @param c Number of channels.
+ *  @param channels Number of channels.
  */
-AudioMapping::AudioMapping (int c)
+AudioMapping::AudioMapping (int channels)
 {
-	setup (c);
+	setup (channels);
 }
 
 void

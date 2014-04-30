@@ -126,6 +126,7 @@ public:
 private:
 	friend class PlayerWrapper;
 	friend class Piece;
+	friend class player_overlaps_test;
 
 	void setup_pieces ();
 	void playlist_changed ();
@@ -142,13 +143,22 @@ private:
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	boost::shared_ptr<DCPVideo> black_dcp_video (DCPTime) const;
 
+	/** @return Pieces of content type C that overlap a specified time range in the DCP */
 	template<class C>
 	std::list<boost::shared_ptr<Piece> >
-	overlaps (DCPTime t)
+	overlaps (DCPTime from, DCPTime to)
 	{
+		if (!_have_valid_pieces) {
+			setup_pieces ();
+		}
+
 		std::list<boost::shared_ptr<Piece> > overlaps;
 		for (typename std::list<boost::shared_ptr<Piece> >::const_iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-			if (boost::dynamic_pointer_cast<C> ((*i)->content) && (*i)->content->position() <= t && t < (*i)->content->end()) {
+			if (!boost::dynamic_pointer_cast<C> ((*i)->content)) {
+				continue;
+			}
+
+			if ((*i)->content->position() <= to && (*i)->content->end() >= from) {
 				overlaps.push_back (*i);
 			}
 		}

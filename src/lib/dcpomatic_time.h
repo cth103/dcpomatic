@@ -186,6 +186,10 @@ public:
 		return *this;
 	}
 
+	DCPTime operator- () const {
+		return DCPTime (-_t);
+	}
+
 	DCPTime operator- (DCPTime const & o) const {
 		return DCPTime (_t - o._t);
 	}

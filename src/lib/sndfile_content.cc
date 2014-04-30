@@ -163,6 +163,6 @@ SndfileContent::set_audio_mapping (AudioMapping m)
 		_audio_mapping = m;
 	}
 
-	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+	AudioContent::set_audio_mapping (m);
 }
 

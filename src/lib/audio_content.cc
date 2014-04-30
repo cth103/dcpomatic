@@ -157,3 +157,9 @@ AudioContent::technical_summary () const
 		output_audio_frame_rate()
 		);
 }
+
+void
+AudioContent::set_audio_mapping (AudioMapping)
+{
+	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+}
