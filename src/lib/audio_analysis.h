@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/audio_analysis.h
+ *  @brief AudioAnalysis and AudioPoint classes.
+ */
+
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
@@ -24,6 +28,9 @@
 #include <list>
 #include <boost/filesystem.hpp>
 
+/** @class AudioPoint
+ *  @brief A single point of an audio analysis for one portion of one channel.
+ */
 class AudioPoint
 {
 public:
@@ -48,6 +55,14 @@ private:
 	float _data[COUNT];
 };
 
+/** @class AudioAnalysis
+ *  @brief An analysis of the audio data in a piece of AudioContent.
+ *
+ *  This is a set of AudioPoints for each channel.  The AudioPoints
+ *  each represent some measurement of the audio over a portion of the
+ *  content.  For example each AudioPoint may give the RMS level of
+ *  a 1-minute portion of the audio.
+ */
 class AudioAnalysis : public boost::noncopyable
 {
 public:

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,17 @@
 
 */
 
+/** @file  src/wx/about_dialog.h
+ *  @brief The "about DCP-o-matic" dialogue box.
+ */
+
 #include <wx/wx.h>
 
 class wxNotebook;
 
+/** @class AboutDialog
+ *  @brief The "about DCP-o-matic" dialogue box.
+ */
 class AboutDialog : public wxDialog
 {
 public:
@@ -29,6 +36,6 @@ public:
 private:
 	void add_section (wxString, wxArrayString);
 
-	wxNotebook* _notebook;
+	wxNotebook* _notebook; ///< notebook used to keep each list of names for the credits
 };
 

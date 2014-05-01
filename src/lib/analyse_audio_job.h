@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/analyse_audio_job.h
+ *  @brief AnalyseAudioJob class.
+ */
+
 #include "job.h"
 #include "audio_analysis.h"
 #include "types.h"
@@ -25,6 +29,13 @@
 class AudioBuffers;
 class AudioContent;
 
+/** @class AnalyseAudioJob
+ *  @brief A job to analyse the audio of a piece of AudioContent and make a note of its
+ *  broad peak and RMS levels.
+ *
+ *  After computing the peak and RMS levels over the length of the content, the job
+ *  will write a file to Content::audio_analysis_path.
+ */
 class AnalyseAudioJob : public Job
 {
 public:

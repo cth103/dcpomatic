@@ -141,16 +141,20 @@ private:
 	char* _old;
 };
 
+/** @class ScopedTemporary
+ *  @brief A temporary file which is deleted when the ScopedTemporary object goes out of scope.
+ */
 class ScopedTemporary
 {
 public:
 	ScopedTemporary ();
 	~ScopedTemporary ();
 
+	/** @return temporary filename */
 	boost::filesystem::path file () const {
 		return _file;
 	}
-	
+
 	char const * c_str () const;
 	FILE* open (char const *);
 	void close ();

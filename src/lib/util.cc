@@ -958,12 +958,16 @@ dependency_version_summary ()
 	return s.str ();
 }
 
+/** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened
+ *  until ::open() is called.
+ */
 ScopedTemporary::ScopedTemporary ()
 	: _open (0)
 {
 	_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path ();
 }
 
+/** Close and delete the temporary file */
 ScopedTemporary::~ScopedTemporary ()
 {
 	close ();	
@@ -971,12 +975,16 @@ ScopedTemporary::~ScopedTemporary ()
 	boost::filesystem::remove (_file, ec);
 }
 
+/** @return temporary filename */
 char const *
 ScopedTemporary::c_str () const
 {
 	return _file.string().c_str ();
 }
 
+/** Open the temporary file.
+ *  @return File's FILE pointer.
+ */
 FILE*
 ScopedTemporary::open (char const * params)
 {
@@ -984,6 +992,7 @@ ScopedTemporary::open (char const * params)
 	return _open;
 }
 
+/** Close the file */
 void
 ScopedTemporary::close ()
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,12 @@
 
 */
 
-#ifndef DVDOMATIC_AUDIO_BUFFERS_H
-#define DVDOMATIC_AUDIO_BUFFERS_H
+/** @file  src/lib/audio_buffers.h
+ *  @brief AudioBuffers class.
+ */
+
+#ifndef DCPOMATIC_AUDIO_BUFFERS_H
+#define DCPOMATIC_AUDIO_BUFFERS_H
 
 #include <boost/shared_ptr.hpp>
 

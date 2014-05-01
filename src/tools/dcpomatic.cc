@@ -615,6 +615,9 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
 
+/** @class App
+ *  @brief The magic App class for wxWidgets.
+ */
 class App : public wxApp
 {
 	bool OnInit ()

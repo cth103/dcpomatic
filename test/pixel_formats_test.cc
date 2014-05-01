@@ -35,6 +35,9 @@ extern "C" {
 using std::list;
 using std::cout;
 
+/** @struct Case
+ *  @brief  A test case for pixel_formats_test.
+ */
 struct Case
 {
 	Case (AVPixelFormat f, int c, int l0, int l1, int l2, float b0, float b1, float b2)

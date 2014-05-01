@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  src/wx/about_dialog.cc
+ *  @brief The "about DCP-o-matic" dialogue box.
+ */
 
 #include <wx/notebook.h>
 #include <wx/hyperlink.h>
@@ -202,6 +206,10 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	SetSizerAndFit (overall_sizer);
 }
 
+/** Add a section of credits.
+ *  @param name Name of section.
+ *  @param credits List of names.
+ */
 void
 AboutDialog::add_section (wxString name, wxArrayString credits)
 {
