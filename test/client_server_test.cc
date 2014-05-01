@@ -75,6 +75,7 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		p += sub_image->stride()[0];
 	}
 
+	/* XXX */
 //	shared_ptr<Subtitle> subtitle (new Subtitle (Position<int> (50, 60), sub_image));
 
 	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test.log"));
