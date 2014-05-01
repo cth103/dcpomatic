@@ -75,6 +75,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		content->_first_video = ContentTime::from_seconds (frame + 0.0215 + 4.1);
 		content->_audio_stream->first_audio = ContentTime::from_seconds (4.1);
 		FFmpegDecoder decoder (content, film->log());
-		BOOST_CHECK_EQUAL (decoder._pts_offset.seconds(), (frame - 0.0215) - 4.1);
+		BOOST_CHECK_CLOSE (decoder._pts_offset.seconds(), (frame - 0.0215) - 4.1, 0.1);
 	}
 }
