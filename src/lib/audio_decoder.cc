@@ -86,21 +86,23 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 	}
 
 	/* The amount of data available in _decoded_audio.audio starting from `frame'.  This could be -ve
-	   if pass() returned true before we got enough data
+	   if pass() returned true before we got enough data.
 	*/
-	AudioFrame const amount_left = _decoded_audio.audio->frames() - decoded_offset;
-	
+	AudioFrame const available = _decoded_audio.audio->frames() - decoded_offset;
+
 	/* We will return either that, or the requested amount, whichever is smaller */
-	AudioFrame const to_return = max ((AudioFrame) 0, min (amount_left, length));
+	AudioFrame const to_return = max ((AudioFrame) 0, min (available, length));
 
 	/* Copy our data to the output */
 	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded_audio.audio->channels(), to_return));
 	out->copy_from (_decoded_audio.audio.get(), to_return, decoded_offset, 0);
-	
+
+	AudioFrame const remaining = max ((AudioFrame) 0, available - to_return);
+
 	/* Clean up decoded; first, move the data after what we just returned to the start of the buffer */
-	_decoded_audio.audio->move (decoded_offset + to_return, 0, amount_left - to_return);
+	_decoded_audio.audio->move (decoded_offset + to_return, 0, remaining);
 	/* And set up the number of frames we have left */
-	_decoded_audio.audio->set_frames (amount_left - to_return);
+	_decoded_audio.audio->set_frames (remaining);
 	/* Also bump where those frames are in terms of the content */
 	_decoded_audio.frame += decoded_offset + to_return;
 
