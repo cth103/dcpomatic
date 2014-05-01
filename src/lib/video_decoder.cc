@@ -39,19 +39,21 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 
 }
 
-optional<ContentVideo>
+list<ContentVideo>
 VideoDecoder::decoded_video (VideoFrame frame)
 {
+	list<ContentVideo> output;
+	
 	for (list<ContentVideo>::const_iterator i = _decoded_video.begin(); i != _decoded_video.end(); ++i) {
 		if (i->frame == frame) {
-			return *i;
+			output.push_back (*i);
 		}
 	}
 
-	return optional<ContentVideo> ();
+	return output;
 }
 
-optional<ContentVideo>
+list<ContentVideo>
 VideoDecoder::get_video (VideoFrame frame, bool accurate)
 {
 	if (_decoded_video.empty() || (frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1))) {
@@ -59,7 +61,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 		seek (ContentTime::from_frames (frame, _video_content->video_frame_rate()), accurate);
 	}
 
-	optional<ContentVideo> dec;
+	list<ContentVideo> dec;
 
 	/* Now enough pass() calls should either:
 	 *  (a) give us what we want, or
@@ -70,7 +72,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 		 * This could all be one statement but it's split up for clarity.
 		 */
 		while (true) {
-			if (decoded_video (frame)) {
+			if (!decoded_video(frame).empty ()) {
 				/* We got what we want */
 				break;
 			}
@@ -94,7 +96,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 		/* Any frame will do: use the first one that comes out of pass() */
 		while (_decoded_video.empty() && !pass ()) {}
 		if (!_decoded_video.empty ()) {
-			dec = _decoded_video.front ();
+			dec.push_back (_decoded_video.front ());
 		}
 	}
 

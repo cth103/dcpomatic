@@ -36,16 +36,17 @@
 
 using std::cerr;
 using std::vector;
+using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
 static void
 check (FFmpegDecoder& decoder, int frame)
 {
-	optional<ContentVideo> v;
+	list<ContentVideo> v;
 	v = decoder.get_video (frame, true);
-	BOOST_CHECK (v);
-	BOOST_CHECK_EQUAL (v->frame, frame);
+	BOOST_CHECK (v.size() == 1);
+	BOOST_CHECK_EQUAL (v.front().frame, frame);
 }
 
 static void

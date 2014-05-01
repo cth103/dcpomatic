@@ -34,9 +34,11 @@ using std::string;
 using boost::shared_ptr;
 
 static void
-note (dcp::NoteType, string n)
+note (dcp::NoteType t, string n)
 {
-	cout << n << "\n";
+	if (t == dcp::ERROR) {
+		cout << n << "\n";
+	}
 }
 
 BOOST_AUTO_TEST_CASE (recover_test)
@@ -55,7 +57,7 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	boost::filesystem::path const video = "build/test/recover_test/video/185_2K_aa7e8a4665281568bbe11645a3d4ba4e_24_bicubic_200000000_P_S_3D.mxf";
+	boost::filesystem::path const video = "build/test/recover_test/video/185_2K_3651eded785682b85f4baca4b1d3b7a9_24_bicubic_200000000_P_S_3D.mxf";
 
 	boost::filesystem::copy_file (
 		video,

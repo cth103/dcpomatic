@@ -218,7 +218,7 @@ Player::film_changed (Film::Property p)
 }
 
 list<PositionImage>
-Player::process_content_image_subtitles (shared_ptr<SubtitleContent> content, list<shared_ptr<ContentImageSubtitle> > subs)
+Player::process_content_image_subtitles (shared_ptr<SubtitleContent> content, list<shared_ptr<ContentImageSubtitle> > subs) const
 {
 	list<PositionImage> all;
 	
@@ -269,7 +269,7 @@ Player::process_content_image_subtitles (shared_ptr<SubtitleContent> content, li
 }
 
 list<PositionImage>
-Player::process_content_text_subtitles (list<shared_ptr<ContentTextSubtitle> > sub)
+Player::process_content_text_subtitles (list<shared_ptr<ContentTextSubtitle> > sub) const
 {
 	list<PositionImage> all;
 	for (list<shared_ptr<ContentTextSubtitle> >::const_iterator i = sub.begin(); i != sub.end(); ++i) {
@@ -305,45 +305,17 @@ Player::black_dcp_video (DCPTime time) const
 }
 
 shared_ptr<DCPVideo>
-Player::get_video (DCPTime time, bool accurate)
+Player::content_to_dcp (
+	shared_ptr<VideoContent> content,
+	ContentVideo content_video,
+	list<shared_ptr<Piece> > subs,
+	DCPTime time,
+	dcp::Size image_size) const
 {
-	if (!_have_valid_pieces) {
-		setup_pieces ();
-	}
-	
-	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
-		time,
-		time + DCPTime::from_frames (1, _film->video_frame_rate ())
-		);
-		
-	if (ov.empty ()) {
-		/* No video content at this time */
-		return black_dcp_video (time);
-	}
-
-	/* Create a DCPVideo from the content's video at this time */
-
-	shared_ptr<Piece> piece = ov.back ();
-	shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
-	assert (decoder);
-	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
-	assert (content);
-
-	optional<ContentVideo> dec = decoder->get_video (dcp_to_content_video (piece, time), accurate);
-	if (!dec) {
-		return black_dcp_video (time);
-	}
-
-	dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
-	if (_approximate_size) {
-		image_size.width &= ~3;
-		image_size.height &= ~3;
-	}
-
 	shared_ptr<DCPVideo> dcp_video (
 		new DCPVideo (
-			dec->image,
-			dec->eyes,
+			content_video.image,
+			content_video.eyes,
 			content->crop (),
 			image_size,
 			_video_container_size,
@@ -352,17 +324,13 @@ Player::get_video (DCPTime time, bool accurate)
 			time
 			)
 		);
-
+	
+	
 	/* Add subtitles */
-
-	ov = overlaps<SubtitleContent> (
-		time,
-		time + DCPTime::from_frames (1, _film->video_frame_rate ())
-		);
 	
 	list<PositionImage> sub_images;
 	
-	for (list<shared_ptr<Piece> >::const_iterator i = ov.begin(); i != ov.end(); ++i) {
+	for (list<shared_ptr<Piece> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*i)->decoder);
 		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*i)->content);
 		ContentTime const from = dcp_to_content_subtitle (*i, time);
@@ -374,10 +342,10 @@ Player::get_video (DCPTime time, bool accurate)
 				subtitle_content,
 				image_subtitles
 				);
-
+			
 			copy (im.begin(), im.end(), back_inserter (sub_images));
 		}
-
+		
 		if (_burn_subtitles) {
 			list<shared_ptr<ContentTextSubtitle> > text_subtitles = subtitle_decoder->get_text_subtitles (from, to);
 			if (!text_subtitles.empty ()) {
@@ -386,11 +354,64 @@ Player::get_video (DCPTime time, bool accurate)
 			}
 		}
 	}
-
+	
 	if (!sub_images.empty ()) {
 		dcp_video->set_subtitle (merge (sub_images));
 	}
 
+	return dcp_video;
+}
+
+/** @return All DCPVideo at the given time (there may be two frames for 3D) */
+list<shared_ptr<DCPVideo> >
+Player::get_video (DCPTime time, bool accurate)
+{
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+	}
+	
+	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
+		time,
+		time + DCPTime::from_frames (1, _film->video_frame_rate ())
+		);
+
+	list<shared_ptr<DCPVideo> > dcp_video;
+		
+	if (ov.empty ()) {
+		/* No video content at this time */
+		dcp_video.push_back (black_dcp_video (time));
+		return dcp_video;
+	}
+
+	/* Create a DCPVideo from the content's video at this time */
+
+	shared_ptr<Piece> piece = ov.back ();
+	shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
+	assert (decoder);
+	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
+	assert (content);
+
+	list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+	if (content_video.empty ()) {
+		dcp_video.push_back (black_dcp_video (time));
+		return dcp_video;
+	}
+
+	dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
+	if (_approximate_size) {
+		image_size.width &= ~3;
+		image_size.height &= ~3;
+	}
+
+	for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
+		list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (
+			time,
+			time + DCPTime::from_frames (1, _film->video_frame_rate ())
+			);
+		
+		dcp_video.push_back (content_to_dcp (content, *i, subs, time, image_size));
+	}
+		
 	return dcp_video;
 }
 

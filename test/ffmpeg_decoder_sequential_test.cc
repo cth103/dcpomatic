@@ -32,6 +32,7 @@
 
 using std::cout;
 using std::cerr;
+using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -57,13 +58,13 @@ test (boost::filesystem::path file, float fps, int first)
 	VideoFrame const N = decoder.video_content()->video_length().frames (decoder.video_content()->video_frame_rate ());
 	decoder.test_gaps = 0;
 	for (VideoFrame i = 0; i < N; ++i) {
-		optional<ContentVideo> v;
+		list<ContentVideo> v;
 		v = decoder.get_video (i, true);
 		if (i < first) {
-			BOOST_CHECK (!v);
+			BOOST_CHECK (v.empty ());
 		} else {
-			BOOST_CHECK (v);
-			BOOST_CHECK_EQUAL (v->frame, i);
+			BOOST_CHECK (v.size() == 1);
+			BOOST_CHECK_EQUAL (v.front().frame, i);
 		}
 	}
 	BOOST_CHECK_EQUAL (decoder.test_gaps, 0);

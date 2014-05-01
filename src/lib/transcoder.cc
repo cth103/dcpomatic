@@ -36,6 +36,7 @@
 
 using std::string;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -60,7 +61,10 @@ Transcoder::go ()
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	for (DCPTime t; t < _film->length(); t += frame) {
-		_encoder->process_video (_player->get_video (t, true));
+		list<shared_ptr<DCPVideo> > v = _player->get_video (t, true);
+		for (list<shared_ptr<DCPVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {
+			_encoder->process_video (*i);
+		}
 		_encoder->process_audio (_player->get_audio (t, frame, true));
 	}
 

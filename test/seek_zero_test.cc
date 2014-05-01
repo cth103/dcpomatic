@@ -32,6 +32,7 @@
 #include "test.h"
 
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	VideoFrame const first_frame = video_delay.round_up (content->video_frame_rate ()).frames (content->video_frame_rate ());
 
 	FFmpegDecoder decoder (content, film->log());
-	optional<ContentVideo> a = decoder.get_video (first_frame, true);
-	BOOST_CHECK (a);
-	BOOST_CHECK_EQUAL (a->frame, first_frame);
+	list<ContentVideo> a = decoder.get_video (first_frame, true);
+	BOOST_CHECK (a.size() == 1);
+	BOOST_CHECK_EQUAL (a.front().frame, first_frame);
 }

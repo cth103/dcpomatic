@@ -150,9 +150,9 @@ FilmViewer::get (DCPTime p, bool accurate)
 		return;
 	}
 
-	shared_ptr<DCPVideo> dcp_video = _player->get_video (p, accurate);
-	if (dcp_video) {
-		_frame = dcp_video->image (PIX_FMT_BGRA, true);
+	list<shared_ptr<DCPVideo> > dcp_video = _player->get_video (p, accurate);
+	if (!dcp_video.empty ()) {
+		_frame = dcp_video.front()->image (PIX_FMT_BGRA, true);
 		_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
 	} else {
 		_frame.reset ();

@@ -32,6 +32,7 @@
 #include "content_subtitle.h"
 #include "position_image.h"
 #include "piece.h"
+#include "content_video.h"
 
 class Job;
 class Film;
@@ -104,7 +105,7 @@ class Player : public boost::enable_shared_from_this<Player>, public boost::nonc
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
 
-	boost::shared_ptr<DCPVideo> get_video (DCPTime time, bool accurate);
+	std::list<boost::shared_ptr<DCPVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
 
 	void set_video_container_size (dcp::Size);
@@ -135,13 +136,20 @@ private:
 	void film_changed (Film::Property);
 	std::list<PositionImage> process_content_image_subtitles (
 		boost::shared_ptr<SubtitleContent>, std::list<boost::shared_ptr<ContentImageSubtitle> >
-		);
-	std::list<PositionImage> process_content_text_subtitles (std::list<boost::shared_ptr<ContentTextSubtitle> >);
+		) const;
+	std::list<PositionImage> process_content_text_subtitles (std::list<boost::shared_ptr<ContentTextSubtitle> >) const;
 	void update_subtitle_from_text ();
 	VideoFrame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	AudioFrame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	boost::shared_ptr<DCPVideo> black_dcp_video (DCPTime) const;
+	boost::shared_ptr<DCPVideo> content_to_dcp (
+		boost::shared_ptr<VideoContent> content,
+		ContentVideo content_video,
+		std::list<boost::shared_ptr<Piece> > subs,
+		DCPTime time,
+		dcp::Size image_size
+		) const;
 
 	/** @return Pieces of content type C that overlap a specified time range in the DCP */
 	template<class C>

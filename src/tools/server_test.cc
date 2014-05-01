@@ -156,7 +156,7 @@ main (int argc, char* argv[])
 
 		DCPTime const frame = DCPTime::from_frames (1, film->video_frame_rate ());
 		for (DCPTime t; t < film->length(); t += frame) {
-			process_video (player->get_video (t, true));
+			process_video (player->get_video(t, true).front ());
 		}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";
