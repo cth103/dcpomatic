@@ -74,7 +74,7 @@ SndfileDecoder::pass ()
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
-	sf_count_t const block = _sndfile_content->content_audio_frame_rate() / 2;
+	sf_count_t const block = _sndfile_content->audio_frame_rate() / 2;
 	sf_count_t const this_time = min (block, _remaining);
 
 	int const channels = _sndfile_content->audio_channels ();

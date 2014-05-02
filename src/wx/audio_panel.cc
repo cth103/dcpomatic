@@ -237,7 +237,7 @@ AudioPanel::setup_stream_description ()
 		} else {
 			s << fcs->audio_channels() << wxT (" ") << _("channels");
 		}
-		s << wxT (", ") << fcs->content_audio_frame_rate() << _("Hz");
+		s << wxT (", ") << fcs->audio_frame_rate() << _("Hz");
 		_description->SetLabel (s);
 	}
 }

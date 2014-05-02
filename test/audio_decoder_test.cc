@@ -44,7 +44,7 @@ public:
 	{
 		AudioFrame const N = min (
 			AudioFrame (2000),
-			_audio_content->audio_length().frames (_audio_content->output_audio_frame_rate ()) - _position
+			_audio_content->audio_length().frames (_audio_content->resampled_audio_frame_rate ()) - _position
 			);
 
 		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_audio_content->audio_channels(), N));
@@ -54,7 +54,7 @@ public:
 			}
 		}
 
-		audio (buffers, ContentTime::from_frames (_position, _audio_content->output_audio_frame_rate ()));
+		audio (buffers, ContentTime::from_frames (_position, _audio_content->resampled_audio_frame_rate ()));
 		_position += N;
 
 		return N < 2000;
@@ -63,7 +63,7 @@ public:
 	void seek (ContentTime t, bool accurate)
 	{
 		AudioDecoder::seek (t, accurate);
-		_position = t.frames (_audio_content->output_audio_frame_rate ());
+		_position = t.frames (_audio_content->resampled_audio_frame_rate ());
 	}
 
 private:
@@ -98,11 +98,7 @@ public:
 		return ContentTime::from_seconds (61.2942);
 	}
 
-	int content_audio_frame_rate () const {
-		return 48000;
-	}
-
-	int output_audio_frame_rate () const {
+	int audio_frame_rate () const {
 		return 48000;
 	}
 
@@ -119,7 +115,7 @@ shared_ptr<TestAudioDecoder> decoder;
 static shared_ptr<ContentAudio>
 get (AudioFrame from, AudioFrame length)
 {
-	decoder->seek (ContentTime::from_frames (from, content->output_audio_frame_rate ()), true);
+	decoder->seek (ContentTime::from_frames (from, content->resampled_audio_frame_rate ()), true);
 	shared_ptr<ContentAudio> ca = decoder->get_audio (from, length, true);
 	BOOST_CHECK_EQUAL (ca->frame, from);
 	return ca;
@@ -152,8 +148,8 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 
 	/* Read off the end */
 
-	AudioFrame const from = content->output_audio_frame_rate() * 61;
-	AudioFrame const length = content->output_audio_frame_rate() * 4;
+	AudioFrame const from = content->resampled_audio_frame_rate() * 61;
+	AudioFrame const length = content->resampled_audio_frame_rate() * 4;
 	shared_ptr<ContentAudio> ca = get (from, length);
 	
 	for (int i = 0; i < content->audio_channels(); ++i) {

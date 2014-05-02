@@ -80,8 +80,8 @@ SndfileContent::information () const
 	s << String::compose (
 		_("%1 channels, %2kHz, %3 samples"),
 		audio_channels(),
-		content_audio_frame_rate() / 1000.0,
-		audio_length().frames (content_audio_frame_rate ())
+		audio_frame_rate() / 1000.0,
+		audio_length().frames (audio_frame_rate ())
 		);
 	
 	return s.str ();
@@ -134,7 +134,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 
 	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (audio_channels ()));
 	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (audio_length().get ()));
-	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (content_audio_frame_rate ()));
+	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (audio_frame_rate ()));
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }
 
@@ -144,15 +144,6 @@ SndfileContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	return DCPTime (audio_length(), film->active_frame_rate_change (position ()));
-}
-
-int
-SndfileContent::output_audio_frame_rate () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	return film->audio_frame_rate ();
 }
 
 void

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -150,11 +150,11 @@ string
 AudioContent::technical_summary () const
 {
 	return String::compose (
-		"audio: channels %1, length %2, raw rate %3, out rate %4",
+		"audio: channels %1, length %2, content rate %3, resampled rate %4",
 		audio_channels(),
 		audio_length().seconds(),
-		content_audio_frame_rate(),
-		output_audio_frame_rate()
+		audio_frame_rate(),
+		resampled_audio_frame_rate()
 		);
 }
 
@@ -162,4 +162,30 @@ void
 AudioContent::set_audio_mapping (AudioMapping)
 {
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+}
+
+/** @return the frame rate that this content should be resampled to in order
+ *  that it is in sync with the active video content at its start time.
+ */
+int
+AudioContent::resampled_audio_frame_rate () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	
+	/* Resample to a DCI-approved sample rate */
+	double t = dcp_audio_frame_rate (audio_frame_rate ());
+
+	FrameRateChange frc = film->active_frame_rate_change (position ());
+
+	/* Compensate if the DCP is being run at a different frame rate
+	   to the source; that is, if the video is run such that it will
+	   look different in the DCP compared to the source (slower or faster).
+	*/
+
+	if (frc.change_speed) {
+		t /= frc.speed_up;
+	}
+
+	return rint (t);
 }

@@ -57,12 +57,10 @@ public:
 		return _audio_length;
 	}
 	
-	int content_audio_frame_rate () const {
+	int audio_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_frame_rate;
 	}
-
-	int output_audio_frame_rate () const;
 
 	AudioMapping audio_mapping () const {
 		boost::mutex::scoped_lock lm (_mutex);

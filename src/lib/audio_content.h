@@ -63,11 +63,12 @@ public:
 	/** @return the length of the audio in the content */
 	virtual ContentTime audio_length () const = 0;
 	/** @return the frame rate of the content */
-	virtual int content_audio_frame_rate () const = 0;
-	virtual int output_audio_frame_rate () const = 0;
+	virtual int audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
 	virtual void set_audio_mapping (AudioMapping);
 	virtual boost::filesystem::path audio_analysis_path () const;
+
+	int resampled_audio_frame_rate () const;
 
 	boost::signals2::connection analyse_audio (boost::function<void()>);
 

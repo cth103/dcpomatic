@@ -288,7 +288,7 @@ FFmpegContent::audio_channels () const
 }
 
 int
-FFmpegContent::content_audio_frame_rate () const
+FFmpegContent::audio_frame_rate () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -297,29 +297,6 @@ FFmpegContent::content_audio_frame_rate () const
 	}
 
 	return _audio_stream->frame_rate;
-}
-
-int
-FFmpegContent::output_audio_frame_rate () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
-
-	FrameRateChange frc (video_frame_rate(), film->video_frame_rate());
-
-	/* Compensate if the DCP is being run at a different frame rate
-	   to the source; that is, if the video is run such that it will
-	   look different in the DCP compared to the source (slower or faster).
-	*/
-
-	if (frc.change_speed) {
-		t /= frc.speed_up;
-	}
-
-	return rint (t);
 }
 
 bool

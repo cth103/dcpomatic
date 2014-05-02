@@ -39,8 +39,8 @@ using boost::shared_ptr;
 AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 	: _audio_content (content)
 {
-	if (content->output_audio_frame_rate() != content->content_audio_frame_rate() && content->audio_channels ()) {
-		_resampler.reset (new Resampler (content->content_audio_frame_rate(), content->output_audio_frame_rate(), content->audio_channels ()));
+	if (content->resampled_audio_frame_rate() != content->audio_frame_rate() && content->audio_channels ()) {
+		_resampler.reset (new Resampler (content->audio_frame_rate(), content->resampled_audio_frame_rate(), content->audio_channels ()));
 	}
 
 	reset_decoded_audio ();
@@ -61,7 +61,7 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 		
 	if (frame < _decoded_audio.frame || end > (_decoded_audio.frame + length * 4)) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
-		seek (ContentTime::from_frames (frame, _audio_content->content_audio_frame_rate()), accurate);
+		seek (ContentTime::from_frames (frame, _audio_content->audio_frame_rate()), accurate);
 	}
 
 	/* Offset of the data that we want from the start of _decoded_audio.audio
@@ -126,7 +126,7 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	}
 
 	if (!_audio_position) {
-		_audio_position = time.frames (_audio_content->output_audio_frame_rate ());
+		_audio_position = time.frames (_audio_content->resampled_audio_frame_rate ());
 	}
 
 	assert (_audio_position.get() >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
