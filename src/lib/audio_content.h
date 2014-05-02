@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  src/lib/audio_content.h
+ *  @brief AudioContent and AudioContentProperty classes.
+ */
 
 #ifndef DCPOMATIC_AUDIO_CONTENT_H
 #define DCPOMATIC_AUDIO_CONTENT_H
@@ -38,6 +42,9 @@ public:
 	static int const AUDIO_MAPPING;
 };
 
+/** @class AudioContent
+ *  @brief Parent class for content which may contain audio data.
+ */
 class AudioContent : public virtual Content
 {
 public:
@@ -51,8 +58,11 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
 
+	/** @return number of audio channels in the content */
 	virtual int audio_channels () const = 0;
+	/** @return the length of the audio in the content */
 	virtual ContentTime audio_length () const = 0;
+	/** @return the frame rate of the content */
 	virtual int content_audio_frame_rate () const = 0;
 	virtual int output_audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;
