@@ -125,7 +125,8 @@ BOOST_AUTO_TEST_CASE (subrip_content_test)
 /** Test parsing of full SubRip file content */
 BOOST_AUTO_TEST_CASE (subrip_parse_test)
 {
-	shared_ptr<SubRipContent> content (new SubRipContent (shared_ptr<Film> (), "test/data/subrip.srt"));
+	shared_ptr<Film> film = new_test_film ("subrip_test");
+	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip.srt"));
 	content->examine (shared_ptr<Job> ());
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
