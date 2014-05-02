@@ -76,6 +76,11 @@ struct TestConfig
 
 		ui_signaller = new TestUISignaller ();
 	}
+
+	~TestConfig ()
+	{
+		JobManager::drop ();
+	}
 };
 
 BOOST_GLOBAL_FIXTURE (TestConfig);
