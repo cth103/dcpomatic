@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  src/lib/cross.h
+ *  @brief Cross-platform compatibility code.
+ */
 
 #ifndef DCPOMATIC_CROSS_H
 #define DCPOMATIC_CROSS_H
@@ -42,7 +46,9 @@ extern boost::filesystem::path app_contents ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
 
-/** A class which tries to keep the computer awake on various operating systems.
+/** @class Waker
+ *  @brief A class which tries to keep the computer awake on various operating systems.
+ *
  *  Create a Waker to prevent sleep, and call ::nudge every so often (every minute or so).
  *  Destroy the Waker to allow sleep again.
  */
