@@ -60,7 +60,7 @@ SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTime from, Conte
 	 *
 	 *  XXX: with subs being sparse, this may need more care...
 	 */
-	while (!pass() && (subs.front()->from() > from || to < subs.back()->to())) {}
+	while (!pass() && (subs.empty() || (subs.front()->from() > from || to < subs.back()->to()))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
