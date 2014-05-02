@@ -175,6 +175,11 @@ AudioBuffers::make_silent (int from, int frames)
 void
 AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset)
 {
+	if (frames_to_copy == 0) {
+		/* Prevent the asserts from firing if there is nothing to do */
+		return;
+	}
+	
 	assert (from->channels() == channels());
 
 	assert (from);
