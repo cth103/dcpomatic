@@ -75,7 +75,7 @@ protected:
 	   a mutex around calls to avcodec_open* and avcodec_close... and here
 	   it is.
 	*/
-	static boost::mutex _mutex;
+	static boost::mutex* _mutex;
 
 private:
 	void setup_general ();
