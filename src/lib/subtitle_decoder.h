@@ -39,11 +39,17 @@ public:
 	std::list<boost::shared_ptr<ContentTextSubtitle> > get_text_subtitles (ContentTime from, ContentTime to);
 
 protected:
+	void seek (ContentTime, bool);
+	
 	void image_subtitle (ContentTime from, ContentTime to, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void text_subtitle (std::list<dcp::SubtitleString>);
 
 	std::list<boost::shared_ptr<ContentImageSubtitle> > _decoded_image_subtitles;
 	std::list<boost::shared_ptr<ContentTextSubtitle> > _decoded_text_subtitles;
+
+private:
+	template <class T>
+	std::list<boost::shared_ptr<T> > get (std::list<boost::shared_ptr<T> > const & subs, ContentTime from, ContentTime to);
 };
 
 #endif

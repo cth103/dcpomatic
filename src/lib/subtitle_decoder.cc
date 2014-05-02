@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "subtitle_decoder.h"
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -46,9 +47,24 @@ SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
 
 template <class T>
 list<shared_ptr<T> >
-get (list<shared_ptr<T> > const & subs, ContentTime from, ContentTime to)
+SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTime from, ContentTime to)
 {
+	if (subs.empty() || from < subs.front()->from() || to > (subs.back()->to() + ContentTime::from_seconds (10))) {
+		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
+		seek (from, true);
+	}
+
+	/* Now enough pass() calls will either:
+	 *  (a) give us what we want, or
+	 *  (b) hit the end of the decoder.
+	 *
+	 *  XXX: with subs being sparse, this may need more care...
+	 */
+	while (!pass() && (subs.front()->from() > from || to < subs.back()->to())) {}
+
+	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
+	
 	list<shared_ptr<T> > out;
 	for (typename list<shared_ptr<T> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		if ((*i)->from() <= to && (*i)->to() >= from) {
@@ -69,4 +85,11 @@ list<shared_ptr<ContentImageSubtitle> >
 SubtitleDecoder::get_image_subtitles (ContentTime from, ContentTime to)
 {
 	return get<ContentImageSubtitle> (_decoded_image_subtitles, from, to);
+}
+
+void
+SubtitleDecoder::seek (ContentTime, bool)
+{
+	_decoded_text_subtitles.clear ();
+	_decoded_image_subtitles.clear ();
 }
