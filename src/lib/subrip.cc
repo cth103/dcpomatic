@@ -138,7 +138,7 @@ SubRip::convert_time (string t)
 	vector<string> b;
 	boost::algorithm::split (b, a[2], boost::is_any_of (","));
 	r += ContentTime::from_seconds (lexical_cast<int> (b[0]));
-	r += ContentTime::from_seconds (lexical_cast<float> (b[1]) / 1000);
+	r += ContentTime::from_seconds (lexical_cast<double> (b[1]) / 1000);
 
 	return r;
 }
