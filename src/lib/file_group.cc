@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/file_group.cc
+ *  @brief FileGroup class.
+ */
+
 #include <cstdio>
 #include <sndfile.h>
 #include "file_group.h"
@@ -26,6 +30,7 @@
 using std::vector;
 using std::cout;
 
+/** Construct a FileGroup with no files */
 FileGroup::FileGroup ()
 	: _current_path (0)
 	, _current_file (0)
@@ -33,14 +38,17 @@ FileGroup::FileGroup ()
 
 }
 
+/** Construct a FileGroup with a single file */
 FileGroup::FileGroup (boost::filesystem::path p)
 	: _current_path (0)
 	, _current_file (0)
 {
 	_paths.push_back (p);
+	ensure_open_path (0);
 	seek (0, SEEK_SET);
 }
 
+/** Construct a FileGroup with multiple files */
 FileGroup::FileGroup (vector<boost::filesystem::path> const & p)
 	: _paths (p)
 	, _current_path (0)
@@ -50,6 +58,7 @@ FileGroup::FileGroup (vector<boost::filesystem::path> const & p)
 	seek (0, SEEK_SET);
 }
 
+/** Destroy a FileGroup, closing any open file */
 FileGroup::~FileGroup ()
 {
 	if (_current_file) {
@@ -160,6 +169,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 	return read;
 }
 
+/** @return Combined length of all the files */
 int64_t
 FileGroup::length () const
 {

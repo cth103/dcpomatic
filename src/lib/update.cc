@@ -34,6 +34,7 @@ using std::string;
 using std::stringstream;
 using boost::lexical_cast;
 
+/** Singleton instance */
 UpdateChecker* UpdateChecker::_instance = 0;
 
 static size_t
@@ -42,6 +43,9 @@ write_callback_wrapper (void* data, size_t size, size_t nmemb, void* user)
 	return reinterpret_cast<UpdateChecker*>(user)->write_callback (data, size, nmemb);
 }
 
+/** Construct an UpdateChecker.  This sets things up and starts a thread to
+ *  do the work.
+ */
 UpdateChecker::UpdateChecker ()
 	: _buffer (new char[BUFFER_SIZE])
 	, _offset (0)
@@ -73,6 +77,7 @@ UpdateChecker::~UpdateChecker ()
 	delete[] _buffer;
 }
 
+/** Start running the update check */
 void
 UpdateChecker::run ()
 {
@@ -85,6 +90,7 @@ void
 UpdateChecker::thread ()
 {
 	while (1) {
+		/* Block until there is something to do */
 		boost::mutex::scoped_lock lock (_process_mutex);
 		while (_to_do == 0) {
 			_condition.wait (lock);
@@ -94,12 +100,16 @@ UpdateChecker::thread ()
 		
 		try {
 			_offset = 0;
+
+			/* Perform the request */
 			
 			int r = curl_easy_perform (_curl);
 			if (r != CURLE_OK) {
 				set_state (FAILED);
 				return;
 			}
+
+			/* Parse the reply */
 			
 			_buffer[_offset] = '\0';
 			stringstream s;

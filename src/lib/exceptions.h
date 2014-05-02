@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@
 
 */
 
-#ifndef DCPOMATIC_EXCEPTIONS_H
-#define DCPOMATIC_EXCEPTIONS_H
-
-/** @file  src/exceptions.h
+/** @file  src/lib/exceptions.h
  *  @brief Our exceptions.
  */
+
+#ifndef DCPOMATIC_EXCEPTIONS_H
+#define DCPOMATIC_EXCEPTIONS_H
 
 #include <stdexcept>
 #include <cstring>
@@ -205,7 +205,7 @@ public:
 	{}
 };
 
-/** @class NetworkError.
+/** @class NetworkError
  *  @brief Indicates some problem with communication on the network.
  */
 class NetworkError : public StringError
@@ -216,6 +216,9 @@ public:
 	{}
 };
 
+/** @class KDMError
+ *  @brief A problem with a KDM.
+ */
 class KDMError : public StringError
 {
 public:
@@ -224,22 +227,30 @@ public:
 	{}
 };
 
+/** @class PixelFormatError
+ *  @brief A problem with an unsupported pixel format.
+ */
 class PixelFormatError : public StringError
 {
 public:
 	PixelFormatError (std::string o, AVPixelFormat f);
 };
 
-/** An error that occurs while parsing a SubRip file */
+/** @class SubRipError
+ *  @brief An error that occurs while parsing a SubRip file.
+ */
 class SubRipError : public FileError
 {
 public:
 	SubRipError (std::string, std::string, boost::filesystem::path);
 };
 
-/** A parent class for classes which have a need to catch and
- *  re-throw exceptions.  This is intended for classes
- *  which run their own thread; they should do something like
+/** @class ExceptionStore
+ *  @brief A parent class for classes which have a need to catch and
+ *  re-throw exceptions.
+
+ *  This is intended for classes which run their own thread; they should do
+ *  something like
  *
  *  void my_thread ()
  *  try {

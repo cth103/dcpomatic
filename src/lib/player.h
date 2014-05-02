@@ -75,7 +75,8 @@ public:
 	void dump (boost::shared_ptr<Log>) const;
 };
 
-/** A wrapper for an Image which contains some pending operations; these may
+/** @class PlayerImage
+ *  @brief A wrapper for an Image which contains some pending operations; these may
  *  not be necessary if the receiver of the PlayerImage throws it away.
  */
 class PlayerImage

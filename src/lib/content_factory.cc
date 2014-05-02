@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/content_factory.cc
+ *  @brief Methods to create content objects.
+ */
+
 #include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
 #include "image_content.h"
@@ -28,6 +32,13 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 
+/** Create a Content object from an XML node.
+ *  @param film Film that the content will be in.
+ *  @param node XML description.
+ *  @param version XML state version.
+ *  @param notes A list to which is added descriptions of any non-critial warnings / messages.
+ *  @return Content object, or 0 if no content was recognised in the XML.
+ */
 shared_ptr<Content>
 content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, list<string>& notes)
 {
@@ -48,6 +59,11 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 	return content;
 }
 
+/** Create a Content object from a file, depending on its extension.
+ *  @param film Film that the content will be in.
+ *  @param path File's path.
+ *  @return Content object.
+ */
 shared_ptr<Content>
 content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 {

@@ -35,7 +35,9 @@ using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 
-/** Parent class for components of the timeline (e.g. a piece of content or an axis) */
+/** @class View
+ *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
+ */
 class View : public boost::noncopyable
 {
 public:
@@ -76,7 +78,9 @@ private:
 };
 
 
-/** Parent class for views of pieces of content */
+/** @class ContentView
+ *  @brief Parent class for views of pieces of content.
+ */
 class ContentView : public View
 {
 public:

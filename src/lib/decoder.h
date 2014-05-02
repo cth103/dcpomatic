@@ -18,7 +18,7 @@
 */
 
 /** @file  src/decoder.h
- *  @brief Parent class for decoders of content.
+ *  @brief Decoder class.
  */
 
 #ifndef DCPOMATIC_DECODER_H

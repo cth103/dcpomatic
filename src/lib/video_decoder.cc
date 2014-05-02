@@ -53,6 +53,11 @@ VideoDecoder::decoded_video (VideoFrame frame)
 	return output;
 }
 
+/** Get all frames which exist in the content at a given frame index.
+ *  @param frame Frame index.
+ *  @param accurate true to try hard to return frames at the precise time that was requested, otherwise frames nearby may be returned.
+ *  @return Frames; there may be none (if there is no video there), 1 for 2D or 2 for 3D.
+ */
 list<ContentVideo>
 VideoDecoder::get_video (VideoFrame frame, bool accurate)
 {

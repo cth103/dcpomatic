@@ -38,18 +38,15 @@ class Job;
 class Film;
 class Region;
 
-/** @class Playlist
- *  @brief A set of content files (video and audio), with knowledge of how they should be arranged into
- *  a DCP.
- *
- * This class holds Content objects, and it knows how they should be arranged.
- */
-
 struct ContentSorter
 {
 	bool operator() (boost::shared_ptr<Content> a, boost::shared_ptr<Content> b);
 };
 
+/** @class Playlist
+ *  @brief A set of Content objects with knowledge of how they should be arranged into
+ *  a DCP.
+ */
 class Playlist : public boost::noncopyable
 {
 public:

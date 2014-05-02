@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,12 +17,19 @@
 
 */
 
+/** @file  src/lib/file_group.h
+ *  @brief FileGroup class.
+ */
+
 #ifndef DCPOMATIC_FILE_GROUP_H
 #define DCPOMATIC_FILE_GROUP_H
 
 #include <vector>
 #include <boost/filesystem.hpp>
 
+/** @class FileGroup
+ *  @brief A class to make a list of files behave like they were concatenated.
+ */
 class FileGroup
 {
 public:

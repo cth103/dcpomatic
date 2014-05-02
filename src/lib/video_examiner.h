@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,17 @@
 
 */
 
+/** @file  src/lib/video_examiner.h
+ *  @brief VideoExaminer class.
+ */
+
 #include <dcp/types.h>
 #include "types.h"
 #include "video_content.h"
 
+/** @class VideoExaminer
+ *  @brief Parent for classes which examine video sources and obtain information about them.
+ */
 class VideoExaminer
 {
 public:

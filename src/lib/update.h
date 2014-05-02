@@ -17,12 +17,17 @@
 
 */
 
+/** @file  src/lib/update.h
+ *  @brief UpdateChecker class.
+ */
+
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
 #include <curl/curl.h>
 
+/** Class to check for the existance of an update for DCP-o-matic on a remote server */
 class UpdateChecker
 {
 public:
@@ -32,28 +37,31 @@ public:
 	void run ();
 
 	enum State {
-		YES,
-		FAILED,
-		NO,
-		NOT_RUN
+		YES,    ///< there is an update
+		FAILED, ///< the check failed, so we don't know
+		NO,     ///< there is no update
+		NOT_RUN ///< the check has not been run (yet)
 	};
 
+	/** @return state of the checker */
 	State state () {
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _state;
 	}
 	
+	/** @return the version string of the latest stable version (if _state == YES or NO) */
 	std::string stable () {
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _stable;
 	}
 
+	/** @return the version string of the latest test version (if _state == YES or NO) */
 	std::string test () {
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _test;
 	}
 	
-	/** @return true if the list signal emission was the first */
+	/** @return true if the last signal emission was the first */
 	bool last_emit_was_first () const {
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _emits == 1;

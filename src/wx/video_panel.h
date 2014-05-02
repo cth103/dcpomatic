@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/video_panel.h
+ *  @brief VideoPanel class.
+ */
+
 #include "lib/film.h"
 #include "film_editor_panel.h"
 #include "content_widget.h"
@@ -26,6 +30,9 @@ class wxStaticText;
 class wxSpinCtrl;
 class wxButton;
 
+/** @class VideoPanel
+ *  @brief The video tab of the film editor.
+ */
 class VideoPanel : public FilmEditorPanel
 {
 public:

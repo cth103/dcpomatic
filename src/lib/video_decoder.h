@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/video_decoder.h
+ *  @brief VideoDecoder class.
+ */
+
 #ifndef DCPOMATIC_VIDEO_DECODER_H
 #define DCPOMATIC_VIDEO_DECODER_H
 
@@ -30,6 +34,9 @@
 class VideoContent;
 class Image;
 
+/** @class VideoDecoder
+ *  @brief Parent for classes which decode video.
+ */
 class VideoDecoder : public virtual Decoder
 {
 public:
