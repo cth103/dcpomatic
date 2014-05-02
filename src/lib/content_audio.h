@@ -17,8 +17,15 @@
 
 */
 
+/** @file  src/lib/content_audio.h
+ *  @brief ContentAudio class.
+ */
+
 #include "audio_buffers.h"
 
+/** @class ContentAudio
+ *  @brief A block of audio from a piece of content, with a timestamp as a frame within that content.
+ */
 class ContentAudio
 {
 public:

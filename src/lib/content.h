@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  src/lib/content.h
+ *  @brief Content class.
+ */
 
 #ifndef DCPOMATIC_CONTENT_H
 #define DCPOMATIC_CONTENT_H
@@ -46,6 +50,9 @@ public:
 	static int const TRIM_END;
 };
 
+/** @class Content
+ *  @brief A piece of content represented by one or more files on disk.
+ */
 class Content : public boost::enable_shared_from_this<Content>, public boost::noncopyable
 {
 public:
@@ -138,8 +145,8 @@ protected:
 	boost::weak_ptr<const Film> _film;
 
 	/** _mutex which should be used to protect accesses, as examine
-	    jobs can update content state in threads other than the main one.
-	*/
+	 *  jobs can update content state in threads other than the main one.
+	 */
 	mutable boost::mutex _mutex;
 
 	/** Paths of our data files */

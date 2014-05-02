@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/cinema.h
+ *  @brief Screen and Cinema classes.
+ */
+
 #include <boost/enable_shared_from_this.hpp>
 #include <dcp/certificates.h>
 
@@ -26,6 +30,12 @@ namespace cxml {
 	class Node;
 }
 
+/** @class Screen
+ *  @brief A representation of a Screen for KDM generation.
+ *
+ *  This is the name of the screen and the certificate of its
+ *  server.
+ */
 class Screen
 {
 public:
@@ -43,6 +53,12 @@ public:
 	boost::shared_ptr<dcp::Certificate> certificate;
 };
 
+/** @class Cinema
+ *  @brief A description of a Cinema for KDM generation.
+ *
+ *  This is a cinema name, contact email address and a list of
+ *  Screen objects.
+ */
 class Cinema : public boost::enable_shared_from_this<Cinema>
 {
 public:

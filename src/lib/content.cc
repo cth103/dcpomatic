@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
+/** @file  src/lib/content.cc
+ *  @brief Content class.
+ */
 
 #include <boost/thread/mutex.hpp>
 #include <libxml++/libxml++.h>
