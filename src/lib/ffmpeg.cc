@@ -35,13 +35,7 @@ using std::stringstream;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-/* This should not really be a pointer, but I find that __cxa_finalize tries
- * to destroy the mutex while a call to ~FFmpeg is in progress; this crashes
- * with a failure of assert (!posix::pthread_mutex_destroy(&m));
- *
- * The hacky work-around is never to destroy the mutex...
- */
-boost::mutex* FFmpeg::_mutex;
+boost::mutex FFmpeg::_mutex;
 
 FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	: _ffmpeg_content (c)
@@ -52,10 +46,6 @@ FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	, _frame (0)
 	, _video_stream (-1)
 {
-	if (!_mutex) {
-		_mutex = new boost::mutex ();
-	}
-	
 	setup_general ();
 	setup_video ();
 	setup_audio ();
@@ -63,7 +53,7 @@ FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 
 FFmpeg::~FFmpeg ()
 {
-	boost::mutex::scoped_lock lm (*_mutex);
+	boost::mutex::scoped_lock lm (_mutex);
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVCodecContext* context = _format_context->streams[i]->codec;
@@ -155,7 +145,7 @@ FFmpeg::setup_general ()
 void
 FFmpeg::setup_video ()
 {
-	boost::mutex::scoped_lock lm (*_mutex);
+	boost::mutex::scoped_lock lm (_mutex);
 
 	assert (_video_stream >= 0);
 	AVCodecContext* context = _format_context->streams[_video_stream]->codec;
@@ -173,7 +163,7 @@ FFmpeg::setup_video ()
 void
 FFmpeg::setup_audio ()
 {
-	boost::mutex::scoped_lock lm (*_mutex);
+	boost::mutex::scoped_lock lm (_mutex);
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVCodecContext* context = _format_context->streams[i]->codec;
