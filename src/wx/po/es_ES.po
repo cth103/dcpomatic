@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-29 09:14+0100\n"
+"POT-Creation-Date: 2014-05-02 22:01+0100\n"
 "PO-Revision-Date: 2014-04-20 12:06-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -852,7 +852,7 @@ msgstr "Desplazamiento del subtítulo en Y"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -872,7 +872,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:190
+#: src/wx/about_dialog.cc:191
 msgid "Tested by"
 msgstr "Comprobado por"
 
