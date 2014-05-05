@@ -11,7 +11,7 @@ version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 # DMG size in megabytes
 DMG_SIZE=256
 WORK=build/platform/osx
-ENV=/Users/carl/Environments/osx
+ENV=/Users/carl/Environments/osx/10.6
 ROOT=$1
 
 appdir="DCP-o-matic.app"
