@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-29 09:14+0100\n"
+"POT-Creation-Date: 2014-05-02 22:01+0100\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -878,7 +878,7 @@ msgstr "Undertext Förskjutning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -898,7 +898,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:190
+#: src/wx/about_dialog.cc:191
 #, fuzzy
 msgid "Tested by"
 msgstr "Översatt av"
