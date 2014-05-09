@@ -53,7 +53,7 @@ AudioMapping::setup (int c)
 	
 	_gain.resize (_content_channels);
 	for (int i = 0; i < _content_channels; ++i) {
-		_gain[i].resize (MAX_AUDIO_CHANNELS);
+		_gain[i].resize (MAX_DCP_AUDIO_CHANNELS);
 	}
 }
 
@@ -61,7 +61,7 @@ void
 AudioMapping::make_default ()
 {
 	for (int i = 0; i < _content_channels; ++i) {
-		for (int j = 0; j < MAX_AUDIO_CHANNELS; ++j) {
+		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
 			_gain[i][j] = 0;
 		}
 	}
@@ -117,7 +117,7 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 	node->add_child ("ContentChannels")->add_child_text (lexical_cast<string> (_content_channels));
 
 	for (int c = 0; c < _content_channels; ++c) {
-		for (int d = 0; d < MAX_AUDIO_CHANNELS; ++d) {
+		for (int d = 0; d < MAX_DCP_AUDIO_CHANNELS; ++d) {
 			xmlpp::Element* t = node->add_child ("Gain");
 			t->set_attribute ("Content", lexical_cast<string> (c));
 			t->set_attribute ("DCP", lexical_cast<string> (d));

@@ -48,8 +48,8 @@ extern "C" {
 
 #undef check
 
-/** The maximum number of audio channels that we can cope with */
-#define MAX_AUDIO_CHANNELS 12
+/** The maximum number of audio channels that we can have in a DCP */
+#define MAX_DCP_AUDIO_CHANNELS 12
 
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
 

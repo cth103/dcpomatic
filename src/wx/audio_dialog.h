@@ -43,7 +43,7 @@ private:
 
 	boost::shared_ptr<AudioContent> _content;
 	AudioPlot* _plot;
-	wxCheckBox* _channel_checkbox[MAX_AUDIO_CHANNELS];
+	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;
 	boost::signals2::scoped_connection _content_changed_connection;

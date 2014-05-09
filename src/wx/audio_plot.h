@@ -46,7 +46,7 @@ private:
 	float y_for_linear (float, Metrics const &) const;
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
-	bool _channel_visible[MAX_AUDIO_CHANNELS];
+	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
 	bool _type_visible[AudioPoint::COUNT];
 	/** gain to apply in dB */
 	float _gain;

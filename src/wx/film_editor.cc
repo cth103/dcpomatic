@@ -214,7 +214,7 @@ FilmEditor::make_dcp_panel ()
 		_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
 
-	_audio_channels->SetRange (0, MAX_AUDIO_CHANNELS);
+	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
 
 	_resolution->Append (_("2K"));
