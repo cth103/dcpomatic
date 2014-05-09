@@ -28,6 +28,7 @@ using std::cout;
 using std::make_pair;
 using std::pair;
 using std::string;
+using std::min;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
@@ -71,7 +72,7 @@ AudioMapping::make_default ()
 		set (0, libdcp::CENTRE, 1);
 	} else {
 		/* 1:1 mapping */
-		for (int i = 0; i < _content_channels; ++i) {
+		for (int i = 0; i < min (_content_channels, MAX_DCP_AUDIO_CHANNELS); ++i) {
 			set (i, static_cast<libdcp::Channel> (i), 1);
 		}
 	}
