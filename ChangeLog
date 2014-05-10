@@ -1,3 +1,7 @@
+2014-05-10  Carl Hetherington  <cth@carlh.net>
+
+	* Fix setup of the libswresample context to work with high channel counts.
+
 2014-05-09  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on using content with more than 12 audio channels.
