@@ -46,7 +46,7 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	SetDoubleBuffered (true);
 #endif	
 
-	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		_channel_visible[i] = false;
 	}
 
@@ -67,8 +67,8 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	_colours.push_back (wxColour (255,   0, 139));
 	_colours.push_back (wxColour (139,   0, 255));
 
-#if MAX_AUDIO_CHANNELS != 12
-#warning AudioPlot::AudioPlot is expecting the wrong MAX_AUDIO_CHANNELS
+#if MAX_DCP_AUDIO_CHANNELS != 12
+#warning AudioPlot::AudioPlot is expecting the wrong MAX_DCP_AUDIO_CHANNELS
 #endif	
 	
 	Bind (wxEVT_PAINT, boost::bind (&AudioPlot::paint, this));
@@ -81,7 +81,7 @@ AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
 {
 	_analysis = a;
 
-	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		_channel_visible[i] = false;
 	}
 
@@ -168,7 +168,7 @@ AudioPlot::paint ()
 	gc->DrawText (_("Time"), data_width, metrics.height - metrics.y_origin + db_label_height / 2);
 	
 	if (_type_visible[AudioPoint::PEAK]) {
-		for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {
+		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
 			wxGraphicsPath p = gc->CreatePath ();
 			if (_channel_visible[c] && c < _analysis->channels()) {
 				plot_peak (p, c, metrics);
@@ -180,7 +180,7 @@ AudioPlot::paint ()
 	}
 
 	if (_type_visible[AudioPoint::RMS]) {
-		for (int c = 0; c < MAX_AUDIO_CHANNELS; ++c) {
+		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
 			wxGraphicsPath p = gc->CreatePath ();
 			if (_channel_visible[c] && c < _analysis->channels()) {
 				plot_rms (p, c, metrics);

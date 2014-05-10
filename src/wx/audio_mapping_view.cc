@@ -118,7 +118,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 {
 	_grid = new wxGrid (this, wxID_ANY);
 
-	_grid->CreateGrid (0, MAX_AUDIO_CHANNELS + 1);
+	_grid->CreateGrid (0, MAX_DCP_AUDIO_CHANNELS + 1);
 	_grid->HideRowLabels ();
 	_grid->DisableDragRowSize ();
 	_grid->DisableDragColSize ();
@@ -240,7 +240,7 @@ AudioMappingView::update_cells ()
 	_grid->InsertRows (0, _map.content_channels ());
 
 	for (int i = 0; i < _map.content_channels(); ++i) {
-		for (int j = 0; j < MAX_AUDIO_CHANNELS; ++j) {
+		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
 			_grid->SetCellRenderer (i, j + 1, new ValueRenderer);
 		}
 	}
@@ -279,8 +279,8 @@ AudioMappingView::set_column_labels ()
 	
 	_grid->SetColLabelValue (0, _("Content"));
 
-#if MAX_AUDIO_CHANNELS != 12
-#warning AudioMappingView::set_column_labels() is expecting the wrong MAX_AUDIO_CHANNELS
+#if MAX_DCP_AUDIO_CHANNELS != 12
+#warning AudioMappingView::set_column_labels() is expecting the wrong MAX_DCP_AUDIO_CHANNELS
 #endif	
 	
 	if (c > 0) {

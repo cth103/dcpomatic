@@ -121,7 +121,7 @@ test_silence_padding (int channels)
 
 BOOST_AUTO_TEST_CASE (silence_padding_test)
 {
-	for (int i = 1; i < MAX_AUDIO_CHANNELS; ++i) {
+	for (int i = 1; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		test_silence_padding (i);
 	}
 }

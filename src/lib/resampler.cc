@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 extern "C" {
 #include "libavutil/channel_layout.h"
+#include "libavutil/opt.h"
 }	
 #include "resampler.h"
 #include "audio_buffers.h"
@@ -37,24 +38,19 @@ Resampler::Resampler (int in, int out, int channels)
 	, _out_rate (out)
 	, _channels (channels)
 {
-	/* We will be using planar float data when we call the
-	   resampler.  As far as I can see, the audio channel
-	   layout is not necessary for our purposes; it seems
-	   only to be used get the number of channels and
-	   decide if rematrixing is needed.  It won't be, since
-	   input and output layouts are the same.
-	*/
+	_swr_context = swr_alloc ();
 
-	_swr_context = swr_alloc_set_opts (
-		0,
-		av_get_default_channel_layout (_channels),
-		AV_SAMPLE_FMT_FLTP,
-		_out_rate,
-		av_get_default_channel_layout (_channels),
-		AV_SAMPLE_FMT_FLTP,
-		_in_rate,
-		0, 0
-		);
+	/* Sample formats */
+	av_opt_set_int (_swr_context, "isf", AV_SAMPLE_FMT_FLTP, 0);
+	av_opt_set_int (_swr_context, "osf", AV_SAMPLE_FMT_FLTP, 0);
+
+	/* Channel counts */
+	av_opt_set_int (_swr_context, "ich", _channels, 0);
+	av_opt_set_int (_swr_context, "och", _channels, 0);
+
+	/* Sample rates */
+	av_opt_set_int (_swr_context, "isr", _in_rate, 0);
+	av_opt_set_int (_swr_context, "osr", _out_rate, 0);
 	
 	swr_init (_swr_context);
 }

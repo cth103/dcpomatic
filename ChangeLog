@@ -2,6 +2,24 @@
 
 	* Add subtitle view.
 
+2014-05-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.2 released.
+
+2014-05-10  Carl Hetherington  <cth@carlh.net>
+
+	* Fix setup of the libswresample context to work with high channel counts.
+
+2014-05-09  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.1 released.
+
+2014-05-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash on using content with more than 12 audio channels.
+
+	* Re-introduce ffprobe call when adding content.
+
 2014-05-05  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.0 released.
@@ -125,7 +143,6 @@
 
 	* Another attempt to fix colour conversion dialog strange behaviour
 	on OS X.
->>>>>>> master
 
 2014-03-18  Carl Hetherington  <cth@carlh.net>
 

@@ -45,7 +45,7 @@ AudioDialog::AudioDialog (wxWindow* parent)
 		side->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
 
-	for (int i = 0; i < MAX_AUDIO_CHANNELS; ++i) {
+	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
 		side->Add (_channel_checkbox[i], 1, wxEXPAND | wxALL, 3);
 		_channel_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::channel_clicked, this, _1));
@@ -144,11 +144,11 @@ void
 AudioDialog::channel_clicked (wxCommandEvent& ev)
 {
 	int c = 0;
-	while (c < MAX_AUDIO_CHANNELS && ev.GetEventObject() != _channel_checkbox[c]) {
+	while (c < MAX_DCP_AUDIO_CHANNELS && ev.GetEventObject() != _channel_checkbox[c]) {
 		++c;
 	}
 
-	assert (c < MAX_AUDIO_CHANNELS);
+	assert (c < MAX_DCP_AUDIO_CHANNELS);
 
 	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
 }
