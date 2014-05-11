@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 */
 
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "subtitle_content.h"
 #include "util.h"
 #include "exceptions.h"
@@ -27,8 +28,8 @@
 using std::string;
 using std::vector;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
+using libdcp::raw_convert;
 
 int const SubtitleContentProperty::SUBTITLE_X_OFFSET = 500;
 int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
@@ -49,8 +50,6 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxm
 	, _subtitle_y_offset (0)
 	, _subtitle_scale (1)
 {
-	LocaleGuard lg;
-
 	if (version >= 7) {
 		_subtitle_x_offset = node->number_child<float> ("SubtitleXOffset");
 		_subtitle_y_offset = node->number_child<float> ("SubtitleYOffset");
@@ -91,11 +90,9 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 void
 SubtitleContent::as_xml (xmlpp::Node* root) const
 {
-	LocaleGuard lg;
-	
-	root->add_child("SubtitleXOffset")->add_child_text (lexical_cast<string> (_subtitle_x_offset));
-	root->add_child("SubtitleYOffset")->add_child_text (lexical_cast<string> (_subtitle_y_offset));
-	root->add_child("SubtitleScale")->add_child_text (lexical_cast<string> (_subtitle_scale));
+	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
+	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
+	root->add_child("SubtitleScale")->add_child_text (raw_convert<string> (_subtitle_scale));
 }
 
 void

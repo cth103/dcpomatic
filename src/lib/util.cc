@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
     Copyright (C) 2000-2007 Paul Davis
 
     This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #ifdef DCPOMATIC_WINDOWS
@@ -52,6 +51,7 @@
 #include <libdcp/util.h>
 #include <libdcp/signer_chain.h>
 #include <libdcp/signer.h>
+#include <libdcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -99,9 +99,9 @@ using std::streampos;
 using std::set_terminate;
 using boost::shared_ptr;
 using boost::thread;
-using boost::lexical_cast;
 using boost::optional;
 using libdcp::Size;
+using libdcp::raw_convert;
 
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
@@ -729,14 +729,14 @@ int
 get_required_int (multimap<string, string> const & kv, string k)
 {
 	string const v = get_required_string (kv, k);
-	return lexical_cast<int> (v);
+	return raw_convert<int> (v);
 }
 
 float
 get_required_float (multimap<string, string> const & kv, string k)
 {
 	string const v = get_required_string (kv, k);
-	return lexical_cast<float> (v);
+	return raw_convert<float> (v);
 }
 
 string
@@ -766,7 +766,7 @@ get_optional_int (multimap<string, string> const & kv, string k)
 		return 0;
 	}
 
-	return lexical_cast<int> (i->second);
+	return raw_convert<int> (i->second);
 }
 
 /** Trip an assert if the caller is not in the UI thread */
@@ -850,25 +850,6 @@ FrameRateConversion::FrameRateConversion (float source, int dcp)
 			description += String::compose (_("DCP will run at %1%% of the content speed.\n"), pc);
 		}
 	}
-}
-
-LocaleGuard::LocaleGuard ()
-	: _old (0)
-{
-	char const * old = setlocale (LC_NUMERIC, 0);
-
-	if (old) {
-		_old = strdup (old);
-		if (strcmp (_old, "C")) {
-			setlocale (LC_NUMERIC, "C");
-		}
-	}
-}
-
-LocaleGuard::~LocaleGuard ()
-{
-	setlocale (LC_NUMERIC, _old);
-	free (_old);
 }
 
 bool

@@ -21,6 +21,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "ffmpeg_content.h"
 #include "ffmpeg_examiner.h"
 #include "compose.hpp"
@@ -40,8 +41,8 @@ using std::list;
 using std::cout;
 using std::pair;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
+using libdcp::raw_convert;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
@@ -152,7 +153,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	}
 
 	if (_first_video) {
-		node->add_child("FirstVideo")->add_child_text (lexical_cast<string> (_first_video.get ()));
+		node->add_child("FirstVideo")->add_child_text (raw_convert<string> (_first_video.get ()));
 	}
 }
 
@@ -353,7 +354,7 @@ void
 FFmpegStream::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("Name")->add_child_text (name);
-	root->add_child("Id")->add_child_text (lexical_cast<string> (_id));
+	root->add_child("Id")->add_child_text (raw_convert<string> (_id));
 }
 
 FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node, int version)
@@ -369,10 +370,10 @@ void
 FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
-	root->add_child("FrameRate")->add_child_text (lexical_cast<string> (frame_rate));
-	root->add_child("Channels")->add_child_text (lexical_cast<string> (channels));
+	root->add_child("FrameRate")->add_child_text (raw_convert<string> (frame_rate));
+	root->add_child("Channels")->add_child_text (raw_convert<string> (channels));
 	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text (lexical_cast<string> (first_audio.get ()));
+		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get ()));
 	}
 	mapping.as_xml (root->add_child("Mapping"));
 }

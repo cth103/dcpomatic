@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 */
 
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "film.h"
@@ -31,7 +32,7 @@ using std::string;
 using std::stringstream;
 using std::cout;
 using boost::shared_ptr;
-using boost::lexical_cast;
+using libdcp::raw_convert;
 
 int const SndfileContentProperty::VIDEO_FRAME_RATE = 600;
 
@@ -137,9 +138,9 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	AudioContent::as_xml (node);
 
-	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (audio_channels ()));
-	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (audio_length ()));
-	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (content_audio_frame_rate ()));
+	node->add_child("AudioChannels")->add_child_text (raw_convert<string> (audio_channels ()));
+	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (content_audio_frame_rate ()));
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }
 

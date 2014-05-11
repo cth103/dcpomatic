@@ -27,9 +27,9 @@
 #include <sstream>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/scoped_array.hpp>
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "server.h"
 #include "util.h"
 #include "scaler.h"
@@ -56,8 +56,8 @@ using boost::thread;
 using boost::bind;
 using boost::scoped_array;
 using boost::optional;
-using boost::lexical_cast;
 using libdcp::Size;
+using libdcp::raw_convert;
 
 Server::Server (shared_ptr<Log> log, bool verbose)
 	: _log (log)
@@ -246,7 +246,7 @@ Server::broadcast_received ()
 		/* Reply to the client saying what we can do */
 		xmlpp::Document doc;
 		xmlpp::Element* root = doc.create_root_node ("ServerAvailable");
-		root->add_child("Threads")->add_child_text (lexical_cast<string> (_worker_threads.size ()));
+		root->add_child("Threads")->add_child_text (raw_convert<string> (_worker_threads.size ()));
 		stringstream xml;
 		doc.write_to_stream (xml, "UTF-8");
 

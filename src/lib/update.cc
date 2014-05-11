@@ -22,6 +22,7 @@
 #include <boost/algorithm/string.hpp>
 #include <curl/curl.h>
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "update.h"
 #include "version.h"
 #include "ui_signaller.h"
@@ -32,7 +33,7 @@ using std::cout;
 using std::min;
 using std::string;
 using std::stringstream;
-using boost::lexical_cast;
+using libdcp::raw_convert;
 
 UpdateChecker* UpdateChecker::_instance = 0;
 
@@ -120,12 +121,12 @@ UpdateChecker::thread ()
 				current_pre = true;
 			}
 			
-			float current_float = lexical_cast<float> (current);
+			float current_float = raw_convert<float> (current);
 			if (current_pre) {
 				current_float -= 0.005;
 			}
 			
-			if (current_float < lexical_cast<float> (_stable)) {
+			if (current_float < raw_convert<float> (_stable)) {
 				set_state (YES);
 			} else {
 				set_state (NO);

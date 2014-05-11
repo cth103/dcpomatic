@@ -18,6 +18,7 @@
 */
 
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "server_finder.h"
 #include "exceptions.h"
 #include "util.h"
@@ -32,7 +33,7 @@ using std::vector;
 using std::cout;
 using boost::shared_ptr;
 using boost::scoped_array;
-using boost::lexical_cast;
+using libdcp::raw_convert;
 
 ServerFinder* ServerFinder::_instance = 0;
 
@@ -82,7 +83,7 @@ try
 			}
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
-				boost::asio::ip::udp::resolver::query query (*i, lexical_cast<string> (Config::instance()->server_port_base() + 1));
+				boost::asio::ip::udp::resolver::query query (*i, raw_convert<string> (Config::instance()->server_port_base() + 1));
 				boost::asio::ip::udp::endpoint end_point (*resolver.resolve (query));
 				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
 			} catch (...) {

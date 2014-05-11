@@ -22,6 +22,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 }
+#include <libdcp/raw_convert.h>
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
 #include "exceptions.h"
@@ -33,7 +34,7 @@ using std::string;
 using std::cout;
 using std::stringstream;
 using boost::shared_ptr;
-using boost::lexical_cast;
+using libdcp::raw_convert;
 
 boost::mutex FFmpeg::_mutex;
 
@@ -94,8 +95,8 @@ FFmpeg::setup_general ()
 	/* These durations are in microseconds, and represent how far into the content file
 	   we will look for streams.
 	*/
-	av_dict_set (&options, "analyzeduration", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
-	av_dict_set (&options, "probesize", lexical_cast<string> (5 * 60 * 1e6).c_str(), 0);
+	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1e6).c_str(), 0);
+	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1e6).c_str(), 0);
 	
 	if (avformat_open_input (&_format_context, 0, 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path(0).string ());

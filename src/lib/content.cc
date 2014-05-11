@@ -20,6 +20,7 @@
 #include <boost/thread/mutex.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "content.h"
 #include "util.h"
 #include "content_factory.h"
@@ -36,7 +37,7 @@ using std::list;
 using std::cout;
 using std::vector;
 using boost::shared_ptr;
-using boost::lexical_cast;
+using libdcp::raw_convert;
 
 int const ContentProperty::PATH = 400;
 int const ContentProperty::POSITION = 401;
@@ -119,9 +120,9 @@ Content::as_xml (xmlpp::Node* node) const
 		node->add_child("Path")->add_child_text (i->string ());
 	}
 	node->add_child("Digest")->add_child_text (_digest);
-	node->add_child("Position")->add_child_text (lexical_cast<string> (_position));
-	node->add_child("TrimStart")->add_child_text (lexical_cast<string> (_trim_start));
-	node->add_child("TrimEnd")->add_child_text (lexical_cast<string> (_trim_end));
+	node->add_child("Position")->add_child_text (raw_convert<string> (_position));
+	node->add_child("TrimStart")->add_child_text (raw_convert<string> (_trim_start));
+	node->add_child("TrimEnd")->add_child_text (raw_convert<string> (_trim_end));
 }
 
 void

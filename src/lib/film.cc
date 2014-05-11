@@ -27,7 +27,6 @@
 #include <unistd.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/date_time.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
@@ -36,6 +35,7 @@
 #include <libdcp/signer.h>
 #include <libdcp/util.h>
 #include <libdcp/kdm.h>
+#include <libdcp/raw_convert.h>
 #include "film.h"
 #include "job.h"
 #include "util.h"
@@ -72,7 +72,6 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
-using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 using boost::to_upper_copy;
 using boost::ends_with;
@@ -80,6 +79,7 @@ using boost::starts_with;
 using boost::optional;
 using libdcp::Size;
 using libdcp::Signer;
+using libdcp::raw_convert;
 
 /* 5 -> 6
  * AudioMapping XML changed.
@@ -152,9 +152,10 @@ string
 Film::video_identifier () const
 {
 	assert (container ());
-	LocaleGuard lg;
 
 	stringstream s;
+	s.imbue (std::locale::classic ());
+	
 	s << container()->id()
 	  << "_" << resolution_to_string (_resolution)
 	  << "_" << _playlist->video_identifier()
@@ -340,12 +341,10 @@ Film::encoded_frames () const
 shared_ptr<xmlpp::Document>
 Film::metadata () const
 {
-	LocaleGuard lg;
-
 	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
 	xmlpp::Element* root = doc->create_root_node ("Metadata");
 
-	root->add_child("Version")->add_child_text (lexical_cast<string> (current_state_version));
+	root->add_child("Version")->add_child_text (raw_convert<string> (current_state_version));
 	root->add_child("Name")->add_child_text (_name);
 	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
 
@@ -360,11 +359,11 @@ Film::metadata () const
 	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
-	root->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
+	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
 	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
-	root->add_child("VideoFrameRate")->add_child_text (lexical_cast<string> (_video_frame_rate));
+	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
 	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
-	root->add_child("AudioChannels")->add_child_text (lexical_cast<string> (_audio_channels));
+	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
@@ -392,8 +391,6 @@ Film::write_metadata () const
 list<string>
 Film::read_metadata ()
 {
-	LocaleGuard lg;
-
 	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
 		throw StringError (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 	}
