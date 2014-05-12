@@ -1,5 +1,9 @@
 2014-05-12  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.3 released.
+
+2014-05-12  Carl Hetherington  <cth@carlh.net>
+
 	* Use libdcp::raw_convert instead of boost::lexical_cast and
 	LocaleGuard, hopefully to fix large numbers being written with
 	thousands separators on some locales.
