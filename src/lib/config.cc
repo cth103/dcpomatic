@@ -61,6 +61,7 @@ Config::Config ()
 	, _use_any_servers (true)
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _allow_any_dcp_frame_rate (false)
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
@@ -187,6 +188,7 @@ Config::read ()
 	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
 
 	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
+	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
 }
 
 void
@@ -363,7 +365,8 @@ Config::write () const
 	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
 
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
-
+	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
+	
 	doc.write_to_file_formatted (file(false).string ());
 }
 

@@ -87,7 +87,8 @@ private:
 	void dcp_content_type_changed ();
 	void scaler_changed ();
 	void j2k_bandwidth_changed ();
-	void frame_rate_changed ();
+	void frame_rate_choice_changed ();
+	void frame_rate_spin_changed ();
 	void best_frame_rate_clicked ();
 	void content_timeline_clicked ();
 	void audio_channels_changed ();
@@ -108,6 +109,7 @@ private:
 	void setup_content ();
 	void setup_container ();
 	void setup_content_sensitivity ();
+	void setup_frame_rate_widget ();
 	
 	void active_jobs_changed (bool);
 	void config_changed ();
@@ -143,7 +145,9 @@ private:
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
-	wxChoice* _frame_rate;
+	wxChoice* _frame_rate_choice;
+	wxSpinCtrl* _frame_rate_spin;
+	wxSizer* _frame_rate_sizer;
 	wxSpinCtrl* _audio_channels;
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;

@@ -1,5 +1,8 @@
 2014-05-12  Carl Hetherington  <cth@carlh.net>
 
+	* Add option to use any DCP frame rate, rather than just
+	the "allowed" set.
+
 	* Version 1.69.4 released.
 
 2014-05-12  Carl Hetherington  <cth@carlh.net>
