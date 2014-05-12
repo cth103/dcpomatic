@@ -95,8 +95,8 @@ FFmpeg::setup_general ()
 	/* These durations are in microseconds, and represent how far into the content file
 	   we will look for streams.
 	*/
-	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1e6).c_str(), 0);
-	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1e6).c_str(), 0);
+	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
+	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
 	
 	if (avformat_open_input (&_format_context, 0, 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path(0).string ());
