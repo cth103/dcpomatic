@@ -219,6 +219,7 @@ FilmEditor::make_dcp_panel ()
 
 	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	_frame_rate_spin->SetRange (1, 480);
 
 	_resolution->Append (_("2K"));
 	_resolution->Append (_("4K"));
