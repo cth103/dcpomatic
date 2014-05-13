@@ -1,5 +1,9 @@
 2014-05-13  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.6 released.
+
+2014-05-13  Carl Hetherington  <cth@carlh.net>
+
 	* Remove artificial 100fps limit when using
 	"any" DCP frame rate.
 
