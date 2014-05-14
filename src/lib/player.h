@@ -65,12 +65,10 @@ public:
 
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
-	 *  Second parameter is the eye(s) that should see this image.
-	 *  Third parameter is the colour conversion that should be used for this image.
-	 *  Fourth parameter is true if the image is the same as the last one that was emitted.
-	 *  Fifth parameter is the time.
+	 *  Second parameter is true if the frame is the same as the last one that was emitted.
+	 *  Third parameter is the time.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<PlayerVideoFrame>, Eyes, ColourConversion, bool, Time)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerVideoFrame>, bool, Time)> Video;
 	
 	/** Emitted when some audio data is ready */
 	boost::signals2::signal<void (boost::shared_ptr<const AudioBuffers>, Time)> Audio;

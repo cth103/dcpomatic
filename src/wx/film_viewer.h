@@ -59,7 +59,7 @@ private:
 	void slider_moved ();
 	void play_clicked ();
 	void timer ();
-	void process_video (boost::shared_ptr<PlayerVideoFrame>, Eyes, Time);
+	void process_video (boost::shared_ptr<PlayerVideoFrame>, Time);
 	void calculate_sizes ();
 	void check_play_state ();
 	void fetch_current_frame_again ();

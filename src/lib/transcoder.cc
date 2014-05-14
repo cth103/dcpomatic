@@ -40,11 +40,11 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 static void
-video_proxy (weak_ptr<Encoder> encoder, shared_ptr<PlayerVideoFrame> image, Eyes eyes, ColourConversion conversion, bool same)
+video_proxy (weak_ptr<Encoder> encoder, shared_ptr<PlayerVideoFrame> pvf, bool same)
 {
 	shared_ptr<Encoder> e = encoder.lock ();
 	if (e) {
-		e->process_video (image, eyes, conversion, same);
+		e->process_video (pvf, same);
 	}
 }
 
@@ -66,7 +66,7 @@ Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	, _encoder (new Encoder (f, j))
 	, _finishing (false)
 {
-	_player->Video.connect (bind (video_proxy, _encoder, _1, _2, _3, _4));
+	_player->Video.connect (bind (video_proxy, _encoder, _1, _2));
 	_player->Audio.connect (bind (audio_proxy, _encoder, _1));
 }
 

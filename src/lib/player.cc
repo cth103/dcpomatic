@@ -216,7 +216,9 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 			content->crop(),
 			image_size,
 			_video_container_size,
-			_film->scaler()
+			_film->scaler(),
+			eyes,
+			content->colour_conversion()
 			)
 		);
 	
@@ -252,7 +254,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	_last_video = piece->content;
 #endif
 
-	Video (pi, eyes, content->colour_conversion(), same, time);
+	Video (pi, same, time);
 
 	_last_emit_was_black = false;
 	_video_position = piece->video_position = (time + TIME_HZ / _film->video_frame_rate());
@@ -525,7 +527,9 @@ Player::set_video_container_size (libdcp::Size s)
 			Crop(),
 			_video_container_size,
 			_video_container_size,
-			Scaler::from_id ("bicubic")
+			Scaler::from_id ("bicubic"),
+			EYES_BOTH,
+			ColourConversion ()
 			)
 		);
 }
@@ -560,7 +564,7 @@ Player::emit_black ()
 	_last_video.reset ();
 #endif
 
-	Video (_black_frame, EYES_BOTH, ColourConversion(), _last_emit_was_black, _video_position);
+	Video (_black_frame, _last_emit_was_black, _video_position);
 	_video_position += _film->video_frames_to_time (1);
 	_last_emit_was_black = true;
 }

@@ -67,10 +67,10 @@ public:
 	void process_begin ();
 
 	/** Call with a frame of video.
-	 *  @param i Video frame image.
-	 *  @param same true if i is the same as the last time we were called.
+	 *  @param pvf Video frame image.
+	 *  @param same true if pvf is the same as the last time we were called.
 	 */
-	void process_video (boost::shared_ptr<PlayerVideoFrame> i, Eyes eyes, ColourConversion, bool same);
+	void process_video (boost::shared_ptr<PlayerVideoFrame> pvf, bool same);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>);

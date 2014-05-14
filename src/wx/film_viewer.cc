@@ -137,7 +137,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 	
 	_player->disable_audio ();
-	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _2, _5));
+	_player->Video.connect (boost::bind (&FilmViewer::process_video, this, _1, _3));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
@@ -289,13 +289,13 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<PlayerVideoFrame> image, Eyes eyes, Time t)
+FilmViewer::process_video (shared_ptr<PlayerVideoFrame> pvf, Time t)
 {
-	if (eyes == EYES_RIGHT) {
+	if (pvf->eyes() == EYES_RIGHT) {
 		return;
 	}
 	
-	_frame = image->image ();
+	_frame = pvf->image ();
 	_got_frame = true;
 
 	set_position_text (t);

@@ -44,10 +44,10 @@ public:
 	PlayerWrapper (shared_ptr<Player> p)
 		: _player (p)
 	{
-		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _5));
+		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _3));
 	}
 
-	void process_video (shared_ptr<PlayerVideoFrame> i, bool, Time t)
+	void process_video (shared_ptr<PlayerVideoFrame> i, Time t)
 	{
 		Video v;
 		v.content = _player->_last_video;

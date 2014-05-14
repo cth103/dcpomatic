@@ -180,7 +180,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<PlayerVideoFrame> image, Eyes eyes, ColourConversion conversion, bool same)
+Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf, bool same)
 {
 	_waker.nudge ();
 	
@@ -207,28 +207,28 @@ Encoder::process_video (shared_ptr<PlayerVideoFrame> image, Eyes eyes, ColourCon
 	rethrow ();
 
 	if (_writer->can_fake_write (_video_frames_out)) {
-		_writer->fake_write (_video_frames_out, eyes);
-		_have_a_real_frame[eyes] = false;
+		_writer->fake_write (_video_frames_out, pvf->eyes ());
+		_have_a_real_frame[pvf->eyes()] = false;
 		frame_done ();
-	} else if (same && _have_a_real_frame[eyes]) {
+	} else if (same && _have_a_real_frame[pvf->eyes()]) {
 		/* Use the last frame that we encoded. */
-		_writer->repeat (_video_frames_out, eyes);
+		_writer->repeat (_video_frames_out, pvf->eyes());
 		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  image->image(), _video_frames_out, eyes, conversion, _film->video_frame_rate(),
+						  pvf->image(), _video_frames_out, pvf->eyes(), pvf->colour_conversion(), _film->video_frame_rate(),
 						  _film->j2k_bandwidth(), _film->resolution(), _film->log()
 						  )
 					  ));
 		
 		_condition.notify_all ();
-		_have_a_real_frame[eyes] = true;
+		_have_a_real_frame[pvf->eyes()] = true;
 	}
 
-	if (eyes != EYES_LEFT) {
+	if (pvf->eyes() != EYES_LEFT) {
 		++_video_frames_out;
 	}
 }

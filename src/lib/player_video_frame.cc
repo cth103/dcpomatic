@@ -27,13 +27,17 @@ PlayerVideoFrame::PlayerVideoFrame (
 	Crop crop,
 	libdcp::Size inter_size,
 	libdcp::Size out_size,
-	Scaler const * scaler
+	Scaler const * scaler,
+	Eyes eyes,
+	ColourConversion colour_conversion
 	)
 	: _in (in)
 	, _crop (crop)
 	, _inter_size (inter_size)
 	, _out_size (out_size)
 	, _scaler (scaler)
+	, _eyes (eyes)
+	, _colour_conversion (colour_conversion)
 {
 
 }

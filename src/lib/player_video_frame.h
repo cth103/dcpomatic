@@ -20,6 +20,7 @@
 #include <boost/shared_ptr.hpp>
 #include "types.h"
 #include "position.h"
+#include "colour_conversion.h"
 
 class Image;
 class Scaler;
@@ -31,11 +32,19 @@ class Scaler;
 class PlayerVideoFrame
 {
 public:
-	PlayerVideoFrame (boost::shared_ptr<const Image>, Crop, libdcp::Size, libdcp::Size, Scaler const *);
+	PlayerVideoFrame (boost::shared_ptr<const Image>, Crop, libdcp::Size, libdcp::Size, Scaler const *, Eyes, ColourConversion);
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
 	
 	boost::shared_ptr<Image> image ();
+
+	Eyes eyes () const {
+		return _eyes;
+	}
+
+	ColourConversion colour_conversion () const {
+		return _colour_conversion;
+	}
 
 private:
 	boost::shared_ptr<const Image> _in;
@@ -43,6 +52,8 @@ private:
 	libdcp::Size _inter_size;
 	libdcp::Size _out_size;
 	Scaler const * _scaler;
+	Eyes _eyes;
+	ColourConversion _colour_conversion;
 	boost::shared_ptr<const Image> _subtitle_image;
 	Position<int> _subtitle_position;
 };
