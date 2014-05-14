@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 static void
-video_proxy (weak_ptr<Encoder> encoder, shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
+video_proxy (weak_ptr<Encoder> encoder, shared_ptr<PlayerVideoFrame> image, Eyes eyes, ColourConversion conversion, bool same)
 {
 	shared_ptr<Encoder> e = encoder.lock ();
 	if (e) {

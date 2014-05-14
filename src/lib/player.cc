@@ -34,6 +34,7 @@
 #include "resampler.h"
 #include "log.h"
 #include "scaler.h"
+#include "player_video_frame.h"
 
 using std::list;
 using std::cout;
@@ -209,8 +210,8 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	Time const time = content->position() + relative_time + extra - content->trim_start ();
 	libdcp::Size const image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 
-	shared_ptr<PlayerImage> pi (
-		new PlayerImage (
+	shared_ptr<PlayerVideoFrame> pi (
+		new PlayerVideoFrame (
 			image,
 			content->crop(),
 			image_size,
@@ -519,7 +520,7 @@ Player::set_video_container_size (libdcp::Size s)
 	im->make_black ();
 	
 	_black_frame.reset (
-		new PlayerImage (
+		new PlayerVideoFrame (
 			im,
 			Crop(),
 			_video_container_size,
@@ -624,41 +625,4 @@ Player::repeat_last_video ()
 		);
 
 	return true;
-}
-
-PlayerImage::PlayerImage (
-	shared_ptr<const Image> in,
-	Crop crop,
-	libdcp::Size inter_size,
-	libdcp::Size out_size,
-	Scaler const * scaler
-	)
-	: _in (in)
-	, _crop (crop)
-	, _inter_size (inter_size)
-	, _out_size (out_size)
-	, _scaler (scaler)
-{
-
-}
-
-void
-PlayerImage::set_subtitle (shared_ptr<const Image> image, Position<int> pos)
-{
-	_subtitle_image = image;
-	_subtitle_position = pos;
-}
-
-shared_ptr<Image>
-PlayerImage::image ()
-{
-	shared_ptr<Image> out = _in->crop_scale_window (_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
-
-	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
-
-	if (_subtitle_image) {
-		out->alpha_blend (_subtitle_image, _subtitle_position);
-	}
-
-	return out;
 }

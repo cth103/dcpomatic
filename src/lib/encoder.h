@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ class EncodedData;
 class Writer;
 class Job;
 class ServerFinder;
-class PlayerImage;
+class PlayerVideoFrame;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -70,7 +70,7 @@ public:
 	 *  @param i Video frame image.
 	 *  @param same true if i is the same as the last time we were called.
 	 */
-	void process_video (boost::shared_ptr<PlayerImage> i, Eyes eyes, ColourConversion, bool same);
+	void process_video (boost::shared_ptr<PlayerVideoFrame> i, Eyes eyes, ColourConversion, bool same);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>);

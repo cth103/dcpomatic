@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include "writer.h"
 #include "server_finder.h"
 #include "player.h"
+#include "player_video_frame.h"
 
 #include "i18n.h"
 
@@ -179,7 +180,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, bool same)
+Encoder::process_video (shared_ptr<PlayerVideoFrame> image, Eyes eyes, ColourConversion conversion, bool same)
 {
 	_waker.nudge ();
 	

@@ -34,6 +34,7 @@
 #include "lib/examine_content_job.h"
 #include "lib/filter.h"
 #include "lib/player.h"
+#include "lib/player_video_frame.h"
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
 #include "film_viewer.h"
@@ -288,7 +289,7 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::process_video (shared_ptr<PlayerImage> image, Eyes eyes, Time t)
+FilmViewer::process_video (shared_ptr<PlayerVideoFrame> image, Eyes eyes, Time t)
 {
 	if (eyes == EYES_RIGHT) {
 		return;

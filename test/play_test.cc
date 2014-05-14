@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "lib/player.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
+#include "lib/player_video_frame.h"
 #include "test.h"
 
 /* This test needs stuff in Player that is only included in debug mode */
@@ -46,7 +47,7 @@ public:
 		_player->Video.connect (bind (&PlayerWrapper::process_video, this, _1, _2, _5));
 	}
 
-	void process_video (shared_ptr<PlayerImage> i, bool, Time t)
+	void process_video (shared_ptr<PlayerVideoFrame> i, bool, Time t)
 	{
 		Video v;
 		v.content = _player->_last_video;
