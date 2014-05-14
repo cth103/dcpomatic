@@ -457,7 +457,8 @@ private:
 	
 	void file_exit ()
 	{
-		Close (true);
+		/* false here allows the close handler to veto the close request */
+		Close (false);
 	}
 
 	void edit_preferences ()
