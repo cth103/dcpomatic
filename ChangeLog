@@ -1,3 +1,8 @@
+2014-05-14  Carl Hetherington  <cth@carlh.net>
+
+	* Bump libdcp to remove checks on PCM MXF edit rates,
+	so we can generate strange ones in DCP-o-matic.
+
 2014-05-13  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.6 released.
