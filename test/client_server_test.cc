@@ -25,6 +25,7 @@
 #include "lib/dcp_video_frame.h"
 #include "lib/scaler.h"
 #include "lib/player_video_frame.h"
+#include "lib/image_proxy.h"
 
 using std::list;
 using boost::shared_ptr;
@@ -71,12 +72,13 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 
 	shared_ptr<PlayerVideoFrame> pvf (
 		new PlayerVideoFrame (
-			image,
+			shared_ptr<ImageProxy> (new RawImageProxy (image)),
 			Crop (),
 			libdcp::Size (1998, 1080),
 			libdcp::Size (1998, 1080),
 			Scaler::from_id ("bicubic"),
 			EYES_BOTH,
+			PART_WHOLE,
 			ColourConversion ()
 			)
 		);

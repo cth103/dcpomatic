@@ -73,6 +73,7 @@ Piece::repeat (Player* player)
 		repeat_video.weak_piece,
 		repeat_video.image,
 		repeat_video.eyes,
+		repeat_video.part,
 		repeat_done > 0,
 		repeat_video.frame,
 		(repeat_done + 1) * (TIME_HZ / player->_film->video_frame_rate ())

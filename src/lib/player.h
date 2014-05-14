@@ -40,6 +40,7 @@ class Piece;
 class Image;
 class Resampler;
 class PlayerVideoFrame;
+class ImageProxy;
  
 /** @class Player
  *  @brief A class which can `play' a Playlist; emitting its audio and video.
@@ -85,7 +86,7 @@ private:
 	friend class PlayerWrapper;
 	friend class Piece;
 
-	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame, Time);
+	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const ImageProxy>, Eyes, Part, bool, VideoContent::Frame, Time);
 	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
 	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 	void setup_pieces ();

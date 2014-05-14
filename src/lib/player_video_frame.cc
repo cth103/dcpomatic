@@ -20,6 +20,7 @@
 #include <libdcp/raw_convert.h>
 #include "player_video_frame.h"
 #include "image.h"
+#include "image_proxy.h"
 #include "scaler.h"
 
 using std::string;
@@ -28,12 +29,13 @@ using boost::shared_ptr;
 using libdcp::raw_convert;
 
 PlayerVideoFrame::PlayerVideoFrame (
-	shared_ptr<const Image> in,
+	shared_ptr<const ImageProxy> in,
 	Crop crop,
 	libdcp::Size inter_size,
 	libdcp::Size out_size,
 	Scaler const * scaler,
 	Eyes eyes,
+	Part part,
 	ColourConversion colour_conversion
 	)
 	: _in (in)
@@ -42,6 +44,7 @@ PlayerVideoFrame::PlayerVideoFrame (
 	, _out_size (out_size)
 	, _scaler (scaler)
 	, _eyes (eyes)
+	, _part (part)
 	, _colour_conversion (colour_conversion)
 {
 
@@ -55,11 +58,10 @@ PlayerVideoFrame::PlayerVideoFrame (shared_ptr<cxml::Node> node, shared_ptr<Sock
 	_out_size = libdcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));
 	_scaler = Scaler::from_id (node->string_child ("Scaler"));
 	_eyes = (Eyes) node->number_child<int> ("Eyes");
+	_part = (Part) node->number_child<int> ("Part");
 	_colour_conversion = ColourConversion (node);
 
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, libdcp::Size (node->number_child<int> ("InWidth"), node->number_child<int> ("InHeight")), true));
-	image->read_from_socket (socket);
-	_in = image;
+	_in = image_proxy_factory (node->node_child ("In"), socket);
 
 	if (node->optional_number_child<int> ("SubtitleX")) {
 		
@@ -84,7 +86,27 @@ PlayerVideoFrame::set_subtitle (shared_ptr<const Image> image, Position<int> pos
 shared_ptr<Image>
 PlayerVideoFrame::image () const
 {
-	shared_ptr<Image> out = _in->crop_scale_window (_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
+	shared_ptr<Image> im = _in->image ();
+	
+	Crop total_crop = _crop;
+	switch (_part) {
+	case PART_LEFT_HALF:
+		total_crop.right += im->size().width / 2;
+		break;
+	case PART_RIGHT_HALF:
+		total_crop.left += im->size().width / 2;
+		break;
+	case PART_TOP_HALF:
+		total_crop.bottom += im->size().height / 2;
+		break;
+	case PART_BOTTOM_HALF:
+		total_crop.top += im->size().height / 2;
+		break;
+	default:
+		break;
+	}
+		
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
 
 	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
 
@@ -96,17 +118,17 @@ PlayerVideoFrame::image () const
 }
 
 void
-PlayerVideoFrame::add_metadata (xmlpp::Element* node) const
+PlayerVideoFrame::add_metadata (xmlpp::Node* node) const
 {
 	_crop.as_xml (node);
-	node->add_child("InWidth")->add_child_text (raw_convert<string> (_in->size().width));
-	node->add_child("InHeight")->add_child_text (raw_convert<string> (_in->size().height));
+	_in->add_metadata (node->add_child ("In"));
 	node->add_child("InterWidth")->add_child_text (raw_convert<string> (_inter_size.width));
 	node->add_child("InterHeight")->add_child_text (raw_convert<string> (_inter_size.height));
 	node->add_child("OutWidth")->add_child_text (raw_convert<string> (_out_size.width));
 	node->add_child("OutHeight")->add_child_text (raw_convert<string> (_out_size.height));
 	node->add_child("Scaler")->add_child_text (_scaler->id ());
 	node->add_child("Eyes")->add_child_text (raw_convert<string> (_eyes));
+	node->add_child("Part")->add_child_text (raw_convert<string> (_part));
 	_colour_conversion.as_xml (node);
 	if (_subtitle_image) {
 		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_subtitle_image->size().width));
@@ -119,7 +141,7 @@ PlayerVideoFrame::add_metadata (xmlpp::Element* node) const
 void
 PlayerVideoFrame::send_binary (shared_ptr<Socket> socket) const
 {
-	_in->write_to_socket (socket);
+	_in->send_binary (socket);
 	if (_subtitle_image) {
 		_subtitle_image->write_to_socket (socket);
 	}

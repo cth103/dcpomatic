@@ -30,6 +30,7 @@
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
+#include "image_proxy.h"
 #include "ratio.h"
 #include "resampler.h"
 #include "log.h"
@@ -179,12 +180,13 @@ Player::pass ()
 
 /** @param extra Amount of extra time to add to the content frame's time (for repeat) */
 void
-Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, Time extra)
+Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const ImageProxy> image, Eyes eyes, Part part, bool same, VideoContent::Frame frame, Time extra)
 {
 	/* Keep a note of what came in so that we can repeat it if required */
 	_last_incoming_video.weak_piece = weak_piece;
 	_last_incoming_video.image = image;
 	_last_incoming_video.eyes = eyes;
+	_last_incoming_video.part = part;
 	_last_incoming_video.same = same;
 	_last_incoming_video.frame = frame;
 	_last_incoming_video.extra = extra;
@@ -218,6 +220,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 			_video_container_size,
 			_film->scaler(),
 			eyes,
+			part,
 			content->colour_conversion()
 			)
 		);
@@ -421,7 +424,7 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
-			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
+			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, _5, 0));
 			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
 
@@ -444,7 +447,7 @@ Player::setup_pieces ()
 
 			if (!reusing) {
 				shared_ptr<ImageDecoder> id (new ImageDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
+				id->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, _5, 0));
 				piece->decoder = id;
 			}
 		}
@@ -523,12 +526,13 @@ Player::set_video_container_size (libdcp::Size s)
 	
 	_black_frame.reset (
 		new PlayerVideoFrame (
-			im,
+			shared_ptr<ImageProxy> (new RawImageProxy (im)),
 			Crop(),
 			_video_container_size,
 			_video_container_size,
 			Scaler::from_id ("bicubic"),
 			EYES_BOTH,
+			PART_WHOLE,
 			ColourConversion ()
 			)
 		);
@@ -623,6 +627,7 @@ Player::repeat_last_video ()
 		_last_incoming_video.weak_piece,
 		_last_incoming_video.image,
 		_last_incoming_video.eyes,
+		_last_incoming_video.part,
 		_last_incoming_video.same,
 		_last_incoming_video.frame,
 		_last_incoming_video.extra

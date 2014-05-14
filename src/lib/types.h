@@ -93,6 +93,15 @@ enum Eyes
 	EYES_COUNT
 };
 
+enum Part
+{
+	PART_LEFT_HALF,
+	PART_RIGHT_HALF,
+	PART_TOP_HALF,
+	PART_BOTTOM_HALF,
+	PART_WHOLE
+};
+
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */
