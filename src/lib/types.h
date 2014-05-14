@@ -32,11 +32,19 @@ class SubtitleContent;
 class FFmpegContent;
 class AudioBuffers;
 
+namespace cxml {
+	class Node;
+}
+
+namespace xmlpp {
+	class Node;
+}
+
 /** The version number of the protocol used to communicate
  *  with servers.  Intended to be bumped when incompatibilities
  *  are introduced.
  */
-#define SERVER_LINK_VERSION 1
+#define SERVER_LINK_VERSION 2
 
 typedef int64_t Time;
 #define TIME_MAX INT64_MAX
@@ -92,6 +100,7 @@ struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
 	Crop (int l, int r, int t, int b) : left (l), right (r), top (t), bottom (b) {}
+	Crop (boost::shared_ptr<cxml::Node>);
 
 	/** Number of pixels to remove from the left-hand side */
 	int left;
@@ -116,6 +125,8 @@ struct Crop
 		
 		return s;
 	}
+
+	void as_xml (xmlpp::Node *) const;
 };
 
 extern bool operator== (Crop const & a, Crop const & b);

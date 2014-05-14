@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 #include "dcp_video_frame.h"
 #include "config.h"
 #include "cross.h"
+#include "player_video_frame.h"
 
 #include "i18n.h"
 
@@ -75,7 +76,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	uint32_t length = socket->read_uint32 ();
 	scoped_array<char> buffer (new char[length]);
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
-	
+
 	stringstream s (buffer.get());
 	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
 	xml->read_stream (s);
@@ -85,14 +86,9 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 		return -1;
 	}
 
-	libdcp::Size size (
-		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
-		);
+	shared_ptr<PlayerVideoFrame> pvf (new PlayerVideoFrame (xml, socket));
 
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
-
-	image->read_from_socket (socket);
-	DCPVideoFrame dcp_video_frame (image, xml, _log);
+	DCPVideoFrame dcp_video_frame (pvf, xml, _log);
 
 	gettimeofday (&after_read, 0);
 	
@@ -103,15 +99,11 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	try {
 		encoded->send (socket);
 	} catch (std::exception& e) {
-		_log->log (String::compose (
-				   "Send failed; frame %1, data size %2, pixel format %3, image size %4x%5, %6 components",
-				   dcp_video_frame.frame(), encoded->size(), image->pixel_format(), image->size().width, image->size().height, image->components()
-				   )
-			);
+		_log->log (String::compose ("Send failed; frame %1", dcp_video_frame.index()));
 		throw;
 	}
 
-	return dcp_video_frame.frame ();
+	return dcp_video_frame.index ();
 }
 
 void

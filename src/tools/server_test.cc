@@ -50,8 +50,8 @@ static int frame = 0;
 void
 process_video (shared_ptr<PlayerVideoFrame> pvf)
 {
-	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (pvf->image(), frame, pvf->eyes(), pvf->colour_conversion(), film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
-	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (pvf->image(), frame, pvf->eyes(), pvf->colour_conversion(), film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (pvf, frame, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (pvf, frame, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
 
 	cout << "Frame " << frame << ": ";
 	cout.flush ();

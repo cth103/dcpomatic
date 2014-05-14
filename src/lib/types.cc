@@ -17,11 +17,16 @@
 
 */
 
+#include <libxml++/libxml++.h>
+#include <libcxml/cxml.h>
+#include <libdcp/raw_convert.h>
 #include "types.h"
 
 using std::max;
 using std::min;
 using std::string;
+using boost::shared_ptr;
+using libdcp::raw_convert;
 
 bool operator== (Crop const & a, Crop const & b)
 {
@@ -64,4 +69,21 @@ string_to_resolution (string s)
 
 	assert (false);
 	return RESOLUTION_2K;
+}
+
+Crop::Crop (shared_ptr<cxml::Node> node)
+{
+	left = node->number_child<int> ("LeftCrop");
+	right = node->number_child<int> ("RightCrop");
+	top = node->number_child<int> ("TopCrop");
+	bottom = node->number_child<int> ("BottomCrop");
+}
+
+void
+Crop::as_xml (xmlpp::Node* node) const
+{
+	node->add_child("LeftCrop")->add_child_text (raw_convert<string> (left));
+	node->add_child("RightCrop")->add_child_text (raw_convert<string> (right));
+	node->add_child("TopCrop")->add_child_text (raw_convert<string> (top));
+	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (bottom));
 }

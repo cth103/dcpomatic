@@ -161,10 +161,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_video_size.height));
 	node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
 	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_video_frame_type)));
-	node->add_child("LeftCrop")->add_child_text (raw_convert<string> (_crop.left));
-	node->add_child("RightCrop")->add_child_text (raw_convert<string> (_crop.right));
-	node->add_child("TopCrop")->add_child_text (raw_convert<string> (_crop.top));
-	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (_crop.bottom));
+	_crop.as_xml (node);
 	_scale.as_xml (node->add_child("Scale"));
 	_colour_conversion.as_xml (node->add_child("ColourConversion"));
 }
