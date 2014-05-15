@@ -973,6 +973,9 @@ Film::frame_size () const
 	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
+/** @param from KDM from time in local time.
+ *  @param to KDM to time in local time.
+ */
 libdcp::KDM
 Film::make_kdm (
 	shared_ptr<libdcp::Certificate> target,

@@ -39,8 +39,12 @@ public:
 	KDMDialog (wxWindow *, boost::shared_ptr<const Film>);
 
 	std::list<boost::shared_ptr<Screen> > screens () const;
+
+	/** @return KDM from time in local time */
 	boost::posix_time::ptime from () const;
+	/** @return KDM until time in local time */
 	boost::posix_time::ptime until () const;
+	
 	boost::filesystem::path dcp () const;
 	boost::filesystem::path directory () const;
 	bool write_to () const;
