@@ -173,11 +173,11 @@ msgstr "Bläddra..."
 
 #: src/wx/audio_mapping_view.cc:320
 msgid "BsL"
-msgstr ""
+msgstr "BsL"
 
 #: src/wx/audio_mapping_view.cc:324
 msgid "BsR"
-msgstr ""
+msgstr "BsR"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
@@ -510,7 +510,7 @@ msgstr "Gb"
 
 #: src/wx/audio_mapping_view.cc:304
 msgid "HI"
-msgstr ""
+msgstr "HI"
 
 #: src/wx/hints_dialog.cc:26
 msgid "Hints"
@@ -571,9 +571,8 @@ msgid "L"
 msgstr "V"
 
 #: src/wx/audio_mapping_view.cc:312
-#, fuzzy
 msgid "Lc"
-msgstr "V"
+msgstr "Vc"
 
 #: src/wx/video_panel.cc:87
 msgid "Left crop"
@@ -723,9 +722,8 @@ msgid "Rating (e.g. 15)"
 msgstr "Klassificering (ex. 15)"
 
 #: src/wx/audio_mapping_view.cc:316
-#, fuzzy
 msgid "Rc"
-msgstr "H"
+msgstr "Hc"
 
 #: src/wx/content_menu.cc:54 src/wx/film_editor.cc:284
 #: src/wx/editable_list.h:66
@@ -1010,7 +1008,7 @@ msgstr "Användarnamn"
 
 #: src/wx/audio_mapping_view.cc:308
 msgid "VI"
-msgstr ""
+msgstr "VI"
 
 #: src/wx/video_panel.cc:67
 msgid "Video"

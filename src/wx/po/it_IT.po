@@ -170,11 +170,11 @@ msgstr "Sfoglia..."
 
 #: src/wx/audio_mapping_view.cc:320
 msgid "BsL"
-msgstr ""
+msgstr "BsL"
 
 #: src/wx/audio_mapping_view.cc:324
 msgid "BsR"
-msgstr ""
+msgstr "BsR"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
@@ -182,7 +182,7 @@ msgstr "Ma dovrò riprodurre con il fader a"
 
 #: src/wx/audio_mapping_view.cc:288
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/wx/audio_panel.cc:63
 msgid "Calculate..."
@@ -506,7 +506,7 @@ msgstr "Gb"
 
 #: src/wx/audio_mapping_view.cc:304
 msgid "HI"
-msgstr ""
+msgstr "HI"
 
 #: src/wx/hints_dialog.cc:26
 msgid "Hints"
@@ -563,11 +563,11 @@ msgstr "Tieni i video in sequenza"
 
 #: src/wx/audio_mapping_view.cc:280
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: src/wx/audio_mapping_view.cc:312
 msgid "Lc"
-msgstr ""
+msgstr "Lc"
 
 #: src/wx/video_panel.cc:87
 msgid "Left crop"
@@ -575,7 +575,7 @@ msgstr "Taglio a sinistra"
 
 #: src/wx/audio_mapping_view.cc:292
 msgid "Lfe"
-msgstr ""
+msgstr "Lfe"
 
 #: src/wx/colour_conversion_editor.cc:49
 msgid "Linearise input gamma curve for low values"
@@ -586,9 +586,8 @@ msgid "Load from file..."
 msgstr ""
 
 #: src/wx/audio_mapping_view.cc:296
-#, fuzzy
 msgid "Ls"
-msgstr "s"
+msgstr "Ls"
 
 #: src/wx/film_editor.cc:749
 msgid "MISSING: "
@@ -707,7 +706,7 @@ msgstr "Posizione"
 
 #: src/wx/audio_mapping_view.cc:284
 msgid "R"
-msgstr ""
+msgstr "R"
 
 #: src/wx/audio_dialog.cc:61
 msgid "RMS"
@@ -719,7 +718,7 @@ msgstr "Classificazione (es. 15)"
 
 #: src/wx/audio_mapping_view.cc:316
 msgid "Rc"
-msgstr ""
+msgstr "Rc"
 
 #: src/wx/content_menu.cc:54 src/wx/film_editor.cc:284
 #: src/wx/editable_list.h:66
@@ -763,9 +762,8 @@ msgid "Right crop"
 msgstr "Taglio a destra"
 
 #: src/wx/audio_mapping_view.cc:300
-#, fuzzy
 msgid "Rs"
-msgstr "s"
+msgstr "Rs"
 
 #: src/wx/film_editor.cc:223
 msgid "SMPTE"
@@ -999,7 +997,7 @@ msgstr "Nome utente"
 
 #: src/wx/audio_mapping_view.cc:308
 msgid "VI"
-msgstr ""
+msgstr "VI"
 
 #: src/wx/video_panel.cc:67
 msgid "Video"
