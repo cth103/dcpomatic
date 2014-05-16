@@ -109,6 +109,10 @@ public:
 		add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
 		_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
 		table->Add (_maximum_j2k_bandwidth, 1);
+
+		_allow_any_dcp_frame_rate = new wxCheckBox (panel, wxID_ANY, _("Allow any DCP frame rate"));
+		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
 		
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
@@ -183,6 +187,8 @@ public:
 		_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_updates_changed, this));
 		_check_for_test_updates->SetValue (config->check_for_test_updates ());
 		_check_for_test_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
+		_allow_any_dcp_frame_rate->SetValue (config->allow_any_dcp_frame_rate ());
+		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::allow_any_dcp_frame_rate_changed, this));
 		
 		return panel;
 	}
@@ -269,11 +275,17 @@ private:
 	{
 		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
 	}
+
+	void allow_any_dcp_frame_rate_changed ()
+	{
+		Config::instance()->set_allow_any_dcp_frame_rate (_allow_any_dcp_frame_rate->GetValue ());
+	}
 	
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
 	wxSpinCtrl* _maximum_j2k_bandwidth;
+	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;

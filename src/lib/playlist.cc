@@ -19,7 +19,6 @@
 
 #include <libcxml/cxml.h>
 #include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
 #include "playlist.h"
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
@@ -46,7 +45,6 @@ using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
-using boost::lexical_cast;
 
 Playlist::Playlist ()
 	: _sequence_video (true)

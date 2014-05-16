@@ -18,7 +18,6 @@
 */
 
 #include <iostream>
-#include <boost/lexical_cast.hpp>
 #include <Magick++.h>
 #include "image_content.h"
 #include "image_examiner.h"
@@ -33,8 +32,6 @@ using std::cout;
 using std::list;
 using std::sort;
 using boost::shared_ptr;
-using boost::lexical_cast;
-using boost::bad_lexical_cast;
 
 ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
 	: _film (film)

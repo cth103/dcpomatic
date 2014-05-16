@@ -17,9 +17,9 @@
 
 */
 
-#include <boost/lexical_cast.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 #include "audio_mapping.h"
 #include "util.h"
 
@@ -30,8 +30,8 @@ using std::pair;
 using std::string;
 using std::min;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 AudioMapping::AudioMapping ()
 	: _content_channels (0)
@@ -94,7 +94,7 @@ AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node, int state_version
 			set (
 				(*i)->number_attribute<int> ("Content"),
 				static_cast<dcp::Channel> ((*i)->number_attribute<int> ("DCP")),
-				lexical_cast<float> ((*i)->content ())
+				raw_convert<float> ((*i)->content ())
 				);
 		}
 	}
@@ -115,14 +115,14 @@ AudioMapping::get (int c, dcp::Channel d) const
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
-	node->add_child ("ContentChannels")->add_child_text (lexical_cast<string> (_content_channels));
+	node->add_child ("ContentChannels")->add_child_text (raw_convert<string> (_content_channels));
 
 	for (int c = 0; c < _content_channels; ++c) {
 		for (int d = 0; d < MAX_DCP_AUDIO_CHANNELS; ++d) {
 			xmlpp::Element* t = node->add_child ("Gain");
-			t->set_attribute ("Content", lexical_cast<string> (c));
-			t->set_attribute ("DCP", lexical_cast<string> (d));
-			t->add_child_text (lexical_cast<string> (get (c, static_cast<dcp::Channel> (d))));
+			t->set_attribute ("Content", raw_convert<string> (c));
+			t->set_attribute ("DCP", raw_convert<string> (d));
+			t->add_child_text (raw_convert<string> (get (c, static_cast<dcp::Channel> (d))));
 		}
 	}
 }

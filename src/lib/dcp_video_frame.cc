@@ -47,6 +47,7 @@
 #include <dcp/xyz_frame.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include "film.h"
 #include "dcp_video_frame.h"
@@ -67,6 +68,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using dcp::Size;
+using dcp::raw_convert;
 
 #define DCI_COEFFICENT (48.0 / 52.37)
 
@@ -270,7 +272,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);
-	boost::asio::ip::tcp::resolver::query query (serv.host_name(), boost::lexical_cast<string> (Config::instance()->server_port_base ()));
+	boost::asio::ip::tcp::resolver::query query (serv.host_name(), raw_convert<string> (Config::instance()->server_port_base ()));
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	shared_ptr<Socket> socket (new Socket);
@@ -280,9 +282,9 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("EncodingRequest");
 
-	root->add_child("Version")->add_child_text (lexical_cast<string> (SERVER_LINK_VERSION));
-	root->add_child("Width")->add_child_text (lexical_cast<string> (_image->size().width));
-	root->add_child("Height")->add_child_text (lexical_cast<string> (_image->size().height));
+	root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
+	root->add_child("Width")->add_child_text (raw_convert<string> (_image->size().width));
+	root->add_child("Height")->add_child_text (raw_convert<string> (_image->size().height));
 	add_metadata (root);
 
 	stringstream xml;
@@ -306,7 +308,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 void
 DCPVideoFrame::add_metadata (xmlpp::Element* el) const
 {
-	el->add_child("Frame")->add_child_text (lexical_cast<string> (_frame));
+	el->add_child("Frame")->add_child_text (raw_convert<string> (_frame));
 
 	switch (_eyes) {
 	case EYES_BOTH:
@@ -324,9 +326,9 @@ DCPVideoFrame::add_metadata (xmlpp::Element* el) const
 	
 	_conversion.as_xml (el->add_child("ColourConversion"));
 
-	el->add_child("FramesPerSecond")->add_child_text (lexical_cast<string> (_frames_per_second));
-	el->add_child("J2KBandwidth")->add_child_text (lexical_cast<string> (_j2k_bandwidth));
-	el->add_child("Resolution")->add_child_text (lexical_cast<string> (int (_resolution)));
+	el->add_child("FramesPerSecond")->add_child_text (raw_convert<string> (_frames_per_second));
+	el->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
+	el->add_child("Resolution")->add_child_text (raw_convert<string> (int (_resolution)));
 }
 
 EncodedData::EncodedData (int s)

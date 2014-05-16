@@ -21,12 +21,14 @@
 #include "util.h"
 #include "subrip.h"
 #include "film.h"
+#include <dcp/raw_convert.h>
 
 #include "i18n.h"
 
 using std::stringstream;
 using std::string;
 using std::cout;
+using dcp::raw_convert;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -81,12 +83,10 @@ SubRipContent::information () const
 void
 SubRipContent::as_xml (xmlpp::Node* node) const
 {
-	LocaleGuard lg;
-	
 	node->add_child("Type")->add_child_text ("SubRip");
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
-	node->add_child("Length")->add_child_text (lexical_cast<string> (_length.get ()));
+	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
 }
 
 DCPTime
@@ -101,13 +101,11 @@ SubRipContent::full_length () const
 string
 SubRipContent::identifier () const
 {
-	LocaleGuard lg;
-
 	stringstream s;
 	s << Content::identifier()
-	  << "_" << subtitle_scale()
-	  << "_" << subtitle_x_offset()
-	  << "_" << subtitle_y_offset();
+	  << "_" << raw_convert<string> (subtitle_scale())
+	  << "_" << raw_convert<string> (subtitle_x_offset())
+	  << "_" << raw_convert<string> (subtitle_y_offset());
 
 	return s.str ();
 }

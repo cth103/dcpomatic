@@ -164,6 +164,9 @@ make_cinema_kdms (
 	return cinema_kdms;
 }
 
+/** @param from KDM from time in local time.
+ *  @param to KDM to time in local time.
+ */
 void
 write_kdm_files (
 	shared_ptr<const Film> film,

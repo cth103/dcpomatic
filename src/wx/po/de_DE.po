@@ -568,9 +568,8 @@ msgid "L"
 msgstr "L"
 
 #: src/wx/audio_mapping_view.cc:312
-#, fuzzy
 msgid "Lc"
-msgstr "L"
+msgstr "Lc"
 
 #: src/wx/video_panel.cc:87
 msgid "Left crop"
@@ -717,9 +716,8 @@ msgid "Rating (e.g. 15)"
 msgstr "FSK (z.B. 12)"
 
 #: src/wx/audio_mapping_view.cc:316
-#, fuzzy
 msgid "Rc"
-msgstr "R"
+msgstr "Rc"
 
 #: src/wx/content_menu.cc:54 src/wx/film_editor.cc:284
 #: src/wx/editable_list.h:66

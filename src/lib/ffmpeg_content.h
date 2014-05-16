@@ -21,6 +21,7 @@
 #define DCPOMATIC_FFMPEG_CONTENT_H
 
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/lexical_cast.hpp>
 #include "video_content.h"
 #include "audio_content.h"
 #include "subtitle_content.h"

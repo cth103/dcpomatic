@@ -143,12 +143,15 @@ FilmEditor::make_dcp_panel ()
 
 	{
 		add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Frame Rate"), true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_frame_rate = new wxChoice (_dcp_panel, wxID_ANY);
-		s->Add (_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
+		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_frame_rate_choice = new wxChoice (_dcp_panel, wxID_ANY);
+		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
+		_frame_rate_spin = new wxSpinCtrl (_dcp_panel, wxID_ANY);
+		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
+		setup_frame_rate_widget ();
 		_best_frame_rate = new wxButton (_dcp_panel, wxID_ANY, _("Use best"));
-		s->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
-		grid->Add (s, wxGBPosition (r, 1));
+		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+		grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
 	}
 	++r;
 
@@ -211,11 +214,12 @@ FilmEditor::make_dcp_panel ()
 
 	list<int> const dfr = Config::instance()->allowed_dcp_frame_rates ();
 	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
-		_frame_rate->Append (std_to_wx (boost::lexical_cast<string> (*i)));
+		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (*i)));
 	}
 
 	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	_frame_rate_spin->SetRange (1, 480);
 
 	_resolution->Append (_("2K"));
 	_resolution->Append (_("4K"));
@@ -242,7 +246,8 @@ FilmEditor::connect_to_widgets ()
 	_content_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_timeline_clicked, this));
 	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::scaler_changed, this));
 	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::dcp_content_type_changed, this));
-	_frame_rate->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_changed, this));
+	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_choice_changed, this));
+	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::frame_rate_spin_changed, this));
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::best_frame_rate_clicked, this));
 	_signed->Bind           (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::signed_toggled, this));
 	_encrypted->Bind        (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::encrypted_toggled, this));
@@ -352,9 +357,9 @@ FilmEditor::encrypted_toggled ()
 	_film->set_encrypted (_encrypted->GetValue ());
 }
 			       
-/** Called when the name widget has been changed */
+/** Called when the frame rate choice widget has been changed */
 void
-FilmEditor::frame_rate_changed ()
+FilmEditor::frame_rate_choice_changed ()
 {
 	if (!_film) {
 		return;
@@ -362,9 +367,20 @@ FilmEditor::frame_rate_changed ()
 
 	_film->set_video_frame_rate (
 		boost::lexical_cast<int> (
-			wx_to_std (_frame_rate->GetString (_frame_rate->GetSelection ()))
+			wx_to_std (_frame_rate_choice->GetString (_frame_rate_choice->GetSelection ()))
 			)
 		);
+}
+
+/** Called when the frame rate spin widget has been changed */
+void
+FilmEditor::frame_rate_spin_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_video_frame_rate (_frame_rate_spin->GetValue ());
 }
 
 void
@@ -468,17 +484,19 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::VIDEO_FRAME_RATE:
 	{
 		bool done = false;
-		for (unsigned int i = 0; i < _frame_rate->GetCount(); ++i) {
-			if (wx_to_std (_frame_rate->GetString(i)) == boost::lexical_cast<string> (_film->video_frame_rate())) {
-				checked_set (_frame_rate, i);
+		for (unsigned int i = 0; i < _frame_rate_choice->GetCount(); ++i) {
+			if (wx_to_std (_frame_rate_choice->GetString(i)) == boost::lexical_cast<string> (_film->video_frame_rate())) {
+				checked_set (_frame_rate_choice, i);
 				done = true;
 				break;
 			}
 		}
 
 		if (!done) {
-			checked_set (_frame_rate, -1);
+			checked_set (_frame_rate_choice, -1);
 		}
+
+		_frame_rate_spin->SetValue (_film->video_frame_rate ());
 
 		_best_frame_rate->Enable (_film->best_video_frame_rate () != _film->video_frame_rate ());
 		break;
@@ -646,7 +664,8 @@ FilmEditor::set_general_sensitivity (bool s)
 	_signed->Enable (si);
 	
 	_encrypted->Enable (s);
-	_frame_rate->Enable (s);
+	_frame_rate_choice->Enable (s);
+	_frame_rate_spin->Enable (s);
 	_audio_channels->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_container->Enable (s);
@@ -1016,4 +1035,19 @@ void
 FilmEditor::config_changed ()
 {
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	setup_frame_rate_widget ();
+}
+
+void
+FilmEditor::setup_frame_rate_widget ()
+{
+	if (Config::instance()->allow_any_dcp_frame_rate ()) {
+		_frame_rate_choice->Hide ();
+		_frame_rate_spin->Show ();
+	} else {
+		_frame_rate_choice->Show ();
+		_frame_rate_spin->Hide ();
+	}
+
+	_frame_rate_sizer->Layout ();
 }

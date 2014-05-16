@@ -24,6 +24,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"
@@ -46,10 +47,10 @@ using std::max;
 using std::exception;
 using std::cerr;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::optional;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
+using dcp::raw_convert;
 
 Config* Config::_instance = 0;
 
@@ -60,6 +61,7 @@ Config::Config ()
 	, _use_any_servers (true)
 	, _tms_path (".")
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _allow_any_dcp_frame_rate (false)
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
@@ -87,8 +89,6 @@ Config::Config ()
 void
 Config::read ()
 {
-	LocaleGuard lg;
-	
 	if (!boost::filesystem::exists (file (false))) {
 		read_old_metadata ();
 		return;
@@ -188,6 +188,7 @@ Config::read ()
 	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
 
 	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
+	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
 }
 
 void
@@ -308,15 +309,13 @@ Config::instance ()
 void
 Config::write () const
 {
-	LocaleGuard lg;
-	
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
 	root->add_child("Version")->add_child_text ("1");
-	root->add_child("NumLocalEncodingThreads")->add_child_text (lexical_cast<string> (_num_local_encoding_threads));
+	root->add_child("NumLocalEncodingThreads")->add_child_text (raw_convert<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
-	root->add_child("ServerPortBase")->add_child_text (lexical_cast<string> (_server_port_base));
+	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
 	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
 	
 	for (vector<string>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
@@ -344,9 +343,9 @@ Config::write () const
 
 	_default_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
 
-	root->add_child("DefaultStillLength")->add_child_text (lexical_cast<string> (_default_still_length));
-	root->add_child("DefaultJ2KBandwidth")->add_child_text (lexical_cast<string> (_default_j2k_bandwidth));
-	root->add_child("DefaultAudioDelay")->add_child_text (lexical_cast<string> (_default_audio_delay));
+	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
+	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
+	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
 
 	for (vector<PresetColourConversion>::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
 		i->as_xml (root->add_child ("ColourConversion"));
@@ -365,8 +364,9 @@ Config::write () const
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
 	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
 
-	root->add_child("MaximumJ2KBandwidth")->add_child_text (lexical_cast<string> (_maximum_j2k_bandwidth));
-
+	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
+	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
+	
 	doc.write_to_file_formatted (file(false).string ());
 }
 

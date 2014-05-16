@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,13 +19,14 @@
 
 #include <iostream>
 #include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 #include "dci_metadata.h"
 
 #include "i18n.h"
 
 using std::string;
-using boost::lexical_cast;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
 {
@@ -42,7 +43,7 @@ DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
 void
 DCIMetadata::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("ContentVersion")->add_child_text (lexical_cast<string> (content_version));
+	root->add_child("ContentVersion")->add_child_text (raw_convert<string> (content_version));
 	root->add_child("AudioLanguage")->add_child_text (audio_language);
 	root->add_child("SubtitleLanguage")->add_child_text (subtitle_language);
 	root->add_child("Territory")->add_child_text (territory);

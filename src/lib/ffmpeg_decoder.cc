@@ -27,7 +27,6 @@
 #include <iomanip>
 #include <iostream>
 #include <stdint.h>
-#include <boost/lexical_cast.hpp>
 #include <sndfile.h>
 extern "C" {
 #include <libavcodec/avcodec.h>

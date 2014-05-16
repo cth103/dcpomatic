@@ -18,6 +18,7 @@
 */
 
 #include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "film.h"
@@ -31,7 +32,7 @@ using std::string;
 using std::stringstream;
 using std::cout;
 using boost::shared_ptr;
-using boost::lexical_cast;
+using dcp::raw_convert;
 
 SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
@@ -132,9 +133,9 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	AudioContent::as_xml (node);
 
-	node->add_child("AudioChannels")->add_child_text (lexical_cast<string> (audio_channels ()));
-	node->add_child("AudioLength")->add_child_text (lexical_cast<string> (audio_length().get ()));
-	node->add_child("AudioFrameRate")->add_child_text (lexical_cast<string> (audio_frame_rate ()));
+	node->add_child("AudioChannels")->add_child_text (raw_convert<string> (audio_channels ()));
+	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length().get ()));
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_frame_rate ()));
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }
 

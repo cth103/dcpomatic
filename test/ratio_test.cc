@@ -29,7 +29,7 @@
 
 using std::ostream;
 
-namespace libdcp {
+namespace dcp {
 	
 ostream&
 operator<< (ostream& s, dcp::Size const & t)

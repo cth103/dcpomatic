@@ -37,7 +37,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #ifdef DCPOMATIC_WINDOWS
@@ -53,6 +52,7 @@
 #include <dcp/util.h>
 #include <dcp/signer_chain.h>
 #include <dcp/signer.h>
+#include <dcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -101,9 +101,9 @@ using std::streampos;
 using std::set_terminate;
 using boost::shared_ptr;
 using boost::thread;
-using boost::lexical_cast;
 using boost::optional;
 using dcp::Size;
+using dcp::raw_convert;
 
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
@@ -687,14 +687,14 @@ int
 get_required_int (multimap<string, string> const & kv, string k)
 {
 	string const v = get_required_string (kv, k);
-	return lexical_cast<int> (v);
+	return raw_convert<int> (v);
 }
 
 float
 get_required_float (multimap<string, string> const & kv, string k)
 {
 	string const v = get_required_string (kv, k);
-	return lexical_cast<float> (v);
+	return raw_convert<float> (v);
 }
 
 string
@@ -724,7 +724,7 @@ get_optional_int (multimap<string, string> const & kv, string k)
 		return 0;
 	}
 
-	return lexical_cast<int> (i->second);
+	return raw_convert<int> (i->second);
 }
 
 /** Trip an assert if the caller is not in the UI thread */
@@ -759,25 +759,6 @@ audio_channel_name (int c)
 	};
 
 	return channels[c];
-}
-
-LocaleGuard::LocaleGuard ()
-	: _old (0)
-{
-	char const * old = setlocale (LC_NUMERIC, 0);
-
-	if (old) {
-		_old = strdup (old);
-		if (strcmp (_old, "C")) {
-			setlocale (LC_NUMERIC, "C");
-		}
-	}
-}
-
-LocaleGuard::~LocaleGuard ()
-{
-	setlocale (LC_NUMERIC, _old);
-	free (_old);
 }
 
 bool

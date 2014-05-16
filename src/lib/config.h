@@ -116,6 +116,10 @@ public:
 	std::list<int> allowed_dcp_frame_rates () const {
 		return _allowed_dcp_frame_rates;
 	}
+
+	bool allow_any_dcp_frame_rate () const {
+		return _allow_any_dcp_frame_rate;
+	}
 	
 	DCIMetadata default_dci_metadata () const {
 		return _default_dci_metadata;
@@ -238,6 +242,11 @@ public:
 
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
 		_allowed_dcp_frame_rates = r;
+		changed ();
+	}
+
+	void set_allow_any_dcp_frame_rate (bool a) {
+		_allow_any_dcp_frame_rate = a;
 		changed ();
 	}
 
@@ -369,6 +378,8 @@ private:
 	/** Our sound processor */
 	SoundProcessor const * _sound_processor;
 	std::list<int> _allowed_dcp_frame_rates;
+	/** Allow any video frame rate for the DCP; if true, overrides _allowed_dcp_frame_rates */
+	bool _allow_any_dcp_frame_rate;
 	/** Default DCI metadata for newly-created Films */
 	DCIMetadata _default_dci_metadata;
 	boost::optional<std::string> _language;

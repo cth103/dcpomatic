@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
 #include "video_content.h"
 #include "video_examiner.h"
 #include "compose.hpp"
@@ -45,9 +46,9 @@ using std::setprecision;
 using std::cout;
 using std::vector;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 vector<VideoContentScale> VideoContentScale::_scales;
 
@@ -155,15 +156,15 @@ void
 VideoContent::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("VideoLength")->add_child_text (lexical_cast<string> (_video_length.get ()));
-	node->add_child("VideoWidth")->add_child_text (lexical_cast<string> (_video_size.width));
-	node->add_child("VideoHeight")->add_child_text (lexical_cast<string> (_video_size.height));
-	node->add_child("VideoFrameRate")->add_child_text (lexical_cast<string> (_video_frame_rate));
-	node->add_child("VideoFrameType")->add_child_text (lexical_cast<string> (static_cast<int> (_video_frame_type)));
-	node->add_child("LeftCrop")->add_child_text (boost::lexical_cast<string> (_crop.left));
-	node->add_child("RightCrop")->add_child_text (boost::lexical_cast<string> (_crop.right));
-	node->add_child("TopCrop")->add_child_text (boost::lexical_cast<string> (_crop.top));
-	node->add_child("BottomCrop")->add_child_text (boost::lexical_cast<string> (_crop.bottom));
+	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_video_length.get ()));
+	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_video_size.width));
+	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_video_size.height));
+	node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
+	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_video_frame_type)));
+	node->add_child("LeftCrop")->add_child_text (raw_convert<string> (_crop.left));
+	node->add_child("RightCrop")->add_child_text (raw_convert<string> (_crop.right));
+	node->add_child("TopCrop")->add_child_text (raw_convert<string> (_crop.top));
+	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (_crop.bottom));
 	_scale.as_xml (node->add_child("Scale"));
 	_colour_conversion.as_xml (node->add_child("ColourConversion"));
 }

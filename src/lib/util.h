@@ -131,15 +131,7 @@ private:
 	int _timeout;
 };
 
-class LocaleGuard
-{
-public:
-	LocaleGuard ();
-	~LocaleGuard ();
-	
-private:
-	char* _old;
-};
+extern int64_t video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second);
 
 /** @class ScopedTemporary
  *  @brief A temporary file which is deleted when the ScopedTemporary object goes out of scope.

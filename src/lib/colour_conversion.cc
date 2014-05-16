@@ -17,9 +17,9 @@
 
 */
 
-#include <boost/lexical_cast.hpp>
 #include <libxml++/libxml++.h>
 #include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "colour_conversion.h"
@@ -32,8 +32,8 @@ using std::string;
 using std::cout;
 using std::vector;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::optional;
+using dcp::raw_convert;
 
 ColourConversion::ColourConversion ()
 	: input_gamma (2.4)
@@ -64,8 +64,6 @@ ColourConversion::ColourConversion (double i, bool il, double const m[3][3], dou
 ColourConversion::ColourConversion (cxml::NodePtr node)
 	: matrix (3, 3)
 {
-	LocaleGuard lg;
-	
 	input_gamma = node->number_child<double> ("InputGamma");
 	input_gamma_linearised = node->bool_child ("InputGammaLinearised");
 
@@ -79,7 +77,7 @@ ColourConversion::ColourConversion (cxml::NodePtr node)
 	for (list<cxml::NodePtr>::iterator i = m.begin(); i != m.end(); ++i) {
 		int const ti = (*i)->number_attribute<int> ("i");
 		int const tj = (*i)->number_attribute<int> ("j");
-		matrix(ti, tj) = lexical_cast<double> ((*i)->content ());
+		matrix(ti, tj) = raw_convert<double> ((*i)->content ());
 	}
 
 	output_gamma = node->number_child<double> ("OutputGamma");
@@ -88,21 +86,19 @@ ColourConversion::ColourConversion (cxml::NodePtr node)
 void
 ColourConversion::as_xml (xmlpp::Node* node) const
 {
-	LocaleGuard lg;
-	
-	node->add_child("InputGamma")->add_child_text (lexical_cast<string> (input_gamma));
+	node->add_child("InputGamma")->add_child_text (raw_convert<string> (input_gamma));
 	node->add_child("InputGammaLinearised")->add_child_text (input_gamma_linearised ? "1" : "0");
 
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			xmlpp::Element* m = node->add_child("Matrix");
-			m->set_attribute ("i", lexical_cast<string> (i));
-			m->set_attribute ("j", lexical_cast<string> (j));
-			m->add_child_text (lexical_cast<string> (matrix (i, j)));
+			m->set_attribute ("i", raw_convert<string> (i));
+			m->set_attribute ("j", raw_convert<string> (j));
+			m->add_child_text (raw_convert<string> (matrix (i, j)));
 		}
 	}
 
-	node->add_child("OutputGamma")->add_child_text (lexical_cast<string> (output_gamma));
+	node->add_child("OutputGamma")->add_child_text (raw_convert<string> (output_gamma));
 }
 
 optional<size_t>
