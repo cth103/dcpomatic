@@ -1,5 +1,9 @@
 2014-05-16  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.8 released.
+
+2014-05-16  Carl Hetherington  <cth@carlh.net>
+
 	* Fix various confusions in translations of abbreviated
 	channel names (Lc, Rc etc.)
 
