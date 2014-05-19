@@ -24,7 +24,7 @@
 using std::list;
 using boost::shared_ptr;
 
-Cinema::Cinema (shared_ptr<const cxml::Node> node)
+Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
 	, email (node->string_child ("Email"))
 {
@@ -35,7 +35,7 @@ Cinema::Cinema (shared_ptr<const cxml::Node> node)
    a constructor)
 */
 void
-Cinema::read_screens (shared_ptr<const cxml::Node> node)
+Cinema::read_screens (cxml::ConstNodePtr node)
 {
 	list<cxml::NodePtr> s = node->node_children ("Screen");
 	for (list<cxml::NodePtr>::iterator i = s.begin(); i != s.end(); ++i) {
@@ -67,7 +67,7 @@ Cinema::remove_screen (shared_ptr<Screen> s)
 	_screens.remove (s);
 }
 
-Screen::Screen (shared_ptr<const cxml::Node> node)
+Screen::Screen (cxml::ConstNodePtr node)
 {
 	name = node->string_child ("Name");
 	certificate = shared_ptr<dcp::Certificate> (new dcp::Certificate (node->string_child ("Certificate")));

@@ -39,7 +39,7 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 
 }
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, shared_ptr<const cxml::Node> node, int version)
+SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
 	, _length (node->number_child<int64_t> ("Length"))

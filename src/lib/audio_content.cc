@@ -57,7 +57,7 @@ AudioContent::AudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
 
 }
 
-AudioContent::AudioContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+AudioContent::AudioContent (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	: Content (f, node)
 {
 	_audio_gain = node->number_child<float> ("AudioGain");

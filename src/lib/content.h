@@ -30,6 +30,7 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <libxml++/libxml++.h>
+#include <libcxml/cxml.h>
 #include "types.h"
 #include "dcpomatic_time.h"
 
@@ -59,7 +60,7 @@ public:
 	Content (boost::shared_ptr<const Film>);
 	Content (boost::shared_ptr<const Film>, DCPTime);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
-	Content (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>);
+	Content (boost::shared_ptr<const Film>, cxml::ConstNodePtr);
 	Content (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 	virtual ~Content () {}
 	

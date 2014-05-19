@@ -78,7 +78,7 @@ AudioMapping::make_default ()
 	}
 }
 
-AudioMapping::AudioMapping (shared_ptr<const cxml::Node> node, int state_version)
+AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 {
 	setup (node->number_child<int> ("ContentChannels"));
 

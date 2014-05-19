@@ -93,7 +93,7 @@ DCPVideoFrame::DCPVideoFrame (
 	
 }
 
-DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
+DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, cxml::ConstNodePtr node, shared_ptr<Log> log)
 	: _image (image)
 	, _log (log)
 {

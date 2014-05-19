@@ -21,8 +21,9 @@
 #define DCPOMATIC_AUDIO_MAPPING_H
 
 #include <vector>
-#include <dcp/types.h>
 #include <boost/shared_ptr.hpp>
+#include <dcp/types.h>
+#include <libcxml/cxml.h>
 
 namespace xmlpp {
 	class Node;
@@ -42,7 +43,7 @@ class AudioMapping
 public:
 	AudioMapping ();
 	AudioMapping (int channels);
-	AudioMapping (boost::shared_ptr<const cxml::Node>, int);
+	AudioMapping (cxml::ConstNodePtr, int);
 
 	/* Default copy constructor is fine */
 	

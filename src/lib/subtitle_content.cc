@@ -45,7 +45,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::p
 
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
+SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
 	: Content (f, node)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)

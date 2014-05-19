@@ -28,7 +28,7 @@ using std::string;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
+DCIMetadata::DCIMetadata (cxml::ConstNodePtr node)
 {
 	content_version = node->number_child<int> ("ContentVersion");
 	audio_language = node->string_child ("AudioLanguage");

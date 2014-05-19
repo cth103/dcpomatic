@@ -23,12 +23,9 @@
 
 #include <boost/enable_shared_from_this.hpp>
 #include <dcp/certificates.h>
+#include <libcxml/cxml.h>
 
 class Cinema;
-
-namespace cxml {
-	class Node;
-}
 
 /** @class Screen
  *  @brief A representation of a Screen for KDM generation.
@@ -44,7 +41,7 @@ public:
 		, certificate (cert)
 	{}
 
-	Screen (boost::shared_ptr<const cxml::Node>);
+	Screen (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Element *) const;
 	
@@ -67,9 +64,9 @@ public:
 		, email (e)
 	{}
 
-	Cinema (boost::shared_ptr<const cxml::Node>);
+	Cinema (cxml::ConstNodePtr);
 
-	void read_screens (boost::shared_ptr<const cxml::Node>);
+	void read_screens (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Element *) const;
 

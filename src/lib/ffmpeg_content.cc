@@ -59,7 +59,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path 
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version, list<string>& notes)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (f, node)
 	, VideoContent (f, node, version)
 	, AudioContent (f, node)
@@ -312,7 +312,7 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 	return a._id != b._id;
 }
 
-FFmpegStream::FFmpegStream (shared_ptr<const cxml::Node> node)
+FFmpegStream::FFmpegStream (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
 	, _id (node->number_child<int> ("Id"))
 {
@@ -326,7 +326,7 @@ FFmpegStream::as_xml (xmlpp::Node* root) const
 	root->add_child("Id")->add_child_text (raw_convert<string> (_id));
 }
 
-FFmpegAudioStream::FFmpegAudioStream (shared_ptr<const cxml::Node> node, int version)
+FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
 	, mapping (node->node_child ("Mapping"), version)
 {
@@ -380,7 +380,7 @@ FFmpegStream::stream (AVFormatContext const * fc) const
  *  @param t String returned from to_string().
  *  @param v State file version.
  */
-FFmpegSubtitleStream::FFmpegSubtitleStream (shared_ptr<const cxml::Node> node)
+FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node)
 	: FFmpegStream (node)
 {
 	

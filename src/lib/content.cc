@@ -79,7 +79,7 @@ Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
 	_paths.push_back (p);
 }
 
-Content::Content (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node)
+Content::Content (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	: _film (f)
 	, _change_signals_frequent (false)
 {

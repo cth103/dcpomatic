@@ -43,7 +43,7 @@ public:
 	VideoContentScale ();
 	VideoContentScale (Ratio const *);
 	VideoContentScale (bool);
-	VideoContentScale (boost::shared_ptr<cxml::Node>);
+	VideoContentScale (cxml::NodePtr);
 
 	dcp::Size size (boost::shared_ptr<const VideoContent>, dcp::Size, dcp::Size) const;
 	std::string id () const;
@@ -83,7 +83,7 @@ public:
 	VideoContent (boost::shared_ptr<const Film>);
 	VideoContent (boost::shared_ptr<const Film>, DCPTime, ContentTime);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	VideoContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int);
+	VideoContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;

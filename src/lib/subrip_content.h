@@ -23,7 +23,7 @@ class SubRipContent : public SubtitleContent
 {
 public:
 	SubRipContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	SubRipContent (boost::shared_ptr<const Film>, boost::shared_ptr<const cxml::Node>, int);
+	SubRipContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
 	boost::shared_ptr<SubRipContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<SubRipContent> (Content::shared_from_this ());

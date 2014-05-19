@@ -22,10 +22,7 @@
 
 #include <string>
 #include <libxml++/libxml++.h>
-
-namespace cxml {
-	class Node;
-}
+#include <libcxml/cxml.h>
 
 class DCIMetadata
 {
@@ -34,7 +31,7 @@ public:
 		: content_version (1)
 	{}
 	
-	DCIMetadata (boost::shared_ptr<const cxml::Node>);
+	DCIMetadata (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);

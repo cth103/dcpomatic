@@ -101,7 +101,7 @@ class DCPVideoFrame : public boost::noncopyable
 {
 public:
 	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, ColourConversion, int, int, Resolution, boost::shared_ptr<Log>);
-	DCPVideoFrame (boost::shared_ptr<const Image>, boost::shared_ptr<const cxml::Node>, boost::shared_ptr<Log>);
+	DCPVideoFrame (boost::shared_ptr<const Image>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);

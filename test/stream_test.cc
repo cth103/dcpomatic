@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (stream_test)
 		map->add_child("DCP")->add_child_text ("2");
 	}
 		
-	FFmpegAudioStream a (shared_ptr<cxml::Node> (new cxml::Node (root)), 5);
+	FFmpegAudioStream a (cxml::NodePtr (new cxml::Node (root)), 5);
 
 	BOOST_CHECK_EQUAL (a.identifier(), "4");
 	BOOST_CHECK_EQUAL (a.frame_rate, 44100);

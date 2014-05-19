@@ -82,7 +82,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	setup_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Node> node, int version)
+VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
 	: Content (f, node)
 {
 	_video_length = ContentTime (node->number_child<int64_t> ("VideoLength"));
@@ -396,7 +396,7 @@ VideoContentScale::VideoContentScale (bool scale)
 
 }
 
-VideoContentScale::VideoContentScale (shared_ptr<cxml::Node> node)
+VideoContentScale::VideoContentScale (cxml::NodePtr node)
 	: _ratio (0)
 	, _scale (true)
 {
