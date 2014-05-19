@@ -34,6 +34,7 @@
 #include "lib/log.h"
 #include "lib/video_decoder.h"
 #include "lib/player.h"
+#include "lib/player_video_frame.h"
 
 using std::cout;
 using std::cerr;
@@ -47,10 +48,10 @@ static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame = 0;
 
 void
-process_video (shared_ptr<PlayerImage> image, Eyes eyes, ColourConversion conversion, Time)
+process_video (shared_ptr<PlayerVideoFrame> pvf)
 {
-	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (image->image(), frame, eyes, conversion, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
-	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (image->image(), frame, eyes, conversion, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (pvf, frame, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (pvf, frame, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
 
 	cout << "Frame " << frame << ": ";
 	cout.flush ();
@@ -145,7 +146,7 @@ main (int argc, char* argv[])
 		shared_ptr<Player> player = film->make_player ();
 		player->disable_audio ();
 
-		player->Video.connect (boost::bind (process_video, _1, _2, _3, _5));
+		player->Video.connect (boost::bind (process_video, _1));
 		bool done = false;
 		while (!done) {
 			done = player->pass ();

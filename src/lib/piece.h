@@ -26,15 +26,16 @@
 class Content;
 class Decoder;
 class Piece;
-class Image;
+class ImageProxy;
 class Player;
 
 struct IncomingVideo
 {
 public:
 	boost::weak_ptr<Piece> weak_piece;
-	boost::shared_ptr<const Image> image;
+	boost::shared_ptr<const ImageProxy> image;
 	Eyes eyes;
+	Part part;
 	bool same;
 	VideoContent::Frame frame;
 	Time extra;

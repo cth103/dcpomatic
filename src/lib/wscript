@@ -35,6 +35,7 @@ sources = """
           image_content.cc
           image_decoder.cc
           image_examiner.cc
+          image_proxy.cc
           job.cc
           job_manager.cc
           kdm.cc
@@ -42,6 +43,7 @@ sources = """
           log.cc
           piece.cc
           player.cc
+          player_video_frame.cc
           playlist.cc
           ratio.cc
           resampler.cc

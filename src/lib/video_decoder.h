@@ -27,7 +27,7 @@
 #include "util.h"
 
 class VideoContent;
-class Image;
+class ImageProxy;
 
 class VideoDecoder : public virtual Decoder
 {
@@ -42,14 +42,15 @@ public:
 	/** Emitted when a video frame is ready.
 	 *  First parameter is the video image.
 	 *  Second parameter is the eye(s) which should see this image.
-	 *  Third parameter is true if the image is the same as the last one that was emitted for this Eyes value.
+	 *  Third parameter is the part of this image that should be used.
+	 *  Fourth parameter is true if the image is the same as the last one that was emitted for this Eyes value.
 	 *  Fourth parameter is the frame within our source.
 	 */
-	boost::signals2::signal<void (boost::shared_ptr<const Image>, Eyes, bool, VideoContent::Frame)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<const ImageProxy>, Eyes, Part, bool, VideoContent::Frame)> Video;
 	
 protected:
 
-	void video (boost::shared_ptr<const Image>, bool, VideoContent::Frame);
+	void video (boost::shared_ptr<const ImageProxy>, bool, VideoContent::Frame);
 	boost::shared_ptr<const VideoContent> _video_content;
 	/** This is in frames without taking 3D into account (e.g. if we are doing 3D alternate,
 	 *  this would equal 2 on the left-eye second frame (not 1)).

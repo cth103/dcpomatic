@@ -22,6 +22,7 @@
  */
 
 #include <iostream>
+#include <openssl/md5.h>
 extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
@@ -37,6 +38,7 @@ using std::string;
 using std::min;
 using std::cout;
 using std::cerr;
+using std::stringstream;
 using boost::shared_ptr;
 using libdcp::Size;
 
@@ -619,3 +621,24 @@ Image::aligned () const
 	return _aligned;
 }
 
+string
+Image::digest () const
+{
+	MD5_CTX md5_context;
+	MD5_Init (&md5_context);
+
+	for (int i = 0; i < components(); ++i) {
+		MD5_Update (&md5_context, data()[i], line_size()[i]);
+	}
+	
+	unsigned char digest[MD5_DIGEST_LENGTH];
+	MD5_Final (digest, &md5_context);
+	
+	stringstream s;
+	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
+	}
+
+	return s.str ();
+}
+	

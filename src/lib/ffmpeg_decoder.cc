@@ -42,6 +42,7 @@ extern "C" {
 #include "filter_graph.h"
 #include "audio_buffers.h"
 #include "ffmpeg_content.h"
+#include "image_proxy.h"
 
 #include "i18n.h"
 
@@ -502,13 +503,13 @@ FFmpegDecoder::decode_video_packet ()
 					);
 				
 				black->make_black ();
-				video (image, false, _video_position);
+				video (shared_ptr<ImageProxy> (new RawImageProxy (image)), false, _video_position);
 				delta -= one_frame;
 			}
 
 			if (delta > -one_frame) {
 				/* This PTS is within a frame of being right; emit this (otherwise it will be dropped) */
-				video (image, false, _video_position);
+				video (shared_ptr<ImageProxy> (new RawImageProxy (image)), false, _video_position);
 			}
 				
 		} else {

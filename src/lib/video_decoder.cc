@@ -34,34 +34,28 @@ VideoDecoder::VideoDecoder (shared_ptr<const Film> f, shared_ptr<const VideoCont
 }
 
 void
-VideoDecoder::video (shared_ptr<const Image> image, bool same, VideoContent::Frame frame)
+VideoDecoder::video (shared_ptr<const ImageProxy> image, bool same, VideoContent::Frame frame)
 {
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		Video (image, EYES_BOTH, same, frame);
+		Video (image, EYES_BOTH, PART_WHOLE, same, frame);
 		break;
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		Video (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, same, frame / 2);
+		Video (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, same, frame / 2);
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-	{
-		int const half = image->size().width / 2;
-		Video (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, same, frame);
-		Video (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, same, frame);
+		Video (image, EYES_LEFT, PART_LEFT_HALF, same, frame);
+		Video (image, EYES_RIGHT, PART_RIGHT_HALF, same, frame);
 		break;
-	}
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-	{
-		int const half = image->size().height / 2;
-		Video (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, same, frame);
-		Video (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, same, frame);
+		Video (image, EYES_LEFT, PART_TOP_HALF, same, frame);
+		Video (image, EYES_RIGHT, PART_BOTTOM_HALF, same, frame);
 		break;
-	}
 	case VIDEO_FRAME_TYPE_3D_LEFT:
-		Video (image, EYES_LEFT, same, frame);
+		Video (image, EYES_LEFT, PART_WHOLE, same, frame);
 		break;
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		Video (image, EYES_RIGHT, same, frame);
+		Video (image, EYES_RIGHT, PART_WHOLE, same, frame);
 		break;
 	}
 	

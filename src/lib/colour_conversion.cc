@@ -29,6 +29,7 @@
 
 using std::list;
 using std::string;
+using std::stringstream;
 using std::cout;
 using std::vector;
 using boost::shared_ptr;

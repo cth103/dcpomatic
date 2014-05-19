@@ -30,10 +30,12 @@
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
+#include "image_proxy.h"
 #include "ratio.h"
 #include "resampler.h"
 #include "log.h"
 #include "scaler.h"
+#include "player_video_frame.h"
 
 using std::list;
 using std::cout;
@@ -178,12 +180,13 @@ Player::pass ()
 
 /** @param extra Amount of extra time to add to the content frame's time (for repeat) */
 void
-Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image, Eyes eyes, bool same, VideoContent::Frame frame, Time extra)
+Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const ImageProxy> image, Eyes eyes, Part part, bool same, VideoContent::Frame frame, Time extra)
 {
 	/* Keep a note of what came in so that we can repeat it if required */
 	_last_incoming_video.weak_piece = weak_piece;
 	_last_incoming_video.image = image;
 	_last_incoming_video.eyes = eyes;
+	_last_incoming_video.part = part;
 	_last_incoming_video.same = same;
 	_last_incoming_video.frame = frame;
 	_last_incoming_video.extra = extra;
@@ -209,13 +212,16 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	Time const time = content->position() + relative_time + extra - content->trim_start ();
 	libdcp::Size const image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 
-	shared_ptr<PlayerImage> pi (
-		new PlayerImage (
+	shared_ptr<PlayerVideoFrame> pi (
+		new PlayerVideoFrame (
 			image,
 			content->crop(),
 			image_size,
 			_video_container_size,
-			_film->scaler()
+			_film->scaler(),
+			eyes,
+			part,
+			content->colour_conversion()
 			)
 		);
 	
@@ -251,7 +257,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const Image> image
 	_last_video = piece->content;
 #endif
 
-	Video (pi, eyes, content->colour_conversion(), same, time);
+	Video (pi, same, time);
 
 	_last_emit_was_black = false;
 	_video_position = piece->video_position = (time + TIME_HZ / _film->video_frame_rate());
@@ -418,7 +424,7 @@ Player::setup_pieces ()
 		if (fc) {
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
-			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
+			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, _5, 0));
 			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
 
@@ -441,7 +447,7 @@ Player::setup_pieces ()
 
 			if (!reusing) {
 				shared_ptr<ImageDecoder> id (new ImageDecoder (_film, ic));
-				id->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, 0));
+				id->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, _5, 0));
 				piece->decoder = id;
 			}
 		}
@@ -519,12 +525,15 @@ Player::set_video_container_size (libdcp::Size s)
 	im->make_black ();
 	
 	_black_frame.reset (
-		new PlayerImage (
-			im,
+		new PlayerVideoFrame (
+			shared_ptr<ImageProxy> (new RawImageProxy (im)),
 			Crop(),
 			_video_container_size,
 			_video_container_size,
-			Scaler::from_id ("bicubic")
+			Scaler::from_id ("bicubic"),
+			EYES_BOTH,
+			PART_WHOLE,
+			ColourConversion ()
 			)
 		);
 }
@@ -559,7 +568,7 @@ Player::emit_black ()
 	_last_video.reset ();
 #endif
 
-	Video (_black_frame, EYES_BOTH, ColourConversion(), _last_emit_was_black, _video_position);
+	Video (_black_frame, _last_emit_was_black, _video_position);
 	_video_position += _film->video_frames_to_time (1);
 	_last_emit_was_black = true;
 }
@@ -618,47 +627,11 @@ Player::repeat_last_video ()
 		_last_incoming_video.weak_piece,
 		_last_incoming_video.image,
 		_last_incoming_video.eyes,
+		_last_incoming_video.part,
 		_last_incoming_video.same,
 		_last_incoming_video.frame,
 		_last_incoming_video.extra
 		);
 
 	return true;
-}
-
-PlayerImage::PlayerImage (
-	shared_ptr<const Image> in,
-	Crop crop,
-	libdcp::Size inter_size,
-	libdcp::Size out_size,
-	Scaler const * scaler
-	)
-	: _in (in)
-	, _crop (crop)
-	, _inter_size (inter_size)
-	, _out_size (out_size)
-	, _scaler (scaler)
-{
-
-}
-
-void
-PlayerImage::set_subtitle (shared_ptr<const Image> image, Position<int> pos)
-{
-	_subtitle_image = image;
-	_subtitle_position = pos;
-}
-
-shared_ptr<Image>
-PlayerImage::image ()
-{
-	shared_ptr<Image> out = _in->crop_scale_window (_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
-
-	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
-
-	if (_subtitle_image) {
-		out->alpha_blend (_subtitle_image, _subtitle_position);
-	}
-
-	return out;
 }
