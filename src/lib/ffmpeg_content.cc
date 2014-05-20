@@ -21,7 +21,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 #include <libcxml/cxml.h>
-#include <libdcp/raw_convert.h>
+#include <dcp/raw_convert.h>
 #include "ffmpeg_content.h"
 #include "ffmpeg_examiner.h"
 #include "compose.hpp"
@@ -42,7 +42,7 @@ using std::cout;
 using std::pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using libdcp::raw_convert;
+using dcp::raw_convert;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
