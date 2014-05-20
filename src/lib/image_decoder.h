@@ -40,7 +40,7 @@ private:
 	bool pass ();
 	
 	boost::shared_ptr<const ImageContent> _image_content;
-	boost::shared_ptr<Image> _image;
+	boost::shared_ptr<ImageProxy> _image;
 	VideoFrame _video_position;
 };
 

@@ -17,49 +17,50 @@
 
 */
 
-extern "C" {
-#include <libavutil/avutil.h>
-}
 #include <boost/shared_ptr.hpp>
 #include "types.h"
-#include "colour_conversion.h"
 #include "position.h"
+#include "colour_conversion.h"
 #include "position_image.h"
 
 class Image;
+class ImageProxy;
 class Scaler;
+class Socket;
 
-/** @class DCPVideo
- *
- *  A ContentVideo image with:
- *     - content parameters (crop, scaling, colour conversion)
- *     - merged content (subtitles)
- *  and with its time converted from a ContentTime to a DCPTime.
+/** Everything needed to describe a video frame coming out of the player, but with the
+ *  bits still their raw form.  We may want to combine the bits on a remote machine,
+ *  or maybe not even bother to combine them at all.
  */
-class DCPVideo
+class PlayerVideoFrame
 {
 public:
-	DCPVideo (boost::shared_ptr<const Image>, Eyes eyes, Crop, dcp::Size, dcp::Size, Scaler const *, ColourConversion conversion, DCPTime time);
+	PlayerVideoFrame (boost::shared_ptr<const ImageProxy>, Crop, dcp::Size, dcp::Size, Scaler const *, Eyes, Part, ColourConversion);
+	PlayerVideoFrame (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
 
 	void set_subtitle (PositionImage);
-	boost::shared_ptr<Image> image (AVPixelFormat, bool) const;
+	
+	boost::shared_ptr<Image> image () const;
+
+	void add_metadata (xmlpp::Node* node) const;
+	void send_binary (boost::shared_ptr<Socket> socket) const;
 
 	Eyes eyes () const {
 		return _eyes;
 	}
 
-	ColourConversion conversion () const {
-		return _conversion;
+	ColourConversion colour_conversion () const {
+		return _colour_conversion;
 	}
 
 private:
-	boost::shared_ptr<const Image> _in;
-	Eyes _eyes;
+	boost::shared_ptr<const ImageProxy> _in;
 	Crop _crop;
 	dcp::Size _inter_size;
 	dcp::Size _out_size;
 	Scaler const * _scaler;
-	ColourConversion _conversion;
-	DCPTime _time;
+	Eyes _eyes;
+	Part _part;
+	ColourConversion _colour_conversion;
 	PositionImage _subtitle;
 };

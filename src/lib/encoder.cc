@@ -35,7 +35,7 @@
 #include "writer.h"
 #include "server_finder.h"
 #include "player.h"
-#include "dcp_video.h"
+#include "player_video_frame.h"
 
 #include "i18n.h"
 
@@ -123,9 +123,9 @@ Encoder::process_end ()
 	*/
 
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
-		_film->log()->log (String::compose (N_("Encode left-over frame %1"), (*i)->frame ()));
+		_film->log()->log (String::compose (N_("Encode left-over frame %1"), (*i)->index ()));
 		try {
-			_writer->write ((*i)->encode_locally(), (*i)->frame (), (*i)->eyes ());
+			_writer->write ((*i)->encode_locally(), (*i)->index (), (*i)->eyes ());
 			frame_done ();
 		} catch (std::exception& e) {
 			_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
@@ -178,7 +178,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<DCPVideo> frame)
+Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf)
 {
 	_waker.nudge ();
 	
@@ -205,17 +205,15 @@ Encoder::process_video (shared_ptr<DCPVideo> frame)
 	rethrow ();
 
 	if (_writer->can_fake_write (_video_frames_out)) {
-		_writer->fake_write (_video_frames_out, frame->eyes ());
+		_writer->fake_write (_video_frames_out, pvf->eyes ());
 		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
 		TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
-						  frame->image(PIX_FMT_RGB24, false),
+						  pvf,
 						  _video_frames_out,
-						  frame->eyes(),
-						  frame->conversion(),
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
 						  _film->resolution(),
@@ -226,7 +224,7 @@ Encoder::process_video (shared_ptr<DCPVideo> frame)
 		_condition.notify_all ();
 	}
 
-	if (frame->eyes() != EYES_LEFT) {
+	if (pvf->eyes() != EYES_LEFT) {
 		++_video_frames_out;
 	}
 }
@@ -280,7 +278,7 @@ try
 
 		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		TIMING ("encoder thread %1 pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->frame(), vf->eyes ());
+		TIMING ("encoder thread %1 pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -306,27 +304,27 @@ try
 				_film->log()->log (
 					String::compose (
 						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
-						vf->frame(), server->host_name(), e.what(), remote_backoff)
+						vf->index(), server->host_name(), e.what(), remote_backoff)
 					);
 			}
 				
 		} else {
 			try {
-				TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->frame());
+				TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->index());
 				encoded = vf->encode_locally ();
-				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->frame());
+				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->index());
 			} catch (std::exception& e) {
 				_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
 			}
 		}
 
 		if (encoded) {
-			_writer->write (encoded, vf->frame (), vf->eyes ());
+			_writer->write (encoded, vf->index (), vf->eyes ());
 			frame_done ();
 		} else {
 			lock.lock ();
 			_film->log()->log (
-				String::compose (N_("Encoder thread %1 pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->frame())
+				String::compose (N_("Encoder thread %1 pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->index())
 				);
 			_queue.push_front (vf);
 			lock.unlock ();

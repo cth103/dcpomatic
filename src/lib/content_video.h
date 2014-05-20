@@ -20,7 +20,7 @@
 #ifndef DCPOMATIC_CONTENT_VIDEO_H
 #define DCPOMATIC_CONTENT_VIDEO_H
 
-class Image;
+class ImageProxy;
 
 /** @class ContentVideo
  *  @brief A frame of video straight out of some content.
@@ -32,14 +32,16 @@ public:
 		: eyes (EYES_BOTH)
 	{}
 
-	ContentVideo (boost::shared_ptr<const Image> i, Eyes e, VideoFrame f)
+	ContentVideo (boost::shared_ptr<const ImageProxy> i, Eyes e, Part p, VideoFrame f)
 		: image (i)
 		, eyes (e)
+		, part (p)
 		, frame (f)
 	{}
 	
-	boost::shared_ptr<const Image> image;
+	boost::shared_ptr<const ImageProxy> image;
 	Eyes eyes;
+	Part part;
 	VideoFrame frame;
 };
 

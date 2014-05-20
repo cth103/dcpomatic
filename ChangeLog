@@ -2,6 +2,15 @@
 
 	* Add subtitle view.
 
+2014-05-19  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.9 released.
+
+2014-05-19  Carl Hetherington  <cth@carlh.net>
+
+	* Decode image sources in the multi-threaded part
+	of the transcoder, rather than the single-threaded.
+
 2014-05-16  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.8 released.

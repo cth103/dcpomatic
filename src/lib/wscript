@@ -17,7 +17,6 @@ sources = """
           cross.cc
           dci_metadata.cc
           dcp_content_type.cc
-          dcp_video.cc
           dcp_video_frame.cc
           dcpomatic_time.cc
           dolby_cp750.cc
@@ -38,12 +37,14 @@ sources = """
           image_content.cc
           image_decoder.cc
           image_examiner.cc
+          image_proxy.cc
           job.cc
           job_manager.cc
           kdm.cc
           json_server.cc
           log.cc
           player.cc
+          player_video_frame.cc
           playlist.cc
           ratio.cc
           render_subtitles.cc

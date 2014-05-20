@@ -34,13 +34,14 @@
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
+#include "image_proxy.h"
 #include "ratio.h"
 #include "log.h"
 #include "scaler.h"
 #include "render_subtitles.h"
-#include "dcp_video.h"
 #include "config.h"
 #include "content_video.h"
+#include "player_video_frame.h"
 
 using std::list;
 using std::cout;
@@ -287,41 +288,41 @@ Player::set_approximate_size ()
 	_approximate_size = true;
 }
 
-shared_ptr<DCPVideo>
-Player::black_dcp_video (DCPTime time) const
+shared_ptr<PlayerVideoFrame>
+Player::black_player_video_frame () const
 {
-	return shared_ptr<DCPVideo> (
-		new DCPVideo (
-			_black_image,
-			EYES_BOTH,
+	return shared_ptr<PlayerVideoFrame> (
+		new PlayerVideoFrame (
+			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
 			Crop (),
 			_video_container_size,
 			_video_container_size,
 			Scaler::from_id ("bicubic"),
-			Config::instance()->colour_conversions().front().conversion,
-			time
+			EYES_BOTH,
+			PART_WHOLE,
+			Config::instance()->colour_conversions().front().conversion
 		)
 	);
 }
 
-shared_ptr<DCPVideo>
-Player::content_to_dcp (
+shared_ptr<PlayerVideoFrame>
+Player::content_to_player_video_frame (
 	shared_ptr<VideoContent> content,
 	ContentVideo content_video,
 	list<shared_ptr<Piece> > subs,
 	DCPTime time,
 	dcp::Size image_size) const
 {
-	shared_ptr<DCPVideo> dcp_video (
-		new DCPVideo (
+	shared_ptr<PlayerVideoFrame> pvf (
+		new PlayerVideoFrame (
 			content_video.image,
-			content_video.eyes,
 			content->crop (),
 			image_size,
 			_video_container_size,
 			_film->scaler(),
-			content->colour_conversion (),
-			time
+			content_video.eyes,
+			content_video.part,
+			content->colour_conversion ()
 			)
 		);
 	
@@ -356,14 +357,14 @@ Player::content_to_dcp (
 	}
 	
 	if (!sub_images.empty ()) {
-		dcp_video->set_subtitle (merge (sub_images));
+		pvf->set_subtitle (merge (sub_images));
 	}
 
-	return dcp_video;
+	return pvf;
 }
 
-/** @return All DCPVideo at the given time (there may be two frames for 3D) */
-list<shared_ptr<DCPVideo> >
+/** @return All PlayerVideoFrames at the given time (there may be two frames for 3D) */
+list<shared_ptr<PlayerVideoFrame> >
 Player::get_video (DCPTime time, bool accurate)
 {
 	if (!_have_valid_pieces) {
@@ -375,15 +376,15 @@ Player::get_video (DCPTime time, bool accurate)
 		time + DCPTime::from_frames (1, _film->video_frame_rate ())
 		);
 
-	list<shared_ptr<DCPVideo> > dcp_video;
+	list<shared_ptr<PlayerVideoFrame> > pvf;
 		
 	if (ov.empty ()) {
 		/* No video content at this time */
-		dcp_video.push_back (black_dcp_video (time));
-		return dcp_video;
+		pvf.push_back (black_player_video_frame ());
+		return pvf;
 	}
 
-	/* Create a DCPVideo from the content's video at this time */
+	/* Create a PlayerVideoFrame from the content's video at this time */
 
 	shared_ptr<Piece> piece = ov.back ();
 	shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
@@ -393,8 +394,8 @@ Player::get_video (DCPTime time, bool accurate)
 
 	list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
 	if (content_video.empty ()) {
-		dcp_video.push_back (black_dcp_video (time));
-		return dcp_video;
+		pvf.push_back (black_player_video_frame ());
+		return pvf;
 	}
 
 	dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
@@ -409,10 +410,10 @@ Player::get_video (DCPTime time, bool accurate)
 			time + DCPTime::from_frames (1, _film->video_frame_rate ())
 			);
 		
-		dcp_video.push_back (content_to_dcp (content, *i, subs, time, image_size));
+		pvf.push_back (content_to_player_video_frame (content, *i, subs, time, image_size));
 	}
 		
-	return dcp_video;
+	return pvf;
 }
 
 shared_ptr<AudioBuffers>

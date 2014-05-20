@@ -40,9 +40,11 @@ class Playlist;
 class AudioContent;
 class Piece;
 class Image;
-class DCPVideo;
 class Decoder;
-
+class Resampler;
+class PlayerVideoFrame;
+class ImageProxy;
+ 
 class PlayerStatistics
 {
 public:
@@ -75,29 +77,6 @@ public:
 	void dump (boost::shared_ptr<Log>) const;
 };
 
-/** @class PlayerImage
- *  @brief A wrapper for an Image which contains some pending operations; these may
- *  not be necessary if the receiver of the PlayerImage throws it away.
- */
-class PlayerImage
-{
-public:
-	PlayerImage (boost::shared_ptr<const Image>, Crop, dcp::Size, dcp::Size, Scaler const *);
-
-	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
-	
-	boost::shared_ptr<Image> image ();
-	
-private:
-	boost::shared_ptr<const Image> _in;
-	Crop _crop;
-	dcp::Size _inter_size;
-	dcp::Size _out_size;
-	Scaler const * _scaler;
-	boost::shared_ptr<const Image> _subtitle_image;
-	Position<int> _subtitle_position;
-};
-
 /** @class Player
  *  @brief A class which can `play' a Playlist.
  */
@@ -106,7 +85,7 @@ class Player : public boost::enable_shared_from_this<Player>, public boost::nonc
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
 
-	std::list<boost::shared_ptr<DCPVideo> > get_video (DCPTime time, bool accurate);
+	std::list<boost::shared_ptr<PlayerVideoFrame> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
 
 	void set_video_container_size (dcp::Size);
@@ -143,8 +122,8 @@ private:
 	VideoFrame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	AudioFrame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	boost::shared_ptr<DCPVideo> black_dcp_video (DCPTime) const;
-	boost::shared_ptr<DCPVideo> content_to_dcp (
+	boost::shared_ptr<PlayerVideoFrame> black_player_video_frame () const;
+	boost::shared_ptr<PlayerVideoFrame> content_to_player_video_frame (
 		boost::shared_ptr<VideoContent> content,
 		ContentVideo content_video,
 		std::list<boost::shared_ptr<Piece> > subs,

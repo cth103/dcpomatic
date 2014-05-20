@@ -43,6 +43,7 @@
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <openssl/md5.h>
 #include <dcp/gamma_lut.h>
 #include <dcp/xyz_frame.h>
 #include <dcp/rgb_xyz.h>
@@ -59,6 +60,7 @@
 #include "image.h"
 #include "log.h"
 #include "cross.h"
+#include "player_video_frame.h"
 
 #include "i18n.h"
 
@@ -73,18 +75,16 @@ using dcp::raw_convert;
 #define DCI_COEFFICENT (48.0 / 52.37)
 
 /** Construct a DCP video frame.
- *  @param input Input image.
- *  @param f Index of the frame within the DCP.
+ *  @param frame Input frame.
+ *  @param index Index of the frame within the DCP.
  *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
  *  @param l Log to write to.
  */
 DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const Image> image, int f, Eyes eyes, ColourConversion c, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
+	shared_ptr<const PlayerVideoFrame> frame, int index, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
 	)
-	: _image (image)
-	, _frame (f)
-	, _eyes (eyes)
-	, _conversion (c)
+	: _frame (frame)
+	, _index (index)
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _resolution (r)
@@ -93,22 +93,11 @@ DCPVideoFrame::DCPVideoFrame (
 	
 }
 
-DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, cxml::ConstNodePtr node, shared_ptr<Log> log)
-	: _image (image)
+DCPVideoFrame::DCPVideoFrame (shared_ptr<const PlayerVideoFrame> frame, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
+	: _frame (frame)
 	, _log (log)
 {
-	_frame = node->number_child<int> ("Frame");
-	string const eyes = node->string_child ("Eyes");
-	if (eyes == "Both") {
-		_eyes = EYES_BOTH;
-	} else if (eyes == "Left") {
-		_eyes = EYES_LEFT;
-	} else if (eyes == "Right") {
-		_eyes = EYES_RIGHT;
-	} else {
-		assert (false);
-	}
-	_conversion = ColourConversion (node->node_child ("ColourConversion"));
+	_index = node->number_child<int> ("Index");
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
 	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
 	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or (RESOLUTION_2K));
@@ -120,28 +109,44 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const Image> image, cxml::ConstNodePtr 
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	shared_ptr<dcp::GammaLUT> in_lut;
-	in_lut = dcp::GammaLUT::cache.get (12, _conversion.input_gamma, _conversion.input_gamma_linearised);
-
+	shared_ptr<dcp::GammaLUT> in_lut = dcp::GammaLUT::cache.get (
+		12, _frame->colour_conversion().input_gamma, _frame->colour_conversion().input_gamma_linearised
+		);
+	
 	/* XXX: libdcp should probably use boost */
 	
 	double matrix[3][3];
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			matrix[i][j] = _conversion.matrix (i, j);
+			matrix[i][j] = _frame->colour_conversion().matrix (i, j);
 		}
 	}
-	
+
 	shared_ptr<dcp::XYZFrame> xyz = dcp::rgb_to_xyz (
-		_image,
+		_frame->image(),
 		in_lut,
-		dcp::GammaLUT::cache.get (16, 1 / _conversion.output_gamma, false),
+		dcp::GammaLUT::cache.get (16, 1 / _frame->colour_conversion().output_gamma, false),
 		matrix
 		);
+
+	{
+		MD5_CTX md5_context;
+		MD5_Init (&md5_context);
+		MD5_Update (&md5_context, xyz->data(0), 1998 * 1080 * 4);
+		MD5_Update (&md5_context, xyz->data(1), 1998 * 1080 * 4);
+		MD5_Update (&md5_context, xyz->data(2), 1998 * 1080 * 4);
+		unsigned char digest[MD5_DIGEST_LENGTH];
+		MD5_Final (digest, &md5_context);
 		
+		stringstream s;
+		for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+			s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
+		}
+	}
+
 	/* Set the max image and component sizes based on frame_rate */
 	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
-	if (_eyes == EYES_LEFT || _eyes == EYES_RIGHT) {
+	if (_frame->eyes() == EYES_LEFT || _frame->eyes() == EYES_RIGHT) {
 		/* In 3D we have only half the normal bandwidth per eye */
 		max_cs_len /= 2;
 	}
@@ -240,15 +245,15 @@ DCPVideoFrame::encode_locally ()
 		throw EncodeError (N_("JPEG2000 encoding failed"));
 	}
 
-	switch (_eyes) {
+	switch (_frame->eyes()) {
 	case EYES_BOTH:
-		_log->log (String::compose (N_("Finished locally-encoded frame %1 for mono"), _frame));
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for mono"), _index));
 		break;
 	case EYES_LEFT:
-		_log->log (String::compose (N_("Finished locally-encoded frame %1 for L"), _frame));
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for L"), _index));
 		break;
 	case EYES_RIGHT:
-		_log->log (String::compose (N_("Finished locally-encoded frame %1 for R"), _frame));
+		_log->log (String::compose (N_("Finished locally-encoded frame %1 for R"), _index));
 		break;
 	default:
 		break;
@@ -279,28 +284,30 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 
 	socket->connect (*endpoint_iterator);
 
+	/* Collect all XML metadata */
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("EncodingRequest");
-
 	root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
-	root->add_child("Width")->add_child_text (raw_convert<string> (_image->size().width));
-	root->add_child("Height")->add_child_text (raw_convert<string> (_image->size().height));
 	add_metadata (root);
 
+	_log->log (String::compose (N_("Sending frame %1 to remote"), _index));
+	
+	/* Send XML metadata */
 	stringstream xml;
 	doc.write_to_stream (xml, "UTF-8");
-
-	_log->log (String::compose (N_("Sending frame %1 to remote"), _frame));
-
 	socket->write (xml.str().length() + 1);
 	socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
 
-	_image->write_to_socket (socket);
+	/* Send binary data */
+	_frame->send_binary (socket);
 
+	/* Read the response (JPEG2000-encoded data); this blocks until the data
+	   is ready and sent back.
+	*/
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (socket->read_uint32 ()));
 	socket->read (e->data(), e->size());
 
-	_log->log (String::compose (N_("Finished remotely-encoded frame %1"), _frame));
+	_log->log (String::compose (N_("Finished remotely-encoded frame %1"), _index));
 	
 	return e;
 }
@@ -308,27 +315,17 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 void
 DCPVideoFrame::add_metadata (xmlpp::Element* el) const
 {
-	el->add_child("Frame")->add_child_text (raw_convert<string> (_frame));
-
-	switch (_eyes) {
-	case EYES_BOTH:
-		el->add_child("Eyes")->add_child_text ("Both");
-		break;
-	case EYES_LEFT:
-		el->add_child("Eyes")->add_child_text ("Left");
-		break;
-	case EYES_RIGHT:
-		el->add_child("Eyes")->add_child_text ("Right");
-		break;
-	default:
-		assert (false);
-	}
-	
-	_conversion.as_xml (el->add_child("ColourConversion"));
-
+	el->add_child("Index")->add_child_text (raw_convert<string> (_index));
 	el->add_child("FramesPerSecond")->add_child_text (raw_convert<string> (_frames_per_second));
 	el->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
 	el->add_child("Resolution")->add_child_text (raw_convert<string> (int (_resolution)));
+	_frame->add_metadata (el);
+}
+
+Eyes
+DCPVideoFrame::eyes () const
+{
+	return _frame->eyes ();
 }
 
 EncodedData::EncodedData (int s)

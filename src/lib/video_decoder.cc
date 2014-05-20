@@ -116,7 +116,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 
 /** Called by subclasses when they have a video frame ready */
 void
-VideoDecoder::video (shared_ptr<const Image> image, VideoFrame frame)
+VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 {
 	/* We should not receive the same thing twice */
 	assert (_decoded_video.empty() || frame != _decoded_video.back().frame);
@@ -132,6 +132,7 @@ VideoDecoder::video (shared_ptr<const Image> image, VideoFrame frame)
 			ContentVideo (
 				_decoded_video.back().image,
 				_decoded_video.back().eyes,
+				_decoded_video.back().part,
 				_decoded_video.back().frame + 1
 				)
 			);
@@ -139,30 +140,24 @@ VideoDecoder::video (shared_ptr<const Image> image, VideoFrame frame)
 	
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		_decoded_video.push_back (ContentVideo (image, EYES_BOTH, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		_decoded_video.push_back (ContentVideo (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, frame));
+		_decoded_video.push_back (ContentVideo (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-	{
-		int const half = image->size().width / 2;
-		_decoded_video.push_back (ContentVideo (image->crop (Crop (0, half, 0, 0), true), EYES_LEFT, frame));
-		_decoded_video.push_back (ContentVideo (image->crop (Crop (half, 0, 0, 0), true), EYES_RIGHT, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, PART_RIGHT_HALF, frame));
 		break;
-	}
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-	{
-		int const half = image->size().height / 2;
-		_decoded_video.push_back (ContentVideo (image->crop (Crop (0, 0, 0, half), true), EYES_LEFT, frame));
-		_decoded_video.push_back (ContentVideo (image->crop (Crop (0, 0, half, 0), true), EYES_RIGHT, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_TOP_HALF, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, PART_BOTTOM_HALF, frame));
 		break;
-	}
 	case VIDEO_FRAME_TYPE_3D_LEFT:
-		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, frame));
+		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, PART_WHOLE, frame));
 		break;
 	default:
 		assert (false);

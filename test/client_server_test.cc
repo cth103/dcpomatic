@@ -31,6 +31,9 @@
 #include "lib/image.h"
 #include "lib/cross.h"
 #include "lib/dcp_video_frame.h"
+#include "lib/scaler.h"
+#include "lib/player_video_frame.h"
+#include "lib/image_proxy.h"
 
 using std::list;
 using boost::shared_ptr;
@@ -75,17 +78,27 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		p += sub_image->stride()[0];
 	}
 
-	/* XXX */
-//	shared_ptr<Subtitle> subtitle (new Subtitle (Position<int> (50, 60), sub_image));
+	shared_ptr<PlayerVideoFrame> pvf (
+		new PlayerVideoFrame (
+			shared_ptr<ImageProxy> (new RawImageProxy (image)),
+			Crop (),
+			dcp::Size (1998, 1080),
+			dcp::Size (1998, 1080),
+			Scaler::from_id ("bicubic"),
+			EYES_BOTH,
+			PART_WHOLE,
+			ColourConversion ()
+			)
+		);
+
+	pvf->set_subtitle (PositionImage (sub_image, Position<int> (50, 60)));
 
 	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test.log"));
 
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (
-			image,
+			pvf,
 			0,
-			EYES_BOTH,
-			ColourConversion (),
 			24,
 			200000000,
 			RESOLUTION_2K,

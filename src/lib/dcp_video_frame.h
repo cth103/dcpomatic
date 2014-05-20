@@ -31,6 +31,7 @@ class Scaler;
 class Image;
 class Log;
 class Subtitle;
+class PlayerVideoFrame;
 
 /** @class EncodedData
  *  @brief Container for J2K-encoded data.
@@ -100,28 +101,24 @@ public:
 class DCPVideoFrame : public boost::noncopyable
 {
 public:
-	DCPVideoFrame (boost::shared_ptr<const Image>, int, Eyes, ColourConversion, int, int, Resolution, boost::shared_ptr<Log>);
-	DCPVideoFrame (boost::shared_ptr<const Image>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
+	DCPVideoFrame (boost::shared_ptr<const PlayerVideoFrame>, int, int, int, Resolution, boost::shared_ptr<Log>);
+	DCPVideoFrame (boost::shared_ptr<const PlayerVideoFrame>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);
 
-	Eyes eyes () const {
-		return _eyes;
+	int index () const {
+		return _index;
 	}
-	
-	int frame () const {
-		return _frame;
-	}
+
+	Eyes eyes () const;
 	
 private:
 
 	void add_metadata (xmlpp::Element *) const;
 	
-	boost::shared_ptr<const Image> _image;
-	int _frame;			 ///< frame index within the DCP's intrinsic duration
-	Eyes _eyes;
-	ColourConversion _conversion;
+	boost::shared_ptr<const PlayerVideoFrame> _frame;
+	int _index;			 ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 	Resolution _resolution;          ///< Resolution (2K or 4K)

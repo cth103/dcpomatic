@@ -32,7 +32,7 @@
 #include "content_video.h"
 
 class VideoContent;
-class Image;
+class ImageProxy;
 
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
@@ -55,7 +55,7 @@ public:
 protected:
 
 	void seek (ContentTime time, bool accurate);
-	void video (boost::shared_ptr<const Image>, VideoFrame frame);
+	void video (boost::shared_ptr<const ImageProxy>, VideoFrame frame);
 	std::list<ContentVideo> decoded_video (VideoFrame frame);
 
 	boost::shared_ptr<const VideoContent> _video_content;
