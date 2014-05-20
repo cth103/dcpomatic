@@ -29,17 +29,6 @@
 
 using std::ostream;
 
-namespace dcp {
-	
-ostream&
-operator<< (ostream& s, dcp::Size const & t)
-{
-	s << t.width << "x" << t.height;
-	return s;
-}
-
-}
-
 BOOST_AUTO_TEST_CASE (ratio_test)
 {
 	Ratio::setup_ratios ();
