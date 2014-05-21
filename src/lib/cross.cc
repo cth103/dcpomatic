@@ -48,6 +48,7 @@
 
 #define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_ERROR(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_ERROR_NC(...) log->log (__VA_ARGS__, Log::TYPE_ERROR);
 
 using std::pair;
 using std::list;
@@ -162,7 +163,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	HANDLE child_stderr_read;
 	HANDLE child_stderr_write;
 	if (!CreatePipe (&child_stderr_read, &child_stderr_write, &security, 0)) {
-		log->log ("ffprobe call failed (could not CreatePipe)");
+		LOG_ERROR_NC ("ffprobe call failed (could not CreatePipe)");
 		return;
 	}
 
