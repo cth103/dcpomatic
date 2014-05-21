@@ -106,14 +106,6 @@ public:
 		_num_local_encoding_threads = new wxSpinCtrl (panel);
 		table->Add (_num_local_encoding_threads, 1);
 
-		add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
-		_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
-		table->Add (_maximum_j2k_bandwidth, 1);
-
-		_allow_any_dcp_frame_rate = new wxCheckBox (panel, wxID_ANY, _("Allow any DCP frame rate"));
-		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
-		table->AddSpacer (0);
-		
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
 		table->Add (_mail_server, 1, wxEXPAND | wxALL);
@@ -171,10 +163,6 @@ public:
 		_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
 		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
 
-		_maximum_j2k_bandwidth->SetRange (1, 500);
-		_maximum_j2k_bandwidth->SetValue (config->maximum_j2k_bandwidth() / 1000000);
-		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::maximum_j2k_bandwidth_changed, this));
-		
 		_mail_server->SetValue (std_to_wx (config->mail_server ()));
 		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::mail_server_changed, this));
 		_mail_user->SetValue (std_to_wx (config->mail_user ()));
@@ -187,8 +175,6 @@ public:
 		_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_updates_changed, this));
 		_check_for_test_updates->SetValue (config->check_for_test_updates ());
 		_check_for_test_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
-		_allow_any_dcp_frame_rate->SetValue (config->allow_any_dcp_frame_rate ());
-		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::allow_any_dcp_frame_rate_changed, this));
 		
 		return panel;
 	}
@@ -271,21 +257,9 @@ private:
 		Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 	}
 
-	void maximum_j2k_bandwidth_changed ()
-	{
-		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
-	}
-
-	void allow_any_dcp_frame_rate_changed ()
-	{
-		Config::instance()->set_allow_any_dcp_frame_rate (_allow_any_dcp_frame_rate->GetValue ());
-	}
-	
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
-	wxSpinCtrl* _maximum_j2k_bandwidth;
-	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;
@@ -742,6 +716,104 @@ private:
 	wxTextCtrl* _kdm_email;
 };
 
+class AdvancedPage : public wxStockPreferencesPage, public Page
+{
+public:
+
+	AdvancedPage (wxSize panel_size, int border)
+		: wxStockPreferencesPage (Kind_Advanced)
+		, Page (panel_size, border)
+	{}
+	
+	wxWindow* CreateWindow (wxWindow* parent)
+	{
+		wxPanel* panel = new wxPanel (parent);
+
+		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+		panel->SetSizer (s);
+
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		
+		add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
+		_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
+		table->Add (_maximum_j2k_bandwidth, 1);
+
+		_allow_any_dcp_frame_rate = new wxCheckBox (panel, wxID_ANY, _("Allow any DCP frame rate"));
+		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+
+		add_label_to_sizer (table, panel, _("Log"), true);
+		_log_general = new wxCheckBox (panel, wxID_ANY, _("General"));
+		table->Add (_log_general, 1, wxEXPAND | wxALL);
+		_log_warning = new wxCheckBox (panel, wxID_ANY, _("Warnings"));
+		table->AddSpacer (0);
+		table->Add (_log_warning, 1, wxEXPAND | wxALL);
+		_log_error = new wxCheckBox (panel, wxID_ANY, _("Errors"));
+		table->AddSpacer (0);
+		table->Add (_log_error, 1, wxEXPAND | wxALL);
+		_log_timing = new wxCheckBox (panel, wxID_ANY, _("Timing"));
+		table->AddSpacer (0);
+		table->Add (_log_timing, 1, wxEXPAND | wxALL);
+
+		Config* config = Config::instance ();
+		
+		_maximum_j2k_bandwidth->SetRange (1, 500);
+		_maximum_j2k_bandwidth->SetValue (config->maximum_j2k_bandwidth() / 1000000);
+		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
+		_allow_any_dcp_frame_rate->SetValue (config->allow_any_dcp_frame_rate ());
+		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
+		_log_general->SetValue (config->log_types() & Log::GENERAL);
+		_log_general->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+		_log_warning->SetValue (config->log_types() & Log::WARNING);
+		_log_warning->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+		_log_error->SetValue (config->log_types() & Log::ERROR);
+		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+		_log_timing->SetValue (config->log_types() & Log::TIMING);
+		_log_timing->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+		
+		return panel;
+	}
+
+private:
+
+	void maximum_j2k_bandwidth_changed ()
+	{
+		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
+	}
+
+	void allow_any_dcp_frame_rate_changed ()
+	{
+		Config::instance()->set_allow_any_dcp_frame_rate (_allow_any_dcp_frame_rate->GetValue ());
+	}
+
+	void log_changed ()
+	{
+		int types = 0;
+		if (_log_general->GetValue ()) {
+			types |= Log::GENERAL;
+		}
+		if (_log_warning->GetValue ()) {
+			types |= Log::WARNING;
+		}
+		if (_log_error->GetValue ())  {
+			types |= Log::ERROR;
+		}
+		if (_log_timing->GetValue ()) {
+			types |= Log::TIMING;
+		}
+		Config::instance()->set_log_types (types);
+	}
+	
+	wxSpinCtrl* _maximum_j2k_bandwidth;
+	wxCheckBox* _allow_any_dcp_frame_rate;
+	wxCheckBox* _log_general;
+	wxCheckBox* _log_warning;
+	wxCheckBox* _log_error;
+	wxCheckBox* _log_timing;
+};
+	
 wxPreferencesEditor*
 create_config_dialog ()
 {
@@ -768,5 +840,6 @@ create_config_dialog ()
 	e->AddPage (new ColourConversionsPage (ps, border));
 	e->AddPage (new TMSPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));
+	e->AddPage (new AdvancedPage (ps, border));
 	return e;
 }

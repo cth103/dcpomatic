@@ -28,6 +28,7 @@
 
 class Image;
 class Socket;
+class Log;
 
 namespace cxml {
 	class Node;
@@ -47,16 +48,21 @@ namespace cxml {
 class ImageProxy
 {
 public:
+	ImageProxy (boost::shared_ptr<Log> log);
+	
 	virtual boost::shared_ptr<Image> image () const = 0;
 	virtual void add_metadata (xmlpp::Node *) const = 0;
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
+
+protected:
+	boost::shared_ptr<Log> _log;
 };
 
 class RawImageProxy : public ImageProxy
 {
 public:
-	RawImageProxy (boost::shared_ptr<Image>);
-	RawImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+	RawImageProxy (boost::shared_ptr<Image>, boost::shared_ptr<Log> log);
+	RawImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);
 
 	boost::shared_ptr<Image> image () const;
 	void add_metadata (xmlpp::Node *) const;
@@ -69,8 +75,8 @@ private:
 class MagickImageProxy : public ImageProxy
 {
 public:
-	MagickImageProxy (boost::filesystem::path);
-	MagickImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+	MagickImageProxy (boost::filesystem::path, boost::shared_ptr<Log> log);
+	MagickImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);
 
 	boost::shared_ptr<Image> image () const;
 	void add_metadata (xmlpp::Node *) const;
@@ -81,4 +87,4 @@ private:
 	mutable boost::shared_ptr<Image> _image;
 };
 
-boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);

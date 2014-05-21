@@ -26,6 +26,7 @@ class Image;
 class ImageProxy;
 class Scaler;
 class Socket;
+class Log;
 
 /** Everything needed to describe a video frame coming out of the player, but with the
  *  bits still their raw form.  We may want to combine the bits on a remote machine,
@@ -35,7 +36,7 @@ class PlayerVideoFrame
 {
 public:
 	PlayerVideoFrame (boost::shared_ptr<const ImageProxy>, Crop, libdcp::Size, libdcp::Size, Scaler const *, Eyes, Part, ColourConversion);
-	PlayerVideoFrame (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
+	PlayerVideoFrame (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
 	

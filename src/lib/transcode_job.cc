@@ -30,6 +30,9 @@
 
 #include "i18n.h"
 
+#define LOG_GENERAL_NC(...) _film->log()->microsecond_log (__VA_ARGS__, Log::GENERAL);
+#define LOG_ERROR_NC(...) _film->log()->microsecond_log (__VA_ARGS__, Log::ERROR);
+
 using std::string;
 using std::stringstream;
 using std::fixed;
@@ -61,20 +64,20 @@ TranscodeJob::run ()
 {
 	try {
 
-		_film->log()->log (N_("Transcode job starting"));
+		LOG_GENERAL_NC (N_("Transcode job starting"));
 
 		_transcoder.reset (new Transcoder (_film, shared_from_this ()));
 		_transcoder->go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
 
-		_film->log()->log (N_("Transcode job completed successfully"));
+		LOG_GENERAL_NC (N_("Transcode job completed successfully"));
 		_transcoder.reset ();
 
 	} catch (...) {
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		_film->log()->log (N_("Transcode job failed or cancelled"));
+		LOG_ERROR_NC (N_("Transcode job failed or cancelled"));
 		_transcoder.reset ();
 		throw;
 	}

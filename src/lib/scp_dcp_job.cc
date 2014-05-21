@@ -37,6 +37,8 @@
 
 #include "i18n.h"
 
+#define LOG_GENERAL_NC(...) _film->log()->microsecond_log (__VA_ARGS__, Log::GENERAL);
+
 using std::string;
 using std::stringstream;
 using std::min;
@@ -119,7 +121,7 @@ SCPDCPJob::json_name () const
 void
 SCPDCPJob::run ()
 {
-	_film->log()->log (N_("SCP DCP job starting"));
+	LOG_GENERAL_NC (N_("SCP DCP job starting"));
 	
 	SSHSession ss;
 	

@@ -37,6 +37,8 @@
 #include "scaler.h"
 #include "player_video_frame.h"
 
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
+
 using std::list;
 using std::cout;
 using std::min;
@@ -526,7 +528,7 @@ Player::set_video_container_size (libdcp::Size s)
 	
 	_black_frame.reset (
 		new PlayerVideoFrame (
-			shared_ptr<ImageProxy> (new RawImageProxy (im)),
+			shared_ptr<ImageProxy> (new RawImageProxy (im, _film->log ())),
 			Crop(),
 			_video_container_size,
 			_video_container_size,
@@ -550,10 +552,8 @@ Player::resampler (shared_ptr<AudioContent> c, bool create)
 		return shared_ptr<Resampler> ();
 	}
 
-	_film->log()->log (
-		String::compose (
-			"Creating new resampler for %1 to %2 with %3 channels", c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()
-			)
+	LOG_GENERAL (
+		"Creating new resampler for %1 to %2 with %3 channels", c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()
 		);
 	
 	shared_ptr<Resampler> r (new Resampler (c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()));

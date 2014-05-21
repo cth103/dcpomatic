@@ -65,7 +65,7 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool progress = true;
 	bool no_remote = false;
-	int log_level = 0;
+	string log_types = "general,warning,error";
 	int json_port = 0;
 	bool keep_going = false;
 
@@ -78,7 +78,7 @@ main (int argc, char* argv[])
 			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
-			{ "log-level", required_argument, 0, 'l' },
+			{ "log-types", required_argument, 0, 'l' },
 			{ "json", required_argument, 0, 'j' },
 			{ "keep-going", no_argument, 0, 'k' },
 			{ 0, 0, 0, 0 }
@@ -110,7 +110,7 @@ main (int argc, char* argv[])
 			no_remote = true;
 			break;
 		case 'l':
-			log_level = atoi (optarg);
+			log_types = optarg;
 			break;
 		case 'j':
 			json_port = atoi (optarg);
@@ -155,7 +155,7 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	film->log()->set_level ((Log::Level) log_level);
+	film->log()->set_types (log_types);
 
 	cout << "\nMaking DCP for " << film->name() << "\n";
 //	cout << "Content: " << film->content() << "\n";

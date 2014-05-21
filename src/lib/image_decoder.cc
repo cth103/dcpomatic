@@ -53,7 +53,10 @@ ImageDecoder::pass ()
 		return;
 	}
 
-	_image.reset (new MagickImageProxy (_image_content->path (_image_content->still() ? 0 : _video_position)));
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+
+	_image.reset (new MagickImageProxy (_image_content->path (_image_content->still() ? 0 : _video_position), film->log ()));
 	video (_image, false, _video_position);
 }
 

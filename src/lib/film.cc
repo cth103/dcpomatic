@@ -81,6 +81,9 @@ using libdcp::Size;
 using libdcp::Signer;
 using libdcp::raw_convert;
 
+#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
+#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::GENERAL);
+
 /* 5 -> 6
  * AudioMapping XML changed.
  * 6 -> 7
@@ -253,43 +256,43 @@ Film::make_dcp ()
 	 */
 	write_metadata ();
 
-	log()->log (String::compose ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
+	LOG_GENERAL ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary());
 
 	{
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
-		log()->log (String::compose ("Starting to make DCP on %1", buffer));
+		LOG_GENERAL ("Starting to make DCP on %1", buffer);
 	}
 
 	ContentList cl = content ();
 	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
-		log()->log (String::compose ("Content: %1", (*i)->technical_summary()));
+		LOG_GENERAL ("Content: %1", (*i)->technical_summary());
 	}
-	log()->log (String::compose ("DCP video rate %1 fps", video_frame_rate()));
-	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
-	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+	LOG_GENERAL ("DCP video rate %1 fps", video_frame_rate());
+	LOG_GENERAL ("%1 threads", Config::instance()->num_local_encoding_threads());
+	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
 #ifdef DCPOMATIC_DEBUG
-	log()->log ("DCP-o-matic built in debug mode.");
+	LOG_GENERAL_NC ("DCP-o-matic built in debug mode.");
 #else
-	log()->log ("DCP-o-matic built in optimised mode.");
+	LOG_GENERAL_NC ("DCP-o-matic built in optimised mode.");
 #endif
 #ifdef LIBDCP_DEBUG
-	log()->log ("libdcp built in debug mode.");
+	LOG_GENERAL_NC ("libdcp built in debug mode.");
 #else
-	log()->log ("libdcp built in optimised mode.");
+	LOG_GENERAL_NC ("libdcp built in optimised mode.");
 #endif
 
 #ifdef DCPOMATIC_WINDOWS
 	OSVERSIONINFO info;
 	info.dwOSVersionInfoSize = sizeof (info);
 	GetVersionEx (&info);
-	log()->log (String::compose ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion));
+	LOG_GENERAL ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion);
 #endif	
 	
-	log()->log (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ()));
+	LOG_GENERAL ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ());
 	list<pair<string, string> > const m = mount_info ();
 	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
-		log()->log (String::compose ("Mount: %1 %2", i->first, i->second));
+		LOG_GENERAL ("Mount: %1 %2", i->first, i->second);
 	}
 	
 	if (container() == 0) {

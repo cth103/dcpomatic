@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,6 +45,10 @@ extern "C" {
 #include "image_proxy.h"
 
 #include "i18n.h"
+
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
+#define LOG_ERROR(...) film->log()->log (String::compose (__VA_ARGS__), Log::ERROR);
+#define LOG_WARNING(...) film->log()->log (__VA_ARGS__, Log::WARNING);
 
 using std::cout;
 using std::string;
@@ -158,7 +162,7 @@ FFmpegDecoder::pass ()
 			av_strerror (r, buf, sizeof(buf));
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);
-			film->log()->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
+			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), buf, r);
 		}
 
 		flush ();
@@ -400,7 +404,7 @@ FFmpegDecoder::decode_audio_packet ()
 		if (decode_result < 0) {
 			shared_ptr<const Film> film = _film.lock ();
 			assert (film);
-			film->log()->log (String::compose ("avcodec_decode_audio4 failed (%1)", decode_result));
+			LOG_ERROR ("avcodec_decode_audio4 failed (%1)", decode_result);
 			return;
 		}
 
@@ -461,12 +465,15 @@ FFmpegDecoder::decode_video_packet ()
 		graph.reset (new FilterGraph (_ffmpeg_content, libdcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
 		_filter_graphs.push_back (graph);
 
-		film->log()->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
+		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format);
 	} else {
 		graph = *i;
 	}
 
 	list<pair<shared_ptr<Image>, int64_t> > images = graph->process (_frame);
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
 
 	for (list<pair<shared_ptr<Image>, int64_t> >::iterator i = images.begin(); i != images.end(); ++i) {
 
@@ -502,20 +509,21 @@ FFmpegDecoder::decode_video_packet ()
 						)
 					);
 				
+				shared_ptr<const Film> film = _film.lock ();
+				assert (film);
+
 				black->make_black ();
-				video (shared_ptr<ImageProxy> (new RawImageProxy (image)), false, _video_position);
+				video (shared_ptr<ImageProxy> (new RawImageProxy (image, film->log())), false, _video_position);
 				delta -= one_frame;
 			}
 
 			if (delta > -one_frame) {
 				/* This PTS is within a frame of being right; emit this (otherwise it will be dropped) */
-				video (shared_ptr<ImageProxy> (new RawImageProxy (image)), false, _video_position);
+				video (shared_ptr<ImageProxy> (new RawImageProxy (image, film->log())), false, _video_position);
 			}
 				
 		} else {
-			shared_ptr<const Film> film = _film.lock ();
-			assert (film);
-			film->log()->log ("Dropping frame without PTS");
+			LOG_WARNING ("Dropping frame without PTS");
 		}
 	}
 

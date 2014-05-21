@@ -39,6 +39,10 @@
 
 #include "i18n.h"
 
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
+#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::ERROR);
+#define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TIMING);
+
 using std::pair;
 using std::string;
 using std::stringstream;
@@ -78,7 +82,7 @@ Encoder::~Encoder ()
 void
 Encoder::add_worker_threads (ServerDescription d)
 {
-	_film->log()->log (String::compose (N_("Adding %1 worker threads for remote %2"), d.host_name ()));
+	LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), d.host_name ());
 	for (int i = 0; i < d.threads(); ++i) {
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)));
 	}
@@ -100,11 +104,10 @@ Encoder::process_end ()
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
-	_film->log()->log (String::compose (N_("Clearing queue of %1"), _queue.size ()));
+	LOG_GENERAL (N_("Clearing queue of %1"), _queue.size ());
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
-		_film->log()->log (String::compose (N_("Waking with %1"), _queue.size ()), Log::VERBOSE);
 		_condition.notify_all ();
 		_condition.wait (lock);
 	}
@@ -113,7 +116,7 @@ Encoder::process_end ()
 	
 	terminate_threads ();
 
-	_film->log()->log (String::compose (N_("Mopping up %1"), _queue.size()));
+	LOG_GENERAL (N_("Mopping up %1"), _queue.size());
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
@@ -125,12 +128,12 @@ Encoder::process_end ()
 	*/
 
 	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
-		_film->log()->log (String::compose (N_("Encode left-over frame %1"), (*i)->index ()));
+		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
 		try {
 			_writer->write ((*i)->encode_locally(), (*i)->index (), (*i)->eyes ());
 			frame_done ();
 		} catch (std::exception& e) {
-			_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
+			LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 		}
 	}
 		
@@ -190,9 +193,9 @@ Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf, bool same)
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
-		TIMING ("decoder sleeps with queue of %1", _queue.size());
+		LOG_TIMING ("decoder sleeps with queue of %1", _queue.size());
 		_condition.wait (lock);
-		TIMING ("decoder wakes with queue of %1", _queue.size());
+		LOG_TIMING ("decoder wakes with queue of %1", _queue.size());
 	}
 
 	if (_terminate) {
@@ -216,7 +219,7 @@ Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf, bool same)
 		frame_done ();
 	} else {
 		/* Queue this new frame for encoding */
-		TIMING ("adding to queue of %1", _queue.size ());
+		LOG_TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideoFrame> (
 					  new DCPVideoFrame (
 						  pvf, _video_frames_out, _film->video_frame_rate(),
@@ -270,7 +273,7 @@ try
 	
 	while (1) {
 
-		TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
+		LOG_TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_mutex);
 		while (_queue.empty () && !_terminate) {
 			_condition.wait (lock);
@@ -280,9 +283,9 @@ try
 			return;
 		}
 
-		TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
+		LOG_TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		TIMING ("encoder thread %1 pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
+		LOG_TIMING ("encoder thread %1 pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -294,7 +297,7 @@ try
 				encoded = vf->encode_remotely (server.get ());
 
 				if (remote_backoff > 0) {
-					_film->log()->log (String::compose (N_("%1 was lost, but now she is found; removing backoff"), server->host_name ()));
+					LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
 				}
 				
 				/* This job succeeded, so remove any backoff */
@@ -305,20 +308,19 @@ try
 					/* back off more */
 					remote_backoff += 10;
 				}
-				_film->log()->log (
-					String::compose (
-						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
-						vf->index(), server->host_name(), e.what(), remote_backoff)
+				LOG_ERROR (
+					N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
+					vf->index(), server->host_name(), e.what(), remote_backoff
 					);
 			}
 				
 		} else {
 			try {
-				TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->index());
+				LOG_TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->index());
 				encoded = vf->encode_locally ();
-				TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->index());
+				LOG_TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->index());
 			} catch (std::exception& e) {
-				_film->log()->log (String::compose (N_("Local encode failed (%1)"), e.what ()));
+				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 			}
 		}
 
@@ -327,9 +329,7 @@ try
 			frame_done ();
 		} else {
 			lock.lock ();
-			_film->log()->log (
-				String::compose (N_("Encoder thread %1 pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->index())
-				);
+			LOG_GENERAL (N_("Encoder thread %1 pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->index());
 			_queue.push_front (vf);
 			lock.unlock ();
 		}

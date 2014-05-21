@@ -23,26 +23,42 @@
 
 #include <time.h>
 #include <cstdio>
+#include <boost/algorithm/string.hpp>
 #include "log.h"
 #include "cross.h"
+#include "config.h"
 
 #include "i18n.h"
 
 using namespace std;
+using boost::algorithm::is_any_of;
+using boost::algorithm::split;
+
+int const Log::GENERAL = 0x1;
+int const Log::WARNING = 0x2;
+int const Log::ERROR   = 0x4;
+int const Log::TIMING  = 0x8;
 
 Log::Log ()
-	: _level (STANDARD)
+	: _types (0)
 {
+	Config::instance()->Changed.connect (boost::bind (&Log::config_changed, this));
+	config_changed ();
+}
 
+void
+Log::config_changed ()
+{
+	set_types (Config::instance()->log_types ());
 }
 
 /** @param n String to log */
 void
-Log::log (string m, Level l)
+Log::log (string message, int type)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (l > _level) {
+	if ((_types & type) == 0) {
 		return;
 	}
 
@@ -51,16 +67,26 @@ Log::log (string m, Level l)
 	string a = ctime (&t);
 
 	stringstream s;
-	s << a.substr (0, a.length() - 1) << N_(": ") << m;
+	s << a.substr (0, a.length() - 1) << N_(": ");
+
+	if (type & ERROR) {
+		s << "ERROR: ";
+	}
+
+	if (type & WARNING) {
+		s << "WARNING: ";
+	}
+	
+	s << message;
 	do_log (s.str ());
 }
 
 void
-Log::microsecond_log (string m, Level l)
+Log::microsecond_log (string m, int t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (l > _level) {
+	if ((_types & t) == 0) {
 		return;
 	}
 
@@ -73,24 +99,34 @@ Log::microsecond_log (string m, Level l)
 }	
 
 void
-Log::set_level (Level l)
+Log::set_types (int t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	_level = l;
+	_types = t;
 }
 
+/** @param A comma-separate list of debug types to enable */
 void
-Log::set_level (string l)
+Log::set_types (string t)
 {
-	if (l == N_("verbose")) {
-		set_level (VERBOSE);
-		return;
-	} else if (l == N_("timing")) {
-		set_level (TIMING);
-		return;
-	}
+	boost::mutex::scoped_lock lm (_mutex);
 
-	set_level (STANDARD);
+	vector<string> types;
+	split (types, t, is_any_of (","));
+
+	_types = 0;
+
+	for (vector<string>::const_iterator i = types.begin(); i != types.end(); ++i) {
+		if (*i == N_("general")) {
+			_types |= GENERAL;
+		} else if (*i == N_("warning")) {
+			_types |= WARNING;
+		} else if (*i == N_("error")) {
+			_types |= ERROR;
+		} else if (*i == N_("timing")) {
+			_types |= TIMING;
+		}
+	}
 }
 
 /** @param file Filename to write log to */

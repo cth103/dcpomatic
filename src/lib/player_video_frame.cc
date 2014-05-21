@@ -50,7 +50,7 @@ PlayerVideoFrame::PlayerVideoFrame (
 
 }
 
-PlayerVideoFrame::PlayerVideoFrame (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
+PlayerVideoFrame::PlayerVideoFrame (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket, shared_ptr<Log> log)
 {
 	_crop = Crop (node);
 
@@ -61,7 +61,7 @@ PlayerVideoFrame::PlayerVideoFrame (shared_ptr<cxml::Node> node, shared_ptr<Sock
 	_part = (Part) node->number_child<int> ("Part");
 	_colour_conversion = ColourConversion (node);
 
-	_in = image_proxy_factory (node->node_child ("In"), socket);
+	_in = image_proxy_factory (node->node_child ("In"), socket, log);
 
 	if (node->optional_number_child<int> ("SubtitleX")) {
 		
