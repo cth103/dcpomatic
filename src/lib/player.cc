@@ -532,7 +532,7 @@ Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 	s = DCPTime (max (int64_t (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
-	return ContentTime (s, piece->frc);
+	return ContentTime (s + piece->content->trim_start(), piece->frc);
 }
 
 void
