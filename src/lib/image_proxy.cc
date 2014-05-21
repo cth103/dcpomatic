@@ -105,6 +105,8 @@ MagickImageProxy::image () const
 		return _image;
 	}
 
+	TIMING("MagickImageProxy begins read and decode of %1 bytes", _blob.length());
+
 	Magick::Image* magick_image = 0;
 	try {
 		magick_image = new Magick::Image (_blob);
@@ -131,6 +133,8 @@ MagickImageProxy::image () const
 	}
 
 	delete magick_image;
+
+	TIMING("MagickImageProxy completes read and decode of %1 bytes", _blob.length());
 
 	return _image;
 }
