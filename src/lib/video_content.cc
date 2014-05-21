@@ -85,10 +85,17 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
 	: Content (f, node)
 {
-	_video_length = ContentTime (node->number_child<int64_t> ("VideoLength"));
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
+
+	if (version < 32) {
+		/* DCP-o-matic 1.0 branch */
+		_video_length = ContentTime::from_frames (node->number_child<int64_t> ("VideoLength"), _video_frame_rate);
+	} else {
+		_video_length = ContentTime (node->number_child<int64_t> ("VideoLength"));
+	}
+	
 	_video_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
 	_crop.left = node->number_child<int> ("LeftCrop");
 	_crop.right = node->number_child<int> ("RightCrop");

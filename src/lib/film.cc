@@ -87,8 +87,11 @@ using dcp::raw_convert;
  * Subtitle offset changed to subtitle y offset, and subtitle x offset added.
  * 7 -> 8
  * Use <Scale> tag in <VideoContent> rather than <Ratio>.
+ *
+ * Bumped to 32 for 2.0 branch; some times are expressed in Times rather
+ * than frames now.
  */
-int const Film::current_state_version = 8;
+int const Film::current_state_version = 32;
 
 /** Construct a Film object in a given directory.
  *
