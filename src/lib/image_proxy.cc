@@ -28,7 +28,7 @@
 
 #include "i18n.h"
 
-#define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
+#define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::cout;
 using std::string;

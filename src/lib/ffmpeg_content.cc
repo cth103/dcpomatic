@@ -34,7 +34,7 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
 using std::string;
 using std::stringstream;

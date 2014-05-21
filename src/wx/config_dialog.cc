@@ -764,13 +764,13 @@ public:
 		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->SetValue (config->allow_any_dcp_frame_rate ());
 		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
-		_log_general->SetValue (config->log_types() & Log::GENERAL);
+		_log_general->SetValue (config->log_types() & Log::TYPE_GENERAL);
 		_log_general->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_warning->SetValue (config->log_types() & Log::WARNING);
+		_log_warning->SetValue (config->log_types() & Log::TYPE_WARNING);
 		_log_warning->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_error->SetValue (config->log_types() & Log::ERROR);
+		_log_error->SetValue (config->log_types() & Log::TYPE_ERROR);
 		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_timing->SetValue (config->log_types() & Log::TIMING);
+		_log_timing->SetValue (config->log_types() & Log::TYPE_TIMING);
 		_log_timing->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		
 		return panel;
@@ -792,16 +792,16 @@ private:
 	{
 		int types = 0;
 		if (_log_general->GetValue ()) {
-			types |= Log::GENERAL;
+			types |= Log::TYPE_GENERAL;
 		}
 		if (_log_warning->GetValue ()) {
-			types |= Log::WARNING;
+			types |= Log::TYPE_WARNING;
 		}
 		if (_log_error->GetValue ())  {
-			types |= Log::ERROR;
+			types |= Log::TYPE_ERROR;
 		}
 		if (_log_timing->GetValue ()) {
-			types |= Log::TIMING;
+			types |= Log::TYPE_TIMING;
 		}
 		Config::instance()->set_log_types (types);
 	}

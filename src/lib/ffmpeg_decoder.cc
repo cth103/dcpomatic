@@ -46,9 +46,9 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
-#define LOG_ERROR(...) film->log()->log (String::compose (__VA_ARGS__), Log::ERROR);
-#define LOG_WARNING(...) film->log()->log (__VA_ARGS__, Log::WARNING);
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_ERROR(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_WARNING(...) film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
 
 using std::cout;
 using std::string;

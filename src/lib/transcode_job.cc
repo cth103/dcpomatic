@@ -30,8 +30,8 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL_NC(...) _film->log()->microsecond_log (__VA_ARGS__, Log::GENERAL);
-#define LOG_ERROR_NC(...) _film->log()->microsecond_log (__VA_ARGS__, Log::ERROR);
+#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
+#define LOG_ERROR_NC(...)   _film->log()->log (__VA_ARGS__, Log::TYPE_ERROR);
 
 using std::string;
 using std::stringstream;

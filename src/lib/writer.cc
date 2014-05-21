@@ -40,9 +40,9 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
-#define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
-#define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::WARNING);
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
+#define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
 
 /* OS X strikes again */
 #undef set_key

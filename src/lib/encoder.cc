@@ -39,9 +39,9 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
-#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::ERROR);
-#define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TIMING);
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::pair;
 using std::string;

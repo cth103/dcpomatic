@@ -34,10 +34,10 @@ using namespace std;
 using boost::algorithm::is_any_of;
 using boost::algorithm::split;
 
-int const Log::GENERAL = 0x1;
-int const Log::WARNING = 0x2;
-int const Log::ERROR   = 0x4;
-int const Log::TIMING  = 0x8;
+int const Log::TYPE_GENERAL = 0x1;
+int const Log::TYPE_WARNING = 0x2;
+int const Log::TYPE_ERROR   = 0x4;
+int const Log::TYPE_TIMING  = 0x8;
 
 Log::Log ()
 	: _types (0)
@@ -69,11 +69,11 @@ Log::log (string message, int type)
 	stringstream s;
 	s << a.substr (0, a.length() - 1) << N_(": ");
 
-	if (type & ERROR) {
+	if (type & TYPE_ERROR) {
 		s << "ERROR: ";
 	}
 
-	if (type & WARNING) {
+	if (type & TYPE_WARNING) {
 		s << "WARNING: ";
 	}
 	
@@ -118,13 +118,13 @@ Log::set_types (string t)
 
 	for (vector<string>::const_iterator i = types.begin(); i != types.end(); ++i) {
 		if (*i == N_("general")) {
-			_types |= GENERAL;
+			_types |= TYPE_GENERAL;
 		} else if (*i == N_("warning")) {
-			_types |= WARNING;
+			_types |= TYPE_WARNING;
 		} else if (*i == N_("error")) {
-			_types |= ERROR;
+			_types |= TYPE_ERROR;
 		} else if (*i == N_("timing")) {
-			_types |= TIMING;
+			_types |= TYPE_TIMING;
 		}
 	}
 }

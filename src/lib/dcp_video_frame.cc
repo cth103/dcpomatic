@@ -63,7 +63,7 @@
 #include "cross.h"
 #include "player_video_frame.h"
 
-#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::GENERAL);
+#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
 #include "i18n.h"
 

@@ -81,8 +81,8 @@ using libdcp::Size;
 using libdcp::Signer;
 using libdcp::raw_convert;
 
-#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::GENERAL);
-#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::GENERAL);
+#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
 
 /* 5 -> 6
  * AudioMapping XML changed.
