@@ -104,7 +104,7 @@ PlayerVideoFrame::image () const
 		break;
 	}
 		
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, true);
 
 	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
 
