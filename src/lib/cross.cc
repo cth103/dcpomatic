@@ -190,13 +190,13 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	PROCESS_INFORMATION process_info;
 	ZeroMemory (&process_info, sizeof (process_info));
 	if (!CreateProcess (0, command, 0, 0, TRUE, CREATE_NO_WINDOW, 0, 0, &startup_info, &process_info)) {
-		LOG_ERROR (N_("ffprobe call failed (could not CreateProcess)"));
+		LOG_ERROR_NC (N_("ffprobe call failed (could not CreateProcess)"));
 		return;
 	}
 
 	FILE* o = fopen_boost (out, "w");
 	if (!o) {
-		LOG_ERROR (N_("ffprobe call failed (could not create output file)"));
+		LOG_ERROR_NC (N_("ffprobe call failed (could not create output file)"));
 		return;
 	}
 
