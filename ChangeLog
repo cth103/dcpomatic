@@ -1,5 +1,9 @@
 2014-05-21  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.10 released.
+
+2014-05-21  Carl Hetherington  <cth@carlh.net>
+
 	* Tidy up logging a bit and make it configurable from the GUI
 	(moving a few things into an Advanced preferences tab at
 	the same time).
