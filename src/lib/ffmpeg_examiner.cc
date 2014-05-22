@@ -71,37 +71,58 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 			break;
 		}
 
-		int frame_finished;
-
 		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
 
-		if (_packet.stream_index == _video_stream && !_first_video) {
-			if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-				_first_video = frame_time (_format_context->streams[_video_stream]);
-			}
-		} else {
-			for (size_t i = 0; i < _audio_streams.size(); ++i) {
-				if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index) && !_audio_streams[i]->first_audio) {
-					if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-						_audio_streams[i]->first_audio = frame_time (_audio_streams[i]->stream (_format_context));
-					}
-				}
+		if (_packet.stream_index == _video_stream) {
+			video_packet (context);
+		}
+		
+		for (size_t i = 0; i < _audio_streams.size(); ++i) {
+			if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
+				audio_packet (context, _audio_streams[i]);
 			}
 		}
 
-		bool have_all_audio = true;
-		size_t i = 0;
-		while (i < _audio_streams.size() && have_all_audio) {
-			have_all_audio = _audio_streams[i]->first_audio;
-			++i;
+		for (size_t i = 0; i < _subtitle_streams.size(); ++i) {
+			if (_subtitle_streams[i]->uses_index (_format_context, _packet.stream_index)) {
+				subtitle_packet (context, _subtitle_streams[i]);
+			}
 		}
 
 		av_free_packet (&_packet);
-		
-		if (_first_video && have_all_audio) {
-			break;
-		}
 	}
+}
+
+void
+FFmpegExaminer::video_packet (AVCodecContext* context)
+{
+	if (_first_video) {
+		return;
+	}
+
+	int frame_finished;
+	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+		_first_video = frame_time (_format_context->streams[_video_stream]);
+	}
+}
+
+void
+FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream)
+{
+	if (stream->first_audio) {
+		return;
+	}
+
+	int frame_finished;
+	if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+		stream->first_audio = frame_time (stream->stream (_format_context));
+	}
+}
+
+void
+FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubtitleStream> stream)
+{
+
 }
 
 optional<ContentTime>
