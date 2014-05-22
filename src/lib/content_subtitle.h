@@ -30,34 +30,27 @@ class Image;
 class ContentSubtitle
 {
 public:
-	virtual ContentTime from () const = 0;
-	virtual ContentTime to () const = 0;
+	virtual ContentTimePeriod period () const = 0;
 };
 
 class ContentImageSubtitle : public ContentSubtitle
 {
 public:
-	ContentImageSubtitle (ContentTime f, ContentTime t, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+	ContentImageSubtitle (ContentTimePeriod p, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
 		: image (im)
 		, rectangle (r)
-		, _from (f)
-		, _to (t)
+		, _period (p)
 	{}
 
-	ContentTime from () const {
-		return _from;
+	ContentTimePeriod period () const {
+		return _period;
 	}
 
-	ContentTime to () const {
-		return _to;
-	}
-	
 	boost::shared_ptr<Image> image;
 	dcpomatic::Rect<double> rectangle;
 
 private:
-	ContentTime _from;
-	ContentTime _to;
+	ContentTimePeriod _period;
 };
 
 class ContentTextSubtitle : public ContentSubtitle
@@ -67,8 +60,7 @@ public:
 		: subs (s)
 	{}
 
-	ContentTime from () const;
-	ContentTime to () const;
+	ContentTimePeriod period () const;
 	
 	std::list<dcp::SubtitleString> subs;
 };

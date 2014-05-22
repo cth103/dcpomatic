@@ -146,6 +146,19 @@ public:
 
 std::ostream& operator<< (std::ostream& s, ContentTime t);
 
+class ContentTimePeriod
+{
+public:
+	ContentTimePeriod () {}
+	ContentTimePeriod (ContentTime f, ContentTime t)
+		: from (f)
+		, to (t)
+	{}
+
+	ContentTime from;
+	ContentTime to;
+};
+
 class DCPTime : public Time
 {
 public:

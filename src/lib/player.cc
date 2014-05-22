@@ -337,7 +337,7 @@ Player::content_to_player_video_frame (
 		ContentTime const from = dcp_to_content_subtitle (*i, time);
 		ContentTime const to = from + ContentTime::from_frames (1, content->video_frame_rate ());
 		
-		list<shared_ptr<ContentImageSubtitle> > image_subtitles = subtitle_decoder->get_image_subtitles (from, to);
+		list<shared_ptr<ContentImageSubtitle> > image_subtitles = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to));
 		if (!image_subtitles.empty ()) {
 			list<PositionImage> im = process_content_image_subtitles (
 				subtitle_content,
@@ -348,7 +348,7 @@ Player::content_to_player_video_frame (
 		}
 		
 		if (_burn_subtitles) {
-			list<shared_ptr<ContentTextSubtitle> > text_subtitles = subtitle_decoder->get_text_subtitles (from, to);
+			list<shared_ptr<ContentTextSubtitle> > text_subtitles = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to));
 			if (!text_subtitles.empty ()) {
 				list<PositionImage> im = process_content_text_subtitles (text_subtitles);
 				copy (im.begin(), im.end(), back_inserter (sub_images));

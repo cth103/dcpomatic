@@ -63,7 +63,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<SubRipContent> content)
 	}
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
-	list<shared_ptr<ContentTextSubtitle> > subs = decoder->get_text_subtitles (ContentTime(), ContentTime::max ());
+	list<shared_ptr<ContentTextSubtitle> > subs = decoder->get_text_subtitles (ContentTimePeriod (ContentTime(), ContentTime::max ()));
 	int n = 0;
 	for (list<shared_ptr<ContentTextSubtitle> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		for (list<dcp::SubtitleString>::const_iterator j = (*i)->subs.begin(); j != (*i)->subs.end(); ++j) {

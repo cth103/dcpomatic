@@ -19,18 +19,13 @@
 
 #include "content_subtitle.h"
 
-ContentTime
-ContentTextSubtitle::from () const
+ContentTimePeriod
+ContentTextSubtitle::period () const
 {
 	/* XXX: assuming we have some subs and they are all at the same time */
 	assert (!subs.empty ());
-	return ContentTime::from_seconds (double (subs.front().in().to_ticks()) / 250);
-}
-
-ContentTime
-ContentTextSubtitle::to () const
-{
-	/* XXX: assuming we have some subs and they are all at the same time */
-	assert (!subs.empty ());
-	return ContentTime::from_seconds (double (subs.front().out().to_ticks()) / 250);
+	return ContentTimePeriod (
+		ContentTime::from_seconds (double (subs.front().in().to_ticks()) / 250),
+		ContentTime::from_seconds (double (subs.front().out().to_ticks()) / 250)
+		);
 }

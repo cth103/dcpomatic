@@ -535,7 +535,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	   indicate that the previous subtitle should stop.
 	*/
 	if (sub.num_rects <= 0) {
-		image_subtitle (ContentTime (), ContentTime (), shared_ptr<Image> (), dcpomatic::Rect<double> ());
+		image_subtitle (ContentTimePeriod (), shared_ptr<Image> (), dcpomatic::Rect<double> ());
 		return;
 	} else if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
@@ -545,10 +545,11 @@ FFmpegDecoder::decode_subtitle_packet ()
 	   source that we may have chopped off for the DCP)
 	*/
 	ContentTime packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE) + _pts_offset;
-	
-	/* hence start time for this sub */
-	ContentTime const from = packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3);
-	ContentTime const to = packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3);
+
+	ContentTimePeriod period (
+		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
+		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
+		);
 
 	AVSubtitleRect const * rect = sub.rects[0];
 
@@ -586,8 +587,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	dcp::Size const vs = _ffmpeg_content->video_size ();
 
 	image_subtitle (
-		from,
-		to,
+		period,
 		image,
 		dcpomatic::Rect<double> (
 			static_cast<double> (rect->x) / vs.width,

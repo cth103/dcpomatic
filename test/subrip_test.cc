@@ -190,7 +190,11 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
-	list<shared_ptr<ContentTextSubtitle> > cts = decoder->get_text_subtitles (ContentTime::from_seconds (109), ContentTime::from_seconds (110));
+	list<shared_ptr<ContentTextSubtitle> > cts = decoder->get_text_subtitles (
+		ContentTimePeriod (
+			ContentTime::from_seconds (109), ContentTime::from_seconds (110)
+			)
+		);
 	BOOST_CHECK_EQUAL (cts.size(), 1);
 
 	PositionImage image = render_subtitles (cts.front()->subs, dcp::Size (1998, 1080));
