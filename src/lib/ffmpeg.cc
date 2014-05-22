@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ extern "C" {
 #include <dcp/raw_convert.h>
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
+#include "ffmpeg_audio_stream.h"
 #include "exceptions.h"
 #include "util.h"
 

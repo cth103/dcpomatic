@@ -21,6 +21,7 @@
 #include <wx/spinctrl.h>
 #include "lib/ffmpeg_content.h"
 #include "lib/subrip_content.h"
+#include "lib/ffmpeg_subtitle_stream.h"
 #include "subtitle_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"

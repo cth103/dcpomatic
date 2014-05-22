@@ -31,88 +31,9 @@ struct AVFormatContext;
 struct AVStream;
 
 class Filter;
+class FFmpegSubtitleStream;
+class FFmpegAudioStream;
 class ffmpeg_pts_offset_test;
-
-class FFmpegStream
-{
-public:
-	FFmpegStream (std::string n, int i)
-		: name (n)
-		, _id (i)
-	{}
-				
-	FFmpegStream (cxml::ConstNodePtr);
-
-	void as_xml (xmlpp::Node *) const;
-
-	/** @param c An AVFormatContext.
-	 *  @param index A stream index within the AVFormatContext.
-	 *  @return true if this FFmpegStream uses the given stream index.
-	 */
-	bool uses_index (AVFormatContext const * c, int index) const;
-	AVStream* stream (AVFormatContext const * c) const;
-
-	std::string technical_summary () const {
-		return "id " + boost::lexical_cast<std::string> (_id);
-	}
-
-	std::string identifier () const {
-		return boost::lexical_cast<std::string> (_id);
-	}
-
-	std::string name;
-
-	friend bool operator== (FFmpegStream const & a, FFmpegStream const & b);
-	friend bool operator!= (FFmpegStream const & a, FFmpegStream const & b);
-	
-private:
-	int _id;
-};
-
-class FFmpegAudioStream : public FFmpegStream
-{
-public:
-	FFmpegAudioStream (std::string n, int i, int f, int c)
-		: FFmpegStream (n, i)
-		, frame_rate (f)
-		, channels (c)
-		, mapping (c)
-	{
-		mapping.make_default ();
-	}
-
-	FFmpegAudioStream (cxml::ConstNodePtr, int);
-
-	void as_xml (xmlpp::Node *) const;
-
-	int frame_rate;
-	int channels;
-	AudioMapping mapping;
-	boost::optional<ContentTime> first_audio;
-
-private:
-	friend class ffmpeg_pts_offset_test;
-
-	/* Constructor for tests */
-	FFmpegAudioStream ()
-		: FFmpegStream ("", 0)
-		, frame_rate (0)
-		, channels (0)
-		, mapping (1)
-	{}
-};
-
-class FFmpegSubtitleStream : public FFmpegStream
-{
-public:
-	FFmpegSubtitleStream (std::string n, int i)
-		: FFmpegStream (n, i)
-	{}
-	
-	FFmpegSubtitleStream (cxml::ConstNodePtr);
-
-	void as_xml (xmlpp::Node *) const;
-};
 
 class FFmpegContentProperty : public VideoContentProperty
 {

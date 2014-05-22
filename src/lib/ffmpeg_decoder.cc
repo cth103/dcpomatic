@@ -38,6 +38,8 @@ extern "C" {
 #include "util.h"
 #include "log.h"
 #include "ffmpeg_decoder.h"
+#include "ffmpeg_audio_stream.h"
+#include "ffmpeg_subtitle_stream.h"
 #include "filter_graph.h"
 #include "audio_buffers.h"
 #include "ffmpeg_content.h"

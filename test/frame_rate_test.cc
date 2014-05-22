@@ -27,6 +27,7 @@
 #include "lib/config.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/playlist.h"
+#include "lib/ffmpeg_audio_stream.h"
 #include "test.h"
 
 using boost::shared_ptr;

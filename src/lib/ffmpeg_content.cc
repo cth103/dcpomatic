@@ -24,6 +24,8 @@ extern "C" {
 #include <dcp/raw_convert.h>
 #include "ffmpeg_content.h"
 #include "ffmpeg_examiner.h"
+#include "ffmpeg_subtitle_stream.h"
+#include "ffmpeg_audio_stream.h"
 #include "compose.hpp"
 #include "job.h"
 #include "util.h"
@@ -310,86 +312,6 @@ bool
 operator!= (FFmpegStream const & a, FFmpegStream const & b)
 {
 	return a._id != b._id;
-}
-
-FFmpegStream::FFmpegStream (cxml::ConstNodePtr node)
-	: name (node->string_child ("Name"))
-	, _id (node->number_child<int> ("Id"))
-{
-
-}
-
-void
-FFmpegStream::as_xml (xmlpp::Node* root) const
-{
-	root->add_child("Name")->add_child_text (name);
-	root->add_child("Id")->add_child_text (raw_convert<string> (_id));
-}
-
-FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
-	: FFmpegStream (node)
-	, mapping (node->node_child ("Mapping"), version)
-{
-	frame_rate = node->number_child<int> ("FrameRate");
-	channels = node->number_child<int64_t> ("Channels");
-	first_audio = node->optional_number_child<double> ("FirstAudio");
-}
-
-void
-FFmpegAudioStream::as_xml (xmlpp::Node* root) const
-{
-	FFmpegStream::as_xml (root);
-	root->add_child("FrameRate")->add_child_text (raw_convert<string> (frame_rate));
-	root->add_child("Channels")->add_child_text (raw_convert<string> (channels));
-	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get().get()));
-	}
-	mapping.as_xml (root->add_child("Mapping"));
-}
-
-bool
-FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
-{
-	size_t i = 0;
-	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == _id) {
-			return int (i) == index;
-		}
-		++i;
-	}
-
-	return false;
-}
-
-AVStream *
-FFmpegStream::stream (AVFormatContext const * fc) const
-{
-	size_t i = 0;
-	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == _id) {
-			return fc->streams[i];
-		}
-		++i;
-	}
-
-	assert (false);
-	return 0;
-}
-
-/** Construct a SubtitleStream from a value returned from to_string().
- *  @param t String returned from to_string().
- *  @param v State file version.
- */
-FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node)
-	: FFmpegStream (node)
-{
-	
-}
-
-void
-FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
-{
-	FFmpegStream::as_xml (root);
 }
 
 DCPTime

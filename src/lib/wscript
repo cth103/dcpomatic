@@ -26,9 +26,12 @@ sources = """
           file_group.cc
           filter_graph.cc
           ffmpeg.cc
+          ffmpeg_audio_stream.cc
           ffmpeg_content.cc
           ffmpeg_decoder.cc
           ffmpeg_examiner.cc
+          ffmpeg_stream.cc
+          ffmpeg_subtitle_stream.cc
           film.cc
           filter.cc
           frame_rate_change.cc

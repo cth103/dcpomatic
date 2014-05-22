@@ -28,6 +28,7 @@
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_decoder.h"
+#include "lib/ffmpeg_audio_stream.h"
 #include "lib/content_video.h"
 #include "test.h"
 
