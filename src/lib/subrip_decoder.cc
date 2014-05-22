@@ -19,12 +19,14 @@
 
 #include <dcp/subtitle_string.h>
 #include "subrip_decoder.h"
+#include "subrip_content.h"
 
 using std::list;
 using boost::shared_ptr;
 
 SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
-	: SubRip (content)
+	: SubtitleDecoder (content)
+	, SubRip (content)
 	, _next (0)
 {
 

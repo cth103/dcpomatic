@@ -25,6 +25,7 @@ extern "C" {
 #include "ffmpeg_content.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
+#include "util.h"
 
 #include "i18n.h"
 
@@ -63,8 +64,15 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 		}
 	}
 
-	/* Run through until we find the first audio (for each stream) and video */
-
+	/* Run through until we find:
+	 *   - the first video.
+	 *   - the first audio for each stream.
+	 *   - the subtitle periods for each stream.
+	 *
+	 * We have to note subtitle periods as otherwise we have no way of knowing
+	 * where we should look for subtitles (video and audio are always present,
+	 * so they are ok).
+	 */
 	while (1) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
@@ -122,7 +130,17 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 void
 FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubtitleStream> stream)
 {
-
+	int frame_finished;
+	AVSubtitle sub;
+	if (avcodec_decode_subtitle2 (context, &sub, &frame_finished, &_packet) >= 0 && frame_finished) {
+		ContentTimePeriod const period = subtitle_period (sub);
+		if (sub.num_rects == 0 && !stream->periods.empty () && stream->periods.back().to > period.from) {
+			/* Finish the last subtitle */
+			stream->periods.back().to = period.from;
+		} else if (sub.num_rects == 1) {
+			stream->periods.push_back (period);
+		}
+	}
 }
 
 optional<ContentTime>

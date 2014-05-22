@@ -392,3 +392,18 @@ FFmpegContent::audio_analysis_path () const
 	p /= name;
 	return p;
 }
+
+bool
+FFmpegContent::has_subtitle_during (ContentTimePeriod period) const
+{
+	shared_ptr<FFmpegSubtitleStream> stream = subtitle_stream ();
+
+	/* XXX: inefficient */
+	for (vector<ContentTimePeriod>::const_iterator i = stream->periods.begin(); i != stream->periods.end(); ++i) {
+		if (i->from <= period.to && i->to >= period.from) {
+			return true;
+		}
+	}
+
+	return false;
+}

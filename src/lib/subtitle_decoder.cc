@@ -19,13 +19,15 @@
 
 #include <boost/shared_ptr.hpp>
 #include "subtitle_decoder.h"
+#include "subtitle_content.h"
 
 using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-SubtitleDecoder::SubtitleDecoder ()
+SubtitleDecoder::SubtitleDecoder (shared_ptr<const SubtitleContent> c)
+	: _subtitle_content (c)
 {
 
 }
@@ -49,6 +51,10 @@ template <class T>
 list<shared_ptr<T> >
 SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod period)
 {
+	if (!_subtitle_content->has_subtitle_during (period)) {
+		return list<shared_ptr<T> > ();
+	}
+
 	if (subs.empty() || period.from < subs.front()->period().from || period.to > (subs.back()->period().to + ContentTime::from_seconds (10))) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
 		seek (period.from, true);
@@ -57,8 +63,6 @@ SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod perio
 	/* Now enough pass() calls will either:
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
-	 *
-	 *  XXX: with subs being sparse, this may need more care...
 	 */
 	while (!pass() && (subs.empty() || (subs.front()->period().from > period.from || period.to < subs.back()->period().to))) {}
 

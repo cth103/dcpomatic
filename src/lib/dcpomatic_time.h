@@ -157,6 +157,10 @@ public:
 
 	ContentTime from;
 	ContentTime to;
+
+	ContentTimePeriod operator+ (ContentTime const & o) const {
+		return ContentTimePeriod (from + o, to + o);
+	}
 };
 
 class DCPTime : public Time

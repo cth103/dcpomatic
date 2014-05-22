@@ -59,6 +59,7 @@ namespace libdcp {
 }
 
 class Job;
+struct AVSubtitle;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
@@ -91,6 +92,7 @@ extern int get_optional_int (std::multimap<std::string, std::string> const & kv,
 extern std::string get_optional_string (std::multimap<std::string, std::string> const & kv, std::string k);
 extern void* wrapped_av_malloc (size_t);
 extern int64_t divide_with_round (int64_t a, int64_t b);
+extern ContentTimePeriod subtitle_period (AVSubtitle const &);
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things

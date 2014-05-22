@@ -33,7 +33,7 @@ class Image;
 class SubtitleDecoder : public virtual Decoder
 {
 public:
-	SubtitleDecoder ();
+	SubtitleDecoder (boost::shared_ptr<const SubtitleContent>);
 
 	std::list<boost::shared_ptr<ContentImageSubtitle> > get_image_subtitles (ContentTimePeriod period);
 	std::list<boost::shared_ptr<ContentTextSubtitle> > get_text_subtitles (ContentTimePeriod period);
@@ -50,6 +50,8 @@ protected:
 private:
 	template <class T>
 	std::list<boost::shared_ptr<T> > get (std::list<boost::shared_ptr<T> > const & subs, ContentTimePeriod period);
+
+	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 };
 
 #endif

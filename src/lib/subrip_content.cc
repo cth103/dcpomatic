@@ -109,3 +109,10 @@ SubRipContent::identifier () const
 
 	return s.str ();
 }
+
+bool
+SubRipContent::has_subtitle_during (ContentTimePeriod) const
+{
+	/* XXX */
+	return false;
+}

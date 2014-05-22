@@ -30,5 +30,7 @@ public:
 	FFmpegSubtitleStream (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;
+
+	std::vector<ContentTimePeriod> periods;
 };
 

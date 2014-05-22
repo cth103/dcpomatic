@@ -37,6 +37,8 @@ public:
 	DCPTime full_length () const;
 	std::string identifier () const;
 
+	bool has_subtitle_during (ContentTimePeriod) const;
+
 private:
 	DCPTime _length;
 };

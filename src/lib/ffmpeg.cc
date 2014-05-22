@@ -148,13 +148,13 @@ FFmpeg::setup_decoders ()
 		AVCodecContext* context = _format_context->streams[i]->codec;
 		
 		AVCodec* codec = avcodec_find_decoder (context->codec_id);
-		if (codec == 0) {
-			throw DecodeError (N_("could not find decoder"));
+		if (codec) {
+			if (avcodec_open2 (context, codec, 0) < 0) {
+				throw DecodeError (N_("could not open decoder"));
+			}
 		}
-		
-		if (avcodec_open2 (context, codec, 0) < 0) {
-			throw DecodeError (N_("could not open decoder"));
-		}
+
+		/* We are silently ignoring any failures to find suitable decoders here */
 	}
 }
 

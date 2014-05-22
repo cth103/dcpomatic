@@ -982,3 +982,16 @@ ScopedTemporary::close ()
 		_open = 0;
 	}
 }
+
+ContentTimePeriod
+subtitle_period (AVSubtitle const & sub)
+{
+	ContentTime const packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE);
+
+	ContentTimePeriod period (
+		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
+		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
+		);
+
+	return period;
+}

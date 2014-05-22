@@ -62,6 +62,7 @@ using dcp::Size;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
 	: VideoDecoder (c)
 	, AudioDecoder (c)
+	, SubtitleDecoder (c)
 	, FFmpeg (c)
 	, _log (log)
 	, _subtitle_codec_context (0)
@@ -516,12 +517,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Subtitle PTS (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP)
 	*/
-	ContentTime packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE) + _pts_offset;
-
-	ContentTimePeriod period (
-		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
-		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
-		);
+	ContentTimePeriod period = subtitle_period (sub) + _pts_offset;
 
 	AVSubtitleRect const * rect = sub.rects[0];
 
