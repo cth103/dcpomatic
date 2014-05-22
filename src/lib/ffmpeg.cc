@@ -57,14 +57,10 @@ FFmpeg::~FFmpeg ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		AVCodecContext* context = _format_context->streams[i]->codec;
-		if (context->codec_type == AVMEDIA_TYPE_VIDEO || context->codec_type == AVMEDIA_TYPE_AUDIO) {
-			avcodec_close (context);
-		}
+		avcodec_close (_format_context->streams[i]->codec);
 	}
 
 	av_frame_free (&_frame);
-	
 	avformat_close_input (&_format_context);
 }
 
