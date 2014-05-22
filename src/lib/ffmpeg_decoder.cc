@@ -67,8 +67,6 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	, _subtitle_codec_context (0)
 	, _subtitle_codec (0)
 {
-	setup_subtitle ();
-
 	/* Audio and video frame PTS values may not start with 0.  We want
 	   to fiddle them so that:
 
@@ -495,33 +493,7 @@ FFmpegDecoder::decode_video_packet ()
 
 	return true;
 }
-
 	
-void
-FFmpegDecoder::setup_subtitle ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	
-	if (!_ffmpeg_content->subtitle_stream()) {
-		return;
-	}
-
-	_subtitle_codec_context = _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
-	if (_subtitle_codec_context == 0) {
-		throw DecodeError (N_("could not find subtitle stream"));
-	}
-
-	_subtitle_codec = avcodec_find_decoder (_subtitle_codec_context->codec_id);
-
-	if (_subtitle_codec == 0) {
-		throw DecodeError (N_("could not find subtitle decoder"));
-	}
-	
-	if (avcodec_open2 (_subtitle_codec_context, _subtitle_codec, 0) < 0) {
-		throw DecodeError (N_("could not open subtitle decoder"));
-	}
-}
-
 void
 FFmpegDecoder::decode_subtitle_packet ()
 {

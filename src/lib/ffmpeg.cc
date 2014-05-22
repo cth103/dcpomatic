@@ -49,8 +49,7 @@ FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	, _video_stream (-1)
 {
 	setup_general ();
-	setup_video ();
-	setup_audio ();
+	setup_decoders ();
 }
 
 FFmpeg::~FFmpeg ()
@@ -145,45 +144,23 @@ FFmpeg::setup_general ()
 }
 
 void
-FFmpeg::setup_video ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	assert (_video_stream >= 0);
-	AVCodecContext* context = _format_context->streams[_video_stream]->codec;
-	AVCodec* codec = avcodec_find_decoder (context->codec_id);
-
-	if (codec == 0) {
-		throw DecodeError (_("could not find video decoder"));
-	}
-
-	if (avcodec_open2 (context, codec, 0) < 0) {
-		throw DecodeError (N_("could not open video decoder"));
-	}
-}
-
-void
-FFmpeg::setup_audio ()
+FFmpeg::setup_decoders ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVCodecContext* context = _format_context->streams[i]->codec;
-		if (context->codec_type != AVMEDIA_TYPE_AUDIO) {
-			continue;
-		}
 		
 		AVCodec* codec = avcodec_find_decoder (context->codec_id);
 		if (codec == 0) {
-			throw DecodeError (_("could not find audio decoder"));
+			throw DecodeError (N_("could not find decoder"));
 		}
 		
 		if (avcodec_open2 (context, codec, 0) < 0) {
-			throw DecodeError (N_("could not open audio decoder"));
+			throw DecodeError (N_("could not open decoder"));
 		}
 	}
 }
-
 
 AVCodecContext *
 FFmpeg::video_codec_context () const

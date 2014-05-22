@@ -57,8 +57,6 @@ private:
 	bool pass ();
 	void flush ();
 
-	void setup_subtitle ();
-
 	AVSampleFormat audio_sample_format () const;
 	int bytes_per_audio_sample () const;
 

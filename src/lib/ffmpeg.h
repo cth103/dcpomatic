@@ -79,8 +79,7 @@ protected:
 
 private:
 	void setup_general ();
-	void setup_video ();
-	void setup_audio ();
+	void setup_decoders ();
 };
 
 #endif
