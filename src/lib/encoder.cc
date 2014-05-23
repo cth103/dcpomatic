@@ -41,7 +41,7 @@
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
-#define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
+#define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::pair;
 using std::string;
@@ -273,7 +273,7 @@ try
 	
 	while (1) {
 
-		LOG_TIMING ("encoder thread %1 sleeps", boost::this_thread::get_id());
+		LOG_TIMING ("[%1] encoder thread sleeps", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_mutex);
 		while (_queue.empty () && !_terminate) {
 			_condition.wait (lock);
@@ -283,9 +283,9 @@ try
 			return;
 		}
 
-		LOG_TIMING ("encoder thread %1 wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
+		LOG_TIMING ("[%1] encoder thread wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
 		shared_ptr<DCPVideoFrame> vf = _queue.front ();
-		LOG_TIMING ("encoder thread %1 pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
+		LOG_TIMING ("[%1] encoder thread pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
 		_queue.pop_front ();
 		
 		lock.unlock ();
@@ -316,9 +316,9 @@ try
 				
 		} else {
 			try {
-				LOG_TIMING ("encoder thread %1 begins local encode of %2", boost::this_thread::get_id(), vf->index());
+				LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());
 				encoded = vf->encode_locally ();
-				LOG_TIMING ("encoder thread %1 finishes local encode of %2", boost::this_thread::get_id(), vf->index());
+				LOG_TIMING ("[%1] encoder thread finishes local encode of %2", boost::this_thread::get_id(), vf->index());
 			} catch (std::exception& e) {
 				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 			}
@@ -329,7 +329,7 @@ try
 			frame_done ();
 		} else {
 			lock.lock ();
-			LOG_GENERAL (N_("Encoder thread %1 pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->index());
+			LOG_GENERAL (N_("[%1] Encoder thread pushes frame %2 back onto queue after failure"), boost::this_thread::get_id(), vf->index());
 			_queue.push_front (vf);
 			lock.unlock ();
 		}

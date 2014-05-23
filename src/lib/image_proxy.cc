@@ -118,7 +118,7 @@ MagickImageProxy::image () const
 		return _image;
 	}
 
-	LOG_TIMING ("MagickImageProxy begins read and decode of %1 bytes", _blob.length());
+	LOG_TIMING ("[%1] MagickImageProxy begins read and decode of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
 	Magick::Image* magick_image = 0;
 	try {
@@ -147,7 +147,7 @@ MagickImageProxy::image () const
 
 	delete magick_image;
 
-	LOG_TIMING ("MagickImageProxy completes read and decode of %1 bytes", _blob.length());
+	LOG_TIMING ("[%1] MagickImageProxy completes read and decode of %1 bytes", boost::this_thread::get_id(), _blob.length());
 
 	return _image;
 }
