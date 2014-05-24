@@ -46,7 +46,6 @@ public:
 	void microsecond_log (std::string message, int type);
 
 	void set_types (int types);
-	void set_types (std::string types);
 
 protected:	
 	/** mutex to protect the log */

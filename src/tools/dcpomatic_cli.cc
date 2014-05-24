@@ -65,7 +65,6 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool progress = true;
 	bool no_remote = false;
-	string log_types = "general,warning,error";
 	int json_port = 0;
 	bool keep_going = false;
 
@@ -78,13 +77,12 @@ main (int argc, char* argv[])
 			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
-			{ "log-types", required_argument, 0, 'l' },
 			{ "json", required_argument, 0, 'j' },
 			{ "keep-going", no_argument, 0, 'k' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdfnrl:j:k", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdfnrj:k", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -108,9 +106,6 @@ main (int argc, char* argv[])
 			break;
 		case 'r':
 			no_remote = true;
-			break;
-		case 'l':
-			log_types = optarg;
 			break;
 		case 'j':
 			json_port = atoi (optarg);
@@ -154,8 +149,6 @@ main (int argc, char* argv[])
 		cerr << argv[0] << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
 	}
-
-	film->log()->set_types (log_types);
 
 	cout << "\nMaking DCP for " << film->name() << "\n";
 //	cout << "Content: " << film->content() << "\n";

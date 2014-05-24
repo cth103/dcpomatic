@@ -74,7 +74,6 @@ using boost::dynamic_pointer_cast;
 static FilmEditor* film_editor = 0;
 static FilmViewer* film_viewer = 0;
 static shared_ptr<Film> film;
-static std::string log_types = "general,log,warning";
 static std::string film_to_load;
 static std::string film_to_create;
 static std::string content_to_add;
@@ -157,7 +156,6 @@ load_film (boost::filesystem::path file)
 	for (list<string>::const_iterator i = notes.begin(); i != notes.end(); ++i) {
 		error_dialog (0, std_to_wx (*i));
 	}
-	film->log()->set_types (log_types);
 }
 
 #define ALWAYS                  0x0
@@ -401,7 +399,6 @@ private:
 			maybe_save_then_delete_film ();
 			film.reset (new Film (d->get_path ()));
 			film->write_metadata ();
-			film->log()->set_types (log_types);
 			film->set_name (boost::filesystem::path (d->get_path()).filename().generic_string());
 			set_film ();
 		}
@@ -609,7 +606,6 @@ private:
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
-	{ wxCMD_LINE_OPTION, "l", "log", "set message types to log (general,warning,error,timing)", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "c", "content", "add content file", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -668,7 +664,6 @@ class App : public wxApp
 		if (!film_to_create.empty ()) {
 			film.reset (new Film (film_to_create));
 			film->write_metadata ();
-			film->log()->set_types (log_types);
 			film->set_name (boost::filesystem::path (film_to_create).filename().generic_string ());
 		}
 
@@ -724,11 +719,6 @@ class App : public wxApp
 		wxString content;
 		if (parser.Found (wxT ("content"), &content)) {
 			content_to_add = wx_to_std (content);
-		}
-
-		wxString log;
-		if (parser.Found (wxT ("log"), &log)) {
-			log_types = wx_to_std (log);
 		}
 
 		return true;

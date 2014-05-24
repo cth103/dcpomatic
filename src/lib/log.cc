@@ -23,7 +23,6 @@
 
 #include <time.h>
 #include <cstdio>
-#include <boost/algorithm/string.hpp>
 #include "log.h"
 #include "cross.h"
 #include "config.h"
@@ -31,8 +30,6 @@
 #include "i18n.h"
 
 using namespace std;
-using boost::algorithm::is_any_of;
-using boost::algorithm::split;
 
 int const Log::TYPE_GENERAL = 0x1;
 int const Log::TYPE_WARNING = 0x2;
@@ -103,30 +100,6 @@ Log::set_types (int t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_types = t;
-}
-
-/** @param A comma-separate list of debug types to enable */
-void
-Log::set_types (string t)
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	vector<string> types;
-	split (types, t, is_any_of (","));
-
-	_types = 0;
-
-	for (vector<string>::const_iterator i = types.begin(); i != types.end(); ++i) {
-		if (*i == N_("general")) {
-			_types |= TYPE_GENERAL;
-		} else if (*i == N_("warning")) {
-			_types |= TYPE_WARNING;
-		} else if (*i == N_("error")) {
-			_types |= TYPE_ERROR;
-		} else if (*i == N_("timing")) {
-			_types |= TYPE_TIMING;
-		}
-	}
 }
 
 /** @param file Filename to write log to */
