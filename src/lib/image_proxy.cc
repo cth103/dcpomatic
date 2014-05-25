@@ -127,6 +127,8 @@ MagickImageProxy::image () const
 		throw DecodeError (_("Could not decode image file"));
 	}
 
+	LOG_TIMING ("[%1] MagickImageProxy load and decode finished", boost::this_thread::get_id ());
+
 	libdcp::Size size (magick_image->columns(), magick_image->rows());
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
@@ -147,7 +149,7 @@ MagickImageProxy::image () const
 
 	delete magick_image;
 
-	LOG_TIMING ("[%1] MagickImageProxy completes read and decode of %1 bytes", boost::this_thread::get_id(), _blob.length());
+	LOG_TIMING ("[%1] MagickImageProxy completes read and decode of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
 	return _image;
 }
