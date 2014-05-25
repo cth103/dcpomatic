@@ -1,5 +1,9 @@
 2014-05-26  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.14 released.
+
+2014-05-26  Carl Hetherington  <cth@carlh.net>
+
 	* Fix problems with non-zero FFmpeg content start times.
 
 2014-05-24  Carl Hetherington  <cth@carlh.net>
