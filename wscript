@@ -78,7 +78,7 @@ def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
         conf.env.LIB_DCP.append('ssh')
 
 def dynamic_dcp(conf):
-    conf.check_cfg(package='libdcp', atleast_version='0.92', args='--cflags --libs', uselib_store='DCP', mandatory=True)
+    conf.check_cfg(package='libdcp', atleast_version='0.94.0', args='--cflags --libs', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
 def dynamic_ssh(conf):
