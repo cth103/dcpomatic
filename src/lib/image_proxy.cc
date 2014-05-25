@@ -118,7 +118,7 @@ MagickImageProxy::image () const
 		return _image;
 	}
 
-	LOG_TIMING ("[%1] MagickImageProxy begins read and decode of %2 bytes", boost::this_thread::get_id(), _blob.length());
+	LOG_TIMING ("[%1] MagickImageProxy begins decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
 	Magick::Image* magick_image = 0;
 	try {
@@ -127,7 +127,7 @@ MagickImageProxy::image () const
 		throw DecodeError (_("Could not decode image file"));
 	}
 
-	LOG_TIMING ("[%1] MagickImageProxy load and decode finished", boost::this_thread::get_id ());
+	LOG_TIMING ("[%1] MagickImageProxy decode finished", boost::this_thread::get_id ());
 
 	libdcp::Size size (magick_image->columns(), magick_image->rows());
 
@@ -149,7 +149,7 @@ MagickImageProxy::image () const
 
 	delete magick_image;
 
-	LOG_TIMING ("[%1] MagickImageProxy completes read and decode of %2 bytes", boost::this_thread::get_id(), _blob.length());
+	LOG_TIMING ("[%1] MagickImageProxy completes decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
 	return _image;
 }

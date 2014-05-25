@@ -45,7 +45,7 @@ namespace cxml {
  *  the TIFF data TIFF until such a time that the actual image is needed.
  *  At this point, the class decodes the TIFF to an Image.
  */
-class ImageProxy
+class ImageProxy : public boost::noncopyable
 {
 public:
 	ImageProxy (boost::shared_ptr<Log> log);
