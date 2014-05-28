@@ -30,6 +30,7 @@
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
+#include <libdcp/exceptions.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
@@ -161,7 +162,7 @@ load_film (boost::filesystem::path file)
 #define ALWAYS                  0x0
 #define NEEDS_FILM              0x1
 #define NOT_DURING_DCP_CREATION 0x2
-#define NEEDS_DCP               0x4
+#define NEEDS_CPL               0x4
 
 map<wxMenuItem*, int> menu_items;
 	
@@ -181,7 +182,7 @@ set_menu_sensitivity ()
 		++i;
 	}
 	bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
-	bool const have_dcp = film && !film->dcps().empty ();
+	bool const have_cpl = film && !film->cpls().empty ();
 
 	for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
 
@@ -195,7 +196,7 @@ set_menu_sensitivity ()
 			enabled = false;
 		}
 
-		if ((j->second & NEEDS_DCP) && !have_dcp) {
+		if ((j->second & NEEDS_CPL) && !have_cpl) {
 			enabled = false;
 		}
 		
@@ -247,9 +248,9 @@ setup_menu (wxMenuBar* m)
 
 	jobs_menu = new wxMenu;
 	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
-	add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM | NEEDS_DCP);
-	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
-	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_DCP);
+	add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM);
+	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
+	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
 	wxMenu* tools = new wxMenu;
 	add_item (tools, _("Hints..."), ID_tools_hints, 0);
@@ -494,12 +495,14 @@ private:
 
 		try {
 			if (d->write_to ()) {
-				write_kdm_files (film, d->screens (), d->dcp (), d->from (), d->until (), d->directory ());
+				write_kdm_files (film, d->screens (), d->cpl (), d->from (), d->until (), d->directory ());
 			} else {
 				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->dcp (), d->from (), d->until ()))
+					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->cpl (), d->from (), d->until ()))
 					);
 			}
+		} catch (libdcp::NotEncryptedError& e) {
+			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
 			error_dialog (this, e.what ());
 		} catch (...) {

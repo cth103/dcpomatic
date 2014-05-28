@@ -766,11 +766,11 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	return file (p);
 }
 
-/** @return List of subdirectories (not full paths) containing DCPs that can be successfully libdcp::DCP::read() */
-list<boost::filesystem::path>
-Film::dcps () const
+/** Find all the DCPs in our directory that can be libdcp::DCP::read() and return details of their CPLs */
+vector<CPLSummary>
+Film::cpls () const
 {
-	list<boost::filesystem::path> out;
+	vector<CPLSummary> out;
 	
 	boost::filesystem::path const dir = directory ();
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
@@ -782,7 +782,11 @@ Film::dcps () const
 			try {
 				libdcp::DCP dcp (*i);
 				dcp.read ();
-				out.push_back (i->path().leaf ());
+				out.push_back (
+					CPLSummary (
+						i->path().leaf().string(), dcp.cpls().front()->id(), dcp.cpls().front()->name(), dcp.cpls().front()->filename()
+						)
+					);
 			} catch (...) {
 
 			}
@@ -982,28 +986,18 @@ Film::frame_size () const
 libdcp::KDM
 Film::make_kdm (
 	shared_ptr<libdcp::Certificate> target,
-	boost::filesystem::path dcp_dir,
+	boost::filesystem::path cpl_file,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until
 	) const
 {
 	shared_ptr<const Signer> signer = make_signer ();
 
-	libdcp::DCP dcp (dir (dcp_dir.string ()));
-	
-	try {
-		dcp.read ();
-	} catch (...) {
-		throw KDMError (_("Could not read DCP to make KDM for"));
-	}
-	
 	time_t now = time (0);
 	struct tm* tm = localtime (&now);
 	string const issue_date = libdcp::tm_to_string (tm);
 	
-	dcp.cpls().front()->set_mxf_keys (key ());
-	
-	return libdcp::KDM (dcp.cpls().front(), signer, target, from, until, "DCP-o-matic", issue_date);
+	return libdcp::KDM (cpl_file, signer, target, key (), from, until, "DCP-o-matic", issue_date);
 }
 
 list<libdcp::KDM>

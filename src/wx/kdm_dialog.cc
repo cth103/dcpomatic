@@ -22,6 +22,7 @@
 #include <wx/timectrl.h>
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
+#include <libcxml/cxml.h>
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
@@ -40,17 +41,29 @@ using std::map;
 using std::list;
 using std::pair;
 using std::cout;
+using std::vector;
 using std::make_pair;
 using boost::shared_ptr;
 
 KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
 {
+	/* Main sizer */
 	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
+
+	/* Font for sub-headings */
+	wxFont subheading_font (*wxNORMAL_FONT);
+	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
+
+
+	/* Sub-heading: Screens */
+	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("Screens"));
+	h->SetFont (subheading_font);
+	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
 	
+	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS);
-	targets->Add (_targets, 1, wxEXPAND | wxALL, 6);
+	targets->Add (_targets, 1, wxEXPAND | wxTOP | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	_root = _targets->AddRoot ("Foo");
 
@@ -64,24 +77,30 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
 
 	_add_cinema = new wxButton (this, wxID_ANY, _("Add Cinema..."));
-	target_buttons->Add (_add_cinema, 1, wxEXPAND, 6);
+	target_buttons->Add (_add_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	_edit_cinema = new wxButton (this, wxID_ANY, _("Edit Cinema..."));
-	target_buttons->Add (_edit_cinema, 1, wxEXPAND, 6);
+	target_buttons->Add (_edit_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	_remove_cinema = new wxButton (this, wxID_ANY, _("Remove Cinema"));
-	target_buttons->Add (_remove_cinema, 1, wxEXPAND, 6);
+	target_buttons->Add (_remove_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	
 	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
-	target_buttons->Add (_add_screen, 1, wxEXPAND, 6);
+	target_buttons->Add (_add_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
-	target_buttons->Add (_edit_screen, 1, wxEXPAND, 6);
+	target_buttons->Add (_edit_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	_remove_screen = new wxButton (this, wxID_ANY, _("Remove Screen"));
-	target_buttons->Add (_remove_screen, 1, wxEXPAND, 6);
+	target_buttons->Add (_remove_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-	targets->Add (target_buttons, 0, 0, 6);
+	targets->Add (target_buttons, 0, 0);
 
-	vertical->Add (targets, 1, wxEXPAND | wxALL, 6);
+	vertical->Add (targets, 1, wxEXPAND);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, 2, 6);
+
+	/* Sub-heading: Timing */
+	h = new wxStaticText (this, wxID_ANY, _("Timing"));
+	h->SetFont (subheading_font);
+	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	
+	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("From"), true);
 	wxDateTime from;
 	from.SetToCurrent ();
@@ -99,30 +118,46 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	_until_time = new wxTimePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_time, 1, wxEXPAND);
 
-	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
+	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
-	_dcps = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
-	wxListItem ip;
-	ip.SetId (0);
-	ip.SetText (_("DCP"));
-	ip.SetWidth (400);
-	_dcps->InsertColumn (0, ip);
-	vertical->Add (_dcps, 0, wxEXPAND | wxALL, 6);
-	
-	list<boost::filesystem::path> dcps = film->dcps ();
-	for (list<boost::filesystem::path>::const_iterator i = dcps.begin(); i != dcps.end(); ++i) {
-		wxListItem item;
-		int const n = _dcps->GetItemCount ();
-		item.SetId (n);
-		_dcps->InsertItem (item);
-		_dcps->SetItem (n, 0, std_to_wx (i->string ()));
 
-		if (dcps.size() == 1 || i->string() == film->dcp_name ()) {
-			_dcps->SetItemState (n, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-		}
-	}
+	/* Sub-heading: CPL */
+	h = new wxStaticText (this, wxID_ANY, _("CPL"));
+	h->SetFont (subheading_font);
+	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 	
-	table = new wxFlexGridSizer (2, 2, 6);
+	/* CPL choice */
+	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (s, this, _("CPL"), true);
+	_cpl = new wxChoice (this, wxID_ANY);
+	s->Add (_cpl, 1, wxEXPAND);
+	_cpl_browse = new wxButton (this, wxID_ANY, _("Browse..."));
+	s->Add (_cpl_browse, 0);
+	vertical->Add (s, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
+
+	/* CPL details */
+	table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	add_label_to_sizer (table, this, _("DCP directory"), true);
+	_dcp_directory = new wxStaticText (this, wxID_ANY, "");
+	table->Add (_dcp_directory);
+	add_label_to_sizer (table, this, _("CPL ID"), true);
+	_cpl_id = new wxStaticText (this, wxID_ANY, "");
+	table->Add (_cpl_id);
+	add_label_to_sizer (table, this, _("CPL annotation text"), true);
+	_cpl_annotation_text = new wxStaticText (this, wxID_ANY, "");
+	table->Add (_cpl_annotation_text);
+	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
+	
+	_cpls = film->cpls ();
+	update_cpl_choice ();
+	
+
+	/* Sub-heading: Output */
+	h = new wxStaticText (this, wxID_ANY, _("Output"));
+	h->SetFont (subheading_font);
+	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	
+	table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
@@ -141,14 +176,21 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
 	
-	vertical->Add (table, 0, wxEXPAND | wxALL, 6);
+	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
+
+	/* Make an overall sizer to get a nice border, and put some buttons in */
+
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	overall_sizer->Add (vertical, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
-		vertical->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+		overall_sizer->Add (buttons, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_Y_GAP);
 	}
 
 	_write_to->SetValue (true);
+
+	/* Bind */
 
 	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
@@ -160,17 +202,17 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	_edit_screen->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::edit_screen_clicked, this));
 	_remove_screen->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::remove_screen_clicked, this));
 
-	_dcps->Bind          (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&KDMDialog::setup_sensitivity, this));
-	_dcps->Bind          (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
+	_cpl->Bind           (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&KDMDialog::update_cpl_summary, this));
+	_cpl_browse->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&KDMDialog::cpl_browse_clicked, this));
 
 	_write_to->Bind      (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
 	_email->Bind         (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
-	
-	SetSizer (vertical);
-	vertical->Layout ();
-	vertical->SetSizeHints (this);
+
+	SetSizer (overall_sizer);
+	overall_sizer->Layout ();
+	overall_sizer->SetSizeHints (this);
 }
 
 list<pair<wxTreeItemId, shared_ptr<Cinema> > >
@@ -212,7 +254,7 @@ KDMDialog::setup_sensitivity ()
 {
 	bool const sc = selected_cinemas().size() == 1;
 	bool const ss = selected_screens().size() == 1;
-	bool const sd = _dcps->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1;
+	bool const sd = _cpl->GetSelection() != -1;
 	
 	_edit_cinema->Enable (sc);
 	_remove_cinema->Enable (sc);
@@ -419,11 +461,11 @@ KDMDialog::until () const
 }
 
 boost::filesystem::path
-KDMDialog::dcp () const
+KDMDialog::cpl () const
 {
-	int const item = _dcps->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	int const item = _cpl->GetSelection ();
 	assert (item >= 0);
-	return wx_to_std (_dcps->GetItemText (item));
+	return _cpls[item].cpl_file;
 }
 
 boost::filesystem::path
@@ -436,4 +478,67 @@ bool
 KDMDialog::write_to () const
 {
 	return _write_to->GetValue ();
+}
+
+void
+KDMDialog::update_cpl_choice ()
+{
+	_cpl->Clear ();
+	
+	for (vector<CPLSummary>::const_iterator i = _cpls.begin(); i != _cpls.end(); ++i) {
+		_cpl->Append (std_to_wx (i->cpl_id));
+
+		if (_cpls.size() > 0) {
+			_cpl->SetSelection (0);
+		}
+	}
+
+	update_cpl_summary ();
+}
+
+void
+KDMDialog::update_cpl_summary ()
+{
+	int const n = _cpl->GetSelection();
+	if (n == wxNOT_FOUND) {
+		return;
+	}
+
+	_dcp_directory->SetLabel (std_to_wx (_cpls[n].dcp_directory));
+	_cpl_id->SetLabel (std_to_wx (_cpls[n].cpl_id));
+	_cpl_annotation_text->SetLabel (std_to_wx (_cpls[n].cpl_annotation_text));
+}
+
+void
+KDMDialog::cpl_browse_clicked ()
+{
+	wxFileDialog d (this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, "*.xml");
+	if (d.ShowModal() == wxID_CANCEL) {
+		return;
+	}
+
+	boost::filesystem::path cpl_file (wx_to_std (d.GetPath ()));
+	boost::filesystem::path dcp_dir = cpl_file.parent_path ();
+
+	/* XXX: hack alert */
+	cxml::Document cpl_document ("CompositionPlaylist");
+	cpl_document.read_file (cpl_file);
+
+	try {
+		_cpls.push_back (
+			CPLSummary (
+				dcp_dir.filename().string(),
+				cpl_document.string_child("Id").substr (9),
+				cpl_document.string_child ("ContentTitleText"),
+				cpl_file
+				)
+			);
+	} catch (cxml::Error) {
+		error_dialog (this, _("This is not a valid CPL file"));
+		return;
+	}
+	
+	update_cpl_choice ();
+	_cpl->SetSelection (_cpls.size() - 1);
+	update_cpl_summary ();
 }

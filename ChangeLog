@@ -1,3 +1,10 @@
+2014-05-28  Carl Hetherington  <cth@carlh.net>
+
+	* Rework KDM generation to be about CPLs rather than DCPs,
+	and allow specification of any CPL to generate KDMs for.
+
+	Requested-by: Richard Turner
+
 2014-05-27  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.15 released.
