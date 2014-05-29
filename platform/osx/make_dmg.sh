@@ -87,7 +87,7 @@ universal_copy $ENV lib/libcurl*.dylib $WORK/$libs
 universal_copy $ENV lib/libffi*.dylib $WORK/$libs
 universal_copy $ENV lib/libiconv*.dylib $WORK/$libs
 
-for obj in $WORK/$macos/dcpomatic $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
+for obj in $WORK/$macos/dcpomatic $WORK/$macos/dcpomatic_batch $WORK/$macos/dcpomatic_cli $WORK/$macos/dcpomatic_server_cli $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
   deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl|libxmlsec)"`
   changes=""
   for dep in $deps; do
