@@ -490,8 +490,13 @@ Image::allocate ()
 		   OS X crashes on this illegal read, though other operating systems don't
 		   seem to mind.  The nasty + 1 in this malloc makes sure there is always a byte
 		   for that instruction to read safely.
+
+		   Further to the above, valgrind is now telling me that ff_rgb24ToY_ssse3
+		   over-reads by more then _avx.  I can't follow the code to work out how much,
+		   so I'll just over-allocate by 32 bytes and have done with it.  Empirical
+		   testing suggests that it works.
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * lines (i) + 1);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * lines (i) + 32);
 	}
 }
 

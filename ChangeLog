@@ -1,3 +1,9 @@
+2014-06-02  Carl Hetherington  <cth@carlh.net>
+
+	* Empirical hack to prevent over-read of array
+	by libswscale; may fix crashes at the start of
+	DCP encodes.
+
 2014-05-29  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.18 released.
