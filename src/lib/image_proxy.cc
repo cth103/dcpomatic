@@ -24,21 +24,32 @@
 #include "image.h"
 #include "exceptions.h"
 #include "cross.h"
+#include "log.h"
 
 #include "i18n.h"
+
+#define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::cout;
 using std::string;
 using std::stringstream;
 using boost::shared_ptr;
 
-RawImageProxy::RawImageProxy (shared_ptr<Image> image)
-	: _image (image)
+ImageProxy::ImageProxy (shared_ptr<Log> log)
+	: _log (log)
 {
 
 }
 
-RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
+RawImageProxy::RawImageProxy (shared_ptr<Image> image, shared_ptr<Log> log)
+	: ImageProxy (log)
+	, _image (image)
+{
+
+}
+
+RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket, shared_ptr<Log> log)
+	: ImageProxy (log)
 {
 	dcp::Size size (
 		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
@@ -68,7 +79,8 @@ RawImageProxy::send_binary (shared_ptr<Socket> socket) const
 	_image->write_to_socket (socket);
 }
 
-MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
+MagickImageProxy::MagickImageProxy (boost::filesystem::path path, shared_ptr<Log> log)
+	: ImageProxy (log)
 {
 	/* Read the file into a Blob */
 	
@@ -89,7 +101,8 @@ MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
 	delete[] data;
 }
 
-MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> socket)
+MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> socket, shared_ptr<Log> log)
+	: ImageProxy (log)
 {
 	uint32_t const size = socket->read_uint32 ();
 	uint8_t* data = new uint8_t[size];
@@ -105,6 +118,8 @@ MagickImageProxy::image () const
 		return _image;
 	}
 
+	LOG_TIMING ("[%1] MagickImageProxy begins decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
+
 	Magick::Image* magick_image = 0;
 	try {
 		magick_image = new Magick::Image (_blob);
@@ -113,6 +128,7 @@ MagickImageProxy::image () const
 	}
 
 	dcp::Size size (magick_image->columns(), magick_image->rows());
+	LOG_TIMING ("[%1] MagickImageProxy decode finished", boost::this_thread::get_id ());
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 
@@ -132,6 +148,8 @@ MagickImageProxy::image () const
 
 	delete magick_image;
 
+	LOG_TIMING ("[%1] MagickImageProxy completes decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
+
 	return _image;
 }
 
@@ -149,12 +167,12 @@ MagickImageProxy::send_binary (shared_ptr<Socket> socket) const
 }
 
 shared_ptr<ImageProxy>
-image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
+image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket, shared_ptr<Log> log)
 {
 	if (xml->string_child("Type") == N_("Raw")) {
-		return shared_ptr<ImageProxy> (new RawImageProxy (xml, socket));
+		return shared_ptr<ImageProxy> (new RawImageProxy (xml, socket, log));
 	} else if (xml->string_child("Type") == N_("Magick")) {
-		return shared_ptr<MagickImageProxy> (new MagickImageProxy (xml, socket));
+		return shared_ptr<MagickImageProxy> (new MagickImageProxy (xml, socket, log));
 	}
 
 	throw NetworkError (_("Unexpected image type received by server"));

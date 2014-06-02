@@ -30,6 +30,7 @@ using std::stringstream;
 using std::cout;
 using std::cerr;
 using std::list;
+using std::vector;
 using boost::shared_ptr;
 
 static string program_name;
@@ -219,14 +220,14 @@ int main (int argc, char* argv[])
 	}
 
 	/* XXX: allow specification of this */
-	list<boost::filesystem::path> dcps = film->dcps ();
-	if (dcps.empty ()) {
-		error ("no DCPs found in film");
-	} else if (dcps.size() > 1) {
-		error ("more than one DCP found in film");
+	vector<CPLSummary> cpls = film->cpls ();
+	if (cpls.empty ()) {
+		error ("no CPLs found in film");
+	} else if (cpls.size() > 1) {
+		error ("more than one CPL found in film");
 	}
 
-	boost::filesystem::path dcp = dcps.front ();
+	boost::filesystem::path cpl = cpls.front().cpl_file;
 
 	if (cinema_name.empty ()) {
 
@@ -235,7 +236,7 @@ int main (int argc, char* argv[])
 		}
 		
 		shared_ptr<dcp::Certificate> certificate (new dcp::Certificate (boost::filesystem::path (certificate_file)));
-		dcp::EncryptedKDM kdm = film->make_kdm (certificate, dcp, valid_from.get(), valid_to.get());
+		dcp::EncryptedKDM kdm = film->make_kdm (certificate, cpl, valid_from.get(), valid_to.get());
 		kdm.as_xml (output);
 		if (verbose) {
 			cout << "Generated KDM " << output << " for certificate.\n";
@@ -259,12 +260,13 @@ int main (int argc, char* argv[])
 
 		try {
 			if (zip) {
-				write_kdm_zip_files (film, (*i)->screens(), dcp, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
+				write_kdm_zip_files (film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
+
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				write_kdm_files (film, (*i)->screens(), dcp, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
+				write_kdm_files (film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";
 				}

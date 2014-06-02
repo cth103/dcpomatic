@@ -99,7 +99,7 @@ public:
 	dcp::Size full_frame () const;
 	dcp::Size frame_size () const;
 
-	std::list<boost::filesystem::path> dcps () const;
+	std::vector<CPLSummary> cpls () const;
 
 	boost::shared_ptr<Player> make_player () const;
 	boost::shared_ptr<Playlist> playlist () const;
@@ -120,14 +120,14 @@ public:
 	dcp::EncryptedKDM
 	make_kdm (
 		boost::shared_ptr<dcp::Certificate> target,
-		boost::filesystem::path dcp,
+		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
 		dcp::LocalTime until
 		) const;
 	
 	std::list<dcp::EncryptedKDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
-		boost::filesystem::path dcp,
+		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
 		dcp::LocalTime until
 		) const;

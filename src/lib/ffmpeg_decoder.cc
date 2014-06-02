@@ -44,8 +44,13 @@ extern "C" {
 #include "audio_buffers.h"
 #include "ffmpeg_content.h"
 #include "image_proxy.h"
+#include "film.h"
 
 #include "i18n.h"
+
+#define LOG_GENERAL(...) _video_content->film()->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_ERROR(...) _video_content->film()->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_WARNING(...) _video_content->film()->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
 
 using std::cout;
 using std::string;
@@ -138,7 +143,7 @@ FFmpegDecoder::pass ()
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
-			_log->log (String::compose (N_("error on av_read_frame (%1) (%2)"), buf, r));
+			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), buf, r);
 		}
 
 		flush ();
@@ -431,7 +436,7 @@ FFmpegDecoder::decode_audio_packet ()
 		int const decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
 
 		if (decode_result < 0) {
-			_log->log (String::compose ("avcodec_decode_audio4 failed (%1)", decode_result));
+			LOG_ERROR ("avcodec_decode_audio4 failed (%1)", decode_result);
 			return;
 		}
 
@@ -473,7 +478,7 @@ FFmpegDecoder::decode_video_packet ()
 	if (i == _filter_graphs.end ()) {
 		graph.reset (new FilterGraph (_ffmpeg_content, dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
 		_filter_graphs.push_back (graph);
-		_log->log (String::compose (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format));
+		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format);
 	} else {
 		graph = *i;
 	}
@@ -486,9 +491,12 @@ FFmpegDecoder::decode_video_packet ()
 		
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset.seconds ();
-			video (shared_ptr<ImageProxy> (new RawImageProxy (image)), rint (pts * _ffmpeg_content->video_frame_rate ()));
+			video (
+				shared_ptr<ImageProxy> (new RawImageProxy (image, _video_content->film()->log())),
+				rint (pts * _ffmpeg_content->video_frame_rate ())
+				);
 		} else {
-			_log->log ("Dropping frame without PTS");
+			LOG_WARNING ("Dropping frame without PTS");
 		}
 	}
 

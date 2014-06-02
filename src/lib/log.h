@@ -37,17 +37,15 @@ public:
 	Log ();
 	virtual ~Log () {}
 
-	enum Level {
-		STANDARD = 0,
-		VERBOSE = 1,
-		TIMING = 2
-	};
+	static const int TYPE_GENERAL;
+	static const int TYPE_WARNING;
+	static const int TYPE_ERROR;
+	static const int TYPE_TIMING;
 
-	void log (std::string m, Level l = STANDARD);
-	void microsecond_log (std::string m, Level l = STANDARD);
+	void log (std::string message, int type);
+	void microsecond_log (std::string message, int type);
 
-	void set_level (Level l);
-	void set_level (std::string l);
+	void set_types (int types);
 
 protected:	
 	/** mutex to protect the log */
@@ -55,9 +53,10 @@ protected:
 	
 private:
 	virtual void do_log (std::string m) = 0;
+	void config_changed ();
 	
-	/** level above which to ignore log messages */
-	Level _level;
+	/** bit-field of log types which should be put into the log (others are ignored) */
+	int _types;
 };
 
 class FileLog : public Log

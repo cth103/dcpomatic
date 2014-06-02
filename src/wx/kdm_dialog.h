@@ -45,7 +45,7 @@ public:
 	/** @return KDM until time in local time */
 	boost::posix_time::ptime until () const;
 	
-	boost::filesystem::path dcp () const;
+	boost::filesystem::path cpl () const;
 	boost::filesystem::path directory () const;
 	bool write_to () const;
 
@@ -61,6 +61,9 @@ private:
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void setup_sensitivity ();
+	void update_cpl_choice ();
+	void update_cpl_summary ();
+	void cpl_browse_clicked ();
 
 	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, wxTimePickerCtrl *);
 	
@@ -75,7 +78,11 @@ private:
 	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
 	wxTimePickerCtrl* _until_time;
-	wxListCtrl* _dcps;
+	wxChoice* _cpl;
+	wxButton* _cpl_browse;
+	wxStaticText* _dcp_directory;
+	wxStaticText* _cpl_id;
+	wxStaticText* _cpl_annotation_text;
 	wxRadioButton* _write_to;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
@@ -87,4 +94,5 @@ private:
 	wxTreeItemId _root;
 	std::map<wxTreeItemId, boost::shared_ptr<Cinema> > _cinemas;
 	std::map<wxTreeItemId, boost::shared_ptr<Screen> > _screens;
+	std::vector<CPLSummary> _cpls;
 };

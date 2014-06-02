@@ -51,16 +51,16 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 	wait_for_jobs ();
 }
 
-/** Test Film::have_dcp().  Requires the output from ffmpeg_dcp_test above */
+/** Briefly test Film::cpls().  Requires the output from ffmpeg_dcp_test above */
 BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 {
 	boost::filesystem::path p = test_film_dir ("ffmpeg_dcp_test");
 	shared_ptr<Film> f (new Film (p.string ()));
 	f->read_metadata ();
-	BOOST_CHECK (!f->dcps().empty());
+	BOOST_CHECK (!f->cpls().empty());
 
 	p /= f->dcp_name();
 	p /= f->video_mxf_filename();
 	boost::filesystem::remove (p);
-	BOOST_CHECK (f->dcps().empty());
+	BOOST_CHECK (f->cpls().empty());
 }

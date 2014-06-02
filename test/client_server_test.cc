@@ -78,9 +78,11 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		p += sub_image->stride()[0];
 	}
 
+	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test.log"));
+
 	shared_ptr<PlayerVideoFrame> pvf (
 		new PlayerVideoFrame (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
+			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
 			Crop (),
 			dcp::Size (1998, 1080),
 			dcp::Size (1998, 1080),
@@ -92,8 +94,6 @@ BOOST_AUTO_TEST_CASE (client_server_test)
 		);
 
 	pvf->set_subtitle (PositionImage (sub_image, Position<int> (50, 60)));
-
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test.log"));
 
 	shared_ptr<DCPVideoFrame> frame (
 		new DCPVideoFrame (

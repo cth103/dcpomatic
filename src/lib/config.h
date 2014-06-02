@@ -188,6 +188,10 @@ public:
 	int maximum_j2k_bandwidth () const {
 		return _maximum_j2k_bandwidth;
 	}
+
+	int log_types () const {
+		return _log_types;
+	}
 	
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
@@ -339,6 +343,11 @@ public:
 		_maximum_j2k_bandwidth = b;
 		changed ();
 	}
+
+	void set_log_types (int t) {
+		_log_types = t;
+		changed ();
+	}
 	
 	boost::filesystem::path signer_chain_directory () const;
 
@@ -401,6 +410,7 @@ private:
 	bool _check_for_test_updates;
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
+	int _log_types;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

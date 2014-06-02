@@ -41,6 +41,11 @@
 
 #include "i18n.h"
 
+#define LOG_GENERAL(...)    _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) _log->log (__VA_ARGS__, Log::TYPE_GENERAL);
+#define LOG_ERROR(...)      _log->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_ERROR_NC(...)   _log->log (__VA_ARGS__, Log::TYPE_ERROR);
+
 using std::string;
 using std::stringstream;
 using std::multimap;
@@ -82,11 +87,11 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	xml->read_stream (s);
 	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
 		cerr << "Mismatched server/client versions\n";
-		_log->log ("Mismatched server/client versions");
+		LOG_ERROR_NC ("Mismatched server/client versions");
 		return -1;
 	}
 
-	shared_ptr<PlayerVideoFrame> pvf (new PlayerVideoFrame (xml, socket));
+	shared_ptr<PlayerVideoFrame> pvf (new PlayerVideoFrame (xml, socket, _log));
 
 	DCPVideoFrame dcp_video_frame (pvf, xml, _log);
 
@@ -99,7 +104,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	try {
 		encoded->send (socket);
 	} catch (std::exception& e) {
-		_log->log (String::compose ("Send failed; frame %1", dcp_video_frame.index()));
+		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());
 		throw;
 	}
 
@@ -134,7 +139,7 @@ Server::worker_thread ()
 			frame = process (socket, after_read, after_encode);
 			ip = socket->socket().remote_endpoint().address().to_string();
 		} catch (std::exception& e) {
-			_log->log (String::compose ("Error: %1", e.what()));
+			LOG_ERROR ("Error: %1", e.what());
 		}
 
 		gettimeofday (&end, 0);
@@ -159,7 +164,7 @@ Server::worker_thread ()
 				cout << message.str() << "\n";
 			}
 
-			_log->log (message.str ());
+			LOG_GENERAL_NC (message.str ());
 		}
 		
 		_worker_condition.notify_all ();
@@ -169,7 +174,7 @@ Server::worker_thread ()
 void
 Server::run (int num_threads)
 {
-	_log->log (String::compose ("Server starting with %1 threads", num_threads));
+	LOG_GENERAL ("Server starting with %1 threads", num_threads);
 	if (_verbose) {
 		cout << "DCP-o-matic server starting with " << num_threads << " threads.\n";
 	}

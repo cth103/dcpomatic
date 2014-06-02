@@ -45,6 +45,10 @@
 
 #include "i18n.h"
 
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
+#define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
+
 /* OS X strikes again */
 #undef set_key
 
@@ -242,9 +246,9 @@ try
 				break;
 			}
 
-			TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
+			LOG_TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
 			_empty_condition.wait (lock);
-			TIMING (N_("writer wakes with a queue of %1"), _queue.size());
+			LOG_TIMING (N_("writer wakes with a queue of %1"), _queue.size());
 		}
 
 		if (_finish && _queue.empty()) {
@@ -263,7 +267,7 @@ try
 			switch (qi.type) {
 			case QueueItem::FULL:
 			{
-				_film->log()->log (String::compose (N_("Writer FULL-writes %1 to MXF"), qi.frame));
+				LOG_GENERAL (N_("Writer FULL-writes %1 to MXF"), qi.frame);
 				if (!qi.encoded) {
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
@@ -275,7 +279,7 @@ try
 				break;
 			}
 			case QueueItem::FAKE:
-				_film->log()->log (String::compose (N_("Writer FAKE-writes %1 to MXF"), qi.frame));
+				LOG_GENERAL (N_("Writer FAKE-writes %1 to MXF"), qi.frame);
 				_picture_mxf_writer->fake_write (qi.size);
 				_last_written[qi.eyes].reset ();
 				++_fake_written;
@@ -319,11 +323,10 @@ try
 			
 			lock.unlock ();
 
-			_film->log()->log (
-				String::compose (
-					"Writer full (awaiting %1 [last eye was %2]); pushes %3 to disk",
-					_last_written_frame + 1,
-					_last_written_eyes, qi.frame)
+			LOG_GENERAL (
+				"Writer full (awaiting %1 [last eye was %2]); pushes %3 to disk",
+				_last_written_frame + 1,
+				_last_written_eyes, qi.frame
 				);
 			
 			qi.encoded->write (_film, qi.frame, qi.eyes);
@@ -390,7 +393,7 @@ Writer::finish ()
 	if (ec) {
 		/* hard link failed; copy instead */
 		boost::filesystem::copy_file (video_from, video_to);
-		_film->log()->log ("Hard-link failed; fell back to copying");
+		LOG_WARNING_NC ("Hard-link failed; fell back to copying");
 	}
 
 	_picture_mxf->set_file (video_to);
@@ -460,8 +463,8 @@ Writer::finish ()
 
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, _film->is_signed() ? make_signer () : shared_ptr<const dcp::Signer> ());
 
-	_film->log()->log (
-		String::compose (N_("Wrote %1 FULL, %2 FAKE, %3 pushed to disk"), _full_written, _fake_written, _pushed_to_disk)
+	LOG_GENERAL (
+		N_("Wrote %1 FULL, %2 FAKE, %3 pushed to disk"), _full_written, _fake_written, _pushed_to_disk
 		);
 }
 
@@ -471,14 +474,14 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 	/* Read the frame info as written */
 	FILE* ifi = fopen_boost (_film->info_path (f, eyes), "r");
 	if (!ifi) {
-		_film->log()->log (String::compose ("Existing frame %1 has no info file", f));
+		LOG_GENERAL ("Existing frame %1 has no info file", f);
 		return false;
 	}
 	
 	dcp::FrameInfo info (ifi);
 	fclose (ifi);
 	if (info.size == 0) {
-		_film->log()->log (String::compose ("Existing frame %1 has no info file", f));
+		LOG_GENERAL ("Existing frame %1 has no info file", f);
 		return false;
 	}
 	
@@ -487,13 +490,13 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 	EncodedData data (info.size);
 	size_t const read = fread (data.data(), 1, data.size(), mxf);
 	if (read != static_cast<size_t> (data.size ())) {
-		_film->log()->log (String::compose ("Existing frame %1 is incomplete", f));
+		LOG_GENERAL ("Existing frame %1 is incomplete", f);
 		return false;
 	}
 	
 	string const existing_hash = md5_digest (data.data(), data.size());
 	if (existing_hash != info.hash) {
-		_film->log()->log (String::compose ("Existing frame %1 failed hash check", f));
+		LOG_GENERAL ("Existing frame %1 failed hash check", f);
 		return false;
 	}
 
@@ -509,7 +512,7 @@ Writer::check_existing_picture_mxf ()
 	p /= _film->internal_video_mxf_filename ();
 	FILE* mxf = fopen_boost (p, "rb");
 	if (!mxf) {
-		_film->log()->log (String::compose ("Could not open existing MXF at %1 (errno=%2)", p.string(), errno));
+		LOG_GENERAL ("Could not open existing MXF at %1 (errno=%2)", p.string(), errno);
 		return;
 	}
 
@@ -540,7 +543,7 @@ Writer::check_existing_picture_mxf ()
 			}
 		}
 
-		_film->log()->log (String::compose ("Have existing frame %1", _first_nonexistant_frame));
+		LOG_GENERAL ("Have existing frame %1", _first_nonexistant_frame);
 		++_first_nonexistant_frame;
 	}
 

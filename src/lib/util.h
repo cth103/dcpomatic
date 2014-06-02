@@ -41,12 +41,6 @@ extern "C" {
 #include "types.h"
 #include "video_content.h"
 
-#ifdef DCPOMATIC_DEBUG
-#define TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TIMING);
-#else
-#define TIMING(...)
-#endif
-
 #undef check
 
 /** The maximum number of audio channels that we can have in a DCP */

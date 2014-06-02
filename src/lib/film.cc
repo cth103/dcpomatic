@@ -81,6 +81,9 @@ using dcp::Size;
 using dcp::Signer;
 using dcp::raw_convert;
 
+#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
+
 /* 5 -> 6
  * AudioMapping XML changed.
  * 6 -> 7
@@ -256,43 +259,43 @@ Film::make_dcp ()
 	 */
 	write_metadata ();
 
-	log()->log (String::compose ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
+	LOG_GENERAL ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary());
 
 	{
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
-		log()->log (String::compose ("Starting to make DCP on %1", buffer));
+		LOG_GENERAL ("Starting to make DCP on %1", buffer);
 	}
 
 	ContentList cl = content ();
 	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
-		log()->log (String::compose ("Content: %1", (*i)->technical_summary()));
+		LOG_GENERAL ("Content: %1", (*i)->technical_summary());
 	}
-	log()->log (String::compose ("DCP video rate %1 fps", video_frame_rate()));
-	log()->log (String::compose ("%1 threads", Config::instance()->num_local_encoding_threads()));
-	log()->log (String::compose ("J2K bandwidth %1", j2k_bandwidth()));
+	LOG_GENERAL ("DCP video rate %1 fps", video_frame_rate());
+	LOG_GENERAL ("%1 threads", Config::instance()->num_local_encoding_threads());
+	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
 #ifdef DCPOMATIC_DEBUG
-	log()->log ("DCP-o-matic built in debug mode.");
+	LOG_GENERAL_NC ("DCP-o-matic built in debug mode.");
 #else
-	log()->log ("DCP-o-matic built in optimised mode.");
+	LOG_GENERAL_NC ("DCP-o-matic built in optimised mode.");
 #endif
 #ifdef LIBDCP_DEBUG
-	log()->log ("libdcp built in debug mode.");
+	LOG_GENERAL_NC ("libdcp built in debug mode.");
 #else
-	log()->log ("libdcp built in optimised mode.");
+	LOG_GENERAL_NC ("libdcp built in optimised mode.");
 #endif
 
 #ifdef DCPOMATIC_WINDOWS
 	OSVERSIONINFO info;
 	info.dwOSVersionInfoSize = sizeof (info);
 	GetVersionEx (&info);
-	log()->log (String::compose ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion));
+	LOG_GENERAL ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion);
 #endif	
 	
-	log()->log (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ()));
+	LOG_GENERAL ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ());
 	list<pair<string, string> > const m = mount_info ();
 	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
-		log()->log (String::compose ("Mount: %1 %2", i->first, i->second));
+		LOG_GENERAL ("Mount: %1 %2", i->first, i->second);
 	}
 	
 	if (container() == 0) {
@@ -766,11 +769,11 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	return file (p);
 }
 
-/** @return List of subdirectories (not full paths) containing DCPs that can be successfully dcp::DCP::read() */
-list<boost::filesystem::path>
-Film::dcps () const
+/** Find all the DCPs in our directory that can be libdcp::DCP::read() and return details of their CPLs */
+vector<CPLSummary>
+Film::cpls () const
 {
-	list<boost::filesystem::path> out;
+	vector<CPLSummary> out;
 	
 	boost::filesystem::path const dir = directory ();
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
@@ -782,7 +785,14 @@ Film::dcps () const
 			try {
 				dcp::DCP dcp (*i);
 				dcp.read ();
-				out.push_back (i->path().leaf ());
+				out.push_back (
+					CPLSummary (
+						i->path().leaf().string(),
+						dcp.cpls().front()->id(),
+						dcp.cpls().front()->annotation_text(),
+						dcp.cpls().front()->file()
+						)
+					);
 			} catch (...) {
 
 			}
@@ -961,26 +971,15 @@ Film::frame_size () const
 dcp::EncryptedKDM
 Film::make_kdm (
 	shared_ptr<dcp::Certificate> target,
-	boost::filesystem::path dcp_dir,
+	boost::filesystem::path cpl_file,
 	dcp::LocalTime from,
 	dcp::LocalTime until
 	) const
 {
-	shared_ptr<const Signer> signer = make_signer ();
-
-	dcp::DCP dcp (dir (dcp_dir.string ()));
-	
-	try {
-		dcp.read ();
-	} catch (...) {
-		throw KDMError (_("Could not read DCP to make KDM for"));
-	}
-	
-	dcp.cpls().front()->set_mxf_keys (key ());
-	
+	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
 	return dcp::DecryptedKDM (
-		dcp.cpls().front(), from, until, "DCP-o-matic", dcp.cpls().front()->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (signer, target);
+		cpl, from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
+		).encrypt (make_signer(), target);
 }
 
 list<dcp::EncryptedKDM>

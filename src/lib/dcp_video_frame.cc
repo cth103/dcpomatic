@@ -62,6 +62,8 @@
 #include "cross.h"
 #include "player_video_frame.h"
 
+#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+
 #include "i18n.h"
 
 using std::string;
@@ -247,13 +249,13 @@ DCPVideoFrame::encode_locally ()
 
 	switch (_frame->eyes()) {
 	case EYES_BOTH:
-		_log->log (String::compose (N_("Finished locally-encoded frame %1 for mono"), _index));
+		LOG_GENERAL (N_("Finished locally-encoded frame %1 for mono"), _index);
 		break;
 	case EYES_LEFT:
-		_log->log (String::compose (N_("Finished locally-encoded frame %1 for L"), _index));
+		LOG_GENERAL (N_("Finished locally-encoded frame %1 for L"), _index);
 		break;
 	case EYES_RIGHT:
-		_log->log (String::compose (N_("Finished locally-encoded frame %1 for R"), _index));
+		LOG_GENERAL (N_("Finished locally-encoded frame %1 for R"), _index);
 		break;
 	default:
 		break;
@@ -290,7 +292,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
 	add_metadata (root);
 
-	_log->log (String::compose (N_("Sending frame %1 to remote"), _index));
+	LOG_GENERAL (N_("Sending frame %1 to remote"), _index);
 	
 	/* Send XML metadata */
 	stringstream xml;
@@ -307,7 +309,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	shared_ptr<EncodedData> e (new RemotelyEncodedData (socket->read_uint32 ()));
 	socket->read (e->data(), e->size());
 
-	_log->log (String::compose (N_("Finished remotely-encoded frame %1"), _index));
+	LOG_GENERAL (N_("Finished remotely-encoded frame %1"), _index);
 	
 	return e;
 }

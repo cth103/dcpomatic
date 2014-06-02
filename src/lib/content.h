@@ -138,6 +138,10 @@ public:
 		_change_signals_frequent = f;
 	}
 
+	boost::shared_ptr<const Film> film () const {
+		return _film.lock ();
+	}
+
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
 protected:

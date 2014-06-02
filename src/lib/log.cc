@@ -25,24 +25,37 @@
 #include <cstdio>
 #include "log.h"
 #include "cross.h"
+#include "config.h"
 
 #include "i18n.h"
 
 using namespace std;
 
-Log::Log ()
-	: _level (STANDARD)
-{
+int const Log::TYPE_GENERAL = 0x1;
+int const Log::TYPE_WARNING = 0x2;
+int const Log::TYPE_ERROR   = 0x4;
+int const Log::TYPE_TIMING  = 0x8;
 
+Log::Log ()
+	: _types (0)
+{
+	Config::instance()->Changed.connect (boost::bind (&Log::config_changed, this));
+	config_changed ();
+}
+
+void
+Log::config_changed ()
+{
+	set_types (Config::instance()->log_types ());
 }
 
 /** @param n String to log */
 void
-Log::log (string m, Level l)
+Log::log (string message, int type)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (l > _level) {
+	if ((_types & type) == 0) {
 		return;
 	}
 
@@ -51,16 +64,26 @@ Log::log (string m, Level l)
 	string a = ctime (&t);
 
 	stringstream s;
-	s << a.substr (0, a.length() - 1) << N_(": ") << m;
+	s << a.substr (0, a.length() - 1) << N_(": ");
+
+	if (type & TYPE_ERROR) {
+		s << "ERROR: ";
+	}
+
+	if (type & TYPE_WARNING) {
+		s << "WARNING: ";
+	}
+	
+	s << message;
 	do_log (s.str ());
 }
 
 void
-Log::microsecond_log (string m, Level l)
+Log::microsecond_log (string m, int t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (l > _level) {
+	if ((_types & t) == 0) {
 		return;
 	}
 
@@ -73,24 +96,10 @@ Log::microsecond_log (string m, Level l)
 }	
 
 void
-Log::set_level (Level l)
+Log::set_types (int t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	_level = l;
-}
-
-void
-Log::set_level (string l)
-{
-	if (l == N_("verbose")) {
-		set_level (VERBOSE);
-		return;
-	} else if (l == N_("timing")) {
-		set_level (TIMING);
-		return;
-	}
-
-	set_level (STANDARD);
+	_types = t;
 }
 
 /** @param file Filename to write log to */

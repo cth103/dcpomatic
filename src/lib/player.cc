@@ -43,6 +43,8 @@
 #include "content_video.h"
 #include "player_video_frame.h"
 
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+
 using std::list;
 using std::cout;
 using std::min;
@@ -293,7 +295,7 @@ Player::black_player_video_frame () const
 {
 	return shared_ptr<PlayerVideoFrame> (
 		new PlayerVideoFrame (
-			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
+			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image, _film->log ())),
 			Crop (),
 			_video_container_size,
 			_video_container_size,
@@ -496,8 +498,6 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			min (AudioFrame (all->audio->frames()), length_frames) - offset.frames (_film->audio_frame_rate ())
 			);
 	}
-
-	return audio;
 }
 
 VideoFrame
@@ -538,8 +538,8 @@ Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 void
 PlayerStatistics::dump (shared_ptr<Log> log) const
 {
-	log->log (String::compose ("Video: %1 good %2 skipped %3 black %4 repeat", video.good, video.skip, video.black, video.repeat));
-	log->log (String::compose ("Audio: %1 good %2 skipped %3 silence", audio.good, audio.skip, audio.silence.seconds()));
+	log->log (String::compose ("Video: %1 good %2 skipped %3 black %4 repeat", video.good, video.skip, video.black, video.repeat), Log::TYPE_GENERAL);
+	log->log (String::compose ("Audio: %1 good %2 skipped %3 silence", audio.good, audio.skip, audio.silence.seconds()), Log::TYPE_GENERAL);
 }
 
 PlayerStatistics const &

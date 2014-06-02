@@ -44,6 +44,12 @@
 #endif
 #include "exceptions.h"
 
+#include "i18n.h"
+
+#define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_ERROR(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_ERROR_NC(...) log->log (__VA_ARGS__, Log::TYPE_ERROR);
+
 using std::pair;
 using std::list;
 using std::ifstream;
@@ -157,7 +163,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	HANDLE child_stderr_read;
 	HANDLE child_stderr_write;
 	if (!CreatePipe (&child_stderr_read, &child_stderr_write, &security, 0)) {
-		log->log ("ffprobe call failed (could not CreatePipe)");
+		LOG_ERROR_NC ("ffprobe call failed (could not CreatePipe)");
 		return;
 	}
 
@@ -184,13 +190,13 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	PROCESS_INFORMATION process_info;
 	ZeroMemory (&process_info, sizeof (process_info));
 	if (!CreateProcess (0, command, 0, 0, TRUE, CREATE_NO_WINDOW, 0, 0, &startup_info, &process_info)) {
-		log->log ("ffprobe call failed (could not CreateProcess)");
+		LOG_ERROR_NC (N_("ffprobe call failed (could not CreateProcess)"));
 		return;
 	}
 
 	FILE* o = fopen_boost (out, "w");
 	if (!o) {
-		log->log ("ffprobe call failed (could not create output file)");
+		LOG_ERROR_NC (N_("ffprobe call failed (could not create output file)"));
 		return;
 	}
 
@@ -215,7 +221,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 
 #ifdef DCPOMATIC_LINUX 
 	string ffprobe = "ffprobe \"" + content.string() + "\" 2> \"" + out.string() + "\"";
-	log->log (String::compose ("Probing with %1", ffprobe));
+	LOG_GENERAL (N_("Probing with %1"), ffprobe);
         system (ffprobe.c_str ());
 #endif
 
@@ -225,7 +231,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	path /= "ffprobe";
 	
 	string ffprobe = path.string() + " \"" + content.string() + "\" 2> \"" + out.string() + "\"";
-	log->log (String::compose ("Probing with %1", ffprobe));
+	LOG_GENERAL (N_("Probing with %1"), ffprobe);
 	system (ffprobe.c_str ());
 #endif
 }

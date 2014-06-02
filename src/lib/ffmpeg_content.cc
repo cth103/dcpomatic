@@ -36,6 +36,8 @@ extern "C" {
 
 #include "i18n.h"
 
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+
 using std::string;
 using std::stringstream;
 using std::vector;
@@ -173,7 +175,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	film->log()->log (String::compose ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ())));
+	LOG_GENERAL ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ()));
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

@@ -31,7 +31,6 @@
 #include "dcpomatic_time.h"
 
 class Decoded;
-class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.

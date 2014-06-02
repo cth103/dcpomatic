@@ -26,7 +26,7 @@ class Film;
 extern void write_kdm_files (
 	boost::shared_ptr<const Film> film,
 	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
+	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to,
 	boost::filesystem::path directory
@@ -35,7 +35,7 @@ extern void write_kdm_files (
 extern void write_kdm_zip_files (
 	boost::shared_ptr<const Film> film,
 	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
+	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to,
 	boost::filesystem::path directory
@@ -44,7 +44,7 @@ extern void write_kdm_zip_files (
 extern void email_kdms (
 	boost::shared_ptr<const Film> film,
 	std::list<boost::shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
+	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to
 	);
