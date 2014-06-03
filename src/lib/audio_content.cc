@@ -139,7 +139,7 @@ AudioContent::audio_analysis_path () const
 	}
 
 	boost::filesystem::path p = film->audio_analysis_dir ();
-	p /= digest ();
+	p /= digest() + "_" + audio_mapping().digest();
 	return p;
 }
 

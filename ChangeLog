@@ -1,5 +1,7 @@
 2014-06-03  Carl Hetherington  <cth@carlh.net>
 
+	* Re-calculate audio plots when the mapping is changed.
+
 	* Version 1.69.19 released.
 
 2014-06-02  Carl Hetherington  <cth@carlh.net>

@@ -56,6 +56,8 @@ public:
 	int content_channels () const {
 		return _content_channels;
 	}
+
+	std::string digest () const;
 	
 private:
 	void setup (int);

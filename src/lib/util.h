@@ -62,7 +62,6 @@ extern void dcpomatic_setup ();
 extern void dcpomatic_setup_gettext_i18n (std::string);
 extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (std::vector<boost::filesystem::path>, boost::shared_ptr<Job>);
-extern std::string md5_digest (void const *, int);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
 extern bool valid_image_file (boost::filesystem::path);

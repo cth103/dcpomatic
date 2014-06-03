@@ -41,6 +41,7 @@ sources = """
           kdm.cc
           json_server.cc
           log.cc
+          md5_digester.cc
           piece.cc
           player.cc
           player_video_frame.cc

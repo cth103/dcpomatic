@@ -37,6 +37,7 @@
 #include "config.h"
 #include "job.h"
 #include "cross.h"
+#include "md5_digester.h"
 
 #include "i18n.h"
 
@@ -524,9 +525,10 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 		LOG_GENERAL ("Existing frame %1 is incomplete", f);
 		return false;
 	}
-	
-	string const existing_hash = md5_digest (data.data(), data.size());
-	if (existing_hash != info.hash) {
+
+	MD5Digester digester;
+	digester.add (data.data(), data.size());
+	if (digester.get() != info.hash) {
 		LOG_GENERAL ("Existing frame %1 failed hash check", f);
 		return false;
 	}
