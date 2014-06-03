@@ -1,3 +1,7 @@
+2014-06-03  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.19 released.
+
 2014-06-02  Carl Hetherington  <cth@carlh.net>
 
 	* Empirical hack to prevent over-read of array
