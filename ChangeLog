@@ -2,6 +2,9 @@
 
 	* Re-calculate audio plots when the mapping is changed.
 
+	* Change the -3dB preset to -6dB since we are talking about
+	amplitude, not power.
+
 	* Version 1.69.19 released.
 
 2014-06-02  Carl Hetherington  <cth@carlh.net>
