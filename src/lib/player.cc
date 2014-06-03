@@ -149,7 +149,7 @@ Player::pass ()
 				if (re) {
 					shared_ptr<const AudioBuffers> b = re->flush ();
 					if (b->frames ()) {
-						process_audio (earliest, b, ac->audio_length ());
+						process_audio (earliest, b, ac->audio_length (), true);
 					}
 				}
 			}
@@ -269,8 +269,9 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const ImageProxy> 
 	}
 }
 
+/** @param already_resampled true if this data has already been through the chain up to the resampler */
 void
-Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers> audio, AudioContent::Frame frame)
+Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers> audio, AudioContent::Frame frame, bool already_resampled)
 {
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	if (!piece) {
@@ -280,19 +281,21 @@ Player::process_audio (weak_ptr<Piece> weak_piece, shared_ptr<const AudioBuffers
 	shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (piece->content);
 	assert (content);
 
-	/* Gain */
-	if (content->audio_gain() != 0) {
-		shared_ptr<AudioBuffers> gain (new AudioBuffers (audio));
-		gain->apply_gain (content->audio_gain ());
-		audio = gain;
-	}
-
-	/* Resample */
-	if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
-		shared_ptr<Resampler> r = resampler (content, true);
-		pair<shared_ptr<const AudioBuffers>, AudioContent::Frame> ro = r->run (audio, frame);
-		audio = ro.first;
-		frame = ro.second;
+	if (!already_resampled) {
+		/* Gain */
+		if (content->audio_gain() != 0) {
+			shared_ptr<AudioBuffers> gain (new AudioBuffers (audio));
+			gain->apply_gain (content->audio_gain ());
+			audio = gain;
+		}
+		
+		/* Resample */
+		if (content->content_audio_frame_rate() != content->output_audio_frame_rate()) {
+			shared_ptr<Resampler> r = resampler (content, true);
+			pair<shared_ptr<const AudioBuffers>, AudioContent::Frame> ro = r->run (audio, frame);
+			audio = ro.first;
+			frame = ro.second;
+		}
 	}
 	
 	Time const relative_time = _film->audio_frames_to_time (frame);
@@ -427,7 +430,7 @@ Player::setup_pieces ()
 			shared_ptr<FFmpegDecoder> fd (new FFmpegDecoder (_film, fc, _video, _audio));
 			
 			fd->Video.connect (bind (&Player::process_video, this, weak_ptr<Piece> (piece), _1, _2, _3, _4, _5, 0));
-			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
+			fd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2, false));
 			fd->Subtitle.connect (bind (&Player::process_subtitle, this, weak_ptr<Piece> (piece), _1, _2, _3, _4));
 
 			fd->seek (fc->time_to_content_video_frames (fc->trim_start ()), true);
@@ -457,7 +460,7 @@ Player::setup_pieces ()
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
 		if (sc) {
 			shared_ptr<AudioDecoder> sd (new SndfileDecoder (_film, sc));
-			sd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2));
+			sd->Audio.connect (bind (&Player::process_audio, this, weak_ptr<Piece> (piece), _1, _2, false));
 
 			piece->decoder = sd;
 		}
@@ -555,7 +558,7 @@ Player::resampler (shared_ptr<AudioContent> c, bool create)
 	LOG_GENERAL (
 		"Creating new resampler for %1 to %2 with %3 channels", c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()
 		);
-	
+
 	shared_ptr<Resampler> r (new Resampler (c->content_audio_frame_rate(), c->output_audio_frame_rate(), c->audio_channels()));
 	_resamplers[c] = r;
 	return r;

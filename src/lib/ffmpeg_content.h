@@ -147,7 +147,6 @@ public:
 	int audio_channels () const;
 	AudioContent::Frame audio_length () const;
 	int content_audio_frame_rate () const;
-	int output_audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);
 	boost::filesystem::path audio_analysis_path () const;

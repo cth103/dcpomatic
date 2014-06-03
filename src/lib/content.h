@@ -65,6 +65,8 @@ public:
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual Time full_length () const = 0;
 	virtual std::string identifier () const;
+	/** @return the video frame rate that this content has or was prepared to be used with */
+	virtual float video_frame_rate () const = 0;
 
 	boost::shared_ptr<Content> clone () const;
 

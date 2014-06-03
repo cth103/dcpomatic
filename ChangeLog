@@ -1,5 +1,8 @@
 2014-06-03  Carl Hetherington  <cth@carlh.net>
 
+	* Fix bad resampling of separate sound file sources that
+	have specified video frame rates.
+
 	* Version 1.69.20 released.
 
 2014-06-03  Carl Hetherington  <cth@carlh.net>

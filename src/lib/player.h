@@ -87,7 +87,7 @@ private:
 	friend class Piece;
 
 	void process_video (boost::weak_ptr<Piece>, boost::shared_ptr<const ImageProxy>, Eyes, Part, bool, VideoContent::Frame, Time);
-	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame);
+	void process_audio (boost::weak_ptr<Piece>, boost::shared_ptr<const AudioBuffers>, AudioContent::Frame, bool);
 	void process_subtitle (boost::weak_ptr<Piece>, boost::shared_ptr<Image>, dcpomatic::Rect<double>, Time, Time);
 	void setup_pieces ();
 	void playlist_changed ();

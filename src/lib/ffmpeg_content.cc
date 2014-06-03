@@ -309,30 +309,6 @@ FFmpegContent::content_audio_frame_rate () const
 	return _audio_stream->frame_rate;
 }
 
-int
-FFmpegContent::output_audio_frame_rate () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
-
-	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate());
-
-	/* Compensate if the DCP is being run at a different frame rate
-	   to the source; that is, if the video is run such that it will
-	   look different in the DCP compared to the source (slower or faster).
-	   skip/repeat doesn't come into effect here.
-	*/
-
-	if (frc.change_speed) {
-		t *= video_frame_rate() * frc.factor() / film->video_frame_rate();
-	}
-
-	return rint (t);
-}
-
 bool
 operator== (FFmpegStream const & a, FFmpegStream const & b)
 {

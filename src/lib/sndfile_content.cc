@@ -159,15 +159,6 @@ SndfileContent::full_length () const
 	return film->audio_frames_to_time (len);
 }
 
-int
-SndfileContent::output_audio_frame_rate () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	return film->audio_frame_rate ();
-}
-
 void
 SndfileContent::set_audio_mapping (AudioMapping m)
 {
