@@ -106,6 +106,7 @@ AudioDialog::try_to_load_analysis ()
 	}
 
 	if (!boost::filesystem::exists (_content->audio_analysis_path())) {
+		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis_finished_connection = _content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
 		return;
 	}
@@ -115,14 +116,28 @@ AudioDialog::try_to_load_analysis ()
 	a.reset (new AudioAnalysis (_content->audio_analysis_path ()));
 	_plot->set_analysis (a);
 
-	if (_channel_checkbox[0]) {
-		_channel_checkbox[0]->SetValue (true);
+	/* Set up some defaults if no check boxes are checked */
+	
+	int i = 0;
+	while (i < MAX_DCP_AUDIO_CHANNELS && (!_channel_checkbox[i] || !_channel_checkbox[i]->GetValue ())) {
+		++i;
 	}
-	_plot->set_channel_visible (0, true);
 
-	for (int i = 0; i < AudioPoint::COUNT; ++i) {
-		_type_checkbox[i]->SetValue (true);
-		_plot->set_type_visible (i, true);
+	if (i == MAX_DCP_AUDIO_CHANNELS && _channel_checkbox[0]) {
+		_channel_checkbox[0]->SetValue (true);
+		_plot->set_channel_visible (0, true);
+	}
+
+	i = 0;
+	while (i < AudioPoint::COUNT && !_type_checkbox[i]->GetValue ()) {
+		i++;
+	}
+
+	if (i == AudioPoint::COUNT) {
+		for (int i = 0; i < AudioPoint::COUNT; ++i) {
+			_type_checkbox[i]->SetValue (true);
+			_plot->set_type_visible (i, true);
+		}
 	}
 }
 
@@ -158,6 +173,8 @@ AudioDialog::content_changed (int p)
 {
 	if (p == AudioContentProperty::AUDIO_GAIN) {
 		_plot->set_gain (_content->audio_gain ());
+	} else if (p == AudioContentProperty::AUDIO_MAPPING) {
+		try_to_load_analysis ();
 	}
 }
 

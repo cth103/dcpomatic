@@ -40,7 +40,6 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _gain (0)
 	, _smoothing (max_smoothing / 2)
-	, _message (_("Please wait; audio is being analysed..."))
 {
 #ifndef __WXOSX__	
 	SetDoubleBuffered (true);
@@ -67,6 +66,8 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	_colours.push_back (wxColour (255,   0, 139));
 	_colours.push_back (wxColour (139,   0, 255));
 
+	set_analysis (shared_ptr<AudioAnalysis> ());
+
 #if MAX_DCP_AUDIO_CHANNELS != 12
 #warning AudioPlot::AudioPlot is expecting the wrong MAX_DCP_AUDIO_CHANNELS
 #endif	
@@ -81,14 +82,10 @@ AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
 {
 	_analysis = a;
 
-	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
-		_channel_visible[i] = false;
+	if (!a) {
+		_message = _("Please wait; audio is being analysed...");
 	}
 
-	for (int i = 0; i < AudioPoint::COUNT; ++i) {
-		_type_visible[i] = false;
-	}
-	
 	Refresh ();
 }
 
