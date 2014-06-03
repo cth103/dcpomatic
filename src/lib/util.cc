@@ -266,8 +266,9 @@ LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 {
 	dbg::stack s;
 	FILE* f = fopen_boost (backtrace_file, "w");
+	fprintf (f, "Exception thrown:");
 	for (dbg::stack::const_iterator i = s.begin(); i != s.end(); ++i) {
-		fprintf (f, "%p %s %d %s", i->instruction, i->function.c_str(), i->line, i->module.c_str());
+		fprintf (f, "%p %s %d %s\n", i->instruction, i->function.c_str(), i->line, i->module.c_str());
 	}
 	fclose (f);
 	return EXCEPTION_CONTINUE_SEARCH;
