@@ -49,7 +49,7 @@ private:
 
 	void off ();
 	void full ();
-	void minus3dB ();
+	void minus6dB ();
 	void edit ();
 
 	wxGrid* _grid;

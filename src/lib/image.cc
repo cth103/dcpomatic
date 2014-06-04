@@ -22,7 +22,6 @@
  */
 
 #include <iostream>
-#include <openssl/md5.h>
 extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
@@ -33,6 +32,7 @@ extern "C" {
 #include "scaler.h"
 #include "timer.h"
 #include "rect.h"
+#include "md5_digester.h"
 
 #include "i18n.h"
 
@@ -513,8 +513,13 @@ Image::allocate ()
 		   OS X crashes on this illegal read, though other operating systems don't
 		   seem to mind.  The nasty + 1 in this malloc makes sure there is always a byte
 		   for that instruction to read safely.
+
+		   Further to the above, valgrind is now telling me that ff_rgb24ToY_ssse3
+		   over-reads by more then _avx.  I can't follow the code to work out how much,
+		   so I'll just over-allocate by 32 bytes and have done with it.  Empirical
+		   testing suggests that it works.
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * lines (i) + 1);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * lines (i) + 32);
 	}
 }
 
@@ -668,20 +673,11 @@ merge (list<PositionImage> images)
 string
 Image::digest () const
 {
-	MD5_CTX md5_context;
-	MD5_Init (&md5_context);
+	MD5Digester digester;
 
 	for (int i = 0; i < components(); ++i) {
-		MD5_Update (&md5_context, data()[i], line_size()[i]);
-	}
-	
-	unsigned char digest[MD5_DIGEST_LENGTH];
-	MD5_Final (digest, &md5_context);
-	
-	stringstream s;
-	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
+		digester.add (data()[i], line_size()[i]);
 	}
 
-	return s.str ();
+	return digester.get ();
 }

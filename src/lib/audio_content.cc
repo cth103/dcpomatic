@@ -29,6 +29,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using std::vector;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
@@ -139,7 +140,7 @@ AudioContent::audio_analysis_path () const
 	}
 
 	boost::filesystem::path p = film->audio_analysis_dir ();
-	p /= digest ();
+	p /= digest() + "_" + audio_mapping().digest();
 	return p;
 }
 

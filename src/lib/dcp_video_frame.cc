@@ -43,7 +43,6 @@
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
-#include <openssl/md5.h>
 #include <dcp/gamma_lut.h>
 #include <dcp/xyz_frame.h>
 #include <dcp/rgb_xyz.h>
@@ -130,21 +129,6 @@ DCPVideoFrame::encode_locally ()
 		dcp::GammaLUT::cache.get (16, 1 / _frame->colour_conversion().output_gamma, false),
 		matrix
 		);
-
-	{
-		MD5_CTX md5_context;
-		MD5_Init (&md5_context);
-		MD5_Update (&md5_context, xyz->data(0), 1998 * 1080 * 4);
-		MD5_Update (&md5_context, xyz->data(1), 1998 * 1080 * 4);
-		MD5_Update (&md5_context, xyz->data(2), 1998 * 1080 * 4);
-		unsigned char digest[MD5_DIGEST_LENGTH];
-		MD5_Final (digest, &md5_context);
-		
-		stringstream s;
-		for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-			s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
-		}
-	}
 
 	/* Set the max image and component sizes based on frame_rate */
 	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;

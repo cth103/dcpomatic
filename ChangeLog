@@ -2,6 +2,28 @@
 
 	* Add subtitle view.
 
+2014-06-03  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bad resampling of separate sound file sources that
+	have specified video frame rates.
+
+	* Version 1.69.20 released.
+
+2014-06-03  Carl Hetherington  <cth@carlh.net>
+
+	* Re-calculate and update audio plots when the mapping is changed.
+
+	* Change the -3dB preset to -6dB since we are talking about
+	amplitude, not power.
+
+	* Version 1.69.19 released.
+
+2014-06-02  Carl Hetherington  <cth@carlh.net>
+
+	* Empirical hack to prevent over-read of array
+	by libswscale; may fix crashes at the start of
+	DCP encodes.
+
 2014-05-29  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.18 released.

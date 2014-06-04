@@ -191,6 +191,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 	}
 }
 
+/** @param already_resampled true if this data has already been through the chain up to the resampler */
 void
 Player::playlist_changed ()
 {

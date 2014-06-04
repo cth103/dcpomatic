@@ -22,6 +22,7 @@
 #include <dcp/raw_convert.h>
 #include "audio_mapping.h"
 #include "util.h"
+#include "md5_digester.h"
 
 using std::list;
 using std::cout;
@@ -125,4 +126,21 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 			t->add_child_text (raw_convert<string> (get (c, static_cast<dcp::Channel> (d))));
 		}
 	}
+}
+
+/** @return a string which is unique for a given AudioMapping configuration, for
+ *  differentiation between different AudioMappings.
+ */
+string
+AudioMapping::digest () const
+{
+	MD5Digester digester;
+	digester.add (_content_channels);
+	for (int i = 0; i < _content_channels; ++i) {
+		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
+			digester.add (_gain[i][j]);
+		}
+	}
+
+	return digester.get ();
 }

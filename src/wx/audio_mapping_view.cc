@@ -44,7 +44,7 @@ using boost::lexical_cast;
 enum {
 	ID_off = 1,
 	ID_full = 2,
-	ID_minus3dB = 3,
+	ID_minus6dB = 3,
 	ID_edit = 4
 };
 
@@ -138,12 +138,12 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_menu = new wxMenu;
 	_menu->Append (ID_off, _("Off"));
 	_menu->Append (ID_full, _("Full"));
-	_menu->Append (ID_minus3dB, _("-3dB"));
+	_menu->Append (ID_minus6dB, _("-6dB"));
 	_menu->Append (ID_edit, _("Edit..."));
 
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::off, this), ID_off);
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::full, this), ID_full);
-	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::minus3dB, this), ID_minus3dB);
+	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::minus6dB, this), ID_minus6dB);
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::edit, this), ID_edit);
 }
 
@@ -200,9 +200,9 @@ AudioMappingView::full ()
 }
 
 void
-AudioMappingView::minus3dB ()
+AudioMappingView::minus6dB ()
 {
-	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), 1 / sqrt (2));
+	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), pow (10, -6.0 / 20));
 	map_changed ();
 }
 

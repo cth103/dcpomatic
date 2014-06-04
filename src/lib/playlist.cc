@@ -30,6 +30,7 @@
 #include "job.h"
 #include "config.h"
 #include "util.h"
+#include "md5_digester.h"
 
 #include "i18n.h"
 
@@ -113,7 +114,9 @@ Playlist::video_identifier () const
 		}
 	}
 
-	return md5_digest (t.c_str(), t.length());
+	MD5Digester digester;
+	digester.add (t.c_str(), t.length());
+	return digester.get ();
 }
 
 /** @param node <Playlist> node */

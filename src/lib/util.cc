@@ -44,7 +44,6 @@
 #endif
 #include <glib.h>
 #include <openjpeg.h>
-#include <openssl/md5.h>
 #include <pangomm/init.h>
 #include <magick/MagickCore.h>
 #include <magick/version.h>
@@ -72,6 +71,7 @@ extern "C" {
 #include "cross.h"
 #include "video_content.h"
 #include "rect.h"
+#include "md5_digester.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -250,8 +250,9 @@ LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 {
 	dbg::stack s;
 	FILE* f = fopen_boost (backtrace_file, "w");
+	fprintf (f, "Exception thrown:");
 	for (dbg::stack::const_iterator i = s.begin(); i != s.end(); ++i) {
-		fprintf (f, "%p %s %d %s", i->instruction, i->function.c_str(), i->line, i->module.c_str());
+		fprintf (f, "%p %s %d %s\n", i->instruction, i->function.c_str(), i->line, i->module.c_str());
 	}
 	fclose (f);
 	return EXCEPTION_CONTINUE_SEARCH;
@@ -409,23 +410,6 @@ split_at_spaces_considering_quotes (string s)
 	return out;
 }
 
-string
-md5_digest (void const * data, int size)
-{
-	MD5_CTX md5_context;
-	MD5_Init (&md5_context);
-	MD5_Update (&md5_context, data, size);
-	unsigned char digest[MD5_DIGEST_LENGTH];
-	MD5_Final (digest, &md5_context);
-	
-	stringstream s;
-	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
-	}
-
-	return s.str ();
-}
-
 /** @param job Optional job for which to report progress */
 string
 md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
@@ -433,8 +417,7 @@ md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 	boost::uintmax_t const buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 
-	MD5_CTX md5_context;
-	MD5_Init (&md5_context);
+	MD5Digester digester;
 
 	vector<int64_t> sizes;
 	for (size_t i = 0; i < files.size(); ++i) {
@@ -453,7 +436,7 @@ md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 		while (remaining > 0) {
 			int const t = min (remaining, buffer_size);
 			fread (buffer, 1, t, f);
-			MD5_Update (&md5_context, buffer, t);
+			digester.add (buffer, t);
 			remaining -= t;
 
 			if (job) {
@@ -464,15 +447,7 @@ md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 		fclose (f);
 	}
 
-	unsigned char digest[MD5_DIGEST_LENGTH];
-	MD5_Final (digest, &md5_context);
-
-	stringstream s;
-	for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-		s << std::hex << std::setfill('0') << std::setw(2) << ((int) digest[i]);
-	}
-
-	return s.str ();
+	return digester.get ();
 }
 
 /** @param An arbitrary audio frame rate.

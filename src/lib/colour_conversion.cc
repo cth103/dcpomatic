@@ -24,6 +24,7 @@
 #include "config.h"
 #include "colour_conversion.h"
 #include "util.h"
+#include "md5_digester.h"
 
 #include "i18n.h"
 
@@ -121,21 +122,18 @@ ColourConversion::preset () const
 string
 ColourConversion::identifier () const
 {
-	double numbers[12];
-
-	int n = 0;
-	numbers[n++] = input_gamma;
-	numbers[n++] = input_gamma_linearised;
+	MD5Digester digester;
+	
+	digester.add (input_gamma);
+	digester.add (input_gamma_linearised);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			numbers[n++] = matrix (i, j);
+			digester.add (matrix (i, j));
 		}
 	}
-	numbers[n++] = output_gamma;
-
-	assert (n == 12);
-
-	return md5_digest (numbers, 12 * sizeof (double));
+	digester.add (output_gamma);
+	
+	return digester.get ();
 }
 
 PresetColourConversion::PresetColourConversion ()
