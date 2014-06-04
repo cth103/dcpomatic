@@ -27,6 +27,7 @@
 #include <string>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/signals2.hpp>
 
 /** @class Log
  *  @brief A very simple logging class.
@@ -47,16 +48,15 @@ public:
 
 	void set_types (int types);
 
-protected:	
-	/** mutex to protect the log */
-	boost::mutex _mutex;
-	
 private:
 	virtual void do_log (std::string m) = 0;
 	void config_changed ();
 	
+	/** mutex to protect the log */
+	boost::mutex _mutex;
 	/** bit-field of log types which should be put into the log (others are ignored) */
 	int _types;
+	boost::signals2::scoped_connection _config_connection;
 };
 
 class FileLog : public Log

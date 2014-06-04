@@ -39,7 +39,7 @@ int const Log::TYPE_TIMING  = 0x8;
 Log::Log ()
 	: _types (0)
 {
-	Config::instance()->Changed.connect (boost::bind (&Log::config_changed, this));
+	_config_connection = Config::instance()->Changed.connect (boost::bind (&Log::config_changed, this));
 	config_changed ();
 }
 
