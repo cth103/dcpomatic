@@ -36,6 +36,7 @@
 #include "log.h"
 #include "scaler.h"
 #include "player_video_frame.h"
+#include "frame_rate_change.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
@@ -201,7 +202,7 @@ Player::process_video (weak_ptr<Piece> weak_piece, shared_ptr<const ImageProxy> 
 	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
 	assert (content);
 
-	FrameRateConversion frc (content->video_frame_rate(), _film->video_frame_rate());
+	FrameRateChange frc (content->video_frame_rate(), _film->video_frame_rate());
 	if (frc.skip && (frame % 2) == 1) {
 		return;
 	}

@@ -789,44 +789,6 @@ audio_channel_name (int c)
 	return channels[c];
 }
 
-FrameRateConversion::FrameRateConversion (float source, int dcp)
-	: skip (false)
-	, repeat (1)
-	, change_speed (false)
-{
-	if (fabs (source / 2.0 - dcp) < fabs (source - dcp)) {
-		/* The difference between source and DCP frame rate will be lower
-		   (i.e. better) if we skip.
-		*/
-		skip = true;
-	} else if (fabs (source * 2 - dcp) < fabs (source - dcp)) {
-		/* The difference between source and DCP frame rate would be better
-		   if we repeated each frame once; it may be better still if we
-		   repeated more than once.  Work out the required repeat.
-		*/
-		repeat = round (dcp / source);
-	}
-
-	change_speed = !about_equal (source * factor(), dcp);
-
-	if (!skip && repeat == 1 && !change_speed) {
-		description = _("Content and DCP have the same rate.\n");
-	} else {
-		if (skip) {
-			description = _("DCP will use every other frame of the content.\n");
-		} else if (repeat == 2) {
-			description = _("Each content frame will be doubled in the DCP.\n");
-		} else if (repeat > 2) {
-			description = String::compose (_("Each content frame will be repeated %1 more times in the DCP.\n"), repeat - 1);
-		}
-
-		if (change_speed) {
-			float const pc = dcp * 100 / (source * factor());
-			description += String::compose (_("DCP will run at %1%% of the content speed.\n"), pc);
-		}
-	}
-}
-
 bool
 valid_image_file (boost::filesystem::path f)
 {

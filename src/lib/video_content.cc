@@ -30,6 +30,7 @@
 #include "util.h"
 #include "film.h"
 #include "exceptions.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 
@@ -367,7 +368,7 @@ VideoContent::time_to_content_video_frames (Time t) const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate());
+	FrameRateChange frc (video_frame_rate(), film->video_frame_rate());
 
 	/* Here we are converting from time (in the DCP) to a frame number in the content.
 	   Hence we need to use the DCP's frame rate and the double/skip correction, not

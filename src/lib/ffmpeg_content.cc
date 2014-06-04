@@ -31,6 +31,7 @@ extern "C" {
 #include "film.h"
 #include "log.h"
 #include "exceptions.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 
@@ -407,7 +408,7 @@ FFmpegContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	
-	FrameRateConversion frc (video_frame_rate (), film->video_frame_rate ());
+	FrameRateChange frc (video_frame_rate (), film->video_frame_rate ());
 	return video_length_after_3d_combine() * frc.factor() * TIME_HZ / film->video_frame_rate ();
 }
 

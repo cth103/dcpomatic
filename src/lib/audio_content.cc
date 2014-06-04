@@ -25,6 +25,7 @@
 #include "film.h"
 #include "exceptions.h"
 #include "config.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 
@@ -159,7 +160,7 @@ AudioContent::output_audio_frame_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
 
-	FrameRateConversion frc (video_frame_rate(), film->video_frame_rate());
+	FrameRateChange frc (video_frame_rate(), film->video_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -168,7 +169,7 @@ AudioContent::output_audio_frame_rate () const
 	*/
 
 	if (frc.change_speed) {
-		t *= video_frame_rate() * frc.factor() / film->video_frame_rate();
+		t /= frc.speed_up;
 	}
 
 	return rint (t);

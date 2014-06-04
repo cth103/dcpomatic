@@ -24,6 +24,7 @@
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/ratio.h"
+#include "lib/frame_rate_change.h"
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"
@@ -330,7 +331,7 @@ VideoPanel::setup_description ()
 
 	d << wxString::Format (_("Content frame rate %.4f\n"), vcs->video_frame_rate ());
 	++lines;
-	FrameRateConversion frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
+	FrameRateChange frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
 	d << std_to_wx (frc.description) << "\n";
 	++lines;
 

@@ -73,40 +73,6 @@ extern boost::shared_ptr<const libdcp::Signer> make_signer ();
 extern libdcp::Size fit_ratio_within (float ratio, libdcp::Size);
 extern std::string entities_to_text (std::string e);
 extern std::map<std::string, std::string> split_get_request (std::string url);
-
-struct FrameRateConversion
-{
-	FrameRateConversion (float, int);
-
-	/** @return factor by which to multiply a source frame rate
-	    to get the effective rate after any skip or repeat has happened.
-	*/
-	float factor () const {
-		if (skip) {
-			return 0.5;
-		}
-
-		return repeat;
-	}
-
-	/** true to skip every other frame */
-	bool skip;
-	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */
-	int repeat;
-	/** true if this DCP will run its video faster or slower than the source
-	 *  without taking into account `repeat' nor `skip'.
-	 *  (e.g. change_speed will be true if
-	 *	    source is 29.97fps, DCP is 30fps
-	 *	    source is 14.50fps, DCP is 30fps
-	 *  but not if
-	 *	    source is 15.00fps, DCP is 30fps
-	 *	    source is 12.50fps, DCP is 25fps)
-	 */
-	bool change_speed;
-
-	std::string description;
-};
-
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
