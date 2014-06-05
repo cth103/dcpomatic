@@ -92,10 +92,12 @@ while True:
         add_encoder_thread_event(thread, T, 'wake')
     elif message.startswith('encoder thread begins local encode'):
         add_encoder_thread_event(thread, T, 'begin_encode')
-    elif message.startswith('MagickImageProxy begins read and decode'):
+    elif message.startswith('MagickImageProxy begins decode and convert') or message.startswith('MagickImageProxy begins read and decode'):
         add_encoder_thread_event(thread, T, 'magick_begin_decode')
-    elif message.startswith('MagickImageProxy completes read and decode'):
+    elif message.startswith('MagickImageProxy decode finished'):
         add_encoder_thread_event(thread, T, 'magick_end_decode')
+    elif message.startswith('MagickImageProxy completes decode and convert'):
+        add_encoder_thread_event(thread, T, 'magick_end_unpack')
     elif message.startswith('encoder thread finishes local encode'):
         add_encoder_thread_event(thread, T, 'end_encode')
 
@@ -143,7 +145,6 @@ elif args.encoder_threads:
 
         plt.plot(x, y)
         n += 1
-        break
 
     plt.show()
 elif args.plot_first_encoder:
