@@ -29,6 +29,6 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test)
 	ColourConversion A (2.4, true, libdcp::colour_matrix::srgb_to_xyz, 2.6);
 	ColourConversion B (2.4, false, libdcp::colour_matrix::srgb_to_xyz, 2.6);
 
-	BOOST_CHECK_EQUAL (A.identifier(), "246ff9b7dc32c0488948a32a713924b3");
-	BOOST_CHECK_EQUAL (B.identifier(), "a8d1da30f96a121d8db06a03409758b3");
+	BOOST_CHECK_EQUAL (A.identifier(), "1e720d2d99add654d7816f3b72da815e");
+	BOOST_CHECK_EQUAL (B.identifier(), "18751a247b22682b725bf9c4caf71522");
 }
