@@ -212,7 +212,7 @@ Content::technical_summary () const
 Time
 Content::length_after_trim () const
 {
-	return max (0L, full_length() - trim_start() - trim_end());
+	return max (int64_t (0), full_length() - trim_start() - trim_end());
 }
 
 /** @param t A time relative to the start of this content (not the position).
