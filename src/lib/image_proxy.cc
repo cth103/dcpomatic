@@ -134,18 +134,8 @@ MagickImageProxy::image () const
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 
 	using namespace MagickCore;
-	
-	uint8_t* p = _image->data()[0];
-	for (int y = 0; y < size.height; ++y) {
-		uint8_t* q = p;
-		for (int x = 0; x < size.width; ++x) {
-			Magick::Color c = magick_image->pixelColor (x, y);
-			*q++ = c.redQuantum() * 255 / QuantumRange;
-			*q++ = c.greenQuantum() * 255 / QuantumRange;
-			*q++ = c.blueQuantum() * 255 / QuantumRange;
-		}
-		p += _image->stride()[0];
-	}
+
+	magick_image->write (0, 0, size.width, size.height, "RGB", CharPixel, _image->data()[0]);
 
 	delete magick_image;
 

@@ -1,5 +1,7 @@
 2014-06-05  Carl Hetherington  <cth@carlh.net>
 
+	* Large speed-up to multi-image source file decoding.
+
 	* Back-port changes from v2 which work out how separate
 	audio files should be resampled by looking at the video
 	files which are present at the same time.
