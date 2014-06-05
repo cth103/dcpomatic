@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE (play_test)
 		}
 	}
 
-	player->seek (10 * TIME_HZ / 25, true);
+	wrap.seek (10 * TIME_HZ / 25, true);
 	optional<Video> v = wrap.get_video ();
 	BOOST_CHECK (v);
 	BOOST_CHECK_EQUAL (v.get().time, 10 * TIME_HZ / 25);

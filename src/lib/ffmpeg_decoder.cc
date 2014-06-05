@@ -386,6 +386,11 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		
 		av_free_packet (&_packet);
 	}
+
+	/* _video_position should be the next thing to be emitted, which will the one after the thing
+	   we just saw.
+	*/
+	_video_position++;
 }
 
 void
