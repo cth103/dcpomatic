@@ -1,5 +1,9 @@
 2014-06-05  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.22 released.
+
+2014-06-05  Carl Hetherington  <cth@carlh.net>
+
 	* Large speed-up to multi-image source file decoding.
 
 	* Back-port changes from v2 which work out how separate
