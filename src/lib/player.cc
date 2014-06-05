@@ -95,7 +95,7 @@ Player::pass ()
 	} type = VIDEO;
 
 	for (list<shared_ptr<Piece> >::iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-		if ((*i)->decoder->done ()) {
+		if ((*i)->decoder->done () || (*i)->content->length_after_trim() == 0) {
 			continue;
 		}
 

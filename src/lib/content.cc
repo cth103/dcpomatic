@@ -36,6 +36,7 @@ using std::set;
 using std::list;
 using std::cout;
 using std::vector;
+using std::max;
 using boost::shared_ptr;
 using libdcp::raw_convert;
 
@@ -211,7 +212,7 @@ Content::technical_summary () const
 Time
 Content::length_after_trim () const
 {
-	return full_length() - trim_start() - trim_end();
+	return max (0L, full_length() - trim_start() - trim_end());
 }
 
 /** @param t A time relative to the start of this content (not the position).
