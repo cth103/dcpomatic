@@ -1041,3 +1041,10 @@ Film::should_be_enough_disk_space (double& required, double& available) const
 	available = double (s.available) / 1073741824.0f;
 	return (available - required) > 1;
 }
+
+FrameRateChange
+Film::active_frame_rate_change (Time t) const
+{
+	return _playlist->active_frame_rate_change (t, video_frame_rate ());
+}
+

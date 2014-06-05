@@ -34,8 +34,6 @@ using std::cout;
 using boost::shared_ptr;
 using libdcp::raw_convert;
 
-int const SndfileContentProperty::VIDEO_FRAME_RATE = 600;
-
 SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, AudioContent (f, p)
@@ -150,9 +148,10 @@ SndfileContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 
-	float const rate = _video_frame_rate.get_value_or (film->video_frame_rate ());
+	FrameRateChange frc = film->active_frame_rate_change (position ());
+
 	OutputAudioFrame const len = divide_with_round (
-		audio_length() * output_audio_frame_rate() * rate,
+		audio_length() * output_audio_frame_rate() * frc.source,
 		content_audio_frame_rate() * film->video_frame_rate()
 		);
 	
@@ -168,19 +167,4 @@ SndfileContent::set_audio_mapping (AudioMapping m)
 	}
 
 	signal_changed (AudioContentProperty::AUDIO_MAPPING);
-}
-
-float
-SndfileContent::video_frame_rate () const
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_video_frame_rate) {
-			return _video_frame_rate.get ();
-		}
-	}
-
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	return film->video_frame_rate ();
 }

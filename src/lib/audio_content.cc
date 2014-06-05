@@ -160,7 +160,7 @@ AudioContent::output_audio_frame_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_frame_rate (content_audio_frame_rate ());
 
-	FrameRateChange frc (video_frame_rate(), film->video_frame_rate());
+	FrameRateChange frc = film->active_frame_rate_change (position ());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will

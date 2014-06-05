@@ -51,8 +51,10 @@ about_equal (float a, float b)
 }
 
 
-FrameRateChange::FrameRateChange (float source, int dcp)
-	: skip (false)
+FrameRateChange::FrameRateChange (float source_, int dcp_)
+	: source (source_)
+	, dcp (dcp_)
+	, skip (false)
 	, repeat (1)
 	, change_speed (false)
 {

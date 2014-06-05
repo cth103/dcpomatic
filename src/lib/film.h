@@ -36,6 +36,7 @@
 #include "util.h"
 #include "types.h"
 #include "dci_metadata.h"
+#include "frame_rate_change.h"
 
 class DCPContentType;
 class Log;
@@ -119,6 +120,7 @@ public:
 	Time length () const;
 	bool has_subtitles () const;
 	OutputVideoFrame best_video_frame_rate () const;
+	FrameRateChange active_frame_rate_change (Time) const;
 
 	libdcp::KDM
 	make_kdm (

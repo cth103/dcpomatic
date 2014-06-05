@@ -19,7 +19,6 @@
 
 #include "lib/content.h"
 #include "lib/image_content.h"
-#include "lib/sndfile_content.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
@@ -93,8 +92,7 @@ TimingPanel::film_content_changed (int property)
 	} else if (
 		property == ContentProperty::LENGTH ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE ||
-		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
-		property == SndfileContentProperty::VIDEO_FRAME_RATE
+		property == VideoContentProperty::VIDEO_FRAME_TYPE
 		) {
 		if (content) {
 			_full_length->set (content->full_length (), film_video_frame_rate);
@@ -124,11 +122,8 @@ TimingPanel::film_content_changed (int property)
 	if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		if (content) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (content);
-			shared_ptr<SndfileContent> sc = dynamic_pointer_cast<SndfileContent> (content);
 			if (vc) {
 				_video_frame_rate->SetValue (std_to_wx (lexical_cast<string> (vc->video_frame_rate ())));
-			} else if (sc) {
-				_video_frame_rate->SetValue (std_to_wx (lexical_cast<string> (sc->video_frame_rate ())));
 			} else {
 				_video_frame_rate->SetValue ("24");
 			}
@@ -138,10 +133,9 @@ TimingPanel::film_content_changed (int property)
 	}
 
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
-	shared_ptr<SndfileContent> sc = dynamic_pointer_cast<SndfileContent> (content);
 	_full_length->set_editable (ic && ic->still ());
 	_play_length->set_editable (!ic || !ic->still ());
-	_video_frame_rate->Enable ((ic && !ic->still ()) || sc);
+	_video_frame_rate->Enable (ic && !ic->still ());
 	_set_video_frame_rate->Enable (false);
 }
 
@@ -208,10 +202,6 @@ TimingPanel::set_video_frame_rate ()
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
 		if (ic) {
 			ic->set_video_frame_rate (lexical_cast<float> (wx_to_std (_video_frame_rate->GetValue ())));
-		}
-		shared_ptr<SndfileContent> sc = dynamic_pointer_cast<SndfileContent> (c.front ());
-		if (sc) {
-			sc->set_video_frame_rate (lexical_cast<float> (wx_to_std (_video_frame_rate->GetValue ())));
 		}
 		_set_video_frame_rate->Enable (false);
 	}

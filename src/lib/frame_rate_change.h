@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_FRAME_RATE_CHANGE_H
+#define DCPOMATIC_FRAME_RATE_CHANGE_H
+
 #include <string>
 
 struct FrameRateChange
@@ -33,6 +36,9 @@ struct FrameRateChange
 
 		return repeat;
 	}
+
+	float source;
+	int dcp;
 
 	/** true to skip every other frame */
 	bool skip;
@@ -56,3 +62,5 @@ struct FrameRateChange
 
 	std::string description;
 };
+
+#endif
