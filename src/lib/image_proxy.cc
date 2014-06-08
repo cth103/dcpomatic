@@ -133,11 +133,13 @@ MagickImageProxy::image () const
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 
-	using namespace MagickCore;
-
-	magick_image->write (0, 0, size.width, size.height, "RGB", CharPixel, _image->data()[0]);
-
-	delete magick_image;
+	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
+	uint8_t* p = _image->data()[0];
+	for (int i = 0; i < size.height; ++i) {
+		using namespace MagickCore;
+		magick_image->write (0, i, size.width, 1, "RGB", CharPixel, p);
+		p += _image->stride()[0];
+	}
 
 	LOG_TIMING ("[%1] MagickImageProxy completes decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
