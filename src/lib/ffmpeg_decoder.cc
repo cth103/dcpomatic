@@ -422,15 +422,18 @@ FFmpegDecoder::decode_audio_packet ()
 
 				if (pts > 0) {
 					/* Emit some silence */
-					shared_ptr<AudioBuffers> silence (
-						new AudioBuffers (
-							_ffmpeg_content->audio_channels(),
-							pts * _ffmpeg_content->content_audio_frame_rate()
-							)
-						);
+					int64_t frames = pts * _ffmpeg_content->content_audio_frame_rate ();
+					while (frames > 0) {
+						int64_t const this_time = min (frames, (int64_t) _ffmpeg_content->content_audio_frame_rate() / 2);
+						
+						shared_ptr<AudioBuffers> silence (
+							new AudioBuffers (_ffmpeg_content->audio_channels(), this_time)
+							);
 					
-					silence->make_silent ();
-					audio (silence, _audio_position);
+						silence->make_silent ();
+						audio (silence, _audio_position);
+						frames -= this_time;
+					}
 				}
 			}
 			

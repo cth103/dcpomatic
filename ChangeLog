@@ -1,5 +1,7 @@
 2014-06-09  Carl Hetherington  <cth@carlh.net>
 
+	* Work-around out-of-memory crashes with large start trims (#252).
+
 	* Version 1.69.24 released.
 
 2014-06-06  Carl Hetherington  <cth@carlh.net>
