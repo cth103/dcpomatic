@@ -17,15 +17,15 @@ deb_depends = dict()
 
 deb_depends['12.04'] = {'libc6': '2.15',
                         'libssh-4': '0.5.2',
-                        'libboost-filesystem1.46.1': '1.46.1',
-                        'libboost-thread1.46.1': '1.46.1',
+                        'libboost-filesystem1.48.0': '1.48.0-3',
+                        'libboost-thread1.48.0': '1.48.0-3',
                         'libsndfile1': '1.0.25',
                         'libmagick++4': '8:6.6.9.7',
                         'libxml++2.6-2': '2.34.1',
                         'libgtk2.0-0': '2.24.10',
                         'libxmlsec1': '1.2.14-1.2build1',
                         'libxmlsec1-openssl': '1.2.14-1.2build1',
-                        'libboost-date-time1.46.1': '1.46.1',
+                        'libboost-date-time1.48.0': '1.48.0-3',
                         'libcurl3': '7.22.0-3ubuntu4',
                         'libzip2': '0.10-1ubuntu1'}
 
