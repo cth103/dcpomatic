@@ -31,6 +31,7 @@
 
 class wxFilePickerCtrl;
 class wxSpinCtrl;
+class wxSpinCtrlDouble;
 class wxGridBagSizer;
 
 #define DCPOMATIC_SIZER_X_GAP 8
@@ -86,6 +87,7 @@ extern std::string string_client_data (wxClientData* o);
 
 extern void checked_set (wxFilePickerCtrl* widget, std::string value);
 extern void checked_set (wxSpinCtrl* widget, int value);
+extern void checked_set (wxSpinCtrlDouble* widget, double value);
 extern void checked_set (wxChoice* widget, int value);
 extern void checked_set (wxChoice* widget, std::string value);
 extern void checked_set (wxTextCtrl* widget, std::string value);
@@ -95,6 +97,7 @@ extern void checked_set (wxStaticText* widget, std::string value);
 
 extern int wx_get (wxChoice* widget);
 extern int wx_get (wxSpinCtrl* widget);
+extern double wx_get (wxSpinCtrlDouble* widget);
 
 /* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
    This also seems to apply to 2.24.20 in Ubuntu 13.10 and 2.24.23 in Ubuntu 14.04.

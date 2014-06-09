@@ -98,7 +98,7 @@ AudioContent::as_xml (xmlpp::Node* node) const
 
 
 void
-AudioContent::set_audio_gain (float g)
+AudioContent::set_audio_gain (double g)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

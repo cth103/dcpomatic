@@ -62,10 +62,10 @@ public:
 	
 	boost::signals2::connection analyse_audio (boost::function<void()>);
 
-	void set_audio_gain (float);
+	void set_audio_gain (double);
 	void set_audio_delay (int);
 	
-	float audio_gain () const {
+	double audio_gain () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_gain;
 	}
@@ -77,7 +77,7 @@ public:
 
 private:
 	/** Gain to apply to audio in dB */
-	float _audio_gain;
+	double _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _audio_delay;
 };

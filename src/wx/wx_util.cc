@@ -190,6 +190,15 @@ checked_set (wxSpinCtrl* widget, int value)
 }
 
 void
+checked_set (wxSpinCtrlDouble* widget, double value)
+{
+	/* XXX: completely arbitrary epsilon */
+	if (fabs (widget->GetValue() - value) < 1e-16) {
+		widget->SetValue (value);
+	}
+}
+
+void
 checked_set (wxChoice* widget, int value)
 {
 	if (widget->GetSelection() != value) {
@@ -295,6 +304,12 @@ int
 wx_get (wxChoice* w)
 {
 	return w->GetSelection ();
+}
+
+double
+wx_get (wxSpinCtrlDouble* w)
+{
+	return w->GetValue ();
 }
 
 void

@@ -50,9 +50,9 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Audio Gain"), true, wxGBPosition (r, 0));
-	_gain = new ContentSpinCtrl<AudioContent> (
+	_gain = new ContentSpinCtrlDouble<AudioContent> (
 		this,
-		new wxSpinCtrl (this),
+		new wxSpinCtrlDouble (this),
 		AudioContentProperty::AUDIO_GAIN,
 		boost::mem_fn (&AudioContent::audio_gain),
 		boost::mem_fn (&AudioContent::set_audio_gain)
@@ -88,6 +88,8 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
 	_gain->wrapped()->SetRange (-60, 60);
+	_gain->wrapped()->SetDigits (1);
+	_gain->wrapped()->SetIncrement (0.5);
 	_delay->wrapped()->SetRange (-1000, 1000);
 
 	_stream->Bind                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&AudioPanel::stream_changed, this));

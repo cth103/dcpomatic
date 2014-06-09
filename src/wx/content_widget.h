@@ -222,6 +222,30 @@ public:
 	}
 };
 
+template <class S>
+class ContentSpinCtrlDouble : public ContentWidget<S, wxSpinCtrlDouble, double, double>
+{
+public:
+	ContentSpinCtrlDouble (
+		wxWindow* parent,
+		wxSpinCtrlDouble* wrapped,
+		int property,
+		boost::function<double (S*)> getter,
+		boost::function<void (S*, double)> setter
+		)
+		: ContentWidget<S, wxSpinCtrlDouble, double, double> (
+			parent,
+			wrapped,
+			property,
+			getter, setter,
+			&caster<double, double>,
+			&caster<double, double>
+			)
+	{
+		wrapped->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ContentWidget<S, wxSpinCtrlDouble, double, double>::view_changed, this));
+	}
+};
+
 template <class S, class U>
 class ContentChoice : public ContentWidget<S, wxChoice, U, int>
 {
