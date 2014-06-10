@@ -104,6 +104,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	try {
 		encoded->send (socket);
 	} catch (std::exception& e) {
+		cerr << "Send failed; frame " << dcp_video_frame.index() << "\n";
 		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());
 		throw;
 	}
@@ -139,6 +140,7 @@ Server::worker_thread ()
 			frame = process (socket, after_read, after_encode);
 			ip = socket->socket().remote_endpoint().address().to_string();
 		} catch (std::exception& e) {
+			cerr << "Error: " << e.what() << "\n";
 			LOG_ERROR ("Error: %1", e.what());
 		}
 
