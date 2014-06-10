@@ -1,3 +1,7 @@
+2014-06-10  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash when opening the timeline with no content (#369).
+
 2014-06-09  Carl Hetherington  <cth@carlh.net>
 
 	* Fix server/client with non-RGB24 sources.

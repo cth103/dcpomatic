@@ -66,7 +66,7 @@ protected:
 	
 	int time_x (Time t) const
 	{
-		return _timeline.tracks_position().x + t * _timeline.pixels_per_time_unit();
+		return _timeline.tracks_position().x + t * _timeline.pixels_per_time_unit().get_value_or (0);
 	}
 	
 	Timeline& _timeline;
@@ -101,7 +101,7 @@ public:
 		return dcpomatic::Rect<int> (
 			time_x (content->position ()) - 8,
 			y_pos (_track.get()) - 8,
-			content->length_after_trim () * _timeline.pixels_per_time_unit() + 16,
+			content->length_after_trim () * _timeline.pixels_per_time_unit().get_value_or(0) + 16,
 			_timeline.track_height() + 16
 			);
 	}
@@ -172,7 +172,7 @@ private:
 		wxDouble name_leading;
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
-		gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len * _timeline.pixels_per_time_unit(), _timeline.track_height()));
+		gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len * _timeline.pixels_per_time_unit().get_value_or(0), _timeline.track_height()));
 		gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
@@ -269,9 +269,15 @@ private:
 
 	void do_paint (wxGraphicsContext* gc)
 	{
+		if (!_timeline.pixels_per_time_unit()) {
+			return;
+		}
+
+		double const pptu = _timeline.pixels_per_time_unit().get ();
+		
 		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
 		
-		int mark_interval = rint (128 / (TIME_HZ * _timeline.pixels_per_time_unit ()));
+		int mark_interval = rint (128 / (TIME_HZ * pptu));
 		if (mark_interval > 5) {
 			mark_interval -= mark_interval % 5;
 		}
@@ -295,7 +301,7 @@ private:
 		gc->StrokePath (path);
 
 		Time t = 0;
-		while ((t * _timeline.pixels_per_time_unit()) < _timeline.width()) {
+		while ((t * pptu) < _timeline.width()) {
 			wxGraphicsPath path = gc->CreatePath ();
 			path.MoveToPoint (time_x (t), _y - 4);
 			path.AddLineToPoint (time_x (t), _y + 4);
@@ -315,7 +321,7 @@ private:
 			wxDouble str_leading;
 			gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
 			
-			int const tx = _timeline.x_offset() + t * _timeline.pixels_per_time_unit();
+			int const tx = _timeline.x_offset() + t * pptu;
 			if ((tx + str_width) < _timeline.width()) {
 				gc->DrawText (str, time_x (t), _y + 16);
 			}
@@ -335,7 +341,6 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 	, _film (film)
 	, _time_axis_view (new TimeAxisView (*this, 32))
 	, _tracks (0)
-	, _pixels_per_time_unit (0)
 	, _left_down (false)
 	, _down_view_position (0)
 	, _first_move (false)
@@ -575,6 +580,12 @@ Timeline::right_down (wxMouseEvent& ev)
 void
 Timeline::set_position_from_event (wxMouseEvent& ev)
 {
+	if (!_pixels_per_time_unit) {
+		return;
+	}
+
+	double const pptu = _pixels_per_time_unit.get ();
+
 	wxPoint const p = ev.GetPosition();
 
 	if (!_first_move) {
@@ -592,7 +603,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		return;
 	}
 	
-	Time new_position = _down_view_position + (p.x - _down_point.x) / _pixels_per_time_unit;
+	Time new_position = _down_view_position + (p.x - _down_point.x) / pptu;
 	
 	if (_snap) {
 		
@@ -630,7 +641,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		
 		if (!first) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
-			if (nearest_distance < (width() / pixels_per_time_unit()) / 32) {
+			if (nearest_distance < (width() / pptu) / 32) {
 				new_position = nearest_new_position;
 			}
 		}
