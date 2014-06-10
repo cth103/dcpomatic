@@ -863,7 +863,7 @@ FilmEditor::setup_content_sensitivity ()
 	_content_remove->Enable   (selection.size() == 1 && _generally_sensitive);
 	_content_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
 	_content_later->Enable    (selection.size() == 1 && _generally_sensitive);
-	_content_timeline->Enable (_generally_sensitive);
+	_content_timeline->Enable (!_film->content().empty() && _generally_sensitive);
 
 	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
 	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
