@@ -29,7 +29,7 @@
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
 #include <libdcp/metadata.h>
-#include "dci_metadata.h"
+#include "isdcf_metadata.h"
 #include "colour_conversion.h"
 #include "server.h"
 
@@ -121,8 +121,8 @@ public:
 		return _allow_any_dcp_frame_rate;
 	}
 	
-	DCIMetadata default_dci_metadata () const {
-		return _default_dci_metadata;
+	ISDCFMetadata default_isdcf_metadata () const {
+		return _default_isdcf_metadata;
 	}
 
 	boost::optional<std::string> language () const {
@@ -254,8 +254,8 @@ public:
 		changed ();
 	}
 
-	void set_default_dci_metadata (DCIMetadata d) {
-		_default_dci_metadata = d;
+	void set_default_isdcf_metadata (ISDCFMetadata d) {
+		_default_isdcf_metadata = d;
 		changed ();
 	}
 
@@ -389,8 +389,8 @@ private:
 	std::list<int> _allowed_dcp_frame_rates;
 	/** Allow any video frame rate for the DCP; if true, overrides _allowed_dcp_frame_rates */
 	bool _allow_any_dcp_frame_rate;
-	/** Default DCI metadata for newly-created Films */
-	DCIMetadata _default_dci_metadata;
+	/** Default ISDCF metadata for newly-created Films */
+	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;
 	int _default_still_length;
 	Ratio const * _default_container;

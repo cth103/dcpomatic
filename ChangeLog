@@ -1,5 +1,8 @@
 2014-06-10  Carl Hetherington  <cth@carlh.net>
 
+	* Rename DCI to ISDCF when talking about the digital cinema
+	naming convention (#362).
+
 	* Fix crash when opening the timeline with no content (#369).
 
 2014-06-09  Carl Hetherington  <cth@carlh.net>

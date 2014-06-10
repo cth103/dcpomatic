@@ -74,7 +74,7 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	string name;
-	DCPContentType const * dcp_content_type = DCPContentType::from_dci_name ("TST");
+	DCPContentType const * dcp_content_type = DCPContentType::from_isdcf_name ("TST");
 	Ratio const * container_ratio = 0;
 	Ratio const * content_ratio = 0;
 	int still_length = 10;
@@ -110,7 +110,7 @@ main (int argc, char* argv[])
 			name = optarg;
 			break;
 		case 'c':
-			dcp_content_type = DCPContentType::from_dci_name (optarg);
+			dcp_content_type = DCPContentType::from_isdcf_name (optarg);
 			if (dcp_content_type == 0) {
 				cerr << "Bad DCP content type.\n";
 				help (argv[0]);

@@ -37,7 +37,7 @@ static void test_silence_padding (int channels)
 {
 	string const film_name = "silence_padding_test_" + lexical_cast<string> (channels);
 	shared_ptr<Film> film = new_test_film (film_name);
-	film->set_dcp_content_type (DCPContentType::from_dci_name ("FTR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 

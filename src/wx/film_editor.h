@@ -75,8 +75,8 @@ private:
 	
 	/* Handle changes to the view */
 	void name_changed ();
-	void use_dci_name_toggled ();
-	void edit_dci_button_clicked ();
+	void use_isdcf_name_toggled ();
+	void edit_isdcf_button_clicked ();
 	void content_selection_changed ();
 	void content_add_file_clicked ();
 	void content_add_folder_clicked ();
@@ -131,7 +131,7 @@ private:
 	boost::shared_ptr<Film> _film;
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
-	wxCheckBox* _use_dci_name;
+	wxCheckBox* _use_isdcf_name;
 	wxChoice* _container;
 	wxListCtrl* _content;
 	wxButton* _content_add_file;
@@ -141,7 +141,7 @@ private:
 	wxButton* _content_later;
 	wxButton* _content_timeline;
 	wxCheckBox* _sequence_video;
-	wxButton* _edit_dci_button;
+	wxButton* _edit_isdcf_button;
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;

@@ -19,18 +19,18 @@
 
 #include <wx/textctrl.h>
 #include <boost/shared_ptr.hpp>
-#include "lib/dci_metadata.h"
+#include "lib/isdcf_metadata.h"
 #include "table_dialog.h"
 
 class wxSpinCtrl;
 class Film;
 
-class DCIMetadataDialog : public TableDialog
+class ISDCFMetadataDialog : public TableDialog
 {
 public:
-	DCIMetadataDialog (wxWindow *, DCIMetadata);
+	ISDCFMetadataDialog (wxWindow *, ISDCFMetadata);
 
-	DCIMetadata dci_metadata () const;
+	ISDCFMetadata isdcf_metadata () const;
 
 private:
 	wxSpinCtrl* _content_version;

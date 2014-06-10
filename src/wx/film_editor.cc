@@ -48,7 +48,7 @@
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
-#include "dci_metadata_dialog.h"
+#include "isdcf_metadata_dialog.h"
 #include "timeline_dialog.h"
 #include "timing_panel.h"
 #include "subtitle_panel.h"
@@ -125,10 +125,10 @@ FilmEditor::make_dcp_panel ()
 	flags |= wxALIGN_RIGHT;
 #endif	
 
-	_use_dci_name = new wxCheckBox (_dcp_panel, wxID_ANY, _("Use DCI name"));
-	grid->Add (_use_dci_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
-	_edit_dci_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
-	grid->Add (_edit_dci_button, wxGBPosition (r, 1), wxDefaultSpan);
+	_use_isdcf_name = new wxCheckBox (_dcp_panel, wxID_ANY, _("Use ISDCF name"));
+	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
+	_edit_isdcf_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
+	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1), wxDefaultSpan);
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Container"), true, wxGBPosition (r, 0));
@@ -232,8 +232,8 @@ void
 FilmEditor::connect_to_widgets ()
 {
 	_name->Bind		(wxEVT_COMMAND_TEXT_UPDATED, 	      boost::bind (&FilmEditor::name_changed, this));
-	_use_dci_name->Bind	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::use_dci_name_toggled, this));
-	_edit_dci_button->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::edit_dci_button_clicked, this));
+	_use_isdcf_name->Bind	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::use_isdcf_name_toggled, this));
+	_edit_isdcf_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::edit_isdcf_button_clicked, this));
 	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::container_changed, this));
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_SELECTED,    boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_DESELECTED,  boost::bind (&FilmEditor::content_selection_changed, this));
@@ -468,11 +468,11 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::J2K_BANDWIDTH:
 		checked_set (_j2k_bandwidth, _film->j2k_bandwidth() / 1000000);
 		break;
-	case Film::USE_DCI_NAME:
-		checked_set (_use_dci_name, _film->use_dci_name ());
+	case Film::USE_ISDCF_NAME:
+		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
 		setup_dcp_name ();
 		break;
-	case Film::DCI_METADATA:
+	case Film::ISDCF_METADATA:
 		setup_dcp_name ();
 		break;
 	case Film::VIDEO_FRAME_RATE:
@@ -609,7 +609,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	}
 
 	film_changed (Film::NAME);
-	film_changed (Film::USE_DCI_NAME);
+	film_changed (Film::USE_ISDCF_NAME);
 	film_changed (Film::CONTENT);
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::CONTAINER);
@@ -619,7 +619,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::SIGNED);
 	film_changed (Film::ENCRYPTED);
 	film_changed (Film::J2K_BANDWIDTH);
-	film_changed (Film::DCI_METADATA);
+	film_changed (Film::ISDCF_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
 	film_changed (Film::AUDIO_CHANNELS);
 	film_changed (Film::SEQUENCE_VIDEO);
@@ -640,8 +640,8 @@ FilmEditor::set_general_sensitivity (bool s)
 
 	/* Stuff in the Content / DCP tabs */
 	_name->Enable (s);
-	_use_dci_name->Enable (s);
-	_edit_dci_button->Enable (s);
+	_use_isdcf_name->Enable (s);
+	_edit_isdcf_button->Enable (s);
 	_content->Enable (s);
 	_content_add_file->Enable (s);
 	_content_add_folder->Enable (s);
@@ -691,25 +691,25 @@ FilmEditor::scaler_changed ()
 }
 
 void
-FilmEditor::use_dci_name_toggled ()
+FilmEditor::use_isdcf_name_toggled ()
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_use_dci_name (_use_dci_name->GetValue ());
+	_film->set_use_isdcf_name (_use_isdcf_name->GetValue ());
 }
 
 void
-FilmEditor::edit_dci_button_clicked ()
+FilmEditor::edit_isdcf_button_clicked ()
 {
 	if (!_film) {
 		return;
 	}
 
-	DCIMetadataDialog* d = new DCIMetadataDialog (this, _film->dci_metadata ());
+	ISDCFMetadataDialog* d = new ISDCFMetadataDialog (this, _film->isdcf_metadata ());
 	d->ShowModal ();
-	_film->set_dci_metadata (d->dci_metadata ());
+	_film->set_isdcf_metadata (d->isdcf_metadata ());
 	d->Destroy ();
 }
 

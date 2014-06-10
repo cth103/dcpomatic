@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DCPOMATIC_DCI_METADATA_H
-#define DCPOMATIC_DCI_METADATA_H
+#ifndef DCPOMATIC_ISDCF_METADATA_H
+#define DCPOMATIC_ISDCF_METADATA_H
 
 #include <string>
 #include <libxml++/libxml++.h>
@@ -27,14 +27,14 @@ namespace cxml {
 	class Node;
 }
 
-class DCIMetadata
+class ISDCFMetadata
 {
 public:
-	DCIMetadata ()
+	ISDCFMetadata ()
 		: content_version (1)
 	{}
 	
-	DCIMetadata (boost::shared_ptr<const cxml::Node>);
+	ISDCFMetadata (boost::shared_ptr<const cxml::Node>);
 
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);

@@ -21,13 +21,13 @@
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
 #include "lib/film.h"
-#include "dci_metadata_dialog.h"
+#include "isdcf_metadata_dialog.h"
 #include "wx_util.h"
 
 using boost::shared_ptr;
 
-DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
-	: TableDialog (parent, _("DCI name"), 2, true)
+ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
+	: TableDialog (parent, _("ISDCF name"), 2, true)
 {
 	add (_("Content version"), true);
 	_content_version = add (new wxSpinCtrl (this, wxID_ANY));
@@ -67,10 +67,10 @@ DCIMetadataDialog::DCIMetadataDialog (wxWindow* parent, DCIMetadata dm)
 	layout ();
 }
 
-DCIMetadata
-DCIMetadataDialog::dci_metadata () const
+ISDCFMetadata
+ISDCFMetadataDialog::isdcf_metadata () const
 {
-	DCIMetadata dm;
+	ISDCFMetadata dm;
 
 	dm.content_version = _content_version->GetValue ();
 	dm.audio_language = wx_to_std (_audio_language->GetValue ());

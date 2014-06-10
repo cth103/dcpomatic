@@ -33,7 +33,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (black_fill_test)
 {
 	shared_ptr<Film> film = new_test_film ("black_fill_test");
-	film->set_dcp_content_type (DCPContentType::from_dci_name ("FTR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_name ("black_fill_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence_video (false);

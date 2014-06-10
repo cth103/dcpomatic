@@ -38,7 +38,7 @@ void test_audio_delay (int delay_in_ms)
 {
 	string const film_name = "audio_delay_test_" + lexical_cast<string> (delay_in_ms);
 	shared_ptr<Film> film = new_test_film (film_name);
-	film->set_dcp_content_type (DCPContentType::from_dci_name ("FTR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 

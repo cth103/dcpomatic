@@ -20,7 +20,7 @@
 #include <iostream>
 #include <libcxml/cxml.h>
 #include <libdcp/raw_convert.h>
-#include "dci_metadata.h"
+#include "isdcf_metadata.h"
 
 #include "i18n.h"
 
@@ -28,7 +28,7 @@ using std::string;
 using boost::shared_ptr;
 using libdcp::raw_convert;
 
-DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
+ISDCFMetadata::ISDCFMetadata (shared_ptr<const cxml::Node> node)
 {
 	content_version = node->number_child<int> ("ContentVersion");
 	audio_language = node->string_child ("AudioLanguage");
@@ -41,7 +41,7 @@ DCIMetadata::DCIMetadata (shared_ptr<const cxml::Node> node)
 }
 
 void
-DCIMetadata::as_xml (xmlpp::Node* root) const
+ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("ContentVersion")->add_child_text (raw_convert<string> (content_version));
 	root->add_child("AudioLanguage")->add_child_text (audio_language);
@@ -54,7 +54,7 @@ DCIMetadata::as_xml (xmlpp::Node* root) const
 }
 
 void
-DCIMetadata::read_old_metadata (string k, string v)
+ISDCFMetadata::read_old_metadata (string k, string v)
 {
 	if (k == N_("audio_language")) {
 		audio_language = v;

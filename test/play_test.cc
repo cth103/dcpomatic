@@ -82,7 +82,7 @@ private:
 BOOST_AUTO_TEST_CASE (play_test)
 {
 	shared_ptr<Film> film = new_test_film ("play_test");
-	film->set_dcp_content_type (DCPContentType::from_dci_name ("FTR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("play_test");
 
