@@ -1,4 +1,4 @@
-dcpomatic (1.69.24-1) UNRELEASED; urgency=low
+dcpomatic (1.69.25-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * New upstream release.
@@ -148,8 +148,9 @@ dcpomatic (1.69.24-1) UNRELEASED; urgency=low
   * New upstream release.
   * New upstream release.
   * New upstream release.
+  * New upstream release.
 
- -- Carl Hetherington <carl@d1stkfactory>  Mon, 09 Jun 2014 00:43:08 +0100
+ -- Carl Hetherington <carl@d1stkfactory>  Mon, 09 Jun 2014 23:59:02 +0100
 
 dcpomatic (0.87-1) UNRELEASED; urgency=low
 

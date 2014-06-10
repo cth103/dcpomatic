@@ -2,6 +2,10 @@
 
 	* Fix server/client with non-RGB24 sources.
 
+	* Version 1.69.25 released.
+
+2014-06-09  Carl Hetherington  <cth@carlh.net>
+
 	* Make audio gain a floating-point value in the UI (#367).
 
 	* Work-around out-of-memory crashes with large start trims (#252).
