@@ -41,4 +41,10 @@ private:
 	wxTextCtrl* _studio;
 	wxTextCtrl* _facility;
 	wxTextCtrl* _package_type;
+	wxCheckBox* _temp_version;
+	wxCheckBox* _pre_release;
+	wxCheckBox* _red_band;
+	wxTextCtrl* _chain;
+	wxCheckBox* _two_d_version_of_three_d;
+	wxTextCtrl* _mastered_luminance;
 };

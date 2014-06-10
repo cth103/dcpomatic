@@ -46,6 +46,7 @@ class Playlist;
 class AudioContent;
 class Scaler;
 class Screen;
+class isdcf_name_test;
 
 /** @class Film
  *
@@ -281,6 +282,8 @@ public:
 	static int const current_state_version;
 
 private:
+
+	friend class ::isdcf_name_test;
 
 	void signal_changed (Property);
 	std::string video_identifier () const;

@@ -53,6 +53,24 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 	add (_("Package Type (e.g. OV)"), true);
 	_package_type = add (new wxTextCtrl (this, wxID_ANY));
 
+	_temp_version = add (new wxCheckBox (this, wxID_ANY, _("Temp version")));
+	add_spacer ();
+
+	_pre_release = add (new wxCheckBox (this, wxID_ANY, _("Pre-release")));
+	add_spacer ();
+
+	_red_band = add (new wxCheckBox (this, wxID_ANY, _("Red band")));
+	add_spacer ();
+
+	add (_("Chain"), true);
+	_chain = add (new wxTextCtrl (this, wxID_ANY));
+
+	_two_d_version_of_three_d = add (new wxCheckBox (this, wxID_ANY, _("2D version of content available in 3D")));
+	add_spacer ();
+
+	add (_("Mastered luminance (e.g. 4fl)"), true);
+	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
+	
 	_content_version->SetRange (1, 1024);
 
 	_content_version->SetValue (dm.content_version);
@@ -63,6 +81,12 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 	_studio->SetValue (std_to_wx (dm.studio));
 	_facility->SetValue (std_to_wx (dm.facility));
 	_package_type->SetValue (std_to_wx (dm.package_type));
+	_temp_version->SetValue (dm.temp_version);
+	_pre_release->SetValue (dm.pre_release);
+	_red_band->SetValue (dm.red_band);
+	_chain->SetValue (std_to_wx (dm.chain));
+	_two_d_version_of_three_d->SetValue (dm.two_d_version_of_three_d);
+	_mastered_luminance->SetValue (std_to_wx (dm.mastered_luminance));
 
 	layout ();
 }
@@ -80,6 +104,12 @@ ISDCFMetadataDialog::isdcf_metadata () const
 	dm.studio = wx_to_std (_studio->GetValue ());
 	dm.facility = wx_to_std (_facility->GetValue ());
 	dm.package_type = wx_to_std (_package_type->GetValue ());
+	dm.temp_version = _temp_version->GetValue ();
+	dm.pre_release = _pre_release->GetValue ();
+	dm.red_band = _red_band->GetValue ();
+	dm.chain = wx_to_std (_chain->GetValue ());
+	dm.two_d_version_of_three_d = _two_d_version_of_three_d->GetValue ();
+	dm.mastered_luminance = wx_to_std (_mastered_luminance->GetValue ());
 
 	return dm;
 }

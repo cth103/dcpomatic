@@ -31,6 +31,7 @@ def build(bld):
                  film_metadata_test.cc
                  frame_rate_test.cc
                  image_test.cc
+                 isdcf_name_test.cc
                  job_test.cc
                  make_black_test.cc
                  pixel_formats_test.cc

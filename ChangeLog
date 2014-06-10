@@ -1,5 +1,7 @@
 2014-06-10  Carl Hetherington  <cth@carlh.net>
 
+	* Support ISDCF naming convention version 9 (#257).
+
 	* Rename DCI to ISDCF when talking about the digital cinema
 	naming convention (#362).
 

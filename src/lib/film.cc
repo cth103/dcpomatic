@@ -490,14 +490,20 @@ Film::isdcf_name (bool if_created_now) const
 {
 	stringstream d;
 
-	string fixed_name = to_upper_copy (name());
-	for (size_t i = 0; i < fixed_name.length(); ++i) {
-		if (fixed_name[i] == ' ') {
-			fixed_name[i] = '-';
+	string raw_name = name ();
+	string fixed_name;
+	bool cap_next = true;
+	for (size_t i = 0; i < raw_name.length(); ++i) {
+		if (raw_name[i] == ' ') {
+			cap_next = true;
+		} else if (cap_next) {
+			fixed_name += toupper (raw_name[i]);
+			cap_next = false;
+		} else {
+			fixed_name += tolower (raw_name[i]);
 		}
 	}
 
-	/* Spec is that the name part should be maximum 14 characters, as I understand it */
 	if (fixed_name.length() > 14) {
 		fixed_name = fixed_name.substr (0, 14);
 	}
@@ -509,19 +515,60 @@ Film::isdcf_name (bool if_created_now) const
 		d << "-" << isdcf_metadata().content_version;
 	}
 
+	ISDCFMetadata const dm = isdcf_metadata ();
+
+	if (dm.temp_version) {
+		d << "-Temp";
+	}
+	
+	if (dm.pre_release) {
+		d << "-Pre";
+	}
+	
+	if (dm.red_band) {
+		d << "-RedBand";
+	}
+	
+	if (!dm.chain.empty ()) {
+		d << "-" << dm.chain;
+	}
+
 	if (three_d ()) {
 		d << "-3D";
+	}
+
+	if (dm.two_d_version_of_three_d) {
+		d << "-2D";
+	}
+
+	if (!dm.mastered_luminance.empty ()) {
+		d << "-" << dm.mastered_luminance;
 	}
 
 	if (video_frame_rate() != 24) {
 		d << "-" << video_frame_rate();
 	}
-
+	
 	if (container()) {
 		d << "_" << container()->isdcf_name();
 	}
 
-	ISDCFMetadata const dm = isdcf_metadata ();
+	/* XXX: this only works for content which has been scaled to a given ratio,
+	   and uses the first bit of content only.
+	*/
+
+	ContentList cl = content ();
+	Ratio const * content_ratio = 0;
+	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+		if (vc && (content_ratio == 0 || vc->scale().ratio() != content_ratio)) {
+			content_ratio = vc->scale().ratio();
+		}
+	}
+
+	if (content_ratio && content_ratio != container()) {
+		d << "-" << content_ratio->isdcf_name();
+	}
 
 	if (!dm.audio_language.empty ()) {
 		d << "_" << dm.audio_language;
@@ -560,8 +607,10 @@ Film::isdcf_name (bool if_created_now) const
 		break;
 	}
 
-	d << "_" << resolution_to_string (_resolution);
+	/* XXX: HI/VI */
 
+	d << "_" << resolution_to_string (_resolution);
+	
 	if (!dm.studio.empty ()) {
 		d << "_" << dm.studio;
 	}
@@ -574,6 +623,16 @@ Film::isdcf_name (bool if_created_now) const
 
 	if (!dm.facility.empty ()) {
 		d << "_" << dm.facility;
+	}
+
+	if (_interop) {
+		d << "_IOP";
+	} else {
+		d << "_SMPTE";
+	}
+	
+	if (three_d ()) {
+		d << "-3D";
 	}
 
 	if (!dm.package_type.empty ()) {
