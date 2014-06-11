@@ -557,17 +557,20 @@ Film::isdcf_name (bool if_created_now) const
 	   and uses the first bit of content only.
 	*/
 
-	ContentList cl = content ();
-	Ratio const * content_ratio = 0;
-	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
-		if (vc && (content_ratio == 0 || vc->scale().ratio() != content_ratio)) {
-			content_ratio = vc->scale().ratio();
+	/* The standard says we don't do this for trailers, for some strange reason */
+	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != libdcp::TRAILER) {
+		ContentList cl = content ();
+		Ratio const * content_ratio = 0;
+		for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+			if (vc && (content_ratio == 0 || vc->scale().ratio() != content_ratio)) {
+				content_ratio = vc->scale().ratio();
+			}
 		}
-	}
-
-	if (content_ratio && content_ratio != container()) {
-		d << "-" << content_ratio->isdcf_name();
+		
+		if (content_ratio && content_ratio != container()) {
+			d << "-" << content_ratio->isdcf_name();
+		}
 	}
 
 	if (!dm.audio_language.empty ()) {
