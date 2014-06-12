@@ -171,6 +171,9 @@ public:
 
 	VideoContent::Frame time_to_content_video_frames (Time) const;
 
+	void scale_and_crop_to_fit_width ();
+	void scale_and_crop_to_fit_height ();
+
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
