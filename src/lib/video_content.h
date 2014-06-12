@@ -171,6 +171,9 @@ public:
 
 	ContentTime dcp_time_to_content_time (DCPTime) const;
 
+	void scale_and_crop_to_fit_width ();
+	void scale_and_crop_to_fit_height ();
+
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 

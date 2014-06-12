@@ -72,15 +72,11 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-static FilmEditor* film_editor = 0;
-static FilmViewer* film_viewer = 0;
 static shared_ptr<Film> film;
 static std::string film_to_load;
 static std::string film_to_create;
 static std::string content_to_add;
 static wxMenu* jobs_menu = 0;
-
-static void set_menu_sensitivity ();
 
 // #define DCPOMATIC_WINDOWS_CONSOLE 1
 
@@ -159,10 +155,11 @@ load_film (boost::filesystem::path file)
 	}
 }
 
-#define ALWAYS                  0x0
-#define NEEDS_FILM              0x1
-#define NOT_DURING_DCP_CREATION 0x2
-#define NEEDS_CPL               0x4
+#define ALWAYS                       0x0
+#define NEEDS_FILM                   0x1
+#define NOT_DURING_DCP_CREATION      0x2
+#define NEEDS_CPL                    0x4
+#define NEEDS_SELECTED_VIDEO_CONTENT 0x8
 
 map<wxMenuItem*, int> menu_items;
 	
@@ -173,42 +170,13 @@ add_item (wxMenu* menu, wxString text, int id, int sens)
 	menu_items.insert (make_pair (item, sens));
 }
 
-static void
-set_menu_sensitivity ()
-{
-	list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-	list<shared_ptr<Job> >::iterator i = jobs.begin();
-	while (i != jobs.end() && dynamic_pointer_cast<TranscodeJob> (*i) == 0) {
-		++i;
-	}
-	bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
-	bool const have_cpl = film && !film->cpls().empty ();
-
-	for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
-
-		bool enabled = true;
-
-		if ((j->second & NEEDS_FILM) && film == 0) {
-			enabled = false;
-		}
-
-		if ((j->second & NOT_DURING_DCP_CREATION) && dcp_creation) {
-			enabled = false;
-		}
-
-		if ((j->second & NEEDS_CPL) && !have_cpl) {
-			enabled = false;
-		}
-		
-		j->first->Enable (enabled);
-	}
-}
-
 enum {
 	ID_file_new = 1,
 	ID_file_open,
 	ID_file_save,
 	ID_file_properties,
+	ID_content_scale_to_fit_width,
+	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_kdms,
 	ID_jobs_send_dcp_to_tms,
@@ -244,7 +212,11 @@ setup_menu (wxMenuBar* m)
 #else
 	wxMenu* edit = new wxMenu;
 	add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
-#endif	
+#endif
+
+	wxMenu* content = new wxMenu;
+	add_item (content, _("Scale to fit &width"), ID_content_scale_to_fit_width, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
+	add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
 
 	jobs_menu = new wxMenu;
 	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
@@ -267,7 +239,8 @@ setup_menu (wxMenuBar* m)
 	m->Append (file, _("&File"));
 #ifndef __WXOSX__	
 	m->Append (edit, _("&Edit"));
-#endif	
+#endif
+	m->Append (content, _("&Content"));
 	m->Append (jobs_menu, _("&Jobs"));
 	m->Append (tools, _("&Tools"));
 	m->Append (help, _("&Help"));
@@ -308,6 +281,8 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),         ID_file_properties);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),           ID_jobs_make_dcp);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),          ID_jobs_make_kdms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
@@ -324,28 +299,28 @@ public:
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
-		film_editor = new FilmEditor (film, overall_panel);
-		film_viewer = new FilmViewer (film, overall_panel);
+		_film_editor = new FilmEditor (film, overall_panel);
+		_film_viewer = new FilmViewer (film, overall_panel);
 		JobManagerView* job_manager_view = new JobManagerView (overall_panel, static_cast<JobManagerView::Buttons> (0));
 
 		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
-		right_sizer->Add (film_viewer, 2, wxEXPAND | wxALL, 6);
+		right_sizer->Add (_film_viewer, 2, wxEXPAND | wxALL, 6);
 		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
-		main_sizer->Add (film_editor, 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_film_editor, 1, wxEXPAND | wxALL, 6);
 		main_sizer->Add (right_sizer, 2, wxEXPAND | wxALL, 6);
 
 		set_menu_sensitivity ();
 
-		film_editor->FileChanged.connect (bind (&Frame::file_changed, this, _1));
+		_film_editor->FileChanged.connect (bind (&Frame::file_changed, this, _1));
 		if (film) {
 			file_changed (film->directory ());
 		} else {
 			file_changed ("");
 		}
 
-		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (set_menu_sensitivity));
+		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&Frame::set_menu_sensitivity, this));
 
 		set_film ();
 		overall_panel->SetSizer (main_sizer);
@@ -355,8 +330,8 @@ private:
 
 	void set_film ()
 	{
-		film_viewer->set_film (film);
-		film_editor->set_film (film);
+		_film_viewer->set_film (film);
+		_film_editor->set_film (film);
 		set_menu_sensitivity ();
 	}
 
@@ -511,6 +486,22 @@ private:
 	
 		d->Destroy ();
 	}
+
+	void content_scale_to_fit_width ()
+	{
+		VideoContentList vc = _film_editor->selected_video_content ();
+		for (VideoContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
+			(*i)->scale_and_crop_to_fit_width ();
+		}
+	}
+
+	void content_scale_to_fit_height ()
+	{
+		VideoContentList vc = _film_editor->selected_video_content ();
+		for (VideoContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
+			(*i)->scale_and_crop_to_fit_height ();
+		}
+	}
 	
 	void jobs_send_dcp_to_tms ()
 	{
@@ -603,6 +594,43 @@ private:
 		ev.Skip ();
 	}
 
+	void set_menu_sensitivity ()
+	{
+		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
+		list<shared_ptr<Job> >::iterator i = jobs.begin();
+		while (i != jobs.end() && dynamic_pointer_cast<TranscodeJob> (*i) == 0) {
+			++i;
+		}
+		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
+		bool const have_cpl = film && !film->cpls().empty ();
+		bool const have_selected_video_content = !_film_editor->selected_video_content().empty();
+		
+		for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
+			
+			bool enabled = true;
+			
+			if ((j->second & NEEDS_FILM) && film == 0) {
+				enabled = false;
+			}
+			
+			if ((j->second & NOT_DURING_DCP_CREATION) && dcp_creation) {
+				enabled = false;
+			}
+			
+			if ((j->second & NEEDS_CPL) && !have_cpl) {
+				enabled = false;
+			}
+			
+			if ((j->second & NEEDS_SELECTED_VIDEO_CONTENT) && !have_selected_video_content) {
+				enabled = false;
+			}
+			
+			j->first->Enable (enabled);
+		}
+	}
+	
+	FilmEditor* _film_editor;
+	FilmViewer* _film_viewer;
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;

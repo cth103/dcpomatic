@@ -4,6 +4,13 @@
 
 2014-06-12  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.27 released.
+
+2014-06-12  Carl Hetherington  <cth@carlh.net>
+
+	* Add Content menu with "scale to fit width" and "scale
+	to fit height" options.
+
 	* Version 1.69.26 released.
 
 2014-06-12  Carl Hetherington  <cth@carlh.net>

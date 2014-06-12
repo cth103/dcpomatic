@@ -46,6 +46,8 @@ using std::stringstream;
 using std::setprecision;
 using std::cout;
 using std::vector;
+using std::min;
+using std::max;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -378,6 +380,32 @@ VideoContent::dcp_time_to_content_time (DCPTime t) const
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	return ContentTime (t, FrameRateChange (video_frame_rate(), film->video_frame_rate()));
+}
+
+void
+VideoContent::scale_and_crop_to_fit_width ()
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+
+	set_scale (VideoContentScale (film->container ()));
+
+	int const crop = max (0, int (video_size().height - double (film->frame_size().height) * video_size().width / film->frame_size().width));
+	set_top_crop (crop / 2);
+	set_bottom_crop (crop / 2);
+}
+
+void
+VideoContent::scale_and_crop_to_fit_height ()
+{
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+
+	set_scale (VideoContentScale (film->container ()));
+
+	int const crop = max (0, int (video_size().width - double (film->frame_size().width) * video_size().height / film->frame_size().height));
+	set_left_crop (crop / 2);
+	set_right_crop (crop / 2);
 }
 
 VideoContentScale::VideoContentScale (Ratio const * r)
