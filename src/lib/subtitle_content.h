@@ -39,8 +39,6 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 
-	virtual bool has_subtitle_during (ContentTimePeriod) const = 0;
-	
 	void set_subtitle_x_offset (double);
 	void set_subtitle_y_offset (double);
 	void set_subtitle_scale (double);

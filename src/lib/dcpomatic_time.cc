@@ -49,3 +49,9 @@ operator<< (ostream& s, DCPTime t)
 	s << "[DCP " << t.get() << " " << t.seconds() << "s]";
 	return s;
 }
+
+bool
+ContentTimePeriod::overlaps (ContentTimePeriod const & other) const
+{
+	return (from < other.to && to > other.from);
+}

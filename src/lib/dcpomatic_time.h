@@ -161,6 +161,8 @@ public:
 	ContentTimePeriod operator+ (ContentTime const & o) const {
 		return ContentTimePeriod (from + o, to + o);
 	}
+
+	bool overlaps (ContentTimePeriod const & o) const;
 };
 
 class DCPTime : public Time

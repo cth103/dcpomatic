@@ -35,6 +35,8 @@ protected:
 	bool pass ();
 
 private:
+	bool has_subtitle_during (ContentTimePeriod) const;
+	
 	size_t _next;
 };
 

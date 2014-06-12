@@ -51,7 +51,8 @@ template <class T>
 list<shared_ptr<T> >
 SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod period)
 {
-	if (!_subtitle_content->has_subtitle_during (period)) {
+	if (!has_subtitle_during (period)) {
+		cout << "no subtitle during this period.\n";
 		return list<shared_ptr<T> > ();
 	}
 
@@ -71,7 +72,7 @@ SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod perio
 	
 	list<shared_ptr<T> > out;
 	for (typename list<shared_ptr<T> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if ((*i)->period().from <= period.to && (*i)->period().to >= period.from) {
+		if ((*i)->period().overlaps (period)) {
 			out.push_back (*i);
 		}
 	}

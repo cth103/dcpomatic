@@ -135,45 +135,45 @@ BOOST_AUTO_TEST_CASE (subrip_parse_test)
 	vector<SubRipSubtitle>::const_iterator i = s._subtitles.begin();
 
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ContentTime::from_seconds ((1 * 60) + 49.200));
-	BOOST_CHECK_EQUAL (i->to, ContentTime::from_seconds ((1 * 60) + 52.351));
+	BOOST_CHECK_EQUAL (i->period.from, ContentTime::from_seconds ((1 * 60) + 49.200));
+	BOOST_CHECK_EQUAL (i->period.to, ContentTime::from_seconds ((1 * 60) + 52.351));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "This is a subtitle, and it goes over two lines.");
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ContentTime::from_seconds ((1 * 60) + 52.440));
-	BOOST_CHECK_EQUAL (i->to, ContentTime::from_seconds ((1 * 60) + 54.351));
+	BOOST_CHECK_EQUAL (i->period.from, ContentTime::from_seconds ((1 * 60) + 52.440));
+	BOOST_CHECK_EQUAL (i->period.to, ContentTime::from_seconds ((1 * 60) + 54.351));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "We have emboldened this");
 	BOOST_CHECK_EQUAL (i->pieces.front().bold, true);
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ContentTime::from_seconds ((1 * 60) + 54.440));
-	BOOST_CHECK_EQUAL (i->to, ContentTime::from_seconds ((1 * 60) + 56.590));
+	BOOST_CHECK_EQUAL (i->period.from, ContentTime::from_seconds ((1 * 60) + 54.440));
+	BOOST_CHECK_EQUAL (i->period.to, ContentTime::from_seconds ((1 * 60) + 56.590));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "And italicised this.");
 	BOOST_CHECK_EQUAL (i->pieces.front().italic, true);
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ContentTime::from_seconds ((1 * 60) + 56.680));
-	BOOST_CHECK_EQUAL (i->to, ContentTime::from_seconds ((1 * 60) + 58.955));
+	BOOST_CHECK_EQUAL (i->period.from, ContentTime::from_seconds ((1 * 60) + 56.680));
+	BOOST_CHECK_EQUAL (i->period.to, ContentTime::from_seconds ((1 * 60) + 58.955));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "Shall I compare thee to a summers' day?");
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ContentTime::from_seconds ((2 * 60) + 0.840));
-	BOOST_CHECK_EQUAL (i->to, ContentTime::from_seconds ((2 * 60) + 3.400));
+	BOOST_CHECK_EQUAL (i->period.from, ContentTime::from_seconds ((2 * 60) + 0.840));
+	BOOST_CHECK_EQUAL (i->period.to, ContentTime::from_seconds ((2 * 60) + 3.400));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "Is this a dagger I see before me?");
 
 	++i;
 	BOOST_CHECK (i != s._subtitles.end ());
-	BOOST_CHECK_EQUAL (i->from, ContentTime::from_seconds ((3 * 60) + 54.560));
-	BOOST_CHECK_EQUAL (i->to, ContentTime::from_seconds ((3 * 60) + 56.471));
+	BOOST_CHECK_EQUAL (i->period.from, ContentTime::from_seconds ((3 * 60) + 54.560));
+	BOOST_CHECK_EQUAL (i->period.to, ContentTime::from_seconds ((3 * 60) + 56.471));
 	BOOST_CHECK_EQUAL (i->pieces.size(), 1);
 	BOOST_CHECK_EQUAL (i->pieces.front().text, "Hello world.");
 

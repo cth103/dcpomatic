@@ -42,13 +42,7 @@ struct SubRipSubtitlePiece
 
 struct SubRipSubtitle
 {
-	SubRipSubtitle ()
-		: from (0)
-		, to (0)
-	{}
-	
-	ContentTime from;
-	ContentTime to;
+	ContentTimePeriod period;
 	boost::optional<int> x1;
 	boost::optional<int> x2;
 	boost::optional<int> y1;

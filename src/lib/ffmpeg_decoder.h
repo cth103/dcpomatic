@@ -72,6 +72,8 @@ private:
 	int minimal_run (boost::function<bool (boost::optional<ContentTime>, boost::optional<ContentTime>, int)>);
 	void seek_and_flush (ContentTime);
 
+	bool has_subtitle_during (ContentTimePeriod) const;
+	
 	boost::shared_ptr<Log> _log;
 	AVCodecContext* _subtitle_codec_context; ///< may be 0 if there is no subtitle
 	AVCodec* _subtitle_codec;		 ///< may be 0 if there is no subtitle

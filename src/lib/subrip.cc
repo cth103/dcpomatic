@@ -90,8 +90,7 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 				throw SubRipError (line, _("a time/position line"), content->path (0));
 			}
 
-			current->from = convert_time (p[0]);
-			current->to = convert_time (p[2]);
+			current->period = ContentTimePeriod (convert_time (p[0]), convert_time (p[2]));
 
 			if (p.size() > 3) {
 				current->x1 = convert_coordinate (p[3]);
@@ -233,5 +232,5 @@ SubRip::length () const
 		return ContentTime ();
 	}
 
-	return _subtitles.back().to;
+	return _subtitles.back().period.to;
 }

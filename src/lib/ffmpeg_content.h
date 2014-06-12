@@ -73,9 +73,6 @@ public:
 	void set_audio_mapping (AudioMapping);
 	boost::filesystem::path audio_analysis_path () const;
 
-	/* SubtitleContent */
-	bool has_subtitle_during (ContentTimePeriod) const;
-
 	void set_filters (std::vector<Filter const *> const &);
 	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
@@ -110,6 +107,8 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _first_video;
 	}
+
+	bool has_subtitle_during (ContentTimePeriod) const;
 
 private:
 	friend class ffmpeg_pts_offset_test;

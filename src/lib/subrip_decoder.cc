@@ -22,6 +22,7 @@
 #include "subrip_content.h"
 
 using std::list;
+using std::vector;
 using boost::shared_ptr;
 
 SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
@@ -39,7 +40,7 @@ SubRipDecoder::seek (ContentTime time, bool accurate)
 	
 	_next = 0;
 	list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin();
-	while (i != _subtitles[_next].pieces.end() && _subtitles[_next].from < time) {
+	while (i != _subtitles[_next].pieces.end() && _subtitles[_next].period.from < time) {
 		++i;
 	}
 	
@@ -60,8 +61,8 @@ SubRipDecoder::pass ()
 				i->italic,
 				dcp::Color (255, 255, 255),
 				72,
-				dcp::Time (rint (_subtitles[_next].from.seconds() * 250)),
-				dcp::Time (rint (_subtitles[_next].to.seconds() * 250)),
+				dcp::Time (rint (_subtitles[_next].period.from.seconds() * 250)),
+				dcp::Time (rint (_subtitles[_next].period.to.seconds() * 250)),
 				0.9,
 				dcp::BOTTOM,
 				i->text,
@@ -75,5 +76,19 @@ SubRipDecoder::pass ()
 
 	text_subtitle (out);
 	_next++;
+	return false;
+}
+
+bool
+SubRipDecoder::has_subtitle_during (ContentTimePeriod p) const
+{
+	/* XXX: inefficient */
+
+	for (vector<SubRipSubtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		if (p.overlaps (i->period)) {
+			return true;
+		}
+	}
+
 	return false;
 }
