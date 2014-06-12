@@ -19,18 +19,18 @@
 
 #include <wx/textctrl.h>
 #include <boost/shared_ptr.hpp>
-#include "lib/dci_metadata.h"
+#include "lib/isdcf_metadata.h"
 #include "table_dialog.h"
 
 class wxSpinCtrl;
 class Film;
 
-class DCIMetadataDialog : public TableDialog
+class ISDCFMetadataDialog : public TableDialog
 {
 public:
-	DCIMetadataDialog (wxWindow *, DCIMetadata);
+	ISDCFMetadataDialog (wxWindow *, ISDCFMetadata);
 
-	DCIMetadata dci_metadata () const;
+	ISDCFMetadata isdcf_metadata () const;
 
 private:
 	wxSpinCtrl* _content_version;
@@ -41,4 +41,10 @@ private:
 	wxTextCtrl* _studio;
 	wxTextCtrl* _facility;
 	wxTextCtrl* _package_type;
+	wxCheckBox* _temp_version;
+	wxCheckBox* _pre_release;
+	wxCheckBox* _red_band;
+	wxTextCtrl* _chain;
+	wxCheckBox* _two_d_version_of_three_d;
+	wxTextCtrl* _mastered_luminance;
 };

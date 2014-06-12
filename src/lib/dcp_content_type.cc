@@ -33,7 +33,7 @@ vector<DCPContentType const *> DCPContentType::_dcp_content_types;
 DCPContentType::DCPContentType (string p, dcp::ContentKind k, string d)
 	: _pretty_name (p)
 	, _libdcp_kind (k)
-	, _dci_name (d)
+	, _isdcf_name (d)
 {
 
 }
@@ -66,10 +66,10 @@ DCPContentType::from_pretty_name (string n)
 }
 
 DCPContentType const *
-DCPContentType::from_dci_name (string n)
+DCPContentType::from_isdcf_name (string n)
 {
 	for (vector<DCPContentType const *>::const_iterator i = _dcp_content_types.begin(); i != _dcp_content_types.end(); ++i) {
-		if ((*i)->dci_name() == n) {
+		if ((*i)->isdcf_name() == n) {
 			return *i;
 		}
 	}

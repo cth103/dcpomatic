@@ -40,6 +40,7 @@ using std::set;
 using std::list;
 using std::cout;
 using std::vector;
+using std::max;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
@@ -215,7 +216,7 @@ Content::technical_summary () const
 DCPTime
 Content::length_after_trim () const
 {
-	return full_length() - trim_start() - trim_end();
+	return max (DCPTime (), full_length() - trim_start() - trim_end());
 }
 
 /** @return string which includes everything about how this content affects

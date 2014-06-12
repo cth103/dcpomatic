@@ -2,6 +2,58 @@
 
 	* Add subtitle view.
 
+2014-06-12  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.26 released.
+
+2014-06-12  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug where DCP-o-matic does not recreate video after
+	subtitles are turned on or off.
+
+2014-06-10  Carl Hetherington  <cth@carlh.net>
+
+	* Support ISDCF naming convention version 9 (#257).
+
+	* Rename DCI to ISDCF when talking about the digital cinema
+	naming convention (#362).
+
+	* Fix crash when opening the timeline with no content (#369).
+
+2014-06-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix server/client with non-RGB24 sources.
+
+	* Version 1.69.25 released.
+
+2014-06-09  Carl Hetherington  <cth@carlh.net>
+
+	* Make audio gain a floating-point value in the UI (#367).
+
+	* Work-around out-of-memory crashes with large start trims (#252).
+
+	* Version 1.69.24 released.
+
+2014-06-06  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.23 released.
+
+2014-06-05  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.22 released.
+
+2014-06-05  Carl Hetherington  <cth@carlh.net>
+
+	* Large speed-up to multi-image source file decoding.
+
+	* Back-port changes from v2 which work out how separate
+	audio files should be resampled by looking at the video
+	files which are present at the same time.
+
+2014-06-03  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.21 released.
+
 2014-06-03  Carl Hetherington  <cth@carlh.net>
 
 	* Fix bad resampling of separate sound file sources that

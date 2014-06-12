@@ -25,6 +25,7 @@
 #include "film.h"
 #include "exceptions.h"
 #include "config.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 
@@ -97,7 +98,7 @@ AudioContent::as_xml (xmlpp::Node* node) const
 
 
 void
-AudioContent::set_audio_gain (float g)
+AudioContent::set_audio_gain (double g)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

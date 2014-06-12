@@ -64,7 +64,7 @@ Config::Config ()
 	, _allow_any_dcp_frame_rate (false)
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
-	, _default_dcp_content_type (DCPContentType::from_dci_name ("TST"))
+	, _default_dcp_content_type (DCPContentType::from_isdcf_name ("TST"))
 	, _default_j2k_bandwidth (100000000)
 	, _default_audio_delay (0)
 	, _kdm_email (
@@ -141,13 +141,18 @@ Config::read ()
 
 	c = f.optional_string_child ("DefaultDCPContentType");
 	if (c) {
-		_default_dcp_content_type = DCPContentType::from_dci_name (c.get ());
+		_default_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
 	}
 
 	_dcp_metadata.issuer = f.optional_string_child ("DCPMetadataIssuer").get_value_or ("");
 	_dcp_metadata.creator = f.optional_string_child ("DCPMetadataCreator").get_value_or ("");
 
-	_default_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
+	if (version && version.get() >= 2) {
+		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
+	} else {
+		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("DCIMetadata"));
+	}
+	
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
@@ -245,7 +250,7 @@ Config::read_old_metadata ()
 		} else if (k == "default_container") {
 			_default_container = Ratio::from_id (v);
 		} else if (k == "default_dcp_content_type") {
-			_default_dcp_content_type = DCPContentType::from_dci_name (v);
+			_default_dcp_content_type = DCPContentType::from_isdcf_name (v);
 		} else if (k == "dcp_metadata_issuer") {
 			_dcp_metadata.issuer = v;
 		} else if (k == "dcp_metadata_creator") {
@@ -254,7 +259,7 @@ Config::read_old_metadata ()
 			_dcp_metadata.issue_date = v;
 		}
 
-		_default_dci_metadata.read_old_metadata (k, v);
+		_default_isdcf_metadata.read_old_metadata (k, v);
 	}
 }
 
@@ -315,7 +320,7 @@ Config::write () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
-	root->add_child("Version")->add_child_text ("1");
+	root->add_child("Version")->add_child_text ("2");
 	root->add_child("NumLocalEncodingThreads")->add_child_text (raw_convert<string> (_num_local_encoding_threads));
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
 	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
@@ -339,12 +344,12 @@ Config::write () const
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
 	if (_default_dcp_content_type) {
-		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->dci_name ());
+		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
 	}
 	root->add_child("DCPMetadataIssuer")->add_child_text (_dcp_metadata.issuer);
 	root->add_child("DCPMetadataCreator")->add_child_text (_dcp_metadata.creator);
 
-	_default_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
+	_default_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 
 	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));

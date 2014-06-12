@@ -33,6 +33,7 @@ extern "C" {
 #include "film.h"
 #include "log.h"
 #include "exceptions.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 
@@ -399,6 +400,9 @@ bool
 FFmpegContent::has_subtitle_during (ContentTimePeriod period) const
 {
 	shared_ptr<FFmpegSubtitleStream> stream = subtitle_stream ();
+	if (!stream) {
+		return false;
+	}
 
 	/* XXX: inefficient */
 	for (vector<ContentTimePeriod>::const_iterator i = stream->periods.begin(); i != stream->periods.end(); ++i) {

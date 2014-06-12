@@ -114,6 +114,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxArrayString supported_by;
 	supported_by.Add (wxT ("Manual AC"));
 	supported_by.Add (wxT ("Kambiz Afshar"));
+	supported_by.Add (wxT ("Louis Belloisy"));
 	supported_by.Add (wxT ("Jeff Boot"));
 	supported_by.Add (wxT ("Kieran Carroll"));
 	supported_by.Add (wxT ("Frank Cianciolo"));
@@ -141,6 +142,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Lindsay Morris"));
 	supported_by.Add (wxT ("Tim O'Brien"));
 	supported_by.Add (wxT ("Ivan Pullman"));
+	supported_by.Add (wxT ("Mark Rolfe"));
 	supported_by.Add (wxT ("Andrä Steiner"));
 	supported_by.Add (wxT ("Jussi Siponen"));
 	supported_by.Add (wxT ("Lasse Salling"));

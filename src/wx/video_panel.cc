@@ -24,6 +24,7 @@
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/ratio.h"
+#include "lib/frame_rate_change.h"
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"

@@ -24,6 +24,7 @@
 #include "compose.hpp"
 #include "film.h"
 #include "job.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 

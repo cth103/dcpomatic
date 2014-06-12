@@ -90,6 +90,8 @@ using dcp::raw_convert;
  * Subtitle offset changed to subtitle y offset, and subtitle x offset added.
  * 7 -> 8
  * Use <Scale> tag in <VideoContent> rather than <Ratio>.
+ * 8 -> 9
+ * DCI -> ISDCF
  *
  * Bumped to 32 for 2.0 branch; some times are expressed in Times rather
  * than frames now.
@@ -103,7 +105,7 @@ int const Film::current_state_version = 32;
 
 Film::Film (boost::filesystem::path dir, bool log)
 	: _playlist (new Playlist)
-	, _use_dci_name (true)
+	, _use_isdcf_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
 	, _resolution (RESOLUTION_2K)
@@ -112,7 +114,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _signed (true)
 	, _encrypted (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
-	, _dci_metadata (Config::instance()->default_dci_metadata ())
+	, _isdcf_metadata (Config::instance()->default_isdcf_metadata ())
 	, _video_frame_rate (24)
 	, _audio_channels (6)
 	, _three_d (false)
@@ -121,7 +123,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
-	set_dci_date_today ();
+	set_isdcf_date_today ();
 
 	_playlist->Changed.connect (bind (&Film::playlist_changed, this));
 	_playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
@@ -183,6 +185,10 @@ Film::video_identifier () const
 
 	if (_three_d) {
 		s << "_3D";
+	}
+
+	if (_with_subtitles) {
+		s << "_WS";
 	}
 
 	return s.str ();
@@ -248,7 +254,7 @@ Film::audio_analysis_dir () const
 void
 Film::make_dcp ()
 {
-	set_dci_date_today ();
+	set_isdcf_date_today ();
 	
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
@@ -352,10 +358,10 @@ Film::metadata () const
 
 	root->add_child("Version")->add_child_text (raw_convert<string> (current_state_version));
 	root->add_child("Name")->add_child_text (_name);
-	root->add_child("UseDCIName")->add_child_text (_use_dci_name ? "1" : "0");
+	root->add_child("UseISDCFName")->add_child_text (_use_isdcf_name ? "1" : "0");
 
 	if (_dcp_content_type) {
-		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->dci_name ());
+		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->isdcf_name ());
 	}
 
 	if (_container) {
@@ -366,9 +372,9 @@ Film::metadata () const
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
 	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
-	_dci_metadata.as_xml (root->add_child ("DCIMetadata"));
+	_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
-	root->add_child("DCIDate")->add_child_text (boost::gregorian::to_iso_string (_dci_date));
+	root->add_child("ISDCFDate")->add_child_text (boost::gregorian::to_iso_string (_isdcf_date));
 	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
@@ -410,12 +416,20 @@ Film::read_metadata ()
 	}
 	
 	_name = f.string_child ("Name");
-	_use_dci_name = f.bool_child ("UseDCIName");
+	if (_state_version >= 9) {
+		_use_isdcf_name = f.bool_child ("UseISDCFName");
+		_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
+		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("ISDCFDate"));
+	} else {
+		_use_isdcf_name = f.bool_child ("UseDCIName");
+		_isdcf_metadata = ISDCFMetadata (f.node_child ("DCIMetadata"));
+		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
+	}
 
 	{
 		optional<string> c = f.optional_string_child ("DCPContentType");
 		if (c) {
-			_dcp_content_type = DCPContentType::from_dci_name (c.get ());
+			_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
 		}
 	}
 
@@ -430,9 +444,7 @@ Film::read_metadata ()
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
 	_with_subtitles = f.bool_child ("WithSubtitles");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
-	_dci_metadata = DCIMetadata (f.node_child ("DCIMetadata"));
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
-	_dci_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	_signed = f.optional_bool_child("Signed").get_value_or (true);
 	_encrypted = f.bool_child ("Encrypted");
 	_audio_channels = f.number_child<int> ("AudioChannels");
@@ -479,20 +491,26 @@ Film::file (boost::filesystem::path f) const
 	return p;
 }
 
-/** @return a DCI-compliant name for a DCP of this film */
+/** @return a ISDCF-compliant name for a DCP of this film */
 string
-Film::dci_name (bool if_created_now) const
+Film::isdcf_name (bool if_created_now) const
 {
 	stringstream d;
 
-	string fixed_name = to_upper_copy (name());
-	for (size_t i = 0; i < fixed_name.length(); ++i) {
-		if (fixed_name[i] == ' ') {
-			fixed_name[i] = '-';
+	string raw_name = name ();
+	string fixed_name;
+	bool cap_next = true;
+	for (size_t i = 0; i < raw_name.length(); ++i) {
+		if (raw_name[i] == ' ') {
+			cap_next = true;
+		} else if (cap_next) {
+			fixed_name += toupper (raw_name[i]);
+			cap_next = false;
+		} else {
+			fixed_name += tolower (raw_name[i]);
 		}
 	}
 
-	/* Spec is that the name part should be maximum 14 characters, as I understand it */
 	if (fixed_name.length() > 14) {
 		fixed_name = fixed_name.substr (0, 14);
 	}
@@ -500,23 +518,67 @@ Film::dci_name (bool if_created_now) const
 	d << fixed_name;
 
 	if (dcp_content_type()) {
-		d << "_" << dcp_content_type()->dci_name();
-		d << "-" << dci_metadata().content_version;
+		d << "_" << dcp_content_type()->isdcf_name();
+		d << "-" << isdcf_metadata().content_version;
+	}
+
+	ISDCFMetadata const dm = isdcf_metadata ();
+
+	if (dm.temp_version) {
+		d << "-Temp";
+	}
+	
+	if (dm.pre_release) {
+		d << "-Pre";
+	}
+	
+	if (dm.red_band) {
+		d << "-RedBand";
+	}
+	
+	if (!dm.chain.empty ()) {
+		d << "-" << dm.chain;
 	}
 
 	if (three_d ()) {
 		d << "-3D";
 	}
 
+	if (dm.two_d_version_of_three_d) {
+		d << "-2D";
+	}
+
+	if (!dm.mastered_luminance.empty ()) {
+		d << "-" << dm.mastered_luminance;
+	}
+
 	if (video_frame_rate() != 24) {
 		d << "-" << video_frame_rate();
 	}
-
+	
 	if (container()) {
-		d << "_" << container()->dci_name();
+		d << "_" << container()->isdcf_name();
 	}
 
-	DCIMetadata const dm = dci_metadata ();
+	/* XXX: this only works for content which has been scaled to a given ratio,
+	   and uses the first bit of content only.
+	*/
+
+	/* The standard says we don't do this for trailers, for some strange reason */
+	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
+		ContentList cl = content ();
+		Ratio const * content_ratio = 0;
+		for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+			if (vc && (content_ratio == 0 || vc->scale().ratio() != content_ratio)) {
+				content_ratio = vc->scale().ratio();
+			}
+		}
+		
+		if (content_ratio && content_ratio != container()) {
+			d << "-" << content_ratio->isdcf_name();
+		}
+	}
 
 	if (!dm.audio_language.empty ()) {
 		d << "_" << dm.audio_language;
@@ -555,8 +617,10 @@ Film::dci_name (bool if_created_now) const
 		break;
 	}
 
-	d << "_" << resolution_to_string (_resolution);
+	/* XXX: HI/VI */
 
+	d << "_" << resolution_to_string (_resolution);
+	
 	if (!dm.studio.empty ()) {
 		d << "_" << dm.studio;
 	}
@@ -564,11 +628,21 @@ Film::dci_name (bool if_created_now) const
 	if (if_created_now) {
 		d << "_" << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
 	} else {
-		d << "_" << boost::gregorian::to_iso_string (_dci_date);
+		d << "_" << boost::gregorian::to_iso_string (_isdcf_date);
 	}
 
 	if (!dm.facility.empty ()) {
 		d << "_" << dm.facility;
+	}
+
+	if (_interop) {
+		d << "_IOP";
+	} else {
+		d << "_SMPTE";
+	}
+	
+	if (three_d ()) {
+		d << "-3D";
 	}
 
 	if (!dm.package_type.empty ()) {
@@ -582,8 +656,8 @@ Film::dci_name (bool if_created_now) const
 string
 Film::dcp_name (bool if_created_now) const
 {
-	if (use_dci_name()) {
-		return dci_name (if_created_now);
+	if (use_isdcf_name()) {
+		return isdcf_name (if_created_now);
 	}
 
 	return name();
@@ -605,10 +679,10 @@ Film::set_name (string n)
 }
 
 void
-Film::set_use_dci_name (bool u)
+Film::set_use_isdcf_name (bool u)
 {
-	_use_dci_name = u;
-	signal_changed (USE_DCI_NAME);
+	_use_isdcf_name = u;
+	signal_changed (USE_ISDCF_NAME);
 }
 
 void
@@ -654,10 +728,10 @@ Film::set_j2k_bandwidth (int b)
 }
 
 void
-Film::set_dci_metadata (DCIMetadata m)
+Film::set_isdcf_metadata (ISDCFMetadata m)
 {
-	_dci_metadata = m;
-	signal_changed (DCI_METADATA);
+	_isdcf_metadata = m;
+	signal_changed (ISDCF_METADATA);
 }
 
 void
@@ -711,9 +785,9 @@ Film::signal_changed (Property p)
 }
 
 void
-Film::set_dci_date_today ()
+Film::set_isdcf_date_today ()
 {
-	_dci_date = boost::gregorian::day_clock::local_day ();
+	_isdcf_date = boost::gregorian::day_clock::local_day ();
 }
 
 boost::filesystem::path

@@ -30,6 +30,7 @@
 #include "util.h"
 #include "film.h"
 #include "exceptions.h"
+#include "frame_rate_change.h"
 
 #include "i18n.h"
 

@@ -15,7 +15,6 @@ sources = """
           content_factory.cc
           content_subtitle.cc
           cross.cc
-          dci_metadata.cc
           dcp_content_type.cc
           dcp_video_frame.cc
           dcpomatic_time.cc
@@ -41,6 +40,7 @@ sources = """
           image_decoder.cc
           image_examiner.cc
           image_proxy.cc
+          isdcf_metadata.cc
           job.cc
           job_manager.cc
           kdm.cc

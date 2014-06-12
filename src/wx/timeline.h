@@ -52,7 +52,7 @@ public:
 		return 48;
 	}
 
-	double pixels_per_second () const {
+	boost::optional<double> pixels_per_second () const {
 		return _pixels_per_second;
 	}
 
@@ -96,7 +96,7 @@ private:
 	ViewList _views;
 	boost::shared_ptr<TimeAxisView> _time_axis_view;
 	int _tracks;
-	double _pixels_per_second;
+	boost::optional<double> _pixels_per_second;
 	bool _left_down;
 	wxPoint _down_point;
 	boost::shared_ptr<ContentView> _down_view;

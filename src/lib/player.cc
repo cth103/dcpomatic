@@ -42,6 +42,7 @@
 #include "config.h"
 #include "content_video.h"
 #include "player_video_frame.h"
+#include "frame_rate_change.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 

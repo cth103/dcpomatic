@@ -15,7 +15,7 @@ sources = """
           config_dialog.cc
           content_colour_conversion_dialog.cc
           content_menu.cc
-          dci_metadata_dialog.cc
+          isdcf_metadata_dialog.cc
           dir_picker_ctrl.cc
           dolby_certificate_dialog.cc
           doremi_certificate_dialog.cc

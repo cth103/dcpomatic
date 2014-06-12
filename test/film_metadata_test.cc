@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	shared_ptr<Film> f = new_test_film ("film_metadata_test");
 	boost::filesystem::path dir = test_film_dir ("film_metadata_test");
 
-	f->_dci_date = boost::gregorian::from_undelimited_string ("20130211");
+	f->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (f->container() == 0);
 	BOOST_CHECK (f->dcp_content_type() == 0);
 

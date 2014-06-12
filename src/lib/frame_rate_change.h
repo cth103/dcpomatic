@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_FRAME_RATE_CHANGE_H
+#define DCPOMATIC_FRAME_RATE_CHANGE_H
+
 #include <string>
 
 struct FrameRateChange
@@ -56,3 +59,5 @@ struct FrameRateChange
 
 	std::string description;
 };
+
+#endif

@@ -45,12 +45,12 @@ public:
 		return _libdcp_kind;
 	}
 
-	std::string dci_name () const {
-		return _dci_name;
+	std::string isdcf_name () const {
+		return _isdcf_name;
 	}
 
 	static DCPContentType const * from_pretty_name (std::string);
-	static DCPContentType const * from_dci_name (std::string);
+	static DCPContentType const * from_isdcf_name (std::string);
 	static DCPContentType const * from_index (int);
 	static int as_index (DCPContentType const *);
 	static std::vector<DCPContentType const *> all ();
@@ -59,7 +59,7 @@ public:
 private:
 	std::string _pretty_name;
 	dcp::ContentKind _libdcp_kind;
-	std::string _dci_name;
+	std::string _isdcf_name;
 
 	/** All available DCP content types */
 	static std::vector<DCPContentType const *> _dcp_content_types;

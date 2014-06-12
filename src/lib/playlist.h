@@ -26,6 +26,7 @@
 #include "ffmpeg_content.h"
 #include "audio_mapping.h"
 #include "util.h"
+#include "frame_rate_change.h"
 
 class Content;
 class FFmpegContent;

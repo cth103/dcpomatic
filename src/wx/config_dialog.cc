@@ -40,7 +40,7 @@
 #include "editable_list.h"
 #include "filter_dialog.h"
 #include "dir_picker_ctrl.h"
-#include "dci_metadata_dialog.h"
+#include "isdcf_metadata_dialog.h"
 #include "preset_colour_conversion_dialog.h"
 #include "server_dialog.h"
 
@@ -314,9 +314,9 @@ public:
 #endif
 		table->Add (_directory, 1, wxEXPAND);
 		
-		add_label_to_sizer (table, panel, _("Default DCI name details"), true);
-		_dci_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
-		table->Add (_dci_metadata_button);
+		add_label_to_sizer (table, panel, _("Default ISDCF name details"), true);
+		_isdcf_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
+		table->Add (_isdcf_metadata_button);
 		
 		add_label_to_sizer (table, panel, _("Default container"), true);
 		_container = new wxChoice (panel, wxID_ANY);
@@ -361,7 +361,7 @@ public:
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 		
-		_dci_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_dci_metadata_clicked, this, parent));
+		_isdcf_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this, parent));
 		
 		vector<Ratio const *> ratio = Ratio::all ();
 		int n = 0;
@@ -419,11 +419,11 @@ private:
 		Config::instance()->set_default_directory (wx_to_std (_directory->GetPath ()));
 	}
 
-	void edit_dci_metadata_clicked (wxWindow* parent)
+	void edit_isdcf_metadata_clicked (wxWindow* parent)
 	{
-		DCIMetadataDialog* d = new DCIMetadataDialog (parent, Config::instance()->default_dci_metadata ());
+		ISDCFMetadataDialog* d = new ISDCFMetadataDialog (parent, Config::instance()->default_isdcf_metadata ());
 		d->ShowModal ();
-		Config::instance()->set_default_dci_metadata (d->dci_metadata ());
+		Config::instance()->set_default_isdcf_metadata (d->isdcf_metadata ());
 		d->Destroy ();
 	}
 
@@ -460,7 +460,7 @@ private:
 	
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
-	wxButton* _dci_metadata_button;
+	wxButton* _isdcf_metadata_button;
 	wxSpinCtrl* _still_length;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _directory;

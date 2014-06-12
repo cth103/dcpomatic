@@ -31,7 +31,7 @@ public:
 		: _ratio (ratio)
 		, _id (id)
 		, _nickname (n)
-		, _dci_name (d)
+		, _isdcf_name (d)
 	{}
 
 	std::string id () const {
@@ -42,8 +42,8 @@ public:
 		return _nickname;
 	}
 
-	std::string dci_name () const {
-		return _dci_name;
+	std::string isdcf_name () const {
+		return _isdcf_name;
 	}
 
 	float ratio () const {
@@ -62,7 +62,7 @@ private:
 	std::string _id;
 	/** nickname (e.g. Flat, Scope) */
 	std::string _nickname;
-	std::string _dci_name;
+	std::string _isdcf_name;
 
 	static std::vector<Ratio const *> _ratios;	
 };

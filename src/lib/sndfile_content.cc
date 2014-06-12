@@ -157,4 +157,3 @@ SndfileContent::set_audio_mapping (AudioMapping m)
 
 	AudioContent::set_audio_mapping (m);
 }
-

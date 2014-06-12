@@ -21,7 +21,7 @@
 #include "film_editor_panel.h"
 #include "content_widget.h"
 
-class wxSpinCtrl;
+class wxSpinCtrlDouble;
 class wxButton;
 class wxChoice;
 class wxStaticText;
@@ -44,7 +44,7 @@ private:
 	void mapping_changed (AudioMapping);
 	void setup_stream_description ();
 
-	ContentSpinCtrl<AudioContent>* _gain;
+	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;
 	wxButton* _show;
 	ContentSpinCtrl<AudioContent>* _delay;

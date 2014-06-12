@@ -55,7 +55,7 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
 		);
 
-	_image.reset (new Image (PIX_FMT_RGB24, size, true));
+	_image.reset (new Image (static_cast<AVPixelFormat> (xml->number_child<int> ("PixelFormat")), size, true));
 	_image->read_from_socket (socket);
 }
 
@@ -71,6 +71,7 @@ RawImageProxy::add_metadata (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text (N_("Raw"));
 	node->add_child("Width")->add_child_text (dcp::raw_convert<string> (_image->size().width));
 	node->add_child("Height")->add_child_text (dcp::raw_convert<string> (_image->size().height));
+	node->add_child("PixelFormat")->add_child_text (dcp::raw_convert<string> (_image->pixel_format ()));
 }
 
 void
@@ -132,21 +133,13 @@ MagickImageProxy::image () const
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 
-	using namespace MagickCore;
-	
+	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
 	uint8_t* p = _image->data()[0];
-	for (int y = 0; y < size.height; ++y) {
-		uint8_t* q = p;
-		for (int x = 0; x < size.width; ++x) {
-			Magick::Color c = magick_image->pixelColor (x, y);
-			*q++ = c.redQuantum() * 255 / QuantumRange;
-			*q++ = c.greenQuantum() * 255 / QuantumRange;
-			*q++ = c.blueQuantum() * 255 / QuantumRange;
-		}
+	for (int i = 0; i < size.height; ++i) {
+		using namespace MagickCore;
+		magick_image->write (0, i, size.width, 1, "RGB", CharPixel, p);
 		p += _image->stride()[0];
 	}
-
-	delete magick_image;
 
 	LOG_TIMING ("[%1] MagickImageProxy completes decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
 

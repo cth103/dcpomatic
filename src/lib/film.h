@@ -36,7 +36,8 @@
 #include <dcp/encrypted_kdm.h>
 #include "util.h"
 #include "types.h"
-#include "dci_metadata.h"
+#include "isdcf_metadata.h"
+#include "frame_rate_change.h"
 
 class DCPContentType;
 class Log;
@@ -46,6 +47,7 @@ class Playlist;
 class AudioContent;
 class Scaler;
 class Screen;
+class isdcf_name_test;
 
 /** @class Film
  *
@@ -88,7 +90,7 @@ public:
 	void write_metadata () const;
 	boost::shared_ptr<xmlpp::Document> metadata () const;
 
-	std::string dci_name (bool if_created_now) const;
+	std::string isdcf_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
 
 	/** @return true if our state has changed since we last saved it */
@@ -146,7 +148,7 @@ public:
 	enum Property {
 		NONE,
 		NAME,
-		USE_DCI_NAME,
+		USE_ISDCF_NAME,
 		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
 		CONTENT,
 		DCP_CONTENT_TYPE,
@@ -157,7 +159,7 @@ public:
 		SIGNED,
 		ENCRYPTED,
 		J2K_BANDWIDTH,
-		DCI_METADATA,
+		ISDCF_METADATA,
 		VIDEO_FRAME_RATE,
 		AUDIO_CHANNELS,
 		/** The setting of _three_d has been changed */
@@ -177,8 +179,8 @@ public:
 		return _name;
 	}
 
-	bool use_dci_name () const {
-		return _use_dci_name;
+	bool use_isdcf_name () const {
+		return _use_isdcf_name;
 	}
 
 	DCPContentType const * dcp_content_type () const {
@@ -214,8 +216,8 @@ public:
 		return _j2k_bandwidth;
 	}
 
-	DCIMetadata dci_metadata () const {
-		return _dci_metadata;
+	ISDCFMetadata isdcf_metadata () const {
+		return _isdcf_metadata;
 	}
 
 	/** @return The frame rate of the DCP */
@@ -244,7 +246,7 @@ public:
 
 	void set_directory (boost::filesystem::path);
 	void set_name (std::string);
-	void set_use_dci_name (bool);
+	void set_use_isdcf_name (bool);
 	void examine_and_add_content (boost::shared_ptr<Content>);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
@@ -258,11 +260,11 @@ public:
 	void set_signed (bool);
 	void set_encrypted (bool);
 	void set_j2k_bandwidth (int);
-	void set_dci_metadata (DCIMetadata);
+	void set_isdcf_metadata (ISDCFMetadata);
 	void set_video_frame_rate (int);
 	void set_audio_channels (int);
 	void set_three_d (bool);
-	void set_dci_date_today ();
+	void set_isdcf_date_today ();
 	void set_sequence_video (bool);
 	void set_interop (bool);
 
@@ -276,6 +278,8 @@ public:
 	static int const current_state_version;
 
 private:
+
+	friend class ::isdcf_name_test;
 
 	void signal_changed (Property);
 	std::string video_identifier () const;
@@ -295,8 +299,8 @@ private:
 	
 	/** Name for DCP-o-matic */
 	std::string _name;
-	/** True if a auto-generated DCI-compliant name should be used for our DCP */
-	bool _use_dci_name;
+	/** True if a auto-generated ISDCF-compliant name should be used for our DCP */
+	bool _use_isdcf_name;
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The container to put this Film in (flat, scope, etc.) */
@@ -311,12 +315,12 @@ private:
 	bool _encrypted;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
-	/** DCI naming stuff */
-	DCIMetadata _dci_metadata;
+	/** ISDCF naming stuff */
+	ISDCFMetadata _isdcf_metadata;
 	/** Frames per second to run our DCP at */
 	int _video_frame_rate;
-	/** The date that we should use in a DCI name */
-	boost::gregorian::date _dci_date;
+	/** The date that we should use in a ISDCF name */
+	boost::gregorian::date _isdcf_date;
 	/** Number of audio channels to put in the DCP */
 	int _audio_channels;
 	/** If true, the DCP will be written in 3D mode; otherwise in 2D.

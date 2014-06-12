@@ -19,7 +19,6 @@
 
 #include "lib/content.h"
 #include "lib/image_content.h"
-#include "lib/sndfile_content.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
@@ -134,10 +133,9 @@ TimingPanel::film_content_changed (int property)
 	}
 
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
-	shared_ptr<SndfileContent> sc = dynamic_pointer_cast<SndfileContent> (content);
 	_full_length->set_editable (ic && ic->still ());
 	_play_length->set_editable (!ic || !ic->still ());
-	_video_frame_rate->Enable ((ic && !ic->still ()) || sc);
+	_video_frame_rate->Enable (ic && !ic->still ());
 	_set_video_frame_rate->Enable (false);
 }
 

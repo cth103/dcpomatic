@@ -49,7 +49,8 @@ class ImageProxy : public boost::noncopyable
 {
 public:
 	ImageProxy (boost::shared_ptr<Log> log);
-	
+
+	/** @return Image (which must be aligned) */
 	virtual boost::shared_ptr<Image> image () const = 0;
 	virtual void add_metadata (xmlpp::Node *) const = 0;
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
