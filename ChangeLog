@@ -1,3 +1,8 @@
+2014-06-12  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug where DCP-o-matic does not recreate video after
+	subtitles are turned on or off.
+
 2014-06-10  Carl Hetherington  <cth@carlh.net>
 
 	* Support ISDCF naming convention version 9 (#257).

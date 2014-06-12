@@ -184,6 +184,10 @@ Film::video_identifier () const
 		s << "_3D";
 	}
 
+	if (_with_subtitles) {
+		s << "_WS";
+	}
+
 	return s.str ();
 }
 	  
