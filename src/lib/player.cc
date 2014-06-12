@@ -500,6 +500,8 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			min (AudioFrame (all->audio->frames()), length_frames) - offset.frames (_film->audio_frame_rate ())
 			);
 	}
+
+	return audio;
 }
 
 VideoFrame
