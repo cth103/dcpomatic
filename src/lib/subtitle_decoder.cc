@@ -52,7 +52,6 @@ list<shared_ptr<T> >
 SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod period)
 {
 	if (!has_subtitle_during (period)) {
-		cout << "no subtitle during this period.\n";
 		return list<shared_ptr<T> > ();
 	}
 
