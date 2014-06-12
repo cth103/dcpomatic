@@ -10,6 +10,7 @@ parser.add_argument('log_file')
 parser.add_argument('-q', '--queue', help='plot queue size', action='store_true')
 parser.add_argument('-e', '--encoder-threads', help='plot encoder thread activity', action='store_true')
 parser.add_argument('-f', '--plot-first-encoder', help='plot more detailed activity of the first encoder thread', action='store_true')
+parser.add_argument('-s', '--fps-stats', help='frames-per-second stats', action='store_true')
 parser.add_argument('--dump-first-encoder', help='dump activity of the first encoder thread', action='store_true')
 parser.add_argument('--from', help='time in seconds to start at', type=int, dest='from_time')
 parser.add_argument('--to', help='time in seconds to stop at', type=int, dest='to_time')
@@ -41,6 +42,7 @@ class Time:
             return Time(self.seconds - x.seconds, m)
 
 queue_size = []
+general_events = []
 encoder_thread_events = dict()
 
 def add_encoder_thread_event(thread, time, event):
@@ -49,6 +51,10 @@ def add_encoder_thread_event(thread, time, event):
         encoder_thread_events[thread].append((time, event))
     else:
         encoder_thread_events[thread] = [(time, event)]
+
+def add_general_event(time, event):
+    global general_events
+    general_events.append((time, event))
 
 f = open(args.log_file)
 start = None
@@ -100,6 +106,14 @@ while True:
         add_encoder_thread_event(thread, T, 'magick_end_unpack')
     elif message.startswith('encoder thread finishes local encode'):
         add_encoder_thread_event(thread, T, 'end_encode')
+    elif message.startswith('Finished locally-encoded'):
+        add_general_event(T, 'end_local_encode')
+    elif message.startswith('Finished remotely-encoded'):
+        add_general_event(T, 'end_remote_encode')
+    elif message.startswith('Transcode job starting'):
+        add_general_event(T, 'begin_transcode')
+    elif message.startswith('Transcode job completed successfully'):
+        add_general_event(T, 'end_transcode')
 
 if args.queue:
     plt.figure()
@@ -111,6 +125,7 @@ if args.queue:
 
     plt.plot(x, y)
     plt.show()
+
 elif args.encoder_threads:
     plt.figure()
     N = len(encoder_thread_events)
@@ -147,6 +162,7 @@ elif args.encoder_threads:
         n += 1
 
     plt.show()
+
 elif args.plot_first_encoder:
     plt.figure()
     N = len(encoder_thread_events)
@@ -177,9 +193,35 @@ elif args.plot_first_encoder:
         n += 1
 
     plt.show()
+
 elif args.dump_first_encoder:
     events = encoder_thread_events.itervalues().next()
     last = 0
     for e in events:
         print e[0].float_seconds(), (e[0].float_seconds() - last), e[1]
         last = e[0].float_seconds()
+
+elif args.fps_stats:
+    local = 0
+    remote = 0
+    start = None
+    end = None
+    for e in general_events:
+        if e[1] == 'begin_transcode':
+            start = e[0]
+        elif e[1] == 'end_transcode':
+            end = e[0]
+        elif e[1] == 'end_local_encode':
+            local += 1
+        elif e[1] == 'end_remote_encode':
+            remote += 1
+
+    if end == None:
+        print 'Job did not appear to end'
+        sys.exit(1)
+
+    duration = end - start
+
+    print 'Job ran for %fs' % duration.float_seconds()
+    print '%d local and %d remote' % (local, remote)
+    print '%.2f fps local and %.2f fps remote' % (local / duration.float_seconds(), remote / duration.float_seconds())
