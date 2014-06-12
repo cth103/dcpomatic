@@ -317,7 +317,7 @@ FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optiona
 
 		if (_packet.stream_index == _video_stream) {
 
-			avcodec_get_frame_defaults (_frame);
+			av_frame_unref (_frame);
 			
 			int got_picture = 0;
 			r = avcodec_decode_video2 (video_codec_context(), _frame, &got_picture, &_packet);
