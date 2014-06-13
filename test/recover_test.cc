@@ -36,7 +36,7 @@ using boost::shared_ptr;
 static void
 note (dcp::NoteType t, string n)
 {
-	if (t == dcp::ERROR) {
+	if (t == dcp::DCP_ERROR) {
 		cout << n << "\n";
 	}
 }
