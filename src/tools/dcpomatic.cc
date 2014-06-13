@@ -30,7 +30,7 @@
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
-#include <libdcp/exceptions.h>
+#include <dcp/exceptions.h>
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
