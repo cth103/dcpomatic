@@ -476,7 +476,7 @@ private:
 					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->cpl (), d->from (), d->until ()))
 					);
 			}
-		} catch (libdcp::NotEncryptedError& e) {
+		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
 			error_dialog (this, e.what ());
