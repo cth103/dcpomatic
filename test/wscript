@@ -22,6 +22,7 @@ def build(bld):
                  audio_decoder_test.cc
                  audio_mapping_test.cc
                  black_fill_test.cc
+                 burnt_subtitle_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc
                  ffmpeg_audio_test.cc
