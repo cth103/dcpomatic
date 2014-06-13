@@ -29,6 +29,7 @@
 #include "lib/scaler.h"
 
 using std::string;
+using std::list;
 using std::cout;
 using boost::shared_ptr;
 
@@ -276,4 +277,126 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 	crop_scale_window_single (AV_PIX_FMT_YUV420P, dcp::Size (640, 480), Crop (16, 3, 3, 0), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
 	crop_scale_window_single (AV_PIX_FMT_RGB24, dcp::Size (1000, 800), Crop (0, 0, 0, 0), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
 	crop_scale_window_single (AV_PIX_FMT_RGB24, dcp::Size (1000, 800), Crop (55, 0, 1, 9), dcp::Size (1920, 1080), dcp::Size (1998, 1080));
+}
+
+/** Test Image::alpha_blend */
+BOOST_AUTO_TEST_CASE (alpha_blend_test)
+{
+	int const stride = 48 * 4;
+	
+	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
+	A->make_black ();
+	uint8_t* a = A->data()[0];
+
+	for (int y = 0; y < 48; ++y) {
+		uint8_t* p = a + y * stride;
+		for (int x = 0; x < 16; ++x) {
+			p[x * 4] = 255;
+			p[(x + 16) * 4 + 1] = 255;
+			p[(x + 32) * 4 + 2] = 255;
+		}
+	}
+
+	shared_ptr<Image> B (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), true));
+	B->make_transparent ();
+	uint8_t* b = B->data()[0];
+
+	for (int y = 32; y < 48; ++y) {
+		uint8_t* p = b + y * stride;
+		for (int x = 0; x < 48; ++x) {
+			p[x * 4] = 255;
+			p[x * 4 + 1] = 255;
+			p[x * 4 + 2] = 255;
+			p[x * 4 + 3] = 255;
+		}
+	}
+
+	A->alpha_blend (B, Position<int> (0, 0));
+
+	for (int y = 0; y < 32; ++y) {
+		uint8_t* p = a + y * stride;
+		for (int x = 0; x < 16; ++x) {
+			BOOST_CHECK_EQUAL (p[x * 4], 255);
+			BOOST_CHECK_EQUAL (p[(x + 16) * 4 + 1], 255);
+			BOOST_CHECK_EQUAL (p[(x + 32) * 4 + 2], 255);
+		}
+	}
+
+	for (int y = 32; y < 48; ++y) {
+		uint8_t* p = a + y * stride;
+		for (int x = 0; x < 48; ++x) {
+			BOOST_CHECK_EQUAL (p[x * 4], 255);
+			BOOST_CHECK_EQUAL (p[x * 4 + 1], 255);
+			BOOST_CHECK_EQUAL (p[x * 4 + 2], 255);
+			BOOST_CHECK_EQUAL (p[x * 4 + 3], 255);
+		}
+	}
+}
+
+/** Test merge (list<PositionImage>) with a single image */
+BOOST_AUTO_TEST_CASE (merge_test1)
+{
+	int const stride = 48 * 4;
+	
+	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
+	A->make_transparent ();
+	uint8_t* a = A->data()[0];
+
+	for (int y = 0; y < 48; ++y) {
+		uint8_t* p = a + y * stride;
+		for (int x = 0; x < 16; ++x) {
+			/* red */
+			p[x * 4] = 255;
+			/* opaque */
+			p[x * 4 + 3] = 255;
+		}
+	}
+
+	list<PositionImage> all;
+	all.push_back (PositionImage (A, Position<int> (0, 0)));
+	PositionImage merged = merge (all);
+
+	BOOST_CHECK (merged.position == Position<int> (0, 0));
+	BOOST_CHECK_EQUAL (memcmp (merged.image->data()[0], A->data()[0], stride * 48), 0);
+}
+
+/** Test merge (list<PositionImage>) with two images */
+BOOST_AUTO_TEST_CASE (merge_test2)
+{
+	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false));
+	A->make_transparent ();
+	uint8_t* a = A->data()[0];
+	for (int x = 0; x < 16; ++x) {
+		/* red */
+		a[x * 4] = 255;
+		/* opaque */
+		a[x * 4 + 3] = 255;
+	}
+
+	shared_ptr<Image> B (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false));
+	B->make_transparent ();
+	uint8_t* b = B->data()[0];
+	for (int x = 0; x < 16; ++x) {
+		/* blue */
+		b[(x + 32) * 4 + 2] = 255;
+		/* opaque */
+		b[(x + 32) * 4 + 3] = 255;
+	}
+
+	list<PositionImage> all;
+	all.push_back (PositionImage (A, Position<int> (0, 0)));
+	all.push_back (PositionImage (B, Position<int> (0, 0)));
+	PositionImage merged = merge (all);
+
+	BOOST_CHECK (merged.position == Position<int> (0, 0));
+
+	uint8_t* m = merged.image->data()[0];
+
+	for (int x = 0; x < 16; ++x) {
+		BOOST_CHECK_EQUAL (m[x * 4], 255);
+		BOOST_CHECK_EQUAL (m[x * 4 + 3], 255);
+		BOOST_CHECK_EQUAL (m[(x + 16) * 4 + 3], 0);
+		BOOST_CHECK_EQUAL (m[(x + 32) * 4 + 2], 255);
+		BOOST_CHECK_EQUAL (m[(x + 32) * 4 + 3], 255);
+	}
 }
