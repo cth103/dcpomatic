@@ -65,7 +65,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _playlist (p)
 	, _have_valid_pieces (false)
 	, _approximate_size (false)
-	, _burn_subtitles (false)
 {
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
@@ -309,64 +308,6 @@ Player::black_player_video_frame () const
 	);
 }
 
-shared_ptr<PlayerVideoFrame>
-Player::content_to_player_video_frame (
-	shared_ptr<VideoContent> content,
-	ContentVideo content_video,
-	list<shared_ptr<Piece> > subs,
-	DCPTime time,
-	dcp::Size image_size) const
-{
-	shared_ptr<PlayerVideoFrame> pvf (
-		new PlayerVideoFrame (
-			content_video.image,
-			content->crop (),
-			image_size,
-			_video_container_size,
-			_film->scaler(),
-			content_video.eyes,
-			content_video.part,
-			content->colour_conversion ()
-			)
-		);
-	
-	
-	/* Add subtitles */
-	
-	list<PositionImage> sub_images;
-	
-	for (list<shared_ptr<Piece> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*i)->decoder);
-		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*i)->content);
-		ContentTime const from = dcp_to_content_subtitle (*i, time);
-		ContentTime const to = from + ContentTime::from_frames (1, content->video_frame_rate ());
-		
-		list<shared_ptr<ContentImageSubtitle> > image_subtitles = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to));
-		if (!image_subtitles.empty ()) {
-			list<PositionImage> im = process_content_image_subtitles (
-				subtitle_content,
-				image_subtitles
-				);
-			
-			copy (im.begin(), im.end(), back_inserter (sub_images));
-		}
-		
-		if (_burn_subtitles) {
-			list<shared_ptr<ContentTextSubtitle> > text_subtitles = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to));
-			if (!text_subtitles.empty ()) {
-				list<PositionImage> im = process_content_text_subtitles (text_subtitles);
-				copy (im.begin(), im.end(), back_inserter (sub_images));
-			}
-		}
-	}
-	
-	if (!sub_images.empty ()) {
-		pvf->set_subtitle (merge (sub_images));
-	}
-
-	return pvf;
-}
-
 /** @return All PlayerVideoFrames at the given time (there may be two frames for 3D) */
 list<shared_ptr<PlayerVideoFrame> >
 Player::get_video (DCPTime time, bool accurate)
@@ -381,41 +322,87 @@ Player::get_video (DCPTime time, bool accurate)
 		);
 
 	list<shared_ptr<PlayerVideoFrame> > pvf;
-		
+
 	if (ov.empty ()) {
 		/* No video content at this time */
 		pvf.push_back (black_player_video_frame ());
-		return pvf;
-	}
+	} else {
+		/* Create a PlayerVideoFrame from the content's video at this time */
 
-	/* Create a PlayerVideoFrame from the content's video at this time */
+		shared_ptr<Piece> piece = ov.back ();
+		shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
+		assert (decoder);
+		shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
+		assert (content);
 
-	shared_ptr<Piece> piece = ov.back ();
-	shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
-	assert (decoder);
-	shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
-	assert (content);
-
-	list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
-	if (content_video.empty ()) {
-		pvf.push_back (black_player_video_frame ());
-		return pvf;
-	}
-
-	dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
-	if (_approximate_size) {
-		image_size.width &= ~3;
-		image_size.height &= ~3;
-	}
-
-	for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
-		list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (
-			time,
-			time + DCPTime::from_frames (1, _film->video_frame_rate ())
-			);
+		list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+		if (content_video.empty ()) {
+			pvf.push_back (black_player_video_frame ());
+			return pvf;
+		}
 		
-		pvf.push_back (content_to_player_video_frame (content, *i, subs, time, image_size));
+		dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
+		if (_approximate_size) {
+			image_size.width &= ~3;
+			image_size.height &= ~3;
+		}
+		
+		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
+			pvf.push_back (
+				shared_ptr<PlayerVideoFrame> (
+					new PlayerVideoFrame (
+						i->image,
+						content->crop (),
+						image_size,
+						_video_container_size,
+						_film->scaler(),
+						i->eyes,
+						i->part,
+						content->colour_conversion ()
+						)
+					)
+				);
+		}
 	}
+
+	/* Add subtitles to whatever PlayerVideoFrames we got */
+	
+	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (
+		time,
+		time + DCPTime::from_frames (1, _film->video_frame_rate ())
+		);
+
+	list<PositionImage> sub_images;
+	
+	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
+		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
+		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
+		ContentTime const from = dcp_to_content_subtitle (*j, time);
+		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
+		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
+
+		list<shared_ptr<ContentImageSubtitle> > image_subtitles = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to));
+		if (!image_subtitles.empty ()) {
+			list<PositionImage> im = process_content_image_subtitles (
+				subtitle_content,
+				image_subtitles
+				);
+			
+			copy (im.begin(), im.end(), back_inserter (sub_images));
+		}
+		
+		list<shared_ptr<ContentTextSubtitle> > text_subtitles = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to));
+		if (!text_subtitles.empty ()) {
+			list<PositionImage> im = process_content_text_subtitles (text_subtitles);
+			copy (im.begin(), im.end(), back_inserter (sub_images));
+		}
+	}
+	
+	if (!sub_images.empty ()) {
+		for (list<shared_ptr<PlayerVideoFrame> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
+			(*i)->set_subtitle (merge (sub_images));
+		}
+	}	
 		
 	return pvf;
 }

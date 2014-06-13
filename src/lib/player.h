@@ -90,9 +90,6 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_approximate_size ();
-	void set_burn_subtitles (bool burn) {
-		_burn_subtitles = burn;
-	}
 
 	PlayerStatistics const & statistics () const;
 	
@@ -123,13 +120,6 @@ private:
 	AudioFrame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	boost::shared_ptr<PlayerVideoFrame> black_player_video_frame () const;
-	boost::shared_ptr<PlayerVideoFrame> content_to_player_video_frame (
-		boost::shared_ptr<VideoContent> content,
-		ContentVideo content_video,
-		std::list<boost::shared_ptr<Piece> > subs,
-		DCPTime time,
-		dcp::Size image_size
-		) const;
 
 	/** @return Pieces of content type C that overlap a specified time range in the DCP */
 	template<class C>
