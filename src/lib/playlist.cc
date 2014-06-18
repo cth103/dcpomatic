@@ -404,7 +404,7 @@ Playlist::active_frame_rate_change (Time t, int dcp_video_frame_rate) const
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
 		if (!vc) {
-			break;
+			continue;
 		}
 
 		if (vc->position() >= t && t < vc->end()) {
