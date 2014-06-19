@@ -130,6 +130,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		delete *i;
 	}
+
+	delete server;
 }
 
 BOOST_AUTO_TEST_CASE (client_server_test_yuv)
@@ -209,5 +211,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		delete *i;
 	}
+
+	delete server;
 }
 

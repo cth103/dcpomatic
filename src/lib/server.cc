@@ -66,10 +66,31 @@ using dcp::Size;
 using dcp::raw_convert;
 
 Server::Server (shared_ptr<Log> log, bool verbose)
-	: _log (log)
+	: _terminate (false)
+	, _log (log)
 	, _verbose (verbose)
+	, _acceptor (_io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port_base()))
 {
 
+}
+
+Server::~Server ()
+{
+	{
+		boost::mutex::scoped_lock lm (_worker_mutex);
+		_terminate = true;
+		_worker_condition.notify_all ();
+	}
+
+	for (vector<boost::thread*>::iterator i = _worker_threads.begin(); i != _worker_threads.end(); ++i) {
+		(*i)->join ();
+		delete *i;
+	}
+
+	_io_service.stop ();
+
+	_broadcast.io_service.stop ();
+	_broadcast.thread->join ();
 }
 
 /** @param after_read Filled in with gettimeofday() after reading the input from the network.
@@ -117,8 +138,12 @@ Server::worker_thread ()
 {
 	while (1) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
-		while (_queue.empty ()) {
+		while (_queue.empty () && !_terminate) {
 			_worker_condition.wait (lock);
+		}
+
+		if (_terminate) {
+			return;
 		}
 
 		shared_ptr<Socket> socket = _queue.front ();
@@ -187,39 +212,18 @@ Server::run (int num_threads)
 
 	_broadcast.thread = new thread (bind (&Server::broadcast_thread, this));
 	
-	boost::asio::io_service io_service;
-
-	boost::asio::ip::tcp::acceptor acceptor (
-		io_service,
-		boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port_base ())
-		);
-	
-	while (1) {
-		shared_ptr<Socket> socket (new Socket);
-		acceptor.accept (socket->socket ());
-
-		boost::mutex::scoped_lock lock (_worker_mutex);
-		
-		/* Wait until the queue has gone down a bit */
-		while (int (_queue.size()) >= num_threads * 2) {
-			_worker_condition.wait (lock);
-		}
-		
-		_queue.push_back (socket);
-		_worker_condition.notify_all ();
-	}
+	start_accept ();
+	_io_service.run ();
 }
 
 void
 Server::broadcast_thread ()
 try
 {
-	boost::asio::io_service io_service;
-
 	boost::asio::ip::address address = boost::asio::ip::address_v4::any ();
 	boost::asio::ip::udp::endpoint listen_endpoint (address, Config::instance()->server_port_base() + 1);
 
-	_broadcast.socket = new boost::asio::ip::udp::socket (io_service);
+	_broadcast.socket = new boost::asio::ip::udp::socket (_broadcast.io_service);
 	_broadcast.socket->open (listen_endpoint.protocol ());
 	_broadcast.socket->bind (listen_endpoint);
 
@@ -229,7 +233,7 @@ try
 		boost::bind (&Server::broadcast_received, this)
 		);
 
-	io_service.run ();
+	_broadcast.io_service.run ();
 }
 catch (...)
 {
@@ -264,3 +268,35 @@ Server::broadcast_received ()
 		_broadcast.send_endpoint, boost::bind (&Server::broadcast_received, this)
 		);
 }
+
+void
+Server::start_accept ()
+{
+	if (_terminate) {
+		return;
+	}
+
+	shared_ptr<Socket> socket (new Socket);
+	_acceptor.async_accept (socket->socket (), boost::bind (&Server::handle_accept, this, socket, boost::asio::placeholders::error));
+}
+
+void
+Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code const & error)
+{
+	if (error) {
+		return;
+	}
+
+	boost::mutex::scoped_lock lock (_worker_mutex);
+	
+	/* Wait until the queue has gone down a bit */
+	while (_queue.size() >= _worker_threads.size() * 2 && !_terminate) {
+		_worker_condition.wait (lock);
+	}
+	
+	_queue.push_back (socket);
+	_worker_condition.notify_all ();
+
+	start_accept ();
+}
+	

@@ -35,6 +35,7 @@
 #include "lib/filter.h"
 #include "lib/dcp_content_type.h"
 #include "lib/colour_conversion.h"
+#include "lib/log.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "editable_list.h"

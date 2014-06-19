@@ -38,6 +38,7 @@ extern "C" {
 #include "util.h"
 #include "config.h"
 #include "cross.h"
+#include "exceptions.h"
 
 class Image;
 class AudioBuffers;

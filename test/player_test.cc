@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 	film->examine_and_add_content (C);
 	wait_for_jobs ();
 
-	BOOST_CHECK_EQUAL (A->full_length(), DCPTime::from_seconds (3));
+	BOOST_CHECK_EQUAL (A->full_length(), DCPTime (280000));
 
 	A->set_position (DCPTime::from_seconds (0));
 	B->set_position (DCPTime::from_seconds (10));

@@ -25,6 +25,7 @@
 #include <wx/renderer.h>
 #include <wx/grid.h>
 #include <dcp/types.h>
+#include <dcp/raw_convert.h>
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
 #include "audio_mapping_view.h"
@@ -246,7 +247,7 @@ AudioMappingView::update_cells ()
 		_grid->SetCellValue (i, 0, wxString::Format (wxT("%d"), i + 1));
 
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			_grid->SetCellValue (i, j, std_to_wx (lexical_cast<string> (_map.get (i, static_cast<dcp::Channel> (j - 1)))));
+			_grid->SetCellValue (i, j, std_to_wx (dcp::raw_convert<string> (_map.get (i, static_cast<dcp::Channel> (j - 1)))));
 		}
 	}
 

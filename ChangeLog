@@ -2,6 +2,18 @@
 
 	* Add subtitle view.
 
+2014-06-18  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.29 released.
+
+2014-06-18  Carl Hetherington  <cth@carlh.net>
+
+	* Fix thinko causing incorrect audio sample rates in some cases.
+
+2014-06-15  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.28 released.
+
 2014-06-12  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.69.27 released.

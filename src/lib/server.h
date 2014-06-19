@@ -90,6 +90,7 @@ class Server : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Server (boost::shared_ptr<Log> log, bool verbose);
+	~Server ();
 
 	void run (int num_threads);
 
@@ -98,13 +99,23 @@ private:
 	int process (boost::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
 	void broadcast_thread ();
 	void broadcast_received ();
+	void start_accept ();
+	void handle_accept (boost::shared_ptr<Socket>, boost::system::error_code const &);
+
+	bool _terminate;
 
 	std::vector<boost::thread *> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
 	boost::condition _worker_condition;
+	
 	boost::shared_ptr<Log> _log;
 	bool _verbose;
+
+	boost::asio::io_service _io_service;
+	boost::asio::ip::tcp::acceptor _acceptor;
+
+	int _num_threads;
 
 	struct Broadcast {
 
@@ -117,6 +128,7 @@ private:
 		boost::asio::ip::udp::socket* socket;
 		char buffer[64];
 		boost::asio::ip::udp::endpoint send_endpoint;
+		boost::asio::io_service io_service;
 		
 	} _broadcast;
 };

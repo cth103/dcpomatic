@@ -31,7 +31,6 @@
 #include <dcp/metadata.h>
 #include "isdcf_metadata.h"
 #include "colour_conversion.h"
-#include "server.h"
 
 class ServerDescription;
 class Scaler;

@@ -20,11 +20,11 @@
 #include <libcxml/cxml.h>
 #include "image_content.h"
 #include "image_examiner.h"
-#include "config.h"
 #include "compose.hpp"
 #include "film.h"
 #include "job.h"
 #include "frame_rate_change.h"
+#include "exceptions.h"
 
 #include "i18n.h"
 

@@ -143,7 +143,7 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 static void
 note (dcp::NoteType t, string n)
 {
-	if (t == dcp::ERROR) {
+	if (t == dcp::DCP_ERROR) {
 		cerr << n << "\n";
 	}
 }
