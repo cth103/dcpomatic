@@ -22,6 +22,8 @@
 
 #include <cmath>
 #include <ostream>
+#include <sstream>
+#include <iomanip>
 #include <stdint.h>
 #include "frame_rate_change.h"
 
@@ -54,6 +56,42 @@ public:
 	template <typename T>
 	int64_t frames (T r) const {
 		return rint (_t * r / HZ);
+	}
+
+	template <typename T>
+	void split (T r, int& h, int& m, int& s, int& f) const
+	{
+		/* Do this calculation with frames so that we can round
+		   to a frame boundary at the start rather than the end.
+		*/
+		int64_t ff = frames (r);
+		
+		h = ff / (3600 * r);
+		ff -= h * 3600 * r;
+		m = ff / (60 * r);
+		ff -= m * 60 * r;
+		s = ff / r;
+		ff -= s * r;
+
+		f = static_cast<int> (ff);
+	}
+
+	template <typename T>
+	std::string timecode (T r) const {
+		int h;
+		int m;
+		int s;
+		int f;
+		split (r, h, m, s, f);
+
+		std::ostringstream o;
+		o.width (2);
+		o.fill ('0');
+		o << std::setw(2) << std::setfill('0') << h << ":"
+		  << std::setw(2) << std::setfill('0') << m << ":"
+		  << std::setw(2) << std::setfill('0') << s << ":"
+		  << std::setw(2) << std::setfill('0') << f;
+		return o.str ();
 	}
 
 protected:

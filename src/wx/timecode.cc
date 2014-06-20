@@ -85,24 +85,18 @@ Timecode::Timecode (wxWindow* parent)
 void
 Timecode::set (DCPTime t, int fps)
 {
-	/* Do this calculation with frames so that we can round
-	   to a frame boundary at the start rather than the end.
-	*/
-	int64_t f = rint (t.seconds() * fps);
-	
-	int const h = f / (3600 * fps);
-	f -= h * 3600 * fps;
-	int const m = f / (60 * fps);
-	f -= m * 60 * fps;
-	int const s = f / fps;
-	f -= s * fps;
+	int h;
+	int m;
+	int s;
+	int f;
+	t.split (fps, h, m, s, f);
 
 	checked_set (_hours, lexical_cast<string> (h));
 	checked_set (_minutes, lexical_cast<string> (m));
 	checked_set (_seconds, lexical_cast<string> (s));
 	checked_set (_frames, lexical_cast<string> (f));
 
-	_fixed->SetLabel (wxString::Format ("%02d:%02d:%02d.%02" wxLongLongFmtSpec "d", h, m, s, f));
+	_fixed->SetLabel (std_to_wx (t.timecode (fps)));
 }
 
 DCPTime

@@ -88,3 +88,9 @@ BOOST_AUTO_TEST_CASE (divide_with_round_test)
 
 	BOOST_CHECK_EQUAL (divide_with_round (1000, 500), 2);
 }
+
+BOOST_AUTO_TEST_CASE (timecode_test)
+{
+	DCPTime t = DCPTime::from_seconds (2 * 60 * 60 + 4 * 60 + 31) + DCPTime::from_frames (19, 24);
+	BOOST_CHECK_EQUAL (t.timecode (24), "02:04:31:19");
+}
