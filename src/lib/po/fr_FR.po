@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-20 11:11+0100\n"
-"PO-Revision-Date: 2014-04-18 22:51+0100\n"
+"PO-Revision-Date: 2014-06-20 15:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -321,13 +321,12 @@ msgid "High quality 3D denoiser"
 msgstr "Débruiteur 3D haute qualité"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
-#, fuzzy
 msgid ""
 "It is not known what caused this error.  Please report the problem to the "
 "DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
-"Erreur indéterminée. Merci de rapporter le problème à la liste DCP-o-matic "
-"(carl@dcpomatic.com)"
+"Erreur indéterminée. Merci de rapporter le problème à l'auteur de DCP-o-"
+"matic (carl@dcpomatic.com)"
 
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
@@ -556,9 +555,8 @@ msgid "[moving images]"
 msgstr "[Déplacement d'images]"
 
 #: src/lib/image_content.cc:71
-#, fuzzy
 msgid "[still]"
-msgstr "[fixe]"
+msgstr "[restant]"
 
 #: src/lib/film.cc:257
 msgid "cannot contain slashes"
@@ -725,9 +723,8 @@ msgid "seconds"
 msgstr "secondes"
 
 #: src/lib/image_content.cc:86
-#, fuzzy
 msgid "still"
-msgstr "%1 [fixe]"
+msgstr "%1 [restant]"
 
 #: src/lib/ffmpeg_examiner.cc:168
 msgid "unknown"

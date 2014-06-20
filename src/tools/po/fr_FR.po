@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-20 11:11+0100\n"
-"PO-Revision-Date: 2014-04-18 22:54+0100\n"
+"PO-Revision-Date: 2014-06-20 15:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -28,7 +28,7 @@ msgstr "&Ajouter Film..."
 
 #: src/tools/dcpomatic.cc:243
 msgid "&Content"
-msgstr ""
+msgstr "&Adaptation"
 
 #: src/tools/dcpomatic.cc:241
 msgid "&Edit"
@@ -105,6 +105,8 @@ msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
 msgstr ""
+"Erreur indeterminée. Merci de rapporter le problème à l'auteur de DCP-o-"
+"matic (carl@dcpomatic.com)."
 
 #: src/tools/dcpomatic.cc:484
 msgid "An unknown exeception occurred."
@@ -112,7 +114,7 @@ msgstr "Une exception inconnue est arrivée"
 
 #: src/tools/dcpomatic.cc:480
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "Le contenu du DCP n'est pas crypté."
 
 #: src/tools/dcpomatic.cc:230
 msgid "Check for updates"
@@ -179,11 +181,11 @@ msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
 #: src/tools/dcpomatic.cc:219
 msgid "Scale to fit &height"
-msgstr ""
+msgstr "Adapter pour remplir la &hauteur"
 
 #: src/tools/dcpomatic.cc:218
 msgid "Scale to fit &width"
-msgstr ""
+msgstr "Adapter pour remplir la largeur"
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:170
 msgid "Select film to open"

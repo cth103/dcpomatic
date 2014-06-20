@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-20 11:11+0100\n"
-"PO-Revision-Date: 2014-04-18 22:50+0100\n"
+"PO-Revision-Date: 2014-06-20 16:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -39,7 +39,7 @@ msgstr "(redémarrez DCP-o-matic pour appliquer le changement de langue)"
 
 #: src/wx/audio_mapping_view.cc:134
 msgid "-6dB"
-msgstr ""
+msgstr "-6dB"
 
 #: src/wx/colour_conversion_editor.cc:83
 msgid "1 / "
@@ -54,9 +54,8 @@ msgid "2D"
 msgstr "2D"
 
 #: src/wx/isdcf_metadata_dialog.cc:68
-#, fuzzy
 msgid "2D version of content available in 3D"
-msgstr "De nouvelles versions de DCP-o-matic sont disponibles."
+msgstr "Version 2D d'un contenu aussi disponible en 3D"
 
 #: src/wx/film_editor.cc:224
 msgid "2K"
@@ -72,16 +71,15 @@ msgstr "3D alternatif"
 
 #: src/wx/video_panel.cc:201
 msgid "3D left only"
-msgstr ""
+msgstr "3D gauche"
 
 #: src/wx/video_panel.cc:198
 msgid "3D left/right"
 msgstr "3D gauche/droite"
 
 #: src/wx/video_panel.cc:202
-#, fuzzy
 msgid "3D right only"
-msgstr "3D gauche/droite"
+msgstr "3D droite"
 
 #: src/wx/video_panel.cc:199
 msgid "3D top/bottom"
@@ -120,9 +118,8 @@ msgid "Add..."
 msgstr "Ajouter..."
 
 #: src/wx/config_dialog.cc:743
-#, fuzzy
 msgid "Allow any DCP frame rate"
-msgstr "Cadence vidéo"
+msgstr "Autoriser toutes cadences"
 
 #: src/wx/about_dialog.cc:109
 msgid "Artwork by"
@@ -198,17 +195,16 @@ msgid "C"
 msgstr "C"
 
 #: src/wx/kdm_dialog.cc:125 src/wx/kdm_dialog.cc:131
-#, fuzzy
 msgid "CPL"
-msgstr "DCP"
+msgstr "CPL"
 
 #: src/wx/kdm_dialog.cc:143
 msgid "CPL ID"
-msgstr ""
+msgstr "Id du CPL"
 
 #: src/wx/kdm_dialog.cc:146
 msgid "CPL annotation text"
-msgstr ""
+msgstr "Commentaire CPL"
 
 #: src/wx/audio_panel.cc:63
 msgid "Calculate..."
@@ -229,7 +225,7 @@ msgstr "Certificat téléchargé"
 
 #: src/wx/isdcf_metadata_dialog.cc:65
 msgid "Chain"
-msgstr ""
+msgstr "Chaîne"
 
 #: src/wx/audio_gain_dialog.cc:26
 msgid "Channel gain"
@@ -339,7 +335,7 @@ msgstr "Nom du DCP"
 
 #: src/wx/kdm_dialog.cc:140
 msgid "DCP directory"
-msgstr ""
+msgstr "Répertoire du DCP"
 
 #: src/wx/about_dialog.cc:45 src/wx/wx_util.cc:87 src/wx/wx_util.cc:95
 msgid "DCP-o-matic"
@@ -351,9 +347,8 @@ msgid "DCP-o-matic audio - %s"
 msgstr "Son DCP-o-matic  - %s"
 
 #: src/wx/config_dialog.cc:317
-#, fuzzy
 msgid "Default ISDCF name details"
-msgstr "Détails du nom DCI par défaut"
+msgstr "Nom ISDCF par défaut"
 
 #: src/wx/config_dialog.cc:330
 msgid "Default JPEG2000 bandwidth"
@@ -458,7 +453,7 @@ msgstr "Crypté"
 
 #: src/wx/config_dialog.cc:753
 msgid "Errors"
-msgstr ""
+msgstr "Erreurs"
 
 #: src/wx/isdcf_metadata_dialog.cc:50
 msgid "Facility (e.g. DLA)"
@@ -532,7 +527,7 @@ msgstr "Gb"
 
 #: src/wx/config_dialog.cc:748
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #: src/wx/audio_mapping_view.cc:301
 msgid "HI"
@@ -567,9 +562,8 @@ msgid "IP address / host name"
 msgstr "Adresse IP / Nom d'Hôte"
 
 #: src/wx/isdcf_metadata_dialog.cc:30
-#, fuzzy
 msgid "ISDCF name"
-msgstr "Nom DCI"
+msgstr "Nom ISDCF"
 
 #: src/wx/colour_conversion_editor.cc:44
 msgid "Input gamma"
@@ -621,7 +615,7 @@ msgstr "Chargement depuis fichier..."
 
 #: src/wx/config_dialog.cc:747
 msgid "Log"
-msgstr ""
+msgstr "Rapport"
 
 #: src/wx/audio_mapping_view.cc:293
 msgid "Ls"
@@ -645,7 +639,7 @@ msgstr "Générer KDMs"
 
 #: src/wx/isdcf_metadata_dialog.cc:71
 msgid "Mastered luminance (e.g. 4fl)"
-msgstr ""
+msgstr "Luminance masterisée (ex: 4fl)"
 
 #: src/wx/colour_conversion_editor.cc:67
 msgid "Matrix"
@@ -702,9 +696,8 @@ msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortante"
 
 #: src/wx/kdm_dialog.cc:156
-#, fuzzy
 msgid "Output"
-msgstr "Gamma de sortie"
+msgstr "Sortie"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "Output gamma"
@@ -749,7 +742,7 @@ msgstr "Position"
 
 #: src/wx/isdcf_metadata_dialog.cc:59
 msgid "Pre-release"
-msgstr ""
+msgstr "Avant sortie"
 
 #: src/wx/audio_mapping_view.cc:281
 msgid "R"
@@ -769,7 +762,7 @@ msgstr "CD"
 
 #: src/wx/isdcf_metadata_dialog.cc:62
 msgid "Red band"
-msgstr ""
+msgstr "Red Band"
 
 #: src/wx/content_menu.cc:54 src/wx/film_editor.cc:283
 #: src/wx/editable_list.h:66
@@ -834,14 +827,12 @@ msgid "Scaler"
 msgstr "Mise à l'échelle"
 
 #: src/wx/kdm_dialog.cc:60
-#, fuzzy
 msgid "Screens"
-msgstr "Ajout une salle"
+msgstr "Ecrans"
 
 #: src/wx/kdm_dialog.cc:515
-#, fuzzy
 msgid "Select CPL XML file"
-msgstr "Sélectionner le fichier son"
+msgstr "Sélectionner le fichier CPL.xml"
 
 #: src/wx/screen_dialog.cc:102
 msgid "Select Certificate File"
@@ -940,9 +931,8 @@ msgid "Target path"
 msgstr "Chemin d'accès"
 
 #: src/wx/isdcf_metadata_dialog.cc:56
-#, fuzzy
 msgid "Temp version"
-msgstr "Version Test"
+msgstr "Version Temp"
 
 #: src/wx/isdcf_metadata_dialog.cc:41
 msgid "Territory (e.g. UK)"
@@ -976,7 +966,7 @@ msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
 #: src/wx/kdm_dialog.cc:537
 msgid "This is not a valid CPL file"
-msgstr ""
+msgstr "Ceci n'est pas un fichier CPL valide"
 
 #: src/wx/servers_list_dialog.cc:48
 msgid "Threads"
@@ -1044,9 +1034,8 @@ msgid "Update"
 msgstr "Mise à jour."
 
 #: src/wx/film_editor.cc:128
-#, fuzzy
 msgid "Use ISDCF name"
-msgstr "Utiliser le nom DCI"
+msgstr "Utiliser le nom ISDCF"
 
 #: src/wx/config_dialog.cc:501
 msgid "Use all servers"
@@ -1078,7 +1067,7 @@ msgstr "Cadence vidéo"
 
 #: src/wx/config_dialog.cc:750
 msgid "Warnings"
-msgstr ""
+msgstr "Avertissements"
 
 #: src/wx/subtitle_panel.cc:39
 msgid "With Subtitles"
