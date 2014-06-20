@@ -1098,7 +1098,7 @@ encoded in such a way that only cinemas &lsquo;approved&rsquo; by the
 DCP's creators can read them.  In particular, this means copies of the
 DCP can be distributed by insecure means: if an ne'er-do-well called
 Mallory obtains a hard drive containing an encrypted DCP, there is no
-way that he can play it.  Only those cinemas who receive a key
+way that he can play it.  Only those cinemas who receive a correct key
 delivery message (KDM) can play the DCP.
 </para>
 
@@ -1190,7 +1190,7 @@ those cinemas that are allowed to play the DCP.
 The first part is simple: ticking the <guilabel>Encrypted</guilabel>
 box in the <guilabel>DCP</guilabel> tab of DCP-o-matic will encrypt
 the DCP using a random key that DCP-o-matic generates.  The key will
-be written to the film's metadata file, so that should be kept
+be written to the film's metadata file, which should be kept
 secure.
 </para>
 
@@ -1538,7 +1538,7 @@ If DCP-o-matic did nothing else, the result of this would be that the
 audio would be running at the original speed with the video running
 slowly.  Hence the audio would drift slowly out of sync.  To avoid
 this, DCP-o-matic also resamples the audio such that the projector
-will play it too fast by the same amount.  Hence it will sound
+will play it too slow by the same amount.  Hence it will sound
 slightly different but will remain in sync with the video.
 </para>
 
