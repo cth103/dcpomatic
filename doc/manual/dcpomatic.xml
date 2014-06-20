@@ -879,7 +879,79 @@ DCPs).
 
 </section>
 
-<!-- XXX: timing tab -->
+<section>
+<title>Timing</title>
+
+<para>
+The timing tab contains settings related to the timing of your
+content, as shown in <xref linkend="fig-timing-tab-detail"/>.
+</para>
+
+<figure id="fig-timing-tab-detail"> 
+  <title>Timing settings tab</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/timing-tab&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Most of the timing tab's entries are <emphasis>time-codes</emphasis>.
+These are expressed as four numbers, as shown in <xref
+linkend="fig-timecode"/>.
+</para>
+
+<figure id="fig-timecode"> 
+  <title>Timecode</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="diagrams/timecode&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+<guilabel>Position</guilabel> is the time at which this piece of
+content should start within the DCP.  In most cases, this will be
+<code>0:0:0:0</code> to make the content start at the beginning of the
+DCP.
+</para>
+
+<para>
+<guilabel>Full length</guilabel> is the length of the piece of
+content.  This can only be set for still-image content: for video or
+sound content, it is fixed by the nature of the content file.  If
+still-image content is being used you can set the length for which it
+should be displayed using this control.
+</para>
+
+<para>
+<guilabel>Trim from start</guilabel> specifies the amount that should be trimmed from the start of the content.
+</para>
+
+<para>
+<guilabel>Trim from end</guilabel> specifies the amount that should be trimmed from the end of the content.
+</para>
+
+<para>
+<guilabel>Play length</guilabel> indicates how long this piece of
+content will be once the trims have been applied.  This will be equal
+to the full length minus <guilabel>trim-from-start</guilabel> and minus <guilabel>trim-from-end</guilabel>.
+</para>
+
+<para>
+<guilabel>Video frame rate</guilabel> specifies the frame rate for still-image content.
+</para>
+
+<para>
+Each timecode control has a <guilabel>Set</guilabel> which you should
+click when you have entered a new value for a timecode.  The
+<guilabel>Set</guilabel> button will make DCP-o-matic take account of
+any changes to the corresponding timecode.
+</para>
+
+</section>
 
 </chapter>
 
@@ -903,19 +975,19 @@ the main window, as shown in <xref linkend="fig-dcp-tab"/>.
 
 <para>
 The first thing here is the name.  This is generally set to the title
-of the film that is being encoded.  If <guilabel>Use DCI
+of the film that is being encoded.  If <guilabel>Use ISDCF
 name</guilabel> is not ticked, the name that you specify will be used
-as-is for the name of the DCP.  If <guilabel>Use DCI name</guilabel>
+as-is for the name of the DCP.  If <guilabel>Use ISDCF name</guilabel>
 is ticked, the name that you enter will be used as part of a
-DCI-compliant name.  
+ISDCF-compliant name.  
 </para>
 
 <para>
 Underneath the name field is a preview of the name that the DCP will
-get.  To use a DCI-compliant name, tick the <guilabel>Use DCI
-name</guilabel> check-box.  The DCI name will be composed using details
+get.  To use a ISDCF-compliant name, tick the <guilabel>Use ISDCF
+name</guilabel> check-box.  The ISDCF name will be composed using details
 of your content's soundtrack, the current date and other things that
-can be specified in the DCI name details dialogue box, which you can
+can be specified in the ISDCF name details dialogue box, which you can
 open by clicking on the <guilabel>Details</guilabel> button.
 </para>
 
@@ -947,6 +1019,11 @@ want it to be the same as the video content that you are using.  If it
 is not the same, DCP-o-matic must resort to some tricks to alter your
 content to fit the specified frame rate.  Frame rates are discussed in
 more detail in <xref linkend="ch-frame-rates"/>.
+</para>
+
+<para>
+The <guilabel>Signed</guilabel> check-box sets whether or not the DCP
+is signed.  This is rarely important; if in doubt, tick it.
 </para>
 
 <para>
