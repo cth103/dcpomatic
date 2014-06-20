@@ -194,6 +194,11 @@ Playlist::has_subtitles () const
 		if (fc && !fc->subtitle_streams().empty()) {
 			return true;
 		}
+
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (*i);
+		if (sc) {
+			return true;
+		}
 	}
 
 	return false;

@@ -247,7 +247,7 @@ SubtitlePanel::view_clicked ()
 	assert (c.size() == 1);
 	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
 	if (sr) {
-		_view = new SubtitleView (this, sr);
+		_view = new SubtitleView (this, _editor->film(), sr);
 	}
 
 	_view->Show ();

@@ -19,13 +19,16 @@
 
 #include "lib/subrip_decoder.h"
 #include "lib/content_subtitle.h"
+#include "lib/film.h"
+#include "lib/subrip_content.h"
 #include "subtitle_view.h"
+#include "wx_util.h"
 
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<SubRipContent> content)
+SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<SubRipContent> content)
 	: wxDialog (parent, wxID_ANY, _("Subtitles"))
 {
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
@@ -64,13 +67,17 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<SubRipContent> content)
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
 	list<shared_ptr<ContentTextSubtitle> > subs = decoder->get_text_subtitles (ContentTimePeriod (ContentTime(), ContentTime::max ()));
+	FrameRateChange const frc = film->active_frame_rate_change (content->position ());
 	int n = 0;
 	for (list<shared_ptr<ContentTextSubtitle> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		for (list<dcp::SubtitleString>::const_iterator j = (*i)->subs.begin(); j != (*i)->subs.end(); ++j) {
 			wxListItem list_item;
 			list_item.SetId (n);
 			_list->InsertItem (list_item);
-			_list->SetItem (n, 2, j->text ());
+			ContentTimePeriod const p = (*i)->period ();
+			_list->SetItem (n, 0, std_to_wx (p.from.timecode (frc.source)));
+			_list->SetItem (n, 1, std_to_wx (p.to.timecode (frc.source)));
+			_list->SetItem (n, 2, std_to_wx (j->text ()));
 			++n;
 		}
 	}

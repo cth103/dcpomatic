@@ -37,6 +37,9 @@ struct FrameRateChange
 		return repeat;
 	}
 
+	float source;
+	int dcp;
+
 	/** true to skip every other frame */
 	bool skip;
 	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */

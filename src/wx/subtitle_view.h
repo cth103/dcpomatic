@@ -26,7 +26,7 @@ class SubRipContent;
 class SubtitleView : public wxDialog
 {
 public:
-	SubtitleView (wxWindow *, boost::shared_ptr<SubRipContent>);
+	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<SubRipContent>);
 
 private:	
 	wxListCtrl* _list;
