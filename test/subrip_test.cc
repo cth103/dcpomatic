@@ -201,3 +201,12 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 	write_image (image.image, "build/test/subrip_render_test.png");
 	check_file ("build/test/subrip_render_test.png", "test/data/subrip_render_test.png");
 }
+
+/** Test of reading a typical .srt */
+BOOST_AUTO_TEST_CASE (subrip_read_test)
+{
+	shared_ptr<Film> film = new_test_film ("subrip_read_test");
+	boost::filesystem::path p = private_data / "sintel_en.srt";
+	shared_ptr<SubRipContent> s (new SubRipContent (film, p));
+	s->examine (shared_ptr<Job> ());
+}

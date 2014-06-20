@@ -66,13 +66,18 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 		switch (state) {
 		case COUNTER:
 		{
+			if (line.empty ()) {
+				/* a blank line at the start is ok */
+				break;
+			}
+			
 			int x = 0;
 			try {
 				x = lexical_cast<int> (line);
 			} catch (...) {
 
 			}
-			
+
 			if (x == next_count) {
 				state = METADATA;
 				++next_count;

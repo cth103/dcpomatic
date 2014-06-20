@@ -47,7 +47,7 @@ using std::cerr;
 using std::list;
 using boost::shared_ptr;
 
-boost::filesystem::path private_data = boost::filesystem::path ("test") / boost::filesystem::path ("private");
+boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
 class TestUISignaller : public UISignaller
 {

@@ -63,7 +63,7 @@ PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
 }
 
 SubRipError::SubRipError (string saw, string expecting, boost::filesystem::path f)
-	: FileError (String::compose (_("Error in SubRip file: saw %1 while expecting %2"), saw, expecting), f)
+	: FileError (String::compose (_("Error in SubRip file: saw %1 while expecting %2"), saw.empty() ? "[nothing]" : saw, expecting), f)
 {
-
+	
 }
