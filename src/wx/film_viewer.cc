@@ -63,6 +63,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
+	, _last_get_accurate (true)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -140,7 +141,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
-	get (_position, true);
+	get (_position, _last_get_accurate);
 }
 
 void
@@ -163,6 +164,8 @@ FilmViewer::get (DCPTime p, bool accurate)
 	set_position_text ();
 	_panel->Refresh ();
 	_panel->Update ();
+
+	_last_get_accurate = accurate;
 }
 
 void
@@ -234,7 +237,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	_panel_size.width = ev.GetSize().GetWidth();
 	_panel_size.height = ev.GetSize().GetHeight();
 	calculate_sizes ();
-	get (_position, true);
+	get (_position, _last_get_accurate);
 }
 
 void
@@ -362,5 +365,5 @@ FilmViewer::player_changed (bool frequent)
 	}
 
 	calculate_sizes ();
-	get (_position, true);
+	get (_position, _last_get_accurate);
 }

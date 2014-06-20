@@ -75,4 +75,9 @@ private:
 	dcp::Size _out_size;
 	/** Size of the panel that we have available */
 	dcp::Size _panel_size;
+	/** true if the last call to ::get() was specified to be accurate;
+	 *  this is used so that when re-fetching the current frame we
+	 *  can get the same one that we got last time.
+	 */
+	bool _last_get_accurate;
 };
