@@ -60,7 +60,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_list, 1, wxEXPAND);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}

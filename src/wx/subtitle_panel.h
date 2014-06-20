@@ -33,7 +33,7 @@ public:
 	void content_selection_changed ();
 	
 private:
-	void with_subtitles_toggled ();
+	void use_toggled ();
 	void x_offset_changed ();
 	void y_offset_changed ();
 	void scale_changed ();
@@ -42,7 +42,7 @@ private:
 
 	void setup_sensitivity ();
 	
-	wxCheckBox* _with_subtitles;
+	wxCheckBox* _use;
 	wxSpinCtrl* _x_offset;
 	wxSpinCtrl* _y_offset;
 	wxSpinCtrl* _scale;

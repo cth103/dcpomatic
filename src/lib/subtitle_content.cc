@@ -35,9 +35,11 @@ using dcp::raw_convert;
 int const SubtitleContentProperty::SUBTITLE_X_OFFSET = 500;
 int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
 int const SubtitleContentProperty::SUBTITLE_SCALE = 502;
+int const SubtitleContentProperty::SUBTITLE_USE = 503;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
+	, _subtitle_use (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
 	, _subtitle_scale (1)
@@ -47,11 +49,13 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::p
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
 	: Content (f, node)
+	, _subtitle_use (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
 	, _subtitle_scale (1)
 {
 	if (version >= 7) {
+		_subtitle_use = node->bool_child ("SubtitleUse");
 		_subtitle_x_offset = node->number_child<float> ("SubtitleXOffset");
 		_subtitle_y_offset = node->number_child<float> ("SubtitleYOffset");
 	} else {
@@ -70,6 +74,10 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c[i]);
 
+		if (sc->subtitle_use() != ref->subtitle_use()) {
+			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
+		}
+
 		if (sc->subtitle_x_offset() != ref->subtitle_x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
@@ -83,6 +91,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 		}
 	}
 
+	_subtitle_use = ref->subtitle_use ();
 	_subtitle_x_offset = ref->subtitle_x_offset ();
 	_subtitle_y_offset = ref->subtitle_y_offset ();
 	_subtitle_scale = ref->subtitle_scale ();
@@ -91,11 +100,22 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 void
 SubtitleContent::as_xml (xmlpp::Node* root) const
 {
+	root->add_child("SubtitleUse")->add_child_text (raw_convert<string> (_subtitle_use));
 	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
 	root->add_child("SubtitleScale")->add_child_text (raw_convert<string> (_subtitle_scale));
 }
 
+void
+SubtitleContent::set_subtitle_use (bool u)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_subtitle_use = u;
+	}
+	signal_changed (SubtitleContentProperty::SUBTITLE_USE);
+}
+	
 void
 SubtitleContent::set_subtitle_x_offset (double o)
 {

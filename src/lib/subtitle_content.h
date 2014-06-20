@@ -28,6 +28,7 @@ public:
 	static int const SUBTITLE_X_OFFSET;
 	static int const SUBTITLE_Y_OFFSET;
 	static int const SUBTITLE_SCALE;
+	static int const SUBTITLE_USE;
 };
 
 class SubtitleContent : public virtual Content
@@ -39,9 +40,15 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 
+	void set_subtitle_use (bool);
 	void set_subtitle_x_offset (double);
 	void set_subtitle_y_offset (double);
 	void set_subtitle_scale (double);
+
+	bool subtitle_use () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _subtitle_use;
+	}
 
 	double subtitle_x_offset () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -61,6 +68,7 @@ public:
 private:
 	friend class ffmpeg_pts_offset_test;
 
+	bool _subtitle_use;
 	/** x offset for placing subtitles, as a proportion of the container width;
 	 * +ve is further right, -ve is further left.
 	 */

@@ -115,7 +115,6 @@ public:
 
 	ContentList content () const;
 	DCPTime length () const;
-	bool has_subtitles () const;
 	int best_video_frame_rate () const;
 	FrameRateChange active_frame_rate_change (DCPTime) const;
 
@@ -155,7 +154,6 @@ public:
 		CONTAINER,
 		RESOLUTION,
 		SCALER,
-		WITH_SUBTITLES,
 		SIGNED,
 		ENCRYPTED,
 		J2K_BANDWIDTH,
@@ -197,10 +195,6 @@ public:
 
 	Scaler const * scaler () const {
 		return _scaler;
-	}
-
-	bool with_subtitles () const {
-		return _with_subtitles;
 	}
 
 	/* signed is a reserved word */
@@ -256,7 +250,6 @@ public:
 	void set_container (Ratio const *);
 	void set_resolution (Resolution);
 	void set_scaler (Scaler const *);
-	void set_with_subtitles (bool);
 	void set_signed (bool);
 	void set_encrypted (bool);
 	void set_j2k_bandwidth (int);
@@ -309,8 +302,6 @@ private:
 	Resolution _resolution;
 	/** Scaler algorithm to use */
 	Scaler const * _scaler;
-	/** True if subtitles should be shown for this film */
-	bool _with_subtitles;
 	bool _signed;
 	bool _encrypted;
 	/** bandwidth for J2K files in bits per second */

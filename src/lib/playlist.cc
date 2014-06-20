@@ -186,24 +186,6 @@ Playlist::remove (ContentList c)
 	Changed ();
 }
 
-bool
-Playlist::has_subtitles () const
-{
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
-		if (fc && !fc->subtitle_streams().empty()) {
-			return true;
-		}
-
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (*i);
-		if (sc) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 class FrameRateCandidate
 {
 public:

@@ -110,7 +110,6 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _container (Config::instance()->default_container ())
 	, _resolution (RESOLUTION_2K)
 	, _scaler (Scaler::from_id ("bicubic"))
-	, _with_subtitles (false)
 	, _signed (true)
 	, _encrypted (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
@@ -185,10 +184,6 @@ Film::video_identifier () const
 
 	if (_three_d) {
 		s << "_3D";
-	}
-
-	if (_with_subtitles) {
-		s << "_WS";
 	}
 
 	return s.str ();
@@ -370,7 +365,6 @@ Film::metadata () const
 
 	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
 	root->add_child("Scaler")->add_child_text (_scaler->id ());
-	root->add_child("WithSubtitles")->add_child_text (_with_subtitles ? "1" : "0");
 	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
 	_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
@@ -442,7 +436,6 @@ Film::read_metadata ()
 
 	_resolution = string_to_resolution (f.string_child ("Resolution"));
 	_scaler = Scaler::from_id (f.string_child ("Scaler"));
-	_with_subtitles = f.bool_child ("WithSubtitles");
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
 	_signed = f.optional_bool_child("Signed").get_value_or (true);
@@ -714,13 +707,6 @@ Film::set_scaler (Scaler const * s)
 }
 
 void
-Film::set_with_subtitles (bool w)
-{
-	_with_subtitles = w;
-	signal_changed (WITH_SUBTITLES);
-}
-
-void
 Film::set_j2k_bandwidth (int b)
 {
 	_j2k_bandwidth = b;
@@ -967,12 +953,6 @@ DCPTime
 Film::length () const
 {
 	return _playlist->length ();
-}
-
-bool
-Film::has_subtitles () const
-{
-	return _playlist->has_subtitles ();
 }
 
 int

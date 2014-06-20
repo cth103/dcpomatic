@@ -63,8 +63,6 @@ public:
 	void move_earlier (boost::shared_ptr<Content>);
 	void move_later (boost::shared_ptr<Content>);
 
-	bool has_subtitles () const;
-
 	ContentList content () const;
 
 	std::string video_identifier () const;

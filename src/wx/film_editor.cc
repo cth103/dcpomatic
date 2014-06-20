@@ -439,9 +439,6 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_name, _film->name());
 		setup_dcp_name ();
 		break;
-	case Film::WITH_SUBTITLES:
-		setup_dcp_name ();
-		break;
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
@@ -528,7 +525,7 @@ FilmEditor::film_content_changed (int property)
 		(*i)->film_content_changed (property);
 	}
 
-	if (property == FFmpegContentProperty::AUDIO_STREAM) {
+	if (property == FFmpegContentProperty::AUDIO_STREAM || property == SubtitleContentProperty::SUBTITLE_USE) {
 		setup_dcp_name ();
 	} else if (property == ContentProperty::PATH) {
 		setup_content ();
@@ -615,7 +612,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::CONTAINER);
 	film_changed (Film::RESOLUTION);
 	film_changed (Film::SCALER);
-	film_changed (Film::WITH_SUBTITLES);
 	film_changed (Film::SIGNED);
 	film_changed (Film::ENCRYPTED);
 	film_changed (Film::J2K_BANDWIDTH);

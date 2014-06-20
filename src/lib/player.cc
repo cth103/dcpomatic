@@ -179,6 +179,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		Changed (frequent);
 
 	} else if (
+		property == SubtitleContentProperty::SUBTITLE_USE ||
 		property == SubtitleContentProperty::SUBTITLE_X_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_SCALE ||
@@ -216,7 +217,7 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::SCALER || p == Film::WITH_SUBTITLES || p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
+	if (p == Film::SCALER || p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
 	}
 }
@@ -375,8 +376,12 @@ Player::get_video (DCPTime time, bool accurate)
 	list<PositionImage> sub_images;
 	
 	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
-		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
 		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
+		if (!subtitle_content->subtitle_use ()) {
+			continue;
+		}
+
+		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
 		ContentTime const from = dcp_to_content_subtitle (*j, time);
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
 		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
