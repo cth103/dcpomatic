@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-20 11:11+0100\n"
+"POT-Creation-Date: 2014-06-21 14:51+0100\n"
 "PO-Revision-Date: 2014-04-20 12:06-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -268,6 +268,11 @@ msgstr "Conversiones de color"
 msgid "Colour conversion"
 msgstr "Conversión de color"
 
+#: src/wx/config_dialog.cc:756
+#, fuzzy
+msgid "Config|Timing"
+msgstr "Tiempo"
+
 #: src/wx/film_editor.cc:134
 msgid "Container"
 msgstr "Continente"
@@ -307,6 +312,11 @@ msgstr "No se pudo decodificar el vídeo para mostrarlo (%s)"
 #, c-format
 msgid "Could not make DCP: %s"
 msgstr "No se pudo crear el DCP: %s"
+
+#: src/wx/screen_dialog.cc:95
+#, fuzzy
+msgid "Could not read certificate file (%1)"
+msgstr "No se pudo abrir el fichero (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
@@ -510,7 +520,7 @@ msgstr "Remitente para los emails de KDM"
 msgid "Full"
 msgstr "Completo"
 
-#: src/wx/timing_panel.cc:42
+#: src/wx/timing_panel.cc:43
 msgid "Full length"
 msgstr "Duración completa"
 
@@ -587,6 +597,11 @@ msgstr "Unir"
 #: src/wx/config_dialog.cc:680
 msgid "KDM Email"
 msgstr "Email KDM"
+
+#: src/wx/kdm_dialog.cc:99
+#, fuzzy
+msgid "KDM|Timing"
+msgstr "Tiempo"
 
 #: src/wx/film_editor.cc:297
 msgid "Keep video in sequence"
@@ -666,6 +681,7 @@ msgstr "Mis documentos"
 
 #: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:563
 #: src/wx/film_editor.cc:113 src/wx/preset_colour_conversion_dialog.cc:38
+#: src/wx/screen_dialog.cc:38
 msgid "Name"
 msgstr "Nombre"
 
@@ -732,7 +748,7 @@ msgstr "Pico"
 msgid "Play"
 msgstr "Reproducir"
 
-#: src/wx/timing_panel.cc:51
+#: src/wx/timing_panel.cc:52
 msgid "Play length"
 msgstr "Duración"
 
@@ -740,7 +756,7 @@ msgstr "Duración"
 msgid "Please wait; audio is being analysed..."
 msgstr "Por favor espere, el audio está siendo analizado..."
 
-#: src/wx/timing_panel.cc:39
+#: src/wx/timing_panel.cc:40
 msgid "Position"
 msgstr "Posición"
 
@@ -856,6 +872,11 @@ msgstr "Número de serie"
 msgid "Server"
 msgstr "Servidor"
 
+#: src/wx/screen_dialog.cc:41
+#, fuzzy
+msgid "Server manufacturer"
+msgstr "Número de serie del servidor"
+
 #: src/wx/doremi_certificate_dialog.cc:35
 msgid "Server serial number"
 msgstr "Número de serie del servidor"
@@ -864,7 +885,7 @@ msgstr "Número de serie del servidor"
 msgid "Servers"
 msgstr "Servidores"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:60
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:61
 msgid "Set"
 msgstr "Seleccionar"
 
@@ -994,9 +1015,9 @@ msgstr "Línea de tiempo"
 msgid "Timeline..."
 msgstr "Linea de tiempo..."
 
-#: src/wx/config_dialog.cc:756 src/wx/kdm_dialog.cc:99
-#: src/wx/timing_panel.cc:34
-msgid "Timing"
+#: src/wx/timing_panel.cc:35
+#, fuzzy
+msgid "Timing|Timing"
 msgstr "Tiempo"
 
 #: src/wx/video_panel.cc:110
@@ -1007,11 +1028,11 @@ msgstr "Recortar arriba"
 msgid "Translated by"
 msgstr "Traducido por"
 
-#: src/wx/timing_panel.cc:48
+#: src/wx/timing_panel.cc:49
 msgid "Trim from end"
 msgstr "Recortar del final"
 
-#: src/wx/timing_panel.cc:45
+#: src/wx/timing_panel.cc:46
 msgid "Trim from start"
 msgstr "Recortar del inicio"
 
@@ -1068,7 +1089,7 @@ msgstr "VI"
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/wx/timing_panel.cc:56
+#: src/wx/timing_panel.cc:57
 msgid "Video frame rate"
 msgstr "Velocidad de imagen"
 
@@ -1160,6 +1181,9 @@ msgstr "veces"
 msgid "video"
 msgstr "vídeo"
 
+#~ msgid "Timing"
+#~ msgstr "Tiempo"
+
 #~ msgid "-3dB"
 #~ msgstr "-3dB"
 
@@ -1217,9 +1241,6 @@ msgstr "vídeo"
 
 #~ msgid "Colour look-up table"
 #~ msgstr "Tabla de referencia de colores"
-
-#~ msgid "Could not open content file (%s)"
-#~ msgstr "No se pudo abrir el fichero (%s)"
 
 #~ msgid "Could not set content: %s"
 #~ msgstr "No se pudo establecer el contenido: %s"

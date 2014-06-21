@@ -20,7 +20,7 @@ def pot(dir, sources, name):
     except:
         pass
 
-    command('xgettext -d %s -s --keyword=_ --add-comments=/ -p %s -o %s.pot %s' % (name, d, name, s))
+    command('xgettext -d %s -s --keyword=_ --keyword=S_ --add-comments=/ -p %s -o %s.pot %s' % (name, d, name, s))
 
 def pot_merge(dir, name):
     for f in glob.glob(os.path.join(os.getcwd(), dir, 'po', '*.po')):

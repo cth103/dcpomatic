@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-20 11:11+0100\n"
+"POT-Creation-Date: 2014-06-21 14:51+0100\n"
 "PO-Revision-Date: 2014-02-03 10:46+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -272,6 +272,10 @@ msgstr "Conversioni colore"
 msgid "Colour conversion"
 msgstr "Conversione colore"
 
+#: src/wx/config_dialog.cc:756
+msgid "Config|Timing"
+msgstr ""
+
 #: src/wx/film_editor.cc:134
 msgid "Container"
 msgstr "Contenitore"
@@ -311,6 +315,11 @@ msgstr "Non posso decodificare il video per guardarlo (%s)"
 #, c-format
 msgid "Could not make DCP: %s"
 msgstr "Non posso creare il DCP: %s"
+
+#: src/wx/screen_dialog.cc:95
+#, fuzzy
+msgid "Could not read certificate file (%1)"
+msgstr "Non posso aprire il file del contenuto (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
@@ -518,7 +527,7 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: src/wx/timing_panel.cc:42
+#: src/wx/timing_panel.cc:43
 msgid "Full length"
 msgstr ""
 
@@ -595,6 +604,10 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:680
 msgid "KDM Email"
+msgstr ""
+
+#: src/wx/kdm_dialog.cc:99
+msgid "KDM|Timing"
 msgstr ""
 
 #: src/wx/film_editor.cc:297
@@ -678,6 +691,7 @@ msgstr "Documenti"
 
 #: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:563
 #: src/wx/film_editor.cc:113 src/wx/preset_colour_conversion_dialog.cc:38
+#: src/wx/screen_dialog.cc:38
 msgid "Name"
 msgstr "Nome"
 
@@ -745,7 +759,7 @@ msgstr "Picco"
 msgid "Play"
 msgstr "Riproduci"
 
-#: src/wx/timing_panel.cc:51
+#: src/wx/timing_panel.cc:52
 msgid "Play length"
 msgstr ""
 
@@ -753,7 +767,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Attendere prego; sto analizzando l'audio..."
 
-#: src/wx/timing_panel.cc:39
+#: src/wx/timing_panel.cc:40
 msgid "Position"
 msgstr "Posizione"
 
@@ -869,6 +883,10 @@ msgstr ""
 msgid "Server"
 msgstr "Server"
 
+#: src/wx/screen_dialog.cc:41
+msgid "Server manufacturer"
+msgstr ""
+
 #: src/wx/doremi_certificate_dialog.cc:35
 msgid "Server serial number"
 msgstr ""
@@ -878,7 +896,7 @@ msgstr ""
 msgid "Servers"
 msgstr "Server"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:60
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:61
 msgid "Set"
 msgstr ""
 
@@ -1009,9 +1027,8 @@ msgstr "Timeline"
 msgid "Timeline..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:756 src/wx/kdm_dialog.cc:99
-#: src/wx/timing_panel.cc:34
-msgid "Timing"
+#: src/wx/timing_panel.cc:35
+msgid "Timing|Timing"
 msgstr ""
 
 #: src/wx/video_panel.cc:110
@@ -1022,11 +1039,11 @@ msgstr "Taglio in alto"
 msgid "Translated by"
 msgstr ""
 
-#: src/wx/timing_panel.cc:48
+#: src/wx/timing_panel.cc:49
 msgid "Trim from end"
 msgstr "Taglia dalla fine"
 
-#: src/wx/timing_panel.cc:45
+#: src/wx/timing_panel.cc:46
 msgid "Trim from start"
 msgstr "Taglia dall'inizio"
 
@@ -1085,7 +1102,7 @@ msgstr "VI"
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/timing_panel.cc:56
+#: src/wx/timing_panel.cc:57
 msgid "Video frame rate"
 msgstr "Frequenza fotogrammi video"
 
@@ -1229,9 +1246,6 @@ msgstr "Video"
 
 #~ msgid "Colour look-up table"
 #~ msgstr "Tabella per ricerca del colore"
-
-#~ msgid "Could not open content file (%s)"
-#~ msgstr "Non posso aprire il file del contenuto (%s)"
 
 #~ msgid "Could not set content: %s"
 #~ msgstr "Non posso regolare il contenuto: %s"

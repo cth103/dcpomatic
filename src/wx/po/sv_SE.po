@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-20 11:11+0100\n"
+"POT-Creation-Date: 2014-06-21 14:51+0100\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -276,6 +276,12 @@ msgstr "Färgkonverteringar"
 msgid "Colour conversion"
 msgstr "Färgkonvertering"
 
+# Svengelska
+#: src/wx/config_dialog.cc:756
+#, fuzzy
+msgid "Config|Timing"
+msgstr "Tajming"
+
 #: src/wx/film_editor.cc:134
 msgid "Container"
 msgstr "Innehåll"
@@ -315,6 +321,11 @@ msgstr "Kunde inte avkoda video för visning (%s)"
 #, c-format
 msgid "Could not make DCP: %s"
 msgstr "Kunde inte skapa DCP: %s"
+
+#: src/wx/screen_dialog.cc:95
+#, fuzzy
+msgid "Could not read certificate file (%1)"
+msgstr "Kunde inte öppna innehållsfilen (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
@@ -523,7 +534,7 @@ msgstr "Avsändare för KDM-mejl"
 msgid "Full"
 msgstr "Full"
 
-#: src/wx/timing_panel.cc:42
+#: src/wx/timing_panel.cc:43
 msgid "Full length"
 msgstr "Full längd"
 
@@ -601,6 +612,12 @@ msgstr "Anslut"
 #, fuzzy
 msgid "KDM Email"
 msgstr "KDM mejl"
+
+# Svengelska
+#: src/wx/kdm_dialog.cc:99
+#, fuzzy
+msgid "KDM|Timing"
+msgstr "Tajming"
 
 # "sekvens" eller "ordning"?
 #: src/wx/film_editor.cc:297
@@ -683,6 +700,7 @@ msgstr "Mina Dokument"
 
 #: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:563
 #: src/wx/film_editor.cc:113 src/wx/preset_colour_conversion_dialog.cc:38
+#: src/wx/screen_dialog.cc:38
 msgid "Name"
 msgstr "Namn"
 
@@ -751,7 +769,7 @@ msgstr "Topp"
 msgid "Play"
 msgstr "Spela"
 
-#: src/wx/timing_panel.cc:51
+#: src/wx/timing_panel.cc:52
 msgid "Play length"
 msgstr "Spellängd"
 
@@ -759,7 +777,7 @@ msgstr "Spellängd"
 msgid "Please wait; audio is being analysed..."
 msgstr "Vänligen vänta; audio analyseras..."
 
-#: src/wx/timing_panel.cc:39
+#: src/wx/timing_panel.cc:40
 msgid "Position"
 msgstr "Position"
 
@@ -876,6 +894,10 @@ msgstr ""
 msgid "Server"
 msgstr "Server"
 
+#: src/wx/screen_dialog.cc:41
+msgid "Server manufacturer"
+msgstr ""
+
 #: src/wx/doremi_certificate_dialog.cc:35
 msgid "Server serial number"
 msgstr ""
@@ -885,7 +907,7 @@ msgstr ""
 msgid "Servers"
 msgstr "Server"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:60
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:61
 msgid "Set"
 msgstr "Sätt"
 
@@ -1020,9 +1042,9 @@ msgid "Timeline..."
 msgstr "Tidslinje..."
 
 # Svengelska
-#: src/wx/config_dialog.cc:756 src/wx/kdm_dialog.cc:99
-#: src/wx/timing_panel.cc:34
-msgid "Timing"
+#: src/wx/timing_panel.cc:35
+#, fuzzy
+msgid "Timing|Timing"
 msgstr "Tajming"
 
 #: src/wx/video_panel.cc:110
@@ -1033,11 +1055,11 @@ msgstr "Övre beskärning"
 msgid "Translated by"
 msgstr "Översatt av"
 
-#: src/wx/timing_panel.cc:48
+#: src/wx/timing_panel.cc:49
 msgid "Trim from end"
 msgstr "Trimma från slut"
 
-#: src/wx/timing_panel.cc:45
+#: src/wx/timing_panel.cc:46
 msgid "Trim from start"
 msgstr "Trimma från start"
 
@@ -1097,7 +1119,7 @@ msgstr "VI"
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/timing_panel.cc:56
+#: src/wx/timing_panel.cc:57
 msgid "Video frame rate"
 msgstr "bildhastighet"
 
@@ -1189,6 +1211,10 @@ msgstr "tider"
 msgid "video"
 msgstr "video"
 
+# Svengelska
+#~ msgid "Timing"
+#~ msgstr "Tajming"
+
 #~ msgid "-3dB"
 #~ msgstr "-3dB"
 
@@ -1249,9 +1275,6 @@ msgstr "video"
 
 #~ msgid "Colour look-up table"
 #~ msgstr "Färguppslagningstabell"
-
-#~ msgid "Could not open content file (%s)"
-#~ msgstr "Kunde inte öppna innehållsfilen (%s)"
 
 #~ msgid "Could not set content: %s"
 #~ msgstr "Kunde inte fastställa innehåll: %s"

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-20 11:11+0100\n"
-"PO-Revision-Date: 2014-06-20 03:38+0100\n"
+"POT-Creation-Date: 2014-06-21 14:51+0100\n"
+"PO-Revision-Date: 2014-06-21 02:38+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:370
@@ -30,7 +30,7 @@ msgstr "&Projekt hinzufügen"
 
 #: src/tools/dcpomatic.cc:243
 msgid "&Content"
-msgstr ""
+msgstr "&Quelle"
 
 #: src/tools/dcpomatic.cc:241
 msgid "&Edit"
@@ -100,7 +100,7 @@ msgstr "Über DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:84
 msgid "Add Film..."
-msgstr "Film hinzufügen..."
+msgstr "Projekt hinzufügen..."
 
 #: src/tools/dcpomatic.cc:760 src/tools/dcpomatic.cc:766
 msgid ""
@@ -116,7 +116,7 @@ msgstr "Ein unbekannter Fehler ist aufgetreten."
 
 #: src/tools/dcpomatic.cc:480
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "Medien der CPL sind nicht verschlüsselt worden."
 
 #: src/tools/dcpomatic.cc:230
 msgid "Check for updates"
@@ -186,11 +186,11 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:219
 msgid "Scale to fit &height"
-msgstr ""
+msgstr "Skalieren auf &Höhe DCI-Container"
 
 #: src/tools/dcpomatic.cc:218
 msgid "Scale to fit &width"
-msgstr ""
+msgstr "Skalieren auf &Breite DCI-Container"
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:170
 msgid "Select film to open"

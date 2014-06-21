@@ -753,7 +753,7 @@ public:
 		_log_error = new wxCheckBox (panel, wxID_ANY, _("Errors"));
 		table->AddSpacer (0);
 		table->Add (_log_error, 1, wxEXPAND | wxALL);
-		_log_timing = new wxCheckBox (panel, wxID_ANY, _("Timing"));
+		_log_timing = new wxCheckBox (panel, wxID_ANY, S_("Config|Timing"));
 		table->AddSpacer (0);
 		table->Add (_log_timing, 1, wxEXPAND | wxALL);
 

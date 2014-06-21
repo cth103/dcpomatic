@@ -35,10 +35,10 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_
 	: TableDialog (parent, std_to_wx (title), 2, true)
 	, _certificate (certificate)
 {
-	add ("Name", true);
+	add (_("Name"), true);
 	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1)));
 
-	add ("Server manufacturer", true);
+	add (_("Server manufacturer"), true);
 	_manufacturer = add (new wxChoice (this, wxID_ANY));
 
 	add (_("Certificate"), true);
@@ -92,7 +92,7 @@ ScreenDialog::load_certificate (boost::filesystem::path file)
 		_certificate.reset (new libdcp::Certificate (file));
 		_certificate_text->SetValue (_certificate->certificate ());
 	} catch (libdcp::MiscError& e) {
-		error_dialog (this, String::compose ("Could not read certificate file (%1)", e.what()));
+		error_dialog (this, String::compose (_("Could not read certificate file (%1)"), e.what()));
 	}
 }
 

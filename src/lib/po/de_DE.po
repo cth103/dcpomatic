@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-20 11:11+0100\n"
-"PO-Revision-Date: 2014-06-20 02:38+0100\n"
+"POT-Creation-Date: 2014-06-21 14:51+0100\n"
+"PO-Revision-Date: 2014-06-21 03:55+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/sndfile_content.cc:61
@@ -120,64 +120,64 @@ msgstr "Bildübersicht berechnen"
 
 #: src/lib/frame_rate_change.cc:78
 msgid "Content and DCP have the same rate.\n"
-msgstr "Inhalt und DCP haben die selbe Rate.\n"
+msgstr "Quelle und DCP haben dieselbe Bildrate. Gut ;-)\n"
 
 #: src/lib/audio_content.cc:83
 msgid "Content to be joined must have the same audio delay."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Tonverzögerung haben."
+msgstr "Zu verbindende Inhalte müssen die gleiche Tonverzögerung verwenden."
 
 #: src/lib/audio_content.cc:79
 msgid "Content to be joined must have the same audio gain."
 msgstr ""
-"Zu kombinierende Inhalte müssen die gleichen Tonpegeleinstellungen haben."
+"Zu verbindende Inhalte müssen die gleichen Tonpegeleinstellungen verwenden."
 
 #: src/lib/video_content.cc:144
 msgid "Content to be joined must have the same colour conversion."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Farbumwandlung verwenden."
+msgstr "Zu verbindende Inhalte müssen die gleiche Farbumwandlung verwenden."
 
 #: src/lib/video_content.cc:136
 msgid "Content to be joined must have the same crop."
-msgstr "Zu kombinierende Inhalte müssen gleichen Beschnitt haben."
+msgstr "Zu verbindende Inhalte müssen gleichen Beschnitt verwenden."
 
 #: src/lib/video_content.cc:124
 msgid "Content to be joined must have the same picture size."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Bildgröße haben."
+msgstr "Zu verbindende Inhalte müssen die gleiche Bildgröße haben."
 
 #: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same scale setting."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Skalierung verwenden."
+msgstr "Zu verbindende Inhalte müssen die gleiche Skalierung verwenden."
 
 #: src/lib/subtitle_content.cc:73
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
-"Zu kombinierende Inhalte müssen den gleichen horizontalen Untertitelversatz "
-"haben."
+"Zu verbindende Inhalte müssen den gleichen horizontalen Untertitelversatz "
+"verwenden."
 
 #: src/lib/subtitle_content.cc:77
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
-"Zu kombinierende Inhalte müssen den gleichen vertikalen Untertitelversatz "
-"haben."
+"Zu verbindende Inhalte müssen den gleichen vertikalen Untertitelversatz "
+"verwenden."
 
 #: src/lib/subtitle_content.cc:81
 msgid "Content to be joined must have the same subtitle scale."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Untertitelgröße haben."
+msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelgröße verwenden."
 
 #: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same video frame rate."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Bildrate haben."
+msgstr "Zu verbindende Inhalte müssen die gleiche Bildrate haben."
 
 #: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame type."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Bildart (z.B. 2D) haben."
+msgstr "Zu verbindende Inhalte müssen die gleiche Bildart (z.B. 2D) haben."
 
 #: src/lib/ffmpeg_content.cc:116
 msgid "Content to be joined must use the same audio stream."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Tonspur verwenden."
+msgstr "Zu verbindende Inhalte müssen die gleiche Tonspurart verwenden."
 
 #: src/lib/ffmpeg_content.cc:112
 msgid "Content to be joined must use the same subtitle stream."
-msgstr "Zu kombinierende Inhalte müssen die gleiche Untertitelspur verwenden."
+msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelspur verwenden."
 
 #: src/lib/scp_dcp_job.cc:112
 msgid "Copy DCP to TMS"
@@ -192,9 +192,8 @@ msgid "Could not create remote directory %1 (%2)"
 msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 
 #: src/lib/image_proxy.cc:128
-#, fuzzy
 msgid "Could not decode image file"
-msgstr "Datei %1 konnte nicht erstellt werden."
+msgstr "Bilddatei konnte nicht dekodiert werden"
 
 #: src/lib/job.cc:90
 msgid "Could not open %1"
@@ -222,7 +221,7 @@ msgstr "DCP läuft mit %1% der Original Geschwindigkeit der Quelle.\n"
 
 #: src/lib/frame_rate_change.cc:81
 msgid "DCP will use every other frame of the content.\n"
-msgstr "DCP benutzt nur jedes zweite Bild des Quell-Inhalts.\n"
+msgstr "DCP verwendet nur jedes zweite Bild des Quelle.\n"
 
 #: src/lib/job.cc:91
 msgid ""
@@ -272,11 +271,11 @@ msgstr "Herunterladen fehlgeschlagen (%1/%2 Fehler %3)"
 
 #: src/lib/frame_rate_change.cc:83
 msgid "Each content frame will be doubled in the DCP.\n"
-msgstr "Jedes Bild des Quell-Inhalts wird im DCP verdoppelt.\n"
+msgstr "Jedes Bild der Quelle wird im DCP verdoppelt.\n"
 
 #: src/lib/frame_rate_change.cc:85
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "Jedes Bild des Quell-Inhalts wird %1 mal im DCP wiederholt.\n"
+msgstr "Jedes Bild der Quelle wird %1 mal im DCP wiederholt.\n"
 
 #: src/lib/send_kdm_email_job.cc:50
 msgid "Email KDMs for %1"
@@ -324,7 +323,7 @@ msgstr "Gradient Glätter"
 
 #: src/lib/util.cc:755
 msgid "Hearing impaired"
-msgstr "Hörbehindert"
+msgstr "HI"
 
 #: src/lib/filter.cc:71
 msgid "High quality 3D denoiser"
@@ -397,12 +396,14 @@ msgstr "OK (Dauer %1)"
 #: src/lib/content.cc:102
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
-"Nur das erste Segment der Inhalte kann vom Anfang her beschnitten werden."
+"Nur das erste Segment der zu verbindenden Inhalte kann vom Anfang her "
+"beschnitten werden."
 
 #: src/lib/content.cc:106
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
-"Nur das letzte Segment der Inhalte kann vom Ende her beschnitten werden."
+"Nur das letzte Segment der zu verbindenden Inhalte kann vom Ende her "
+"beschnitten werden."
 
 #: src/lib/job.cc:103
 msgid "Out of memory"
@@ -422,7 +423,7 @@ msgstr "Hinweis"
 
 #: src/lib/dcp_content_type.cc:49
 msgid "Rating"
-msgstr "Freigabe"
+msgstr "Freigabehinweis"
 
 #: src/lib/config.cc:87 src/lib/config.cc:174
 msgid "Rec. 709"
@@ -513,7 +514,7 @@ msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:53
 msgid "Transcode %1"
-msgstr "Wandle %1 um."
+msgstr "Wandle %1 um"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Transitional"
@@ -525,7 +526,7 @@ msgstr "Ungültiger ZIP Inhalt"
 
 #: src/lib/image_proxy.cc:172
 msgid "Unexpected image type received by server"
-msgstr ""
+msgstr "Ungültiges Bildformat vom Server erhalten"
 
 #: src/lib/job.cc:120
 msgid "Unknown error"
@@ -537,7 +538,7 @@ msgstr "Ton Sample Format (%1) nicht erkannt."
 
 #: src/lib/filter.cc:69
 msgid "Unsharp mask and Gaussian blur"
-msgstr "Maske mit Gaußschem Unschärfefilter"
+msgstr "Unscharf Maskieren mit Gaußschem Unschärfefilter"
 
 #: src/lib/colour_conversion.cc:140
 msgid "Untitled"
@@ -545,7 +546,7 @@ msgstr "Unbenannt"
 
 #: src/lib/util.cc:756
 msgid "Visually impaired"
-msgstr "Sehbehindert"
+msgstr "VI"
 
 #: src/lib/scp_dcp_job.cc:104
 msgid "Waiting"
@@ -601,7 +602,7 @@ msgstr "Datei %1 konnte nicht erstellt werden."
 
 #: src/lib/ffmpeg.cc:177
 msgid "could not find audio decoder"
-msgstr "Kein Ton Decoder gefunden."
+msgstr "Ton Dekoder nicht gefunden."
 
 #: src/lib/ffmpeg.cc:106
 msgid "could not find stream information"
@@ -609,7 +610,7 @@ msgstr "Keine Spur-Information gefunden"
 
 #: src/lib/ffmpeg.cc:156
 msgid "could not find video decoder"
-msgstr "Bild-Decoder nicht gefunden"
+msgstr "Bild-Dekoder nicht gefunden"
 
 #: src/lib/writer.cc:428
 msgid "could not move audio MXF into the DCP (%1)"

@@ -17,6 +17,10 @@
 
 */
 
+/** @file src/wx/wx_util.h
+ *  @brief Some utility functions and classes.
+ */
+
 #ifndef DCPOMATIC_WX_UTIL_H
 #define DCPOMATIC_WX_UTIL_H
 
@@ -46,9 +50,11 @@ class wxGridBagSizer;
 #define DCPOMATIC_BUTTON_STACK_GAP 0
 #endif
 
-/** @file src/wx/wx_util.h
- *  @brief Some utility functions and classes.
+/** i18n macro to support strings like Context|String
+ *  so that `String' can be translated to different things
+ *  in different contexts.
  */
+#define S_(x) context_translation(x)
 
 extern void error_dialog (wxWindow *, wxString);
 extern bool confirm_dialog (wxWindow *, wxString);
@@ -58,6 +64,7 @@ extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
 extern void dcpomatic_setup_i18n ();
 extern void run_gui_loop ();
+extern wxString context_translation (wxString);
 
 /** @class ThreadedStaticText
  *
