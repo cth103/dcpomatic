@@ -106,25 +106,6 @@ public:
 		_num_local_encoding_threads = new wxSpinCtrl (panel);
 		table->Add (_num_local_encoding_threads, 1);
 
-		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
-		_mail_server = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_mail_server, 1, wxEXPAND | wxALL);
-		
-		add_label_to_sizer (table, panel, _("Mail user name"), true);
-		_mail_user = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_mail_user, 1, wxEXPAND | wxALL);
-		
-		add_label_to_sizer (table, panel, _("Mail password"), true);
-		_mail_password = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_mail_password, 1, wxEXPAND | wxALL);
-		
-		wxStaticText* plain = add_label_to_sizer (table, panel, _("(password will be stored on disk in plaintext)"), false);
-		plain->SetFont (font);
-		table->AddSpacer (0);
-		
-		add_label_to_sizer (table, panel, _("From address for KDM emails"), true);
-		_kdm_from = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_kdm_from, 1, wxEXPAND | wxALL);
 		
 		_check_for_updates = new wxCheckBox (panel, wxID_ANY, _("Check for updates on startup"));
 		table->Add (_check_for_updates, 1, wxEXPAND | wxALL);
@@ -163,14 +144,6 @@ public:
 		_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
 		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
 
-		_mail_server->SetValue (std_to_wx (config->mail_server ()));
-		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::mail_server_changed, this));
-		_mail_user->SetValue (std_to_wx (config->mail_user ()));
-		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::mail_user_changed, this));
-		_mail_password->SetValue (std_to_wx (config->mail_password ()));
-		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::mail_password_changed, this));
-		_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
-		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::kdm_from_changed, this));
 		_check_for_updates->SetValue (config->check_for_updates ());
 		_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_updates_changed, this));
 		_check_for_test_updates->SetValue (config->check_for_test_updates ());
@@ -222,26 +195,6 @@ private:
 		}
 	}
 	
-	void mail_server_changed ()
-	{
-		Config::instance()->set_mail_server (wx_to_std (_mail_server->GetValue ()));
-	}
-	
-	void mail_user_changed ()
-	{
-		Config::instance()->set_mail_user (wx_to_std (_mail_user->GetValue ()));
-	}
-	
-	void mail_password_changed ()
-	{
-		Config::instance()->set_mail_password (wx_to_std (_mail_password->GetValue ()));
-	}
-	
-	void kdm_from_changed ()
-	{
-		Config::instance()->set_kdm_from (wx_to_std (_kdm_from->GetValue ()));
-	}
-
 	void check_for_updates_changed ()
 	{
 		Config::instance()->set_check_for_updates (_check_for_updates->GetValue ());
@@ -260,10 +213,6 @@ private:
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
-	wxTextCtrl* _mail_server;
-	wxTextCtrl* _mail_user;
-	wxTextCtrl* _mail_password;
-	wxTextCtrl* _kdm_from;
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;
 };
@@ -697,22 +646,82 @@ public:
 #endif		
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
+
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+		s->Add (table, 1, wxTOP | wxLEFT | wxRIGHT | wxEXPAND, _border);
+
+		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
+		_mail_server = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_mail_server, 1, wxEXPAND | wxALL);
+		
+		add_label_to_sizer (table, panel, _("Mail user name"), true);
+		_mail_user = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_mail_user, 1, wxEXPAND | wxALL);
+		
+		add_label_to_sizer (table, panel, _("Mail password"), true);
+		_mail_password = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_mail_password, 1, wxEXPAND | wxALL);
+		
+		wxStaticText* plain = add_label_to_sizer (table, panel, _("(password will be stored on disk in plaintext)"), false);
+		wxFont font = plain->GetFont();
+		font.SetStyle (wxFONTSTYLE_ITALIC);
+		font.SetPointSize (font.GetPointSize() - 1);
+		plain->SetFont (font);
+		table->AddSpacer (0);
+		
+		add_label_to_sizer (table, panel, _("From address"), true);
+		_kdm_from = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_kdm_from, 1, wxEXPAND | wxALL);
 		
 		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
-		s->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
-		
+		s->Add (_kdm_email, 1.5, wxEXPAND | wxBOTTOM | wxLEFT | wxRIGHT, _border);
+
+		Config* config = Config::instance ();
+		_mail_server->SetValue (std_to_wx (config->mail_server ()));
+		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_server_changed, this));
+		_mail_user->SetValue (std_to_wx (config->mail_user ()));
+		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_user_changed, this));
+		_mail_password->SetValue (std_to_wx (config->mail_password ()));
+		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_password_changed, this));
+		_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
+		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
 		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
 
 		return panel;
 	}
 
-private:	
+private:
+	void mail_server_changed ()
+	{
+		Config::instance()->set_mail_server (wx_to_std (_mail_server->GetValue ()));
+	}
+	
+	void mail_user_changed ()
+	{
+		Config::instance()->set_mail_user (wx_to_std (_mail_user->GetValue ()));
+	}
+	
+	void mail_password_changed ()
+	{
+		Config::instance()->set_mail_password (wx_to_std (_mail_password->GetValue ()));
+	}
+	
+	void kdm_from_changed ()
+	{
+		Config::instance()->set_kdm_from (wx_to_std (_kdm_from->GetValue ()));
+	}
+
 	void kdm_email_changed ()
 	{
 		Config::instance()->set_kdm_email (wx_to_std (_kdm_email->GetValue ()));
 	}
 
+	wxTextCtrl* _mail_server;
+	wxTextCtrl* _mail_user;
+	wxTextCtrl* _mail_password;
+	wxTextCtrl* _kdm_from;
 	wxTextCtrl* _kdm_email;
 };
 
@@ -827,10 +836,7 @@ create_config_dialog ()
 	wxSize ps = wxSize (480, -1);
 	int const border = 16;
 #else
-	/* We seem to need to specify height here, otherwise the general panel
-	   is too short (at least on Linux).
-	 */
-	wxSize ps = wxSize (-1, 400);
+	wxSize ps = wxSize (-1, -1);
 	int const border = 8;
 #endif
 	
