@@ -41,7 +41,7 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	grid->AddSpacer (0);
 	
 	{
-		add_label_to_sizer (grid, this, _("Subtitle X Offset"), true);
+		add_label_to_sizer (grid, this, _("X Offset"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_x_offset = new wxSpinCtrl (this);
 		s->Add (_x_offset);
@@ -50,7 +50,7 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	}
 
 	{
-		add_label_to_sizer (grid, this, _("Subtitle Y Offset"), true);
+		add_label_to_sizer (grid, this, _("Y Offset"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_y_offset = new wxSpinCtrl (this);
 		s->Add (_y_offset);
@@ -59,7 +59,7 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	}
 	
 	{
-		add_label_to_sizer (grid, this, _("Subtitle Scale"), true);
+		add_label_to_sizer (grid, this, _("Scale"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_scale = new wxSpinCtrl (this);
 		s->Add (_scale);
@@ -67,7 +67,7 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 		grid->Add (s);
 	}
 
-	add_label_to_sizer (grid, this, _("Subtitle Stream"), true);
+	add_label_to_sizer (grid, this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, 1, wxEXPAND);
 	
