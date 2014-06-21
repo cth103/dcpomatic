@@ -92,7 +92,7 @@ ScreenDialog::load_certificate (boost::filesystem::path file)
 		_certificate.reset (new libdcp::Certificate (file));
 		_certificate_text->SetValue (_certificate->certificate ());
 	} catch (libdcp::MiscError& e) {
-		error_dialog (this, String::compose (_("Could not read certificate file (%1)"), e.what()));
+		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what()));
 	}
 }
 
