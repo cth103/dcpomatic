@@ -56,6 +56,7 @@ universal_copy $ROOT lib/libavutil*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavcodec*.dylib $WORK/$libs
 universal_copy $ROOT lib/libswscale*.dylib $WORK/$libs
 universal_copy $ROOT lib/libswresample*.dylib $WORK/$libs
+universal_copy $ROOT lib/libpostproc*.dylib $WORK/$libs
 universal_copy $ROOT bin/ffprobe $WORK/$macos
 universal_copy $ENV lib/libboost_system.dylib $WORK/$libs
 universal_copy $ENV lib/libboost_filesystem.dylib $WORK/$libs
