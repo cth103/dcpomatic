@@ -649,7 +649,7 @@ public:
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxTOP | wxLEFT | wxRIGHT | wxEXPAND, _border);
+		s->Add (table, 1, wxEXPAND | wxALL, _border);
 
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
@@ -675,7 +675,10 @@ public:
 		table->Add (_kdm_from, 1, wxEXPAND | wxALL);
 		
 		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
-		s->Add (_kdm_email, 1.5, wxEXPAND | wxBOTTOM | wxLEFT | wxRIGHT, _border);
+		s->Add (_kdm_email, 1.5, wxEXPAND | wxALL, _border);
+
+		_reset_kdm_email = new wxButton (panel, wxID_ANY, _("Reset to default text"));
+		s->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
 
 		Config* config = Config::instance ();
 		_mail_server->SetValue (std_to_wx (config->mail_server ()));
@@ -688,6 +691,7 @@ public:
 		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
 		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
+		_reset_kdm_email->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMEmailPage::reset_kdm_email, this));
 
 		return panel;
 	}
@@ -718,11 +722,18 @@ private:
 		Config::instance()->set_kdm_email (wx_to_std (_kdm_email->GetValue ()));
 	}
 
+	void reset_kdm_email ()
+	{
+		Config::instance()->reset_kdm_email ();
+		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
+	}
+
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;
 	wxTextCtrl* _kdm_from;
 	wxTextCtrl* _kdm_email;
+	wxButton* _reset_kdm_email;
 };
 
 class AdvancedPage : public wxStockPreferencesPage, public Page

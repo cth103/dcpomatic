@@ -329,6 +329,8 @@ public:
 		changed ();
 	}
 
+	void reset_kdm_email ();
+
 	void set_check_for_updates (bool c) {
 		_check_for_updates = c;
 		changed ();
