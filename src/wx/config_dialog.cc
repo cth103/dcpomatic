@@ -744,10 +744,15 @@ public:
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		s->Add (table, 1, wxALL | wxEXPAND, _border);
-		
-		add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
-		_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
-		table->Add (_maximum_j2k_bandwidth, 1);
+
+		{
+			add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			_maximum_j2k_bandwidth = new wxSpinCtrl (panel);
+			s->Add (_maximum_j2k_bandwidth, 1);
+			add_label_to_sizer (s, panel, _("Mbit/s"), false);
+			table->Add (s, 1);
+		}
 
 		_allow_any_dcp_frame_rate = new wxCheckBox (panel, wxID_ANY, _("Allow any DCP frame rate"));
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
