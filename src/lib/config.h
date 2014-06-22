@@ -173,6 +173,10 @@ public:
 		return _kdm_from;
 	}
 
+	std::string kdm_cc () const {
+		return _kdm_cc;
+	}
+	
 	std::string kdm_email () const {
 		return _kdm_email;
 	}
@@ -324,6 +328,11 @@ public:
 		changed ();
 	}
 
+	void set_kdm_cc (std::string f) {
+		_kdm_cc = f;
+		changed ();
+	}
+	
 	void set_kdm_email (std::string e) {
 		_kdm_email = e;
 		changed ();
@@ -406,6 +415,7 @@ private:
 	std::string _mail_user;
 	std::string _mail_password;
 	std::string _kdm_from;
+	std::string _kdm_cc;
 	std::string _kdm_email;
 	/** true to check for updates on startup */
 	bool _check_for_updates;

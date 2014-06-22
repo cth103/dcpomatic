@@ -1,3 +1,9 @@
+2014-06-23  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to CC a KDM email, and add
+	$SCREENS and $CINEMA_NAME as variables
+	in the email.
+
 2014-06-22  Carl Hetherington  <cth@carlh.net>
 
 	* Reset-to-default button for KDM email text.

@@ -187,6 +187,7 @@ Config::read ()
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 	_kdm_from = f.string_child ("KDMFrom");
+	_kdm_cc = f.optional_string_child ("KDMCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
 
 	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
@@ -366,6 +367,7 @@ Config::write () const
 	root->add_child("MailUser")->add_child_text (_mail_user);
 	root->add_child("MailPassword")->add_child_text (_mail_password);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
+	root->add_child("KDMCC")->add_child_text (_kdm_cc);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
@@ -414,6 +416,8 @@ Config::reset_kdm_email ()
 	_kdm_email = _(
 		"Dear Projectionist\n\n"
 		"Please find attached KDMs for $CPL_NAME.\n\n"
+		"Cinema: $CINEMA_NAME\n"
+		"Screen(s): $SCREENS\n\n"
 		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
 		"Best regards,\nDCP-o-matic"
 		);
