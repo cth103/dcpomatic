@@ -2,6 +2,10 @@
 
 	* Add subtitle view.
 
+2014-06-22  Carl Hetherington  <cth@carlh.net>
+
+	* Fix large memory leak with image sources.
+
 2014-06-21  Carl Hetherington  <cth@carlh.net>
 
 	* Move email config into the KDM email page.
