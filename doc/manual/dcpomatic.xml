@@ -375,7 +375,7 @@ linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 <para>
 Alternatively, if you have a projector or TMS that is accessible via
 SCP across your network, you can upload the content directly from
-DCP-o-matic.  See the preferences in <xref linkend="sec-prefs-tms"/>.
+DCP-o-matic.  See the <xref linkend="sec-prefs-tms" endterm="sec-prefs-tms-short"/>.
 </para>
 
 </section>
@@ -1411,6 +1411,7 @@ into the DCP.  The default values should cause no problems.
 
 <section xml:id="sec-prefs-tms">
 <title>TMS</title>
+<titleabbrev xml:id="sec-prefs-tms-short">TMS preferences</titleabbrev>
 
 <para>
 The TMS tab (shown in <xref linkend="fig-prefs-tms"/>) gives some
@@ -1463,8 +1464,56 @@ DCP's title.
 </para>
 
 </section>
-</section>
 
+<section xml:id="sec-prefs-advanced">
+<title>Advanced</title>
+<titleabbrev xml:id="sec-prefs-advanced-short">Advanced preferences</titleabbrev>
+
+<para>
+The advanced preferences are shown in <xref linkend="fig-prefs-advanced"/>.
+</para>
+
+<figure id="fig-prefs-advanced"> 
+  <title>Advanced preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-advanced&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+<guilabel>Maximum JPEG2000 bandwidth</guilabel> specifies the maximum
+bit-rate of JPEG2000 that DCP-o-matic will allow you to create.  You
+are advised to leave this at 250Mbit/s in normal use for maximum DCP
+compatibility.
+</para>
+
+<para>
+<guilabel>Allow any DCP frame rate</guilabel> removes the limits on
+the DCP video frame rates that DCP-o-matic will create.  This may be
+useful for experimentation.  Again, you are strongly advised to leave
+this unticked for normal use.
+</para>
+
+<para>
+The four checkboxes labelled <guilabel>Log</guilabel> control what
+sort of messages DCP-o-matic writes to its log file when creating a
+DCP.  It is useful to leave <guilabel>General</guilabel>,
+<guilabel>Warnings</guilabel> and <guilabel>Errors</guilabel> ticked
+as this makes the log files useful for tracking down bugs.
+</para>
+
+<para>
+The <guilabel>Timing</guilabel> checkbox will enable extra log entries
+to allow developers to investigate and optimize the speed of
+DCP-o-matic.  It will significantly increase the size of the log files
+that are generated, so in normal use it is best to leave this
+unticked.
+</para>
+
+</section>
+</section>
 </chapter>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xml:id="ch-frame-rates">
@@ -1477,12 +1526,12 @@ however, always possible.
 </para>
 
 <section>
-<title>DCP rate limitations</title>
+<title>DCP frame rate limitations</title>
 
 <para>
-There are some limitations to video and audio rates in DCPs.  This is
+There are some limitations to video and audio frame rates in DCPs.  This is
 complicated by the fact that not all projectors will play DCPs at the
-same rates.  It is possible to create a DCP which one projector will
+same frame rates.  It is possible to create a DCP which one projector will
 play fine, but another (of a different type) will refuse to play, or
 even refuse to ingest.
 </para>
@@ -1565,6 +1614,15 @@ button, DCP-o-matic assumes that the whole range of frame rates (24,
 After this, the <guilabel>Video</guilabel> tab for each piece of
 content will give a summary of what DCP-o-matic is doing with that
 content.
+</para>
+
+<para>
+If you want to experiment with other non-standard frame rates, you can
+do so by ticking the <guilabel>Allow any DCP frame rate</guilabel> in
+the <guilabel>Advanced</guilabel> tab of the preferences dialogue (see the
+<xref linkend="sec-prefs-advanced" endterm="sec-prefs-advanced-short"/>).  You are strongly advised to
+use this only on your own equipment, and only for experimentation
+purposes.
 </para>
 
 </section>
