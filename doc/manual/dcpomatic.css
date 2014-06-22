@@ -17,3 +17,13 @@ div.sidebar {
     border-style: solid;
     background-color: #E2E8EE;
 }
+
+span.guilabel {
+    border-width: 1px;
+    border-style: solid;
+    background-color: #BED2E6;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+}

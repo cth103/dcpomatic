@@ -50,7 +50,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	grid->Add (_show, wxGBPosition (r, 0));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Audio Gain"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
 		this,
 		new wxSpinCtrlDouble (this),
@@ -65,7 +65,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Audio Delay"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Delay"), true, wxGBPosition (r, 0));
 	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
@@ -79,7 +79,7 @@ AudioPanel::AudioPanel (FilmEditor* e)
 	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Audio Stream"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, wxGBPosition (r, 1));
 	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 3));

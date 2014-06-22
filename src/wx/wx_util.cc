@@ -319,3 +319,21 @@ run_gui_loop ()
 		wxTheApp->Dispatch ();
 	}
 }
+
+/** @param s String of the form Context|String
+ *  @return translation, or String if no translation is available.
+ */
+wxString
+context_translation (wxString s)
+{
+	wxString t = wxGetTranslation (s);
+	if (t == s) {
+		/* No translation; strip the context */
+		int c = t.Find (wxT ("|"));
+		if (c != wxNOT_FOUND) {
+			t = t.Mid (c + 1);
+		}
+	}
+
+	return t;
+}

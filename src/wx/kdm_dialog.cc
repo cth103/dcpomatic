@@ -96,7 +96,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 
 
 	/* Sub-heading: Timing */
-	h = new wxStaticText (this, wxID_ANY, _("Timing"));
+	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 	

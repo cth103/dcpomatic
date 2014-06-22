@@ -31,7 +31,8 @@ using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 
 TimingPanel::TimingPanel (FilmEditor* e)
-	: FilmEditorPanel (e, _("Timing"))
+	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
+	: FilmEditorPanel (e, S_("Timing|Timing"))
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	_sizer->Add (grid, 0, wxALL, 8);
