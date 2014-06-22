@@ -838,7 +838,6 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/subtitle_panel.cc:62
-#, fuzzy
 msgid "Scale"
 msgstr "Mise à l'échelle"
 
@@ -925,7 +924,6 @@ msgid "Standard"
 msgstr "Standard"
 
 #: src/wx/audio_panel.cc:81 src/wx/subtitle_panel.cc:70
-#, fuzzy
 msgid "Stream"
 msgstr "Flux audio"
 
@@ -1105,12 +1103,10 @@ msgid "Written by"
 msgstr "Développé par"
 
 #: src/wx/subtitle_panel.cc:44
-#, fuzzy
 msgid "X Offset"
 msgstr "Position Horizontale"
 
 #: src/wx/subtitle_panel.cc:53
-#, fuzzy
 msgid "Y Offset"
 msgstr "Position Verticale"
 

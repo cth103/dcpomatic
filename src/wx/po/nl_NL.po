@@ -1119,14 +1119,12 @@ msgid "Written by"
 msgstr "Geschreven door"
 
 #: src/wx/subtitle_panel.cc:44
-#, fuzzy
 msgid "X Offset"
-msgstr "Ondertitel X offset"
+msgstr "X offset"
 
 #: src/wx/subtitle_panel.cc:53
-#, fuzzy
 msgid "Y Offset"
-msgstr "Ondertitel Y offset"
+msgstr "Y offset"
 
 #: src/wx/hints_dialog.cc:90
 #, c-format
