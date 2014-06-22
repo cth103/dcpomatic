@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 14:51+0100\n"
+"POT-Creation-Date: 2014-06-23 00:25+0100\n"
 "PO-Revision-Date: 2014-06-21 03:55+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -241,11 +241,15 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:71
+#: src/lib/config.cc:417
+#, fuzzy
 msgid ""
 "Dear Projectionist\n"
 "\n"
 "Please find attached KDMs for $CPL_NAME.\n"
+"\n"
+"Cinema: $CINEMA_NAME\n"
+"Screen(s): $SCREENS\n"
 "\n"
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
@@ -425,7 +429,7 @@ msgstr "Hinweis"
 msgid "Rating"
 msgstr "Freigabehinweis"
 
-#: src/lib/config.cc:87 src/lib/config.cc:174
+#: src/lib/config.cc:84 src/lib/config.cc:173
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
@@ -524,7 +528,7 @@ msgstr "Überleitung"
 msgid "Unexpected ZIP file contents"
 msgstr "Ungültiger ZIP Inhalt"
 
-#: src/lib/image_proxy.cc:172
+#: src/lib/image_proxy.cc:174
 msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
@@ -722,11 +726,11 @@ msgstr "Nur Bitmap Untertitel werden unterstützt"
 msgid "remaining"
 msgstr "verbleibend"
 
-#: src/lib/config.cc:85 src/lib/video_content.cc:175
+#: src/lib/config.cc:82 src/lib/video_content.cc:175
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/config.cc:86
+#: src/lib/config.cc:83
 msgid "sRGB non-linearised"
 msgstr "sRGB nicht linearisiert"
 
