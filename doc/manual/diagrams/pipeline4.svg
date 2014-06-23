@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="pipeline3.svg">
+   sodipodi:docname="pipeline4.svg">
   <defs
      id="defs4">
     <marker
@@ -234,9 +234,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.68026787"
-     inkscape:cx="-16.846029"
-     inkscape:cy="731.88908"
+     inkscape:zoom="1.2898269"
+     inkscape:cx="292.85461"
+     inkscape:cy="838.64023"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -253,7 +253,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -261,36 +261,43 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="color:#000000;fill:#000000;stroke:#000000;stroke-width:0.99999987999999995px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4773"
+       width="499.5"
+       height="270"
+       x="68.635796"
+       y="35.863335" />
     <g
        id="g4634"
-       transform="matrix(1.3949981,0,0,0.80970039,-33.234153,29.7975)">
+       transform="matrix(1.3905207,0,0,0.8071016,-32.107615,30.244575)">
       <rect
          y="47.699894"
          x="73.139694"
          height="248.66312"
          width="356.93597"
          id="rect3001-5"
-         style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:3.76366544;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+         style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:3.77578402;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <path
          inkscape:connector-curvature="0"
          id="path3003-3"
          d="M 119.40168,123.4643 75.898647,50.852713"
-         style="fill:none;stroke:#000000;stroke-width:0.94091618px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
+         style="fill:none;stroke:#000000;stroke-width:0.94394588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
       <path
          inkscape:connector-curvature="0"
          id="path3003-2-1"
          d="M 119.6764,220.30008 76.173359,292.91167"
-         style="fill:none;stroke:#000000;stroke-width:0.94091618px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
+         style="fill:none;stroke:#000000;stroke-width:0.94394588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
       <path
          inkscape:connector-curvature="0"
          id="path3003-2-6-6"
          d="m 383.11031,220.01077 43.50304,72.61159"
-         style="fill:none;stroke:#000000;stroke-width:0.94091618px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
+         style="fill:none;stroke:#000000;stroke-width:0.94394588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
       <path
          inkscape:connector-curvature="0"
          id="path3003-2-6-1-2"
          d="M 383.67493,123.63022 427.17796,51.018628"
-         style="fill:none;stroke:#000000;stroke-width:0.94091618px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
+         style="fill:none;stroke:#000000;stroke-width:0.94394588px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
       <text
          transform="scale(0.77402823,1.2919425)"
          sodipodi:linespacing="125%"

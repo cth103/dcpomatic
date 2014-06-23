@@ -965,7 +965,9 @@ video as it takes it from a source and puts it into a DCP.
 Consider, as a somewhat over-the-top example, that we have a 720 x 576
 image which is letterboxed with 36 black pixels each at the top and
 bottom, and the video content within the letterbox should be presented
-in the DCP at ratio of 2.39:1.  Such an image is shown in <xref linkend="fig-pipeline1"/>.
+in the DCP at ratio of 2.39:1 within a 1.85:1 frame (such as might
+happen with a trailer).  The source image is shown in <xref
+linkend="fig-pipeline1"/>.
 </para>
 
 <figure id="fig-pipeline1"> 
@@ -1010,15 +1012,35 @@ linkend="fig-pipeline2"/>.
 
 <para>
 The next step is to scale the image.  Since this content should be
-presented in a 2.39:1 aspect ratio, we would select
+presented in a 2.39:1 aspect ratio inside a 1.85:1 DCP we would select
 <guilabel>Scope</guilabel> from the <guilabel>Scale to</guilabel>
-option in the <guilabel>Video</guilabel> tab.  This option should
-always be set to the aspect ratio at which the content should be
-presented.  DCP-o-matic will work out how big the image should be to
-fit into the configured DCP's container; in the case of 2K, a 'scope
-container should be 2048x858 pixels, and so DCP-o-matic scales to that
-size.  This gives us a new version of the image as shown in <xref
-linkend="fig-pipeline3"/>.
+option in the <guilabel>Video</guilabel> tab and
+<guilabel>Flat</guilabel> from the <guilabel>Container</guilabel>
+option in the <guilabel>DCP</guilabel> tab.
+</para>
+
+<para>The <guilabel>Scale to</guilabel> option should always be set to
+the aspect ratio at which the content should be seen.  The
+<guilabel>Container</guilabel> option should be set to the preset that
+you want to use on the projector.  Of course, these two settings will
+often be the same.
+</para>
+
+<para>
+Given the scaling and container information, DCP-o-matic will look at
+the DCP's container size, and then scale the source image up until one
+or both of its dimensions (width, height or both) fits the size of the
+container, all the while preserving the desired aspect ratio.
+</para>
+
+<para>
+In our example here, the DCP's container is specified as 1.85:1 (so
+that the DCP will play back correctly using the projector's
+&lsquo;Flat&rsquo; preset).  At 2K, 1.85:1 is 1998 pixels by 1080.
+Scaling the source up whilst preserving its 1.85:1 aspect ratio will
+result in the image hitting the sides of the container first, at a
+size of 1998 x 836.  This gives us a new version of the image as shown
+in <xref linkend="fig-pipeline3"/>.
 </para>
 
 <figure id="fig-pipeline3"> 
@@ -1032,13 +1054,23 @@ linkend="fig-pipeline3"/>.
 
 <para>
 The final step is to place the image into the DCP.  In this case,
-since we have a 2.39:1 image that should be presented as a 2.39:1 DCP,
-we set the <guilabel>container</guilabel> in the
-<guilabel>DCP</guilabel> tab to be 'scope.  Since the content has been
-scaled to 2.39:1, and the DCP is in 2.39:1, there is nothing
-complicated to do here: DCP-o-matic can just place the image directly
-into the DCP.
+since we have a 2.39:1 image that should be presented as a 1.85:1 DCP,
+we have set the <guilabel>container</guilabel> in the
+<guilabel>DCP</guilabel> tab to be Scope.  Since the content has been
+scaled to 1998 x 836, and a Flat container is 1998 x 1080, there will
+be some black bars at the top and bottom of the image.  DCP-o-matic
+shares out this black equally, as shown in <xref
+linkend="fig-pipeline3"/>.
 </para>
+
+<figure id="fig-pipeline4"> 
+  <title>Example image in the DCP</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline4&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
 
 </section>
 

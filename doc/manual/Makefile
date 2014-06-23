@@ -3,7 +3,7 @@
 all:	html pdf
 
 DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg timecode.svg pipeline1.svg pipeline2.svg \
-            pipeline3.svg
+            pipeline3.svg pipeline4.svg
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
