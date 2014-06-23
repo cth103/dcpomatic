@@ -67,9 +67,6 @@ Config::Config ()
 	, _default_dcp_content_type (DCPContentType::from_isdcf_name ("TST"))
 	, _default_j2k_bandwidth (100000000)
 	, _default_audio_delay (0)
-	, _kdm_email (
-		_("Dear Projectionist\n\nPlease find attached KDMs for $CPL_NAME.\n\nThe KDMs are valid from $START_TIME until $END_TIME.\n\nBest regards,\nDCP-o-matic")
-		)
 	, _check_for_updates (false)
 	, _check_for_test_updates (false)
 	, _maximum_j2k_bandwidth (250000000)
@@ -85,6 +82,8 @@ Config::Config ()
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6));
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, dcp::colour_matrix::srgb_to_xyz, 2.6));
 	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), 2.2, false, dcp::colour_matrix::rec709_to_xyz, 2.6));
+
+	reset_kdm_email ();
 }
 
 void
@@ -188,6 +187,7 @@ Config::read ()
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 	_kdm_from = f.string_child ("KDMFrom");
+	_kdm_cc = f.optional_string_child ("KDMCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
 
 	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
@@ -367,6 +367,7 @@ Config::write () const
 	root->add_child("MailUser")->add_child_text (_mail_user);
 	root->add_child("MailPassword")->add_child_text (_mail_password);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
+	root->add_child("KDMCC")->add_child_text (_kdm_cc);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
@@ -407,4 +408,17 @@ Config::changed ()
 {
 	write ();
 	Changed ();
+}
+
+void
+Config::reset_kdm_email ()
+{
+	_kdm_email = _(
+		"Dear Projectionist\n\n"
+		"Please find attached KDMs for $CPL_NAME.\n\n"
+		"Cinema: $CINEMA_NAME\n"
+		"Screen(s): $SCREENS\n\n"
+		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
+		"Best regards,\nDCP-o-matic"
+		);
 }

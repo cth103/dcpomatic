@@ -32,6 +32,7 @@
 using std::list;
 using std::string;
 using std::stringstream;
+using std::cout;
 using boost::shared_ptr;
 
 struct ScreenKDM
@@ -228,7 +229,9 @@ email_kdms (
 		quickmail_initialize ();
 		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), "KDM delivery");
 		quickmail_add_to (mail, i->cinema->email.c_str ());
-		
+		if (!Config::instance()->kdm_cc().empty ()) {
+			quickmail_add_cc (mail, Config::instance()->kdm_cc().c_str ());
+		}
 		string body = Config::instance()->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());
 		stringstream start;
@@ -237,6 +240,12 @@ email_kdms (
 		stringstream end;
 		end << to.date() << " " << to.time_of_day();
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
+		boost::algorithm::replace_all (body, "$CINEMA_NAME", i->cinema->name);
+		stringstream screens;
+		for (list<ScreenKDM>::const_iterator j = i->screen_kdms.begin(); j != i->screen_kdms.end(); ++j) {
+			screens << j->screen->name << ", ";
+		}
+		boost::algorithm::replace_all (body, "$SCREENS", screens.str().substr (0, screens.str().length() - 2));
 
 		quickmail_set_body (mail, body.c_str());
 		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 14:51+0100\n"
+"POT-Creation-Date: 2014-06-23 00:25+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -242,11 +242,15 @@ msgid "De-interlacing"
 msgstr "Avflätning"
 
 # svåröversatt
-#: src/lib/config.cc:71
+#: src/lib/config.cc:417
+#, fuzzy
 msgid ""
 "Dear Projectionist\n"
 "\n"
 "Please find attached KDMs for $CPL_NAME.\n"
+"\n"
+"Cinema: $CINEMA_NAME\n"
+"Screen(s): $SCREENS\n"
 "\n"
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
@@ -425,7 +429,7 @@ msgstr "Public Service Announcement"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/config.cc:87 src/lib/config.cc:174
+#: src/lib/config.cc:84 src/lib/config.cc:173
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
@@ -526,7 +530,7 @@ msgstr "Transitional"
 msgid "Unexpected ZIP file contents"
 msgstr ""
 
-#: src/lib/image_proxy.cc:172
+#: src/lib/image_proxy.cc:174
 msgid "Unexpected image type received by server"
 msgstr ""
 
@@ -729,11 +733,11 @@ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/config.cc:85 src/lib/video_content.cc:175
+#: src/lib/config.cc:82 src/lib/video_content.cc:175
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/config.cc:86
+#: src/lib/config.cc:83
 msgid "sRGB non-linearised"
 msgstr "sRGB icke-linjär"
 
