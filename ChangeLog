@@ -1,5 +1,8 @@
 2014-06-23  Carl Hetherington  <cth@carlh.net>
 
+	* Try harder to cope with DCP names specified
+	already in CamelCase.
+
 	* Add option to CC a KDM email, and add
 	$SCREENS and $CINEMA_NAME as variables
 	in the email.
