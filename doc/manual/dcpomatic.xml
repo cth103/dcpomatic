@@ -953,6 +953,95 @@ any changes to the corresponding timecode.
 
 </section>
 
+<section>
+<title>Video processing pipeline</title>
+
+<para>
+This section gives a little more detail about how DCP-o-matic process
+video as it takes it from a source and puts it into a DCP.
+</para>
+
+<para>
+Consider, as a somewhat over-the-top example, that we have a 720 x 576
+image which is letterboxed with 36 black pixels each at the top and
+bottom, and the video content within the letterbox should be presented
+in the DCP at ratio of 2.39:1.  Such an image is shown in <xref linkend="fig-pipeline1"/>.
+</para>
+
+<figure id="fig-pipeline1"> 
+  <title>Example image to demonstrate video processing</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline1&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+DCP-o-matic runs through the following steps when preparing an image for a DCP:
+</para>
+
+<itemizedlist>
+<listitem>Crop</listitem>
+<listitem>Scale</listitem>
+<listitem>Place in container</listitem>
+</itemizedlist>
+
+<para>
+First, some amount of the image can be cropped.  This is almost always
+used to remove black borders (letterboxing and/or pillarboxing) around
+images.
+</para>
+
+<para>
+In our example image, we would use 36 pixels of crop from the top and
+bottom.  This would give the new image shown in <xref
+linkend="fig-pipeline2"/>.
+</para>
+
+<figure id="fig-pipeline2"> 
+  <title>Example image after cropping</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline2&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The next step is to scale the image.  Since this content should be
+presented in a 2.39:1 aspect ratio, we would select
+<guilabel>Scope</guilabel> from the <guilabel>Scale to</guilabel>
+option in the <guilabel>Video</guilabel> tab.  This option should
+always be set to the aspect ratio at which the content should be
+presented.  DCP-o-matic will work out how big the image should be to
+fit into the configured DCP's container; in the case of 2K, a 'scope
+container should be 2048x858 pixels, and so DCP-o-matic scales to that
+size.  This gives us a new version of the image as shown in <xref
+linkend="fig-pipeline3"/>.
+</para>
+
+<figure id="fig-pipeline3"> 
+  <title>Example image after cropping and scaling</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline3&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The final step is to place the image into the DCP.  In this case,
+since we have a 2.39:1 image that should be presented as a 2.39:1 DCP,
+we set the <guilabel>container</guilabel> in the
+<guilabel>DCP</guilabel> tab to be 'scope.  Since the content has been
+scaled to 2.39:1, and the DCP is in 2.39:1, there is nothing
+complicated to do here: DCP-o-matic can just place the image directly
+into the DCP.
+</para>
+
+</section>
+
 </chapter>
 
 <chapter xml:id="ch-dcp" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
