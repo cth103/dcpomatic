@@ -136,6 +136,7 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 	boost::mutex::scoped_lock lock (_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
 
@@ -157,7 +158,8 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 		_queue.push_back (qi);
 		++_queued_full_in_memory;
 	}
-	
+
+	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();
 }
 
@@ -167,6 +169,7 @@ Writer::fake_write (int frame, Eyes eyes)
 	boost::mutex::scoped_lock lock (_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
 	
@@ -188,6 +191,7 @@ Writer::fake_write (int frame, Eyes eyes)
 		_queue.push_back (qi);
 	}
 
+	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();
 }
 
@@ -241,9 +245,11 @@ try
 		while (1) {
 			
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
+				/* We've got something to do: go and do it */
 				break;
 			}
 
+			/* Nothing to do: wait until something happens which may indicate that we do */
 			LOG_TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
 			_empty_condition.wait (lock);
 			LOG_TIMING (N_("writer wakes with a queue of %1"), _queue.size());
@@ -345,6 +351,7 @@ try
 			--_queued_full_in_memory;
 		}
 
+		/* The queue has probably just gone down a bit; notify anything wait()ing on _full_condition */
 		_full_condition.notify_all ();
 	}
 }
@@ -481,6 +488,7 @@ Writer::repeat (int f, Eyes e)
 	boost::mutex::scoped_lock lock (_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
 	
@@ -497,6 +505,7 @@ Writer::repeat (int f, Eyes e)
 		_queue.push_back (qi);
 	}
 
+	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();
 }
 
