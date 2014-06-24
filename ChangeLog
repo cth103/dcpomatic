@@ -1,3 +1,8 @@
+2014-06-24  Carl Hetherington  <cth@carlh.net>
+
+	* Fix some madness when dragging things around
+	on the timeline.
+
 2014-06-23  Carl Hetherington  <cth@carlh.net>
 
 	* Try harder to cope with DCP names specified

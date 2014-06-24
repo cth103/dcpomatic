@@ -79,6 +79,7 @@ private:
 	void right_down (wxMouseEvent &);
 	void mouse_moved (wxMouseEvent &);
 	void playlist_changed ();
+	void playlist_content_changed (int);
 	void resized ();
 	void assign_tracks ();
 	void set_position_from_event (wxMouseEvent &);
@@ -105,5 +106,6 @@ private:
 	ContentMenu _menu;
 	bool _snap;
 
-	boost::signals2::scoped_connection _playlist_connection;
+	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_changed_connection;
 };
