@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -105,7 +105,7 @@ msgstr "Center"
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintligt bilddata"
 
-#: src/lib/writer.cc:464
+#: src/lib/writer.cc:471
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
@@ -113,7 +113,7 @@ msgstr "Beräknar audiosammanfattning"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/writer.cc:460
+#: src/lib/writer.cc:467
 msgid "Computing image digest"
 msgstr "Beräknar bildsammanfattning"
 
@@ -494,7 +494,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:412
+#: src/lib/film.cc:413
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -504,7 +504,7 @@ msgstr ""
 "inte öppnas i denna version. Du måste skapa en ny Film, lägga till ditt "
 "innehåll och konfigurera allt igen. Ursäkta!"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:405
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -568,7 +568,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:310
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
@@ -580,7 +580,7 @@ msgstr "[rörliga bilder]"
 msgid "[still]"
 msgstr "[stillbild]"
 
-#: src/lib/film.cc:257
+#: src/lib/film.cc:258
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
@@ -593,11 +593,11 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:305
+#: src/lib/film.cc:306
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:314
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -621,7 +621,7 @@ msgstr "kunde inte hitta information om strömmen"
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
 
-#: src/lib/writer.cc:428
+#: src/lib/writer.cc:435
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "kunde inte flytta audio-MXF in i DCP:n (%1)"
 
@@ -719,7 +719,7 @@ msgstr "rörlig"
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:257 src/lib/film.cc:317
+#: src/lib/film.cc:258 src/lib/film.cc:318
 msgid "name"
 msgstr "namn"
 

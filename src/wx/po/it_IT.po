@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-02-03 10:46+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -958,7 +958,7 @@ msgstr "Lingua dei Sottotitoli (es. FR)"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:152
+#: src/wx/about_dialog.cc:153
 msgid "Supported by"
 msgstr ""
 
@@ -984,7 +984,7 @@ msgstr "Nazione (es. UK)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:197
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr ""
 
@@ -1167,7 +1167,7 @@ msgstr ""
 "Il vostro DCP ha meno di 6 canali audio. Questo può causare problemi su "
 "alcuni proiettori."
 
-#: src/wx/timeline.cc:216
+#: src/wx/timeline.cc:220
 #, fuzzy
 msgid "audio"
 msgstr "Audio"
@@ -1193,7 +1193,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:239
+#: src/wx/timeline.cc:243
 msgid "still"
 msgstr ""
 
@@ -1201,7 +1201,7 @@ msgstr ""
 msgid "times"
 msgstr ""
 
-#: src/wx/timeline.cc:237
+#: src/wx/timeline.cc:241
 #, fuzzy
 msgid "video"
 msgstr "Video"

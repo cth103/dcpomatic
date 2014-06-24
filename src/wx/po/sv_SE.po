@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -970,7 +970,7 @@ msgstr "Undertextspråk (ex. SV)"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:152
+#: src/wx/about_dialog.cc:153
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -995,7 +995,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:197
+#: src/wx/about_dialog.cc:198
 #, fuzzy
 msgid "Tested by"
 msgstr "Översatt av"
@@ -1183,7 +1183,7 @@ msgstr ""
 "Din DCP har mindre än 6 audiokanaler. Detta kan medföra problem på vissa "
 "projektorer."
 
-#: src/wx/timeline.cc:216
+#: src/wx/timeline.cc:220
 msgid "audio"
 msgstr "audio"
 
@@ -1208,7 +1208,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:239
+#: src/wx/timeline.cc:243
 msgid "still"
 msgstr "stillbild"
 
@@ -1217,7 +1217,7 @@ msgstr "stillbild"
 msgid "times"
 msgstr "tider"
 
-#: src/wx/timeline.cc:237
+#: src/wx/timeline.cc:241
 msgid "video"
 msgstr "video"
 

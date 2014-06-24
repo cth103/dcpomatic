@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-06-20 15:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -105,7 +105,7 @@ msgstr "Centre"
 msgid "Checking existing image data"
 msgstr "Recherche de données images existantes"
 
-#: src/lib/writer.cc:464
+#: src/lib/writer.cc:471
 msgid "Computing audio digest"
 msgstr "Fabrication rendu audio"
 
@@ -113,7 +113,7 @@ msgstr "Fabrication rendu audio"
 msgid "Computing digest"
 msgstr "fabrication rendu"
 
-#: src/lib/writer.cc:460
+#: src/lib/writer.cc:467
 msgid "Computing image digest"
 msgstr "Fabrication rendu image"
 
@@ -479,7 +479,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr "Il n'y avait pas assez de mémoire pour faire cela."
 
-#: src/lib/film.cc:412
+#: src/lib/film.cc:413
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -487,7 +487,7 @@ msgstr ""
 "Ce film a été créé avec une nouvelle version de DCP-o-matic et il ne peut "
 "être ouvert dans cette version du programme. Désolé!"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:405
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -549,7 +549,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:310
 msgid "You must add some content to the DCP before creating it"
 msgstr "Ajoutez un contenu pour créer le DCP"
 
@@ -561,7 +561,7 @@ msgstr "[Déplacement d'images]"
 msgid "[still]"
 msgstr "[restant]"
 
-#: src/lib/film.cc:257
+#: src/lib/film.cc:258
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
@@ -573,11 +573,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:305
+#: src/lib/film.cc:306
 msgid "container"
 msgstr "conteneur"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:314
 msgid "content type"
 msgstr "type de contenu"
 
@@ -601,7 +601,7 @@ msgstr "information du flux introuvable"
 msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
-#: src/lib/writer.cc:428
+#: src/lib/writer.cc:435
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "ne peut déplacer un MXF son dans le DCP (%1)"
 
@@ -699,7 +699,7 @@ msgstr "déplacement"
 msgid "multi-part subtitles not yet supported"
 msgstr "sous-titres en plusieurs parties non supportés"
 
-#: src/lib/film.cc:257 src/lib/film.cc:317
+#: src/lib/film.cc:258 src/lib/film.cc:318
 msgid "name"
 msgstr "nom"
 

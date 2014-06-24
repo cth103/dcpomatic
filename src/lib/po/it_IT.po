@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-02-03 10:48+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -106,7 +106,7 @@ msgstr "Centro"
 msgid "Checking existing image data"
 msgstr ""
 
-#: src/lib/writer.cc:464
+#: src/lib/writer.cc:471
 msgid "Computing audio digest"
 msgstr ""
 
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr ""
 
-#: src/lib/writer.cc:460
+#: src/lib/writer.cc:467
 msgid "Computing image digest"
 msgstr ""
 
@@ -498,7 +498,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:412
+#: src/lib/film.cc:413
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -509,7 +509,7 @@ msgstr ""
 "un nuovo film, ri-aggiungere i tuoi contenuti e configurarlo di nuovo. Ci "
 "dispiace!"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:405
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -572,7 +572,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:310
 msgid "You must add some content to the DCP before creating it"
 msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
@@ -585,7 +585,7 @@ msgstr ""
 msgid "[still]"
 msgstr "ancora"
 
-#: src/lib/film.cc:257
+#: src/lib/film.cc:258
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
@@ -597,11 +597,11 @@ msgstr "connessione scaduta"
 msgid "connecting"
 msgstr "mi sto connettendo"
 
-#: src/lib/film.cc:305
+#: src/lib/film.cc:306
 msgid "container"
 msgstr "contenitore"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:314
 msgid "content type"
 msgstr "tipo di contenuto"
 
@@ -625,7 +625,7 @@ msgstr "non riesco a trovare informazioni sullo streaming"
 msgid "could not find video decoder"
 msgstr "non riesco a trovare il decoder video"
 
-#: src/lib/writer.cc:428
+#: src/lib/writer.cc:435
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "sottotitoli multi-part non ancora supportati"
 
-#: src/lib/film.cc:257 src/lib/film.cc:317
+#: src/lib/film.cc:258 src/lib/film.cc:318
 msgid "name"
 msgstr "nome"
 
