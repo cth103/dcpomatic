@@ -153,7 +153,7 @@ public:
 		NONE,
 		NAME,
 		USE_ISDCF_NAME,
-		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
+		/** The playlist's content list has changed (i.e. content has been added or removed) */
 		CONTENT,
 		DCP_CONTENT_TYPE,
 		CONTAINER,
