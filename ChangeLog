@@ -1,7 +1,7 @@
 2014-06-24  Carl Hetherington  <cth@carlh.net>
 
-	* Fix some madness when dragging things around
-	on the timeline.
+	* Re-assign timeline tracks when things are
+	moved about.
 
 2014-06-23  Carl Hetherington  <cth@carlh.net>
 
