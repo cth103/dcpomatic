@@ -13,6 +13,7 @@ def options(opt):
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
     opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
     opt.add_option('--target-debian',     action='store_true', default=False, help='set up to compile for a Debian/Ubuntu package')
+    opt.add_option('--debian-unstable',   action='store_true', default=False, help='add extra libraries to static-build correctly on Debian unstable')
     opt.add_option('--target-centos',     action='store_true', default=False, help='set up to compile for a Centos package')
     opt.add_option('--magickpp-config',   action='store',      default='Magick++-config', help='path to Magick++-config')
     opt.add_option('--wx-config',         action='store',      default='wx-config', help='path to wx-config')
@@ -163,6 +164,7 @@ def configure(conf):
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.TARGET_DEBIAN = conf.options.target_debian
+    conf.env.DEBIAN_UNSTABLE = conf.options.debian_unstable
     conf.env.TARGET_CENTOS = conf.options.target_centos
     conf.env.VERSION = VERSION
     conf.env.TARGET_OSX = sys.platform == 'darwin'
