@@ -169,6 +169,9 @@ def build(target, options):
         elif target.distro == 'centos':
             cmd += ' --target-centos'
 
+    if target.distro == 'debian' and target.version == 'unstable':
+        cmd += ' --debian-unstable'
+
     target.command(cmd)
     target.command('./waf')
 
