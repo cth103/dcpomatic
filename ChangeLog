@@ -1,5 +1,9 @@
 2014-06-25  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.69.36 released.
+
+2014-06-25  Carl Hetherington  <cth@carlh.net>
+
 	* Support pixel format 46 in make_black().
 
 2014-06-24  Carl Hetherington  <cth@carlh.net>
