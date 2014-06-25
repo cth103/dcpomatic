@@ -1,3 +1,7 @@
+2014-06-25  Carl Hetherington  <cth@carlh.net>
+
+	* Support pixel format 46 in make_black().
+
 2014-06-24  Carl Hetherington  <cth@carlh.net>
 
 	* Re-assign timeline tracks when things are
