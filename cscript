@@ -204,6 +204,8 @@ def package_debian(target, cpu, version):
     target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
     target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
+    if target.version == 'unstable':
+        target.set('CDIST_EXTRA_CONFIGURE', '--debian-unstable')
     target.command('dpkg-buildpackage')
     
     debs = []
