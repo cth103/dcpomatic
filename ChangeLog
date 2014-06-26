@@ -1,5 +1,9 @@
 2014-06-26  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.70.1 released.
+
+2014-06-26  Carl Hetherington  <cth@carlh.net>
+
 	* Support different KDM formulations.
 
 	* Allow override of detected video frame rates.
