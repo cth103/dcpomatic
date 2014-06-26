@@ -29,6 +29,7 @@ extern void write_kdm_files (
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to,
+	dcp::Formulation formulation,
 	boost::filesystem::path directory
 	);
 
@@ -38,6 +39,7 @@ extern void write_kdm_zip_files (
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to,
+	dcp::Formulation formulation,
 	boost::filesystem::path directory
 	);
 
@@ -46,6 +48,7 @@ extern void email_kdms (
 	std::list<boost::shared_ptr<Screen> > screens,
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
-	dcp::LocalTime to
+	dcp::LocalTime to,
+	dcp::Formulation formulation
 	);
 

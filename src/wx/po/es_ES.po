@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-04-20 12:06-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -947,7 +947,7 @@ msgstr "Idioma del subtítulo (ej. EN)"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:152
+#: src/wx/about_dialog.cc:153
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -972,7 +972,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:197
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -1156,7 +1156,7 @@ msgstr ""
 "Tu DCP tiene menos de 6 canales de audio. Esto puede causar problemas con "
 "algunos proyectores."
 
-#: src/wx/timeline.cc:216
+#: src/wx/timeline.cc:220
 msgid "audio"
 msgstr "audio"
 
@@ -1181,7 +1181,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:239
+#: src/wx/timeline.cc:243
 msgid "still"
 msgstr "fijo"
 
@@ -1189,7 +1189,7 @@ msgstr "fijo"
 msgid "times"
 msgstr "veces"
 
-#: src/wx/timeline.cc:237
+#: src/wx/timeline.cc:241
 msgid "video"
 msgstr "vídeo"
 

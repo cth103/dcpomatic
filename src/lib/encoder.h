@@ -110,7 +110,10 @@ private:
 	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
 	std::list<boost::thread *> _threads;
 	mutable boost::mutex _mutex;
-	boost::condition _condition;
+	/** condition to manage thread wakeups when we have nothing to do */
+	boost::condition _empty_condition;
+	/** condition to manage thread wakeups when we have too much to do */
+	boost::condition _full_condition;
 
 	boost::shared_ptr<Writer> _writer;
 	Waker _waker;

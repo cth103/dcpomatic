@@ -116,6 +116,7 @@ public:
 	}
 
 	void set_video_frame_type (VideoFrameType);
+	void set_video_frame_rate (float);
 
 	void set_left_crop (int);
 	void set_right_crop (int);

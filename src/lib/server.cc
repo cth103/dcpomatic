@@ -79,7 +79,7 @@ Server::~Server ()
 	{
 		boost::mutex::scoped_lock lm (_worker_mutex);
 		_terminate = true;
-		_worker_condition.notify_all ();
+		_empty_condition.notify_all ();
 	}
 
 	for (vector<boost::thread*>::iterator i = _worker_threads.begin(); i != _worker_threads.end(); ++i) {
@@ -139,7 +139,7 @@ Server::worker_thread ()
 	while (1) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty () && !_terminate) {
-			_worker_condition.wait (lock);
+			_empty_condition.wait (lock);
 		}
 
 		if (_terminate) {
@@ -194,7 +194,7 @@ Server::worker_thread ()
 			LOG_GENERAL_NC (message.str ());
 		}
 		
-		_worker_condition.notify_all ();
+		_full_condition.notify_all ();
 	}
 }
 
@@ -291,11 +291,11 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 	
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _worker_threads.size() * 2 && !_terminate) {
-		_worker_condition.wait (lock);
+		_full_condition.wait (lock);
 	}
 	
 	_queue.push_back (socket);
-	_worker_condition.notify_all ();
+	_empty_condition.notify_all ();
 
 	start_accept ();
 }

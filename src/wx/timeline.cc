@@ -127,6 +127,10 @@ public:
 		_track = t;
 	}
 
+	void unset_track () {
+		_track = boost::optional<int> ();
+	}
+
 	optional<int> track () const {
 		return _track;
 	}
@@ -386,7 +390,8 @@ Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
-	_playlist_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
+	_playlist_changed_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
+	_playlist_content_changed_connection = film->playlist()->ContentChanged.connect (bind (&Timeline::playlist_content_changed, this, _2));
 }
 
 void
@@ -441,8 +446,27 @@ Timeline::playlist_changed ()
 }
 
 void
+Timeline::playlist_content_changed (int property)
+{
+	ensure_ui_thread ();
+
+	if (property == ContentProperty::POSITION) {
+		assign_tracks ();
+		setup_pixels_per_second ();
+		Refresh ();
+	}
+}
+
+void
 Timeline::assign_tracks ()
 {
+	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<ContentView> c = dynamic_pointer_cast<ContentView> (*i);
+		if (c) {
+			c->unset_track ();
+		}
+	}
+
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<ContentView> cv = dynamic_pointer_cast<ContentView> (*i);
 		if (!cv) {
@@ -680,7 +704,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 	if (new_position < DCPTime ()) {
 		new_position = DCPTime ();
 	}
-	
+
 	_down_view->content()->set_position (new_position);
 	
 	shared_ptr<Film> film = _film.lock ();

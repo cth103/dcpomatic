@@ -17,6 +17,7 @@
 
 */
 
+#include <dcp/raw_convert.h>
 #include "lib/content.h"
 #include "lib/image_content.h"
 #include "timing_panel.h"
@@ -28,7 +29,7 @@ using std::cout;
 using std::string;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using boost::lexical_cast;
+using dcp::raw_convert;
 
 TimingPanel::TimingPanel (FilmEditor* e)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
@@ -124,7 +125,7 @@ TimingPanel::film_content_changed (int property)
 		if (content) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (content);
 			if (vc) {
-				_video_frame_rate->SetValue (std_to_wx (lexical_cast<string> (vc->video_frame_rate ())));
+				_video_frame_rate->SetValue (std_to_wx (raw_convert<string> (vc->video_frame_rate (), 5)));
 			} else {
 				_video_frame_rate->SetValue ("24");
 			}
@@ -133,10 +134,11 @@ TimingPanel::film_content_changed (int property)
 		}
 	}
 
+	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (content);
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
 	_full_length->set_editable (ic && ic->still ());
 	_play_length->set_editable (!ic || !ic->still ());
-	_video_frame_rate->Enable (ic && !ic->still ());
+	_video_frame_rate->Enable (vc);
 	_set_video_frame_rate->Enable (false);
 }
 
@@ -201,9 +203,9 @@ TimingPanel::set_video_frame_rate ()
 {
 	ContentList c = _editor->selected_content ();
 	if (c.size() == 1) {
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
-		if (ic) {
-			ic->set_video_frame_rate (lexical_cast<float> (wx_to_std (_video_frame_rate->GetValue ())));
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c.front ());
+		if (vc) {
+			vc->set_video_frame_rate (raw_convert<float> (wx_to_std (_video_frame_rate->GetValue ())));
 		}
 		_set_video_frame_rate->Enable (false);
 	}

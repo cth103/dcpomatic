@@ -44,6 +44,7 @@ help ()
 		"  -f, --valid-from       valid from time (in local time zone) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
 		"  -t, --valid-to         valid to time (in local time zone) (e.g. \"2014-09-28 01:41:51\")\n"
 		"  -d, --valid-duration   valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
+		"      --formulation      modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
 		"  -z, --zip              ZIP each cinema's KDMs into its own file\n"
 		"  -v, --verbose          be verbose\n"
 		"  -c, --cinema           specify a cinema, either by name or email address\n"
@@ -110,6 +111,7 @@ int main (int argc, char* argv[])
 	bool cinemas = false;
 	string duration_string;
 	bool verbose = false;
+	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
 
 	program_name = argv[0];
 	
@@ -126,10 +128,11 @@ int main (int argc, char* argv[])
 			{ "zip", no_argument, 0, 'z' },
 			{ "duration", required_argument, 0, 'd' },
 			{ "verbose", no_argument, 0, 'v' },
+			{ "formulation", required_argument, 0, 'C' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:f:t:c:A:Bzd:v", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:f:t:c:A:Bzd:vC:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -166,6 +169,16 @@ int main (int argc, char* argv[])
 		case 'v':
 			verbose = true;
 			break;
+		case 'C':
+			if (string (optarg) == "modified-transitional-1") {
+				formulation = dcp::MODIFIED_TRANSITIONAL_1;
+			} else if (string (optarg) == "dci-any") {
+				formulation = dcp::DCI_ANY;
+			} else if (string (optarg) == "dci-specific") {
+				formulation = dcp::DCI_SPECIFIC;
+			} else {
+				error ("unrecognised KDM formulation " + formulation);
+			}
 		}
 	}
 
@@ -236,7 +249,7 @@ int main (int argc, char* argv[])
 		}
 		
 		shared_ptr<dcp::Certificate> certificate (new dcp::Certificate (boost::filesystem::path (certificate_file)));
-		dcp::EncryptedKDM kdm = film->make_kdm (certificate, cpl, valid_from.get(), valid_to.get());
+		dcp::EncryptedKDM kdm = film->make_kdm (certificate, cpl, valid_from.get(), valid_to.get(), formulation);
 		kdm.as_xml (output);
 		if (verbose) {
 			cout << "Generated KDM " << output << " for certificate.\n";
@@ -260,13 +273,18 @@ int main (int argc, char* argv[])
 
 		try {
 			if (zip) {
-				write_kdm_zip_files (film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
-
+				write_kdm_zip_files (
+					film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation, output
+					);
+				
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				write_kdm_files (film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), output);
+				write_kdm_files (
+					film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation, output
+					);
+				
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";
 				}

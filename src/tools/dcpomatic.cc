@@ -470,10 +470,10 @@ private:
 
 		try {
 			if (d->write_to ()) {
-				write_kdm_files (film, d->screens (), d->cpl (), d->from (), d->until (), d->directory ());
+				write_kdm_files (film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation (), d->directory ());
 			} else {
 				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->cpl (), d->from (), d->until ()))
+					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation ()))
 					);
 			}
 		} catch (dcp::NotEncryptedError& e) {

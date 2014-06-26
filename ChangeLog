@@ -2,7 +2,42 @@
 
 	* Add subtitle view.
 
+2014-06-26  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.70.1 released.
+
+2014-06-26  Carl Hetherington  <cth@carlh.net>
+
+	* Support different KDM formulations.
+
+	* Allow override of detected video frame rates.
+
+	* Optimisation of uncertain effect to encoder and server
+	thread handling.
+
+	* Version 1.70.0 released.
+
+2014-06-25  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.37 released.
+
+2014-06-25  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.69.36 released.
+
+2014-06-25  Carl Hetherington  <cth@carlh.net>
+
+	* Support pixel format 46 in make_black().
+
+2014-06-24  Carl Hetherington  <cth@carlh.net>
+
+	* Re-assign timeline tracks when things are
+	moved about.
+
 2014-06-23  Carl Hetherington  <cth@carlh.net>
+
+	* Try harder to cope with DCP names specified
+	already in CamelCase.
 
 	* Add option to CC a KDM email, and add
 	$SCREENS and $CINEMA_NAME as variables

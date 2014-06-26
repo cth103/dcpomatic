@@ -106,8 +106,8 @@ Encoder::process_end ()
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
-		_condition.notify_all ();
-		_condition.wait (lock);
+		_empty_condition.notify_all ();
+		_full_condition.wait (lock);
 	}
 
 	lock.unlock ();
@@ -192,7 +192,7 @@ Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf)
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
 		LOG_TIMING ("decoder sleeps with queue of %1", _queue.size());
-		_condition.wait (lock);
+		_full_condition.wait (lock);
 		LOG_TIMING ("decoder wakes with queue of %1", _queue.size());
 	}
 
@@ -223,8 +223,11 @@ Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf)
 						  _film->log()
 						  )
 					  ));
-		
-		_condition.notify_all ();
+
+		/* The queue might not be empty any more, so notify anything which is
+		   waiting on that.
+		*/
+		_empty_condition.notify_all ();
 	}
 
 	if (pvf->eyes() != EYES_LEFT) {
@@ -244,7 +247,8 @@ Encoder::terminate_threads ()
 	{
 		boost::mutex::scoped_lock lock (_mutex);
 		_terminate = true;
-		_condition.notify_all ();
+		_full_condition.notify_all ();
+		_empty_condition.notify_all ();
 	}
 
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
@@ -267,12 +271,12 @@ try
 	*/
 	int remote_backoff = 0;
 	
-	while (1) {
+	while (true) {
 
 		LOG_TIMING ("[%1] encoder thread sleeps", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_mutex);
 		while (_queue.empty () && !_terminate) {
-			_condition.wait (lock);
+			_empty_condition.wait (lock);
 		}
 
 		if (_terminate) {
@@ -334,8 +338,9 @@ try
 			dcpomatic_sleep (remote_backoff);
 		}
 
+		/* The queue might not be full any more, so notify anything that is waiting on that */
 		lock.lock ();
-		_condition.notify_all ();
+		_full_condition.notify_all ();
 	}
 }
 catch (...)

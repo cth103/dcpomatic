@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-06-20 16:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -939,7 +939,7 @@ msgstr "Langue de sous-titres (ex. FR)"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:152
+#: src/wx/about_dialog.cc:153
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -963,7 +963,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version Test"
 
-#: src/wx/about_dialog.cc:197
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -1145,7 +1145,7 @@ msgstr ""
 "Votre DCP a moins de 6 canaux audio.  Cela peut créer des problèmes de "
 "lecture sur certains projecteurs."
 
-#: src/wx/timeline.cc:216
+#: src/wx/timeline.cc:220
 msgid "audio"
 msgstr "audio"
 
@@ -1170,7 +1170,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:239
+#: src/wx/timeline.cc:243
 msgid "still"
 msgstr "fixe"
 
@@ -1178,7 +1178,7 @@ msgstr "fixe"
 msgid "times"
 msgstr "fois"
 
-#: src/wx/timeline.cc:237
+#: src/wx/timeline.cc:241
 msgid "video"
 msgstr "vidéo"
 

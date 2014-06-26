@@ -101,5 +101,25 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (48);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2-Temp-Pre-RedBand-MyChain-2D-4fl-48_F-133_DE-FR_US-R_10_4K_DI_20140704_PP_SMPTE_VF");
+
+	/* Test a name which is already in camelCase */
+
+	film->set_three_d (false);
+	m.temp_version = false;
+	m.pre_release = false;
+	m.red_band = false;
+	m.chain = "";
+	m.two_d_version_of_three_d = false;
+	m.mastered_luminance = "";
+	film->set_isdcf_metadata (m);
+	film->set_video_frame_rate (24);
+	film->set_name ("IKnowCamels");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "IKnowCamels_XSN-2_F-133_DE-FR_US-R_10_4K_DI_20140704_PP_SMPTE_VF");
+
+	/* And one in capitals */
+
+	film->set_name ("LIKE SHOUTING");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-FR_US-R_10_4K_DI_20140704_PP_SMPTE_VF");
 }
+
 

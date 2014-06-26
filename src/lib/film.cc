@@ -77,8 +77,10 @@ using boost::to_upper_copy;
 using boost::ends_with;
 using boost::starts_with;
 using boost::optional;
+using boost::is_any_of;
 using dcp::Size;
 using dcp::Signer;
+using dcp::raw_convert;
 using dcp::raw_convert;
 
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
@@ -491,16 +493,39 @@ Film::isdcf_name (bool if_created_now) const
 	stringstream d;
 
 	string raw_name = name ();
+
+	/* Split the raw name up into words */
+	vector<string> words;
+	split (words, raw_name, is_any_of (" "));
+
 	string fixed_name;
-	bool cap_next = true;
-	for (size_t i = 0; i < raw_name.length(); ++i) {
-		if (raw_name[i] == ' ') {
-			cap_next = true;
-		} else if (cap_next) {
-			fixed_name += toupper (raw_name[i]);
-			cap_next = false;
-		} else {
-			fixed_name += tolower (raw_name[i]);
+	
+	/* Add each word to fixed_name */
+	for (vector<string>::const_iterator i = words.begin(); i != words.end(); ++i) {
+		string w = *i;
+
+		/* First letter is always capitalised */
+		w[0] = toupper (w[0]);
+
+		/* Count caps in w */
+		size_t caps = 0;
+		for (size_t i = 0; i < w.size(); ++i) {
+			if (isupper (w[i])) {
+				++caps;
+			}
+		}
+		
+		/* If w is all caps make the rest of it lower case, otherwise
+		   leave it alone.
+		*/
+		if (caps == w.size ()) {
+			for (size_t i = 1; i < w.size(); ++i) {
+				w[i] = tolower (w[i]);
+			}
+		}
+
+		for (size_t i = 0; i < w.size(); ++i) {
+			fixed_name += w[i];
 		}
 	}
 
@@ -829,7 +854,7 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	return file (p);
 }
 
-/** Find all the DCPs in our directory that can be libdcp::DCP::read() and return details of their CPLs */
+/** Find all the DCPs in our directory that can be dcp::DCP::read() and return details of their CPLs */
 vector<CPLSummary>
 Film::cpls () const
 {
@@ -1027,13 +1052,14 @@ Film::make_kdm (
 	shared_ptr<dcp::Certificate> target,
 	boost::filesystem::path cpl_file,
 	dcp::LocalTime from,
-	dcp::LocalTime until
+	dcp::LocalTime until,
+	dcp::Formulation formulation
 	) const
 {
 	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
 	return dcp::DecryptedKDM (
 		cpl, from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (make_signer(), target);
+		).encrypt (make_signer(), target, formulation);
 }
 
 list<dcp::EncryptedKDM>
@@ -1041,13 +1067,14 @@ Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	dcp::LocalTime from,
-	dcp::LocalTime until
+	dcp::LocalTime until,
+	dcp::Formulation formulation
 	) const
 {
 	list<dcp::EncryptedKDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until));
+		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until, formulation));
 	}
 
 	return kdms;

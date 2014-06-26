@@ -64,6 +64,10 @@ def configure(conf):
         conf.env.STLIB_WXWIDGETS = ['wx_gtk2u_richtext-3.0', 'wx_gtk2u_xrc-3.0', 'wx_gtk2u_qa-3.0', 'wx_baseu_net-3.0', 'wx_gtk2u_html-3.0',
                                     'wx_gtk2u_adv-3.0', 'wx_gtk2u_core-3.0', 'wx_baseu_xml-3.0', 'wx_baseu-3.0']
         conf.env.LIB_WXWIDGETS = ['tiff', 'SM', 'dl', 'jpeg', 'png', 'X11', 'expat']
+        if conf.env.TARGET_DEBIAN and conf.env.DEBIAN_UNSTABLE:
+            conf.env.LIB_WXWIDGETS.append('Xxf86vm')
+            conf.env.LIB_WXWIDGETS.append('Xext')
+            conf.env.LIB_WXWIDGETS.append('X11')
  
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()

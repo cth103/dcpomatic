@@ -123,14 +123,16 @@ public:
 		boost::shared_ptr<dcp::Certificate> target,
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
-		dcp::LocalTime until
+		dcp::LocalTime until,
+		dcp::Formulation formulation
 		) const;
 	
 	std::list<dcp::EncryptedKDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
-		dcp::LocalTime until
+		dcp::LocalTime until,
+		dcp::Formulation formulation
 		) const;
 
 	dcp::Key key () const {
@@ -148,7 +150,7 @@ public:
 		NONE,
 		NAME,
 		USE_ISDCF_NAME,
-		/** The playlist's content list has changed (i.e. content has been added, moved around or removed) */
+		/** The playlist's content list has changed (i.e. content has been added or removed) */
 		CONTENT,
 		DCP_CONTENT_TYPE,
 		CONTAINER,

@@ -22,6 +22,7 @@
 #include <quickmail.h>
 #include <zip.h>
 #include <dcp/encrypted_kdm.h>
+#include <dcp/types.h>
 #include "kdm.h"
 #include "cinema.h"
 #include "exceptions.h"
@@ -105,10 +106,11 @@ make_screen_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
-	dcp::LocalTime to
+	dcp::LocalTime to,
+	dcp::Formulation formulation
 	)
 {
-	list<dcp::EncryptedKDM> kdms = film->make_kdms (screens, cpl, from, to);
+	list<dcp::EncryptedKDM> kdms = film->make_kdms (screens, cpl, from, to, formulation);
 	   
 	list<ScreenKDM> screen_kdms;
 	
@@ -129,10 +131,11 @@ make_cinema_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
-	dcp::LocalTime to
+	dcp::LocalTime to,
+	dcp::Formulation formulation
 	)
 {
-	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, cpl, from, to);
+	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, cpl, from, to, formulation);
 	list<CinemaKDMs> cinema_kdms;
 
 	while (!screen_kdms.empty ()) {
@@ -175,10 +178,11 @@ write_kdm_files (
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to,
+	dcp::Formulation formulation,
 	boost::filesystem::path directory
 	)
 {
-	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, cpl, from, to);
+	list<ScreenKDM> screen_kdms = make_screen_kdms (film, screens, cpl, from, to, formulation);
 
 	/* Write KDMs to the specified directory */
 	for (list<ScreenKDM>::iterator i = screen_kdms.begin(); i != screen_kdms.end(); ++i) {
@@ -195,10 +199,11 @@ write_kdm_zip_files (
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
 	dcp::LocalTime to,
+	dcp::Formulation formulation,
 	boost::filesystem::path directory
 	)
 {
-	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, cpl, from, to);
+	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, cpl, from, to, formulation);
 
 	for (list<CinemaKDMs>::const_iterator i = cinema_kdms.begin(); i != cinema_kdms.end(); ++i) {
 		boost::filesystem::path path = directory;
@@ -213,10 +218,11 @@ email_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path cpl,
 	dcp::LocalTime from,
-	dcp::LocalTime to
+	dcp::LocalTime to,
+	dcp::Formulation formulation
 	)
 {
-	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, cpl, from, to);
+	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, cpl, from, to, formulation);
 
 	for (list<CinemaKDMs>::const_iterator i = cinema_kdms.begin(); i != cinema_kdms.end(); ++i) {
 		

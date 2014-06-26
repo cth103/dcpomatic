@@ -48,7 +48,7 @@ extern "C" {
 
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
 
-namespace libdcp {
+namespace dcp {
 	class Signer;
 }
 

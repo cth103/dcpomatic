@@ -159,6 +159,14 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	
 	table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 
+	add_label_to_sizer (table, this, _("KDM type"), true);
+	_type = new wxChoice (this, wxID_ANY);
+	_type->Append ("Modified Transitional 1");
+	_type->Append ("DCI Any");
+	_type->Append ("DCI Specific");
+	table->Add (_type, 1, wxEXPAND);
+	_type->SetSelection (0);
+
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
 
@@ -478,6 +486,21 @@ bool
 KDMDialog::write_to () const
 {
 	return _write_to->GetValue ();
+}
+
+dcp::Formulation
+KDMDialog::formulation () const
+{
+	switch (_type->GetSelection()) {
+	case 0:
+		return dcp::MODIFIED_TRANSITIONAL_1;
+	case 1:
+		return dcp::DCI_ANY;
+	case 2:
+		return dcp::DCI_SPECIFIC;
+	default:
+		assert (false);
+	}
 }
 
 void

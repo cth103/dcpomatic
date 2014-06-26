@@ -33,13 +33,15 @@ SendKDMEmailJob::SendKDMEmailJob (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
-	boost::posix_time::ptime to
+	boost::posix_time::ptime to,
+	dcp::Formulation formulation
 	)
 	: Job (f)
 	, _screens (screens)
 	, _dcp (dcp)
 	, _from (from)
 	, _to (to)
+	, _formulation (formulation)
 {
 
 }
@@ -62,7 +64,7 @@ SendKDMEmailJob::run ()
 	try {
 		
 		set_progress_unknown ();
-		email_kdms (_film, _screens, _dcp, _from, _to);
+		email_kdms (_film, _screens, _dcp, _from, _to, _formulation);
 		set_progress (1);
 		set_state (FINISHED_OK);
 		

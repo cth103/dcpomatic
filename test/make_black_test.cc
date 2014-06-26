@@ -40,12 +40,12 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	dcp::Size out_size (1024, 1024);
 
 	list<AVPixelFormat> pix_fmts;
-	pix_fmts.push_back (AV_PIX_FMT_RGB24);
+	pix_fmts.push_back (AV_PIX_FMT_RGB24); // 2
 	pix_fmts.push_back (AV_PIX_FMT_ARGB);
 	pix_fmts.push_back (AV_PIX_FMT_RGBA);
 	pix_fmts.push_back (AV_PIX_FMT_ABGR);
 	pix_fmts.push_back (AV_PIX_FMT_BGRA);
-	pix_fmts.push_back (AV_PIX_FMT_YUV420P);
+	pix_fmts.push_back (AV_PIX_FMT_YUV420P); // 0
 	pix_fmts.push_back (AV_PIX_FMT_YUV411P);
 	pix_fmts.push_back (AV_PIX_FMT_YUV422P10LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUV422P16LE);
@@ -75,7 +75,8 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	pix_fmts.push_back (AV_PIX_FMT_YUVA420P16LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUVA422P16LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUVA444P16LE);
-
+	pix_fmts.push_back (AV_PIX_FMT_RGB555LE); // 46
+	
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
 		boost::shared_ptr<Image> foo (new Image (*i, in_size, true));

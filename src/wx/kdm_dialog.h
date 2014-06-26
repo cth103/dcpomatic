@@ -48,6 +48,7 @@ public:
 	boost::filesystem::path cpl () const;
 	boost::filesystem::path directory () const;
 	bool write_to () const;
+	dcp::Formulation formulation () const;
 
 private:
 	void add_cinema (boost::shared_ptr<Cinema>);
@@ -83,6 +84,7 @@ private:
 	wxStaticText* _dcp_directory;
 	wxStaticText* _cpl_id;
 	wxStaticText* _cpl_annotation_text;
+	wxChoice* _type;
 	wxRadioButton* _write_to;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;

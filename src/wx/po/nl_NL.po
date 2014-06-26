@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 00:25+0100\n"
+"POT-Creation-Date: 2014-06-24 14:53+0100\n"
 "PO-Revision-Date: 2014-03-30 19:40+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <TKooijmans@universaldv.nl>\n"
@@ -953,7 +953,7 @@ msgstr "Ondertitel Taal (vb  NL)"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:152
+#: src/wx/about_dialog.cc:153
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -978,7 +978,7 @@ msgstr "Grondgebied (vb NL)"
 msgid "Test version "
 msgstr "Test Versie"
 
-#: src/wx/about_dialog.cc:197
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1160,7 +1160,7 @@ msgstr ""
 "Uw DCP heeft minder dan 6 audio kanalen. This kan problemen geven op sommige "
 "projectors."
 
-#: src/wx/timeline.cc:216
+#: src/wx/timeline.cc:220
 msgid "audio"
 msgstr "audio"
 
@@ -1185,7 +1185,7 @@ msgstr "ms"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:239
+#: src/wx/timeline.cc:243
 msgid "still"
 msgstr "still"
 
@@ -1193,7 +1193,7 @@ msgstr "still"
 msgid "times"
 msgstr "tijden"
 
-#: src/wx/timeline.cc:237
+#: src/wx/timeline.cc:241
 msgid "video"
 msgstr "video"
 

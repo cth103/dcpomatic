@@ -18,6 +18,7 @@
 */
 
 #include <boost/filesystem.hpp>
+#include <dcp/types.h>
 #include "job.h"
 
 class Screen;
@@ -30,7 +31,8 @@ public:
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path,
 		boost::posix_time::ptime,
-		boost::posix_time::ptime
+		boost::posix_time::ptime,
+		dcp::Formulation
 		);
 
 	std::string name () const;
@@ -42,4 +44,5 @@ private:
 	boost::filesystem::path _dcp;
 	boost::posix_time::ptime _from;
 	boost::posix_time::ptime _to;
+	dcp::Formulation _formulation;
 };

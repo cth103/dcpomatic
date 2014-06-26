@@ -953,6 +953,127 @@ any changes to the corresponding timecode.
 
 </section>
 
+<section>
+<title>Video processing pipeline</title>
+
+<para>
+This section gives a little more detail about how DCP-o-matic process
+video as it takes it from a source and puts it into a DCP.
+</para>
+
+<para>
+Consider, as a somewhat over-the-top example, that we have a 720 x 576
+image which is letterboxed with 36 black pixels each at the top and
+bottom, and the video content within the letterbox should be presented
+in the DCP at ratio of 2.39:1 within a 1.85:1 frame (such as might
+happen with a trailer).  The source image is shown in <xref
+linkend="fig-pipeline1"/>.
+</para>
+
+<figure id="fig-pipeline1"> 
+  <title>Example image to demonstrate video processing</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline1&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+DCP-o-matic runs through the following steps when preparing an image for a DCP:
+</para>
+
+<itemizedlist>
+<listitem>Crop</listitem>
+<listitem>Scale</listitem>
+<listitem>Place in container</listitem>
+</itemizedlist>
+
+<para>
+First, some amount of the image can be cropped.  This is almost always
+used to remove black borders (letterboxing and/or pillarboxing) around
+images.
+</para>
+
+<para>
+In our example image, we would use 36 pixels of crop from the top and
+bottom.  This would give the new image shown in <xref
+linkend="fig-pipeline2"/>.
+</para>
+
+<figure id="fig-pipeline2"> 
+  <title>Example image after cropping</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline2&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The next step is to scale the image.  Since this content should be
+presented in a 2.39:1 aspect ratio inside a 1.85:1 DCP we would select
+<guilabel>Scope</guilabel> from the <guilabel>Scale to</guilabel>
+option in the <guilabel>Video</guilabel> tab and
+<guilabel>Flat</guilabel> from the <guilabel>Container</guilabel>
+option in the <guilabel>DCP</guilabel> tab.
+</para>
+
+<para>The <guilabel>Scale to</guilabel> option should always be set to
+the aspect ratio at which the content should be seen.  The
+<guilabel>Container</guilabel> option should be set to the preset that
+you want to use on the projector.  Of course, these two settings will
+often be the same.
+</para>
+
+<para>
+Given the scaling and container information, DCP-o-matic will look at
+the DCP's container size, and then scale the source image up until one
+or both of its dimensions (width, height or both) fits the size of the
+container, all the while preserving the desired aspect ratio.
+</para>
+
+<para>
+In our example here, the DCP's container is specified as 1.85:1 (so
+that the DCP will play back correctly using the projector's
+&lsquo;Flat&rsquo; preset).  At 2K, 1.85:1 is 1998 pixels by 1080.
+Scaling the source up whilst preserving its 1.85:1 aspect ratio will
+result in the image hitting the sides of the container first, at a
+size of 1998 x 836.  This gives us a new version of the image as shown
+in <xref linkend="fig-pipeline3"/>.
+</para>
+
+<figure id="fig-pipeline3"> 
+  <title>Example image after cropping and scaling</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline3&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The final step is to place the image into the DCP.  In this case,
+since we have a 2.39:1 image that should be presented as a 1.85:1 DCP,
+we have set the <guilabel>container</guilabel> in the
+<guilabel>DCP</guilabel> tab to be Scope.  Since the content has been
+scaled to 1998 x 836, and a Flat container is 1998 x 1080, there will
+be some black bars at the top and bottom of the image.  DCP-o-matic
+shares out this black equally, as shown in <xref
+linkend="fig-pipeline3"/>.
+</para>
+
+<figure id="fig-pipeline4"> 
+  <title>Example image in the DCP</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="100" fileref="diagrams/pipeline4&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+</section>
+
 </chapter>
 
 <chapter xml:id="ch-dcp" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
