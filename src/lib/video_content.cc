@@ -405,6 +405,21 @@ VideoContent::scale_and_crop_to_fit_height ()
 	set_right_crop (crop / 2);
 }
 
+void
+VideoContent::set_video_frame_rate (float r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_video_frame_rate == r) {
+			return;
+		}
+		
+		_video_frame_rate = r;
+	}
+	
+	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+}
+
 VideoContentScale::VideoContentScale (Ratio const * r)
 	: _ratio (r)
 	, _scale (true)
