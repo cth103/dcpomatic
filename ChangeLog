@@ -1,5 +1,8 @@
 2014-06-26  Carl Hetherington  <cth@carlh.net>
 
+	* Optimisation of uncertain effect to encoder and server
+	thread handling.
+
 	* Version 1.70.0 released.
 
 2014-06-25  Carl Hetherington  <cth@carlh.net>

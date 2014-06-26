@@ -118,7 +118,7 @@ Server::worker_thread ()
 	while (1) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty ()) {
-			_worker_condition.wait (lock);
+			_empty_condition.wait (lock);
 		}
 
 		shared_ptr<Socket> socket = _queue.front ();
@@ -169,7 +169,7 @@ Server::worker_thread ()
 			LOG_GENERAL_NC (message.str ());
 		}
 		
-		_worker_condition.notify_all ();
+		_full_condition.notify_all ();
 	}
 }
 
@@ -202,11 +202,11 @@ Server::run (int num_threads)
 		
 		/* Wait until the queue has gone down a bit */
 		while (int (_queue.size()) >= num_threads * 2) {
-			_worker_condition.wait (lock);
+			_full_condition.wait (lock);
 		}
 		
 		_queue.push_back (socket);
-		_worker_condition.notify_all ();
+		_empty_condition.notify_all ();
 	}
 }
 

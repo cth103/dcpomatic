@@ -102,7 +102,8 @@ private:
 	std::vector<boost::thread *> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::mutex _worker_mutex;
-	boost::condition _worker_condition;
+	boost::condition _full_condition;
+	boost::condition _empty_condition;
 	boost::shared_ptr<Log> _log;
 	bool _verbose;
 
