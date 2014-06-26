@@ -1086,7 +1086,8 @@ Film::make_kdm (
 	shared_ptr<libdcp::Certificate> target,
 	boost::filesystem::path cpl_file,
 	boost::posix_time::ptime from,
-	boost::posix_time::ptime until
+	boost::posix_time::ptime until,
+	libdcp::KDM::Formulation formulation
 	) const
 {
 	shared_ptr<const Signer> signer = make_signer ();
@@ -1095,7 +1096,7 @@ Film::make_kdm (
 	struct tm* tm = localtime (&now);
 	string const issue_date = libdcp::tm_to_string (tm);
 	
-	return libdcp::KDM (cpl_file, signer, target, key (), from, until, "DCP-o-matic", issue_date);
+	return libdcp::KDM (cpl_file, signer, target, key (), from, until, "DCP-o-matic", issue_date, formulation);
 }
 
 list<libdcp::KDM>
@@ -1103,13 +1104,14 @@ Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
-	boost::posix_time::ptime until
+	boost::posix_time::ptime until,
+	libdcp::KDM::Formulation formulation
 	) const
 {
 	list<libdcp::KDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until));
+		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until, formulation));
 	}
 
 	return kdms;

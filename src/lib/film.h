@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -128,14 +128,16 @@ public:
 		boost::shared_ptr<libdcp::Certificate> target,
 		boost::filesystem::path cpl_file,
 		boost::posix_time::ptime from,
-		boost::posix_time::ptime until
+		boost::posix_time::ptime until,
+		libdcp::KDM::Formulation formulation
 		) const;
 	
 	std::list<libdcp::KDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path cpl_file,
 		boost::posix_time::ptime from,
-		boost::posix_time::ptime until
+		boost::posix_time::ptime until,
+		libdcp::KDM::Formulation formulation
 		) const;
 
 	libdcp::Key key () const {
