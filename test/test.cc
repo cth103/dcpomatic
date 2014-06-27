@@ -182,7 +182,7 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 
 	xmlpp::Element::NodeList::iterator k = ref_children.begin ();
 	xmlpp::Element::NodeList::iterator l = test_children.begin ();
-	while (k != ref_children.end ()) {
+	while (k != ref_children.end () && l != test_children.end ()) {
 		
 		/* XXX: should be doing xmlpp::EntityReference, xmlpp::XIncludeEnd, xmlpp::XIncludeStart */
 
@@ -211,6 +211,9 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 		++k;
 		++l;
 	}
+
+	BOOST_CHECK (k == ref_children.end ());
+	BOOST_CHECK (l == test_children.end ());
 }
 
 void
