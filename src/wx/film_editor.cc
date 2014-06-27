@@ -532,6 +532,8 @@ FilmEditor::film_content_changed (int property)
 		setup_dcp_name ();
 	} else if (property == ContentProperty::PATH) {
 		setup_content ();
+	} else if (property == ContentProperty::POSITION) {
+		setup_content ();
 	}
 }
 
@@ -753,6 +755,8 @@ FilmEditor::setup_content ()
 	_content->DeleteAllItems ();
 
 	ContentList content = _film->content ();
+	sort (content.begin(), content.end(), ContentSorter ());
+	
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
 		bool const valid = (*i)->paths_valid ();
@@ -761,7 +765,7 @@ FilmEditor::setup_content ()
 		if (!valid) {
 			s = _("MISSING: ") + s;
 		}
-			
+
 		_content->InsertItem (t, std_to_wx (s));
 
 		if ((*i)->summary() == selected_summary) {
