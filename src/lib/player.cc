@@ -150,7 +150,12 @@ Player::pass ()
 				if (re) {
 					shared_ptr<const AudioBuffers> b = re->flush ();
 					if (b->frames ()) {
-						process_audio (earliest, b, ac->audio_length (), true);
+						process_audio (
+							earliest,
+							b,
+							ac->audio_length() * ac->output_audio_frame_rate() / ac->content_audio_frame_rate(),
+							true
+							);
 					}
 				}
 			}
