@@ -3,7 +3,7 @@ import os
 import sys
 
 APPNAME = 'dcpomatic'
-VERSION = '1.71.1devel'
+VERSION = '1.71.2'
 
 def options(opt):
     opt.load('compiler_cxx')
