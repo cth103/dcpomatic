@@ -70,8 +70,6 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	, SubtitleDecoder (c)
 	, FFmpeg (c)
 	, _log (log)
-	, _subtitle_codec_context (0)
-	, _subtitle_codec (0)
 {
 	/* Audio and video frame PTS values may not start with 0.  We want
 	   to fiddle them so that:
@@ -103,15 +101,6 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 		ContentTime first_video = c->first_video().get() + _pts_offset;
 		ContentTime const old_first_video = first_video;
 		_pts_offset += first_video.round_up (c->video_frame_rate ()) - old_first_video;
-	}
-}
-
-FFmpegDecoder::~FFmpegDecoder ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	if (_subtitle_codec_context) {
-		avcodec_close (_subtitle_codec_context);
 	}
 }
 
@@ -382,8 +371,8 @@ FFmpegDecoder::seek_and_flush (ContentTime t)
 	if (audio_codec_context ()) {
 		avcodec_flush_buffers (audio_codec_context ());
 	}
-	if (_subtitle_codec_context) {
-		avcodec_flush_buffers (_subtitle_codec_context);
+	if (subtitle_codec_context ()) {
+		avcodec_flush_buffers (subtitle_codec_context ());
 	}
 }
 
@@ -508,7 +497,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 {
 	int got_subtitle;
 	AVSubtitle sub;
-	if (avcodec_decode_subtitle2 (_subtitle_codec_context, &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
+	if (avcodec_decode_subtitle2 (subtitle_codec_context(), &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
 		return;
 	}
 

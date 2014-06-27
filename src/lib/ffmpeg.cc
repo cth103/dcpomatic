@@ -26,6 +26,7 @@ extern "C" {
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
 #include "ffmpeg_audio_stream.h"
+#include "ffmpeg_subtitle_stream.h"
 #include "exceptions.h"
 #include "util.h"
 
@@ -172,6 +173,16 @@ FFmpeg::audio_codec_context () const
 	}
 	
 	return _ffmpeg_content->audio_stream()->stream(_format_context)->codec;
+}
+
+AVCodecContext *
+FFmpeg::subtitle_codec_context () const
+{
+	if (!_ffmpeg_content->subtitle_stream ()) {
+		return 0;
+	}
+	
+	return _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
 }
 
 int

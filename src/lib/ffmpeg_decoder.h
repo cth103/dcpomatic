@@ -48,7 +48,6 @@ class FFmpegDecoder : public VideoDecoder, public AudioDecoder, public SubtitleD
 {
 public:
 	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>);
-	~FFmpegDecoder ();
 
 private:
 	friend class ::ffmpeg_pts_offset_test;
@@ -75,8 +74,6 @@ private:
 	bool has_subtitle_during (ContentTimePeriod) const;
 	
 	boost::shared_ptr<Log> _log;
-	AVCodecContext* _subtitle_codec_context; ///< may be 0 if there is no subtitle
-	AVCodec* _subtitle_codec;		 ///< may be 0 if there is no subtitle
 	
 	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
