@@ -366,6 +366,7 @@ Playlist::move_earlier (shared_ptr<Content> c)
 	if (previous == _content.end ()) {
 		return;
 	}
+
 	
 	DCPTime const p = (*previous)->position ();
 	(*previous)->set_position (p + c->length_after_trim ());
@@ -394,6 +395,6 @@ Playlist::move_later (shared_ptr<Content> c)
 
 	DCPTime const p = (*next)->position ();
 	(*next)->set_position (c->position ());
-	c->set_position (p + c->length_after_trim ());
+	c->set_position (c->position() + c->length_after_trim ());
 	sort (_content.begin(), _content.end(), ContentSorter ());
 }

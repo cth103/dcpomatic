@@ -2,6 +2,31 @@
 
 	* Add subtitle view.
 
+2014-06-30  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.72.0 released.
+
+2014-06-28  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.71.2 released.
+
+2014-06-28  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.71.1 released.
+
+2014-06-28  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash on analysing audio (and possibly DCP creation) with
+	resampled content.
+
+2014-06-27  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.71.0 released.
+
+2014-06-27  Carl Hetherington  <cth@carlh.net>
+
+	* Fix up/down buttons in content list.
+
 2014-06-26  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.70.1 released.
