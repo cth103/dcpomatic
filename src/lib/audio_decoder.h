@@ -64,6 +64,10 @@ protected:
 	boost::optional<AudioFrame> _audio_position;
 	/** Currently-available decoded audio data */
 	ContentAudio _decoded_audio;
+	/** The time of an accurate seek after which we have not yet received any actual
+	    data at the seek time.
+	*/
+	boost::optional<ContentTime> _seek_reference;
 };
 
 #endif

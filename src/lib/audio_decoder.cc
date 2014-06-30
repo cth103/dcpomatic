@@ -125,8 +125,39 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 		data = _resampler->run (data);
 	}
 
+	AudioFrame const frame_rate = _audio_content->resampled_audio_frame_rate ();
+
+	if (_seek_reference) {
+		/* We've had an accurate seek and now we're seeing some data */
+		ContentTime const delta = time - _seek_reference.get ();
+		AudioFrame const delta_frames = delta.frames (frame_rate);
+		if (delta_frames > 0) {
+			/* This data comes after the seek time.  Pad the data with some silence. */
+			shared_ptr<AudioBuffers> padded (new AudioBuffers (data->channels(), data->frames() + delta_frames));
+			padded->make_silent ();
+			padded->copy_from (data.get(), data->frames(), 0, delta_frames);
+			data = padded;
+			time -= delta;
+		} else if (delta_frames < 0) {
+			/* This data comes before the seek time.  Throw some data away */
+			AudioFrame const to_discard = min (-delta_frames, static_cast<AudioFrame> (data->frames()));
+			AudioFrame const to_keep = data->frames() - to_discard;
+			if (to_keep == 0) {
+				/* We have to throw all this data away, so keep _seek_reference and
+				   try again next time some data arrives.
+				*/
+				return;
+			}
+			shared_ptr<AudioBuffers> trimmed (new AudioBuffers (data->channels(), to_keep));
+			trimmed->copy_from (data.get(), to_keep, to_discard, 0);
+			data = trimmed;
+			time += ContentTime::from_frames (to_discard, frame_rate);
+		}
+		_seek_reference = optional<ContentTime> ();
+	}
+
 	if (!_audio_position) {
-		_audio_position = time.frames (_audio_content->resampled_audio_frame_rate ());
+		_audio_position = time.frames (frame_rate);
 	}
 
 	assert (_audio_position.get() >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
@@ -168,8 +199,11 @@ AudioDecoder::flush ()
 }
 
 void
-AudioDecoder::seek (ContentTime, bool)
+AudioDecoder::seek (ContentTime t, bool accurate)
 {
 	_audio_position.reset ();
 	reset_decoded_audio ();
+	if (accurate) {
+		_seek_reference = t;
+	}
 }
