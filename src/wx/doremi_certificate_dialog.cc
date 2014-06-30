@@ -26,6 +26,7 @@
 #include "wx_util.h"
 
 using std::string;
+using std::cout;
 using boost::function;
 using boost::optional;
 
@@ -52,6 +53,8 @@ DoremiCertificateDialog::download ()
 	_message->SetLabel (_("Downloading certificate"));
 	run_gui_loop ();
 
+	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
+
 	optional<string> error = get_from_zip_url (
 		String::compose (
 			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/dcp2000-%2.dcicerts.zip",
@@ -60,6 +63,28 @@ DoremiCertificateDialog::download ()
 		String::compose ("dcp2000-%1.cert.sha256.pem", serial),
 		_load
 		);
+
+	if (error) {
+		error = get_from_zip_url (
+		String::compose (
+			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/imb-%2.dcicerts.zip",
+			serial.substr(0, 3), serial
+			),
+		String::compose ("imb-%1.cert.sha256.pem", serial),
+		_load
+		);
+	}
+
+	if (error) {
+		error = get_from_zip_url (
+		String::compose (
+			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/ims-%2.dcicerts.zip",
+			serial.substr(0, 3), serial
+			),
+		String::compose ("ims-%1.cert.sha256.pem", serial),
+		_load
+		);
+	}
 
 	if (error) {
 		error_dialog (this, std_to_wx (error.get ()));
