@@ -82,13 +82,14 @@ using dcp::raw_convert;
  *  @param l Log to write to.
  */
 DCPVideo::DCPVideo (
-	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
+	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int bw, Resolution r, bool b, shared_ptr<Log> l
 	)
 	: _frame (frame)
 	, _index (index)
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _resolution (r)
+	, _burn_subtitles (b)
 	, _log (l)
 {
 	
@@ -102,6 +103,7 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
 	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
 	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or (RESOLUTION_2K));
+	_burn_subtitles = node->bool_child ("BurnSubtitles");
 }
 
 /** J2K-encode this frame on the local host.
@@ -124,7 +126,7 @@ DCPVideo::encode_locally ()
 	}
 
 	shared_ptr<dcp::XYZFrame> xyz = dcp::rgb_to_xyz (
-		_frame->image(),
+		_frame->image (_burn_subtitles),
 		in_lut,
 		dcp::GammaLUT::cache.get (16, 1 / _frame->colour_conversion().output_gamma, false),
 		matrix
@@ -285,7 +287,7 @@ DCPVideo::encode_remotely (ServerDescription serv)
 	socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
 
 	/* Send binary data */
-	_frame->send_binary (socket);
+	_frame->send_binary (socket, _burn_subtitles);
 
 	/* Read the response (JPEG2000-encoded data); this blocks until the data
 	   is ready and sent back.
@@ -305,7 +307,8 @@ DCPVideo::add_metadata (xmlpp::Element* el) const
 	el->add_child("FramesPerSecond")->add_child_text (raw_convert<string> (_frames_per_second));
 	el->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
 	el->add_child("Resolution")->add_child_text (raw_convert<string> (int (_resolution)));
-	_frame->add_metadata (el);
+	el->add_child("BurnSubtitles")->add_child_text (_burn_subtitles ? "1" : "0");
+	_frame->add_metadata (el, _burn_subtitles);
 }
 
 Eyes

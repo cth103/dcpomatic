@@ -41,10 +41,10 @@ public:
 
 	void set_subtitle (PositionImage);
 	
-	boost::shared_ptr<Image> image () const;
+	boost::shared_ptr<Image> image (bool burn_subtitle) const;
 
-	void add_metadata (xmlpp::Node* node) const;
-	void send_binary (boost::shared_ptr<Socket> socket) const;
+	void add_metadata (xmlpp::Node* node, bool send_subtitles) const;
+	void send_binary (boost::shared_ptr<Socket> socket, bool send_subtitles) const;
 
 	DCPTime time () const {
 		return _time;

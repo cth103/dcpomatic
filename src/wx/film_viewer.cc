@@ -153,7 +153,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 
 	list<shared_ptr<PlayerVideo> > pvf = _player->get_video (p, accurate);
 	if (!pvf.empty ()) {
-		_frame = pvf.front()->image ();
+		_frame = pvf.front()->image (true);
 		_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
 		_position = pvf.front()->time ();
 	} else {

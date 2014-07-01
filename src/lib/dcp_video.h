@@ -101,7 +101,7 @@ public:
 class DCPVideo : public boost::noncopyable
 {
 public:
-	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution, boost::shared_ptr<Log>);
+	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution, bool b, boost::shared_ptr<Log>);
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
@@ -122,6 +122,7 @@ private:
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 	Resolution _resolution;          ///< Resolution (2K or 4K)
+	bool _burn_subtitles;            ///< true to burn subtitles into the image
 
 	boost::shared_ptr<Log> _log; ///< log
 };

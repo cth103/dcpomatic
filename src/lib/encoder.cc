@@ -220,6 +220,7 @@ Encoder::process_video (shared_ptr<PlayerVideo> pvf)
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
 						  _film->resolution(),
+						  _film->burn_subtitles(),
 						  _film->log()
 						  )
 					  ));

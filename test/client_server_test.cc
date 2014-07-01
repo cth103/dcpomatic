@@ -103,6 +103,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			24,
 			200000000,
 			RESOLUTION_2K,
+			true,
 			log
 			)
 		);
@@ -185,6 +186,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			24,
 			200000000,
 			RESOLUTION_2K,
+			true,
 			log
 			)
 		);
