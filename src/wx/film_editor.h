@@ -98,6 +98,7 @@ private:
 	void three_d_changed ();
 	void standard_changed ();
 	void signed_toggled ();
+	void burn_subtitles_toggled ();
 	void encrypted_toggled ();
 
 	/* Handle changes to the model */
@@ -154,6 +155,7 @@ private:
 	wxChoice* _resolution;
 	wxChoice* _standard;
 	wxCheckBox* _signed;
+	wxCheckBox* _burn_subtitles;
 	wxCheckBox* _encrypted;
 
 	ContentMenu _menu;

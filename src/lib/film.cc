@@ -121,6 +121,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _three_d (false)
 	, _sequence_video (true)
 	, _interop (false)
+	, _burn_subtitles (false)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
@@ -182,6 +183,10 @@ Film::video_identifier () const
 		s << "_I";
 	} else {
 		s << "_S";
+	}
+
+	if (_burn_subtitles) {
+		s << "_B";
 	}
 
 	if (_three_d) {
@@ -375,6 +380,7 @@ Film::metadata () const
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
+	root->add_child("BurnSubtitles")->add_child_text (_burn_subtitles ? "1" : "0");
 	root->add_child("Signed")->add_child_text (_signed ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	root->add_child("Key")->add_child_text (_key.hex ());
@@ -446,6 +452,9 @@ Film::read_metadata ()
 	_sequence_video = f.bool_child ("SequenceVideo");
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
+	if (_state_version >= 32) {
+		_burn_subtitles = f.bool_child ("BurnSubtitles");
+	}
 	_key = dcp::Key (f.string_child ("Key"));
 
 	list<string> notes;
@@ -681,7 +690,6 @@ Film::dcp_name (bool if_created_now) const
 	return name();
 }
 
-
 void
 Film::set_directory (boost::filesystem::path d)
 {
@@ -771,6 +779,13 @@ Film::set_interop (bool i)
 {
 	_interop = i;
 	signal_changed (INTEROP);
+}
+
+void
+Film::set_burn_subtitles (bool b)
+{
+	_burn_subtitles = b;
+	signal_changed (BURN_SUBTITLES);
 }
 
 void

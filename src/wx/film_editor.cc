@@ -155,6 +155,10 @@ FilmEditor::make_dcp_panel ()
 	}
 	++r;
 
+	_burn_subtitles = new wxCheckBox (_dcp_panel, wxID_ANY, _("Burn subtitles into image"));
+	grid->Add (_burn_subtitles, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
 	_signed = new wxCheckBox (_dcp_panel, wxID_ANY, _("Signed"));
 	grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
@@ -249,6 +253,7 @@ FilmEditor::connect_to_widgets ()
 	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_choice_changed, this));
 	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::frame_rate_spin_changed, this));
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::best_frame_rate_clicked, this));
+	_burn_subtitles->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::burn_subtitles_toggled, this));
 	_signed->Bind           (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::signed_toggled, this));
 	_encrypted->Bind        (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::encrypted_toggled, this));
 	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::audio_channels_changed, this));
@@ -339,6 +344,16 @@ FilmEditor::signed_toggled ()
 	}
 
 	_film->set_signed (_signed->GetValue ());
+}
+
+void
+FilmEditor::burn_subtitles_toggled ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_burn_subtitles (_burn_subtitles->GetValue ());
 }
 
 void
@@ -445,6 +460,9 @@ FilmEditor::film_changed (Film::Property p)
 		break;
 	case Film::SCALER:
 		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
+		break;
+	case Film::BURN_SUBTITLES:
+		checked_set (_burn_subtitles, _film->burn_subtitles ());
 		break;
 	case Film::SIGNED:
 		checked_set (_signed, _film->is_signed ());
@@ -615,6 +633,7 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::RESOLUTION);
 	film_changed (Film::SCALER);
 	film_changed (Film::SIGNED);
+	film_changed (Film::BURN_SUBTITLES);
 	film_changed (Film::ENCRYPTED);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::ISDCF_METADATA);
@@ -653,6 +672,7 @@ FilmEditor::set_general_sensitivity (bool s)
 	if (_film && _film->encrypted ()) {
 		si = false;
 	}
+	_burn_subtitles->Enable (s);
 	_signed->Enable (si);
 	
 	_encrypted->Enable (s);

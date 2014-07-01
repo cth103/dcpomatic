@@ -162,10 +162,12 @@ public:
 		ISDCF_METADATA,
 		VIDEO_FRAME_RATE,
 		AUDIO_CHANNELS,
-		/** The setting of _three_d has been changed */
+		/** The setting of _three_d has changed */
 		THREE_D,
 		SEQUENCE_VIDEO,
 		INTEROP,
+		/** The setting of _burn_subtitles has changed */
+		BURN_SUBTITLES,
 	};
 
 
@@ -236,6 +238,10 @@ public:
 	bool interop () const {
 		return _interop;
 	}
+
+	bool burn_subtitles () const {
+		return _burn_subtitles;
+	}
 	
 
 	/* SET */
@@ -262,6 +268,7 @@ public:
 	void set_isdcf_date_today ();
 	void set_sequence_video (bool);
 	void set_interop (bool);
+	void set_burn_subtitles (bool);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -322,6 +329,7 @@ private:
 	bool _three_d;
 	bool _sequence_video;
 	bool _interop;
+	bool _burn_subtitles;
 	dcp::Key _key;
 
 	int _state_version;
