@@ -30,6 +30,7 @@ using dcp::raw_convert;
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
+	DCPTime time,
 	Crop crop,
 	dcp::Size inter_size,
 	dcp::Size out_size,
@@ -39,6 +40,7 @@ PlayerVideo::PlayerVideo (
 	ColourConversion colour_conversion
 	)
 	: _in (in)
+	, _time (time)
 	, _crop (crop)
 	, _inter_size (inter_size)
 	, _out_size (out_size)
@@ -52,6 +54,7 @@ PlayerVideo::PlayerVideo (
 
 PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket, shared_ptr<Log> log)
 {
+	_time = DCPTime (node->number_child<DCPTime::Type> ("Time"));
 	_crop = Crop (node);
 
 	_inter_size = dcp::Size (node->number_child<int> ("InterWidth"), node->number_child<int> ("InterHeight"));
@@ -118,6 +121,7 @@ PlayerVideo::image () const
 void
 PlayerVideo::add_metadata (xmlpp::Node* node) const
 {
+	node->add_child("Time")->add_child_text (raw_convert<string> (_time.get ()));
 	_crop.as_xml (node);
 	_in->add_metadata (node->add_child ("In"));
 	node->add_child("InterWidth")->add_child_text (raw_convert<string> (_inter_size.width));

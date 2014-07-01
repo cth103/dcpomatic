@@ -293,11 +293,12 @@ Player::set_approximate_size ()
 }
 
 shared_ptr<PlayerVideo>
-Player::black_player_video_frame () const
+Player::black_player_video_frame (DCPTime time) const
 {
 	return shared_ptr<PlayerVideo> (
 		new PlayerVideo (
 			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image, _film->log ())),
+			time,
 			Crop (),
 			_video_container_size,
 			_video_container_size,
@@ -326,7 +327,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 	if (ov.empty ()) {
 		/* No video content at this time */
-		pvf.push_back (black_player_video_frame ());
+		pvf.push_back (black_player_video_frame (time));
 	} else {
 		/* Create a PlayerVideo from the content's video at this time */
 
@@ -338,7 +339,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 		list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
 		if (content_video.empty ()) {
-			pvf.push_back (black_player_video_frame ());
+			pvf.push_back (black_player_video_frame (time));
 			return pvf;
 		}
 		
@@ -353,6 +354,7 @@ Player::get_video (DCPTime time, bool accurate)
 				shared_ptr<PlayerVideo> (
 					new PlayerVideo (
 						i->image,
+						content_video_to_dcp (piece, i->frame),
 						content->crop (),
 						image_size,
 						_video_container_size,
@@ -506,6 +508,17 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 
 	/* Convert this to the content frame */
 	return DCPTime (s + piece->content->trim_start()).frames (_film->video_frame_rate()) * piece->frc.factor ();
+}
+
+DCPTime
+Player::content_video_to_dcp (shared_ptr<const Piece> piece, VideoFrame f) const
+{
+	DCPTime t = DCPTime::from_frames (f / piece->frc.factor (), _film->video_frame_rate()) - piece->content->trim_start () + piece->content->position ();
+	if (t < DCPTime ()) {
+		t = DCPTime ();
+	}
+
+	return t;
 }
 
 AudioFrame

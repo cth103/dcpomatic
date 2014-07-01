@@ -282,71 +282,6 @@ FFmpegDecoder::bytes_per_audio_sample () const
 	return av_get_bytes_per_sample (audio_sample_format ());
 }
 
-int
-FFmpegDecoder::minimal_run (boost::function<bool (optional<ContentTime>, optional<ContentTime>, int)> finished)
-{
-	int frames_read = 0;
-	optional<ContentTime> last_video;
-	optional<ContentTime> last_audio;
-
-	while (!finished (last_video, last_audio, frames_read)) {
-		int r = av_read_frame (_format_context, &_packet);
-		if (r < 0) {
-			/* We should flush our decoders here, possibly yielding a few more frames,
-			   but the consequence of having to do that is too hideous to contemplate.
-			   Instead we give up and say that you can't seek too close to the end
-			   of a file.
-			*/
-			return frames_read;
-		}
-
-		++frames_read;
-
-		double const time_base = av_q2d (_format_context->streams[_packet.stream_index]->time_base);
-
-		if (_packet.stream_index == _video_stream) {
-
-			av_frame_unref (_frame);
-			
-			int got_picture = 0;
-			r = avcodec_decode_video2 (video_codec_context(), _frame, &got_picture, &_packet);
-			if (r >= 0 && got_picture) {
-				last_video = ContentTime::from_seconds (av_frame_get_best_effort_timestamp (_frame) * time_base) + _pts_offset;
-			}
-
-		} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, _packet.stream_index)) {
-			AVPacket copy_packet = _packet;
-			while (copy_packet.size > 0) {
-
-				int got_frame;
-				r = avcodec_decode_audio4 (audio_codec_context(), _frame, &got_frame, &_packet);
-				if (r >= 0 && got_frame) {
-					last_audio = ContentTime::from_seconds (av_frame_get_best_effort_timestamp (_frame) * time_base) + _pts_offset;
-				}
-					
-				copy_packet.data += r;
-				copy_packet.size -= r;
-			}
-		}
-		
-		av_free_packet (&_packet);
-	}
-
-	return frames_read;
-}
-
-bool
-FFmpegDecoder::seek_overrun_finished (ContentTime seek, optional<ContentTime> last_video, optional<ContentTime> last_audio) const
-{
-	return (last_video && last_video.get() >= seek) || (last_audio && last_audio.get() >= seek);
-}
-
-bool
-FFmpegDecoder::seek_final_finished (int n, int done) const
-{
-	return n == done;
-}
-
 void
 FFmpegDecoder::seek_and_flush (ContentTime t)
 {
@@ -393,21 +328,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		initial_seek = ContentTime (0);
 	}
 
-	/* Initial seek time in the video stream's timebase */
-
 	seek_and_flush (initial_seek);
-
-	if (!accurate) {
-		/* That'll do */
-		return;
-	}
-
-	int const N = minimal_run (boost::bind (&FFmpegDecoder::seek_overrun_finished, this, time, _1, _2));
-
-	seek_and_flush (initial_seek);
-	if (N > 0) {
-		minimal_run (boost::bind (&FFmpegDecoder::seek_final_finished, this, N - 1, _3));
-	}
 }
 
 void

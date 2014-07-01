@@ -117,9 +117,10 @@ private:
 	std::list<PositionImage> process_content_text_subtitles (std::list<boost::shared_ptr<ContentTextSubtitle> >) const;
 	void update_subtitle_from_text ();
 	VideoFrame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
+	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, VideoFrame f) const;
 	AudioFrame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	boost::shared_ptr<PlayerVideo> black_player_video_frame () const;
+	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
 
 	/** @return Pieces of content type C that overlap a specified time range in the DCP */
 	template<class C>

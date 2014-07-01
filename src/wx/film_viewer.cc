@@ -155,12 +155,12 @@ FilmViewer::get (DCPTime p, bool accurate)
 	if (!pvf.empty ()) {
 		_frame = pvf.front()->image ();
 		_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
+		_position = pvf.front()->time ();
 	} else {
 		_frame.reset ();
+		_position = p;
 	}
 
-	_position = p;
-	
 	set_position_text ();
 	_panel->Refresh ();
 	_panel->Update ();

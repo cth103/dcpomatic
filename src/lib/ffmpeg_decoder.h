@@ -66,9 +66,6 @@ private:
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
-	bool seek_overrun_finished (ContentTime, boost::optional<ContentTime>, boost::optional<ContentTime>) const;
-	bool seek_final_finished (int, int) const;
-	int minimal_run (boost::function<bool (boost::optional<ContentTime>, boost::optional<ContentTime>, int)>);
 	void seek_and_flush (ContentTime);
 
 	bool has_subtitle_during (ContentTimePeriod) const;

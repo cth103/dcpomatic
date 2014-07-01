@@ -36,7 +36,7 @@ class Log;
 class PlayerVideo
 {
 public:
-	PlayerVideo (boost::shared_ptr<const ImageProxy>, Crop, dcp::Size, dcp::Size, Scaler const *, Eyes, Part, ColourConversion);
+	PlayerVideo (boost::shared_ptr<const ImageProxy>, DCPTime, Crop, dcp::Size, dcp::Size, Scaler const *, Eyes, Part, ColourConversion);
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
 
 	void set_subtitle (PositionImage);
@@ -45,6 +45,10 @@ public:
 
 	void add_metadata (xmlpp::Node* node) const;
 	void send_binary (boost::shared_ptr<Socket> socket) const;
+
+	DCPTime time () const {
+		return _time;
+	}
 
 	Eyes eyes () const {
 		return _eyes;
@@ -56,6 +60,7 @@ public:
 
 private:
 	boost::shared_ptr<const ImageProxy> _in;
+	DCPTime _time;
 	Crop _crop;
 	dcp::Size _inter_size;
 	dcp::Size _out_size;

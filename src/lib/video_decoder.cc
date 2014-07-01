@@ -61,8 +61,12 @@ VideoDecoder::decoded_video (VideoFrame frame)
 list<ContentVideo>
 VideoDecoder::get_video (VideoFrame frame, bool accurate)
 {
-	if (_decoded_video.empty() || (frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1))) {
-		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
+	/* At this stage, if we have get_video()ed before, _decoded_video will contain the last frame that this
+	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
+	   one after the end of _decoded_video we need to seek.
+	*/
+	   
+	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
 		seek (ContentTime::from_frames (frame, _video_content->video_frame_rate()), accurate);
 	}
 
@@ -70,7 +74,8 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 
 	/* Now enough pass() calls should either:
 	 *  (a) give us what we want, or
-	 *  (b) hit the end of the decoder.
+	 *  (b) give us something after what we want, indicating that we will never get what we want, or
+	 *  (c) hit the end of the decoder.
 	 */
 	if (accurate) {
 		/* We are being accurate, so we want the right frame.
@@ -105,8 +110,8 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 		}
 	}
 
-	/* Clean up decoded_video */
-	while (!_decoded_video.empty() && _decoded_video.front().frame < (frame - 1)) {
+	/* Clean up _decoded_video; keep the frame we are returning, but nothing before that */
+	while (!_decoded_video.empty() && _decoded_video.front().frame < dec.front().frame) {
 		_decoded_video.pop_front ();
 	}
 
