@@ -283,9 +283,22 @@ FFmpegDecoder::bytes_per_audio_sample () const
 }
 
 void
-FFmpegDecoder::seek_and_flush (ContentTime t)
+FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
-	ContentTime const u = t - _pts_offset;
+	VideoDecoder::seek (time, accurate);
+	AudioDecoder::seek (time, accurate);
+	
+	/* If we are doing an `accurate' seek, we need to use pre-roll, as
+	   we don't really know what the seek will give us.
+	*/
+
+	ContentTime pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
+	time - pre_roll;
+	if (time < ContentTime (0)) {
+		time = ContentTime (0);
+	}
+
+	ContentTime const u = time - _pts_offset;
 	int64_t s = u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base);
 
 	if (_ffmpeg_content->audio_stream ()) {
@@ -309,26 +322,6 @@ FFmpegDecoder::seek_and_flush (ContentTime t)
 	if (subtitle_codec_context ()) {
 		avcodec_flush_buffers (subtitle_codec_context ());
 	}
-}
-
-void
-FFmpegDecoder::seek (ContentTime time, bool accurate)
-{
-	VideoDecoder::seek (time, accurate);
-	AudioDecoder::seek (time, accurate);
-	
-	/* If we are doing an accurate seek, our initial shot will be 2s (2 being
-	   a number plucked from the air) earlier than we want to end up.  The loop below
-	   will hopefully then step through to where we want to be.
-	*/
-
-	ContentTime pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
-	ContentTime initial_seek = time - pre_roll;
-	if (initial_seek < ContentTime (0)) {
-		initial_seek = ContentTime (0);
-	}
-
-	seek_and_flush (initial_seek);
 }
 
 void

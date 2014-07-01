@@ -43,10 +43,11 @@ public:
 protected:	
 	/** Seek so that the next pass() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
-	 *  time.  Pass accurate = true to try harder to get close to
-	 *  the request.  Note that seeking to time t may mean that
-	 *  the next pass() yields, for example, audio at time t and then
-	 *  video before it.
+	 *  time.  Pass accurate = true to try harder to ensure that, at worst,
+	 *  the next thing we yield comes before `time'.  This may entail
+	 *  seeking some way before `time' to be on the safe side.
+	 *  Alternatively, if seeking is 100% accurate for this decoder,
+	 *  it may seek to just the right spot.
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
 	virtual bool pass () = 0;
