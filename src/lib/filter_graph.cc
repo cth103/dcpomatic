@@ -53,18 +53,21 @@ using dcp::Size;
  *  @param p Pixel format of the images to process.
  */
 FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, AVPixelFormat p)
-	: _buffer_src_context (0)
+	: _copy (false)
+	, _buffer_src_context (0)
 	, _buffer_sink_context (0)
 	, _size (s)
 	, _pixel_format (p)
+	, _frame (0)
 {
-	_frame = av_frame_alloc ();
-	
-	string filters = Filter::ffmpeg_string (content->filters());
+	string const filters = Filter::ffmpeg_string (content->filters());
 	if (filters.empty ()) {
-		filters = "copy";
+		_copy = true;
+		return;
 	}
 
+	_frame = av_frame_alloc ();
+	
 	AVFilterGraph* graph = avfilter_graph_alloc();
 	if (graph == 0) {
 		throw DecodeError (N_("could not create filter graph."));
@@ -128,7 +131,9 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 
 FilterGraph::~FilterGraph ()
 {
-	av_frame_free (&_frame);
+	if (_frame) {
+		av_frame_free (&_frame);
+	}
 }
 
 /** Take an AVFrame and process it using our configured filters, returning a
@@ -139,19 +144,23 @@ FilterGraph::process (AVFrame* frame)
 {
 	list<pair<shared_ptr<Image>, int64_t> > images;
 
-	if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
-		throw DecodeError (N_("could not push buffer into filter chain."));
-	}
-
-	while (true) {
-		if (av_buffersink_get_frame (_buffer_sink_context, _frame) < 0) {
-			break;
+	if (_copy) {
+		images.push_back (make_pair (shared_ptr<Image> (new Image (frame)), av_frame_get_best_effort_timestamp (frame)));
+	} else {
+		if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
+			throw DecodeError (N_("could not push buffer into filter chain."));
 		}
-
-		images.push_back (make_pair (shared_ptr<Image> (new Image (_frame)), av_frame_get_best_effort_timestamp (_frame)));
-		av_frame_unref (_frame);
+		
+		while (true) {
+			if (av_buffersink_get_frame (_buffer_sink_context, _frame) < 0) {
+				break;
+			}
+			
+			images.push_back (make_pair (shared_ptr<Image> (new Image (_frame)), av_frame_get_best_effort_timestamp (_frame)));
+			av_frame_unref (_frame);
+		}
 	}
-	
+		
 	return images;
 }
 

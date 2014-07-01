@@ -43,6 +43,8 @@ public:
 	std::list<std::pair<boost::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
 
 private:
+	/** true if this graph has no filters in, so it just copies stuff straight through */
+	bool _copy;
 	AVFilterContext* _buffer_src_context;
 	AVFilterContext* _buffer_sink_context;
 	dcp::Size _size; ///< size of the images that this chain can process
