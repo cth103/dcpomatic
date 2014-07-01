@@ -177,7 +177,7 @@ ContentTime
 FFmpegExaminer::video_length () const
 {
 	ContentTime const length = ContentTime::from_seconds (double (_format_context->duration - _format_context->start_time) / AV_TIME_BASE);
-	return ContentTime (max (int64_t (1), length.get ()));
+	return ContentTime (max (ContentTime::Type (1), length.get ()));
 }
 
 string

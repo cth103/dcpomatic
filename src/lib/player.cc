@@ -501,7 +501,7 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	/* s is the offset of t from the start position of this content */
 	DCPTime s = t - piece->content->position ();
-	s = DCPTime (max (int64_t (0), s.get ()));
+	s = DCPTime (max (DCPTime::Type (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
 	/* Convert this to the content frame */
@@ -513,7 +513,7 @@ Player::dcp_to_content_audio (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	/* s is the offset of t from the start position of this content */
 	DCPTime s = t - piece->content->position ();
-	s = DCPTime (max (int64_t (0), s.get ()));
+	s = DCPTime (max (DCPTime::Type (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
 	/* Convert this to the content frame */
@@ -525,7 +525,7 @@ Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	/* s is the offset of t from the start position of this content */
 	DCPTime s = t - piece->content->position ();
-	s = DCPTime (max (int64_t (0), s.get ()));
+	s = DCPTime (max (DCPTime::Type (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
 	return ContentTime (s + piece->content->trim_start(), piece->frc);

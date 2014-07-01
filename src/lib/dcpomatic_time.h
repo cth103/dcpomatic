@@ -39,13 +39,15 @@ public:
 		: _t (0)
 	{}
 
-	explicit Time (int64_t t)
+	typedef int64_t Type;
+
+	explicit Time (Type t)
 		: _t (t)
 	{}
 
 	virtual ~Time () {}
 
-	int64_t get () const {
+	Type get () const {
 		return _t;
 	}
 
@@ -97,7 +99,7 @@ public:
 protected:
 	friend class dcptime_round_up_test;
 	
-	int64_t _t;
+	Type _t;
 	static const int HZ = 96000;
 };
 
@@ -107,8 +109,8 @@ class ContentTime : public Time
 {
 public:
 	ContentTime () : Time () {}
-	explicit ContentTime (int64_t t) : Time (t) {}
-	ContentTime (int64_t n, int64_t d) : Time (n * HZ / d) {}
+	explicit ContentTime (Type t) : Time (t) {}
+	ContentTime (Type n, Type d) : Time (n * HZ / d) {}
 	ContentTime (DCPTime d, FrameRateChange f);
 
 	bool operator< (ContentTime const & o) const {
@@ -162,8 +164,8 @@ public:
 	 *  @param r Sampling rate.
 	 */
 	ContentTime round_up (float r) {
-		int64_t const n = rint (HZ / r);
-		int64_t const a = _t + n - 1;
+		Type const n = rint (HZ / r);
+		Type const a = _t + n - 1;
 		return ContentTime (a - (a % n));
 	}
 
@@ -207,7 +209,7 @@ class DCPTime : public Time
 {
 public:
 	DCPTime () : Time () {}
-	explicit DCPTime (int64_t t) : Time (t) {}
+	explicit DCPTime (Type t) : Time (t) {}
 	DCPTime (ContentTime t, FrameRateChange c) : Time (rint (t.get() / c.speed_up)) {}
 
 	bool operator< (DCPTime const & o) const {
@@ -261,8 +263,8 @@ public:
 	 *  @param r Sampling rate.
 	 */
 	DCPTime round_up (float r) {
-		int64_t const n = rint (HZ / r);
-		int64_t const a = _t + n - 1;
+		Type const n = rint (HZ / r);
+		Type const a = _t + n - 1;
 		return DCPTime (a - (a % n));
 	}
 

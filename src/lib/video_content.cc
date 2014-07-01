@@ -96,7 +96,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 		/* DCP-o-matic 1.0 branch */
 		_video_length = ContentTime::from_frames (node->number_child<int64_t> ("VideoLength"), _video_frame_rate);
 	} else {
-		_video_length = ContentTime (node->number_child<int64_t> ("VideoLength"));
+		_video_length = ContentTime (node->number_child<ContentTime::Type> ("VideoLength"));
 	}
 	
 	_video_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
