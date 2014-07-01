@@ -143,7 +143,7 @@ FilterGraph::process (AVFrame* frame)
 		throw DecodeError (N_("could not push buffer into filter chain."));
 	}
 
-	while (1) {
+	while (true) {
 		if (av_buffersink_get_frame (_buffer_sink_context, _frame) < 0) {
 			break;
 		}

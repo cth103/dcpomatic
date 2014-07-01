@@ -106,7 +106,7 @@ JobManager::errors () const
 void
 JobManager::scheduler ()
 {
-	while (1) {
+	while (true) {
 
 		bool active_jobs = false;
 

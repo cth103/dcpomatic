@@ -89,7 +89,7 @@ Resampler::flush ()
 	int64_t const pass_size = 256;
 	shared_ptr<AudioBuffers> pass (new AudioBuffers (_channels, 256));
 
-	while (1) {
+	while (true) {
 		int const frames = swr_convert (_swr_context, (uint8_t **) pass->data(), pass_size, 0, 0);
 		
 		if (frames < 0) {

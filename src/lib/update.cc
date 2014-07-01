@@ -90,7 +90,7 @@ UpdateChecker::run ()
 void
 UpdateChecker::thread ()
 {
-	while (1) {
+	while (true) {
 		/* Block until there is something to do */
 		boost::mutex::scoped_lock lock (_process_mutex);
 		while (_to_do == 0) {

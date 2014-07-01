@@ -876,7 +876,7 @@ FilmEditor::selected_content ()
 {
 	ContentList sel;
 	long int s = -1;
-	while (1) {
+	while (true) {
 		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (s == -1) {
 			break;

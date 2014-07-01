@@ -103,7 +103,7 @@ main (int argc, char* argv[])
 	string film_dir;
 	string server_host;
 
-	while (1) {
+	while (true) {
 		static struct option long_options[] = {
 			{ "help", no_argument, 0, 'h'},
 			{ "server", required_argument, 0, 's'},

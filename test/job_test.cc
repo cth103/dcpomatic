@@ -48,7 +48,7 @@ public:
 
 	void run ()
 	{
-		while (1) {
+		while (true) {
 			if (finished ()) {
 				return;
 			}

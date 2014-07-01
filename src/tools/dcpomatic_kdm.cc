@@ -116,7 +116,7 @@ int main (int argc, char* argv[])
 	program_name = argv[0];
 	
 	int option_index = 0;
-	while (1) {
+	while (true) {
 		static struct option long_options[] = {
 			{ "help", no_argument, 0, 'h'},
 			{ "output", required_argument, 0, 'o'},

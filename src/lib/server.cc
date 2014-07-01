@@ -136,7 +136,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 void
 Server::worker_thread ()
 {
-	while (1) {
+	while (true) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty () && !_terminate) {
 			_empty_condition.wait (lock);

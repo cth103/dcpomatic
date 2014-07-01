@@ -73,7 +73,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 	 * where we should look for subtitles (video and audio are always present,
 	 * so they are ok).
 	 */
-	while (1) {
+	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
 			break;
