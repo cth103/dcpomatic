@@ -33,7 +33,7 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include "lib/config.h"
-#include "lib/dcp_video_frame.h"
+#include "lib/dcp_video.h"
 #include "lib/exceptions.h"
 #include "lib/util.h"
 #include "lib/config.h"

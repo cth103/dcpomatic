@@ -28,7 +28,7 @@ class wxToggleButton;
 class FFmpegPlayer;
 class Image;
 class RGBPlusAlphaImage;
-class PlayerVideoFrame;
+class PlayerVideo;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.

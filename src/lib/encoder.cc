@@ -29,13 +29,13 @@
 #include "film.h"
 #include "log.h"
 #include "config.h"
-#include "dcp_video_frame.h"
+#include "dcp_video.h"
 #include "server.h"
 #include "cross.h"
 #include "writer.h"
 #include "server_finder.h"
 #include "player.h"
-#include "player_video_frame.h"
+#include "player_video.h"
 
 #include "i18n.h"
 
@@ -125,7 +125,7 @@ Encoder::process_end ()
 	     So just mop up anything left in the queue here.
 	*/
 
-	for (list<shared_ptr<DCPVideoFrame> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
+	for (list<shared_ptr<DCPVideo> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
 		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
 		try {
 			_writer->write ((*i)->encode_locally(), (*i)->index (), (*i)->eyes ());
@@ -181,7 +181,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf)
+Encoder::process_video (shared_ptr<PlayerVideo> pvf)
 {
 	_waker.nudge ();
 	
@@ -213,8 +213,8 @@ Encoder::process_video (shared_ptr<PlayerVideoFrame> pvf)
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("adding to queue of %1", _queue.size ());
-		_queue.push_back (shared_ptr<DCPVideoFrame> (
-					  new DCPVideoFrame (
+		_queue.push_back (shared_ptr<DCPVideo> (
+					  new DCPVideo (
 						  pvf,
 						  _video_frames_out,
 						  _film->video_frame_rate(),
@@ -284,7 +284,7 @@ try
 		}
 
 		LOG_TIMING ("[%1] encoder thread wakes with queue of %2", boost::this_thread::get_id(), _queue.size());
-		shared_ptr<DCPVideoFrame> vf = _queue.front ();
+		shared_ptr<DCPVideo> vf = _queue.front ();
 		LOG_TIMING ("[%1] encoder thread pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
 		_queue.pop_front ();
 		

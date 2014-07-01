@@ -30,9 +30,9 @@
 #include "lib/server.h"
 #include "lib/image.h"
 #include "lib/cross.h"
-#include "lib/dcp_video_frame.h"
+#include "lib/dcp_video.h"
 #include "lib/scaler.h"
-#include "lib/player_video_frame.h"
+#include "lib/player_video.h"
 #include "lib/image_proxy.h"
 
 using std::list;
@@ -40,7 +40,7 @@ using boost::shared_ptr;
 using boost::thread;
 
 void
-do_remote_encode (shared_ptr<DCPVideoFrame> frame, ServerDescription description, shared_ptr<EncodedData> locally_encoded)
+do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, shared_ptr<EncodedData> locally_encoded)
 {
 	shared_ptr<EncodedData> remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
@@ -80,8 +80,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_rgb.log"));
 
-	shared_ptr<PlayerVideoFrame> pvf (
-		new PlayerVideoFrame (
+	shared_ptr<PlayerVideo> pvf (
+		new PlayerVideo (
 			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
 			Crop (),
 			dcp::Size (1998, 1080),
@@ -95,8 +95,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	pvf->set_subtitle (PositionImage (sub_image, Position<int> (50, 60)));
 
-	shared_ptr<DCPVideoFrame> frame (
-		new DCPVideoFrame (
+	shared_ptr<DCPVideo> frame (
+		new DCPVideo (
 			pvf,
 			0,
 			24,
@@ -161,8 +161,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_yuv.log"));
 
-	shared_ptr<PlayerVideoFrame> pvf (
-		new PlayerVideoFrame (
+	shared_ptr<PlayerVideo> pvf (
+		new PlayerVideo (
 			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
 			Crop (),
 			dcp::Size (1998, 1080),
@@ -176,8 +176,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	pvf->set_subtitle (PositionImage (sub_image, Position<int> (50, 60)));
 
-	shared_ptr<DCPVideoFrame> frame (
-		new DCPVideoFrame (
+	shared_ptr<DCPVideo> frame (
+		new DCPVideo (
 			pvf,
 			0,
 			24,

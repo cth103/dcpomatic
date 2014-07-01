@@ -18,7 +18,7 @@
 */
 
 #include <dcp/raw_convert.h>
-#include "player_video_frame.h"
+#include "player_video.h"
 #include "image.h"
 #include "image_proxy.h"
 #include "scaler.h"
@@ -28,7 +28,7 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-PlayerVideoFrame::PlayerVideoFrame (
+PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
 	Crop crop,
 	dcp::Size inter_size,
@@ -50,7 +50,7 @@ PlayerVideoFrame::PlayerVideoFrame (
 
 }
 
-PlayerVideoFrame::PlayerVideoFrame (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket, shared_ptr<Log> log)
+PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket, shared_ptr<Log> log)
 {
 	_crop = Crop (node);
 
@@ -76,13 +76,13 @@ PlayerVideoFrame::PlayerVideoFrame (shared_ptr<cxml::Node> node, shared_ptr<Sock
 }
 
 void
-PlayerVideoFrame::set_subtitle (PositionImage image)
+PlayerVideo::set_subtitle (PositionImage image)
 {
 	_subtitle = image;
 }
 
 shared_ptr<Image>
-PlayerVideoFrame::image () const
+PlayerVideo::image () const
 {
 	shared_ptr<Image> im = _in->image ();
 	
@@ -116,7 +116,7 @@ PlayerVideoFrame::image () const
 }
 
 void
-PlayerVideoFrame::add_metadata (xmlpp::Node* node) const
+PlayerVideo::add_metadata (xmlpp::Node* node) const
 {
 	_crop.as_xml (node);
 	_in->add_metadata (node->add_child ("In"));
@@ -137,7 +137,7 @@ PlayerVideoFrame::add_metadata (xmlpp::Node* node) const
 }
 
 void
-PlayerVideoFrame::send_binary (shared_ptr<Socket> socket) const
+PlayerVideo::send_binary (shared_ptr<Socket> socket) const
 {
 	_in->send_binary (socket);
 	if (_subtitle.image) {

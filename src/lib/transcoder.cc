@@ -61,8 +61,8 @@ Transcoder::go ()
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	for (DCPTime t; t < _film->length(); t += frame) {
-		list<shared_ptr<PlayerVideoFrame> > v = _player->get_video (t, true);
-		for (list<shared_ptr<PlayerVideoFrame> >::const_iterator i = v.begin(); i != v.end(); ++i) {
+		list<shared_ptr<PlayerVideo> > v = _player->get_video (t, true);
+		for (list<shared_ptr<PlayerVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {
 			_encoder->process_video (*i);
 		}
 		_encoder->process_audio (_player->get_audio (t, frame, true));

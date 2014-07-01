@@ -16,7 +16,7 @@ sources = """
           content_subtitle.cc
           cross.cc
           dcp_content_type.cc
-          dcp_video_frame.cc
+          dcp_video.cc
           dcpomatic_time.cc
           dolby_cp750.cc
           encoder.cc
@@ -48,7 +48,7 @@ sources = """
           log.cc
           md5_digester.cc
           player.cc
-          player_video_frame.cc
+          player_video.cc
           playlist.cc
           ratio.cc
           render_subtitles.cc

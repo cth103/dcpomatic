@@ -33,11 +33,11 @@ class Log;
  *  bits still their raw form.  We may want to combine the bits on a remote machine,
  *  or maybe not even bother to combine them at all.
  */
-class PlayerVideoFrame
+class PlayerVideo
 {
 public:
-	PlayerVideoFrame (boost::shared_ptr<const ImageProxy>, Crop, dcp::Size, dcp::Size, Scaler const *, Eyes, Part, ColourConversion);
-	PlayerVideoFrame (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
+	PlayerVideo (boost::shared_ptr<const ImageProxy>, Crop, dcp::Size, dcp::Size, Scaler const *, Eyes, Part, ColourConversion);
+	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
 
 	void set_subtitle (PositionImage);
 	

@@ -41,7 +41,7 @@
 #include "render_subtitles.h"
 #include "config.h"
 #include "content_video.h"
-#include "player_video_frame.h"
+#include "player_video.h"
 #include "frame_rate_change.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
@@ -292,11 +292,11 @@ Player::set_approximate_size ()
 	_approximate_size = true;
 }
 
-shared_ptr<PlayerVideoFrame>
+shared_ptr<PlayerVideo>
 Player::black_player_video_frame () const
 {
-	return shared_ptr<PlayerVideoFrame> (
-		new PlayerVideoFrame (
+	return shared_ptr<PlayerVideo> (
+		new PlayerVideo (
 			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image, _film->log ())),
 			Crop (),
 			_video_container_size,
@@ -309,8 +309,8 @@ Player::black_player_video_frame () const
 	);
 }
 
-/** @return All PlayerVideoFrames at the given time (there may be two frames for 3D) */
-list<shared_ptr<PlayerVideoFrame> >
+/** @return All PlayerVideos at the given time (there may be two frames for 3D) */
+list<shared_ptr<PlayerVideo> >
 Player::get_video (DCPTime time, bool accurate)
 {
 	if (!_have_valid_pieces) {
@@ -322,13 +322,13 @@ Player::get_video (DCPTime time, bool accurate)
 		time + DCPTime::from_frames (1, _film->video_frame_rate ())
 		);
 
-	list<shared_ptr<PlayerVideoFrame> > pvf;
+	list<shared_ptr<PlayerVideo> > pvf;
 
 	if (ov.empty ()) {
 		/* No video content at this time */
 		pvf.push_back (black_player_video_frame ());
 	} else {
-		/* Create a PlayerVideoFrame from the content's video at this time */
+		/* Create a PlayerVideo from the content's video at this time */
 
 		shared_ptr<Piece> piece = ov.back ();
 		shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
@@ -350,8 +350,8 @@ Player::get_video (DCPTime time, bool accurate)
 		
 		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
 			pvf.push_back (
-				shared_ptr<PlayerVideoFrame> (
-					new PlayerVideoFrame (
+				shared_ptr<PlayerVideo> (
+					new PlayerVideo (
 						i->image,
 						content->crop (),
 						image_size,
@@ -366,7 +366,7 @@ Player::get_video (DCPTime time, bool accurate)
 		}
 	}
 
-	/* Add subtitles to whatever PlayerVideoFrames we got */
+	/* Add subtitles to whatever PlayerVideos we got */
 	
 	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (
 		time,
@@ -404,7 +404,7 @@ Player::get_video (DCPTime time, bool accurate)
 	}
 	
 	if (!sub_images.empty ()) {
-		for (list<shared_ptr<PlayerVideoFrame> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
+		for (list<shared_ptr<PlayerVideo> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
 			(*i)->set_subtitle (merge (sub_images));
 		}
 	}	

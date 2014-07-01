@@ -44,12 +44,12 @@ class Image;
 class AudioBuffers;
 class Film;
 class ServerDescription;
-class DCPVideoFrame;
+class DCPVideo;
 class EncodedData;
 class Writer;
 class Job;
 class ServerFinder;
-class PlayerVideoFrame;
+class PlayerVideo;
 
 /** @class Encoder
  *  @brief Encoder to J2K and WAV for DCP.
@@ -70,7 +70,7 @@ public:
 	/** Call with a frame of video.
 	 *  @param f Video frame.
 	 */
-	void process_video (boost::shared_ptr<PlayerVideoFrame> f);
+	void process_video (boost::shared_ptr<PlayerVideo> f);
 
 	/** Call with some audio data */
 	void process_audio (boost::shared_ptr<const AudioBuffers>);
@@ -107,7 +107,7 @@ private:
 	int _video_frames_out;
 
 	bool _terminate;
-	std::list<boost::shared_ptr<DCPVideoFrame> > _queue;
+	std::list<boost::shared_ptr<DCPVideo> > _queue;
 	std::list<boost::thread *> _threads;
 	mutable boost::mutex _mutex;
 	/** condition to manage thread wakeups when we have nothing to do */

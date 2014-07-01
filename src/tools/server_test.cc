@@ -27,14 +27,14 @@
 #include "lib/util.h"
 #include "lib/scaler.h"
 #include "lib/server.h"
-#include "lib/dcp_video_frame.h"
+#include "lib/dcp_video.h"
 #include "lib/decoder.h"
 #include "lib/exceptions.h"
 #include "lib/scaler.h"
 #include "lib/log.h"
 #include "lib/video_decoder.h"
 #include "lib/player.h"
-#include "lib/player_video_frame.h"
+#include "lib/player_video.h"
 
 using std::cout;
 using std::cerr;
@@ -48,10 +48,10 @@ static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame_count = 0;
 
 void
-process_video (shared_ptr<PlayerVideoFrame> pvf)
+process_video (shared_ptr<PlayerVideo> pvf)
 {
-	shared_ptr<DCPVideoFrame> local  (new DCPVideoFrame (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
-	shared_ptr<DCPVideoFrame> remote (new DCPVideoFrame (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
 
 	cout << "Frame " << frame_count << ": ";
 	cout.flush ();

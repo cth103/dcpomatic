@@ -50,7 +50,7 @@
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include "film.h"
-#include "dcp_video_frame.h"
+#include "dcp_video.h"
 #include "config.h"
 #include "exceptions.h"
 #include "server.h"
@@ -59,7 +59,7 @@
 #include "image.h"
 #include "log.h"
 #include "cross.h"
-#include "player_video_frame.h"
+#include "player_video.h"
 
 #define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
@@ -81,8 +81,8 @@ using dcp::raw_convert;
  *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
  *  @param l Log to write to.
  */
-DCPVideoFrame::DCPVideoFrame (
-	shared_ptr<const PlayerVideoFrame> frame, int index, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
+DCPVideo::DCPVideo (
+	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
 	)
 	: _frame (frame)
 	, _index (index)
@@ -94,7 +94,7 @@ DCPVideoFrame::DCPVideoFrame (
 	
 }
 
-DCPVideoFrame::DCPVideoFrame (shared_ptr<const PlayerVideoFrame> frame, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
+DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
 	: _frame (frame)
 	, _log (log)
 {
@@ -108,7 +108,7 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const PlayerVideoFrame> frame, shared_p
  *  @return Encoded data.
  */
 shared_ptr<EncodedData>
-DCPVideoFrame::encode_locally ()
+DCPVideo::encode_locally ()
 {
 	shared_ptr<dcp::GammaLUT> in_lut = dcp::GammaLUT::cache.get (
 		12, _frame->colour_conversion().input_gamma, _frame->colour_conversion().input_gamma_linearised
@@ -259,7 +259,7 @@ DCPVideoFrame::encode_locally ()
  *  @return Encoded data.
  */
 shared_ptr<EncodedData>
-DCPVideoFrame::encode_remotely (ServerDescription serv)
+DCPVideo::encode_remotely (ServerDescription serv)
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);
@@ -299,7 +299,7 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 }
 
 void
-DCPVideoFrame::add_metadata (xmlpp::Element* el) const
+DCPVideo::add_metadata (xmlpp::Element* el) const
 {
 	el->add_child("Index")->add_child_text (raw_convert<string> (_index));
 	el->add_child("FramesPerSecond")->add_child_text (raw_convert<string> (_frames_per_second));
@@ -309,7 +309,7 @@ DCPVideoFrame::add_metadata (xmlpp::Element* el) const
 }
 
 Eyes
-DCPVideoFrame::eyes () const
+DCPVideo::eyes () const
 {
 	return _frame->eyes ();
 }

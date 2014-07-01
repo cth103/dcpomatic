@@ -34,7 +34,7 @@
 #include "film.h"
 #include "ratio.h"
 #include "log.h"
-#include "dcp_video_frame.h"
+#include "dcp_video.h"
 #include "dcp_content_type.h"
 #include "player.h"
 #include "audio_mapping.h"

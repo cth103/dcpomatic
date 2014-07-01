@@ -34,10 +34,10 @@
 #include "util.h"
 #include "scaler.h"
 #include "image.h"
-#include "dcp_video_frame.h"
+#include "dcp_video.h"
 #include "config.h"
 #include "cross.h"
-#include "player_video_frame.h"
+#include "player_video.h"
 
 #include "i18n.h"
 
@@ -112,9 +112,9 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 		return -1;
 	}
 
-	shared_ptr<PlayerVideoFrame> pvf (new PlayerVideoFrame (xml, socket, _log));
+	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket, _log));
 
-	DCPVideoFrame dcp_video_frame (pvf, xml, _log);
+	DCPVideo dcp_video_frame (pvf, xml, _log);
 
 	gettimeofday (&after_read, 0);
 	

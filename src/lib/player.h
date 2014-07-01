@@ -42,7 +42,7 @@ class Piece;
 class Image;
 class Decoder;
 class Resampler;
-class PlayerVideoFrame;
+class PlayerVideo;
 class ImageProxy;
  
 class PlayerStatistics
@@ -85,7 +85,7 @@ class Player : public boost::enable_shared_from_this<Player>, public boost::nonc
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
 
-	std::list<boost::shared_ptr<PlayerVideoFrame> > get_video (DCPTime time, bool accurate);
+	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
 
 	void set_video_container_size (dcp::Size);
@@ -119,7 +119,7 @@ private:
 	VideoFrame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	AudioFrame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	boost::shared_ptr<PlayerVideoFrame> black_player_video_frame () const;
+	boost::shared_ptr<PlayerVideo> black_player_video_frame () const;
 
 	/** @return Pieces of content type C that overlap a specified time range in the DCP */
 	template<class C>

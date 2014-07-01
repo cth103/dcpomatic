@@ -31,7 +31,7 @@ class Scaler;
 class Image;
 class Log;
 class Subtitle;
-class PlayerVideoFrame;
+class PlayerVideo;
 
 /** @class EncodedData
  *  @brief Container for J2K-encoded data.
@@ -89,7 +89,7 @@ public:
 	RemotelyEncodedData (int s);
 };
 
-/** @class DCPVideoFrame
+/** @class DCPVideo
  *  @brief A single frame of video destined for a DCP.
  *
  *  Given an Image and some settings, this class knows how to encode
@@ -98,11 +98,11 @@ public:
  *  Objects of this class are used for the queue that we keep
  *  of images that require encoding.
  */
-class DCPVideoFrame : public boost::noncopyable
+class DCPVideo : public boost::noncopyable
 {
 public:
-	DCPVideoFrame (boost::shared_ptr<const PlayerVideoFrame>, int, int, int, Resolution, boost::shared_ptr<Log>);
-	DCPVideoFrame (boost::shared_ptr<const PlayerVideoFrame>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
+	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution, boost::shared_ptr<Log>);
+	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
 	boost::shared_ptr<EncodedData> encode_locally ();
 	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);
@@ -117,7 +117,7 @@ private:
 
 	void add_metadata (xmlpp::Element *) const;
 	
-	boost::shared_ptr<const PlayerVideoFrame> _frame;
+	boost::shared_ptr<const PlayerVideo> _frame;
 	int _index;			 ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use

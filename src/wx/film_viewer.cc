@@ -34,7 +34,7 @@
 #include "lib/examine_content_job.h"
 #include "lib/filter.h"
 #include "lib/player.h"
-#include "lib/player_video_frame.h"
+#include "lib/player_video.h"
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
 #include "lib/timer.h"
@@ -151,7 +151,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 		return;
 	}
 
-	list<shared_ptr<PlayerVideoFrame> > pvf = _player->get_video (p, accurate);
+	list<shared_ptr<PlayerVideo> > pvf = _player->get_video (p, accurate);
 	if (!pvf.empty ()) {
 		_frame = pvf.front()->image ();
 		_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
