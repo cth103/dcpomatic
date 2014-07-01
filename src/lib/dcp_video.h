@@ -32,62 +32,7 @@ class Image;
 class Log;
 class Subtitle;
 class PlayerVideo;
-
-/** @class EncodedData
- *  @brief Container for J2K-encoded data.
- */
-class EncodedData : public boost::noncopyable
-{
-public:
-	/** @param s Size of data, in bytes */
-	EncodedData (int s);
-
-	EncodedData (boost::filesystem::path);
-
-	virtual ~EncodedData ();
-
-	void send (boost::shared_ptr<Socket> socket);
-	void write (boost::shared_ptr<const Film>, int, Eyes) const;
-	void write_info (boost::shared_ptr<const Film>, int, Eyes, dcp::FrameInfo) const;
-
-	/** @return data */
-	uint8_t* data () const {
-		return _data;
-	}
-
-	/** @return data size, in bytes */
-	int size () const {
-		return _size;
-	}
-
-protected:
-	uint8_t* _data; ///< data
-	int _size;	///< data size in bytes
-};
-
-/** @class LocallyEncodedData
- *  @brief EncodedData that was encoded locally; this class
- *  just keeps a pointer to the data, but does no memory
- *  management.
- */
-class LocallyEncodedData : public EncodedData
-{
-public:
-	/** @param d Data (which will be copied by this class)
-	 *  @param s Size of data, in bytes.
-	 */
-	LocallyEncodedData (uint8_t* d, int s);
-};
-
-/** @class RemotelyEncodedData
- *  @brief EncodedData that is being read from a remote server;
- *  this class allocates and manages memory for the data.
- */
-class RemotelyEncodedData : public EncodedData
-{
-public:
-	RemotelyEncodedData (int s);
-};
+class EncodedData;
 
 /** @class DCPVideo
  *  @brief A single frame of video destined for a DCP.

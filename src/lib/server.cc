@@ -38,6 +38,7 @@
 #include "config.h"
 #include "cross.h"
 #include "player_video.h"
+#include "encoded_data.h"
 
 #include "i18n.h"
 

@@ -20,6 +20,7 @@ sources = """
           dcpomatic_time.cc
           dolby_cp750.cc
           encoder.cc
+          encoded_data.cc
           examine_content_job.cc
           exceptions.cc
           file_group.cc

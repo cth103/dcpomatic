@@ -35,6 +35,7 @@
 #include "lib/video_decoder.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
+#include "lib/encoded_data.h"
 
 using std::cout;
 using std::cerr;

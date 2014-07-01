@@ -36,13 +36,13 @@
 #include "log.h"
 #include "dcp_video.h"
 #include "dcp_content_type.h"
-#include "player.h"
 #include "audio_mapping.h"
 #include "config.h"
 #include "job.h"
 #include "cross.h"
 #include "audio_buffers.h"
 #include "md5_digester.h"
+#include "encoded_data.h"
 
 #include "i18n.h"
 
