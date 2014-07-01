@@ -80,7 +80,7 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	ScopedTemporary temp_cert;
 	f = temp_cert.open ("wb");
 	char buffer[4096];
-	while (1) {
+	while (true) {
 		int const N = zip_fread (zip_file, buffer, sizeof (buffer));
 		fwrite (buffer, 1, N, f);
 		if (N < int (sizeof (buffer))) {

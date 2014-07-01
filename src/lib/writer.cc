@@ -238,11 +238,11 @@ void
 Writer::thread ()
 try
 {
-	while (1)
+	while (true)
 	{
 		boost::mutex::scoped_lock lock (_mutex);
 
-		while (1) {
+		while (true) {
 			
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
 				/* We've got something to do: go and do it */
@@ -563,7 +563,7 @@ Writer::check_existing_picture_mxf ()
 		++N;
 	}
 
-	while (1) {
+	while (true) {
 
 		shared_ptr<Job> job = _job.lock ();
 		assert (job);

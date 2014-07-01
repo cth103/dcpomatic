@@ -63,7 +63,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 
 	/* Run through until we find the first audio (for each stream) and video */
 
-	while (1) {
+	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
 			break;

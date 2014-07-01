@@ -58,7 +58,7 @@ try
 {
 	boost::asio::io_service io_service;
 	tcp::acceptor a (io_service, tcp::endpoint (tcp::v4 (), port));
-	while (1) {
+	while (true) {
 		try {
 			shared_ptr<tcp::socket> s (new tcp::socket (io_service));
 			a.accept (*s);
@@ -80,7 +80,7 @@ JSONServer::handle (shared_ptr<tcp::socket> socket)
 	string url;
 	State state = AWAITING_G;
 
-	while (1) {
+	while (true) {
 		char data[MAX_LENGTH];
 		boost::system::error_code error;
 		size_t len = socket->read_some (boost::asio::buffer (data), error);

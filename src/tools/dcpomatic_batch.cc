@@ -173,7 +173,7 @@ private:
 		}
 		
 		int r;
-		while (1) {
+		while (true) {
 			r = c->ShowModal ();
 			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));

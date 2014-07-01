@@ -103,7 +103,7 @@ void
 ServerFinder::listen_thread ()
 try
 {
-	while (1) {
+	while (true) {
 		shared_ptr<Socket> sock (new Socket (60));
 
 		try {

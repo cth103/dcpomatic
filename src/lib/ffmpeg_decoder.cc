@@ -360,7 +360,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		return;
 	}
 
-	while (1) {
+	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
 			return;

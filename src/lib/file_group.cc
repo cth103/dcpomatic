@@ -142,7 +142,7 @@ int
 FileGroup::read (uint8_t* buffer, int amount) const
 {
 	int read = 0;
-	while (1) {
+	while (true) {
 		int const this_time = fread (buffer + read, 1, amount - read, _current_file);
 		read += this_time;
 		if (read == amount) {

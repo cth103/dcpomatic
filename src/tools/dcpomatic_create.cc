@@ -81,7 +81,7 @@ main (int argc, char* argv[])
 	boost::filesystem::path output;
 	
 	int option_index = 0;
-	while (1) {
+	while (true) {
 		static struct option long_options[] = {
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},

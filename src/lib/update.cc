@@ -85,7 +85,7 @@ UpdateChecker::run ()
 void
 UpdateChecker::thread ()
 {
-	while (1) {
+	while (true) {
 		boost::mutex::scoped_lock lock (_process_mutex);
 		while (_to_do == 0) {
 			_condition.wait (lock);

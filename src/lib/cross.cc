@@ -202,7 +202,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 
 	CloseHandle (child_stderr_write);
 
-	while (1) {
+	while (true) {
 		char buffer[512];
 		DWORD read;
 		if (!ReadFile(child_stderr_read, buffer, sizeof(buffer), &read, 0) || read == 0) {
@@ -247,7 +247,7 @@ mount_info ()
 		return m;
 	}
 	
-	while (1) {
+	while (true) {
 		struct mntent* mnt = getmntent (f);
 		if (!mnt) {
 			break;

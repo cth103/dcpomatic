@@ -115,7 +115,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 void
 Server::worker_thread ()
 {
-	while (1) {
+	while (true) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
 		while (_queue.empty ()) {
 			_empty_condition.wait (lock);
@@ -194,7 +194,7 @@ Server::run (int num_threads)
 		boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port_base ())
 		);
 	
-	while (1) {
+	while (true) {
 		shared_ptr<Socket> socket (new Socket);
 		acceptor.accept (socket->socket ());
 
