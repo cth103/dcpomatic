@@ -45,6 +45,7 @@ extern "C" {
 #include "ffmpeg_content.h"
 #include "image_proxy.h"
 #include "film.h"
+#include "timer.h"
 
 #include "i18n.h"
 
@@ -59,6 +60,7 @@ using std::stringstream;
 using std::list;
 using std::min;
 using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -140,7 +142,7 @@ FFmpegDecoder::pass ()
 	}
 
 	int const si = _packet.stream_index;
-	
+
 	if (si == _video_stream) {
 		decode_video_packet ();
 	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si)) {
@@ -293,7 +295,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	*/
 
 	ContentTime pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
-	time - pre_roll;
+	time -= pre_roll;
 	if (time < ContentTime (0)) {
 		time = ContentTime (0);
 	}
