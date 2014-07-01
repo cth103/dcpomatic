@@ -156,14 +156,19 @@ SubtitlePanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
+	int subrip_subs = 0;
 	SubtitleContentList c = _editor->selected_subtitle_content ();
 	for (SubtitleContentList::const_iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (*i);
+		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (*i);
 		if (fc) {
 			if (!fc->subtitle_streams().empty ()) {
 				++ffmpeg_subs;
 				++any_subs;
 			}
+		} else if (sc) {
+			++subrip_subs;
+			++any_subs;
 		} else {
 			++any_subs;
 		}
@@ -176,7 +181,7 @@ SubtitlePanel::setup_sensitivity ()
 	_y_offset->Enable (any_subs > 0 && use);
 	_scale->Enable (any_subs > 0 && use);
 	_stream->Enable (ffmpeg_subs == 1);
-	_view_button->Enable (any_subs == 1);
+	_view_button->Enable (subrip_subs == 1);
 }
 
 void
@@ -251,7 +256,6 @@ SubtitlePanel::view_clicked ()
 	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
 	if (sr) {
 		_view = new SubtitleView (this, _editor->film(), sr);
+		_view->Show ();
 	}
-
-	_view->Show ();
 }
