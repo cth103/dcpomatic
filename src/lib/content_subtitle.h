@@ -24,6 +24,7 @@
 #include <dcp/subtitle_string.h>
 #include "dcpomatic_time.h"
 #include "rect.h"
+#include "image_subtitle.h"
 
 class Image;
 
@@ -37,8 +38,7 @@ class ContentImageSubtitle : public ContentSubtitle
 {
 public:
 	ContentImageSubtitle (ContentTimePeriod p, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
-		: image (im)
-		, rectangle (r)
+		: sub (im, r)
 		, _period (p)
 	{}
 
@@ -46,8 +46,8 @@ public:
 		return _period;
 	}
 
-	boost::shared_ptr<Image> image;
-	dcpomatic::Rect<double> rectangle;
+	/* Our subtitle, with its rectangle unmodified by any offsets or scales that the content specifies */
+	ImageSubtitle sub;
 
 private:
 	ContentTimePeriod _period;

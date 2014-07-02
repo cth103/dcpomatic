@@ -223,24 +223,17 @@ Player::film_changed (Film::Property p)
 }
 
 list<PositionImage>
-Player::process_content_image_subtitles (shared_ptr<SubtitleContent> content, list<shared_ptr<ContentImageSubtitle> > subs) const
+Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 {
 	list<PositionImage> all;
 	
-	for (list<shared_ptr<ContentImageSubtitle> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if (!(*i)->image) {
+	for (list<ImageSubtitle>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
+		if (!i->image) {
 			continue;
 		}
 
-		dcpomatic::Rect<double> in_rect = (*i)->rectangle;
-		dcp::Size scaled_size;
-		
-		in_rect.x += content->subtitle_x_offset ();
-		in_rect.y += content->subtitle_y_offset ();
-		
-		/* We will scale the subtitle up to fit _video_container_size, and also by the additional subtitle_scale */
-		scaled_size.width = in_rect.width * _video_container_size.width * content->subtitle_scale ();
-		scaled_size.height = in_rect.height * _video_container_size.height * content->subtitle_scale ();
+		/* We will scale the subtitle up to fit _video_container_size */
+		dcp::Size scaled_size (i->rectangle.width * _video_container_size.width, i->rectangle.height * _video_container_size.height);
 		
 		/* Then we need a corrective translation, consisting of two parts:
 		 *
@@ -256,31 +249,18 @@ Player::process_content_image_subtitles (shared_ptr<SubtitleContent> content, li
 
 		all.push_back (
 			PositionImage (
-				(*i)->image->scale (
+				i->image->scale (
 					scaled_size,
 					Scaler::from_id ("bicubic"),
-					(*i)->image->pixel_format (),
+					i->image->pixel_format (),
 					true
 					),
 				Position<int> (
-					rint (_video_container_size.width * (in_rect.x + (in_rect.width * (1 - content->subtitle_scale ()) / 2))),
-					rint (_video_container_size.height * (in_rect.y + (in_rect.height * (1 - content->subtitle_scale ()) / 2)))
+					rint (_video_container_size.width * i->rectangle.x),
+					rint (_video_container_size.height * i->rectangle.y)
 					)
 				)
 			);
-	}
-
-	return all;
-}
-
-list<PositionImage>
-Player::process_content_text_subtitles (list<shared_ptr<ContentTextSubtitle> > sub) const
-{
-	list<PositionImage> all;
-	for (list<shared_ptr<ContentTextSubtitle> >::const_iterator i = sub.begin(); i != sub.end(); ++i) {
-		if (!(*i)->subs.empty ()) {
-			all.push_back (render_subtitles ((*i)->subs, _video_container_size));
-		}
 	}
 
 	return all;
@@ -368,42 +348,18 @@ Player::get_video (DCPTime time, bool accurate)
 		}
 	}
 
-	/* Add subtitles to whatever PlayerVideos we got */
-	
-	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (
-		time,
-		time + DCPTime::from_frames (1, _film->video_frame_rate ())
-		);
+	/* Add subtitles (for possible burn-in) to whatever PlayerVideos we got */
+
+	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()));
 
 	list<PositionImage> sub_images;
-	
-	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
-		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
-		if (!subtitle_content->subtitle_use ()) {
-			continue;
-		}
 
-		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
-		ContentTime const from = dcp_to_content_subtitle (*j, time);
-		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
-		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
+	/* Image subtitles */
+	list<PositionImage> c = transform_image_subtitles (ps.image);
+	copy (c.begin(), c.end(), back_inserter (sub_images));
 
-		list<shared_ptr<ContentImageSubtitle> > image_subtitles = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to));
-		if (!image_subtitles.empty ()) {
-			list<PositionImage> im = process_content_image_subtitles (
-				subtitle_content,
-				image_subtitles
-				);
-			
-			copy (im.begin(), im.end(), back_inserter (sub_images));
-		}
-		
-		list<shared_ptr<ContentTextSubtitle> > text_subtitles = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to));
-		if (!text_subtitles.empty ()) {
-			list<PositionImage> im = process_content_text_subtitles (text_subtitles);
-			copy (im.begin(), im.end(), back_inserter (sub_images));
-		}
-	}
+	/* Text subtitles (rendered to images) */
+	sub_images.push_back (render_subtitles (ps.text, _video_container_size));
 	
 	if (!sub_images.empty ()) {
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
@@ -555,4 +511,49 @@ PlayerStatistics const &
 Player::statistics () const
 {
 	return _statistics;
+}
+
+PlayerSubtitles
+Player::get_subtitles (DCPTime time, DCPTime length)
+{
+	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (time, time + length);
+
+	PlayerSubtitles ps (time, length);
+
+	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
+		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
+		if (!subtitle_content->subtitle_use ()) {
+			continue;
+		}
+
+		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
+		ContentTime const from = dcp_to_content_subtitle (*j, time);
+		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
+		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
+
+		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to));
+		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
+			
+			/* Apply content's subtitle offsets */
+			i->sub.rectangle.x += subtitle_content->subtitle_x_offset ();
+			i->sub.rectangle.y += subtitle_content->subtitle_y_offset ();
+
+			/* Apply content's subtitle scale */
+			i->sub.rectangle.width *= subtitle_content->subtitle_scale ();
+			i->sub.rectangle.height *= subtitle_content->subtitle_scale ();
+
+			/* Apply a corrective translation to keep the subtitle centred after that scale */
+			i->sub.rectangle.x -= i->sub.rectangle.width * (subtitle_content->subtitle_scale() - 1);
+			i->sub.rectangle.y -= i->sub.rectangle.height * (subtitle_content->subtitle_scale() - 1);
+			
+			ps.image.push_back (i->sub);
+		}
+
+		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to));
+		for (list<ContentTextSubtitle>::const_iterator i = text.begin(); i != text.end(); ++i) {
+			copy (i->subs.begin(), i->subs.end(), back_inserter (ps.text));
+		}
+	}
+
+	return ps;
 }

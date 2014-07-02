@@ -35,8 +35,8 @@ class SubtitleDecoder : public virtual Decoder
 public:
 	SubtitleDecoder (boost::shared_ptr<const SubtitleContent>);
 
-	std::list<boost::shared_ptr<ContentImageSubtitle> > get_image_subtitles (ContentTimePeriod period);
-	std::list<boost::shared_ptr<ContentTextSubtitle> > get_text_subtitles (ContentTimePeriod period);
+	std::list<ContentImageSubtitle> get_image_subtitles (ContentTimePeriod period);
+	std::list<ContentTextSubtitle> get_text_subtitles (ContentTimePeriod period);
 
 protected:
 	void seek (ContentTime, bool);
@@ -44,12 +44,12 @@ protected:
 	void image_subtitle (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void text_subtitle (std::list<dcp::SubtitleString>);
 
-	std::list<boost::shared_ptr<ContentImageSubtitle> > _decoded_image_subtitles;
-	std::list<boost::shared_ptr<ContentTextSubtitle> > _decoded_text_subtitles;
+	std::list<ContentImageSubtitle> _decoded_image_subtitles;
+	std::list<ContentTextSubtitle> _decoded_text_subtitles;
 
 private:
 	template <class T>
-	std::list<boost::shared_ptr<T> > get (std::list<boost::shared_ptr<T> > const & subs, ContentTimePeriod period);
+	std::list<T> get (std::list<T> const & subs, ContentTimePeriod period);
 
 	virtual bool has_subtitle_during (ContentTimePeriod) const = 0;
 	

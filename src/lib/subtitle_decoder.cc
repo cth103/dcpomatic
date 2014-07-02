@@ -38,24 +38,24 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const SubtitleContent> c)
 void
 SubtitleDecoder::image_subtitle (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
-	_decoded_image_subtitles.push_back (shared_ptr<ContentImageSubtitle> (new ContentImageSubtitle (period, image, rect)));
+	_decoded_image_subtitles.push_back (ContentImageSubtitle (period, image, rect));
 }
 
 void
 SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
 {
-	_decoded_text_subtitles.push_back (shared_ptr<ContentTextSubtitle> (new ContentTextSubtitle (s)));
+	_decoded_text_subtitles.push_back (ContentTextSubtitle (s));
 }
 
 template <class T>
-list<shared_ptr<T> >
-SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod period)
+list<T>
+SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period)
 {
 	if (!has_subtitle_during (period)) {
-		return list<shared_ptr<T> > ();
+		return list<T> ();
 	}
 
-	if (subs.empty() || period.from < subs.front()->period().from || period.to > (subs.back()->period().to + ContentTime::from_seconds (10))) {
+	if (subs.empty() || period.from < subs.front().period().from || period.to > (subs.back().period().to + ContentTime::from_seconds (10))) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
 		seek (period.from, true);
 	}
@@ -64,14 +64,14 @@ SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod perio
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
-	while (!pass() && (subs.empty() || (subs.front()->period().from > period.from || period.to < subs.back()->period().to))) {}
+	while (!pass() && (subs.empty() || (subs.front().period().from > period.from || period.to < subs.back().period().to))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
 	
-	list<shared_ptr<T> > out;
-	for (typename list<shared_ptr<T> >::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if ((*i)->period().overlaps (period)) {
+	list<T> out;
+	for (typename list<T>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
+		if (i->period().overlaps (period)) {
 			out.push_back (*i);
 		}
 	}
@@ -79,13 +79,13 @@ SubtitleDecoder::get (list<shared_ptr<T> > const & subs, ContentTimePeriod perio
 	return out;
 }
 
-list<shared_ptr<ContentTextSubtitle> >
+list<ContentTextSubtitle>
 SubtitleDecoder::get_text_subtitles (ContentTimePeriod period)
 {
 	return get<ContentTextSubtitle> (_decoded_text_subtitles, period);
 }
 
-list<shared_ptr<ContentImageSubtitle> >
+list<ContentImageSubtitle>
 SubtitleDecoder::get_image_subtitles (ContentTimePeriod period)
 {
 	return get<ContentImageSubtitle> (_decoded_image_subtitles, period);

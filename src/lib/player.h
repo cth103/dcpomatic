@@ -33,6 +33,7 @@
 #include "position_image.h"
 #include "piece.h"
 #include "content_video.h"
+#include "player_subtitles.h"
 
 class Job;
 class Film;
@@ -87,6 +88,7 @@ public:
 
 	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
+	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length);
 
 	void set_video_container_size (dcp::Size);
 	void set_approximate_size ();
@@ -111,10 +113,7 @@ private:
 	void content_changed (boost::weak_ptr<Content>, int, bool);
 	void flush ();
 	void film_changed (Film::Property);
-	std::list<PositionImage> process_content_image_subtitles (
-		boost::shared_ptr<SubtitleContent>, std::list<boost::shared_ptr<ContentImageSubtitle> >
-		) const;
-	std::list<PositionImage> process_content_text_subtitles (std::list<boost::shared_ptr<ContentTextSubtitle> >) const;
+	std::list<PositionImage> transform_image_subtitles (std::list<ImageSubtitle>) const;
 	void update_subtitle_from_text ();
 	VideoFrame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, VideoFrame f) const;
