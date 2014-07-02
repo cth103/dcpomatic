@@ -52,31 +52,28 @@ class ServerFinder;
 class PlayerVideo;
 
 /** @class Encoder
- *  @brief Encoder to J2K and WAV for DCP.
+ *  @brief Class to manage encoding to JPEG2000.
  *
- *  Video is supplied to process_video as RGB frames, and audio
- *  is supplied as uncompressed PCM in blocks of various sizes.
+ *  This class keeps a queue of frames to be encoded and distributes
+ *  the work around threads and encoding servers.
  */
 
 class Encoder : public boost::noncopyable, public ExceptionStore
 {
 public:
-	Encoder (boost::shared_ptr<const Film> f, boost::weak_ptr<Job>);
+	Encoder (boost::shared_ptr<const Film> f, boost::weak_ptr<Job>, boost::shared_ptr<Writer>);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
-	void process_begin ();
+	void begin ();
 
 	/** Call with a frame of video.
 	 *  @param f Video frame.
 	 */
-	void process_video (boost::shared_ptr<PlayerVideo> f);
-
-	/** Call with some audio data */
-	void process_audio (boost::shared_ptr<const AudioBuffers>);
+	void enqueue (boost::shared_ptr<PlayerVideo> f);
 
 	/** Called when a processing run has finished */
-	void process_end ();
+	void end ();
 
 	float current_encoding_rate () const;
 	int video_frames_out () const;

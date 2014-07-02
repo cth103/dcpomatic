@@ -59,11 +59,12 @@ using boost::scoped_array;
 int const Encoder::_history_size = 25;
 
 /** @param f Film that we are encoding */
-Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j)
+Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j, shared_ptr<Writer> writer)
 	: _film (f)
 	, _job (j)
 	, _video_frames_out (0)
 	, _terminate (false)
+	, _writer (writer)
 {
 
 }
@@ -87,18 +88,17 @@ Encoder::add_worker_threads (ServerDescription d)
 }
 
 void
-Encoder::process_begin ()
+Encoder::begin ()
 {
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
 	}
 
-	_writer.reset (new Writer (_film, _job));
 	ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
 }
 
 void
-Encoder::process_end ()
+Encoder::end ()
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -134,9 +134,6 @@ Encoder::process_end ()
 			LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 		}
 	}
-		
-	_writer->finish ();
-	_writer.reset ();
 }	
 
 /** @return an estimate of the current number of frames we are encoding per second,
@@ -181,7 +178,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::process_video (shared_ptr<PlayerVideo> pvf)
+Encoder::enqueue (shared_ptr<PlayerVideo> pvf)
 {
 	_waker.nudge ();
 	
@@ -234,12 +231,6 @@ Encoder::process_video (shared_ptr<PlayerVideo> pvf)
 	if (pvf->eyes() != EYES_LEFT) {
 		++_video_frames_out;
 	}
-}
-
-void
-Encoder::process_audio (shared_ptr<const AudioBuffers> data)
-{
-	_writer->write (data);
 }
 
 void

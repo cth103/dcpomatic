@@ -44,6 +44,7 @@ public:
 private:
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<Player> _player;
+	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<Encoder> _encoder;
 	bool _finishing;
 };

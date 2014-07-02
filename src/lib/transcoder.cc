@@ -33,6 +33,7 @@
 #include "audio_decoder.h"
 #include "player.h"
 #include "job.h"
+#include "writer.h"
 
 using std::string;
 using std::cout;
@@ -48,7 +49,8 @@ using boost::dynamic_pointer_cast;
 Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 	: _film (f)
 	, _player (f->make_player ())
-	, _encoder (new Encoder (f, j))
+	, _writer (new Writer (f, j))
+	, _encoder (new Encoder (f, j, _writer))
 	, _finishing (false)
 {
 
@@ -57,19 +59,20 @@ Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
 void
 Transcoder::go ()
 {
-	_encoder->process_begin ();
+	_encoder->begin ();
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	for (DCPTime t; t < _film->length(); t += frame) {
 		list<shared_ptr<PlayerVideo> > v = _player->get_video (t, true);
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {
-			_encoder->process_video (*i);
+			_encoder->enqueue (*i);
 		}
-		_encoder->process_audio (_player->get_audio (t, frame, true));
+		_writer->write (_player->get_audio (t, frame, true));
 	}
 
 	_finishing = true;
-	_encoder->process_end ();
+	_encoder->end ();
+	_writer->finish ();
 
 	_player->statistics().dump (_film->log ());
 }
