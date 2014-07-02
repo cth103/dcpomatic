@@ -396,20 +396,22 @@ FFmpegContent::audio_analysis_path () const
 	return p;
 }
 
-bool
-FFmpegContent::has_subtitle_during (ContentTimePeriod period) const
+list<ContentTimePeriod>
+FFmpegContent::subtitles_during (ContentTimePeriod period) const
 {
+	list<ContentTimePeriod> d;
+	
 	shared_ptr<FFmpegSubtitleStream> stream = subtitle_stream ();
 	if (!stream) {
-		return false;
+		return d;
 	}
 
 	/* XXX: inefficient */
 	for (vector<ContentTimePeriod>::const_iterator i = stream->periods.begin(); i != stream->periods.end(); ++i) {
-		if (i->from <= period.to && i->to >= period.from) {
-			return true;
+		if (period.overlaps (*i)) {
+			d.push_back (*i);
 		}
 	}
 
-	return false;
+	return d;
 }

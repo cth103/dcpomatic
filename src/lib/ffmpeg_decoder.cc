@@ -481,8 +481,8 @@ FFmpegDecoder::decode_subtitle_packet ()
 	avsubtitle_free (&sub);
 }
 
-bool
-FFmpegDecoder::has_subtitle_during (ContentTimePeriod p) const
+list<ContentTimePeriod>
+FFmpegDecoder::subtitles_during (ContentTimePeriod p) const
 {
-	return _ffmpeg_content->has_subtitle_during (p);
+	return _ffmpeg_content->subtitles_during (p);
 }

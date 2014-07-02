@@ -51,7 +51,7 @@ private:
 	template <class T>
 	std::list<T> get (std::list<T> const & subs, ContentTimePeriod period);
 
-	virtual bool has_subtitle_during (ContentTimePeriod) const = 0;
+	virtual std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod) const = 0;
 	
 	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 };

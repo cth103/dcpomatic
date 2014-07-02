@@ -79,16 +79,18 @@ SubRipDecoder::pass ()
 	return false;
 }
 
-bool
-SubRipDecoder::has_subtitle_during (ContentTimePeriod p) const
+list<ContentTimePeriod>
+SubRipDecoder::subtitles_during (ContentTimePeriod p) const
 {
 	/* XXX: inefficient */
 
+	list<ContentTimePeriod> d;
+
 	for (vector<SubRipSubtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 		if (p.overlaps (i->period)) {
-			return true;
+			d.push_back (i->period);
 		}
 	}
 
-	return false;
+	return d;
 }

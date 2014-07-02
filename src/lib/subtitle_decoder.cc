@@ -51,20 +51,23 @@ template <class T>
 list<T>
 SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period)
 {
-	if (!has_subtitle_during (period)) {
+	/* Get the full periods of the subtitles that are showing during the specified period */
+	list<ContentTimePeriod> sp = subtitles_during (period);
+	if (sp.empty ()) {
+		/* Nothing in this period */
 		return list<T> ();
 	}
 
-	if (subs.empty() || period.from < subs.front().period().from || period.to > (subs.back().period().to + ContentTime::from_seconds (10))) {
-		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
-		seek (period.from, true);
+	/* Seek if what we want is before what we have, or more than a reasonable amount after */
+	if (subs.empty() || sp.back().to < subs.front().period().from || sp.front().from > (subs.back().period().to + ContentTime::from_seconds (5))) {
+		seek (sp.front().from, true);
 	}
 
 	/* Now enough pass() calls will either:
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
-	while (!pass() && (subs.empty() || (subs.front().period().from > period.from || period.to < subs.back().period().to))) {}
+	while (!pass() && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */

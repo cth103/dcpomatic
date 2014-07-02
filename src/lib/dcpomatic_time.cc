@@ -53,5 +53,5 @@ operator<< (ostream& s, DCPTime t)
 bool
 ContentTimePeriod::overlaps (ContentTimePeriod const & other) const
 {
-	return (from < other.to && to > other.from);
+	return (from < other.to && to >= other.from);
 }

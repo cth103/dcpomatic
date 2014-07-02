@@ -66,7 +66,7 @@ private:
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
-	bool has_subtitle_during (ContentTimePeriod) const;
+	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod) const;
 	
 	boost::shared_ptr<Log> _log;
 	
