@@ -53,6 +53,7 @@ def build(bld):
                  test.cc
                  threed_test.cc
                  util_test.cc
+                 xml_subtitle_test.cc
                  """
 
     obj.target = 'unit-tests'

@@ -17,6 +17,12 @@
 
 */
 
+#ifndef DCPOMATIC_PLAYER_SUBTITLES_H
+#define DCPOMATIC_PLAYER_SUBTITLES_H
+
+#include <dcp/subtitle_string.h>
+#include "image_subtitle.h"
+
 class PlayerSubtitles
 {
 public:
@@ -32,3 +38,5 @@ public:
 	std::list<ImageSubtitle> image;
 	std::list<dcp::SubtitleString> text; 
 };
+
+#endif

@@ -230,6 +230,12 @@ Film::audio_mxf_filename () const
 	return filename_safe_name() + "_audio.mxf";
 }
 
+boost::filesystem::path
+Film::subtitle_xml_filename () const
+{
+	return filename_safe_name() + "_subtitle.xml";
+}
+
 string
 Film::filename_safe_name () const
 {

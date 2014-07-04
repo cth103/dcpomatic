@@ -17,6 +17,11 @@
 
 */
 
+#ifndef DCPOMATIC_IMAGE_SUBTITLE_H
+#define DCPOMATIC_IMAGE_SUBTITLE_H
+
+#include "rect.h"
+
 class Image;
 
 class ImageSubtitle
@@ -37,3 +42,5 @@ public:
 	 */
 	dcpomatic::Rect<double> rectangle;
 };
+
+#endif

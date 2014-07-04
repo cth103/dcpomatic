@@ -25,8 +25,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
+#include <dcp/subtitle_content.h>
 #include "exceptions.h"
 #include "types.h"
+#include "player_subtitles.h"
 
 class Film;
 class EncodedData;
@@ -91,6 +93,7 @@ public:
 	void write (boost::shared_ptr<const EncodedData>, int, Eyes);
 	void fake_write (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
+	void write (PlayerSubtitles);
 	void repeat (int f, Eyes);
 	void finish ();
 
@@ -145,4 +148,5 @@ private:
 	boost::shared_ptr<dcp::PictureMXFWriter> _picture_mxf_writer;
 	boost::shared_ptr<dcp::SoundMXF> _sound_mxf;
 	boost::shared_ptr<dcp::SoundMXFWriter> _sound_mxf_writer;
+	boost::shared_ptr<dcp::SubtitleContent> _subtitle_content;
 };

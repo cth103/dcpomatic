@@ -27,6 +27,7 @@
 #include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_stereo_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
+#include <dcp/reel_subtitle_asset.h>
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include "writer.h"
@@ -452,6 +453,12 @@ Writer::finish ()
 		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_mxf, 0)));
 		dcp.add (_sound_mxf);
 	}
+
+	if (_subtitle_content) {
+		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _film->subtitle_xml_filename ());
+		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (new dcp::ReelSubtitleAsset (_subtitle_content, 0)));
+		dcp.add (_subtitle_content);
+	}
 	
 	cpl->add (reel);
 
@@ -569,6 +576,20 @@ Writer::can_fake_write (int frame) const
 	   parameters in the MXF writer.
 	*/
 	return (frame != 0 && frame < _first_nonexistant_frame);
+}
+
+void
+Writer::write (PlayerSubtitles subs)
+{
+	if (!_subtitle_content) {
+		_subtitle_content.reset (
+			new dcp::SubtitleContent (dcp::Fraction (_film->video_frame_rate(), 1), _film->name(), _film->isdcf_metadata().subtitle_language)
+			);
+	}
+	
+	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
+		_subtitle_content->add (*i);
+	}
 }
 
 bool
