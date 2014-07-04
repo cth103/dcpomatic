@@ -482,7 +482,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 }
 
 list<ContentTimePeriod>
-FFmpegDecoder::subtitles_during (ContentTimePeriod p) const
+FFmpegDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
 {
-	return _ffmpeg_content->subtitles_during (p);
+	return _ffmpeg_content->subtitles_during (p, starting);
 }

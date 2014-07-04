@@ -35,7 +35,7 @@ protected:
 	bool pass ();
 
 private:
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod) const;
+	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
 	
 	size_t _next;
 };

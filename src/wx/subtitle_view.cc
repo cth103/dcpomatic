@@ -66,7 +66,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	}
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
-	list<ContentTextSubtitle> subs = decoder->get_text_subtitles (ContentTimePeriod (ContentTime(), ContentTime::max ()));
+	list<ContentTextSubtitle> subs = decoder->get_text_subtitles (ContentTimePeriod (ContentTime(), ContentTime::max ()), true);
 	FrameRateChange const frc = film->active_frame_rate_change (content->position ());
 	int n = 0;
 	for (list<ContentTextSubtitle>::const_iterator i = subs.begin(); i != subs.end(); ++i) {

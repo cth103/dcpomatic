@@ -350,7 +350,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Add subtitles (for possible burn-in) to whatever PlayerVideos we got */
 
-	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()));
+	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()), false);
 
 	list<PositionImage> sub_images;
 
@@ -514,7 +514,7 @@ Player::statistics () const
 }
 
 PlayerSubtitles
-Player::get_subtitles (DCPTime time, DCPTime length)
+Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 {
 	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (time, time + length);
 
@@ -531,7 +531,7 @@ Player::get_subtitles (DCPTime time, DCPTime length)
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
 		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
 
-		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to));
+		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to), starting);
 		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
 			
 			/* Apply content's subtitle offsets */
@@ -549,7 +549,7 @@ Player::get_subtitles (DCPTime time, DCPTime length)
 			ps.image.push_back (i->sub);
 		}
 
-		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to));
+		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting);
 		for (list<ContentTextSubtitle>::const_iterator i = text.begin(); i != text.end(); ++i) {
 			copy (i->subs.begin(), i->subs.end(), back_inserter (ps.text));
 		}

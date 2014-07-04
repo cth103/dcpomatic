@@ -88,7 +88,7 @@ public:
 
 	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
-	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length);
+	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting);
 
 	void set_video_container_size (dcp::Size);
 	void set_approximate_size ();

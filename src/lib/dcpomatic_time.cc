@@ -55,3 +55,9 @@ ContentTimePeriod::overlaps (ContentTimePeriod const & other) const
 {
 	return (from < other.to && to >= other.from);
 }
+
+bool
+ContentTimePeriod::contains (ContentTime const & other) const
+{
+	return (from >= other && to < other);
+}

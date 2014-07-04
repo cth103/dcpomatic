@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 	list<ContentTextSubtitle> cts = decoder->get_text_subtitles (
 		ContentTimePeriod (
 			ContentTime::from_seconds (109), ContentTime::from_seconds (110)
-			)
+			), false
 		);
 	BOOST_CHECK_EQUAL (cts.size(), 1);
 

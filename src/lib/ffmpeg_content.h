@@ -108,7 +108,7 @@ public:
 		return _first_video;
 	}
 
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod) const;
+	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
 
 private:
 	friend class ffmpeg_pts_offset_test;

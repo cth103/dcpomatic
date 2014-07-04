@@ -80,14 +80,14 @@ SubRipDecoder::pass ()
 }
 
 list<ContentTimePeriod>
-SubRipDecoder::subtitles_during (ContentTimePeriod p) const
+SubRipDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
 {
 	/* XXX: inefficient */
 
 	list<ContentTimePeriod> d;
 
 	for (vector<SubRipSubtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		if (p.overlaps (i->period)) {
+		if ((starting && p.contains (i->period.from)) || (!starting && p.overlaps (i->period))) {
 			d.push_back (i->period);
 		}
 	}

@@ -203,6 +203,7 @@ public:
 	}
 
 	bool overlaps (ContentTimePeriod const & o) const;
+	bool contains (ContentTime const & o) const;
 };
 
 class DCPTime : public Time

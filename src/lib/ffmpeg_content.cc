@@ -397,7 +397,7 @@ FFmpegContent::audio_analysis_path () const
 }
 
 list<ContentTimePeriod>
-FFmpegContent::subtitles_during (ContentTimePeriod period) const
+FFmpegContent::subtitles_during (ContentTimePeriod period, bool starting) const
 {
 	list<ContentTimePeriod> d;
 	
@@ -408,7 +408,7 @@ FFmpegContent::subtitles_during (ContentTimePeriod period) const
 
 	/* XXX: inefficient */
 	for (vector<ContentTimePeriod>::const_iterator i = stream->periods.begin(); i != stream->periods.end(); ++i) {
-		if (period.overlaps (*i)) {
+		if ((starting && period.contains (i->from)) || (!starting && period.overlaps (*i))) {
 			d.push_back (*i);
 		}
 	}

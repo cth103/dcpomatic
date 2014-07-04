@@ -49,10 +49,10 @@ SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
 
 template <class T>
 list<T>
-SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period)
+SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period, bool starting)
 {
-	/* Get the full periods of the subtitles that are showing during the specified period */
-	list<ContentTimePeriod> sp = subtitles_during (period);
+	/* Get the full periods of the subtitles that are showing or starting during the specified period */
+	list<ContentTimePeriod> sp = subtitles_during (period, starting);
 	if (sp.empty ()) {
 		/* Nothing in this period */
 		return list<T> ();
@@ -74,7 +74,7 @@ SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period)
 	
 	list<T> out;
 	for (typename list<T>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if (i->period().overlaps (period)) {
+		if ((starting && period.contains (i->period().from)) || (!starting && period.overlaps (i->period ()))) {
 			out.push_back (*i);
 		}
 	}
@@ -83,15 +83,15 @@ SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period)
 }
 
 list<ContentTextSubtitle>
-SubtitleDecoder::get_text_subtitles (ContentTimePeriod period)
+SubtitleDecoder::get_text_subtitles (ContentTimePeriod period, bool starting)
 {
-	return get<ContentTextSubtitle> (_decoded_text_subtitles, period);
+	return get<ContentTextSubtitle> (_decoded_text_subtitles, period, starting);
 }
 
 list<ContentImageSubtitle>
-SubtitleDecoder::get_image_subtitles (ContentTimePeriod period)
+SubtitleDecoder::get_image_subtitles (ContentTimePeriod period, bool starting)
 {
-	return get<ContentImageSubtitle> (_decoded_image_subtitles, period);
+	return get<ContentImageSubtitle> (_decoded_image_subtitles, period, starting);
 }
 
 void
