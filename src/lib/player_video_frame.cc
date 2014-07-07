@@ -84,7 +84,7 @@ PlayerVideoFrame::set_subtitle (shared_ptr<const Image> image, Position<int> pos
 }
 
 shared_ptr<Image>
-PlayerVideoFrame::image () const
+PlayerVideoFrame::image (AVPixelFormat pixel_format) const
 {
 	shared_ptr<Image> im = _in->image ();
 	
@@ -106,7 +106,7 @@ PlayerVideoFrame::image () const
 		break;
 	}
 		
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, false);
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, pixel_format, false);
 
 	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
 

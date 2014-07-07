@@ -320,6 +320,8 @@ Image::make_black ()
 	case PIX_FMT_ABGR:
 	case PIX_FMT_BGRA:
 	case PIX_FMT_RGB555LE:
+	case PIX_FMT_RGB48LE:
+	case PIX_FMT_RGB48BE:
 		memset (data()[0], 0, lines(0) * stride()[0]);
 		break;
 

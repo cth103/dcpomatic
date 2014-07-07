@@ -18,6 +18,9 @@
 */
 
 #include <boost/shared_ptr.hpp>
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 #include "types.h"
 #include "position.h"
 #include "colour_conversion.h"
@@ -40,7 +43,7 @@ public:
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
 	
-	boost::shared_ptr<Image> image () const;
+	boost::shared_ptr<Image> image (AVPixelFormat) const;
 
 	void add_metadata (xmlpp::Node* node) const;
 	void send_binary (boost::shared_ptr<Socket> socket) const;

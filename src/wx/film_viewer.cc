@@ -295,7 +295,7 @@ FilmViewer::process_video (shared_ptr<PlayerVideoFrame> pvf, Time t)
 		return;
 	}
 	
-	_frame = pvf->image ();
+	_frame = pvf->image (PIX_FMT_RGB24);
 	_got_frame = true;
 
 	set_position_text (t);

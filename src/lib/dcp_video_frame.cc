@@ -127,7 +127,7 @@ DCPVideoFrame::encode_locally ()
 	}
 
 	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
-		_frame->image(),
+		_frame->image(AV_PIX_FMT_RGB48BE),
 		in_lut,
 		libdcp::GammaLUT::cache.get (16, 1 / _frame->colour_conversion().output_gamma),
 		matrix
