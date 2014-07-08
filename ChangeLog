@@ -1,3 +1,9 @@
+2014-07-08  Carl Hetherington  <cth@carlh.net>
+
+	* Fix various problems with seek and content
+	being trimmed when its video frame rate is
+	overridden.
+
 2014-07-02  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.

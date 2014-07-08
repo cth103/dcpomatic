@@ -58,6 +58,7 @@ vector<VideoContentScale> VideoContentScale::_scales;
 VideoContent::VideoContent (shared_ptr<const Film> f)
 	: Content (f)
 	, _video_length (0)
+	, _original_video_frame_rate (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Ratio::from_id ("185"))
@@ -68,6 +69,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Frame len)
 	: Content (f, s)
 	, _video_length (len)
+	, _original_video_frame_rate (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Ratio::from_id ("185"))
@@ -78,6 +80,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, Time s, VideoContent::Fram
 VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _video_length (0)
+	, _original_video_frame_rate (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Ratio::from_id ("185"))
@@ -92,6 +95,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, shared_ptr<const cxml::Nod
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
+	_original_video_frame_rate = node->optional_number_child<float> ("OriginalVideoFrameRate").get_value_or (_video_frame_rate);
 	_video_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
 	_crop.left = node->number_child<int> ("LeftCrop");
 	_crop.right = node->number_child<int> ("RightCrop");
@@ -148,6 +152,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 	}
 
 	_video_size = ref->video_size ();
+	_original_video_frame_rate = ref->original_video_frame_rate ();
 	_video_frame_rate = ref->video_frame_rate ();
 	_video_frame_type = ref->video_frame_type ();
 	_crop = ref->crop ();
@@ -163,6 +168,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_video_size.width));
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_video_size.height));
 	node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
+	node->add_child("OriginalVideoFrameRate")->add_child_text (raw_convert<string> (_original_video_frame_rate));
 	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_video_frame_type)));
 	_crop.as_xml (node);
 	_scale.as_xml (node->add_child("Scale"));
@@ -186,6 +192,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_size = vs;
 		_video_frame_rate = vfr;
+		_original_video_frame_rate = vfr;
 	}
 	
 	signal_changed (VideoContentProperty::VIDEO_SIZE);

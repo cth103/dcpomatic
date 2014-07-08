@@ -115,6 +115,11 @@ public:
 		return _video_frame_rate;
 	}
 
+	float original_video_frame_rate () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _original_video_frame_rate;
+	}
+	
 	void set_video_frame_type (VideoFrameType);
 	void set_video_frame_rate (float);
 
@@ -179,6 +184,7 @@ protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
 	VideoContent::Frame _video_length;
+	float _original_video_frame_rate;
 	float _video_frame_rate;
 
 private:
