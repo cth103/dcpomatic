@@ -172,16 +172,12 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
 
-	ContentTime video_length = examiner->video_length ();
-
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ()));
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-
-		_video_length = video_length;
 
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
@@ -196,7 +192,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		_first_video = examiner->first_video ();
 	}
 
-	signal_changed (ContentProperty::LENGTH);
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 	signal_changed (FFmpegContentProperty::AUDIO_STREAMS);

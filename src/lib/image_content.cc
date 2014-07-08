@@ -109,9 +109,7 @@ ImageContent::examine (shared_ptr<Job> job)
 	assert (film);
 	
 	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
-
 	take_from_video_examiner (examiner);
-	set_video_length (examiner->video_length ());
 }
 
 void
