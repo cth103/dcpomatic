@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-24 14:53+0100\n"
-"PO-Revision-Date: 2014-06-21 04:06+0100\n"
+"PO-Revision-Date: 2014-07-02 17:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -67,7 +67,7 @@ msgstr "3D"
 
 #: src/wx/video_panel.cc:200
 msgid "3D alternate"
-msgstr "3D Sequentiell"
+msgstr "3D L/R sequentiell"
 
 #: src/wx/video_panel.cc:201
 msgid "3D left only"
@@ -183,9 +183,8 @@ msgid "C"
 msgstr "C"
 
 #: src/wx/config_dialog.cc:677
-#, fuzzy
 msgid "CC address"
-msgstr "IP Adresse"
+msgstr "CC: Adresse"
 
 #: src/wx/kdm_dialog.cc:125 src/wx/kdm_dialog.cc:131
 msgid "CPL"
@@ -222,7 +221,7 @@ msgstr "Kinokette"
 
 #: src/wx/audio_gain_dialog.cc:26
 msgid "Channel gain"
-msgstr "Kanal Verstärkung"
+msgstr "Kanal Verstärkung (+/-)"
 
 #: src/wx/audio_dialog.cc:44
 msgid "Channels"
@@ -262,7 +261,6 @@ msgid "Colour conversion"
 msgstr "Farbumwandlung"
 
 #: src/wx/config_dialog.cc:793
-#, fuzzy
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -307,9 +305,9 @@ msgid "Could not make DCP: %s"
 msgstr "DCP konnte nicht erstellt werden: %s"
 
 #: src/wx/screen_dialog.cc:95
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read certificate file (%s)"
-msgstr "Bild konnte nicht zur Vorschau dekodiert werden (%s)"
+msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
 #: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
@@ -390,9 +388,8 @@ msgid "Defaults"
 msgstr "Vorgaben"
 
 #: src/wx/audio_panel.cc:67
-#, fuzzy
 msgid "Delay"
-msgstr "Verzögerung"
+msgstr "Verzögerung (+/-)"
 
 #: src/wx/film_editor.cc:130 src/wx/job_manager_view.cc:78
 msgid "Details..."
@@ -449,7 +446,7 @@ msgstr "Bearbeiten..."
 
 #: src/wx/cinema_dialog.cc:31
 msgid "Email address for KDM delivery"
-msgstr "Absender Email Adresse (KDM Zustellung)"
+msgstr "Absender Email Adresse"
 
 #: src/wx/servers_list_dialog.cc:30
 msgid "Encoding Servers"
@@ -511,9 +508,8 @@ msgid "From"
 msgstr "Von"
 
 #: src/wx/config_dialog.cc:673
-#, fuzzy
 msgid "From address"
-msgstr "IP Adresse"
+msgstr "Absenderadresse"
 
 #: src/wx/audio_mapping_view.cc:133
 msgid "Full"
@@ -525,7 +521,7 @@ msgstr "Gesamtlänge"
 
 #: src/wx/audio_panel.cc:52
 msgid "Gain"
-msgstr ""
+msgstr "Verstärkung (+/-)"
 
 #: src/wx/gain_calculator_dialog.cc:27
 msgid "Gain Calculator"
@@ -534,7 +530,7 @@ msgstr "Fader Rechner"
 #: src/wx/audio_gain_dialog.cc:28
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
-msgstr "Verstärkung des Kanals %d im DCP Kanal %d"
+msgstr "Abschwächung des Kanals %d im DCP Kanal %d"
 
 #: src/wx/properties_dialog.cc:52
 msgid "Gb"
@@ -601,13 +597,12 @@ msgid "KDM Email"
 msgstr "KDM Email"
 
 #: src/wx/kdm_dialog.cc:99
-#, fuzzy
 msgid "KDM|Timing"
-msgstr "Timing"
+msgstr "Zeitfenster"
 
 #: src/wx/film_editor.cc:297
 msgid "Keep video in sequence"
-msgstr "Bildreihenfolge beibehalten"
+msgstr "Lücken automatisch schließen"
 
 #: src/wx/audio_mapping_view.cc:277
 msgid "L"
@@ -647,11 +642,11 @@ msgstr "FEHLT:"
 
 #: src/wx/config_dialog.cc:662
 msgid "Mail password"
-msgstr "Mail Passwort (KDM Zustellung)"
+msgstr "Mail Passwort"
 
 #: src/wx/config_dialog.cc:658
 msgid "Mail user name"
-msgstr "Mail Benutzername/Login (KDM Zustellung)"
+msgstr "Mail/SMTP Server Benutzername/Login"
 
 #: src/wx/kdm_dialog.cc:49
 msgid "Make KDMs"
@@ -667,7 +662,7 @@ msgstr "Matrix"
 
 #: src/wx/config_dialog.cc:772
 msgid "Maximum JPEG2000 bandwidth"
-msgstr "Maximale JPEG2000 Datenrate(!)"
+msgstr "Maximale JPEG2000 Datenrate(Vorsicht!)"
 
 #: src/wx/config_dialog.cc:283 src/wx/config_dialog.cc:776
 #: src/wx/film_editor.cc:185
@@ -715,7 +710,7 @@ msgstr "Andere"
 
 #: src/wx/config_dialog.cc:654
 msgid "Outgoing mail server"
-msgstr "Ausgehender/SMTP Mail Server (KDM Zustellung)"
+msgstr "Ausgehender/SMTP Mail Server"
 
 #: src/wx/kdm_dialog.cc:156
 msgid "Output"
@@ -813,7 +808,7 @@ msgstr "Wiederhole..."
 
 #: src/wx/config_dialog.cc:684
 msgid "Reset to default text"
-msgstr ""
+msgstr "Auf Standardtext zurücksetzen"
 
 #: src/wx/film_editor.cc:175
 msgid "Resolution"
@@ -881,9 +876,8 @@ msgid "Server"
 msgstr "Server"
 
 #: src/wx/screen_dialog.cc:41
-#, fuzzy
 msgid "Server manufacturer"
-msgstr "Server Seriennummer"
+msgstr "Server Hersteller"
 
 #: src/wx/doremi_certificate_dialog.cc:35
 msgid "Server serial number"
@@ -915,7 +909,7 @@ msgstr "Glätten"
 
 #: src/wx/timeline_dialog.cc:38
 msgid "Snap"
-msgstr "Anschließen"
+msgstr "Auf Objekte einrasten"
 
 #: src/wx/update_dialog.cc:43
 msgid "Stable version "
@@ -1012,9 +1006,8 @@ msgid "Timeline..."
 msgstr "Zeitleiste..."
 
 #: src/wx/timing_panel.cc:35
-#, fuzzy
 msgid "Timing|Timing"
-msgstr "Timing"
+msgstr "Trimmen"
 
 #: src/wx/video_panel.cc:110
 msgid "Top crop"
@@ -1106,12 +1099,11 @@ msgstr "Geschrieben von"
 
 #: src/wx/subtitle_panel.cc:44
 msgid "X Offset"
-msgstr "X Offset"
+msgstr "Horizontale Verschiebung"
 
 #: src/wx/subtitle_panel.cc:53
-#, fuzzy
 msgid "Y Offset"
-msgstr "Y Offset"
+msgstr "Vertikale Verschiebung"
 
 #: src/wx/hints_dialog.cc:90
 #, c-format
