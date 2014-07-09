@@ -34,6 +34,11 @@ namespace cxml {
 	class Node;
 }
 
+namespace dcp {
+	class MonoPictureFrame;
+	class StereoPictureFrame;
+}
+
 /** @class ImageProxy
  *  @brief A class which holds an Image, and can produce it on request.
  *
@@ -86,6 +91,24 @@ public:
 private:	
 	Magick::Blob _blob;
 	mutable boost::shared_ptr<Image> _image;
+};
+
+class J2KImageProxy : public ImageProxy
+{
+public:
+	J2KImageProxy (boost::shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size, boost::shared_ptr<Log> log);
+	J2KImageProxy (boost::shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size, dcp::Eye, boost::shared_ptr<Log> log);
+	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);
+
+	boost::shared_ptr<Image> image () const;
+	void add_metadata (xmlpp::Node *) const;
+	void send_binary (boost::shared_ptr<Socket>) const;
+
+private:
+	boost::shared_ptr<const dcp::MonoPictureFrame> _mono;
+	boost::shared_ptr<const dcp::StereoPictureFrame> _stereo;
+	dcp::Size _size;
+	dcp::Eye _eye;
 };
 
 boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);

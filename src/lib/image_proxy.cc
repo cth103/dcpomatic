@@ -20,6 +20,8 @@
 #include <Magick++.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
+#include <dcp/mono_picture_frame.h>
+#include <dcp/stereo_picture_frame.h>
 #include "image_proxy.h"
 #include "image.h"
 #include "exceptions.h"
@@ -159,6 +161,80 @@ MagickImageProxy::send_binary (shared_ptr<Socket> socket) const
 {
 	socket->write (_blob.length ());
 	socket->write ((uint8_t *) _blob.data (), _blob.length ());
+}
+
+J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size, shared_ptr<Log> log)
+	: ImageProxy (log)
+	, _mono (frame)
+	, _size (size)
+{
+	
+}
+
+J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye, shared_ptr<Log> log)
+	: ImageProxy (log)
+	, _stereo (frame)
+	, _size (size)
+	, _eye (eye)
+{
+
+}
+
+J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket, shared_ptr<Log> log)
+	: ImageProxy (log)
+{
+	_size = dcp::Size (xml->number_child<int> ("Width"), xml->number_child<int> ("Height"));
+	if (xml->optional_number_child<int> ("Eye")) {
+		_eye = static_cast<dcp::Eye> (xml->number_child<int> ("Eye"));
+		int const left_size = xml->number_child<int> ("LeftSize");
+		int const right_size = xml->number_child<int> ("RightSize");
+		_stereo.reset (new dcp::StereoPictureFrame ());
+		socket->read (_stereo->left_j2k_data(), left_size);
+		socket->read (_stereo->right_j2k_data(), right_size);
+	} else {
+		int const size = xml->number_child<int> ("Size");
+		_mono.reset (new dcp::MonoPictureFrame ());
+		socket->read (_mono->j2k_data (), size);
+	}
+}
+
+shared_ptr<Image>
+J2KImageProxy::image ()
+{
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, _size, false));
+
+	if (_mono) {
+		_mono->rgb_frame (image->data()[0]);
+	} else {
+		_stereo->rgb_frame (image->data()[0], _eye);
+	}
+
+	return shared_ptr<Image> (new Image (image, true));
+}
+
+void
+J2KImageProxy::add_metadata (xmlpp::Node* node) const
+{
+	node->add_child("Width")->add_child_text (dcp::raw_convert<string> (_size.width));
+	node->add_child("Height")->add_child_text (dcp::raw_convert<string> (_size.height));
+	if (_stereo) {
+		node->add_child("Eye")->add_child_text (dcp::raw_convert<string> (_eye));
+		node->add_child("LeftSize")->add_child_text (dcp::raw_convert<string> (_stereo->left_j2k_size ()));
+		node->add_child("RightSize")->add_child_text (dcp::raw_convert<string> (_stereo->right_j2k_size ()));
+	} else {
+		node->add_child("Size")->add_child_text (dcp::raw_convert<string> (_mono->j2k_size ()));
+	}
+}
+
+void
+J2KImageProxy::send_binary (shared_ptr<Socket> socket) const
+{
+	if (_mono) {
+		socket->write (_mono->j2k_data(), size);
+	} else {
+		socket->write (_stereo->left_j2k_data(), _stereo->left_j2k_size ());
+		socket->write (_stereo->right_j2k_data(), _stereo->right_j2k_size ());
+	}
 }
 
 shared_ptr<ImageProxy>
