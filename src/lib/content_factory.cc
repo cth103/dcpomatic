@@ -26,6 +26,7 @@
 #include "image_content.h"
 #include "sndfile_content.h"
 #include "subrip_content.h"
+#include "dcp_content.h"
 #include "util.h"
 
 using std::string;
@@ -54,6 +55,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		content.reset (new SndfileContent (film, node, version));
 	} else if (type == "SubRip") {
 		content.reset (new SubRipContent (film, node, version));
+	} else if (type == "DCP") {
+		content.reset (new DCPContent (film, node, version));
 	}
 
 	return content;

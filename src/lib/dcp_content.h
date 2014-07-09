@@ -17,6 +17,7 @@
 
 */
 
+#include <libcxml/cxml.h>
 #include "video_content.h"
 #include "single_stream_audio_content.h"
 #include "subtitle_content.h"
@@ -25,6 +26,7 @@ class DCPContent : public VideoContent, public SingleStreamAudioContent, public 
 {
 public:
 	DCPContent (boost::shared_ptr<const Film> f, boost::filesystem::path p);
+	DCPContent (boost::shared_ptr<const Film> f, cxml::ConstNodePtr, int version);
 
 	boost::shared_ptr<DCPContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<DCPContent> (Content::shared_from_this ());
@@ -44,7 +46,7 @@ public:
 
 private:
 	void read_directory (boost::filesystem::path);
-
-	boost::filesystem::path _directory;
+	
 	std::string _name;
+	boost::filesystem::path _directory;
 };

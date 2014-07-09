@@ -39,6 +39,16 @@ DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	read_directory (p);
 }
 
+DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
+	: Content (f, node)
+	, VideoContent (f, node, version)
+	, SingleStreamAudioContent (f, node, version)
+	, SubtitleContent (f, node, version)
+{
+	_name = node->string_child ("Name");
+	_directory = node->string_child ("Directory");
+}
+
 void
 DCPContent::read_directory (boost::filesystem::path p)
 {
@@ -82,9 +92,14 @@ void
 DCPContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("DCP");
+
 	Content::as_xml (node);
 	VideoContent::as_xml (node);
 	SingleStreamAudioContent::as_xml (node);
+	SubtitleContent::as_xml (node);
+
+	node->add_child("Name")->add_child_text (_name);
+	node->add_child("Directory")->add_child_text (_directory.string ());
 }
 
 DCPTime
