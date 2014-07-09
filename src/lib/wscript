@@ -15,7 +15,10 @@ sources = """
           content_factory.cc
           content_subtitle.cc
           cross.cc
+          dcp_content.cc
           dcp_content_type.cc
+          dcp_decoder.cc
+          dcp_examiner.cc
           dcp_video.cc
           dcpomatic_time.cc
           dolby_cp750.cc
@@ -59,6 +62,7 @@ sources = """
           send_kdm_email_job.cc
           server.cc
           server_finder.cc
+          single_stream_audio_content.cc
           sndfile_content.cc
           sndfile_decoder.cc
           sound_processor.cc

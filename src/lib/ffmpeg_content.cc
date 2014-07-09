@@ -174,7 +174,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<const Film> film = _film.lock ();
 	assert (film);
-	LOG_GENERAL ("Video length obtained from header as %1 frames", video_length.frames (video_frame_rate ()));
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

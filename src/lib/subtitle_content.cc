@@ -37,6 +37,16 @@ int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
 int const SubtitleContentProperty::SUBTITLE_SCALE = 502;
 int const SubtitleContentProperty::SUBTITLE_USE = 503;
 
+SubtitleContent::SubtitleContent (shared_ptr<const Film> f)
+	: Content (f)
+	, _subtitle_use (false)
+	, _subtitle_x_offset (0)
+	, _subtitle_y_offset (0)
+	, _subtitle_scale (1)
+{
+
+}
+
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _subtitle_use (false)

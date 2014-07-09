@@ -50,6 +50,7 @@ class AudioContent : public virtual Content
 public:
 	typedef int64_t Frame;
 	
+	AudioContent (boost::shared_ptr<const Film>);
 	AudioContent (boost::shared_ptr<const Film>, DCPTime);
 	AudioContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	AudioContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr);

@@ -31,8 +31,11 @@
 #include "film.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
+#include "log.h"
 
 #include "i18n.h"
+
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
 int const VideoContentProperty::VIDEO_SIZE	  = 0;
 int const VideoContentProperty::VIDEO_FRAME_RATE  = 1;
@@ -196,6 +199,10 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 		_video_frame_rate = vfr;
 		_video_length = vl;
 	}
+
+	shared_ptr<const Film> film = _film.lock ();
+	assert (film);
+	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length.frames (_video_frame_rate));
 	
 	signal_changed (VideoContentProperty::VIDEO_SIZE);
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);

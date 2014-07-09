@@ -43,6 +43,8 @@
 #include "content_video.h"
 #include "player_video.h"
 #include "frame_rate_change.h"
+#include "dcp_content.h"
+#include "dcp_decoder.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
@@ -118,6 +120,12 @@ Player::setup_pieces ()
 		if (fc) {
 			decoder.reset (new FFmpegDecoder (fc, _film->log()));
 			frc = FrameRateChange (fc->video_frame_rate(), _film->video_frame_rate());
+		}
+
+		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (*i);
+		if (dc) {
+			decoder.reset (new DCPDecoder (dc, _film->log ()));
+			frc = FrameRateChange (dc->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* ImageContent */

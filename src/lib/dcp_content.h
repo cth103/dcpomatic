@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,37 +17,33 @@
 
 */
 
-#ifndef DCPOMATIC_SNDFILE_CONTENT_H
-#define DCPOMATIC_SNDFILE_CONTENT_H
-
-extern "C" {
-#include <libavutil/audioconvert.h>
-}
+#include "video_content.h"
 #include "single_stream_audio_content.h"
+#include "subtitle_content.h"
 
-namespace cxml {
-	class Node;
-}
-
-class SndfileContent : public SingleStreamAudioContent
+class DCPContent : public VideoContent, public SingleStreamAudioContent, public SubtitleContent
 {
 public:
-	SndfileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	SndfileContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	DCPContent (boost::shared_ptr<const Film> f, boost::filesystem::path p);
 
-	boost::shared_ptr<SndfileContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<SndfileContent> (Content::shared_from_this ());
+	boost::shared_ptr<DCPContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<DCPContent> (Content::shared_from_this ());
 	}
-	
+
 	DCPTime full_length () const;
 	
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
-	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
-	
-	static bool valid_file (boost::filesystem::path);
-};
 
-#endif
+	boost::filesystem::path directory () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _directory;
+	}
+
+private:
+	void read_directory (boost::filesystem::path);
+
+	boost::filesystem::path _directory;
+};

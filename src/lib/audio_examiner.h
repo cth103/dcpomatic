@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,12 @@
 
 */
 
-#include <sndfile.h>
-#include "decoder.h"
-#include "audio_decoder.h"
-#include "audio_examiner.h"
-
-class SndfileContent;
-
-class SndfileDecoder : public AudioDecoder, public AudioExaminer
+class AudioExaminer
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const SndfileContent> c);
-	~SndfileDecoder ();
+	virtual ~AudioExaminer () {}
 
-	void seek (ContentTime, bool);
-
-	int audio_channels () const;
-	ContentTime audio_length () const;
-	int audio_frame_rate () const;
-
-private:
-	bool pass ();
-	
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
-	int64_t _done;
-	int64_t _remaining;
-	float* _deinterleave_buffer;
+	virtual int audio_channels () const = 0;
+	virtual ContentTime audio_length () const = 0;
+	virtual int audio_frame_rate () const = 0;
 };

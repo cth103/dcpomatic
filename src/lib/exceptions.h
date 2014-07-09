@@ -245,10 +245,18 @@ public:
 	SubRipError (std::string, std::string, boost::filesystem::path);
 };
 
+class DCPError : public StringError
+{
+public:
+	DCPError (std::string s)
+		: StringError (s)
+	{}
+};
+
 /** @class ExceptionStore
  *  @brief A parent class for classes which have a need to catch and
  *  re-throw exceptions.
-
+ *
  *  This is intended for classes which run their own thread; they should do
  *  something like
  *

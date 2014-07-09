@@ -43,6 +43,14 @@ int const AudioContentProperty::AUDIO_GAIN = 203;
 int const AudioContentProperty::AUDIO_DELAY = 204;
 int const AudioContentProperty::AUDIO_MAPPING = 205;
 
+AudioContent::AudioContent (shared_ptr<const Film> f)
+	: Content (f)
+	, _audio_gain (0)
+	, _audio_delay (Config::instance()->default_audio_delay ())
+{
+
+}
+
 AudioContent::AudioContent (shared_ptr<const Film> f, DCPTime s)
 	: Content (f, s)
 	, _audio_gain (0)

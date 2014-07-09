@@ -45,6 +45,7 @@
 #include "lib/playlist.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -836,16 +837,22 @@ FilmEditor::content_add_folder_clicked ()
 		return;
 	}
 
-	shared_ptr<ImageContent> ic;
+	shared_ptr<Content> content;
 	
 	try {
-		ic.reset (new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
-	} catch (FileError& e) {
-		error_dialog (this, std_to_wx (e.what ()));
-		return;
+		content.reset (new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
+	} catch (...) {
+		try {
+			content.reset (new DCPContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
+		} catch (...) {
+			error_dialog (this, _("Could not find any images nor a DCP in that folder"));
+			return;
+		}
 	}
 
-	_film->examine_and_add_content (ic);
+	if (content) {
+		_film->examine_and_add_content (content);
+	}
 }
 
 void

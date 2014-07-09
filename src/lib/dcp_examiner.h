@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,31 @@
 
 */
 
-#include <sndfile.h>
-#include "decoder.h"
-#include "audio_decoder.h"
-#include "audio_examiner.h"
+#include "video_examiner.h"
 
-class SndfileContent;
+class DCPContent;
 
-class SndfileDecoder : public AudioDecoder, public AudioExaminer
+class DCPExaminer : public VideoExaminer
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const SndfileContent> c);
-	~SndfileDecoder ();
-
-	void seek (ContentTime, bool);
-
-	int audio_channels () const;
-	ContentTime audio_length () const;
-	int audio_frame_rate () const;
+	DCPExaminer (boost::shared_ptr<const DCPContent>);
+	
+	float video_frame_rate () const {
+		return _video_frame_rate.get_value_or (24);
+	}
+	
+	dcp::Size video_size () const {
+		return _video_size.get_value_or (dcp::Size (1998, 1080));
+	}
+	
+	ContentTime video_length () const {
+		return _video_length;
+	}
 
 private:
-	bool pass ();
-	
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
-	int64_t _done;
-	int64_t _remaining;
-	float* _deinterleave_buffer;
+	boost::optional<float> _video_frame_rate;
+	boost::optional<dcp::Size> _video_size;
+	ContentTime _video_length;
+	boost::optional<int> _audio_channels;
+	boost::optional<int> _audio_frame_rate;
 };

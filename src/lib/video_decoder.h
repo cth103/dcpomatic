@@ -60,6 +60,7 @@ protected:
 
 	boost::shared_ptr<const VideoContent> _video_content;
 	std::list<ContentVideo> _decoded_video;
+	bool _same;
 };
 
 #endif

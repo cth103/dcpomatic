@@ -34,6 +34,7 @@ public:
 class SubtitleContent : public virtual Content
 {
 public:
+	SubtitleContent (boost::shared_ptr<const Film>);
 	SubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	SubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version);
 	SubtitleContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);

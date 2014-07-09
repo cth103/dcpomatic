@@ -35,6 +35,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 #else
 	: _video_content (c)
 #endif
+	, _same (false)
 {
 
 }
@@ -123,8 +124,10 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 void
 VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 {
-	/* We should not receive the same thing twice */
-	assert (_decoded_video.empty() || frame != _decoded_video.back().frame);
+	/* We may receive the same frame index twice for 3D, and we need to know
+	   when that happens.
+	*/
+	_same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
 
 	/* Fill in gaps */
 	/* XXX: 3D */
@@ -148,7 +151,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 		_decoded_video.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		_decoded_video.push_back (ContentVideo (image, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
+		_decoded_video.push_back (ContentVideo (image, _same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));

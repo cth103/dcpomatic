@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,30 @@
 
 */
 
-#include <sndfile.h>
-#include "decoder.h"
+#include "video_decoder.h"
 #include "audio_decoder.h"
-#include "audio_examiner.h"
+#include "subtitle_decoder.h"
 
-class SndfileContent;
+namespace dcp {
+	class Reel;
+}
 
-class SndfileDecoder : public AudioDecoder, public AudioExaminer
+class DCPContent;
+class Log;
+
+class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const SndfileContent> c);
-	~SndfileDecoder ();
-
-	void seek (ContentTime, bool);
-
-	int audio_channels () const;
-	ContentTime audio_length () const;
-	int audio_frame_rate () const;
+	DCPDecoder (boost::shared_ptr<const DCPContent>, boost::shared_ptr<Log>);
 
 private:
+	void seek (ContentTime t, bool accurate);
 	bool pass ();
-	
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
-	int64_t _done;
-	int64_t _remaining;
-	float* _deinterleave_buffer;
+	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
+
+	ContentTime _next;
+	std::list<boost::shared_ptr<dcp::Reel> > _reels;
+	std::list<boost::shared_ptr<dcp::Reel> >::iterator _reel;
+	boost::shared_ptr<Log> _log;
+	boost::shared_ptr<const DCPContent> _dcp_content;
 };
