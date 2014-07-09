@@ -34,7 +34,7 @@
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
-#include "image_proxy.h"
+#include "raw_image_proxy.h"
 #include "ratio.h"
 #include "log.h"
 #include "scaler.h"

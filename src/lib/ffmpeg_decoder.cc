@@ -43,7 +43,7 @@ extern "C" {
 #include "filter_graph.h"
 #include "audio_buffers.h"
 #include "ffmpeg_content.h"
-#include "image_proxy.h"
+#include "raw_image_proxy.h"
 #include "film.h"
 #include "timer.h"
 

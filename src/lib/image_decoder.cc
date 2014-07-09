@@ -23,7 +23,7 @@
 #include "image_content.h"
 #include "image_decoder.h"
 #include "image.h"
-#include "image_proxy.h"
+#include "magick_image_proxy.h"
 #include "film.h"
 #include "exceptions.h"
 

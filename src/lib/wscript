@@ -45,16 +45,19 @@ sources = """
           image_examiner.cc
           image_proxy.cc
           isdcf_metadata.cc
+          j2k_image_proxy.cc
           job.cc
           job_manager.cc
           kdm.cc
           json_server.cc
           log.cc
+          magick_image_proxy.cc
           md5_digester.cc
           player.cc
           player_video.cc
           playlist.cc
           ratio.cc
+          raw_image_proxy.cc
           render_subtitles.cc
           resampler.cc
           scp_dcp_job.cc

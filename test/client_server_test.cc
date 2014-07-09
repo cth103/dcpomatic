@@ -33,7 +33,7 @@
 #include "lib/dcp_video.h"
 #include "lib/scaler.h"
 #include "lib/player_video.h"
-#include "lib/image_proxy.h"
+#include "lib/raw_image_proxy.h"
 #include "lib/encoded_data.h"
 
 using std::list;
