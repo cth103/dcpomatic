@@ -43,6 +43,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		throw DCPError ("Multiple CPLs found in DCP");
 	}
 
+	_name = dcp.cpls().front()->content_title_text ();
+
 	list<shared_ptr<dcp::Reel> > reels = dcp.cpls().front()->reels ();
 	for (list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin(); i != reels.end(); ++i) {
 

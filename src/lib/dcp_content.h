@@ -46,4 +46,5 @@ private:
 	void read_directory (boost::filesystem::path);
 
 	boost::filesystem::path _directory;
+	std::string _name;
 };

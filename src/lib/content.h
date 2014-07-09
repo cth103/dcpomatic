@@ -65,6 +65,9 @@ public:
 	virtual ~Content () {}
 	
 	virtual void examine (boost::shared_ptr<Job>);
+	/** @return Quick one-line summary of the content, as will be presented in the
+	 *  film editor.
+	 */
 	virtual std::string summary () const = 0;
 	/** @return Technical details of this content; these are written to logs to
 	 *  help with debugging.

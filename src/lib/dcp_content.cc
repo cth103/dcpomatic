@@ -56,14 +56,18 @@ DCPContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 	Content::examine (job);
-	shared_ptr<VideoExaminer> examiner (new DCPExaminer (shared_from_this ()));
+	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
+
+	boost::mutex::scoped_lock lm (_mutex);
+	_name = examiner->name ();
 }
 
 string
 DCPContent::summary () const
 {
-	return String::compose (_("%1 [DCP]"), path_summary ());
+	boost::mutex::scoped_lock lm (_mutex);
+	return String::compose (_("%1 [DCP]"), _name);
 }
 
 string

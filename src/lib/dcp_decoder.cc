@@ -62,20 +62,21 @@ DCPDecoder::pass ()
 		shared_ptr<dcp::PictureMXF> mxf = (*_reel)->main_picture()->mxf ();
 		shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (mxf);
 		shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (mxf);
+		int64_t const ep = (*_reel)->main_picture()->entry_point ();
 		if (mono) {
 			shared_ptr<Image> image (new Image (PIX_FMT_RGB24, mxf->size(), false));
-			mono->get_frame (_next.frames (vfr))->rgb_frame (image->data()[0]);
+			mono->get_frame (ep + _next.frames (vfr))->rgb_frame (image->data()[0]);
 			shared_ptr<Image> aligned (new Image (image, true));
 			video (shared_ptr<ImageProxy> (new RawImageProxy (aligned, _log)), _next.frames (vfr));
 		} else {
 
 			shared_ptr<Image> left (new Image (PIX_FMT_RGB24, mxf->size(), false));
-			stereo->get_frame (_next.frames (vfr))->rgb_frame (dcp::EYE_LEFT, left->data()[0]);
+			stereo->get_frame (ep + _next.frames (vfr))->rgb_frame (dcp::EYE_LEFT, left->data()[0]);
 			shared_ptr<Image> aligned_left (new Image (left, true));
 			video (shared_ptr<ImageProxy> (new RawImageProxy (aligned_left, _log)), _next.frames (vfr));
 
 			shared_ptr<Image> right (new Image (PIX_FMT_RGB24, mxf->size(), false));
-			stereo->get_frame (_next.frames (vfr))->rgb_frame (dcp::EYE_RIGHT, right->data()[0]);
+			stereo->get_frame (ep + _next.frames (vfr))->rgb_frame (dcp::EYE_RIGHT, right->data()[0]);
 			shared_ptr<Image> aligned_right (new Image (right, true));
 			video (shared_ptr<ImageProxy> (new RawImageProxy (aligned_right, _log)), _next.frames (vfr));
 		}

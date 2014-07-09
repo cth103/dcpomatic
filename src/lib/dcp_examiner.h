@@ -38,10 +38,16 @@ public:
 		return _video_length;
 	}
 
+	std::string name () const {
+		return _name;
+	}
+
 private:
 	boost::optional<float> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
 	ContentTime _video_length;
+	/* XXX: used? */
 	boost::optional<int> _audio_channels;
 	boost::optional<int> _audio_frame_rate;
+	std::string _name;
 };
