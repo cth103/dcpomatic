@@ -207,6 +207,8 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pvf)
 	if (_writer->can_fake_write (_video_frames_out)) {
 		_writer->fake_write (_video_frames_out, pvf->eyes ());
 		frame_done ();
+	} else if (pvf->has_j2k ()) {
+		_writer->write (pvf->j2k(), _video_frames_out, pvf->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("adding to queue of %1", _queue.size ());

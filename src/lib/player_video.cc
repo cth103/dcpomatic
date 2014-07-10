@@ -21,12 +21,14 @@
 #include "player_video.h"
 #include "image.h"
 #include "image_proxy.h"
+#include "j2k_image_proxy.h"
 #include "scaler.h"
 
 using std::string;
 using std::cout;
-using boost::shared_ptr;
 using dcp::raw_convert;
+using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
@@ -147,4 +149,25 @@ PlayerVideo::send_binary (shared_ptr<Socket> socket, bool send_subtitles) const
 	if (send_subtitles && _subtitle.image) {
 		_subtitle.image->write_to_socket (socket);
 	}
+}
+
+bool
+PlayerVideo::has_j2k () const
+{
+	/* XXX: burnt-in subtitle; maybe other things */
+	
+	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
+	if (!j2k) {
+		return false;
+	}
+	
+	return _crop == Crop () && _inter_size == j2k->size();
+}
+
+shared_ptr<EncodedData>
+PlayerVideo::j2k () const
+{
+	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
+	assert (j2k);
+	return j2k->j2k ();
 }

@@ -33,6 +33,13 @@ EncodedData::EncodedData (int s)
 
 }
 
+EncodedData::EncodedData (uint8_t const * d, int s)
+	: _data (new uint8_t[s])
+	, _size (s)
+{
+	memcpy (_data, d, s);
+}
+
 EncodedData::EncodedData (boost::filesystem::path file)
 {
 	_size = boost::filesystem::file_size (file);

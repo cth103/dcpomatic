@@ -28,6 +28,7 @@ class ImageProxy;
 class Scaler;
 class Socket;
 class Log;
+class EncodedData;
 
 /** Everything needed to describe a video frame coming out of the player, but with the
  *  bits still their raw form.  We may want to combine the bits on a remote machine,
@@ -45,6 +46,9 @@ public:
 
 	void add_metadata (xmlpp::Node* node, bool send_subtitles) const;
 	void send_binary (boost::shared_ptr<Socket> socket, bool send_subtitles) const;
+
+	bool has_j2k () const;
+	boost::shared_ptr<EncodedData> j2k () const;
 
 	DCPTime time () const {
 		return _time;

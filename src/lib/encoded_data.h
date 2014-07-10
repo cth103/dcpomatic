@@ -33,6 +33,7 @@ class EncodedData : public boost::noncopyable
 public:
 	/** @param s Size of data, in bytes */
 	EncodedData (int s);
+	EncodedData (uint8_t const * d, int s);
 
 	EncodedData (boost::filesystem::path);
 

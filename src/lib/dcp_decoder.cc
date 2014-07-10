@@ -85,7 +85,7 @@ DCPDecoder::pass ()
 	_next += ContentTime::from_frames (1, vfr);
 
 	if ((*_reel)->main_picture ()) {
-		if ((*_reel)->main_picture()->duration() >= _next.frames (vfr)) {
+		if (_next.frames (vfr) >= (*_reel)->main_picture()->duration()) {
 			++_reel;
 		}
 	}
