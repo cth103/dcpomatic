@@ -17,6 +17,13 @@
 
 */
 
+/** @file  src/lib/audio_examiner.h
+ *  @brief AudioExaminer class.
+ */
+
+/** @class AudioExaminer
+ *  @brief Parent for classes which examine AudioContent for their pertinent details.
+ */
 class AudioExaminer
 {
 public:

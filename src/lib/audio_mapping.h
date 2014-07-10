@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/audio_mapping.h
+ *  @brief AudioMapping class.
+ */
+
 #ifndef DCPOMATIC_AUDIO_MAPPING_H
 #define DCPOMATIC_AUDIO_MAPPING_H
 
@@ -33,7 +37,9 @@ namespace cxml {
 	class Node;
 }
 
-/** A many-to-many mapping from some content channels to DCP channels.
+/** @class AudioMapping.
+ *  @brief A many-to-many mapping from some content channels to DCP channels.
+ *
  *  The number of content channels is set on construction and fixed,
  *  and then each of those content channels are mapped to each DCP channel
  *  by a linear gain.
