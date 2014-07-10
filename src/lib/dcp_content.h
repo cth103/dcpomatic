@@ -17,11 +17,18 @@
 
 */
 
+/** @file  src/lib/dcp_content.h
+ *  @brief DCPContent class.
+ */
+
 #include <libcxml/cxml.h>
 #include "video_content.h"
 #include "single_stream_audio_content.h"
 #include "subtitle_content.h"
 
+/** @class DCPContent
+ *  @brief An existing DCP used as input.
+ */
 class DCPContent : public VideoContent, public SingleStreamAudioContent, public SubtitleContent
 {
 public:

@@ -63,16 +63,23 @@ public:
 	Content (boost::shared_ptr<const Film>, cxml::ConstNodePtr);
 	Content (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 	virtual ~Content () {}
+
+	/** Examine the content to establish digest, frame rates and any other
+	 *  useful metadata.
+	 *  @param job Job to use to report progress, or 0.
+	 */
+	virtual void examine (boost::shared_ptr<Job> job);
 	
-	virtual void examine (boost::shared_ptr<Job>);
 	/** @return Quick one-line summary of the content, as will be presented in the
 	 *  film editor.
 	 */
 	virtual std::string summary () const = 0;
+	
 	/** @return Technical details of this content; these are written to logs to
 	 *  help with debugging.
 	 */
 	virtual std::string technical_summary () const;
+	
 	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual DCPTime full_length () const = 0;

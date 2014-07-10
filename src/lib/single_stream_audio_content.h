@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/single_stream_audio_content.h
+ *  @brief SingleStreamAudioContent class.
+ */
+
 #ifndef DCPOMATIC_SINGLE_STREAM_AUDIO_CONTENT_H
 #define DCPOMATIC_SINGLE_STREAM_AUDIO_CONTENT_H
 
@@ -24,6 +28,9 @@
 
 class AudioExaminer;
 
+/** @class SingleStreamAudioContent
+ *  @brief A piece of AudioContent that has a single audio stream.
+ */
 class SingleStreamAudioContent : public AudioContent
 {
 public:
