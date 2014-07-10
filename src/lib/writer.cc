@@ -589,6 +589,10 @@ Writer::can_fake_write (int frame) const
 void
 Writer::write (PlayerSubtitles subs)
 {
+	if (subs.empty ()) {
+		return;
+	}
+	
 	if (!_subtitle_content) {
 		_subtitle_content.reset (
 			new dcp::SubtitleContent (_film->name(), _film->isdcf_metadata().subtitle_language)
