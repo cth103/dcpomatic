@@ -68,6 +68,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
+	take_from_audio_examiner (examiner);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_name = examiner->name ();

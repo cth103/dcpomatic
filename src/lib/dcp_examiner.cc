@@ -81,6 +81,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			} else if (_audio_frame_rate.get() != mxf->sampling_rate ()) {
 				throw DCPError (_("Mismatched audio frame rates in DCP"));
 			}
+
+			_audio_length += ContentTime::from_frames ((*i)->main_sound()->duration(), _video_frame_rate.get ());
 		}
 	}
 }
