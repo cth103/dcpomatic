@@ -25,6 +25,7 @@ def build(bld):
                  burnt_subtitle_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc
+                 dcp_subtitle_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
                  ffmpeg_decoder_seek_test.cc

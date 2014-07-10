@@ -22,6 +22,7 @@
 #include "dcp_subtitle_content.h"
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
@@ -55,7 +56,7 @@ DCPSubtitleDecoder::pass ()
 	s.push_back (*_next);
 	text_subtitle (s);
 	++_next;
-	
+
 	return false;
 }
 

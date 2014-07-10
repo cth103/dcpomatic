@@ -68,7 +68,9 @@ Transcoder::go ()
 			_encoder->enqueue (*i);
 		}
 		_writer->write (_player->get_audio (t, frame, true));
-		_writer->write (_player->get_subtitles (t, frame, true));
+		if (!_film->burn_subtitles ()) {
+			_writer->write (_player->get_subtitles (t, frame, true));
+		}
 	}
 
 	_finishing = true;

@@ -24,6 +24,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::list;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
@@ -47,7 +48,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
 	dcp::SubtitleContent sc (path (0), false);
-	_length = DCPTime::from_frames (sc.intrinsic_duration(), sc.edit_rate().as_float ());
+	_length = DCPTime::from_seconds (sc.latest_subtitle_out().to_seconds ());
 }
 
 DCPTime

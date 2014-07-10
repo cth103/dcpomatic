@@ -456,7 +456,15 @@ Writer::finish ()
 
 	if (_subtitle_content) {
 		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _film->subtitle_xml_filename ());
-		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (new dcp::ReelSubtitleAsset (_subtitle_content, 0)));
+		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
+				   new dcp::ReelSubtitleAsset (
+					   _subtitle_content,
+					   dcp::Fraction (_film->video_frame_rate(), 1),
+					   _subtitle_content->latest_subtitle_out().to_seconds() * _film->video_frame_rate(),
+					   0
+					   )
+				   ));
+		
 		dcp.add (_subtitle_content);
 	}
 	
@@ -583,7 +591,7 @@ Writer::write (PlayerSubtitles subs)
 {
 	if (!_subtitle_content) {
 		_subtitle_content.reset (
-			new dcp::SubtitleContent (dcp::Fraction (_film->video_frame_rate(), 1), _film->name(), _film->isdcf_metadata().subtitle_language)
+			new dcp::SubtitleContent (_film->name(), _film->isdcf_metadata().subtitle_language)
 			);
 	}
 	
