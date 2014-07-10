@@ -22,6 +22,7 @@
 #include <boost/weak_ptr.hpp>
 #include "lib/film.h"
 #include "lib/playlist.h"
+#include "lib/image_content.h"
 #include "film_editor.h"
 #include "timeline.h"
 #include "wx_util.h"
@@ -173,7 +174,7 @@ private:
 		gc->StrokePath (path);
 		gc->FillPath (path);
 
-		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->path_summary()).data(), type().data());
+		wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->summary()).data(), type().data());
 		wxDouble name_width;
 		wxDouble name_height;
 		wxDouble name_descent;
@@ -241,10 +242,10 @@ private:
 
 	wxString type () const
 	{
-		if (dynamic_pointer_cast<FFmpegContent> (content ())) {
-			return _("video");
-		} else {
+		if (dynamic_pointer_cast<ImageContent> (content ()) && content()->number_of_paths() == 1) {
 			return _("still");
+		} else {
+			return _("video");
 		}
 	}
 
@@ -435,7 +436,9 @@ Timeline::playlist_changed ()
 		if (dynamic_pointer_cast<AudioContent> (*i)) {
 			_views.push_back (shared_ptr<View> (new AudioContentView (*this, *i)));
 		}
-		if (dynamic_pointer_cast<SubtitleContent> (*i)) {
+
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (*i);
+		if (sc && sc->has_subtitles ()) {
 			_views.push_back (shared_ptr<View> (new SubtitleContentView (*this, *i)));
 		}
 	}

@@ -31,6 +31,12 @@ public:
 	static int const SUBTITLE_USE;
 };
 
+/** @class SubtitleContent
+ *  @brief Parent for content which has the potential to include subtitles.
+ *
+ *  Although inheriting from this class indicates that the content could
+ *  have subtitles, it may not.  ::has_subtitles() will tell you.
+ */
 class SubtitleContent : public virtual Content
 {
 public:
@@ -41,6 +47,8 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
+
+	virtual bool has_subtitles () const = 0;
 
 	void set_subtitle_use (bool);
 	void set_subtitle_x_offset (double);

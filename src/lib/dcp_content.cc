@@ -34,6 +34,7 @@ DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, VideoContent (f)
 	, SingleStreamAudioContent (f)
 	, SubtitleContent (f)
+	, _has_subtitles (false)
 	, _directory (p)
 {
 	read_directory (p);
@@ -46,6 +47,7 @@ DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int v
 	, SubtitleContent (f, node, version)
 {
 	_name = node->string_child ("Name");
+	_has_subtitles = node->bool_child ("HasSubtitles");
 	_directory = node->string_child ("Directory");
 }
 
@@ -66,12 +68,14 @@ DCPContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 	Content::examine (job);
+	
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
 	take_from_audio_examiner (examiner);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_name = examiner->name ();
+	_has_subtitles = examiner->has_subtitles ();
 }
 
 string
@@ -99,7 +103,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	SingleStreamAudioContent::as_xml (node);
 	SubtitleContent::as_xml (node);
 
+	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
+	node->add_child("HasSubtitles")->add_child_text (_has_subtitles ? "1" : "0");
 	node->add_child("Directory")->add_child_text (_directory.string ());
 }
 
@@ -115,4 +121,11 @@ string
 DCPContent::identifier () const
 {
 	return SubtitleContent::identifier ();
+}
+
+bool
+DCPContent::has_subtitles () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _has_subtitles;
 }

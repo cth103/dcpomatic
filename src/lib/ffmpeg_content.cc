@@ -409,3 +409,9 @@ FFmpegContent::subtitles_during (ContentTimePeriod period, bool starting) const
 
 	return d;
 }
+
+bool
+FFmpegContent::has_subtitles () const
+{
+	return !subtitle_streams().empty ();
+}

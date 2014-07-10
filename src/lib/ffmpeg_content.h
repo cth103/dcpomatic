@@ -73,6 +73,9 @@ public:
 	void set_audio_mapping (AudioMapping);
 	boost::filesystem::path audio_analysis_path () const;
 
+	/* SubtitleContent */
+	bool has_subtitles () const;
+
 	void set_filters (std::vector<Filter const *> const &);
 	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {

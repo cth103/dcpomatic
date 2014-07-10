@@ -43,6 +43,10 @@ public:
 		return _name;
 	}
 
+	bool has_subtitles () const {
+		return _has_subtitles;
+	}
+
 	int audio_channels () const {
 		return _audio_channels.get_value_or (0);
 	}
@@ -63,4 +67,5 @@ private:
 	boost::optional<int> _audio_frame_rate;
 	ContentTime _audio_length;
 	std::string _name;
+	bool _has_subtitles;
 };

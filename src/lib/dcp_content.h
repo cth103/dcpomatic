@@ -47,6 +47,9 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
+	/* SubtitleContent */
+	bool has_subtitles () const;
+	
 	boost::filesystem::path directory () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _directory;
@@ -56,5 +59,6 @@ private:
 	void read_directory (boost::filesystem::path);
 	
 	std::string _name;
+	bool _has_subtitles;
 	boost::filesystem::path _directory;
 };

@@ -166,7 +166,7 @@ SubtitlePanel::setup_sensitivity ()
 		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (*i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (*i);
 		if (fc) {
-			if (!fc->subtitle_streams().empty ()) {
+			if (!fc->has_subtitles ()) {
 				++ffmpeg_subs;
 				++any_subs;
 			}

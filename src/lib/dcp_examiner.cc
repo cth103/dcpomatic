@@ -84,5 +84,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 
 			_audio_length += ContentTime::from_frames ((*i)->main_sound()->duration(), _video_frame_rate.get ());
 		}
+
+		if ((*i)->main_subtitle ()) {
+			_has_subtitles = true;
+		}
 	}
 }
