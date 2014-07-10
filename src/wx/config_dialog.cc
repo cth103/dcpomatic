@@ -697,7 +697,7 @@ public:
 		_kdm_cc->SetValue (std_to_wx (config->kdm_cc ()));
 		_kdm_cc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_cc_changed, this));
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
-		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
+		_kdm_email->SetValue (std_to_wx (Config::instance()->kdm_email ()));
 		_reset_kdm_email->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMEmailPage::reset_kdm_email, this));
 
 		return panel;

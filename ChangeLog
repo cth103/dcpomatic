@@ -2,6 +2,19 @@
 
 	* Add subtitle view.
 
+2014-07-10  Carl Hetherington  <cth@carlh.net>
+
+	* Try to fix corruption of KDM email setting in
+	some cases.
+
+	* Version 1.72.1 released.
+
+2014-07-08  Carl Hetherington  <cth@carlh.net>
+
+	* Fix various problems with seek and content
+	being trimmed when its video frame rate is
+	overridden.
+
 2014-07-02  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.
