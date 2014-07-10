@@ -22,8 +22,7 @@
  *  and libsndfile (http://www.mega-nerd.com/libsndfile/) for WAV file manipulation.  It
  *  also makes heavy use of the boost libraries (http://www.boost.org/).  ImageMagick
  *  (http://www.imagemagick.org/) is used for still-image encoding and decoding, and the GUI is
- *  built using wxWidgets (http://wxwidgets.org/).  It also uses libmhash (http://mhash.sourceforge.net/)
- *  for debugging purposes.
+ *  built using wxWidgets (http://wxwidgets.org/).
  *
  *  Thanks are due to the authors and communities of all DCP-o-matic's dependencies.
  *
