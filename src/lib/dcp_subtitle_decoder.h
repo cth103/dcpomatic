@@ -17,17 +17,22 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
-#include <wx/wx.h>
-#include <wx/listctrl.h>
+#include "subtitle_decoder.h"
 
-class SubtitleDecoder;
+class DCPSubtitleContent;
 
-class SubtitleView : public wxDialog
+class DCPSubtitleDecoder : public SubtitleDecoder
 {
 public:
-	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<SubtitleDecoder>, DCPTime position);
+	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
 
-private:	
-	wxListCtrl* _list;
+protected:
+	void seek (ContentTime time, bool accurate);
+	bool pass ();
+
+private:
+	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
+
+	std::list<dcp::SubtitleString> _subtitles;
+	std::list<dcp::SubtitleString>::const_iterator _next;
 };

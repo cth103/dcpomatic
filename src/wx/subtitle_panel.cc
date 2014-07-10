@@ -22,6 +22,9 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/subrip_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/subrip_decoder.h"
+#include "lib/dcp_subtitle_decoder.h"
 #include "subtitle_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"
@@ -156,18 +159,19 @@ SubtitlePanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
-	int subrip_subs = 0;
+	int subrip_or_dcp_subs = 0;
 	SubtitleContentList c = _editor->selected_subtitle_content ();
 	for (SubtitleContentList::const_iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (*i);
 		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (*i);
+		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (*i);
 		if (fc) {
 			if (!fc->subtitle_streams().empty ()) {
 				++ffmpeg_subs;
 				++any_subs;
 			}
-		} else if (sc) {
-			++subrip_subs;
+		} else if (sc || dsc) {
+			++subrip_or_dcp_subs;
 			++any_subs;
 		} else {
 			++any_subs;
@@ -181,7 +185,7 @@ SubtitlePanel::setup_sensitivity ()
 	_y_offset->Enable (any_subs > 0 && use);
 	_scale->Enable (any_subs > 0 && use);
 	_stream->Enable (ffmpeg_subs == 1);
-	_view_button->Enable (subrip_subs == 1);
+	_view_button->Enable (subrip_or_dcp_subs == 1);
 }
 
 void
@@ -253,9 +257,21 @@ SubtitlePanel::view_clicked ()
 
 	SubtitleContentList c = _editor->selected_subtitle_content ();
 	assert (c.size() == 1);
+
+	shared_ptr<SubtitleDecoder> decoder;
+	
 	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
 	if (sr) {
-		_view = new SubtitleView (this, _editor->film(), sr);
+		decoder.reset (new SubRipDecoder (sr));
+	}
+	
+	shared_ptr<DCPSubtitleContent> dc = dynamic_pointer_cast<DCPSubtitleContent> (c.front ());
+	if (dc) {
+		decoder.reset (new DCPSubtitleDecoder (dc));
+	}
+	
+	if (decoder) {
+		_view = new SubtitleView (this, _editor->film(), decoder, c.front()->position ());
 		_view->Show ();
 	}
 }

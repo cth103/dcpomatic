@@ -17,29 +17,24 @@
 
 */
 
-#include "subrip_content.h"
-#include "util.h"
-#include "subrip.h"
-#include "film.h"
+#include <dcp/subtitle_content.h>
 #include <dcp/raw_convert.h>
+#include "dcp_subtitle_content.h"
 
 #include "i18n.h"
 
-using std::stringstream;
 using std::string;
-using std::cout;
-using dcp::raw_convert;
 using boost::shared_ptr;
-using boost::lexical_cast;
+using dcp::raw_convert;
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::path path)
+DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 	, SubtitleContent (film, path)
 {
-
+	
 }
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
 	, _length (node->number_child<DCPTime::Type> ("Length"))
@@ -48,52 +43,45 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 }
 
 void
-SubRipContent::examine (boost::shared_ptr<Job> job)
+DCPSubtitleContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
-	SubRip s (shared_from_this ());
+	dcp::SubtitleContent sc (path (0), false);
+	_length = DCPTime::from_frames (sc.intrinsic_duration(), sc.edit_rate().as_float ());
+}
 
-	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
-	
-	DCPTime len (s.length (), film->active_frame_rate_change (position ()));
-
-	boost::mutex::scoped_lock lm (_mutex);
-	_length = len;
+DCPTime
+DCPSubtitleContent::full_length () const
+{
+	/* XXX: this assumes that the timing of the subtitle file is appropriate
+	   for the DCP's frame rate.
+	*/
+	return _length;
 }
 
 string
-SubRipContent::summary () const
+DCPSubtitleContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-SubRipContent::technical_summary () const
+DCPSubtitleContent::technical_summary () const
 {
-	return Content::technical_summary() + " - " + _("SubRip subtitles");
+	return Content::technical_summary() + " - " + _("DCP XML subtitles");
 }
-
+      
 string
-SubRipContent::information () const
+DCPSubtitleContent::information () const
 {
 
 }
-	
+
 void
-SubRipContent::as_xml (xmlpp::Node* node) const
+DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 {
-	node->add_child("Type")->add_child_text ("SubRip");
+	node->add_child("Type")->add_child_text ("DCPSubtitle");
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
-}
-
-DCPTime
-SubRipContent::full_length () const
-{
-	/* XXX: this assumes that the timing of the SubRip file is appropriate
-	   for the DCP's frame rate.
-	*/
-	return _length;
 }

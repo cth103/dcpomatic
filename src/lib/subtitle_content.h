@@ -40,6 +40,7 @@ public:
 	SubtitleContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
+	std::string identifier () const;
 
 	void set_subtitle_use (bool);
 	void set_subtitle_x_offset (double);

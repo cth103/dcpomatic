@@ -45,6 +45,8 @@
 #include "frame_rate_change.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"
+#include "dcp_subtitle_content.h"
+#include "dcp_subtitle_decoder.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
@@ -157,6 +159,13 @@ Player::setup_pieces ()
 		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (*i);
 		if (rc) {
 			decoder.reset (new SubRipDecoder (rc));
+			frc = best_overlap_frc;
+		}
+
+		/* DCPSubtitleContent */
+		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (*i);
+		if (dsc) {
+			decoder.reset (new DCPSubtitleDecoder (dsc));
 			frc = best_overlap_frc;
 		}
 

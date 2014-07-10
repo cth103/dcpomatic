@@ -35,7 +35,6 @@ public:
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
 	DCPTime full_length () const;
-	std::string identifier () const;
 
 private:
 	DCPTime _length;

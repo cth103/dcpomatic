@@ -75,7 +75,7 @@ SubRipDecoder::pass ()
 	}
 
 	text_subtitle (out);
-	_next++;
+	++_next;
 	return false;
 }
 

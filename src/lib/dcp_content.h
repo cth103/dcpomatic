@@ -38,6 +38,7 @@ public:
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *) const;
+	std::string identifier () const;
 
 	boost::filesystem::path directory () const {
 		boost::mutex::scoped_lock lm (_mutex);

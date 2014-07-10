@@ -26,6 +26,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::stringstream;
 using std::vector;
 using std::cout;
 using boost::shared_ptr;
@@ -154,4 +155,16 @@ SubtitleContent::set_subtitle_scale (double s)
 		_subtitle_scale = s;
 	}
 	signal_changed (SubtitleContentProperty::SUBTITLE_SCALE);
+}
+
+string
+SubtitleContent::identifier () const
+{
+	stringstream s;
+	s << Content::identifier()
+	  << "_" << raw_convert<string> (subtitle_scale())
+	  << "_" << raw_convert<string> (subtitle_x_offset())
+	  << "_" << raw_convert<string> (subtitle_y_offset());
+
+	return s.str ();
 }

@@ -110,3 +110,9 @@ DCPContent::full_length () const
 	assert (film);
 	return DCPTime (video_length (), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
 }
+
+string
+DCPContent::identifier () const
+{
+	return SubtitleContent::identifier ();
+}

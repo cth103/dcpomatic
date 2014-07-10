@@ -27,6 +27,7 @@
 #include "sndfile_content.h"
 #include "subrip_content.h"
 #include "dcp_content.h"
+#include "dcp_subtitle_content.h"
 #include "util.h"
 
 using std::string;
@@ -57,6 +58,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		content.reset (new SubRipContent (film, node, version));
 	} else if (type == "DCP") {
 		content.reset (new DCPContent (film, node, version));
+	} else if (type == "DCPSubtitle") {
+		content.reset (new DCPSubtitleContent (film, node, version));
 	}
 
 	return content;
@@ -81,6 +84,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		content.reset (new SndfileContent (film, path));
 	} else if (ext == ".srt") {
 		content.reset (new SubRipContent (film, path));
+	} else if (ext == ".xml") {
+		content.reset (new DCPSubtitleContent (film, path));
 	} else {
 		content.reset (new FFmpegContent (film, path));
 	}
