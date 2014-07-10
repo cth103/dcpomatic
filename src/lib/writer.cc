@@ -589,7 +589,7 @@ Writer::can_fake_write (int frame) const
 void
 Writer::write (PlayerSubtitles subs)
 {
-	if (subs.empty ()) {
+	if (subs.text.empty ()) {
 		return;
 	}
 	
