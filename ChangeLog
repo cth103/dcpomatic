@@ -3,6 +3,8 @@
 	* Try to fix corruption of KDM email setting in
 	some cases.
 
+	* Version 1.72.1 released.
+
 2014-07-08  Carl Hetherington  <cth@carlh.net>
 
 	* Fix various problems with seek and content
