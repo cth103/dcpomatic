@@ -1,5 +1,9 @@
 2014-07-10  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.72.2 released.
+
+2014-07-10  Carl Hetherington  <cth@carlh.net>
+
 	* Try to fix corruption of KDM email setting in
 	some cases.
 
