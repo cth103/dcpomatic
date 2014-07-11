@@ -28,7 +28,7 @@ public:
 	static int const SUBTITLE_X_OFFSET;
 	static int const SUBTITLE_Y_OFFSET;
 	static int const SUBTITLE_SCALE;
-	static int const SUBTITLE_USE;
+	static int const USE_SUBTITLES;
 };
 
 /** @class SubtitleContent
@@ -50,14 +50,14 @@ public:
 
 	virtual bool has_subtitles () const = 0;
 
-	void set_subtitle_use (bool);
+	void set_use_subtitles (bool);
 	void set_subtitle_x_offset (double);
 	void set_subtitle_y_offset (double);
 	void set_subtitle_scale (double);
 
-	bool subtitle_use () const {
+	bool use_subtitles () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_use;
+		return _use_subtitles;
 	}
 
 	double subtitle_x_offset () const {
@@ -78,7 +78,7 @@ public:
 private:
 	friend class ffmpeg_pts_offset_test;
 
-	bool _subtitle_use;
+	bool _use_subtitles;
 	/** x offset for placing subtitles, as a proportion of the container width;
 	 * +ve is further right, -ve is further left.
 	 */

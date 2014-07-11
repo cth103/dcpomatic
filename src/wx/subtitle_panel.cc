@@ -133,8 +133,8 @@ SubtitlePanel::film_content_changed (int property)
 			}
 		}
 		setup_sensitivity ();
-	} else if (property == SubtitleContentProperty::SUBTITLE_USE) {
-		checked_set (_use, scs ? scs->subtitle_use() : false);
+	} else if (property == SubtitleContentProperty::USE_SUBTITLES) {
+		checked_set (_use, scs ? scs->use_subtitles() : false);
 		setup_sensitivity ();
 	} else if (property == SubtitleContentProperty::SUBTITLE_X_OFFSET) {
 		checked_set (_x_offset, scs ? (scs->subtitle_x_offset() * 100) : 0);
@@ -150,7 +150,7 @@ SubtitlePanel::use_toggled ()
 {
 	SubtitleContentList c = _editor->selected_subtitle_content ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_subtitle_use (_use->GetValue());
+		(*i)->set_use_subtitles (_use->GetValue());
 	}
 }
 
@@ -241,7 +241,7 @@ void
 SubtitlePanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_USE);
+	film_content_changed (SubtitleContentProperty::USE_SUBTITLES);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_SCALE);

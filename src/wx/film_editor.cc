@@ -544,7 +544,7 @@ FilmEditor::film_content_changed (int property)
 		(*i)->film_content_changed (property);
 	}
 
-	if (property == FFmpegContentProperty::AUDIO_STREAM || property == SubtitleContentProperty::SUBTITLE_USE) {
+	if (property == FFmpegContentProperty::AUDIO_STREAM || property == SubtitleContentProperty::USE_SUBTITLES) {
 		setup_dcp_name ();
 	} else if (property == ContentProperty::PATH) {
 		setup_content ();

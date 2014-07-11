@@ -196,7 +196,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		Changed (frequent);
 
 	} else if (
-		property == SubtitleContentProperty::SUBTITLE_USE ||
+		property == SubtitleContentProperty::USE_SUBTITLES ||
 		property == SubtitleContentProperty::SUBTITLE_X_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_SCALE ||
@@ -539,7 +539,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 
 	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
 		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
-		if (!subtitle_content->subtitle_use ()) {
+		if (!subtitle_content->use_subtitles ()) {
 			continue;
 		}
 

@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->set_name ("frobozz");
 	film->set_burn_subtitles (false);
 	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
-	content->set_subtitle_use (true);
+	content->set_use_subtitles (true);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	film->make_dcp ();
