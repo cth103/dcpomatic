@@ -137,7 +137,8 @@ public:
 	}
 
 	virtual wxString type () const = 0;
-	virtual wxColour colour () const = 0;
+	virtual wxColour background_colour () const = 0;
+	virtual wxColour foreground_colour () const = 0;
 	
 private:
 
@@ -154,15 +155,13 @@ private:
 		DCPTime const position = cont->position ();
 		DCPTime const len = cont->length_after_trim ();
 
-		wxColour selected (colour().Red() / 2, colour().Green() / 2, colour().Blue() / 2);
+		wxColour selected (background_colour().Red() / 2, background_colour().Green() / 2, background_colour().Blue() / 2);
 
-		gc->SetPen (*wxBLACK_PEN);
-		
-		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 4, wxPENSTYLE_SOLID));
+		gc->SetPen (*wxThePenList->FindOrCreatePen (foreground_colour(), 4, wxPENSTYLE_SOLID));
 		if (_selected) {
 			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (selected, wxBRUSHSTYLE_SOLID));
 		} else {
-			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (colour(), wxBRUSHSTYLE_SOLID));
+			gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (background_colour(), wxBRUSHSTYLE_SOLID));
 		}
 
 		wxGraphicsPath path = gc->CreatePath ();
@@ -182,6 +181,7 @@ private:
 		gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
 		
 		gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.track_height()));
+		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, foreground_colour ()));
 		gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
 		gc->ResetClip ();
 	}
@@ -225,9 +225,14 @@ private:
 		return _("audio");
 	}
 
-	wxColour colour () const
+	wxColour background_colour () const
 	{
 		return wxColour (149, 121, 232, 255);
+	}
+
+	wxColour foreground_colour () const
+	{
+		return wxColour (0, 0, 0, 255);
 	}
 };
 
@@ -249,17 +254,23 @@ private:
 		}
 	}
 
-	wxColour colour () const
+	wxColour background_colour () const
 	{
 		return wxColour (242, 92, 120, 255);
+	}
+
+	wxColour foreground_colour () const
+	{
+		return wxColour (0, 0, 0, 255);
 	}
 };
 
 class SubtitleContentView : public ContentView
 {
 public:
-	SubtitleContentView (Timeline& tl, shared_ptr<Content> c)
+	SubtitleContentView (Timeline& tl, shared_ptr<SubtitleContent> c)
 		: ContentView (tl, c)
+		, _subtitle_content (c)
 	{}
 
 private:
@@ -268,10 +279,27 @@ private:
 		return _("subtitles");
 	}
 
-	wxColour colour () const
+	wxColour background_colour () const
 	{
+		shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
+		if (!sc || !sc->use_subtitles ()) {
+			return wxColour (210, 210, 210, 128);
+		}
+		
 		return wxColour (163, 255, 154, 255);
 	}
+
+	wxColour foreground_colour () const
+	{
+		shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
+		if (!sc || !sc->use_subtitles ()) {
+			return wxColour (180, 180, 180, 128);
+		}
+
+		return wxColour (0, 0, 0, 255);
+	}
+
+	boost::weak_ptr<SubtitleContent> _subtitle_content;
 };
 
 class TimeAxisView : public View
@@ -328,6 +356,8 @@ private:
 		path.AddLineToPoint (_timeline.width(), _y);
 		gc->StrokePath (path);
 
+		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
+		
 		/* Time in seconds */
 		DCPTime t;
 		while ((t.seconds() * pps) < _timeline.width()) {
@@ -405,8 +435,6 @@ Timeline::paint ()
 		return;
 	}
 
-	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
-
 	for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		(*i)->paint (gc);
 	}
@@ -439,7 +467,7 @@ Timeline::playlist_changed ()
 
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (*i);
 		if (sc && sc->has_subtitles ()) {
-			_views.push_back (shared_ptr<View> (new SubtitleContentView (*this, *i)));
+			_views.push_back (shared_ptr<View> (new SubtitleContentView (*this, sc)));
 		}
 	}
 
