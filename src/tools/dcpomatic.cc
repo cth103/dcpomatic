@@ -489,7 +489,7 @@ private:
 
 	void content_scale_to_fit_width ()
 	{
-		VideoContentList vc = _film_editor->selected_video_content ();
+		VideoContentList vc = _film_editor->content_panel()->selected_video ();
 		for (VideoContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
 			(*i)->scale_and_crop_to_fit_width ();
 		}
@@ -497,7 +497,7 @@ private:
 
 	void content_scale_to_fit_height ()
 	{
-		VideoContentList vc = _film_editor->selected_video_content ();
+		VideoContentList vc = _film_editor->content_panel()->selected_video ();
 		for (VideoContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
 			(*i)->scale_and_crop_to_fit_height ();
 		}
@@ -603,7 +603,7 @@ private:
 		}
 		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
 		bool const have_cpl = film && !film->cpls().empty ();
-		bool const have_selected_video_content = !_film_editor->selected_video_content().empty();
+		bool const have_selected_video_content = !_film_editor->content_panel()->selected_video().empty();
 		
 		for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
 			

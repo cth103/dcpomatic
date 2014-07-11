@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,18 @@
 
 */
 
-#ifndef DCPOMATIC_FILM_EDITOR_PANEL_H
-#define DCPOMATIC_FILM_EDITOR_PANEL_H
+#include <wx/notebook.h>
+#include "content_sub_panel.h"
+#include "film_editor.h"
 
-#include <boost/shared_ptr.hpp>
-#include <wx/wx.h>
-#include "lib/film.h"
+using boost::shared_ptr;
 
-class FilmEditor;
-class Content;
-
-class FilmEditorPanel : public wxPanel
+ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
+	: wxPanel (p->notebook(), wxID_ANY)
+	, _parent (p)
+	, _sizer (new wxBoxSizer (wxVERTICAL))
 {
-public:
-	FilmEditorPanel (FilmEditor *, wxString);
+	p->notebook()->AddPage (this, name, false);
+	SetSizer (_sizer);
+}
 
-	virtual void film_changed (Film::Property) {}
-	/** Called when a given property of one of the selected Contents changes */
-	virtual void film_content_changed (int) = 0;
-	/** Called when the list of selected Contents changes */
-	virtual void content_selection_changed () = 0;
-
-protected:
-	FilmEditor* _editor;
-	wxSizer* _sizer;
-};
-
-#endif

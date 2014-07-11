@@ -18,7 +18,7 @@
 */
 
 #include "lib/audio_mapping.h"
-#include "film_editor_panel.h"
+#include "content_sub_panel.h"
 #include "content_widget.h"
 
 class wxSpinCtrlDouble;
@@ -28,10 +28,10 @@ class wxStaticText;
 class AudioMappingView;
 class AudioDialog;
 
-class AudioPanel : public FilmEditorPanel
+class AudioPanel : public ContentSubPanel
 {
 public:
-	AudioPanel (FilmEditor *);
+	AudioPanel (ContentPanel *);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);

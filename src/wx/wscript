@@ -15,13 +15,14 @@ sources = """
           config_dialog.cc
           content_colour_conversion_dialog.cc
           content_menu.cc
+          content_panel.cc
+          content_sub_panel.cc
           isdcf_metadata_dialog.cc
           dir_picker_ctrl.cc
           dolby_certificate_dialog.cc
           doremi_certificate_dialog.cc
           download_certificate_dialog.cc
           film_editor.cc
-          film_editor_panel.cc
           film_viewer.cc
           filter_dialog.cc
           filter_editor.cc

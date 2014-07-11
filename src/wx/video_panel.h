@@ -22,7 +22,7 @@
  */
 
 #include "lib/film.h"
-#include "film_editor_panel.h"
+#include "content_sub_panel.h"
 #include "content_widget.h"
 
 class wxChoice;
@@ -33,10 +33,10 @@ class wxButton;
 /** @class VideoPanel
  *  @brief The video tab of the film editor.
  */
-class VideoPanel : public FilmEditorPanel
+class VideoPanel : public ContentSubPanel
 {
 public:
-	VideoPanel (FilmEditor *);
+	VideoPanel (ContentPanel *);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);

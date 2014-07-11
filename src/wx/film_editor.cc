@@ -73,17 +73,15 @@ using boost::lexical_cast;
 /** @param f Film to edit */
 FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	: wxPanel (parent)
-	, _menu (this)
 	, _generally_sensitive (true)
-	, _timeline_dialog (0)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 
 	_main_notebook = new wxNotebook (this, wxID_ANY);
 	s->Add (_main_notebook, 1);
 
-	make_content_panel ();
-	_main_notebook->AddPage (_content_panel, _("Content"), true);
+	_content_panel = new ContentPanel (_main_notebook, _film);
+	_main_notebook->AddPage (_content_panel->panel (), _("Content"), true);
 	make_dcp_panel ();
 	_main_notebook->AddPage (_dcp_panel, _("DCP"), false);
 	
@@ -240,15 +238,6 @@ FilmEditor::connect_to_widgets ()
 	_use_isdcf_name->Bind	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::use_isdcf_name_toggled, this));
 	_edit_isdcf_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::edit_isdcf_button_clicked, this));
 	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::container_changed, this));
-	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_SELECTED,    boost::bind (&FilmEditor::content_selection_changed, this));
-	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_DESELECTED,  boost::bind (&FilmEditor::content_selection_changed, this));
-	_content->Bind          (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&FilmEditor::content_right_click, this, _1));
-	_content_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED,        boost::bind (&FilmEditor::content_add_file_clicked, this));
-	_content_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED,      boost::bind (&FilmEditor::content_add_folder_clicked, this));
-	_content_remove->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_remove_clicked, this));
-	_content_earlier->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_earlier_clicked, this));
-	_content_later->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_later_clicked, this));
-	_content_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_timeline_clicked, this));
 	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::scaler_changed, this));
 	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::dcp_content_type_changed, this));
 	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&FilmEditor::frame_rate_choice_changed, this));
@@ -260,60 +249,8 @@ FilmEditor::connect_to_widgets ()
 	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::audio_channels_changed, this));
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::j2k_bandwidth_changed, this));
 	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::resolution_changed, this));
-	_sequence_video->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::sequence_video_changed, this));
 	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::three_d_changed, this));
 	_standard->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::standard_changed, this));
-}
-
-void
-FilmEditor::make_content_panel ()
-{
-	_content_panel = new wxPanel (_main_notebook);
-	_content_sizer = new wxBoxSizer (wxVERTICAL);
-	_content_panel->SetSizer (_content_sizer);
-
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		
-		_content = new wxListCtrl (_content_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
-		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
-
-		_content->InsertColumn (0, wxT(""));
-		_content->SetColumnWidth (0, 512);
-
-		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
-		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file(s)..."));
-		b->Add (_content_add_file, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add folder..."));
-		b->Add (_content_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
-		b->Add (_content_remove, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		_content_earlier = new wxButton (_content_panel, wxID_ANY, _("Up"));
-		b->Add (_content_earlier, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		_content_later = new wxButton (_content_panel, wxID_ANY, _("Down"));
-		b->Add (_content_later, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
-		b->Add (_content_timeline, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-
-		s->Add (b, 0, wxALL, 4);
-
-		_content_sizer->Add (s, 0, wxEXPAND | wxALL, 6);
-	}
-
-	_sequence_video = new wxCheckBox (_content_panel, wxID_ANY, _("Keep video in sequence"));
-	_content_sizer->Add (_sequence_video);
-
-	_content_notebook = new wxNotebook (_content_panel, wxID_ANY);
-	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
-
-	_video_panel = new VideoPanel (this);
-	_panels.push_back (_video_panel);
-	_audio_panel = new AudioPanel (this);
-	_panels.push_back (_audio_panel);
-	_subtitle_panel = new SubtitlePanel (this);
-	_panels.push_back (_subtitle_panel);
-	_timing_panel = new TimingPanel (this);
-	_panels.push_back (_timing_panel);
 }
 
 /** Called when the name widget has been changed */
@@ -438,15 +375,10 @@ FilmEditor::film_changed (Film::Property p)
 
 	stringstream s;
 
-	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->film_changed (p);
-	}
-		
+	_content_panel->film_changed (p);
+
 	switch (p) {
 	case Film::NONE:
-		break;
-	case Film::CONTENT:
-		setup_content ();
 		break;
 	case Film::CONTAINER:
 		setup_container ();
@@ -515,15 +447,14 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_audio_channels, _film->audio_channels ());
 		setup_dcp_name ();
 		break;
-	case Film::SEQUENCE_VIDEO:
-		checked_set (_sequence_video, _film->sequence_video ());
-		break;
 	case Film::THREE_D:
 		checked_set (_three_d, _film->three_d ());
 		setup_dcp_name ();
 		break;
 	case Film::INTEROP:
 		checked_set (_standard, _film->interop() ? 1 : 0);
+		break;
+	default:
 		break;
 	}
 }
@@ -540,16 +471,10 @@ FilmEditor::film_content_changed (int property)
 		return;
 	}
 
-	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->film_content_changed (property);
-	}
+	_content_panel->film_content_changed (property);
 
 	if (property == FFmpegContentProperty::AUDIO_STREAM || property == SubtitleContentProperty::USE_SUBTITLES) {
 		setup_dcp_name ();
-	} else if (property == ContentProperty::PATH) {
-		setup_content ();
-	} else if (property == ContentProperty::POSITION) {
-		setup_content ();
 	}
 }
 
@@ -615,6 +540,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	
 	_film = f;
 
+	_content_panel->set_film (_film);
+
 	if (_film) {
 		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
 		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _2));
@@ -645,10 +572,8 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::INTEROP);
 
 	if (!_film->content().empty ()) {
-		set_selection (_film->content().front ());
+		_content_panel->set_selection (_film->content().front ());
 	}
-
-	content_selection_changed ();
 }
 
 void
@@ -656,17 +581,12 @@ FilmEditor::set_general_sensitivity (bool s)
 {
 	_generally_sensitive = s;
 
+	_content_panel->set_general_sensitivity (s);
+
 	/* Stuff in the Content / DCP tabs */
 	_name->Enable (s);
 	_use_isdcf_name->Enable (s);
 	_edit_isdcf_button->Enable (s);
-	_content->Enable (s);
-	_content_add_file->Enable (s);
-	_content_add_folder->Enable (s);
-	_content_remove->Enable (s);
-	_content_earlier->Enable (s);
-	_content_later->Enable (s);
-	_content_timeline->Enable (s);
 	_dcp_content_type->Enable (s);
 
 	bool si = s;
@@ -683,16 +603,10 @@ FilmEditor::set_general_sensitivity (bool s)
 	_j2k_bandwidth->Enable (s);
 	_container->Enable (s);
 	_best_frame_rate->Enable (s && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
-	_sequence_video->Enable (s);
 	_resolution->Enable (s);
 	_scaler->Enable (s);
 	_three_d->Enable (s);
 	_standard->Enable (s);
-
-	/* Set the panels in the content notebook */
-	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->Enable (s);
-	}
 }
 
 /** Called when the scaler widget has been changed */
@@ -761,268 +675,6 @@ FilmEditor::best_frame_rate_clicked ()
 }
 
 void
-FilmEditor::setup_content ()
-{
-	string selected_summary;
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s != -1) {
-		selected_summary = wx_to_std (_content->GetItemText (s));
-	}
-	
-	_content->DeleteAllItems ();
-
-	ContentList content = _film->content ();
-	sort (content.begin(), content.end(), ContentSorter ());
-	
-	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-		int const t = _content->GetItemCount ();
-		bool const valid = (*i)->paths_valid ();
-
-		string s = (*i)->summary ();
-		if (!valid) {
-			s = _("MISSING: ") + s;
-		}
-
-		_content->InsertItem (t, std_to_wx (s));
-
-		if ((*i)->summary() == selected_summary) {
-			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-		}
-
-		if (!valid) {
-			_content->SetItemTextColour (t, *wxRED);
-		}
-	}
-
-	if (selected_summary.empty () && !content.empty ()) {
-		/* Select the item of content if none was selected before */
-		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-	}
-}
-
-void
-FilmEditor::content_add_file_clicked ()
-{
-	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
-	   non-Latin filenames or paths.
-	*/
-	wxFileDialog* d = new wxFileDialog (this, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE | wxFD_CHANGE_DIR);
-	int const r = d->ShowModal ();
-
-	if (r != wxID_OK) {
-		d->Destroy ();
-		return;
-	}
-
-	wxArrayString paths;
-	d->GetPaths (paths);
-
-	/* XXX: check for lots of files here and do something */
-
-	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
-	}
-
-	d->Destroy ();
-}
-
-void
-FilmEditor::content_add_folder_clicked ()
-{
-	wxDirDialog* d = new wxDirDialog (this, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
-	int const r = d->ShowModal ();
-	d->Destroy ();
-	
-	if (r != wxID_OK) {
-		return;
-	}
-
-	shared_ptr<Content> content;
-	
-	try {
-		content.reset (new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
-	} catch (...) {
-		try {
-			content.reset (new DCPContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
-		} catch (...) {
-			error_dialog (this, _("Could not find any images nor a DCP in that folder"));
-			return;
-		}
-	}
-
-	if (content) {
-		_film->examine_and_add_content (content);
-	}
-}
-
-void
-FilmEditor::content_remove_clicked ()
-{
-	ContentList c = selected_content ();
-	if (c.size() == 1) {
-		_film->remove_content (c.front ());
-	}
-
-	content_selection_changed ();
-}
-
-void
-FilmEditor::content_selection_changed ()
-{
-	setup_content_sensitivity ();
-
-	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->content_selection_changed ();
-	}
-}
-
-/** Set up broad sensitivity based on the type of content that is selected */
-void
-FilmEditor::setup_content_sensitivity ()
-{
-	_content_add_file->Enable (_generally_sensitive);
-	_content_add_folder->Enable (_generally_sensitive);
-
-	ContentList selection = selected_content ();
-	VideoContentList video_selection = selected_video_content ();
-	AudioContentList audio_selection = selected_audio_content ();
-
-	_content_remove->Enable   (selection.size() == 1 && _generally_sensitive);
-	_content_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
-	_content_later->Enable    (selection.size() == 1 && _generally_sensitive);
-	_content_timeline->Enable (!_film->content().empty() && _generally_sensitive);
-
-	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
-	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
-	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<SubtitleContent> (selection.front()) && _generally_sensitive);
-	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
-}
-
-ContentList
-FilmEditor::selected_content ()
-{
-	ContentList sel;
-	long int s = -1;
-	while (true) {
-		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (s == -1) {
-			break;
-		}
-
-		if (s < int (_film->content().size ())) {
-			sel.push_back (_film->content()[s]);
-		}
-	}
-
-	return sel;
-}
-
-VideoContentList
-FilmEditor::selected_video_content ()
-{
-	ContentList c = selected_content ();
-	VideoContentList vc;
-	
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
-		if (t) {
-			vc.push_back (t);
-		}
-	}
-
-	return vc;
-}
-
-AudioContentList
-FilmEditor::selected_audio_content ()
-{
-	ContentList c = selected_content ();
-	AudioContentList ac;
-	
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<AudioContent> t = dynamic_pointer_cast<AudioContent> (*i);
-		if (t) {
-			ac.push_back (t);
-		}
-	}
-
-	return ac;
-}
-
-SubtitleContentList
-FilmEditor::selected_subtitle_content ()
-{
-	ContentList c = selected_content ();
-	SubtitleContentList sc;
-	
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<SubtitleContent> t = dynamic_pointer_cast<SubtitleContent> (*i);
-		if (t) {
-			sc.push_back (t);
-		}
-	}
-
-	return sc;
-}
-
-FFmpegContentList
-FilmEditor::selected_ffmpeg_content ()
-{
-	ContentList c = selected_content ();
-	FFmpegContentList sc;
-	
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (*i);
-		if (t) {
-			sc.push_back (t);
-		}
-	}
-
-	return sc;
-}
-
-void
-FilmEditor::content_timeline_clicked ()
-{
-	if (_timeline_dialog) {
-		_timeline_dialog->Destroy ();
-		_timeline_dialog = 0;
-	}
-	
-	_timeline_dialog = new TimelineDialog (this, _film);
-	_timeline_dialog->Show ();
-}
-
-void
-FilmEditor::set_selection (weak_ptr<Content> wc)
-{
-	ContentList content = _film->content ();
-	for (size_t i = 0; i < content.size(); ++i) {
-		if (content[i] == wc.lock ()) {
-			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-		} else {
-			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED | wxLIST_STATE_FOCUSED);
-		}
-	}
-}
-
-void
-FilmEditor::sequence_video_changed ()
-{
-	if (!_film) {
-		return;
-	}
-	
-	_film->set_sequence_video (_sequence_video->GetValue ());
-}
-
-void
-FilmEditor::content_right_click (wxListEvent& ev)
-{
-	_menu.popup (_film, selected_content (), ev.GetPoint ());
-}
-
-void
 FilmEditor::three_d_changed ()
 {
 	if (!_film) {
@@ -1030,26 +682,6 @@ FilmEditor::three_d_changed ()
 	}
 
 	_film->set_three_d (_three_d->GetValue ());
-}
-
-void
-FilmEditor::content_earlier_clicked ()
-{
-	ContentList sel = selected_content ();
-	if (sel.size() == 1) {
-		_film->move_content_earlier (sel.front ());
-		content_selection_changed ();
-	}
-}
-
-void
-FilmEditor::content_later_clicked ()
-{
-	ContentList sel = selected_content ();
-	if (sel.size() == 1) {
-		_film->move_content_later (sel.front ());
-		content_selection_changed ();
-	}
 }
 
 void

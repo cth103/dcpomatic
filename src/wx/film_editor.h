@@ -28,6 +28,7 @@
 #include <boost/signals2.hpp>
 #include "lib/film.h"
 #include "content_menu.h"
+#include "content_panel.h"
 
 class wxNotebook;
 class wxListCtrl;
@@ -48,41 +49,27 @@ public:
 	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
-	void set_selection (boost::weak_ptr<Content>);
 
 	boost::signals2::signal<void (boost::filesystem::path)> FileChanged;
 
 	/* Stuff for panels */
-	
-	wxNotebook* content_notebook () const {
-		return _content_notebook;
-	}
 
+	ContentPanel* content_panel () const {
+		return _content_panel;
+	}
+	
 	boost::shared_ptr<Film> film () const {
 		return _film;
 	}
 
-	ContentList selected_content ();
-	VideoContentList selected_video_content ();
-	AudioContentList selected_audio_content ();
-	SubtitleContentList selected_subtitle_content ();
-	FFmpegContentList selected_ffmpeg_content ();
-	
 private:
 	void make_dcp_panel ();
-	void make_content_panel ();
 	void connect_to_widgets ();
 	
 	/* Handle changes to the view */
 	void name_changed ();
 	void use_isdcf_name_toggled ();
 	void edit_isdcf_button_clicked ();
-	void content_selection_changed ();
-	void content_add_file_clicked ();
-	void content_add_folder_clicked ();
-	void content_remove_clicked ();
-	void content_earlier_clicked ();
-	void content_later_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
 	void scaler_changed ();
@@ -93,8 +80,6 @@ private:
 	void content_timeline_clicked ();
 	void audio_channels_changed ();
 	void resolution_changed ();
-	void sequence_video_changed ();
-	void content_right_click (wxListEvent &);
 	void three_d_changed ();
 	void standard_changed ();
 	void signed_toggled ();
@@ -107,26 +92,16 @@ private:
 
 	void set_general_sensitivity (bool);
 	void setup_dcp_name ();
-	void setup_content ();
 	void setup_container ();
-	void setup_content_sensitivity ();
 	void setup_frame_rate_widget ();
 	
 	void active_jobs_changed (bool);
 	void config_changed ();
 
-	FilmEditorPanel* _video_panel;
-	FilmEditorPanel* _audio_panel;
-	FilmEditorPanel* _subtitle_panel;
-	FilmEditorPanel* _timing_panel;
-	std::list<FilmEditorPanel *> _panels;
-
 	wxNotebook* _main_notebook;
-	wxNotebook* _content_notebook;
 	wxPanel* _dcp_panel;
 	wxSizer* _dcp_sizer;
-	wxPanel* _content_panel;
-	wxSizer* _content_sizer;
+	ContentPanel* _content_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
@@ -134,14 +109,6 @@ private:
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_isdcf_name;
 	wxChoice* _container;
-	wxListCtrl* _content;
-	wxButton* _content_add_file;
-	wxButton* _content_add_folder;
-	wxButton* _content_remove;
-	wxButton* _content_earlier;
-	wxButton* _content_later;
-	wxButton* _content_timeline;
-	wxCheckBox* _sequence_video;
 	wxButton* _edit_isdcf_button;
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
@@ -158,10 +125,7 @@ private:
 	wxCheckBox* _burn_subtitles;
 	wxCheckBox* _encrypted;
 
-	ContentMenu _menu;
-
 	std::vector<Ratio const *> _ratios;
 
 	bool _generally_sensitive;
-	TimelineDialog* _timeline_dialog;
 };

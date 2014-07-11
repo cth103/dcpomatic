@@ -27,6 +27,7 @@
 #include <vector>
 #include <wx/wx.h>
 #include <wx/gbsizer.h>
+#include <wx/spinctrl.h>
 #include <boost/function.hpp>
 #include "wx_util.h"
 

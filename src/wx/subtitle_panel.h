@@ -17,16 +17,16 @@
 
 */
 
-#include "film_editor_panel.h"
+#include "content_sub_panel.h"
 
 class wxCheckBox;
 class wxSpinCtrl;
 class SubtitleView;
 
-class SubtitlePanel : public FilmEditorPanel
+class SubtitlePanel : public ContentSubPanel
 {
 public:
-	SubtitlePanel (FilmEditor *);
+	SubtitlePanel (ContentPanel *);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);

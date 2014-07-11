@@ -28,13 +28,13 @@
 class Film;
 class View;
 class ContentView;
-class FilmEditor;
+class ContentPanel;
 class TimeAxisView;
 
 class Timeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, FilmEditor *, boost::shared_ptr<Film>);
+	Timeline (wxWindow *, ContentPanel *, boost::shared_ptr<Film>);
 
 	boost::shared_ptr<const Film> film () const;
 
@@ -92,7 +92,7 @@ private:
 	ContentViewList selected_views () const;
 	ContentList selected_content () const;
 
-	FilmEditor* _film_editor;
+	ContentPanel* _content_panel;
 	boost::weak_ptr<Film> _film;
 	ViewList _views;
 	boost::shared_ptr<TimeAxisView> _time_axis_view;

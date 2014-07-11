@@ -17,14 +17,14 @@
 
 */
 
-#include "film_editor_panel.h"
+#include "content_sub_panel.h"
 
 class Timecode;
 
-class TimingPanel : public FilmEditorPanel
+class TimingPanel : public ContentSubPanel
 {
 public:
-	TimingPanel (FilmEditor *);
+	TimingPanel (ContentPanel *);
 
 	void film_content_changed (int);
 	void content_selection_changed ();

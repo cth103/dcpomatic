@@ -394,9 +394,9 @@ private:
 };
 
 
-Timeline::Timeline (wxWindow* parent, FilmEditor* ed, shared_ptr<Film> film)
+Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
-	, _film_editor (ed)
+	, _content_panel (cp)
 	, _film (film)
 	, _time_axis_view (new TimeAxisView (*this, 32))
 	, _tracks (0)
@@ -603,7 +603,7 @@ Timeline::left_down (wxMouseEvent& ev)
 		}
 		
 		if (view == *i) {
-			_film_editor->set_selection (cv->content ());
+			_content_panel->set_selection (cv->content ());
 		}
 	}
 

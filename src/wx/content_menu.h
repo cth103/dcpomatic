@@ -30,9 +30,9 @@ class Film;
 class ContentMenu
 {
 public:
-	ContentMenu (wxWindow *);
+	ContentMenu (wxWindow* p);
 	~ContentMenu ();
-
+	
 	void popup (boost::weak_ptr<Film>, ContentList, wxPoint);
 
 private:

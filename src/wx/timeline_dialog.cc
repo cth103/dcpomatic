@@ -28,9 +28,9 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 
-TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
-	: wxDialog (ed, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
-	, _timeline (this, ed, film)
+TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
+	: wxDialog (cp->panel(), wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+	, _timeline (this, cp, film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 

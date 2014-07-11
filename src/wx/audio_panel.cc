@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,8 +37,8 @@ using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 using boost::shared_ptr;
 
-AudioPanel::AudioPanel (FilmEditor* e)
-	: FilmEditorPanel (e, _("Audio"))
+AudioPanel::AudioPanel (ContentPanel* p)
+	: ContentSubPanel (p, _("Audio"))
 	, _audio_dialog (0)
 {
 	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
@@ -106,7 +106,7 @@ AudioPanel::film_changed (Film::Property property)
 {
 	switch (property) {
 	case Film::AUDIO_CHANNELS:
-		_mapping->set_channels (_editor->film()->audio_channels ());
+		_mapping->set_channels (_parent->film()->audio_channels ());
 		_sizer->Layout ();
 		break;
 	default:
@@ -117,7 +117,7 @@ AudioPanel::film_changed (Film::Property property)
 void
 AudioPanel::film_content_changed (int property)
 {
-	AudioContentList ac = _editor->selected_audio_content ();
+	AudioContentList ac = _parent->selected_audio ();
 	shared_ptr<AudioContent> acs;
 	shared_ptr<FFmpegContent> fcs;
 	if (ac.size() == 1) {
@@ -182,7 +182,7 @@ AudioPanel::show_clicked ()
 		_audio_dialog = 0;
 	}
 
-	AudioContentList ac = _editor->selected_audio_content ();
+	AudioContentList ac = _parent->selected_audio ();
 	if (ac.size() != 1) {
 		return;
 	}
@@ -195,7 +195,7 @@ AudioPanel::show_clicked ()
 void
 AudioPanel::stream_changed ()
 {
-	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
+	FFmpegContentList fc = _parent->selected_ffmpeg ();
 	if (fc.size() != 1) {
 		return;
 	}
@@ -223,7 +223,7 @@ AudioPanel::stream_changed ()
 void
 AudioPanel::setup_stream_description ()
 {
-	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
+	FFmpegContentList fc = _parent->selected_ffmpeg ();
 	if (fc.size() != 1) {
 		_description->SetLabel ("");
 		return;
@@ -248,7 +248,7 @@ AudioPanel::setup_stream_description ()
 void
 AudioPanel::mapping_changed (AudioMapping m)
 {
-	AudioContentList c = _editor->selected_audio_content ();
+	AudioContentList c = _parent->selected_audio ();
 	if (c.size() == 1) {
 		c.front()->set_audio_mapping (m);
 	}
@@ -257,7 +257,7 @@ AudioPanel::mapping_changed (AudioMapping m)
 void
 AudioPanel::content_selection_changed ()
 {
-	AudioContentList sel = _editor->selected_audio_content ();
+	AudioContentList sel = _parent->selected_audio ();
 
 	if (_audio_dialog && sel.size() == 1) {
 		_audio_dialog->set_content (sel.front ());

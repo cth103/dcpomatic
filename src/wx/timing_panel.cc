@@ -31,9 +31,9 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
-TimingPanel::TimingPanel (FilmEditor* e)
+TimingPanel::TimingPanel (ContentPanel* p)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
-	: FilmEditorPanel (e, S_("Timing|Timing"))
+	: ContentSubPanel (p, S_("Timing|Timing"))
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	_sizer->Add (grid, 0, wxALL, 8);
@@ -77,13 +77,13 @@ TimingPanel::TimingPanel (FilmEditor* e)
 void
 TimingPanel::film_content_changed (int property)
 {
-	ContentList cl = _editor->selected_content ();
+	ContentList cl = _parent->selected ();
 	shared_ptr<Content> content;
 	if (cl.size() == 1) {
 		content = cl.front ();
 	}
 
-	int const film_video_frame_rate = _editor->film()->video_frame_rate ();
+	int const film_video_frame_rate = _parent->film()->video_frame_rate ();
 	
 	if (property == ContentProperty::POSITION) {
 		if (content) {
@@ -145,21 +145,21 @@ TimingPanel::film_content_changed (int property)
 void
 TimingPanel::position_changed ()
 {
-	ContentList c = _editor->selected_content ();
+	ContentList c = _parent->selected ();
 	if (c.size() == 1) {
-		c.front()->set_position (_position->get (_editor->film()->video_frame_rate ()));
+		c.front()->set_position (_position->get (_parent->film()->video_frame_rate ()));
 	}
 }
 
 void
 TimingPanel::full_length_changed ()
 {
-	ContentList c = _editor->selected_content ();
+	ContentList c = _parent->selected ();
 	if (c.size() == 1) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
 		if (ic && ic->still ()) {
 			/* XXX: No effective FRC here... is this right? */
-			ic->set_video_length (ContentTime (_full_length->get (_editor->film()->video_frame_rate()), FrameRateChange (1, 1)));
+			ic->set_video_length (ContentTime (_full_length->get (_parent->film()->video_frame_rate()), FrameRateChange (1, 1)));
 		}
 	}
 }
@@ -167,9 +167,9 @@ TimingPanel::full_length_changed ()
 void
 TimingPanel::trim_start_changed ()
 {
-	ContentList c = _editor->selected_content ();
+	ContentList c = _parent->selected ();
 	if (c.size() == 1) {
-		c.front()->set_trim_start (_trim_start->get (_editor->film()->video_frame_rate ()));
+		c.front()->set_trim_start (_trim_start->get (_parent->film()->video_frame_rate ()));
 	}
 }
 
@@ -177,18 +177,18 @@ TimingPanel::trim_start_changed ()
 void
 TimingPanel::trim_end_changed ()
 {
-	ContentList c = _editor->selected_content ();
+	ContentList c = _parent->selected ();
 	if (c.size() == 1) {
-		c.front()->set_trim_end (_trim_end->get (_editor->film()->video_frame_rate ()));
+		c.front()->set_trim_end (_trim_end->get (_parent->film()->video_frame_rate ()));
 	}
 }
 
 void
 TimingPanel::play_length_changed ()
 {
-	ContentList c = _editor->selected_content ();
+	ContentList c = _parent->selected ();
 	if (c.size() == 1) {
-		c.front()->set_trim_end (c.front()->full_length() - _play_length->get (_editor->film()->video_frame_rate()) - c.front()->trim_start());
+		c.front()->set_trim_end (c.front()->full_length() - _play_length->get (_parent->film()->video_frame_rate()) - c.front()->trim_start());
 	}
 }
 
@@ -201,7 +201,7 @@ TimingPanel::video_frame_rate_changed ()
 void
 TimingPanel::set_video_frame_rate ()
 {
-	ContentList c = _editor->selected_content ();
+	ContentList c = _parent->selected ();
 	if (c.size() == 1) {
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c.front ());
 		if (vc) {
@@ -214,7 +214,7 @@ TimingPanel::set_video_frame_rate ()
 void
 TimingPanel::content_selection_changed ()
 {
-	ContentList sel = _editor->selected_content ();
+	ContentList sel = _parent->selected ();
 	bool const single = sel.size() == 1;
 
 	/* Things that are only allowed with single selections */

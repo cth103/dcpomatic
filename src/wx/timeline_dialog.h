@@ -27,7 +27,7 @@ class Playlist;
 class TimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog (FilmEditor *, boost::shared_ptr<Film>);
+	TimelineDialog (ContentPanel *, boost::shared_ptr<Film>);
 
 private:
 	void snap_toggled ();

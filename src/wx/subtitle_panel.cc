@@ -36,8 +36,8 @@ using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
-SubtitlePanel::SubtitlePanel (FilmEditor* e)
-	: FilmEditorPanel (e, _("Subtitles"))
+SubtitlePanel::SubtitlePanel (ContentPanel* p)
+	: ContentSubPanel (p, _("Subtitles"))
 	, _view (0)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
@@ -105,8 +105,8 @@ SubtitlePanel::film_changed (Film::Property property)
 void
 SubtitlePanel::film_content_changed (int property)
 {
-	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
-	SubtitleContentList sc = _editor->selected_subtitle_content ();
+	FFmpegContentList fc = _parent->selected_ffmpeg ();
+	SubtitleContentList sc = _parent->selected_subtitle ();
 
 	shared_ptr<FFmpegContent> fcs;
 	if (fc.size() == 1) {
@@ -148,7 +148,7 @@ SubtitlePanel::film_content_changed (int property)
 void
 SubtitlePanel::use_toggled ()
 {
-	SubtitleContentList c = _editor->selected_subtitle_content ();
+	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		(*i)->set_use_subtitles (_use->GetValue());
 	}
@@ -160,7 +160,7 @@ SubtitlePanel::setup_sensitivity ()
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
 	int subrip_or_dcp_subs = 0;
-	SubtitleContentList c = _editor->selected_subtitle_content ();
+	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::const_iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (*i);
 		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (*i);
@@ -191,7 +191,7 @@ SubtitlePanel::setup_sensitivity ()
 void
 SubtitlePanel::stream_changed ()
 {
-	FFmpegContentList fc = _editor->selected_ffmpeg_content ();
+	FFmpegContentList fc = _parent->selected_ffmpeg ();
 	if (fc.size() != 1) {
 		return;
 	}
@@ -213,7 +213,7 @@ SubtitlePanel::stream_changed ()
 void
 SubtitlePanel::x_offset_changed ()
 {
-	SubtitleContentList c = _editor->selected_subtitle_content ();
+	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		(*i)->set_subtitle_x_offset (_x_offset->GetValue() / 100.0);
 	}
@@ -222,7 +222,7 @@ SubtitlePanel::x_offset_changed ()
 void
 SubtitlePanel::y_offset_changed ()
 {
-	SubtitleContentList c = _editor->selected_subtitle_content ();
+	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		(*i)->set_subtitle_y_offset (_y_offset->GetValue() / 100.0);
 	}
@@ -231,7 +231,7 @@ SubtitlePanel::y_offset_changed ()
 void
 SubtitlePanel::scale_changed ()
 {
-	SubtitleContentList c = _editor->selected_subtitle_content ();
+	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		(*i)->set_subtitle_scale (_scale->GetValue() / 100.0);
 	}
@@ -255,7 +255,7 @@ SubtitlePanel::view_clicked ()
 		_view = 0;
 	}
 
-	SubtitleContentList c = _editor->selected_subtitle_content ();
+	SubtitleContentList c = _parent->selected_subtitle ();
 	assert (c.size() == 1);
 
 	shared_ptr<SubtitleDecoder> decoder;
@@ -271,7 +271,7 @@ SubtitlePanel::view_clicked ()
 	}
 	
 	if (decoder) {
-		_view = new SubtitleView (this, _editor->film(), decoder, c.front()->position ());
+		_view = new SubtitleView (this, _parent->film(), decoder, c.front()->position ());
 		_view->Show ();
 	}
 }

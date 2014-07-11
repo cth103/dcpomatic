@@ -64,8 +64,8 @@ scale_to_index (VideoContentScale scale)
 	assert (false);
 }
 
-VideoPanel::VideoPanel (FilmEditor* e)
-	: FilmEditorPanel (e, _("Video"))
+VideoPanel::VideoPanel (ContentPanel* p)
+	: ContentSubPanel (p, _("Video"))
 {
 	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
@@ -222,7 +222,7 @@ VideoPanel::film_changed (Film::Property property)
 void
 VideoPanel::film_content_changed (int property)
 {
-	VideoContentList vc = _editor->selected_video_content ();
+	VideoContentList vc = _parent->selected_video ();
 	shared_ptr<VideoContent> vcs;
 	shared_ptr<FFmpegContent> fcs;
 	if (!vc.empty ()) {
@@ -258,7 +258,7 @@ VideoPanel::film_content_changed (int property)
 void
 VideoPanel::edit_filters_clicked ()
 {
-	FFmpegContentList c = _editor->selected_ffmpeg_content ();
+	FFmpegContentList c = _parent->selected_ffmpeg ();
 	if (c.size() != 1) {
 		return;
 	}
@@ -272,7 +272,7 @@ VideoPanel::edit_filters_clicked ()
 void
 VideoPanel::setup_description ()
 {
-	VideoContentList vc = _editor->selected_video_content ();
+	VideoContentList vc = _parent->selected_video ();
 	if (vc.empty ()) {
 		_description->SetLabel ("");
 		return;
@@ -308,7 +308,7 @@ VideoPanel::setup_description ()
 		++lines;
 	}
 
-	dcp::Size const container_size = _editor->film()->frame_size ();
+	dcp::Size const container_size = _parent->film()->frame_size ();
 	dcp::Size const scaled = vcs->scale().size (vcs, container_size, container_size);
 
 	if (scaled != vcs->video_size_after_crop ()) {
@@ -331,7 +331,7 @@ VideoPanel::setup_description ()
 
 	d << wxString::Format (_("Content frame rate %.4f\n"), vcs->video_frame_rate ());
 	++lines;
-	FrameRateChange frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
+	FrameRateChange frc (vcs->video_frame_rate(), _parent->film()->video_frame_rate ());
 	d << std_to_wx (frc.description) << "\n";
 	++lines;
 
@@ -346,7 +346,7 @@ VideoPanel::setup_description ()
 void
 VideoPanel::edit_colour_conversion_clicked ()
 {
-	VideoContentList vc = _editor->selected_video_content ();
+	VideoContentList vc = _parent->selected_video ();
 	if (vc.size() != 1) {
 		return;
 	}
@@ -363,7 +363,7 @@ VideoPanel::edit_colour_conversion_clicked ()
 void
 VideoPanel::content_selection_changed ()
 {
-	VideoContentList sel = _editor->selected_video_content ();
+	VideoContentList sel = _parent->selected_video ();
 	bool const single = sel.size() == 1;
 
 	_left_crop->set_content (sel);
