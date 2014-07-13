@@ -40,7 +40,7 @@ AudioMapping::AudioMapping ()
 
 }
 
-/** Create a default AudioMapping for a given channel count.
+/** Create an empty AudioMapping for a given channel count.
  *  @param channels Number of channels.
  */
 AudioMapping::AudioMapping (int channels)

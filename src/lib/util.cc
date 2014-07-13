@@ -72,6 +72,7 @@ extern "C" {
 #include "video_content.h"
 #include "rect.h"
 #include "md5_digester.h"
+#include "audio_processor.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -336,6 +337,7 @@ dcpomatic_setup ()
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();
 	SoundProcessor::setup_sound_processors ();
+	AudioProcessor::setup_audio_processors ();
 
 	ui_thread = boost::this_thread::get_id ();
 }

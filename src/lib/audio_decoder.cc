@@ -24,6 +24,7 @@
 #include "resampler.h"
 #include "util.h"
 #include "film.h"
+#include "audio_processor.h"
 
 #include "i18n.h"
 
@@ -43,13 +44,17 @@ AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 		_resampler.reset (new Resampler (content->audio_frame_rate(), content->resampled_audio_frame_rate(), content->audio_channels ()));
 	}
 
+	if (content->audio_processor ()) {
+		_processor = content->audio_processor()->clone ();
+	}
+
 	reset_decoded_audio ();
 }
 
 void
 AudioDecoder::reset_decoded_audio ()
 {
-	_decoded_audio = ContentAudio (shared_ptr<AudioBuffers> (new AudioBuffers (_audio_content->audio_channels(), 0)), 0);
+	_decoded_audio = ContentAudio (shared_ptr<AudioBuffers> (new AudioBuffers (_audio_content->processed_audio_channels(), 0)), 0);
 }
 
 shared_ptr<ContentAudio>
@@ -123,6 +128,10 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 {
 	if (_resampler) {
 		data = _resampler->run (data);
+	}
+
+	if (_processor) {
+		data = _processor->run (data);
 	}
 
 	AudioFrame const frame_rate = _audio_content->resampled_audio_frame_rate ();

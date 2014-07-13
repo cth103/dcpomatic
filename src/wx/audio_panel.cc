@@ -23,6 +23,7 @@
 #include "lib/sound_processor.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_audio_stream.h"
+#include "lib/audio_processor.h"
 #include "audio_dialog.h"
 #include "audio_panel.h"
 #include "audio_mapping_view.h"
@@ -33,6 +34,7 @@
 using std::vector;
 using std::cout;
 using std::string;
+using std::list;
 using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 using boost::shared_ptr;
@@ -84,6 +86,12 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	grid->Add (_stream, wxGBPosition (r, 1));
 	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 3));
 	++r;
+
+	add_label_to_grid_bag_sizer (grid, this, _("Process with"), true, wxGBPosition (r, 0));
+	_processor = new wxChoice (this, wxID_ANY);
+	setup_processors ();
+	grid->Add (_processor, wxGBPosition (r, 1));
+	++r;
 	
 	_mapping = new AudioMappingView (this);
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
@@ -93,9 +101,10 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain->wrapped()->SetIncrement (0.5);
 	_delay->wrapped()->SetRange (-1000, 1000);
 
-	_stream->Bind                (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&AudioPanel::stream_changed, this));
-	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::show_clicked, this));
-	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
+	_stream->Bind                (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&AudioPanel::stream_changed, this));
+	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&AudioPanel::show_clicked, this));
+	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
+	_processor->Bind             (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&AudioPanel::processor_changed, this));
 
 	_mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 }
@@ -144,6 +153,12 @@ AudioPanel::film_content_changed (int property)
 				checked_set (_stream, fcs->audio_stream()->identifier ());
 				setup_stream_description ();
 			}
+		}
+	} else if (property == AudioContentProperty::AUDIO_PROCESSOR) {
+		if (acs) {
+			checked_set (_processor, acs->audio_processor() ? acs->audio_processor()->id() : N_("none"));
+		} else {
+			checked_set (_processor, N_("none"));
 		}
 	}
 }
@@ -246,6 +261,21 @@ AudioPanel::setup_stream_description ()
 }
 
 void
+AudioPanel::processor_changed ()
+{
+	string const s = string_client_data (_processor->GetClientObject (_processor->GetSelection ()));
+	AudioProcessor const * p = 0;
+	if (s != wx_to_std (N_("none"))) {
+		p = AudioProcessor::from_id (s);
+	}
+		
+	AudioContentList c = _parent->selected_audio ();
+	for (AudioContentList::const_iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_audio_processor (p);
+	}
+}
+
+void
 AudioPanel::mapping_changed (AudioMapping m)
 {
 	AudioContentList c = _parent->selected_audio ();
@@ -266,11 +296,37 @@ AudioPanel::content_selection_changed ()
 	_gain->set_content (sel);
 	_delay->set_content (sel);
 
+	_gain_calculate_button->Enable (sel.size() == 1);
 	_show->Enable (sel.size() == 1);
 	_stream->Enable (sel.size() == 1);
+	_processor->Enable (!sel.empty());
 	_mapping->Enable (sel.size() == 1);
 
+	setup_processors ();
+
 	film_content_changed (AudioContentProperty::AUDIO_MAPPING);
+	film_content_changed (AudioContentProperty::AUDIO_PROCESSOR);
 	film_content_changed (FFmpegContentProperty::AUDIO_STREAM);
 	film_content_changed (FFmpegContentProperty::AUDIO_STREAMS);
+}
+
+void
+AudioPanel::setup_processors ()
+{
+	AudioContentList sel = _parent->selected_audio ();
+
+	_processor->Clear ();
+	list<AudioProcessor const *> ap = AudioProcessor::all ();
+	_processor->Append (_("None"), new wxStringClientData (N_("none")));
+	for (list<AudioProcessor const *>::const_iterator i = ap.begin(); i != ap.end(); ++i) {
+
+		AudioContentList::const_iterator j = sel.begin();
+		while (j != sel.end() && (*i)->in_channels().includes ((*j)->audio_channels ())) {
+			++j;
+		}
+
+		if (j == sel.end ()) {
+			_processor->Append (std_to_wx ((*i)->name ()), new wxStringClientData (std_to_wx ((*i)->id ())));
+		}
+	}
 }

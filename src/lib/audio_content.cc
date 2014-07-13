@@ -26,6 +26,7 @@
 #include "exceptions.h"
 #include "config.h"
 #include "frame_rate_change.h"
+#include "audio_processor.h"
 
 #include "i18n.h"
 
@@ -42,11 +43,13 @@ int const AudioContentProperty::AUDIO_FRAME_RATE = 202;
 int const AudioContentProperty::AUDIO_GAIN = 203;
 int const AudioContentProperty::AUDIO_DELAY = 204;
 int const AudioContentProperty::AUDIO_MAPPING = 205;
+int const AudioContentProperty::AUDIO_PROCESSOR = 206;
 
 AudioContent::AudioContent (shared_ptr<const Film> f)
 	: Content (f)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
+	, _audio_processor (0)
 {
 
 }
@@ -55,6 +58,7 @@ AudioContent::AudioContent (shared_ptr<const Film> f, DCPTime s)
 	: Content (f, s)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
+	, _audio_processor (0)
 {
 
 }
@@ -63,15 +67,20 @@ AudioContent::AudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
+	, _audio_processor (0)
 {
 
 }
 
 AudioContent::AudioContent (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	: Content (f, node)
+	, _audio_processor (0)
 {
 	_audio_gain = node->number_child<float> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
+	if (node->optional_string_child ("AudioProcessor")) {
+		_audio_processor = AudioProcessor::from_id (node->string_child ("AudioProcessor"));
+	}
 }
 
 AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -94,6 +103,7 @@ AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 
 	_audio_gain = ref->audio_gain ();
 	_audio_delay = ref->audio_delay ();
+	_audio_processor = ref->audio_processor ();
 }
 
 void
@@ -102,6 +112,9 @@ AudioContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("AudioGain")->add_child_text (raw_convert<string> (_audio_gain));
 	node->add_child("AudioDelay")->add_child_text (raw_convert<string> (_audio_delay));
+	if (_audio_processor) {
+		node->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
+	}
 }
 
 
@@ -125,6 +138,22 @@ AudioContent::set_audio_delay (int d)
 	}
 	
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
+}
+
+void
+AudioContent::set_audio_processor (AudioProcessor const * p)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_processor = p;
+	}
+
+	/* The channel count might have changed, so reset the mapping */
+	AudioMapping m (processed_audio_channels ());
+	m.make_default ();
+	set_audio_mapping (m);
+
+	signal_changed (AudioContentProperty::AUDIO_PROCESSOR);
 }
 
 boost::signals2::connection
@@ -196,3 +225,14 @@ AudioContent::resampled_audio_frame_rate () const
 
 	return rint (t);
 }
+
+int
+AudioContent::processed_audio_channels () const
+{
+	if (!audio_processor ()) {
+		return audio_channels ();
+	}
+
+	return audio_processor()->out_channels (audio_channels ());
+}
+

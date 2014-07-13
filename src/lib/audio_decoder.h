@@ -61,6 +61,7 @@ protected:
 
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;
+	boost::shared_ptr<AudioProcessor> _processor;
 	boost::optional<AudioFrame> _audio_position;
 	/** Currently-available decoded audio data */
 	ContentAudio _decoded_audio;

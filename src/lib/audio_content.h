@@ -31,6 +31,8 @@ namespace cxml {
 	class Node;
 }
 
+class AudioProcessor;
+
 class AudioContentProperty
 {
 public:
@@ -40,6 +42,7 @@ public:
 	static int const AUDIO_GAIN;
 	static int const AUDIO_DELAY;
 	static int const AUDIO_MAPPING;
+	static int const AUDIO_PROCESSOR;
 };
 
 /** @class AudioContent
@@ -70,11 +73,13 @@ public:
 	virtual boost::filesystem::path audio_analysis_path () const;
 
 	int resampled_audio_frame_rate () const;
+	int processed_audio_channels () const;
 
 	boost::signals2::connection analyse_audio (boost::function<void()>);
 
 	void set_audio_gain (double);
 	void set_audio_delay (int);
+	void set_audio_processor (AudioProcessor const *);
 	
 	double audio_gain () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -86,11 +91,17 @@ public:
 		return _audio_delay;
 	}
 
+	AudioProcessor const * audio_processor () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_processor;
+	}
+	
 private:
 	/** Gain to apply to audio in dB */
 	double _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _audio_delay;
+	AudioProcessor const * _audio_processor;
 };
 
 #endif

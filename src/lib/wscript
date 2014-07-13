@@ -8,6 +8,7 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_mapping.cc
+          audio_processor.cc
           cinema.cc
           colour_conversion.cc
           config.cc
@@ -55,6 +56,7 @@ sources = """
           log.cc
           magick_image_proxy.cc
           md5_digester.cc
+          mid_side_decoder.cc
           player.cc
           player_video.cc
           playlist.cc
