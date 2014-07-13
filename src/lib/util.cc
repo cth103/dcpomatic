@@ -64,7 +64,7 @@ extern "C" {
 #include "scaler.h"
 #include "dcp_content_type.h"
 #include "filter.h"
-#include "sound_processor.h"
+#include "cinema_sound_processor.h"
 #include "config.h"
 #include "ratio.h"
 #include "job.h"
@@ -336,7 +336,7 @@ dcpomatic_setup ()
 	DCPContentType::setup_dcp_content_types ();
 	Scaler::setup_scalers ();
 	Filter::setup_filters ();
-	SoundProcessor::setup_sound_processors ();
+	CinemaSoundProcessor::setup_cinema_sound_processors ();
 	AudioProcessor::setup_audio_processors ();
 
 	ui_thread = boost::this_thread::get_id ();

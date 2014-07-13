@@ -20,10 +20,10 @@
 #include <boost/lexical_cast.hpp>
 #include <wx/spinctrl.h>
 #include "lib/config.h"
-#include "lib/sound_processor.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/audio_processor.h"
+#include "lib/cinema_sound_processor.h"
 #include "audio_dialog.h"
 #include "audio_panel.h"
 #include "audio_mapping_view.h"
@@ -175,7 +175,7 @@ AudioPanel::gain_calculate_button_clicked ()
 	}
 	
 	_gain->wrapped()->SetValue (
-		Config::instance()->sound_processor()->db_for_fader_change (
+		Config::instance()->cinema_sound_processor()->db_for_fader_change (
 			d->wanted_fader (),
 			d->actual_fader ()
 			)

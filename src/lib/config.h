@@ -35,7 +35,7 @@
 class ServerDescription;
 class Scaler;
 class Filter;
-class SoundProcessor;
+class CinemaSoundProcessor;
 class DCPContentType;
 class Ratio;
 class Cinema;
@@ -103,9 +103,9 @@ public:
 		return _tms_password;
 	}
 
-	/** @return The sound processor that we are using */
-	SoundProcessor const * sound_processor () const {
-		return _sound_processor;
+	/** @return The cinema sound processor that we are using */
+	CinemaSoundProcessor const * cinema_sound_processor () const {
+		return _cinema_sound_processor;
 	}
 
 	std::list<boost::shared_ptr<Cinema> > cinemas () const {
@@ -394,8 +394,8 @@ private:
 	std::string _tms_user;
 	/** Password to log into the TMS with */
 	std::string _tms_password;
-	/** Our sound processor */
-	SoundProcessor const * _sound_processor;
+	/** Our cinema sound processor */
+	CinemaSoundProcessor const * _cinema_sound_processor;
 	std::list<int> _allowed_dcp_frame_rates;
 	/** Allow any video frame rate for the DCP; if true, overrides _allowed_dcp_frame_rates */
 	bool _allow_any_dcp_frame_rate;

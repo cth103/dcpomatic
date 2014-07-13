@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,22 +18,22 @@
 */
 
 /** @file src/sound_processor.cc
- *  @brief A class to describe a sound processor.
+ *  @brief CinemaSoundProcessor class.
  */
 
 #include <iostream>
 #include <cassert>
-#include "sound_processor.h"
+#include "cinema_sound_processor.h"
 #include "dolby_cp750.h"
 
 using namespace std;
 
-vector<SoundProcessor const *> SoundProcessor::_sound_processors;
+vector<CinemaSoundProcessor const *> CinemaSoundProcessor::_cinema_sound_processors;
 
 /** @param i Our id.
  *  @param n User-visible name.
  */
-SoundProcessor::SoundProcessor (string i, string n)
+CinemaSoundProcessor::CinemaSoundProcessor (string i, string n)
 	: _id (i)
 	, _name (n)
 {
@@ -41,33 +41,33 @@ SoundProcessor::SoundProcessor (string i, string n)
 }
 
 /** @return All available sound processors */
-vector<SoundProcessor const *>
-SoundProcessor::all ()
+vector<CinemaSoundProcessor const *>
+CinemaSoundProcessor::all ()
 {
-	return _sound_processors;
+	return _cinema_sound_processors;
 }
 
 /** Set up the static _sound_processors vector; must be called before from_*
  *  methods are used.
  */
 void
-SoundProcessor::setup_sound_processors ()
+CinemaSoundProcessor::setup_cinema_sound_processors ()
 {
-	_sound_processors.push_back (new DolbyCP750);
+	_cinema_sound_processors.push_back (new DolbyCP750);
 }
 
 /** @param id One of our ids.
  *  @return Corresponding sound processor, or 0.
  */
-SoundProcessor const *
-SoundProcessor::from_id (string id)
+CinemaSoundProcessor const *
+CinemaSoundProcessor::from_id (string id)
 {
-	vector<SoundProcessor const *>::iterator i = _sound_processors.begin ();
-	while (i != _sound_processors.end() && (*i)->id() != id) {
+	vector<CinemaSoundProcessor const *>::iterator i = _cinema_sound_processors.begin ();
+	while (i != _cinema_sound_processors.end() && (*i)->id() != id) {
 		++i;
 	}
 
-	if (i == _sound_processors.end ()) {
+	if (i == _cinema_sound_processors.end ()) {
 		return 0;
 	}
 
@@ -78,14 +78,14 @@ SoundProcessor::from_id (string id)
  *  @return Index of the sound processor with the list, or -1.
  */
 int
-SoundProcessor::as_index (SoundProcessor const * s)
+CinemaSoundProcessor::as_index (CinemaSoundProcessor const * s)
 {
-	vector<SoundProcessor*>::size_type i = 0;
-	while (i < _sound_processors.size() && _sound_processors[i] != s) {
+	vector<CinemaSoundProcessor*>::size_type i = 0;
+	while (i < _cinema_sound_processors.size() && _cinema_sound_processors[i] != s) {
 		++i;
 	}
 
-	if (i == _sound_processors.size ()) {
+	if (i == _cinema_sound_processors.size ()) {
 		return -1;
 	}
 
@@ -95,9 +95,9 @@ SoundProcessor::as_index (SoundProcessor const * s)
 /** @param i An index returned from as_index().
  *  @return Corresponding sound processor.
  */
-SoundProcessor const *
-SoundProcessor::from_index (int i)
+CinemaSoundProcessor const *
+CinemaSoundProcessor::from_index (int i)
 {
-	assert (i <= int(_sound_processors.size ()));
-	return _sound_processors[i];
+	assert (i <= int(_cinema_sound_processors.size ()));
+	return _cinema_sound_processors[i];
 }

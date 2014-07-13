@@ -10,6 +10,7 @@ sources = """
           audio_mapping.cc
           audio_processor.cc
           cinema.cc
+          cinema_sound_processor.cc
           colour_conversion.cc
           config.cc
           content.cc
@@ -72,7 +73,7 @@ sources = """
           single_stream_audio_content.cc
           sndfile_content.cc
           sndfile_decoder.cc
-          sound_processor.cc
+          sox_audio_processor.cc
           subrip.cc
           subrip_content.cc
           subrip_decoder.cc

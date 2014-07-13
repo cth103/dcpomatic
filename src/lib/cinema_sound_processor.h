@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,24 +17,27 @@
 
 */
 
-/** @file src/sound_processor.h
- *  @brief A class to describe a sound processor.
+/** @file src/cinema_sound_processor.h
+ *  @brief CinemaSoundProcessor class
  */
 
-#ifndef DCPOMATIC_SOUND_PROCESSOR_H
-#define DCPOMATIC_SOUND_PROCESSOR_H
+#ifndef DCPOMATIC_CINEMA_SOUND_PROCESSOR_H
+#define DCPOMATIC_CINEMA_SOUND_PROCESSOR_H
 
 #include <string>
 #include <vector>
 #include <boost/utility.hpp>
 
-/** @class SoundProcessor
- *  @brief Class to describe a sound processor.
+/** @class CinemaSoundProcessor
+ *  @brief Class to describe a cimema's sound processor.
+ *
+ *  In other words, the box in the rack that handles sound decoding and processing
+ *  in a cinema.
  */
-class SoundProcessor : public boost::noncopyable
+class CinemaSoundProcessor : public boost::noncopyable
 {
 public:
-	SoundProcessor (std::string i, std::string n);
+	CinemaSoundProcessor (std::string i, std::string n);
 
 	virtual float db_for_fader_change (float from, float to) const = 0;
 
@@ -48,11 +51,11 @@ public:
 		return _name;
 	}
 	
-	static std::vector<SoundProcessor const *> all ();
-	static void setup_sound_processors ();
-	static SoundProcessor const * from_id (std::string id);
-	static SoundProcessor const * from_index (int);
-	static int as_index (SoundProcessor const *);
+	static std::vector<CinemaSoundProcessor const *> all ();
+	static void setup_cinema_sound_processors ();
+	static CinemaSoundProcessor const * from_id (std::string id);
+	static CinemaSoundProcessor const * from_index (int);
+	static int as_index (CinemaSoundProcessor const *);
 
 private:
 	/** id for our use */
@@ -60,8 +63,8 @@ private:
 	/** user-visible name for this sound processor */
 	std::string _name;
 
-	/** sll available sound processors */
-	static std::vector<SoundProcessor const *> _sound_processors;
+	/** sll available cinema sound processors */
+	static std::vector<CinemaSoundProcessor const *> _cinema_sound_processors;
 };
 
 #endif

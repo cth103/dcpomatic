@@ -32,7 +32,7 @@
 #include "filter.h"
 #include "ratio.h"
 #include "dcp_content_type.h"
-#include "sound_processor.h"
+#include "cinema_sound_processor.h"
 #include "colour_conversion.h"
 #include "cinema.h"
 #include "util.h"
@@ -60,7 +60,7 @@ Config::Config ()
 	, _server_port_base (6192)
 	, _use_any_servers (true)
 	, _tms_path (".")
-	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
+	, _cinema_sound_processor (CinemaSoundProcessor::from_id (N_("dolby_cp750")))
 	, _allow_any_dcp_frame_rate (false)
 	, _default_still_length (10)
 	, _default_container (Ratio::from_id ("185"))
@@ -128,7 +128,11 @@ Config::read ()
 
 	c = f.optional_string_child ("SoundProcessor");
 	if (c) {
-		_sound_processor = SoundProcessor::from_id (c.get ());
+		_cinema_sound_processor = CinemaSoundProcessor::from_id (c.get ());
+	}
+	c = f.optional_string_child ("CinemaSoundProcessor");
+	if (c) {
+		_cinema_sound_processor = CinemaSoundProcessor::from_id (c.get ());
 	}
 
 	_language = f.optional_string_child ("Language");
@@ -244,7 +248,7 @@ Config::read_old_metadata ()
 		} else if (k == N_("tms_password")) {
 			_tms_password = v;
 		} else if (k == N_("sound_processor")) {
-			_sound_processor = SoundProcessor::from_id (v);
+			_cinema_sound_processor = CinemaSoundProcessor::from_id (v);
 		} else if (k == "language") {
 			_language = v;
 		} else if (k == "default_container") {
@@ -334,8 +338,8 @@ Config::write () const
 	root->add_child("TMSPath")->add_child_text (_tms_path);
 	root->add_child("TMSUser")->add_child_text (_tms_user);
 	root->add_child("TMSPassword")->add_child_text (_tms_password);
-	if (_sound_processor) {
-		root->add_child("SoundProcessor")->add_child_text (_sound_processor->id ());
+	if (_cinema_sound_processor) {
+		root->add_child("CinemaSoundProcessor")->add_child_text (_cinema_sound_processor->id ());
 	}
 	if (_language) {
 		root->add_child("Language")->add_child_text (_language.get());

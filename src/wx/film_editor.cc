@@ -40,7 +40,6 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
-#include "lib/sound_processor.h"
 #include "lib/scaler.h"
 #include "lib/playlist.h"
 #include "lib/content.h"
