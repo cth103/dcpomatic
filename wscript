@@ -11,6 +11,7 @@ def options(opt):
 
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
+    opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
     opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
     opt.add_option('--target-debian',     action='store_true', default=False, help='set up to compile for a Debian/Ubuntu package')
     opt.add_option('--debian-unstable',   action='store_true', default=False, help='add extra libraries to static-build correctly on Debian unstable')
@@ -164,6 +165,7 @@ def configure(conf):
     # conf.options -> conf.env
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
+    conf.env.DISABLE_TESTS = conf.options.disable_tests
     conf.env.TARGET_DEBIAN = conf.options.target_debian
     conf.env.DEBIAN_UNSTABLE = conf.options.debian_unstable
     conf.env.TARGET_CENTOS_6 = conf.options.target_centos_6
@@ -340,13 +342,15 @@ def configure(conf):
     conf.define('DATADIR', datadir)
 
     conf.recurse('src')
-    conf.recurse('test')
+    if not conf.env.DISABLE_TESTS:
+        conf.recurse('test')
 
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
 
     bld.recurse('src')
-    bld.recurse('test')
+    if not bld.env.DISABLE_TESTS:
+        bld.recurse('test')
     if bld.env.TARGET_WINDOWS:
         bld.recurse('platform/windows')
     if bld.env.TARGET_LINUX:

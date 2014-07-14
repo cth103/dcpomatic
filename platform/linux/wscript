@@ -1,25 +1,30 @@
 def build(bld):
-    d = { 'INSTALL_PREFIX' : bld.env.INSTALL_PREFIX }
-    d = { 'VERSION' : bld.env.VERSION }
-
     obj = bld(features='subst')
     obj.source = 'dcpomatic.desktop.in'
     obj.target = 'dcpomatic.desktop'
-    obj.dict = d
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
 
     obj = bld(features='subst')
     obj.source = 'dcpomatic_batch.desktop.in'
     obj.target = 'dcpomatic_batch.desktop'
-    obj.dict = d
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
 
     obj = bld(features='subst')
     obj.source = 'dcpomatic_server.desktop.in'
     obj.target = 'dcpomatic_server.desktop'
-    obj.dict = d
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
 
     obj = bld(features='subst')
     obj.source = 'dcpomatic.spec.in'
     obj.target = 'dcpomatic.spec'
-    obj.dict = d
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    if bld.env.TARGET_CENTOS_6:
+        obj.CENTOS_VERSION = '6'
+    elif bld.env.TARGET_CENTOS_7:
+        obj.CENTOS_VERSION = '7'
 
     bld.install_files('${PREFIX}/share/applications', ['dcpomatic.desktop', 'dcpomatic_batch.desktop', 'dcpomatic_server.desktop'])
