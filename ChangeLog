@@ -1,3 +1,8 @@
+2014-07-14  Carl Hetherington  <cth@carlh.net>
+
+	* Bump libdcp to get a new version which writes
+	<Hash> values to CPLs.
+
 2014-07-10  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.72.2 released.
