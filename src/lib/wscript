@@ -85,6 +85,7 @@ sources = """
           types.cc
           ui_signaller.cc
           update.cc
+          upmixer_a.cc
           util.cc
           video_content.cc
           video_decoder.cc

@@ -23,6 +23,7 @@
 #include "film.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
@@ -92,10 +93,12 @@ SingleStreamAudioContent::take_from_audio_examiner (shared_ptr<AudioExaminer> ex
 	signal_changed (AudioContentProperty::AUDIO_LENGTH);
 	signal_changed (AudioContentProperty::AUDIO_FRAME_RATE);
 
+	int const p = processed_audio_channels ();
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		/* XXX: do this in signal_changed...? */
-		_audio_mapping = AudioMapping (_audio_channels);
+		_audio_mapping = AudioMapping (p);
 		_audio_mapping.make_default ();
 	}
 	

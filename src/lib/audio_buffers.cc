@@ -285,3 +285,29 @@ AudioBuffers::apply_gain (float dB)
 		}
 	}
 }
+
+/** @param c Channel index.
+ *  @return AudioBuffers object containing only channel `c' from this AudioBuffers.
+ */
+shared_ptr<AudioBuffers>
+AudioBuffers::channel (int c) const
+{
+	shared_ptr<AudioBuffers> o (new AudioBuffers (1, frames ()));
+	o->copy_channel_from (this, c, 0);
+	return o;
+}
+
+void
+AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel)
+{
+	assert (from->frames() == frames());
+	memcpy (data(to_channel), from->data(from_channel), frames() * sizeof (float));
+}
+
+shared_ptr<AudioBuffers>
+AudioBuffers::clone () const
+{
+	shared_ptr<AudioBuffers> b (new AudioBuffers (channels (), frames ()));
+	b->copy_from (this, frames (), 0, 0);
+	return b;
+}

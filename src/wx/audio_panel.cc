@@ -84,7 +84,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	add_label_to_grid_bag_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, wxGBPosition (r, 1));
-	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 3));
+	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 2), wxGBSpan (1, 2));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Process with"), true, wxGBPosition (r, 0));

@@ -50,7 +50,7 @@ MidSideDecoder::out_channels (int) const
 }
 
 shared_ptr<AudioProcessor>
-MidSideDecoder::clone () const
+MidSideDecoder::clone (int) const
 {
 	return shared_ptr<AudioProcessor> (new MidSideDecoder ());
 }

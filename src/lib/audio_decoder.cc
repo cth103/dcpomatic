@@ -45,7 +45,7 @@ AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 	}
 
 	if (content->audio_processor ()) {
-		_processor = content->audio_processor()->clone ();
+		_processor = content->audio_processor()->clone (content->resampled_audio_frame_rate ());
 	}
 
 	reset_decoded_audio ();
@@ -214,5 +214,8 @@ AudioDecoder::seek (ContentTime t, bool accurate)
 	reset_decoded_audio ();
 	if (accurate) {
 		_seek_reference = t;
+	}
+	if (_processor) {
+		_processor->flush ();
 	}
 }

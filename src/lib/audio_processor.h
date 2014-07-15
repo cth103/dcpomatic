@@ -36,8 +36,9 @@ public:
 	virtual std::string id () const = 0;
 	virtual ChannelCount in_channels () const = 0;
 	virtual int out_channels (int) const = 0;
-	virtual boost::shared_ptr<AudioProcessor> clone () const = 0;
+	virtual boost::shared_ptr<AudioProcessor> clone (int sampling_rate) const = 0;
 	virtual boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>) = 0;
+	virtual void flush () {}
 
 	static std::list<AudioProcessor const *> all ();
 	static void setup_audio_processors ();

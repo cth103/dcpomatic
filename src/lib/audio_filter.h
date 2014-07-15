@@ -37,6 +37,8 @@ public:
 
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<AudioBuffers> in);
 
+	void flush ();
+
 protected:
 	friend class audio_filter_impulse_kernel_test;
 	friend class audio_filter_impulse_input_test;

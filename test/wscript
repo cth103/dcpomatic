@@ -54,6 +54,7 @@ def build(bld):
                  subrip_test.cc
                  test.cc
                  threed_test.cc
+                 upmixer_a_test.cc
                  util_test.cc
                  xml_subtitle_test.cc
                  """

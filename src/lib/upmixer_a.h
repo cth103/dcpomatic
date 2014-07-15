@@ -18,16 +18,26 @@
 */
 
 #include "audio_processor.h"
+#include "audio_filter.h"
 
-class MidSideDecoder : public AudioProcessor
+class UpmixerA : public AudioProcessor
 {
 public:
+	UpmixerA (int sampling_rate);
+	
 	std::string name () const;
 	std::string id () const;
 	ChannelCount in_channels () const;
 	int out_channels (int) const;
 	boost::shared_ptr<AudioProcessor> clone (int) const;
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
-};
+	void flush ();
 
-       
+private:
+	BandPassAudioFilter _left;
+	BandPassAudioFilter _right;
+	BandPassAudioFilter _centre;
+	BandPassAudioFilter _lfe;
+	BandPassAudioFilter _ls;
+	BandPassAudioFilter _rs;
+};

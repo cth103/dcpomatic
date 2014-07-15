@@ -19,6 +19,7 @@
 
 #include "audio_processor.h"
 #include "mid_side_decoder.h"
+#include "upmixer_a.h"
 
 using std::string;
 using std::list;
@@ -29,6 +30,7 @@ void
 AudioProcessor::setup_audio_processors ()
 {
 	_all.push_back (new MidSideDecoder ());
+	_all.push_back (new UpmixerA (48000));
 }
 
 AudioProcessor const *

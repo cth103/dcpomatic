@@ -100,6 +100,12 @@ AudioFilter::run (shared_ptr<AudioBuffers> in)
 	return out;
 }
 
+void
+AudioFilter::flush ()
+{
+	_tail.reset ();
+}
+
 LowPassAudioFilter::LowPassAudioFilter (float transition_bandwidth, float cutoff)
 	: AudioFilter (transition_bandwidth)
 {

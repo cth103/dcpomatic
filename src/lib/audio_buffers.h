@@ -39,6 +39,9 @@ public:
 
 	AudioBuffers & operator= (AudioBuffers const &);
 
+	boost::shared_ptr<AudioBuffers> clone () const;
+	boost::shared_ptr<AudioBuffers> channel (int) const;
+
 	void ensure_size (int);
 
 	float** data () const {
@@ -64,6 +67,7 @@ public:
 	void apply_gain (float);
 
 	void copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
+	void copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel);
 	void move (int from, int to, int frames);
 	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
 	void accumulate_frames (AudioBuffers const *, int read_offset, int write_offset, int frames);
