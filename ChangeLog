@@ -1,3 +1,13 @@
+2014-07-15  Carl Hetherington  <cth@carlh.net>
+
+	* A variety of changes were made on the 2.0 branch
+	but not documented in the ChangeLog.  Most sigificantly:
+	
+	- DCP import
+	- Creation of DCPs with proper XML subtitles
+	- Import of .srt and .xml subtitles
+	- Audio processing framework (with some basic processors).
+
 2014-03-07  Carl Hetherington  <cth@carlh.net>
 
 	* Add subtitle view.
