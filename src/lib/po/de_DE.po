@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-24 14:53+0100\n"
-"PO-Revision-Date: 2014-07-02 17:01+0100\n"
+"PO-Revision-Date: 2014-07-13 02:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -169,11 +169,12 @@ msgstr "Zu verbindende Inhalte müssen die gleiche Bildrate haben."
 
 #: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame type."
-msgstr "Zu verbindende Inhalte müssen die gleiche Bildart (z.B. 2D) haben."
+msgstr "Zu verbindende Inhalte müssen den gleichen Bildtyp (z.B. 2D) haben."
 
 #: src/lib/ffmpeg_content.cc:116
 msgid "Content to be joined must use the same audio stream."
-msgstr "Zu verbindende Inhalte müssen die gleiche Tonspurart verwenden."
+msgstr ""
+"Zu verbindende Inhalte müssen die gleiche Tonspurkonfiguration verwenden."
 
 #: src/lib/ffmpeg_content.cc:112
 msgid "Content to be joined must use the same subtitle stream."
@@ -257,7 +258,7 @@ msgid ""
 msgstr ""
 "Sehr geehrter Vorfuehrer,\n"
 "\n"
-"Im Anhang finden Sie die KDM für den Film $CPL_NAME.\n"
+"Im Anhang finden Sie die KDM fuer den Film $CPL_NAME.\n"
 "\n"
 "Der Schluessel ist vom $START_TIME bis zum $END_TIME gueltig fuer:\n"
 "\n"
@@ -584,7 +585,7 @@ msgstr "Darf keine Schrägstriche enthalten"
 
 #: src/lib/util.cc:530
 msgid "connect timed out"
-msgstr "Zeit zur Verbindung abgelaufen"
+msgstr "Zeit für Verbindung abgelaufen"
 
 #: src/lib/scp_dcp_job.cc:128
 msgid "connecting"

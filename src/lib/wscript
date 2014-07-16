@@ -104,7 +104,7 @@ def build(bld):
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
-                 CURL ZIP QUICKMAIL PANGOMM CAIROMM
+                 CURL ZIP QUICKMAIL PANGOMM CAIROMM XMLSEC
                  """
 
     if bld.env.TARGET_OSX:
@@ -116,7 +116,7 @@ def build(bld):
         obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY SHLWAPI MSWSOCK BOOST_LOCALE'
         obj.source += ' stack.cpp'
     if bld.env.BUILD_STATIC:
-        obj.uselib += ' XML++'
+        obj.uselib += ' XMLPP'
 
     obj.target = 'dcpomatic'
 

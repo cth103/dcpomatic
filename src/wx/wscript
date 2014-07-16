@@ -69,6 +69,9 @@ def configure(conf):
             conf.env.LIB_WXWIDGETS.append('Xxf86vm')
             conf.env.LIB_WXWIDGETS.append('Xext')
             conf.env.LIB_WXWIDGETS.append('X11')
+
+        if conf.env.TARGET_CENTOS_7:
+            conf.env.LIB_WXWIDGETS.append('Xxf86vm')
  
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()

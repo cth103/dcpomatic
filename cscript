@@ -169,7 +169,10 @@ def build(target, options):
             if target.version == 'unstable':
                 cmd += ' --debian-unstable'
         elif target.distro == 'centos':
-            cmd += ' --target-centos'
+            if target.version == '6.5':
+                cmd += ' --target-centos-6 --disable-tests'
+            elif target.version == '7':
+                cmd += ' --target-centos-7'
 
     target.command(cmd)
     target.command('./waf')

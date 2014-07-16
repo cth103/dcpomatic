@@ -11,10 +11,12 @@ def options(opt):
 
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
+    opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
     opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
     opt.add_option('--target-debian',     action='store_true', default=False, help='set up to compile for a Debian/Ubuntu package')
     opt.add_option('--debian-unstable',   action='store_true', default=False, help='add extra libraries to static-build correctly on Debian unstable')
-    opt.add_option('--target-centos',     action='store_true', default=False, help='set up to compile for a Centos package')
+    opt.add_option('--target-centos-6',   action='store_true', default=False, help='set up to compile for a Centos 6.5 package')
+    opt.add_option('--target-centos-7',   action='store_true', default=False, help='set up to compile for a Centos 7 package')
     opt.add_option('--magickpp-config',   action='store',      default='Magick++-config', help='path to Magick++-config')
     opt.add_option('--wx-config',         action='store',      default='wx-config', help='path to wx-config')
     opt.add_option('--address-sanitizer', action='store_true', default=False, help='build with address sanitizer')
@@ -56,7 +58,11 @@ def dynamic_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.2', mandatory=True)
 
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
+<<<<<<< HEAD
     conf.check_cfg(package='libdcp-1.0', atleast_version='0.95', args='--cflags', uselib_store='DCP', mandatory=True)
+=======
+    conf.check_cfg(package='libdcp', atleast_version='0.96', args='--cflags', uselib_store='DCP', mandatory=True)
+>>>>>>> origin/master
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
     conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-libdcp-1.0', 'kumu-libdcp-1.0']
     conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
@@ -163,14 +169,16 @@ def configure(conf):
     # conf.options -> conf.env
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.DISABLE_GUI = conf.options.disable_gui
+    conf.env.DISABLE_TESTS = conf.options.disable_tests
     conf.env.TARGET_DEBIAN = conf.options.target_debian
     conf.env.DEBIAN_UNSTABLE = conf.options.debian_unstable
-    conf.env.TARGET_CENTOS = conf.options.target_centos
+    conf.env.TARGET_CENTOS_6 = conf.options.target_centos_6
+    conf.env.TARGET_CENTOS_7 = conf.options.target_centos_7
     conf.env.VERSION = VERSION
     conf.env.TARGET_OSX = sys.platform == 'darwin'
     conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS and not conf.env.TARGET_OSX
     # true if we should build dcpomatic/libdcpomatic/libdcpomatic-wx statically
-    conf.env.BUILD_STATIC = conf.options.target_debian or conf.options.target_centos
+    conf.env.BUILD_STATIC = conf.options.target_debian or conf.options.target_centos_6 or conf.options.target_centos_7
     if conf.options.install_prefix is None:
         conf.env.INSTALL_PREFIX = conf.env.PREFIX
     else:
@@ -218,8 +226,8 @@ def configure(conf):
     # POSIX
     if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
-        conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['PREFIX'])
-        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dcpomatic"' % conf.env['PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dcpomatic"' % conf.env['INSTALL_PREFIX'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
@@ -249,7 +257,7 @@ def configure(conf):
     if conf.env.TARGET_DEBIAN:
         conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml']
-        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
         conf.env.STLIB_QUICKMAIL = ['quickmail']
         static_ffmpeg(conf)
@@ -257,7 +265,8 @@ def configure(conf):
         static_dcp(conf, False, False, False, False)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
 
-    if conf.env.TARGET_CENTOS:
+    if conf.env.TARGET_CENTOS_6:
+        # Centos 6.5's boost is too old, so we build a new version statically in the chroot
         conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags --libs-only-L', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml', 'boost_filesystem']
         conf.check_cfg(package='libcurl', args='--cflags --libs-only-L', uselib_store='CURL', mandatory=True)
@@ -270,8 +279,22 @@ def configure(conf):
         static_dcp(conf, True, True, True, True)
         static_boost(conf, boost_lib_suffix)
 
+    if conf.env.TARGET_CENTOS_7:
+        # Centos 7's boost is ok so we link it dynamically
+        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags', uselib_store='CXML', mandatory=True)
+        conf.env.STLIB_CXML = ['cxml']
+        conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
+        conf.env.STLIB_QUICKMAIL = ['quickmail']
+        conf.env.LIB_SSH = ['gssapi_krb5']
+        conf.env.LIB_XMLPP = ['xml2']
+        conf.env.LIB_XMLSEC = ['ltdl']
+        static_ffmpeg(conf)
+        static_openjpeg(conf)
+        static_dcp(conf, False, True, True, True)
+        dynamic_boost(conf, boost_lib_suffix, boost_thread)
+
     if conf.env.TARGET_WINDOWS:
-        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
         conf.check_cxx(fragment="""
     			        #include <boost/locale.hpp>\n
@@ -288,9 +311,9 @@ def configure(conf):
         dynamic_ssh(conf)
 
     # Not packaging; just a straight build
-    if not conf.env.TARGET_WINDOWS and not conf.env.TARGET_DEBIAN and not conf.env.TARGET_CENTOS:
+    if not conf.env.TARGET_WINDOWS and not conf.env.TARGET_DEBIAN and not conf.env.TARGET_CENTOS_6 and not conf.env.TARGET_CENTOS_7:
         conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags --libs', uselib_store='CXML', mandatory=True)
-        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XML++', mandatory=True)
+        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
         dynamic_quickmail(conf)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
@@ -325,13 +348,15 @@ def configure(conf):
     conf.define('DATADIR', datadir)
 
     conf.recurse('src')
-    conf.recurse('test')
+    if not conf.env.DISABLE_TESTS:
+        conf.recurse('test')
 
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
 
     bld.recurse('src')
-    bld.recurse('test')
+    if not bld.env.DISABLE_TESTS:
+        bld.recurse('test')
     if bld.env.TARGET_WINDOWS:
         bld.recurse('platform/windows')
     if bld.env.TARGET_LINUX:

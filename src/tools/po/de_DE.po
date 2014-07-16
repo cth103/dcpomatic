@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-24 14:53+0100\n"
-"PO-Revision-Date: 2014-07-02 17:02+0100\n"
+"PO-Revision-Date: 2014-07-13 03:04+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -30,7 +30,7 @@ msgstr "&Projekt hinzufügen"
 
 #: src/tools/dcpomatic.cc:243
 msgid "&Content"
-msgstr "&Quelle"
+msgstr "&Quelle..."
 
 #: src/tools/dcpomatic.cc:241
 msgid "&Edit"
@@ -186,11 +186,11 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:219
 msgid "Scale to fit &height"
-msgstr "Skalieren auf &Höhe DCI-Container"
+msgstr "...skalieren auf &Höhe DCI-Container"
 
 #: src/tools/dcpomatic.cc:218
 msgid "Scale to fit &width"
-msgstr "Skalieren auf &Breite DCI-Container"
+msgstr "...skalieren auf &Breite DCI-Container"
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:170
 msgid "Select film to open"

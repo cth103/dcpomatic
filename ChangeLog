@@ -2,7 +2,7 @@
 
 	* A variety of changes were made on the 2.0 branch
 	but not documented in the ChangeLog.  Most sigificantly:
-	
+
 	- DCP import
 	- Creation of DCPs with proper XML subtitles
 	- Import of .srt and .xml subtitles
@@ -11,6 +11,25 @@
 2014-03-07  Carl Hetherington  <cth@carlh.net>
 
 	* Add subtitle view.
+
+2014-07-16  Carl Hetherington  <cth@carlh.net>
+
+	* Updates to de_DE from Carsten Kurz.
+
+	* Limit allowed KDM types based on Interop/SMPTE setting
+	of DCP (#385).
+
+	* Updates to fr_FR from Grégoire Ausina.
+
+2014-07-14  Carl Hetherington  <cth@carlh.net>
+
+	* Bump libdcp to get a new version which writes
+	<Hash> values to CPLs.
+
+2014-07-10  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.72.2 released.
+>>>>>>> origin/master
 
 2014-07-10  Carl Hetherington  <cth@carlh.net>
 
