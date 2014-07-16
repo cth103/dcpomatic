@@ -143,25 +143,54 @@ seconds_to_approximate_hms (int s)
 	m -= (h * 60);
 
 	stringstream ap;
-	
-	if (h > 0) {
-		if (m > 30) {
+
+	bool const hours = h > 0;
+	bool const minutes = h < 10 && m > 0;
+	bool const seconds = m < 10 && s > 0;
+
+	if (hours) {
+		if (m > 30 && !minutes) {
 			ap << (h + 1) << N_(" ") << _("hours");
 		} else {
+			ap << h << N_(" ");
 			if (h == 1) {
-				ap << N_("1 ") << _("hour");
+				ap << _("hour");
 			} else {
-				ap << h << N_(" ") << _("hours");
+				ap << _("hours");
 			}
 		}
-	} else if (m > 0) {
-		if (m == 1) {
-			ap << N_("1 ") << _("minute");
-		} else {
-			ap << m << N_(" ") << _("minutes");
+
+		if (minutes | seconds) {
+			ap << N_(" ");
 		}
-	} else {
-		ap << s << N_(" ") << _("seconds");
+	}
+
+	if (minutes) {
+		/* Minutes */
+		if (s > 30 && !seconds) {
+			ap << (m + 1) << N_(" ") << _("minutes");
+		} else {
+			ap << m << N_(" ");
+			if (m == 1) {
+				ap << _("minute");
+			} else {
+				ap << _("minutes");
+			}
+		}
+
+		if (seconds) {
+			ap << N_(" ");
+		}
+	}
+
+	if (seconds) {
+		/* Seconds */
+		ap << s << N_(" ");
+		if (s == 1) {
+			ap << _("second");
+		} else {
+			ap << _("seconds");
+		}
 	}
 
 	return ap.str ();
