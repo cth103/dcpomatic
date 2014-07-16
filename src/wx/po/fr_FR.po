@@ -262,7 +262,7 @@ msgstr "Espace Couleurs"
 
 #: src/wx/config_dialog.cc:805
 msgid "Config|Timing"
-msgstr "Configuration|Temps"
+msgstr "Temps"
 
 #: src/wx/film_editor.cc:134
 msgid "Container"
@@ -600,7 +600,7 @@ msgstr ""
 
 #: src/wx/kdm_dialog.cc:99
 msgid "KDM|Timing"
-msgstr "KDM|Temps"
+msgstr "Temps"
 
 #: src/wx/film_editor.cc:297
 msgid "Keep video in sequence"
@@ -1013,7 +1013,7 @@ msgstr "Timeline..."
 
 #: src/wx/timing_panel.cc:36
 msgid "Timing|Timing"
-msgstr "Temps|Temps"
+msgstr "Temps"
 
 #: src/wx/video_panel.cc:110
 msgid "Top crop"
