@@ -63,6 +63,7 @@ Config::Config ()
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _allow_any_dcp_frame_rate (false)
 	, _default_still_length (10)
+	, _default_scale (Ratio::from_id ("185"))
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_isdcf_name ("TST"))
 	, _default_j2k_bandwidth (100000000)
@@ -132,6 +133,11 @@ Config::read ()
 	}
 
 	_language = f.optional_string_child ("Language");
+
+	c = f.optional_string_child ("DefaultScale");
+	if (c) {
+		_default_scale = Ratio::from_id (c.get ());
+	}
 
 	c = f.optional_string_child ("DefaultContainer");
 	if (c) {
@@ -340,6 +346,9 @@ Config::write () const
 	}
 	if (_language) {
 		root->add_child("Language")->add_child_text (_language.get());
+	}
+	if (_default_scale) {
+		root->add_child("DefaultScale")->add_child_text (_default_scale->id ());
 	}
 	if (_default_container) {
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());

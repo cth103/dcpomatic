@@ -266,6 +266,10 @@ public:
 		add_label_to_sizer (table, panel, _("Default ISDCF name details"), true);
 		_isdcf_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
 		table->Add (_isdcf_metadata_button);
+
+		add_label_to_sizer (table, panel, _("Default scale to"), true);
+		_scale = new wxChoice (panel, wxID_ANY);
+		table->Add (_scale);
 		
 		add_label_to_sizer (table, panel, _("Default container"), true);
 		_container = new wxChoice (panel, wxID_ANY);
@@ -315,6 +319,10 @@ public:
 		vector<Ratio const *> ratio = Ratio::all ();
 		int n = 0;
 		for (vector<Ratio const *>::iterator i = ratio.begin(); i != ratio.end(); ++i) {
+			_scale->Append (std_to_wx ((*i)->nickname ()));
+			if (*i == config->default_scale ()) {
+				_scale->SetSelection (n);
+			}
 			_container->Append (std_to_wx ((*i)->nickname ()));
 			if (*i == config->default_container ()) {
 				_container->SetSelection (n);
@@ -322,6 +330,7 @@ public:
 			++n;
 		}
 		
+		_scale->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::scale_changed, this));
 		_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::container_changed, this));
 		
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -380,6 +389,12 @@ private:
 	{
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
+
+	void scale_changed ()
+	{
+		vector<Ratio const *> ratio = Ratio::all ();
+		Config::instance()->set_default_scale (ratio[_scale->GetSelection()]);
+	}
 	
 	void container_changed ()
 	{
@@ -416,6 +431,7 @@ private:
 #else
 	wxDirPickerCtrl* _directory;
 #endif
+	wxChoice* _scale;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxTextCtrl* _issuer;

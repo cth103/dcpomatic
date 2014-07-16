@@ -133,6 +133,10 @@ public:
 		return _default_still_length;
 	}
 
+	Ratio const * default_scale () const {
+		return _default_scale;
+	}
+
 	Ratio const * default_container () const {
 		return _default_container;
 	}
@@ -282,6 +286,11 @@ public:
 		changed ();
 	}
 
+	void set_default_scale (Ratio const * s) {
+		_default_scale = s;
+		changed ();
+	}
+
 	void set_default_container (Ratio const * c) {
 		_default_container = c;
 		changed ();
@@ -413,6 +422,7 @@ private:
 	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;
 	int _default_still_length;
+	Ratio const * _default_scale;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
 	libdcp::XMLMetadata _dcp_metadata;
