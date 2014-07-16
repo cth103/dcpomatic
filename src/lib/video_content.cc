@@ -63,7 +63,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	, _video_length (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _scale (Ratio::from_id ("185"))
+	, _scale (Config::instance()->default_scale ())
 {
 	setup_default_colour_conversion ();
 }
@@ -73,7 +73,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len
 	, _video_length (len)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _scale (Ratio::from_id ("185"))
+	, _scale (Config::instance()->default_scale ())
 {
 	setup_default_colour_conversion ();
 }
@@ -83,7 +83,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_length (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _scale (Ratio::from_id ("185"))
+	, _scale (Config::instance()->default_scale ())
 {
 	setup_default_colour_conversion ();
 }
