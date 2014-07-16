@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 14:53+0100\n"
+"POT-Creation-Date: 2014-07-16 13:56+0100\n"
 "PO-Revision-Date: 2014-04-20 12:06-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -118,12 +118,12 @@ msgstr "Añadir carpeta..."
 msgid "Add..."
 msgstr "Añadir..."
 
-#: src/wx/config_dialog.cc:780
+#: src/wx/config_dialog.cc:792
 #, fuzzy
 msgid "Allow any DCP frame rate"
 msgstr "Velocidad de imagen"
 
-#: src/wx/about_dialog.cc:109
+#: src/wx/about_dialog.cc:110
 msgid "Artwork by"
 msgstr "Grafismo de"
 
@@ -181,7 +181,7 @@ msgstr "pero tengo que usar el fader a"
 msgid "C"
 msgstr "C"
 
-#: src/wx/config_dialog.cc:677
+#: src/wx/config_dialog.cc:681
 #, fuzzy
 msgid "CC address"
 msgstr "Dirección IP"
@@ -212,7 +212,7 @@ msgid "Certificate"
 msgstr "Certificado"
 
 #: src/wx/dolby_certificate_dialog.cc:157
-#: src/wx/doremi_certificate_dialog.cc:67
+#: src/wx/doremi_certificate_dialog.cc:92
 msgid "Certificate downloaded"
 msgstr "Certificado descargado"
 
@@ -240,11 +240,11 @@ msgstr "Buscar actualizaciones al iniciar"
 msgid "Choose a file"
 msgstr "Elige un fichero"
 
-#: src/wx/film_editor.cc:788
+#: src/wx/film_editor.cc:792
 msgid "Choose a file or files"
 msgstr "Elegir un fichero o ficheros"
 
-#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:811
+#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:815
 msgid "Choose a folder"
 msgstr "Elige una carpeta"
 
@@ -261,7 +261,7 @@ msgstr "Conversiones de color"
 msgid "Colour conversion"
 msgstr "Conversión de color"
 
-#: src/wx/config_dialog.cc:793
+#: src/wx/config_dialog.cc:805
 #, fuzzy
 msgid "Config|Timing"
 msgstr "Tiempo"
@@ -413,7 +413,7 @@ msgstr "Dolby"
 msgid "Doremi"
 msgstr "Doremi"
 
-#: src/wx/doremi_certificate_dialog.cc:48
+#: src/wx/doremi_certificate_dialog.cc:49
 msgid "Doremi serial numbers must have 6 digits"
 msgstr "Los números de serie de Doremi deben tener 6 cifras"
 
@@ -430,7 +430,7 @@ msgid "Download certificate"
 msgstr "Descargar certificado"
 
 #: src/wx/dolby_certificate_dialog.cc:132
-#: src/wx/doremi_certificate_dialog.cc:52
+#: src/wx/doremi_certificate_dialog.cc:53
 msgid "Downloading certificate"
 msgstr "Descargando certificado"
 
@@ -460,7 +460,7 @@ msgstr "Servidores de codificación"
 msgid "Encrypted"
 msgstr "Encriptado"
 
-#: src/wx/config_dialog.cc:790
+#: src/wx/config_dialog.cc:802
 msgid "Errors"
 msgstr ""
 
@@ -510,7 +510,7 @@ msgstr ""
 msgid "From"
 msgstr "De"
 
-#: src/wx/config_dialog.cc:673
+#: src/wx/config_dialog.cc:677
 #, fuzzy
 msgid "From address"
 msgstr "Dirección IP"
@@ -519,7 +519,7 @@ msgstr "Dirección IP"
 msgid "Full"
 msgstr "Completo"
 
-#: src/wx/timing_panel.cc:43
+#: src/wx/timing_panel.cc:44
 msgid "Full length"
 msgstr "Duración completa"
 
@@ -540,7 +540,7 @@ msgstr "Ganancia del canal %d en el canal %d del DCP"
 msgid "Gb"
 msgstr "Gb"
 
-#: src/wx/config_dialog.cc:785
+#: src/wx/config_dialog.cc:797
 msgid "General"
 msgstr ""
 
@@ -601,6 +601,10 @@ msgstr "Unir"
 msgid "KDM Email"
 msgstr "Email KDM"
 
+#: src/wx/kdm_dialog.cc:162
+msgid "KDM type"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:99
 #, fuzzy
 msgid "KDM|Timing"
@@ -634,7 +638,7 @@ msgstr "Hacer lineal la curva de gamma de entrada para valores bajos"
 msgid "Load from file..."
 msgstr "Cargar de fichero..."
 
-#: src/wx/config_dialog.cc:784
+#: src/wx/config_dialog.cc:796
 msgid "Log"
 msgstr ""
 
@@ -642,7 +646,7 @@ msgstr ""
 msgid "Ls"
 msgstr "Ls"
 
-#: src/wx/film_editor.cc:762
+#: src/wx/film_editor.cc:766
 msgid "MISSING: "
 msgstr "FALTA:"
 
@@ -666,11 +670,11 @@ msgstr ""
 msgid "Matrix"
 msgstr "Matriz"
 
-#: src/wx/config_dialog.cc:772
+#: src/wx/config_dialog.cc:784
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Ancho de banda JPEG2000 máximo"
 
-#: src/wx/config_dialog.cc:283 src/wx/config_dialog.cc:776
+#: src/wx/config_dialog.cc:283 src/wx/config_dialog.cc:788
 #: src/wx/film_editor.cc:185
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -752,7 +756,7 @@ msgstr "Pico"
 msgid "Play"
 msgstr "Reproducir"
 
-#: src/wx/timing_panel.cc:52
+#: src/wx/timing_panel.cc:53
 msgid "Play length"
 msgstr "Duración"
 
@@ -760,7 +764,7 @@ msgstr "Duración"
 msgid "Please wait; audio is being analysed..."
 msgstr "Por favor espere, el audio está siendo analizado..."
 
-#: src/wx/timing_panel.cc:40
+#: src/wx/timing_panel.cc:41
 msgid "Position"
 msgstr "Posición"
 
@@ -813,7 +817,7 @@ msgstr "Repetir contenido"
 msgid "Repeat..."
 msgstr "Repetir..."
 
-#: src/wx/config_dialog.cc:684
+#: src/wx/config_dialog.cc:688
 msgid "Reset to default text"
 msgstr ""
 
@@ -864,7 +868,7 @@ msgstr "Escalador"
 msgid "Screens"
 msgstr "Añadir pantalla..."
 
-#: src/wx/kdm_dialog.cc:515
+#: src/wx/kdm_dialog.cc:531
 #, fuzzy
 msgid "Select CPL XML file"
 msgstr "Seleccionar fichero de audio"
@@ -873,7 +877,7 @@ msgstr "Seleccionar fichero de audio"
 msgid "Select Certificate File"
 msgstr "Seleccionar fichero de certificado"
 
-#: src/wx/kdm_dialog.cc:175
+#: src/wx/kdm_dialog.cc:185
 msgid "Send by email"
 msgstr "Enviar por email"
 
@@ -890,7 +894,7 @@ msgstr "Servidor"
 msgid "Server manufacturer"
 msgstr "Número de serie del servidor"
 
-#: src/wx/doremi_certificate_dialog.cc:35
+#: src/wx/doremi_certificate_dialog.cc:36
 msgid "Server serial number"
 msgstr "Número de serie del servidor"
 
@@ -898,7 +902,7 @@ msgstr "Número de serie del servidor"
 msgid "Servers"
 msgstr "Servidores"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:61
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:62
 msgid "Set"
 msgstr "Seleccionar"
 
@@ -939,6 +943,10 @@ msgstr "Flujo"
 msgid "Studio (e.g. TCF)"
 msgstr "Estudio (ej. TCF)"
 
+#: src/wx/config_dialog.cc:673
+msgid "Subject"
+msgstr ""
+
 #: src/wx/isdcf_metadata_dialog.cc:38
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma del subtítulo (ej. EN)"
@@ -947,7 +955,7 @@ msgstr "Idioma del subtítulo (ej. EN)"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:153
+#: src/wx/about_dialog.cc:154
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -972,7 +980,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:198
+#: src/wx/about_dialog.cc:199
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -993,7 +1001,7 @@ msgstr "No hay recomendaciones: ¡todo parece bien!"
 msgid "There is not enough free memory to do that."
 msgstr "No hay suficiente memoria para hacer eso."
 
-#: src/wx/kdm_dialog.cc:537
+#: src/wx/kdm_dialog.cc:553
 msgid "This is not a valid CPL file"
 msgstr ""
 
@@ -1017,7 +1025,7 @@ msgstr "Línea de tiempo"
 msgid "Timeline..."
 msgstr "Linea de tiempo..."
 
-#: src/wx/timing_panel.cc:35
+#: src/wx/timing_panel.cc:36
 #, fuzzy
 msgid "Timing|Timing"
 msgstr "Tiempo"
@@ -1026,15 +1034,15 @@ msgstr "Tiempo"
 msgid "Top crop"
 msgstr "Recortar arriba"
 
-#: src/wx/about_dialog.cc:105
+#: src/wx/about_dialog.cc:106
 msgid "Translated by"
 msgstr "Traducido por"
 
-#: src/wx/timing_panel.cc:49
+#: src/wx/timing_panel.cc:50
 msgid "Trim from end"
 msgstr "Recortar del final"
 
-#: src/wx/timing_panel.cc:46
+#: src/wx/timing_panel.cc:47
 msgid "Trim from start"
 msgstr "Recortar del inicio"
 
@@ -1091,11 +1099,11 @@ msgstr "VI"
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/wx/timing_panel.cc:57
+#: src/wx/timing_panel.cc:58
 msgid "Video frame rate"
 msgstr "Velocidad de imagen"
 
-#: src/wx/config_dialog.cc:787
+#: src/wx/config_dialog.cc:799
 msgid "Warnings"
 msgstr ""
 
@@ -1103,7 +1111,7 @@ msgstr ""
 msgid "With Subtitles"
 msgstr "Con subtítulos"
 
-#: src/wx/kdm_dialog.cc:162
+#: src/wx/kdm_dialog.cc:172
 msgid "Write to"
 msgstr "Escribe a"
 

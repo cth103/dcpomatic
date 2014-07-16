@@ -670,6 +670,10 @@ public:
 		font.SetPointSize (font.GetPointSize() - 1);
 		plain->SetFont (font);
 		table->AddSpacer (0);
+
+		add_label_to_sizer (table, panel, _("Subject"), true);
+		_kdm_subject = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_kdm_subject, 1, wxEXPAND | wxALL);
 		
 		add_label_to_sizer (table, panel, _("From address"), true);
 		_kdm_from = new wxTextCtrl (panel, wxID_ANY);
@@ -692,6 +696,8 @@ public:
 		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_user_changed, this));
 		_mail_password->SetValue (std_to_wx (config->mail_password ()));
 		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_password_changed, this));
+		_kdm_subject->SetValue (std_to_wx (config->kdm_subject ()));
+		_kdm_subject->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
 		_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
 		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
 		_kdm_cc->SetValue (std_to_wx (config->kdm_cc ()));
@@ -718,6 +724,11 @@ private:
 	{
 		Config::instance()->set_mail_password (wx_to_std (_mail_password->GetValue ()));
 	}
+
+	void kdm_subject_changed ()
+	{
+		Config::instance()->set_kdm_subject (wx_to_std (_kdm_subject->GetValue ()));
+	}
 	
 	void kdm_from_changed ()
 	{
@@ -743,6 +754,7 @@ private:
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;
+	wxTextCtrl* _kdm_subject;
 	wxTextCtrl* _kdm_from;
 	wxTextCtrl* _kdm_cc;
 	wxTextCtrl* _kdm_email;

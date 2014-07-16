@@ -233,20 +233,30 @@ email_kdms (
 		/* Send email */
 		
 		quickmail_initialize ();
-		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), "KDM delivery");
+
+		stringstream start;
+		start << from.date() << " " << from.time_of_day();
+		stringstream end;
+		end << to.date() << " " << to.time_of_day();
+		
+		string subject = Config::instance()->kdm_subject();
+		boost::algorithm::replace_all (subject, "$CPL_NAME", film->dcp_name ());
+		boost::algorithm::replace_all (subject, "$START_TIME", start.str ());
+		boost::algorithm::replace_all (subject, "$END_TIME", end.str ());
+		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i->cinema->name);
+		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), subject.c_str ());
+		
 		quickmail_add_to (mail, i->cinema->email.c_str ());
 		if (!Config::instance()->kdm_cc().empty ()) {
 			quickmail_add_cc (mail, Config::instance()->kdm_cc().c_str ());
 		}
+		
 		string body = Config::instance()->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());
-		stringstream start;
-		start << from.date() << " " << from.time_of_day();
 		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
-		stringstream end;
-		end << to.date() << " " << to.time_of_day();
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i->cinema->name);
+		
 		stringstream screens;
 		for (list<ScreenKDM>::const_iterator j = i->screen_kdms.begin(); j != i->screen_kdms.end(); ++j) {
 			screens << j->screen->name << ", ";

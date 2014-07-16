@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 14:53+0100\n"
+"POT-Creation-Date: 2014-07-16 13:56+0100\n"
 "PO-Revision-Date: 2014-07-14 12:04+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -33,7 +33,7 @@ msgstr "%1 canaux, %2kHz, %3 échantillons"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 images ; %2 images par seconde"
 
-#: src/lib/video_content.cc:206
+#: src/lib/video_content.cc:213
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixels (%3:1)"
 
@@ -129,19 +129,19 @@ msgstr "Le contenu à ajouter doit présenter le même délais audio"
 msgid "Content to be joined must have the same audio gain."
 msgstr "Le contenu à ajouter doit avoir le même gain audio"
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Le contenu à ajouter doit avoir le même type de conversion couleur"
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same crop."
 msgstr "le contenu à ajouter doit avoir les mêmes valeurs de rognage"
 
-#: src/lib/video_content.cc:124
+#: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same picture size."
 msgstr "Le contenu à ajouter doit avoir la même taille d'image"
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:144
 msgid "Content to be joined must have the same scale setting."
 msgstr ""
 "Le contenu à ajouter doit avoir les mêmes paramètres de mise à l'échelle"
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "le contenu à ajouter doit avoir le même positionnement de sous-titre"
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Le contenu à ajouter doit avoir la même cadence d'images"
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:136
 msgid "Content to be joined must have the same video frame type."
 msgstr "Le contenu à ajouter doit avoir le même type de trame vidéo"
 
@@ -239,7 +239,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:417
+#: src/lib/config.cc:419
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -281,7 +281,7 @@ msgstr "Chaque image source sera doublée dans le DCP.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Chaque image source sera répetée %1 fois dans le DCP.\n"
 
-#: src/lib/send_kdm_email_job.cc:50
+#: src/lib/send_kdm_email_job.cc:52
 msgid "Email KDMs for %1"
 msgstr "Envoyer KDM par email pour %1"
 
@@ -341,6 +341,10 @@ msgstr ""
 "Erreur indéterminée. Merci de rapporter le problème à l'auteur de DCP-o-"
 "matic (carl@dcpomatic.com)"
 
+#: src/lib/config.cc:189
+msgid "KDM delivery"
+msgstr ""
+
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
 msgstr "Désentrelaceur noyau"
@@ -377,11 +381,11 @@ msgstr "Divers"
 msgid "Motion compensating deinterlacer"
 msgstr "Désentrelaceur par compensation de mouvement"
 
-#: src/lib/video_content.cc:476
+#: src/lib/video_content.cc:498
 msgid "No scale"
 msgstr "Pas de mise à l'échelle"
 
-#: src/lib/video_content.cc:473
+#: src/lib/video_content.cc:495
 msgid "No stretch"
 msgstr "Sans déformation"
 
@@ -723,7 +727,7 @@ msgstr "sous-titres non-bitmap non supportés actuellement"
 msgid "remaining"
 msgstr "restant"
 
-#: src/lib/config.cc:82 src/lib/video_content.cc:175
+#: src/lib/config.cc:82 src/lib/video_content.cc:181
 msgid "sRGB"
 msgstr "sRGB"
 

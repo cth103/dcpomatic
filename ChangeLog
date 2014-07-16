@@ -14,6 +14,8 @@
 
 2014-07-16  Carl Hetherington  <cth@carlh.net>
 
+	* Make KDM email subject configurable.
+
 	* Updates to de_DE from Carsten Kurz.
 
 	* Limit allowed KDM types based on Interop/SMPTE setting

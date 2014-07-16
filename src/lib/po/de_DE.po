@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 14:53+0100\n"
+"POT-Creation-Date: 2014-07-16 13:56+0100\n"
 "PO-Revision-Date: 2014-07-13 02:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "%1 Kanäle, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 Bilder; %2 Bilder pro Sekunde"
 
-#: src/lib/video_content.cc:206
+#: src/lib/video_content.cc:213
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixel (%3:1)"
 
@@ -131,19 +131,19 @@ msgid "Content to be joined must have the same audio gain."
 msgstr ""
 "Zu verbindende Inhalte müssen die gleichen Tonpegeleinstellungen verwenden."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Zu verbindende Inhalte müssen die gleiche Farbumwandlung verwenden."
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same crop."
 msgstr "Zu verbindende Inhalte müssen gleichen Beschnitt verwenden."
 
-#: src/lib/video_content.cc:124
+#: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same picture size."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildgröße haben."
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:144
 msgid "Content to be joined must have the same scale setting."
 msgstr "Zu verbindende Inhalte müssen die gleiche Skalierung verwenden."
 
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelgröße verwenden."
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildrate haben."
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:136
 msgid "Content to be joined must have the same video frame type."
 msgstr "Zu verbindende Inhalte müssen den gleichen Bildtyp (z.B. 2D) haben."
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:417
+#: src/lib/config.cc:419
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -284,7 +284,7 @@ msgstr "Jedes Bild der Quelle wird im DCP verdoppelt.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Jedes Bild der Quelle wird %1 mal im DCP wiederholt.\n"
 
-#: src/lib/send_kdm_email_job.cc:50
+#: src/lib/send_kdm_email_job.cc:52
 msgid "Email KDMs for %1"
 msgstr "Email KDMs für %1"
 
@@ -344,6 +344,10 @@ msgstr ""
 "Ein unbekannter Fehler ist aufgetreten. Bitte schicken Sie eine Nachricht an "
 "den DCP-o-matic Autor (carl@dcpomatic.com)."
 
+#: src/lib/config.cc:189
+msgid "KDM delivery: $CPL_NAME"
+msgstr "KDM Zustellung: $CPL_NAME"
+
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
@@ -380,11 +384,11 @@ msgstr "Verschiedenes"
 msgid "Motion compensating deinterlacer"
 msgstr "Bewegungskompensierender De-Interlacer"
 
-#: src/lib/video_content.cc:476
+#: src/lib/video_content.cc:498
 msgid "No scale"
 msgstr "Unskaliert"
 
-#: src/lib/video_content.cc:473
+#: src/lib/video_content.cc:495
 msgid "No stretch"
 msgstr "Nicht verzerrt"
 
@@ -729,7 +733,7 @@ msgstr "Nur Bitmap Untertitel werden unterstützt"
 msgid "remaining"
 msgstr "verbleibend"
 
-#: src/lib/config.cc:82 src/lib/video_content.cc:175
+#: src/lib/config.cc:82 src/lib/video_content.cc:181
 msgid "sRGB"
 msgstr "sRGB"
 

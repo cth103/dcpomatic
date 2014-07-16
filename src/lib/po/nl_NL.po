@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 14:53+0100\n"
+"POT-Creation-Date: 2014-07-16 13:56+0100\n"
 "PO-Revision-Date: 2014-03-30 19:39+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -34,7 +34,7 @@ msgstr "%1 kanalen, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 frames; %2 frames per seconde"
 
-#: src/lib/video_content.cc:206
+#: src/lib/video_content.cc:213
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixels (%3:1)"
 
@@ -130,19 +130,19 @@ msgstr "Toegevoegde bestanden moeten dezelfde audio vertraging hebben."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Toegevoegde bestanden moeten dezelfde audio gain hebben."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Toegevoegde bestanden moeten dezelfde kleurindeling hebben."
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same crop."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
-#: src/lib/video_content.cc:124
+#: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same picture size."
 msgstr "Toegevoegde bestanden moeten dezelfde grootte hebben."
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:144
 msgid "Content to be joined must have the same scale setting."
 msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
 
@@ -158,11 +158,11 @@ msgstr "Toegevoegde bestanden moeten dezelfde ondertitel Y offset hebben."
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel grootte hebben."
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Toegevoegde bestanden moeten dezelfde video frame rate hebben."
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:136
 msgid "Content to be joined must have the same video frame type."
 msgstr "Toegevoegde bestanden moeten dezelfde video formaat hebben."
 
@@ -238,7 +238,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:417
+#: src/lib/config.cc:419
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -278,7 +278,7 @@ msgstr "Elk content frame zal verdubbeld worden de DCP.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Elk content frame zal %1  herhaald worden in de DCP.\n"
 
-#: src/lib/send_kdm_email_job.cc:50
+#: src/lib/send_kdm_email_job.cc:52
 msgid "Email KDMs for %1"
 msgstr "Email KDMs voor %1"
 
@@ -339,6 +339,10 @@ msgstr ""
 "Dit is een onbekende fout. U kunt deze het beste melden bij de DCP-o-matic "
 "mailing lijst (carl@dcpomatic.com)"
 
+#: src/lib/config.cc:189
+msgid "KDM delivery"
+msgstr ""
+
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
@@ -375,11 +379,11 @@ msgstr "Diverse"
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
 
-#: src/lib/video_content.cc:476
+#: src/lib/video_content.cc:498
 msgid "No scale"
 msgstr "Niet vergroten of verkleinen"
 
-#: src/lib/video_content.cc:473
+#: src/lib/video_content.cc:495
 msgid "No stretch"
 msgstr "Niet uitvullen"
 
@@ -723,7 +727,7 @@ msgstr "non-bitmap ondertitels worden nog niet ondersteund"
 msgid "remaining"
 msgstr "resterend"
 
-#: src/lib/config.cc:82 src/lib/video_content.cc:175
+#: src/lib/config.cc:82 src/lib/video_content.cc:181
 msgid "sRGB"
 msgstr "sRGB"
 
