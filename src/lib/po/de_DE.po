@@ -345,8 +345,8 @@ msgstr ""
 "den DCP-o-matic Autor (carl@dcpomatic.com)."
 
 #: src/lib/config.cc:189
-msgid "KDM delivery"
-msgstr ""
+msgid "KDM delivery: $CPL_NAME"
+msgstr "KDM Zustellung: $CPL_NAME"
 
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"

@@ -186,7 +186,7 @@ Config::read ()
 	_mail_server = f.string_child ("MailServer");
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
-	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery"));
+	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
 	_kdm_from = f.string_child ("KDMFrom");
 	_kdm_cc = f.optional_string_child ("KDMCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
