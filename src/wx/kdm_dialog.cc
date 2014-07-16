@@ -493,7 +493,7 @@ KDMDialog::write_to () const
 libdcp::KDM::Formulation
 KDMDialog::formulation () const
 {
-	return (libdcp::KDM::Formulation) reinterpret_cast<long int> (_type->GetClientData (_type->GetSelection()));
+	return (libdcp::KDM::Formulation) reinterpret_cast<intptr_t> (_type->GetClientData (_type->GetSelection()));
 }
 
 void
