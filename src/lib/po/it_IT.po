@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 14:53+0100\n"
+"POT-Creation-Date: 2014-07-16 13:56+0100\n"
 "PO-Revision-Date: 2014-02-03 10:48+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 fotogrammi; %2 fotogrammi al secondo"
 
-#: src/lib/video_content.cc:206
+#: src/lib/video_content.cc:213
 msgid "%1x%2 pixels (%3:1)"
 msgstr ""
 
@@ -131,19 +131,19 @@ msgstr ""
 msgid "Content to be joined must have the same audio gain."
 msgstr ""
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same colour conversion."
 msgstr ""
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same crop."
 msgstr ""
 
-#: src/lib/video_content.cc:124
+#: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same picture size."
 msgstr ""
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:144
 #, fuzzy
 msgid "Content to be joined must have the same scale setting."
 msgstr ""
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle scale."
 msgstr ""
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame rate."
 msgstr ""
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:136
 msgid "Content to be joined must have the same video frame type."
 msgstr ""
 
@@ -244,7 +244,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacciamento"
 
-#: src/lib/config.cc:417
+#: src/lib/config.cc:419
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -285,7 +285,7 @@ msgstr "Ogni fotogramma del sorgente sarà duplicato nel DCP.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Ogni fotogramma del sorgente sarà ripetuto %1 volte nel DCP.\n"
 
-#: src/lib/send_kdm_email_job.cc:50
+#: src/lib/send_kdm_email_job.cc:52
 msgid "Email KDMs for %1"
 msgstr ""
 
@@ -346,6 +346,10 @@ msgstr ""
 "Non sappiamo cosa ha causato questo errore. La cosa migliore è inviare un "
 "report del problema alla mailing list di DCP-o-matic (carl@dcpomatic.com)"
 
+#: src/lib/config.cc:189
+msgid "KDM delivery"
+msgstr ""
+
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
 msgstr "Deinterlacciatore Kernel"
@@ -383,11 +387,11 @@ msgstr "Varie"
 msgid "Motion compensating deinterlacer"
 msgstr "Dinterlacciatore con compensazione di movimento"
 
-#: src/lib/video_content.cc:476
+#: src/lib/video_content.cc:498
 msgid "No scale"
 msgstr ""
 
-#: src/lib/video_content.cc:473
+#: src/lib/video_content.cc:495
 #, fuzzy
 msgid "No stretch"
 msgstr "Flat senza stiramento"
@@ -737,7 +741,7 @@ msgstr "sottotitoli non-bitmap non ancora supportati"
 msgid "remaining"
 msgstr "restano"
 
-#: src/lib/config.cc:82 src/lib/video_content.cc:175
+#: src/lib/config.cc:82 src/lib/video_content.cc:181
 msgid "sRGB"
 msgstr "sRGB"
 
