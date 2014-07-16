@@ -169,6 +169,10 @@ public:
 		return _mail_password;
 	}
 
+	std::string kdm_subject () const {
+		return _kdm_subject;
+	}
+
 	std::string kdm_from () const {
 		return _kdm_from;
 	}
@@ -323,6 +327,11 @@ public:
 		changed ();
 	}
 
+	void set_kdm_subject (std::string s) {
+		_kdm_subject = s;
+		changed ();
+	}
+
 	void set_kdm_from (std::string f) {
 		_kdm_from = f;
 		changed ();
@@ -414,6 +423,7 @@ private:
 	std::string _mail_server;
 	std::string _mail_user;
 	std::string _mail_password;
+	std::string _kdm_subject;
 	std::string _kdm_from;
 	std::string _kdm_cc;
 	std::string _kdm_email;

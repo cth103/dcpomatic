@@ -232,7 +232,7 @@ email_kdms (
 		/* Send email */
 		
 		quickmail_initialize ();
-		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), "KDM delivery");
+		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), Config::instance()->kdm_subject().c_str ());
 		quickmail_add_to (mail, i->cinema->email.c_str ());
 		if (!Config::instance()->kdm_cc().empty ()) {
 			quickmail_add_cc (mail, Config::instance()->kdm_cc().c_str ());
