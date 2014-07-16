@@ -102,6 +102,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Theo Kooijmans"));
 	translated_by.Add (wxT ("Max Aeschlimann"));
 	translated_by.Add (wxT ("Carsten Kurz"));
+	translated_by.Add (wxT ("Grégoire Ausina"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString artwork_by;

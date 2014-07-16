@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-24 14:53+0100\n"
-"PO-Revision-Date: 2014-06-20 16:08+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2014-07-14 11:27+0100\n"
+"Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.6.6\n"
 
 #: src/wx/subtitle_panel.cc:48 src/wx/subtitle_panel.cc:57
 #: src/wx/subtitle_panel.cc:66
@@ -156,11 +156,11 @@ msgstr ""
 #: src/wx/job_wrapper.cc:38
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr "Mauvais paramètre pour %s (%s)"
+msgstr "Mauvais réglage pour %s (%s)"
 
 #: src/wx/video_panel.cc:121
 msgid "Bottom crop"
-msgstr "Découpe bas"
+msgstr "Rogner en bas"
 
 #: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:134
 msgid "Browse..."
@@ -176,16 +176,15 @@ msgstr "Ar.D"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
-msgstr "Je souhaite utiliser ce volume"
+msgstr "Mais je dois mixer"
 
 #: src/wx/audio_mapping_view.cc:285
 msgid "C"
 msgstr "C"
 
 #: src/wx/config_dialog.cc:677
-#, fuzzy
 msgid "CC address"
-msgstr "Adresse IP"
+msgstr "Adresse CC"
 
 #: src/wx/kdm_dialog.cc:125 src/wx/kdm_dialog.cc:131
 msgid "CPL"
@@ -262,9 +261,8 @@ msgid "Colour conversion"
 msgstr "Espace Couleurs"
 
 #: src/wx/config_dialog.cc:793
-#, fuzzy
 msgid "Config|Timing"
-msgstr "Durée"
+msgstr "Configuration|Temps"
 
 #: src/wx/film_editor.cc:134
 msgid "Container"
@@ -307,9 +305,9 @@ msgid "Could not make DCP: %s"
 msgstr "Impossible de créer le DCP : %s"
 
 #: src/wx/screen_dialog.cc:95
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read certificate file (%s)"
-msgstr "Ouverture du contenu impossible (%s)"
+msgstr "Lecture du ficher de certificat (%s) impossible"
 
 #: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
@@ -322,7 +320,7 @@ msgstr "Créer dans le dossier"
 #: src/wx/video_panel.cc:304
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
-msgstr "Découpe de %dx%d (%.2f:1)\n"
+msgstr "Rognage de %dx%d (%.2f:1)\n"
 
 #: src/wx/video_panel.cc:244
 msgid "Custom"
@@ -359,7 +357,7 @@ msgstr "Qualité JPEG2000 par défaut"
 
 #: src/wx/config_dialog.cc:288
 msgid "Default audio delay"
-msgstr "Délais audio par défaut"
+msgstr "Délai audio par défaut"
 
 #: src/wx/config_dialog.cc:270
 msgid "Default container"
@@ -390,9 +388,8 @@ msgid "Defaults"
 msgstr "Par défaut"
 
 #: src/wx/audio_panel.cc:67
-#, fuzzy
 msgid "Delay"
-msgstr "Délai audio"
+msgstr "Délai"
 
 #: src/wx/film_editor.cc:130 src/wx/job_manager_view.cc:78
 msgid "Details..."
@@ -509,9 +506,8 @@ msgid "From"
 msgstr "À partir du"
 
 #: src/wx/config_dialog.cc:673
-#, fuzzy
 msgid "From address"
-msgstr "Adresse IP"
+msgstr "Adresse source"
 
 #: src/wx/audio_mapping_view.cc:133
 msgid "Full"
@@ -523,7 +519,7 @@ msgstr "Durée totale"
 
 #: src/wx/audio_panel.cc:52
 msgid "Gain"
-msgstr ""
+msgstr "Gain"
 
 #: src/wx/gain_calculator_dialog.cc:27
 msgid "Gain Calculator"
@@ -548,7 +544,7 @@ msgstr "HI"
 
 #: src/wx/hints_dialog.cc:26
 msgid "Hints"
-msgstr "Avertissements"
+msgstr "Conseils"
 
 #: src/wx/servers_list_dialog.cc:40
 msgid "Host"
@@ -564,7 +560,7 @@ msgstr "Hz"
 
 #: src/wx/gain_calculator_dialog.cc:29
 msgid "I want to play this back at fader"
-msgstr "Je veux le jouer à ce volume"
+msgstr "Je veux lire avec une table de mixage"
 
 #: src/wx/config_dialog.cc:562
 msgid "IP address"
@@ -580,7 +576,7 @@ msgstr "Nom ISDCF"
 
 #: src/wx/colour_conversion_editor.cc:44
 msgid "Input gamma"
-msgstr "Gamma entrée"
+msgstr "gamma source"
 
 #: src/wx/film_editor.cc:228
 msgid "Interop"
@@ -599,13 +595,12 @@ msgid "KDM Email"
 msgstr "e-mail KDM"
 
 #: src/wx/kdm_dialog.cc:99
-#, fuzzy
 msgid "KDM|Timing"
-msgstr "Durée"
+msgstr "KDM|Temps"
 
 #: src/wx/film_editor.cc:297
 msgid "Keep video in sequence"
-msgstr "Garder la vidéo"
+msgstr "Conserver la vidéo dans la séquence"
 
 #: src/wx/audio_mapping_view.cc:277
 msgid "L"
@@ -617,7 +612,7 @@ msgstr "CG"
 
 #: src/wx/video_panel.cc:88
 msgid "Left crop"
-msgstr "Découpe gauche"
+msgstr "Rogner à gauche"
 
 #: src/wx/audio_mapping_view.cc:289
 msgid "Lfe"
@@ -625,7 +620,7 @@ msgstr "BF"
 
 #: src/wx/colour_conversion_editor.cc:49
 msgid "Linearise input gamma curve for low values"
-msgstr "Lisser la courbe gamma d'entrée pour les bas niveaux"
+msgstr "Courbe gamma d'entrée linéaire pour les bas niveaux"
 
 #: src/wx/screen_dialog.cc:46
 msgid "Load from file..."
@@ -713,7 +708,7 @@ msgstr "Autre"
 
 #: src/wx/config_dialog.cc:654
 msgid "Outgoing mail server"
-msgstr "Serveurs de messagerie sortante"
+msgstr "Serveurs de messagerie sortant"
 
 #: src/wx/kdm_dialog.cc:156
 msgid "Output"
@@ -811,7 +806,7 @@ msgstr "Répéter..."
 
 #: src/wx/config_dialog.cc:684
 msgid "Reset to default text"
-msgstr ""
+msgstr "texte par défaut"
 
 #: src/wx/film_editor.cc:175
 msgid "Resolution"
@@ -827,7 +822,7 @@ msgstr "Cliquez droit pour modifier le gain."
 
 #: src/wx/video_panel.cc:99
 msgid "Right crop"
-msgstr "Découpe droite"
+msgstr "Rogner à droite"
 
 #: src/wx/audio_mapping_view.cc:297
 msgid "Rs"
@@ -879,9 +874,8 @@ msgid "Server"
 msgstr "Serveur"
 
 #: src/wx/screen_dialog.cc:41
-#, fuzzy
 msgid "Server manufacturer"
-msgstr "Numéro de Série du Serveur"
+msgstr "Constructeur du serveur"
 
 #: src/wx/doremi_certificate_dialog.cc:35
 msgid "Server serial number"
@@ -897,11 +891,11 @@ msgstr "Sélection"
 
 #: src/wx/config_dialog.cc:86
 msgid "Set language"
-msgstr "Selectionnez la langue"
+msgstr "Sélectionnez la langue"
 
 #: src/wx/audio_panel.cc:48
 msgid "Show Audio..."
-msgstr "Analyser le son..."
+msgstr "Afficher le son..."
 
 #: src/wx/film_editor.cc:158
 msgid "Signed"
@@ -913,7 +907,7 @@ msgstr "Lissage"
 
 #: src/wx/timeline_dialog.cc:38
 msgid "Snap"
-msgstr "Echnager"
+msgstr "Magnetisme"
 
 #: src/wx/update_dialog.cc:43
 msgid "Stable version "
@@ -949,11 +943,11 @@ msgstr "TMS"
 
 #: src/wx/config_dialog.cc:566
 msgid "Target path"
-msgstr "Chemin d'accès"
+msgstr "Chemin cible"
 
 #: src/wx/isdcf_metadata_dialog.cc:56
 msgid "Temp version"
-msgstr "Version Temp"
+msgstr "Version temporaire"
 
 #: src/wx/isdcf_metadata_dialog.cc:41
 msgid "Territory (e.g. UK)"
@@ -961,7 +955,7 @@ msgstr "Territoire (ex. FR)"
 
 #: src/wx/update_dialog.cc:48
 msgid "Test version "
-msgstr "Version Test"
+msgstr "Version test"
 
 #: src/wx/about_dialog.cc:198
 msgid "Tested by"
@@ -974,7 +968,7 @@ msgid ""
 "missing content."
 msgstr ""
 "Les fichiers de contenu que vous avez spécifiés ne sont pas les mêmes que "
-"ceux detectés comme manquants. Vous pouvez réessayer avec les contenus "
+"ceux détectés comme manquants. Vous pouvez réessayer avec les contenus "
 "corrects ou supprimer les contenus manquants."
 
 #: src/wx/hints_dialog.cc:97
@@ -1010,13 +1004,12 @@ msgid "Timeline..."
 msgstr "Timeline..."
 
 #: src/wx/timing_panel.cc:35
-#, fuzzy
 msgid "Timing|Timing"
-msgstr "Durée"
+msgstr "Temps|Temps"
 
 #: src/wx/video_panel.cc:110
 msgid "Top crop"
-msgstr "Découpe haut"
+msgstr "Rogner en haut"
 
 #: src/wx/about_dialog.cc:105
 msgid "Translated by"
@@ -1024,11 +1017,11 @@ msgstr "Traduit par"
 
 #: src/wx/timing_panel.cc:49
 msgid "Trim from end"
-msgstr "Exclure à la fin"
+msgstr "Rogner par la fin"
 
 #: src/wx/timing_panel.cc:46
 msgid "Trim from start"
-msgstr "Exclure au début"
+msgstr "Rogner au début"
 
 #: src/wx/audio_dialog.cc:55 src/wx/video_panel.cc:75
 msgid "Type"
@@ -1052,7 +1045,7 @@ msgstr "Monter"
 
 #: src/wx/update_dialog.cc:27
 msgid "Update"
-msgstr "Mise à jour."
+msgstr "Mise à jour"
 
 #: src/wx/film_editor.cc:128
 msgid "Use ISDCF name"
@@ -1060,7 +1053,7 @@ msgstr "Utiliser le nom ISDCF"
 
 #: src/wx/config_dialog.cc:450
 msgid "Use all servers"
-msgstr "Utiliser tous les serveurs."
+msgstr "Utiliser tous les serveurs"
 
 #: src/wx/film_editor.cc:152
 msgid "Use best"
@@ -1104,11 +1097,11 @@ msgstr "Développé par"
 
 #: src/wx/subtitle_panel.cc:44
 msgid "X Offset"
-msgstr "Position Horizontale"
+msgstr "Position horizontale"
 
 #: src/wx/subtitle_panel.cc:53
 msgid "Y Offset"
-msgstr "Position Verticale"
+msgstr "Position verticale"
 
 #: src/wx/hints_dialog.cc:90
 #, c-format
@@ -1134,7 +1127,7 @@ msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
 msgstr ""
-"Votre DCP posséde un nombre impair de canaux audio.  Cela peut créer des "
+"Votre DCP possède un nombre impair de canaux audio.  Cela peut créer des "
 "problèmes de lecture."
 
 #: src/wx/hints_dialog.cc:70
