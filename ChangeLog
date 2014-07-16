@@ -1,5 +1,8 @@
 2014-07-16  Carl Hetherington  <cth@carlh.net>
 
+	* Limit allowed KDM types based on Interop/SMPTE setting
+	of DCP (#385).
+
 	* Updates to fr_FR from Grégoire Ausina.
 
 2014-07-14  Carl Hetherington  <cth@carlh.net>

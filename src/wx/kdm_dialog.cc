@@ -161,9 +161,11 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 
 	add_label_to_sizer (table, this, _("KDM type"), true);
 	_type = new wxChoice (this, wxID_ANY);
-	_type->Append ("Modified Transitional 1");
-	_type->Append ("DCI Any");
-	_type->Append ("DCI Specific");
+	_type->Append ("Modified Transitional 1", ((void *) libdcp::KDM::MODIFIED_TRANSITIONAL_1));
+	if (!film->interop ()) {
+		_type->Append ("DCI Any", ((void *) libdcp::KDM::DCI_ANY));
+		_type->Append ("DCI Specific", ((void *) libdcp::KDM::DCI_SPECIFIC));
+	}
 	table->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
 
@@ -491,16 +493,7 @@ KDMDialog::write_to () const
 libdcp::KDM::Formulation
 KDMDialog::formulation () const
 {
-	switch (_type->GetSelection()) {
-	case 0:
-		return libdcp::KDM::MODIFIED_TRANSITIONAL_1;
-	case 1:
-		return libdcp::KDM::DCI_ANY;
-	case 2:
-		return libdcp::KDM::DCI_SPECIFIC;
-	default:
-		assert (false);
-	}
+	return (libdcp::KDM::Formulation) reinterpret_cast<long int> (_type->GetClientData (_type->GetSelection()));
 }
 
 void
